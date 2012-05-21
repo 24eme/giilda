@@ -24,6 +24,9 @@ test:
 
 all:
   .settings:
+
+    enabled_modules:        [default, vrac]
+
     # Form security secret (CSRF protection)
     csrf_secret:            e8ba3a0e4a10863b9f092a9c7d5720fd4beb7e32
 
@@ -33,3 +36,4 @@ all:
 
     # Enable the database manager
     use_database:           true
+    default_culture:        fr_FR
