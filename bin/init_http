@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat .gitmodules | sed 's/git@gitorious.org:/https:\/\/git.gitorious.org\//' > /tmp/gitmodules && mv /tmp/gitmodules .gitmodules
