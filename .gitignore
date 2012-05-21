@@ -3,3 +3,4 @@
 .settings/
 [^\.]*/\.*
 .gitmodules
+project/plugins/acCouchdbPlugin
