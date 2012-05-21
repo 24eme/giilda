@@ -1,0 +1,3 @@
+[submodule "project/plugins/acCouchdbPlugin"]
+	path = project/plugins/acCouchdbPlugin
+	url = git@gitorious.org:accouchdbplugin/accouchdbplugin.git
