@@ -1,3 +1,6 @@
 [submodule "project/plugins/acCouchdbPlugin"]
 	path = project/plugins/acCouchdbPlugin
 	url = git@gitorious.org:accouchdbplugin/accouchdbplugin.git
+[submodule "project/plugins/acVinLibPlugin"]
+	path = project/plugins/acVinLibPlugin
+	url = git@gitorious.org:acvin/acvinlibplugin.git
