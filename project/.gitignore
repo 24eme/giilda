@@ -1,0 +1,6 @@
+cache/[^.]*
+log/[^.]*
+config/databases.yml
+config/app.yml
+web/declarvin_dev.php
+web/edi_dev.php
