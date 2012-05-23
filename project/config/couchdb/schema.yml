@@ -1,0 +1,87 @@
+# schema.yml
+# 
+#
+#
+#
+#
+
+# Vrac pour les contrats
+Vrac:
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      numero_contrat: {  }
+      etape: { }
+            
+#Soussigné (Part 1)
+            
+      vendeur:
+        type: collection
+        definition:
+          fields:
+            nom: {  }
+            cvi: {  }
+            num_accise: {   }
+            num_tva_intracomm: {    }
+            etablissement: {  }
+            departement: {   }
+      acheteur:
+        type: collection
+        definition:
+          fields:
+            nom: {  }
+            cvi: {  }
+            num_accise: {   }
+            num_tva_intracomm: {    }
+            etablissement: {  }
+            departement: {   }
+      mandataire:
+        type: collection
+        definition:
+          fields:
+            nom: {  }
+            carte_pro: {  }
+            adresse: {  }
+                
+#Marché (Part 2)
+                
+      type_transaction: {  }
+      produit: {   }
+      label: {  }
+      #Pour le raisin (en kg)
+      raisin_quantite: { type: float }
+
+      #Pour les mouts et pour le vin en vrac (en hl)
+      jus_quantite: { type: float }
+
+      #Pour le vin en bouteilles (nb bouteille)
+      bouteilles_quantite: { type: integer }
+      bouteilles_contenance: { type: integer }
+
+      prix_unitaire: { type: float }
+      prix_total: { type: float }
+          
+#Conditions (Part 3)
+          
+      type_contrat: {   }
+      prix_variable: { type: integer }
+
+      # prix_variable = true
+      part_variable: { type: float }
+      cvo_nature: { }
+      #cvo_repartition float ou string? "50/50" ou 0.5
+      cvo_repartition: { }
+         
+#Validations
+
+      valide:
+        type: collection
+        definition:
+          fields:
+            # les vues de date_stats/date_signature dans part3
+            date_stats: { }
+            date_signature: { }
+            date_saisie: {  }
+            identifiant: {  }
+            status: { }
