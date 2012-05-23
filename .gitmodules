@@ -4,3 +4,6 @@
 [submodule "project/plugins/acVinLibPlugin"]
 	path = project/plugins/acVinLibPlugin
 	url = git@gitorious.org:acvin/acvinlibplugin.git
+[submodule "project/plugins/acVinImportPlugin"]
+	path = project/plugins/acVinImportPlugin
+	url = git@gitorious.org:acvin/acvinimportplugin.git
