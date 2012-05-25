@@ -10,22 +10,26 @@ Vrac:
   definition:
     fields:
       _id: {  }
-      _rev: {  }
+      _rev: { }
+      type: { }
       numero_contrat: {  }
       etape: { }
             
 #Soussigné (Part 1)
-            
-      vendeur:
+      vendeur_identifiant: {  }      
+      vendeur:        
         type: collection
         definition:
-          fields:
+          fields:            
             nom: {  }
             cvi: {  }
             num_accise: {   }
             num_tva_intracomm: {    }
-            etablissement: {  }
+            adresse: {  }
+            commune: {  }
+            code_postal: {   }
             departement: {   }
+      acheteur_identifiant: {  }     
       acheteur:
         type: collection
         definition:
@@ -34,8 +38,11 @@ Vrac:
             cvi: {  }
             num_accise: {   }
             num_tva_intracomm: {    }
-            etablissement: {  }
+            adresse: {  }
+            commune: {  }
+            code_postal: {   }
             departement: {   }
+      mandataire_identifiant: {  }     
       mandataire:
         type: collection
         definition:
@@ -48,7 +55,12 @@ Vrac:
                 
       type_transaction: {  }
       produit: {   }
-      label: {  }
+      label:
+        type: array_collection
+        definition:
+          fields:
+            '*': {  }
+       
       #Pour le raisin (en kg)
       raisin_quantite: { type: float }
 
@@ -69,19 +81,20 @@ Vrac:
 
       # prix_variable = true
       part_variable: { type: float }
+      taux_variation: { type: float }
       cvo_nature: { }
       #cvo_repartition float ou string? "50/50" ou 0.5
       cvo_repartition: { }
          
 #Validations
-
+      date_stats: { }
+      date_signature: { }
+      
       valide:
         type: collection
         definition:
           fields:
             # les vues de date_stats/date_signature dans part3
-            date_stats: { }
-            date_signature: { }
             date_saisie: {  }
             identifiant: {  }
             status: { }

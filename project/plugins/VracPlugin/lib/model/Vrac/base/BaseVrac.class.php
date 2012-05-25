@@ -6,14 +6,18 @@
  *
  * @property string $_id
  * @property string $_rev
+ * @property string $type
  * @property string $numero_contrat
  * @property string $etape
+ * @property string $vendeur_identifiant
  * @property acCouchdbJson $vendeur
+ * @property string $acheteur_identifiant
  * @property acCouchdbJson $acheteur
+ * @property string $mandataire_identifiant
  * @property acCouchdbJson $mandataire
  * @property string $type_transaction
  * @property string $produit
- * @property string $label
+ * @property acCouchdbJson $label
  * @property float $raisin_quantite
  * @property float $jus_quantite
  * @property integer $bouteilles_quantite
@@ -23,30 +27,41 @@
  * @property string $type_contrat
  * @property integer $prix_variable
  * @property float $part_variable
+ * @property float $taux_variation
  * @property string $cvo_nature
  * @property string $cvo_repartition
+ * @property string $date_stats
+ * @property string $date_signature
  * @property acCouchdbJson $valide
 
  * @method string get_id()
  * @method string set_id()
  * @method string get_rev()
  * @method string set_rev()
+ * @method string getType()
+ * @method string setType()
  * @method string getNumeroContrat()
  * @method string setNumeroContrat()
  * @method string getEtape()
  * @method string setEtape()
+ * @method string getVendeurIdentifiant()
+ * @method string setVendeurIdentifiant()
  * @method acCouchdbJson getVendeur()
  * @method acCouchdbJson setVendeur()
+ * @method string getAcheteurIdentifiant()
+ * @method string setAcheteurIdentifiant()
  * @method acCouchdbJson getAcheteur()
  * @method acCouchdbJson setAcheteur()
+ * @method string getMandataireIdentifiant()
+ * @method string setMandataireIdentifiant()
  * @method acCouchdbJson getMandataire()
  * @method acCouchdbJson setMandataire()
  * @method string getTypeTransaction()
  * @method string setTypeTransaction()
  * @method string getProduit()
  * @method string setProduit()
- * @method string getLabel()
- * @method string setLabel()
+ * @method acCouchdbJson getLabel()
+ * @method acCouchdbJson setLabel()
  * @method float getRaisinQuantite()
  * @method float setRaisinQuantite()
  * @method float getJusQuantite()
@@ -65,10 +80,16 @@
  * @method integer setPrixVariable()
  * @method float getPartVariable()
  * @method float setPartVariable()
+ * @method float getTauxVariation()
+ * @method float setTauxVariation()
  * @method string getCvoNature()
  * @method string setCvoNature()
  * @method string getCvoRepartition()
  * @method string setCvoRepartition()
+ * @method string getDateStats()
+ * @method string setDateStats()
+ * @method string getDateSignature()
+ * @method string setDateSignature()
  * @method acCouchdbJson getValide()
  * @method acCouchdbJson setValide()
  
