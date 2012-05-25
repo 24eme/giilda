@@ -1,0 +1,27 @@
+CONFIGFILE=config/databases.yml
+TMPFILE=/tmp/couchdb.$$.tmp
+
+url=$(grep 'dsn:' $CONFIGFILE | sed 's/.*dsn: //' | sed 's/[^\/]*$//')
+base=$(grep 'dbname:' $CONFIGFILE | sed 's/.*dbname: //' | sed 's/\W*$//')
+COUCHDBURL=$url$base
+
+design=etablissement
+curl -s -X DELETE "$COUCHDBURL/_design/$design?rev=$(curl --stderr /dev/null $COUCHDBURL/_design/$design | sed 's/.*_rev":"//' | sed 's/",".*//' 2> /dev/null)" > /dev/null 2>&1
+
+cat <<EOF > $TMPFILE
+{
+   "_id": "_design/etablissement",
+   "language": "javascript",
+   "views": {
+       "tous": {
+           "map": "function(doc) {\n\n\tif (doc.type != \"Etablissement\") {\n      \t\treturn ;     \n    \t}     \n\n  \temit([doc.famille, doc.commune, doc.code_postal, doc.cvi, doc.nom, doc.identifiant], 1);\n}"
+       }
+   }
+}
+EOF
+
+curl -s -X PUT -d "@$TMPFILE" $COUCHDBURL/_design/$design
+
+curl -s $COUCHDBURL/_design/$design/_view/all > /dev/null &
+sleep 1
+kill %1

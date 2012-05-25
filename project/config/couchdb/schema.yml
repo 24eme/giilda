@@ -1,9 +1,22 @@
-# schema.yml
-# 
-#
-#
-#
-#
+_Tiers:
+  type: abstract
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      identifiant: { }
+      nom: { }
+      type: {  }
+      statut: {  }
+
+Etablissement:
+  inheritance: _Tiers
+  definition:
+    fields:
+      famille: {  }
+      cvi: {  }
+      commune: {  }
+      code_postal: {  }
 
 # Vrac pour les contrats
 Vrac:
