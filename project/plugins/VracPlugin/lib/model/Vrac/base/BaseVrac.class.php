@@ -8,7 +8,7 @@
  * @property string $_rev
  * @property string $type
  * @property string $numero_contrat
- * @property string $etape
+ * @property integer $etape
  * @property string $vendeur_identifiant
  * @property acCouchdbJson $vendeur
  * @property string $acheteur_identifiant
@@ -42,8 +42,8 @@
  * @method string setType()
  * @method string getNumeroContrat()
  * @method string setNumeroContrat()
- * @method string getEtape()
- * @method string setEtape()
+ * @method integer getEtape()
+ * @method integer setEtape()
  * @method string getVendeurIdentifiant()
  * @method string setVendeurIdentifiant()
  * @method acCouchdbJson getVendeur()

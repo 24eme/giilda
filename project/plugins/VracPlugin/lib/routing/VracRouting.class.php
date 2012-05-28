@@ -23,6 +23,11 @@ class VracRouting {
         $r->prependRoute('vrac_validation', new VracRoute('/vrac/:numero_contrat/validation',
                                                         array('module' => 'vrac','action' => 'validation'), array('sf_method' => array('get','post')),
                                                                                       array('model' => 'Vrac', 'type' => 'object')));
+         $r->prependRoute('vrac_termine', new VracRoute('/vrac/:numero_contrat/recapitulatif',
+                                                        array('module' => 'vrac','action' => 'recapitulatif'), array('sf_method' => array('get','post')),
+                                                                                      array('model' => 'Vrac', 'type' => 'object')));
+        
+        
     }
 
 }

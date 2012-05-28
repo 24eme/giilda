@@ -26,7 +26,7 @@ Vrac:
       _rev: { }
       type: { }
       numero_contrat: {  }
-      etape: { }
+      etape: { type: integer }
             
 #Soussigné (Part 1)
       vendeur_identifiant: {  }      

@@ -8,8 +8,23 @@
         <?php include_stylesheets() ?>
         <?php include_javascripts() ?>
     </head>
-    <body>
+    <body>        
+        <!-- #global -->
+        <div id="global">
+
+            <?php include_partial('global/header'); ?>
+
+            <!-- fin #header -->
+            <div id="global_content">
                 <?php echo $sf_content ?>
+
+                <?php include_partial('global/footer'); ?>
+            </div>
+
+        </div>
+        <!-- fin #global -->
+        <?php include_partial('global/initMessageAide') ?>
+        
         <script type="text/javascript">var jsPath = "/js/";</script>
         <script type="text/javascript" src="/js/includes.js"></script>
     </body>
