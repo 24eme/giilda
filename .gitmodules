@@ -10,3 +10,6 @@
 [submodule "project/plugins/acLessphpPlugin"]
 	path = project/plugins/acLessphpPlugin
 	url = git@gitorious.org:aclessphpplugin/aclessphpplugin.git
+[submodule "wiki"]
+	path = wiki
+	url = git@gitorious.org:vinsdeloire/vins-de-loire-gitorious-wiki.git
