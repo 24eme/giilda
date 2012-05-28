@@ -7,3 +7,6 @@
 [submodule "project/plugins/acVinImportPlugin"]
 	path = project/plugins/acVinImportPlugin
 	url = git@gitorious.org:acvin/acvinimportplugin.git
+[submodule "project/plugins/acLessphpPlugin"]
+	path = project/plugins/acLessphpPlugin
+	url = git@gitorious.org:aclessphpplugin/aclessphpplugin.git
