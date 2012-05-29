@@ -1,0 +1,3 @@
+#!/bin/bash
+rm web/css/compile.css
+php symfony aclessphp:compile web/css/includes.less web/css/compile.css
