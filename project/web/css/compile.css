@@ -853,39 +853,39 @@ a:hover { text-decoration:underline; }
 }
 #popup_msg_aide #btn_popup_msg_aide a:hover, #popup_msg_aide #btn_popup_msg_aide a:focus { background-color:#494949; }
 #popup_msg_aide #btn_popup_msg_aide a:hover { text-decoration:none; }
-#vrac_soussigne h1, #vrac_marche h1, #vrac_validation h1 {
+#vrac_soussigne h1, #vrac_marche h1, #vrac_condition h1, #vrac_validation h1, #vrac_recapitulatif h1 {
   font-size:16px;
   font-weight:bold;
   margin:0 0 20px;
   text-align:center;
   color:#494949;
 }
-#vrac_soussigne h2, #vrac_marche h2, #vrac_validation h2 {
+#vrac_soussigne h2, #vrac_marche h2, #vrac_condition h2, #vrac_validation h2, #vrac_recapitulatif h2 {
   font-size:16px;
   margin:0 0 15px;
 }
-#vrac_soussigne .col, #vrac_marche .col, #vrac_validation .col {
+#vrac_soussigne .col, #vrac_marche .col, #vrac_condition .col, #vrac_validation .col, #vrac_recapitulatif .col {
   display:inline-block;
   vertical-align:top;
   width:425px;
 }
-.ielt8 #vrac_soussigne .col, .ielt8 #vrac_marche .col, .ielt8 #vrac_validation .col {
+.ielt8 #vrac_soussigne .col, .ielt8 #vrac_marche .col, .ielt8 #vrac_condition .col, .ielt8 #vrac_validation .col, .ielt8 #vrac_recapitulatif .col {
   display:inline;
   zoom:1;
 }
-#vrac_soussigne .ligne_form, #vrac_marche .ligne_form, #vrac_validation .ligne_form { margin:0 0 15px; }
-#vrac_soussigne .ligne_form .error_list, #vrac_marche .ligne_form .error_list, #vrac_validation .ligne_form .error_list { width:310px; }
-#vrac_soussigne .ligne_form label, #vrac_marche .ligne_form label, #vrac_validation .ligne_form label {
+#vrac_soussigne .ligne_form, #vrac_marche .ligne_form, #vrac_condition .ligne_form, #vrac_validation .ligne_form, #vrac_recapitulatif .ligne_form { margin:0 0 15px; }
+#vrac_soussigne .ligne_form .error_list, #vrac_marche .ligne_form .error_list, #vrac_condition .ligne_form .error_list, #vrac_validation .ligne_form .error_list, #vrac_recapitulatif .ligne_form .error_list { width:310px; }
+#vrac_soussigne .ligne_form label, #vrac_marche .ligne_form label, #vrac_condition .ligne_form label, #vrac_validation .ligne_form label, #vrac_recapitulatif .ligne_form label {
   display:inline-block;
   vertical-align:middle;
   width:200px;
 }
-#vrac_soussigne .ligne_form.ligne_form_large label, #vrac_marche .ligne_form.ligne_form_large label, #vrac_validation .ligne_form.ligne_form_large label {
+#vrac_soussigne .ligne_form.ligne_form_large label, #vrac_marche .ligne_form.ligne_form_large label, #vrac_condition .ligne_form.ligne_form_large label, #vrac_validation .ligne_form.ligne_form_large label, #vrac_recapitulatif .ligne_form.ligne_form_large label {
   display:block;
   margin:0 0 10px;
   width:auto;
 }
-#vrac_soussigne .ligne_form input[type=text], #vrac_soussigne .ligne_form input[type=password], #vrac_soussigne .ligne_form select, #vrac_marche .ligne_form input[type=text], #vrac_marche .ligne_form input[type=password], #vrac_marche .ligne_form select, #vrac_validation .ligne_form input[type=text], #vrac_validation .ligne_form input[type=password], #vrac_validation .ligne_form select {
+#vrac_soussigne .ligne_form input[type=text], #vrac_soussigne .ligne_form input[type=password], #vrac_soussigne .ligne_form select, #vrac_marche .ligne_form input[type=text], #vrac_marche .ligne_form input[type=password], #vrac_marche .ligne_form select, #vrac_condition .ligne_form input[type=text], #vrac_condition .ligne_form input[type=password], #vrac_condition .ligne_form select, #vrac_validation .ligne_form input[type=text], #vrac_validation .ligne_form input[type=password], #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form input[type=text], #vrac_recapitulatif .ligne_form input[type=password], #vrac_recapitulatif .ligne_form select {
   background:#ffffff;
   border:1px solid #d3d2cd;
   font-size:12px;
@@ -893,39 +893,39 @@ a:hover { text-decoration:underline; }
   vertical-align:middle;
   behavior:url(../pie.htc);
 }
-#vrac_soussigne .ligne_form input[type=text], #vrac_soussigne .ligne_form input[type=password], #vrac_marche .ligne_form input[type=text], #vrac_marche .ligne_form input[type=password], #vrac_validation .ligne_form input[type=text], #vrac_validation .ligne_form input[type=password] {
+#vrac_soussigne .ligne_form input[type=text], #vrac_soussigne .ligne_form input[type=password], #vrac_marche .ligne_form input[type=text], #vrac_marche .ligne_form input[type=password], #vrac_condition .ligne_form input[type=text], #vrac_condition .ligne_form input[type=password], #vrac_validation .ligne_form input[type=text], #vrac_validation .ligne_form input[type=password], #vrac_recapitulatif .ligne_form input[type=text], #vrac_recapitulatif .ligne_form input[type=password] {
   height:18px;
   padding:0 4px;
   width:120px;
 }
-.ielt9 #vrac_soussigne .ligne_form input[type=text], .ielt9 #vrac_soussigne .ligne_form input[type=password], .ielt9 #vrac_marche .ligne_form input[type=text], .ielt9 #vrac_marche .ligne_form input[type=password], .ielt9 #vrac_validation .ligne_form input[type=text], .ielt9 #vrac_validation .ligne_form input[type=password] {
+.ielt9 #vrac_soussigne .ligne_form input[type=text], .ielt9 #vrac_soussigne .ligne_form input[type=password], .ielt9 #vrac_marche .ligne_form input[type=text], .ielt9 #vrac_marche .ligne_form input[type=password], .ielt9 #vrac_condition .ligne_form input[type=text], .ielt9 #vrac_condition .ligne_form input[type=password], .ielt9 #vrac_validation .ligne_form input[type=text], .ielt9 #vrac_validation .ligne_form input[type=password], .ielt9 #vrac_recapitulatif .ligne_form input[type=text], .ielt9 #vrac_recapitulatif .ligne_form input[type=password] {
   height:16px;
   padding-top:2px;
 }
-#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_validation .ligne_form select {
+#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select {
   height:20px;
   width:130px;
 }
-#vrac_soussigne .ligne_form .champ_form_radio_cb label, #vrac_marche .ligne_form .champ_form_radio_cb label, #vrac_validation .ligne_form .champ_form_radio_cb label {
+#vrac_soussigne .ligne_form .champ_form_radio_cb label, #vrac_marche .ligne_form .champ_form_radio_cb label, #vrac_condition .ligne_form .champ_form_radio_cb label, #vrac_validation .ligne_form .champ_form_radio_cb label, #vrac_recapitulatif .ligne_form .champ_form_radio_cb label {
   display:inline-block;
   margin:0 20px 0 0;
   width:auto;
 }
-#vrac_soussigne .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_marche .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_validation .ligne_form.ligne_form_large .champ_form_radio_cb input {
+#vrac_soussigne .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_marche .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_condition .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_validation .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_recapitulatif .ligne_form.ligne_form_large .champ_form_radio_cb input {
   margin:0 5px 0 0;
   vertical-align:middle;
 }
-#vrac_soussigne .ligne_btn, #vrac_marche .ligne_btn, #vrac_validation .ligne_btn {
+#vrac_soussigne .ligne_btn, #vrac_marche .ligne_btn, #vrac_condition .ligne_btn, #vrac_validation .ligne_btn, #vrac_recapitulatif .ligne_btn {
   margin:34px 0 0;
   right:23px;
 }
-#vrac_soussigne .ligne_btn button, #vrac_soussigne .ligne_btn a, #vrac_marche .ligne_btn button, #vrac_marche .ligne_btn a, #vrac_validation .ligne_btn button, #vrac_validation .ligne_btn a {
+#vrac_soussigne .ligne_btn button, #vrac_soussigne .ligne_btn a, #vrac_marche .ligne_btn button, #vrac_marche .ligne_btn a, #vrac_condition .ligne_btn button, #vrac_condition .ligne_btn a, #vrac_validation .ligne_btn button, #vrac_validation .ligne_btn a, #vrac_recapitulatif .ligne_btn button, #vrac_recapitulatif .ligne_btn a {
   line-height:24px;
   font-weight:normal;
   text-transform:uppercase;
 }
-#vrac_soussigne .ligne_btn button:hover, #vrac_soussigne .ligne_btn a:hover, #vrac_marche .ligne_btn button:hover, #vrac_marche .ligne_btn a:hover, #vrac_validation .ligne_btn button:hover, #vrac_validation .ligne_btn a:hover { text-decoration:none; }
-#vrac_soussigne .ligne_btn .btn_valider, #vrac_marche .ligne_btn .btn_valider, #vrac_validation .ligne_btn .btn_valider {
+#vrac_soussigne .ligne_btn button:hover, #vrac_soussigne .ligne_btn a:hover, #vrac_marche .ligne_btn button:hover, #vrac_marche .ligne_btn a:hover, #vrac_condition .ligne_btn button:hover, #vrac_condition .ligne_btn a:hover, #vrac_validation .ligne_btn button:hover, #vrac_validation .ligne_btn a:hover, #vrac_recapitulatif .ligne_btn button:hover, #vrac_recapitulatif .ligne_btn a:hover { text-decoration:none; }
+#vrac_soussigne .ligne_btn .btn_valider, #vrac_marche .ligne_btn .btn_valider, #vrac_condition .ligne_btn .btn_valider, #vrac_validation .ligne_btn .btn_valider, #vrac_recapitulatif .ligne_btn .btn_valider {
   background:url(../images/boutons/btn_majeur.png) 0 0 no-repeat;
   color:#ffffff;
   display:inline-block;
@@ -936,17 +936,17 @@ a:hover { text-decoration:underline; }
   padding:0 18px 0 0;
   padding:0 17px 0 15px;
 }
-#vrac_soussigne .ligne_btn .btn_valider:hover, #vrac_marche .ligne_btn .btn_valider:hover, #vrac_validation .ligne_btn .btn_valider:hover { text-decoration:none; }
-#vrac_soussigne .ligne_btn .btn_valider span, #vrac_marche .ligne_btn .btn_valider span, #vrac_validation .ligne_btn .btn_valider span {
+#vrac_soussigne .ligne_btn .btn_valider:hover, #vrac_marche .ligne_btn .btn_valider:hover, #vrac_condition .ligne_btn .btn_valider:hover, #vrac_validation .ligne_btn .btn_valider:hover, #vrac_recapitulatif .ligne_btn .btn_valider:hover { text-decoration:none; }
+#vrac_soussigne .ligne_btn .btn_valider span, #vrac_marche .ligne_btn .btn_valider span, #vrac_condition .ligne_btn .btn_valider span, #vrac_validation .ligne_btn .btn_valider span, #vrac_recapitulatif .ligne_btn .btn_valider span {
   background:url(../images/boutons/btn_majeur.png) 0 0 no-repeat;
   display:inline-block;
   line-height:26px;
 }
-#vrac_soussigne .ligne_btn .btn_valider span, #vrac_marche .ligne_btn .btn_valider span, #vrac_validation .ligne_btn .btn_valider span {
+#vrac_soussigne .ligne_btn .btn_valider span, #vrac_marche .ligne_btn .btn_valider span, #vrac_condition .ligne_btn .btn_valider span, #vrac_validation .ligne_btn .btn_valider span, #vrac_recapitulatif .ligne_btn .btn_valider span {
   background-position:0 -26px !important;
   padding:0 10px 0 18px;
 }
-#vrac_soussigne .ligne_btn .btn_ajouter, #vrac_marche .ligne_btn .btn_ajouter, #vrac_validation .ligne_btn .btn_ajouter {
+#vrac_soussigne .ligne_btn .btn_ajouter, #vrac_marche .ligne_btn .btn_ajouter, #vrac_condition .ligne_btn .btn_ajouter, #vrac_validation .ligne_btn .btn_ajouter, #vrac_recapitulatif .ligne_btn .btn_ajouter {
   background-repeat:no-repeat;
   border:1px solid;
   color:#ffffff;
@@ -958,8 +958,8 @@ a:hover { text-decoration:underline; }
   margin:0 10px 0 0;
   padding:0 10px 0 30px;
 }
-#vrac_soussigne .ligne_btn .btn_ajouter:hover, #vrac_soussigne .ligne_btn .btn_ajouter:focus, #vrac_marche .ligne_btn .btn_ajouter:hover, #vrac_marche .ligne_btn .btn_ajouter:focus, #vrac_validation .ligne_btn .btn_ajouter:hover, #vrac_validation .ligne_btn .btn_ajouter:focus { background-color:#494949; }
-#vrac_soussigne .ligne_btn .btn_supprimer, #vrac_marche .ligne_btn .btn_supprimer, #vrac_validation .ligne_btn .btn_supprimer {
+#vrac_soussigne .ligne_btn .btn_ajouter:hover, #vrac_soussigne .ligne_btn .btn_ajouter:focus, #vrac_marche .ligne_btn .btn_ajouter:hover, #vrac_marche .ligne_btn .btn_ajouter:focus, #vrac_condition .ligne_btn .btn_ajouter:hover, #vrac_condition .ligne_btn .btn_ajouter:focus, #vrac_validation .ligne_btn .btn_ajouter:hover, #vrac_validation .ligne_btn .btn_ajouter:focus, #vrac_recapitulatif .ligne_btn .btn_ajouter:hover, #vrac_recapitulatif .ligne_btn .btn_ajouter:focus { background-color:#494949; }
+#vrac_soussigne .ligne_btn .btn_supprimer, #vrac_marche .ligne_btn .btn_supprimer, #vrac_condition .ligne_btn .btn_supprimer, #vrac_validation .ligne_btn .btn_supprimer, #vrac_recapitulatif .ligne_btn .btn_supprimer {
   background-repeat:no-repeat;
   border:1px solid;
   color:#ffffff;
@@ -972,14 +972,14 @@ a:hover { text-decoration:underline; }
   margin-right:20px;
   text-transform:none;
 }
-#vrac_soussigne .ligne_btn .btn_supprimer:hover, #vrac_soussigne .ligne_btn .btn_supprimer:focus, #vrac_marche .ligne_btn .btn_supprimer:hover, #vrac_marche .ligne_btn .btn_supprimer:focus, #vrac_validation .ligne_btn .btn_supprimer:hover, #vrac_validation .ligne_btn .btn_supprimer:focus { background-color:#494949; }
-#vrac_soussigne #infos_etablissements, #vrac_marche #infos_etablissements, #vrac_validation #infos_etablissements {
+#vrac_soussigne .ligne_btn .btn_supprimer:hover, #vrac_soussigne .ligne_btn .btn_supprimer:focus, #vrac_marche .ligne_btn .btn_supprimer:hover, #vrac_marche .ligne_btn .btn_supprimer:focus, #vrac_condition .ligne_btn .btn_supprimer:hover, #vrac_condition .ligne_btn .btn_supprimer:focus, #vrac_validation .ligne_btn .btn_supprimer:hover, #vrac_validation .ligne_btn .btn_supprimer:focus, #vrac_recapitulatif .ligne_btn .btn_supprimer:hover, #vrac_recapitulatif .ligne_btn .btn_supprimer:focus { background-color:#494949; }
+#vrac_soussigne #infos_etablissements, #vrac_marche #infos_etablissements, #vrac_condition #infos_etablissements, #vrac_validation #infos_etablissements, #vrac_recapitulatif #infos_etablissements {
   margin:15px 0 0;
   position:relative;
   padding:0;
   width:895px;
 }
-#vrac_soussigne #infos_etablissements .etablissement, #vrac_marche #infos_etablissements .etablissement, #vrac_validation #infos_etablissements .etablissement {
+#vrac_soussigne #infos_etablissements .etablissement, #vrac_marche #infos_etablissements .etablissement, #vrac_condition #infos_etablissements .etablissement, #vrac_validation #infos_etablissements .etablissement, #vrac_recapitulatif #infos_etablissements .etablissement {
   background:#f1f1f1;
   display:inline-block;
   margin:0 20px 20px 0;
@@ -988,18 +988,18 @@ a:hover { text-decoration:underline; }
   vertical-align:top;
   width:250px;
 }
-.ielt8 #vrac_soussigne #infos_etablissements .etablissement, .ielt8 #vrac_marche #infos_etablissements .etablissement, .ielt8 #vrac_validation #infos_etablissements .etablissement {
+.ielt8 #vrac_soussigne #infos_etablissements .etablissement, .ielt8 #vrac_marche #infos_etablissements .etablissement, .ielt8 #vrac_condition #infos_etablissements .etablissement, .ielt8 #vrac_validation #infos_etablissements .etablissement, .ielt8 #vrac_recapitulatif #infos_etablissements .etablissement {
   display:inline;
   zoom:1;
 }
-#vrac_soussigne #infos_etablissements .etablissement .error_list, #vrac_marche #infos_etablissements .etablissement .error_list, #vrac_validation #infos_etablissements .etablissement .error_list { width:auto; }
-#vrac_soussigne #infos_etablissements .etablissement .ligne_form label, #vrac_marche #infos_etablissements .etablissement .ligne_form label, #vrac_validation #infos_etablissements .etablissement .ligne_form label { width:110px; }
-#vrac_soussigne #infos_etablissements .etablissement a.supprimer, #vrac_marche #infos_etablissements .etablissement a.supprimer, #vrac_validation #infos_etablissements .etablissement a.supprimer {
+#vrac_soussigne #infos_etablissements .etablissement .error_list, #vrac_marche #infos_etablissements .etablissement .error_list, #vrac_condition #infos_etablissements .etablissement .error_list, #vrac_validation #infos_etablissements .etablissement .error_list, #vrac_recapitulatif #infos_etablissements .etablissement .error_list { width:auto; }
+#vrac_soussigne #infos_etablissements .etablissement .ligne_form label, #vrac_marche #infos_etablissements .etablissement .ligne_form label, #vrac_condition #infos_etablissements .etablissement .ligne_form label, #vrac_validation #infos_etablissements .etablissement .ligne_form label, #vrac_recapitulatif #infos_etablissements .etablissement .ligne_form label { width:110px; }
+#vrac_soussigne #infos_etablissements .etablissement a.supprimer, #vrac_marche #infos_etablissements .etablissement a.supprimer, #vrac_condition #infos_etablissements .etablissement a.supprimer, #vrac_validation #infos_etablissements .etablissement a.supprimer, #vrac_recapitulatif #infos_etablissements .etablissement a.supprimer {
   background:url(../images/pictos/pi_supprimer.png) 0 0 no-repeat;
   display:inline-block;
   text-indent:-9999px;
 }
-#vrac_soussigne a.btn_ajouter_etab, #vrac_marche a.btn_ajouter_etab, #vrac_validation a.btn_ajouter_etab {
+#vrac_soussigne a.btn_ajouter_etab, #vrac_marche a.btn_ajouter_etab, #vrac_condition a.btn_ajouter_etab, #vrac_validation a.btn_ajouter_etab, #vrac_recapitulatif a.btn_ajouter_etab {
   background-repeat:no-repeat;
   border:1px solid;
   color:#ffffff;
@@ -1014,8 +1014,8 @@ a:hover { text-decoration:underline; }
   right:127px;
   text-transform:none;
 }
-#vrac_soussigne a.btn_ajouter_etab:hover, #vrac_soussigne a.btn_ajouter_etab:focus, #vrac_marche a.btn_ajouter_etab:hover, #vrac_marche a.btn_ajouter_etab:focus, #vrac_validation a.btn_ajouter_etab:hover, #vrac_validation a.btn_ajouter_etab:focus { background-color:#494949; }
-#vrac_soussigne a#btn_ajouter_etablissement, #vrac_marche a#btn_ajouter_etablissement, #vrac_validation a#btn_ajouter_etablissement {
+#vrac_soussigne a.btn_ajouter_etab:hover, #vrac_soussigne a.btn_ajouter_etab:focus, #vrac_marche a.btn_ajouter_etab:hover, #vrac_marche a.btn_ajouter_etab:focus, #vrac_condition a.btn_ajouter_etab:hover, #vrac_condition a.btn_ajouter_etab:focus, #vrac_validation a.btn_ajouter_etab:hover, #vrac_validation a.btn_ajouter_etab:focus, #vrac_recapitulatif a.btn_ajouter_etab:hover, #vrac_recapitulatif a.btn_ajouter_etab:focus { background-color:#494949; }
+#vrac_soussigne a#btn_ajouter_etablissement, #vrac_marche a#btn_ajouter_etablissement, #vrac_condition a#btn_ajouter_etablissement, #vrac_validation a#btn_ajouter_etablissement, #vrac_recapitulatif a#btn_ajouter_etablissement {
   background-repeat:no-repeat;
   border:1px solid;
   color:#ffffff;
@@ -1031,25 +1031,25 @@ a:hover { text-decoration:underline; }
   font-size:15px;
   text-transform:uppercase;
 }
-#vrac_soussigne a#btn_ajouter_etablissement:hover, #vrac_soussigne a#btn_ajouter_etablissement:focus, #vrac_marche a#btn_ajouter_etablissement:hover, #vrac_marche a#btn_ajouter_etablissement:focus, #vrac_validation a#btn_ajouter_etablissement:hover, #vrac_validation a#btn_ajouter_etablissement:focus { background-color:#494949; }
-#vrac_soussigne a#btn_ajouter_etablissement:hover, #vrac_marche a#btn_ajouter_etablissement:hover, #vrac_validation a#btn_ajouter_etablissement:hover { text-decoration:none; }
-#vrac_soussigne a#btn_ajouter_etablissement span, #vrac_marche a#btn_ajouter_etablissement span, #vrac_validation a#btn_ajouter_etablissement span {
+#vrac_soussigne a#btn_ajouter_etablissement:hover, #vrac_soussigne a#btn_ajouter_etablissement:focus, #vrac_marche a#btn_ajouter_etablissement:hover, #vrac_marche a#btn_ajouter_etablissement:focus, #vrac_condition a#btn_ajouter_etablissement:hover, #vrac_condition a#btn_ajouter_etablissement:focus, #vrac_validation a#btn_ajouter_etablissement:hover, #vrac_validation a#btn_ajouter_etablissement:focus, #vrac_recapitulatif a#btn_ajouter_etablissement:hover, #vrac_recapitulatif a#btn_ajouter_etablissement:focus { background-color:#494949; }
+#vrac_soussigne a#btn_ajouter_etablissement:hover, #vrac_marche a#btn_ajouter_etablissement:hover, #vrac_condition a#btn_ajouter_etablissement:hover, #vrac_validation a#btn_ajouter_etablissement:hover, #vrac_recapitulatif a#btn_ajouter_etablissement:hover { text-decoration:none; }
+#vrac_soussigne a#btn_ajouter_etablissement span, #vrac_marche a#btn_ajouter_etablissement span, #vrac_condition a#btn_ajouter_etablissement span, #vrac_validation a#btn_ajouter_etablissement span, #vrac_recapitulatif a#btn_ajouter_etablissement span {
   color:#ffffff;
   display:block;
   font-size:14px;
   font-weight:bold;
   text-transform:none;
 }
-#vrac_soussigne #recapitulatif .recap_perso, #vrac_soussigne #recapitulatif .recap_etablissement, #vrac_marche #recapitulatif .recap_perso, #vrac_marche #recapitulatif .recap_etablissement, #vrac_validation #recapitulatif .recap_perso, #vrac_validation #recapitulatif .recap_etablissement { margin:0 0 20px; }
-#vrac_soussigne #recapitulatif .recap_perso p, #vrac_soussigne #recapitulatif .recap_etablissement p, #vrac_marche #recapitulatif .recap_perso p, #vrac_marche #recapitulatif .recap_etablissement p, #vrac_validation #recapitulatif .recap_perso p, #vrac_validation #recapitulatif .recap_etablissement p { margin:5px 0; }
-#vrac_soussigne #recapitulatif .recap_perso p span, #vrac_soussigne #recapitulatif .recap_etablissement p span, #vrac_marche #recapitulatif .recap_perso p span, #vrac_marche #recapitulatif .recap_etablissement p span, #vrac_validation #recapitulatif .recap_perso p span, #vrac_validation #recapitulatif .recap_etablissement p span { font-weight:bold; }
-#vrac_soussigne #recapitulatif .recap_perso p strong, #vrac_soussigne #recapitulatif .recap_etablissement p strong, #vrac_marche #recapitulatif .recap_perso p strong, #vrac_marche #recapitulatif .recap_etablissement p strong, #vrac_validation #recapitulatif .recap_perso p strong, #vrac_validation #recapitulatif .recap_etablissement p strong {
+#vrac_soussigne #recapitulatif .recap_perso, #vrac_soussigne #recapitulatif .recap_etablissement, #vrac_marche #recapitulatif .recap_perso, #vrac_marche #recapitulatif .recap_etablissement, #vrac_condition #recapitulatif .recap_perso, #vrac_condition #recapitulatif .recap_etablissement, #vrac_validation #recapitulatif .recap_perso, #vrac_validation #recapitulatif .recap_etablissement, #vrac_recapitulatif #recapitulatif .recap_perso, #vrac_recapitulatif #recapitulatif .recap_etablissement { margin:0 0 20px; }
+#vrac_soussigne #recapitulatif .recap_perso p, #vrac_soussigne #recapitulatif .recap_etablissement p, #vrac_marche #recapitulatif .recap_perso p, #vrac_marche #recapitulatif .recap_etablissement p, #vrac_condition #recapitulatif .recap_perso p, #vrac_condition #recapitulatif .recap_etablissement p, #vrac_validation #recapitulatif .recap_perso p, #vrac_validation #recapitulatif .recap_etablissement p, #vrac_recapitulatif #recapitulatif .recap_perso p, #vrac_recapitulatif #recapitulatif .recap_etablissement p { margin:5px 0; }
+#vrac_soussigne #recapitulatif .recap_perso p span, #vrac_soussigne #recapitulatif .recap_etablissement p span, #vrac_marche #recapitulatif .recap_perso p span, #vrac_marche #recapitulatif .recap_etablissement p span, #vrac_condition #recapitulatif .recap_perso p span, #vrac_condition #recapitulatif .recap_etablissement p span, #vrac_validation #recapitulatif .recap_perso p span, #vrac_validation #recapitulatif .recap_etablissement p span, #vrac_recapitulatif #recapitulatif .recap_perso p span, #vrac_recapitulatif #recapitulatif .recap_etablissement p span { font-weight:bold; }
+#vrac_soussigne #recapitulatif .recap_perso p strong, #vrac_soussigne #recapitulatif .recap_etablissement p strong, #vrac_marche #recapitulatif .recap_perso p strong, #vrac_marche #recapitulatif .recap_etablissement p strong, #vrac_condition #recapitulatif .recap_perso p strong, #vrac_condition #recapitulatif .recap_etablissement p strong, #vrac_validation #recapitulatif .recap_perso p strong, #vrac_validation #recapitulatif .recap_etablissement p strong, #vrac_recapitulatif #recapitulatif .recap_perso p strong, #vrac_recapitulatif #recapitulatif .recap_etablissement p strong {
   color:#737373;
   font-style:italic;
   font-weight:normal;
 }
-#vrac_soussigne #recapitulatif .recap_perso .adresse_comptabilite, #vrac_soussigne #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_marche #recapitulatif .recap_perso .adresse_comptabilite, #vrac_marche #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_validation #recapitulatif .recap_perso .adresse_comptabilite, #vrac_validation #recapitulatif .recap_etablissement .adresse_comptabilite { margin:20px 0 0; }
-#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter, #vrac_marche #recapitulatif .recap_perso .btn_ajouter, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter, #vrac_validation #recapitulatif .recap_perso .btn_ajouter, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter {
+#vrac_soussigne #recapitulatif .recap_perso .adresse_comptabilite, #vrac_soussigne #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_marche #recapitulatif .recap_perso .adresse_comptabilite, #vrac_marche #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_condition #recapitulatif .recap_perso .adresse_comptabilite, #vrac_condition #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_validation #recapitulatif .recap_perso .adresse_comptabilite, #vrac_validation #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_recapitulatif #recapitulatif .recap_perso .adresse_comptabilite, #vrac_recapitulatif #recapitulatif .recap_etablissement .adresse_comptabilite { margin:20px 0 0; }
+#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter, #vrac_marche #recapitulatif .recap_perso .btn_ajouter, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter, #vrac_condition #recapitulatif .recap_perso .btn_ajouter, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter, #vrac_validation #recapitulatif .recap_perso .btn_ajouter, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter {
   background-repeat:no-repeat;
   border:1px solid;
   color:#ffffff;
@@ -1061,8 +1061,8 @@ a:hover { text-decoration:underline; }
   margin:0 10px 0 0;
   padding:0 10px 0 30px;
 }
-#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter:hover, #vrac_soussigne #recapitulatif .recap_perso .btn_ajouter:focus, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter:hover, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter:focus, #vrac_marche #recapitulatif .recap_perso .btn_ajouter:hover, #vrac_marche #recapitulatif .recap_perso .btn_ajouter:focus, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter:hover, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter:focus, #vrac_validation #recapitulatif .recap_perso .btn_ajouter:hover, #vrac_validation #recapitulatif .recap_perso .btn_ajouter:focus, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter:hover, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter:focus { background-color:#494949; }
-#vrac_soussigne #recapitulatif .recap_perso .btn_supprimer, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer, #vrac_marche #recapitulatif .recap_perso .btn_supprimer, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer, #vrac_validation #recapitulatif .recap_perso .btn_supprimer, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer {
+#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter:hover, #vrac_soussigne #recapitulatif .recap_perso .btn_ajouter:focus, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter:hover, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter:focus, #vrac_marche #recapitulatif .recap_perso .btn_ajouter:hover, #vrac_marche #recapitulatif .recap_perso .btn_ajouter:focus, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter:hover, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter:focus, #vrac_condition #recapitulatif .recap_perso .btn_ajouter:hover, #vrac_condition #recapitulatif .recap_perso .btn_ajouter:focus, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter:hover, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter:focus, #vrac_validation #recapitulatif .recap_perso .btn_ajouter:hover, #vrac_validation #recapitulatif .recap_perso .btn_ajouter:focus, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter:hover, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter:focus, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter:hover, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter:focus, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter:hover, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter:focus { background-color:#494949; }
+#vrac_soussigne #recapitulatif .recap_perso .btn_supprimer, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer, #vrac_marche #recapitulatif .recap_perso .btn_supprimer, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer, #vrac_condition #recapitulatif .recap_perso .btn_supprimer, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer, #vrac_validation #recapitulatif .recap_perso .btn_supprimer, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer {
   background-repeat:no-repeat;
   border:1px solid;
   color:#ffffff;
@@ -1075,8 +1075,8 @@ a:hover { text-decoration:underline; }
   margin-right:20px;
   text-transform:none;
 }
-#vrac_soussigne #recapitulatif .recap_perso .btn_supprimer:hover, #vrac_soussigne #recapitulatif .recap_perso .btn_supprimer:focus, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer:hover, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer:focus, #vrac_marche #recapitulatif .recap_perso .btn_supprimer:hover, #vrac_marche #recapitulatif .recap_perso .btn_supprimer:focus, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer:hover, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer:focus, #vrac_validation #recapitulatif .recap_perso .btn_supprimer:hover, #vrac_validation #recapitulatif .recap_perso .btn_supprimer:focus, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer:hover, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer:focus { background-color:#494949; }
-#vrac_soussigne #recapitulatif .ligne_btn, #vrac_marche #recapitulatif .ligne_btn, #vrac_validation #recapitulatif .ligne_btn {
+#vrac_soussigne #recapitulatif .recap_perso .btn_supprimer:hover, #vrac_soussigne #recapitulatif .recap_perso .btn_supprimer:focus, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer:hover, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer:focus, #vrac_marche #recapitulatif .recap_perso .btn_supprimer:hover, #vrac_marche #recapitulatif .recap_perso .btn_supprimer:focus, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer:hover, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer:focus, #vrac_condition #recapitulatif .recap_perso .btn_supprimer:hover, #vrac_condition #recapitulatif .recap_perso .btn_supprimer:focus, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer:hover, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer:focus, #vrac_validation #recapitulatif .recap_perso .btn_supprimer:hover, #vrac_validation #recapitulatif .recap_perso .btn_supprimer:focus, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer:hover, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer:focus, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer:hover, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer:focus, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer:hover, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer:focus { background-color:#494949; }
+#vrac_soussigne #recapitulatif .ligne_btn, #vrac_marche #recapitulatif .ligne_btn, #vrac_condition #recapitulatif .ligne_btn, #vrac_validation #recapitulatif .ligne_btn, #vrac_recapitulatif #recapitulatif .ligne_btn {
   text-align:right;
   margin:0;
 }

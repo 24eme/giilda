@@ -2,12 +2,9 @@
 <header id="header">
     <nav>
         <ul>
-            
-            <li class="backend"><a href="#">Interface de Gestion</a></li>
-            
+                       
             <li><a href="#">Contact</a></li>
             <li><a href="#">FAQ</a></li>
-            <li class="profil"><a href="#">Mon profil</a></li>
         </ul>
     </nav>
 

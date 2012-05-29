@@ -9,7 +9,7 @@
  ?>
 
 <br>
-<h1>Volumes</h1>
+<h2>Volumes</h2>
 <br>
 <!--  Affichage des volumes disponibles variables selon le type de transaction choisi  -->
 <section id="volume" >
@@ -21,13 +21,13 @@
         <div class="jus_quantite">
         <?php echo $form['jus_quantite']->renderLabel() ?>
         <?php echo $form['jus_quantite']->render() ?>
+            <span id="volume_unite_total" class="unite"></span>
         </div>
         <div class="raisin_quantite">
         <?php echo $form['raisin_quantite']->renderLabel() ?>
         <?php echo $form['raisin_quantite']->render() ?>
-            <span id="volume_unite_total" class="unite">kg</span>
-        </div>        
-        </div>
+            <span id="volume_unite_total" class="unite"></span>
+        </div>    
 </section>
 
 <br>
@@ -42,12 +42,16 @@
 <section id="prixUnitaire">
        <strong> <?php echo $form['prix_unitaire']->renderLabel() ?></strong>
         <?php echo $form['prix_unitaire']->render() ?>
+       <span id="prix_unitaire_unite" class="unite"></span>
+       <span id="prix_unitaire_hl" class="small"></span>
 </section>
                 
 <br>
 <!--  Affichage du prix total (quantité x nbproduit)  -->
 <section id="prixTotal">
-    <strong> <?php echo $form['prix_total']->renderLabel() ?> </strong>
-        <?php echo $form['prix_total']->render() ?>
+    <span id="vrac_prix_total_label"><strong>Prix total</strong></span>
+    <span id="vrac_prix_total" class="unite"></span>
+    <span id="prix_unite" class="small">€</span>
+       
 </section>
                 

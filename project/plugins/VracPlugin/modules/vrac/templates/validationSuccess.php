@@ -42,7 +42,7 @@
             </section> 
         </li>
     </ul>
- <div class="btnValidation">
+    <div class="btnValidation">
     	<span>&nbsp;</span>
         <input class="btn_valider" type="submit" value="Saisir un nouveau contrat" />
     </div>
