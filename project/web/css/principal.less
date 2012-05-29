@@ -1,0 +1,280 @@
+@charset "utf-8";
+/**
+ * Fichier : principal.less
+ * Description : styles spécifiques au formulaire d'inscription
+ * Auteur : Mathurin Petit - mpetit[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+
+/**
+ * vrac_soussigne
+ ******************************************/
+#vrac_soussigne, #vrac_marche, #vrac_validation
+{
+	h1
+	{   font-size: 16px;
+            font-weight: bold;
+            margin: 0 0 20px;
+            text-align: center;
+            color: @couleur-a1;
+		
+	}
+	
+	h2
+	{
+		font-size: 16px;
+		margin: 0 0 15px;
+	}
+
+	.col
+	{
+		display: inline-block;
+		vertical-align: top;
+		width: 425px;
+		
+		.ielt8 & { .inline-block-ie; }
+	}
+	
+	.ligne_form
+	{
+		margin: 0 0 15px;
+		
+		.error_list { width: 310px; }
+		
+		label
+		{
+			display: inline-block;
+			vertical-align: middle;
+			width: 200px;
+		}
+		
+		&.ligne_form_large label
+		{
+			display: block;
+			margin: 0 0 10px;
+			width: auto;
+		}
+		
+		input[type=text], input[type=password], select
+		{
+			background: #fff;
+			border: 1px solid #d3d2cd;
+			.border-radius(2px);
+			font-size: 12px;
+			position: relative;
+			vertical-align: middle;
+			.pie;
+		}
+
+		input[type=text], input[type=password]
+		{
+			height: 18px;
+			padding: 0 4px;
+			width: 120px;
+			
+			.ielt9 &
+			{
+				height: 16px;
+				padding-top: 2px;
+			}
+		}
+		
+		select
+		{
+			height: 20px;
+			width: 130px;
+		}
+		
+		.champ_form_radio_cb 
+		{
+			label
+			{
+				display: inline-block;
+				margin: 0 20px 0 0;
+				width: auto;
+			}
+		}
+		
+		&.ligne_form_large .champ_form_radio_cb
+		{
+			input
+			{
+				margin: 0 5px 0 0;
+				vertical-align: middle;
+			}
+		}
+	}
+	
+	.ligne_btn 
+	{
+		margin: 34px 0 0;
+                right: 23px;
+		
+		button, a
+		{
+			line-height: 24px;
+			font-weight: normal;
+			text-transform: uppercase;
+			&:hover { text-decoration: none; }
+		}
+		
+		.btn_valider
+		{
+			.btn_suiv;
+			padding: 0 17px 0 15px;
+		}
+		
+		.btn_ajouter
+		{
+			.btn_violet;
+			background-image: url(../images/boutons/btn_ajouter.png);
+			background-position: 7px center;
+			margin: 0 10px 0 0;
+			padding: 0 10px 0 30px;
+		}
+
+		.btn_supprimer
+		{
+			.btn_gris;
+			background-image: url(../images/boutons/btn_supprimer.png);
+			background-position: 7px center;
+			padding: 0 10px 0 30px;
+                        margin-right:20px;
+                        text-transform: none;
+		}
+	}
+	
+	/* Ajout d'établissements */
+	#infos_etablissements
+	{
+		margin: 15px 0 0;
+		position: relative;
+		padding: 0;
+		width: 895px;
+				
+		.etablissement
+		{
+			.border(@couleur-a3);
+			background: @couleur-a4;
+			display: inline-block;
+			margin: 0 20px 20px 0;
+			padding: 10px 10px 0;
+			position: relative;
+			vertical-align: top;
+			width: 250px;
+			
+			.ielt8 & { .inline-block-ie; }
+			
+			.error_list { width: auto; }
+			
+			.ligne_form label { width: 110px; }
+		
+			a.supprimer
+			{
+				.box-dimensions(13px, 13px);
+				.pos-abs(-5px, -5px);
+				background: url(../images/pictos/pi_supprimer.png) 0 0 no-repeat;
+				display: inline-block;
+				text-indent: -9999px;
+			}
+		}
+	}
+
+        a.btn_ajouter_etab
+        {
+                .btn_gris;
+                background-image: url(../images/boutons/btn_ajouter.png);
+                background-position: 7px center;
+                margin: 0 10px 0 0;
+                padding: 5px 10px 6px 30px;
+                position: absolute;
+                right: 127px;
+                text-transform : none;
+        }
+
+        a#btn_ajouter_etablissement
+        {
+                .btn_gris;
+                background-image: url(../images/boutons/btn_ajouter.png);
+                background-position: 10px center;
+                font-size: 15px;
+                line-height: 1;
+                position: absolute;
+                padding: 4px 10px 4px 32px;
+                font-size: 15px;
+                text-transform: uppercase;
+
+                &:hover { text-decoration: none; }
+
+                span
+                {
+                        color: #fff;
+                        display: block;
+                        font-size: 14px;
+                        font-weight: bold;
+                        text-transform: none;
+                }
+        }
+
+	/* Récapitulatif */
+	#recapitulatif
+	{
+		.recap_perso,
+		.recap_etablissement
+		{
+			margin: 0 0 20px;
+
+			p
+			{
+				margin: 5px 0;
+				span { font-weight: bold; }
+				strong
+				{
+					color: @couleur-a2;
+					font-style: italic;
+					font-weight: normal;
+				}
+			}
+		
+			.adresse_comptabilite
+			{
+				margin: 20px 0 0;
+			} 
+
+                        .btn_ajouter
+                        {
+                                .btn_violet;
+                                background-image: url(../images/boutons/btn_ajouter.png);
+                                background-position: 7px center;
+                                margin: 0 10px 0 0;
+                                padding: 0 10px 0 30px;
+                        }
+
+                        .btn_supprimer
+                        {
+                                .btn_gris;
+                                background-image: url(../images/boutons/btn_supprimer.png);
+                                background-position: 7px center;
+                                padding: 0 10px 0 30px;
+                                margin-right:20px;
+                                text-transform: none;
+                        }
+		}
+
+		.ligne_btn 
+                { 
+                        text-align: right; 
+                        margin:0;
+                }
+
+                
+	}
+}
+
+#vrac_validation
+{
+    ul
+        {
+                list-style: decimal
+        }
+}

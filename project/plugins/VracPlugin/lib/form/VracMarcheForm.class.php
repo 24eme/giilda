@@ -34,6 +34,8 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
         $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $types_transaction,'expanded' => true)));
         $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->produits)));
         $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->label,'multiple' => true, 'expanded' => true)));
+        $this->setWidget('raisin_quantite', new sfWidgetFormInput());
+        $this->setWidget('jus_quantite', new sfWidgetFormInput());
         $this->setWidget('bouteilles_quantite', new sfWidgetFormInput());
         $this->setWidget('bouteilles_contenance', new sfWidgetFormChoice(array('choices' => $this->contenance)));
         $this->setWidget('prix_unitaire', new sfWidgetFormInput());
@@ -43,7 +45,9 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
             'type_transaction' => 'Type de transaction',
             'produit' => 'produit',
             'label' => 'label',
-            'bouteilles_quantite' => 'bouteilles_quantite',
+            'bouteilles_quantite' => 'Nombre de bouteilles',
+            'raisin_quantite' => 'Nombre de raisins',
+            'jus_quantite' => 'Volume des moûts',
             'bouteilles_contenance' => 'bouteilles_contenance',
             'prix_unitaire' => 'prix_unitaire',
             'prix_total' => 'prix_total'
@@ -54,6 +58,8 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->produits))),
             'label' => new sfValidatorChoice(array('required' => true,'multiple' => true, 'choices' => array_keys($this->label))),
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => true)),
+            'raisin_quantite' =>  new sfValidatorInteger(array('required' => true)),
+            'jus_quantite' =>  new sfValidatorInteger(array('required' => true)), 
             'bouteilles_contenance' => new sfValidatorInteger(array('required' => true)),
             'prix_unitaire' => new sfValidatorNumber(array('required' => true)),
             'prix_total' => new sfValidatorNumber(array('required' => true))   

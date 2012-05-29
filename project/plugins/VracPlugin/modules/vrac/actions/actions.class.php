@@ -26,6 +26,7 @@ class vracActions extends sfActions
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid())
             {
+                $this->vrac->etape = 1;
                 $this->vrac->numero_contrat = VracClient::getInstance()->getNextNoContrat();
                 $this->form->save();      
                 $this->redirect('vrac_marche', $this->vrac);
@@ -42,6 +43,7 @@ class vracActions extends sfActions
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid())
             {
+                $this->vrac->etape = 3;
                 $this->form->save();      
                 $this->redirect('vrac_condition', $this->vrac);
             }
@@ -57,6 +59,7 @@ class vracActions extends sfActions
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid())
             {
+                $this->vrac->etape = 3;
                 $this->form->save();      
                 $this->redirect('vrac_validation', $this->vrac);
             }
@@ -66,16 +69,23 @@ class vracActions extends sfActions
    public function executeValidation(sfWebRequest $request)
   {
       $this->vrac = $this->getRoute()->getVrac();
-      $this->form = new VracValidationForm($this->vrac);
-//        if ($request->isMethod(sfWebRequest::POST)) 
-//        {
-//            $this->form->bind($request->getParameter($this->form->getName()));
-//            if ($this->form->isValid())
-//            {
-//                $this->form->save();      
-//                $this->redirect('vrac_validation', $this->vrac);
-//            }
-//        }
+     // $this->form = new VracValidationForm($this->vrac);
+        if ($request->isMethod(sfWebRequest::POST)) 
+        {
+            $this->vrac->etape = 4;
+            $this->vrac->save();
+            $this->redirect('vrac_termine', $this->vrac);
+        }
+  }
+  
+  
+  public function executeRecapitulatif(sfWebRequest $request)
+  {
+      $this->vrac = $this->getRoute()->getVrac();
+      if ($request->isMethod(sfWebRequest::POST)) 
+      {
+            $this->redirect('vrac_soussigne');
+      }
   }
 
   protected function init() {
