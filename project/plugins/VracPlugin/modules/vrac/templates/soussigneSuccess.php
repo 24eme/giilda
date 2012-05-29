@@ -10,7 +10,7 @@
 
 
 <section id="contenu">
-<form id="vrac_soussigne" method="post" action="<?php echo url_for('vrac_soussigne',$vrac) ?>">   
+<form id="vrac_soussigne" method="post" action="<?php if ($form->getObject()->isNew()) echo url_for('vrac_nouveau');  else echo url_for('vrac_soussigne',$vrac); ?>">   
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
 <br>  
@@ -18,6 +18,7 @@
 <section id="vendeur">
     <!--  Affichage des vendeurs disponibles  -->
     <section id="vendeur_choice">
+   <?php echo $form['vendeur_identifiant']->renderError(); ?>
         <strong> <?php echo $form['vendeur_identifiant']->renderLabel() ?></strong>
        <?php echo $form['vendeur_identifiant']->render() ?> 
     </section>
@@ -34,6 +35,7 @@
 <!--  Affichage des acheteurs disponibles  -->
 <section id="acheteur"> 
     <section id="acheteur_choice">
+   <?php echo $form['acheteur_identifiant']->renderError(); ?>
         <strong> <?php echo $form['acheteur_identifiant']->renderLabel() ?></strong>
         <?php echo $form['acheteur_identifiant']->render() ?>
     </section>
@@ -49,6 +51,7 @@
 <!--  Affichage des mandataires disponibles  -->
 <section id="mandataire"> 
     <section id="mandataire_choice">
+   <?php echo $form['mandataire_identifiant']->renderError(); ?>
         <strong> <?php echo $form['mandataire_identifiant']->renderLabel() ?></strong>
         <?php echo $form['mandataire_identifiant']->render() ?>
         

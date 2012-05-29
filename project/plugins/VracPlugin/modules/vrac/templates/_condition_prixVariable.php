@@ -13,12 +13,14 @@
     <h2>Prix variable</h2>
     <!--  Affichage des la part variable sur la quantité du contrat  -->
     <section id="part_variable">
+            <?php echo $form['part_variable']->renderError() ?>
             <?php echo $form['part_variable']->renderLabel() ?>
             <?php echo $form['part_variable']->render() ?> <span>% (50% max)</span>
     </section>
     <br>
     <!--  Affichage du taux de variation des produits du contrat  -->
     <section id="taux_variation">
+            <?php echo $form['taux_variation']->renderError() ?>
             <?php echo $form['taux_variation']->renderLabel() ?>
             <?php echo $form['taux_variation']->render() ?><span>%</span>
     </section>
@@ -29,12 +31,14 @@
 <h2>CVO appliquée</h2>
 <!--  Affichage de la nature du contrat  -->
 <section id="cvo_nature">
+        <?php echo $form['cvo_nature']->renderError() ?> 
         <?php echo $form['cvo_nature']->renderLabel() ?> 
         <?php echo $form['cvo_nature']->render() ?>
 </section>
 <br>
 <!--  Affichage de la repartition (vendeur/acheteur) pour le paiement de la CVO  -->
 <section id="taux_variation">
+        <?php echo $form['cvo_repartition']->renderError() ?>
         <?php echo $form['cvo_repartition']->renderLabel() ?>
         <?php echo $form['cvo_repartition']->render() ?>
 </section>

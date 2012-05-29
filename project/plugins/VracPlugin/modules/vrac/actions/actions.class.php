@@ -13,7 +13,7 @@ class vracActions extends sfActions
 
   public function executeIndex(sfWebRequest $request)
   {
-      
+    return $this->redirect('vrac/nouveau');
   }
   
   
@@ -29,9 +29,10 @@ class vracActions extends sfActions
                 $this->maj_etape(1);
                 $this->vrac->numero_contrat = VracClient::getInstance()->getNextNoContrat();
                 $this->form->save();      
-                $this->redirect('vrac_marche', $this->vrac);
+                return $this->redirect('vrac_marche', $this->vrac);
             }
         }
+      $this->setTemplate('soussigne');
   }
   
   public function executeSoussigne(sfWebRequest $request)

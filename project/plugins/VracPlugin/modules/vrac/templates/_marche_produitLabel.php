@@ -11,6 +11,7 @@
 <br>
 <!--  Affichage des produits disponibles (en fonction de la transaction choisie  -->
 <section id="produit">
+<?php echo $form['produit']->renderError(); ?>
     <strong>   <?php echo $form['produit']->renderLabel() ?> </strong>
         <?php echo $form['produit']->render() ?>
 </section>
@@ -18,6 +19,7 @@
 <br>
 <!--  Affichage des label disponibles -->
 <section id="label">
+<?php echo $form['label']->renderError(); ?>
     <strong> <?php echo $form['label']->renderLabel() ?> </strong>
         <?php echo $form['label']->render() ?>
 </section>

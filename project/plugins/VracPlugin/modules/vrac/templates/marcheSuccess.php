@@ -17,6 +17,7 @@
 
     <!--  Affichage des trasanctions disponibles  -->
     <section id="type_transaction">
+   <?php echo $form['type_transaction']->renderError(); ?>
         <strong> <?php echo $form['type_transaction']->renderLabel() ?> </strong>
         <?php echo $form['type_transaction']->render() ?>        
     </section>
