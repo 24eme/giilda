@@ -26,13 +26,29 @@ class vracActions extends sfActions
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid())
             {
-                $this->vrac->etape = 1;
+                $this->maj_etape(1);
                 $this->vrac->numero_contrat = VracClient::getInstance()->getNextNoContrat();
                 $this->form->save();      
                 $this->redirect('vrac_marche', $this->vrac);
             }
         }
   }
+  
+  public function executeSoussigne(sfWebRequest $request)
+  {
+      $this->vrac = $this->getRoute()->getVrac();
+      $this->form = new VracSoussigneForm($this->vrac);
+      if ($request->isMethod(sfWebRequest::POST)) 
+        {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid())
+            {
+                $this->maj_etape(1);
+                $this->form->save();      
+                $this->redirect('vrac_marche', $this->vrac);
+            }
+        }
+  }  
   
   public function executeMarche(sfWebRequest $request)
   {
@@ -43,7 +59,7 @@ class vracActions extends sfActions
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid())
             {
-                $this->vrac->etape = 3;
+                $this->maj_etape(2);
                 $this->form->save();      
                 $this->redirect('vrac_condition', $this->vrac);
             }
@@ -59,7 +75,7 @@ class vracActions extends sfActions
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid())
             {
-                $this->vrac->etape = 3;
+                $this->maj_etape(3);
                 $this->form->save();      
                 $this->redirect('vrac_validation', $this->vrac);
             }
@@ -72,7 +88,7 @@ class vracActions extends sfActions
      // $this->form = new VracValidationForm($this->vrac);
         if ($request->isMethod(sfWebRequest::POST)) 
         {
-            $this->vrac->etape = 4;
+            $this->maj_etape(4);
             $this->vrac->save();
             $this->redirect('vrac_termine', $this->vrac);
         }
@@ -87,6 +103,12 @@ class vracActions extends sfActions
             $this->redirect('vrac_soussigne');
       }
   }
+
+  private function maj_etape($num_etape)
+  {
+      if($num_etape > $this->vrac->etape) $this->vrac->etape = $num_etape;
+  }
+
 
   protected function init() {
         $this->form = null;

@@ -49,6 +49,15 @@
     </section>
     <br>
 </section>
-    <input class="btn_valider" type="submit" value="Etape Suivante" />
+    <div id="btn_etape_dr">
+       
+        <a href="<?php echo url_for('vrac_marche', $vrac) ?>" class="btn_prec">
+            <span>Précédent</span>
+        </a> 
+        <div class="btnValidation">
+            <span>&nbsp;</span>
+            <input class="btn_valider" type="submit" value="Etape Suivante" />
+        </div>
+     </div>
 </form>
 </section>

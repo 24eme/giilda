@@ -1,16 +1,16 @@
 <?php
-/* Fichier : nouveauSuccess.php
+/* Fichier : soussigneSuccess.php
  * Description : Fichier php correspondant à la vue de vrac/nouveau-soussigne
- * Formulaire d'enregistrement d'un nouveau contrat
+ * Formulaire d'enregistrement de la partie soussigne des contrats (modification de contrat)
  * Auteur : Petit Mathurin - mpetit[at]actualys.com
  * Version : 1.0.0 
- * Derniere date de modification : 28-05-12
+ * Derniere date de modification : 29-05-12
  */
 ?>
 
 
 <section id="contenu">
-<form id="vrac_soussigne" method="post" action="<?php echo url_for('vrac_nouveau') ?>">   
+<form id="vrac_soussigne" method="post" action="<?php echo url_for('vrac_soussigne',$vrac) ?>">   
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
 <br>  
