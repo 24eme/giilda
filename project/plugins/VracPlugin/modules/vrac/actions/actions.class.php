@@ -86,7 +86,6 @@ class vracActions extends sfActions
    public function executeValidation(sfWebRequest $request)
   {
       $this->vrac = $this->getRoute()->getVrac();
-     // $this->form = new VracValidationForm($this->vrac);
         if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->maj_etape(4);
