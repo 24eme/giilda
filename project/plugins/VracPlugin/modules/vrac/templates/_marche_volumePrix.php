@@ -9,16 +9,31 @@
  ?>
 
 <br>
+<h1>Volumes</h1>
+<br>
 <!--  Affichage des volumes disponibles variables selon le type de transaction choisi  -->
-<section id="volume">
-        <strong><?php echo $form['bouteilles_quantite']->renderLabel() ?></strong>
+<section id="volume" >
+        <div class="bouteilles_quantite">
+        <?php echo $form['bouteilles_quantite']->renderLabel() ?>
         <?php echo $form['bouteilles_quantite']->render() ?>
+            <span id="volume_unite_total" class="unite"></span>
+        </div>
+        <div class="jus_quantite">
+        <?php echo $form['jus_quantite']->renderLabel() ?>
+        <?php echo $form['jus_quantite']->render() ?>
+        </div>
+        <div class="raisin_quantite">
+        <?php echo $form['raisin_quantite']->renderLabel() ?>
+        <?php echo $form['raisin_quantite']->render() ?>
+            <span id="volume_unite_total" class="unite">kg</span>
+        </div>        
+        </div>
 </section>
 
 <br>
 <!--  Affichage des contenances disponibles (seulement s'il s'agit de vins en bouteilles)  -->
-<section id="contenance">
-       <strong> <?php echo $form['bouteilles_contenance']->renderLabel() ?></strong>
+<section id="contenance" class="bouteilles_contenance">
+       <?php echo $form['bouteilles_contenance']->renderLabel() ?>
         <?php echo $form['bouteilles_contenance']->render() ?>
 </section>
 

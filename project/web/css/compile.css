@@ -864,7 +864,6 @@ a:hover { text-decoration:underline; }
   font-size:16px;
   margin:0 0 15px;
 }
-#vrac_soussigne ul, #vrac_marche ul, #vrac_validation ul { list-style:decimal; }
 #vrac_soussigne .col, #vrac_marche .col, #vrac_validation .col {
   display:inline-block;
   vertical-align:top;
@@ -1081,3 +1080,4 @@ a:hover { text-decoration:underline; }
   text-align:right;
   margin:0;
 }
+#vrac_validation ul { list-style:decimal; }
