@@ -72,6 +72,11 @@ class VracSoussigneForm extends acCouchdbFormDocumentJson {
         }
         return $etablissements;
     }
+    
+    public function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+        $this->getObject()->setInformations();
+    }
 
 }
 ?>
