@@ -5,5 +5,5 @@
  */
 
 class ConfigurationDetail extends BaseConfigurationDetail {
-
+	
 }

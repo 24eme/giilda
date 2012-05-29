@@ -8,6 +8,7 @@
  * @property string $code
  * @property acCouchdbJson $departements
  * @property ConfigurationDetail $detail
+ * @property acCouchdbJson $lieux
 
  * @method string getLibelle()
  * @method string setLibelle()
@@ -17,6 +18,8 @@
  * @method acCouchdbJson setDepartements()
  * @method ConfigurationDetail getDetail()
  * @method ConfigurationDetail setDetail()
+ * @method acCouchdbJson getLieux()
+ * @method acCouchdbJson setLieux()
  
  */
 

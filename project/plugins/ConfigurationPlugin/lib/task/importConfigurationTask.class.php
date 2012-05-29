@@ -1,3 +1,4 @@
+
 <?php
 
 class importConfigurationTask extends sfBaseTask
@@ -44,7 +45,7 @@ EOF;
     $csv = new ProduitCsvFile($configuration, $import_dir.'/produits.csv');
     $configuration = $csv->importProduits();
     
-    $csv = new LabelCsvFile($configuration, $import_dir.'/labels.csv');
+    //    $csv = new LabelCsvFile($configuration, $import_dir.'/labels.csv');
 
    /*
 	 * En attendant de voir avec Tangui pour le probleme CSV et noeud Certif / Millesime

@@ -5,5 +5,4 @@
  */
 
 class ConfigurationDroit extends BaseConfigurationDroit {
-
 }
