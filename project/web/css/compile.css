@@ -1081,4 +1081,55 @@ a:hover { text-decoration:underline; }
   text-align:right;
   margin:0;
 }
+#vrac_soussigne input.ui-autocomplete-input, #vrac_marche input.ui-autocomplete-input, #vrac_condition input.ui-autocomplete-input, #vrac_validation input.ui-autocomplete-input, #vrac_recapitulatif input.ui-autocomplete-input {
+  background:none repeat scroll 0 0 #ffffff;
+  border:1px solid #d3d2cd;
+  font-size:12px;
+  vertical-align:top;
+  height:20px;
+  padding:0 4px;
+  width:250px;
+}
+#vrac_soussigne input.ui-autocomplete-input + button, #vrac_marche input.ui-autocomplete-input + button, #vrac_condition input.ui-autocomplete-input + button, #vrac_validation input.ui-autocomplete-input + button, #vrac_recapitulatif input.ui-autocomplete-input + button {
+  background:#ffffff;
+  border:1px solid #d3d2cd;
+  border-left:0;
+  vertical-align:top;
+}
+#vrac_soussigne input.ui-autocomplete-input + button:hover, #vrac_marche input.ui-autocomplete-input + button:hover, #vrac_condition input.ui-autocomplete-input + button:hover, #vrac_validation input.ui-autocomplete-input + button:hover, #vrac_recapitulatif input.ui-autocomplete-input + button:hover { background-color:#e9e9e9; }
+#vrac_soussigne input.ui-autocomplete-input + button .ui-icon, #vrac_marche input.ui-autocomplete-input + button .ui-icon, #vrac_condition input.ui-autocomplete-input + button .ui-icon, #vrac_validation input.ui-autocomplete-input + button .ui-icon, #vrac_recapitulatif input.ui-autocomplete-input + button .ui-icon {
+  background:url(../images/pictos/pi_desc.png) center center no-repeat;
+  height:20px;
+  width:20px;
+}
+#vrac_soussigne .ui-dropdownchecklist-selector-wrapper, #vrac_soussigne .ui-dropdownchecklist-selector, #vrac_marche .ui-dropdownchecklist-selector-wrapper, #vrac_marche .ui-dropdownchecklist-selector, #vrac_condition .ui-dropdownchecklist-selector-wrapper, #vrac_condition .ui-dropdownchecklist-selector, #vrac_validation .ui-dropdownchecklist-selector-wrapper, #vrac_validation .ui-dropdownchecklist-selector, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper, #vrac_recapitulatif .ui-dropdownchecklist-selector {
+  font-size:0;
+  line-height:1;
+}
+#vrac_soussigne .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_soussigne .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector .ui-dropdownchecklist-text {
+  background:#ffffff;
+  border:1px solid #d3d2cd;
+  color:#494949;
+  font-size:12px;
+  height:18px;
+  padding:2px 4px 0;
+  width:190px !important;
+}
+#vrac_soussigne .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_soussigne .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text { border-bottom-color:#f4f4f4; }
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_marche .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_condition .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_validation .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer-wrapper {
+  height:auto !important;
+  width:auto !important;
+}
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer, #vrac_marche .ui-dropdownchecklist-dropcontainer, #vrac_condition .ui-dropdownchecklist-dropcontainer, #vrac_validation .ui-dropdownchecklist-dropcontainer, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer {
+  background:#ffffff;
+  border:1px solid #d3d2cd;
+  height:200px !important;
+  width:250px;
+}
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_marche .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_condition .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_validation .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item { padding:2px 4px; }
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_marche .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_condition .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_validation .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label {
+  width:auto;
+  vertical-align:middle;
+}
+#vrac_soussigne label, #vrac_marche label, #vrac_condition label, #vrac_validation label, #vrac_recapitulatif label { padding-right:10px; }
 #vrac_validation ul { list-style:decimal; }
