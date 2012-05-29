@@ -58,7 +58,7 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
         $this->setValidators(array(
             'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($types_transaction))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->produits))),
-            'label' => new sfValidatorChoice(array('multiple' => true, 'choices' => array_keys($this->label))),
+            'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->label))),
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),
             'raisin_quantite' =>  new sfValidatorNumber(array('required' => false)),
             'jus_quantite' =>  new sfValidatorNumber(array('required' => false)), 

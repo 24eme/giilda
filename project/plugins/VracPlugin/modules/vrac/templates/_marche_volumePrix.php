@@ -10,6 +10,14 @@
 
 <br>
 <h2>Volumes</h2>
+
+<br>
+<!--  Affichage des contenances disponibles (seulement s'il s'agit de vins en bouteilles)  -->
+<section id="contenance" class="bouteilles_contenance">
+       <?php echo $form['bouteilles_contenance']->renderLabel() ?>
+        <?php echo $form['bouteilles_contenance']->render() ?>
+</section>
+
 <br>
 <!--  Affichage des volumes disponibles variables selon le type de transaction choisi  -->
 <section id="volume" >
@@ -30,12 +38,6 @@
         </div>    
 </section>
 
-<br>
-<!--  Affichage des contenances disponibles (seulement s'il s'agit de vins en bouteilles)  -->
-<section id="contenance" class="bouteilles_contenance">
-       <?php echo $form['bouteilles_contenance']->renderLabel() ?>
-        <?php echo $form['bouteilles_contenance']->render() ?>
-</section>
 
 <br>
 <!--  Affichage du prix unitaire variables selon le type de transaction choisi -->
