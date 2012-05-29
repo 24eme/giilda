@@ -18,25 +18,26 @@ class ConfigurationCertification extends BaseConfigurationCertification {
         return array($this->getKey() => $this->libelle);
     }
 
-    public function getProduits($interpro, $departement) {
+    public function getProduits($interpro, $departement, $produits = null) {
+      if (!$produits)
         $produits = array();
 
-        $results = ConfigurationClient::getInstance()->findProduitsByCertification($this->getKey(), $interpro, '')->rows;
+      $results = ConfigurationClient::getInstance()->findProduitsByCertification($this->getKey(), $interpro, '')->rows;
 
-        if ($departement) {
-          $results = array_merge($results, ConfigurationClient::getInstance()->findProduitsByCertification($this->getKey(), $interpro, $departement)->rows);
-        }
-
-        foreach($results as $item) {
-            $libelles = $item->value;
-            unset($libelles[0]);
-            $libelles[] = '('.$item->key[6].')';
-            $produits[$item->key[5]] = $libelles;
-        }
-
-        ksort($produits);
-
-        return $produits;
+      if ($departement) {
+	$results = array_merge($results, ConfigurationClient::getInstance()->findProduitsByCertification($this->getKey(), $interpro, $departement)->rows);
+      }
+      
+      foreach($results as $item) {
+	$libelles = $item->value;
+	unset($libelles[0]);
+	$libelles[] = '('.$item->key[6].')';
+	$produits[$item->key[5]] = $libelles;
+      }
+      
+      ksort($produits);
+      
+      return $produits;
     }
 
     public function getProduitsAppellations($interpro, $departement) {

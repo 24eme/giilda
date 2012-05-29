@@ -15,8 +15,6 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
                                        'vin_vrac'=> 'vin en vrac',
                                        'vin_bouteille' => 'Vin en bouteilles');
     
-     private $produits = array('prod0' => 'Gros raisins','prod1' => 'petits raisins','prod3' => 'Vin bon','prod4' => 'Vin pas bon');
-
      private $label = array('grains_nobles' => 'Grains nobles',
                                        'primeur' => 'Primeur',
                                        'vin_vrac'=> 'vin en vrac',
@@ -32,6 +30,12 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
     {
         $types_transaction = $this->types_transaction;
         $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $types_transaction,'expanded' => true)));
+	$produits = ConfigurationClient::getCurrent()->getProduits();
+	$this->produits = array();
+	foreach ($produits as $k => $v) {
+	  array_shift($v);
+	  $this->produits[$k] = implode(' ', array_filter($v));
+	}
         $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->produits)));
         $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->label,'multiple' => true, 'expanded' => true)));
         $this->setWidget('raisin_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));

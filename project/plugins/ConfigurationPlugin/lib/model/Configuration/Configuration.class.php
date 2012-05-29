@@ -12,26 +12,29 @@ class Configuration extends BaseConfiguration {
         $this->set('_id', "CONFIGURATION");
     }
 
+    public function getProduits($interpro = '', $departement = '') {
+      $produits = array();
+      foreach($this->getDeclaration()->getCertifications() as $k => $cert) {
+	$produits = $cert->getProduits($interpro, $departement, $produits);
+      }
+      return $produits;
+    }
+
+
     public function getProduitLibelles($hash) {
     	$libelles = $this->store('produits_libelles', array($this, 'getProduitsLibelleAbstract'));
     	if(array_key_exists($hash, $libelles)) {
-
-    		return $libelles[$hash];
-    	} else {
-    		
-    		return null;
+	  return $libelles[$hash];
     	}
+	return null;
     }
 
     public function getProduitCodes($hash) {
       $libelles = $this->store('produits_codes', array($this, 'getProduitsCodeAbstract'));
       if(array_key_exists($hash, $libelles)) {
-
         return $libelles[$hash];
-      } else {
-        
-        return null;
       }
+      return null;
     }
 
     protected function getProduitsLibelleAbstract() {
@@ -41,7 +44,6 @@ class Configuration extends BaseConfiguration {
     	foreach($results->rows as $item) {
     		$libelles['/'.$item->key[5]] = $item->value;
     	}
-
     	return $libelles;
     }
 
