@@ -5,10 +5,45 @@
 
 $(document).ready(function()
 {
-     init();
+     initMarche();
+     initConditions();
 });
 
-function init()
+var initConditions = function()
+{
+    if(jQuery('#vrac_condition #type_contrat input:checked').length == 0)
+        jQuery('#vrac_condition #type_contrat input[value="standard"]').attr('checked','checked');
+    if(jQuery('#vrac_condition #prix_isVariable input:checked').length == 0)
+        jQuery('#vrac_condition #prix_isVariable input[value="0"]').attr('checked','checked');
+    updatePanelsConditions();
+    jQuery('#vrac_condition #type_contrat input').click(updatePanelsConditions);
+    jQuery('#vrac_condition #prix_isVariable input').click(updatePanelsConditions);
+}
+
+
+var updatePanelsConditions = function()
+{
+    if(jQuery('#vrac_condition #type_contrat input:checked').val()=='standard')
+    {
+        jQuery('section#prix_isVariable').hide();
+    }
+    else
+    {
+        jQuery('section#prix_isVariable').show();
+        if(jQuery('#vrac_condition #prix_isVariable input:checked').val()=='0')
+        {
+            jQuery('section#prix_variable').hide();
+        }
+        else
+        {
+            jQuery('section#prix_variable').show();
+
+        }
+    }
+  //  updatePanelsConditions
+}
+
+var initMarche = function()
 {
     if(jQuery('#vrac_marche #type_transaction input:checked').length == 0)
         jQuery('#vrac_marche #type_transaction input[value="raisins"]').attr('checked','checked');  
@@ -17,7 +52,7 @@ function init()
 }
 
 
-function updatePanelsAndUnitLabels()
+var updatePanelsAndUnitLabels = function()
 {
      switch (jQuery('#vrac_marche #type_transaction input:checked').attr('value'))
     {
@@ -62,7 +97,7 @@ function updatePanelsAndUnitLabels()
     
 }
 
-function updatePanelsAndUnitForRaisins()
+var updatePanelsAndUnitForRaisins = function()
 {
     jQuery('section.bouteilles_contenance').hide();
     jQuery('section div.bouteilles_quantite').hide();
@@ -73,7 +108,7 @@ function updatePanelsAndUnitForRaisins()
     majTotal("raisin_quantite","(en kg)","€/kg");  
 }
 
-function updatePanelsAndUnitForJuice()
+var updatePanelsAndUnitForJuice = function()
 {
     jQuery('section.bouteilles_contenance').hide();
     jQuery('section div.bouteilles_quantite').hide();    
@@ -83,7 +118,7 @@ function updatePanelsAndUnitForJuice()
     majTotal("jus_quantite","(en hl)","€/hl");    
 }
 
-function updatePanelsAndUnitForBottle()
+var updatePanelsAndUnitForBottle = function()
 {     
     jQuery('section div.raisin_quantite').hide();
     jQuery('section div.jus_quantite').hide();
@@ -115,7 +150,7 @@ function updatePanelsAndUnitForBottle()
     }
 }
 
-function majTotal(quantiteField,unite,prixParUnite){
+var majTotal = function(quantiteField,unite,prixParUnite){
     var quantite = jQuery('#vrac_'+quantiteField).val();
     var numeric =  new RegExp("^[0-9]*$","g");
     

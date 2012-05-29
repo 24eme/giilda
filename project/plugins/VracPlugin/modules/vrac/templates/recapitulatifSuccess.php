@@ -9,7 +9,7 @@
 ?>
 <section id="contenu">
     
-<form id="vrac_recapitulatif" method="post" action="<?php echo url_for('vrac_nouveau') ?>">
+<form id="vrac_recapitulatif" method="get" action="<?php echo url_for('vrac_nouveau') ?>">
         
 <h1>La saisie est terminée !</h1>
 <h2>N° d'enregistrement deu contrat   <span><?php echo $vrac['numero_contrat']; ?></span></h2>
@@ -20,7 +20,7 @@
         </a> 
         <div class="btnValidation">
             <span>&nbsp;</span>
-            <input class="btn_valider" type="submit" value="Terminer la saisie" />
+            <input class="btn_valider" type="submit" value="Saisir un nouveau contrat" />
         </div>
  </div>
 </form>
