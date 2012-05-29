@@ -31,7 +31,7 @@ class VracSoussigneForm extends acCouchdbFormDocumentJson {
         $this->setValidators(array(
             'vendeur_identifiant' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getVendeurs()))),
             'acheteur_identifiant' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getAcheteurs()))),
-            'mandataire_identifiant' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getMandataires())))
+            'mandataire_identifiant' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getMandataires())))
             ));
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
@@ -64,7 +64,7 @@ class VracSoussigneForm extends acCouchdbFormDocumentJson {
     }
 
     public function getEtablissements($famille) {
-        $etablissements = array();
+        $etablissements = array('' => '');
         $datas = EtablissementClient::getInstance()->findByFamille($famille)->rows;
         foreach($datas as $data) {
             $labels = array($data->key[4], $data->key[3], $data->key[1]);
