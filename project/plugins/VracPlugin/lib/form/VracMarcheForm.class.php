@@ -31,7 +31,7 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
         $types_transaction = $this->types_transaction;
         $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $types_transaction,'expanded' => true)));
 	$produits = ConfigurationClient::getCurrent()->getProduits();
-	$this->produits = array();
+	$this->produits = array(''=>'');
 	foreach ($produits as $k => $v) {
 	  array_shift($v);
 	  $this->produits[$k] = implode(' ', array_filter($v));
