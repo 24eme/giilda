@@ -36,7 +36,7 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
 	  array_shift($v);
 	  $this->produits[$k] = implode(' ', array_filter($v));
 	}
-        $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->produits)));
+        $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->produits), array('class' => 'autocomplete')));
         $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->label,'multiple' => true, 'expanded' => true)));
         $this->setWidget('raisin_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('jus_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));

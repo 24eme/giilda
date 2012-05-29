@@ -16,11 +16,11 @@ class VracSoussigneForm extends acCouchdbFormDocumentJson {
    
     public function configure()
     {
-        $this->setWidget('vendeur_identifiant', new sfWidgetFormChoice(array('choices' =>  $this->getVendeurs())));
+        $this->setWidget('vendeur_identifiant', new sfWidgetFormChoice(array('choices' =>  $this->getVendeurs()), array('class' => 'autocomplete')));
          
-        $this->setWidget('acheteur_identifiant', new sfWidgetFormChoice(array('choices' =>   $this->getAcheteurs())));
+        $this->setWidget('acheteur_identifiant', new sfWidgetFormChoice(array('choices' =>   $this->getAcheteurs()), array('class' => 'autocomplete')));
         
-        $this->setWidget('mandataire_identifiant', new sfWidgetFormChoice(array('choices' => $this->getMandataires())));
+        $this->setWidget('mandataire_identifiant', new sfWidgetFormChoice(array('choices' => $this->getMandataires()), array('class' => 'autocomplete')));
         
         $this->widgetSchema->setLabels(array(
             'vendeur_identifiant' => 'Sélectionner un vendeur ',
