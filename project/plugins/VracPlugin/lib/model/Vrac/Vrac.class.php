@@ -41,4 +41,59 @@ class Vrac extends BaseVrac {
         }
         
     }
+
+    public function setInformations() 
+    {        
+        $this->setAcheteurInformations();
+        $this->setVendeurInformations();        
+        if($this->mandataire_identifiant!=null)
+        {
+            $this->setMandataireInformations();
+            
+        }
+    }
+
+    private function setAcheteurInformations() 
+    {
+       $acheteurObj = $this->getAcheteurObject();
+       $this->acheteur->nom = $acheteurObj->nom;
+       $this->acheteur->cvi = $acheteurObj->cvi;
+       $this->acheteur->commune = $acheteurObj->commune;
+       $this->acheteur->code_postal = $acheteurObj->code_postal;
+    }
+    
+    private function setMandataireInformations() 
+    {
+       $mandataireObj = $this->getMandataireObject();
+       $this->mandataire->nom = $mandataireObj->nom;
+       //TODO : surement à changer
+       $this->mandataire->carte_pro = $mandataireObj->identifiant;
+       $this->mandataire->adresse = $mandataireObj->commune.'  '.$mandataireObj->code_postal;
+    }
+    
+    private function setVendeurInformations() 
+    {
+       $vendeurObj = $this->getVendeurObject();
+       $this->vendeur->nom = $vendeurObj->nom;
+       $this->vendeur->cvi = $vendeurObj->cvi;
+       $this->vendeur->commune = $vendeurObj->commune;
+       $this->vendeur->code_postal = $vendeurObj->code_postal;       
+    }
+
+
+    public function getVendeurObject() 
+    {
+        return EtablissementClient::getInstance()->find($this->vendeur_identifiant,acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+    
+    public function getAcheteurObject() 
+    {
+        return EtablissementClient::getInstance()->find($this->acheteur_identifiant,acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+    
+    public function getMandataireObject() 
+    {
+        return EtablissementClient::getInstance()->find($this->mandataire_identifiant,acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+    
 }

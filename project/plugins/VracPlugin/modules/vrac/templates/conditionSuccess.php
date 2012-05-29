@@ -21,7 +21,7 @@
     </section>
     <br>
     <!--  Affichage de la présence de la part variable du contrat (si non la suite n'est pas affiché JS) -->
-    <section id="prix_variable">
+    <section id="prix_isVariable">
         <strong>  <?php echo $form['prix_variable']->renderLabel() ?> </strong>  
         <?php echo $form['prix_variable']->render() ?>        
     </section>

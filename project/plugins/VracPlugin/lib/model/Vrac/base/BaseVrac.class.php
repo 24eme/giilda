@@ -10,7 +10,7 @@
  * @property string $numero_contrat
  * @property integer $etape
  * @property string $vendeur_identifiant
- * @property acCouchdbJson $vendeur
+ * @property acCouchdbJson $mandatairevendeur
  * @property string $acheteur_identifiant
  * @property acCouchdbJson $acheteur
  * @property string $mandataire_identifiant

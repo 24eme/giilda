@@ -8,23 +8,25 @@
  * Derniere date de modification : 28-05-12
  */
  ?>
-<br>
-<h2>Prix variable</h2>
-<br>
-<!--  Affichage des la part variable sur la quantité du contrat  -->
-<section id="part_variable">
-        <?php echo $form['part_variable']->renderLabel() ?>
-        <?php echo $form['part_variable']->render() ?>
+<section id="prix_variable">
+    <br>
+    <h2>Prix variable</h2>
+    <!--  Affichage des la part variable sur la quantité du contrat  -->
+    <section id="part_variable">
+            <?php echo $form['part_variable']->renderLabel() ?>
+            <?php echo $form['part_variable']->render() ?>
+    </section>
+    <br>
+    <!--  Affichage du taux de variation des produits du contrat  -->
+    <section id="taux_variation">
+            <?php echo $form['taux_variation']->renderLabel() ?>
+            <?php echo $form['taux_variation']->render() ?>
+    </section>
 </section>
-<br>
-<!--  Affichage du taux de variation des produits du contrat  -->
-<section id="taux_variation">
-        <?php echo $form['taux_variation']->renderLabel() ?>
-        <?php echo $form['taux_variation']->render() ?>
-</section>
+
+
 <br>
 <h2>CVO appliquée</h2>
-<br>
 <!--  Affichage de la nature du contrat  -->
 <section id="cvo_nature">
         <?php echo $form['cvo_nature']->renderLabel() ?> 

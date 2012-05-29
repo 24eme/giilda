@@ -44,7 +44,7 @@
     </ul>
     <div class="btnValidation">
     	<span>&nbsp;</span>
-        <input class="btn_valider" type="submit" value="Saisir un nouveau contrat" />
+        <input class="btn_valider" type="submit" value="Terminer la saisie" />
     </div>
 
 </form>
