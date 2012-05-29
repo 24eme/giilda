@@ -7,7 +7,12 @@ $(document).ready(function()
 {
      initMarche();
      initConditions();
+     initAutoComplete();
 });
+
+var initAutoComplete = function() {
+    jQuery('.autocomplete').combobox();
+}
 
 var initConditions = function()
 {
