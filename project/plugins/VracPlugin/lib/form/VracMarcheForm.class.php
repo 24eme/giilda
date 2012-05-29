@@ -50,7 +50,7 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
             'label' => 'label',
             'bouteilles_quantite' => 'Nombre de bouteilles',
             'raisin_quantite' => 'Nombre de raisins',
-            'jus_quantite' => 'Volume des moûts',
+            'jus_quantite' => 'Volume livré',
             'bouteilles_contenance' => 'Contenance',
             'prix_unitaire' => 'Prix'
         ));

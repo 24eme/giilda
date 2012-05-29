@@ -46,7 +46,7 @@ var updatePanelsConditions = function()
 var initMarche = function()
 {
     if(jQuery('#vrac_marche #type_transaction input:checked').length == 0)
-        jQuery('#vrac_marche #type_transaction input[value="raisins"]').attr('checked','checked');  
+        jQuery('#vrac_marche #type_transaction input[value="vin_vrac"]').attr('checked','checked');  
    updatePanelsAndUnitLabels();    
    jQuery('#vrac_marche #type_transaction input').click(updatePanelsAndUnitLabels);
 }

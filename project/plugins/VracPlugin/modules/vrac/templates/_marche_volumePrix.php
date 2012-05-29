@@ -11,16 +11,15 @@
 <br>
 <h2>Volumes</h2>
 
-<br>
+
 <!--  Affichage des contenances disponibles (seulement s'il s'agit de vins en bouteilles)  -->
 <section id="contenance" class="bouteilles_contenance">
        <?php echo $form['bouteilles_contenance']->renderLabel() ?>
         <?php echo $form['bouteilles_contenance']->render() ?>
 </section>
 
-<br>
 <!--  Affichage des volumes disponibles variables selon le type de transaction choisi  -->
-<section id="volume" >
+<section id="volume">
         <div class="bouteilles_quantite">
         <?php echo $form['bouteilles_quantite']->renderLabel() ?>
         <?php echo $form['bouteilles_quantite']->render() ?>
@@ -38,8 +37,6 @@
         </div>    
 </section>
 
-
-<br>
 <!--  Affichage du prix unitaire variables selon le type de transaction choisi -->
 <section id="prixUnitaire">
        <strong> <?php echo $form['prix_unitaire']->renderLabel() ?></strong>
@@ -48,7 +45,7 @@
        <span id="prix_unitaire_hl" class="small"></span>
 </section>
                 
-<br>
+
 <!--  Affichage du prix total (quantité x nbproduit)  -->
 <section id="prixTotal">
     <span id="vrac_prix_total_label"><strong>Prix total</strong></span>

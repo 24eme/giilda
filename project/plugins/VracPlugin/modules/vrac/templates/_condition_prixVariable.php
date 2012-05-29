@@ -8,19 +8,19 @@
  * Derniere date de modification : 28-05-12
  */
  ?>
-<section id="prix_variable">
+<section id="prix_variable" style="display: none;">
     <br>
     <h2>Prix variable</h2>
     <!--  Affichage des la part variable sur la quantité du contrat  -->
     <section id="part_variable">
             <?php echo $form['part_variable']->renderLabel() ?>
-            <?php echo $form['part_variable']->render() ?>
+            <?php echo $form['part_variable']->render() ?> <span>% (50% max)</span>
     </section>
     <br>
     <!--  Affichage du taux de variation des produits du contrat  -->
     <section id="taux_variation">
             <?php echo $form['taux_variation']->renderLabel() ?>
-            <?php echo $form['taux_variation']->render() ?>
+            <?php echo $form['taux_variation']->render() ?><span>%</span>
     </section>
 </section>
 

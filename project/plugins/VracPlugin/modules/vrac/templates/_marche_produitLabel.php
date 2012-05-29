@@ -21,14 +21,15 @@
     <strong> <?php echo $form['label']->renderLabel() ?> </strong>
         <?php echo $form['label']->render() ?>
 </section>
-
+<!--  
 <br>
-<!--  Affichage du stock disponible pour ce produit WARNING TO AJAXIFY -->
+
 <section id="stock">
     <strong>Stocks disponibles</strong> 
         
         <?php 
-        echo "500 hl";
+       // echo "500 hl";
         ?>
 </section>
         
+Affichage du stock disponible pour ce produit WARNING TO AJAXIFY -->

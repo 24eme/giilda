@@ -873,6 +873,7 @@ a:hover { text-decoration:underline; }
   display:inline;
   zoom:1;
 }
+#vrac_soussigne section, #vrac_marche section, #vrac_condition section, #vrac_validation section, #vrac_recapitulatif section { padding:5px 0px; }
 #vrac_soussigne .ligne_form, #vrac_marche .ligne_form, #vrac_condition .ligne_form, #vrac_validation .ligne_form, #vrac_recapitulatif .ligne_form { margin:0 0 15px; }
 #vrac_soussigne .ligne_form .error_list, #vrac_marche .ligne_form .error_list, #vrac_condition .ligne_form .error_list, #vrac_validation .ligne_form .error_list, #vrac_recapitulatif .ligne_form .error_list { width:310px; }
 #vrac_soussigne .ligne_form label, #vrac_marche .ligne_form label, #vrac_condition .ligne_form label, #vrac_validation .ligne_form label, #vrac_recapitulatif .ligne_form label {
