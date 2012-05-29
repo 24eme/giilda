@@ -31,8 +31,8 @@ class VracConditionForm extends acCouchdbFormDocumentJson {
         $this->setWidget('taux_variation', new sfWidgetFormInput());
         $this->setWidget('cvo_nature',  new sfWidgetFormChoice(array('choices' => $this->getCvoNature())));
         $this->setWidget('cvo_repartition',  new sfWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
-        $this->setWidget('date_signature', new sfWidgetFormDate());
-        $this->setWidget('date_stats', new sfWidgetFormDate());
+        $this->setWidget('date_signature', new sfWidgetFormDate(array('format' => '%day% - %month% - %year%')));
+        $this->setWidget('date_stats', new sfWidgetFormDate(array('format' => '%day% - %month% - %year%')));
         
         $this->widgetSchema->setLabels(array(
             'type_contrat' => 'Type de contrat',
