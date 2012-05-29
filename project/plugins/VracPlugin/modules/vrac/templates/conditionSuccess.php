@@ -16,12 +16,14 @@
     <br>
     <!--  Affichage du type de contrat (si standard la suite n'est pas affiché JS)  -->
     <section id="type_contrat">
+        <?php echo $form['type_contrat']->renderError() ?>        
         <strong>  <?php echo $form['type_contrat']->renderLabel() ?> </strong>
         <?php echo $form['type_contrat']->render() ?>        
     </section>
     <br>
     <!--  Affichage de la présence de la part variable du contrat (si non la suite n'est pas affiché JS) -->
     <section id="prix_isVariable">
+        <?php echo $form['prix_variable']->renderError() ?>        
         <strong>  <?php echo $form['prix_variable']->renderLabel() ?> </strong>  
         <?php echo $form['prix_variable']->render() ?>        
     </section>
@@ -38,12 +40,14 @@
     <br>
     <!--  Affichage de la date de signature -->
     <section id="date_signature">
+        <?php echo $form['date_signature']->renderError() ?>        
         <?php echo $form['date_signature']->renderLabel() ?>
         <?php echo $form['date_signature']->render() ?>        
     </section>
     <br>
     <!--  Affichage de la date de statistique -->
     <section id="date_stats">
+        <?php echo $form['date_stats']->renderError() ?>        
         <?php echo $form['date_stats']->renderLabel() ?>
         <?php echo $form['date_stats']->render() ?>        
     </section>
