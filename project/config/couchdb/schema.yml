@@ -432,163 +432,157 @@ Configuration:
                                                                             fields:
                                                                               readable: {  }
                                                                               writable: {  }
+                                                            lieux:
+                                                              type: collection
+                                                              definition:
+                                                                fields:
+                                                                  '*':
+                                                                    class: ConfigurationLieu
+                                                                    inheritance: _ConfigurationDeclaration
+                                                                    type: collection
+                                                                    definition:
+                                                                      fields:
+                                                                        libelle: {  }
+                                                                        code: {  }
                                                                         departements:
                                                                           type: array_collection
                                                                           definition:
                                                                             fields:
                                                                               '*': {  }
-                                                                              lieux:
+                                                                        detail:
+                                                                          required: false
+                                                                          class: ConfigurationDetail
+                                                                          type: collection
+                                                                          definition:
+                                                                            fields:
+                                                                              stocks_debut:
+                                                                                required: false
                                                                                 type: collection
                                                                                 definition:
                                                                                   fields:
                                                                                     '*':
-                                                                                      # LIEU
-                                                                                      class: ConfigurationLieu
-                                                                                      inheritance: _ConfigurationDeclaration
+                                                                                      class: ConfigurationDetailLigne
                                                                                       type: collection
                                                                                       definition:
                                                                                         fields:
-                                                                                          libelle: {  }
-                                                                                          code: {  }
-                                                                                          departements:
-                                                                                            type: array_collection
-                                                                                            definition:
-                                                                                              fields:
-                                                                                                '*': {  }
-                                                                                          detail:
-                                                                                            required: false
-                                                                                            class: ConfigurationDetail
+                                                                                          readable: {  }
+                                                                                          writable: {  }
+                                                                              entrees:
+                                                                                required: false
+                                                                                type: collection
+                                                                                definition:
+                                                                                  fields:
+                                                                                    '*':
+                                                                                      class: ConfigurationDetailLigne
+                                                                                      type: collection
+                                                                                      definition:
+                                                                                        fields:
+                                                                                          readable: {  }
+                                                                                          writable: {  }
+                                                                              sorties:
+                                                                                required: false
+                                                                                type: collection
+                                                                                definition:
+                                                                                  fields:
+                                                                                    '*':
+                                                                                      class: ConfigurationDetailLigne
+                                                                                      type: collection
+                                                                                      definition:
+                                                                                        fields:
+                                                                                          readable: {  }
+                                                                                          writable: {  }
+                                                                              stocks_fin:
+                                                                                required: false
+                                                                                type: collection
+                                                                                definition:
+                                                                                  fields:
+                                                                                    '*':
+                                                                                      class: ConfigurationDetailLigne
+                                                                                      type: collection
+                                                                                      definition:
+                                                                                        fields:
+                                                                                          readable: {  }
+                                                                                          writable: {  }
+                                                                                    departements:
+                                                                                      type: array_collection
+                                                                                      definition:
+                                                                                        fields:
+                                                                                          '*': {  }
+                                                                        couleurs: 
+                                                                          type: collection
+                                                                          definition:
+                                                                            fields:
+                                                                              '*':
+                                                                                # COULEUR
+                                                                                class: ConfigurationCouleur
+                                                                                inheritance: _ConfigurationDeclaration
+                                                                                type: collection
+                                                                                definition:
+                                                                                  fields:
+                                                                                    libelle: {  }
+                                                                                    code: {  }
+                                                                                    cepages: 
+                                                                                      type: collection
+                                                                                      definition:
+                                                                                        fields:
+                                                                                          '*':
+                                                                                            # CEPAGE
+                                                                                            class: ConfigurationCepage
+                                                                                            inheritance: _ConfigurationDeclaration
                                                                                             type: collection
                                                                                             definition:
                                                                                               fields:
-                                                                                                stocks_debut:
-                                                                                                  required: false
+                                                                                                libelle: {  }
+                                                                                                code: {  }
+                                                                                                detail:
+                                                                                                  class: ConfigurationDetail
                                                                                                   type: collection
                                                                                                   definition:
                                                                                                     fields:
-                                                                                                      '*':
-                                                                                                        class: ConfigurationDetailLigne
-                                                                                                        type: collection
-                                                                                                        definition:
-                                                                                                          fields:
-                                                                                                            readable: {  }
-                                                                                                            writable: {  }
-                                                                                                entrees:
-                                                                                                  required: false
-                                                                                                  type: collection
-                                                                                                  definition:
-                                                                                                    fields:
-                                                                                                      '*':
-                                                                                                        class: ConfigurationDetailLigne
-                                                                                                        type: collection
-                                                                                                        definition:
-                                                                                                          fields:
-                                                                                                            readable: {  }
-                                                                                                            writable: {  }
-                                                                                                sorties:
-                                                                                                  required: false
-                                                                                                  type: collection
-                                                                                                  definition:
-                                                                                                    fields:
-                                                                                                      '*':
-                                                                                                        class: ConfigurationDetailLigne
-                                                                                                        type: collection
-                                                                                                        definition:
-                                                                                                          fields:
-                                                                                                            readable: {  }
-                                                                                                            writable: {  }
-                                                                                                stocks_fin:
-                                                                                                  required: false
-                                                                                                  type: collection
-                                                                                                  definition:
-                                                                                                    fields:
-                                                                                                      '*':
-                                                                                                        class: ConfigurationDetailLigne
-                                                                                                        type: collection
-                                                                                                        definition:
-                                                                                                          fields:
-                                                                                                            readable: {  }
-                                                                                                            writable: {  }
-                                                                                                      departements:
-                                                                                                        type: array_collection
-                                                                                                        definition:
-                                                                                                          fields:
-                                                                                                            '*': {  }
-                                                                                          couleurs: 
-                                                                                            type: collection
-                                                                                            definition:
-                                                                                              fields:
-                                                                                                '*':
-                                                                                                  # COULEUR
-                                                                                                  class: ConfigurationCouleur
-                                                                                                  inheritance: _ConfigurationDeclaration
-                                                                                                  type: collection
-                                                                                                  definition:
-                                                                                                    fields:
-                                                                                                      libelle: {  }
-                                                                                                      code: {  }
-                                                                                                      cepages: 
+                                                                                                      stocks_debut:
                                                                                                         type: collection
                                                                                                         definition:
                                                                                                           fields:
                                                                                                             '*':
-                                                                                                              # CEPAGE
-                                                                                                              class: ConfigurationCepage
-                                                                                                              inheritance: _ConfigurationDeclaration
+                                                                                                              class: ConfigurationDetailLigne
                                                                                                               type: collection
                                                                                                               definition:
                                                                                                                 fields:
-                                                                                                                  libelle: {  }
-                                                                                                                  code: {  }
-                        detail:
-                          class: ConfigurationDetail
-                          type: collection
-                          definition:
-                            fields:
-                              stocks_debut:
-                                type: collection
-                                definition:
-                                  fields:
-                                    '*':
-                                      class: ConfigurationDetailLigne
-                                      type: collection
-                                      definition:
-                                        fields:
-                                          readable: {  }
-                                          writable: {  }
-                              entrees:
-                                type: collection
-                                definition:
-                                  fields:
-                                    '*':
-                                      class: ConfigurationDetailLigne
-                                      type: collection
-                                      definition:
-                                        fields:
-                                          readable: {  }
-                                          writable: {  }
-                              sorties:
-                                type: collection
-                                definition:
-                                  fields:
-                                    '*':
-                                      class: ConfigurationDetailLigne
-                                      type: collection
-                                      definition:
-                                        fields:
-                                          readable: {  }
-                                          writable: {  }
-                              stocks_fin:
-                                type: collection
-                                definition:
-                                  fields:
-                                    '*':
-                                      class: ConfigurationDetailLigne
-                                      type: collection
-                                      definition:
-                                        fields:
-                                          readable: {  }
-                                          writable: {  }
+                                                                                                                  readable: {  }
+                                                                                                                  writable: {  }
+                                                                                                      entrees:
+                                                                                                        type: collection
+                                                                                                        definition:
+                                                                                                          fields:
+                                                                                                            '*':
+                                                                                                              class: ConfigurationDetailLigne
+                                                                                                              type: collection
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  readable: {  }
+                                                                                                                  writable: {  }
+                                                                                                      sorties:
+                                                                                                        type: collection
+                                                                                                        definition:
+                                                                                                          fields:
+                                                                                                            '*':
+                                                                                                              class: ConfigurationDetailLigne
+                                                                                                              type: collection
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  readable: {  }
+                                                                                                                  writable: {  }
+                                                                                                      stocks_fin:
+                                                                                                        type: collection
+                                                                                                        definition:
+                                                                                                          fields:
+                                                                                                            '*':
+                                                                                                              class: ConfigurationDetailLigne
+                                                                                                              type: collection
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  readable: {  }
+                                                                                                                  writable: {  }
 
 # Vrac pour les contrats
 Vrac:
