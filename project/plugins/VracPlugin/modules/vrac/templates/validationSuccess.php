@@ -44,7 +44,7 @@
     </ul>
     <div class="btnValidation">
     	<span>&nbsp;</span>
-        <input class="btn_valider" type="submit" value="Terminer la saisie" />
+        <input class="btn_valider" type="submit" value="Valider la saisie" />
     </div>
 
 </form>

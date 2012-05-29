@@ -6,44 +6,24 @@
  */
 ?>
 <section id="conditions_recapitulatif_typeContrat">
-        <span>
-            Type de contrat 
-        </span>
-        <span>
-            <?php 
-            echo $form['type_contrat'];
-            ?>
-        </span>
+   <span>Type de contrat&nbsp;:</span>
+   <span><?php echo $form['type_contrat']; ?></span>
 <section id="conditions_recapitulatif_isvariable">
-        <span>
-            partie de prix variable ? 
-        </span>
-        <span>
-            <?php 
-            echo ($form['prix_variable'])? 'Oui' : 'Non';
-            echo ($form['prix_variable'])? ' ('.$form['part_variable'].'%)' : '';
-            ?>
-        </span>
+   <span>prix variable ?</span>
+   <span><?php echo ($form['prix_variable']) ? 'Oui' : 'Non';
+echo ($form['prix_variable'])? ' ('.$form['part_variable'].'%)' : '';
+?>
+</span>
 </section>
 <section id="conditions_recapitulatif_variable">    
-        <span>
-            Prix variable
-        </span>
-        <span>
-            
-            <?php 
+  <span>Taux variable&nbsp;:</span>
+  <span><?php 
             echo $form['taux_variation'];
-            ?>
-        </span>
+?></span>
 </section>
 <section id="conditions_recapitulatif_cvo">
-        <span>
-            CVO appliquée
-        </span>
-        <span>
-            
-            <?php 
-            echo $form['cvo_nature'].' ('.$form['cvo_repartition'].')';
-            ?>
-        </span>
+  <span>CVO&nbsp;: </span>
+  <span><?php 
+  echo $form['cvo_nature'].' ('.$form['cvo_repartition'].')';
+?></span>
 </section>

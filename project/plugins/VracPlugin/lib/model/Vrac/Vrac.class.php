@@ -82,6 +82,10 @@ class Vrac extends BaseVrac {
        $this->vendeur->code_postal = $vendeurObj->code_postal;       
     }
 
+    public function getProduitObject() 
+    {
+      return ConfigurationClient::getCurrent()->get($this->produit);
+    }
 
     public function getVendeurObject() 
     {
