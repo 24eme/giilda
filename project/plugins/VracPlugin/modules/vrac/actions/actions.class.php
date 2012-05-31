@@ -104,19 +104,46 @@ class vracActions extends sfActions
       }
   }
 
+  public function executeGetVendeurInformations(sfWebRequest $request) 
+  { 
+      return $this->renderPartial('vendeurInformations', 
+              array('vendeur' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
+  }
+  
+  public function executeGetAcheteurInformations(sfWebRequest $request) 
+  { 
+      return $this->renderPartial('acheteurInformations', 
+              array('acheteur' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
+  }
+  
+  public function executeGetMandataireInformations(sfWebRequest $request) 
+  { 
+      return $this->renderPartial('mandataireInformations', 
+              array('mandataire' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
+  }
+
+  public function executeGetMandataireModification(sfWebRequest $request)
+  {
+      return $this->renderPartial('mandataireModifications', 
+              array('mandataire' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
+  }
+
+  public function executeGetAcheteurModification(sfWebRequest $request)
+  {
+      return $this->renderPartial('acheteurModifications', 
+              array('acheteur' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
+  }
+  
+  public function executeGetVendeurModification(sfWebRequest $request)
+  {
+      return $this->renderPartial('vendeurModification', 
+              array('vendeur' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
+  }
+  
   private function maj_etape($num_etape)
   {
       if($num_etape > $this->vrac->etape) $this->vrac->etape = $num_etape;
   }
 
-
-  protected function init() {
-        $this->form = null;
-        $this->drm = $this->getRoute();
-//        $this->config_lieu = $this->getRoute()->getConfigLieu();
-//        $this->drm_lieu = $this->getRoute()->getDrmLieu();
-//        $this->produits = $this->drm_lieu->getProduits();
-//        $this->previous = $this->drm_lieu->getPreviousSisterWithMouvementCheck();
-//        $this->next = $this->drm_lieu->getNextSisterWithMouvementCheck();
-    }  
+ 
 }

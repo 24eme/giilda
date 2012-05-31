@@ -974,6 +974,13 @@ a:hover { text-decoration:underline; }
   text-transform:none;
 }
 #vrac_soussigne .ligne_btn .btn_supprimer:hover, #vrac_soussigne .ligne_btn .btn_supprimer:focus, #vrac_marche .ligne_btn .btn_supprimer:hover, #vrac_marche .ligne_btn .btn_supprimer:focus, #vrac_condition .ligne_btn .btn_supprimer:hover, #vrac_condition .ligne_btn .btn_supprimer:focus, #vrac_validation .ligne_btn .btn_supprimer:hover, #vrac_validation .ligne_btn .btn_supprimer:focus, #vrac_recapitulatif .ligne_btn .btn_supprimer:hover, #vrac_recapitulatif .ligne_btn .btn_supprimer:focus { background-color:#494949; }
+#vrac_soussigne .ligne_btn .btn_modifier, #vrac_marche .ligne_btn .btn_modifier, #vrac_condition .ligne_btn .btn_modifier, #vrac_validation .ligne_btn .btn_modifier, #vrac_recapitulatif .ligne_btn .btn_modifier {
+  background-image:url(../images/boutons/btn_modifier.png);
+  background-position:7px center;
+  padding:0 10px 0 30px;
+  margin-right:20px;
+  text-transform:none;
+}
 #vrac_soussigne #infos_etablissements, #vrac_marche #infos_etablissements, #vrac_condition #infos_etablissements, #vrac_validation #infos_etablissements, #vrac_recapitulatif #infos_etablissements {
   margin:15px 0 0;
   position:relative;
@@ -1133,3 +1140,40 @@ a:hover { text-decoration:underline; }
 }
 #vrac_soussigne label, #vrac_marche label, #vrac_condition label, #vrac_validation label, #vrac_recapitulatif label { padding-right:10px; }
 #vrac_validation ul { list-style:decimal; }
+#vrac_soussigne .vendeur_infos, #vrac_soussigne .acheteur_infos {
+  border-collapse:collapse;
+  width:100%;
+  padding:20px 0;
+}
+#vrac_soussigne .vendeur_infos tr, #vrac_soussigne .vendeur_infos td, #vrac_soussigne .acheteur_infos tr, #vrac_soussigne .acheteur_infos td {
+  padding:0px 10px;
+  border:1px solid lightgrey;
+  line-height:40px;
+  width:30%;
+}
+#vrac_soussigne .vendeur_infos tr .bold, #vrac_soussigne .vendeur_infos td .bold, #vrac_soussigne .acheteur_infos tr .bold, #vrac_soussigne .acheteur_infos td .bold {
+  font-weight:bold;
+  width:20%;
+}
+#vrac_soussigne .mandataire_infos {
+  border-collapse:collapse;
+  width:100%;
+  padding:20px 0;
+}
+#vrac_soussigne .mandataire_infos tr, #vrac_soussigne .mandataire_infos td {
+  padding:0px 10px;
+  border:1px solid lightgrey;
+  line-height:40px;
+}
+#vrac_soussigne .mandataire_infos tr .bold, #vrac_soussigne .mandataire_infos td .bold {
+  font-weight:bold;
+  width:25%;
+}
+#vrac_soussigne .btn_modifier {
+  background-image:url(../images/boutons/btn_modifier.png);
+  background-position:7px center;
+  padding:0 10px 0 30px;
+  margin-right:20px;
+  text-transform:none;
+  float:right;
+}

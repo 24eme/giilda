@@ -2,6 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+var ajaxifyAutocompleteGet = function(url,autocompleteEltName,eltToReplace)
+{
+    $(autocompleteEltName+' input').live( "autocompleteselect", function(event, ui)
+    {         
+        $.get(url,{id : ui.item.option.value},
+        function(data){
+            $(eltToReplace).html(data);
+        });
+    });               
+}
 
 $(document).ready(function()
 {

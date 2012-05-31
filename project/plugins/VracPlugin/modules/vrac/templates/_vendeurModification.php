@@ -7,13 +7,15 @@ use_helper('Display');
                 Nom du vendeur*
             </td>
             <td>
-               <?php display_field($acheteur,'nom'); ?>
+                <input type="text" value="<?php display_field($vendeur,'nom'); ?>"/>
+               
             </td>    
             <td class="bold">
                 Adresse*
             </td>
             <td>
-               <?php  display_field($acheteur,'adresse');  ?>
+                <input type="text" value=" <?php  display_field($vendeur,'adresse');  ?>"/>
+              
             </td>
             
         </tr>
@@ -22,13 +24,15 @@ use_helper('Display');
                 N° CVI
             </td>
             <td>
-               <?php display_field($acheteur,'cvi'); ?>
+                <input type="text" value="<?php display_field($vendeur,'cvi'); ?>"/>
+               
             </td>    
             <td class="bold">
                 CP*
             </td>
             <td>
-               <?php  display_field($acheteur,'code_postal');  ?>
+                <input type="text" value="<?php  display_field($vendeur,'code_postal');  ?>"/>
+               
             </td>
         </tr>
         <tr>
@@ -36,13 +40,15 @@ use_helper('Display');
                 N° ACCISE
             </td>
             <td>
-               <?php display_field($acheteur,'num_accise'); ?>
+                <input type="text" value="<?php display_field($vendeur,'num_accise'); ?>"/>
+               
             </td>    
             <td class="bold">
                 Ville*
             </td>
             <td>
-               <?php  display_field($acheteur,'commune');  ?>
+                <input type="text" value="<?php  display_field($vendeur,'commune');  ?>"/>
+               
             </td>
         </tr>
 </table>

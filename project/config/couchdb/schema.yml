@@ -15,8 +15,11 @@ Etablissement:
     fields:
       famille: {  }
       cvi: {  }
+      adresse: {  }
       commune: {  }
       code_postal: {  }
+      num_accise: {  }
+      carte_pro: {  }
 
 Configuration:
   definition:
