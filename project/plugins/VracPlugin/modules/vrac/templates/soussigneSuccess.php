@@ -7,22 +7,34 @@
  * Derniere date de modification : 29-05-12
  */
 $nouveau = is_null($form->getObject()->numero_contrat);
+
+if($nouveau)
+{
 ?>
 <script type="text/javascript">
-    $(document).ready(function() {
-        ajaxifyAutocompleteGet('vendeurInformations','#vendeur_choice','#vendeur_informations');
-        ajaxifyAutocompleteGet('acheteurInformations','#acheteur_choice','#acheteur_informations'); 
-        ajaxifyAutocompleteGet('mandataireInformations','#mandataire_choice','#mandataire_informations');
-        
-            $('#vendeur_modification_btn').click(function()
-            {
-                $.get('vendeurModification', {id : $('#vrac_vendeur_identifiant').val()},
-                    function(data){
-                        $('#vendeur_informations').html(data);
-                });
-            });
+    $(document).ready(function() 
+    {
+        init_ajax_nouveau();
     });                        
 </script>
+<?php
+}
+else 
+{
+  $numero_contrat = $form->getObject()->numero_contrat;
+?>
+<script type="text/javascript">
+    $(document).ready(function() 
+    {
+        ajaxifyAutocompleteGet('getInfos',{autocomplete : '#vendeur_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#vendeur_informations');        
+        ajaxifyAutocompleteGet('getInfos',{autocomplete : '#acheteur_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#acheteur_informations');
+        ajaxifyAutocompleteGet('getInfos',{autocomplete : '#mandataire_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#mandataire_informations');
+    });
+</script>
+<?php
+}
+?>
+
 
 <section id="contenu">
 <form id="vrac_soussigne" method="post" action="<?php if ($form->getObject()->isNew()) echo url_for('vrac_nouveau');  else echo url_for('vrac_soussigne',$vrac); ?>">   
@@ -39,19 +51,13 @@ $nouveau = is_null($form->getObject()->numero_contrat);
     </section>
   
     <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
-    <section id="vendeur_informations" data-action="">
+    <section id="vendeur_informations">
    <?php
    include_partial('vendeurInformations', array('vendeur' => ($nouveau)? null : $form->getObject()->getVendeurObject()));
    ?>
-        <?php 
-        //echo url_for('vrac_vendeur');
-        ?>
     </section>
     <div class="btnModification">
-        <input type="button" id="vendeur_modification_btn" class="btn_modifier" value="Modifier" />            <!--
-        <a href="<?php //echo url_for('vrac_vendeurModification', $vrac) ?>" class="btn_modifier">
-            <span>Modifier</span>
-        </a> -->
+        <input type="button" id="vendeur_modification_btn" class="btn_modifier" value="Modifier" /> 
     </div>
 </section>
 <br>
@@ -63,6 +69,7 @@ $nouveau = is_null($form->getObject()->numero_contrat);
         <strong> <?php echo $form['acheteur_identifiant']->renderLabel() ?></strong>
         <?php echo $form['acheteur_identifiant']->render() ?>
     </section>
+    
     <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
     <section id="acheteur_informations">
     <?php
@@ -70,9 +77,7 @@ $nouveau = is_null($form->getObject()->numero_contrat);
     ?>
     </section>
     <div class="btnModification">
-       <!--  <a href="<?php //echo url_for('vrac_acheteurModification', $vrac) ?>" class="btn_modifier">
-            <span>Modifier</span> -->
-        </a> 
+        <input type="button" id="acheteur_modification_btn" class="btn_modifier" value="Modifier" /> 
     </div>
 </section>
 <br>
@@ -92,9 +97,7 @@ $nouveau = is_null($form->getObject()->numero_contrat);
     ?>    
     </section>
     <div class="btnModification">
-        <a href="<?php echo url_for('vrac_mandataireModification', $vrac) ?>" class="btn_modifier">
-            <span>Modifier</span>
-        </a> 
+        <input type="button" id="mandataire_modification_btn" class="btn_modifier" value="Modifier" /> 
     </div>
 </section>
 

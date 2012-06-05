@@ -1,7 +1,29 @@
 <?php
 use_helper('Display');
 ?>
-
+<script type="text/javascript">
+    $(document).ready(function() 
+    { 
+        init_informations('mandataire');       
+       <?php
+        if(!isset($numero_contrat))
+        {
+        ?>
+        ajaxifyGet('modification','#vrac_mandataire_identifiant','#mandataire_modification_btn','#mandataire_informations'); 
+       <?php
+        }
+        else
+        {
+        ?>        
+        ajaxifyGet('modification',{field_0 : '#vrac_mandataire_identifiant',
+                                   'type' : 'mandataire' ,
+                                   'numero_contrat' : '<?php echo $numero_contrat;?>'
+                                  },'#mandataire_modification_btn','#mandataire_informations');           
+        <?php
+        }
+        ?>
+    });
+</script>
 <table class="mandataire_infos">
         <tr>
             <td class="bold">
@@ -9,7 +31,7 @@ use_helper('Display');
             </td>
             <td>
                <?php display_field($mandataire,'nom'); ?>
-            </td>
+            </td> 
         </tr>
         <tr>
             <td class="bold">
@@ -17,8 +39,7 @@ use_helper('Display');
             </td>
             <td>
                <?php display_field($mandataire,'carte_pro'); ?>
-            </td>    
-            
+            </td>            
         </tr> 
         <tr>
             <td class="bold">
@@ -26,7 +47,7 @@ use_helper('Display');
             </td>
             <td>
                <?php  display_field($mandataire,'adresse');  ?>
-            </td>
+            </td>    
         </tr>
         <tr>
             <td class="bold">
@@ -34,7 +55,7 @@ use_helper('Display');
             </td>
             <td>
                <?php  display_field($mandataire,'code_postal');  ?>
-            </td>
+            </td>   
         </tr>
          <tr>
             <td class="bold">
@@ -42,6 +63,6 @@ use_helper('Display');
             </td>
             <td>
                <?php  display_field($mandataire,'commune');  ?>
-            </td>
+            </td>   
         </tr>
 </table>

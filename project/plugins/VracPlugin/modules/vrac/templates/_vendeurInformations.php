@@ -1,6 +1,29 @@
 <?php
 use_helper('Display');
 ?>
+<script type="text/javascript">
+    $(document).ready(function() 
+    { 
+        init_informations('vendeur');       
+       <?php
+        if(!isset($numero_contrat))
+        {
+        ?>
+        ajaxifyGet('modification','#vrac_vendeur_identifiant','#vendeur_modification_btn','#vendeur_informations');
+        <?php
+        }
+        else
+        {
+        ?>        
+        ajaxifyGet('modification',{field_0 : '#vrac_vendeur_identifiant',
+                                   'type' : 'vendeur' ,
+                                   'numero_contrat' : "<?php echo $numero_contrat;?>"
+                                  },'#vendeur_modification_btn','#vendeur_informations');    
+        <?php
+        }
+        ?>
+    });
+</script>
 <table class="vendeur_infos">
         <tr>
             <td class="bold">

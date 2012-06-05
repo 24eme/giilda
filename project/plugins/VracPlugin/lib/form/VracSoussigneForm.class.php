@@ -56,11 +56,11 @@ class VracSoussigneForm extends acCouchdbFormDocumentJson {
 
     public function getMandataires()
     {
-        if (is_null($this->vendeurs)) {
-            $this->vendeurs = $this->getEtablissements('Courtier');
+        if (is_null($this->mandataires)) {
+            $this->mandataires = $this->getEtablissements('Courtier');
         }
 
-        return $this->vendeurs;
+        return $this->mandataires;
     }
 
     public function getEtablissements($famille) {

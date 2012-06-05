@@ -2,16 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-var ajaxifyAutocompleteGet = function(url,autocompleteEltName,eltToReplace)
-{
-    $(autocompleteEltName+' input').live( "autocompleteselect", function(event, ui)
-    {         
-        $.get(url,{id : ui.item.option.value},
-        function(data){
-            $(eltToReplace).html(data);
-        });
-    });               
-}
 
 $(document).ready(function()
 {
@@ -55,7 +45,6 @@ var updatePanelsConditions = function()
 
         }
     }
-  //  updatePanelsConditions
 }
 
 var initMarche = function()
@@ -182,3 +171,31 @@ var majTotal = function(quantiteField,unite,prixParUnite){
         }
     }
 }
+
+
+var init_ajax_nouveau = function()
+{
+    ajaxifyAutocompleteGet('getInfos','#vendeur_choice','#vendeur_informations');
+    ajaxifyAutocompleteGet('getInfos','#acheteur_choice','#acheteur_informations'); 
+    ajaxifyAutocompleteGet('getInfos','#mandataire_choice','#mandataire_informations');
+}
+
+
+var init_ajax_modification = function(type)
+{
+    $('#'+type+'_modification_btn').val('Enregistrer');
+    $("#"+type+"_choice input").attr('disabled','disabled');
+    $("#"+type+"_choice button").attr('disabled','disabled');
+    var params = {id : $("#vrac_"+type+"_identifiant").val(), 'div' : '#'+type+'_informations'};    
+    ajaxifyPost('modification?id='+$("#vrac_"+type+"_identifiant").val(),params,'#'+type+'_modification_btn','#'+type+'_informations');
+}
+
+
+var init_informations = function(type)
+{
+    $("#"+type+"_choice input").removeAttr('disabled');
+    $("#"+type+"_choice button").removeAttr('disabled');
+    $("#"+type+"_modification_btn").val("Modifier");
+    $("#"+type+"_modification_btn").unbind();
+}
+    

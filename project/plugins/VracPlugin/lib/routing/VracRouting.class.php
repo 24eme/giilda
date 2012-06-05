@@ -35,32 +35,37 @@ class VracRouting {
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object'))); 
         
-        $r->prependRoute('vrac_getvendeurinfos', new VracRoute('/vrac/vendeurInformations',
-                                                        array('module' => 'vrac','action' => 'getVendeurInformations'),
+        $r->prependRoute('vrac_nouveau_getinfos', new VracRoute('/vrac/getInfos',
+                                                        array('module' => 'vrac','action' => 'getInformations'),
                                                         array('sf_method' => array('get')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
-        $r->prependRoute('vrac_getacheteurinfos', new VracRoute('/vrac/acheteurInformations',
-                                                        array('module' => 'vrac','action' => 'getAcheteurInformations'),
-                                                        array('sf_method' => array('get')),
-                                                        array('model' => 'Vrac', 'type' => 'object')));
-        $r->prependRoute('vrac_getmandataireinfos', new VracRoute('/vrac/mandataireInformations',
-                                                        array('module' => 'vrac','action' => 'getMandataireInformations'),
-                                                        array('sf_method' => array('get')),
-                                                        array('model' => 'Vrac', 'type' => 'object')));
-        $r->prependRoute('vrac_vendeurModification', new VracRoute('/vrac/vendeurModification',
-                                                        array('module' => 'vrac','action' => 'getVendeurModification'),
+       
+        $r->prependRoute('vrac_soussigne_getinfos', new VracRoute('/vrac/:numero_contrat/getInfos',
+                                                        array('module' => 'vrac','action' => 'getInformations'),
                                                         array('sf_method' => array('get')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
         
-        $r->prependRoute('vrac_acheteurModification', new VracRoute('/vrac/acheteurModification',
-                                                        array('module' => 'vrac','action' => 'getAcheteurModification'),
-                                                        array('sf_method' => array('get')),
+        
+        $r->prependRoute('vrac_nouveau_modification', new VracRoute('/vrac/modification',
+                                                        array('module' => 'vrac','action' => 'getModifications'),
+                                                        array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
         
-        $r->prependRoute('vrac_mandataireModification', new VracRoute('/vrac/mandataireModification',
-                                                        array('module' => 'vrac','action' => 'getMandataireModification'),
-                                                        array('sf_method' => array('get')),
+        $r->prependRoute('vrac_soussigne_modification', new VracRoute('/vrac/:numero_contrat/modification',
+                                                        array('module' => 'vrac','action' => 'getModifications'),
+                                                        array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
+ 
+//        $r->prependRoute('vrac_nouveau_modificationPost', new VracRoute('/vrac/modificationPost',
+//                                                        array('module' => 'vrac','action' => 'modificationPost'),
+//                                                        array('sf_method' => array('post')),
+//                                                        array('model' => 'Vrac', 'type' => 'object')));
+//        
+//        $r->prependRoute('vrac_soussigne_modificationPost', new VracRoute('/vrac/:numero_contrat/modificationPost',
+//                                                        array('module' => 'vrac','action' => 'modificationPost'),
+//                                                        array('sf_method' => array('post')),
+//                                                        array('model' => 'Vrac', 'type' => 'object')));
+      
     }
 
 }

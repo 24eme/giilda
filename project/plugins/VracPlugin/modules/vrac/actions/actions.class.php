@@ -104,46 +104,45 @@ class vracActions extends sfActions
       }
   }
 
-  public function executeGetVendeurInformations(sfWebRequest $request) 
+  public function executeGetInformations(sfWebRequest $request) 
   { 
-      return $this->renderPartial('vendeurInformations', 
-              array('vendeur' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
+      $etablissement =  EtablissementClient::getInstance()->find($request->getParameter('id'));
+      $nouveau = is_null($request->getParameter('numero_contrat'));
+      return $this->renderPartialInformations($etablissement,$nouveau);
   }
   
-  public function executeGetAcheteurInformations(sfWebRequest $request) 
-  { 
-      return $this->renderPartial('acheteurInformations', 
-              array('acheteur' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
+  public function executeGetModifications(sfWebRequest $request)
+  {
+        $nouveau = is_null($request->getParameter('numero_contrat'));
+        $etablissementId = ($request->getParameter('id')==null)? $request->getParameter('vrac_'.$request->getParameter('type').'_identifiant') : $request->getParameter('id');      
+        $etablissement =  EtablissementClient::getInstance()->find($etablissementId);
+        $this->form = new VracSoussigneModificationForm($etablissement);
+        
+        if ($request->isMethod(sfWebRequest::POST)) 
+        {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid())
+            {
+                $this->form->save();      
+                return $this->renderPartialInformations($etablissement,$nouveau);
+            }
+        }
+        
+        $familleType = $etablissement->getFamilleType();
+        if($familleType == 'vendeur' || $familleType == 'acheteur') $familleType = 'vendeurAcheteur';
+        return $this->renderPartial($familleType.'Modification', array('form' => $this->form));
   }
   
-  public function executeGetMandataireInformations(sfWebRequest $request) 
-  { 
-      return $this->renderPartial('mandataireInformations', 
-              array('mandataire' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
-  }
-
-  public function executeGetMandataireModification(sfWebRequest $request)
-  {
-      return $this->renderPartial('mandataireModifications', 
-              array('mandataire' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
-  }
-
-  public function executeGetAcheteurModification(sfWebRequest $request)
-  {
-      return $this->renderPartial('acheteurModifications', 
-              array('acheteur' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
+  private function renderPartialInformations($etablissement,$nouveau) {
+      
+      $familleType = $etablissement->getFamilleType();
+      return $this->renderPartial($familleType.'Informations', 
+        array($familleType => $etablissement, 'nouveau' => $nouveau));
   }
   
-  public function executeGetVendeurModification(sfWebRequest $request)
+  private function maj_etape($etapeNum)
   {
-      return $this->renderPartial('vendeurModification', 
-              array('vendeur' => EtablissementClient::getInstance()->find($request->getParameter('id'))));
+      if($this->vrac->etape < $etapeNum) $this->vrac->etape = $etapeNum;
   }
   
-  private function maj_etape($num_etape)
-  {
-      if($num_etape > $this->vrac->etape) $this->vrac->etape = $num_etape;
-  }
-
- 
 }

@@ -10,4 +10,12 @@ class Etablissement extends BaseEtablissement {
 
 		$this->set('_id', 'ETABLISSEMENT-'.$this->identifiant);
 	}
+        
+        public function getFamilleType() 
+        {
+            $familleType = array('Negociant' => 'acheteur',
+                                 'Viticulteur' => 'vendeur',
+                                 'Courtier' => 'mandataire');
+            return $familleType[$this->famille];
+        }
 }
