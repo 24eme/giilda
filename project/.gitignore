@@ -3,4 +3,5 @@ log/[^.]*
 config/databases.yml
 config/app.yml
 web/vinsdeloire_dev.php
+web/integration_dev.php
 web/edi_dev.php
