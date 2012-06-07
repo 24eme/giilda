@@ -4,52 +4,54 @@
  * Auteur : Hamza Iqbal - hiqbal[at]actualys.com
  * Copyright: Actualys
  ******************************************/
+var date = new Date();
 
-(function($)
-{
-	/**
-	 * G�re l'inclusion de fichier JS
-	 * $.fn.include(chemin, fichier, {condition: false, operateur: '', version: ''});
-	 ******************************************/
-	$.fn.includeJS = function(chemin, fichier, opt)
+yepnope
+(
+	// Chargement jQuery 1.7.2
 	{
-		var options =
+		load: 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js',
+		complete: function()
 		{
-			condition: false,
-			operateur: '',
-			version: ''
-		};
-		
-		if(opt) options = $.extend(options, opt);
-	
-		if(options.condition)
-		{
-			document.write('\n\t<!--[if '+ options.operateur +' '+ options.version +']><script type="text/javascript" src="' + chemin + fichier + '"></scr' + 'ipt><![endif]-->');
+			// Fallback
+			if(!window.jQuery)
+			{
+				yepnope(jsPath+'lib/jquery-1.7.2.min.js');
+			}
+			
+			// Selectivzr IE < 9
+			yepnope ('ielt9!'+jsPath+'plugins/selectivizr-min.js');
+			
+			// Plugins jQuery
+			yepnope
+			({
+				load:
+				[
+					jsPath+'autocomplete.js?v='+date,
+					jsPath+'plugins/jquery.plugins.min.js?v='+date
+				],
+				complete: function()
+				{
+					yepnope
+					({					
+						load:
+						[
+							jsPath+'autocomplete.js?v='+date,
+							jsPath+'ajaxHelper.js?v='+date,
+							jsPath+'vrac.js?v='+date,
+							jsPath+'global.js?v='+date
+						],
+						
+						complete: function()
+						{
+							/*if($('#rub_contrats').exists())
+							{
+								yepnope(jsPath+'contrats.js?v='+date);
+							}*/
+						}
+					});
+				}	
+			});
 		}
-		else
-		{
-			document.write('\n\t<script type="text/javascript" src="' + chemin + fichier + '"></scr' + 'ipt>');
-		}
-	};
-	
-	/**
-	 * Inclusions
-	 ******************************************/
-	// Librairies
-	$.fn.includeJS(jsPath, 'lib/jquery-ui-1.8.1.min.js');
-	
-	// Plugins
-	$.fn.includeJS(jsPath, 'plugins/selectivizr-min.js', {condition: true, operateur: 'lte', version: 'IE 8'});
-	$.fn.includeJS(jsPath, 'plugins/jquery.plugins.min.js');
-	$.fn.includeJS(jsPath, 'plugins/ui.dropdownchecklist-1.3-min.js');
-		
-	// Fonctions personnalisées)
-//	$.fn.includeJS(jsPath, 'global.js');
-//	$.fn.includeJS(jsPath, 'popups.js');
-	$.fn.includeJS(jsPath, 'autocomplete.js');
-        $.fn.includeJS(jsPath, 'ajaxHelper.js');
-	$.fn.includeJS(jsPath, 'vrac.js');        
-//	$.fn.includeJS(jsPath, 'drm.js');
-//	$.fn.includeJS(jsPath, 'declaration.js');
-
-})(jQuery);
+	}
+);

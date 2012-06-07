@@ -1,0 +1,111 @@
+/**
+ * Fichier : global.js
+ * Description : fonctions JS génériques
+ * Auteur : Hamza Iqbal - hiqbal[at]actualys.com
+ * Copyright: Actualys
+ **
+ ****************************************/
+
+/* =================================================================================== */
+/* VARIABLES GLOBALES */
+/* =================================================================================== */
+
+// Ancre
+var ancreSite = window.location.hash;
+
+/* Utilisateur */
+var utilisateur =
+{
+	terminal: '',
+	largeurEcran: ''
+};
+
+var objWindow = 
+{
+	elem: $(window),
+	largeur: $(window).width(),
+	hauteur: $(window).height()
+};
+
+// Fancybox - Config par défaut
+var fbConfig =
+{
+	padding	: 0,
+	autoSize : true,
+	fitToView : true,
+	helpers :
+	{
+		overlay : { opacity : 1 }
+	}
+};
+
+
+/**
+ * Initialisation
+ ******************************************/
+(function($)
+{	
+	
+	/**
+	 * Initialise les informations de l'utilisateur
+	 * $.initUtilisateur();
+	 ******************************************/
+	$.initUtilisateur = function()
+	{
+		$.detectTerminal();
+	};
+	
+	/**
+	 * Détecte le nom du terminal utilisé
+	 * $.detectTerminal();
+	 ******************************************/
+	$.detectTerminal = function()
+	{
+		var terminalAgent = navigator.userAgent.toLowerCase();
+		var agentID = terminalAgent.match(/(iphone|ipod|ipad|android)/);
+		var version;
+		
+		if(agentID)
+		{
+			if(agentID.indexOf('iphone') >= 0) utilisateur.terminal = 'iphone';
+			else if(agentID.indexOf('ipod') >=0 ) utilisateur.terminal = 'ipod';
+			else if(agentID.indexOf('ipad') >= 0) utilisateur.terminal = 'ipad';
+			else if(agentID.indexOf('android') >= 0) utilisateur.terminal = 'android';
+		}
+		else
+		{
+			version = parseInt($.browser.version);
+			
+			if($.browser.webkit) utilisateur.terminal = 'webkit';
+			else if($.browser.mozilla) utilisateur.terminal = 'mozilla';
+			else if($.browser.opera) utilisateur.terminal = 'opera';
+			else if($.browser.msie)
+			{
+				if(version == 6) utilisateur.terminal = 'msie6';
+				else if(version == 7) utilisateur.terminal = 'msie7';
+				else if(version == 8) utilisateur.terminal = 'msie8';
+				else if(version == 9) utilisateur.terminal = 'msie9';
+			}
+		}
+		
+		$('body').addClass(utilisateur.terminal);
+		return utilisateur.terminal;
+	};
+	
+	
+	
+	
+	
+	/* =================================================================================== */
+	/* INITIALISATION */
+	/* =================================================================================== */
+	$(document).ready( function()
+	{
+		$.initUtilisateur();
+		
+		//$.metadata.setType('html5');
+		$.inputPlaceholder();
+		
+	});
+	
+})(jQuery);
