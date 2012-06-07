@@ -3,18 +3,22 @@
 
 default:
   http_metas:
-    content-type: text/html
+    # content-type: text/html
+    X-UA-Compatible: IE=edge,chrome=1
 
   metas:
-    #title:        symfony project
-    #description:  symfony project
-    #keywords:     symfony, project
-    #language:     en
-    #robots:       index, follow
+    title:        Vins de Loire
+    description:  Vins de Loire
+    keywords:     Vins de Loire
+    language:     fr
+    robots:       index, follow
+    author:       Actualys
+    viewport:       width=device-width, initial-scale=1.0
+    copyright:       Vins de Loire - 2012
 
-  stylesheets:    [main.css]
+  stylesheets:    [compile.css]
 
-  javascripts:    []
+  javascripts:    [lib/modernizr-2.js]
 
   has_layout:     true
   layout:         layout
