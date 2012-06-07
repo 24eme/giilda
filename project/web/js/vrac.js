@@ -3,12 +3,7 @@
  * and open the template in the editor.
  */
 
-$(document).ready(function()
-{
-     initMarche();
-     initConditions();
-     initAutoComplete();
-});
+
 
 var initAutoComplete = function() {
     jQuery('.autocomplete').combobox();
@@ -199,3 +194,10 @@ var init_informations = function(type)
     $("#"+type+"_modification_btn").unbind();
 }
     
+
+$(document).ready(function()
+{
+     initMarche();
+     initConditions();
+     initAutoComplete();
+});

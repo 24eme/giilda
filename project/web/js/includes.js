@@ -22,13 +22,14 @@ yepnope
 			// Selectivzr IE < 9
 			yepnope ('ielt9!'+jsPath+'plugins/selectivizr-min.js');
 			
+			
+			
 			// Plugins jQuery
 			yepnope
 			({
 				load:
 				[
-					jsPath+'autocomplete.js?v='+date,
-					jsPath+'plugins/jquery.plugins.min.js?v='+date
+					jsPath+'lib/jquery-ui-1.8.1.min'
 				],
 				complete: function()
 				{
@@ -39,6 +40,7 @@ yepnope
 							jsPath+'autocomplete.js?v='+date,
 							jsPath+'ajaxHelper.js?v='+date,
 							jsPath+'vrac.js?v='+date,
+							jsPath+'plugins/jquery.plugins.min.js?v='+date,
 							jsPath+'global.js?v='+date
 						],
 						
