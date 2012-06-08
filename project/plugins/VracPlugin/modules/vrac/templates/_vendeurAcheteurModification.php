@@ -60,4 +60,17 @@ $type = $form->getObject()->getFamilleType();
               <?php echo $form['commune']->render() ?> 
             </td>
         </tr>
+        <tr>
+            <td class="bold">
+                 <?php echo $form['num_tva_intracomm']->renderLabel() ?>
+            </td>
+            <td>
+                <?php echo $form['num_tva_intracomm']->renderError(); ?>
+                <?php echo $form['num_tva_intracomm']->render() ?> 
+            </td>    
+            <td class="bold">
+            </td>
+            <td>
+            </td>
+        </tr>
 </table>

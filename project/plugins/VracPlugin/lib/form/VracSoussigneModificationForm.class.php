@@ -35,6 +35,8 @@ class VracSoussigneModificationForm extends acCouchdbFormDocumentJson {
         $this->setWidget('adresse', new sfWidgetFormInput());        
         $this->setWidget('code_postal', new sfWidgetFormInput());   
         $this->setWidget('commune', new sfWidgetFormInput());
+        $this->setWidget('num_tva_intracomm', new sfWidgetFormInput());
+        
         
         $this->widgetSchema->setLabels(array(
             'nom' => 'Nom du '.$label.'*',
@@ -42,16 +44,18 @@ class VracSoussigneModificationForm extends acCouchdbFormDocumentJson {
             'num_accise' => 'N° ACCISE',
             'adresse' => 'Adresse*',
             'code_postal' => 'CP',
-            'commune' => 'Ville*'
+            'commune' => 'Ville*',
+            'num_tva_intracomm' => 'TVA Intracomm.'
         ));
                 
         $this->setValidators(array(
             'nom' => new sfValidatorString(array('required' => true, 'min_length' => 3)),
             'cvi' => new sfValidatorNumber(array('required' => false)),
-            'num_accise' => new sfValidatorNumber(array('required' => false)),
+            'num_accise' => new sfValidatorString(array('required' => false)),
             'adresse' => new sfValidatorString(array('required' => true, 'min_length' => 5)),
             'code_postal' => new sfValidatorString(array('required' => false, 'min_length' => 5,'max_length' => 5)),
-            'commune' => new sfValidatorString(array('required' => true, 'min_length' => 2))
+            'commune' => new sfValidatorString(array('required' => true, 'min_length' => 2)),
+            'num_tva_intracomm' => new sfValidatorString(array('required' => false))
             ));
         
         $this->widgetSchema->setNameFormat('vrac[%s]');    

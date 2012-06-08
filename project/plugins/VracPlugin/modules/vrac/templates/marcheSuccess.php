@@ -14,11 +14,17 @@
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
 <section id="marche">
-    <br>
+    
+    <!--  Affichage des l'option original  -->
+    <section id="original" class="original">
+    <?php echo $form['original']->renderError(); ?>
+        <strong> <?php echo $form['original']->renderLabel() ?> </strong>
+        <?php echo $form['original']->render() ?>        
+    </section>
 
-    <!--  Affichage des trasanctions disponibles  -->
-    <section id="type_transaction">
-   <?php echo $form['type_transaction']->renderError(); ?>
+    <!--  Affichage des transactions disponibles  -->
+    <section id="type_transaction" class="type_transaction">
+    <?php echo $form['type_transaction']->renderError(); ?>
         <strong> <?php echo $form['type_transaction']->renderLabel() ?> </strong>
         <?php echo $form['type_transaction']->render() ?>        
     </section>

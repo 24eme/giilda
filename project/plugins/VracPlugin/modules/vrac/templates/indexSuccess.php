@@ -42,11 +42,12 @@
         ?>
         <tr>
             <?php 
-            foreach ($elt as $field) {
+            foreach ($elt as $key => $field) {
             ?>
             <th>
                 <?php 
-                echo is_null($field)? 'N/A' : $field;
+                if($key==6) echo is_null($field)? 'NONE' : ConfigurationClient::getCurrent()->get($field)->libelleProduit();
+                else echo is_null($field)? 'NONE' : $field;
                 ?>
             </th>
             <?php

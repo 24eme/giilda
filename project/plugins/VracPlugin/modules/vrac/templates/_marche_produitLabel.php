@@ -16,6 +16,29 @@
         <?php echo $form['produit']->render() ?>
 </section>
 
+<!--  Affichage des millésimes  -->
+<section id="millesime">
+<?php echo $form['millesime']->renderError(); ?>
+    <strong>   <?php echo $form['millesime']->renderLabel() ?> </strong>
+        <?php echo $form['millesime']->render() ?>
+</section>
+
+<!--  Affichage du type  -->
+<section id="type">
+<?php echo $form['type']->renderError(); ?>
+    <strong>   <?php echo $form['type']->renderLabel() ?> </strong>
+        <?php echo $form['type']->render() ?>
+</section>
+
+
+<!--  Affichage du type  -->
+<section id="nom_domaine">
+<?php echo $form['domaines']->renderError(); ?>
+    <strong>   <?php echo $form['domaines']->renderLabel() ?> </strong>
+        <?php echo $form['domaines']->render() ?>
+</section>
+
+
 <br>
 <!--  Affichage des label disponibles -->
 <section id="label">

@@ -68,4 +68,16 @@ use_helper('Display');
                <?php  display_field($vendeur,'commune');  ?>
             </td>
         </tr>
+        <tr>
+            <td class="bold">
+                TVA Intracomm.
+            </td>
+            <td>
+               <?php display_field($vendeur,'num_tva_intracomm'); ?>
+            </td>    
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
 </table>

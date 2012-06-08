@@ -68,4 +68,11 @@ class ConfigurationClient extends acCouchdbClient {
               ->endkey(array("labels", $certif, $interpro, array()))->getView('configuration', 'produits');
   }
   
+   public function getMillesimes() {
+        $lastMillesime =  date('Y');
+        $result = array();
+        for($i=$lastMillesime;$i>=1991;$i--) $result[$i] = $i.'';
+        return $result;
+    }
+  
 }

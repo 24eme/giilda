@@ -129,10 +129,15 @@ else
 <br>
 
     <div id="btn_etape_dr">
+        <?php if($nouveau){ ?>
+        <div class="btnAnnulation">
+		<a href="<?php echo url_for('vrac') ?>" class="btn_annuler"><span>Annuler la saisie</span></a>
+	</div>
+        <?php } ?>
         <div class="btnValidation">
             <span>&nbsp;</span>
             <input class="btn_valider" type="submit" value="Etape Suivante" />
-        </div>
+        </div>        
     </div>
 </form>
 </section>

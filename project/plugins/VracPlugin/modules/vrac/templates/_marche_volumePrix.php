@@ -9,7 +9,7 @@
  ?>
 
 <br>
-<h2>Volumes</h2>
+<h2>Volumes proposés</h2>
 
 
 <!--  Affichage des contenances disponibles (seulement s'il s'agit de vins en bouteilles)  -->
@@ -23,18 +23,19 @@
 <section id="volume">
         <div class="bouteilles_quantite">
         <?php echo $form['bouteilles_quantite']->renderError() ?>
+            <strong> <?php echo $form['bouteilles_quantite']->renderLabel() ?></strong>
         <?php echo $form['bouteilles_quantite']->render() ?>
             <span id="volume_unite_total" class="unite"></span>
         </div>
         <div class="jus_quantite">
         <?php echo $form['jus_quantite']->renderError() ?>
-        <?php echo $form['jus_quantite']->renderLabel() ?>
+            <strong>  <?php echo $form['jus_quantite']->renderLabel() ?></strong>
         <?php echo $form['jus_quantite']->render() ?>
             <span id="volume_unite_total" class="unite"></span>
         </div>
         <div class="raisin_quantite">
         <?php echo $form['raisin_quantite']->renderError() ?>
-        <?php echo $form['raisin_quantite']->renderLabel() ?>
+            <strong>  <?php echo $form['raisin_quantite']->renderLabel() ?></strong>
         <?php echo $form['raisin_quantite']->render() ?>
             <span id="volume_unite_total" class="unite"></span>
         </div>    

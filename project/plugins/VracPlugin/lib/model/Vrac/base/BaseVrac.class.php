@@ -17,8 +17,11 @@
  * @property acCouchdbJson $mandatant
  * @property string $mandataire_identifiant
  * @property acCouchdbJson $mandataire
+ * @property integer $original
  * @property string $type_transaction
  * @property string $produit
+ * @property integer $millesime
+ * @property string $nom_domaine
  * @property acCouchdbJson $label
  * @property float $raisin_quantite
  * @property float $jus_quantite
@@ -62,10 +65,16 @@
  * @method string setMandataireIdentifiant()
  * @method acCouchdbJson getMandataire()
  * @method acCouchdbJson setMandataire()
+ * @method integer getOriginal()
+ * @method integer setOriginal()
  * @method string getTypeTransaction()
  * @method string setTypeTransaction()
  * @method string getProduit()
  * @method string setProduit()
+ * @method integer getMillesime()
+ * @method integer setMillesime()
+ * @method string getNomDomaine()
+ * @method string setNomDomaine()
  * @method acCouchdbJson getLabel()
  * @method acCouchdbJson setLabel()
  * @method float getRaisinQuantite()

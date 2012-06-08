@@ -20,6 +20,12 @@ Etablissement:
       code_postal: {  }
       num_accise: {  }
       carte_pro: {  }
+      num_tva_intracomm: {  }
+      domaines: 
+        type: collection
+        definition:
+          fields:
+            '*': {  }
 
 Configuration:
   definition:
@@ -640,9 +646,13 @@ Vrac:
             adresse: {  }
                 
 #Marché (Part 2)
-                
+          
+      original: { type: integer }            
       type_transaction: {  }
       produit: {   }
+      millesime: { type: integer }
+      type: {  }
+      nom_domaine: {  }
       label:
         type: array_collection
         definition:
