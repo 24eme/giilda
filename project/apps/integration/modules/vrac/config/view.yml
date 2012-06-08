@@ -1,0 +1,7 @@
+default:
+  stylesheets:    [compile.css]
+
+  javascripts:    []
+
+  has_layout:     true
+  layout:         layout

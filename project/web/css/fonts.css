@@ -1,0 +1,71 @@
+@font-face
+{
+	font-family: 'NewBaskervilleRoman';
+	src: url('../fonts/newbaskerville-roman.eot');
+	src: local('☺'),
+		url('../fonts/newbaskerville-roman.woff') format('woff'),
+		url('../fonts/newbaskerville-roman.ttf') format('truetype'),
+		url('../fonts/newbaskerville-roman.svg#NewBaskervilleRoman') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'NewBaskervilleItalic';
+	src: url('../fonts/newbaskerville-italic.eot');
+	src: local('☺'),
+		url('../fonts/newbaskerville-italic.woff') format('woff'),
+		url('../fonts/newbaskerville-italic.ttf') format('truetype'),
+		url('../fonts/newbaskerville-italic.svg#NewBaskervilleItalic') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'DinRegular';
+	src: url('../fonts/din-regular.eot');
+	src: local('☺'),
+		url('../fonts/din-regular.woff') format('woff'),
+		url('../fonts/din-regular.ttf') format('truetype'),
+		url('../fonts/din-regular.svg#DinRegular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'DinMedium';
+	src: url('../fonts/din-medium.eot');
+	src: local('☺'),
+		url('../fonts/din-medium.woff') format('woff'),
+		url('../fonts/din-medium.ttf') format('truetype'),
+		url('../fonts/din-medium.svg#DinMedium') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'DinCondMedium';
+	src: url('../fonts/dinCond_medium.eot');
+	src: local('☺'),
+		url('../fonts/dinCond_medium.woff') format('woff'),
+		url('../fonts/dinCond_medium.ttf') format('truetype'),
+		url('../fonts/dinCond_medium.svg#DinCondMedium') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'DinCondBold';
+	src: url('../fonts/dinCond-bold.eot');
+	src: local('☺'),
+		url('../fonts/dinCond-bold.woff') format('woff'),
+		url('../fonts/dinCond-bold.ttf') format('truetype'),
+		url('../fonts/dinCond-bold.svg#DinCondBold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
