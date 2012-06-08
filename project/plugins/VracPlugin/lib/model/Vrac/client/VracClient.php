@@ -31,12 +31,20 @@ class VracClient extends acCouchdbClient {
     }
     
     public function getAtDate($date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('VRAC-'.$date.'000')->endkey('VRAC-'.$date.'999')->execute($hydrate);
-        
+        return $this->startkey('VRAC-'.$date.'000')->endkey('VRAC-'.$date.'999')->execute($hydrate);        
     }
     
     public function findByNumContrat($num_contrat) {
       return $this->find($this->getId($num_contrat));
+    }
+    
+    public function retrieveLastDocs() {
+      return $this->getView('vrac', 'history');
+    }
+    
+    public function retrieveBySoussigne($soussigneParam) {
+      return $this->startkey(array($soussigneParam))
+              ->endkey(array($soussigneParam, array()))->getView('vrac', 'soussigneidentifiant');
     }
 
 }

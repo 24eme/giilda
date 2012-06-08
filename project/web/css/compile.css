@@ -1177,3 +1177,70 @@ a:hover { text-decoration:underline; }
   text-transform:none;
   float:right;
 }
+#statut_vrac {
+  margin:0 0 25px;
+  zoom:1;
+}
+#statut_vrac:before, #statut_vrac:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#statut_vrac:after { clear:both; }
+#statut_vrac #vrac_etapes {
+  background:url(../images/fonds/bg_etapes_declaration.png) 0 0 no-repeat;
+  color:#ffffff;
+  float:left;
+  padding:11px 0 11px 6px;
+}
+#statut_vrac #vrac_etapes ol {
+  line-height:21px;
+  list-style:none;
+}
+#statut_vrac #vrac_etapes ol * { float:left; }
+#statut_vrac #vrac_etapes ol li { background:url(../images/fonds/bg_etapes_declaration.png) 0 -43px repeat-x; }
+#statut_vrac #vrac_etapes ol li > * {
+  background:url(../images/fonds/bg_etapes_declaration.png) 0 -106px no-repeat;
+  padding:0 15px 0 20px;
+}
+#statut_vrac #vrac_etapes ol li a { color:#ffffff; }
+#statut_vrac #vrac_etapes ol li a:hover { text-decoration:none; }
+#statut_vrac #vrac_etapes ol li.premier { background-position:0 -64px; }
+#statut_vrac #vrac_etapes ol li.premier > * {
+  background:0;
+  padding-left:10px;
+}
+#statut_vrac #vrac_etapes ol li.dernier > * { padding-right:0; }
+#statut_vrac #vrac_etapes ol li.dernier > * span {
+  background:url(../images/fonds/bg_etapes_declaration.png) right -148px no-repeat;
+  padding-right:20px;
+}
+#statut_vrac #vrac_etapes ol li.dernier.actif > * span { background-position:right -169px; }
+#statut_vrac #vrac_etapes ol li.passe, #statut_vrac #vrac_etapes ol li.actif { background-position:0 -64px; }
+#statut_vrac #vrac_etapes ol li.passe > *, #statut_vrac #vrac_etapes ol li.actif > * { background-position:0 -127px; }
+#statut_vrac #vrac_etapes ol li.actif { font-weight:bold; }
+#statut_vrac #vrac_etapes ol li.actif + li > * { background-position:0 -85px; }
+#statut_vrac #etat_avancement {
+  float:right;
+  margin:-10px 0 0;
+  width:130px;
+}
+#statut_vrac #etat_avancement p {
+  font-size:11px;
+  line-height:1;
+  margin:0 0 5px;
+  text-align:right;
+}
+#statut_vrac #etat_avancement p strong {
+  color:#86005b;
+  font-size:22px;
+  margin:0 0 0 5px;
+}
+#statut_vrac #etat_avancement p strong span { font-size:12px; }
+#statut_vrac #etat_avancement #barre_avancement { background:#494949; }
+#statut_vrac #etat_avancement #barre_avancement div {
+  background:#86005b;
+  height:3px;
+}

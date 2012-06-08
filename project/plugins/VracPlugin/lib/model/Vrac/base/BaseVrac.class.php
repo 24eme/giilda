@@ -13,6 +13,8 @@
  * @property acCouchdbJson $vendeur
  * @property string $acheteur_identifiant
  * @property acCouchdbJson $acheteur
+ * @property string $mandataire_exist
+ * @property acCouchdbJson $mandatant
  * @property string $mandataire_identifiant
  * @property acCouchdbJson $mandataire
  * @property string $type_transaction
@@ -52,6 +54,10 @@
  * @method string setAcheteurIdentifiant()
  * @method acCouchdbJson getAcheteur()
  * @method acCouchdbJson setAcheteur()
+ * @method string getMandataireExist()
+ * @method string setMandataireExist()
+ * @method acCouchdbJson getMandatant()
+ * @method acCouchdbJson setMandatant()
  * @method string getMandataireIdentifiant()
  * @method string setMandataireIdentifiant()
  * @method acCouchdbJson getMandataire()

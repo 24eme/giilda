@@ -13,14 +13,22 @@ class vracActions extends sfActions
 
   public function executeIndex(sfWebRequest $request)
   {
-    return $this->redirect('vrac/nouveau');
+      $this->vracs = VracClient::getInstance()->retrieveLastDocs();
+  }
+
+  public function executeRechercheSoussigne(sfWebRequest $request) {
+      $soussigne = $request->getParameter('identifiant');
+      $this->vracs = VracClient::getInstance()->retrieveBySoussigne($soussigne);
   }
   
-  
   public function executeNouveau(sfWebRequest $request)
-  {
+  {      
+      $this->getResponse()->setTitle('Contrat - Nouveau');
       $this->vrac = new Vrac();
       $this->form = new VracSoussigneForm($this->vrac);
+ 
+      $this->init_soussigne($request,$this->form);
+      
       if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -30,15 +38,45 @@ class vracActions extends sfActions
                 $this->vrac->numero_contrat = VracClient::getInstance()->getNextNoContrat();
                 $this->form->save();      
                 return $this->redirect('vrac_marche', $this->vrac);
-            }
+            }            
         }
       $this->setTemplate('soussigne');
   }
   
+  
+  private function init_soussigne($request,$form)
+    {
+        $form->vendeur = null;
+        $form->acheteur = null;  
+        $form->mandataire = null;  
+
+        if(!is_null($request->getParameter('vrac')) && !$request->getParameter('vrac')=='')
+        {
+            $vracParam = $request->getParameter('vrac');
+
+            if(!is_null($vracParam['vendeur_identifiant']) && !empty($vracParam['vendeur_identifiant']))
+            { 
+                $form->vendeur = EtablissementClient::getInstance()->find($vracParam['vendeur_identifiant']);
+            }
+            if(!is_null($vracParam['acheteur_identifiant']) && !empty($vracParam['acheteur_identifiant']))
+            { 
+                $form->acheteur = EtablissementClient::getInstance()->find($vracParam['acheteur_identifiant']);
+            }
+            if(!is_null($vracParam['mandataire_identifiant']) && !empty($vracParam['mandataire_identifiant']))
+            { 
+                $form->mandataire = EtablissementClient::getInstance()->find($vracParam['mandataire_identifiant']);
+            }
+        }
+    }
+  
   public function executeSoussigne(sfWebRequest $request)
   {
+      $this->getResponse()->setTitle(sprintf('Contrat N° %d - Soussignés', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
       $this->form = new VracSoussigneForm($this->vrac);
+      
+      $this->init_soussigne($request,$this->form);
+      
       if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -53,6 +91,7 @@ class vracActions extends sfActions
   
   public function executeMarche(sfWebRequest $request)
   {
+        $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
         $this->form = new VracMarcheForm($this->vrac);
         if ($request->isMethod(sfWebRequest::POST)) 
@@ -69,6 +108,7 @@ class vracActions extends sfActions
 
   public function executeCondition(sfWebRequest $request)
   {
+      $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
       $this->form = new VracConditionForm($this->vrac);
         if ($request->isMethod(sfWebRequest::POST)) 
@@ -85,6 +125,7 @@ class vracActions extends sfActions
 
    public function executeValidation(sfWebRequest $request)
   {
+      $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
         if ($request->isMethod(sfWebRequest::POST)) 
         {
@@ -97,6 +138,7 @@ class vracActions extends sfActions
   
   public function executeRecapitulatif(sfWebRequest $request)
   {
+      $this->getResponse()->setTitle(sprintf('Contrat N° %d - Récapitulation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
       if ($request->isMethod(sfWebRequest::POST)) 
       {

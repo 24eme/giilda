@@ -8,7 +8,8 @@
  */
  ?>
 <section id="contenu">
-<form id="vrac_condition" method="post" action="<?php echo url_for('vrac_condition',$vrac) ?>">    
+    <?php include_partial('etapes', array('vrac' => $form->getObject(), 'pourcentage' => '75', 'actif' => 3)); ?>
+<form id="vrac_condition" method="post" action="<?php echo url_for('vrac_condition',$vrac) ?>">  
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
 <section id="condition">

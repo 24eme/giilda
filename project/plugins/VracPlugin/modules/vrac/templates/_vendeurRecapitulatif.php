@@ -14,7 +14,21 @@
    <span><?php echo $form->getAcheteurObject()->getNom(); ?></span>
 </section>
 <section id="vendeur_recapitulatif_mandataire">
+    <?php
+    if($form->mandataire_exist)
+    {
+    ?>
    <span>Mandataire&nbsp;:</span>
    <span><?php echo $form->getMandataireObject()->getNom();?></span>
+    <?php
+    }
+    else
+    {
+    ?>
+   <span>Ce contrat ne possède pas de mandataire</span>
+    <?php
+    }
+    ?>
+
 </section>
         

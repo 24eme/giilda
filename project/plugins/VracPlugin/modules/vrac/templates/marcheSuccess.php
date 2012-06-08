@@ -4,11 +4,12 @@
  * Formulaire d'enregistrement de la partie marche d'un contrat
  * Auteur : Petit Mathurin - mpetit[at]actualys.com
  * Version : 1.0.0 
- * Derniere date de modification : 28-05-12
+ * Derniere date de modification : ${date}
  */
 ?>
 
 <section id="contenu">
+    <?php include_partial('etapes', array('vrac' => $form->getObject(), 'pourcentage' => '50', 'actif' => 2)); ?>
 <form id="vrac_marche" method="post" action="<?php echo url_for('vrac_marche',$vrac) ?>">    
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>

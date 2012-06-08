@@ -5,6 +5,7 @@
  */
 
 class Vrac extends BaseVrac {
+    
     public function constructId() {
         $this->set('_id', 'VRAC-'.$this->numero_contrat);
         $this->set('date_signature', date('Y-m-d'));
@@ -47,8 +48,8 @@ class Vrac extends BaseVrac {
     public function setInformations() 
     {        
         $this->setAcheteurInformations();
-        $this->setVendeurInformations();        
-        if($this->mandataire_identifiant!=null)
+        $this->setVendeurInformations();
+        if($this->mandataire_identifiant!=null && $this->mandataire_exist)
         {
             $this->setMandataireInformations();
             
@@ -100,6 +101,11 @@ class Vrac extends BaseVrac {
     public function getMandataireObject() 
     {
         return EtablissementClient::getInstance()->find($this->mandataire_identifiant,acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+    
+    public function getSoussigneObjectById($soussigneId) 
+    {
+        return EtablissementClient::getInstance()->find($soussigneId,acCouchdbClient::HYDRATE_DOCUMENT);
     }
     
 }

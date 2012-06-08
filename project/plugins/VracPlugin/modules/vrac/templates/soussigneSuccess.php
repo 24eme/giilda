@@ -7,6 +7,7 @@
  * Derniere date de modification : 29-05-12
  */
 $nouveau = is_null($form->getObject()->numero_contrat);
+$hasmandataire = !is_null($form->getObject()->mandataire_identifiant);
 
 if($nouveau)
 {
@@ -29,6 +30,7 @@ else
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#vendeur_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#vendeur_informations');        
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#acheteur_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#acheteur_informations');
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#mandataire_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#mandataire_informations');
+        majMandatairePanel();
     });
 </script>
 <?php
@@ -37,7 +39,8 @@ else
 
 
 <section id="contenu">
-<form id="vrac_soussigne" method="post" action="<?php if ($form->getObject()->isNew()) echo url_for('vrac_nouveau');  else echo url_for('vrac_soussigne',$vrac); ?>">   
+     <?php include_partial('etapes', array('vrac' => $form->getObject(), 'pourcentage' => ($nouveau)? '0' : '25', 'actif' => 1)); ?>
+<form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew())? url_for('vrac_nouveau') : url_for('vrac_soussigne',$vrac); ?>">   
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
 <br>  
@@ -52,8 +55,11 @@ else
   
     <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
     <section id="vendeur_informations">
-   <?php
-   include_partial('vendeurInformations', array('vendeur' => ($nouveau)? null : $form->getObject()->getVendeurObject()));
+   <?php   
+   $vendeurArray = array();
+   $vendeurArray['vendeur'] = $form->vendeur;
+   $vendeurArray['vendeur'] = ($nouveau)? $vendeurArray['vendeur'] : $form->getObject()->getVendeurObject();   
+   include_partial('vendeurInformations', $vendeurArray);    
    ?>
     </section>
     <div class="btnModification">
@@ -73,7 +79,10 @@ else
     <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
     <section id="acheteur_informations">
     <?php
-    include_partial('acheteurInformations', array('acheteur' => ($nouveau)? null : $form->getObject()->getAcheteurObject()));
+    $acheteurArray = array();
+    $acheteurArray['acheteur'] = $form->acheteur;
+    $acheteurArray['acheteur'] = ($nouveau)? $acheteurArray['acheteur'] : $form->getObject()->getAcheteurObject();    
+    include_partial('acheteurInformations', $acheteurArray);
     ?>
     </section>
     <div class="btnModification">
@@ -83,7 +92,19 @@ else
 <br>
     
 <!--  Affichage des mandataires disponibles  -->
-<section id="mandataire"> 
+
+<section id="has_mandataire">            
+        <?php echo $form['mandataire_exist']->render() ?>
+        <strong> <?php echo $form['mandataire_exist']->renderLabel() ?></strong>
+        <?php echo $form['mandataire_exist']->renderError(); ?>
+</section>
+<section id="mandataire">     
+     <section id="mandatant">
+     <?php echo $form['mandatant']->renderError(); ?>
+        <strong> <?php echo $form['mandatant']->renderLabel() ?></strong>
+        <?php echo $form['mandatant']->render() ?>        
+    </section>
+    
     <section id="mandataire_choice">
    <?php echo $form['mandataire_identifiant']->renderError(); ?>
         <strong> <?php echo $form['mandataire_identifiant']->renderLabel() ?></strong>
@@ -93,7 +114,11 @@ else
     <!--  Affichage des informations sur le mandataire sélectionné AJAXIFIED -->
     <section id="mandataire_informations">
     <?php
-    include_partial('mandataireInformations', array('mandataire' => ($nouveau)? null : $form->getObject()->getMandataireObject()));
+    $mandataireArray = array();    
+    $mandataireArray['mandataire'] = $form->mandataire;
+    if(!$nouveau)
+        $mandataireArray['mandataire'] = (!$hasmandataire)? $mandataireArray['mandataire'] : $form->getObject()->getMandataireObject();
+    include_partial('mandataireInformations', $mandataireArray); 
     ?>    
     </section>
     <div class="btnModification">

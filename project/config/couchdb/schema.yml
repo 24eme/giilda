@@ -624,6 +624,12 @@ Vrac:
             commune: {  }
             code_postal: {   }
             departement: {   }
+      mandataire_exist: {   }
+      mandatant: 
+        type: array_collection
+        definition:
+          fields:
+            '*': {  }
       mandataire_identifiant: {  }     
       mandataire:
         type: collection

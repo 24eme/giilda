@@ -8,20 +8,20 @@ use_helper('Display');
        <?php
         if(!isset($numero_contrat))
         {
-        ?>
+       ?>
         ajaxifyGet('modification','#vrac_mandataire_identifiant','#mandataire_modification_btn','#mandataire_informations'); 
        <?php
         }
         else
         {
-        ?>        
+       ?>        
         ajaxifyGet('modification',{field_0 : '#vrac_mandataire_identifiant',
                                    'type' : 'mandataire' ,
                                    'numero_contrat' : '<?php echo $numero_contrat;?>'
                                   },'#mandataire_modification_btn','#mandataire_informations');           
-        <?php
+       <?php
         }
-        ?>
+       ?>
     });
 </script>
 <table class="mandataire_infos">

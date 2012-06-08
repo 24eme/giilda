@@ -178,8 +178,30 @@ var init_ajax_nouveau = function()
     ajaxifyAutocompleteGet('getInfos','#vendeur_choice','#vendeur_informations');
     ajaxifyAutocompleteGet('getInfos','#acheteur_choice','#acheteur_informations'); 
     ajaxifyAutocompleteGet('getInfos','#mandataire_choice','#mandataire_informations');
+    $('section#has_mandataire input').attr('checked', 'checked')
+    $('#vrac_mandatant_vendeur').attr('checked','checked');
+    majMandatairePanel();
 }
 
+
+var majMandatairePanel = function()
+{
+    if($('section#has_mandataire input').attr('checked')) {$('section#mandataire').show();}
+    else{ $('section#mandataire').hide(); }
+    
+    $('section#has_mandataire input').click(function()
+    {
+        if($(this).attr('checked')) {$('section#mandataire').show();}
+        else
+        {
+            $('section#mandataire').hide();
+            $('section#mandataire input').each(function()
+            {
+                $(this).val('');
+            });
+        }
+    });
+}
 
 var init_ajax_modification = function(type)
 {
