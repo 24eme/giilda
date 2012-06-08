@@ -26,6 +26,36 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 		}
 	}
 
+  public function formatLibelles($format = "%g% %a% %l% %co% %ce%") {
+    $libelles = $this->getLibelles();
+
+    $format_index = array('%c%' => 0,
+                          '%g%' => 1,
+                          '%a%' => 2,
+                          '%l%' => 3,
+                          '%co%' => 4,
+                          '%ce%' => 5);
+
+    $libelle = $format;
+
+    foreach($format_index as $key => $item) {
+      if (isset($libelles[$item])) {
+        $libelle = str_replace($key, $libelles[$item], $libelle);
+      } else {
+        $libelle = str_replace($key, "", $libelle);
+      }
+    }
+
+    return $libelle;
+  }
+
+  public function libelleProduit($labels = array(), $format = "%g% %a% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
+    $libelle = $this->formatLibelles($format);
+    $libelle = $this->getDocument()->formatLabelsLibelle($labels, $libelle, $label_separator);
+
+    return $libelle;
+  }
+
 	public function getCodes() {
 
 		return $this->store('codes', array($this, 'getCodesAbstract'));

@@ -58,6 +58,21 @@ class Configuration extends BaseConfiguration {
       return $codes;
     }
 
+    public function getLabelsLibelles($labels) {
+        $libelles = array(); 
+        foreach($labels as $key) {
+            $libelles[$key] = ConfigurationClient::getCurrent()->labels[$key];
+        }
+
+        return $libelles;
+    }
+
+    public function formatLabelsLibelle($labels, $format = "%la%", $separator = ", ") {
+      $libelles = $this->getLabelsLibelles($labels);
+      
+      return str_replace("%la%", implode($separator, $libelles), $format);
+    }
+
     private static function normalizeLibelle($libelle) {
       $libelle = str_ireplace('SAINT-', 'saint ', $libelle);
       $libelle = preg_replace('/&nbsp;/', ' ', strtolower($libelle));
