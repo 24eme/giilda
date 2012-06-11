@@ -10,18 +10,19 @@
  */
 class VracConditionForm extends acCouchdbFormDocumentJson {
    
-     private $types_contrat = array('standard' => 'standard',
+     private $types_contrat = array('spot' => 'Spot',
                                    'pluriannuel' => 'pluriannuel');
     
      private $prix_variable = array('1' => 'Oui','0' => 'Non');
 
-     private $cvo_nature = array('marche_definitif' => 'marché définitif');
+     private $cvo_nature = array('marche_definitif' => 'marché définitif',
+                                 'compensation' => 'compensation',
+                                 'non_financiere' => 'non financière',
+                                 'vinaigrerie' => 'vinaigrerie');
 
      private $cvo_repartition = array('50' => '50/50',
-                                      '100' => 'vendeur 0, acheteur 100',
-                                      '75' => 'vendeur 25, acheteur 75',
-                                      '25' => 'vendeur 75, acheteur 25',
-                                      '0' => 'vendeur 100, acheteur 0');
+                                      '100' => '100% viticulteur',
+                                      '0' => 'vinaigrerie');
      
     public function configure()
     {

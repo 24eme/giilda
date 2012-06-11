@@ -14,31 +14,41 @@
     <!--  Affichage des la part variable sur la quantité du contrat  -->
     <section id="part_variable">
             <?php echo $form['part_variable']->renderError() ?>
-            <?php echo $form['part_variable']->renderLabel() ?>
+        <strong> <?php echo $form['part_variable']->renderLabel() ?> </strong>
             <?php echo $form['part_variable']->render() ?> <span>% (50% max)</span>
     </section>
-    <br>
+    <!--  Affichage du taux de variation des produits du contrat  -->
+    <section id="prixTotal_rappel">
+        Prix total 
+        <strong>
+        <?php echo $form->getObject()->prix_unitaire ?> €/<?php echo $form->getObject()->showUnite(); ?>
+        </strong>
+        <?php if( $form->getObject()->type_transaction == "vin_bouteille")
+         {
+           echo "(soit ".$form->getObject()->bouteilles_quantite * (($form->getObject()->bouteilles_contenance)/10000)." €/hl)";
+         }
+        ?>      
+    </section>
     <!--  Affichage du taux de variation des produits du contrat  -->
     <section id="taux_variation">
             <?php echo $form['taux_variation']->renderError() ?>
-            <?php echo $form['taux_variation']->renderLabel() ?>
+        <strong> <?php echo $form['taux_variation']->renderLabel() ?> </strong>
             <?php echo $form['taux_variation']->render() ?><span>%</span>
     </section>
 </section>
 
-
-<br>
 <h2>CVO appliquée</h2>
+
 <!--  Affichage de la nature du contrat  -->
 <section id="cvo_nature">
         <?php echo $form['cvo_nature']->renderError() ?> 
-        <?php echo $form['cvo_nature']->renderLabel() ?> 
+    <strong>  <?php echo $form['cvo_nature']->renderLabel() ?> </strong>
         <?php echo $form['cvo_nature']->render() ?>
 </section>
-<br>
+
 <!--  Affichage de la repartition (vendeur/acheteur) pour le paiement de la CVO  -->
 <section id="taux_variation">
         <?php echo $form['cvo_repartition']->renderError() ?>
-        <?php echo $form['cvo_repartition']->renderLabel() ?>
+    <strong>  <?php echo $form['cvo_repartition']->renderLabel() ?> </strong>
         <?php echo $form['cvo_repartition']->render() ?>
 </section>
