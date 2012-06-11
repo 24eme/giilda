@@ -22,7 +22,7 @@ Etablissement:
       carte_pro: {  }
       num_tva_intracomm: {  }
       domaines: 
-        type: collection
+        type: array_collection
         definition:
           fields:
             '*': {  }
@@ -651,8 +651,7 @@ Vrac:
       type_transaction: {  }
       produit: {   }
       millesime: { type: integer }
-      type: {  }
-      nom_domaine: {  }
+      domaine: {  }
       label:
         type: array_collection
         definition:

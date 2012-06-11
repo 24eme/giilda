@@ -108,4 +108,19 @@ class Vrac extends BaseVrac {
         return EtablissementClient::getInstance()->find($soussigneId,acCouchdbClient::HYDRATE_DOCUMENT);
     }
     
+    public function showUnite()
+    {
+        if($type = $this->type_transaction)
+        {
+            switch ($type)
+            {
+                case 'raisins': return 'kg';
+                case 'mouts': return 'hl';
+                case 'vin_vrac': return 'hl';                    
+                case 'vin_bouteille': return 'btle';
+            }
+        }    
+        return '';
+    }
+    
 }
