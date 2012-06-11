@@ -9,6 +9,7 @@ class EtablissementCsvFile extends CsvFile
   const CSV_PARTENAIRE_COMMUNE = 14;
   const CSV_PARTENAIRE_CODE_POSTAL = 13;
   const CSV_CVI = 25;
+  
   const CSV_TYPE_PARTENAIRE_VITICULTEUR = 'V';
   const CSV_TYPE_PARTENAIRE_NEGOCE = 'N';
   const CSV_TYPE_PARTENAIRE_COURTIER = 'C';

@@ -10,10 +10,10 @@
  */
 class VracMarcheForm extends acCouchdbFormDocumentJson {
    
-    private $types_transaction = array('raisins' => 'Raisins',
-                                       'mouts' => 'Moûts',
-                                       'vin_vrac'=> 'vin en vrac',
-                                       'vin_bouteille' => 'Vin en bouteilles');
+    private $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
+                                       VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
+                                       VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
+                                       VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin en bouteille');
     
      private $label = array('grains_nobles' => 'Grains nobles',
                                        'primeur' => 'Primeur',

@@ -2,6 +2,11 @@
 
 class VracClient extends acCouchdbClient {
    
+    const TYPE_TRANSACTION_RAISINS = 'raisins';
+    const TYPE_TRANSACTION_MOUTS = 'mouts';
+    const TYPE_TRANSACTION_VIN_VRAC = 'vin_vrac';
+    const TYPE_TRANSACTION_VIN_BOUTEILLE = 'vin_bouteille';
+
     /**
      *
      * @return DRMClient
