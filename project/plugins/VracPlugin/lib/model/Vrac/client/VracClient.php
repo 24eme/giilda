@@ -39,7 +39,7 @@ class VracClient extends acCouchdbClient {
     }
     
     public function retrieveLastDocs() {
-      return $this->getView('vrac', 'history');
+      return $this->descending(TRUE)->getView('vrac', 'history');
     }
     
     public function retrieveBySoussigne($soussigneParam) {
