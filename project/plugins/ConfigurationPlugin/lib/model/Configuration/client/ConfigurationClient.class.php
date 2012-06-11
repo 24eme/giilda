@@ -1,4 +1,4 @@
-<?php
+(?php
 
 class ConfigurationClient extends acCouchdbClient {
   private static $current = array();
@@ -68,10 +68,10 @@ class ConfigurationClient extends acCouchdbClient {
               ->endkey(array("labels", $certif, $interpro, array()))->getView('configuration', 'produits');
   }
   
-   public function getMillesimes() {
+   public static function getMillesimes() {
         $lastMillesime =  date('Y');
         $result = array();
-        for($i=$lastMillesime;$i>=1991;$i--) $result[$i] = $i.'';
+        for($i=$lastMillesime;$i>=1991;$i--) $result[$i] = $i;
         return $result;
     }
   

@@ -29,7 +29,7 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
     
     public function configure()
     {
-        $originalArray = array(1 => 'Oui', 0 =>'Non');
+        $originalArray = array('1' => 'Oui', '0' =>'Non');
         $this->setWidget('original', new sfWidgetFormChoice(array('choices' => $originalArray,'expanded' => true)));
         $types_transaction = $this->types_transaction;
         $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $types_transaction,'expanded' => true)));
@@ -42,12 +42,9 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
          
         
         $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->produits), array('class' => 'autocomplete')));
-        $millesimes = ConfigurationClient::getInstance()->getMillesimes();
+        $millesimes = ConfigurationClient::getMillesimes();
         $this->setWidget('millesime', new sfWidgetFormChoice(array('choices' => $millesimes,'multiple' => false, 'expanded' => false)));      
-        $typeArray = array('generique' => 'Générique', 'domaine' =>'Domaine');
-        
-        $this->setWidget('type', new sfWidgetFormChoice(array('choices' => $typeArray,'expanded' => true)));
-        $this->setWidget('domaines', new sfWidgetFormChoice(array('choices' => $this->getDomaines())));
+        $this->setWidget('domaine', new sfWidgetFormChoice(array('choices' => $this->getDomaines())));
         $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->label,'multiple' => true, 'expanded' => true)));
         $this->setWidget('raisin_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('jus_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
@@ -60,8 +57,7 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
             'type_transaction' => 'Type de transaction',
             'produit' => 'produit',
             'millesime' => 'Millésime',
-            'type' => 'Type',
-            'domaines' => 'Nom du domaine',
+            'domaine' => 'Nom du domaine',
             'label' => 'label',
             'bouteilles_quantite' => 'Nombre de bouteilles',
             'raisin_quantite' => 'Nombre de raisins',
@@ -71,12 +67,11 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
         ));
         
         $this->setValidators(array(
-            'original' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($originalArray))),
+            'original' => new sfValidatorInteger(array('required' => true)),
             'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($types_transaction))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->produits))),
-            'millesime' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($millesimes))),
-            'type' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($typeArray))),
-            'domaines' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getDomaines()))),
+            'millesime' => new sfValidatorInteger(array('required' => true)),
+            'domaine' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getDomaines()))),
             'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->label))),
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),
             'raisin_quantite' =>  new sfValidatorNumber(array('required' => false)),
@@ -95,7 +90,9 @@ class VracMarcheForm extends acCouchdbFormDocumentJson {
     }
     
     public function getDomaines() {
-        return $this->getObject()->getVendeurObject()->domaines;
+        $domaine_arr = array();
+        foreach ($this->getObject()->getVendeurObject()->domaines as $domaine) $domaine_arr[$domaine] = $domaine;
+        return $domaine_arr;
     }
     
 }
