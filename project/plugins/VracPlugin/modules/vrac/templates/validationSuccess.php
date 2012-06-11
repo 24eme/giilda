@@ -47,7 +47,7 @@
             </div>
             <section id="conditions_recapitulatif">
             <?php
-            include_partial('conditionsRecapitulatif', array('form' => $vrac));
+            include_partial('conditionsRecapitulatif', array('vrac' => $vrac));
             ?>
             </section> 
         </li>
