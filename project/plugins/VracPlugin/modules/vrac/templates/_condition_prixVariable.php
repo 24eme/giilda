@@ -52,3 +52,24 @@
     <strong>  <?php echo $form['cvo_repartition']->renderLabel() ?> </strong>
         <?php echo $form['cvo_repartition']->render() ?>
 </section>
+
+<!-- CVO facturée vendeur  -->
+<section id="cvo_facturee_vendeur">
+    CVO facturée (vendeur)
+    <span id="prix_facturee_vendeur">
+        XX
+    </span>
+    €/<?php echo $form->getObject()->showUnite(); ?>    
+    (soit <span  id="cvo_totale_vendeur"> xxx.xx €</span>)
+</section>
+
+
+<!-- CVO facturée acheteur -->
+<section id="cvo_facturee_acheteur">
+       CVO facturée (acheteur)
+       <span  id="prix_facturee_acheteur">
+         XX
+       </span>
+       €/<?php echo $form->getObject()->showUnite(); ?>
+       (soit <span  id="cvo_totale_acheteur"> xxx.xx €</span>)
+</section>
