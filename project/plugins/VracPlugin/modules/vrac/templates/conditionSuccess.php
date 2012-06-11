@@ -8,20 +8,17 @@
  */
  ?>
 <section id="contenu">
-    <?php include_partial('etapes', array('vrac' => $form->getObject(), 'pourcentage' => '75', 'actif' => 3)); ?>
+    <?php include_partial('etapes', array('vrac' => $form->getObject(), 'actif' => 3)); ?>
 <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_condition',$vrac) ?>">  
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
 <section id="condition">
-    
-    <br>
     <!--  Affichage du type de contrat (si standard la suite n'est pas affiché JS)  -->
     <section id="type_contrat">
         <?php echo $form['type_contrat']->renderError() ?>        
         <strong>  <?php echo $form['type_contrat']->renderLabel() ?> </strong>
         <?php echo $form['type_contrat']->render() ?>        
     </section>
-    <br>
     <!--  Affichage de la présence de la part variable du contrat (si non la suite n'est pas affiché JS) -->
     <section id="prix_isVariable">
         <?php echo $form['prix_variable']->renderError() ?>        

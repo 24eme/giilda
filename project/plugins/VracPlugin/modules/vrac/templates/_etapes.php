@@ -1,4 +1,7 @@
-<?php  if($vrac->etape==null) $vrac->etape=0; ?>
+<?php
+    if($vrac->etape==null) $vrac->etape=0;
+    $pourcentage = ($vrac->etape) * 25;
+?>
 <div id="statut_vrac">
 	<nav id="vrac_etapes">
                 <ol>

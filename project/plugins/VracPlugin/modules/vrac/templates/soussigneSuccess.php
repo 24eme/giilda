@@ -39,7 +39,7 @@ else
 
 
 <section id="contenu">
-     <?php include_partial('etapes', array('vrac' => $form->getObject(), 'pourcentage' => ($nouveau)? '0' : '25', 'actif' => 1)); ?>
+     <?php include_partial('etapes', array('vrac' => $form->getObject(), 'actif' => 1)); ?>
 <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew())? url_for('vrac_nouveau') : url_for('vrac_soussigne',$vrac); ?>">   
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
@@ -131,7 +131,7 @@ else
     <div id="btn_etape_dr">
         <?php if($nouveau){ ?>
         <div class="btnAnnulation">
-		<a href="<?php echo url_for('vrac') ?>" class="btn_annuler"><span>Annuler la saisie</span></a>
+		<a href="<?php echo url_for('vrac'); ?>" class="btn_annuler"><span>Annuler la saisie</span></a>
 	</div>
         <?php } ?>
         <div class="btnValidation">

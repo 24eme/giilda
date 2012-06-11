@@ -9,7 +9,7 @@
 ?>
 
 <section id="contenu">
-    <?php include_partial('etapes', array('vrac' => $form->getObject(), 'pourcentage' => '50', 'actif' => 2)); ?>
+    <?php include_partial('etapes', array('vrac' => $form->getObject(), 'actif' => 2)); ?>
 <form id="vrac_marche" method="post" action="<?php echo url_for('vrac_marche',$vrac) ?>">    
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>

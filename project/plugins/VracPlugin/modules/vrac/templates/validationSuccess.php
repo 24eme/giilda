@@ -8,7 +8,7 @@
  */
 ?>
 <section id="contenu">
-    <?php include_partial('etapes', array('vrac' => $vrac, 'pourcentage' => '100', 'actif' => 4)); ?>
+    <?php include_partial('etapes', array('vrac' => $vrac, 'actif' => 4)); ?>
 <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation',$vrac) ?>">
     <h1>Récapitulatif de la saisie</h1>
     <ul>
