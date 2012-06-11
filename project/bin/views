@@ -56,10 +56,10 @@ cat <<EOF > $TMPFILE
    "language": "javascript",
    "views": {
        "history": {
-           "map": "function(doc) {\n  if (doc.type != \"Vrac\")\n     return;\n  emit([doc._id], [doc.status, doc._id, doc.acheteur.nom, doc.vendeur.nom,\n\t           doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n}"
+           "map": "function(doc) {\n  if (doc.type != \"Vrac\")\n     return;\n  emit([doc._id], [doc.status, doc._id, doc.acheteur_identifiant, doc.acheteur.nom, doc.vendeur_identifiant, doc.vendeur.nom,\n\t           doc.mandataire_identifiant,doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n}"
        },
        "soussigneidentifiant": {
-           "map": "function(doc) {\n  if (doc.type != \"Vrac\")\n     return;\n  emit([doc.mandataire_identifiant, doc._id], [doc.status, doc._id, doc.acheteur.nom, doc.vendeur.nom,\n\t           doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n  emit([doc.acheteur_identifiant, doc._id], [doc.status, doc._id, doc.acheteur.nom, doc.vendeur.nom,\n\t           doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n  emit([doc.vendeur_identifiant, doc._id], [doc.status, doc._id, doc.acheteur.nom, doc.vendeur.nom,\n\t           doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n}"
+           "map": "function(doc) {\n  if (doc.type != \"Vrac\")\n     return;\n  emit([doc.mandataire_identifiant, doc._id],  [doc.status, doc._id, doc.acheteur_identifiant, doc.acheteur.nom, doc.vendeur_identifiant, doc.vendeur.nom, doc.mandataire_identifiant,doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n  emit([doc.acheteur_identifiant, doc._id], [doc.status, doc._id, doc.acheteur_identifiant, doc.acheteur.nom, doc.vendeur_identifiant, doc.vendeur.nom, doc.mandataire_identifiant,doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n  emit([doc.vendeur_identifiant, doc._id], [doc.status, doc._id, doc.acheteur_identifiant, doc.acheteur.nom, doc.vendeur_identifiant, doc.vendeur.nom, doc.mandataire_identifiant,doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n}"
        }
    }
 }
