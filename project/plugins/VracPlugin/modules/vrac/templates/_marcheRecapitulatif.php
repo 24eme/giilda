@@ -6,17 +6,60 @@
  * Version : 1.0.0 
  * Derniere date de modification : 28-05-12
  */
+$hasDomaine = is_null($vrac->domaine);
 ?>
+<section id="marche_recapitulatif_original">
+        <span>Original fourni :</span>
+        <span><?php echo $vrac->original; ?></span>
+</section>
 <section id="marche_recapitulatif_produit">
         <span>Produit :</span>
-        <span><?php echo implode(' ', $form->getProduitObject()->getLibelles()->getRawValue()); ?></span>
+        <span><?php echo implode(' ', $vrac->getProduitObject()->getLibelles()->getRawValue()); ?></span>
 </section>
-<section id="marche_recapitulatif_volume">
+
+<section id="marche_recapitulatif_millesime">
         <span>
-            Volumes : 
+            Millésime : 
         </span>
         <span>
-   <?php echo $form['raisin_quantite']; ?>&nbsp;hl
+           <?php echo $vrac->millesime; ?>
+        </span>
+</section>
+
+<section id="marche_recapitulatif_type">
+        <span>
+            Type : 
+        </span>
+        <span>
+           <?php echo ($hasDomaine)? 'Générique' : 'Domaine'; ?>
+        </span>
+</section>
+
+<?php
+if($hasDomaine)
+{
+?>
+<section id="marche_recapitulatif_domaine">
+        <span>
+            Type : 
+        </span>
+        <span>
+           <?php echo $vrac->domaine; ?>
+        </span>
+</section>
+<?php
+}
+?>
+
+
+<section id="marche_recapitulatif_volumePropose">
+        <span>
+            Volumes proposés: 
+        </span>
+        <span>
+           <?php
+           echo $vrac->showRecapVolume(); 
+           ?>
         </span>
 </section>
 <section id="marche_recapitulatif_prixTotal">

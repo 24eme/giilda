@@ -5,21 +5,21 @@
  * and open the template in the editor.
  */
 ?>
-<section id="vendeur_recapitulatif_vendeur">
+<section id="soussigne_recapitulatif_vendeur">
    <span>Vendeur&nbsp;:</span>
-   <span><?php echo $form->getVendeurObject()->getNom(); ?></span>
+   <span><?php echo $vrac->getVendeurObject()->getNom(); ?></span>
 </section>
-<section id="vendeur_recapitulatif_acheteur">
+<section id="soussigne_recapitulatif_acheteur">
    <span>Acheteur&nbsp;:</span>
-   <span><?php echo $form->getAcheteurObject()->getNom(); ?></span>
+   <span><?php echo $vrac->getAcheteurObject()->getNom(); ?></span>
 </section>
-<section id="vendeur_recapitulatif_mandataire">
+<section id="soussigne_recapitulatif_mandataire">
     <?php
-    if($form->mandataire_exist)
+    if($vrac->mandataire_exist)
     {
     ?>
    <span>Mandataire&nbsp;:</span>
-   <span><?php echo $form->getMandataireObject()->getNom();?></span>
+   <span><?php echo $vrac->getMandataireObject()->getNom();?></span>
     <?php
     }
     else

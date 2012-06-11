@@ -123,4 +123,21 @@ class Vrac extends BaseVrac {
         return '';
     }
     
+    public function showRecapVolume()
+    {
+        if($type = $this->type_transaction)
+        {
+            switch ($type)
+            {
+                case 'raisins': return $this->raisin_quantite.' kg (raisins)';
+                case 'mouts': return $this->jus_quantite.' hl (moûts)';
+                case 'vin_vrac': return $this->jus_quantite.' hl (vin vrac)';                   
+                case 'vin_bouteille': 
+                    return $this->bouteilles_quantite.
+                        ' bouteilles, soit'.$this->bouteilles_quantite*($this->bouteilles_contenance/10000).' hl';
+            }
+        }    
+        return '';
+    }
+    
 }
