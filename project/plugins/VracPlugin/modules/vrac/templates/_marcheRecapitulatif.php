@@ -10,7 +10,7 @@ $hasDomaine = is_null($vrac->domaine);
 ?>
 <section id="marche_recapitulatif_original">
         <span>Original fourni :</span>
-        <span><?php echo $vrac->original; ?></span>
+        <span><?php echo ($vrac->original)? 'Oui' : 'Non'; ?></span>
 </section>
 <section id="marche_recapitulatif_produit">
         <span>Produit :</span>
@@ -36,7 +36,7 @@ $hasDomaine = is_null($vrac->domaine);
 </section>
 
 <?php
-if($hasDomaine)
+if($hasDomaine && $vrac->domaine=="domaine")
 {
 ?>
 <section id="marche_recapitulatif_domaine">
@@ -62,10 +62,22 @@ if($hasDomaine)
            ?>
         </span>
 </section>
+
+<section id="marche_recapitulatif_prixUnitaire">
+        <span>
+            Prix unitaire: 
+        </span>
+        <span>
+           <?php
+           echo $vrac->showRecapPrixUnitaire(); 
+           ?>
+        </span>
+</section>
+
 <section id="marche_recapitulatif_prixTotal">
         <span>
             Prix : 
         </span>
-        <span><?php $vrac->prix_total; ?> &nbsp;€</span>
+        <span><?php echo $vrac->prix_total; ?> &nbsp;€</span>
 </section>
         

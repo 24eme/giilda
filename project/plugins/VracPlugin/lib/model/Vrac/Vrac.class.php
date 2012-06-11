@@ -134,7 +134,24 @@ class Vrac extends BaseVrac {
                 case 'vin_vrac': return $this->jus_quantite.' hl (vin vrac)';                   
                 case 'vin_bouteille': 
                     return $this->bouteilles_quantite.
-                        ' bouteilles, soit'.$this->bouteilles_quantite*($this->bouteilles_contenance/10000).' hl';
+                        ' bouteilles, soit '.$this->bouteilles_quantite*($this->bouteilles_contenance/10000).' hl';
+            }
+        }    
+        return '';
+    }
+    
+    public function showRecapPrixUnitaire()
+    {
+        if($type = $this->type_transaction)
+        {
+            switch ($type)
+            {
+                case 'raisins': return $this->prix_unitaire.' €/kg';
+                case 'mouts': return $this->prix_unitaire.' €/hl';
+                case 'vin_vrac': return $this->prix_unitaire.' €/hl';                   
+                case 'vin_bouteille': 
+                    return $this->prix_unitaire.' €/btle, soit '.
+                        $this->prix_total/($this->bouteilles_quantite*($this->bouteilles_contenance/10000)).' €/hl';
             }
         }    
         return '';
