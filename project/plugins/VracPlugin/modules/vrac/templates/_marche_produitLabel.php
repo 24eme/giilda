@@ -28,11 +28,12 @@
 
 <!--  Affichage du type  -->
 <section id="type">
-           <strong><label for="generique">Générique</label> </strong>  
-            <input type="radio" value="generique" name="type_produit" <?php echo ($has_domaine)? '' : 'checked="checked"'; ?> />
-            
-           <strong><label for="domaine">Domaine</label></strong>
-            <input type="radio" value="domaine" name="type_produit" <?php echo ($has_domaine)? 'checked="checked"' : ''; ?> />
+    <strong> Type </strong>
+        <input type="radio" value="generique" name="type_produit" <?php echo ($has_domaine)? '' : 'checked="checked"'; ?> />
+        <label for="generique">Générique</label>   
+
+        <input type="radio" value="domaine" name="type_produit" <?php echo ($has_domaine)? 'checked="checked"' : ''; ?> />
+        <label for="domaine">Domaine</label>
 </section>
 
 
