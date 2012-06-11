@@ -6,6 +6,9 @@
  * Version : 1.0.0 
  * Derniere date de modification : 28-05-12
  */
+
+
+ $has_domaine = ! is_null($form->getObject()->domaine);
  ?>
 
 <br>
@@ -25,17 +28,19 @@
 
 <!--  Affichage du type  -->
 <section id="type">
-<?php echo $form['type']->renderError(); ?>
-    <strong>   <?php echo $form['type']->renderLabel() ?> </strong>
-        <?php echo $form['type']->render() ?>
+           <strong><label for="generique">Générique</label> </strong>  
+            <input type="radio" value="generique" name="type_produit" <?php echo ($has_domaine)? '' : 'checked="checked"'; ?> />
+            
+           <strong><label for="domaine">Domaine</label></strong>
+            <input type="radio" value="domaine" name="type_produit" <?php echo ($has_domaine)? 'checked="checked"' : ''; ?> />
 </section>
 
 
 <!--  Affichage du type  -->
-<section id="nom_domaine">
-<?php echo $form['domaines']->renderError(); ?>
-    <strong>   <?php echo $form['domaines']->renderLabel() ?> </strong>
-        <?php echo $form['domaines']->render() ?>
+<section id="domaine">
+<?php echo $form['domaine']->renderError(); ?>
+    <strong>   <?php echo $form['domaine']->renderLabel() ?> </strong>
+        <?php echo $form['domaine']->render() ?>
 </section>
 
 
