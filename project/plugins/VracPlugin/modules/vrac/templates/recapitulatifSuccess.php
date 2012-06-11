@@ -11,12 +11,10 @@
     
 <form id="vrac_recapitulatif" method="get" action="<?php echo url_for('vrac_nouveau') ?>">
 <h1>La saisie est terminée !</h1>
-<h2>N° d'enregistrement deu contrat   <span><?php echo $vrac['numero_contrat']; ?></span></h2>
+<h2>N° d'enregistrement du contrat :<span><?php echo $vrac['numero_contrat']; ?></span></h2>
 
+<?php include_partial('showContrat', array('vrac' => $vrac)); ?>
 <div id="btn_etape_dr">
-        <a href="<?php echo url_for('vrac_validation', $vrac) ?>" class="btn_prec">
-            <span>Précédent</span>
-        </a> 
         <div class="btnValidation">
             <span>&nbsp;</span>
             <input class="btn_valider" type="submit" value="Saisir un nouveau contrat" />
