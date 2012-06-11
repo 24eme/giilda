@@ -1,4 +1,4 @@
-(?php
+<?php
 
 class ConfigurationClient extends acCouchdbClient {
   private static $current = array();
