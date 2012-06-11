@@ -8,8 +8,8 @@ class Vrac extends BaseVrac {
     
     public function constructId() {
         $this->set('_id', 'VRAC-'.$this->numero_contrat);
-        $this->set('date_signature', date('Y-m-d'));
-        $this->set('date_stats', date('Y-m-d'));
+        $this->set('date_signature', date('d/m/Y'));
+        $this->set('date_stats', date('d/m/Y'));
     }
     
     public function update($params = array()) {
