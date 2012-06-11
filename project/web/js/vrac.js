@@ -6,37 +6,37 @@
 
 
 var initAutoComplete = function() {
-    jQuery('.autocomplete').combobox();
+    $('.autocomplete').combobox();
 }
 
 var initConditions = function()
 {
-    if(jQuery('#vrac_condition #type_contrat input:checked').length == 0)
-        jQuery('#vrac_condition #type_contrat input[value="standard"]').attr('checked','checked');
-    if(jQuery('#vrac_condition #prix_isVariable input:checked').length == 0)
-        jQuery('#vrac_condition #prix_isVariable input[value="0"]').attr('checked','checked');
+    if($('#vrac_condition #type_contrat input:checked').length == 0)
+        $('#vrac_condition #type_contrat input[value="spot"]').attr('checked','checked');
+    if($('#vrac_condition #prix_isVariable input:checked').length == 0)
+        $('#vrac_condition #prix_isVariable input[value="0"]').attr('checked','checked');
     updatePanelsConditions();
-    jQuery('#vrac_condition #type_contrat input').click(updatePanelsConditions);
-    jQuery('#vrac_condition #prix_isVariable input').click(updatePanelsConditions);
+    $('#vrac_condition #type_contrat input').click(updatePanelsConditions);
+    $('#vrac_condition #prix_isVariable input').click(updatePanelsConditions);
 }
 
 
 var updatePanelsConditions = function()
 {
-    if(jQuery('#vrac_condition #type_contrat input:checked').val()=='standard')
+    if($('#vrac_condition #type_contrat input:checked').val()=='spot')
     {
-        jQuery('section#prix_isVariable').hide();
+        $('section#prix_isVariable').hide();
     }
     else
     {
-        jQuery('section#prix_isVariable').show();
-        if(jQuery('#vrac_condition #prix_isVariable input:checked').val()=='0')
+        $('section#prix_isVariable').show();
+        if($('#vrac_condition #prix_isVariable input:checked').val()=='0')
         {
-            jQuery('section#prix_variable').hide();
+            $('section#prix_variable').hide();
         }
         else
         {
-            jQuery('section#prix_variable').show();
+            $('section#prix_variable').show();
 
         }
     }
@@ -44,70 +44,67 @@ var updatePanelsConditions = function()
 
 var initMarche = function()
 {
-    if(jQuery('#vrac_marche #original input:checked').length == 0)
-        jQuery('#vrac_marche #original input[value="1"]').attr('checked','checked');
-    if(jQuery('#vrac_marche #type_transaction input:checked').length == 0)
-        jQuery('#vrac_marche #type_transaction input[value="vin_vrac"]').attr('checked','checked');       
+    if($('#vrac_marche #original input:checked').length == 0)
+        $('#vrac_marche #original input[value="1"]').attr('checked','checked');
+    if($('#vrac_marche #type_transaction input:checked').length == 0)
+        $('#vrac_marche #type_transaction input[value="vin_vrac"]').attr('checked','checked');       
    updatePanelsAndUnitLabels();    
-   jQuery('#vrac_marche #type_transaction input').click(updatePanelsAndUnitLabels);
+   $('#vrac_marche #type_transaction input').click(updatePanelsAndUnitLabels);
 }
 
 
 var updatePanelsAndUnitLabels = function()
 {
-     switch (jQuery('#vrac_marche #type_transaction input:checked').attr('value'))
+     switch ($('#vrac_marche #type_transaction input:checked').attr('value'))
     {
          case 'raisins' :
         {
             updatePanelsAndUnitForRaisins();
-            jQuery('#vrac_raisin_quantite').keyup(updatePanelsAndUnitForRaisins);
-            jQuery('#vrac_prix_unitaire').keyup(updatePanelsAndUnitForRaisins);
-            jQuery('#vrac_raisin_quantite').click(updatePanelsAndUnitForRaisins);
-            jQuery('#vrac_prix_unitaire').click(updatePanelsAndUnitForRaisins);
+            $('#vrac_raisin_quantite').keyup(updatePanelsAndUnitForRaisins);
+            $('#vrac_prix_unitaire').keyup(updatePanelsAndUnitForRaisins);
+            $('#vrac_raisin_quantite').click(updatePanelsAndUnitForRaisins);
+            $('#vrac_prix_unitaire').click(updatePanelsAndUnitForRaisins);
             break;
         }
         case 'mouts' :
         {
             updatePanelsAndUnitForJuice();
-            jQuery('#vrac_jus_quantite').keyup(updatePanelsAndUnitForJuice);
-            jQuery('#vrac_prix_unitaire').keyup(updatePanelsAndUnitForJuice);
-            jQuery('#vrac_prix_unitaire').click(updatePanelsAndUnitForJuice);
-            jQuery('#vrac_jus_quantite').click(updatePanelsAndUnitForJuice);
+            $('#vrac_jus_quantite').keyup(updatePanelsAndUnitForJuice);
+            $('#vrac_prix_unitaire').keyup(updatePanelsAndUnitForJuice);
+            $('#vrac_prix_unitaire').click(updatePanelsAndUnitForJuice);
+            $('#vrac_jus_quantite').click(updatePanelsAndUnitForJuice);
             break;
         }
         case 'vin_vrac' :
         {
             updatePanelsAndUnitForJuice();
-            jQuery('#vrac_jus_quantite').keyup(updatePanelsAndUnitForJuice);
-            jQuery('#vrac_prix_unitaire').keyup(updatePanelsAndUnitForJuice); 
-            jQuery('#vrac_prix_unitaire').click(updatePanelsAndUnitForJuice);   
-            jQuery('#vrac_jus_quantite').click(updatePanelsAndUnitForJuice);         
+            $('#vrac_jus_quantite').keyup(updatePanelsAndUnitForJuice);
+            $('#vrac_prix_unitaire').keyup(updatePanelsAndUnitForJuice); 
+            $('#vrac_prix_unitaire').click(updatePanelsAndUnitForJuice);   
+            $('#vrac_jus_quantite').click(updatePanelsAndUnitForJuice);         
             break;
         }
         case 'vin_bouteille' :
         {
             updatePanelsAndUnitForBottle();
-            jQuery('#vrac_bouteilles_quantite').keyup(updatePanelsAndUnitForBottle);            
-            jQuery('#vrac_prix_unitaire').keyup(updatePanelsAndUnitForBottle);
-            jQuery('#vrac_bouteilles_quantite').click(updatePanelsAndUnitForBottle);            
-            jQuery('#vrac_prix_unitaire').click(updatePanelsAndUnitForBottle);
-            jQuery('#vrac_bouteilles_contenance').change(updatePanelsAndUnitForBottle);
+            $('#vrac_bouteilles_quantite').keyup(updatePanelsAndUnitForBottle);            
+            $('#vrac_prix_unitaire').keyup(updatePanelsAndUnitForBottle);
+            $('#vrac_bouteilles_quantite').click(updatePanelsAndUnitForBottle);            
+            $('#vrac_prix_unitaire').click(updatePanelsAndUnitForBottle);
+            $('#vrac_bouteilles_contenance').change(updatePanelsAndUnitForBottle);
             break;
         }
     }
     
-    if(jQuery('#type input:checked').length == 0)
-        jQuery('#type input[value="domaine"]').attr('checked','checked');   
+    if($('#type input:checked').length == 0)
+        $('#type input[value="domaine"]').attr('checked','checked');   
+    
+    if($('#type input[value="generique"]:checked')) $('#domaine').hide();
+    
     $('#type input').click(function()
     {
-        if($(this).val()=='generique')
-        {
-            $('#nom_domaine').hide();
-        }
-        else
-        {
-            $('#nom_domaine').show();
-        }        
+        if($(this).val()=='generique') $('#domaine').hide();
+        else  $('#domaine').show();       
     });
     
 }
