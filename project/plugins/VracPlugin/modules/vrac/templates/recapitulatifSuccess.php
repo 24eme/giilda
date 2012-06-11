@@ -10,7 +10,6 @@
 <section id="contenu">
     
 <form id="vrac_recapitulatif" method="get" action="<?php echo url_for('vrac_nouveau') ?>">
-        <?php include_partial('etapes', array('vrac' => $form->getObject(), 'actif' => 4)); ?>
 <h1>La saisie est terminée !</h1>
 <h2>N° d'enregistrement deu contrat   <span><?php echo $vrac['numero_contrat']; ?></span></h2>
 
