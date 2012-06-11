@@ -66,6 +66,6 @@ if($hasDomaine)
         <span>
             Prix : 
         </span>
-        <span><?php echo $form['prix_total'];?> &nbsp;€</span>
+        <span><?php echo $vrac->prix_total;?>&nbsp;€</span>
 </section>
         
