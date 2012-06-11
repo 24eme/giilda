@@ -46,3 +46,27 @@ curl -s -X PUT -d "@$TMPFILE" $COUCHDBURL/_design/$design
 curl -s $COUCHDBURL/_design/$design/_view/all > /dev/null &
 sleep 1
 kill %1
+
+
+design=vrac
+curl -s -X DELETE "$COUCHDBURL/_design/$design?rev=$(curl --stderr /dev/null $COUCHDBURL/_design/$design | sed 's/.*_rev":"//' | sed 's/",".*//' 2> /dev/null)" > /dev/null 2>&1
+
+cat <<EOF > $TMPFILE
+{
+   "language": "javascript",
+   "views": {
+       "history": {
+           "map": "function(doc) {\n  if (doc.type != \"Vrac\")\n     return;\n  emit([doc._id], [doc.status, doc._id, doc.acheteur.nom, doc.vendeur.nom,\n\t           doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n}"
+       },
+       "soussigneidentifiant": {
+           "map": "function(doc) {\n  if (doc.type != \"Vrac\")\n     return;\n  emit([doc.mandataire_identifiant, doc._id], [doc.status, doc._id, doc.acheteur.nom, doc.vendeur.nom,\n\t           doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n  emit([doc.acheteur_identifiant, doc._id], [doc.status, doc._id, doc.acheteur.nom, doc.vendeur.nom,\n\t           doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n  emit([doc.vendeur_identifiant, doc._id], [doc.status, doc._id, doc.acheteur.nom, doc.vendeur.nom,\n\t           doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n}"
+       }
+   }
+}
+EOF
+
+curl -s -X PUT -d "@$TMPFILE" $COUCHDBURL/_design/$design
+
+curl -s $COUCHDBURL/_design/$design/_view/all > /dev/null &
+sleep 1
+kill %1
