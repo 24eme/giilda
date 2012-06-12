@@ -156,6 +156,9 @@ class Vrac extends BaseVrac {
                 case 'mouts': return $this->prix_unitaire.' €/hl';
                 case 'vin_vrac': return $this->prix_unitaire.' €/hl';                   
                 case 'vin_bouteille': 
+                    if ($this->bouteilles_quantite == 0 || $this->bouteilles_contenance == 0) {
+                        return 0;
+                    }
                     return $this->prix_unitaire.' €/btle, soit '.
                         $this->prix_total/($this->bouteilles_quantite*($this->bouteilles_contenance/10000)).' €/hl';
             }

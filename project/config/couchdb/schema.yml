@@ -665,7 +665,7 @@ Vrac:
       jus_quantite: { type: float }
 
       #Pour le vin en bouteilles (nb bouteille)
-      bouteilles_quantite: { type: integer }
+      bouteilles_quantite: { type: float }
       bouteilles_contenance: { type: integer }
 
       prix_unitaire: { type: float }
@@ -686,6 +686,9 @@ Vrac:
 #Validations
       date_stats: { }
       date_signature: { }
+
+      volume_consomme: { type: float }
+      volume_enleve: { type: float }
       
       valide:
         type: collection
