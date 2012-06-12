@@ -13,13 +13,13 @@ class vracActions extends sfActions
 
   public function executeIndex(sfWebRequest $request)
   {
-      $this->vracs = VracClient::getInstance()->retrieveLastDocs();
+    $this->vracs = VracClient::getInstance()->retrieveLastDocs(100, $request->getParameter('page'));
   }
 
   public function executeRechercheSoussigne(sfWebRequest $request) {
       $this->identifiant = $request->getParameter('identifiant');
       $soussigne = 'ETABLISSEMENT-'.$this->identifiant;
-      $this->vracs = VracClient::getInstance()->retrieveBySoussigne($soussigne);
+      $this->vracs = VracClient::getInstance()->retrieveBySoussigne($soussigne, 100, $request->getParameter('page'));
   }
   
   public function executeNouveau(sfWebRequest $request)

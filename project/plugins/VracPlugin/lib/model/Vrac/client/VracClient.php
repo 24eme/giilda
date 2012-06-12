@@ -51,13 +51,14 @@ class VracClient extends acCouchdbClient {
       return $this->find($this->getId($num_contrat));
     }
     
-    public function retrieveLastDocs() {
-      return $this->descending(true)->limit(300)->getView('vrac', 'history');
+    public function retrieveLastDocs($limit = 300, $offsetpage = 0) {
+      return $this->descending(true)->limit($limit)->skip($offsetpage * $limit)->getView('vrac', 'history');
     }
     
-    public function retrieveBySoussigne($soussigneParam) {
-      return $this->startkey(array($soussigneParam))
-              ->endkey(array($soussigneParam, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
+    public function retrieveBySoussigne($soussigneParam, $limit = 100, $offsetpage = 0) {
+      return $this->startkey(array($soussigneParam))->descending(true)
+	->startkey(array($soussigneParam, array()))->limit($limit)->skip($limit * $offsetpage)
+	->getView('vrac', 'soussigneidentifiant');
     }
 
 }
