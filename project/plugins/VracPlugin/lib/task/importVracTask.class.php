@@ -35,10 +35,11 @@ EOF;
 
     set_time_limit(600);
     $csv = new VracCsvFile($arguments['file']);
+    $this->log('started');
     $vracs = $csv->importVracs();
-    foreach($vracs as $v) {
+    /*foreach($vracs as $v) {
       $v->save();
-    }
+    }*/
 
     // add your code here
   }

@@ -10,19 +10,20 @@
  */
 class VracConditionForm extends acCouchdbFormDocumentJson {
    
-     private $types_contrat = array('spot' => 'Spot',
-                                   'pluriannuel' => 'pluriannuel');
+     private $types_contrat = array(VracClient::TYPE_CONTRAT_SPOT => 'Spot',
+                                    VracClient::TYPE_CONTRAT_PLURIANNUEL => 'Pluriannuel');
     
-     private $prix_variable = array('1' => 'Oui','0' => 'Non');
+     private $prix_variable = array('1' => 'Oui',
+                                    '0' => 'Non');
 
-     private $cvo_nature = array('marche_definitif' => 'marché définitif',
-                                 'compensation' => 'compensation',
-                                 'non_financiere' => 'non financière',
-                                 'vinaigrerie' => 'vinaigrerie');
+     private $cvo_nature = array(VracClient::CVO_NATURE_MARCHE_DEFINITIF => 'Marché définitif',
+                                 VracClient::CVO_NATURE_COMPENSATION => 'Compensation',
+                                 VracClient::CVO_NATURE_NON_FINANCIERE => 'Non financière',
+                                 VracClient::CVO_NATURE_VINAIGRERIE => 'Vinaigrerie');
 
      private $cvo_repartition = array('50' => '50/50',
                                       '100' => '100% viticulteur',
-                                      '0' => 'vinaigrerie');
+                                      '0' => 'Vinaigrerie');
      
     public function configure()
     {
@@ -95,9 +96,5 @@ class VracConditionForm extends acCouchdbFormDocumentJson {
     {
         parent::doUpdateObject($values);
     }
-
-
-
-    
+  
 }
-?>
