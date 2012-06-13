@@ -38,110 +38,111 @@ else
 ?>
 <div id="contenu">
     <div id="rub_contrats">
-    <?php include_partial('headerVrac', array('vrac' => $form->getObject(),'actif' => 1)); ?>
-    <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
-        
-<section id="contenu_etape">        
-<form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew())? url_for('vrac_nouveau') : url_for('vrac_soussigne',$vrac); ?>">   
-    <?php echo $form->renderHiddenFields() ?>
-    <?php echo $form->renderGlobalErrors() ?>
-<br>  
-    
-<section id="vendeur">
-    <!--  Affichage des vendeurs disponibles  -->
-    <section id="vendeur_choice">
-        <?php echo $form['vendeur_identifiant']->renderError(); ?>
-        <strong> <?php echo $form['vendeur_identifiant']->renderLabel() ?></strong>
-       <?php echo $form['vendeur_identifiant']->render() ?> 
-    </section>
-  
-    <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
-    <section id="vendeur_informations">
-   <?php   
-   $vendeurArray = array();
-   $vendeurArray['vendeur'] = $form->vendeur;
-   $vendeurArray['vendeur'] = ($nouveau)? $vendeurArray['vendeur'] : $form->getObject()->getVendeurObject();   
-   include_partial('vendeurInformations', $vendeurArray);    
-   ?>
-    </section>
-    <div class="btnModification">
-        <input type="button" id="vendeur_modification_btn" class="btn_modifier" value="Modifier" /> 
-    </div>
-</section>
-<br>
-    
-<!--  Affichage des acheteurs disponibles  -->
-<section id="acheteur"> 
-    <section id="acheteur_choice">
-   <?php echo $form['acheteur_identifiant']->renderError(); ?>
-        <strong> <?php echo $form['acheteur_identifiant']->renderLabel() ?></strong>
-        <?php echo $form['acheteur_identifiant']->render() ?>
-    </section>
-    
-    <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
-    <section id="acheteur_informations">
-    <?php
-    $acheteurArray = array();
-    $acheteurArray['acheteur'] = $form->acheteur;
-    $acheteurArray['acheteur'] = ($nouveau)? $acheteurArray['acheteur'] : $form->getObject()->getAcheteurObject();    
-    include_partial('acheteurInformations', $acheteurArray);
-    ?>
-    </section>
-    <div class="btnModification">
-        <input type="button" id="acheteur_modification_btn" class="btn_modifier" value="Modifier" /> 
-    </div>
-</section>
-<br>
-    
-<!--  Affichage des mandataires disponibles  -->
+        <section id="principal">
+        <?php include_partial('headerVrac', array('vrac' => $form->getObject(),'actif' => 1)); ?>
+            <section id="contenu_etape">
+                <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew())? url_for('vrac_nouveau') : url_for('vrac_soussigne',$vrac); ?>">   
+                    <?php echo $form->renderHiddenFields() ?>
+                    <?php echo $form->renderGlobalErrors() ?>
+                <br>  
 
-<section id="has_mandataire">            
-        <?php echo $form['mandataire_exist']->render() ?>
-        <strong> <?php echo $form['mandataire_exist']->renderLabel() ?></strong>
-        <?php echo $form['mandataire_exist']->renderError(); ?>
-</section>
-<section id="mandataire">     
-     <section id="mandatant">
-     <?php echo $form['mandatant']->renderError(); ?>
-        <strong> <?php echo $form['mandatant']->renderLabel() ?></strong>
-        <?php echo $form['mandatant']->render() ?>        
-    </section>
-    
-    <section id="mandataire_choice">
-   <?php echo $form['mandataire_identifiant']->renderError(); ?>
-        <strong> <?php echo $form['mandataire_identifiant']->renderLabel() ?></strong>
-        <?php echo $form['mandataire_identifiant']->render() ?>
-        
-    </section>
-    <!--  Affichage des informations sur le mandataire sélectionné AJAXIFIED -->
-    <section id="mandataire_informations">
-    <?php
-    $mandataireArray = array();    
-    $mandataireArray['mandataire'] = $form->mandataire;
-    if(!$nouveau)
-        $mandataireArray['mandataire'] = (!$hasmandataire)? $mandataireArray['mandataire'] : $form->getObject()->getMandataireObject();
-    include_partial('mandataireInformations', $mandataireArray); 
-    ?>    
-    </section>
-    <div class="btnModification">
-        <input type="button" id="mandataire_modification_btn" class="btn_modifier" value="Modifier" /> 
-    </div>
-</section>
+                <section id="vendeur">
+                    <!--  Affichage des vendeurs disponibles  -->
+                    <section id="vendeur_choice">
+                        <?php echo $form['vendeur_identifiant']->renderError(); ?>
+                        <strong> <?php echo $form['vendeur_identifiant']->renderLabel() ?></strong>
+                    <?php echo $form['vendeur_identifiant']->render() ?> 
+                    </section>
 
-<br>
+                    <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
+                    <section id="vendeur_informations">
+                <?php   
+                $vendeurArray = array();
+                $vendeurArray['vendeur'] = $form->vendeur;
+                $vendeurArray['vendeur'] = ($nouveau)? $vendeurArray['vendeur'] : $form->getObject()->getVendeurObject();   
+                include_partial('vendeurInformations', $vendeurArray);    
+                ?>
+                    </section>
+                    <div class="btnModification">
+                        <input type="button" id="vendeur_modification_btn" class="btn_modifier" value="Modifier" /> 
+                    </div>
+                </section>
+                <br>
 
-    <div id="btn_etape_dr">
-        <?php if($nouveau){ ?>
-        <div class="btnAnnulation">
-		<a href="<?php echo url_for('vrac'); ?>" class="btn_annuler"><span>Annuler la saisie</span></a>
-	</div>
-        <?php } ?>
-        <div class="btnValidation">
-            <span>&nbsp;</span>
-            <input class="btn_valider" type="submit" value="Etape Suivante" />
-        </div>        
+                <!--  Affichage des acheteurs disponibles  -->
+                <section id="acheteur"> 
+                    <section id="acheteur_choice">
+                <?php echo $form['acheteur_identifiant']->renderError(); ?>
+                        <strong> <?php echo $form['acheteur_identifiant']->renderLabel() ?></strong>
+                        <?php echo $form['acheteur_identifiant']->render() ?>
+                    </section>
+
+                    <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
+                    <section id="acheteur_informations">
+                    <?php
+                    $acheteurArray = array();
+                    $acheteurArray['acheteur'] = $form->acheteur;
+                    $acheteurArray['acheteur'] = ($nouveau)? $acheteurArray['acheteur'] : $form->getObject()->getAcheteurObject();    
+                    include_partial('acheteurInformations', $acheteurArray);
+                    ?>
+                    </section>
+                    <div class="btnModification">
+                        <input type="button" id="acheteur_modification_btn" class="btn_modifier" value="Modifier" /> 
+                    </div>
+                </section>
+                <br>
+
+                <!--  Affichage des mandataires disponibles  -->
+
+                <section id="has_mandataire">            
+                        <?php echo $form['mandataire_exist']->render() ?>
+                        <strong> <?php echo $form['mandataire_exist']->renderLabel() ?></strong>
+                        <?php echo $form['mandataire_exist']->renderError(); ?>
+                </section>
+                <section id="mandataire">     
+                    <section id="mandatant">
+                    <?php echo $form['mandatant']->renderError(); ?>
+                        <strong> <?php echo $form['mandatant']->renderLabel() ?></strong>
+                        <?php echo $form['mandatant']->render() ?>        
+                    </section>
+
+                    <section id="mandataire_choice">
+                <?php echo $form['mandataire_identifiant']->renderError(); ?>
+                        <strong> <?php echo $form['mandataire_identifiant']->renderLabel() ?></strong>
+                        <?php echo $form['mandataire_identifiant']->render() ?>
+
+                    </section>
+                    <!--  Affichage des informations sur le mandataire sélectionné AJAXIFIED -->
+                    <section id="mandataire_informations">
+                    <?php
+                    $mandataireArray = array();    
+                    $mandataireArray['mandataire'] = $form->mandataire;
+                    if(!$nouveau)
+                        $mandataireArray['mandataire'] = (!$hasmandataire)? $mandataireArray['mandataire'] : $form->getObject()->getMandataireObject();
+                    include_partial('mandataireInformations', $mandataireArray); 
+                    ?>    
+                    </section>
+                    <div class="btnModification">
+                        <input type="button" id="mandataire_modification_btn" class="btn_modifier" value="Modifier" /> 
+                    </div>
+                </section>
+
+                <br>
+
+                    <div id="btn_etape_dr">
+                        <?php if($nouveau){ ?>
+                        <div class="btnAnnulation">
+                                <a href="<?php echo url_for('vrac'); ?>" class="btn_annuler"><span>Annuler la saisie</span></a>
+                        </div>
+                        <?php } ?>
+                        <div class="btnValidation">
+                            <span>&nbsp;</span>
+                            <input class="btn_valider" type="submit" value="Etape Suivante" />
+                        </div>        
+                    </div>
+                </form>
+            </section>
+        </section>
+        <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
     </div>
-</form>
-</section>
-</div>
 </div>

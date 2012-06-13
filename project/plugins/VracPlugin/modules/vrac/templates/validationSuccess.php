@@ -9,20 +9,22 @@
 ?>
 <div id="contenu">
     <div id="rub_contrats">
-    <?php include_partial('headerVrac', array('vrac' => $vrac,'actif' => 4)); ?>
-    <?php include_partial('colonne', array('vrac' => $vrac)); ?>
-        
-<section id="contenu_etape"> 
-<form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation',$vrac) ?>">
-    
-    <h1>Récapitulatif de la saisie</h1>
-    
-    <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
-    <div class="btnValidation">
-    	<span>&nbsp;</span>
-        <input class="btn_valider" type="submit" value="Valider la saisie" />
-    </div>
+        <section id="principal">
+        <?php include_partial('headerVrac', array('vrac' => $vrac,'actif' => 4)); ?>        
+            <section id="contenu_etape"> 
+                <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation',$vrac) ?>">
 
-</form>
-</section>
+                    <h1>Récapitulatif de la saisie</h1>
+
+                    <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
+                    <div class="btnValidation">
+                        <span>&nbsp;</span>
+                        <input class="btn_valider" type="submit" value="Valider la saisie" />
+                    </div>
+
+                </form>
+            </section>
+        </section>
+        <?php include_partial('colonne', array('vrac' => $vrac)); ?>
+    </div>
 </div>
