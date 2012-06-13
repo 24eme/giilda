@@ -7,8 +7,13 @@
  * Derniere date de modification : 28-05-12
  */
  ?>
-<section id="contenu">
-    <?php include_partial('etapes', array('vrac' => $form->getObject(), 'actif' => 3)); ?>
+
+<div id="contenu">
+    <div id="rub_contrats">
+    <?php include_partial('headerVrac', array('vrac' => $form->getObject(),'actif' => 3)); ?>
+    <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
+        
+<section id="contenu_etape"> 
 <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_condition',$vrac) ?>">  
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
@@ -63,3 +68,4 @@
      </div>
 </form>
 </section>
+</div>

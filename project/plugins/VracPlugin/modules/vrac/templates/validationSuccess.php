@@ -7,8 +7,12 @@
  * Derniere date de modification : 28-05-12
  */
 ?>
-<section id="contenu">
-    <?php include_partial('etapes', array('vrac' => $vrac, 'actif' => 4)); ?>
+<div id="contenu">
+    <div id="rub_contrats">
+    <?php include_partial('headerVrac', array('vrac' => $vrac,'actif' => 4)); ?>
+    <?php include_partial('colonne', array('vrac' => $vrac)); ?>
+        
+<section id="contenu_etape"> 
 <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation',$vrac) ?>">
     
     <h1>Récapitulatif de la saisie</h1>
@@ -21,3 +25,4 @@
 
 </form>
 </section>
+</div>

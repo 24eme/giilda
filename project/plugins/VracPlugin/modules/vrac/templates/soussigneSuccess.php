@@ -36,10 +36,12 @@ else
 <?php
 }
 ?>
-
-
-<section id="contenu">
-     <?php include_partial('etapes', array('vrac' => $form->getObject(), 'actif' => 1)); ?>
+<div id="contenu">
+    <div id="rub_contrats">
+    <?php include_partial('headerVrac', array('vrac' => $form->getObject(),'actif' => 1)); ?>
+    <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
+        
+<section id="contenu_etape">        
 <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew())? url_for('vrac_nouveau') : url_for('vrac_soussigne',$vrac); ?>">   
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
@@ -141,3 +143,5 @@ else
     </div>
 </form>
 </section>
+</div>
+</div>

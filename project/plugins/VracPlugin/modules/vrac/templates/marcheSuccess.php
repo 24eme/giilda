@@ -8,8 +8,12 @@
  */
 ?>
 
-<section id="contenu">
-    <?php include_partial('etapes', array('vrac' => $form->getObject(), 'actif' => 2)); ?>
+<div id="contenu">
+    <div id="rub_contrats">
+    <?php include_partial('headerVrac', array('vrac' => $form->getObject(),'actif' => 2)); ?>
+    <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
+        
+<section id="contenu_etape">  
 <form id="vrac_marche" method="post" action="<?php echo url_for('vrac_marche',$vrac) ?>">    
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
@@ -56,6 +60,6 @@
         </div>
      </div>
 </form>
-    
 </section>
+</div>
     
