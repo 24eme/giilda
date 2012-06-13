@@ -3,30 +3,33 @@
     $pourcentage = ($vrac->etape) * 25;
 ?>
     <ol id="rail_etapes">
-            <?php if($vrac->etape == 0) echo "<a href=".url_for('vrac_nouveau').">"; ?>
-            <?php if($vrac->etape > 0) echo "<a href=".url_for('vrac_soussigne',$vrac).">"; ?>
-        <li class="<?php echo ($actif==1)? 'actif' : '' ?>">            
-                <span>1. <span>Soussignés</span></span>            
-        </li>
-            <?php echo "</a>"; ?>
+        <?php include_partial('etapeItem',array('num_etape' => 0,
+                                                 'vrac' => $vrac,
+                                                 'actif' => $actif,
+                                                 'label' => 'Soussignés',
+                                                 'url_etape' => 'vrac_soussigne'
+                                                )); ?>
         
-            <?php if($vrac->etape >= 1) echo "<a href=".url_for('vrac_marche',$vrac).">"; ?>
-        <li class="<?php echo ($actif==2)? 'actif' : '' ?>">
-                <span>2. <span>Marché</span></span>            
-        </li>
-            <?php if($vrac->etape >= 1) echo "</a>"; ?> 
-
-            <?php if($vrac->etape > 2) echo "<a href=".url_for('vrac_condition',$vrac).">"; ?>
-        <li class="<?php echo ($actif==3)? 'actif' : '' ?>">            
-                <span>3. <span>Conditions</span></span>
-        </li>
-            <?php if($vrac->etape > 2) echo "</a>"; ?> 
+        <?php include_partial('etapeItem',array('num_etape' => 1,
+                                                 'vrac' => $vrac,
+                                                 'actif' => $actif,
+                                                 'label' => 'Marché',
+                                                 'url_etape' => 'vrac_marche'
+                                                )); ?>
         
-            <?php if($vrac->etape > 3) echo "<a href=".url_for('vrac_validation',$vrac).">"; ?>
-        <li class="<?php echo ($actif==4)? 'actif' : '' ?>">       
-            <span>4. <span>Validation</span></span>
-        </li>
-            <?php if($vrac->etape > 3) echo "</a>"; ?> 
+        <?php include_partial('etapeItem',array('num_etape' => 2,
+                                                 'vrac' => $vrac,
+                                                 'actif' => $actif,
+                                                 'label' => 'Conditions',
+                                                 'url_etape' => 'vrac_condition'
+                                                )); ?>
+        
+        <?php include_partial('etapeItem',array('num_etape' => 3,
+                                                 'vrac' => $vrac,
+                                                 'actif' => $actif,
+                                                 'label' => 'Validation',
+                                                 'url_etape' => 'vrac_validation'
+                                                )); ?>
         
         
     </ol>
