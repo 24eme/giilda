@@ -20,6 +20,9 @@ class vracActions extends sfActions
    // $this->forward('default', 'module');
   }
   
+  public function executeComposants(sfWebRequest $request)
+  {
+  }
   
   public function executeContrat1(sfWebRequest $request)
   {
