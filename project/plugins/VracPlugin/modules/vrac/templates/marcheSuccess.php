@@ -27,9 +27,9 @@
 
                 <!--  Affichage des transactions disponibles  -->
                 <section id="type_transaction" class="type_transaction">
-                <?php echo $form['type_transaction']->renderError(); ?>
-                    <strong> <?php echo $form['type_transaction']->renderLabel() ?> </strong>
-                    <?php echo $form['type_transaction']->render() ?>        
+                <h2>   <?php echo $form['type_transaction']->renderLabel() ?> </h2>
+                <?php echo $form['type_transaction']->renderError(); ?>                    
+                <?php echo $form['type_transaction']->render() ?>        
                 </section>
 
             <!--  Affichage des produits, des labels et du stock disponible  -->
@@ -49,14 +49,14 @@
             <br>
             </section>
                 <div id="btn_etape_dr">
-
-                    <a href="<?php echo url_for('vrac_soussigne', $vrac) ?>" class="btn_prec">
-                        <span>Précédent</span>
-                    </a> 
-                    <div class="btnValidation">
-                        <span>&nbsp;</span>
-                        <input class="btn_valider" type="submit" value="Etape Suivante" />
+                    
+                    <div class="btnAnnulation">
+                                <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_majeur btn_noir"><span>Précédent</span></a>
                     </div>
+                    <div class="btnValidation">
+                            <span>&nbsp;</span>
+                            <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
+                    </div>       
                 </div>
             </form>
             </section>      

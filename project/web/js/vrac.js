@@ -230,10 +230,12 @@ var majMandatairePanel = function()
 
 var init_ajax_modification = function(type)
 {
-    $('#'+type+'_modification_btn').val('Valider');
+    $('a#'+type+'_modification_btn').html('Valider');
+    $('a#'+type+'_modification_btn').removeClass('btn_orange').addClass('btn_vert');
+    
     $("#"+type+"_choice input").attr('disabled','disabled');
     $("#"+type+"_choice button").attr('disabled','disabled');
-    $('div.btnValidation input.btn_valider').attr('disabled','disabled');
+    $('div.btnValidation button').attr('disabled','disabled');
     var params = {id : $("#vrac_"+type+"_identifiant").val(), 'div' : '#'+type+'_informations'};  
     ajaxifyPost('modification?id='+$("#vrac_"+type+"_identifiant").val(),params,'#'+type+'_modification_btn','#'+type+'_informations');
 }
@@ -243,9 +245,13 @@ var init_informations = function(type)
 {
     $("#"+type+"_choice input").removeAttr('disabled');
     $("#"+type+"_choice button").removeAttr('disabled');
-    $("#"+type+"_modification_btn").val("Modifier");
+    
+    $("a#"+type+"_modification_btn").html("Modifier");
+    $("a#"+type+"_modification_btn").removeClass('btn_vert').addClass('btn_orange');
+    
+    
     $("#"+type+"_modification_btn").unbind();
-    $('div.btnValidation input.btn_valider').removeAttr('disabled');
+    $('div.btnValidation button').removeAttr('disabled');
 }
     
 

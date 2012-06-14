@@ -19,13 +19,15 @@
                     <!--  Affichage du type de contrat (si standard la suite n'est pas affiché JS)  -->
                     <section id="type_contrat">
                         <?php echo $form['type_contrat']->renderError() ?>        
-                        <strong>  <?php echo $form['type_contrat']->renderLabel() ?> </strong>
-                        <?php echo $form['type_contrat']->render() ?>        
+                        <h2>
+                            <?php echo $form['type_contrat']->renderLabel() ?>
+                        </h2>
+                           <?php echo $form['type_contrat']->render() ?>
                     </section>
                     <!--  Affichage de la présence de la part variable du contrat (si non la suite n'est pas affiché JS) -->
                     <section id="prix_isVariable">
                         <?php echo $form['prix_variable']->renderError() ?>        
-                        <strong>  <?php echo $form['prix_variable']->renderLabel() ?> </strong>  
+                        <h2>  <?php echo $form['prix_variable']->renderLabel() ?> </h2>  
                         <?php echo $form['prix_variable']->render() ?>        
                     </section>
 
@@ -56,12 +58,13 @@
                 </section>
                     <div id="btn_etape_dr">
 
-                        <a href="<?php echo url_for('vrac_marche', $vrac) ?>" class="btn_prec">
+                         <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_majeur btn_annuler">
                             <span>Précédent</span>
                         </a> 
                         <div class="btnValidation">
                             <span>&nbsp;</span>
-                            <input class="btn_valider" type="submit" value="Etape Suivante" />
+                            <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
+         
                         </div>
                     </div>
                 </form>

@@ -44,27 +44,31 @@ else
                 <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew())? url_for('vrac_nouveau') : url_for('vrac_soussigne',$vrac); ?>">   
                     <?php echo $form->renderHiddenFields() ?>
                     <?php echo $form->renderGlobalErrors() ?>
-                <br>  
 
                 <section id="vendeur">
                     <!--  Affichage des vendeurs disponibles  -->
                     <section id="vendeur_choice">
                         <?php echo $form['vendeur_identifiant']->renderError(); ?>
-                        <strong> <?php echo $form['vendeur_identifiant']->renderLabel() ?></strong>
-                    <?php echo $form['vendeur_identifiant']->render() ?> 
+                        <h2>
+                            <strong>
+                                 <?php echo $form['vendeur_identifiant']->renderLabel() ?>
+                            </strong>
+                            <?php echo $form['vendeur_identifiant']->render() ?> 
+                        </h2>
+                        
                     </section>
 
                     <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
                     <section id="vendeur_informations">
-                <?php   
-                $vendeurArray = array();
-                $vendeurArray['vendeur'] = $form->vendeur;
-                $vendeurArray['vendeur'] = ($nouveau)? $vendeurArray['vendeur'] : $form->getObject()->getVendeurObject();   
-                include_partial('vendeurInformations', $vendeurArray);    
-                ?>
+                    <?php   
+                    $vendeurArray = array();
+                    $vendeurArray['vendeur'] = $form->vendeur;
+                    $vendeurArray['vendeur'] = ($nouveau)? $vendeurArray['vendeur'] : $form->getObject()->getVendeurObject();   
+                    include_partial('vendeurInformations', $vendeurArray);    
+                    ?>
                     </section>
                     <div class="btnModification">
-                        <input type="button" id="vendeur_modification_btn" class="btn_modifier" value="Modifier" /> 
+                        <a id="vendeur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a>
                     </div>
                 </section>
                 <br>
@@ -72,9 +76,11 @@ else
                 <!--  Affichage des acheteurs disponibles  -->
                 <section id="acheteur"> 
                     <section id="acheteur_choice">
-                <?php echo $form['acheteur_identifiant']->renderError(); ?>
-                        <strong> <?php echo $form['acheteur_identifiant']->renderLabel() ?></strong>
-                        <?php echo $form['acheteur_identifiant']->render() ?>
+                        <?php echo $form['acheteur_identifiant']->renderError(); ?>
+                        <h2>
+                            <strong> <?php echo $form['acheteur_identifiant']->renderLabel() ?></strong>
+                            <?php echo $form['acheteur_identifiant']->render() ?>
+                        </h2>
                     </section>
 
                     <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
@@ -87,7 +93,7 @@ else
                     ?>
                     </section>
                     <div class="btnModification">
-                        <input type="button" id="acheteur_modification_btn" class="btn_modifier" value="Modifier" /> 
+                        <a id="acheteur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;"/>Modifier</a>
                     </div>
                 </section>
                 <br>
@@ -107,9 +113,11 @@ else
                     </section>
 
                     <section id="mandataire_choice">
-                <?php echo $form['mandataire_identifiant']->renderError(); ?>
-                        <strong> <?php echo $form['mandataire_identifiant']->renderLabel() ?></strong>
-                        <?php echo $form['mandataire_identifiant']->render() ?>
+                        <?php echo $form['mandataire_identifiant']->renderError(); ?>
+                        <h2>
+                            <strong> <?php echo $form['mandataire_identifiant']->renderLabel() ?></strong>
+                            <?php echo $form['mandataire_identifiant']->render() ?>
+                        </h2>
 
                     </section>
                     <!--  Affichage des informations sur le mandataire sélectionné AJAXIFIED -->
@@ -123,7 +131,7 @@ else
                     ?>    
                     </section>
                     <div class="btnModification">
-                        <input type="button" id="mandataire_modification_btn" class="btn_modifier" value="Modifier" /> 
+                        <a id="mandataire_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a> 
                     </div>
                 </section>
 
@@ -132,12 +140,12 @@ else
                     <div id="btn_etape_dr">
                         <?php if($nouveau){ ?>
                         <div class="btnAnnulation">
-                                <a href="<?php echo url_for('vrac'); ?>" class="btn_annuler"><span>Annuler la saisie</span></a>
+                                <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
                         </div>
                         <?php } ?>
                         <div class="btnValidation">
                             <span>&nbsp;</span>
-                            <input class="btn_valider" type="submit" value="Etape Suivante" />
+                            <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
                         </div>        
                     </div>
                 </form>

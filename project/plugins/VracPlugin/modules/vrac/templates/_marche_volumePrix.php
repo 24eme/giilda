@@ -44,8 +44,10 @@
 <!--  Affichage du prix unitaire variables selon le type de transaction choisi -->
 <section id="prixUnitaire">
    <?php echo $form['prix_unitaire']->renderError(); ?>
-       <strong> <?php echo $form['prix_unitaire']->renderLabel() ?></strong>
-        <?php echo $form['prix_unitaire']->render() ?>
+       <h2>
+           <?php echo $form['prix_unitaire']->renderLabel() ?>
+           <?php echo $form['prix_unitaire']->render() ?>
+       </h2>        
        <span id="prix_unitaire_unite" class="unite"></span>
        <span id="prix_unitaire_hl" class="small"></span>
 </section>

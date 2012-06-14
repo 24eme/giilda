@@ -14,21 +14,26 @@
 <br>
 <!--  Affichage des produits disponibles (en fonction de la transaction choisie  -->
 <section id="produit">
-<?php echo $form['produit']->renderError(); ?>
-    <strong>   <?php echo $form['produit']->renderLabel() ?> </strong>
-        <?php echo $form['produit']->render() ?>
+    <?php echo $form['produit']->renderError(); ?>
+    <h2>
+    <?php echo $form['produit']->renderLabel() ?>
+    <?php echo $form['produit']->render() ?>
+    </h2>
 </section>
 
 <!--  Affichage des millésimes  -->
 <section id="millesime">
-<?php echo $form['millesime']->renderError(); ?>
-    <strong>   <?php echo $form['millesime']->renderLabel() ?> </strong>
-        <?php echo $form['millesime']->render() ?>
+    <?php echo $form['millesime']->renderError(); ?>
+    <h2> 
+    <?php echo $form['millesime']->renderLabel() ?> 
+    <?php echo $form['millesime']->render() ?>
+    </h2>
 </section>
 
 <!--  Affichage du type  -->
 <section id="type">
-    <strong> Type </strong>
+    <h2> Type </h2>
+    
         <input type="radio" value="generique" name="type_produit" <?php echo ($has_domaine)? '' : 'checked="checked"'; ?> />
         <label for="generique">Générique</label>   
 
@@ -40,17 +45,23 @@
 <!--  Affichage du type  -->
 <section id="domaine">
 <?php echo $form['domaine']->renderError(); ?>
-    <strong>   <?php echo $form['domaine']->renderLabel() ?> </strong>
+    <h2>
+        <?php echo $form['domaine']->renderLabel() ?> 
         <?php echo $form['domaine']->render() ?>
+    </h2>
 </section>
 
 
 <br>
 <!--  Affichage des label disponibles -->
 <section id="label">
-<?php echo $form['label']->renderError(); ?>
-    <strong> <?php echo $form['label']->renderLabel() ?> </strong>
+
+    <h2>
+        <?php echo $form['label']->renderLabel() ?> 
+    </h2>
+        <?php echo $form['label']->renderError(); ?>
         <?php echo $form['label']->render() ?>
+    
 </section>
 <!--  
 <br>

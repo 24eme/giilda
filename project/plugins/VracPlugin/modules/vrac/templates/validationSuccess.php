@@ -19,7 +19,7 @@
                     <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
                     <div class="btnValidation">
                         <span>&nbsp;</span>
-                        <input class="btn_valider" type="submit" value="Valider la saisie" />
+        <button class="btn_majeur btn_etape_suiv" type="submit">Valider la saisie</button>
                     </div>
 
                 </form>
