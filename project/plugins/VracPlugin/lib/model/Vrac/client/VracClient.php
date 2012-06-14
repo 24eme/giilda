@@ -57,7 +57,9 @@ class VracClient extends acCouchdbClient {
     
     public function retrieveBySoussigne($soussigneParam, $limit = 100, $offsetpage = 0) {
       return $this->startkey(array($soussigneParam))->descending(true)
-	->startkey(array($soussigneParam, array()))->limit($limit)->skip($limit * $offsetpage)
+	->startkey(array($soussigneParam, array()))
+	->endkey(array($soussigneParam, null))
+	->limit($limit)->skip($limit * $offsetpage)
 	->getView('vrac', 'soussigneidentifiant');
     }
 
