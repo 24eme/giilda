@@ -14,12 +14,12 @@
             <section id="contenu_etape"> 
                 <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation',$vrac) ?>">
 
-                    <h1>Récapitulatif de la saisie</h1>
+                    <h2>Récapitulatif de la saisie</h2>
 
                     <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
                     <div class="btnValidation">
                         <span>&nbsp;</span>
-        <button class="btn_majeur btn_etape_suiv" type="submit">Valider la saisie</button>
+                    <button class="btn_majeur btn_etape_suiv" type="submit">Valider la saisie</button>
                     </div>
 
                 </form>

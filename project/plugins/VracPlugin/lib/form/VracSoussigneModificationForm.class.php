@@ -28,8 +28,7 @@ class VracSoussigneModificationForm extends acCouchdbFormDocumentJson {
     }
     
     private function configureAcheteurVendeur($label)
-    {
-        $this->setWidget('nom', new sfWidgetFormInput());        
+    {    
         $this->setWidget('cvi', new sfWidgetFormInput());        
         $this->setWidget('num_accise', new sfWidgetFormInput());        
         $this->setWidget('adresse', new sfWidgetFormInput());        
@@ -39,7 +38,6 @@ class VracSoussigneModificationForm extends acCouchdbFormDocumentJson {
         
         
         $this->widgetSchema->setLabels(array(
-            'nom' => 'Nom du '.$label.'*',
             'cvi' => 'N° CVI',
             'num_accise' => 'N° ACCISE',
             'adresse' => 'Adresse*',
@@ -49,7 +47,6 @@ class VracSoussigneModificationForm extends acCouchdbFormDocumentJson {
         ));
                 
         $this->setValidators(array(
-            'nom' => new sfValidatorString(array('required' => true, 'min_length' => 3)),
             'cvi' => new sfValidatorNumber(array('required' => false)),
             'num_accise' => new sfValidatorString(array('required' => false)),
             'adresse' => new sfValidatorString(array('required' => true, 'min_length' => 5)),
@@ -62,23 +59,21 @@ class VracSoussigneModificationForm extends acCouchdbFormDocumentJson {
     }
     
     private function configureMandataire() {
-        
-        $this->setWidget('nom', new sfWidgetFormInput());        
+                
         $this->setWidget('carte_pro', new sfWidgetFormInput());          
         $this->setWidget('adresse', new sfWidgetFormInput());        
         $this->setWidget('code_postal', new sfWidgetFormInput());
         $this->setWidget('commune', new sfWidgetFormInput());   
         
         $this->widgetSchema->setLabels(array(
-            'nom' => 'Nom du mandataire*',
             'carte_pro' => 'N° carte professionnelle',
             'adresse' => 'Adresse',
             'code_postal' => 'CP',
             'commune' => 'Ville'
         ));
         
-       $this->setValidators(array(
-            'nom' => new sfValidatorString(array('required' => true, 'min_length' => 3)),
+       $this->setValidators(
+       array(
             'carte_pro' => new sfValidatorNumber(array('required' => false)),
             'adresse' => new sfValidatorString(array('required' => true, 'min_length' => 5)),
             'code_postal' => new sfValidatorString(array('required' => false, 'min_length' => 5,'max_length' => 5)),

@@ -12,13 +12,12 @@ $type = $form->getObject()->getFamilleType();
 </script>
 <table class="mandataire_infos">
         <tr>
-            <td class="bold">
-                <?php echo $form['nom']->renderLabel() ?>            
+             <td class="bold">
+                Nom du <?php echo $type; ?> :            
             </td>
             <td>
-                 <?php echo $form['nom']->renderError(); ?>
-                 <?php echo $form['nom']->render() ?>                   
-            </td> 
+                 <?php echo $form->getObject()->nom; ?>             
+            </td>    
         </tr>
         <tr>
             <td class="bold">

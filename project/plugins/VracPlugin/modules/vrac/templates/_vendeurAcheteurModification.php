@@ -13,11 +13,10 @@ $type = $form->getObject()->getFamilleType();
 <table class="vendeur_infos">
         <tr>
             <td class="bold">
-                <?php echo $form['nom']->renderLabel() ?>            
+                Nom du <?php echo $type; ?> :            
             </td>
             <td>
-                 <?php echo $form['nom']->renderError(); ?>
-                 <?php echo $form['nom']->render() ?>                   
+                 <?php echo $form->getObject()->nom; ?>             
             </td>    
             <td class="bold">
                 <?php echo $form['adresse']->renderLabel() ?>
