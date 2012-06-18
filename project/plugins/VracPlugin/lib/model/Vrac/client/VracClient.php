@@ -59,5 +59,5 @@ class VracClient extends acCouchdbClient {
       return $this->startkey(array($soussigneParam))
               ->endkey(array($soussigneParam, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
     }
-
-}
+    
+ }

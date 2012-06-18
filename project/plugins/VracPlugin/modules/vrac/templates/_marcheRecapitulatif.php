@@ -6,6 +6,7 @@
  * Version : 1.0.0 
  * Derniere date de modification : 28-05-12
  */
+use_helper('Vrac');
 $hasDomaine = is_null($vrac->domaine);
 ?>
 <section id="marche_recapitulatif_original">
@@ -58,7 +59,7 @@ if($hasDomaine && $vrac->domaine=="domaine")
         </span>
         <span>
            <?php
-           echo $vrac->showRecapVolume(); 
+           echo showRecapVolume($vrac); 
            ?>
         </span>
 </section>
@@ -69,7 +70,7 @@ if($hasDomaine && $vrac->domaine=="domaine")
         </span>
         <span>
            <?php
-           echo $vrac->showRecapPrixUnitaire(); 
+           echo showRecapPrixUnitaire($vrac);
            ?>
         </span>
 </section>

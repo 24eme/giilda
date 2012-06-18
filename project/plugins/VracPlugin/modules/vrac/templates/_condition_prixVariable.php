@@ -7,6 +7,8 @@
  * Version : 1.0.0 
  * Derniere date de modification : 28-05-12
  */
+
+use_helper('Vrac');
  ?>
 <section id="prix_variable" style="display: none;">
     <br>
@@ -21,7 +23,7 @@
     <section id="prixTotal_rappel">
         Prix total 
         <strong>
-        <?php echo $form->getObject()->prix_unitaire ?> €/<?php echo $form->getObject()->showUnite(); ?>
+        <?php echo $form->getObject()->prix_unitaire ?> €/<?php echo showUnite($form->getObject()); ?>
         </strong>
         <?php if( $form->getObject()->type_transaction == "vin_bouteille")
          {
@@ -59,7 +61,7 @@
     <span id="prix_facturee_vendeur">
         XX
     </span>
-    €/<?php echo $form->getObject()->showUnite(); ?>    
+    €/<?php echo showUnite($form->getObject()); ?>    
     (soit <span  id="cvo_totale_vendeur"> xxx.xx €</span>)
 </section>
 
@@ -70,6 +72,6 @@
        <span  id="prix_facturee_acheteur">
          XX
        </span>
-       €/<?php echo $form->getObject()->showUnite(); ?>
+       €/<?php echo showUnite($form->getObject()); ?>
        (soit <span  id="cvo_totale_acheteur"> xxx.xx €</span>)
 </section>

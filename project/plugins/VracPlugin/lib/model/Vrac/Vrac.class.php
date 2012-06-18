@@ -113,57 +113,5 @@ class Vrac extends BaseVrac {
     {
         return EtablissementClient::getInstance()->find($soussigneId,acCouchdbClient::HYDRATE_DOCUMENT);
     }
-    
-    public function showUnite()
-    {
-        if($type = $this->type_transaction)
-        {
-            switch ($type)
-            {
-                case 'raisins': return 'kg';
-                case 'mouts': return 'hl';
-                case 'vin_vrac': return 'hl';                    
-                case 'vin_bouteille': return 'btle';
-            }
-        }    
-        return '';
-    }
-    
-    public function showRecapVolume()
-    {
-        if($type = $this->type_transaction)
-        {
-            switch ($type)
-            {
-                case 'raisins': return $this->raisin_quantite.' kg (raisins)';
-                case 'mouts': return $this->jus_quantite.' hl (moûts)';
-                case 'vin_vrac': return $this->jus_quantite.' hl (vin vrac)';                   
-                case 'vin_bouteille': 
-                    return $this->bouteilles_quantite.
-                        ' bouteilles, soit '.$this->bouteilles_quantite*($this->bouteilles_contenance/10000).' hl';
-            }
-        }    
-        return '';
-    }
-    
-    public function showRecapPrixUnitaire()
-    {
-        if($type = $this->type_transaction)
-        {
-            switch ($type)
-            {
-                case 'raisins': return $this->prix_unitaire.' €/kg';
-                case 'mouts': return $this->prix_unitaire.' €/hl';
-                case 'vin_vrac': return $this->prix_unitaire.' €/hl';                   
-                case 'vin_bouteille': 
-                    if ($this->bouteilles_quantite == 0 || $this->bouteilles_contenance == 0) {
-                        return 0;
-                    }
-                    return $this->prix_unitaire.' €/btle, soit '.
-                        $this->prix_total/($this->bouteilles_quantite*($this->bouteilles_contenance/10000)).' €/hl';
-            }
-        }    
-        return '';
-    }
-    
+       
 }
