@@ -19,7 +19,7 @@
                     <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
                     <div class="btnValidation">
                         <span>&nbsp;</span>
-                    <button class="btn_majeur btn_etape_suiv" type="submit">Valider la saisie</button>
+                        <button class="btn_majeur btn_gris" type="submit">Saisir un nouveau contrat</button>                            
                     </div>
 
                 </form>
