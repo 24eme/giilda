@@ -27,7 +27,13 @@ foreach ($vracs->rows as $value) {    $cpt *= -1;
             $elt = $value->getRawValue()->value;
         ?>
         <tr<?php if($cpt > 0) echo ' class="odd"'; ?>>
-	      <td><?php echo '';?></td>
+            <td>
+                <?php if($elt[0])
+                      { ?>
+                        <img alt="<?php echo ($elt[0]=="valide")? 'non soldé' : 'soldé'; ?>"
+                            src="/images/icons/<?php echo ($elt[0]=="valide")? 'valide.png' : 'solde.png'; ?>" />
+                <?php } ?>
+            </td>
 	      <td><?php $vracid = preg_replace('/VRAC-/', '', $elt[1]); echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>
 	      <td><?php echo ($elt[2]) ? link_to($elt[3], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[2])) : ''; ?></td>
 	      <td><?php echo ($elt[4]) ? link_to($elt[5], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[4])) : ''; ?></td>

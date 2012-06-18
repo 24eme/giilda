@@ -131,6 +131,7 @@ class vracActions extends sfActions
         if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->maj_etape(4);
+            $this->maj_valide(null,null,'valide');
             $this->vrac->save();
             $this->redirect('vrac_termine', $this->vrac);
         }
@@ -187,5 +188,14 @@ class vracActions extends sfActions
   {
       if($this->vrac->etape < $etapeNum) $this->vrac->etape = $etapeNum;
   }
+
+    public function maj_valide($date_saisie = null,$identifiant = null,$status=null)
+    {
+        if(!$this->vrac) return;
+        if(!$date_saisie) $date_saisie = date('d/m/Y');
+        $this->vrac->valide->date_saisie = $date_saisie;
+        $this->vrac->valide->identifiant = $identifiant;
+        $this->vrac->valide->status = $status;
+    }
   
 }
