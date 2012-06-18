@@ -12,7 +12,7 @@ if($actif == $num_etape+1) $liClass = 'actif';
 <li class="<?php echo $liClass; ?>">
     <a <?php echo $href; ?>>
         <?php if($actif == $num_etape+1) echo '<strong>'; ?>
-        <span><?php echo $num_etape;?>. </span>
+        <span <?php echo ($vrac->etape < $num_etape)? 'style="cursor: default;"' : '' ?> ><?php echo $num_etape+1;?>. </span>
         <?php echo $label; ?> 
         <?php if($actif == $num_etape+1) echo '</strong>'; ?>
     </a>    
