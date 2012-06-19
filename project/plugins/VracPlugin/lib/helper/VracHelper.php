@@ -1,5 +1,38 @@
 <?php
 
+function statusImg($status)
+{
+    $imgObj = new stdClass();
+    $imgObj->alt = '';
+    $imgObj->src = '/images/icons/';
+    
+    if(is_null($status)) return $imgObj;
+    
+    switch ($status)
+    {
+        case VracClient::STATUS_CONTRAT_ANNULE:
+        {
+            $imgObj->alt = 'annulé';
+            $imgObj->src .= 'annule';
+            return $imgObj;
+        }
+        case VracClient::STATUS_CONTRAT_SOLDE:            
+        {
+            $imgObj->alt = 'soldé';
+            $imgObj->src .= 'solde';
+            return $imgObj;
+        }
+        case VracClient::STATUS_CONTRAT_NONSOLDE:
+        {
+            $imgObj->alt = 'non soldé';
+            $imgObj->src .= 'nonsolde';
+            return $imgObj;
+        }
+        default :
+            return $imgObj;
+    }
+}
+
 function showRecapPrixUnitaire($vrac)
 {
     if($type = $vrac->type_transaction)

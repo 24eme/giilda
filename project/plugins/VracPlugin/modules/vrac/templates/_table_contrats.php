@@ -31,10 +31,13 @@ foreach ($vracs->rows as $value) {    $cpt *= -1;
         ?>
         <tr<?php if($cpt > 0) echo ' class="odd"'; ?>>
             <td>
-                <?php if($elt[0])
+                
+                <?php 
+                      $statusImg = statusImg($elt[0]);
+                      if($elt[0])
                       { ?>
-                        <img alt="<?php echo ($elt[0]=="valide")? 'non soldé' : 'soldé'; ?>"
-                            src="/images/icons/<?php echo ($elt[0]=="valide")? 'valide.png' : 'solde.png'; ?>" />
+                        <img alt="<?php echo $statusImg->alt; ?>"
+                            src="<?php echo $statusImg->src; ?>" />
                 <?php } ?>
             </td>
 	      <td><?php $vracid = preg_replace('/VRAC-/', '', $elt[1]); echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>

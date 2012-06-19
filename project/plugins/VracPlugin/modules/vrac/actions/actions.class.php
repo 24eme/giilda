@@ -131,7 +131,7 @@ class vracActions extends sfActions
         if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->maj_etape(4);
-            $this->maj_valide(null,null,'valide');
+            $this->maj_valide(null,null,VracClient::STATUS_CONTRAT_NONSOLDE);
             $this->vrac->save();
             $this->redirect('vrac_termine', $this->vrac);
         }
