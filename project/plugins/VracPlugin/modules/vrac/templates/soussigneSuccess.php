@@ -69,7 +69,7 @@ else
                     ?>
                     </section>
                     <div class="btnModification f_right">
-                        <a id="vendeur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a>
+                        <a id="vendeur_modification_btn" class="btn_majeur btn_orange">Modifier</a>
                     </div>
                 </section>
                 <br>
@@ -96,7 +96,7 @@ else
                     ?>
                     </section>
                     <div class="btnModification f_right">
-                        <a id="acheteur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;"/>Modifier</a>
+                        <a id="acheteur_modification_btn" class="btn_majeur btn_orange">Modifier</a>
                     </div>
                 </section>
                 <br>
@@ -136,7 +136,7 @@ else
                     ?>    
                     </section>
                     <div class="btnModification f_right">
-                        <a id="mandataire_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a> 
+                        <a id="mandataire_modification_btn" class="btn_majeur btn_orange">Modifier</a> 
                     </div>
                 </section>
 
