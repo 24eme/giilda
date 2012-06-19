@@ -30,9 +30,9 @@ class VracSoussigneForm extends acCouchdbFormDocumentJson {
         $this->setWidget('mandataire_identifiant', new sfWidgetFormChoice(array('choices' => $this->getMandataires()), array('class' => 'autocomplete')));
         
         $this->widgetSchema->setLabels(array(
-            'vendeur_identifiant' => 'Sélectionner un vendeur ',
-            'acheteur_identifiant' => 'Sélectionner un acheteur ',
-            'mandataire_identifiant' => 'Sélectionner un mandataire ',
+            'vendeur_identifiant' => 'Sélectionner un vendeur :',
+            'acheteur_identifiant' => 'Sélectionner un acheteur :',
+            'mandataire_identifiant' => 'Sélectionner un mandataire :',
             'mandataire_exist' => "Décocher s'il n'y a pas de mandataire",
             'mandatant' => 'Mandaté par : '
         ));

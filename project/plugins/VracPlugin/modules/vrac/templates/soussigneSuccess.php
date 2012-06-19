@@ -53,9 +53,10 @@ else
                             <strong>
                                  <?php echo $form['vendeur_identifiant']->renderLabel() ?>
                             </strong>
-                            <?php echo $form['vendeur_identifiant']->render() ?> 
+                            <div class="f_right">
+                                <?php echo $form['vendeur_identifiant']->render() ?> 
+                            </div>
                         </h2>
-                        
                     </section>
 
                     <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
@@ -67,7 +68,7 @@ else
                     include_partial('vendeurInformations', $vendeurArray);    
                     ?>
                     </section>
-                    <div class="btnModification">
+                    <div class="btnModification f_right">
                         <a id="vendeur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a>
                     </div>
                 </section>
@@ -79,7 +80,9 @@ else
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
                         <h2>
                             <strong> <?php echo $form['acheteur_identifiant']->renderLabel() ?></strong>
+                            <div class="f_right">
                             <?php echo $form['acheteur_identifiant']->render() ?>
+                            </div>
                         </h2>
                     </section>
 
@@ -92,7 +95,7 @@ else
                     include_partial('acheteurInformations', $acheteurArray);
                     ?>
                     </section>
-                    <div class="btnModification">
+                    <div class="btnModification f_right">
                         <a id="acheteur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;"/>Modifier</a>
                     </div>
                 </section>
@@ -116,7 +119,9 @@ else
                         <?php echo $form['mandataire_identifiant']->renderError(); ?>
                         <h2>
                             <strong> <?php echo $form['mandataire_identifiant']->renderLabel() ?></strong>
-                            <?php echo $form['mandataire_identifiant']->render() ?>
+                            <div class="f_right">                            
+                                <?php echo $form['mandataire_identifiant']->render() ?>
+                            </div>
                         </h2>
 
                     </section>
@@ -130,7 +135,7 @@ else
                     include_partial('mandataireInformations', $mandataireArray); 
                     ?>    
                     </section>
-                    <div class="btnModification">
+                    <div class="btnModification f_right">
                         <a id="mandataire_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a> 
                     </div>
                 </section>
