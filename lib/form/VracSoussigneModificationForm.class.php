@@ -9,7 +9,7 @@
  * Description of class VracSoussigneModificationForm
  * @author mathurin
  */
-class VracSoussigneModificationForm extends acCouchdbFormDocumentJson {
+class VracSoussigneModificationForm extends acCouchdbObjectForm {
     
    private $type = null;
    

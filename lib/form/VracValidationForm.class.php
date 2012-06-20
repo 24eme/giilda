@@ -9,7 +9,7 @@
  * Description of class VracValidationForm
  * @author mathurin
  */
-class VracValidationForm extends acCouchdbFormDocumentJson {
+class VracValidationForm extends acCouchdbObjectForm {
    
     
      

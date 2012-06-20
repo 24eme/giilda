@@ -8,7 +8,7 @@
  * Description of class VracSoussigneForm
  * @author mathurin
  */
-class VracMarcheForm extends acCouchdbFormDocumentJson {
+class VracMarcheForm extends acCouchdbObjectForm {
    
     private $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
                                        VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',

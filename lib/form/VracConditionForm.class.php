@@ -8,7 +8,7 @@
  * Description of class VracSoussigneForm
  * @author mathurin
  */
-class VracConditionForm extends acCouchdbFormDocumentJson {
+class VracConditionForm extends acCouchdbObjectForm {
    
      private $types_contrat = array(VracClient::TYPE_CONTRAT_SPOT => 'Spot',
                                     VracClient::TYPE_CONTRAT_PLURIANNUEL => 'Pluriannuel');
