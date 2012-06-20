@@ -10,7 +10,7 @@
 			<nav id="navigation">
 				<ul>
 					<li><a href="#">DRM</a></li>
-					<li class="actif"><a href="#">Contrats</a></li>
+                                        <li class="actif"><a href="<?php echo url_for('vrac'); ?>">Contrats</a></li>
 					<li><a href="#">Déclaration des volumes</a></li>
 					<li><a href="#">Facturation</a></li>
 					<li><a href="#">Contacts</a></li>
