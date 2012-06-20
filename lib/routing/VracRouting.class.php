@@ -12,6 +12,8 @@ class VracRouting {
         $r = $event->getSubject();
         $r->prependRoute('vrac', new sfRoute('/vrac', array('module' => 'vrac',
                                                             'action' => 'index')));
+        $r->prependRoute('vrac_recherche', new sfRoute('/vrac/recherche', array('module' => 'vrac',
+                                                            'action' => 'recherche')));
         $r->prependRoute('vrac_nouveau', new sfRoute('/vrac/nouveau', array('module' => 'vrac',
                                                             'action' => 'nouveau')));
         $r->prependRoute('vrac_soussigne', new VracRoute('/vrac/:numero_contrat/soussigne',

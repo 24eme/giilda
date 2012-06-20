@@ -2,60 +2,59 @@
 use_helper('Vrac');
 ?>
 <div style="margin: 10px;">
-<p><form>
+    <p><form method="get" action="<?php echo url_for('vrac_recherche'); ?>">
 <input name="identifiant" value="<?php echo (isset($identifiant)) ? $identifiant : '' ; ?>"/> <input type="submit" value="recherche"/>
 </form></p>
 </div>
 <style>
-.odd {background-color: #BBBBBB;}
 td{padding: 0px 10px;}
 </style>
 <table>    
     <thead>
-        <tr class="odd">
-            <th>Statut</th>
-            <th>N° Contrat</th>
-            <th>Soussignés</th>            
+        <tr>
             <th>Type</th>
+            <th>N° Contrat</th>
+            <th>Soussignés</th>   
             <th>Produit</th>
-            <th>Vol. com.</th>
-            <th>Vol. enlv.</th>
+            <th>Vol. com. / Vol. enlv.</th>
         </tr>
     </thead>
     <tbody>
-        <?php $cpt = 1;
-foreach ($vracs->rows as $value) {    $cpt *= -1;
+        <?php 
+        foreach ($vracs->rows as $value)
+        {   
             $elt = $value->getRawValue()->value;
+            $statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
         ?>
-        <tr<?php if($cpt > 0) echo ' class="odd"'; ?>>
-            <td>
-                
-                <?php 
-                      $statusImg = statusImg($elt[0]);
-                      if($elt[0])
-                      { ?>
-                        <img alt="<?php echo $statusImg->alt; ?>"
-                            src="<?php echo $statusImg->src; ?>" />
-                <?php } ?>
-            </td>
-	      <td><?php $vracid = preg_replace('/VRAC-/', '', $elt[1]); echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>
+        <tr style="<?php echo 'background-color:'.$statusColor.';' ?>" >
+              <td><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT])? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></td>
+	      <td><?php $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]); echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>
               <td>
                      <ul>  
                     <li>
-                      <?php echo ($elt[2]) ? link_to($elt[3], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[2])) : ''; ?>
+                      <?php echo ($elt[VracClient::VRAC_VIEW_VENDEUR_ID])? 
+                                    'Vendeur : '.link_to($elt[VracClient::VRAC_VIEW_VENDEUR_NOM],
+                                            'vrac/recherche?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[VracClient::VRAC_VIEW_VENDEUR_ID])) 
+                                  : ''; ?>
                     </li>
                     <li>
-                      <?php echo ($elt[4]) ? link_to($elt[5], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[4])) : ''; ?>
+                      <?php echo ($elt[VracClient::VRAC_VIEW_ACHETEUR_ID])?
+                                    'Acheteur : '.link_to($elt[VracClient::VRAC_VIEW_ACHETEUR_NOM],
+                                            'vrac/recherche?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[VracClient::VRAC_VIEW_ACHETEUR_ID])) 
+                                : ''; ?>
                     </li>
                     <li>
-                      <?php echo ($elt[6]) ? link_to($elt[7], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[6])) : ''; ?>
+                      <?php echo ($elt[VracClient::VRAC_VIEW_MANDATAIRE_ID]) ? 
+                                    'Mandataire : '.link_to($elt[VracClient::VRAC_VIEW_MANDATAIRE_NOM], 
+                                            'vrac/recherche?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[VracClient::VRAC_VIEW_MANDATAIRE_ID])) 
+                                 : ''; ?>
                     </li>
                   </ul>
-              </td>
-              <td><?php echo ($elt[8])? typeProduit($elt[8]) : ''; ?></td>
-	      <td><?php echo ($elt[9])? ConfigurationClient::getCurrent()->get($elt[9])->libelleProduit() : ''; ?></td>
-	      <td><?php echo $elt[10]; ?></td>
-	      <td><?php echo $elt[11]; ?></td>
+              </td>              
+              <td><?php echo ($elt[VracClient::VRAC_VIEW_PRODUIT_ID])? ConfigurationClient::getCurrent()->get($elt[VracClient::VRAC_VIEW_PRODUIT_ID])->libelleProduit() : ''; ?></td>
+              <td><?php echo (isset($elt[VracClient::VRAC_VIEW_VOLCONS]) && isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))?
+                                    $elt[VracClient::VRAC_VIEW_VOLCONS].' / '.$elt[VracClient::VRAC_VIEW_VOLENLEVE]
+                                    : ''; ?></td>
         </tr>
         <?php } ?>
     </tbody>

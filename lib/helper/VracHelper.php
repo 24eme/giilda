@@ -1,35 +1,20 @@
 <?php
 
-function statusImg($status)
+function statusColor($status)
 {
-    $imgObj = new stdClass();
-    $imgObj->alt = '';
-    $imgObj->src = '/images/icons/';
     
-    if(is_null($status)) return $imgObj;
+    if(is_null($status)) return '';
     
     switch ($status)
     {
         case VracClient::STATUS_CONTRAT_ANNULE:
-        {
-            $imgObj->alt = 'annulé';
-            $imgObj->src .= 'annule';
-            return $imgObj;
-        }
-        case VracClient::STATUS_CONTRAT_SOLDE:            
-        {
-            $imgObj->alt = 'soldé';
-            $imgObj->src .= 'solde';
-            return $imgObj;
-        }
+            return 'red';
+        case VracClient::STATUS_CONTRAT_SOLDE:
+            return 'green';
         case VracClient::STATUS_CONTRAT_NONSOLDE:
-        {
-            $imgObj->alt = 'non soldé';
-            $imgObj->src .= 'nonsolde';
-            return $imgObj;
-        }
+            return 'yellow';
         default :
-            return $imgObj;
+            return '';
     }
 }
 
