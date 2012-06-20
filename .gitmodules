@@ -13,3 +13,6 @@
 [submodule "wiki"]
 	path = wiki
 	url = git@gitorious.org:vinsdeloire/vins-de-loire-gitorious-wiki.git
+[submodule "project/plugins/acVinVracPlugin"]
+	path = project/plugins/acVinVracPlugin
+	url = git@gitorious.org:acvin/acvinvracplugin.git
