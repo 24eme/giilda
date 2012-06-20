@@ -15,9 +15,7 @@ td{padding: 0px 10px;}
         <tr class="odd">
             <th>Statut</th>
             <th>N° Contrat</th>
-            <th>Acheteur</th>
-            <th>Vendeur</th>
-            <th>Mandataire</th>
+            <th>Soussignés</th>            
             <th>Type</th>
             <th>Produit</th>
             <th>Vol. com.</th>
@@ -41,9 +39,19 @@ foreach ($vracs->rows as $value) {    $cpt *= -1;
                 <?php } ?>
             </td>
 	      <td><?php $vracid = preg_replace('/VRAC-/', '', $elt[1]); echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>
-	      <td><?php echo ($elt[2]) ? link_to($elt[3], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[2])) : ''; ?></td>
-	      <td><?php echo ($elt[4]) ? link_to($elt[5], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[4])) : ''; ?></td>
-	      <td><?php echo ($elt[6]) ? link_to($elt[7], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[6])) : ''; ?></td>
+              <td>
+                     <ul>  
+                    <li>
+                      <?php echo ($elt[2]) ? link_to($elt[3], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[2])) : ''; ?>
+                    </li>
+                    <li>
+                      <?php echo ($elt[4]) ? link_to($elt[5], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[4])) : ''; ?>
+                    </li>
+                    <li>
+                      <?php echo ($elt[6]) ? link_to($elt[7], 'vrac/rechercheSoussigne?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[6])) : ''; ?>
+                    </li>
+                  </ul>
+              </td>
               <td><?php echo ($elt[8])? typeProduit($elt[8]) : ''; ?></td>
 	      <td><?php echo ($elt[9])? ConfigurationClient::getCurrent()->get($elt[9])->libelleProduit() : ''; ?></td>
 	      <td><?php echo $elt[10]; ?></td>
