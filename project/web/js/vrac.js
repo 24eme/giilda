@@ -242,13 +242,11 @@ var majMandatairePanel = function()
     
     $('#vrac_mandatant_vendeur').click(function()
     {
-        if(!$('#vrac_mandatant_vendeur').attr('checked')) $('#vrac_mandatant_vendeur').attr('checked','checked');
-            $('#vrac_mandatant_acheteur').removeAttr('checked');
+        if(($('#mandatant input:checked').length == 0) && ($('#vrac_mandatant_vendeur:checked'))) $('#vrac_mandatant_vendeur').attr('checked','checked');
     });
     $('#vrac_mandatant_acheteur').change(function()
     {
-        if(!$('#vrac_mandatant_acheteur').attr('checked')) $('#vrac_mandatant_acheteur').attr('checked','checked');
-        $('#vrac_mandatant_vendeur').removeAttr('checked');
+        if(($('#mandatant input:checked').length == 0) && ($('#vrac_mandatant_acheteur:checked'))) $('#vrac_mandatant_acheteur').attr('checked','checked');
     });
     
 }

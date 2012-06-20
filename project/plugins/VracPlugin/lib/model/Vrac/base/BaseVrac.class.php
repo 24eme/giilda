@@ -25,7 +25,7 @@
  * @property acCouchdbJson $label
  * @property float $raisin_quantite
  * @property float $jus_quantite
- * @property integer $bouteilles_quantite
+ * @property float $bouteilles_quantite
  * @property integer $bouteilles_contenance
  * @property float $prix_unitaire
  * @property float $prix_total
@@ -37,6 +37,8 @@
  * @property string $cvo_repartition
  * @property string $date_stats
  * @property string $date_signature
+ * @property float $volume_consomme
+ * @property float $volume_enleve
  * @property acCouchdbJson $valide
 
  * @method string get_id()
@@ -81,8 +83,8 @@
  * @method float setRaisinQuantite()
  * @method float getJusQuantite()
  * @method float setJusQuantite()
- * @method integer getBouteillesQuantite()
- * @method integer setBouteillesQuantite()
+ * @method float getBouteillesQuantite()
+ * @method float setBouteillesQuantite()
  * @method integer getBouteillesContenance()
  * @method integer setBouteillesContenance()
  * @method float getPrixUnitaire()
@@ -105,6 +107,10 @@
  * @method string setDateStats()
  * @method string getDateSignature()
  * @method string setDateSignature()
+ * @method float getVolumeConsomme()
+ * @method float setVolumeConsomme()
+ * @method float getVolumeEnleve()
+ * @method float setVolumeEnleve()
  * @method acCouchdbJson getValide()
  * @method acCouchdbJson setValide()
  

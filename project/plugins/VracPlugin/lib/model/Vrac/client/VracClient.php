@@ -15,9 +15,9 @@ class VracClient extends acCouchdbClient {
     const CVO_NATURE_NON_FINANCIERE = 'non_financiere';
     const CVO_NATURE_VINAIGRERIE = 'vinaigrerie';
     
-    const STATUS_CONTRAT_SOLDE = 'SOLDE';
-    const STATUS_CONTRAT_ANNULE = 'ANNULE';
-    const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
+    const STATUT_CONTRAT_SOLDE = 'SOLDE';
+    const STATUT_CONTRAT_ANNULE = 'ANNULE';
+    const STATUT_CONTRAT_NONSOLDE = 'NONSOLDE';
     
 
     /**

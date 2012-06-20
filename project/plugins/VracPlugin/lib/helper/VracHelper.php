@@ -1,28 +1,28 @@
 <?php
 
-function statusImg($status)
+function statutImg($statut)
 {
     $imgObj = new stdClass();
     $imgObj->alt = '';
     $imgObj->src = '/images/icons/';
     
-    if(is_null($status)) return $imgObj;
+    if(is_null($statut)) return $imgObj;
     
-    switch ($status)
+    switch ($statut)
     {
-        case VracClient::STATUS_CONTRAT_ANNULE:
+        case VracClient::STATUT_CONTRAT_ANNULE:
         {
             $imgObj->alt = 'annulé';
             $imgObj->src .= 'annule';
             return $imgObj;
         }
-        case VracClient::STATUS_CONTRAT_SOLDE:            
+        case VracClient::STATUT_CONTRAT_SOLDE:            
         {
             $imgObj->alt = 'soldé';
             $imgObj->src .= 'solde';
             return $imgObj;
         }
-        case VracClient::STATUS_CONTRAT_NONSOLDE:
+        case VracClient::STATUT_CONTRAT_NONSOLDE:
         {
             $imgObj->alt = 'non soldé';
             $imgObj->src .= 'nonsolde';

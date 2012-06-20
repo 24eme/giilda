@@ -33,11 +33,11 @@ foreach ($vracs->rows as $value) {    $cpt *= -1;
             <td>
                 
                 <?php 
-                      $statusImg = statusImg($elt[0]);
+                      $statutImg = statutImg($elt[0]);
                       if($elt[0])
                       { ?>
-                        <img alt="<?php echo $statusImg->alt; ?>"
-                            src="<?php echo $statusImg->src; ?>" />
+                        <img alt="<?php echo $statutImg->alt; ?>"
+                            src="<?php echo $statutImg->src; ?>" />
                 <?php } ?>
             </td>
 	      <td><?php $vracid = preg_replace('/VRAC-/', '', $elt[1]); echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>
