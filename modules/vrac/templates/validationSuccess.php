@@ -17,11 +17,15 @@
                     <h2>Récapitulatif de la saisie</h2>
 
                     <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
-                    <div class="btnValidation">
-                        <span>&nbsp;</span>
-                        <button class="btn_majeur btn_gris" type="submit">Saisir un nouveau contrat</button>                            
-                    </div>
-
+                    <div id="btn_etape_dr">
+                        <div class="btnAnnulation">
+                                    <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_majeur btn_noir"><span>Précédent</span></a>
+                        </div>
+                        <div class="btnValidation">
+                                <span>&nbsp;</span>
+                                <button class="btn_majeur btn_etape_suiv" type="submit">Valider</button>
+                        </div>      
+                    </div>   
                 </form>
             </section>
         </section>
