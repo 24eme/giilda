@@ -91,19 +91,17 @@ class VracClient extends acCouchdbClient {
     }
     
     public function retrieveSimilaryContracts($params) {
-        switch ($params['etape']) {
-            case 1:
+        if($params['etape']==1)
+        {    
                 return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire']))
                         ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
-            case 2:
-                return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit']))
-                        ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
-            case 3:
-                return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['volume']))
-                        ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['volume'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
         }
-        return null;
-        
+        else
+        {
+            return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['volume']))
+                        ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['volume'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
+        }       
+            
     }
     
  }
