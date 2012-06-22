@@ -1,4 +1,5 @@
 <?php
+	unlink(sfConfig::get('sf_web_dir').'/css/compile.css');
 	$lessFile = sfConfig::get('sf_web_dir').'/css/compile.less';
 	$cssFile = sfConfig::get('sf_web_dir').'/css/compile.css';
 	lessc::ccompile($lessFile, $cssFile);
@@ -28,7 +29,7 @@
 	</script>
 </head>
 
-<body role="document">
+<body>
 
 	<!-- ####### A REPRENDRE ABSOLUMENT ####### -->
 	<!--[if lte IE 7 ]>
@@ -41,16 +42,42 @@
 	<!-- ####### A REPRENDRE ABSOLUMENT ####### -->
 	
 	<!-- #header -->
-	<header id="header" role="banner">
-		<h1 id="logo">
-			<a href="#" title="<?php echo sfConfig::get('app_titre_site') ?> - Retour à l'accueil">
-				<img src="<?php echo sfConfig::get('sf_web_dir') ?>/images/" alt="<?php echo sfConfig::get('titre_site') ?> " />
-			</a>
-		</h1>
+	<header id="header">
+		<div class="contenu">
+			<h1 id="logo">
+				<a href="#" title="<?php echo sfConfig::get('app_titre_site') ?> - Retour à l'accueil">
+					<img src="/images/visuels/logo_vinsdeloire.png" alt="<?php echo sfConfig::get('titre_site') ?>" />
+				</a>
+			</h1>
+			
+			<nav id="navigation">
+				<ul>
+					<li><a href="#">DRM</a></li>
+					<li class="actif"><a href="#">Contrats</a></li>
+					<li><a href="#">Déclaration des volumes</a></li>
+					<li><a href="#">Facturation</a></li>
+					<li><a href="#">Contacts</a></li>
+					<li><a href="#">Import VR</a></li>
+					<li><a href="#">SV12</a></li>
+					<li><a href="#">Stocks</a></li>
+					<li><a href="#">Relance</a></li>
+					<li><a href="#">Facture</a></li>
+				</ul>
+			</nav>
+			
+			<div id="actions_utilsateur">
+				<a href="#" class="admin">Admin</a>
+				<a href="#" class="deconnexion">Déconnexion</a>
+			</div>
+		</div>
 	</header>
 	<!-- fin #header -->
 	
-	<?php echo $sf_content ?>
+	<!-- #contenu -->
+	<div id="contenu">
+		<?php echo $sf_content ?>
+	</div>
+	<!-- fin #contenu -->
 
 	<?php foreach(sfConfig::get('app_javascripts_footer') as $js_footer): ?>
 		<script type="text/javascript" src="/js/<?php echo $js_footer; ?>"></script>

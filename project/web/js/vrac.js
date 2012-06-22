@@ -186,17 +186,30 @@ var init_ajax_nouveau = function()
     ajaxifyAutocompleteGet('getInfos','#vendeur_choice','#vendeur_informations');
     ajaxifyAutocompleteGet('getInfos','#acheteur_choice','#acheteur_informations'); 
     ajaxifyAutocompleteGet('getInfos','#mandataire_choice','#mandataire_informations');
-    $('section#has_mandataire input').attr('checked', 'checked')
+    $('section#has_mandataire input').attr('checked', 'checked');    
     $('#vrac_mandatant_vendeur').attr('checked','checked');
- //   majModificationsButton('vendeur');
- //   majModificationsButton('acheteur');
+    
+    majAutocompleteInteractions('vendeur');
+    majAutocompleteInteractions('acheteur');
+    majAutocompleteInteractions('mandataire');
     majMandatairePanel();
+    
+    
+}
+
+var majAutocompleteInteractions = function(type)
+{
+    $('#'+type+'_choice div input').live( "autocompleteselect", function(event, ui)
+    {
+        $('#'+type+'_modification_btn').removeAttr('disabled');
+        $('#'+type+'_modification_btn').css('cursor','pointer');        
+    });
 }
 
 var majModificationsButton = function(type)
 {
-    if($('section#'+type+'_choice input.ui-autocomplete-input').val()=="") $('.'+type+'_modification_btn').attr('disable','disable');
-    else $('.'+type+'_modification_btn').removeAttr('disable');
+    if($('section#'+type+'_choice input.ui-autocomplete-input').val()=="") $('#'+type+'_modification_btn').attr('disable','disable');
+    else $('#'+type+'_modification_btn').removeAttr('disable');
 }
 
 
@@ -210,7 +223,7 @@ var majMandatairePanel = function()
         if($(this).attr('checked'))
         {
             $('section#mandataire').show();
-            
+            $('#vrac_mandatant_vendeur').attr('checked','checked');            
         }
         else
         {
@@ -226,14 +239,27 @@ var majMandatairePanel = function()
             });
         }
     });
+    
+    $('#vrac_mandatant_vendeur').click(function()
+    {
+        if(($('#mandatant input:checked').length == 0) && ($('#vrac_mandatant_vendeur:checked'))) $('#vrac_mandatant_vendeur').attr('checked','checked');
+    });
+    $('#vrac_mandatant_acheteur').change(function()
+    {
+        if(($('#mandatant input:checked').length == 0) && ($('#vrac_mandatant_acheteur:checked'))) $('#vrac_mandatant_acheteur').attr('checked','checked');
+    });
+    
 }
 
 var init_ajax_modification = function(type)
 {
-    $('#'+type+'_modification_btn').val('Valider');
+    $('a#'+type+'_modification_btn').html('Valider');
+    $('a#'+type+'_modification_btn').removeClass('btn_orange').addClass('btn_vert');
+    $('a#'+type+'_modification_btn').css('cursor','pointer');
+    
     $("#"+type+"_choice input").attr('disabled','disabled');
     $("#"+type+"_choice button").attr('disabled','disabled');
-    $('div.btnValidation input.btn_valider').attr('disabled','disabled');
+    $('div.btnValidation button').attr('disabled','disabled');
     var params = {id : $("#vrac_"+type+"_identifiant").val(), 'div' : '#'+type+'_informations'};  
     ajaxifyPost('modification?id='+$("#vrac_"+type+"_identifiant").val(),params,'#'+type+'_modification_btn','#'+type+'_informations');
 }
@@ -243,9 +269,13 @@ var init_informations = function(type)
 {
     $("#"+type+"_choice input").removeAttr('disabled');
     $("#"+type+"_choice button").removeAttr('disabled');
-    $("#"+type+"_modification_btn").val("Modifier");
+    
+    $("a#"+type+"_modification_btn").html("Modifier");
+    $("a#"+type+"_modification_btn").removeClass('btn_vert').addClass('btn_orange');
+    
+    
     $("#"+type+"_modification_btn").unbind();
-    $('div.btnValidation input.btn_valider').removeAttr('disabled');
+    $('div.btnValidation button').removeAttr('disabled');
 }
     
 
