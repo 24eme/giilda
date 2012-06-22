@@ -24,6 +24,9 @@ foreach($datas as $data)
                 <div style="margin: 10px;">
                     <h2>Rechercher un opérateur : </h2>
                     <p>
+                        
+                        
+                        
                         <form method="get" action="<?php echo url_for('vrac_recherche'); ?>">
                             <select name="identifiant" value="<?php echo (isset($identifiant)) ? $identifiant : '' ; ?>" class="autocomplete">
                                 <?php foreach ($etablissements as $id => $name)
