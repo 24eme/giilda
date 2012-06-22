@@ -687,7 +687,7 @@ Vrac:
       date_stats: { }
       date_signature: { }
 
-      volume_consomme: { type: float }
+      volume_propose: { type: float }
       volume_enleve: { type: float }
       
       valide:
