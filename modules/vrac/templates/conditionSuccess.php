@@ -70,6 +70,9 @@
                 </form>
             </section>
         </section>
+        <aside id="colonne">
         <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
+        <?php include_partial('contratsSimilaires', array('vrac' => $form->getObject())); ?>
+        </aside>
     </div>          
 </div>

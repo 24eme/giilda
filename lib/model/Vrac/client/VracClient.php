@@ -15,6 +15,16 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_PRODUIT_ID = 9;
     const VRAC_VIEW_VOLCONS = 10;
     const VRAC_VIEW_VOLENLEVE = 11;
+
+    const VRAC_SIMILAIRE_KEY_VENDEURID = 'vendeur_identifiant';   
+    const VRAC_SIMILAIRE_KEY_ACHETEURID = 'acheteur_identifiant';
+    const VRAC_SIMILAIRE_KEY_MANDATAIREID = 'mandataire_identifiant'; 
+    const VRAC_SIMILAIRE_KEY_PRODUIT = 'produit';
+    const VRAC_SIMILAIRE_KEY_VOLPROP = 'volume_propose';
+    const VRAC_SIMILAIRE_KEY_ETAPE = 'etape';
+    
+    const VRAC_SIMILAIRE_VALUE_NUMCONTRAT = 0;   
+    const VRAC_SIMILAIRE_VALUE_STATUT = 1;
     
     
     const TYPE_TRANSACTION_RAISINS = 'raisins';
@@ -78,6 +88,22 @@ class VracClient extends acCouchdbClient {
     public function retrieveBySoussigne($soussigneParam) {
       return $this->startkey(array($soussigneParam))
               ->endkey(array($soussigneParam, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
+    }
+    
+    public function retrieveSimilaryContracts($params) {
+        switch ($params['etape']) {
+            case 1:
+                return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire']))
+                        ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
+            case 2:
+                return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit']))
+                        ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
+            case 3:
+                return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['volume']))
+                        ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['volume'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
+        }
+        return null;
+        
     }
     
  }

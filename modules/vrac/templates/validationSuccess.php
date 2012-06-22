@@ -29,6 +29,9 @@
                 </form>
             </section>
         </section>
+        <aside id="colonne">
         <?php include_partial('colonne', array('vrac' => $vrac)); ?>
+        <?php include_partial('contratsSimilaires', array('vrac' => $vrac)); ?>
+        </aside>
     </div>
 </div>
