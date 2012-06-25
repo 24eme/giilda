@@ -34,13 +34,14 @@ $vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
                           <span class="contrat_similaire_solde">
                             <?php 
                             echo $elt[VracClient::VRAC_SIMILAIRE_VALUE_STATUT];
+                            $num_contrat = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_SIMILAIRE_VALUE_NUMCONTRAT]);
                             ?>    
                           </span>
-                          <span class="contrat_similaire_num_contrat">
-                            <?php 
-                            echo preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_SIMILAIRE_VALUE_NUMCONTRAT]);
-                            ?>    
-                          </span>
+                            <span class="contrat_similaire_num_contrat">
+                                <?php 
+                                echo link_to($num_contrat, '@vrac_termine?numero_contrat='.$num_contrat);
+                                ?>    
+                            </span>
                       </li>
                       <?php
                           }

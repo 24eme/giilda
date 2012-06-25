@@ -21,7 +21,7 @@ class vracActions extends sfActions
       $soussigne = 'ETABLISSEMENT-'.$this->identifiant;
       $this->vracs = VracClient::getInstance()->retrieveBySoussigne($soussigne);      
   }
-  
+   
   public function executeNouveau(sfWebRequest $request)
   {      
       $this->getResponse()->setTitle('Contrat - Nouveau');
@@ -43,7 +43,6 @@ class vracActions extends sfActions
         }
       $this->setTemplate('soussigne');
   }
-  
   
   private function init_soussigne($request,$form)
     {
@@ -176,6 +175,8 @@ class vracActions extends sfActions
         if($familleType == 'vendeur' || $familleType == 'acheteur') $familleType = 'vendeurAcheteur';
         return $this->renderPartial($familleType.'Modification', array('form' => $this->form));
   }
+  
+  
   
   private function renderPartialInformations($etablissement,$nouveau) {
       
