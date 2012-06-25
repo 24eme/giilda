@@ -60,6 +60,9 @@ cat <<EOF > $TMPFILE
        },
        "soussigneidentifiant": {
            "map": "function(doc) {\n  if (doc.type != \"Vrac\")\n     return;\n  emit([doc.mandataire_identifiant, doc._id],  [doc.status, doc._id, doc.acheteur_identifiant, doc.acheteur.nom, doc.vendeur_identifiant, doc.vendeur.nom, doc.mandataire_identifiant,doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n  emit([doc.acheteur_identifiant, doc._id], [doc.status, doc._id, doc.acheteur_identifiant, doc.acheteur.nom, doc.vendeur_identifiant, doc.vendeur.nom, doc.mandataire_identifiant,doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n  emit([doc.vendeur_identifiant, doc._id], [doc.status, doc._id, doc.acheteur_identifiant, doc.acheteur.nom, doc.vendeur_identifiant, doc.vendeur.nom, doc.mandataire_identifiant,doc.mandataire.nom, doc.type_transaction, doc.produit, doc.volume_consomme, doc.volume_enleve]);\n}"
+       },
+       "vracSimilaire": {
+           "map": "function(doc) {\n  if (doc.type != \"Vrac\")\n     return;\n  emit([doc.vendeur_identifiant, doc.acheteur_identifiant, doc.mandataire_identifiant, doc.produit, doc.volume_propose],  [ doc._id, doc.valide.statut]);\n }"
        }
    }
 }
