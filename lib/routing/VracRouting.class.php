@@ -57,6 +57,11 @@ class VracRouting {
                                                         array('module' => 'vrac','action' => 'getModifications'),
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
+        
+        $r->prependRoute('vrac_getContratsSimilaires', new VracRoute('/vrac/:numero_contrat/getContratsSimilaires',
+                                                        array('module' => 'vrac','action' => 'getContratsSimilaires'),
+                                                        array('sf_method' => array('get')),
+                                                        array('model' => 'Vrac', 'type' => 'object')));
  
 //        $r->prependRoute('vrac_nouveau_modificationPost', new VracRoute('/vrac/modificationPost',
 //                                                        array('module' => 'vrac','action' => 'modificationPost'),

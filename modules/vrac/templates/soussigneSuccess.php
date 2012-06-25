@@ -31,6 +31,8 @@ else
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#acheteur_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#acheteur_informations');
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#mandataire_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#mandataire_informations');
         majMandatairePanel();
+        
+        init_ajax_contrats_similaires('<?php echo $numero_contrat;?>');
     });
 </script>
 <?php

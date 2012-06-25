@@ -176,8 +176,17 @@ class vracActions extends sfActions
         return $this->renderPartial($familleType.'Modification', array('form' => $this->form));
   }
   
-  
-  
+  public function executeGetContratsSimilaires(sfWebRequest $param)
+  {
+       $vrac = VracClient::getInstance()->findByNumContrat($param['numero_contrat']);
+       $vrac[VracClient::VRAC_SIMILAIRE_KEY_VENDEURID] = $param['vendeur'];
+       $vrac[VracClient::VRAC_SIMILAIRE_KEY_ACHETEURID] = $param['acheteur'];
+       $vrac[VracClient::VRAC_SIMILAIRE_KEY_MANDATAIREID] = $param['mandataire'];
+      
+       return $this->renderPartial('contratsSimilaires', array('vrac' => $vrac));
+  }
+
+
   private function renderPartialInformations($etablissement,$nouveau) {
       
       $familleType = $etablissement->getFamilleType();
