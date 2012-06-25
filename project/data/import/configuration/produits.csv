@@ -47,8 +47,7 @@
 ;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Chaume;CHA;Blanc;3;Chenin;CHE;Grains nobles
 ;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Beaulieu;BOL;Blanc;3;Chenin;CHE;Grains nobles
 ;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Faye d'Anjou;FAY;Blanc;3;Chenin;CHE;Grains nobles
-;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Rablay;RAB;Blanc;3;Chenin;CHE;Grains nobles
-;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Layon;LAY;Blanc;3;Chenin;CHE;Grains nobles
+;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Rablay/Layon;RABLAY;Blanc;3;Chenin;CHE;Grains nobles
 ;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Rochefort;RCF;Blanc;3;Chenin;CHE;Grains nobles
 ;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;St Aubin;STA;Blanc;3;Chenin;CHE;Grains nobles
 ;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;St Lambert;STL;Blanc;3;Chenin;CHE;Grains nobles
@@ -65,15 +64,19 @@
 ;AOC;AOC;Tranquille;TRANQ;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;
 ;AOC;AOC;VDN;VDN;Montlouis sur Loire;MLL;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;
 ;AOC;AOC;Effervescent;EFF;Montlouis sur Loire;MLL;Mousseux;MOU;;;Blanc;3;Chenin;CHE;
+;AOC;AOC;Effervescent;EFF;Montlouis sur Loire;MLL;Pétillant;PET;;;Blanc;3;Chenin;CHE;
 ;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;
 ;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;Sur lie
 ;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Coteaux de la Loire;CDL;Blanc;3;Melon;MEL;
 ;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Coteaux de la Loire;CDL;Blanc;3;Melon;MEL;Sur lie
 ;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Côtes de Grand Lieu;CGL;Blanc;3;Melon;MEL;
 ;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Côtes de Grand Lieu;CGL;Blanc;3;Melon;MEL;Sur lie
-;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;;;Blanc;3;Melon;MEL;Primeur
-;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Sèvre et Maine;SEM;Blanc;3;Melon;MEL;
-;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Sèvre et Maine;SEM;Blanc;3;Melon;MEL;Sur lie
+;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;Primeur
+;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Le Pallet;PAL;Blanc;3;Melon;MEL;
+;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Gorges;GOR;Blanc;3;Melon;MEL;
+;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Clisson;CLI;Blanc;3;Melon;MEL;
+;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;;;Blanc;3;Melon;MEL;
+;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;;;Blanc;3;Melon;MEL;Sur lie
 ;AOC;AOC;VDN;VDN;Quarts de Chaume;QDC;Liquoreux;LIQ;Rochefort sur Loire;RFL;Blanc;3;Chenin;CHE;
 ;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;Demi-sec;DMS;Roche aux moines;RAM;Blanc;3;Chenin;CHE;
 ;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;;;;;Blanc;3;Chenin;CHE;
@@ -95,6 +98,9 @@
 ;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Blanc;3;;;
 ;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Rosé;2;;;Primeur
 ;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Rouge;1;;;Primeur
+;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Oisly;OIS;Blanc;3;Sauvignon Blanc;SAUB;
+;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Blanc;3;Sauvignon Blanc;SAUB;
+;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Rouge;1;;;
 ;AOC;AOC;Effervescent;EFF;Touraine;TOU;Pétillant;PET;;;Blanc;3;;;
 ;AOC;AOC;Effervescent;EFF;Touraine;TOU;Pétillant;PET;;;Rosé;2;;;
 ;AOC;AOC;Effervescent;EFF;Touraine;TOU;Mousseux;MOU;;;Rouge;1;;;
@@ -104,6 +110,9 @@
 ;AOC;AOC;Effervescent;EFF;Vouvray;VOU;Mousseux;MOU;;;Blanc;3;;;
 ;AOC;AOC;Effervescent;EFF;Vouvray;VOU;Pétillant;PET;;;Blanc;3;;;
 ;AOC;AOC;VDN;VDN;Vouvray;VOU;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;
+;AOC;AOC;Tranquille;TRANQ;Coteaux du loir;CDL;;;;;Rouge;1;Chenin;CHE;
+;AOC;AOC;Tranquille;TRANQ;Coteaux du loir;CDL;;;;;Blanc;3;;;
+;AOC;AOC;Tranquille;TRANQ;Coteaux du loir;CDL;;;;;Rosé;2;;;
 ;Vin de pays;VdP;Tranquille;TRANQ;;;;;;;Rouge;1;;;
 ;Vin de pays;VdP;Tranquille;TRANQ;;;;;;;Blanc;3;;;
 ;Vin de pays;VdP;Tranquille;TRANQ;;;;;;;Rosé;2;;;
