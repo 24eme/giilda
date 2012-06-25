@@ -89,6 +89,12 @@ textarea, input, select { .helvetica; color: @couleur-a3; font-size: 1em; }
 input[type=search] { -webkit-appearance: none; }
 input[type="radio"] { height: 14px; vertical-align: text-bottom; width: 14px; }
 input[type="checkbox"] { vertical-align: bottom; *vertical-align: baseline; }
+input[type=text]{
+        border : 0;
+        .border-radius(3px);
+	.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
+        padding: 5px;
+}
 .ie6 input { vertical-align: text-bottom; }
 
 button { background: 0; border: 0; .arial; margin: 0; outline: 0; overflow: visible; padding: 0; }
@@ -454,6 +460,10 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 #footer
 {
+    .clearfix;
+    .gabarit;
+    text-align:center;
+    padding:10px 0; 
 }
 
 
@@ -561,11 +571,88 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 		font-size: 16px;
 		font-weight: bold;
 	}
+        
+        .bloc_form{
+                .border-radius(5px 5px 5px 5px);
+                .border(#e3e2e2);
+
+                .col{
+                        &:first-child{
+                                border-right: 1px solid #e3e2e2;
+                                .ligne_form{
+                                        &:first-child{ .border-radius(5px 0 0 0)}
+                                        &:last-child{ .border-radius(0 0 0 5px) }
+                                }
+                        }
+                        &:last-child{     
+                                .ligne_form{
+                                        &:first-child{ .border-radius(0 5px 0 0)  }
+                                        &:last-child{ .border-radius(0 0 5px 0)  }
+                                }
+                        }
+                }
+       }
+        
+       .ligne_form {
+
+                padding: 4px 0 10px 10px;
+                height : 40px;
+                
+                label {
+                        display: inline-block;
+                        font-weight:bold;
+                        width: 150px;
+                }
+                span{
+                        height:30px;
+                        line-height:30px;
+                        vertical-align:middle;
+                }            
+        }
+
+        #ligne_btn{ 
+                display:block;
+                .btnAnnulation{ float:left; }
+                .btnValidation{ float:right; }
+                margin-left: 10px;
+        }
+
+        .ligne_form_alt{ background : @couleur-a7;  }
+
+        .ui-autocomplete-input{
+                background: url(../images/pictos/pi_recherche.png) 5px 7px no-repeat;
+                font-size:12px;
+                padding: 5px 5px 5px 25px;
+                width:330px;
+                height:30px;
+        }
+}
+
+.ui-autocomplete{
+        background-color : @couleur-a8;
+        .border(@couleur-a9);
+        .border-radius(3px);
+        .box-shadow(0px 0px 5px rgba(0, 0, 0, 0.1) inset);
+        .box-dimensions(333px, 210px);
+        cursor:pointer;
+        overflow:auto;
+
+        a{ 
+            display:block; 
+            padding:5px;
+            text-decoration:none;
+            &:hover{
+                background-color : #c1c1c1;
+                color: #fff;
+            }
+        }
+
 }
 
 /* Fil d'Ariane */
 #fil_ariane
 {
+        
 	font-style: italic;
 	line-height: 1;
 	margin: 0 0 20px;
