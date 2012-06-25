@@ -144,17 +144,18 @@ else
 
                 <br>
 
-                    <div id="btn_etape_dr">
-                        <?php if($nouveau){ ?>
+                <div id="ligne_btn">
+                    <?php if($nouveau){ ?>
                         <div class="btnAnnulation">
                                 <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
                         </div>
-                        <?php } ?>
-                        <div class="btnValidation">
-                            <span>&nbsp;</span>
-                            <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
-                        </div>        
-                    </div>
+                    <?php } ?>
+                    <div class="btnValidation">
+                        <span>&nbsp;</span>
+                        <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
+                    </div>        
+                </div>
+                
                 </form>
             </section>
         </section>

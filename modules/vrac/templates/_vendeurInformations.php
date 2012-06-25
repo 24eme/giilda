@@ -24,60 +24,57 @@ use_helper('Display');
         ?>
     });
 </script>
-<table class="vendeur_infos">
-        <tr>
-            <td class="bold">
-                Nom du vendeur*
-            </td>
-            <td>
-               <?php display_field($vendeur,'nom'); ?>
-            </td>    
-            <td class="bold">
-                Adresse*
-            </td>
-            <td>
-               <?php  display_field($vendeur,'adresse');  ?>
-            </td>
+
+<div id="vendeur_infos" class="bloc_form">
+    
+    <div class="col">
+        <div class="ligne_form">
+            <span>
+                  <label>Nom du vendeur*</label>
+                  <?php display_field($vendeur,'nom'); ?>
+            </span>
+        </div>
+        <div class="ligne_form ligne_form_alt">
+            <span>
+                <label>N° CVI</label>
+                <?php display_field($vendeur,'cvi'); ?>
+            </span>
+        </div>
+        <div class="ligne_form">
+            <span>
+                <label>N° ACCISE*</label>
+                <?php display_field($vendeur,'num_accise'); ?>
+            </span>
+        </div>
+        <div class="ligne_form ligne_form_alt " >
+            <span>
+                <label>TVA Intracomm.</label>
+                <?php display_field($vendeur,'num_tva_intracomm'); ?>
+            </span>
+        </div>
+    </div>
+    
+    <div class="col">
+        <div class="ligne_form">
+            <span>
+                <label>Adresse*</label>
+                <?php display_field($vendeur,'adresse');  ?>
+            </span>
+        </div>
+        <div class="ligne_form ligne_form_alt">
+            <span>
+                <label>CP*</label>
+                <?php display_field($vendeur,'code_postal'); ?>
+            </span>
+        </div>
+        <div class="ligne_form">
+            <span>
+                <label>Ville*</label>
+                <?php display_field($vendeur,'commune'); ?>
+            </span>
+        </div>
+        <div class="ligne_form ligne_form_alt">
             
-        </tr>
-        <tr>
-            <td class="bold">
-                N° CVI
-            </td>
-            <td>
-               <?php display_field($vendeur,'cvi'); ?>
-            </td>    
-            <td class="bold">
-                CP*
-            </td>
-            <td>
-               <?php  display_field($vendeur,'code_postal');  ?>
-            </td>
-        </tr>
-        <tr>
-            <td class="bold">
-                N° ACCISE
-            </td>
-            <td>
-               <?php display_field($vendeur,'num_accise'); ?>
-            </td>    
-            <td class="bold">
-                Ville*
-            </td>
-            <td>
-               <?php  display_field($vendeur,'commune');  ?>
-            </td>
-        </tr>
-        <tr>
-            <td class="bold">
-                TVA Intracomm.
-            </td>
-            <td>
-               <?php display_field($vendeur,'num_tva_intracomm'); ?>
-            </td>    
-            <td>
-            </td>
-            <td>
-            </td>
-        </tr>
-</table>
+        </div>
+    </div>
+<div>

@@ -24,45 +24,35 @@ use_helper('Display');
        ?>
     });
 </script>
-<table class="mandataire_infos">
-        <tr>
-            <td class="bold">
-                Nom du mandataire*
-            </td>
-            <td>
-               <?php display_field($mandataire,'nom'); ?>
-            </td> 
-        </tr>
-        <tr>
-            <td class="bold">
-                N° carte professionnelle
-            </td>
-            <td>
-               <?php display_field($mandataire,'carte_pro'); ?>
-            </td>            
-        </tr> 
-        <tr>
-            <td class="bold">
-                Adresse
-            </td>
-            <td>
-               <?php  display_field($mandataire,'adresse');  ?>
-            </td>    
-        </tr>
-        <tr>
-            <td class="bold">
-                CP
-            </td>
-            <td>
-               <?php  display_field($mandataire,'code_postal');  ?>
-            </td>   
-        </tr>
-         <tr>
-            <td class="bold">
-                Ville
-            </td>
-            <td>
-               <?php  display_field($mandataire,'commune');  ?>
-            </td>   
-        </tr>
-</table>
+<div class="mandataire_infos bloc_form">
+    <div class="ligne_form">
+        <span>
+            <label>Nom du mandataire*</label>
+            <?php display_field($mandataire,'nom'); ?>
+        </span>
+    </div>
+    <div class="ligne_form ligne_form_alt">    
+        <span>
+            <label>N° carte professionnelle</label>
+            <?php display_field($mandataire,'carte_pro'); ?>
+        </span>
+    </div>
+    <div class="ligne_form">       
+        <span>
+            <label>Adresse</label>
+            <?php  display_field($mandataire,'adresse');  ?>
+        </span>
+    </div>
+    <div class="ligne_form ligne_form_alt"> 
+        <span>
+            <label>CP</label>
+            <?php  display_field($mandataire,'code_postal');  ?>
+        </span>
+    </div>
+    <div class="ligne_form ">      
+        <span>
+            <label>Ville</label>
+            <?php  display_field($mandataire,'commune');  ?>
+        </span>
+    </div>
+</div>
