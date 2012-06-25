@@ -39,7 +39,7 @@
 			{
 				.border-radius(50%);
 				.box-dimensions(22px, 22px);
-				.box-shadow(1px 1px 4px rgba(0, 0, 0, 0.2) inset);
+				.box-shadow(1px 1px 1px rgba(0, 0, 0, 0.3) inset);
 				
 				background: @couleur-a5;
 				display: inline-block;
@@ -67,13 +67,18 @@
 		
 		&.actif
 		{
-			background: #b83f41 url(../images/fonds/bg_rail_etapes.png) 0 -143px repeat-x;
-			border-color: #b83f41;
-			color: @couleur-a1;
+			background: #fab120 url(../images/fonds/bg_rail_etapes.png) 0 -143px repeat-x;
+			border-color: #f6b32c;
+
+			a { 
+                                color: #ffffff; 
+                                .text-shadow(1px 1px rgba(214, 146, 10, 0.7)); 
+                                strong{ font-weight:bold; } 
+                        }
 			
 			& > *
 			{
-				span { background: #d35a5c; }
+				span { background: #fbba3a; }
 				
 				&:after { background-position: 0 -47px; }
 			}
@@ -81,9 +86,9 @@
 		
 		&.passe
 		{
-			background: #f3d371;
-			border-color: #dcbc5b;
-			color: #886702;
+			background: #fcf1d5;
+			border-color: #e4da97;
+			color: #8a6903;
 			
 			& > *
 			{
@@ -91,7 +96,7 @@
 				
 				span
 				{
-					background: #f3d371;
+					background: #fcf1d5;
 				}
 				
 				&:after
@@ -129,8 +134,8 @@
 	#barre_progression
 	{
 		.border-radius(5px);
-		.box-shadow(0px 1px 5px #9e9e9e inset);
-		background: #f0efef;
+		.box-shadow(0px 1px 2px #9e9e9e inset);
+		background: url(../images/fonds/bg_fond_progression.png) 0 0 repeat-x #f0efef;
 		
 		span
 		{
@@ -297,4 +302,45 @@
 			}
 		}
 	}
+}
+
+#contenu_etape{
+
+        .error_list{
+                position : absolute;
+                color : red;
+        }
+
+        #vendeur_infos{ height : 160px;}
+        #acheteur, #mandataire_choice{ padding-top : 20px; }
+
+        #has_mandataire{ padding : 20px 0 0 10px;}
+        #mandataire{ .clearfix; padding : 0 0 0 10px;} 
+
+        #mandatant{ 
+                padding : 10px 0 0 0px;
+                .checkbox_list{ 
+                        float: right;
+                        margin-right: 195px;
+                        li{ 
+                                display:inline; 
+                                float : left;
+                                width : 150px; 
+                        }
+                }
+                
+        }
+        
+        .col {
+                float: left;
+                vertical-align: top;
+                width: 329px;              
+        }        
+
+        .first_line{  .border-radius(5px 5px 0 0)}
+        .last_line{  .border-radius(0 0 5px 5px)}
+        
+       
+        .btnModification{ margin-top : 10px;}
+
 }
