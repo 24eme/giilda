@@ -194,7 +194,7 @@ var init_ajax_nouveau = function()
     majAutocompleteInteractions('mandataire');
     majMandatairePanel();
     
-    
+    init_ajax_contrats_similaires(null);
 }
 
 var majAutocompleteInteractions = function(type)
@@ -278,6 +278,39 @@ var init_informations = function(type)
     $('div.btnValidation button').removeAttr('disabled');
 }
     
+var ajax_send_contrats_similaires = function(num_contrat,soussigneType)
+{
+    var types = ['vendeur','acheteur','mandataire'];
+    $('#'+soussigneType+'_choice input').live( "autocompleteselect", function(event, ui)
+    {  
+        var ajaxParams = {numero_contrat : num_contrat};        
+        for (var i in types)
+        {        
+            var name = types[i];
+            if(name!=soussigneType)
+            {
+                ajaxParams[name] = $('#'+name+'_choice option:selected').val();
+            }
+            else
+            {
+                ajaxParams[name] = ui.item.option.value;
+            }
+        }
+        
+        $.get('getContratsSimilaires',ajaxParams,
+            function(data)
+            {
+                $('#contrats_similaires').html(data);
+            });
+    });
+}
+
+var init_ajax_contrats_similaires = function(num_contrat)
+{
+    ajax_send_contrats_similaires(num_contrat,'vendeur');
+    ajax_send_contrats_similaires(num_contrat,'acheteur');
+    ajax_send_contrats_similaires(num_contrat,'mandataire');
+}
 
 $(document).ready(function()
 {
