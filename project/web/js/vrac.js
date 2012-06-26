@@ -266,7 +266,7 @@ var init_ajax_modification = function(type)
     $("#"+type+"_choice input").attr('disabled','disabled');
     $("#"+type+"_choice button").attr('disabled','disabled');
     $('.btnValidation button').attr('disabled','disabled');
-    var params = {id : $("#vrac_"+type+"_identifiant").val(), '' : '#'+type+'_informations'};  
+    var params = {id : $("#vrac_"+type+"_identifiant").val(), div : '#'+type+'_informations'};  
     ajaxifyPost('modification?id='+$("#vrac_"+type+"_identifiant").val(),params,'#'+type+'_modification_btn','#'+type+'_informations');
 }
 

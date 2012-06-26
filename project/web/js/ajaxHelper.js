@@ -19,7 +19,6 @@ var ajaxifyPost = function(url, section, buttonElt)
      $(buttonElt).unbind();
      $(buttonElt).bind('click',function()
         {   
-            
             var params = {id : section.id} ;
             $.extend(params, toPost($(section.div)));
             $.post(url,params,
