@@ -1214,6 +1214,11 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   visibility:hidden;
 }
 #contenu_etape #vrac_soussigne .btnModification:after { clear:both; }
+#contenu_etape #vrac_soussigne .error_list {
+  padding:0 10px;
+  float:right;
+  color:red;
+}
 #contenu_etape #vrac_marche #original, #contenu_etape #vrac_marche #produit, #contenu_etape #vrac_marche #millesime, #contenu_etape #vrac_marche #type, #contenu_etape #vrac_marche #label, #contenu_etape #vrac_marche #prixUnitaire {
   zoom:1;
   min-height:1px;
@@ -1237,5 +1242,5 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   display:block;
   float:left;
 }
-#contenu_etape #vrac_marche #condition .section_label_maj { margin-top:20px; }
-#contenu_etape #vrac_marche #condition .section_label_maj label { width:260px; }
+#contenu_etape #condition .section_label_maj { margin-top:20px; }
+#contenu_etape #condition .section_label_maj label { width:260px; }
