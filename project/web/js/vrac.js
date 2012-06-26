@@ -171,7 +171,8 @@ var majTotal = function(quantiteField,unite,prixParUnite){
         var type =  $('#vrac_marche #type_transaction input:checked').val();
         var prod =  $('section#produit option:selected').val();
         
-        alert('toPOST : ['+type+','+prod+','+quantite+']');
+     //   alert('toPOST : ['+type+','+prod+','+quantite+']');
+        
         $('.'+quantiteField+' span#volume_unite_total').text(unite);
         
         var prix_unitaire = $('#vrac_prix_unitaire').val();
@@ -324,7 +325,7 @@ var ajax_send_contrats_similairesMarche = function(num_contrat)
         var prod =  $('section#produit option:selected').val();
         var vol = $('#volume div.jus_quantite input').val();
         
-        alert('toPOST : ['+type+','+prod+','+vol+']');
+    //    alert('toPOST : ['+type+','+prod+','+vol+']');
     });
     
     $('section#produit input').live( "autocompleteselect", function(event, ui)
