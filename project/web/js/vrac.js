@@ -91,7 +91,7 @@ var updatePanelsAndUnitLabels = function()
             $('#vrac_prix_unitaire').keyup(updatePanelsAndUnitForBottle);
             $('#vrac_bouteilles_quantite').click(updatePanelsAndUnitForBottle);            
             $('#vrac_prix_unitaire').click(updatePanelsAndUnitForBottle);
-            $('#vrac_bouteilles_contenance').change(updatePanelsAndUnitForBottle);
+            $('#vrac_bouteilles_contenance_libelle').change(updatePanelsAndUnitForBottle);
             break;
         }
     }
@@ -108,7 +108,7 @@ var updatePanelsAndUnitLabels = function()
 
 var updatePanelsAndUnitForRaisins = function()
 {
-    $('.bouteilles_contenance').hide();
+    $('.bouteilles_contenance_libelle').hide();
     $(' .bouteilles_quantite').hide();
     $(' .jus_quantite').hide();    
     $(' .raisin_quantite').show();
@@ -119,7 +119,7 @@ var updatePanelsAndUnitForRaisins = function()
 
 var updatePanelsAndUnitForJuice = function()
 {
-    $('.bouteilles_contenance').hide();
+    $('.bouteilles_contenance_libelle').hide();
     $(' .bouteilles_quantite').hide();    
     $(' .raisin_quantite').hide();    
     $(' .jus_quantite').show();
@@ -132,12 +132,12 @@ var updatePanelsAndUnitForBottle = function()
     $(' .raisin_quantite').hide();
     $(' .jus_quantite').hide();
     
-    $('.bouteilles_contenance').show();
+    $('.bouteilles_contenance_libelle').show();
     $(' .bouteilles_quantite').show();
     
     var volume_total = 0.0;
     var bouteilles_quantite = $('#vrac_bouteilles_quantite').val();
-    var bouteilles_contenance = getBouteilleContenance($('#vrac_bouteilles_contenance').val());
+    var bouteilles_contenance = getBouteilleContenance($('#vrac_bouteilles_contenance_libelle').val());
     if(bouteilles_quantite == "" || bouteilles_contenance == "") return; 
     
     var numeric =  new RegExp("^[0-9]*$","g");
