@@ -18,10 +18,12 @@ td{padding: 0px 10px;}
         {   
             $elt = $value->getRawValue()->value;
             $statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
+            $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]);
+            $vracid = substr($vracid,0,8)."&nbsp;".substr($vracid,8,  strlen($vracid)-1);
         ?>
         <tr style="<?php echo 'background-color:'.$statusColor.';' ?>" >
               <td><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT])? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></td>
-	      <td><?php $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]); echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>
+	      <td><?php echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>
               <td>
                      <ul>  
                     <li>

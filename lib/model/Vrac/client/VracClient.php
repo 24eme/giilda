@@ -68,14 +68,14 @@ class VracClient extends acCouchdbClient {
         if (count($contrats) > 0) {
             $id .= ((double)str_replace('VRAC-', '', max($contrats)) + 1);
         } else {
-            $id.= $date.'001';
+            $id.= $date.'0001';
         }
 
         return $id;
     }
     
     public function getAtDate($date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('VRAC-'.$date.'000')->endkey('VRAC-'.$date.'999')->execute($hydrate);        
+        return $this->startkey('VRAC-'.$date.'0000')->endkey('VRAC-'.$date.'9999')->execute($hydrate);        
     }
     
     public function findByNumContrat($num_contrat) {
@@ -92,17 +92,17 @@ class VracClient extends acCouchdbClient {
     }
     
     public function retrieveSimilaryContracts($params) {
-        if($params['etape']==1)
-        {    
+       /* if($params['etape']==)
+        {    */
             return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire']))
                    ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
-        }
+        /*}
         else
         {
             
             return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['type'],$params['volume']*.95))
                    ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['type'],$params['volume']*1.05, array()))->limit(10)->getView('vrac', 'vracSimilaire');
-        }       
+        }      */ 
             
     }
     
