@@ -33,7 +33,6 @@
  * @property string $type_contrat
  * @property integer $prix_variable
  * @property float $part_variable
- * @property float $taux_variation
  * @property string $cvo_nature
  * @property string $cvo_repartition
  * @property string $date_stats
@@ -100,8 +99,6 @@
  * @method integer setPrixVariable()
  * @method float getPartVariable()
  * @method float setPartVariable()
- * @method float getTauxVariation()
- * @method float setTauxVariation()
  * @method string getCvoNature()
  * @method string setCvoNature()
  * @method string getCvoRepartition()
