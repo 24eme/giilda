@@ -16,15 +16,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
                                        VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin en bouteille');
     
      private $label = array('grains_nobles' => 'Grains nobles',
-                                       'primeur' => 'Primeur',
-                                       'vin_vrac'=> 'vin en vrac',
-                                       'vin_bouteille' => 'Vin en bouteilles',
-                                       'Agriculture_biologique' => 'Agriculture Biologique');
-     private $contenance = array('75 cl' => 0.075,
-                                       '1 L' => 0.1,
-                                       '150'=> '1.5 L',
-                                       '300' => '3 L',
-                                       '600' => '6 L');
+                            'primeur' => 'Primeur',
+                            'Agriculture_biologique' => 'Agriculture Biologique');
+     private $contenance = array('75 cl' => 0.0075,
+                                       '1 L' => 0.01,
+                                       '1.5 L'=> 0.015,
+                                       '3 L' => 0.03,
+                                       '6 L' => 0.06);
 
     
     public function configure()
@@ -49,7 +47,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('raisin_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('jus_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('bouteilles_quantite', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));
-        $this->setWidget('bouteilles_contenance', new sfWidgetFormChoice(array('choices' => $this->contenance)));
+        $this->setWidget('bouteilles_contenance', new sfWidgetFormChoice(array('choices' => array_keys($this->contenance))));
         $this->setWidget('prix_unitaire', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         
         $this->widgetSchema->setLabels(array(
