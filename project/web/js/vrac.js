@@ -95,14 +95,8 @@ var updatePanelsAndUnitLabels = function()
             break;
         }
     }
-    
-    if($('#type input:checked').length == 0)
-    {
-        $('#type input[value="domaine"]').attr('checked','checked');   
-    }
-    
-    if($('#type input[value="generique"]:checked')){ $('#domaine').hide(); }
-    if($('#type input[value="domaine"]:checked')){ $('#domaine').show(); }
+        
+    if($('#type input[value="generique"]:checked').length > 0){ $('#domaine').hide(); }
     
     $('#type input').click(function()
     {
@@ -171,8 +165,8 @@ var majTotal = function(quantiteField,unite,prixParUnite){
     
     if(numeric.test(quantite))
     {
-        var type =  $('#vrac_marche #type_transaction input:checked').val();
-        var prod =  $('section#produit option:selected').val();
+      //  var type =  $('#vrac_marche #type_transaction input:checked').val();
+      // var prod =  $('section#produit option:selected').val();
         
      //   alert('toPOST : ['+type+','+prod+','+quantite+']');
         
@@ -193,6 +187,9 @@ var majTotal = function(quantiteField,unite,prixParUnite){
 
 var init_ajax_nouveau = function()
 {
+    $('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
+    $('#vrac_acheteur_famille_negociant').attr('checked','checked');
+    
     ajaxifyAutocompleteGet('getInfos','#vendeur_choice','#vendeur_informations');
     ajaxifyAutocompleteGet('getInfos','#acheteur_choice','#acheteur_informations'); 
     ajaxifyAutocompleteGet('getInfos','#mandataire_choice','#mandataire_informations');
