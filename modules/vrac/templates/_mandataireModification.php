@@ -15,7 +15,7 @@ $type = $form->getObject()->getFamilleType();
 <div class="mandataire_infos bloc_form">
     <div class="ligne_form">
         <span>
-            <label>Nom du <?php echo $type; ?></label>
+            <label>Nom du <?php echo $type; ?> :</label>
             <?php echo $form->getObject()->nom; ?> 
         </span>
     </div>
@@ -28,9 +28,9 @@ $type = $form->getObject()->getFamilleType();
     </div>
     <div class="ligne_form">       
         <span>
-            <?php echo $form['adresse']->renderLabel() ?> 
+            <?php echo $form['adresse']->renderLabel() ?>             
+            <?php echo $form['adresse']->render() ?>       
             <?php echo $form['adresse']->renderError(); ?>
-            <?php echo $form['adresse']->render() ?>
         </span>
     </div>
     <div class="ligne_form ligne_form_alt"> 
@@ -39,6 +39,7 @@ $type = $form->getObject()->getFamilleType();
             <?php echo $form['code_postal']->renderError(); ?>
             <?php echo $form['code_postal']->render() ?>  
         </span>
+        
     </div>
     <div class="ligne_form">      
         <span>

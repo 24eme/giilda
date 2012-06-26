@@ -72,7 +72,7 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
        $this->setValidators(
        array(
             'carte_pro' => new sfValidatorNumber(array('required' => false)),
-            'adresse' => new sfValidatorString(array('required' => true, 'min_length' => 5)),
+            'adresse' => new sfValidatorString(array('required' => true)),
             'code_postal' => new sfValidatorString(array('required' => false, 'min_length' => 5,'max_length' => 5)),
             'commune' => new sfValidatorString(array('required' => false, 'min_length' => 2))
             ));

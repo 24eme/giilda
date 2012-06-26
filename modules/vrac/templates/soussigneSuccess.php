@@ -59,7 +59,7 @@ else
                         </div>
                     </div>
 
-                    <div id="vendeur_choice">
+                    <div id="vendeur_choice" style="text-align:right;">
                         <?php echo $form['vendeur_identifiant']->render() ?> 
                     </div>
                     <br>
@@ -89,7 +89,7 @@ else
                         </div>
                     </div>
 
-                    <div id="acheteur_choice">
+                    <div id="acheteur_choice" style="text-align:right;">
                         <?php echo $form['acheteur_identifiant']->render() ?>
                     </div>
                     <br>
