@@ -48,15 +48,28 @@ else
                     <?php echo $form->renderGlobalErrors() ?>
 
                 <div id="vendeur">
+                    
                     <!--  Affichage des vendeurs disponibles  -->
                     <div id="vendeur_choice" class="section_label_maj">
                         <?php echo $form['vendeur_identifiant']->renderError(); ?>
                         <?php echo $form['vendeur_identifiant']->renderLabel() ?>
                         <div class="f_right">
-                            <?php echo $form['vendeur_identifiant']->render() ?> 
+                            <ul id="vendeur_famille_choice" class="radio_list">
+                                <li>
+                                    <input type="radio" checked="checked" id="vendeur_viticulteur" value="1" name="vrac[vendeur_famille]">&nbsp;<label for="vendeur_viticulteur">Viticulteur</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="vendeur_negociant" value="0" name="vrac[vendeur_famille]">&nbsp;<label for="vendeur_negociant">Négociant</label>
+                                </li>
+                            </ul>                            
                         </div>
                     </div>
 
+                    <div id="vendeur_choice">
+                        <?php echo $form['vendeur_identifiant']->render() ?> 
+                    </div>
+                    <br>
+                    
                     <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
                     <div id="vendeur_informations" class="section_label_maj">
                         <?php   
@@ -78,10 +91,22 @@ else
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
                         <?php echo $form['acheteur_identifiant']->renderLabel() ?>
                         <div class="f_right">
-                            <?php echo $form['acheteur_identifiant']->render() ?>
+                            <ul id="acheteur_famille_choice" class="radio_list">
+                                <li>
+                                    <input type="radio" id="acheteur_viticulteur" value="1" name="vrac[acheteur_famille]">&nbsp;<label for="acheteur_viticulteur">Viticulteur</label>
+                                </li>
+                                <li>
+                                    <input type="radio" checked="checked" id="acheteur_negociant" value="0" name="vrac[acheteur_famille]">&nbsp;<label for="acheteur_negociant">Négociant</label>
+                                </li>
+                            </ul>                           
                         </div>
                     </div>
 
+                    <div id="acheteur_choice">
+                        <?php echo $form['acheteur_identifiant']->render() ?>
+                    </div>
+                    <br>
+                    
                     <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
                     <div id="acheteur_informations" class="section_label_maj">
                         <?php
