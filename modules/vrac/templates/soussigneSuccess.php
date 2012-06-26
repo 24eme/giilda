@@ -32,7 +32,7 @@ else
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#mandataire_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#mandataire_informations');
         majMandatairePanel();
         
-        init_ajax_contrats_similaires('<?php echo $numero_contrat;?>','soussigne');
+       // init_ajax_contrats_similaires('<?php echo $numero_contrat;?>','soussigne');
     });
 </script>
 <?php

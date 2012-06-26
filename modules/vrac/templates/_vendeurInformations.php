@@ -25,8 +25,7 @@ use_helper('Display');
     });
 </script>
 
-<div id="vendeur_infos" class="bloc_form">
-    
+<div id="vendeur_infos" class="bloc_form">    
     <div class="col">
         <div class="ligne_form">
             <span>
@@ -77,4 +76,4 @@ use_helper('Display');
             
         </div>
     </div>
-<div>
+</div>
