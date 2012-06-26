@@ -1,11 +1,7 @@
-
-<style>
-td{padding: 0px 10px;}
-</style>
-<table>    
+<table id="tableau_contrat">    
     <thead>
         <tr>
-            <th>Type</th>
+            <th class="type">Type</th>
             <th>N° Contrat</th>
             <th>Soussignés</th>   
             <th>Produit</th>
@@ -22,10 +18,11 @@ td{padding: 0px 10px;}
             $vracid = substr($vracid,0,8)."&nbsp;".substr($vracid,8,  strlen($vracid)-1);
         ?>
         <tr style="<?php echo 'background-color:'.$statusColor.';' ?>" >
-              <td><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT])? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></td>
-	      <td><?php echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>
+              <td class="type" ><span class="type_<?php echo $elt[VracClient::VRAC_VIEW_TYPEPRODUIT]; ?>"><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT])? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></span></td>
+	      <td id="num_contrat"><?php echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>
+
               <td>
-                     <ul>  
+                  <ul>  
                     <li>
                       <?php echo ($elt[VracClient::VRAC_VIEW_VENDEUR_ID])? 
                                     'Vendeur : '.link_to($elt[VracClient::VRAC_VIEW_VENDEUR_NOM],
@@ -44,12 +41,15 @@ td{padding: 0px 10px;}
                                             'vrac/recherche?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $elt[VracClient::VRAC_VIEW_MANDATAIRE_ID])) 
                                  : ''; ?>
                     </li>
-                  </ul>
+                 </ul>
               </td>              
               <td><?php echo ($elt[VracClient::VRAC_VIEW_PRODUIT_ID])? ConfigurationClient::getCurrent()->get($elt[VracClient::VRAC_VIEW_PRODUIT_ID])->libelleProduit() : ''; ?></td>
-              <td><?php echo (isset($elt[VracClient::VRAC_VIEW_VOLCONS]) && isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))?
+              <td>
+                  <?php echo $elt[VracClient::VRAC_VIEW_STATUT]; ?>              
+                  <?php echo (isset($elt[VracClient::VRAC_VIEW_VOLCONS]) && isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))?
                                     $elt[VracClient::VRAC_VIEW_VOLCONS].' / '.$elt[VracClient::VRAC_VIEW_VOLENLEVE]
-                                    : ''; ?></td>
+                                    : ''; ?>
+              </td>
         </tr>
         <?php } ?>
     </tbody>
