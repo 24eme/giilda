@@ -18,8 +18,22 @@ class vracActions extends sfActions
 
   public function executeRecherche(sfWebRequest $request) {
       $this->identifiant = $request->getParameter('identifiant');
-      $soussigne = 'ETABLISSEMENT-'.$this->identifiant;
-      $this->vracs = VracClient::getInstance()->retrieveBySoussigne($soussigne);      
+      $soussigneObj = EtablissementClient::getInstance()->findByIdentifiant($this->identifiant);
+      $soussigneId = 'ETABLISSEMENT-'.$this->identifiant;
+      $this->vracs = VracClient::getInstance()->retrieveBySoussigne($soussigneId);
+      
+      $this->etablissements = array('' => '');
+    
+      $soussignelabel = array($soussigneObj['nom'], $soussigneObj['cvi'], $soussigneObj['commune']);
+      $this->etablissements[$this->identifiant] = trim(implode(',', array_filter($soussignelabel)));
+
+      $datas = EtablissementClient::getInstance()->findAll()->rows;
+
+      foreach($datas as $data) 
+        {
+                $labels = array($data->key[4], $data->key[3], $data->key[1]);
+                $this->etablissements[$data->id] = trim(implode(',', array_filter($labels)));
+        }
   }
    
   public function executeNouveau(sfWebRequest $request)

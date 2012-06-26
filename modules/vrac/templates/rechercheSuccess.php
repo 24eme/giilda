@@ -1,18 +1,12 @@
 <?php
 use_helper('Vrac');
-
-$etablissements = array('' => '');
-$datas = EtablissementClient::getInstance()->findAll()->rows;
-foreach($datas as $data) 
-{
-        $labels = array($data->key[4], $data->key[3], $data->key[1]);
-        $etablissements[$data->id] = implode(', ', array_filter($labels));
-}
 ?>
 <script type="text/javascript">
     $(document).ready(function()
     {
-       $('.autocomplete').combobox(); 
+       $('.autocomplete').combobox();
+       
+       
     });
 
 </script>
@@ -28,8 +22,9 @@ foreach($datas as $data)
                             <select name="identifiant" value="<?php echo (isset($identifiant)) ? $identifiant : '' ; ?>" class="autocomplete">
                                 <?php foreach ($etablissements as $id => $name)
                                 {
+                                    $localEtablissement = preg_replace('/ETABLISSEMENT-/', '',$id);
                                 ?>
-                                    <option value="<?php echo preg_replace('/ETABLISSEMENT-/', '',$id); ?>"><?php echo $name; ?></option>
+                                    <option value="<?php echo $localEtablissement; ?>"<?php echo ($identifiant==$localEtablissement)? 'selected="selected"' : '' ; ?>><?php echo $name; ?></option>
                                 <?php
                                 }
                                 ?>
