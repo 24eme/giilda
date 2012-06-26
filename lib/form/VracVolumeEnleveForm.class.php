@@ -20,9 +20,9 @@ class VracVolumeEnleveForm extends acCouchdbObjectForm {
     {
         parent::doUpdateObject($values);
         
-        if($this->getObject()->volume_propose < $this->getObject()->volume_enleve)
+        if($this->getObject()->volume_propose <= $this->getObject()->volume_enleve)
         { 
-            $this->getObject()->valide->statut == "SOLDE";
+            $this->getObject()->valide->statut = "SOLDE";
         }
     }
   
