@@ -20,6 +20,7 @@ class VracClient extends acCouchdbClient {
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 'acheteur_identifiant';
     const VRAC_SIMILAIRE_KEY_MANDATAIREID = 'mandataire_identifiant'; 
     const VRAC_SIMILAIRE_KEY_PRODUIT = 'produit';
+    const VRAC_SIMILAIRE_KEY_TYPE = 'type_transaction';
     const VRAC_SIMILAIRE_KEY_VOLPROP = 'volume_propose';
     const VRAC_SIMILAIRE_KEY_ETAPE = 'etape';
     
@@ -98,8 +99,9 @@ class VracClient extends acCouchdbClient {
         }
         else
         {
-            return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['volume']))
-                   ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['volume'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
+            
+            return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['type'],$params['volume']*.95))
+                   ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['type'],$params['volume']*1.05, array()))->limit(10)->getView('vrac', 'vracSimilaire');
         }       
             
     }

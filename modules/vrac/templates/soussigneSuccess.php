@@ -32,7 +32,7 @@ else
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#mandataire_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#mandataire_informations');
         majMandatairePanel();
         
-        init_ajax_contrats_similaires('<?php echo $numero_contrat;?>');
+        init_ajax_contrats_similaires('<?php echo $numero_contrat;?>','soussigne');
     });
 </script>
 <?php
@@ -159,7 +159,23 @@ else
             </section>
         </section>
         <aside id="colonne">
-        <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
+            <?php
+            /*
+            * Inclusion du panel de progression d'édition du contrat
+            */
+            include_partial('contrat_progression', array('vrac' => $vrac));
+
+            /*
+            * Inclusion des Contacts
+            */
+            include_partial('contrat_infos_contact', array('vrac' => $vrac));
+
+            /*
+            * Inclusion de l'aide
+            */
+            include_partial('contrat_aide', array('vrac' => $vrac));
+
+            ?>
         </aside>
     </div>
 </div>

@@ -7,7 +7,12 @@
  * Derniere date de modification : ${date}
  */
 ?>
-
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+       ajax_send_contrats_similairesMarche('<?php echo $form->getObject()->numero_contrat ?>');
+    });
+</script>
 <div id="contenu">
     <div id="rub_contrats">
         <section id="principal">
