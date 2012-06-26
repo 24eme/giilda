@@ -45,6 +45,16 @@ class VracClient extends acCouchdbClient {
     const STATUS_CONTRAT_ANNULE = 'ANNULE';
     const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
     
+    
+    public static $contenance = array('75 cl' => 0.0075,
+                                   '1 L' => 0.01,
+                                     '1.5 L'=> 0.015,
+                                     '3 L' => 0.03,
+                                        'BIB 3 L' => 0.03,
+                                    '6 L' => 0.06);
+
+    
+    
 
     /**
      *

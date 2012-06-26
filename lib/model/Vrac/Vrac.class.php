@@ -18,6 +18,18 @@ class Vrac extends BaseVrac {
         }
     }
     
+    public function setBouteillesContenance($c) {
+        if (is_float($c)) {
+            parent::setBouteillesContenance($c);
+        }else if (is_string($c))
+        {
+            parent::setBouteillesContenance(VracClient::$contenance[$c]);
+        }else {
+            throw new sfException("$c n'est pas une contenance de bouteille reconnue");
+        }
+        
+    }
+    
     public function update($params = array()) {
         
         switch ($this->type_transaction)

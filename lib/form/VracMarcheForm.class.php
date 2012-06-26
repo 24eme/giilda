@@ -18,13 +18,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
      private $label = array('grains_nobles' => 'Grains nobles',
                             'primeur' => 'Primeur',
                             'Agriculture_biologique' => 'Agriculture Biologique');
-     private $contenance = array('75 cl' => 0.0075,
-                                       '1 L' => 0.01,
-                                       '1.5 L'=> 0.015,
-                                       '3 L' => 0.03,
-                                       'BIB 3 L' => 0.03,
-                                       '6 L' => 0.06);
-
+     
     
     public function configure()
     {
@@ -50,7 +44,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('raisin_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('jus_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('bouteilles_quantite', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));
-        $this->setWidget('bouteilles_contenance', new sfWidgetFormChoice(array('choices' => array_keys($this->contenance))));
+        $contenance = array();
+        foreach (array_keys(VracClient::$contenance) as $c) {
+            $contenance[$c] = $c;
+        }
+        $this->setWidget('bouteilles_contenance', new sfWidgetFormChoice(array('choices' => $contenance)));
         $this->setWidget('prix_unitaire', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         
         $this->widgetSchema->setLabels(array(
@@ -77,7 +75,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),
             'raisin_quantite' =>  new sfValidatorNumber(array('required' => false)),
             'jus_quantite' =>  new sfValidatorNumber(array('required' => false)), 
-            'bouteilles_contenance' => new sfValidatorInteger(array('required' => true)),
+            'bouteilles_contenance' => new sfValidatorString(array('required' => true)),
             'prix_unitaire' => new sfValidatorNumber(array('required' => true))
                 ));
         $this->widgetSchema->setNameFormat('vrac[%s]');
@@ -96,5 +94,5 @@ class VracMarcheForm extends acCouchdbObjectForm {
         return $domaine_arr;
     }
     
-}
+    }
 ?>
