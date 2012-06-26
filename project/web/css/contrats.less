@@ -316,7 +316,103 @@
                 vertical-align: top;
                 width: 329px;              
         }      
-        
+
+        #recherche_operateur{
+                background:@couleur-a5;
+                padding:10px 10px 30px;
+
+                .ui-autocomplete-input{
+                        width:510px;
+                        margin-right:10px;
+                }
+
+                #btn_rechercher{
+                        .btn_majeur;
+                        .btn_noir;
+                        width:115px;
+                }
+                
+                span#recherche_avancee{
+                        .clearfix;
+                        display:bloc;
+                        color:@couleur-a4;
+                        font-style:italic;
+                        float:right;
+                        .souligne;
+                        padding-top:5px;
+                }
+
+        }
+
+        #ouvrir_excel{
+                float: right;
+                margin-top: 50px;
+        }
+
+        .legende{
+                margin: 15px 0;
+                div{
+                        display:inline-block;
+                        height:25px;
+                        width:100px;
+
+                        .legende_type_texte{
+                                margin: 7px 0 0 10px;
+                                position: absolute;
+                        }
+                        
+                        .statut{
+                                .border-radius(50%);
+                                .box-dimensions(20px, 20px);
+                                display: inline-block;
+                                vertical-align:middle;
+                        }
+                        
+                        .statut_solde{ background-color:#a2df46; }
+
+                        .statut_non-solde{ background-color:#faa804; }
+
+                        .statut_annule{ background-color:#e42c2c; }
+
+                        .legende_statut_texte{
+                                margin: 2px 0 0 10px;
+                                position: absolute;
+                        }
+
+                }
+        }
+
+        #tableau_contrat{
+
+
+                th{
+                        .border(@couleur-a10);
+                        background:@couleur-a5;
+                        //&:first-child{ .border-radius(5px 0 0 0)}
+                        //&:last-child{ .border-radius(0 5px 0 0)}
+                        vertical-align:middle;
+                }
+                
+                td{
+                        .border(@couleur-a10);
+                        vertical-align: top;
+                        padding: 10px;
+
+                        
+                        
+                }
+                td.type{
+                        vertical-align: middle;
+                }
+                #num_contrat{
+                        a{
+                                color:#2160cf;
+                                text-decoration:underline;
+                                font-style:italic;
+                        }
+                }
+        }
+
         #vrac_soussigne{
                 
                 .section_label_maj{
@@ -357,38 +453,39 @@
                 }
         }
 
-       
+        #vrac_marche{
                 
-        #original, #produit, #millesime, #type, #label, #prixUnitaire{
+                #original, #produit, #millesime, #type, #label, #prixUnitaire{
 
-                .clearfix;
-                margin : 20px 0; 
+                        .clearfix;
+                        margin : 20px 0; 
 
-                label{
-                        &:first-child{
-                                display:block;
-                                float:left;
-                                width:230px;
+                        label{
+                                &:first-child{
+                                        display:block;
+                                        float:left;
+                                        width:230px;
+                                }
+                        }
+                }   
+
+                #vrac_marche_volumePropose{
+                        label:first-child{
+                                        width:215px;
                         }
                 }
-        }   
 
-        #vrac_marche_volumePropose{
-                label:first-child{
-                                width:215px;
+                #label .checkbox_list{
+                        display: block;
+                        float: left;
                 }
-        }
-          
-        #label .checkbox_list{
-                display: block;
-                float: left;
-        }
 
-        #condition{
-            .section_label_maj{ 
-                    margin-top:20px;
-                    label{ width: 260px;}
-            }
+                #condition{
+                        .section_label_maj{ 
+                                margin-top:20px;
+                                label{ width: 260px;}
+                        }
+                }
         }
 
 }

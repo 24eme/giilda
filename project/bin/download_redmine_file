@@ -1,0 +1,16 @@
+#!/bin/bash
+COOKIESDIR=/tmp
+redminefile=$1
+outputfile=$2
+echo -n "redmine user: "; >&2
+read user 
+echo -n "redmine pass: "; >&2
+read pass
+AUTH_TOKEN=$(curl -s -k -c $COOKIESDIR/cookies_token.txt https://clients.intra.actualys.fr/login | grep authenticity_token | sed 's/.*value="//'| sed 's/".*//')
+if ! curl -s -k -b $COOKIESDIR/cookies_token.txt -c $COOKIESDIR/cookies_login.txt -X POST -d "username=$user&password=$pass&authenticity_token=$AUTH_TOKEN" https://clients.intra.actualys.fr/login | grep 'https://clients.intra.actualys.fr/my/page' > /dev/null; then
+   echo Redmine authentication failed >&2
+   exit 2
+fi
+curl -s -k -b $COOKIESDIR/cookies_login.txt "$redminefile" > $outputfile
+cat $outputfile | grep -i '<html' && rm $outputfile > /dev/null 
+#rm $COOKIESDIR/cookies_login.txt $COOKIESDIR/cookies_token.txt
