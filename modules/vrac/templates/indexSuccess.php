@@ -36,7 +36,6 @@ foreach($datas as $data)
                 <br />
                 <div class="section_label_maj"> 
                     <label>10 derniers contrats saisis : </label>
-                    <a id="ouvrir_excel" class="btn_majeur btn_excel" href="#">Ouvrir avec Excel</a>
                     <div class="legende">
                         <div><span class="type_raisins">type_raisins</span><span class="legende_type_texte">Raisins</span></div>
                         <div><span class="type_mouts">type_mouts</span><span class="legende_type_texte">Mouts</span></div>
