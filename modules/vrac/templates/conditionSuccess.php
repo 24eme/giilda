@@ -11,64 +11,62 @@
     <div id="rub_contrats">    
         <section id="principal">
         <?php include_partial('headerVrac', array('vrac' => $form->getObject(),'actif' => 3)); ?>
-            <section id="contenu_etape"> 
+            <div id="contenu_etape"> 
                 <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_condition',$vrac) ?>">  
                     <?php echo $form->renderHiddenFields() ?>
                     <?php echo $form->renderGlobalErrors() ?>
-                <section id="condition">
-                    <!--  Affichage du type de contrat (si standard la suite n'est pas affiché JS)  -->
-                    <section id="type_contrat">
-                        <?php echo $form['type_contrat']->renderError() ?>        
-                        <h2>
+                    <div id="condition">
+                        <!--  Affichage du type de contrat (si standard la suite n'est pas affiché JS)  -->
+                        <div id="type_contrat" class="section_label_maj">
+                            <?php echo $form['type_contrat']->renderError() ?>        
                             <?php echo $form['type_contrat']->renderLabel() ?>
-                        </h2>
-                           <?php echo $form['type_contrat']->render() ?>
-                    </section>
-                    <!--  Affichage de la présence de la part variable du contrat (si non la suite n'est pas affiché JS) -->
-                    <section id="prix_isVariable">
-                        <?php echo $form['prix_variable']->renderError() ?>        
-                        <h2>  <?php echo $form['prix_variable']->renderLabel() ?> </h2>  
-                        <?php echo $form['prix_variable']->render() ?>        
-                    </section>
+                            <?php echo $form['type_contrat']->render() ?>
+                        </div>
+                        <!--  Affichage de la présence de la part variable du contrat (si non la suite n'est pas affiché JS) -->
+                        <div id="prix_isVariable" class="section_label_maj">
+                            <?php echo $form['prix_variable']->renderError() ?>        
+                            <?php echo $form['prix_variable']->renderLabel() ?> 
+                            <?php echo $form['prix_variable']->render() ?>        
+                        </div>
 
-                    <!--  Affiché si et seulement si type de contrat = 'pluriannuel' et partie de prix variable = 'Oui' -->
-                    <section id="vrac_marche_prixVariable">
-                        <?php
-                    include_partial('condition_prixVariable', array('form' => $form));
-                    ?>
-                    </section>
+                        <!--  Affiché si et seulement si type de contrat = 'pluriannuel' et partie de prix variable = 'Oui' -->
+                        <div id="vrac_marche_prixVariable">
+                            <?php
+                        include_partial('condition_prixVariable', array('form' => $form));
+                        ?>
+                        </div>
 
-                    <br>
-                    <h2>Dates</h2>
-                    <br>
-                    <!--  Affichage de la date de signature -->
-                    <section id="date_signature">
-                        <?php echo $form['date_signature']->renderError() ?>        
-                        <?php echo $form['date_signature']->renderLabel() ?>
-                        <?php echo $form['date_signature']->render() ?>        
-                    </section>
-                    <br>
-                    <!--  Affichage de la date de statistique -->
-                    <section id="date_stats">
-                        <?php echo $form['date_stats']->renderError() ?>        
-                        <?php echo $form['date_stats']->renderLabel() ?>
-                        <?php echo $form['date_stats']->render() ?>        
-                    </section>
-                    <br>
-                </section>
-                    <div id="btn_etape_dr">
+                        <div class="section_label_maj">
+                            <label>Dates</label>
+                            <div class="bloc_form">
+                                <!--  Affichage de la date de signature -->
+                                <div id="date_signature" class="ligne_form">
+                                    <?php echo $form['date_signature']->renderError() ?>        
+                                    <?php echo $form['date_signature']->renderLabel() ?>
+                                    <?php echo $form['date_signature']->render() ?>        
+                                </div>
+                                <!--  Affichage de la date de statistique -->
+                                <div id="date_stats" class="ligne_form ligne_form_alt">
+                                    <?php echo $form['date_stats']->renderError() ?>        
+                                    <?php echo $form['date_stats']->renderLabel() ?>
+                                    <?php echo $form['date_stats']->render() ?>        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ligne_btn">
 
-                         <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_majeur btn_annuler">
+                            <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_majeur btn_annuler">
                             <span>Précédent</span>
                         </a> 
                         <div class="btnValidation">
                             <span>&nbsp;</span>
                             <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
-         
+
                         </div>
                     </div>
                 </form>
-            </section>
+            </div>
         </section>
         <aside id="colonne">
         <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
