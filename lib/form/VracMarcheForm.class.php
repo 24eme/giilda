@@ -41,8 +41,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
         
         $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->produits), array('class' => 'autocomplete')));
         $millesimes = ConfigurationClient::getMillesimes();
-        $this->setWidget('millesime', new sfWidgetFormChoice(array('choices' => $millesimes,'multiple' => false, 'expanded' => false)));      
-        $this->setWidget('domaine', new sfWidgetFormChoice(array('choices' => $this->getDomaines())));
+        $this->setWidget('millesime', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));      
+        $this->setWidget('domaine', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));
         $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->label,'multiple' => true, 'expanded' => true)));
         $this->setWidget('raisin_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('jus_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
@@ -59,7 +59,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'label' => 'label',
             'bouteilles_quantite' => 'Nombre de bouteilles',
             'raisin_quantite' => 'Nombre de raisins',
-            'jus_quantite' => 'Volume livré',
+            'jus_quantite' => 'Volume proposé',
             'bouteilles_contenance' => 'Contenance',
             'prix_unitaire' => 'Prix'
         ));
@@ -69,7 +69,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($types_transaction))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->produits))),
             'millesime' => new sfValidatorInteger(array('required' => true)),
-            'domaine' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getDomaines()))),
+            'domaine' => new sfValidatorString(array('required' => false)),
             'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->label))),
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),
             'raisin_quantite' =>  new sfValidatorNumber(array('required' => false)),
