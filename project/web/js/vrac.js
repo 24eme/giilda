@@ -137,24 +137,24 @@ var updatePanelsAndUnitForBottle = function()
     
     var volume_total = 0.0;
     var bouteilles_quantite = $('#vrac_bouteilles_quantite').val();
-    var bouteilles_contenance = $('#vrac_bouteilles_contenance').val();
+    var bouteilles_contenance = getBouteilleContenance($('#vrac_bouteilles_contenance').val());
     if(bouteilles_quantite == "" || bouteilles_contenance == "") return; 
     
     var numeric =  new RegExp("^[0-9]*$","g");
     
     if(numeric.test(bouteilles_quantite))
     {
-        volume_total = (parseInt(bouteilles_contenance)/10000) * parseInt(bouteilles_quantite);
-        $('.bouteilles_quantite span#volume_unite_total').text("(soit "+volume_total+" hl)");
+        volume_total = bouteilles_contenance * parseInt(bouteilles_quantite);
+        $('.bouteilles_quantite span#volume_unite_total').text("(soit "+parseFloat(volume_total).toFixed(2)+" hl)");
         var bouteilles_price = $('#vrac_prix_unitaire').val();
-        var bouteilles_priceReg = (new RegExp("^[0-9]*[.][0-9]{2}$","g")).test(bouteilles_price);
+        var bouteilles_priceReg = (new RegExp("^[0-9]+[.]?[0-9]*$","g")).test(bouteilles_price);
         if(bouteilles_priceReg)
         {
            var prix_total = parseInt(bouteilles_quantite) * parseFloat(bouteilles_price);
-           $('#vrac_prix_total').text(prix_total);
+           $('#vrac_prix_total').text(parseFloat(prix_total).toFixed(2));
            var prix_hl = prix_total / volume_total;
            $('#prixUnitaire span#prix_unitaire_unite').text("€/btlle");
-           $('#prixUnitaire span#prix_unitaire_hl').text("(soit "+prix_hl+" €/hl)");
+           $('#prixUnitaire span#prix_unitaire_hl').text("(soit "+parseFloat(prix_hl).toFixed(2)+" €/hl)");
         }
     }
 }
