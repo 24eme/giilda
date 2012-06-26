@@ -40,7 +40,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
          
         
         $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->produits), array('class' => 'autocomplete')));
-        $millesimes = ConfigurationClient::getMillesimes();
+        
+        //$millesimes = ConfigurationClient::getMillesimes();
+        
         $this->setWidget('millesime', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));      
         $this->setWidget('domaine', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));
         $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->label,'multiple' => true, 'expanded' => true)));

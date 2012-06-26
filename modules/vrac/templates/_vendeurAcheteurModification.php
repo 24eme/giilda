@@ -17,7 +17,7 @@ $type = $form->getObject()->getFamilleType();
     
     <div class="col">
         <div class="ligne_form">
-            <span><label>Nom du <?php echo $type; ?> :</label>
+            <span><label><?php echo ($type=="vendeur")? 'Nom du vendeur ' : "Nom de l'acheteur "; ?> :</label>
             <?php echo $form->getObject()->nom; ?>    </span>
         </div>
         <div class="ligne_form ligne_form_alt">

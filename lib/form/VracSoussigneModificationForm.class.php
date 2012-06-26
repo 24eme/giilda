@@ -38,16 +38,16 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
         
         $this->widgetSchema->setLabels(array(
             'num_accise' => 'N° ACCISE',
-            'adresse' => 'Adresse*',
-            'code_postal' => 'CP',
+            'adresse' => 'Adresse',
+            'code_postal' => 'CP*',
             'commune' => 'Ville*',
             'num_tva_intracomm' => 'TVA Intracomm.'
         ));
                 
         $this->setValidators(array(
             'num_accise' => new sfValidatorString(array('required' => false)),
-            'adresse' => new sfValidatorString(array('required' => true, 'min_length' => 5)),
-            'code_postal' => new sfValidatorString(array('required' => false, 'min_length' => 5,'max_length' => 5)),
+            'adresse' => new sfValidatorString(array('required' => false)),
+            'code_postal' => new sfValidatorString(array('required' => true, 'min_length' => 5,'max_length' => 5)),
             'commune' => new sfValidatorString(array('required' => true, 'min_length' => 2)),
             'num_tva_intracomm' => new sfValidatorString(array('required' => false))
             ));

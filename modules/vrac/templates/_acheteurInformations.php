@@ -32,7 +32,7 @@ use_helper('Display');
     <div class="col">
         <div class="ligne_form ">
             <span>
-                <label>Nom de l'acheteur*</label>
+                <label>Nom de l'acheteur :</label>
                 <?php display_field($acheteur,'nom'); ?>
             </span>
         </div>
@@ -44,7 +44,7 @@ use_helper('Display');
         </div>
         <div class="ligne_form">
             <span>
-                <label>N° ACCISE*</label>
+                <label>N° ACCISE</label>
                 <?php display_field($acheteur,'num_accise'); ?>
             </span>
         </div>
@@ -59,13 +59,13 @@ use_helper('Display');
     <div class="col col_right">
         <div class="ligne_form">
             <span>
-                <label>Adresse*</label>
+                <label>Adresse</label>
                 <?php display_field($acheteur,'adresse');  ?>
             </span>
         </div>
         <div class="ligne_form ligne_form_alt">
             <span>
-                <label>Code Postal*</label>
+                <label>CP*</label>
                 <?php display_field($acheteur,'code_postal'); ?>
             </span>
         </div>
