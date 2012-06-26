@@ -25,7 +25,7 @@
  * @property acCouchdbJson $label
  * @property float $raisin_quantite
  * @property float $jus_quantite
- * @property float $bouteilles_quantite
+ * @property integer $bouteilles_quantite
  * @property float $bouteilles_contenance_volume
  * @property string $bouteilles_contenance_libelle
  * @property float $prix_unitaire
@@ -84,8 +84,8 @@
  * @method float setRaisinQuantite()
  * @method float getJusQuantite()
  * @method float setJusQuantite()
- * @method float getBouteillesQuantite()
- * @method float setBouteillesQuantite()
+ * @method integer getBouteillesQuantite()
+ * @method integer setBouteillesQuantite()
  * @method float getBouteillesContenanceVolume()
  * @method float setBouteillesContenanceVolume()
  * @method string getBouteillesContenanceLibelle()
