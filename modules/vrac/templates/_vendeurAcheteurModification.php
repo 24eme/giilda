@@ -21,9 +21,8 @@ $type = $form->getObject()->getFamilleType();
             <?php echo $form->getObject()->nom; ?>    </span>
         </div>
         <div class="ligne_form ligne_form_alt">
-            <span><?php echo $form['cvi']->renderLabel() ?>
-            <?php echo $form['cvi']->renderError(); ?>
-            <?php echo $form['cvi']->render() ?> </span>
+            <span><label>N° CVI </label>
+                <?php echo $form->getObject()->cvi; ?>    </span>
         </div>
         <div class="ligne_form">
             <span><?php echo $form['num_accise']->renderLabel() ?>

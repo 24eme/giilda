@@ -179,7 +179,7 @@ class vracActions extends sfActions
         {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid())
-            {
+            {                
                 $this->form->save();      
                 return $this->renderPartialInformations($etablissement,$nouveau);
             }
@@ -218,7 +218,6 @@ class vracActions extends sfActions
 
 
   private function renderPartialInformations($etablissement,$nouveau) {
-      
       $familleType = $etablissement->getFamilleType();
       return $this->renderPartial($familleType.'Informations', 
         array($familleType => $etablissement, 'nouveau' => $nouveau));
