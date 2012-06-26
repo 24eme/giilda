@@ -43,9 +43,43 @@ class VracCsvFile extends CsvFile
   const CSV_PRIX_HORS_CVO = 38;
   const CSV_PRIX_CVO_INCLUSE = 39;
   const CSV_TAUX_CVO_GLOBAL = 40;
-  const CSV_INDICATEUR_PRIX_VARIABLE = 41;
-  const CSV_PRIX_DEFINITIF = 42;
-  const CSV_INDICATEUR_PRIX_DEFINITIF = 43;
+
+  const CSV_CIAPL_DOSSIER = 41;
+  const CSV_CIAPL_CAMPAGNE = 42;
+  const CSV_CIAPL_CODE = 43;
+  const CSV_CIAPL_LIBELLE = 44;
+  const CSV_CIAPL_CODE_COMPTABLE_ANALYTICS = 45;
+  const CSV_CIAPL_CODE_COMPTABLE_VENTE = 46;
+  const CSV_CIAPL_DATE_CREATION = 47;
+  const CSV_CIAPL_DATE_DERNIERE_MODIFICATION = 48;
+  const CSV_CIAPL_STQZ = 49;
+  const CSV_CIAPL_CEPAGE = 50;
+  const CSV_CIAPL_CODE_STATS = 51;
+  const CSV_CIAPL_SUSPENDU = 52;
+  const CSV_CIAPL_COULEUR = 53;
+  const CSV_CIAPL_SUR_LIE = 54;
+  const CSV_CIAPL_AGREMENT_LABEL = 55;
+  const CSV_CIAPL_REGION_VITICOLE = 56;
+  const CSV_CIAPL_MOUSSEUX = 57;
+
+  const CSV_PRODUIT_INTERPRO = 58;
+  const CSV_PRODUIT_CATEGORIE_LIBELLE = 59;    //CATEGORIE == CERTIFICATION
+  const CSV_PRODUIT_CATEGORIE_CODE = 60;       //CATEGORIE == CERTIFICATION
+  const CSV_PRODUIT_CATEGORIE_CODE_APPLICATIF_DROIT = 'C';
+  const CSV_PRODUIT_GENRE_LIBELLE = 61;
+  const CSV_PRODUIT_GENRE_CODE = 62;
+  const CSV_PRODUIT_GENRE_CODE_APPLICATIF_DROIT = 'G';
+  const CSV_PRODUIT_DENOMINATION_LIBELLE = 63; //DENOMINATION == APPELLATION
+  const CSV_PRODUIT_DENOMINATION_CODE = 64;    //DENOMINATION == APPELLATION
+  const CSV_PRODUIT_DENOMINATION_CODE_APPLICATIF_DROIT = 'A';
+  const CSV_PRODUIT_MENTION_LIBELLE = 65;
+  const CSV_PRODUIT_MENTION_CODE = 66;
+  const CSV_PRODUIT_LIEU_LIBELLE = 67;
+  const CSV_PRODUIT_LIEU_CODE = 68;
+  const CSV_PRODUIT_COULEUR_LIBELLE = 69;
+  const CSV_PRODUIT_COULEUR_CODE = 70;
+  const CSV_PRODUIT_CEPAGE_LIBELLE = 71;
+  const CSV_PRODUIT_CEPAGE_CODE = 72;
 
   const CSV_TYPE_PRODUIT_INDETERMINE = 0;
   const CSV_TYPE_PRODUIT_RAISINS = 1;
@@ -90,6 +124,10 @@ class VracCsvFile extends CsvFile
           
           continue;
         }
+
+        if (!isset($line[self::CSV_PRODUIT_INTERPRO])) {
+          continue;
+        }
         
         echo $type_transaction . "\n";
 
@@ -110,11 +148,18 @@ class VracCsvFile extends CsvFile
         $v->vendeur_identifiant = 'ETABLISSEMENT-'.$line[self::CSV_CODE_VITICULTEUR];
         $v->acheteur_identifiant = 'ETABLISSEMENT-'.$line[self::CSV_CODE_NEGOCIANT];
         $v->mandataire_identifiant = null;
+
         if ($line[self::CSV_CODE_COURTIER]) {
           $v->mandataire_identifiant   = 'ETABLISSEMENT-'.$line[self::CSV_CODE_COURTIER];
         }
 
         $v->produit = 'declaration/certifications/AOC';
+
+        $v->produit = $this->getHash($line);
+
+        if($line[self::CSV_CIAPL_SUR_LIE] == "O") {
+          $v->label->add(null, "LIE");
+        }      
 
         if (!$v->getVendeurObject() || !$v->getAcheteurObject()) {
           echo "Les etablissements n'existes pas \n";
@@ -139,7 +184,7 @@ class VracCsvFile extends CsvFile
           $v->raisin_quantite = $line[self::CSV_VOLUME_PROPOSE_HL] * $line[self::CSV_COEF_CONVERSION_PRIX];
         }
 
-        $v->volume_consomme = $line[self::CSV_VOLUME_PROPOSE_HL] * 1;
+        $v->volume_propose = $line[self::CSV_VOLUME_PROPOSE_HL] * 1;
 
         $v->volume_enleve = $line[self::CSV_VOLUME_ENLEVE_HL] * 1;
 
@@ -236,6 +281,40 @@ class VracCsvFile extends CsvFile
   protected function convertOuiNon($indicateur) {
 
     return (int) ($indicateur == 'O');
+  }
+
+  private function getHash($line) 
+  {
+    $hash  = 'declaration/certifications/'.$this->getKey($line[self::CSV_PRODUIT_CATEGORIE_CODE]);
+    $hash .= '/genres/'.$this->getKey($line[self::CSV_PRODUIT_GENRE_CODE], true);
+    $hash .= '/appellations/'.$this->getKey($line[self::CSV_PRODUIT_DENOMINATION_CODE], true);
+    $hash .= '/mentions/'.$this->getKey($line[self::CSV_PRODUIT_MENTION_CODE], true);
+    $hash .= '/lieux/'.$this->getKey($line[self::CSV_PRODUIT_LIEU_CODE], true);
+    $hash .= '/couleurs/'.strtolower($this->couleurKeyToCode($line[self::CSV_PRODUIT_COULEUR_CODE]));
+    $hash .= '/cepages/'.$this->getKey($line[self::CSV_PRODUIT_CEPAGE_CODE], true);
+    return $hash;
+  }
+
+  private function couleurKeyToCode($key) {
+    $correspondances = array(1 => "rouge",
+                             2 => "rose",
+                             3 => "blanc");
+
+    if (!isset($correspondances[$key])) {
+      throw new Exception("Couleur pas connue $key");
+    }
+    return $correspondances[$key];
+  }
+
+  private function getKey($key, $withDefault = false) 
+  {
+    if ($withDefault) {
+      return ($key)? $key : Configuration::DEFAULT_KEY;
+    } 
+    if (!$key) {
+      throw new Exception('La clé "'.$key.'" n\'est pas valide');
+    }
+    return $key;
   }
 
 }
