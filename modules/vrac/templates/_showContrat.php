@@ -1,4 +1,4 @@
-<?php $isValidation = ($vrac->etape==4); ?>
+<?php $isValidation = (is_null($vrac->valide->statut) || ($vrac->valide->statut == "NONSOLDE")); ?>
 <ul>
         <li>
             <h2>

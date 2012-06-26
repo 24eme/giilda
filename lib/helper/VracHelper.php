@@ -8,11 +8,11 @@ function statusColor($status)
     switch ($status)
     {
         case VracClient::STATUS_CONTRAT_ANNULE:
-            return 'red';
+            return 'statut_annule';
         case VracClient::STATUS_CONTRAT_SOLDE:
-            return 'green';
+            return 'statut_solde';
         case VracClient::STATUS_CONTRAT_NONSOLDE:
-            return 'yellow';
+            return 'statut_non-solde';
         default :
             return '';
     }

@@ -217,6 +217,22 @@ class vracActions extends sfActions
             
   }
 
+  public function executeVolumeEnleve(sfWebRequest $request)
+  {
+        $this->vrac = VracClient::getInstance()->findByNumContrat($request['numero_contrat']);
+
+        $this->form = new VracVolumeEnleveForm($this->vrac);
+        if ($request->isMethod(sfWebRequest::POST)) 
+        {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid())
+            {
+                $this->form->save();      
+                $this->redirect('vrac_termine', $this->vrac);
+            }
+        }
+  }
+  
 
   private function renderPartialInformations($etablissement,$nouveau) {
       $familleType = $etablissement->getFamilleType();

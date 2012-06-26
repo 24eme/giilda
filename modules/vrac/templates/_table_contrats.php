@@ -16,7 +16,7 @@
             $statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
             $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]);
         ?>
-        <tr style="<?php echo 'background-color:'.$statusColor.';' ?>" >
+        <tr class="<?php echo $statusColor; ?>" >
               <td class="type" ><span class="type_<?php echo $elt[VracClient::VRAC_VIEW_TYPEPRODUIT]; ?>"><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT])? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></span></td>
 	      <td id="num_contrat"><?php echo link_to(substr($vracid,0,8)."&nbsp;".substr($vracid,8,  strlen($vracid)-1), '@vrac_termine?numero_contrat='.$vracid); ?></td>
 

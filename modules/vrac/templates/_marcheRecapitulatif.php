@@ -62,6 +62,15 @@ if($hasDomaine && $vrac->domaine=="domaine")
            echo showRecapVolume($vrac); 
            ?>
         </span>
+    <?php
+    if(!is_null($vrac->valide->statut))
+    {
+    ?>
+    <a class="btn_majeur btn_gris" href="<?php echo url_for('vrac_volumeEnleve',$vrac); ?>">Enlever du volume</a>
+    <?php 
+    
+    }
+    ?>
 </section>
 
 <section id="marche_recapitulatif_prixUnitaire">

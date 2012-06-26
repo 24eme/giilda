@@ -11,18 +11,15 @@
     <div id="rub_contrats">
         <section id="principal">      
             <section id="contenu_etape"> 
-                <form id="vrac_recapitulatif" method="get" action="<?php echo url_for('vrac_nouveau') ?>">
                 <h2>La saisie est terminée !</h2>
                 <h2>N° d'enregistrement du contrat : <span><?php echo $vrac['numero_contrat']; ?></span></h2>
                 <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
 
                         <div id="btn_etape_dr">
-                            <div class="btnValidation">
-                            <span>&nbsp;</span>
-                            <button class="btn_majeur btn_gris" type="submit"> Saisir un nouveau contrat</button>
+                            <div style="text-align: right;">
+                            <a class="btn_majeur btn_gris" href="<?php echo url_for('vrac_nouveau') ?>"> Saisir un nouveau contrat</a>
                             </div>       
                         </div>
-                </form>
             </section>
         </section>
     </div>
