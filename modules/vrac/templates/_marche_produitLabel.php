@@ -11,67 +11,53 @@
  $has_domaine = ! is_null($form->getObject()->domaine);
  ?>
 
-<br>
 <!--  Affichage des produits disponibles (en fonction de la transaction choisie  -->
-<section id="produit">
+<div id="produit" class="section_label_maj">
     <?php echo $form['produit']->renderError(); ?>
-    <h2>
+    
     <?php echo $form['produit']->renderLabel() ?>
     <?php echo $form['produit']->render() ?>
-    </h2>
-</section>
+</div>
 
 <!--  Affichage des millésimes  -->
-<section id="millesime">
+<div id="millesime" class="section_label_maj">
     <?php echo $form['millesime']->renderError(); ?>
-    <h2> 
     <?php echo $form['millesime']->renderLabel() ?> 
     <?php echo $form['millesime']->render() ?>
-    </h2>
-</section>
+</div>
 
 <!--  Affichage du type  -->
-<section id="type">
-    <h2> Type </h2>
-    
+<div id="type" class="section_label_maj">
+    <label>Type </label>
         <input type="radio" value="generique" name="type_produit" <?php echo ($has_domaine)? '' : 'checked="checked"'; ?> />
         <label for="generique">Générique</label>   
-
         <input type="radio" value="domaine" name="type_produit" <?php echo ($has_domaine)? 'checked="checked"' : ''; ?> />
         <label for="domaine">Domaine</label>
-</section>
+</div>
 
 
 <!--  Affichage du type  -->
-<section id="domaine">
-<?php echo $form['domaine']->renderError(); ?>
-    <h2>
-        <?php echo $form['domaine']->renderLabel() ?> 
-        <?php echo $form['domaine']->render() ?>
-    </h2>
-</section>
+<div id="domaine" class="section_label_maj">
+    <?php echo $form['domaine']->renderError(); ?>
+    <?php echo $form['domaine']->renderLabel() ?> 
+    <?php echo $form['domaine']->render() ?>   
+</div>
 
-
-<br>
 <!--  Affichage des label disponibles -->
-<section id="label">
-
-    <h2>
-        <?php echo $form['label']->renderLabel() ?> 
-    </h2>
-        <?php echo $form['label']->renderError(); ?>
-        <?php echo $form['label']->render() ?>
-    
-</section>
+<div id="label" class="section_label_maj">
+    <?php echo $form['label']->renderLabel() ?> 
+    <?php echo $form['label']->renderError(); ?>
+    <?php echo $form['label']->render() ?>
+</div>
 <!--  
 <br>
 
-<section id="stock">
+<div id="stock">
     <strong>Stocks disponibles</strong> 
         
         <?php 
        // echo "500 hl";
         ?>
-</section>
+</div>
         
 Affichage du stock disponible pour ce produit WARNING TO AJAXIFY -->

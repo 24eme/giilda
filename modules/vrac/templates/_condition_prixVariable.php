@@ -10,68 +10,76 @@
 
 use_helper('Vrac');
  ?>
-<section id="prix_variable" style="display: none;">
-    <br>
-    <h2>Prix variable</h2>
-    <!--  Affichage des la part variable sur la quantité du contrat  -->
-    <section id="part_variable">
-            <?php echo $form['part_variable']->renderError() ?>
-        <strong> <?php echo $form['part_variable']->renderLabel() ?> </strong>
-            <?php echo $form['part_variable']->render() ?> <span>% (50% max)</span>
-    </section>
-    <!--  Affichage du taux de variation des produits du contrat  -->
-    <section id="prixTotal_rappel">
-        Prix total 
-        <strong>
-        <?php echo $form->getObject()->prix_unitaire ?> €/<?php echo showUnite($form->getObject()); ?>
-        </strong>
-        <?php if( $form->getObject()->type_transaction == "vin_bouteille")
-         {
-           echo "(soit ".$form->getObject()->bouteilles_quantite * (($form->getObject()->bouteilles_contenance)/10000)." €/hl)";
-         }
-        ?>      
-    </section>
-    <!--  Affichage du taux de variation des produits du contrat  -->
-    <section id="taux_variation">
-            <?php echo $form['taux_variation']->renderError() ?>
-        <strong> <?php echo $form['taux_variation']->renderLabel() ?> </strong>
+<div id="prix_variable" style="display: none;" class="section_label_maj">
+    <label>Prix variable</label>
+    <div class="bloc_form">
+        <!--  Affichage des la part variable sur la quantité du contrat  -->
+        <div id="part_variable" class="ligne_form">
+                <span>
+                    <?php echo $form['part_variable']->renderError() ?>
+                    <?php echo $form['part_variable']->renderLabel() ?>
+                    <?php echo $form['part_variable']->render() ?> <span>% (50% max)</span>
+                </span>
+        </div>
+        <!--  Affichage du taux de variation des produits du contrat  -->
+        <div id="prixTotal_rappel" class="ligne_form ligne_form_alt">
+            <span>
+                <label>Prix total</label>
+                <?php echo $form->getObject()->prix_unitaire ?> €/<?php echo showUnite($form->getObject()); ?>
+                <?php if( $form->getObject()->type_transaction == "vin_bouteille"){ echo "(soit ".$form->getObject()->bouteilles_quantite * (($form->getObject()->bouteilles_contenance)/10000)." €/hl)"; } ?>      
+            </span>
+        </div>
+        <!--  Affichage du taux de variation des produits du contrat  -->
+        <div id="taux_variation" class="ligne_form">
+            <span><?php echo $form['taux_variation']->renderError() ?>
+            <?php echo $form['taux_variation']->renderLabel() ?>
             <?php echo $form['taux_variation']->render() ?><span>%</span>
-    </section>
-</section>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="section_label_maj">
+    <label>CVO appliquée</label>
+    <div class="bloc_form">
+        <!--  Affichage de la nature du contrat  -->
+        <div id="cvo_nature" class="ligne_form" >
+            <span>
+                <?php echo $form['cvo_nature']->renderError() ?> 
+                <?php echo $form['cvo_nature']->renderLabel() ?>
+                <?php echo $form['cvo_nature']->render() ?>
+            </span>   
+        </div>
 
-<h2>CVO appliquée</h2>
+        <!--  Affichage de la repartition (vendeur/acheteur) pour le paiement de la CVO  -->
+        <div id="taux_variation" class="ligne_form ligne_form_alt" >
+            <span>
+                <?php echo $form['cvo_repartition']->renderError() ?>
+                <?php echo $form['cvo_repartition']->renderLabel() ?>
+                <?php echo $form['cvo_repartition']->render() ?>
+            </span>
+        </div>
 
-<!--  Affichage de la nature du contrat  -->
-<section id="cvo_nature">
-        <?php echo $form['cvo_nature']->renderError() ?> 
-    <strong>  <?php echo $form['cvo_nature']->renderLabel() ?> </strong>
-        <?php echo $form['cvo_nature']->render() ?>
-</section>
-
-<!--  Affichage de la repartition (vendeur/acheteur) pour le paiement de la CVO  -->
-<section id="taux_variation">
-        <?php echo $form['cvo_repartition']->renderError() ?>
-    <strong>  <?php echo $form['cvo_repartition']->renderLabel() ?> </strong>
-        <?php echo $form['cvo_repartition']->render() ?>
-</section>
-
-<!-- CVO facturée vendeur  -->
-<section id="cvo_facturee_vendeur">
-    CVO facturée (vendeur)
-    <span id="prix_facturee_vendeur">
-        XX
-    </span>
-    €/<?php echo showUnite($form->getObject()); ?>    
-    (soit <span  id="cvo_totale_vendeur"> xxx.xx €</span>)
-</section>
+        <!-- CVO facturée vendeur  -->
+        <div id="cvo_facturee_vendeur" class="ligne_form" >
+            <span>
+                <label>CVO facturée (vendeur)</label>
+                <span id="prix_facturee_vendeur">XX</span>
+                €/<?php echo showUnite($form->getObject()); ?>    
+                (soit <span  id="cvo_totale_vendeur"> xxx.xx €</span>)
+            </span>
+        </div>
 
 
-<!-- CVO facturée acheteur -->
-<section id="cvo_facturee_acheteur">
-       CVO facturée (acheteur)
-       <span  id="prix_facturee_acheteur">
-         XX
-       </span>
-       €/<?php echo showUnite($form->getObject()); ?>
-       (soit <span  id="cvo_totale_acheteur"> xxx.xx €</span>)
-</section>
+        <!-- CVO facturée acheteur -->
+        <div id="cvo_facturee_acheteur" class="ligne_form ligne_form_alt" >
+            <span>
+                <label>CVO facturée (acheteur)</label>
+                <span  id="prix_facturee_acheteur">
+                    XX
+                </span>
+                €/<?php echo showUnite($form->getObject()); ?>
+                (soit <span  id="cvo_totale_acheteur"> xxx.xx €</span>)
+            </span>
+        </div>
+    </div>
+</div>
