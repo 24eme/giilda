@@ -28,11 +28,11 @@ function showRecapPrixUnitaire($vrac)
             case 'mouts': return $vrac->prix_unitaire.' €/hl';
             case 'vin_vrac': return $vrac->prix_unitaire.' €/hl';                   
             case 'vin_bouteille': 
-                if ($vrac->bouteilles_quantite == 0 || $vrac->bouteilles_contenance == 0) {
+                if ($vrac->bouteilles_quantite == 0 || $vrac->bouteilles_contenance_volume == 0) {
                     return 0;
                 }
                 return $vrac->prix_unitaire.' €/btle, soit '.
-                    $vrac->prix_total/($vrac->bouteilles_quantite*($vrac->bouteilles_contenance/10000)).' €/hl';
+                    $vrac->prix_total/($vrac->bouteilles_quantite*($vrac->bouteilles_contenance_volume)).' €/hl';
         }
     }    
     return '';
@@ -49,7 +49,7 @@ function showRecapVolume($vrac)
             case 'vin_vrac': return $vrac->jus_quantite.' hl (vin vrac)';                   
             case 'vin_bouteille': 
                 return $vrac->bouteilles_quantite.
-                    ' bouteilles, soit '.$vrac->bouteilles_quantite*($vrac->bouteilles_contenance/10000).' hl';
+                    ' bouteilles, soit '.$vrac->bouteilles_quantite*($vrac->bouteilles_contenance_volume).' hl';
         }
     }    
     return '';

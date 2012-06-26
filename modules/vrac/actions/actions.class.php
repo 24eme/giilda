@@ -111,10 +111,11 @@ class vracActions extends sfActions
         if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->form->bind($request->getParameter($this->form->getName()));
+           
             if ($this->form->isValid())
-            {
+            {                 
                 $this->maj_etape(2);
-                $this->form->save();      
+                $this->form->save();
                 $this->redirect('vrac_condition', $this->vrac);
             }
         }
