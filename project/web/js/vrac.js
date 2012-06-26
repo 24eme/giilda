@@ -97,9 +97,12 @@ var updatePanelsAndUnitLabels = function()
     }
     
     if($('#type input:checked').length == 0)
+    {
         $('#type input[value="domaine"]').attr('checked','checked');   
+    }
     
-    if($('#type input[value="generique"]:checked')) $('#domaine').hide();
+    if($('#type input[value="generique"]:checked')){ $('#domaine').hide(); }
+    if($('#type input[value="domaine"]:checked')){ $('#domaine').show(); }
     
     $('#type input').click(function()
     {
