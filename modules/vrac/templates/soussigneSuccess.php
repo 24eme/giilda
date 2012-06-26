@@ -31,8 +31,9 @@ else
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#acheteur_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#acheteur_informations');
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#mandataire_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#mandataire_informations');
         majMandatairePanel();
-        
-       // init_ajax_contrats_similaires('<?php echo $numero_contrat;?>','soussigne');
+        $('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
+        $('#vrac_acheteur_famille_negociant').attr('checked','checked');
+       // init_ajax_contrats_similaires('<?php // echo $numero_contrat;?>','soussigne');
     });
 </script>
 <?php
@@ -54,14 +55,7 @@ else
                         <?php echo $form['vendeur_identifiant']->renderError(); ?>
                         <?php echo $form['vendeur_identifiant']->renderLabel() ?>
                         <div class="f_right">
-                            <ul id="vendeur_famille_choice" class="radio_list">
-                                <li>
-                                    <input type="radio" checked="checked" id="vendeur_viticulteur" value="1" name="vrac[vendeur_famille]">&nbsp;<label for="vendeur_viticulteur">Viticulteur</label>
-                                </li>
-                                <li>
-                                    <input type="radio" id="vendeur_negociant" value="0" name="vrac[vendeur_famille]">&nbsp;<label for="vendeur_negociant">Négociant</label>
-                                </li>
-                            </ul>                            
+                            <?php echo $form['vendeur_famille']->render() ?>                                                  
                         </div>
                     </div>
 
@@ -91,14 +85,7 @@ else
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
                         <?php echo $form['acheteur_identifiant']->renderLabel() ?>
                         <div class="f_right">
-                            <ul id="acheteur_famille_choice" class="radio_list">
-                                <li>
-                                    <input type="radio" id="acheteur_viticulteur" value="1" name="vrac[acheteur_famille]">&nbsp;<label for="acheteur_viticulteur">Viticulteur</label>
-                                </li>
-                                <li>
-                                    <input type="radio" checked="checked" id="acheteur_negociant" value="0" name="vrac[acheteur_famille]">&nbsp;<label for="acheteur_negociant">Négociant</label>
-                                </li>
-                            </ul>                           
+                            <?php echo $form['acheteur_famille']->render() ?>                          
                         </div>
                     </div>
 
