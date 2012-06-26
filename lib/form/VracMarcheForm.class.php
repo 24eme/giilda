@@ -20,8 +20,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
                                        'vin_vrac'=> 'vin en vrac',
                                        'vin_bouteille' => 'Vin en bouteilles',
                                        'Agriculture_biologique' => 'Agriculture Biologique');
-     private $contenance = array('75' => '75 cl',
-                                       '100' => '1 L',
+     private $contenance = array('75 cl' => 0.075,
+                                       '1 L' => 0.1,
                                        '150'=> '1.5 L',
                                        '300' => '3 L',
                                        '600' => '6 L');

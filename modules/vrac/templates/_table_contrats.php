@@ -5,7 +5,6 @@ td{padding: 0px 10px;}
 <table>    
     <thead>
         <tr>
-            <th>Statut</th>
             <th>Type</th>
             <th>N° Contrat</th>
             <th>Soussignés</th>   
@@ -21,7 +20,6 @@ td{padding: 0px 10px;}
             $statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
         ?>
         <tr style="<?php echo 'background-color:'.$statusColor.';' ?>" >
-              <td><?php echo $elt[VracClient::VRAC_VIEW_STATUT]; ?></td>
               <td><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT])? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></td>
 	      <td><?php $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]); echo link_to($vracid, '@vrac_termine?numero_contrat='.$vracid); ?></td>
               <td>

@@ -75,13 +75,13 @@ function typeProduit($type)
 {
     switch ($type) {
         case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
-            return 'bouteilles';
+            return 'Btl';
         case VracClient::TYPE_TRANSACTION_VIN_VRAC :
-            return 'vracs';
+            return 'V';
         case VracClient::TYPE_TRANSACTION_MOUTS :
-            return 'moûts';
+            return 'M';
         case VracClient::TYPE_TRANSACTION_RAISINS :
-            return 'raisins';
+            return 'R';
     }
     return '';
 }   
