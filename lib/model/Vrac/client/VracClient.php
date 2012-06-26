@@ -116,4 +116,18 @@ class VracClient extends acCouchdbClient {
             
     }
     
+//    public function solderContrat()
+//    {
+//        $this->valide->statut = self::STATUS_CONTRAT_SOLDE;
+//    }
+//    
+//    public function isClosedContrat()
+//    {
+//        return ($this->valide->statut == self::STATUS_CONTRAT_SOLDE);
+//    }
+//    
+//    public function isValidedContrat()
+//    {
+//        return ($this->valide->statut == self::STATUS_CONTRAT_NONSOLDE);
+//    }
  }

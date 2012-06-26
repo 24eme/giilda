@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -15,17 +14,7 @@ echo ($vrac->prix_variable)? ' ('.$vrac->part_variable.'%)' : '';
 ?>
 </span>
 </section>
-   <?php 
-   if($vrac->prix_variable)
-       {
-   ?>
-<section id="conditions_recapitulatif_variable">    
-  <span>Taux variable&nbsp;:</span>
-  <span><?php echo $vrac->taux_variation;?></span>
-</section>
-   <?php   
-   }
-   ?>
+
 <section id="conditions_recapitulatif_cvo">
   <span>CVO&nbsp;: </span>
   <span><?php 
