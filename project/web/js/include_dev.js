@@ -45,11 +45,12 @@
 		
 	// Fonctions personnalisées)
 //	$.fn.includeJS(jsPath, 'global.js');
-//	$.fn.includeJS(jsPath, 'popups.js');
+	$.fn.includeJS(jsPath, 'popups.js');
 	$.fn.includeJS(jsPath, 'autocomplete.js');
         $.fn.includeJS(jsPath, 'ajaxHelper.js');
-	$.fn.includeJS(jsPath, 'vrac.js');        
-//	$.fn.includeJS(jsPath, 'drm.js');
-//	$.fn.includeJS(jsPath, 'declaration.js');
+	$.fn.includeJS(jsPath, 'vrac.js');  
+
+	$.fn.includeJS(jsPath, 'drm.js');
+	$.fn.includeJS(jsPath, 'declaration.js');
 
 })(jQuery);
