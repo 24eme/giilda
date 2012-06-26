@@ -161,7 +161,7 @@ var updatePanelsAndUnitForBottle = function()
 
 var majTotal = function(quantiteField,unite,prixParUnite){
     var quantite = $('#vrac_'+quantiteField).val();
-    var numeric =  new RegExp("^[0-9]*$","g");
+    var numeric =  new RegExp("^[0-9]+\.?[0-9]*$","g");
     
     if(numeric.test(quantite))
     {
@@ -174,7 +174,7 @@ var majTotal = function(quantiteField,unite,prixParUnite){
         
         var prix_unitaire = $('#vrac_prix_unitaire').val();
         
-        var priceReg = (new RegExp("^[0-9]*[.][0-9]{2}$","g")).test(prix_unitaire);
+        var priceReg = (new RegExp("^[0-9]+[.]?[0-9]*$","g")).test(prix_unitaire);
         if(priceReg)
         {
            var prix_total = quantite * parseFloat(prix_unitaire);
