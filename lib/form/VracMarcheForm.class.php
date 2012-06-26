@@ -13,7 +13,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
     private $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
                                        VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
                                        VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
-                                       VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin en bouteille');
+                                       VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin conditionné');
     
      private $label = array('grains_nobles' => 'Grains nobles',
                             'primeur' => 'Primeur',
@@ -22,6 +22,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
                                        '1 L' => 0.01,
                                        '1.5 L'=> 0.015,
                                        '3 L' => 0.03,
+                                       'BIB 3 L' => 0.03,
                                        '6 L' => 0.06);
 
     
@@ -59,7 +60,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'millesime' => 'Millésime',
             'domaine' => 'Nom du domaine',
             'label' => 'label',
-            'bouteilles_quantite' => 'Nombre de bouteilles',
+            'bouteilles_quantite' => 'Quantité',
             'raisin_quantite' => 'Nombre de raisins',
             'jus_quantite' => 'Volume proposé',
             'bouteilles_contenance' => 'Contenance',
@@ -70,7 +71,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'original' => new sfValidatorInteger(array('required' => true)),
             'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($types_transaction))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->produits))),
-            'millesime' => new sfValidatorInteger(array('required' => true)),
+            'millesime' => new sfValidatorInteger(array('required' => false)),
             'domaine' => new sfValidatorString(array('required' => false)),
             'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->label))),
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),

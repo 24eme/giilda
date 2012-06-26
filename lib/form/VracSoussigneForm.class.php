@@ -14,11 +14,19 @@ class VracSoussigneForm extends acCouchdbObjectForm {
    private $acheteurs = null;
    private $mandataires = null;
    
+   private $vendeur_famille = array('viticulteur' => 'Viticulteur', 'negociant' => 'Negociant');
+   private $acheteur_famille = array('viticulteur' => 'Viticulteur', 'negociant' => 'Negociant');
+   
+   
     public function configure()
     {
         
+        $this->setWidget('vendeur_famille',new sfWidgetFormChoice(array('choices' => $this->vendeur_famille,'expanded' => true)));
+        
         $this->setWidget('vendeur_identifiant', new sfWidgetFormChoice(array('choices' =>  $this->getVendeurs()), array('class' => 'autocomplete')));
          
+        $this->setWidget('acheteur_famille',new sfWidgetFormChoice(array('choices' => $this->acheteur_famille,'expanded' => true)));
+        
         $this->setWidget('acheteur_identifiant', new sfWidgetFormChoice(array('choices' =>   $this->getAcheteurs()), array('class' => 'autocomplete')));
         
         $this->setWidget('mandataire_exist', new sfWidgetFormInputCheckbox());        
@@ -30,7 +38,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         $this->setWidget('mandataire_identifiant', new sfWidgetFormChoice(array('choices' => $this->getMandataires()), array('class' => 'autocomplete')));
         
         $this->widgetSchema->setLabels(array(
+            'vendeur_famille' => '',
             'vendeur_identifiant' => 'Sélectionner un vendeur :',
+            'acheteur_famille' => '',
             'acheteur_identifiant' => 'Sélectionner un acheteur :',
             'mandataire_identifiant' => 'Sélectionner un mandataire :',
             'mandataire_exist' => "Décocher s'il n'y a pas de mandataire",
@@ -38,7 +48,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         ));
         
         $this->setValidators(array(
+            'vendeur_famille' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->vendeur_famille))),
             'vendeur_identifiant' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getVendeurs()))),
+            'acheteur_famille' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->acheteur_famille))),
             'acheteur_identifiant' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getAcheteurs()))),
             'mandataire_identifiant' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getMandataires()))),
             'mandataire_exist' => new sfValidatorBoolean(array('required' => false)),
