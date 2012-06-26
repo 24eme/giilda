@@ -566,11 +566,29 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 {
 	h2
 	{
-		.majuscules;
-		margin: 15px 0;
-		font-size: 16px;
-		font-weight: bold;
+		
 	}
+        
+        .section_label_maj{
+               & >  label:first-child{
+                        display: inline-block;
+                        .majuscules;
+                        font-size: 15px;
+                        font-weight: bold;
+                        height: 35px;
+                        padding-top:4px;
+                        width: 230px;
+            }
+        }
+
+        .section_label_strong{
+            label{
+                 &:first-child{
+                        display: inline-block;
+                        font-weight: bold;
+                }
+            }
+        }
         
         .bloc_form{
                 .border-radius(5px 5px 5px 5px);
@@ -614,7 +632,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
                 display:block;
                 .btnAnnulation{ float:left; }
                 .btnValidation{ float:right; }
-                margin-left: 10px;
+                margin: 10px 0;
         }
 
         .ligne_form_alt{ background : @couleur-a7;  }
@@ -626,6 +644,17 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
                 width:330px;
                 height:30px;
         }
+
+        ul.radio_list{
+                .clearfix;
+                li{
+                    display:block;
+                    float:left;
+                    label{ font-weight:normal !important; }
+                    width:165px;
+                }
+        }
+
 }
 
 .ui-autocomplete{
