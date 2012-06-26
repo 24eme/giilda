@@ -662,10 +662,17 @@ bouton.btn_majeur { height:26px; }
   color:#ffffff;
   margin:0 0 0 7px;
 }
-#principal h2 {
+#principal .section_label_maj >  label:first-child {
+  display:inline-block;
   text-transform:uppercase;
-  margin:15px 0;
-  font-size:16px;
+  font-size:15px;
+  font-weight:bold;
+  height:35px;
+  padding-top:4px;
+  width:230px;
+}
+#principal .section_label_strong label:first-child {
+  display:inline-block;
   font-weight:bold;
 }
 #principal .bloc_form {
@@ -726,7 +733,7 @@ bouton.btn_majeur { height:26px; }
 }
 #principal #ligne_btn {
   display:block;
-  margin-left:10px;
+  margin:10px 0;
 }
 #principal #ligne_btn .btnAnnulation { float:left; }
 #principal #ligne_btn .btnValidation { float:right; }
@@ -738,6 +745,24 @@ bouton.btn_majeur { height:26px; }
   width:330px;
   height:30px;
 }
+#principal ul.radio_list {
+  zoom:1;
+  min-height:1px;
+}
+#principal ul.radio_list:before, #principal ul.radio_list:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#principal ul.radio_list:after { clear:both; }
+#principal ul.radio_list li {
+  display:block;
+  float:left;
+  width:165px;
+}
+#principal ul.radio_list li label { font-weight:normal !important; }
 .ui-autocomplete {
   background-color:#f7f7f7;
   border:1px solid #d2d2d2;
@@ -1009,51 +1034,73 @@ bouton.btn_majeur { height:26px; }
   position:absolute;
   color:red;
 }
-#contenu_etape #vendeur_infos { height:160px; }
-#contenu_etape #acheteur, #contenu_etape #mandataire_choice { padding-top:20px; }
-#contenu_etape #has_mandataire { padding:20px 0 0 10px; }
-#contenu_etape #mandataire {
+#contenu_etape .col {
+  float:left;
+  vertical-align:top;
+  width:329px;
+}
+#contenu_etape #vrac_soussigne .section_label_maj >  label:first-child { width:310px; }
+#contenu_etape #vrac_soussigne #vendeur_infos { height:160px; }
+#contenu_etape #vrac_soussigne #acheteur, #contenu_etape #vrac_soussigne #mandataire_choice { padding-top:40px; }
+#contenu_etape #vrac_soussigne #has_mandataire { padding:20px 0 0 10px; }
+#contenu_etape #vrac_soussigne #mandataire {
   zoom:1;
   min-height:1px;
   padding:0 0 0 10px;
 }
-#contenu_etape #mandataire:before, #contenu_etape #mandataire:after {
+#contenu_etape #vrac_soussigne #mandataire:before, #contenu_etape #vrac_soussigne #mandataire:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-#contenu_etape #mandataire:after { clear:both; }
-#contenu_etape #mandatant { padding:10px 0 0 0px; }
-#contenu_etape #mandatant .checkbox_list {
+#contenu_etape #vrac_soussigne #mandataire:after { clear:both; }
+#contenu_etape #vrac_soussigne #mandatant { padding:10px 0 0 0px; }
+#contenu_etape #vrac_soussigne #mandatant .checkbox_list {
   float:right;
   margin-right:195px;
 }
-#contenu_etape #mandatant .checkbox_list li {
+#contenu_etape #vrac_soussigne #mandatant .checkbox_list li {
   display:inline;
   float:left;
   width:150px;
 }
-#contenu_etape .col {
+#contenu_etape #vrac_soussigne .btnModification {
+  zoom:1;
+  min-height:1px;
+  margin-top:10px;
+}
+#contenu_etape #vrac_soussigne .btnModification:before, #contenu_etape #vrac_soussigne .btnModification:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#contenu_etape #vrac_soussigne .btnModification:after { clear:both; }
+#contenu_etape #original, #contenu_etape #produit, #contenu_etape #millesime, #contenu_etape #type, #contenu_etape #label, #contenu_etape #prixUnitaire {
+  zoom:1;
+  min-height:1px;
+  margin:20px 0;
+}
+#contenu_etape #original:before, #contenu_etape #original:after, #contenu_etape #produit:before, #contenu_etape #produit:after, #contenu_etape #millesime:before, #contenu_etape #millesime:after, #contenu_etape #type:before, #contenu_etape #type:after, #contenu_etape #label:before, #contenu_etape #label:after, #contenu_etape #prixUnitaire:before, #contenu_etape #prixUnitaire:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#contenu_etape #original:after, #contenu_etape #produit:after, #contenu_etape #millesime:after, #contenu_etape #type:after, #contenu_etape #label:after, #contenu_etape #prixUnitaire:after { clear:both; }
+#contenu_etape #original label:first-child, #contenu_etape #produit label:first-child, #contenu_etape #millesime label:first-child, #contenu_etape #type label:first-child, #contenu_etape #label label:first-child, #contenu_etape #prixUnitaire label:first-child {
+  display:block;
   float:left;
-  vertical-align:top;
-  width:329px;
+  width:230px;
 }
-#contenu_etape .first_line {
-  -webkit-border-radius:5px 5px 0 0;
-  -moz-border-radius:5px 5px 0 0;
-  border-radius:5px 5px 0 0;
-  -webkit-border-radius:5px 5px 0 0;
-  -moz-border-radius:5px 5px 0 0;
-  border-radius:5px 5px 0 0;
+#contenu_etape #vrac_marche_volumePropose label:first-child { width:215px; }
+#contenu_etape #label .checkbox_list {
+  display:block;
+  float:left;
 }
-#contenu_etape .last_line {
-  -webkit-border-radius:0 0 5px 5px;
-  -moz-border-radius:0 0 5px 5px;
-  border-radius:0 0 5px 5px;
-  -webkit-border-radius:0 0 5px 5px;
-  -moz-border-radius:0 0 5px 5px;
-  border-radius:0 0 5px 5px;
-}
-#contenu_etape .btnModification { margin-top:10px; }
+#contenu_etape #condition .section_label_maj { margin-top:20px; }
+#contenu_etape #condition .section_label_maj label { width:260px; }

@@ -25,18 +25,18 @@ var updatePanelsConditions = function()
 {
     if($('#vrac_condition #type_contrat input:checked').val()=='spot')
     {
-        $('section#prix_isVariable').hide();
+        $('#prix_isVariable').hide();
     }
     else
     {
-        $('section#prix_isVariable').show();
+        $('#prix_isVariable').show();
         if($('#vrac_condition #prix_isVariable input:checked').val()=='0')
         {
-            $('section#prix_variable').hide();
+            $('#prix_variable').hide();
         }
         else
         {
-            $('section#prix_variable').show();
+            $('#prix_variable').show();
 
         }
     }
@@ -111,10 +111,10 @@ var updatePanelsAndUnitLabels = function()
 
 var updatePanelsAndUnitForRaisins = function()
 {
-    $('section.bouteilles_contenance').hide();
-    $('section div.bouteilles_quantite').hide();
-    $('section div.jus_quantite').hide();    
-    $('section div.raisin_quantite').show();
+    $('.bouteilles_contenance').hide();
+    $(' .bouteilles_quantite').hide();
+    $(' .jus_quantite').hide();    
+    $(' .raisin_quantite').show();
     
 
     majTotal("raisin_quantite","(en kg)","€/kg");  
@@ -122,21 +122,21 @@ var updatePanelsAndUnitForRaisins = function()
 
 var updatePanelsAndUnitForJuice = function()
 {
-    $('section.bouteilles_contenance').hide();
-    $('section div.bouteilles_quantite').hide();    
-    $('section div.raisin_quantite').hide();    
-    $('section div.jus_quantite').show();
+    $('.bouteilles_contenance').hide();
+    $(' .bouteilles_quantite').hide();    
+    $(' .raisin_quantite').hide();    
+    $(' .jus_quantite').show();
     
     majTotal("jus_quantite","(en hl)","€/hl");    
 }
 
 var updatePanelsAndUnitForBottle = function()
 {     
-    $('section div.raisin_quantite').hide();
-    $('section div.jus_quantite').hide();
+    $(' .raisin_quantite').hide();
+    $(' .jus_quantite').hide();
     
-    $('section.bouteilles_contenance').show();
-    $('section div.bouteilles_quantite').show();
+    $('.bouteilles_contenance').show();
+    $(' .bouteilles_quantite').show();
     
     var volume_total = 0.0;
     var bouteilles_quantite = $('#vrac_bouteilles_quantite').val();
@@ -148,8 +148,7 @@ var updatePanelsAndUnitForBottle = function()
     if(numeric.test(bouteilles_quantite))
     {
         volume_total = (parseInt(bouteilles_contenance)/10000) * parseInt(bouteilles_quantite);
-        $('div.bouteilles_quantite span#volume_unite_total').text('(soit '+volume_total+" hl)");
-        
+        $('.bouteilles_quantite span#volume_unite_total').text("(soit "+volume_total+" hl)");
         var bouteilles_price = $('#vrac_prix_unitaire').val();
         var bouteilles_priceReg = (new RegExp("^[0-9]*[.][0-9]{2}$","g")).test(bouteilles_price);
         if(bouteilles_priceReg)
@@ -157,8 +156,8 @@ var updatePanelsAndUnitForBottle = function()
            var prix_total = parseInt(bouteilles_quantite) * parseFloat(bouteilles_price);
            $('#vrac_prix_total').text(prix_total);
            var prix_hl = prix_total / volume_total;
-           $('section#prixUnitaire span#prix_unitaire_unite').text("€/btlle");
-           $('section#prixUnitaire span#prix_unitaire_hl').text("(soit "+prix_hl+" €/hl)");
+           $('#prixUnitaire span#prix_unitaire_unite').text("€/btlle");
+           $('#prixUnitaire span#prix_unitaire_hl').text("(soit "+prix_hl+" €/hl)");
         }
     }
 }
@@ -173,15 +172,16 @@ var majTotal = function(quantiteField,unite,prixParUnite){
         var prod =  $('section#produit option:selected').val();
         
         alert('toPOST : ['+type+','+prod+','+quantite+']');
-        
+        $('.'+quantiteField+' span#volume_unite_total').text(unite);
         
         var prix_unitaire = $('#vrac_prix_unitaire').val();
+        
         var priceReg = (new RegExp("^[0-9]*[.][0-9]{2}$","g")).test(prix_unitaire);
         if(priceReg)
         {
            var prix_total = quantite * parseFloat(prix_unitaire);
            $('#vrac_prix_total').text(prix_total);
-           $('section#prixUnitaire span#prix_unitaire_unite').text(prixParUnite);
+           $('#prixUnitaire span#prix_unitaire_unite').text(prixParUnite);
         }
     }
 }
@@ -192,7 +192,7 @@ var init_ajax_nouveau = function()
     ajaxifyAutocompleteGet('getInfos','#vendeur_choice','#vendeur_informations');
     ajaxifyAutocompleteGet('getInfos','#acheteur_choice','#acheteur_informations'); 
     ajaxifyAutocompleteGet('getInfos','#mandataire_choice','#mandataire_informations');
-    $('section#has_mandataire input').attr('checked', 'checked');    
+    $('#has_mandataire input').attr('checked', 'checked');    
     $('#vrac_mandatant_vendeur').attr('checked','checked');
     
     majAutocompleteInteractions('vendeur');
@@ -205,7 +205,7 @@ var init_ajax_nouveau = function()
 
 var majAutocompleteInteractions = function(type)
 {
-    $('#'+type+'_choice div input').live( "autocompleteselect", function(event, ui)
+    $('#'+type+'_choice  input').live( "autocompleteselect", function(event, ui)
     {
         $('#'+type+'_modification_btn').removeAttr('disabled');
         $('#'+type+'_modification_btn').css('cursor','pointer');        
@@ -214,27 +214,27 @@ var majAutocompleteInteractions = function(type)
 
 var majModificationsButton = function(type)
 {
-    if($('section#'+type+'_choice input.ui-autocomplete-input').val()=="") $('#'+type+'_modification_btn').attr('disable','disable');
+    if($('#'+type+'_choice input.ui-autocomplete-input').val()=="") $('#'+type+'_modification_btn').attr('disable','disable');
     else $('#'+type+'_modification_btn').removeAttr('disable');
 }
 
 
 var majMandatairePanel = function()
 {
-    if($('section#has_mandataire input').attr('checked')) {$('section#mandataire').show();}
-    else{$('section#mandataire').hide();}
+    if($('#has_mandataire input').attr('checked')) {$('#mandataire').show();}
+    else{$('#mandataire').hide();}
     
-    $('section#has_mandataire input').click(function()
+    $('#has_mandataire input').click(function()
     {
         if($(this).attr('checked'))
         {
-            $('section#mandataire').show();
+            $('#mandataire').show();
             $('#vrac_mandatant_vendeur').attr('checked','checked');            
         }
         else
         {
-            $('section#mandataire').hide();
-            $('section#mandataire input').each(function()
+            $('#mandataire').hide();
+            $('#mandataire input').each(function()
             {
                 
                 if($(this).attr('type')=='checkbox') $(this).attr('checked',false);
@@ -265,8 +265,8 @@ var init_ajax_modification = function(type)
     
     $("#"+type+"_choice input").attr('disabled','disabled');
     $("#"+type+"_choice button").attr('disabled','disabled');
-    $('div.btnValidation button').attr('disabled','disabled');
-    var params = {id : $("#vrac_"+type+"_identifiant").val(), 'div' : '#'+type+'_informations'};  
+    $('.btnValidation button').attr('disabled','disabled');
+    var params = {id : $("#vrac_"+type+"_identifiant").val(), '' : '#'+type+'_informations'};  
     ajaxifyPost('modification?id='+$("#vrac_"+type+"_identifiant").val(),params,'#'+type+'_modification_btn','#'+type+'_informations');
 }
 
@@ -281,7 +281,7 @@ var init_informations = function(type)
     
     
     $("#"+type+"_modification_btn").unbind();
-    $('div.btnValidation button').removeAttr('disabled');
+    $('.btnValidation button').removeAttr('disabled');
 }
     
 /*    
