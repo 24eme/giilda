@@ -19,39 +19,37 @@ class Vrac extends BaseVrac {
     }
     
     public function setBouteillesContenanceLibelle($c) {
-        parent::setBouteillesContenanceLibelle($c);
+        $this->_set('bouteilles_contenance_libelle', $c);
         $this->setBouteillesContenanceVolume(VracClient::$contenance[$c]);
     }
     
     public function update($params = array()) {
         
-        switch ($this->type_transaction)
+         $this->prix_total = null;
+
+                switch ($this->type_transaction)
         {
             case 'raisins' :
             {
                 $this->prix_total = $this->raisin_quantite * $this->prix_unitaire;
+                $this->bouteilles_contenance_libelle = '';
+                $this->bouteilles_contenance_volume = null;
                 break;
             }
-            
-            case 'mouts' :
-            {
-                $this->prix_total = $this->jus_quantite * $this->prix_unitaire;                
-                break;
-            } 
-            
-            case 'vin_vrac' :
-            {
-                $this->prix_total = $this->jus_quantite * $this->prix_unitaire;              
-                break;
-            }  
-            
             case 'vin_bouteille' :
             {
                 $this->prix_total = $this->bouteilles_quantite * $this->prix_unitaire;
                 break;
             }
-            default :
-                $this->prix_total = null;
+            
+            case 'mouts' :
+            case 'vin_vrac' :
+            {
+                $this->prix_total = $this->jus_quantite * $this->prix_unitaire;              
+                $this->bouteilles_contenance_libelle = '';
+                $this->bouteilles_contenance_volume = null;
+            }  
+            
         }
         
     }
