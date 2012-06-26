@@ -200,7 +200,7 @@ var init_ajax_nouveau = function()
     majAutocompleteInteractions('mandataire');
     majMandatairePanel();
     
-    init_ajax_contrats_similaires(null,'nouveau');
+    //init_ajax_contrats_similaires(null,'nouveau');
 }
 
 var majAutocompleteInteractions = function(type)
