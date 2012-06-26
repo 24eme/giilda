@@ -665,8 +665,8 @@ Vrac:
       jus_quantite: { type: float }
 
       #Pour le vin en bouteilles (nb bouteille)
-      bouteilles_quantite: { type: float }
-      bouteilles_contenance: { type: integer }
+      bouteilles_quantite: { type: integer }
+      bouteilles_contenance: { type: float }
 
       prix_unitaire: { type: float }
       prix_total: { type: float }
