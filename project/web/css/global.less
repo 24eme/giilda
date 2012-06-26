@@ -577,7 +577,6 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
                         font-weight: bold;
                         height: 35px;
                         padding-top:4px;
-                        width: 230px;
             }
         }
 
@@ -638,7 +637,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
         .ligne_form_alt{ background : @couleur-a7;  }
 
         .ui-autocomplete-input{
-                background: url(../images/pictos/pi_recherche.png) 5px 7px no-repeat;
+                background: url(../images/pictos/pi_recherche.png) 5px 7px no-repeat #fff;
                 font-size:12px;
                 padding: 5px 5px 5px 25px;
                 width:330px;
@@ -653,6 +652,33 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
                     label{ font-weight:normal !important; }
                     width:165px;
                 }
+        }
+      
+        .type_raisins,
+        .type_mouts,
+        .type_vin_vrac,
+        .type_vin_bouteille
+        {
+                .ir(22px);
+                background: url(../images/pictos/sprite_type.png) no-repeat;
+                display:inline-block;
+        }
+
+        .type_raisins{
+                height: 26px;
+                background-position: 0 -59px;
+        }
+        .type_mouts{
+                height: 27px;
+                background-position: 0 -32px;
+        }
+        .type_vin_vrac{
+                height: 26px;
+                background-position: 0 -84px;
+        }
+        .type_vin_bouteille{
+                height: 28px;
+                background-position: 0 0;
         }
 
 }

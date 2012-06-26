@@ -669,7 +669,6 @@ bouton.btn_majeur { height:26px; }
   font-weight:bold;
   height:35px;
   padding-top:4px;
-  width:230px;
 }
 #principal .section_label_strong label:first-child {
   display:inline-block;
@@ -739,7 +738,7 @@ bouton.btn_majeur { height:26px; }
 #principal #ligne_btn .btnValidation { float:right; }
 #principal .ligne_form_alt { background:#e3e2e2; }
 #principal .ui-autocomplete-input {
-  background:url(../images/pictos/pi_recherche.png) 5px 7px no-repeat;
+  background:url(../images/pictos/pi_recherche.png) 5px 7px no-repeat #ffffff;
   font-size:12px;
   padding:5px 5px 5px 25px;
   width:330px;
@@ -763,6 +762,31 @@ bouton.btn_majeur { height:26px; }
   width:165px;
 }
 #principal ul.radio_list li label { font-weight:normal !important; }
+#principal .type_raisins, #principal .type_mouts, #principal .type_vin_vrac, #principal .type_vin_bouteille {
+  height:1px;
+  overflow:hidden;
+  text-indent:100%;
+  white-space:nowrap;
+  width:22px;
+  background:url(../images/pictos/sprite_type.png) no-repeat;
+  display:inline-block;
+}
+#principal .type_raisins {
+  height:26px;
+  background-position:0 -59px;
+}
+#principal .type_mouts {
+  height:27px;
+  background-position:0 -32px;
+}
+#principal .type_vin_vrac {
+  height:26px;
+  background-position:0 -84px;
+}
+#principal .type_vin_bouteille {
+  height:28px;
+  background-position:0 0;
+}
 .ui-autocomplete {
   background-color:#f7f7f7;
   border:1px solid #d2d2d2;
@@ -1039,6 +1063,117 @@ bouton.btn_majeur { height:26px; }
   vertical-align:top;
   width:329px;
 }
+#contenu_etape #recherche_operateur {
+  background:#ecebeb;
+  padding:10px 10px 30px;
+}
+#contenu_etape #recherche_operateur .ui-autocomplete-input {
+  width:510px;
+  margin-right:10px;
+}
+#contenu_etape #recherche_operateur #btn_rechercher {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
+  color:#5e5c5c;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px;
+  position:relative;
+  color:#ffffff;
+  background-position:0 -52px;
+  border-color:#6d6b6b;
+  width:115px;
+}
+#contenu_etape #recherche_operateur #btn_rechercher:hover, #contenu_etape #recherche_operateur #btn_rechercher:focus { text-decoration:none; }
+bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
+#contenu_etape #recherche_operateur #btn_rechercher span { display:inline-block; }
+#contenu_etape #recherche_operateur span#recherche_avancee {
+  zoom:1;
+  min-height:1px;
+  display:bloc;
+  color:#5e5c5c;
+  font-style:italic;
+  float:right;
+  text-decoration:underline;
+  padding-top:5px;
+}
+#contenu_etape #recherche_operateur span#recherche_avancee:before, #contenu_etape #recherche_operateur span#recherche_avancee:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#contenu_etape #recherche_operateur span#recherche_avancee:after { clear:both; }
+#contenu_etape #recherche_operateur span#recherche_avancee:hover, #contenu_etape #recherche_operateur span#recherche_avancee:focus { text-decoration:none; }
+#contenu_etape #ouvrir_excel {
+  float:right;
+  margin-top:50px;
+}
+#contenu_etape .legende { margin:15px 0; }
+#contenu_etape .legende div {
+  display:inline-block;
+  height:25px;
+  width:100px;
+}
+#contenu_etape .legende div .legende_type_texte {
+  margin:7px 0 0 10px;
+  position:absolute;
+}
+#contenu_etape .legende div .statut {
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  border-radius:50%;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  border-radius:50%;
+  height:20px;
+  width:20px;
+  display:inline-block;
+  vertical-align:middle;
+}
+#contenu_etape .legende div .statut_solde { background-color:#a2df46; }
+#contenu_etape .legende div .statut_non-solde { background-color:#faa804; }
+#contenu_etape .legende div .statut_annule { background-color:#e42c2c; }
+#contenu_etape .legende div .legende_statut_texte {
+  margin:2px 0 0 10px;
+  position:absolute;
+}
+#contenu_etape #tableau_contrat th {
+  border:1px solid #e5e4e4;
+  background:#ecebeb;
+  vertical-align:middle;
+}
+#contenu_etape #tableau_contrat td {
+  border:1px solid #e5e4e4;
+  vertical-align:top;
+  padding:10px;
+}
+#contenu_etape #tableau_contrat td.type { vertical-align:middle; }
+#contenu_etape #tableau_contrat #num_contrat a {
+  color:#2160cf;
+  text-decoration:underline;
+  font-style:italic;
+}
 #contenu_etape #vrac_soussigne .section_label_maj >  label:first-child { width:310px; }
 #contenu_etape #vrac_soussigne #vendeur_infos { height:160px; }
 #contenu_etape #vrac_soussigne #acheteur, #contenu_etape #vrac_soussigne #mandataire_choice { padding-top:40px; }
@@ -1079,28 +1214,28 @@ bouton.btn_majeur { height:26px; }
   visibility:hidden;
 }
 #contenu_etape #vrac_soussigne .btnModification:after { clear:both; }
-#contenu_etape #original, #contenu_etape #produit, #contenu_etape #millesime, #contenu_etape #type, #contenu_etape #label, #contenu_etape #prixUnitaire {
+#contenu_etape #vrac_marche #original, #contenu_etape #vrac_marche #produit, #contenu_etape #vrac_marche #millesime, #contenu_etape #vrac_marche #type, #contenu_etape #vrac_marche #label, #contenu_etape #vrac_marche #prixUnitaire {
   zoom:1;
   min-height:1px;
   margin:20px 0;
 }
-#contenu_etape #original:before, #contenu_etape #original:after, #contenu_etape #produit:before, #contenu_etape #produit:after, #contenu_etape #millesime:before, #contenu_etape #millesime:after, #contenu_etape #type:before, #contenu_etape #type:after, #contenu_etape #label:before, #contenu_etape #label:after, #contenu_etape #prixUnitaire:before, #contenu_etape #prixUnitaire:after {
+#contenu_etape #vrac_marche #original:before, #contenu_etape #vrac_marche #original:after, #contenu_etape #vrac_marche #produit:before, #contenu_etape #vrac_marche #produit:after, #contenu_etape #vrac_marche #millesime:before, #contenu_etape #vrac_marche #millesime:after, #contenu_etape #vrac_marche #type:before, #contenu_etape #vrac_marche #type:after, #contenu_etape #vrac_marche #label:before, #contenu_etape #vrac_marche #label:after, #contenu_etape #vrac_marche #prixUnitaire:before, #contenu_etape #vrac_marche #prixUnitaire:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-#contenu_etape #original:after, #contenu_etape #produit:after, #contenu_etape #millesime:after, #contenu_etape #type:after, #contenu_etape #label:after, #contenu_etape #prixUnitaire:after { clear:both; }
-#contenu_etape #original label:first-child, #contenu_etape #produit label:first-child, #contenu_etape #millesime label:first-child, #contenu_etape #type label:first-child, #contenu_etape #label label:first-child, #contenu_etape #prixUnitaire label:first-child {
+#contenu_etape #vrac_marche #original:after, #contenu_etape #vrac_marche #produit:after, #contenu_etape #vrac_marche #millesime:after, #contenu_etape #vrac_marche #type:after, #contenu_etape #vrac_marche #label:after, #contenu_etape #vrac_marche #prixUnitaire:after { clear:both; }
+#contenu_etape #vrac_marche #original label:first-child, #contenu_etape #vrac_marche #produit label:first-child, #contenu_etape #vrac_marche #millesime label:first-child, #contenu_etape #vrac_marche #type label:first-child, #contenu_etape #vrac_marche #label label:first-child, #contenu_etape #vrac_marche #prixUnitaire label:first-child {
   display:block;
   float:left;
   width:230px;
 }
-#contenu_etape #vrac_marche_volumePropose label:first-child { width:215px; }
-#contenu_etape #label .checkbox_list {
+#contenu_etape #vrac_marche #vrac_marche_volumePropose label:first-child { width:215px; }
+#contenu_etape #vrac_marche #label .checkbox_list {
   display:block;
   float:left;
 }
-#contenu_etape #condition .section_label_maj { margin-top:20px; }
-#contenu_etape #condition .section_label_maj label { width:260px; }
+#contenu_etape #vrac_marche #condition .section_label_maj { margin-top:20px; }
+#contenu_etape #vrac_marche #condition .section_label_maj label { width:260px; }
