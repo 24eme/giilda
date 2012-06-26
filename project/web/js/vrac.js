@@ -111,10 +111,10 @@ var updatePanelsAndUnitLabels = function()
 
 var updatePanelsAndUnitForRaisins = function()
 {
-    jQuery('section.bouteilles_contenance').hide();
-    jQuery('section div.bouteilles_quantite').hide();
-    jQuery('section div.jus_quantite').hide();    
-    jQuery('section div.raisin_quantite').show();
+    $('section.bouteilles_contenance').hide();
+    $('section div.bouteilles_quantite').hide();
+    $('section div.jus_quantite').hide();    
+    $('section div.raisin_quantite').show();
     
 
     majTotal("raisin_quantite","(en kg)","€/kg");  
@@ -122,25 +122,25 @@ var updatePanelsAndUnitForRaisins = function()
 
 var updatePanelsAndUnitForJuice = function()
 {
-    jQuery('section.bouteilles_contenance').hide();
-    jQuery('section div.bouteilles_quantite').hide();    
-    jQuery('section div.raisin_quantite').hide();    
-    jQuery('section div.jus_quantite').show();
+    $('section.bouteilles_contenance').hide();
+    $('section div.bouteilles_quantite').hide();    
+    $('section div.raisin_quantite').hide();    
+    $('section div.jus_quantite').show();
     
     majTotal("jus_quantite","(en hl)","€/hl");    
 }
 
 var updatePanelsAndUnitForBottle = function()
 {     
-    jQuery('section div.raisin_quantite').hide();
-    jQuery('section div.jus_quantite').hide();
+    $('section div.raisin_quantite').hide();
+    $('section div.jus_quantite').hide();
     
-    jQuery('section.bouteilles_contenance').show();
-    jQuery('section div.bouteilles_quantite').show();
+    $('section.bouteilles_contenance').show();
+    $('section div.bouteilles_quantite').show();
     
     var volume_total = 0.0;
-    var bouteilles_quantite = jQuery('#vrac_bouteilles_quantite').val();
-    var bouteilles_contenance = jQuery('#vrac_bouteilles_contenance').val();
+    var bouteilles_quantite = $('#vrac_bouteilles_quantite').val();
+    var bouteilles_contenance = $('#vrac_bouteilles_contenance').val();
     if(bouteilles_quantite == "" || bouteilles_contenance == "") return; 
     
     var numeric =  new RegExp("^[0-9]*$","g");
@@ -148,34 +148,40 @@ var updatePanelsAndUnitForBottle = function()
     if(numeric.test(bouteilles_quantite))
     {
         volume_total = (parseInt(bouteilles_contenance)/10000) * parseInt(bouteilles_quantite);
-        jQuery('div.bouteilles_quantite span#volume_unite_total').text("(soit "+volume_total+" hl)");
-        var bouteilles_price = jQuery('#vrac_prix_unitaire').val();
+        $('div.bouteilles_quantite span#volume_unite_total').text('(soit '+volume_total+" hl)");
+        
+        var bouteilles_price = $('#vrac_prix_unitaire').val();
         var bouteilles_priceReg = (new RegExp("^[0-9]*[.][0-9]{2}$","g")).test(bouteilles_price);
         if(bouteilles_priceReg)
         {
            var prix_total = parseInt(bouteilles_quantite) * parseFloat(bouteilles_price);
-           jQuery('#vrac_prix_total').text(prix_total);
+           $('#vrac_prix_total').text(prix_total);
            var prix_hl = prix_total / volume_total;
-           jQuery('section#prixUnitaire span#prix_unitaire_unite').text("€/btlle");
-           jQuery('section#prixUnitaire span#prix_unitaire_hl').text("(soit "+prix_hl+" €/hl)");
+           $('section#prixUnitaire span#prix_unitaire_unite').text("€/btlle");
+           $('section#prixUnitaire span#prix_unitaire_hl').text("(soit "+prix_hl+" €/hl)");
         }
     }
 }
 
 var majTotal = function(quantiteField,unite,prixParUnite){
-    var quantite = jQuery('#vrac_'+quantiteField).val();
+    var quantite = $('#vrac_'+quantiteField).val();
     var numeric =  new RegExp("^[0-9]*$","g");
     
     if(numeric.test(quantite))
     {
-        jQuery('div.'+quantiteField+' span#volume_unite_total').text(unite);
-        var prix_unitaire = jQuery('#vrac_prix_unitaire').val();
+        var type =  $('#vrac_marche #type_transaction input:checked').val();
+        var prod =  $('section#produit option:selected').val();
+        
+        alert('toPOST : ['+type+','+prod+','+quantite+']');
+        
+        
+        var prix_unitaire = $('#vrac_prix_unitaire').val();
         var priceReg = (new RegExp("^[0-9]*[.][0-9]{2}$","g")).test(prix_unitaire);
         if(priceReg)
         {
            var prix_total = quantite * parseFloat(prix_unitaire);
-           jQuery('#vrac_prix_total').text(prix_total);
-           jQuery('section#prixUnitaire span#prix_unitaire_unite').text(prixParUnite);
+           $('#vrac_prix_total').text(prix_total);
+           $('section#prixUnitaire span#prix_unitaire_unite').text(prixParUnite);
         }
     }
 }
@@ -194,7 +200,7 @@ var init_ajax_nouveau = function()
     majAutocompleteInteractions('mandataire');
     majMandatairePanel();
     
-    init_ajax_contrats_similaires(null);
+    init_ajax_contrats_similaires(null,'nouveau');
 }
 
 var majAutocompleteInteractions = function(type)
@@ -278,12 +284,13 @@ var init_informations = function(type)
     $('div.btnValidation button').removeAttr('disabled');
 }
     
-var ajax_send_contrats_similaires = function(num_contrat,soussigneType)
+/*    
+var ajax_send_contrats_similairesSoussigne = function(num_contrat,soussigneType)
 {
     var types = ['vendeur','acheteur','mandataire'];
     $('#'+soussigneType+'_choice input').live( "autocompleteselect", function(event, ui)
     {  
-        var ajaxParams = {numero_contrat : num_contrat};        
+        var ajaxParams = {numero_contrat : num_contrat, 'etape' : 'soussigne'};        
         for (var i in types)
         {        
             var name = types[i];
@@ -304,13 +311,62 @@ var ajax_send_contrats_similaires = function(num_contrat,soussigneType)
             });
     });
 }
+*/
 
-var init_ajax_contrats_similaires = function(num_contrat)
+var ajax_send_contrats_similairesMarche = function(num_contrat)
 {
-    ajax_send_contrats_similaires(num_contrat,'vendeur');
-    ajax_send_contrats_similaires(num_contrat,'acheteur');
-    ajax_send_contrats_similaires(num_contrat,'mandataire');
+    var reg0 = (new RegExp("^[0-9]*$","g"));
+    var reg1 = (new RegExp("^[0-9]*[.][0-9]{2}$","g"));
+    
+    $('#vrac_marche #type_transaction input').click(function()
+    {
+        var type =  $(this).filter(':checked').val();
+        var prod =  $('section#produit option:selected').val();
+        var vol = $('#volume div.jus_quantite input').val();
+        
+        alert('toPOST : ['+type+','+prod+','+vol+']');
+    });
+    
+    $('section#produit input').live( "autocompleteselect", function(event, ui)
+    {  
+        var ajaxParams = {numero_contrat : num_contrat, 'produit' : ui.item.option.value, 'etape' : 'marche'};
+        var vol = $(this).val();
+        if(reg0.test(vol) || reg1.test(vol))
+        $.get('getContratsSimilaires',ajaxParams,
+            function(data)
+            {
+                $('#contrats_similaires').html(data);
+            });
+    });     
 }
+/*
+var init_ajax_contrats_similaires = function(num_contrat,namePage)
+{
+    switch(namePage)
+    {
+        case 'nouveau' :
+        {
+            alert('nouveau');
+            break;
+        }
+        
+        case 'soussigne' :
+        {
+            ajax_send_contrats_similairesSoussigne(num_contrat,'vendeur');
+            ajax_send_contrats_similairesSoussigne(num_contrat,'acheteur');
+            ajax_send_contrats_similairesSoussigne(num_contrat,'mandataire');
+            break;
+        }
+            
+        case 'marche' :
+        {
+            ajax_send_contrats_similairesMarche(num_contrat);
+            break;
+        }
+        default:return;
+    }
+}
+*/
 
 $(document).ready(function()
 {
