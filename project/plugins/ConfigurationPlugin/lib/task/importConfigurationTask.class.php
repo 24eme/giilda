@@ -34,6 +34,14 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     $import_dir = sfConfig::get('sf_data_dir').'/import/configuration';
+
+    if ($current = acCouchdbManager::getClient()->retrieveDocumentById('CURRENT')) {
+        $current->delete();
+    }
+    
+    $current = new Current();
+    $current->campagne = '2011-11';
+    $current->save();
     
     $configuration = acCouchdbManager::getClient()->retrieveDocumentById('CONFIGURATION', acCouchdbClient::HYDRATE_JSON);
     if ($configuration) {
@@ -44,7 +52,35 @@ EOF;
     
     $csv = new ProduitCsvFile($configuration, $import_dir.'/produits.csv');
     $configuration = $csv->importProduits();
+ 
+    // $csv = new LabelCsvFile($configuration, $import_dir.'/labels.csv');
+    // $configuration = $csv->importLabels();
+
     
+    foreach (file($import_dir.'/details.csv') as $line) {
+        $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
+        if ($detail = $configuration->declaration->certifications->exist($datas[0])) {
+	        $detail = $configuration->declaration->certifications->get($datas[0])->detail->get($datas[1])->add($datas[2]);
+	        $detail->readable = $datas[3];
+	        $detail->writable = $datas[4];
+        }
+    }
+    
+  	foreach (file($import_dir.'/libelle_detail_ligne.csv') as $line) {
+        $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
+        $detail = $configuration->libelle_detail_ligne->get($datas[0])->add($datas[1], $datas[2]);
+    }
+    
+    $contenances = array('75 cl' => 0.0075,
+                         '1 L' => 0.01,
+                         '1.5 L'=> 0.015,
+                         '3 L' => 0.03,
+                         'BIB 3 L' => 0.03,
+                         '6 L' => 0.06);
+
+    $configurationContenances = $configuration->add('contenances', $contenances);   
+
+
     //    $csv = new LabelCsvFile($configuration, $import_dir.'/labels.csv');
 
    /*
