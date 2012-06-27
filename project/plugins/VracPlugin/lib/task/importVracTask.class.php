@@ -227,6 +227,8 @@ EOF;
 
         $v->cvo_nature = $this->convertCvoNature($line[self::CSV_TYPE_CONTRAT]);
 
+        $v->valide->statut = $line[self::CSV_CONTRAT_SOLDE] == "O" ? VracClient::STATUS_CONTRAT_SOLDE : VracClient::STATUS_CONTRAT_NONSOLDE;
+
         $v->setInformations();
 
         $v->update(); 
