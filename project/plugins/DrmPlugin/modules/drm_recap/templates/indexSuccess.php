@@ -1,6 +1,4 @@
-
-
-<section id="contenu">
+<section id="contenu" style="background: #fff; padding: 10px;">
 
     <?php include_partial('drm/header', array('drm' => $drm)); ?>
     <?php include_component('drm', 'etapes', array('drm' => $drm, 
@@ -11,14 +9,23 @@
     <!-- #principal -->
     <section id="principal" style="width: 945px">
         <div id="application_dr">
+
             
             <?php include_component('drm_recap', 'onglets', array('config_lieu' => $config_lieu, 
                                                                   'drm_lieu' => $drm_lieu)) ?>
             <div id="contenu_onglet">
             
-            	<a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a>
+                <!-- <a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a> -->
             
                 <?php include_partial('shortcutKeys') ?>
+
+                <div style="text-align: center; padding: 20px 0;">
+                    <select class="autocomplete">
+                        <?php foreach($produits as $key => $value): ?>
+                            <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
                 <?php include_component('drm_recap', 'list', array('drm_lieu' => $drm_lieu, 
                                                                    'config_lieu' => $config_lieu,

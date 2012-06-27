@@ -131,6 +131,13 @@ class drm_recapActions extends sfActions
         $this->next = $this->drm_lieu->getNextSisterWithMouvementCheck();
     	$this->prev_certif = null;
     	$this->light_detail = null;
+
+        $this->produits = $this->getProduits();
+    }
+
+    protected function getProduits() {
+        $form = new DRMProduitAjoutForm($this->drm, $this->config_lieu->getCertification());
+        return $form->getProduits();
     }
     
 }

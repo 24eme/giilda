@@ -1,20 +1,19 @@
 <?php //include_partial('global/header', array('active' => 'drm')); ?>
 
-<section id="contenu">
+<section id="contenu" style="background: #fff; padding: 10px;">
     
     <h1>Déclaration Récapitulative Mensuelle <a href="" class="msg_aide" data-msg="help_popup_monespace" data-doc="notice.pdf" title="Message aide"></a></h1>
     
     <p class="intro">Bienvenue sur votre espace DRM. Que voulez-vous faire ?</p>
     
-    <section id="principal">
+    <section id="principal" style="width: 945px">
         <div id="recap_drm">
             <div id="drm_annee_courante" >
                 <?php include_component('drm', 'historiqueList', array('historique' => $historique, 'limit' => 12)) ?>
             </div>
         </div>
     </section>
-    <a href="<?php echo url_for('@drm_historique') ?>">Votre historique complet &raquo;</a>
-    
+<!--     <a href="<?php echo url_for('@drm_historique') ?>">Votre historique complet &raquo;</a> -->    
         <?php if($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
         <br /><br />
         <h1>Espace Admin <a href="" class="msg_aide" data-msg="help_popup_monespace_admin" data-doc="notice.pdf" title="Message aide"></a></h1>

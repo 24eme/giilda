@@ -1,10 +1,10 @@
 
 
-<section id="contenu">
+<section id="contenu" style="background: #fff; padding: 10px;">
     <?php include_partial('drm/header', array('drm' => $drm)); ?>
     <?php include_component('drm', 'etapes', array('drm' => $drm, 'etape' => 'ajouts_liquidations', 'pourcentage' => '10')); ?>
 
-    <section id="principal">
+    <section id="principal" style="width: 945px;">
 		<div id="application_dr">
 			<div id="contenu_onglet">
 				<?php if($first_certification): ?>

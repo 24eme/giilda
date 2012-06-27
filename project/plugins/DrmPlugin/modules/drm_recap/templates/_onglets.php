@@ -27,8 +27,8 @@
             <?php endif; ?>
         <?php endif; ?>
     <?php endforeach; ?>
-    <li class="ajouter">
+    <!-- <li class="ajouter">
         <a href="<?php echo url_for('drm_recap_lieu_ajout_ajax', $drm_lieu->getCertification()) ?> "class="btn_popup" data-popup="#popup_ajout_appelation" data-popup-ajax="true" data-popup-config="configForm">
             Ajouter une appellation
-        </a></li>
+        </a></li> -->
 </ul>

@@ -813,6 +813,8 @@ bouton.btn_majeur { height:26px; }
   padding:5px;
   text-decoration:none;
 }
+.ui-autocomplete .ui-menu-item a.ui-state-hover,
+.ui-autocomplete .ui-menu-item a.ui-state-active,
 .ui-autocomplete a:hover {
   background-color:#c1c1c1;
   color:#ffffff;
@@ -1303,7 +1305,7 @@ p#date_drm {
   top:0;
 }
 #statut_declaration {
-  margin:0 0 25px;
+  margin:0 0 5px;
   zoom:1;
   min-height:1px;
 }

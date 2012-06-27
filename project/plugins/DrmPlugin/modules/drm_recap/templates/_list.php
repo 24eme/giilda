@@ -9,9 +9,9 @@
 </div>
 
 <!-- C'est degelousse -->
-<p style="text-align:right; padding-bottom: 4px;">
+<!-- <p style="text-align:right; padding-bottom: 4px;">
     <a href="<?php echo url_for('drm_recap_ajout_ajax', $drm_lieu) ?>" class="btn_ajouter btn_popup" data-popup-ajax="true" data-popup="#popup_ajout_detail" data-popup-config="configForm">Ajouter un produit</a>
-</p>
+</p> -->
 
 <div id="colonnes_dr">
     <?php include_partial('drm_recap/itemHeader', array('config_lieu' => $config_lieu)); ?>    
