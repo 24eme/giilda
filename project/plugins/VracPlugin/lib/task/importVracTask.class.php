@@ -136,7 +136,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    set_time_limit(3600);
+    set_time_limit(0);
 
     foreach(file($arguments['file']) as $line) {
     	$data = str_getcsv($line, ';');
@@ -185,7 +185,9 @@ EOF;
 
         if($line[self::CSV_CIAPL_SUR_LIE] == "O") {
           $v->label->add(null, "LIE");
-        }      
+        }
+
+        $v->millesime = $line[self::CSV_MILLESIME_ANNEE] ? (int)$line[self::CSV_MILLESIME_ANNEE] : null;
 
         if (!$v->getVendeurObject() || !$v->getAcheteurObject()) {
           $this->logSection("Les etablissements n'existes pas",  $line[self::CSV_CIAPL_REGION_VITICOLE]."@".$v->numero_contrat."V:".$v->vendeur_identifiant.";A:".$v->acheteur_identifiant, null, 'ERROR');
@@ -202,8 +204,9 @@ EOF;
         
         if (in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
           if(preg_match('/^b[0-9]{1}$/', $line[self::CSV_UNITE_PRIX_VENTE])) {
-          	$v->bouteilles_contenance = $this->convertToFloat($line[self::CSV_COEF_CONVERSION_PRIX]) * 100;
-          	$v->bouteilles_quantite = (int)round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]) * $v->bouteilles_contenance);
+          	$v->bouteilles_contenance_volume = $this->convertToFloat($line[self::CSV_COEF_CONVERSION_PRIX]);
+            $v->bouteilles_contenance_libelle = $this->getBouteilleContenanceLibelle($v->bouteilles_contenance_volume);
+          	$v->bouteilles_quantite = (int)round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]) / $v->bouteilles_contenance_volume);
       	  }
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_MOUTS,
                                                       VracClient::TYPE_TRANSACTION_VIN_VRAC))) {
@@ -220,7 +223,7 @@ EOF;
 
         $v->type_contrat = $this->convertTypeContrat($line[self::CSV_TYPE_CONTRAT]);
 
-        //$v->prix_variable = $this->convertPrixVariable($line[self::CSV_INDICATEUR_PRIX_VARIABLE]);
+        $v->prix_variable = 0;
 
         $v->cvo_nature = $this->convertCvoNature($line[self::CSV_TYPE_CONTRAT]);
 
@@ -310,7 +313,7 @@ EOF;
       return $type_contrats[$type];
     }
 
-    return null;
+    return VracClient::CVO_NATURE_MARCHE_DEFINITIF;
   }
 
   protected function convertOuiNon($indicateur) {
@@ -351,4 +354,18 @@ EOF;
     }
     return $key;
   }
+
+  protected function getBouteilleContenanceLibelle($v) {
+        $contenances = array("0.0075" => '75 cl',
+                            "0.01" => '1 L',
+                            "0.015" => '1.5 L',
+                            "0.03" => '3 L',
+                            "0.06" => '6 L');
+        $v = $v."";
+        if (array_key_exists($v, $contenances)) {
+          return $contenances[$v];
+        }
+
+        return null;
+  } 
 }
