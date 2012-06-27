@@ -20,7 +20,9 @@ class Vrac extends BaseVrac {
     
     public function setBouteillesContenanceLibelle($c) {
         $this->_set('bouteilles_contenance_libelle', $c);
-        $this->setBouteillesContenanceVolume(VracClient::$contenance[$c]);
+        if ($c) {
+            $this->setBouteillesContenanceVolume(VracClient::$contenance[$c]);
+        }
     }
     
     public function update($params = array()) {
