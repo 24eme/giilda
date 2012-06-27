@@ -1192,9 +1192,13 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   display:inline-block;
   vertical-align:middle;
 }
-#contenu_etape .legende div .statut_solde { background-color:#a2df46; }
-#contenu_etape .legende div .statut_non-solde { background-color:#faa804; }
-#contenu_etape .legende div .statut_annule { background-color:#e42c2c; }
+#contenu_etape .legende div .statut_solde { background-color:rgb(162,223,70); }
+#contenu_etape .legende div .statut_non-solde { background-color:rgb(250,168,4); }
+#contenu_etape .legende div .statut_annule { background-color:rgb(228,44,44); }
+#tableau_contrat .statut_solde { background-color:rgba(162,223,70,0.5); }
+#tableau_contrat .statut_non-solde { background-color:rgba(250,168,4,0.5); }
+#tableau_contrat .statut_annule { background-color:rgba(228,44,44,0.5); }
+
 #contenu_etape .legende div .legende_statut_texte {
   margin:2px 0 0 10px;
   position:absolute;
