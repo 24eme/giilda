@@ -8,10 +8,10 @@ class ConfigurationLieu extends BaseConfigurationLieu {
 
 	const TYPE_NOEUD = 'lieu';
 
-    protected function loadAllData() {
-        //parent::loadAllData();
-        $this->hasCepage();
-    }
+    // protected function loadAllData() {
+    //     parent::loadAllData();
+    //     $this->hasCepage();
+    // }
 
 	/**
      *

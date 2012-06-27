@@ -8,11 +8,11 @@ class ConfigurationAppellation extends BaseConfigurationAppellation {
 	
 	const TYPE_NOEUD = 'appellation';
     
-    protected function loadAllData() {
-        parent::loadAllData();
-        $this->hasCepage();
-        $this->hasMillesime();
-    }
+    // protected function loadAllData() {
+    //     parent::loadAllData();
+    //     $this->hasCepage();
+    //     //$this->hasMillesime();
+    // }
 
     public function getGenre() {
 

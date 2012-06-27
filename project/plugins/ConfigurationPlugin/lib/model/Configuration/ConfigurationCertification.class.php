@@ -9,9 +9,9 @@ class ConfigurationCertification extends BaseConfigurationCertification {
 	const TYPE_NOEUD = 'certification';
 
     
-    protected function loadAllData() {
-        parent::loadAllData();
-    }
+    // protected function loadAllData() {
+    //     parent::loadAllData();
+    // }
 
     protected function getLibellesAbstract() {
 
