@@ -9,6 +9,7 @@
  * @property acCouchdbJson $departements
  * @property acCouchdbJson $interpro
  * @property acCouchdbJson $genres
+ * @property ConfigurationDetail $detail
 
  * @method string getLibelle()
  * @method string setLibelle()
@@ -20,6 +21,8 @@
  * @method acCouchdbJson setInterpro()
  * @method acCouchdbJson getGenres()
  * @method acCouchdbJson setGenres()
+ * @method ConfigurationDetail getDetail()
+ * @method ConfigurationDetail setDetail()
  
  */
 

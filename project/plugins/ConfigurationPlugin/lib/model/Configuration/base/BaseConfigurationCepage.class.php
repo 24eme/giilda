@@ -6,14 +6,11 @@
 
  * @property string $libelle
  * @property string $code
- * @property ConfigurationDetail $detail
 
  * @method string getLibelle()
  * @method string setLibelle()
  * @method string getCode()
  * @method string setCode()
- * @method ConfigurationDetail getDetail()
- * @method ConfigurationDetail setDetail()
  
  */
 
