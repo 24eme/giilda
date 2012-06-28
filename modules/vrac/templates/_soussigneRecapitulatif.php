@@ -15,7 +15,7 @@
 </section>
 <section id="soussigne_recapitulatif_mandataire">
     <?php
-    if($vrac->mandataire_exist)
+    if($vrac->mandataire_identifiant!=null && $vrac->mandataire_exist)
     {
     ?>
    <span>Mandataire&nbsp;:</span>
