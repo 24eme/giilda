@@ -78,14 +78,14 @@ class VracClient extends acCouchdbClient {
         if (count($contrats) > 0) {
             $id .= ((double)str_replace('VRAC-', '', max($contrats)) + 1);
         } else {
-            $id.= $date.'0001';
+            $id.= $date.'00001';
         }
 
         return $id;
     }
     
     public function getAtDate($date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('VRAC-'.$date.'0000')->endkey('VRAC-'.$date.'9999')->execute($hydrate);        
+        return $this->startkey('VRAC-'.$date.'00000')->endkey('VRAC-'.$date.'99999')->execute($hydrate);        
     }
     
     public function findByNumContrat($num_contrat) {
