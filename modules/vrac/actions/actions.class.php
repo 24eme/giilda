@@ -16,6 +16,15 @@ class vracActions extends sfActions
       $this->vracs = VracClient::getInstance()->retrieveLastDocs();
   }
 
+  static function rechercheTriListOnID($etb0, $etb1)
+    {
+        if ($etb0->id == $etb1->id) {
+            return 0;
+        }
+        return ($etb0->id > $etb1->id) ? -1 : +1;
+    }
+      
+  
   public function executeRecherche(sfWebRequest $request) 
   {      
       $isType = isset($request['type']);
@@ -38,6 +47,10 @@ class vracActions extends sfActions
           $this->vracs = VracClient::getInstance()->retrieveBySoussigne($soussigneId);
           $this->actif = null;
       }
+      
+      
+      usort($this->vracs->rows, array("vracActions", "rechercheTriListOnID"));
+      
       $this->etablissements = array('' => '');
       $soussignelabel = array($soussigneObj['nom'], $soussigneObj['cvi'], $soussigneObj['commune']);
       $this->etablissements[$this->identifiant] = trim(implode(',', array_filter($soussignelabel)));

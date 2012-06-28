@@ -96,19 +96,38 @@ class VracClient extends acCouchdbClient {
       return $this->descending(true)->limit(300)->getView('vrac', 'history');
     }
     
-    public function retrieveBySoussigne($soussigneId) {
-      return $this->startkey(array('STATUT',$soussigneId))
-              ->endkey(array('STATUT',$soussigneId, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
+    public function retrieveBySoussigne($soussigneId,$limit=null) {
+      $bySoussigneQuery = $this->startkey(array('STATUT',$soussigneId))
+              ->endkey(array('STATUT',$soussigneId, array()));
+      if ($limit){
+            $bySoussigneQuery =  $bySoussigneQuery->limit(300);
+        }
+      
+      $bySoussigne = $bySoussigneQuery->getView('vrac', 'soussigneidentifiant');
+      return $bySoussigne;
     }
     
-    public function retrieveBySoussigneAndStatut($soussigneId,$statut) {
-      return $this->startkey(array('STATUT',$soussigneId,$statut))
-              ->endkey(array('STATUT',$soussigneId,$statut, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
+    public function retrieveBySoussigneAndStatut($soussigneId,$statut,$limit=null) {
+        $bySoussigneStatutQuery =  $this->startkey(array('STATUT',$soussigneId,$statut))
+                ->endkey(array('STATUT',$soussigneId,$statut, array()));
+
+        if ($limit){
+            $bySoussigneStatutQuery =  $bySoussigneStatutQuery->limit(300);
+        }
+      
+        $bySoussigneStatut = $bySoussigneStatutQuery->getView('vrac', 'soussigneidentifiant');
+        return $bySoussigneStatut;
     }
     
-    public function retrieveBySoussigneAndType($soussigneId,$type) {
-      return $this->startkey(array('TYPE',$soussigneId,$type))
-              ->endkey(array('TYPE',$soussigneId,$type, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
+    public function retrieveBySoussigneAndType($soussigneId,$type,$limit=null) {
+    $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$type))
+              ->endkey(array('TYPE',$soussigneId,$type, array()));
+    
+    if ($limit){
+            $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit(300);
+        }
+    $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+    return ($bySoussigneType);
     }
     
     public function retrieveSimilaryContracts($params) {
