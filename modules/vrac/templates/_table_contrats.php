@@ -13,8 +13,10 @@
         foreach ($vracs->rows as $value)
         {   
             $elt = $value->getRawValue()->value;
-            $statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
-            $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]);
+            if(!is_null($elt[VracClient::VRAC_VIEW_STATUT]))
+            {
+                $statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
+                $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]);
         ?>
         <tr class="<?php echo $statusColor; ?>" >
               <td class="type" ><span class="type_<?php echo $elt[VracClient::VRAC_VIEW_TYPEPRODUIT]; ?>"><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT])? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></span></td>
@@ -50,6 +52,9 @@
                                     : ''; ?>
               </td>
         </tr>
-        <?php } ?>
+        <?php
+            }
+        }
+        ?>
     </tbody>
 </table>    

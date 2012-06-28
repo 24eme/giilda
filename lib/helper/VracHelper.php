@@ -1,5 +1,11 @@
 <?php
 
+ 
+function isARechercheParam($actif,$label)
+{
+    return $actif==$label;
+}
+
 function statusColor($status)
 {
     

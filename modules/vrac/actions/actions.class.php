@@ -16,14 +16,29 @@ class vracActions extends sfActions
       $this->vracs = VracClient::getInstance()->retrieveLastDocs();
   }
 
-  public function executeRecherche(sfWebRequest $request) {
+  public function executeRecherche(sfWebRequest $request) 
+  {      
+      $isType = isset($request['type']);
+      $isStatut = isset($request['statut']);
       $this->identifiant = $request->getParameter('identifiant');
       $soussigneObj = EtablissementClient::getInstance()->findByIdentifiant($this->identifiant);
       $soussigneId = 'ETABLISSEMENT-'.$this->identifiant;
-      $this->vracs = VracClient::getInstance()->retrieveBySoussigne($soussigneId);
-      
+      if($isStatut)
+      {
+          $this->vracs = VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId,$request['statut']);
+          $this->actif = $request['statut'];
+      }
+      elseif ($isType)
+      {
+          $this->vracs = VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId,$request['type']);
+          $this->actif = $request['type'];
+      }
+      else
+      {          
+          $this->vracs = VracClient::getInstance()->retrieveBySoussigne($soussigneId);
+          $this->actif = null;
+      }
       $this->etablissements = array('' => '');
-    
       $soussignelabel = array($soussigneObj['nom'], $soussigneObj['cvi'], $soussigneObj['commune']);
       $this->etablissements[$this->identifiant] = trim(implode(',', array_filter($soussignelabel)));
 

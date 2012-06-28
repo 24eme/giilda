@@ -35,18 +35,7 @@ foreach($datas as $data)
                 </div>
                 <br />
                 <div class="section_label_maj"> 
-                    <label>10 derniers contrats saisis : </label>
-                    <div class="legende">
-                        <div><span class="type_raisins">type_raisins</span><span class="legende_type_texte">Raisins</span></div>
-                        <div><span class="type_mouts">type_mouts</span><span class="legende_type_texte">Mouts</span></div>
-                        <div><span class="type_vin_vrac">type_vin_vrac</span><span class="legende_type_texte">Vrac</span></div>
-                        <div><span class="type_vin_bouteille">type_vin_bouteille</span><span class="legende_type_texte">Bouteilles</span></div>
-                    </div>
-                    <div class="legende">
-                        <div><span class="statut statut_solde"></span><span class="legende_statut_texte">Soldé</span></div>
-                        <div><span class="statut statut_non-solde"></span><span class="legende_statut_texte">Non-soldé</span></div>
-                        <div><span class="statut statut_annule"></span><span class="legende_statut_texte">Annulé</span></div>
-                    </div>
+                    <label>10 derniers contrats saisis : </label>                   
                     <?php include_partial('table_contrats', array('vracs' => $vracs)); ?>
                 </div>
             </div>

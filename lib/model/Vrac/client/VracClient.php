@@ -96,9 +96,19 @@ class VracClient extends acCouchdbClient {
       return $this->descending(true)->limit(300)->getView('vrac', 'history');
     }
     
-    public function retrieveBySoussigne($soussigneParam) {
-      return $this->startkey(array($soussigneParam))
-              ->endkey(array($soussigneParam, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
+    public function retrieveBySoussigne($soussigneId) {
+      return $this->startkey(array('STATUT',$soussigneId))
+              ->endkey(array('STATUT',$soussigneId, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
+    }
+    
+    public function retrieveBySoussigneAndStatut($soussigneId,$statut) {
+      return $this->startkey(array('STATUT',$soussigneId,$statut))
+              ->endkey(array('STATUT',$soussigneId,$statut, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
+    }
+    
+    public function retrieveBySoussigneAndType($soussigneId,$type) {
+      return $this->startkey(array('TYPE',$soussigneId,$type))
+              ->endkey(array('TYPE',$soussigneId,$type, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
     }
     
     public function retrieveSimilaryContracts($params) {

@@ -32,9 +32,19 @@ use_helper('Vrac');
                             <input type="submit" value="recherche"/>
                         </form>
                     </p>
-                </div>
-                <h2>Contrats saisis : </h2>
-                <?php include_partial('table_contrats', array('vracs' => $vracs, 'identifiant'=>$identifiant)); ?>
+                </div>                
+                <?php 
+                    include_partial('rechercheLegende', array('vracs' => $vracs, 'identifiant'=>$identifiant,'actif' => $actif));
+                    if(count($vracs->rows->getRawValue()))
+                    {
+                        echo '<h2>Contrats saisis : </h2>';
+                        include_partial('table_contrats', array('vracs' => $vracs, 'identifiant'=>$identifiant));                
+                    }
+                    else
+                    {
+                    echo "<h2>Il n'existe aucun contrat pour cette recherche</h2>";
+                    }
+                ?>
             </section>
         </section>
         <?php include_partial('actions'); ?>
