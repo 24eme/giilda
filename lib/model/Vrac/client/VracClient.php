@@ -13,7 +13,7 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_MANDATAIRE_NOM = 7;    
     const VRAC_VIEW_TYPEPRODUIT = 8;
     const VRAC_VIEW_PRODUIT_ID = 9;
-    const VRAC_VIEW_VOLCONS = 10;
+    const VRAC_VIEW_VOLPROP = 10;
     const VRAC_VIEW_VOLENLEVE = 11;
 
     const VRAC_SIMILAIRE_KEY_VENDEURID = 'vendeur_identifiant';   

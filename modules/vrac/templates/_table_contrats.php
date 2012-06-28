@@ -5,7 +5,7 @@
             <th>N° Contrat</th>
             <th>Soussignés</th>   
             <th>Produit</th>
-            <th>Vol. com. / Vol. enlv.</th>
+            <th>Vol. enlv. / Vol. prop.</th>
         </tr>
     </thead>
     <tbody>
@@ -45,8 +45,8 @@
               <td><?php echo ($elt[VracClient::VRAC_VIEW_PRODUIT_ID])? ConfigurationClient::getCurrent()->get($elt[VracClient::VRAC_VIEW_PRODUIT_ID])->libelleProduit() : ''; ?></td>
               <td>
                   <?php echo $elt[VracClient::VRAC_VIEW_STATUT]; ?>              
-                  <?php echo (isset($elt[VracClient::VRAC_VIEW_VOLCONS]) && isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))?
-                                    $elt[VracClient::VRAC_VIEW_VOLCONS].' / '.$elt[VracClient::VRAC_VIEW_VOLENLEVE]
+                  <?php echo (isset($elt[VracClient::VRAC_VIEW_VOLPROP]) && isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))?
+                                    $elt[VracClient::VRAC_VIEW_VOLENLEVE].' / '.$elt[VracClient::VRAC_VIEW_VOLPROP]
                                     : ''; ?>
               </td>
         </tr>
