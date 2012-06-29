@@ -349,38 +349,7 @@
                 margin-top: 50px;
         }
 
-        .legende{
-                margin: 15px 0;
-                div{
-                        display:inline-block;
-                        height:25px;
-                        width:100px;
-
-                        .legende_type_texte{
-                                margin: 7px 0 0 10px;
-                                position: absolute;
-                        }
-                        
-                        .statut{
-                                .border-radius(50%);
-                                .box-dimensions(20px, 20px);
-                                display: inline-block;
-                                vertical-align:middle;
-                        }
-                        
-                        .statut_solde{ background-color:#a2df46; }
-
-                        .statut_non-solde{ background-color:#faa804; }
-
-                        .statut_annule{ background-color:#e42c2c; }
-
-                        .legende_statut_texte{
-                                margin: 2px 0 0 10px;
-                                position: absolute;
-                        }
-
-                }
-        }
+        
 
         #tableau_contrat{
 
@@ -411,6 +380,11 @@
                                 font-style:italic;
                         }
                 }
+
+                .statut_non-solde td{ background-color : #fff8e8;}
+                .statut_solde td{ background-color : #f0fae1; }
+                .statut_annule td{ background-color : #feecec; }
+
         }
 
         #vrac_soussigne{
@@ -528,6 +502,84 @@
                         padding-bottom:40px;
                 }
 
+        }
+
+        #btn_export_csv{
+                .btn_majeur; 
+                .btn_excel;
+                float:right;
+                margin-top:15px;
+        }
+
+}
+
+
+.legende{
+        margin: 15px 0;
+
+        .actif a .legende_type_texte{ text-decoration:underline; }
+
+        div{
+                display:inline-block;
+                height:25px;
+                margin-bottom:10px;
+                width:100px;
+
+                .legende_type_texte{
+                        margin: 7px 0 0 10px;
+                        position: absolute;
+                }
+
+                .statut{
+                        .border-radius(50%);
+                        .box-dimensions(20px, 20px);
+                        display: inline-block;
+                        vertical-align:middle;
+                }
+
+                .statut_solde{ background-color:#a2df46; }
+
+                .statut_non-solde{ background-color:#faa804; }
+
+                .statut_annule{ background-color:#e42c2c; }
+
+                .legende_statut_texte{
+                        margin: 2px 0 0 10px;
+                        position: absolute;
+                }
+
+        }
+}
+
+
+
+.bloc_col{
+
+        .legende{
+                .actif{text-decoration:underline;}
+
+                margin: 15px 0;
+
+                div{
+                        display:inline-block;
+                        height:25px;
+                        margin-bottom:0px;
+                        width:108px;
+
+                        
+                        .statut{
+                                .box-dimensions(15px, 15px);
+                        }
+
+                        .type_raisins,
+                        .type_mouts,
+                        .type_vin_vrac,
+                        .type_vin_bouteille
+                        {
+                                margin-bottom:5px;
+                        }
+
+                }
         }
 
 }

@@ -763,31 +763,6 @@ bouton.btn_majeur { height:26px; }
   width:165px;
 }
 #principal ul.radio_list li label { font-weight:normal !important; }
-#principal .type_raisins, #principal .type_mouts, #principal .type_vin_vrac, #principal .type_vin_bouteille {
-  height:1px;
-  overflow:hidden;
-  text-indent:100%;
-  white-space:nowrap;
-  width:22px;
-  background:url(../images/pictos/sprite_type.png) no-repeat;
-  display:inline-block;
-}
-#principal .type_raisins {
-  height:26px;
-  background-position:0 -59px;
-}
-#principal .type_mouts {
-  height:27px;
-  background-position:0 -32px;
-}
-#principal .type_vin_vrac {
-  height:26px;
-  background-position:0 -84px;
-}
-#principal .type_vin_bouteille {
-  height:28px;
-  background-position:0 0;
-}
 #principal .champ_datepicker { padding-top:10px; }
 #principal .champ_datepicker img {
   position:absolute;
@@ -821,6 +796,31 @@ bouton.btn_majeur { height:26px; }
 .ui-autocomplete a:hover {
   background-color:#c1c1c1;
   color:#ffffff;
+}
+.type_raisins, .type_mouts, .type_vin_vrac, .type_vin_bouteille {
+  height:1px;
+  overflow:hidden;
+  text-indent:100%;
+  white-space:nowrap;
+  width:22px;
+  background:url(../images/pictos/sprite_type.png) no-repeat;
+  display:inline-block;
+}
+.type_raisins {
+  height:26px;
+  background-position:0 -59px;
+}
+.type_mouts {
+  height:27px;
+  background-position:0 -32px;
+}
+.type_vin_vrac {
+  height:26px;
+  background-position:0 -84px;
+}
+.type_vin_bouteille {
+  height:28px;
+  background-position:0 0;
 }
 #fil_ariane {
   font-style:italic;
@@ -1175,35 +1175,6 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   float:right;
   margin-top:50px;
 }
-#contenu_etape .legende { margin:15px 0; }
-#contenu_etape .legende div {
-  display:inline-block;
-  height:25px;
-  width:100px;
-}
-#contenu_etape .legende div .legende_type_texte {
-  margin:7px 0 0 10px;
-  position:absolute;
-}
-#contenu_etape .legende div .statut {
-  -webkit-border-radius:50%;
-  -moz-border-radius:50%;
-  border-radius:50%;
-  -webkit-border-radius:50%;
-  -moz-border-radius:50%;
-  border-radius:50%;
-  height:20px;
-  width:20px;
-  display:inline-block;
-  vertical-align:middle;
-}
-#contenu_etape .legende div .statut_solde { background-color:#a2df46; }
-#contenu_etape .legende div .statut_non-solde { background-color:#faa804; }
-#contenu_etape .legende div .statut_annule { background-color:#e42c2c; }
-#contenu_etape .legende div .legende_statut_texte {
-  margin:2px 0 0 10px;
-  position:absolute;
-}
 #contenu_etape #tableau_contrat th {
   border:1px solid #e5e4e4;
   background:#ecebeb;
@@ -1220,6 +1191,9 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   text-decoration:underline;
   font-style:italic;
 }
+#contenu_etape #tableau_contrat .statut_non-solde td { background-color:#fff8e8; }
+#contenu_etape #tableau_contrat .statut_solde td { background-color:#f0fae1; }
+#contenu_etape #tableau_contrat .statut_annule td { background-color:#feecec; }
 #contenu_etape #vrac_soussigne .section_label_maj >  label:first-child { width:310px; }
 #contenu_etape #vrac_soussigne #vendeur_infos { height:160px; }
 #contenu_etape #vrac_soussigne #acheteur, #contenu_etape #vrac_soussigne #mandataire_choice { padding-top:40px; }
@@ -1299,6 +1273,7 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
 }
 #contenu_etape #vrac_validation #ss_titre, #contenu_etape #vrac_recapitulatif #ss_titre {
   background-color:#e3e2e2;
+  margin-top:10px;
   padding:10px;
 }
 #contenu_etape #vrac_validation .style_label, #contenu_etape #vrac_recapitulatif .style_label {
@@ -1321,6 +1296,101 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
 }
 #contenu_etape #vrac_validation .btnModification:after, #contenu_etape #vrac_recapitulatif .btnModification:after { clear:both; }
 #contenu_etape #vrac_validation li, #contenu_etape #vrac_recapitulatif li { padding-bottom:40px; }
+#contenu_etape #btn_export_csv {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
+  color:#5e5c5c;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px;
+  position:relative;
+  color:#ffffff;
+  background-position:0 -78px;
+  border-color:#83a44d;
+  padding-left:30px;
+  float:right;
+  margin-top:15px;
+}
+#contenu_etape #btn_export_csv:hover, #contenu_etape #btn_export_csv:focus { text-decoration:none; }
+bouton#contenu_etape #btn_export_csv { height:26px; }
+#contenu_etape #btn_export_csv span { display:inline-block; }
+#contenu_etape #btn_export_csv:after {
+  height:26px;
+  width:20px;
+  background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
+  bottom:auto;
+  left:5px;
+  position:absolute;
+  right:auto;
+  top:0;
+  content:'';
+  cursor:pointer;
+  display:inline-block;
+}
+#contenu_etape #btn_export_csv:after { background-position:2px -315px; }
+.legende { margin:15px 0; }
+.legende .actif a .legende_type_texte { text-decoration:underline; }
+.legende div {
+  display:inline-block;
+  height:25px;
+  margin-bottom:10px;
+  width:100px;
+}
+.legende div .legende_type_texte {
+  margin:7px 0 0 10px;
+  position:absolute;
+}
+.legende div .statut {
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  border-radius:50%;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  border-radius:50%;
+  height:20px;
+  width:20px;
+  display:inline-block;
+  vertical-align:middle;
+}
+.legende div .statut_solde { background-color:#a2df46; }
+.legende div .statut_non-solde { background-color:#faa804; }
+.legende div .statut_annule { background-color:#e42c2c; }
+.legende div .legende_statut_texte {
+  margin:2px 0 0 10px;
+  position:absolute;
+}
+.bloc_col .legende { margin:15px 0; }
+.bloc_col .legende .actif { text-decoration:underline; }
+.bloc_col .legende div {
+  display:inline-block;
+  height:25px;
+  margin-bottom:0px;
+  width:108px;
+}
+.bloc_col .legende div .statut {
+  height:15px;
+  width:15px;
+}
+.bloc_col .legende div .type_raisins, .bloc_col .legende div .type_mouts, .bloc_col .legende div .type_vin_vrac, .bloc_col .legende div .type_vin_bouteille { margin-bottom:5px; }
 p#date_drm {
   font-size:14px;
   font-style:italic;
