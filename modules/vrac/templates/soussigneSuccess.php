@@ -54,9 +54,9 @@ else
                     <div id="vendeur_choice" class="section_label_maj">
                         <?php echo $form['vendeur_identifiant']->renderError(); ?>
                         <?php echo $form['vendeur_identifiant']->renderLabel() ?>
-                        <div class="f_right">
-                            <?php echo $form['vendeur_famille']->render() ?>                                                  
-                        </div>
+                        <div style="display: none;" class="f_right">
+                            <?php //echo $form['vendeur_famille']->render() ?>                                                  
+                        </div> 
                     </div>
 
                     <div id="vendeur_choice" style="text-align:right;">
@@ -84,7 +84,7 @@ else
                     <div id="acheteur_choice" class="section_label_maj">
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
                         <?php echo $form['acheteur_identifiant']->renderLabel() ?>
-                        <div class="f_right">
+                        <div style="display: none;" class="f_right">
                             <?php echo $form['acheteur_famille']->render() ?>                          
                         </div>
                     </div>
