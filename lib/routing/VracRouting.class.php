@@ -40,6 +40,11 @@ class VracRouting {
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object'))); 
         
+        $r->prependRoute('vrac_visualisation', new VracRoute('/vrac/:numero_contrat/visualisation',
+                                                        array('module' => 'vrac','action' => 'visualisation'),
+                                                        array('sf_method' => array('get','post')),
+                                                        array('model' => 'Vrac', 'type' => 'object')));
+        
         $r->prependRoute('vrac_nouveau_getinfos', new VracRoute('/vrac/getInfos',
                                                         array('module' => 'vrac','action' => 'getInformations'),
                                                         array('sf_method' => array('get')),
@@ -70,6 +75,8 @@ class VracRouting {
                                                         array('module' => 'vrac','action' => 'volumeEnleve'),
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
+        
+
         
 //        $r->prependRoute('vrac_nouveau_modificationPost', new VracRoute('/vrac/modificationPost',
 //                                                        array('module' => 'vrac','action' => 'modificationPost'),

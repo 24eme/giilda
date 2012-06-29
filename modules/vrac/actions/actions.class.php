@@ -205,6 +205,16 @@ class vracActions extends sfActions
             $this->redirect('vrac_soussigne');
       }
   }
+  
+  public function executeVisualisation(sfWebRequest $request)
+  {
+      $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));
+      $this->vrac = $this->getRoute()->getVrac();      
+      if ($request->isMethod(sfWebRequest::POST)) 
+      {
+            $this->redirect('vrac_soussigne');
+      }
+  }
 
   public function executeGetInformations(sfWebRequest $request) 
   { 
