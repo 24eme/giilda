@@ -15,6 +15,7 @@ marcheSuccess:
 conditionSuccess:
   metas:
     title:        "Contrat N° %d - Condition"
+  stylesheets:    [jquery.ui/jquery.ui.theme.css,jquery.ui/jquery.ui.datepicker.css]
     
 validationSuccess:
   metas:
