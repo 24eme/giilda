@@ -40,23 +40,25 @@
                             <label>Dates</label>
                             <div class="bloc_form">
                                 <!--  Affichage de la date de signature -->
-                                <div id="date_signature" class="ligne_form">
+                                <div id="date_signature" class="ligne_form champ_datepicker">
                                     <?php echo $form['date_signature']->renderError() ?>        
                                     <?php echo $form['date_signature']->renderLabel() ?>
-                                    <?php echo $form['date_signature']->render() ?>        
+                                    <?php echo $form['date_signature']->render() ?>   
+                                    <span>(Date figurant sur le contrat)</span>
                                 </div>
                                 <!--  Affichage de la date de statistique -->
-                                <div id="date_stats" class="ligne_form ligne_form_alt">
+                                <div id="date_stats" class="ligne_form ligne_form_alt champ_datepicker">
                                     <?php echo $form['date_stats']->renderError() ?>        
                                     <?php echo $form['date_stats']->renderLabel() ?>
-                                    <?php echo $form['date_stats']->render() ?>        
+                                    <?php echo $form['date_stats']->render() ?>  
+                                    <span>(Vous pourrez modifier cette date ultérieurement)</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div id="ligne_btn">
 
-                            <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_majeur btn_annuler">
+                            <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_majeur btn_gris">
                             <span>Précédent</span>
                         </a> 
                         <div class="btnValidation">
