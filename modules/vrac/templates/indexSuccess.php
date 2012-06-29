@@ -19,7 +19,9 @@ foreach($datas as $data)
 <div id="contenu">
     <div id="rub_contrats">
         <section id="principal">
-             <?php include_partial('fil_ariane'); ?>
+             <?php 
+             include_partial('fil_ariane');
+             ?>
             <div id="contenu_etape">
                 <div id="recherche_operateur" class="section_label_maj">
                     <label>Rechercher un opérateur : </label>
@@ -40,6 +42,19 @@ foreach($datas as $data)
                 </div>
             </div>
         </section>
-        <?php include_partial('actions'); ?>
+        <aside id="colonne">
+        <?php 
+        include_partial('actions');
+        ?>
+        <div id="action" class="bloc_col">
+        <h2>Légende</h2>
+        <?php
+        include_partial('rechercheLegende');
+        ?>
+        </div>
+        <?php
+        include_partial('contrat_aide');
+        ?>
+        </aside>
     </div>
 </div>

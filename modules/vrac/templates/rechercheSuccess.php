@@ -1,5 +1,11 @@
 <?php
 use_helper('Vrac');
+
+$urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant));
+if(isset($statut)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant,'statut' => $statut));
+if(isset($type)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant,'type' => $type)); 
+
+
 ?>
 <script type="text/javascript">
     $(document).ready(function()
@@ -29,12 +35,15 @@ use_helper('Vrac');
                                 }
                                 ?>
                             </select>
-                            <input type="submit" value="recherche"/>
+                            <input type="submit" value="recherche" class="btn_majeur btn_noir"/>
                         </form>
                     </p>
                 </div>                
                 <?php 
                     include_partial('rechercheLegende', array('vracs' => $vracs, 'identifiant'=>$identifiant,'actif' => $actif));
+                ?>
+                <a class="btn_majeur btn_noir" href="<?php echo $urlExport; ?>" >Extraire csv</a>
+                <?php
                     if(count($vracs->rows->getRawValue()))
                     {
                         echo '<h2>Contrats saisis : </h2>';

@@ -26,30 +26,45 @@ class vracActions extends sfActions
       
   
   public function executeRecherche(sfWebRequest $request) 
-  {      
+  {            
+      $this->getVracsFromRecherche($request,true);
+  }
+   
+  private function getVracsFromRecherche($request, $limited)
+  {
       $isType = isset($request['type']);
       $isStatut = isset($request['statut']);
       $this->identifiant = $request->getParameter('identifiant');
       $soussigneObj = EtablissementClient::getInstance()->findByIdentifiant($this->identifiant);
       $soussigneId = 'ETABLISSEMENT-'.$this->identifiant;
+     
       if($isStatut)
       {
-          $this->vracs = VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId,$request['statut']);
+          $this->statut = $request['statut'];
+          $this->vracs = ($limited)? 
+                            VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId,$request['statut'])
+                            : VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId,$request['statut'],false);
           $this->actif = $request['statut'];
       }
       elseif ($isType)
       {
-          $this->vracs = VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId,$request['type']);
+          $this->type = $request['type'];
+          $this->vracs = ($limited)? 
+                            VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId,$request['type'])
+                            : VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId,$request['type'],false);
           $this->actif = $request['type'];
       }
       else
       {          
-          $this->vracs = VracClient::getInstance()->retrieveBySoussigne($soussigneId);
+          $this->vracs = ($limited)? 
+                            VracClient::getInstance()->retrieveBySoussigne($soussigneId)
+                            : VracClient::getInstance()->retrieveBySoussigne($soussigneId,false);
           $this->actif = null;
       }
       
       
       usort($this->vracs->rows, array("vracActions", "rechercheTriListOnID"));
+      
       
       $this->etablissements = array('' => '');
       $soussignelabel = array($soussigneObj['nom'], $soussigneObj['cvi'], $soussigneObj['commune']);
@@ -63,7 +78,7 @@ class vracActions extends sfActions
                 $this->etablissements[$data->id] = trim(implode(',', array_filter($labels)));
         }
   }
-   
+  
   public function executeNouveau(sfWebRequest $request)
   {      
       $this->getResponse()->setTitle('Contrat - Nouveau');
@@ -259,6 +274,15 @@ class vracActions extends sfActions
                 $this->redirect('vrac_termine', $this->vrac);
             }
         }
+  }
+  
+  public function executeExportCsv(sfWebRequest $request) 
+  {
+    $this->setLayout(false);
+    $this->response->setContentType('text/csv');
+    $this->getVracsFromRecherche($request, false);
+    
+    $this->forward404Unless($this->vracs);
   }
   
 
