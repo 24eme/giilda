@@ -11,7 +11,9 @@
     <div id="rub_contrats">
         <section id="principal">      
             <section id="contenu_etape"> 
-                <h2>La saisie est terminée !</h2>
+              <?php
+                  if($sf_user->hasFlash('postValidation')) echo '<h2>Votre contrat a bien été enregistré : </h2>';
+              ?>  
                 <h2>N° d'enregistrement du contrat : <span><?php echo $vrac['numero_contrat']; ?></span></h2>
                 <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
 

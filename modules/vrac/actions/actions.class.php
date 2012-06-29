@@ -190,6 +190,7 @@ class vracActions extends sfActions
             $this->maj_etape(4);
             $this->maj_valide(null,null,VracClient::STATUS_CONTRAT_NONSOLDE);
             $this->vrac->save();
+            $this->getUser()->setFlash('postValidation', true);
             $this->redirect('vrac_termine', $this->vrac);
         }
   }
@@ -198,7 +199,7 @@ class vracActions extends sfActions
   public function executeRecapitulatif(sfWebRequest $request)
   {
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Récapitulation', $request["numero_contrat"]));
-      $this->vrac = $this->getRoute()->getVrac();
+      $this->vrac = $this->getRoute()->getVrac();      
       if ($request->isMethod(sfWebRequest::POST)) 
       {
             $this->redirect('vrac_soussigne');
