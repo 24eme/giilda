@@ -2,21 +2,6 @@
 use_helper('Vrac');
 ?> 
 <div class="legende">
-    <div <?php echo (isARechercheParam($actif,VracClient::STATUS_CONTRAT_SOLDE))? 'class="actif"' : ''; ?> >
-        <a href="<?php echo url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_SOLDE)); ?>">
-        <span class="statut statut_solde"></span><span class="legende_statut_texte">Soldé</span>
-        </a>
-    </div>
-    <div <?php echo (isARechercheParam($actif,VracClient::STATUS_CONTRAT_NONSOLDE))? 'class="actif"' : ''; ?> >
-        <a href="<?php echo url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_NONSOLDE)); ?>">
-        <span class="statut statut_non-solde"></span><span class="legende_statut_texte">Non-soldé</span>
-        </a>
-    </div>
-    <div <?php echo (isARechercheParam($actif,VracClient::STATUS_CONTRAT_ANNULE))? 'class="actif"' : ''; ?> >
-        <a href="<?php echo url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_ANNULE)); ?>">
-        <span class="statut statut_annule"></span><span class="legende_statut_texte">Annulé</span>
-        </a>
-    </div>
     
     <div <?php echo (isARechercheParam($actif,VracClient::TYPE_TRANSACTION_RAISINS))? 'class="actif"' : ''; ?> >
         <a href="<?php echo url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => VracClient::TYPE_TRANSACTION_RAISINS)); ?>">
@@ -38,6 +23,23 @@ use_helper('Vrac');
         <span class="type_vin_bouteille">type_vin_bouteille</span><span class="legende_type_texte">Bouteilles</span>
         </a>
     </div>
+    <br />
+    <div <?php echo (isARechercheParam($actif,VracClient::STATUS_CONTRAT_SOLDE))? 'class="actif"' : ''; ?> >
+        <a href="<?php echo url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_SOLDE)); ?>">
+        <span class="statut statut_solde"></span><span class="legende_statut_texte">Soldé</span>
+        </a>
+    </div>
+    <div <?php echo (isARechercheParam($actif,VracClient::STATUS_CONTRAT_NONSOLDE))? 'class="actif"' : ''; ?> >
+        <a href="<?php echo url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_NONSOLDE)); ?>">
+        <span class="statut statut_non-solde"></span><span class="legende_statut_texte">Non-soldé</span>
+        </a>
+    </div>
+    <div <?php echo (isARechercheParam($actif,VracClient::STATUS_CONTRAT_ANNULE))? 'class="actif"' : ''; ?> >
+        <a href="<?php echo url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_ANNULE)); ?>">
+        <span class="statut statut_annule"></span><span class="legende_statut_texte">Annulé</span>
+        </a>
+    </div>
+    
 <!--</div>
 <div class="legende">-->
 
