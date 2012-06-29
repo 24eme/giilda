@@ -59,3 +59,6 @@
     width: 200px; /*must have*/
     height: 200px; /*must have*/
 }
+
+
+.ui-datepicker-prev span, .ui-datepicker-next span{ text-indent: -999px; }

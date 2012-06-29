@@ -788,6 +788,11 @@ bouton.btn_majeur { height:26px; }
   height:28px;
   background-position:0 0;
 }
+#principal .champ_datepicker { padding-top:10px; }
+#principal .champ_datepicker img {
+  position:absolute;
+  margin-left:5px;
+}
 .ui-autocomplete {
   background-color:#f7f7f7;
   border:1px solid #d2d2d2;
@@ -813,8 +818,6 @@ bouton.btn_majeur { height:26px; }
   padding:5px;
   text-decoration:none;
 }
-.ui-autocomplete .ui-menu-item a.ui-state-hover,
-.ui-autocomplete .ui-menu-item a.ui-state-active,
 .ui-autocomplete a:hover {
   background-color:#c1c1c1;
   color:#ffffff;
@@ -1194,13 +1197,9 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   display:inline-block;
   vertical-align:middle;
 }
-#contenu_etape .legende div .statut_solde { background-color:rgb(162,223,70); }
-#contenu_etape .legende div .statut_non-solde { background-color:rgb(250,168,4); }
-#contenu_etape .legende div .statut_annule { background-color:rgb(228,44,44); }
-#tableau_contrat .statut_solde { background-color:rgba(162,223,70,0.5); }
-#tableau_contrat .statut_non-solde { background-color:rgba(250,168,4,0.5); }
-#tableau_contrat .statut_annule { background-color:rgba(228,44,44,0.5); }
-
+#contenu_etape .legende div .statut_solde { background-color:#a2df46; }
+#contenu_etape .legende div .statut_non-solde { background-color:#faa804; }
+#contenu_etape .legende div .statut_annule { background-color:#e42c2c; }
 #contenu_etape .legende div .legende_statut_texte {
   margin:2px 0 0 10px;
   position:absolute;
@@ -1266,20 +1265,20 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   float:right;
   color:red;
 }
-#contenu_etape #vrac_marche #original, #contenu_etape #vrac_marche #produit, #contenu_etape #vrac_marche #millesime, #contenu_etape #vrac_marche #type, #contenu_etape #vrac_marche #label, #contenu_etape #vrac_marche #prixUnitaire {
+#contenu_etape #vrac_marche #original, #contenu_etape #vrac_marche #produit, #contenu_etape #vrac_marche #millesime, #contenu_etape #vrac_marche #type, #contenu_etape #vrac_marche #label, #contenu_etape #vrac_marche #prixUnitaire, #contenu_etape #vrac_marche #domaine {
   zoom:1;
   min-height:1px;
   margin:20px 0;
 }
-#contenu_etape #vrac_marche #original:before, #contenu_etape #vrac_marche #original:after, #contenu_etape #vrac_marche #produit:before, #contenu_etape #vrac_marche #produit:after, #contenu_etape #vrac_marche #millesime:before, #contenu_etape #vrac_marche #millesime:after, #contenu_etape #vrac_marche #type:before, #contenu_etape #vrac_marche #type:after, #contenu_etape #vrac_marche #label:before, #contenu_etape #vrac_marche #label:after, #contenu_etape #vrac_marche #prixUnitaire:before, #contenu_etape #vrac_marche #prixUnitaire:after {
+#contenu_etape #vrac_marche #original:before, #contenu_etape #vrac_marche #original:after, #contenu_etape #vrac_marche #produit:before, #contenu_etape #vrac_marche #produit:after, #contenu_etape #vrac_marche #millesime:before, #contenu_etape #vrac_marche #millesime:after, #contenu_etape #vrac_marche #type:before, #contenu_etape #vrac_marche #type:after, #contenu_etape #vrac_marche #label:before, #contenu_etape #vrac_marche #label:after, #contenu_etape #vrac_marche #prixUnitaire:before, #contenu_etape #vrac_marche #prixUnitaire:after, #contenu_etape #vrac_marche #domaine:before, #contenu_etape #vrac_marche #domaine:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-#contenu_etape #vrac_marche #original:after, #contenu_etape #vrac_marche #produit:after, #contenu_etape #vrac_marche #millesime:after, #contenu_etape #vrac_marche #type:after, #contenu_etape #vrac_marche #label:after, #contenu_etape #vrac_marche #prixUnitaire:after { clear:both; }
-#contenu_etape #vrac_marche #original label:first-child, #contenu_etape #vrac_marche #produit label:first-child, #contenu_etape #vrac_marche #millesime label:first-child, #contenu_etape #vrac_marche #type label:first-child, #contenu_etape #vrac_marche #label label:first-child, #contenu_etape #vrac_marche #prixUnitaire label:first-child {
+#contenu_etape #vrac_marche #original:after, #contenu_etape #vrac_marche #produit:after, #contenu_etape #vrac_marche #millesime:after, #contenu_etape #vrac_marche #type:after, #contenu_etape #vrac_marche #label:after, #contenu_etape #vrac_marche #prixUnitaire:after, #contenu_etape #vrac_marche #domaine:after { clear:both; }
+#contenu_etape #vrac_marche #original label:first-child, #contenu_etape #vrac_marche #produit label:first-child, #contenu_etape #vrac_marche #millesime label:first-child, #contenu_etape #vrac_marche #type label:first-child, #contenu_etape #vrac_marche #label label:first-child, #contenu_etape #vrac_marche #prixUnitaire label:first-child, #contenu_etape #vrac_marche #domaine label:first-child {
   display:block;
   float:left;
   width:230px;
@@ -1290,7 +1289,9 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   float:left;
 }
 #contenu_etape #condition .section_label_maj { margin-top:20px; }
-#contenu_etape #condition .section_label_maj label { width:260px; }
+#contenu_etape #condition .section_label_maj label { width:190px; }
+#contenu_etape #condition #prix_isVariable label, #contenu_etape #condition #part_variable label, #contenu_etape #condition #prixTotal_rappel label { width:230px; }
+#contenu_etape #condition .champ_datepicker span { margin-left:40px; }
 p#date_drm {
   font-size:14px;
   font-style:italic;
@@ -1305,7 +1306,7 @@ p#date_drm {
   top:0;
 }
 #statut_declaration {
-  margin:0 0 5px;
+  margin:0 0 25px;
   zoom:1;
   min-height:1px;
 }

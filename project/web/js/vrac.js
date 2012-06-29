@@ -369,9 +369,22 @@ var init_ajax_contrats_similaires = function(num_contrat,namePage)
 }
 */
 
+var initDatepicker = function(){
+    
+    $(".champ_datepicker input").datepicker({showOn: "button",
+                                             buttonImage: "/images/pictos/pi_calendrier.png",
+                                             buttonImageOnly: true,  
+                                             dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+                                             monthNames: ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Décembre"], 
+                                             dateFormat: 'dd/mm/yy', 
+                                             firstDay:1 }); 
+    
+}
+
 $(document).ready(function()
 {
      initMarche();
      initConditions();
      initAutoComplete();
+     initDatepicker();
 });
