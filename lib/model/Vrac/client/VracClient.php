@@ -5,10 +5,10 @@ class VracClient extends acCouchdbClient {
     
     const VRAC_VIEW_STATUT = 0;
     const VRAC_VIEW_NUMCONTRAT = 1;
-    const VRAC_VIEW_VENDEUR_ID = 2;
-    const VRAC_VIEW_VENDEUR_NOM = 3;
-    const VRAC_VIEW_ACHETEUR_ID = 4;
-    const VRAC_VIEW_ACHETEUR_NOM = 5;
+    const VRAC_VIEW_ACHETEUR_ID = 2;
+    const VRAC_VIEW_ACHETEUR_NOM = 3;
+    const VRAC_VIEW_VENDEUR_ID = 4;
+    const VRAC_VIEW_VENDEUR_NOM = 5;
     const VRAC_VIEW_MANDATAIRE_ID = 6;
     const VRAC_VIEW_MANDATAIRE_NOM = 7;    
     const VRAC_VIEW_TYPEPRODUIT = 8;
