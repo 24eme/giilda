@@ -10,17 +10,27 @@
 <div id="contenu">
     <div id="rub_contrats">
         <section id="principal">      
-            <section id="contenu_etape"> 
-                <h2>La saisie est terminée !</h2>
-                <h2>N° d'enregistrement du contrat : <span><?php echo $vrac['numero_contrat']; ?></span></h2>
-                <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
+            <div id="contenu_etape">
+                <div id="vrac_recapitulatif"> 
+                    <div id="titre">
+                        <span class="style_label">La saisie est terminée !</span>
+                    </div>
+                    <div id="ss_titre">
+                        <label>N° d'enregistrement du contrat : </label><span><?php echo $vrac['numero_contrat']; ?></span>
+                    </div>
+                    
+                    <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
 
-                        <div id="btn_etape_dr">
-                            <div style="text-align: right;">
-                            <a class="btn_majeur btn_gris" href="<?php echo url_for('vrac_nouveau') ?>"> Saisir un nouveau contrat</a>
-                            </div>       
-                        </div>
-            </section>
+                    <div id="ligne_btn">
+                        <div style="text-align: right;">
+                        <a class="btn_majeur btn_gris" href="<?php echo url_for('vrac_nouveau') ?>"> Saisir un nouveau contrat</a>
+                        </div>       
+                    </div>
+                </div>
+            </div>
         </section>
+        <aside id="colonne">
+        <?php include_partial('colonne', array('vrac' => $vrac)); ?>
+        </aside>
     </div>
 </div>
