@@ -9,85 +9,95 @@
 use_helper('Vrac');
 $hasDomaine = is_null($vrac->domaine);
 ?>
-<section id="marche_recapitulatif_original">
-        <span>Original fourni :</span>
-        <span><?php echo ($vrac->original)? 'Oui' : 'Non'; ?></span>
-</section>
-<section id="marche_recapitulatif_produit">
-        <span>Produit :</span>
-        <span><?php echo implode(' ', $vrac->getProduitObject()->getLibelles()->getRawValue()); ?></span>
-</section>
+<div class="bloc_form">
+    <div id="marche_recapitulatif_original" class="ligne_form">
+            <label>Original fourni :</label>
+            <span><?php echo ($vrac->original)? 'Oui' : 'Non'; ?></span>
+    </div>
+    <div id="marche_recapitulatif_produit" class="ligne_form ligne_form_alt">
+            <label>Produit :</label>
+            <span><?php echo implode(' ', $vrac->getProduitObject()->getLibelles()->getRawValue()); ?></span>
+    </div>
 
-<section id="marche_recapitulatif_millesime">
-        <span>
-            Millésime : 
-        </span>
-        <span>
-           <?php echo $vrac->millesime; ?>
-        </span>
-</section>
+    <div id="marche_recapitulatif_millesime" class="ligne_form">
+            <label>
+                Millésime : 
+            </label>
+            <span>
+            <?php echo $vrac->millesime; ?>
+            </span>
+    </div>
 
-<section id="marche_recapitulatif_type">
-        <span>
-            Type : 
-        </span>
-        <span>
-           <?php echo ($hasDomaine)? 'Générique' : 'Domaine'; ?>
-        </span>
-</section>
+    <div id="marche_recapitulatif_type" class="ligne_form ligne_form_alt">
+            <label>
+                Type : 
+            </label>
+            <span>
+            <?php echo ($hasDomaine)? 'Générique' : 'Domaine'; ?>
+            </span>
+    </div>
 
-<?php
-if($hasDomaine && $vrac->domaine=="domaine")
-{
-?>
-<section id="marche_recapitulatif_domaine">
-        <span>
-            Type : 
-        </span>
-        <span>
-           <?php echo $vrac->domaine; ?>
-        </span>
-</section>
-<?php
-}
-?>
-
-
-<section id="marche_recapitulatif_volumePropose">
-        <span>
-            Volumes proposés: 
-        </span>
-        <span>
-           <?php
-           echo showRecapVolume($vrac); 
-           ?>
-        </span>
     <?php
-    if(!is_null($vrac->valide->statut))
+    if($hasDomaine && $vrac->domaine=="domaine")
     {
     ?>
-    <a class="btn_majeur btn_gris" href="<?php echo url_for('vrac_volumeEnleve',$vrac); ?>">Enlever du volume</a>
-    <?php 
-    
-    }
+    <div id="marche_recapitulatif_domaine" class="ligne_form">
+            <label>
+                Type : 
+            </label>
+            <span>
+            <?php echo $vrac->domaine; ?>
+            </span>
+    </div>
+    <?php
+        $alt= "ligne_form_alt";
+    }else
+        $alt= "ligne_form";
     ?>
-</section>
 
-<section id="marche_recapitulatif_prixUnitaire">
-        <span>
-            Prix unitaire: 
-        </span>
-        <span>
-           <?php
-           echo showRecapPrixUnitaire($vrac);
-           ?>
-        </span>
-</section>
 
-<section id="marche_recapitulatif_prixTotal">
-        <span>
-            Prix : 
-        </span>
-        <span><?php echo $vrac->prix_total;?>&nbsp;€</span>
-</section>
+    <div id="marche_recapitulatif_volumePropose" class="ligne_form <?php echo $alt; ?>">
+            <label>
+                Volumes proposés: 
+            </label>
+            <span>
+            <?php
+            echo showRecapVolume($vrac); 
+            ?>
+            </span>
+        <?php
+        if(!is_null($vrac->valide->statut))
+        {
+        ?>
+        <a class="btn_majeur btn_gris" href="<?php echo url_for('vrac_volumeEnleve',$vrac); ?>">Enlever du volume</a>
+        <?php 
+
+        }
+        ?>
+    </div>
+    <?php 
+        if($alt == "ligne_form_alt") $alt= "ligne_form";
+        else $alt= "ligne_form_alt";
+    ?>
+    <div id="marche_recapitulatif_prixUnitaire" class="ligne_form <?php echo $alt; ?>">
+            <label>
+                Prix unitaire: 
+            </label>
+            <span>
+            <?php
+            echo showRecapPrixUnitaire($vrac);
+            ?>
+            </span>
+    </div>
+    <?php 
+        if($alt == "ligne_form_alt") $alt= "ligne_form";
+        else $alt= "ligne_form_alt";
+    ?>
+    <div id="marche_recapitulatif_prixTotal" class="ligne_form <?php echo $alt; ?>">
+            <label>
+                Prix : 
+            </label>
+            <span><?php echo $vrac->prix_total;?>&nbsp;€</span>
+    </div>
         
+</div>
