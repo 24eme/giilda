@@ -1292,6 +1292,35 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
 #contenu_etape #condition .section_label_maj label { width:190px; }
 #contenu_etape #condition #prix_isVariable label, #contenu_etape #condition #part_variable label, #contenu_etape #condition #prixTotal_rappel label { width:230px; }
 #contenu_etape #condition .champ_datepicker span { margin-left:40px; }
+#contenu_etape #vrac_validation #titre, #contenu_etape #vrac_recapitulatif #titre {
+  background-color:#e3e2e2;
+  padding:10px;
+  text-align:center;
+}
+#contenu_etape #vrac_validation #ss_titre, #contenu_etape #vrac_recapitulatif #ss_titre {
+  background-color:#e3e2e2;
+  padding:10px;
+}
+#contenu_etape #vrac_validation .style_label, #contenu_etape #vrac_recapitulatif .style_label {
+  font-size:15px;
+  font-weight:bold;
+  padding:10px 0;
+  text-transform:uppercase;
+}
+#contenu_etape #vrac_validation .btnModification, #contenu_etape #vrac_recapitulatif .btnModification {
+  zoom:1;
+  min-height:1px;
+  margin-top:10px;
+}
+#contenu_etape #vrac_validation .btnModification:before, #contenu_etape #vrac_validation .btnModification:after, #contenu_etape #vrac_recapitulatif .btnModification:before, #contenu_etape #vrac_recapitulatif .btnModification:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#contenu_etape #vrac_validation .btnModification:after, #contenu_etape #vrac_recapitulatif .btnModification:after { clear:both; }
+#contenu_etape #vrac_validation li, #contenu_etape #vrac_recapitulatif li { padding-bottom:40px; }
 p#date_drm {
   font-size:14px;
   font-style:italic;
