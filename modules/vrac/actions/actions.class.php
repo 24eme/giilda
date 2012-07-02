@@ -248,27 +248,8 @@ class vracActions extends sfActions
   public function executeGetContratsSimilaires(sfWebRequest $param)
   {
        $vrac = VracClient::getInstance()->findByNumContrat($param['numero_contrat']);
-       
-       switch ($param['etape']) {
-           case 'soussigne':
-           {
-               $vrac[VracClient::VRAC_SIMILAIRE_KEY_VENDEURID] = $param['vendeur'];
-               $vrac[VracClient::VRAC_SIMILAIRE_KEY_ACHETEURID] = $param['acheteur'];
-               $vrac[VracClient::VRAC_SIMILAIRE_KEY_MANDATAIREID] = $param['mandataire'];   
-               return $this->renderPartial('contratsSimilaires', array('vrac' => $vrac));
-           }           
-           case 'marche':
-           {
-               $vrac[VracClient::VRAC_SIMILAIRE_KEY_PRODUIT] = $param['produit'];
-               return $this->renderPartial('contratsSimilaires', array('vrac' => $vrac));
-           }
-           default:
-           {
-               echo 'Une erreur est survenue lors du chargement des contrats similaire';               
-               return;
-           }
-       }
-            
+       $vracs =  VracClient::getInstance()->retrieveSimilaryContractsWithProdTypeVol($param);
+       return $this->renderPartial('contratsSimilaires', array('vrac' => $vrac,'vracs' => $vracs));
   }
 
   public function executeVolumeEnleve(sfWebRequest $request)

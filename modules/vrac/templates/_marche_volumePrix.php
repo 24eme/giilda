@@ -44,7 +44,10 @@ function getBouteilleContenance($value) {
                 <span><?php echo $form['raisin_quantite']->renderLabel() ?></span>
                 <?php echo $form['raisin_quantite']->render() ?>
                 <span id="volume_unite_total" class="unite"></span>
-            </div>    
+            </div>
+            <div>
+                <input type="hidden" id="volume_total"/>
+            </div>
         </div>
     </div>
 </div>

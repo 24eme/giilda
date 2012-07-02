@@ -10,7 +10,63 @@
 <script type="text/javascript">
     $(document).ready(function()
     {
-       ajax_send_contrats_similairesMarche('<?php echo $form->getObject()->numero_contrat ?>');
+       var ajaxParams = { 'numero_contrat' : '<?php echo $form->getObject()->numero_contrat ?>',
+                       'vendeur' : '<?php echo $form->getObject()->vendeur_identifiant ?>',
+                       'acheteur' : '<?php echo $form->getObject()->acheteur_identifiant ?>',
+                       'mandataire' : '<?php echo $form->getObject()->mandataire_identifiant ?>' };
+       $('#produit input').live( "autocompleteselect", function(event, ui)
+       {
+           
+           var integrite = getContratSimilaireParams(ajaxParams,ui);
+           refreshContratsSimilaire(integrite,ajaxParams);
+                
+       });
+       
+       $('#volume_total').change(function()
+       {
+           var integrite = getContratSimilaireParams(ajaxParams,null);
+           refreshContratsSimilaire(integrite,ajaxParams);     
+       });
+       
+       $('#type_transaction input').change(function()
+       {
+           var integrite = getContratSimilaireParams(ajaxParams,null);
+           refreshContratsSimilaire(integrite,ajaxParams);                 
+       });
+       
+       var refreshContratsSimilaire = function(integrite,ajaxParams) 
+       {
+        if(integrite) 
+        {
+            $.get('getContratsSimilaires',ajaxParams,
+                function(data)
+                {
+                    $('#contrats_similaires').html(data);
+                });               
+        }      
+       }
+           
+       
+       var getContratSimilaireParams = function(ajaxParams,ui)
+       {
+           var type = $('#type_transaction input:checked').val();
+           if(type=='') return false;
+           ajaxParams['type'] = type;
+           
+           if(ui==null){
+               ajaxParams['produit'] = $('#produit option:selected').val();
+           }
+           else{
+               ajaxParams['produit'] = ui.item.option.value;
+           }
+           
+           var volume = $('#volume_total').val();
+           if((volume!='') && (ajaxParams['produit']=='')) return false;
+           ajaxParams['volume'] = volume;
+           
+           return true;
+       }
+       //ajax_send_contrats_similairesMarche('<?php echo $form->getObject()->numero_contrat ?>');
     });
 </script>
 <div id="contenu">
