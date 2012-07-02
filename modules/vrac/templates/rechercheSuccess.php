@@ -21,10 +21,9 @@ if(isset($type)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $i
         <section id="principal">
              <?php include_partial('fil_ariane'); ?>
             <section id="contenu_etape">                
-                <div style="margin: 10px;">
-                    <h2>Rechercher un opérateur : </h2>
-                    <p>
-                        <form method="get" action="<?php echo url_for('vrac_recherche'); ?>">
+                <div id="recherche_operateur" class="section_label_maj">
+                    <label>Rechercher un opérateur : </label>
+                    <form method="get" action="<?php echo url_for('vrac_recherche'); ?>">
                             <select name="identifiant" value="<?php echo (isset($identifiant)) ? $identifiant : '' ; ?>" class="autocomplete">
                                 <?php foreach ($etablissements as $id => $name)
                                 {
@@ -35,25 +34,27 @@ if(isset($type)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $i
                                 }
                                 ?>
                             </select>
-                            <input type="submit" value="recherche" class="btn_majeur btn_noir"/>
+                            <button type="submit" id="btn_rechercher">Rechercher</button>
+                            <span id="recherche_avancee"><a href="">> Recherche avancée</a></span>
                         </form>
-                    </p>
-                </div>                
+                </div>         
+                <a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Extraire csv</a>
                 <?php 
                     include_partial('rechercheLegende', array('vracs' => $vracs, 'identifiant'=>$identifiant,'actif' => $actif));
                 ?>
-                <a class="btn_majeur btn_noir" href="<?php echo $urlExport; ?>" >Extraire csv</a>
+                <div class="section_label_maj">  
                 <?php
                     if(count($vracs->rows->getRawValue()))
                     {
-                        echo '<h2>Contrats saisis : </h2>';
+                        echo '<label>Contrats saisis : </label>';
                         include_partial('table_contrats', array('vracs' => $vracs, 'identifiant'=>$identifiant));                
                     }
                     else
                     {
-                    echo "<h2>Il n'existe aucun contrat pour cette recherche</h2>";
+                    echo "<label>Il n'existe aucun contrat pour cette recherche</label>";
                     }
                 ?>
+                </div>
             </section>
         </section>
         <aside id="colonne">
