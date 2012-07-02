@@ -8,6 +8,11 @@ $type = $form->getObject()->getFamilleType();
 <script type="text/javascript">
     $(document).ready(function() {
         init_ajax_modification('<?php echo $type;?>');
+        
+        setGreyPanel('vendeur');
+        setGreyPanel('acheteur');
+        setGreyPanel('has_mandataire');
+        setGreyPanel('ligne_btn');        
     });                        
 </script>
 

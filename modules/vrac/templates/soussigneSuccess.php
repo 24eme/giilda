@@ -39,6 +39,14 @@ else
 <?php
 }
 ?>
+<style type="text/css">
+.block
+{
+    height: 100%;
+    background-color: white;
+    opacity: 0.7;
+}
+</style>
 <div id="contenu">
     <div id="rub_contrats">
         <section id="principal">

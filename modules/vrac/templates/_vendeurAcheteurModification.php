@@ -4,10 +4,15 @@ echo $form->renderHiddenFields();
 echo $form->renderGlobalErrors();
 
 $type = $form->getObject()->getFamilleType();
+$otherType = ($type=='acheteur')? 'vendeur' :  'acheteur';
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
         init_ajax_modification('<?php echo $type;?>');
+        setGreyPanel('<?php echo $otherType;?>');
+        setGreyPanel('has_mandataire');
+        setGreyPanel('mandataire');
+        setGreyPanel('ligne_btn');
     });                        
 </script>
 

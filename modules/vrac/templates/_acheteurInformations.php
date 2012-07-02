@@ -22,6 +22,10 @@ use_helper('Display');
         <?php
         }
         ?>
+       removeGreyPanel('vendeur');
+       removeGreyPanel('has_mandataire');
+       removeGreyPanel('mandataire');
+       removeGreyPanel('ligne_btn');
     });
 </script>
 

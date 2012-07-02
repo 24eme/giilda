@@ -21,7 +21,11 @@ use_helper('Display');
                                   },'#vendeur_modification_btn','#vendeur_informations');    
         <?php
         }
-        ?>
+        ?>        
+       removeGreyPanel('acheteur');
+       removeGreyPanel('mandataire');
+       removeGreyPanel('has_mandataire');
+       removeGreyPanel('ligne_btn');
     });
 </script>
 

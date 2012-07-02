@@ -56,7 +56,9 @@ if(isset($type)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $i
                 ?>
             </section>
         </section>
-        <?php include_partial('actions'); ?>
+        <aside id="colonne">
+            <?php include_partial('actions'); ?>
+        </aside>
     </div>
 </div>
 
