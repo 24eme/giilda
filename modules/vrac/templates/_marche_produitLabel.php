@@ -8,7 +8,7 @@
  */
 
 
- $has_domaine = ! is_null($form->getObject()->domaine);
+ $has_domaine = !is_null($form->getObject()->domaine);
  ?>
 
 <!--  Affichage des produits disponibles (en fonction de la transaction choisie  -->

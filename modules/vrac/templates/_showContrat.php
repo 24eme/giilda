@@ -1,20 +1,17 @@
-<?php $isValidation = ($vrac->etape==4); ?>
+<?php $isValidation = (is_null($vrac->valide->statut) || ($vrac->valide->statut == "NONSOLDE")); ?>
 <ul>
         <li>
-            <h2>
-            Les soussignés
-            </h2>
-            
-            <section id="soussigne_recapitulatif">
+            <div class="style_label">1. Les soussignés</div>
+            <div id="soussigne_recapitulatif">
             <?php
             include_partial('soussigneRecapitulatif', array('vrac' => $vrac));
             ?>
-            </section>  
+            </div>  
             <?php
             if($isValidation)
                 {
             ?>
-            <div class="btnModification">
+            <div class="btnModification f_right">
                 <a href="<?php echo url_for('vrac_soussigne',$vrac); ?>" class="btn_majeur btn_orange">Modifier</a>
             </div> 
             <?php 
@@ -22,9 +19,7 @@
             ?>
         </li>
         <li>
-            <h2>
-            Le marché
-            </h2>            
+            <div class="style_label">2. Le marché</div>           
             <section id="marche_recapitulatif">
             <?php
             include_partial('marcheRecapitulatif', array('vrac' => $vrac));
@@ -34,7 +29,7 @@
             if($isValidation)
                 {
             ?>
-            <div class="btnModification">
+            <div class="btnModification f_right">
                 <a href="<?php echo url_for('vrac_marche',$vrac); ?>" class="btn_majeur btn_orange">Modifier</a>
             </div>
             <?php 
@@ -42,9 +37,7 @@
             ?>
         </li>
         <li>
-            <h2>
-            Les conditions
-            </h2>            
+            <div class="style_label">3. Les conditions</div>            
             <section id="conditions_recapitulatif">
             <?php
             include_partial('conditionsRecapitulatif', array('vrac' => $vrac));
@@ -54,7 +47,7 @@
             if($isValidation)
                 {
             ?>
-            <div class="btnModification">
+            <div class="btnModification f_right">
                 <a href="<?php echo url_for('vrac_condition',$vrac); ?>" class="btn_majeur btn_orange">Modifier</a>
             </div>
             <?php 

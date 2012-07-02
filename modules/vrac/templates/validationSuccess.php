@@ -8,18 +8,18 @@
  */
 ?>
 <div id="contenu">
-    <div id="rub_contrats">
+    <div id="rub_contrats" >
         <section id="principal">
         <?php include_partial('headerVrac', array('vrac' => $vrac,'actif' => 4)); ?>        
-            <section id="contenu_etape"> 
+            <div id="contenu_etape"> 
                 <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation',$vrac) ?>">
 
-                    <h2>Récapitulatif de la saisie</h2>
+                    <div id="titre"><span class="style_label">Récapitulatif de la saisie</span></div>
 
                     <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
-                    <div id="btn_etape_dr">
+                    <div id="ligne_btn">
                         <div class="btnAnnulation">
-                                    <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_majeur btn_noir"><span>Précédent</span></a>
+                             <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_majeur btn_noir"><span>Précédent</span></a>
                         </div>
                         <div class="btnValidation">
                                 <span>&nbsp;</span>
@@ -27,7 +27,7 @@
                         </div>      
                     </div>   
                 </form>
-            </section>
+            </div>
         </section>
         <aside id="colonne">
         <?php include_partial('colonne', array('vrac' => $vrac)); ?>

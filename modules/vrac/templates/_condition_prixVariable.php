@@ -26,14 +26,7 @@ use_helper('Vrac');
             <span>
                 <label>Prix total</label>
                 <?php echo $form->getObject()->prix_unitaire ?> €/<?php echo showUnite($form->getObject()); ?>
-                <?php if( $form->getObject()->type_transaction == "vin_bouteille"){ echo "(soit ".$form->getObject()->bouteilles_quantite * (($form->getObject()->bouteilles_contenance)/10000)." €/hl)"; } ?>      
-            </span>
-        </div>
-        <!--  Affichage du taux de variation des produits du contrat  -->
-        <div id="taux_variation" class="ligne_form">
-            <span><?php echo $form['taux_variation']->renderError() ?>
-            <?php echo $form['taux_variation']->renderLabel() ?>
-            <?php echo $form['taux_variation']->render() ?><span>%</span>
+                <?php if( $form->getObject()->type_transaction == "vin_bouteille"){ echo "(soit ".$form->getObject()->bouteilles_quantite * (($form->getObject()->bouteilles_contenance_volume))." €/hl)"; } ?>      
             </span>
         </div>
     </div>

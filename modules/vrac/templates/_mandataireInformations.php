@@ -22,12 +22,16 @@ use_helper('Display');
        <?php
         }
        ?>
+       removeGreyPanel('vendeur');
+       removeGreyPanel('acheteur');
+       removeGreyPanel('has_mandataire');
+       removeGreyPanel('ligne_btn');
     });
 </script>
 <div class="mandataire_infos bloc_form">
     <div class="ligne_form">
         <span>
-            <label>Nom du mandataire*</label>
+            <label>Nom du mandataire :</label>
             <?php display_field($mandataire,'nom'); ?>
         </span>
     </div>

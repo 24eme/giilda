@@ -31,13 +31,22 @@ else
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#acheteur_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#acheteur_informations');
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#mandataire_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#mandataire_informations');
         majMandatairePanel();
-        
-        init_ajax_contrats_similaires('<?php echo $numero_contrat;?>');
+        $('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
+        $('#vrac_acheteur_famille_negociant').attr('checked','checked');
+       // init_ajax_contrats_similaires('<?php // echo $numero_contrat;?>','soussigne');
     });
 </script>
 <?php
 }
 ?>
+<style type="text/css">
+.block
+{
+    height: 100%;
+    background-color: white;
+    opacity: 0.7;
+}
+</style>
 <div id="contenu">
     <div id="rub_contrats">
         <section id="principal">
@@ -48,15 +57,21 @@ else
                     <?php echo $form->renderGlobalErrors() ?>
 
                 <div id="vendeur">
+                    
                     <!--  Affichage des vendeurs disponibles  -->
                     <div id="vendeur_choice" class="section_label_maj">
                         <?php echo $form['vendeur_identifiant']->renderError(); ?>
                         <?php echo $form['vendeur_identifiant']->renderLabel() ?>
-                        <div class="f_right">
-                            <?php echo $form['vendeur_identifiant']->render() ?> 
-                        </div>
+                        <div style="display: none;" class="f_right">
+                            <?php //echo $form['vendeur_famille']->render() ?>                                                  
+                        </div> 
                     </div>
 
+                    <div id="vendeur_choice" style="text-align:right;">
+                        <?php echo $form['vendeur_identifiant']->render() ?> 
+                    </div>
+                    <br>
+                    
                     <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
                     <div id="vendeur_informations" class="section_label_maj">
                         <?php   
@@ -77,11 +92,16 @@ else
                     <div id="acheteur_choice" class="section_label_maj">
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
                         <?php echo $form['acheteur_identifiant']->renderLabel() ?>
-                        <div class="f_right">
-                            <?php echo $form['acheteur_identifiant']->render() ?>
+                        <div style="display: none;" class="f_right">
+                            <?php echo $form['acheteur_famille']->render() ?>                          
                         </div>
                     </div>
 
+                    <div id="acheteur_choice" style="text-align:right;">
+                        <?php echo $form['acheteur_identifiant']->render() ?>
+                    </div>
+                    <br>
+                    
                     <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
                     <div id="acheteur_informations" class="section_label_maj">
                         <?php
@@ -152,7 +172,23 @@ else
             </div>
         </section>
         <aside id="colonne">
-        <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
+            <?php
+            /*
+            * Inclusion du panel de progression d'édition du contrat
+            */
+            include_partial('contrat_progression', array('vrac' => $vrac));
+
+            /*
+            * Inclusion des Contacts
+            */
+            include_partial('contrat_infos_contact', array('vrac' => $vrac));
+
+            /*
+            * Inclusion de l'aide
+            */
+            include_partial('contrat_aide', array('vrac' => $vrac));
+
+            ?>
         </aside>
     </div>
 </div>

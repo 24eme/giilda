@@ -1,18 +1,18 @@
 <?php
 use_helper('Vrac');
 
-$etablissements = array('' => '');
-$datas = EtablissementClient::getInstance()->findAll()->rows;
-foreach($datas as $data) 
-{
-        $labels = array($data->key[4], $data->key[3], $data->key[1]);
-        $etablissements[$data->id] = implode(', ', array_filter($labels));
-}
+$urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant));
+if(isset($statut)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant,'statut' => $statut));
+if(isset($type)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant,'type' => $type)); 
+
+
 ?>
 <script type="text/javascript">
     $(document).ready(function()
     {
-       $('.autocomplete').combobox(); 
+       $('.autocomplete').combobox();
+       
+       
     });
 
 </script>
@@ -21,28 +21,45 @@ foreach($datas as $data)
         <section id="principal">
              <?php include_partial('fil_ariane'); ?>
             <section id="contenu_etape">                
-                <div style="margin: 10px;">
-                    <h2>Rechercher un opérateur : </h2>
-                    <p>
-                        <form method="get" action="<?php echo url_for('vrac_recherche'); ?>">
+                <div id="recherche_operateur" class="section_label_maj">
+                    <label>Rechercher un opérateur : </label>
+                    <form method="get" action="<?php echo url_for('vrac_recherche'); ?>">
                             <select name="identifiant" value="<?php echo (isset($identifiant)) ? $identifiant : '' ; ?>" class="autocomplete">
                                 <?php foreach ($etablissements as $id => $name)
                                 {
+                                    $localEtablissement = preg_replace('/ETABLISSEMENT-/', '',$id);
                                 ?>
-                                    <option value="<?php echo preg_replace('/ETABLISSEMENT-/', '',$id); ?>"><?php echo $name; ?></option>
+                                    <option value="<?php echo $localEtablissement; ?>"<?php echo ($identifiant==$localEtablissement)? 'selected="selected"' : '' ; ?>><?php echo $name; ?></option>
                                 <?php
                                 }
                                 ?>
                             </select>
-                            <input type="submit" value="recherche"/>
+                            <button type="submit" id="btn_rechercher">Rechercher</button>
+                            <span id="recherche_avancee"><a href="">> Recherche avancée</a></span>
                         </form>
-                    </p>
+                </div>         
+                <a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Extraire csv</a>
+                <?php 
+                    include_partial('rechercheLegende', array('vracs' => $vracs, 'identifiant'=>$identifiant,'actif' => $actif));
+                ?>
+                <div class="section_label_maj">  
+                <?php
+                    if(count($vracs->rows->getRawValue()))
+                    {
+                        echo '<label>Contrats saisis : </label>';
+                        include_partial('table_contrats', array('vracs' => $vracs, 'identifiant'=>$identifiant));                
+                    }
+                    else
+                    {
+                    echo "<label>Il n'existe aucun contrat pour cette recherche</label>";
+                    }
+                ?>
                 </div>
-                <h2>Contrats saisis : </h2>
-                <?php include_partial('table_contrats', array('vracs' => $vracs, 'identifiant'=>$identifiant)); ?>
             </section>
         </section>
-        <?php include_partial('actions'); ?>
+        <aside id="colonne">
+            <?php include_partial('actions'); ?>
+        </aside>
     </div>
 </div>
 

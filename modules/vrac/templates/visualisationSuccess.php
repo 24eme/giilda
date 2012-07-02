@@ -11,17 +11,13 @@
     <div id="rub_contrats">
         <section id="principal">      
             <div id="contenu_etape">
-                <div id="vrac_recapitulatif"> 
-                    <?php
-                    $titre = '<div id="titre">
-                                <span class="style_label">La saisie est terminée !</span>
-                              </div>';
-                  if($sf_user->hasFlash('postValidation')) echo $titre;
-                  ?>  
-                    
+                <div id="vrac_visualisation"> 
                     <div id="ss_titre">
                         <label>N° d'enregistrement du contrat : </label><span><?php echo $vrac['numero_contrat']; ?></span>
                     </div>
+                    
+                    <h2>Etat du contrat<h2>
+                           <?php echo $vrac->valide->statut; ?>
                     
                     <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
 
@@ -34,7 +30,11 @@
             </div>
         </section>
         <aside id="colonne">
-        <?php include_partial('colonne', array('vrac' => $vrac)); ?>
+            <?php include_partial('actions_visu', array('vrac' => $vrac)); ?>
+            <?php include_partial('contrat_aide'); ?>
+            <?php //include_partial('contrat_campagne'); ?>
+            <?php //include_partial('contrat_campagne'); ?>
+            <?php include_partial('contrat_infos_contact',array('vrac' => $vrac)); ?>
         </aside>
     </div>
 </div>

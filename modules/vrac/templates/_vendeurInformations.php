@@ -21,16 +21,19 @@ use_helper('Display');
                                   },'#vendeur_modification_btn','#vendeur_informations');    
         <?php
         }
-        ?>
+        ?>        
+       removeGreyPanel('acheteur');
+       removeGreyPanel('mandataire');
+       removeGreyPanel('has_mandataire');
+       removeGreyPanel('ligne_btn');
     });
 </script>
 
-<div id="vendeur_infos" class="bloc_form">
-    
+<div id="vendeur_infos" class="bloc_form">    
     <div class="col">
         <div class="ligne_form">
             <span>
-                  <label>Nom du vendeur*</label>
+                  <label>Nom du vendeur :</label>
                   <?php display_field($vendeur,'nom'); ?>
             </span>
         </div>
@@ -42,7 +45,7 @@ use_helper('Display');
         </div>
         <div class="ligne_form">
             <span>
-                <label>N° ACCISE*</label>
+                <label>N° ACCISE</label>
                 <?php display_field($vendeur,'num_accise'); ?>
             </span>
         </div>
@@ -57,7 +60,7 @@ use_helper('Display');
     <div class="col">
         <div class="ligne_form">
             <span>
-                <label>Adresse*</label>
+                <label>Adresse</label>
                 <?php display_field($vendeur,'adresse');  ?>
             </span>
         </div>
@@ -77,4 +80,4 @@ use_helper('Display');
             
         </div>
     </div>
-<div>
+</div>

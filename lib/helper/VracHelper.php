@@ -1,5 +1,11 @@
 <?php
 
+ 
+function isARechercheParam($actif,$label)
+{
+    return $actif==$label;
+}
+
 function statusColor($status)
 {
     
@@ -8,11 +14,11 @@ function statusColor($status)
     switch ($status)
     {
         case VracClient::STATUS_CONTRAT_ANNULE:
-            return 'red';
+            return 'statut_annule';
         case VracClient::STATUS_CONTRAT_SOLDE:
-            return 'green';
+            return 'statut_solde';
         case VracClient::STATUS_CONTRAT_NONSOLDE:
-            return 'yellow';
+            return 'statut_non-solde';
         default :
             return '';
     }
@@ -28,11 +34,11 @@ function showRecapPrixUnitaire($vrac)
             case 'mouts': return $vrac->prix_unitaire.' €/hl';
             case 'vin_vrac': return $vrac->prix_unitaire.' €/hl';                   
             case 'vin_bouteille': 
-                if ($vrac->bouteilles_quantite == 0 || $vrac->bouteilles_contenance == 0) {
+                if ($vrac->bouteilles_quantite == 0 || $vrac->bouteilles_contenance_volume == 0) {
                     return 0;
                 }
                 return $vrac->prix_unitaire.' €/btle, soit '.
-                    $vrac->prix_total/($vrac->bouteilles_quantite*($vrac->bouteilles_contenance/10000)).' €/hl';
+                    $vrac->prix_total/($vrac->bouteilles_quantite*($vrac->bouteilles_contenance_volume)).' €/hl';
         }
     }    
     return '';
@@ -49,7 +55,7 @@ function showRecapVolume($vrac)
             case 'vin_vrac': return $vrac->jus_quantite.' hl (vin vrac)';                   
             case 'vin_bouteille': 
                 return $vrac->bouteilles_quantite.
-                    ' bouteilles, soit '.$vrac->bouteilles_quantite*($vrac->bouteilles_contenance/10000).' hl';
+                    ' bouteilles, soit '.$vrac->bouteilles_quantite*($vrac->bouteilles_contenance_volume).' hl';
         }
     }    
     return '';
@@ -75,13 +81,13 @@ function typeProduit($type)
 {
     switch ($type) {
         case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
-            return 'bouteilles';
+            return 'Btl';
         case VracClient::TYPE_TRANSACTION_VIN_VRAC :
-            return 'vracs';
+            return 'V';
         case VracClient::TYPE_TRANSACTION_MOUTS :
-            return 'moûts';
+            return 'M';
         case VracClient::TYPE_TRANSACTION_RAISINS :
-            return 'raisins';
+            return 'R';
     }
     return '';
 }   

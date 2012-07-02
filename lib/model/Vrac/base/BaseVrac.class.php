@@ -25,14 +25,14 @@
  * @property acCouchdbJson $label
  * @property float $raisin_quantite
  * @property float $jus_quantite
- * @property float $bouteilles_quantite
- * @property integer $bouteilles_contenance
+ * @property integer $bouteilles_quantite
+ * @property float $bouteilles_contenance_volume
+ * @property string $bouteilles_contenance_libelle
  * @property float $prix_unitaire
  * @property float $prix_total
  * @property string $type_contrat
  * @property integer $prix_variable
  * @property float $part_variable
- * @property float $taux_variation
  * @property string $cvo_nature
  * @property string $cvo_repartition
  * @property string $date_stats
@@ -83,10 +83,12 @@
  * @method float setRaisinQuantite()
  * @method float getJusQuantite()
  * @method float setJusQuantite()
- * @method float getBouteillesQuantite()
- * @method float setBouteillesQuantite()
- * @method integer getBouteillesContenance()
- * @method integer setBouteillesContenance()
+ * @method integer getBouteillesQuantite()
+ * @method integer setBouteillesQuantite()
+ * @method float getBouteillesContenanceVolume()
+ * @method float setBouteillesContenanceVolume()
+ * @method string getBouteillesContenanceLibelle()
+ * @method string setBouteillesContenanceLibelle()
  * @method float getPrixUnitaire()
  * @method float setPrixUnitaire()
  * @method float getPrixTotal()
@@ -97,8 +99,6 @@
  * @method integer setPrixVariable()
  * @method float getPartVariable()
  * @method float setPartVariable()
- * @method float getTauxVariation()
- * @method float setTauxVariation()
  * @method string getCvoNature()
  * @method string setCvoNature()
  * @method string getCvoRepartition()

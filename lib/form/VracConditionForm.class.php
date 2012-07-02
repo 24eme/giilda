@@ -30,7 +30,6 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setWidget('type_contrat', new sfWidgetFormChoice(array('choices' => $this->getTypesContrat(),'expanded' => true)));
         $this->setWidget('prix_variable', new sfWidgetFormChoice(array('choices' => $this->getPrixVariable(),'expanded' => true)));
         $this->setWidget('part_variable', new sfWidgetFormInput());
-        $this->setWidget('taux_variation', new sfWidgetFormInput());
         $this->setWidget('cvo_nature',  new sfWidgetFormChoice(array('choices' => $this->getCvoNature())));
         $this->setWidget('cvo_repartition',  new sfWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
         $this->setWidget('date_signature', new sfWidgetFormInput());
@@ -40,7 +39,6 @@ class VracConditionForm extends acCouchdbObjectForm {
             'type_contrat' => 'Type de contrat',
             'prix_variable' => 'Partie de prix variable ?',
             'part_variable' => 'Part du prix variable sur la quantité',
-            'taux_variation' => 'Taux de variation potentiel du prix définitif',
             'cvo_nature' => 'Nature de la transaction',
             'cvo_repartition' => 'Répartition de la CVO',
             'date_signature' => 'Date de signature',
@@ -60,7 +58,6 @@ class VracConditionForm extends acCouchdbObjectForm {
             'type_contrat' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesContrat()))),
             'prix_variable' => new sfValidatorInteger(array('required' => true)),
             'part_variable' => new sfValidatorNumber(array('required' => false)),
-            'taux_variation' =>  new sfValidatorNumber(array('required' => false)),
             'cvo_nature' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoNature()))),
             'cvo_repartition' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))),
             'date_signature' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),

@@ -9,7 +9,6 @@
             <ul>
                     <li class="raccourcis"><a href="#">Raccourcis clavier</a></li>
                     <li class="assistance"><a href="#">Assistance</a></li>
-                    <li class="contact"><a href="#">Contacter le support</a></li>
             </ul>
     </div>
 </div>

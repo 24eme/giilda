@@ -8,14 +8,21 @@
  */
  ?>
 
+<script>
+var value2bouteilleContenance = <?php echo json_encode(VracClient::$contenance); ?>;
+function getBouteilleContenance($value) {
+    return value2bouteilleContenance[$value];
+}
+</script>
+
 <div id="vrac_marche_volumePropose" class="section_label_maj">
     <label>Volumes proposés</label>
     <!--  Affichage des contenances disponibles (seulement s'il s'agit de vins en bouteilles)  -->
     <div class="bloc_form" >
-        <div id="contenance" class="bouteilles_contenance ligne_form">
-            <span><?php echo $form['bouteilles_contenance']->renderLabel() ?> </span>
-            <?php echo $form['bouteilles_contenance']->render() ?>
-            <?php echo $form['bouteilles_contenance']->renderError() ?>
+        <div id="contenance" class="bouteilles_contenance_libelle ligne_form">
+            <span><?php echo $form['bouteilles_contenance_libelle']->renderLabel() ?> </span>
+            <?php echo $form['bouteilles_contenance_libelle']->render() ?>
+            <?php echo $form['bouteilles_contenance_libelle']->renderError() ?>
         </div>
 
         <!--  Affichage des volumes disponibles variables selon le type de transaction choisi  -->

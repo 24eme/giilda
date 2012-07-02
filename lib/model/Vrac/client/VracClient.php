@@ -5,21 +5,22 @@ class VracClient extends acCouchdbClient {
     
     const VRAC_VIEW_STATUT = 0;
     const VRAC_VIEW_NUMCONTRAT = 1;
-    const VRAC_VIEW_VENDEUR_ID = 2;
-    const VRAC_VIEW_VENDEUR_NOM = 3;
-    const VRAC_VIEW_ACHETEUR_ID = 4;
-    const VRAC_VIEW_ACHETEUR_NOM = 5;
+    const VRAC_VIEW_ACHETEUR_ID = 2;
+    const VRAC_VIEW_ACHETEUR_NOM = 3;
+    const VRAC_VIEW_VENDEUR_ID = 4;
+    const VRAC_VIEW_VENDEUR_NOM = 5;
     const VRAC_VIEW_MANDATAIRE_ID = 6;
     const VRAC_VIEW_MANDATAIRE_NOM = 7;    
     const VRAC_VIEW_TYPEPRODUIT = 8;
     const VRAC_VIEW_PRODUIT_ID = 9;
-    const VRAC_VIEW_VOLCONS = 10;
+    const VRAC_VIEW_VOLPROP = 10;
     const VRAC_VIEW_VOLENLEVE = 11;
 
     const VRAC_SIMILAIRE_KEY_VENDEURID = 'vendeur_identifiant';   
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 'acheteur_identifiant';
     const VRAC_SIMILAIRE_KEY_MANDATAIREID = 'mandataire_identifiant'; 
     const VRAC_SIMILAIRE_KEY_PRODUIT = 'produit';
+    const VRAC_SIMILAIRE_KEY_TYPE = 'type_transaction';
     const VRAC_SIMILAIRE_KEY_VOLPROP = 'volume_propose';
     const VRAC_SIMILAIRE_KEY_ETAPE = 'etape';
     
@@ -44,6 +45,16 @@ class VracClient extends acCouchdbClient {
     const STATUS_CONTRAT_ANNULE = 'ANNULE';
     const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
     
+    
+    public static $contenance = array('75 cl' => 0.0075,
+                                   '1 L' => 0.01,
+                                     '1.5 L'=> 0.015,
+                                     '3 L' => 0.03,
+                                        'BIB 3 L' => 0.03,
+                                    '6 L' => 0.06);
+
+    
+    
 
     /**
      *
@@ -67,14 +78,14 @@ class VracClient extends acCouchdbClient {
         if (count($contrats) > 0) {
             $id .= ((double)str_replace('VRAC-', '', max($contrats)) + 1);
         } else {
-            $id.= $date.'001';
+            $id.= $date.'00001';
         }
 
         return $id;
     }
     
     public function getAtDate($date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('VRAC-'.$date.'000')->endkey('VRAC-'.$date.'999')->execute($hydrate);        
+        return $this->startkey('VRAC-'.$date.'00000')->endkey('VRAC-'.$date.'99999')->execute($hydrate);        
     }
     
     public function findByNumContrat($num_contrat) {
@@ -85,22 +96,73 @@ class VracClient extends acCouchdbClient {
       return $this->descending(true)->limit(300)->getView('vrac', 'history');
     }
     
-    public function retrieveBySoussigne($soussigneParam) {
-      return $this->startkey(array($soussigneParam))
-              ->endkey(array($soussigneParam, array()))->limit(300)->getView('vrac', 'soussigneidentifiant');
+    public function retrieveBySoussigne($soussigneId,$limit=300) {
+      $bySoussigneQuery = $this->startkey(array('STATUT',$soussigneId))
+              ->endkey(array('STATUT',$soussigneId, array()));
+      if ($limit){
+            $bySoussigneQuery =  $bySoussigneQuery->limit($limit);
+        }
+      
+      $bySoussigne = $bySoussigneQuery->getView('vrac', 'soussigneidentifiant');
+      return $bySoussigne;
     }
     
+    public function retrieveBySoussigneAndStatut($soussigneId,$statut,$limit=300) {
+        $bySoussigneStatutQuery =  $this->startkey(array('STATUT',$soussigneId,$statut))
+                ->endkey(array('STATUT',$soussigneId,$statut, array()));
+
+        if ($limit){
+            $bySoussigneStatutQuery =  $bySoussigneStatutQuery->limit($limit);
+        }
+      
+        $bySoussigneStatut = $bySoussigneStatutQuery->getView('vrac', 'soussigneidentifiant');
+        return $bySoussigneStatut;
+    }
+    
+    public function retrieveBySoussigneAndType($soussigneId,$type,$limit=300) {
+    $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$type))
+              ->endkey(array('TYPE',$soussigneId,$type, array()));
+    
+    if ($limit){
+            $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
+        }
+    $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+    return $bySoussigneType;
+    }
+    
+    public static function getCsvBySoussigne($vracs)
+    {
+        $result ="";
+        foreach ($vracs->rows as $value)
+        {   
+            $cpt=0;
+            $elt = $value->getRawValue()->value;
+            
+            foreach ($elt as $key => $champs)
+            {
+                $cpt++;
+                if(($key == self::VRAC_VIEW_PRODUIT_ID) && ($champs!= ""))
+                   $champs = ConfigurationClient::getCurrent()->get($champs)->libelleProduit(array(),"%c% %g% %a% %l% %co% %ce% %la%");                   
+                $result.='"'.$champs.'"';
+                if($cpt < count($elt)) $result.=';';              
+            }
+            $result.="\n";
+        }
+        return $result;
+    }
+
     public function retrieveSimilaryContracts($params) {
-        if($params['etape']==1)
-        {    
+       /* if($params['etape']==)
+        {    */
             return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire']))
                    ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
-        }
+        /*}
         else
         {
-            return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['volume']))
-                   ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['volume'], array()))->limit(10)->getView('vrac', 'vracSimilaire');
-        }       
+            
+            return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['type'],$params['volume']*.95))
+                   ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['produit'],$params['type'],$params['volume']*1.05, array()))->limit(10)->getView('vrac', 'vracSimilaire');
+        }      */ 
             
     }
     
@@ -129,4 +191,18 @@ class VracClient extends acCouchdbClient {
         return parent::retrieveDocumentById('VRAC-'.$id, $hydrate);
     }
     
+//    public function solderContrat()
+//    {
+//        $this->valide->statut = self::STATUS_CONTRAT_SOLDE;
+//    }
+//    
+//    public function isClosedContrat()
+//    {
+//        return ($this->valide->statut == self::STATUS_CONTRAT_SOLDE);
+//    }
+//    
+//    public function isValidedContrat()
+//    {
+//        return ($this->valide->statut == self::STATUS_CONTRAT_NONSOLDE);
+//    }
  }

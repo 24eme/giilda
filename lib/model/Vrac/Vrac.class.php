@@ -18,35 +18,43 @@ class Vrac extends BaseVrac {
         }
     }
     
+    public function setBouteillesContenanceLibelle($c) {
+        $this->_set('bouteilles_contenance_libelle', $c);
+        if ($c) {
+            $this->setBouteillesContenanceVolume(VracClient::$contenance[$c]);
+        }
+    }
+    
     public function update($params = array()) {
         
+         $this->prix_total = null;
+
         switch ($this->type_transaction)
         {
             case 'raisins' :
             {
                 $this->prix_total = $this->raisin_quantite * $this->prix_unitaire;
+                $this->bouteilles_contenance_libelle = '';
+                $this->bouteilles_contenance_volume = null;
+                $this->volume_propose = $this->getDensite() * $this->raisin_quantite;
+                break;
+            }
+            case 'vin_bouteille' :
+            {
+                $this->prix_total = $this->bouteilles_quantite * $this->prix_unitaire;
+                $this->volume_propose = $this->bouteilles_quantite * $this->bouteilles_contenance_volume;
                 break;
             }
             
             case 'mouts' :
-            {
-                $this->prix_total = $this->jus_quantite * $this->prix_unitaire;                
-                break;
-            } 
-            
             case 'vin_vrac' :
             {
                 $this->prix_total = $this->jus_quantite * $this->prix_unitaire;              
-                break;
+                $this->bouteilles_contenance_libelle = '';
+                $this->bouteilles_contenance_volume = null;
+                $this->volume_propose = $this->jus_quantite;
             }  
             
-            case 'vin_bouteille' :
-            {
-                $this->prix_total = $this->bouteilles_quantite * $this->prix_unitaire;
-                break;
-            }
-            default :
-                $this->prix_total = null;
         }
         
     }
@@ -112,6 +120,11 @@ class Vrac extends BaseVrac {
     public function getSoussigneObjectById($soussigneId) 
     {
         return EtablissementClient::getInstance()->find($soussigneId,acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+
+    private function getDensite() 
+    {
+        return 1.3;
     }
        
 }

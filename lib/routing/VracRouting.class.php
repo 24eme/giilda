@@ -9,11 +9,14 @@ class VracRouting {
      * @static
      */
     static public function listenToRoutingLoadConfigurationEvent(sfEvent $event) {
+        
         $r = $event->getSubject();
         $r->prependRoute('vrac', new sfRoute('/vrac', array('module' => 'vrac',
                                                             'action' => 'index')));
         $r->prependRoute('vrac_recherche', new sfRoute('/vrac/recherche', array('module' => 'vrac',
                                                             'action' => 'recherche')));
+        $r->prependRoute('vrac_exportCsv', new sfRoute('/vrac/exportCsv', array('module' => 'vrac',
+                                                            'action' => 'exportCsv')));        
         $r->prependRoute('vrac_nouveau', new sfRoute('/vrac/nouveau', array('module' => 'vrac',
                                                             'action' => 'nouveau')));
         $r->prependRoute('vrac_soussigne', new VracRoute('/vrac/:numero_contrat/soussigne',
@@ -36,6 +39,11 @@ class VracRouting {
                                                         array('module' => 'vrac','action' => 'recapitulatif'),
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object'))); 
+        
+        $r->prependRoute('vrac_visualisation', new VracRoute('/vrac/:numero_contrat/visualisation',
+                                                        array('module' => 'vrac','action' => 'visualisation'),
+                                                        array('sf_method' => array('get','post')),
+                                                        array('model' => 'Vrac', 'type' => 'object')));
         
         $r->prependRoute('vrac_nouveau_getinfos', new VracRoute('/vrac/getInfos',
                                                         array('module' => 'vrac','action' => 'getInformations'),
@@ -62,7 +70,14 @@ class VracRouting {
                                                         array('module' => 'vrac','action' => 'getContratsSimilaires'),
                                                         array('sf_method' => array('get')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
- 
+        
+        $r->prependRoute('vrac_volumeEnleve', new VracRoute('/vrac/:numero_contrat/volumeEnleve',
+                                                        array('module' => 'vrac','action' => 'volumeEnleve'),
+                                                        array('sf_method' => array('get','post')),
+                                                        array('model' => 'Vrac', 'type' => 'object')));
+        
+
+        
 //        $r->prependRoute('vrac_nouveau_modificationPost', new VracRoute('/vrac/modificationPost',
 //                                                        array('module' => 'vrac','action' => 'modificationPost'),
 //                                                        array('sf_method' => array('post')),

@@ -28,8 +28,7 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
     }
     
     private function configureAcheteurVendeur($label)
-    {    
-        $this->setWidget('cvi', new sfWidgetFormInput());        
+    {         
         $this->setWidget('num_accise', new sfWidgetFormInput());        
         $this->setWidget('adresse', new sfWidgetFormInput());        
         $this->setWidget('code_postal', new sfWidgetFormInput());   
@@ -38,19 +37,17 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
         
         
         $this->widgetSchema->setLabels(array(
-            'cvi' => 'N° CVI',
             'num_accise' => 'N° ACCISE',
-            'adresse' => 'Adresse*',
-            'code_postal' => 'CP',
+            'adresse' => 'Adresse',
+            'code_postal' => 'CP*',
             'commune' => 'Ville*',
             'num_tva_intracomm' => 'TVA Intracomm.'
         ));
                 
         $this->setValidators(array(
-            'cvi' => new sfValidatorNumber(array('required' => false)),
             'num_accise' => new sfValidatorString(array('required' => false)),
-            'adresse' => new sfValidatorString(array('required' => true, 'min_length' => 5)),
-            'code_postal' => new sfValidatorString(array('required' => false, 'min_length' => 5,'max_length' => 5)),
+            'adresse' => new sfValidatorString(array('required' => false)),
+            'code_postal' => new sfValidatorString(array('required' => true, 'min_length' => 5,'max_length' => 5)),
             'commune' => new sfValidatorString(array('required' => true, 'min_length' => 2)),
             'num_tva_intracomm' => new sfValidatorString(array('required' => false))
             ));
@@ -75,7 +72,7 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
        $this->setValidators(
        array(
             'carte_pro' => new sfValidatorNumber(array('required' => false)),
-            'adresse' => new sfValidatorString(array('required' => true, 'min_length' => 5)),
+            'adresse' => new sfValidatorString(array('required' => true)),
             'code_postal' => new sfValidatorString(array('required' => false, 'min_length' => 5,'max_length' => 5)),
             'commune' => new sfValidatorString(array('required' => false, 'min_length' => 2))
             ));

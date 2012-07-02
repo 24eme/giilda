@@ -4,10 +4,15 @@ echo $form->renderHiddenFields();
 echo $form->renderGlobalErrors();
 
 $type = $form->getObject()->getFamilleType();
+$otherType = ($type=='acheteur')? 'vendeur' :  'acheteur';
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
         init_ajax_modification('<?php echo $type;?>');
+        setGreyPanel('<?php echo $otherType;?>');
+        setGreyPanel('has_mandataire');
+        setGreyPanel('mandataire');
+        setGreyPanel('ligne_btn');
     });                        
 </script>
 
@@ -17,13 +22,12 @@ $type = $form->getObject()->getFamilleType();
     
     <div class="col">
         <div class="ligne_form">
-            <span><label>Nom du <?php echo $type; ?> :</label>
+            <span><label><?php echo ($type=="vendeur")? 'Nom du vendeur ' : "Nom de l'acheteur "; ?> :</label>
             <?php echo $form->getObject()->nom; ?>    </span>
         </div>
         <div class="ligne_form ligne_form_alt">
-            <span><?php echo $form['cvi']->renderLabel() ?>
-            <?php echo $form['cvi']->renderError(); ?>
-            <?php echo $form['cvi']->render() ?> </span>
+            <span><label>N° CVI </label>
+                <?php echo $form->getObject()->cvi; ?>    </span>
         </div>
         <div class="ligne_form">
             <span><?php echo $form['num_accise']->renderLabel() ?>

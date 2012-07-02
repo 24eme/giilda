@@ -5,6 +5,7 @@ $params = array('etape' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
                 'acheteur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ACHETEURID],
                 'mandataire' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_MANDATAIREID],
                 'produit' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_PRODUIT],
+                'type' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_TYPE],
                 'volume'=>$vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
 
 $vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
