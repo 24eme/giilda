@@ -388,3 +388,15 @@ $(document).ready(function()
      initAutoComplete();
      initDatepicker();
 });
+
+
+
+var setGreyPanel = function(divId)
+{
+    $('#'+divId).addClass('block');
+}
+
+var removeGreyPanel = function(divId)
+{
+    $('#'+divId).removeClass('block');
+}
