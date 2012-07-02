@@ -156,7 +156,6 @@ class VracClient extends acCouchdbClient {
                ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'], array()))->limit(10)->getView('vrac', 'vracSimilaire');            
     }
     
-    
     public function retrieveSimilaryContractsWithProdTypeVol($params) {
         if((empty($params['vendeur']))
           || (empty($params['acheteur']))
@@ -178,4 +177,30 @@ class VracClient extends acCouchdbClient {
         return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['type'],$params['produit'],$volumeBas))
                ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['type'],$params['produit'],$volumeHaut, array()))->limit(10)->getView('vrac', 'vracSimilaire');            
     }
+    
+    public function retrieveByNumeroAndEtablissementAndHashOrCreateIt($id, $etablissement, $hash, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      $vrac = $this->retrieveById($id);
+      if (!$vrac) {
+	$vrac = new Vrac();
+	$vrac->vendeur_identifiant = $etablissement;
+	$vrac->numero_contrat = $id;
+	$vrac->produit = $hash;
+      }
+      if ($etablissement != $vrac->vendeur_identifiant)
+	throw new sfException('le vendeur ne correpond pas à l\'établissement initial');
+      if (!preg_match("|^$hash|", $vrac->produit))
+	throw new sfException('Le hash du produit ne correpond pas au hash initial ('.$vrac->produit.'<->'.$hash.')');
+      return $vrac;
+    }
+    
+    /**
+     *
+     * @param string $id
+     * @param integer $hydrate
+     * @return Vrac 
+     */
+    public function retrieveById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        return parent::retrieveDocumentById('VRAC-'.$id, $hydrate);
+    }
+
  }
