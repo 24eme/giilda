@@ -53,10 +53,8 @@ class Vrac extends BaseVrac {
                 $this->bouteilles_contenance_libelle = '';
                 $this->bouteilles_contenance_volume = null;
                 $this->volume_propose = $this->jus_quantite;
-            }  
-            
-        }
-        
+            }              
+        }        
     }
 
     public function setInformations() 
@@ -125,6 +123,5 @@ class Vrac extends BaseVrac {
     private function getDensite() 
     {
         return 1.3;
-    }
-       
+    }   
 }

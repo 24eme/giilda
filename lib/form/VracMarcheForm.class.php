@@ -31,15 +31,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
 	foreach ($produits as $k => $v) {
 	  array_shift($v);
 	  $this->produits[$k] = implode(' ', array_filter($v));
-	}
-         
-        
-        $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->produits), array('class' => 'autocomplete')));
-        
-        //$millesimes = ConfigurationClient::getMillesimes();
-        
+	}        
+        $this->getDomaines();
+        $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->produits), array('class' => 'autocomplete')));      
         $this->setWidget('millesime', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));      
-        $this->setWidget('domaine', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));
+        $this->setWidget('domaine', new sfWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
         $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->label,'multiple' => true, 'expanded' => true)));
         $this->setWidget('raisin_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('jus_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
@@ -89,10 +85,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
     }
     
     public function getDomaines() {
-        $domaine_arr = array();
-        foreach ($this->getObject()->getVendeurObject()->domaines as $domaine) $domaine_arr[$domaine] = $domaine;
-        return $domaine_arr;
+        $domaines = VracDomainesView::getInstance()->findDomainesByVendeur($this->getObject()->vendeur_identifiant);
+        $this->domaines = array(''=>'');
+        foreach ($domaines->rows as $resultDomaine) {
+            $d = $resultDomaine->key[VracDomainesView::KEY_DOMAINE];
+            $this->domaines[$d] = $d;
+	}
     }
     
-    }
+}
 ?>

@@ -148,7 +148,7 @@ class vracActions extends sfActions
   {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
-        $this->form = new VracMarcheForm($this->vrac);
+        $this->form = new VracMarcheForm($this->vrac);        
         if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -282,8 +282,7 @@ class vracActions extends sfActions
 
 
   public function executeExportCsv(sfWebRequest $request) 
-  {
-    
+  {    
     $this->setLayout(false);
     $filename = $this->createCsvFilename($request);
     
