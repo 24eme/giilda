@@ -266,13 +266,35 @@ class vracActions extends sfActions
         }
   }
   
+  private function createCsvFilename($request)
+  {
+ 
+    $etablissement = EtablissementClient::getInstance()->findByIdentifiant($request['identifiant']);
+    $nom = $etablissement['nom'];
+    $nom = str_replace('M. ','', $nom);
+    $nom = str_replace('Mme ','', $nom);
+    $nom = str_replace(' ','_', $nom);
+    $statut = (isset($request['statut']) && !empty($request['statut']))? '_'.$request['statut'] : '';
+    $type = (isset($request['type']) && !empty($request['type']))? '_'.$request['type'] : '';
+    $date = date('Ymd');
+    return 'exportCSV_'.$date.'_'.$nom.$statut.$type;
+  }
+
+
   public function executeExportCsv(sfWebRequest $request) 
   {
-    $this->setLayout(false);
-    $this->response->setContentType('text/csv');
-    $this->getVracsFromRecherche($request, false);
     
+    $this->setLayout(false);
+    $filename = $this->createCsvFilename($request);
+    
+    $file = $this->getVracsFromRecherche($request, false);    
     $this->forward404Unless($this->vracs);
+    
+    $attachement = "attachment; filename=".$filename.".csv";
+    
+    $this->response->setContentType('text/csv');
+    $this->response->setHttpHeader('Content-Disposition',$attachement );
+    $this->response->setHttpHeader('Content-Length', filesize($file));    
   }
   
 

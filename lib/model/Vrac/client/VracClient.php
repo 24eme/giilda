@@ -132,7 +132,7 @@ class VracClient extends acCouchdbClient {
     
     public static function getCsvBySoussigne($vracs)
     {
-        $result ="";
+        $result ="\xef\xbb\xbf";
         foreach ($vracs->rows as $value)
         {   
             $cpt=0;

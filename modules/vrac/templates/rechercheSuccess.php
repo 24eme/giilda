@@ -38,7 +38,7 @@ if(isset($type)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $i
                             <span id="recherche_avancee"><a href="">> Recherche avancée</a></span>
                         </form>
                 </div>         
-                <a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Extraire csv</a>
+                <a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Ouvrir en tableur</a>
                 <?php 
                     include_partial('rechercheLegende', array('rechercheMode' => true, 'vracs' => $vracs, 'identifiant'=>$identifiant,'actif' => $actif));
                 ?>
