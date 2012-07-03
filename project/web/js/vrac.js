@@ -245,7 +245,7 @@ var clearVolumesChamps = function()
 
 var majAutocompleteInteractions = function(type)
 {
-    $('#'+type+'_choice  input').live( "autocompleteselect", function(event, ui)
+    $('#'+type+'_choice input').live( "autocompleteselect", function(event, ui)
     {
         $('#'+type+'_modification_btn').removeAttr('disabled');
         $('#'+type+'_modification_btn').css('cursor','pointer');        
