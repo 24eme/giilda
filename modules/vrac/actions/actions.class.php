@@ -61,11 +61,9 @@ class vracActions extends sfActions
                             : VracClient::getInstance()->retrieveBySoussigne($soussigneId,false);
           $this->actif = null;
       }
-      
-      
+            
       usort($this->vracs->rows, array("vracActions", "rechercheTriListOnID"));
-      
-      
+            
       $this->etablissements = array('' => '');
       $soussignelabel = array($soussigneObj['nom'], $soussigneObj['cvi'], $soussigneObj['commune']);
       $this->etablissements[$this->identifiant] = trim(implode(',', array_filter($soussignelabel)));

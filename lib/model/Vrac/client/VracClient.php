@@ -201,6 +201,5 @@ class VracClient extends acCouchdbClient {
      */
     public function retrieveById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return parent::retrieveDocumentById('VRAC-'.$id, $hydrate);
-    }
-
+    }       
  }
