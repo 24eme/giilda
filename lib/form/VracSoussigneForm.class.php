@@ -101,6 +101,11 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         {
             $values['mandataire_identifiant'] = null;
         }
+        if(!isset($values['mandataire_identifiant']) || !$values['mandataire_identifiant'])
+        {
+            $values['mandatant'] = null;
+            $values['mandataire_exist'] = false;
+        }
         parent::doUpdateObject($values);
         $this->getObject()->setInformations();
     }
