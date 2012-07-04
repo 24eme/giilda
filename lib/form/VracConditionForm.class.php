@@ -57,7 +57,7 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setValidators(array(
             'type_contrat' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesContrat()))),
             'prix_variable' => new sfValidatorInteger(array('required' => true)),
-            'part_variable' => new sfValidatorNumber(array('required' => false)),
+            'part_variable' => new sfValidatorNumber(array('required' => false, 'max' => 50, 'min' => 0)),
             'cvo_nature' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoNature()))),
             'cvo_repartition' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))),
             'date_signature' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),
