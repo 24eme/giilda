@@ -1,7 +1,10 @@
 <?php
 $liClass = '';
 if($actif == $num_etape+1) $liClass = 'actif';
-  else if($actif > $num_etape) $liClass = 'passe';
+  else
+  {
+      if(($vrac->etape > $num_etape) && (($num_etape+1)!=$actif)) $liClass = 'passe';
+  }
 
  $href ='';
   if($num_etape == 0 && $vrac->etape == 0) $href = 'href="'.url_for('vrac_nouveau').'"';
