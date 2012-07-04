@@ -15,7 +15,7 @@ use_helper('Display');
         else
         {
         ?>        
-        ajaxifyGet('modification',{field_0 : '#vrac_acheteur_identifiant',
+        ajaxifyGet('getInfos',{field_0 : '#vrac_acheteur_identifiant',
                                    'type' : 'acheteur' ,
                                    'numero_contrat' : '<?php echo $numero_contrat;?>'
                                   }, '#acheteur_modification_btn','#acheteur_informations');

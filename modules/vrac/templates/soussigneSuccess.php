@@ -33,7 +33,6 @@ else
         majMandatairePanel();
         $('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
         $('#vrac_acheteur_famille_negociant').attr('checked','checked');
-       // init_ajax_contrats_similaires('<?php // echo $numero_contrat;?>','soussigne');
     });
 </script>
 <?php
@@ -80,10 +79,15 @@ else
                         $vendeurArray['vendeur'] = ($nouveau)? $vendeurArray['vendeur'] : $form->getObject()->getVendeurObject();   
                         include_partial('vendeurInformations', $vendeurArray);    
                         ?>
+                    </div>
+                    <div class="btnModification">
+                        <div id="vendeur_annulation_div" class="f_left" style="display: none;">
+                            <a id="vendeur_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
                         </div>
-                        <div class="btnModification f_right">
+                        <div class="f_right">
                             <a id="vendeur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a>
                         </div>
+                    </div>
                 </div>
                 <br />
 
@@ -111,8 +115,13 @@ else
                         include_partial('acheteurInformations', $acheteurArray);
                         ?>
                     </div>
-                    <div class="btnModification f_right">
-                        <a id="acheteur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;"/>Modifier</a>
+                    <div class="btnModification">
+                        <div id="acheteur_annulation_div" class="f_left" style="display: none;">
+                            <a id="acheteur_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
+                        </div>
+                        <div class="f_right">
+                            <a id="acheteur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a>
+                        </div>
                     </div>
                 </div>
                 <br />
@@ -149,8 +158,13 @@ else
                         include_partial('mandataireInformations', $mandataireArray); 
                         ?>    
                     </div>
-                    <div class="btnModification f_right">
-                        <a id="mandataire_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a> 
+                    <div class="btnModification">
+                        <div id="mandataire_annulation_div" class="f_left" style="display: none;">
+                            <a id="mandataire_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
+                        </div>
+                        <div class="f_right">
+                            <a id="mandataire_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a>
+                        </div>
                     </div>
                 </div>
 
