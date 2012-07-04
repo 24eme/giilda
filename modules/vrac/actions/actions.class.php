@@ -92,7 +92,7 @@ class vracActions extends sfActions
             {
                 $this->maj_etape(1);
                 $this->vrac->numero_contrat = VracClient::getInstance()->getNextNoContrat();
-                $this->form->save();      
+                $this->form->save();    
                 return $this->redirect('vrac_marche', $this->vrac);
             }            
         }
