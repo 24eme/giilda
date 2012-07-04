@@ -26,6 +26,8 @@ class VracClient extends acCouchdbClient {
     
     const VRAC_SIMILAIRE_VALUE_NUMCONTRAT = 0;   
     const VRAC_SIMILAIRE_VALUE_STATUT = 1;
+    const VRAC_SIMILAIRE_VALUE_MILLESIME = 2;   
+    const VRAC_SIMILAIRE_VALUE_VOLPROP = 3;
     
     
     const TYPE_TRANSACTION_RAISINS = 'raisins';

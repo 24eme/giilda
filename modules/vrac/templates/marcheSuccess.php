@@ -11,9 +11,10 @@
     $(document).ready(function()
     {
        var ajaxParams = { 'numero_contrat' : '<?php echo $form->getObject()->numero_contrat ?>',
-                       'vendeur' : '<?php echo $form->getObject()->vendeur_identifiant ?>',
-                       'acheteur' : '<?php echo $form->getObject()->acheteur_identifiant ?>',
-                       'mandataire' : '<?php echo $form->getObject()->mandataire_identifiant ?>' };
+                          'vendeur' : '<?php echo $form->getObject()->vendeur_identifiant ?>',
+                          'acheteur' : '<?php echo $form->getObject()->acheteur_identifiant ?>',
+                          'mandataire' : '<?php echo $form->getObject()->mandataire_identifiant ?>' };
+                      
        $('#produit input').live( "autocompleteselect", function(event, ui)
        {
            

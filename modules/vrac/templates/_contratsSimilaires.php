@@ -32,13 +32,14 @@ $flagStatut = false;
                             <span class="statut <?php echo $statusColor; ?>"></span>                         
                                 <?php 
                             // echo $elt[VracClient::VRAC_SIMILAIRE_VALUE_STATUT];
-                                $num_contrat = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_SIMILAIRE_VALUE_NUMCONTRAT]);
-                                ?>    
-                                <span class="contrat_similaire_num_contrat">
-                                    <?php 
-                                    echo link_to($num_contrat, '@vrac_termine?numero_contrat='.$num_contrat);
-                                    ?>    
-                                </span>
+                                $num_contrat = preg_replace('/VRAC-/', '',$elt[VracClient::VRAC_SIMILAIRE_VALUE_NUMCONTRAT]);
+                                $millesime = (is_null($elt[VracClient::VRAC_SIMILAIRE_VALUE_MILLESIME]))? '' : $elt[VracClient::VRAC_SIMILAIRE_VALUE_MILLESIME];
+                                $volprop = $elt[VracClient::VRAC_SIMILAIRE_VALUE_VOLPROP];
+                                ?>
+                            <span id="millesime"> <?php echo $millesime ; ?></span>&nbsp;
+                            <span id="volprop"> <?php echo $volprop ; ?></span>&nbsp;-&nbsp;
+                            <span id="num_contrat"><?php echo $num_contrat ; ?></span>
+                            <a class="contrat_similaire_num_contrat" target="_blank" href="<?php echo url_for('vrac_visualisation',array('numero_contrat' => $num_contrat)); ?>">a</a>
                         </li>
                         <?php
                             }
