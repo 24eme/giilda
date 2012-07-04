@@ -303,11 +303,17 @@ var init_ajax_modification = function(type)
     $('a#'+type+'_modification_btn').removeClass('btn_orange').addClass('btn_vert');
     $('a#'+type+'_modification_btn').css('cursor','pointer');
     
+    $('div#'+type+'_annulation_div').show();
+    
     $("#"+type+"_choice input").attr('disabled','disabled');
     $("#"+type+"_choice button").attr('disabled','disabled');
     $('.btnValidation button').attr('disabled','disabled');
-    var params = {id : $("#vrac_"+type+"_identifiant").val(), div : '#'+type+'_informations'};  
+    var params = {id : $("#vrac_"+type+"_identifiant").val(), div : '#'+type+'_informations'};     
     ajaxifyPost('modification?id='+$("#vrac_"+type+"_identifiant").val(),params,'#'+type+'_modification_btn','#'+type+'_informations');
+    
+    ajaxifyGet('getInfos','#vrac_'+type+'_identifiant',
+                   '#'+type+'_annulation_btn',
+                   '#'+type+'_informations');
 }
 
 
@@ -319,8 +325,11 @@ var init_informations = function(type)
     $("a#"+type+"_modification_btn").html("Modifier");
     $("a#"+type+"_modification_btn").removeClass('btn_vert').addClass('btn_orange');
     
+    $('div#'+type+'_annulation_div').hide();
     
     $("#"+type+"_modification_btn").unbind();
+    $("#"+type+"_annulation_btn").unbind();
+    
     $('.btnValidation button').removeAttr('disabled');
 }
     
