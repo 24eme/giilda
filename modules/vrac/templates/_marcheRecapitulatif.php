@@ -14,12 +14,16 @@ $hasDomaine = is_null($vrac->domaine);
             <label>Original fourni :</label>
             <span><?php echo ($vrac->original)? 'Oui' : 'Non'; ?></span>
     </div>
-    <div id="marche_recapitulatif_produit" class="ligne_form ligne_form_alt">
+    <div id="marche_recapitulatif_typeContrat" class="ligne_form ligne_form_alt">
+            <label>Type de contrat :</label>
+            <span><?php echo showType($vrac); ?></span>
+    </div>
+    <div id="marche_recapitulatif_produit" class="ligne_form ">
             <label>Produit :</label>
             <span><?php echo implode(' ', $vrac->getProduitObject()->getLibelles()->getRawValue()); ?></span>
     </div>
 
-    <div id="marche_recapitulatif_millesime" class="ligne_form">
+    <div id="marche_recapitulatif_millesime" class="ligne_form ligne_form_alt">
             <label>
                 Millésime : 
             </label>
@@ -28,7 +32,7 @@ $hasDomaine = is_null($vrac->domaine);
             </span>
     </div>
 
-    <div id="marche_recapitulatif_type" class="ligne_form ligne_form_alt">
+    <div id="marche_recapitulatif_type" class="ligne_form ">
             <label>
                 Type : 
             </label>
@@ -41,7 +45,7 @@ $hasDomaine = is_null($vrac->domaine);
     if($hasDomaine && $vrac->domaine=="domaine")
     {
     ?>
-    <div id="marche_recapitulatif_domaine" class="ligne_form">
+    <div id="marche_recapitulatif_domaine" class="ligne_form ligne_form_alt">
             <label>
                 Type : 
             </label>
@@ -50,9 +54,9 @@ $hasDomaine = is_null($vrac->domaine);
             </span>
     </div>
     <?php
-        $alt= "ligne_form_alt";
+        $alt= "";
     }else
-        $alt= "ligne_form";
+        $alt= "ligne_form_alt";
     ?>
 
 

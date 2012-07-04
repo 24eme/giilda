@@ -44,6 +44,20 @@ function showRecapPrixUnitaire($vrac)
     return '';
 }
 
+function showType($vrac)
+{
+    if($type = $vrac->type_transaction)
+    {
+        switch ($type)
+        {
+            case 'vin_vrac': return 'vin vrac';                   
+            case 'vin_bouteille': return 'vin conditionné';
+            default: return $type;
+        }
+    }    
+    return '';
+}
+
 function showRecapVolume($vrac)
 {
     if($type = $vrac->type_transaction)
