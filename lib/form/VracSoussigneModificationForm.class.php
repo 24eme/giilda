@@ -48,7 +48,7 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
             'num_accise' => new sfValidatorString(array('required' => false)),
             'adresse' => new sfValidatorString(array('required' => false)),
             'code_postal' => new sfValidatorString(array('required' => true, 'min_length' => 5,'max_length' => 5)),
-            'commune' => new sfValidatorString(array('required' => true, 'min_length' => 2)),
+            'commune' => new sfValidatorString(array('required' => true)),
             'num_tva_intracomm' => new sfValidatorString(array('required' => false))
             ));
         
@@ -65,16 +65,16 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabels(array(
             'carte_pro' => 'N° carte professionnelle',
             'adresse' => 'Adresse',
-            'code_postal' => 'CP',
-            'commune' => 'Ville'
+            'code_postal' => 'CP*',
+            'commune' => 'Ville*'
         ));
         
        $this->setValidators(
        array(
             'carte_pro' => new sfValidatorNumber(array('required' => false)),
-            'adresse' => new sfValidatorString(array('required' => true)),
-            'code_postal' => new sfValidatorString(array('required' => false, 'min_length' => 5,'max_length' => 5)),
-            'commune' => new sfValidatorString(array('required' => false, 'min_length' => 2))
+            'adresse' => new sfValidatorString(array('required' => false)),
+            'code_postal' => new sfValidatorString(array('required' => true, 'min_length' => 5,'max_length' => 5)),
+            'commune' => new sfValidatorString(array('required' => true))
             ));
        $this->widgetSchema->setNameFormat('vrac[%s]');        
     }
