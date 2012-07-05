@@ -133,10 +133,11 @@ var updatePanelsAndUnitForRaisins = function()
     $('.bouteilles_contenance_libelle').hide();
     $('.bouteilles_quantite').hide();
     $('.jus_quantite').hide();    
-    $('.raisin_quantite').show();
-    
+    $('.raisin_quantite').show();    
+    $('.raisin_quantite span#volume_unite_total').text("(en kg)");
+    $('#prixUnitaire span#prix_unitaire_unite').text("€/kg");
 
-    majTotal("raisin_quantite","(en kg)","€/kg");  
+    majTotal("raisin_quantite");  
 }
 
 var updatePanelsAndUnitForJuice = function()
@@ -145,8 +146,10 @@ var updatePanelsAndUnitForJuice = function()
     $('.bouteilles_quantite').hide();    
     $('.raisin_quantite').hide();    
     $('.jus_quantite').show();
+    $('.jus_quantite span#volume_unite_total').text("(en hl)");
+    $('#prixUnitaire span#prix_unitaire_unite').text("€/hl");
     
-    majTotal("jus_quantite","(en hl)","€/hl");    
+    majTotal("jus_quantite");    
 }
 
 var updatePanelsAndUnitForBottle = function()
@@ -183,22 +186,32 @@ var updatePanelsAndUnitForBottle = function()
     }
 }
 
-var majTotal = function(quantiteField,unite,prixParUnite){
+var majTotal = function(quantiteField){
     var quantite = $('#vrac_'+quantiteField).val();
     var numeric =  new RegExp("^[0-9]+\.?[0-9]*$","g");
-    
     if(numeric.test(quantite))
-    { 
-        $('.'+quantiteField+' span#volume_unite_total').text(unite);
-        $('#volume_total').val(quantite).trigger('change');
+    {        
+        var hlRaisins = quantite;
+        if(quantiteField=='raisin_quantite')
+        {
+            hlRaisins*=1.3;
+            $('#volume_total').val(quantite).trigger('change');
+        }
+        else
+            $('#volume_total').val(quantite).trigger('change');
+        
         var prix_unitaire = $('#vrac_prix_unitaire').val();
         
         var priceReg = (new RegExp("^[0-9]+[.]?[0-9]*$","g")).test(prix_unitaire);
         if(priceReg)
-        {
-           var prix_total = quantite * parseFloat(prix_unitaire);
+        {           
+           var prix_total =quantite * parseFloat(prix_unitaire);
            $('#vrac_prix_total').text(prix_total);
-           $('#prixUnitaire span#prix_unitaire_unite').text(prixParUnite);
+           if(quantiteField=='raisin_quantite')
+           {
+               var prix_hl = prix_total / hlRaisins;
+               $('#prixUnitaire span#prix_unitaire_unite').text("€/kg (soit "+parseFloat(prix_hl).toFixed(2)+" €/hl)");
+           }
         }
     }
 }
@@ -240,6 +253,8 @@ var clearVolumesChamps = function()
     //tout
     $('#vrac_prix_unitaire').val('');
     $('#vrac_prix_total').text('');
+    
+    $('#prixUnitaire span#prix_unitaire_unite').text('');
     
 }
 
@@ -303,11 +318,17 @@ var init_ajax_modification = function(type)
     $('a#'+type+'_modification_btn').removeClass('btn_orange').addClass('btn_vert');
     $('a#'+type+'_modification_btn').css('cursor','pointer');
     
+    $('div#'+type+'_annulation_div').show();
+    
     $("#"+type+"_choice input").attr('disabled','disabled');
     $("#"+type+"_choice button").attr('disabled','disabled');
     $('.btnValidation button').attr('disabled','disabled');
-    var params = {id : $("#vrac_"+type+"_identifiant").val(), div : '#'+type+'_informations'};  
+    var params = {id : $("#vrac_"+type+"_identifiant").val(), div : '#'+type+'_informations'};     
     ajaxifyPost('modification?id='+$("#vrac_"+type+"_identifiant").val(),params,'#'+type+'_modification_btn','#'+type+'_informations');
+    
+    ajaxifyGet('getInfos','#vrac_'+type+'_identifiant',
+                   '#'+type+'_annulation_btn',
+                   '#'+type+'_informations');
 }
 
 
@@ -319,8 +340,11 @@ var init_informations = function(type)
     $("a#"+type+"_modification_btn").html("Modifier");
     $("a#"+type+"_modification_btn").removeClass('btn_vert').addClass('btn_orange');
     
+    $('div#'+type+'_annulation_div').hide();
     
     $("#"+type+"_modification_btn").unbind();
+    $("#"+type+"_annulation_btn").unbind();
+    
     $('.btnValidation button').removeAttr('disabled');
 }
     
@@ -388,14 +412,14 @@ var initDatepicker = function(){
     
 }
 
-$(document).ready(function()
+var initValidation = function ()
 {
-     initMarche();
-     initConditions();
-     initAutoComplete();
-     initDatepicker();
-});
-
+    $('.btn_popup').trigger('click');
+    $('#contrat_similaire_popup a#validation').click(function()
+    {
+       $('form#vrac_validation').submit(); 
+    });
+}
 
 
 var setGreyPanel = function(divId)
@@ -407,3 +431,12 @@ var removeGreyPanel = function(divId)
 {
     $('#'+divId).removeClass('block');
 }
+
+$(document).ready(function()
+{
+     initMarche();
+     initConditions();
+     initValidation();
+     initAutoComplete();
+     initDatepicker();
+});
