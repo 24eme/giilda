@@ -86,7 +86,7 @@ else
                             <a id="vendeur_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
                         </div>
                         <div class="f_right">
-                            <a id="vendeur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a>
+                            <a id="vendeur_modification_btn" class="btn_majeur btn_modifier" style="cursor: pointer;">Modifier</a>
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@ else
                             <a id="acheteur_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
                         </div>
                         <div class="f_right">
-                            <a id="acheteur_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a>
+                            <a id="acheteur_modification_btn" class="btn_modifier" style="cursor: pointer;">Modifier</a>
                         </div>
                     </div>
                 </div>
@@ -164,7 +164,7 @@ else
                             <a id="mandataire_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
                         </div>
                         <div class="f_right">
-                            <a id="mandataire_modification_btn" class="btn_majeur btn_orange" style="cursor: pointer;">Modifier</a>
+                            <a id="mandataire_modification_btn" class="btn_majeur btn_modifier" style="cursor: pointer;">Modifier</a>
                         </div>
                     </div>
                 </div>

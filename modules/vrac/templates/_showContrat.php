@@ -12,7 +12,7 @@
                 {
             ?>
             <div class="btnModification f_right">
-                <a href="<?php echo url_for('vrac_soussigne',$vrac); ?>" class="btn_majeur btn_orange">Modifier</a>
+                <a href="<?php echo url_for('vrac_soussigne',$vrac); ?>" class="btn_majeur btn_modifier">Modifier</a>
             </div> 
             <?php 
                 }
@@ -30,7 +30,7 @@
                 {
             ?>
             <div class="btnModification f_right">
-                <a href="<?php echo url_for('vrac_marche',$vrac); ?>" class="btn_majeur btn_orange">Modifier</a>
+                <a href="<?php echo url_for('vrac_marche',$vrac); ?>" class="btn_majeur btn_modifier">Modifier</a>
             </div>
             <?php 
                 }
@@ -48,7 +48,7 @@
                 {
             ?>
             <div class="btnModification f_right">
-                <a href="<?php echo url_for('vrac_condition',$vrac); ?>" class="btn_majeur btn_orange">Modifier</a>
+                <a href="<?php echo url_for('vrac_condition',$vrac); ?>" class="btn_majeur btn_modifier">Modifier</a>
             </div>
             <?php 
                 }

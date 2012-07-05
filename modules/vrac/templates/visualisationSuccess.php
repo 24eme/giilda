@@ -32,22 +32,13 @@
                             </div>
                         </div>
                         <div id="ligne_btn">
-                            <?php 
-                            if(!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE):
-                            ?>
-                                <div style="text-align: left;">
-                                <a class="btn_majeur btn_orange" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
-                                </div>   
-                            <?php 
-                            endif;
-                            ?>
-                            <div style="text-align: right;">
-                            <a class="btn_majeur btn_gris" href="#"> Voir le contrat</a>
-                            </div>   
-
-                            <div style="text-align: right;">
-                                <button class="btn_majeur btn_rouge" type="submit">Annuler le contrat</button>
-                            </div>       
+                            <?php if(!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE): ?>
+                                <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
+                            <?php endif; ?>
+                                
+                            <a id="btn_voir_contrat" href="#"> Voir le contrat</a>       
+                            <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>
+                                 
                         </div>
                     </form>
                     <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
