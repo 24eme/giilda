@@ -307,8 +307,8 @@
 #contenu_etape{
 
         .error_list{
-                position : absolute;
-                color : red;
+                color: red;
+                float: right;
         }
         
         .col {
@@ -421,10 +421,16 @@
 
                 .error_list
                 {
-                    padding: 0 10px;
-                    float : right;
+                    padding: 0 0 0 40px;
+                    position:absolute;
                     color : red;
                 }
+
+                .mandataire_infos{ .error_list
+                {
+                    padding: 0 0 0 53px;
+                }}
+
         }
 
         #vrac_marche{
@@ -475,7 +481,7 @@
                 
         }
         
-        #vrac_validation, #vrac_recapitulatif{
+        #vrac_validation, #vrac_recapitulatif, #vrac_visualisation{
             
                 #titre{
                         background-color:@couleur-a7; 
@@ -502,6 +508,15 @@
                         padding-bottom:40px;
                 }
 
+        }
+
+        #vrac_visualisation{
+                .legende{
+                        div{
+                            display:block;
+                            margin:15px 0 0;
+                        }
+                }
         }
 
         #btn_export_csv{
