@@ -4,8 +4,7 @@ use_helper('Vrac');
 $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant));
 if(isset($statut)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant,'statut' => $statut));
 if(isset($type)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant,'type' => $type)); 
-
-
+if(!isset($campagne)) $campagne = dateCampagneViticolePresent();
 ?>
 <script type="text/javascript">
     $(document).ready(function()
@@ -59,6 +58,7 @@ if(isset($type)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $i
         </section>
         <aside id="colonne">
             <?php include_partial('actions'); ?>
+            <?php include_partial('contrat_campagne',array('vracs' => $vracs, 'visualisation' => false,'campagne' => $campagne)); ?>
         </aside>
     </div>
 </div>

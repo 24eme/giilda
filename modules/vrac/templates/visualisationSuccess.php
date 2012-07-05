@@ -15,25 +15,38 @@
                     <div id="ss_titre">
                         <label>N° d'enregistrement du contrat : </label><span><?php echo $vrac['numero_contrat']; ?></span>
                     </div>
-                    
-                    <h2>Etat du contrat<h2>
-                           <?php echo $vrac->valide->statut; ?>
-                    
-                    <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
+                    <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation',$vrac) ?>">  
+                        <h2>Etat du contrat</h2>
+                        <div id="vrac_visualisation_statut">
+                            <?php echo $vrac->valide->statut; ?>
+                        </div>
+                        <div id="ligne_btn">
+                            <?php 
+                            if(!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE):
+                            ?>
+                                <div style="text-align: left;">
+                                <a class="btn_majeur btn_orange" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
+                                </div>   
+                            <?php 
+                            endif;
+                            ?>
+                            <div style="text-align: right;">
+                            <a class="btn_majeur btn_gris" href="#"> Voir le contrat</a>
+                            </div>   
 
-                    <div id="ligne_btn">
-                        <div style="text-align: right;">
-                        <a class="btn_majeur btn_gris" href="<?php echo url_for('vrac_nouveau') ?>"> Saisir un nouveau contrat</a>
-                        </div>       
-                    </div>
+                            <div style="text-align: right;">
+                                <button class="btn_majeur btn_rouge" type="submit">Annuler le contrat</button>
+                            </div>       
+                        </div>
+                    </form>
+                    <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
                 </div>
             </div>
         </section>
         <aside id="colonne">
             <?php include_partial('actions_visu', array('vrac' => $vrac)); ?>
             <?php include_partial('contrat_aide'); ?>
-            <?php //include_partial('contrat_campagne'); ?>
-            <?php //include_partial('contrat_campagne'); ?>
+            <?php include_partial('contrat_campagne',array('vrac' => $vrac, 'visualisation' => true)); ?>
             <?php include_partial('contrat_infos_contact',array('vrac' => $vrac)); ?>
         </aside>
     </div>

@@ -1,5 +1,22 @@
 <?php
 
+function dateCampagneViticolePresent()
+{
+    $date = date('mY');
+    $mois = substr($date, 0,2);
+    $annee = substr($date, 2,6);
+    $campagne = ($mois<8)? ($annee-1).'/'.$annee : $annee.'/'.($annee+1);
+    return $campagne;
+}
+
+function dateCampagneViticole($date)
+{
+    $date_exploded = explode("/", $date);
+    $mois = $date_exploded[1];
+    $annee = $date_exploded[2];
+    $campagne = ($mois<8)? ($annee-1).'/'.$annee : $annee.'/'.($annee+1);
+    return $campagne;
+}
  
 function isARechercheParam($actif,$label)
 {

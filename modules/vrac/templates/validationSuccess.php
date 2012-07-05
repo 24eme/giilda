@@ -32,11 +32,6 @@
         <aside id="colonne">
         <?php
             /*
-            * Inclusion du panel de progression d'édition du contrat
-            */
-            include_partial('contrat_progression', array('vrac' => $vrac));
-
-            /*
             * Inclusion du panel pour les contrats similaires
             */
             include_partial('contratsSimilaires', array('vrac' => $vrac));

@@ -207,10 +207,10 @@ class vracActions extends sfActions
   public function executeVisualisation(sfWebRequest $request)
   {
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));
-      $this->vrac = $this->getRoute()->getVrac();      
+      $this->vrac = $this->getRoute()->getVrac();    
       if ($request->isMethod(sfWebRequest::POST)) 
       {
-            $this->redirect('vrac_soussigne');
+            $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);
       }
   }
 
@@ -261,7 +261,7 @@ class vracActions extends sfActions
             if ($this->form->isValid())
             {
                 $this->form->save();      
-                $this->redirect('vrac_termine', $this->vrac);
+                $this->redirect('vrac_visualisation', $this->vrac);
             }
         }
   }
@@ -317,4 +317,9 @@ class vracActions extends sfActions
         $this->vrac->valide->statut = $statut;
     }
   
+    private function majStatut($statut)
+    {
+        $this->vrac->valide->statut = $statut;
+    }
+    
 }
