@@ -48,7 +48,7 @@
 		}
 	});
 
-		/**
+        /**
 	 * Initialise le formulaire
 	 * $(popup).initPopupForm();
 	 ******************************************/

@@ -412,14 +412,14 @@ var initDatepicker = function(){
     
 }
 
-$(document).ready(function()
+var initValidation = function ()
 {
-     initMarche();
-     initConditions();
-     initAutoComplete();
-     initDatepicker();
-});
-
+    $('.btn_popup').trigger('click');
+    $('#contrat_similaire_popup a#validation').click(function()
+    {
+       $('form#vrac_validation').submit(); 
+    });
+}
 
 
 var setGreyPanel = function(divId)
@@ -431,3 +431,12 @@ var removeGreyPanel = function(divId)
 {
     $('#'+divId).removeClass('block');
 }
+
+$(document).ready(function()
+{
+     initMarche();
+     initConditions();
+     initValidation();
+     initAutoComplete();
+     initDatepicker();
+});
