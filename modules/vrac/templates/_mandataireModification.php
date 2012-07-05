@@ -26,30 +26,30 @@ $type = $form->getObject()->getFamilleType();
     </div>
     <div class="ligne_form ligne_form_alt">    
         <span>
-            <?php echo $form['carte_pro']->renderLabel() ?>
             <?php echo $form['carte_pro']->renderError(); ?>
+            <?php echo $form['carte_pro']->renderLabel() ?>
             <?php echo $form['carte_pro']->render() ?> 
         </span>
     </div>
     <div class="ligne_form">       
         <span>
+            <?php echo $form['adresse']->renderError(); ?>
             <?php echo $form['adresse']->renderLabel() ?>             
             <?php echo $form['adresse']->render() ?>       
-            <?php echo $form['adresse']->renderError(); ?>
         </span>
     </div>
     <div class="ligne_form ligne_form_alt"> 
         <span>
-            <?php echo $form['code_postal']->renderLabel() ?>
             <?php echo $form['code_postal']->renderError(); ?>
+            <?php echo $form['code_postal']->renderLabel() ?>
             <?php echo $form['code_postal']->render() ?>  
         </span>
         
     </div>
     <div class="ligne_form">      
         <span>
-            <?php echo $form['commune']->renderLabel() ?>
             <?php echo $form['commune']->renderError(); ?>
+            <?php echo $form['commune']->renderLabel() ?>
             <?php echo $form['commune']->render() ?>
         </span>
     </div>

@@ -61,14 +61,15 @@ else
                     <div id="vendeur_choice" class="section_label_maj">
                         <?php echo $form['vendeur_identifiant']->renderError(); ?>
                         <?php echo $form['vendeur_identifiant']->renderLabel() ?>
-                        <div style="display: none;" class="f_right">
+                        <!--div style="display: none;">
                             <?php //echo $form['vendeur_famille']->render() ?>                                                  
-                        </div> 
+                        </div--> 
+                        <div id="vendeur_choice"  class="f_right">
+                            <?php echo $form['vendeur_identifiant']->render() ?> 
+                        </div>
                     </div>
 
-                    <div id="vendeur_choice" style="text-align:right;">
-                        <?php echo $form['vendeur_identifiant']->render() ?> 
-                    </div>
+                    
                     <br>
                     
                     <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
@@ -96,14 +97,14 @@ else
                     <div id="acheteur_choice" class="section_label_maj">
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
                         <?php echo $form['acheteur_identifiant']->renderLabel() ?>
-                        <div style="display: none;" class="f_right">
-                            <?php echo $form['acheteur_famille']->render() ?>                          
+                        <!--div style="display: none;" class="f_right">
+                            <?php //echo $form['acheteur_famille']->render() ?>                          
+                        </div-->
+                        <div id="acheteur_choice" class="f_right">
+                            <?php echo $form['acheteur_identifiant']->render() ?>
                         </div>
                     </div>
 
-                    <div id="acheteur_choice" style="text-align:right;">
-                        <?php echo $form['acheteur_identifiant']->render() ?>
-                    </div>
                     <br>
                     
                     <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->

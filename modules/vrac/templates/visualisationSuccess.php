@@ -12,13 +12,24 @@
         <section id="principal">      
             <div id="contenu_etape">
                 <div id="vrac_visualisation"> 
-                    <div id="ss_titre">
-                        <label>N° d'enregistrement du contrat : </label><span><?php echo $vrac['numero_contrat']; ?></span>
+                    <div id="titre">
+                            <span class="style_label">N° d'enregistrement du contrat : <?php echo $vrac['numero_contrat']; ?></span>
                     </div>
                     <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation',$vrac) ?>">  
-                        <h2>Etat du contrat</h2>
-                        <div id="vrac_visualisation_statut">
-                            <?php echo $vrac->valide->statut; ?>
+                        <div id="ss_titre" class="legende"><span class="style_label">Etat du contrat</span>
+                            <div>
+                            <?php 
+
+                            if($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE){ 
+                                $class = 'statut_non-solde';
+                            }elseif($vrac->valide->statut == VracClient::STATUS_CONTRAT_ANNULE){ 
+                                $class = 'statut_annule';
+                            }else{ 
+                                $class = 'statut_solde';
+                            } ?>
+
+                            <span class="statut <?php echo $class; ?>"></span><span class="legende_statut_texte"><?php echo $vrac->valide->statut; ?></span>
+                            </div>
                         </div>
                         <div id="ligne_btn">
                             <?php 
