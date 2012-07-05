@@ -9,7 +9,7 @@ $params = array('etape' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
                 'volume'=>$vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
 
 $vracs = (!isset($vracs) || !$vracs)? VracClient::getInstance()->retrieveSimilaryContracts($params) : $vracs;
-$flagStatut = false;  
+$flagStatut = false;
 ?>
 <div id="contrats_similaires" class="bloc_col">
         <h2>Contrats similaire</h2>

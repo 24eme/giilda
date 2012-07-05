@@ -30,7 +30,40 @@
             </div>
         </section>
         <aside id="colonne">
-        <?php include_partial('colonne', array('vrac' => $vrac)); ?>
+        <?php
+            /*
+            * Inclusion du panel de progression d'édition du contrat
+            */
+            include_partial('contrat_progression', array('vrac' => $vrac));
+
+            /*
+            * Inclusion du panel pour les contrats similaires
+            */
+            include_partial('contratsSimilaires', array('vrac' => $vrac));
+
+            /*
+            * Inclusion des Contacts
+            */
+            include_partial('contrat_infos_contact', array('vrac' => $vrac));
+
+            /*
+            * Inclusion de l'aide
+            */
+            include_partial('contrat_aide', array('vrac' => $vrac));
+        ?>
         </aside>
+        <?php 
+        $params = array('etape' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
+                        'vendeur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_VENDEURID],
+                        'acheteur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ACHETEURID],
+                        'mandataire' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_MANDATAIREID],
+                        'produit' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_PRODUIT],
+                        'type' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_TYPE],
+                        'volume'=>$vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
+
+        $vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
+        if(isset($vracs) && ($vracs!=false) && count($vracs->rows)>0)
+            include_partial('contratsSimilaires_warning_popup', array('vrac' => $vrac));
+        ?>
     </div>
 </div>
