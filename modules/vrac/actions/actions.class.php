@@ -211,6 +211,7 @@ class vracActions extends sfActions
       if ($request->isMethod(sfWebRequest::POST)) 
       {
             $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);
+            $this->vrac->save();
       }
   }
 
