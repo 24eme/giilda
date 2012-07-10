@@ -9,6 +9,8 @@
 $nouveau = is_null($form->getObject()->numero_contrat);
 $hasmandataire = !is_null($form->getObject()->mandataire_identifiant);
 
+$contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
+
 if($nouveau)
 {
 ?>
@@ -172,15 +174,15 @@ else
                 <br />
 
                 <div id="ligne_btn">
-                    <?php if($nouveau){ ?>
+                    <?php if($nouveau): ?>
                         <div class="btnAnnulation">
                             <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
                         </div>
-                    <?php } ?>
+                    <?php endif; ?>
                     <div class="btnValidation">
                         <span>&nbsp;</span>
-                        <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
-                    </div>        
+                            <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
+                    </div>
                 </div>
                 
                 </form>
@@ -191,7 +193,7 @@ else
             /*
             * Inclusion du panel de progression d'édition du contrat
             */
-            include_partial('contrat_progression', array('vrac' => $vrac));
+            if(!$contratNonSolde) include_partial('contrat_progression', array('vrac' => $vrac));
 
             /*
             * Inclusion des Contacts

@@ -8,6 +8,7 @@
  */
 $displayPartiePrixVariable = !(is_null($vrac->type_contrat) || ($vrac->type_contrat=='spot'));
 $displayPrixVariable = ($displayPartiePrixVariable && !is_null($vrac->prix_variable) && $vrac->prix_variable);
+$contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
  ?>
 <div id="contenu">
     <div id="rub_contrats">    
@@ -73,16 +74,15 @@ $displayPrixVariable = ($displayPartiePrixVariable && !is_null($vrac->prix_varia
                             <span>Précédent</span>
                         </a> 
                         <div class="btnValidation">
-                            <span>&nbsp;</span>
-                            <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
-
-                        </div>
+                        <span>&nbsp;</span>
+                                <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
+                        </div>  
                     </div>
                 </form>
             </div>
         </section>
         <aside id="colonne">
-        <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
+        <?php include_partial('colonne', array('vrac' => $form->getObject(),'contratNonSolde' => $contratNonSolde)); ?>
         </aside>
     </div>          
 </div>

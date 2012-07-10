@@ -6,6 +6,7 @@
  * Version : 1.0.0 
  * Derniere date de modification : ${date}
  */
+$contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
 ?>
 <script type="text/javascript">
     $(document).ready(function()
@@ -106,21 +107,20 @@
 
                 </div>
                 <div id="ligne_btn">
-                    
                     <div class="btnAnnulation">
                           <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_majeur btn_noir"><span>Précédent</span></a>
                     </div>
                     <div class="btnValidation">
                         <span>&nbsp;</span>
-                        <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
-                    </div>       
+                            <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
+                    </div>      
                 </div>
             </form>
             </div>      
         </div>
         <aside id="colonne">
-        <?php include_partial('colonne', array('vrac' => $form->getObject())); ?>
+        <?php include_partial('colonne', array('vrac' => $form->getObject(),'contratNonSolde' => $contratNonSolde)); ?>
         </aside>
-    </div>
 </div>
+                    
     

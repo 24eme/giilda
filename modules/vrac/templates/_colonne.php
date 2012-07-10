@@ -2,7 +2,7 @@
 /*
  * Inclusion du panel de progression d'édition du contrat
  */
-include_partial('contrat_progression', array('vrac' => $vrac));
+if(!$contratNonSolde) include_partial('contrat_progression', array('vrac' => $vrac));
 
 /*
  * Inclusion du panel pour les contrats similaires

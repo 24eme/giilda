@@ -207,7 +207,8 @@ class vracActions extends sfActions
   public function executeVisualisation(sfWebRequest $request)
   {
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));
-      $this->vrac = $this->getRoute()->getVrac();    
+      $this->vrac = $this->getRoute()->getVrac();   
+      $this->vrac->save();
       if ($request->isMethod(sfWebRequest::POST)) 
       {
             $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);
