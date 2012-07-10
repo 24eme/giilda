@@ -15,6 +15,8 @@ $flagStatut = false;
         <h2>Contrats similaire</h2>
         <div class="contenu">
                 <ul id="contrats_similaires_list">
+                        <li class="legende_contrat"><span class="statut statut_solde"></span> Soldé <span class="f_right"><span class="statut statut_non-solde"></span> Non soldé</span></li>
+                        <li class="separateur"></li>
                         <?php 
                                      
                         foreach ($vracs->rows as $value) 
@@ -39,8 +41,9 @@ $flagStatut = false;
                             <span id="millesime"> <?php echo $millesime ; ?></span>&nbsp;
                             <span id="volprop"> <?php echo $volprop ; ?></span>&nbsp;-&nbsp;
                             <span id="num_contrat"><?php echo $num_contrat ; ?></span>
-                            <a class="contrat_similaire_num_contrat" target="_blank" href="<?php echo url_for('vrac_visualisation',array('numero_contrat' => $num_contrat)); ?>">a</a>
+                            <a class="contrat_similaire_num_contrat" target="_blank" href="<?php echo url_for('vrac_visualisation',array('numero_contrat' => $num_contrat)); ?>"></a>
                         </li>
+                        <li class="separateur"></li>
                         <?php
                             }
                         }

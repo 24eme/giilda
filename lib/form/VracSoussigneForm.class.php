@@ -50,7 +50,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         $this->setValidators(array(
             'vendeur_famille' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->vendeur_famille))),
             'vendeur_identifiant' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getVendeurs()))),
-            'acheteur_famille' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->acheteur_famille))),
+            'acheteur_famille' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->acheteur_famille))),
             'acheteur_identifiant' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getAcheteurs()))),
             'mandataire_identifiant' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getMandataires()))),
             'mandataire_exist' => new sfValidatorBoolean(array('required' => false)),

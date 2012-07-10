@@ -10,10 +10,10 @@
         ?>
         <div id="ligne_btn">
                 <div class="btnRetour">
-                        <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_majeur btn_etape_prec"><span>Retour à l'étape 3</span></a>
+                        <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_etape_prec"><span>Retour à l'étape 3</span></a>
                 </div>
                 <div class="btnValidation">
-                        <a href="#" class="btn_majeur btn_etape_suiv" id="validation"><span>Terminer la saisie</span></a>
+                        <a href="#" class="btn_validation" id="validation"><span>Terminer la saisie</span></a>
                 </div>     
         </div>  
     </div>

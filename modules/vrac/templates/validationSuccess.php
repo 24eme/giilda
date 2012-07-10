@@ -19,11 +19,11 @@
                     <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
                     <div id="ligne_btn">
                         <div class="btnAnnulation">
-                             <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_majeur btn_noir"><span>Précédent</span></a>
+                             <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
                         </div>
                         <div class="btnValidation">
                                 <span>&nbsp;</span>
-                                <button class="btn_majeur btn_etape_suiv" type="submit">Valider</button>
+                                <button class="btn_validation" type="submit"><span>Terminer la saisie</span></button>
                         </div>      
                     </div>   
                 </form>

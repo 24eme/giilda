@@ -179,7 +179,7 @@ else
                     <?php } ?>
                     <div class="btnValidation">
                         <span>&nbsp;</span>
-                        <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
+                        <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
                     </div>        
                 </div>
                 
