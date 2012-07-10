@@ -181,8 +181,13 @@ else
                     <?php endif; ?>
                     <div class="btnValidation">
                         <span>&nbsp;</span>
+<<<<<<< HEAD
                             <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
                     </div>
+=======
+                        <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
+                    </div>        
+>>>>>>> 7ea42c6a033b6856b57561a23be3006c18923cfa
                 </div>
                 
                 </form>

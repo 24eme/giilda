@@ -15,6 +15,8 @@ $flagStatut = false;
         <h2>Contrats similaires</h2>
         <div class="contenu">
                 <ul id="contrats_similaires_list">
+                        <li class="legende_contrat"><span class="statut statut_solde"></span> Soldé <span class="f_right"><span class="statut statut_non-solde"></span> Non soldé</span></li>
+                        <li class="separateur"></li>
                         <?php 
                                      
                         foreach ($vracs->rows as $value) 
@@ -35,13 +37,16 @@ $flagStatut = false;
                                 $num_contrat = preg_replace('/VRAC-/', '',$elt[VracClient::VRAC_SIMILAIRE_VALUE_NUMCONTRAT]);
                                 $millesime = (is_null($elt[VracClient::VRAC_SIMILAIRE_VALUE_MILLESIME]))? '' : $elt[VracClient::VRAC_SIMILAIRE_VALUE_MILLESIME];
                                 $volprop = $elt[VracClient::VRAC_SIMILAIRE_VALUE_VOLPROP];
+
                                 ?>                            
                             <a class="contrat_similaire_num_contrat" target="_blank" href="<?php echo url_for('vrac_visualisation',array('numero_contrat' => $num_contrat)); ?>">
                                 <span id="millesime"> <?php echo $millesime ; ?></span>&nbsp;
                                 <span id="volprop"> <?php echo $volprop ; ?></span>&nbsp;-&nbsp;
                                 <span id="num_contrat"><?php echo $num_contrat ; ?></span>
+                                <span class="btn_fleche_ronde"></span>
                             </a>
                         </li>
+                        <li class="separateur"></li>
                         <?php
                             }
                         }

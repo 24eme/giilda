@@ -35,11 +35,10 @@ $(document).ready(function()
                     <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
                     <div id="ligne_btn">
                         <div class="btnAnnulation">
-                             <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_majeur btn_noir"><span>Précédent</span></a>
+                             <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
                         </div>
                         <div class="btnValidation">
-                                <span>&nbsp;</span>
-                                <a id="btn_validation" style="cursor: pointer;" class="btn_majeur btn_etape_suiv">Valider</a>                                
+                                <a id="btn_validation" style="cursor: pointer;" class="btn_validation"><span>Terminer la saisie</span></a>                                
                         </div>      
                     </div>   
                 </form>
