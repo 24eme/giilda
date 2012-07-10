@@ -6,7 +6,23 @@
  * Version : 1.0.0 
  * Derniere date de modification : 28-05-12
  */
+$params = array('etape' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
+                        'vendeur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_VENDEURID],
+                        'acheteur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ACHETEURID],
+                        'mandataire' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_MANDATAIREID],
+                        'produit' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_PRODUIT],
+                        'type' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_TYPE],
+                        'volume'=>$vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
+$vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
+$contratsSimilairesExist = (isset($vracs) && ($vracs!=false) && count($vracs->rows)>1);
 ?>
+<script type="text/javascript">
+$(document).ready(function()
+{
+    <?php echo ($contratsSimilairesExist)? 'initValidationWithPopup();' : 'initValidation();'; ?>
+});
+</script>
+
 <div id="contenu">
     <div id="rub_contrats" >
         <section id="principal">
@@ -23,7 +39,7 @@
                         </div>
                         <div class="btnValidation">
                                 <span>&nbsp;</span>
-                                <a id="btn_validation" style="cursor: pointer;" class="btn_majeur btn_etape_suiv">Valider</a>
+                                <a id="btn_validation" style="cursor: pointer;" class="btn_majeur btn_etape_suiv">Valider</a>                                
                         </div>      
                     </div>   
                 </form>
@@ -47,28 +63,9 @@
             include_partial('contrat_aide', array('vrac' => $vrac));
         ?>
         </aside>
-        <?php 
-        $params = array('etape' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
-                        'vendeur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_VENDEURID],
-                        'acheteur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ACHETEURID],
-                        'mandataire' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_MANDATAIREID],
-                        'produit' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_PRODUIT],
-                        'type' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_TYPE],
-                        'volume'=>$vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
-
-        $vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
-        if(isset($vracs) && ($vracs!=false) && count($vracs->rows)>1)
-            {
+        <?php    
+        if($contratsSimilairesExist)
             include_partial('contratsSimilaires_warning_popup', array('vrac' => $vrac));
-            ?>
-            <script type="text/javascript">
-                $(document).ready(function()
-                {
-                    initValidationWithPopup();
-                });
-            </script>
-            <?php
-            }
         ?>
     </div>
 </div>
