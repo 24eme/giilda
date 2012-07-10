@@ -46,9 +46,10 @@
               </td>              
               <td><?php echo ($elt[VracClient::VRAC_VIEW_PRODUIT_ID])? ConfigurationClient::getCurrent()->get($elt[VracClient::VRAC_VIEW_PRODUIT_ID])->libelleProduit() : ''; ?></td>
               <td>           
-                  <?php echo (isset($elt[VracClient::VRAC_VIEW_VOLPROP]) && isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))?
-                                    $elt[VracClient::VRAC_VIEW_VOLENLEVE].' / '.$elt[VracClient::VRAC_VIEW_VOLPROP]
-                                    : ''; ?>
+                  <?php echo (isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))? $elt[VracClient::VRAC_VIEW_VOLENLEVE] : '0';
+                        echo ' / ';
+                        echo (isset($elt[VracClient::VRAC_VIEW_VOLPROP]))? $elt[VracClient::VRAC_VIEW_VOLPROP] : '0';
+                   ?>
               </td>
         </tr>
         <?php
