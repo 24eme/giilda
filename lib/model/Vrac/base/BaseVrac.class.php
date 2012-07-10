@@ -36,6 +36,7 @@
  * @property float $part_variable
  * @property string $cvo_nature
  * @property string $cvo_repartition
+ * @property string $commentaires
  * @property string $date_stats
  * @property string $date_signature
  * @property float $volume_propose
@@ -106,6 +107,8 @@
  * @method string setCvoNature()
  * @method string getCvoRepartition()
  * @method string setCvoRepartition()
+ * @method string getCommentaires()
+ * @method string setCommentaires()
  * @method string getDateStats()
  * @method string setDateStats()
  * @method string getDateSignature()

@@ -57,6 +57,15 @@ $displayPrixVariable = ($displayPartiePrixVariable && !is_null($vrac->prix_varia
                                 </div>
                             </div>
                         </div>
+                        <div id="commentaires" class="section_label_maj">
+                            <label>
+                                <?php echo $form['commentaires']->renderLabel() ?>
+                            </label>
+                            <div class="bloc_form">
+                                <?php echo $form['commentaires']->renderError() ?>       
+                                <?php echo $form['commentaires']->render() ?>
+                            </div>
+                        </div> 
                     </div>
                     <div id="ligne_btn">
 
