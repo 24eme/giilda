@@ -12,7 +12,7 @@ $vracs = (!isset($vracs) || !$vracs)? VracClient::getInstance()->retrieveSimilar
 $flagStatut = false;
 ?>
 <div id="contrats_similaires" class="bloc_col">
-        <h2>Contrats similaire</h2>
+        <h2>Contrats similaires</h2>
         <div class="contenu">
                 <ul id="contrats_similaires_list">
                         <?php 
