@@ -84,18 +84,18 @@ function showType($vrac)
     return '';
 }
 
-function showRecapVolume($vrac)
+function showRecapVolumePropose($vrac)
 {
     if($type = $vrac->type_transaction)
     {
         switch ($type)
         {
-            case 'raisins': return $vrac->raisin_quantite.' kg (raisins)';
-            case 'mouts': return $vrac->jus_quantite.' hl (moûts)';
-            case 'vin_vrac': return $vrac->jus_quantite.' hl (vin vrac)';                   
+            case 'raisins': return $vrac->raisin_quantite.' kg (raisins), soit '.$vrac->volume_propose.' hl';
+            case 'mouts': return $vrac->volume_propose.' hl (moûts)';
+            case 'vin_vrac': return $vrac->volume_propose.' hl (vin vrac)';                   
             case 'vin_bouteille': 
                 return $vrac->bouteilles_quantite.
-                    ' bouteilles, soit '.$vrac->bouteilles_quantite*($vrac->bouteilles_contenance_volume).' hl';
+                    ' bouteilles, soit '.$vrac->volume_propose.' hl';
         }
     }    
     return '';
