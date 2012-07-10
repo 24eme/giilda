@@ -10,7 +10,7 @@
 
 use_helper('Vrac');
  ?>
-<div id="prix_variable" style="display: none;" class="section_label_maj">
+<div id="prix_variable" <?php echo ($displayPrixVariable)? '' : 'style="display:none;"'; ?> class="section_label_maj">
     <label>Prix variable</label>
     <div class="bloc_form">
         <!--  Affichage des la part variable sur la quantité du contrat  -->
