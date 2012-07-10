@@ -21,6 +21,7 @@
  * @property string $type_transaction
  * @property string $produit
  * @property integer $millesime
+ * @property string $contient_domaine
  * @property string $domaine
  * @property acCouchdbJson $label
  * @property float $raisin_quantite
@@ -75,6 +76,8 @@
  * @method string setProduit()
  * @method integer getMillesime()
  * @method integer setMillesime()
+ * @method string getContientDomaine()
+ * @method string setContientDomaine()
  * @method string getDomaine()
  * @method string setDomaine()
  * @method acCouchdbJson getLabel()

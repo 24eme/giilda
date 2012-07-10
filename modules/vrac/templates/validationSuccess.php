@@ -23,7 +23,7 @@
                         </div>
                         <div class="btnValidation">
                                 <span>&nbsp;</span>
-                                <button class="btn_majeur btn_etape_suiv" type="submit">Valider</button>
+                                <a id="btn_validation" style="cursor: pointer;" class="btn_majeur btn_etape_suiv">Valider</a>
                         </div>      
                     </div>   
                 </form>
@@ -57,8 +57,18 @@
                         'volume'=>$vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
 
         $vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
-        if(isset($vracs) && ($vracs!=false) && count($vracs->rows)>0)
+        if(isset($vracs) && ($vracs!=false) && count($vracs->rows)>1)
+            {
             include_partial('contratsSimilaires_warning_popup', array('vrac' => $vrac));
+            ?>
+            <script type="text/javascript">
+                $(document).ready(function()
+                {
+                    initValidationWithPopup();
+                });
+            </script>
+            <?php
+            }
         ?>
     </div>
 </div>

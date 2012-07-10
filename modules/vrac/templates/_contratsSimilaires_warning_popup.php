@@ -13,7 +13,7 @@
                         <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_majeur btn_etape_prec"><span>Retour à l'étape 2</span></a>
                 </div>
                 <div class="btnValidation">
-                        <a href="#" class="btn_majeur btn_etape_suiv" id="validation"><span>Terminer la saisie</span></a>
+                        <a href="#" class="btn_majeur btn_etape_suiv" id="popup_validation"><span>Terminer la saisie</span></a>
                 </div>     
         </div>  
     </div>
