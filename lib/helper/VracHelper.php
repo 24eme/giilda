@@ -1,5 +1,14 @@
 <?php
 
+function getCvoLabels($label)
+{
+   $cvo_nature = array(VracClient::CVO_NATURE_MARCHE_DEFINITIF => 'Marché définitif',
+                       VracClient::CVO_NATURE_COMPENSATION => 'Compensation',
+                       VracClient::CVO_NATURE_NON_FINANCIERE => 'Non financière',
+                       VracClient::CVO_NATURE_VINAIGRERIE => 'Vinaigrerie');
+   return $cvo_nature[$label];
+}
+
 function dateCampagneViticolePresent()
 {
     $date = date('mY');
