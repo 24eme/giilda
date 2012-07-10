@@ -1727,7 +1727,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   font-weight:bold;
 }
 #contrats_similaires_list #millesime { padding-left:10px; }
-#contrats_similaires_list .contrat_similaire_num_contrat {
+#contrats_similaires_list .btn_fleche_ronde {
   background:url('../images/boutons/btn_fleche_ronde.png') no-repeat;
   height:22px;
   width:23px;
