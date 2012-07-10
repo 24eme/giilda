@@ -43,6 +43,7 @@ $flagStatut = false;
                                 <span id="millesime"> <?php echo $millesime ; ?></span>&nbsp;
                                 <span id="volprop"> <?php echo $volprop ; ?></span>&nbsp;-&nbsp;
                                 <span id="num_contrat"><?php echo $num_contrat ; ?></span>
+                                <span class="btn_fleche_ronde"></span>
                             </a>
                         </li>
                         <li class="separateur"></li>
