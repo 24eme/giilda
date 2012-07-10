@@ -664,6 +664,7 @@ Vrac:
       type_transaction: {  }
       produit: {   }
       millesime: { type: integer }
+      contient_domaine: {   }
       domaine: {  }
       label:
         type: array_collection

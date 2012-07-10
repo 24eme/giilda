@@ -50,6 +50,9 @@ var initMarche = function()
         $('#vrac_marche #type_transaction input[value="vin_vrac"]').attr('checked','checked');       
         if($('#type input[value="generique"]:checked').length > 0){$('#domaine').hide();}
     
+    if($('#type input[name="vrac[contient_domaine]"]:checked').length == 0)
+        $('#type input[value="domaine"]').attr('checked','checked');       
+    
     $('#type input').click(function()
     {
         if($(this).val()=='generique') $('#domaine').hide();
@@ -414,11 +417,25 @@ var initDatepicker = function(){
 
 var initValidation = function ()
 {
-    $('.btn_popup').trigger('click');
-    $('#contrat_similaire_popup a#validation').click(function()
+    $('#btn_validation').click(function()
     {
-       $('form#vrac_validation').submit(); 
+        $('form#vrac_validation').submit(); 
     });
+   
+    
+}
+
+var initValidationWithPopup = function()
+{
+     $('#btn_validation').click(function()
+    {
+        $('.btn_popup').trigger('click');
+        $('#popup_validation').click(function()
+        {
+            $('form#vrac_validation').submit(); 
+        });       
+    });
+    
 }
 
 
