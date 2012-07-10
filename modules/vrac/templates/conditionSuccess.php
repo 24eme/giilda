@@ -74,16 +74,10 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
                             <span>Etape précédente</span>
                         </a> 
                         <div class="btnValidation">
-<<<<<<< HEAD
-                        <span>&nbsp;</span>
-                                <button class="btn_majeur btn_etape_suiv" type="submit">Etape Suivante</button>
-                        </div>  
-=======
                             <span>&nbsp;</span>
                             <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
 
                         </div>
->>>>>>> 7ea42c6a033b6856b57561a23be3006c18923cfa
                     </div>
                 </form>
             </div>
