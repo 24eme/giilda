@@ -420,14 +420,12 @@ var initValidation = function ()
     $('#btn_validation').click(function()
     {
         $('form#vrac_validation').submit(); 
-    });
-   
-    
+    });      
 }
 
 var initValidationWithPopup = function()
 {
-     $('#btn_validation').click(function()
+    $('#btn_validation').click(function()
     {
         $('.btn_popup').trigger('click');
         $('#popup_validation').click(function()
@@ -453,7 +451,6 @@ $(document).ready(function()
 {
      initMarche();
      initConditions();
-     initValidation();
      initAutoComplete();
      initDatepicker();
 });
