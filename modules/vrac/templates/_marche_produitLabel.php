@@ -13,8 +13,7 @@
 
 <!--  Affichage des produits disponibles (en fonction de la transaction choisie  -->
 <div id="produit" class="section_label_maj">
-    <?php echo $form['produit']->renderError(); ?>
-    
+    <?php echo $form['produit']->renderError(); ?>    
     <?php echo $form['produit']->renderLabel() ?>
     <?php echo $form['produit']->render() ?>
 </div>
@@ -28,11 +27,9 @@
 
 <!--  Affichage du type  -->
 <div id="type" class="section_label_maj">
-    <label>Type </label>
-        <input type="radio" value="generique" name="type_produit" <?php echo ($has_domaine)? '' : 'checked="checked"'; ?> />
-        <label for="generique">Générique</label>   
-        <input type="radio" value="domaine" name="type_produit" <?php echo ($has_domaine)? 'checked="checked"' : ''; ?> />
-        <label for="domaine">Domaine</label>
+    <?php echo $form['contient_domaine']->renderError(); ?>
+    <?php echo $form['contient_domaine']->renderLabel() ?> 
+    <?php echo $form['contient_domaine']->render() ?>    
 </div>
 
 

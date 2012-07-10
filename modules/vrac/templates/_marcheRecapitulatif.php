@@ -66,7 +66,7 @@ $hasDomaine = is_null($vrac->domaine);
             </label>
             <span>
             <?php
-            echo showRecapVolume($vrac); 
+            echo showRecapVolumePropose($vrac); 
             ?>
             </span>
         <?php
@@ -79,6 +79,21 @@ $hasDomaine = is_null($vrac->domaine);
         }
         ?>
     </div>
+    <?php 
+        if($alt == "ligne_form_alt") $alt= "ligne_form";
+        else $alt= "ligne_form_alt";
+    ?>    
+    <div id="marche_recapitulatif_volumeEnleve" class="ligne_form <?php echo $alt; ?>">
+            <label>
+                Volumes enlevé: 
+            </label>
+            <span>
+            <?php            
+            echo (is_null($vrac->volume_enleve))? '0 hl' : ($vrac->volume_enleve.' hl');
+            ?>
+            </span>
+    </div>
+    
     <?php 
         if($alt == "ligne_form_alt") $alt= "ligne_form";
         else $alt= "ligne_form_alt";

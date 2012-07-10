@@ -6,6 +6,8 @@
  * Version : 1.0.0 
  * Derniere date de modification : 28-05-12
  */
+$displayPartiePrixVariable = !(is_null($vrac->type_contrat) || ($vrac->type_contrat=='spot'));
+$displayPrixVariable = ($displayPartiePrixVariable && !is_null($vrac->prix_variable) && $vrac->prix_variable);
  ?>
 <div id="contenu">
     <div id="rub_contrats">    
@@ -23,7 +25,7 @@
                             <?php echo $form['type_contrat']->render() ?>
                         </div>
                         <!--  Affichage de la présence de la part variable du contrat (si non la suite n'est pas affiché JS) -->
-                        <div id="prix_isVariable" class="section_label_maj">
+                        <div id="prix_isVariable" class="section_label_maj" <?php echo ($displayPartiePrixVariable)? '' : 'style="display:none;"'; ?>>
                             <?php echo $form['prix_variable']->renderError() ?>        
                             <?php echo $form['prix_variable']->renderLabel() ?> 
                             <?php echo $form['prix_variable']->render() ?>        
@@ -32,7 +34,7 @@
                         <!--  Affiché si et seulement si type de contrat = 'pluriannuel' et partie de prix variable = 'Oui' -->
                         <div id="vrac_marche_prixVariable">
                             <?php
-                        include_partial('condition_prixVariable', array('form' => $form));
+                        include_partial('condition_prixVariable', array('form' => $form, 'displayPrixVariable' => $displayPrixVariable));
                         ?>
                         </div>
 
@@ -55,6 +57,15 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="commentaires" class="section_label_maj">
+                            <label>
+                                <?php echo $form['commentaires']->renderLabel() ?>
+                            </label>
+                            <div class="bloc_form">
+                                <?php echo $form['commentaires']->renderError() ?>       
+                                <?php echo $form['commentaires']->render() ?>
+                            </div>
+                        </div> 
                     </div>
                     <div id="ligne_btn">
 

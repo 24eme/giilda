@@ -67,7 +67,7 @@
            
            return true;
        }
-       //ajax_send_contrats_similairesMarche('<?php echo $form->getObject()->numero_contrat ?>');
+       //ajax_send_contrats_similairesMarche('<?php //echo $form->getObject()->numero_contrat ?>');
     });
 </script>
 <div id="contenu">

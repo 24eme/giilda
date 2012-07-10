@@ -36,7 +36,7 @@
                                 <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
                             <?php endif; ?>
                                 
-                            <a id="btn_voir_contrat" href="#"> Voir le contrat</a>       
+<!--                            <a id="btn_voir_contrat" href="#"> Voir le contrat</a>       -->
                             <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>
                                  
                         </div>

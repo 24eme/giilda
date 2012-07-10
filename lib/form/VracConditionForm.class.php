@@ -34,6 +34,7 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setWidget('cvo_repartition',  new sfWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
         $this->setWidget('date_signature', new sfWidgetFormInput());
         $this->setWidget('date_stats', new sfWidgetFormInput());
+        $this->setWidget('commentaires', new sfWidgetFormTextarea(array(),array('style' => 'height: 100%; width: 100%;resize:none;')));
         
         $this->widgetSchema->setLabels(array(
             'type_contrat' => 'Type de contrat',
@@ -42,7 +43,8 @@ class VracConditionForm extends acCouchdbObjectForm {
             'cvo_nature' => 'Nature de la transaction',
             'cvo_repartition' => 'Répartition de la CVO',
             'date_signature' => 'Date de signature',
-            'date_stats' => 'Date de statistique'
+            'date_stats' => 'Date de statistique',
+            'commentaires' => 'Commentaires :'
         ));
         
         $dateRegexpOptions = array('required' => true,
@@ -61,8 +63,8 @@ class VracConditionForm extends acCouchdbObjectForm {
             'cvo_nature' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoNature()))),
             'cvo_repartition' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))),
             'date_signature' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),
-            'date_stats' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors)
-            
+            'date_stats' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),
+            'commentaires' => new sfValidatorString(array('required' => false))
             ));   
                
         $this->widgetSchema->setNameFormat('vrac[%s]');

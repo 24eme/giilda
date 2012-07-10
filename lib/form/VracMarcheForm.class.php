@@ -19,6 +19,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
                             'primeur' => 'Primeur',
                             'Agriculture_biologique' => 'Agriculture Biologique');
      
+     private $contient_domaine = array('domaine' => 'Domaine', 'generique' =>'Générique');
+     
     
     public function configure()
     {
@@ -34,7 +36,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
 	}        
         $this->getDomaines();
         $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->produits), array('class' => 'autocomplete')));      
-        $this->setWidget('millesime', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));      
+        $this->setWidget('millesime', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));        
+        $this->setWidget('contient_domaine', new sfWidgetFormChoice(array('choices' => $this->getContientDomaines(),'expanded' => true)));
         $this->setWidget('domaine', new sfWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
         $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->label,'multiple' => true, 'expanded' => true)));
         $this->setWidget('raisin_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
@@ -52,6 +55,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'type_transaction' => 'Type de transaction',
             'produit' => 'produit',
             'millesime' => 'Millésime',
+            'contient_domaine' => 'Type',
             'domaine' => 'Nom du domaine',
             'label' => 'label',
             'bouteilles_quantite' => 'Quantité',
@@ -66,6 +70,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($types_transaction))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->produits))),
             'millesime' => new sfValidatorInteger(array('required' => false)),
+            'contient_domaine' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getContientDomaines()))),
             'domaine' => new sfValidatorString(array('required' => false)),
             'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->label))),
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),
@@ -91,6 +96,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $d = $resultDomaine->key[VracDomainesView::KEY_DOMAINE];
             $this->domaines[$d] = $d;
 	}
+    }
+
+    public function getContientDomaines() 
+    {
+        return $this->contient_domaine;
     }
     
 }

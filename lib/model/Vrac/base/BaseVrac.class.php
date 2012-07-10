@@ -21,6 +21,7 @@
  * @property string $type_transaction
  * @property string $produit
  * @property integer $millesime
+ * @property string $contient_domaine
  * @property string $domaine
  * @property acCouchdbJson $label
  * @property float $raisin_quantite
@@ -35,6 +36,7 @@
  * @property float $part_variable
  * @property string $cvo_nature
  * @property string $cvo_repartition
+ * @property string $commentaires
  * @property string $date_stats
  * @property string $date_signature
  * @property float $volume_propose
@@ -75,6 +77,8 @@
  * @method string setProduit()
  * @method integer getMillesime()
  * @method integer setMillesime()
+ * @method string getContientDomaine()
+ * @method string setContientDomaine()
  * @method string getDomaine()
  * @method string setDomaine()
  * @method acCouchdbJson getLabel()
@@ -103,6 +107,8 @@
  * @method string setCvoNature()
  * @method string getCvoRepartition()
  * @method string setCvoRepartition()
+ * @method string getCommentaires()
+ * @method string setCommentaires()
  * @method string getDateStats()
  * @method string setDateStats()
  * @method string getDateSignature()
