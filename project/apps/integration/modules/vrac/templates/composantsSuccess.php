@@ -84,13 +84,13 @@
 			
 			<br /><br />
 			
-			<a href="#" class="btn_majeur btn_etape_prec">Etape précédente</a>
-			<button class="btn_majeur btn_etape_prec">Etape précédente</button>
+			<a href="#" class="btn_etape_prec"><span>Etape précédente</span></a>
+			<button class="btn_etape_prec"><span>Etape précédente</span></button>
 			
-			<br /><br />
+                        <br /><br />
 			
-			<a href="#" class="btn_majeur btn_etape_suiv">Etape suivante</a>
-			<button class="btn_majeur btn_etape_suiv">Etape suivante</button>
+			<a href="#" class="btn_etape_suiv"><span>Etape suivante</span></a>
+			<button class="btn_etape_suiv"><span>Etape suivante</span></button>
 			
 			<br /><br />
 			

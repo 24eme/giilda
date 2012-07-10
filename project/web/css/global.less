@@ -212,8 +212,8 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	border-color: #b70808;
 }
 
-.btn_valider,
-.btn_etape_suiv
+.btn_valider/*,
+.btn_etape_suiv*/
 {
 	.btn_vert;
 	.btn_icone;
@@ -234,16 +234,113 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	&:after { background-position: 3px -362px; } 
 }
 
-.btn_etape_prec
-{
-	.btn_noir;
-	.btn_icone;
-	&:after { background-position: 0 -263px; } 
-}
-
 .btn_etape_suiv
 {
+	background: url(../images/boutons/btn_fleche.png) right -1px no-repeat;
+	color: #fff;
+	display: inline-block;
+	font-size : 13px;
+	line-height: 26px;
+
+	&:hover { text-decoration: none; }
+        
+
+	span
+	{
+                &:after
+                {
+                        .box-dimensions(20px,26px);
+                        .sprite-pictos-actions(3px -185px);
+                        .pos-abs(0, auto, auto, 5px);
+                        content: '';
+                        cursor: pointer;
+                        display: inline-block;
+                }
+
+                .border(@couleur-a6);
+                .border-radius(4px 0 0 4px);
+                .box-shadow(0 2px 0 #eee);
+                .helveticaneue-75-bold;
+                .majuscules;
+                .non-souligne(none);
+                .text-shadow(1px 1px rgba(0, 0, 0, 0.1));
+                
+		background: url(../images/boutons/btn_majeur.png) 0 -78px repeat-x;
+                border-color: #83a44d;
+                border-right:0px;
+		margin-right:17px;
+
+                color: #fff;
+                display: inline-block;
+                font-size: 11px;
+                line-height: 26px;
+                padding-left: 30px;
+                position: relative;
+
+                
+
+	}
+        
 }
+
+.btn_validation{
+        .btn_etape_suiv;
+        span{
+            &:after{
+                background-position: 3px -289px;
+            }
+        }
+}
+
+.btn_etape_prec
+{
+	background: url(../images/boutons/btn_fleche.png) left -1px no-repeat;
+	color: #fff;
+	display: inline-block;
+	font-size : 13px;
+	line-height: 26px;
+
+	&:hover { text-decoration: none; }
+        
+
+	span
+	{
+                &:after
+                {
+                        .box-dimensions(22px,26px);
+                        .sprite-pictos-actions(3px -263px);
+                        .pos-abs(0, auto, auto, 5px);
+                        content: '';
+                        cursor: pointer;
+                        display: inline-block;
+                }
+
+                .border(@couleur-a6);
+                .border-radius(0 4px 4px 0);
+                .box-shadow(0 2px 0 #eee);
+                .helveticaneue-75-bold;
+                .majuscules;
+                .non-souligne(none);
+                .text-shadow(1px 1px rgba(0, 0, 0, 0.1));
+                
+		background: url(../images/boutons/btn_majeur.png) 0 -52px repeat-x;
+                border-color: #6d6b6b;
+                border-left:0px;
+		margin-left:16px;
+
+                color: #fff;
+                display: inline-block;
+                font-size: 11px;
+                line-height: 26px;
+                padding: 0 10px 0 30px;
+                position: relative;
+
+                
+
+	}
+        
+}
+
 
 .btn_terminer_saisie
 {
@@ -299,6 +396,11 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	&:after { background-position: 3px -466px; } 
 }
 
+.btn_calendrier
+{
+	.btn_icone;
+	&:after { background-position: 3px -488px; } 
+}
 
 
 
@@ -804,3 +906,14 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon { background: url(../images/boutons/btn_fermer_popup.png) 0 0 no-repeat; height: 14px; width: 13px; }
 .ui-dialog .ui-dialog-content { zoom: 1; }
+
+
+.ui-widget-overlay{
+        background: url("../images/fonds/overlay.png") repeat scroll 0 0 transparent;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+}
+
+.ui-icon-closethick{ display:block; text-indent : -9999px; } 

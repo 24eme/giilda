@@ -148,6 +148,23 @@
 	}
 }
 
+/* actions */
+#action{
+        .btn_majeur{
+                width: 215px;
+        }
+        .btn_acces{ 
+                &:after { background-position: 25px -466px; width:50px;} 
+        }
+        .btn_calendrier{ 
+                &:after { background-position: 25px -488px; width:50px;}
+        }
+        .btn_acces, .btn_calendrier{
+                padding-left: 53px; 
+                &:after {width:50px;}
+        }
+}   
+
 /* Aide à la saisie */
 #contrat_aide
 {
@@ -460,6 +477,12 @@
                         float: left;
                 }
 
+                #prixTotal{
+                        label{
+                                        width:215px;
+                        }
+                }
+
                 
         }
         #condition{
@@ -583,6 +606,88 @@
     .statut_solde { background-color:#a2df46; }
     .statut_non-solde { background-color:#faa804; }
     .statut_annule { background-color:#e42c2c; }
+}
+
+
+#contrats_similaires_list{
+       
+        margin: 25px 0 15px;
+        width: 210px;
+
+        li{ padding : 3px 0 4px 30px; }
+
+        .separateur{
+            background:url('../images/fonds/bg_separateur.png') left 0 no-repeat;
+            height : 2px;
+
+        }
+
+        span{
+                height: 20px;
+                vertical-align: middle; 
+        }
+
+        #millesime, #volprop{ 
+                font-size: 18px;
+                font-weight: bold;
+
+        }
+
+        #millesime{padding-left:10px;} 
+
+        .contrat_similaire_num_contrat{
+            background: url('../images/boutons/btn_fleche_ronde.png') no-repeat;
+            .box-dimensions(23px, 22px);
+            display: block;
+            float: right;               
+        }
+}
+
+#colonne{
+
+        #contrats_similaires_list{
+       
+            margin: 0;
+
+            li{ padding : 3px 0; }
+
+
+            #millesime, #volprop{ 
+                    font-weight: bold;
+                    font-size: 12px;
+            }
+
+            #millesime{padding-left:5px;} 
+
+            .separateur{
+                background: url('../images/fonds/bg_colonne_separateur.png') right no-repeat;
+            }
+
+            .legende_contrat{margin-bottom: 10px;}
+            
+    }
+
+}
+
+
+#contrat_similaire_popup{
+
+    h2, .legende_contrat{ display:none; }
+
+    #ligne_btn{
+
+            height :30px;
+            padding: 15px 0;
+            .btnRetour{ float: left; }
+            .btnValidation{  float: right;}
+    }
+
+    #contrats_similaires_list{
+       
+        margin: 25px 0 15px 40px;
+        width: 310px;
+    }
+
 }
 
 .legende{

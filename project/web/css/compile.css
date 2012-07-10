@@ -218,13 +218,13 @@ bouton.btn_majeur { height:26px; }
   background-position:0 -130px;
   border-color:#b70808;
 }
-.btn_valider, .btn_etape_suiv {
+.btn_valider {
   color:#ffffff;
   background-position:0 -78px;
   border-color:#83a44d;
   padding-left:30px;
 }
-.btn_valider:after, .btn_etape_suiv:after {
+.btn_valider:after {
   height:26px;
   width:20px;
   background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
@@ -237,7 +237,7 @@ bouton.btn_majeur { height:26px; }
   cursor:pointer;
   display:inline-block;
 }
-.btn_valider:after, .btn_etape_suiv:after { background-position:3px -185px; }
+.btn_valider:after { background-position:3px -185px; }
 .btn_annuler {
   color:#ffffff;
   background-position:0 -130px;
@@ -278,16 +278,49 @@ bouton.btn_majeur { height:26px; }
   display:inline-block;
 }
 .btn_modifier:after { background-position:3px -362px; }
-.btn_etape_prec {
+.btn_etape_suiv {
+  background:url(../images/boutons/btn_fleche.png) right -1px no-repeat;
   color:#ffffff;
-  background-position:0 -52px;
-  border-color:#6d6b6b;
-  padding-left:30px;
+  display:inline-block;
+  font-size:13px;
+  line-height:26px;
 }
-.btn_etape_prec:after {
+.btn_etape_suiv:hover { text-decoration:none; }
+.btn_etape_suiv span {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px 0 0 4px;
+  -moz-border-radius:4px 0 0 4px;
+  border-radius:4px 0 0 4px;
+  -webkit-border-radius:4px 0 0 4px;
+  -moz-border-radius:4px 0 0 4px;
+  border-radius:4px 0 0 4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 -78px repeat-x;
+  border-color:#83a44d;
+  border-right:0px;
+  margin-right:17px;
+  color:#ffffff;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding-left:30px;
+  position:relative;
+}
+.btn_etape_suiv span:after {
   height:26px;
   width:20px;
-  background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
+  background:url(../images/pictos/pi_actions.png) 3px -185px no-repeat;
   bottom:auto;
   left:5px;
   position:absolute;
@@ -297,7 +330,114 @@ bouton.btn_majeur { height:26px; }
   cursor:pointer;
   display:inline-block;
 }
-.btn_etape_prec:after { background-position:0 -263px; }
+.btn_etape_suiv span:hover, .btn_etape_suiv span:focus { text-decoration:none; }
+.btn_validation {
+  background:url(../images/boutons/btn_fleche.png) right -1px no-repeat;
+  color:#ffffff;
+  display:inline-block;
+  font-size:13px;
+  line-height:26px;
+}
+.btn_validation:hover { text-decoration:none; }
+.btn_validation span {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px 0 0 4px;
+  -moz-border-radius:4px 0 0 4px;
+  border-radius:4px 0 0 4px;
+  -webkit-border-radius:4px 0 0 4px;
+  -moz-border-radius:4px 0 0 4px;
+  border-radius:4px 0 0 4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 -78px repeat-x;
+  border-color:#83a44d;
+  border-right:0px;
+  margin-right:17px;
+  color:#ffffff;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding-left:30px;
+  position:relative;
+}
+.btn_validation span:after {
+  height:26px;
+  width:20px;
+  background:url(../images/pictos/pi_actions.png) 3px -185px no-repeat;
+  bottom:auto;
+  left:5px;
+  position:absolute;
+  right:auto;
+  top:0;
+  content:'';
+  cursor:pointer;
+  display:inline-block;
+}
+.btn_validation span:hover, .btn_validation span:focus { text-decoration:none; }
+.btn_validation span:after { background-position:3px -289px; }
+.btn_etape_prec {
+  background:url(../images/boutons/btn_fleche.png) left -1px no-repeat;
+  color:#ffffff;
+  display:inline-block;
+  font-size:13px;
+  line-height:26px;
+}
+.btn_etape_prec:hover { text-decoration:none; }
+.btn_etape_prec span {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:0 4px 4px 0;
+  -moz-border-radius:0 4px 4px 0;
+  border-radius:0 4px 4px 0;
+  -webkit-border-radius:0 4px 4px 0;
+  -moz-border-radius:0 4px 4px 0;
+  border-radius:0 4px 4px 0;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 -52px repeat-x;
+  border-color:#6d6b6b;
+  border-left:0px;
+  margin-left:16px;
+  color:#ffffff;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px 0 30px;
+  position:relative;
+}
+.btn_etape_prec span:after {
+  height:26px;
+  width:22px;
+  background:url(../images/pictos/pi_actions.png) 3px -263px no-repeat;
+  bottom:auto;
+  left:5px;
+  position:absolute;
+  right:auto;
+  top:0;
+  content:'';
+  cursor:pointer;
+  display:inline-block;
+}
+.btn_etape_prec span:hover, .btn_etape_prec span:focus { text-decoration:none; }
 .btn_terminer_saisie {
   color:#ffffff;
   background-position:0 -78px;
@@ -448,6 +588,21 @@ bouton.btn_majeur { height:26px; }
   display:inline-block;
 }
 .btn_acces:after { background-position:3px -466px; }
+.btn_calendrier { padding-left:30px; }
+.btn_calendrier:after {
+  height:26px;
+  width:20px;
+  background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
+  bottom:auto;
+  left:5px;
+  position:absolute;
+  right:auto;
+  top:0;
+  content:'';
+  cursor:pointer;
+  display:inline-block;
+}
+.btn_calendrier:after { background-position:3px -488px; }
 .invisible {
   clip:rect(1px 1px 1px 1px);
   clip:rect(1px,1px,1px,1px);
@@ -896,6 +1051,17 @@ bouton.btn_majeur { height:26px; }
   width:13px;
 }
 .ui-dialog .ui-dialog-content { zoom:1; }
+.ui-widget-overlay {
+  background:url("../images/fonds/overlay.png") repeat scroll 0 0 transparent;
+  height:100%;
+  left:0;
+  position:absolute;
+  top:0;
+}
+.ui-icon-closethick {
+  display:block;
+  text-indent:-9999px;
+}
 #rail_etapes {
   zoom:1;
   min-height:1px;
@@ -1020,6 +1186,17 @@ bouton.btn_majeur { height:26px; }
   height:17px;
   padding:0 5px;
 }
+#action .btn_majeur { width:215px; }
+#action .btn_acces:after {
+  background-position:25px -466px;
+  width:50px;
+}
+#action .btn_calendrier:after {
+  background-position:25px -488px;
+  width:50px;
+}
+#action .btn_acces, #action .btn_calendrier { padding-left:53px; }
+#action .btn_acces:after, #action .btn_calendrier:after { width:50px; }
 #contrat_aide ul {
   font-weight:bold;
   line-height:21px;
@@ -1265,6 +1442,7 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   display:block;
   float:left;
 }
+#contenu_etape #vrac_marche #prixTotal label { width:215px; }
 #contenu_etape #condition .section_label_maj { margin-top:20px; }
 #contenu_etape #condition .section_label_maj label { width:190px; }
 #contenu_etape #condition #prix_isVariable label, #contenu_etape #condition #part_variable label, #contenu_etape #condition #prixTotal_rappel label { width:230px; }
@@ -1531,6 +1709,51 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #contrats_similaires_list li .statut_solde { background-color:#a2df46; }
 #contrats_similaires_list li .statut_non-solde { background-color:#faa804; }
 #contrats_similaires_list li .statut_annule { background-color:#e42c2c; }
+#contrats_similaires_list {
+  margin:25px 0 15px;
+  width:210px;
+}
+#contrats_similaires_list li { padding:3px 0 4px 30px; }
+#contrats_similaires_list .separateur {
+  background:url('../images/fonds/bg_separateur.png') left 0 no-repeat;
+  height:2px;
+}
+#contrats_similaires_list span {
+  height:20px;
+  vertical-align:middle;
+}
+#contrats_similaires_list #millesime, #contrats_similaires_list #volprop {
+  font-size:18px;
+  font-weight:bold;
+}
+#contrats_similaires_list #millesime { padding-left:10px; }
+#contrats_similaires_list .contrat_similaire_num_contrat {
+  background:url('../images/boutons/btn_fleche_ronde.png') no-repeat;
+  height:22px;
+  width:23px;
+  display:block;
+  float:right;
+}
+#colonne #contrats_similaires_list { margin:0; }
+#colonne #contrats_similaires_list li { padding:3px 0; }
+#colonne #contrats_similaires_list #millesime, #colonne #contrats_similaires_list #volprop {
+  font-weight:bold;
+  font-size:12px;
+}
+#colonne #contrats_similaires_list #millesime { padding-left:5px; }
+#colonne #contrats_similaires_list .separateur { background:url('../images/fonds/bg_colonne_separateur.png') right no-repeat; }
+#colonne #contrats_similaires_list .legende_contrat { margin-bottom:10px; }
+#contrat_similaire_popup h2, #contrat_similaire_popup .legende_contrat { display:none; }
+#contrat_similaire_popup #ligne_btn {
+  height:30px;
+  padding:15px 0;
+}
+#contrat_similaire_popup #ligne_btn .btnRetour { float:left; }
+#contrat_similaire_popup #ligne_btn .btnValidation { float:right; }
+#contrat_similaire_popup #contrats_similaires_list {
+  margin:25px 0 15px 40px;
+  width:310px;
+}
 .legende { margin:15px 0; }
 .legende .actif a .legende_type_texte { text-decoration:underline; }
 .legende div {
