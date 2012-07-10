@@ -664,6 +664,7 @@ Vrac:
       type_transaction: {  }
       produit: {   }
       millesime: { type: integer }
+      contient_domaine: {   }
       domaine: {  }
       label:
         type: array_collection
@@ -695,6 +696,8 @@ Vrac:
       cvo_nature: { }
       #cvo_repartition float ou string? "50/50" ou 0.5
       cvo_repartition: { }
+      #commentaires
+      commentaires: { }
          
 #Validations
       date_stats: { }
