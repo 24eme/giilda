@@ -74,14 +74,19 @@ function showType($vrac)
 {
     if($type = $vrac->type_transaction)
     {
-        switch ($type)
+        showTypeFromLabel($type);
+    }    
+    return '';
+}
+
+function showTypeFromLabel($type)
+{
+    switch ($type)
         {
             case 'vin_vrac': return 'vin vrac';                   
             case 'vin_bouteille': return 'vin conditionné';
             default: return $type;
         }
-    }    
-    return '';
 }
 
 function showRecapVolumePropose($vrac)

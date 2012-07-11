@@ -1,24 +1,30 @@
 <?php
 use_helper('Vrac');
 
+$fil_arianeArray = array('fil' => ((isset($type) || isset($statut))+1), 'identifiant' => $identifiant);
+
 $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant));
-if(isset($statut)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant,'statut' => $statut));
-if(isset($type)) $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant,'type' => $type)); 
+if(isset($statut)){ 
+    $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant,'statut' => $statut));
+    $fil_arianeArray['statut'] = $statut;
+}
+if(isset($type)){
+    $urlExport = url_for('vrac_exportCsv',array('identifiant' => $identifiant,'type' => $type));
+    $fil_arianeArray['type'] = $type;
+}
 if(!isset($campagne)) $campagne = dateCampagneViticolePresent();
 ?>
 <script type="text/javascript">
     $(document).ready(function()
     {
        $('.autocomplete').combobox();
-       
-       
     });
 
 </script>
 <div id="contenu">
     <div id="rub_contrats">
         <section id="principal">
-             <?php include_partial('fil_ariane'); ?>
+             <?php include_partial('fil_ariane',$fil_arianeArray); ?>
             <section id="contenu_etape">                
                 <div id="recherche_operateur" class="section_label_maj">
                     <label>Rechercher un opérateur : </label>

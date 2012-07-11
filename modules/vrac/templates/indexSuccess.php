@@ -20,7 +20,7 @@ foreach($datas as $data)
     <div id="rub_contrats">
         <section id="principal">
              <?php 
-             include_partial('fil_ariane');
+             include_partial('fil_ariane',array('fil' => 0));
              ?>
             <div id="contenu_etape">
                 <div id="recherche_operateur" class="section_label_maj">
