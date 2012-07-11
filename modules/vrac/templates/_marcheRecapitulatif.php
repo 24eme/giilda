@@ -14,8 +14,8 @@ $hasDomaine = is_null($vrac->domaine);
             <label>Original fourni :</label>
             <span><?php echo ($vrac->original)? 'Oui' : 'Non'; ?></span>
     </div>
-    <div id="marche_recapitulatif_typeContrat" class="ligne_form ligne_form_alt">
-            <label>Type de contrat :</label>
+    <div id="marche_recapitulatif_typeTransaction" class="ligne_form ligne_form_alt">
+            <label>Type de transaction :</label>
             <span><?php echo showType($vrac); ?></span>
     </div>
     <div id="marche_recapitulatif_produit" class="ligne_form ">

@@ -74,7 +74,7 @@ function showType($vrac)
 {
     if($type = $vrac->type_transaction)
     {
-        showTypeFromLabel($type);
+        return showTypeFromLabel($type);
     }    
     return '';
 }
