@@ -27,6 +27,16 @@ Etablissement:
           fields:
             '*': {  }
 
+Interpro:
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      identifiant: { }
+      nom: { }
+      type: {  }
+      statut: {  }
+
 Current:
   definition:
     fields:
