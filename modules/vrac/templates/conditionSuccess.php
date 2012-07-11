@@ -54,7 +54,7 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
                                     <?php echo $form['date_stats']->renderError() ?>        
                                     <?php echo $form['date_stats']->renderLabel() ?>
                                     <?php echo $form['date_stats']->render() ?>  
-                                    <span>(Vous pourrez modifier cette date ultérieurement)</span>
+                                    <span>(Modifiable ultérieurement)</span>
                                 </div>
                             </div>
                         </div>
