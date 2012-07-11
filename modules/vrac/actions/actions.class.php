@@ -84,7 +84,8 @@ class vracActions extends sfActions
       $this->form = new VracSoussigneForm($this->vrac);
  
       $this->init_soussigne($request,$this->form);
-      
+      $this->nouveau = true;
+      $this->contratNonSolde = false;
       if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -131,7 +132,10 @@ class vracActions extends sfActions
       $this->form = new VracSoussigneForm($this->vrac);
       
       $this->init_soussigne($request,$this->form);
-      
+      $this->nouveau = false;
+      $this->hasmandataire = !is_null($this->vrac->mandataire_identifiant);
+      $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
+
       if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -167,6 +171,9 @@ class vracActions extends sfActions
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
       $this->form = new VracConditionForm($this->vrac);
+      $this->displayPartiePrixVariable = !(is_null($vrac->type_contrat) || ($vrac->type_contrat=='spot'));
+      $this->displayPrixVariable = ($this->displayPartiePrixVariable && !is_null($vrac->prix_variable) && $vrac->prix_variable); 
+      $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
         if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -183,6 +190,16 @@ class vracActions extends sfActions
   {
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
+      $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
+      $params = array('etape' => $this->vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
+                                'vendeur' => $this->vrac[VracClient::VRAC_SIMILAIRE_KEY_VENDEURID],
+                                'acheteur' => $this->rac[VracClient::VRAC_SIMILAIRE_KEY_ACHETEURID],
+                                'mandataire' => $this->vrac[VracClient::VRAC_SIMILAIRE_KEY_MANDATAIREID],
+                                'produit' => $this->vrac[VracClient::VRAC_SIMILAIRE_KEY_PRODUIT],
+                                'type' => $this->vrac[VracClient::VRAC_SIMILAIRE_KEY_TYPE],
+                                'volume'=>$this->vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
+      $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
+      $this->contratsSimilairesExist = (isset($this->vracs) && ($this->vracs!=false) && count($this->vracs->rows)>0);
         if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->maj_etape(4);

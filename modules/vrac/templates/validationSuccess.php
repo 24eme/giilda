@@ -6,15 +6,6 @@
  * Version : 1.0.0 
  * Derniere date de modification : 28-05-12
  */
-$params = array('etape' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
-                        'vendeur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_VENDEURID],
-                        'acheteur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ACHETEURID],
-                        'mandataire' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_MANDATAIREID],
-                        'produit' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_PRODUIT],
-                        'type' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_TYPE],
-                        'volume'=>$vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
-$vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
-$contratsSimilairesExist = (isset($vracs) && ($vracs!=false) && count($vracs->rows)>0);
 ?>
 <script type="text/javascript">
 $(document).ready(function()
@@ -45,23 +36,8 @@ $(document).ready(function()
             </div>
         </section>
         <aside id="colonne">
-        <?php
-            /*
-            * Inclusion du panel pour les contrats similaires
-            */
-            include_partial('contratsSimilaires', array('vrac' => $vrac));
-
-            /*
-            * Inclusion des Contacts
-            */
-            include_partial('contrat_infos_contact', array('vrac' => $vrac));
-
-            /*
-            * Inclusion de l'aide
-            */
-            include_partial('contrat_aide', array('vrac' => $vrac));
-        ?>
-        </aside>
+            <?php include_partial('colonne', array('vrac' => $vrac,'contratNonSolde' => $contratNonSolde)); ?>
+        </aside>       
         <?php    
         if($contratsSimilairesExist)
             include_partial('contratsSimilaires_warning_popup', array('vrac' => $vrac));

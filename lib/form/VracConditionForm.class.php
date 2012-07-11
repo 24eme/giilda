@@ -34,7 +34,7 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setWidget('cvo_repartition',  new sfWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
         $this->setWidget('date_signature', new sfWidgetFormInput());
         $this->setWidget('date_stats', new sfWidgetFormInput());
-        $this->setWidget('commentaires', new sfWidgetFormTextarea(array(),array('style' => 'height: 100%; width: 100%;resize:none;')));
+        $this->setWidget('commentaires', new sfWidgetFormTextarea(array(),array('style' => 'width: 100%;resize:none;')));
         
         $this->widgetSchema->setLabels(array(
             'type_contrat' => 'Type de contrat',

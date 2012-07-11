@@ -6,11 +6,6 @@
  * Version : 1.0.0 
  * Derniere date de modification : 29-05-12
  */
-$nouveau = is_null($form->getObject()->numero_contrat);
-$hasmandataire = !is_null($form->getObject()->mandataire_identifiant);
-
-$contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
-
 if($nouveau)
 {
 ?>

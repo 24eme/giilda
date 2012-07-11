@@ -6,9 +6,6 @@
  * Version : 1.0.0 
  * Derniere date de modification : 28-05-12
  */
-$displayPartiePrixVariable = !(is_null($vrac->type_contrat) || ($vrac->type_contrat=='spot'));
-$displayPrixVariable = ($displayPartiePrixVariable && !is_null($vrac->prix_variable) && $vrac->prix_variable);
-$contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
  ?>
 <div id="contenu">
     <div id="rub_contrats">    

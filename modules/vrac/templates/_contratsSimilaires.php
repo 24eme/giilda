@@ -7,8 +7,19 @@ $params = array('etape' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
                 'produit' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_PRODUIT],
                 'type' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_TYPE],
                 'volume'=>$vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
+          
 
-$vracs = (!isset($vracs) || !$vracs)? VracClient::getInstance()->retrieveSimilaryContracts($params) : $vracs;
+if(!isset($vracs) || !$vracs)
+{
+    if($params['etape']=='1'){
+        $vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
+    }
+    else {
+        $vracs = VracClient::getInstance()->retrieveSimilaryContractsWithProdTypeVol($params);
+    }
+    
+}
+
 $flagStatut = false;
 ?>
 <div id="contrats_similaires" class="bloc_col">
