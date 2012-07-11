@@ -35,14 +35,15 @@ $flagStatut = false;
                                 <?php 
                             // echo $elt[VracClient::VRAC_SIMILAIRE_VALUE_STATUT];
                                 $num_contrat = preg_replace('/VRAC-/', '',$elt[VracClient::VRAC_SIMILAIRE_VALUE_NUMCONTRAT]);
-                                $millesime = (is_null($elt[VracClient::VRAC_SIMILAIRE_VALUE_MILLESIME]))? '' : $elt[VracClient::VRAC_SIMILAIRE_VALUE_MILLESIME];
                                 $volprop = $elt[VracClient::VRAC_SIMILAIRE_VALUE_VOLPROP];
-
-                                ?>                            
+                                $millesime = (is_null($elt[VracClient::VRAC_SIMILAIRE_VALUE_MILLESIME]))? null : $elt[VracClient::VRAC_SIMILAIRE_VALUE_MILLESIME];
+                                                                ?>                            
                             <a class="contrat_similaire_num_contrat" target="_blank" href="<?php echo url_for('vrac_visualisation',array('numero_contrat' => $num_contrat)); ?>">
-                                <span id="millesime"> <?php echo $millesime ; ?></span>&nbsp;
-                                <span id="volprop"> <?php echo $volprop ; ?></span>&nbsp;-&nbsp;
+                                <span id="volprop"> <?php echo $volprop; ?></span>&nbsp;-&nbsp;
                                 <span id="num_contrat"><?php echo $num_contrat ; ?></span>
+                                <?php if($millesime) : ?>
+                                    <span id="millesime"><?php echo $millesime ; ?></span>
+                                <?php endif; ?>
                                 <span class="btn_fleche_ronde"></span>
                             </a>
                         </li>

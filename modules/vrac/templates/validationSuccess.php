@@ -14,7 +14,7 @@ $params = array('etape' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
                         'type' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_TYPE],
                         'volume'=>$vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
 $vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
-$contratsSimilairesExist = (isset($vracs) && ($vracs!=false) && count($vracs->rows)>1);
+$contratsSimilairesExist = (isset($vracs) && ($vracs!=false) && count($vracs->rows)>0);
 ?>
 <script type="text/javascript">
 $(document).ready(function()
