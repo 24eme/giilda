@@ -40,14 +40,6 @@ else
 <?php
 }
 ?>
-<style type="text/css">
-.block
-{
-    height: 100%;
-    background-color: white;
-    opacity: 0.7;
-}
-</style>
 <div id="contenu">
     <div id="rub_contrats">
         <section id="principal">
@@ -122,7 +114,7 @@ else
                             <a id="acheteur_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
                         </div>
                         <div class="f_right">
-                            <a id="acheteur_modification_btn" class="btn_modifier" style="cursor: pointer;">Modifier</a>
+                            <a id="acheteur_modification_btn" class="btn_majeur btn_modifier" style="cursor: pointer;">Modifier</a>
                         </div>
                     </div>
                 </div>
