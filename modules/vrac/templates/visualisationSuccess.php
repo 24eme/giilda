@@ -17,6 +17,14 @@
                     </div>
                     <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation',$vrac) ?>">  
                         <div id="ss_titre" class="legende"><span class="style_label">Etat du contrat</span>
+                            <?php if($vrac->valide->statut!= VracClient::STATUS_CONTRAT_ANNULE) : ?>
+                                <?php if($vrac->valide->statut== VracClient::STATUS_CONTRAT_NONSOLDE) : ?>
+                                    <a href="<?php echo url_for('vrac_solder',$vrac) ?>" class="btn_majeur btn_vert f_right">Solder le contrat</a>
+                                <?php endif; ?>
+                                <?php if($vrac->valide->statut== VracClient::STATUS_CONTRAT_SOLDE) : ?>
+                                    <a href="<?php echo url_for('vrac_nonsolder',$vrac) ?>" class="btn_majeur btn_orange f_right">Annuler le solde</a>
+                                <?php endif; ?>
+                            <?php endif; ?>
                             <div>
                             <?php 
 
@@ -29,7 +37,7 @@
                             } ?>
 
                             <span class="statut <?php echo $class; ?>"></span><span class="legende_statut_texte"><?php echo $vrac->valide->statut; ?></span>
-                            </div>
+                            </div>                            
                         </div>
                         <div id="ligne_btn">
                             <?php if(!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE): ?>

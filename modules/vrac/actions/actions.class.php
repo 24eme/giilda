@@ -216,6 +216,28 @@ class vracActions extends sfActions
       }
   }
 
+  public function executeChangeStatut(sfWebRequest $request)
+  {
+      $this->vrac = $this->getRoute()->getVrac();
+      switch ($statut = $this->vrac->valide->statut) {
+          case VracClient::STATUS_CONTRAT_NONSOLDE:
+              {
+                $this->vrac->valide->statut = VracClient::STATUS_CONTRAT_SOLDE;
+                $this->vrac->save();
+                break;
+              }
+          case VracClient::STATUS_CONTRAT_SOLDE:
+              {
+                $this->vrac->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+                $this->vrac->save();
+                break;
+              }
+          default:
+              break;
+      }
+      $this->redirect('vrac_visualisation', $this->vrac);
+  }
+  
   public function executeGetInformations(sfWebRequest $request) 
   { 
       $etablissement =  EtablissementClient::getInstance()->find($request->getParameter('id'));

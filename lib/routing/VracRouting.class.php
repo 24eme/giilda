@@ -35,10 +35,6 @@ class VracRouting {
                                                         array('module' => 'vrac','action' => 'validation'),
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
-//        $r->prependRoute('vrac_termine', new VracRoute('/vrac/:numero_contrat/recapitulatif',
-//                                                        array('module' => 'vrac','action' => 'recapitulatif'),
-//                                                        array('sf_method' => array('get','post')),
-//                                                        array('model' => 'Vrac', 'type' => 'object'))); 
         
         $r->prependRoute('vrac_visualisation', new VracRoute('/vrac/:numero_contrat/visualisation',
                                                         array('module' => 'vrac','action' => 'visualisation'),
@@ -76,17 +72,16 @@ class VracRouting {
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
         
-
+        $r->prependRoute('vrac_solder', new VracRoute('/vrac/:numero_contrat/solder',
+                                                        array('module' => 'vrac','action' => 'changeStatut'),
+                                                        array('sf_method' => array('get','post')),
+                                                        array('model' => 'Vrac', 'type' => 'object')));
         
-//        $r->prependRoute('vrac_nouveau_modificationPost', new VracRoute('/vrac/modificationPost',
-//                                                        array('module' => 'vrac','action' => 'modificationPost'),
-//                                                        array('sf_method' => array('post')),
-//                                                        array('model' => 'Vrac', 'type' => 'object')));
-//        
-//        $r->prependRoute('vrac_soussigne_modificationPost', new VracRoute('/vrac/:numero_contrat/modificationPost',
-//                                                        array('module' => 'vrac','action' => 'modificationPost'),
-//                                                        array('sf_method' => array('post')),
-//                                                        array('model' => 'Vrac', 'type' => 'object')));
+        $r->prependRoute('vrac_nonsolder', new VracRoute('/vrac/:numero_contrat/nonsolder',
+                                                        array('module' => 'vrac','action' => 'changeStatut'),
+                                                        array('sf_method' => array('get','post')),
+                                                        array('model' => 'Vrac', 'type' => 'object')));
+        
       
     }
 
