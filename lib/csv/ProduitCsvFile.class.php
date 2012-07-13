@@ -81,6 +81,7 @@ class ProduitCsvFile extends CsvFile
 		foreach ($csv as $line) {
 			$produit = $this->getProduit($line);
 			$produit->setDonneesCsv($line);
+			$produit->getCertification()->interpro->add($line[self::CSV_PRODUIT_INTERPRO]);
       	}
     } catch(Execption $e) {
     	$this->errors[] = $e->getMessage();
