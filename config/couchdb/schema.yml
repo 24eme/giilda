@@ -1,3 +1,4 @@
+
 Current:
   definition:
     fields:
@@ -576,4 +577,3 @@ Configuration:
                                         fields:
                                           readable: {  }
                                           writable: {  }
-
