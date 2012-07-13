@@ -10,3 +10,6 @@ git submodule foreach git checkout master
 cd project/plugins/acVinDRMPlugin
 git checkout vinsdeloire
 cd ../../..
+cd project/plugins/acVinConfigurationPlugin
+git checkout vinsdeloire
+cd ../../..
