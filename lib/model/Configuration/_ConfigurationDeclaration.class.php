@@ -85,7 +85,13 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     	}
     }
 
-    protected function setDroitDouaneCsv($datas) {
+    protected function setDroitDouaneCsv($datas, $code_applicatif) {
+
+    	if (!array_key_exists(ProduitCsvFile::CSV_PRODUIT_DOUANE_NOEUD, $datas) || $code_applicatif != $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_NOEUD]) {
+
+    		return;
+    	}
+
     	$droits = $this->getDroits('INTERPRO-'.strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
     	$date = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE])? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE] : '1900-01-01';
     	$taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE])? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) : null;
@@ -107,7 +113,13 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     	}
     }
     
-    protected function setDroitCvoCsv($datas) {
+    protected function setDroitCvoCsv($datas, $code_applicatif) {
+
+    	if (!array_key_exists(ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD, $datas) || $code_applicatif != $datas[ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD]) {
+
+    		return;
+    	}
+
     	$droits = $this->getDroits('INTERPRO-'.strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
     	$date = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE])? $datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE] : '1900-01-01';
     	$taux = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE])? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) : null;
