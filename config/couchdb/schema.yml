@@ -1,0 +1,350 @@
+DRM:
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      type: {  }
+      editeurs:
+        type: array_collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  compte: {  }
+                  nom: {  }
+                  prenom: {  }
+                  date_modification: {  }
+      apurement_possible: {  }
+      raison_rectificative: {  }
+      etape: {  }
+      campagne: {  }
+      precedente: {  }
+      rectificative: { type: integer, required: false }
+      droits:
+        type: collection
+        definition:
+          fields:
+            douane:
+              class: DRMDroits
+              type: collection
+              definition:
+                fields:
+                  '*':
+                    class: DRMDroit
+                    type: collection
+                    definition:
+                      fields:
+                        volume_taxe: { type: integer }
+                        volume_reintegre: { type: integer }
+                        taux: { type: float }
+                        code: {  }
+                        libelle: {  }
+                        total: { type: float }
+                        report: { type: float }
+                        cumul: { type: float }
+            cvo:
+              class: DRMDroits
+              type: collection
+              definition:
+                fields:
+                  '*':
+                    class: DRMDroit
+                    type: collection
+                    definition:
+                      fields:
+                        volume_taxe: { type: integer }
+                        volume_reintegre: { type: integer }
+                        taux: { type: float }
+                        code: {  }
+                        libelle: {  }
+                        total: { type: float }
+                        report: { type: float }
+                        cumul: { type: float }
+      declaration:
+        class: DRMDeclaration
+        inheritance: _DRMTotal
+        type: collection
+        definition:
+          fields:
+            total_debut_mois: { type: float }
+            total_entrees: { type: float }
+            total_sorties: { type: float }
+            total: { type: float }
+            certifications:
+              type: collection
+              definition:
+                fields:
+                  '*':
+                    # CERTIFICATION
+                    class: DRMCertification
+                    inheritance: _DRMTotal
+                    type: collection
+                    definition:
+                      fields:
+                        total_debut_mois: { type: float }
+                        total_entrees: { type: float }
+                        total_sorties: { type: float }
+                        total: { type: float }
+                        genres:
+                          type: collection
+                          definition:
+                            fields:
+                              '*':
+                                # GENRE
+                                class: DRMGenre
+                                inheritance: _DRMTotal
+                                type: collection
+                                definition:
+                                  fields:
+                                    total_debut_mois: { type: float }
+                                    total_entrees: { type: float }
+                                    total_sorties: { type: float }
+                                    total: { type: float }
+                                    appellations:
+                                      type: collection
+                                      definition:
+                                        fields:
+                                          '*':
+                                            # APPELLATION
+                                            class: DRMAppellation
+                                            inheritance: _DRMTotal
+                                            type: collection
+                                            definition:
+                                              fields:
+                                                total_debut_mois: { type: float }
+                                                total_entrees: { type: float }
+                                                total_sorties: { type: float }
+                                                total: { type: float }
+                                                mentions:
+                                                  type: collection
+                                                  definition:
+                                                    fields:
+                                                      '*':
+                                                        # MENTION
+                                                        class: DRMMention
+                                                        inheritance: _DRMTotal
+                                                        type: collection
+                                                        definition:
+                                                          fields:
+                                                            total_debut_mois: { type: float }
+                                                            total_entrees: { type: float }
+                                                            total_sorties: { type: float }
+                                                            total: { type: float }
+                                                            lieux:
+                                                              type: collection
+                                                              definition:
+                                                                fields:
+                                                                  '*':
+                                                                    # LIEU
+                                                                    class: DRMLieu
+                                                                    inheritance: _DRMTotal
+                                                                    type: collection
+                                                                    definition:
+                                                                      fields:
+                                                                        total_debut_mois: { type: float }
+                                                                        total_entrees: { type: float }
+                                                                        total_sorties: { type: float }
+                                                                        total: { type: float }
+                                                                        couleurs:
+                                                                          type: collection
+                                                                          definition:
+                                                                            fields:
+                                                                              '*':
+                                                                                # COULEUR
+                                                                                class: DRMCouleur
+                                                                                inheritance: _DRMTotal
+                                                                                type: collection
+                                                                                definition:
+                                                                                  fields:
+                                                                                    total_debut_mois: { type: float }
+                                                                                    total_entrees: { type: float }
+                                                                                    total_sorties: { type: float }
+                                                                                    total: { type: float }
+                                                                                    cepages:
+                                                                                      type: collection
+                                                                                      definition:
+                                                                                        fields:
+                                                                                          '*':
+                                                                                            # CEPAGE
+                                                                                            class: DRMCepage
+                                                                                            inheritance: _DRMTotal
+                                                                                            type: collection
+                                                                                            definition:
+                                                                                              fields:
+                                                                                                total_debut_mois: { type: float }
+                                                                                                total_entrees: { type: float }
+                                                                                                total_sorties: { type: float }
+                                                                                                total: { type: float }
+                                                                                                details:
+                                                                                                  type: collection
+                                                                                                  class: DRMDetails
+                                                                                                  definition:
+                                                                                                    fields:
+                                                                                                      '*':
+                                                                                                        class: DRMDetail
+                                                                                                        type: collection
+                                                                                                        definition:
+                                                                                                          fields:
+                                                                                                            pas_de_mouvement_check: { type: integer }
+                                                                                                            total_debut_mois: { type: float }
+                                                                                                            total_entrees: { type: float }
+                                                                                                            total_sorties: { type: float }
+                                                                                                            total: { type: float }
+                                                                                                            labels:
+                                                                                                              type: array_collection
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  '*': {  }
+                                                                                                            label_supplementaire: {  }
+                                                                                                            vrac:
+                                                                                                              type: collection
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  '*':
+                                                                                                                    type: collection
+                                                                                                                    definition:
+                                                                                                                      fields:
+                                                                                                                        volume: { type: float }
+                                                                                                            millesimes:
+                                                                                                              type: array_collection
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  '*': {  }
+                                                                                                            stocks_debut:
+                                                                                                              type: collection
+                                                                                                              class: DRMDetailNoeud
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  bloque: { type: float }
+                                                                                                                  warrante: { type: float }
+                                                                                                                  instance: { type: float }
+                                                                                                                  commercialisable: { type: float }
+                                                                                                            entrees:
+                                                                                                              type: collection
+                                                                                                              class: DRMDetailNoeud
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  achat: { type: float }
+                                                                                                                  recolte: { type: float }
+                                                                                                                  repli: { type: float }
+                                                                                                                  declassement: { type: float }
+                                                                                                                  mouvement: { type: float }
+                                                                                                                  crd: { type: float }
+                                                                                                            sorties:
+                                                                                                              type: collection
+                                                                                                              class: DRMDetailNoeud
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  vrac: { type: float }
+                                                                                                                  export: { type: float }
+                                                                                                                  factures: { type: float }
+                                                                                                                  crd: { type: float }
+                                                                                                                  consommation: { type: float }
+                                                                                                                  pertes: { type: float }
+                                                                                                                  declassement: { type: float }
+                                                                                                                  repli: { type: float }
+                                                                                                                  mouvement: { type: float }
+                                                                                                                  distillation: { type: float }
+                                                                                                                  lies: { type: float }
+                                                                                                            stocks_fin:
+                                                                                                              type: collection
+                                                                                                              class: DRMDetailNoeud
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  bloque: { type: float }
+                                                                                                                  warrante: { type: float }
+                                                                                                                  instance: { type: float }
+                                                                                                                  commercialisable: { type: float }
+      declarant:
+        type: collection
+        class: DRMDeclarant
+        definition:
+          fields:
+            nom: {  }
+            raison_sociale: {  }
+            siret: {  }
+            cni: {  }
+            cvi: {  }
+            no_accises: {  }
+            no_tva_intracommunautaire: {  }
+            siege:
+                type: collection
+                definition:
+                  fields:
+                    adresse: {  }
+                    code_postal: {  }
+                    commune: {  }
+            comptabilite:
+                type: collection
+                definition:
+                  fields:
+                    adresse: {  }
+                    code_postal: {  }
+                    commune: {  }
+            service_douane: {  }
+      declaratif:
+        type: collection
+        definition:
+          fields:
+            defaut_apurement: { type: integer }
+            daa:
+              type: collection
+              definition:
+                fields:
+                  debut: { type: integer }
+                  fin: { type: integer }
+            dsa:
+              type: collection
+              definition:
+                fields:
+                  debut: { type: integer }
+                  fin: { type: integer }
+            adhesion_emcs_gamma: { type: integer }
+            paiement:
+              type: collection
+              definition:
+                fields:
+                  douane:
+                    class: DRMPaiement
+                    type: collection
+                    definition:
+                      fields:
+                        frequence: {  }
+                        moyen: {  }
+                  cvo:
+                    class: DRMPaiement
+                    type: collection
+                    definition:
+                      fields:
+                        frequence: {  }
+                        moyen: {  }
+            caution:
+              type: collection
+              definition:
+                fields:
+                  dispense: { type: integer }
+                  organisme: {  }
+      identifiant: {  }
+      mode_de_saisie: {  }
+      interpros:
+        type: array_collection
+        definition:
+          fields:
+            '*': {  }
+      valide:
+        type: collection
+        definition:
+          fields:
+            date_saisie: {}
+            date_signee: {}
+            identifiant: {}
+            status: {}
+      douane:
+        type: collection
+        definition:
+          fields:
+            service: {  }
+            envoi: {  }
+            accuse: {  }
