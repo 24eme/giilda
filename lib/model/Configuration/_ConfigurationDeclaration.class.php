@@ -85,6 +85,17 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     	}
     }
 
+    protected function setDepartementCsv($datas) {
+    	if (!array_key_exists(ProduitCsvFile::CSV_PRODUIT_DEPARTEMENTS, $datas) || !$datas[ProduitCsvFile::CSV_PRODUIT_DEPARTEMENTS]) {
+
+    		$this->departements = array();
+
+    		return;
+    	}
+
+    	$this->departements = explode(',', $datas[ProduitCsvFile::CSV_PRODUIT_DEPARTEMENTS]);
+    }
+
     protected function setDroitDouaneCsv($datas, $code_applicatif) {
 
     	if (!array_key_exists(ProduitCsvFile::CSV_PRODUIT_DOUANE_NOEUD, $datas) || $code_applicatif != $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_NOEUD]) {

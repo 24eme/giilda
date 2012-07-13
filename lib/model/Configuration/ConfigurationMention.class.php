@@ -49,7 +49,8 @@ class ConfigurationMention extends BaseConfigurationMention {
     	$this->getAppellation()->setDonneesCsv($datas);
     	$this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_MENTION_LIBELLE])? $datas[ProduitCsvFile::CSV_PRODUIT_MENTION_LIBELLE] : null;
     	$this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_MENTION_CODE])? $datas[ProduitCsvFile::CSV_PRODUIT_MENTION_CODE] : null;
-    	$this->departements = ($datas[ProduitCsvFile::CSV_PRODUIT_DEPARTEMENTS])? explode(',', $datas[ProduitCsvFile::CSV_PRODUIT_DEPARTEMENTS]) : array();
+
+    	$this->setDepartementCsv($datas);
     }
     
   	public function hasDepartements() {
