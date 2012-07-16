@@ -22,7 +22,7 @@ class drmActions extends sfActions
       	$drm = $this->getUser()->getDRM();
   	  }
       $drm->save();
-      $this->redirect('drm_mouvements_generaux', $drm);
+      $this->executeInit($request);
   }
   
   /**
@@ -35,7 +35,7 @@ class drmActions extends sfActions
       	$this->redirect($drm->getCurrentEtapeRouting(), $drm);
       } else {
 		$drm->setCurrentEtapeRouting('ajouts_liquidations');
-      	$this->redirect('drm_informations', $drm);
+      	$this->redirect('drm_mouvements_generaux', $drm);
       }
   }
   /**
