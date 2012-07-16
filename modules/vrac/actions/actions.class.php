@@ -171,7 +171,7 @@ class vracActions extends sfActions
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
       $this->form = new VracConditionForm($this->vrac);
-      $this->displayPartiePrixVariable = !(is_null($vrac->type_contrat) || ($vrac->type_contrat=='spot'));
+      $this->displayPartiePrixVariable = !(is_null($this->type_contrat) || ($this->type_contrat=='spot'));
       $this->displayPrixVariable = ($this->displayPartiePrixVariable && !is_null($vrac->prix_variable) && $vrac->prix_variable); 
       $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
         if ($request->isMethod(sfWebRequest::POST)) 

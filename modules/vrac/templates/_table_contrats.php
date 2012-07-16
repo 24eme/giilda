@@ -44,7 +44,7 @@
                     </li>
                  </ul>
               </td>              
-              <td><?php echo ($elt[VracClient::VRAC_VIEW_PRODUIT_ID])? ConfigurationClient::getCurrent()->get($elt[VracClient::VRAC_VIEW_PRODUIT_ID])->libelleProduit() : ''; ?></td>
+              <td><?php echo ($elt[VracClient::VRAC_VIEW_PRODUIT_ID])? ConfigurationClient::getCurrent()->get($elt[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat() : ''; ?></td>
               <td>           
                   <?php echo (isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))? $elt[VracClient::VRAC_VIEW_VOLENLEVE] : '0';
                         echo ' / ';
