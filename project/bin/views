@@ -68,7 +68,10 @@ cat <<EOF > $TMPFILE
         "domaines": {
             "map": "function(doc) {\n  if (doc.type != \"Vrac\")\n     return;\n  if (doc.domaine) {\n  emit([doc.vendeur_identifiant, doc.domaine],  1);\n  }\n }",
             "reduce": "function (keys, values) {\n     \treturn sum(values);\n}"
-        }
+        },
+        "contratsFromProduit": {
+           "map": "function(doc) {\n  if (doc.type != \"Vrac\") return;\n  if(doc.valide.statut == \"NONSOLDE\")\n    emit([doc.vendeur_identifiant, doc.produit],[doc.numero_contrat, doc.volume_propose, doc.volume_enleve, doc.valide.statut]);\n}"
+       }
    }
 }
 EOF

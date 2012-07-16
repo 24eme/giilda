@@ -19,3 +19,6 @@
 [submodule "project/plugins/acVinDRMPlugin"]
 	path = project/plugins/acVinDRMPlugin
 	url = git@gitorious.org:acvin/acvindrmplugin.git
+[submodule "project/plugins/acVinEtablissementPlugin"]
+	path = project/plugins/acVinEtablissementPlugin
+	url = git@gitorious.org:acvin/acvinetablissementplugin.git

@@ -934,6 +934,7 @@ DRM:
                                                                                                                     definition:
                                                                                                                       fields:
                                                                                                                         volume: { type: float }
+                                                                                                                        date_elevement: {  }
                                                                                                             millesimes:
                                                                                                               type: array_collection
                                                                                                               definition:
