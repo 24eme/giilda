@@ -12,11 +12,11 @@ class ProjectConfiguration extends sfProjectConfiguration
 		$this->enablePlugins('acVinImportPlugin');
 		$this->enablePlugins('acVinLibPlugin');
 		$this->enablePlugins('acVinVracPlugin');
-		$this->enablePlugins('VracPlugin');
 		$this->enablePlugins('DRMPlugin');
 		$this->enablePlugins('acVinDRMPlugin');
 		$this->enablePlugins('TiersPlugin');
-		$this->enablePlugins('ConfigurationPlugin');
+		$this->enablePlugins('acVinConfigurationPlugin');
 		$this->enablePlugins('InterproPlugin');
+		$this->enablePlugins('ImportPlugin');
   	}
 }
