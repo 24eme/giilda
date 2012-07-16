@@ -7,6 +7,7 @@
  * @property string $_id
  * @property string $_rev
  * @property string $type
+ * @property acCouchdbJson $editeurs
  * @property string $apurement_possible
  * @property string $raison_rectificative
  * @property string $etape
@@ -22,7 +23,6 @@
  * @property acCouchdbJson $interpros
  * @property acCouchdbJson $valide
  * @property acCouchdbJson $douane
- * @property acCouchdbJson $editeurs
 
  * @method string get_id()
  * @method string set_id()
@@ -30,6 +30,8 @@
  * @method string set_rev()
  * @method string getType()
  * @method string setType()
+ * @method acCouchdbJson getEditeurs()
+ * @method acCouchdbJson setEditeurs()
  * @method string getApurementPossible()
  * @method string setApurementPossible()
  * @method string getRaisonRectificative()
@@ -60,8 +62,6 @@
  * @method acCouchdbJson setValide()
  * @method acCouchdbJson getDouane()
  * @method acCouchdbJson setDouane()
- * @method acCouchdbJson getEditeurs()
- * @method acCouchdbJson setEditeurs()
  
  */
  

@@ -1,18 +1,19 @@
 <?php
 
 class DRMDetailForm extends acCouchdbObjectForm {
-	protected $_label_choices;
 
-    public function configure() {
-    	if ($this->getObject()->getDocument()->canSetStockDebutMois()) {
-    		$this->setWidget('total_debut_mois', new sfWidgetFormInputFloat());
-    	} else {
-    		$this->setWidget('total_debut_mois', new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
-    	}
-    	$this->setValidator('total_debut_mois', new sfValidatorNumber(array('required' => false)));
-    	
-        $this->stocks_debut = new DRMDetailStocksDebutForm($this->getObject()->stocks_debut);
-        $this->embedForm('stocks_debut', $this->stocks_debut);
+	protected $_label_choices;
+        
+        public function configure() {
+            
+            if ($this->getObject()->getDocument()->canSetStockDebutMois()) {
+                    $this->setWidget('total_debut_mois', new sfWidgetFormInputFloat());                    
+            } else {
+                    $this->setWidget('total_debut_mois', new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
+            }
+            $this->setValidator('total_debut_mois', new sfValidatorNumber(array('required' => false)));
+    	    $this->stocks_debut = new DRMDetailStocksDebutForm($this->getObject()->stocks_debut);
+            $this->embedForm('stocks_debut', $this->stocks_debut);
             
         $this->entrees = new DRMDetailEntreesForm($this->getObject()->entrees);
         $this->embedForm('entrees', $this->entrees);

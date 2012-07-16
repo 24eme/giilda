@@ -275,14 +275,14 @@ class DRMRouting {
                 )));
         
         $r->prependRoute('drm_recap_update', new DRMDetailRoute('/drm-edition/:campagne_rectificative/recapitulatif/update/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail',
-                        array('module' => 'drm_recap',
-                            'action' => 'update'),
-                        array('sf_method' => array('post')),
-                        array('model' => 'DRMDetail',
-                              'type' => 'object',
-                            'must_be_valid' => false,
-                            'must_be_not_valid' => true
-                )));
+                                                          array('module' => 'drm_recap',
+                                                                'action' => 'update'),
+                                                          array('sf_method' => array('post')),
+                                                          array('model' => 'DRMDetail',
+                                                                'type' => 'object',
+                                                                'must_be_valid' => false,
+                                                                'must_be_not_valid' => true
+                                                                    )));
 
         $r->prependRoute('drm_vrac', new DRMRoute('/drm-edition/:campagne_rectificative/vrac', 
                                                           array('module' => 'drm_vrac', 
@@ -290,8 +290,8 @@ class DRMRouting {
                                                           array('sf_method' => array('get','post')),
                                                           array('model' => 'DRM',
                                                                 'type' => 'object',
-									                            'must_be_valid' => false,
-									                            'must_be_not_valid' => true)));
+                                                                'must_be_valid' => false,
+                                                                'must_be_not_valid' => true)));
 
         $r->prependRoute('drm_vrac_ajout_contrat', new DRMDetailRoute('/drm-edition/:campagne_rectificative/vrac/contrat/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/ajout/:detail',
                         array('module' => 'drm_vrac',
@@ -323,6 +323,14 @@ class DRMRouting {
                             'must_be_not_valid' => true
                 )));
         
+        $r->prependRoute('drm_details_vrac', new DRMDetailRoute('/drm-edition/:campagne_rectificative/details-vrac/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', 
+                                                          array('module' => 'drm_details', 
+                                                                'action' => 'contrats'),
+                                                          array('sf_method' => array('get','post')),
+                                                          array('model' => 'DRM',
+                                                                'type' => 'object',
+                                                                'must_be_valid' => false,
+                                                                'must_be_not_valid' => true)));
     }
 
 }

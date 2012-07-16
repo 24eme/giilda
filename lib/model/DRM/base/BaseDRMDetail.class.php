@@ -4,11 +4,12 @@
  * 
  * Base model for DRMDetail
 
+ * @property integer $pas_de_mouvement_check
  * @property float $total_debut_mois
  * @property float $total_entrees
  * @property float $total_sorties
  * @property float $total
- * @property acCouchdbJson $label
+ * @property acCouchdbJson $labels
  * @property string $label_supplementaire
  * @property acCouchdbJson $vrac
  * @property acCouchdbJson $millesimes
@@ -17,6 +18,8 @@
  * @property DRMDetailNoeud $sorties
  * @property DRMDetailNoeud $stocks_fin
 
+ * @method integer getPasDeMouvementCheck()
+ * @method integer setPasDeMouvementCheck()
  * @method float getTotalDebutMois()
  * @method float setTotalDebutMois()
  * @method float getTotalEntrees()
@@ -25,8 +28,8 @@
  * @method float setTotalSorties()
  * @method float getTotal()
  * @method float setTotal()
- * @method acCouchdbJson getLabel()
- * @method acCouchdbJson setLabel()
+ * @method acCouchdbJson getLabels()
+ * @method acCouchdbJson setLabels()
  * @method string getLabelSupplementaire()
  * @method string setLabelSupplementaire()
  * @method acCouchdbJson getVrac()

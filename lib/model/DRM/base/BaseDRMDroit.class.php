@@ -8,7 +8,7 @@
  * @property integer $volume_reintegre
  * @property float $taux
  * @property string $code
- * @property string libelle
+ * @property string $libelle
  * @property float $total
  * @property float $report
  * @property float $cumul
