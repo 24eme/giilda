@@ -8,6 +8,6 @@ class DRMDetailVrac extends BaseDRMDetailVrac {
     
     public function getDetail() {
         
-        return $this->getParent()->getParent();
+        return $this->getParent()->getParent()->getParent();
     }
 }
