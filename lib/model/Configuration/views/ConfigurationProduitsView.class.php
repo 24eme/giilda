@@ -43,6 +43,14 @@ class ConfigurationProduitsView extends acCouchdbView
               				->getView($this->design, $this->view);
   	}
 
+  	public function findProduitsByInterpro($interpro) {
+
+  		return $this->client->startkey(array(self::TYPE_LINE_PRODUITS, $interpro))
+              				->endkey(array(self::TYPE_LINE_PRODUITS, $interpro, array()))
+              				->reduce(false)
+              				->getView($this->design, $this->view);
+  	}
+
   	public function findProduitsByCertification($interpro, $certification) {
   		return $this->client->startkey(array(self::TYPE_LINE_PRODUITS, $interpro, $certification))
               				->endkey(array(self::TYPE_LINE_PRODUITS, $interpro, $certification, array()))
