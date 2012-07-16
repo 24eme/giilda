@@ -8,7 +8,7 @@ class DRMDetail extends BaseDRMDetail {
     
     public function getConfig() {
     	
-    	return ConfigurationClient::getCurrent()->declaration->certifications->get($this->getCertification()->getKey())->detail;
+    	return ConfigurationClient::getCurrent()->declaration->detail;
     }
 
     public function getLibelle($format = "%g% %a% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
@@ -109,7 +109,9 @@ class DRMDetail extends BaseDRMDetail {
     private function getTotalByKey($key) {
     	$sum = 0;
     	foreach ($this->get($key, true) as $k) {
-    		$sum += $k;
+    		if(!is_object($k)) {
+    			$sum += $k;
+    		}
     	}
     	return $sum;
     }
