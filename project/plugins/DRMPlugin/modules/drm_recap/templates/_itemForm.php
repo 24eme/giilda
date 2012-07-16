@@ -72,11 +72,12 @@
                     </li>
                     <?php endforeach; ?>
                 </ul>
+                <a href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">Vracs</a>
             </div>
 
             <div class="col_btn">
-                <button class="btn_valider" type="submit">Valider</button>
-                <button class="btn_reinitialiser" type="submit">Annuler</button>
+                <button class="btn_valider btn_vert" type="submit">Valider</button>
+                <button class="btn_reinitialiser btn_rouge" type="submit">Annuler</button>
             </div>
         </div>
     </form>

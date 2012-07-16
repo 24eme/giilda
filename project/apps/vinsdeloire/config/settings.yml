@@ -25,7 +25,7 @@ test:
 all:
   .settings:
 
-    enabled_modules:        [default, vrac, drm, drm_recap, drm_mouvements_generaux, drm_vrac, drm_export, drm_details]
+    enabled_modules:        [default, vrac, drm, drm_recap, drm_mouvements_generaux, drm_vrac, drm_export, drm_vrac_details]
 
     # Form security secret (CSRF protection)
     csrf_secret:            false
