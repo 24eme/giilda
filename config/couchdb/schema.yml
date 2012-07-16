@@ -55,8 +55,64 @@ Configuration:
                   '*': {  }
       declaration:
         type: collection
+        class: ConfigurationDeclaration
+        inheritance: _ConfigurationDeclaration
         definition:
           fields:
+            detail:
+              required: false
+              class: ConfigurationDetail
+              type: collection
+              definition:
+                fields:
+                  stocks_debut:
+                    required: false
+                    type: collection
+                    definition:
+                      fields:
+                        '*':
+                          class: ConfigurationDetailLigne
+                          type: collection
+                          definition:
+                            fields:
+                              readable: {  }
+                              writable: {  }
+                  entrees:
+                    required: false
+                    type: collection
+                    definition:
+                      fields:
+                        '*':
+                          class: ConfigurationDetailLigne
+                          type: collection
+                          definition:
+                            fields:
+                              readable: {  }
+                              writable: {  }
+                  sorties:
+                    required: false
+                    type: collection
+                    definition:
+                      fields:
+                        '*':
+                          class: ConfigurationDetailLigne
+                          type: collection
+                          definition:
+                            fields:
+                              readable: {  }
+                              writable: {  }
+                  stocks_fin:
+                    required: false
+                    type: collection
+                    definition:
+                      fields:
+                        '*':
+                          class: ConfigurationDetailLigne
+                          type: collection
+                          definition:
+                            fields:
+                              readable: {  }
+                              writable: {  }
             certifications:
               type: collection
               definition:

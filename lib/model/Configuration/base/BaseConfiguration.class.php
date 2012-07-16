@@ -9,9 +9,10 @@
  * @property string $type
  * @property string $campagne
  * @property acCouchdbJson $labels
+ * @property acCouchdbJson $contenances
  * @property acCouchdbJson $droits
  * @property acCouchdbJson $libelle_detail_ligne
- * @property acCouchdbJson $declaration
+ * @property ConfigurationDeclaration $declaration
 
  * @method string get_id()
  * @method string set_id()
@@ -23,12 +24,14 @@
  * @method string setCampagne()
  * @method acCouchdbJson getLabels()
  * @method acCouchdbJson setLabels()
+ * @method acCouchdbJson getContenances()
+ * @method acCouchdbJson setContenances()
  * @method acCouchdbJson getDroits()
  * @method acCouchdbJson setDroits()
  * @method acCouchdbJson getLibelleDetailLigne()
  * @method acCouchdbJson setLibelleDetailLigne()
- * @method acCouchdbJson getDeclaration()
- * @method acCouchdbJson setDeclaration()
+ * @method ConfigurationDeclaration getDeclaration()
+ * @method ConfigurationDeclaration setDeclaration()
  
  */
  
