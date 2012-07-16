@@ -585,11 +585,13 @@ Configuration:
                                                                                                 libelle: {  }
                                                                                                 code: {  }
                         detail:
+                          required: false
                           class: ConfigurationDetail
                           type: collection
                           definition:
                             fields:
                               stocks_debut:
+                                required: false	
                                 type: collection
                                 definition:
                                   fields:
@@ -601,6 +603,7 @@ Configuration:
                                           readable: {  }
                                           writable: {  }
                               entrees:
+                                required: false	
                                 type: collection
                                 definition:
                                   fields:
@@ -612,6 +615,7 @@ Configuration:
                                           readable: {  }
                                           writable: {  }
                               sorties:
+                                required: false	
                                 type: collection
                                 definition:
                                   fields:
@@ -623,6 +627,7 @@ Configuration:
                                           readable: {  }
                                           writable: {  }
                               stocks_fin:
+                                required: false	
                                 type: collection
                                 definition:
                                   fields:
