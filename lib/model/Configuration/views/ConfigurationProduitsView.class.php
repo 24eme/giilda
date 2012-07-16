@@ -43,7 +43,14 @@ class ConfigurationProduitsView extends acCouchdbView
               				->getView($this->design, $this->view);
   	}
 
-  	public function findProduitsByCertification($interpro, $certification, $departement) {
+  	public function findProduitsByCertification($interpro, $certification) {
+  		return $this->client->startkey(array(self::TYPE_LINE_PRODUITS, $interpro, $certification))
+              				->endkey(array(self::TYPE_LINE_PRODUITS, $interpro, $certification, array()))
+              				->reduce(false)
+              				->getView($this->design, $this->view);
+  	}
+
+  	public function findProduitsByCertificationByDepartement($interpro, $certification, $departement) {
 		
 		return $this->client->startkey(array(self::TYPE_LINE_PRODUITS, $interpro, $certification, $departement))
               				->endkey(array(self::TYPE_LINE_PRODUITS, $interpro, $certification, $departement, array()))
@@ -51,7 +58,7 @@ class ConfigurationProduitsView extends acCouchdbView
               				->getView($this->design, $this->view);
   	}
 
-  	public function nbProduitsByCertification($interpro, $certification, $departement) {
+  	public function nbProduitsByCertificationByDepartement($interpro, $certification, $departement) {
 		
 		return $this->client->startkey(array(self::TYPE_LINE_PRODUITS, $interpro, $certification, $departement))
 	            			->endkey(array(self::TYPE_LINE_PRODUITS, $interpro, $certification, $departement, array()))
