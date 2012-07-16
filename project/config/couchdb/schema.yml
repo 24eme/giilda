@@ -144,7 +144,6 @@ Vrac:
             # les vues de date_stats/date_signature dans part3
             date_saisie: {  }
             identifiant: {  }
-<<<<<<< HEAD
             statut: { }
 
 DRM:
