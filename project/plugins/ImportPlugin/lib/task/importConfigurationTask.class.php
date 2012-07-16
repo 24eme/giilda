@@ -59,8 +59,8 @@ EOF;
     
     foreach (file($import_dir.'/details.csv') as $line) {
         $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
-        if ($detail = $configuration->declaration->certifications->exist($datas[0])) {
-	        $detail = $configuration->declaration->certifications->get($datas[0])->detail->get($datas[1])->add($datas[2]);
+        if ($detail = $configuration->exist($datas[0])) {
+	        $detail = $configuration->get($datas[0])->add('detail')->add($datas[1])->add($datas[2]);
 	        $detail->readable = $datas[3];
 	        $detail->writable = $datas[4];
         }
