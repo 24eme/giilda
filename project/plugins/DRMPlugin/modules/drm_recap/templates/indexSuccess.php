@@ -1,4 +1,4 @@
-<?php include_partial('global/navTop', array('active' => 'drm')); ?>
+<?php //include_partial('global/navTop', array('active' => 'drm')); ?>
 
 <section id="contenu">
 

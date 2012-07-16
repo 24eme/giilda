@@ -1,13 +1,13 @@
 <div id="statut_declaration">
 	<nav id="declaration_etapes">
 		<ol>
-                  <?php include_partial('drm/etapeItem', array('drm' => $drm,
+                  <?php /*include_partial('drm/etapeItem', array('drm' => $drm,
                                                                'libelle' => 'Informations',
                                                                'numero' => 1,
                                                                'numero_courant' => $numero,
                                                                'numero_autorise' => $numero_autorise,
                                                                'url' => url_for('drm_informations', $drm),
-                                                               'cssclass' => 'premier')); ?>
+                                                               'cssclass' => 'premier'));*/ ?>
 
                   <?php include_partial('drm/etapeItem', array('drm' => $drm,
                                                                'libelle' => 'Ajouts / Liquidations',
