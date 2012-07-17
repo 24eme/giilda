@@ -214,18 +214,9 @@ class DRMRouting {
                               'must_be_valid' => false,
                               'must_be_not_valid' => true)));
 
-        $r->prependRoute('drm_recap', new DRMLieuRoute('/drm-edition/:campagne_rectificative/recapitulatif/:certification',
+        $r->prependRoute('drm_recap', new DRMRoute('/drm-edition/:campagne_rectificative/recapitulatif',
                         array('module' => 'drm_recap',
                             'action' => 'index'),
-                        array('sf_method' => array('get', 'post')),
-                        array('model' => 'DRMLieu',
-                            'type' => 'object',
-                            'must_be_valid' => false,
-                            'must_be_not_valid' => true
-                )));
-        $r->prependRoute('drm_recap_redirect', new DRMRoute('/drm-edition/:campagne_rectificative/recapitulatif',
-                        array('module' => 'drm_recap',
-                            'action' => 'redirectIndex'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'DRM',
                             'type' => 'object',
@@ -233,7 +224,7 @@ class DRMRouting {
                             'must_be_not_valid' => true
                 )));
         
-        $r->prependRoute('drm_recap_lieu_ajout_ajax', new DRMCertificationRoute('/drm-edition/:campagne_rectificative/recapitulatif-appellation-ajout/:certification',
+        /*$r->prependRoute('drm_recap_lieu_ajout_ajax', new DRMCertificationRoute('/drm-edition/:campagne_rectificative/recapitulatif-appellation-ajout/:certification',
                         array('module' => 'drm_recap',
                             'action' => 'lieuAjoutAjax'),
                         array('sf_method' => array('get','post')),
@@ -251,7 +242,7 @@ class DRMRouting {
                              'type' => 'object',
                             'must_be_valid' => false,
                             'must_be_not_valid' => true
-                )));
+                )));*/
 
         $r->prependRoute('drm_recap_detail', new DRMDetailRoute('/drm-edition/:campagne_rectificative/recapitulatif/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail',
                         array('module' => 'drm_recap',
@@ -263,7 +254,7 @@ class DRMRouting {
                             'must_be_not_valid' => true
                 )));
         
-        $r->prependRoute('drm_recap_ajout_ajax', new DRMLieuRoute('/drm-edition/:campagne_rectificative/recapitulatif/:certification/:genre/:appellation/:mention/:lieu/ajout-ajax',
+        /*$r->prependRoute('drm_recap_ajout_ajax', new DRMLieuRoute('/drm-edition/:campagne_rectificative/recapitulatif/:certification/:genre/:appellation/:mention/:lieu/ajout-ajax',
                         array('module' => 'drm_recap',
                             'action' => 'ajoutAjax'),
                         array('sf_method' => array('get', 'post')),
@@ -272,7 +263,18 @@ class DRMRouting {
                             'add_noeud' => true,
                             'must_be_valid' => false,
                             'must_be_not_valid' => true
-                )));
+                )));*/
+
+        $r->prependRoute('drm_produit_ajout', new DRMRoute('/drm-edition/:campagne_rectificative/recapitulatif/produit-ajout-ajax',
+                array('module' => 'drm_recap',
+                    'action' => 'produitAjout'),
+                array('sf_method' => array('get', 'post')),
+                array('model' => 'DRMAppellation',
+                    'type' => 'object',
+                    'add_noeud' => true,
+                    'must_be_valid' => false,
+                    'must_be_not_valid' => true
+        )));
         
         $r->prependRoute('drm_recap_update', new DRMDetailRoute('/drm-edition/:campagne_rectificative/recapitulatif/update/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail',
                                                           array('module' => 'drm_recap',

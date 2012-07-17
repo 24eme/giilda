@@ -1,10 +1,6 @@
 <?php
 
 class drm_recapComponents extends sfComponents {
-
-    public function executeList() {
-        $this->produits = $this->drm_lieu->getProduits();
-    }
     
     public function executeItemForm() {
         if (is_null($this->form)) {
@@ -16,4 +12,7 @@ class drm_recapComponents extends sfComponents {
         $this->items = $this->drm_lieu->getCertification()->getLieuxArray();
     }
 
+    public function executeProduitForm() {
+    	$this->form = new DRMProduitForm($this->drm, $this->config);
+    }
 }
