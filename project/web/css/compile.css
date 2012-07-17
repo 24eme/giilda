@@ -2454,3 +2454,12 @@ p#date_drm {
   text-transform:none;
 }
 #telecharger_pdf:hover { text-decoration:none; }
+#drm_export_details_table th, #drm_cooperative_details_table th, #drm_vrac_details_table th {
+  background:none repeat scroll 0 0 #ecebeb;
+  border:1px solid #e5e4e4;
+  vertical-align:middle;
+}
+#drm_export_details_table td, #drm_cooperative_details_table td, #drm_vrac_details_table td {
+  border:1px solid #e5e4e4;
+  padding:10px;
+}
