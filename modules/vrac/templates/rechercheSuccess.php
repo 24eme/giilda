@@ -40,10 +40,10 @@ if(!isset($campagne)) $campagne = dateCampagneViticolePresent();
                                 ?>
                             </select>
                             <button type="submit" id="btn_rechercher">Rechercher</button>
-                            <span id="recherche_avancee"><a href="">> Recherche avancée</a></span>
+                            <!--<span id="recherche_avancee"><a href="">> Recherche avancée</a></span>-->
                         </form>
                 </div>         
-                <a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Ouvrir en tableur</a>
+                <!--<a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Ouvrir en tableur</a>-->
                 <?php 
                     include_partial('rechercheLegende', array('rechercheMode' => true, 'vracs' => $vracs, 'identifiant'=>$identifiant,'actif' => $actif));
                 ?>

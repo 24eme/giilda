@@ -80,6 +80,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
         
     }
 
+    protected function updateDefaultsFromObject() {
+    	parent::updateDefaultsFromObject();
+    	$this->setDefault('original', 0);
+    }
+
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
             $this->_choices_produits = array_merge(array("" => ""),

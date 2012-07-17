@@ -33,7 +33,7 @@ foreach($datas as $data)
                         </select>
                         <button type="submit" id="btn_rechercher">Rechercher</button>
                     </form>
-                    <span id="recherche_avancee"><a href="">> Recherche avancée</a></span>
+                    <!--<span id="recherche_avancee"><a href="">> Recherche avancée</a></span>-->
                 </div>
                 <br />
                 <div class="section_label_maj"> 

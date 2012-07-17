@@ -43,9 +43,10 @@
                             <?php if(!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE): ?>
                                 <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
                             <?php endif; ?>
-                                
-<!--                            <a id="btn_voir_contrat" href="#"> Voir le contrat</a>       -->
-                            <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>
+
+							<?php if($vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE): ?>
+                            	<button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>
+                        	<?php endif; ?>
                                  
                         </div>
                     </form>

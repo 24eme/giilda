@@ -1,4 +1,4 @@
-<?php $isValidation = (is_null($vrac->valide->statut) || ($vrac->valide->statut == "NONSOLDE")); ?>
+<?php $isValidation = (is_null($vrac->valide->statut)); ?>
 <ul>
         <li>
             <div class="style_label">1. Les soussignés</div>
