@@ -252,6 +252,31 @@ DRM:
                                                                                                                               numero_contrat: {  }
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
+                                                                                                                  export_details:
+                                                                                                                    type:  array_collection
+                                                                                                                    definition:
+                                                                                                                      fields:
+                                                                                                                        '*':
+                                                                                                                          type: collection
+                                                                                                                          class: DRMDetailExport
+                                                                                                                          definition:
+                                                                                                                            fields:
+                                                                                                                              numero_contrat: {  }
+                                                                                                                              destination: {  }
+                                                                                                                              volume: { type: float }
+                                                                                                                              date_enlevement: {  }
+                                                                                                                  cooperative_details:
+                                                                                                                     type:  array_collection
+                                                                                                                     definition:
+                                                                                                                       fields:
+                                                                                                                         '*':
+                                                                                                                            type: collection
+                                                                                                                            class: DRMDetailExport
+                                                                                                                            definition:
+                                                                                                                              fields:
+                                                                                                                                numero_contrat: {  }
+                                                                                                                                volume: { type: float }
+                                                                                                                                date_enlevement: {  }
                                                                                                             stocks_fin:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud
