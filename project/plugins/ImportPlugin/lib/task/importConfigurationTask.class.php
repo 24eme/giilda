@@ -80,6 +80,13 @@ EOF;
 
     $configurationContenances = $configuration->add('contenances', $contenances);   
 
+    $labels = array('grains_nobles' => 'Grains nobles',
+		    'primeur' => 'Primeur',
+		    'Agriculture_biologique' => 'Agriculture Biologique');
+
+    $configurationContenances = $configuration->add('labels', $labels);   
+
+
 
     //    $csv = new LabelCsvFile($configuration, $import_dir.'/labels.csv');
 
