@@ -2340,6 +2340,12 @@ p#date_drm {
   display:none;
   width:102px;
 }
+#colonnes_dr .col_recolte.col_inactive {
+  -webkit-opacity:0.70;
+  -khtml-opacity:0.70;
+  -moz-opacity:0.70;
+  opacity:0.70;
+}
 #colonnes_dr .col_recolte.col_inactive .col_cont input, #colonnes_dr .col_recolte.col_inactive .col_cont select { background:#ffffff; }
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme, #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_groupe, #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_debut, #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_fin { color:#9d3032; }
 #colonnes_dr .col_recolte.col_inactive .col_cont .col_btn .col_btn { visibility:hidden; }

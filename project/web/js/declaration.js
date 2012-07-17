@@ -439,11 +439,17 @@
 		var colCurseurs = colSaisiesRecolte.find('a.col_curseur');
 		
 		/*if(colFocusDefaut) colFocusNum = colFocusDefaut;
-		else*/ colFocusNum = colCurseurs.first().attr('data-curseur');
-		
-		// Colonne au focus par défaut
+		else*/
+		colFocusNum = colCurseurs.first().attr('data-curseur');
 		colFocus = $('#col_recolte_'+colFocusNum);
+
+		if(colActiveDefaut) {
+			colFocus = colActiveDefaut;
+		}
+
 		colFocus.addClass('col_focus');
+
+
 		
 		//colCurseur = colFocus.find('a.col_curseur');
 		colCurseur = colFocus.find(colFocus.attr('data-input-focus'));
@@ -451,13 +457,13 @@
 		if (colCurseur.length == 0)
 		{
 			colCurseur = colFocus.find('a.col_curseur');
+
 		}
 		/*else if(colCurseur.is('input'))
 		{
 		}*/
-
 		colCurseur.focus();
-		colCurseur.select();
+		colFocus.select();
 		
 		// Positionnement du scroll
 		$.majColSaisiesScroll();
@@ -497,12 +503,13 @@
 					else colFocus = colSaisiesRecolte.first();
 				}
 			}
-			else { colFocus = objet; }
-			
+			else { 
+				colFocus = objet; 
+			}
+
 			colFocus.addClass('col_focus');
 			colCurseur = colFocus.find('a.col_curseur');
 			colFocusNum = colCurseur.attr('data-curseur');
-			
 			colCurseur.focus();
 			
 			$.majColSaisiesScroll();
@@ -515,7 +522,9 @@
 	 ******************************************/
 	$.initColActive = function()
 	{
-		if(colActiveDefaut.exists()) colActiveDefaut.majColActive();
+		if(colActiveDefaut.exists()) {
+			colActiveDefaut.majColActive();
+		}
 	};
 	
 	/**
