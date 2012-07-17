@@ -1074,16 +1074,22 @@ bouton.btn_majeur { height:26px; }
   color:#ffffff;
   padding:5px;
   text-align:center;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
 }
 #ajax_form_progress_notification {
   background:#114c8d;
   z-index:1200;
-  width:250px;
+  width:160px;
 }
 #ajax_form_error_notification {
   z-index:1201;
   background:#900000;
-  width:500px;
+  width:450px;
 }
 #rail_etapes {
   zoom:1;
