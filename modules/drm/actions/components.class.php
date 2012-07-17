@@ -75,7 +75,6 @@ class drmComponents extends sfComponents {
             $this->list = $this->historique->getDRMsParCampagneCourante();   
         }
         $this->futurDRM = current($this->historique->getFutureDRM());
-        //var_dump($this->futurDRM);exit;
         $this->hasNewDRM = false;
         if (CurrentClient::getCurrent()->campagne >= ($this->futurDRM[1].'-'.$this->futurDRM[2]) && !$this->historique->hasDRMInProcess()) {
             $this->hasNewDRM = true;

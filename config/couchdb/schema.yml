@@ -209,10 +209,9 @@ DRM:
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
-                                                                                                                  bloque: { type: float }
-                                                                                                                  warrante: { type: float }
+                                                                                                                  revendique: { type: float }
                                                                                                                   instance: { type: float }
-                                                                                                                  commercialisable: { type: float }
+                                                                                                                  bloque: { type: float }
                                                                                                             entrees:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud
@@ -220,26 +219,32 @@ DRM:
                                                                                                                 fields:
                                                                                                                   achat: { type: float }
                                                                                                                   recolte: { type: float }
+                                                                                                                  tansfert: { type: float }
+                                                                                                                  cooperative: { type: float }
+                                                                                                                  reintegration: { type: float }
+                                                                                                                  elaboration: { type: float }
                                                                                                                   repli: { type: float }
-                                                                                                                  declassement: { type: float }
-                                                                                                                  mouvement: { type: float }
-                                                                                                                  crd: { type: float }
+                                                                                                                  regularisation: { type: float }
+                                                                                                                  fermagemetayage: { type: float }
                                                                                                             sorties:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
-                                                                                                                  vrac: { type: float }
                                                                                                                   export: { type: float }
-                                                                                                                  factures: { type: float }
-                                                                                                                  crd: { type: float }
+                                                                                                                  vracsanscontrat: { type: float }
+                                                                                                                  vrac: { type: float }
+                                                                                                                  bib: { type: float }
+                                                                                                                  bouteille: { type: float }
                                                                                                                   consommation: { type: float }
-                                                                                                                  pertes: { type: float }
-                                                                                                                  declassement: { type: float }
-                                                                                                                  repli: { type: float }
-                                                                                                                  mouvement: { type: float }
                                                                                                                   distillation: { type: float }
-                                                                                                                  lies: { type: float }
+                                                                                                                  fermagemetayage: { type: float }
+                                                                                                                  repli: { type: float }
+                                                                                                                  declassement: { type: float }
+                                                                                                                  cooperative: { type: float }
+                                                                                                                  cession: { type: float }
+                                                                                                                  elaboration: { type: float }
+                                                                                                                  regularisation: { type: float }
                                                                                                                   vrac_details:
                                                                                                                     type:  array_collection
                                                                                                                     definition:
@@ -275,6 +280,7 @@ DRM:
                                                                                                                             definition:
                                                                                                                               fields:
                                                                                                                                 numero_contrat: {  }
+                                                                                                                                cooperative_id: {  }
                                                                                                                                 volume: { type: float }
                                                                                                                                 date_enlevement: {  }
                                                                                                             stocks_fin:
@@ -282,10 +288,9 @@ DRM:
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
-                                                                                                                  bloque: { type: float }
-                                                                                                                  warrante: { type: float }
+                                                                                                                  revendique: { type: float }
                                                                                                                   instance: { type: float }
-                                                                                                                  commercialisable: { type: float }
+                                                                                                                  bloque: { type: float }
       declarant:
         type: collection
         class: DRMDeclarant

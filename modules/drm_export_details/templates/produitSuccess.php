@@ -1,16 +1,3 @@
-<style>
-#drm_export_details_table th {
-    background: none repeat scroll 0 0 #ECEBEB;
-    border: 1px solid #E5E4E4;
-    vertical-align: middle;
-    }
-    
-#drm_export_details_table td {  
-    border: 1px solid #E5E4E4;
-    padding: 10px;
-    }    
-</style>
-
 <form method="post" action="<?php echo url_for('drm_export_details', $detail) ?>">
 <div id="drm_export_details_form">
     <?php    
@@ -32,7 +19,7 @@
         <?php
         foreach ($form as $itemForm){
             if($itemForm instanceof sfFormFieldSchema) {
-                include_partial('item',array('form' => $itemForm));
+                include_partial('item',array('form' => $itemForm,'detail' => $detail));
             } else {
                 $itemForm->renderRow();
             }
@@ -42,6 +29,7 @@
     </table>
 </div>
 <input type="submit" value="Valider" />
+<a href="<?php echo url_for('drm_edition', $drm); ?>" id="drm_export_details_annuler" class="btn_majeur btn_rouge">Annuler</a>
 <a href="#" id="drm_export_details_addTemplate" class="btn_majeur btn_orange">Ajouter</a>
 </form>
 
@@ -65,4 +53,4 @@
         
 </script>
 
-<?php include_partial('templateItem', array('form' => $form->getFormTemplate())); ?>
+<?php include_partial('templateItem', array('form' => $form->getFormTemplate(), 'detail' => $detail)); ?>

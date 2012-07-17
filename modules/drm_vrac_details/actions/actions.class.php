@@ -15,7 +15,7 @@ class drm_vrac_detailsActions extends sfActions
                 $this->form->update();
                 $this->drm->save();
                 
-                $this->redirect('drm_vrac_details', $this->detail);
+                $this->redirect('drm_edition', $this->drm);
             }
         }
     }
