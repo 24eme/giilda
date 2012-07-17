@@ -24,4 +24,4 @@ class VracValidationForm extends acCouchdbObjectForm {
     }
     
 }
-?>
+

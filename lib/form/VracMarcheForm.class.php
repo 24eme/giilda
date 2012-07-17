@@ -120,4 +120,4 @@ class VracMarcheForm extends acCouchdbObjectForm {
     }
     
 }
-?>
+
