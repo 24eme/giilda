@@ -8,14 +8,12 @@
                                                    'pourcentage' => '30'));*/ ?>
     <?php include_partial('drm/controlMessage'); ?>
 
-    <a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a>
-
+    
     <!-- #principal -->
     <section id="principal" style="width: auto;">
+    	<a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a>
+    		<?php include_partial('shortcutKeys') ?>
         <div id="application_dr">
-
-        	<?php include_partial('shortcutKeys') ?>
-
         	<?php include_component('drm_edition', 'produitForm', array('drm' => $drm,
         															  'config' => $config)) ?>
             

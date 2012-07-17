@@ -1,4 +1,4 @@
-<div id="colonne_intitules">
+<div id="colonne_intitules" style="width: 210px">
 	<p class="couleur">Produit</p>
 	<p class="label">Labels</p>
 	

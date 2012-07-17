@@ -75,8 +75,8 @@
             </div>
 
             <div class="col_btn">
-                <button class="btn_valider btn_vert" type="submit">Valider</button>
-                <button class="btn_reinitialiser btn_rouge" type="submit">Annuler</button>
+                <button class="btn_valider btn_majeur" type="submit">Valider</button>
+                <button class="btn_reinitialiser btn_annuler btn_majeur" style="margin-top: 8px;" type="submit">Annuler</button>
             </div>
         </div>
     </form>

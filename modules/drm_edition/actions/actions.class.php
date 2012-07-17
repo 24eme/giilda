@@ -56,7 +56,7 @@ class drm_editionActions extends sfActions
      		if ($request->isXmlHttpRequest()) {
      			return $this->renderText(json_encode(array(
      				"success" => true,
-     				"content" => $this->getComponent('drm_edition', 'itemForm', array('config' => $this->config, 'detail' => $detail, 'active' => true)),
+     				"content" => $this->getComponent('drm_edition', 'itemForm', array('config' => $this->config, 'detail' => $detail, 'active' => false)),
      				"document" => array("id" => $this->drm->get('_id'),
                 	"revision" => $this->drm->get('_rev'))
      			)));
