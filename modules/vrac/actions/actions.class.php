@@ -13,7 +13,7 @@ class vracActions extends sfActions
 
   public function executeIndex(sfWebRequest $request)
   {
-      $this->vracs = VracClient::getInstance()->retrieveLastDocs();
+      $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);
   }
 
   static function rechercheTriListOnID($etb0, $etb1)
