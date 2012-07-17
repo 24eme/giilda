@@ -139,4 +139,7 @@ class drm_mouvements_generauxActions extends sfActions
 		$this->redirect('drm_mouvements_generaux', $drm);
 
     }
+    public function executeAddLabel(sfWebRequest $request) 
+    {
+    }
 }
