@@ -6,7 +6,6 @@ class VracDomainesView extends acCouchdbView
 	const KEY_DOMAINE = 1;
 
     public static function getInstance() {
-        //var_dump(acCouchdbManager::getView('vrac', 'domaines','Vrac')); exit;
         return acCouchdbManager::getView('vrac', 'domaines','Vrac');
     }
 
