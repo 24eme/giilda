@@ -23,6 +23,8 @@
 
         </div>
         <!-- fin #global -->
+
+        <?php include_partial('global/ajaxNotification') ?> 
         <?php include_partial('global/initMessageAide') ?>
         
         <script type="text/javascript">var jsPath = "/js/";</script>
