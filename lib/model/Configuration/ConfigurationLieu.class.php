@@ -71,7 +71,7 @@ class ConfigurationLieu extends BaseConfigurationLieu {
     }
 
     public function setDonneesCsv($datas) {
-    	$this->getAppellation()->setDonneesCsv($datas);
+    	$this->getMention()->setDonneesCsv($datas);
     	$this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_LIEU_LIBELLE])? $datas[ProduitCsvFile::CSV_PRODUIT_LIEU_LIBELLE] : null;
     	$this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_LIEU_CODE])? $datas[ProduitCsvFile::CSV_PRODUIT_LIEU_CODE] : null;
     	
