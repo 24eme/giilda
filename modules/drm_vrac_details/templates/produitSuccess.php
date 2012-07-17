@@ -3,7 +3,7 @@
     <?php
     echo $form->renderHiddenFields();
     echo $form->renderGlobalErrors();
-     ?>
+    ?>
     <table id="drm_vrac_details_table">
         <thead>
             <tr>
@@ -18,7 +18,7 @@
         <?php
         foreach ($form as $itemForm){
             if($itemForm instanceof sfFormFieldSchema) {
-                include_partial('item',array('form' => $itemForm));
+                include_partial('item',array('form' => $itemForm, 'detail' => $detail));
             } else {
                 $itemForm->renderRow();
             }
@@ -51,4 +51,4 @@
         
 </script>
 
-<?php include_partial('templateItem', array('form' => $form->getFormTemplate())); ?>
+<?php include_partial('templateItem', array('form' => $form->getFormTemplate(), 'detail' => $detail)); ?>
