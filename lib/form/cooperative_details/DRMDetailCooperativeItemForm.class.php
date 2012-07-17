@@ -34,7 +34,6 @@ class DRMDetailCooperativeItemForm extends acCouchdbObjectForm {
     }
 
     public function getContrats() {
-
         return array_merge(
                 array("" => ""),
                 DRMClient::getInstance()->getContratsFromProduit('ETABLISSEMENT-'.$this->getObject()->getDocument()->identifiant, 

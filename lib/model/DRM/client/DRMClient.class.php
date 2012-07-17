@@ -112,7 +112,6 @@ class DRMClient extends acCouchdbClient {
     
     public function getContratsFromProduit($vendeur_identifiant, $produit)
     {
-       
        if(substr($produit, 0, 1) == "/") {
            $produit = substr($produit, 1);
        }
