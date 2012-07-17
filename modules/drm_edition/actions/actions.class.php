@@ -83,14 +83,14 @@ class drm_editionActions extends sfActions
 
     public function executeAddLabel(sfWebRequest $request) 
     {
-      $detail = $this->getRoute()->getDRMDetail();
+      $this->detail = $this->getRoute()->getDRMDetail();
       $drm = $this->getRoute()->getDRM();
-      $this->form = new DRMProduitLabelForm($detail);
+      $this->form = new DRMProduitLabelForm($this->detail);
       if ($request->isMethod('POST')) {
 	$this->form->bind($request->getParameter($this->form->getName()));
 	if ($this->form->isValid()) {
 	  $this->form->save();	
-	  return $this->redirect('drm_edition_detail', $detail);
+	  return $this->redirect('drm_edition_detail', $this->detail);
 	}
       }
     }
