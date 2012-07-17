@@ -15,10 +15,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
                                        VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
                                        VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin conditionné');
     
-     private $label = array('grains_nobles' => 'Grains nobles',
-                            'primeur' => 'Primeur',
-                            'Agriculture_biologique' => 'Agriculture Biologique');
-     
     private $contient_domaine = array('domaine' => 'Domaine', 'generique' =>'Générique');
 
     protected $_choices_produits;
@@ -36,7 +32,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('millesime', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));        
         $this->setWidget('contient_domaine', new sfWidgetFormChoice(array('choices' => $this->getContientDomaines(),'expanded' => true)));
         $this->setWidget('domaine', new sfWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
-        $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->label,'multiple' => true, 'expanded' => true)));
+        $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->getLabels(),'multiple' => true, 'expanded' => true)));
         $this->setWidget('raisin_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('jus_quantite', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('bouteilles_quantite', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));
@@ -69,7 +65,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'millesime' => new sfValidatorInteger(array('required' => false)),
             'contient_domaine' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getContientDomaines()))),
             'domaine' => new sfValidatorString(array('required' => false)),
-            'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->label))),
+            'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->getLabels()))),
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),
             'raisin_quantite' =>  new sfValidatorNumber(array('required' => false)),
             'jus_quantite' =>  new sfValidatorNumber(array('required' => false)), 
@@ -119,5 +115,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
     	return ConfigurationClient::getCurrent();
     }
     
+    protected function getLabels() {
+      return $this->getConfig()->labels->toArray();
+    }
 }
 
