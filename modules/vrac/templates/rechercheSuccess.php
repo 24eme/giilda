@@ -43,7 +43,7 @@ if(!isset($campagne)) $campagne = dateCampagneViticolePresent();
                             <!--<span id="recherche_avancee"><a href="">> Recherche avancée</a></span>-->
                         </form>
                 </div>         
-                <!--<a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Ouvrir en tableur</a>-->
+                <a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Ouvrir en tableur</a>
                 <?php 
                     include_partial('rechercheLegende', array('rechercheMode' => true, 'vracs' => $vracs, 'identifiant'=>$identifiant,'actif' => $actif));
                 ?>
