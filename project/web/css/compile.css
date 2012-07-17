@@ -1062,6 +1062,29 @@ bouton.btn_majeur { height:26px; }
   display:block;
   text-indent:-9999px;
 }
+#ajax_notifications {
+  position:fixed;
+  width:100%;
+  top:0;
+  z-index:1199;
+}
+#ajax_form_progress_notification, #ajax_form_error_notification {
+  display:none;
+  margin:2px auto;
+  color:#ffffff;
+  padding:5px;
+  text-align:center;
+}
+#ajax_form_progress_notification {
+  background:#114c8d;
+  z-index:1200;
+  width:250px;
+}
+#ajax_form_error_notification {
+  z-index:1201;
+  background:#900000;
+  width:500px;
+}
 #rail_etapes {
   zoom:1;
   min-height:1px;
