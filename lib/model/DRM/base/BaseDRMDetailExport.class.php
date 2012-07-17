@@ -1,8 +1,8 @@
 <?php
 /**
- * BaseDRMDetailVrac
+ * BaseDRMDetailExport
  * 
- * Base model for DRMDetailVrac
+ * Base model for DRMDetailExport
 
  * @property string $numero_contrat
  * @property float $volume
@@ -17,11 +17,11 @@
  
  */
 
-abstract class BaseDRMDetailVrac extends acCouchdbDocumentTree {
+abstract class BaseDRMDetailExport extends acCouchdbDocumentTree {
                 
     public function configureTree() {
        $this->_root_class_name = 'DRM';
-       $this->_tree_class_name = 'DRMDetailVrac';
+       $this->_tree_class_name = 'DRMDetailExport';
     }
                 
 }

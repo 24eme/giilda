@@ -124,7 +124,7 @@ class DRMClient extends acCouchdbClient {
       $vracs = array();
 
       foreach($rows as $key => $row) {
-        $vracs[$row->id] = $row->value[0];
+        $vracs[$row->id] = $row->value[0].' '.$row->value[3];
       }      
       return $vracs;       
     }
