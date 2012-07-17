@@ -3,18 +3,33 @@
     <?php
     echo $form->renderHiddenFields();
     echo $form->renderGlobalErrors();
-    foreach ($form as $itemForm){
-        if($itemForm instanceof sfFormFieldSchema) {
-            include_partial('item',array('form' => $itemForm));
-        } else {
-            $itemForm->renderRow();
-        }
-    }
-
     ?>
+    <table id="drm_vrac_details_table">
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Numéro contrat</th>
+                <th>Volumes</th>
+                <th>Dates</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="drm_vrac_details_tableBody">
+        <?php
+        foreach ($form as $itemForm){
+            if($itemForm instanceof sfFormFieldSchema) {
+                include_partial('item',array('form' => $itemForm, 'detail' => $detail));
+            } else {
+                $itemForm->renderRow();
+            }
+        }
+        ?>
+        </tbody>
+    </table>
 </div>
-<input type="submit" value="Valider" />
-<a href="#" id="drm_vrac_details_addTemplate" class="btn_majeur btn_orange">Ajouter</a>
+<a href="<?php echo url_for('drm_edition', $drm); ?>" id="drm_vrac_details_annuler" class="btn_majeur btn_annuler">Annuler</a>
+<a href="#" id="drm_vrac_details_addTemplate" class="btn_majeur btn_modifier">Ajouter</a>
+<button type="submit" class="btn_majeur btn_valider" >Valider</button>
 </form>
 
 <script type="text/javascript">
@@ -22,14 +37,14 @@
     {
             $('#drm_vrac_details_addTemplate').click(function()
             {
-                $($('#template_vrac').html().replace(/var---nbItem---/g, UUID.generate())).appendTo($('#drm_vrac_details_form'));
+                $($('#template_vrac').html().replace(/var---nbItem---/g, UUID.generate())).appendTo($('#drm_vrac_details_tableBody'));
                 $('.autocomplete').combobox();
                 
             });
             
             $('.drm_vrac_details_remove').live('click',function()
             {
-                $(this).parent().remove();
+                $(this).parent().parent().remove();
             });
             
             
@@ -37,4 +52,4 @@
         
 </script>
 
-<?php include_partial('templateItem', array('form' => $form->getFormTemplate())); ?>
+<?php include_partial('templateItem', array('form' => $form->getFormTemplate(), 'detail' => $detail)); ?>

@@ -14,9 +14,10 @@ class drm_export_detailsActions extends sfActions
             
             if($this->form->isValid()) {
                 $this->form->update();
+                $this->drm->update();
                 $this->drm->save();
                 
-                $this->redirect('drm_export_details', $this->detail);
+                $this->redirect('drm_edition_detail', $this->detail);
             }
         }
     }

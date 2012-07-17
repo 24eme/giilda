@@ -5,11 +5,10 @@
     <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>
         <a href="#" class="col_curseur" data-curseur="<?php echo $form->getObject()->getKey() ?>"></a>
-        <h2><?php echo $form->getObject()->getLibelle() ?></h2>
+        <h2><?php echo $form->getObject()->getLibelle("%g% %a% %co% %ce%") ?></h2>
         <div class="col_cont">
             <p class="label" style="font-size: 12px; text-align: center;">
-                <?php echo $form->getObject()->getLabelsLibelle() ?><br />
-                <?php echo $form->getObject()->label_supplementaire ?>
+   <?php echo $form->getObject()->getLabelsLibelle() ?> <?php echo $form->getObject()->label_supplementaire ?> (&nbsp;<a href="<?php echo url_for("drm_edition_produit_addlabel", $form->getObject()) ?>">éditer</a>&nbsp;)
             </p>
             <div class="groupe" data-groupe-id="1">
                 <p class="<?php echo isRectifierCssClass($form->getObject(), 'total_debut_mois') ?>">
@@ -69,9 +68,9 @@
                     </li>
                     <?php endforeach; ?>
                 </ul>
-                <a href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">Vracs</a>
-                <a href="<?php echo url_for("drm_export_details", $form->getObject()) ?>">Export</a>
-                <a href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>">Coopérative (sortie)</a>
+                <p><a href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">Vracs</a></p>
+                <p><a href="<?php echo url_for("drm_export_details", $form->getObject()) ?>">Export</a></p>
+                <p><a href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>">Coopérative (sortie)</a></p>
             </div>
 
             <div class="col_btn">

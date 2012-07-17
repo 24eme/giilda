@@ -45,7 +45,6 @@ class DRMDetailCooperativeForm extends acCouchdbForm {
     }
     
     public function update() {
-        //$this->drm_sorties_cooperative_details->clear();
         foreach($this->getEmbeddedForms() as $key => $form) {
             $form->updateObject($this->values[$key]);
         }

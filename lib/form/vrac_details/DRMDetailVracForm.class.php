@@ -54,7 +54,7 @@ class DRMDetailVracForm extends acCouchdbForm {
     public function getVracDetails()
     {
     return $this->drm_sorties_vrac_details;
-    }
+    }   
     
     public function getFormTemplate() {
         $form = new DRMDetailVracTemplateForm($this->drm_sorties_vrac_details);

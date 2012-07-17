@@ -1,5 +1,9 @@
 <tr>
-        <td class="export_detail_produit">Produit</td>
+        <td class="export_detail_produit">
+            <strong> 
+                <?php echo $detail->getLibelle(ESC_RAW); ?>&nbsp;: 
+            </strong>
+        </td>
         <td class="export_detail_numero_contrat">    
             <?php
             echo $form['numero_contrat']->renderError();
@@ -18,7 +22,7 @@
             echo $form['volume']->render();
             ?>
         </td>
-        <td class="export_detail_date_enlevement champ_datepicker">    
+        <td class="export_detail_date_enlevement">    
             <?php
             echo $form['date_enlevement']->renderError();
             echo $form['date_enlevement']->render();
