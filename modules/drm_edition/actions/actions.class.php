@@ -90,7 +90,7 @@ class drm_editionActions extends sfActions
 	$this->form->bind($request->getParameter($this->form->getName()));
 	if ($this->form->isValid()) {
 	  $this->form->save();	
-	  return $this->redirect('drm_edition', $drm);
+	  return $this->redirect('drm_edition_detail', $detail);
 	}
       }
     }
