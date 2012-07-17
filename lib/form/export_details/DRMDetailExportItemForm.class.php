@@ -8,12 +8,10 @@ class DRMDetailExportItemForm extends acCouchdbObjectForm {
   
     public function configure() {
 
-        $this->setWidget('numero_contrat', new sfWidgetFormChoice(array('choices' =>  $this->getContrats()), array('class' => 'autocomplete')));
         $this->setWidget('destination', new sfWidgetFormInputText());        
-        $this->setWidget('volume', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
+        $this->setWidget('volume', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off', 'class' => 'num num_float')));
         $this->setWidget('date_enlevement', new sfWidgetFormInput());
         
-        $this->setValidator('numero_contrat', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getContrats()))));
         $this->setValidator('destination', new sfValidatorString(array('required' => true)));
         $this->setValidator('volume', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('date_enlevement', new sfValidatorDate(array('required' => true, 
@@ -33,13 +31,4 @@ class DRMDetailExportItemForm extends acCouchdbObjectForm {
         return $this->getObject()->getDetail();
     }
 
-    public function getContrats() {
-
-        return array_merge(
-                array("" => ""),
-                DRMClient::getInstance()->getContratsFromProduit('ETABLISSEMENT-'.$this->getObject()->getDocument()->identifiant, 
-                                                                $this->getObject()->getDetail()->getCepage()->getHash())
-                );
-    }
-    
 }

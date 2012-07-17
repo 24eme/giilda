@@ -1,15 +1,15 @@
 <?php
 /**
- * BaseDRMDetailExport
+ * BaseDRMDetailCooperative
  * 
- * Base model for DRMDetailExport
+ * Base model for DRMDetailCooperative
 
- * @property string $destination
+ * @property string $cooperative_id
  * @property float $volume
  * @property string $date_enlevement
 
- * @method string getDestination()
- * @method string setDestination()
+ * @method string getCooperativeId()
+ * @method string setCooperativeId()
  * @method float getVolume()
  * @method float setVolume()
  * @method string getDateEnlevement()
@@ -17,11 +17,11 @@
  
  */
 
-abstract class BaseDRMDetailExport extends acCouchdbDocumentTree {
+abstract class BaseDRMDetailCooperative extends acCouchdbDocumentTree {
                 
     public function configureTree() {
        $this->_root_class_name = 'DRM';
-       $this->_tree_class_name = 'DRMDetailExport';
+       $this->_tree_class_name = 'DRMDetailCooperative';
     }
                 
 }

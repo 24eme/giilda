@@ -9,7 +9,7 @@ class DRMDetailVracItemForm extends acCouchdbObjectForm {
     public function configure() {
 
         $this->setWidget('numero_contrat', new sfWidgetFormChoice(array('choices' =>  $this->getContrats()), array('class' => 'autocomplete')));
-        $this->setWidget('volume', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
+        $this->setWidget('volume', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off', 'class' => 'num num_float')));
         $this->setWidget('date_enlevement', new sfWidgetFormInput());
         
         $this->setValidator('numero_contrat', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getContrats()))));

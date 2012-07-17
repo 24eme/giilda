@@ -1,14 +1,8 @@
 <tr>
         <td class="export_detail_produit">
             <strong> 
-                <?php echo $detail->getLibelle(ESC_RAW); ?>&nbsp;: 
+                <?php echo $detail->getLibelle(ESC_RAW); ?>
             </strong>            
-        </td>
-        <td class="export_detail_numero_contrat">    
-            <?php
-            echo $form['numero_contrat']->renderError();
-            echo $form['numero_contrat']->render();
-            ?>
         </td>
         <td class="export_detail_destination">    
             <?php

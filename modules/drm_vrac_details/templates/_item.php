@@ -1,6 +1,6 @@
 <tr>
         <td class="export_detail_produit">
-            <strong> <?php echo $detail->getLibelle(ESC_RAW); ?>&nbsp;: </strong>
+            <strong><?php echo $detail->getLibelle(ESC_RAW); ?></strong>
         </td>
         <td class="export_detail_numero_contrat">    
             <?php

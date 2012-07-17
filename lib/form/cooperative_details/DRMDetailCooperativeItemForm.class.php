@@ -8,12 +8,10 @@ class DRMDetailCooperativeItemForm extends acCouchdbObjectForm {
   
     public function configure() {
 
-        $this->setWidget('numero_contrat', new sfWidgetFormChoice(array('choices' =>  $this->getContrats()), array('class' => 'autocomplete')));
         $this->setWidget('cooperative_id', new sfWidgetFormChoice(array('choices' =>  $this->getCooperatives()), array('class' => 'autocomplete')));
-        $this->setWidget('volume', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
+        $this->setWidget('volume', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off', 'class' => 'num num_float')));
         $this->setWidget('date_enlevement', new sfWidgetFormInput());
         
-        $this->setValidator('numero_contrat', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getContrats()))));
         $this->setValidator('cooperative_id', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperatives()))));
         $this->setValidator('volume', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('date_enlevement', new sfValidatorDate(array('required' => true, 
@@ -33,14 +31,6 @@ class DRMDetailCooperativeItemForm extends acCouchdbObjectForm {
         return $this->getObject()->getDetail();
     }
 
-    public function getContrats() {
-        return array_merge(
-                array("" => ""),
-                DRMClient::getInstance()->getContratsFromProduit('ETABLISSEMENT-'.$this->getObject()->getDocument()->identifiant, 
-                                                                $this->getObject()->getDetail()->getCepage()->getHash())
-                );
-    }
-    
     public function getCooperatives() {
         $etablissements = array('' => '');
         $datas = EtablissementClient::getInstance()->findAll()->rows;

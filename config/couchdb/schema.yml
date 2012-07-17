@@ -266,7 +266,6 @@ DRM:
                                                                                                                           class: DRMDetailExport
                                                                                                                           definition:
                                                                                                                             fields:
-                                                                                                                              numero_contrat: {  }
                                                                                                                               destination: {  }
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
@@ -276,10 +275,9 @@ DRM:
                                                                                                                        fields:
                                                                                                                          '*':
                                                                                                                             type: collection
-                                                                                                                            class: DRMDetailExport
+                                                                                                                            class: DRMDetailCooperative
                                                                                                                             definition:
                                                                                                                               fields:
-                                                                                                                                numero_contrat: {  }
                                                                                                                                 cooperative_id: {  }
                                                                                                                                 volume: { type: float }
                                                                                                                                 date_enlevement: {  }

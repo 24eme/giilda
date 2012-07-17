@@ -44,11 +44,26 @@
                     <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="num num_float somme_groupe somme_sorties" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
                 </p>
                 <ul>
-                    <?php  $nbItem = count($form['sorties']); $i=0; foreach($form['sorties'] as $key => $subform): $i++; ?>
+                    <?php  $nbItem = count($form['sorties']); $i=0; 
+                    	foreach($form['sorties'] as $key => $subform): $i++; ?>
                     <?php $class = 'num num_float'; if ($i==1) $class .= ' premier'; if ($i==$nbItem) $class .= ' dernier';?>
                     <li class="<?php echo isRectifierCssClass($form->getObject()->sorties, $key) ?>">
+                    	<?php if($key=="vrac"): ?>
+                    		<a href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn_majeur btn_modifier">
+                    			<?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac . " hl" : "0 hl" ?>
+                    		</a>
+                    	<?php elseif($key=="export"): ?>
+                    		<a href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn_majeur btn_modifier">
+                    			<?php echo $detail->sorties->export > 0 ? $detail->sorties->export . " hl" : "0 hl" ?>
+                    		</a>
+                    	<?php elseif($key=="cooperative"): ?>
+                    		<a href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" class="btn_majeur btn_modifier">
+                    			<?php echo $detail->sorties->cooperative > 0 ? $detail->sorties->cooperative . " hl" : "0 hl" ?>
+                    		</a>
+                    	<?php else: ?>
                         <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(),
                                                                         'class' => $class)) ?>
+                        <?php endif; ?>
                     </li>
                     <?php endforeach; ?>
                 </ul>
@@ -68,9 +83,6 @@
                     </li>
                     <?php endforeach; ?>
                 </ul>
-                <p><a href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">Vracs</a></p>
-                <p><a href="<?php echo url_for("drm_export_details", $form->getObject()) ?>">Export</a></p>
-                <p><a href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>">Coopérative (sortie)</a></p>
             </div>
 
             <div class="col_btn">
