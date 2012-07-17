@@ -11,7 +11,7 @@ class myUser extends sfBasicSecurityUser
 
 	public function getTiers() {
 		if (is_null($this->tiers)) {
-			$this->tiers = EtablissementClient::getInstance()->findByIdentifiant('111849');
+			$this->tiers = EtablissementClient::getInstance()->findByIdentifiant('511883');
 		}
 		
 		return $this->tiers;
