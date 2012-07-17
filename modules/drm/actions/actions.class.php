@@ -22,7 +22,7 @@ class drmActions extends sfActions
       	$drm = $this->getUser()->getDRM();
   	  }
       $drm->save();
-      $this->redirect('drm_recap', $drm);
+      $this->redirect('drm_edition', $drm);
   }
   
   /**
@@ -31,7 +31,7 @@ class drmActions extends sfActions
    */
   public function executeInit(sfWebRequest $request) {
       $drm = $this->getRoute()->getDRM();
-      $this->redirect('drm_recap', $drm);
+      $this->redirect('drm_edition', $drm);
       /*if ($etape = $drm->etape) {
       	$this->redirect($drm->getCurrentEtapeRouting(), $drm);
       } else {
