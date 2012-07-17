@@ -29,7 +29,7 @@ $flagStatut = false;
                         <li class="legende_contrat"><span class="statut statut_solde"></span> Soldé <span class="f_right"><span class="statut statut_non-solde"></span> Non soldé</span></li>
                         <li class="separateur"></li>
                         <?php 
-                                     
+                        if($vracs->rows)            
                         foreach ($vracs->rows as $value) 
                         {                           
                             $elt =$value->value;
