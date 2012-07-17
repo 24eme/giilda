@@ -47,9 +47,7 @@ class drm_editionActions extends sfActions
     	$this->init();
 
     	$this->form = new DRMProduitForm($this->drm, $this->drm->declaration->getConfig());
-
      	$this->form->bind($request->getParameter($this->form->getName()));
-
      	if ($this->form->isValid()) {
      		$detail = $this->form->addProduit();	
      		$this->drm->save();
@@ -83,4 +81,17 @@ class drm_editionActions extends sfActions
         $this->produits = $this->drm->declaration->getProduits();
     }
 
+    public function executeAddLabel(sfWebRequest $request) 
+    {
+      $detail = $this->getRoute()->getDRMDetail();
+      $drm = $this->getRoute()->getDRM();
+      $this->form = new DRMProduitLabelForm($detail);
+      if ($request->isMethod('POST')) {
+	$this->form->bind($request->getParameter($this->form->getName()));
+	if ($this->form->isValid()) {
+	  $this->form->save();	
+	  return $this->redirect('drm_edition', $drm);
+	}
+      }
+    }
 }
