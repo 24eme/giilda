@@ -69,9 +69,10 @@
                     </li>
                     <?php endforeach; ?>
                 </ul>
-                <a href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">Vracs</a>
-                <a href="<?php // echo url_for("drm_cooperative_sortie", $form->getObject()) ?>">Coopérative (sortie)</a>
-                <a href="<?php // echo url_for("drm_export", $form->getObject()) ?>">Export</a>
+                <p><a href="<?php echo url_for("drm_mouvements_generaux_produit_addlabel", $form->getObject()) ?>">Ajout Label</a></p>
+                <p><a href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">Vracs</a></p>
+                <p><a href="<?php // echo url_for("drm_cooperative_sortie", $form->getObject()) ?>">Coopérative (sortie)</a></p>
+                <p><a href="<?php // echo url_for("drm_export", $form->getObject()) ?>">Export</a></p>
             </div>
 
             <div class="col_btn">
