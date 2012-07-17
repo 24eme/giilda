@@ -342,6 +342,24 @@ class DRMRouting {
                                                         'type' => 'object',
                                                         'must_be_valid' => false,
                                                         'must_be_not_valid' => true)));
+        
+        $r->prependRoute('drm_export_details', new DRMDetailRoute('/drm-edition/:campagne_rectificative/details-export/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', 
+                                                    array('module' => 'drm_export_details', 
+                                                        'action' => 'produit'),
+                                                    array('sf_method' => array('get','post')),
+                                                    array('model' => 'DRM',
+                                                        'type' => 'object',
+                                                        'must_be_valid' => false,
+                                                        'must_be_not_valid' => true)));
+        
+        $r->prependRoute('drm_cooperative_details', new DRMDetailRoute('/drm-edition/:campagne_rectificative/details-cooperative/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', 
+                                                    array('module' => 'drm_cooperative_details', 
+                                                        'action' => 'produit'),
+                                                    array('sf_method' => array('get','post')),
+                                                    array('model' => 'DRM',
+                                                        'type' => 'object',
+                                                        'must_be_valid' => false,
+                                                        'must_be_not_valid' => true)));
     }
 
 }
