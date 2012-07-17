@@ -240,6 +240,7 @@ DRM:
                                                                                                                   mouvement: { type: float }
                                                                                                                   distillation: { type: float }
                                                                                                                   lies: { type: float }
+<<<<<<< HEAD
                                                                                                                   vrac_details:
                                                                                                                     type:  array_collection
                                                                                                                     definition:
@@ -376,4 +377,8 @@ DRM:
           fields:
             service: {  }
             envoi: {  }
+<<<<<<< HEAD
             accuse: {  }
+=======
+            accuse: {  }
+>>>>>>> df7621669f2452b2c030dd3b7cfa3e677b73177c
