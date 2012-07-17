@@ -57,7 +57,7 @@
             
             $('.drm_export_details_remove').live('click',function()
             {
-                $(this).parent().remove();
+                $(this).parent().parent().remove();
             });
             
             
