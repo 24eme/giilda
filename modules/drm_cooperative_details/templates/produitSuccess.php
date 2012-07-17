@@ -29,6 +29,7 @@
     </table>
 </div>
 <input type="submit" value="Valider" />
+<a href="<?php echo url_for('drm_edition', $drm); ?>" id="drm_cooperative_details_annuler" class="btn_majeur btn_rouge">Annuler</a>
 <a href="#" id="drm_cooperative_details_addTemplate" class="btn_majeur btn_orange">Ajouter</a>
 </form>
 
