@@ -167,6 +167,15 @@ class DRMRouting {
                               'must_be_valid' => false,
                               'must_be_not_valid' => true)));
                         
+        $r->prependRoute('drm_mouvements_generaux_produit_addlabel', new DRMDetailRoute('/drm-edition/:campagne_rectificative/mouvements-generaux/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail/addlabel',
+                        array('module' => 'drm_mouvements_generaux',
+                            'action' => 'addLabel'),
+                        array('sf_method' => array('post')),
+                        array('model' => 'DRMProduit',
+                              'type' => 'object',
+                              'must_be_valid' => false,
+                              'must_be_not_valid' => true)));
+                        
         $r->prependRoute('drm_mouvements_generaux_stock_epuise', new DRMRoute('/drm-edition/:campagne_rectificative/mouvements-generaux/stock-epuise',
                         array('module' => 'drm_mouvements_generaux',
                             'action' => 'stockEpuise'),
