@@ -952,6 +952,7 @@ bouton.btn_majeur { height:26px; }
   background-color:#c1c1c1;
   color:#ffffff;
 }
+.ui-autocomplete a.ui-state-hover, .ui-autocomplete a.ui-state-active { background:#e9e9e9; }
 .type_raisins, .type_mouts, .type_vin_vrac, .type_vin_bouteille {
   height:1px;
   overflow:hidden;
