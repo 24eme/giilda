@@ -16,7 +16,7 @@ class drm_cooperative_detailsActions extends sfActions
                 $this->form->update();
                 $this->drm->save();
                 
-                $this->redirect('drm_cooperative_details', $this->detail);
+                $this->redirect('drm_edition', $this->drm);
             }
         }
     }
