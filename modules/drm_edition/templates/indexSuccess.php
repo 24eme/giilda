@@ -23,6 +23,7 @@
 
                 <?php include_partial('drm_edition/list', array('drm_noeud' => $drm->declaration, 
                                                                    'config' => $config,
+   'detail' => $detail,
                                                                    'produits' => $produits,
                                                                    'form' => $form,
                 												   'detail' => $detail)); ?>
