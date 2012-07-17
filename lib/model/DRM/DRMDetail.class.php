@@ -104,6 +104,24 @@ class DRMDetail extends BaseDRMDetail {
         $this->total_entrees = $this->getTotalByKey('entrees');
         $this->total_sorties = $this->getTotalByKey('sorties');
         $this->total = $this->total_debut_mois + $this->total_entrees - $this->total_sorties;
+        
+        $this->sorties->vrac = 0;
+        foreach ($this->sorties->vrac_details as $vrac_detail)
+        {
+            $this->sorties->vrac+=$vrac_detail->volume;
+        }
+        
+        $this->sorties->export = 0;
+        foreach ($this->sorties->export_details as $export_detail)
+        {
+            $this->sorties->export+=$export_detail->volume;
+        }
+        
+        $this->sorties->cooperative = 0;
+        foreach ($this->sorties->cooperative_details as $cooperative_detail)
+        {
+            $this->sorties->cooperative+=$cooperative_detail->volume;
+        }
     }
     
     private function getTotalByKey($key) {
@@ -255,6 +273,5 @@ class DRMDetail extends BaseDRMDetail {
     	}
     	return $objectToDelete;
     }
-    
-    
+        
 }

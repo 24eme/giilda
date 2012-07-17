@@ -27,9 +27,9 @@
         </tbody>
     </table>
 </div>
-<input type="submit" value="Valider" />
 <a href="<?php echo url_for('drm_edition', $drm); ?>" id="drm_vrac_details_annuler" class="btn_majeur btn_annuler">Annuler</a>
 <a href="#" id="drm_vrac_details_addTemplate" class="btn_majeur btn_modifier">Ajouter</a>
+<button type="submit" class="btn_majeur btn_valider" >Valider</button>
 </form>
 
 <script type="text/javascript">

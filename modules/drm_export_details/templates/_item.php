@@ -22,7 +22,7 @@
             echo $form['volume']->render();
             ?>
         </td>
-        <td class="export_detail_date_enlevement champ_datepicker">    
+        <td class="export_detail_date_enlevement">    
             <?php
             echo $form['date_enlevement']->renderError();
             echo $form['date_enlevement']->render();
