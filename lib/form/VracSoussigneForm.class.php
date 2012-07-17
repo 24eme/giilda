@@ -111,4 +111,4 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     }
 
 }
-?>
+

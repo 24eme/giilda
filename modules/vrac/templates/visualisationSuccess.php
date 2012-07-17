@@ -40,7 +40,9 @@
                             </div>                            
                         </div>
                         <div id="ligne_btn">
-                            <?php if(!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE): ?>
+                            <?php if(!is_null($vrac->valide->statut) 
+                                    && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE 
+                                    && (is_null($vrac->volume_enleve) || ($vrac->volume_enleve==0))): ?>
                                 <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
                             <?php endif; ?>
 

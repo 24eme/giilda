@@ -28,4 +28,3 @@ class VracVolumeEnleveForm extends acCouchdbObjectForm {
   
 }
 
-?>

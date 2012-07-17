@@ -119,4 +119,4 @@ class VracMarcheForm extends acCouchdbObjectForm {
       return $this->getConfig()->labels->toArray();
     }
 }
-?>
+
