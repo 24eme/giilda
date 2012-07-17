@@ -2,7 +2,7 @@
 	<p class="couleur">Produit</p>
 	<p class="label">Labels</p>
 	
-	<div class="groupe" data-groupe-id="1">
+	<div class="groupe demarrage-ouvert bloque" data-groupe-id="1">
 		<p>Stock théorique dbt de mois</p>
 		<ul>
 			<?php foreach ($config->detail->getStocksDebut() as $key => $item): ?>
