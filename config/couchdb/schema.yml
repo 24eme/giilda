@@ -275,6 +275,7 @@ DRM:
                                                                                                                             definition:
                                                                                                                               fields:
                                                                                                                                 numero_contrat: {  }
+                                                                                                                                cooperative_id: {  }
                                                                                                                                 volume: { type: float }
                                                                                                                                 date_enlevement: {  }
                                                                                                             stocks_fin:

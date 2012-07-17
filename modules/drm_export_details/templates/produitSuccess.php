@@ -1,16 +1,3 @@
-<style>
-#drm_export_details_table th {
-    background: none repeat scroll 0 0 #ECEBEB;
-    border: 1px solid #E5E4E4;
-    vertical-align: middle;
-    }
-    
-#drm_export_details_table td {  
-    border: 1px solid #E5E4E4;
-    padding: 10px;
-    }    
-</style>
-
 <form method="post" action="<?php echo url_for('drm_export_details', $detail) ?>">
 <div id="drm_export_details_form">
     <?php    
