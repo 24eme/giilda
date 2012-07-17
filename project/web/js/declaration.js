@@ -12,6 +12,9 @@
 {
 	var anchorIds = {"entrees" : 2, "sorties" : 3}
 	// Variables globales 
+
+	var selectProduit = $('#produit_declaration_hashref');
+
 	var colonnesDR = $('#colonnes_dr');
 	var colIntitules = $('#colonne_intitules');
 	var colSaisies = $('#col_saisies');
@@ -41,18 +44,53 @@
 		if(colonnesDR.exists())
 		{
 			$.initColonnes();
-			$.verifierChampsNombre();
-			$.calculerSommesChamps();
-			$.toggleGroupesChamps();
+			$.initColBoutons();
+			$.initMasqueColActive();
+			$.initColFocus();
+			$.initColActive();
+			$.initProduitForm();
+			$.initRaccourcis();
 		}
 	});
+
+
+
+	/**
+	 * Initialise l'ajax pour le formulaire d'ajout d'un produit
+	 * $.initProduitForm();
+	 ******************************************/
+	$.initProduitForm = function() {
+		var formProduit = $('#form_produit_declaration');
+
+		selectProduit.combobox();
+
+		selectProduit.change(function() {
+			formProduit.submit();
+		});
+
+		formProduit.submit(function() {
+			$.post($(this).attr('action'), $(this).serializeArray(), function (data) {
+				if (data.success) {
+					colSaisiesCont.append(data.content);
+					$.initColonnes();
+					selectProduit.val('');
+					selectProduit.parent().find('.ui-autocomplete-input').val('');
+					$.majColFocus(colSaisiesRecolte.eq(colSaisiesRecolte.length-1), false);
+				}
+			}, 'json');
+
+			return false;
+		});
+	}
 	
+
 	/**
 	 * Calcul dynamique des dimmensions des colonnes
 	 * $.initColonnes();
 	 ******************************************/
 	$.initColonnes = function()
 	{
+		colSaisiesRecolte = colSaisiesCont.find('.col_recolte');
 		var colEgales = colIntitules.add(colSaisiesCont).add(colTotal);
 		var colSaisiesActive = colSaisiesRecolte.filter('.col_active');
 		var largeurCSC = 0;
@@ -68,27 +106,17 @@
 		});
 		
 		colSaisiesCont.width(largeurCSC);
-	
-		// Initialisation des actions des boutons des colonnes
-		$.initColBoutons();
-		
-		// Initialisation des actions associées aux raccourci clavier
-		$.initRaccourcis();
-		
+
 		// Initialisation le comportement des champs au focus et à la saisie
 		$.initComportementsChamps();
-		
-		// Positionnement du focus par défaut
-		$.initColFocus();
 		
 		// Egalisation de la hauteur des colonnes et des titres
 		colEgales.find('.couleur, h2').hauteurEgale();
 		colEgales.find('.label').hauteurEgale();
 		
-		$.initMasqueColActive();
-		
-		// Colonne active par défaut
-		if(colActiveDefaut.exists()) colActiveDefaut.majColActive();
+		$.verifierChampsNombre();
+		$.calculerSommesChamps();
+		$.toggleGroupesChamps();
 	};
 	
 	/**
@@ -126,42 +154,16 @@
 	 ******************************************/
 	$.initColBoutons = function()
 	{
-		colSaisiesRecolte.each(function()
+		$('#col_saisies_cont .col_recolte .col_btn button.btn_reinitialiser').live('click', function()
 		{
-			var col = $(this);
-			var boutons = col.find('.col_btn button');
-			//var btnModifier = boutons.filter('.btn_modifier');
-			//var btnSupprimer = boutons.filter('.btn_supprimer');
-			var btnReinitialiser = boutons.filter('.btn_reinitialiser');
-			var btnValider = boutons.filter('.btn_valider');
-			
-			
-			// Modification de la colonne
-			/*btnModifier.click(function()
-			{
-				if(!colActive) col.majColActive(true);
-				return false;
-			});*/
-			
-			// Suppression d'une colonne
-			/*btnSupprimer.click(function()
-			{
-				return col.supprimerCol();
-			});*/
-			
-			// Réinitialisation des valeurs d'une colonne
-			btnReinitialiser.click(function()
-			{
 				$.reinitialiserCol();
 				return false;
-			});
-			
-			// Validation des valeurs d'une colonne
-			btnValider.click(function()
-			{
+		});
+
+		$('#col_saisies_cont .col_recolte .col_btn button.btn_valider').live('click', function()
+		{
 				$.validerCol();
 				return false;
-			});
 		});
 	};
 	
@@ -181,6 +183,8 @@
 		
 		// Ctrl + M ==> Commencer édition colonne avec focus
 		$.ctrl(77, function () { colFocus.majColActive(true); });
+
+		$.ctrl(80, function () { selectProduit.parent().find('.ui-autocomplete-input').focus(); });
 		
 		// Ctrl + touche supprimer ==> Suppression colonne avec focus
 		//$.ctrl(46, function() { colFocus.find('.btn_supprimer').trigger('click'); });
@@ -345,6 +349,7 @@
 	 ******************************************/
 	$.initComportementsChamps = function()
 	{
+
 		colSaisiesRecolte.each(function()
 		{
 			var colonne = $(this);
@@ -498,7 +503,7 @@
 			colCurseur = colFocus.find('a.col_curseur');
 			colFocusNum = colCurseur.attr('data-curseur');
 			
-			if(direction) colCurseur.focus();
+			colCurseur.focus();
 			
 			$.majColSaisiesScroll();
 		}
@@ -510,7 +515,7 @@
 	 ******************************************/
 	$.initColActive = function()
 	{
-		
+		if(colActiveDefaut.exists()) colActiveDefaut.majColActive();
 	};
 	
 	/**
