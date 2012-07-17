@@ -2,6 +2,6 @@
 
 php symfony couchdb:build-view > /tmp/views;
 
-cat /tmp/views | grep -E "^http://" | awk '{ print "curl -s \"" $1 "\" > /dev/null &\nsleep 1;\ntest -n "$!" && test -e /proc/$! && kill %1;\necho \"" $1 "\";" }' > /tmp/views_exec
+cat /tmp/views | grep -E "^http://" | awk '{ print "curl -s \"" $1 "\" > /dev/null &\nsleep 1;\ntest -n \"$!\" && test -e /proc/$! && kill %1;\necho \"" $1 "\";" }' > /tmp/views_exec
 
 bash /tmp/views_exec
