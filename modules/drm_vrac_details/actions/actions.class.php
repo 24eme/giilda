@@ -18,6 +18,11 @@ class drm_vrac_detailsActions extends sfActions
                 
                 $this->redirect('drm_edition_detail', $this->detail);
             }
+            if($request->isXmlHttpRequest())
+            {
+                return $this->renderText(json_encode(array('success' => false ,'content' => $this->getPartial('formContent', array('form' => $this->form, 'detail' => $this->detail)))));
+                
+            }
         }
     }
 }

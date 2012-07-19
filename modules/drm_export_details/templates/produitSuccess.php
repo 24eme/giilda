@@ -1,33 +1,10 @@
 <div id="contenu" style="background: #fff;">
 	<section id="principal">
-		<form method="post" action="<?php echo url_for('drm_export_details', $detail) ?>">
-		<div id="drm_export_details_form" style="margin-bottom: 10px;">
-		    <?php    
-		        echo $form->renderHiddenFields();
-		        echo $form->renderGlobalErrors();
-		    ?>
-		    <table id="drm_export_details_table">
-		        <thead>
-		            <tr>
-		                <th>Produit</th>
-		                <th>Destination</th>
-		                <th>Volumes</th>
-		                <th>Dates</th>
-		                <th></th>
-		            </tr>
-		        </thead>
-		        <tbody id="drm_export_details_tableBody">
-		        <?php
-		        foreach ($form as $itemForm){
-		            if($itemForm instanceof sfFormFieldSchema) {
-		                include_partial('item',array('form' => $itemForm,'detail' => $detail));
-		            } else {
-		                $itemForm->renderRow();
-		            }
-		        }
-		        ?>
-		        </tbody>
-		    </table>
+		<form id="drm_export_details_form" method="post" action="<?php echo url_for('drm_export_details', $detail) ?>">
+		<div id="drm_export_details_form_content" style="margin-bottom: 10px;">
+		    <?php
+                    include_partial('formContent',array('form' => $form, 'detail' => $detail));
+                    ?>
 		</div>
 		<a href="<?php echo url_for('drm_edition_detail', $detail); ?>" id="drm_export_details_annuler" class="btn_majeur btn_annuler">Annuler</a>
 		<a href="#" id="drm_export_details_addTemplate" class="btn_majeur btn_modifier">Ajouter</a>
@@ -49,7 +26,21 @@
 		                $(this).parent().parent().remove();
 		            });
 		            
-		            
+		            $('#drm_export_details_form').submit(function()
+                            {
+                                $.post($(this).attr('action'),
+                                    $(this).serialize(),
+                                    function(data)
+                                    {
+                                        if(!data.success)
+                                        {
+                                            $('#drm_export_details_form_content').html(data.content);
+                                            $('.autocomplete').combobox();
+                                        }
+                                    }, "json");
+
+                            return false;
+                            });	
 		     });
 		        
 		</script>
