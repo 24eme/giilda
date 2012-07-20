@@ -1014,9 +1014,7 @@
         $.initDetailsPopups = function()
         {
               $("a.drm_details").each(function() {
-                  
                   var lien = $(this);
-                 // actifPopupLien = lien;
                   lien.fancybox({type : 'ajax',
                                     fitToView : false,
                                     afterShow : function()
@@ -1025,10 +1023,10 @@
                                     },
                                     onClose : function()
                                     {
-                                      //  $.unbindDetailsPopup();  
+                                        $.unbindDetailsPopup();  
                                     }
                                 });
-              });
+            });
               
             $('.drm_details_form .drm_details_remove').live('click',function()
             {
@@ -1055,13 +1053,14 @@
                 
              var lien = $(this); 
             
-             $('.autocomplete').combobox();             
-             $('.drm_details_addTemplate').bind('click',function()
+            $('.autocomplete').combobox();
+            $('.champ_datepicker input').initDatepicker();             
+            $('.drm_details_addTemplate').bind('click',function()
             {
                 $($('.template_details').html().replace(/var---nbItem---/g, UUID.generate())).appendTo($('.drm_details_tableBody'));
                 $('.autocomplete').combobox();
-                $.fancybox.update();	
-                
+                $('.champ_datepicker input').initDatepicker(); 
+                $.fancybox.update();                
             });
 
             $('.drm_details_form').bind('submit', function()
@@ -1087,9 +1086,15 @@
             });
          };   
          
-//         $.triggerActifPopupLien = function()
-//         {
-//             actifPopupLien.trigger('click');
-//         }
-	
+        $.fn.initDatepicker = function()
+        {
+             $(this).datepicker({showOn: "button",
+                                 buttonImage: "/images/pictos/pi_calendrier.png",
+                                 buttonImageOnly: true,  
+                                 dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+                                 monthNames: ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Décembre"], 
+                                 dateFormat: 'dd/mm/yy', 
+                                 firstDay:1}); 
+        };
+         	
 })(jQuery);
