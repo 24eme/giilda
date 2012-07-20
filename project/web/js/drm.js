@@ -181,5 +181,5 @@ var objAjoutsLiquidations = {};
 			else texteCaution.hide();
 		}); // fin de click()
 	} // fin de $.choixCaution()
-
+        
 })(jQuery);
