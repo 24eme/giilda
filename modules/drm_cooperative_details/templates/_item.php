@@ -23,6 +23,6 @@
             ?>
         </td>   
         <td class="export_detail_remove">    
-            <a href="#"  class="btn_majeur btn_rouge drm_cooperative_details_remove">Supprimer</a>
+            <a href="#"  class="btn_majeur btn_rouge drm_details_remove">Supprimer</a>
         </td>  
 </tr>

@@ -12,7 +12,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody id="drm_export_details_tableBody">
+    <tbody id="drm_export_details_tableBody" class="drm_details_tableBody">
     <?php
     foreach ($form as $itemForm){
         if($itemForm instanceof sfFormFieldSchema) {

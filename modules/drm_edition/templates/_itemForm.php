@@ -1,6 +1,5 @@
 <?php use_helper('Float'); ?>
 <?php use_helper('Rectificative'); ?>
-
 <div id="col_recolte_<?php echo $form->getObject()->getKey() ?>" class="col_recolte<?php if ($active): ?> col_active<?php endif; ?>" data-input-focus="#drm_detail_entrees_achat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? rectifierCssClass() : '' ?>">
     <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>
@@ -49,15 +48,15 @@
                     <?php $class = 'num num_float'; if ($i==1) $class .= ' premier'; if ($i==$nbItem) $class .= ' dernier';?>
                     <li class="<?php echo isRectifierCssClass($form->getObject()->sorties, $key) ?>">
                     	<?php if($key=="vrac"): ?>
-                    		<a href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn_majeur btn_modifier">
-                    			<?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac . " hl" : "0 hl" ?>
-                    		</a>
+                                <a class="btn_majeur btn_modifier drm_details drm_details_sortie_vrac" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">
+                                    <?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac . " hl" : "0 hl" ?>
+                                </a>
                     	<?php elseif($key=="export"): ?>
-                    		<a href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn_majeur btn_modifier">
+                    		<a class="btn_majeur btn_modifier drm_details drm_details_sortie_export" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>">
                     			<?php echo $detail->sorties->export > 0 ? $detail->sorties->export . " hl" : "0 hl" ?>
                     		</a>
                     	<?php elseif($key=="cooperative"): ?>
-                    		<a href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" class="btn_majeur btn_modifier">
+                    		<a  class="btn_majeur btn_modifier drm_details drm_details_sortie_cooperative" href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>">
                     			<?php echo $detail->sorties->cooperative > 0 ? $detail->sorties->cooperative . " hl" : "0 hl" ?>
                     		</a>
                     	<?php else: ?>

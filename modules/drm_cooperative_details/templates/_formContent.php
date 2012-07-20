@@ -1,6 +1,7 @@
 <?php
 echo $form->renderHiddenFields();
 echo $form->renderGlobalErrors();
+
 ?>
 <table id="drm_cooperative_details_table">
     <thead>
@@ -12,7 +13,7 @@ echo $form->renderGlobalErrors();
             <th></th>
         </tr>
     </thead>
-    <tbody id="drm_cooperative_details_tableBody">
+    <tbody id="drm_cooperative_details_tableBody" class="drm_details_tableBody">
     <?php
     foreach ($form as $itemForm){
         if($itemForm instanceof sfFormFieldSchema) {
