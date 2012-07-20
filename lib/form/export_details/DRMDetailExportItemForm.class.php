@@ -22,6 +22,11 @@ class DRMDetailExportItemForm extends acCouchdbObjectForm {
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
 
+    public function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+        if(!$this->getObject()->date_enlevement) $this->setDefault('date_enlevement', DRMClient::getInstance()->getDetailsDefaultDate());
+    }
+    
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
     }
@@ -31,4 +36,7 @@ class DRMDetailExportItemForm extends acCouchdbObjectForm {
         return $this->getObject()->getDetail();
     }
 
+    public function getDefaultDate() {
+        return date('d/m/Y');
+    }
 }

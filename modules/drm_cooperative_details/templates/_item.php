@@ -16,11 +16,11 @@
             echo $form['volume']->render();
             ?>
         </td>
-        <td class="export_detail_date_enlevement">    
-            <?php
-            echo $form['date_enlevement']->renderError();
-            echo $form['date_enlevement']->render();
-            ?>
+        <td class="export_detail_date_enlevement champ_datepicker">
+                <?php
+                echo $form['date_enlevement']->renderError();
+                echo $form['date_enlevement']->render();
+                ?>
         </td>   
         <td class="export_detail_remove">    
             <a href="#"  class="btn_majeur btn_rouge drm_details_remove">Supprimer</a>

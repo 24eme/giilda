@@ -21,7 +21,12 @@ class DRMDetailVracItemForm extends acCouchdbObjectForm {
         $this->widgetSchema->setNameFormat('drm_detail_vrac_item[%s]');
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
-
+    
+    public function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+        if(!$this->getObject()->date_enlevement) $this->setDefault('date_enlevement', DRMClient::getInstance()->getDetailsDefaultDate());
+    }
+    
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
     }
@@ -39,5 +44,10 @@ class DRMDetailVracItemForm extends acCouchdbObjectForm {
                                                                 $this->getObject()->getDetail()->getCepage()->getHash())
                 );
     }
+    
+    public function getDefaultDate() {
+        return date('d/m/Y');
+    }
+    
     
 }
