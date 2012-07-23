@@ -51,14 +51,17 @@
                                 <a class="btn_majeur btn_modifier drm_details drm_details_sortie_vrac" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">
                                     <?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac . " hl" : "0 hl" ?>
                                 </a>
+                                <input type="hidden" class="drm_details_sortie_vrac_vol"/> 
                     	<?php elseif($key=="export"): ?>
                     		<a class="btn_majeur btn_modifier drm_details drm_details_sortie_export" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>">
                     			<?php echo $detail->sorties->export > 0 ? $detail->sorties->export . " hl" : "0 hl" ?>
                     		</a>
+                                <input type="hidden" class="drm_details_sortie_export_vol"/> 
                     	<?php elseif($key=="cooperative"): ?>
                     		<a  class="btn_majeur btn_modifier drm_details drm_details_sortie_cooperative" href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>">
                     			<?php echo $detail->sorties->cooperative > 0 ? $detail->sorties->cooperative . " hl" : "0 hl" ?>
                     		</a>
+                                <input type="hidden" class="drm_details_sortie_cooperative_vol"/>
                     	<?php else: ?>
                         <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(),
                                                                         'class' => $class)) ?>
