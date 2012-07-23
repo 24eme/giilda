@@ -2466,7 +2466,7 @@ p#date_drm {
   border:1px solid #e5e4e4;
   vertical-align:middle;
 }
-#drm_export_details_table td, #drm_cooperative_details_table td, #drm_vrac_details_table td {
-  border:1px solid #e5e4e4;
-  padding:10px;
-}
+#drm_export_details_table td, #drm_cooperative_details_table td, #drm_vrac_details_table td { padding:10px; }
+#drm_export_details_table .export_detail_date_enlevement input, #drm_export_details_table .cooperative_detail_date_enlevement input, #drm_export_details_table .vrac_detail_date_enlevement input, #drm_cooperative_details_table .export_detail_date_enlevement input, #drm_cooperative_details_table .cooperative_detail_date_enlevement input, #drm_cooperative_details_table .vrac_detail_date_enlevement input, #drm_vrac_details_table .export_detail_date_enlevement input, #drm_vrac_details_table .cooperative_detail_date_enlevement input, #drm_vrac_details_table .vrac_detail_date_enlevement input { width:80%; }
+#drm_export_details_table .vrac_detail_volume, #drm_export_details_table .cooperative_detail_volume, #drm_export_details_table .export_detail_volume div, #drm_cooperative_details_table .vrac_detail_volume, #drm_cooperative_details_table .cooperative_detail_volume, #drm_cooperative_details_table .export_detail_volume div, #drm_vrac_details_table .vrac_detail_volume, #drm_vrac_details_table .cooperative_detail_volume, #drm_vrac_details_table .export_detail_volume div { text-align:center; }
+#drm_export_details_table span, #drm_cooperative_details_table span, #drm_vrac_details_table span { font-size:20px; }
