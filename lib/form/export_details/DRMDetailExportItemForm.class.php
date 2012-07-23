@@ -8,11 +8,13 @@ class DRMDetailExportItemForm extends acCouchdbObjectForm {
   
     public function configure() {
 
-        $this->setWidget('destination', new sfWidgetFormInputText());        
+        
+        
+        $this->setWidget('destination', new sfWidgetFormChoice(array('choices' => $this->getCountryList()), array('class' => 'autocomplete')));        
         $this->setWidget('volume', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off', 'class' => 'num num_float')));
         $this->setWidget('date_enlevement', new sfWidgetFormInput());
         
-        $this->setValidator('destination', new sfValidatorString(array('required' => true)));
+        $this->setValidator('destination', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCountryList()))));
         $this->setValidator('volume', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('date_enlevement', new sfValidatorDate(array('required' => true, 
                                                                          'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~',
@@ -38,5 +40,12 @@ class DRMDetailExportItemForm extends acCouchdbObjectForm {
 
     public function getDefaultDate() {
         return date('d/m/Y');
+    }
+    
+    public function getCountryList() {
+        $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
+        $destinationChoices = $destinationChoicesWidget->getChoices();
+        $destinationChoices['inconnu'] = 'Inconnu';
+        return $destinationChoices;
     }
 }
