@@ -1078,6 +1078,7 @@
                             else
                             {
                             lien.html(data.volume+" hl");
+                            lien.parent().children('input').val(data.volume);
                             $.fancybox.close();    
                             }
                         }, "json");
