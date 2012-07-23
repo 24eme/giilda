@@ -22,7 +22,24 @@ echo $form->renderGlobalErrors();
             $itemForm->renderRow();
         }
     }
-    ?>
+    ?>        
+        <tr id="drm_details_lastRow">
+            <td class="cooperative_detail_produit"></td>
+            <td class="cooperative_detail_destination">
+                <a href="#" id="drm_cooperative_details_addTemplate" class="btn_majeur btn_modifier drm_details_addTemplate">Ajouter une coopérative</a>
+            </td>
+            <td class="cooperative_detail_volume">
+                <div id="drm_details_cooperative_volume_total">
+                    <strong>
+                        <span class="drm_details_volume_somme">&Sigma;</span>
+                        <span class="drm_details_volume_total"><?php echo $detail->sorties->cooperative > 0 ? $detail->sorties->cooperative : "0.00" ?></span>
+                        <span class="drm_details_volume_unite unite">hl</span>
+                    </strong>
+                </div>      
+            </td>
+            <td class="cooperative_detail_date_enlevement"></td>   
+            <td class="cooperative_detail_remove"></td>
+        </tr>
     </tbody>
 </table>
 
