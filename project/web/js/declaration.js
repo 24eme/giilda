@@ -663,7 +663,7 @@
 				var champSomme = $(this);
 				var tabChamps;
 				var champsAddition;
-				var float = champSomme.hasClass('num_float');
+				var hasClassFloat = champSomme.hasClass('num_float');
 				var somme = 0;
 				var valeur = 0;
 				
@@ -692,7 +692,7 @@
 						valeur = $(this).attr('value');
 						if (valeur == '') valeur = 0;
 		
-						if(float) somme += parseFloat(valeur);
+						if(hasClassFloat) somme += parseFloat(valeur);
 						else somme += parseInt(valeur);
 					});
 				}
@@ -710,11 +710,11 @@
 					if(champSommeSorties.hasClass('num_float')) somme -= parseFloat(champSommeSorties.val());
 					else somme -= parseInt(champSommeSorties.val());
 				
-					if(float) somme = parseFloat(somme);
+					if(hasClassFloat) somme = parseFloat(somme);
 					else somme = parseInt(somme);
 				}
 				
-				if(float) somme = somme.toFixed(2); // Arrondi à 2 chiffres après la virgule
+				if(hasClassFloat) somme = somme.toFixed(2); // Arrondi à 2 chiffres après la virgule
 				champSomme.attr('value', somme);
 			});
 		});
@@ -1002,7 +1002,7 @@
 		} else {
 			champ.removeClass('num_light');
 		}*/
-		
+		console.log(champ );
 		champ.attr('value', val);
 	};
         
@@ -1079,6 +1079,8 @@
                             {
                             lien.html(data.volume+" hl");
                             lien.parent().children('input').val(data.volume);
+                            lien.parent().children('input').attr('data-val-defaut',data.volume);
+                            $.calculerSommesChamps();
                             $.fancybox.close();    
                             }
                         }, "json");
