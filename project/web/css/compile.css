@@ -1507,6 +1507,7 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
 }
 #contenu_etape #vrac_validation .btnModification:after, #contenu_etape #vrac_recapitulatif .btnModification:after, #contenu_etape #vrac_visualisation .btnModification:after { clear:both; }
 #contenu_etape #vrac_validation li, #contenu_etape #vrac_recapitulatif li, #contenu_etape #vrac_visualisation li { padding-bottom:40px; }
+#contenu_etape #vrac_validation .lightpadding, #contenu_etape #vrac_recapitulatif .lightpadding, #contenu_etape #vrac_visualisation .lightpadding { padding-bottom:10px; }
 #contenu_etape #vrac_visualisation .legende div {
   display:block;
   margin:15px 0 0;
