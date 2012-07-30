@@ -19,28 +19,31 @@ function getBouteilleContenance($value) {
     <label>Volumes proposés</label>
     <!--  Affichage des contenances disponibles (seulement s'il s'agit de vins en bouteilles)  -->
     <div class="bloc_form" >
+        <?php echo $form['bouteilles_contenance_libelle']->renderError() ?>
         <div id="contenance" class="bouteilles_contenance_libelle ligne_form">
-            <span><?php echo $form['bouteilles_contenance_libelle']->renderLabel() ?> </span>
+            <span> <?php echo $form['bouteilles_contenance_libelle']->renderLabel() ?> </span>
             <?php echo $form['bouteilles_contenance_libelle']->render() ?>
-            <?php echo $form['bouteilles_contenance_libelle']->renderError() ?>
         </div>
 
         <!--  Affichage des volumes disponibles variables selon le type de transaction choisi  -->
         <div id="volume" class="ligne_form">
-            <div class="bouteilles_quantite ">
-                <?php echo $form['bouteilles_quantite']->renderError() ?>
+            
+            <?php echo $form['bouteilles_quantite']->renderError() ?>
+            <div class="bouteilles_quantite ">                
                 <span><?php echo $form['bouteilles_quantite']->renderLabel() ?></span>
                 <?php echo $form['bouteilles_quantite']->render() ?>
                 <span id="volume_unite_total" class="unite"></span>
             </div>
+            
+            <?php echo $form['jus_quantite']->renderError() ?>
             <div class="jus_quantite ">
-                <?php echo $form['jus_quantite']->renderError() ?>
                 <span>  <?php echo $form['jus_quantite']->renderLabel() ?></span>
                 <?php echo $form['jus_quantite']->render() ?>
                 <span id="volume_unite_total" class="unite"></span>
             </div>
-            <div class="raisin_quantite ">
-                <?php echo $form['raisin_quantite']->renderError() ?>
+            
+            <?php echo $form['raisin_quantite']->renderError() ?>
+            <div class="raisin_quantite ">                
                 <span><?php echo $form['raisin_quantite']->renderLabel() ?></span>
                 <?php echo $form['raisin_quantite']->render() ?>
                 <span id="volume_unite_total" class="unite"></span>
@@ -51,13 +54,15 @@ function getBouteilleContenance($value) {
         </div>
     </div>
 </div>
+
+
 <!--  Affichage du prix unitaire variables selon le type de transaction choisi -->
 <div id="prixUnitaire" class="section_label_maj">
-    <?php echo $form['prix_unitaire']->renderError(); ?>
     <?php echo $form['prix_unitaire']->renderLabel() ?>
     <?php echo $form['prix_unitaire']->render() ?>       
     <span id="prix_unitaire_unite" class="unite"></span>
     <span id="prix_unitaire_hl" class="small"></span>
+    <?php echo $form['prix_unitaire']->renderError(); ?>
 </div>
                 
 

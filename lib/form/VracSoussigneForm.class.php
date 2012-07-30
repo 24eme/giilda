@@ -56,6 +56,11 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             'mandataire_exist' => new sfValidatorBoolean(array('required' => false)),
             'mandatant' => new sfValidatorChoice(array('required' => false,'multiple'=> true, 'choices' => array_keys($mandatant_identifiantChoice)))
             ));
+        
+        
+        $this->validatorSchema['vendeur_identifiant']->setMessage('required', 'Le choix d\'un vendeur est obligatoire');        
+        $this->validatorSchema['acheteur_identifiant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');             
+        
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
     

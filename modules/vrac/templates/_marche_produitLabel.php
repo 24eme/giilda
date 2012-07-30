@@ -10,40 +10,40 @@
 
  $has_domaine = !is_null($form->getObject()->domaine);
  ?>
-
+<?php echo $form['produit']->renderError(); ?> 
 <!--  Affichage des produits disponibles (en fonction de la transaction choisie  -->
-<div id="produit" class="section_label_maj">
-    <?php echo $form['produit']->renderError(); ?>    
+<div id="produit" class="section_label_maj">   
     <?php echo $form['produit']->renderLabel() ?>
     <?php echo $form['produit']->render() ?>
 </div>
 
+<?php echo $form['millesime']->renderError(); ?>
 <!--  Affichage des millésimes  -->
 <div id="millesime" class="section_label_maj">
-    <?php echo $form['millesime']->renderError(); ?>
     <?php echo $form['millesime']->renderLabel() ?> 
     <?php echo $form['millesime']->render() ?>
 </div>
 
+
+<?php echo $form['contient_domaine']->renderError(); ?>
 <!--  Affichage du type  -->
 <div id="type" class="section_label_maj">
-    <?php echo $form['contient_domaine']->renderError(); ?>
     <?php echo $form['contient_domaine']->renderLabel() ?> 
     <?php echo $form['contient_domaine']->render() ?>    
 </div>
 
-
+<?php echo $form['domaine']->renderError(); ?>
 <!--  Affichage du type  -->
 <div id="domaine" class="section_label_maj">
-    <?php echo $form['domaine']->renderError(); ?>
     <?php echo $form['domaine']->renderLabel() ?> 
     <?php echo $form['domaine']->render() ?>   
 </div>
 
+
+<?php echo $form['label']->renderError(); ?>
 <!--  Affichage des label disponibles -->
 <div id="label" class="section_label_maj">
     <?php echo $form['label']->renderLabel() ?> 
-    <?php echo $form['label']->renderError(); ?>
     <?php echo $form['label']->render() ?>
 </div>
 <!--  

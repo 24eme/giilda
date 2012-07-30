@@ -75,6 +75,7 @@ class vracActions extends sfActions
                 $labels = array($data->key[4], $data->key[3], $data->key[1]);
                 $this->etablissements[$data->id] = trim(implode(',', array_filter($labels)));
         }
+    return true;
   }
   
   public function executeNouveau(sfWebRequest $request)
@@ -325,9 +326,10 @@ class vracActions extends sfActions
   public function executeExportCsv(sfWebRequest $request) 
   {    
     $this->setLayout(false);
-    $filename = $this->createCsvFilename($request);
+    $filename = $this->createCsvFilename($request);    
     
-    $file = $this->getVracsFromRecherche($request, false);    
+    $file = $this->getVracsFromRecherche($request, false);  
+    
     $this->forward404Unless($this->vracs);
     
     $attachement = "attachment; filename=".$filename.".csv";

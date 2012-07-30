@@ -12,7 +12,7 @@ if($nouveau)
 <script type="text/javascript">
     $(document).ready(function() 
     {
-        init_ajax_nouveau();
+        init_ajax_nouveau();        
     });                        
 </script>
 <?php
@@ -43,11 +43,12 @@ else
                 <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew())? url_for('vrac_nouveau') : url_for('vrac_soussigne',$vrac); ?>">   
                     <?php echo $form->renderHiddenFields() ?>
                     <?php echo $form->renderGlobalErrors() ?>
-
-                <div id="vendeur">                    
+                    
+                    <?php echo $form['vendeur_identifiant']->renderError(); ?>
+                <div id="vendeur">   
                     <!--  Affichage des vendeurs disponibles  -->
                     <div id="vendeur_choice" class="section_label_maj">
-                        <?php echo $form['vendeur_identifiant']->renderError(); ?>
+                       
                         <?php echo $form['vendeur_identifiant']->renderLabel() ?>
                         <!--div style="display: none;">
                             <?php //echo $form['vendeur_famille']->render() ?>                                                  
@@ -79,11 +80,11 @@ else
                     </div>
                 </div>
                 <br />
-
+                
+                <?php echo $form['acheteur_identifiant']->renderError(); ?>
                 <!--  Affichage des acheteurs disponibles  -->
                 <div id="acheteur"> 
                     <div id="acheteur_choice" class="section_label_maj">
-                        <?php echo $form['acheteur_identifiant']->renderError(); ?>
                         <?php echo $form['acheteur_identifiant']->renderLabel() ?>
                         <!--div style="display: none;" class="f_right">
                             <?php //echo $form['acheteur_famille']->render() ?>                          

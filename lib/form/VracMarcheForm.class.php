@@ -71,7 +71,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'jus_quantite' =>  new sfValidatorNumber(array('required' => false)), 
             'bouteilles_contenance_libelle' => new sfValidatorString(array('required' => true)),
             'prix_unitaire' => new sfValidatorNumber(array('required' => true))
-                ));
+             ));
+                        
+        $this->validatorSchema['produit']->setMessage('required', 'Le choix d\'un produit est obligatoire');        
+        $this->validatorSchema['prix_unitaire']->setMessage('required', 'Le prix doit être renseigné');  
+        
         $this->widgetSchema->setNameFormat('vrac[%s]');
         
     }
