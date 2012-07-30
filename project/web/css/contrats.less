@@ -438,9 +438,9 @@
 
                 .error_list
                 {
-                    padding: 0 0 0 40px;
-                    position:absolute;
-                    color : red;
+                    color: red;
+                    width: 100%;
+                    float: right;
                 }
 
                 .mandataire_infos{ .error_list
@@ -464,7 +464,13 @@
                                         width:230px;
                                 }
                         }
-                }   
+                }
+
+              #vrac_marche_produitLabel .error_list {
+                                                    width: 100%;
+                                                    display: block;
+                                                    float: left;
+                                                    }
 
                 #vrac_marche_volumePropose{
                         label:first-child{
@@ -481,6 +487,19 @@
                         label{
                                         width:215px;
                         }
+                }
+
+                .error-list
+                {
+                    width: 100%;
+                }
+                
+                #vrac_marche_volumePrix
+                {
+                    .error_list
+                    {
+                        
+                    }
                 }
 
                 
@@ -509,7 +528,7 @@
                 #titre{
                         background-color:@couleur-a7; 
                         padding: 10px;
-                        text-align:center;
+                        text-align: center;
                 }
 
                 #ss_titre{
@@ -528,8 +547,11 @@
                 .btnModification{ .clearfix; margin-top : 10px;}
 
                 li{
-                        padding-bottom:40px;
+                        padding-bottom:40px;                        
                 }
+                .lightpadding{
+                            padding-bottom:10px;
+                            }
 
         }
 

@@ -47,11 +47,13 @@ var initMarche = function()
     if($('#vrac_marche #original input:checked').length == 0)
         $('#vrac_marche #original input[value="1"]').attr('checked','checked');
     if($('#vrac_marche #type_transaction input:checked').length == 0)
-        $('#vrac_marche #type_transaction input[value="vin_vrac"]').attr('checked','checked');       
-        if($('#type input[value="generique"]:checked').length > 0){$('#domaine').hide();}
-    
+        $('#vrac_marche #type_transaction input[value="vin_vrac"]').attr('checked','checked');
     if($('#type input[name="vrac[contient_domaine]"]:checked').length == 0)
-        $('#type input[value="domaine"]').attr('checked','checked');       
+        $('#type input[value="generique"]').attr('checked','checked');  
+    
+    if($('#type input[value="generique"]:checked').length > 0){$('#domaine').hide();}
+    
+         
     
     $('#type input').click(function()
     {
@@ -221,7 +223,7 @@ var majTotal = function(quantiteField){
 
 
 var init_ajax_nouveau = function()
-{
+{    
     $('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
     $('#vrac_acheteur_famille_negociant').attr('checked','checked');
     
@@ -459,5 +461,6 @@ $(document).ready(function()
      initMarche();
      initConditions();
      initAutoComplete();
+     $('#vendeur_choice input').focus();
      initDatepicker();
 });

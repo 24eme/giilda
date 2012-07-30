@@ -1444,9 +1444,9 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
 }
 #contenu_etape #vrac_soussigne .btnModification:after { clear:both; }
 #contenu_etape #vrac_soussigne .error_list {
-  padding:0 0 0 40px;
-  position:absolute;
   color:red;
+  width:100%;
+  float:right;
 }
 #contenu_etape #vrac_soussigne .mandataire_infos .error_list { padding:0 0 0 53px; }
 #contenu_etape #vrac_marche #original, #contenu_etape #vrac_marche #produit, #contenu_etape #vrac_marche #millesime, #contenu_etape #vrac_marche #type, #contenu_etape #vrac_marche #label, #contenu_etape #vrac_marche #prixUnitaire, #contenu_etape #vrac_marche #domaine {
@@ -1467,12 +1467,18 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   float:left;
   width:230px;
 }
+#contenu_etape #vrac_marche #vrac_marche_produitLabel .error_list {
+  width:100%;
+  display:block;
+  float:left;
+}
 #contenu_etape #vrac_marche #vrac_marche_volumePropose label:first-child { width:215px; }
 #contenu_etape #vrac_marche #label .checkbox_list {
   display:block;
   float:left;
 }
 #contenu_etape #vrac_marche #prixTotal label { width:215px; }
+#contenu_etape #vrac_marche .error-list { width:100%; }
 #contenu_etape #condition .section_label_maj { margin-top:20px; }
 #contenu_etape #condition .section_label_maj label { width:190px; }
 #contenu_etape #condition #prix_isVariable label, #contenu_etape #condition #part_variable label, #contenu_etape #condition #prixTotal_rappel label { width:230px; }
@@ -1507,6 +1513,7 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
 }
 #contenu_etape #vrac_validation .btnModification:after, #contenu_etape #vrac_recapitulatif .btnModification:after, #contenu_etape #vrac_visualisation .btnModification:after { clear:both; }
 #contenu_etape #vrac_validation li, #contenu_etape #vrac_recapitulatif li, #contenu_etape #vrac_visualisation li { padding-bottom:40px; }
+#contenu_etape #vrac_validation .lightpadding, #contenu_etape #vrac_recapitulatif .lightpadding, #contenu_etape #vrac_visualisation .lightpadding { padding-bottom:10px; }
 #contenu_etape #vrac_visualisation .legende div {
   display:block;
   margin:15px 0 0;
