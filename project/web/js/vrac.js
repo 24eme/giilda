@@ -223,7 +223,7 @@ var majTotal = function(quantiteField){
 
 
 var init_ajax_nouveau = function()
-{
+{    
     $('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
     $('#vrac_acheteur_famille_negociant').attr('checked','checked');
     
@@ -461,5 +461,6 @@ $(document).ready(function()
      initMarche();
      initConditions();
      initAutoComplete();
+     $('#vendeur_choice input').focus();
      initDatepicker();
 });
