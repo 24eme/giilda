@@ -21,6 +21,11 @@ class DRMDetailCooperativeItemForm extends acCouchdbObjectForm {
         $this->widgetSchema->setNameFormat('drm_detail_cooperative_item[%s]');
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
+    
+    public function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+        if(!$this->getObject()->date_enlevement) $this->setDefault('date_enlevement', DRMClient::getInstance()->getDetailsDefaultDate());
+    }
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
@@ -39,6 +44,5 @@ class DRMDetailCooperativeItemForm extends acCouchdbObjectForm {
             $etablissements[$data->id] = implode(', ', array_filter($labels));
         }
         return $etablissements;
-    }
-    
+    }   
 }

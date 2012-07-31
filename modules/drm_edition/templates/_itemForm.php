@@ -1,6 +1,5 @@
 <?php use_helper('Float'); ?>
 <?php use_helper('Rectificative'); ?>
-
 <div id="col_recolte_<?php echo $form->getObject()->getKey() ?>" class="col_recolte<?php if ($active): ?> col_active<?php endif; ?>" data-input-focus="#drm_detail_entrees_achat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? rectifierCssClass() : '' ?>">
     <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>
@@ -30,7 +29,7 @@
                 </p>
                 <ul>
                     <?php $nbItem = count($form['entrees']); $i=0; foreach($form['entrees'] as $key => $subform): $i++; ?>
-                    <?php $class = 'num num_float'; if ($i==1) $class .= ' premier'; if ($i==$nbItem) $class .= ' dernier';?>
+                    <?php $class = 'num num_float somme_detail'; if ($i==1) $class .= ' premier'; if ($i==$nbItem) $class .= ' dernier';?>
                     <li class="<?php echo isRectifierCssClass($form->getObject()->entrees, $key) ?>">
                         <?php echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
                                                                         'class' => $class)) ?>
@@ -46,20 +45,31 @@
                 <ul>
                     <?php  $nbItem = count($form['sorties']); $i=0; 
                     	foreach($form['sorties'] as $key => $subform): $i++; ?>
-                    <?php $class = 'num num_float'; if ($i==1) $class .= ' premier'; if ($i==$nbItem) $class .= ' dernier';?>
+                    <?php $class = 'num num_float somme_detail'; if ($i==1) $class .= ' premier'; if ($i==$nbItem) $class .= ' dernier';?>
                     <li class="<?php echo isRectifierCssClass($form->getObject()->sorties, $key) ?>">
                     	<?php if($key=="vrac"): ?>
-                    		<a href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn_majeur btn_modifier">
-                    			<?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac . " hl" : "0 hl" ?>
-                    		</a>
+                                <a class="btn_majeur btn_modifier drm_details drm_details_sortie_vrac" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">
+                                    <?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac . " hl" : "0 hl" ?>
+                                </a>
+                                <input type="hidden" class="drm_details_sortie_vrac_vol num num_float num_light"
+                                       data-val-defaut="<?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac : "0" ?>"
+                                       value="<?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac  : "0"; ?>"
+                                       name="drm_detail[sorties][vrac]" /> 
                     	<?php elseif($key=="export"): ?>
-                    		<a href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn_majeur btn_modifier">
+                    		<a class="btn_majeur btn_modifier drm_details drm_details_sortie_export" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>">
                     			<?php echo $detail->sorties->export > 0 ? $detail->sorties->export . " hl" : "0 hl" ?>
                     		</a>
+                                <input type="hidden" class="drm_details_sortie_export_vol num num_float num_light"
+                                       data-val-defaut="<?php echo $detail->sorties->export > 0 ? $detail->sorties->export  : "0"; ?>" 
+                                       value="<?php echo $detail->sorties->export > 0 ? $detail->sorties->export  : "0"; ?>" name="drm_detail[sorties][export]"/> 
                     	<?php elseif($key=="cooperative"): ?>
-                    		<a href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" class="btn_majeur btn_modifier">
+                    		<a  class="btn_majeur btn_modifier drm_details drm_details_sortie_cooperative" href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>">
                     			<?php echo $detail->sorties->cooperative > 0 ? $detail->sorties->cooperative . " hl" : "0 hl" ?>
                     		</a>
+                                <input type="hidden" class="drm_details_sortie_cooperative_vol num num_float num_light"
+                                       data-val-defaut="<?php echo $detail->sorties->cooperative > 0 ? $detail->sorties->cooperative  : "0"; ?>"
+                                       value="<?php echo $detail->sorties->cooperative > 0 ? $detail->sorties->cooperative  : "0"; ?>"
+                                       name="drm_detail[sorties][cooperative]"/>
                     	<?php else: ?>
                         <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(),
                                                                         'class' => $class)) ?>

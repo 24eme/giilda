@@ -28,6 +28,13 @@ class DRMClient extends acCouchdbClient {
 
       return preg_replace('/([0-9]{4})-([0-9]{2})/', '$2', $campagne);
     }
+    
+    public function getDetailsDefaultDate() {
+        $date = date('m/Y');
+        $dateArr = explode('/', $date);
+        $mois = mktime( 0, 0, 0, $dateArr[0], 1, $dateArr[1] );         
+        return date("t",$mois).'/'.$dateArr[0].'/'.$dateArr[1];
+    }
 
     public function getCampagneAndRectificative($campagne, $rectificative = null) {
       if($rectificative  && $rectificative > 0) {
@@ -123,7 +130,9 @@ class DRMClient extends acCouchdbClient {
       $vracs = array();
 
       foreach($rows as $key => $row) {
-        $vracs[$row->id] = $row->value[0].' '.$row->value[3];
+          $volume = $row->value[3].'/'.$row->value[2];
+          $volume = ($row->value[3]=='')? '0/'.$row->value[2] : $volume;
+        $vracs[$row->id] = $row->value[0].' '.$row->value[1].' - '.$volume;
       }      
       return $vracs;       
     }

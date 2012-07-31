@@ -103,6 +103,7 @@ class DRMDetail extends BaseDRMDetail {
         parent::update($params);
         $this->total_entrees = $this->getTotalByKey('entrees');
         $this->total_sorties = $this->getTotalByKey('sorties');
+        
         $this->total = $this->total_debut_mois + $this->total_entrees - $this->total_sorties;
         
         $this->sorties->vrac = 0;
