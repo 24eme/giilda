@@ -8,8 +8,8 @@
         this.element_saisies = $('#col_saisies');
         this.element_saisies_container = $('#col_saisies_cont');
         this.element_colonne_intitules = $('#colonne_intitules');
-
         this.colonnes = new Array();
+        this.groupes_rows = new GroupesRows(this);
         this.valider_event_function = function () {}
         this.enabled_event_function = function () {}
         this.disabled_event_function = function () {}
@@ -30,10 +30,9 @@
                 colonnes.push(colonne);
             });
 
-            this.update();
+            this.groupes_rows.init();
 
-           /* var colonne_intitule = new ColonneIntitule(this, this.element_colonne_intitules);
-            colonne_intitule.init();*/
+            this.update();
         }
 
         this.getActive = function () {
@@ -117,6 +116,12 @@
         }
 
         this.update = function() {
+            this._updateLargeur();
+            this._updateHauteur();
+            this.groupes_rows.update();
+        }
+
+        this._updateLargeur = function() {
             var largeur = 0;
             var cols = this.element_colonne_intitules.add(this.element_saisies_container);
 
@@ -125,11 +130,14 @@
             }
 
             this.element_saisies_container.width(largeur);
+        }
 
+        this._updateHauteur = function () {
+            var cols = this.element_colonne_intitules.add(this.element_saisies_container);
+            
             cols.find('.couleur, h2').hauteurEgale();
             cols.find('.label').hauteurEgale();
         }
-
     }
 
     function ColonneIntitule(colonnes, element) {
@@ -144,6 +152,31 @@
             }
 
             this.groupes.init();
+        }
+
+        this.isActive = function() {
+
+            return false;
+        }
+
+        this.isFocus = function() {
+
+            return false;
+        }
+
+        this.enabled = function() {
+
+            return false;
+        }
+
+        this.disabled = function() {
+
+            return false;
+        }
+
+        this.getClass = function() {
+
+            return 'ColonneIntitule';
         }
     }
 
@@ -295,6 +328,11 @@
             this.groupes.calculer();
         }
 
+        this.getClass = function() {
+
+            return 'ColonneProduit';
+        }
+
         this._initBoutons = function () {
             var object = this;
 
@@ -310,41 +348,107 @@
         }
     }
 
-    function GroupeRows(colonne, groupe_id) {
-        this.groupe_intitule = groupe_intitule;
-        this.colonne = colonne;
-        this.groupe_id = groupe_id;
-        this.groupes = new Array();
+    function GroupesRows(colonnes) {
+        this.colonnes = colonnes;
+        this.groupes_rows = new Array();
 
         this.init = function() {
-            this.update();
+            var object = this;
+            colonnes.element_colonne_intitules.find('.groupe').each(function() {
+                var groupe_id = $(this).attr('data-groupe-id');
+                var groupes_row = new GroupesRow(object, groupe_id);
+                groupes_row.init();
+                object.groupes_rows[groupe_id] = groupes_row;
+            });
+        }
+
+        this.update = function() {
+            for(key in this.groupes_rows) {
+                this.groupes_rows[key].update();
+            }
+            this._updateHauteur();
+        }
+
+        this._updateHauteur = function() {
+            var colonnes = this.colonnes;
+            if (debug) {
+                console.log('hauteur egale li');
+            }
+            colonnes.element_colonne_intitules.find('.groupe').each(function() {
+                var groupe_intitule_ul_li = $(this).find('ul li');
+                var groupe_id = $(this).attr('data-groupe-id');
+                var groupe_produits = colonnes.element_saisies.find('.groupe[data-groupe-id='+groupe_id+']');
+
+                groupe_intitule_ul_li.each(function(i) {
+                    var intitule_li = $(this);
+                    var produits_li = groupe_produits.find('li:eq('+i+')');
+                    intitule_li.add(produits_li).hauteurEgale();
+                });
+                
+            });
+
+            colonnes.element_colonne_intitules.find('.groupe p').hauteurEgale();
+        }
+    }
+
+    function GroupesRow(groupes_rows, groupe_id) {
+        this.groupes_rows = groupes_rows;
+        this.groupe_id = groupe_id;
+        this.groupes_row = new Array();
+
+        this.init = function() {
+            this._getGroupeRows();
+            this.close();
+        }
+
+        this.update = function() {
+            this._getGroupeRows();
+            this._updateHauteur();
+        }
+
+        this._getGroupeRows = function() {
+            this.groupes_row = new Array();
+
+            for(key_colonne in this.groupes_rows.colonnes.colonnes) {
+                for(key_groupe in this.groupes_rows.colonnes.colonnes[key_colonne].groupes.groupes) {
+                    groupe = this.groupes_rows.colonnes.colonnes[key_colonne].groupes.groupes[key_groupe];
+                    if(groupe.groupe_id == this.groupe_id) {
+                        this.groupes_row.push(groupe);
+                    }
+                }
+            }
+        }
+
+        this._updateHauteur = function() {
+            var element = $('');
+            if (debug) {
+                console.log('hauteur egale p');
+            }
+            for(key in this.groupes_row) {
+                var groupe_element = this.groupes_row[key].element;
+                element.add(groupe_element.children('p'));
+            } 
+            element.hauteurEgale();
         }
 
         this.open = function() {
-            for(key in this.groupes) {
-                this.groupes[key].open();
+            if(debug) {
+                console.log('groupes row open');
+                console.log(this);
+            }
+            for(key in this.groupes_row) {
+                this.groupes_row[key].open();
             }
         }
 
         this.close = function() {
-            for(key in this.groupes) {
-                this.groupes[key].close();
+            if(debug) {
+                console.log('groupes row open');
+                console.log(this);
             }
-        }
-
-        this.update = function() {
-            this.groupes = this._getGroupes();
-        }
-
-        this._getGroupes = function() {
-            var groupes = new Array();
-            for(key in this.colonne.groupes) {
-                if(this.colonne.groupes[key] == this.groupe_id) {
-                    groupes.push(this.colonne.groupes[key]);
-                }
+            for(key in this.groupes_row) {
+                this.groupes_row[key].close();
             }
-
-            return groupes;
         }
     }
 
@@ -361,7 +465,14 @@
 
             elements.each(function(i)
             {
-                var groupe = new Groupe(colonne, object, $(this));
+                if (colonne.getClass() == "ColonneIntitule") {
+                    var groupe = new GroupeIntitule(colonne, object, $(this));
+                }
+
+                if (colonne.getClass() == "ColonneProduit") {
+                    var groupe = new GroupeProduit(colonne, object, $(this));
+                }
+
                 groupe.init();
                 groupes[groupe.groupe_id] = groupe;
 
@@ -393,12 +504,63 @@
         }
     }
 
-    function Groupe(colonne, groupes, element) {
+    function GroupeIntitule(colonne, groupes, element) {
+        this.colonne = colonne;
+        this.groupes = groupes;
+        this.element = element;
+        this.element_titre = this.element.children('p');;
+        this.groupe_id = this.element.attr('data-groupe-id');
 
+        this.init = function() {
+            if (debug) {
+                console.log('init groupe intitule');
+                console.log(this.element);
+            }
+            
+            this._init();
+        }
 
+        this._init = function() {
+            this.close(this);
+            var object = this;
+
+            this.element_titre.click(function() {
+                var groupes_row = object.getGroupesRow();
+                if (object.isOpen()) {
+                    object.getGroupesRow().close();
+                } else {
+                    object.getGroupesRow().open();
+                }
+            });
+        }
+
+        this.getGroupesRow = function() {
+
+            return colonne.colonnes.groupes_rows.groupes_rows[this.groupe_id];
+        }
+
+        this.isOpen = function() {
+
+            return this.element.hasClass('groupe_ouvert');
+        }
+
+        this.isClose = function() {
+
+            return !this.isOpen();
+        }
+
+        this.open = function() {
+            this.element.addClass('groupe_ouvert');
+            this.element.children('ul').slideDown();
+        }
+
+        this.close = function() {
+            this.element.removeClass('groupe_ouvert');
+            this.element.children('ul').slideUp();
+        }
     }
 
-    function Groupe(colonne, groupes, element) {
+    function GroupeProduit(colonne, groupes, element) {
         this.colonne = colonne;
         this.groupes = groupes;
         this.element = element;
@@ -407,7 +569,7 @@
         
         this.init = function() {
             if (debug) {
-                console.log('init groupe');
+                console.log('init groupe produit');
                 console.log(this.element);
             }
             this.champs.init();
@@ -429,12 +591,17 @@
             this.champs.disabled();
         }
 
+        this.getGroupesRow = function() {   
+
+            return colonne.colonnes.groupes_rows.groupes_rows[this.groupe_id];
+        }
+
         this.open = function() {
-            this.element.slideDown();
+            this.element.children('ul').slideDown();
         }
 
         this.close = function() {
-            this.element.slideUp();
+            this.element.children('ul').slideUp();
         }
     }
 
