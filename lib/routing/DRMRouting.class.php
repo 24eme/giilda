@@ -37,12 +37,20 @@ class DRMRouting {
         $r->prependRoute('drm', new sfRoute('/drm', array('module' => 'drm', 
                                                           'action' => 'monEspace')));
 		
-        $r->prependRoute('drm_mon_espace', new sfRoute('/drm/mon-espace', array('module' => 'drm', 
-                                                                                'action' => 'monEspace')));
+        $r->prependRoute('drm_mon_espace', new EtablissementRoute('/drm/:identifiant/mon-espace', array('module' => 'drm', 
+                                                                                'action' => 'monEspace'),
+                                                         array('sf_method' => array('get','post')),
+                                                          array('model' => 'Etablissement',
+                                                                'type' => 'object')
+								));
 
-        $r->prependRoute('drm_historique', new sfRoute('/drm/historique/:campagne', array('module' => 'drm', 
+        $r->prependRoute('drm_historique', new EtablissementRoute('/drm/:identifiant/historique/:campagne', array('module' => 'drm', 
                                                                                        'action' => 'historique', 
-                                                                                       'campagne' => null)));
+                                                                                       'campagne' => null),
+                                                         array('sf_method' => array('get','post')),
+                                                          array('model' => 'Etablissement',
+                                                                'type' => 'object')
+								));
 
         $r->prependRoute('drm_nouvelle', new DRMLightRoute('/drm/:identifiant/nouvelle/:campagne', 
                                                 array('module' => 'drm', 

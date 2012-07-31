@@ -13,7 +13,7 @@
             </div>
         </div>
     </section>
-    <a href="<?php echo url_for('@drm_historique') ?>">Votre historique complet &raquo;</a>
+    <a href="<?php echo url_for('drm_historique', array('identifiant' => $sf_user->getTiers()->getIdentifiant())) ?>">Votre historique complet &raquo;</a>
     
         <?php if($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
         <br /><br />
