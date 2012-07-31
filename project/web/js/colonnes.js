@@ -17,11 +17,15 @@
         this.init = function() {
             this.colonnes = new Array();
 
+            var colonne_intitule = new ColonneIntitule(this, this.element_colonne_intitules);
+            colonne_intitule.init();
+            this.colonnes.push(colonne_intitule);
+
             var object = this;
             var colonnes = this.colonnes;
             this.element_saisies.find('.col_recolte').each(function(i)
             {
-                var colonne = new Colonne(object, $(this));
+                var colonne = new ColonneProduit(object, $(this));
                 colonne.init();
                 colonnes.push(colonne);
             });
@@ -128,7 +132,22 @@
 
     }
 
-    function Colonne(colonnes, element) {
+    function ColonneIntitule(colonnes, element) {
+        this.colonnes = colonnes;
+        this.element = element;
+        this.groupes = new Groupes(this);
+
+        this.init = function() {
+            if (debug) {
+                console.log('init colonne intitule');
+                console.log(this.element);
+            }
+
+            this.groupes.init();
+        }
+    }
+
+    function ColonneProduit(colonnes, element) {
 
         this.colonnes = colonnes;
         this.element = element;
@@ -136,11 +155,10 @@
 
         this.init = function() {
             if (debug) {
-                console.log('init colonne');
+                console.log('init colonne produit');
                 console.log(this.element);
             }
 
-            //this.element.append('<div class="col_masque"></div>');
             this._initBoutons();
             this.groupes.init();
         }
@@ -292,7 +310,6 @@
         }
     }
 
-
     function GroupeRows(colonne, groupe_id) {
         this.groupe_intitule = groupe_intitule;
         this.colonne = colonne;
@@ -319,7 +336,7 @@
             this.groupes = this._getGroupes();
         }
 
-        this._getGroupes() {
+        this._getGroupes = function() {
             var groupes = new Array();
             for(key in this.colonne.groupes) {
                 if(this.colonne.groupes[key] == this.groupe_id) {
@@ -374,6 +391,11 @@
                 this.groupes[key].calculer();
             }
         }
+    }
+
+    function Groupe(colonne, groupes, element) {
+
+
     }
 
     function Groupe(colonne, groupes, element) {

@@ -46,17 +46,17 @@
 	{
 		if(colonnesDR.exists())
 		{
-			/*$.initColonnes();
+			$.initColonnes();
 			$.initColBoutons();
 			$.initMasqueColActive();
 			$.initColFocus();
 			$.initColActive();
 			$.initProduitForm();
 			$.initRaccourcis();
-            $.initDetailsPopups();*/
+            $.initDetailsPopups();
 
-            var colonnes = new $.Colonnes();
-            colonnes.init();
+            /*var colonnes = new $.Colonnes();
+            colonnes.init();*/
 		}
 	});
 
