@@ -1,5 +1,7 @@
 ;(function ( $, window, undefined ) {
 
+    var debug = true;
+
     $.Colonnes = function () 
     {
         this.element = $('#colonnes_dr');
@@ -26,8 +28,8 @@
 
             this.update();
 
-            var colonne_intitule = new ColonneIntitule(this, this.element_colonne_intitules);
-            colonne_intitule.init();
+           /* var colonne_intitule = new ColonneIntitule(this, this.element_colonne_intitules);
+            colonne_intitule.init();*/
         }
 
         this.getActive = function () {
@@ -59,35 +61,34 @@
 
         this.hasFocus = function () {
 
-            return this.getActive() !== false;
+            return this.getFocus() !== false;
         }
 
-        this.focus = function() {
-            this.getFocus().unfocus();
+        this.unFocus = function() {
+            for(key in this.colonnes) {
+                if (this.colonnes[key].isFocus()) {
+                    this.colonnes[key].unFocus();
+                }
+            }
         }
 
-        this.unfocus = function() {
-        }
-
-
-        this.active = function() {
-            this.getActive().unactive();
-            this.disabled();
-        }
-
-        this.unactive = function() {
-            this.enabled();
+        this.unActive = function() {
+            for(key in this.colonnes) {
+                if (this.colonnes[key].isActive()) {
+                    this.colonnes[key].unActive();
+                }
+            }
         }
 
         this.updateScroll = function()
         {
-            if(this.hasActive() && this.getActive().size() > 0) 
+            if(this.hasActive()) 
             {
-                this.element_saisies.scrollTo(this.getActive(), 200);
+                this.element_saisies.scrollTo(this.getActive().element, 200);
             }
-            else if(this.getFocus().size() > 0) 
+            else if(this.hasFocus()) 
             {
-                this.element_saisies.scrollTo(this.getFocus(), 200);
+                this.element_saisies.scrollTo(this.getFocus().element, 200);
             }
             else 
             {
@@ -127,91 +128,56 @@
 
     }
 
-    function Groupes(colonnes, element) {
-        this.colonnes = colonnes;
-        this.element = element;
-        this.groupes = new Array();
-
-        this.init = function() {
-            var object = this;
-            var groupes = this.groupes;
-
-            element.find('.groupe').each(function() {
-                var colonne_intitule_groupe = new ColonneIntituleGroupe(object, $(this));
-                colonne_intitule_groupe.init();
-                groupes.push(colonne_intitule_groupe);
-            });
-        }
-    }
-
-    function ColonneIntituleGroupe(colonne, element) {
-        this.colonne = colonne;
-        this.element = element;
-        this.groupe_id = this.element.attr('data-groupe-id');
-        this.groupes_associes = this.colonne.colonnes.element_saisies.find('.groupe[data-groupe-id='+this.groupe_id+']');
-        this.titre = this.element.children('p');
-        this.titres_associes = this.groupes_associes.children('p');
-        this.intitules = this.element.children('ul');
-        this.intitules_associes = this.groupes_associes.children('ul');
-
-
-        this.init = function() {
-            this.titre.add(this.titres_associes).hauteurEgale();
-
-            var intitules_associes = this.intitules_associes;
-
-            this.intitules.children().each(function(i)
-            {
-                var intitule = $(this);   
-                var intitule_associe = intitules_associes.find('li:eq('+i+')');
-            
-                $(intitule).add(intitule_associe).hauteurEgale();
-            });
-        }
-    }
-
-    function ColonneGroupe(colonnes, element) {
-
-
-    }
-
     function Colonne(colonnes, element) {
 
         this.colonnes = colonnes;
         this.element = element;
-        this.champs = new Array();
+        this.groupes = new Groupes(this);
 
         this.init = function() {
-            this.element.append('<div class="col_masque"></div>');
+            if (debug) {
+                console.log('init colonne');
+                console.log(this.element);
+            }
 
-            this.champs = new Champs(this);
-            this.champs.init();
+            //this.element.append('<div class="col_masque"></div>');
+            this._initBoutons();
+            this.groupes.init();
         }
 
         this.isActive = function() {
 
-            return this.hasClass('col_active');
+            return this.element.hasClass('col_active');
         }
 
         this.active = function() {
-            this.active();
+            if (this.isActive()) {
+                return;
+            }
+
+            if (debug) {
+                console.log('colonne active');
+                console.log(this.element);
+            }
+
+            this.colonnes.unActive();
             this.focus();
             this.element.addClass('col_active');
+            this.colonnes.disabled();
         }
 
-        this.unactive = function() {
-            this.colonnes.unactive();
+        this.unActive = function() {
             this.element.removeClass('col_active');
-           
+            this.colonnes.enabled();
         }
 
         this.enabled = function()  {
-            if(this.isActive()) {
+            if(!this.isActive()) {
                 return;
             }
 
             this.element.removeClass('col_inactive');
-            this.champs.enabled();
+            this.groupes.enabled();
         }
 
         this.disabled = function()  {
@@ -220,32 +186,46 @@
             }
 
             this.element.addClass('col_inactive');
-            this.champs.disabled();
+            this.groupes.disabled();
         }
 
         this.focus = function() {
-            this.focus();
+            if (this.isFocus()) {
+                return;
+            }
+
+            if (debug) {
+                console.log('colonne focus');
+                console.log(this.element);
+            }
+
+            this.colonnes.unFocus();
             this.element.addClass('col_focus');
-            this.element.find('a.col_curseur').focus();
+            //this.element.find('a.col_curseur').focus();
             this.colonnes.updateScroll();
         }
 
         this.unFocus = function() {
-            this.colonnes.unfocus();
             this.element.removeClass('col_focus');
         }
 
         this.isFocus = function() {
 
-            return this.colonnes.hasClass('col_focus');
+            return this.element.hasClass('col_focus');
         }
 
-        this.reinitialiser = function() {
+        this.reinit = function() {
             if(!this.isActive()) {
                 return;
             }
 
-            this.unactive();
+            if (debug) {
+                console.log('colonne reinit');
+                console.log(this.element);
+            }
+
+            this.unActive();
+            this.groupes.reinit();
         }
 
         this.valider = function() {
@@ -253,14 +233,21 @@
                 return;
             }
 
+            if (debug) {
+                console.log('colonne valider');
+                console.log(this.element);
+            }
+
             this.calculer();
             this.saving();
 
-            var form = this.colonnes.find('form');
+            var object = this;
+
+            var form = this.element.find('form');
 
             $.post(form.attr('action'), form.serializeArray(), function (data)
             {
-                this.unsaving();
+                object.unSaving();
 
                 if(!data.success) {
                     alert("Le formulaire n'a pas été sauvegardé car il comporte des erreurs");
@@ -268,84 +255,222 @@
                     return;
                 }
 
-                this.unactive();
+                object.unActive();
 
-                this.colonnes.valider_event_function();
-            });
+                object.colonnes.valider_event_function();
+            }, 'json');
         }
 
         this.saving = function() {
-            this.colonnes.addClass('col_envoi');
+            this.element.addClass('col_envoi');
         }
 
-        this.unsaving = function() {
-            this.colonnes.removeClass('col_envoi');
+        this.unSaving = function() {
+            this.element.removeClass('col_envoi');
         }
 
         this.calculer = function() {
-
+            if (debug) {
+                console.log('colonne calculer');
+                console.log(this.element);
+            }
+            this.groupes.calculer();
         }
 
         this._initBoutons = function () {
-            this.colonnes.find('.col_btn button.btn_reinitialiser').bind('click', function() {
-                    this.reinitialiser();
+            var object = this;
 
+            this.element.find('.col_btn button.btn_reinitialiser').click(function() {
+                    object.reinit();
                     return false;
             });
 
-            this.colonnes.find('.col_btn button.btn_valider').bind('click', function() {
-                    this.valider();
+            this.element.find('.col_btn button.btn_valider').click(function() {
+                object.valider();
+                return false;
+            });
+        }
+    }
 
-                    return false;
+
+    function GroupeRows(colonne, groupe_id) {
+        this.groupe_intitule = groupe_intitule;
+        this.colonne = colonne;
+        this.groupe_id = groupe_id;
+        this.groupes = new Array();
+
+        this.init = function() {
+            this.update();
+        }
+
+        this.open = function() {
+            for(key in this.groupes) {
+                this.groupes[key].open();
+            }
+        }
+
+        this.close = function() {
+            for(key in this.groupes) {
+                this.groupes[key].close();
+            }
+        }
+
+        this.update = function() {
+            this.groupes = this._getGroupes();
+        }
+
+        this._getGroupes() {
+            var groupes = new Array();
+            for(key in this.colonne.groupes) {
+                if(this.colonne.groupes[key] == this.groupe_id) {
+                    groupes.push(this.colonne.groupes[key]);
+                }
+            }
+
+            return groupes;
+        }
+    }
+
+    function Groupes(colonne) {
+        this.colonne = colonne;
+        this.groupes = new Array();
+
+        this.init = function() {
+            var elements = this.colonne.element.find('.groupe');
+
+            var colonne = this.colonne;
+            var object = this;
+            var groupes = this.groupes;
+
+            elements.each(function(i)
+            {
+                var groupe = new Groupe(colonne, object, $(this));
+                groupe.init();
+                groupes[groupe.groupe_id] = groupe;
+
             });
         }
 
+        this.reinit = function () {
+            for(key in this.groupes) {
+                this.groupes[key].reinit();
+            }
+        }
+
+        this.enabled = function() {
+            for(key in this.groupes) {
+                this.groupes[key].enabled();
+            }
+        }
+
+        this.disabled = function() {
+            for(key in this.groupes) {
+                this.groupes[key].disabled();
+            }
+        }
+
+        this.calculer = function() {
+            for (key in this.groupes) {
+                this.groupes[key].calculer();
+            }
+        }
     }
 
-    function Champs(colonne) {
+    function Groupe(colonne, groupes, element) {
         this.colonne = colonne;
+        this.groupes = groupes;
+        this.element = element;
+        this.groupe_id = this.element.attr('data-groupe-id');
+        this.champs = new Champs(this.colonne, this);
+        
+        this.init = function() {
+            if (debug) {
+                console.log('init groupe');
+                console.log(this.element);
+            }
+            this.champs.init();
+        }
+
+        this.calculer = function() {
+            this.champs.calculer();
+        }
+
+        this.reinit = function () {
+            this.champs.reinit();
+        }
+
+        this.enabled = function() {
+            this.champs.enabled();
+        }
+
+        this.disabled = function() {
+            this.champs.disabled();
+        }
+
+        this.open = function() {
+            this.element.slideDown();
+        }
+
+        this.close = function() {
+            this.element.slideUp();
+        }
+    }
+
+    function Champs(colonne, groupe) {
+        this.colonne = colonne;
+        this.groupe = groupe;
         this.champs = new Array();
 
         this.init = function() {
-            var elements = this.colonne.element.find('input:text, select');
+            var elements = this.groupe.element.find('input:text, select');
 
-            var colonne = this.colonnes;
+            var colonne = this.colonne;
             var object = this;
             var champs = this.champs;
 
             elements.each(function(i)
             {
-                champs.push(new Champ(colonne, object, $(this)));
+                var champ = new Champ(colonne, object, $(this));
+                champ.init();
+                champs.push(champ);
 
             });
-
-            this._init();
-        }
-
-        this.init = function () {
-            for(key in this.champs) {
-                champs[key].init();
-            }
         }
 
         this.reinit = function () {
             for(key in this.champs) {
-                champs[key].reinit();
+                this.champs[key].reinit();
             }
         }
 
         this.enabled = function() {
             for(key in this.champs) {
-                champs[key].enabled();
+                this.champs[key].enabled();
             }
         }
 
         this.disabled = function() {
             for(key in this.champs) {
-                champs[key].disabled();
+                this.champs[key].disabled();
             }
         }
 
+        this.calculer = function() {
+            for(key in this.champs) {
+                this.champs[key].calculer();
+            }
+        }
+
+        this.somme = function() {
+            somme = 0;
+            for(key in this.champs) {
+                if(this.champs[key].isDetailSomme()) {
+                    somme += this.champs[key].getVal();
+                }
+            }
+
+            return somme;
+        }
     }
 
     function Champ(colonne, champs, element) {
@@ -355,6 +480,12 @@
         this.element = element;
 
         this.init = function() {
+
+            if (debug) {
+                console.log('init champ');
+                console.log(this.element);
+            }
+
             this._init();
             this._initText();
             this._initSelect();
@@ -374,15 +505,63 @@
             this.element.attr('disabled', 'disabled');
         }
 
+        this.isNum = function() {
+
+            return this.element.is('input.num');
+        }
+
+        this.isSomme = function() {
+
+            return this.element.hasClass('somme_groupe');
+        }
+
+        this.isDetailSomme = function() {
+
+            return this.element.hasClass('somme_detail');
+        }
+
+        this.getVal = function() {
+            if(!this.isNum()) {
+
+                return 0; 
+            }
+
+            valeur = 0;
+
+            if(this.element.val() != '') {
+                valeur = parseFloat(this.element.val());
+            }
+
+            return valeur;
+        }
+
+        this.setVal = function(value) {
+            if(!this.isNum()) {
+
+                return;
+            }
+
+            return this.element.val(value);
+        }
+
+        this.calculer = function() {
+            if(!this.isSomme()) {
+                
+                return;
+            }
+
+            this.setVal(this.champs.somme());
+        }
+
         this._init = function() {
-            this.champs.focus(function()
+            var colonne = this.colonne;
+
+            this.element.focus(function()
             {
-                if(!this.colonne.colonnes.getColonneActive() && !this.isFocus()) {
-                    this.focus();
-                }
+                colonne.focus();
             });
 
-            this.champs.keydown(function(e)
+            this.element.keydown(function(e)
             {
                 if(e.keyCode == 9 && e.shiftKey)
                 {
@@ -414,7 +593,7 @@
                 return;
             }
 
-            this.champs.blur(function()
+            this.element.blur(function()
             {
                 if(this.colonnes.getActive()) {
                     
@@ -428,8 +607,7 @@
                 }
             });
                 
-            // Si la valeur du this.champ change alors la colonne est activée
-            this.champs.change(function()
+            this.element.change(function()
             {
                 if(this.colonnes.getActive()) {
                     
@@ -440,43 +618,48 @@
             });
         }
 
-        this._initText = function(champ) {
+        this._initText = function() {
+
+            var element = this.element;
+
             if(!this.element.is('input:text'))
             {
                 return;
             }
 
-            var val_default = this.champs.attr('data-val-defaut');
+            var val_default = this.element.attr('data-val-defaut');
 
-            if(this.champs.attr('readonly'))
+            if(this.element.attr('readonly'))
             {
                 return;
             }
 
-            this.champs.click(function(e)
+            this.element.click(function(e)
             {
-                this.champs.select();
+                element.select();
                 e.preventDefault();
             });
         }
 
-        this._initNum = function(champ) {
+        this._initNum = function() {
 
-            if(!this.element.is('input.num')) {
+            if(!this.isNum()) {
                 
                 return;
             }
 
-            var is_float = this.champs.hasClass('num_float');
+            var colonne = this.colonne;
+
+            var is_float = this.element.hasClass('num_float');
             
-            this.champs.saisieNum
+            this.element.saisieNum
             (
                 is_float,
-                function(){ 
-                    this.colonne.active(); 
+                function(){
+                    colonne.active(); 
                 },
-                function(){ 
-                    this.calculer();
+                function(){
+                    colonne.calculer();
                 }
             );
         }
