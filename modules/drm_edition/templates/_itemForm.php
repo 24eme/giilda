@@ -29,7 +29,7 @@
                 </p>
                 <ul>
                     <?php $nbItem = count($form['entrees']); $i=0; foreach($form['entrees'] as $key => $subform): $i++; ?>
-                    <?php $class = 'num num_float'; if ($i==1) $class .= ' premier'; if ($i==$nbItem) $class .= ' dernier';?>
+                    <?php $class = 'num num_float somme_detail'; if ($i==1) $class .= ' premier'; if ($i==$nbItem) $class .= ' dernier';?>
                     <li class="<?php echo isRectifierCssClass($form->getObject()->entrees, $key) ?>">
                         <?php echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
                                                                         'class' => $class)) ?>
@@ -45,7 +45,7 @@
                 <ul>
                     <?php  $nbItem = count($form['sorties']); $i=0; 
                     	foreach($form['sorties'] as $key => $subform): $i++; ?>
-                    <?php $class = 'num num_float'; if ($i==1) $class .= ' premier'; if ($i==$nbItem) $class .= ' dernier';?>
+                    <?php $class = 'num num_float somme_detail'; if ($i==1) $class .= ' premier'; if ($i==$nbItem) $class .= ' dernier';?>
                     <li class="<?php echo isRectifierCssClass($form->getObject()->sorties, $key) ?>">
                     	<?php if($key=="vrac"): ?>
                                 <a class="btn_majeur btn_modifier drm_details drm_details_sortie_vrac" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">
