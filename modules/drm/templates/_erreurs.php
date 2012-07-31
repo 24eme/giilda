@@ -5,7 +5,7 @@
             <li>
             	<a href="<?php echo ($error->getLien() != DRMValidation::NO_LINK) ? url_for('drm_show_error', array('sf_subject' => $drm,
 				            										'type' => $error->getType(),
-				            										'identifiant' => $identifiant)) : DRMValidation::NO_LINK; ?>">
+				            										'id' => $identifiant)) : DRMValidation::NO_LINK; ?>">
 					<?php echo $error->getMessage(); ?>
             	</a>
             </li>

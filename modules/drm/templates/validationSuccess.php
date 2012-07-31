@@ -47,7 +47,7 @@
                     <?php endif; ?>
                 </div>
             </div>
-            <a id="telecharger_pdf" href="<?php echo url_for('drm_pdf', array('campagne_rectificative' => $drm->getCampagneAndRectificative())) ?>">Télécharger le PDF</a>
+            <a id="telecharger_pdf" href="<?php echo url_for('drm_pdf', array('identifiant' => $sf_user->getTiers()->identifiant, 'campagne_rectificative' => $drm->getCampagneAndRectificative())) ?>">Télécharger le PDF</a>
                 
             <div id="btn_etape_dr">
                 <a href="<?php echo url_for('drm_declaratif', $drm) ?>" class="btn_prec">

@@ -17,7 +17,7 @@ class DRMLightRoute extends sfRequestRoute {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'campagne_rectificative', $parameters['campagne_rectificative']));
         }
 
-        $drm = DRMClient::getInstance()->findByIdentifiantCampagneAndRectificative(sfContext::getInstance()->getUser()->getTiers()->identifiant, 
+        $drm = DRMClient::getInstance()->findByIdentifiantCampagneAndRectificative($parameters['identifiant'], 
                                                                                          $campagne, 
                                                                                          $rectificative);
 

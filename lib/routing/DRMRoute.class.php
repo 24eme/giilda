@@ -16,7 +16,7 @@ class DRMRoute extends sfObjectRoute {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'campagne_rectificative', $parameters['campagne_rectificative']));
         }
 
-        $this->drm = DRMClient::getInstance()->findByIdentifiantCampagneAndRectificative(sfContext::getInstance()->getUser()->getTiers()->identifiant, 
+        $this->drm = DRMClient::getInstance()->findByIdentifiantCampagneAndRectificative($parameters['identifiant'], 
                                                                                          $campagne, 
                                                                                          $rectificative);
 
@@ -33,8 +33,7 @@ class DRMRoute extends sfObjectRoute {
     }
 
     protected function doConvertObjectToArray($object) {  
-        $parameters = array("campagne_rectificative" => $object->getCampagneAndRectificative());
-        
+        $parameters = array("identifiant" => $object->getIdentifiant(), "campagne_rectificative" => $object->getCampagneAndRectificative());
         return $parameters;
     }
     
