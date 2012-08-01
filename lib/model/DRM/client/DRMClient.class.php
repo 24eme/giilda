@@ -159,4 +159,51 @@ class DRMClient extends acCouchdbClient {
     return $result;
   }
 
+    
+    public function createDoc($identifiant, $campagne = null) {
+        $historique = new DRMHistorique($identifiant);
+        if (!$campagne) {
+            $drm = $this->createNewDoc($historique);
+        } else {
+            $drm = $this->createDocByCampagne($historique, $campagne);
+        }
+        return $drm;
+    }
+    
+    private function createNewDoc($historique)
+    {
+        $lastDRM = $historique->getLastDRM();
+        if ($lastDRM && $drm = DRMClient::getInstance()->find(key($lastDRM))) {
+            if ($drm->isValidee()) {
+                $drm = $drm->generateSuivante($this->getCurrentCampagne());
+            }
+        } else {
+            $drm = new DRM();
+            $drm->identifiant = $historique->etablissement;
+            $drm->campagne = $this->getCurrentCampagne();
+        }
+        return $drm;
+    }
+    
+    private function createDocByCampagne($historique, $campagne)
+    {
+        $prev_drm = $historique->getPrevByCampagne($campagne);
+        $next_drm = $historique->getNextByCampagne($campagne);
+        if ($prev_drm) {
+           $prev_drm = DRMClient::getInstance()->find($prev_drm[DRMHistorique::VIEW_INDEX_ID]);
+           $drm = $prev_drm->generateSuivante($campagne);
+        } elseif ($next_drm) {
+           $next_drm = DRMClient::getInstance()->find($next_drm[DRMHistorique::VIEW_INDEX_ID]);
+           $drm = $next_drm->generateSuivante($campagne, false);
+        } else {
+            $drm = $this->createNewDoc($historique);
+            $drm->campagne = $campagne;
+        }
+        return $drm;
+    }
+    
+    public function getCurrentCampagne() {
+      return CurrentClient::getCurrent()->campagne;
+    }
+
 }

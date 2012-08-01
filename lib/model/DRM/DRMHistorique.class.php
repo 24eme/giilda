@@ -10,8 +10,9 @@ class DRMHistorique
 	const VIEW_INDEX_STATUS_DOUANE_ACCUSE = 6;
 	const DERNIERE = 'derniere';
 	const CAMPAGNE = 'campagne';
+    const REGEXP_CAMPAGNE = '#^[0-9]{4}-[0-9]{2}$#';
 
-	private $etablissement;
+	public $etablissement;
 	private $campagneCourante;
 	private $drms;
 	private $campagnes;
@@ -145,4 +146,47 @@ class DRMHistorique
 	public function getEtablissementIdentifiant() {
 	  return $this->etablissement;
 	}
+
+    public function getNextByCampagne($campagne)
+    {
+        $drms = $this->getDRMs();
+        $dateCampagne = $this->getDateObjectByCampagne($campagne);
+        $nextDrm = null;
+        foreach ($drms as $drm) {
+            if ($drm[self::VIEW_INDEX_ANNEE].$drm[self::VIEW_INDEX_MOIS] <= $dateCampagne->format('Ym') && is_null($drm[self::VIEW_INDEX_RECTIFICATIVE])) {
+                break;
+            } elseif (is_null($drm[self::VIEW_INDEX_RECTIFICATIVE])) {
+                $nextDrm = $drm;
+            }
+        }
+        return $nextDrm;
+    }
+    
+    public function getPrevByCampagne($campagne)
+    {
+        $drms = $this->getDRMs();
+        $dateCampagne = $this->getDateObjectByCampagne($campagne);
+        $prevDrm = null;
+        foreach ($drms as $drm) {
+            if ($drm[self::VIEW_INDEX_ANNEE].$drm[self::VIEW_INDEX_MOIS] < $dateCampagne->format('Ym') && is_null($drm[self::VIEW_INDEX_RECTIFICATIVE])) {
+                $prevDrm = $drm;
+                break;
+            }
+        }
+        return $prevDrm;
+    }
+    
+    public function getDateObjectByCampagne($campagne)
+    {
+        $this->checkCampagneFormat($campagne);
+        $campagneTab = explode('-', $campagne);
+        return new DateTime($campagneTab[0].'-'.$campagneTab[1].'-01');
+    }
+    
+    public function checkCampagneFormat($campagne)
+    {
+        if (!preg_match(self::REGEXP_CAMPAGNE, $campagne)) {
+            throw new sfException('La campagne doit être au format AAAA-MM');
+        }
+    }
 }

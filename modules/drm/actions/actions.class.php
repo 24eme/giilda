@@ -26,11 +26,11 @@ class drmActions extends sfActions
    * @param sfWebRequest $request 
    */
   public function executeNouvelle(sfWebRequest $request) {
-  	  if ($campagne = $request->getParameter('campagne')) {
-  	  	$drm = $this->getUser()->createDRMByCampagne($campagne);
-  	  } else  {
-      	$drm = $this->getUser()->getDRM();
-  	  }
+      $historique = new DRMHistorique('ETABLISSEMENT-'.$request->getParameter('identifiant'));
+      if ($historique->hasDRMInProcess()) {
+        throw new sfException('Une DRM est déjà en cours de saisie.');
+      }
+      $drm = DRMClient::getInstance()->createDoc($historique->getEtablissementIdentifiant(), $request->getParameter('campagne'));
       $drm->save();
       $this->redirect('drm_edition', $drm);
   }

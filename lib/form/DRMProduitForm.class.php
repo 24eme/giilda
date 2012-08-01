@@ -34,7 +34,7 @@ class DRMProduitForm extends acCouchdbForm
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
             $this->_choices_produits = array_merge(array("" => ""),
-												   $this->_config->formatProduits(str_replace('INTERPRO-', '', $this->_interpro->get('_id')), 
+												   $this->_config->formatProduits('inter-loire', 
             																   	  $this->_drm->getDepartement()));
         }
 
