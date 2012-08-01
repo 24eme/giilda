@@ -219,7 +219,7 @@ DRM:
                                                                                                                 fields:
                                                                                                                   achat: { type: float }
                                                                                                                   recolte: { type: float }
-                                                                                                                  tansfert: { type: float }
+                                                                                                                  transfert: { type: float }
                                                                                                                   cooperative: { type: float }
                                                                                                                   reintegration: { type: float }
                                                                                                                   elaboration: { type: float }
