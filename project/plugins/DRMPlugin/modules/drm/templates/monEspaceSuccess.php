@@ -2,16 +2,18 @@
     
     <h1>Déclaration Récapitulative Mensuelle <a href="" class="msg_aide" data-msg="help_popup_monespace" data-doc="notice.pdf" title="Message aide"></a></h1>
     
-    <p class="intro">Bienvenue sur votre espace DRM. Que voulez-vous faire ?</p>
-    
+   <section id="etablissement">
+   <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $historique->getEtablissementIdentifiant())); ?>
+   </section>
+
     <section id="principal">
         <div id="recap_drm">
             <div id="drm_annee_courante" >
-                <?php include_component('drm', 'historiqueList', array('historique' => $historique, 'limit' => 12)) ?>
+   <?php include_component('drm', 'historiqueList', array('historique' => $historique, 'limit' => 12)) ?>
             </div>
         </div>
     </section>
-    <a href="<?php echo url_for('drm_historique', array('identifiant' => $sf_user->getTiers()->getIdentifiant())) ?>">Votre historique complet &raquo;</a>
+    <a href="<?php echo url_for('drm_historique', array('identifiant' => $historique->getEtablissementIdentifiant())) ?>">Votre historique complet &raquo;</a>
     
         <?php if($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
         <br /><br />

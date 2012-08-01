@@ -1,5 +1,3 @@
-<?php include_partial('global/navTop', array('active' => 'drm')); ?>
-
 <section id="contenu">
     <h1>Historique de vos Déclarations Récapitulatives Mensuelles</h1>
     <section id="principal">
