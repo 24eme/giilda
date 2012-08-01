@@ -131,7 +131,17 @@ class VracClient extends acCouchdbClient {
     $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
     return $bySoussigneType;
     }
+        
+    public function retrieveBySoussigneStatutAndType($soussigneId,$statut,$type,$limit=300) {
+    $bySoussigneTypeQuery = $this->startkey(array('STATUT',$soussigneId,$statut,$type))
+              ->endkey(array('STATUT',$soussigneId,$statut,$type, array()));
     
+    if ($limit){
+            $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
+        }
+    $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+    return $bySoussigneType;
+    }
     public static function getCsvBySoussigne($vracs)
     {
         $result ="\xef\xbb\xbf";
@@ -214,4 +224,18 @@ class VracClient extends acCouchdbClient {
     public function retrieveById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return parent::retrieveDocumentById('VRAC-'.$id, $hydrate);
     }       
- }
+
+    public static function getTypes() {
+        return array(self::TYPE_TRANSACTION_MOUTS => self::TYPE_TRANSACTION_MOUTS,
+                     self::TYPE_TRANSACTION_RAISINS => self::TYPE_TRANSACTION_RAISINS,
+                     self::TYPE_TRANSACTION_VIN_BOUTEILLE => self::TYPE_TRANSACTION_VIN_BOUTEILLE,
+                     self::TYPE_TRANSACTION_VIN_VRAC => self::TYPE_TRANSACTION_VIN_VRAC);
+    }
+
+    public static function getStatuts() {
+        return array(self::STATUS_CONTRAT_ANNULE => self::STATUS_CONTRAT_ANNULE,
+                     self::STATUS_CONTRAT_NONSOLDE => self::STATUS_CONTRAT_NONSOLDE,
+                     self::STATUS_CONTRAT_SOLDE => self::STATUS_CONTRAT_SOLDE);
+    }
+    
+}
