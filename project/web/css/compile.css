@@ -1839,6 +1839,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   width:15px;
 }
 .bloc_col .legende div .type_raisins, .bloc_col .legende div .type_mouts, .bloc_col .legende div .type_vin_vrac, .bloc_col .legende div .type_vin_bouteille { margin-bottom:5px; }
+.itemcache { display:none; }
 p#date_drm {
   font-size:14px;
   font-style:italic;
