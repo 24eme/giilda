@@ -66,8 +66,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     
     public function getVendeurs()
     {
-        if (is_null($this->vendeurs)) {
-            $this->vendeurs = $this->getEtablissements(EtablissementFamilles::FAMILLE_PRODUCTEUR);
+        $this->vendeurs = array('' => '');
+        if($this->getObject()->vendeur_identifiant) {
+            $this->vendeurs = array($this->getObject()->vendeur_identifiant => $this->getObject()->vendeur->nom);
         }
 
         return $this->vendeurs;
@@ -75,8 +76,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
 
     public function getAcheteurs()
     {
-        if (is_null($this->acheteurs)) {
-            $this->acheteurs = $this->getEtablissements(EtablissementFamilles::FAMILLE_NEGOCIANT);
+        $this->acheteurs = array('' => '');
+        if($this->getObject()->acheteur_identifiant) {
+            $this->acheteurs = array($this->getObject()->acheteur_identifiant => $this->getObject()->acheteur->nom);
         }
 
         return $this->acheteurs;
@@ -84,8 +86,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
 
     public function getMandataires()
     {
-        if (is_null($this->mandataires)) {
-            $this->mandataires = $this->getEtablissements(EtablissementFamilles::FAMILLE_COURTIER);
+        $this->mandataires = array('' => '');
+        if($this->getObject()->mandataire_identifiant) {
+            $this->mandataires = array($this->getObject()->mandataire_identifiant => $this->getObject()->mandataire->nom);
         }
 
         return $this->mandataires;
@@ -93,7 +96,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
 
     public function getEtablissements($famille) {
         
-        return array();
+        return array('' => '');
     }
     
     public function doUpdateObject($values) {
