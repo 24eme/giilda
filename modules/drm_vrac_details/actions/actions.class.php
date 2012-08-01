@@ -8,7 +8,6 @@ class drm_vrac_detailsActions extends sfActions
         $this->detail = $this->getRoute()->getDRMDetail();
         $this->drm = $this->detail->getDocument();
         $this->form = new DRMDetailVracForm($this->detail->sorties->vrac_details);
-
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             

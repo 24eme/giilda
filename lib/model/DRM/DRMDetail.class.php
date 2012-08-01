@@ -168,12 +168,15 @@ class DRMDetail extends BaseDRMDetail {
 
     public function hasContratVrac() {
       $etablissement = 'ETABLISSEMENT-'.$this->getDocument()->identifiant;
-      foreach (VracClient::getInstance()->retrieveFromEtablissements($etablissement) as $contrat) {
-      	if ($contrat->valide->statut == Configuration::STATUT_CONTRAT_NONSOLDE && (strpos($this->getHash(), $contrat->produit) !== false) && !$this->vrac->exist($contrat->numero_contrat)) {
-      	  return true;
-      	}
-      }
-      return false;
+      $produit = $this->getCepage()->getHash();
+      if(substr($produit, 0, 1) == "/") {
+           $produit = substr($produit, 1);
+       }
+      $rows = acCouchdbManager::getClient()
+            ->startkey(array(VracClient::STATUS_CONTRAT_NONSOLDE, $etablissement, $produit))
+              ->endkey(array(VracClient::STATUS_CONTRAT_NONSOLDE, $etablissement, $produit, array()))
+              ->getView("vrac", "contratsFromProduit")->rows;
+      return count($rows);
     }
     
     public function getContratsVrac() {

@@ -133,7 +133,6 @@ class DRMClient extends acCouchdbClient {
               ->getView("vrac", "contratsFromProduit")
               ->rows;
       $vracs = array();
-
       foreach($rows as $key => $row) {
           $vol_restant = $row->value[self::CONTRATSPRODUITS_VOL_TOTAL] - $row->value[self::CONTRATSPRODUITS_VOL_ENLEVE];
           $volume = '['.$row->value[self::CONTRATSPRODUITS_VOL_ENLEVE].'/'.$row->value[self::CONTRATSPRODUITS_VOL_TOTAL].']';
@@ -145,7 +144,7 @@ class DRMClient extends acCouchdbClient {
       }      
       return $vracs;       
     }
-  
+ 
   public function findProduits() {
     return $this->startkey(array("produit"))
               ->endkey(array("produit", array()))->getView('drm', 'produits');

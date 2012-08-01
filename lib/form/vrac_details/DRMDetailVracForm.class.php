@@ -11,7 +11,6 @@ class DRMDetailVracForm extends acCouchdbForm {
     }
   
     public function configure() {
-
         if(!count($this->drm_sorties_vrac_details))
         {
             $this->drm_sorties_vrac_details->add();
@@ -53,7 +52,7 @@ class DRMDetailVracForm extends acCouchdbForm {
     
     public function getVracDetails()
     {
-    return $this->drm_sorties_vrac_details;
+        return $this->drm_sorties_vrac_details;
     }   
     
     public function getFormTemplate() {
