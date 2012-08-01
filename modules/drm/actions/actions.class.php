@@ -16,7 +16,7 @@ class drmActions extends sfActions
     if ($request->isMethod(sfWebRequest::POST)) {
       $this->form->bind($request->getParameter($this->form->getName()));
       if ($this->form->isValid()) {
-	return $this->redirect('drm_mon_espace', array('identifiant' => $this->form->getValue('etablissement_identifiant')));
+	return $this->redirect('drm_mon_espace', array('identifiant' => str_replace('ETABLISSEMENT-', '', $this->form->getValue('etablissement_identifiant'))));
       }
     }
   }
