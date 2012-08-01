@@ -30,7 +30,7 @@ class drmActions extends sfActions
       if ($historique->hasDRMInProcess()) {
         throw new sfException('Une DRM est déjà en cours de saisie.');
       }
-      $drm = DRMClient::getInstance()->createDoc($historique->getEtablissementIdentifiant(), $request->getParameter('campagne'));
+      $drm = DRMClient::getInstance()->createDoc(str_replace('ETABLISSEMENT-', '', $historique->getEtablissementIdentifiant()), $request->getParameter('campagne'));
       $drm->save();
       $this->redirect('drm_edition', $drm);
   }
