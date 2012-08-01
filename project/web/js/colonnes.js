@@ -2,6 +2,9 @@
 
     var debug = false;
 
+    /**
+        Class Colonnes
+    **/
     $.Colonnes = function () 
     {
         this.element = $('#colonnes_dr');
@@ -48,6 +51,9 @@
                 colonne.active();
             }
             colonne.focus();
+            colonne.focusChampDefault();
+
+            return colonne;
         }
 
         this.getActive = function () {
@@ -155,7 +161,11 @@
         }
     }
 
-    function ColonneIntitule(colonnes, element) {
+    /**
+        Class ColonneIntitule
+    **/
+    function ColonneIntitule(colonnes, element) 
+    {
         this.colonnes = colonnes;
         this.element = element;
         this.groupes = new Groupes(this);
@@ -195,7 +205,11 @@
         }
     }
 
-    function ColonneProduit(colonnes, element) {
+    /**
+        Class ColonneProduit
+    **/
+    function ColonneProduit(colonnes, element) 
+    {
 
         this.colonnes = colonnes;
         this.element = element;
@@ -274,8 +288,11 @@
 
             this.colonnes.unFocus();
             this.element.addClass('col_focus');
-            this.element.find(this.element.attr('data-input-focus')).focus();
             this.colonnes.updateScroll();
+        }
+
+        this.focusChampDefault = function() {
+           this.element.find(this.element.attr('data-input-focus')).focus(); 
         }
 
         this.unFocus = function() {
@@ -376,7 +393,11 @@
         }
     }
 
-    function GroupesRows(colonnes) {
+    /**
+        Class GroupesRows
+    **/
+    function GroupesRows(colonnes) 
+    {
         this.colonnes = colonnes;
         this.groupes_rows = new Array();
 
@@ -423,7 +444,11 @@
         }
     }
 
-    function GroupesRow(groupes_rows, groupe_id) {
+    /**
+        Class GroupesRow
+    **/
+    function GroupesRow(groupes_rows, groupe_id) 
+    {
         this.groupes_rows = groupes_rows;
         this.groupe_id = groupe_id;
         this.groupes_row = new Array();
@@ -533,7 +558,11 @@
         }
     }
 
-    function Groupes(colonne) {
+    /**
+        Class Groupes
+    **/
+    function Groupes(colonne) 
+    {
         this.colonne = colonne;
         this.groupes = new Array();
 
@@ -600,7 +629,11 @@
         }
     }
 
-    function GroupeIntitule(colonne, groupes, element) {
+    /**
+        Class GroupeIntitule
+    **/
+    function GroupeIntitule(colonne, groupes, element) 
+    {
         this.colonne = colonne;
         this.groupes = groupes;
         this.element = element;
@@ -660,7 +693,11 @@
         }
     }
 
-    function GroupeProduit(colonne, groupes, element) {
+    /**
+        Class GroupeProduit
+    **/
+    function GroupeProduit(colonne, groupes, element) 
+    {
         this.colonne = colonne;
         this.groupes = groupes;
         this.element = element;
@@ -742,7 +779,11 @@
         }
     }
 
-    function Champs(colonne, groupe) {
+    /**
+        Class Champs
+    **/
+    function Champs(colonne, groupe) 
+    {
         this.colonne = colonne;
         this.groupe = groupe;
         this.champs = new Array();
@@ -822,7 +863,11 @@
         }
     }
 
-    function Champ(colonne, champs, element) {
+    /**
+        Class Champ
+    **/
+    function Champ(colonne, champs, element) 
+    {
 
         this.colonne = colonne;
         this.champs = champs;
@@ -1006,7 +1051,7 @@
 
             this.element.blur(function()
             {
-                if(this.colonnes.getActive()) {
+                if(this.colonnes.hasActive()) {
                     
                     return;
                 }
@@ -1020,7 +1065,7 @@
                 
             this.element.change(function()
             {
-                if(this.colonnes.getActive()) {
+                if(this.colonnes.hasActive()) {
                     
                     return;
                 }
@@ -1031,14 +1076,10 @@
 
         this._initText = function() {
 
-            var element = this.element;
-
             if(!this.element.is('input:text'))
             {
                 return;
             }
-
-            var val_default = this.element.attr('data-val-defaut');
 
             if(this.element.attr('readonly'))
             {
@@ -1047,7 +1088,7 @@
 
             this.element.click(function(e)
             {
-                element.select();
+                $(this).select();
                 e.preventDefault();
             });
         }
@@ -1060,7 +1101,6 @@
             }
 
             var colonne = this.colonne;
-
             var is_float = this.element.hasClass('num_float');
             
             this.element.saisieNum

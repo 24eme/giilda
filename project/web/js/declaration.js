@@ -66,7 +66,9 @@
             $.initDetailsPopups();
 
             if (colonnes.colonnes.length > 1) {
-                colonnes.colonnes[1].focus();
+                var colonne = colonnes.colonnes[1];
+                colonne.focus();
+                colonne.focusChampDefault();
             }
 		}
 	});
