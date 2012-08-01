@@ -44,19 +44,19 @@ use_helper('Display');
     <div class="ligne_form">       
         <span>
             <label>Adresse</label>
-            <?php  display_field($mandataire,'adresse');  ?>
+            <?php  display_field($mandataire,'siege/adresse');  ?>
         </span>
     </div>
     <div class="ligne_form ligne_form_alt"> 
         <span>
             <label>CP*</label>
-            <?php  display_field($mandataire,'code_postal');  ?>
+            <?php  display_field($mandataire,'siege/code_postal');  ?>
         </span>
     </div>
     <div class="ligne_form ">      
         <span>
             <label>Ville*</label>
-            <?php  display_field($mandataire,'commune');  ?>
+            <?php  display_field($mandataire,'siege/commune');  ?>
         </span>
     </div>
 </div>
