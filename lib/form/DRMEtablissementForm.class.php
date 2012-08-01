@@ -14,14 +14,14 @@ class DRMEtablissementForm extends baseForm {
 
     public function configure()
     {
-        $this->setWidget('etablissement_identifiant', new sfWidgetFormChoice(array('choices' =>  $this->getDRMEtablissements()), array('class' => 'autocomplete')));
+        $this->setWidget('etablissement_identifiant', new sfWidgetFormChoice(array('choices' =>  $this->getDRMEtablissements()), array('class' => 'autocomplete', 'data-ajax' => $this->getUrlAutocomplete())));
 
         $this->widgetSchema->setLabels(array(
             'vendeur_identifiant' => 'Sélectionner un etablissement&nbsp;:',
         ));
         
         $this->setValidators(array(
-				   'etablissement_identifiant' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getDRMEtablissements()))),
+				   'etablissement_identifiant' => new sfValidatorString(array('required' => true)),
 				   ));
         
         
@@ -47,6 +47,11 @@ class DRMEtablissementForm extends baseForm {
             $etablissements[str_replace('ETABLISSEMENT-', '', $data->id)] = implode(', ', array_filter($labels));
         }
         return $etablissements;
+    }
+
+    public function getUrlAutocomplete() {
+
+        return sfContext::getInstance()->getRouting()->generate('etablissement_autocomplete_byfamilles', array('familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR));
     }
     
 }
