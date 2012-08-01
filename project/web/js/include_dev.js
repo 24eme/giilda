@@ -52,5 +52,6 @@
 	$.fn.includeJS(jsPath, 'form.js');
 	$.fn.includeJS(jsPath, 'drm.js');
 	$.fn.includeJS(jsPath, 'declaration.js');
+    $.fn.includeJS(jsPath, 'colonnes.js');
 
 })(jQuery);
