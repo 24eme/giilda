@@ -101,10 +101,6 @@ class DRMDetail extends BaseDRMDetail {
     
     protected function update($params = array()) {
         parent::update($params);
-        $this->total_entrees = $this->getTotalByKey('entrees');
-        $this->total_sorties = $this->getTotalByKey('sorties');
-        
-        $this->total = $this->total_debut_mois + $this->total_entrees - $this->total_sorties;
         
         $this->sorties->vrac = 0;
         foreach ($this->sorties->vrac_details as $vrac_detail)
@@ -123,6 +119,12 @@ class DRMDetail extends BaseDRMDetail {
         {
             $this->sorties->cooperative+=$cooperative_detail->volume;
         }
+        
+        
+        $this->total_entrees = $this->getTotalByKey('entrees');
+        $this->total_sorties = $this->getTotalByKey('sorties');
+        
+        $this->total = $this->total_debut_mois + $this->total_entrees - $this->total_sorties;
     }
     
     private function getTotalByKey($key) {

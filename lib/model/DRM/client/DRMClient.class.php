@@ -2,6 +2,11 @@
 
 class DRMClient extends acCouchdbClient {
    
+    
+    const CONTRATSPRODUITS_NUMERO_CONTRAT = 0;
+    const CONTRATSPRODUITS_ETS_NOM = 1;
+    const CONTRATSPRODUITS_VOL_TOTAL = 2;
+    const CONTRATSPRODUITS_VOL_ENLEVE = 3;
     /**
      *
      * @return DRMClient
@@ -130,9 +135,13 @@ class DRMClient extends acCouchdbClient {
       $vracs = array();
 
       foreach($rows as $key => $row) {
-          $volume = $row->value[3].'/'.$row->value[2];
-          $volume = ($row->value[3]=='')? '0/'.$row->value[2] : $volume;
-        $vracs[$row->id] = $row->value[0].' '.$row->value[1].' - '.$volume;
+          $vol_restant = $row->value[self::CONTRATSPRODUITS_VOL_TOTAL] - $row->value[self::CONTRATSPRODUITS_VOL_ENLEVE];
+          $volume = '['.$row->value[self::CONTRATSPRODUITS_VOL_ENLEVE].'/'.$row->value[self::CONTRATSPRODUITS_VOL_TOTAL].']';
+          $volume = ($row->value[self::CONTRATSPRODUITS_VOL_ENLEVE]=='')? '[0/'.$row->value[self::CONTRATSPRODUITS_VOL_TOTAL].']' : $volume;
+        $vracs[$row->id] = $row->value[self::CONTRATSPRODUITS_ETS_NOM].
+                ' ('.$row->value[self::CONTRATSPRODUITS_NUMERO_CONTRAT].') '.
+                 $vol_restant.' hl '.
+                 $volume;
       }      
       return $vracs;       
     }

@@ -35,7 +35,7 @@ class DRMRouting {
         $r = $event->getSubject();
         
         $r->prependRoute('drm', new sfRoute('/drm', array('module' => 'drm', 
-                                                          'action' => 'monEspace')));
+                                                          'action' => 'chooseEtablissement')));
 		
         $r->prependRoute('drm_mon_espace', new EtablissementRoute('/drm/:identifiant/mon-espace', array('module' => 'drm', 
                                                                                 'action' => 'monEspace'),
@@ -120,8 +120,8 @@ class DRMRouting {
                                                           array('sf_method' => array('get','post')),
                                                           array('model' => 'DRM',
                                                                 'type' => 'object',
-                              									'must_be_valid' => false,
-                              									'must_be_not_valid' => true)));
+                                                                'must_be_valid' => false,
+                                                                'must_be_not_valid' => true)));
 
         $r->prependRoute('drm_validation', new DRMRoute('/drm/:identifiant/edition/:campagne_rectificative/validation', 
                                                           array('module' => 'drm', 
@@ -304,7 +304,9 @@ class DRMRouting {
 
          */
 
-		$r->prependRoute('drm_edition', new DRMRoute('/drm/:identifiant/edition/:campagne_rectificative/edition',
+
+	$r->prependRoute('drm_edition', new DRMRoute('/drm/:identifiant/edition/:campagne_rectificative/edition',
+
                         array('module' => 'drm_edition',
                             'action' => 'index'),
                         array('sf_method' => array('get', 'post')),
@@ -313,6 +315,27 @@ class DRMRouting {
                             'must_be_valid' => false,
                             'must_be_not_valid' => true
                 )));
+        
+        $r->prependRoute('drm_edition_validation', new DRMRoute('/drm/:identifiant/edition/:campagne_rectificative/validation',
+                        array('module' => 'drm_edition',
+                            'action' => 'validation'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'DRM',
+                            'type' => 'object',
+                            'must_be_valid' => false,
+                            'must_be_not_valid' => true
+                )));
+        
+        
+        $r->prependRoute('drm_pdf_facture', new DRMRoute('/drm/:identifiant/facture/:campagne_rectificative/pdf', 
+                                    array('module' => 'drm_pdf', 
+                                        'action' => 'generatePdfFacture'),
+                                    array('sf_method' => array('get','post')),
+                                    array('model' => 'DRM',
+                                        'type' => 'object',
+                                        'must_be_valid' => false,
+                                        'must_be_not_valid' => true
+                                        )));  
 
         $r->prependRoute('drm_edition_detail', new DRMDetailRoute('/drm/:identifiant/edition/:campagne_rectificative/edition/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail',
                         array('module' => 'drm_edition',
@@ -384,6 +407,7 @@ class DRMRouting {
                                                         'type' => 'object',
                                                         'must_be_valid' => false,
                                                         'must_be_not_valid' => true)));
+  
         
         $r->prependRoute('drm_export_details', new DRMDetailRoute('/drm/:identifiant/edition/:campagne_rectificative/details-export/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', 
                                                     array('module' => 'drm_export_details', 

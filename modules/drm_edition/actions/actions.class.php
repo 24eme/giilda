@@ -5,8 +5,11 @@ class drm_editionActions extends sfActions
     
     public function executeIndex(sfWebRequest $request) {
         $this->init();
-
         $this->setTemplate('index');
+    }
+    
+    public function executeValidation(sfWebRequest $request) {
+        $this->init();
     }
 
     public function executeDetail(sfWebRequest $request) {

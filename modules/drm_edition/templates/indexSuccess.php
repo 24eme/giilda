@@ -3,9 +3,9 @@
 <section id="contenu" style="background: #fff; padding: 0 10px;">
 
     <?php include_partial('drm/header', array('drm' => $drm)); ?>
-    <?php /*include_component('drm', 'etapes', array('drm' => $drm, 
-                                                   'etape' => 'recapitulatif', 
-                                                   'pourcentage' => '30'));*/ ?>
+    <?php /*include_partial('etapes', array('drm' => $drm, 
+                                                   'etape' => 'mouvements', 
+                                                   'pourcentage' => '10'));*/ ?>
     <?php include_partial('drm/controlMessage'); ?>
 
     
@@ -30,6 +30,9 @@
             <div id="btn_etape_dr">
             	
             </div>
+            
+            <a href="<?php echo url_for('drm_pdf_facture', $drm); ?>" id="facture">Facture</a>   
+            <a href="<?php echo url_for('drm_validation', $drm); ?>" id="facture">Suite</a> 
         </div>
     </section>
 </section>

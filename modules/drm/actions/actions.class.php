@@ -11,6 +11,16 @@
 class drmActions extends sfActions
 {    
     
+  public function executeChooseEtablissement(sfWebRequest $request) {
+    $this->form = new DRMEtablissementForm();
+    if ($request->isMethod(sfWebRequest::POST)) {
+      $this->form->bind($request->getParameter($this->form->getName()));
+      if ($this->form->isValid()) {
+	return $this->redirect('drm_mon_espace', array('identifiant' => $this->form->getValue('etablissement_identifiant')));
+      }
+    }
+  }
+
   /**
    *
    * @param sfWebRequest $request 
@@ -60,15 +70,15 @@ class drmActions extends sfActions
   */
   public function executeMonEspace(sfWebRequest $request)
   {
-      $this->historique = new DRMHistorique ($this->getUser()->getTiers()->identifiant);
+    $this->historique = new DRMHistorique ($this->getRoute()->getEtablissement()->identifiant);
       $this->formCampagne = new DRMCampagne();
       if ($request->isMethod(sfWebRequest::POST)) {
     	$this->formCampagne->bind($request->getParameter($this->formCampagne->getName()));
   	  	if ($this->formCampagne->isValid()) {
-  	  		$values = $this->formCampagne->getValues();
-  	  		$drm = $this->getUser()->createDRMByCampagne($values['campagne']);
-      		$drm->save();
-      		$this->redirect('drm_informations', $drm);
+		  $values = $this->formCampagne->getValues();
+		  $drm = $this->getUser()->createDRMByCampagne($values['campagne']);
+		  $drm->save();
+		  $this->redirect('drm_informations', $drm);
   	  	}
       }
   }
@@ -82,7 +92,7 @@ class drmActions extends sfActions
   public function executeHistorique(sfWebRequest $request)
   {
     $this->campagne = $request->getParameter('campagne');
-    $this->historique = new DRMHistorique ($this->getUser()->getTiers()->identifiant, $this->campagne);
+    $this->historique = new DRMHistorique ($this->getRoute()->getEtablissement()->identifiant, $this->campagne);
   }
 
  /**
