@@ -29,7 +29,7 @@ if(!isset($campagne)) $campagne = dateCampagneViticolePresent();
                 <div id="recherche_operateur" class="section_label_maj">
                     <label>Rechercher un opérateur : </label>
                     <form method="get" action="<?php echo url_for('vrac_recherche'); ?>">
-                            <select name="identifiant" value="<?php echo (isset($identifiant)) ? $identifiant : '' ; ?>" class="autocomplete">
+                            <select data-ajax="<?php echo url_for('etablissement_autocomplete_all') ?>" name="identifiant" value="<?php echo (isset($identifiant)) ? $identifiant : '' ; ?>" class="autocomplete">
                                 <?php foreach ($etablissements as $id => $name)
                                 {
                                     $localEtablissement = preg_replace('/ETABLISSEMENT-/', '',$id);

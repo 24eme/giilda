@@ -23,11 +23,11 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         
         $this->setWidget('vendeur_famille',new sfWidgetFormChoice(array('choices' => $this->vendeur_famille,'expanded' => true)));
         
-        $this->setWidget('vendeur_identifiant', new sfWidgetFormChoice(array('choices' =>  $this->getVendeurs()), array('class' => 'autocomplete')));
+        $this->setWidget('vendeur_identifiant', new sfWidgetFormChoice(array('choices' =>  $this->getVendeurs()), array('class' => 'autocomplete', 'data-ajax' => $this->getUrlAutocomplete(EtablissementFamilles::FAMILLE_PRODUCTEUR))));
          
         $this->setWidget('acheteur_famille',new sfWidgetFormChoice(array('choices' => $this->acheteur_famille,'expanded' => true)));
         
-        $this->setWidget('acheteur_identifiant', new sfWidgetFormChoice(array('choices' =>   $this->getAcheteurs()), array('class' => 'autocomplete')));
+        $this->setWidget('acheteur_identifiant', new sfWidgetFormChoice(array('choices' =>   $this->getAcheteurs()), array('class' => 'autocomplete', 'data-ajax' => $this->getUrlAutocomplete(EtablissementFamilles::FAMILLE_NEGOCIANT))));
         
         $this->setWidget('mandataire_exist', new sfWidgetFormInputCheckbox());        
         
@@ -35,7 +35,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         
         $this->setWidget('mandatant', new sfWidgetFormChoice(array('expanded' => true, 'multiple'=> true , 'choices' => $mandatant_identifiantChoice)));
                 
-        $this->setWidget('mandataire_identifiant', new sfWidgetFormChoice(array('choices' => $this->getMandataires()), array('class' => 'autocomplete')));
+        $this->setWidget('mandataire_identifiant', new sfWidgetFormChoice(array('choices' => $this->getMandataires()), array('class' => 'autocomplete', 'data-ajax' => $this->getUrlAutocomplete(EtablissementFamilles::FAMILLE_COURTIER))));
         
         $this->widgetSchema->setLabels(array(
             'vendeur_famille' => '',
@@ -49,10 +49,10 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         
         $this->setValidators(array(
             'vendeur_famille' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->vendeur_famille))),
-            'vendeur_identifiant' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getVendeurs()))),
+            'vendeur_identifiant' => new sfValidatorString(array('required' => true)),
             'acheteur_famille' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->acheteur_famille))),
-            'acheteur_identifiant' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getAcheteurs()))),
-            'mandataire_identifiant' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getMandataires()))),
+            'acheteur_identifiant' => new sfValidatorString(array('required' => true)),
+            'mandataire_identifiant' => new sfValidatorString(array('required' => false)),
             'mandataire_exist' => new sfValidatorBoolean(array('required' => false)),
             'mandatant' => new sfValidatorChoice(array('required' => false,'multiple'=> true, 'choices' => array_keys($mandatant_identifiantChoice)))
             ));
@@ -92,13 +92,8 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     }
 
     public function getEtablissements($famille) {
-        $etablissements = array('' => '');
-        $datas = EtablissementClient::getInstance()->findByFamille($famille)->rows;
-        foreach($datas as $data) {
-            $labels = array($data->key[4], $data->key[3], $data->key[1]);
-            $etablissements[$data->id] = implode(', ', array_filter($labels));
-        }
-        return $etablissements;
+        
+        return array();
     }
     
     public function doUpdateObject($values) {
@@ -115,5 +110,10 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         $this->getObject()->setInformations();
     }
 
+
+    public function getUrlAutocomplete($famille) {
+
+        return sfContext::getInstance()->getRouting()->generate('etablissement_autocomplete_byfamilles', array('familles' => $famille));
+    }
 }
 

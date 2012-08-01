@@ -26,7 +26,7 @@ class vracActions extends sfActions
       
   
   public function executeRecherche(sfWebRequest $request) 
-  {            
+  {       
       $this->recherche = $this->getVracsFromRecherche($request,true);
       $this->form = new VracRechercheForm();
   }
@@ -35,7 +35,7 @@ class vracActions extends sfActions
   {
       $this->isType = isset($request['type']);
       $this->isStatut = isset($request['statut']);
-      $this->identifiant = $request->getParameter('identifiant');
+      $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
       $soussigneObj = EtablissementClient::getInstance()->findByIdentifiant($this->identifiant);
       $soussigneId = 'ETABLISSEMENT-'.$this->identifiant;
       $this->type = null;
