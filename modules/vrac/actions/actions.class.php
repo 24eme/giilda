@@ -27,39 +27,60 @@ class vracActions extends sfActions
   
   public function executeRecherche(sfWebRequest $request) 
   {            
-      $this->getVracsFromRecherche($request,true);
+      $this->recherche = $this->getVracsFromRecherche($request,true);
+      $this->form = new VracRechercheForm();
   }
    
   private function getVracsFromRecherche($request, $limited)
   {
-      $isType = isset($request['type']);
-      $isStatut = isset($request['statut']);
+      $this->isType = isset($request['type']);
+      $this->isStatut = isset($request['statut']);
       $this->identifiant = $request->getParameter('identifiant');
       $soussigneObj = EtablissementClient::getInstance()->findByIdentifiant($this->identifiant);
       $soussigneId = 'ETABLISSEMENT-'.$this->identifiant;
-     
-      if($isStatut)
+      $this->type = null;
+      $this->statut = null;
+      $this->multiCritereType = null;
+      $this->multiCritereStatut = null;
+      $this->actifs = array();
+      $this->actifs['type'] = '';
+      $this->actifs['statut'] = '';
+      
+      if($this->isType && $this->isStatut)
+      {
+          $this->statut = $request['statut'];
+          $this->type = $request['type'];
+          $this->vracs = ($limited)? 
+                            VracClient::getInstance()->retrieveBySoussigneStatutAndType($soussigneId,$this->statut,$this->type)
+                            : VracClient::getInstance()->retrieveBySoussigneStatutAndType($soussigneId,$this->statut,$this->type,false);
+          $this->actifs['statut'] = $request['statut'];
+          $this->actifs['type'] = $request['type'];     
+          $this->multiCritereStatut = true;
+          $this->multiCritereType = true;
+      }      
+      elseif($this->isStatut)
       {
           $this->statut = $request['statut'];
           $this->vracs = ($limited)? 
                             VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId,$request['statut'])
                             : VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId,$request['statut'],false);
-          $this->actif = $request['statut'];
+          $this->actifs['statut'] = $request['statut'];
+          $this->multiCritereType = true;
       }
-      elseif ($isType)
+      elseif ($this->isType)
       {
           $this->type = $request['type'];
           $this->vracs = ($limited)? 
                             VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId,$request['type'])
                             : VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId,$request['type'],false);
-          $this->actif = $request['type'];
+          $this->actifs['type'] = $request['type'];
+          $this->multiCritereStatut = true;
       }
       else
       {          
           $this->vracs = ($limited)? 
                             VracClient::getInstance()->retrieveBySoussigne($soussigneId)
                             : VracClient::getInstance()->retrieveBySoussigne($soussigneId,false);
-          $this->actif = null;
       }
             
       usort($this->vracs->rows, array("vracActions", "rechercheTriListOnID"));

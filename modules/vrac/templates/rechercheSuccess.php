@@ -45,7 +45,14 @@ if(!isset($campagne)) $campagne = dateCampagneViticolePresent();
                 </div>         
                 <a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Ouvrir en tableur</a>
                 <?php 
-                    include_partial('rechercheLegende', array('rechercheMode' => true, 'vracs' => $vracs, 'identifiant'=>$identifiant,'actif' => $actif));
+                    include_partial('rechercheLegende', array('rechercheMode' => true,
+                                                              'vracs' => $vracs,
+                                                              'identifiant'=>$identifiant,
+                                                              'actifs' => $actifs,
+                                                              'multiCritereType' => $multiCritereType,
+                                                              'multiCritereStatut'=> $multiCritereStatut,
+                                                              'type' => $type,
+                                                              'statut' => $statut));
                 ?>
                 <div class="section_label_maj">  
                 <?php

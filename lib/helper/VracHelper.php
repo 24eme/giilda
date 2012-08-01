@@ -27,9 +27,9 @@ function dateCampagneViticole($date)
     return $campagne;
 }
  
-function isARechercheParam($actif,$label)
+function isARechercheParam($actifs,$label)
 {
-    return $actif==$label;
+    return in_array($label, $actifs);
 }
 
 function statusColor($status)
