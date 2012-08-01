@@ -3,10 +3,10 @@
 	<p class="label">Labels</p>
 	
 	<div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
-		<p>Stock théorique dbt de mois</p>
+		<p class="itemcache">Stock théorique dbt de mois</p>
 		<ul>
 			<?php foreach ($config->detail->getStocksDebut() as $key => $item): ?>
-                    <li><?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_stockdebut_<?php echo $key; ?>" title="Message aide"></a></li>
+   <li<?php if ($key != 'revendique') echo ' class="itemcache"'?>><?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_stockdebut_<?php echo $key; ?>" title="Message aide"></a></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
