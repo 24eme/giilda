@@ -46,6 +46,7 @@ class EtablissementCsvFile extends CsvFile
         $e->siege->code_postal = $line[self::CSV_PARTENAIRE_CODE_POSTAL];
         $e->famille = $famille;
         $e->sous_famille = $this->getSousFamilleDefaut($famille);
+        $e->interpro = 'INTERPRO-inter-loire';
         
       	$e->save();
       }
