@@ -24,7 +24,7 @@ class Etablissement extends BaseEtablissement {
     	$interpro = new Interpro();
     	$interpro->identifiant = 'inter-loire';
     	$interpro->nom = "Inter Loire";
-    	$interpro->set('_id', $interpro->identifiant);
+    	$interpro->set('_id', 'INTERPRO-'.$interpro->identifiant);
 
     	return $interpro;
     }

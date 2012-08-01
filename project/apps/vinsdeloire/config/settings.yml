@@ -25,7 +25,7 @@ test:
 all:
   .settings:
 
-    enabled_modules:        [default, vrac, drm, drm_edition, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf]
+    enabled_modules:        [default, vrac, drm, drm_edition, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf, etablissement_autocomplete]
 
     # Form security secret (CSRF protection)
     csrf_secret:            false
