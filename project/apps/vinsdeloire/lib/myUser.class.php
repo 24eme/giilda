@@ -9,11 +9,7 @@ class myUser extends sfBasicSecurityUser
 	protected $historique = null;
 
 
-	public function getTiers() {
-		if (is_null($this->tiers)) {
-			$this->tiers = EtablissementClient::getInstance()->findByIdentifiant('511883');
-		}
-		
+	public function getTiers() {		
 		return $this->tiers;
 	}
 
