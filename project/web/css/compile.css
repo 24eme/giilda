@@ -1791,6 +1791,10 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   margin:25px 0 15px 40px;
   width:310px;
 }
+.rechercheMode .actif {
+  border:2px solid grey;
+  border-radius:50% 50% 50% 50%;
+}
 .legende { margin:15px 0; }
 .legende .actif a .legende_type_texte { text-decoration:underline; }
 .legende div {
