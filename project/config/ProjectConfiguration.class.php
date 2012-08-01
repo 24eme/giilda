@@ -11,7 +11,7 @@ class ProjectConfiguration extends sfProjectConfiguration
 		$this->enablePlugins('acCouchdbPlugin');
 		$this->enablePlugins('acVinImportPlugin');
         $this->enablePlugins('acVinLibPlugin');
-		$this->enablePlugins('acVinComptePlugin');
+		//$this->enablePlugins('acVinComptePlugin');
         $this->enablePlugins('UserPlugin');
 		$this->enablePlugins('acVinVracPlugin');        
 		$this->enablePlugins('DRMPlugin');
