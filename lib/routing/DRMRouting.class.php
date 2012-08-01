@@ -35,7 +35,7 @@ class DRMRouting {
         $r = $event->getSubject();
         
         $r->prependRoute('drm', new sfRoute('/drm', array('module' => 'drm', 
-                                                          'action' => 'monEspace')));
+                                                          'action' => 'chooseEtablissement')));
 		
         $r->prependRoute('drm_mon_espace', new EtablissementRoute('/drm/:identifiant/mon-espace', array('module' => 'drm', 
                                                                                 'action' => 'monEspace'),
@@ -132,14 +132,14 @@ class DRMRouting {
                               									'must_be_valid' => false,
                               									'must_be_not_valid' => true)));
 
-        $r->prependRoute('drm_show_error', new DRMRoute('/drm/:identifiant/edition/:campagne_rectificative/voir-erreur/:type/:identifiant', 
-                                                          array('module' => 'drm', 
-                                                                'action' => 'showError'),
-                                                          array('sf_method' => array('get')),
-                                                          array('model' => 'DRM',
-                                                                'type' => 'object',
-                              									'must_be_valid' => false,
-                              									'must_be_not_valid' => true)));
+        // $r->prependRoute('drm_show_error', new DRMRoute('/drm/:identifiant/edition/:campagne_rectificative/voir-erreur/:type/:identifiant', 
+        //                                                   array('module' => 'drm', 
+        //                                                         'action' => 'showError'),
+        //                                                   array('sf_method' => array('get')),
+        //                                                   array('model' => 'DRM',
+        //                                                         'type' => 'object',
+        //                       									'must_be_valid' => false,
+        //                       									'must_be_not_valid' => true)));
 
         $r->prependRoute('drm_visualisation', new DRMLightRoute('/drm/:identifiant/visualisation/:campagne_rectificative/:hide_rectificative', 
                                                           array('module' => 'drm', 

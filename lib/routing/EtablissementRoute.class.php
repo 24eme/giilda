@@ -2,18 +2,22 @@
 
 class EtablissementRoute extends sfObjectRoute {
 
-    protected $drm = null;
+    protected $etablissement = null;
     
     protected function getObjectForParameters($parameters = null) {
-	return $this->getEtablissement();
+      $this->etablissement = EtablissementClient::getInstance()->findByIdentifiant($parameters['identifiant']);
+      return $this->etablissement;
     }
 
     protected function doConvertObjectToArray($object = null) {
-        $parameters = array("identifiant" => $this->getEtablissement()->getIdentifiant());
-        return $parameters;
+      $this->etablissement = $object;
+      return array("identifiant" => $object->getIdentifiant());
     }
 
     public function getEtablissement() {
-	return sfContext::getInstance()->getUser()->getEtablissement();
+      if (!$this->etablissement) {
+	$this->etablissement = $this->getObject();
+      }
+      return $this->etablissement;
     }
 }

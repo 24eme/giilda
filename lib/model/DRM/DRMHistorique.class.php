@@ -142,4 +142,7 @@ class DRMHistorique
 		}
 		return $result;
 	}
+	public function getEtablissementIdentifiant() {
+	  return $this->etablissement;
+	}
 }
