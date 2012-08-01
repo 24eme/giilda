@@ -296,7 +296,7 @@ class DRM extends BaseDRM {
         if (preg_match('|^(/declaration/certifications/.+/appellations/.+/mentions/.+/lieux/.+/couleurs/.+/cepages/.+/details/.+)/'.$hash_match.'$|', $key, $match)) {
             $detail = $this->get($match[1]);
             if (!$drm->exist($detail->getHash())) {
-                $drm->addProduit($detail->getMillesime()->getHash(), $detail->label->toArray());
+                $drm->addProduit($detail->getCepage()->getHash(), $detail->labels->toArray());
             }
             $drm->get($detail->getHash())->set($hash_replication, $value);
         }

@@ -14,7 +14,7 @@
 				<?php if ($campagne == $historique->getCampagneCourante()): ?>
 					<li class="actif"><strong>DRM <?php echo $campagne ?></strong></li>
 				<?php else: ?>
-					<li><a href="<?php echo url_for('drm_historique', array('campagne' => $campagne))?>">DRM <?php echo $campagne ?></a></li>
+					<li><a href="<?php echo url_for('drm_historique', array('campagne' => $campagne, 'identifiant'=> $sf_user->getTiers()->getIdentifiant()))?>">DRM <?php echo $campagne ?></a></li>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</ul>

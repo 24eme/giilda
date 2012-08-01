@@ -173,6 +173,16 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         return $produits;
     }
 
+    public function getProduitsLibelle($format = "%g% %a% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
+        $produits = $this->getProduits();
+        $produits_format = array();
+        foreach($produits as $key => $produit) {
+            $produits_format[$key] = $produit->getLibelle($format);
+        }
+
+        return $produits_format;
+    }
+
     public function getLieuxArray() {
         $lieux = array();
         foreach($this->getChildrenNode() as $key => $item) {
