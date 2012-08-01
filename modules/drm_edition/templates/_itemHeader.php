@@ -2,7 +2,7 @@
 	<p class="couleur">Produit</p>
 	<p class="label">Labels</p>
 	
-	<div class="groupe demarrage-ouvert bloque" data-groupe-id="1">
+	<div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
 		<p>Stock théorique dbt de mois</p>
 		<ul>
 			<?php foreach ($config->detail->getStocksDebut() as $key => $item): ?>
@@ -11,7 +11,7 @@
 		</ul>
 	</div>
 	
-	<div class="groupe demarrage-ouvert" data-groupe-id="2">
+	<div class="groupe" data-groupe-id="2">
 		<p>Entrées</p>
 		<ul>
 			<?php foreach ($config->detail->getEntrees() as $key => $item): ?>
@@ -20,7 +20,7 @@
 		</ul>
 	</div>
 	
-	<div class="groupe" data-groupe-id="3">
+	<div class="groupe groupe_ouvert" data-groupe-id="3">
 		<p>Sorties</p>
 		<ul>
 			<?php foreach ($config->detail->getSorties() as $key => $item): ?>
@@ -29,7 +29,7 @@
 		</ul>
 	</div>
 	
-	<div class="groupe demarrage-ouvert bloque" data-groupe-id="4">
+	<div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="4">
 		<p>Stock théorique fin de mois</p>
 		<ul>
 			<?php foreach ($config->detail->getStocksFin() as $key => $item): ?>
