@@ -14,8 +14,8 @@ class VracSoussigneForm extends acCouchdbObjectForm {
    private $acheteurs = null;
    private $mandataires = null;
    
-   private $vendeur_famille = array('viticulteur' => 'Viticulteur', 'negociant' => 'Negociant');
-   private $acheteur_famille = array('viticulteur' => 'Viticulteur', 'negociant' => 'Negociant');
+   private $vendeur_famille = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'Producteur', EtablissementFamilles::FAMILLE_NEGOCIANT => 'Negociant');
+   private $acheteur_famille = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'Producteur', EtablissementFamilles::FAMILLE_NEGOCIANT => 'Negociant');
    
    
     public function configure()
@@ -67,7 +67,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     public function getVendeurs()
     {
         if (is_null($this->vendeurs)) {
-            $this->vendeurs = $this->getEtablissements('Viticulteur');
+            $this->vendeurs = $this->getEtablissements(EtablissementFamilles::FAMILLE_PRODUCTEUR);
         }
 
         return $this->vendeurs;
@@ -76,7 +76,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     public function getAcheteurs()
     {
         if (is_null($this->acheteurs)) {
-            $this->acheteurs = $this->getEtablissements('Negociant');
+            $this->acheteurs = $this->getEtablissements(EtablissementFamilles::FAMILLE_NEGOCIANT);
         }
 
         return $this->acheteurs;
@@ -85,7 +85,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     public function getMandataires()
     {
         if (is_null($this->mandataires)) {
-            $this->mandataires = $this->getEtablissements('Courtier');
+            $this->mandataires = $this->getEtablissements(EtablissementFamilles::FAMILLE_COURTIER);
         }
 
         return $this->mandataires;

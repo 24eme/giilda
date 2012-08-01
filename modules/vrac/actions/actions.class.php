@@ -65,7 +65,7 @@ class vracActions extends sfActions
       usort($this->vracs->rows, array("vracActions", "rechercheTriListOnID"));
             
       $this->etablissements = array('' => '');
-      $soussignelabel = array($soussigneObj['nom'], $soussigneObj['cvi'], $soussigneObj['commune']);
+      $soussignelabel = array($soussigneObj->nom, $soussigneObj->cvi, $soussigneObj->siege->commune);
       $this->etablissements[$this->identifiant] = trim(implode(',', array_filter($soussignelabel)));
 
       $datas = EtablissementClient::getInstance()->findAll()->rows;
@@ -268,6 +268,9 @@ class vracActions extends sfActions
         $nouveau = is_null($request->getParameter('numero_contrat'));
         $etablissementId = ($request->getParameter('id')==null)? $request->getParameter('vrac_'.$request->getParameter('type').'_identifiant') : $request->getParameter('id');      
         $etablissement =  EtablissementClient::getInstance()->find($etablissementId);
+        
+        $this->forward404Unless($etablissement);
+
         $this->form = new VracSoussigneModificationForm($etablissement);
         
         if ($request->isMethod(sfWebRequest::POST)) 

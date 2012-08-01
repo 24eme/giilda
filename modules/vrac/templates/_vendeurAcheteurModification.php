@@ -30,34 +30,34 @@ $otherType = ($type=='acheteur')? 'vendeur' :  'acheteur';
                 <?php echo $form->getObject()->cvi; ?>    </span>
         </div>
         <div class="ligne_form">
-            <span><?php echo $form['num_accise']->renderError(); ?>
-            <?php echo $form['num_accise']->renderLabel() ?>
-            <?php echo $form['num_accise']->render() ?> </span>
+            <span><?php echo $form['no_accises']->renderError(); ?>
+            <?php echo $form['no_accises']->renderLabel() ?>
+            <?php echo $form['no_accises']->render() ?> </span>
         </div>
         <div class="ligne_form ligne_form_alt " >
-            <span><?php echo $form['num_tva_intracomm']->renderError(); ?>
-            <?php echo $form['num_tva_intracomm']->renderLabel() ?>
-            <?php echo $form['num_tva_intracomm']->render() ?> </span>
+            <span><?php echo $form['no_tva_intracommunautaire']->renderError(); ?>
+            <?php echo $form['no_tva_intracommunautaire']->renderLabel() ?>
+            <?php echo $form['no_tva_intracommunautaire']->render() ?> </span>
         </div>
     </div>
     
     <div class="col">
         <div class="ligne_form">
             <span>
-            <?php echo $form['adresse']->renderError(); ?>
-            <?php echo $form['adresse']->renderLabel() ?>
-            <?php echo $form['adresse']->render() ?> </span>
+            <?php echo $form['siege']['adresse']->renderError(); ?>
+            <?php echo $form['siege']['adresse']->renderLabel() ?>
+            <?php echo $form['siege']['adresse']->render() ?> </span>
         </div>
         <div class="ligne_form ligne_form_alt">
-            <span><?php echo $form['code_postal']->renderError(); ?>
-            <?php echo $form['code_postal']->renderLabel() ?>
-            <?php echo $form['code_postal']->render() ?></span>  
+            <span><?php echo $form['siege']['code_postal']->renderError(); ?>
+            <?php echo $form['siege']['code_postal']->renderLabel() ?>
+            <?php echo $form['siege']['code_postal']->render() ?></span>  
         </div>
         <div class="ligne_form">
             <span>
-            <?php echo $form['commune']->renderError(); ?>
-            <?php echo $form['commune']->renderLabel() ?>
-            <?php echo $form['commune']->render() ?> </span>
+            <?php echo $form['siege']['commune']->renderError(); ?>
+            <?php echo $form['siege']['commune']->renderLabel() ?>
+            <?php echo $form['siege']['commune']->render() ?> </span>
         </div>
         <div class="ligne_form ligne_form_alt">
             

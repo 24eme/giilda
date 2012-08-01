@@ -33,24 +33,24 @@ $type = $form->getObject()->getFamilleType();
     </div>
     <div class="ligne_form">       
         <span>
-            <?php echo $form['adresse']->renderError(); ?>
-            <?php echo $form['adresse']->renderLabel() ?>             
-            <?php echo $form['adresse']->render() ?>       
+            <?php echo $form['siege']['adresse']->renderError(); ?>
+            <?php echo $form['siege']['adresse']->renderLabel() ?>             
+            <?php echo $form['siege']['adresse']->render() ?>       
         </span>
     </div>
     <div class="ligne_form ligne_form_alt"> 
         <span>
-            <?php echo $form['code_postal']->renderError(); ?>
-            <?php echo $form['code_postal']->renderLabel() ?>
-            <?php echo $form['code_postal']->render() ?>  
+            <?php echo $form['siege']['code_postal']->renderError(); ?>
+            <?php echo $form['siege']['code_postal']->renderLabel() ?>
+            <?php echo $form['siege']['code_postal']->render() ?>  
         </span>
         
     </div>
     <div class="ligne_form">      
         <span>
-            <?php echo $form['commune']->renderError(); ?>
-            <?php echo $form['commune']->renderLabel() ?>
-            <?php echo $form['commune']->render() ?>
+            <?php echo $form['siege']['commune']->renderError(); ?>
+            <?php echo $form['siege']['commune']->renderLabel() ?>
+            <?php echo $form['siege']['commune']->render() ?>
         </span>
     </div>
 </div>
