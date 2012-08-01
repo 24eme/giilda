@@ -32,11 +32,11 @@ class DRMEtablissementForm extends baseForm {
     
     public function getDRMEtablissements()
     {
-        if (is_null($this->drm_etablissements)) {
-            $this->drm_etablissements = $this->getEtablissements('Viticulteur');
-        }
+      if (is_null($this->drm_etablissements)) {
+	$this->drm_etablissements = $this->getEtablissements(EtablissementFamilles::FAMILLE_PRODUCTEUR);
+      }
 
-        return $this->drm_etablissements;
+      return $this->drm_etablissements;
     }
 
     public function getEtablissements($famille) {
