@@ -5,10 +5,10 @@ class drm_recapActions extends sfActions
     
     public function executeIndex(sfWebRequest $request) {
         $this->init();
-
         $this->setTemplate('index');
     }
 
+    
     /*public function executeRedirectIndex(sfWebRequest $request) {
     	$drm = $this->getRoute()->getDRM();
     	$first_certification = null;
