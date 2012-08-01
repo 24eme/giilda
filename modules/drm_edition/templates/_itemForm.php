@@ -10,13 +10,13 @@
    <?php echo $form->getObject()->getLabelsLibelle() ?> <?php echo $form->getObject()->label_supplementaire ?> (&nbsp;<a href="<?php echo url_for("drm_edition_produit_addlabel", $form->getObject()) ?>">éditer</a>&nbsp;)
             </p>
             <div class="groupe" data-groupe-id="1">
-                <p class="<?php echo isRectifierCssClass($form->getObject(), 'total_debut_mois') ?>">
-                    <?php echo $form['total_debut_mois']->render(array('data-val-defaut' => sprintFloat($form->getObject()->total_debut_mois), 'class' => 'num num_float somme_stock_debut test')) ?>
+                <p class="itemcache <?php echo isRectifierCssClass($form->getObject(), 'total_debut_mois') ?>">
+                    <?php echo $form['total_debut_mois']->render(array('data-val-defaut' => sprintFloat($form->getObject()->total_debut_mois), 'class' => 'num num_float somme_groupe somme_stock_debut test')) ?>
                 </p>
                 <ul>
                     <?php foreach($form['stocks_debut'] as $key => $subform): ?>
-                    <li class="<?php echo isRectifierCssClass($form->getObject()->stocks_debut, $key) ?>">
-    <?php echo $form['stocks_debut'][$key]->render(array('data-val-defaut' => sprintFloat($form['stocks_debut'][$key]->getValue()), 'class' => 'num num_float')) ?>
+                    <li class="<?php echo isRectifierCssClass($form->getObject()->stocks_debut, $key); if ($key != 'revendique') { echo ' itemcache';}  ?>">
+   <?php echo $form['stocks_debut'][$key]->render(array('data-val-defaut' => sprintFloat($form['stocks_debut'][$key]->getValue()), 'class' => 'num somme_detail num_float')) ?>
                     </li>
                     <?php endforeach; ?>
                 </ul>
