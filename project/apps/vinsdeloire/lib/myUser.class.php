@@ -76,4 +76,18 @@ class myUser extends sfBasicSecurityUser
         return $this->_drm;
     }
 
+    /**
+     * Récupération de l'interpro
+     * @return Interpro
+     */
+    public function getInterpro()
+    {
+        $interpro = new Interpro();
+        $interpro->identifiant = 'inter-loire';
+        $interpro->nom = "Inter Loire";
+        $interpro->set('_id', 'INTERPRO-'.$interpro->identifiant);
+
+        return $interpro;
+    }
+
 }
