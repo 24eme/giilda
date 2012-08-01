@@ -296,7 +296,7 @@ class DRMRouting {
 
          */
 
-		$r->prependRoute('drm_edition', new DRMRoute('/drm-edition/:campagne_rectificative/edition',
+        $r->prependRoute('drm_edition', new DRMRoute('/drm-edition/:campagne_rectificative/edition',
                         array('module' => 'drm_edition',
                             'action' => 'index'),
                         array('sf_method' => array('get', 'post')),
@@ -305,6 +305,27 @@ class DRMRouting {
                             'must_be_valid' => false,
                             'must_be_not_valid' => true
                 )));
+        
+        $r->prependRoute('drm_edition_validation', new DRMRoute('/drm-edition/:campagne_rectificative/validation',
+                        array('module' => 'drm_edition',
+                            'action' => 'validation'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'DRM',
+                            'type' => 'object',
+                            'must_be_valid' => false,
+                            'must_be_not_valid' => true
+                )));
+        
+        
+        $r->prependRoute('drm_pdf_facture', new DRMRoute('/drm/:campagne_rectificative/drm_pdf_facture', 
+                                    array('module' => 'drm_pdf', 
+                                        'action' => 'generatePdfFacture'),
+                                    array('sf_method' => array('get','post')),
+                                    array('model' => 'DRM',
+                                        'type' => 'object',
+                                        'must_be_valid' => false,
+                                        'must_be_not_valid' => true
+                                        )));  
 
         $r->prependRoute('drm_edition_detail', new DRMDetailRoute('/drm-edition/:campagne_rectificative/edition/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail',
                         array('module' => 'drm_edition',
@@ -376,6 +397,7 @@ class DRMRouting {
                                                         'type' => 'object',
                                                         'must_be_valid' => false,
                                                         'must_be_not_valid' => true)));
+  
         
         $r->prependRoute('drm_export_details', new DRMDetailRoute('/drm-edition/:campagne_rectificative/details-export/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', 
                                                     array('module' => 'drm_export_details', 

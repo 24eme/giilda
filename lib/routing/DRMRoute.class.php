@@ -33,8 +33,7 @@ class DRMRoute extends sfObjectRoute {
     }
 
     protected function doConvertObjectToArray($object) {  
-        $parameters = array("campagne_rectificative" => $object->getCampagneAndRectificative());
-        
+        $parameters = array("campagne_rectificative" => $object->getCampagneAndRectificative());        
         return $parameters;
     }
     
