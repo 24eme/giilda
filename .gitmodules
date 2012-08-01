@@ -25,3 +25,6 @@
 [submodule "project/plugins/acVinConfigurationPlugin"]
 	path = project/plugins/acVinConfigurationPlugin
 	url = git@gitorious.org:acvin/acvinconfigurationplugin.git
+[submodule "project/plugins/acVinComptePlugin"]
+	path = project/plugins/acVinComptePlugin
+	url = git@gitorious.org:acvin/acvincompteplugin.git

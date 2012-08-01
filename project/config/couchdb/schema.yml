@@ -1,31 +1,31 @@
-_Tiers:
-  type: abstract
-  definition:
-    fields:
-      _id: {  }
-      _rev: {  }
-      identifiant: { }
-      nom: { }
-      type: {  }
-      statut: {  }
+# _Tiers:
+#   type: abstract
+#   definition:
+#     fields:
+#       _id: {  }
+#       _rev: {  }
+#       identifiant: { }
+#       nom: { }
+#       type: {  }
+#       statut: {  }
 
-Etablissement:
-  inheritance: _Tiers
-  definition:
-    fields:
-      famille: {  }
-      cvi: {  }
-      adresse: {  }
-      commune: {  }
-      code_postal: {  }
-      num_accise: {  }
-      carte_pro: {  }
-      num_tva_intracomm: {  }
-      domaines: 
-        type: array_collection
-        definition:
-          fields:
-            '*': {  }
+# Etablissement:
+#   inheritance: _Tiers
+#   definition:
+#     fields:
+#       famille: {  }
+#       cvi: {  }
+#       adresse: {  }
+#       commune: {  }
+#       code_postal: {  }
+#       num_accise: {  }
+#       carte_pro: {  }
+#       num_tva_intracomm: {  }
+#       domaines: 
+#         type: array_collection
+#         definition:
+#           fields:
+#             '*': {  }
 
 Interpro:
   definition:
@@ -46,9 +46,9 @@ Vrac:
       type: { }
       numero_contrat: {  }
       etape: { type: integer }
-            
+
 #Soussigné (Part 1)
-      vendeur_identifiant: {  }      
+      vendeur_identifiant: {  }
       vendeur:        
         type: collection
         definition:
@@ -61,7 +61,7 @@ Vrac:
             commune: {  }
             code_postal: {   }
             departement: {   }
-      acheteur_identifiant: {  }     
+      acheteur_identifiant: {  }
       acheteur:
         type: collection
         definition:
@@ -80,7 +80,7 @@ Vrac:
         definition:
           fields:
             '*': {  }
-      mandataire_identifiant: {  }     
+      mandataire_identifiant: {  }
       mandataire:
         type: collection
         definition:
@@ -88,10 +88,10 @@ Vrac:
             nom: {  }
             carte_pro: {  }
             adresse: {  }
-                
+
 #Marché (Part 2)
-          
-      original: { type: integer }            
+
+      original: { type: integer }
       type_transaction: {  }
       produit: {   }
       millesime: { type: integer }
@@ -102,7 +102,7 @@ Vrac:
         definition:
           fields:
             '*': {  }
-       
+
       #Pour le raisin (en kg)
       raisin_quantite: { type: float }
 
@@ -116,9 +116,9 @@ Vrac:
 
       prix_unitaire: { type: float }
       prix_total: { type: float }
-          
+
 #Conditions (Part 3)
-          
+
       type_contrat: {   }
       prix_variable: { type: integer }
 
@@ -129,14 +129,14 @@ Vrac:
       cvo_repartition: { }
       #commentaires
       commentaires: { }
-         
+
 #Validations
       date_stats: { }
       date_signature: { }
 
       volume_propose: { type: float }
       volume_enleve: { type: float }
-      
+
       valide:
         type: collection
         definition:

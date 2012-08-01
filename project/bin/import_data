@@ -1,0 +1,26 @@
+#!/bin/bash
+
+. bin/config.inc
+
+if ! test "$1"; then
+    . bin/download_redmine_file https://clients.actualys.com/attachments/download/4046/VINSDELOIRE_DATA.zip /tmp/VINSDELOIRE_DATA.zip
+fi
+
+SYMFODIR=$(pwd);
+
+LOGDATE=$SYMFODIR/$(date +%Y%m%d%H%M%S_import_civp_data.log)
+
+{
+mkdir /tmp/VINSDELOIRE_DATA 2> /dev/null ; cd  /tmp/VINSDELOIRE_DATA ; rm -rf * 2>/dev/null
+unzip /tmp/VINSDELOIRE_DATA.zip
+
+cd VINSDELOIRE_DATA
+DATADIR=$(pwd);
+
+echo "Import des établissements";
+
+cd $SYMFODIR
+
+php symfony import:etablissement /tmp/VINSDELOIRE_DATA/etablissements.csv
+
+}

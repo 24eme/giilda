@@ -8,3 +8,4 @@ web/edi_dev.php
 cache/
 log/
 web/psd
+bin/config.inc
