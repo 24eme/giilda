@@ -1093,9 +1093,11 @@
                             }
                             else
                             {
-                            lien.html(data.volume+" hl");
-                            lien.parent().children('input').val(data.volume);
-                            lien.parent().children('input').attr('data-val-defaut',data.volume);
+                            // lien.html(data.volume+" hl");
+                            var input = lien.parent().children('input');
+                            input.val(data.volume);
+                            input.nettoyageChamps();
+                            input.attr('data-val-defaut',input.val());
                             colonne.active();
                             colonne.calculer();
                             $.fancybox.close();    
