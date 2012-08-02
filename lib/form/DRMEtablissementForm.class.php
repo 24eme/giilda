@@ -32,17 +32,29 @@ class DRMEtablissementForm extends baseForm {
     
     public function getDRMEtablissements()
     {
-        return array();
+        $liste = array();
+
+        $etablissement = $this->getEtablissement();
+
+        if ($etablissement) {
+            $liste = array($etablissement->identifiant => $etablissement->nom);
+        }
+
+        return $liste;
     }
 
-    public function getEtablissements($famille) {
-        $etablissements = array('' => '');
-        $datas = EtablissementClient::getInstance()->findByFamille($famille)->rows;
-        foreach($datas as $data) {
-            $labels = array($data->key[4], $data->key[3], $data->key[1]);
-            $etablissements[str_replace('ETABLISSEMENT-', '', $data->id)] = implode(', ', array_filter($labels));
+    public function getEtablissement() {
+        $identifiant = isset($this->defaults['etablissement_identifiant']) ? $this->defaults['etablissement_identifiant'] : null;
+
+        if ($this->isValid()) {
+            $identifiant = $this->values['etablissement_identifiant'];
         }
-        return $etablissements;
+
+        if (!$identifiant) {
+            return null;
+        }
+
+        return EtablissementClient::getInstance()->findByIdentifiant($identifiant);
     }
 
     public function getUrlAutocomplete() {
