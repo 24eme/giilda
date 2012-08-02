@@ -1,6 +1,6 @@
 <?php use_helper('Float'); ?>
 <?php use_helper('Rectificative'); ?>
-<div id="col_recolte_<?php echo $form->getObject()->getKey() ?>" class="col_recolte<?php if ($active): ?> col_active<?php endif; ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? rectifierCssClass() : '' ?>">
+<div class="col_recolte<?php if ($active): ?> col_active<?php endif; ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? rectifierCssClass() : '' ?>">
     <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>
         <a href="#" class="col_curseur" data-curseur="<?php echo $form->getObject()->getKey() ?>"></a>
@@ -11,12 +11,16 @@
             </p>
             <div class="groupe" data-groupe-id="1">
                 <p class="itemcache <?php echo isRectifierCssClass($form->getObject(), 'total_debut_mois') ?>">
-                    <?php echo $form['total_debut_mois']->render(array('data-val-defaut' => sprintFloat($form->getObject()->total_debut_mois), 'class' => 'num num_float somme_groupe somme_stock_debut test')) ?>
+                    <?php echo $form['total_debut_mois']->render(array('data-val-defaut' => sprintFloat($form->getObject()->total_debut_mois), 'class' => 'num num_float somme_groupe test')) ?>
                 </p>
                 <ul>
                     <?php foreach($form['stocks_debut'] as $key => $subform): ?>
-                    <li class="<?php echo isRectifierCssClass($form->getObject()->stocks_debut, $key); if ($key != 'revendique') { echo ' itemcache';}  ?>">
-   <?php echo $form['stocks_debut'][$key]->render(array('data-val-defaut' => sprintFloat($form['stocks_debut'][$key]->getValue()), 'class' => 'num somme_detail num_float')) ?>
+                    <li class="<?php echo isRectifierCssClass($form->getObject()->stocks_debut, $key); if ($key != 'revendique') { echo ' itemcache';} else { echo ' somme_stock_debut'; }  ?>">
+                        <?php if($key == 'revendique'): ?>
+                            <?php echo $form['stocks_debut'][$key]->render(array('data-val-defaut' => sprintFloat($form['stocks_debut'][$key]->getValue()), 'class' => 'num somme_detail num_float somme_stock_debut')) ?>
+                        <?php else: ?>
+                            <?php echo $form['stocks_debut'][$key]->render(array('data-val-defaut' => sprintFloat($form['stocks_debut'][$key]->getValue()), 'class' => 'num somme_detail num_float')) ?>
+                        <?php endif; ?>
                     </li>
                     <?php endforeach; ?>
                 </ul>
@@ -81,13 +85,18 @@
             <!-- <p><input type="text" value="0" class="num num_float somme_stock_fin" readonly="readonly" /></p>  -->
             <div class="groupe" data-groupe-id="4">
                 <p class="<?php echo isRectifierCssClass($form->getObject(), 'total') ?>">
-                    <input type="text" value="<?php echo $form->getObject()->total ?>" class="num num_float somme_stock_fin" readonly="readonly" data-val-defaut="<?php echo sprintFloat($form->getObject()->total) ?>" />
+                    <input type="text" value="<?php echo $form->getObject()->total ?>" class="num num_float somme_groupe" readonly="readonly" data-val-defaut="<?php echo sprintFloat($form->getObject()->total) ?>" />
                 </p>
                 <ul>
                     <?php foreach($form['stocks_fin'] as $key => $subform): ?>
                     <li class="<?php echo isRectifierCssClass($form->getObject()->stocks_fin, $key) ?>">
-                        <?php echo $form['stocks_fin'][$key]->render(array('data-val-defaut' => $form['stocks_fin'][$key]->getValue(),
-                                                                        'class' => 'num num_float')) ?>
+                        <?php if($key == 'revendique'): ?>
+                            <?php echo $form['stocks_fin'][$key]->render(array('data-val-defaut' => $form['stocks_fin'][$key]->getValue(),
+                                                                        'class' => 'num num_float somme_detail somme_stock_fin')) ?>
+                        <?php else: ?>
+                            <?php echo $form['stocks_fin'][$key]->render(array('data-val-defaut' => $form['stocks_fin'][$key]->getValue(),
+                                                                        'class' => 'num num_float somme_detail')) ?>
+                        <?php endif; ?>
                     </li>
                     <?php endforeach; ?>
                 </ul>
