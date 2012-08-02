@@ -11,16 +11,15 @@ SYMFODIR=$(pwd);
 LOGDATE=$SYMFODIR/$(date +%Y%m%d%H%M%S_import_civp_data.log)
 
 {
-mkdir /tmp/VINSDELOIRE_DATA 2> /dev/null ; cd  /tmp/VINSDELOIRE_DATA ; rm -rf * 2>/dev/null
+rm -rf /tmp/VINSDELOIRE_DATA 2>/dev/null ; mkdir /tmp/VINSDELOIRE_DATA 2> /dev/null ; cd /tmp/VINSDELOIRE_DATA
 unzip /tmp/VINSDELOIRE_DATA.zip
 
-cd VINSDELOIRE_DATA
 DATADIR=$(pwd);
 
 echo "Import des établissements";
 
 cd $SYMFODIR
 
-php symfony import:etablissement /tmp/VINSDELOIRE_DATA/etablissements.csv
+php symfony import:etablissement --trace /tmp/VINSDELOIRE_DATA/etablissements.csv
 
 }
