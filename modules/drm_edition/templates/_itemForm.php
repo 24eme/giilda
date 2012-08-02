@@ -48,31 +48,20 @@
                     <?php foreach($form['sorties'] as $key => $subform): ?>
                     <li class="<?php echo isRectifierCssClass($form->getObject()->sorties, $key) ?>">
                     	<?php if($key=="vrac"): ?>
-                                <input type="text" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
-                                <a class="btn_majeur btn_modifier drm_details drm_details_sortie_vrac" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">
-                                    &nbsp;
-                                </a>
-                                <input type="hidden" class="drm_details_sortie_vrac_vol num num_float num_light"
-                                       data-val-defaut="<?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac : "0" ?>"
-                                       value="<?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac  : "0"; ?>"
-                                       name="drm_detail[sorties][vrac]" /> 
+                            <input type="text" class="num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
+                            <a class="btn_majeur btn_modifier drm_details drm_details_sortie_vrac" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">
+                                &nbsp;
+                            </a>
                     	<?php elseif($key=="export"): ?>
-                                <input type="text" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>" />
+                            <input type="text" class="num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>" />
                     		<a class="btn_majeur btn_modifier drm_details drm_details_sortie_export" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>">
                     			 &nbsp;
-                    		</a>
-                                <input type="hidden" class="drm_details_sortie_export_vol num num_float num_light"
-                                       data-val-defaut="<?php echo $detail->sorties->export > 0 ? $detail->sorties->export  : "0"; ?>" 
-                                       value="<?php echo $detail->sorties->export > 0 ? $detail->sorties->export  : "0"; ?>" name="drm_detail[sorties][export]"/> 
+                    		</a> 
                     	<?php elseif($key=="cooperative"): ?>
-                                <input type="text" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>" />
+                            <input type="text" class="num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>" />
                     		<a  class="btn_majeur btn_modifier drm_details drm_details_sortie_cooperative" href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>">
                                         &nbsp;
                     		</a>
-                                <input type="hidden" class="drm_details_sortie_cooperative_vol num num_float num_light"
-                                       data-val-defaut="<?php echo $detail->sorties->cooperative > 0 ? $detail->sorties->cooperative  : "0"; ?>"
-                                       value="<?php echo $detail->sorties->cooperative > 0 ? $detail->sorties->cooperative  : "0"; ?>"
-                                       name="drm_detail[sorties][cooperative]"/>
                     	<?php else: ?>
                         <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(),
                                                                         'class' => 'num num_float somme_detail')) ?>
