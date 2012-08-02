@@ -66,7 +66,7 @@
             var limit = 20;
             var prev_term = "";
             var minLength = (url_ajax) ? 1 : 0;
-            var delay = (url_ajax) ? 300 : 200;
+            var delay = (url_ajax) ? 500 : 200;
 
             var input = this.input = $( "<input type='text'>" )
             .insertAfter( select )
