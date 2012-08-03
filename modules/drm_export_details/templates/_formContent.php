@@ -6,7 +6,7 @@
     <thead>
         <tr>
             <th>Produit</th>
-            <th>Destination</th>
+            <th>Pays</th>
             <th>Volumes</th>
             <th>Dates</th>
             <th></th>

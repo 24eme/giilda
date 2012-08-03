@@ -87,14 +87,24 @@ class drm_editionActions extends sfActions
     public function executeAddLabel(sfWebRequest $request) 
     {
       $this->detail = $this->getRoute()->getDRMDetail();
-      $drm = $this->getRoute()->getDRM();
-      $this->form = new DRMProduitLabelForm($this->detail);
-      if ($request->isMethod('POST')) {
-	$this->form->bind($request->getParameter($this->form->getName()));
-	if ($this->form->isValid()) {
-	  $this->form->save();	
-	  return $this->redirect('drm_edition_detail', $this->detail);
-	}
-      }
+      $this->drm = $this->getRoute()->getDRM();
+      
+      $this->form = new DRMProduitLabelForm($this->detail);      
+      if ($request->isMethod(sfRequest::POST)) {
+          $this->form->bind($request->getParameter($this->form->getName()));
+          if($this->form->isValid()) {              
+                $this->form->save();
+                if($request->isXmlHttpRequest())
+                {
+                    $this->getUser()->setFlash("notice", 'Les labels ont étés mis à jour avec success.');                    
+                    return $this->renderText(json_encode(array("success" => true, "document" => array("id" => $this->drm->get('_id'),"revision" => $this->drm->get('_rev')))));                  
+                }
+            }
+            if($request->isXmlHttpRequest())
+            {
+                $this->getUser()->setFlash("notice", 'Echec lors de la mis à jour des labels');
+                return $this->renderText(json_encode(array('success' => false ,'document' => array("id" => $this->drm->get('_id'),"revision" => $this->drm->get('_rev')))));
+            }
+         }
     }
 }
