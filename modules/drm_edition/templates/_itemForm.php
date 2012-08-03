@@ -49,17 +49,17 @@
                     <li class="<?php echo isRectifierCssClass($form->getObject()->sorties, $key) ?>">
                     	<?php if($key=="vrac"): ?>
                             <input type="text" class="num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
-                            <a class="btn_majeur btn_modifier drm_details drm_details_sortie_vrac" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>">
+                            <a class="btn_majeur btn_modifier drm_details drm_details_sortie_vrac" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" title="Détails des contrats" >
                                 &nbsp;
                             </a>
                     	<?php elseif($key=="export"): ?>
-                            <input type="text" class="num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>" />
-                    		<a class="btn_majeur btn_modifier drm_details drm_details_sortie_export" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>">
+                            <input type="text" class="num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                    		<a class="btn_majeur btn_modifier drm_details drm_details_sortie_export" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" title="Détails des exports" >
                     			 &nbsp;
                     		</a> 
                     	<?php elseif($key=="cooperative"): ?>
-                            <input type="text" class="num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>" />
-                    		<a  class="btn_majeur btn_modifier drm_details drm_details_sortie_cooperative" href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>">
+                            <input type="text" class="num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
+                    		<a  class="btn_majeur btn_modifier drm_details drm_details_sortie_cooperative" href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" title="Détails des coopératives">
                                         &nbsp;
                     		</a>
                     	<?php else: ?>

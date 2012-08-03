@@ -3,7 +3,9 @@
 <?php
 if(!$detail->hasContratVrac()) :
 ?>
-        <span>Il n'existe aucun contrat pour ce produit.</span>
+            <div class="drm_details_form_noItem">
+                <span>Il n'existe aucun contrat pour ce produit.</span>
+            </div>
 <?php
 else :
 ?>

@@ -2,7 +2,7 @@
 echo $form->renderHiddenFields();
 echo $form->renderGlobalErrors();
 ?>
-<table id="drm_vrac_details_table">
+<table id="drm_vrac_details_table" class="drm_details_table">
     <thead>
         <tr>
             <th>Produit</th>
