@@ -58,6 +58,17 @@
                                     }
                                 });
                 });
+                
+                colonne.element.find("a.labels_lien").each(function() { 
+                    var lien = $(this);
+                    lien.fancybox({type : 'ajax',
+                                   fitToView : false,
+                                   afterShow : function()
+                                   {
+                                        lien.initLabels(colonne);                                                    
+                                   }
+                                });
+                });
             }
             colonnes.init();
 
@@ -73,7 +84,29 @@
 		}
 	});
 
+        $.fn.initLabels =function()
+        {   
+            var lien = $(this);  
+            $('.drm_labels_form').bind('submit', function()
+            {
+                $.post($(this).attr('action'),
+                        $(this).serialize(),
+                        function(data)
+                        {
+                            if(!data.success)
+                            {
+                                
+                                $.fancybox.update();
+                            }
+                            else
+                            {
+                                $.fancybox.close();    
+                            }
+                        }, "json");
 
+                return false;
+            });
+        };
 
 	/**
 	 * Initialise l'ajax pour le formulaire d'ajout d'un produit
