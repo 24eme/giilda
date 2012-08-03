@@ -1035,7 +1035,25 @@
             {
                 $(this).parent().parent().remove();
                 var lignes = $('.drm_details_tableBody tr');
-                if(lignes.length <=0 ) $('.drm_details_tableBody').html('<tr><td colspan="5">Rien, zéro, villepin</td></tr>');
+                
+                if(lignes.length <=1 ){
+//                  var noLigneDom = '<tr class="noLigne"><td colspan="5">Aucun détails</td></tr>';
+//                      noLigneDom += '<tr>'+$('.drm_details_tableBody tr:last').parent().html()+'</tr>';
+//                      $('.drm_details_tableBody').html(noLigneDom);
+//                      //association de l'event au lien fraichement 
+//                      $('.drm_details_addTemplate').bind('click',function()
+//                        {
+//                            
+//                            $('.noLigne').remove();
+//                            var content = $($('.template_details').html().replace(/var---nbItem---/g, UUID.generate()));
+//                            $('.drm_details_tableBody tr:last').before(content);
+//                            $('.autocomplete').combobox();
+//                            $('.champ_datepicker input').initDatepicker();
+//                            $.majSommeLabel();
+//                            $.fancybox.update();                
+//                        });
+                $('.drm_details_addTemplate').trigger('click');
+                } 
                 $.fancybox.update();	
             });
             
@@ -1059,14 +1077,14 @@
             $('.drm_details_addTemplate').bind('click',function()
             {
                 var content = $($('.template_details').html().replace(/var---nbItem---/g, UUID.generate()));
-                $('.drm_details_tableBody tr:last').before(content);
+                $('.drm_details_tableBody tr:last').before(content);                
                 $('.autocomplete').combobox();
                 $('.champ_datepicker input').initDatepicker();
                 $.majSommeLabel();
                 $.fancybox.update();                
             });
         }
-        
+
         $.fn.initDetailsPopup = function(colonne){
                 
             var lien = $(this); 
