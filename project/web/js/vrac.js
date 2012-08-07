@@ -4,11 +4,6 @@
  */
 
 
-
-var initAutoComplete = function() {
-    $('.autocomplete').combobox();
-}
-
 var initConditions = function()
 {
     if($('#vrac_condition #type_contrat input:checked').length == 0)
@@ -460,7 +455,6 @@ $(document).ready(function()
 {
      initMarche();
      initConditions();
-     initAutoComplete();
      $('#vendeur_choice input').focus();
      initDatepicker();
 });
