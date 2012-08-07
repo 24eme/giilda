@@ -1,6 +1,6 @@
 <?php
 use_helper('Vrac');
-if($fil>0) $etablissement = EtablissementClient::getInstance()->findByIdentifiant($identifiant);
+if($fil>0) $etablissement = EtablissementClient::getInstance()->find($identifiant);
 ?>
 <p id="fil_ariane">
     <a href="<?php echo url_for('vrac'); ?>">

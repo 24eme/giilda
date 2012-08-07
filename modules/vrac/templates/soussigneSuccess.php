@@ -28,8 +28,8 @@ else
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#acheteur_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#acheteur_informations');
         ajaxifyAutocompleteGet('getInfos',{autocomplete : '#mandataire_choice','numero_contrat' : '<?php echo $numero_contrat;?>'},'#mandataire_informations');
         majMandatairePanel();
-        $('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
-        $('#vrac_acheteur_famille_negociant').attr('checked','checked');
+        //$('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
+        //$('#vrac_acheteur_famille_negociant').attr('checked','checked');
     });
 </script>
 <?php
@@ -50,9 +50,7 @@ else
                     <div id="vendeur_choice" class="section_label_maj">
                        
                         <?php echo $form['vendeur_identifiant']->renderLabel() ?>
-                        <!--div style="display: none;">
-                            <?php //echo $form['vendeur_famille']->render() ?>                                                  
-                        </div--> 
+
                         <div id="vendeur_choice"  class="f_right">
                             <?php echo $form['vendeur_identifiant']->render() ?> 
                         </div>
@@ -86,9 +84,7 @@ else
                 <div id="acheteur"> 
                     <div id="acheteur_choice" class="section_label_maj">
                         <?php echo $form['acheteur_identifiant']->renderLabel() ?>
-                        <!--div style="display: none;" class="f_right">
-                            <?php //echo $form['acheteur_famille']->render() ?>                          
-                        </div-->
+
                         <div id="acheteur_choice" class="f_right">
                             <?php echo $form['acheteur_identifiant']->render() ?>
                         </div>

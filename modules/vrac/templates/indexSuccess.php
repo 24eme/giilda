@@ -23,18 +23,7 @@ foreach($datas as $data)
              include_partial('fil_ariane',array('fil' => 0));
              ?>
             <div id="contenu_etape">
-                <div id="recherche_operateur" class="section_label_maj">
-                    <label>Rechercher un opérateur : </label>
-                    <form method="get" action="<?php echo url_for('vrac_recherche'); ?>">
-                        <select data-ajax="<?php echo url_for('etablissement_autocomplete_all') ?>" name="identifiant" value="<?php echo (isset($identifiant)) ? $identifiant : '' ; ?>" class="autocomplete">
-                            <?php foreach ($etablissements as $id => $name){  ?>
-                                <option value="<?php echo preg_replace('/ETABLISSEMENT-/', '',$id); ?>"><?php echo $name; ?></option>
-                            <?php } ?>
-                        </select>
-                        <button type="submit" id="btn_rechercher">Rechercher</button>
-                    </form>
-                    <!--<span id="recherche_avancee"><a href="">> Recherche avancée</a></span>-->
-                </div>
+                <?php include_component('vrac', 'formEtablissementChoice', array('form' => $form_etablissement_choice)) ?>
                 <br />
                 <div class="section_label_maj"> 
                     <label>10 derniers contrats saisis : </label>                   

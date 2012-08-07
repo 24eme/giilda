@@ -14,20 +14,28 @@ class vracActions extends sfActions
   public function executeIndex(sfWebRequest $request)
   {
       $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);
+      $this->postFormEtablissement($request);
   }
 
-  static function rechercheTriListOnID($etb0, $etb1)
-    {
-        if ($etb0->id == $etb1->id) {
-            return 0;
+  protected function postFormEtablissement(sfWebRequest $request) {
+    $this->form_etablissement_choice = null;
+    if ($request->isMethod(sfWebRequest::POST)) {
+        $form = new VracEtablissementChoiceForm();
+        $form->bind($request->getParameter($form->getName()));
+        if ($form->isValid())
+        {
+            $etablissement = $form->getEtablissement();
+            return $this->redirect(array('sf_route' => 'vrac_recherche', 'identifiant' => $etablissement->identifiant));
         }
-        return ($etb0->id > $etb1->id) ? -1 : +1;
+
+        return $this->redirect('vrac');
     }
-      
+  }  
   
   public function executeRecherche(sfWebRequest $request) 
-  {       
-      $this->recherche = $this->getVracsFromRecherche($request,true);
+  { 
+      $this->postFormEtablissement($request);
+      $this->recherche = $this->getVracsFromRecherche($request, true);
       $this->form = new VracRechercheForm();
   }
    
@@ -36,7 +44,7 @@ class vracActions extends sfActions
       $this->isType = isset($request['type']);
       $this->isStatut = isset($request['statut']);
       $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
-      $soussigneObj = EtablissementClient::getInstance()->findByIdentifiant($this->identifiant);
+      $soussigneObj = EtablissementClient::getInstance()->find($this->identifiant);
       $soussigneId = 'ETABLISSEMENT-'.$this->identifiant;
       $this->type = null;
       $this->statut = null;
@@ -97,6 +105,15 @@ class vracActions extends sfActions
                 $this->etablissements[$data->id] = trim(implode(',', array_filter($labels)));
         }
     return true;
+  }
+
+  static function rechercheTriListOnID($etb0, $etb1)
+  {
+    if ($etb0->id == $etb1->id) {
+            
+      return 0;
+    }
+    return ($etb0->id > $etb1->id) ? -1 : +1;
   }
   
   public function executeNouveau(sfWebRequest $request)
@@ -335,7 +352,7 @@ class vracActions extends sfActions
   private function createCsvFilename($request)
   {
  
-    $etablissement = EtablissementClient::getInstance()->findByIdentifiant($request['identifiant']);
+    $etablissement = EtablissementClient::getInstance()->find($request['identifiant']);
     $nom = $etablissement['nom'];
     $nom = str_replace('M. ','', $nom);
     $nom = str_replace('Mme ','', $nom);

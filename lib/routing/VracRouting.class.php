@@ -13,8 +13,9 @@ class VracRouting {
         $r = $event->getSubject();
         $r->prependRoute('vrac', new sfRoute('/vrac', array('module' => 'vrac',
                                                             'action' => 'index')));
-        $r->prependRoute('vrac_recherche', new sfRoute('/vrac/recherche', array('module' => 'vrac',
+        $r->prependRoute('vrac_recherche', new sfRoute('/vrac/recherche/:identifiant', array('module' => 'vrac',
                                                             'action' => 'recherche')));
+
         $r->prependRoute('vrac_exportCsv', new sfRoute('/vrac/exportCsv', array('module' => 'vrac',
                                                             'action' => 'exportCsv')));        
         $r->prependRoute('vrac_nouveau', new sfRoute('/vrac/nouveau', array('module' => 'vrac',

@@ -26,23 +26,7 @@ if(!isset($campagne)) $campagne = dateCampagneViticolePresent();
         <section id="principal">
              <?php include_partial('fil_ariane',$fil_arianeArray); ?>
             <section id="contenu_etape">                
-                <div id="recherche_operateur" class="section_label_maj">
-                    <label>Rechercher un opérateur : </label>
-                    <form method="get" action="<?php echo url_for('vrac_recherche'); ?>">
-                            <select data-ajax="<?php echo url_for('etablissement_autocomplete_all') ?>" name="identifiant" value="<?php echo (isset($identifiant)) ? $identifiant : '' ; ?>" class="autocomplete">
-                                <?php foreach ($etablissements as $id => $name)
-                                {
-                                    $localEtablissement = preg_replace('/ETABLISSEMENT-/', '',$id);
-                                ?>
-                                    <option value="<?php echo $localEtablissement; ?>"<?php echo ($identifiant==$localEtablissement)? 'selected="selected"' : '' ; ?>><?php echo $name; ?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                            <button type="submit" id="btn_rechercher">Rechercher</button>
-                            <!--<span id="recherche_avancee"><a href="">> Recherche avancée</a></span>-->
-                        </form>
-                </div>         
+                <?php include_component('vrac', 'formEtablissementChoice', array('form' => $form_etablissement_choice, 'identifiant' => $identifiant)) ?>
                 <a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Ouvrir en tableur</a>
                 <?php 
                     include_partial('rechercheLegende', array('rechercheMode' => true,
