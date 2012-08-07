@@ -58,6 +58,17 @@
                                     }
                                 });
                 });
+                
+                colonne.element.find("a.labels_lien").each(function() { 
+                    var lien = $(this);
+                    lien.fancybox({type : 'ajax',
+                                   fitToView : false,
+                                   afterShow : function()
+                                   {
+                                        lien.initLabels(colonne);                                                    
+                                   }
+                                });
+                });
             }
             colonnes.init();
 
@@ -73,7 +84,29 @@
 		}
 	});
 
+        $.fn.initLabels =function()
+        {   
+            var lien = $(this);  
+            $('.drm_labels_form').bind('submit', function()
+            {
+                $.post($(this).attr('action'),
+                        $(this).serialize(),
+                        function(data)
+                        {
+                            if(!data.success)
+                            {
+                                
+                                $.fancybox.update();
+                            }
+                            else
+                            {
+                                $.fancybox.close();    
+                            }
+                        }, "json");
 
+                return false;
+            });
+        };
 
 	/**
 	 * Initialise l'ajax pour le formulaire d'ajout d'un produit
@@ -1035,7 +1068,25 @@
             {
                 $(this).parent().parent().remove();
                 var lignes = $('.drm_details_tableBody tr');
-                if(lignes.length <=0 ) $('.drm_details_tableBody').html('<tr><td colspan="5">Rien, zéro, villepin</td></tr>');
+                
+                if(lignes.length <=1 ){
+//                  var noLigneDom = '<tr class="noLigne"><td colspan="5">Aucun détails</td></tr>';
+//                      noLigneDom += '<tr>'+$('.drm_details_tableBody tr:last').parent().html()+'</tr>';
+//                      $('.drm_details_tableBody').html(noLigneDom);
+//                      //association de l'event au lien fraichement 
+//                      $('.drm_details_addTemplate').bind('click',function()
+//                        {
+//                            
+//                            $('.noLigne').remove();
+//                            var content = $($('.template_details').html().replace(/var---nbItem---/g, UUID.generate()));
+//                            $('.drm_details_tableBody tr:last').before(content);
+//                            $('.autocomplete').combobox();
+//                            $('.champ_datepicker input').initDatepicker();
+//                            $.majSommeLabel();
+//                            $.fancybox.update();                
+//                        });
+                $('.drm_details_addTemplate').trigger('click');
+                } 
                 $.fancybox.update();	
             });
             
@@ -1059,14 +1110,14 @@
             $('.drm_details_addTemplate').bind('click',function()
             {
                 var content = $($('.template_details').html().replace(/var---nbItem---/g, UUID.generate()));
-                $('.drm_details_tableBody tr:last').before(content);
+                $('.drm_details_tableBody tr:last').before(content);                
                 $('.autocomplete').combobox();
                 $('.champ_datepicker input').initDatepicker();
                 $.majSommeLabel();
                 $.fancybox.update();                
             });
         }
-        
+
         $.fn.initDetailsPopup = function(colonne){
                 
             var lien = $(this); 
@@ -1093,9 +1144,11 @@
                             }
                             else
                             {
-                            lien.html(data.volume+" hl");
-                            lien.parent().children('input').val(data.volume);
-                            lien.parent().children('input').attr('data-val-defaut',data.volume);
+                            // lien.html(data.volume+" hl");
+                            var input = lien.parent().children('input');
+                            input.val(data.volume);
+                            input.nettoyageChamps();
+                            input.attr('data-val-defaut',input.val());
                             colonne.active();
                             colonne.calculer();
                             $.fancybox.close();    

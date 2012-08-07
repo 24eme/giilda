@@ -963,6 +963,7 @@
         }
 
         this.calculer = function() {
+
             if(this.isSomme()) {
                 this.setVal(this.champs.somme());
 
@@ -970,7 +971,12 @@
             }
 
             if(this.isTotalFin()) {
+                var val_before = this.getVal();
                 this.setVal(this.colonne.total());
+
+                if (this.isSommeDetail() && val_before != this.getVal()) {
+                    this.champs.calculer();
+                }
 
                 return;
             }
