@@ -4,6 +4,7 @@ Facture:
     fields:
       _id: {}
       _rev: {}
+      type: {}
       identifiant: {}
       date_emission: {}
       campagne: {}

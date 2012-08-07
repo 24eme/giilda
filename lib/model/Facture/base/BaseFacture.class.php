@@ -6,6 +6,7 @@
  *
  * @property string $_id
  * @property string $_rev
+ * @property string $type
  * @property string $identifiant
  * @property string $date_emission
  * @property string $campagne
@@ -23,6 +24,8 @@
  * @method string set_id()
  * @method string get_rev()
  * @method string set_rev()
+ * @method string getType()
+ * @method string setType()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
  * @method string getDateEmission()
