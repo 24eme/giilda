@@ -12,14 +12,14 @@ class DRMHistorique
 	const CAMPAGNE = 'campagne';
     const REGEXP_CAMPAGNE = '#^[0-9]{4}-[0-9]{2}$#';
 
-	public $etablissement;
+	private $identifiant;
 	private $campagneCourante;
 	private $drms;
 	private $campagnes;
 	
-	public function __construct($etablissement, $campagneCourante = null)
+	public function __construct($identifiant, $campagneCourante = null)
 	{
-		$this->etablissement = $etablissement;
+		$this->identifiant = $identifiant;
 		$this->campagneCourante = $campagneCourante;
 	}
 	
@@ -38,8 +38,8 @@ class DRMHistorique
 	private function loadDRMs()
 	{
 		$drms = acCouchdbManager::getClient()
-						->startkey(array($this->etablissement, null))
-    					->endkey(array($this->etablissement, array()))
+						->startkey(array($this->identifiant))
+    					->endkey(array($this->identifiant, array()))
     					->reduce(false)
     					->getView("drm", "all")
     					->rows;
@@ -97,6 +97,7 @@ class DRMHistorique
 				$drmsCampagne[$id] = $drm;
 			}
 		}
+
 		return $drmsCampagne;
 	}
 	
@@ -114,7 +115,7 @@ class DRMHistorique
 	{
 		$lastDRM = current($this->getLastDRM());
 		if (!$lastDRM) {
-		  return array('DRM-'.$this->etablissement.'-'.date('Y').'-'.date('m') => array($this->etablissement, date('Y'), sprintf("%02d", date('m')), 0, null, null));
+		  return array('DRM-'.$this->identifiant.'-'.date('Y').'-'.date('m') => array($this->identifiant, date('Y'), sprintf("%02d", date('m')), 0, null, null));
 		}
 		$nextMonth = $lastDRM[self::VIEW_INDEX_MOIS] + 1;
 		$nextYear = $lastDRM[self::VIEW_INDEX_ANNEE];
@@ -123,7 +124,7 @@ class DRMHistorique
 			$nextYear++;
 		}
 	        $nextMonth = sprintf("%02d", $nextMonth);
-		return array('DRM-'.$this->etablissement.'-'.$nextYear.'-'.$nextMonth => array($this->etablissement, $nextYear, $nextMonth, 0, null, null));
+		return array('DRM-'.$this->identifiant.'-'.$nextYear.'-'.$nextMonth => array($this->identifiant, $nextYear, $nextMonth, 0, null, null));
 	}
 
 	public function getLastDRM()
@@ -143,8 +144,8 @@ class DRMHistorique
 		}
 		return $result;
 	}
-	public function getEtablissementIdentifiant() {
-	  return $this->etablissement;
+	public function getIdentifiant() {
+	  return $this->identifiant;
 	}
 
     public function getNextByCampagne($campagne)

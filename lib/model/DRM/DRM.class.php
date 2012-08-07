@@ -171,7 +171,7 @@ class DRM extends BaseDRM {
 
     public function getEtablissement() {
     	
-        return EtablissementClient::getInstance()->findByIdentifiant($this->identifiant);
+        return EtablissementClient::getInstance()->find($this->identifiant);
     }
     
     public function getInterpro() {

@@ -1,4 +1,4 @@
-<form  class="popup_form" id="form_ajout" action="<?php echo url_for('@drm_mon_espace') ?>" method="post">
+<form  class="popup_form" id="form_ajout" action="<?php echo url_for('@drm_etablissement') ?>" method="post">
 	<?php echo $form->renderHiddenFields() ?>
 	<div class="ligne_form">
 		<span class="error"><?php echo $form->renderGlobalErrors() ?></span>

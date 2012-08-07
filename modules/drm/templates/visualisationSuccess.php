@@ -39,7 +39,7 @@
                         <span>Passer à la DRM suivante</span>
                     </a>
                 <?php else: ?>
-                    <a href="<?php echo url_for('drm_mon_espace') ?>" class="btn_suiv">
+                    <a href="<?php echo url_for('drm_etablissement') ?>" class="btn_suiv">
                         <span>Retour à mon espace</span>
                     </a>
                 <?php endif; ?>

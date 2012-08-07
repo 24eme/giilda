@@ -12,11 +12,11 @@ class drmActions extends sfActions
 {    
     
   public function executeChooseEtablissement(sfWebRequest $request) {
-    $this->form = new DRMEtablissementForm();
+    $this->form = new DRMEtablissementChoiceForm();
     if ($request->isMethod(sfWebRequest::POST)) {
       $this->form->bind($request->getParameter($this->form->getName()));
       if ($this->form->isValid()) {
-	return $this->redirect('drm_mon_espace', array('identifiant' => str_replace('ETABLISSEMENT-', '', $this->form->getValue('etablissement_identifiant'))));
+	       return $this->redirect('drm_etablissement', $this->form->getEtablissement());
       }
     }
   }
@@ -26,11 +26,12 @@ class drmActions extends sfActions
    * @param sfWebRequest $request 
    */
   public function executeNouvelle(sfWebRequest $request) {
-      $historique = new DRMHistorique('ETABLISSEMENT-'.$request->getParameter('identifiant'));
+
+      $historique = new DRMHistorique($request->getParameter('identifiant'));
       if ($historique->hasDRMInProcess()) {
         throw new sfException('Une DRM est déjà en cours de saisie.');
       }
-      $drm = DRMClient::getInstance()->createDoc(str_replace('ETABLISSEMENT-', '', $historique->getEtablissementIdentifiant()), $request->getParameter('campagne'));
+      $drm = DRMClient::getInstance()->createDoc($historique->getIdentifiant(), $request->getParameter('campagne'));
       $drm->save();
       $this->redirect('drm_edition', $drm);
   }
@@ -70,9 +71,9 @@ class drmActions extends sfActions
   */
   public function executeMonEspace(sfWebRequest $request)
   {
-    $this->historique = new DRMHistorique ($this->getRoute()->getEtablissement()->identifiant);
-      $this->formCampagne = new DRMCampagne();
-      if ($request->isMethod(sfWebRequest::POST)) {
+    $this->historique = new DRMHistorique($this->getRoute()->getEtablissement()->identifiant);
+    //$this->formCampagne = new DRMCampagne();
+      /*if ($request->isMethod(sfWebRequest::POST)) {
     	$this->formCampagne->bind($request->getParameter($this->formCampagne->getName()));
   	  	if ($this->formCampagne->isValid()) {
 		  $values = $this->formCampagne->getValues();
@@ -80,7 +81,7 @@ class drmActions extends sfActions
 		  $drm->save();
 		  $this->redirect('drm_informations', $drm);
   	  	}
-      }
+      }*/
   }
 
 

@@ -5,7 +5,7 @@ class EtablissementRoute extends sfObjectRoute {
     protected $etablissement = null;
     
     protected function getObjectForParameters($parameters = null) {
-      $this->etablissement = EtablissementClient::getInstance()->findByIdentifiant($parameters['identifiant']);
+      $this->etablissement = EtablissementClient::getInstance()->find($parameters['identifiant']);
       return $this->etablissement;
     }
 
@@ -16,7 +16,7 @@ class EtablissementRoute extends sfObjectRoute {
 
     public function getEtablissement() {
       if (!$this->etablissement) {
-	$this->etablissement = $this->getObject();
+	       $this->etablissement = $this->getObject();
       }
       return $this->etablissement;
     }

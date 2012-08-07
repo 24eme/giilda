@@ -179,7 +179,7 @@ class DRMClient extends acCouchdbClient {
             }
         } else {
             $drm = new DRM();
-            $drm->identifiant = $historique->etablissement;
+            $drm->identifiant = $historique->getIdentifiant();
             $drm->campagne = $this->getCurrentCampagne();
         }
         return $drm;

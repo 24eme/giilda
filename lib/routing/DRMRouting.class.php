@@ -37,7 +37,7 @@ class DRMRouting {
         $r->prependRoute('drm', new sfRoute('/drm', array('module' => 'drm', 
                                                           'action' => 'chooseEtablissement')));
 		
-        $r->prependRoute('drm_mon_espace', new EtablissementRoute('/drm/:identifiant/mon-espace', array('module' => 'drm', 
+        $r->prependRoute('drm_etablissement', new EtablissementRoute('/drm/:identifiant', array('module' => 'drm', 
                                                                                 'action' => 'monEspace'),
                                                          array('sf_method' => array('get','post')),
                                                           array('model' => 'Etablissement',
