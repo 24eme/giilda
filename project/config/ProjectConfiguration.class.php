@@ -21,5 +21,6 @@ class ProjectConfiguration extends sfProjectConfiguration
 		$this->enablePlugins('acVinConfigurationPlugin');
 		$this->enablePlugins('InterproPlugin');
 		$this->enablePlugins('ImportPlugin');
+		$this->enablePlugins('acVinFacturePlugin');
   	}
 }
