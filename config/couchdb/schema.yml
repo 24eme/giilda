@@ -1,0 +1,50 @@
+#schema des Factures
+Facture:
+  definition:
+    fields:
+      _id: {}
+      _rev: {}
+      identifiant: {}
+      date_emission: {}
+      emetteur:
+        type: collection
+        definition:
+          fields:
+            adresse: {}
+            code_postal: {}
+            ville: {}
+            service_facturation: {}
+            telephone: {}
+      client_identifiant: {}
+      client_reference: {}
+      client:
+        type: collection
+        definition:
+          fields:
+            raison_socale: {}
+            adresse: {}
+            code_postal: {}
+            ville: {}
+      total_ht: {type: float}
+      total_ttc: {type: float}
+      lignes:
+        type: array_collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  origine_type: {}
+                  origine_identifiant: {}
+                  produit_type: {}
+                  produit_libelle: {}
+                  produit_hash: {}
+                  mouvement_type: {}
+                  contrat_identifiant: {}
+                  contrat_libelle: {}
+                  echeance_code: {}
+                  volume: {type: float}
+                  cotisation_taux: {type: float}
+                  montant_ht: {type: float}
+
