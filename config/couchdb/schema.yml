@@ -37,6 +37,7 @@ Facture:
                 fields:
                   origine_type: {}
                   origine_identifiant: {}
+                  origine_date: {}
                   produit_type: {}
                   produit_libelle: {}
                   produit_hash: {}
