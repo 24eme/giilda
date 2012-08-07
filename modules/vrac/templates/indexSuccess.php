@@ -9,13 +9,6 @@ foreach($datas as $data)
         $etablissements[$data->id] = implode(', ', array_filter($labels));
 }
 ?>
-<script type="text/javascript">
-    $(document).ready(function()
-    {
-       $('.autocomplete').combobox(); 
-    });
-
-</script>
 <div id="contenu">
     <div id="rub_contrats">
         <section id="principal">
