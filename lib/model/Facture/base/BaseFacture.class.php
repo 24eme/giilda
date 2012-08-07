@@ -15,6 +15,7 @@
  * @property float $total_ht
  * @property float $total_ttc
  * @property acCouchdbJson $lignes
+ * @property acCouchdbJson $echeances
 
  * @method string get_id()
  * @method string set_id()
@@ -38,6 +39,8 @@
  * @method float setTotalTtc()
  * @method acCouchdbJson getLignes()
  * @method acCouchdbJson setLignes()
+ * @method acCouchdbJson getEcheances()
+ * @method acCouchdbJson setEcheances()
  
  */
  
