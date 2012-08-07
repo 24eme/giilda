@@ -33,7 +33,7 @@ class EtablissementCsvFile extends CsvFile
           continue;
         }
 
-      	$e = EtablissementClient::getInstance()->findByIdentifiant($line[self::CSV_CODE_PARTENAIRE], acCouchdbClient::HYDRATE_JSON);
+      	$e = EtablissementClient::getInstance()->find($line[self::CSV_CODE_PARTENAIRE], acCouchdbClient::HYDRATE_JSON);
         if ($e) {
           acCouchdbManager::getClient()->deleteDoc($e);
         }

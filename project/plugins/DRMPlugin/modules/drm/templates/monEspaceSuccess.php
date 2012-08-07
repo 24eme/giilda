@@ -3,7 +3,7 @@
     <h1>Déclaration Récapitulative Mensuelle <a href="" class="msg_aide" data-msg="help_popup_monespace" data-doc="notice.pdf" title="Message aide"></a></h1>
     
    <section id="etablissement">
-   <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $historique->getEtablissementIdentifiant())); ?>
+   <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $historique->getIdentifiant())); ?>
    </section>
 
     <section id="principal">

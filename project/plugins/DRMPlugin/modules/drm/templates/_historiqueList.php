@@ -15,7 +15,7 @@
 			      <td><?php echo $futurDRM[DRMHistorique::VIEW_INDEX_ANNEE].'-'.$futurDRM[DRMHistorique::VIEW_INDEX_MOIS] ?></td>
 			<td>NOUVELLE</td>
 			<td>
-				<a href="<?php echo url_for('drm_nouvelle', array('campagne' => $futurDRM[DRMHistorique::VIEW_INDEX_ANNEE].'-'.$futurDRM[DRMHistorique::VIEW_INDEX_MOIS], 'identifiant' => $historique->getEtablissementIdentifiant())) ?>">Démarrer la DRM</a><br />
+				<a href="<?php echo url_for('drm_nouvelle', array('campagne' => $futurDRM[DRMHistorique::VIEW_INDEX_ANNEE].'-'.$futurDRM[DRMHistorique::VIEW_INDEX_MOIS], 'identifiant' => $historique->getIdentifiant())) ?>">Démarrer la DRM</a><br />
 			</td>
 		</tr>
 		<?php endif; ?>

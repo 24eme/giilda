@@ -5,15 +5,12 @@ class myUser extends sfBasicSecurityUser
 	const CREDENTIAL_ADMIN = 'admin';
 
 	protected $tiers = null;
-	protected $drm = null;
-	protected $historique = null;
-
 
 	public function getTiers() {		
 		return $this->tiers;
 	}
 
-	public function getDrm() {
+	/*public function getDrm() {
     	if (is_null($this->drm)) {
     		$lastDrm = $this->getDrmHistorique()->getLastDrm();
 
@@ -40,9 +37,6 @@ class myUser extends sfBasicSecurityUser
     	return $this->historique;
     }
 
-    /**
-     * @return string
-     */
     public function getCampagneDrm() {
       
       return CurrentClient::getCurrent()->campagne;
@@ -70,7 +64,7 @@ class myUser extends sfBasicSecurityUser
     		}
        	}
         return $this->_drm;
-    }
+    }*/
 
     /**
      * Récupération de l'interpro

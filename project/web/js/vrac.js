@@ -224,8 +224,8 @@ var majTotal = function(quantiteField){
 
 var init_ajax_nouveau = function()
 {    
-    $('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
-    $('#vrac_acheteur_famille_negociant').attr('checked','checked');
+    //$('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
+    //$('#vrac_acheteur_famille_negociant').attr('checked','checked');
     
     ajaxifyAutocompleteGet('getInfos','#vendeur_choice','#vendeur_informations');
     ajaxifyAutocompleteGet('getInfos','#acheteur_choice','#acheteur_informations'); 
@@ -300,7 +300,7 @@ var majMandatairePanel = function()
                 if($(this).attr('type')=='checkbox') $(this).attr('checked',false);
                 else 
                 {
-                    if($(this).attr('type')!='button') $(this).val('');
+                    //if($(this).attr('type')!='button') $(this).val('');
                 }
             });
         }
