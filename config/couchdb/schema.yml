@@ -6,6 +6,7 @@ Facture:
       _rev: {}
       identifiant: {}
       date_emission: {}
+      campagne: {}
       emetteur:
         type: collection
         definition:
@@ -59,4 +60,9 @@ Facture:
                   echeance_code: {}
                   echeance_date: {}
                   montant_ttc: {type: float}
-
+      origines:
+        type: collection
+        definition:
+          fields:
+            #DRM ou SRV ID => "libelle"
+            '*': {}
