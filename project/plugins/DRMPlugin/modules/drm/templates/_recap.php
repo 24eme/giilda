@@ -1,8 +1,6 @@
 <?php use_helper('Rectificative'); ?>
 <?php use_helper('Float'); ?>
-<?php foreach($drm->declaration->certifications as $certification): ?>
-	<div class="tableau_ajouts_liquidations">
-		<h2><?php echo $certification->getConfig()->libelle ?></h2>
+<div class="tableau_ajouts_liquidations">
 		<table class="tableau_recap">
 			<thead>
 				<tr>
@@ -14,8 +12,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $details = $certification->getProduits(); 
-					  $i = 1;?>
+				<?php $details = $drm->getDetails(); 
+					  $i = 1;
+				?>
 
 				<?php foreach($details as $detail): 
                         $i++; ?>
@@ -30,4 +29,3 @@
 		</tbody>
 	</table>
 </div>
-<?php endforeach; ?>
