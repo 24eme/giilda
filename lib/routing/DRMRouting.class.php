@@ -316,16 +316,6 @@ class DRMRouting {
                             'must_be_not_valid' => true
                 )));
         
-        $r->prependRoute('drm_edition_validation', new DRMRoute('/drm/:identifiant/edition/:campagne_rectificative/validation',
-                        array('module' => 'drm_edition',
-                            'action' => 'validation'),
-                        array('sf_method' => array('get', 'post')),
-                        array('model' => 'DRM',
-                            'type' => 'object',
-                            'must_be_valid' => false,
-                            'must_be_not_valid' => true
-                )));
-        
         
         $r->prependRoute('drm_pdf_facture', new DRMRoute('/drm/:identifiant/facture/:campagne_rectificative/pdf', 
                                     array('module' => 'drm_pdf', 

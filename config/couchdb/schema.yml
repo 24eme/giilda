@@ -369,10 +369,10 @@ DRM:
         type: collection
         definition:
           fields:
-            date_saisie: {}
-            date_signee: {}
-            identifiant: {}
-            status: {}
+            date_saisie: {  }
+            date_signee: {  }
+            identifiant: {  }
+            status: {  }
       douane:
         type: collection
         definition:
@@ -380,3 +380,20 @@ DRM:
             service: {  }
             envoi: {  }
             accuse: {  }
+      mouvements:
+        type: array_collection
+        definition:
+          fields:
+            '*':
+              class: DRMMouvement
+              type: collection
+              definition:
+                fields:
+                  produit_hash: {  }
+                  produit_libelle: {  }
+                  type_hash: {  }
+                  type_libelle: {  }
+                  detail: {  }
+                  volume: {  }
+                  facture: {  }
+                  facturable: {  }

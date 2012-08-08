@@ -8,10 +8,6 @@ class drm_editionActions extends sfActions
         $this->setTemplate('index');
     }
     
-    public function executeValidation(sfWebRequest $request) {
-        $this->init();
-    }
-
     public function executeDetail(sfWebRequest $request) {
         $this->init();
         $this->detail = $this->getRoute()->getDRMDetail();

@@ -174,27 +174,27 @@ class drmActions extends sfActions
   public function executeValidation(sfWebRequest $request)
   {
     $this->drm = $this->getRoute()->getDRM();
-    $this->drmValidation = new DRMValidation($this->drm);
+   /* $this->drmValidation = new DRMValidation($this->drm);
     $this->form = new DRMValidationForm(array(), array('engagements' => $this->drmValidation->getEngagements()));
     if ($request->isMethod(sfWebRequest::POST)) {
     	$this->form->bind($request->getParameter($this->form->getName()));
-	if ($this->form->isValid()) {
-		if ($this->drm->hasApurementPossible()) {
-			$this->drm->apurement_possible = 1;
-		}
-	  $this->drm->validate();
-	  $this->drm->save();
+	    if ($this->form->isValid()) {
+		    if ($this->drm->hasApurementPossible()) {
+			    $this->drm->apurement_possible = 1;
+		    }
+	      $this->drm->validate();
+	      $this->drm->save();
 	  
-	  if ($this->drm->needNextRectificative()) {
-	    $drm_rectificative_suivante = $this->drm->generateRectificativeSuivante();
-	    if ($drm_rectificative_suivante) {
-	      $drm_rectificative_suivante->save();
+	      if ($this->drm->needNextRectificative()) {
+	      $drm_rectificative_suivante = $this->drm->generateRectificativeSuivante();
+	      if ($drm_rectificative_suivante) {
+	        $drm_rectificative_suivante->save();
+	      }
 	    }
-	  }
 
-	  $this->redirect('drm_visualisation', array('identifiant' => $this->getUser()->getTiers()->identifiant, 'campagne_rectificative' => $this->drm->getCampagneAndRectificative(), 'hide_rectificative' => 1));
+	    $this->redirect('drm_visualisation', array('identifiant' => $this->getUser()->getTiers()->identifiant, 'campagne_rectificative' => $this->drm->getCampagneAndRectificative(), 'hide_rectificative' => 1));
     	}
-    }
+    }*/
   }
 
   public function executeShowError(sfWebRequest $request) {

@@ -530,5 +530,14 @@ class DRM extends BaseDRM {
     	$editeur->prenom = $compte->prenom;
     	$editeur->date_modification = date('c');
     }
+
+    public function clearMouvements() {
+        $this->mouvements->clear();
+    }
     
+    public function generateMouvements() {
+        $this->clearMouvements();
+        
+        $this->mouvements->fromArray($this->declaration->getMouvements());
+    }
 }
