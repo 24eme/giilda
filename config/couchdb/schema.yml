@@ -251,10 +251,10 @@ DRM:
                                                                                                                       fields:
                                                                                                                         '*':
                                                                                                                           type: collection
-                                                                                                                          class: DRMDetailVrac
+                                                                                                                          class: DRMMouvementDetailVrac
                                                                                                                           definition:
                                                                                                                             fields:
-                                                                                                                              numero_contrat: {  }
+                                                                                                                              identifiant: {  }
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
                                                                                                                   export_details:
@@ -263,10 +263,10 @@ DRM:
                                                                                                                       fields:
                                                                                                                         '*':
                                                                                                                           type: collection
-                                                                                                                          class: DRMDetailExport
+                                                                                                                          class: DRMMouvementDetailExport
                                                                                                                           definition:
                                                                                                                             fields:
-                                                                                                                              destination: {  }
+                                                                                                                              identifiant: {  }
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
                                                                                                                   cooperative_details:
@@ -275,10 +275,10 @@ DRM:
                                                                                                                        fields:
                                                                                                                          '*':
                                                                                                                             type: collection
-                                                                                                                            class: DRMDetailCooperative
+                                                                                                                            class: DRMMouvementDetailCooperative
                                                                                                                             definition:
                                                                                                                               fields:
-                                                                                                                                cooperative_id: {  }
+                                                                                                                                identifiant: {  }
                                                                                                                                 volume: { type: float }
                                                                                                                                 date_enlevement: {  }
                                                                                                             stocks_fin:
@@ -317,6 +317,7 @@ DRM:
                     commune: {  }
             service_douane: {  }
       declaratif:
+        class: DRMDeclaratif
         type: collection
         definition:
           fields:
@@ -393,7 +394,8 @@ DRM:
                   produit_libelle: {  }
                   type_hash: {  }
                   type_libelle: {  }
-                  detail: {  }
+                  detail_identifiant: {  }
+                  detail_libelle: {  }
                   volume: {  }
                   facture: {  }
                   facturable: {  }

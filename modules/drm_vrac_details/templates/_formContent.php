@@ -25,7 +25,7 @@ echo $form->renderGlobalErrors();
         <tr id="drm_details_lastRow">
             <td class="vrac_detail_produit"></td>
             <td class="vrac_detail_numero_contrat">
-                <a href="#" id="drm_vrac_details_addTemplate" class="drm_details_addTemplate">Ajouter un contrat</a>
+                <a href="#" id="drm_vrac_details_addTemplate" class="btn_majeur btn_modifier drm_details_addTemplate">Ajouter un contrat</a>
             </td>
             <td class="vrac_detail_volume">
                 <div id="drm_details_vrac_volume_total">

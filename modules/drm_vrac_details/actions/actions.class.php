@@ -21,6 +21,8 @@ class drm_vrac_detailsActions extends sfActions
                     $this->getUser()->setFlash("notice", 'Le détail des vracs a été mis à jour avec success.');                    
                     return $this->renderText(json_encode(array("success" => true, "type" => "sortie_vrac", "volume" => $this->detail->sorties->vrac, "document" => array("id" => $this->drm->get('_id'),"revision" => $this->drm->get('_rev')))));                  
                 }
+
+                return $this->redirect('drm_edition_detail', $this->detail);
             }
             if($request->isXmlHttpRequest())
             {

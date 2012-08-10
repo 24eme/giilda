@@ -6,8 +6,8 @@
         </td>
         <td class="cooperative_detail_destination">    
             <?php
-            echo $form['cooperative_id']->renderError();
-            echo $form['cooperative_id']->render();
+            echo $form['identifiant']->renderError();
+            echo $form['identifiant']->render();
             ?>
         </td>
         <td class="volume cooperative_detail_volume">    

@@ -6,8 +6,8 @@
         </td>
         <td class="export_detail_destination">    
             <?php
-            echo $form['destination']->renderError();
-            echo $form['destination']->render();
+            echo $form['identifiant']->renderError();
+            echo $form['identifiant']->render();
             ?>
         </td>
         <td class="volume export_detail_volume">    

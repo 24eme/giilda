@@ -8,11 +8,11 @@ class DRMDetailCooperativeItemForm extends acCouchdbObjectForm {
   
     public function configure() {
 
-        $this->setWidget('cooperative_id', new sfWidgetFormChoice(array('choices' =>  $this->getCooperatives()), array('class' => 'autocomplete')));
+        $this->setWidget('identifiant', new sfWidgetFormChoice(array('choices' =>  $this->getCooperatives()), array('class' => 'autocomplete')));
         $this->setWidget('volume', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off', 'class' => 'num num_float')));
         $this->setWidget('date_enlevement', new sfWidgetFormInput());
         
-        $this->setValidator('cooperative_id', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperatives()))));
+        $this->setValidator('identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperatives()))));
         $this->setValidator('volume', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('date_enlevement', new sfValidatorDate(array('required' => true, 
                                                                          'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~',

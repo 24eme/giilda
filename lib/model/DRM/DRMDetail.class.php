@@ -264,21 +264,38 @@ class DRMDetail extends BaseDRMDetail {
       }
 
       if ($volume && $volume > 0) {
-        $mouvement = DRMMouvement::freeInstance($this->getDocument());
-        $mouvement->produit_hash = $this->getHash();
-        $mouvement->produit_libelle = $this->getLibelle("%g% %a% %l% %co% %ce% %la%");
-        $mouvement->type_hash = $hash."/".$key;
-        $mouvement->type_libelle = $this->getConfig()->get($mouvement->type_hash)->getLibelle();
-        $mouvement->volume = $coefficient * $volume;
-        $mouvement->detail = null;
-        $mouvement->facture = 0;
-        $mouvement->facturable = 0;
+        if ($this->exist($hash."/".$key."_details")) {
+          $details = $this->get($hash."/".$key."_details");
+          foreach($details as $detail) {
+            if($detail->volume && $detail->volume > 0) {
+              $mouvements[] = $this->createMouvement($hash."/".$key, $detail->volume, $coefficient, $detail);
+            }
+          }
 
-        $mouvements[] = $mouvement;
+          continue;
+        }
+        $mouvements[] = $this->createMouvement($hash."/".$key, $volume, $coefficient);
       }
     }
 
     return $mouvements;
+  }
+
+  public function createMouvement($hash, $volume, $coefficient, $detail = null) {
+    $mouvement = DRMMouvement::freeInstance($this->getDocument());
+    $mouvement->produit_hash = $this->getHash();
+    $mouvement->produit_libelle = $this->getLibelle("%g% %a% %l% %co% %ce% %la%");
+    $mouvement->type_hash = $hash;
+    $mouvement->type_libelle = $this->getConfig()->get($mouvement->type_hash)->getLibelle();
+    $mouvement->volume = $coefficient * $volume;
+    if($detail) {
+      $mouvement->detail_identifiant = $detail->identifiant;
+      $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
+    }
+    $mouvement->facture = 0;
+    $mouvement->facturable = 0;
+
+    return $mouvement;
   }
 
   public function cascadingDelete() {

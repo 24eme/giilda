@@ -21,6 +21,8 @@ class drm_export_detailsActions extends sfActions
                     $this->getUser()->setFlash("notice", 'Le détail des exports a été mis à jour avec success.');                    
                     return $this->renderText(json_encode(array("success" => true, "type" => "sortie_export", "volume" => $this->detail->sorties->export, "document" => array("id" => $this->drm->get('_id'),"revision" => $this->drm->get('_rev')))));                  
                 }
+
+                return $this->redirect('drm_edition_detail', $this->detail);
             }
             if($request->isXmlHttpRequest())
             {

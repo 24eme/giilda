@@ -17,7 +17,7 @@
                 <td><?php echo $mouvement->produit_libelle ?></td>
                 <td><?php echo $mouvement->type_libelle ?></td>
                 <td><?php echoFloat($mouvement->volume) ?></td>
-                <td><?php echo $mouvement->detail ?></td>
+                <td><?php echo $mouvement->detail_libelle ?></td>
             </tr>
         </tbody>
     <?php endforeach; ?>

@@ -8,7 +8,9 @@
  * @property string $produit_libelle
  * @property string $type_hash
  * @property string $type_libelle
- * @property string $detail
+ * @property string $detail_identifiant
+ * @property string $detail_libelle
+ * @property string $volume
  * @property string $facture
  * @property string $facturable
 
@@ -20,8 +22,12 @@
  * @method string setTypeHash()
  * @method string getTypeLibelle()
  * @method string setTypeLibelle()
- * @method string getDetail()
- * @method string setDetail()
+ * @method string getDetailIdentifiant()
+ * @method string setDetailIdentifiant()
+ * @method string getDetailLibelle()
+ * @method string setDetailLibelle()
+ * @method string getVolume()
+ * @method string setVolume()
  * @method string getFacture()
  * @method string setFacture()
  * @method string getFacturable()

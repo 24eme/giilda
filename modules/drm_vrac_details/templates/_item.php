@@ -4,8 +4,8 @@
         </td>
         <td class="vrac_detail_numero_contrat">    
             <?php
-            echo $form['numero_contrat']->renderError();
-            echo $form['numero_contrat']->render();
+            echo $form['identifiant']->renderError();
+            echo $form['identifiant']->render();
             ?>
         </td>
         <td class="volume vrac_detail_volume">    

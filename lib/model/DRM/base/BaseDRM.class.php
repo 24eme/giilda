@@ -17,7 +17,7 @@
  * @property acCouchdbJson $droits
  * @property DRMDeclaration $declaration
  * @property DRMDeclarant $declarant
- * @property acCouchdbJson $declaratif
+ * @property DRMDeclaratif $declaratif
  * @property string $identifiant
  * @property string $mode_de_saisie
  * @property acCouchdbJson $interpros
@@ -51,8 +51,8 @@
  * @method DRMDeclaration setDeclaration()
  * @method DRMDeclarant getDeclarant()
  * @method DRMDeclarant setDeclarant()
- * @method acCouchdbJson getDeclaratif()
- * @method acCouchdbJson setDeclaratif()
+ * @method DRMDeclaratif getDeclaratif()
+ * @method DRMDeclaratif setDeclaratif()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
  * @method string getModeDeSaisie()
