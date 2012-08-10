@@ -71,11 +71,14 @@ class DRMRouting {
                                                 array('sf_method' => array('get')),
                                                 array('must_be_valid' => false, 'must_be_not_valid' => false)));
 
-        $r->prependRoute('drm_rectificative', new DRMLightRoute('/drm/:identifiant/rectifier/:campagne_rectificative', 
+        $r->prependRoute('drm_rectificative', new DRMRoute('/drm/:identifiant/rectifier/:campagne_rectificative', 
                                                           array('module' => 'drm', 
-                                                               'action' => 'rectificative'),
+                                                                'action' => 'rectificative'),
                                                           array(),
-                                                		  array('must_be_valid' => true, 'must_be_not_valid' => false)));
+                                                		      array('model' => 'DRM',
+                                                                'type' => 'object',
+                                                                'must_be_valid' => false,
+                                                                'must_be_not_valid' => true)));
 
         $r->prependRoute('drm_informations', new DRMRoute('/drm/:identifiant/edition/:campagne_rectificative/informations', 
                                                           array('module' => 'drm', 
@@ -83,8 +86,8 @@ class DRMRouting {
                                                           array('sf_method' => array('get','post')),
                                                           array('model' => 'DRM',
                                                                 'type' => 'object',
-                              									'must_be_valid' => false,
-                              									'must_be_not_valid' => true)));
+                              									                'must_be_valid' => false,
+                              									                'must_be_not_valid' => true)));
         
         $r->prependRoute('drm_modif_infos', new DRMRoute('/drm/:identifiant/edition/:campagne_rectificative/modification-informations', 
                                                           array('module' => 'drm', 
@@ -144,10 +147,10 @@ class DRMRouting {
         $r->prependRoute('drm_visualisation', new DRMLightRoute('/drm/:identifiant/visualisation/:campagne_rectificative/:hide_rectificative', 
                                                           array('module' => 'drm', 
                                                                 'action' => 'visualisation',
-                                                          		'hide_rectificative' => null),
+                                                          		  'hide_rectificative' => null),
                                                           array('sf_method' => array('get')),
                                                           array('must_be_valid' => true,
-                              									'must_be_not_valid' => false)));
+                              									                'must_be_not_valid' => false)));
 
         $r->prependRoute('drm_pdf', new DRMLightRoute('/drm/:identifiant/pdf/:campagne_rectificative.:format', 
                                                           array('module' => 'drm', 

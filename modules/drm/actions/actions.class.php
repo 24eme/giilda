@@ -166,11 +166,6 @@ class drmActions extends sfActions
   	return $this->renderText($this->getPartial('popupFrequence', array('drm' => $drm)));
   }
 
- /**
-  * Executes mouvements generaux action
-  *
-  * @param sfRequest $request A request object
-  */
   public function executeValidation(sfWebRequest $request)
   {
     $this->drm = $this->getRoute()->getDRM();
@@ -193,8 +188,8 @@ class drmActions extends sfActions
       }
 
      $this->redirect('drm_visualisation', array('identifiant' => $this->getUser()->getTiers()->identifiant, 
-                                                 'campagne_rectificative' => $this->drm->getCampagneAndRectificative(), 
-                                                 'hide_rectificative' => 1));
+                                                'campagne_rectificative' => $this->drm->getCampagneAndRectificative(), 
+                                                'hide_rectificative' => 1));
     	/*}*/
     }
   }
@@ -209,11 +204,6 @@ class drmActions extends sfActions
     $this->redirect($controle->getLien());
   }
 
- /**
-  * Executes mouvements generaux action
-  *
-  * @param sfRequest $request A request object
-  */
   public function executeVisualisation(sfWebRequest $request)
   {
     $this->drm = $this->getRoute()->getDRM();

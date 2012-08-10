@@ -316,7 +316,7 @@ class DRM extends BaseDRM {
         $this->storeDates();
 
         if (!isset($options['no_droits']) || !$options['no_droits']) {
-           $this->setDroits();
+           //$this->setDroits();
         }
 
         $this->setInterpros();
@@ -325,14 +325,14 @@ class DRM extends BaseDRM {
     }
 
     public function storeIdentifiant($options) {
+        $identifiant = $this->identifiant;
+
         if ($options && is_array($options)) {
             if (isset($options['identifiant']))
                 $identifiant = $options['identifiant'];
         }
 
-        if (!$identifiant) {
-            $identifiant = $this->identifiant;
-        }
+        $this->valide->identifiant = $identifiant;
     }
 
     public function storeDates() {
@@ -344,7 +344,7 @@ class DRM extends BaseDRM {
            $this->valide->add('date_signee', date('c'));
         }
 
-        $this->valide->identifiant = $identifiant;
+        
     }
 
     public function setInterpros() {
@@ -540,6 +540,6 @@ class DRM extends BaseDRM {
     public function generateMouvements() {
         $this->clearMouvements();
         
-        $this->mouvements->fromArray($this->declaration->getMouvements());
+        $this->mouvements = $this->declaration->getMouvements();
     }
 }
