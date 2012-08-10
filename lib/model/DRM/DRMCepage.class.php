@@ -5,14 +5,15 @@
  */
 
 class DRMCepage extends BaseDRMCepage {
-	
-	/**
-     *
-     * @return DRMCouleur
-     */
+
+    public function getChildrenNode() {
+
+        return $this->details;
+    }
+
   	public function getCouleur() {
    
-    	return $this->getParentNode();
+    	 return $this->getParentNode();
   	}
 
   	public function getProduits() {
@@ -26,21 +27,6 @@ class DRMCepage extends BaseDRMCepage {
 
   	public function getLieuxArray() {
 
-  		throw new sfException('this function need to call before lieu tree');
+  		  throw new sfException('this function need to call before lieu tree');
   	}
-
-    public function getDetailsArray() {
-      	$details = array();
-      	foreach($this->details as $detail) {
-        	$details[$detail->getHash()] = $detail;
-      	}
-      	
-      	return $details;
-    }
-
-  	public function getChildrenNode() {
-
-    	return $this->details;
-  	}
-
 }

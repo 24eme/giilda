@@ -5,7 +5,12 @@
  */
 
 class DRMMention extends BaseDRMMention {
-	
+	   
+    public function getChildrenNode() {
+
+        return $this->lieux;
+    }
+
     public function getAppellation() {
 
         return $this->getParentNode();
@@ -15,26 +20,13 @@ class DRMMention extends BaseDRMMention {
         
         return $this->getAppellation()->getCertification();
     }
-	
-    public function getChildrenNode() {
-
-        return $this->lieux;
-    }
 
     public function getLieuxArray() {
-      $lieux = array();
-      foreach($this->lieux as $lieu) {
-        $lieux[$lieu->getHash()] = $lieu;
-      }
-      return $lieux;
-    }
+        $lieux = array();
+        foreach($this->lieux as $lieu) {
+            $lieux[$lieu->getHash()] = $lieu;
+        } 
 
-    public function sommeLignes($lines) {
-      $sum = 0;
-      foreach($this->lieux as $lieu) {
-	$sum += $lieu->sommeLignes($lines);
-      }
-      return $sum;
+        return $lieux;
     }
-
 }
