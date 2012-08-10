@@ -23,7 +23,7 @@
         <td><?php echo $drm->mode_de_saisie ?></td>
     <?php endif; ?>
 	<td>
-			<a href="<?php echo url_for('drm_visualisation', array('campagne_rectificative' => $campagne_rectificative)) ?>" class="btn_reinitialiser"><span>Visualiser</span></a>
+			<a href="<?php echo url_for('drm_visualisation', array('identifiant' => $etablissement_identifiant,'campagne_rectificative' => $campagne_rectificative)) ?>" class="btn_reinitialiser"><span>Visualiser</span></a>
 		</td>	
 		<?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN) && !$drm->isEnvoyee()): ?>	
 	<td style="border: 0px; padding-left: 0px;background-color: #ffffff;">
