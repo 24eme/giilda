@@ -123,5 +123,10 @@ class Vrac extends BaseVrac {
     private function getDensite() 
     {
         return 1.3;
-    }   
+    }
+
+    public function __toString() {
+
+        return sprintf("%s", $this->identifiant);
+    }
 }
