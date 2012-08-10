@@ -82,6 +82,7 @@ class drmActions extends sfActions
 		  $this->redirect('drm_informations', $drm);
   	  	}
       }*/
+      $this->mouvements = DRMMouvementsView::getInstance()->getMouvements($this->getRoute()->getEtablissement()->identifiant);
   }
 
 
