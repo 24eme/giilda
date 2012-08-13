@@ -4,8 +4,15 @@
         <?php include_http_metas() ?>
         <?php include_metas() ?>
         <?php include_title() ?>
-    <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <?php include_stylesheets() ?>
+
+        <style type="text/css">
+                .versionner {
+                    outline: 1px dotted #ff0000 !important;
+                }
+        </style>
+
         <?php include_javascripts() ?>
     </head>
     <body>        
