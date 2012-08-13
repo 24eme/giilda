@@ -23,7 +23,7 @@ Facture:
         type: collection
         definition:
           fields:
-            raison_socale: {}
+            raison_sociale: {}
             adresse: {}
             code_postal: {}
             ville: {}
