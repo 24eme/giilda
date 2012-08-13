@@ -86,7 +86,7 @@
 		}
 	});
 
-        $.fn.initLabels =function()
+        $.fn.initLabels =function(colonne)
         {   
             var lien = $(this);  
             $('.drm_labels_form').bind('submit', function()
@@ -102,7 +102,10 @@
                             }
                             else
                             {
-                                $.fancybox.close();    
+                                lien.parent().html(data.content+ ' (&nbsp;<a href="'+lien.attr('href')+'" class="'+lien.attr('class')+'" title="'+lien.attr('title')+'">'+lien.html()+'</a>&nbsp;)');                                
+                                colonne.colonnes.update();
+                                colonnes.event_colonne_init(colonne);
+                                $.fancybox.close();
                             }
                         }, "json");
 
