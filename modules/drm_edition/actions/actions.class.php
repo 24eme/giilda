@@ -92,8 +92,9 @@ class drm_editionActions extends sfActions
                 $this->form->save();
                 if($request->isXmlHttpRequest())
                 {
-                    $this->getUser()->setFlash("notice", 'Les labels ont étés mis à jour avec success.');                    
-                    return $this->renderText(json_encode(array("success" => true, "document" => array("id" => $this->drm->get('_id'),"revision" => $this->drm->get('_rev')))));                  
+                    $this->getUser()->setFlash("notice", 'Les labels ont étés mis à jour avec success.'); 
+                    //return $this->renderPartial('labelsList', array('form' => $this->form));
+                    return $this->renderText(json_encode(array("success" => true, "document" => array("id" => $this->drm->get('_id'),"revision" => $this->drm->get('_rev')), 'content' => $this->form->getObject()->getLabelsLibelle())));                  
                 }
             }
             if($request->isXmlHttpRequest())
