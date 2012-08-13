@@ -7,8 +7,8 @@
         <h2><?php echo $form->getObject()->getLibelle("%g% %a% %co% %ce%") ?></h2>
         <div class="col_cont">
             <p class="label" style="font-size: 12px; text-align: center;">
-<?php echo $form->getObject()->getLabelsLibelle() ?> <?php echo $form->getObject()->label_supplementaire ?> (&nbsp;<a href="<?php echo url_for("drm_edition_produit_addlabel", $form->getObject()) ?>" class="labels_lien" title="Choix du/des labels">éditer</a>&nbsp;)
-            </p>
+                <?php include_partial('labelsList', array('form' => $form)); ?>
+           </p>
             <div class="groupe" data-groupe-id="1">
                 <p class="itemcache <?php echo isRectifierCssClass($form->getObject(), 'total_debut_mois') ?>">
                     <?php echo $form['total_debut_mois']->render(array('data-val-defaut' => sprintFloat($form->getObject()->total_debut_mois), 'class' => 'num num_float somme_groupe test')) ?>
