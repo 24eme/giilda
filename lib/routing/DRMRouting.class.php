@@ -144,6 +144,13 @@ class DRMRouting {
         //                       									'must_be_valid' => false,
         //                       									'must_be_not_valid' => true)));
 
+	$r->prependRoute('drm_redirect_to_visualisation', new sfRoute('/drm/redirect/:identifiant_drm', 
+								      array('module' => 'drm', 'action' => 'redirect'),  
+								      array('sf_method' => array('get')),
+								      array('must_be_valid' => true,
+									    'must_be_not_valid' => false)));
+	
+
         $r->prependRoute('drm_visualisation', new DRMLightRoute('/drm/:identifiant/visualisation/:periode_version/:hide_rectificative', 
                                                           array('module' => 'drm', 
                                                                 'action' => 'visualisation',
