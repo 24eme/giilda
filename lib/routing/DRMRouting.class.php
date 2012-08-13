@@ -75,10 +75,19 @@ class DRMRouting {
                                                           array('module' => 'drm', 
                                                                 'action' => 'rectificative'),
                                                           array(),
+                                                          array('model' => 'DRM',
+                                                                'type' => 'object',
+                                                                'must_be_valid' => true,
+                                                                'must_be_not_valid' => false)));
+
+        $r->prependRoute('drm_modificative', new DRMRoute('/drm/:identifiant/modificative/:periode_version', 
+                                                          array('module' => 'drm', 
+                                                                'action' => 'modificative'),
+                                                          array(),
                                                 		      array('model' => 'DRM',
                                                                 'type' => 'object',
-                                                                'must_be_valid' => false,
-                                                                'must_be_not_valid' => true)));
+                                                                'must_be_valid' => true,
+                                                                'must_be_not_valid' => false)));
 
         $r->prependRoute('drm_informations', new DRMRoute('/drm/:identifiant/edition/:periode_version/informations', 
                                                           array('module' => 'drm', 

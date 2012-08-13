@@ -64,12 +64,12 @@ class drmComponents extends sfComponents {
     }
 
     public function executeHistoriqueItem() {
-        $this->periode_version = DRMClient::getInstance()->buildPeriodeAndVersion($this->drm[DRMHistorique::VIEW_PERIODE], $this->drm[DRMHistorique::VIEW_INDEX_RECTIFICATIVE]);
+        $this->periode_version = DRMClient::getInstance()->buildPeriodeAndVersion($this->drm[DRMHistorique::VIEW_PERIODE], $this->drm[DRMHistorique::VIEW_INDEX_VERSION]);
     	$this->etablissement_identifiant = $this->drm[DRMHistorique::VIEW_INDEX_ETABLISSEMENT];
         $this->valide = $this->drm[DRMHistorique::VIEW_INDEX_STATUS] && $this->drm[DRMHistorique::VIEW_INDEX_STATUS] > 0;
         $this->titre = $this->drm[DRMHistorique::VIEW_PERIODE];
-        if($this->drm[DRMHistorique::VIEW_INDEX_RECTIFICATIVE]) {
-            $this->titre .= ' R'.$this->drm[DRMHistorique::VIEW_INDEX_RECTIFICATIVE];
+        if($this->drm[DRMHistorique::VIEW_INDEX_VERSION]) {
+            $this->titre .= ' '.$this->drm[DRMHistorique::VIEW_INDEX_VERSION];
         }
         $this->derniere = $this->drm[DRMHistorique::DERNIERE];
 		$this->drm = DRMClient::getInstance()->find($this->drm[7]);

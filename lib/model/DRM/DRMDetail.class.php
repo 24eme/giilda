@@ -183,9 +183,9 @@ class DRMDetail extends BaseDRMDetail {
   	  return VracClient::getInstance()->retrieveFromEtablissementsAndHash($etablissement, $this->getHash());
   }
 
-  public function isModifiedMasterDRM($key) {
+  public function isModifiedMother($key) {
     
-      return $this->getDocument()->isModifiedMasterDRM($this->getHash(), $key);
+      return $this->getDocument()->isModifiedMother($this->getHash(), $key);
   }
 
 

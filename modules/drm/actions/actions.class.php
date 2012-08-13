@@ -219,7 +219,17 @@ class drmActions extends sfActions
     $drm_rectificative = $drm->generateRectificative();
     $drm_rectificative->save();
 
-    return $this->redirect('drm_init', array('identifiant' => $this->getUser()->getTiers()->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
+    return $this->redirect('drm_init', array('identifiant' => $drm_rectificative->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
+  }
+
+  public function executeModificative(sfWebRequest $request)
+  {
+    $drm = $this->getRoute()->getDRM();
+
+    $drm_rectificative = $drm->generateModificative();
+    $drm_rectificative->save();
+
+    return $this->redirect('drm_init', array('identifiant' => $drm_rectificative->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
   }
 
 
