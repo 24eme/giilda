@@ -111,6 +111,16 @@ class DRM extends BaseDRM {
         
         return $details;
     }
+    
+   public function getVracs() {
+        $vracs = array();
+        foreach ($this->getDetails() as $d) {
+        if ($vrac = $d->sorties->vrac_details)
+            $vracs[] = $vrac;
+        }
+        
+        return $vracs;
+    }
 
     public function generateSuivante($periode, $keepStock = true) 
     {
@@ -437,10 +447,10 @@ class DRM extends BaseDRM {
         if (!isset($options['no_droits']) || !$options['no_droits']) {
            //$this->setDroits();
         }
-
-        $this->setInterpros();
-
+        
+        $this->setInterpros();        
         $this->generateMouvements();
+        $this->updateVracs();
     }
 
     public function storeIdentifiant($options) {
@@ -464,6 +474,17 @@ class DRM extends BaseDRM {
         }
 
     }
+
+    public function updateVracs() {        
+        foreach ($this->getDetails() as $d) {            
+            foreach ($d->sorties->vrac_details as $vrac_detail) {                
+                $vrac = VracClient::getInstance()->find($vrac_detail->identifiant);
+                $vrac->enleverVolume($vrac_detail->volume);
+                $vrac->save();
+            }          
+        }     
+    }
+
 
     public function setInterpros() {
       $i = $this->getInterpro();
@@ -490,7 +511,6 @@ class DRM extends BaseDRM {
         		}
         	}
         }
-
         return parent::save();
     }
 
