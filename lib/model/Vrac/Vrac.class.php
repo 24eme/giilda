@@ -129,4 +129,13 @@ class Vrac extends BaseVrac {
 
         return sprintf("%s", $this->numero_contrat);
     }
+    
+    public function enleverVolume($vol)
+    {
+        $this->volume_enleve += $vol;
+        if($this->volume_propose <= $this->volume_enleve)
+        { 
+            $this->valide->statut = "SOLDE";
+        }
+    }
 }
