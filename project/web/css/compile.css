@@ -2483,3 +2483,7 @@ p#date_drm {
 #drm_export_details_table .export_detail_date_enlevement input, #drm_export_details_table .cooperative_detail_date_enlevement input, #drm_export_details_table .vrac_detail_date_enlevement input, #drm_cooperative_details_table .export_detail_date_enlevement input, #drm_cooperative_details_table .cooperative_detail_date_enlevement input, #drm_cooperative_details_table .vrac_detail_date_enlevement input, #drm_vrac_details_table .export_detail_date_enlevement input, #drm_vrac_details_table .cooperative_detail_date_enlevement input, #drm_vrac_details_table .vrac_detail_date_enlevement input { width:80%; }
 #drm_export_details_table .vrac_detail_volume, #drm_export_details_table .cooperative_detail_volume, #drm_export_details_table .export_detail_volume div, #drm_cooperative_details_table .vrac_detail_volume, #drm_cooperative_details_table .cooperative_detail_volume, #drm_cooperative_details_table .export_detail_volume div, #drm_vrac_details_table .vrac_detail_volume, #drm_vrac_details_table .cooperative_detail_volume, #drm_vrac_details_table .export_detail_volume div { text-align:center; }
 #drm_export_details_table span, #drm_cooperative_details_table span, #drm_vrac_details_table span { font-size:20px; }
+.drm #principal .recherche_etablissement {
+  background:none repeat scroll 0 0 #ecebeb;
+  padding:10px 10px 30px;
+}
