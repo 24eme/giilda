@@ -6,8 +6,12 @@
                                                    'pourcentage' => '10'));*/ ?>
     <?php include_partial('drm/controlMessage'); ?>
 
-    <?php if (!$hide_rectificative): ?>
+    <?php if ($drm->isRectifiable()): ?>
         <a href="<?php echo url_for('drm_rectificative', $drm) ?>">Soumettre une DRM rectificative</a>
+    <?php endif; ?>
+
+    <?php if ($drm->isModifiable()): ?>
+        <a href="<?php echo url_for('drm_modificative', $drm) ?>">Soumettre une DRM modificative</a>
     <?php endif; ?>
 
     <!-- #principal -->
