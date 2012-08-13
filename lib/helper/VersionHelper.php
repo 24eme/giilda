@@ -1,22 +1,22 @@
 <?php
 
-function isVersionCssClass($object, $key) {
+function isVersionnerCssClass($object, $key) {
 
-    if (isVersion($object, $key)) {
+    if (isVersionner($object, $key)) {
 
-        return versionCssClass();
+        return versionnerCssClass();
     } else {
 
         return null;
     }
 }
 
-function versionCssClass() {
+function versionnerCssClass() {
 
-    return 'version';
+    return 'versionner';
 }
 
-function isVersion($object, $key) {
+function isVersionner($object, $key) {
 
     return $object->getDocument()->isModifiedMother($object->getHash(), $key);
 }
