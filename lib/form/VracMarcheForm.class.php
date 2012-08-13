@@ -62,7 +62,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'original' => new sfValidatorInteger(array('required' => true)),
             'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($types_transaction))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))),
-            'millesime' => new sfValidatorInteger(array('required' => false, 'min' => 1979, 'max' => $this->getCurrentYear())),
+            'millesime' => new sfValidatorInteger(array('required' => false, 'min' => 1980, 'max' => $this->getCurrentYear())),
             'contient_domaine' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getContientDomaines()))),
             'domaine' => new sfValidatorString(array('required' => false)),
             'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->getLabels()))),
@@ -75,7 +75,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
                         
         $this->validatorSchema['produit']->setMessage('required', 'Le choix d\'un produit est obligatoire');        
         $this->validatorSchema['prix_unitaire']->setMessage('required', 'Le prix doit être renseigné');  
-        $this->validatorSchema['millesime']->setMessage('min', 'Le millésime doit être supérieur à 1979');        
+        $this->validatorSchema['millesime']->setMessage('min', 'Le millésime doit être supérieur à 1980');        
         $this->validatorSchema['millesime']->setMessage('max', 'Le millésime doit être inférieur à '.$this->getCurrentYear());
         
         $this->widgetSchema->setNameFormat('vrac[%s]');
