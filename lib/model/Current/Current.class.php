@@ -11,7 +11,7 @@ class Current extends BaseCurrent {
         $this->set('_id', 'CURRENT');
     }
     
-    public function getCampagne()
+    public function getPeriode()
     {
     	return date('Y-m');
     }

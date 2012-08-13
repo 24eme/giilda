@@ -17,11 +17,11 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	  $value->libelle = $libelle;
 	}
 	
-	public function getCurrentDroit($campagne) {
+	public function getCurrentDroit($periode) {
 		$currentDroit = null;
 		foreach ($this as $configurationDroit) {
 			$date = new DateTime($configurationDroit->date);
-			if ($campagne >= $date->format('Y-m')) {
+			if ($periode >= $date->format('Y-m')) {
 				if ($currentDroit) {
 					if ($date->format('Y-m-d') > $currentDroit->date) {
 						$currentDroit = $configurationDroit;
@@ -36,7 +36,7 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 		} else {
 			try {
 			  $parent = $this->getInterpro()->getParent()->getParent()->getParentNode();
-			  return $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($campagne);
+			  return $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($periode);
 			} catch (sfException $e) {
 			  throw new sfException('Aucun droit spécifié');
 			}
