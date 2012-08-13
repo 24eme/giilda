@@ -17,7 +17,7 @@
 
 
     </section>
-    <a href="<?php echo url_for('drm_historique', array('identifiant' => $historique->getEtablissementIdentifiant())) ?>">Votre historique complet &raquo;</a>
+    <a href="<?php echo url_for('drm_historique', array('identifiant' => $historique->getIdentifiant())) ?>">Votre historique complet &raquo;</a>
     
     <?php if($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
         <br /><br />

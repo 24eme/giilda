@@ -40,7 +40,7 @@ EOF;
     }
     
     $current = new Current();
-    $current->campagne = '2011-11';
+    $current->campagne = '2012-2013';
     $current->save();
     
     $configuration = acCouchdbManager::getClient()->retrieveDocumentById('CONFIGURATION', acCouchdbClient::HYDRATE_JSON);
