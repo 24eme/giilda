@@ -16,4 +16,14 @@ class FactureClient extends acCouchdbClient {
     {
       return acCouchdbManager::getClient("Facture");
     }  
+
+    public function findByEtablissement($etablissement) {
+      return acCouchdbManager::getClient()
+	->startkey(array($etablissement->_id))
+	->endkey(array($etablissement->_id, array()))
+	->reduce(false)
+	->getView("facture", "etablissement")
+	->rows;
+
+    }
 }
