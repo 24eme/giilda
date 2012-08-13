@@ -21,8 +21,9 @@ DRM:
       raison_rectificative: {  }
       etape: {  }
       campagne: {  }
+      periode: {  }
       precedente: {  }
-      rectificative: { type: integer, required: false }
+      version: {  }
       droits:
         type: collection
         definition:

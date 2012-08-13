@@ -6,22 +6,22 @@ class DRMRoute extends sfObjectRoute {
     
     protected function getObjectForParameters($parameters) {
 
-        if (preg_match('/^[0-9]{4}-[0-9]{2}$/', $parameters['campagne_rectificative'])) {
-            $campagne = $parameters['campagne_rectificative'];
+        if (preg_match('/^[0-9]{4}-[0-9]{2}$/', $parameters['periode_version'])) {
+            $periode = $parameters['periode_version'];
             $rectificative = null;
-        } elseif(preg_match('/^([0-9]{4}-[0-9]{2})-R([0-9]{2})$/', $parameters['campagne_rectificative'], $matches)) {
-            $campagne = $matches[1];
+        } elseif(preg_match('/^([0-9]{4}-[0-9]{2})-R([0-9]{2})$/', $parameters['periode_version'], $matches)) {
+            $periode = $matches[1];
             $rectificative = $matches[2];
         } else {
-            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'campagne_rectificative', $parameters['campagne_rectificative']));
+            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'periode_version', $parameters['periode_version']));
         }
 
-        $this->drm = DRMClient::getInstance()->findByIdentifiantCampagneAndRectificative($parameters['identifiant'], 
-                                                                                         $campagne, 
+        $this->drm = DRMClient::getInstance()->findByIdentifiantPeriodeAndVersion($parameters['identifiant'], 
+                                                                                         $periode, 
                                                                                          $rectificative);
 
         if (!$this->drm) {
-            throw new sfError404Exception(sprintf('No DRM found for this campagne-rectificative "%s".',  $parameters['campagne_rectificative']));
+            throw new sfError404Exception(sprintf('No DRM found for this periode-rectificative "%s".',  $parameters['periode_version']));
         }
 		if (isset($this->options['must_be_valid']) && $this->options['must_be_valid'] === true && !$this->drm->isValidee()) {
 			throw new sfError404Exception('DRM must be validated');
@@ -33,7 +33,7 @@ class DRMRoute extends sfObjectRoute {
     }
 
     protected function doConvertObjectToArray($object) {  
-        $parameters = array("identifiant" => $object->getIdentifiant(), "campagne_rectificative" => $object->getCampagneAndRectificative());
+        $parameters = array("identifiant" => $object->getIdentifiant(), "periode_version" => $object->getPeriodeAndVersion());
         return $parameters;
     }
     

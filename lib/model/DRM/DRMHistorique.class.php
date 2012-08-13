@@ -2,8 +2,8 @@
 class DRMHistorique
 {
 	const VIEW_INDEX_ETABLISSEMENT = 0;
-	const VIEW_INDEX_ANNEE = 1;
-	const VIEW_INDEX_MOIS = 2;
+	const VIEW_CAMPAGNE = 1;
+    const VIEW_PERIODE = 2;
 	const VIEW_INDEX_RECTIFICATIVE = 3;
 	const VIEW_INDEX_STATUS = 4;
 	const VIEW_INDEX_STATUS_DOUANE_ENVOI = 5;
@@ -13,17 +13,18 @@ class DRMHistorique
     const REGEXP_CAMPAGNE = '#^[0-9]{4}-[0-9]{2}$#';
 
 	private $identifiant;
-	private $campagneCourante;
+	private $campagne;
 	private $drms;
 	private $campagnes;
 	
-	public function __construct($identifiant, $campagneCourante = null)
+	public function __construct($identifiant, $campagne = null)
 	{
 		$this->identifiant = $identifiant;
-		$this->campagneCourante = $campagneCourante;
+		$this->campagne = $campagne;
 	}
 	
 	public function getSliceDRMs($limit = 0) {
+
 		return array_slice($this->getDRMs(), 0, $limit);
 	}
 	
@@ -52,10 +53,10 @@ class DRMHistorique
 
 		$campagne = null;
 		foreach($result as $key => $item) {
-			$result[$key][self::CAMPAGNE] = $this->makeCampagne($item[self::VIEW_INDEX_ANNEE], $item[self::VIEW_INDEX_MOIS]);
-			if ($item[self::VIEW_INDEX_ANNEE].'-'.$item[self::VIEW_INDEX_MOIS] != $campagne) {
+			$result[$key][self::CAMPAGNE] = $item[self::VIEW_CAMPAGNE];
+			if ($result[$key][self::CAMPAGNE] != $campagne) {
 				$result[$key][self::DERNIERE] = true;
-				$campagne = $item[self::VIEW_INDEX_ANNEE].'-'.$item[self::VIEW_INDEX_MOIS];
+				$campagne = $result[$key][self::CAMPAGNE];
 			} else {
 				$result[$key][self::DERNIERE] = false;
 			}
@@ -78,22 +79,14 @@ class DRMHistorique
 		}
 		return $this->campagnes;
 	}
-	
-	private function makeCampagne($annee, $mois) {
-		if ($annee.$mois < $annee.'08') {
-			return ($annee-1).'-'.$annee;
-		} else {
-			return $annee.'-'.($annee+1);
-		}
-	}
-	
+		
 	public function getDRMsParCampagneCourante()
 	{
 		$drmsCampagne = array();
-		$campagneCourante = $this->getCampagneCourante();
+		$campagne = $this->getCampagneCourante();
 		$drms = $this->getDRMs();
 		foreach ($drms as $id => $drm) {
-			if ($drm[self::CAMPAGNE] == $campagneCourante) {
+			if ($drm[self::CAMPAGNE] == $campagne) {
 				$drmsCampagne[$id] = $drm;
 			}
 		}
@@ -103,28 +96,30 @@ class DRMHistorique
 	
 	public function getCampagneCourante()
 	{
-		if (!$this->campagneCourante) {
+		if (!$this->campagne) {
 			if($campagnes = $this->getCampagnes()) {
-				$this->campagneCourante = $campagnes[0];
+				$this->campagne = $campagnes[0];
 			}
 		}
-		return $this->campagneCourante;
+		return $this->campagne;
 	}
 	
 	public function getFutureDRM()
 	{
 		$lastDRM = current($this->getLastDRM());
 		if (!$lastDRM) {
-		  return array('DRM-'.$this->identifiant.'-'.date('Y').'-'.date('m') => array($this->identifiant, date('Y'), sprintf("%02d", date('m')), 0, null, null));
+          $periode = DRMClient::getInstance()->buildPeriode(date('Y'), date('m'));
+          $campagne = DRMClient::getInstance()->buildCampagne($periode);
+
+		  return array(DRMClient::getInstance()->buildId($this->identifiant, $periode) => array($this->identifiant, $campagne, $periode, 0, null, null));
 		}
-		$nextMonth = $lastDRM[self::VIEW_INDEX_MOIS] + 1;
-		$nextYear = $lastDRM[self::VIEW_INDEX_ANNEE];
-		if ($nextMonth > 12) {
-			$nextMonth = '01';
-			$nextYear++;
-		}
-	        $nextMonth = sprintf("%02d", $nextMonth);
-		return array('DRM-'.$this->identifiant.'-'.$nextYear.'-'.$nextMonth => array($this->identifiant, $nextYear, $nextMonth, 0, null, null));
+
+		$periode = DRMClient::getInstance()->getPeriodeSuivante($lastDRM[self::VIEW_PERIODE]);
+        $campagne = DRMClient::getInstance()->buildCampagne($periode);
+
+        return array(
+                        DRMClient::getInstance()->buildId($this->identifiant, $periode) =>  array($this->identifiant, $campagne, $periode, 0, null, null)
+                    );
 	}
 
 	public function getLastDRM()
@@ -144,50 +139,9 @@ class DRMHistorique
 		}
 		return $result;
 	}
+	
 	public function getIdentifiant() {
 	  return $this->identifiant;
 	}
 
-    public function getNextByCampagne($campagne)
-    {
-        $drms = $this->getDRMs();
-        $dateCampagne = $this->getDateObjectByCampagne($campagne);
-        $nextDrm = null;
-        foreach ($drms as $drm) {
-            if ($drm[self::VIEW_INDEX_ANNEE].$drm[self::VIEW_INDEX_MOIS] <= $dateCampagne->format('Ym') && is_null($drm[self::VIEW_INDEX_RECTIFICATIVE])) {
-                break;
-            } elseif (is_null($drm[self::VIEW_INDEX_RECTIFICATIVE])) {
-                $nextDrm = $drm;
-            }
-        }
-        return $nextDrm;
-    }
-    
-    public function getPrevByCampagne($campagne)
-    {
-        $drms = $this->getDRMs();
-        $dateCampagne = $this->getDateObjectByCampagne($campagne);
-        $prevDrm = null;
-        foreach ($drms as $drm) {
-            if ($drm[self::VIEW_INDEX_ANNEE].$drm[self::VIEW_INDEX_MOIS] < $dateCampagne->format('Ym') && is_null($drm[self::VIEW_INDEX_RECTIFICATIVE])) {
-                $prevDrm = $drm;
-                break;
-            }
-        }
-        return $prevDrm;
-    }
-    
-    public function getDateObjectByCampagne($campagne)
-    {
-        $this->checkCampagneFormat($campagne);
-        $campagneTab = explode('-', $campagne);
-        return new DateTime($campagneTab[0].'-'.$campagneTab[1].'-01');
-    }
-    
-    public function checkCampagneFormat($campagne)
-    {
-        if (!preg_match(self::REGEXP_CAMPAGNE, $campagne)) {
-            throw new sfException('La campagne doit être au format AAAA-MM');
-        }
-    }
 }

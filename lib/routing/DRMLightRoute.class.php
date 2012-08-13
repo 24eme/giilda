@@ -7,22 +7,22 @@ class DRMLightRoute extends sfRequestRoute {
 
 	protected function getDRMForParameters($parameters) {
 
-        if (preg_match('/^[0-9]{4}-[0-9]{2}$/', $parameters['campagne_rectificative'])) {
-            $campagne = $parameters['campagne_rectificative'];
+        if (preg_match('/^[0-9]{4}-[0-9]{2}$/', $parameters['periode_version'])) {
+            $periode = $parameters['periode_version'];
             $rectificative = null;
-        } elseif(preg_match('/^([0-9]{4}-[0-9]{2})-R([0-9]{2})$/', $parameters['campagne_rectificative'], $matches)) {
-            $campagne = $matches[1];
+        } elseif(preg_match('/^([0-9]{4}-[0-9]{2})-R([0-9]{2})$/', $parameters['periode_version'], $matches)) {
+            $periode = $matches[1];
             $rectificative = $matches[2];
         } else {
-            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'campagne_rectificative', $parameters['campagne_rectificative']));
+            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'periode_version', $parameters['periode_version']));
         }
 
-        $drm = DRMClient::getInstance()->findByIdentifiantCampagneAndRectificative($parameters['identifiant'], 
-                                                                                         $campagne, 
-                                                                                         $rectificative);
+        $drm = DRMClient::getInstance()->findByIdentifiantPeriodeAndVersion($parameters['identifiant'], 
+                                                                                   $periode, 
+                                                                                   $rectificative);
 
         if (!$drm) {
-            throw new sfError404Exception(sprintf('No DRM found for this campagne-rectificative "%s".',  $parameters['campagne_rectificative']));
+            throw new sfError404Exception(sprintf('No DRM found for this periode-version "%s".',  $parameters['periode_version']));
         }
 	
 		if (isset($this->options['must_be_valid']) && $this->options['must_be_valid'] === true && !$drm->isValidee()) {

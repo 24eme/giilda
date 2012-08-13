@@ -10,15 +10,59 @@ class DRM extends BaseDRM {
     const DEFAULT_KEY = 'DEFAUT';
 
     public function constructId() {
-        $rectificative = ($this->exist('rectificative')) ? $this->rectificative : null;
 
-        $this->set('_id', DRMClient::getInstance()->getId($this->identifiant, $this->campagne, $rectificative));
+        $this->set('_id', DRMClient::getInstance()->buildId($this->identifiant, 
+                                                            $this->periode, 
+                                                            $this->version));
     }
 
-    public function getCampagneAndRectificative() {
-        $rectificative = ($this->exist('rectificative')) ? $this->rectificative : null;
+    public function getPeriodeAndVersion() {
 
-        return DRMClient::getInstance()->getCampagneAndRectificative($this->campagne, $rectificative);
+        return DRMClient::getInstance()->buildPeriodeAndVersion($this->periode, $this->version);
+    }
+
+    public function getMois() {
+        
+        return DRMClient::getInstance()->getMois($this->periode);
+    }
+
+    public function getAnnee() {
+        
+        return DRMClient::getInstance()->getAnnee($this->periode);
+    }
+
+    public function setPeriode($periode) {
+        $this->campagne = DRMClient::getInstance()->buildCampagne($periode);
+
+        return $this->_set('periode', $periode);
+    }
+
+    public function getRectificative() {
+        if (preg_match('/^R([0-9]{2})/', $this->version, $matches)) {
+
+            return (int) $matches[1];
+        }
+
+        return 0;
+    }
+
+    public function isRectificative() {
+
+        return $this->getRectificative() > 0;
+    }
+
+    public function getModificative() {
+        if (preg_match('/M([0-9]{2})$/', $this->version, $matches)) {
+
+            return (int) $matches[1];
+        }
+
+        return 0;
+    }
+
+    public function isModificative() {
+
+        return $this->getModificative() > 0;
     }
 
     public function getProduit($hash, $labels = array()) {
@@ -36,12 +80,12 @@ class DRM extends BaseDRM {
       }
       
       $detail = $this->getOrAdd($hash)->details->addProduit($labels);
-      
+     
       return $detail;
     }
 
     public function getDepartement() {
-        if($this->declarant->siege->code_postal) {
+        if($this->declarant->siege->code_postal )  {
           return substr($this->declarant->siege->code_postal, 0, 2);
         }
 
@@ -63,12 +107,12 @@ class DRM extends BaseDRM {
         return $details;
     }
 
-    public function generateSuivante($campagne, $keepStock = true) 
+    public function generateSuivante($periode, $keepStock = true) 
     {
         $drm_suivante = clone $this;
     	$drm_suivante->init(array('keepStock' => $keepStock));
         $drm_suivante->update();
-        $drm_suivante->campagne = $campagne;
+        $drm_suivante->periode = $periode;
 	    $drm_suivante->precedente = $this->_id;
         $drm_suivante->devalide();
        
@@ -82,7 +126,6 @@ class DRM extends BaseDRM {
     public function init($params = array()) {
       	parent::init($params);
 
-		$this->remove('rectificative');
         $this->remove('douane');
         $this->add('douane');
         $this->remove('declarant');
@@ -90,36 +133,7 @@ class DRM extends BaseDRM {
         $this->raison_rectificative = null;
         $this->etape = null;
     }
-    
-    public function setCampagneMoisAnnee($mois, $annee) {
-        $this->campagne = sprintf("%04d-%02d", $annee, $mois);
-    }
 
-    public function setMois($mois) {
-        $annee = $this->getAnnee();
-        $this->setCampagneMoisAnnee($mois, $annee);
-    }
-
-    public function setAnnee($annee) {
-        $mois = $this->getMois();
-        $this->setCampagneMoisAnnee($mois, $annee);
-    }
-
-    public function getMois() {
-        
-        return preg_replace('/.*-/', '', $this->campagne)*1;
-    }
-
-    public function getAnnee() {
-        
-        return preg_replace('/-.*/', '', $this->campagne)*1;
-    }
-
-    public function getRectificative() {
-
-        return $this->exist('rectificative') ? $this->_get('rectificative') : 0;
-    }
-    
     public function setDroits() {
         $this->remove('droits');
         $this->add('droits');
@@ -150,18 +164,13 @@ class DRM extends BaseDRM {
         return $this->store('drm_historique', array($this, 'getDRMHistoriqueAbstract'));
     }
 
-    public function isRectificative() {
-
-        return $this->exist('rectificative') && $this->rectificative > 0;
-    }
-
     public function isRectificable() {
         if (!$this->isValidee()) {
 	       
            return false;
         }
 
-        if ($drm = DRMClient::getInstance()->findLastByIdentifiantAndCampagne($this->identifiant, $this->campagne, acCouchdbClient::HYDRATE_JSON)) {
+        if ($drm = DRMClient::getInstance()->findLastByIdentifiantAndPeriode($this->identifiant, $this->periode, acCouchdbClient::HYDRATE_JSON)) {
 
             return $drm->_id == $this->get('_id');
         }
@@ -201,15 +210,26 @@ class DRM extends BaseDRM {
             throw new sfException('This DRM is not rectificable, maybe she was already rectificate');
         }
 
-        if(!$drm_rectificative->exist('rectificative')) {
-            $drm_rectificative->add('rectificative', 0);
-        }
-
-        $drm_rectificative->rectificative += 1;
+        $drm_rectificative->version = DRMClient::buildVersion($this->getRectificative() + 1, 0);
 	    $drm_rectificative->devalide();
         $drm_rectificative->etape = 'ajouts_liquidations';
 
         return $drm_rectificative;
+    }
+
+    public function generateModificative() {
+        $drm_modificative = clone $this;
+
+        if(!$this->isModifiable()) {
+
+            throw new sfException('This DRM is not modifiable, maybe she was already rectificate');
+        }
+
+        $drm_rectificative->version = DRMClient::buildVersion($this->getRectificative(), $this->getModificative() + 1);
+        $drm_modificative->devalide();
+        $drm_modificative->etape = 'ajouts_liquidations';
+
+        return $drm_modificative;
     }
 
     public function getPrecedente() {
@@ -223,11 +243,11 @@ class DRM extends BaseDRM {
     }
 
     public function getSuivante() {
-       $date_campagne = new DateTime($this->getAnnee().'-'.$this->getMois().'-01');
-       $date_campagne->modify('+1 month');
-       $next_campagne = DRMClient::getInstance()->getCampagne($date_campagne->format('Y'), $date_campagne->format('m'));
+       $date_periode = new DateTime($this->getAnnee().'-'.$this->getMois().'-01');
+       $date_periode->modify('+1 month');
+       $next_periode = DRMClient::getInstance()->buildPeriode($date_periode->format('Y'), $date_periode->format('m'));
 
-       $next_drm = DRMClient::getInstance()->findLastByIdentifiantAndCampagne($this->identifiant, $next_campagne);
+       $next_drm = DRMClient::getInstance()->findLastByIdentifiantAndPeriode($this->identifiant, $next_periode);
        if (!$next_drm) {
 
            return null;
@@ -281,7 +301,7 @@ class DRM extends BaseDRM {
             throw new sfException("You can not recover the master of a non rectificative drm");
         }
 
-        return DRMClient::getInstance()->findByIdentifiantCampagneAndRectificative($this->identifiant, $this->campagne, $this->rectificative - 1, $hydrate);    
+        return DRMClient::getInstance()->findByIdentifiantPeriodeAndRectificative($this->identifiant, $this->periode, $this->rectificative - 1, $hydrate);    
     }
 
     public function getDiffWithMasterDRM() {
@@ -354,8 +374,8 @@ class DRM extends BaseDRM {
     }
 
     public function save() {
-        if (!preg_match('/^2\d{3}-[01][0-9]$/', $this->campagne)) {
-            throw new sfException('Wrong format for campagne ('.$this->campagne.')');
+        if (!preg_match('/^2\d{3}-[01][0-9]$/', $this->periode)) {
+            throw new sfException('Wrong format for periode ('.$this->periode.')');
         }
         if ($user = $this->getUser()) {
         	if ($user->hasCredential(myUser::CREDENTIAL_ADMIN)) {
@@ -390,7 +410,8 @@ class DRM extends BaseDRM {
     }
 
     protected function getDRMHistoriqueAbstract() {
-        return new DRMHistorique($this->identifiant, $this->campagne);
+        
+        return new DRMHistorique($this->identifiant, $this->periode);
     }
 
     private function getTotalDroit($type) {
@@ -413,7 +434,7 @@ class DRM extends BaseDRM {
     }
 
     private function setDroit($type, $appellation) {
-        $configurationDroits = $appellation->getConfig()->interpro->get($this->getInterpro()->get('_id'))->droits->get($type)->getCurrentDroit($this->campagne);
+        $configurationDroits = $appellation->getConfig()->interpro->get($this->getInterpro()->get('_id'))->droits->get($type)->getCurrentDroit($this->periode);
         $droit = $appellation->droits->get($type);
         $droit->ratio = $configurationDroits->ratio;
         $droit->code = $configurationDroits->code;
@@ -427,7 +448,7 @@ class DRM extends BaseDRM {
     public function getHumanDate() {
 	   setlocale (LC_TIME, 'fr_FR.utf8','fra'); 
 	   
-       return strftime('%B %Y', strtotime($this->campagne.'-01'));
+       return strftime('%B %Y', strtotime($this->periode.'-01'));
     }
     public function getEuValideDate() {
 	   return strftime('%d/%m/%Y', strtotime($this->valide->date_signee));

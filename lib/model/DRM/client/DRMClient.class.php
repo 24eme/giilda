@@ -21,23 +21,60 @@ class DRMClient extends acCouchdbClient {
       return acCouchdbManager::getClient("DRM");
     }
 
-    public function getId($identifiant, $campagne, $rectificative = null) {
-      return 'DRM-'.$identifiant.'-'.$this->getCampagneAndRectificative($campagne, $rectificative);
+    public function buildId($identifiant, $periode, $version = null) {
+
+      return 'DRM-'.$identifiant.'-'.$this->buildPeriodeAndVersion($periode, $version);
     }
 
-    public function getCampagne($annee, $mois) {
+    public function buildVersion($rectificative, $modificative) {
+
+    }
+
+    public function buildCampagne($periode) {
+      $annee = $this->getAnnee($periode);
+      $mois = $this->getMois($periode);
+      if ($annee.$mois < $annee.'08') {
+        
+        return ($annee-1).'-'.$annee;
+      } else {
+        
+        return $annee.'-'.($annee+1);
+      }
+    }
+
+    public function buildPeriode($annee, $mois) {
 
       return sprintf("%04d-%02d", $annee, $mois);
     }
 
-    public function getAnnee($campagne) {
+    public function buildPeriodeAndVersion($periode, $version) {
+      if($version) {
+        return sprintf('%s-%s', $periode, $version);
+      }
 
-      return preg_replace('/([0-9]{4})-([0-9]{2})/', '$1', $campagne);
+      return $periode;
     }
 
-    public function getMois($campagne) {
+    public function getAnnee($periode) {
 
-      return preg_replace('/([0-9]{4})-([0-9]{2})/', '$2', $campagne);
+      return preg_replace('/([0-9]{4})-([0-9]{2})/', '$1', $periode);
+    }
+
+    public function getMois($periode) {
+
+      return preg_replace('/([0-9]{4})-([0-9]{2})/', '$2', $periode);
+    }
+
+    public function getPeriodeSuivante($periode) {
+      $nextMonth = $this->getMois($periode) + 1;
+      $nextYear = $this->getAnnee($periode);
+
+      if ($nextMonth > 12) {
+        $nextMonth = 1;
+        $nextYear++;
+      }
+      
+      return $this->buildPeriode($nextYear, $nextMonth);
     }
     
     public function getDetailsDefaultDate() {
@@ -47,15 +84,10 @@ class DRMClient extends acCouchdbClient {
         return date("t",$mois).'/'.$dateArr[0].'/'.$dateArr[1];
     }
 
-    public function getCampagneAndRectificative($campagne, $rectificative = null) {
-      if($rectificative  && $rectificative > 0) {
-        return $campagne.'-R'.sprintf("%02d", $rectificative);
-      } 
-      return $campagne;
-    }
 
-    public function findLastByIdentifiantAndCampagne($identifiant, $campagne, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-      $drms = $this->viewByIdentifiantCampagne($identifiant, $campagne);
+
+    public function findLastByIdentifiantAndPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      $drms = $this->viewByIdentifiantPeriode($identifiant, $periode);
 
       foreach($drms as $id => $drm) {
 
@@ -65,19 +97,19 @@ class DRMClient extends acCouchdbClient {
       return null;
     }
 
-    public function findByIdentifiantCampagneAndRectificative($identifiant, $campagne, $rectificative = null, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+    public function findByIdentifiantPeriodeAndVersion($identifiant, $periode, $version = null, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
 
-      return $this->find($this->getId($identifiant, $campagne, $rectificative, $hydrate));
+      return $this->find($this->buildId($identifiant, $periode, $version, $hydrate));
     }
     
-    public function retrieveOrCreateByIdentifiantAndCampagne($identifiant, $annee, $mois, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-      if ($obj = $this->findLastByIdentifiantAndCampagne($identifiant, $this->getCampagne($annee, $mois), $hydrate)) {
+    public function findOrCreateByIdentifiantAndPeriode($identifiant, $annee, $mois, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      if ($obj = $this->findLastByIdentifiantAndPeriode($identifiant, $this->getPeriode($annee, $mois), $hydrate)) {
         return $obj;
       }
 
       $obj = new DRM();
       $obj->identifiant = $identifiant;
-      $obj->campagne = $this->getCampagne($annee, $mois);
+      $obj->periode = $this->getPeriode($annee, $mois);
       
       return $obj;
     }
@@ -85,17 +117,17 @@ class DRMClient extends acCouchdbClient {
     public function findByInterproDate($interpro, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
       $drm = array();
       foreach ($this->viewByInterproDate($interpro, $date) as $id => $key) {
-	$drm[] = $this->find($id);
+	      $drm[] = $this->find($id);
       }
       return $drm;
     }
 
     protected function viewByInterproDate($interpro, $date) {
       $rows = acCouchdbManager::getClient()
-	->startkey(array($interpro, $date))
-	->endkey(array($interpro, array()))
-	->getView("drm", "date")
-	->rows;
+	               ->startkey(array($interpro, $date))
+	               ->endkey(array($interpro, array()))
+	               ->getView("drm", "date")
+	               ->rows;
 
       $drms = array();
 
@@ -106,9 +138,9 @@ class DRMClient extends acCouchdbClient {
       return $drms;
     }
 
-    protected function viewByIdentifiantCampagne($identifiant, $campagne) {
-      $annee = $this->getAnnee($campagne);
-      $mois = $this->getMois($campagne);
+    protected function viewByIdentifiantPeriode($identifiant, $periode) {
+      $annee = $this->getAnnee($periode);
+      $mois = $this->getMois($periode);
 
       $rows = acCouchdbManager::getClient()
             ->startkey(array($identifiant, $annee, $mois))
@@ -165,13 +197,12 @@ class DRMClient extends acCouchdbClient {
     return $result;
   }
 
-    
-    public function createDoc($identifiant, $campagne = null) {
+    public function createDoc($identifiant, $periode = null) {
         $historique = new DRMHistorique($identifiant);
-        if (!$campagne) {
+        if (!$periode) {
             $drm = $this->createNewDoc($historique);
         } else {
-            $drm = $this->createDocByCampagne($historique, $campagne);
+            $drm = $this->createDocByPeriode($historique, $periode);
         }
         return $drm;
     }
@@ -181,35 +212,36 @@ class DRMClient extends acCouchdbClient {
         $lastDRM = $historique->getLastDRM();
         if ($lastDRM && $drm = DRMClient::getInstance()->find(key($lastDRM))) {
             if ($drm->isValidee()) {
-                $drm = $drm->generateSuivante($this->getCurrentCampagne());
+                $drm = $drm->generateSuivante($this->getCurrentPeriode());
             }
         } else {
             $drm = new DRM();
             $drm->identifiant = $historique->getIdentifiant();
-            $drm->campagne = $this->getCurrentCampagne();
+            $drm->periode = $this->getCurrentPeriode();
         }
         return $drm;
     }
     
-    private function createDocByCampagne($historique, $campagne)
+    private function createDocByPeriode($historique, $periode)
     {
-        $prev_drm = $historique->getPrevByCampagne($campagne);
-        $next_drm = $historique->getNextByCampagne($campagne);
+        $prev_drm = $historique->getPrevByPeriode($periode);
+        $next_drm = $historique->getNextByPeriode($periode);
         if ($prev_drm) {
            $prev_drm = DRMClient::getInstance()->find($prev_drm[DRMHistorique::VIEW_INDEX_ID]);
-           $drm = $prev_drm->generateSuivante($campagne);
+           $drm = $prev_drm->generateSuivante($periode);
         } elseif ($next_drm) {
            $next_drm = DRMClient::getInstance()->find($next_drm[DRMHistorique::VIEW_INDEX_ID]);
-           $drm = $next_drm->generateSuivante($campagne, false);
+           $drm = $next_drm->generateSuivante($periode, false);
         } else {
             $drm = $this->createNewDoc($historique);
-            $drm->campagne = $campagne;
+            $drm->periode = $periode;
         }
         return $drm;
     }
     
-    public function getCurrentCampagne() {
-      return CurrentClient::getCurrent()->campagne;
+    public function getCurrentPeriode() {
+
+      return date('Y-m');
     }
 
 }

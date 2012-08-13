@@ -64,10 +64,10 @@ class drmComponents extends sfComponents {
     }
 
     public function executeHistoriqueItem() {
-        $this->campagne_rectificative = DRMClient::getInstance()->getCampagneAndRectificative($this->drm[DRMHistorique::VIEW_INDEX_ANNEE].'-'.$this->drm[DRMHistorique::VIEW_INDEX_MOIS], $this->drm[DRMHistorique::VIEW_INDEX_RECTIFICATIVE]);
+        $this->periode_version = DRMClient::getInstance()->buildPeriodeAndVersion($this->drm[DRMHistorique::VIEW_PERIODE], $this->drm[DRMHistorique::VIEW_INDEX_RECTIFICATIVE]);
     	$this->etablissement_identifiant = $this->drm[DRMHistorique::VIEW_INDEX_ETABLISSEMENT];
         $this->valide = $this->drm[DRMHistorique::VIEW_INDEX_STATUS] && $this->drm[DRMHistorique::VIEW_INDEX_STATUS] > 0;
-        $this->titre = $this->drm[DRMHistorique::VIEW_INDEX_ANNEE].'-'.$this->drm[DRMHistorique::VIEW_INDEX_MOIS];
+        $this->titre = $this->drm[DRMHistorique::VIEW_PERIODE];
         if($this->drm[DRMHistorique::VIEW_INDEX_RECTIFICATIVE]) {
             $this->titre .= ' R'.$this->drm[DRMHistorique::VIEW_INDEX_RECTIFICATIVE];
         }
@@ -83,7 +83,7 @@ class drmComponents extends sfComponents {
         }
         $this->futurDRM = current($this->historique->getFutureDRM());
         $this->hasNewDRM = false;
-        if (CurrentClient::getCurrent()->campagne >= ($this->futurDRM[1].'-'.$this->futurDRM[2]) && !$this->historique->hasDRMInProcess()) {
+        if (DRMClient::getInstance()->getCurrentPeriode() >= ($this->futurDRM[DRMHistorique::VIEW_PERIODE]) && !$this->historique->hasDRMInProcess()) {
             $this->hasNewDRM = true;
             if (isset($this->limit)) {
                 $this->limit--;
