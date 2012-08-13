@@ -127,6 +127,6 @@ class Vrac extends BaseVrac {
 
     public function __toString() {
 
-        return sprintf("%s", $this->identifiant);
+        return sprintf("%s", $this->numero_contrat);
     }
 }
