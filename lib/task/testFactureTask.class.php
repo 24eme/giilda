@@ -36,8 +36,8 @@ EOF;
 
     // add your code here
     $facture = new Facture();
-    $facture->_id = 'FACTURE-20120201-110001';
-    $facture->identifiant = '20120201-110001';
+    $facture->_id = 'FACTURE-110001-2012020101';
+    $facture->identifiant = '2012020101';
     $facture->date_emission = '2012-02-01';
     $facture->campagne = '2011-2012';
     $facture->emetteur->adresse = "Chateau InterLoire";

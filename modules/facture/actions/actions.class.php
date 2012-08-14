@@ -23,6 +23,7 @@ class factureActions extends sfActions {
         $this->setLayout(false);
         
         $this->facture = FactureClient::getInstance()->findByEtablissementAndId($this->getRoute()->getEtablissement()->identifiant, $request->getParameter('factureid'));
+        $this->forward404Unless($this->facture);
         
         $this->lignesPropriete = $this->getFactureLignesByMouvementType($this->facture,'propriete');
         $this->lignesContrat = $this->getFactureLignesByMouvementType($this->facture,'contrat');
