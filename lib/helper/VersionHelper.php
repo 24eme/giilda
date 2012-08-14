@@ -18,5 +18,5 @@ function versionnerCssClass() {
 
 function isVersionner($object, $key) {
 
-    return $object->getDocument()->isModifiedMother($object->getHash(), $key);
+    return !$object->getDocument()->isValidee() && $object->getDocument()->isModifiedMother($object->getHash(), $key);
 }

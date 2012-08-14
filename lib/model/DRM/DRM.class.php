@@ -422,7 +422,7 @@ class DRM extends BaseDRM {
 
             return false;
         }
-        $hash = ($hash_or_object instanceof acCouhdbJson) ? $hash_or_object->getHash() : $hash_or_object;
+        $hash = ($hash_or_object instanceof acCouchdbJson) ? $hash_or_object->getHash() : $hash_or_object;
         $hash .= ($key) ? "/".$key : null;
 
         return array_key_exists($hash, $this->getDiffWithMother());

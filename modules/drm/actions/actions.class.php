@@ -88,7 +88,7 @@ class drmActions extends sfActions
 		  $this->redirect('drm_informations', $drm);
   	  	}
       }*/
-      $this->mouvements = DRMMouvementsView::getInstance()->getMouvements($this->getRoute()->getEtablissement()->identifiant);
+      $this->mouvements = DRMMouvementsView::getInstance()->getMouvementsByEtablissement($this->getRoute()->getEtablissement()->identifiant);
   }
 
 
@@ -176,6 +176,7 @@ class drmActions extends sfActions
   public function executeValidation(sfWebRequest $request)
   {
     $this->drm = $this->getRoute()->getDRM();
+                                    
    /* $this->drmValidation = new DRMValidation($this->drm);
     $this->form = new DRMValidationForm(array(), array('engagements' => $this->drmValidation->getEngagements()));*/
     if ($request->isMethod(sfWebRequest::POST)) {
@@ -187,13 +188,6 @@ class drmActions extends sfActions
       $this->drm->validate();
       $this->drm->save();
 	  
-      if ($this->drm->needNextRectificative()) {
-        $drm_rectificative_suivante = $this->drm->generateRectificativeSuivante();
-        if ($drm_rectificative_suivante) { 
-          $drm_rectificative_suivante->save();
-        }
-      }
-
      $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant, 
                                                 'periode_version' => $this->drm->getPeriodeAndVersion(), 
                                                 'hide_rectificative' => 1));
@@ -216,6 +210,7 @@ class drmActions extends sfActions
     $this->drm = $this->getRoute()->getDRM();
     $this->hide_rectificative = $request->getParameter('hide_rectificative');
     $this->drm_suivante = $this->drm->getSuivante();
+    $this->mouvements = DRMMouvementsView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode); 
   }
 
   public function executeRectificative(sfWebRequest $request)

@@ -274,14 +274,20 @@ class DRMDetail extends BaseDRMDetail {
 
           continue;
         }
+        
         $mouvements[] = $this->createMouvement($hash."/".$key, $volume, $coefficient);
       }
     }
 
-    return $mouvements;
+    return array_filter($mouvements);
   }
 
   public function createMouvement($hash, $volume, $coefficient, $detail = null) {
+    if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($this, $hash)) {
+
+      return false;
+    }
+
     $mouvement = DRMMouvement::freeInstance($this->getDocument());
     $mouvement->produit_hash = $this->getHash();
     $mouvement->produit_libelle = $this->getLibelle("%g% %a% %l% %co% %ce% %la%");

@@ -9,17 +9,17 @@
                 <th style="font-weight: bold; border: none;">Détail</th>
             </tr>
         </thead>
-    <?php $i = 1; ?>
-    <?php foreach($mouvements as $mouvement): ?>
-    <?php $i++; ?>
         <tbody>
+        <?php $i = 1; ?>
+        <?php foreach($mouvements as $mouvement): ?>
+        <?php $i++; ?>
             <tr <?php if($i%2!=0) echo ' class="alt"'; ?>>
                 <td><?php echo $mouvement->produit_libelle ?></td>
                 <td><?php echo $mouvement->type_libelle ?></td>
                 <td><?php echoFloat($mouvement->volume) ?></td>
                 <td><?php echo $mouvement->detail_libelle ?></td>
             </tr>
+        <?php endforeach; ?>
         </tbody>
-    <?php endforeach; ?>
     </table>
 </div>
