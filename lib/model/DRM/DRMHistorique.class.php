@@ -151,7 +151,7 @@ class DRMHistorique
 			if ($drm[self::VIEW_PERIODE] <= $periode) {
 
 				return null;	
-			} elseif (is_null($drm[self::VIEW_INDEX_RECTIFICATIVE])) {
+			} elseif (is_null($drm[self::VIEW_INDEX_STATUS])) {
 				
 				return $drm;
 			}

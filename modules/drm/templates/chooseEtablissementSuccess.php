@@ -1,14 +1,30 @@
 <div id="contenu" class="drm">
+    
+    <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane">
-            <a href=""><strong>Page d'accueil</strong></a>
-        </p>
-        <div id="etablissement" class="section_label_maj recherche_etablissement">
-            <label>Selectionner un établissement</label>
-            <?php include_component('drm', 'chooseEtablissement', array('form' => $form)); ?>
+        <p id="fil_ariane"><strong>Page d'accueil</strong></p>
+        
+        <!-- #contenu_etape -->
+        <section id="contenu_etape">
+            <?php include_component('drm', 'chooseEtablissement'); ?>
+                </section>
+        <!-- fin #contenu_etape -->
+        </section>
+    <!-- fin #principal -->
+    
+    <!-- #colonne -->
+    <aside id="colonne">
+        <div class="bloc_col" id="contrat_aide">
+            <h2>Aide</h2>
+            
+            <div class="contenu">
+                <ul>
+                    <li class="raccourcis"><a href="#">Raccourcis clavier</a></li>
+                    <li class="assistance"><a href="#">Assistance</a></li>
+                    <li class="contact"><a href="#">Contacter le support</a></li>
+                </ul>
+            </div>
         </div>
-        <div id="historique">
-            <h2>Historique</h2>
-        </div>
-    </section>
+    </aside>
+    <!-- fin #colonne -->
 </div>

@@ -69,12 +69,12 @@
 
             <!-- <p><input type="text" value="0" class="num num_float somme_stock_fin" readonly="readonly" /></p>  -->
             <div class="groupe p_gris" data-groupe-id="4">
-                <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total') ?>">
+                <p class="itemcache <?php echo isVersionnerCssClass($form->getObject(), 'total') ?>">
                     <input type="text" value="<?php echo $form->getObject()->total ?>" class="num num_float somme_groupe" readonly="readonly" data-val-defaut="<?php echo sprintFloat($form->getObject()->total) ?>" />
                 </p>
                 <ul>
                     <?php foreach($form['stocks_fin'] as $key => $subform): ?>
-                    <li class="<?php echo isVersionnerCssClass($form->getObject()->stocks_fin, $key); if($key == 'revendique') echo "li_gris"; ?>">
+                    <li class="<?php echo isVersionnerCssClass($form->getObject()->stocks_fin, $key); if($key == 'revendique') echo "li_gris"; if ($key != 'revendique') { echo ' itemcache';} ?>">
                         <?php if($key == 'revendique'): ?>
                             <?php echo $form['stocks_fin'][$key]->render(array('data-val-defaut' => $form['stocks_fin'][$key]->getValue(),
                                                                         'class' => 'num num_float somme_detail somme_stock_fin')) ?>

@@ -3,7 +3,6 @@
     <nav>
         <ul>
             <li class="actif"><span>Vue calendaire</span></li>
-            <li><a href="">Facturation</a></li>
             <li><a href="">Vue des mouvements</a></li>
         </ul>
     </nav>
