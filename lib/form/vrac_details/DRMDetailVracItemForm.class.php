@@ -40,7 +40,7 @@ class DRMDetailVracItemForm extends acCouchdbObjectForm {
 
         return array_merge(
                 array("" => ""),
-                DRMClient::getInstance()->getContratsFromProduit('ETABLISSEMENT-'.$this->getObject()->getDocument()->identifiant, 
+                DRMClient::getInstance()->getContratsFromProduit($this->getObject()->getDocument()->identifiant, 
                                                                 $this->getObject()->getDetail()->getCepage()->getHash())
                 );
     }
