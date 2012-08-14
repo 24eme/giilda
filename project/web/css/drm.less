@@ -389,7 +389,7 @@ p#date_drm
 	{
 		h2
 		{
-            .z1;
+                        .z1;
 			background: @couleur-b1;
 			color: #fff;
 			cursor:  pointer;
@@ -399,7 +399,7 @@ p#date_drm
 
 			span
 			{
-                .z1;
+                                .z1;
 				background: url('../images/fonds/bg_ancienne_drm_titre.png') right 0 no-repeat;
 				display: block;
 				padding: 4px 15px 0;
@@ -658,11 +658,12 @@ p#date_drm
 	@marge-col-saisie: 25px;
 	
 	.clearfix;
-	.border(@couleur-a5);
-	
+	border-top: 1px solid #ECEBEB;
+
 	background: #fff;
-	margin: 0 0 15px;
-	padding: 15px;
+	
+        margin: 0 10px 0 0;
+        padding-top: 15px;
 		
 	.col_curseur { font-size: 1px; }
 	
@@ -675,48 +676,52 @@ p#date_drm
 		margin-right: @marge-col-saisie;
 		position: relative;
 		width: 280px;
+                border-right:1px solid @couleur-a10;
 		
 		p 
 		{
-			background: @couleur-couleur-a1 8px 5px no-repeat;
-			.border(@couleur-a5);
 			margin: 0 0 10px;
-			padding: 0 8px;
-			
-			/*&.couleur { padding: 4px 8px; }*/
-			&.label { /*margin-bottom: 40px;*/ }
+			font-weight: bold;
+                        padding : 0 5px;
 		}
-		
+
+               	
 		.groupe
 		{
 			margin: 0 0 10px;
-			text-align: right;
 			
 			p 
 			{
-				background-color: @couleur-a1;
-				background-image: url(../images/puces/fleche_col_groupe_ferme.png);
+				background: url(../images/pictos/fleche_col_groupe_ferme.png) no-repeat 190px 13px #ECEBEB;
 				cursor: pointer;
 				font-weight: bold;
-				padding-left: 20px;
+                                border: 1px solid @couleur-a10;
+                                border-width: 1px 0;
+                                padding: 10px 5px;
 			}
-			
-			&.groupe_ouvert p
-			{
-				background-image: url(../images/puces/fleche_col_groupe_ouvert.png);
-				background-position: 8px 6px;
-				margin: 0;
-			}
-			
+
+                        &.groupe_ouvert
+                        {
+                                p{
+                                        background: url(../images/pictos/fleche_col_groupe_ouvert.png) no-repeat 188px 12px #ECEBEB !important;
+                                        margin: 0 0 10px;
+                                }
+
+                                ul { 
+                                        padding:0;
+
+                                        li{ padding-left: 10px; }
+                                }
+                        }
+						
 			ul 
 			{
-				color: @couleur-b1;
 				font-size: 12px;
-				padding: 10px 9px 0 0;
+				padding: 10px 0 0 0px;
 				
 				li 
                                 { 
-                                        margin: 0 0 10px; 
+                                        margin: 0 0 5px; 
                                         
                                         .unite{ font-size: 10px; }
 
@@ -744,8 +749,9 @@ p#date_drm
 		padding: 0 0 10px;
 		position: relative;
 		overflow-x: auto;
-		width: (@largeur-col-saisie + @marge-col-saisie) * 4;
-		
+		/*width: (@largeur-col-saisie + @marge-col-saisie) * 3;*/
+		width:428px;
+
 		.col_saisies_cont
 		{
 			.clearfix;
@@ -756,7 +762,7 @@ p#date_drm
 	{
 		float: left;
 		font-size: 13px;
-    	line-height: 20px;
+                line-height: 20px;
 		margin-right: @marge-col-saisie;
 		position: relative;
 		width: @largeur-col-saisie;
@@ -767,17 +773,16 @@ p#date_drm
 			.border(@couleur-a5);
 			color: @couleur-a3;
 			text-align: right;
-			
+			height: 20px;
+                        width: 106px;
 			&:hover, &:focus { border-color: #777; }
 		}
 		
 		input
 		{
-			height: 16px;
 			padding: 2px 5px 0;
 			position: relative;
-			top: -1px;
-			width: @largeur-col-saisie - 26px; /* largeur col - padding et bordure col - padding et bordure input */
+			/*width: @largeur-col-saisie - 26px; /* largeur col - padding et bordure col - padding et bordure input */
 			
 			&.somme,
 			&.somme_groupe,
@@ -810,28 +815,56 @@ p#date_drm
 		
 		h2
 		{
-			background: @couleur-b1;
-			color: #fff;
-			padding: 1px 8px;
+			background: @couleur-a5;
+                        .border-radius(5px 5px 0px 0px );
+                        .border(@couleur-a10);
 			text-align: center;
+                        margin : 0 !important;
+                        font-size : 12px !important;
+                        text-transform:none !important;
+                        width:120px;
 		}
 		
+                .p_gris{
+                        
+                        p{
+                                background: @couleur-a5;
+                                height:42px !important;
+                                border: 1px solid @couleur-a10;
+                                border-width: 1px 0;
+                                
+                                input{
+                                        margin-top:10px;
+                                        &[readonly]
+                                        {
+                                                background: @couleur-a5;
+                                                color: @couleur-a3;
+                                                border:0;
+                                                .box-shadow(none);
+                                        }
+                                }
+                        }
+                }
+
+                
+
 		.col_cont
 		{
 			background: @couleur-a1;
-			.border(@couleur-a5);
+			.border(@couleur-a10);
+                        .border-radius(0px 0px 5px 5px);
 			border-width: 0 1px 1px;
-			padding: 10px 6px;
+			padding: 10px 0;
+                        width:120px;
 			
 			p
 			{
 				height: 20px;
-				text-align: right;
-				padding: 1px 0;
+				padding: 1px 6px;
 				margin: 0 0 10px;
 				overflow: hidden;
 				zoom: 1;
-				
+
 				&.label
 				{
 					height: auto;
@@ -843,18 +876,19 @@ p#date_drm
 			{
 				margin: 0 0 10px;
 				
-				&.groupe_ouvert { margin: 0; }
+				&.groupe_ouvert { margin: 0 0 10px; }
 				
-				p { margin: 0; }
+				p { margin: 0 0 10px; }
 				ul 
 				{
-					padding: 10px 0 0;
+					
 					
 					li
 					{
 						height: 20px;
-						margin: 0 0 10px;
+						margin: 0 0 5px;
 						overflow: hidden;
+                                                padding: 0 6px;
 						zoom: 1;
 					}
 				}
@@ -870,15 +904,12 @@ p#date_drm
 			{
 				/*.btn_col_active { display: none; }*/
 				visibility: hidden;
-				
+				padding: 0 5px;
 				button
 				{
-					/*font-size: 12px;
-					font-weight: bold;
-					height: 20px;
-					line-height: 20px;
-					margin: 0 0 3px;
-					padding: 0 5px;*/
+					margin-top: 10px;
+                                        width: 106px;
+                                        padding: 0 5px;
 				}
 				
 				.btn_modifier,
@@ -927,7 +958,16 @@ p#date_drm
 		&.col_focus,
 		&.col_active
 		{
-			.col_cont { border-color: #777; }
+			.col_cont { border-color: @couleur-c1; }
+                        h2 { 
+                                border-color: @couleur-c1; 
+                                background: url(../images/fonds/bg_degrade-orange.png) repeat-x @couleur-c2 !important;
+
+                                color: #ffffff; 
+                                .text-shadow(1px 1px rgba(214, 146, 10, 0.7)); 
+                                font-weight:bold; 
+                                margin : 0 !important;
+                        }
 		}
 		
 		&.col_active
@@ -960,6 +1000,25 @@ p#date_drm
 		height: 22px;
 		line-height: 22px;
 	}
+
+        input.btn_detail, input.btn_detail[readonly]{
+                background: url("../images/pictos/pi_actions.png") no-repeat scroll 7px -235px #FFFFFF;
+                .border(@couleur-a9);
+                .border-radius(4px);
+                height: 30px;
+                padding-left: 35px;
+                width: 106px;
+                .box-shadow(0 -2px 8px rgba(0, 0, 0, 0.15) inset);
+                font-weight:bold;
+                color:@couleur-a3;
+        }
+        
+        
+
+        .btn_detail:focus, .btn_detail:hover{
+            border : none;
+            cursor:pointer;
+        }
 }
 
 
@@ -1062,51 +1121,16 @@ p#date_drm
 		}
 	}
 	
-	#btn_etape_dr .btn_suiv span { text-transform:uppercase; }
-
 	.error_daa{ float:left; }
 	
 	#organisme { display:none; }
 }
 
-/**
- * Boutons étape
- ******************************************/
-.btn_passer_etape
-{
-	background: url("../images/boutons/btn_fleche.png") no-repeat scroll 0 0 @couleur-b3;
-        border: 1px solid #d9d9d9;
-        color: #3e3e3e;
-        float: right;
-        font-size: 11px;
-        font-weight: bold;
-        height: 23px;
-        line-height: 21px;
-        margin: 0 0 0 15px;
-        padding: 0 7px 0 30px;
-        text-transform: uppercase;
+#btn_etape_dr{
+        margin-top : 10px;
+        .btn_etape_suiv { float:right; } 
 
-        .clearfix;
-
-        &.rectificative { margin: -30px 0 0 15px; }
-
-	&:hover { text-decoration: none; }
-
-}
-
-#ajouts_liquidations #stock_epuise{
-    
-        .btn_gris;
-        padding : 1px 10px;
-}
-
-#btn_etape_dr
-{
-	
-	text-transform: uppercase;
-        z-index:1;
-	.clearfix;
-}
+ }
 
 .inactif { visibility: hidden; }
 
@@ -1154,11 +1178,85 @@ p#date_drm
                                                                                }
 }    
 
-.drm #principal{
+.drm{ 
+        
+        #principal{
+            
+            width : 700px !important;
+            padding: 20px 15px 0 10px;
 
-        .recherche_etablissement{
-                background: none repeat scroll 0 0 #ECEBEB;
-                padding: 10px 10px 30px;
-        }
+            #rail_etapes li a {
+                    padding: 0 55px;
+            }
+
+            h2{
+                    font-size: 15px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    margin:20px 0;
+            }
+
+            .recherche_etablissement{
+                    background: none repeat scroll 0 0 #ECEBEB;
+                    padding: 10px 10px 30px;
+            }
+
+            #rail_etapes{
+                    margin:20px 10px;
+            }
+
+            .popup_raccourcis{
+                    float:right;
+                    position: relative;
+            }
+
+            #recap_infos_header{
+                    label{
+                            display: inline-block;
+                            font-weight: bold;
+                            width: 145px;
+                    }
+            }
+
+            #application_dr{
+                    width :675px;
+                    .border-radius(5px 5px 5px 5px);
+                    .border(#e3e2e2);
+
+                    #form_produit_declaration{ 
+                            padding: 10px;
+                            label{ width : 200px;}
+                            .ui-autocomplete-input{ width : 450px !important;}
+                    }
+
+                    .titre_produit{
+                            background-color: @couleur-a5;
+                    }
+            }
+
+            .li_gris{
+                    background: @couleur-a5;
+                    border: 1px solid @couleur-a10;
+                    border-width: 1px 0;
+                    height:35px !important;
+                    input{
+                                    margin-top:7px;
+                                    &[readonly]
+                                    {
+                                            background: @couleur-a5;
+                                            color: @couleur-a3;
+                                            border:0;
+                                            .box-shadow(none);
+                                    }
+                            }
+            }
+
+            #colonne_intitules .li_gris{ 
+                    padding-top:5px;
+                    font-weight:bold;
+            }
+
+
+     }
     
 }
