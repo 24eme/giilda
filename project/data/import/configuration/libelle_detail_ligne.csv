@@ -1,6 +1,6 @@
 stocks_debut;instance;"En instance de revendication"
 stocks_debut;bloque;"Bloqué"
-stocks_debut;revendique;"Stock revendiqué début de mois"
+stocks_debut;revendique;"Stock revendiqué dbt de mois"
 entrees;achat;"Achat"
 entrees;recolte;"Revendiqué"
 entrees;transfert;"Transfert"
