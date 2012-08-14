@@ -117,7 +117,7 @@
    			\centering \small{\textbf{VOLUMES en Hl}} &
                         \centering \small{\textbf{Cotisation hl}} &
    			\centering \small{\textbf{Montant H.T Euros}} &
-   			\multicolumn{1}{c}{\rowcolor{lightgray} \small{\textbf{Code Echéance}}} \\
+   			\multicolumn{1}{c}{\small{\textbf{Code Echéance}}} \\
   
   			\hline
                 

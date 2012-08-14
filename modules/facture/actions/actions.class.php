@@ -31,27 +31,37 @@ class factureActions extends sfActions {
         $this->extTex = 'tex';
         $this->statut = $this->creerFichier($this->srcTexFilename, $this->extTex,  $this->srcPdf);
         
-        unlink("/tmp/".$this->srcTexFilename."*.pdf");
-        
-        $cmdCompileLatex = '/usr/bin/pdflatex -output-directory=/tmp/ -synctex=1 -interaction=nonstopmode '.$this->getLatexPath().$this->srcTexFilename.'.'.$this->extTex.' 2> /dev/null ; chown www-data '.$this->srcTexFilename.'.pdf';
+        $cmdCompileLatex = '/usr/bin/pdflatex -output-directory='.$this->getLatexTmpPath().' -synctex=1 -interaction=nonstopmode '.$this->getLatexPath().$this->srcTexFilename.'.'.$this->extTex.' 2> /dev/null';
 
-        $output = exec($cmdCompileLatex);
-        $pdfFile = $this->srcTexFilename.".pdf";
-        //print $output;
-        
-      //  $this->forward404Unless($this->);
+        $output = exec($cmdCompileLatex, $output, $ret);
+	if (!preg_match('/^Transcript written/', $output)) {
+	  throw new sfException($output);
+	}
+
+	if ($ret) {
+	  $log = file($this->getLatexTmpPath().$this->srcTexFilename.".log");
+	  $grep = preg_grep('/^!/', $log);
+	  array_unshift($grep, "/!\ Latex error\n");
+	  throw new sfException(implode(' ', $grep));
+	}
+
+        $pdfFile = $this->getLatexTmpPath().$this->srcTexFilename.".pdf";
         $attachement = "attachment; filename=".$pdfFile;
         header("content-type: application/pdf\n");
-        //header("content-length: ".filesize($pdfFile)."\n");
+        header("content-length: ".filesize($pdfFile)."\n");
         header("content-disposition: $attachement\n\n");
-        echo file_get_contents("/tmp/".$pdfFile);
-        unlink("/tmp/".$this->srcTexFilename.".aux");
-        unlink("/tmp/".$this->srcTexFilename.".log");
+        echo file_get_contents($pdfFile);
+        unlink($this->getLatexTmpPath().$this->srcTexFilename.".aux");
+	unlink("/tmp/".$this->srcTexFilename.".log");
         exit;
     }
     
     private function getLatexPath() {
-        return sfConfig::get('sf_root_dir')."/data/";
+        return sfConfig::get('sf_root_dir')."/data/latex/";
+    }
+    
+    private function getLatexTmpPath() {
+        return "/tmp/";
     }
     
     private function creerFichier($fichierNom, $fichierExtension, $fichierContenu, $droit=""){
@@ -62,6 +72,9 @@ class factureActions extends sfActions {
 
         // création du fichier sur le serveur
         $leFichier = fopen($fichierCheminComplet, "w");
+	if (!$leFichier) {
+	  throw new sfException("Cannot write on ".$fichierCheminComplet);
+	}
         fwrite($leFichier, html_entity_decode(htmlspecialchars_decode($fichierContenu),HTML_ENTITIES));
         fclose($leFichier);
 
