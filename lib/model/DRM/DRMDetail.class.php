@@ -166,7 +166,7 @@ class DRMDetail extends BaseDRMDetail {
   }
 
   public function hasContratVrac() {
-      $etablissement = 'ETABLISSEMENT-'.$this->getDocument()->identifiant;
+      $etablissement = $this->getDocument()->identifiant;
       $produit = $this->getCepage()->getHash();
       if(substr($produit, 0, 1) == "/") {
           $produit = substr($produit, 1);
@@ -179,7 +179,7 @@ class DRMDetail extends BaseDRMDetail {
   }
   
   public function getContratsVrac() {
-  	  $etablissement = 'ETABLISSEMENT-'.$this->getDocument()->identifiant;
+  	  $etablissement = $this->getDocument()->identifiant;
   	  return VracClient::getInstance()->retrieveFromEtablissementsAndHash($etablissement, $this->getHash());
   }
 
