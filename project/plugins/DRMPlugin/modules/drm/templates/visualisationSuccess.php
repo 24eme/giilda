@@ -26,7 +26,7 @@
         <?php endif; ?>
 
         <?php include_partial('drm/recap', array('drm' => $drm)) ?>
-        <?php include_partial('drm/mouvements', array('mouvements' => $drm->mouvements)) ?>
+        <?php include_partial('drm/mouvements', array('mouvements' => $mouvements)) ?>
 
         <div id="btn_etape_dr">
             <?php if ($drm_suivante && $drm_suivante->isRectificative()): ?>
