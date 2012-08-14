@@ -19,6 +19,14 @@ class FactureRouting {
 									 array('model' => 'Etablissement',
 									       'type' => 'object')
 									 ));
+        
+        $r->prependRoute('facture_latex', new EtablissementRoute('/facture/:identifiant/view/:factureid/latex', array('module' => 'facture', 
+													'action' => 'latex'),
+									 array('sf_method' => array('get','post')),
+									 array('model' => 'Etablissement',
+									       'type' => 'object')
+									 ));
+        
     }
 
 }

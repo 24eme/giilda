@@ -16,4 +16,10 @@ class FactureClient extends acCouchdbClient {
     {
       return acCouchdbManager::getClient("Facture");
     }  
+    
+    public function findByEtablissementAndId($idEtablissement,$idFacture)
+    {
+        return $this->find('FACTURE-'.$idFacture.'-'.$idEtablissement);
+        
+    }
 }
