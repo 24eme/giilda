@@ -18,5 +18,5 @@ function rectifierCssClass() {
 
 function isRectifier($object, $key) {
 
-	return $object->getDocument()->isModifiedMasterDRM($object->getHash(), $key);
+	return $object->getDocument()->isModifiedMother($object->getHash(), $key);
 }

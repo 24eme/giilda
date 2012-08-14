@@ -6,23 +6,12 @@ class DRMLightRoute extends sfRequestRoute {
 
 
 	protected function getDRMForParameters($parameters) {
+        $id = 'DRM-'.$parameters['identifiant'].'-'.$parameters['periode_version'];
 
-        if (preg_match('/^[0-9]{4}-[0-9]{2}$/', $parameters['periode_version'])) {
-            $periode = $parameters['periode_version'];
-            $rectificative = null;
-        } elseif(preg_match('/^([0-9]{4}-[0-9]{2})-R([0-9]{2})$/', $parameters['periode_version'], $matches)) {
-            $periode = $matches[1];
-            $rectificative = $matches[2];
-        } else {
-            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'periode_version', $parameters['periode_version']));
-        }
-
-        $drm = DRMClient::getInstance()->findByIdentifiantPeriodeAndVersion($parameters['identifiant'], 
-                                                                                   $periode, 
-                                                                                   $rectificative);
+        $drm = DRMClient::getInstance()->find($id);
 
         if (!$drm) {
-            throw new sfError404Exception(sprintf('No DRM found for this periode-version "%s".',  $parameters['periode_version']));
+            throw new sfError404Exception(sprintf("The document '%s' not found", $id));
         }
 	
 		if (isset($this->options['must_be_valid']) && $this->options['must_be_valid'] === true && !$drm->isValidee()) {

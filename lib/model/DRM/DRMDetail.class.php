@@ -183,9 +183,9 @@ class DRMDetail extends BaseDRMDetail {
   	  return VracClient::getInstance()->retrieveFromEtablissementsAndHash($etablissement, $this->getHash());
   }
 
-  public function isModifiedMasterDRM($key) {
+  public function isModifiedMother($key) {
     
-      return $this->getDocument()->isModifiedMasterDRM($this->getHash(), $key);
+      return $this->getDocument()->isModifiedMother($this->getHash(), $key);
   }
 
 
@@ -274,14 +274,20 @@ class DRMDetail extends BaseDRMDetail {
 
           continue;
         }
+        
         $mouvements[] = $this->createMouvement($hash."/".$key, $volume, $coefficient);
       }
     }
 
-    return $mouvements;
+    return array_filter($mouvements);
   }
 
   public function createMouvement($hash, $volume, $coefficient, $detail = null) {
+    if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($this, $hash)) {
+
+      return false;
+    }
+
     $mouvement = DRMMouvement::freeInstance($this->getDocument());
     $mouvement->produit_hash = $this->getHash();
     $mouvement->produit_libelle = $this->getLibelle("%g% %a% %l% %co% %ce% %la%");

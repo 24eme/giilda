@@ -18,6 +18,7 @@ class DRMClient extends acCouchdbClient {
      * @return DRMClient
      */
     public static function getInstance() {
+      
       return acCouchdbManager::getClient("DRM");
     }
 
@@ -28,6 +29,22 @@ class DRMClient extends acCouchdbClient {
 
     public function buildVersion($rectificative, $modificative) {
 
+      if ($rectificative && $modificative) {
+        
+        return sprintf('R%02dM%02d', $rectificative, $modificative);
+      }
+
+      if($rectificative) {
+
+        return sprintf('R%02d', $rectificative);
+      }
+
+      if($modificative) {
+
+        return sprintf('M%02d', $modificative);
+      }
+
+      return null;
     }
 
     public function buildCampagne($periode) {
@@ -86,7 +103,7 @@ class DRMClient extends acCouchdbClient {
 
 
 
-    public function findLastByIdentifiantAndPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+    public function findMasterByIdentifiantAndPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
       $drms = $this->viewByIdentifiantPeriode($identifiant, $periode);
 
       foreach($drms as $id => $drm) {
@@ -97,13 +114,19 @@ class DRMClient extends acCouchdbClient {
       return null;
     }
 
-    public function findByIdentifiantPeriodeAndVersion($identifiant, $periode, $version = null, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+    public function getMasterVersionOfRectificative($identifiant, $periode, $version_rectificative) {
+      $drms = $this->viewByIdentifiantPeriodeAndVersion($identifiant, $periode, $version_rectificative);
 
-      return $this->find($this->buildId($identifiant, $periode, $version, $hydrate));
+      foreach($drms as $id => $drm) {
+
+        return $drm[3];
+      }
+
+      return null;
     }
     
     public function findOrCreateByIdentifiantAndPeriode($identifiant, $annee, $mois, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-      if ($obj = $this->findLastByIdentifiantAndPeriode($identifiant, $this->getPeriode($annee, $mois), $hydrate)) {
+      if ($obj = $this->findMasterByIdentifiantAndPeriode($identifiant, $this->getPeriode($annee, $mois), $hydrate)) {
         return $obj;
       }
 
@@ -139,12 +162,32 @@ class DRMClient extends acCouchdbClient {
     }
 
     protected function viewByIdentifiantPeriode($identifiant, $periode) {
-      $annee = $this->getAnnee($periode);
-      $mois = $this->getMois($periode);
+      $campagne = $this->buildCampagne($periode);
 
       $rows = acCouchdbManager::getClient()
-            ->startkey(array($identifiant, $annee, $mois))
-              ->endkey(array($identifiant, $annee, $mois, array()))
+            ->startkey(array($identifiant, $campagne, $periode))
+              ->endkey(array($identifiant, $campagne, $periode, array()))
+              ->reduce(false)
+              ->getView("drm", "all")
+              ->rows;
+      
+      $drms = array();
+
+      foreach($rows as $row) {
+        $drms[$row->id] = $row->key;
+      }
+      
+      krsort($drms);
+      
+      return $drms;
+    }
+
+    protected function viewByIdentifiantPeriodeAndVersion($identifiant, $periode, $version_rectificative) {
+      $campagne = $this->buildCampagne($periode);
+
+      $rows = acCouchdbManager::getClient()
+            ->startkey(array($identifiant, $campagne, $periode, $version_rectificative))
+              ->endkey(array($identifiant, $campagne, $periode, $this->buildVersion($version_rectificative, 99)))
               ->reduce(false)
               ->getView("drm", "all")
               ->rows;
@@ -244,4 +287,21 @@ class DRMClient extends acCouchdbClient {
       return date('Y-m');
     }
 
+    public function generateVersionCascade($drm) {
+      if (!$drm->needNextVersion()) {
+
+        return array();
+      }
+      
+      $drm_version_suivante = $this->drm->generateNextVersion();
+      
+      if (!$drm_version_suivante) { 
+        return array();
+      }
+
+      $drm_version_suivante->save();
+
+      return array_merge($drm_version_suivante->get('_id'),
+                         $this->generateVersionCascade($drm_version_suivante));
+    }
 }

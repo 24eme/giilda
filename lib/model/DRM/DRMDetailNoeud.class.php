@@ -45,9 +45,9 @@ class DRMDetailNoeud extends BaseDRMDetailNoeud {
     parent::set($key, $value);
   }
 
-  public function isModifiedMasterDRM($key) {
+  public function isModifiedMother($key) {
 
-    return $this->getDocument()->isModifiedMasterDRM($this->getHash(), $key);
+    return $this->getDocument()->isModifiedMother($this->getHash(), $key);
   }
 
 }

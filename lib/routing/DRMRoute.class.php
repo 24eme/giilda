@@ -6,22 +6,10 @@ class DRMRoute extends sfObjectRoute {
     
     protected function getObjectForParameters($parameters) {
 
-        if (preg_match('/^[0-9]{4}-[0-9]{2}$/', $parameters['periode_version'])) {
-            $periode = $parameters['periode_version'];
-            $rectificative = null;
-        } elseif(preg_match('/^([0-9]{4}-[0-9]{2})-R([0-9]{2})$/', $parameters['periode_version'], $matches)) {
-            $periode = $matches[1];
-            $rectificative = $matches[2];
-        } else {
-            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'periode_version', $parameters['periode_version']));
-        }
-
-        $this->drm = DRMClient::getInstance()->findByIdentifiantPeriodeAndVersion($parameters['identifiant'], 
-                                                                                         $periode, 
-                                                                                         $rectificative);
+        $this->drm = DRMClient::getInstance()->find('DRM-'.$parameters['identifiant'].'-'.$parameters['periode_version']);
 
         if (!$this->drm) {
-            throw new sfError404Exception(sprintf('No DRM found for this periode-rectificative "%s".',  $parameters['periode_version']));
+            throw new sfError404Exception(sprintf('No DRM found for this periode-version "%s".',  $parameters['periode_version']));
         }
 		if (isset($this->options['must_be_valid']) && $this->options['must_be_valid'] === true && !$this->drm->isValidee()) {
 			throw new sfError404Exception('DRM must be validated');

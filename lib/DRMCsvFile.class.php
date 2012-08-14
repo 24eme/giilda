@@ -260,7 +260,7 @@ class DRMCsvFile extends CsvFile
 	    if (! $compte->getCompte()->hasEtablissementId($etablissement))
 	      throw new sfException("L'établissement $etablissement n'est pas accessible depuis votre compte");
 	  }
-	  if ($lastDRM = DRMClient::getInstance()->findLastByIdentifiantAndPeriode($etablissement, DRMClient::getInstance()->buildPeriode($line[self::CSV_COL_ANNEE], $line[self::CSV_COL_MOIS]))) {
+	  if ($lastDRM = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etablissement, DRMClient::getInstance()->buildPeriode($line[self::CSV_COL_ANNEE], $line[self::CSV_COL_MOIS]))) {
 	  	throw new sfException('Vous ne pouvez pas importer une DRM déjà existante ('.$lastDRM->get('_id').').');
 	  }
 	  $this->drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($etablissement, $line[self::CSV_COL_ANNEE], $line[self::CSV_COL_MOIS]);
