@@ -5,12 +5,18 @@ class factureActions extends sfActions {
 
     
        $this->form = new EtablissementChoiceForm();
-       //trouver la facture dans bas.
-       //deplacer $this->srcPdf dans _generateTex.php
-       //ecrire le fichier tex.
-       
+       if ($request->isMethod(sfWebRequest::POST)) {
+	 $this->form->bind($request->getParameter($this->form->getName()));
+	 if ($this->form->isValid()) {
+	   return $this->redirect('facture_etablissement', $this->form->getEtablissement());
+	 }
+       }
     }
         
+  public function executeMonEspace(sfWebRequest $resquest) {
+    $this->etablissement = $this->getRoute()->getEtablissement();
+    $this->factures = FactureClient::getInstance()->findByEtablissement($this->etablissement);
+  }
 
     public function executeLatex(sfWebRequest $request) {
         
