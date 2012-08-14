@@ -58,10 +58,13 @@
 
             value = selected.text() ? selected.text() : "";
             
-            var newValueOption = $('<option class="new_value" value=""></option>');
-            select.append(newValueOption);
-            
             var newValueAllowed  = select.hasClass('permissif');
+
+            if(newValueAllowed) {
+                var newValueOption = $('<option class="new_value" value=""></option>');
+                select.append(newValueOption);
+            }
+
             var url_ajax = select.attr('data-ajax');
             var limit = 20;
             var prev_term = "";
@@ -95,7 +98,7 @@
                                 inner_select += '<option value="'+hash+'">'+data[hash]+'</option>';
                             }
                             select.html(inner_select);
-                            response( select.children("option").map(function() {
+                            response( select.find("option").map(function() {
                                 var text = $(this).text();
                                 var text_highlight = search(text, request.term);
                                 if (this.value && (!request.term || text_highlight != false))
@@ -113,7 +116,7 @@
                     } 
 
 
-                    response( select.children("option").map(function() {
+                    response( select.find("option").map(function() {
                         var text = $(this).text();
                         var text_highlight = search(text, request.term);
                         if (this.value && (!request.term || text_highlight != false))
@@ -170,7 +173,9 @@
                     //.addClass( "ui-widget ui-widget-content ui-corner-left" );
 
                     input.data( "autocomplete" )._renderItem = function( ul, item ) {
+                        optgroup_class = $(item.option).parent('optgroup').attr('class');
                         return $( "<li></li>" )
+                        .addClass(optgroup_class)
                         .data( "item.autocomplete", item )
                         .append( "<a>" + item.label.replace('(', '<span style="font-size: 10px; color: #aaa" class="code">').replace(')', '</span>') + "</a>" )
                         .appendTo( ul );

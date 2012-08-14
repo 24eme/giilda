@@ -28,6 +28,7 @@
 
 	$(document).ready( function()
 	{
+
         $('.autocomplete').combobox();
         
 		if(colonnesDR.exists())
@@ -120,6 +121,7 @@
 	$.initProduitForm = function() {
 		var formProduit = $('#form_produit_declaration');
 
+		selectProduit.find('optgroup[label=existant]').addClass('existant');
 		selectProduit.combobox();
 
 		selectProduit.change(function() {
@@ -127,9 +129,23 @@
 		});
 
 		formProduit.submit(function() {
+			var selected = selectProduit.find('option:selected');
+			var inputAutoComplete = selectProduit.parent().find('.ui-autocomplete-input');
+			if(selected.parent('optgroup').hasClass('existant')) {
+				colonne = colonnes.findByHash(selected.val());
+				colonne.focus();
+				colonne.focusChampDefault();
+				selected.removeAttr('selected');
+				selectProduit.parent().find('.ui-autocomplete-input').val('');
+
+				return false;
+			}
 			$.post($(this).attr('action'), $(this).serializeArray(), function (data) {
 				if (data.success) {
-                    colonnes.add(data.content);
+                    colonne = colonnes.add(data.content);
+                    selectProduit.find('optgroup[class=existant]').append('<option value="'+data.produit.hash+'">'+data.produit.libelle+'</option>')
+                    selected.removeAttr('selected');
+					inputAutoComplete.val('');
 				}
 			}, 'json');
 
@@ -239,7 +255,8 @@
 		// Ctrl + M ==> Commencer édition colonne avec focus
 		// $.ctrl(77, function () {colFocus.majColActive(true);});
 
-		// $.ctrl(80, function () {selectProduit.parent().find('.ui-autocomplete-input').focus();});
+		// Ctrl + P ==> Commencer édition colonne avec focus
+		$.ctrl(80, function () {selectProduit.parent().find('.ui-autocomplete-input').focus();});
 		
 		// Ctrl + touche supprimer ==> Suppression colonne avec focus
 		//$.ctrl(46, function() { colFocus.find('.btn_supprimer').trigger('click'); });

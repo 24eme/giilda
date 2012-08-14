@@ -56,6 +56,17 @@
             return colonne;
         }
 
+        this.findByHash = function(hash) {
+            for(key in this.colonnes) {
+                if (this.colonnes[key].element.attr('data-hash') == hash) {
+
+                    return this.colonnes[key];
+                }
+            }
+
+            return false;
+        } 
+
         this.getActive = function () {
             for(key in this.colonnes) {
                 if (this.colonnes[key].isActive()) {
@@ -371,6 +382,11 @@
         this.total = function() {
             
             return this.groupes.total();
+        }
+
+        this.getHash = function()  {
+
+            return this.element.attr('data-hash');
         }
 
         this.getClass = function() {
