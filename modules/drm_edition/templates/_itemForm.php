@@ -7,7 +7,7 @@
         <a href="#" class="col_curseur" data-curseur="<?php echo $form->getObject()->getKey() ?>"></a>
         <h2 class="titre_produit"><?php echo $form->getObject()->getLibelle("%g% %a% %co% %ce%") ?></h2>
         <div class="col_cont">
-            <p class="label" style="font-size: 12px; text-align: center;">
+            <p class="label">
                 <?php include_partial('labelsList', array('form' => $form)); ?>
            </p>
             <div class="groupe" data-groupe-id="1">
