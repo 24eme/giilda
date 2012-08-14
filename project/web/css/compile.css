@@ -2557,7 +2557,6 @@ p#date_drm {
 #colonnes_dr .btn_edition_label:hover, #colonnes_dr .btn_edition_label:focus { text-decoration:none; }
 bouton#colonnes_dr .btn_edition_label { height:26px; }
 #colonnes_dr .btn_edition_label span { display:inline-block; }
-#colonnes_dr .label { height:30px !important; }
 #declaratif_info .onglets_declaratif { margin-top:15px; }
 #declaratif_info .onglets_declaratif strong { padding-right:5px !important; }
 #declaratif_info .onglets_declaratif a.msg_aide {

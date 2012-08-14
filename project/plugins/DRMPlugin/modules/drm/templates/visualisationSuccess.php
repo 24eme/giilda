@@ -8,10 +8,11 @@
         <h2>Déclaration Récapitulative Mensuelle</h2>
 
         <div id="recap_infos_header">
-            <div><label>Nom de l'opérateur : </label>Ackerman Rémy Pannier</div>
-            <div><label>Période : </label>Aout 2012</div>
+            <div><label>Nom de l'opérateur : </label> <?php echo $drm->getEtablissement()->nom ?> </div>
+            <div><label>Période : </label><?php echo $drm->periode ?></div>
         </div>
-
+        <br />
+        <br />
         <?php if ($drm_suivante && $drm_suivante->isRectificative() && !$drm_suivante->isValidee()): ?>
             <div class="vigilance_list">
                 <ul>
@@ -27,7 +28,7 @@
             <?php include_partial('drm/recap', array('drm' => $drm)) ?>
             <?php include_partial('drm/mouvements', array('mouvements' => $mouvements)) ?>
 
-
+            <br />
             <div id="btn_etape_dr">
                 <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()) ?>" class="btn_etape_prec" id="facture"><span>Retour à mon espace</span></a> 
             </div>

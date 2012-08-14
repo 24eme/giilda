@@ -2,12 +2,12 @@
     
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><a href="#">Page d'accueil</a> &gt; <a href="#">DRM/DRMA</a> &gt; <strong>Consultation</strong></p>
+        <p id="fil_ariane"><a href="<?php echo url_for('drm') ?>">Page d'accueil</a> &gt; <strong><?php echo $etablissement->nom ?></strong></p>
         
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $historique->getIdentifiant())); ?>
-            <fieldset id="chai_info">
+            <!--<fieldset id="chai_info">
                 <legend>Détail du chai</legend>
                 <div class="section_label_maj" id="chai_detail">
                     <div class="bloc_form">
@@ -56,7 +56,7 @@
                 <div class="btn_container_modifier">
                     <a href="#" id="chai_modif_btn">MODIFIER</a>
                 </div>
-            </fieldset>
+            </fieldset>-->
             <?php include_partial('drm/calendrier', array('calendrier' => $calendrier)); ?>
         </section>
         <!-- fin #contenu_etape -->
