@@ -6,8 +6,12 @@
                                                    'pourcentage' => '10'));*/ ?>
     <?php include_partial('drm/controlMessage'); ?>
 
-    <?php if (!$hide_rectificative): ?>
+    <?php if ($drm->isRectifiable()): ?>
         <a href="<?php echo url_for('drm_rectificative', $drm) ?>">Soumettre une DRM rectificative</a>
+    <?php endif; ?>
+
+    <?php if ($drm->isModifiable()): ?>
+        <a href="<?php echo url_for('drm_modificative', $drm) ?>">Soumettre une DRM modificative</a>
     <?php endif; ?>
 
     <!-- #principal -->
@@ -22,7 +26,7 @@
         <?php endif; ?>
 
         <?php include_partial('drm/recap', array('drm' => $drm)) ?>
-        <?php include_partial('drm/mouvements', array('mouvements' => $drm->mouvements)) ?>
+        <?php include_partial('drm/mouvements', array('mouvements' => $mouvements)) ?>
 
         <div id="btn_etape_dr">
             <?php if ($drm_suivante && $drm_suivante->isRectificative()): ?>
