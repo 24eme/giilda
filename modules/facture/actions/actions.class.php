@@ -29,11 +29,11 @@ class factureActions extends sfActions {
 
         $this->srcTexFilename = $this->facture->identifiant.'-'.count($this->facture->lignes);
         $this->extTex = 'tex';
-        $this->statut = $this->creerFichier('/data',$this->srcTexFilename, $this->extTex,  $this->srcPdf);
+        $this->statut = $this->creerFichier($this->srcTexFilename, $this->extTex,  $this->srcPdf);
         
         unlink("/tmp/".$this->srcTexFilename."*.pdf");
         
-        $cmdCompileLatex = '/usr/bin/pdflatex -output-directory=/tmp/ -synctex=1 -interaction=nonstopmode data/'.$this->srcTexFilename.'.'.$this->extTex.' 2> /dev/null ; chown www-data '.$this->srcTexFilename.'.pdf';
+        $cmdCompileLatex = '/usr/bin/pdflatex -output-directory=/tmp/ -synctex=1 -interaction=nonstopmode '.$this->getLatexPath().$this->srcTexFilename.'.'.$this->extTex.' 2> /dev/null ; chown www-data '.$this->srcTexFilename.'.pdf';
 
         $output = exec($cmdCompileLatex);
         $pdfFile = $this->srcTexFilename.".pdf";
@@ -50,8 +50,12 @@ class factureActions extends sfActions {
         exit;
     }
     
-    private function creerFichier($fichierChemin, $fichierNom, $fichierExtension, $fichierContenu, $droit=""){
-        $fichierCheminComplet = $_SERVER["DOCUMENT_ROOT"].$fichierChemin."/".$fichierNom;
+    private function getLatexPath() {
+        return sfConfig::get('sf_root_dir')."/data/";
+    }
+    
+    private function creerFichier($fichierNom, $fichierExtension, $fichierContenu, $droit=""){
+        $fichierCheminComplet = $this->getLatexPath().$fichierNom;
         if($fichierExtension!=""){
         $fichierCheminComplet = $fichierCheminComplet.".".$fichierExtension;
         }
