@@ -17,7 +17,7 @@ class DRMProduitForm extends acCouchdbForm
     public function configure() 
     {
         $this->setWidgets(array(
-            'hashref' => new sfWidgetFormChoice(array('choices' => $this->getProduits())),
+            'hashref' => new sfWidgetFormChoice(array('choices' => $this->getChoices())),
         ));
         $this->widgetSchema->setLabels(array(
             'hashref' => 'Produit: ',
@@ -31,14 +31,28 @@ class DRMProduitForm extends acCouchdbForm
         $this->widgetSchema->setNameFormat('produit_'.$this->_config->getKey().'[%s]');
     }
 
-    public function getProduits() {
+    public function getChoices() {
         if (is_null($this->_choices_produits)) {
             $this->_choices_produits = array_merge(array("" => ""),
-												   $this->_config->formatProduits($this->_interpro->get('_id'), 
-            																   	  $this->_drm->getDepartement()));
+                                                   array("existant" => $this->getProduitsExistant()),
+												   array("nouveau" => $this->getProduits()));
         }
 
         return $this->_choices_produits;
+    }
+
+    public function getProduits() {
+
+        return $this->_config->formatProduits($this->_interpro->get('_id'), $this->_drm->getDepartement());
+    }
+
+    public function getProduitsExistant() {
+        $choices = array();
+        foreach($this->_drm->getDetails() as $key => $produit) {
+            $choices[$key] = sprintf("%s (%s)", $produit->getLibelle("%g% %a% %l% %co% %ce% %la%"), $produit->getCode());
+        }
+
+        return $choices;
     }
 
     public function addProduit() {
