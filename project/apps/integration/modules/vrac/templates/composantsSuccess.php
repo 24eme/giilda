@@ -132,9 +132,102 @@
 			<a href="#" class="btn_majeur btn_acces">Retour à l'accueil</a>
 			<button class="btn_majeur btn_acces">Retour à l'accueil</button>
 			
-			
+			<br />
+			<br />
 			<h2>Tableaux</h2>
-			
+			<br />
+			<table class="table_recap">
+				<thead>
+					<tr>
+						<th>Date</th>
+						<th>Produits</th>
+						<th>E/S</th>
+						<th>Mouvement</th>
+						<th>Vol.Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>JJ/MM/AAAA</td>
+						<td>Saumur Fines Bulles Blanc</td>
+						<td>E</td>
+						<td>&Eacute;laboration</td>
+						<td>50.00</td>
+					</tr>
+					<tr>
+						<td>JJ/MM/AAAA</td>
+						<td>Saumur Fines Bulles Blanc</td>
+						<td>S</td>
+						<td>Export - Chine</td>
+						<td>100.00</td>
+					</tr>
+					<tr>
+						<td>JJ/MM/AAAA</td>
+						<td>Saumur Fines Bulles Blanc</td>
+						<td>S</td>
+						<td>Export - Chine</td>
+						<td>50.00</td>
+					</tr>
+				</tbody>
+			</table>
+			<br />
+			<br />
+			<h2>Pictos Status</h2>
+			<br />
+			<p><span class="statut_suspendu">En attente</span></p>
+			<br />
+			<p><span class="statut_nouveau">Nouveau</span></p>
+			<br />
+			<p><span class="statut_valide">Valide</span></p>
+			<br />
+			<p><span class="statut_cloture">Cloturé</span></p>
+
+			<br />
+			<br />
+			<h2>Blocs Form</h2>
+			<br />
+			<div class="bloc_form">
+				<div class="col">
+					<div class="ligne_form">
+						<span>
+							<label for="">Code du chai</label>68237001008-2
+						</span>
+					</div>
+					<div class="ligne_form ligne_form_alt">
+						<span>
+							<label for="">N° CVI</label>68237001008
+						</span>
+					</div>
+					<div class="ligne_form">
+						<span>
+							<label for="">Société</label>Ackerman &amp; co.
+						</span>
+					</div>
+				</div>
+				<div class="col">
+					<div class="ligne_form">
+						<span>
+							<label for="">Adresse*</label>19, rue Léopold Palustre
+						</span>
+					</div>
+					<div class="ligne_form ligne_form_alt">
+						<span>
+							<label for="">CP* </label>49400
+						</span>
+					</div>
+					<div class="ligne_form">
+						<span>
+							<label for="">Ville*</label>Saumur
+						</span>
+					</div>
+				</div>
+				<div class="ligne_form ligne_form_alt">
+					<span>
+						<label for="">Type de déclaration :</label>
+						<span class="type_declar declar_mensuelle">Mensuelle (DRM)</span>
+					</span>
+				</div>
+			</div>
 		</section>
 		<!-- fin #contenu_etape -->
 		
