@@ -1,12 +1,13 @@
 <?php use_helper('Float') ?>
-<div class="tableau_ajouts_liquidations">
-    <table class="tableau_recap">
+<fieldset id="mouvement_drm">
+    <legend>Mouvements</legend>
+    <table class="table_recap">
         <thead>
             <tr>
-                <th style="font-weight: bold; border: none;">Produits</th>
-                <th style="font-weight: bold; border: none;">Type</th>
-                <th style="font-weight: bold; border: none;">Volume</th>
-                <th style="font-weight: bold; border: none;">Détail</th>
+                <th style="width: 200px;">Produits</th>
+                <th>Type</th>
+                <th>Volume</th>
+                <th>Détail</th>
             </tr>
         </thead>
         <tbody>
@@ -22,4 +23,4 @@
         <?php endforeach; ?>
         </tbody>
     </table>
-</div>
+</fieldset>

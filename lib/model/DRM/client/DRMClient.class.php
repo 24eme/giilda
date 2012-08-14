@@ -47,6 +47,29 @@ class DRMClient extends acCouchdbClient {
       return null;
     }
 
+    public function getPeriodes($campagne) {
+      $periodes = array();
+      $periode = $this->getPeriodeDebut($campagne);
+      while($periode != $this->getPeriodeFin($campagne)) {
+        $periodes[] = $periode;
+        $periode = $this->getPeriodeSuivante($periode);
+      }
+
+      $periodes[] = $periode;
+
+      return $periodes;
+    }
+
+    public function getPeriodeDebut($campagne) {
+
+      return '2012-08';
+    }
+
+    public function getPeriodeFin($campagne) {
+
+      return '2013-07';
+    }
+
     public function buildCampagne($periode) {
       $annee = $this->getAnnee($periode);
       $mois = $this->getMois($periode);
@@ -100,8 +123,6 @@ class DRMClient extends acCouchdbClient {
         $mois = mktime( 0, 0, 0, $dateArr[0], 1, $dateArr[1] );         
         return date("t",$mois).'/'.$dateArr[0].'/'.$dateArr[1];
     }
-
-
 
     public function findMasterByIdentifiantAndPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
       $drms = $this->viewByIdentifiantPeriode($identifiant, $periode);
@@ -157,6 +178,25 @@ class DRMClient extends acCouchdbClient {
       foreach($rows as $row) {
         $drms[$row->id] = $row->key;
       }
+      
+      return $drms;
+    }
+
+    public function viewByIdentifiantAndCampagne($identifiant, $campagne) {
+      $rows = acCouchdbManager::getClient()
+            ->startkey(array($identifiant, $campagne))
+              ->endkey(array($identifiant, $campagne, array()))
+              ->reduce(false)
+              ->getView("drm", "all")
+              ->rows;
+      
+      $drms = array();
+
+      foreach($rows as $row) {
+        $drms[$row->id] = $row->key;
+      }
+      
+      krsort($drms);
       
       return $drms;
     }
@@ -270,10 +310,10 @@ class DRMClient extends acCouchdbClient {
         $prev_drm = $historique->getPrevByPeriode($periode);
         $next_drm = $historique->getNextByPeriode($periode);
         if ($prev_drm) {
-           $prev_drm = DRMClient::getInstance()->find($prev_drm[DRMHistorique::VIEW_INDEX_ID]);
+           $prev_drm = DRMClient::getInstance()->find($this->buildId($prev_drm[DRMHistorique::VIEW_INDEX_ETABLISSEMENT], $prev_drm[DRMHistorique::VIEW_PERIODE], $prev_drm[DRMHistorique::VIEW_INDEX_VERSION]));
            $drm = $prev_drm->generateSuivante($periode);
         } elseif ($next_drm) {
-           $next_drm = DRMClient::getInstance()->find($next_drm[DRMHistorique::VIEW_INDEX_ID]);
+           $next_drm = DRMClient::getInstance()->find($this->buildId(DRMHistorique::VIEW_INDEX_ETABLISSEMENT, DRMHistorique::VIEW_PERIODE, DRMHistorique::VIEW_INDEX_VERSION));
            $drm = $next_drm->generateSuivante($periode, false);
         } else {
             $drm = $this->createNewDoc($historique);

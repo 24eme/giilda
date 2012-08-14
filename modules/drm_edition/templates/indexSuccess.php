@@ -1,5 +1,3 @@
-<?php //include_partial('global/navTop', array('active' => 'drm'));  ?>
-
 <div id="contenu" class="drm">
 
     <!-- #principal -->
@@ -14,7 +12,7 @@
             <div><label>Période : </label>Aout 2012</div>
         </div>
 
-        <?php include_partial('etapes'); ?>
+        <?php include_partial('drm_edition/etapes'); ?>
 
         <?php include_partial('drm/controlMessage'); ?>
 

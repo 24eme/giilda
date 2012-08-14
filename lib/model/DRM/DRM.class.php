@@ -145,6 +145,7 @@ class DRM extends BaseDRM {
         $this->add('douane');
         $this->remove('declarant');
         $this->add('declarant');
+        $this->version = null;
         $this->raison_rectificative = null;
         $this->etape = null;
     }
