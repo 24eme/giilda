@@ -1,40 +1,104 @@
-<?php //include_partial('global/navTop', array('active' => 'drm')); ?>
+<?php //include_partial('global/navTop', array('active' => 'drm'));  ?>
 
-<section id="contenu" style="background: #fff; padding: 0 10px;">
+<div id="contenu" class="drm">
 
-    <?php include_partial('drm/header', array('drm' => $drm)); ?>
-    <?php /*include_partial('etapes', array('drm' => $drm, 
-                                                   'etape' => 'mouvements', 
-                                                   'pourcentage' => '10'));*/ ?>
-    <?php include_partial('drm/controlMessage'); ?>
-
-    
     <!-- #principal -->
     <section id="principal" style="width: auto;">
-    	<a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a>
-    		<?php include_partial('shortcutKeys') ?>
-        <div id="application_dr">
-        	<?php include_component('drm_edition', 'produitForm', array('drm' => $drm,
-        															  'config' => $config)) ?>
-            
-            <div id="contenu_onglet">
 
-                <?php include_partial('drm_edition/list', array('drm_noeud' => $drm->declaration, 
-                                                                   'config' => $config,
-   'detail' => $detail,
-                                                                   'produits' => $produits,
-                                                                   'form' => $form,
-                												   'detail' => $detail)); ?>
+        <?php include_partial('drm/header', array('drm' => $drm)); ?>
 
-            </div>
-            <div id="btn_etape_dr">
-            	
-            </div>
-            
-            <a href="<?php echo url_for('drm_pdf_facture', $drm); ?>" id="facture">Facture</a>   
-            <a href="<?php echo url_for('drm_validation', $drm); ?>" id="facture">Suite</a> 
+        <h2>Déclaration Récapitulative Mensuelle</h2>
+
+        <div id="recap_infos_header">
+            <div><label>Nom de l'opérateur : </label>Ackerman Rémy Pannier</div>
+            <div><label>Période : </label>Aout 2012</div>
         </div>
+
+        <?php include_partial('etapes'); ?>
+
+        <?php include_partial('drm/controlMessage'); ?>
+
+        <?php include_partial('shortcutKeys') ?>
+
+        <div id="application_dr">
+
+            <?php include_component('drm_edition', 'produitForm', array('drm' => $drm, 'config' => $config)) ?>
+
+            <div id="contenu_onglet">
+                <?php
+                include_partial('drm_edition/list', array('drm_noeud' => $drm->declaration,
+                    'config' => $config,
+                    'detail' => $detail,
+                    'produits' => $produits,
+                    'form' => $form,
+                    'detail' => $detail));
+                ?>
+
+            </div>
+            
+
+
+        </div>
+        <div id="btn_etape_dr">
+            <!--a href="<?php echo url_for('drm_pdf_facture', $drm); ?>" id="facture">Facture</a-->   
+            <a href="" class="btn_etape_prec" id="facture"><span>Précédent</span></a> 
+            <a href="<?php echo url_for('drm_validation', $drm); ?>" class="btn_etape_suiv" id="facture"><span>Suivant</span></a> 
+        </div>
+
     </section>
-</section>
+    <aside id="colonne">
+
+        <div id="contrat_progression" class="bloc_col">
+            <h2>Campagne viticole : 2011-2012</h2>
+
+            <div class="contenu">
+                <p><strong>10%</strong> de la DRM a été saisi</p>
+
+                <div id="barre_progression">
+                    <span style="width: 10%;"></span>
+                </div>
+            </div>
+        </div>
+
+        <div id="contrat_aide" class="bloc_col">
+            <h2>Aide</h2>
+
+            <div class="contenu">
+                <ul>
+                    <li class="raccourcis"><a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a></li>
+                    <li class="assistance"><a href="#">Assistance</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="infos_contact" class="bloc_col">
+            <h2>Infos contact</h2>
+
+            <div class="contenu">
+                <ul>
+                    <li id="infos_contact_vendeur">
+                        <a href="#">Coordonnées opérateur</a>
+                        <ul>
+                            <li class="nom">Nom du vendeur</li>
+                            <li class="tel">00 00 00 00 00</li>
+                            <li class="fax">00 00 00 00 00</li>
+                            <li class="email"><a href="mailto:email@email.com">email@email.com</a></li>
+                        </ul>
+                    </li>
+                    <li id="infos_contact_acheteur">
+                        <a href="#">Coordonnées recette locale</a>
+                        <ul>
+                            <li class="nom">Nom du vendeur</li>
+                            <li class="tel">00 00 00 00 00</li>
+                            <li class="fax">00 00 00 00 00</li>
+                            <li class="email"><a href="mailto:email@email.com">email@email.com</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </aside>
+</div>
 
 
