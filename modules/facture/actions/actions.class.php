@@ -2,6 +2,7 @@
 class factureActions extends sfActions {
     
   public function executeIndex(sfWebRequest $request) {
+
     
        $this->form = new EtablissementChoiceForm();
        //trouver la facture dans bas.
@@ -98,6 +99,5 @@ class factureActions extends sfActions {
         usort($lignesByMouvementType, array("factureActions", "triOriginDate"));
         return $lignesByMouvementType;
     }
-    
     
 }
