@@ -152,6 +152,11 @@ button span { position:relative; }
 .ielt9 button span { margin:-1px 0 -2px; }
 pre, code, kbd, samp { font-family:monospace, sans-serif; }
 .majuscules { text-transform:uppercase; }
+.anti_leak {
+  -moz-background-clip:padding;
+  -webkit-background-clip:padding-box;
+  background-clip:padding-box;
+}
 .btn_majeur {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;
@@ -603,6 +608,59 @@ bouton.btn_majeur { height:26px; }
   display:inline-block;
 }
 .btn_calendrier:after { background-position:3px -488px; }
+.table_recap {
+  border:1px solid #e3e2e2;
+  -webkit-border-radius:5px 5px 5px 5px;
+  -moz-border-radius:5px 5px 5px 5px;
+  border-radius:5px 5px 5px 5px;
+  -webkit-border-radius:5px 5px 5px 5px;
+  -moz-border-radius:5px 5px 5px 5px;
+  border-radius:5px 5px 5px 5px;
+  border-collapse:separate;
+  box-sizing:border-box;
+  width:100%;
+}
+.table_recap tr th {
+  background-color:#ecebeb;
+  font-size:14px;
+  height:50px;
+  line-height:50px;
+}
+.table_recap tr th+th { border-left:1px solid #e3e2e2; }
+.table_recap tr td {
+  text-align:center;
+  border-top:1px solid #e3e2e2;
+  height:35px;
+  line-height:35px;
+  padding:0 15px;
+}
+.table_recap tr td+td { border-left:1px solid #e3e2e2; }
+.table_recap tr:nth-child(2n+2) { background-color:#f7f7f7; }
+.statut_suspendu, .statut_nouveau, .statut_valide, .statut_cloture {
+  background-image:url(../images/pictos/sprite_calendrier.png);
+  background-repeat:no-repeat;
+  display:inline-block;
+  font-weight:bold;
+  height:23px;
+  line-height:23px;
+  padding-left:26px;
+}
+.statut_suspendu {
+  color:#d30815;
+  background-position:0 0;
+}
+.statut_nouveau {
+  color:#faa804;
+  background-position:0 -23px;
+}
+.statut_valide {
+  color:#9bd247;
+  background-position:0 -69px;
+}
+.statut_cloture {
+  color:#8f8f8f;
+  background-position:0 -46px;
+}
 .invisible {
   clip:rect(1px 1px 1px 1px);
   clip:rect(1px,1px,1px,1px);
@@ -649,6 +707,14 @@ bouton.btn_majeur { height:26px; }
 .ielt8 .inline-block-ie {
   display:inline;
   zoom:1;
+}
+.section-titre {
+  display:inline-block;
+  text-transform:uppercase;
+  font-size:15px;
+  font-weight:bold;
+  height:35px;
+  padding-top:4px;
 }
 #message_ie6 {
   background:#feefda;
@@ -871,6 +937,10 @@ bouton.btn_majeur { height:26px; }
   -webkit-border-radius:0 0 5px 0;
   -moz-border-radius:0 0 5px 0;
   border-radius:0 0 5px 0;
+}
+#principal .bloc_form >.ligne_form {
+  text-align:center;
+  clear:both;
 }
 #principal .ligne_form {
   padding:4px 0 10px 10px;
@@ -1315,9 +1385,9 @@ bouton.btn_majeur { height:26px; }
   float:right;
 }
 #contenu_etape .col {
+  box-sizing:border-box;
   float:left;
-  vertical-align:top;
-  width:329px;
+  width:50%;
 }
 #contenu_etape #recherche_operateur {
   background:#ecebeb;
@@ -1365,11 +1435,11 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
 #contenu_etape #recherche_operateur span#recherche_avancee {
   zoom:1;
   min-height:1px;
-  display:bloc;
+  text-decoration:underline;
   color:#5e5c5c;
+  display:block;
   font-style:italic;
   float:right;
-  text-decoration:underline;
   padding-top:5px;
 }
 #contenu_etape #recherche_operateur span#recherche_avancee:before, #contenu_etape #recherche_operateur span#recherche_avancee:after {
@@ -2487,3 +2557,386 @@ p#date_drm {
   background:none repeat scroll 0 0 #ecebeb;
   padding:10px 10px 30px;
 }
+.drm #principal fieldset { margin-top:25px; }
+.drm #principal fieldset#historique_drm nav {
+  position:relative;
+  bottom:-1px;
+  z-index:10;
+}
+.drm #principal fieldset#historique_drm nav ul {
+  zoom:1;
+  min-height:1px;
+}
+.drm #principal fieldset#historique_drm nav ul:before, .drm #principal fieldset#historique_drm nav ul:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.drm #principal fieldset#historique_drm nav ul:after { clear:both; }
+.drm #principal fieldset#historique_drm nav ul li {
+  -webkit-border-radius:5px 5px 0 0;
+  -moz-border-radius:5px 5px 0 0;
+  border-radius:5px 5px 0 0;
+  -webkit-border-radius:5px 5px 0 0;
+  -moz-border-radius:5px 5px 0 0;
+  border-radius:5px 5px 0 0;
+  border:1px solid #e3e2e2;
+  float:left;
+}
+.drm #principal fieldset#historique_drm nav ul li.actif { border-bottom-color:#ffffff; }
+.drm #principal fieldset#historique_drm nav ul li * {
+  display:block;
+  font-weight:bold;
+  letter-spacing:1px;
+  padding:6px 4px;
+}
+.drm #principal fieldset#historique_drm nav ul li a { background:#ececec url(../images/fonds/bg_nav_historique.png) 0 0 repeat-x; }
+.drm #principal fieldset#historique_drm .section_label_maj {
+  border:1px solid #e3e2e2;
+  -webkit-border-radius:0 5px 5px 0;
+  -moz-border-radius:0 5px 5px 0;
+  border-radius:0 5px 5px 0;
+  -webkit-border-radius:0 5px 5px 0;
+  -moz-border-radius:0 5px 5px 0;
+  border-radius:0 5px 5px 0;
+  padding:18px 3px 10px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj > label {
+  font-weight:bold;
+  height:30px;
+  line-height:30px;
+  margin-right:18px;
+  padding-top:0;
+  text-transform:none;
+}
+.drm #principal fieldset#historique_drm .section_label_maj > select {
+  -webkit-border-radius:5px 5px 5px 5px;
+  -moz-border-radius:5px 5px 5px 5px;
+  border-radius:5px 5px 5px 5px;
+  -webkit-border-radius:5px 5px 5px 5px;
+  -moz-border-radius:5px 5px 5px 5px;
+  border-radius:5px 5px 5px 5px;
+  border:1px solid #e3e2e2;
+  padding:6px 0 6px 6px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj .bloc_form, .drm #principal fieldset#historique_drm .section_label_maj table { margin-top:15px; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose {
+  height:auto;
+  padding:0;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois {
+  zoom:1;
+  min-height:1px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois:before, .drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois:after { clear:both; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li {
+  box-sizing:border-box;
+  float:left;
+  width:25%;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li + li { border-left:1px solid #e3e2e2; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois {
+  text-transform:uppercase;
+  background-color:#ecebeb;
+  font-size:14px;
+  font-weight:bold;
+  height:42px;
+  line-height:42px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos { padding:22px 5px 6px; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne { background-color:#fae6e7; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne li:first-child span {
+  background-image:url(../images/pictos/sprite_calendrier.png);
+  background-repeat:no-repeat;
+  display:inline-block;
+  font-weight:bold;
+  height:23px;
+  line-height:23px;
+  padding-left:26px;
+  color:#d30815;
+  background-position:0 0;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne button {
+  color:#ffffff;
+  background-position:0 -130px;
+  border-color:#b70808;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne { background-color:#ffffff; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne li:first-child span {
+  background-image:url(../images/pictos/sprite_calendrier.png);
+  background-repeat:no-repeat;
+  display:inline-block;
+  font-weight:bold;
+  height:23px;
+  line-height:23px;
+  padding-left:26px;
+  color:#8f8f8f;
+  background-position:0 -46px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne button {
+  color:#ffffff;
+  background-position:0 -52px;
+  border-color:#6d6b6b;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne { background-color:#fef5e2; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne li:first-child span {
+  background-image:url(../images/pictos/sprite_calendrier.png);
+  background-repeat:no-repeat;
+  display:inline-block;
+  font-weight:bold;
+  height:23px;
+  line-height:23px;
+  padding-left:26px;
+  color:#faa804;
+  background-position:0 -23px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne button {
+  color:#ffffff;
+  background-position:0 -104px;
+  border-color:#f6b32c;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne { background-color:#f0f9e4; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne li:first-child span {
+  background-image:url(../images/pictos/sprite_calendrier.png);
+  background-repeat:no-repeat;
+  display:inline-block;
+  font-weight:bold;
+  height:23px;
+  line-height:23px;
+  padding-left:26px;
+  color:#9bd247;
+  background-position:0 -69px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne button {
+  color:#ffffff;
+  background-position:0 -52px;
+  border-color:#6d6b6b;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li {
+  font-size:13px;
+  text-align:left;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li label {
+  display:inline-block;
+  height:23px;
+  line-height:23px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li label {
+  font-weight:bold;
+  margin-bottom:15px;
+  padding-left:5px;
+  width:60px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li button {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
+  color:#5e5c5c;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px;
+  position:relative;
+  display:block;
+  width:100%;
+}
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li button:hover, .drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li button:focus { text-decoration:none; }
+bouton.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li button { height:26px; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li button span { display:inline-block; }
+.drm #principal fieldset#historique_drm .section_label_maj table {
+  border:1px solid #e3e2e2;
+  -webkit-border-radius:5px 5px 5px 5px;
+  -moz-border-radius:5px 5px 5px 5px;
+  border-radius:5px 5px 5px 5px;
+  -webkit-border-radius:5px 5px 5px 5px;
+  -moz-border-radius:5px 5px 5px 5px;
+  border-radius:5px 5px 5px 5px;
+  border-collapse:separate;
+  box-sizing:border-box;
+  width:100%;
+}
+.drm #principal fieldset#historique_drm .section_label_maj table tr th {
+  background-color:#ecebeb;
+  font-size:14px;
+  height:50px;
+  line-height:50px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj table tr th+th { border-left:1px solid #e3e2e2; }
+.drm #principal fieldset#historique_drm .section_label_maj table tr td {
+  text-align:center;
+  border-top:1px solid #e3e2e2;
+  height:35px;
+  line-height:35px;
+  padding:0 15px;
+}
+.drm #principal fieldset#historique_drm .section_label_maj table tr td+td { border-left:1px solid #e3e2e2; }
+.drm #principal fieldset#historique_drm .section_label_maj table tr:nth-child(2n+2) { background-color:#f7f7f7; }
+.drm #principal fieldset legend {
+  text-transform:uppercase;
+  display:inline-block;
+  text-transform:uppercase;
+  font-size:15px;
+  font-weight:bold;
+  height:35px;
+  padding-top:4px;
+  margin-bottom:15px;
+  padding-top:0;
+}
+.drm #principal fieldset .section_label_maj .bloc_form {
+  zoom:1;
+  min-height:1px;
+}
+.drm #principal fieldset .section_label_maj .bloc_form:before, .drm #principal fieldset .section_label_maj .bloc_form:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.drm #principal fieldset .section_label_maj .bloc_form:after { clear:both; }
+.drm #principal fieldset .section_label_maj .bloc_form >.ligne_form {
+  text-align:center;
+  clear:both;
+}
+.drm #principal fieldset .section_label_maj .bloc_form >.ligne_form label { width:auto; }
+.drm #principal fieldset .section_label_maj .bloc_form >.ligne_form .type_declar {
+  background:url(../images/pictos/pi_mensuel.png) 0 -2px no-repeat;
+  display:inline-block;
+  margin-left:12px;
+  padding-left:27px;
+}
+.drm #principal fieldset .btn_editer.btn_modifier {
+  float:right;
+  margin-top:10px;
+}
+.drm #principal fieldset .btn_editer.btn_modifier a {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
+  color:#5e5c5c;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px;
+  position:relative;
+  color:#ffffff;
+  background-position:0 -104px;
+  border-color:#f6b32c;
+  padding-left:30px;
+  color:#ffffff;
+  background-position:0 -104px;
+  border-color:#f6b32c;
+}
+.drm #principal fieldset .btn_editer.btn_modifier a:hover, .drm #principal fieldset .btn_editer.btn_modifier a:focus { text-decoration:none; }
+bouton.drm #principal fieldset .btn_editer.btn_modifier a { height:26px; }
+.drm #principal fieldset .btn_editer.btn_modifier a span { display:inline-block; }
+.drm #principal fieldset .btn_editer.btn_modifier a:after {
+  height:26px;
+  width:20px;
+  background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
+  bottom:auto;
+  left:5px;
+  position:absolute;
+  right:auto;
+  top:0;
+  content:'';
+  cursor:pointer;
+  display:inline-block;
+}
+.drm #principal fieldset .btn_editer.btn_modifier a:after { background-position:3px -362px; }
+.drm #principal fieldset .btn_editer.btn_exporter { float:right; }
+.drm #principal fieldset .btn_editer.btn_exporter a {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
+  color:#5e5c5c;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px;
+  position:relative;
+  color:#ffffff;
+  background-position:0 -78px;
+  border-color:#83a44d;
+  padding-left:30px;
+  color:#ffffff;
+  background-position:0 -78px;
+  border-color:#83a44d;
+}
+.drm #principal fieldset .btn_editer.btn_exporter a:hover, .drm #principal fieldset .btn_editer.btn_exporter a:focus { text-decoration:none; }
+bouton.drm #principal fieldset .btn_editer.btn_exporter a { height:26px; }
+.drm #principal fieldset .btn_editer.btn_exporter a span { display:inline-block; }
+.drm #principal fieldset .btn_editer.btn_exporter a:after {
+  height:26px;
+  width:20px;
+  background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
+  bottom:auto;
+  left:5px;
+  position:absolute;
+  right:auto;
+  top:0;
+  content:'';
+  cursor:pointer;
+  display:inline-block;
+}
+.drm #principal fieldset .btn_editer.btn_exporter a:after { background-position:2px -315px; }

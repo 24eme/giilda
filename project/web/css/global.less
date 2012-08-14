@@ -136,6 +136,13 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	background:  url(../images/pictos/pi_actions.png) @position no-repeat;
 }
 
+/* Previens le depassement de fond sur les bordures */
+.anti_leak{
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+}
+
 /* Boutons / Liens */
 .btn_majeur
 {
@@ -402,8 +409,71 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	&:after { background-position: 3px -488px; } 
 }
 
+/* Tableau recapitulatif */
+.table_recap{
+	.border(@couleur-a7);
+	.border-radius(5px 5px 5px 5px);
+	border-collapse: separate;
+	box-sizing: border-box;
+	width: 100%;
 
+	tr{
+		th{
+			
+			background-color: @couleur-a5;
+			font-size: 14px;
+			height: 50px;
+			line-height: 50px;
 
+			&+th { border-left: 1px solid @couleur-a7; }
+		}
+
+		td{
+			.center;
+			border-top: 1px solid @couleur-a7;
+			height: 35px;
+			line-height: 35px;
+			padding: 0 15px;
+
+			&+td { border-left: 1px solid @couleur-a7; }
+		}
+
+		&:nth-child(2n+2){
+			background-color: @couleur-a8;
+		}
+	}
+}
+
+/* Status Pictos */
+.statut_suspendu,.statut_nouveau,.statut_valide,.statut_cloture{
+	background-image: url(../images/pictos/sprite_calendrier.png);
+	background-repeat: no-repeat;
+	display: inline-block;
+	font-weight: bold;
+	height: 23px;
+	line-height: 23px;
+	padding-left: 26px;
+}
+
+.statut_suspendu{
+	color: @couleur-c4;
+	background-position: 0 0;
+}
+
+.statut_nouveau{
+	color: @couleur-c6;
+	background-position: 0 -23px;
+}
+
+.statut_valide{
+	color: @couleur-c5;
+	background-position: 0 -69px;
+}
+
+.statut_cloture{
+	color: @couleur-c7;
+	background-position: 0 -46px;
+}
 
 /* Divers */
 .ir(@width: 1px, @height: 1px)
@@ -482,6 +552,15 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 {
 }
 
+.section-titre
+{
+	display: inline-block;
+    .majuscules;
+    font-size: 15px;
+    font-weight: bold;
+    height: 35px;
+    padding-top:4px;
+}
 
 /**
  * Message IE6
@@ -668,44 +747,42 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 {
         
         .section_label_maj{
-               & >  label:first-child{
-                        display: inline-block;
-                        .majuscules;
-                        font-size: 15px;
-                        font-weight: bold;
-                        height: 35px;
-                        padding-top:4px;
-            }
+               & >  label:first-child { .section-titre }
         }
 
         .section_label_strong{
             label{
                  &:first-child{
-                        display: inline-block;
-                        font-weight: bold;
+                display: inline-block;
+                font-weight: bold;
                 }
             }
         }
         
         .bloc_form{
-                .border-radius(5px 5px 5px 5px);
-                .border(#e3e2e2);
+	        .border-radius(5px 5px 5px 5px);
+	        .border(#e3e2e2);
 
-                .col{
-                        &:first-child{
-                                border-right: 1px solid #e3e2e2;
-                                .ligne_form{
-                                        &:first-child{ .border-radius(5px 0 0 0)}
-                                        &:last-child{ .border-radius(0 0 0 5px) }
-                                }
-                        }
-                        &:last-child{     
-                                .ligne_form{
-                                        &:first-child{ .border-radius(0 5px 0 0)  }
-                                        &:last-child{ .border-radius(0 0 5px 0)  }
-                                }
-                        }
+	        .col{
+                &:first-child{
+                    border-right: 1px solid #e3e2e2;
+                    .ligne_form{
+                            &:first-child{ .border-radius(5px 0 0 0)}
+                            &:last-child{ .border-radius(0 0 0 5px) }
+                    }
                 }
+                &:last-child{     
+                    .ligne_form{
+                            &:first-child{ .border-radius(0 5px 0 0)  }
+                            &:last-child{ .border-radius(0 0 5px 0)  }
+                    }
+                }
+	        }
+
+	        >.ligne_form{
+	        	.center;
+	        	.clear;
+	        }
        }
         
        .ligne_form {
