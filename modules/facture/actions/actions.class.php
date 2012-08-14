@@ -25,12 +25,7 @@ class factureActions extends sfActions {
         $this->facture = FactureClient::getInstance()->findByEtablissementAndId($this->getRoute()->getEtablissement()->identifiant, $request->getParameter('factureid'));
         $this->forward404Unless($this->facture);
         
-        $this->lignesPropriete = $this->getFactureLignesByMouvementType($this->facture,'propriete');
-        $this->lignesContrat = $this->getFactureLignesByMouvementType($this->facture,'contrat');
-        
-        $this->srcPdf = $this->getPartial('generateTex',array('facture' => $this->facture,
-                                                              'lignesPropriete' => $this->lignesPropriete,
-                                                              'lignesContrat' => $this->lignesContrat));
+        $this->srcPdf = $this->getPartial('generateTex',array('facture' => $this->facture));
 
         $this->srcTexFilename = $this->facture->identifiant.'-'.count($this->facture->lignes);
         $this->extTex = 'tex';
@@ -83,28 +78,4 @@ class factureActions extends sfActions {
 
         return $t_infoCreation;
     }
-
-    static function triOriginDate($ligne_0, $ligne_1)
-    {
-        if ($ligne_0->origine_date == $ligne_1->origine_date) {
-
-        return 0;
-        }
-        return ($ligne_0->origine_date > $ligne_1->origine_date) ? -1 : +1;
-    }
-    
-    private function getFactureLignesByMouvementType($facture,$mouvement_type)
-    {
-        $lignesByMouvementType = array();
-        foreach ($facture->lignes as $ligne) 
-        {
-            if($ligne->mouvement_type == $mouvement_type)
-            {
-                $lignesByMouvementType[] = $ligne;
-            }  
-        }
-        usort($lignesByMouvementType, array("factureActions", "triOriginDate"));
-        return $lignesByMouvementType;
-    }
-    
 }

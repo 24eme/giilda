@@ -1,8 +1,3 @@
-<?php
-
-
-?>
-
 \documentclass[a4paper,10pt]{article}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -34,9 +29,9 @@
 \setlength{\oddsidemargin}{-2cm}
 \setlength{\evensidemargin}{-2cm}
 \setlength{\textwidth}{19cm}
-\setlength{\headheight}{-1cm}
-\setlength{\topmargin}{-3.5cm}
 \setlength{\headheight}{5cm}
+
+\setlength{\topmargin}{-3.5cm}
 
 \def\TVA{19.60} 
 \def\InterloireAdresse{Chateau de la Frémoire \\
@@ -126,8 +121,10 @@
   
   			\hline
                 
-                \textbf{Sortie de propriété n$^\circ$: <?php echo $facture->client_reference ?>} & ~ & ~ & ~ & ~ & ~ \\
-                <?php foreach ($lignesPropriete as $ligneProp): ?>
+                <?php $propriete = $facture->getLignesPropriete(); if(count($propriete) > 0 ) : ?>
+                \textbf{Sortie de propriété} & ~ & ~ & ~ & ~ & ~ \\
+                <?php endif; ?>
+                <?php foreach ($propriete as $ligneProp): ?>
                                 
                             ~~~<?php echo $ligneProp->produit_libelle ?> & 
                             \multicolumn{1}{r|}{<?php echo $ligneProp->origine_date; ?>} & 
@@ -137,10 +134,10 @@
                             \multicolumn{1}{c}{<?php echo $ligneProp->echeance_code ?>} \\
 
                 <?php endforeach; ?>
-                
-                \textbf{Sortie de contrat} & ~ & ~ & ~ & ~ & ~ \\               
-                <?php foreach ($lignesContrat as $ligneCont): ?>
-                                
+                <?php $contrat = $facture->getLignesContrat(); if(count($contrat) > 0 ) : ?>
+                \textbf{Sortie de contrat} & ~ & ~ & ~ & ~ & ~ \\
+                <?php endif; ?>              
+                <?php foreach ($contrat as $ligneCont): ?>  
                             ~~~<?php echo $ligneCont->produit_libelle ?> & 
                             \multicolumn{1}{r|}{\small{<?php echo $ligneCont->origine_date; ?>}} & 
                             \multicolumn{1}{r|}{\small{<?php echo $ligneCont->volume; ?>}} &
@@ -150,6 +147,23 @@
                                 
                 <?php endforeach; ?>
 	~ & ~ & ~ & ~ & ~ & ~ \\
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+        ~ & ~ & ~ & ~ & ~ & ~ \\        
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+        ~ & ~ & ~ & ~ & ~ & ~ \\
+        
+        ~ & ~ & ~ & ~ & ~ & ~ \\
 	 \multicolumn{6}{c}{\small{Aucun escompte n\'est prévu pour paiment anticipé. Pénalités de retard : 3 fois le taux d\'intér\^{e}t légal}} \\
 	 ~ & ~ & ~ & ~ & ~ & ~ \\
 			\end{tabular}
@@ -195,10 +209,10 @@
 	\multicolumn{7}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Papillon(s) à joindre au règlement}}}  \\
    	\CutlnPapillon
 	
-        <?php foreach ($facture->echeances as $key => $papillon) : ?>
+        <?php $nb = count($facture->echeances) ; foreach ($facture->echeances as $key => $papillon) : ?>
                 & \centering \small{Code échéance} & \centering \small{\textbf{Date échéance}} & \centering \small{Réf. Client} & \centering \small{N$^\circ$ Facture} & & \\
                 
-                \centering \small{<?php echo $key+1; ?>} & 
+                \centering \small{<?php echo $nb - $key; ?>} & 
                 \centering \small{<?php echo $papillon->echeance_code ?>} &
                 \centering \small{\textbf{<?php echo $papillon->echeance_date; ?>}} &
                 \centering \small{\FactureRefClient} &

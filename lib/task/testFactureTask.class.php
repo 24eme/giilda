@@ -29,7 +29,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $facture = FactureClient::getInstance()->find('FACTURE-20120201-123');
+    $facture = FactureClient::getInstance()->find('FACTURE-110001-2012020101');
     if($facture) {
       $facture->delete();
     }
@@ -51,11 +51,11 @@ EOF;
     $facture->client->adresse = "1 rue garnier";
     $facture->client->code_postal = "92100";
     $facture->client->ville = "Neuilly sur seine";
-    $facture->add("lignes")->add(0, array('origine_type' => 'DRM', 'origine_identifiant' => 'DRM-123-2012-01', 'origine_date' => '2012-01', 'produit_type' => 'Vin', 'produit_libelle' => 'Anjou rouge', 'produit_hash' => 'AOC/.../TOU', 'mouvement_type' => 'propriete', 'contrat_identifiant' => '', 'contrat_libelle' => '', 'echeance_code' => 'A', 'volume' => 10, 'cotisation_taux' => 4.5, 'montant_ht' => 45));
-    $facture->lignes->add(1, array('origine_type' => 'DRM', 'origine_identifiant' => 'DRM-123-2012-01', 'origine_date' => '2012-01', 'produit_type' => 'Vrac', 'produit_libelle' => 'Anjou rouge', 'produit_hash' => 'AOC/.../TOU', 'mouvement_type' => 'contrat', 'contrat_identifiant' => 'VRAC-123-2012-01-12', 'contrat_libelle' => 'contrat avec bidule', 'echeance_code' => 'B', 'volume' => 10, 'cotisation_taux' => 5.5, 'montant_ht' => 55));
-    $facture->echeances->add(0, array('echeance_code' => 'A', 'echeance_date' => '2012-03-31', 'montant_ttc' => 53.82));
-    $facture->echeances->add(1, array('echeance_code' => 'B', 'echeance_date' => '2012-03-31', 'montant_ttc' => 32.89));
-    $facture->echeances->add(2, array('echeance_code' => 'B', 'echeance_date' => '2012-05-31', 'montant_ttc' => 32.89));
+    $facture->add("lignes")->add(0, array('origine_type' => 'DRM', 'origine_identifiant' => 'DRM-123-2012-01', 'origine_date' => '2012-01', 'produit_type' => 'Vin', 'produit_libelle' => 'Anjou rouge', 'produit_hash' => 'AOC/.../TOU', 'mouvement_type' => FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE, 'contrat_identifiant' => '', 'contrat_libelle' => '', 'echeance_code' => 'A', 'volume' => 10, 'cotisation_taux' => 4.5, 'montant_ht' => 45));
+    $facture->add("lignes")->add(1, array('origine_type' => 'DRM', 'origine_identifiant' => 'DRM-123-2012-01', 'origine_date' => '2012-01', 'produit_type' => 'Vrac', 'produit_libelle' => 'Anjou rouge', 'produit_hash' => 'AOC/.../TOU', 'mouvement_type' => FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT, 'contrat_identifiant' => 'VRAC-123-2012-01-12', 'contrat_libelle' => 'contrat avec bidule', 'echeance_code' => 'B', 'volume' => 10, 'cotisation_taux' => 5.5, 'montant_ht' => 55));
+    $facture->add("echeances")->add(0, array('echeance_code' => 'A', 'echeance_date' => '2012-03-31', 'montant_ttc' => 53.82));
+    $facture->add("echeances")->add(1, array('echeance_code' => 'B', 'echeance_date' => '2012-03-31', 'montant_ttc' => 32.89));
+    $facture->add("echeances")->add(2, array('echeance_code' => 'B', 'echeance_date' => '2012-05-31', 'montant_ttc' => 32.89));
 
     $facture->total_ht = 100;
     $facture->total_ttc = 119.6;
