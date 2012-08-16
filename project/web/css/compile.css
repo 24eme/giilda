@@ -938,10 +938,6 @@ bouton.btn_majeur { height:26px; }
   -moz-border-radius:0 0 5px 0;
   border-radius:0 0 5px 0;
 }
-#principal .bloc_form >.ligne_form {
-  text-align:center;
-  clear:both;
-}
 #principal .ligne_form {
   padding:4px 0 10px 10px;
   height:40px;
