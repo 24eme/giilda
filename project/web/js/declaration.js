@@ -48,19 +48,19 @@
             colonnes = new $.Colonnes();
             colonnes.event_colonne_init = function(colonne) {
                 colonne.element.find("input.input_lien.drm_details").click(function() {
-                  var input = $(this);
-                  input.fancybox({type : 'ajax',
-                                 href: input.attr('data-href'),
-                                 fitToView : false,
-                                 afterShow : function()
-                                 {
-                                    input.initDetailsPopup(colonne);                                                    
-                                 },
-                                 onClose : function()
-                                 {
-                                    $.unbindDetailsPopup();  
-                                 }
-                                });
+                input = $(this);
+	          		$.fancybox({type : 'ajax',
+		                        href: input.attr('data-href'),
+		                        fitToView : false,
+		                        afterShow : function()
+		                         {
+		                            input.initDetailsPopup(colonne);                                                    
+		                         },
+		                         onClose : function()
+		                         {
+		                            $.unbindDetailsPopup();  
+		                         }
+                    });
                 });
                 
                 colonne.element.find("a.labels_lien").each(function() { 
