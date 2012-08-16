@@ -99,6 +99,7 @@ class VracClient extends acCouchdbClient {
     }
     
     public function retrieveBySoussigne($soussigneId,$limit=300) {
+      $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
       $bySoussigneQuery = $this->startkey(array('STATUT',$soussigneId))
               ->endkey(array('STATUT',$soussigneId, array()));
       if ($limit){
@@ -110,6 +111,7 @@ class VracClient extends acCouchdbClient {
     }
     
     public function retrieveBySoussigneAndStatut($soussigneId,$statut,$limit=300) {
+      $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
         $bySoussigneStatutQuery =  $this->startkey(array('STATUT',$soussigneId,$statut))
                 ->endkey(array('STATUT',$soussigneId,$statut, array()));
 
@@ -122,6 +124,7 @@ class VracClient extends acCouchdbClient {
     }
     
     public function retrieveBySoussigneAndType($soussigneId,$type,$limit=300) {
+      $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
     $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$type))
               ->endkey(array('TYPE',$soussigneId,$type, array()));
     
@@ -133,14 +136,15 @@ class VracClient extends acCouchdbClient {
     }
         
     public function retrieveBySoussigneStatutAndType($soussigneId,$statut,$type,$limit=300) {
-    $bySoussigneTypeQuery = $this->startkey(array('STATUT',$soussigneId,$statut,$type))
-              ->endkey(array('STATUT',$soussigneId,$statut,$type, array()));
-    
-    if ($limit){
-            $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
-        }
-    $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
-    return $bySoussigneType;
+      $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
+      $bySoussigneTypeQuery = $this->startkey(array('STATUT',$soussigneId,$statut,$type))
+                ->endkey(array('STATUT',$soussigneId,$statut,$type, array()));
+      
+      if ($limit){
+              $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
+          }
+      $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+      return $bySoussigneType;
     }
     public static function getCsvBySoussigne($vracs)
     {
