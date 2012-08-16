@@ -6,12 +6,8 @@
 
 class DRMDetailNoeud extends BaseDRMDetailNoeud {
 
-  // $get_anyway : si le champ n'existe pas ou n'est pas lisible, on retourne 0 et pas une exception
-  public function get($key, $get_anyway = null) {
-    return $this->_get($key);    
-  }
-
   public function getConfig() {
+ 
     return $this->getParent()->getConfig()->get($this->getKey());
   }
   

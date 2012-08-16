@@ -9,6 +9,8 @@ class DRM extends BaseDRM {
     const NOEUD_TEMPORAIRE = 'TMP';
     const DEFAULT_KEY = 'DEFAUT';
 
+    protected $mother = null;
+
     public function constructId() {
 
         $this->set('_id', DRMClient::getInstance()->buildId($this->identifiant, 
@@ -404,13 +406,27 @@ class DRM extends BaseDRM {
         return null;
     }
 
-    public function getMother($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+    public function motherGet($hash) {
+
+        return $this->getMother()->get($hash);
+    }
+
+    public function motherExist($hash) {
+
+        return $this->getMother()->exist($hash);
+    }
+
+    public function getMother() {
         if (!$this->hasVersion()) {
 
-            throw new sfException("You can not recover the master of a non version drm");
+            throw new sfException("You can't get the mother of a non version drm");
         }
 
-        return DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($this->identifiant, $this->periode, $this->getPreviousVersion()), $hydrate);    
+        if(is_null($this->mother)) {
+            $this->mother = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($this->identifiant, $this->periode, $this->getPreviousVersion()));
+        }
+
+        return $this->mother;    
     }
 
     public function getDiffWithMother() {
@@ -525,9 +541,8 @@ class DRM extends BaseDRM {
     }
 
     protected function getDiffWithMotherAbstract() {
-        $drm_mother = $this->getMother(acCouchdbClient::HYDRATE_JSON);
 
-        return $this->getDiffWithAnotherDRM($drm_mother);
+        return $this->getDiffWithAnotherDRM($this->getMother()->getData());
     }
 
     protected function getDRMHistoriqueAbstract() {

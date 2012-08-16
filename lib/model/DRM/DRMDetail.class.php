@@ -263,27 +263,29 @@ class DRMDetail extends BaseDRMDetail {
         continue;
       }
 
-      if ($volume && $volume > 0) {
-        if ($this->exist($hash."/".$key."_details")) {
-          $details = $this->get($hash."/".$key."_details");
-          foreach($details as $detail) {
-            if($detail->volume && $detail->volume > 0) {
-              $mouvements[] = $this->createMouvement($hash."/".$key, $detail->volume, $coefficient, $detail);
-            }
-          }
+      if ($this->exist($hash."/".$key."_details")) {
+        $mouvements = array_merge($mouvements, $this->get($hash."/".$key."_details")->createMouvements($coefficient));
 
-          continue;
-        }
-        
-        $mouvements[] = $this->createMouvement($hash."/".$key, $volume, $coefficient);
+        continue;
       }
+
+      $mouvements[] = $this->createMouvement($hash."/".$key, $volume, $coefficient);
     }
 
     return array_filter($mouvements);
   }
 
-  public function createMouvement($hash, $volume, $coefficient, $detail = null) {
+  public function createMouvement($hash, $volume, $coefficient) {
     if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($this, $hash)) {
+
+      return false;
+    }
+
+    if($this->getDocument()->hasVersion() && $this->getDocument() ->motherExist($this->getHash().'/'.$hash)) {
+      $volume = $volume - $this->getDocument()->motherGet($this->getHash().'/'.$hash);
+    }
+
+    if(!$volume > 0) {
 
       return false;
     }
@@ -294,10 +296,6 @@ class DRMDetail extends BaseDRMDetail {
     $mouvement->type_hash = $hash;
     $mouvement->type_libelle = $this->getConfig()->get($mouvement->type_hash)->getLibelle();
     $mouvement->volume = $coefficient * $volume;
-    if($detail) {
-      $mouvement->detail_identifiant = $detail->identifiant;
-      $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
-    }
     $mouvement->facture = 0;
     $mouvement->facturable = 0;
 
