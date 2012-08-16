@@ -48,17 +48,11 @@
                     <?php foreach($form['sorties'] as $key => $subform): ?>
                     <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                     	<?php if($key=="vrac"): ?>
-                            <a class=" drm_details drm_details_sortie_vrac" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" title="Détails des contrats" >
-                                <input type="text" class="btn_detail num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
-                            </a>
+                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
                     	<?php elseif($key=="export"): ?>
-                            <a class=" drm_details drm_details_sortie_export" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" title="Détails des exports" >
-                                <input type="text" class="btn_detail num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
-                            </a> 
+                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
                     	<?php elseif($key=="cooperative"): ?>
-                            <a  class="drm_details drm_details_sortie_cooperative" href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" title="Détails des coopératives">
-                                <input type="text" class="btn_detail num num_float somme_detail" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
-                            </a>
+                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
                     	<?php else: ?>
                         <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(),'class' => 'num num_float somme_detail')) ?>
                         <?php endif; ?>
