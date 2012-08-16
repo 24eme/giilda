@@ -30,7 +30,7 @@
 	{
 
         $('.autocomplete').combobox();
-        
+
 		if(colonnesDR.exists())
 		{
 /*			$.initColonnes();
@@ -47,18 +47,19 @@
 
             colonnes = new $.Colonnes();
             colonnes.event_colonne_init = function(colonne) {
-                colonne.element.find("a.drm_details").each(function() {
-                  var lien = $(this);
-                  lien.fancybox({type : 'ajax',
-                                    fitToView : false,
-                                    afterShow : function()
-                                    {
-                                        lien.initDetailsPopup(colonne);                                                    
-                                    },
-                                    onClose : function()
-                                    {
-                                        $.unbindDetailsPopup();  
-                                    }
+                colonne.element.find("input.input_lien.drm_details").click(function() {
+                  var input = $(this);
+                  input.fancybox({type : 'ajax',
+                                 href: input.attr('data-href'),
+                                 fitToView : false,
+                                 afterShow : function()
+                                 {
+                                    input.initDetailsPopup(colonne);                                                    
+                                 },
+                                 onClose : function()
+                                 {
+                                    $.unbindDetailsPopup();  
+                                 }
                                 });
                 });
                 
@@ -73,6 +74,7 @@
                                 });
                 });
             }
+
             colonnes.init();
 
             $.initRaccourcis();
@@ -1127,7 +1129,7 @@
 
         $.fn.initDetailsPopup = function(colonne){
                 
-            var lien = $(this); 
+            var input = $(this); 
             
             $('.autocomplete').combobox();
             $('.champ_datepicker input').initDatepicker();
@@ -1151,8 +1153,6 @@
                             }
                             else
                             {
-                            // lien.html(data.volume+" hl");
-                            var input = lien.parent().children('input');
                             input.val(data.volume);
                             input.nettoyageChamps();
                             input.attr('data-val-defaut',input.val());
