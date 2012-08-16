@@ -431,6 +431,7 @@ class DRM extends BaseDRM {
 
     public function devalide() {
       $this->etape = null;
+      $this->clearMouvements();
       $this->valide->identifiant = '';
       $this->valide->date_saisie = '';
       $this->valide->date_signee = '';
@@ -679,12 +680,12 @@ class DRM extends BaseDRM {
     }
 
     public function clearMouvements() {
-        $this->mouvements->clear();
+        $this->remove('mouvements');
+        $this->add('mouvements');
     }
     
     public function generateMouvements() {
         $this->clearMouvements();
-        
         $this->mouvements = $this->declaration->getMouvements();
     }
 }
