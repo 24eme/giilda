@@ -230,14 +230,7 @@ class vracActions extends sfActions
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
       $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
-      $params = array('etape' => $this->vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
-                                'vendeur' => $this->vrac[VracClient::VRAC_SIMILAIRE_KEY_VENDEURID],
-                                'acheteur' => $this->rac[VracClient::VRAC_SIMILAIRE_KEY_ACHETEURID],
-                                'mandataire' => $this->vrac[VracClient::VRAC_SIMILAIRE_KEY_MANDATAIREID],
-                                'produit' => $this->vrac[VracClient::VRAC_SIMILAIRE_KEY_PRODUIT],
-                                'type' => $this->vrac[VracClient::VRAC_SIMILAIRE_KEY_TYPE],
-                                'volume'=>$this->vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
-      $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
+      $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($this->vrac);
       $this->contratsSimilairesExist = (isset($this->vracs) && ($this->vracs!=false) && count($this->vracs->rows)>0);
         if ($request->isMethod(sfWebRequest::POST)) 
         {
@@ -249,17 +242,7 @@ class vracActions extends sfActions
         }
   }
   
-  
-//  public function executeRecapitulatif(sfWebRequest $request)
-//  {
-//      $this->getResponse()->setTitle(sprintf('Contrat N° %d - Récapitulation', $request["numero_contrat"]));
-//      $this->vrac = $this->getRoute()->getVrac();      
-//      if ($request->isMethod(sfWebRequest::POST)) 
-//      {
-//            $this->redirect('vrac_soussigne');
-//      }
-//  }
-  
+   
   public function executeVisualisation(sfWebRequest $request)
   {
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));
@@ -326,11 +309,13 @@ class vracActions extends sfActions
         return $this->renderPartial($familleType.'Modification', array('form' => $this->form));
   }
   
-  public function executeGetContratsSimilaires(sfWebRequest $param)
+  public function executeGetContratsSimilaires(sfWebRequest $params)
   {
-       $vrac = VracClient::getInstance()->findByNumContrat($param['numero_contrat']);
-       $vracs =  VracClient::getInstance()->retrieveSimilaryContractsWithProdTypeVol($param);
-       return $this->renderPartial('contratsSimilaires', array('vrac' => $vrac,'vracs' => $vracs));
+       $vrac = VracClient::getInstance()->findByNumContrat($params['numero_contrat']);
+       if(isset($params['type']) && $params['type']!="") $vrac->type_transaction = $params['type'];
+       if(isset($params['produit']) && $params['produit']!="") $vrac->produit = $params['produit'];     
+       if(isset($params['volume']) && $params['volume']!="") $vrac->volume_propose =  $params['volume']+0;
+       return $this->renderPartial('contratsSimilaires', array('vrac' => $vrac));
   }
 
   public function executeVolumeEnleve(sfWebRequest $request)

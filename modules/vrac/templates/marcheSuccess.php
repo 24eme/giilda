@@ -68,7 +68,6 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
            
            return true;
        }
-       //ajax_send_contrats_similairesMarche('<?php //echo $form->getObject()->numero_contrat ?>');
     });
 </script>
 <div id="contenu">

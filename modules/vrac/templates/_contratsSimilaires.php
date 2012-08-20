@@ -1,25 +1,7 @@
 <?php
 use_helper('Vrac');
-$params = array('etape' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ETAPE],
-                'vendeur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_VENDEURID],
-                'acheteur' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_ACHETEURID],
-                'mandataire' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_MANDATAIREID],
-                'produit' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_PRODUIT],
-                'type' => $vrac[VracClient::VRAC_SIMILAIRE_KEY_TYPE],
-                'volume'=>$vrac[VracClient::VRAC_SIMILAIRE_KEY_VOLPROP]);
-          
-
-if(!isset($vracs) || !$vracs)
-{
-    if($params['etape']=='1'){
-        $vracs = VracClient::getInstance()->retrieveSimilaryContracts($params);
-    }
-    else {
-        $vracs = VracClient::getInstance()->retrieveSimilaryContractsWithProdTypeVol($params);
-    }
-    
-}
-
+if(is_null($vrac->type_transaction)) $vrac->type_transaction = VracClient::TYPE_TRANSACTION_VIN_VRAC;
+$vracs = VracClient::getInstance()->retrieveSimilaryContracts($vrac);
 $flagStatut = false;
 ?>
 <div id="contrats_similaires" class="bloc_col">

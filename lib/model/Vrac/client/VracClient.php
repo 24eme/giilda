@@ -16,13 +16,12 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_VOLPROP = 10;
     const VRAC_VIEW_VOLENLEVE = 11;
 
-    const VRAC_SIMILAIRE_KEY_VENDEURID = 'vendeur_identifiant';   
-    const VRAC_SIMILAIRE_KEY_ACHETEURID = 'acheteur_identifiant';
-    const VRAC_SIMILAIRE_KEY_MANDATAIREID = 'mandataire_identifiant'; 
-    const VRAC_SIMILAIRE_KEY_PRODUIT = 'produit';
-    const VRAC_SIMILAIRE_KEY_TYPE = 'type_transaction';
-    const VRAC_SIMILAIRE_KEY_VOLPROP = 'volume_propose';
-    const VRAC_SIMILAIRE_KEY_ETAPE = 'etape';
+    const VRAC_SIMILAIRE_KEY_VENDEURID = 0;   
+    const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
+    const VRAC_SIMILAIRE_KEY_MANDATAIREID = 3; 
+    const VRAC_SIMILAIRE_KEY_TYPE = 4;
+    const VRAC_SIMILAIRE_KEY_PRODUIT = 5;
+    const VRAC_SIMILAIRE_KEY_VOLPROP = 6;
     
     const VRAC_SIMILAIRE_VALUE_NUMCONTRAT = 0;   
     const VRAC_SIMILAIRE_VALUE_STATUT = 1;
@@ -167,9 +166,38 @@ class VracClient extends acCouchdbClient {
         return $result;
     }
 
-    public function retrieveSimilaryContracts($params) {
-        return $this->startkey(array($params['vendeur'],$params['acheteur'],$params['mandataire']))
-               ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'], array()))->limit(10)->getView('vrac', 'vracSimilaire');            
+    public function retrieveSimilaryContracts($vrac) {       
+        if(isset($vrac->vendeur_identifiant) || isset($vrac->acheteur_identifiant)) {            
+        	return false;
+    	} 
+        if(is_null($vrac->produit)){            
+                return 
+                ($vrac->mandataire_exist)?
+                    $this->startkey(array('M',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->mandataire_identifiant,$vrac->type_transaction))
+                         ->endkey(array('M',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->mandataire_identifiant,$vrac->type_transaction, array()))->limit(10)->getView('vrac', 'vracSimilaire')
+                  : $this->startkey(array('',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->type_transaction))
+                         ->endkey(array('',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->type_transaction, array()))->limit(10)->getView('vrac', 'vracSimilaire');
+        
+                            
+                            
+        }
+        if(is_null($vrac->volume_propose)){
+                return 
+                ($vrac->mandataire_exist)?
+                    $this->startkey(array('M',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->mandataire_identifiant,$vrac->type_transaction,$vrac->produit))
+                         ->endkey(array('M',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->mandataire_identifiant,$vrac->type_transaction,$vrac->produit, array()))->limit(10)->getView('vrac', 'vracSimilaire')
+                  : $this->startkey(array('',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->type_transaction,$vrac->produit))
+                         ->endkey(array('',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->type_transaction,$vrac->produit, array()))->limit(10)->getView('vrac', 'vracSimilaire');
+        
+                            
+                            
+        }
+        return ($vrac->mandataire_exist)?
+                    $this->startkey(array('M',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->mandataire_identifiant,$vrac->type_transaction,$vrac->produit,$vrac->volume_propose))
+                         ->endkey(array('M',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->mandataire_identifiant,$vrac->type_transaction,$vrac->produit,$vrac->volume_propose, array()))->limit(10)->getView('vrac', 'vracSimilaire')
+                  : $this->startkey(array('',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->type_transaction,$vrac->produit,$vrac->volume_propose))
+                         ->endkey(array('',$vrac->vendeur_identifiant,$vrac->acheteur_identifiant,$vrac->type_transaction,$vrac->produit,$vrac->volume_propose, array()))->limit(10)->getView('vrac', 'vracSimilaire');
+
     }
     
     public function retrieveSimilaryContractsWithProdTypeVol($params) {
