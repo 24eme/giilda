@@ -90,7 +90,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
             $this->_choices_produits = array_merge(array("" => ""),
-												  $this->getConfig()->formatProduits());
+            $this->getConfig()->formatProduits());
         }
 
         return $this->_choices_produits;

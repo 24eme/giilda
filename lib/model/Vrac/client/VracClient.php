@@ -157,7 +157,7 @@ class VracClient extends acCouchdbClient {
             {
                 $cpt++;
                 if(($key == self::VRAC_VIEW_PRODUIT_ID) && ($champs!= ""))
-                   $champs = ConfigurationClient::getCurrent()->get($champs)->libelleProduit(array(),"%c% %g% %a% %l% %co% %ce% %la%");                   
+                   $champs = ConfigurationClient::getCurrent()->get($champs)->libelleProduit(array(),"%c% %g% %a% %m% %l% %co% %ce% %la%");                   
                 $result.='"'.$champs.'"';
                 if($cpt < count($elt)) $result.=';';              
             }
