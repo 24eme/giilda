@@ -38,7 +38,7 @@ class ConfigurationCertification extends BaseConfigurationCertification {
         return $produits;
     }
 
-    public function formatProduits($interpro, $departement, $format = "%g% %a% %l% %co% %ce%") {
+    public function formatProduits($interpro, $departement, $format = "%g% %a% %m% %l% %co% %ce%") {
 
     	return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits($interpro, $departement), $format);
     }
@@ -54,7 +54,7 @@ class ConfigurationCertification extends BaseConfigurationCertification {
         return $produits;
     }
 
-    public function formatProduitsLieux($interpro, $departement, $format = "%g% %a% %l% %co% %ce%") {
+    public function formatProduitsLieux($interpro, $departement, $format = "%g% %a% %m% %l% %co% %ce%") {
 
     	return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduitsLieux($interpro, $departement), $format);
     }

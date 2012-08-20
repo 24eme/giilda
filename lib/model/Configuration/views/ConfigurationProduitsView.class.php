@@ -126,7 +126,7 @@ class ConfigurationProduitsView extends acCouchdbView
     	return $codes;
   	}
 
-  	public function formatLibelles($libelles, $format = "%g% %a% %l% %co% %ce%") {
+  	public function formatLibelles($libelles, $format = "%g% %a% %m% %l% %co% %ce%") {
 		$format_index = array('%c%' => self::VALUE_LIBELLE_CERTIFICATION,
 		                      '%g%' => self::VALUE_LIBELLE_GENRE,
 		                      '%a%' => self::VALUE_LIBELLE_APPELLATION,
@@ -150,7 +150,7 @@ class ConfigurationProduitsView extends acCouchdbView
 		return $libelle;
   	}
 
-  	public function formatCodes($codes, $format = "%g%%a%%l%%co%%ce%") {
+  	public function formatCodes($codes, $format = "%g%%a%%m%%l%%co%%ce%") {
 		$format_index = array('%c%' => self::VALUE_CODE_CERTIFICATION,
 		                      '%g%' => self::VALUE_CODE_GENRE,
 		                      '%a%' => self::VALUE_CODE_APPELLATION,
@@ -174,7 +174,7 @@ class ConfigurationProduitsView extends acCouchdbView
 		return $code;
   	}
 
-  	public function formatProduits($produits, $format = "%g% %a% %l% %co% %ce% (%code%)") {
+  	public function formatProduits($produits, $format = "%g% %a% %m% %l% %co% %ce% (%code%)") {
   		$produits_format = array();
   		foreach($produits as $produit) {
   			$produits_format[$produit->key[self::KEY_HASH]] = $this->formatProduit($produit, $format);
@@ -184,7 +184,7 @@ class ConfigurationProduitsView extends acCouchdbView
         return $produits_format;
   	}
 
-  	protected function formatProduit($produit, $format = "%g% %a% %l% %co% %ce%") {
+  	protected function formatProduit($produit, $format = "%g% %a% %m% %l% %co% %ce%") {
   		
         return $this->formatLibelles($produit->value->libelles, $format).' ('.$produit->key[self::KEY_CODE].')';
   	}

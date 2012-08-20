@@ -13,7 +13,7 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
         return $produits;
     }
 
-    public function formatProduits($interpro, $departement = null, $format = "%g% %a% %l% %co% %ce%") {
+    public function formatProduits($interpro, $departement = null, $format = "%g% %a% %m% %l% %co% %ce%") {
 
     	return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits($interpro), $format);
     }

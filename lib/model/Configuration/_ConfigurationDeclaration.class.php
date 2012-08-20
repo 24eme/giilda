@@ -54,14 +54,14 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 		return $this->codes;
 	}
 
-	public function getLibelleFormat($labels = array(), $format = "%g% %a% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
+	public function getLibelleFormat($labels = array(), $format = "%g% %a% %m% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
     	$libelle = ConfigurationProduitsView::getInstance()->formatLibelles($this->getLibelles(), $format);
     	$libelle = $this->getDocument()->formatLabelsLibelle($labels, $libelle, $label_separator);
 
     	return $libelle;
   	}
 
-  	public function getCodeFormat($format = "%g%%a%%l%%co%%ce%") {
+  	public function getCodeFormat($format = "%g%%a%%m%%l%%co%%ce%") {
 
   		return ConfigurationProduitsView::getInstance()->formatCodes($this->getCodes(), $format);
   	}
