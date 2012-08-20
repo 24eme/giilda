@@ -2923,6 +2923,8 @@ bouton.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm 
 }
 .drm #principal fieldset#historique_drm .section_label_maj table tr td+td { border-left:1px solid #e3e2e2; }
 .drm #principal fieldset#historique_drm .section_label_maj table tr:nth-child(2n+2) { background-color:#f7f7f7; }
+.drm #principal fieldset#mouvement_drm td.positif { background-color:#f0fae1; }
+.drm #principal fieldset#mouvement_drm td.negatif { background-color:#feecec; }
 .drm #principal fieldset legend {
   text-transform:uppercase;
   display:inline-block;
