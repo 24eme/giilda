@@ -10,12 +10,12 @@ class DRMDetail extends BaseDRMDetail {
   	return ConfigurationClient::getCurrent()->declaration->detail;
   }
 
-  public function getLibelle($format = "%g% %a% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
+  public function getLibelle($format = "%g% %a% %m% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
 
   	return $this->getCepage()->getConfig()->getLibelleFormat($this->labels->toArray(), $format, $label_separator);
   }
 
-  public function getCode($format = "%g%%a%%l%%co%%ce%") {
+  public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
 
   	return $this->getCepage()->getConfig()->getCodeFormat($format);
   }
@@ -292,7 +292,7 @@ class DRMDetail extends BaseDRMDetail {
 
     $mouvement = DRMMouvement::freeInstance($this->getDocument());
     $mouvement->produit_hash = $this->getHash();
-    $mouvement->produit_libelle = $this->getLibelle("%g% %a% %l% %co% %ce% %la%");
+    $mouvement->produit_libelle = $this->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
     $mouvement->type_hash = $hash;
     $mouvement->type_libelle = $this->getConfig()->get($mouvement->type_hash)->getLibelle();
     $mouvement->volume = $coefficient * $volume;

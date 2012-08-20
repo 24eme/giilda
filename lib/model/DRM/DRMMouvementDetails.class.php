@@ -50,7 +50,7 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
 
         $mouvement = DRMMouvement::freeInstance($this->getDocument());
         $mouvement->produit_hash = $this->getDetail()->getHash();
-        $mouvement->produit_libelle = $this->getDetail()->getLibelle("%g% %a% %l% %co% %ce% %la%");
+        $mouvement->produit_libelle = $this->getDetail()->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
         $mouvement->type_hash = $this->getNoeud()->getKey().'/'.$this->getTotalHash();
         $mouvement->type_libelle = $this->getDetail()->getConfig()->get($mouvement->type_hash)->getLibelle();
         $mouvement->volume = $coefficient * $volume;
