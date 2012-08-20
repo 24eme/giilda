@@ -58,7 +58,7 @@ INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Fiefs vendéens;FVD;;;;;Blan
 INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Fiefs vendéens;FVD;;;;;Rosé;2;;;;;4030
 INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Fiefs vendéens;FVD;;;;;Rouge;1;;;;;4020
 INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Gros plant;GPL;;;;;Blanc;3;Folle blanche;FBL;;;2000
-INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Gros plant;GPL;;;;;Blanc;3;Folle blanche;FBL;;Sur lie;2001
+INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Gros plant;GPL;Sur lie;SL;;;Blanc;3;Folle blanche;FBL;;;2001
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Jasnières;JAS;;;;;Blanc;3;Chenin;CHE;;;621
 INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Jasnières;JAS;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;621
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;;561
@@ -66,17 +66,17 @@ INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Montlouis sur Loire;MLL;Liquoreux;LIQ;;;Bla
 INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Montlouis sur Loire;MLL;Mousseux;MOU;;;Blanc;3;Chenin;CHE;;;564
 INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Montlouis sur Loire;MLL;Pétillant;PET;;;Blanc;3;Chenin;CHE;;;564
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;;;1040
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;;Sur lie;1041
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;Sur lie;SL;AC;AC;Blanc;3;Melon;MEL;;;1041
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Coteaux de la Loire;CDL;Blanc;3;Melon;MEL;;;1060
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Coteaux de la Loire;CDL;Blanc;3;Melon;MEL;;Sur lie;1061
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;Sur lie;SL;Coteaux de la Loire;CDL;Blanc;3;Melon;MEL;;;1061
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Côtes de Grand Lieu;CGL;Blanc;3;Melon;MEL;;;1070
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Côtes de Grand Lieu;CGL;Blanc;3;Melon;MEL;;Sur lie;1071
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;Sur lie;SL;Côtes de Grand Lieu;CGL;Blanc;3;Melon;MEL;;;1071
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;;Primeur;1080
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Le Pallet;PAL;Blanc;3;Melon;MEL;;;
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Gorges;GOR;Blanc;3;Melon;MEL;;;
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Clisson;CLI;Blanc;3;Melon;MEL;;;
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;;;Blanc;3;Melon;MEL;;;1050
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;;;Blanc;3;Melon;MEL;;Sur lie;1051
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;Sur lie;SL;;;Blanc;3;Melon;MEL;;;1051
 INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Quarts de Chaume;QDC;Liquoreux;LIQ;Rochefort sur Loire;RFL;Blanc;3;Chenin;CHE;;;111
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;Demi-sec;DMS;Roche aux moines;RAM;Blanc;3;Chenin;CHE;;;651
 INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;;;;;Blanc;3;Chenin;CHE;;;651
