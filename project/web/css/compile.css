@@ -152,6 +152,11 @@ button span { position:relative; }
 .ielt9 button span { margin:-1px 0 -2px; }
 pre, code, kbd, samp { font-family:monospace, sans-serif; }
 .majuscules { text-transform:uppercase; }
+.anti_leak {
+  -moz-background-clip:padding;
+  -webkit-background-clip:padding-box;
+  background-clip:padding-box;
+}
 .btn_majeur {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;
@@ -603,6 +608,59 @@ bouton.btn_majeur { height:26px; }
   display:inline-block;
 }
 .btn_calendrier:after { background-position:3px -488px; }
+.table_recap {
+  border:1px solid #e3e2e2;
+  -webkit-border-radius:5px 5px 5px 5px;
+  -moz-border-radius:5px 5px 5px 5px;
+  border-radius:5px 5px 5px 5px;
+  -webkit-border-radius:5px 5px 5px 5px;
+  -moz-border-radius:5px 5px 5px 5px;
+  border-radius:5px 5px 5px 5px;
+  border-collapse:separate;
+  box-sizing:border-box;
+  width:100%;
+}
+.table_recap tr th {
+  background-color:#ecebeb;
+  font-size:14px;
+  height:50px;
+  line-height:50px;
+}
+.table_recap tr th+th { border-left:1px solid #e3e2e2; }
+.table_recap tr td {
+  text-align:center;
+  border-top:1px solid #e3e2e2;
+  height:35px;
+  line-height:35px;
+  padding:0 15px;
+}
+.table_recap tr td+td { border-left:1px solid #e3e2e2; }
+.table_recap tr:nth-child(2n+2) { background-color:#f7f7f7; }
+.statut_suspendu, .statut_nouveau, .statut_valide, .statut_cloture {
+  background-image:url(../images/pictos/sprite_calendrier.png);
+  background-repeat:no-repeat;
+  display:inline-block;
+  font-weight:bold;
+  height:23px;
+  line-height:23px;
+  padding-left:26px;
+}
+.statut_suspendu {
+  color:#d30815;
+  background-position:0 0;
+}
+.statut_nouveau {
+  color:#faa804;
+  background-position:0 -23px;
+}
+.statut_valide {
+  color:#9bd247;
+  background-position:0 -69px;
+}
+.statut_cloture {
+  color:#8f8f8f;
+  background-position:0 -46px;
+}
 .invisible {
   clip:rect(1px 1px 1px 1px);
   clip:rect(1px,1px,1px,1px);
@@ -649,6 +707,14 @@ bouton.btn_majeur { height:26px; }
 .ielt8 .inline-block-ie {
   display:inline;
   zoom:1;
+}
+.section-titre {
+  display:inline-block;
+  text-transform:uppercase;
+  font-size:15px;
+  font-weight:bold;
+  height:35px;
+  padding-top:4px;
 }
 #message_ie6 {
   background:#feefda;
@@ -871,6 +937,10 @@ bouton.btn_majeur { height:26px; }
   -webkit-border-radius:0 0 5px 0;
   -moz-border-radius:0 0 5px 0;
   border-radius:0 0 5px 0;
+}
+#principal .bloc_form >.ligne_form {
+  text-align:center;
+  clear:both;
 }
 #principal .ligne_form {
   padding:4px 0 10px 10px;
