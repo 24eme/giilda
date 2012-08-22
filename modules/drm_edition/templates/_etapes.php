@@ -8,15 +8,7 @@
     <li class="">
         <a>
             <span style="cursor: default;">2 </span>
-            Récapitulatif 
-        </a>    
-    </li>
-
-  <li class="">
-        <a>
-            <span style="cursor: default;">3 </span>
             Validation 
         </a>    
     </li>
-
 </ol>

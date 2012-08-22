@@ -49,7 +49,7 @@ class DRMProduitForm extends acCouchdbForm
     public function getProduitsExistant() {
         $choices = array();
         foreach($this->_drm->getDetails() as $key => $produit) {
-            $choices[$key] = sprintf("%s (%s)", $produit->getLibelle("%g% %a% %l% %co% %ce% %la%"), $produit->getCode());
+            $choices[$key] = sprintf("%s (%s)", $produit->getLibelle("%g% %a% %m% %l% %co% %ce% %la%"), $produit->getCode());
         }
 
         return $choices;

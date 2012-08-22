@@ -144,4 +144,46 @@ class DRMHistorique
 	  return $this->identifiant;
 	}
 
+	public function getNextByPeriode($periode)
+	{
+		$drms = $this->getDRMs();
+		foreach ($drms as $drm) {
+			if ($drm[self::VIEW_PERIODE] <= $periode) {
+
+				return null;	
+			} elseif (is_null($drm[self::VIEW_INDEX_STATUS])) {
+				
+				return $drm;
+			}
+		}
+	}
+	
+	public function getPrevByPeriode($periode)
+	{
+		$drms = $this->getDRMs();
+
+		$prevDrm = null;
+		foreach ($drms as $drm) {
+			if ($drm[self::VIEW_PERIODE] < $periode) {
+				
+				return $drm;
+			}
+		}
+		return null;
+	}
+	
+	public function getDateObjectByCampagne($campagne)
+	{
+		$this->checkCampagneFormat($campagne);
+		$campagneTab = explode('-', $campagne);
+		return new DateTime($campagneTab[0].'-'.$campagneTab[1].'-01');
+	}
+	
+	public function checkCampagneFormat($campagne)
+	{
+		if (!preg_match(self::REGEXP_CAMPAGNE, $campagne)) {
+			throw new sfException('La campagne doit être au format AAAA-MM');
+		}
+	}
+
 }

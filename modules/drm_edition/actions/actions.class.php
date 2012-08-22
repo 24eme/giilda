@@ -54,6 +54,7 @@ class drm_editionActions extends sfActions
      			return $this->renderText(json_encode(array(
      				"success" => true,
      				"content" => $this->getComponent('drm_edition', 'itemForm', array('config' => $this->config, 'detail' => $detail, 'active' => false)),
+                    "produit" => array("hash" => $detail->getHash(), "libelle" => sprintf("%s (%s)", $detail->getLibelle("%g% %a% %m% %l% %co% %ce% %la%"), $detail->getCode())),
      				"document" => array("id" => $this->drm->get('_id'),
                 	"revision" => $this->drm->get('_rev'))
      			)));

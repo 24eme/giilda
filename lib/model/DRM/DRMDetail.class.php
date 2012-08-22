@@ -10,12 +10,12 @@ class DRMDetail extends BaseDRMDetail {
   	return ConfigurationClient::getCurrent()->declaration->detail;
   }
 
-  public function getLibelle($format = "%g% %a% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
+  public function getLibelle($format = "%g% %a% %m% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
 
   	return $this->getCepage()->getConfig()->getLibelleFormat($this->labels->toArray(), $format, $label_separator);
   }
 
-  public function getCode($format = "%g%%a%%l%%co%%ce%") {
+  public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
 
   	return $this->getCepage()->getConfig()->getCodeFormat($format);
   }
@@ -166,7 +166,7 @@ class DRMDetail extends BaseDRMDetail {
   }
 
   public function hasContratVrac() {
-      $etablissement = 'ETABLISSEMENT-'.$this->getDocument()->identifiant;
+      $etablissement = $this->getDocument()->identifiant;
       $produit = $this->getCepage()->getHash();
       if(substr($produit, 0, 1) == "/") {
           $produit = substr($produit, 1);
@@ -179,7 +179,7 @@ class DRMDetail extends BaseDRMDetail {
   }
   
   public function getContratsVrac() {
-  	  $etablissement = 'ETABLISSEMENT-'.$this->getDocument()->identifiant;
+  	  $etablissement = $this->getDocument()->identifiant;
   	  return VracClient::getInstance()->retrieveFromEtablissementsAndHash($etablissement, $this->getHash());
   }
 
@@ -263,41 +263,39 @@ class DRMDetail extends BaseDRMDetail {
         continue;
       }
 
-      if ($volume && $volume > 0) {
-        if ($this->exist($hash."/".$key."_details")) {
-          $details = $this->get($hash."/".$key."_details");
-          foreach($details as $detail) {
-            if($detail->volume && $detail->volume > 0) {
-              $mouvements[] = $this->createMouvement($hash."/".$key, $detail->volume, $coefficient, $detail);
-            }
-          }
+      if ($this->exist($hash."/".$key."_details")) {
+        $mouvements = array_merge($mouvements, $this->get($hash."/".$key."_details")->createMouvements($coefficient));
 
-          continue;
-        }
-        
-        $mouvements[] = $this->createMouvement($hash."/".$key, $volume, $coefficient);
+        continue;
       }
+
+      $mouvements[] = $this->createMouvement($hash."/".$key, $volume, $coefficient);
     }
 
     return array_filter($mouvements);
   }
 
-  public function createMouvement($hash, $volume, $coefficient, $detail = null) {
+  public function createMouvement($hash, $volume, $coefficient) {
     if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($this, $hash)) {
+
+      return false;
+    }
+
+    if($this->getDocument()->hasVersion() && $this->getDocument() ->motherExist($this->getHash().'/'.$hash)) {
+      $volume = $volume - $this->getDocument()->motherGet($this->getHash().'/'.$hash);
+    }
+
+    if(!$volume > 0) {
 
       return false;
     }
 
     $mouvement = DRMMouvement::freeInstance($this->getDocument());
     $mouvement->produit_hash = $this->getHash();
-    $mouvement->produit_libelle = $this->getLibelle("%g% %a% %l% %co% %ce% %la%");
+    $mouvement->produit_libelle = $this->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
     $mouvement->type_hash = $hash;
     $mouvement->type_libelle = $this->getConfig()->get($mouvement->type_hash)->getLibelle();
     $mouvement->volume = $coefficient * $volume;
-    if($detail) {
-      $mouvement->detail_identifiant = $detail->identifiant;
-      $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
-    }
     $mouvement->facture = 0;
     $mouvement->facturable = 0;
 

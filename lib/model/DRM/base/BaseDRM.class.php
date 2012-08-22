@@ -12,8 +12,9 @@
  * @property string $raison_rectificative
  * @property string $etape
  * @property string $campagne
+ * @property string $periode
  * @property string $precedente
- * @property integer $rectificative
+ * @property string $version
  * @property acCouchdbJson $droits
  * @property DRMDeclaration $declaration
  * @property DRMDeclarant $declarant
@@ -41,10 +42,12 @@
  * @method string setEtape()
  * @method string getCampagne()
  * @method string setCampagne()
+ * @method string getPeriode()
+ * @method string setPeriode()
  * @method string getPrecedente()
  * @method string setPrecedente()
- * @method integer getRectificative()
- * @method integer setRectificative()
+ * @method string getVersion()
+ * @method string setVersion()
  * @method acCouchdbJson getDroits()
  * @method acCouchdbJson setDroits()
  * @method DRMDeclaration getDeclaration()

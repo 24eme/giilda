@@ -30,10 +30,10 @@
     </div>
 
     <div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="4">
-        <p>Stock théorique fin de mois</p>
+        <p class="itemcache">Stock théorique fin de mois</p>
         <ul>
             <?php foreach ($config->detail->getStocksFin() as $key => $item): ?>
-                <li class="<?php if ($key == 'revendique') echo ' li_gris' ?>"><?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_stockfin_<?php echo $key; ?>" title="Message aide"></a>
+                <li class="<?php if ($key != 'revendique') echo ' itemcache'; else echo ' li_gris' ?>"><?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_stockfin_<?php echo $key; ?>" title="Message aide"></a>
                 </li>
             <?php endforeach; ?>
         </ul>

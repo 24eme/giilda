@@ -247,6 +247,7 @@ DRM:
                                                                                                                   elaboration: { type: float }
                                                                                                                   regularisation: { type: float }
                                                                                                                   vrac_details:
+                                                                                                                    class: DRMMouvementDetails
                                                                                                                     type:  array_collection
                                                                                                                     definition:
                                                                                                                       fields:
@@ -259,6 +260,7 @@ DRM:
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
                                                                                                                   export_details:
+                                                                                                                    class: DRMMouvementDetails
                                                                                                                     type:  array_collection
                                                                                                                     definition:
                                                                                                                       fields:
@@ -271,6 +273,7 @@ DRM:
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
                                                                                                                   cooperative_details:
+                                                                                                                     class: DRMMouvementDetails
                                                                                                                      type:  array_collection
                                                                                                                      definition:
                                                                                                                        fields:

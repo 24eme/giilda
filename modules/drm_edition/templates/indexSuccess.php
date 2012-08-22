@@ -1,5 +1,3 @@
-<?php //include_partial('global/navTop', array('active' => 'drm'));  ?>
-
 <div id="contenu" class="drm">
 
     <!-- #principal -->
@@ -10,11 +8,11 @@
         <h2>Déclaration Récapitulative Mensuelle</h2>
 
         <div id="recap_infos_header">
-            <div><label>Nom de l'opérateur : </label>Ackerman Rémy Pannier</div>
-            <div><label>Période : </label>Aout 2012</div>
+            <div><label>Nom de l'opérateur : </label> <?php echo $drm->getEtablissement()->nom ?> </div>
+            <div><label>Période : </label><?php echo $drm->periode ?></div>
         </div>
 
-        <?php include_partial('etapes'); ?>
+        <?php include_partial('drm_edition/etapes'); ?>
 
         <?php include_partial('drm/controlMessage'); ?>
 
@@ -40,8 +38,6 @@
 
         </div>
         <div id="btn_etape_dr">
-            <!--a href="<?php echo url_for('drm_pdf_facture', $drm); ?>" id="facture">Facture</a-->   
-            <a href="" class="btn_etape_prec" id="facture"><span>Précédent</span></a> 
             <a href="<?php echo url_for('drm_validation', $drm); ?>" class="btn_etape_suiv" id="facture"><span>Suivant</span></a> 
         </div>
 
