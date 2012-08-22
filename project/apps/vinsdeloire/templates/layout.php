@@ -11,6 +11,15 @@
                 .versionner {
                     outline: 1px dotted #ff0000 !important;
                 }
+                ul.ui-menu li.ui-menu-item.existant a{
+                    background-color: #F9D66D;
+                }
+                ul.ui-menu li.ui-menu-item.existant a:hover,
+                ul.ui-menu li.ui-menu-item.existant a.ui-state-hover,
+                ul.ui-menu li.ui-menu-item.existant a.ui-state-active {
+                    background-color: #F5A804 !important;
+                    color: #fff;
+                }
         </style>
 
         <?php include_javascripts() ?>

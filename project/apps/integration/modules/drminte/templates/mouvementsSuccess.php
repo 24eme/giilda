@@ -58,7 +58,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="btn_editer btn_modifier">
+					<div class="btn_container_modifier">
 						<a href="#" id="chai_modif_btn">MODIFIER</a>
 					</div>
 				</fieldset>
@@ -72,7 +72,7 @@
 						</ul>
 					</nav>
 					<div class="section_label_maj" id="mouvements_drm">
-						<div class="btn_editer btn_exporter">
+						<div class="btn_container_exporter">
 							<a href="#" id="export_table">exporter en tableur</a>
 						</div>
 						<label for="">Campagne Viticole</label>

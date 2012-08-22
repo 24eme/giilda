@@ -1030,7 +1030,7 @@ p#date_drm
             padding:1px 0 0 35px;
         }
 
-        .label{ height:30px !important; }
+        /*.label{ height:30px !important; }*/
 }
 
 
@@ -1271,4 +1271,219 @@ p#date_drm
 
      }
     
+}
+.drm #principal{
+	fieldset{
+		margin-top: 25px;
+
+		&#historique_drm{
+			nav{
+				position: relative;
+				bottom: -1px;
+				z-index: 10;
+
+				ul{
+					.clearfix;
+
+					li{
+						.border-radius(5px 5px 0 0);
+						.border(@couleur-a7);
+						float: left;
+
+						&.actif { border-bottom-color: @couleur-a1; }
+
+						*{
+							display: block;
+							font-weight: bold;
+							letter-spacing: 1px;
+							padding: 6px 4px;
+						}
+
+						a{
+							background: #ececec url(../images/fonds/bg_nav_historique.png) 0 0 repeat-x;
+						}
+					}
+				}
+			}
+
+			.section_label_maj{
+				.border(@couleur-a7);
+				.border-radius(0 5px 5px 0);
+				padding: 18px 3px 10px;
+
+				> label{
+					font-weight: bold;
+					height: 30px;
+					line-height: 30px;
+					margin-right: 18px;
+					padding-top: 0;
+					text-transform: none;
+				}
+				> select{
+					.border-radius(5px 5px 5px 5px);
+					.border(@couleur-a7);
+					padding: 6px 0 6px 6px;
+				}
+
+				.bloc_form,
+				table { margin-top: 15px; }
+
+				&#calendrier_drm{
+					.bloc_form{	
+						.ligne_compose{
+
+							height: auto;
+							padding: 0;
+
+							.liste_mois{
+								.clearfix;
+
+								>li{
+									box-sizing: border-box;
+									float: left;
+									width: 25%;
+
+									& + li { border-left: 1px solid @couleur-a7; }
+
+									.mois{
+										.majuscules;
+										background-color: @couleur-a5;
+										font-size: 14px;
+										font-weight: bold;
+										height: 42px;
+										line-height: 42px;
+									}
+
+									.mois_infos{
+										padding: 22px 5px 6px;
+
+										&.attente_campagne{
+											background-color: @couleur-d1;
+
+											li:first-child{
+
+												span { .statut_suspendu; }
+											}
+
+											a { .btn_rouge; }
+										}
+
+										&.cloture_campagne{
+											background-color: @couleur-a1;
+
+											li:first-child{
+												span { .statut_cloture; }
+											}
+
+											a { .btn_noir; }
+										}
+
+										&.nouv_campagne{
+											background-color: @couleur-d2;
+
+											li:first-child{
+												span { .statut_nouveau; }
+											}
+
+											a { .btn_orange; }
+										}
+
+										&.valide_campagne{
+											background-color: @couleur-d3;
+
+											li:first-child{
+
+												span { .statut_valide; }
+											}
+
+											a { .btn_noir; }
+										}
+
+										li{
+											font-size: 13px;
+											text-align: left;
+
+											label{
+												display: inline-block;
+												height: 23px;
+												line-height: 23px;
+											}
+
+											label{
+												font-weight: bold;
+												margin-bottom: 15px;
+												padding-left: 5px;
+												width: 60px;
+											}
+
+											a{
+												.btn_majeur;
+												text-align: center;
+												display: block;
+												width: 100%;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				table { .table_recap; }
+			}
+		}
+                &#mouvement_drm{
+                    td.positif{ background-color : #f0fae1; }
+                    td.negatif{ background-color : #feecec; }
+                }
+		legend
+		{
+			.majuscules;
+			.section-titre;
+			margin-bottom:15px;
+			padding-top: 0;
+		}
+
+		.section_label_maj{
+			.bloc_form{
+				.clearfix;
+
+				>.ligne_form{
+					.center;
+					.clear;
+
+					label { width: auto }
+
+					.type_declar{
+						background: url(../images/pictos/pi_mensuel.png) 0 -2px no-repeat;
+						display: inline-block;
+						margin-left: 12px;
+						padding-left: 27px;
+					}
+				}
+			}
+		}
+
+		.btn_container_modifier{
+			float: right;
+			margin-top: 10px;
+
+			a{
+				.btn_majeur;
+				.btn_modifier;
+				.btn_orange;
+			}
+		}
+
+		.btn_container_exporter{
+			float: right;
+
+			a{
+				.btn_majeur;
+				.btn_excel;
+				.btn_vert;
+			}
+		}
+	}
 }

@@ -56,7 +56,7 @@
 					var data = null;
 
 					try {
-						var data = jQuery.parseJSON(xhr.response);
+						var data = jQuery.parseJSON(xhr.responseText);
 					} catch (err) {
 
 					}
