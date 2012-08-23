@@ -938,10 +938,6 @@ bouton.btn_majeur { height:26px; }
   -moz-border-radius:0 0 5px 0;
   border-radius:0 0 5px 0;
 }
-#principal .bloc_form >.ligne_form {
-  text-align:center;
-  clear:both;
-}
 #principal .ligne_form {
   padding:4px 0 10px 10px;
   height:40px;
@@ -2625,6 +2621,12 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
 #drm_export_details_table .export_detail_date_enlevement input, #drm_export_details_table .cooperative_detail_date_enlevement input, #drm_export_details_table .vrac_detail_date_enlevement input, #drm_cooperative_details_table .export_detail_date_enlevement input, #drm_cooperative_details_table .cooperative_detail_date_enlevement input, #drm_cooperative_details_table .vrac_detail_date_enlevement input, #drm_vrac_details_table .export_detail_date_enlevement input, #drm_vrac_details_table .cooperative_detail_date_enlevement input, #drm_vrac_details_table .vrac_detail_date_enlevement input { width:80%; }
 #drm_export_details_table .vrac_detail_volume, #drm_export_details_table .cooperative_detail_volume, #drm_export_details_table .export_detail_volume div, #drm_cooperative_details_table .vrac_detail_volume, #drm_cooperative_details_table .cooperative_detail_volume, #drm_cooperative_details_table .export_detail_volume div, #drm_vrac_details_table .vrac_detail_volume, #drm_vrac_details_table .cooperative_detail_volume, #drm_vrac_details_table .export_detail_volume div { text-align:center; }
 #drm_export_details_table span, #drm_cooperative_details_table span, #drm_vrac_details_table span { font-size:20px; }
+#drm_export_details_table #col_produit { width:195px; }
+#drm_export_details_table .export_detail_remove { padding-right:0; }
+#drm_export_details_table .export_detail_remove a {
+  padding:0 13px;
+  text-indent:-9999px;
+}
 .drm #principal {
   width:700px !important;
   padding:20px 15px 0 10px;
@@ -3072,3 +3074,13 @@ bouton.drm #principal fieldset .btn_container_exporter a { height:26px; }
   display:inline-block;
 }
 .drm #principal fieldset .btn_container_exporter a:after { background-position:2px -315px; }
+.fancybox-wrap .fancybox-title-inside-wrap {
+  text-transform:uppercase;
+  color:#3e3e3e;
+  font-size:16px;
+  font-weight:bold;
+  margin-bottom:25px;
+}
+.fancybox-wrap .fancybox-inner #contenu { background:#ffffff; }
+.fancybox-wrap .fancybox-inner #contenu #principal { width:auto; }
+.fancybox-wrap .fancybox-inner #contenu #principal #drm_export_details_form .btn_valider { float:right; }
