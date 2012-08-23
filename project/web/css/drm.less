@@ -1192,9 +1192,13 @@ p#date_drm
 	   }
 }
 
-#drm_export_details_table {
+#drm_export_details_table,
+#drm_vrac_details_table,
+#drm_cooperative_details_table {
 	#col_produit { width: 195px; }
+}
 
+#drm_export_details_table{
 	.export_detail_remove{
 		padding-right: 0;
 
@@ -1204,6 +1208,29 @@ p#date_drm
 		}
 	}
 }
+
+#drm_vrac_details_table{
+	.vrac_detail_remove{
+		padding-right: 0;
+
+		a{
+		padding: 0 13px;
+		text-indent: -9999px;
+		}
+	}
+}
+
+#drm_cooperative_details_table{
+	.cooperative_detail_remove{
+		padding-right: 0;
+
+		a{
+		padding: 0 13px;
+		text-indent: -9999px;
+		}
+	}
+}
+
 
 .drm{ 
         
@@ -1522,7 +1549,10 @@ p#date_drm
 	 		#principal{
 	 			width: auto;
 
-	 			#drm_export_details_form{
+	 			#drm_export_details_form,
+	 			#drm_vrac_details_form,
+	 			#drm_cooperative_details_form
+	 			{
 	 				.btn_valider { float: right; }
 	 			}
 	 		}
