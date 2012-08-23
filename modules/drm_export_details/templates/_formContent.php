@@ -3,6 +3,13 @@
     echo $form->renderGlobalErrors();
 ?>
 <table id="drm_export_details_table" class="drm_details_table">
+    <colgroup>
+        <col id="col_produit">
+        <col>
+        <col>
+        <col>
+        <col>
+    </colgroup>
     <thead>
         <tr>
             <th>Produit</th>

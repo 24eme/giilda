@@ -48,11 +48,11 @@
                     <?php foreach($form['sorties'] as $key => $subform): ?>
                     <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                     	<?php if($key=="vrac"): ?>
-                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
+                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
                     	<?php elseif($key=="export"): ?>
-                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
                     	<?php elseif($key=="cooperative"): ?>
-                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
+                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
                     	<?php else: ?>
                         <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(),'class' => 'num num_float somme_detail')) ?>
                         <?php endif; ?>
