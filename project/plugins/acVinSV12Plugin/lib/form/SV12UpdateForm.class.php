@@ -1,42 +1,35 @@
 <?php
 
-class SV12UpdateForm  extends acCouchdbObjectForm {
+class SV12UpdateForm  extends acCouchdbForm {
+    
 
-    private $contrats;
-    
-    public function __construct(acCouchdbJson $object, $contrats, $options = array(), $CSRFSecret = null) {        
-        $this->contrats = $contrats;
-        parent::__construct($object, $options, $CSRFSecret);
-    }
-    
-    
-    public function configure() {
+    public function __construct(acCouchdbDocument $doc, $defaults = array(), $options = array(), $CSRFSecret = null) {
+        $defaults = array();
+        foreach ($doc->getContrats() as $value) {
+                $defaults[$value->contrat_numero] = $value->volume;
+    	}  
         
-    	foreach ($this->contrats as $value) {
-                $num_contrat = preg_replace('/VRAC-/', '', $value->value[VracClient::VRAC_VIEW_NUMCONTRAT]);
-                $this->setWidget($num_contrat, new sfWidgetFormInputFloat(array()));
-                $this->setValidator($num_contrat, new sfValidatorNumber(array('required' => false)));
+        parent::__construct($doc,$defaults, $options, $CSRFSecret);
+   }
+    
+    
+    public function configure() {  
+    	foreach ($this->getDocument()->getContrats() as $value) {
+                $this->setWidget($value->contrat_numero, new sfWidgetFormInputFloat(array()));
+                $this->setValidator($value->contrat_numero, new sfValidatorNumber(array('required' => false)));
     	}  
         
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
         $this->widgetSchema->setNameFormat('sv12[%s]');
     }
-   
-    public function doUpdateObject($values) {
+    
+    public function doUpdateObject() {
+        $values = $this->values;
         foreach ($values as $num_contrat => $volume) {
-            if($num_contrat!='_revision')
+            if($this->getDocument()->contrats->exist($num_contrat))
             {
-                $this->getObject()->updateVolumeContrat($num_contrat,$volume,$this->getContrat($num_contrat));
+                $this->getDocument()->contrats[$num_contrat]->volume = $volume;
             }
         }
     }
-    
-    private function getContrat($num_contrat) {
-        foreach ($this->contrats as $contrat) {
-            if(preg_replace('/VRAC-/', '', $contrat->value[VracClient::VRAC_VIEW_NUMCONTRAT])==$num_contrat)
-                return $contrat->value;
-        }
-        return null;
-    }
-
 }

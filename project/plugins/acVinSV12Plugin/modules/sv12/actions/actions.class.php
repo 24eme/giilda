@@ -37,7 +37,7 @@ class sv12Actions extends sfActions {
          $sv12s = array_values($sv12s);
          $sv12 = $sv12s[0];         
          return $this->renderPartial('popupWarning',array('sv12' => $sv12));
-        // $this->redirect('sv12_etablissement',  EtablissementClient::getInstance()->findByIdentifiant($sv12[0]));
+         //$this->redirect('sv12_etablissement',  EtablissementClient::getInstance()->findByIdentifiant($sv12[0]));
         }
         
         $sv12 = SV12Client::getInstance()->createDoc($etbId,$periode);
@@ -47,16 +47,15 @@ class sv12Actions extends sfActions {
 
     public function executeUpdate(sfWebRequest $request) {
 
-        $this->sv12 = $this->getRoute()->getSV12();
-        $this->contrats = SV12Client::getInstance()->retrieveContratsByEtablissement($request->getParameter('negociant_identifiant'));
-
-        $this->form = new SV12UpdateForm($this->sv12, $this->contrats);
+        $this->sv12 = $this->getRoute()->getSV12();        
+        $this->form = new SV12UpdateForm($this->sv12);
 
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $this->form->save();
-                $this->redirect('sv12_recapitulatif', $this->form->getObject());
+                $this->form->doUpdateObject();
+                $this->sv12->save();
+                $this->redirect('sv12_recapitulatif', $this->sv12);
             }
         }
     }
@@ -74,6 +73,7 @@ class sv12Actions extends sfActions {
     
     public function executeVisualisation(sfWebRequest $request) {
         $this->sv12 = $this->getRoute()->getSV12();
+        $this->sv12ByProduitsTypes = $this->sv12->getSV12ByProduitsType();
     }
     
     public function executeBrouillon(sfWebRequest $request) {

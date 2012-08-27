@@ -7,17 +7,37 @@
 class SV12 extends BaseSV12 {
 
     public function constructId() {
+        $this->identifiant = $this->negociant_identifiant.'-'.$this->periode;
         $this->set('_id', 'SV12-' . $this->identifiant);
-//
-//        if(!$this->date_signature) {
-//            $this->date_signature = date('d/m/Y');
-//        }
-//        
-//        if(!$this->date_stats) {
-//            $this->date_stats = date('d/m/Y');
-//        }
     }
-
+    
+    public function storeNegociant() {
+        $nego = $this->getEtablissementObject();
+        if(!$nego) return null;
+        $this->negociant->nom = $nego->nom;
+        $this->negociant->cvi = $nego->cvi;
+        $this->negociant->num_accise = $nego->no_accises;
+        $this->negociant->num_tva_intracomm = $nego->no_tva_intracommunautaire;
+        $this->negociant->adresse = $nego->siege->adresse;        
+        $this->negociant->commune = $nego->siege->commune;
+        $this->negociant->code_postal = $nego->siege->code_postal;
+    }
+    
+    
+    public function storeContrats() {
+        $contratsView = SV12Client::getInstance()->retrieveContratsByEtablissement($this->negociant_identifiant);
+        foreach ($contratsView as $contratView)
+        {
+            $idContrat = preg_replace('/VRAC-/', '', $contratView->value[VracClient::VRAC_VIEW_NUMCONTRAT]);
+            $this->updateContrat($idContrat,$contratView->value);
+        }
+    }
+    
+    public function getEtablissementObject() {
+       
+        return EtablissementClient::getInstance()->findByIdentifiant($this->negociant_identifiant);
+    }
+    
     public function update($params = array()) {
         
     }
@@ -32,13 +52,10 @@ class SV12 extends BaseSV12 {
         return ($this->valide->date_saisie) && ($this->valide->statut==SV12Client::SV12_STATUT_BROUILLON);
     }
     
-    public function updateVolumeContrat($num_contrat, $volume, $contrat) {
-
+    public function updateContrat($num_contrat, $contrat) {
         $founded = false;
         foreach ($this->contrats as $c) {
             if ($c->contrat_numero == $num_contrat) {
-                $c->volume = $volume;
-                $founded = true;
                 break;
             }
         }
@@ -53,9 +70,13 @@ class SV12 extends BaseSV12 {
             $contratObj->produit_hash = $contrat[VracClient::VRAC_VIEW_PRODUIT_ID];
             $contratObj->vendeur_identifiant = $contrat[VracClient::VRAC_VIEW_VENDEUR_ID];
             $contratObj->vendeur_nom = $contrat[VracClient::VRAC_VIEW_VENDEUR_NOM];
-            $contratObj->volume = $volume;
+            $contratObj->volume_prop = $contrat[VracClient::VRAC_VIEW_VOLPROP];
             $this->contrats->add($num_contrat, $contratObj);
         }
+    }
+    
+    public function updateVolume($num_contrat,$volume) {
+        $this->contrats[$num_contrat]->volume = $volume;
     }
 
     public function validate() {

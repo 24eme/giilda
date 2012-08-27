@@ -13,13 +13,6 @@ class SV12Route extends sfObjectRoute {
         if (!$sv12) {
             throw new sfError404Exception(sprintf("The document '%s' not found", $id));
         }
-	
-		if (isset($this->options['must_be_valid']) && $this->options['must_be_valid'] === true && !$sv12->isValidee()) {
-			throw new sfError404Exception('SV12 must be validated');
-		}
-		if (isset($this->options['must_be_not_valid']) && $this->options['must_be_not_valid'] === true && $sv12->isValidee()) {
-			throw new sfError404Exception('SV12 must not be validated');
-		}
         return $sv12;
     }
     

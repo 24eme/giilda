@@ -10,10 +10,12 @@ class SV12Client extends acCouchdbClient {
     const SV12_STATUT_BROUILLON = 'brouillon'; 
     
     const SV12_VIEWHISTORY_ID = 0;
-    const SV12_VIEWHISTORY_DATESAISIE = 1;
-    const SV12_VIEWHISTORY_NEGOCIANT_NOM = 3;
-    const SV12_VIEWHISTORY_NEGOCIANT_CVI = 4;
-    const SV12_VIEWHISTORY_NEGOCIANT_COMMUNE = 5;
+    const SV12_VIEWHISTORY_DATESAISIE = 1;    
+    const SV12_VIEWHISTORY_PERIODE = 2;    
+    const SV12_VIEWHISTORY_NEGOCIANT_ID = 3;
+    const SV12_VIEWHISTORY_NEGOCIANT_NOM = 4;
+    const SV12_VIEWHISTORY_NEGOCIANT_CVI = 5;
+    const SV12_VIEWHISTORY_NEGOCIANT_COMMUNE = 6;
 
     public static function getInstance()
     {
@@ -30,16 +32,9 @@ class SV12Client extends acCouchdbClient {
         $sv12 = new Sv12();
         if (!$annee) $annee = date('Y');
         $sv12->negociant_identifiant = $identifiant;
-        $sv12->periode = $annee;        
-        $sv12->identifiant = $identifiant.'-'.$annee;
-        $nego = EtablissementClient::getInstance()->findByIdentifiant($identifiant);
-        $sv12->negociant->nom = $nego->nom;
-        $sv12->negociant->cvi = $nego->cvi;
-        $sv12->negociant->num_accise = $nego->no_accises;
-        $sv12->negociant->num_tva_intracomm = $nego->no_tva_intracommunautaire;
-        $sv12->negociant->adresse = $nego->siege->adresse;        
-        $sv12->negociant->commune = $nego->siege->commune;
-        $sv12->negociant->code_postal = $nego->siege->code_postal;
+        $sv12->periode = $annee;  
+        $sv12->storeNegociant();
+        $sv12->storeContrats();
         return $sv12;
     }
     

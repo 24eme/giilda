@@ -35,6 +35,7 @@ SV12:
                   produit_hash: {  }
                   vendeur_identifiant: {  }
                   vendeur_nom: {  }
+                  volume_prop: { type : float }
                   volume: { type : float }
       valide:
         type: collection

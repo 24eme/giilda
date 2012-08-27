@@ -22,11 +22,14 @@
                     <tbody>
                         <?php foreach ($historySv12->rows as $sv12h) : 
                             $elt = $sv12h->getRawValue()->value;
-                            $num_contrat = preg_replace('/VRAC-/', '', $elt[SV12Client::SV12_VIEWHISTORY_DATESAISIE]);
+                            $id = $elt[SV12Client::SV12_VIEWHISTORY_ID];
+                            $negociant_id = $elt[SV12Client::SV12_VIEWHISTORY_NEGOCIANT_ID];
+                            $periode = $elt[SV12Client::SV12_VIEWHISTORY_PERIODE];
+                            
                         ?>
                         <tr>
                             <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_DATESAISIE]; ?></td>
-                            <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_ID]; ?></td>
+                            <td><?php echo link_to($id, '@sv12_update?negociant_identifiant='.$negociant_id.'&periode='.$periode) ; ?></td>
                             <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_NEGOCIANT_NOM]; ?></td>
                             <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_NEGOCIANT_CVI]; ?></td>
                             <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_NEGOCIANT_COMMUNE]; ?></td>

@@ -38,27 +38,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($contrats as $contrat) :
-                            $elt = $contrat->getRawValue()->value;
-                            $num_contrat = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]);
+                        <?php foreach ($sv12->contrats as $contrat) :
                         ?>   
                         
                         <tr>
                             <td>
-                                <?php echo $elt[VracClient::VRAC_VIEW_VENDEUR_NOM].' ('.$elt[VracClient::VRAC_VIEW_VENDEUR_ID].')'; ?>
+                                <?php echo $contrat->vendeur_nom.' ('.$contrat->vendeur_identifiant.')'; ?>
                             </td>
                             <td>
-                                <?php echo ConfigurationClient::getCurrent()->get($elt[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat(); ?>
+                                <?php echo $contrat->produit_libelle; ?>
                             </td>
 
                             <td>
-                                <?php echo $num_contrat.' ('.$elt[VracClient::VRAC_VIEW_VOLPROP].' hl)'; ?>
+                                <?php echo $contrat->contrat_numero.' ('.$contrat->volume_prop.' hl)'; ?>
                             </td>
 
                             <td>            
                                 <?php
-                                    echo $form[$num_contrat]->renderError();
-                                    echo $form[$num_contrat]->render();
+                                    echo $form[$contrat->contrat_numero]->renderError();
+                                    echo $form[$contrat->contrat_numero]->render();
                                 ?>
                             </td>
                         </tr>
@@ -73,41 +71,8 @@
         </section>
         <!-- fin #contenu_etape -->
     </section>
-    <!-- #colonne -->
-    <aside id="colonne">
-        
-        <div class="bloc_col" id="contrat_aide">
-            <h2>Aide</h2>
-            
-            <div class="contenu">
-                <ul>
-                    <li class="raccourcis"><a href="#">Raccourcis clavier</a></li>
-                    <li class="assistance"><a href="#">Assistance</a></li>
-                    <li class="contact"><a href="#">Contacter le support</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="bloc_col" id="infos_contact">
-            <h2>Infos contact</h2>
-            
-            <div class="contenu">
-                <ul>
-                    <li id="infos_contact_negociant">
-                        <a href="#">Coordonnées négociant</a>
-                        <ul>
-                            <li class="nom">Nom du négociant</li>
-                            <li class="tel">00 00 00 00 00</li>
-                            <li class="fax">00 00 00 00 00</li>
-                            <li class="email"><a href="mailto:email@email.com">email@email.com</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
     
-    <!-- fin #colonne -->
-    </aside>
+    <?php include_partial('colonne', array('negociant' => $sv12->negociant)); ?>
     <!-- fin #principal -->
 </div>
     
