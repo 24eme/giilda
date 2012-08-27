@@ -1,0 +1,46 @@
+
+# Sv12
+SV12:
+  definition:
+    fields:
+      _id: {  }
+      _rev: { }
+      type: { }
+      identifiant: {  }
+      periode: {  }
+      negociant_identifiant: {  }
+      negociant:        
+        type: collection
+        definition:
+          fields:            
+            nom: {  }
+            cvi: {  }
+            num_accise: {   }
+            num_tva_intracomm: {    }
+            adresse: {  }
+            commune: {  }
+            code_postal: {   }
+      contrats:
+        type: collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  contrat_numero: {  }
+                  contrat_type: {  }
+                  produit_libelle: {  }
+                  produit_hash: {  }
+                  produit_hash: {  }
+                  vendeur_identifiant: {  }
+                  vendeur_nom: {  }
+                  volume: { type : float }
+      valide:
+        type: collection
+        definition:
+          fields:
+            date_saisie: {  }
+            statut: {  }
+
+       

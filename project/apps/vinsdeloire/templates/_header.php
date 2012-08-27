@@ -14,7 +14,7 @@
 					<li><a href="<?php echo url_for('facture'); ?>">Facture</a></li>
 					<li><a href="#">Contacts</a></li>
 					<li><a href="#">Import VR</a></li>
-					<li><a href="#">SV12</a></li>
+					<li><a href="<?php echo url_for('sv12'); ?>">SV12</a></li>
 					<li><a href="#">Stocks</a></li>
 					<li><a href="#">Relance</a></li>
 				</ul>
