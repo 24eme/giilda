@@ -1,7 +1,6 @@
 <?php include_partial('global/navTop', array('active' => 'drm')); ?>
-
 <section id="contenu">
-
+    
     <?php include_partial('drm/header', array('drm' => $drm)); ?>
     <?php include_component('drm', 'etapes', array('drm' => $drm, 'etape' => 'validation', 'pourcentage' => '100')); ?>
 

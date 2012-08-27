@@ -2,7 +2,6 @@
 <?php use_helper('Rectificative'); ?>
 <?php include_partial('global/navTop', array('active' => 'drm')); ?>
 
-
 <section id="contenu">
 
     <?php include_partial('drm/header', array('drm' => $drm)); ?>

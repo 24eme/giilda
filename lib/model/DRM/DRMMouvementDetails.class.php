@@ -58,6 +58,8 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
         $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
         $mouvement->facture = 0;
         $mouvement->facturable = 0;
+        $mouvement->version = 'V 1';
+        $mouvement->date_version = date('c');
 
         return $mouvement;
     }

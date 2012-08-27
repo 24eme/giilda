@@ -13,6 +13,8 @@
  * @property string $volume
  * @property string $facture
  * @property string $facturable
+ * @property string $date_version
+ * @property string $version
 
  * @method string getProduitHash()
  * @method string setProduitHash()
@@ -32,6 +34,10 @@
  * @method string setFacture()
  * @method string getFacturable()
  * @method string setFacturable()
+ * @method string getDateVersion()
+ * @method string setDateVersion()
+ * @method string getVersion()
+ * @method string setVersion()
  
  */
 

@@ -167,12 +167,11 @@ class drmActions extends sfActions
 
   public function executeValidation(sfWebRequest $request)
   {
-    $this->drm = $this->getRoute()->getDRM();
-                                    
+    $this->drm = $this->getRoute()->getDRM();                 
    /* $this->drmValidation = new DRMValidation($this->drm);
     $this->form = new DRMValidationForm(array(), array('engagements' => $this->drmValidation->getEngagements()));*/
     if ($request->isMethod(sfWebRequest::POST)) {
-    	/*$this->form->bind($request->getParameter($this->form->getName()));
+        /*$this->form->bind($request->getParameter($this->form->getName()));
 	    if ($this->form->isValid()) {
 		    if ($this->drm->hasApurementPossible()) {
 			    $this->drm->apurement_possible = 1;

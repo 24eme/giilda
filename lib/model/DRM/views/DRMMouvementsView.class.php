@@ -1,5 +1,4 @@
 <?php
-
 class DRMMouvementsView extends acCouchdbView
 {
     const KEY_ETABLISSEMENT_IDENTIFIANT = 0;
@@ -12,6 +11,8 @@ class DRMMouvementsView extends acCouchdbView
     const VALUE_TYPE_LIBELLE = 1;
     const VALUE_VOLUME = 2;
     const VALUE_DETAIL_LIBELLE = 3;
+    const VALUE_DATE_VERSION = 4;
+    const VALUE_VERSION = 5;
 
     public static function getInstance() {
 
@@ -28,7 +29,6 @@ class DRMMouvementsView extends acCouchdbView
 
     public function findByEtablissementAndPeriode($id_or_identifiant, $periode) {
         $identifiant = EtablissementClient::getInstance()->getIdentifiant($id_or_identifiant);
-
         return $this->client->startkey(array($identifiant, DRMClient::getInstance()->buildCampagne($periode), $periode))
                             ->endkey(array($identifiant, DRMClient::getInstance()->buildCampagne($periode), $periode, array()))
                             ->getView($this->design, $this->view);
@@ -46,7 +46,6 @@ class DRMMouvementsView extends acCouchdbView
 
     protected function buildMouvements($rows) {
         $mouvements = array();
-
         foreach($rows as $row) {
             $mouvements[] = $this->buildMouvement($row);
         }
@@ -59,8 +58,12 @@ class DRMMouvementsView extends acCouchdbView
         $mouvement->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
         $mouvement->type_libelle = $row->value[self::VALUE_TYPE_LIBELLE];
         $mouvement->volume = $row->value[self::VALUE_VOLUME];
-        $mouvement->detail_libelle = $row->value[self::VALUE_DETAIL_LIBELLE];
-
+        $mouvement->detail_libelle = $row->value[self::VALUE_DETAIL_LIBELLE];        
+        $mouvement->date_version =  $row->value[self::VALUE_DATE_VERSION];  
+        $mouvement->version = $row->value[self::VALUE_VERSION];
+        $mouvement->version = str_replace('M', '', $mouvement->version);
+        $mouvement->version += 1;
+        $mouvement->version = 'V '.$mouvement->version;
         return $mouvement;
     }
 

@@ -403,3 +403,5 @@ DRM:
                   volume: {  }
                   facture: {  }
                   facturable: {  }
+                  date_version: {  }                  
+                  version: {  }
