@@ -124,7 +124,7 @@ class VracClient extends acCouchdbClient {
     
     public function retrieveBySoussigneAndType($soussigneId,$type,$limit=300) {
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-    $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$type))
+      $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$type))
               ->endkey(array('TYPE',$soussigneId,$type, array()));
     
     if ($limit){
