@@ -14,6 +14,7 @@ class factureActions extends sfActions {
     public function executeMonEspace(sfWebRequest $resquest) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->factures = FactureClient::getInstance()->findByEtablissement($this->etablissement);
+        $this->mouvements = DRMMouvementsFactureView::getInstance()->getAFactureByEtablissement($this->etablissement);
     }
     
     public function executeGenerer(sfWebRequest $resquest) {
