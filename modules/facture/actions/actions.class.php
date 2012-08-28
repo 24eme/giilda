@@ -1,8 +1,8 @@
 <?php
 class factureActions extends sfActions {
     
-  public function executeIndex(sfWebRequest $request) {    
-       $this->form = new EtablissementChoiceForm();
+  public function executeIndex(sfWebRequest $request) {
+      $this->form = new FactureEtablissementChoiceForm();
        if ($request->isMethod(sfWebRequest::POST)) {
 	 $this->form->bind($request->getParameter($this->form->getName()));
 	 if ($this->form->isValid()) {
