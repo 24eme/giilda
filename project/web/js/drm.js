@@ -14,6 +14,7 @@ var objAjoutsLiquidations = {};
 (function($)
 {
 	var ajoutsLiquidations = $('#ajouts_liquidations');
+	var calendrierHistorique = $('#calendrier_drm');
 
 	$(document).ready( function()
 	{
@@ -33,6 +34,10 @@ var objAjoutsLiquidations = {};
 		if($('#declaratif_info').size()) $.choixCaution();
 
 		$(".flash_temporaire").delay(6000).fadeTo(1000, 0);
+
+		if(calendrierHistorique.exists()){
+			calendrierHistorique.find('.liste_mois > li').hauteurEgale();
+		}
 	});
 	
 	/**

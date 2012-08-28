@@ -14,7 +14,7 @@ default:
 
   stylesheets:    [compile.css]
 
-  javascripts:    [lib/jquery-1.4.2.min.js, lib/modernizr-2.js]
+  javascripts:    [lib/jquery-1.7.2.min.js, lib/modernizr-2.js]
 
   has_layout:     true
   layout:         layout

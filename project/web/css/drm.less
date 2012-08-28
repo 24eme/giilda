@@ -1176,19 +1176,61 @@ p#date_drm
     .export_detail_date_enlevement,
     .cooperative_detail_date_enlevement,
     .vrac_detail_date_enlevement {
-                                   input {
-                                           width:80%
-                                         }
-                                 }   
+       input {
+               width:80%
+             }
+     }   
        
-    .vrac_detail_volume, .cooperative_detail_volume, .export_detail_volume div {
-                                                                                text-align: center; 
-                                                                               } 
-                                                                               span
-                                                                               {
-                                                                                font-size: 20px;
-                                                                               }
-}    
+    .vrac_detail_volume,
+    .cooperative_detail_volume,
+    .export_detail_volume div {
+	    text-align: center; 
+	   } 
+	   span
+	   {
+	    font-size: 20px;
+	   }
+}
+
+#drm_export_details_table,
+#drm_vrac_details_table,
+#drm_cooperative_details_table {
+	#col_produit { width: 195px; }
+}
+
+#drm_export_details_table{
+	.export_detail_remove{
+		padding-right: 0;
+
+		a{
+		padding: 0 13px;
+		text-indent: -9999px;
+		}
+	}
+}
+
+#drm_vrac_details_table{
+	.vrac_detail_remove{
+		padding-right: 0;
+
+		a{
+		padding: 0 13px;
+		text-indent: -9999px;
+		}
+	}
+}
+
+#drm_cooperative_details_table{
+	.cooperative_detail_remove{
+		padding-right: 0;
+
+		a{
+		padding: 0 13px;
+		text-indent: -9999px;
+		}
+	}
+}
+
 
 .drm{ 
         
@@ -1433,7 +1475,10 @@ p#date_drm
 				table { .table_recap; }
 			}
 		}
-
+                &#mouvement_drm{
+                    td.positif{ background-color : #f0fae1; }
+                    td.negatif{ background-color : #feecec; }
+                }
 		legend
 		{
 			.majuscules;
@@ -1484,3 +1529,34 @@ p#date_drm
 		}
 	}
 }
+
+/**
+ * Fancybox
+ ******************************************/
+ .fancybox-wrap{
+ 	.fancybox-title-inside-wrap{
+ 		.majuscules;
+ 		color: @couleur-a3;
+ 		font-size: 16px;
+ 		font-weight: bold;
+ 		margin-bottom: 25px;
+ 	}
+
+ 	.fancybox-inner{
+	 	#contenu{
+	 		background: @couleur-a1;
+
+	 		#principal{
+	 			width: auto;
+
+	 			#drm_export_details_form,
+	 			#drm_vrac_details_form,
+	 			#drm_cooperative_details_form
+	 			{
+	 				.btn_valider { float: right; }
+	 			}
+	 		}
+	 	}
+	 }
+ }
+ 
