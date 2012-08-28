@@ -21,7 +21,7 @@ class DRMMouvementsFactureView extends acCouchdbView
     }
     
     
-    public function getFacturationByEtablissement($etablissement,$facturable,$facturee) {
+    public function getFacturationByEtablissement($etablissement,$facturee, $facturable) {
         
         return $this->client
             ->startkey(array($facturee,$facturable,$etablissement->identifiant))
@@ -31,7 +31,7 @@ class DRMMouvementsFactureView extends acCouchdbView
 
     public function getAFactureByEtablissement($etablissement) {
 
-        return $this->buildMouvements($this->getFacturationByEtablissement($etablissement, 1, 0));      
+        return $this->buildMouvements($this->getFacturationByEtablissement($etablissement, 0, 1));      
     }
 
     protected function buildMouvements($rows) {
