@@ -12,6 +12,8 @@ class DRMMouvementsFactureView extends acCouchdbView
     const VALUE_TYPE_LIBELLE = 1;
     const VALUE_VOLUME = 2;
     const VALUE_DETAIL_LIBELLE = 3;
+    const VALUE_CVO = 4;
+    const VALUE_NUMERO = 5;
 
     public static function getInstance() {
 
@@ -19,12 +21,36 @@ class DRMMouvementsFactureView extends acCouchdbView
     }
     
     
-        public function getFacturationByEtablissement($etablissement,$facturable,$facturee) {
+    public function getFacturationByEtablissement($etablissement,$facturable,$facturee) {
         
         return $this->client
-            ->startkey(array($facturable,$facturee,$etablissement->identifiant))
-            ->endkey(array($facturable,$facturee,$etablissement->identifiant, array()))
+            ->startkey(array($facturee,$facturable,$etablissement->identifiant))
+            ->endkey(array($facturee,$facturable,$etablissement->identifiant, array()))
             ->getView($this->design, $this->view)->rows;
     }
 
+    public function getAFactureByEtablissement($etablissement) {
+
+        return $this->buildMouvements($this->getFacturationByEtablissement($etablissement, 1, 0));      
+    }
+
+    protected function buildMouvements($rows) {
+        $mouvements = array();
+        foreach($rows as $row) {
+            $mouvements[] = $this->buildMouvement($row);
+        }
+
+        return $mouvements;
+    }
+
+    protected function buildMouvement($row) {
+        $mouvement = new stdClass();
+        $mouvement->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
+        $mouvement->type_libelle = $row->value[self::VALUE_TYPE_LIBELLE];
+        $mouvement->volume = $row->value[self::VALUE_VOLUME];
+        $mouvement->detail_libelle = $row->value[self::VALUE_DETAIL_LIBELLE];
+        $mouvement->cvo = $row->value[self::VALUE_CVO];        
+        $mouvement->numero = $row->value[self::VALUE_NUMERO];      
+        return $mouvement;
+    }
 }  
