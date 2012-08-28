@@ -43,6 +43,41 @@ class Facture extends BaseFacture {
         return $this->getFactureLignesByMouvementType(FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT);
     }
     
+    public function getLignesContratType($type) {
+        $contrats =  $this->getFactureLignesByMouvementType(FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT);
+        $lignesByType = array();
+        foreach ($contrats as $ligne) 
+        {
+            if($ligne->produit_type == $type)
+            {
+                $lignesByType[] = $ligne;
+            }  
+        }
+        return $lignesByType;
+    }
+    
+    
+    public function getLignesProduits($propriete){
+        $produits = array();
+        
+        foreach ($propriete as $prop)
+        {
+            if(array_key_exists($prop->produit_hash, $produits))
+            {               
+                $produits[$prop->produit_hash][] = $prop;                
+            }
+            else
+            {
+                $produits[$prop->produit_hash] = array();
+                $produits[$prop->produit_hash][] = $prop;                
+            }
+        }
+        return $produits;
+    }
+
+
+
+
     private function getFactureLignesByMouvementType($mouvement_type)
     {
         $lignesByMouvementType = array();

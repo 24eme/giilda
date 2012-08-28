@@ -1,5 +1,9 @@
 <?php
 use_helper('Float');
+
+$total_rows = 30;
+
+$nbLigne = count($facture->echeances) * 3;
 ?>
 \documentclass[a4paper,10pt]{article}
 \usepackage[english]{babel}
@@ -118,56 +122,76 @@ use_helper('Float');
   			\rowcolor{lightgray}
                         \centering \small{\textbf{ \\ LIBELLE}} &
    			\centering \small{\textbf{Mois}} &
-   			\centering \small{\textbf{VOLUMES en Hl}} &
+   			\centering \small{\textbf{Volume en hl}} &
                         \centering \small{\textbf{Cotisation hl}} &
    			\centering \small{\textbf{Montant H.T Euros}} &
    			\multicolumn{1}{c}{\small{\textbf{Code Echéance}}} \\
   
   			\hline
                 
-                <?php $propriete = $facture->getLignesPropriete(); if(count($propriete) > 0 ) : ?>
+                <?php $propriete = $facture->getLignesPropriete(); 
+                if(count($propriete) > 0 ) : 
+                    $nbLigne++;
+                    ?>
                 \textbf{Sortie de propriété} & ~ & ~ & ~ & ~ & ~ \\
-                <?php endif; ?>
-                <?php foreach ($propriete as $ligneProp): ?>
+                <?php endif; ?>                
+                <?php 
+                $produits = $facture->getLignesProduits($propriete);
+                 foreach ($produits as $ligneProd) :  
+                     $nbLigne++;
+                 ?>
+                    ~~\textbf{<?php echo $ligneProd[0]->produit_libelle; ?>} & ~ & ~ & ~ & ~ & ~ \\
+                <?php
+                    foreach ($ligneProd as $prod): 
+                        $nbLigne++;
+                        ?>
                                 
-                            ~~~<?php echo $ligneProp->produit_libelle ?> & 
-                            \multicolumn{1}{r|}{<?php echo $ligneProp->origine_date; ?>} & 
-                            \multicolumn{1}{r|}{\small{<?php echo $ligneProp->volume; ?>}} &
-                            \multicolumn{1}{r|}{\small{<?php echo $ligneProp->cotisation_taux ?>}} & 
-                            \multicolumn{1}{r|}{\small{<?php echoFloat($ligneProp->montant_ht); ?>}\texteuro{}} & 
-                            \multicolumn{1}{c}{<?php echo $ligneProp->echeance_code ?>} \\
+                    ~~~~<?php echo $prod->origine_identifiant; ?> &
+                            \multicolumn{1}{r|}{<?php echo $prod->origine_date; ?>} & 
+                            \multicolumn{1}{r|}{\small{<?php echoFloat($prod->volume); ?>}} &
+                            \multicolumn{1}{r|}{\small{<?php echo $prod->cotisation_taux ?>}} & 
+                            \multicolumn{1}{r|}{\small{<?php echoFloat($prod->montant_ht); ?>}\texteuro{}} & 
+                            \multicolumn{1}{c}{<?php echo $prod->echeance_code ?>} \\
 
-                <?php endforeach; ?>
-                <?php $contrat = $facture->getLignesContrat(); if(count($contrat) > 0 ) : ?>
-                \textbf{Sortie de contrat} & ~ & ~ & ~ & ~ & ~ \\
-                <?php endif; ?>              
-                <?php foreach ($contrat as $ligneCont): ?>  
-                            ~~~<?php echo $ligneCont->produit_libelle ?> & 
-                            \multicolumn{1}{r|}{\small{<?php echo $ligneCont->origine_date; ?>}} & 
-                            \multicolumn{1}{r|}{\small{<?php echo $ligneCont->volume; ?>}} &
-                            \multicolumn{1}{r|}{\small{<?php echo $ligneCont->cotisation_taux ?>}} & 
-                            \multicolumn{1}{r|}{\small{<?php echoFloat($ligneCont->montant_ht) ?>}\texteuro{}} & 
-                            \multicolumn{1}{c}{<?php echo $ligneCont->echeance_code ?>} \\
-                                
-                <?php endforeach; ?>
-	~ & ~ & ~ & ~ & ~ & ~ \\
-        ~ & ~ & ~ & ~ & ~ & ~ \\
-        ~ & ~ & ~ & ~ & ~ & ~ \\        
-        ~ & ~ & ~ & ~ & ~ & ~ \\
+                <?php endforeach;
+                endforeach;
+                ?>
+                <?php 
+                $types = array(FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS,
+                              FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS,
+                              FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS);
+    
+                foreach ($types as $type) :
+                    $contrat = $facture->getLignesContratType($type);
+                    if(count($contrat) > 0 ) :
+                    $nbLigne++;
+                    ?>
+                    \textbf{Sortie de contrat <?php echo $type; ?>} & ~ & ~ & ~ & ~ & ~ \\
+            <?php endif;  
+                        $produits = $facture->getLignesProduits($contrat);
+                        foreach ($produits as $ligneProd) :  
+                        $nbLigne++;
+                        ?>
+                            ~~\textbf{<?php echo $ligneProd[0]->produit_libelle; ?>} & ~ & ~ & ~ & ~ & ~ \\
+                        <?php foreach ($ligneProd as $ligneCont): 
+                            $nbLigne++;
+                            ?>  
+                                ~~~<?php echo $ligneCont->contrat_libelle; ?> & 
+                                \multicolumn{1}{r|}{\small{<?php echo $ligneCont->origine_date; ?>}} & 
+                                \multicolumn{1}{r|}{\small{<?php echoFloat($ligneCont->volume); ?>}} &
+                                \multicolumn{1}{r|}{\small{<?php echo $ligneCont->cotisation_taux ?>}} & 
+                                \multicolumn{1}{r|}{\small{<?php echoFloat($ligneCont->montant_ht) ?>}\texteuro{}} & 
+                                \multicolumn{1}{c}{<?php echo $ligneCont->echeance_code ?>} \\
 
+                    <?php  endforeach;
+                    endforeach;
+                endforeach;
+                for($i=0; $i<($total_rows-$nbLigne);$i++):
+                ?>
         ~ & ~ & ~ & ~ & ~ & ~ \\
-        ~ & ~ & ~ & ~ & ~ & ~ \\
-        ~ & ~ & ~ & ~ & ~ & ~ \\
-
-        ~ & ~ & ~ & ~ & ~ & ~ \\
-        ~ & ~ & ~ & ~ & ~ & ~ \\
-        ~ & ~ & ~ & ~ & ~ & ~ \\
-
-        ~ & ~ & ~ & ~ & ~ & ~ \\
-        ~ & ~ & ~ & ~ & ~ & ~ \\
-        ~ & ~ & ~ & ~ & ~ & ~ \\
-        
-        ~ & ~ & ~ & ~ & ~ & ~ \\
+                <?php 
+                endfor;
+                ?>
 	 \multicolumn{6}{c}{\small{Aucun escompte n\'est prévu pour paiment anticipé. Pénalités de retard : 3 fois le taux d\'intér\^{e}t légal}} \\
 	 ~ & ~ & ~ & ~ & ~ & ~ \\
 			\end{tabular}
