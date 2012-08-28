@@ -24,7 +24,14 @@
 	        border-radius: 4px;
 }
 
+/*
+	Overflow modifié pour faire reapparaitre la croix de fermeture
+	Position forcé être absolute et pas fixed sinon la liste de proposition
+	ne suis pas le champ au scroll
+*/
 .fancybox-opened {
+	overflow: visible!important;
+	position: absolute!important;
 	z-index: 8030;
 }
 

@@ -50,28 +50,38 @@
                 colonne.element.find("input.input_lien.drm_details").click(function() {
                 input = $(this);
 	          		$.fancybox({type : 'ajax',
-		                        href: input.attr('data-href'),
-		                        fitToView : false,
-		                        afterShow : function()
-		                         {
-		                            input.initDetailsPopup(colonne);                                                    
-		                         },
-		                         onClose : function()
-		                         {
-		                            $.unbindDetailsPopup();  
-		                         }
+	                    href: input.attr('data-href'),
+	                    fitToView : false,
+	                    afterShow : function()
+	                     {
+	                        input.initDetailsPopup(colonne);
+	                        $('.fancybox-outer').before($('.fancybox-title'));
+	                     },
+	                     onClose : function()
+	                     {
+	                        $.unbindDetailsPopup();  
+	                     },
+	                    helpers :
+	                    {
+	                    	title : {
+	                    		type : 'inside'
+	                    	}
+	                    },
+	                    beforeLoad : function() {
+	                    	this.title = input.attr('data-title');
+	                    }
                     });
                 });
                 
                 colonne.element.find("a.labels_lien").each(function() { 
                     var lien = $(this);
                     lien.fancybox({type : 'ajax',
-                                   fitToView : false,
-                                   afterShow : function()
-                                   {
-                                        lien.initLabels(colonne);                                                    
-                                   }
-                                });
+                       fitToView : false,
+                       afterShow : function()
+                       {
+                            lien.initLabels(colonne);
+                       }
+                    });
                 });
             }
 
