@@ -1,3 +1,6 @@
+<?php
+use_helper('Float');
+?>
 <div id="contenu" class="facture">
     
     <!-- #principal -->
@@ -24,7 +27,7 @@
              <tr>
                  <td><?php echo link_to($facture->value[0],array('sf_route' => 'facture_pdf', 'identifiant' => str_replace('ETABLISSEMENT-', '', $facture->key[0]), 'factureid' => str_replace('FACTURE-'.$etablissement->identifiant.'-', '', $facture->key[1]))); ?></td>
                  <td><?php foreach ($facture->value[1] as $drmid => $drmlibelle){ echo link_to($drmlibelle, 'drm_redirect_to_visualisation', array('identifiant_drm'=>$drmid))."<br/>"; }; ?></td>
-                 <td><?php echo $facture->value[2]; ?>&nbsp;€</td>
+                 <td><?php echoFloat($facture->value[2]); ?>&nbsp;€</td>
              </tr>
              <?php endforeach; ?>
              </tbody>
