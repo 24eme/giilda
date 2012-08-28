@@ -26,7 +26,7 @@
                 </td>
 
                 <td>     
-                    <?php echo $contrat->volume; ?>
+                    -<?php echo $contrat->volume; ?>
                 </td>
             </tr>
             <?php

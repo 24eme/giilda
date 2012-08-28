@@ -16,6 +16,7 @@ class SV12Client extends acCouchdbClient {
     const SV12_VIEWHISTORY_NEGOCIANT_NOM = 4;
     const SV12_VIEWHISTORY_NEGOCIANT_CVI = 5;
     const SV12_VIEWHISTORY_NEGOCIANT_COMMUNE = 6;
+    const SV12_VIEWHISTORY_STATUT = 7;
 
     public static function getInstance()
     {
@@ -45,9 +46,38 @@ class SV12Client extends acCouchdbClient {
     }
     
     public function retrieveLastDocs($limit = 300) {
-        $sv12HistoryQuery = $this->startkey(array(SV12Client::SV12_STATUT_BROUILLON))->endkey(array(SV12Client::SV12_STATUT_BROUILLON,array()));
-        $sv12HistoryQuery = $sv12HistoryQuery->limit($limit);//FIXME :  ->descending(true);
-        return $sv12HistoryQuery->getView('sv12', 'history');
+        $rows = $this->startkey(array(SV12Client::SV12_STATUT_BROUILLON))
+                     ->endkey(array(SV12Client::SV12_STATUT_BROUILLON, array()))
+                     ->limit($limit) //FIXME :  ->descending(true);
+                     ->getView('sv12', 'history')->rows;
+
+        $drms = array();
+
+        foreach($rows as $row) {
+          $drms[$row->id] = $row->value;
+        }
+        
+        krsort($drms);
+        
+        return $drms;
+    }
+
+    public function retrieveByEtablissement($identifiant) {
+        $rows = acCouchdbManager::getClient()
+            ->startkey(array($identifiant))
+              ->endkey(array($identifiant, array()))
+              ->getView("sv12", "all")
+              ->rows;
+      
+        $drms = array();
+
+        foreach($rows as $row) {
+          $drms[$row->id] = $row->value;
+        }
+        
+        krsort($drms);
+        
+        return $drms;
     }
     
     public function viewByIdentifiantAndCampagne($identifiant, $campagne) {

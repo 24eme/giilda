@@ -57,15 +57,6 @@ class SV12Routing {
                         'must_be_not_valid' => true
         )));
         
-         $r->prependRoute('sv12_brouillon', new SV12Route('/sv12/:negociant_identifiant/edition/:periode/brouillon',
-                array('module' => 'sv12',
-                    'action' => 'brouillon'),
-                array('sf_method' => array('get', 'post')),
-                array('model' => 'SV12',
-                        'type' => 'object',
-                        'must_be_valid' => false,
-                        'must_be_not_valid' => true
-        )));
     }
 
 }

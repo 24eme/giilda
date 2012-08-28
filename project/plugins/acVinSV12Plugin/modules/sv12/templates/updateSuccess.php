@@ -5,7 +5,8 @@
         
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-            <h2>Déclaration Récapitulative Mensuelle</h2>
+            <h2>Déclaration du SV12</h2>
+            <br />
             <div id="recap_infos_header">
                 <div>
                     <label>Négociant : </label>
@@ -19,7 +20,8 @@
                     <label>Commune : </label>
                     <?php echo $sv12->negociant->commune; ?>
                 </div>
-            </div>        
+            </div>
+            <br />     
             <form name="sv12_update" method="POST" action="<?php echo url_for('sv12_update', $sv12); ?>" >
                 <?php 
                 echo $form->renderHiddenFields();
@@ -66,7 +68,8 @@
                     </tbody>
                     </table> 
             </fieldset>
-                <input type="submit" value="Valider" />
+            <br />
+            <button class="btn_etape_suiv" type="submit"><span>Suivant</span></button>
             </form>
         </section>
         <!-- fin #contenu_etape -->

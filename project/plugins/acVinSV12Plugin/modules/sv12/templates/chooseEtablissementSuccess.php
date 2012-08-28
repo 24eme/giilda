@@ -6,40 +6,7 @@
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <?php include_component('sv12', 'chooseEtablissement'); ?>
-            
-            <fieldset id="history_sv12">
-                <legend>Déclaration SV12 en cours de Saisie</legend>
-                    <table class="table_recap">
-                    <thead>
-                    <tr>
-                        <th>Date - Version </th>
-                        <th>N° Sv12</th>
-                        <th>Négociant</th>
-                        <th>CVI</th>
-                        <th>Commune</th>                        
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($historySv12->rows as $sv12h) : 
-                            $elt = $sv12h->getRawValue()->value;
-                            $id = $elt[SV12Client::SV12_VIEWHISTORY_ID];
-                            $negociant_id = $elt[SV12Client::SV12_VIEWHISTORY_NEGOCIANT_ID];
-                            $periode = $elt[SV12Client::SV12_VIEWHISTORY_PERIODE];
-                            
-                        ?>
-                        <tr>
-                            <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_DATESAISIE]; ?></td>
-                            <td><?php echo link_to($id, '@sv12_update?negociant_identifiant='.$negociant_id.'&periode='.$periode) ; ?></td>
-                            <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_NEGOCIANT_NOM]; ?></td>
-                            <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_NEGOCIANT_CVI]; ?></td>
-                            <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_NEGOCIANT_COMMUNE]; ?></td>
-                        </tr>
-                        <?php
-                        endforeach;
-                        ?>   
-                    </tbody>
-                    </table>
-            </fieldset>
+            <?php include_partial('sv12/list', array('list' => $historySv12)) ?>
         </section>
         <!-- fin #contenu_etape -->
     </section>

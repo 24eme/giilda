@@ -30,16 +30,10 @@
             endforeach;
             ?>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Total : </td>
-                <td><?php echo $sv12ByProduitsTypes->volume_raisins.' hl'; ?></td>
-                <td><?php echo $sv12ByProduitsTypes->volume_mouts.' hl'; ?></td>
-                <td><?php echo $sv12ByProduitsTypes->volume_total.' hl'; ?></td>
+                <td style="font-weight:bold;">Total : </td>
+                <td style="font-weight:bold;"><?php echo $sv12ByProduitsTypes->volume_raisins.' hl'; ?></td>
+                <td style="font-weight:bold;"><?php echo $sv12ByProduitsTypes->volume_mouts.' hl'; ?></td>
+                <td style="font-weight:bold;"><?php echo $sv12ByProduitsTypes->volume_total.' hl'; ?></td>
             </tr>
         </tbody>
         </table> 

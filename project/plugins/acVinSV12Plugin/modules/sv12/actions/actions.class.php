@@ -16,9 +16,8 @@ class sv12Actions extends sfActions {
     }
 
     public function executeMonEspace(sfWebRequest $request) {
-       // $this->historique = new SV12Historique($this->getRoute()->getEtablissement()->identifiant);
         $this->etablissement = $this->getRoute()->getEtablissement();
-        
+        $this->historySv12 = SV12Client::getInstance()->retrieveByEtablissement($this->etablissement->identifiant);
     }
 
     /**
@@ -47,7 +46,8 @@ class sv12Actions extends sfActions {
 
     public function executeUpdate(sfWebRequest $request) {
 
-        $this->sv12 = $this->getRoute()->getSV12();        
+        $this->sv12 = $this->getRoute()->getSV12();
+        $this->sv12->storeContrats();       
         $this->form = new SV12UpdateForm($this->sv12);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -76,13 +76,6 @@ class sv12Actions extends sfActions {
         $this->sv12ByProduitsTypes = $this->sv12->getSV12ByProduitsType();
     }
     
-    public function executeBrouillon(sfWebRequest $request) {
-        $this->sv12 = $this->getRoute()->getSV12();
-        $this->saveBrouillonSV12();
-        $this->sv12->save();
-        $this->redirect('sv12');
-    }
-
     private function valideSV12() {
         $this->sv12->validate();
     }

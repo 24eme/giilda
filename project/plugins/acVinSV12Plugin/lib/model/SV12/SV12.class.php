@@ -8,6 +8,7 @@ class SV12 extends BaseSV12 {
 
     public function constructId() {
         $this->identifiant = $this->negociant_identifiant.'-'.$this->periode;
+        $this->valide->statut = SV12Client::SV12_STATUT_BROUILLON;
         $this->set('_id', 'SV12-' . $this->identifiant);
     }
     
