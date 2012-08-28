@@ -1,9 +1,7 @@
 <?php
 class factureActions extends sfActions {
     
-  public function executeIndex(sfWebRequest $request) {
-
-    
+  public function executeIndex(sfWebRequest $request) {    
        $this->form = new EtablissementChoiceForm();
        if ($request->isMethod(sfWebRequest::POST)) {
 	 $this->form->bind($request->getParameter($this->form->getName()));
@@ -13,10 +11,20 @@ class factureActions extends sfActions {
        }
     }
         
-  public function executeMonEspace(sfWebRequest $resquest) {
-    $this->etablissement = $this->getRoute()->getEtablissement();
-    $this->factures = FactureClient::getInstance()->findByEtablissement($this->etablissement);
-  }
+    public function executeMonEspace(sfWebRequest $resquest) {
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $this->factures = FactureClient::getInstance()->findByEtablissement($this->etablissement);
+    }
+    
+    public function executeGenerer(sfWebRequest $resquest) {
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $this->facturations = FactureClient::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
+        $facture = FactureClient::getInstance()->createDoc($this->facturations,$this->etablissement);
+        $facture->save();
+        $this->redirect('facture_etablissement', $this->etablissement);
+    }
+
+
 
     public function executeLatex(sfWebRequest $request) {
         
@@ -26,11 +34,11 @@ class factureActions extends sfActions {
         $this->forward404Unless($this->facture);
         
         $this->srcPdf = $this->getPartial('generateTex',array('facture' => $this->facture));
-
+                
         $this->srcTexFilename = $this->facture->identifiant.'-'.count($this->facture->lignes);
         $this->extTex = 'tex';
         $this->statut = $this->creerFichier($this->srcTexFilename, $this->extTex,  $this->srcPdf);
-        
+
         $cmdCompileLatex = '/usr/bin/pdflatex -output-directory='.$this->getLatexTmpPath().' -synctex=1 -interaction=nonstopmode '.$this->getLatexPath().$this->srcTexFilename.'.'.$this->extTex.' 2> /dev/null';
 
         $output = exec($cmdCompileLatex, $output, $ret);

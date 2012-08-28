@@ -20,13 +20,19 @@ class FactureRouting {
 									       'type' => 'object')
 									 ));
         
+       $r->prependRoute('facture_generer', new EtablissementRoute('/facture/:identifiant/generer', array('module' => 'facture', 
+													'action' => 'generer'),
+									 array('sf_method' => array('get','post')),
+									 array('model' => 'Etablissement',
+									       'type' => 'object')
+									 ));
+        
         $r->prependRoute('facture_pdf', new EtablissementRoute('/facture/:identifiant/view/:factureid/pdf', array('module' => 'facture', 
 													'action' => 'latex'),
 									 array('sf_method' => array('get','post')),
 									 array('model' => 'Etablissement',
 									       'type' => 'object')
 									 ));
-        
-    }
 
+    }
 }

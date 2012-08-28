@@ -8,9 +8,9 @@
    <table class="tableau_recap">
    <thead>
    <tr>
-   <th style="font-weight: bold; border: none;">Date</th>
-   <th style="font-weight: bold; border: none;">DRM liées</th>
-   <th style="font-weight: bold; border: none;">Prix TTL</th>
+     <th style="font-weight: bold; border: none;">Date</th>
+     <th style="font-weight: bold; border: none;">DRM liées</th>
+     <th style="font-weight: bold; border: none;">Prix TTC</th>
    </tr>
    </thead>
    <tbody>
@@ -24,4 +24,5 @@
    </tbody>
    </table>
 </section>
+    <a href="<?php echo url_for('facture_generer',$etablissement); ?>" class="btn_majeur btn_vert">Générer Facturation</a>
 </section>

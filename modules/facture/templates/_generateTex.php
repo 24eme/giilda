@@ -1,3 +1,6 @@
+<?php
+use_helper('Float');
+?>
 \documentclass[a4paper,10pt]{article}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -34,34 +37,37 @@
 \setlength{\topmargin}{-3.5cm}
 
 \def\TVA{19.60} 
-\def\InterloireAdresse{Chateau de la Frémoire \\
-					  44120 VERTOU - France} 
-\def\InterloireFacturation{Service facturation : Nelly ALBERT Tél. : 02.47.60.55.12} 
+\def\InterloireAdresse{<?php echo $facture->emetteur->adresse; ?> \\
+		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France} 
+\def\InterloireFacturation{Service facturation : <?php echo $facture->emetteur->service_facturation; ?> Tél. : <?php echo $facture->emetteur->telephone; ?>} 
 \def\InterloireSIRET{429164072020093}
 \def\InterloireAPE{APE 9499 Z} 
 \def\InterloireTVAIntracomm{FR73429164072}
-
-
+\def\InterloireSIRET{Crédit agricole de la tourraine et du poitou}
+\def\InterloireBIC{XXXXX}
+\def\InterloireIBAN{XXXX XXXXX XXXX XXXXX XX}
 
 \def\FactureNum{<?php echo $facture->identifiant; ?>}
 \def\FactureDate{<?php echo $facture->date_emission; ?>}
 \def\FactureRefClient{<?php echo $facture->client_reference; ?>}
 
-\def\FactureClientDomaine{<?php echo "NomDomaine?"; ?>}
-\def\FactureClientNom{<?php echo $facture->client->raison_sociale; ?>}
-\def\FactureClientAdresse{<?php echo $facture->client->adresse; ?>}
+\def\FactureClientNom{<?php echo ($facture->client->raison_sociale == '')? 'Raison Sociale' : $facture->client->raison_sociale; ?>}
+\def\FactureClientAdresse{<?php echo ($facture->client->adresse == '')? 'Adresse' : $facture->client->adresse; ?>}
 \def\FactureClientCP{<?php echo $facture->client->code_postal; ?>}
 \def\FactureClientVille{<?php echo $facture->client->ville; ?>}
 
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0pt}
 
+\fancyhf{}
+
 \lhead{
  \textbf{InterLoire} \\
  \InterloireAdresse \\
  \InterloireFacturation \\
  \begin{tiny}
- SIRET~\InterloireSIRET ~-~\InterloireAPE ~- TVA~Intracommunutaire~\InterloireTVAIntracomm
+ RIB~:~\InterloireSIRET~(BIC:~\InterloireBIC~IBAN:~\InterloireIBAN) \\
+ SIRET~\InterloireSIRET ~-~\InterloireAPE ~- TVA~Intracommunutaire~\InterloireTVAIntracomm 
  \end{tiny}
 }
 \rhead{\includegraphics[scale=0.6]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo.jpg"; ?>}}
@@ -69,16 +75,15 @@
 
 
 \begin{document}
+
 \noindent{
-
-
 \begin{minipage}[t]{0.5\textwidth}
 	\begin{flushleft}
 	
 	\textbf{FACTURE} \\
 	\vspace{0.3cm}
 	\begin{tikzpicture}
-		\node[inner sep=1pt] (tab0){%
+		\node[inner sep=1pt] (tab0){
 			\begin{tabular}{*{2}{c|}c}
   				\rowcolor{lightgray} \textbf{NUMERO} & \textbf{DATE} & \textbf{REF CLIENT} \\
   				\hline
@@ -97,8 +102,7 @@
 \hspace{2cm}
 \begin{minipage}[t]{0.5\textwidth}
 		\begin{flushleft}		
-			\textbf{\FactureClientDomaine \\}
-				\FactureClientNom \\
+			\textbf{\FactureClientNom \\}				
 				\FactureClientAdresse \\
 				\FactureClientCP ~\FactureClientVille \\
 			\end{flushleft}
@@ -130,7 +134,7 @@
                             \multicolumn{1}{r|}{<?php echo $ligneProp->origine_date; ?>} & 
                             \multicolumn{1}{r|}{\small{<?php echo $ligneProp->volume; ?>}} &
                             \multicolumn{1}{r|}{\small{<?php echo $ligneProp->cotisation_taux ?>}} & 
-                            \multicolumn{1}{r|}{\small{<?php echo $ligneProp->montant_ht ?>}\texteuro{}} & 
+                            \multicolumn{1}{r|}{\small{<?php echoFloat($ligneProp->montant_ht); ?>}\texteuro{}} & 
                             \multicolumn{1}{c}{<?php echo $ligneProp->echeance_code ?>} \\
 
                 <?php endforeach; ?>
@@ -142,7 +146,7 @@
                             \multicolumn{1}{r|}{\small{<?php echo $ligneCont->origine_date; ?>}} & 
                             \multicolumn{1}{r|}{\small{<?php echo $ligneCont->volume; ?>}} &
                             \multicolumn{1}{r|}{\small{<?php echo $ligneCont->cotisation_taux ?>}} & 
-                            \multicolumn{1}{r|}{\small{<?php echo $ligneCont->montant_ht ?>}\texteuro{}} & 
+                            \multicolumn{1}{r|}{\small{<?php echoFloat($ligneCont->montant_ht) ?>}\texteuro{}} & 
                             \multicolumn{1}{c}{<?php echo $ligneCont->echeance_code ?>} \\
                                 
                 <?php endforeach; ?>
@@ -170,34 +174,47 @@
 		};
 		\node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};	
 	\end{tikzpicture}
-	
-   \begin{flushleft}
-   \underline{\textbf{Règlement par virement ou par chèque établi à l\'ordre de : InterLoire}}
-   \end{flushleft}
-\hspace{113mm}
-\begin{minipage}[t]{0.3\textwidth}
-   \begin{flushright}
-		\begin{tikzpicture}
-		\node[inner sep=1pt] (tab2){
-			\begin{tabular}{>{\columncolor{lightgray}} l | p{22mm}}
+        
+\noindent{
+\begin{minipage}[b]{1\textwidth}
+\noindent{
+       \begin{flushleft}
+       
+       \begin{minipage}[b]{0.65\textwidth}
+        \small{\textbf{Règlement : }}
+        \begin{itemize}
+            \item \small{\textbf{par virement (merci de mentionner les n° suivants : CCCCCC FF FFFFFF)}}
+            \item \small{\textbf{par chèque en joignement le(s) papillon(s) ci-dessous : \\}}
+        \end{itemize}
+        \end{minipage}
+        \end{flushleft}
+}
+\hspace{-1.35cm}
+\vspace{-3cm}
+    \begin{flushright}
+    \begin{minipage}[b]{0.285\textwidth}
+            \begin{tikzpicture}
+            \node[inner sep=1pt] (tab2){
+                    \begin{tabular}{>{\columncolor{lightgray}} l | p{22mm}}
 
-   			\centering \small{\textbf{Montant H.T.}} &
-   			\multicolumn{1}{r}{\small{<?php echo $facture->total_ht; ?>\texteuro{}}} \\
-  			
-   			\centering \small{\textbf{TVA 19.6}} &
-   			\multicolumn{1}{r}{\small{<?php echo ($facture->total_ttc - $facture->total_ht); ?>\texteuro{}}} \\
-   			\hline
-   			\centering \small{\textbf{Montant TTC}} &
-   			\multicolumn{1}{r}{\small{<?php echo $facture->total_ttc; ?>\texteuro{}}}   \\
-   			\end{tabular}
-		};
-		\node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab2.north west) (tab2.north east) (tab2.south east) (tab2.south west)] {};	
-	\end{tikzpicture}
-  \end{flushright}
-\end{minipage}	
-	
+                    \centering \small{\textbf{Montant H.T.}} &
+                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ht); ?>\texteuro{}}} \\
+
+                    \centering \small{\textbf{TVA 19.6}} &
+                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc - $facture->total_ht); ?>\texteuro{}}} \\
+                    \hline
+                    \centering \small{\textbf{Montant TTC}} &
+                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc); ?>\texteuro{}}}   \\
+                    \end{tabular}
+            };
+            \node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab2.north west) (tab2.north east) (tab2.south east) (tab2.south west)] {};	
+            \end{tikzpicture} 
+ \end{minipage}
+ \end{flushright}
+\end{minipage}
+}
+
 \vspace{1cm}
-
 \begin{center}
 
 
@@ -218,7 +235,7 @@
                 \centering \small{\FactureRefClient} &
                 \centering \small{\FactureNum} &
                 \centering \small{\textbf{Net à payer :}}
-                & \multicolumn{1}{r}{\small{\textbf{<?php echo $papillon->montant_ttc; ?>\texteuro{}}}}  \\
+                & \multicolumn{1}{r}{\small{\textbf{<?php echo echoFloat($papillon->montant_ttc); ?>\texteuro{}}}}  \\
                 \CutlnPapillon
         <?php endforeach; ?> 
                 
