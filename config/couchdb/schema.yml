@@ -77,6 +77,10 @@ Configuration:
                             fields:
                               readable: {  }
                               writable: {  }
+                              details: {  }
+                              coefficient: {  }
+                              coefficient_etablissement_connexe: {  }
+                              facturable: {  }
                   entrees:
                     required: false
                     type: collection
@@ -89,6 +93,10 @@ Configuration:
                             fields:
                               readable: {  }
                               writable: {  }
+                              details: {  }
+                              coefficient: {  }
+                              coefficient_etablissement_connexe: {  }
+                              facturable: {  }
                   sorties:
                     required: false
                     type: collection
@@ -101,6 +109,10 @@ Configuration:
                             fields:
                               readable: {  }
                               writable: {  }
+                              details: {  }
+                              coefficient: {  }
+                              coefficient_etablissement_connexe: {  }
+                              facturable: {  }
                   stocks_fin:
                     required: false
                     type: collection
@@ -113,6 +125,10 @@ Configuration:
                             fields:
                               readable: {  }
                               writable: {  }
+                              details: {  }
+                              coefficient: {  }
+                              coefficient_etablissement_connexe: {  }
+                              facturable: {  }
             certifications:
               type: collection
               definition:
@@ -207,6 +223,10 @@ Configuration:
                                                     fields:
                                                       readable: {  }
                                                       writable: {  }
+                                                      details: {  }
+                                                      coefficient: {  }
+                                                      coefficient_etablissement_connexe: {  }
+                                                      facturable: {  }
                                           entrees:
                                             required: false
                                             type: collection
@@ -219,6 +239,10 @@ Configuration:
                                                     fields:
                                                       readable: {  }
                                                       writable: {  }
+                                                      details: {  }
+                                                      coefficient: {  }
+                                                      coefficient_etablissement_connexe: {  }
+                                                      facturable: {  }
                                           sorties:
                                             required: false
                                             type: collection
@@ -231,6 +255,10 @@ Configuration:
                                                     fields:
                                                       readable: {  }
                                                       writable: {  }
+                                                      details: {  }
+                                                      coefficient: {  }
+                                                      coefficient_etablissement_connexe: {  }
+                                                      facturable: {  }
                                           stocks_fin:
                                             required: false
                                             type: collection
@@ -243,6 +271,10 @@ Configuration:
                                                     fields:
                                                       readable: {  }
                                                       writable: {  }
+                                                      details: {  }
+                                                      coefficient: {  }
+                                                      coefficient_etablissement_connexe: {  }
+                                                      facturable: {  }
                                     interpro:
                                       type: collection
                                       definition:
@@ -324,6 +356,10 @@ Configuration:
                                                                 fields:
                                                                   readable: {  }
                                                                   writable: {  }
+                                                                  details: {  }
+                                                                  coefficient: {  }
+                                                                  coefficient_etablissement_connexe: {  }
+                                                                  facturable: {  }
                                                       entrees:
                                                         required: false
                                                         type: collection
@@ -336,6 +372,10 @@ Configuration:
                                                                 fields:
                                                                   readable: {  }
                                                                   writable: {  }
+                                                                  details: {  }
+                                                                  coefficient: {  }
+                                                                  coefficient_etablissement_connexe: {  }
+                                                                  facturable: {  }
                                                       sorties:
                                                         required: false
                                                         type: collection
@@ -348,6 +388,10 @@ Configuration:
                                                                 fields:
                                                                   readable: {  }
                                                                   writable: {  }
+                                                                  details: {  }
+                                                                  coefficient: {  }
+                                                                  coefficient_etablissement_connexe: {  }
+                                                                  facturable: {  }
                                                       stocks_fin:
                                                         required: false
                                                         type: collection
@@ -360,6 +404,10 @@ Configuration:
                                                                 fields:
                                                                   readable: {  }
                                                                   writable: {  }
+                                                                  details: {  }
+                                                                  coefficient: {  }
+                                                                  coefficient_etablissement_connexe: {  }
+                                                                  facturable: {  }
                                                 interpro:
                                                   type: collection
                                                   definition:
@@ -446,6 +494,10 @@ Configuration:
                                                                             fields:
                                                                               readable: {  }
                                                                               writable: {  }
+                                                                              details: {  }
+                                                                              coefficient: {  }
+                                                                              coefficient_etablissement_connexe: {  }
+                                                                              facturable: {  }
                                                                   entrees:
                                                                     required: false
                                                                     type: collection
@@ -458,6 +510,10 @@ Configuration:
                                                                             fields:
                                                                               readable: {  }
                                                                               writable: {  }
+                                                                              details: {  }
+                                                                              coefficient: {  }
+                                                                              coefficient_etablissement_connexe: {  }
+                                                                              facturable: {  }
                                                                   sorties:
                                                                     required: false
                                                                     type: collection
@@ -470,6 +526,10 @@ Configuration:
                                                                             fields:
                                                                               readable: {  }
                                                                               writable: {  }
+                                                                              details: {  }
+                                                                              coefficient: {  }
+                                                                              coefficient_etablissement_connexe: {  }
+                                                                              facturable: {  }
                                                                   stocks_fin:
                                                                     required: false
                                                                     type: collection
@@ -482,6 +542,10 @@ Configuration:
                                                                             fields:
                                                                               readable: {  }
                                                                               writable: {  }
+                                                                              details: {  }
+                                                                              coefficient: {  }
+                                                                              coefficient_etablissement_connexe: {  }
+                                                                              facturable: {  }
                                                             lieux:
                                                               type: collection
                                                               definition:
@@ -517,6 +581,10 @@ Configuration:
                                                                                         fields:
                                                                                           readable: {  }
                                                                                           writable: {  }
+                                                                                          details: {  }
+                                                                                          coefficient: {  }
+                                                                                          coefficient_etablissement_connexe: {  }
+                                                                                          facturable: {  }
                                                                               entrees:
                                                                                 required: false
                                                                                 type: collection
@@ -529,6 +597,10 @@ Configuration:
                                                                                         fields:
                                                                                           readable: {  }
                                                                                           writable: {  }
+                                                                                          details: {  }
+                                                                                          coefficient: {  }
+                                                                                          coefficient_etablissement_connexe: {  }
+                                                                                          facturable: {  }
                                                                               sorties:
                                                                                 required: false
                                                                                 type: collection
@@ -541,6 +613,10 @@ Configuration:
                                                                                         fields:
                                                                                           readable: {  }
                                                                                           writable: {  }
+                                                                                          details: {  }
+                                                                                          coefficient: {  }
+                                                                                          coefficient_etablissement_connexe: {  }
+                                                                                          facturable: {  }
                                                                               stocks_fin:
                                                                                 required: false
                                                                                 type: collection
@@ -553,6 +629,10 @@ Configuration:
                                                                                         fields:
                                                                                           readable: {  }
                                                                                           writable: {  }
+                                                                                          details: {  }
+                                                                                          coefficient: {  }
+                                                                                          coefficient_etablissement_connexe: {  }
+                                                                                          facturable: {  }
                                                                                     departements:
                                                                                       type: array_collection
                                                                                       definition:
@@ -602,6 +682,10 @@ Configuration:
                                         fields:
                                           readable: {  }
                                           writable: {  }
+                                          details: {  }
+                                          coefficient: {  }
+                                          coefficient_etablissement_connexe: {  }
+                                          facturable: {  }
                               entrees:
                                 required: false	
                                 type: collection
@@ -614,6 +698,10 @@ Configuration:
                                         fields:
                                           readable: {  }
                                           writable: {  }
+                                          details: {  }
+                                          coefficient: {  }
+                                          coefficient_etablissement_connexe: {  }
+                                          facturable: {  }
                               sorties:
                                 required: false	
                                 type: collection
@@ -626,6 +714,10 @@ Configuration:
                                         fields:
                                           readable: {  }
                                           writable: {  }
+                                          details: {  }
+                                          coefficient: {  }
+                                          coefficient_etablissement_connexe: {  }
+                                          facturable: {  }
                               stocks_fin:
                                 required: false	
                                 type: collection
@@ -638,3 +730,7 @@ Configuration:
                                         fields:
                                           readable: {  }
                                           writable: {  }
+                                          details: {  }
+                                          coefficient: {  }
+                                          coefficient_etablissement_connexe: {  }
+                                          facturable: {  }
