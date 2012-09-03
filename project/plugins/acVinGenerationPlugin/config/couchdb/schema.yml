@@ -1,0 +1,17 @@
+#schema des Generation
+Generation:
+  definition:
+    fields:
+      _id: {}
+      _rev: {}
+      type: {}
+      identifiant: {}
+      date_emission: {}
+      nb_documents: {}
+      type_document: {}      
+      somme: {}
+      documents:
+        type: array_collection
+        definition:
+          fields:
+            '*': { }
