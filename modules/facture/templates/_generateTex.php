@@ -123,7 +123,7 @@ $nbLigne = count($facture->echeances) * 3;
                         \centering \small{\textbf{ \\ LIBELLE}} &
    			\centering \small{\textbf{Mois}} &
    			\centering \small{\textbf{Volume en hl}} &
-                        \centering \small{\textbf{Cotisation hl}} &
+                        \centering \small{\textbf{Cotisation}} &
    			\centering \small{\textbf{Montant H.T Euros}} &
    			\multicolumn{1}{c}{\small{\textbf{Code Echéance}}} \\
   
