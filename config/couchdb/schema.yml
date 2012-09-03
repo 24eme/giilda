@@ -35,6 +35,7 @@ Facture:
           fields:
             '*':
               type: collection
+              class: FactureLigne
               definition:
                 fields:
                   origine_type: {}
@@ -50,6 +51,7 @@ Facture:
                   volume: {type: float}
                   cotisation_taux: {type: float}
                   montant_ht: {type: float}
+                  cle_mouvement: {}
       echeances:
         type: array_collection
         definition:

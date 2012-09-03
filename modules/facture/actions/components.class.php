@@ -7,4 +7,11 @@ class factureComponents extends sfComponents {
       $this->form = new FactureEtablissementChoiceForm(array('identifiant' => $this->identifiant));
     }
   }
+  
+  public function executeGenerationMasse() { 
+    if (!$this->generationForm) {
+      $this->generationForm = new FactureGenerationMasseForm(array('region' => $this->region));
+    }
+  }
+    
 }

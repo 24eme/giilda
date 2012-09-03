@@ -33,6 +33,9 @@ class FactureRouting {
 									 array('model' => 'Etablissement',
 									       'type' => 'object')
 									 ));
+        
+        $r->prependRoute('facture_generer_masse', new sfRoute('/facture/masse', array('module' => 'facture', 
+													'action' => 'masse')));
 
     }
 }

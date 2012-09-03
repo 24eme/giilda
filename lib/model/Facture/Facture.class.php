@@ -6,6 +6,44 @@
 
 class Facture extends BaseFacture {
 
+    private $documents_origine = array();
+    
+    public function getDocumentsOrigine() {
+        return $this->documents_origine;
+    }
+    
+    public function save() {
+        if($this->isNew()){
+            $this->facturerMouvements();
+            $this->saveDocumentsOrigine();
+        }
+        parent::save();
+    }
+
+
+    public function saveDocumentsOrigine()
+    {
+        foreach ($this->getDocumentsOrigine() as $doc) {
+            $doc->save();
+        }
+    }
+
+    public function getDocumentOrigine($id) {
+        
+        if(!array_key_exists($id, $this->documents_origine)) {            
+            $this->documents_origine[$id] = acCouchdbManager::getClient()->find($id);
+        }
+        
+        return $this->documents_origine[$id];
+    }
+    
+    public function facturerMouvements()
+    {
+        foreach ($this->getLignes() as $l) {
+           $l->facturerMouvement();
+        }
+    }            
+    
     public function getEcheances() {
         $e = $this->_get('echeances')->toArray();
         usort($e, 'Facture::triEcheanceDate');

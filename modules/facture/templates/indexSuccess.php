@@ -7,9 +7,10 @@
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <?php include_component('facture', 'chooseEtablissement'); ?>
+            <?php include_partial('historique'); ?>
+            <?php include_component('facture','generationMasse'); ?>
+            
         </section>
-
-        <h2>Génération des factures</h2>
         <!-- fin #contenu_etape -->
     </section>
     <!-- fin #principal -->

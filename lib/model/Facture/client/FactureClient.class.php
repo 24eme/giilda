@@ -13,16 +13,21 @@ class FactureClient extends acCouchdbClient {
     const MOUVEMENTS_KEYS_FACTURABLE = 1;
     const MOUVEMENTS_KEYS_ETB_ID = 2;
     const MOUVEMENTS_KEYS_ORIGIN = 3;
-    const MOUVEMENTS_KEYS_PERIODE = 4;
-    const MOUVEMENTS_KEYS_MATIERE = 5;
-    const MOUVEMENTS_KEYS_PRODUIT_ID = 6;
-    const MOUVEMENTS_KEYS_MVT_TYPE = 7;
+    const MOUVEMENTS_KEYS_MATIERE = 4;
+    const MOUVEMENTS_KEYS_PRODUIT_ID = 5;
+    const MOUVEMENTS_KEYS_PERIODE = 6; 
+    const MOUVEMENTS_KEYS_MVT_TYPE = 7;    
+    const MOUVEMENTS_KEYS_DETAIL_ID = 8;
+    
     const MOUVEMENTS_VALUES_PRODUIT_NAME = 0;
     const MOUVEMENTS_VALUES_TYPE_TRANS = 1;
     const MOUVEMENTS_VALUES_VOLUME = 2;
-    const MOUVEMENTS_VALUES_DETAIL_LIBELLE = 3;
-    const MOUVEMENTS_VALUES_CVO = 4;
-    const MOUVEMENTS_VALUES_ID = 5;
+    const MOUVEMENTS_VALUES_CVO = 3;
+    const MOUVEMENTS_VALUES_DATE = 4;
+    const MOUVEMENTS_VALUES_DETAIL_LIBELLE = 5;    
+    const MOUVEMENTS_VALUES_REGION = 6;
+    const MOUVEMENTS_VALUES_ID = 7;
+    const MOUVEMENTS_VALUES_MD5_CLE = 8;
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Facture");
@@ -69,7 +74,7 @@ class FactureClient extends acCouchdbClient {
         $facture->total_ttc = $this->ttc($facture->total_ht);
         return $facture;
     }
-
+    
     private function createFactureLigne($f,$facture) {        
         $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME] = -1 * $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME];
         
@@ -82,7 +87,8 @@ class FactureClient extends acCouchdbClient {
                        'produit_hash' => $f->key[FactureClient::MOUVEMENTS_KEYS_PRODUIT_ID],
                        'volume' => $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME],
                        'cotisation_taux' => $f->value[FactureClient::MOUVEMENTS_VALUES_CVO],
-                       'montant_ht' => $cvo);
+                       'montant_ht' => $cvo,
+                       'cle_mouvement' => $f->value[FactureClient::MOUVEMENTS_VALUES_MD5_CLE]);
         $facture->total_ht += $cvo;
         
         $ligne = $this->createFactureLigneContrat($ligne,$f);
@@ -227,6 +233,57 @@ class FactureClient extends acCouchdbClient {
         return $this->find('FACTURE-' . $idEtablissement . '-' . $idFacture);
     }
 
+    public function getMouvementsNonFacturesMasse($region,$seuil_facture,$seuil_avoir,$date_mouvement) {   
+        return DRMMouvementsFactureView::getInstance()->getMouvementsFacturables(0, 1);
+        
+    }
+    
+    public function getMouvementsNonFacturesByEtb($mouvements) {
+        
+        $generationFactures = array();
+        foreach ($mouvements as $mouvement) {
+            if(array_key_exists($mouvement->key[FactureClient::MOUVEMENTS_KEYS_ETB_ID], $generationFactures))
+            {
+                $generationFactures[$mouvement->key[FactureClient::MOUVEMENTS_KEYS_ETB_ID]][] = $mouvement;
+            }
+            else
+            {
+                $generationFactures[$mouvement->key[FactureClient::MOUVEMENTS_KEYS_ETB_ID]] = array();
+                $generationFactures[$mouvement->key[FactureClient::MOUVEMENTS_KEYS_ETB_ID]][] = $mouvement;
+            }
+        }
+        return $generationFactures;
+    }
+
+    public function createFacturesByEtb($generationFactures){
+
+        $generation = new Generation();
+        $generation->date_emission = date('Ymd-H:i');
+        $generation->type_document = 'Facture';
+        $generation->documents = array();
+        $generation->somme = 0;
+        $cpt = 0;
+        
+        foreach ($generationFactures as $etablissementID => $mouvementsEtb)
+        {
+            $etablissement = EtablissementClient::getInstance()->findByIdentifiant($etablissementID);
+            $f = $this->createDoc($mouvementsEtb, $etablissement);            
+            
+            $f->save();
+            
+            $generation->somme += $f->total_ttc;
+            $generation->add('documents')->add($cpt,$f->_id);
+            $cpt++;
+        }
+        
+        return $generation;
+    }
+
+    public function getMouvementsNonFacturesByEtablissement($etablissement) {
+
+        return DRMMouvementsFactureView::getInstance()->getFacturationByEtablissement($etablissement, 0, 1);
+    }
+    
     public function findByEtablissement($etablissement) {
         return acCouchdbManager::getClient()
                         ->startkey(array($etablissement->_id))
@@ -235,10 +292,11 @@ class FactureClient extends acCouchdbClient {
                 ->rows;
     }
 
-    public function getMouvementsNonFacturesByEtablissement($etablissement) {
-
-        return DRMMouvementsFactureView::getInstance()->getFacturationByEtablissement($etablissement, 0, 1);
+    
+    public function getSomme($facture) {
+        $facture->montant_tcc;
     }
+
 
     private function ttc($p) {
         return $p + $p * 0.196;

@@ -3,6 +3,7 @@ class factureActions extends sfActions {
     
   public function executeIndex(sfWebRequest $request) {
       $this->form = new FactureEtablissementChoiceForm();
+      $this->generationForm = new FactureGenerationMasseForm();
        if ($request->isMethod(sfWebRequest::POST)) {
 	 $this->form->bind($request->getParameter($this->form->getName()));
 	 if ($this->form->isValid()) {
@@ -11,6 +12,16 @@ class factureActions extends sfActions {
        }
     }
         
+   public function executeMasse(sfWebRequest $request) {
+       
+       //$request['region'],$request['seuil_facture'],$request['seuil_avoir'],$request['date_mouvement'];
+       $allMouvements = FactureClient::getInstance()->getMouvementsNonFacturesMasse('','','','');       
+       $mouvementsByEtb = FactureClient::getInstance()->getMouvementsNonFacturesByEtb($allMouvements);
+       $generation = FactureClient::getInstance()->createFacturesByEtb($mouvementsByEtb);
+       $generation->save();
+       $this->setTemplate('index');
+    }
+    
     public function executeMonEspace(sfWebRequest $resquest) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->factures = FactureClient::getInstance()->findByEtablissement($this->etablissement);
