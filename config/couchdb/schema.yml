@@ -386,7 +386,7 @@ DRM:
             envoi: {  }
             accuse: {  }
       mouvements:
-        type: array_collection
+        type: collection
         definition:
           fields:
             '*':

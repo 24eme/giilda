@@ -703,4 +703,8 @@ class DRM extends BaseDRM {
         $this->clearMouvements();
         $this->mouvements = $this->declaration->getMouvements();
     }
+    
+    public function findMouvement($cle_mouvement){
+         return $this->mouvements[$cle_mouvement];
+    }
 }

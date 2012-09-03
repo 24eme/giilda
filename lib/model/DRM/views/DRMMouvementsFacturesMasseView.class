@@ -19,29 +19,20 @@ class DRMMouvementsFactureView extends acCouchdbView
 
         return acCouchdbManager::getView('drm', 'mouvements_facture', 'DRM');
     }
-    
-    
-    public function getFacturationByEtablissement($etablissement,$facturee, $facturable) {
         
+    public function getFacturationByRegionDate($region,$date_mouvement, $facturee, $facturable) {
         return $this->client
             ->startkey(array($facturee,$facturable,$etablissement->identifiant))
             ->endkey(array($facturee,$facturable,$etablissement->identifiant, array()))
             ->getView($this->design, $this->view)->rows;
     }
     
+
+    
     public function getAFactureByEtablissement($etablissement) {
 
         return $this->buildMouvements($this->getFacturationByEtablissement($etablissement, 0, 1));      
     }
-    
-    public function getMouvementsFacturables($facturee, $facturable) {
-        return $this->client
-            ->startkey(array($facturee,$facturable))
-            ->endkey(array($facturee,$facturable, array()))
-            ->getView($this->design, $this->view)->rows;
-    }
-
-
 
     protected function buildMouvements($rows) {
         $mouvements = array();

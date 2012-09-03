@@ -264,15 +264,20 @@ class DRMDetail extends BaseDRMDetail {
       }
 
       if ($this->exist($hash."/".$key."_details")) {
-        $mouvements = array_merge($mouvements, $this->get($hash."/".$key."_details")->createMouvements($coefficient));
+        $mouvements = array_merge($mouvements, $this->get($hash."/".$key."_details")->createMouvements
+                ($coefficient));
 
         continue;
       }
 
-      $mouvements[] = $this->createMouvement($hash."/".$key, $volume, $coefficient);
+      $mouvement = $this->createMouvement($hash."/".$key, $volume, $coefficient);
+      if(!$mouvement){
+          continue;
+      }
+      $mouvements[$mouvement->getMD5Key()] = $mouvement;
     }
 
-    return array_filter($mouvements);
+    return $mouvements;
   }
 
   public function createMouvement($hash, $volume, $coefficient) {

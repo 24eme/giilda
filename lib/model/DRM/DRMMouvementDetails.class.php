@@ -25,7 +25,11 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
         $mouvements = array();
 
         foreach($this as $detail) {
-            $mouvements[] = $this->createMouvement($detail, $coefficient);
+            $mouvement = $this->createMouvement($detail, $coefficient);
+            if(!$mouvement){
+                continue;
+            }
+            $mouvements[$mouvement->getMD5Key()] = $mouvement;
         }
 
         return $mouvements;
