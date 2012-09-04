@@ -129,5 +129,32 @@ class Facture extends BaseFacture {
         return $lignesByMouvementType;
     }
     
+    public function countNbLignes() {
+        $nbLigne = count($this->echeances) * 3;
+
+        $propriete = $this->getLignesPropriete();
+        $produits = $this->getLignesProduits($propriete);
+        $types = FactureClient::getInstance()->getTypes();
+        if(count($propriete)>0) $nbLigne++;
+        $nbLigne+=count($produits);
+
+        foreach ($produits as $ligneProd)
+            $nbLigne+=count($ligneProd);
+        foreach ($types as $type) 
+        {
+            $contrat = $this->getLignesContratType($type);
+            if(count($contrat)>0){
+                $nbLigne++;
+                $produits = $this->getLignesProduits($contrat);
+                foreach ($produits as $ligneProd)
+                {
+                    $nbLigne+=count($ligneProd)+1;
+                }
+            }
+
+        }
+        return $nbLigne;
+    }
+    
     
 }

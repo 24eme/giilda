@@ -1,9 +1,11 @@
 <?php
 use_helper('Float');
 
-$total_rows = 30;
 
-$nbLigne = count($facture->echeances) * 3;
+$propriete = $facture->getLignesPropriete();
+$produits = $facture->getLignesProduits($propriete);
+$types = FactureClient::getInstance()->getTypes();
+
 ?>
 \documentclass[a4paper,10pt]{article}
 \usepackage[english]{babel}
@@ -129,23 +131,18 @@ $nbLigne = count($facture->echeances) * 3;
   
   			\hline
                 
-                <?php $propriete = $facture->getLignesPropriete(); 
-                if(count($propriete) > 0 ) : 
-                    $nbLigne++;
-                    ?>
-                \textbf{Sortie de propriété} & ~ & ~ & ~ & ~ & ~ \\
-                <?php endif; ?>                
                 <?php 
-                $produits = $facture->getLignesProduits($propriete);
-                 foreach ($produits as $ligneProd) :  
-                     $nbLigne++;
+                if(count($propriete) > 0 ) : 
+                ?>
+                \textbf{Sortie de propriété} & ~ & ~ & ~ & ~ & ~ \\
+            <?php endif; ?>                
+                <?php                
+                 foreach ($produits as $ligneProd) :                       
                  ?>
                     ~~\textbf{<?php echo $ligneProd[0]->produit_libelle; ?>} & ~ & ~ & ~ & ~ & ~ \\
                 <?php
                     foreach ($ligneProd as $prod): 
-                        $nbLigne++;
-                        ?>
-                                
+                        ?>      
                     ~~~~<?php echo $prod->origine_identifiant; ?> &
                             \multicolumn{1}{r|}{<?php echo $prod->origine_date; ?>} & 
                             \multicolumn{1}{r|}{\small{<?php echoFloat($prod->volume); ?>}} &
@@ -155,26 +152,18 @@ $nbLigne = count($facture->echeances) * 3;
 
                 <?php endforeach;
                 endforeach;
-                ?>
-                <?php 
-                $types = array(FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS,
-                              FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS,
-                              FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS);
-    
+                
                 foreach ($types as $type) :
                     $contrat = $facture->getLignesContratType($type);
                     if(count($contrat) > 0 ) :
-                    $nbLigne++;
                     ?>
                     \textbf{Sortie de contrat <?php echo $type; ?>} & ~ & ~ & ~ & ~ & ~ \\
             <?php endif;  
                         $produits = $facture->getLignesProduits($contrat);
                         foreach ($produits as $ligneProd) :  
-                        $nbLigne++;
                         ?>
                             ~~\textbf{<?php echo $ligneProd[0]->produit_libelle; ?>} & ~ & ~ & ~ & ~ & ~ \\
                         <?php foreach ($ligneProd as $ligneCont): 
-                            $nbLigne++;
                             ?>  
                                 ~~~<?php echo $ligneCont->contrat_libelle; ?> & 
                                 \multicolumn{1}{r|}{\small{<?php echo $ligneCont->origine_date; ?>}} & 

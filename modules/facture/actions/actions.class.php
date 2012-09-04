@@ -14,12 +14,18 @@ class factureActions extends sfActions {
     }
         
    public function executeMasse(sfWebRequest $request) {
+       $parameters = $request->getParameter('facture_generation');
        
-       //$request['region'],$request['seuil_facture'],$request['seuil_avoir'],$request['date_mouvement'];
-       $allMouvements = FactureClient::getInstance()->getMouvementsNonFacturesMasse('','','','');       
+       $allMouvements = FactureClient::getInstance()->getMouvementsNonFacturesMasse();       
        $mouvementsByEtb = FactureClient::getInstance()->getMouvementsNonFacturesByEtb($allMouvements);
+       
+       $mouvementsByEtb = FactureClient::getInstance()->filterWithParameters($mouvementsByEtb,$parameters);
+       if($mouvementsByEtb)
+       {
        $generation = FactureClient::getInstance()->createFacturesByEtb($mouvementsByEtb);
        $generation->save();
+       }
+        $this->generations = GenerationClient::getInstance()->findHistory();
        $this->setTemplate('index');
     }
     
@@ -46,9 +52,12 @@ class factureActions extends sfActions {
         $this->facture = FactureClient::getInstance()->findByEtablissementAndId($this->getRoute()->getEtablissement()->identifiant, $request->getParameter('factureid'));
         $this->forward404Unless($this->facture);
         
-        $this->srcPdf = $this->getPartial('generateTex',array('facture' => $this->facture));
-                
-        $this->srcTexFilename = $this->facture->identifiant.'-'.count($this->facture->lignes);
+        $this->nbLigne = $this->facture->countNbLignes();
+        $this->templateFormat = $this->nbPagesPdf($this->nbLigne);
+        $this->srcPdf = $this->getPartial('generateTex',array('facture' => $this->facture,
+                                                              'nbLigne' => $this->nbLigne,'template' => $this->templateFormat[1],'total_rows' => FactureClient::MAX_LIGNE_TEMPLATE_ONEPAGE));
+
+        $this->srcTexFilename = $this->facture->identifiant.'_'.$this->facture->client_reference.'-'.$this->templateFormat[0];
         $this->extTex = 'tex';
         $this->statut = $this->creerFichier($this->srcTexFilename, $this->extTex,  $this->srcPdf);
 
@@ -67,13 +76,13 @@ class factureActions extends sfActions {
 	}
 
         $pdfFile = $this->getLatexTmpPath().$this->srcTexFilename.".pdf";
-        $attachement = "attachment; filename=".$pdfFile;
+        $attachement = "attachment; filename=".$this->srcTexFilename.".pdf";
         header("content-type: application/pdf\n");
         header("content-length: ".filesize($pdfFile)."\n");
         header("content-disposition: $attachement\n\n");
         echo file_get_contents($pdfFile);
         unlink($this->getLatexTmpPath().$this->srcTexFilename.".aux");
-	unlink("/tmp/".$this->srcTexFilename.".log");
+	unlink($this->getLatexTmpPath().$this->srcTexFilename.".log");
         exit;
     }
     
@@ -115,5 +124,18 @@ class factureActions extends sfActions {
         $t_infoCreation['permissionAppliquer'] = $retour;
 
         return $t_infoCreation;
+    }
+    
+    private function nbPagesPdf($nbLigne) {
+        if($nbLigne < FactureClient::MAX_LIGNE_TEMPLATE_ONEPAGE){
+            return array(1,FactureClient::TEMPLATE_ONEPAGE);
+        }
+        if($nbLigne < FactureClient::MAX_LIGNE_TEMPLATE_TWOPAGE){
+            return array(2,FactureClient::TEMPLATE_TWOPAGE);
+        }
+        else{
+            return array(2,FactureClient::TEMPLATE_MOREPAGE);
+        }
+            
     }
 }

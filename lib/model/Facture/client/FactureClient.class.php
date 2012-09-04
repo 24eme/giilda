@@ -15,19 +15,25 @@ class FactureClient extends acCouchdbClient {
     const MOUVEMENTS_KEYS_ORIGIN = 3;
     const MOUVEMENTS_KEYS_MATIERE = 4;
     const MOUVEMENTS_KEYS_PRODUIT_ID = 5;
-    const MOUVEMENTS_KEYS_PERIODE = 6; 
-    const MOUVEMENTS_KEYS_MVT_TYPE = 7;    
+    const MOUVEMENTS_KEYS_PERIODE = 6;
+    const MOUVEMENTS_KEYS_MVT_TYPE = 7;
     const MOUVEMENTS_KEYS_DETAIL_ID = 8;
-    
     const MOUVEMENTS_VALUES_PRODUIT_NAME = 0;
     const MOUVEMENTS_VALUES_TYPE_TRANS = 1;
     const MOUVEMENTS_VALUES_VOLUME = 2;
     const MOUVEMENTS_VALUES_CVO = 3;
     const MOUVEMENTS_VALUES_DATE = 4;
-    const MOUVEMENTS_VALUES_DETAIL_LIBELLE = 5;    
+    const MOUVEMENTS_VALUES_DETAIL_LIBELLE = 5;
     const MOUVEMENTS_VALUES_REGION = 6;
     const MOUVEMENTS_VALUES_ID = 7;
     const MOUVEMENTS_VALUES_MD5_CLE = 8;
+    
+    const MAX_LIGNE_TEMPLATE_ONEPAGE = 30;
+    const MAX_LIGNE_TEMPLATE_TWOPAGE = 70;
+    
+    const TEMPLATE_ONEPAGE = 1;
+    const TEMPLATE_TWOPAGE = 2;
+    const TEMPLATE_MOREPAGE = 3;
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Facture");
@@ -56,172 +62,154 @@ class FactureClient extends acCouchdbClient {
         $facture->client->ville = $etablissement->siege->commune;
         $facture->_id = $this->getId($etablissement->identifiant, $facture->identifiant);
         $facture->origines = array();
-        
+
         $cptLigne = 0;
         $origines = array();
         foreach ($factures as $f) {
-            $current_ligne = $this->createFactureLigne($f,$facture);
+            $current_ligne = $this->createFactureLigne($f, $facture);
             $facture->add("lignes")->add($cptLigne, $current_ligne);
             $origines[$f->value[FactureClient::MOUVEMENTS_VALUES_ID]] = $f->value[FactureClient::MOUVEMENTS_VALUES_ID];
-    //         = array('DRM-123-2012-01' => 'DRM de janvier', 'DRM-123-2011-12' => 'DRM de décembre');            
+            //         = array('DRM-123-2012-01' => 'DRM de janvier', 'DRM-123-2011-12' => 'DRM de décembre');            
             $cptLigne++;
         }
         $facture->origines = $origines;
-        
+
 
         $this->createFacturePapillons($facture);
-        
+
         $facture->total_ttc = $this->ttc($facture->total_ht);
         return $facture;
     }
-    
-    private function createFactureLigne($f,$facture) {        
+
+    private function createFactureLigne($f, $facture) {
         $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME] = -1 * $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME];
-        
+
         $cvo = $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME] * $f->value[FactureClient::MOUVEMENTS_VALUES_CVO];
         $ligne = array('origine_type' => $f->key[FactureClient::MOUVEMENTS_KEYS_ORIGIN],
-                       'origine_identifiant' => $f->value[FactureClient::MOUVEMENTS_VALUES_ID],
-                       'origine_date' => $f->key[FactureClient::MOUVEMENTS_KEYS_PERIODE],
-                       'produit_type' => $f->key[FactureClient::MOUVEMENTS_KEYS_MATIERE],
-                       'produit_libelle' => $f->value[FactureClient::MOUVEMENTS_VALUES_PRODUIT_NAME],
-                       'produit_hash' => $f->key[FactureClient::MOUVEMENTS_KEYS_PRODUIT_ID],
-                       'volume' => $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME],
-                       'cotisation_taux' => $f->value[FactureClient::MOUVEMENTS_VALUES_CVO],
-                       'montant_ht' => $cvo,
-                       'cle_mouvement' => $f->value[FactureClient::MOUVEMENTS_VALUES_MD5_CLE]);
+            'origine_identifiant' => $f->value[FactureClient::MOUVEMENTS_VALUES_ID],
+            'origine_date' => $f->key[FactureClient::MOUVEMENTS_KEYS_PERIODE],
+            'produit_type' => $f->key[FactureClient::MOUVEMENTS_KEYS_MATIERE],
+            'produit_libelle' => $f->value[FactureClient::MOUVEMENTS_VALUES_PRODUIT_NAME],
+            'produit_hash' => $f->key[FactureClient::MOUVEMENTS_KEYS_PRODUIT_ID],
+            'volume' => $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME],
+            'cotisation_taux' => $f->value[FactureClient::MOUVEMENTS_VALUES_CVO],
+            'montant_ht' => $cvo,
+            'cle_mouvement' => $f->value[FactureClient::MOUVEMENTS_VALUES_MD5_CLE]);
         $facture->total_ht += $cvo;
-        
-        $ligne = $this->createFactureLigneContrat($ligne,$f);
+
+        $ligne = $this->createFactureLigneContrat($ligne, $f);
 
         return $ligne;
     }
 
-    private function createFacturePapillons($facture)
-    {
-        foreach ($facture->lignes as $ligne)
-        {
+    private function createFacturePapillons($facture) {
+        foreach ($facture->lignes as $ligne) {
             switch ($ligne['produit_type']) {
                 case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS:
                 case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS:
-                    if(strstr($ligne['produit_hash'],'mentions/SL/'))
-                    {
-                        $this->createOrUpdateEcheanceC($ligne,$facture);
+                    if (strstr($ligne['produit_hash'], 'mentions/SL/')) {
+                        $this->createOrUpdateEcheanceC($ligne, $facture);
+                    } else {
+                        $this->createOrUpdateEcheanceB($ligne, $facture);
                     }
-                    else
-                    {
-                        $this->createOrUpdateEcheanceB($ligne,$facture);
-                    }
-                break;
+                    break;
                 default :
-                    $this->createOrUpdateEcheanceA($ligne,$facture);
-                break;
+                    $this->createOrUpdateEcheanceA($ligne, $facture);
+                    break;
             }
         }
     }
-    
-    private function createOrUpdateEcheanceA($l,$facture)
-    {
-            $l['echeance_code'] = 'A';  
-            $date = date('Y-m-d', strtotime("+60 days"));
-            $montant_ttc = $this->ttc($l['montant_ht']);
-            $this->updateEcheance('A',$date,$montant_ttc,$facture);
+
+    private function createOrUpdateEcheanceA($l, $facture) {
+        $l['echeance_code'] = 'A';
+        $date = date('Y-m-d', strtotime("+60 days"));
+        $montant_ttc = $this->ttc($l['montant_ht']);
+        $this->updateEcheance('A', $date, $montant_ttc, $facture);
     }
-    
-    private function createOrUpdateEcheanceB($l,$facture)
-    {
-            $l['echeance_code'] = 'B';
-            $date = date('Ymd');
-            $d1 = date('Y', strtotime("-1 years")).'0801'; // 01/08/N-1
-            $d2 = date('Y').'0331'; // 31/03/N
-            $d3 = date('Y').'0531'; // 31/05/N    
-            //        
+
+    private function createOrUpdateEcheanceB($l, $facture) {
+        $l['echeance_code'] = 'B';
+        $date = date('Ymd');
+        $d1 = date('Y', strtotime("-1 years")) . '0801'; // 01/08/N-1
+        $d2 = date('Y') . '0331'; // 31/03/N
+        $d3 = date('Y') . '0531'; // 31/05/N    
+        //        
 //          if(01/08/N-1 < date < 31/03/N) { 50% au 31/03 et 50% au 31/05 }            
-            if(($d1 < $date) && ($date < $d2))
-            {
-                $montant_ttc = $this->ttc($l['montant_ht']) * 0.5;
-                $dateEcheance1 = date('Y').'-03-31';              
-                $this->updateEcheance('B',$dateEcheance1,$montant_ttc,$facture);
-                
-                $dateEcheance2 = date('Y').'-05-31';              
-                $this->updateEcheance('B',$dateEcheance2,$montant_ttc,$facture);
-                return;
-            }
-            
+        if (($d1 < $date) && ($date < $d2)) {
+            $montant_ttc = $this->ttc($l['montant_ht']) * 0.5;
+            $dateEcheance1 = date('Y') . '-03-31';
+            $this->updateEcheance('B', $dateEcheance1, $montant_ttc, $facture);
+
+            $dateEcheance2 = date('Y') . '-05-31';
+            $this->updateEcheance('B', $dateEcheance2, $montant_ttc, $facture);
+            return;
+        }
+
 //          if(01/04/N < date < 31/05/N)   { 50% comptant et  50% au 31/05 }              
-            if(($d2 < $date) && ($date <= $d3))
-            {
-                $montant_ttc = $this->ttc($l['montant_ht']) * 0.5;
-                $dateEcheance1 = date('Y-m-d');              
-                $this->updateEcheance('B',$dateEcheance1,$montant_ttc,$facture);
-                
-                $dateEcheance2 = date('Y').'-05-31';              
-                $this->updateEcheance('B',$dateEcheance2,$montant_ttc,$facture);
-                return;
-            }
+        if (($d2 < $date) && ($date <= $d3)) {
+            $montant_ttc = $this->ttc($l['montant_ht']) * 0.5;
+            $dateEcheance1 = date('Y-m-d');
+            $this->updateEcheance('B', $dateEcheance1, $montant_ttc, $facture);
+
+            $dateEcheance2 = date('Y') . '-05-31';
+            $this->updateEcheance('B', $dateEcheance2, $montant_ttc, $facture);
+            return;
+        }
 
 //            if(date > 31/05/N) { 100% comptant } 
-          if($date > $d3)
-            {            
-                $this->updateEcheance('B',date('Y-m-d'),$this->ttc($l['montant_ht']),$facture);
-                return;
-            }
-            
+        if ($date > $d3) {
+            $this->updateEcheance('B', date('Y-m-d'), $this->ttc($l['montant_ht']), $facture);
+            return;
+        }
     }
-    
-    private function createOrUpdateEcheanceC($l,$facture)
-    {
-            $l['echeance_code'] = 'C';
-            $date = date('Y').'-09-30';
-            $montant_ttc = $this->ttc($l['montant_ht']);
-            $this->updateEcheance('C',$date,$montant_ttc,$facture);
-         
+
+    private function createOrUpdateEcheanceC($l, $facture) {
+        $l['echeance_code'] = 'C';
+        $date = date('Y') . '-09-30';
+        $montant_ttc = $this->ttc($l['montant_ht']);
+        $this->updateEcheance('C', $date, $montant_ttc, $facture);
     }
-    
-    private function updateEcheance($echeance_code,$date,$montant_ttc,$facture) {        
-            $Aexist = false;
-            foreach ($facture->echeances as $e)
-            {
-                if(($e['echeance_code'] == $echeance_code) && ($e['echeance_date'] == $date))
-                {
-                   $e['montant_ttc'] +=  $montant_ttc;
-                   $Aexist = true;
-                   break;
-                }
+
+    private function updateEcheance($echeance_code, $date, $montant_ttc, $facture) {
+        $Aexist = false;
+        foreach ($facture->echeances as $e) {
+            if (($e['echeance_code'] == $echeance_code) && ($e['echeance_date'] == $date)) {
+                $e['montant_ttc'] += $montant_ttc;
+                $Aexist = true;
+                break;
             }
-            if(!$Aexist)
-            {
-                $echeance = array();
-                $echeance['echeance_code'] = $echeance_code;
-                $echeance['montant_ttc'] = $montant_ttc;
-                $echeance['echeance_date'] = $date;
-                $facture->add("echeances")->add(count($facture->echeances), $echeance);
-            }
+        }
+        if (!$Aexist) {
+            $echeance = array();
+            $echeance['echeance_code'] = $echeance_code;
+            $echeance['montant_ttc'] = $montant_ttc;
+            $echeance['echeance_date'] = $date;
+            $facture->add("echeances")->add(count($facture->echeances), $echeance);
+        }
     }
-    
-    private function createFactureLigneContrat($ligne,$f) {
+
+    private function createFactureLigneContrat($ligne, $f) {
         $ligne['contrat_identifiant'] = '';
         $ligne['contrat_libelle'] = '';
-        
+
         // CONTRAT-XXXXXXX-XXXX si mouvement contrat
         //le libellé du contrat tel qu'il apparait sur la facture genre "n° XXXXXX du JJ/MM/AAAA
-        
+
         switch ($f->key[FactureClient::MOUVEMENTS_KEYS_MVT_TYPE]) {
-            case 'sorties/vrac':
-                {
+            case 'sorties/vrac': {
                     $ligne['mouvement_type'] = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT;
                     $ligne['contrat_identifiant'] = $f->value[FactureClient::MOUVEMENTS_VALUES_TYPE_TRANS]; //Contrat id
                     $ligne['contrat_libelle'] = $f->value[FactureClient::MOUVEMENTS_VALUES_DETAIL_LIBELLE]; //Contrat libelle
                     $ligne['produit_type'] = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS;
                     break;
                 }
-            case 'sorties/':
-                {
+            case 'sorties/': {
                     $ligne['mouvement_type'] = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT;
                     $ligne['contrat_identifiant'] = $f->value[FactureClient::MOUVEMENTS_VALUES_TYPE_TRANS]; //Contrat id
                     $ligne['contrat_libelle'] = $f->value[FactureClient::MOUVEMENTS_VALUES_DETAIL_LIBELLE]; //Contrat libelle
                     $ligne['produit_type'] = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS;
                     break;
-                }    
+                }
             default:
                 $ligne['mouvement_type'] = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE;
                 break;
@@ -233,21 +221,68 @@ class FactureClient extends acCouchdbClient {
         return $this->find('FACTURE-' . $idEtablissement . '-' . $idFacture);
     }
 
-    public function getMouvementsNonFacturesMasse($region,$seuil_facture,$seuil_avoir,$date_mouvement) {   
+    public function getMouvementsNonFacturesMasse() {
         return DRMMouvementsFactureView::getInstance()->getMouvementsFacturables(0, 1);
-        
     }
-    
+
+    public function filterWithParameters($mouvementsByEtb, $parameters) {
+
+//       $parameters['date_mouvement']
+        $regions = null;
+        if (isset($parameters['region']) && is_array($parameters['region']) && !in_array('all', $parameters['region']))
+            $regions = $parameters['region'];
+        foreach ($mouvementsByEtb as $k => $mouvements) {
+            foreach ($mouvements as $key => $mouvement) {
+                if (!is_null($regions) && !in_array($mouvement->value[FactureClient::MOUVEMENTS_VALUES_REGION], $regions)) {
+                    unset($mouvements[$key]);
+                }
+                //perturbant? 2 niveau de filtre ici => mouvement
+                if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '') &&
+                        ($this->supEqDate($mouvement->value[FactureClient::MOUVEMENTS_VALUES_DATE], $parameters['date_mouvement']))) {
+                    unset($mouvements[$key]);
+                }
+            }
+            if (count($mouvements) == 0) {
+                unset($mouvementsByEtb[$k]);
+            } else {
+                $mouvementsByEtb[$k] = $mouvements;
+            }
+        }
+        foreach ($mouvementsByEtb as $key => $mouvements) {
+            $somme = 0;
+            //perturbant? 2 niveau de filtre ici => facture?
+            foreach ($mouvements as $mouvement) {
+                $somme += $mouvement->value[FactureClient::MOUVEMENTS_VALUES_VOLUME] * $mouvement->value[FactureClient::MOUVEMENTS_VALUES_CVO];
+            }
+            if (isset($parameters['seuil_facture']) && $parameters['seuil_facture'] != '') {
+                if (($somme * -1) >= $parameters['seuil_facture']) {
+                    unset($mouvementsByEtb[$key]);
+                }
+            }
+
+            if (isset($parameters['seuil_avoir']) && $parameters['seuil_avoir'] != '') {
+                if ($somme >= $parameters['seuil_avoir'])
+                    unset($mouvementsByEtb[$key]);
+            }
+        }
+        if (count($mouvementsByEtb) == 0)
+            return null;
+        return $mouvementsByEtb;
+    }
+
+    private function supEqDate($date_0, $date_1) {
+        $date_0 = str_replace('/', '', $date_0);
+        $date_1Arr = explode('/', $date_1);
+        return $date_0 >= ($date_1Arr[2] . $date_1Arr[1] . $date_1Arr[0]);
+    }
+
     public function getMouvementsNonFacturesByEtb($mouvements) {
-        
+
         $generationFactures = array();
         foreach ($mouvements as $mouvement) {
-            if(array_key_exists($mouvement->key[FactureClient::MOUVEMENTS_KEYS_ETB_ID], $generationFactures))
-            {
+            if (array_key_exists($mouvement->key[FactureClient::MOUVEMENTS_KEYS_ETB_ID], $generationFactures)) {
                 $generationFactures[$mouvement->key[FactureClient::MOUVEMENTS_KEYS_ETB_ID]][] = $mouvement;
-            }
-            else
-            {
+            } else {
                 $generationFactures[$mouvement->key[FactureClient::MOUVEMENTS_KEYS_ETB_ID]] = array();
                 $generationFactures[$mouvement->key[FactureClient::MOUVEMENTS_KEYS_ETB_ID]][] = $mouvement;
             }
@@ -255,7 +290,7 @@ class FactureClient extends acCouchdbClient {
         return $generationFactures;
     }
 
-    public function createFacturesByEtb($generationFactures){
+    public function createFacturesByEtb($generationFactures) {
 
         $generation = new Generation();
         $generation->date_emission = date('Ymd-H:i');
@@ -263,19 +298,18 @@ class FactureClient extends acCouchdbClient {
         $generation->documents = array();
         $generation->somme = 0;
         $cpt = 0;
-        
-        foreach ($generationFactures as $etablissementID => $mouvementsEtb)
-        {
+
+        foreach ($generationFactures as $etablissementID => $mouvementsEtb) {
             $etablissement = EtablissementClient::getInstance()->findByIdentifiant($etablissementID);
-            $f = $this->createDoc($mouvementsEtb, $etablissement);            
-            
+            $f = $this->createDoc($mouvementsEtb, $etablissement);
+
             $f->save();
-            
+
             $generation->somme += $f->total_ttc;
-            $generation->add('documents')->add($cpt,$f->_id);
+            $generation->add('documents')->add($cpt, $f->_id);
             $cpt++;
         }
-        
+
         return $generation;
     }
 
@@ -283,7 +317,7 @@ class FactureClient extends acCouchdbClient {
 
         return DRMMouvementsFactureView::getInstance()->getFacturationByEtablissement($etablissement, 0, 1);
     }
-    
+
     public function findByEtablissement($etablissement) {
         return acCouchdbManager::getClient()
                         ->startkey(array($etablissement->_id))
@@ -292,14 +326,18 @@ class FactureClient extends acCouchdbClient {
                 ->rows;
     }
 
-    
     public function getSomme($facture) {
         $facture->montant_tcc;
     }
 
-
     private function ttc($p) {
         return $p + $p * 0.196;
+    }
+
+    public function getTypes() {
+        return array(FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS,
+            FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS,
+            FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS);
     }
 
 }

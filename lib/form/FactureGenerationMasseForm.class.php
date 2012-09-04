@@ -3,7 +3,7 @@
 class FactureGenerationMasseForm extends BaseForm {
     
     private $regions = array('all' => 'Toutes les régions',
-                                      'anger' => 'Angers / Tours',
+                                      'tours' => 'Angers / Tours',
                                       'nantes' => 'Nantes');
     public function configure()
     {
