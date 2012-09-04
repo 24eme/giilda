@@ -18,29 +18,28 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	}
 	
 	public function getCurrentDroit($periode) {
-		$currentDroit = null;
-		foreach ($this as $configurationDroit) {
-			$date = new DateTime($configurationDroit->date);
-			if ($periode >= $date->format('Y-m')) {
-				if ($currentDroit) {
-					if ($date->format('Y-m-d') > $currentDroit->date) {
-						$currentDroit = $configurationDroit;
-					}
-				} else {
-					$currentDroit = $configurationDroit;
-				}
-			}
+	  $currentDroit = null;
+	  foreach ($this as $configurationDroit) {
+	    $date = new DateTime($configurationDroit->date);
+	    if ($periode >= $date->format('Y-m')) {
+	      if ($currentDroit) {
+		if ($date->format('Y-m-d') > $currentDroit->date) {
+		  $currentDroit = $configurationDroit;
 		}
-		if ($currentDroit) {
-			return $currentDroit;
-		} else {
-			try {
-			  $parent = $this->getInterpro()->getParent()->getParent()->getParentNode();
-			  return $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($periode);
-			} catch (sfException $e) {
-			  throw new sfException('Aucun droit spécifié');
-			}
-		}
+	      } else {
+		$currentDroit = $configurationDroit;
+	      }
+	    }
+	  }
+	  if ($currentDroit) {
+	    return $currentDroit;
+	  }
+	  try {
+	    $parent = $this->getInterpro()->getParent()->getParent()->getParentNode();
+	    return $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($periode);
+	  } catch (sfException $e) {
+	    throw new sfException('Aucun droit spécifié');
+	  }
 	}
 	
 	public function getInterpro() {
