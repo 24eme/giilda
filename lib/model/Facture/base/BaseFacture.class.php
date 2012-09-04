@@ -9,6 +9,7 @@
  * @property string $type
  * @property string $identifiant
  * @property string $date_emission
+ * @property string $date_facturation
  * @property string $campagne
  * @property acCouchdbJson $emetteur
  * @property string $client_identifiant
@@ -30,6 +31,8 @@
  * @method string setIdentifiant()
  * @method string getDateEmission()
  * @method string setDateEmission()
+ * @method string getDateFacturation()
+ * @method string setDateFacturation()
  * @method string getCampagne()
  * @method string setCampagne()
  * @method acCouchdbJson getEmetteur()

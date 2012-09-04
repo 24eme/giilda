@@ -15,6 +15,7 @@ class factureActions extends sfActions {
         
    public function executeMasse(sfWebRequest $request) {
        $parameters = $request->getParameter('facture_generation');
+       $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
        
        $allMouvements = FactureClient::getInstance()->getMouvementsNonFacturesMasse();       
        $mouvementsByEtb = FactureClient::getInstance()->getMouvementsNonFacturesByEtb($allMouvements);
@@ -22,7 +23,7 @@ class factureActions extends sfActions {
        $mouvementsByEtb = FactureClient::getInstance()->filterWithParameters($mouvementsByEtb,$parameters);
        if($mouvementsByEtb)
        {
-       $generation = FactureClient::getInstance()->createFacturesByEtb($mouvementsByEtb);
+       $generation = FactureClient::getInstance()->createFacturesByEtb($mouvementsByEtb,$parameters['date_facturation']);
        $generation->save();
        }
         $this->generations = GenerationClient::getInstance()->findHistory();
@@ -36,9 +37,12 @@ class factureActions extends sfActions {
     }
     
     public function executeGenerer(sfWebRequest $resquest) {
+        
+        $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
+        
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->facturations = FactureClient::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
-        $facture = FactureClient::getInstance()->createDoc($this->facturations,$this->etablissement);
+        $facture = FactureClient::getInstance()->createDoc($this->facturations,$this->etablissement,$parameters['date_facturation']);
         $facture->save();
         $this->redirect('facture_etablissement', $this->etablissement);
     }

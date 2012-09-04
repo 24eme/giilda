@@ -12,23 +12,25 @@
         <li>
         <span>2. Définir les seuils de facturation et d'avoir : </span>
             <div>
-                    <?php  echo $generationForm['seuil_facture']->renderlabel(); ?>
-                    <?php echo $generationForm['seuil_facture']->renderError() ?> 
-                    <?php  echo $generationForm['seuil_facture']->render(); ?>             
-            </div>
-            <div>
-                  <?php  echo $generationForm['seuil_avoir']->renderlabel(); ?>
-                  <?php echo $generationForm['seuil_avoir']->renderError() ?> 
-                  <?php  echo $generationForm['seuil_avoir']->render(); ?>             
+                    <?php  echo $generationForm['seuil']->renderlabel(); ?>
+                    <?php echo $generationForm['seuil']->renderError() ?> 
+                    <?php  echo $generationForm['seuil']->render(); ?>             
             </div>
         </li>
         
         <li>
         <span>3. Choisir la date de facturation :</span>
         <span>(Tous les mouvements antérieurs à la date saisie seront facturés. Cette date figurera sur la facture)</span>
+            <div class="ligne_form champ_datepicker">
+                <?php  echo $generationForm['date_facturation']->renderlabel(); ?>
+                <?php echo $generationForm['date_facturation']->renderError() ?> 
+                <?php  echo $generationForm['date_facturation']->render(); ?>
+            </div>
+            <div class="ligne_form champ_datepicker">
                 <?php  echo $generationForm['date_mouvement']->renderlabel(); ?>
                 <?php echo $generationForm['date_mouvement']->renderError() ?> 
                 <?php  echo $generationForm['date_mouvement']->render(); ?>
+            </div>
         </li>
     </ul>    
 </div>

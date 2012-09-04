@@ -43,11 +43,13 @@ class FactureClient extends acCouchdbClient {
         return 'FACTURE-' . $client_reference . '-' . $identifiant;
     }
 
-    public function createDoc($factures, $etablissement) {
+    public function createDoc($factures, $etablissement, $date_facturation = null) {
         $facture = new Facture();
         $numPage = '01';
         $facture->identifiant = date('Ymd') . $numPage;
-        $facture->date_emission = date('Y-m-d');
+        $facture->date_emission = date('Y-m-d');        
+        $facture->date_facturation = $date_facturation;
+        if(!$facture->date_facturation) $facture->date_facturation=date('d/m/Y');
         $facture->campagne = '2011-2012';
         $facture->emetteur->adresse = 'Chateau de la Frémoire';
         $facture->emetteur->code_postal = '44120';
@@ -69,7 +71,6 @@ class FactureClient extends acCouchdbClient {
             $current_ligne = $this->createFactureLigne($f, $facture);
             $facture->add("lignes")->add($cptLigne, $current_ligne);
             $origines[$f->value[FactureClient::MOUVEMENTS_VALUES_ID]] = $f->value[FactureClient::MOUVEMENTS_VALUES_ID];
-            //         = array('DRM-123-2012-01' => 'DRM de janvier', 'DRM-123-2011-12' => 'DRM de décembre');            
             $cptLigne++;
         }
         $facture->origines = $origines;
@@ -226,8 +227,6 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function filterWithParameters($mouvementsByEtb, $parameters) {
-
-//       $parameters['date_mouvement']
         $regions = null;
         if (isset($parameters['region']) && is_array($parameters['region']) && !in_array('all', $parameters['region']))
             $regions = $parameters['region'];
@@ -236,7 +235,6 @@ class FactureClient extends acCouchdbClient {
                 if (!is_null($regions) && !in_array($mouvement->value[FactureClient::MOUVEMENTS_VALUES_REGION], $regions)) {
                     unset($mouvements[$key]);
                 }
-                //perturbant? 2 niveau de filtre ici => mouvement
                 if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '') &&
                         ($this->supEqDate($mouvement->value[FactureClient::MOUVEMENTS_VALUES_DATE], $parameters['date_mouvement']))) {
                     unset($mouvements[$key]);
@@ -254,15 +252,12 @@ class FactureClient extends acCouchdbClient {
             foreach ($mouvements as $mouvement) {
                 $somme += $mouvement->value[FactureClient::MOUVEMENTS_VALUES_VOLUME] * $mouvement->value[FactureClient::MOUVEMENTS_VALUES_CVO];
             }
-            if (isset($parameters['seuil_facture']) && $parameters['seuil_facture'] != '') {
-                if (($somme * -1) >= $parameters['seuil_facture']) {
+            $somme = abs($somme);
+            $somme = $this->ttc($somme);
+            if (isset($parameters['seuil']) && $parameters['seuil'] != '') {
+                if ($somme >= $parameters['seuil']) {
                     unset($mouvementsByEtb[$key]);
                 }
-            }
-
-            if (isset($parameters['seuil_avoir']) && $parameters['seuil_avoir'] != '') {
-                if ($somme >= $parameters['seuil_avoir'])
-                    unset($mouvementsByEtb[$key]);
             }
         }
         if (count($mouvementsByEtb) == 0)
@@ -273,6 +268,7 @@ class FactureClient extends acCouchdbClient {
     private function supEqDate($date_0, $date_1) {
         $date_0 = str_replace('/', '', $date_0);
         $date_1Arr = explode('/', $date_1);
+        
         return $date_0 >= ($date_1Arr[2] . $date_1Arr[1] . $date_1Arr[0]);
     }
 
@@ -290,7 +286,7 @@ class FactureClient extends acCouchdbClient {
         return $generationFactures;
     }
 
-    public function createFacturesByEtb($generationFactures) {
+    public function createFacturesByEtb($generationFactures,$date_facturation) {
 
         $generation = new Generation();
         $generation->date_emission = date('Ymd-H:i');
@@ -301,8 +297,8 @@ class FactureClient extends acCouchdbClient {
 
         foreach ($generationFactures as $etablissementID => $mouvementsEtb) {
             $etablissement = EtablissementClient::getInstance()->findByIdentifiant($etablissementID);
-            $f = $this->createDoc($mouvementsEtb, $etablissement);
-
+            $f = $this->createDoc($mouvementsEtb, $etablissement, $date_facturation);
+            
             $f->save();
 
             $generation->somme += $f->total_ttc;
