@@ -95,6 +95,43 @@ class Vrac extends BaseVrac {
        $this->vendeur->code_postal = $vendeurObj->siege->code_postal;       
     }
 
+    public function setDate($attribut, $date) {
+      if (preg_match('/\//', $d, $m)) {
+	$d = $m[3].'-'.$m[2].'-'.$m[1];
+      }
+      return $this->_set($attribut, $d);
+    }
+    public function getDate($attribut, $format) {
+      $d = $this->_get($attribut);
+      if (!$format)
+	return $d;
+      $date = new DateTime($d);
+      return $date->format($format);
+    }
+    public function setDateSignature($d) {
+      return $this->setDate('date_signature', $d);
+    }
+    public function getDateSignature($format = 'd/m/Y') {
+      return $this->getDate('date_signature', $format);
+    }
+    public function setDateStats($d) {
+      return $this->setDate('date_stats', $d);
+    }
+    public function getDateStats($format = 'd/m/Y') {
+      return $this->getDate('date_stats', $format);
+    }
+
+    public function getPeriode() {
+      $date = $this->getDateSignature('');
+      if ($date)
+	return $date;
+      return date('Y-m-d');
+    }
+
+    public function getCVO() {
+      return $this->getProduitObject()->getCVO($this->getPeriode());
+    }
+
     public function getProduitObject() 
     {
       return ConfigurationClient::getCurrent()->get($this->produit);
