@@ -2,9 +2,9 @@
 
 class FactureGenerationMasseForm extends BaseForm {
     
-    private $regions = array('all' => 'Toutes les régions',
-                                      'tours' => 'Angers / Tours',
-                                      'nantes' => 'Nantes');
+    private $regions = array('angers' => 'Angers',
+                             'nantes' => 'Nantes',
+                             'tours' => 'Tours');
     public function configure()
     {
         $this->setWidget('region', new sfWidgetFormChoice(array('choices' => $this->getRegions(),'multiple' => true, 'expanded' => true)));

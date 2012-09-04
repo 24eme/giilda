@@ -9,24 +9,26 @@ class FactureClient extends acCouchdbClient {
     const FACTURE_LIGNE_PRODUIT_TYPE_VINS = "Vins";
     const FACTURE_LIGNE_PRODUIT_TYPE_MOUTS = "Mouts";
     const FACTURE_LIGNE_PRODUIT_TYPE_RAISINS = "Raisins";
+    
     const MOUVEMENTS_KEYS_FACTURE = 0;
     const MOUVEMENTS_KEYS_FACTURABLE = 1;
-    const MOUVEMENTS_KEYS_ETB_ID = 2;
-    const MOUVEMENTS_KEYS_ORIGIN = 3;
-    const MOUVEMENTS_KEYS_MATIERE = 4;
-    const MOUVEMENTS_KEYS_PRODUIT_ID = 5;
-    const MOUVEMENTS_KEYS_PERIODE = 6;
-    const MOUVEMENTS_KEYS_MVT_TYPE = 7;
-    const MOUVEMENTS_KEYS_DETAIL_ID = 8;
+    const MOUVEMENTS_KEYS_REGION = 2;
+    const MOUVEMENTS_KEYS_ETB_ID = 3;
+    const MOUVEMENTS_KEYS_ORIGIN = 4;
+    const MOUVEMENTS_KEYS_MATIERE = 5;
+    const MOUVEMENTS_KEYS_PRODUIT_ID = 6;
+    const MOUVEMENTS_KEYS_PERIODE = 7;
+    const MOUVEMENTS_KEYS_MVT_TYPE = 8;
+    const MOUVEMENTS_KEYS_DETAIL_ID = 9;
+    
     const MOUVEMENTS_VALUES_PRODUIT_NAME = 0;
     const MOUVEMENTS_VALUES_TYPE_TRANS = 1;
     const MOUVEMENTS_VALUES_VOLUME = 2;
     const MOUVEMENTS_VALUES_CVO = 3;
     const MOUVEMENTS_VALUES_DATE = 4;
     const MOUVEMENTS_VALUES_DETAIL_LIBELLE = 5;
-    const MOUVEMENTS_VALUES_REGION = 6;
-    const MOUVEMENTS_VALUES_ID = 7;
-    const MOUVEMENTS_VALUES_MD5_CLE = 8;
+    const MOUVEMENTS_VALUES_ID = 6;
+    const MOUVEMENTS_VALUES_MD5_CLE = 7;
     
     const MAX_LIGNE_TEMPLATE_ONEPAGE = 30;
     const MAX_LIGNE_TEMPLATE_TWOPAGE = 70;
@@ -222,19 +224,24 @@ class FactureClient extends acCouchdbClient {
         return $this->find('FACTURE-' . $idEtablissement . '-' . $idFacture);
     }
 
+    public function getMouvementsForMasse($regions) {
+        if(!$regions){
+            return DRMMouvementsFactureView::getInstance()->getMouvementsFacturables(0, 1);
+        }
+        $mouvementsByRegions = array();
+        foreach ($regions as $region) {
+            $mouvementsByRegions = array_merge(DRMMouvementsFactureView::getInstance()->getMouvementsFacturablesByRegions(0, 1,$region),$mouvementsByRegions);
+        }
+        return $mouvementsByRegions;    
+    }
+    
     public function getMouvementsNonFacturesMasse() {
-        return DRMMouvementsFactureView::getInstance()->getMouvementsFacturables(0, 1);
+        
     }
 
     public function filterWithParameters($mouvementsByEtb, $parameters) {
-        $regions = null;
-        if (isset($parameters['region']) && is_array($parameters['region']) && !in_array('all', $parameters['region']))
-            $regions = $parameters['region'];
         foreach ($mouvementsByEtb as $k => $mouvements) {
             foreach ($mouvements as $key => $mouvement) {
-                if (!is_null($regions) && !in_array($mouvement->value[FactureClient::MOUVEMENTS_VALUES_REGION], $regions)) {
-                    unset($mouvements[$key]);
-                }
                 if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '') &&
                         ($this->supEqDate($mouvement->value[FactureClient::MOUVEMENTS_VALUES_DATE], $parameters['date_mouvement']))) {
                     unset($mouvements[$key]);

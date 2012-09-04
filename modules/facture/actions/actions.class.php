@@ -15,9 +15,10 @@ class factureActions extends sfActions {
         
    public function executeMasse(sfWebRequest $request) {
        $parameters = $request->getParameter('facture_generation');
-       $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
        
-       $allMouvements = FactureClient::getInstance()->getMouvementsNonFacturesMasse();       
+       $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
+       $regions = (!isset($parameters['region']))? null : $parameters['region'];
+       $allMouvements = FactureClient::getInstance()->getMouvementsForMasse($regions);       
        $mouvementsByEtb = FactureClient::getInstance()->getMouvementsNonFacturesByEtb($allMouvements);
        
        $mouvementsByEtb = FactureClient::getInstance()->filterWithParameters($mouvementsByEtb,$parameters);
