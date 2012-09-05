@@ -47,6 +47,10 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
           $volume = $volume - $this->getDocument()->motherGet($detail->getHash())->volume;
         }
 
+        $config = $this->getDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
+
+        $volume = $config->mouvement_coefficient * $volume;
+
         if(!$volume > 0) {
 
           return false;
@@ -56,12 +60,13 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
         $mouvement->produit_hash = $this->getDetail()->getHash();
         $mouvement->produit_libelle = $this->getDetail()->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
         $mouvement->type_hash = $this->getNoeud()->getKey().'/'.$this->getTotalHash();
-        $mouvement->type_libelle = $this->getDetail()->getConfig()->get($mouvement->type_hash)->getLibelle();
-        $mouvement->volume = $coefficient * $volume;
+        $mouvement->type_libelle = $config->getLibelle();
+        $mouvement->volume = $volume;
         $mouvement->detail_identifiant = $detail->identifiant;
         $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
         $mouvement->facture = 0;
-        $mouvement->facturable = 0;
+        $mouvement->cvo = 1;
+        $mouvement->facturable = $config->facturable;
         $mouvement->version = 'V 1';
         $mouvement->date_version = date('c');
 
@@ -69,3 +74,4 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
     }
 
 }
+

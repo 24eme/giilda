@@ -280,7 +280,7 @@ class DRMDetail extends BaseDRMDetail {
     return $mouvements;
   }
 
-  public function createMouvement($hash, $volume, $coefficient) {
+  public function createMouvement($hash, $volume) {
     if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($this, $hash)) {
 
       return false;
@@ -289,6 +289,9 @@ class DRMDetail extends BaseDRMDetail {
     if($this->getDocument()->hasVersion() && $this->getDocument() ->motherExist($this->getHash().'/'.$hash)) {
       $volume = $volume - $this->getDocument()->motherGet($this->getHash().'/'.$hash);
     }
+
+    $config = $this->getConfig()->get($hash);
+    $volume = $config->mouvement_coefficient * $volume;
 
     if(!$volume > 0) {
 
@@ -299,10 +302,11 @@ class DRMDetail extends BaseDRMDetail {
     $mouvement->produit_hash = $this->getHash();
     $mouvement->produit_libelle = $this->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
     $mouvement->type_hash = $hash;
-    $mouvement->type_libelle = $this->getConfig()->get($mouvement->type_hash)->getLibelle();
-    $mouvement->volume = $coefficient * $volume;
+    $mouvement->type_libelle = $config->getLibelle();
+    $mouvement->volume = $volume;
     $mouvement->facture = 0;
-    $mouvement->facturable = 0;
+    $mouvement->cvo = 1;
+    $mouvement->facturable = $config->facturable;
     $mouvement->version = 'V 1';
     $mouvement->date_version = date('c');
     
