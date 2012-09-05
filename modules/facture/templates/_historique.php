@@ -3,6 +3,14 @@ use_helper('Float');
 ?>
 <h2>10 dernières facturation générées </h2>
 <fieldset>
+    
+<?php
+if(count($generations)==0):
+?>
+Aucune génération de facture
+<?php
+else :
+?>
     <table class="table_recap">
     <thead>
     <tr>
@@ -23,4 +31,7 @@ use_helper('Float');
     <?php endforeach; ?>
     </tbody>
     </table>
+<?php 
+endif;
+?>
 </fieldset>

@@ -51,7 +51,7 @@ class FactureClient extends acCouchdbClient {
         $facture->identifiant = date('Ymd') . $numPage;
         $facture->date_emission = date('Y-m-d');        
         $facture->date_facturation = $date_facturation;
-        if(!$facture->date_facturation) $facture->date_facturation=date('d/m/Y');
+        if(!$facture->date_facturation) $facture->date_facturation=date('Y-m-d');
         $facture->campagne = '2011-2012';
         $facture->emetteur->adresse = 'Chateau de la Frémoire';
         $facture->emetteur->code_postal = '44120';
@@ -273,7 +273,7 @@ class FactureClient extends acCouchdbClient {
     }
 
     private function supEqDate($date_0, $date_1) {
-        $date_0 = str_replace('/', '', $date_0);
+        $date_0 = str_replace('-', '', $date_0);
         $date_1Arr = explode('/', $date_1);
         
         return $date_0 >= ($date_1Arr[2] . $date_1Arr[1] . $date_1Arr[0]);
@@ -296,7 +296,7 @@ class FactureClient extends acCouchdbClient {
     public function createFacturesByEtb($generationFactures,$date_facturation) {
 
         $generation = new Generation();
-        $generation->date_emission = date('Ymd-H:i');
+        $generation->date_emission = date('Y-m-d-H:i');
         $generation->type_document = 'Facture';
         $generation->documents = array();
         $generation->somme = 0;
