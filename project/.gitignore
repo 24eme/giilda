@@ -9,3 +9,4 @@ cache/
 log/
 web/psd
 bin/config.inc
+data/latex/*
