@@ -128,8 +128,8 @@ class Vrac extends BaseVrac {
       return date('Y-m-d');
     }
 
-    public function getCVO() {
-      return $this->getProduitObject()->getCVO($this->getPeriode());
+    public function getDroitCVO() {
+      return $this->getProduitObject()->getDroitCVO($this->getPeriode());
     }
 
     public function getProduitObject() 

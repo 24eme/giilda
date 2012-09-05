@@ -52,7 +52,7 @@ use_helper('Vrac');
             </span>
         </div>
 <?php
-$taux = $form->getObject()->getCVO()->taux;
+$taux = $form->getObject()->getDroitCVO()->taux;
 $volume = $form->getObject()->volume_propose;
 ?>
         <!-- CVO facturée vendeur  -->
