@@ -75,12 +75,12 @@ Configuration:
                           type: collection
                           definition:
                             fields:
-                              readable: {  }
-                              writable: {  }
-                              details: {  }
-                              coefficient: {  }
-                              coefficient_etablissement_connexe: {  }
-                              facturable: {  }
+                              readable: { type: integer }
+                              writable: { type: integer }
+                              details: { type: integer }
+                              mouvement_coefficient: { type: integer }
+                              vrac: { type: integer }
+                              facturable: { type: integer }
                   entrees:
                     required: false
                     type: collection
@@ -91,12 +91,12 @@ Configuration:
                           type: collection
                           definition:
                             fields:
-                              readable: {  }
-                              writable: {  }
-                              details: {  }
-                              coefficient: {  }
-                              coefficient_etablissement_connexe: {  }
-                              facturable: {  }
+                              readable: { type: integer }
+                              writable: { type: integer }
+                              details: { type: integer }
+                              mouvement_coefficient: { type: integer }
+                              vrac: { type: integer }
+                              facturable: { type: integer }
                   sorties:
                     required: false
                     type: collection
@@ -107,12 +107,12 @@ Configuration:
                           type: collection
                           definition:
                             fields:
-                              readable: {  }
-                              writable: {  }
-                              details: {  }
-                              coefficient: {  }
-                              coefficient_etablissement_connexe: {  }
-                              facturable: {  }
+                              readable: { type: integer }
+                              writable: { type: integer }
+                              details: { type: integer }
+                              mouvement_coefficient: { type: integer }
+                              vrac: { type: integer }
+                              facturable: { type: integer }
                   stocks_fin:
                     required: false
                     type: collection
@@ -126,8 +126,8 @@ Configuration:
                               readable: {  }
                               writable: {  }
                               details: {  }
-                              coefficient: {  }
-                              coefficient_etablissement_connexe: {  }
+                              mouvement_coefficient: {  }
+                              vrac: { type: integer }
                               facturable: {  }
             certifications:
               type: collection
@@ -221,12 +221,12 @@ Configuration:
                                                   type: collection
                                                   definition:
                                                     fields:
-                                                      readable: {  }
-                                                      writable: {  }
-                                                      details: {  }
-                                                      coefficient: {  }
-                                                      coefficient_etablissement_connexe: {  }
-                                                      facturable: {  }
+                                                      readable: { type: integer }
+                                                      writable: { type: integer }
+                                                      details: { type: integer }
+                                                      mouvement_coefficient: { type: integer }
+                                                      vrac: { type: integer }
+                                                      facturable: { type: integer }
                                           entrees:
                                             required: false
                                             type: collection
@@ -237,12 +237,12 @@ Configuration:
                                                   type: collection
                                                   definition:
                                                     fields:
-                                                      readable: {  }
-                                                      writable: {  }
-                                                      details: {  }
-                                                      coefficient: {  }
-                                                      coefficient_etablissement_connexe: {  }
-                                                      facturable: {  }
+                                                      readable: { type: integer }
+                                                      writable: { type: integer }
+                                                      details: { type: integer }
+                                                      mouvement_coefficient: { type: integer }
+                                                      vrac: { type: integer }
+                                                      facturable: { type: integer }
                                           sorties:
                                             required: false
                                             type: collection
@@ -253,12 +253,12 @@ Configuration:
                                                   type: collection
                                                   definition:
                                                     fields:
-                                                      readable: {  }
-                                                      writable: {  }
-                                                      details: {  }
-                                                      coefficient: {  }
-                                                      coefficient_etablissement_connexe: {  }
-                                                      facturable: {  }
+                                                      readable: { type: integer }
+                                                      writable: { type: integer }
+                                                      details: { type: integer }
+                                                      mouvement_coefficient: { type: integer }
+                                                      vrac: { type: integer }
+                                                      facturable: { type: integer }
                                           stocks_fin:
                                             required: false
                                             type: collection
@@ -269,12 +269,12 @@ Configuration:
                                                   type: collection
                                                   definition:
                                                     fields:
-                                                      readable: {  }
-                                                      writable: {  }
-                                                      details: {  }
-                                                      coefficient: {  }
-                                                      coefficient_etablissement_connexe: {  }
-                                                      facturable: {  }
+                                                      readable: { type: integer }
+                                                      writable: { type: integer }
+                                                      details: { type: integer }
+                                                      mouvement_coefficient: { type: integer }
+                                                      vrac: { type: integer }
+                                                      facturable: { type: integer }
                                     interpro:
                                       type: collection
                                       definition:
@@ -354,12 +354,12 @@ Configuration:
                                                               type: collection
                                                               definition:
                                                                 fields:
-                                                                  readable: {  }
-                                                                  writable: {  }
-                                                                  details: {  }
-                                                                  coefficient: {  }
-                                                                  coefficient_etablissement_connexe: {  }
-                                                                  facturable: {  }
+                                                                  readable: { type: integer }
+                                                                  writable: { type: integer }
+                                                                  details: { type: integer }
+                                                                  mouvement_coefficient: { type: integer }
+                                                                  vrac: { type: integer }
+                                                                  facturable: { type: integer }
                                                       entrees:
                                                         required: false
                                                         type: collection
@@ -370,12 +370,12 @@ Configuration:
                                                               type: collection
                                                               definition:
                                                                 fields:
-                                                                  readable: {  }
-                                                                  writable: {  }
-                                                                  details: {  }
-                                                                  coefficient: {  }
-                                                                  coefficient_etablissement_connexe: {  }
-                                                                  facturable: {  }
+                                                                  readable: { type: integer }
+                                                                  writable: { type: integer }
+                                                                  details: { type: integer }
+                                                                  mouvement_coefficient: { type: integer }
+                                                                  vrac: { type: integer }
+                                                                  facturable: { type: integer }
                                                       sorties:
                                                         required: false
                                                         type: collection
@@ -386,12 +386,12 @@ Configuration:
                                                               type: collection
                                                               definition:
                                                                 fields:
-                                                                  readable: {  }
-                                                                  writable: {  }
-                                                                  details: {  }
-                                                                  coefficient: {  }
-                                                                  coefficient_etablissement_connexe: {  }
-                                                                  facturable: {  }
+                                                                  readable: { type: integer }
+                                                                  writable: { type: integer }
+                                                                  details: { type: integer }
+                                                                  mouvement_coefficient: { type: integer }
+                                                                  vrac: { type: integer }
+                                                                  facturable: { type: integer }
                                                       stocks_fin:
                                                         required: false
                                                         type: collection
@@ -402,12 +402,12 @@ Configuration:
                                                               type: collection
                                                               definition:
                                                                 fields:
-                                                                  readable: {  }
-                                                                  writable: {  }
-                                                                  details: {  }
-                                                                  coefficient: {  }
-                                                                  coefficient_etablissement_connexe: {  }
-                                                                  facturable: {  }
+                                                                  readable: { type: integer }
+                                                                  writable: { type: integer }
+                                                                  details: { type: integer }
+                                                                  mouvement_coefficient: { type: integer }
+                                                                  vrac: { type: integer }
+                                                                  facturable: { type: integer }
                                                 interpro:
                                                   type: collection
                                                   definition:
@@ -492,12 +492,12 @@ Configuration:
                                                                           type: collection
                                                                           definition:
                                                                             fields:
-                                                                              readable: {  }
-                                                                              writable: {  }
-                                                                              details: {  }
-                                                                              coefficient: {  }
-                                                                              coefficient_etablissement_connexe: {  }
-                                                                              facturable: {  }
+                                                                              readable: { type: integer }
+                                                                              writable: { type: integer }
+                                                                              details: { type: integer }
+                                                                              mouvement_coefficient: { type: integer }
+                                                                              vrac: { type: integer }
+                                                                              facturable: { type: integer }
                                                                   entrees:
                                                                     required: false
                                                                     type: collection
@@ -508,12 +508,12 @@ Configuration:
                                                                           type: collection
                                                                           definition:
                                                                             fields:
-                                                                              readable: {  }
-                                                                              writable: {  }
-                                                                              details: {  }
-                                                                              coefficient: {  }
-                                                                              coefficient_etablissement_connexe: {  }
-                                                                              facturable: {  }
+                                                                              readable: { type: integer }
+                                                                              writable: { type: integer }
+                                                                              details: { type: integer }
+                                                                              mouvement_coefficient: { type: integer }
+                                                                              vrac: { type: integer }
+                                                                              facturable: { type: integer }
                                                                   sorties:
                                                                     required: false
                                                                     type: collection
@@ -524,12 +524,12 @@ Configuration:
                                                                           type: collection
                                                                           definition:
                                                                             fields:
-                                                                              readable: {  }
-                                                                              writable: {  }
-                                                                              details: {  }
-                                                                              coefficient: {  }
-                                                                              coefficient_etablissement_connexe: {  }
-                                                                              facturable: {  }
+                                                                              readable: { type: integer }
+                                                                              writable: { type: integer }
+                                                                              details: { type: integer }
+                                                                              mouvement_coefficient: { type: integer }
+                                                                              vrac: { type: integer }
+                                                                              facturable: { type: integer }
                                                                   stocks_fin:
                                                                     required: false
                                                                     type: collection
@@ -540,12 +540,12 @@ Configuration:
                                                                           type: collection
                                                                           definition:
                                                                             fields:
-                                                                              readable: {  }
-                                                                              writable: {  }
-                                                                              details: {  }
-                                                                              coefficient: {  }
-                                                                              coefficient_etablissement_connexe: {  }
-                                                                              facturable: {  }
+                                                                              readable: { type: integer }
+                                                                              writable: { type: integer }
+                                                                              details: { type: integer }
+                                                                              mouvement_coefficient: { type: integer }
+                                                                              vrac: { type: integer }
+                                                                              facturable: { type: integer }
                                                             lieux:
                                                               type: collection
                                                               definition:
@@ -579,12 +579,12 @@ Configuration:
                                                                                       type: collection
                                                                                       definition:
                                                                                         fields:
-                                                                                          readable: {  }
-                                                                                          writable: {  }
-                                                                                          details: {  }
-                                                                                          coefficient: {  }
-                                                                                          coefficient_etablissement_connexe: {  }
-                                                                                          facturable: {  }
+                                                                                          readable: { type: integer }
+                                                                                          writable: { type: integer }
+                                                                                          details: { type: integer }
+                                                                                          mouvement_coefficient: { type: integer }
+                                                                                          vrac: { type: integer }
+                                                                                          facturable: { type: integer }
                                                                               entrees:
                                                                                 required: false
                                                                                 type: collection
@@ -595,12 +595,12 @@ Configuration:
                                                                                       type: collection
                                                                                       definition:
                                                                                         fields:
-                                                                                          readable: {  }
-                                                                                          writable: {  }
-                                                                                          details: {  }
-                                                                                          coefficient: {  }
-                                                                                          coefficient_etablissement_connexe: {  }
-                                                                                          facturable: {  }
+                                                                                          readable: { type: integer }
+                                                                                          writable: { type: integer }
+                                                                                          details: { type: integer }
+                                                                                          mouvement_coefficient: { type: integer }
+                                                                                          vrac: { type: integer }
+                                                                                          facturable: { type: integer }
                                                                               sorties:
                                                                                 required: false
                                                                                 type: collection
@@ -611,12 +611,12 @@ Configuration:
                                                                                       type: collection
                                                                                       definition:
                                                                                         fields:
-                                                                                          readable: {  }
-                                                                                          writable: {  }
-                                                                                          details: {  }
-                                                                                          coefficient: {  }
-                                                                                          coefficient_etablissement_connexe: {  }
-                                                                                          facturable: {  }
+                                                                                          readable: { type: integer }
+                                                                                          writable: { type: integer }
+                                                                                          details: { type: integer }
+                                                                                          mouvement_coefficient: { type: integer }
+                                                                                          vrac: { type: integer }
+                                                                                          facturable: { type: integer }
                                                                               stocks_fin:
                                                                                 required: false
                                                                                 type: collection
@@ -627,12 +627,12 @@ Configuration:
                                                                                       type: collection
                                                                                       definition:
                                                                                         fields:
-                                                                                          readable: {  }
-                                                                                          writable: {  }
-                                                                                          details: {  }
-                                                                                          coefficient: {  }
-                                                                                          coefficient_etablissement_connexe: {  }
-                                                                                          facturable: {  }
+                                                                                          readable: { type: integer }
+                                                                                          writable: { type: integer }
+                                                                                          details: { type: integer }
+                                                                                          mouvement_coefficient: { type: integer }
+                                                                                          vrac: { type: integer }
+                                                                                          facturable: { type: integer }
                                                                                     departements:
                                                                                       type: array_collection
                                                                                       definition:
@@ -680,12 +680,12 @@ Configuration:
                                       type: collection
                                       definition:
                                         fields:
-                                          readable: {  }
-                                          writable: {  }
-                                          details: {  }
-                                          coefficient: {  }
-                                          coefficient_etablissement_connexe: {  }
-                                          facturable: {  }
+                                          readable: { type: integer }
+                                          writable: { type: integer }
+                                          details: { type: integer }
+                                          mouvement_coefficient: { type: integer }
+                                          vrac: { type: integer }
+                                          facturable: { type: integer }
                               entrees:
                                 required: false	
                                 type: collection
@@ -696,12 +696,12 @@ Configuration:
                                       type: collection
                                       definition:
                                         fields:
-                                          readable: {  }
-                                          writable: {  }
-                                          details: {  }
-                                          coefficient: {  }
-                                          coefficient_etablissement_connexe: {  }
-                                          facturable: {  }
+                                          readable: { type: integer }
+                                          writable: { type: integer }
+                                          details: { type: integer }
+                                          mouvement_coefficient: { type: integer }
+                                          vrac: { type: integer }
+                                          facturable: { type: integer }
                               sorties:
                                 required: false	
                                 type: collection
@@ -712,12 +712,12 @@ Configuration:
                                       type: collection
                                       definition:
                                         fields:
-                                          readable: {  }
-                                          writable: {  }
-                                          details: {  }
-                                          coefficient: {  }
-                                          coefficient_etablissement_connexe: {  }
-                                          facturable: {  }
+                                          readable: { type: integer }
+                                          writable: { type: integer }
+                                          details: { type: integer }
+                                          mouvement_coefficient: { type: integer }
+                                          vrac: { type: integer }
+                                          facturable: { type: integer }
                               stocks_fin:
                                 required: false	
                                 type: collection
@@ -728,9 +728,9 @@ Configuration:
                                       type: collection
                                       definition:
                                         fields:
-                                          readable: {  }
-                                          writable: {  }
-                                          details: {  }
-                                          coefficient: {  }
-                                          coefficient_etablissement_connexe: {  }
-                                          facturable: {  }
+                                          readable: { type: integer }
+                                          writable: { type: integer }
+                                          details: { type: integer }
+                                          mouvement_coefficient: { type: integer }
+                                          vrac: { type: integer }
+                                          facturable: { type: integer }
