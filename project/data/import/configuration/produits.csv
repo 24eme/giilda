@@ -1,118 +1,118 @@
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou;ANJ;;;;;Rouge;1;;;;;52
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou;ANJ;;;;;Blanc;3;;;;;11
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou;ANJ;Demi-sec;DMS;;;Blanc;3;;;;;11
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Anjou;ANJ;Liquoreux;LIQ;Coteaux de la Loire;CDL;Blanc;3;Chenin;CHE;;;21
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou;ANJ;;;;;Rouge;1;Gamay;GAM;;;32
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Anjou;ANJ;;;;;Blanc;3;;;;;44
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Anjou;ANJ;;;;;Rosé;2;;;;;44
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou;ANJ;;;;;Rouge;1;Gamay;GAM;;;132
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou-Villages;AJV;;;;;Rouge;1;;;;Primeur;62
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou-Villages;AJV;;;Brissac;BRI;Rouge;1;;;;;92
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Cabernet d'Anjou;CAJ;;;;;Rosé;2;;;;;83
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Cabernet d'Anjou;CAJ;;;;;Rosé;2;;;;Primeur;83
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Rosé d'Anjou;RAJ;;;;;Rosé;2;;;;;123
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Rosé d'Anjou;RAJ;;;;;Rosé;2;;;;Primeur;123
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Bonnezeaux;BON;Liquoreux;LIQ;;;Blanc;3;;CHE;;;71
-INTERPRO-inter-loire;AOP;AOP;Tranquille;TRANQ;Bourgueil;BRG;;;;;Rosé;2;Cabernet Franc;CBF;;;593
-INTERPRO-inter-loire;AOP;AOP;Tranquille;TRANQ;Bourgueil;BRG;;;;;Rouge;1;Cabernet Franc;CBF;;;592
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;St Nicolas de Bourgueil;STN;;;;;Rosé;2;Cabernet Franc;CBF;;;603
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;St Nicolas de Bourgueil;STN;;;;;Rouge;1;Cabernet Franc;CBF;;;602
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Cabernet de Saumur;CAS;;;;;Rosé;2;;;;;103
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Cabernet de Saumur;CAS;;;;;Rosé;2;;;;Primeur;103
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux de Saumur;COS;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;231
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Saumur;SAU;;;;;Blanc;3;Chenin;CHE;;;151
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Saumur;SAU;;;Puy-Notre-Dame;PND;Rouge;1;;;;;152
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Saumur;SAU;;;;;Rouge;1;;;;;182
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Saumur;SAU;;;Champigny;CHA;Rouge;1;;;;;162
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Saumur;SAU;;;;;Blanc;3;;;;;174
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Saumur;SAU;;;;;Rosé;2;;;;;174
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Chinon;CHI;;;;;Blanc;3;Chenin;CHE;;;581
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Chinon;CHI;;;;;Rosé;2;Cabernet Franc;CBF;;;583
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Chinon;CHI;;;;;Rouge;1;Cabernet Franc;CBF;;;582
-INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Coteaux d'Ancenis;COA;;;;;Blanc;3;;;;;3010
-INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Coteaux d'Ancenis;COA;;;;;Rosé;2;;;;;3030
-INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Coteaux d'Ancenis;COA;;;;;Rouge;1;;;;;3020
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux de l'Aubance;COB;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;191
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux de l'Aubance;COB;;;;;Blanc;3;Chenin;CHE;;Grains nobles;191
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;;;Blanc;3;Chenin;CHE;;;201
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Chaume;CHA;Blanc;3;Chenin;CHE;;;211
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Beaulieu;BOL;Blanc;3;Chenin;CHE;;;221
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Faye d'Anjou;FYA;Blanc;3;Chenin;CHE;;;221
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Rablay;RAB;Blanc;3;Chenin;CHE;;;221
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Layon;LAY;Blanc;3;Chenin;CHE;;;221
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Rochefort;RCF;Blanc;3;Chenin;CHE;;;221
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;St Aubin;STA;Blanc;3;Chenin;CHE;;;221
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;St Lambert;STL;Blanc;3;Chenin;CHE;;;221
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;;;Blanc;3;Chenin;CHE;;Grains nobles;201
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Chaume;CHA;Blanc;3;Chenin;CHE;;Grains nobles;221
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Beaulieu;BOL;Blanc;3;Chenin;CHE;;Grains nobles;221
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Faye d'Anjou;FAY;Blanc;3;Chenin;CHE;;Grains nobles;221
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Rablay/Layon;RABLAY;Blanc;3;Chenin;CHE;;Grains nobles;221
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Rochefort;RCF;Blanc;3;Chenin;CHE;;Grains nobles;221
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;St Aubin;STA;Blanc;3;Chenin;CHE;;Grains nobles;221
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;St Lambert;STL;Blanc;3;Chenin;CHE;;Grains nobles;221
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Rosé de Loire;RLO;;;;;Rosé;2;;;;;413
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Crémant de Loire;CLO;;;;;Blanc;3;;;;;404
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Crémant de Loire;CLO;;;;;Rosé;2;;;;;404
-INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Fiefs vendéens;FVD;;;;;Blanc;3;;;;;4010
-INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Fiefs vendéens;FVD;;;;;Rosé;2;;;;;4030
-INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Fiefs vendéens;FVD;;;;;Rouge;1;;;;;4020
-INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Gros plant;GPL;;;;;Blanc;3;Folle blanche;FBL;;;2000
-INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Gros plant;GPL;Sur lie;SL;;;Blanc;3;Folle blanche;FBL;;;2001
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Jasnières;JAS;;;;;Blanc;3;Chenin;CHE;;;621
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Jasnières;JAS;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;621
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;;561
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Montlouis sur Loire;MLL;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;561
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;;564
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;;564
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;;;1040
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;Sur lie;SL;AC;AC;Blanc;3;Melon;MEL;;;1041
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Coteaux de la Loire;CDL;Blanc;3;Melon;MEL;;;1060
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;Sur lie;SL;Coteaux de la Loire;CDL;Blanc;3;Melon;MEL;;;1061
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Côtes de Grand Lieu;CGL;Blanc;3;Melon;MEL;;;1070
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;Sur lie;SL;Côtes de Grand Lieu;CGL;Blanc;3;Melon;MEL;;;1071
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;;Primeur;1080
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Le Pallet;PAL;Blanc;3;Melon;MEL;;;
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Gorges;GOR;Blanc;3;Melon;MEL;;;
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Clisson;CLI;Blanc;3;Melon;MEL;;;
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;;;Blanc;3;Melon;MEL;;;1050
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;Sur lie;SL;;;Blanc;3;Melon;MEL;;;1051
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Quarts de Chaume;QDC;Liquoreux;LIQ;Rochefort sur Loire;RFL;Blanc;3;Chenin;CHE;;;111
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;Demi-sec;DMS;Roche aux moines;RAM;Blanc;3;Chenin;CHE;;;651
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;;;;;Blanc;3;Chenin;CHE;;;651
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;Demi-sec;DMS;;;Blanc;3;Chenin;CHE;;;141
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;;;Coulée Serrant;CSE;Blanc;3;Chenin;CHE;;;141
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;;;Coulée Serrant;CSE;Blanc;3;Chenin;CHE;;;141
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;;;Roche aux moines;RAM;Blanc;3;Chenin;CHE;;;141
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Amboise;AMB;Rouge;1;;;;;532
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Amboise;AMB;Rosé;2;;;;;533
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Amboise;AMB;Blanc;3;Chenin;CHE;;;531
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Azay-le-rideau;ALR;Blanc;3;Chenin;CHE;;;541
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Azay-le-rideau;ALR;Rosé;2;;;;;543
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Mesland;MES;Rouge;1;;;;;552
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Mesland;MES;Rosé;2;;;;;553
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Mesland;MES;Blanc;3;Chenin;CHE;;;551
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Noble-Joue;NBL;;;;;Rosé;2;;;;;493
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Rouge;1;;;;;512
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Rosé;2;;;;;513
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Blanc;3;;;;;511
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Rosé;2;;;;Primeur;523
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Rouge;1;;;;Primeur;522
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Oisly;OIS;Blanc;3;Sauvignon Blanc;SAUB;;;514
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Blanc;3;Sauvignon Blanc;SAUB;;;514
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Rouge;1;;;;;514
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Touraine;TOU;;;;;Blanc;3;;;;;514
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Touraine;TOU;;;;;Rosé;2;;;;;514
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Touraine;TOU;;;;;Rouge;1;;;;;571
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Touraine;TOU;;;;;Blanc;3;;;;;574
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Touraine;TOU;;;;;Rosé;2;;;;;574
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Vouvray;VOU;;;;;Blanc;3;;;;;571
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Vouvray;VOU;;;;;Blanc;3;;;;;641
-INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Vouvray;VOU;;;;;Blanc;3;;;;;631
-INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Vouvray;VOU;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;632
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du loir;CDL;;;;;Rouge;1;Chenin;CHE;;;611
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du loir;CDL;;;;;Blanc;3;;;;;612
-INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du loir;CDL;;;;;Rosé;2;;;;;613
-INTERPRO-inter-loire;Vin de pays;VdP;Tranquille;TRANQ;;;;;;;Rouge;1;;;;;
-INTERPRO-inter-loire;Vin de pays;VdP;Tranquille;TRANQ;;;;;;;Blanc;3;;;;;
-INTERPRO-inter-loire;Vin de pays;VdP;Tranquille;TRANQ;;;;;;;Rosé;2;;;;;
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Anjou;ANJ;Mousseux;MOU;;;Blanc;3;;;;;;;;;3,8;;A;;;;;;;44
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Anjou;ANJ;Mousseux;MOU;;;Rosé;2;;;;;;;;;3,8;;A;;;;;;;44
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Crémant de Loire;CLO;Mousseux;MOU;;;Blanc;3;;;;;;;;;4;;G;;;;;;;404
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Crémant de Loire;CLO;Mousseux;MOU;;;Rosé;2;;;;;;;;;4;;G;;;;;;;404
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Montlouis sur Loire;MLL;Mousseux;MOU;;;Blanc;3;Chenin;CHE;;;;;;;4;;G;;;;;;;564
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Montlouis sur Loire;MLL;Pétillant;PET;;;Blanc;3;Chenin;CHE;;;;;;;4;;G;;;;;;;564
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Saumur;SAU;Mousseux;MOU;;;Blanc;3;;;;;;;;;3,8;;A;;;;;;;174
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Saumur;SAU;Mousseux;MOU;;;Rosé;2;;;;;;;;;3,8;;A;;;;;;;174
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Touraine;TOU;Mousseux;MOU;;;Blanc;3;;;;;;;;;4;;G;;;;;;;574
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Touraine;TOU;Mousseux;MOU;;;Rosé;2;;;;;;;;;4;;G;;;;;;;574
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Touraine;TOU;Mousseux;MOU;;;Rouge;1;;;;;;;;;4;;G;;;;;;;571
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Touraine;TOU;Pétillant;PET;;;Blanc;3;;;;;;;;;4;;G;;;;;;;514
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Touraine;TOU;Pétillant;PET;;;Rosé;2;;;;;;;;;4;;G;;;;;;;514
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Vouvray;VOU;Mousseux;MOU;;;Blanc;3;;;;;;;;;4;;G;;;;;;;641
+INTERPRO-inter-loire;AOC;AOC;Effervescent;EFF;Vouvray;VOU;Pétillant;PET;;;Blanc;3;;;;;;;;;4;;G;;;;;;;631
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou;ANJ;;;;;Blanc;3;;;;;;;;;4,5;;G;;;;;;;11
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou;ANJ;Demi-sec;DMS;;;Blanc;3;;;;;;;;;4,5;;G;;;;;;;11
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou;ANJ;;;;;Rouge;1;;;;;;;;;4,5;;G;;;;;;;52
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou;ANJ;;;;;Rouge;1;Gamay;GAM;;;;;;;4,5;;G;;;;;;;132
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou;ANJ;;;;;Rouge;1;Gamay;GAM;;;;;;;4,5;;G;;;;;;;32
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou-Villages;AJV;;;Brissac;BRI;Rouge;1;;;;;;;;;5,5;;L;;;;;;;92
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Anjou-Villages;AJV;;;;;Rouge;1;;;;;;;;;4,5;;A;;;;;;Primeur;62
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Cabernet d'Anjou;CAJ;;;;;Rosé;2;;;;;;;;;4,8;;A;;;;;;;83
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Cabernet d'Anjou;CAJ;;;;;Rosé;2;;;;;;;;;4,8;;A;;;;;;Primeur;83
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Cabernet de Saumur;CAS;;;;;Rosé;2;;;;;;;;;4;;A;;;;;;;103
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Cabernet de Saumur;CAS;;;;;Rosé;2;;;;;;;;;4;;A;;;;;;Primeur;103
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Chinon;CHI;;;;;Blanc;3;Chenin;CHE;;;;;;;4,5;;A;;;;;;;581
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Chinon;CHI;;;;;Rosé;2;Cabernet Franc;CBF;;;;;;;4,5;;A;;;;;;;583
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Chinon;CHI;;;;;Rouge;1;Cabernet Franc;CBF;;;;;;;4,5;;A;;;;;;;582
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Beaulieu;BOL;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;221
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;;;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;201
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Chaume;CHA;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;211
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Faye d'Anjou;FYA;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;221
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Layon;LAY;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;221
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Rablay;RAB;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;221
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;Rochefort;RCF;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;221
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;St Aubin;STA;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;221
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du Layon;COL;;;St Lambert;STL;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;221
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du loir;CDL;;;;;Blanc;3;;;;;;;;;3,8;;A;;;;;;;612
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du loir;CDL;;;;;Rosé;2;;;;;;;;;3,8;;A;;;;;;;613
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Coteaux du loir;CDL;;;;;Rouge;1;Chenin;CHE;;;;;;;3,8;;A;;;;;;;611
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Jasnières;JAS;;;;;Blanc;3;Chenin;CHE;;;;;;;3,8;;A;;;;;;;621
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;;;;;;4;;A;;;;;;;561
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;;1040
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;Primeur;1080
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;AC;AC;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;Sur lie;1041
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Coteaux de la Loire;CDL;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;;1060
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Coteaux de la Loire;CDL;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;Sur lie;1061
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Côtes de Grand Lieu;CGL;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;;1070
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet;MUS;;;Côtes de Grand Lieu;CGL;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;Sur lie;1071
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;;;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;;1050
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;;;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;Sur lie;1051
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Clisson;CLI;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;;
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Gorges;GOR;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;;
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Muscadet Sèvre et Maine;MUSSM;;;Le Pallet;PAL;Blanc;3;Melon;MEL;;;;;;;4,5;;G;;;;;;;
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Noble-Joue;NBL;;;;;Rosé;2;;;;;;;;;3,74;;L;;;;;;;493
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Rosé d'Anjou;RAJ;;;;;Rosé;2;;;;;;;;;4,8;;A;;;;;;;123
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Rosé d'Anjou;RAJ;;;;;Rosé;2;;;;;;;;;4,8;;A;;;;;;Primeur;123
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Rosé de Loire;RLO;;;;;Rosé;2;;;;;;;;;4,8;;A;;;;;;;413
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Saumur;SAU;;;;;Blanc;3;Chenin;CHE;;;;;;;4,2;;A;;;;;;;151
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Saumur;SAU;;;Champigny;CHA;Rouge;1;;;;;;;;;4;;L;;;;;;;162
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Saumur;SAU;;;Puy-Notre-Dame;PND;Rouge;1;;;;;;;;;4;;L;;;;;;;152
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Saumur;SAU;;;;;Rouge;1;;;;;;;;;4,5;;G;;;;;;;182
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;;;;;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;651
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;;;Coulée Serrant;CSE;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;141
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;;;Coulée Serrant;CSE;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;141
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;Demi-sec;DMS;;;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;141
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;Demi-sec;DMS;Roche aux moines;RAM;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;651
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Savennières;SAV;;;Roche aux moines;RAM;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;141
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;St Nicolas de Bourgueil;STN;;;;;Rosé;2;Cabernet Franc;CBF;;;;;;;3,79;;A;;;;;;;603
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;St Nicolas de Bourgueil;STN;;;;;Rouge;1;Cabernet Franc;CBF;;;;;;;3,79;;A;;;;;;;602
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Amboise;AMB;Blanc;3;Chenin;CHE;;;;;;;4;;A;;;;;;;531
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Amboise;AMB;Rosé;2;;;;;;;;;4;;A;;;;;;;533
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Amboise;AMB;Rouge;1;;;;;;;;;4;;A;;;;;;;532
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Azay-le-rideau;ALR;Blanc;3;Chenin;CHE;;;;;;;4,5;;L;;;;;;;541
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Azay-le-rideau;ALR;Rosé;2;;;;;;;;;4,5;;L;;;;;;;543
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Blanc;3;;;;;;;;;4;;A;;;;;;;511
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Blanc;3;Sauvignon Blanc;SAUB;;;;;;;4;;A;;;;;;;514
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Rouge;1;;;;;;;;;4;;A;;;;;;;514
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Mesland;MES;Blanc;3;Chenin;CHE;;;;;;;3,8;;L;;;;;;;551
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Mesland;MES;Rosé;2;;;;;;;;;3,8;;L;;;;;;;553
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Mesland;MES;Rouge;1;;;;;;;;;3,8;;L;;;;;;;552
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;Oisly;OIS;Blanc;3;Sauvignon Blanc;SAUB;;;;;;;4;;A;;;;;;;514
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Rosé;2;;;;;;;;;4;;A;;;;;;;513
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Rosé;2;;;;;;;;;4;;A;;;;;;Primeur;523
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Rouge;1;;;;;;;;;4;;A;;;;;;;512
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Touraine;TOU;;;;;Rouge;1;;;;;;;;;4;;A;;;;;;Primeur;522
+INTERPRO-inter-loire;AOC;AOC;Tranquille;TRANQ;Vouvray;VOU;;;;;Blanc;3;;;;;;;;;4;;A;;;;;;;571
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Anjou;ANJ;Liquoreux;LIQ;Coteaux de la Loire;CDL;Blanc;3;Chenin;CHE;;;;;;;4;;A;;;;;;;21
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Bonnezeaux;BON;Liquoreux;LIQ;;;Blanc;3;;CHE;;;;;;;6;;A;;;;;;;71
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux de l'Aubance;COB;;;;;Blanc;3;Chenin;CHE;;;;;;;5,5;;A;;;;;;Grains nobles;191
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux de l'Aubance;COB;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;;;;;5,5;;A;;;;;;;191
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux de Saumur;COS;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;231
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Beaulieu;BOL;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;Grains nobles;221
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;;;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;Grains nobles;201
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Chaume;CHA;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;Grains nobles;221
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Faye d'Anjou;FAY;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;Grains nobles;221
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Rablay/Layon;RABLAY;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;Grains nobles;221
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;Rochefort;RCF;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;Grains nobles;221
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;St Aubin;STA;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;Grains nobles;221
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;St Lambert;STL;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;Grains nobles;221
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Jasnières;JAS;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;;;;;3,8;;A;;;;;;;621
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Montlouis sur Loire;MLL;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;;;;;4;;A;;;;;;;561
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Quarts de Chaume;QDC;Liquoreux;LIQ;Rochefort sur Loire;RFL;Blanc;3;Chenin;CHE;;;;;;;6;;A;;;;;;;111
+INTERPRO-inter-loire;AOC;AOC;VDN;VDN;Vouvray;VOU;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;;;;;;;A;;;;;;;632
+INTERPRO-inter-loire;AOP;AOP;Tranquille;TRANQ;Bourgueil;BRG;;;;;Rosé;2;Cabernet Franc;CBF;;;;;;;;;C;;;;;;;593
+INTERPRO-inter-loire;AOP;AOP;Tranquille;TRANQ;Bourgueil;BRG;;;;;Rouge;1;Cabernet Franc;CBF;;;;;;;;;C;;;;;;;592
+INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Coteaux d'Ancenis;COA;;;;;Blanc;3;;;;;;;;;3,8;;A;;;;;;;3010
+INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Coteaux d'Ancenis;COA;;;;;Rosé;2;;;;;;;;;3,8;;A;;;;;;;3030
+INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Coteaux d'Ancenis;COA;;;;;Rouge;1;;;;;;;;;3,8;;A;;;;;;;3020
+INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Fiefs vendéens;FVD;;;;;Blanc;3;;;;;;;;;4;;C;;;;;;;4010
+INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Fiefs vendéens;FVD;;;;;Rosé;2;;;;;;;;;4;;C;;;;;;;4030
+INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Fiefs vendéens;FVD;;;;;Rouge;1;;;;;;;;;4;;C;;;;;;;4020
+INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Gros plant;GPL;;;;;Blanc;3;Folle blanche;FBL;;;;;;;4;;C;;;;;;;2000
+INTERPRO-inter-loire;AOVDQS;AOVDQS;Tranquille;TRANQ;Gros plant;GPL;;;;;Blanc;3;Folle blanche;FBL;;;;;;;4;;C;;;;;;Sur lie;2001
+INTERPRO-inter-loire;Vin de pays;VdP;Tranquille;TRANQ;;;;;;;Blanc;3;;;;;;;;;;;C;;;;;;;
+INTERPRO-inter-loire;Vin de pays;VdP;Tranquille;TRANQ;;;;;;;Rosé;2;;;;;;;;;;;C;;;;;;;
+INTERPRO-inter-loire;Vin de pays;VdP;Tranquille;TRANQ;;;;;;;Rouge;1;;;;;;;;;;;C;;;;;;;
