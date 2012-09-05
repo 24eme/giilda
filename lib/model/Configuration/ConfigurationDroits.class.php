@@ -25,20 +25,22 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	      if ($currentDroit) {
 		if ($date->format('Y-m-d') > $currentDroit->date) {
 		  $currentDroit = $configurationDroit;
-		}
+                }
 	      } else {
 		$currentDroit = $configurationDroit;
 	      }
 	    }
 	  }
+
 	  if ($currentDroit) {
 	    return $currentDroit;
 	  }
+
 	  try {
 	    $parent = $this->getInterpro()->getParent()->getParent()->getParentNode();
 	    return $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($periode);
 	  } catch (sfException $e) {
-	    throw new sfException('Aucun droit spécifié');
+	    throw new sfException('Aucun droit spécifié pour '.$this->getHash());
 	  }
 	}
 	

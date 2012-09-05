@@ -66,7 +66,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
   		return ConfigurationProduitsView::getInstance()->formatCodes($this->getCodes(), $format);
   	}
 
-	public function getCVO($periode, $interpro = "INTERPRO-interpro-inter-loire") {
+	public function getDroitCVO($periode, $interpro = "INTERPRO-inter-loire") {
 	  return $this->getDroits($interpro)->get(ConfigurationDroits::CODE_CVO)->getCurrentDroit($periode);
 	}
 	
