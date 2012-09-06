@@ -35,24 +35,34 @@ Facture:
         definition:
           fields:
             '*':
-              type: collection
-              class: FactureLigne
+              class: FactureLignes
+              type: array_collection
               definition:
                 fields:
-                  origine_type: {}
-                  origine_identifiant: {}
-                  origine_date: {}
-                  produit_type: {}
-                  produit_libelle: {}
-                  produit_hash: {}
-                  mouvement_type: {}
-                  contrat_identifiant: {}
-                  contrat_libelle: {}
-                  echeance_code: {}
-                  volume: {type: float}
-                  cotisation_taux: {type: float}
-                  montant_ht: {type: float}
-                  cle_mouvement: {}
+                  '*':
+                    class: FactureLigne
+                    type: collection
+                    definition:
+                      fields:
+                        origine_type: {}
+                        origine_identifiant: {}
+                        origine_libelle: {}
+                        origine_date: {}
+                        produit_type: {}
+                        produit_libelle: {}
+                        produit_hash: {}
+                        mouvement_type: {}
+                        contrat_identifiant: {}
+                        contrat_libelle: {}
+                        echeance_code: {}
+                        volume: {type: float}
+                        cotisation_taux: {type: float}
+                        montant_ht: {type: float}
+                        origine_mouvements:
+                          type: array_collection
+                          definition:
+                            fields:
+                              '*':  { }
       echeances:
         type: array_collection
         definition:

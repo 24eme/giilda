@@ -10,25 +10,6 @@ class FactureClient extends acCouchdbClient {
     const FACTURE_LIGNE_PRODUIT_TYPE_MOUTS = "Mouts";
     const FACTURE_LIGNE_PRODUIT_TYPE_RAISINS = "Raisins";
     
-    const MOUVEMENTS_KEYS_FACTURE = 0;
-    const MOUVEMENTS_KEYS_FACTURABLE = 1;
-    const MOUVEMENTS_KEYS_REGION = 2;
-    const MOUVEMENTS_KEYS_ETB_ID = 3;
-    const MOUVEMENTS_KEYS_ORIGIN = 4;
-    const MOUVEMENTS_KEYS_MATIERE = 5;
-    const MOUVEMENTS_KEYS_PRODUIT_ID = 6;
-    const MOUVEMENTS_KEYS_PERIODE = 7;
-    const MOUVEMENTS_KEYS_MVT_TYPE = 8;
-    const MOUVEMENTS_KEYS_DETAIL_ID = 9;
-    
-    const MOUVEMENTS_VALUES_PRODUIT_NAME = 0;
-    const MOUVEMENTS_VALUES_TYPE_TRANS = 1;
-    const MOUVEMENTS_VALUES_VOLUME = 2;
-    const MOUVEMENTS_VALUES_CVO = 3;
-    const MOUVEMENTS_VALUES_DATE = 4;
-    const MOUVEMENTS_VALUES_DETAIL_LIBELLE = 5;
-    const MOUVEMENTS_VALUES_ID = 6;
-    const MOUVEMENTS_VALUES_MD5_CLE = 7;
     
     const MAX_LIGNE_TEMPLATE_ONEPAGE = 30;
     const MAX_LIGNE_TEMPLATE_TWOPAGE = 70;
@@ -85,19 +66,19 @@ class FactureClient extends acCouchdbClient {
     }
 
     private function createFactureLigne($f, $facture) {
-        $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME] = -1 * $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME];
+        $f->value[FactureMouvementsDRMView::VALUE_VOLUME] = -1 * $f->value[FactureMouvementsDRMView::VALUE_VOLUME];
 
-        $cvo = $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME] * $f->value[FactureClient::MOUVEMENTS_VALUES_CVO];
-        $ligne = array('origine_type' => $f->key[FactureClient::MOUVEMENTS_KEYS_ORIGIN],
-            'origine_identifiant' => $f->value[FactureClient::MOUVEMENTS_VALUES_ID],
-            'origine_date' => $f->key[FactureClient::MOUVEMENTS_KEYS_PERIODE],
-            'produit_type' => $f->key[FactureClient::MOUVEMENTS_KEYS_MATIERE],
-            'produit_libelle' => $f->value[FactureClient::MOUVEMENTS_VALUES_PRODUIT_NAME],
-            'produit_hash' => $f->key[FactureClient::MOUVEMENTS_KEYS_PRODUIT_ID],
-            'volume' => $f->value[FactureClient::MOUVEMENTS_VALUES_VOLUME],
-            'cotisation_taux' => $f->value[FactureClient::MOUVEMENTS_VALUES_CVO],
+        $cvo = $f->value[FactureMouvementsDRMView::VALUE_VOLUME] * $f->value[FactureMouvementsDRMView::VALUE_CVO];
+        $ligne = array('origine_type' => $f->key[FactureMouvementsDRMView::KEYS_ORIGIN],
+            'origine_identifiant' => $f->value[FactureMouvementsDRMView::VALUE_NUMERO],
+            'origine_date' => $f->key[FactureMouvementsDRMView::KEYS_PERIODE],
+            'produit_type' => $f->key[FactureMouvementsDRMView::KEYS_MVT_TYPE],
+            'produit_libelle' => $f->value[FactureMouvementsDRMView::VALUE_PRODUIT_LIBELLE],
+            'produit_hash' => $f->key[FactureMouvementsDRMView::KEYS_PRODUIT_ID],
+            'volume' => $f->value[FactureMouvementsDRMView::VALUE_VOLUME],
+            'cotisation_taux' => $f->value[FactureMouvementsDRMView::VALUE_CVO],
             'montant_ht' => $cvo,
-            'cle_mouvement' => $f->value[FactureClient::MOUVEMENTS_VALUES_MD5_CLE]);
+            'cle_mouvement' => $f->value[FactureMouvementsDRMView::VALUE_MD5_CLE]);
         $facture->total_ht += $cvo;
 
         $ligne = $this->createFactureLigneContrat($ligne, $f);
@@ -220,6 +201,10 @@ class FactureClient extends acCouchdbClient {
         return $ligne;
     }
 
+    public function findByIdentifiant($identifiant) {
+        return $this->find('FACTURE-' . $identifiant);
+    }
+    
     public function findByEtablissementAndId($idEtablissement, $idFacture) {
         return $this->find('FACTURE-' . $idEtablissement . '-' . $idFacture);
     }
@@ -318,7 +303,7 @@ class FactureClient extends acCouchdbClient {
 
     public function getMouvementsNonFacturesByEtablissement($etablissement) {
 
-        return DRMMouvementsFactureView::getInstance()->getFacturationByEtablissement($etablissement, 0, 1);
+        return FactureMouvementsDRMView::getInstance()->getFacturationByEtablissement($etablissement, 0, 1);
     }
 
     public function findByEtablissement($etablissement) {
@@ -342,5 +327,98 @@ class FactureClient extends acCouchdbClient {
             FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS,
             FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS);
     }
-
+    
+    public function hasCritereInHashedLignes($hashTable,$mouvement_type,$produit_type='',$produit_hash='',$origine_identifiant='')
+    {
+        $keys = array_keys($hashTable);
+        foreach ($keys as $hashKey){
+            if(strpos($hashKey,'#'.$mouvement_type.$produit_type.$produit_hash.$origine_identifiant.'#')===0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function getTypesTransactionsFromHashedLignes($hashTable,$mouvement_type)
+    {
+        $typesTransactions = array();
+        $keys = array_keys($hashTable);
+        foreach ($keys as $hashKey) {
+            if(strpos($hashKey,'#'.$mouvement_type.'#')===0)
+            {
+                if(!in_array($hashTable[$hashKey]->produit_type, $typesTransactions)) $typesTransactions[] = $hashTable[$hashKey]->produit_type;
+            }
+        }
+        return $typesTransactions;
+    }
+    
+    public function getProduitsFromHashedLignes($hashTable,$mouvement_type,$produit_type)
+    {
+        $produits = array();
+        $keys = array_keys($hashTable);
+        foreach ($keys as $hashKey) {
+            if(strpos($hashKey,'#'.$mouvement_type.'#'.$produit_type.'#')===0)
+            {
+                if(!array_key_exists($hashTable[$hashKey]->produit_hash, $produits)) 
+                        $produits[$hashTable[$hashKey]->produit_hash] = $hashTable[$hashKey]->produit_libelle;
+            }
+        }
+        return $produits;
+    }
+    public function getOriginsFromHashedLignes($hashTable,$mouvement_type,$produit_type,$produit_hash)
+    {
+        $origines = array();
+        $keys = array_keys($hashTable);
+        foreach ($keys as $hashKey) {
+            if(strpos($hashKey,'#'.$mouvement_type.'#'.$produit_type.'#'.$produit_hash.'#')===0)
+            {
+                
+                        $origines[$hashKey] = $hashTable[$hashKey];
+            }
+        }
+        return $origines;
+    }
+    
+    public function countNbLignes($facture,$hashTable) {
+        
+        $nbLigne = count($facture->echeances) * 3;
+        
+        if($this->hasCritereInHashedLignes($hashTable,self::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE)) 
+        {
+           $nbLigne++;
+           $produits = $this->getProduitsFromHashedLignes($hashTable,
+                                                          self::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE,
+                                                          self::FACTURE_LIGNE_PRODUIT_TYPE_VINS);
+           foreach ($produits as $prodHash => $produit)
+           {
+              $nbLigne++; 
+              $docOrigins = $this->getOriginsFromHashedLignes($hashTable,
+                                                              self::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE,
+                                                              self::FACTURE_LIGNE_PRODUIT_TYPE_VINS,
+                                                              $prodHash);
+              $nbLigne += count($docOrigins);
+           }
+        }   
+        if($this->hasCritereInHashedLignes($hashTable,self::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT))
+        {
+           $types = $this->getTypesTransactionsFromHashedLignes($hashTable,self::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT);                    
+           foreach ($types as $type){
+               $nbLigne++;               
+               $produits = $this->getProduitsFromHashedLignes($hashTable,
+                                                              self::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT,
+                                                              $type);                        
+               foreach ($produits as $prodHash => $produit)
+               {
+                $docOrigins = $this->getOriginsFromHashedLignes($hashTable,
+                                                                self::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT,
+                                                                $type,
+                                                                $prodHash);
+                $nbLigne+=count($docOrigins)+1;
+               }
+           }
+        }
+        return $nbLigne;
+    }
+    
 }

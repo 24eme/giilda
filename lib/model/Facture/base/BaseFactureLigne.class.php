@@ -6,6 +6,7 @@
 
  * @property string $origine_type
  * @property string $origine_identifiant
+ * @property string $origine_libelle
  * @property string $origine_date
  * @property string $produit_type
  * @property string $produit_libelle
@@ -17,12 +18,14 @@
  * @property float $volume
  * @property float $cotisation_taux
  * @property float $montant_ht
- * @property string $cle_mouvement
+ * @property acCouchdbJson $origine_mouvements
 
  * @method string getOrigineType()
  * @method string setOrigineType()
  * @method string getOrigineIdentifiant()
  * @method string setOrigineIdentifiant()
+ * @method string getOrigineLibelle()
+ * @method string setOrigineLibelle()
  * @method string getOrigineDate()
  * @method string setOrigineDate()
  * @method string getProduitType()
@@ -45,8 +48,8 @@
  * @method float setCotisationTaux()
  * @method float getMontantHt()
  * @method float setMontantHt()
- * @method string getCleMouvement()
- * @method string setCleMouvement()
+ * @method acCouchdbJson getOrigineMouvements()
+ * @method acCouchdbJson setOrigineMouvements()
  
  */
 

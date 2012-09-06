@@ -15,8 +15,8 @@ class Facture extends BaseFacture {
     public function save() {
         if($this->isNew()){
             $this->facturerMouvements();
-            $this->saveDocumentsOrigine();
         }
+        $this->saveDocumentsOrigine();
         parent::save();
     }
 
@@ -73,88 +73,30 @@ class Facture extends BaseFacture {
         return ($ligne_0->{$champ} > $ligne_1->{$champ}) ? -1 : +1;
     }
     
-    public function getLignesPropriete() {
-        return $this->getFactureLignesByMouvementType(FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE);
-    }
     
-    public function getLignesContrat() {
-        return $this->getFactureLignesByMouvementType(FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT);
-    }
-    
-    public function getLignesContratType($type) {
-        $contrats =  $this->getFactureLignesByMouvementType(FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT);
-        $lignesByType = array();
-        foreach ($contrats as $ligne) 
+    public function createHashForPdf()
+    {
+        $lignes = array();
+        foreach ($this->getLignes() as $ligne) 
         {
-            if($ligne->produit_type == $type)
-            {
-                $lignesByType[] = $ligne;
-            }  
-        }
-        return $lignesByType;
-    }
-    
-    
-    public function getLignesProduits($propriete){
-        $produits = array();
-        
-        foreach ($propriete as $prop)
-        {
-            if(array_key_exists($prop->produit_hash, $produits))
+            $key = $this->createKeyForHashedLignes($ligne);
+            if(array_key_exists($key, $lignes))
             {               
-                $produits[$prop->produit_hash][] = $prop;                
+                $lignes[$key]->montant_ht += $ligne->montant_ht; 
+                $lignes[$key]->volume += $ligne->volume;
             }
             else
             {
-                $produits[$prop->produit_hash] = array();
-                $produits[$prop->produit_hash][] = $prop;                
+                $lignes[$key] = $ligne;                
             }
+            $lignes[$key] = $ligne;
         }
-        return $produits;
+        return $lignes;
     }
 
-
-
-
-    private function getFactureLignesByMouvementType($mouvement_type)
-    {
-        $lignesByMouvementType = array();
-        foreach ($this->getLignes() as $ligne) 
-        {
-            if($ligne->mouvement_type == $mouvement_type)
-            {
-                $lignesByMouvementType[] = $ligne;
-            }  
-        }
-        return $lignesByMouvementType;
-    }
-    
-    public function countNbLignes() {
-        $nbLigne = count($this->echeances) * 3;
-
-        $propriete = $this->getLignesPropriete();
-        $produits = $this->getLignesProduits($propriete);
-        $types = FactureClient::getInstance()->getTypes();
-        if(count($propriete)>0) $nbLigne++;
-        $nbLigne+=count($produits);
-
-        foreach ($produits as $ligneProd)
-            $nbLigne+=count($ligneProd);
-        foreach ($types as $type) 
-        {
-            $contrat = $this->getLignesContratType($type);
-            if(count($contrat)>0){
-                $nbLigne++;
-                $produits = $this->getLignesProduits($contrat);
-                foreach ($produits as $ligneProd)
-                {
-                    $nbLigne+=count($ligneProd)+1;
-                }
-            }
-
-        }
-        return $nbLigne;
-    }
+    private function createKeyForHashedLignes($ligne) {
+        return '#'.$ligne->mouvement_type.'#'.$ligne->produit_type.'#'.$ligne->produit_hash.'#'.$ligne->origine_identifiant.'#';
+    } 
     
     
 }

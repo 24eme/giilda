@@ -1,13 +1,8 @@
 <?php
 use_helper('Float');
-
-
-$propriete = $facture->getLignesPropriete();
-$produits = $facture->getLignesProduits($propriete);
-$types = FactureClient::getInstance()->getTypes();
-
+$lignes = $lignes->getRawValue();
 ?>
-\documentclass[a4paper,10pt]{article}
+\documentclass[6pt]{article}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{units}
@@ -26,6 +21,9 @@ $types = FactureClient::getInstance()->getTypes();
 
 
 \usetikzlibrary{fit}
+
+\renewcommand\sfdefault{phv}
+
 \newcommand{\CutlnPapillon}{
   	\multicolumn{7}{c}{ \Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline }
 \\   	  
@@ -34,7 +32,6 @@ $types = FactureClient::getInstance()->getTypes();
 \renewcommand{\familydefault}{\sfdefault}
 
 
-\normalfont
 \setlength{\oddsidemargin}{-2cm}
 \setlength{\evensidemargin}{-2cm}
 \setlength{\textwidth}{19cm}
@@ -46,10 +43,10 @@ $types = FactureClient::getInstance()->getTypes();
 \def\InterloireAdresse{<?php echo $facture->emetteur->adresse; ?> \\
 		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France} 
 \def\InterloireFacturation{Service facturation : <?php echo $facture->emetteur->service_facturation; ?> Tél. : <?php echo $facture->emetteur->telephone; ?>} 
-\def\InterloireSIRET{429164072020093}
+\def\InterloireSIRET{429 164 072 00077}
 \def\InterloireAPE{APE 9499 Z} 
-\def\InterloireTVAIntracomm{FR73429164072}
-\def\InterloireSIRET{Crédit agricole de la tourraine et du poitou}
+\def\InterloireTVAIntracomm{FR 73 429164072}
+\def\InterloireBANQUE{Crédit agricole de la tourraine et du poitou}
 \def\InterloireBIC{XXXXX}
 \def\InterloireIBAN{XXXX XXXXX XXXX XXXXX XX}
 
@@ -72,10 +69,12 @@ $types = FactureClient::getInstance()->getTypes();
  \InterloireAdresse \\
  \InterloireFacturation \\
  \begin{tiny}
- RIB~:~\InterloireSIRET~(BIC:~\InterloireBIC~IBAN:~\InterloireIBAN) \\
- SIRET~\InterloireSIRET ~-~\InterloireAPE ~- TVA~Intracommunutaire~\InterloireTVAIntracomm 
- \end{tiny}
-}
+         RIB~:~\InterloireBANQUE~(BIC:~\InterloireBIC~IBAN:~\InterloireIBAN) 
+ \end{tiny} \\
+ \begin{tiny}
+         SIRET~\InterloireSIRET ~-~\InterloireAPE ~- TVA~Intracommunutaire~\InterloireTVAIntracomm
+\end{tiny}
+ }
 \rhead{\includegraphics[scale=0.6]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo.jpg"; ?>}}
 
 
@@ -113,76 +112,88 @@ $types = FactureClient::getInstance()->getTypes();
 				\FactureClientCP ~\FactureClientVille \\
 			\end{flushleft}
 		\hspace{6cm}
-		page \thepage / \pageref{LastPage} 
+		page \thepage / <?php echo $nbPages; ?>
 \end{minipage}
 
 \centering
-	\begin{tikzpicture}
+\fontsize{8}{8}\selectfont
+    \begin{tikzpicture}
 		\node[inner sep=1pt] (tab1){
-			\begin{tabular}{p{85mm} |p{11mm}|p{19mm}|p{16mm}|p{22mm}|p{5mm}}
+			\begin{tabular}{p{85mm} |p{15mm}|p{21mm}|p{16mm}|p{22mm}|p{15mm} p{0mm}}
 
   			\rowcolor{lightgray}
-                        \centering \small{\textbf{ \\ LIBELLE}} &
+                        \centering \small{\textbf{Libellé}} &
    			\centering \small{\textbf{Mois}} &
    			\centering \small{\textbf{Volume en hl}} &
                         \centering \small{\textbf{Cotisation}} &
    			\centering \small{\textbf{Montant H.T Euros}} &
-   			\multicolumn{1}{c}{\small{\textbf{Code Echéance}}} \\
+   			\centering \small{\textbf{Code \\ Echéance}} & 
+                        \multicolumn{1}{c}{\small{}} \\
   
   			\hline
-                
                 <?php 
-                if(count($propriete) > 0 ) : 
+                if(FactureClient::getInstance()->hasCritereInHashedLignes($lignes,FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE)) : 
                 ?>
-                \textbf{Sortie de propriété} & ~ & ~ & ~ & ~ & ~ \\
-            <?php endif; ?>                
-                <?php                
-                 foreach ($produits as $ligneProd) :                       
-                 ?>
-                    ~~\textbf{<?php echo $ligneProd[0]->produit_libelle; ?>} & ~ & ~ & ~ & ~ & ~ \\
-                <?php
-                    foreach ($ligneProd as $prod): 
+                \textbf{Sortie de propriété} & ~ & ~ & ~ & ~ & ~ & \\
+            <?php endif;
+                 $produits = FactureClient::getInstance()->getProduitsFromHashedLignes($lignes,
+                                                                                       FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE,
+                                                                                       FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS);
+                 foreach ($produits as $prodHash => $produit) :                       
+                    $docOrigins = FactureClient::getInstance()->getOriginsFromHashedLignes($lignes,
+                                                                                       FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE,
+                                                                                       FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS,
+                                                                                       $prodHash);
+                    foreach ($docOrigins as $origin): 
                         ?>      
-                    ~~~~<?php echo $prod->origine_identifiant; ?> &
-                            \multicolumn{1}{r|}{<?php echo $prod->origine_date; ?>} & 
-                            \multicolumn{1}{r|}{\small{<?php echoFloat($prod->volume); ?>}} &
-                            \multicolumn{1}{r|}{\small{<?php echo $prod->cotisation_taux ?>}} & 
-                            \multicolumn{1}{r|}{\small{<?php echoFloat($prod->montant_ht); ?>}\texteuro{}} & 
-                            \multicolumn{1}{c}{<?php echo $prod->echeance_code ?>} \\
+                    ~~~~<?php echo $produit.' \begin{tiny}'.$origin->origine_identifiant.'\end{tiny}'; ?> &
+                            \multicolumn{1}{r|}{<?php echo $origin->origine_date; ?>} & 
+                            \multicolumn{1}{r|}{<?php echoFloat($origin->volume); ?>} &
+                            \multicolumn{1}{r|}{<?php echoFloat($origin->cotisation_taux); ?>} & 
+                            \multicolumn{1}{r|}{<?php echoFloat($origin->montant_ht); ?>\texteuro{}} & 
+                            \multicolumn{1}{c}{<?php echo $origin->echeance_code ?>} & \\
 
                 <?php endforeach;
                 endforeach;
                 
-                foreach ($types as $type) :
-                    $contrat = $facture->getLignesContratType($type);
-                    if(count($contrat) > 0 ) :
-                    ?>
-                    \textbf{Sortie de contrat <?php echo $type; ?>} & ~ & ~ & ~ & ~ & ~ \\
-            <?php endif;  
-                        $produits = $facture->getLignesProduits($contrat);
-                        foreach ($produits as $ligneProd) :  
+                if(FactureClient::getInstance()->hasCritereInHashedLignes($lignes,FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT)) :
+                
+                $types = FactureClient::getInstance()->getTypesTransactionsFromHashedLignes($lignes,FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT);                    
+                    foreach ($types as $type) :
+                        $produits = FactureClient::getInstance()->getProduitsFromHashedLignes($lignes,
+                                                                                       FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT,
+                                                                                       $type);                        
                         ?>
-                            ~~\textbf{<?php echo $ligneProd[0]->produit_libelle; ?>} & ~ & ~ & ~ & ~ & ~ \\
-                        <?php foreach ($ligneProd as $ligneCont): 
-                            ?>  
-                                ~~~<?php echo $ligneCont->contrat_libelle; ?> & 
-                                \multicolumn{1}{r|}{\small{<?php echo $ligneCont->origine_date; ?>}} & 
-                                \multicolumn{1}{r|}{\small{<?php echoFloat($ligneCont->volume); ?>}} &
-                                \multicolumn{1}{r|}{\small{<?php echo $ligneCont->cotisation_taux ?>}} & 
-                                \multicolumn{1}{r|}{\small{<?php echoFloat($ligneCont->montant_ht) ?>}\texteuro{}} & 
-                                \multicolumn{1}{c}{<?php echo $ligneCont->echeance_code ?>} \\
+                        \textbf{Sortie de contrat <?php echo $type; ?>} & ~ & ~ & ~ & ~ & ~ & \\
+                        <?php  
+                        foreach ($produits as $prodHash => $produit) :  
+                            $docOrigins = FactureClient::getInstance()->getOriginsFromHashedLignes($lignes,
+                                                                                       FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT,
+                                                                                       $type,
+                                                                                       $prodHash);
+                            
+                            foreach ($docOrigins as $origin): 
+                                ?>  
+                                    ~~~<?php echo $produit.' '.$origin->contrat_libelle; ?> & 
+                                    \multicolumn{1}{r|}{<?php echo $origin->origine_date; ?>} & 
+                                    \multicolumn{1}{r|}{<?php echoFloat($origin->volume); ?>} &
+                                    \multicolumn{1}{r|}{<?php echo $origin->cotisation_taux ?>} & 
+                                    \multicolumn{1}{r|}{<?php echoFloat($origin->montant_ht) ?>\texteuro{}} & 
+                                    \multicolumn{1}{c}{<?php echo $origin->echeance_code ?>} & \\
 
-                    <?php  endforeach;
+                        <?php  endforeach;
+                        endforeach;
                     endforeach;
-                endforeach;
+                
+                endif;
                 for($i=0; $i<($total_rows-$nbLigne);$i++):
                 ?>
-        ~ & ~ & ~ & ~ & ~ & ~ \\
+        ~ & ~ & ~ & ~ & ~ & ~ & \\
                 <?php 
                 endfor;
                 ?>
-	 \multicolumn{6}{c}{\small{Aucun escompte n\'est prévu pour paiment anticipé. Pénalités de retard : 3 fois le taux d\'intér\^{e}t légal}} \\
-	 ~ & ~ & ~ & ~ & ~ & ~ \\
+	 \multicolumn{6}{c}{Aucun escompte n\'est prévu pour paiment anticipé. Pénalités de retard : 3 fois le taux d\'intér\^{e}t légal} \\
+	 ~ & ~ & ~ & ~ & ~ & ~ &\\
 			\end{tabular}
 		};
 		\node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};	
