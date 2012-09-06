@@ -61,12 +61,12 @@ EOF;
         $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
         if ($detail = $configuration->exist($datas[0])) {
 	        $detail = $configuration->get($datas[0])->add('detail')->add($datas[1])->add($datas[2]);
-          $detail->readable = $datas[3];
-          $detail->writable = $datas[4];
-          $detail->details = $datas[5];
-          $detail->coefficient = $datas[6];
-          $detail->coefficient_etablissement_connexe = $datas[7];
-          $detail->facturable = $datas[8];
+          $detail->readable = (int)$datas[3];
+          $detail->writable = (int)$datas[4];
+          $detail->details = (int)$datas[5];
+          $detail->mouvement_coefficient = (int)$datas[6];
+          $detail->vrac = (int)$datas[7];
+          $detail->facturable = (int)$datas[8];
         }
     }
     

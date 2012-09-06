@@ -1,11 +1,11 @@
-#noeud;categorie;type;writable;readable;details;coefficiant;coefficiant_etablissement_connexe;facturable
+#noeud;categorie;type;writable;readable;details;mouvement_coefficient;cvo;facturable
 declaration;stocks_debut;revendique;1;1;0;0;0;0
 declaration;stocks_debut;instance;1;0;0;0;0;0
 declaration;stocks_debut;bloque;1;0;0;0;0;0
 declaration;entrees;achat;1;1;0;1;0;0
 declaration;entrees;recolte;1;1;0;1;0;0
 declaration;entrees;transfert;1;1;0;1;0;0
-0eclaration;entrees;cooperative;1;1;0;1;0;0
+declaration;entrees;cooperative;1;1;0;1;0;0
 declaration;entrees;reintegration;1;1;0;1;0;0
 declaration;entrees;elaboration;1;1;0;1;0;0
 declaration;entrees;repli;1;1;0;1;0;0
