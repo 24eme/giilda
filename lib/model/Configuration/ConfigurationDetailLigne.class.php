@@ -16,6 +16,11 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
     return ($this->readable) && ($this->writable);
   }
 
+  public function isVrac() {
+
+    return ($this->vrac > 0);
+  }
+
   public function hasDetails() {
 
     return ($this->details > 0);
