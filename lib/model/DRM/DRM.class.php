@@ -33,6 +33,11 @@ class DRM extends BaseDRM {
         return DRMClient::getInstance()->getAnnee($this->periode);
     }
 
+    public function getDate() {
+        
+        return sprintf('%4d-%2d-%2d', $this->getAnnee(), $this->getMois(), date("t",$this->getMois()));
+    }
+
     public function setPeriode($periode) {
         $this->campagne = DRMClient::getInstance()->buildCampagne($periode);
 

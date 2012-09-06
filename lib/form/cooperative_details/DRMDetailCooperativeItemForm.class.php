@@ -16,7 +16,7 @@ class DRMDetailCooperativeItemForm extends acCouchdbObjectForm {
         $this->setValidator('volume', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('date_enlevement', new sfValidatorDate(array('required' => true, 
                                                                          'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~',
-                                                                         'date_output' => 'd/m/Y')));
+                                                                         'date_output' => 'Y-m-d')));
         
         $this->widgetSchema->setNameFormat('drm_detail_cooperative_item[%s]');
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
@@ -24,7 +24,7 @@ class DRMDetailCooperativeItemForm extends acCouchdbObjectForm {
     
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        if(!$this->getObject()->date_enlevement) $this->setDefault('date_enlevement', DRMClient::getInstance()->getDetailsDefaultDate());
+        if(!$this->getObject()->date_enlevement) $this->setDefault('date_enlevement', $this->getObject()->getDocument()->getDate());
     }
 
     public function doUpdateObject($values) {

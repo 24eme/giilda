@@ -269,7 +269,9 @@ class DRMDetail extends BaseDRMDetail {
       $mouvement->facture = 0;
       $mouvement->cvo = $this->getDroitCVO()->taux;
       $mouvement->version = $this->GetDocument()->getVersion();
-      $mouvement->date_version = date('c');
+      $mouvement->date_version = date('Y-m-d');
+      $mouvement->categorie = 'propriete';
+
 
       if ($this->exist($hash."/".$key."_details")) {
         $mouvements = array_merge($mouvements, $this->get($hash."/".$key."_details")->createMouvements($mouvement));
@@ -306,6 +308,8 @@ class DRMDetail extends BaseDRMDetail {
     $mouvement->type_libelle = $config->getLibelle();
     $mouvement->volume = $volume;
     $mouvement->facturable = $config->facturable;
+    $mouvement->date = $this->getDocument()->getDate();
+
     return $mouvement;
   }
 

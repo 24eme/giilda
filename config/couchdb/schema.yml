@@ -394,6 +394,7 @@ DRM:
               type: collection
               definition:
                 fields:
+                  categorie: {  }
                   produit_hash: {  }
                   produit_libelle: {  }
                   type_hash: {  }
@@ -404,5 +405,6 @@ DRM:
                   cvo: { type: float }
                   facture: { type: integer }
                   facturable: { type: integer }
+                  date: {  }
                   date_version: {  }
                   version: {  }

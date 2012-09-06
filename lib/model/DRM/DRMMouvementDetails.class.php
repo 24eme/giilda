@@ -45,7 +45,7 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
           $volume = $volume - $this->getDocument()->motherGet($detail->getHash())->volume;
         }
 
-	$config = $this->getDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
+	   $config = $this->getDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
 
         $volume = $config->mouvement_coefficient * $volume;
 
@@ -55,10 +55,18 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
 
         $mouvement->detail_identifiant = $detail->identifiant;
         $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
-	$mouvement->type_libelle = $config->getLibelle();
-	$mouvement->facturable = $config->facturable;
+	    $mouvement->type_libelle = $config->getLibelle();
+	    $mouvement->facturable = $config->facturable;
         $mouvement->type_hash .= $this->getKey();
         $mouvement->volume = $volume;
+
+        if($config->isVrac()) {
+            $mouvement->categorie = 'contrat_vins';
+        }
+
+        $mouvement->date = $detail->date_enlevement;
+
+
         return $mouvement;
     }
 
