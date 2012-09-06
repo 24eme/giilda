@@ -59,7 +59,7 @@ class DRMMouvementsView extends acCouchdbView
         $mouvement->type_libelle = $row->value[self::VALUE_TYPE_LIBELLE];
         $mouvement->volume = $row->value[self::VALUE_VOLUME];
         $mouvement->detail_libelle = $row->value[self::VALUE_DETAIL_LIBELLE];        
-        $mouvement->date_version =  $row->value[self::VALUE_DATE_VERSION];  
+        $mouvement->date_version =  $row->value[self::VALUE_DATE_VERSION];
         $mouvement->version = $row->value[self::VALUE_VERSION];
         $mouvement->version = str_replace('M', '', $mouvement->version);
         $mouvement->version += 1;
