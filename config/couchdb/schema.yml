@@ -400,8 +400,9 @@ DRM:
                   type_libelle: {  }
                   detail_identifiant: {  }
                   detail_libelle: {  }
-                  volume: {  }
-                  facture: {  }
-                  facturable: {  }
-                  date_version: {  }                  
+                  volume: { type: float }
+                  cvo: { type: float }
+                  facture: { type: integer }
+                  facturable: { type: integer }
+                  date_version: {  }
                   version: {  }

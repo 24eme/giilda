@@ -250,12 +250,12 @@ class DRMDetail extends BaseDRMDetail {
 
   public function getMouvements() {
     return array_merge(
-            $this->getMouvementsByNoeud('entrees', 1),
-            $this->getMouvementsByNoeud('sorties', -1)
+            $this->getMouvementsByNoeud('entrees'),
+            $this->getMouvementsByNoeud('sorties')
            );
   }
 
-  public function getMouvementsByNoeud($hash, $coefficient) {
+  public function getMouvementsByNoeud($hash) {
     $mouvements = array();
     foreach($this->get($hash) as $key => $volume) {
       if ($volume instanceof acCouchdbJson) {
@@ -263,14 +263,20 @@ class DRMDetail extends BaseDRMDetail {
         continue;
       }
 
-      if ($this->exist($hash."/".$key."_details")) {
-        $mouvements = array_merge($mouvements, $this->get($hash."/".$key."_details")->createMouvements
-                ($coefficient));
+      $mouvement = DRMMouvement::freeInstance($this->getDocument());
+      $mouvement->produit_hash = $this->getHash();
+      $mouvement->produit_libelle = $this->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
+      $mouvement->facture = 0;
+      $mouvement->cvo = $this->getDroitCVO()->taux;
+      $mouvement->version = $this->GetDocument()->getVersion();
+      $mouvement->date_version = date('c');
 
+      if ($this->exist($hash."/".$key."_details")) {
+        $mouvements = array_merge($mouvements, $this->get($hash."/".$key."_details")->createMouvements($mouvement));
         continue;
       }
 
-      $mouvement = $this->createMouvement($hash."/".$key, $volume, $coefficient);
+      $mouvement = $this->createMouvement(clone $mouvement, $hash.'/'.$key, $volume);
       if(!$mouvement){
           continue;
       }
@@ -280,32 +286,26 @@ class DRMDetail extends BaseDRMDetail {
     return $mouvements;
   }
 
-  public function createMouvement($hash, $volume, $coefficient) {
+  public function createMouvement($mouvement, $hash, $volume) {
     if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($this, $hash)) {
-
-      return false;
+      return null;
     }
 
     if($this->getDocument()->hasVersion() && $this->getDocument() ->motherExist($this->getHash().'/'.$hash)) {
       $volume = $volume - $this->getDocument()->motherGet($this->getHash().'/'.$hash);
     }
 
-    if(!$volume > 0) {
+    $config = $this->getConfig()->get($hash);
+    $volume = $config->mouvement_coefficient * $volume;
 
-      return false;
+    if(!$volume > 0) {
+      return null;
     }
 
-    $mouvement = DRMMouvement::freeInstance($this->getDocument());
-    $mouvement->produit_hash = $this->getHash();
-    $mouvement->produit_libelle = $this->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
     $mouvement->type_hash = $hash;
-    $mouvement->type_libelle = $this->getConfig()->get($mouvement->type_hash)->getLibelle();
-    $mouvement->volume = $coefficient * $volume;
-    $mouvement->facture = 0;
-    $mouvement->facturable = 0;
-    $mouvement->version = 'V 1';
-    $mouvement->date_version = date('c');
-    
+    $mouvement->type_libelle = $config->getLibelle();
+    $mouvement->volume = $volume;
+    $mouvement->facturable = $config->facturable;
     return $mouvement;
   }
 
@@ -342,4 +342,8 @@ class DRMDetail extends BaseDRMDetail {
   	return $objectToDelete;
   }
         
+  public function getDroitCVO($interpro = 'INTERPRO-inter-loire') {
+    return $this->getCepage()->getConfig()->getDroitCVO($this->getDocument()->getPeriode(), $interpro);
+  }
+  
 }

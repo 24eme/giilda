@@ -21,51 +21,46 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
         return $this->getParent()->getParent();
     }
 
-    public function createMouvements($coefficient) {
+    public function createMouvements($template_mouvement) {
         $mouvements = array();
 
         foreach($this as $detail) {
-            $mouvement = $this->createMouvement($detail, $coefficient);
+	  $mouvement = $this->createMouvement(clone $template_mouvement, $detail);
             if(!$mouvement){
                 continue;
             }
             $mouvements[$mouvement->getMD5Key()] = $mouvement;
         }
-
         return $mouvements;
     }
 
-    public function createMouvement($detail, $coefficient) {
+    public function createMouvement($mouvement, $detail) {
         $volume = $detail->volume;
 
         if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($detail, 'volume')) {
-
-          return false;
+          return null;
         }
 
         if($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($detail->getHash())) {
           $volume = $volume - $this->getDocument()->motherGet($detail->getHash())->volume;
         }
 
-        if(!$volume > 0) {
+	$config = $this->getDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
 
-          return false;
+        $volume = $config->mouvement_coefficient * $volume;
+
+        if(!$volume > 0) {
+          return null;
         }
 
-        $mouvement = DRMMouvement::freeInstance($this->getDocument());
-        $mouvement->produit_hash = $this->getDetail()->getHash();
-        $mouvement->produit_libelle = $this->getDetail()->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
-        $mouvement->type_hash = $this->getNoeud()->getKey().'/'.$this->getTotalHash();
-        $mouvement->type_libelle = $this->getDetail()->getConfig()->get($mouvement->type_hash)->getLibelle();
-        $mouvement->volume = $coefficient * $volume;
         $mouvement->detail_identifiant = $detail->identifiant;
         $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
-        $mouvement->facture = 0;
-        $mouvement->facturable = 0;
-        $mouvement->version = 'V 1';
-        $mouvement->date_version = date('c');
-
+	$mouvement->type_libelle = $config->getLibelle();
+	$mouvement->facturable = $config->facturable;
+        $mouvement->type_hash .= $this->getKey();
+        $mouvement->volume = $volume;
         return $mouvement;
     }
 
 }
+
