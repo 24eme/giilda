@@ -27,6 +27,9 @@ class DRMDetailExportItemForm extends acCouchdbObjectForm {
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         if(!$this->getObject()->date_enlevement) $this->setDefault('date_enlevement', $this->getObject()->getDocument()->getDate());
+
+        $date = new DateTime($this->getDefault('date_enlevement'));
+        $this->setDefault('date_enlevement', $date->format('d/m/Y'));
     }
     
     public function doUpdateObject($values) {
@@ -38,10 +41,6 @@ class DRMDetailExportItemForm extends acCouchdbObjectForm {
         return $this->getObject()->getDetail();
     }
 
-    public function getDefaultDate() {
-        return date('d/m/Y');
-    }
-    
     public function getCountryList() {
         $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
         $destinationChoices = $destinationChoicesWidget->getChoices();
