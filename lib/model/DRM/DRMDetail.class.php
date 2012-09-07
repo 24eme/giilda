@@ -272,7 +272,6 @@ class DRMDetail extends BaseDRMDetail {
       $mouvement->date_version = date('Y-m-d');
       $mouvement->categorie = 'propriete';
 
-
       if ($this->exist($hash."/".$key."_details")) {
         $mouvements = array_merge($mouvements, $this->get($hash."/".$key."_details")->createMouvements($mouvement));
         continue;

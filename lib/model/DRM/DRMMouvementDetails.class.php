@@ -66,7 +66,6 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
 
         $mouvement->date = $detail->date_enlevement;
 
-
         return $mouvement;
     }
 
