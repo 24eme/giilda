@@ -10,6 +10,7 @@ Facture:
       date_facturation: {}
       campagne: {}
       nb_page: {type: integer}
+      statut: {}
       emetteur:
         type: collection
         definition:

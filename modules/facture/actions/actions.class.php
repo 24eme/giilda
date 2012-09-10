@@ -33,15 +33,13 @@ class factureActions extends sfActions {
     
     public function executeMonEspace(sfWebRequest $resquest) {
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->factures = FactureClient::getInstance()->findByEtablissement($this->etablissement);
+        $this->factures = FactureEtablissementView::getInstance()->findByEtablissement($this->etablissement);
         $this->mouvements = FactureMouvementsDRMView::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
     }
     
     public function executeDefacturer(sfWebRequest $resquest) {
         $this->facture = $this->getRoute()->getFacture();
-        foreach ($this->facture->getLignes() as $ligne) {
-            $ligne->defacturerMouvements();
-        }
+        $this->facture->defacturer();
         $this->facture->save();
         $this->etablissement = EtablissementClient::getInstance()->findByIdentifiant($this->facture->client_reference);
         $this->redirect('facture_etablissement', $this->etablissement);        

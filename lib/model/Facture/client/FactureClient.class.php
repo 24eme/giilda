@@ -15,6 +15,8 @@ class FactureClient extends acCouchdbClient {
     const TEMPLATE_ONEPAGE = 'facture1Page';
     const TEMPLATE_TWOPAGE = 'facture2Pages';
     const TEMPLATE_MOREPAGE = 'factureMorePages';
+    
+    const STATUT_REDRESSEE = 'redressee';
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Facture");
@@ -304,14 +306,6 @@ class FactureClient extends acCouchdbClient {
         return $generation;
     }
 
-    public function findByEtablissement($etablissement) {
-        return acCouchdbManager::getClient()
-                        ->startkey(array($etablissement->_id))
-                        ->endkey(array($etablissement->_id, array()))
-                        ->getView("facture", "etablissement")
-                ->rows;
-    }
-
 //
 //    public function getSomme($facture) {
 //        $facture->montant_tcc;
@@ -375,6 +369,10 @@ class FactureClient extends acCouchdbClient {
                 return 'contrats vins';
         }
         return '';
+    }
+    
+    public function isRedressee($statut){
+        return ($statut == self::STATUT_REDRESSEE);
     }
 
 }
