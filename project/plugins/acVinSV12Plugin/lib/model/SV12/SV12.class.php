@@ -4,11 +4,12 @@
  * Model for Vrac
  *
  */
-class SV12 extends BaseSV12 {
+class SV12 extends BaseSV12  {
 
     public function constructId() {
         $this->identifiant = $this->negociant_identifiant.'-'.$this->periode;
         $this->valide->statut = SV12Client::SV12_STATUT_BROUILLON;
+        $this->campagne = '2012-2013';
         $this->set('_id', 'SV12-' . $this->identifiant);
     }
     
@@ -83,6 +84,8 @@ class SV12 extends BaseSV12 {
     public function validate() {
         $this->valide->date_saisie = date('d-m-y');
         $this->valide->statut = SV12Client::SV12_STATUT_VALIDE;
+
+        $this->generateMouvements();
     }
     
     public function saveBrouillon() {
@@ -104,21 +107,21 @@ class SV12 extends BaseSV12 {
             {
                 if($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS)
                 {
-                     $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_raisins += $contrat->volume;
+                    $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_raisins += $contrat->volume;
                     $sv12ByProduitsTypes->volume_raisins+=$contrat->volume;
                 }                
                 if($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS)
                 {
-                     $sv12ByProduitsTypes->rows[$contrat->produit_hash]->mouts += $contrat->volume;
+                    $sv12ByProduitsTypes->rows[$contrat->produit_hash]->mouts += $contrat->volume;
                     $sv12ByProduitsTypes->volume_mouts+=$contrat->volume;
                 }
-                 $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_total += $contrat->volume;
+                $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_total += $contrat->volume;
                 $sv12ByProduitsTypes->volume_total+=$contrat->volume;
             }
             else
             {
                 $sv12ByProduitsTypes->rows[$contrat->produit_hash] = new stdClass();
-                $sv12ByProduitsTypes->rows[$contrat->produit_hash]->appelation = $contrat->produit_libelle;
+                $sv12ByProduitsTypes->rows[$contrat->produit_hash]->appellation = $contrat->produit_libelle;
                 if($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS)
                 {
                     $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_raisins = $contrat->volume;
@@ -136,6 +139,47 @@ class SV12 extends BaseSV12 {
             }
         }
         return $sv12ByProduitsTypes;
+    }
+
+    public function getDate() {
+
+        return date('Y-m-d');
+    }
+
+    public function clearMouvements() {
+        $this->remove('mouvements');
+        $this->add('mouvements');
+    }
+    
+    public function generateMouvements() {
+        $this->clearMouvements();
+        $this->mouvements = $this->getMouvementsCalcule();
+    }
+
+    public function getMouvementsCalcule() {
+        $mouvements = array();
+        foreach($this->contrats as $contrat) {
+            $mouvement = $contrat->getMouvement();
+            $mouvements[$this->getDocument()->negociant_identifiant][$mouvement->getMD5Key()] = $mouvement;
+        }
+
+        return $mouvements;
+    }
+    
+    public function getMouvementsCalculeByIdentifiant($identifiant) {
+        $mouvements = $this->getMouvementsCalcule();
+
+        return isset($mouvements[$identifiant]) ? $mouvements[$identifiant] : array();
+    }
+
+    public function findMouvement($cle){
+
+        return $this->mouvements[$cle];
+    }
+
+    public function getMouvements() {
+
+        return $this->_get('mouvements');
     }
 
 }

@@ -13,7 +13,7 @@
             <?php include_partial('sv12ByProduitsTypes',array('sv12ByProduitsTypes' => $sv12ByProduitsTypes)); ?>
 
             <h2> Détail des mouvements </h2>
-            <?php include_partial('sv12DetailMouvements',array('sv12' => $sv12)); ?>
+            <?php include_partial('mouvements',array('mouvements' => $mouvements)); ?>
             
             <a class="btn_etape_prec" href="<?php echo url_for('sv12_etablissement', $sv12->getEtablissementObject()) ?>" class="btn_suiv">
                 <span>Retour à mon espace</span>

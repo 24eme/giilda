@@ -2,7 +2,7 @@
         <table class="table_recap">
         <thead>
         <tr>
-            <th>Appelation</th>
+            <th>Appellation</th>
             <th>Volume de raisins</th>
             <th>Volume de moûts</th>
             <th>Total</th>                        
@@ -12,7 +12,7 @@
             <?php foreach ($sv12ByProduitsTypes->rows as $sv12Prod) :  ?>
             <tr>
                 <td>
-                    <?php echo $sv12Prod->appelation; ?>
+                    <?php echo $sv12Prod->appellation; ?>
                 </td>
                 <td>
                     <?php echo $sv12Prod->volume_raisins.' hl'; ?>
@@ -30,7 +30,7 @@
             endforeach;
             ?>
             <tr>
-                <td style="font-weight:bold;">Total : </td>
+                <td style="font-weight:bold;">Total</td>
                 <td style="font-weight:bold;"><?php echo $sv12ByProduitsTypes->volume_raisins.' hl'; ?></td>
                 <td style="font-weight:bold;"><?php echo $sv12ByProduitsTypes->volume_mouts.' hl'; ?></td>
                 <td style="font-weight:bold;"><?php echo $sv12ByProduitsTypes->volume_total.' hl'; ?></td>
