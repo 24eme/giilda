@@ -273,7 +273,7 @@ class DRMDetail extends BaseDRMDetail {
       $mouvement->categorie = 'propriete';
 
       if ($this->exist($hash."/".$key."_details")) {
-        //$mouvements = array_merge_recursive($mouvements, $this->get($hash."/".$key."_details")->createMouvements($mouvement));
+        $mouvements = $mouvements + $this->get($hash."/".$key."_details")->createMouvements($mouvement);
         continue;
       }
 
@@ -293,7 +293,7 @@ class DRMDetail extends BaseDRMDetail {
       return null;
     }
 
-    if($this->getDocument()->hasVersion() && $this->getDocument() ->motherExist($this->getHash().'/'.$hash)) {
+    if($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($this->getHash().'/'.$hash)) {
       $volume = $volume - $this->getDocument()->motherGet($this->getHash().'/'.$hash);
     }
 

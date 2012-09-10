@@ -79,7 +79,7 @@ class drmActions extends sfActions
   {
     $this->calendrier = new DRMCalendrier($this->getRoute()->getEtablissement()->identifiant, '2012-2013');
     $this->historique = new DRMHistorique($this->getRoute()->getEtablissement()->identifiant);
-    $this->mouvements = DRMMouvementsView::getInstance()->getMouvementsByEtablissement($this->getRoute()->getEtablissement()->identifiant);
+    $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($this->getRoute()->getEtablissement()->identifiant);
     $this->etablissement = $this->getRoute()->getEtablissement();
   }
 

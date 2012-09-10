@@ -4,12 +4,18 @@
  * Model for DRM
  *
  */
-class DRM extends BaseDRM {
+class DRM extends BaseDRM implements InterfaceMouvementDocument {
 
     const NOEUD_TEMPORAIRE = 'TMP';
     const DEFAULT_KEY = 'DEFAUT';
 
     protected $mother = null;
+    protected $mouvement_document = null;
+
+    public function  __construct() {
+        parent::__construct();   
+        $this->mouvement_document = new MouvementDocument($this);
+    }
 
     public function constructId() {
 
@@ -175,9 +181,8 @@ class DRM extends BaseDRM {
     }
     
     public function getInterpro() {
-    	
       	if ($this->getEtablissement()) {
-         	
+
          	return $this->getEtablissement()->getInterproObject();
      	}
     }
@@ -699,28 +704,37 @@ class DRM extends BaseDRM {
     	$editeur->date_modification = date('c');
     }
 
+    /**** MOUVEMENTS ****/
+
+    public function getMouvements() {
+
+        return $this->_get('mouvements');
+    }
+
     public function getMouvementsCalcule() {
         
         return $this->declaration->getMouvements();
     }
 
     public function getMouvementsCalculeByIdentifiant($identifiant) {
-        $mouvements = $this->getMouvementsCalcule();
-
-        return isset($mouvements[$identifiant]) ? $mouvements[$identifiant] : array();
-    }
-
-    public function clearMouvements() {
-        $this->remove('mouvements');
-        $this->add('mouvements');
+       
+       return $this->mouvement_document->getMouvementsCalculeByIdentifiant($identifiant);
     }
     
     public function generateMouvements() {
-        $this->clearMouvements();
-        $this->mouvements = $this->getMouvementsCalcule();
+
+        return $this->mouvement_document->generateMouvements();
     }
     
-    public function findMouvement($cle_mouvement){
-         return $this->mouvements[$cle_mouvement];
+    public function findMouvement($cle){
+        
+        return $this->mouvement_document->findMouvement($cle);
     }
+
+    public function clearMouvements(){
+        
+        return $this->mouvement_document->clearMouvements();
+    }
+
+    /**** FIN DES MOUVEMENTS ****/
 }

@@ -18,7 +18,7 @@ class DRMMouvementsConsultationView extends MouvementsConsultationView
 
     public function getMouvementsByEtablissement($id_or_identifiant) {
 
-        return $this->buildMouvements($this->findByTypeAndEtablissement($id_or_identifiant)->rows);      
+        return $this->buildMouvements($this->findByEtablissement($id_or_identifiant)->rows);      
     }
 
     public function getMouvementsByEtablissementAndPeriode($id_or_identifiant, $periode) {
