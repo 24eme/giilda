@@ -27,7 +27,7 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function getFacturationForEtablissement($etablissement, $level) {
-        return FactureMouvementsDRMView::getInstance()->getMouvementsByEtablissementWithReduce($etablissement, 0, 1, $level);
+        return MouvementFacturationView::getInstance()->getMouvementsByEtablissementWithReduce($etablissement, 0, 1, $level);
     }
 
     public function createDoc($factures, $etablissement, $date_facturation = null) {
@@ -69,39 +69,39 @@ class FactureClient extends acCouchdbClient {
 
     private function createFactureLigne($lignesByType, $facture) {
 
-        $cvo = $lignesByType->value[FactureMouvementsDRMView::VALUE_CVO];
-        $montant_ht = $cvo * $lignesByType->value[FactureMouvementsDRMView::VALUE_VOLUME] * -1;
-        $volume = $lignesByType->value[FactureMouvementsDRMView::VALUE_VOLUME];
+        $cvo = $lignesByType->value[MouvementFacturationView::VALUE_CVO];
+        $montant_ht = $cvo * $lignesByType->value[MouvementFacturationView::VALUE_VOLUME] * -1;
+        $volume = $lignesByType->value[MouvementFacturationView::VALUE_VOLUME];
 
-        $ligneObj = $facture->lignes->add($lignesByType->key[FactureMouvementsDRMView::KEYS_MATIERE])->add();
-        $ligneObj->origine_type = $lignesByType->key[FactureMouvementsDRMView::KEYS_ORIGIN];
-        $ligneObj->origine_identifiant = $lignesByType->value[FactureMouvementsDRMView::VALUE_NUMERO];
-        $ligneObj->origine_libelle = 'DRM de ' . $lignesByType->value[FactureMouvementsDRMView::VALUE_NUMERO]; //A construire
-        $ligneObj->origine_date = $lignesByType->key[FactureMouvementsDRMView::KEYS_PERIODE];
-        $ligneObj->produit_type = $lignesByType->key[FactureMouvementsDRMView::KEYS_MATIERE];
-        $ligneObj->produit_libelle = $lignesByType->value[FactureMouvementsDRMView::VALUE_PRODUIT_LIBELLE];
-        $ligneObj->produit_hash = $lignesByType->key[FactureMouvementsDRMView::KEYS_PRODUIT_ID];
+        $ligneObj = $facture->lignes->add($lignesByType->key[MouvementFacturationView::KEYS_MATIERE])->add();
+        $ligneObj->origine_type = $lignesByType->key[MouvementFacturationView::KEYS_ORIGIN];
+        $ligneObj->origine_identifiant = $lignesByType->value[MouvementFacturationView::VALUE_NUMERO];
+        $ligneObj->origine_libelle = 'DRM de ' . $lignesByType->value[MouvementFacturationView::VALUE_NUMERO]; //A construire
+        $ligneObj->origine_date = $lignesByType->key[MouvementFacturationView::KEYS_PERIODE];
+        $ligneObj->produit_type = $lignesByType->key[MouvementFacturationView::KEYS_MATIERE];
+        $ligneObj->produit_libelle = $lignesByType->value[MouvementFacturationView::VALUE_PRODUIT_LIBELLE];
+        $ligneObj->produit_hash = $lignesByType->key[MouvementFacturationView::KEYS_PRODUIT_ID];
         $this->createContratsIdentifiants($ligneObj,$lignesByType);
         $ligneObj->echeance_code = 'A'; //a remettre en place
         $ligneObj->volume = $volume;
         $ligneObj->cotisation_taux = $cvo;
         $ligneObj->montant_ht = $montant_ht;
-        $ligneObj->origine_mouvements = $lignesByType->value[FactureMouvementsDRMView::VALUE_ORIGINE_CLES];
+        $ligneObj->origine_mouvements = $lignesByType->value[MouvementFacturationView::VALUE_ORIGINE_CLES];
         return $montant_ht;
     }
 
     private function createContratsIdentifiants($ligneObj,$lignesByType) {       
         
-        $isfromcontrat  = isset($lignesByType->key[FactureMouvementsDRMView::KEYS_CONTRAT_ID]);
+        $isfromcontrat  = isset($lignesByType->key[MouvementFacturationView::KEYS_CONTRAT_ID]);
         
         $ligneObj->contrat_identifiant = ($isfromcontrat)? 
-                                            $lignesByType->key[FactureMouvementsDRMView::KEYS_CONTRAT_ID] :
+                                            $lignesByType->key[MouvementFacturationView::KEYS_CONTRAT_ID] :
                                             null;
         $ligneObj->contrat_libelle = null; 
         if($isfromcontrat)
             {
-            $ligneObj->contrat_libelle = 'Contrat num. ' . preg_replace('/VRAC-/', '', $lignesByType->key[FactureMouvementsDRMView::KEYS_CONTRAT_ID]);
-            $ligneObj->contrat_libelle .=' '.$lignesByType->value[FactureMouvementsDRMView::VALUE_DETAIL_LIBELLE];
+            $ligneObj->contrat_libelle = 'Contrat num. ' . preg_replace('/VRAC-/', '', $lignesByType->key[MouvementFacturationView::KEYS_CONTRAT_ID]);
+            $ligneObj->contrat_libelle .=' '.$lignesByType->value[MouvementFacturationView::VALUE_DETAIL_LIBELLE];
             }  
     }
 
@@ -219,11 +219,11 @@ class FactureClient extends acCouchdbClient {
 
     public function getMouvementsForMasse($regions,$level) {
         if(!$regions){
-            return FactureMouvementsDRMView::getInstance()->getMouvements(0, 1,$level);
+            return MouvementFacturationView::getInstance()->getMouvements(0, 1,$level);
         }
         $mouvementsByRegions = array();
         foreach ($regions as $region) {
-            $mouvementsByRegions = array_merge(FactureMouvementsDRMView::getInstance()->getMouvementsFacturablesByRegions(0, 1,$region,$level),$mouvementsByRegions);
+            $mouvementsByRegions = array_merge(MouvementFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1,$region,$level),$mouvementsByRegions);
         }
         return $mouvementsByRegions;    
     }
@@ -232,11 +232,11 @@ class FactureClient extends acCouchdbClient {
 
         $generationFactures = array();
         foreach ($mouvements as $mouvement) {
-            if (array_key_exists($mouvement->key[FactureMouvementsDRMView::KEYS_ETB_ID], $generationFactures)) {
-                $generationFactures[$mouvement->key[FactureMouvementsDRMView::KEYS_ETB_ID]][] = $mouvement;
+            if (array_key_exists($mouvement->key[MouvementFacturationView::KEYS_ETB_ID], $generationFactures)) {
+                $generationFactures[$mouvement->key[MouvementFacturationView::KEYS_ETB_ID]][] = $mouvement;
             } else {
-                $generationFactures[$mouvement->key[FactureMouvementsDRMView::KEYS_ETB_ID]] = array();
-                $generationFactures[$mouvement->key[FactureMouvementsDRMView::KEYS_ETB_ID]][] = $mouvement;
+                $generationFactures[$mouvement->key[MouvementFacturationView::KEYS_ETB_ID]] = array();
+                $generationFactures[$mouvement->key[MouvementFacturationView::KEYS_ETB_ID]][] = $mouvement;
             }
         }
         return $generationFactures;
@@ -246,7 +246,7 @@ class FactureClient extends acCouchdbClient {
         foreach ($mouvementsByEtb as $k => $mouvements) {
             foreach ($mouvements as $key => $mouvement) {
                 if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '') &&
-                        ($this->supEqDate($mouvement->value[FactureMouvementsDRMView::VALUE_DATE], $parameters['date_mouvement']))) {
+                        ($this->supEqDate($mouvement->value[MouvementFacturationView::VALUE_DATE], $parameters['date_mouvement']))) {
                     unset($mouvements[$key]);
                 }
             }
@@ -260,7 +260,7 @@ class FactureClient extends acCouchdbClient {
             $somme = 0;
             //perturbant? 2 niveau de filtre ici => facture?
             foreach ($mouvements as $mouvement) {
-                $somme += $mouvement->value[FactureMouvementsDRMView::VALUE_VOLUME] * $mouvement->value[FactureMouvementsDRMView::VALUE_CVO];
+                $somme += $mouvement->value[MouvementFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementFacturationView::VALUE_CVO];
             }
             $somme = abs($somme);
             $somme = $this->ttc($somme);

@@ -34,7 +34,7 @@ class factureActions extends sfActions {
     public function executeMonEspace(sfWebRequest $resquest) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->factures = FactureEtablissementView::getInstance()->findByEtablissement($this->etablissement);
-        $this->mouvements = FactureMouvementsDRMView::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
+        $this->mouvements = MouvementFacturationView::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
     }
     
     public function executeDefacturer(sfWebRequest $resquest) {
