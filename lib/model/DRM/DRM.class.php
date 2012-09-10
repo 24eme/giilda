@@ -35,7 +35,7 @@ class DRM extends BaseDRM {
 
     public function getDate() {
         
-        return sprintf('%4d-%2d-%2d', $this->getAnnee(), $this->getMois(), date("t",$this->getMois()));
+        return sprintf('%4d-%02d-%02d', $this->getAnnee(), $this->getMois(), date("t",$this->getMois()));
     }
 
     public function setPeriode($periode) {
