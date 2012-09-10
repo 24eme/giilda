@@ -25,11 +25,11 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
         $mouvements = array();
 
         foreach($this as $detail) {
-	  $mouvement = $this->createMouvement(clone $template_mouvement, $detail);
+	        $mouvement = $this->createMouvement(clone $template_mouvement, $detail);
             if(!$mouvement){
                 continue;
             }
-            $mouvements[$mouvement->getMD5Key()] = $mouvement;
+            $mouvements[$this->getDocument()->getIdentifiant()][$mouvement->getMD5Key()] = $mouvement;
         }
         return $mouvements;
     }

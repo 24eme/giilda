@@ -14,11 +14,11 @@
         <?php $i = 1; ?>
         <?php foreach($mouvements as $mouvement): ?>
         <?php $i++; ?>
-            <tr <?php if($i%2!=0) echo ($mouvement->volume>0)? ' class="alt"' : 'class="alt"';  ?>>
+            <tr <?php if($i%2!=0) echo ($mouvement->volume > 0)? ' class="alt"' : 'class="alt"';  ?>>
                 <td><?php echo $mouvement->version.' - '.format_date($mouvement->date_version);?></td>
                 <td><?php echo $mouvement->produit_libelle ?> </td>
                 <td><?php echo $mouvement->type_libelle.' '.$mouvement->detail_libelle ?></td>
-                <td <?php echo ($mouvement->volume>0)? ' class="positif"' : 'class="negatif"';?> >
+                <td <?php echo ($mouvement->volume > 0)? ' class="positif"' : 'class="negatif"';?> >
                     <?php  echoSignedFloat($mouvement->volume); ?>
                 </td>
             </tr>

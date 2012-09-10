@@ -249,10 +249,10 @@ class DRMDetail extends BaseDRMDetail {
   }
 
   public function getMouvements() {
-    return array_merge(
-            $this->getMouvementsByNoeud('entrees'),
-            $this->getMouvementsByNoeud('sorties')
-           );
+    return 
+            $this->getMouvementsByNoeud('entrees') + 
+            $this->getMouvementsByNoeud('sorties');
+           
   }
 
   public function getMouvementsByNoeud($hash) {
@@ -268,12 +268,12 @@ class DRMDetail extends BaseDRMDetail {
       $mouvement->produit_libelle = $this->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
       $mouvement->facture = 0;
       $mouvement->cvo = $this->getDroitCVO()->taux;
-      $mouvement->version = $this->GetDocument()->getVersion();
+      $mouvement->version = $this->getDocument()->getVersion();
       $mouvement->date_version = date('Y-m-d');
       $mouvement->categorie = 'propriete';
 
       if ($this->exist($hash."/".$key."_details")) {
-        $mouvements = array_merge($mouvements, $this->get($hash."/".$key."_details")->createMouvements($mouvement));
+        //$mouvements = array_merge_recursive($mouvements, $this->get($hash."/".$key."_details")->createMouvements($mouvement));
         continue;
       }
 
@@ -281,7 +281,8 @@ class DRMDetail extends BaseDRMDetail {
       if(!$mouvement){
           continue;
       }
-      $mouvements[$mouvement->getMD5Key()] = $mouvement;
+
+      $mouvements[$this->getDocument()->getIdentifiant()][$mouvement->getMD5Key()] = $mouvement;
     }
 
     return $mouvements;

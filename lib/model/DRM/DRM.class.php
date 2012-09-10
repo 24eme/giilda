@@ -699,6 +699,17 @@ class DRM extends BaseDRM {
     	$editeur->date_modification = date('c');
     }
 
+    public function getMouvementsCalcule() {
+        
+        return $this->declaration->getMouvements();
+    }
+
+    public function getMouvementsCalculeByIdentifiant($identifiant) {
+        $mouvements = $this->getMouvementsCalcule();
+
+        return isset($mouvements[$identifiant]) ? $mouvements[$identifiant] : array();
+    }
+
     public function clearMouvements() {
         $this->remove('mouvements');
         $this->add('mouvements');
@@ -706,7 +717,7 @@ class DRM extends BaseDRM {
     
     public function generateMouvements() {
         $this->clearMouvements();
-        $this->mouvements = $this->declaration->getMouvements();
+        $this->mouvements = $this->getMouvementsCalcule();
     }
     
     public function findMouvement($cle_mouvement){
