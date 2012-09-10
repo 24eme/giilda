@@ -98,8 +98,8 @@ class FactureClient extends acCouchdbClient {
         $ligneObj->contrat_libelle = null; 
         if($isfromcontrat)
             {
-            $ligneObj->contrat_libelle = 'Contrat num. ' . preg_replace('/VRAC-/', '', $lignesByType->key[FactureMouvementsDRMView::KEYS_CONTRAT_ID])
-            $ligneObj->contrat_libelle .=' '.$lignesByType->value[FactureMouvementsDRMView::VALUE_DETAIL_LIBELLE] :
+            $ligneObj->contrat_libelle = 'Contrat num. ' . preg_replace('/VRAC-/', '', $lignesByType->key[FactureMouvementsDRMView::KEYS_CONTRAT_ID]);
+            $ligneObj->contrat_libelle .=' '.$lignesByType->value[FactureMouvementsDRMView::VALUE_DETAIL_LIBELLE];
             }  
     }
 
