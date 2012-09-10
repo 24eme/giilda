@@ -18,10 +18,10 @@ class factureActions extends sfActions {
        
        $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
        $regions = (!isset($parameters['region']))? null : $parameters['region'];
-       $allMouvements = FactureClient::getInstance()->getMouvementsForMasse($regions);       
-       $mouvementsByEtb = FactureClient::getInstance()->getMouvementsNonFacturesByEtb($allMouvements);
-       
+       $allMouvements = FactureClient::getInstance()->getMouvementsForMasse($regions,9); 
+       $mouvementsByEtb = FactureClient::getInstance()->getMouvementsNonFacturesByEtb($allMouvements);       
        $mouvementsByEtb = FactureClient::getInstance()->filterWithParameters($mouvementsByEtb,$parameters);
+       
        if($mouvementsByEtb)
        {
        $generation = FactureClient::getInstance()->createFacturesByEtb($mouvementsByEtb,$parameters['date_facturation']);
@@ -34,17 +34,17 @@ class factureActions extends sfActions {
     public function executeMonEspace(sfWebRequest $resquest) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->factures = FactureClient::getInstance()->findByEtablissement($this->etablissement);
-        $this->mouvements = FactureMouvementsDRMView::getInstance()->getAFactureByEtablissement($this->etablissement);
+        $this->mouvements = FactureMouvementsDRMView::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
     }
     
     public function executeDefacturer(sfWebRequest $resquest) {
         $this->facture = $this->getRoute()->getFacture();
         foreach ($this->facture->getLignes() as $ligne) {
-            $ligne->defacturerMouvement();
+            $ligne->defacturerMouvements();
         }
         $this->facture->save();
-         exit;
-        
+        $this->etablissement = EtablissementClient::getInstance()->findByIdentifiant($this->facture->client_reference);
+        $this->redirect('facture_etablissement', $this->etablissement);        
     }
 
 
@@ -53,7 +53,7 @@ class factureActions extends sfActions {
         $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
         
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->facturations = FactureClient::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
+        $this->facturations = FactureClient::getInstance()->getFacturationForEtablissement($this->etablissement,9);
         $facture = FactureClient::getInstance()->createDoc($this->facturations,$this->etablissement,$parameters['date_facturation']);
         $facture->save();
         $this->redirect('facture_etablissement', $this->etablissement);
@@ -67,24 +67,16 @@ class factureActions extends sfActions {
         
         $this->facture = FactureClient::getInstance()->findByEtablissementAndId($this->getRoute()->getEtablissement()->identifiant, $request->getParameter('factureid'));
         $this->forward404Unless($this->facture);
-        
-        $lignes = $this->facture->createHashForPdf();
-        
-        $nbLigne = FactureClient::getInstance()->countNbLignes($this->facture,$lignes);
-       
-        $templateFormat = $this->nbPagesPdf($nbLigne);
+        $templateFormat = FactureClient::getInstance()->getTemplate($this->facture->nb_page);
         
         $this->srcPdf = $this->getPartial('generateTex',array('facture' => $this->facture,
-                                                              'lignes' => $lignes,
-                                                              'nbLigne' => $nbLigne,
-                                                              'template' => $templateFormat[1],
-                                                              'nbPages' => $templateFormat[0],
+                                                              'template' => $templateFormat,
                                                               'total_rows' => FactureClient::MAX_LIGNE_TEMPLATE_ONEPAGE));
-
-        $this->srcTexFilename = $this->facture->identifiant.'_'.$this->facture->client_reference.'-'.$templateFormat[0].'page';
+        
+        $this->srcTexFilename = $this->facture->identifiant.'_'.$this->facture->client_reference.'-'.$templateFormat;
         $this->extTex = 'tex';
         $this->statut = $this->creerFichier($this->srcTexFilename, $this->extTex,  $this->srcPdf);
-
+        
         $cmdCompileLatex = '/usr/bin/pdflatex -output-directory='.$this->getLatexTmpPath().' -synctex=1 -interaction=nonstopmode '.$this->getLatexPath().$this->srcTexFilename.'.'.$this->extTex.' 2> /dev/null';
 
         $output = exec($cmdCompileLatex, $output, $ret);
@@ -148,18 +140,5 @@ class factureActions extends sfActions {
         $t_infoCreation['permissionAppliquer'] = $retour;
 
         return $t_infoCreation;
-    }
-    
-    private function nbPagesPdf($nbLigne) {
-        if($nbLigne < FactureClient::MAX_LIGNE_TEMPLATE_ONEPAGE){
-            return array(1,FactureClient::TEMPLATE_ONEPAGE);
-        }
-        if($nbLigne < FactureClient::MAX_LIGNE_TEMPLATE_TWOPAGE){
-            return array(2,FactureClient::TEMPLATE_TWOPAGE);
-        }
-        else{
-            return array(3,FactureClient::TEMPLATE_MOREPAGE);
-        }
-            
     }
 }

@@ -59,5 +59,8 @@ abstract class BaseFactureLigne extends acCouchdbDocumentTree {
        $this->_root_class_name = 'Facture';
        $this->_tree_class_name = 'FactureLigne';
     }
+    
+    
+    
                 
 }

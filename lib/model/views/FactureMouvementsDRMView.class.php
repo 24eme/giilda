@@ -11,8 +11,10 @@ class FactureMouvementsDRMView extends acCouchdbView
     const KEYS_MATIERE = 5;
     const KEYS_PRODUIT_ID = 6;
     const KEYS_PERIODE = 7;
-    const KEYS_MVT_TYPE = 8;
-    const KEYS_DETAIL_ID = 9;
+    const KEYS_CONTRAT_ID = 8;
+    const KEYS_MVT_TYPE = 9;
+    const KEYS_DETAIL_ID = 10;
+                    
     
     const VALUE_PRODUIT_LIBELLE = 0;
     const VALUE_TYPE_LIBELLE = 1;
@@ -21,7 +23,7 @@ class FactureMouvementsDRMView extends acCouchdbView
     const VALUE_DATE = 4;
     const VALUE_DETAIL_LIBELLE = 5;
     const VALUE_NUMERO = 6;
-    const VALUE_MD5_CLE = 7;
+    const VALUE_ORIGINE_CLES = 7;
     
 
     public static function getInstance() {
@@ -30,29 +32,42 @@ class FactureMouvementsDRMView extends acCouchdbView
     }
     
     
-    public function getFacturationByEtablissement($etablissement,$facturee, $facturable) {        
+    public function getMouvementsByEtablissement($etablissement,$facturee, $facturable) {        
         return $this->client
             ->startkey(array($facturee,$facturable,'tours',$etablissement->identifiant))
             ->endkey(array($facturee,$facturable,'tours',$etablissement->identifiant, array()))
+            ->reduce(false)
             ->getView($this->design, $this->view)->rows;
     }
     
-    public function getAFactureByEtablissement($etablissement) {
+    public function getMouvementsByEtablissementWithReduce($etablissement,$facturee, $facturable,$level)
+    {
+        return $this->client
+            ->startkey(array($facturee,$facturable,'tours',$etablissement->identifiant))
+            ->endkey(array($facturee,$facturable,'tours',$etablissement->identifiant, array()))
+            ->reduce(true)->group_level($level)
+            ->getView($this->design, $this->view)->rows;
+    }
 
-        return $this->buildMouvements($this->getFacturationByEtablissement($etablissement, 0, 1));      
+
+    public function getMouvementsNonFacturesByEtablissement($etablissement) {
+
+        return $this->buildMouvements($this->getMouvementsByEtablissement($etablissement, 0, 1));     
     }
     
-    public function getMouvementsFacturables($facturee, $facturable) {
+    public function getMouvements($facturee, $facturable,$level) {
         return $this->client
             ->startkey(array($facturee,$facturable))
             ->endkey(array($facturee,$facturable, array()))
+            ->reduce(true)->group_level($level)
             ->getView($this->design, $this->view)->rows;
     }
 
-    public function getMouvementsFacturablesByRegions($facturee, $facturable,$region) {
+    public function getMouvementsFacturablesByRegions($facturee, $facturable,$region,$level) {
         return $this->client
             ->startkey(array($facturee,$facturable,$region))
             ->endkey(array($facturee,$facturable,$region, array()))
+            ->reduce(true)->group_level($level)
             ->getView($this->design, $this->view)->rows;
     }
 

@@ -9,6 +9,7 @@ Facture:
       date_emission: {}
       date_facturation: {}
       campagne: {}
+      nb_page: {type: integer}
       emetteur:
         type: collection
         definition:
@@ -31,7 +32,7 @@ Facture:
       total_ht: {type: float}
       total_ttc: {type: float}
       lignes:
-        type: array_collection
+        type: collection
         definition:
           fields:
             '*':
@@ -51,7 +52,6 @@ Facture:
                         produit_type: {}
                         produit_libelle: {}
                         produit_hash: {}
-                        mouvement_type: {}
                         contrat_identifiant: {}
                         contrat_libelle: {}
                         echeance_code: {}

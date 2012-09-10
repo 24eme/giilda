@@ -40,7 +40,7 @@ class Facture extends BaseFacture {
     public function facturerMouvements()
     {
         foreach ($this->getLignes() as $l) {
-           $l->facturerMouvement();
+                   $l->facturerMouvements();
         }
     }            
     
@@ -50,7 +50,7 @@ class Facture extends BaseFacture {
         return $e;
     }
     
-    public function getLignes() {
+    public function getLignesArray() {
         $l = $this->_get('lignes')->toArray();
         usort($l, 'Facture::triOrigineDate');
         return $l;
@@ -74,29 +74,29 @@ class Facture extends BaseFacture {
     }
     
     
-    public function createHashForPdf()
-    {
-        $lignes = array();
-        foreach ($this->getLignes() as $ligne) 
-        {
-            $key = $this->createKeyForHashedLignes($ligne);
-            if(array_key_exists($key, $lignes))
-            {               
-                $lignes[$key]->montant_ht += $ligne->montant_ht; 
-                $lignes[$key]->volume += $ligne->volume;
-            }
-            else
-            {
-                $lignes[$key] = $ligne;                
-            }
-            $lignes[$key] = $ligne;
-        }
-        return $lignes;
-    }
+//    public function createHashForPdf()
+//    {
+//        $lignes = array();
+//        foreach ($this->getLignes() as $ligne) 
+//        {
+//            $key = $this->createKeyForHashedLignes($ligne);
+//            if(array_key_exists($key, $lignes))
+//            {               
+//                $lignes[$key]->montant_ht += $ligne->montant_ht; 
+//                $lignes[$key]->volume += $ligne->volume;
+//            }
+//            else
+//            {
+//                $lignes[$key] = $ligne;                
+//            }
+//            $lignes[$key] = $ligne;
+//        }
+//        return $lignes;
+//    }
 
-    private function createKeyForHashedLignes($ligne) {
-        return '#'.$ligne->mouvement_type.'#'.$ligne->produit_type.'#'.$ligne->produit_hash.'#'.$ligne->origine_identifiant.'#';
-    } 
+//    private function createKeyForHashedLignes($ligne) {
+//        return '#'.$ligne->mouvement_type.'#'.$ligne->produit_type.'#'.$ligne->produit_hash.'#'.$ligne->origine_identifiant.'#';
+//    } 
     
     
 }

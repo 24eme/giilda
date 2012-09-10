@@ -1,6 +1,6 @@
 <?php
 use_helper('Float');
-$lignes = $lignes->getRawValue();
+$nb_ligne = 0;
 ?>
 \documentclass[6pt]{article}
 \usepackage[english]{babel}
@@ -112,7 +112,7 @@ $lignes = $lignes->getRawValue();
 				\FactureClientCP ~\FactureClientVille \\
 			\end{flushleft}
 		\hspace{6cm}
-		page \thepage / <?php echo $nbPages; ?>
+		page \thepage / <?php echo $facture->nb_page; ?>
 \end{minipage}
 
 \centering
@@ -132,61 +132,32 @@ $lignes = $lignes->getRawValue();
   
   			\hline
                 <?php 
-                if(FactureClient::getInstance()->hasCritereInHashedLignes($lignes,FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE)) : 
+                $nb_ligne += count($facture->lignes);
+                foreach ($facture->lignes as $type => $typeLignes) :
                 ?>
-                \textbf{Sortie de propriété} & ~ & ~ & ~ & ~ & ~ & \\
-            <?php endif;
-                 $produits = FactureClient::getInstance()->getProduitsFromHashedLignes($lignes,
-                                                                                       FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE,
-                                                                                       FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS);
-                 foreach ($produits as $prodHash => $produit) :                       
-                    $docOrigins = FactureClient::getInstance()->getOriginsFromHashedLignes($lignes,
-                                                                                       FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE,
-                                                                                       FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS,
-                                                                                       $prodHash);
-                    foreach ($docOrigins as $origin): 
+                \textbf{Sortie de <?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>} & ~ & ~ & ~ & ~ & ~ & \\
+            <?php 
+                 $produits = FactureClient::getInstance()->getProduitsFromTypeLignes($typeLignes);
+                 $nb_ligne += count($produits);
+                 
+                 foreach ($produits as $prodHash => $p) :   
+                     foreach ($p as $produit):
+                            $produit = $produit->getRawValue();
                         ?>      
-                    ~~~~<?php echo $produit.' \begin{tiny}'.$origin->origine_identifiant.'\end{tiny}'; ?> &
-                            \multicolumn{1}{r|}{<?php echo $origin->origine_date; ?>} & 
-                            \multicolumn{1}{r|}{<?php echoFloat($origin->volume); ?>} &
-                            \multicolumn{1}{r|}{<?php echoFloat($origin->cotisation_taux); ?>} & 
-                            \multicolumn{1}{r|}{<?php echoFloat($origin->montant_ht); ?>\texteuro{}} & 
-                            \multicolumn{1}{c}{<?php echo $origin->echeance_code ?>} & \\
+                ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$produit->origine_identifiant.'\end{tiny}'; ?> &
+                            \multicolumn{1}{r|}{<?php echo $produit->origine_date; ?>} & 
+                            \multicolumn{1}{r|}{<?php echoFloat($produit->volume); ?>} &
+                            \multicolumn{1}{r|}{<?php echoFloat($produit->cotisation_taux); ?>} & 
+                            \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>\texteuro{}} & 
+                            \multicolumn{1}{c}{<?php echo $produit->echeance_code ?>} & \\
 
-                <?php endforeach;
+                <?php 
+                    endforeach;
+                    endforeach;
                 endforeach;
                 
-                if(FactureClient::getInstance()->hasCritereInHashedLignes($lignes,FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT)) :
-                
-                $types = FactureClient::getInstance()->getTypesTransactionsFromHashedLignes($lignes,FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT);                    
-                    foreach ($types as $type) :
-                        $produits = FactureClient::getInstance()->getProduitsFromHashedLignes($lignes,
-                                                                                       FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT,
-                                                                                       $type);                        
-                        ?>
-                        \textbf{Sortie de contrat <?php echo $type; ?>} & ~ & ~ & ~ & ~ & ~ & \\
-                        <?php  
-                        foreach ($produits as $prodHash => $produit) :  
-                            $docOrigins = FactureClient::getInstance()->getOriginsFromHashedLignes($lignes,
-                                                                                       FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT,
-                                                                                       $type,
-                                                                                       $prodHash);
-                            
-                            foreach ($docOrigins as $origin): 
-                                ?>  
-                                    ~~~<?php echo $produit.' '.$origin->contrat_libelle; ?> & 
-                                    \multicolumn{1}{r|}{<?php echo $origin->origine_date; ?>} & 
-                                    \multicolumn{1}{r|}{<?php echoFloat($origin->volume); ?>} &
-                                    \multicolumn{1}{r|}{<?php echo $origin->cotisation_taux ?>} & 
-                                    \multicolumn{1}{r|}{<?php echoFloat($origin->montant_ht) ?>\texteuro{}} & 
-                                    \multicolumn{1}{c}{<?php echo $origin->echeance_code ?>} & \\
-
-                        <?php  endforeach;
-                        endforeach;
-                    endforeach;
-                
-                endif;
-                for($i=0; $i<($total_rows-$nbLigne);$i++):
+               
+                for($i=0; $i<($total_rows - $nb_ligne);$i++):
                 ?>
         ~ & ~ & ~ & ~ & ~ & ~ & \\
                 <?php 
