@@ -4,7 +4,14 @@
  * Model for Vrac
  *
  */
-class SV12 extends BaseSV12  {
+class SV12 extends BaseSV12 implements InterfaceMouvementDocument {
+
+    protected $mouvement_document = null;
+
+    public function  __construct() {
+        parent::__construct();   
+        $this->mouvement_document = new MouvementDocument($this);
+    }
 
     public function constructId() {
         $this->identifiant = $this->negociant_identifiant.'-'.$this->periode;
@@ -146,17 +153,15 @@ class SV12 extends BaseSV12  {
         return date('Y-m-d');
     }
 
-    public function clearMouvements() {
-        $this->remove('mouvements');
-        $this->add('mouvements');
-    }
-    
-    public function generateMouvements() {
-        $this->clearMouvements();
-        $this->mouvements = $this->getMouvementsCalcule();
+    /**** MOUVEMENTS ****/
+
+    public function getMouvements() {
+
+        return $this->_get('mouvements');
     }
 
     public function getMouvementsCalcule() {
+        
         $mouvements = array();
         foreach($this->contrats as $contrat) {
             $mouvement = $contrat->getMouvement();
@@ -165,21 +170,27 @@ class SV12 extends BaseSV12  {
 
         return $mouvements;
     }
-    
+
     public function getMouvementsCalculeByIdentifiant($identifiant) {
-        $mouvements = $this->getMouvementsCalcule();
-
-        return isset($mouvements[$identifiant]) ? $mouvements[$identifiant] : array();
+       
+       return $this->mouvement_document->getMouvementsCalculeByIdentifiant($identifiant);
     }
+    
+    public function generateMouvements() {
 
+        return $this->mouvement_document->generateMouvements();
+    }
+    
     public function findMouvement($cle){
-
-        return $this->mouvements[$cle];
+        
+        return $this->mouvement_document->findMouvement($cle);
     }
 
-    public function getMouvements() {
-
-        return $this->_get('mouvements');
+    public function clearMouvements(){
+        
+        return $this->mouvement_document->clearMouvements();
     }
+
+    /**** FIN DES MOUVEMENTS ****/
 
 }
