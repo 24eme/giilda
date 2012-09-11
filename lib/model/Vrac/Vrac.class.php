@@ -95,9 +95,9 @@ class Vrac extends BaseVrac {
        $this->vendeur->code_postal = $vendeurObj->siege->code_postal;       
     }
 
-    public function setDate($attribut, $date) {
-      if (preg_match('/\//', $d, $m)) {
-	$d = $m[3].'-'.$m[2].'-'.$m[1];
+    public function setDate($attribut, $d) {
+      if (preg_match('/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/', $d, $m)) {
+	     $d = $m[3].'-'.$m[2].'-'.$m[1];
       }
       return $this->_set($attribut, $d);
     }
