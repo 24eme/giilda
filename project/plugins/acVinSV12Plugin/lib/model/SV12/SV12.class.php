@@ -163,8 +163,11 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument {
         
         $mouvements = array();
         foreach($this->contrats as $contrat) {
-            $mouvement = $contrat->getMouvement();
-            $mouvements[$this->getDocument()->identifiant][$mouvement->getMD5Key()] = $mouvement;
+            $mouvement_vendeur = $contrat->getMouvementVendeur();
+            $mouvements[$contrat->getVrac()->vendeur_identifiant][$mouvement_vendeur->getMD5Key()] = $mouvement_vendeur;
+
+            $mouvement_acheteur = $contrat->getMouvementAcheteur();
+            $mouvements[$this->getDocument()->identifiant][$mouvement_acheteur->getMD5Key()] = $mouvement_acheteur;
         }
 
         return $mouvements;
@@ -186,8 +189,8 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument {
     }
 
     public function clearMouvements(){
-        
-        return $this->mouvement_document->clearMouvements();
+        $this->remove('mouvements');
+        $this->add('mouvements');
     }
 
     /**** FIN DES MOUVEMENTS ****/
