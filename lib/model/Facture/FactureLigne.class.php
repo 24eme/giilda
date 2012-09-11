@@ -12,7 +12,6 @@
 class FactureLigne extends BaseFactureLigne {
     
    public function getDocumentOrigine() {
-        
         return $this->getDocument()->getDocumentOrigine($this->origine_identifiant);
     }
     
@@ -26,10 +25,9 @@ class FactureLigne extends BaseFactureLigne {
         return $mouvements;
     }
     
-    public function facturerMouvements() {
-       
+    public function facturerMouvements() {       
         foreach ($this->getMouvements() as $mouv) {
-               $mouv->facturer();
+            $mouv->facturer();
         }
     }
     

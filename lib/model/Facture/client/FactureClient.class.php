@@ -2,7 +2,7 @@
 class FactureClient extends acCouchdbClient {
 
     const FACTURE_LIGNE_ORIGINE_TYPE_DRM = "DRM";
-    const FACTURE_LIGNE_ORIGINE_TYPE_SV = "SV";
+    const FACTURE_LIGNE_ORIGINE_TYPE_SV = "SV12";
     const FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE = "propriete";
     const FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT = "contrat";
     const FACTURE_LIGNE_PRODUIT_TYPE_VINS = "contrat_vins";
@@ -73,14 +73,13 @@ class FactureClient extends acCouchdbClient {
 
         $ligneObj = $facture->lignes->add($lignesByType->key[MouvementFacturationView::KEYS_MATIERE])->add();
         $ligneObj->origine_type = $lignesByType->key[MouvementFacturationView::KEYS_ORIGIN];        
-        $ligneObj->origine_identifiant = $lignesByType->value[MouvementFacturationView::VALUE_NUMERO];
-        $this->createOrigineLibelle($ligneObj);
+        $ligneObj->origine_identifiant = $lignesByType->value[MouvementFacturationView::VALUE_NUMERO];        
         $ligneObj->origine_date = $lignesByType->key[MouvementFacturationView::KEYS_PERIODE];
         $ligneObj->produit_type = $lignesByType->key[MouvementFacturationView::KEYS_MATIERE];
         $ligneObj->produit_libelle = $lignesByType->value[MouvementFacturationView::VALUE_PRODUIT_LIBELLE];
         $ligneObj->produit_hash = $lignesByType->key[MouvementFacturationView::KEYS_PRODUIT_ID];
         $this->createContratsIdentifiants($ligneObj,$lignesByType);
-        $ligneObj->echeance_code = 'A'; //a remettre en place
+        $this->createOrigineLibelle($ligneObj);
         $ligneObj->volume = $volume;
         $ligneObj->cotisation_taux = $cvo;
         $ligneObj->montant_ht = $montant_ht;
@@ -97,10 +96,13 @@ class FactureClient extends acCouchdbClient {
                                             null;
         $ligneObj->contrat_libelle = null; 
         if($isfromcontrat)
-            {
-            $ligneObj->contrat_libelle = 'Contrat num. ' . preg_replace('/VRAC-/', '', $lignesByType->key[MouvementFacturationView::KEYS_CONTRAT_ID]);
-            $ligneObj->contrat_libelle .=' '.$lignesByType->value[MouvementFacturationView::VALUE_DETAIL_LIBELLE];
-            }  
+        {
+        $ligneObj->contrat_libelle = 'Contrat num. ' . preg_replace('/VRAC-/', '', $lignesByType->key[MouvementFacturationView::KEYS_CONTRAT_ID]);
+        $ligneObj->contrat_libelle .=' '.$lignesByType->value[MouvementFacturationView::VALUE_DETAIL_LIBELLE];
+        }
+        if($ligneObj->origine_type == 'SV12'){
+        $ligneObj->contrat_libelle = $lignesByType->value[MouvementFacturationView::VALUE_DETAIL_LIBELLE];
+        }
     }
 
 
@@ -375,6 +377,10 @@ class FactureClient extends acCouchdbClient {
 
     public function createOrigineLibelle($ligneObj) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date'));
+        if($ligneObj->origine_type=='SV12'){
+            $ligneObj->origine_libelle = 'SV12 de '.$ligneObj->origine_date;
+            return;
+        }
         $origineLibelle = 'DRM de';
         $drmSplited = explode('-', $ligneObj->origine_identifiant);
         $mois = $drmSplited[count($drmSplited)-1];
