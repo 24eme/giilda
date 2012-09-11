@@ -12,14 +12,14 @@ class MouvementDocument
     }
 
     public function getMouvementsCalculeByIdentifiant($identifiant) {
-        $mouvements = $this->getMouvementsCalcule();
+        $mouvements = $this->document->getMouvementsCalcule();
 
         return isset($mouvements[$identifiant]) ? $mouvements[$identifiant] : array();
     }
 
     public function generateMouvements() {
         $this->clearMouvements();
-        $this->document->set($this->hash, $this->getMouvementsCalcule());
+        $this->document->set($this->hash, $this->document->getMouvementsCalcule());
     }
 
     public function findMouvement($cle_mouvement){
@@ -36,10 +36,4 @@ class MouvementDocument
         $this->document->remove('mouvements');
         $this->document->add('mouvements');
     }
-
-    protected function getMouvementsCalcule() {
-
-        return $this->document->getMouvementsCalcule();
-    }
-    
 }

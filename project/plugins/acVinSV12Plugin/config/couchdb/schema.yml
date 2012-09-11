@@ -57,6 +57,8 @@ SV12:
                         produit_libelle: {  }
                         type_hash: {  }
                         type_libelle: {  }
+                        vrac_numero: {  }
+                        vrac_destinataire: {  }
                         detail_identifiant: {  }
                         detail_libelle: {  }
                         volume: { type: float }
