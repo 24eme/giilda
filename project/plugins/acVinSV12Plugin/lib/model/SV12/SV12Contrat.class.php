@@ -19,8 +19,10 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->type_libelle = $this->contrat_type;;
         $mouvement->volume = -1 * $this->volume;
         $mouvement->date = $this->getDocument()->getDate();
+        $mouvement->vrac_numero = $this->contrat_numero;
+        $mouvement->vrac_destinataire = $this->vendeur_nom;
         $mouvement->detail_identifiant = $this->contrat_numero;
-        $mouvement->detail_libelle = sprintf("n°%s %s (%s)", $this->contrat_numero, $this->vendeur_nom, $this->vendeur_identifiant);
+        $mouvement->detail_libelle = $this->contrat_numero;
         $mouvement->facturable = 1;
 
         return $mouvement;
