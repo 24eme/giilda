@@ -15,7 +15,7 @@ class DRMDeclaration extends BaseDRMDeclaration {
         $produits = $this->getProduits();
         $mouvements = array();
         foreach($produits as $produit) {
-            $mouvements = $mouvements + $produit->getMouvements();
+            $mouvements = array_replace_recursive($mouvements, $produit->getMouvements());
         }
 
         return $mouvements;
