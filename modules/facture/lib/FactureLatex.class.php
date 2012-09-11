@@ -93,7 +93,7 @@ class FactureLatex {
     return $this->getLatexFileNameWithoutExtention().'.pdf';
   }
 
-  public function cleanPDF() {
+  private function cleanPDF() {
     $file = $this->getLatexFileNameWithoutExtention();
     unlink($file.'.aux');
     unlink($file.'.log');
