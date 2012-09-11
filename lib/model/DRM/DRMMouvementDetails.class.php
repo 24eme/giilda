@@ -61,7 +61,9 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
         $mouvement->volume = $volume;
 
         if($config->isVrac()) {
-            $mouvement->categorie = 'contrat_vins';
+            $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS;
+            $mouvement->vrac_numero = $detail->getVrac()->numero_contrat;
+            $mouvement->vrac_destinataire = $detail->getVrac()->acheteur->nom;
         }
 
         $mouvement->date = $detail->date_enlevement;
