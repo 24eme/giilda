@@ -29,22 +29,7 @@ class DRMClient extends acCouchdbClient {
 
     public function buildVersion($rectificative, $modificative) {
 
-      if ($rectificative && $modificative) {
-        
-        return sprintf('R%02dM%02d', $rectificative, $modificative);
-      }
-
-      if($rectificative) {
-
-        return sprintf('R%02d', $rectificative);
-      }
-
-      if($modificative) {
-
-        return sprintf('M%02d', $modificative);
-      }
-
-      return null;
+      return DRM::buildVersion($rectificative, $modificative);
     }
 
     public function getPeriodes($campagne) {
