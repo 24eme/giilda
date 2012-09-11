@@ -1,4 +1,4 @@
-function(keys,values,rereduce) {
+	function(keys,values,rereduce) {
     
     var merge_field = function(field,pos,merged_field){
         var field_copy = field;
@@ -40,7 +40,9 @@ function(keys,values,rereduce) {
     var total_volume = 0;
     var cvos = new Array();
     var dates = new Array();
+    var vrac_destinataire = new Array();
     var details_libelles = new Array();
+    var ids = new Array();
     var identifiants = new Array();
     
     for(item in values)
@@ -51,17 +53,20 @@ function(keys,values,rereduce) {
         cvos = merge_field(values[item][3],item,cvos);
         dates = merge_field(values[item][4],item,dates);
         details_libelles = merge_field(values[item][5],item,details_libelles);
-        identifiants = merge_field(values[item][6],item,identifiants);
-        origines = merge_field(values[item][7],item,origines);
+        vrac_destinataire = merge_field(values[item][6],item,vrac_destinataire);
+        identifiants = merge_field(values[item][7],item,identifiants);
+        ids = merge_field(values[item][8],item,ids);
+        origines = merge_field(values[item][9],item,origines);
     }
     
     produits_libelles = reduce_result(produits_libelles);
     types_libelles = reduce_result(types_libelles);
     cvos = reduce_result(cvos);
-    dates = reduce_result(dates);
+    dates = reduce_result(dates);    
     details_libelles = reduce_result(details_libelles);
+    vrac_destinataire = reduce_result(vrac_destinataire);
     identifiants = reduce_result(identifiants);
-
-    result = [produits_libelles, types_libelles, total_volume, cvos, dates, details_libelles, identifiants, origines];
+    ids = reduce_result(ids);
+    result = [produits_libelles, types_libelles, total_volume, cvos, dates, vrac_destinataire, details_libelles, identifiants, ids, origines];
     return result;
  }

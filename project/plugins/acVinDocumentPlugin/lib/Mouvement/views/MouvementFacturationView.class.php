@@ -20,9 +20,11 @@ class MouvementFacturationView extends acCouchdbView
     const VALUE_VOLUME = 2;
     const VALUE_CVO = 3;
     const VALUE_DATE = 4;
-    const VALUE_DETAIL_LIBELLE = 5;
-    const VALUE_NUMERO = 6;
-    const VALUE_ORIGINE_CLES = 7;
+    const VALUE_VRAC_DEST = 5;
+    const VALUE_DETAIL_LIBELLE = 6;
+    const VALUE_NUMERO = 7;
+    const VALUE_ID_ORIGINE = 8;
+    const VALUE_ORIGINE_CLES = 9;
 
     public static function getInstance() {
 
