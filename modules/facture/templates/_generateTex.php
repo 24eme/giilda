@@ -1,5 +1,6 @@
 <?php
 use_helper('Float');
+use_helper('Date');
 $nb_ligne = 0;
 ?>
 \documentclass[6pt]{article}
@@ -119,7 +120,7 @@ $nb_ligne = 0;
 \fontsize{8}{8}\selectfont
     \begin{tikzpicture}
 		\node[inner sep=1pt] (tab1){
-			\begin{tabular}{p{85mm} |p{21mm}|p{16mm}|p{22mm}|p{15mm}p{0mm}}
+			\begin{tabular}{p{120mm} |p{12mm}|p{14mm}|p{18mm}|p{15mm}p{0mm}}
 
   			\rowcolor{lightgray}
                         \centering \small{\textbf{Libellé}} &
@@ -142,8 +143,10 @@ $nb_ligne = 0;
                  foreach ($produits as $prodHash => $p) :   
                      foreach ($p as $produit):
                             $produit = $produit->getRawValue();
+                            $libelle = ($produit->contrat_libelle)? $produit->contrat_libelle : $produit->origine_identifiant;
+                            $libelle = str_replace("'", "\'", $libelle);
                         ?>      
-                ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$produit->origine_identifiant.'\end{tiny}'; ?> &
+                ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$libelle.'\end{tiny}'; ?> &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->volume); ?>} &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->cotisation_taux); ?>} & 
                             \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>\texteuro{}} & 
@@ -224,7 +227,7 @@ $nb_ligne = 0;
                 
                 \centering \small{<?php echo $nb - $key; ?>} & 
                 \centering \small{<?php echo $papillon->echeance_code ?>} &
-                \centering \small{\textbf{<?php echo $papillon->echeance_date; ?>}} &
+                \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
                 \centering \small{\FactureRefClient} &
                 \centering \small{\FactureNum} &
                 \centering \small{\textbf{Net à payer :}}

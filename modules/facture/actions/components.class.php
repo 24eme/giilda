@@ -4,7 +4,7 @@ class factureComponents extends sfComponents {
 
   public function executeChooseEtablissement() {
     if (!$this->form) {
-      $this->form = new FactureEtablissementChoiceForm('INERPRO-interloire',
+      $this->form = new FactureEtablissementChoiceForm('INTERPRO-inter-loire',
               array('identifiant' => $this->identifiant));
     }
   }

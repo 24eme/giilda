@@ -1,5 +1,4 @@
 <?php
-
 class FactureClient extends acCouchdbClient {
 
     const FACTURE_LIGNE_ORIGINE_TYPE_DRM = "DRM";
@@ -74,9 +73,9 @@ class FactureClient extends acCouchdbClient {
         $volume = $lignesByType->value[FactureMouvementsDRMView::VALUE_VOLUME];
 
         $ligneObj = $facture->lignes->add($lignesByType->key[FactureMouvementsDRMView::KEYS_MATIERE])->add();
-        $ligneObj->origine_type = $lignesByType->key[FactureMouvementsDRMView::KEYS_ORIGIN];
+        $ligneObj->origine_type = $lignesByType->key[FactureMouvementsDRMView::KEYS_ORIGIN];        
         $ligneObj->origine_identifiant = $lignesByType->value[FactureMouvementsDRMView::VALUE_NUMERO];
-        $ligneObj->origine_libelle = 'DRM de ' . $lignesByType->value[FactureMouvementsDRMView::VALUE_NUMERO]; //A construire
+        $this->createOrigineLibelle($ligneObj);
         $ligneObj->origine_date = $lignesByType->key[FactureMouvementsDRMView::KEYS_PERIODE];
         $ligneObj->produit_type = $lignesByType->key[FactureMouvementsDRMView::KEYS_MATIERE];
         $ligneObj->produit_libelle = $lignesByType->value[FactureMouvementsDRMView::VALUE_PRODUIT_LIBELLE];
@@ -375,4 +374,16 @@ class FactureClient extends acCouchdbClient {
         return ($statut == self::STATUT_REDRESSEE);
     }
 
+    public function createOrigineLibelle($ligneObj) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date'));
+        $origineLibelle = 'DRM de';
+        $drmSplited = explode('-', $ligneObj->origine_identifiant);
+        $mois = $drmSplited[count($drmSplited)-1];
+        $annee = $drmSplited[count($drmSplited)-2];
+        $date = $annee.'-'.$mois.'-01';
+        
+        $df = format_date($date,'MMMM yyyy','fr_FR');
+        $ligneObj->origine_libelle = elision($origineLibelle,$df); 
+    }
+    
 }
