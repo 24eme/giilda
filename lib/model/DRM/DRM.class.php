@@ -627,8 +627,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function clearMouvements(){
-        
-        return $this->mouvement_document->clearMouvements();
+        $this->remove('mouvements');
+        $this->add('mouvements');
     }
 
     /**** FIN DES MOUVEMENTS ****/

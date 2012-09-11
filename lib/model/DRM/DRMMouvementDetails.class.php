@@ -30,9 +30,17 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
                 continue;
             }
             $mouvements[$this->getDocument()->getIdentifiant()][$mouvement->getMD5Key()] = $mouvement;
+
+            $mouvement_vrac_destinataire = $this->createMouvementVracDestinataire(clone $mouvement, $detail);
+
+            if (!$mouvement_vrac_destinataire) {
+                continue;
+            }
+
+            $mouvements[$detail->getVrac()->acheteur_identifiant][$mouvement->getMD5Key()] = $mouvement_vrac_destinataire;
         }
         return $mouvements;
-    }
+    }  
 
     public function createMouvement($mouvement, $detail) {
         $volume = $detail->volume;
@@ -64,9 +72,27 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS;
             $mouvement->vrac_numero = $detail->getVrac()->numero_contrat;
             $mouvement->vrac_destinataire = $detail->getVrac()->acheteur->nom;
+            $mouvement->cvo = $mouvement->cvo * $detail->getVrac()->cvo_repartition * 0.01;
         }
 
         $mouvement->date = $detail->date_enlevement;
+
+        return $mouvement;
+    }
+
+    public function createMouvementVracDestinataire($mouvement, $detail) {
+        $config = $this->getDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
+
+        if (!$config->isVrac()) {
+
+            return null;
+        }
+
+        $mouvement->vrac_destinataire = $detail->getVrac()->vendeur->nom;
+        
+        if($detail->getVrac()->cvo_repartition != 50) {
+            $mouvement->cvo = 0;
+        }
 
         return $mouvement;
     }
