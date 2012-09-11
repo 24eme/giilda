@@ -259,19 +259,22 @@ class FactureClient extends acCouchdbClient {
                 }
                 
         }
-        foreach ($mouvementsByEtb as $key => $mouvements) {
-          $somme = $mouvements->value[MouvementFacturationView::VALUE_VOLUME] * $mouvements->value[MouvementFacturationView::VALUE_CVO];
-          $somme = abs($somme);
-          $somme = $this->ttc($somme);
+        foreach ($mouvementsByEtb as $identifiant => $mouvements) {
+            $somme = 0;
+            foreach ($mouvements as $key => $mouvement) {
+                $somme = $mouvement->value[MouvementFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementFacturationView::VALUE_CVO];
+                $somme = abs($somme);
+                $somme = $this->ttc($somme);
+            }
             if (isset($parameters['seuil']) && $parameters['seuil'] != '') {
                 if ($somme >= $parameters['seuil']) {
-                    unset($mouvementsByEtb[$key]);
-                }
+                    unset($mouvementsByEtb[$identifiant]);
+                }           
             }
-          
         }
         if (count($mouvementsByEtb) == 0)
             return null;
+
         return $mouvementsByEtb;
     }
 
