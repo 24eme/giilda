@@ -143,8 +143,7 @@ $nb_ligne = 0;
                  foreach ($produits as $prodHash => $p) :   
                      foreach ($p as $produit):
                             $produit = $produit->getRawValue();
-                            $libelle = ($produit->contrat_libelle)? $produit->contrat_libelle : $produit->origine_identifiant;
-                            $libelle = str_replace("'", "\'", $libelle);
+                            $libelle = ($produit->contrat_libelle)? $produit->contrat_libelle : $produit->origine_libelle;
                         ?>      
                 ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$libelle.'\end{tiny}'; ?> &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->volume); ?>} &
