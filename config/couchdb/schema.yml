@@ -10,6 +10,8 @@ Generation:
       nb_documents: {}
       type_document: {}      
       somme: {}
+      statut: {}
+      fichier: {}
       documents:
         type: array_collection
         definition:
