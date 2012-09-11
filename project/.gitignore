@@ -10,3 +10,4 @@ log/
 web/psd
 bin/config.inc
 data/latex/*
+web/*.log

@@ -14,27 +14,26 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument {
     }
 
     public function constructId() {
-        $this->identifiant = $this->negociant_identifiant.'-'.$this->periode;
         $this->valide->statut = SV12Client::SV12_STATUT_BROUILLON;
         $this->campagne = '2012-2013';
-        $this->set('_id', 'SV12-' . $this->identifiant);
+        $this->set('_id', sprintf('SV12-%s-%s', $this->identifiant, $this->periode));
     }
     
-    public function storeNegociant() {
-        $nego = $this->getEtablissementObject();
-        if(!$nego) return null;
-        $this->negociant->nom = $nego->nom;
-        $this->negociant->cvi = $nego->cvi;
-        $this->negociant->num_accise = $nego->no_accises;
-        $this->negociant->num_tva_intracomm = $nego->no_tva_intracommunautaire;
-        $this->negociant->adresse = $nego->siege->adresse;        
-        $this->negociant->commune = $nego->siege->commune;
-        $this->negociant->code_postal = $nego->siege->code_postal;
+    public function storeDeclarant() {
+        $declarant = $this->getEtablissementObject();
+        if(!$declarant) return null;
+        $this->declarant->nom = $declarant->nom;
+        $this->declarant->cvi = $declarant->cvi;
+        $this->declarant->num_accise = $declarant->no_accises;
+        $this->declarant->num_tva_intracomm = $declarant->no_tva_intracommunautaire;
+        $this->declarant->adresse = $declarant->siege->adresse;        
+        $this->declarant->commune = $declarant->siege->commune;
+        $this->declarant->code_postal = $declarant->siege->code_postal;
     }
     
     
     public function storeContrats() {
-        $contratsView = SV12Client::getInstance()->retrieveContratsByEtablissement($this->negociant_identifiant);
+        $contratsView = SV12Client::getInstance()->retrieveContratsByEtablissement($this->identifiant);
         foreach ($contratsView as $contratView)
         {
             $idContrat = preg_replace('/VRAC-/', '', $contratView->value[VracClient::VRAC_VIEW_NUMCONTRAT]);
@@ -44,7 +43,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument {
     
     public function getEtablissementObject() {
        
-        return EtablissementClient::getInstance()->findByIdentifiant($this->negociant_identifiant);
+        return EtablissementClient::getInstance()->findByIdentifiant($this->identifiant);
     }
     
     public function update($params = array()) {
@@ -164,8 +163,11 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument {
         
         $mouvements = array();
         foreach($this->contrats as $contrat) {
-            $mouvement = $contrat->getMouvement();
-            $mouvements[$this->getDocument()->negociant_identifiant][$mouvement->getMD5Key()] = $mouvement;
+            $mouvement_vendeur = $contrat->getMouvementVendeur();
+            $mouvements[$contrat->getVrac()->vendeur_identifiant][$mouvement_vendeur->getMD5Key()] = $mouvement_vendeur;
+
+            $mouvement_acheteur = $contrat->getMouvementAcheteur();
+            $mouvements[$this->getDocument()->identifiant][$mouvement_acheteur->getMD5Key()] = $mouvement_acheteur;
         }
 
         return $mouvements;
@@ -187,8 +189,8 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument {
     }
 
     public function clearMouvements(){
-        
-        return $this->mouvement_document->clearMouvements();
+        $this->remove('mouvements');
+        $this->add('mouvements');
     }
 
     /**** FIN DES MOUVEMENTS ****/

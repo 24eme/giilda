@@ -10,9 +10,9 @@ function(doc) {
     }
 
     for(identifiant in doc.mouvements) {
-    for (key in doc.mouvements[identifiant]) {
+        for (key in doc.mouvements[identifiant]) {
             var mouv = doc.mouvements[identifiant][key];
-            emit([doc.type, identifiant, doc.campagne, doc.periode, doc._id, mouv.produit_hash, mouv.type_hash, mouv.detail_identifiant], [mouv.produit_libelle, mouv.type_libelle, mouv.volume, mouv.detail_libelle, doc.date_version, mouv.version]);
+            emit([doc.type, identifiant, doc.campagne, doc.periode, doc._id, mouv.produit_hash, mouv.type_hash, mouv.contrat_numero, mouv.detail_identifiant], [mouv.produit_libelle, mouv.type_libelle, mouv.volume, mouv.contrat_destinataire, mouv.detail_libelle, mouv.date_version, mouv.version]);
         }
     }
 }

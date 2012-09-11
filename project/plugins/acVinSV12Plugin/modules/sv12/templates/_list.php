@@ -21,9 +21,9 @@
                 <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_DATESAISIE]; ?></td>
                 <td>
                     <?php if($elt[SV12Client::SV12_VIEWHISTORY_STATUT] == SV12Client::SV12_STATUT_VALIDE): ?>
-                        <?php echo link_to($id, '@sv12_visualisation?negociant_identifiant='.$negociant_id.'&periode='.$periode) ; ?>
+                        <?php echo link_to($id, '@sv12_visualisation?identifiant='.$negociant_id.'&periode='.$periode) ; ?>
                     <?php elseif($elt[SV12Client::SV12_VIEWHISTORY_STATUT] == SV12Client::SV12_STATUT_BROUILLON): ?>
-                        <?php echo link_to($id, '@sv12_update?negociant_identifiant='.$negociant_id.'&periode='.$periode) ; ?>
+                        <?php echo link_to($id, '@sv12_update?identifiant='.$negociant_id.'&periode='.$periode) ; ?>
                     <?php endif; ?>
                 </td>
                 <td>
@@ -34,9 +34,9 @@
                 <td><?php echo $elt[SV12Client::SV12_VIEWHISTORY_NEGOCIANT_COMMUNE]; ?></td>
                 <td>
                     <?php if($elt[SV12Client::SV12_VIEWHISTORY_STATUT] == SV12Client::SV12_STATUT_VALIDE): ?>
-                        <?php echo link_to('Visualiser', '@sv12_visualisation?negociant_identifiant='.$negociant_id.'&periode='.$periode) ; ?>
+                        <?php echo link_to('Visualiser', '@sv12_visualisation?identifiant='.$negociant_id.'&periode='.$periode) ; ?>
                     <?php elseif($elt[SV12Client::SV12_VIEWHISTORY_STATUT] == SV12Client::SV12_STATUT_BROUILLON): ?>
-                        <?php echo link_to('Continuer', '@sv12_update?negociant_identifiant='.$negociant_id.'&periode='.$periode) ; ?>
+                        <?php echo link_to('Continuer', '@sv12_update?identifiant='.$negociant_id.'&periode='.$periode) ; ?>
                     <?php endif; ?>
                 </td>
             </tr>

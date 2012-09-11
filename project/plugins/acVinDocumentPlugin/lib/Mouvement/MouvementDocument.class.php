@@ -18,7 +18,7 @@ class MouvementDocument
     }
 
     public function generateMouvements() {
-        $this->clearMouvements();
+        $this->document->clearMouvements();
         $this->document->set($this->hash, $this->document->getMouvementsCalcule());
     }
 
@@ -30,10 +30,5 @@ class MouvementDocument
             }
         }        
         throw new sfException(sprintf('The mouvement %s of the document %s does not exist', $cle_mouvement, $this->document->get('_id')));
-    }
-
-    public function clearMouvements() {
-        $this->document->remove('mouvements');
-        $this->document->add('mouvements');
     }
 }
