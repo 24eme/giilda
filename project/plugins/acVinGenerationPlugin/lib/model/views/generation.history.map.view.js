@@ -6,5 +6,5 @@ function(doc) {
     {
         return;
     }
-    emit([doc.identifiant], [doc.date_emission, doc.nb_documents, doc.documents, doc.somme]);
+    emit([doc.statut, doc.identifiant], [doc.date_emission, doc.nb_documents, doc.documents, doc.somme]);
 }
