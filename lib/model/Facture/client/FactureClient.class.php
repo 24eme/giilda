@@ -8,12 +8,6 @@ class FactureClient extends acCouchdbClient {
     const FACTURE_LIGNE_PRODUIT_TYPE_VINS = "contrat_vins";
     const FACTURE_LIGNE_PRODUIT_TYPE_MOUTS = "contrat_mouts";
     const FACTURE_LIGNE_PRODUIT_TYPE_RAISINS = "contrat_raisins";
-    const MAX_LIGNE_TEMPLATE_ONEPAGE = 30;
-    const MAX_LIGNE_TEMPLATE_TWOPAGE = 70;
-    const MAX_LIGNE_TEMPLATE_PERPAGE = 80;
-    const TEMPLATE_ONEPAGE = 'facture1Page';
-    const TEMPLATE_TWOPAGE = 'facture2Pages';
-    const TEMPLATE_MOREPAGE = 'factureMorePages';
     
     const STATUT_REDRESSEE = 'redressee';
 
@@ -75,7 +69,6 @@ class FactureClient extends acCouchdbClient {
         $this->createFacturePapillons($facture);
         $facture->total_ht = $montant_ht;
         $facture->total_ttc = $this->ttc($facture->total_ht);
-        $facture->nb_page = $this->countNbPage($facture);
         $facture->identifiant = $this->getNextNoFacture($etablissement->identifiant,date('Ymd'));
         $facture->_id = $this->getId($etablissement->identifiant, $facture->identifiant);
         $facture->origines = $this->createOrigines($facture);
@@ -314,11 +307,6 @@ class FactureClient extends acCouchdbClient {
         return $generation;
     }
 
-//
-//    public function getSomme($facture) {
-//        $facture->montant_tcc;
-//    }
-//
     private function ttc($p) {
         return $p + $p * 0.196;
     }
@@ -342,43 +330,6 @@ class FactureClient extends acCouchdbClient {
         return $produits;
     }
 
-    public function countNbPage($facture) {
-
-        $nbLigne = count($facture->echeances) * 3;
-        foreach ($facture->lignes as $lignesType) {
-            $nbLigne += count($lignesType) + 1;
-        }
-        if ($nbLigne < self::MAX_LIGNE_TEMPLATE_ONEPAGE)
-            return 1;
-        if ($nbLigne < self::MAX_LIGNE_TEMPLATE_TWOPAGE)
-            return 2;
-        return ($nbLigne - self::MAX_LIGNE_TEMPLATE_TWOPAGE) / MAX_LIGNE_TEMPLATE_PERPAGE;
-    }
-
-    public function getTemplate($nbPage) {
-        if ($nbPage <= 1)
-            return self::TEMPLATE_ONEPAGE;
-        if ($nbPage <= 2)
-            return self::TEMPLATE_TWOPAGE;
-        return self::TEMPLATE_MOREPAGE;
-    }
-
-    public function getTypeLignePdfLibelle($typeLibelle) {
-        if ($typeLibelle == self::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE)
-            return 'propriété';
-        switch ($typeLibelle) {
-            case self::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS:
-                return 'contrats moûts';
-
-            case self::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS:
-                return 'contrats raisins';
-
-            case self::FACTURE_LIGNE_PRODUIT_TYPE_VINS:
-                return 'contrats vins';
-        }
-        return '';
-    }
-    
     public function isRedressee($statut){
         return ($statut == self::STATUT_REDRESSEE);
     }
@@ -404,5 +355,38 @@ class FactureClient extends acCouchdbClient {
 //        $df = format_date($date,'MMMM yyyy','fr_FR');
 //        $ligneObj->origine_libelle = elision($origineLibelle,$df); 
 //    }
+        
+    public function createOrigineLibelle($ligneObj) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date'));
+        if($ligneObj->origine_type=='SV12'){
+            $ligneObj->origine_libelle = 'SV12 de '.$ligneObj->origine_date;
+            return;
+        }
+        $origineLibelle = 'DRM de';
+        $drmSplited = explode('-', $ligneObj->origine_identifiant);
+        $mois = $drmSplited[count($drmSplited)-1];
+        $annee = $drmSplited[count($drmSplited)-2];
+        $date = $annee.'-'.$mois.'-01';
+        
+        $df = format_date($date,'MMMM yyyy','fr_FR');
+        $ligneObj->origine_libelle = elision($origineLibelle,$df); 
+    }
+        
+    public function getTypeLignePdfLibelle($typeLibelle) {
+      if ($typeLibelle == self::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE)
+	return 'propriété';
+      switch ($typeLibelle) {
+      case self::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS:
+	return 'contrats moûts';
+	
+      case self::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS:
+	return 'contrats raisins';
+	
+      case self::FACTURE_LIGNE_PRODUIT_TYPE_VINS:
+	return 'contrats vins';
+      }
+      return '';
+    }
+
     
 }
