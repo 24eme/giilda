@@ -20,7 +20,7 @@ class vracActions extends sfActions
   protected function postFormEtablissement(sfWebRequest $request) {
     $this->form_etablissement_choice = null;
     if ($request->isMethod(sfWebRequest::POST)) {
-        $form = new VracEtablissementChoiceForm();
+        $form = new VracEtablissementChoiceForm('INTERPRO-inter-loire');
         $form->bind($request->getParameter($form->getName()));
         if ($form->isValid())
         {

@@ -17,9 +17,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     public function configure()
     {
         
-        $this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
+        $this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
                  
-        $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('familles' =>  EtablissementFamilles::FAMILLE_NEGOCIANT)));
+        $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire','familles' =>  EtablissementFamilles::FAMILLE_NEGOCIANT)));
         
         $this->setWidget('mandataire_exist', new sfWidgetFormInputCheckbox());        
         
@@ -27,7 +27,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         
         $this->setWidget('mandatant', new sfWidgetFormChoice(array('expanded' => true, 'multiple'=> true , 'choices' => $mandatant_identifiantChoice)));
                 
-        $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('familles' =>  EtablissementFamilles::FAMILLE_COURTIER)));
+        $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' =>  EtablissementFamilles::FAMILLE_COURTIER)));
         
         $this->widgetSchema->setLabels(array(
             'vendeur_famille' => '',
