@@ -14,7 +14,7 @@ class SV12Contrat extends BaseSV12Contrat {
         // $mouvement->cvo = $this->getDroitCVO()->taux;
         // $mouvement->version = $this->getDocument()->getVersion();
         $mouvement->date_version = date('Y-m-d');
-        $mouvement->categorie = 'vin_raisins';
+        $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS;
         $mouvement->type_hash = $this->contrat_type;
         $mouvement->type_libelle = $this->contrat_type;;
         $mouvement->volume = -1 * $this->volume;
