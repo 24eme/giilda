@@ -10,11 +10,12 @@ function(doc) {
     }
 
     for(identifiant in doc.mouvements) {
-    for(key in doc.mouvements[identifiant]) {
+        for(key in doc.mouvements[identifiant]) {
             var mouv = doc.mouvements[identifiant][key];
             mouv.facture = 0;
             doc.region = 'tours';
-            emit([mouv.facture, mouv.facturable, doc.region, doc.identifiant, doc.type, mouv.categorie, mouv.produit_hash, doc.periode, mouv.type_hash, mouv.detail_identifiant], [mouv.produit_libelle, mouv.type_libelle, mouv.volume, mouv.cvo, mouv.date, mouv.detail_libelle, 'DRM-'+doc.identifiant+'-'+doc.periode, key]);
-    } 
+	    var vrac_id = (mouv.type_hash == 'sorties/vrac')? mouv.detail_identifiant : null;
+            emit([mouv.facture, mouv.facturable, doc.region, doc.identifiant, doc.type, mouv.categorie, mouv.produit_hash, doc.periode, vrac_id, mouv.type_hash, mouv.detail_identifiant], [mouv.produit_libelle, mouv.type_libelle, mouv.volume, mouv.cvo, mouv.date, mouv.detail_libelle, 'DRM-'+doc.identifiant+'-'+doc.periode, key]);
+        } 
    }
 }

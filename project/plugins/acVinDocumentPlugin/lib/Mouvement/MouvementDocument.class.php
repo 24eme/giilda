@@ -24,13 +24,12 @@ class MouvementDocument
 
     public function findMouvement($cle_mouvement){
         foreach($this->document->getMouvements() as $identifiant => $mouvements) {
-            if (array_key_exists($cle_mouvement, $mouvements)) {
-
+            if (array_key_exists($cle_mouvement, $mouvements->toArray())) {
+                
                 return $mouvements[$cle_mouvement];
             }
-        }
-        
-        throw new sfException(sprintf('The mouvement %s of the document %s does not exist', $cle_mouvement, $this->get('_id')));
+        }        
+        throw new sfException(sprintf('The mouvement %s of the document %s does not exist', $cle_mouvement, $this->document->get('_id')));
     }
 
     public function clearMouvements() {
