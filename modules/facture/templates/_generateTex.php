@@ -145,7 +145,7 @@ $nb_ligne = 0;
                             $produit = $produit->getRawValue();
                         ?>      
                 ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$produit->origine_libelle.'\end{tiny}'; ?> &
-                            \multicolumn{1}{r|}{<?php echoFloat($produit->volume); ?>} &
+                            \multicolumn{1}{r|}{<?php echoFloat($produit->volume*-1); ?>} &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->cotisation_taux); ?>} & 
                             \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>\texteuro{}} & 
                             \multicolumn{1}{c}{<?php echo $produit->echeance_code ?>} &\\
