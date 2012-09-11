@@ -6,7 +6,7 @@ class SV12Route extends sfObjectRoute {
 
 
     protected function getSV12ForParameters($parameters) {
-        $id = 'SV12-'.$parameters['negociant_identifiant'].'-'.$parameters['periode'];
+        $id = 'SV12-'.$parameters['identifiant'].'-'.$parameters['periode'];
         
         $sv12 = SV12Client::getInstance()->find($id);
 
@@ -17,10 +17,12 @@ class SV12Route extends sfObjectRoute {
     }
     
    public function getSV12Configuration() {
+        
         return ConfigurationClient::getCurrent();
     }
     protected function doConvertObjectToArray($object) {  
-        $parameters = array("negociant_identifiant" => $object->getNegociant_identifiant(), "periode" => $object->getPeriode());
+        $parameters = array("identifiant" => $object->identifiant, "periode" => $object->periode);
+        
         return $parameters;
     }
 

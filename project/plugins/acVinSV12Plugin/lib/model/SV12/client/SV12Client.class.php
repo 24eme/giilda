@@ -32,9 +32,9 @@ class SV12Client extends acCouchdbClient {
     public function createDoc($identifiant, $annee = null) {
         $sv12 = new Sv12();
         if (!$annee) $annee = date('Y');
-        $sv12->negociant_identifiant = $identifiant;
+        $sv12->identifiant = $identifiant;
         $sv12->periode = $annee;  
-        $sv12->storeNegociant();
+        $sv12->storeDeclarant();
         $sv12->storeContrats();
         return $sv12;
     }
