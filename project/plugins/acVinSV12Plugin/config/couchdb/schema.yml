@@ -9,8 +9,7 @@ SV12:
       identifiant: {  }
       campagne: {  }
       periode: {  }
-      negociant_identifiant: {  }
-      negociant:        
+      declarant:        
         type: collection
         definition:
           fields:            
