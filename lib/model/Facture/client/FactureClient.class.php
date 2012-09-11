@@ -24,6 +24,22 @@ class FactureClient extends acCouchdbClient {
     public function getId($client_reference, $identifiant) {
         return 'FACTURE-' . $client_reference . '-' . $identifiant;
     }
+    
+    public function getNextNoFacture($idClient,$date)
+    {   
+        $id = '';
+    	$facture = self::getAtDate($idClient,$date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+        if (count($facture) > 0) {
+            $id .= ((double)str_replace('FACTURE-'.$idClient.'-', '', max($facture)) + 1);
+        } else {
+            $id.= $date.'01';
+        }
+        return $id;
+    }
+    
+    public function getAtDate($idClient,$date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$date.'99')->execute($hydrate);        
+    }
 
     public function getFacturationForEtablissement($etablissement, $level) {
         return MouvementFacturationView::getInstance()->getMouvementsByEtablissementWithReduce($etablissement, 0, 1, $level);
@@ -60,7 +76,7 @@ class FactureClient extends acCouchdbClient {
         $facture->total_ht = $montant_ht;
         $facture->total_ttc = $this->ttc($facture->total_ht);
         $facture->nb_page = $this->countNbPage($facture);
-        $facture->identifiant = date('Ymd');
+        $facture->identifiant = $this->getNextNoFacture($etablissement->identifiant,date('Ymd'));
         $facture->_id = $this->getId($etablissement->identifiant, $facture->identifiant);
         $facture->origines = $this->createOrigines($facture);
         return $facture;
