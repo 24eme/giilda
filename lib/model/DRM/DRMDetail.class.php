@@ -249,10 +249,8 @@ class DRMDetail extends BaseDRMDetail {
   }
 
   public function getMouvements() {
-    return 
-            $this->getMouvementsByNoeud('entrees') + 
-            $this->getMouvementsByNoeud('sorties');
-           
+    
+    return $this->getMouvementsByNoeud('entrees') + $this->getMouvementsByNoeud('sorties');       
   }
 
   public function getMouvementsByNoeud($hash) {
@@ -270,7 +268,7 @@ class DRMDetail extends BaseDRMDetail {
       $mouvement->cvo = $this->getDroitCVO()->taux;
       $mouvement->version = $this->getDocument()->getVersion();
       $mouvement->date_version = date('Y-m-d');
-      $mouvement->categorie = 'propriete';
+      $mouvement->categorie = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE;
 
       if ($this->exist($hash."/".$key."_details")) {
         $mouvements = $mouvements + $this->get($hash."/".$key."_details")->createMouvements($mouvement);
