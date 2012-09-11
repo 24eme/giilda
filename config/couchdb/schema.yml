@@ -55,7 +55,6 @@ Facture:
                         produit_libelle: {}
                         produit_hash: {}
                         contrat_identifiant: {}
-                        contrat_libelle: {}
                         echeance_code: {}
                         volume: {type: float}
                         cotisation_taux: {type: float}

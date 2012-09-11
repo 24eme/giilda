@@ -13,7 +13,6 @@
  * @property string $produit_libelle
  * @property string $produit_hash
  * @property string $contrat_identifiant
- * @property string $contrat_libelle
  * @property string $echeance_code
  * @property float $volume
  * @property float $cotisation_taux
@@ -38,8 +37,6 @@
  * @method string setProduitHash()
  * @method string getContratIdentifiant()
  * @method string setContratIdentifiant()
- * @method string getContratLibelle()
- * @method string setContratLibelle()
  * @method string getEcheanceCode()
  * @method string setEcheanceCode()
  * @method float getVolume()

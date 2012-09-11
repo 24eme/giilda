@@ -26,7 +26,7 @@ $nb_ligne = 0;
 \renewcommand\sfdefault{phv}
 
 \newcommand{\CutlnPapillon}{
-  	\multicolumn{7}{c}{ \Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline }
+  	\multicolumn{7}{c}{ \Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline  }
 \\   	  
 }
 
@@ -143,11 +143,8 @@ $nb_ligne = 0;
                  foreach ($produits as $prodHash => $p) :   
                      foreach ($p as $produit):
                             $produit = $produit->getRawValue();
-                            $libelle = ($produit->contrat_libelle)? $produit->contrat_libelle : $produit->origine_libelle;
-                            $libelle = ($produit->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV)?
-                                $produit->origine_libelle.' '.$produit->contrat_libelle : $libelle;
                         ?>      
-                ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$libelle.'\end{tiny}'; ?> &
+                ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$produit->origine_libelle.'\end{tiny}'; ?> &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->volume); ?>} &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->cotisation_taux); ?>} & 
                             \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>\texteuro{}} & 
@@ -187,9 +184,9 @@ $nb_ligne = 0;
         \end{flushleft}
 }
 \hspace{-1.35cm}
-\vspace{-3cm}
+\vspace{-2.9cm}
     \begin{flushright}
-    \begin{minipage}[b]{0.285\textwidth}
+    \begin{minipage}[b]{0.289\textwidth}
             \begin{tikzpicture}
             \node[inner sep=1pt] (tab2){
                     \begin{tabular}{>{\columncolor{lightgray}} l | p{22mm}}
@@ -199,6 +196,9 @@ $nb_ligne = 0;
 
                     \centering \small{\textbf{TVA 19.6}} &
                     \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc - $facture->total_ht); ?>\texteuro{}}} \\
+                    
+                    \centering \small{} &
+                    \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
                     \hline
                     \centering \small{\textbf{Montant TTC}} &
                     \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc); ?>\texteuro{}}}   \\

@@ -3,7 +3,7 @@
 class FactureLatex {
 
   private $facture = null;
-  const MAX_LIGNE_TEMPLATE_ONEPAGE = 30;
+  const MAX_LIGNE_TEMPLATE_ONEPAGE = 39;
   const MAX_LIGNE_TEMPLATE_TWOPAGE = 70;
   const MAX_LIGNE_TEMPLATE_PERPAGE = 80;
   const TEMPLATE_ONEPAGE = 'facture1Page';
@@ -141,5 +141,5 @@ class FactureLatex {
       return $this->echoLatexWithHTTPHeader();
     return $this->echoPDFWithHTTPHeader();
   }
-
+ 
 }
