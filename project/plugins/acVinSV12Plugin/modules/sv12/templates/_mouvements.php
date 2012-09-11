@@ -2,31 +2,27 @@
         <table class="table_recap">
         <thead>
         <tr>
-            <th style="width: 200px;">Viticulteur </th>
-            <th>Appelation</th>
+            <th>Date de modification</th>
             <th>Contrat</th>
+            <th>Appellation</th>
             <th>Volume</th>
 
         </tr>
         </thead>
         <tbody>
-            <?php foreach ($sv12->contrats as $contrat) :
+            <?php foreach ($mouvements as $mouvement) :
             ?>   
 
             <tr>
+                <td></td>
                 <td>
-                    <?php echo $contrat->vendeur_nom.' ('.$contrat->vendeur_identifiant.')'; ?>
+                    <?php echo $mouvement->detail_libelle; ?>
                 </td>
                 <td>
-                    <?php echo $contrat->produit_libelle; ?>
+                    <?php echo $mouvement->produit_libelle; ?>
                 </td>
-
-                <td>
-                    <?php echo $contrat->contrat_numero; ?>
-                </td>
-
                 <td>     
-                    -<?php echo $contrat->volume; ?>
+                    <?php echo $mouvement->volume.' hl'; ?>
                 </td>
             </tr>
             <?php

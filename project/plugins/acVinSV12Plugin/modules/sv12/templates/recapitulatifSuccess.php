@@ -15,7 +15,7 @@
                 <?php include_partial('sv12ByProduitsTypes', array('sv12ByProduitsTypes' => $sv12ByProduitsTypes)); ?>
                 <br />
                 <h2> Détail des mouvements </h2>
-                <?php include_partial('sv12DetailMouvements', array('sv12' => $sv12)); ?>
+                <?php include_partial('mouvements', array('mouvements' => $mouvements)); ?>
 
                 <br />
                 <a href="<?php echo url_for('sv12_update', $sv12); ?>" class="btn_etape_prec"><span>Précedent</span></a>                

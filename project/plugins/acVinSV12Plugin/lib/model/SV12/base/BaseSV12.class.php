@@ -12,6 +12,7 @@
  * @property string $negociant_identifiant
  * @property acCouchdbJson $negociant
  * @property acCouchdbJson $contrats
+ * @property acCouchdbJson $mouvements
  * @property acCouchdbJson $valide
 
  * @method string get_id()
@@ -30,6 +31,8 @@
  * @method acCouchdbJson setNegociant()
  * @method acCouchdbJson getContrats()
  * @method acCouchdbJson setContrats()
+ * @method acCouchdbJson getMouvements()
+ * @method acCouchdbJson setMouvements()
  * @method acCouchdbJson getValide()
  * @method acCouchdbJson setValide()
  

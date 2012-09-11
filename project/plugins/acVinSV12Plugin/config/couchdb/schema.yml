@@ -7,6 +7,7 @@ SV12:
       _rev: { }
       type: { }
       identifiant: {  }
+      campagne: {  }
       periode: {  }
       negociant_identifiant: {  }
       negociant:        
@@ -25,6 +26,7 @@ SV12:
         definition:
           fields:
             '*':
+              class: SV12Contrat
               type: collection
               definition:
                 fields:
@@ -37,6 +39,33 @@ SV12:
                   vendeur_nom: {  }
                   volume_prop: { type : float }
                   volume: { type : float }
+      mouvements:
+        type: collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  '*':
+                    class: SV12Mouvement
+                    type: collection
+                    definition:
+                      fields:
+                        categorie: {  }
+                        produit_hash: {  }
+                        produit_libelle: {  }
+                        type_hash: {  }
+                        type_libelle: {  }
+                        detail_identifiant: {  }
+                        detail_libelle: {  }
+                        volume: { type: float }
+                        cvo: { type: float }
+                        facture: { type: integer }
+                        facturable: { type: integer }
+                        date: {  }
+                        date_version: {  }
+                        version: {  }
       valide:
         type: collection
         definition:
@@ -44,4 +73,3 @@ SV12:
             date_saisie: {  }
             statut: {  }
 
-       

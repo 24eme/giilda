@@ -16,8 +16,8 @@ declaration;sorties;vracsanscontrat;1;1;0;-1;0;1
 declaration;sorties;vrac;1;1;1;-1;1;1
 declaration;sorties;bib;1;1;0;-1;0;1
 declaration;sorties;bouteille;1;1;0;-1;0;1
-declaration;sorties;consommation;1;1;0;1;0;0
-declaration;sorties;distillation;1;1;0;1;0;0
+declaration;sorties;consommation;1;1;0;-1;0;0
+declaration;sorties;distillation;1;1;0;-1;0;0
 declaration;sorties;fermagemetayage;1;1;0;-1;0;0
 declaration;sorties;repli;1;1;0;-1;0;0
 declaration;sorties;declassement;1;1;0;-1;0;0

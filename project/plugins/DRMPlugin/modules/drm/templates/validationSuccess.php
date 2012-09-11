@@ -16,7 +16,7 @@
 
         <form action="" method="post">
             <?php include_partial('drm/recap', array('drm' => $drm)) ?>
-            <?php include_partial('drm/mouvements', array('mouvements' => $drm->declaration->getMouvements())) ?>
+            <?php include_partial('drm/mouvements', array('mouvements' => $mouvements)) ?>
 
             <br />
             <div id="btn_etape_dr">

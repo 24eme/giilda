@@ -63,9 +63,10 @@ class sv12Actions extends sfActions {
     public function executeRecapitulatif(sfWebRequest $request) {
         $this->sv12 = $this->getRoute()->getSV12();
         $this->sv12ByProduitsTypes = $this->sv12->getSV12ByProduitsType();
+        $this->mouvements = $this->sv12->getMouvementsCalculeByIdentifiant($this->sv12->negociant_identifiant);
         
         if ($request->isMethod(sfWebRequest::POST)) {
-            $this->valideSV12();
+            $this->sv12->validate();
             $this->sv12->save();
             $this->redirect('sv12_visualisation', $this->sv12);
         }
@@ -74,10 +75,7 @@ class sv12Actions extends sfActions {
     public function executeVisualisation(sfWebRequest $request) {
         $this->sv12 = $this->getRoute()->getSV12();
         $this->sv12ByProduitsTypes = $this->sv12->getSV12ByProduitsType();
-    }
-    
-    private function valideSV12() {
-        $this->sv12->validate();
+        $this->mouvements = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->sv12->negociant_identifiant, $this->sv12->periode); 
     }
     
     private function saveBrouillonSV12() {
