@@ -21,7 +21,11 @@ use_helper('Float');
           <br />
           <?php include_partial('facture/mouvements', array('mouvements' => $mouvements)) ?>
           <br />
-          <a href="<?php echo url_for('facture_generer',$etablissement); ?>" class="btn_majeur btn_vert">Générer</a>
+          <form id="generation_form" action="<?php echo url_for('facture_generer',$etablissement); ?>" method="post">
+          <?php include_partial('facture/datesGeneration', array('form' => $form)) ?>
+          <br /> 
+          <a href="#" id="generation_facture" class="btn_majeur btn_vert">Générer</a>
+          </form>
     </section>
     <!-- fin #principal -->
     
@@ -41,3 +45,16 @@ use_helper('Float');
     </aside>
     <!-- fin #colonne -->
 </div>
+
+<script type="text/javascript">
+    
+    $(document).ready( function()
+	{
+            $('#generation_facture').bind('click', function()
+            {
+                $('form#generation_form').submit();
+            });
+        });
+    
+</script>
+

@@ -260,31 +260,22 @@ class FactureClient extends acCouchdbClient {
     
     public function filterWithParameters($mouvementsByEtb, $parameters) {
         foreach ($mouvementsByEtb as $k => $mouvements) {
-            foreach ($mouvements as $key => $mouvement) {
                 if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '') &&
-                        ($this->supEqDate($mouvement->value[MouvementFacturationView::VALUE_DATE], $parameters['date_mouvement']))) {
-                    unset($mouvements[$key]);
+                        ($this->supEqDate($mouvements->value[MouvementFacturationView::VALUE_DATE], $parameters['date_mouvement']))) {
+                    unset($mouvementsByEtb[$k]);
                 }
-            }
-            if (count($mouvements) == 0) {
-                unset($mouvementsByEtb[$k]);
-            } else {
-                $mouvementsByEtb[$k] = $mouvements;
-            }
+                
         }
         foreach ($mouvementsByEtb as $key => $mouvements) {
-            $somme = 0;
-            //perturbant? 2 niveau de filtre ici => facture?
-            foreach ($mouvements as $mouvement) {
-                $somme += $mouvement->value[MouvementFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementFacturationView::VALUE_CVO];
-            }
-            $somme = abs($somme);
-            $somme = $this->ttc($somme);
+          $somme = $mouvements->value[MouvementFacturationView::VALUE_VOLUME] * $mouvements->value[MouvementFacturationView::VALUE_CVO];
+          $somme = abs($somme);
+          $somme = $this->ttc($somme);
             if (isset($parameters['seuil']) && $parameters['seuil'] != '') {
                 if ($somme >= $parameters['seuil']) {
                     unset($mouvementsByEtb[$key]);
                 }
             }
+          
         }
         if (count($mouvementsByEtb) == 0)
             return null;
@@ -293,8 +284,7 @@ class FactureClient extends acCouchdbClient {
 
     private function supEqDate($date_0, $date_1) {
         $date_0 = str_replace('-', '', $date_0);
-        $date_1Arr = explode('/', $date_1);
-        
+        $date_1Arr = explode('/', $date_1);       
         return $date_0 >= ($date_1Arr[2] . $date_1Arr[1] . $date_1Arr[0]);
     }
 
