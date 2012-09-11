@@ -42,9 +42,10 @@ class DRMDetailVracItemForm extends acCouchdbObjectForm {
     public function getContrats() {
 
         return array_merge(
-                array("" => ""),
                 DRMClient::getInstance()->getContratsFromProduit($this->getObject()->getDocument()->identifiant, 
-                                                                $this->getObject()->getDetail()->getCepage()->getHash())
+                                                                $this->getObject()->getDetail()->getCepage()->getHash(),  VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE),
+                DRMClient::getInstance()->getContratsFromProduit($this->getObject()->getDocument()->identifiant, 
+                                                                $this->getObject()->getDetail()->getCepage()->getHash(),  VracClient::TYPE_TRANSACTION_VIN_VRAC)
                 );
     }
     

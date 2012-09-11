@@ -228,14 +228,14 @@ class DRMClient extends acCouchdbClient {
       return $drms;
     }
     
-    public function getContratsFromProduit($vendeur_identifiant, $produit)
+    public function getContratsFromProduit($vendeur_identifiant, $produit,$type_transaction)
     {
        if(substr($produit, 0, 1) == "/") {
            $produit = substr($produit, 1);
        }
        $rows = acCouchdbManager::getClient()
-            ->startkey(array(VracClient::STATUS_CONTRAT_NONSOLDE, $vendeur_identifiant, $produit))
-              ->endkey(array(VracClient::STATUS_CONTRAT_NONSOLDE, $vendeur_identifiant, $produit, array()))
+            ->startkey(array(VracClient::STATUS_CONTRAT_NONSOLDE, $vendeur_identifiant, $produit,$type_transaction))
+              ->endkey(array(VracClient::STATUS_CONTRAT_NONSOLDE, $vendeur_identifiant, $produit,$type_transaction, array()))
               ->getView("vrac", "contratsFromProduit")
               ->rows;
       $vracs = array();
