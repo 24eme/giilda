@@ -8,10 +8,10 @@
  * @property string $origine_identifiant
  * @property string $origine_libelle
  * @property string $origine_date
+ * @property string $id_origine
  * @property string $produit_type
  * @property string $produit_libelle
  * @property string $produit_hash
- * @property string $mouvement_type
  * @property string $contrat_identifiant
  * @property string $contrat_libelle
  * @property string $echeance_code
@@ -28,14 +28,14 @@
  * @method string setOrigineLibelle()
  * @method string getOrigineDate()
  * @method string setOrigineDate()
+ * @method string getIdOrigine()
+ * @method string setIdOrigine()
  * @method string getProduitType()
  * @method string setProduitType()
  * @method string getProduitLibelle()
  * @method string setProduitLibelle()
  * @method string getProduitHash()
  * @method string setProduitHash()
- * @method string getMouvementType()
- * @method string setMouvementType()
  * @method string getContratIdentifiant()
  * @method string setContratIdentifiant()
  * @method string getContratLibelle()
@@ -59,8 +59,5 @@ abstract class BaseFactureLigne extends acCouchdbDocumentTree {
        $this->_root_class_name = 'Facture';
        $this->_tree_class_name = 'FactureLigne';
     }
-    
-    
-    
                 
 }

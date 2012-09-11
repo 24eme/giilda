@@ -12,7 +12,7 @@
 class FactureLigne extends BaseFactureLigne {
     
    public function getDocumentOrigine() {
-        return $this->getDocument()->getDocumentOrigine($this->origine_identifiant);
+        return $this->getDocument()->getDocumentOrigine($this->id_origine);
     }
     
     public function getMouvements() {

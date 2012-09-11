@@ -49,7 +49,8 @@ Facture:
                         origine_type: {}
                         origine_identifiant: {}
                         origine_libelle: {}
-                        origine_date: {}
+                        origine_date: {}                        
+                        id_origine: {}
                         produit_type: {}
                         produit_libelle: {}
                         produit_hash: {}
