@@ -18,7 +18,7 @@ class drmActions extends sfActions
   }
   
   public function executeChooseEtablissement(sfWebRequest $request) {
-    $this->form = new DRMEtablissementChoiceForm();
+    $this->form = new DRMEtablissementChoiceForm('INTERPRO-inter-loire');
     if ($request->isMethod(sfWebRequest::POST)) {
       $this->form->bind($request->getParameter($this->form->getName()));
       if ($this->form->isValid()) {
