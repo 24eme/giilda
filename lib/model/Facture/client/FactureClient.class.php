@@ -2,7 +2,7 @@
 class FactureClient extends acCouchdbClient {
 
     const FACTURE_LIGNE_ORIGINE_TYPE_DRM = "DRM";
-    const FACTURE_LIGNE_ORIGINE_TYPE_SV = "SV";
+    const FACTURE_LIGNE_ORIGINE_TYPE_SV = "SV12";
     const FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE = "propriete";
     const FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT = "contrat";
     const FACTURE_LIGNE_PRODUIT_TYPE_VINS = "contrat_vins";
@@ -17,6 +17,22 @@ class FactureClient extends acCouchdbClient {
 
     public function getId($client_reference, $identifiant) {
         return 'FACTURE-' . $client_reference . '-' . $identifiant;
+    }
+    
+    public function getNextNoFacture($idClient,$date)
+    {   
+        $id = '';
+    	$facture = self::getAtDate($idClient,$date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+        if (count($facture) > 0) {
+            $id .= ((double)str_replace('FACTURE-'.$idClient.'-', '', max($facture)) + 1);
+        } else {
+            $id.= $date.'01';
+        }
+        return $id;
+    }
+    
+    public function getAtDate($idClient,$date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$date.'99')->execute($hydrate);        
     }
 
     public function getFacturationForEtablissement($etablissement, $level) {
@@ -53,7 +69,7 @@ class FactureClient extends acCouchdbClient {
         $this->createFacturePapillons($facture);
         $facture->total_ht = $montant_ht;
         $facture->total_ttc = $this->ttc($facture->total_ht);
-        $facture->identifiant = date('Ymd');
+        $facture->identifiant = $this->getNextNoFacture($etablissement->identifiant,date('Ymd'));
         $facture->_id = $this->getId($etablissement->identifiant, $facture->identifiant);
         $facture->origines = $this->createOrigines($facture);
         return $facture;
@@ -66,14 +82,13 @@ class FactureClient extends acCouchdbClient {
 
         $ligneObj = $facture->lignes->add($lignesByType->key[MouvementFacturationView::KEYS_MATIERE])->add();
         $ligneObj->origine_type = $lignesByType->key[MouvementFacturationView::KEYS_ORIGIN];        
-        $ligneObj->origine_identifiant = $lignesByType->value[MouvementFacturationView::VALUE_NUMERO];
-        $this->createOrigineLibelle($ligneObj);
+        $ligneObj->origine_identifiant = $lignesByType->value[MouvementFacturationView::VALUE_NUMERO];        
         $ligneObj->origine_date = $lignesByType->key[MouvementFacturationView::KEYS_PERIODE];
         $ligneObj->produit_type = $lignesByType->key[MouvementFacturationView::KEYS_MATIERE];
         $ligneObj->produit_libelle = $lignesByType->value[MouvementFacturationView::VALUE_PRODUIT_LIBELLE];
         $ligneObj->produit_hash = $lignesByType->key[MouvementFacturationView::KEYS_PRODUIT_ID];
         $this->createContratsIdentifiants($ligneObj,$lignesByType);
-        $ligneObj->echeance_code = 'A'; //a remettre en place
+        $this->createOrigineLibelle($ligneObj);
         $ligneObj->volume = $volume;
         $ligneObj->cotisation_taux = $cvo;
         $ligneObj->montant_ht = $montant_ht;
@@ -90,10 +105,13 @@ class FactureClient extends acCouchdbClient {
                                             null;
         $ligneObj->contrat_libelle = null; 
         if($isfromcontrat)
-            {
-            $ligneObj->contrat_libelle = 'Contrat num. ' . preg_replace('/VRAC-/', '', $lignesByType->key[MouvementFacturationView::KEYS_CONTRAT_ID]);
-            $ligneObj->contrat_libelle .=' '.$lignesByType->value[MouvementFacturationView::VALUE_DETAIL_LIBELLE];
-            }  
+        {
+        $ligneObj->contrat_libelle = 'Contrat num. ' . preg_replace('/VRAC-/', '', $lignesByType->key[MouvementFacturationView::KEYS_CONTRAT_ID]);
+        $ligneObj->contrat_libelle .=' '.$lignesByType->value[MouvementFacturationView::VALUE_DETAIL_LIBELLE];
+        }
+        if($ligneObj->origine_type == 'SV12'){
+        $ligneObj->contrat_libelle = $lignesByType->value[MouvementFacturationView::VALUE_DETAIL_LIBELLE];
+        }
     }
 
 
@@ -235,31 +253,22 @@ class FactureClient extends acCouchdbClient {
     
     public function filterWithParameters($mouvementsByEtb, $parameters) {
         foreach ($mouvementsByEtb as $k => $mouvements) {
-            foreach ($mouvements as $key => $mouvement) {
                 if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '') &&
-                        ($this->supEqDate($mouvement->value[MouvementFacturationView::VALUE_DATE], $parameters['date_mouvement']))) {
-                    unset($mouvements[$key]);
+                        ($this->supEqDate($mouvements->value[MouvementFacturationView::VALUE_DATE], $parameters['date_mouvement']))) {
+                    unset($mouvementsByEtb[$k]);
                 }
-            }
-            if (count($mouvements) == 0) {
-                unset($mouvementsByEtb[$k]);
-            } else {
-                $mouvementsByEtb[$k] = $mouvements;
-            }
+                
         }
         foreach ($mouvementsByEtb as $key => $mouvements) {
-            $somme = 0;
-            //perturbant? 2 niveau de filtre ici => facture?
-            foreach ($mouvements as $mouvement) {
-                $somme += $mouvement->value[MouvementFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementFacturationView::VALUE_CVO];
-            }
-            $somme = abs($somme);
-            $somme = $this->ttc($somme);
+          $somme = $mouvements->value[MouvementFacturationView::VALUE_VOLUME] * $mouvements->value[MouvementFacturationView::VALUE_CVO];
+          $somme = abs($somme);
+          $somme = $this->ttc($somme);
             if (isset($parameters['seuil']) && $parameters['seuil'] != '') {
                 if ($somme >= $parameters['seuil']) {
                     unset($mouvementsByEtb[$key]);
                 }
             }
+          
         }
         if (count($mouvementsByEtb) == 0)
             return null;
@@ -268,8 +277,7 @@ class FactureClient extends acCouchdbClient {
 
     private function supEqDate($date_0, $date_1) {
         $date_0 = str_replace('-', '', $date_0);
-        $date_1Arr = explode('/', $date_1);
-        
+        $date_1Arr = explode('/', $date_1);       
         return $date_0 >= ($date_1Arr[2] . $date_1Arr[1] . $date_1Arr[0]);
     }
 
@@ -326,6 +334,10 @@ class FactureClient extends acCouchdbClient {
 
     public function createOrigineLibelle($ligneObj) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date'));
+        if($ligneObj->origine_type=='SV12'){
+            $ligneObj->origine_libelle = 'SV12 de '.$ligneObj->origine_date;
+            return;
+        }
         $origineLibelle = 'DRM de';
         $drmSplited = explode('-', $ligneObj->origine_identifiant);
         $mois = $drmSplited[count($drmSplited)-1];

@@ -32,6 +32,8 @@ class factureActions extends sfActions {
     }
     
     public function executeMonEspace(sfWebRequest $resquest) {
+        
+        $this->form = new FactureGenerationForm();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->factures = FactureEtablissementView::getInstance()->findByEtablissement($this->etablissement);
         $this->mouvements = MouvementFacturationView::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
@@ -46,12 +48,14 @@ class factureActions extends sfActions {
     }
 
 
-    public function executeGenerer(sfWebRequest $resquest) {
-        
+    public function executeGenerer(sfWebRequest $request) {
+        $parameters = $request->getParameter('facture_generation');
         $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
         
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->facturations = FactureClient::getInstance()->getFacturationForEtablissement($this->etablissement,9);
+        $this->facturations = FactureClient::getInstance()->getFacturationForEtablissement($this->etablissement,9);        
+        $this->facturations = FactureClient::getInstance()->filterWithParameters($this->facturations,$parameters);
+        
         $facture = FactureClient::getInstance()->createDoc($this->facturations,$this->etablissement,$parameters['date_facturation']);
         $facture->save();
         $this->redirect('facture_etablissement', $this->etablissement);
