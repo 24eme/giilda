@@ -2,6 +2,7 @@
 use_helper('Vrac');
 if(is_null($vrac->type_transaction)) $vrac->type_transaction = VracClient::TYPE_TRANSACTION_VIN_VRAC;
 $vracs = VracClient::getInstance()->retrieveSimilaryContracts($vrac);
+VracClient::getInstance()->filterSimilaryContracts($vrac,$vracs);
 $flagStatut = false;
 ?>
 <div id="contrats_similaires" class="bloc_col">

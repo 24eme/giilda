@@ -232,6 +232,16 @@ class VracClient extends acCouchdbClient {
                ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['type'],$params['produit'],$volumeHaut, array()))->limit(10)->getView('vrac', 'vracSimilaire');            
     }
     
+    public function filterSimilaryContracts($vrac,$similaryContracts) {
+        foreach ($similaryContracts->rows as $key => $value) {
+            if($value->id === $vrac->_id){
+                unset($similaryContracts->rows[$key]);
+                return;
+            }
+        }
+    }
+
+
     public function retrieveByNumeroAndEtablissementAndHashOrCreateIt($id, $etablissement, $hash, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
       $vrac = $this->retrieveById($id);
       if (!$vrac) {
