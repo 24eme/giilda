@@ -16,8 +16,8 @@ class Facture extends BaseFacture {
         if($this->isNew()){
             $this->facturerMouvements();
         }
-        $this->saveDocumentsOrigine();
         parent::save();
+        $this->saveDocumentsOrigine();
     }
 
 
