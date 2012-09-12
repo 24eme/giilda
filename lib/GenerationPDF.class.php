@@ -12,7 +12,7 @@ class GenerationPDF {
 
   function concatenatePDFs($pdffiles) {
     $fileres = rand().".pdf";
-    exec('pdftk "'.implode('" "', $pdffiles).'" cat output "'.$fileres.'.pdf"');
+    exec('pdftk "'.implode('" "', $pdffiles).'" cat output "'.$fileres.'"');
     return $fileres;
   }
 
@@ -22,6 +22,12 @@ class GenerationPDF {
       $files[] = $pdf->getPDFFile();
     }
     return $this->concatenatePDFs($files);
+  }
+
+  private function cleanFiles($files) {
+    foreach ($files as $f) {
+      unlink($f);
+    }
   }
 
   function generatePDF() {
@@ -44,7 +50,11 @@ class GenerationPDF {
     foreach ($factures as $page => $pdfs) {
       $pages[$page] = $this->generatePDFOnePageRange($pdfs);
     }
-    return $this->concatenatePDFs($pages);
+    $pdffinal = $this->concatenatePDFs($pages);
+    rename($pdffinal, 'data/latex/generation.pdf');
+    $this->generation->setGenere('data/latex/generation.pdf');
+    $this->generation->save();
+    $this->cleanFiles($pages);
   }
 
 }
