@@ -11,23 +11,36 @@ class SV12Client extends acCouchdbClient {
     
     const SV12_VIEWHISTORY_ID = 0;
     const SV12_VIEWHISTORY_DATESAISIE = 1;    
-    const SV12_VIEWHISTORY_PERIODE = 2;    
-    const SV12_VIEWHISTORY_NEGOCIANT_ID = 3;
-    const SV12_VIEWHISTORY_NEGOCIANT_NOM = 4;
-    const SV12_VIEWHISTORY_NEGOCIANT_CVI = 5;
-    const SV12_VIEWHISTORY_NEGOCIANT_COMMUNE = 6;
-    const SV12_VIEWHISTORY_STATUT = 7;
+    const SV12_VIEWHISTORY_PERIODE = 2;
+    const SV12_VIEWHISTORY_VERSION = 3;     
+    const SV12_VIEWHISTORY_NEGOCIANT_ID = 4;
+    const SV12_VIEWHISTORY_NEGOCIANT_NOM = 5;
+    const SV12_VIEWHISTORY_NEGOCIANT_CVI = 6;
+    const SV12_VIEWHISTORY_NEGOCIANT_COMMUNE = 7;
+    const SV12_VIEWHISTORY_STATUT = 8;
 
     public static function getInstance()
     {
       return acCouchdbManager::getClient("SV12");
     }
 
-    public function getId($identifiant,$periode)
-    {
-      return 'SV12-'.$identifiant.'-'.$periode;
-    }  
-    
+    public function buildId($identifiant, $periode, $version = null) {
+
+      return 'SV12-'.$identifiant.'-'.$this->buildPeriodeAndVersion($periode, $version);
+    }
+
+    public function buildPeriodeAndVersion($periode, $version) {
+      if($version) {
+        return sprintf('%s-%s', $periode, $version);
+      }
+
+      return $periode;
+    }
+
+    public function buildCampagne($periode) {
+      
+        return '2012-2013';
+    }
     
     public function createDoc($identifiant, $annee = null) {
         $sv12 = new Sv12();
@@ -85,6 +98,65 @@ class SV12Client extends acCouchdbClient {
             ->startkey(array($identifiant, $campagne))
               ->endkey(array($identifiant, $campagne, array()))
               ->getView("sv12", "all")
+              ->rows;
+      
+      $drms = array();
+
+      foreach($rows as $row) {
+        $drms[$row->id] = $row->key;
+      }
+      
+      krsort($drms);
+      
+      return $drms;
+    }
+
+    public function findMasterByIdentifiantAndPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      $drms = $this->viewByIdentifiantPeriode($identifiant, $periode);
+
+      foreach($drms as $id => $drm) {
+
+        return $this->find($id, $hydrate);
+      }
+
+      return null;
+    }
+
+    public function getMasterVersionOfRectificative($identifiant, $periode, $version_rectificative) {
+      $drms = $this->viewByIdentifiantPeriodeAndVersion($identifiant, $periode, $version_rectificative);
+
+      foreach($drms as $id => $drm) {
+
+        return $drm[3];
+      }
+
+      return null;
+    }
+
+    protected function viewByIdentifiantPeriode($identifiant, $periode) {
+        $rows = acCouchdbManager::getClient()
+              ->startkey(array($identifiant, $periode))
+                ->endkey(array($identifiant, $periode, array()))
+                ->getView("sv12", "all")
+                ->rows;
+        
+        $drms = array();
+
+        foreach($rows as $row) {
+          $drms[$row->id] = $row->key;
+        }
+        
+        krsort($drms);
+        
+        return $drms;
+    }
+    
+    protected function viewByIdentifiantPeriodeAndVersion($identifiant, $periode, $version_rectificative) {
+      $rows = acCouchdbManager::getClient()
+            ->startkey(array($identifiant, $periode, $version_rectificative))
+              ->endkey(array($identifiant, $periode, $this->buildVersion($version_rectificative, 99)))
+              ->reduce(false)
+              ->getView("drm", "all")
               ->rows;
       
       $drms = array();

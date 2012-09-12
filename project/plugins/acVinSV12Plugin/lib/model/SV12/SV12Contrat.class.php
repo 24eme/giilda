@@ -28,11 +28,12 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     protected function getMouvement() {
+
         $mouvement = DRMMouvement::freeInstance($this->getDocument());
         $mouvement->produit_hash = $this->produit_hash;
         $mouvement->produit_libelle = $this->produit_libelle;
         $mouvement->facture = 0;
-        $mouvement->version = '';
+        $mouvement->version = $this->getDocument()->version;
         $mouvement->date_version = date('Y-m-d');
         $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS;
         $mouvement->type_hash = $this->contrat_type;

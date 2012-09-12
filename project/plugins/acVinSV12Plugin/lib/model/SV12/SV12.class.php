@@ -4,19 +4,28 @@
  * Model for Vrac
  *
  */
-class SV12 extends BaseSV12 implements InterfaceMouvementDocument {
+class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVersionDocument {
 
     protected $mouvement_document = null;
+    protected $version_document = null;
 
     public function  __construct() {
         parent::__construct();   
         $this->mouvement_document = new MouvementDocument($this);
+        $this->version_document = new VersionDocument($this);
     }
 
     public function constructId() {
         $this->valide->statut = SV12Client::SV12_STATUT_BROUILLON;
         $this->campagne = '2012-2013';
-        $this->set('_id', sprintf('SV12-%s-%s', $this->identifiant, $this->periode));
+        $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
+                                                            $this->periode, 
+                                                            $this->version));
+    }
+
+    public function getPeriodeAndVersion() {
+
+        return SV12Client::getInstance()->buildPeriodeAndVersion($this->periode, $this->version);
     }
     
     public function storeDeclarant() {
@@ -93,6 +102,12 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument {
 
         $this->generateMouvements();
     }
+
+    public function devalide() {
+        $this->clearMouvements();
+        $this->valide->date_saisie = '';
+        $this->valide->statut = SV12Client::SV12_STATUT_BROUILLON;
+    }
     
     public function saveBrouillon() {
         $this->valide->date_saisie = date('d-m-y');
@@ -151,6 +166,158 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument {
 
         return date('Y-m-d');
     }
+
+    public function getSuivante() {
+
+        return false;
+    }
+
+    /**** VERSION ****/
+
+    public static function buildVersion($rectificative, $modificative) {
+
+        return VersionDocument::buildVersion($rectificative, $modificative);
+    }
+
+    public function getVersion() {
+
+        return $this->_get('version');
+    }
+
+    public function hasVersion() {
+
+        return $this->version_document->hasVersion();
+    }
+
+    public function isVersionnable() {
+        if (!$this->isValidee()) {
+           
+           return false;
+        }
+
+        return $this->version_document->isVersionnable();
+    }
+
+    public function getRectificative() {
+
+        return $this->version_document->getRectificative();
+    }
+
+    public function isRectificative() {
+
+        return $this->version_document->isRectificative();
+    }
+
+    public function isRectifiable() {
+        
+        return false;
+    }
+
+    public function getModificative() {
+
+        return $this->version_document->getModificative();
+    }
+
+    public function isModificative() {
+
+        return $this->version_document->isModificative();
+    }
+
+    public function isModifiable() {
+
+        return $this->version_document->isModifiable();
+    }
+
+    public function getPreviousVersion() {
+
+       return $this->version_document->getPreviousVersion();
+    }
+
+    public function getMasterVersionOfRectificative() {
+        return SV12Client::getInstance()->getMasterVersionOfRectificative($this->identifiant, 
+                                                                 $this->periode, 
+                                                                 self::buildVersion($this->getRectificative() - 1, 0));
+    }
+
+    public function needNextVersion() {
+
+       return $this->version_document->needNextVersion();      
+    }
+
+    public function getMaster() {
+
+        return $this->version_document->getMaster();
+    }
+
+    public function isMaster() {
+
+        return $this->version_document->isMaster();
+    }
+
+    public function findMaster() {
+
+        return SV12Client::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $this->periode);
+    }
+
+    public function findDocumentByVersion($version) {
+
+        return SV12Client::getInstance()->find(SV12Client::getInstance()->buildId($this->identifiant, $this->periode, $version));
+    }
+
+    public function getMother() {
+
+        return $this->version_document->getMother();   
+    }
+
+    public function motherGet($hash) {
+
+        return $this->version_document->motherGet($hash);
+    }
+
+    public function motherExist($hash) {
+
+        return $this->version_document->motherExist($hash);
+    }
+
+    public function motherHasChanged() {
+
+        return true;
+    }
+
+    public function getDiffWithMother() {
+
+        return $this->version_document->getDiffWithMother();
+    }
+
+    public function isModifiedMother($hash_or_object, $key = null) {
+        
+        return $this->version_document->isModifiedMother($hash_or_object, $key);
+    }
+
+    public function generateRectificative() {
+
+        return $this->version_document->generateRectificative();
+    }
+
+    public function generateModificative() {
+
+        return $this->version_document->generateModificative();
+    }
+
+    public function generateNextVersion() {
+
+        return false;
+    }
+
+    public function listenerGenerateVersion($document) {
+        $document->devalide();
+    }
+
+    public function listenerGenerateNextVersion($document) {
+        
+    }
+
+    /**** FIN DE VERSION ****/
 
     /**** MOUVEMENTS ****/
 

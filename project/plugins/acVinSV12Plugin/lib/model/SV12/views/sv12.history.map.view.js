@@ -3,5 +3,5 @@ function(doc) {
     	return;
   	}
 
-  	emit([doc.valide.statut], [doc._id, doc.valide.date_saisie, doc.periode, doc.identifiant, doc.declarant.nom, doc.declarant.cvi, doc.declarant.commune, doc.valide.statut] );
+  	emit([doc.valide.statut], [doc._id, doc.valide.date_saisie, doc.periode, doc.version, doc.identifiant, doc.declarant.nom, doc.declarant.cvi, doc.declarant.commune, doc.valide.statut] );
 }

@@ -77,6 +77,16 @@ class sv12Actions extends sfActions {
         $this->sv12ByProduitsTypes = $this->sv12->getSV12ByProduitsType();
         $this->mouvements = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->sv12->identifiant, $this->sv12->periode); 
     }
+
+    public function executeModificative(sfWebRequest $request)
+    {
+        $sv12 = $this->getRoute()->getSV12();
+
+        $sv12_rectificative = $sv12->generateModificative();
+        $sv12_rectificative->save();
+
+        return $this->redirect('sv12_update', array('identifiant' => $sv12_rectificative->identifiant, 'periode_version' => $sv12_rectificative->getPeriodeAndVersion()));
+    }
     
     private function saveBrouillonSV12() {
         $this->sv12->saveBrouillon();

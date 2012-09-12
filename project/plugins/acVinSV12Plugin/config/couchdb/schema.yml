@@ -9,6 +9,7 @@ SV12:
       identifiant: {  }
       campagne: {  }
       periode: {  }
+      version: {  }
       declarant:        
         type: collection
         definition:

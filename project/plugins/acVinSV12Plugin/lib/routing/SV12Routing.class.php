@@ -27,7 +27,7 @@ class SV12Routing {
                                                 array('sf_method' => array('get')),
                                                 array('must_be_valid' => false, 'must_be_not_valid' => false)));
         
-        $r->prependRoute('sv12_update', new SV12Route('/sv12/:identifiant/edition/:periode/update',
+        $r->prependRoute('sv12_update', new SV12Route('/sv12/:identifiant/edition/:periode_version/update',
                         array('module' => 'sv12',
                             'action' => 'update'),
                         array('sf_method' => array('get', 'post')),
@@ -36,8 +36,17 @@ class SV12Routing {
                              'must_be_valid' => false,
                              'must_be_not_valid' => true
                 )));
+
+        $r->prependRoute('sv12_modificative', new SV12Route('/sv12/:identifiant/modificative/:periode_version', 
+                                                  array('module' => 'sv12', 
+                                                        'action' => 'modificative'),
+                                                  array(),
+                                                  array('model' => 'SV12',
+                                                        'type' => 'object',
+                                                        'must_be_valid' => true,
+                                                        'must_be_not_valid' => false)));
         
-        $r->prependRoute('sv12_recapitulatif', new SV12Route('/sv12/:identifiant/edition/:periode/recapitulatif',
+        $r->prependRoute('sv12_recapitulatif', new SV12Route('/sv12/:identifiant/edition/:periode_version/recapitulatif',
                 array('module' => 'sv12',
                     'action' => 'recapitulatif'),
                 array('sf_method' => array('get', 'post')),
@@ -47,7 +56,7 @@ class SV12Routing {
                         'must_be_not_valid' => true
         )));
         
-         $r->prependRoute('sv12_visualisation', new SV12Route('/sv12/:identifiant/visualisation/:periode',
+         $r->prependRoute('sv12_visualisation', new SV12Route('/sv12/:identifiant/visualisation/:periode_version',
                 array('module' => 'sv12',
                     'action' => 'visualisation'),
                 array('sf_method' => array('get', 'post')),
