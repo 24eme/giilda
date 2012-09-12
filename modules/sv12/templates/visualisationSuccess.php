@@ -9,7 +9,7 @@
             <?php include_partial('negociant_infos',array('sv12' => $sv12)); ?>
        
             <?php if ($sv12->isModifiable()): ?>
-            <a class="btn_majeur btn_modifier" href="<?php echo url_for('sv12_modificative', $sv12) ?>">Modifier la DRM</a>
+            <a class="btn_majeur btn_modifier" href="<?php echo url_for('sv12_modificative', $sv12) ?>">Modifier la SV12</a>
             <?php endif; ?>
 
             <h2>Détail de la déclaration</h2>
