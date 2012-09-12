@@ -8,6 +8,11 @@ class Facture extends BaseFacture {
 
     private $documents_origine = array();
     
+    public function constructId() {
+      $this->identifiant = FactureClient::getInstance()->getNextNoFacture($this->client_identifiant,date('Ymd'));
+      $this->_id = 'FACTURE-' . $this->client_reference . '-' . $this->identifiant;
+    }
+    
     public function getDocumentsOrigine() {
         return $this->documents_origine;
     }

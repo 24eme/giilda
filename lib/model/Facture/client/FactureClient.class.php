@@ -15,10 +15,6 @@ class FactureClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Facture");
     }
 
-    public function getId($client_reference, $identifiant) {
-        return 'FACTURE-' . $client_reference . '-' . $identifiant;
-    }
-    
     public function getNextNoFacture($idClient,$date)
     {   
         $id = '';
@@ -69,8 +65,6 @@ class FactureClient extends acCouchdbClient {
         $this->createFacturePapillons($facture);
         $facture->total_ht = $montant_ht;
         $facture->total_ttc = $this->ttc($facture->total_ht);
-        $facture->identifiant = $this->getNextNoFacture($etablissement->identifiant,date('Ymd'));
-        $facture->_id = $this->getId($etablissement->identifiant, $facture->identifiant);
         $facture->origines = $this->createOrigines($facture);
         return $facture;
     }
@@ -362,6 +356,21 @@ class FactureClient extends acCouchdbClient {
 	return 'contrats vins';
       }
       return '';
+    }
+
+    public function defactureAndCreateAvoir(Facture $f) {
+      $avoir = clone $f;
+      foreach($avoir->lignes as $type => $lignes) {
+	foreach($lignes as $id => $ligne) {
+	  $ligne->volume *= -1;
+	  $ligne->montent_ht *= -1;
+	}
+      }
+      $avoir->montant_ttc *= -1;
+      $avoir->remove('echeance');
+      $avoir->add('echeance');
+      $avoir->save();
+      $f->defacturer();
     }
     
 }
