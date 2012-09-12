@@ -358,7 +358,7 @@ class FactureClient extends acCouchdbClient {
       return '';
     }
 
-    public function defactureAndCreateAvoir(Facture $f) {
+    public function defactureCreateAvoirAndSaveThem(Facture $f) {
       $avoir = clone $f;
       foreach($avoir->lignes as $type => $lignes) {
 	foreach($lignes as $id => $ligne) {
@@ -371,6 +371,7 @@ class FactureClient extends acCouchdbClient {
       $avoir->add('echeance');
       $avoir->save();
       $f->defacturer();
+      $f->save();
     }
     
 }
