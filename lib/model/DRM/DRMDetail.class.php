@@ -263,7 +263,7 @@ class DRMDetail extends BaseDRMDetail {
 
       $mouvement = DRMMouvement::freeInstance($this->getDocument());
       $mouvement->produit_hash = $this->getHash();
-      $mouvement->produit_libelle = $this->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
+      $mouvement->produit_libelle = $this->getLibelle("%a% %m% %l% %co% %ce% %la%");
       $mouvement->facture = 0;
       $mouvement->cvo = $this->getDroitCVO()->taux;
       $mouvement->version = $this->getDocument()->getVersion();

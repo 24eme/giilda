@@ -57,8 +57,8 @@ class DRMProduitAjoutForm extends acCouchdbForm
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
             $this->_choices_produits = array_merge(array("" => ""),
-												   $this->_config->formatProduits($this->_interpro->get('_id'), 
-            																   	  $this->_drm->getDepartement()));
+	    $this->_config->formatProduits($this->_interpro->get('_id'), 
+            $this->_drm->getDepartement()));
         }
 
         return $this->_choices_produits;
