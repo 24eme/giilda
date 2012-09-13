@@ -101,11 +101,20 @@ class FactureClient extends acCouchdbClient {
     private function createOrigineLibelle($ligneObj,$lignesByType) {     
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date')); 
         if($ligneObj->origine_type == self::FACTURE_LIGNE_ORIGINE_TYPE_SV){
-            return 'Contrat n° '.$ligneObj->contrat_identifiant.' '.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST];
+            $origine_libelle = 'Contrat n° '.$ligneObj->contrat_identifiant;
+            $origine_libelle .= ' ('.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST].') ';
+            $origine_libelle .= $ligneObj->origine_identifiant;
+            return $origine_libelle;
         }
+        
         if($ligneObj->origine_type == self::FACTURE_LIGNE_ORIGINE_TYPE_DRM){
             if($ligneObj->produit_type == self::FACTURE_LIGNE_PRODUIT_TYPE_VINS)
-                return 'Contrat n° '.$ligneObj->contrat_identifiant.' '.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST];
+            {
+                $origine_libelle = 'Contrat n° '.$ligneObj->contrat_identifiant;
+                $origine_libelle .= ' ('.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST].') ';
+                $origine_libelle .= $ligneObj->origine_identifiant;
+                return $origine_libelle;
+            }
             $origineLibelle = 'DRM de';
             $drmSplited = explode('-', $ligneObj->origine_identifiant);
             $mois = $drmSplited[count($drmSplited)-1];
@@ -334,29 +343,6 @@ class FactureClient extends acCouchdbClient {
     public function isRedressee($statut){
         return ($statut == self::STATUT_REDRESSEE);
     }
-
-//    public function createOrigineLibelle($ligneObj) {
-//        
-//        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date'));
-//        if($ligneObj->origine_type=='SV12'){
-//            $ligneObj->origine_libelle = 'SV12 de '.$ligneObj->origine_date;
-//            return;
-//        }
-//        
-//        $origineLibelle = 'DRM de';
-//        $drmSplited = explode('-', $ligneObj->origine_identifiant);
-//        
-//        var_dump($drmSplited);
-//        
-//        exit;
-//        $mois = $drmSplited[count($drmSplited)-1];
-//        $annee = $drmSplited[count($drmSplited)-2];
-//        $date = $annee.'-'.$mois.'-01';
-//        
-//        $df = format_date($date,'MMMM yyyy','fr_FR');
-//        $ligneObj->origine_libelle = elision($origineLibelle,$df); 
-//    }
-        
         
     public function getTypeLignePdfLibelle($typeLibelle) {
       if ($typeLibelle == self::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE)
