@@ -60,10 +60,14 @@ Facture:
                         cotisation_taux: {type: float}
                         montant_ht: {type: float}
                         origine_mouvements:
-                          type: array_collection
+                          type: collection
                           definition:
                             fields:
-                              '*':  { }
+                              '*':
+                                type: array_collection
+                                definition:
+                                  fields:
+                                    '*': { }
       echeances:
         type: array_collection
         definition:

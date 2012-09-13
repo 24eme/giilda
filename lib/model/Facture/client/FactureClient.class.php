@@ -88,16 +88,31 @@ class FactureClient extends acCouchdbClient {
         $ligneObj->produit_type = $lignesByType->key[MouvementFacturationView::KEYS_MATIERE];
         $ligneObj->produit_libelle = $lignesByType->value[MouvementFacturationView::VALUE_PRODUIT_LIBELLE];
         $ligneObj->produit_hash = $lignesByType->key[MouvementFacturationView::KEYS_PRODUIT_ID];
-        $ligneObj->id_origine = $lignesByType->value[MouvementFacturationView::VALUE_ID_ORIGINE];
         $ligneObj->volume = $volume;
         $ligneObj->cotisation_taux = $cvo;
         $ligneObj->montant_ht = $montant_ht;
-        $ligneObj->origine_mouvements = $lignesByType->value[MouvementFacturationView::VALUE_ORIGINE_CLES];
+        $ligneObj->origine_mouvements = $this->createLigneOriginesMouvements($lignesByType->value[MouvementFacturationView::VALUE_ID_ORIGINE]);
         
         $ligneObj->origine_libelle = $this->createOrigineLibelle($ligneObj,$lignesByType);
         return $montant_ht;
     }
 
+    private function createLigneOriginesMouvements($originesTable) {
+        $origines = array();
+        foreach ($originesTable as $origineFormatted) {
+            $origineKeyValue = explode(':', $origineFormatted);
+            if(count($origineKeyValue)!=2) throw new Exception('Le mouvement est mal formé : %s',  print_r($origineKeyValue));
+            $key = $origineKeyValue[0];
+            $value = $origineKeyValue[1];
+            if(!array_key_exists($key, $origines))
+            {
+                $origines[$key] = array();
+            }
+            $origines[$key][] = $value;            
+        }
+        return $origines;
+    }
+    
     private function createOrigineLibelle($ligneObj,$lignesByType) {     
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date')); 
         if($ligneObj->origine_type == self::FACTURE_LIGNE_ORIGINE_TYPE_SV){
@@ -268,13 +283,11 @@ class FactureClient extends acCouchdbClient {
                 }
                 
         }
-        foreach ($mouvementsByEtb as $identifiant => $mouvements) {
+        foreach ($mouvementsByEtb as $identifiant => $mouvement) {
             $somme = 0;
-            foreach ($mouvements as $key => $mouvement) {
-                $somme = $mouvement->value[MouvementFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementFacturationView::VALUE_CVO];
-                $somme = abs($somme);
-                $somme = $this->ttc($somme);
-            }
+            $somme = $mouvement->value[MouvementFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementFacturationView::VALUE_CVO];
+            $somme = abs($somme);
+            $somme = $this->ttc($somme);
             if (isset($parameters['seuil']) && $parameters['seuil'] != '') {
                 if ($somme >= $parameters['seuil']) {
                     unset($mouvementsByEtb[$identifiant]);

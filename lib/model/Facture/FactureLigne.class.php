@@ -11,16 +11,16 @@
  */
 class FactureLigne extends BaseFactureLigne {
     
-   public function getDocumentOrigine() {
-        return $this->getDocument()->getDocumentOrigine($this->id_origine);
+   public function getDocumentOrigine($key) {
+        return $this->getDocument()->getDocumentOrigine($key);
     }
     
     public function getMouvements() {
-        
-        $mouvements = array();
-        
-        foreach ($this->origine_mouvements as $value) {
-            $mouvements[] = $this->getDocumentOrigine()->findMouvement($value);
+        $mouvements = array();        
+        foreach ($this->origine_mouvements as $idDoc => $mouvsKeys) {
+            foreach ($mouvsKeys as $mouvKey) {
+            $mouvements[] = $this->getDocumentOrigine($idDoc)->findMouvement($mouvKey);
+            }
         }
         return $mouvements;
     }

@@ -28,8 +28,7 @@ class Facture extends BaseFacture {
         }
     }
 
-    public function getDocumentOrigine($id) {
-        
+    public function getDocumentOrigine($id) {        
         if(!array_key_exists($id, $this->documents_origine)) {            
             $this->documents_origine[$id] = acCouchdbManager::getClient()->find($id);
         }
