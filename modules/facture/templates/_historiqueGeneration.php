@@ -17,7 +17,7 @@ else :
     <th>Date</th>
     <th>Type</th>
     <th>Nb facture/avoir</th>
-    <th>Montant</th>
+    <th>Montant TTC</th>
     </tr>
     </thead>
     <tbody>

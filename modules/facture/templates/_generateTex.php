@@ -125,8 +125,8 @@ $nb_ligne = 0;
   			\rowcolor{lightgray}
                         \centering \small{\textbf{Libellé}} &
    			\centering \small{\textbf{Volume en hl}} &
-                        \centering \small{\textbf{Cotisation}} &
-   			\centering \small{\textbf{Montant H.T Euros}} &
+                        \centering \small{\textbf{Cotisation en \texteuro{}/hl}} &
+   			\centering \small{\textbf{Montant \texteuro{} HT}} &
    			\centering \small{\textbf{Code \\ Echéance}} & 
                         \multicolumn{1}{c}{\small{}}\\
   
@@ -178,7 +178,7 @@ $nb_ligne = 0;
         \small{\textbf{Règlement : }}
         \begin{itemize}
             \item \small{\textbf{par virement (merci de mentionner les n° suivants : CCCCCC FF FFFFFF)}}
-            \item \small{\textbf{par chèque en joignement le(s) papillon(s) ci-dessous : \\}}
+            \item \small{\textbf{par chèque en joignant le(s) papillon(s) ci-dessous : \\}}
         \end{itemize}
         \end{minipage}
         \end{flushleft}
