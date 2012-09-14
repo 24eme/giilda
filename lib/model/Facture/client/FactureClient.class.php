@@ -59,11 +59,13 @@ class FactureClient extends acCouchdbClient {
         $facture->client->code_postal = $etablissement->siege->code_postal;
         $facture->client->ville = $etablissement->siege->commune;
         $facture->origines = array();
-
+        
+        $famille = $etablissement->famille;
+        
         $montant_ht = 0;
         $origines = array();
         foreach ($factures as $lignesByType) {
-            $montant_ht += $this->createFactureLigne($lignesByType, $facture);
+            $montant_ht += $this->createFactureLigne($lignesByType, $facture,$famille);
         }
         $facture->origines = $origines;
         $this->createFacturePapillons($facture);
@@ -75,7 +77,7 @@ class FactureClient extends acCouchdbClient {
         return $facture;
     }
 
-    private function createFactureLigne($lignesByType, $facture) {
+    private function createFactureLigne($lignesByType, $facture,$famille) {
         $cvo = $lignesByType->value[MouvementFacturationView::VALUE_CVO];
         $montant_ht = $cvo * $lignesByType->value[MouvementFacturationView::VALUE_VOLUME] * -1;
         $volume = $lignesByType->value[MouvementFacturationView::VALUE_VOLUME];
@@ -93,7 +95,7 @@ class FactureClient extends acCouchdbClient {
         $ligneObj->montant_ht = $montant_ht;
         $ligneObj->origine_mouvements = $this->createLigneOriginesMouvements($lignesByType->value[MouvementFacturationView::VALUE_ID_ORIGINE]);
         
-        $ligneObj->origine_libelle = $this->createOrigineLibelle($ligneObj,$lignesByType);
+        $ligneObj->origine_libelle = $this->createOrigineLibelle($ligneObj,$lignesByType,$famille);
         return $montant_ht;
     }
 
@@ -113,12 +115,12 @@ class FactureClient extends acCouchdbClient {
         return $origines;
     }
     
-    private function createOrigineLibelle($ligneObj,$lignesByType) {     
-        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date')); 
+    private function createOrigineLibelle($ligneObj,$lignesByType,$famille) {     
         if($ligneObj->origine_type == self::FACTURE_LIGNE_ORIGINE_TYPE_SV){
             $origine_libelle = 'Contrat n° '.$ligneObj->contrat_identifiant;
             $origine_libelle .= ' ('.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST].') ';
-            $origine_libelle .= $ligneObj->origine_identifiant;
+            if($famille==EtablissementFamilles::FAMILLE_NEGOCIANT)
+                $origine_libelle .= $this->getLibelleFromIdSV12($ligneObj->origine_identifiant);
             return $origine_libelle;
         }
         
@@ -127,17 +129,31 @@ class FactureClient extends acCouchdbClient {
             {
                 $origine_libelle = 'Contrat n° '.$ligneObj->contrat_identifiant;
                 $origine_libelle .= ' ('.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST].') ';
-                $origine_libelle .= $ligneObj->origine_identifiant;
+                if($famille==EtablissementFamilles::FAMILLE_PRODUCTEUR)
+                    $origine_libelle .= $this->getLibelleFromIdDRM($ligneObj->origine_identifiant);
                 return $origine_libelle;
             }
-            $origineLibelle = 'DRM de';
-            $drmSplited = explode('-', $ligneObj->origine_identifiant);
-            $mois = $drmSplited[count($drmSplited)-1];
-            $annee = $drmSplited[count($drmSplited)-2];
-            $date = $annee.'-'.$mois.'-01';
-            $df = format_date($date,'MMMM yyyy','fr_FR');
-            return elision($origineLibelle,$df);
+            return $this->getLibelleFromIdDRM($ligneObj->origine_identifiant);
         }
+    }
+    
+    public function getLibelleFromIdSV12($id) {
+        $origineLibelle = 'SV12 de ';
+        $drmSplited = explode('-', $id);
+        $annee = $drmSplited[count($drmSplited)-1];
+        return $origineLibelle.$annee;
+    }
+
+
+    public function getLibelleFromIdDRM($id) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date'));
+        $origineLibelle = 'DRM de';
+        $drmSplited = explode('-', $id);
+        $mois = $drmSplited[count($drmSplited)-1];
+        $annee = $drmSplited[count($drmSplited)-2];
+        $date = $annee.'-'.$mois.'-01';
+        $df = format_date($date,'MMMM yyyy','fr_FR');
+        return elision($origineLibelle,$df);
     }
 
 
