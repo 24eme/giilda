@@ -120,22 +120,21 @@ $nb_ligne = 0;
 \fontsize{8}{8}\selectfont
     \begin{tikzpicture}
 		\node[inner sep=1pt] (tab1){
-			\begin{tabular}{p{120mm} |p{12mm}|p{14mm}|p{18mm}|p{15mm}p{0mm}}
+			\begin{tabular}{p{120mm} |p{12mm}|p{14mm}|p{18mm}|p{13mm}p{0mm}}
 
   			\rowcolor{lightgray}
                         \centering \small{\textbf{Libellé}} &
    			\centering \small{\textbf{Volume en hl}} &
                         \centering \small{\textbf{Cotisation en \texteuro{}/hl}} &
-   			\centering \small{\textbf{Montant \texteuro{} HT}} &
-   			\centering \small{\textbf{Code \\ Echéance}} & 
-                        \multicolumn{1}{c}{\small{}}\\
-  
-  			\hline
+   			\centering \small{\textbf{Montant \texteuro{} HT}} &   			
+   			\centering \small{\textbf{Code Echéance}} &
+   			 \\
+  			\hline 
                 <?php 
                 $nb_ligne += count($facture->lignes);
                 foreach ($facture->lignes as $type => $typeLignes) :
                 ?>
-                \textbf{Sortie de <?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>} & ~ & ~ & ~ & ~ &\\
+                \textbf{Sortie de <?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>} & ~ & ~ & ~ & ~ & \\
             <?php 
                  $produits = FactureClient::getInstance()->getProduitsFromTypeLignes($typeLignes);
                  $nb_ligne += count($produits);
@@ -148,7 +147,7 @@ $nb_ligne = 0;
                             \multicolumn{1}{r|}{<?php echoFloat($produit->volume*-1); ?>} &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->cotisation_taux); ?>} & 
                             \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>\texteuro{}} & 
-                            \multicolumn{1}{c}{<?php echo $produit->echeance_code ?>} &\\
+                            \multicolumn{2}{c}{<?php echo $produit->echeance_code; ?>}\\
 
                 <?php 
                     endforeach;
@@ -158,12 +157,12 @@ $nb_ligne = 0;
                
                 for($i=0; $i<($total_rows - $nb_ligne);$i++):
                 ?>
-        ~ & ~ & ~ & ~ & ~ & \\
+        ~ & ~ & ~ & ~ & ~ &\\
                 <?php 
                 endfor;
                 ?>
 	 \multicolumn{6}{c}{Aucun escompte n\'est prévu pour paiment anticipé. Pénalités de retard : 3 fois le taux d\'intér\^{e}t légal} \\
-	 ~ & ~ & ~ & ~ & ~ & \\
+	 ~ & ~ & ~ & ~ & ~ &\\
 			\end{tabular}
 		};
 		\node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};	
