@@ -331,10 +331,14 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $mouvements = array();
         foreach($this->contrats as $contrat) {
             $mouvement_vendeur = $contrat->getMouvementVendeur();
-            $mouvements[$contrat->getVrac()->vendeur_identifiant][$mouvement_vendeur->getMD5Key()] = $mouvement_vendeur;
-
+            if ($mouvement_vendeur) {
+                $mouvements[$contrat->getVrac()->vendeur_identifiant][$mouvement_vendeur->getMD5Key()] = $mouvement_vendeur;
+            }
+            
             $mouvement_acheteur = $contrat->getMouvementAcheteur();
-            $mouvements[$this->getDocument()->identifiant][$mouvement_acheteur->getMD5Key()] = $mouvement_acheteur;
+            if ($mouvement_acheteur) {
+                $mouvements[$this->getDocument()->identifiant][$mouvement_acheteur->getMD5Key()] = $mouvement_acheteur;
+            }
         }
 
         return $mouvements;
