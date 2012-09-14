@@ -33,15 +33,15 @@
                     <thead>
                     <tr>
                         <th style="width: 200px;">Viticulteur </th>
-                        <th>Appelation</th>
+                        <th>Produit</th>
                         <th>Contrat</th>
-                        <th>Volume</th>
+                        <th>Volume enlevé</th>
                         
                     </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($sv12->contrats as $contrat) :
-                        ?>   
+                        ?>
                         
                         <tr>
                             <td>

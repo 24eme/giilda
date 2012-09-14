@@ -8,7 +8,11 @@ class SV12Contrat extends BaseSV12Contrat {
     protected $vrac = null;
 
     public function getMouvementVendeur() {
-        $mouvement = clone $this->getMouvement();
+        $mouvement = $this->getMouvement();
+        if (!$mouvement) {
+
+            return null;
+        }
         $mouvement->vrac_destinataire = $this->getDocument()->declarant->nom;
         $mouvement->cvo = $this->getDroitCVO()->taux * $this->getVrac()->cvo_repartition * 0.01;
 
@@ -17,7 +21,12 @@ class SV12Contrat extends BaseSV12Contrat {
 
 
     public function getMouvementAcheteur() {
-        $mouvement = clone $this->getMouvement();
+        $mouvement = $this->getMouvement();
+        if (!$mouvement) {
+            
+            return null;
+        }
+
         $mouvement->vrac_destinataire = $this->vendeur_nom;
         $mouvement->cvo = 0;
         if ($this->getVrac()->cvo_repartition = 50) {
@@ -28,6 +37,21 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     protected function getMouvement() {
+
+        if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($this, 'volume')) {
+
+            return null;
+        }
+
+        $volume = $this->volume;
+
+        if($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($this->getHash().'/volume')) {
+            $volume = $volume - $this->getDocument()->motherGet($this->getHash().'/volume');
+        }
+
+        if($volume == 0) {
+            return null;
+        }
 
         $mouvement = DRMMouvement::freeInstance($this->getDocument());
         $mouvement->produit_hash = $this->produit_hash;
@@ -43,7 +67,7 @@ class SV12Contrat extends BaseSV12Contrat {
         
         $mouvement->type_hash = $this->contrat_type;
         $mouvement->type_libelle = $this->contrat_type;;
-        $mouvement->volume = -1 * $this->volume;
+        $mouvement->volume = -1 * $volume;
         $mouvement->date = $this->getDocument()->getDate();
         $mouvement->vrac_numero = $this->contrat_numero;
         $mouvement->detail_identifiant = $this->getVracIdentifiant();
