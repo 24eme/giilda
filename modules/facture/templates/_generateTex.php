@@ -52,7 +52,7 @@ $nb_ligne = 0;
 \def\InterloireIBAN{XXXX XXXXX XXXX XXXXX XX}
 
 \def\FactureNum{<?php echo $facture->identifiant; ?>}
-\def\FactureDate{<?php echo $facture->date_emission; ?>}
+\def\FactureDate{<?php echo format_date($facture->date_emission,'dd/MM/yyyy'); ?>}
 \def\FactureRefClient{<?php echo $facture->client_reference; ?>}
 
 \def\FactureClientNom{<?php echo ($facture->client->raison_sociale == '')? 'Raison Sociale' : $facture->client->raison_sociale; ?>}

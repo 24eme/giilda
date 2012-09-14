@@ -117,7 +117,7 @@ class FactureClient extends acCouchdbClient {
     
     private function createOrigineLibelle($ligneObj,$lignesByType,$famille) {     
         if($ligneObj->origine_type == self::FACTURE_LIGNE_ORIGINE_TYPE_SV){
-            $origine_libelle = 'Contrat n° '.$ligneObj->contrat_identifiant;
+            $origine_libelle = 'Contrat du '.$this->formatContratNum($ligneObj->contrat_identifiant);
             $origine_libelle .= ' ('.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST].') ';
             if($famille==EtablissementFamilles::FAMILLE_NEGOCIANT)
                 $origine_libelle .= $this->getLibelleFromIdSV12($ligneObj->origine_identifiant);
@@ -127,7 +127,7 @@ class FactureClient extends acCouchdbClient {
         if($ligneObj->origine_type == self::FACTURE_LIGNE_ORIGINE_TYPE_DRM){
             if($ligneObj->produit_type == self::FACTURE_LIGNE_PRODUIT_TYPE_VINS)
             {
-                $origine_libelle = 'Contrat n° '.$ligneObj->contrat_identifiant;
+                $origine_libelle = 'Contrat du '.$this->formatContratNum($ligneObj->contrat_identifiant);
                 $origine_libelle .= ' ('.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST].') ';
                 if($famille==EtablissementFamilles::FAMILLE_PRODUCTEUR)
                     $origine_libelle .= $this->getLibelleFromIdDRM($ligneObj->origine_identifiant);
@@ -137,7 +137,18 @@ class FactureClient extends acCouchdbClient {
         }
     }
     
-    public function getLibelleFromIdSV12($id) {
+    private function formatContratNum($id)
+    {
+        if(strlen($id)!=13) throw new Exception(sprintf ('Le numéro de contrat %s ne possède pas un bon format.',$id));
+        $annee = substr($id, 0,4);
+        $mois = substr($id, 4,2);
+        $jour = substr($id, 6,2);
+        $num = substr($id, 8);
+        return $jour.'/'.$mois.'/'.$annee.' n°'.$num;
+    }
+    
+    
+    private function getLibelleFromIdSV12($id) {
         $origineLibelle = 'SV12 de ';
         $drmSplited = explode('-', $id);
         $annee = $drmSplited[count($drmSplited)-1];
