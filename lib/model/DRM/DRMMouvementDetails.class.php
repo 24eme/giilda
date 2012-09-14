@@ -53,11 +53,10 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
           $volume = $volume - $this->getDocument()->motherGet($detail->getHash())->volume;
         }
 
-	   $config = $this->getDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
-
+	    $config = $this->getDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
         $volume = $config->mouvement_coefficient * $volume;
 
-        if(!$volume > 0) {
+        if($volume == 0) {
           return null;
         }
 

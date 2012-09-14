@@ -298,7 +298,7 @@ class DRMDetail extends BaseDRMDetail {
     $config = $this->getConfig()->get($hash);
     $volume = $config->mouvement_coefficient * $volume;
 
-    if(!$volume > 0) {
+    if($volume == 0) {
       return null;
     }
 
