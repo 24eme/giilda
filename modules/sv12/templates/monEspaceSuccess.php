@@ -20,7 +20,7 @@ $periode = '2012';
             <br />
             <br />
 
-            <?php include_partial('sv12/list', array('list' => $historySv12)) ?>
+            <?php include_partial('sv12/list', array('list' => $list)) ?>
         </section>
         <!-- fin #contenu_etape -->
     </section>

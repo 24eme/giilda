@@ -13,7 +13,7 @@
             <?php endif; ?>
 
             <h2>Détail de la déclaration</h2>
-            <?php include_partial('sv12ByProduitsTypes',array('sv12ByProduitsTypes' => $sv12ByProduitsTypes)); ?>
+            <?php include_partial('totaux', array('sv12' => $sv12)); ?>
 
             <h2> Détail des mouvements </h2>
             <?php include_partial('mouvements',array('mouvements' => $mouvements)); ?>

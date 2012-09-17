@@ -12,7 +12,7 @@
             <form name="sv12_recapitulatif" method="POST" action="<?php echo url_for('sv12_recapitulatif', $sv12); ?>" >
 
                 <h2>Récapitulatif</h2>            
-                <?php include_partial('sv12ByProduitsTypes', array('sv12ByProduitsTypes' => $sv12ByProduitsTypes)); ?>
+                <?php include_partial('totaux', array('sv12' => $sv12)); ?>
                 <br />
                 <h2> Détail des mouvements </h2>
                 <?php include_partial('mouvements', array('mouvements' => $mouvements)); ?>
