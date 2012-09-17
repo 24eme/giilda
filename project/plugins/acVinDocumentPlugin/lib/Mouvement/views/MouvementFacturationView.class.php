@@ -80,6 +80,7 @@ class MouvementFacturationView extends acCouchdbView
 
     protected function buildMouvement($row) {
         $mouvement = new stdClass();
+        $mouvement->date = $row->value[self::VALUE_DATE];
         $mouvement->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
         $mouvement->type_libelle = $row->value[self::VALUE_TYPE_LIBELLE];
         $mouvement->volume = $row->value[self::VALUE_VOLUME];
