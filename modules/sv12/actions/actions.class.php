@@ -17,7 +17,7 @@ class sv12Actions extends sfActions {
 
     public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->historySv12 = SV12Client::getInstance()->retrieveByEtablissement($this->etablissement->identifiant);
+        $this->list = SV12AllView::getInstance()->getMasterByEtablissement($this->etablissement->identifiant);
     }
 
     /**
@@ -33,10 +33,10 @@ class sv12Actions extends sfActions {
 
         if($sv12s)
         {           
-         $sv12s = array_values($sv12s);
-         $sv12 = $sv12s[0];         
-         return $this->renderPartial('popupWarning',array('sv12' => $sv12));
-         //$this->redirect('sv12_etablissement',  EtablissementClient::getInstance()->findByIdentifiant($sv12[0]));
+            $sv12s = array_values($sv12s);
+            $sv12 = $sv12s[0];         
+            
+            return $this->renderPartial('popupWarning',array('sv12' => $sv12));
         }
         
         $sv12 = SV12Client::getInstance()->createDoc($etbId,$periode);
@@ -64,6 +64,7 @@ class sv12Actions extends sfActions {
         $this->sv12 = $this->getRoute()->getSV12();
         $this->sv12ByProduitsTypes = $this->sv12->getSV12ByProduitsType();
         $this->mouvements = $this->sv12->getMouvementsCalculeByIdentifiant($this->sv12->identifiant);
+        $this->sv12->updateTotaux();
         
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->sv12->validate();

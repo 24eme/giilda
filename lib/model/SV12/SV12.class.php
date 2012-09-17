@@ -42,7 +42,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     
     
     public function storeContrats() {
-        $contratsView = SV12Client::getInstance()->retrieveContratsByEtablissement($this->identifiant);
+        $contratsView = SV12Client::getInstance()->findContratsByEtablissement($this->identifiant);
         foreach ($contratsView as $contratView)
         {
             $idContrat = preg_replace('/VRAC-/', '', $contratView->value[VracClient::VRAC_VIEW_NUMCONTRAT]);
@@ -91,6 +91,33 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
             $this->contrats->add($num_contrat, $contratObj);
         }
     }
+
+    public function updateTotaux() {
+        $this->remove('totaux');
+        $this->add('totaux');
+
+        $this->totaux->volume_raisins = 0;
+        $this->totaux->volume_mouts = 0;
+
+        foreach ($this->contrats as $contrat) {
+            if(!$this->totaux->produits->exist($contrat->produit_hash)) {
+                $noeud = $this->totaux->produits->add($contrat->produit_libelle);
+                $noeud->produit_hash = $contrat->produit_hash;
+                $noeud->volume_raisins = 0;      
+                $noeud->volume_mouts = 0;      
+            } else {
+                $noeud = $this->totaux->produits->get($contrat->produit_libelle);
+            }
+
+            if ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS) {
+                $noeud->volume_raisins += $contrat->volume; 
+                $this->totaux->volume_raisins += $contrat->volume; 
+            } elseif($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
+                $noeud->volume_mouts += $contrat->volume;
+                $this->totaux->volume_mouts += $contrat->volume;   
+            }
+        }
+    }
     
     public function updateVolume($num_contrat,$volume) {
         $this->contrats[$num_contrat]->volume = $volume;
@@ -101,6 +128,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->valide->statut = SV12Client::SV12_STATUT_VALIDE;
 
         $this->generateMouvements();
+        $this->updateTotaux();
     }
 
     public function devalide() {
@@ -234,7 +262,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     public function getMasterVersionOfRectificative() {
-        return SV12Client::getInstance()->getMasterVersionOfRectificative($this->identifiant, 
+        return SV12Client::getInstance()->findMasterRectificative($this->identifiant, 
                                                                  $this->periode, 
                                                                  self::buildVersion($this->getRectificative() - 1, 0));
     }
@@ -256,7 +284,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function findMaster() {
 
-        return SV12Client::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $this->periode);
+        return SV12Client::getInstance()->findMaster($this->identifiant, $this->periode);
     }
 
     public function findDocumentByVersion($version) {

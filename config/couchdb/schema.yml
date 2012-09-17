@@ -21,6 +21,23 @@ SV12:
             adresse: {  }
             commune: {  }
             code_postal: {   }
+      totaux:
+        type: collection
+        definition:
+          fields:            
+            volume_raisins: { type: float }
+            volume_mouts: { type: float }
+            produits:
+              type: collection
+              definition:
+                fields:
+                  '*':
+                    type: collection
+                    definition:
+                      fields:
+                        produit_hash: {  }
+                        volume_raisins: { type: float }
+                        volume_mouts: { type: float }
       contrats:
         type: collection
         definition:

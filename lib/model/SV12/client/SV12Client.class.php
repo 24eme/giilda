@@ -51,122 +51,32 @@ class SV12Client extends acCouchdbClient {
         $sv12->storeContrats();
         return $sv12;
     }
+
+    public function findMaster($id_or_identifiant, $periode) {
+
+      $sv12 = SV12AllView::getInstance()->getMasterByEtablissementAndPeriode($id_or_identifiant, $periode);
+
+      if (!$sv12) {
+        return;
+      }
+
+      return $this->find($sv12->_id);
+    }
+
+    public function findMasterRectificative($id_or_identifiant, $periode, $version_rectificative) {
+
+      $sv12 = SV12AllView::getInstance()->getMasterByEtablissementPeriodeAndVersionRectificative($id_or_identifiant, $periode, $version_rectificative);
+
+      if (!$sv12) {
+        return;
+      }
+
+      return $this->find($sv12->_id);
+    }
     
-    public function retrieveContratsByEtablissement($identifiant) {   
+    public function findContratsByEtablissement($identifiant) {   
        return array_merge(VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  VracClient::TYPE_TRANSACTION_MOUTS)->rows,
                           VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  VracClient::TYPE_TRANSACTION_RAISINS)->rows);
         
-    }
-    
-    public function retrieveLastDocs($limit = 300) {
-        $rows = $this->startkey(array(SV12Client::SV12_STATUT_BROUILLON))
-                     ->endkey(array(SV12Client::SV12_STATUT_BROUILLON, array()))
-                     ->limit($limit) //FIXME :  ->descending(true);
-                     ->getView('sv12', 'history')->rows;
-
-        $drms = array();
-
-        foreach($rows as $row) {
-          $drms[$row->id] = $row->value;
-        }
-        
-        krsort($drms);
-        
-        return $drms;
-    }
-
-    public function retrieveByEtablissement($identifiant) {
-        $rows = acCouchdbManager::getClient()
-            ->startkey(array($identifiant))
-              ->endkey(array($identifiant, array()))
-              ->getView("sv12", "all")
-              ->rows;
-      
-        $drms = array();
-
-        foreach($rows as $row) {
-          $drms[$row->id] = $row->value;
-        }
-        
-        krsort($drms);
-        
-        return $drms;
-    }
-    
-    public function viewByIdentifiantAndCampagne($identifiant, $campagne) {
-      $rows = acCouchdbManager::getClient()
-            ->startkey(array($identifiant, $campagne))
-              ->endkey(array($identifiant, $campagne, array()))
-              ->getView("sv12", "all")
-              ->rows;
-      
-      $drms = array();
-
-      foreach($rows as $row) {
-        $drms[$row->id] = $row->key;
-      }
-      
-      krsort($drms);
-      
-      return $drms;
-    }
-
-    public function findMasterByIdentifiantAndPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-      $drms = $this->viewByIdentifiantPeriode($identifiant, $periode);
-
-      foreach($drms as $id => $drm) {
-
-        return $this->find($id, $hydrate);
-      }
-
-      return null;
-    }
-
-    public function getMasterVersionOfRectificative($identifiant, $periode, $version_rectificative) {
-      $drms = $this->viewByIdentifiantPeriodeAndVersion($identifiant, $periode, $version_rectificative);
-
-      foreach($drms as $id => $drm) {
-
-        return $drm[3];
-      }
-
-      return null;
-    }
-
-    protected function viewByIdentifiantPeriode($identifiant, $periode) {
-        $rows = acCouchdbManager::getClient()
-              ->startkey(array($identifiant, $periode))
-                ->endkey(array($identifiant, $periode, array()))
-                ->getView("sv12", "all")
-                ->rows;
-        
-        $drms = array();
-
-        foreach($rows as $row) {
-          $drms[$row->id] = $row->key;
-        }
-        
-        krsort($drms);
-        
-        return $drms;
-    }
-    
-    protected function viewByIdentifiantPeriodeAndVersion($identifiant, $periode, $version_rectificative) {
-      $rows = acCouchdbManager::getClient()
-            ->startkey(array($identifiant, $periode, $version_rectificative))
-              ->endkey(array($identifiant, $periode, $this->buildVersion($version_rectificative, 99)))
-              ->reduce(false)
-              ->getView("drm", "all")
-              ->rows;
-      
-      $drms = array();
-
-      foreach($rows as $row) {
-        $drms[$row->id] = $row->key;
-      }
-      
-      krsort($drms);
-      
-      return $drms;
     }
 }
