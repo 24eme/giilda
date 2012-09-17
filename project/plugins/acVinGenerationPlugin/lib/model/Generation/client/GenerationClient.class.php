@@ -23,4 +23,14 @@ class GenerationClient extends acCouchdbClient {
                         ->getView("generation", "history")
                 ->rows;
     }
+    
+    public function getDateFromIdGeneration($date) {
+        $annee = substr($date,0,4);
+        $mois = substr($date,4,2);
+        $jour = substr($date,6,2);
+        $heure = substr($date,8,2);        
+        $minute = substr($date,10,2);
+        $seconde = substr($date,12,2);
+        return $jour.'/'.$mois.'/'.$annee.' '.$heure.':'.$minute.':'.$seconde;
+    }
 }

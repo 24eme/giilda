@@ -86,7 +86,8 @@ class MouvementFacturationView extends acCouchdbView
         $mouvement->volume = $row->value[self::VALUE_VOLUME];
         $mouvement->detail_libelle = $row->value[self::VALUE_DETAIL_LIBELLE];
         $mouvement->cvo = $row->value[self::VALUE_CVO];        
-        $mouvement->numero = $row->value[self::VALUE_NUMERO];      
+        $mouvement->numero = $row->value[self::VALUE_NUMERO]; 
+        $mouvement->prix_ht = $mouvement->cvo * -1 * $mouvement->volume;
         return $mouvement;
     }
 }  
