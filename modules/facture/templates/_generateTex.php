@@ -25,9 +25,10 @@ $nb_ligne = 0;
 
 \renewcommand\sfdefault{phv}
 
-\newcommand{\CutlnPapillon}{
-  	\multicolumn{7}{c}{ \Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline  }
-\\   	  
+\newcommand{\CutlnPapillon}{	
+  	\multicolumn{4}{|c|}{ ~~~~~~~~~~~~~~~~~~~~~~~ } & 
+  	\multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
+\\    
 }
 
 \renewcommand{\familydefault}{\sfdefault}
@@ -216,22 +217,29 @@ $nb_ligne = 0;
 
 \begin{minipage}[b]{1\textwidth}
 
-\begin{tabular}{p{10mm} p{30mm} p{30mm} p{30mm} p{35mm} p{20mm} p{15mm}}
+\begin{tabular}{|p{9mm} p{30mm} p{30mm} p{30mm} | p{20mm} p{40mm} p{20mm}}
 
-	\hline
-	\multicolumn{7}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Papillon(s) à joindre au règlement}}}  \\
-   	\CutlnPapillon
+	\multicolumn{4}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à conservée}}} &
+	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à joindre au règlement}}} \\  	
 	
         <?php $nb = count($facture->echeances) ; foreach ($facture->echeances as $key => $papillon) : ?>
-                & \centering \small{Code échéance} & \centering \small{\textbf{Date échéance}} & \centering \small{Réf. Client} & \centering \small{N$^\circ$ Facture} & & \\
-                
+
+	&
+    \centering \small{Code échéance} &
+    \centering \small{\textbf{Date d'échéance}} &
+    \centering \small{\textbf{Montant TTC}}  &
+    \centering \small{Date d'échéance} &
+    \centering \small{Ref. Client / Ref. Facture} &
+    \multicolumn{1}{c}{\small{Montant TTC}} \\
+                        
                 \centering \small{<?php echo $nb - $key; ?>} & 
                 \centering \small{<?php echo $papillon->echeance_code ?>} &
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
-                \centering \small{\FactureRefClient} &
-                \centering \small{\FactureNum} &
-                \centering \small{\textbf{Net à payer :}}
-                & \multicolumn{1}{r}{\small{\textbf{<?php echo echoFloat($papillon->montant_ttc); ?>\texteuro{}}}}  \\
+                \multicolumn{1}{r|}{\centering \small{\textbf{2539.68\texteuro{}}}} &
+                \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
+                \centering \small{\FactureRefClient/\FactureNum} &               
+                \multicolumn{1}{r}{\small{\textbf{<?php echo echoFloat($papillon->montant_ttc); ?>\texteuro{}}}}  \\
+
                 \CutlnPapillon
         <?php endforeach; ?> 
                 
