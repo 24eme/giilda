@@ -329,4 +329,15 @@ class DRMClient extends acCouchdbClient {
       return array_merge($drm_version_suivante->get('_id'),
                          $this->generateVersionCascade($drm_version_suivante));
     }
+    
+    public function getLibelleFromIdDRM($id) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date'));
+        $origineLibelle = 'DRM de';
+        $drmSplited = explode('-', $id);
+        $mois = $drmSplited[count($drmSplited)-1];
+        $annee = $drmSplited[count($drmSplited)-2];
+        $date = $annee.'-'.$mois.'-01';
+        $df = format_date($date,'MMMM yyyy','fr_FR');
+        return elision($origineLibelle,$df);
+    }
 }

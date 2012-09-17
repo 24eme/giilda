@@ -632,4 +632,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /**** FIN DES MOUVEMENTS ****/
+    public function __toString()
+    {
+        return DRMClient::getInstance()->getLibelleFromIdDRM($this->_id);
+    }
 }
