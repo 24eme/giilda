@@ -1,4 +1,8 @@
-<?php use_helper('Float'); use_helper('Date'); ?>
+<?php 
+use_helper('Float');
+use_helper('Date');
+use_helper('Prix'); 
+?>
 <fieldset id="mouvement_drm">
     <legend>Mouvements en attente de facturation</legend>
     <table class="table_recap">
@@ -8,7 +12,7 @@
                 <th style="width: 180px;">Document</th>
                 <th style="width: 180px;">Produits</th>
                 <th>Type</th>
-                <th>Volume</th>
+                <th>Prix TTC</th>
             </tr>
         </thead>
         <tbody>
@@ -25,7 +29,7 @@
                 <td><?php echo $mouvement->produit_libelle ?> </td>
                 <td><?php echo $mouvement->type_libelle.' '.$mouvement->detail_libelle ?></td>
                 <td <?php echo ($mouvement->volume>0)? ' class="positif"' : 'class="negatif"';?> >
-                    <?php  echoSignedFloat($mouvement->volume); ?>
+                    <?php echoTtc($mouvement->prix_ht); ?>&nbsp;&euro;
                 </td>
             </tr>
         <?php endforeach; ?>

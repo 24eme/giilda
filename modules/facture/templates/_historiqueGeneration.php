@@ -1,5 +1,5 @@
 <?php
-use_helper('Float');
+use_helper('Float');    
 ?>
 <h2>10 dernières facturation générées </h2>
 <fieldset>
@@ -23,7 +23,7 @@ else :
     <tbody>
     <?php foreach ($generations as $generation) : ?>
     <tr>
-        <td><?php echo $generation->value[GenerationClient::HISTORY_VALUES_DATE]; ?></td>
+        <td><?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->value[GenerationClient::HISTORY_VALUES_DATE]); ?></td>
         <td><?php echo 'F'; ?></td>
         <td><?php echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC]; ?></td>
         <td><?php echoFloat($generation->value[GenerationClient::HISTORY_VALUES_SOMME]); ?>&nbsp;€</td>

@@ -133,7 +133,7 @@ class FactureClient extends acCouchdbClient {
                     $origine_libelle .= DRMClient::getInstance()->getLibelleFromIdDRM($ligneObj->origine_identifiant);
                 return $origine_libelle;
             }
-            return $this->getLibelleFromIdDRM($ligneObj->origine_identifiant);
+            return DRMClient::getInstance()->getLibelleFromIdDRM($ligneObj->origine_identifiant);
         }
     }
     
@@ -282,28 +282,35 @@ class FactureClient extends acCouchdbClient {
     }
     
     public function filterWithParameters($mouvementsByEtb, $parameters) {
-        foreach ($mouvementsByEtb as $k => $mouvements) {
-                if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '') &&
-                        ($this->supEqDate($mouvements->value[MouvementFacturationView::VALUE_DATE], $parameters['date_mouvement']))) {
-                    unset($mouvementsByEtb[$k]);
-                }
-                
-        }
-        foreach ($mouvementsByEtb as $identifiant => $mouvement) {
-            $somme = 0;
-            $somme = $mouvement->value[MouvementFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementFacturationView::VALUE_CVO];
-            $somme = abs($somme);
-            $somme = $this->ttc($somme);
-            if (isset($parameters['seuil']) && $parameters['seuil'] != '') {
-                if ($somme >= $parameters['seuil']) {
-                    unset($mouvementsByEtb[$identifiant]);
-                }           
+        
+    if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '')){
+        foreach ($mouvementsByEtb as $identifiant => $mouvements) {
+            foreach ($mouvements as $key => $mouvement) {
+                    if($this->supEqDate($mouvement->value[MouvementFacturationView::VALUE_DATE], $parameters['date_mouvement'])) {
+                        unset($mouvements[$key]);
+                    }
             }
         }
-        if (count($mouvementsByEtb) == 0)
-            return null;
+    }
+    //Si seuil il y a
+    if (isset($parameters['seuil']) && $parameters['seuil'] != '') {
+        foreach ($mouvementsByEtb as $identifiant => $mouvements) {
+            $somme = 0;
+            foreach ($mouvements as $mouvement) {
+                $somme+= $mouvement->value[MouvementFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementFacturationView::VALUE_CVO];
+            }
+            $somme = abs($somme);
+            $somme = $this->ttc($somme);
+            exit;
+            if ($somme >= $parameters['seuil']) {
+                    unset($mouvementsByEtb[$identifiant]);
+                }           
+        }
+    }
+    if (count($mouvementsByEtb) == 0)
+        return null;
 
-        return $mouvementsByEtb;
+    return $mouvementsByEtb;
     }
 
     private function supEqDate($date_0, $date_1) {
