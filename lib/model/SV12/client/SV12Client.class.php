@@ -169,4 +169,11 @@ class SV12Client extends acCouchdbClient {
       
       return $drms;
     }
+    
+    public function getLibelleFromIdSV12($id) {
+        $origineLibelle = 'SV12 de ';
+        $drmSplited = explode('-', $id);
+        $annee = $drmSplited[count($drmSplited)-1];
+        return $origineLibelle.$annee;
+    }
 }
