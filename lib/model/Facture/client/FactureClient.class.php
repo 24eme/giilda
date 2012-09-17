@@ -120,7 +120,7 @@ class FactureClient extends acCouchdbClient {
             $origine_libelle = 'Contrat du '.$this->formatContratNum($ligneObj->contrat_identifiant);
             $origine_libelle .= ' ('.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST].') ';
             if($famille==EtablissementFamilles::FAMILLE_NEGOCIANT)
-                $origine_libelle .= $this->getLibelleFromIdSV12($ligneObj->origine_identifiant);
+                $origine_libelle .= SV12Client::getInstance()->getLibelleFromIdSV12($ligneObj->origine_identifiant);
             return $origine_libelle;
         }
         
@@ -130,7 +130,7 @@ class FactureClient extends acCouchdbClient {
                 $origine_libelle = 'Contrat du '.$this->formatContratNum($ligneObj->contrat_identifiant);
                 $origine_libelle .= ' ('.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST].') ';
                 if($famille==EtablissementFamilles::FAMILLE_PRODUCTEUR)
-                    $origine_libelle .= $this->getLibelleFromIdDRM($ligneObj->origine_identifiant);
+                    $origine_libelle .= DRMClient::getInstance()->getLibelleFromIdDRM($ligneObj->origine_identifiant);
                 return $origine_libelle;
             }
             return $this->getLibelleFromIdDRM($ligneObj->origine_identifiant);
@@ -145,29 +145,8 @@ class FactureClient extends acCouchdbClient {
         $jour = substr($id, 6,2);
         $num = substr($id, 8);
         return $jour.'/'.$mois.'/'.$annee.' n°'.$num;
-    }
+    }   
     
-    
-    private function getLibelleFromIdSV12($id) {
-        $origineLibelle = 'SV12 de ';
-        $drmSplited = explode('-', $id);
-        $annee = $drmSplited[count($drmSplited)-1];
-        return $origineLibelle.$annee;
-    }
-
-
-    public function getLibelleFromIdDRM($id) {
-        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date'));
-        $origineLibelle = 'DRM de';
-        $drmSplited = explode('-', $id);
-        $mois = $drmSplited[count($drmSplited)-1];
-        $annee = $drmSplited[count($drmSplited)-2];
-        $date = $annee.'-'.$mois.'-01';
-        $df = format_date($date,'MMMM yyyy','fr_FR');
-        return elision($origineLibelle,$df);
-    }
-
-
     private function createFacturePapillons($facture) {
         foreach ($facture->lignes as $typeLignes) {
             foreach ($typeLignes as $ligne) {
