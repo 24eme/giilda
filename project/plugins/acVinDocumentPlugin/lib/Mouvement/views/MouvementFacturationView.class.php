@@ -24,7 +24,6 @@ class MouvementFacturationView extends acCouchdbView
     const VALUE_VRAC_DEST = 6;
     const VALUE_NUMERO = 7;
     const VALUE_ID_ORIGINE = 8;
-    const VALUE_ORIGINE_CLES = 9;
 
     public static function getInstance() {
 
@@ -81,12 +80,14 @@ class MouvementFacturationView extends acCouchdbView
 
     protected function buildMouvement($row) {
         $mouvement = new stdClass();
+        $mouvement->date = $row->value[self::VALUE_DATE];
         $mouvement->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
         $mouvement->type_libelle = $row->value[self::VALUE_TYPE_LIBELLE];
         $mouvement->volume = $row->value[self::VALUE_VOLUME];
         $mouvement->detail_libelle = $row->value[self::VALUE_DETAIL_LIBELLE];
         $mouvement->cvo = $row->value[self::VALUE_CVO];        
-        $mouvement->numero = $row->value[self::VALUE_NUMERO];      
+        $mouvement->numero = $row->value[self::VALUE_NUMERO]; 
+        $mouvement->prix_ht = $mouvement->cvo * -1 * $mouvement->volume;
         return $mouvement;
     }
 }  

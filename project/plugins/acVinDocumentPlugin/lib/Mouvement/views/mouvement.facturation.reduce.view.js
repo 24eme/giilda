@@ -42,7 +42,6 @@
     var dates = new Array();
     var vrac_destinataire = new Array();
     var details_libelles = new Array();
-    var ids = new Array();
     var identifiants = new Array();
     
     for(item in values)
@@ -55,8 +54,7 @@
         details_libelles = merge_field(values[item][5],item,details_libelles);
         vrac_destinataire = merge_field(values[item][6],item,vrac_destinataire);
         identifiants = merge_field(values[item][7],item,identifiants);
-        ids = merge_field(values[item][8],item,ids);
-        origines = merge_field(values[item][9],item,origines);
+        origines = merge_field(values[item][8],item,origines);
     }
     
     produits_libelles = reduce_result(produits_libelles);
@@ -66,7 +64,6 @@
     details_libelles = reduce_result(details_libelles);
     vrac_destinataire = reduce_result(vrac_destinataire);
     identifiants = reduce_result(identifiants);
-    ids = reduce_result(ids);
-    result = [produits_libelles, types_libelles, total_volume, cvos, dates, vrac_destinataire, details_libelles, identifiants, ids, origines];
+    result = [produits_libelles, types_libelles, total_volume, cvos, dates, vrac_destinataire, details_libelles, identifiants, origines];
     return result;
  }
