@@ -7,10 +7,10 @@
 
         <h2>Déclaration Récapitulative Mensuelle</h2>
 
-        <div id="recap_infos_header">
-            <div><label>Nom de l'opérateur : </label> <?php echo $drm->getEtablissement()->nom ?> </div>
-            <div><label>Période : </label><?php echo $drm->periode ?></div>
-        </div>
+		<ul id="recap_infos_header">
+			<li><span>Nom de l'opérateur :</span> <?php echo $drm->getEtablissement()->nom ?> </li>
+			<li><span>Période :</span> <?php echo $drm->periode ?></li>
+		</ul>
 
         <?php include_partial('drm/etapes'); ?>
 
@@ -21,7 +21,7 @@
             <br />
             <div id="btn_etape_dr">
                 <a href="<?php echo url_for('drm_edition', $drm) ?>" class="btn_etape_prec" id="facture"><span>Précédent</span></a> 
-                <button type="submit" class="btn_etape_suiv" id="facture"><span>Suivant</span></a> 
+                <button type="submit" class="btn_etape_suiv" id="facture"><span>Suivant</span></button> 
             </div>
         </form>
 
