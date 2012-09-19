@@ -20,7 +20,8 @@ SV12:
             num_tva_intracomm: {    }
             adresse: {  }
             commune: {  }
-            code_postal: {   }
+            code_postal: {   }            
+            num_chai: {  }
       totaux:
         type: collection
         definition:

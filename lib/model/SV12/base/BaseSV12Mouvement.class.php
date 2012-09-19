@@ -9,6 +9,8 @@
  * @property string $produit_libelle
  * @property string $type_hash
  * @property string $type_libelle
+ * @property string $vrac_numero
+ * @property string $vrac_destinataire
  * @property string $detail_identifiant
  * @property string $detail_libelle
  * @property float $volume
@@ -29,6 +31,10 @@
  * @method string setTypeHash()
  * @method string getTypeLibelle()
  * @method string setTypeLibelle()
+ * @method string getVracNumero()
+ * @method string setVracNumero()
+ * @method string getVracDestinataire()
+ * @method string setVracDestinataire()
  * @method string getDetailIdentifiant()
  * @method string setDetailIdentifiant()
  * @method string getDetailLibelle()

@@ -4,15 +4,17 @@
  * Model for Vrac
  *
  */
-class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVersionDocument {
+class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVersionDocument, InterfaceDeclarant {
 
     protected $mouvement_document = null;
     protected $version_document = null;
+    protected $declarant = null;
 
     public function  __construct() {
         parent::__construct();   
         $this->mouvement_document = new MouvementDocument($this);
         $this->version_document = new VersionDocument($this);
+        $this->declarant = new Declarant($this);
     }
 
     public function constructId() {
@@ -27,20 +29,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
         return SV12Client::getInstance()->buildPeriodeAndVersion($this->periode, $this->version);
     }
-    
-    public function storeDeclarant() {
-        $declarant = $this->getEtablissementObject();
-        if(!$declarant) return null;
-        $this->declarant->nom = $declarant->nom;
-        $this->declarant->cvi = $declarant->cvi;
-        $this->declarant->num_accise = $declarant->no_accises;
-        $this->declarant->num_tva_intracomm = $declarant->no_tva_intracommunautaire;
-        $this->declarant->adresse = $declarant->siege->adresse;        
-        $this->declarant->commune = $declarant->siege->commune;
-        $this->declarant->code_postal = $declarant->siege->code_postal;
-    }
-    
-    
+
     public function storeContrats() {
         $contratsView = SV12Client::getInstance()->findContratsByEtablissement($this->identifiant);
         foreach ($contratsView as $contratView)
@@ -50,10 +39,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         }
     }
     
-    public function getEtablissementObject() {
        
-        return EtablissementClient::getInstance()->findByIdentifiant($this->identifiant);
-    }
     
     public function update($params = array()) {
         
@@ -393,6 +379,19 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     /**** FIN DES MOUVEMENTS ****/
+    
+    
+    /**** DECLARANT ****/
+        
+    public function storeDeclarant() {
+        $this->declarant->storeDeclarant();
+    }
+
+    public function getEtablissementObject() {
+        return $this->declarant->getEtablissementObject();
+    }
+    
+    /**** FIN DES DECLARANT ****/
     
     public function __toString()
     {
