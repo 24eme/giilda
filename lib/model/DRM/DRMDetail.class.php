@@ -347,5 +347,4 @@ class DRMDetail extends BaseDRMDetail {
   public function getDroitCVO($interpro = 'INTERPRO-inter-loire') {
     return $this->getCepage()->getConfig()->getDroitCVO($this->getDocument()->getPeriode(), $interpro);
   }
-  
 }

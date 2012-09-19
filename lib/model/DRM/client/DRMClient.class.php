@@ -110,7 +110,7 @@ class DRMClient extends acCouchdbClient {
     }
 
     public function findLastByIdentifiantAndCampagne($identifiant, $campagne, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-      $drms = $this->ByIdentifiantAndCampagne($identifiant, $campagne);
+      $drms = $this->viewByIdentifiantAndCampagne($identifiant, $campagne);
 
       foreach($drms as $id => $drm) {
 
