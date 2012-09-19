@@ -44,7 +44,7 @@ class FactureRouting {
         
         
         $r->prependRoute('facture_generer_masse', new sfRoute('/facture/masse', array('module' => 'facture', 
-													'action' => 'masse')));
+										      'action' => 'masse')));
 
     }
 }
