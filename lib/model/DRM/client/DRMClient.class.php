@@ -109,6 +109,17 @@ class DRMClient extends acCouchdbClient {
         return date("t",$mois).'/'.$dateArr[0].'/'.$dateArr[1];
     }
 
+    public function findLastByIdentifiantAndCampagne($identifiant, $campagne, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      $drms = $this->ByIdentifiantAndCampagne($identifiant, $campagne);
+
+      foreach($drms as $id => $drm) {
+
+        return $this->find($id, $hydrate);
+      }
+
+      return null;
+    }
+
     public function findMasterByIdentifiantAndPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
       $drms = $this->viewByIdentifiantPeriode($identifiant, $periode);
 
