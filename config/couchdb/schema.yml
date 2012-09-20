@@ -1,0 +1,41 @@
+#schema des Stocks
+Stock:
+  definition:
+    fields:
+      _id: {}
+      _rev: {}
+      type: {}
+      identifiant: {}
+      date_emission: {}
+      campagne: {}
+      statut: {}
+      commentaire: {}
+      declarant:
+        type: collection
+        definition:
+          fields:
+            nom: {  }
+            cvi: {  }
+            num_accise: {   }
+            num_tva_intracomm: {    }
+            adresse: {  }
+            commune: {  }
+            code_postal: {   }            
+            num_chai: {  }
+      declaration:
+        type: collection
+        definition:
+          fields:
+            '*':              
+              class: StockProduit
+              type: collection
+              definition:
+                fields:
+                  produit_type: {}
+                  produit_libelle: {}
+                  produit_hash: {}
+                  stock_initial: { type: float }
+                  stock_revendique: { type: float }
+                  vente_vin: { type: float }
+                  stock_theorique: { type: float }
+                  stock_consome: { type: float }
