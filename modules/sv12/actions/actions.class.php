@@ -5,7 +5,7 @@ class sv12Actions extends sfActions {
     public function executeChooseEtablissement(sfWebRequest $request) {
         $this->form = new SV12EtablissementChoiceForm('INTERPRO-inter-loire');
 
-        $this->historySv12 = SV12Client::getInstance()->retrieveLastDocs();
+        $this->historySv12 = array();
         
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));

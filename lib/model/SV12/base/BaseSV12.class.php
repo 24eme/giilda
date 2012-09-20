@@ -8,9 +8,11 @@
  * @property string $_rev
  * @property string $type
  * @property string $identifiant
+ * @property string $campagne
  * @property string $periode
- * @property string $negociant_identifiant
- * @property acCouchdbJson $negociant
+ * @property string $version
+ * @property acCouchdbJson $declarant
+ * @property acCouchdbJson $totaux
  * @property acCouchdbJson $contrats
  * @property acCouchdbJson $mouvements
  * @property acCouchdbJson $valide
@@ -23,12 +25,16 @@
  * @method string setType()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
+ * @method string getCampagne()
+ * @method string setCampagne()
  * @method string getPeriode()
  * @method string setPeriode()
- * @method string getNegociantIdentifiant()
- * @method string setNegociantIdentifiant()
- * @method acCouchdbJson getNegociant()
- * @method acCouchdbJson setNegociant()
+ * @method string getVersion()
+ * @method string setVersion()
+ * @method acCouchdbJson getDeclarant()
+ * @method acCouchdbJson setDeclarant()
+ * @method acCouchdbJson getTotaux()
+ * @method acCouchdbJson setTotaux()
  * @method acCouchdbJson getContrats()
  * @method acCouchdbJson setContrats()
  * @method acCouchdbJson getMouvements()
