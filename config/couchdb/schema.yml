@@ -49,21 +49,25 @@ Facture:
                         origine_type: {}
                         origine_identifiant: {}
                         origine_libelle: {}
-                        origine_date: {}
+                        origine_date: {}                        
+                        id_origine: {}
                         produit_type: {}
                         produit_libelle: {}
                         produit_hash: {}
                         contrat_identifiant: {}
-                        contrat_libelle: {}
                         echeance_code: {}
                         volume: {type: float}
                         cotisation_taux: {type: float}
                         montant_ht: {type: float}
                         origine_mouvements:
-                          type: array_collection
+                          type: collection
                           definition:
                             fields:
-                              '*':  { }
+                              '*':
+                                type: array_collection
+                                definition:
+                                  fields:
+                                    '*': { }
       echeances:
         type: array_collection
         definition:

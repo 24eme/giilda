@@ -12,6 +12,7 @@
  * @property string $date_facturation
  * @property string $campagne
  * @property integer $nb_page
+ * @property string $statut
  * @property acCouchdbJson $emetteur
  * @property string $client_identifiant
  * @property string $client_reference
@@ -38,6 +39,8 @@
  * @method string setCampagne()
  * @method integer getNbPage()
  * @method integer setNbPage()
+ * @method string getStatut()
+ * @method string setStatut()
  * @method acCouchdbJson getEmetteur()
  * @method acCouchdbJson setEmetteur()
  * @method string getClientIdentifiant()

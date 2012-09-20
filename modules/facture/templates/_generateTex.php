@@ -25,9 +25,10 @@ $nb_ligne = 0;
 
 \renewcommand\sfdefault{phv}
 
-\newcommand{\CutlnPapillon}{
-  	\multicolumn{7}{c}{ \Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline }
-\\   	  
+\newcommand{\CutlnPapillon}{	
+  	\multicolumn{4}{|c|}{ ~~~~~~~~~~~~~~~~~~~~~~~ } & 
+  	\multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
+\\    
 }
 
 \renewcommand{\familydefault}{\sfdefault}
@@ -52,7 +53,7 @@ $nb_ligne = 0;
 \def\InterloireIBAN{XXXX XXXXX XXXX XXXXX XX}
 
 \def\FactureNum{<?php echo $facture->identifiant; ?>}
-\def\FactureDate{<?php echo $facture->date_emission; ?>}
+\def\FactureDate{<?php echo format_date($facture->date_emission,'dd/MM/yyyy'); ?>}
 \def\FactureRefClient{<?php echo $facture->client_reference; ?>}
 
 \def\FactureClientNom{<?php echo ($facture->client->raison_sociale == '')? 'Raison Sociale' : $facture->client->raison_sociale; ?>}
@@ -120,22 +121,21 @@ $nb_ligne = 0;
 \fontsize{8}{8}\selectfont
     \begin{tikzpicture}
 		\node[inner sep=1pt] (tab1){
-			\begin{tabular}{p{120mm} |p{12mm}|p{14mm}|p{18mm}|p{15mm}p{0mm}}
+			\begin{tabular}{p{120mm} |p{12mm}|p{14mm}|p{18mm}|p{13mm}p{0mm}}
 
   			\rowcolor{lightgray}
                         \centering \small{\textbf{Libellé}} &
    			\centering \small{\textbf{Volume en hl}} &
-                        \centering \small{\textbf{Cotisation}} &
-   			\centering \small{\textbf{Montant H.T Euros}} &
-   			\centering \small{\textbf{Code \\ Echéance}} & 
-                        \multicolumn{1}{c}{\small{}}\\
-  
-  			\hline
+                        \centering \small{\textbf{Cotisation en \texteuro{}/hl}} &
+   			\centering \small{\textbf{Montant \texteuro{} HT}} &   			
+   			\centering \small{\textbf{Code Echéance}} &
+   			 \\
+  			\hline 
                 <?php 
                 $nb_ligne += count($facture->lignes);
                 foreach ($facture->lignes as $type => $typeLignes) :
                 ?>
-                \textbf{Sortie de <?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>} & ~ & ~ & ~ & ~ &\\
+                \textbf{Sortie de <?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>} & ~ & ~ & ~ & ~ & \\
             <?php 
                  $produits = FactureClient::getInstance()->getProduitsFromTypeLignes($typeLignes);
                  $nb_ligne += count($produits);
@@ -143,15 +143,12 @@ $nb_ligne = 0;
                  foreach ($produits as $prodHash => $p) :   
                      foreach ($p as $produit):
                             $produit = $produit->getRawValue();
-                            $libelle = ($produit->contrat_libelle)? $produit->contrat_libelle : $produit->origine_libelle;
-                            $libelle = ($produit->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV)?
-                                $produit->origine_libelle.' '.$produit->contrat_libelle : $libelle;
                         ?>      
-                ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$libelle.'\end{tiny}'; ?> &
-                            \multicolumn{1}{r|}{<?php echoFloat($produit->volume); ?>} &
+                ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$produit->origine_libelle.'\end{tiny}'; ?> &
+                            \multicolumn{1}{r|}{<?php echoFloat($produit->volume*-1); ?>} &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->cotisation_taux); ?>} & 
                             \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>\texteuro{}} & 
-                            \multicolumn{1}{c}{<?php echo $produit->echeance_code ?>} &\\
+                            \multicolumn{2}{c}{<?php echo $produit->echeance_code; ?>}\\
 
                 <?php 
                     endforeach;
@@ -161,12 +158,12 @@ $nb_ligne = 0;
                
                 for($i=0; $i<($total_rows - $nb_ligne);$i++):
                 ?>
-        ~ & ~ & ~ & ~ & ~ & \\
+        ~ & ~ & ~ & ~ & ~ &\\
                 <?php 
                 endfor;
                 ?>
 	 \multicolumn{6}{c}{Aucun escompte n\'est prévu pour paiment anticipé. Pénalités de retard : 3 fois le taux d\'intér\^{e}t légal} \\
-	 ~ & ~ & ~ & ~ & ~ & \\
+	 ~ & ~ & ~ & ~ & ~ &\\
 			\end{tabular}
 		};
 		\node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};	
@@ -181,15 +178,15 @@ $nb_ligne = 0;
         \small{\textbf{Règlement : }}
         \begin{itemize}
             \item \small{\textbf{par virement (merci de mentionner les n° suivants : CCCCCC FF FFFFFF)}}
-            \item \small{\textbf{par chèque en joignement le(s) papillon(s) ci-dessous : \\}}
+            \item \small{\textbf{par chèque en joignant le(s) papillon(s) ci-dessous : \\}}
         \end{itemize}
         \end{minipage}
         \end{flushleft}
 }
 \hspace{-1.35cm}
-\vspace{-3cm}
+\vspace{-2.9cm}
     \begin{flushright}
-    \begin{minipage}[b]{0.285\textwidth}
+    \begin{minipage}[b]{0.289\textwidth}
             \begin{tikzpicture}
             \node[inner sep=1pt] (tab2){
                     \begin{tabular}{>{\columncolor{lightgray}} l | p{22mm}}
@@ -199,6 +196,9 @@ $nb_ligne = 0;
 
                     \centering \small{\textbf{TVA 19.6}} &
                     \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc - $facture->total_ht); ?>\texteuro{}}} \\
+                    
+                    \centering \small{} &
+                    \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
                     \hline
                     \centering \small{\textbf{Montant TTC}} &
                     \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc); ?>\texteuro{}}}   \\
@@ -217,22 +217,29 @@ $nb_ligne = 0;
 
 \begin{minipage}[b]{1\textwidth}
 
-\begin{tabular}{p{10mm} p{30mm} p{30mm} p{30mm} p{35mm} p{20mm} p{15mm}}
+\begin{tabular}{|p{9mm} p{30mm} p{30mm} p{30mm} | p{20mm} p{40mm} p{20mm}}
 
-	\hline
-	\multicolumn{7}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Papillon(s) à joindre au règlement}}}  \\
-   	\CutlnPapillon
+	\multicolumn{4}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à conservée}}} &
+	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à joindre au règlement}}} \\  	
 	
         <?php $nb = count($facture->echeances) ; foreach ($facture->echeances as $key => $papillon) : ?>
-                & \centering \small{Code échéance} & \centering \small{\textbf{Date échéance}} & \centering \small{Réf. Client} & \centering \small{N$^\circ$ Facture} & & \\
-                
+
+	&
+    \centering \small{Code échéance} &
+    \centering \small{\textbf{Date d'échéance}} &
+    \centering \small{\textbf{Montant TTC}}  &
+    \centering \small{Date d'échéance} &
+    \centering \small{Ref. Client / Ref. Facture} &
+    \multicolumn{1}{c}{\small{Montant TTC}} \\
+                        
                 \centering \small{<?php echo $nb - $key; ?>} & 
                 \centering \small{<?php echo $papillon->echeance_code ?>} &
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
-                \centering \small{\FactureRefClient} &
-                \centering \small{\FactureNum} &
-                \centering \small{\textbf{Net à payer :}}
-                & \multicolumn{1}{r}{\small{\textbf{<?php echo echoFloat($papillon->montant_ttc); ?>\texteuro{}}}}  \\
+                \multicolumn{1}{r|}{\centering \small{\textbf{2539.68\texteuro{}}}} &
+                \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
+                \centering \small{\FactureRefClient/\FactureNum} &               
+                \multicolumn{1}{r}{\small{\textbf{<?php echo echoFloat($papillon->montant_ttc); ?>\texteuro{}}}}  \\
+
                 \CutlnPapillon
         <?php endforeach; ?> 
                 
