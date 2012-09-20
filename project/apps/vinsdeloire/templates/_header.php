@@ -15,7 +15,7 @@
 					<li><a href="#">Contacts</a></li>
 					<li><a href="#">Import VR</a></li>
 					<li><a href="<?php echo url_for('sv12'); ?>">SV12</a></li>
-					<li><a href="<?php echo url_for('stock'); ?>">Stocks</a></li>
+					<li><a href="<?php echo url_for('ds'); ?>">Stocks</a></li>
 					<li><a href="#">Relance</a></li>
 				</ul>
 			</nav>
