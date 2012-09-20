@@ -1,5 +1,5 @@
-#schema des Stocks
-Stock:
+#schema des DS
+DS:
   definition:
     fields:
       _id: {}
@@ -27,7 +27,7 @@ Stock:
         definition:
           fields:
             '*':              
-              class: StockProduit
+              class: DSProduit
               type: collection
               definition:
                 fields:
