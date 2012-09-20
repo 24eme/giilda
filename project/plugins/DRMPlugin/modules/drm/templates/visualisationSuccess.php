@@ -7,12 +7,11 @@
 
         <h2>Déclaration Récapitulative Mensuelle</h2>
 
-        <div id="recap_infos_header">
-            <div><label>Nom de l'opérateur : </label> <?php echo $drm->getEtablissement()->nom ?> </div>
-            <div><label>Période : </label><?php echo $drm->periode ?></div>
-        </div>
-        <br />
-        <br />
+		<ul id="recap_infos_header">
+			<li><span>Nom de l'opérateur :</span> <?php echo $drm->getEtablissement()->nom ?> </li>
+			<li><span>Période :</span> <?php echo $drm->periode ?></li>
+		</ul>
+		
         <?php if ($drm_suivante && $drm_suivante->isRectificative() && !$drm_suivante->isValidee()): ?>
             <div class="vigilance_list">
                 <ul>
@@ -25,13 +24,13 @@
             <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
         <?php endif; ?>
 
-            <?php include_partial('drm/recap', array('drm' => $drm)) ?>
-            <?php include_partial('drm/mouvements', array('mouvements' => $mouvements)) ?>
+		<?php include_partial('drm/recap', array('drm' => $drm)) ?>
+		<?php include_partial('drm/mouvements', array('mouvements' => $mouvements)) ?>
 
-            <br />
-            <div id="btn_etape_dr">
-                <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()) ?>" class="btn_etape_prec" id="facture"><span>Retour à mon espace</span></a> 
-            </div>
+		<br />
+		<div id="btn_etape_dr">
+			<a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()) ?>" class="btn_etape_prec" id="facture"><span>Retour à mon espace</span></a> 
+		</div>
 
     </section>
     <aside id="colonne">

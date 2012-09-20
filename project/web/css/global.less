@@ -90,10 +90,10 @@ input[type=search] { -webkit-appearance: none; }
 input[type="radio"] { height: 14px; vertical-align: text-bottom; width: 14px; }
 input[type="checkbox"] { vertical-align: bottom; *vertical-align: baseline; }
 input[type=text]{
-        border : 0;
-        .border-radius(3px);
+	border : 0;
+	.border-radius(3px);
 	.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
-        padding: 5px;
+	padding: 5px;
 }
 .ie6 input { vertical-align: text-bottom; }
 
@@ -133,7 +133,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 /* Sprites */
 .sprite-pictos-actions(@position: 0 0)
 {
-	background:  url(../images/pictos/pi_actions.png) @position no-repeat;
+	background: url(../images/pictos/pi_actions.png) @position no-repeat;
 }
 
 /* Previens le depassement de fond sur les bordures */
@@ -254,49 +254,49 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 	span
 	{
-                &:after
-                {
-                        .box-dimensions(20px,26px);
-                        .sprite-pictos-actions(3px -185px);
-                        .pos-abs(0, auto, auto, 5px);
-                        content: '';
-                        cursor: pointer;
-                        display: inline-block;
-                }
+		&:after
+		{
+			.box-dimensions(20px,26px);
+			.sprite-pictos-actions(3px -185px);
+			.pos-abs(0, auto, auto, 5px);
+			content: '';
+			cursor: pointer;
+			display: inline-block;
+		}
 
-                .border(@couleur-a6);
-                .border-radius(4px 0 0 4px);
-                .box-shadow(0 2px 0 #eee);
-                .helveticaneue-75-bold;
-                .majuscules;
-                .non-souligne(none);
-                .text-shadow(1px 1px rgba(0, 0, 0, 0.1));
+		.border(@couleur-a6);
+		.border-radius(4px 0 0 4px);
+		.box-shadow(0 2px 0 #eee);
+		.helveticaneue-75-bold;
+		.majuscules;
+		.non-souligne(none);
+		.text-shadow(1px 1px rgba(0, 0, 0, 0.1));
                 
 		background: url(../images/boutons/btn_majeur.png) 0 -78px repeat-x;
-                border-color: #83a44d;
-                border-right:0px;
+		border-color: #83a44d;
+		border-right:0px;
 		margin-right:17px;
 
-                color: #fff;
-                display: inline-block;
-                font-size: 11px;
-                line-height: 26px;
-                padding-left: 30px;
-                position: relative;
-
-                
-
+		color: #fff;
+		display: inline-block;
+		font-size: 11px;
+		line-height: 26px;
+		padding-left: 30px;
+		position: relative;
 	}
         
 }
 
-.btn_validation{
-        .btn_etape_suiv;
-        span{
-            &:after{
-                background-position: 3px -289px;
-            }
-        }
+.btn_validation
+{
+	.btn_etape_suiv;
+	span
+	{
+		&:after
+		{
+			background-position: 3px -289px;
+		}
+	}
 }
 
 .btn_etape_prec
@@ -312,38 +312,35 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 	span
 	{
-                &:after
-                {
-                        .box-dimensions(22px,26px);
-                        .sprite-pictos-actions(3px -263px);
-                        .pos-abs(0, auto, auto, 5px);
-                        content: '';
-                        cursor: pointer;
-                        display: inline-block;
-                }
+		&:after
+		{
+			.box-dimensions(22px,26px);
+			.sprite-pictos-actions(3px -263px);
+			.pos-abs(0, auto, auto, 5px);
+			content: '';
+			cursor: pointer;
+			display: inline-block;
+		}
 
-                .border(@couleur-a6);
-                .border-radius(0 4px 4px 0);
-                .box-shadow(0 2px 0 #eee);
-                .helveticaneue-75-bold;
-                .majuscules;
-                .non-souligne(none);
-                .text-shadow(1px 1px rgba(0, 0, 0, 0.1));
-                
+		.border(@couleur-a6);
+		.border-radius(0 4px 4px 0);
+		.box-shadow(0 2px 0 #eee);
+		.helveticaneue-75-bold;
+		.majuscules;
+		.non-souligne(none);
+		.text-shadow(1px 1px rgba(0, 0, 0, 0.1));
+		
 		background: url(../images/boutons/btn_majeur.png) 0 -52px repeat-x;
-                border-color: #6d6b6b;
-                border-left:0px;
+		border-color: #6d6b6b;
+		border-left:0px;
 		margin-left:16px;
 
-                color: #fff;
-                display: inline-block;
-                font-size: 11px;
-                line-height: 26px;
-                padding: 0 10px 0 30px;
-                position: relative;
-
-                
-
+		color: #fff;
+		display: inline-block;
+		font-size: 11px;
+		line-height: 26px;
+		padding: 0 10px 0 30px;
+		position: relative;
 	}
         
 }
@@ -410,30 +407,34 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 }
 
 /* Tableau recapitulatif */
-.table_recap{
+.table_recap
+{
 	.border(@couleur-a7);
-	.border-radius(5px 5px 5px 5px);
+	.border-radius(5px);
 	border-collapse: separate;
 	box-sizing: border-box;
 	width: 100%;
 
-	tr{
-		th{
-			
+
+	tr
+	{
+		th
+		{
 			background-color: @couleur-a5;
 			font-size: 14px;
-			height: 50px;
-			line-height: 50px;
-
+			padding: 5px 0;
+			vertical-align: middle;
+			
 			&+th { border-left: 1px solid @couleur-a7; }
 		}
 
-		td{
+		td
+		{
 			.center;
 			border-top: 1px solid @couleur-a7;
 			height: 35px;
-			line-height: 35px;
-			padding: 0 15px;
+			padding: 5px 15px;
+			vertical-align: middle;
 
 			&+td { border-left: 1px solid @couleur-a7; }
 		}
@@ -441,6 +442,8 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 		&:nth-child(2n+2){
 			background-color: @couleur-a8;
 		}
+		
+		&.vide { display: none; }
 	}
 }
 
@@ -778,11 +781,6 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
                     }
                 }
 	        }
-
-	        // >.ligne_form{
-         //        .center;
-         //        .clear;
-	        // }
        }
         
        .ligne_form {
@@ -812,7 +810,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
         .ligne_form_alt{ background : @couleur-a7;  }
 
         .ui-autocomplete-input{
-                background: url(../images/pictos/pi_recherche.png) 5px 7px no-repeat #fff;
+                background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
                 font-size:12px;
                 padding: 5px 5px 5px 25px;
                 width:330px;
@@ -855,7 +853,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
             text-decoration:none;
             &:hover{
                 background-color : #c1c1c1;
-                color: #fff;
+                color: #333;
             }
         }
 
@@ -1015,7 +1013,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	padding: 5px;
 	text-align: center;
 	.border-radius(3px);
-	// .opacite(0.9);
+	/* .opacite(0.9); */
 }
 
 #ajax_form_progress_notification {

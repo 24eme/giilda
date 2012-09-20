@@ -1,11 +1,43 @@
 @charset "utf-8";
 /**
  * Fichier : principal.less
- * Description : styles spécifiques au formulaire d'inscription
- * Auteur : Mathurin Petit - mpetit[at]actualys.com
+ * Description : Styles du coeur de page
+ * Auteurs : Mathurin Petit - mpetit[at]actualys.com
+ *			 Hamza Iqbal - hiqbal[at]actualys.com
  * Version : 1.0.0
  ******************************************/
 
+
+/**
+ * Eléments génériques
+ ******************************************/
+#principal
+{
+	h2
+	{
+		.majuscules;
+		font-size: 15px;
+		font-weight: bold;
+		margin: 20px 0;
+	}
+}
+
+#recap_infos_header
+{
+	margin: 0 0 20px;
+	
+	li
+	{
+		margin: 8px 0;
+		
+		span
+		{
+			display: inline-block;
+			font-weight: bold;
+			width: 145px;
+		}
+	}
+}
 /**
  * vrac_soussigne
  ******************************************/
@@ -555,3 +587,181 @@
 		}
 	}
 }
+
+
+/**
+ * SV 12
+ ******************************************/
+.sv12
+{
+	/* Numéro de SV 12 */
+	#num_sv12
+	{
+		background: @couleur-a5;
+		font-size: 14px;
+		font-weight: bold;
+		padding: 10px;
+		margin: 0 0 15px;
+		
+		span
+		{
+			display: inline-block;
+			width: 200px;
+		}
+	}
+	
+	
+	#contenu_etape
+	{
+		fieldset
+		{
+			margin: 25px 0 0;
+			
+			legend
+			{
+				.majuscules;
+				font-size: 15px;
+				font-weight: bold;
+				margin: 0 0 15px;
+			}
+		}
+		
+		/* Recherche SV 12 */
+		#recherche_sv12
+		{
+			background: @couleur-a5;
+			margin: 0 0 15px;
+			padding: 10px;
+			
+			.autocompletion_tags
+			{
+				label
+				{
+					display: block;
+					font-size: 14px;
+					font-weight: bold;
+					margin: 0 0 5px;
+				}
+				
+				/* Liste des tags */
+				ul.tags
+				{
+					.border-radius(3px);
+					.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
+					/*.inline-block-ie;*/
+					background: #fff url(../images/pictos/pi_recherche.png) 5px 14px no-repeat;
+					font-size: 14px;
+					margin: 0 10px 0 0;
+					padding: 3px 5px 3px 25px;
+					position: relative;
+					vertical-align: top;
+					width: 100%;
+					
+					& > li
+					{
+						.inline-block-ie;
+						vertical-align: middle;
+						line-height: 26px;
+					}
+					
+					/* Tag ajouté */
+					.tagit-choice
+					{
+						.border-radius(3px);
+						.border(@couleur-a6);
+						background: @couleur-a5;
+						margin: 2px 5px;
+						padding: 0 0 0 5px;
+						
+						&:hover { background: @couleur-a7; }
+						
+						*
+						{
+							display: inline-block;
+							vertical-align: top;
+						}
+						
+						.tagit-close
+						{
+							.sprite-pictos-actions(100% -492px);
+							height: 26px;
+							padding: 0 5px;
+							width: 20px;
+							text-indent: -9999px;
+						}
+					}
+					
+					/* Tag saisi */
+					.tagit-new
+					{
+						margin: 2px 0;
+						
+						input
+						{
+							.border-radius(0);
+							.box-shadow(none);
+							background: 0;
+							font-size: 14px;
+							height: 28px;
+							padding: 0;
+							width: 200px;
+							
+							&:focus { outline: 0; }						
+						}
+					}
+					
+					/* Autocompletion */
+					.ui-autocomplete
+					{
+						.box-dimensions(auto, auto);
+						.box-shadow(0 5px 20px rgba(0, 0, 0, 0.5));
+						position: absolute;
+						top: 38px !important;
+					}
+				}
+				
+				/* Tous les tags */
+				.tagit-hiddenSelect { .invisible; }
+				
+				.btn_rechercher { .btn_noir; }
+			}
+			
+			.volumes_vides
+			{
+				margin: 10px 0 0;
+				
+				label
+				{
+					input
+					{
+					}
+				}
+			}
+		}
+		
+		/* Commentaire SV 12 */
+		#commentaire_sv12
+		{
+			textarea
+			{
+				.border(@couleur-a9);
+				.border-radius(3px);
+				.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
+				height: 120px;
+				padding: 10px;
+				width: 100%;
+			}
+		}
+		
+		
+		.btn_etape
+		{
+			margin: 20px 0 0;
+			.clearfix;
+			
+			.btn_etape_suiv { float: right; }
+		}
+	}
+	
+}
+ 
