@@ -18,7 +18,7 @@ class Facture extends BaseFacture {
     }
     
     public function save() {
-        if($this->isNew()){
+        if($this->isNew() && $this->total_ht > 0){
             $this->facturerMouvements();
         }
         parent::save();
@@ -56,6 +56,15 @@ class Facture extends BaseFacture {
         
     }
 
+    public function isRedressee(){
+        return ($this->statut == self::STATUT_REDRESSEE);
+    }
+        
+
+    public function isRedressable(){
+        return ($this->statut != self::STATUT_REDRESSEE && $this->montant_ht > 0);
+    }
+        
 
     public function getEcheances() {
         $e = $this->_get('echeances')->toArray();

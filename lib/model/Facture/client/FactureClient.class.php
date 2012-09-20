@@ -360,8 +360,12 @@ class FactureClient extends acCouchdbClient {
         return $produits;
     }
 
-    public function isRedressee($statut){
-        return ($statut == self::STATUT_REDRESSEE);
+    public function isRedressee($factureview){
+      return ($factureview->value[FactureEtablissementView::VALUE_STATUT] == self::STATUT_REDRESSEE);
+    }
+        
+    public function isRedressable($factureview){
+      return !$this->isRedressee($factureview) && $factureview->value[FactureEtablissementView::VALUE_TOTAL_TTC] > 0;
     }
         
     public function getTypeLignePdfLibelle($typeLibelle) {
