@@ -385,12 +385,13 @@ class FactureClient extends acCouchdbClient {
       foreach($avoir->lignes as $type => $lignes) {
 	foreach($lignes as $id => $ligne) {
 	  $ligne->volume *= -1;
-	  $ligne->montent_ht *= -1;
+	  $ligne->montant_ht *= -1;
 	}
       }
-      $avoir->montant_ttc *= -1;
-      $avoir->remove('echeance');
-      $avoir->add('echeance');
+      $avoir->total_ttc *= -1;
+      $avoir->total_ht *= -1;
+      $avoir->remove('echeances');
+      $avoir->add('echeances');
       $avoir->save();
       $f->defacturer();
       $f->save();

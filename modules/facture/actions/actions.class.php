@@ -40,7 +40,7 @@ class factureActions extends sfActions {
     
     public function executeDefacturer(sfWebRequest $resquest) {
         $this->facture = $this->getRoute()->getFacture();
-	$this->avoir = FactureClient::getInstance()->defacturerCreateAvoirAndSaveThem($this->facture);
+	$this->avoir = FactureClient::getInstance()->defactureCreateAvoirAndSaveThem($this->facture);
         $this->etablissement = EtablissementClient::getInstance()->findByIdentifiant($this->facture->client_reference);
         $this->redirect('facture_etablissement', $this->etablissement);        
     }
