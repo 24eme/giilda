@@ -62,7 +62,6 @@ class sv12Actions extends sfActions {
 
     public function executeRecapitulatif(sfWebRequest $request) {
         $this->sv12 = $this->getRoute()->getSV12();
-        $this->sv12ByProduitsTypes = $this->sv12->getSV12ByProduitsType();
         $this->mouvements = $this->sv12->getMouvementsCalculeByIdentifiant($this->sv12->identifiant);
         $this->sv12->updateTotaux();
         
@@ -75,7 +74,6 @@ class sv12Actions extends sfActions {
     
     public function executeVisualisation(sfWebRequest $request) {
         $this->sv12 = $this->getRoute()->getSV12();
-        $this->sv12ByProduitsTypes = $this->sv12->getSV12ByProduitsType();
         $this->mouvements = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->sv12->identifiant, $this->sv12->periode); 
     }
 
