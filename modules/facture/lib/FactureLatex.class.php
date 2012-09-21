@@ -3,7 +3,7 @@
 class FactureLatex {
 
   private $facture = null;
-  const MAX_LIGNE_TEMPLATE_ONEPAGE = 31;
+  const MAX_LIGNE_TEMPLATE_ONEPAGE = 41;
   const MAX_LIGNE_TEMPLATE_TWOPAGE = 70;
   const MAX_LIGNE_TEMPLATE_PERPAGE = 80;
   const TEMPLATE_ONEPAGE = 'facture1Page';
@@ -16,10 +16,11 @@ class FactureLatex {
   function __construct(Facture $f) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
     $this->facture = $f;
+    $this->facture->nb_page = $this->getNbPages();
   }
 
   public function getNbPages() {
-    $nbLigne = count($this->facture->echeances) * 5;
+    $nbLigne = count($this->facture->echeances) * 4;
     foreach ($this->facture->lignes as $lignesType) {
       $nbLigne += count($lignesType) + 1;
     }

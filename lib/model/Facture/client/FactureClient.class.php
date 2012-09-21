@@ -73,7 +73,7 @@ class FactureClient extends acCouchdbClient {
         $facture->total_ttc = $this->ttc($facture->total_ht);
         $facture->identifiant = $this->getNextNoFacture($etablissement->identifiant,date('Ymd'));
         $facture->_id = $this->getId($etablissement->identifiant, $facture->identifiant);
-        $facture->origines = $this->createOrigines($facture);
+        $facture->origines = $this->createOrigines($facture);        
         return $facture;
     }
 

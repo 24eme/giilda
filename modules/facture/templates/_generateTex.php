@@ -3,7 +3,8 @@ use_helper('Float');
 use_helper('Date');
 $nb_ligne = 0;
 ?>
-\documentclass[6pt]{article}
+\documentclass[a4paper,6pt]{article}
+\usepackage{geometry} % paper=a4paper
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{units}
@@ -31,6 +32,15 @@ $nb_ligne = 0;
 \\    
 }
 
+\newcommand{\CutlnPapillonEntete}{	
+      & \centering \small{\textbf{Code échéance}} &
+    \centering \small{\textbf{Date d'échéance}} &
+    \multicolumn{1}{r|}{\small{\textbf{Montant TTC}}}  
+     & 
+  	\multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
+\\    
+}
+
 \renewcommand{\familydefault}{\sfdefault}
 
 
@@ -38,8 +48,8 @@ $nb_ligne = 0;
 \setlength{\evensidemargin}{-2cm}
 \setlength{\textwidth}{19cm}
 \setlength{\headheight}{5cm}
-
-\setlength{\topmargin}{-3.5cm}
+\setlength{\topmargin}{-4.5cm}
+\addtolength{\textheight}{29.9cm} 
 
 \def\TVA{19.60} 
 \def\InterloireAdresse{<?php echo $facture->emetteur->adresse; ?> \\
@@ -87,8 +97,8 @@ $nb_ligne = 0;
 \begin{minipage}[t]{0.5\textwidth}
 	\begin{flushleft}
 	
-	\textbf{FACTURE} \\
-	\vspace{0.3cm}
+	\textbf{<?php echo ($facture->total_ht > 0)? 'FACTURE' : 'AVOIR'; ?>} \\
+	\vspace{0.5cm}
 	\begin{tikzpicture}
 		\node[inner sep=1pt] (tab0){
 			\begin{tabular}{*{2}{c|}c}
@@ -108,26 +118,31 @@ $nb_ligne = 0;
 }
 \hspace{2cm}
 \begin{minipage}[t]{0.5\textwidth}
+\vspace{1cm}
 		\begin{flushleft}		
 			\textbf{\FactureClientNom \\}				
 				\FactureClientAdresse \\
 				\FactureClientCP ~\FactureClientVille \\
 			\end{flushleft}
 		\hspace{6cm}
-		page \thepage / <?php echo $facture->nb_page; ?>
 \end{minipage}
+
+
+\begin{flushright}
+page \thepage / <?php echo $facture->nb_page; ?>
+\end{flushright}
 
 \centering
 \fontsize{8}{8}\selectfont
     \begin{tikzpicture}
 		\node[inner sep=1pt] (tab1){
-			\begin{tabular}{p{120mm} |p{12mm}|p{14mm}|p{18mm}|p{13mm}p{0mm}}
+			\begin{tabular}{p{116mm} |p{12mm}|p{14mm}|p{18mm}|p{13mm}p{0mm}}
 
   			\rowcolor{lightgray}
                         \centering \small{\textbf{Libellé}} &
    			\centering \small{\textbf{Volume en hl}} &
                         \centering \small{\textbf{Cotisation en \texteuro{}/hl}} &
-   			\centering \small{\textbf{Montant \texteuro{} HT}} &   			
+   			\centering \small{\textbf{Montant HT}} &   			
    			\centering \small{\textbf{Code Echéance}} &
    			 \\
   			\hline 
@@ -147,7 +162,7 @@ $nb_ligne = 0;
                 ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$produit->origine_libelle.'\end{tiny}'; ?> &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->volume*-1); ?>} &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->cotisation_taux); ?>} & 
-                            \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>\texteuro{}} & 
+                            \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>~\texteuro{}} & 
                             \multicolumn{2}{c}{<?php echo $produit->echeance_code; ?>}\\
 
                 <?php 
@@ -162,7 +177,7 @@ $nb_ligne = 0;
                 <?php 
                 endfor;
                 ?>
-	 \multicolumn{6}{c}{Aucun escompte n\'est prévu pour paiment anticipé. Pénalités de retard : 3 fois le taux d\'intér\^{e}t légal} \\
+	 \multicolumn{6}{c}{Aucun escompte n'est prévu pour paiment anticipé. Pénalités de retard : 3 fois le taux d'intér\^{e}t légal} \\
 	 ~ & ~ & ~ & ~ & ~ &\\
 			\end{tabular}
 		};
@@ -174,34 +189,40 @@ $nb_ligne = 0;
 \noindent{
        \begin{flushleft}
        
-       \begin{minipage}[b]{0.65\textwidth}
+       \begin{minipage}[b]{0.60\textwidth}
         \small{\textbf{Règlement : }}
         \begin{itemize}
-            \item \small{\textbf{par virement (merci de mentionner les n° suivants : CCCCCC FF FFFFFF)}}
-            \item \small{\textbf{par chèque en joignant le(s) papillon(s) ci-dessous : \\}}
+            \item \textbf{par virement} (merci de mentionner les n° suivants : CCCCCC FF FFFFFF)
+            \item \textbf{par chèque en joignant le(s) papillon(s) ci-dessous : \\}
         \end{itemize}
         \end{minipage}
         \end{flushleft}
 }
 \hspace{-1.35cm}
-\vspace{-2.9cm}
+\vspace{-2.7cm}
     \begin{flushright}
-    \begin{minipage}[b]{0.289\textwidth}
+    \begin{minipage}[b]{0.31\textwidth}
             \begin{tikzpicture}
             \node[inner sep=1pt] (tab2){
                     \begin{tabular}{>{\columncolor{lightgray}} l | p{22mm}}
 
                     \centering \small{\textbf{Montant H.T.}} &
-                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ht); ?>\texteuro{}}} \\
-
+                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ht); ?>~\texteuro{}}} \\
+                    
+                    \centering \small{} &
+                    \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
+                    
                     \centering \small{\textbf{TVA 19.6}} &
-                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc - $facture->total_ht); ?>\texteuro{}}} \\
+                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc - $facture->total_ht); ?>~\texteuro{}}} \\
                     
                     \centering \small{} &
                     \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
                     \hline
+                    \centering \small{} &
+                    \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
+                    
                     \centering \small{\textbf{Montant TTC}} &
-                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc); ?>\texteuro{}}}   \\
+                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc); ?>~\texteuro{}}}   \\
                     \end{tabular}
             };
             \node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab2.north west) (tab2.north east) (tab2.south east) (tab2.south west)] {};	
@@ -211,34 +232,33 @@ $nb_ligne = 0;
 \end{minipage}
 }
 
-\vspace{1cm}
 \begin{center}
 
 
 \begin{minipage}[b]{1\textwidth}
 
-\begin{tabular}{|p{9mm} p{30mm} p{30mm} p{30mm} | p{20mm} p{40mm} p{20mm}}
-
-	\multicolumn{4}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à conservée}}} &
+\begin{tabular}{|p{9mm} p{25mm} p{25mm} p{20mm} | p{36mm} p{36mm} p{36mm}}
+            \hline
+	\multicolumn{4}{|>{\columncolor[rgb]{0.8,0.8,0.8}}c|}{\centering \small{\textbf{Partie à conservée}}} &
 	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à joindre au règlement}}} \\  	
 	
+        \CutlnPapillonEntete
         <?php $nb = count($facture->echeances) ; foreach ($facture->echeances as $key => $papillon) : ?>
-
-	&
-    \centering \small{Code échéance} &
-    \centering \small{\textbf{Date d'échéance}} &
-    \centering \small{\textbf{Montant TTC}}  &
-    \centering \small{Date d'échéance} &
+        &
+    &
+    &
+    &
+    \centering \small{Echéance} &
     \centering \small{Ref. Client / Ref. Facture} &
     \multicolumn{1}{c}{\small{Montant TTC}} \\
                         
                 \centering \small{<?php echo $nb - $key; ?>} & 
                 \centering \small{<?php echo $papillon->echeance_code ?>} &
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
-                \multicolumn{1}{r|}{\centering \small{\textbf{2539.68\texteuro{}}}} &
+                \multicolumn{1}{r|}{\centering \small{\textbf{<?php echo echoFloat($papillon->montant_ttc); ?>~\texteuro{}}}} &
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
                 \centering \small{\FactureRefClient/\FactureNum} &               
-                \multicolumn{1}{r}{\small{\textbf{<?php echo echoFloat($papillon->montant_ttc); ?>\texteuro{}}}}  \\
+                \multicolumn{1}{r}{\small{\textbf{<?php echo echoFloat($papillon->montant_ttc); ?>~\texteuro{}}}}  \\
 
                 \CutlnPapillon
         <?php endforeach; ?> 
