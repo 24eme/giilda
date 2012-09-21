@@ -11,7 +11,7 @@ class DRMMouvementsConsultationView extends MouvementsConsultationView
         return $this->findByTypeAndEtablissement('DRM', $id_or_identifiant);
     }
 
-    public function findEtablissementAndPeriode($id_or_identifiant, $periode) {
+    public function findByEtablissementAndPeriode($id_or_identifiant, $periode) {
         
         return $this->findByTypeEtablissementAndPeriode('DRM', $id_or_identifiant, $periode);
     }
@@ -23,7 +23,7 @@ class DRMMouvementsConsultationView extends MouvementsConsultationView
 
     public function getMouvementsByEtablissementAndPeriode($id_or_identifiant, $periode) {
         
-        return $this->buildMouvements($this->findEtablissementAndPeriode($id_or_identifiant, $periode)->rows);       
+        return $this->buildMouvements($this->findByEtablissementAndPeriode($id_or_identifiant, $periode)->rows);       
     }
 
 }  
