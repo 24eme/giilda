@@ -15,10 +15,6 @@ class FactureClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Facture");
     }
 
-    public function getId($client_reference, $identifiant) {
-        return 'FACTURE-' . $client_reference . '-' . $identifiant;
-    }
-    
     public function getNextNoFacture($idClient,$date)
     {   
         $id = '';
@@ -366,8 +362,12 @@ class FactureClient extends acCouchdbClient {
         return $produits;
     }
 
-    public function isRedressee($statut){
-        return ($statut == self::STATUT_REDRESSEE);
+    public function isRedressee($factureview){
+      return ($factureview->value[FactureEtablissementView::VALUE_STATUT] == self::STATUT_REDRESSEE);
+    }
+        
+    public function isRedressable($factureview){
+      return !$this->isRedressee($factureview) && $factureview->value[FactureEtablissementView::VALUE_TOTAL_TTC] > 0;
     }
         
     public function getTypeLignePdfLibelle($typeLibelle) {
@@ -386,5 +386,21 @@ class FactureClient extends acCouchdbClient {
       return '';
     }
 
+    public function defactureCreateAvoirAndSaveThem(Facture $f) {
+      $avoir = clone $f;
+      foreach($avoir->lignes as $type => $lignes) {
+	foreach($lignes as $id => $ligne) {
+	  $ligne->volume *= -1;
+	  $ligne->montant_ht *= -1;
+	}
+      }
+      $avoir->total_ttc *= -1;
+      $avoir->total_ht *= -1;
+      $avoir->remove('echeances');
+      $avoir->add('echeances');
+      $avoir->save();
+      $f->defacturer();
+      $f->save();
+    }
     
 }

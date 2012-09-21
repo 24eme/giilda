@@ -13,7 +13,7 @@ class FactureLatex {
   const FACTURE_OUTPUT_TYPE_LATEX = 'latex';
   
 
-  function __construct(Facture $f) {
+  function __construct(Facture $f, $config = null) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
     $this->facture = $f;
     $this->facture->nb_page = $this->getNbPages();
@@ -96,21 +96,25 @@ class FactureLatex {
 
   private function cleanPDF() {
     $file = $this->getLatexFileNameWithoutExtention();
-    unlink($file.'.aux');
-    unlink($file.'.log');
-    unlink($file.'.pdf');
-    unlink($file.'.tex');
-    unlink($file.'.synctex.gz');
+    @unlink($file.'.aux');
+    @unlink($file.'.log');
+    @unlink($file.'.pdf');
+    @unlink($file.'.tex');
+    @unlink($file.'.synctex.gz');
+  }
+
+  public function getFactureId() {
+    return $this->facture->_id;
   }
 
   public function getPDFFile() {
-    $file = $this->getLatexDestinationDir().$this->getPublicFileName();
-    if(file_exists($file))
-      return $file;
+    $filename = $this->getLatexDestinationDir().$this->getPublicFileName();
+    if(file_exists($filename))
+      return $filename;
     $tmpfile = $this->generatePDF();
-    rename($tmpfile, $file);
+    rename($tmpfile, $filename);
     $this->cleanPDF();
-    return $file;
+    return $filename;
   }
 
   public function getPDFFileContents() {
