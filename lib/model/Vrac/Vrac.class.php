@@ -172,7 +172,11 @@ class Vrac extends BaseVrac {
         $this->volume_enleve += $vol;
         if($this->volume_propose <= $this->volume_enleve)
         { 
-            $this->valide->statut = "SOLDE";
+            $this->solder();
         }
+    }
+
+    public function solder() {
+        $this->valide->statut = "SOLDE";
     }
 }
