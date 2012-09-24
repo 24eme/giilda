@@ -206,5 +206,4 @@ class Configuration extends BaseConfiguration {
 
     	return self::STATUT_CONTRAT_SOLDE;	
     }
-
 }
