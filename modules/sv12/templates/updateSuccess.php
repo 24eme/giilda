@@ -28,13 +28,8 @@
 				</li>
 			</ul>
 			
-			
-			<script type="text/javascript">			
-				var source_tags =
-				{
-					"contrat_2012082800004" : ["SCEA", "Tranquille", "Anjou", "Rouge", "110021", "2012082800004"],
-					"contrat_2012082800003": ["DABERT", "Jean", "Tranquille", "Vouvray", "Blanc", "2012082800003"]
-				};
+			<script type="text/javascript">	
+				var source_tags = <?php echo json_encode($sv12->getContratsWords()->getRawValue()); ?>;
 			</script>
 			
 			<form name="sv12_update" method="POST" action="<?php echo url_for('sv12_update', $sv12); ?>" >
@@ -65,7 +60,7 @@
 						<thead>
 							<tr>
 								<th style="width: 200px;">Viticulteur </th>
-								<th>Appelation</th>
+								<th>Produit</th>
 								<th>Contrat</th>
 								<th>Volume</th>
 							</tr>
@@ -78,7 +73,10 @@
 							<tr id="contrat_<?php echo $contrat->contrat_numero ?>">
 								<td><?php echo $contrat->vendeur_nom.' ('.$contrat->vendeur_identifiant.')'; ?></td>
 								<td><?php echo $contrat->produit_libelle; ?></td>	
-								<td><?php echo $contrat->contrat_numero.' ('.$contrat->volume_prop.' hl)'; ?></td>
+								<td>
+									<a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $contrat->contrat_numero)) ?>"><?php echo VracClient::getInstance()->getLibelleFromId($contrat->contrat_numero, '&nbsp;') ?></a>
+									<?php echo sprintf('(%s, %s hl)', $contrat->contrat_type, $contrat->volume_prop); ?>
+								</td>
 								<td>
 									<?php
 										echo $form[$contrat->contrat_numero]->renderError();

@@ -100,6 +100,21 @@ class SV12Contrat extends BaseSV12Contrat {
         return $this->vrac;
     }
 
+    public function getHtmlId() {
+
+        return 'contrat_'.$this->contrat_numero;
+    }
+
+    public function getWords() {
+       return array_merge(
+            Search::getWords($this->produit_libelle),
+            Search::getWords($this->vendeur_nom),
+            Search::getWords($this->vendeur_identifiant),
+            Search::getWords($this->contrat_numero),
+            Search::getWords($this->contrat_type)
+        ); 
+    }
+
     public function getVracIdentifiant() {
 
         return 'VRAC-'.$this->contrat_numero;

@@ -38,6 +38,15 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
             $this->updateContrats($idContrat,$contratView->value);
         }
     }
+
+    public function getContratsWords() {
+        $words = array();
+        foreach($this->contrats as $c) {
+            $words[$c->getHtmlId()] = $c->getWords();
+        }
+
+        return $words;
+    }
     
     public function isValidee() {
 
@@ -371,6 +380,6 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     
     public function __toString()
     {
-        return SV12Client::getInstance()->getLibelleFromIdSV12($this->_id);
+        return SV12Client::getInstance()->getLibelleFromId($this->_id);
     }
 }
