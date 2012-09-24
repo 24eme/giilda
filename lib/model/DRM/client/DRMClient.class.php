@@ -332,7 +332,7 @@ class DRMClient extends acCouchdbClient {
                          $this->generateVersionCascade($drm_version_suivante));
     }
     
-    public function getLibelleFromIdDRM($id) {
+    public function getLibelleFromId($id) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Orthographe','Date'));
         $origineLibelle = 'DRM de';
         $drmSplited = explode('-', $id);
