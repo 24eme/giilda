@@ -164,7 +164,7 @@ class Vrac extends BaseVrac {
 
     public function __toString() {
 
-        return sprintf("%s", $this->numero_contrat);
+        return sprintf("%s", VracClient::getInstance()->getLibelleFromId($this->get('_id')));
     }
     
     public function enleverVolume($vol)

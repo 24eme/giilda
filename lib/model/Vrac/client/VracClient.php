@@ -264,6 +264,7 @@ class VracClient extends acCouchdbClient {
      * @return Vrac 
      */
     public function retrieveById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        
         return parent::retrieveDocumentById('VRAC-'.$id, $hydrate);
     }       
 
@@ -278,6 +279,11 @@ class VracClient extends acCouchdbClient {
         return array(self::STATUS_CONTRAT_ANNULE => self::STATUS_CONTRAT_ANNULE,
                      self::STATUS_CONTRAT_NONSOLDE => self::STATUS_CONTRAT_NONSOLDE,
                      self::STATUS_CONTRAT_SOLDE => self::STATUS_CONTRAT_SOLDE);
+    }
+
+    public function getLibelleFromId($id, $separation = " ") {
+      $id = str_replace('VRAC-', '', $id);
+      return sprintf('%s%s%s',substr($id,0,8), $separation, substr($id,8,  strlen($id)-1));
     }
     
 }
