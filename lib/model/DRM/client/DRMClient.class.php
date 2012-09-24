@@ -45,26 +45,24 @@ class DRMClient extends acCouchdbClient {
       return $periodes;
     }
 
+    public function buildDate($periode) {
+        
+        return sprintf('%4d-%02d-%02d', $this->getAnnee($periode), $this->getMois($periode), date("t",$this->getMois($periode)));
+    }
+
     public function getPeriodeDebut($campagne) {
 
-      return '2012-08';
+      return date('Y-m', strtotime(ConfigurationClient::getInstance()->getDateDebutCampagne($campagne)));
     }
 
     public function getPeriodeFin($campagne) {
 
-      return '2013-07';
+      return date('Y-m', strtotime(ConfigurationClient::getInstance()->getDateFinCampagne($campagne)));
     }
 
     public function buildCampagne($periode) {
-      $annee = $this->getAnnee($periode);
-      $mois = $this->getMois($periode);
-      if ($annee.$mois < $annee.'08') {
-        
-        return ($annee-1).'-'.$annee;
-      } else {
-        
-        return $annee.'-'.($annee+1);
-      }
+      
+      return ConfigurationClient::getInstance()->buildCampagne($this->buildDate($periode));
     }
 
     public function buildPeriode($annee, $mois) {
@@ -102,13 +100,6 @@ class DRMClient extends acCouchdbClient {
       return $this->buildPeriode($nextYear, $nextMonth);
     }
     
-    public function getDetailsDefaultDate() {
-        $date = date('m/Y');
-        $dateArr = explode('/', $date);
-        $mois = mktime( 0, 0, 0, $dateArr[0], 1, $dateArr[1] );         
-        return date("t",$mois).'/'.$dateArr[0].'/'.$dateArr[1];
-    }
-
     public function findLastByIdentifiantAndCampagne($identifiant, $campagne, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
       $drms = $this->viewByIdentifiantAndCampagne($identifiant, $campagne);
 
