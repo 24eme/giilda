@@ -27,8 +27,12 @@ use_helper('Date');
             }; ?></td>
                     <td><?php echoFloat($facture->value[FactureEtablissementView::VALUE_TOTAL_TTC]); ?>&nbsp;€</td>
                     <td><?php
-                    echo (FactureClient::getInstance()->isRedressee($facture->value[FactureEtablissementView::VALUE_STATUT]))? 'redressée' :
-                        link_to('défacturer les mouvements', '@defacturer?identifiant='.str_replace('FACTURE-', '',$facture->key[FactureEtablissementView::KEYS_FACTURE_ID])); 
+		    $fc = FactureClient::getInstance();
+if ($fc->isRedressee($facture)) {
+  echo 'redressée';
+}else if ($fc->isRedressable($facture)) {
+  echo link_to('défacturer les mouvements', '@defacturer?identifiant='.str_replace('FACTURE-', '',$facture->key[FactureEtablissementView::KEYS_FACTURE_ID])); 
+}
                     ?></td>
                 </tr>
 <?php endforeach; ?>

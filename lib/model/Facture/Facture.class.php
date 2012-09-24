@@ -9,7 +9,7 @@ class Facture extends BaseFacture {
     private $documents_origine = array();
     
     public function constructId() {
-      $this->identifiant = FactureClient::getInstance()->getNextNoFacture($this->client_identifiant,date('Ymd'));
+      $this->identifiant = FactureClient::getInstance()->getNextNoFacture($this->client_reference,date('Ymd'));
       $this->_id = 'FACTURE-' . $this->client_reference . '-' . $this->identifiant;
     }
     
@@ -18,7 +18,7 @@ class Facture extends BaseFacture {
     }
     
     public function save() {
-        if($this->isNew()){
+        if($this->isNew() && $this->total_ht > 0){
             $this->facturerMouvements();
         }
         parent::save();
@@ -56,6 +56,15 @@ class Facture extends BaseFacture {
         
     }
 
+    public function isRedressee(){
+        return ($this->statut == self::STATUT_REDRESSEE);
+    }
+        
+
+    public function isRedressable(){
+        return ($this->statut != self::STATUT_REDRESSEE && $this->montant_ht > 0);
+    }
+        
 
     public function getEcheances() {
         $e = $this->_get('echeances')->toArray();

@@ -4,6 +4,7 @@ use_helper('Date');
 use_helper('Prix'); 
 ?>
 <fieldset id="mouvement_drm">
+<?php if (count($mouvements)) : ?>
     <legend>Mouvements en attente de facturation</legend>
     <table class="table_recap">
         <thead>
@@ -35,4 +36,13 @@ use_helper('Prix');
         <?php endforeach; ?>
         </tbody>
     </table>
+ <br />
+<form id="generation_form" action="<?php echo url_for('facture_generer',$etablissement); ?>" method="post">
+<?php include_partial('facture/datesGeneration', array('form' => $form)) ?>
+<br /> 
+<a href="#" id="generation_facture" class="btn_majeur btn_vert">Générer</a>
+</form>
+<?php else : ?>
+<p>Pas de mouvements en attente de facturation</p>
+<?php endif;?>
 </fieldset>

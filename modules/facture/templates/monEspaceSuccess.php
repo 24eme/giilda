@@ -19,13 +19,7 @@ use_helper('Float');
           <hr />
           <h2>Génération de facture</h2>
           <br />
-          <?php include_partial('facture/mouvements', array('mouvements' => $mouvements)) ?>
-          <br />
-          <form id="generation_form" action="<?php echo url_for('facture_generer',$etablissement); ?>" method="post">
-          <?php include_partial('facture/datesGeneration', array('form' => $form)) ?>
-          <br /> 
-          <a href="#" id="generation_facture" class="btn_majeur btn_vert">Générer</a>
-          </form>
+          <?php include_partial('facture/mouvements', array('mouvements' => $mouvements, 'etablissement' => $etablissement, 'form'=>$form)) ?>
     </section>
     <!-- fin #principal -->
     
