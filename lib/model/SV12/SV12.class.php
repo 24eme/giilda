@@ -19,7 +19,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function constructId() {
         $this->valide->statut = SV12Client::STATUT_BROUILLON;
-        $this->campagne = '2012-2013';
+        $this->campagne = SV12Client::buildCampagne($this->periode);
         $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
                                                             $this->periode, 
                                                             $this->version));
@@ -40,7 +40,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
     
     public function isValidee() {
-        
+
         return ($this->valide->date_saisie) && (in_array($this->valide->statut, array(SV12Client::STATUT_VALIDE, SV12Client::STATUT_VALIDE_PARTIEL)));
     }
 

@@ -1,10 +1,3 @@
-<?php
-
-$periode = '2012';
-
-?>
-
-
 <div id="contenu" class="sv12">    
     <!-- #principal -->
     <section id="principal">

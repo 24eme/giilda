@@ -40,14 +40,13 @@ class SV12Client extends acCouchdbClient {
 
     public function buildCampagne($periode) {
       
-        return '2012-2013';
+        return $periode;
     }
     
-    public function createDoc($identifiant, $annee = null) {
+    public function createDoc($identifiant, $periode) {
         $sv12 = new Sv12();
-        if (!$annee) $annee = date('Y');
         $sv12->identifiant = $identifiant;
-        $sv12->periode = $annee;  
+        $sv12->periode = $periode;  
         $sv12->storeDeclarant();
         $sv12->storeContrats();
         return $sv12;
@@ -82,9 +81,12 @@ class SV12Client extends acCouchdbClient {
     }
     
     public function getLibelleFromIdSV12($id) {
-        $origineLibelle = 'SV12 de ';
-        $drmSplited = explode('-', $id);
-        $annee = $drmSplited[count($drmSplited)-1];
-        return $origineLibelle.$annee;
+
+        if (!preg_match('/^SV12-[0-9]+-([0-9]+)-([0-9]+)$/', $id, $matches)) {
+            
+            return $id;
+        }
+
+        return sprintf('SV12 de %s-%s', $matches[1], $matches[2]);
     }
 }

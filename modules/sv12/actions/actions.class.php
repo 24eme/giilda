@@ -17,6 +17,7 @@ class sv12Actions extends sfActions {
 
     public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
+        $this->periode = ConfigurationClient::getInstance()->buildCampagne(date('Y-m-d'));
         $this->list = SV12AllView::getInstance()->getMasterByEtablissement($this->etablissement->identifiant);
     }
 
@@ -29,12 +30,10 @@ class sv12Actions extends sfActions {
         $etbId = $request->getParameter('identifiant');
         $periode = $request->getParameter('periode');
         
-        $sv12s = SV12Client::getInstance()->findMaster($etbId,$periode);
+        $sv12 = SV12Client::getInstance()->findMaster($etbId,$periode);
 
-        if($sv12s)
-        {           
-            $sv12s = array_values($sv12s);
-            $sv12 = $sv12s[0];         
+        if($sv12)
+        {               
             
             return $this->renderPartial('popupWarning',array('sv12' => $sv12));
         }
