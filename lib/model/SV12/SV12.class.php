@@ -18,7 +18,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     public function constructId() {
-        $this->valide->statut = SV12Client::SV12_STATUT_BROUILLON;
+        $this->valide->statut = SV12Client::STATUT_BROUILLON;
         $this->campagne = '2012-2013';
         $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
                                                             $this->periode, 
@@ -35,27 +35,21 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         foreach ($contratsView as $contratView)
         {
             $idContrat = preg_replace('/VRAC-/', '', $contratView->value[VracClient::VRAC_VIEW_NUMCONTRAT]);
-            $this->updateContrat($idContrat,$contratView->value);
+            $this->updateContrats($idContrat,$contratView->value);
         }
     }
     
-       
-    
-    public function update($params = array()) {
-        
-    }
-
     public function isValidee() {
-
-        return ($this->valide->date_saisie) && ($this->valide->statut==SV12Client::SV12_STATUT_VALIDE);
+        
+        return ($this->valide->date_saisie) && (in_array($this->valide->statut, array(SV12Client::STATUT_VALIDE, SV12Client::STATUT_VALIDE_PARTIEL)));
     }
 
     public function isBrouillon() {
 
-        return ($this->valide->date_saisie) && ($this->valide->statut==SV12Client::SV12_STATUT_BROUILLON);
+        return ($this->valide->date_saisie) && ($this->valide->statut==SV12Client::STATUT_BROUILLON);
     }
     
-    public function updateContrat($num_contrat, $contrat) {
+    public function updateContrats($num_contrat, $contrat) {
         $founded = false;
         foreach ($this->contrats as $c) {
             if ($c->contrat_numero == $num_contrat) {
@@ -77,6 +71,29 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
             $this->contrats->add($num_contrat, $contratObj);
         }
     }
+
+    public function solderContrats() {
+       foreach ($this->contrats as $c) {
+            if (!$c->canBeSoldable()) {
+                return;
+            }
+
+            $c->enleverVolume();
+            $c->getVrac()->solder();
+            $c->getVrac()->save();
+        } 
+    }
+
+    public function isAllContratsCanBeSoldable() {
+        foreach ($this->contrats as $c) {
+            if (!$c->canBeSoldable()) {
+                return false;
+            }        
+        }
+
+        return true;
+    } 
+
 
     public function updateTotaux() {
         $this->remove('totaux');
@@ -111,71 +128,30 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function validate() {
         $this->valide->date_saisie = date('d-m-y');
-        $this->valide->statut = SV12Client::SV12_STATUT_VALIDE;
-
+        
         $this->generateMouvements();
         $this->updateTotaux();
+        $this->solderContrats();
+
+        if($this->isAllContratsCanBeSoldable()) {
+            $this->valide->statut = SV12Client::STATUT_VALIDE;
+        } else {
+            $this->valide->statut = SV12Client::STATUT_VALIDE_PARTIEL;
+        }
+        
     }
 
     public function devalide() {
         $this->clearMouvements();
         $this->valide->date_saisie = '';
-        $this->valide->statut = SV12Client::SV12_STATUT_BROUILLON;
+        $this->valide->statut = SV12Client::STATUT_BROUILLON;
     }
     
     public function saveBrouillon() {
         $this->valide->date_saisie = date('d-m-y');
-        $this->valide->statut = SV12Client::SV12_STATUT_BROUILLON;
+        $this->valide->statut = SV12Client::STATUT_BROUILLON;
     }
     
-    public function getSV12ByProduitsType() {
-        $sv12ByProduitsTypes = new stdClass();
-        
-        $sv12ByProduitsTypes->rows = array();
-
-        $sv12ByProduitsTypes->volume_raisins = 0;
-        $sv12ByProduitsTypes->volume_mouts = 0;
-        $sv12ByProduitsTypes->volume_total = 0;
-        
-        foreach ($this->contrats as $contrat) {
-            if(isset($sv12ByProduitsTypes->rows[$contrat->produit_hash]))
-            {
-                if($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS)
-                {
-                    $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_raisins += $contrat->volume;
-                    $sv12ByProduitsTypes->volume_raisins+=$contrat->volume;
-                }                
-                if($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS)
-                {
-                    $sv12ByProduitsTypes->rows[$contrat->produit_hash]->mouts += $contrat->volume;
-                    $sv12ByProduitsTypes->volume_mouts+=$contrat->volume;
-                }
-                $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_total += $contrat->volume;
-                $sv12ByProduitsTypes->volume_total+=$contrat->volume;
-            }
-            else
-            {
-                $sv12ByProduitsTypes->rows[$contrat->produit_hash] = new stdClass();
-                $sv12ByProduitsTypes->rows[$contrat->produit_hash]->appellation = $contrat->produit_libelle;
-                if($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS)
-                {
-                    $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_raisins = $contrat->volume;
-                    $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_mouts = 0;
-                    $sv12ByProduitsTypes->volume_raisins+=$contrat->volume;
-                }
-                if($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS)
-                {
-                    $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_mouts = $contrat->volume;
-                    $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_raisins = 0;
-                    $sv12ByProduitsTypes->volume_mouts+=$contrat->volume;
-                }
-                $sv12ByProduitsTypes->rows[$contrat->produit_hash]->volume_total = $contrat->volume;
-                $sv12ByProduitsTypes->volume_total+=$contrat->volume;
-            }
-        }
-        return $sv12ByProduitsTypes;
-    }
-
     public function getDate() {
 
         return date('Y-m-d');

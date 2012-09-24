@@ -29,7 +29,7 @@ class sv12Actions extends sfActions {
         $etbId = $request->getParameter('identifiant');
         $periode = $request->getParameter('periode');
         
-        $sv12s = SV12Client::getInstance()->viewByIdentifiantAndCampagne($etbId,$periode);
+        $sv12s = SV12Client::getInstance()->findMaster($etbId,$periode);
 
         if($sv12s)
         {           

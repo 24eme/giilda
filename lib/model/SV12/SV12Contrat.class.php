@@ -36,11 +36,10 @@ class SV12Contrat extends BaseSV12Contrat {
         return $mouvement;
     }
 
-    protected function getMouvement() {
-
+    protected function getVolumeVersion() {
         if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($this, 'volume')) {
 
-            return null;
+            return 0;
         }
 
         $volume = $this->volume;
@@ -48,6 +47,13 @@ class SV12Contrat extends BaseSV12Contrat {
         if($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($this->getHash().'/volume')) {
             $volume = $volume - $this->getDocument()->motherGet($this->getHash().'/volume');
         }
+
+        return $volume;
+    }
+
+    protected function getMouvement() {
+
+        $volume = $this->getVolumeVersion();
 
         if($volume == 0) {
             return null;
@@ -77,6 +83,15 @@ class SV12Contrat extends BaseSV12Contrat {
         return $mouvement;
     }
     
+    public function canBeSoldable() {
+        
+        return $this->volume > 0; 
+    }
+
+    public function enleverVolume() {
+        $this->getVrac()->enleverVolume($this->getVolumeVersion());
+    }
+
     public function getVrac() {
         if (is_null($this->vrac)) {
             $this->vrac = VracClient::getInstance()->find($this->getVracIdentifiant());

@@ -25,7 +25,7 @@
                     <?php echoFloat($item->totaux->volume_raisins + $item->totaux->volume_mouts) ?>
                 </td>
                 <td>
-                    <?php if($item->valide->statut == SV12Client::SV12_STATUT_VALIDE): ?>
+                    <?php if(in_array($item->valide->statut, array(SV12Client::STATUT_VALIDE, SV12Client::STATUT_VALIDE_PARTIEL))): ?>
                         <a href="<?php echo url_for(array('sf_route' => 'sv12_visualisation', 'identifiant' => $item->identifiant, 'periode_version' => SV12Client::getInstance()->buildPeriodeAndVersion($item->periode, $item->version))) ?>">Visualiser</a>
                     <?php else: ?>
                         <a href="<?php echo url_for(array('sf_route' => 'sv12_update', 'identifiant' => $item->identifiant, 'periode_version' => SV12Client::getInstance()->buildPeriodeAndVersion($item->periode, $item->version))) ?>">Continuer</a>
