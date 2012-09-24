@@ -21,8 +21,8 @@ use_helper('Date');
                     </td>
                     <td><?php foreach ($facture->value[FactureEtablissementView::VALUE_ORIGINES] as $drmid => $drmlibelle) {
 
-                        $drmIdFormat = (strstr($drmlibelle, 'DRM')!==FALSE)? DRMClient::getInstance()->getLibelleFromIdDRM($drmlibelle) :
-                        SV12Client::getInstance()->getLibelleFromIdSV12($drmlibelle);
+                        $drmIdFormat = (strstr($drmlibelle, 'DRM')!==FALSE)? DRMClient::getInstance()->getLibelleFromId($drmlibelle) :
+                        SV12Client::getInstance()->getLibelleFromId($drmlibelle);
                 echo link_to($drmIdFormat, 'drm_redirect_to_visualisation', array('identifiant_drm' => $drmid)) . "<br/>";
             }; ?></td>
                     <td><?php echoFloat($facture->value[FactureEtablissementView::VALUE_TOTAL_TTC]); ?>&nbsp;€</td>
