@@ -14,7 +14,7 @@
         <tbody>
             <?php foreach ($list as $item): ?> 
             <tr>
-                <td><?php echo sprintf("%s-%s", $item->periode, ($item->version) ? $mouvement->version : 'M00'); ?></td>
+                <td><?php echo sprintf("%s-%s", $item->periode, ($item->version) ? $item->version : 'M00'); ?></td>
                 <td>
                     <?php echoFloat($item->totaux->volume_raisins) ?>
                 </td>

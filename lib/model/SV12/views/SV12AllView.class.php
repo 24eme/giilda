@@ -55,7 +55,8 @@ class SV12AllView extends acCouchdbView
 
     public function getMasterByEtablissement($id_or_identifiant) {
         $masters = array();
-        $items = $this->getByEtablissement($id_or_identifiant);
+        $items = $this->getByEtablissement($id_or_identifiant); 
+        krsort($items);
         foreach($items as $item) {
             if (!array_key_exists($item->periode, $masters)) {
                 $masters[$item->periode] = $item;
@@ -66,7 +67,8 @@ class SV12AllView extends acCouchdbView
     }
 
     public function getMasterByEtablissementAndPeriode($id_or_identifiant, $periode) {
-        $items = $this->builds($this->findByEtablissementAndPeriode($id_or_identifiant, $periode)->rows);
+        $items = $this->builds($this->findByEtablissementAndPeriode($id_or_identifiant, $periode)->rows);       
+        krsort($items);
         foreach($items as $item) {
 
             return $item;
@@ -77,6 +79,7 @@ class SV12AllView extends acCouchdbView
 
     public function getMasterByEtablissementPeriodeAndVersionRectificative($id_or_identifiant, $periode, $version_rectificative) {
         $items = $this->builds($this->findByEtablissementPeriodeAndVersionRectificative($id_or_identifiant, $periode, $version_rectificative)->rows);
+        krsort($items);
         foreach($items as $item) {
 
             return $item;

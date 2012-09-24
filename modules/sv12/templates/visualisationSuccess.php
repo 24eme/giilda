@@ -12,6 +12,11 @@
             <a class="btn_majeur btn_modifier" href="<?php echo url_for('sv12_modificative', $sv12) ?>">Modifier la SV12</a>
             <?php endif; ?>
 
+            <?php if(count($contrats_non_saisis) > 0): ?>
+                <h2>Contrats sans volume saisie</h2>
+                <?php include_partial('contrats', array('contrats' => $contrats_non_saisis)); ?>
+            <?php endif; ?>
+
             <h2>Détail de la déclaration</h2>
             <?php include_partial('totaux', array('sv12' => $sv12)); ?>
 

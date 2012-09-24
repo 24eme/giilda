@@ -73,6 +73,7 @@ class sv12Actions extends sfActions {
     
     public function executeVisualisation(sfWebRequest $request) {
         $this->sv12 = $this->getRoute()->getSV12();
+        $this->contrats_non_saisis = $this->sv12->getContratsNonSaisis();
         $this->mouvements = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->sv12->identifiant, $this->sv12->periode); 
     }
 

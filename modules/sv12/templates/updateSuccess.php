@@ -70,7 +70,7 @@
 								<td colspan="4">Aucun résultat n'a été trouvé pour cette recherche</td>
 							</tr>
 							<?php foreach ($sv12->contrats as $contrat) : ?> 
-							<tr id="contrat_<?php echo $contrat->contrat_numero ?>">
+							<tr id="<?php echo $contrat->getHTMLId() ?>">
 								<td><?php echo $contrat->vendeur_nom.' ('.$contrat->vendeur_identifiant.')'; ?></td>
 								<td><?php echo $contrat->produit_libelle; ?></td>	
 								<td>
