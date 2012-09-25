@@ -370,4 +370,10 @@ EOF;
 
         return null;
   } 
+
+  protected function loadCSVProduit() {
+    foreach(file($arguments['file']) as $line) {
+
+    }
+  }
 }
