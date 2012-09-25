@@ -42,7 +42,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function getDate() {
         
-        return DRMClient::getDate($this->periode);
+        return DRMClient::getInstance()->buildDate($this->periode);
     }
 
     public function setPeriode($periode) {
