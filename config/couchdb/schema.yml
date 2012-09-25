@@ -142,6 +142,8 @@ Configuration:
                       fields:
                         libelle: {  }
                         code: {  }
+                        code_produit: {  }
+                        code_comptable: {  }
                         departements:
                           type: array_collection
                           definition:
@@ -205,6 +207,8 @@ Configuration:
                                   fields:
                                     libelle: {  }
                                     code: {  }
+                                    code_produit: {  }
+                                    code_comptable: {  }
                                     detail:
                                       required: false
                                       class: ConfigurationDetail
@@ -338,6 +342,8 @@ Configuration:
                                               fields:
                                                 libelle: {  }
                                                 code: {  }
+                                                code_produit: {  }
+                                                code_comptable: {  }
                                                 detail:
                                                   required: false
                                                   class: ConfigurationDetail
@@ -471,6 +477,8 @@ Configuration:
                                                           fields:
                                                             libelle: {  }
                                                             code: {  }
+                                                            code_produit: {  }
+                                                            code_comptable: {  }
                                                             departements:
                                                               type: array_collection
                                                               definition:
@@ -558,6 +566,8 @@ Configuration:
                                                                       fields:
                                                                         libelle: {  }
                                                                         code: {  }
+                                                                        code_produit: {  }
+                                                                        code_comptable: {  }
                                                                         departements:
                                                                           type: array_collection
                                                                           definition:
@@ -651,6 +661,8 @@ Configuration:
                                                                                   fields:
                                                                                     libelle: {  }
                                                                                     code: {  }
+                                                                                    code_produit: {  }
+                                                                                    code_comptable: {  }
                                                                                     cepages: 
                                                                                       type: collection
                                                                                       definition:
@@ -664,6 +676,8 @@ Configuration:
                                                                                               fields:
                                                                                                 libelle: {  }
                                                                                                 code: {  }
+                                                                                                code_produit: {  }
+                                                                                                code_comptable: {  }
                         detail:
                           required: false
                           class: ConfigurationDetail

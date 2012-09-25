@@ -11,9 +11,11 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
 	protected function loadAllData() {
 		parent::loadAllData();
-  	}
+  }
 
-  	public function getParentNode() {
+  abstract public function getChildrenNode();
+
+  public function getParentNode() {
 		$parent = $this->getParent()->getParent();
 		if ($parent->getKey() == 'declaration') {
 
@@ -53,6 +55,24 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
 		return $this->codes;
 	}
+
+  public function getCodeProduit() {
+    if ($this->_get('code_produit')) {
+
+      return $this->getParentNode()->getCodeProduit();
+    }
+
+    return $this->_get('code_produit');
+  }
+
+  public function getCodeComptable() {
+    if (!$this->_get('code_produit')) {
+
+      return $this->getParentNode()->getCodeProduit();
+    }
+    
+    return $this->_get('code_produit');
+  }
 
 	public function getLibelleFormat($labels = array(), $format = "%g% %a% %m% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
     	$libelle = ConfigurationProduitsView::getInstance()->formatLibelles($this->getLibelles(), $format);
@@ -163,6 +183,15 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     	return floatval(str_replace(',', '.', $float));
     }
 
+    public function getProduitsObject() {
+        $produits = array();
+        foreach($this->getChildrenNode() as $key => $item) {
+            $produits = array_merge($produits, $item->getProduits());
+        }
+
+        return $produits;
+    }
+
     public function getProduits($interpro, $departement) {
        
       throw new sfException("The method \"getProduits\" is not defined");
@@ -173,9 +202,18 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
       throw new sfException("The method \"getLabels\" is not defined");
     }
 
-    public abstract function setDonneesCsv($datas);
+    public function setDonneesCsv($datas) {
+      if ($datas[ProduitCsvFile::CSV_PRODUIT_CODE_PRODUIT_NOEUD] == $this->getTypeNoeud()) {
+        $this->code_produit = ($datas[ProduitCsvFile::CSV_PRODUIT_CODE_PRODUIT])? $datas[ProduitCsvFile::CSV_PRODUIT_CODE_PRODUIT] : null;
+      }
+
+      if ($datas[ProduitCsvFile::CSV_PRODUIT_CODE_COMPTABLE_NOEUD] == $this->getTypeNoeud()) {
+        $this->code_comptable = ($datas[ProduitCsvFile::CSV_PRODUIT_CODE_COMPTABLE])? $datas[ProduitCsvFile::CSV_PRODUIT_CODE_COMPTABLE] : null;
+      }
+    }
+
   	public abstract function hasDepartements();
- 	public abstract function hasDroits();
+ 	  public abstract function hasDroits();
   	public abstract function hasLabels();
   	public abstract function hasDetails();
   	public abstract function getTypeNoeud();
@@ -200,5 +238,4 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
   		}
   		return $details;
   	}
-
 }

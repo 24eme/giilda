@@ -7,10 +7,14 @@
 class ConfigurationCertification extends BaseConfigurationCertification {
 	
 	const TYPE_NOEUD = 'certification';
-
     
     protected function loadAllData() {
         parent::loadAllData();
+    }
+
+    public function getChildrenNode() {
+
+      return $this->genres;
     }
 
     public function getLibelles() {
@@ -23,6 +27,15 @@ class ConfigurationCertification extends BaseConfigurationCertification {
         return array($this->code);
     }
 
+    public function getCodeProduit() {
+
+      return $this->_get('code_produit');
+    }
+
+    public function getCodeComptable() {
+
+      return $this->_get('code_comptable');
+    }
 
     public function getProduits($interpro, $departement) {
         $produits = ConfigurationProduitsView::getInstance()->findProduitsByCertificationByDepartement($interpro, 
@@ -71,6 +84,7 @@ class ConfigurationCertification extends BaseConfigurationCertification {
 
     
     public function setDonneesCsv($datas) {
+      parent::setDonneesCsv($datas);
     	$this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_LIBELLE])? $datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_LIBELLE] : null;
     	$this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_CODE])? $datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_CODE] : null;
 

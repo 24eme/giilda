@@ -5,7 +5,12 @@
  */
 
 class ConfigurationDeclaration extends BaseConfigurationDeclaration {
-	const TYPE_NOEUD = 'declaration';
+	  const TYPE_NOEUD = 'declaration';
+
+    public function getChildrenNode() {
+
+      return $this->certifications;
+    }
 
     public function getProduits($interpro, $departement = null) {
         $produits = ConfigurationProduitsView::getInstance()->findProduitsByInterpro($interpro)->rows;

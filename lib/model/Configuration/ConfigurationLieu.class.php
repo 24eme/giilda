@@ -13,6 +13,11 @@ class ConfigurationLieu extends BaseConfigurationLieu {
         $this->hasCepage();
     }
 
+    public function getChildrenNode() {
+
+      return $this->couleurs;
+    }
+
 	/**
      *
      * @return ConfigurationAppellation
@@ -71,6 +76,8 @@ class ConfigurationLieu extends BaseConfigurationLieu {
     }
 
     public function setDonneesCsv($datas) {
+      parent::setDonneesCsv($datas);
+      
     	$this->getMention()->setDonneesCsv($datas);
     	$this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_LIEU_LIBELLE])? $datas[ProduitCsvFile::CSV_PRODUIT_LIEU_LIBELLE] : null;
     	$this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_LIEU_CODE])? $datas[ProduitCsvFile::CSV_PRODUIT_LIEU_CODE] : null;

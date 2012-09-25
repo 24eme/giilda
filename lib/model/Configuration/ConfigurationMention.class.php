@@ -13,6 +13,11 @@ class ConfigurationMention extends BaseConfigurationMention {
         $this->hasCepage();
     }
 
+    public function getChildrenNode() {
+
+      return $this->lieux;
+    }
+
 	/**
      *
      * @return ConfigurationAppellation
@@ -46,6 +51,8 @@ class ConfigurationMention extends BaseConfigurationMention {
     }
     
     public function setDonneesCsv($datas) {
+      parent::setDonneesCsv($datas);
+      
     	$this->getAppellation()->setDonneesCsv($datas);
     	$this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_MENTION_LIBELLE])? $datas[ProduitCsvFile::CSV_PRODUIT_MENTION_LIBELLE] : null;
     	$this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_MENTION_CODE])? $datas[ProduitCsvFile::CSV_PRODUIT_MENTION_CODE] : null;

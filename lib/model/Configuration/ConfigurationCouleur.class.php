@@ -8,6 +8,11 @@ class ConfigurationCouleur extends BaseConfigurationCouleur {
 	
 	const TYPE_NOEUD = 'couleur';
     
+    public function getChildrenNode() {
+
+      return $this->cepages;
+    }
+
     /**
      *
      * @return ConfigurationLieu

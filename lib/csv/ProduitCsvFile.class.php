@@ -37,7 +37,10 @@ class ProduitCsvFile extends CsvFile
   const CSV_PRODUIT_DECLASSEMENT_SORTI = 27;
   const CSV_PRODUIT_DENSITE = 28;
   const CSV_PRODUIT_LABELS = 29;
-  const CSV_PRODUIT_CODE_INTERNE = 30;
+  const CSV_PRODUIT_CODE_PRODUIT = 30;
+  const CSV_PRODUIT_CODE_PRODUIT_NOEUD = 31;
+  const CSV_PRODUIT_CODE_COMPTABLE = 32;
+  const CSV_PRODUIT_CODE_COMPTABLE_NOEUD = 33;
   
   protected $config;
   protected $errors;
