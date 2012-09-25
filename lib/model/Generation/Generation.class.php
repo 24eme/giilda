@@ -15,13 +15,11 @@ class Generation extends BaseGeneration {
     $this->setStatut(self::GENERATION_STATUT_ENCOURS);
   }
 
-  public function setGenere($fichierPDF) {
-    $this->setFichier($fichierPDF);
-    return $this->setStatut(self::GENERATION_STATUT_GENERE);
-  }
- 
   public function save() {
     $this->nb_documents = count($this->documents);
+    if (count($this->fichier)) {
+      $this->setStatut(self::GENERATION_STATUT_GENERE);
+    }
     parent::save();
   }
   
