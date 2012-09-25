@@ -23,8 +23,8 @@ use_helper('Prix');
             <tr <?php if($i%2!=0) echo ($mouvement->volume>0)? ' class="alt"' : 'class="alt"';  ?>>
                 <td><?php echo format_date($mouvement->date,'dd/MM/yyyy'); ?></td>
                 <td><?php 
-                $numeroFormatted = (strstr($mouvement->numero, 'DRM')!==FALSE)? DRMClient::getInstance()->getLibelleFromIdDRM($mouvement->numero) :
-                SV12Client::getInstance()->getLibelleFromIdSV12($mouvement->numero);
+                $numeroFormatted = (strstr($mouvement->numero, 'DRM')!== false)? DRMClient::getInstance()->getLibelleFromId($mouvement->numero) :
+                SV12Client::getInstance()->getLibelleFromId($mouvement->numero);
                 
                 echo $numeroFormatted; ?></td>
                 <td><?php echo $mouvement->produit_libelle ?> </td>

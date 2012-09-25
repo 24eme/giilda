@@ -121,7 +121,7 @@ class FactureClient extends acCouchdbClient {
             $origine_libelle = 'Contrat du '.$this->formatContratNum($ligneObj->contrat_identifiant);
             $origine_libelle .= ' ('.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST].') ';
             if($famille==EtablissementFamilles::FAMILLE_NEGOCIANT)
-                $origine_libelle .= SV12Client::getInstance()->getLibelleFromIdSV12($ligneObj->origine_identifiant);
+                $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligneObj->origine_identifiant);
             return $origine_libelle;
         }
         
@@ -131,10 +131,10 @@ class FactureClient extends acCouchdbClient {
                 $origine_libelle = 'Contrat du '.$this->formatContratNum($ligneObj->contrat_identifiant);
                 $origine_libelle .= ' ('.$lignesByType->value[MouvementFacturationView::VALUE_VRAC_DEST].') ';
                 if($famille==EtablissementFamilles::FAMILLE_PRODUCTEUR)
-                    $origine_libelle .= DRMClient::getInstance()->getLibelleFromIdDRM($ligneObj->origine_identifiant);
+                    $origine_libelle .= DRMClient::getInstance()->getLibelleFromId($ligneObj->origine_identifiant);
                 return $origine_libelle;
             }
-            return DRMClient::getInstance()->getLibelleFromIdDRM($ligneObj->origine_identifiant);
+            return DRMClient::getInstance()->getLibelleFromId($ligneObj->origine_identifiant);
         }
     }
     
