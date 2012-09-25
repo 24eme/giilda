@@ -15,6 +15,11 @@ class FactureClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Facture");
     }
 
+    public function getId($identifiant, $factureId) {
+        return 'FACTURE-'.$identifiant.'-'.$factureId;
+    }
+
+
     public function getNextNoFacture($idClient,$date)
     {   
         $id = '';

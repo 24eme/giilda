@@ -3,7 +3,7 @@ use_helper('Float');
 use_helper('Date');
 $nb_ligne = 0;
 ?>
-\documentclass[a4paper,6pt]{article}
+\documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -58,11 +58,12 @@ $nb_ligne = 0;
 \def\InterloireSIRET{429 164 072 00077}
 \def\InterloireAPE{APE 9499 Z} 
 \def\InterloireTVAIntracomm{FR 73 429164072}
-\def\InterloireBANQUE{Crédit agricole de la tourraine et du poitou}
-\def\InterloireBIC{XXXXX}
-\def\InterloireIBAN{XXXX XXXXX XXXX XXXXX XX}
+\def\InterloireBANQUE{Crédit agricole Atlantique Vendée}
+\def\InterloireBIC{AGRIFRPP847}
+\def\InterloireIBAN{FR76~1470~6000~1400~0000~2200~028}
 
 \def\FactureNum{<?php echo $facture->identifiant; ?>}
+\def\FactureNumREF{<?php echo substr($facture->identifiant,6,2).' '.substr($facture->identifiant,0,6); ?>}
 \def\FactureDate{<?php echo format_date($facture->date_emission,'dd/MM/yyyy'); ?>}
 \def\FactureRefClient{<?php echo $facture->client_reference; ?>}
 
@@ -136,13 +137,14 @@ page \thepage / <?php echo $facture->nb_page; ?>
 \fontsize{8}{8}\selectfont
     \begin{tikzpicture}
 		\node[inner sep=1pt] (tab1){
+                \renewcommand{\arraystretch}{1.4}
 			\begin{tabular}{p{116mm} |p{12mm}|p{14mm}|p{18mm}|p{13mm}p{0mm}}
 
   			\rowcolor{lightgray}
                         \centering \small{\textbf{Libellé}} &
    			\centering \small{\textbf{Volume en hl}} &
                         \centering \small{\textbf{Cotisation en \texteuro{}/hl}} &
-   			\centering \small{\textbf{Montant HT}} &   			
+   			\centering \small{\textbf{Montant HT en \texteuro{}}} &   			
    			\centering \small{\textbf{Code Echéance}} &
    			 \\
   			\hline 
@@ -162,7 +164,7 @@ page \thepage / <?php echo $facture->nb_page; ?>
                 ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$produit->origine_libelle.'\end{tiny}'; ?> &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->volume*-1); ?>} &
                             \multicolumn{1}{r|}{<?php echoFloat($produit->cotisation_taux); ?>} & 
-                            \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>~\texteuro{}} & 
+                            \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>} & 
                             \multicolumn{2}{c}{<?php echo $produit->echeance_code; ?>}\\
 
                 <?php 
@@ -192,7 +194,7 @@ page \thepage / <?php echo $facture->nb_page; ?>
        \begin{minipage}[b]{0.60\textwidth}
         \small{\textbf{Règlement : }}
         \begin{itemize}
-            \item \textbf{par virement} (merci de mentionner les n° suivants : CCCCCC FF FFFFFF)
+            \item \textbf{par virement} (merci de mentionner les n° suivants : \FactureRefClient~\FactureNumREF)
             \item \textbf{par chèque en joignant le(s) papillon(s) ci-dessous : \\}
         \end{itemize}
         \end{minipage}
@@ -206,13 +208,13 @@ page \thepage / <?php echo $facture->nb_page; ?>
             \node[inner sep=1pt] (tab2){
                     \begin{tabular}{>{\columncolor{lightgray}} l | p{22mm}}
 
-                    \centering \small{\textbf{Montant H.T.}} &
+                    \centering \small{\textbf{Montant HT}} &
                     \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ht); ?>~\texteuro{}}} \\
                     
                     \centering \small{} &
                     \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
                     
-                    \centering \small{\textbf{TVA 19.6}} &
+                    \centering \small{\textbf{TVA 19.6~\%}} &
                     \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc - $facture->total_ht); ?>~\texteuro{}}} \\
                     
                     \centering \small{} &
