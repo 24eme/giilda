@@ -11,7 +11,11 @@ Generation:
       type_document: {}      
       somme: {}
       statut: {}
-      fichier: {}
+      fichiers:
+        type: array_collection
+        definition:
+          fields:
+            '*': { }
       documents:
         type: array_collection
         definition:
