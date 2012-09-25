@@ -9,7 +9,7 @@ DS:
       date_emission: {}
       campagne: {}
       statut: {}
-      commentaire: {}
+      commentaires: {}
       declarant:
         type: collection
         definition:
@@ -38,4 +38,5 @@ DS:
                   stock_revendique: { type: float }
                   vente_vin: { type: float }
                   stock_theorique: { type: float }
+                  autres_mouvements: { type: float }
                   stock_consome: { type: float }

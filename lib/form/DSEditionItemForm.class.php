@@ -12,23 +12,24 @@ class DSEditionItemForm extends acCouchdbObjectForm {
 
         
         $this->setWidget('stock_revendique', new sfWidgetFormInput());    
-        $this->setWidget('produit_hash', new sfWidgetFormInput());  
 
         $this->widgetSchema->setLabels(array(
-            'stock_revendique' => 'Volume Stock',
-            'produit_hash' => 'produit_hash'
+            'stock_revendique' => 'Volume Stock'
         ));
 
         $this->setValidators(array(
-            'stock_revendique' => new sfValidatorNumber(array('required' => false)),
-            'produit_hash' => new sfValidatorString(array('required' => true))
+            'stock_revendique' => new sfValidatorNumber(array('required' => false))
         ));
-        $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+        $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);  
     }
     
     public function getDeclaration()
         {
         return $this->declaration;
         }
+        
+    public function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+    }
 }
 

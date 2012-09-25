@@ -1,4 +1,4 @@
-<form id="generation_operateur_form" action="<?php echo url_for('ds_generation_operateur',$operateur); ?>" method="post">
+<form id="generation_operateur_form" action="<?php echo url_for('ds_generation_operateur',$etablissement); ?>" method="post">
 <h2>Génération des formulaires de déclaration</h2>
 <div class="generation_facture_options">
     <ul>

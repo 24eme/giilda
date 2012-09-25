@@ -20,8 +20,8 @@ class dsActions extends sfActions {
     
      public function executeMonEspace(sfWebRequest $request) {    
          
-        $this->operateur = $this->getRoute()->getEtablissement();        
-        $this->dsHistorique = DSClient::getInstance()->getHistoryByOperateur($this->operateur);
+        $this->etablissement = $this->getRoute()->getEtablissement();        
+        $this->dsHistorique = DSClient::getInstance()->getHistoryByOperateur($this->etablissement);
         $this->generationOperateurForm = new DSGenerationOperateurForm();
     }
     
@@ -38,6 +38,26 @@ class dsActions extends sfActions {
      public function executeEditionDS(sfWebRequest $request) {        
          $this->ds = $this->getRoute()->getDS();
          $this->form = new DSEditionForm($this->ds->declarations);
-        
+         if ($request->isMethod(sfWebRequest::POST)) {
+             $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->doUpdateObject();
+                $this->ds->save();
+                return $this->redirect('ds_edition_operateur_validation', array('identifiant' => $this->ds->identifiant,'campagne' => $this->ds->campagne));
+            }
+       }
     } 
+    
+    public function executeEditionDSAddProduit(sfWebRequest $request)
+    {
+        $this->ds = $this->getRoute()->getDS();
+        $this->form = new DSEditionForm($this->ds->declarations);
+    }
+    
+    public function executeEditionDSValidation(sfWebRequest $request) {
+        $this->ds = $this->getRoute()->getDS();
+        $this->form = new DSEditionForm($this->ds->declarations);
+    }
+    
+    
 }

@@ -10,22 +10,23 @@ use_helper('Float');
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <h2>Consulter les stocks d'un opérateur :</h2>
-          <?php include_component('ds', 'chooseEtablissement', array('identifiant' => $operateur->identifiant)); ?>
-        </section>
+          <?php include_component('ds', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
+       
         <br />
         <h2>Détail opérateur</h2>
         <?php 
-           include_partial('operateurInformations', array('operateur' => $operateur));
+           include_partial('etablissementInformations', array('etablissement' => $etablissement));
         ?>
         <br />
           <hr />
-          <?php include_partial('generationFormulairesOperateur', array('operateur' => $operateur, 'generationOperateurForm' => $generationOperateurForm)); ?>
+          <?php include_partial('generationFormulairesOperateur', array('etablissement' => $etablissement, 'generationOperateurForm' => $generationOperateurForm)); ?>
           <br />
           <hr />
           <h2>Historique des déclarations de stocks</h2>
           <br />
           <?php  include_partial('dsHistorique', array('dsHistorique' => $dsHistorique)) ?>
-          <br />
+          <br /> 
+        </section>
     </section>
     <!-- fin #principal -->
     

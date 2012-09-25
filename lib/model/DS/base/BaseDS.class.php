@@ -11,7 +11,7 @@
  * @property string $date_emission
  * @property string $campagne
  * @property string $statut
- * @property string $commentaire
+ * @property string $commentaires
  * @property acCouchdbJson $declarant
  * @property acCouchdbJson $declarations
 
@@ -29,8 +29,8 @@
  * @method string setCampagne()
  * @method string getStatut()
  * @method string setStatut()
- * @method string getCommentaire()
- * @method string setCommentaire()
+ * @method string getCommentaires()
+ * @method string setCommentaires()
  * @method acCouchdbJson getDeclarant()
  * @method acCouchdbJson setDeclarant()
  * @method acCouchdbJson getDeclarations()

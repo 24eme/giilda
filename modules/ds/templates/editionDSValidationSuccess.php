@@ -20,7 +20,7 @@ use_helper('Float');
         <br />
         <hr />
         <?php 
-           include_partial('dsEditionFormContent', array('ds' => $ds, 'declarations' => $ds->declarations,'form' => $form));
+           include_partial('dsRecapitulatif', array('ds' => $ds, 'declarations' => $ds->declarations));
         ?>
     </section>
     <!-- fin #principal -->

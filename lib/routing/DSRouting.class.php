@@ -18,10 +18,7 @@ class DSRouting {
                     'action' => 'monEspace'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Etablissement',
-                            'type' => 'object')
-        ));
-        
-        
+                            'type' => 'object')));
         
         $r->prependRoute('ds_generation', new sfRoute('/ds/generation', array('module' => 'ds', 
 										      'action' => 'generation')));   
@@ -33,15 +30,26 @@ class DSRouting {
                     'action' => 'generationOperateur'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Etablissement',
-                            'type' => 'object')
-        ));
+                            'type' => 'object')));
         
-        $r->prependRoute('ds_edition_operateur', new DSRoute('/ds/:campagne/:identifiant/edition', array('module' => 'ds',
+                $r->prependRoute('ds_edition_operateur', new DSRoute('/ds/:campagne/:identifiant/edition', array('module' => 'ds',
                     'action' => 'editionDS'),
-                        array('sf_method' => array('get', 'post')),
-                        array('model' => 'DS',
-                            'type' => 'object')
-        ));
+                    array('sf_method' => array('get', 'post')),
+                    array('model' => 'DS',
+                        'type' => 'object') ));
+        
+        
+        $r->prependRoute('ds_edition_operateur_addProduit', new DSRoute('/ds/:campagne/:identifiant/edition/addProduit', array('module' => 'ds',
+                    'action' => 'editionDSAddProduit'),
+                    array('sf_method' => array('get', 'post')),
+                    array('model' => 'DS',
+                        'type' => 'object') ));
+
+        $r->prependRoute('ds_edition_operateur_validation', new DSRoute('/ds/:campagne/:identifiant/validation', array('module' => 'ds',
+            'action' => 'editionDSValidation'),
+            array('sf_method' => array('get', 'post')),
+            array('model' => 'DS',
+                'type' => 'object') ));
         
     }
 }

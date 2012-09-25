@@ -22,7 +22,7 @@ class DS extends BaseDS implements InterfaceDeclarant {
         $produits = $drm->getDetails();
 
         foreach ($produits as $produit) {
-            $produitDs = $this->declaration->add($produit->getHashForKey());
+            $produitDs = $this->declarations->add($produit->getHashForKey());
             $produitDs->updateProduit($produit);
         }
     }
