@@ -18,13 +18,13 @@ use_helper('Display');
         <div class="ligne_form">
             <span>
                 <label>N° ACCISE</label>
-                <?php display_field($operateur,'no_accises'); ?>
+                <?php display_field($operateur,'num_accise'); ?>
             </span>
         </div>
         <div class="ligne_form ligne_form_alt " >
             <span>
                 <label>TVA Intracomm.</label>
-                <?php display_field($operateur,'no_tva_intracommunautaire'); ?>
+                <?php display_field($operateur,'num_tva_intracomm'); ?>
             </span>
         </div>
     </div>
@@ -33,19 +33,19 @@ use_helper('Display');
         <div class="ligne_form">
             <span>
                 <label>Adresse</label>
-                <?php display_field($operateur,'siege/adresse');  ?>
+                <?php display_field($operateur,'adresse');  ?>
             </span>
         </div>
         <div class="ligne_form ligne_form_alt">
             <span>
                 <label>CP*</label>
-                <?php display_field($operateur,'siege/code_postal'); ?>
+                <?php display_field($operateur,'code_postal'); ?>
             </span>
         </div>
         <div class="ligne_form">
             <span>
                 <label>Ville*</label>
-                <?php display_field($operateur,'siege/commune'); ?>
+                <?php display_field($operateur,'commune'); ?>
             </span>
         </div>
     </div>

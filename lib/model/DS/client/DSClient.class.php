@@ -35,9 +35,14 @@ class DSClient extends acCouchdbClient {
         $ds->updateProduits();
         return $ds;
     }
-    
+
     public function getHistoryByOperateur($etablissement) {
         return DSHistoryView::getInstance()->findByEtablissement($etablissement->identifiant);
+    }
+
+    public function findByCampagneAndIdentifiant($campagne, $identifiant) {
+        return $this->find($this->getId($campagne, $identifiant));
+       
     }
 
 }

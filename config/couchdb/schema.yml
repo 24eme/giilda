@@ -22,7 +22,7 @@ DS:
             commune: {  }
             code_postal: {   }            
             num_chai: {  }
-      declaration:
+      declarations:
         type: collection
         definition:
           fields:

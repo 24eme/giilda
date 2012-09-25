@@ -13,7 +13,7 @@
  * @property string $statut
  * @property string $commentaire
  * @property acCouchdbJson $declarant
- * @property acCouchdbJson $declaration
+ * @property acCouchdbJson $declarations
 
  * @method string get_id()
  * @method string set_id()
@@ -33,8 +33,8 @@
  * @method string setCommentaire()
  * @method acCouchdbJson getDeclarant()
  * @method acCouchdbJson setDeclarant()
- * @method acCouchdbJson getDeclaration()
- * @method acCouchdbJson setDeclaration()
+ * @method acCouchdbJson getDeclarations()
+ * @method acCouchdbJson setDeclarations()
  
  */
  

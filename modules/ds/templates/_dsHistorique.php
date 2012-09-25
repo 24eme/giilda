@@ -18,7 +18,7 @@
                 <td><?php echo $ds->value[DSHistoryView::VALUE_DS_ID]; ?></td>
                 <td><?php echo $ds->value[DSHistoryView::VALUE_DECLARANT_CVI]; ?> </td>
                 <td><?php echo $ds->key[DSHistoryView::KEY_STATUT]; ?></td>
-                <td> <a href="<?php //echo url_for('ds_historique_generation'); ?>" id="saisie_ds" >Saisir</a></td>
+                <td> <a href="<?php echo url_for('ds_edition_operateur',array('identifiant' => $ds->key[DSHistoryView::KEY_IDENTIFIANT], 'campagne' => $ds->key[DSHistoryView::KEY_CAMPAGNE])); ?>" id="saisie_ds" >Saisir</a></td>
             </tr>
             <?php
             endforeach;

@@ -36,5 +36,12 @@ class DSRouting {
                             'type' => 'object')
         ));
         
+        $r->prependRoute('ds_edition_operateur', new DSRoute('/ds/:campagne/:identifiant/edition', array('module' => 'ds',
+                    'action' => 'editionDS'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'DS',
+                            'type' => 'object')
+        ));
+        
     }
 }

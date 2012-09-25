@@ -32,9 +32,12 @@ class dsActions extends sfActions {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->declarationDs = DSClient::getInstance()->createDsByEtb($campagne,$this->etablissement);     
         $this->declarationDs->save();
-        $this->redirect('ds_etablissement', $this->etablissement);
-         
+        $this->redirect('ds_etablissement', $this->etablissement);         
     }
     
-    
+     public function executeEditionDS(sfWebRequest $request) {        
+         $this->ds = $this->getRoute()->getDS();
+         $this->form = new DSEditionForm($this->ds->declarations);
+        
+    } 
 }
