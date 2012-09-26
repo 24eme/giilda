@@ -82,9 +82,9 @@ class GenerationPDF {
     $pages = array();
     foreach ($factures as $page => $pdfs) {
       if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
-	$this->generation->fichiers->add('Documents de '.$page.' page(s)', $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfs));
+	$this->generation->add('fichiers')->add('Documents de '.$page.' page(s)', $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfs));
       }else{
-	$this->generation->fichiers->add('Documents de '.$page.' page(s)', $this->generatePDFAndConcatenateThem($pdfs));
+	$this->generation->add('fichiers')->add('Documents de '.$page.' page(s)', $this->generatePDFAndConcatenateThem($pdfs));
       }
     }
     $this->generation->save();
