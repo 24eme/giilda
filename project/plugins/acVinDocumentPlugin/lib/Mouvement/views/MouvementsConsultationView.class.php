@@ -35,10 +35,10 @@ class MouvementsConsultationView extends acCouchdbView
 
 
 
-    public function findByTypeEtablissementAndPeriode($type, $id_or_identifiant, $periode) {
+    public function findByTypeEtablissementAndPeriode($type, $id_or_identifiant, $campagne, $periode) {
         $identifiant = EtablissementClient::getInstance()->getIdentifiant($id_or_identifiant);
-        return $this->client->startkey(array($type, $identifiant, DRMClient::getInstance()->buildCampagne($periode), $periode))
-                            ->endkey(array($type, $identifiant, DRMClient::getInstance()->buildCampagne($periode), $periode, array()))
+        return $this->client->startkey(array($type, $identifiant, $campagne, $periode))
+                            ->endkey(array($type, $identifiant, $campagne, $periode, array()))
                             ->getView($this->design, $this->view);
     }
 
