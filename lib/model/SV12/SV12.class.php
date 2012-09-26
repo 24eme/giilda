@@ -94,13 +94,9 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function solderContrats() {
        foreach ($this->contrats as $c) {
-            if (!$c->canBeSoldable()) {
-                return;
+            if ($c->enleverVolume()) {
+                $c->getVrac()->save();
             }
-
-            $c->enleverVolume();
-            $c->getVrac()->solder();
-            $c->getVrac()->save();
         } 
     }
 

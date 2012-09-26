@@ -89,7 +89,17 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function enleverVolume() {
+        $volume = $this->getVolumeVersion();
+        if ($volume == 0) {
+            return false;
+        }
+
         $this->getVrac()->enleverVolume($this->getVolumeVersion());
+        if ($this->canBeSoldable()) {
+            $this->getVrac()->solder();
+        }
+
+        return true;
     }
 
     public function getVrac() {
