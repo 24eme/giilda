@@ -1,7 +1,7 @@
 <div id="contenu" class="sv12">    
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><a href="<?php echo url_for('sv12') ?>">Page d'accueil</a> &gt; <strong><?php echo $sv12->declarant->nom ?></strong></p>
+        <p id="fil_ariane"><a href="<?php echo url_for('sv12') ?>">Page d'accueil</a> &gt; <a href="<?php echo url_for('sv12_etablissement', $sv12->getEtablissementObject()) ?>"><?php echo $sv12->declarant->nom ?></a> &gt; <strong><?php echo $sv12 ?></strong></p>
         
         <!-- #contenu_etape -->
         <section id="contenu_etape">

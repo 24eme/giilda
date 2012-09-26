@@ -1,14 +1,18 @@
-<div id="recap_infos_header">
-    <div>
-        <label>Négociant : </label>
+<ul id="recap_infos_header">
+    <li>
+        <span>Campagne viticole :</span>
+        <?php echo $sv12->campagne ?>
+    </li>
+    <li>
+        <span>Négociant :</span>
         <?php echo $sv12->declarant->nom; ?>
-    </div>
-    <div>
-        <label>CVI : </label>
+    </li>
+    <li>
+        <span>CVI :</span>
         <?php echo $sv12->declarant->cvi; ?>
-    </div>
-    <div>
-        <label>Commune : </label>
+    </li>
+    <li>
+        <span>Commune :</span>
         <?php echo $sv12->declarant->commune; ?>
-    </div>
-</div> 
+    </li>
+</ul>

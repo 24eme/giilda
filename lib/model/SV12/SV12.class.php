@@ -387,6 +387,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     
     public function __toString()
     {
+        
         return SV12Client::getInstance()->getLibelleFromId($this->_id);
     }
 }

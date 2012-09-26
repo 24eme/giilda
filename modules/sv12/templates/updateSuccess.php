@@ -1,32 +1,15 @@
 <div id="contenu" class="sv12">    
 	<!-- #principal -->
 	<section id="principal">
-		<p id="fil_ariane"><a href="<?php echo url_for('sv12') ?>">Page d'accueil</a> &gt; <strong><?php echo $sv12->declarant->nom ?></strong></p>
+		<p id="fil_ariane"><a href="<?php echo url_for('sv12') ?>">Page d'accueil</a> &gt; <a href="<?php echo url_for('sv12_etablissement', $sv12->getEtablissementObject()) ?>"><?php echo $sv12->declarant->nom ?></a> &gt; <strong><?php echo $sv12 ?></strong></p>
 		
 		<!-- #contenu_etape -->
 		<section id="contenu_etape">
 			<h2>Déclaration SV12</h2>
 			
-			<p id="num_sv12"><span>N° SV12 :</span> 000000000</p>
+			<!--<p id="num_sv12"><span>N° SV12 :</span> <?php echo $sv12->get('_id') ?></p>-->
 			
-			<ul id="recap_infos_header">
-				 <li>
-					<span>Campagne viticole :</span>
-					AAAA - AAAA
-				</li>
-				<li>
-					<span>Négociant :</span>
-					<?php echo $sv12->declarant->nom; ?>
-				</li>
-				<li>
-					<span>CVI :</span>
-					<?php echo $sv12->declarant->cvi; ?>
-				</li>
-				<li>
-					<span>Commune :</span>
-					<?php echo $sv12->declarant->commune; ?>
-				</li>
-			</ul>
+			<?php include_partial('negociant_infos', array('sv12' => $sv12)); ?>
 			
 			<script type="text/javascript">	
 				var source_tags = <?php echo json_encode($sv12->getContratsWords()->getRawValue()); ?>;

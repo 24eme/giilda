@@ -1,12 +1,12 @@
 <div id="contenu" class="sv12">    
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><a href="<?php echo url_for('sv12') ?>">Page d'accueil</a> &gt; <strong><?php echo $sv12->declarant->nom ?></strong></p>
+        <p id="fil_ariane"><a href="<?php echo url_for('sv12') ?>">Page d'accueil</a> &gt; <a href="<?php echo url_for('sv12_etablissement', $sv12->getEtablissementObject()) ?>"><?php echo $sv12->declarant->nom ?></a> &gt; <strong><?php echo $sv12 ?></strong></p>
 
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <h2>Déclaration SV12</h2>
-            <br />
+
             <?php include_partial('negociant_infos', array('sv12' => $sv12)); ?>
             <br />
             <form name="sv12_recapitulatif" method="POST" action="<?php echo url_for('sv12_recapitulatif', $sv12); ?>" >
