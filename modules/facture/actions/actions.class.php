@@ -29,6 +29,7 @@ class factureActions extends sfActions {
        $this->redirect('generation_facture', array('type_document' => $generation->type_document,'date_emission' => $generation->date_emission));
        }
        $this->generations = GenerationClient::getInstance()->findHistory();
+       $this->redirect('facture');
        
     }
     

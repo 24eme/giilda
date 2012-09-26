@@ -33,7 +33,7 @@ class FactureClient extends acCouchdbClient {
     }
     
     public function getAtDate($idClient,$date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$date.'99')->execute($hydrate);        
+        return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$idClient.'-'.$date.'99')->execute($hydrate);        
     }
 
     public function getFacturationForEtablissement($etablissement, $level) {
