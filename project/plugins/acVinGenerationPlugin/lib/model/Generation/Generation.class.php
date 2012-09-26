@@ -7,6 +7,7 @@
 class Generation extends BaseGeneration {
   const GENERATION_STATUT_ENCOURS = "En cours";
   const GENERATION_STATUT_GENERE = "Généré";
+  const GENERATION_TYPE_DOCUMENT_FACTURE = 'factures';
 
   public function constructId() {
     $this->setDateEmission(date('YmdHis'));
@@ -17,7 +18,7 @@ class Generation extends BaseGeneration {
 
   public function save() {
     $this->nb_documents = count($this->documents);
-    if (count($this->fichier)) {
+    if (count($this->fichiers)) {
       $this->setStatut(self::GENERATION_STATUT_GENERE);
     }
     parent::save();
