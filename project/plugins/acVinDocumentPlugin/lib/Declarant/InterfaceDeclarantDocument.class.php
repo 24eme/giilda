@@ -1,6 +1,6 @@
 <?php
 
-interface InterfaceDeclarant
+interface InterfaceDeclarantDocument
 {
     public function storeDeclarant();
     public function getEtablissementObject();
