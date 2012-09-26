@@ -13,7 +13,7 @@ class DRMMouvementsConsultationView extends MouvementsConsultationView
 
     public function findByEtablissementAndPeriode($id_or_identifiant, $periode) {
         
-        return $this->findByTypeEtablissementAndPeriode('DRM', $id_or_identifiant, $periode);
+        return $this->findByTypeEtablissementAndPeriode('DRM', $id_or_identifiant, DRMClient::getInstance()->buildCampagne($periode), $periode);
     }
 
     public function getMouvementsByEtablissement($id_or_identifiant) {
