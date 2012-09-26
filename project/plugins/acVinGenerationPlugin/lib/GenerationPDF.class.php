@@ -5,9 +5,10 @@ class GenerationPDF {
   private $generation = null;
   private $config = null;
   
-  function __construct(Generation $g, $config = null) {
+  function __construct(Generation $g, $config = null, $options = null) {
     $this->generation = $g;
     $this->config = $config;
+    $this->options = $options;
   }
 
   function concatenatePDFs($pdffiles) {
@@ -80,10 +81,10 @@ class GenerationPDF {
     }
     $pages = array();
     foreach ($factures as $page => $pdfs) {
-      if (isset($this->config['page'.$page.'perpage']) && $this->config['page'.$page.'perpage']) {
-	$this->generation->fichiers->add('Documents de '.$page.' page(s)', $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfs));
+      if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
+	$this->generation->add('fichiers')->add($this->generatePDFGroupByPageNumberAndConcatenateThem($pdfs), 'Documents de '.$page.' page(s) trié par numéro de page');
       }else{
-	$this->generation->fichiers->add('Documents de '.$page.' page(s)', $this->generatePDFAndConcatenateThem($pdfs));
+	$this->generation->add('fichiers')->add($this->generatePDFAndConcatenateThem($pdfs), 'Documents de '.$page.' page(s)');
       }
     }
     $this->generation->save();

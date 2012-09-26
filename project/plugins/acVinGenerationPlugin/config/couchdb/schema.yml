@@ -12,7 +12,7 @@ Generation:
       somme: {}
       statut: {}
       fichiers:
-        type: array_collection
+        type: collection
         definition:
           fields:
             '*': { }
