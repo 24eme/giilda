@@ -4,17 +4,17 @@
  * Model for Vrac
  *
  */
-class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVersionDocument, InterfaceDeclarant {
+class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVersionDocument, InterfaceDeclarantDocument {
 
     protected $mouvement_document = null;
     protected $version_document = null;
-    protected $declarant = null;
+    protected $declarant_document = null;
 
     public function  __construct() {
         parent::__construct();   
         $this->mouvement_document = new MouvementDocument($this);
         $this->version_document = new VersionDocument($this);
-        $this->declarant = new Declarant($this);
+        $this->declarant_document = new DeclarantDocument($this);
     }
 
     public function constructId() {
@@ -376,11 +376,11 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     /**** DECLARANT ****/
         
     public function storeDeclarant() {
-        $this->declarant->storeDeclarant();
+        $this->declarant_document->storeDeclarant();
     }
 
     public function getEtablissementObject() {
-        return $this->declarant->getEtablissementObject();
+        return $this->declarant_document->getEtablissementObject();
     }
     
     /**** FIN DES DECLARANT ****/
