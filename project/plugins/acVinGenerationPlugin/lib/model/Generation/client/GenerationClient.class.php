@@ -11,6 +11,9 @@ class GenerationClient extends acCouchdbClient {
     const HISTORY_VALUES_DOCUMENTS = 2;    
     const HISTORY_VALUES_SOMME = 3;
     
+    const GENERATION_STATUT_ENCOURS = "En cours";
+    const GENERATION_STATUT_GENERE = "Généré";
+
     public static function getInstance() {
         return acCouchdbManager::getClient("Generation");
     }
@@ -26,6 +29,19 @@ class GenerationClient extends acCouchdbClient {
                 ->rows;
     }
     
+
+    public function getGenerationIdEnCours() {
+	$rows = acCouchdbManager::getClient()
+			->startkey(array(self::GENERATION_STATUT_ENCOURS))->endkey(array(self::GENERATION_STATUT_ENCOURS, []))
+                        ->getView("generation", "history")
+                        ->rows;
+	$ids = array();
+	foreach($rows as $row) {
+		$ids[] = $row->id;
+        }
+        return $ids;
+    }
+
     public function getDateFromIdGeneration($date) {
         $annee = substr($date,0,4);
         $mois = substr($date,4,2);
