@@ -14,7 +14,7 @@ class drmActions extends sfActions
   public function executeRedirect(sfWebRequest $request) {
     $drm = DRMClient::getInstance()->find($request->getParameter('identifiant_drm'));
     $this->forward404Unless($drm);
-    return $this->redirect('drm_visualisation', $drm);
+    return $this->redirect('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
   }
   
   public function executeChooseEtablissement(sfWebRequest $request) {
