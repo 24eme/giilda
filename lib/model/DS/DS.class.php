@@ -43,8 +43,8 @@ class DS extends BaseDS implements InterfaceDeclarant {
         return $this->statut === DSClient::STATUT_VALIDE_PARTIEL;
     }
     
-    public function isStatutBrouillon() {
-        return $this->statut === DSClient::STATUT_BROUILLON;
+    public function isStatutASaisir() {
+        return $this->statut === DSClient::STATUT_A_SAISIR;
     }
     
     public function updateStatut() {

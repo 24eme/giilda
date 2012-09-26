@@ -19,6 +19,13 @@ use_helper('Float');
         ?>
         <br />
         <hr />
+        
+        
+        <?php
+           include_partial('dsInformations', array('ds' => $ds));
+        ?>
+        <br />
+        <hr />
         <?php 
            include_partial('dsRecapitulatif', array('ds' => $ds, 'declarations' => $ds->declarations));
         ?>

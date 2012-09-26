@@ -3,21 +3,26 @@
 class DSEditionForm extends acCouchdbForm {
 
     
-    protected $declarations = null;
+    protected $ds = null;
     
-    public function __construct(acCouchdbJson $declarations, $defaults = array(), $options = array(), $CSRFSecret = null) {
+    public function __construct(acCouchdbJson $ds, $defaults = array(), $options = array(), $CSRFSecret = null) {
         
-        $this->declarations = $declarations;        
-        parent::__construct($this->declarations->getDocument(), $options, $CSRFSecret);
+        $this->ds = $ds;
+        $defaults = array();
+        foreach ($this->ds->getDeclarations() as $key => $value) {
+                $defaults[$key] = $value->stock_revendique;
+    	}      
+        $defaults['commentaires'] = $this->ds->commentaires;
+        parent::__construct($ds,$defaults, $options, $CSRFSecret);
     }
     
     public function configure()
     {
-        if(!count($this->declarations))
+        if(!count($this->ds->declarations))
         {
-            $this->declarations->add();
+            $this->ds->declarations->add();
         }
-        foreach ($this->declarations as $key => $declaration) {
+        foreach ($this->ds->declarations as $key => $declaration) {
             $this->setWidget($key, new sfWidgetFormInput());    
             $this->widgetSchema->setLabel($key, 'Volume Stock');
             $this->setValidator($key, new sfValidatorNumber(array('required' => false)));

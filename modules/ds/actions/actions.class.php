@@ -28,16 +28,25 @@ class dsActions extends sfActions {
     
      public function executeGenerationOperateur(sfWebRequest $request) { 
         $parameters = $request->getParameter('ds_generation');        
-        $campagne = (!isset($parameters['campagne']))? null : $parameters['campagne'];        
+        $campagne = (!isset($parameters['campagne']))? null : $parameters['campagne'];   
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->declarationDs = DSClient::getInstance()->createDsByEtb($campagne,$this->etablissement);     
-        $this->declarationDs->save();
-        $this->redirect('ds_etablissement', $this->etablissement);         
+        
+        $dsExist = DSClient::getInstance()->findByCampagneAndIdentifiant($campagne,$this->etablissement->identifiant);
+        if(!$dsExist){
+            $this->declarationDs = DSClient::getInstance()->createDsByEtb($campagne,$this->etablissement);     
+            $this->declarationDs->save();
+            $this->redirect('ds_etablissement', $this->etablissement);    
+        }
+        else
+        {
+            $this->redirect('ds_etablissement', $this->etablissement); // + popup existe déja
+        }
+            
     }
     
      public function executeEditionDS(sfWebRequest $request) {        
          $this->ds = $this->getRoute()->getDS();
-         $this->form = new DSEditionForm($this->ds->declarations);
+         $this->form = new DSEditionForm($this->ds);
          if ($request->isMethod(sfWebRequest::POST)) {
              $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
@@ -56,8 +65,8 @@ class dsActions extends sfActions {
     }
     
     public function executeEditionDSValidationVisualisation(sfWebRequest $request) {
-        $this->ds = $this->getRoute()->getDS();
-        if($this->ds->isStatutBrouillon())
+        $this->ds = $this->getRoute()->getDS();        
+        if($this->ds->isStatutASaisir())
         {
             if ($request->isMethod(sfWebRequest::POST)) {
                 $this->ds->updateStatut();
