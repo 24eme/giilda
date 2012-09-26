@@ -26,9 +26,10 @@ class factureActions extends sfActions {
        {
        $generation = FactureClient::getInstance()->createFacturesByEtb($mouvementsByEtb,$parameters['date_facturation']);
        $generation->save();
+       $this->redirect('generation_facture', array('type_document' => $generation->type_document,'date_emission' => $generation->date_emission));
        }
-        $this->generations = GenerationClient::getInstance()->findHistory();
-       $this->setTemplate('index');
+       $this->generations = GenerationClient::getInstance()->findHistory();
+       
     }
     
     public function executeMonEspace(sfWebRequest $resquest) {        
