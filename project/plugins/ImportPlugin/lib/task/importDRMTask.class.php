@@ -13,10 +13,9 @@ class importDRMTask extends sfBaseTask
   const CSV_CODE_RECETTE_LOCALE = 6;
   const CSV_DATE_CREATION = 7;
   const CSV_DATE_DERNIERE_MODIFICATION = 8;
-  const CSV_CODE_APPELLATION = 9;
-  const CSV_CODE_SAISIE = 10;
-  const CSV_DATE_SORTIE = 11;
-  const CSV_DATE_SAISIE_SORTIE = 12;
+  const CSV_CODE_SAISIE = 9;
+  const CSV_DATE_SORTIE = 10;
+  const CSV_DATE_SAISIE_SORTIE = 11;
 
   // cilso
   const CSV_NUMERO_LIGNE = 12;
