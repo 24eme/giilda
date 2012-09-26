@@ -8,7 +8,7 @@ echo $form->renderGlobalErrors();
         <thead>
             <tr>
                 <th>Code</th>
-                <th>Appelation</th>
+                <th>Produit</th>
                 <th>Volume DRM</th>
                 <th>Volume Stock</th>
             </tr>
