@@ -2,8 +2,10 @@
 
 class GenerationClient extends acCouchdbClient {
 
-    const HISTORY_KEYS_ID = 0;
-    
+    const TYPE_DOCUMENT_FACTURES = 'FACTURES';
+    const TYPE_DOCUMENT_DS = 'DS';
+
+    const HISTORY_KEYS_ID = 0;    
     const HISTORY_VALUES_DATE = 0;
     const HISTORY_VALUES_NBDOC = 1;
     const HISTORY_VALUES_DOCUMENTS = 2;    

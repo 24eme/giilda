@@ -1,6 +1,6 @@
 <?php
 /**
- * Model for Facture
+ * Model for Generation
  *
  */
 
