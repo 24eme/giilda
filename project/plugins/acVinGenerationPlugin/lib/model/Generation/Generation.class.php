@@ -7,7 +7,6 @@
 class Generation extends BaseGeneration {
   const GENERATION_STATUT_ENCOURS = "En cours";
   const GENERATION_STATUT_GENERE = "Généré";
-  const GENERATION_TYPE_DOCUMENT_FACTURE = 'factures';
 
   public function constructId() {
     $this->setDateEmission(date('YmdHis'));
