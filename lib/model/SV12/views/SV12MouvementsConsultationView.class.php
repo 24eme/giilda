@@ -13,7 +13,7 @@ class SV12MouvementsConsultationView extends MouvementsConsultationView
 
     public function findEtablissementAndPeriode($id_or_identifiant, $periode) {
         
-        return $this->findByTypeEtablissementAndPeriode('SV12', $id_or_identifiant, $periode);
+        return $this->findByTypeEtablissementAndPeriode('SV12', $id_or_identifiant, SV12Client::getInstance()->buildCampagne($periode), $periode);
     }
 
     public function getMouvementsByEtablissement($id_or_identifiant) {

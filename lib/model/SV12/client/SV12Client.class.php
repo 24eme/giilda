@@ -30,6 +30,11 @@ class SV12Client extends acCouchdbClient {
       return 'SV12-'.$identifiant.'-'.$this->buildPeriodeAndVersion($periode, $version);
     }
 
+    public function buildPeriode($date) {
+      
+        return str_replace('-', '' , ConfigurationClient::getInstance()->buildCampagne($date));
+    }
+
     public function buildPeriodeAndVersion($periode, $version) {
       if($version) {
         return sprintf('%s-%s', $periode, $version);
@@ -39,8 +44,9 @@ class SV12Client extends acCouchdbClient {
     }
 
     public function buildCampagne($periode) {
-      
-        return $periode;
+        preg_match('/^([0-9]{4})([0-9]{4})$/', $periode, $matches);
+
+        return sprintf('%d-%d', $matches[1], $matches[2]);
     }
     
     public function createDoc($identifiant, $periode) {
@@ -82,7 +88,7 @@ class SV12Client extends acCouchdbClient {
     
     public function getLibelleFromId($id) {
 
-        if (!preg_match('/^SV12-[0-9]+-([0-9]+)-([0-9]+)/', $id, $matches)) {
+        if (!preg_match('/^SV12-[0-9]+-([0-9]{4})([0-9]{4})/', $id, $matches)) {
             
             return $id;
         }

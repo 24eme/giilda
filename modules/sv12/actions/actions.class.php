@@ -17,7 +17,7 @@ class sv12Actions extends sfActions {
 
     public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->periode = ConfigurationClient::getInstance()->buildCampagne(date('Y-m-d'));
+        $this->periode = SV12Client::getInstance()->buildPeriode(date('Y-m-d'));
         $this->list = SV12AllView::getInstance()->getMasterByEtablissement($this->etablissement->identifiant);
     }
 

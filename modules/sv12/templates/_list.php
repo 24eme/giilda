@@ -17,9 +17,9 @@
             <tr>
                 <td>
                     <?php if(in_array($item->valide->statut, array(SV12Client::STATUT_VALIDE, SV12Client::STATUT_VALIDE_PARTIEL))): ?>
-                        <a href="<?php echo url_for(array('sf_route' => 'sv12_visualisation', 'identifiant' => $item->identifiant, 'periode_version' => SV12Client::getInstance()->buildPeriodeAndVersion($item->periode, $item->version))) ?>"><?php echo sprintf("%s(-%s)", $item->periode, ($item->version) ? $item->version : 'M00'); ?></a>
+                        <a href="<?php echo url_for(array('sf_route' => 'sv12_visualisation', 'identifiant' => $item->identifiant, 'periode_version' => SV12Client::getInstance()->buildPeriodeAndVersion($item->periode, $item->version))) ?>"><?php echo sprintf("%s(-%s)", $item->campagne, ($item->version) ? $item->version : 'M00'); ?></a>
                     <?php else: ?>
-                        <a href="<?php echo url_for(array('sf_route' => 'sv12_update', 'identifiant' => $item->identifiant, 'periode_version' => SV12Client::getInstance()->buildPeriodeAndVersion($item->periode, $item->version))) ?>"><?php echo sprintf("%s(-%s)", $item->periode, ($item->version) ? $item->version : 'M00'); ?></a>
+                        <a href="<?php echo url_for(array('sf_route' => 'sv12_update', 'identifiant' => $item->identifiant, 'periode_version' => SV12Client::getInstance()->buildPeriodeAndVersion($item->periode, $item->version))) ?>"><?php echo sprintf("%s(-%s)", $item->campagne, ($item->version) ? $item->version : 'M00'); ?></a>
                     <?php endif; ?> 
                 </td>
                 <td>
