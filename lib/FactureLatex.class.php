@@ -16,7 +16,6 @@ class FactureLatex {
   function __construct(Facture $f, $config = null) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
     $this->facture = $f;
-    $this->facture->nb_page = $this->getNbPages();
   }
 
   public function getNbPages() {
@@ -65,7 +64,7 @@ class FactureLatex {
     return html_entity_decode(htmlspecialchars_decode(
 						      get_partial('facture/generateTex', array('facture' => $this->facture,
 											       'template' => $this->getTemplate(),
-											       'total_rows' => self::MAX_LIGNE_TEMPLATE_ONEPAGE))
+											       'total_rows' => self::MAX_LIGNE_TEMPLATE_ONEPAGE, 'nb_page' => $this->getNbPages()))
 						      , HTML_ENTITIES));
   }
 

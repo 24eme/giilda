@@ -3,7 +3,8 @@
 class FactureEtablissementView extends acCouchdbView
 {
     const KEYS_CLIENT_ID = 0;
-    const KEYS_FACTURE_ID = 1;
+    const KEYS_VERSEMENT_COMPTABLE = 1;
+    const KEYS_FACTURE_ID = 2;
     
     const VALUE_DATE_EMISSION = 0;
     const VALUE_ORIGINES = 1;

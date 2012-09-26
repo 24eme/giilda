@@ -9,8 +9,8 @@ Facture:
       date_emission: {}
       date_facturation: {}
       campagne: {}
-      nb_page: {type: integer}
       statut: {}
+      versement_comptable: {type: integer}
       emetteur:
         type: collection
         definition:
@@ -54,6 +54,7 @@ Facture:
                         produit_type: {}
                         produit_libelle: {}
                         produit_hash: {}
+                        produit_identifiant_analytique: {}
                         contrat_identifiant: {}
                         echeance_code: {}
                         volume: {type: float}

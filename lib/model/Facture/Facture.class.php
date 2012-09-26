@@ -16,10 +16,17 @@ class Facture extends BaseFacture {
     public function getDocumentsOrigine() {
         return $this->documents_origine;
     }
-    
+   
+    public function getTaxe() {
+	return $this->total_ttc - $this->total_ht;
+    }
+ 
     public function save() {
         if($this->isNew() && $this->total_ht > 0){
             $this->facturerMouvements();
+        }
+	if (!$this->versement_comptable) {
+		$this->versement_comptable = 0;
         }
         parent::save();
         $this->saveDocumentsOrigine();

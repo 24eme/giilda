@@ -130,7 +130,7 @@ $nb_ligne = 0;
 
 
 \begin{flushright}
-page \thepage / <?php echo $facture->nb_page; ?>
+page \thepage / <?php echo $nb_page; ?>
 \end{flushright}
 
 \centering
@@ -215,7 +215,7 @@ page \thepage / <?php echo $facture->nb_page; ?>
                     \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
                     
                     \centering \small{\textbf{TVA 19.6~\%}} &
-                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc - $facture->total_ht); ?>~\texteuro{}}} \\
+                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->taxe); ?>~\texteuro{}}} \\
                     
                     \centering \small{} &
                     \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
