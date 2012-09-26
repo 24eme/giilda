@@ -4,13 +4,21 @@
  * Model for Facture
  *
  */
-class DS extends BaseDS implements InterfaceDeclarant {
+class DS extends BaseDS implements InterfaceDeclarantDocument {
 
-    protected $declarant = null;
+    protected $declarant_document = null;
 
     public function  __construct() {
         parent::__construct();   
-        $this->declarant = new Declarant($this);
+        $this->declarant_document = new DeclarantDocument($this);
+    }
+
+    public function constructId() {
+        $this->valide->statut = SV12Client::STATUT_BROUILLON;
+        $this->campagne = SV12Client::buildCampagne($this->periode);
+        $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
+                                                            $this->periode, 
+                                                            $this->version));
     }
     
     public function getLastDRM() {
@@ -28,11 +36,11 @@ class DS extends BaseDS implements InterfaceDeclarant {
     }
 
     public function getEtablissementObject() {
-        return $this->declarant->getEtablissementObject();
+        return $this->declarant_document->getEtablissementObject();
     }
 
     public function storeDeclarant() {
-        $this->declarant->storeDeclarant();
+        $this->declarant_document->storeDeclarant();
     }
     
     public function isStatutValide() {
