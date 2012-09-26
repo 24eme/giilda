@@ -30,10 +30,11 @@ class dsActions extends sfActions {
         $parameters = $request->getParameter('ds_generation');        
         $campagne = (!isset($parameters['campagne']))? null : $parameters['campagne'];   
         $this->etablissement = $this->getRoute()->getEtablissement();
+        $periode = '2012-07';
         
-        $dsExist = DSClient::getInstance()->findByCampagneAndIdentifiant($campagne,$this->etablissement->identifiant);
+        $dsExist = DSClient::getInstance()->findByIdentifiantAndPeriode($this->etablissement->identifiant, $periode);
         if(!$dsExist){
-            $this->declarationDs = DSClient::getInstance()->createDsByEtb($campagne,$this->etablissement);     
+            $this->declarationDs = DSClient::getInstance()->createDsByEtb($this->etablissement, $periode);     
             $this->declarationDs->save();
             $this->redirect('ds_etablissement', $this->etablissement);    
         }
@@ -46,14 +47,14 @@ class dsActions extends sfActions {
     
      public function executeEditionDS(sfWebRequest $request) {        
          $this->ds = $this->getRoute()->getDS();
+
          $this->form = new DSEditionForm($this->ds);
          if ($request->isMethod(sfWebRequest::POST)) {
              $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->doUpdateObject();
                 $this->ds->save();
-                return $this->redirect('ds_edition_operateur_validation_visualisation',
-                                        array('identifiant' => $this->ds->identifiant,'campagne' => $this->ds->campagne));
+                return $this->redirect('ds_edition_operateur_validation_visualisation', $this->ds);
             }
        }
     } 
@@ -71,8 +72,7 @@ class dsActions extends sfActions {
             if ($request->isMethod(sfWebRequest::POST)) {
                 $this->ds->updateStatut();
                 $this->ds->save();
-                return $this->redirect('ds_edition_operateur_validation_visualisation',
-                                       array('identifiant' => $this->ds->identifiant,'campagne' => $this->ds->campagne));
+                return $this->redirect('ds_edition_operateur_validation_visualisation', $this->ds);
             }
         }
     }

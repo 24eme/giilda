@@ -10,43 +10,55 @@ class DSClient extends acCouchdbClient {
         return acCouchdbManager::getClient("DS");
     }
 
-    public function getId($campagne, $identifiant) {
-        return 'DS-' . $campagne . '-' . $identifiant;
+    public function buildId($identifiant, $periode) {
+        return sprintf('DS-%s-%s', $identifiant, $periode);
     }
 
-    public function getNextNoFacture($campagne, $identifiant) {
-        $id = '';
-        $ds = self::getAtDate($campagne, $identifiant, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
-        if (count($ds) > 0) {
-            $id .= ((double) str_replace('DS-' . $campagne . '-', '', max($ds)) + 1);
-        } else {
-            $id.= $identifiant . '-01';
-        }
-        return $id;
+    public function buildDate($periode) {
+        
+        return sprintf('%4d-%02d-%02d', $this->getAnnee($periode), $this->getMois($periode), date("t",$this->getMois($periode)));
     }
 
-    public function getAtDate($campagne, $identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('DS-' . $campagne . '-' . $identifiant . '-00')->endkey('DS-' . $identifiant . '-99')->execute($hydrate);
+    public function buildCampagne($periode) {
+      
+      return ConfigurationClient::getInstance()->buildCampagne($this->buildDate($periode));
     }
 
-    public function createDsByEtb($campagne, $etablissement) {
+    public function buildPeriode($annee, $mois) {
+
+      return sprintf("%04d-%02d", $annee, $mois);
+    }
+
+    public function getAnnee($periode) {
+
+      return preg_replace('/([0-9]{4})-([0-9]{2})/', '$1', $periode);
+    }
+
+    public function getMois($periode) {
+
+      return preg_replace('/([0-9]{4})-([0-9]{2})/', '$2', $periode);
+    }
+
+    public function createDsByEtb($etablissement, $periode) {
         $ds = new DS();
         $ds->date_emission = date('Y-m-d');
-        $ds->campagne = $campagne;
+        $ds->periode = $periode;
+        $ds->campagne = $this->buildCampagne($ds->periode);
         $ds->identifiant = $etablissement->identifiant;
-        $ds->statut = self::STATUT_A_SAISIR;
-        $ds->_id = $this->getId($campagne, $ds->identifiant);
         $ds->storeDeclarant();
         $ds->updateProduits();
+
         return $ds;
     }
 
     public function getHistoryByOperateur($etablissement) {
+
         return DSHistoryView::getInstance()->findByEtablissement($etablissement->identifiant);
     }
 
-    public function findByCampagneAndIdentifiant($campagne, $identifiant) {
-        return $this->find($this->getId($campagne, $identifiant));
+    public function findByIdentifiantAndPeriode($identifiant, $periode) {
+
+        return $this->find($this->buildId($identifiant, $periode));
        
     }
     

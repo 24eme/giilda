@@ -32,20 +32,20 @@ class DSRouting {
                         array('model' => 'Etablissement',
                             'type' => 'object')));
         
-                $r->prependRoute('ds_edition_operateur', new DSRoute('/ds/:campagne/:identifiant/edition', array('module' => 'ds',
+                $r->prependRoute('ds_edition_operateur', new DSRoute('/ds/:identifiant/:periode/edition', array('module' => 'ds',
                     'action' => 'editionDS'),
                     array('sf_method' => array('get', 'post')),
                     array('model' => 'DS',
                         'type' => 'object') ));
         
         
-        $r->prependRoute('ds_edition_operateur_addProduit', new DSRoute('/ds/:campagne/:identifiant/edition/addProduit', array('module' => 'ds',
+        $r->prependRoute('ds_edition_operateur_addProduit', new DSRoute('/ds/:identifiant/:periode/edition/addProduit', array('module' => 'ds',
                     'action' => 'editionDSAddProduit'),
                     array('sf_method' => array('get', 'post')),
                     array('model' => 'DS',
                         'type' => 'object') ));
         
-        $r->prependRoute('ds_edition_operateur_validation_visualisation', new DSRoute('/ds/:campagne/:identifiant/visualisation', array('module' => 'ds',
+        $r->prependRoute('ds_edition_operateur_validation_visualisation', new DSRoute('/ds/:identifiant/:periode/visualisation', array('module' => 'ds',
             'action' => 'editionDSValidationVisualisation'),
             array('sf_method' => array('get', 'post')),
             array('model' => 'DS',

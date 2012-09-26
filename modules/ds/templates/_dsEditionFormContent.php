@@ -1,4 +1,4 @@
-<form id="" action="<?php echo url_for('ds_edition_operateur',array('identifiant' => $ds->identifiant,'campagne' => $ds->campagne)); ?>" method="post">
+<form id="" action="<?php echo url_for('ds_edition_operateur', $ds); ?>" method="post">
 <?php
 echo $form->renderHiddenFields();
 echo $form->renderGlobalErrors();
@@ -23,7 +23,7 @@ echo $form->renderGlobalErrors();
             <tr id="ds_declaration_lastRow">
             <td class="ds_declaration_code"></td>
             <td class="ds_declaration_appelation">
-                <a href="<?php echo url_for('ds_edition_operateur_addProduit',array('identifiant' => $ds->identifiant,'campagne' => $ds->campagne)) ?>" id="ds_declaration_new" class="btn_majeur btn_modifier ds_declaration_addTemplate">Ajouter un produit</a>
+                <a href="<?php echo url_for('ds_edition_operateur_addProduit', $ds) ?>" id="ds_declaration_new" class="btn_majeur btn_modifier ds_declaration_addTemplate">Ajouter un produit</a>
             </td>
             <td class="ds_declaration_volume_drm">
             </td>

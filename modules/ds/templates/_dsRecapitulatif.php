@@ -1,4 +1,4 @@
-<form action="<?php echo url_for('ds_edition_operateur_validation_visualisation',array('identifiant' => $ds->identifiant,'campagne' => $ds->campagne)); ?>" method="post" id="ds_edition_validation_form">
+<form action="<?php echo url_for('ds_edition_operateur_validation_visualisation', $ds); ?>" method="post" id="ds_edition_validation_form">
 <fieldset id="dsRecapitulatif">
         <table id="ds_recapitulatif_table" class="table_recap">
         <thead>
@@ -37,7 +37,7 @@
 </div>
 <div id="ligne_btn">
 
-        <a href="<?php echo url_for('ds_edition_operateur',array('identifiant' => $ds->identifiant,'campagne' => $ds->campagne)); ?>" class="btn_etape_prec">
+        <a href="<?php echo url_for('ds_edition_operateur', $ds); ?>" class="btn_etape_prec">
             <span>Etape précédente</span>
         </a> 
         <div class="btnValidation">

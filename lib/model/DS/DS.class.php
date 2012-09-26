@@ -14,11 +14,16 @@ class DS extends BaseDS implements InterfaceDeclarantDocument {
     }
 
     public function constructId() {
-        $this->valide->statut = SV12Client::STATUT_BROUILLON;
-        $this->campagne = SV12Client::buildCampagne($this->periode);
-        $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
-                                                            $this->periode, 
-                                                            $this->version));
+        $this->statut = DSClient::STATUT_A_SAISIR;
+        $this->campagne = DSClient::getInstance()->buildCampagne($this->periode);
+        $this->set('_id', DSClient::getInstance()->buildId($this->identifiant, 
+                                                            $this->periode));
+    }
+
+    public function buildCampagne($periode) {
+        preg_match('/^([0-9]{4})-([0-9]{2})$/', $periode, $matches);
+
+        return sprintf('%d-%d', $matches[1], $matches[2]);
     }
     
     public function getLastDRM() {
@@ -27,6 +32,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument {
 
     public function updateProduits() {
         $drm = $this->getLastDRM();
+
         $produits = $drm->getDetails();
 
         foreach ($produits as $produit) {

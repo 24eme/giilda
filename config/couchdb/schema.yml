@@ -8,6 +8,7 @@ DS:
       identifiant: {}
       date_emission: {}
       campagne: {}
+      periode: {}
       statut: {}
       commentaires: {}
       declarant:
@@ -20,13 +21,13 @@ DS:
             num_tva_intracomm: {    }
             adresse: {  }
             commune: {  }
-            code_postal: {   }            
+            code_postal: {   }
             num_chai: {  }
       declarations:
         type: collection
         definition:
           fields:
-            '*':              
+            '*':
               class: DSProduit
               type: collection
               definition:
