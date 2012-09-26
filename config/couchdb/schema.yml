@@ -31,12 +31,7 @@ DS:
               type: collection
               definition:
                 fields:
-                  produit_type: {}
                   produit_libelle: {}
                   produit_hash: {}
                   stock_initial: { type: float }
                   stock_revendique: { type: float }
-                  vente_vin: { type: float }
-                  stock_theorique: { type: float }
-                  autres_mouvements: { type: float }
-                  stock_consome: { type: float }

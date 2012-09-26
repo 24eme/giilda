@@ -2,6 +2,10 @@
 
 class DSClient extends acCouchdbClient {
 
+    const STATUT_VALIDE = 'valide';
+    const STATUT_VALIDE_PARTIEL = 'valide_partiel'; 
+    const STATUT_BROUILLON = 'brouillon'; 
+    
     public static function getInstance() {
         return acCouchdbManager::getClient("DS");
     }
@@ -30,6 +34,7 @@ class DSClient extends acCouchdbClient {
         $ds->date_emission = date('Y-m-d');
         $ds->campagne = $campagne;
         $ds->identifiant = $etablissement->identifiant;
+        $ds->statut = self::STATUT_BROUILLON;
         $ds->_id = $this->getId($campagne, $ds->identifiant);
         $ds->storeDeclarant();
         $ds->updateProduits();
@@ -43,6 +48,14 @@ class DSClient extends acCouchdbClient {
     public function findByCampagneAndIdentifiant($campagne, $identifiant) {
         return $this->find($this->getId($campagne, $identifiant));
        
+    }
+    
+    public function getLinkLibelleForHistory($statut)
+    {
+        if($statut == self::STATUT_BROUILLON) return '> Démarrer la saisie';
+        if($statut == self::STATUT_VALIDE_PARTIEL) return '> Consulter/Modifier';
+        if($statut == self::STATUT_VALIDE) return '> Consulter';
+        return '';
     }
 
 }

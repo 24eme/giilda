@@ -44,9 +44,9 @@ class DSRouting {
                     array('sf_method' => array('get', 'post')),
                     array('model' => 'DS',
                         'type' => 'object') ));
-
-        $r->prependRoute('ds_edition_operateur_validation', new DSRoute('/ds/:campagne/:identifiant/validation', array('module' => 'ds',
-            'action' => 'editionDSValidation'),
+        
+        $r->prependRoute('ds_edition_operateur_validation_visualisation', new DSRoute('/ds/:campagne/:identifiant/visualisation', array('module' => 'ds',
+            'action' => 'editionDSValidationVisualisation'),
             array('sf_method' => array('get', 'post')),
             array('model' => 'DS',
                 'type' => 'object') ));

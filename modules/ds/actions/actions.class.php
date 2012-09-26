@@ -43,7 +43,8 @@ class dsActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->form->doUpdateObject();
                 $this->ds->save();
-                return $this->redirect('ds_edition_operateur_validation', array('identifiant' => $this->ds->identifiant,'campagne' => $this->ds->campagne));
+                return $this->redirect('ds_edition_operateur_validation_visualisation',
+                                        array('identifiant' => $this->ds->identifiant,'campagne' => $this->ds->campagne));
             }
        }
     } 
@@ -54,10 +55,17 @@ class dsActions extends sfActions {
         $this->form = new DSEditionForm($this->ds->declarations);
     }
     
-    public function executeEditionDSValidation(sfWebRequest $request) {
+    public function executeEditionDSValidationVisualisation(sfWebRequest $request) {
         $this->ds = $this->getRoute()->getDS();
-        $this->form = new DSEditionForm($this->ds->declarations);
+        if($this->ds->isStatutBrouillon())
+        {
+            if ($request->isMethod(sfWebRequest::POST)) {
+                $this->ds->updateStatut();
+                $this->ds->save();
+                return $this->redirect('ds_edition_operateur_validation_visualisation',
+                                       array('identifiant' => $this->ds->identifiant,'campagne' => $this->ds->campagne));
+            }
+        }
     }
-    
     
 }

@@ -34,5 +34,27 @@ class DS extends BaseDS implements InterfaceDeclarant {
     public function storeDeclarant() {
         $this->declarant->storeDeclarant();
     }
-
+    
+    public function isStatutValide() {
+        return $this->statut === DSClient::STATUT_VALIDE;
+    }
+    
+    public function isStatutPartiel() {
+        return $this->statut === DSClient::STATUT_VALIDE_PARTIEL;
+    }
+    
+    public function isStatutBrouillon() {
+        return $this->statut === DSClient::STATUT_BROUILLON;
+    }
+    
+    public function updateStatut() {
+        $this->statut = DSClient::STATUT_VALIDE;
+        foreach ($this->declarations as $declaration) {
+            if(is_null($declaration->stock_revendique) || $declaration->stock_revendique == 0)
+            {
+                $this->statut = DSClient::STATUT_VALIDE_PARTIEL;
+                return;
+            }
+        }
+    }
 }

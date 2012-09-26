@@ -46,7 +46,7 @@ echo $form->renderGlobalErrors();
         
          <div id="ligne_btn">
 
-            <a href="<?php echo url_for('ds_edition_operateur',array('identifiant' => $ds->identifiant,'campagne' => $ds->campagne)); ?>" class="btn_etape_prec">
+            <a href="<?php echo url_for('ds_etablissement',array('identifiant' => $ds->identifiant)); ?>" class="btn_etape_prec">
                 <span>Etape précédente</span>
             </a> 
             <div class="btnValidation">
