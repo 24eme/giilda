@@ -1,6 +1,6 @@
 <?php
 /**
- * Model for Facture
+ * Model for Generation
  *
  */
 
@@ -17,7 +17,7 @@ class Generation extends BaseGeneration {
 
   public function save() {
     $this->nb_documents = count($this->documents);
-    if (count($this->fichier)) {
+    if (count($this->fichiers)) {
       $this->setStatut(self::GENERATION_STATUT_GENERE);
     }
     parent::save();

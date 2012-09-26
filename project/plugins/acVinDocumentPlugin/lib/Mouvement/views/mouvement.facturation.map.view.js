@@ -12,8 +12,7 @@ function(doc) {
     for(identifiant in doc.mouvements) {
         for(key in doc.mouvements[identifiant]) {
             var mouv = doc.mouvements[identifiant][key];
-            doc.region = 'tours';
-            emit([mouv.facture, mouv.facturable, doc.region, identifiant, doc.type, mouv.categorie, mouv.produit_hash, doc.periode, mouv.vrac_numero, mouv.type_hash, mouv.detail_identifiant], [mouv.produit_libelle, mouv.type_libelle, mouv.volume, mouv.cvo, mouv.date, mouv.vrac_destinataire, mouv.detail_libelle, doc.type+'-'+doc.identifiant+'-'+doc.periode, doc._id+':'+key]);
+            emit([mouv.facture, mouv.facturable, 'tours', identifiant, doc.type, mouv.categorie, mouv.produit_hash, doc.periode, mouv.vrac_numero, mouv.type_hash, mouv.detail_identifiant], [mouv.produit_libelle, mouv.type_libelle, mouv.volume, mouv.cvo, mouv.date, mouv.vrac_destinataire, mouv.detail_libelle, doc.type+'-'+doc.identifiant+'-'+doc.periode, doc._id+':'+key]);
         } 
    }
 }
