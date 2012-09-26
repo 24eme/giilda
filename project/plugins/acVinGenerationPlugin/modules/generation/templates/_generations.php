@@ -36,18 +36,11 @@
             </tr>
         </thead>
         <tbody class="generation_documents_tableBody">
-            <?php foreach ($generation->documents as $document) :                
+            <?php foreach ($generation->fichiers as $chemin => $titre ) :                
             ?>
             <tr id="generation">
                 <td class="">
-                    <?php echo ''; ?>
-                </td>
-                <td class="">
-                    <?php echo ''; ?>
-                </td>
-                
-                <td class="">
-                    <?php echo 'nb_pages'; ?>
+                    <?php echo $titre; ?>
                 </td>
                 
                 <td class="">
@@ -55,9 +48,7 @@
                 </td>
                 
                 <td class="">
-                    <a href="<?php url_for('facture_pdf',
-                            array('identifiant' => str_replace('ETABLISSEMENT-', '', $facture->key[FactureEtablissementView::KEYS_CLIENT_ID]),
-                                  'factureid' => str_replace('FACTURE-' . $etablissement->identifiant . '-', '', $facture->key[FactureEtablissementView::KEYS_FACTURE_ID]))); ?>" class="btn_jaune btn_majeur" >téléch.</a>
+                    <a href="<?php echo $chemin; ?>" class="btn_jaune btn_majeur" >téléch.</a>
                 </td>
               </tr>
             <?php
