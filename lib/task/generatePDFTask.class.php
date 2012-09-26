@@ -35,12 +35,23 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $generation = GenerationClient::getInstance()->find($options['generation']);
-    if (!$generation) {
-      echo $options['generation']." n'est pas un document valide\n";
-      exit(1);
+    $generationids = array();
+    if ($options['generation']) {
+	$generationids[] = $options['generation'];
+    }else{
+	$generationids = GenerationClient::getInstance()->getGenerationIdEnCours();
     }
-    $g = new GenerationPDF($generation, $this->configuration);
-    echo $g->generatePDF();
+
+//    print count($generationids)." generation(s) à réaliser\n";
+   
+    foreach ($generationids as $gid) { 
+      $generation = GenerationClient::getInstance()->find($gid);
+      if (!$generation) {
+        echo $options['generation']." n'est pas un document valide\n";
+	continue;
+      }
+      $g = new GenerationPDF($generation, $this->configuration, $options);
+      echo $g->generatePDF()."\n";
+    }
   }
 }
