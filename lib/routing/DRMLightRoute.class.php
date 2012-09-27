@@ -1,6 +1,6 @@
 <?php
 
-class DRMLightRoute extends sfRequestRoute {
+class DRMLightRoute extends sfRequestRoute implements InterfaceEtablissementRoute {
 
 	protected $drm = null;
 
@@ -32,4 +32,8 @@ class DRMLightRoute extends sfRequestRoute {
         return $this->drm;
     }
 
+    public function getEtablissement() {
+
+        return $this->getDRM()->getEtablissement();
+    }
 }
