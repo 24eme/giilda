@@ -9,6 +9,8 @@ class ConfigurationProduitsView extends acCouchdbView
 	const KEY_LIEU_HASH = 4;
 	const KEY_HASH = 5;
 	const KEY_CODE = 6;
+  const KEY_CODE_PRODUIT = 7;
+  const KEY_CODE_COMPTABLE = 8;
 
 	const VALUE_LIBELLE_CERTIFICATION = 0;
 	const VALUE_LIBELLE_GENRE = 1;
@@ -188,5 +190,17 @@ class ConfigurationProduitsView extends acCouchdbView
   		
         return $this->formatLibelles($produit->value->libelles, $format).' ('.$produit->key[self::KEY_CODE].')';
   	}
+
+    public function formatProduitsHashByCodeProduit($produits) {
+      $produits_hash = array();
+      foreach($produits as $produit) {
+        if ($produit->key[self::KEY_CODE_PRODUIT]) {
+          $produits_hash[$produit->key[self::KEY_CODE_PRODUIT]] = $produit->key[self::KEY_HASH];
+        }
+      }
+      ksort($produits_hash);
+
+      return $produits_hash;
+    }
 	
 }  

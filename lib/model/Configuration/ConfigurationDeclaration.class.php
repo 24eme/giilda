@@ -18,6 +18,11 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
         return $produits;
     }
 
+    public function getProduitsHashByCodeProduit($interpro) {
+
+      return ConfigurationProduitsView::getInstance()->formatProduitsHashByCodeProduit($this->getProduits($interpro));
+    }
+
     public function formatProduits($interpro, $departement = null, $format = "%g% %a% %m% %l% %co% %ce%") {
 
     	return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits($interpro), $format);

@@ -183,15 +183,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     	return floatval(str_replace(',', '.', $float));
     }
 
-    public function getProduitsObject() {
-        $produits = array();
-        foreach($this->getChildrenNode() as $key => $item) {
-            $produits = array_merge($produits, $item->getProduits());
-        }
-
-        return $produits;
-    }
-
     public function getProduits($interpro, $departement) {
        
       throw new sfException("The method \"getProduits\" is not defined");
