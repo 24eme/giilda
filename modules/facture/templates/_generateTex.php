@@ -54,7 +54,7 @@ $nb_ligne = 0;
 \def\TVA{19.60} 
 \def\InterloireAdresse{<?php echo $facture->emetteur->adresse; ?> \\
 		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France} 
-\def\InterloireFacturation{Service facturation : <?php echo $facture->emetteur->service_facturation; ?> Tél. : <?php echo $facture->emetteur->telephone; ?>} 
+\def\InterloireFacturation{<?php echo $facture->emetteur->service_facturation; ?>} 
 \def\InterloireSIRET{429 164 072 00077}
 \def\InterloireAPE{APE 9499 Z} 
 \def\InterloireTVAIntracomm{FR 73 429164072}
@@ -78,7 +78,7 @@ $nb_ligne = 0;
 \fancyhf{}
 
 \lhead{
- \textbf{InterLoire} \\
+ \textbf{InterLoire - Service facturation} \\
  \InterloireAdresse \\
  \InterloireFacturation \\
  \begin{tiny}
@@ -162,9 +162,9 @@ page \thepage / <?php echo $nb_page; ?>
                             $produit = $produit->getRawValue();
                         ?>      
                 ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$produit->origine_libelle.'\end{tiny}'; ?> &
-                            \multicolumn{1}{r|}{<?php echoFloat($produit->volume*-1); ?>} &
-                            \multicolumn{1}{r|}{<?php echoFloat($produit->cotisation_taux); ?>} & 
-                            \multicolumn{1}{r|}{<?php echoFloat($produit->montant_ht); ?>} & 
+                            \multicolumn{1}{r|}{<?php echoArialFloat($produit->volume*-1); ?>} &
+                            \multicolumn{1}{r|}{<?php echoArialFloat($produit->cotisation_taux); ?>} & 
+                            \multicolumn{1}{r|}{<?php echoArialFloat($produit->montant_ht); ?>} & 
                             \multicolumn{2}{c}{<?php echo $produit->echeance_code; ?>}\\
 
                 <?php 
@@ -209,13 +209,13 @@ page \thepage / <?php echo $nb_page; ?>
                     \begin{tabular}{>{\columncolor{lightgray}} l | p{22mm}}
 
                     \centering \small{\textbf{Montant HT}} &
-                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ht); ?>~\texteuro{}}} \\
+                    \multicolumn{1}{r}{\small{<?php echoArialFloat($facture->total_ht); ?>~\texteuro{}}} \\
                     
                     \centering \small{} &
                     \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
                     
                     \centering \small{\textbf{TVA 19.6~\%}} &
-                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->taxe); ?>~\texteuro{}}} \\
+                    \multicolumn{1}{r}{\small{<?php echoArialFloat($facture->taxe); ?>~\texteuro{}}} \\
                     
                     \centering \small{} &
                     \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
@@ -224,7 +224,7 @@ page \thepage / <?php echo $nb_page; ?>
                     \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
                     
                     \centering \small{\textbf{Montant TTC}} &
-                    \multicolumn{1}{r}{\small{<?php echoFloat($facture->total_ttc); ?>~\texteuro{}}}   \\
+                    \multicolumn{1}{r}{\small{<?php echoArialFloat($facture->total_ttc); ?>~\texteuro{}}}   \\
                     \end{tabular}
             };
             \node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab2.north west) (tab2.north east) (tab2.south east) (tab2.south west)] {};	
@@ -235,7 +235,7 @@ page \thepage / <?php echo $nb_page; ?>
 }
 
 \begin{center}
-
+Echéances (hors régularisation) : A = 60 jours fin de mois, B = 31/03 et 30/06, C = 30/09
 
 \begin{minipage}[b]{1\textwidth}
 
@@ -257,10 +257,10 @@ page \thepage / <?php echo $nb_page; ?>
                 \centering \small{<?php echo $nb - $key; ?>} & 
                 \centering \small{<?php echo $papillon->echeance_code ?>} &
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
-                \multicolumn{1}{r|}{\centering \small{\textbf{<?php echo echoFloat($papillon->montant_ttc); ?>~\texteuro{}}}} &
+                \multicolumn{1}{r|}{\centering \small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}} &
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
                 \centering \small{\FactureRefClient/\FactureNum} &               
-                \multicolumn{1}{r}{\small{\textbf{<?php echo echoFloat($papillon->montant_ttc); ?>~\texteuro{}}}}  \\
+                \multicolumn{1}{r}{\small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}}  \\
 
                 \CutlnPapillon
         <?php endforeach; ?> 
