@@ -7,18 +7,7 @@
 				</a>
 			</h1>
 
-			<nav id="navigation">
-				<ul>
-					<li class="<?php echo preg_match('/^drm/', $sf_request->getParameter('module')) ? "actif" : null ?>"><a href="<?php echo url_for('drm'); ?>">DRM</a></li>
-                    <li class="<?php echo preg_match('/^vrac/', $sf_request->getParameter('module')) ? "actif" : null ?>"><a href="<?php echo url_for('vrac'); ?>">Contrats</a></li>
-					<li><a href="<?php echo url_for('facture'); ?>">Facture</a></li>
-					<li><a href="#">Contacts</a></li>
-					<li><a href="#">Import VR</a></li>
-					<li><a href="<?php echo url_for('sv12'); ?>">SV12</a></li>
-					<li><a href="<?php echo url_for('ds'); ?>">Stocks</a></li>
-					<li><a href="#">Relance</a></li>
-				</ul>
-			</nav>
+			<?php include_component('global', 'nav'); ?>
 			
 			<div id="actions_utilsateur">
 				<a class="admin" href="#">Admin</a>
