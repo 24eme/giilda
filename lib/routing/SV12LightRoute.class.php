@@ -1,6 +1,6 @@
 <?php
 
-class SV12LightRoute extends sfRequestRoute {
+class SV12LightRoute extends sfRequestRoute implements InterfaceEtablissementRoute {
 
     protected $sv12 = null;
 
@@ -22,6 +22,11 @@ class SV12LightRoute extends sfRequestRoute {
         }
 
         return $this->sv12;
+    }
+
+    public function getEtablissement() {
+
+        return $this->getSV12()->getEtablissementObject();
     }
 
 }
