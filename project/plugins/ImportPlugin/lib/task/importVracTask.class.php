@@ -63,25 +63,6 @@ class importVracTask extends sfBaseTask
   const CSV_CIAPL_REGION_VITICOLE = 56;
   const CSV_CIAPL_MOUSSEUX = 57;
 
-  const CSV_PRODUIT_INTERPRO = 58;
-  const CSV_PRODUIT_CATEGORIE_LIBELLE = 59;    //CATEGORIE == CERTIFICATION
-  const CSV_PRODUIT_CATEGORIE_CODE = 60;       //CATEGORIE == CERTIFICATION
-  const CSV_PRODUIT_CATEGORIE_CODE_APPLICATIF_DROIT = 'C';
-  const CSV_PRODUIT_GENRE_LIBELLE = 61;
-  const CSV_PRODUIT_GENRE_CODE = 62;
-  const CSV_PRODUIT_GENRE_CODE_APPLICATIF_DROIT = 'G';
-  const CSV_PRODUIT_DENOMINATION_LIBELLE = 63; //DENOMINATION == APPELLATION
-  const CSV_PRODUIT_DENOMINATION_CODE = 64;    //DENOMINATION == APPELLATION
-  const CSV_PRODUIT_DENOMINATION_CODE_APPLICATIF_DROIT = 'A';
-  const CSV_PRODUIT_MENTION_LIBELLE = 65;
-  const CSV_PRODUIT_MENTION_CODE = 66;
-  const CSV_PRODUIT_LIEU_LIBELLE = 67;
-  const CSV_PRODUIT_LIEU_CODE = 68;
-  const CSV_PRODUIT_COULEUR_LIBELLE = 69;
-  const CSV_PRODUIT_COULEUR_CODE = 70;
-  const CSV_PRODUIT_CEPAGE_LIBELLE = 71;
-  const CSV_PRODUIT_CEPAGE_CODE = 72;
-
   const CSV_TYPE_PRODUIT_INDETERMINE = 0;
   const CSV_TYPE_PRODUIT_RAISINS = 1;
   const CSV_TYPE_PRODUIT_MOUTS = 2;
@@ -104,6 +85,23 @@ class importVracTask extends sfBaseTask
   const CSV_TYPE_CONTRAT_QUINQUENNAL = 'Q';
   const CSV_TYPE_CONTRAT_PAS_TRANSACTION_FINANCIERE = 'T';
   const CSV_TYPE_CONTRAT_VINAIGRERIE = 'V';
+
+  protected static $months_fr = array(
+    "août" => "08",
+    "avr" => "04",
+    "déc" => "12",
+    "févr" => "02",
+    "janv" => "01",
+    "juil" => "07",
+    "juin" => "06",
+    "mai" => "05",
+    "mars" => "03",
+    "nov" => "11",
+    "oct" => "10",
+    "sept" => "09",
+  );
+
+  protected $produits_hash = null;
 
   protected function configure()
   {
@@ -148,14 +146,17 @@ EOF;
   public function importVrac($line) {
 
         $type_transaction = $this->convertTypeTransaction($line[self::CSV_TYPE_PRODUIT]);   
-        
+
         if (!$type_transaction) {
           return;
         }
 
-        if (!isset($line[self::CSV_PRODUIT_INTERPRO])) {
+        $hash = $this->getHash($line);
+
+        if (!isset($hash)) {
+          $this->logSection('Produit hash not found', $line[self::CSV_CODE_APPELLATION], null, 'ERROR');
           return;
-        }
+        } 
         
         $v = VracClient::getInstance()->findByNumContrat($this->constructNumeroContrat($line), acCouchdbClient::HYDRATE_JSON);
         
@@ -167,9 +168,9 @@ EOF;
         $v->label = array();
 
         $date = $this->getDateCreationObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION]);
-        $v->date_signature =  $date->format('d/m/Y');
-        $v->date_stats =  $date->format('d/m/Y');
-        $v->valide->date_saisie = $date->format('d/m/Y');
+        $v->date_signature =  $date->format('Y-m-d');
+        $v->date_stats =  $date->format('Y-m-d');
+        $v->valide->date_saisie = $date->format('Y-m-d');
 
         $v->vendeur_identifiant = 'ETABLISSEMENT-'.$line[self::CSV_CODE_VITICULTEUR];
         $v->acheteur_identifiant = 'ETABLISSEMENT-'.$line[self::CSV_CODE_NEGOCIANT];
@@ -179,9 +180,7 @@ EOF;
           $v->mandataire_identifiant   = 'ETABLISSEMENT-'.$line[self::CSV_CODE_COURTIER];
         }
 
-        $v->produit = 'declaration/certifications/AOC';
-
-        $v->produit = $this->getHash($line);
+        $v->produit = $hash;
 
         if($line[self::CSV_CIAPL_SUR_LIE] == "O") {
           $v->label->add(null, "LIE");
@@ -235,7 +234,7 @@ EOF;
 
         $v->save();
 
-        $this->logSection("Creation", $v->numero_contrat);
+        //$this->logSection("Creation", $v->numero_contrat);
   }
 
   protected function convertToFloat($number) {
@@ -256,7 +255,12 @@ EOF;
   }
 
   protected function getDateCreationObject($date) {
-    return new DateTime($date);
+    
+    if (!preg_match('/^([0-9]{2})-([a-zûé]+)-([0-9]{2})$/', $date, $matches)) {
+      $this->logSection('Date format error', $date, null, 'ERROR');
+    }
+
+    return new DateTime(sprintf('%d-%d-%d', $matches[3], self::$months_fr[$matches[2]], $matches[1]));
   }
 
   protected function constructNumeroContrat($line) {
@@ -325,14 +329,14 @@ EOF;
 
   private function getHash($line) 
   {
-    $hash  = 'declaration/certifications/'.$this->getKey($line[self::CSV_PRODUIT_CATEGORIE_CODE]);
-    $hash .= '/genres/'.$this->getKey($line[self::CSV_PRODUIT_GENRE_CODE], true);
-    $hash .= '/appellations/'.$this->getKey($line[self::CSV_PRODUIT_DENOMINATION_CODE], true);
-    $hash .= '/mentions/'.$this->getKey($line[self::CSV_PRODUIT_MENTION_CODE], true);
-    $hash .= '/lieux/'.$this->getKey($line[self::CSV_PRODUIT_LIEU_CODE], true);
-    $hash .= '/couleurs/'.strtolower($this->couleurKeyToCode($line[self::CSV_PRODUIT_COULEUR_CODE]));
-    $hash .= '/cepages/'.$this->getKey($line[self::CSV_PRODUIT_CEPAGE_CODE], true);
-    return $hash;
+    $produits_hash = $this->getProduitsHash();
+
+    if (!array_key_exists($line[self::CSV_CODE_APPELLATION]*1, $produits_hash)) {
+      
+      return null;
+    }
+
+    return $produits_hash[$line[self::CSV_CODE_APPELLATION]*1];
   }
 
   private function couleurKeyToCode($key) {
@@ -371,9 +375,11 @@ EOF;
         return null;
   } 
 
-  protected function loadCSVProduit() {
-    foreach(file($arguments['file']) as $line) {
-
+  protected function getProduitsHash() {
+    if (is_null($this->produits_hash)) {
+      $this->produits_hash =  ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeProduit('INTERPRO-inter-loire');
     }
+
+    return $this->produits_hash;
   }
 }
