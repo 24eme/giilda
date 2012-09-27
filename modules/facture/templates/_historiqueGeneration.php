@@ -1,7 +1,7 @@
 <?php
 use_helper('Float');    
 ?>
-<h2>10 dernières facturation générées </h2>
+<h2>10 dernières générations : </h2>
 <fieldset>
     
 <?php
@@ -16,7 +16,7 @@ else :
     <tr>
     <th>Date</th>
     <th>Type</th>
-    <th>PDF</th>
+    <th>Génération</th>
     <th>Nb facture/avoir</th>
     <th>Montant TTC</th>
     </tr>
@@ -24,45 +24,14 @@ else :
     <tbody>
     <?php foreach ($generations as $generation) : 
         $documents = $generation->value[GenerationClient::HISTORY_VALUES_DOCUMENTS];
-     ?>       
-     <?php
-        foreach ($documents as $key => $documentId) :
-                $first = ($key == 0);
-        ?>        
-     <tr>
-     <?php
-        if($first) :
-      ?>
-         <td rowspan="<?php echo count($documents); ?>">
-             <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->value[GenerationClient::HISTORY_VALUES_DATE]); ?>
-         </td>
-        <?php
-        endif;
-        ?>
-         <td>
-             <?php echo 'F'; ?>
-         </td>
-         <td>
-             <?php
-                $documentIdArr = explode('-', $documentId);
-                $idEtablissement = $documentIdArr[1];
-                $factureid = $documentIdArr[2];
-                $d = $idEtablissement.' '.$factureid;                
-                echo link_to($d, array('sf_route' => 'facture_pdf', 'identifiant' => $idEtablissement, 'factureid' => $factureid)); 
-             ?>
-         </td>
-         <?php 
-         if($first) :
-        ?>
-        <td rowspan="<?php echo count($documents); ?>"><?php echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC]; ?></td>
-        <td rowspan="<?php echo count($documents); ?>"><?php echoFloat($generation->value[GenerationClient::HISTORY_VALUES_SOMME]); ?>&nbsp;€</td>
-        <?php
-       endif;
-        ?>
-    </tr>
-        <?php
-        endforeach;
-        ?>
+    ?>
+        <tr>
+            <td><?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->value[GenerationClient::HISTORY_VALUES_DATE]);?></td>
+            <td><?php echo 'F';?></td>
+            <td><?php echo link_to($generation->value[GenerationClient::HISTORY_VALUES_DATE], 'generation_facture', array('type_document' => GenerationClient::TYPE_DOCUMENT_FACTURES, 'date_emission' => $generation->value[GenerationClient::HISTORY_VALUES_DATE]));?></td>
+            <td><?php echo count($generation->value[GenerationClient::HISTORY_VALUES_DOCUMENTS]);?></td>
+            <td><?php echoFloat($generation->value[GenerationClient::HISTORY_VALUES_SOMME]);?></td>       
+        </tr>
     <?php endforeach; ?>
     </tbody>
     </table>
