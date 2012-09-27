@@ -179,7 +179,7 @@ page \thepage / <?php echo $nb_page; ?>
                 <?php 
                 endfor;
                 ?>
-	 \multicolumn{6}{c}{Aucun escompte n'est prévu pour paiment anticipé. Pénalités de retard : 3 fois le taux d'intér\^{e}t légal} \\
+	 \multicolumn{6}{c}{Aucun escompte n'est prévu pour paiement anticipé. Pénalités de retard : 3 fois le taux d'intér\^{e}t légal} \\
 	 ~ & ~ & ~ & ~ & ~ &\\
 			\end{tabular}
 		};
@@ -241,7 +241,7 @@ page \thepage / <?php echo $nb_page; ?>
 
 \begin{tabular}{|p{9mm} p{25mm} p{25mm} p{20mm} | p{36mm} p{36mm} p{36mm}}
             \hline
-	\multicolumn{4}{|>{\columncolor[rgb]{0.8,0.8,0.8}}c|}{\centering \small{\textbf{Partie à conservée}}} &
+	\multicolumn{4}{|>{\columncolor[rgb]{0.8,0.8,0.8}}c|}{\centering \small{\textbf{Partie à conserver}}} &
 	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à joindre au règlement}}} \\  	
 	
         \CutlnPapillonEntete
