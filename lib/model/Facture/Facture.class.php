@@ -12,6 +12,11 @@ class Facture extends BaseFacture {
       $this->identifiant = FactureClient::getInstance()->getNextNoFacture($this->client_reference,date('Ymd'));
       $this->_id = 'FACTURE-' . $this->client_reference . '-' . $this->identifiant;
     }
+
+    public function getClient() {
+
+        return EtablissementClient::getInstance()->find($this->client_reference);
+    }
     
     public function getDocumentsOrigine() {
         return $this->documents_origine;
