@@ -1,6 +1,6 @@
 <?php
 
-class DSRoute extends sfObjectRoute {
+class DSRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
 
 	protected $ds = null;
 
@@ -37,5 +37,10 @@ class DSRoute extends sfObjectRoute {
         }
 
         return $this->ds;
+    }
+
+    public function getEtablissement() {
+
+        return $this->getDS()->getEtablissementObject();
     }
 }
