@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Model for Facture
+ * Model for DS
  *
  */
 class DS extends BaseDS implements InterfaceDeclarantDocument {
