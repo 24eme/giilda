@@ -23,6 +23,7 @@ DS:
             commune: {  }
             code_postal: {   }
             num_chai: {  }
+            raison_sociale: {  }
       declarations:
         type: collection
         definition:
