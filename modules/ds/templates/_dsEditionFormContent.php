@@ -1,3 +1,6 @@
+<?php
+use_helper('Float');
+?>
 <form id="" action="<?php echo url_for('ds_edition_operateur', $ds); ?>" method="post">
 <?php
 echo $form->renderHiddenFields();
@@ -8,15 +11,17 @@ echo $form->renderGlobalErrors();
         <thead>
             <tr>
                 <th>Code</th>
-                <th>Produit</th>
-                <th>Volume DRM</th>
-                <th>Volume Stock</th>
+                <th>Produits</th>
+                <th>Volume saisie</th>
             </tr>
         </thead>
         <tbody class="ds_edition_tableBody">
             <?php
             foreach ($declarations as $key => $declaration){
-                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $declarations->get($key)));
+                    $d = $declarations->get($key);
+                    $prod_vol = $d->produit_libelle;
+                    if($d->stock_initial) $prod_vol .= ' ('.getArialFloat($d->stock_initial).' hl)';
+                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $d, 'prod_vol' => $prod_vol));
                
             }
     ?>
@@ -26,10 +31,7 @@ echo $form->renderGlobalErrors();
                 <a href="<?php echo url_for('ds_edition_operateur_addProduit', $ds) ?>" id="ds_declaration_new" class="btn_majeur btn_modifier ds_declaration_addTemplate">Ajouter un produit</a>
             </td>
             <td class="ds_declaration_volume_drm">
-            </td>
-            <td class="ds_declaration_appelation">
-                
-            </td>               
+            </td>              
                   
         </tr>
         </tbody>
