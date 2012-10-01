@@ -22,6 +22,7 @@ SV12:
             commune: {  }
             code_postal: {   }            
             num_chai: {  }
+            raison_sociale: {  }
       totaux:
         type: collection
         definition:
