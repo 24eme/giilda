@@ -6,6 +6,7 @@ Facture:
       _rev: {}
       type: {}
       identifiant: {}
+      numero_facture: {}
       date_emission: {}
       date_facturation: {}
       campagne: {}
@@ -20,18 +21,22 @@ Facture:
             ville: {}
             service_facturation: {}
             telephone: {}
-      client_identifiant: {}
-      client_reference: {}
-      client:
+      declarant:
         type: collection
         definition:
           fields:
-            raison_sociale: {}
-            adresse: {}
-            code_postal: {}
-            ville: {}
+            nom: {  }
+            cvi: {  }
+            num_accise: {   }
+            num_tva_intracomm: {    }
+            adresse: {  }
+            commune: {  }
+            code_postal: {   }
+            num_chai: {  }
+            raison_sociale: {  }
       total_ht: {type: float}
       total_ttc: {type: float}
+      total_taxe: {type: float}
       lignes:
         type: collection
         definition:

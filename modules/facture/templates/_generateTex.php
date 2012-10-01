@@ -62,15 +62,15 @@ $nb_ligne = 0;
 \def\InterloireBIC{AGRIFRPP847}
 \def\InterloireIBAN{FR76~1470~6000~1400~0000~2200~028}
 
-\def\FactureNum{<?php echo $facture->identifiant; ?>}
-\def\FactureNumREF{<?php echo substr($facture->identifiant,6,2).' '.substr($facture->identifiant,0,6); ?>}
+\def\FactureNum{<?php echo $facture->numero_facture; ?>}
+\def\FactureNumREF{<?php echo substr($facture->numero_facture,6,2).' '.substr($facture->numero_facture,0,6); ?>}
 \def\FactureDate{<?php echo format_date($facture->date_emission,'dd/MM/yyyy'); ?>}
-\def\FactureRefClient{<?php echo $facture->client_reference; ?>}
+\def\FactureRefClient{<?php echo $facture->identifiant; ?>}
 
-\def\FactureClientNom{<?php echo ($facture->client->raison_sociale == '')? 'Raison Sociale' : $facture->client->raison_sociale; ?>}
-\def\FactureClientAdresse{<?php echo ($facture->client->adresse == '')? 'Adresse' : $facture->client->adresse; ?>}
-\def\FactureClientCP{<?php echo $facture->client->code_postal; ?>}
-\def\FactureClientVille{<?php echo $facture->client->ville; ?>}
+\def\FactureClientNom{<?php echo ($facture->declarant->raison_sociale == '')? 'Raison Sociale' : $facture->declarant->raison_sociale; ?>}
+\def\FactureClientAdresse{<?php echo ($facture->declarant->adresse == '')? 'Adresse' : $facture->declarant->adresse; ?>}
+\def\FactureClientCP{<?php echo $facture->declarant->code_postal; ?>}
+\def\FactureClientVille{<?php echo $facture->declarant->commune; ?>}
 
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0pt}
@@ -80,6 +80,7 @@ $nb_ligne = 0;
 \lhead{
  \textbf{InterLoire - Service facturation} \\
  \InterloireAdresse \\
+ Votre contact : \\
  \InterloireFacturation \\
  \begin{tiny}
          RIB~:~\InterloireBANQUE~(BIC:~\InterloireBIC~IBAN:~\InterloireIBAN) 

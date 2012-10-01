@@ -8,17 +8,17 @@
  * @property string $_rev
  * @property string $type
  * @property string $identifiant
+ * @property string $numero_facture
  * @property string $date_emission
  * @property string $date_facturation
  * @property string $campagne
- * @property integer $nb_page
  * @property string $statut
+ * @property integer $versement_comptable
  * @property acCouchdbJson $emetteur
- * @property string $client_identifiant
- * @property string $client_reference
- * @property acCouchdbJson $client
+ * @property acCouchdbJson $declarant
  * @property float $total_ht
  * @property float $total_ttc
+ * @property float $total_taxe
  * @property acCouchdbJson $lignes
  * @property acCouchdbJson $echeances
  * @property acCouchdbJson $origines
@@ -31,28 +31,28 @@
  * @method string setType()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
+ * @method string getNumeroFacture()
+ * @method string setNumeroFacture()
  * @method string getDateEmission()
  * @method string setDateEmission()
  * @method string getDateFacturation()
  * @method string setDateFacturation()
  * @method string getCampagne()
  * @method string setCampagne()
- * @method integer getNbPage()
- * @method integer setNbPage()
  * @method string getStatut()
  * @method string setStatut()
+ * @method integer getVersementComptable()
+ * @method integer setVersementComptable()
  * @method acCouchdbJson getEmetteur()
  * @method acCouchdbJson setEmetteur()
- * @method string getClientIdentifiant()
- * @method string setClientIdentifiant()
- * @method string getClientReference()
- * @method string setClientReference()
- * @method acCouchdbJson getClient()
- * @method acCouchdbJson setClient()
+ * @method acCouchdbJson getDeclarant()
+ * @method acCouchdbJson setDeclarant()
  * @method float getTotalHt()
  * @method float setTotalHt()
  * @method float getTotalTtc()
  * @method float setTotalTtc()
+ * @method float getTotalTaxe()
+ * @method float setTotalTaxe()
  * @method acCouchdbJson getLignes()
  * @method acCouchdbJson setLignes()
  * @method acCouchdbJson getEcheances()

@@ -26,13 +26,14 @@ class FactureEtablissementView extends acCouchdbView
 
     public function findByEtablissement($etablissement) {  
             $rows = acCouchdbManager::getClient()
-                    ->startkey(array(0, $etablissement->_id))
-                    ->endkey(array(0, $etablissement->_id, array()))
+                    ->startkey(array(0, $etablissement->identifiant))
+                    ->endkey(array(0, $etablissement->identifiant, array()))
                     ->getView($this->design, $this->view)->rows;
             return array_merge($rows, acCouchdbManager::getClient()
-                    ->startkey(array(1, $etablissement->_id))
-                    ->endkey(array(1, $etablissement->_id, array()))
+                    ->startkey(array(1, $etablissement->identifiant))
+                    ->endkey(array(1, $etablissement->identifiant, array()))
                     ->getView($this->design, $this->view)->rows);
+            
     }
     
 }  

@@ -45,7 +45,7 @@ EOF;
 	$i = 0;
 	foreach($facture->echeances as $e) {
 		$i++;
-		echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->identifiant.';Facture n°'.$facture->identifiant.' (Echeance '.$i.'/'.$nbecheance.');41100000;'.$facture->client_reference.';;'.$e->echeance_date.';DEBIT;'.$l->montant_ht.";;\n";
+		echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->identifiant.';Facture n°'.$facture->identifiant.' (Echeance '.$i.'/'.$nbecheance.');41100000;'.$facture->identifiant.';;'.$e->echeance_date.';DEBIT;'.$l->montant_ht.";;\n";
 	}
     }
   }

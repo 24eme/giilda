@@ -12,6 +12,7 @@
  * @property string $produit_type
  * @property string $produit_libelle
  * @property string $produit_hash
+ * @property string $produit_identifiant_analytique
  * @property string $contrat_identifiant
  * @property string $echeance_code
  * @property float $volume
@@ -35,6 +36,8 @@
  * @method string setProduitLibelle()
  * @method string getProduitHash()
  * @method string setProduitHash()
+ * @method string getProduitIdentifiantAnalytique()
+ * @method string setProduitIdentifiantAnalytique()
  * @method string getContratIdentifiant()
  * @method string setContratIdentifiant()
  * @method string getEcheanceCode()

@@ -37,7 +37,7 @@ EOF;
     // add your code here
     $facture = new Facture();
     $facture->_id = 'FACTURE-110001-2012020101';
-    $facture->identifiant = '2012020101';
+    $facture->numero_facture = '2012020101';
     $facture->date_emission = '2012-02-01';
     $facture->campagne = '2011-2012';
     $facture->emetteur->adresse = "Chateau InterLoire";
@@ -46,7 +46,7 @@ EOF;
     $facture->emetteur->service_facturation = 'Neilly';
     $facture->emetteur->telephone = '0212321232';
     $facture->client_identifiant = 'ETABLISSEMENT-110001';
-    $facture->client_reference = '110001';
+    $facture->identifiant = '110001';
     $facture->client->raison_sociale = "Garage d'actualys";
     $facture->client->adresse = "1 rue garnier";
     $facture->client->code_postal = "92100";

@@ -41,7 +41,7 @@ class FactureLatex {
   
   
   public function getLatexFileNameWithoutExtention() {
-    return $this->getTEXWorkingDir().$this->facture->identifiant.'_'.$this->facture->client_reference.'_'.$this->facture->_rev;
+    return $this->getTEXWorkingDir().$this->facture->numero_facture.'_'.$this->facture->identifiant.'_'.$this->facture->_rev;
   }
 
   public function getLatexFileName() {
@@ -121,7 +121,7 @@ class FactureLatex {
   }
 
   public function getPublicFileName($extention = '.pdf') {
-    return 'facture_'.$this->facture->client_reference.'_'.$this->facture->identifiant.'_page'.$this->getNbPages().'_'.$this->facture->_rev.$extention;
+    return 'facture_'.$this->facture->identifiant.'_'.$this->facture->numero_facture.'_page'.$this->getNbPages().'_'.$this->facture->_rev.$extention;
   }
 
   public function echoPDFWithHTTPHeader() {
