@@ -21,7 +21,7 @@ class DSRouting {
                             'type' => 'object')));
         
         $r->prependRoute('ds_generation', new sfRoute('/ds/generation', array('module' => 'ds', 
-										      'action' => 'generation')));   
+                                                                              'action' => 'generation')));   
         
         $r->prependRoute('ds_historique_generation', new sfRoute('/ds/generation/historique', array('module' => 'ds', 
 										      'action' => 'generation'))); 

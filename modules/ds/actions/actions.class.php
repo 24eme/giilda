@@ -12,9 +12,15 @@ class dsActions extends sfActions {
        }
     }
     
-     public function executeMasse(sfWebRequest $request) {
+     public function executeGeneration(sfWebRequest $request) {
        $parameters = $request->getParameter('ds_generation');
-       var_dump($parameters); exit;
+       $campagne = (!isset($parameters['campagne']))? null : $parameters['campagne'];
+       $date_declaration = (!isset($parameters['date_declaration']))? null : $parameters['date_declaration'];
+
+       $etablissements = EtablissementAllView::getInstance()->findByInterproAndFamilles('INTERPRO-inter-loire',array(EtablissementFamilles::FAMILLE_PRODUCTEUR, EtablissementFamilles::FAMILLE_NEGOCIANT));
+       $generation = DSClient::getInstance()->createGenerationForAllEtablissements($etablissements,$campagne,$date_declaration);
+       $generation->save();
+       exit;
        $this->setTemplate('index');
     }
     
@@ -47,7 +53,6 @@ class dsActions extends sfActions {
     
      public function executeEditionDS(sfWebRequest $request) {        
          $this->ds = $this->getRoute()->getDS();
-
          $this->form = new DSEditionForm($this->ds);
          if ($request->isMethod(sfWebRequest::POST)) {
              $this->form->bind($request->getParameter($this->form->getName()));
