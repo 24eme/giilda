@@ -20,7 +20,6 @@ class DeclarantDocument
     }
     
     public function getEtablissementObject() {
-       
         return EtablissementClient::getInstance()->findByIdentifiant($this->getIdentifiant());
     }
 
