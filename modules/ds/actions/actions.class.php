@@ -17,6 +17,16 @@ class dsActions extends sfActions {
        if ($request->isMethod(sfWebRequest::POST)) {
 	 $this->generationForm->bind($request->getParameter($this->generationForm->getName()));
 	 if ($this->generationForm->isValid()) {
+	   $values = $this->generationForm->getValues();
+	   print_r($values);
+	   $generation = new Generation();
+	   $generation->arguments->add('regions', implode(',', array_values($values['regions'])));
+	   $generation->arguments->add('operateur_types', implode(',', array_values($values['operateur_types'])));
+	   $generation->arguments->add('date_declaration', $values['date_declaration']);
+	   $generation->type_document = 'DS';
+	   $generation->save();
+	   echo $generation->_id;
+	   exit;
 	 }
        }
        $this->setTemplate('index');

@@ -5,15 +5,15 @@
 <div class="generation_facture_options">
     <ul>
         <li>
-        <span>1. <?php  echo $generationForm['region']->renderlabel(); ?></span>
-              <?php echo $generationForm['region']->renderError() ?> 
-              <?php  echo $generationForm['region']->render(); ?>        
+        <span>1. <?php  echo $generationForm['regions']->renderlabel(); ?></span>
+              <?php echo $generationForm['regions']->renderError() ?> 
+              <?php  echo $generationForm['regions']->render(); ?>        
         </li>
         
         <li>
-        <span>2. <?php  echo $generationForm['operateur_type']->renderlabel(); ?></span>                
-              <?php echo $generationForm['operateur_type']->renderError() ?> 
-              <?php  echo $generationForm['operateur_type']->render(); ?>
+        <span>2. <?php  echo $generationForm['operateur_types']->renderlabel(); ?></span>                
+              <?php echo $generationForm['operateur_types']->renderError() ?> 
+              <?php  echo $generationForm['operateur_types']->render(); ?>
         </li>
         <li>
             <div class="ligne_form champ_datepicker">
