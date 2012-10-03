@@ -320,21 +320,8 @@ bouton.btn_majeur { height:26px; }
   display:inline-block;
   font-size:11px;
   line-height:26px;
-  padding-left:30px;
+  padding-left:10px;
   position:relative;
-}
-.btn_etape_suiv span:after {
-  height:26px;
-  width:20px;
-  background:url(../images/pictos/pi_actions.png) 3px -185px no-repeat;
-  bottom:auto;
-  left:5px;
-  position:absolute;
-  right:auto;
-  top:0;
-  content:'';
-  cursor:pointer;
-  display:inline-block;
 }
 .btn_etape_suiv span:hover, .btn_etape_suiv span:focus { text-decoration:none; }
 .btn_validation {
@@ -373,21 +360,8 @@ bouton.btn_majeur { height:26px; }
   display:inline-block;
   font-size:11px;
   line-height:26px;
-  padding-left:30px;
+  padding-left:10px;
   position:relative;
-}
-.btn_validation span:after {
-  height:26px;
-  width:20px;
-  background:url(../images/pictos/pi_actions.png) 3px -185px no-repeat;
-  bottom:auto;
-  left:5px;
-  position:absolute;
-  right:auto;
-  top:0;
-  content:'';
-  cursor:pointer;
-  display:inline-block;
 }
 .btn_validation span:hover, .btn_validation span:focus { text-decoration:none; }
 .btn_validation span:after { background-position:3px -289px; }
@@ -444,13 +418,13 @@ bouton.btn_majeur { height:26px; }
   display:inline-block;
 }
 .btn_etape_prec span:hover, .btn_etape_prec span:focus { text-decoration:none; }
-.btn_terminer_saisie {
+.btn_terminer_saisie, .btn_validation_declar {
   color:#ffffff;
   background-position:0 -78px;
   border-color:#83a44d;
   padding-left:30px;
 }
-.btn_terminer_saisie:after {
+.btn_terminer_saisie:after, .btn_validation_declar:after {
   height:26px;
   width:20px;
   background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
@@ -464,6 +438,55 @@ bouton.btn_majeur { height:26px; }
   display:inline-block;
 }
 .btn_terminer_saisie:after { background-position:3px -289px; }
+.btn_validation_declar {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
+  color:#5e5c5c;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px;
+  position:relative;
+  color:#ffffff;
+  background-position:0 -78px;
+  border-color:#83a44d;
+  padding-left:30px;
+}
+.btn_validation_declar:hover, .btn_validation_declar:focus { text-decoration:none; }
+bouton.btn_validation_declar { height:26px; }
+.btn_validation_declar span { display:inline-block; }
+.btn_validation_declar:after {
+  height:26px;
+  width:20px;
+  background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
+  bottom:auto;
+  left:5px;
+  position:absolute;
+  right:auto;
+  top:0;
+  content:'';
+  cursor:pointer;
+  display:inline-block;
+}
+.btn_validation_declar:after { background-position:3px -184px; }
 .btn_excel {
   color:#ffffff;
   background-position:0 -78px;
@@ -609,7 +632,7 @@ bouton.btn_majeur { height:26px; }
   display:inline-block;
 }
 .btn_calendrier:after { background-position:3px -488px; }
-.btn_demarrer {
+.btn_demarrer, .btn_enregistrer {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
@@ -636,13 +659,20 @@ bouton.btn_majeur { height:26px; }
   line-height:26px;
   padding:0 10px;
   position:relative;
+}
+.btn_demarrer:hover, .btn_demarrer:focus, .btn_enregistrer:hover, .btn_enregistrer:focus { text-decoration:none; }
+bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
+.btn_demarrer span, .btn_enregistrer span { display:inline-block; }
+.btn_demarrer {
   color:#ffffff;
   background-position:0 -104px;
   border-color:#f6b32c;
 }
-.btn_demarrer:hover, .btn_demarrer:focus { text-decoration:none; }
-bouton.btn_demarrer { height:26px; }
-.btn_demarrer span { display:inline-block; }
+.btn_enregistrer {
+  color:#ffffff;
+  background-position:0 -52px;
+  border-color:#6d6b6b;
+}
 .table_recap {
   border:1px solid #e3e2e2;
   -webkit-border-radius:5px;
@@ -672,7 +702,16 @@ bouton.btn_demarrer { height:26px; }
 .table_recap tr td+td { border-left:1px solid #e3e2e2; }
 .table_recap tr:nth-child(2n+2) { background-color:#f7f7f7; }
 .table_recap tr.vide { display:none; }
-.recap_info {
+.recap_info li {
+  font-size:14px;
+  margin:8px 0;
+}
+.recap_info li span {
+  display:inline-block;
+  font-weight:bold;
+  width:210px;
+}
+.info_principal {
   background-color:#ecebeb;
   font-size:16px;
   font-weight:bold;
@@ -1210,7 +1249,15 @@ bouton.btn_demarrer { height:26px; }
   margin:20px 0;
 }
 #recap_infos_header { margin:0 0 20px; }
-#recap_infos_header li { margin:8px 0; }
+#recap_infos_header li {
+  font-size:14px;
+  margin:8px 0;
+}
+#recap_infos_header li span {
+  display:inline-block;
+  font-weight:bold;
+  width:210px;
+}
 #recap_infos_header li:first-child {
   background-color:#ecebeb;
   font-size:16px;
@@ -1219,12 +1266,6 @@ bouton.btn_demarrer { height:26px; }
   line-height:45px;
   padding:0 15px;
   margin-bottom:15px;
-}
-#recap_infos_header li + li { font-size:14px; }
-#recap_infos_header li span {
-  display:inline-block;
-  font-weight:bold;
-  width:210px;
 }
 #vrac_soussigne h1, #vrac_marche h1, #vrac_condition h1, #vrac_validation h1, #vrac_recapitulatif h1 {
   font-size:16px;
@@ -1738,7 +1779,8 @@ bouton.btn_demarrer { height:26px; }
   visibility:hidden;
 }
 .sv12 #contenu_etape .btn_etape:after { clear:both; }
-.sv12 #contenu_etape .btn_etape .btn_etape_suiv { float:right; }
+.sv12 #contenu_etape .btn_etape .btn_etape_suiv, .sv12 #contenu_etape .btn_enregistrer, .sv12 #contenu_etape .btn_validation_declar { float:right; }
+.sv12 #contenu_etape .btn_validation_declar { margin-left:10px; }
 #rail_etapes {
   zoom:1;
   min-height:1px;
