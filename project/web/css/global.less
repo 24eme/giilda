@@ -254,15 +254,6 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 	span
 	{
-		&:after
-		{
-			.box-dimensions(20px,26px);
-			.sprite-pictos-actions(3px -185px);
-			.pos-abs(0, auto, auto, 5px);
-			content: '';
-			cursor: pointer;
-			display: inline-block;
-		}
 
 		.border(@couleur-a6);
 		.border-radius(4px 0 0 4px);
@@ -281,7 +272,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 		display: inline-block;
 		font-size: 11px;
 		line-height: 26px;
-		padding-left: 30px;
+		padding-left: 10px;
 		position: relative;
 	}
         
@@ -345,12 +336,22 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
         
 }
 
-
-.btn_terminer_saisie
+.btn_terminer_saisie,
+.btn_validation_declar
 {
 	.btn_vert;
 	.btn_icone;
-	&:after { background-position: 3px -289px; } 
+}
+
+.btn_terminer_saisie { &:after { background-position: 3px -289px; } }
+
+.btn_validation_declar
+{
+	.btn_majeur;
+	.btn_vert;
+	.btn_icone;
+	
+	&:after { background-position: 3px -184px; }
 }
 
 .btn_excel
@@ -406,6 +407,13 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	&:after { background-position: 3px -488px; } 
 }
 
+.btn_demarrer,
+.btn_enregistrer { .btn_majeur; }
+
+.btn_demarrer { .btn_orange; }
+
+.btn_enregistrer { .btn_noir; }
+
 /* Tableau recapitulatif */
 .table_recap
 {
@@ -445,6 +453,33 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 		
 		&.vide { display: none; }
 	}
+}
+
+/* Recap info */
+.recap_info
+{
+	li
+	{
+		font-size: 14px;
+		margin: 8px 0;
+
+		span
+		{
+			display: inline-block;
+			font-weight: bold;
+			width: 210px;
+		}
+	}
+}
+
+.info_principal
+{
+	background-color: @couleur-a5;
+	font-size: 16px;
+	font-weight: bold;
+	height: 45px;
+	line-height: 45px;
+	padding: 0 15px;
 }
 
 /* Status Pictos */

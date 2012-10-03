@@ -24,18 +24,13 @@
 
 #recap_infos_header
 {
+	.recap_info;
 	margin: 0 0 20px;
-	
-	li
+
+	li:first-child
 	{
-		margin: 8px 0;
-		
-		span
-		{
-			display: inline-block;
-			font-weight: bold;
-			width: 145px;
-		}
+		.info_principal;
+		margin-bottom: 15px;
 	}
 }
 /**
@@ -758,9 +753,13 @@
 		{
 			margin: 20px 0 0;
 			.clearfix;
-			
-			.btn_etape_suiv { float: right; }
 		}
+
+		.btn_etape .btn_etape_suiv,
+		.btn_enregistrer,
+		.btn_validation_declar { float: right; }
+
+		.btn_validation_declar { margin-left: 10px; }
 	}
 	
 }
