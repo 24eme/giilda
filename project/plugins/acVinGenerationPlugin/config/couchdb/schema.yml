@@ -16,6 +16,11 @@ Generation:
         definition:
           fields:
             '*': { }
+      arguments:
+        type: collection
+        definition:
+          fields:
+            '*': { }
       documents:
         type: array_collection
         definition:
