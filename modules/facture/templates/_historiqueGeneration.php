@@ -28,7 +28,7 @@ else :
         <tr>
             <td><?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->value[GenerationClient::HISTORY_VALUES_DATE]);?></td>
             <td><?php echo 'F';?></td>
-            <td><?php echo link_to($generation->value[GenerationClient::HISTORY_VALUES_DATE], 'generation_facture', array('type_document' => GenerationClient::TYPE_DOCUMENT_FACTURES, 'date_emission' => $generation->value[GenerationClient::HISTORY_VALUES_DATE]));?></td>
+            <td><?php echo link_to($generation->value[GenerationClient::HISTORY_VALUES_DATE], 'generation_view', array('type_document' => GenerationClient::TYPE_DOCUMENT_FACTURES, 'date_emission' => $generation->value[GenerationClient::HISTORY_VALUES_DATE]));?></td>
             <td><?php echo count($generation->value[GenerationClient::HISTORY_VALUES_DOCUMENTS]);?></td>
             <td><?php echoFloat($generation->value[GenerationClient::HISTORY_VALUES_SOMME]);?></td>       
         </tr>
