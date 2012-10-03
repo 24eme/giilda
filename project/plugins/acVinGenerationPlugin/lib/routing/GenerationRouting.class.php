@@ -11,10 +11,8 @@ class GenerationRouting {
     static public function listenToRoutingLoadConfigurationEvent(sfEvent $event) {
         
         $r = $event->getSubject();
-        $r->prependRoute('generation_facture', new sfRoute('/generation/:type_document/:date_emission', array('module' => 'generation',
-								  'action' => 'facture')));
-        $r->prependRoute('generation_ds', new sfRoute('/generation/ds/history', array('module' => 'generation',
-								  'action' => 'ds')));
+        $r->prependRoute('generation_view', new sfRoute('/generation/:type_document/:date_emission', array('module' => 'generation',
+								  'action' => 'view')));
 
     }
 }
