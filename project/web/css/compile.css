@@ -609,6 +609,40 @@ bouton.btn_majeur { height:26px; }
   display:inline-block;
 }
 .btn_calendrier:after { background-position:3px -488px; }
+.btn_demarrer {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
+  color:#5e5c5c;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px;
+  position:relative;
+  color:#ffffff;
+  background-position:0 -104px;
+  border-color:#f6b32c;
+}
+.btn_demarrer:hover, .btn_demarrer:focus { text-decoration:none; }
+bouton.btn_demarrer { height:26px; }
+.btn_demarrer span { display:inline-block; }
 .table_recap {
   border:1px solid #e3e2e2;
   -webkit-border-radius:5px;
@@ -638,6 +672,14 @@ bouton.btn_majeur { height:26px; }
 .table_recap tr td+td { border-left:1px solid #e3e2e2; }
 .table_recap tr:nth-child(2n+2) { background-color:#f7f7f7; }
 .table_recap tr.vide { display:none; }
+.recap_info {
+  background-color:#ecebeb;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  padding:0 15px;
+}
 .statut_suspendu, .statut_nouveau, .statut_valide, .statut_cloture {
   background-image:url(../images/pictos/sprite_calendrier.png);
   background-repeat:no-repeat;
@@ -1169,10 +1211,20 @@ bouton.btn_majeur { height:26px; }
 }
 #recap_infos_header { margin:0 0 20px; }
 #recap_infos_header li { margin:8px 0; }
+#recap_infos_header li:first-child {
+  background-color:#ecebeb;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  padding:0 15px;
+  margin-bottom:15px;
+}
+#recap_infos_header li + li { font-size:14px; }
 #recap_infos_header li span {
   display:inline-block;
   font-weight:bold;
-  width:145px;
+  width:210px;
 }
 #vrac_soussigne h1, #vrac_marche h1, #vrac_condition h1, #vrac_validation h1, #vrac_recapitulatif h1 {
   font-size:16px;
@@ -2313,6 +2365,28 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   display:inline-block;
 }
 #contenu_etape #btn_export_csv:after { background-position:2px -315px; }
+#contenu_etape .saisir_declar {
+  zoom:1;
+  min-height:1px;
+  background-color:#ecebeb;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  padding:0 15px;
+}
+#contenu_etape .saisir_declar:before, #contenu_etape .saisir_declar:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#contenu_etape .saisir_declar:after { clear:both; }
+#contenu_etape .saisir_declar a {
+  float:right;
+  margin-top:8px;
+}
 #contrats_similaires_list .statut {
   -webkit-border-radius:50%;
   -moz-border-radius:50%;
