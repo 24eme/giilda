@@ -10,8 +10,8 @@ class DSGenerationOperateurForm extends BaseForm {
     public function configure()
     {
       //        $this->setWidget('campagne', new sfWidgetFormChoice(array('choices' => $this->getCampagnes())));     
-        $this->setWidget('date_declaration', new sfWidgetFormInput());
-        
+      $this->setWidget('date_declaration', new sfWidgetFormInput(array('default' => date('31/07/Y'))));
+      $this->setValidator('date_declaration', new sfValidatorString());
         
         $this->widgetSchema->setLabels(array(
             'campagne' => 'Sélectionner la campagne viticole :',

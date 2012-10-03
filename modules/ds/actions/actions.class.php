@@ -13,14 +13,12 @@ class dsActions extends sfActions {
     }
     
      public function executeGeneration(sfWebRequest $request) {
-       $parameters = $request->getParameter('ds_generation');
-       $campagne = (!isset($parameters['campagne']))? null : $parameters['campagne'];
-       $date_declaration = (!isset($parameters['date_declaration']))? null : $parameters['date_declaration'];
-
-       $etablissements = EtablissementAllView::getInstance()->findByInterproAndFamilles('INTERPRO-inter-loire',array(EtablissementFamilles::FAMILLE_PRODUCTEUR, EtablissementFamilles::FAMILLE_NEGOCIANT));
-       $generation = DSClient::getInstance()->createGenerationForAllEtablissements($etablissements,$campagne,$date_declaration);
-       $generation->save();
-       exit;
+       $this->generationForm = new DSGenerationForm();
+       if ($request->isMethod(sfWebRequest::POST)) {
+	 $this->generationForm->bind($request->getParameter($this->generationForm->getName()));
+	 if ($this->generationForm->isValid()) {
+	 }
+       }
        $this->setTemplate('index');
     }
     

@@ -1,5 +1,7 @@
 <form id="generation_form" action="<?php echo url_for('ds_generation'); ?>" method="post">
 <h2>Génération des formulaires de déclaration</h2>
+<?php echo $generationForm->renderGlobalErrors(); ?>
+<?php echo $generationForm->renderHiddenFields(); ?>
 <div class="generation_facture_options">
     <ul>
         <li>
