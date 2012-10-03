@@ -9,7 +9,7 @@ class DSGenerationOperateurForm extends BaseForm {
     
     public function configure()
     {
-        $this->setWidget('campagne', new sfWidgetFormChoice(array('choices' => $this->getCampagnes())));     
+      //        $this->setWidget('campagne', new sfWidgetFormChoice(array('choices' => $this->getCampagnes())));     
         $this->setWidget('date_declaration', new sfWidgetFormInput());
         
         

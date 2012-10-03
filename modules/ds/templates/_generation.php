@@ -3,25 +3,19 @@
 <div class="generation_facture_options">
     <ul>
         <li>
-        <span>1. <?php  echo $generationForm['campagne']->renderlabel(); ?></span>
-              <?php echo $generationForm['campagne']->renderError() ?>        
-              <?php  echo $generationForm['campagne']->render(); ?> 
-        </li>
-        
-        <li>
-        <span>2. <?php  echo $generationForm['region']->renderlabel(); ?></span>
+        <span>1. <?php  echo $generationForm['region']->renderlabel(); ?></span>
               <?php echo $generationForm['region']->renderError() ?> 
               <?php  echo $generationForm['region']->render(); ?>        
         </li>
         
         <li>
-        <span>3. <?php  echo $generationForm['operateur_type']->renderlabel(); ?></span>                
+        <span>2. <?php  echo $generationForm['operateur_type']->renderlabel(); ?></span>                
               <?php echo $generationForm['operateur_type']->renderError() ?> 
               <?php  echo $generationForm['operateur_type']->render(); ?>
         </li>
         <li>
             <div class="ligne_form champ_datepicker">
-                <?php  echo '4. '.$generationForm['date_declaration']->renderlabel(); ?>       
+                <?php  echo '3. '.$generationForm['date_declaration']->renderlabel(); ?>       
                 <?php echo $generationForm['date_declaration']->renderError() ?>  
                 <?php  echo $generationForm['date_declaration']->render(); ?>
             </div>
