@@ -2,7 +2,6 @@
 @import url("fancybox.css");
 @charset "utf-8";
 @charset "utf-8";
-@import url("jquery.ui/jquery.ui.core.css");
 @import url("jquery.ui/jquery.ui.theme.css");
 @import url("jquery.ui/jquery.ui.datepicker.css");
 .majuscules { text-transform:uppercase; }
@@ -1216,9 +1215,13 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   position:absolute;
   top:0;
 }
-.ui-icon-closethick {
+#ui-datepicker-div .ui-icon, .ui-icon-closethick {
   display:block;
   text-indent:-9999px;
+}
+#ui-datepicker-div .ui-icon {
+  overflow:hidden;
+  background-repeat:no-repeat;
 }
 #ajax_notifications {
   position:fixed;

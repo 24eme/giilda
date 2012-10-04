@@ -1037,7 +1037,14 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
         top: 0;
 }
 
-.ui-icon-closethick{ display:block; text-indent : -9999px; }
+#ui-datepicker-div .ui-icon,
+.ui-icon-closethick { display:block; text-indent : -9999px; }
+
+#ui-datepicker-div .ui-icon
+{
+	overflow: hidden;
+	background-repeat: no-repeat;
+}
 
 #ajax_notifications {
 	position: fixed;
