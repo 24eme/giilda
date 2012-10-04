@@ -12,7 +12,8 @@
  * @property string $nb_documents
  * @property string $type_document
  * @property string $somme
- * @property string $impression
+ * @property string $statut
+ * @property acCouchdbJson $fichiers
  * @property acCouchdbJson $documents
 
  * @method string get_id()
@@ -31,8 +32,10 @@
  * @method string setTypeDocument()
  * @method string getSomme()
  * @method string setSomme()
- * @method string getImpression()
- * @method string setImpression()
+ * @method string getStatut()
+ * @method string setStatut()
+ * @method acCouchdbJson getFichiers()
+ * @method acCouchdbJson setFichiers()
  * @method acCouchdbJson getDocuments()
  * @method acCouchdbJson setDocuments()
  
