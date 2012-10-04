@@ -2,6 +2,8 @@
 @import url("fancybox.css");
 @charset "utf-8";
 @charset "utf-8";
+@import url("jquery.ui/jquery.ui.theme.css");
+@import url("jquery.ui/jquery.ui.datepicker.css");
 .majuscules { text-transform:uppercase; }
 .img-block a, .img-block img { display:block; }
 .clear-box-top {
@@ -711,13 +713,17 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   font-weight:bold;
   width:210px;
 }
+.bloc_gris {
+  background-color:#ecebeb;
+  padding:0 10px;
+}
 .info_principal {
   background-color:#ecebeb;
+  padding:0 10px;
   font-size:16px;
   font-weight:bold;
   height:45px;
   line-height:45px;
-  padding:0 15px;
 }
 .statut_suspendu, .statut_nouveau, .statut_valide, .statut_cloture {
   background-image:url(../images/pictos/sprite_calendrier.png);
@@ -1260,13 +1266,14 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 }
 #recap_infos_header li:first-child {
   background-color:#ecebeb;
+  padding:0 10px;
   font-size:16px;
   font-weight:bold;
   height:45px;
   line-height:45px;
-  padding:0 15px;
   margin-bottom:15px;
 }
+#recap_infos_header li:first-child span { width:200px; }
 #vrac_soussigne h1, #vrac_marche h1, #vrac_condition h1, #vrac_validation h1, #vrac_recapitulatif h1 {
   font-size:16px;
   font-weight:bold;
@@ -1766,10 +1773,69 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   padding:10px;
   width:100%;
 }
-.sv12 #contenu_etape .btn_etape {
-  margin:20px 0 0;
+.sv12 #contenu_etape #generation_masse_form { margin-bottom:5px; }
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options {
+  background-color:#ecebeb;
+  padding:0 10px;
+  padding-bottom:10px;
+  padding-top:10px;
+}
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li { font-size:14px; }
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li>span {
+  display:block;
+  font-weight:bold;
+  margin-bottom:20px;
+}
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li>span+span {
+  margin-bottom:10px;
+  margin-top:-20px;
+}
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li em {
+  display:inline-block;
+  margin-right:4px;
+  vertical-align:middle;
+}
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .ligne_etape { padding-left:10px; }
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .checkbox_list { padding-left:10px; }
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .checkbox_list li+li {
+  margin-bottom:0;
+  margin-top:8px;
+}
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .checkbox_list li input[type="checkbox"] { margin-right:12px; }
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .champ_datepicker { height:auto; }
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .champ_datepicker label, .sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .champ_datepicker img { vertical-align:middle; }
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .champ_datepicker label {
+  font-weight:normal;
+  width:335px;
+}
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .champ_datepicker img { position:static; }
+.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li+li { margin-top:20px; }
+.sv12 #contenu_etape .generation_facture_valid {
   zoom:1;
   min-height:1px;
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+}
+.sv12 #contenu_etape .generation_facture_valid:before, .sv12 #contenu_etape .generation_facture_valid:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.sv12 #contenu_etape .generation_facture_valid:after { clear:both; }
+.sv12 #contenu_etape .generation_facture_valid a {
+  float:right;
+  margin-top:8px;
+}
+.sv12 #contenu_etape .btn_etape {
+  zoom:1;
+  min-height:1px;
+  margin:20px 0 0;
 }
 .sv12 #contenu_etape .btn_etape:before, .sv12 #contenu_etape .btn_etape:after {
   content:"\0020";
@@ -2411,11 +2477,11 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   zoom:1;
   min-height:1px;
   background-color:#ecebeb;
+  padding:0 10px;
   font-size:16px;
   font-weight:bold;
   height:45px;
   line-height:45px;
-  padding:0 15px;
 }
 #contenu_etape .saisir_declar:before, #contenu_etape .saisir_declar:after {
   content:"\0020";
@@ -2491,6 +2557,39 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #colonne #contrats_similaires_list #millesime { padding-left:5px; }
 #colonne #contrats_similaires_list .separateur { background:url('../images/fonds/bg_colonne_separateur.png') right no-repeat; }
 #colonne #contrats_similaires_list .legende_contrat { margin-bottom:10px; }
+#colonne #contrat_actions a {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
+  color:#5e5c5c;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px;
+  position:relative;
+  display:block;
+  text-align:center;
+}
+#colonne #contrat_actions a:hover, #colonne #contrat_actions a:focus { text-decoration:none; }
+bouton#colonne #contrat_actions a { height:26px; }
+#colonne #contrat_actions a span { display:inline-block; }
 #contrat_similaire_popup h2, #contrat_similaire_popup .legende_contrat { display:none; }
 #contrat_similaire_popup #ligne_btn {
   height:30px;
