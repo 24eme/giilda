@@ -1644,12 +1644,6 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   width:200px;
 }
 .sv12 #contenu_etape fieldset { margin:25px 0 0; }
-.sv12 #contenu_etape fieldset legend {
-  text-transform:uppercase;
-  font-size:15px;
-  font-weight:bold;
-  margin:0 0 15px;
-}
 .sv12 #contenu_etape #recherche_sv12 {
   background:#ecebeb;
   margin:0 0 15px;
@@ -1777,65 +1771,6 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   padding:10px;
   width:100%;
 }
-.sv12 #contenu_etape #generation_masse_form { margin-bottom:5px; }
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options {
-  background-color:#ecebeb;
-  padding:0 10px;
-  padding-bottom:10px;
-  padding-top:10px;
-}
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li { font-size:14px; }
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li>span {
-  display:block;
-  font-weight:bold;
-  margin-bottom:20px;
-}
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li>span+span {
-  margin-bottom:10px;
-  margin-top:-20px;
-}
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li em {
-  display:inline-block;
-  margin-right:4px;
-  vertical-align:middle;
-}
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .ligne_etape { padding-left:10px; }
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .checkbox_list { padding-left:10px; }
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .checkbox_list li+li {
-  margin-bottom:0;
-  margin-top:8px;
-}
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .checkbox_list li input[type="checkbox"] { margin-right:12px; }
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .champ_datepicker { height:auto; }
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .champ_datepicker label, .sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .champ_datepicker img { vertical-align:middle; }
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .champ_datepicker label {
-  font-weight:normal;
-  width:335px;
-}
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li .champ_datepicker img { position:static; }
-.sv12 #contenu_etape #generation_masse_form .generation_facture_options ul:first-child li+li { margin-top:20px; }
-.sv12 #contenu_etape .generation_facture_valid {
-  zoom:1;
-  min-height:1px;
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:16px;
-  font-weight:bold;
-  height:45px;
-  line-height:45px;
-}
-.sv12 #contenu_etape .generation_facture_valid:before, .sv12 #contenu_etape .generation_facture_valid:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.sv12 #contenu_etape .generation_facture_valid:after { clear:both; }
-.sv12 #contenu_etape .generation_facture_valid a {
-  float:right;
-  margin-top:8px;
-}
 .sv12 #contenu_etape .btn_etape {
   zoom:1;
   min-height:1px;
@@ -1851,6 +1786,67 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 .sv12 #contenu_etape .btn_etape:after { clear:both; }
 .sv12 #contenu_etape .btn_etape .btn_etape_suiv, .sv12 #contenu_etape .btn_enregistrer, .sv12 #contenu_etape .btn_validation_declar { float:right; }
 .sv12 #contenu_etape .btn_validation_declar { margin-left:10px; }
+#principal legend {
+  text-transform:uppercase;
+  font-size:15px;
+  font-weight:bold;
+  margin:20px 0;
+}
+#principal .generation_facture_valid {
+  zoom:1;
+  min-height:1px;
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  margin-top:5px;
+}
+#principal .generation_facture_valid:before, #principal .generation_facture_valid:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#principal .generation_facture_valid:after { clear:both; }
+#principal .generation_facture_valid a {
+  float:right;
+  margin-top:8px;
+}
+#principal .generation_facture_options {
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:14px;
+  padding-bottom:10px;
+  padding-top:10px;
+}
+#principal .generation_facture_options span {
+  display:block;
+  font-weight:bold;
+  margin-bottom:20px;
+}
+#principal .generation_facture_options em {
+  display:inline-block;
+  margin-right:4px;
+  vertical-align:middle;
+}
+#principal .generation_facture_options ul:first-child li .ligne_etape { padding-left:10px; }
+#principal .generation_facture_options ul:first-child li .checkbox_list { padding-left:10px; }
+#principal .generation_facture_options ul:first-child li .checkbox_list li+li {
+  margin-bottom:0;
+  margin-top:8px;
+}
+#principal .generation_facture_options ul:first-child li .checkbox_list li input[type="checkbox"] { margin-right:12px; }
+#principal .generation_facture_options ul:first-child li+li { margin-top:20px; }
+#principal .generation_facture_options .champ_datepicker { height:auto; }
+#principal .generation_facture_options .champ_datepicker label, #principal .generation_facture_options .champ_datepicker img { vertical-align:middle; }
+#principal .generation_facture_options .champ_datepicker label {
+  font-weight:normal;
+  width:335px;
+}
+#principal .generation_facture_options .champ_datepicker img { position:static; }
 #rail_etapes {
   zoom:1;
   min-height:1px;

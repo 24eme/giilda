@@ -20,6 +20,7 @@
 		font-weight: bold;
 		margin: 20px 0;
 	}
+
 }
 
 #recap_infos_header
@@ -613,14 +614,6 @@
 		fieldset
 		{
 			margin: 25px 0 0;
-			
-			legend
-			{
-				.majuscules;
-				font-size: 15px;
-				font-weight: bold;
-				margin: 0 0 15px;
-			}
 		}
 		
 		/* Recherche SV 12 */
@@ -750,92 +743,6 @@
 			}
 		}
 		
-		#generation_masse_form
-		{
-			.generation_facture_options
-			{
-				.bloc_gris;
-
-				padding-bottom: 10px;
-				padding-top: 10px;
-
-				ul:first-child
-				{
-					li{
-						font-size: 14px;
-
-						&>span{
-							display: block;
-							font-weight: bold;
-							margin-bottom: 20px;
-
-							&+span
-							{
-								margin-bottom: 10px;
-								margin-top: -20px;
-							}
-						}
-
-						em
-						{
-							display: inline-block;
-							margin-right: 4px;
-							vertical-align: middle;
-						}
-
-						.ligne_etape { padding-left: 10px; }
-
-						.checkbox_list
-						{
-							padding-left: 10px;
-
-							li
-							{
-								&+li
-								{
-									margin-bottom: 0;
-									margin-top: 8px;
-								}
-
-								input[type="checkbox"] { margin-right: 12px; }
-							}
-						}
-
-						.champ_datepicker
-						{
-							height: auto;
-
-							label,
-							img { vertical-align: middle; }
-
-							label
-							{
-								font-weight: normal;
-								width: 335px;
-							}
-
-							img { position: static; }
-						}
-					}
-
-					li+li { margin-top: 20px; }
-				}
-			}
-
-			margin-bottom: 5px;
-		}
-
-		.generation_facture_valid {
-			.clearfix;
-			.info_principal;
-
-			a
-			{
-				float: right;
-				margin-top: 8px;
-			}
-		}
-		
 		.btn_etape
 		{
 			.clearfix;
@@ -850,4 +757,89 @@
 	}
 	
 }
- 
+
+/**
+ * Facture
+ ******************************************/
+
+#principal
+{
+	legend { #principal > h2; }
+
+	.generation_facture_valid {
+		.clearfix;
+		.info_principal;
+		margin-top: 5px;
+
+		a
+		{
+			float: right;
+			margin-top: 8px;
+		}
+	}
+
+	.generation_facture_options
+	{
+		.bloc_gris;
+
+		font-size: 14px;
+		padding-bottom: 10px;
+		padding-top: 10px;
+
+		span
+		{
+			display: block;
+			font-weight: bold;
+			margin-bottom: 20px;
+		}
+
+		em
+		{
+			display: inline-block;
+			margin-right: 4px;
+			vertical-align: middle;
+		}
+
+		ul:first-child
+		{
+			li{
+
+				.ligne_etape { padding-left: 10px; }
+
+				.checkbox_list
+				{
+					padding-left: 10px;
+
+					li
+					{
+						&+li
+						{
+							margin-bottom: 0;
+							margin-top: 8px;
+						}
+
+						input[type="checkbox"] { margin-right: 12px; }
+					}
+				}
+			}
+
+			li+li { margin-top: 20px; }
+		}
+
+		.champ_datepicker
+		{
+			height: auto;
+
+			label,
+			img { vertical-align: middle; }
+
+			label
+			{
+				font-weight: normal;
+				width: 335px;
+			}
+
+			img { position: static; }
+		}
+	}
+}
