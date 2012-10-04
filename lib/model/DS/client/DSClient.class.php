@@ -39,14 +39,17 @@ class DSClient extends acCouchdbClient {
         return preg_replace('/([0-9]{4})-([0-9]{2})/', '$2', $periode);
     }
 
-    public function createDsByEtb($etablissement, $periode) {
-        return $this->createDsByEtbId($etablissement->identifiant);
+    public function createDsByEtb($etablissement, $date_stock) {
+        return $this->createDsByEtbId($etablissement->identifiant,$date_stock);
     }
 
-    public function createDsByEtbId($etablissementId, $periode) {
+    public function createDsByEtbId($etablissementId, $date_stock) {
         $ds = new DS();
         $ds->date_emission = date('Y-m-d');
-        $ds->periode = $periode;
+        $ds->date_stock = $date_stock;
+        $mois = substr($ds->date_stock, 3,2);
+        $annee = substr($ds->date_stock, 6,4);
+        $ds->periode = $annee.'-'.$mois;
         $ds->campagne = $this->buildCampagne($ds->periode);
         $ds->identifiant = $etablissementId;
         $ds->storeDeclarant();

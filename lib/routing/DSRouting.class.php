@@ -24,15 +24,15 @@ class DSRouting {
                                                                               'action' => 'generation')));   
         
         $r->prependRoute('ds_historique_generation', new sfRoute('/ds/generation/historique', array('module' => 'ds', 
-										      'action' => 'generation'))); 
+										      'action' => 'historiqueGeneration'))); 
         
-        $r->prependRoute('ds_generation_operateur', new EtablissementRoute('/ds/:identifiant/generation', array('module' => 'ds',
+        $r->prependRoute('ds_generation_operateur', new DSRoute('/ds/:identifiant/:periode/generation', array('module' => 'ds',
                     'action' => 'generationOperateur'),
                         array('sf_method' => array('get', 'post')),
-                        array('model' => 'Etablissement',
+                        array('model' => 'DS',
                             'type' => 'object')));
         
-                $r->prependRoute('ds_edition_operateur', new DSRoute('/ds/:identifiant/:periode/edition', array('module' => 'ds',
+        $r->prependRoute('ds_edition_operateur', new DSRoute('/ds/:identifiant/:periode/edition', array('module' => 'ds',
                     'action' => 'editionDS'),
                     array('sf_method' => array('get', 'post')),
                     array('model' => 'DS',
@@ -50,6 +50,13 @@ class DSRouting {
             array('sf_method' => array('get', 'post')),
             array('model' => 'DS',
                 'type' => 'object') ));
+        
+        $r->prependRoute('ds_pdf', new DSRoute('/ds/:identifiant/:periode/pdf', array('module' => 'ds', 
+											        'action' => 'latex'),
+									 array('sf_method' => array('get','post')),
+									 array('model' => 'DS',
+									       'type' => 'object')
+									 ));
         
     }
 }
