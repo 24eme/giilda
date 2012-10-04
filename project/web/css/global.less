@@ -697,10 +697,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 #header
 {
 	/* Logo */
-	#logo
-	{
-		.pos-abs(0, auto, auto, -95px)
-	}
+	#logo { .pos-abs(0, auto, auto, -95px) }
 	
 	/* Navigation */
 	#navigation
@@ -782,40 +779,49 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 }
 
 
-
 /**
  * Principal
  ******************************************/
 #principal
 {
         
-        .section_label_maj{
-               & >  label:first-child { .section-titre }
+        .section_label_maj
+        {
+               & > label:first-child { .section-titre }
         }
 
-        .section_label_strong{
-            label{
-                 &:first-child{
-                display: inline-block;
-                font-weight: bold;
+        .section_label_strong
+        {
+            label
+            {
+                 &:first-child
+                 {
+	                display: inline-block;
+	                font-weight: bold;
                 }
             }
         }
         
-        .bloc_form{
+        .bloc_form
+        {
 	        .border-radius(5px 5px 5px 5px);
 	        .border(#e3e2e2);
 
-	        .col{
-                &:first-child{
+	        .col
+	        {
+                &:first-child
+                {
                     border-right: 1px solid #e3e2e2;
-                    .ligne_form{
+                    .ligne_form
+                    {
                             &:first-child{ .border-radius(5px 0 0 0)}
                             &:last-child{ .border-radius(0 0 0 5px) }
                     }
                 }
-                &:last-child{     
-                    .ligne_form{
+                &:last-child
+                {
+                    .ligne_form
+                    {
                             &:first-child{ .border-radius(0 5px 0 0)  }
                             &:last-child{ .border-radius(0 0 5px 0)  }
                     }
@@ -823,84 +829,93 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	        }
        }
         
-       .ligne_form {
+       .ligne_form
+       {
+            padding: 4px 0 10px 10px;
+            height : 40px;
+            
+            label
+            {
+                display: inline-block;
+                font-weight:bold;
+                width: 150px;
+            }
 
-                padding: 4px 0 10px 10px;
-                height : 40px;
-                
-                label {
-                        display: inline-block;
-                        font-weight:bold;
-                        width: 150px;
-                }
-                span{
-                        height:30px;
-                        line-height:30px;
-                        vertical-align:middle;
-                }            
-        }
-
-        #ligne_btn{ 
-                display:block;
-                .btnAnnulation{ float:left; }
-                .btnValidation{ float:right; }
-                margin: 10px 0;
-        }
-
-        .ligne_form_alt{ background : @couleur-a7;  }
-
-        .ui-autocomplete-input{
-                background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
-                font-size:12px;
-                padding: 5px 5px 5px 25px;
-                width:330px;
+            span
+            {
                 height:30px;
+                line-height:30px;
+                vertical-align:middle;
+            }
         }
 
-        ul.radio_list{
-                .clearfix;
-                li{
-                    display:block;
-                    float:left;
-                    label{ font-weight:normal !important; }
-                    width:165px;
-                }
+        #ligne_btn
+        { 
+            display:block;
+            .btnAnnulation { float:left; }
+            .btnValidation { float:right; }
+            margin: 10px 0;
+        }
+
+        .ligne_form_alt { background : @couleur-a7; }
+
+        .ui-autocomplete-input
+        {
+            background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
+            font-size:12px;
+            padding: 5px 5px 5px 25px;
+            width:330px;
+            height:30px;
+        }
+
+        ul.radio_list
+        {
+            .clearfix;
+            li{
+                display:block;
+                float:left;
+                label { font-weight:normal !important; }
+                width:165px;
+            }
         }
       
-        .champ_datepicker{
-                padding-top:10px;
-                img{
-                        position: absolute;
-                        margin-left:5px;
-                }
+        .champ_datepicker
+        {
+            padding-top:10px;
+            img
+            {
+                    position: absolute;
+                    margin-left:5px;
+            }
         }
 
 }
 
 
-.ui-autocomplete{
-        background-color : @couleur-a8;
-        .border(@couleur-a9);
-        .border-radius(3px);
-        .box-shadow(0px 0px 5px rgba(0, 0, 0, 0.1) inset);
-        .box-dimensions(333px, 210px);
-        cursor:pointer;
-        overflow:auto;
+.ui-autocomplete
+{
+    background-color : @couleur-a8;
+    .border(@couleur-a9);
+    .border-radius(3px);
+    .box-shadow(0px 0px 5px rgba(0, 0, 0, 0.1) inset);
+    .box-dimensions(333px, 210px);
+    cursor:pointer;
+    overflow:auto;
 
-        a { 
-            display:block; 
-            padding:5px;
-            text-decoration:none;
-            &:hover{
-                background-color : #c1c1c1;
-                color: #333;
-            }
+    a
+    { 
+        display:block; 
+        padding:5px;
+        text-decoration:none;
+        &:hover
+        {
+            background-color : #c1c1c1;
+            color: #333;
         }
+    }
 
-
-		a.ui-state-hover,
-		a.ui-state-active { background: #E9E9E9; }
-
+	a.ui-state-hover,
+	a.ui-state-active { background: #E9E9E9; }
 }
 
 .ui-autocomplete-loading { background: #fff url('../images/pictos/pi_loader.gif') right center no-repeat !important; }
@@ -910,26 +925,30 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 .type_vin_vrac,
 .type_vin_bouteille
 {
-        .ir(22px);
-        background: url(../images/pictos/sprite_type.png) no-repeat;
-        display:inline-block;
+    .ir(22px);
+    background: url(../images/pictos/sprite_type.png) no-repeat;
+    display:inline-block;
 }
 
-.type_raisins{
-        height: 26px;
-        background-position: 0 -59px;
+.type_raisins
+{
+    height: 26px;
+    background-position: 0 -59px;
 }
-.type_mouts{
-        height: 27px;
-        background-position: 0 -32px;
+.type_mouts
+{
+    height: 27px;
+    background-position: 0 -32px;
 }
-.type_vin_vrac{
-        height: 26px;
-        background-position: 0 -84px;
+.type_vin_vrac
+{
+    height: 26px;
+    background-position: 0 -84px;
 }
-.type_vin_bouteille{
-        height: 28px;
-        background-position: 0 0;
+.type_vin_bouteille
+{
+    height: 28px;
+    background-position: 0 0;
 }
 
 
@@ -1007,7 +1026,6 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 /* Boutons d'action */
 .btn_popup_trigger { .invisible; }
 
-
 /* Dialog */
 .ui-dialog { background: #f4f4f4; border: 10px solid #fff; .box-shadow(0 0 5px #000); padding: 15px; }
 .ui-dialog .ui-dialog-titlebar { margin: 0 0 15px; overflow: hidden; position: relative; width: 100%; }
@@ -1029,16 +1047,21 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 .ui-dialog .ui-dialog-content { zoom: 1; }
 
 
-.ui-widget-overlay{
-        background: url("../images/fonds/overlay.png") repeat scroll 0 0 transparent;
-        height: 100%;
-        left: 0;
-        position: absolute;
-        top: 0;
+.ui-widget-overlay
+{
+    background: url("../images/fonds/overlay.png") repeat scroll 0 0 transparent;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
 }
 
 #ui-datepicker-div .ui-icon,
-.ui-icon-closethick { display:block; text-indent : -9999px; }
+.ui-icon-closethick
+{
+	display:block;
+	text-indent : -9999px;
+}
 
 #ui-datepicker-div .ui-icon
 {
@@ -1046,14 +1069,16 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	background-repeat: no-repeat;
 }
 
-#ajax_notifications {
+#ajax_notifications
+{
 	position: fixed;
 	width: 100%;
 	top: 0;
 	z-index: 100000;
 }
 
-#ajax_form_progress_notification, #ajax_form_error_notification {
+#ajax_form_progress_notification, #ajax_form_error_notification
+{
 	display: none;  
 	margin: 2px auto;
 	color: #fff;
@@ -1063,13 +1088,15 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	/* .opacite(0.9); */
 }
 
-#ajax_form_progress_notification {
+#ajax_form_progress_notification
+{
 	background: #114C8D;
 	z-index: 1200;
 	width: 160px;
 }
 
-#ajax_form_error_notification {
+#ajax_form_error_notification
+{
 	z-index: 1201;
 	background: #900000;
 	width: 450px;

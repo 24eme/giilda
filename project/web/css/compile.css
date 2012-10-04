@@ -973,7 +973,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   color:#ffffff;
   margin:0 0 0 7px;
 }
-#principal .section_label_maj >  label:first-child {
+#principal .section_label_maj > label:first-child {
   display:inline-block;
   text-transform:uppercase;
   font-size:15px;
@@ -1786,6 +1786,29 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 .sv12 #contenu_etape .btn_etape:after { clear:both; }
 .sv12 #contenu_etape .btn_etape .btn_etape_suiv, .sv12 #contenu_etape .btn_enregistrer, .sv12 #contenu_etape .btn_validation_declar { float:right; }
 .sv12 #contenu_etape .btn_validation_declar { margin-left:10px; }
+.creer_info {
+  zoom:1;
+  min-height:1px;
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  margin-top:5px;
+}
+.creer_info:before, .creer_info:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.creer_info:after { clear:both; }
+.creer_info a {
+  float:right;
+  margin-top:8px;
+}
 #principal legend {
   text-transform:uppercase;
   font-size:15px;
@@ -1847,6 +1870,34 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   width:335px;
 }
 #principal .generation_facture_options .champ_datepicker img { position:static; }
+.ds #contenu_etape .generation_ds, .ds #contenu_etape .historique_generation_ds {
+  zoom:1;
+  min-height:1px;
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  margin-top:5px;
+}
+.ds #contenu_etape .generation_ds:before, .ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:before, .ds #contenu_etape .historique_generation_ds:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:after { clear:both; }
+.ds #contenu_etape .generation_ds a, .ds #contenu_etape .historique_generation_ds a {
+  float:right;
+  margin-top:8px;
+}
+.ds #contenu_etape .historique_generation_ds a {
+  color:#ffffff;
+  background-position:0 -104px;
+  border-color:#f6b32c;
+}
 #rail_etapes {
   zoom:1;
   min-height:1px;

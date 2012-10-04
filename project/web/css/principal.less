@@ -762,21 +762,24 @@
  * Facture
  ******************************************/
 
+.creer_info
+{
+	.clearfix;
+	.info_principal;
+	margin-top: 5px;
+
+	a
+	{
+		float: right;
+		margin-top: 8px;
+	}
+}
+
 #principal
 {
 	legend { #principal > h2; }
 
-	.generation_facture_valid {
-		.clearfix;
-		.info_principal;
-		margin-top: 5px;
-
-		a
-		{
-			float: right;
-			margin-top: 8px;
-		}
-	}
+	.generation_facture_valid { .creer_info; }
 
 	.generation_facture_options
 	{
@@ -840,6 +843,27 @@
 			}
 
 			img { position: static; }
+		}
+	}
+}
+
+/**
+ * DS
+ ******************************************/
+
+.ds
+{
+	#contenu_etape
+	{
+		.generation_ds,
+		.historique_generation_ds
+		{
+			.creer_info;
+		}
+
+		.historique_generation_ds
+		{
+			a { .btn_orange; }
 		}
 	}
 }
