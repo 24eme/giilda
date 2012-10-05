@@ -2,8 +2,8 @@
 
 class GenerationPDF {
 
-  protected $generation = null;
-  protected $config = null;
+  private $generation = null;
+  private $config = null;
   
   function __construct(Generation $g, $config = null, $options = null) {
     $this->generation = $g;
@@ -28,7 +28,7 @@ class GenerationPDF {
     foreach ($pdfs as $pdf) {
       $files[] = $this->generateAPDFForAPageId($pdf, $pageid);
     }
-    $fileres = $this->concatenatePDFs($files);
+    $fileres = $this-> concatenatePDFs($files);
     $this->cleanFiles($files);
     return $filesres;
   }
@@ -57,19 +57,38 @@ class GenerationPDF {
     return $res;
   }
 
-  protected function cleanFiles($files) {
+  private function cleanFiles($files) {
     foreach ($files as $f) {
       unlink($f);
     }
   }
 
-  public function generatePDF() {
+  function generatePDF() {
     if (!$this->generation) 
-      throw new sfException('Object generation should not be null');    
-  }
+      throw new sfException('Object generation should not be null');
+    $factures = array();
+    foreach ($this->generation->documents as $factureid) {
+      $facture = FactureClient::getInstance()->find($factureid);
+      if (!$facture) {
+	echo("Facture $factureid doesn't exist\n");
+	continue;
 
-    public function preGeneratePDF() {
-        
+      }
+      $pdf = new FactureLatex($facture, $this->config);
+      if (!isset($factures[$pdf->getNbPages()]))
+	$factures[$pdf->getNbPages()] = array();
+      array_push($factures[$pdf->getNbPages()], $pdf);
     }
+    $pages = array();
+    foreach ($factures as $page => $pdfs) {
+      if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
+	$this->generation->add('fichiers')->add($this->generatePDFGroupByPageNumberAndConcatenateThem($pdfs), 'Documents de '.$page.' page(s) trié par numéro de page');
+      }else{
+	$this->generation->add('fichiers')->add($this->generatePDFAndConcatenateThem($pdfs), 'Documents de '.$page.' page(s)');
+      }
+    }
+    $this->generation->save();
+    $this->cleanFiles($pages);
+  }
 
 }
