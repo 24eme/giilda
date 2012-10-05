@@ -181,7 +181,7 @@
                         .appendTo( ul );
                     };
 
-                    this.button = $( "<button type='button'></button>" )
+                    /*this.button = $( "<button type='button'></button>" )
                     .attr( "tabIndex", -1 )
                     .attr( "title", "Voir toute la liste" )
                     .insertAfter( input )
@@ -206,7 +206,7 @@
                         // pass empty string as value to search for, displaying all results
                         input.autocomplete( "search", $(input).val());
                         input.focus();
-                    });
+                    });*/
 
                     $(input).parent().find('button').button( "option", "disabled", url_ajax && (select.children("option").length == 1 || select.children("option").length > limit));
                     },

@@ -437,7 +437,8 @@ var initValidationWithPopup = function()
 var setGreyPanel = function(divId)
 {
     var w = $('#'+divId).css('width');
-    var h = $('#'+divId).css('height');
+    var h = $('#'+divId).innerHeight();
+    h += 'px';
     var offset = $('#'+divId).offset();
     
     var content = '<div id="'+divId+'_overlay" class="block" style="width:'+w+'; height:'+h+'; position: absolute; background-color: white; opacity: 0.7; padding-top: 40px;"></div>';

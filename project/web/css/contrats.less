@@ -70,11 +70,12 @@
 			background: #fab120 url(../images/fonds/bg_rail_etapes.png) 0 -143px repeat-x;
 			border-color: #f6b32c;
 
-			a { 
-                                color: #ffffff; 
-                                .text-shadow(1px 1px rgba(214, 146, 10, 0.7)); 
-                                strong{ font-weight:bold; } 
-                        }
+			a
+            {
+                color: #ffffff;
+                .text-shadow(1px 1px rgba(214, 146, 10, 0.7));
+                strong { font-weight:bold; }
+            }
 			
 			& > *
 			{
@@ -149,21 +150,26 @@
 }
 
 /* actions */
-#action{
-        .btn_majeur{
-                width: 215px;
-        }
-        .btn_acces{ 
-                &:after { background-position: 25px -466px; width:50px;} 
-        }
-        .btn_calendrier{ 
-                &:after { background-position: 25px -488px; width:50px;}
-        }
-        .btn_acces, .btn_calendrier{
-                padding-left: 53px; 
-                &:after {width:50px;}
-        }
-}   
+#action
+{
+    .btn_majeur { width: 215px; }
+
+    .btn_acces
+    {
+        &:after { background-position: 25px -466px; width:50px;} 
+    }
+
+    .btn_calendrier
+    {
+        &:after { background-position: 25px -544px; width:50px;}
+    }
+
+    .btn_acces, .btn_calendrier
+    {
+        padding-left: 53px; 
+        &:after { width:50px; }
+    }
+}
 
 /* Aide à la saisie */
 #contrat_aide
@@ -223,10 +229,7 @@
 		{
 			margin: 10px 0;
 			
-			*
-			{
-				display: block;
-			}
+			* { display: block; }
 		}
 	}
 }
@@ -321,134 +324,166 @@
 	}
 }
 
-#contenu_etape{
+#contenu_etape
+{
+    .error_list
+    {
+        color: red;
+        float: right;
+    }
 
-        .error_list{
-                color: red;
-                float: right;
+    .col
+    {
+        float: left;
+        vertical-align: top;
+        width: 329px;
+    }
+
+    #recherche_operateur
+    {
+        background:@couleur-a5;
+        padding:10px 10px 30px;
+
+        .ui-autocomplete-input
+        {
+            width:510px;
+            margin-right:10px;
         }
-        
-        .col {
-                float: left;
-                vertical-align: top;
-                width: 329px;              
-        }      
 
-        #recherche_operateur{
-                background:@couleur-a5;
-                padding:10px 10px 30px;
+        #btn_rechercher
+        {
+            .btn_majeur;
+            .btn_noir;
+            width:115px;
+        }
 
-                .ui-autocomplete-input{
-                        width:510px;
-                        margin-right:10px;
-                }
+        span#recherche_avancee
+        {
+            .clearfix;
+            .souligne;
+            display:block;
+            color:@couleur-a4;
+            font-style:italic;
+            float:right;
+            padding-top:5px;
+        }
+    }
 
-                #btn_rechercher{
+    #ouvrir_excel
+    {
+        float: right;
+        margin-top: 50px;
+    }
+
+    #tableau_contrat
+    {
+        th
+        {
+            .border(@couleur-a10);
+            background:@couleur-a5;
+            //&:first-child{ .border-radius(5px 0 0 0)}
+            //&:last-child{ .border-radius(0 5px 0 0)}
+            vertical-align:middle;
+        }
+                
+        td
+        {
+            .border(@couleur-a10);
+            vertical-align: top;
+            padding: 10px;
+        }
+
+        td.type { vertical-align: middle; }
+
+        #num_contrat
+        {
+            a
+            {
+                color:#2160cf;
+                font-style:italic;
+                text-decoration:underline;
+            }
+        }
+
+        .statut_non-solde td{ background-color : #fff8e8;}
+        .statut_solde td{ background-color : #f0fae1; }
+        .statut_annule td{ background-color : #feecec; }
+    }
+
+    #vrac_soussigne{
+            
+            .section_label_maj{
+                & >  label:first-child{ width : 310px; }
+            }
+
+            #vendeur_infos{ height : 160px;}
+
+            #acheteur, #mandataire_choice{ padding-top : 40px; }
+
+            #has_mandataire{ padding : 20px 0 0 10px;}
+
+            #mandataire{ 
+                    .clearfix; 
+                    padding : 0 0 0 10px;
+            } 
+
+            #mandatant{ 
+                    padding : 10px 0 0 0px;
+                    .checkbox_list{ 
+                            float: right;
+                            margin-right: 195px;
+                            li{ 
+                                    display:inline; 
+                                    float : left;
+                                    width : 150px; 
+                            }
+                    }     
+            }
+
+            .btnModification
+            {
+                .clearfix;
+                margin-top : 10px;
+
+                .annulation_div,
+                .modification_div { a { cursor: pointer; } }
+
+                .annulation_div
+                {
+                    float: left;
+
+                    a
+                    {
                         .btn_majeur;
-                        .btn_noir;
-                        width:115px;
-                }
-                
-                span#recherche_avancee{
-                        .clearfix;
-                        display:bloc;
-                        color:@couleur-a4;
-                        font-style:italic;
-                        float:right;
-                        .souligne;
-                        padding-top:5px;
+                        .btn_annuler;
+                    }
                 }
 
-        }
-
-        #ouvrir_excel{
-                float: right;
-                margin-top: 50px;
-        }
-
-        
-
-        #tableau_contrat{
-
-
-                th{
-                        .border(@couleur-a10);
-                        background:@couleur-a5;
-                        //&:first-child{ .border-radius(5px 0 0 0)}
-                        //&:last-child{ .border-radius(0 5px 0 0)}
-                        vertical-align:middle;
-                }
-                
-                td{
-                        .border(@couleur-a10);
-                        vertical-align: top;
-                        padding: 10px;
-
-                        
-                        
-                }
-                td.type{
-                        vertical-align: middle;
-                }
-                #num_contrat{
-                        a{
-                                color:#2160cf;
-                                text-decoration:underline;
-                                font-style:italic;
-                        }
-                }
-
-                .statut_non-solde td{ background-color : #fff8e8;}
-                .statut_solde td{ background-color : #f0fae1; }
-                .statut_annule td{ background-color : #feecec; }
-
-        }
-
-        #vrac_soussigne{
-                
-                .section_label_maj{
-                    & >  label:first-child{ width : 310px; }
-                }
-
-                #vendeur_infos{ height : 160px;}
-
-                #acheteur, #mandataire_choice{ padding-top : 40px; }
-
-                #has_mandataire{ padding : 20px 0 0 10px;}
-
-                #mandataire{ 
-                        .clearfix; 
-                        padding : 0 0 0 10px;
-                } 
-
-                #mandatant{ 
-                        padding : 10px 0 0 0px;
-                        .checkbox_list{ 
-                                float: right;
-                                margin-right: 195px;
-                                li{ 
-                                        display:inline; 
-                                        float : left;
-                                        width : 150px; 
-                                }
-                        }     
-                }
-
-                .btnModification{ .clearfix; margin-top : 10px;}
-
-                .error_list
+                .modification_div
                 {
-                    color: red;
-                    width: 100%;
                     float: right;
+
+                    a
+                    {
+                        .btn_majeur;
+                        .btn_modifier;
+                    }
                 }
+            }
 
-                .mandataire_infos{ .error_list
-                {
-                    padding: 0 0 0 53px;
-                }}
+            .error_list
+            {
+                color: red;
+                width: 100%;
+                float: right;
+            }
 
-        }
+            .mandataire_infos{ .error_list
+            {
+                padding: 0 0 0 53px;
+            }}
+
+    }
 
         #vrac_marche{
                 
@@ -467,10 +502,10 @@
                 }
 
               #vrac_marche_produitLabel .error_list {
-                                                    width: 100%;
-                                                    display: block;
-                                                    float: left;
-                                                    }
+                width: 100%;
+                display: block;
+                float: left;
+                }
 
                 #vrac_marche_volumePropose{
                         label:first-child{
