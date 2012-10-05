@@ -50,7 +50,17 @@ EOF;
         echo $options['generation']." n'est pas un document valide\n";
 	continue;
       }
-      $g = new GenerationPDF($generation, $this->configuration, $options);
+      $g = null;
+      switch ($generation->type_document) {
+          case GenerationClient::TYPE_DOCUMENT_FACTURES:
+              $g = new GenerationFacturePDF($generation, $this->configuration, $options);
+              break;
+
+          case GenerationClient::TYPE_DOCUMENT_DS:
+              $g = new GenerationDSPDF($generation, $this->configuration, $options);
+              break;
+      }
+      $g->preGeneratePDF();
       echo $g->generatePDF()."\n";
     }
   }
