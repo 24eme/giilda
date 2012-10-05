@@ -2016,7 +2016,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   width:50px;
 }
 #action .btn_calendrier:after {
-  background-position:25px -488px;
+  background-position:25px -548px;
   width:50px;
 }
 #action .btn_acces, #action .btn_calendrier { padding-left:53px; }
