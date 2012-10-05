@@ -39,7 +39,11 @@
 /**
  * vrac_soussigne
  ******************************************/
-#vrac_soussigne, #vrac_marche, #vrac_condition, #vrac_validation, #vrac_recapitulatif
+#vrac_soussigne,
+#vrac_marche,
+#vrac_condition,
+#vrac_validation,
+#vrac_recapitulatif
 {
 	h1
 	{   font-size: 16px;
@@ -64,10 +68,7 @@
 		.ielt8 & { .inline-block-ie; }
 	}
         
-        section
-        {
-            padding: 5px 0px;
-        }
+    section { padding: 5px 0px; }
 	
 	.ligne_form
 	{
@@ -89,7 +90,9 @@
 			width: auto;
 		}
 		
-		input[type=text], input[type=password], select
+		input[type="text"],
+		input[type="password"],
+		select
 		{
 			background: #fff;
 			border: 1px solid #d3d2cd;
@@ -100,7 +103,8 @@
 			.pie;
 		}
 
-		input[type=text], input[type=password]
+		input[type="text"],
+		input[type="password"]
 		{
 			height: 18px;
 			padding: 0 4px;
@@ -144,7 +148,8 @@
 		margin: 34px 0 0;
         right: 23px;
 		
-		button, a
+		button,
+		a
 		{
 			line-height: 24px;
 			font-weight: normal;
@@ -173,8 +178,8 @@
 			background-image: url(../images/boutons/btn_supprimer.png);
 			background-position: 7px center;
 			padding: 0 10px 0 30px;
-                        margin-right:20px;
-                        text-transform: none;
+            margin-right:20px;
+            text-transform: none;
 		}
 
         /*.btn_modifier
@@ -227,38 +232,38 @@
 
         a.btn_ajouter_etab
         {
-                .btn_gris;
-                background-image: url(../images/boutons/btn_ajouter.png);
-                background-position: 7px center;
-                margin: 0 10px 0 0;
-                padding: 5px 10px 6px 30px;
-                position: absolute;
-                right: 127px;
-                text-transform : none;
+            .btn_gris;
+            background-image: url(../images/boutons/btn_ajouter.png);
+            background-position: 7px center;
+            margin: 0 10px 0 0;
+            padding: 5px 10px 6px 30px;
+            position: absolute;
+            right: 127px;
+            text-transform : none;
         }
 
         a#btn_ajouter_etablissement
         {
-                .btn_gris;
-                background-image: url(../images/boutons/btn_ajouter.png);
-                background-position: 10px center;
-                font-size: 15px;
-                line-height: 1;
-                position: absolute;
-                padding: 4px 10px 4px 32px;
-                font-size: 15px;
-                text-transform: uppercase;
+            .btn_gris;
+            background-image: url(../images/boutons/btn_ajouter.png);
+            background-position: 10px center;
+            font-size: 15px;
+            line-height: 1;
+            position: absolute;
+            padding: 4px 10px 4px 32px;
+            font-size: 15px;
+            text-transform: uppercase;
 
-                &:hover { text-decoration: none; }
+            &:hover { text-decoration: none; }
 
-                span
-                {
-                        color: #fff;
-                        display: block;
-                        font-size: 14px;
-                        font-weight: bold;
-                        text-transform: none;
-                }
+            span
+            {
+                color: #fff;
+                display: block;
+                font-size: 14px;
+                font-weight: bold;
+                text-transform: none;
+            }
         }
 
 	/* Récapitulatif */
@@ -281,55 +286,57 @@
 				}
 			}
 		
-			.adresse_comptabilite
+			.adresse_comptabilite { margin: 20px 0 0; } 
+
+			.btn_ajouter,
+			.btn_supprimer
 			{
-				margin: 20px 0 0;
-			} 
+				background-position: 7px center;
+				padding: 0 10px 0 30px;
+			}
 
-                        .btn_ajouter
-                        {
-                                .btn_violet;
-                                background-image: url(../images/boutons/btn_ajouter.png);
-                                background-position: 7px center;
-                                margin: 0 10px 0 0;
-                                padding: 0 10px 0 30px;
-                        }
+            .btn_ajouter
+            {
+                .btn_violet;
+                background-image: url(../images/boutons/btn_ajouter.png);
+                margin: 0 10px 0 0;
+            }
 
-                        .btn_supprimer
-                        {
-                                .btn_gris;
-                                background-image: url(../images/boutons/btn_supprimer.png);
-                                background-position: 7px center;
-                                padding: 0 10px 0 30px;
-                                margin-right:20px;
-                                text-transform: none;
-                        }
+            .btn_supprimer
+            {
+                .btn_gris;
+                background-image: url(../images/boutons/btn_supprimer.png);
+                margin-right:20px;
+                text-transform: none;
+            }
 		}
 
 		.ligne_btn 
-                { 
-                        text-align: right; 
-                        margin:0;
-                }
+        { 
+            text-align: right; 
+            margin:0;
+        }       
+	}
 
-                
+	input.ui-autocomplete-input,
+	input.ui-autocomplete-input + button
+	{
+		background-color: #fff;
+		border: 1px solid #d3d2cd;
+		vertical-align: top;
 	}
 
 	input.ui-autocomplete-input
 	{
-		background: none repeat scroll 0 0 #FFFFFF;
-	    border: 1px solid #D3D2CD;
+		background: none repeat scroll 0 0;
 	    font-size: 12px;
-	    vertical-align: top;
 	    height: 20px;
     	padding: 0 4px;
     	width: 250px;
+
 		& + button
 		{
-			background: #fff;
-			border: 1px solid #d3d2cd;
 			border-left: 0;
-			vertical-align: top;
 		
 			&:hover { background-color: #E9E9E9; }
 		
@@ -371,7 +378,7 @@
 		width: auto !important;
 	}
 	
-	.ui-dropdownchecklist-dropcontainer,
+	.ui-dropdownchecklist-dropcontainer
 	{
 		background: #fff;
 		border: 1px solid #d3d2cd;
@@ -390,67 +397,51 @@
 		}
 	}
 
-	label {
-		padding-right: 10px;
-	}
+	label { padding-right: 10px; }
 }
 
-#vrac_validation
-{
-    ul
-        {
-                list-style: decimal
-        }
-}
+#vrac_validation { ul { list-style: decimal; } }
 
 #vrac_soussigne
 {
-    .vendeur_infos, .acheteur_infos
-        {
-            border-collapse:collapse;
-            width: 100%;
-            padding: 20px 0;
-            tr, td
-                {
-                    padding: 0px 10px;
-                    border: 1px solid lightgrey;
-                    line-height: 40px;
-                    width: 30%;
-                    .bold
-                        {
-                            font-weight: bold;
-                            width: 20%;
-                        }
-                }
-        }
-     .mandataire_infos
-        {
-            border-collapse:collapse;
-            /*width: 100%;
-            padding: 20px 0;*/
-            tr, td
-                {
-                    padding: 0px 10px;
-                    border: 1px solid lightgrey;
-                    line-height: 40px;
-                    .bold
-                        {
-                            font-weight: bold;
-                            width: 25%;
-                        }
-                }
-        }
+	.vendeur_infos,
+    .acheteur_infos
+	.mandataire_infos
+	{
+		border-collapse:collapse;
 
-     .btn_modifier
+		tr,
+        td
         {
-                background-image: url(../images/boutons/btn_modifier.png);
-                background-position: 7px center;
-                padding: 0 10px 0 30px;
-                margin-right:20px;
-                text-transform: none;
-                float: right;
+            padding: 0px 10px;
+            border: 1px solid lightgrey;
+            line-height: 40px;
+
+            .bold
+            {
+                font-weight: bold;
+                width: 25%;
+            }
         }
- 
+	}
+
+    .vendeur_infos,
+    .acheteur_infos
+    {
+        width: 100%;
+        padding: 20px 0;
+        tr, td { width: 30%; }
+    }
+
+	.btn_modifier
+    {
+        background-image: url(../images/boutons/btn_modifier.png);
+        background-position: 7px center;
+        float: right;
+        margin-right:20px;
+        padding: 0 10px 0 30px;
+        text-transform: none;
+    }
 }
 
 
@@ -473,7 +464,6 @@
 
 		ol
 		{
-			
 			line-height: 21px;
 			list-style: none;
 			
@@ -518,10 +508,7 @@
 						}
 					}
 
-					&.actif > * span
-					{
-						background-position: right -169px;
-					}
+					&.actif > * span { background-position: right -169px; }
 				}
 				
 				/* Elément passé / actif */
@@ -613,10 +600,7 @@
 	
 	#contenu_etape
 	{
-		fieldset
-		{
-			margin: 25px 0 0;
-		}
+		fieldset { margin: 25px 0 0; }
 		
 		/* Recherche SV 12 */
 		#recherche_sv12
@@ -718,17 +702,7 @@
 				.btn_rechercher { .btn_noir; }
 			}
 			
-			.volumes_vides
-			{
-				margin: 10px 0 0;
-				
-				label
-				{
-					input
-					{
-					}
-				}
-			}
+			.volumes_vides { margin: 10px 0 0; }
 		}
 		
 		/* Commentaire SV 12 */
