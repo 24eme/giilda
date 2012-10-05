@@ -2,8 +2,8 @@
 
 class GenerationPDF {
 
-  private $generation = null;
-  private $config = null;
+  protected $generation = null;
+  protected $config = null;
   
   function __construct(Generation $g, $config = null, $options = null) {
     $this->generation = $g;
@@ -28,7 +28,7 @@ class GenerationPDF {
     foreach ($pdfs as $pdf) {
       $files[] = $this->generateAPDFForAPageId($pdf, $pageid);
     }
-    $fileres = $this-> concatenatePDFs($files);
+    $fileres = $this->concatenatePDFs($files);
     $this->cleanFiles($files);
     return $filesres;
   }
@@ -57,38 +57,19 @@ class GenerationPDF {
     return $res;
   }
 
-  private function cleanFiles($files) {
+  protected function cleanFiles($files) {
     foreach ($files as $f) {
       unlink($f);
     }
   }
 
-  function generatePDF() {
+  public function generatePDF() {
     if (!$this->generation) 
-      throw new sfException('Object generation should not be null');
-    $factures = array();
-    foreach ($this->generation->documents as $factureid) {
-      $facture = FactureClient::getInstance()->find($factureid);
-      if (!$facture) {
-	echo("Facture $factureid doesn't exist\n");
-	continue;
-
-      }
-      $pdf = new FactureLatex($facture, $this->config);
-      if (!isset($factures[$pdf->getNbPages()]))
-	$factures[$pdf->getNbPages()] = array();
-      array_push($factures[$pdf->getNbPages()], $pdf);
-    }
-    $pages = array();
-    foreach ($factures as $page => $pdfs) {
-      if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
-	$this->generation->add('fichiers')->add($this->generatePDFGroupByPageNumberAndConcatenateThem($pdfs), 'Documents de '.$page.' page(s) trié par numéro de page');
-      }else{
-	$this->generation->add('fichiers')->add($this->generatePDFAndConcatenateThem($pdfs), 'Documents de '.$page.' page(s)');
-      }
-    }
-    $this->generation->save();
-    $this->cleanFiles($pages);
+      throw new sfException('Object generation should not be null');    
   }
+
+    public function preGeneratePDF() {
+        
+    }
 
 }
