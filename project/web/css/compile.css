@@ -1304,7 +1304,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 #vrac_soussigne .ligne_form label, #vrac_marche .ligne_form label, #vrac_condition .ligne_form label, #vrac_validation .ligne_form label, #vrac_recapitulatif .ligne_form label {
   display:inline-block;
   vertical-align:middle;
-  width:200px;
+  width:165px;
 }
 #vrac_soussigne .ligne_form.ligne_form_large label, #vrac_marche .ligne_form.ligne_form_large label, #vrac_condition .ligne_form.ligne_form_large label, #vrac_validation .ligne_form.ligne_form_large label, #vrac_recapitulatif .ligne_form.ligne_form_large label {
   display:block;
