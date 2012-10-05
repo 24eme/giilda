@@ -102,4 +102,8 @@ class dsActions extends sfActions {
         exit;
     }
     
+    public function executeHistoriqueGeneration(sfWebRequest $request) {
+        return $this->redirect('ds_edition_operateur_validation_visualisation', $this->ds);
+    }
+    
 }

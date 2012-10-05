@@ -1,12 +1,11 @@
 <?php
-
 class DSRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
 
 	protected $ds = null;
 
 	protected function getObjectForParameters($parameters) {
 
-        if (preg_match('/^[0-9]{4}-[0-9]{2}$/',$parameters['periode'])) {            
+        if (preg_match('/^[0-9]{4}[0-9]{2}$/',$parameters['periode'])) {            
             $periode = $parameters['periode'];
         } else {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'periode', $parameters['periode']));

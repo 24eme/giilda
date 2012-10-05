@@ -22,11 +22,14 @@ use_helper('Float');
           <hr />
           <?php include_partial('generationFormulairesOperateur', array('etablissement' => $etablissement, 'generationOperateurForm' => $generationOperateurForm)); ?>
           <br />
+          
+          <?php if(count($dsHistorique)) : ?>
           <hr />
           <h2>Historique des déclarations de stocks</h2>
           <br />
           <?php  include_partial('dsHistorique', array('dsHistorique' => $dsHistorique)) ?>
           <br /> 
+          <?php endif; ?>
     </section>
     <!-- fin #principal -->
     

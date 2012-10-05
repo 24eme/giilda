@@ -26,17 +26,22 @@ class DSClient extends acCouchdbClient {
 
     public function buildPeriode($annee, $mois) {
 
-        return sprintf("%04d-%02d", $annee, $mois);
+        return sprintf("%04d%02d", $annee, $mois);
     }
 
     public function getAnnee($periode) {
 
-        return preg_replace('/([0-9]{4})-([0-9]{2})/', '$1', $periode);
+        return preg_replace('/([0-9]{4})([0-9]{2})/', '$1', $periode);
     }
 
     public function getMois($periode) {
 
-        return preg_replace('/([0-9]{4})-([0-9]{2})/', '$2', $periode);
+        return preg_replace('/([0-9]{4})([0-9]{2})/', '$2', $periode);
+    }
+    
+    public function createDateStock($date_stock) {
+        $v = date_create_from_format('d/m/Y',$date_stock);
+        return $v->format('Y-m-d');
     }
 
     public function createDsByEtb($etablissement, $date_stock) {
@@ -46,10 +51,9 @@ class DSClient extends acCouchdbClient {
     public function createDsByEtbId($etablissementId, $date_stock) {
         $ds = new DS();
         $ds->date_emission = date('Y-m-d');
-        $ds->date_stock = $date_stock;
-        $mois = substr($ds->date_stock, 3,2);
-        $annee = substr($ds->date_stock, 6,4);
-        $ds->periode = $annee.'-'.$mois;
+        $ds->date_stock = $this->createDateStock($date_stock);
+        $ds->updateDateEcheancefromDateStock();
+        $ds->updatePeriodefromDateStock();
         $ds->campagne = $this->buildCampagne($ds->periode);
         $ds->identifiant = $etablissementId;
         $ds->storeDeclarant();

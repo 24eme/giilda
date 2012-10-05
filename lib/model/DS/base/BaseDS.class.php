@@ -9,6 +9,8 @@
  * @property string $type
  * @property string $identifiant
  * @property string $date_emission
+ * @property string $date_echeance
+ * @property string $date_stock
  * @property string $campagne
  * @property string $periode
  * @property string $statut
@@ -26,6 +28,10 @@
  * @method string setIdentifiant()
  * @method string getDateEmission()
  * @method string setDateEmission()
+ * @method string getDateEcheance()
+ * @method string setDateEcheance()
+ * @method string getDateStock()
+ * @method string setDateStock()
  * @method string getCampagne()
  * @method string setCampagne()
  * @method string getPeriode()

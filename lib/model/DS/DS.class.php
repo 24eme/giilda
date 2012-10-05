@@ -20,7 +20,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument {
     }
 
     public function buildCampagne($periode) {
-        preg_match('/^([0-9]{4})-([0-9]{2})$/', $periode, $matches);
+        preg_match('/^([0-9]{4})([0-9]{2})$/', $periode, $matches);
 
         return sprintf('%d-%d', $matches[1], $matches[2]);
     }
@@ -39,6 +39,16 @@ class DS extends BaseDS implements InterfaceDeclarantDocument {
                 $produitDs->updateProduit($produit);
             }
         }
+    }
+    
+    public function updatePeriodefromDateStock() {
+        preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/', $this->date_stock, $matches);
+        $this->setPeriode(sprintf('%d%02d', $matches[1], $matches[2]));
+    }
+
+
+    public function updateDateEcheancefromDateStock() {
+        $this->setDateEcheance(Date::getIsoDateFinDeMoisISO($this->date_stock, 2));
     }
 
     public function getEtablissementObject() {
