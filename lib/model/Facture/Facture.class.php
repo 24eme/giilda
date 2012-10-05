@@ -19,7 +19,7 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument {
     }
 
     public function storeDatesCampagne($date_facturation, $campagne) {
-        $this->date_emission = date('Y-m-d');
+        $this->date_emission = date('Y-m-d'); 
         $this->date_facturation = $date_facturation;
         if (!$this->date_facturation)
             $this->date_facturation = date('Y-m-d');
@@ -30,6 +30,7 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument {
         $this->identifiant = $identifiant;
         $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($this->identifiant, date('Ymd'));
         $this->_id = FactureClient::getInstance()->getId($this->identifiant, $this->numero_facture);
+        $this->num_archivage = $this->identifiant.'/'.date('Y/m').'/'.substr($this->numero_facture, strlen($this->numero_facture)-2);
     }
 
     public function getDocumentsOrigine() {
@@ -197,7 +198,7 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument {
 
     public function createOrUpdateEcheanceA($ligne) {
         $ligne->echeance_code = 'A';
-        $this->updateEcheance('A', date('Y-m-d', strtotime("+60 days")), $ligne->montant_ht);
+        $this->updateEcheance('A', Date::getIsoDateFinDeMoisISO(date('Y-m-d'),2), $ligne->montant_ht);
     }
 
     public function createOrUpdateEcheanceB($ligne) {
@@ -216,14 +217,14 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument {
 
 //          if(01/04/N < date < 31/05/N)   { 50% comptant et  50% au 31/05 }              
         if (($d2 < $date) && ($date <= $d3)) {
-            $this->updateEcheance('B', date('Y-m-d'), $ligne->montant_ht * 0.5);
+            $this->updateEcheance('B', Date::getIsoDateFinDeMoisISO(date('Y-m-d'),1), $ligne->montant_ht * 0.5);
             $this->updateEcheance('B', date('Y').'-05-31', $ligne->montant_ht * 0.5);
             return;
         }
 
 //            if(date > 31/05/N) { 100% comptant } 
         if ($date > $d3) {
-            $this->updateEcheance('B', date('Y-m-d'), $ligne->montant_ht);
+            $this->updateEcheance('B', Date::getIsoDateFinDeMoisISO(date('Y-m-d'),1), $ligne->montant_ht);
             return;
         }
     }
@@ -235,21 +236,19 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument {
     }
 
     public function updateEcheance($echeance_code, $date, $montant_ht) {
-        $Aexist = false;
         foreach ($this->echeances as $echeance) {
-            if (($echeance->echeance_code == $echeance_code) && ($echeance->echeance_date == $date)) {
+            if ($echeance->echeance_date == $date) {
                 $echeance->montant_ttc += $this->ttc($montant_ht);
-                $Aexist = true;
-                break;
+                if(strstr($echeance->echeance_code, $echeance_code)===FALSE)
+                    $echeance->echeance_code.=' + '.$echeance_code;
+            return;
             }
         }
-        if (!$Aexist) {
-            $echeance = new stdClass();
-            $echeance->echeance_code = $echeance_code;
-            $echeance->montant_ttc = $this->ttc($montant_ht);
-            $echeance->echeance_date = $date;
-            $this->add("echeances")->add(count($this->echeances), $echeance);
-        }
+        $echeance = new stdClass();
+        $echeance->echeance_code = $echeance_code;
+        $echeance->montant_ttc = $this->ttc($montant_ht);
+        $echeance->echeance_date = $date;
+        $this->add("echeances")->add(count($this->echeances), $echeance);
     }
     
     public function storeOrigines() {

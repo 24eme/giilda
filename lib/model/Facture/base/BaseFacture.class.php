@@ -7,6 +7,7 @@
  * @property string $_id
  * @property string $_rev
  * @property string $type
+ * @property string $num_archivage
  * @property string $identifiant
  * @property string $numero_facture
  * @property string $date_emission
@@ -29,6 +30,8 @@
  * @method string set_rev()
  * @method string getType()
  * @method string setType()
+ * @method string getNumArchivage()
+ * @method string setNumArchivage()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
  * @method string getNumeroFacture()

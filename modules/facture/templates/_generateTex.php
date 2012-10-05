@@ -54,11 +54,11 @@ $nb_ligne = 0;
 \def\TVA{19.60} 
 \def\InterloireAdresse{<?php echo $facture->emetteur->adresse; ?> \\
 		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France} 
-\def\InterloireFacturation{<?php echo $facture->emetteur->service_facturation; ?>} 
+\def\InterloireFacturation{\\Votre contact : <?php echo $facture->emetteur->service_facturation.' - '.$facture->emetteur->telephone; ?>} 
 \def\InterloireSIRET{429 164 072 00077}
 \def\InterloireAPE{APE 9499 Z} 
 \def\InterloireTVAIntracomm{FR 73 429164072}
-\def\InterloireBANQUE{Crédit agricole Atlantique Vendée}
+\def\InterloireBANQUE{Crédit Agricole Atlantique Vendée}
 \def\InterloireBIC{AGRIFRPP847}
 \def\InterloireIBAN{FR76~1470~6000~1400~0000~2200~028}
 
@@ -67,7 +67,7 @@ $nb_ligne = 0;
 \def\FactureDate{<?php echo format_date($facture->date_emission,'dd/MM/yyyy'); ?>}
 \def\FactureRefClient{<?php echo $facture->identifiant; ?>}
 
-\def\FactureClientNom{<?php echo ($facture->declarant->raison_sociale == '')? 'Raison Sociale' : $facture->declarant->raison_sociale; ?>}
+\def\FactureClientNom{<?php echo ($facture->declarant->raison_sociale == '')? $facture->declarant->nom : $facture->declarant->raison_sociale; ?>}
 \def\FactureClientAdresse{<?php echo ($facture->declarant->adresse == '')? 'Adresse' : $facture->declarant->adresse; ?>}
 \def\FactureClientCP{<?php echo $facture->declarant->code_postal; ?>}
 \def\FactureClientVille{<?php echo $facture->declarant->commune; ?>}
@@ -78,10 +78,9 @@ $nb_ligne = 0;
 \fancyhf{}
 
 \lhead{
- \textbf{InterLoire - Service facturation} \\
+ \textbf{InterLoire - Service facturation} \\  
  \InterloireAdresse \\
- Votre contact : \\
- \InterloireFacturation \\
+ \textbf{\begin{footnotesize}\InterloireFacturation\end{footnotesize}}\\
  \begin{tiny}
          RIB~:~\InterloireBANQUE~(BIC:~\InterloireBIC~IBAN:~\InterloireIBAN) 
  \end{tiny} \\
@@ -89,7 +88,7 @@ $nb_ligne = 0;
          SIRET~\InterloireSIRET ~-~\InterloireAPE ~- TVA~Intracommunutaire~\InterloireTVAIntracomm
 \end{tiny}
  }
-\rhead{\includegraphics[scale=0.6]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo.jpg"; ?>}}
+\rhead{\includegraphics[scale=0.2]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo.jpg"; ?>}}
 
 
 
@@ -135,10 +134,9 @@ page \thepage / <?php echo $nb_page; ?>
 \end{flushright}
 
 \centering
-\fontsize{8}{8}\selectfont
+\fontsize{8}{10}\selectfont
     \begin{tikzpicture}
 		\node[inner sep=1pt] (tab1){
-                \renewcommand{\arraystretch}{1.4}
 			\begin{tabular}{p{116mm} |p{12mm}|p{14mm}|p{18mm}|p{13mm}p{0mm}}
 
   			\rowcolor{lightgray}
@@ -148,7 +146,8 @@ page \thepage / <?php echo $nb_page; ?>
    			\centering \small{\textbf{Montant HT en \texteuro{}}} &   			
    			\centering \small{\textbf{Code Echéance}} &
    			 \\
-  			\hline 
+  			\hline
+                        ~ & ~ & ~ & ~ & ~ &\\
                 <?php 
                 $nb_ligne += count($facture->lignes);
                 foreach ($facture->lignes as $type => $typeLignes) :
@@ -162,7 +161,7 @@ page \thepage / <?php echo $nb_page; ?>
                      foreach ($p as $produit):
                             $produit = $produit->getRawValue();
                         ?>      
-                ~~~~<?php echo $produit->produit_libelle.' \begin{tiny}'.$produit->origine_libelle.'\end{tiny}'; ?> &
+                ~~~~<?php echo $produit->produit_libelle.' \textbf{\begin{tiny}'.$produit->origine_libelle.'\end{tiny}}'; ?> &
                             \multicolumn{1}{r|}{<?php echoArialFloat($produit->volume*-1); ?>} &
                             \multicolumn{1}{r|}{<?php echoArialFloat($produit->cotisation_taux); ?>} & 
                             \multicolumn{1}{r|}{<?php echoArialFloat($produit->montant_ht); ?>} & 
@@ -236,7 +235,7 @@ page \thepage / <?php echo $nb_page; ?>
 }
 
 \begin{center}
-Echéances (hors régularisation) : A = 60 jours fin de mois, B = 31/03 et 30/06, C = 30/09
+Echéances (hors régularisation) : A = à 60 jours fin de mois B = au 31/03 et au 30/06, C = au 30/09
 
 \begin{minipage}[b]{1\textwidth}
 

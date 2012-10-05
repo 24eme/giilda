@@ -2,6 +2,13 @@
 use_helper('Date');
 ?>
 <h2>Historique des factures</h2>
+<?php
+if(count($factures->getRawValue())==0) :
+?>
+<p>
+    Il n'existe aucune facture générée pour cet établissement
+</p>
+<?php else : ?>
 <fieldset>
     <table class="table_recap">
         <thead>
@@ -39,3 +46,4 @@ if ($fc->isRedressee($facture)) {
         </tbody>
     </table>
 </fieldset>
+<?php endif; ?>
