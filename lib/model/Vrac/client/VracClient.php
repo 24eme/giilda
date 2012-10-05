@@ -293,7 +293,7 @@ class VracClient extends acCouchdbClient {
         $mois = substr($id, 4,2);
         $jour = substr($id, 6,2);
         $num = substr($id, 8);
-        return $jour.'/'.$mois.'/'.$annee.' n°'.$num;
+        return $jour.'/'.$mois.'/'.$annee.' n° '.$num;
     }  
     
 }
