@@ -25,7 +25,7 @@
         )) ?>
         
         <li><a href="#">Contacts</a></li>
-        <li><a href="#">Import VR</a></li>
+        <li><a href="/revendication">Import VR</a></li>
 
         <?php include_component('global', 'navItem', array(
             'libelle' => 'SV12',
