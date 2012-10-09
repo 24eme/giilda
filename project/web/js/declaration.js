@@ -10,8 +10,8 @@
  ******************************************/
 (function($)
 {
-	var anchorIds = {"entrees" : 2, "sorties" : 3}
-	// Variables globales 
+	var anchorIds = {"entrees" : 2, "sorties" : 3};
+	// Variables globales
 
 	var selectProduit = $('#produit_declaration_hashref');
 
@@ -23,7 +23,7 @@
 
     var colonnes;
 
-//        
+//
 //	var actifPopupLien;
 
 	$(document).ready( function()
@@ -38,9 +38,6 @@
 			$.initMasqueColActive();
 			$.initColFocus();
 			$.initColActive();
-			
-			
-           
 */
 
 
@@ -49,31 +46,31 @@
             colonnes.event_colonne_init = function(colonne) {
                 colonne.element.find("input.input_lien.drm_details").click(function() {
                 input = $(this);
-	          		$.fancybox({type : 'ajax',
-	                    href: input.attr('data-href'),
-	                    fitToView : false,
-	                    afterShow : function()
-	                     {
-	                        input.initDetailsPopup(colonne);
-	                        $('.fancybox-outer').before($('.fancybox-title'));
-	                     },
-	                     onClose : function()
-	                     {
-	                        $.unbindDetailsPopup();  
-	                     },
-	                    helpers :
-	                    {
-	                    	title : {
-	                    		type : 'inside'
-	                    	}
-	                    },
-	                    beforeLoad : function() {
-	                    	this.title = input.attr('data-title');
-	                    }
+				$.fancybox({type : 'ajax',
+				href: input.attr('data-href'),
+				fitToView : false,
+				afterShow : function()
+				{
+					input.initDetailsPopup(colonne);
+					$('.fancybox-outer').before($('.fancybox-title'));
+				},
+				onClose : function()
+				{
+					$.unbindDetailsPopup();
+				},
+				helpers :
+				{
+					title : {
+						type : 'inside'
+					}
+				},
+				beforeLoad : function() {
+					this.title = input.attr('data-title');
+				}
                     });
                 });
                 
-                colonne.element.find("a.labels_lien").each(function() { 
+                colonne.element.find("a.labels_lien").each(function() {
                     var lien = $(this);
                     lien.fancybox({type : 'ajax',
                        fitToView : false,
@@ -83,7 +80,7 @@
                        }
                     });
                 });
-            }
+            };
 
             colonnes.init();
 
@@ -100,8 +97,8 @@
 	});
 
         $.fn.initLabels =function(colonne)
-        {   
-            var lien = $(this);  
+        {
+            var lien = $(this);
             $('.drm_labels_form').bind('submit', function()
             {
                 $.post($(this).attr('action'),
@@ -110,12 +107,11 @@
                         {
                             if(!data.success)
                             {
-                                
                                 $.fancybox.update();
                             }
                             else
                             {
-                                lien.parent().html(data.content+ ' (&nbsp;<a href="'+lien.attr('href')+'" class="'+lien.attr('class')+'" title="'+lien.attr('title')+'">'+lien.html()+'</a>&nbsp;)');                                
+                                lien.parent().html(data.content+ ' (&nbsp;<a href="'+lien.attr('href')+'" class="'+lien.attr('class')+'" title="'+lien.attr('title')+'">'+lien.html()+'</a>&nbsp;)');
                                 colonne.colonnes.update();
                                 colonnes.event_colonne_init(colonne);
                                 $.fancybox.close();

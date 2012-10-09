@@ -20,15 +20,15 @@ var objAjoutsLiquidations = {};
 	{
 		if(ajoutsLiquidations.exists()) $.initAjoutsLiquidations();
 		
-		 $('#ajouts_liquidations :checkbox').change(function() {
+		$('#ajouts_liquidations :checkbox').change(function() {
             $(this).parents('form').submit();
         });
 		
         $('.updateProduct').submit(function() {
-        	var form = $(this);
-        	$.post($(this).attr('action'), $(this).serializeArray(), function (data) {
-        	});
-        	return false;
+			var form = $(this);
+			$.post($(this).attr('action'), $(this).serializeArray(), function (data) {
+			});
+			return false;
         });
 		
 		if($('#declaratif_info').size()) $.choixCaution();
@@ -84,7 +84,7 @@ var objAjoutsLiquidations = {};
 		var tableauRecapLignes = tableauRecap.find('tbody tr');
 		var tableauRecapChamps = tableauRecap.find('input, select');
 		
-		tabInfos = 
+		tabInfos =
 		{
 			section: section,
 			blocRecapProduit: blocRecapProduit,
@@ -145,24 +145,20 @@ var objAjoutsLiquidations = {};
 		{
 			var btn = $(this);
 			var url = btn.attr('href');
-			
-                         var confirm = window.confirm('Confirmez-vous la suppression de ce produit ?');
+			var confirm = window.confirm('Confirmez-vous la suppression de ce produit ?');
                          
-                         if(confirm){
-                                $.post(url, function()
-                                {
-                                        // suppression
-                                        btn.parents('tr').remove();
+			if(confirm){
+				$.post(url, function()
+				{
+					// suppression
+					btn.parents('tr').remove();
 
-                                        // application des styles
-                                        tabSection.tableauRecapLignes = tabSection.tableauRecap.find('tbody tr');
-                                        $.stylesTableaux(i);
-                                });
-                         }
-                        
-			
-			
-        	return false;
+					// application des styles
+					tabSection.tableauRecapLignes = tabSection.tableauRecap.find('tbody tr');
+					$.stylesTableaux(i);
+				});
+			}
+			return false;
 		});
 	};
 	
@@ -174,7 +170,7 @@ var objAjoutsLiquidations = {};
 	$.choixCaution = function()
 	{
 		var conteneurGeneral = $('#principal');
-		var conteneurOnglets = $('.contenu_onglet_declaratif').has('#caution_accepte')
+		var conteneurOnglets = $('.contenu_onglet_declaratif').has('#caution_accepte');
 		var champCaution = conteneurOnglets.find('#caution_accepte');
 		var radioBouton = champCaution.find(':radio');
 		var texteCaution = champCaution.find(':text');
@@ -185,6 +181,6 @@ var objAjoutsLiquidations = {};
 			if(radioBouton.is(':checked')) texteCaution.show();
 			else texteCaution.hide();
 		}); // fin de click()
-	} // fin de $.choixCaution()
+	}; // fin de $.choixCaution()
         
 })(jQuery);
