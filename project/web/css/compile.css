@@ -3220,7 +3220,10 @@ p#date_drm {
   zoom:1;
 }
 #colonnes_dr .col_recolte .col_cont p.label { height:auto; }
-#colonnes_dr .col_recolte .col_cont p.label span { display:block; }
+#colonnes_dr .col_recolte .col_cont p.label span {
+  display:block;
+  text-align:center;
+}
 #colonnes_dr .col_recolte .col_cont .groupe { margin:0 0 10px; }
 #colonnes_dr .col_recolte .col_cont .groupe.groupe_ouvert { margin:0 0 10px; }
 #colonnes_dr .col_recolte .col_cont .groupe p { margin:0 0 10px; }
