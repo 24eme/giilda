@@ -3882,6 +3882,12 @@ bouton.drm #principal fieldset .btn_container_exporter a { height:26px; }
   font-weight:bold;
   margin-bottom:25px;
 }
-.fancybox-wrap .fancybox-inner #contenu { background:#ffffff; }
-.fancybox-wrap .fancybox-inner #contenu #principal { width:auto; }
+.fancybox-wrap .fancybox-inner #contenu {
+  background:#ffffff;
+  width:auto;
+}
+.fancybox-wrap .fancybox-inner #contenu #principal {
+  float:none;
+  width:auto;
+}
 .fancybox-wrap .fancybox-inner #contenu #principal #drm_export_details_form .btn_valider, .fancybox-wrap .fancybox-inner #contenu #principal #drm_vrac_details_form .btn_valider, .fancybox-wrap .fancybox-inner #contenu #principal #drm_cooperative_details_form .btn_valider { float:right; }

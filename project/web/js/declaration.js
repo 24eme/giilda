@@ -73,7 +73,9 @@
                 colonne.element.find("a.labels_lien").each(function() {
                     var lien = $(this);
                     lien.fancybox({type : 'ajax',
-                       fitToView : false,
+                       autoSize : false,
+                       height : 'auto',
+                       width : 'auto',
                        afterShow : function()
                        {
                             lien.initLabels(colonne);
