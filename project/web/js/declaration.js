@@ -113,7 +113,7 @@
                             }
                             else
                             {
-                                lien.parent().html('<span class="info_modifie">'+data.content+ '</span>&nbsp;<a href="'+lien.attr('href')+'" class="'+lien.attr('class')+'" title="'+lien.attr('title')+'">'+lien.html()+'</a>&nbsp;');
+                                lien.parent().html('<span>'+data.content+ '</span><a href="'+lien.attr('href')+'" class="'+lien.attr('class')+'" title="'+lien.attr('title')+'">'+lien.html()+'</a>&nbsp;');
                                 colonne.colonnes.update();
                                 colonnes.event_colonne_init(colonne);
                                 $.fancybox.close();
