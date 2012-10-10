@@ -433,14 +433,20 @@
         tr, td { width: 30%; }
     }
 
-	.btn_modifier
+    .btnModification
     {
-        background-image: url(../images/boutons/btn_modifier.png);
-        background-position: 7px center;
-        float: right;
-        margin-right:20px;
-        padding: 0 10px 0 30px;
-        text-transform: none;
+    	.annulation_changement
+    	{
+    		.f_left;
+    		display: none;
+    	}
+
+    	.modification_changement
+    	{
+    		.f_right;
+
+    		a { cursor: pointer; }
+    	}
     }
 }
 
