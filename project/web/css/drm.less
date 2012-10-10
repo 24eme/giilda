@@ -852,7 +852,7 @@ p#date_drm
 		{
 			background: @couleur-a1;
 			.border(@couleur-a10);
-                        .border-radius(0px 0px 5px 5px);
+            .border-radius(0px 0px 5px 5px);
 			border-width: 0 1px 1px;
 			padding: 10px 0;
                         width:120px;
@@ -868,7 +868,12 @@ p#date_drm
 				&.label
 				{
 					height: auto;
-					span { display: block; }
+					span
+					{
+						display: block;
+						text-align: center;
+						margin-bottom: 5px;
+					}
 				}
 			}
 			
@@ -888,7 +893,7 @@ p#date_drm
 						height: 20px;
 						margin: 0 0 5px;
 						overflow: hidden;
-                                                padding: 0 6px;
+                        padding: 0 6px;
 						zoom: 1;
 					}
 				}

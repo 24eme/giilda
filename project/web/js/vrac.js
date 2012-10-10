@@ -312,8 +312,7 @@ var majMandatairePanel = function()
 var init_ajax_modification = function(type)
 {
     $('a#'+type+'_modification_btn').html('Valider');
-    $('a#'+type+'_modification_btn').removeClass('btn_orange').addClass('btn_vert');
-    $('a#'+type+'_modification_btn').css('cursor','pointer');
+    $('a#'+type+'_modification_btn').removeClass('btn_modifier').addClass('btn_valider');
     
     $('div#'+type+'_annulation_div').show();
     
@@ -335,7 +334,7 @@ var init_informations = function(type)
     $("#"+type+"_choice button").removeAttr('disabled');
     
     $("a#"+type+"_modification_btn").html("Modifier");
-    $("a#"+type+"_modification_btn").removeClass('btn_vert').addClass('btn_orange');
+    $("a#"+type+"_modification_btn").removeClass('btn_valider').addClass('btn_modifier');
     
     $('div#'+type+'_annulation_div').hide();
     
