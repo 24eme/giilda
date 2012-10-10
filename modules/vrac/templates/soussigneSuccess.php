@@ -72,8 +72,8 @@ else
                         <div id="vendeur_annulation_div" class="f_left" style="display: none;">
                             <a id="vendeur_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
                         </div>
-                        <div class="f_right">
-                            <a id="vendeur_modification_btn" class="btn_majeur btn_modifier" style="cursor: pointer;">Modifier</a>
+                        <div class="modification_changement">
+                            <a id="vendeur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
                         </div>
                     </div>
                 </div>
@@ -105,8 +105,8 @@ else
                         <div id="acheteur_annulation_div" class="f_left" style="display: none;">
                             <a id="acheteur_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
                         </div>
-                        <div class="f_right">
-                            <a id="acheteur_modification_btn" class="btn_majeur btn_modifier" style="cursor: pointer;">Modifier</a>
+                        <div class="modification_changement">
+                            <a id="acheteur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
                         </div>
                     </div>
                 </div>
@@ -148,8 +148,8 @@ else
                         <div id="mandataire_annulation_div" class="f_left" style="display: none;">
                             <a id="mandataire_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
                         </div>
-                        <div class="f_right">
-                            <a id="mandataire_modification_btn" class="btn_majeur btn_modifier" style="cursor: pointer;">Modifier</a>
+                        <div class="modification_changement">
+                            <a id="mandataire_modification_btn" class="btn_majeur">Modifier</a>
                         </div>
                     </div>
                 </div>
