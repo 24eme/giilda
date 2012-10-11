@@ -13,25 +13,27 @@ class factureActions extends sfActions {
        }
     }
         
-   public function executeMasse(sfWebRequest $request) {
-       $parameters = $request->getParameter('facture_generation');
+   public function executeGeneration(sfWebRequest $request) {
        
-       $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
-       $regions = (!isset($parameters['region']))? null : $parameters['region'];
-       $allMouvements = FactureClient::getInstance()->getMouvementsForMasse($regions,9); 
-       $mouvementsByEtb = FactureClient::getInstance()->getMouvementsNonFacturesByEtb($allMouvements);       
-       $mouvementsByEtb = FactureClient::getInstance()->filterWithParameters($mouvementsByEtb,$parameters);
-       
-       if($mouvementsByEtb)
-       {
-       $generation = FactureClient::getInstance()->createFacturesByEtb($mouvementsByEtb,$parameters['date_facturation']);
-       $generation->save();
-       $this->redirect('generation_view', array('type_document' => $generation->type_document,'date_emission' => $generation->date_emission));
+       $this->generationForm = new FactureGenerationMasseForm();
+       if ($request->isMethod(sfWebRequest::POST)) {
+	 $this->generationForm->bind($request->getParameter($this->generationForm->getName()));
+	 if ($this->generationForm->isValid()) {
+	   $values = $this->generationForm->getValues();
+	   $generation = new Generation();
+	   $generation->arguments->add('regions', implode(',', array_values($values['regions'])));
+	   $generation->arguments->add('date_facturation', $values['date_facturation']);           
+	   $generation->arguments->add('date_mouvements', $values['date_mouvements']);           
+	   $generation->arguments->add('seuil', $values['seuil']);
+	   $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
+	   $generation->save();
+	 }
        }
-       $this->generations = GenerationClient::getInstance()->findHistory();
-       $this->redirect('facture');
-       
+       return $this->redirect('facture');
+//       $this->redirect('generation_view', array('type_document' => $generation->type_document,'date_emission' => $generation->date_emission));
+
     }
+       
     
     public function executeMonEspace(sfWebRequest $resquest) {        
         $this->form = new FactureGenerationForm();

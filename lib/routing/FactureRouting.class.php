@@ -20,6 +20,9 @@ class FactureRouting {
 									       'type' => 'object')
 									 ));
         
+        $r->prependRoute('facture_generation', new sfRoute('/facture/generation', array('module' => 'facture', 
+										      'action' => 'generation')));
+        
        $r->prependRoute('facture_generer', new EtablissementRoute('/facture/:identifiant/generer', array('module' => 'facture', 
 													'action' => 'generer'),
 									 array('sf_method' => array('get','post')),
@@ -43,8 +46,6 @@ class FactureRouting {
         
         
         
-        $r->prependRoute('facture_generer_masse', new sfRoute('/facture/masse', array('module' => 'facture', 
-										      'action' => 'masse')));
 
     }
 }

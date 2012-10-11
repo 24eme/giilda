@@ -106,7 +106,6 @@ class FactureClient extends acCouchdbClient {
             }
         }
     }
-    //Si seuil il y a
     if (isset($parameters['seuil']) && $parameters['seuil'] != '') {
         foreach ($mouvementsByEtb as $identifiant => $mouvements) {
             $somme = 0;
@@ -115,7 +114,6 @@ class FactureClient extends acCouchdbClient {
             }
             $somme = abs($somme);
             $somme = $this->ttc($somme);
-            exit;
             if ($somme >= $parameters['seuil']) {
                     unset($mouvementsByEtb[$identifiant]);
                 }           

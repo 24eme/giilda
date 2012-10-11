@@ -1,11 +1,11 @@
-<form id="generation_masse_form" action="<?php echo url_for('facture_generer_masse'); ?>" method="post">
+<form id="facture_generation" action="<?php echo url_for('facture_generation'); ?>" method="post">
 <h2>Génération en masse</h2>
 <div class="generation_facture_options">
     <ul>
         <li>
-        <span>1. <?php  echo $generationForm['region']->renderlabel(); ?></span>
-            <?php echo $generationForm['region']->renderError() ?>        
-            <?php  echo $generationForm['region']->render(); ?> 
+        <span>1. <?php  echo $generationForm['regions']->renderlabel(); ?></span>
+            <?php echo $generationForm['regions']->renderError() ?>        
+            <?php  echo $generationForm['regions']->render(); ?> 
            
         </li>
         
@@ -27,25 +27,25 @@
                 <?php  echo $generationForm['date_facturation']->render(); ?>
             </div>
             <div class="ligne_form champ_datepicker">
-                <?php  echo $generationForm['date_mouvement']->renderlabel(); ?>
-                <?php echo $generationForm['date_mouvement']->renderError() ?> 
-                <?php  echo $generationForm['date_mouvement']->render(); ?>
+                <?php  echo $generationForm['date_mouvements']->renderlabel(); ?>
+                <?php echo $generationForm['date_mouvements']->renderError() ?> 
+                <?php  echo $generationForm['date_mouvements']->render(); ?>
             </div>
         </li>
     </ul>    
 </div>
 </form>
 <div class="generation_facture_valid">
-    <a href="#" id="generation_masse" class="btn_majeur btn_vert">Générer</a>
+    <a href="#" id="facture_generation_btn" class="btn_majeur btn_vert">Générer</a>
 </div>
 
 <script type="text/javascript">
     
     $(document).ready( function()
 	{
-            $('#generation_masse').bind('click', function()
+            $('#facture_generation_btn').bind('click', function()
             {
-                $('form#generation_masse_form').submit();
+                $('form#facture_generation').submit();
             });
         });
     
