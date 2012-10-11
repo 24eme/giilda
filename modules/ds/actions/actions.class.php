@@ -22,7 +22,7 @@ class dsActions extends sfActions {
 	   $generation->arguments->add('regions', implode(',', array_values($values['regions'])));
 	   $generation->arguments->add('operateur_types', implode(',', array_values($values['operateur_types'])));
 	   $generation->arguments->add('date_declaration', $values['date_declaration']);
-	   $generation->type_document = 'DS';
+	   $generation->type_document = GenerationClient::TYPE_DOCUMENT_DS;
 	   $generation->save();
 	 }
        }
