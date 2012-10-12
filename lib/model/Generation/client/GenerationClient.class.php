@@ -5,7 +5,7 @@ class GenerationClient extends acCouchdbClient {
     const TYPE_DOCUMENT_FACTURES = 'FACTURES';
     const TYPE_DOCUMENT_DS = 'DS';
 
-    const HISTORY_KEYS_ID = 0;    
+    const HISTORY_KEYS_STATUS = 0;    
     const HISTORY_VALUES_DATE = 0;
     const HISTORY_VALUES_NBDOC = 1;
     const HISTORY_VALUES_DOCUMENTS = 2;    
@@ -29,7 +29,23 @@ class GenerationClient extends acCouchdbClient {
                 ->rows;
     }
     
+     public function findHistoryWithStatusAndType($limit = 10, $status, $type) {
+        $views = acCouchdbManager::getClient()
+                        ->startkey(array($status, $type))
+                        ->endkey(array($status, $type, array()));
+           if($limit) $views = $views->limit($limit);
+        return $views->getView("generation", "history")->rows;
+    }
 
+    public function findHistoryWithType($limit = 10, $type) {
+        $allStatus = $this->getAllStatus();
+        $results = array();
+        foreach ($allStatus as $status) {
+            $results = array_merge($this->findHistoryWithStatusAndType($limit,  $status,$type), $results);
+        }
+        return $results;
+    }
+    
     public function getGenerationIdEnCours() {
 	$rows = acCouchdbManager::getClient()
 			->startkey(array(self::GENERATION_STATUT_ENCOURS))
@@ -51,5 +67,9 @@ class GenerationClient extends acCouchdbClient {
         $minute = substr($date,10,2);
         $seconde = substr($date,12,2);
         return $jour.'/'.$mois.'/'.$annee.' '.$heure.':'.$minute.':'.$seconde;
+    }
+
+    public function getAllStatus() {
+        return array(self::GENERATION_STATUT_ENCOURS,  self::GENERATION_STATUT_GENERE);
     }
 }
