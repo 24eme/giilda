@@ -233,7 +233,7 @@ page \thepage / <?php echo $nb_page; ?>
 }
 
 \begin{center}
-Echéances (hors régularisation) : A = à 60 jours fin de mois B = au 31/03 et au 30/06, C = au 30/09
+Echéances (hors régularisation) : A = à 60 jours fin de mois B = au 31/03 et au 30/06, C = au 31/03, au 30/06 et au 30/09, D = au 30/09
 
 \begin{minipage}[b]{1\textwidth}
 
