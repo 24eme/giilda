@@ -1,7 +1,8 @@
 <?php
 use_helper('Float');
 use_helper('Date');
-$nb_ligne = 0;
+$nbPapillonsLignes = count($facture->echeances) * 4;
+$nb_ligne_current = $nbPapillonsLignes;
 ?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
@@ -149,16 +150,58 @@ page \thepage / <?php echo $nb_page; ?>
   			\hline
                         ~ & ~ & ~ & ~ & ~ &\\
                 <?php 
-                $nb_ligne += count($facture->lignes);
+                $firstPage = true;
                 foreach ($facture->lignes as $type => $typeLignes) :
+                $nb_ligne_current ++;
+                if(!($nb_ligne_current > FactureLatex::MAX_LIGNE_TEMPLATE_ONEPAGE)) :
                 ?>
                 \textbf{Sortie de <?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>} & ~ & ~ & ~ & ~ & \\
             <?php 
+                endif;
                  $produits = FactureClient::getInstance()->getProduitsFromTypeLignes($typeLignes);
-                 $nb_ligne += count($produits);
                  
                  foreach ($produits as $prodHash => $p) :   
                      foreach ($p as $produit):
+                            if($firstPage && $nb_ligne_current > FactureLatex::MAX_LIGNE_TEMPLATE_ONEPAGE):
+                                for($i=0; $i<(FactureLatex::MAX_LIGNE_TEMPLATE_FIRSTPAGE - $nb_ligne_current);$i++):
+                                ?>
+                                ~ & ~ & ~ & ~ & ~ &\\
+                                <?php 
+                                endfor;
+                                ?>
+                            
+                            \end{tabular}
+                                    };
+                                    \node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};	
+                            \end{tikzpicture}
+                            \newpage
+                            
+                            \fontsize{10}{10}\selectfont
+                            \begin{flushright}
+                            page \thepage / <?php echo $nb_page; ?>
+                            \end{flushright}
+                            
+                            \centering
+                            \fontsize{8}{10}\selectfont
+                            \begin{tikzpicture}
+                            \node[inner sep=1pt] (tab1){
+                                \begin{tabular}{p{116mm} |p{12mm}|p{14mm}|p{18mm}|p{13mm}p{0mm}}
+
+                                \rowcolor{lightgray}
+                                \centering \small{\textbf{Libellé}} &
+                                \centering \small{\textbf{Volume en hl}} &
+                                \centering \small{\textbf{Cotisation en \texteuro{}/hl}} &
+                                \centering \small{\textbf{Montant HT en \texteuro{}}} &   			
+                                \centering \small{\textbf{Code Echéance}} &
+                                \\
+                                \hline
+                                ~ & ~ & ~ & ~ & ~ &\\
+                                \textbf{Sortie de <?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>} & ~ & ~ & ~ & ~ & \\
+                            <?php
+                            $firstPage = false;
+                            $nb_ligne_current = $nbPapillonsLignes;
+                            endif;
+                            $nb_ligne_current ++;
                             $produit = $produit->getRawValue();
                         ?>      
                 ~~~~<?php echo $produit->produit_libelle.' \textbf{\begin{tiny}'.$produit->origine_libelle.'\end{tiny}}'; ?> &
@@ -173,7 +216,7 @@ page \thepage / <?php echo $nb_page; ?>
                 endforeach;
                 
                
-                for($i=0; $i<($max_rows - $nb_ligne);$i++):
+                for($i=0; $i<(FactureLatex::MAX_LIGNE_TEMPLATE_LASTPAGE - $nb_ligne_current);$i++):
                 ?>
         ~ & ~ & ~ & ~ & ~ &\\
                 <?php 

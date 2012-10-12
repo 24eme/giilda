@@ -289,6 +289,15 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument {
     }
 
 
+    public function getNbLignes() {
+    $nbLigne = count($this->echeances) * 4;
+        foreach ($this->lignes as $lignesType) {
+            $nbLigne += count($lignesType) + 1;
+        }
+    return $nbLigne;
+    }
+
+
     /****** DECLARANT *******/
 
     public function getEtablissementObject() {

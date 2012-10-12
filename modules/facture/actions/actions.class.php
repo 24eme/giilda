@@ -4,7 +4,7 @@ class factureActions extends sfActions {
   public function executeIndex(sfWebRequest $request) {
       $this->form = new FactureEtablissementChoiceForm('INTERPRO-inter-loire');
       $this->generationForm = new FactureGenerationMasseForm();
-      $this->generations = GenerationClient::getInstance()->findHistory();
+      $this->generations = GenerationClient::getInstance()->findHistoryWithType(10,GenerationClient::TYPE_DOCUMENT_FACTURES);
        if ($request->isMethod(sfWebRequest::POST)) {
 	 $this->form->bind($request->getParameter($this->form->getName()));
 	 if ($this->form->isValid()) {
@@ -14,19 +14,22 @@ class factureActions extends sfActions {
     }
         
    public function executeGeneration(sfWebRequest $request) {
-       
        $this->generationForm = new FactureGenerationMasseForm();
        if ($request->isMethod(sfWebRequest::POST)) {
 	 $this->generationForm->bind($request->getParameter($this->generationForm->getName()));
-	 if ($this->generationForm->isValid()) {
-	   $values = $this->generationForm->getValues();
+         $values = $this->generationForm->getValues();
+         if ($this->generationForm->isValid()) {
 	   $generation = new Generation();
-	   $generation->arguments->add('regions', implode(',', array_values($values['regions'])));
-	   $generation->arguments->add('date_facturation', $values['date_facturation']);           
-	   $generation->arguments->add('date_mouvements', $values['date_mouvements']);           
+           
+           $date_facturation = DATE::getIsoDateFromFrenchDate($values['date_facturation']);
+           $date_mouvements = DATE::getIsoDateFromFrenchDate($values['date_mouvements']);
+           
+           $generation->arguments->add('regions', implode(',', array_values($values['regions'])));
+	   $generation->arguments->add('date_facturation', $date_facturation);           
+	   $generation->arguments->add('date_mouvements', $date_mouvements);           
 	   $generation->arguments->add('seuil', $values['seuil']);
 	   $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
-	   $generation->save();
+           $generation->save();
 	 }
        }
        return $this->redirect('facture');
@@ -75,7 +78,7 @@ class factureActions extends sfActions {
         $this->facture = FactureClient::getInstance()->findByEtablissementAndId($this->getRoute()->getEtablissement()->identifiant, $request->getParameter('factureid'));
         $this->forward404Unless($this->facture);
 	$latex = new FactureLatex($this->facture);
-	$latex->echoFactureWithHTTPHeader($request->getParameter('type'));
+	$latex->echoFactureWithHTTPHeader('latex');//$request->getParameter('type'));
         exit;
     }
     

@@ -17,8 +17,8 @@ class FactureGenerationMasseForm extends FactureGenerationForm {
         $this->setWidget('date_mouvements', new sfWidgetFormInput(array('default' => date('d/m/Y'))));
         $this->setWidget('date_facturation', new sfWidgetFormInput(array('default' => date('d/m/Y'))));
 
-        $this->setValidator('regions', new sfValidatorChoice(array('choices' => array_keys($this->getRegions()), 'multiple' => true)));
-	$this->setValidator('seuil', new sfValidatorNumber());
+        $this->setValidator('regions', new sfValidatorChoice(array('choices' => array_keys($this->getRegions()), 'multiple' => true, 'required' => false)));
+	$this->setValidator('seuil', new sfValidatorNumber(array('required' => false)));
         $this->setValidator('date_mouvements', new sfValidatorString());
         $this->setValidator('date_facturation', new sfValidatorString());
         

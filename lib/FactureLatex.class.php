@@ -3,9 +3,16 @@
 class FactureLatex {
 
   private $facture = null;
-  const MAX_LIGNE_TEMPLATE_ONEPAGE = 31;
-  const MAX_LIGNE_TEMPLATE_TWOPAGE = 70;
+  const MAX_LIGNE_TEMPLATE_ONEPAGE = 44;
+  const MAX_LIGNE_TEMPLATE_TWOPAGE = 120;
+  
+  
+  const MAX_LIGNE_TEMPLATE_FIRSTPAGE = 60;
+  const MAX_LIGNE_TEMPLATE_LASTPAGE = 50;
   const MAX_LIGNE_TEMPLATE_PERPAGE = 80;
+  
+  
+  
   const TEMPLATE_ONEPAGE = 'facture1Page';
   const TEMPLATE_TWOPAGE = 'facture2Pages';
   const TEMPLATE_MOREPAGE = 'factureMorePages';
@@ -19,13 +26,10 @@ class FactureLatex {
   }
 
   public function getNbPages() {
-    $nbLigne = count($this->facture->echeances) * 4;
-    foreach ($this->facture->lignes as $lignesType) {
-      $nbLigne += count($lignesType) + 1;
-    }
-    if ($nbLigne < self::MAX_LIGNE_TEMPLATE_ONEPAGE)
+    $nbLigne = $this->facture->getNbLignes();
+    if ($nbLigne <= self::MAX_LIGNE_TEMPLATE_ONEPAGE)
       return 1;
-    if ($nbLigne < self::MAX_LIGNE_TEMPLATE_TWOPAGE)
+    if ($nbLigne <= self::MAX_LIGNE_TEMPLATE_TWOPAGE)
       return 2;
     return ($nbLigne - self::MAX_LIGNE_TEMPLATE_TWOPAGE) / self::MAX_LIGNE_TEMPLATE_PERPAGE;
   }
@@ -62,9 +66,11 @@ class FactureLatex {
   
   public function getLatexFileContents() {
     return html_entity_decode(htmlspecialchars_decode(
-						      get_partial('facture/generateTex', array('facture' => $this->facture,
+						      get_partial('facture/'.$this->getTemplate(), array('facture' => $this->facture,
 											       'template' => $this->getTemplate(),
-											       'total_rows' => self::MAX_LIGNE_TEMPLATE_ONEPAGE, 'nb_page' => $this->getNbPages()))
+											       'max_rows' => self::MAX_LIGNE_TEMPLATE_ONEPAGE,
+                                                                                               'nb_page' => $this->getNbPages(),
+                                                                                               'nb_ligne' => $this->facture->getNbLignes()))
 						      , HTML_ENTITIES));
   }
 

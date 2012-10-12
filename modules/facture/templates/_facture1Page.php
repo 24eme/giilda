@@ -1,7 +1,7 @@
 <?php
 use_helper('Float');
 use_helper('Date');
-$nb_ligne = 0;
+$nb_ligne_current = count($facture->echeances) * 4;
 ?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
@@ -149,16 +149,15 @@ page \thepage / <?php echo $nb_page; ?>
   			\hline
                         ~ & ~ & ~ & ~ & ~ &\\
                 <?php 
-                $nb_ligne += count($facture->lignes);
+                $nb_ligne_current += count($facture->lignes);
                 foreach ($facture->lignes as $type => $typeLignes) :
                 ?>
                 \textbf{Sortie de <?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>} & ~ & ~ & ~ & ~ & \\
             <?php 
                  $produits = FactureClient::getInstance()->getProduitsFromTypeLignes($typeLignes);
-                 $nb_ligne += count($produits);
-                 
                  foreach ($produits as $prodHash => $p) :   
                      foreach ($p as $produit):
+                            $nb_ligne_current ++;
                             $produit = $produit->getRawValue();
                         ?>      
                 ~~~~<?php echo $produit->produit_libelle.' \textbf{\begin{tiny}'.$produit->origine_libelle.'\end{tiny}}'; ?> &
@@ -172,8 +171,7 @@ page \thepage / <?php echo $nb_page; ?>
                     endforeach;
                 endforeach;
                 
-               
-                for($i=0; $i<($max_rows - $nb_ligne);$i++):
+                for($i=0; $i<($max_rows - $nb_ligne_current);$i++):
                 ?>
         ~ & ~ & ~ & ~ & ~ &\\
                 <?php 
