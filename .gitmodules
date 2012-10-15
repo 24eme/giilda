@@ -37,3 +37,6 @@
 [submodule "project/plugins/acVinDSPlugin"]
 	path = project/plugins/acVinDSPlugin
 	url = git@gitorious.org:acvin/acvindsplugin.git
+[submodule "project/plugins/acVinDocumentPlugin"]
+	path = project/plugins/acVinDocumentPlugin
+	url = git@gitorious.org:acvin/acvindocumentplugin.git
