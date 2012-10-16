@@ -78,7 +78,7 @@ class factureActions extends sfActions {
         $this->facture = FactureClient::getInstance()->findByEtablissementAndId($this->getRoute()->getEtablissement()->identifiant, $request->getParameter('factureid'));
         $this->forward404Unless($this->facture);
 	$latex = new FactureLatex($this->facture);
-	//$latex->echoFactureWithHTTPHeader('latex');
+//	$latex->echoFactureWithHTTPHeader('latex');
         $latex->echoFactureWithHTTPHeader($request->getParameter('type'));
         exit;
     }

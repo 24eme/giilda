@@ -3,13 +3,15 @@
 class FactureLatex {
 
   private $facture = null;
-  const MAX_LIGNE_TEMPLATE_ONEPAGE = 44;
-  const MAX_LIGNE_TEMPLATE_TWOPAGE = 120;
+  
+  const MAX_LIGNE_TEMPLATE_ONEPAGE = 44;  //Avec Papillons
+  const MAX_LIGNE_TEMPLATE_TWOPAGE = 120; //Avec Papillons
   
   
-  const MAX_LIGNE_TEMPLATE_FIRSTPAGE = 60;
-  const MAX_LIGNE_TEMPLATE_LASTPAGE = 50;
-  const MAX_LIGNE_TEMPLATE_PERPAGE = 80;
+  const MAX_LIGNE_TABLE_ONEPAGE = 36;   //Lignes de tableau uniquement
+  const MAX_LIGNE_TABLE_FIRSTPAGE = 52; //Lignes de tableau uniquement
+  const MAX_LIGNE_TABLE_PERPAGE = 80;   //Lignes de tableau uniquement
+  const MAX_LIGNE_TABLE_LASTPAGE = 54;  //Lignes de tableau uniquement
   
   
   
@@ -31,7 +33,7 @@ class FactureLatex {
       return 1;
     if ($nbLigne <= self::MAX_LIGNE_TEMPLATE_TWOPAGE)
       return 2;
-    return ($nbLigne - self::MAX_LIGNE_TEMPLATE_TWOPAGE) / self::MAX_LIGNE_TEMPLATE_PERPAGE;
+    return (($nbLigne - self::MAX_LIGNE_TEMPLATE_TWOPAGE) / self::MAX_LIGNE_TEMPLATE_PERPAGE) + 2;
   }
   
   public function getTemplate() {
@@ -68,7 +70,6 @@ class FactureLatex {
     return html_entity_decode(htmlspecialchars_decode(
 						      get_partial('facture/'.$this->getTemplate(), array('facture' => $this->facture,
 											       'template' => $this->getTemplate(),
-											       'max_rows' => self::MAX_LIGNE_TEMPLATE_ONEPAGE,
                                                                                                'nb_page' => $this->getNbPages(),
                                                                                                'nb_ligne' => $this->facture->getNbLignes()))
 						      , HTML_ENTITIES));

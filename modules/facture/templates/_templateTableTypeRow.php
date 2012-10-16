@@ -1,0 +1,1 @@
+\textbf{Sortie de <?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>} & ~ & ~ & ~ & ~ & \\
