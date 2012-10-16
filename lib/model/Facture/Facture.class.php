@@ -73,6 +73,8 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument {
     }
 
     public function defacturer() {
+        if (!$this->isRedressable())
+		return ;
         foreach ($this->getLignes() as $ligne) {
             $ligne->defacturerMouvements();
         }
@@ -80,11 +82,11 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument {
     }
 
     public function isRedressee() {
-        return ($this->statut == self::STATUT_REDRESSEE);
+        return ($this->statut == FactureClient::STATUT_REDRESSEE);
     }
 
     public function isRedressable() {
-        return ($this->statut != self::STATUT_REDRESSEE && $this->montant_ht > 0);
+        return ($this->statut != FactureClient::STATUT_REDRESSEE && $this->statut != FactureClient::STATUT_NONREDRESSABLE);
     }
 
     public function getEcheances() {

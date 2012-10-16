@@ -10,6 +10,7 @@ class FactureClient extends acCouchdbClient {
     const FACTURE_LIGNE_PRODUIT_TYPE_RAISINS = "contrat_raisins";
     
     const STATUT_REDRESSEE = 'redressee';
+    const STATUT_NONREDRESSABLE = 'non redressable';
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Facture");
@@ -183,7 +184,7 @@ class FactureClient extends acCouchdbClient {
     }
         
     public function isRedressable($factureview){
-      return !$this->isRedressee($factureview) && $factureview->value[FactureEtablissementView::VALUE_TOTAL_TTC] > 0;
+      return !$this->isRedressee($factureview) && $factureview->value[FactureEtablissementView::VALUE_STATUT] != self::STATUT_NONREDRESSABLE;
     }
         
     public function getTypeLignePdfLibelle($typeLibelle) {
@@ -203,6 +204,9 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function defactureCreateAvoirAndSaveThem(Facture $f) {
+      if (!$f->isRedressable()) {
+	return ;
+      }
       $avoir = clone $f;
       foreach($avoir->lignes as $type => $lignes) {
 	foreach($lignes as $id => $ligne) {
@@ -215,9 +219,11 @@ class FactureClient extends acCouchdbClient {
       $avoir->remove('echeances');
       $avoir->add('echeances');
       $avoir->constructIds($avoir->identifiant);
+      $avoir->statut = self::STATUT_NONREDRESSABLE;
       $avoir->save();
       $f->defacturer();
       $f->save();
+      return $avoir;
     }
     
 }
