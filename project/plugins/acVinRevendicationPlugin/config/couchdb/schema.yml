@@ -1,0 +1,49 @@
+#schema des Revendication
+Revendication:
+  definition:
+    fields:
+      _id: {}
+      _rev: {}
+      _attachments: {required: false}
+      type: {}   
+      datas:
+        type: collection
+        definition:
+          fields:
+            '*':
+              class: RevendicationEtablissements
+              type: collection
+              definition:
+                fields:
+                  '*':
+                    class: RevendicationProduits
+                    type: collection
+                    definition:
+                      fields:
+                        libelle_produit_csv: {}
+                        produit_hash: {}
+                        produit_libelle: {}
+                        volumes: 
+                          type: collection
+                          definition:
+                            fields:
+                              '*':
+                                type: collection
+                                definition:
+                                  fields:
+                                    num_ligne: { }
+                                    volume: { type: float }
+      erreurs:
+        type: array_collection
+        definition:
+          fields:
+            '*':
+              class: RevendicationErreurs
+              type: collection
+              definition:
+                fields:
+                  type_erreur: {}
+                  data_erreur: {}
+                  libelle_erreur: {}
+                  ligne: {}
+                  num_ligne: {}

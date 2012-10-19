@@ -19,5 +19,11 @@ class RevendicationRouting {
         $r->prependRoute('revendication_downloadCSV', new sfRoute('/revendication/:md5/csv', array('module' => 'revendication',
                                                                   'action' => 'downloadCSV')));
 
+        $r->prependRoute('revendication_view_erreurs', new RevendicationRoute('/revendication/:odg/:campagne/erreurs', array('module' => 'revendication',
+                                                            'action' => 'viewErreurs'),
+                                                            array('sf_method' => array('get', 'post')),
+                                                            array('model' => 'Revendication',
+                                                                'type' => 'object')));
+        
     }
 }

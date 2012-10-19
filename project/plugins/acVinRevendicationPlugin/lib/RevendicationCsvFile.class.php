@@ -6,7 +6,7 @@ class RevendicationCsvFile extends CsvFile
   const CSV_COL_TYPE = 0;
   const CSV_COL_UNKNOWN1 = 1;
   const CSV_COL_UNKNOWN2 = 2;
-  const CSV_COL_SIREN = 3;
+  const CSV_COL_CVI = 3;
   const CSV_COL_RAISON_SOCIALE = 4;
   const CSV_COL_VILLE = 5;
   const CSV_COL_PROPRIO_METAYER = 6;
@@ -22,8 +22,8 @@ class RevendicationCsvFile extends CsvFile
 //  const CSV_COL_;
 
   private function checkLine($line) {
-	if (!preg_match('/^[0-9]/', $line[self::CSV_COL_SIREN])) {
-		$this->errors[] = array('message' => 'La colonne SIREN devrait être constituée de nombre', 'num_ligne' => $this->current_line);
+	if (!preg_match('/^[0-9]/', $line[self::CSV_COL_CVI])) {
+		$this->errors[] = array('message' => 'La colonne CVI devrait être constituée de nombre', 'num_ligne' => $this->current_line);
 		return false;
 	}
 	if (!$line[self::CSV_COL_RAISON_SOCIALE]) {
@@ -101,11 +101,12 @@ class RevendicationCsvFile extends CsvFile
 		$s = preg_replace('/^[^0-9]*/', '', $s);
 		$line .= 
                         substr($s, 0, 4).';'.
-			substr($s, 4, 9).';'.
+			(preg_replace('/^0*/', '', preg_replace('/ /', '', substr($s, 4, 9)))/100).';'.
                         substr($s, 13, 7).';'.
 			substr($s, 20, 8).';'
 		      ;
 		$line = preg_replace('/ *;/', ';', $line);
+                $line = preg_replace('/;0*/', ';', $line);
 		fwrite($w, "$line\n");
 	}
 	fclose($w);fclose($r);
@@ -116,8 +117,8 @@ class RevendicationCsvFile extends CsvFile
   public function check() {
 	$this->errors = array();
 	foreach ($this->getCsv() as $line) {
-		$this->current_line++;
-		$this->checkLine($line);
+		 $this->current_line++;
+		 $this->checkLine($line);
 	}
 	return !(count($this->errors));
   } 
