@@ -429,6 +429,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return VersionDocument::buildVersion($rectificative, $modificative);
     }
 
+    public static function buildRectificative($version) {
+
+        return VersionDocument::buildRectificative($rectificative, $modificative);
+    }
+
+    public static function buildModificative($version) {
+
+        return VersionDocument::buildModificative($rectificative, $modificative);
+    }
+
     public function getVersion() {
 
         return $this->_get('version');
