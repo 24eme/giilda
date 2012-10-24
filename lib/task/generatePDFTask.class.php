@@ -60,7 +60,6 @@ EOF;
               $g = new GenerationDSPDF($generation, $this->configuration, $options);
               break;
       }
-      $g->preGeneratePDF();
       echo $g->generatePDF()."\n";
     }
   }
