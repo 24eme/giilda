@@ -18,7 +18,6 @@ class vracActions extends sfActions
   }
 
   protected function postFormEtablissement(sfWebRequest $request) {
-    $this->form_etablissement_choice = null;
     if ($request->isMethod(sfWebRequest::POST)) {
         $form = new VracEtablissementChoiceForm('INTERPRO-inter-loire');
         $form->bind($request->getParameter($form->getName()));
@@ -34,7 +33,6 @@ class vracActions extends sfActions
   
   public function executeRecherche(sfWebRequest $request) 
   { 
-      $this->postFormEtablissement($request);
       $this->recherche = $this->getVracsFromRecherche($request, true);
       $this->form = new VracRechercheForm();
   }

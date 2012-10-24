@@ -16,7 +16,7 @@ foreach($datas as $data)
              include_partial('fil_ariane',array('fil' => 0));
              ?>
             <div id="contenu_etape">
-                <?php include_component('vrac', 'formEtablissementChoice', array('form' => $form_etablissement_choice)) ?>
+                <?php include_component('vrac', 'formEtablissementChoice') ?>
                 <br />
                 <div class="section_label_maj"> 
                     <label>10 derniers contrats saisis : </label>                   

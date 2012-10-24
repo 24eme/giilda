@@ -19,7 +19,7 @@ if(!isset($campagne)) $campagne = dateCampagneViticolePresent();
         <section id="principal">
              <?php include_partial('fil_ariane',$fil_arianeArray); ?>
             <section id="contenu_etape">                
-                <?php include_component('vrac', 'formEtablissementChoice', array('form' => $form_etablissement_choice, 'identifiant' => $identifiant)) ?>
+                <?php include_component('vrac', 'formEtablissementChoice', array('identifiant' => $identifiant)) ?>
                 <a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Ouvrir en tableur</a>
                 <?php 
                     include_partial('rechercheLegende', array('rechercheMode' => true,
