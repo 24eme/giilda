@@ -25,8 +25,7 @@ class dsActions extends sfActions {
 	   $generation->arguments->add('date_declaration', $values['date_declaration']);
 	   $generation->type_document = 'DS';
 	   $generation->save();
-	   echo $generation->_id;
-	   exit;
+	   return $this->redirect('generation_view', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission));
 	 }
        }
        $this->setTemplate('index');
