@@ -48,7 +48,7 @@
                 </td>
                 
                 <td class="">
-                    <a href="<?php echo $chemin; ?>" class="btn_jaune btn_majeur" >téléch.</a>
+                    <a href="<?php echo urldecode($chemin); ?>" class="btn_jaune btn_majeur" >téléch.</a>
                 </td>
               </tr>
             <?php
