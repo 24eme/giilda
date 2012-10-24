@@ -64,7 +64,8 @@ class DSLatex {
       $grep = preg_grep('/^!/', file_get_contents($log));
       array_unshift($grep, "/!\ Latex error\n");
       array_unshift($grep, "Latex log $log:\n");
-      throw new sfException(implode(' ', $grep));
+      if ($grep)
+	      throw new sfException(implode(' ', $grep));
     }
     return $this->getLatexFileNameWithoutExtention().'.pdf';
   }

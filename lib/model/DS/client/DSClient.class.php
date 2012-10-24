@@ -40,7 +40,13 @@ class DSClient extends acCouchdbClient {
     }
     
     public function createDateStock($date_stock) {
+	if (preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $date_stock)) {
+		return $date_stock;
+        }
         $v = date_create_from_format('d/m/Y',$date_stock);
+	if (!$v) {
+		throw new sfException("Unexepected date format for $date_stock");
+	}
         return $v->format('Y-m-d');
     }
 
