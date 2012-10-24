@@ -2,15 +2,19 @@
     <!-- #principal -->
     <section id="principal">
         <p id="fil_ariane"><strong>Page d'accueil</strong></p>
-
         <!-- #contenu_etape -->
         <section id="contenu_etape">
+            <h2>Edition des volumes revendiqués :</h2>
+            <div class="generation_facture_options">
+                <a href="<?php echo url_for('revendication_edition', array('odg' => $revendication->odg, 'campagne' => $revendication->campagne)); ?>"><?php echo count($revendication->nb_data); ?> volumes revendiqués éditables</a>
+            </div>
+            
             <h2>Erreurs de l'import :</h2>
             <div class="generation_facture_options">
                 <ul>
                     <li>
                         <span>
-                            Nombre d'erreurs total : <label><a href="#2734"><?php echo count($revendication->erreurs); ?></a></label>
+                            Nombre d'erreurs total : <label><?php echo count($revendication->erreurs); ?></label>
                         </span>
                     </li>
                     <li>
@@ -64,19 +68,20 @@
                 <table class="table_recap">
                     <thead>
                         <tr>
-                            <th>Numéro de ligne</th>
+                            <th>N° de ligne</th>
                             <th>Libellé de l'erreur</th>
-                            <th>Raw Ligne</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         foreach ($revendication->erreurs as $key => $value) :
                             ?>
-                            <tr id="<?php echo $value->num_ligne; ?>">
-                                <td><?php echo $value->num_ligne; ?></td>
+                            <tr id="<?php echo $value->num_ligne; ?>" >
+                                <td rowspan="2"><?php echo $value->num_ligne; ?></td>
                                 <td><?php echo $value->libelle_erreur; ?></td>
-                                <td><?php echo $value->ligne; ?></td>
+                            </tr>
+                            <tr>
+                                <td><?php echo str_replace('#', '; ', $value->ligne); ?></td>
                             </tr>
                             <?php
                         endforeach;

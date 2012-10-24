@@ -5,7 +5,10 @@ Revendication:
       _id: {}
       _rev: {}
       _attachments: {required: false}
-      type: {}   
+      type: {}
+      nb_data: { type: integer }
+      odg: { }
+      campagne: { }
       datas:
         type: collection
         definition:
@@ -15,24 +18,30 @@ Revendication:
               type: collection
               definition:
                 fields:
-                  '*':
-                    class: RevendicationProduits
+                  declarant_identifiant: {  }
+                  declarant_nom: {  }
+                  produits:
                     type: collection
                     definition:
-                      fields:
-                        libelle_produit_csv: {}
-                        produit_hash: {}
-                        produit_libelle: {}
-                        volumes: 
+                      fields: 
+                        '*':
+                          class: RevendicationProduits
                           type: collection
                           definition:
                             fields:
-                              '*':
+                              libelle_produit_csv: {}
+                              produit_hash: {}
+                              produit_libelle: {}
+                              volumes: 
                                 type: collection
                                 definition:
                                   fields:
-                                    num_ligne: { }
-                                    volume: { type: float }
+                                    '*':
+                                      type: collection
+                                      definition:
+                                        fields:
+                                          num_ligne: { }
+                                          volume: { type: float }
       erreurs:
         type: array_collection
         definition:

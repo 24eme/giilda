@@ -28,7 +28,7 @@ class UploadCSVRevendicationForm extends UploadCSVForm {
         $this->widgetSchema->setLabel('file', "Choisir un fichier :");
 
 
-        $this->widgetSchema->setNameFormat('csv[%s]');
+        $this->widgetSchema->setNameFormat('csvRevendication[%s]');
     }
 
     public function getOdgs() {

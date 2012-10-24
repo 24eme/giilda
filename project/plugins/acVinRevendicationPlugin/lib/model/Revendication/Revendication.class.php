@@ -16,11 +16,12 @@ class Revendication extends BaseRevendication {
     public function storeDatas() {
         $this->setCSV();
         $this->setProduits();
+        $this->nb_data = 0;
         foreach ($this->getCSV() as $n => $row) {
-            $etbId = $this->matchEtablissement($row);
+            $etb = $this->matchEtablissement($row);
             $hashLibelle = $this->matchProduit($row);
-            $num_ligne = $n+1;
-            if (is_null($etbId)) {
+            $num_ligne = $n + 1;
+            if (is_null($etb)) {
                 $erreurSortie = $this->erreurs->_add($num_ligne);
                 $erreurSortie->storeErreur($num_ligne, $row, RevendicationErreurs::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS);
                 continue;
@@ -30,8 +31,10 @@ class Revendication extends BaseRevendication {
                 $erreurSortie->storeErreur($num_ligne, $row, RevendicationErreurs::ERREUR_TYPE_PRODUIT_NOT_EXISTS);
                 continue;
             }
-            $revendicationEtb = $this->datas->_add($etbId);
+            $revendicationEtb = $this->datas->_add($etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI]);
+            $revendicationEtb->storeDeclarant($etb);
             $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle);
+            $this->nb_data++;
         }
     }
 
@@ -64,7 +67,7 @@ class Revendication extends BaseRevendication {
         $etb = EtablissementFindByCviView::getInstance()->findByCvi($cvi);
         if (count($etb) != 1)
             return null;
-        return $etb[0]->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID];
+        return $etb[0];
     }
 
     private function matchProduit($row) {
@@ -86,12 +89,37 @@ class Revendication extends BaseRevendication {
             if (!array_key_exists($erreur->data_erreur, $sortedErrors->erreurs[$erreur->type_erreur])) {
                 $sortedErrors->erreurs[$erreur->type_erreur][$erreur->data_erreur] = array();
             }
-            if(!isset($sortedErrors->{$erreur->type_erreur})) $sortedErrors->{$erreur->type_erreur}=0;
-            
+            if (!isset($sortedErrors->{$erreur->type_erreur}))
+                $sortedErrors->{$erreur->type_erreur} = 0;
+
             $sortedErrors->{$erreur->type_erreur}++;
             $sortedErrors->erreurs[$erreur->type_erreur][$erreur->data_erreur][] = $erreur->num_ligne;
         }
         return $sortedErrors;
+    }
+
+    public function updateProduit($cvi, $produit_hash_old, $produit_hash_new) {
+        $produits = $this->getProduits();
+        $libelle = $produits[$produit_hash_new]; 
+        $this->getDatas()->get($cvi)->updateProduits($produit_hash_old,$produit_hash_new,$libelle);
+    }
+
+    public function updateVolume($cvi, $produit_hash, $row, $num_ligne, $new_volume) {
+        $produit_hash_key = str_replace('/', '-', $produit_hash);
+        $volume = $this->getDatas()->get($cvi)->get($produit_hash_key)->volumes->add($row);
+        $volume->num_ligne = $num_ligne;
+        $volume->volume = $new_volume;
+    }
+    
+    public function getProduitNode($cvi, $row)
+    {
+        foreach ($this->getDatas()->get($cvi) as $hash_key => $produit) {
+            if($produit->volumes->exist($row))
+                {
+                return $produit;
+                }
+        }
+        return null;
     }
 
 }

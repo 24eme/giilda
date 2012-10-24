@@ -22,6 +22,10 @@ class RevendicationCsvFile extends CsvFile
 //  const CSV_COL_;
 
   private function checkLine($line) {
+        if (!isset($line[self::CSV_COL_CVI])) {
+		$this->errors[] = array('message' => 'La colonne CVI est introuvable. Veuillez verifier la cohérence de la ligne', 'num_ligne' => $this->current_line);
+		return false;
+	}      
 	if (!preg_match('/^[0-9]/', $line[self::CSV_COL_CVI])) {
 		$this->errors[] = array('message' => 'La colonne CVI devrait être constituée de nombre', 'num_ligne' => $this->current_line);
 		return false;

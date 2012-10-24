@@ -6,7 +6,7 @@
         
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" action="<?php echo url_for('revendication_upload'); ?>" >
                 
                 <h2>Import des volumes revendiqués</h2>
                 <?php echo $form->renderGlobalErrors(); ?>
@@ -32,9 +32,12 @@
                     </ul>    
                 </div>
                 
-            <input type="submit" />
+                <input type="submit" class="btn_majeur btn_valider" />
             </form>
-            
+            <?php 
+            if(count($errors) > 0)
+                include_partial('uploadErreurs',array('errors' => $errors,'md5' => $md5));
+            ?>
         </section>
         <!-- fin #contenu_etape -->
     </section>

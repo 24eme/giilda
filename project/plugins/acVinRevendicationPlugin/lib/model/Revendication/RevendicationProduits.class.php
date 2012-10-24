@@ -15,7 +15,12 @@ class RevendicationProduits extends BaseRevendicationProduits {
            
            $volumes->volume = floatval($row[RevendicationCsvFile::CSV_COL_UNKNOWN_ID1]);
            $volumes->num_ligne = $num_ligne;
-           }
+          }
         
+    }
+    
+    public function updateProduit($hash,$libelle) {
+        $this->produit_hash = $hash;
+        $this->produit_libelle = $libelle;
     }
 }
