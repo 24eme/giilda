@@ -112,5 +112,15 @@ class DRMCalendrier {
 
     }
 
+    public function getDRM($periode) {
+        $id = $this->getId($periode);
+
+        if(!$id) {
+
+            return null;
+        }
+
+        return DRMClient::getInstance()->find($id);
+    }
 }
 

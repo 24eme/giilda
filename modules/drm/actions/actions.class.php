@@ -77,12 +77,15 @@ class drmActions extends sfActions
   */
   public function executeMonEspace(sfWebRequest $request)
   {
-    $this->calendrier = new DRMCalendrier($this->getRoute()->getEtablissement()->identifiant, '2012-2013');
-    $this->historique = new DRMHistorique($this->getRoute()->getEtablissement()->identifiant);
-    $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($this->getRoute()->getEtablissement()->identifiant);
+    
     $this->etablissement = $this->getRoute()->getEtablissement();
   }
 
+
+  public function executeStocks(sfWebRequest $request) {
+    
+     $this->etablissement = $this->getRoute()->getEtablissement();
+  }
 
  /**
   * Executes historique action

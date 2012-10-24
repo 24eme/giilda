@@ -92,4 +92,28 @@ class drmComponents extends sfComponents {
         }
     }
 
+    public function executeCalendrier() {
+        $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, '2012-2013');
+    }
+
+    public function executeStocks() {
+        $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, '2012-2013');
+        $this->details = array();
+        foreach($this->calendrier->getPeriodes() as $periode) {
+            $drm = $this->calendrier->getDRM($periode);
+            if($drm && $drm->isValidee()) {
+                foreach($drm->getDetails() as $detail) {
+                    $d = new stdClass();
+                    $d->mois = ucfirst($this->calendrier->getPeriodeLibelle($periode));
+                    $d->libelle = $detail->getLibelle();
+                    $d->total_debut_mois = $detail->total_debut_mois;
+                    $d->total_entrees = $detail->total_entrees;
+                    $d->total_sorties = $detail->total_sorties;
+                    $d->total = $detail->total;
+                    $this->details[] = $d;
+                }
+            }      
+        }
+    }
+
 }

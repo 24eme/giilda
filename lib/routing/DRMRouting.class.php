@@ -44,6 +44,13 @@ class DRMRouting {
                                                                 'type' => 'object')
 								));
 
+        $r->prependRoute('drm_etablissement_stocks', new EtablissementRoute('/drm/:identifiant/stocks', array('module' => 'drm', 
+                                                                                'action' => 'stocks'),
+                                                                     array('sf_method' => array('get','post')),
+                                                                      array('model' => 'Etablissement',
+                                                                            'type' => 'object')
+                ));
+
         $r->prependRoute('drm_historique', new EtablissementRoute('/drm/:identifiant/historique/:campagne', array('module' => 'drm', 
                                                                                        'action' => 'historique', 
                                                                                        'campagne' => null),
