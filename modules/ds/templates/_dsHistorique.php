@@ -11,7 +11,7 @@
         </tr>
         </thead>
         <tbody>
-            <?php foreach ($dsHistorique as $ds) :
+                <?php foreach ($dsHistorique as $ds) :
             ?>   
             <tr>
                 <td><?php echo $ds->key[DSHistoryView::KEY_CAMPAGNE]; ?></td>

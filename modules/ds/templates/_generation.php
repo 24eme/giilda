@@ -17,7 +17,7 @@
         </li>
         <li>
             <div class="ligne_form champ_datepicker">
-                <?php  echo '3. '.$generationForm['date_declaration']->renderlabel(); ?>       
+                <?php  echo $generationForm['date_declaration']->renderlabel(); ?>       
                 <?php echo $generationForm['date_declaration']->renderError() ?>  
                 <?php  echo $generationForm['date_declaration']->render(); ?>
             </div>

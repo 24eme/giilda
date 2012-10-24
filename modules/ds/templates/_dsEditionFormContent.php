@@ -25,15 +25,6 @@ echo $form->renderGlobalErrors();
                
             }
     ?>
-            <tr id="ds_declaration_lastRow">
-            <td class="ds_declaration_code"></td>
-            <td class="ds_declaration_appelation">
-                <a href="<?php echo url_for('ds_edition_operateur_addProduit', $ds) ?>" id="ds_declaration_new" class="btn_majeur btn_modifier ds_declaration_addTemplate">Ajouter un produit</a>
-            </td>
-            <td class="ds_declaration_volume_drm">
-            </td>              
-                  
-        </tr>
         </tbody>
         </table> 
         <div id="commentaires" class="section_label_maj">

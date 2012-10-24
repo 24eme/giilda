@@ -31,7 +31,7 @@ class DSGenerationForm extends DSGenerationOperateurForm {
     }
 
     public function getOperateurs() {
-        return array(EtablissementFamilles::FAMILLE_PRODUCTEUR => EtablissementFamilles::FAMILLE_PRODUCTEUR, EtablissementFamilles::FAMILLE_NEGOCIANT => EtablissementFamilles::FAMILLE_PRODUCTEUR);
+        return array(EtablissementFamilles::FAMILLE_PRODUCTEUR => EtablissementFamilles::FAMILLE_PRODUCTEUR, EtablissementFamilles::FAMILLE_NEGOCIANT => EtablissementFamilles::FAMILLE_NEGOCIANT);
     }
 
 }
