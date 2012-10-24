@@ -18,25 +18,15 @@ class GenerationDSPDF extends GenerationPDF {
     public function preGeneratePDF() {
         parent::preGeneratePDF();
         
-        $etablissementClient = EtablissementClient::getInstance();
         $etablissementsViews = array(); 
-        $operateur_types = explode(',',$this->generation->arguments->operateur_types);
-       // $generation->arguments->add('regions', implode(',', array_values($values['regions'])));
-        if(count($operateur_types)===1)
-        {
-            if(($operateur_types[0]!== EtablissementFamilles::FAMILLE_PRODUCTEUR) && ($operateur_types[0]!== EtablissementFamilles::FAMILLE_NEGOCIANT))
-              throw new sfException("this operateur type $operateur_types[0] isn't a valid operateur type");
-            $etablissementsViews = $etablissementClient->findByFamille($operateur_types[0],null)->rows;
-            
-        }
-        else
-        {
-            if(!in_array(EtablissementFamilles::FAMILLE_PRODUCTEUR,$operateur_types) || !in_array(EtablissementFamilles::FAMILLE_NEGOCIANT,$operateur_types))
-              throw new sfException("this operateur type $operateur_types isn't a valid operateur type");
-            
-          foreach ($operateur_types as $operateur_type) {
-              $etablissementsViews = array_merge($etablissementsViews, $etablissementClient->findByFamille($operateur_type,null)->rows);
-          }
+	$operateur_types = array(EtablissementFamilles::FAMILLE_PRODUCTEUR, EtablissementFamilles::FAMILLE_NEGOCIANT);
+	if ($this->generation->arguments->exist('operateur_types')) {
+	  $operateur_types = explode(',',$this->generation->arguments->operateur_types);
+	}
+        foreach ($operateur_types as $operateur_type) {
+	   if(EtablissementFamilles::FAMILLE_PRODUCTEUR != $operateur_type && EtablissementFamilles::FAMILLE_NEGOCIANT != $operateur_type)
+              throw new sfException("this operateur type $operateur_type isn't a valid operateur type");
+           $etablissementsViews = array_merge($etablissementsViews, EtablissementClient::getInstance()->findByFamille($operateur_type,null)->rows);
         }
        
         $dsClient = DSClient::getInstance();
