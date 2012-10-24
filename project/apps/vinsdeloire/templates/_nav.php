@@ -31,7 +31,7 @@
             'prefix' => 'revendication',
             'route' => 'revendication_upload',
             'route_etablissement' => 'revendication_etablissement',
-            'etablissement' => $etablissement,
+            'etablissement' => null,
         )) ?>
 
         <?php include_component('global', 'navItem', array(
