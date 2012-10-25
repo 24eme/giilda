@@ -10,6 +10,8 @@ SV12:
       campagne: {  }
       periode: {  }
       version: {  }
+      numero_archive: {  }
+      date_archivage: {  }
       declarant:        
         type: collection
         definition:
@@ -20,7 +22,7 @@ SV12:
             num_tva_intracomm: {    }
             adresse: {  }
             commune: {  }
-            code_postal: {   }            
+            code_postal: {   }
             num_chai: {  }
             raison_sociale: {  }
       totaux:

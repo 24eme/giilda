@@ -4,17 +4,19 @@
  * Model for Vrac
  *
  */
-class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVersionDocument, InterfaceDeclarantDocument {
+class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVersionDocument, InterfaceDeclarantDocument, InterfaceArchivageDocument  {
 
     protected $mouvement_document = null;
     protected $version_document = null;
     protected $declarant_document = null;
+    protected $archivage_document = null;
 
     public function  __construct() {
         parent::__construct();   
         $this->mouvement_document = new MouvementDocument($this);
         $this->version_document = new VersionDocument($this);
         $this->declarant_document = new DeclarantDocument($this);
+        $this->archivage_document = new ArchivageDocument($this);
     }
 
     public function constructId() {
@@ -178,11 +180,31 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         return false;
     }
 
+    protected function preSave() {
+        $this->archivage_document->preSave();
+    }
+    
+    public function __toString()
+    {
+        
+        return SV12Client::getInstance()->getLibelleFromId($this->_id);
+    }
+
     /**** VERSION ****/
 
     public static function buildVersion($rectificative, $modificative) {
 
         return VersionDocument::buildVersion($rectificative, $modificative);
+    }
+
+    public static function buildRectificative($version) {
+
+        return VersionDocument::buildRectificative($version);
+    }
+
+    public static function buildModificative($version) {
+
+        return VersionDocument::buildModificative($version);
     }
 
     public function getVersion() {
@@ -384,10 +406,28 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
     
     /**** FIN DES DECLARANT ****/
-    
-    public function __toString()
-    {
-        
-        return SV12Client::getInstance()->getLibelleFromId($this->_id);
+
+    /*** ARCHIVAGE ***/
+
+     public function getNumeroArchive() {
+
+        return $this->_get('numero_archive');
     }
+
+    public function getDateArchivage() {
+
+        return $this->_get('date_archivage');
+    }
+
+    public function isArchivageCanBeSet() {
+
+        return $this->isValidee();
+    }
+
+    public function getDateArchivageLimite() {
+
+        return ConfigurationClient::getInstance()->buildDateFinCampagne($this->date_archivage);
+    }
+    
+    /*** FIN ARCHIVAGE ***/
 }
