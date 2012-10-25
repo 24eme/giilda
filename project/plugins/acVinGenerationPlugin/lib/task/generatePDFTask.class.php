@@ -42,13 +42,11 @@ EOF;
 	$generationids = GenerationClient::getInstance()->getGenerationIdEnCours();
     }
 
-//    print count($generationids)." generation(s) à réaliser\n";
-   
     foreach ($generationids as $gid) { 
+      echo "Generation de $gid\n";
       $generation = GenerationClient::getInstance()->find($gid);
       if (!$generation) {
-        echo $options['generation']." n'est pas un document valide\n";
-	continue;
+        throw new sfException("$gid n'est pas un document valide");
       }
       $g = null;
       switch ($generation->type_document) {
@@ -59,8 +57,10 @@ EOF;
           case GenerationClient::TYPE_DOCUMENT_DS:
               $g = new GenerationDSPDF($generation, $this->configuration, $options);
               break;
+      default:
+	throw new Exception($generation->type_document." n'est pas un type supporté");
+	
       }
-      $g->preGeneratePDF();
       echo $g->generatePDF()."\n";
     }
   }
