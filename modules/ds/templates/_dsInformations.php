@@ -1,4 +1,10 @@
-<div id="ds_infos" class="bloc_form">    
+<div id="ds_infos" class="bloc_form">   
+        <div class="ligne_form">
+            <span>
+                  <label>Numéro d'archive :</label>
+                  <?php display_field($ds,'numero_archive'); ?>
+            </span>
+        </div> 
         <div class="ligne_form">
             <span>
                   <label>N° DS :</label>

@@ -4,13 +4,15 @@
  * Model for DS
  *
  */
-class DS extends BaseDS implements InterfaceDeclarantDocument {
+class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivageDocument {
 
     protected $declarant_document = null;
+    protected $archivage_document = null;
 
     public function __construct() {
         parent::__construct();
         $this->declarant_document = new DeclarantDocument($this);
+        $this->archivage_document = new ArchivageDocument($this);
     }
 
     public function constructId() {
@@ -51,14 +53,6 @@ class DS extends BaseDS implements InterfaceDeclarantDocument {
         $this->setDateEcheance(Date::getIsoDateFinDeMoisISO($this->date_stock, 2));
     }
 
-    public function getEtablissementObject() {
-        return $this->declarant_document->getEtablissementObject();
-    }
-
-    public function storeDeclarant() {
-        $this->declarant_document->storeDeclarant();
-    }
-
     public function isStatutValide() {
         return $this->statut === DSClient::STATUT_VALIDE;
     }
@@ -81,4 +75,43 @@ class DS extends BaseDS implements InterfaceDeclarantDocument {
         }
     }
 
+    protected function preSave() {
+        $this->archivage_document->preSave();
+    }
+
+    /*** DECLARANT ***/
+
+    public function getEtablissementObject() {
+        return $this->declarant_document->getEtablissementObject();
+    }
+
+    public function storeDeclarant() {
+        $this->declarant_document->storeDeclarant();
+    }
+
+    /*** FIN DECLARANT ***/
+
+    /*** ARCHIVAGE ***/
+
+     public function getNumeroArchive() {
+
+        return $this->_get('numero_archive');
+    }
+
+    public function getDateArchivage() {
+
+        return $this->_get('date_archivage');
+    }
+
+    public function isArchivageCanBeSet() {
+
+        return $this->isStatutValide();
+    }
+
+    public function getDateArchivageLimite() {
+
+        return ConfigurationClient::getInstance()->buildDateFinCampagne($this->date_archivage);
+    }
+    
+    /*** FIN ARCHIVAGE ***/
 }

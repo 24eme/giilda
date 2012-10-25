@@ -11,6 +11,8 @@ DS:
       date_stock: {}
       campagne: {}
       periode: {}
+      numero_archive: {  }
+      date_archivage: {  }
       statut: {}
       commentaires: {}
       declarant:
