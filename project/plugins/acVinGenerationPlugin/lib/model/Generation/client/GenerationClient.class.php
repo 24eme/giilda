@@ -29,7 +29,7 @@ class GenerationClient extends acCouchdbClient {
                 ->rows;
     }
     
-     public function findHistoryWithStatusAndType($limit = 10, $status, $type) {
+     public function findHistoryWithStatusAndType($status, $type,$limit = 10) {
         $views = acCouchdbManager::getClient()
                         ->startkey(array($status, $type))
                         ->endkey(array($status, $type, array()));
@@ -37,11 +37,11 @@ class GenerationClient extends acCouchdbClient {
         return $views->getView("generation", "history")->rows;
     }
 
-    public function findHistoryWithType($limit = 10, $type) {
+    public function findHistoryWithType($type,$limit = 10) {
         $allStatus = $this->getAllStatus();
         $results = array();
         foreach ($allStatus as $status) {
-            $results = array_merge($this->findHistoryWithStatusAndType($limit,  $status,$type), $results);
+            $results = array_merge($this->findHistoryWithStatusAndType($status,$type,$limit), $results);
         }
         return $results;
     }
