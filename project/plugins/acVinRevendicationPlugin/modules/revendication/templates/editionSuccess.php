@@ -21,6 +21,8 @@
                     <?php
                     foreach ($revendication->datas as $cvi => $etb) :
                         foreach ($etb->produits as $hashKey => $prod) :
+                            if($prod->statut != RevendicationProduits::STATUT_SUPPRIME) :
+                                
                             foreach ($prod->volumes as $num_row => $volume) :
                                 ?>
                                 <tr>
@@ -38,8 +40,8 @@
                                     </td>
                                 </tr>
                                 <?php
-                                $firstRow = false;
                             endforeach;
+                            endif;
                         endforeach;
                     endforeach;
                     ?>

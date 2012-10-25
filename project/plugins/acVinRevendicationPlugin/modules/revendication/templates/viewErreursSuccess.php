@@ -17,50 +17,34 @@
                             Nombre d'erreurs total : <label><?php echo count($revendication->erreurs); ?></label>
                         </span>
                     </li>
+                    <?php foreach ($erreursByType->erreurs as $type => $erreursType) : ?>
                     <li>
-                        <span>
-                            Nombre total de CVI non reconnus : <label><?php echo $erreursByType->{RevendicationErreurs::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS}; ?></label>
+                    <?php foreach ($erreursType as $unmatched_data => $erreur) : ?>
+                          <span>
+                              <label>
+                                  <?php if($type == RevendicationErreurs::ERREUR_TYPE_PRODUIT_NOT_EXISTS): ?>
+                                       <a href="<?php echo url_for('revendication_add_alias_to_configuration',array('odg' => $revendication->odg, 'campagne' => $revendication->campagne, 'alias' => $unmatched_data)); ?>"><?php echo $erreur->libelle_erreur; ?></a>
+                                  <?php else : 
+                                      echo $erreur->libelle_erreur;
+                                      endif;
+                                   ?>
+                              </label>
                         </span>
                         <span>
-                            CVI non reconnus :                             
-                                <?php
-                                foreach ($erreursByType->erreurs[RevendicationErreurs::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS] as $cviArray) :
-                                    foreach ($cviArray as $numLigne):
-                                    ?>
-                                        <label><a href="#<?php echo $numLigne;?>"><?php echo $numLigne;?>&nbsp;</a></label>
-                                    <?php
-                                    endforeach;
-                                endforeach;
-                                ?>                            
+                            
+                        <label>
+                        <?php foreach ($erreur->lignes as $numLigne) :
+                            echo '<a href="#'.$numLigne.'">&nbsp;'.$numLigne.'</a>';
+                        endforeach; ?>
+                    <?php
+                    endforeach;
+                    ?>
+                        </label>
                         </span>
                     </li>
-                    <li>
-                        <span>
-                            Nombre total de Produits non reconnus : <label><?php echo $erreursByType->{RevendicationErreurs::ERREUR_TYPE_PRODUIT_NOT_EXISTS}; ?></label>
-                        </span>
-                        <span>
-                            Produits non reconnus :                            
-                                    <ul>
-                                <?php
-                                foreach ($erreursByType->erreurs[RevendicationErreurs::ERREUR_TYPE_PRODUIT_NOT_EXISTS] as $prodName => $prodArray) :
-                                    ?>
-                                    <li> 
-                                        
-                                    <?php
-                                    echo $prodName;
-                                    foreach ($prodArray as $numLigne):
-                                    ?>
-                                        <label><a href="#<?php echo $numLigne;?>"><?php echo $numLigne;?>&nbsp;</a></label>
-                                    <?php
-                                    endforeach;
-                                    ?>
-                                    </li>
-                                    <?php
-                                endforeach;
-                                ?>                            
-                                    </ul>
-                        </span>
-                    </li>
+                    <?php
+                    endforeach;
+                    ?>
                 </ul>
             </div>
             <h2>Tableau d'erreurs :</h2>

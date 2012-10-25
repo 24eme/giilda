@@ -4,11 +4,14 @@
  * 
  * Base model for RevendicationProduits
 
+ * @property string $date_certification
  * @property string $libelle_produit_csv
  * @property string $produit_hash
  * @property string $produit_libelle
  * @property acCouchdbJson $volumes
 
+ * @method string getDateCertification()
+ * @method string setDateCertification()
  * @method string getLibelleProduitCsv()
  * @method string setLibelleProduitCsv()
  * @method string getProduitHash()
