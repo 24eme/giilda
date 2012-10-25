@@ -85,15 +85,18 @@ class Revendication extends BaseRevendication {
 
     private function matchProduit($row) {
         $libelle_prod = $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT];
-        foreach ($this->getProduitsAlias() as $hash => $produitAliases)
+        $produits = $this->getProduits();
+        foreach ($this->getProduitsAlias() as $hashKey => $produitAliases)
         {
             foreach ($produitAliases as $alias) {
-                if (Search::matchTermLight($libelle_prod, $alias))
-                        return array(str_replace ('-', '/', $hash), $alias);
+                if (Search::matchTermLight($libelle_prod, $alias)){
+                        $hash = str_replace ('-', '/', $hashKey);
+                        return array($hash, $produits[$hash]);
+                }
             }
         }
         
-        foreach ($this->getProduits() as $hash => $produit) {
+        foreach ($produits as $hash => $produit) {
             if (Search::matchTermLight($libelle_prod, $produit))
                     return array($hash, $produit);
         }
@@ -146,7 +149,10 @@ class Revendication extends BaseRevendication {
     }
     
     public function updateErrors() {
-        foreach ($this->erreurs as $num_ligne => $erreur) {
+        $num_ligne = count($this->erreurs) - 1;
+        while($num_ligne >= 0){
+            
+            $erreur = $this->erreurs[$num_ligne];
             $row = explode('#', $erreur->ligne);            
             $etb = $this->matchEtablissement($row);
             $hashLibelle = $this->matchProduit($row);
@@ -156,8 +162,9 @@ class Revendication extends BaseRevendication {
                     $revendicationEtb = $this->datas->_add($etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI]);
                 $revendicationEtb->storeDeclarant($etb);
                 $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle);
-                $this->erreurs->remove($num_lignes);
+                unset($this->erreurs[$num_ligne]);
             }
+            $num_ligne--;
         }
     }
 
