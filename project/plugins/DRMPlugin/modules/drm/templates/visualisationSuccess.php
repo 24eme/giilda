@@ -10,6 +10,7 @@
 		<ul id="recap_infos_header">
 			<li><span>Nom de l'opérateur :</span> <?php echo $drm->getEtablissement()->nom ?> </li>
 			<li><span>Période :</span> <?php echo $drm->periode ?></li>
+            <li><span>Numéro d'archive :</span> <?php echo $drm->numero_archive ?></li>
 		</ul>
 		
         <?php if ($drm_suivante && $drm_suivante->isRectificative() && !$drm_suivante->isValidee()): ?>
