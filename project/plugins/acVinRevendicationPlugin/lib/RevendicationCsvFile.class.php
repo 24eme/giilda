@@ -10,14 +10,15 @@ class RevendicationCsvFile extends CsvFile
   const CSV_COL_RAISON_SOCIALE = 4;
   const CSV_COL_VILLE = 5;
   const CSV_COL_PROPRIO_METAYER = 6;
+  const CSV_COL_BAILLEUR = 7;
   const CSV_COL_ADRESSE = 8;
   const CSV_COL_CODE_POSTAL = 9;
   const CSV_COL_COMMUNE = 10;
   const CSV_COL_CODE_PRODUIT = 11;
   const CSV_COL_LIBELLE_PRODUIT = 12;
   const CSV_COL_CAMPAGNE = 13;
-  const CSV_COL_UNKNOWN_ID1 = 14;
-  const CSV_COL_UNKOWN_ID2 = 15;
+  const CSV_COL_VOLUME = 14;
+  const CSV_COL_NUMERO_CA = 15;
   const CSV_COL_DATE = 16;
 //  const CSV_COL_;
 
@@ -69,6 +70,16 @@ class RevendicationCsvFile extends CsvFile
                 return false;
         }
 
+        if ($line[self::CSV_COL_PROPRIO_METAYER] == "2" && !$line[self::CSV_COL_BAILLEUR]) {
+                $this->errors[] = array('message' => 'Un volume en metayage devrait avoir un bailleur', 'num_ligne' => $this->current_line);
+                return false;
+        }
+        if ($line[self::CSV_COL_PROPRIO_METAYER] == "1" && $line[self::CSV_COL_BAILLEUR]) {
+                $this->errors[] = array('message' => 'Un bailleur ne peut pas être déclaré sans metayage', 'num_ligne' => $this->current_line);
+                return false;
+        }
+
+        
 	return true;
   }
 
@@ -83,31 +94,31 @@ class RevendicationCsvFile extends CsvFile
 		$firstline = 0;
 		rtrim($s);
 		$s = str_replace(';', ' ', $s);
-		$line = substr($s, 0, 12).';'.
-			substr($s, 12, 8).';'.
-                        substr($s, 20, 8).';'.
-                        substr($s, 28, 10).';'.
-                        substr($s, 38, 30).';'.
-                        substr($s, 68, 30).';';
+		$line = substr($s, 0, 12).';'. //CSV_COL_TYPE = 0;
+			substr($s, 12, 8).';'. //CSV_COL_UNKNOWN1 = 1
+                        substr($s, 20, 8).';'. //CSV_COL_UNKNOWN2
+                        substr($s, 28, 10).';'. //CSV_COL_CVI
+                        substr($s, 38, 30).';'. //CSV_COL_RAISON_SOCIALE
+                        substr($s, 68, 30).';'; //CSV_COL_VILLE
 		$s = substr($s, 97);
 		$s = preg_replace('/^[^12]*/', '', $s);
 		$line .=  
-			substr($s, 0, 1).';'.
-                        substr($s, 1, 30).';'.
-                        substr($s, 31, 90).';';
+			substr($s, 0, 1).';'. //CSV_COL_PROPRIO_METAYER
+                        substr($s, 1, 30).';'. //CSV_COL_BAILLEUR
+                        substr($s, 31, 90).';'; //CSV_COL_ADRESSE
 		$s = preg_replace('/^.* ([0-9]{5}[^0-9])/', '\1', $s);
 		$line .= 
-                        substr($s, 0, 5).';'.
-                        substr($s, 5, 30).';'.
-                        substr($s, 35, 8).';'.
-                        substr($s, 43, 66).';';
+                        substr($s, 0, 5).';'. //CSV_COL_CODE_POSTAL
+                        substr($s, 5, 30).';'.//CSV_COL_COMMUNE
+                        substr($s, 35, 8).';'.//CSV_COL_CODE_PRODUIT
+                        substr($s, 43, 66).';';//CSV_COL_LIBELLE_PRODUIT
 		$s = substr($s, 99);
 		$s = preg_replace('/^[^0-9]*/', '', $s);
 		$line .= 
-                        substr($s, 0, 4).';'.
-			(preg_replace('/^0*/', '', preg_replace('/ /', '', substr($s, 4, 9)))/100).';'.
-                        substr($s, 13, 7).';'.
-			substr($s, 20, 8).';'
+                        substr($s, 0, 4).';'. //CSV_COL_CAMPAGNE
+			(preg_replace('/^0*/', '', preg_replace('/ /', '', substr($s, 4, 9)))/100).';'. //CSV_COL_VOLUME
+                        substr($s, 13, 7).';'.//CSV_COL_NUMERO_CA
+			substr($s, 20, 8).';'//CSV_COL_DATE
 		      ;
 		$line = preg_replace('/ *;/', ';', $line);
                 $line = preg_replace('/;0*/', ';', $line);
