@@ -71,6 +71,7 @@ class revendicationActions extends sfActions {
         ini_set('memory_limit','1024M');
         $this->revendication = $this->getRoute()->getRevendication();
         $this->cvi = $request->getParameter('cvi');
+        $this->nom = $this->revendication->getDatas()->get($this->cvi)->declarant_nom;
         $this->row = $request->getParameter('row');
         $this->form = new EditionRevendicationForm($this->revendication,$this->cvi,$this->row);
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -82,7 +83,30 @@ class revendicationActions extends sfActions {
             }
         }
     }
+    
+    public function executeDeleteRow(sfWebRequest $request) {
+        $this->revendication = $this->getRoute()->getRevendication();
+        $cvi = $request->getParameter('cvi');
+        $row = $request->getParameter('row');
+        $this->revendication->deleteRow($cvi,$row);
+        $this->revendication->save();
+        return $this->redirect('revendication_edition', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
+    }
 
-
+    public function executeAddAliasToProduit(sfWebRequest $request) {
+        $alias = $request->getParameter('alias');
+        $this->revendication = $this->getRoute()->getRevendication();
+        $this->form = new AddAliasToProduitForm($this->revendication, $alias);
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->doUpdate();
+                $this->revendication->updateErrors();
+                $this->revendication->save();
+                return $this->redirect('revendication_view_erreurs', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
+            }
+        }
+        
+    }
 
 }

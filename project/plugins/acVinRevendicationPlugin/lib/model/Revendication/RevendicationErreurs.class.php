@@ -16,7 +16,7 @@ class RevendicationErreurs extends BaseRevendicationErreurs {
         $this->num_ligne = $numLigne;
         $this->type_erreur = $erreur_type;
         if(!$rowFormatted) {
-            throw new sfExcpetion("mokrane".$numLigne."grossebite");
+            throw new sfExcpetion("La ligne ".$numLigne." est mal formattée.");
         }
         switch ($erreur_type) {
             case self::ERREUR_TYPE_PRODUIT_NOT_EXISTS:

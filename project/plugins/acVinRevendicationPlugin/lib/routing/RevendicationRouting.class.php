@@ -45,6 +45,18 @@ class RevendicationRouting {
                                                             array('model' => 'Revendication',
                                                                 'type' => 'object')));
         
+       $r->prependRoute('revendication_delete_row', new RevendicationRoute('/revendication/:odg/:campagne/delete-row/:cvi/:row', array('module' => 'revendication',
+                                                            'action' => 'deleteRow'),
+                                                            array('sf_method' => array('get', 'post')),
+                                                            array('model' => 'Revendication',
+                                                                'type' => 'object')));
+        
+        $r->prependRoute('revendication_add_alias_to_configuration', new RevendicationRoute('/revendication/:odg/:campagne/add-alias/:alias', array('module' => 'revendication',
+                                                                  'action' => 'addAliasToProduit'),
+                                                                    array('sf_method' => array('get', 'post')),
+                                                                    array('model' => 'Revendication',
+                                                                    'type' => 'object')));
+        
         
     }
 }

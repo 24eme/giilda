@@ -29,9 +29,11 @@ Revendication:
                           type: collection
                           definition:
                             fields:
+                              date_certification: {}
                               libelle_produit_csv: {}
                               produit_hash: {}
                               produit_libelle: {}
+                              statut: {}
                               volumes: 
                                 type: collection
                                 definition:

@@ -1,3 +1,6 @@
+<?php
+use_helper('Float');
+?>
 <div id="contenu" class="revendication">
     <!-- #principal -->
     <section id="principal">
@@ -13,7 +16,7 @@
                             <th>CVI</th>
                             <th>Nom</th>
                             <th>Produit</th>
-                            <th>Volume</th>
+                            <th style="width: 100px;">Volume (en hl)</th>
                             <th>Editer</th>
                         </tr>
                     </thead>
@@ -21,13 +24,15 @@
                     <?php
                     foreach ($revendication->datas as $cvi => $etb) :
                         foreach ($etb->produits as $hashKey => $prod) :
+                            if($prod->statut != RevendicationProduits::STATUT_SUPPRIME) :
+                                
                             foreach ($prod->volumes as $num_row => $volume) :
                                 ?>
                                 <tr>
                                     <td><?php echo $cvi; ?></td>
                                     <td><?php echo $etb->declarant_nom; ?></td>
                                     <td><?php echo $prod->produit_libelle; ?></td>
-                                    <td><?php echo $volume->volume; ?></td>
+                                    <td><?php echoFloat($volume->volume); ?></td>
                                     <td>
                                         <a href="<?php
                                             echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
@@ -38,8 +43,8 @@
                                     </td>
                                 </tr>
                                 <?php
-                                $firstRow = false;
                             endforeach;
+                            endif;
                         endforeach;
                     endforeach;
                     ?>

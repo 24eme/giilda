@@ -1,3 +1,6 @@
+<?php
+use_helper('Float');
+?>
 <div id="contenu" class="revendication">
     <!-- #principal -->
     <section id="principal">
@@ -19,19 +22,28 @@
                     <thead>
                         <tr>
                             <th>CVI</th>
+                            <th>Nom</th>
                             <th>Produit</th>
-                            <th>Volume</th>
+                            <th style="width: 100px;">Volume (en hl)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><?php echo $cvi; ?></td>
+                            <td><?php echo $nom; ?></td>
                             <td><?php echo $form['produit_hash']->render(); ?></td>
                             <td><?php echo $form['volume']->render(); ?></td>
                         </tr>
                     </tbody>
                 </table>
+                <br>
                 <button type="submit" class="btn_majeur btn_modifier">Modifier</button>
+                <div class="f_right">
+                <a href="<?php echo url_for('revendication_delete_row',array('odg' => $revendication->odg,
+                                                                            'campagne' => $revendication->campagne,
+                                                                            'cvi' => $cvi,
+                                                                            'row' => $row)); ?>" class="btn_majeur btn_rouge">Supprimer</a>
+                </div>
             </fieldset>
             
         </form>
