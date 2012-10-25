@@ -176,7 +176,8 @@ class Configuration extends BaseConfiguration {
         $hashProduitKey = str_replace('/', '-', $hashProduit);
         if(!$this->alias->exist($hashProduitKey))
             $this->alias->add($hashProduitKey,array());
-        $this->alias->get($hashProduitKey)->add($alias);
+        $pos = count($this->alias->get($hashProduitKey));
+        $this->alias->get($hashProduitKey)->add($pos,$alias);
     }
 
 
