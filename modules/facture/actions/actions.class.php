@@ -32,8 +32,7 @@ class factureActions extends sfActions {
            $generation->save();
 	 }
        }
-       return $this->redirect('facture');
-//       $this->redirect('generation_view', array('type_document' => $generation->type_document,'date_emission' => $generation->date_emission));
+       return $this->redirect('generation_view', array('type_document' => $generation->type_document,'date_emission' => $generation->date_emission));
 
     }
        
