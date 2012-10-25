@@ -31,17 +31,11 @@ use_helper('Float');
                         <td><?php echo 'F'; ?></td>
                         <td><?php echo link_to($generation->value[GenerationClient::HISTORY_VALUES_DATE], 'generation_view', array('type_document' => GenerationClient::TYPE_DOCUMENT_FACTURES, 'date_emission' => $generation->value[GenerationClient::HISTORY_VALUES_DATE])); ?></td>
                         <td><?php
-                    echo ($generation->value[GenerationClient::HISTORY_VALUES_NBDOC]) ?
-                            $generation->value[GenerationClient::HISTORY_VALUES_NBDOC] :
-                            $generation->key[GenerationClient::HISTORY_KEYS_STATUS];
+                            echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC];
                     ?></td>
                         <td><?php
-                    if ($generation->value[GenerationClient::HISTORY_VALUES_SOMME] == null) {
-                        echo $generation->key[GenerationClient::HISTORY_KEYS_STATUS];
-                    } else {
                         echoFloat($generation->value[GenerationClient::HISTORY_VALUES_SOMME]);
-                    }
-                    ?>
+                    ?>&nbsp;€
                         </td>       
 
                     </tr>
