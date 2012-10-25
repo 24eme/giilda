@@ -6,6 +6,9 @@
         
         <!-- #contenu_etape -->
         <section id="contenu_etape">
+            
+            <?php include_component('revendication', 'chooseEtablissement'); ?>
+            
             <form method="POST" enctype="multipart/form-data" action="<?php echo url_for('revendication_upload'); ?>" >
                 
                 <h2>Import des volumes revendiqués</h2>

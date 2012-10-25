@@ -196,12 +196,13 @@ class Revendication extends BaseRevendication {
             $row = explode('#', $erreur->ligne);            
             $etb = $this->matchEtablissement($row);
             $hashLibelle = $this->matchProduit($row);
+            //$bailleur = ($row->value[RevendicationCsvFile::CSV_COL_PROPRIO_METAYER])? $this->matchBailleur($row) : null;
             
             if ((!is_null($etb)) && (!is_null($hashLibelle))) {
                 if(!array_key_exists($etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI],  $this->datas))
                     $revendicationEtb = $this->datas->_add($etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI]);
                 $revendicationEtb->storeDeclarant($etb);
-                $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle);
+                $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle, null);
                 unset($this->erreurs[$num_ligne]);
             }
             $num_ligne--;

@@ -12,7 +12,8 @@ use_helper('Float');
         <form action="<?php echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
                                 'campagne' => $revendication->campagne,
                                 'cvi' => $cvi,
-                                'row' => $row));?>" method="POST">
+                                'row' => $row,
+                                'retour' => $retour));?>" method="POST">
         <?php
         echo $form->renderHiddenFields();
         echo $form->renderGlobalErrors();

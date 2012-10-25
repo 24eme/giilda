@@ -4,8 +4,6 @@
         <p id="fil_ariane"><strong>Page d'accueil</strong></p>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-            
-            <a class="btn_etape_prec" href="<?php echo url_for('revendication_view_erreurs', array('odg' => $revendication->odg, 'campagne' => $revendication->campagne)); ?>"><span>Revenir aux erreurs</span></a>
 
             <h2>Volumes revendiqués</h2>
             <fieldset id="revendication_volume_revendiques_edition">
@@ -21,9 +19,9 @@
                     </thead>
                     <tbody>
                     <?php
-                    foreach ($revendication->datas as $cvi => $etb) : 
-                        include_partial('revendication/edition_tableau_etablissement',array('etb' => $etb, 'retour' => 'odg'));
-                    endforeach;
+                        if($revendication_etablissement)
+                        include_partial('revendication/edition_tableau_etablissement',array('etb' => $revendication_etablissement, 'retour' => 'etablissement'));
+                        else echo "<tr><td> Aucune revendications trouvées</td></tr>"
                     ?>
                     </tbody>
                 </table>

@@ -1,9 +1,33 @@
 <?php
 class revendicationActions extends sfActions {
   
-  public function executeUpload(sfWebRequest $request) {
-	$this->form = new UploadCSVRevendicationForm();
-        $this->errors = array();                
+    public function executeMonEspace(sfWebRequest $request) {
+        $this->revendication_etablissement = null;
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $revendication = RevendicationClient::getInstance()->find('REVENDICATION-TOURS-20122013');
+        if($revendication && $revendication->getDatas()->exist($this->etablissement->cvi))
+            $this->revendication_etablissement = $revendication->getDatas()->get($this->etablissement->cvi);
+    }
+    
+    public function executeChooseEtablissement(sfWebRequest $request) {
+      $this->initIndex();      
+      if ($request->isMethod(sfWebRequest::POST)) {
+	 $this->formEtablissement->bind($request->getParameter($this->formEtablissement->getName()));
+	 if ($this->formEtablissement->isValid()) {
+	   return $this->redirect('revendication_etablissement', $this->formEtablissement->getEtablissement());
+	 }
+       }
+       $this->setTemplate('revendication_upload');
+    }
+
+    protected function initIndex() {
+      $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
+      $this->form = new UploadCSVRevendicationForm();
+      $this->errors = array();
+    }
+    
+    public function executeUpload(sfWebRequest $request) {
+	$this->initIndex();             
 	if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             if ($this->form->isValid()) {
@@ -73,12 +97,20 @@ class revendicationActions extends sfActions {
         $this->cvi = $request->getParameter('cvi');
         $this->nom = $this->revendication->getDatas()->get($this->cvi)->declarant_nom;
         $this->row = $request->getParameter('row');
+        $this->retour = $request->getParameter('retour');
+        $etablissement = EtablissementClient::getInstance()->findByCvi($this->cvi);
         $this->form = new EditionRevendicationForm($this->revendication,$this->cvi,$this->row);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->doUpdate();
                 $this->revendication->save();
+                
+                if ($etablissement && $this->retour == 'etablissement') {
+                    
+                    return $this->redirect('revendication_etablissement', $etablissement);
+                }
+                
                 return $this->redirect('revendication_edition', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
             }
         }
