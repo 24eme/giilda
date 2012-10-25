@@ -2,11 +2,11 @@
     
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><strong>Page d'accueil</strong> > Historique des générations &AMP; impressions des factures</p>
+        <p id="fil_ariane"><strong>Page d'accueil</strong> > Visualisation d'un générations d'impression</p>
         
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-            <h2> Historique des générations &AMP; impressions des factures </h2>
+            <h2>Visualisation d'une génération d'impression</h2>
             <?php include_partial('generations', array('generation' => $generation, 'type' => 'facture')); ?>
         </section>
         <!-- fin #contenu_etape -->
