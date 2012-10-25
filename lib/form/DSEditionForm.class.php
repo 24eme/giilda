@@ -10,7 +10,7 @@ class DSEditionForm extends acCouchdbForm {
         $this->ds = $ds;
         $defaults = array();
         foreach ($this->ds->getDeclarations() as $key => $value) {
-                $defaults[$key] = $value->stock_revendique;
+                $defaults[$key] = sprintf("%01.02f", round($value->stock_revendique, 2));
     	}      
         $defaults['commentaires'] = $this->ds->commentaires;
         parent::__construct($ds,$defaults, $options, $CSRFSecret);
