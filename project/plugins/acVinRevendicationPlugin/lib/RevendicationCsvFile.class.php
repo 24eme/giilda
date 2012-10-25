@@ -78,7 +78,18 @@ class RevendicationCsvFile extends CsvFile
                 $this->errors[] = array('message' => 'Un bailleur ne peut pas être déclaré sans metayage', 'num_ligne' => $this->current_line);
                 return false;
         }
-
+        if ($line[self::CSV_COL_VOLUME]*1 >= 0) {
+                $this->errors[] = array('message' => 'Le volume revendiqué ne peut être négatif', 'num_ligne' => $this->current_line);
+                return false;
+        }
+        if ($line[self::CSV_COL_NUMERO_CA]*1 > 0) {
+                $this->errors[] = array('message' => 'Le numéro CA doit être un nombre', 'num_ligne' => $this->current_line);
+                return false;
+        }
+        if ($line[self::CSV_COL_CAMPAGNE]*1 > 2000) {
+                $this->errors[] = array('message' => 'Le millesime semble erroné', 'num_ligne' => $this->current_line);
+                return false;
+        }
         
 	return true;
   }
