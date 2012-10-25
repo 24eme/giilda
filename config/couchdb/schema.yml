@@ -11,6 +11,8 @@ Facture:
       date_emission: {}
       date_facturation: {}
       campagne: {}
+      numero_archive: {  }
+      date_archivage: {  }
       statut: {}
       versement_comptable: {type: integer}
       emetteur:

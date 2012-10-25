@@ -4,14 +4,16 @@
  * Model for Facture
  *
  */
-class Facture extends BaseFacture implements InterfaceDeclarantDocument {
+class Facture extends BaseFacture implements InterfaceDeclarantDocument, InterfaceArchivageDocument {
 
     private $documents_origine = array();
     protected $declarant_document = null;
+    protected $archivage_document = null;
 
     public function __construct() {
         parent::__construct();
         $this->declarant_document = new DeclarantDocument($this);
+        $this->archivage_document = new ArchivageDocument($this);
     }
 
     public function storeEmetteur($emetteur) {
@@ -39,23 +41,6 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument {
 
     public function getTaxe() {
         return $this->total_ttc - $this->total_ht;
-    }
-
-    public function save() {
-        if ($this->isNew() && $this->total_ht > 0) {
-            $this->facturerMouvements();
-        }
-        if (!$this->versement_comptable) {
-            $this->versement_comptable = 0;
-        }
-        parent::save();
-        $this->saveDocumentsOrigine();
-    }
-
-    public function saveDocumentsOrigine() {
-        foreach ($this->getDocumentsOrigine() as $doc) {
-            $doc->save();
-        }
     }
 
     public function getDocumentOrigine($id) {
@@ -299,19 +284,67 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument {
     return $nbLigne;
     }
 
+    protected function ttc($p) {
+        return $p + $p * 0.196;
+    }
+
+    public function save() {
+        parent::save();
+        $this->saveDocumentsOrigine();
+    }
+
+    public function saveDocumentsOrigine() {
+        foreach ($this->getDocumentsOrigine() as $doc) {
+            $doc->save();
+        }
+    }
+
+    protected function preSave() {
+        if ($this->isNew() && $this->total_ht > 0) {
+            $this->facturerMouvements();
+        }
+        if (!$this->versement_comptable) {
+            $this->versement_comptable = 0;
+        }
+
+        $this->archivage_document->preSave();
+    }
 
     /****** DECLARANT *******/
 
     public function getEtablissementObject() {
+        
         return $this->declarant_document->getEtablissementObject();
     }
 
     public function storeDeclarant() {
+        
         $this->declarant_document->storeDeclarant();
     }
-    
-    private function ttc($p) {
-        return $p + $p * 0.196;
+
+    /*** FIN DECLARANT ***/
+
+    /*** ARCHIVAGE ***/
+
+    public function getNumeroArchive() {
+
+        return $this->_get('numero_archive');
     }
 
+    public function getDateArchivage() {
+
+        return $this->_get('date_archivage');
+    }
+
+    public function isArchivageCanBeSet() {
+
+        return true;
+    }
+
+    public function getDateArchivageLimite() {
+
+        return sprintf('%04d-%02d-%02', date("Y", strtotime($this->date_archivage)), 12, 31);
+    }
+    
+    /*** FIN ARCHIVAGE ***/
 }
