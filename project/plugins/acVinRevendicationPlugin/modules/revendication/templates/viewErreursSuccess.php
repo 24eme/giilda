@@ -26,12 +26,13 @@
                                   <?php else : 
                                       echo $erreur->libelle_erreur;
                                       endif;
-                                   ?>
+                                   ?>                                      
                               </label>
                         </div>
                         <br/>
                             
                         <div class="bloc_col">
+                             Lignes impactées par l'erreur précédente : 
                         <?php foreach ($erreur->lignes as $numLigne) :
                             echo '<a href="#'.$numLigne.'">'.$numLigne.'</a> ';
                         endforeach; ?>

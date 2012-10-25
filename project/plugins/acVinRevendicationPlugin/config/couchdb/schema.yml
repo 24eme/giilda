@@ -44,6 +44,8 @@ Revendication:
                                         fields:
                                           num_ligne: { }
                                           volume: { type: float }
+                                          bailleur_identifiant: {  }
+                                          bailleur_nom: {  }
       erreurs:
         type: array_collection
         definition:

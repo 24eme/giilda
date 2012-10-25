@@ -30,7 +30,9 @@ use_helper('Float');
                                 ?>
                                 <tr>
                                     <td><?php echo $cvi; ?></td>
-                                    <td><?php echo $etb->declarant_nom; ?></td>
+                                    <td><?php echo $etb->declarant_nom;
+                                    if($volume->bailleur_nom) echo ' (en metayage avec : '.$volume->bailleur_nom.')';
+                                    ?></td>
                                     <td><?php echo $prod->produit_libelle; ?></td>
                                     <td><?php echoFloat($volume->volume); ?></td>
                                     <td>

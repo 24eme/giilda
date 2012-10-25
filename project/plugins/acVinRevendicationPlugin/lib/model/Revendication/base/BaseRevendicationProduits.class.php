@@ -8,6 +8,7 @@
  * @property string $libelle_produit_csv
  * @property string $produit_hash
  * @property string $produit_libelle
+ * @property string $statut
  * @property acCouchdbJson $volumes
 
  * @method string getDateCertification()
@@ -18,6 +19,8 @@
  * @method string setProduitHash()
  * @method string getProduitLibelle()
  * @method string setProduitLibelle()
+ * @method string getStatut()
+ * @method string setStatut()
  * @method acCouchdbJson getVolumes()
  * @method acCouchdbJson setVolumes()
  

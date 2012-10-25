@@ -10,7 +10,7 @@ class RevendicationProduits extends BaseRevendicationProduits {
     const STATUT_MODIFIE = 'modifie';
     const STATUT_IMPORTE = 'importe';
 
-    public function storeProduit($num_ligne,$row,$hashLibelle) {
+    public function storeProduit($num_ligne, $row, $hashLibelle, $bailleur) {
         $this->libelle_produit_csv = $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT];
         $this->produit_hash = $hashLibelle[0];
         $this->produit_libelle = $hashLibelle[1];
@@ -20,8 +20,13 @@ class RevendicationProduits extends BaseRevendicationProduits {
             $volumes = $this->volumes->add($row[RevendicationCsvFile::CSV_COL_NUMERO_CA]);
             $volumes->volume = floatval($row[RevendicationCsvFile::CSV_COL_VOLUME]);
             $volumes->num_ligne = $num_ligne;
-            }
+            if ($bailleur) {
+                $volumes->bailleur_identifiant = $bailleur->key[EtablissementAllView::KEY_IDENTIFIANT];
+                $volumes->bailleur_nom = $bailleur->key[EtablissementAllView::KEY_NOM];
+
+                }
         }
+    }
 
     public function updateProduit($hash, $libelle) {
         $this->produit_hash = $hash;

@@ -9,6 +9,7 @@ class Revendication extends BaseRevendication {
     private $csvSource = null;
     private $produits = null;
     private $produitsAlias = null;
+    private $etablissements = null;
     
     public function __construct() {
         parent::__construct();
@@ -32,9 +33,18 @@ class Revendication extends BaseRevendication {
                 $erreurSortie->storeErreur($num_ligne, $row, RevendicationErreurs::ERREUR_TYPE_PRODUIT_NOT_EXISTS);
                 continue;
             }
+            $bailleur = null;
+            if($this->rowHasMetayage($row)){
+                $bailleur = $this->matchBailleur($row);
+                if (is_null($bailleur)) {
+                    $erreurSortie = $this->erreurs->_add($num_ligne);
+                    $erreurSortie->storeErreur($num_ligne, $row, RevendicationErreurs::ERREUR_TYPE_BAILLEUR_NOT_EXISTS);
+                    continue;
+                }
+            }
             $revendicationEtb = $this->datas->_add($etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI]);
             $revendicationEtb->storeDeclarant($etb);
-            $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle);
+            $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle, $bailleur);
             $this->nb_data++;
         }
     }
@@ -63,6 +73,12 @@ class Revendication extends BaseRevendication {
         return $this->produitsAlias;
     }
     
+    public function setEtablissements() {
+        if (!$this->etablissements)
+            $this->etablissements = EtablissementAllView::getInstance()->findByInterpro('INTERPRO-inter-loire');
+        return $this->etablissements;
+    }
+    
     public function getProduits() {
         if (!$this->produits)
             $this->setProduits();
@@ -74,6 +90,13 @@ class Revendication extends BaseRevendication {
             $this->setProduitsAlias();
         return $this->produitsAlias;
     }
+    
+    public function getEtablissements(){
+        if (!$this->etablissements)
+            $this->setEtablissements();
+        return $this->etablissements;
+    }   
+
 
     private function matchEtablissement($row) {
         $cvi = $row[RevendicationCsvFile::CSV_COL_CVI];
@@ -101,6 +124,23 @@ class Revendication extends BaseRevendication {
                     return array($hash, $produit);
         }
         return null;
+    }
+    
+    private function rowHasMetayage($row)
+    {
+        return $row[RevendicationCsvFile::CSV_COL_PROPRIO_METAYER]=="2";
+    }
+
+
+    private function matchBailleur($row) {       
+        $etablissements = $this->getEtablissements();
+        foreach ($etablissements->rows as $etablissement) {
+            if (Search::matchTermLight($row[RevendicationCsvFile::CSV_COL_BAILLEUR],$etablissement->key[EtablissementAllView::KEY_NOM])){
+                return $etablissement;
+            }
+        }
+        return null;
+            
     }
 
     public function sortByType() {

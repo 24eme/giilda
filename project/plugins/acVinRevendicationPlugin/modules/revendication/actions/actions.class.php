@@ -18,7 +18,7 @@ class revendicationActions extends sfActions {
                 }
                     
                 $odg = $this->form->getValue('odg');
-                $campagne = $this->form->getValue('campagne'); 
+                $campagne = $this->form->getValue('campagne');
                 return $this->redirect('revendication_create', array('md5' => $file->getMD5(), 'odg' => $odg[0], 'campagne' => $campagne[0]));
            }
     	}
