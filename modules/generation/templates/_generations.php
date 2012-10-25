@@ -24,7 +24,7 @@
             </span>
         </div>
     </div>
-<?php if($generation->statut == GenerationClient::GENERATION_STATUT_GENERE) : ?>
+<?php if($generation->statut == GenerationClient::GENERATION_STATUT_GENERE && count($generation->fichiers)) : ?>
 <h2>Liste des factures/avoirs : </h2>
 <fieldset id="generation_documents">
         <table id="generation_documents_table" class="table_recap">
