@@ -87,5 +87,10 @@ class ConfigurationClient extends acCouchdbClient {
 
       return sprintf(self::CAMPAGNE_DATE_FIN, date('Y', strtotime($this->buildDateDebutCampagne($date)))+1);
     }
+
+    public function getCurrentCampagne() {
+
+        return $this->buildCampagne(date('Y-m-d'));
+    }
   
 }
