@@ -82,6 +82,15 @@ class revendicationActions extends sfActions {
             }
         }
     }
+    
+    public function executeDeleteRow(sfWebRequest $request) {
+        $this->revendication = $this->getRoute()->getRevendication();
+        $cvi = $request->getParameter('cvi');
+        $row = $request->getParameter('row');
+        $this->revendication->deleteRow($cvi,$row);
+        $this->revendication->save();
+        return $this->redirect('revendication_edition', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
+    }
 
     public function executeAddAliasToProduit(sfWebRequest $request) {
         $alias = $request->getParameter('alias');

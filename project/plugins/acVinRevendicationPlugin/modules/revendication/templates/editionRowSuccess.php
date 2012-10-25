@@ -32,6 +32,12 @@
                     </tbody>
                 </table>
                 <button type="submit" class="btn_majeur btn_modifier">Modifier</button>
+                <div class="f_right">
+                <a href="<?php echo url_for('revendication_delete_row',array('odg' => $revendication->odg,
+                                                                            'campagne' => $revendication->campagne,
+                                                                            'cvi' => $cvi,
+                                                                            'row' => $row)); ?>" class="btn_majeur btn_rouge">Supprimer</a>
+                </div>
             </fieldset>
             
         </form>

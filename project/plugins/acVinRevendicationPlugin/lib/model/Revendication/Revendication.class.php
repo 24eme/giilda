@@ -167,5 +167,9 @@ class Revendication extends BaseRevendication {
             $num_ligne--;
         }
     }
+    
+    public function deleteRow($cvi,$row) {
+        $this->getProduitNode($cvi,$row)->supprProduit();
+    }
 
 }
