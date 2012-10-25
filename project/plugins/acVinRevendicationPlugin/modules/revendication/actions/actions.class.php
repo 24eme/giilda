@@ -71,6 +71,7 @@ class revendicationActions extends sfActions {
         ini_set('memory_limit','1024M');
         $this->revendication = $this->getRoute()->getRevendication();
         $this->cvi = $request->getParameter('cvi');
+        $this->nom = $this->revendication->getDatas()->get($this->cvi)->declarant_nom;
         $this->row = $request->getParameter('row');
         $this->form = new EditionRevendicationForm($this->revendication,$this->cvi,$this->row);
         if ($request->isMethod(sfWebRequest::POST)) {

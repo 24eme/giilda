@@ -6,11 +6,10 @@
         <section id="contenu_etape">
             <h2>Edition des volumes revendiqués :</h2>
             <div class="generation_facture_options">
-                <a href="<?php echo url_for('revendication_edition', array('odg' => $revendication->odg, 'campagne' => $revendication->campagne)); ?>"><?php echo count($revendication->nb_data); ?> volumes revendiqués éditables</a>
+                <a class="btn_majeur btn_valider" href="<?php echo url_for('revendication_edition', array('odg' => $revendication->odg, 'campagne' => $revendication->campagne)); ?>">Editer les volumes revendiqués</a>
             </div>
             
             <h2>Erreurs de l'import :</h2>
-            <div class="generation_facture_options">
                 <ul>
                     <li>
                         <span>
@@ -20,7 +19,7 @@
                     <?php foreach ($erreursByType->erreurs as $type => $erreursType) : ?>
                     <li>
                     <?php foreach ($erreursType as $unmatched_data => $erreur) : ?>
-                          <span>
+                          <div class="generation_facture_options">
                               <label>
                                   <?php if($type == RevendicationErreurs::ERREUR_TYPE_PRODUIT_NOT_EXISTS): ?>
                                        <a href="<?php echo url_for('revendication_add_alias_to_configuration',array('odg' => $revendication->odg, 'campagne' => $revendication->campagne, 'alias' => $unmatched_data)); ?>"><?php echo $erreur->libelle_erreur; ?></a>
@@ -29,24 +28,23 @@
                                       endif;
                                    ?>
                               </label>
-                        </span>
-                        <span>
+                        </div>
+                        <br/>
                             
-                        <label>
+                        <div class="bloc_col">
                         <?php foreach ($erreur->lignes as $numLigne) :
-                            echo '<a href="#'.$numLigne.'">&nbsp;'.$numLigne.'</a>';
+                            echo '<a href="#'.$numLigne.'">'.$numLigne.'</a> ';
                         endforeach; ?>
+                            </div>
+                       <br/>
                     <?php
                     endforeach;
                     ?>
-                        </label>
-                        </span>
                     </li>
                     <?php
                     endforeach;
                     ?>
                 </ul>
-            </div>
             <h2>Tableau d'erreurs :</h2>
             <fieldset>
                 <table class="table_recap">

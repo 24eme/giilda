@@ -18,7 +18,6 @@ class RevendicationProduits extends BaseRevendicationProduits {
         $this->statut = self::STATUT_IMPORTE;
         if(!array_key_exists($row[RevendicationCsvFile::CSV_COL_UNKOWN_ID2],$this->volumes)){
            $volumes = $this->volumes->add($row[RevendicationCsvFile::CSV_COL_UNKOWN_ID2]);
-           
            $volumes->volume = floatval($row[RevendicationCsvFile::CSV_COL_UNKNOWN_ID1]);
            $volumes->num_ligne = $num_ligne;
           }
