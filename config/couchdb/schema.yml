@@ -24,6 +24,8 @@ DRM:
       periode: {  }
       precedente: {  }
       version: {  }
+      numero_archive: {  }
+      date_archivage: {  }
       droits:
         type: collection
         definition:

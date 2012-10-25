@@ -4,18 +4,20 @@
  * Model for DRM
  *
  */
-class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersionDocument {
+class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersionDocument, InterfaceArchivageDocument {
 
     const NOEUD_TEMPORAIRE = 'TMP';
     const DEFAULT_KEY = 'DEFAUT';
 
     protected $mouvement_document = null;
     protected $version_document = null;
+    protected $archivage_document = null;
 
     public function  __construct() {
         parent::__construct();   
         $this->mouvement_document = new MouvementDocument($this);
         $this->version_document = new VersionDocument($this);
+        $this->archivage_document = new ArchivageDocument($this);
     }
 
     public function constructId() {
@@ -247,28 +249,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
        $this->interpros->add(0,$i->getKey());
     }
 
-    public function save() {
-        if (!preg_match('/^2\d{3}-[01][0-9]$/', $this->periode)) {
-            throw new sfException('Wrong format for periode ('.$this->periode.')');
-        }
-        if ($user = $this->getUser()) {
-        	if ($user->hasCredential(myUser::CREDENTIAL_ADMIN)) {
-        		$compte = $user->getCompte();
-        		$canInsertEditeur = true;
-        		if ($lastEditeur = $this->getLastEditeur()) {
-        			$diff = Date::diff($lastEditeur->date_modification, date('c'), 'i');
-        			if ($diff < 25) {
-        				$canInsertEditeur = false;
-        			}
-        		}
-        		if ($canInsertEditeur) {
-        			$this->addEditeur($compte);
-        		}
-        	}
-        }
-        return parent::save();
-    }
-
     protected function getDRMHistoriqueAbstract() {
         
         return new DRMHistorique($this->identifiant, $this->periode);
@@ -420,6 +400,39 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     	$editeur->nom = $compte->nom;
     	$editeur->prenom = $compte->prenom;
     	$editeur->date_modification = date('c');
+    }
+
+    protected function preSave() {
+        $this->preSaveEditeur();
+        
+    }
+
+    public function save() {
+        $this->archivage_document->preSave();
+        parent::save();
+    }
+
+    protected function preSaveEditeur() {
+        if ($user = $this->getUser()) {
+            if ($user->hasCredential(myUser::CREDENTIAL_ADMIN)) {
+                $compte = $user->getCompte();
+                $canInsertEditeur = true;
+                if ($lastEditeur = $this->getLastEditeur()) {
+                    $diff = Date::diff($lastEditeur->date_modification, date('c'), 'i');
+                    if ($diff < 25) {
+                        $canInsertEditeur = false;
+                    }
+                }
+                if ($canInsertEditeur) {
+                    $this->addEditeur($compte);
+                }
+            }
+        }
+    }
+
+    public function __toString()
+    {
+        return DRMClient::getInstance()->getLibelleFromId($this->_id);
     }
 
     /**** VERSION ****/
@@ -646,8 +659,28 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /**** FIN DES MOUVEMENTS ****/
-    public function __toString()
-    {
-        return DRMClient::getInstance()->getLibelleFromId($this->_id);
+
+    /*** ARCHIVAGE ***/
+
+    public function getNumeroArchive() {
+
+        return $this->_get('numero_archive');
     }
+
+    public function getDateArchivage() {
+
+        return $this->_get('date_archivage');
+    }
+
+    public function isArchivageCanBeSet() {
+
+        return $this->isValidee();
+    }
+
+    public function getDateArchivageLimite() {
+
+        return ConfigurationClient::getInstance()->buildDateFinCampagne($this->date_archivage);
+    }
+    
+    /*** FIN ARCHIVAGE ***/
 }
