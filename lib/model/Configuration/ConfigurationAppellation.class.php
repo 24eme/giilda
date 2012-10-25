@@ -30,6 +30,7 @@ class ConfigurationAppellation extends BaseConfigurationAppellation {
       return 'Total';
     }
     
+    
     public function setDonneesCsv($datas) {
       parent::setDonneesCsv($datas);
     	$this->getGenre()->setDonneesCsv($datas);

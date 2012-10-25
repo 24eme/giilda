@@ -6,6 +6,8 @@
 
  * @property string $libelle
  * @property string $code
+ * @property string $code_produit
+ * @property string $code_comptable
  * @property ConfigurationDetail $detail
  * @property acCouchdbJson $interpro
  * @property acCouchdbJson $departements
@@ -15,6 +17,10 @@
  * @method string setLibelle()
  * @method string getCode()
  * @method string setCode()
+ * @method string getCodeProduit()
+ * @method string setCodeProduit()
+ * @method string getCodeComptable()
+ * @method string setCodeComptable()
  * @method ConfigurationDetail getDetail()
  * @method ConfigurationDetail setDetail()
  * @method acCouchdbJson getInterpro()

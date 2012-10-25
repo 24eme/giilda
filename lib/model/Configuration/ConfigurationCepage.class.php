@@ -1,21 +1,21 @@
 <?php
+
 /**
  * Model for ConfigurationCepage
  *
  */
-
 class ConfigurationCepage extends BaseConfigurationCepage {
-	
-	const TYPE_NOEUD = 'cepage';
+
+    const TYPE_NOEUD = 'cepage';
 
     public function getChildrenNode() {
 
-      return null;
+        return null;
     }
 
     public function getAppellation() {
 
-      return $this->getCouleur()->getLieu()->getAppellation();
+        return $this->getCouleur()->getLieu()->getAppellation();
     }
 
     public function getCertification() {
@@ -25,50 +25,54 @@ class ConfigurationCepage extends BaseConfigurationCepage {
 
     public function getGenre() {
 
-      return $this->getAppellation()->getGenre();
+        return $this->getAppellation()->getGenre();
     }
 
     public function getLieu() {
 
-      return $this->getCouleur()->getLieu();
+        return $this->getCouleur()->getLieu();
     }
 
     public function getMention() {
 
-      return $this->getLieu()->getMention();
+        return $this->getLieu()->getMention();
     }
 
     public function getCepage() {
 
-      return $this;
+        return $this;
     }
 
     public function getCouleur() {
-    	return $this->getParentNode();
+        return $this->getParentNode();
     }
-    
+
     public function setDonneesCsv($datas) {
-      parent::setDonneesCsv($datas);
-      
-    	$this->getCouleur()->setDonneesCsv($datas);
-    	$this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE])? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE] : null;
-    	$this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE])? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE] : null;
+        parent::setDonneesCsv($datas);
+
+        $this->getCouleur()->setDonneesCsv($datas);
+        $this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE] : null;
+        $this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE] : null;
     }
-    
-  	public function hasDepartements() {
-  		return false;
-  	}
-  	public function hasDroits() {
-  		return false;
-  	}
-  	public function hasLabels() {
-  		return false;
-  	}
-  	public function hasDetails() {
-  		return false;
-  	}	
-  	public function getTypeNoeud() {
-  		return self::TYPE_NOEUD;
-  	}
-    
+
+    public function hasDepartements() {
+        return false;
+    }
+
+    public function hasDroits() {
+        return false;
+    }
+
+    public function hasLabels() {
+        return false;
+    }
+
+    public function hasDetails() {
+        return false;
+    }
+
+    public function getTypeNoeud() {
+        return self::TYPE_NOEUD;
+    }
+
 }

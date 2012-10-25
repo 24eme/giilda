@@ -6,12 +6,18 @@
 
  * @property string $libelle
  * @property string $code
+ * @property string $code_produit
+ * @property string $code_comptable
  * @property acCouchdbJson $cepages
 
  * @method string getLibelle()
  * @method string setLibelle()
  * @method string getCode()
  * @method string setCode()
+ * @method string getCodeProduit()
+ * @method string setCodeProduit()
+ * @method string getCodeComptable()
+ * @method string setCodeComptable()
  * @method acCouchdbJson getCepages()
  * @method acCouchdbJson setCepages()
  

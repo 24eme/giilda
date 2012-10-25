@@ -12,6 +12,7 @@
  * @property acCouchdbJson $contenances
  * @property acCouchdbJson $droits
  * @property acCouchdbJson $libelle_detail_ligne
+ * @property acCouchdbJson $alias
  * @property ConfigurationDeclaration $declaration
 
  * @method string get_id()
@@ -30,6 +31,8 @@
  * @method acCouchdbJson setDroits()
  * @method acCouchdbJson getLibelleDetailLigne()
  * @method acCouchdbJson setLibelleDetailLigne()
+ * @method acCouchdbJson getAlias()
+ * @method acCouchdbJson setAlias()
  * @method ConfigurationDeclaration getDeclaration()
  * @method ConfigurationDeclaration setDeclaration()
  

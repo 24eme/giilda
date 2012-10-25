@@ -6,7 +6,7 @@
 
 class Configuration extends BaseConfiguration {
 
-  	const DEFAULT_KEY = 'DEFAUT';
+    const DEFAULT_KEY = 'DEFAUT';
   
 	/*
 	 * VRAC CONST
@@ -172,6 +172,14 @@ class Configuration extends BaseConfiguration {
         return $libelles;
     }
     
+    public function updateAlias($hashProduit,$alias) {
+        $hashProduitKey = str_replace('/', '-', $hashProduit);
+        if(!$this->alias->exist($hashProduitKey))
+            $this->alias->add($hashProduitKey,array());
+        $this->alias->get($hashProduitKey)->add($alias);
+    }
+
+
     /*
      * FONCTIONS VRAC
      */
@@ -206,4 +214,5 @@ class Configuration extends BaseConfiguration {
 
     	return self::STATUT_CONTRAT_SOLDE;	
     }
+    
 }
