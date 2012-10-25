@@ -4,7 +4,7 @@ class factureActions extends sfActions {
   public function executeIndex(sfWebRequest $request) {
       $this->form = new FactureEtablissementChoiceForm('INTERPRO-inter-loire');
       $this->generationForm = new FactureGenerationMasseForm();
-      $this->generations = GenerationClient::getInstance()->findHistoryWithType(10,GenerationClient::TYPE_DOCUMENT_FACTURES);
+      $this->generations = GenerationClient::getInstance()->findHistoryWithType(GenerationClient::TYPE_DOCUMENT_FACTURES,10);
        if ($request->isMethod(sfWebRequest::POST)) {
 	 $this->form->bind($request->getParameter($this->form->getName()));
 	 if ($this->form->isValid()) {
