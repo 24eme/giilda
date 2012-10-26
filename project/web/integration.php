@@ -3,7 +3,7 @@
 
 require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
 
-$configuration = ProjectConfiguration::getApplicationConfiguration('vinsdeloire', 'prod', false);
+$configuration = ProjectConfiguration::getApplicationConfiguration('vinsdeloire', 'dev', false);
 sfContext::createInstance($configuration)->dispatch();
 
 unlink(sfConfig::get('sf_web_dir').'/css/compile.css');

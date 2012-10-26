@@ -634,6 +634,26 @@ bouton.btn_validation_declar { height:26px; }
   display:inline-block;
 }
 .btn_calendrier:after { background-position:3px -488px; }
+.btn_refraichir {
+  color:#ffffff;
+  background-position:0 -78px;
+  border-color:#83a44d;
+  padding-left:30px;
+}
+.btn_refraichir:after {
+  height:26px;
+  width:20px;
+  background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
+  bottom:auto;
+  left:5px;
+  position:absolute;
+  right:auto;
+  top:0;
+  content:'';
+  cursor:pointer;
+  display:inline-block;
+}
+.btn_refraichir:after { background-position:3px -518px; }
 .btn_demarrer, .btn_enregistrer {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;
@@ -993,7 +1013,17 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   -moz-border-radius:5px 5px 5px 5px;
   border-radius:5px 5px 5px 5px;
   border:1px solid #e3e2e2;
+  zoom:1;
+  min-height:1px;
 }
+#principal .bloc_form:before, #principal .bloc_form:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#principal .bloc_form:after { clear:both; }
 #principal .bloc_form .col:first-child { border-right:1px solid #e3e2e2; }
 #principal .bloc_form .col:first-child .ligne_form:first-child {
   -webkit-border-radius:5px 0 0 0;
@@ -1047,7 +1077,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 }
 #principal #ligne_btn .btnAnnulation { float:left; }
 #principal #ligne_btn .btnValidation { float:right; }
-#principal .ligne_form_alt { background:#e3e2e2; }
+#principal .ligne_form_alt { background:#ecebeb; }
 #principal .ui-autocomplete-input {
   background:url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #ffffff;
   font-size:12px;
@@ -1278,6 +1308,16 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   margin-bottom:15px;
 }
 #recap_infos_header li:first-child span { width:200px; }
+#infos_negociant {
+  font-size:12px;
+  margin:0 0 15px;
+}
+#infos_negociant li { margin:5px 0; }
+#infos_negociant li span {
+  display:inline-block;
+  font-weight:bold;
+  width:200px;
+}
 #vrac_soussigne h1, #vrac_marche h1, #vrac_condition h1, #vrac_validation h1, #vrac_recapitulatif h1 {
   font-size:16px;
   font-weight:bold;
@@ -1788,7 +1828,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   visibility:hidden;
 }
 .creer_info:after { clear:both; }
-.creer_info a {
+.creer_info .btn_majeur {
   float:right;
   margin-top:8px;
 }
@@ -1817,7 +1857,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   visibility:hidden;
 }
 #principal .generation_facture_valid:after { clear:both; }
-#principal .generation_facture_valid a {
+#principal .generation_facture_valid .btn_majeur {
   float:right;
   margin-top:8px;
 }
@@ -1853,7 +1893,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   width:335px;
 }
 #principal .generation_facture_options .champ_datepicker img { position:static; }
-.ds #contenu_etape .generation_ds, .ds #contenu_etape .historique_generation_ds {
+.ds #contenu_etape .generation_ds, .ds #contenu_etape .historique_generation_ds, .ds #contenu_etape .generation_ds_operateur {
   zoom:1;
   min-height:1px;
   background-color:#ecebeb;
@@ -1863,23 +1903,53 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   height:45px;
   line-height:45px;
   margin-top:5px;
+  background:#ecebeb url(../images/pictos/fleche_bloc.png) 10px 50% no-repeat;
+  padding-left:40px;
 }
-.ds #contenu_etape .generation_ds:before, .ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:before, .ds #contenu_etape .historique_generation_ds:after {
+.ds #contenu_etape .generation_ds:before, .ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:before, .ds #contenu_etape .historique_generation_ds:after, .ds #contenu_etape .generation_ds_operateur:before, .ds #contenu_etape .generation_ds_operateur:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-.ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:after { clear:both; }
-.ds #contenu_etape .generation_ds a, .ds #contenu_etape .historique_generation_ds a {
+.ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:after, .ds #contenu_etape .generation_ds_operateur:after { clear:both; }
+.ds #contenu_etape .generation_ds .btn_majeur, .ds #contenu_etape .historique_generation_ds .btn_majeur, .ds #contenu_etape .generation_ds_operateur .btn_majeur {
   float:right;
   margin-top:8px;
 }
-.ds #contenu_etape .historique_generation_ds a {
-  color:#ffffff;
-  background-position:0 -104px;
-  border-color:#f6b32c;
+.ds #commentaires .bloc_form {
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  border:0;
+}
+.ds #commentaires .bloc_form textarea {
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  border:0;
+  padding:5px;
+}
+.ds #ds_recapitulatif_commentaires {
+  font-size:14px;
+  margin:15px 0;
+}
+.ds #ds_recapitulatif_commentaires h3 {
+  font-weight:bold;
+  margin:0 0 5px;
 }
 #rail_etapes {
   zoom:1;

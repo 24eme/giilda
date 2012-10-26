@@ -17,7 +17,7 @@
                 <?php echo $generation->nb_documents; ?>
             </span>
         </div>
-        <div class="ligne_form">
+        <div class="ligne_form ligne_form_alt">
             <span>
                 <label>Statut : </label>
                 <?php echo $generation->statut; ?>

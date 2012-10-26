@@ -36,6 +36,25 @@
 		span { width: 200px; }
 	}
 }
+
+#infos_negociant
+{	
+	font-size: 12px;
+	margin: 0 0 15px;
+	
+	li
+	{
+		margin: 5px 0;
+		
+		span
+		{
+			display: inline-block;
+			font-weight: bold;
+			width: 200px;
+		}
+	}
+}
+
 /**
  * vrac_soussigne
  ******************************************/
@@ -750,7 +769,7 @@
 	.info_principal;
 	margin-top: 5px;
 
-	a
+	.btn_majeur
 	{
 		float: right;
 		margin-top: 8px;
@@ -838,14 +857,43 @@
 	#contenu_etape
 	{
 		.generation_ds,
-		.historique_generation_ds
+		.historique_generation_ds,
+		.generation_ds_operateur
 		{
 			.creer_info;
+			background: @couleur-a5 url(../images/pictos/fleche_bloc.png) 10px 50% no-repeat;
+			padding-left: 40px;
 		}
-
-		.historique_generation_ds
+	}
+	
+	#commentaires
+	{
+		.bloc_form
 		{
-			a { .btn_orange; }
+			.border-radius(0);
+			border: 0;
+			
+			textarea
+			{
+				.border-radius(3px);
+				.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
+				border: 0;
+				padding: 5px;
+			}
 		}
+	}
+	
+	#ds_recapitulatif_commentaires
+	{
+		font-size: 14px;
+		margin: 15px 0;
+		
+		h3
+		{
+			font-weight: bold;
+			margin: 0 0 5px;
+		}
+		
+		p {  }
 	}
 }

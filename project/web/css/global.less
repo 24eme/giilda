@@ -407,6 +407,13 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	&:after { background-position: 3px -488px; } 
 }
 
+.btn_refraichir
+{
+	.btn_vert;
+	.btn_icone;
+	&:after { background-position: 3px -518px; } 
+}
+
 .btn_demarrer,
 .btn_enregistrer { .btn_majeur; }
 
@@ -806,6 +813,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
         {
 	        .border-radius(5px 5px 5px 5px);
 	        .border(#e3e2e2);
+			.clearfix;
 
 	        .col
 	        {
@@ -857,7 +865,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
             margin: 10px 0;
         }
 
-        .ligne_form_alt { background : @couleur-a7; }
+        .ligne_form_alt { background : @couleur-a5; }
 
         .ui-autocomplete-input
         {
