@@ -1,17 +1,11 @@
-<ul>
+<ul id="infos_negociant">
     <li>
-        <span>Négociant :</span>
-        
-        <span><?php echo $etablissement->identifiant; ?></span>
+        <span>Négociant :</span> <?php echo $etablissement->identifiant; ?>
     </li>
     <li>
-        <span>CVI :</span>
-        
-        <span><?php echo $etablissement->cvi; ?></span>
+        <span>CVI :</span> <?php echo $etablissement->cvi; ?>
     </li>
     <li>
-        <span>Commune :</span>
-        
-        <span><?php echo $etablissement->siege->commune; ?></span>
+        <span>Commune :</span> <?php echo $etablissement->siege->commune; ?>
     </li>
 </ul>

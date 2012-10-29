@@ -8,7 +8,6 @@
             <?php include_component('sv12', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
             <br />
             <?php include_partial('negociant_information',array('etablissement' => $etablissement)); ?>
-            <br />
             <a class="btn_majeur btn_nouveau" href="<?php echo url_for('sv12_nouvelle', array('identifiant' => $etablissement->identifiant, 'periode' => $periode)) ?>">Créer une SV12</a>
             <br />
             <br />
