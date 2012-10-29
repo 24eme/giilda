@@ -11,7 +11,7 @@ use_helper('Float');
         <section id="contenu_etape">
             <h2>Consulter les stocks d'un opérateur :</h2>
           <?php include_component('ds', 'chooseEtablissement', array('identifiant' => $ds->identifiant)); ?>
-        </section>
+        
         <br />
         <h2>Détail opérateur</h2>
         <?php 
@@ -29,6 +29,7 @@ use_helper('Float');
         <?php 
            include_partial('dsRecapitulatif', array('ds' => $ds, 'declarations' => $ds->declarations));
         ?>
+		</section>
     </section>
     <!-- fin #principal -->
     

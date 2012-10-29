@@ -26,7 +26,8 @@ echo $form->renderGlobalErrors();
             }
     ?>
         </tbody>
-        </table> 
+        </table>
+		<br />
         <div id="commentaires" class="section_label_maj">
             <label>
                 <?php echo $form['commentaires']->renderLabel() ?>

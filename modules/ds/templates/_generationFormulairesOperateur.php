@@ -13,7 +13,7 @@
 </div>
 <div class="generation_ds_operateur">
     <span>Cliquer sur "Générer" pour lancer la création des formulaire</span>
-    <button type="submit" class="btn_majeur btn_vert">Générer</button>
+    <button type="submit" class="btn_majeur btn_refraichir">Générer</button>
 </div>
 </form>
 

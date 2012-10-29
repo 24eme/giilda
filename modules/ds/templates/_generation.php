@@ -28,11 +28,11 @@
 
 <div class="generation_ds">
     <span>Cliquer sur "Générer" pour lancer la création des formulaire</span>
-        <a href="#" id="generation" class="btn_majeur btn_vert">Générer</a>
+        <a href="#" id="generation" class="btn_majeur btn_refraichir">Générer</a>
 </div>
 <div class="historique_generation_ds">
     <span>Consulter l'historique de générations de formulaire de la DS :</span>
-        <a href="<?php echo url_for('ds_historique_generation'); ?>" id="historique_generation" class="btn_majeur btn_jaune">Consulter</a>
+        <a href="<?php echo url_for('ds_historique_generation'); ?>" id="historique_generation" class="btn_majeur">Consulter</a>
 </div>
 
 <script type="text/javascript">
