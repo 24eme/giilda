@@ -7,9 +7,7 @@
 class RevendicationEtablissements extends BaseRevendicationEtablissements {
 
     public function storeProduits($num_ligne, $row,$hashLibelle, $bailleur) {
-            $hash = $hashLibelle[0];
-            $produit_hash = str_replace('/', '-', $hash);
-            $produit_to_store = $this->produits->add($produit_hash);
+            $produit_to_store = $this->produits->add($row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT]);
             $produit_to_store->storeProduit($num_ligne,$row,$hashLibelle, $bailleur);
     }
     
@@ -26,7 +24,7 @@ class RevendicationEtablissements extends BaseRevendicationEtablissements {
     }
     
     public function storeDeclarant($etb) {
-        $this->declarant_identifiant = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID];
+        $this->declarant_cvi = $etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI];
         $this->declarant_nom = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_NOM];
     }
     
