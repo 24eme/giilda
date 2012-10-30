@@ -6,7 +6,7 @@
  *
  * @property string $_id
  * @property string $_rev
- * @property string $_attachments
+ * @property acCouchdbJson $_attachments
  * @property string $type
  * @property integer $nb_data
  * @property string $odg
@@ -18,8 +18,8 @@
  * @method string set_id()
  * @method string get_rev()
  * @method string set_rev()
- * @method string get_attachments()
- * @method string set_attachments()
+ * @method acCouchdbJson get_attachments()
+ * @method acCouchdbJson set_attachments()
  * @method string getType()
  * @method string setType()
  * @method integer getNbData()

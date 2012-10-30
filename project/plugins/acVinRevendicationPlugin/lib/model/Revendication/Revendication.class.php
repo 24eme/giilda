@@ -42,7 +42,14 @@ class Revendication extends BaseRevendication {
                     continue;
                 }
             }
-            $revendicationEtb = $this->datas->_add($etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI]);
+            
+            $doublon = $this->detectDoublon($row,$etb);
+            if($doublon){
+                    $erreurSortie = $this->erreurs->_add($num_ligne);
+                    $erreurSortie->storeErreur($num_ligne, $row, RevendicationErreurs::ERREUR_TYPE_DOUBLON);
+                    continue;
+            }
+            $revendicationEtb = $this->datas->_add($etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID]);
             $revendicationEtb->storeDeclarant($etb);
             $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle, $bailleur);
             $this->nb_data++;
@@ -141,6 +148,16 @@ class Revendication extends BaseRevendication {
         }
         return null;
             
+    }
+    
+    private function detectDoublon($row,$etb) {
+        $etbId = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID];
+        $code_produit = $row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT];
+        if($this->datas->exist($etbId) && $this->datas->{$etbId}->produits->exist($code_produit)){
+            
+            return $this->datas->{$etbId}->produits->{$code_produit}; 
+        }
+        return null;
     }
 
     public function sortByType() {

@@ -4,7 +4,15 @@ Revendication:
     fields:
       _id: {}
       _rev: {}
-      _attachments: {required: false}
+      _attachments:
+        type: collection
+        definition:
+          fields: 
+            '*':
+              content_type: { }
+              revpos: { }
+              length: { }
+              stub: { }
       type: {}
       nb_data: { type: integer }
       odg: { }
@@ -18,7 +26,7 @@ Revendication:
               type: collection
               definition:
                 fields:
-                  declarant_identifiant: {  }
+                  declarant_cvi: {  }
                   declarant_nom: {  }
                   produits:
                     type: collection
@@ -46,6 +54,7 @@ Revendication:
                                           volume: { type: float }
                                           bailleur_identifiant: {  }
                                           bailleur_nom: {  }
+                                          date_insertion: {  }
       erreurs:
         type: array_collection
         definition:

@@ -4,12 +4,12 @@
  * 
  * Base model for RevendicationEtablissements
 
- * @property string $declarant_identifiant
+ * @property string $declarant_cvi
  * @property string $declarant_nom
  * @property acCouchdbJson $produits
 
- * @method string getDeclarantIdentifiant()
- * @method string setDeclarantIdentifiant()
+ * @method string getDeclarantCvi()
+ * @method string setDeclarantCvi()
  * @method string getDeclarantNom()
  * @method string setDeclarantNom()
  * @method acCouchdbJson getProduits()
