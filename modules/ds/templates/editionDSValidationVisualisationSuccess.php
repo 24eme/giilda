@@ -12,23 +12,18 @@ use_helper('Float');
             <h2>Consulter les stocks d'un opérateur :</h2>
           <?php include_component('ds', 'chooseEtablissement', array('identifiant' => $ds->identifiant)); ?>
         
-        <br />
-        <h2>Détail opérateur</h2>
-        <?php 
-           include_partial('operateurInformations', array('operateur' => $ds->declarant));
-        ?>
-        <br />
-        <hr />
-        
-        
-        <?php
-           include_partial('dsInformations', array('ds' => $ds));
-        ?>
-        <br />
-        <hr />
-        <?php 
-           include_partial('dsRecapitulatif', array('ds' => $ds, 'declarations' => $ds->declarations));
-        ?>
+			<h2>Détail opérateur</h2>
+			<?php 
+			   include_partial('operateurInformations', array('operateur' => $ds->declarant));
+			?>
+			
+			<?php
+			   include_partial('dsInformations', array('ds' => $ds));
+			?>
+			
+			<?php 
+			   include_partial('dsRecapitulatif', array('ds' => $ds, 'declarations' => $ds->declarations));
+			?>
 		</section>
     </section>
     <!-- fin #principal -->

@@ -27,7 +27,7 @@ echo $form->renderGlobalErrors();
     ?>
         </tbody>
         </table>
-		<br />
+		
         <div id="commentaires" class="section_label_maj">
             <label>
                 <?php echo $form['commentaires']->renderLabel() ?>
@@ -38,17 +38,10 @@ echo $form->renderGlobalErrors();
             </div>
         </div> 
         
-         <div id="ligne_btn">
-
-            <a href="<?php echo url_for('ds_etablissement',array('identifiant' => $ds->identifiant)); ?>" class="btn_etape_prec">
-                <span>Etape précédente</span>
-            </a> 
-            <div class="btnValidation">
-                <span>&nbsp;</span>
-            <button type="submit" id="ds_declaration_valid" class="btn_majeur btn_valider ds_declaration_addTemplate">Suivant</button>
-
-            </div>
-        </div>
+		<div class="btn_etape">
+			<a href="<?php echo url_for('ds_etablissement',array('identifiant' => $ds->identifiant)); ?>" class="btn_etape_prec"><span>Etape précédente</span></a> 
+			<button type="submit" id="ds_declaration_valid" class="btn_majeur btn_valider ds_declaration_addTemplate">Suivant</button>
+		</div>
 </fieldset>
 </form>
 

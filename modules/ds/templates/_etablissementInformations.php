@@ -48,5 +48,10 @@ use_helper('Display');
                 <?php display_field($etablissement->siege,'commune'); ?>
             </span>
         </div>
+        <div class="ligne_form ligne_form_alt">
+            <span>
+               &nbsp;
+            </span>
+        </div>
     </div>
 </div>

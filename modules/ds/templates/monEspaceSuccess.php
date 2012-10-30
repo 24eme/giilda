@@ -12,21 +12,16 @@ use_helper('Float');
             <h2>Consulter les stocks d'un opérateur :</h2>
           <?php include_component('ds', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
 		  
-			<br />
 			<h2>Détail opérateur</h2>
 			<?php 
 			include_partial('etablissementInformations', array('etablissement' => $etablissement));
 			?>
-			<br />
-			<hr />
+			
 			<?php include_partial('generationFormulairesOperateur', array('etablissement' => $etablissement, 'generationOperateurForm' => $generationOperateurForm)); ?>
-			<br />
 			
 			<?php if(count($dsHistorique)) : ?>
-			<hr />
 			<h2>Historique des déclarations de stocks</h2>
 			<?php  include_partial('dsHistorique', array('dsHistorique' => $dsHistorique)) ?>
-			<br /> 
 			<?php endif; ?>
 		</section>
     </section>
