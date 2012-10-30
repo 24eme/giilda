@@ -336,6 +336,7 @@
     #recherche_operateur
     {
         background:@couleur-a5;
+		margin: 0 0 25px;
         padding:10px 10px 30px;
 
         .ui-autocomplete-input
@@ -405,35 +406,48 @@
 
     #vrac_soussigne
     {
-        .section_label_maj { & > label:first-child{ width : 310px; } }
+        .section_label_maj
+		{
+			background:@couleur-a5;
+			margin: 0 0 25px;
+			padding:10px 10px 30px;
+	
+			.ui-autocomplete-input
+			{
+			}
+		}
 
         #vendeur_infos { height : @grid-unite; }
 
-        #acheteur, #mandataire_choice { padding-top : 40px; }
 
-        #has_mandataire { padding : 20px 0 0 10px; }
+        #has_mandataire
+		{
+			font-weight: bold;
+		}
 
         #mandataire
         {
-            .clearfix; 
-            padding : 0 0 0 10px;
+            .clearfix;
+			padding: 20px 0 0;
         } 
 
         #mandatant
         {
-            padding : 10px 0 0 0px;
-
+			margin: 0 0 20px;
+			
+			* { vertical-align: middle; }
+			
             .checkbox_list
             {
-                float: right;
-                margin-right: 195px;
+				.inline-block-ie;
 
                 li
                 {
-                    display:inline; 
-                    float : left;
+					.inline-block-ie;
                     width : 150px; 
                 }
+				
+				input { margin: 0 5px 0 0; }
             }
         }
 
@@ -542,7 +556,9 @@
         }                
     }
     
-    #vrac_validation, #vrac_recapitulatif, #vrac_visualisation
+    #vrac_validation,
+	#vrac_recapitulatif,
+	#vrac_visualisation
     {
         #titre
         {
