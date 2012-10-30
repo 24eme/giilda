@@ -1,4 +1,6 @@
 <?php use_helper('Float'); ?>
+
+<?php if(sizeof($list) > 0): ?>
 <fieldset id="history_sv12">
     <legend>Déclaration SV12 en cours de Saisie</legend>
         <table class="table_recap">
@@ -52,3 +54,4 @@
         </tbody>
         </table>
 </fieldset>
+<?php endif; ?>
