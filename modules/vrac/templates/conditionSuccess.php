@@ -65,17 +65,11 @@
                             </div>
                         </div> 
                     </div>
-                    <div id="ligne_btn">
-
-                            <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_etape_prec">
-                            <span>Etape précédente</span>
-                        </a> 
-                        <div class="btnValidation">
-                            <span>&nbsp;</span>
-                            <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
-
-                        </div>
-                    </div>
+					
+					<div class="btn_etape">
+						 <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
+						<button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
+					</div>
                 </form>
             </div>
         </section>

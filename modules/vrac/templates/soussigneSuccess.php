@@ -48,19 +48,12 @@ else
                 <div id="vendeur">   
                     <!--  Affichage des vendeurs disponibles  -->
                     <div id="vendeur_choice" class="section_label_maj">
-                       
                         <?php echo $form['vendeur_identifiant']->renderLabel() ?>
-
-                        <div id="vendeur_choice"  class="f_right">
-                            <?php echo $form['vendeur_identifiant']->render() ?> 
-                        </div>
+						<?php echo $form['vendeur_identifiant']->render() ?>
                     </div>
-
-                    
-                    <br>
                     
                     <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
-                    <div id="vendeur_informations" class="section_label_maj">
+                    <div id="vendeur_informations">
                         <?php   
                         $vendeurArray = array();
                         $vendeurArray['vendeur'] = $form->vendeur;
@@ -69,31 +62,20 @@ else
                         ?>
                     </div>
                     <div class="btnModification">
-                        <div id="vendeur_annulation_div" class="f_left" style="display: none;">
-                            <a id="vendeur_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
-                        </div>
-                        <div class="modification_changement">
-                            <a id="vendeur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
-                        </div>
+					<a id="vendeur_annulation_btn" class="btn_majeur btn_annuler" style="display: none;">Retour</a>
+					<a id="vendeur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
                     </div>
                 </div>
-                <br />
-                
                 <?php echo $form['acheteur_identifiant']->renderError(); ?>
                 <!--  Affichage des acheteurs disponibles  -->
                 <div id="acheteur"> 
                     <div id="acheteur_choice" class="section_label_maj">
                         <?php echo $form['acheteur_identifiant']->renderLabel() ?>
-
-                        <div id="acheteur_choice" class="f_right">
-                            <?php echo $form['acheteur_identifiant']->render() ?>
-                        </div>
+						<?php echo $form['acheteur_identifiant']->render() ?>
                     </div>
 
-                    <br>
-                    
                     <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
-                    <div id="acheteur_informations" class="section_label_maj">
+                    <div id="acheteur_informations">
                         <?php
                         $acheteurArray = array();
                         $acheteurArray['acheteur'] = $form->acheteur;
@@ -102,19 +84,14 @@ else
                         ?>
                     </div>
                     <div class="btnModification">
-                        <div id="acheteur_annulation_div" class="f_left" style="display: none;">
-                            <a id="acheteur_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
-                        </div>
-                        <div class="modification_changement">
-                            <a id="acheteur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
-                        </div>
+                        <a id="acheteur_annulation_btn" class="btn_majeur btn_annuler" style="display: none;">Retour</a>
+						<a id="acheteur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
                     </div>
                 </div>
-                <br />
-
+				
                 <!--  Affichage des mandataires disponibles  -->
 
-                <div id="has_mandataire" class="section_label_maj">            
+                <div id="has_mandataire">            
                         <?php echo $form['mandataire_exist']->render() ?>
                         <?php echo $form['mandataire_exist']->renderLabel() ?>
                         <?php echo $form['mandataire_exist']->renderError(); ?>
@@ -129,13 +106,11 @@ else
                     <div id="mandataire_choice" class="section_label_maj">
                         <?php echo $form['mandataire_identifiant']->renderError(); ?>
                         <?php echo $form['mandataire_identifiant']->renderLabel() ?>
-                        <div class="f_right">                            
-                            <?php echo $form['mandataire_identifiant']->render() ?>
-                        </div>
+						<?php echo $form['mandataire_identifiant']->render() ?>
                     </div>
                     
                     <!--  Affichage des informations sur le mandataire sélectionné AJAXIFIED -->
-                    <div id="mandataire_informations" class="section_label_maj">
+                    <div id="mandataire_informations">
                         <?php
                         $mandataireArray = array();    
                         $mandataireArray['mandataire'] = $form->mandataire;
@@ -145,26 +120,17 @@ else
                         ?>    
                     </div>
                     <div class="btnModification">
-                        <div id="mandataire_annulation_div" class="f_left" style="display: none;">
-                            <a id="mandataire_annulation_btn" class="btn_majeur btn_annuler" style="cursor: pointer;">Retour</a>
-                        </div>
-                        <div class="modification_changement">
-                            <a id="mandataire_modification_btn" class="btn_majeur">Modifier</a>
-                        </div>
+						<a id="mandataire_annulation_btn" class="btn_majeur btn_annuler" style="display: none;" href="#">Retour</a>
+						<a id="mandataire_modification_btn" class="btn_majeur">Modifier</a>
                     </div>
                 </div>
-
-                <br />
-
-                <div id="ligne_btn">
+				
+                <div class="btn_etape">
                     <?php if($nouveau): ?>
-                        <div class="btnAnnulation">
-                            <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
-                        </div>
-                    <?php endif; ?>
-                    <div class="btnValidation">
-                        <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
-                    </div>
+					<a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
+					<?php endif; ?>
+					
+					<button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
                 </div>
                 
                 </form>

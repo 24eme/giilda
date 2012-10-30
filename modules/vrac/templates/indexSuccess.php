@@ -17,7 +17,6 @@ foreach($datas as $data)
              ?>
             <div id="contenu_etape">
                 <?php include_component('vrac', 'formEtablissementChoice') ?>
-                <br />
                 <div class="section_label_maj"> 
                     <label>10 derniers contrats saisis : </label>                   
                     <?php include_partial('table_contrats', array('vracs' => $vracs)); ?>
