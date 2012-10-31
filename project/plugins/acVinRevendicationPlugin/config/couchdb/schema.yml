@@ -14,7 +14,6 @@ Revendication:
               length: { }
               stub: { }
       type: {}
-      nb_data: { type: integer }
       odg: { }
       campagne: { }
       datas:
