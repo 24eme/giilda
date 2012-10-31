@@ -49,6 +49,15 @@
             'route_etablissement' => 'ds_etablissement',
             'etablissement' => $etablissement,
         )) ?>
+        
+        <?php
+        include_component('global', 'navItem', array(
+            'libelle' => 'Alertes',
+            'prefix' => 'alerte',
+            'route' => 'alerte',
+            'route_etablissement' => 'alerte_etablissement',
+            'etablissement' => $etablissement,
+        )) ?>
 
         <li><a href="#">Relance</a></li>
     </ul>

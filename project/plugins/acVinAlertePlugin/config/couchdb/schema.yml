@@ -1,0 +1,23 @@
+#schema des Alertes
+Alerte:
+  definition:
+    fields:
+      _id: { }
+      _rev: { }
+      type: { }
+      type_alerte: { }      
+      date_creation: { }
+      id_document: { }
+      declarant_nom: { }
+      identifiant: { }
+      statuts:
+        type: array_collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  date: { }
+                  statut: { }
+      
