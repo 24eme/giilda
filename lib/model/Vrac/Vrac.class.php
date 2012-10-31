@@ -180,6 +180,11 @@ class Vrac extends BaseVrac {
         }
     }
 
+    public function isSolder() {
+        return $this->valide->statut == VracClient::STATUS_CONTRAT_SOLDE;
+    }
+
+
     public function solder() {
         $this->valide->statut = VracClient::STATUS_CONTRAT_SOLDE;
     }

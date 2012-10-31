@@ -109,6 +109,18 @@ class VracClient extends acCouchdbClient {
       return $bySoussigne;
     }
     
+    public function retrieveByType($type,$limit=300) {
+      $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
+      $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$type))
+              ->endkey(array('TYPE',$soussigneId,$type, array()));
+    
+    if ($limit){
+            $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
+        }
+    $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+    return $bySoussigneType;
+    }
+    
     public function retrieveBySoussigneAndStatut($soussigneId,$statut,$limit=300) {
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
         $bySoussigneStatutQuery =  $this->startkey(array('STATUT',$soussigneId,$statut))
@@ -295,5 +307,9 @@ class VracClient extends acCouchdbClient {
         $num = substr($id, 8);
         return $jour.'/'.$mois.'/'.$annee.' n° '.$num;
     }  
+    
+    public function retreiveByStatutsTypesAndDate($statuts,$types,$date) {
+        return VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypes($statuts,$types,$date);
+    }
     
 }

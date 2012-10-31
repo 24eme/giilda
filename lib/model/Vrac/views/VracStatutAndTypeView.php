@@ -1,0 +1,42 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of class VracStatutAndTypeView
+ * @author mathurin
+ */
+class VracStatutAndTypeView extends acCouchdbView {
+
+    const KEY_STATUT = 0;
+    const KEY_TYPE = 1;
+    const KEY_DATE_SAISIE = 2;
+    const KEY_IDENTIFIANT = 3;    
+    const KEY_NOM = 4;
+
+    public static function getInstance() {
+        return acCouchdbManager::getView('vrac', 'statutAndType', 'Vrac');
+    }
+
+    public function findContatsByStatutsAndTypes($statuts, $types, $date_saisie) {
+        $result = array();
+        foreach ($statuts as $statut) {
+            foreach ($types as $type) {
+                $result = array_merge($result, $this->findContatsByStatutAndType($statut, $type, $date_saisie));
+            }
+        }
+        return $result;
+    }
+
+    public function findContatsByStatutAndType($statut, $type, $date_saisie) {
+
+        return $this->client->startkey(array($statut, $type, $date_saisie))
+                        ->endkey(array($statut, $type, '9999-99-99'), array())
+                        ->getView($this->design, $this->view)->rows;
+    }
+
+}
+
