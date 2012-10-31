@@ -604,8 +604,8 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 .section-titre
 {
-	display: inline-block;
     .majuscules;
+	display: inline-block;
     font-size: 15px;
     font-weight: bold;
     height: 35px;
@@ -794,7 +794,9 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
         
         .section_label_maj
         {
-               & > label:first-child { .section-titre }
+			.clearfix;
+			
+			& > label:first-child { .section-titre }
         }
 
         .section_label_strong
@@ -839,9 +841,9 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
         
        .ligne_form
        {
-            padding: 4px 0 10px 10px;
-            height : 40px;
-            
+            padding: 10px 0 0 10px;
+            min-height: 40px;
+			
             label
             {
                 display: inline-block;
@@ -851,9 +853,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
             span
             {
-                height:30px;
-                line-height:30px;
-                vertical-align:middle;
+                vertical-align: middle;
             }
         }
 

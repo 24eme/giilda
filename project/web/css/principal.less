@@ -37,21 +37,23 @@
 	}
 }
 
-#infos_negociant
-{	
-	font-size: 12px;
-	margin: 0 0 15px;
-	
-	li
+#contenu_etape
+{
+	.btn_etape
 	{
-		margin: 5px 0;
+		.clearfix;
+		margin: 20px 0 0;
+		text-align: center;
 		
-		span
-		{
-			display: inline-block;
-			font-weight: bold;
-			width: 200px;
-		}
+		.btn_etape_prec,
+		.btn_annuler { float: left; }
+		
+		.btn_etape_suiv,
+		.btn_enregistrer,
+		.btn_valider,
+		.btn_validation,
+		.btn_validation_declar,
+		.btn_terminer_saisie { float: right; }
 	}
 }
 
@@ -113,27 +115,18 @@
 		input[type="password"],
 		select
 		{
-			background: #fff;
-			border: 1px solid #d3d2cd;
-			.border-radius(2px);
 			font-size: 12px;
 			position: relative;
 			vertical-align: middle;
-			.pie;
+			margin: 0;
 		}
 
 		input[type="text"],
 		input[type="password"]
 		{
-			height: 18px;
-			padding: 0 4px;
+			padding: 2px 4px;
 			width: 120px;
 			
-			.ielt9 &
-			{
-				height: 16px;
-				padding-top: 2px;
-			}
 		}
 		
 		select
@@ -340,18 +333,12 @@
 	input.ui-autocomplete-input,
 	input.ui-autocomplete-input + button
 	{
-		background-color: #fff;
-		border: 1px solid #d3d2cd;
-		vertical-align: top;
 	}
 
 	input.ui-autocomplete-input
 	{
-		background: none repeat scroll 0 0;
-	    font-size: 12px;
-	    height: 20px;
-    	padding: 0 4px;
-    	width: 250px;
+		font-size: 12px;
+    	width: 390px;
 
 		& + button
 		{
@@ -419,10 +406,12 @@
 	label { padding-right: 10px; }
 }
 
-#vrac_validation { ul { list-style: decimal; } }
+
 
 #vrac_soussigne
 {
+	input.ui-autocomplete-input { width: 510px; }
+
 	.vendeur_infos,
     .acheteur_infos
 	.mandataire_infos
@@ -454,18 +443,19 @@
 
     .btnModification
     {
-    	.annulation_changement
+		.clearfix;
+		margin: 10px 0 30px;
+		
+		a { cursor: pointer; }
+		
+    	.btn_annuler
     	{
-    		.f_left;
-    		display: none;
+			float: left;
+			display: none;
     	}
 
-    	.modification_changement
-    	{
-    		.f_right;
-
-    		a { cursor: pointer; }
-    	}
+    	.btn_modifier,
+		.btn_valider { float: right; }
     }
 }
 
@@ -600,6 +590,28 @@
 	}
 }
 
+#vrac_condition
+{
+	#commentaires
+	{
+		.bloc_form
+		{
+			.border-radius(0);
+			border: 0;
+			
+			textarea
+			{
+				.border-radius(3px);
+				.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
+				border: 0;
+				height: 120px;
+				padding: 10px;
+				width: 100%;
+			}
+		}
+	}
+}
+
 
 /**
  * SV 12
@@ -622,6 +634,15 @@
 		}
 	}
 	
+	#negociant_infos
+	{
+		margin: 0 0 25px;
+	}
+	
+	#btn_modifier_sv12
+	{
+		margin: 15px 0 0;
+	}
 	
 	#contenu_etape
 	{
@@ -735,26 +756,14 @@
 		{
 			textarea
 			{
-				.border(@couleur-a9);
 				.border-radius(3px);
 				.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
+				border: 0;
 				height: 120px;
 				padding: 10px;
 				width: 100%;
 			}
 		}
-		
-		.btn_etape
-		{
-			.clearfix;
-			margin: 20px 0 0;
-		}
-
-		.btn_etape .btn_etape_suiv,
-		.btn_enregistrer,
-		.btn_validation_declar { float: right; }
-
-		.btn_validation_declar { margin-left: 10px; }
 	}
 	
 }
@@ -864,6 +873,12 @@
 			background: @couleur-a5 url(../images/pictos/fleche_bloc.png) 10px 50% no-repeat;
 			padding-left: 40px;
 		}
+		
+		.bloc_form,
+		.table_recap
+		{
+			margin: 0 0 20px;
+		}
 	}
 	
 	#commentaires
@@ -878,7 +893,9 @@
 				.border-radius(3px);
 				.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
 				border: 0;
-				padding: 5px;
+				height: 120px;
+				padding: 10px;
+				width: 100%;
 			}
 		}
 	}
