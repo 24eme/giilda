@@ -35,7 +35,7 @@ class AlertesConsultationForm extends sfForm {
     
     private function getTypes()
     {
-        return AlerteClient::getTypesWithLibelles();
+        return AlerteClient::$alertes_libelles;
     }
     
     private function getStatuts()

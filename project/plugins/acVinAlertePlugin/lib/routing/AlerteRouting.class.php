@@ -21,5 +21,12 @@ class AlerteRouting {
                         array('model' => 'Etablissement',
                             'type' => 'object')));
         
+        $r->prependRoute('alerte_modification', new AlerteRoute('/alerte/:type_alerte/:id_document/modification',
+                                                            array('module' => 'alerte',
+                                                                  'action' => 'modification'),
+                                                            array('sf_method' => array('get', 'post')),
+                                                            array('model' => 'Alerte',
+                                                                  'type' => 'object')));
+        
     }
 }

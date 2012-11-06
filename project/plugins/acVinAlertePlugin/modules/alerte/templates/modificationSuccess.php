@@ -6,9 +6,9 @@
         
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-            <?php include_partial('consultation_alertes', array('form' => $form)); ?>
-            <br>
-            <?php include_partial('history_alertes', array('alertesHistorique' => $alertesHistorique)); ?>
+            <?php include_partial('information_alerte', array('alerte' => $alerte)); ?>
+            <?php include_partial('modification_alerte', array('alerte' => $alerte, 'form' => $form)); ?>            
+            <?php include_partial('history_alerte', array('alerte' => $alerte)); ?>
         </section>
         <!-- fin #contenu_etape -->
     </section>

@@ -11,43 +11,43 @@
  */
 class AlerteRoute extends sfObjectRoute  {
 
-	protected $revendication = null;
+	protected $alerte = null;
 
 	protected function getObjectForParameters($parameters) {
 
-        if (in_array($parameters['odg'], $this->getOdgs())) {            
-            $odg = $parameters['odg'];
+        if (in_array($parameters['type_alerte'], $this->getTypesAlerte())) {            
+            $type_alerte = $parameters['type_alerte'];
         } else {
-            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'odg', $parameters['odg']));
+            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'type_alerte', $parameters['type_alerte']));
         }
         
-        if (preg_match('/^[0-9]{4}[0-9]{4}$/',$parameters['campagne'])) {            
-            $campagne = $parameters['campagne'];
+        if (preg_match('/^[A-Z]+[-]{1}[0-9]*$/',$parameters['id_document'])) {            
+            $id_document = $parameters['id_document'];
         } else {
-            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'campagne', $parameters['campagne']));
+            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'id_document', $parameters['id_document']));
         }       
 
-        $this->revendication = RevendicationClient::getInstance()->findByOdgAndCampagne($odg,$campagne);
-        if (!$this->revendication) {
-            throw new sfError404Exception(sprintf('No DS found with the id "%s" and the periode "%s".',  $parameters['identifiant'],$parameters['periode']));
+        $this->alerte = AlerteClient::getInstance()->findByTypeAndIdDocument($type_alerte,$id_document);
+        if (!$this->alerte) {
+            throw new sfError404Exception(sprintf('No Alerte found with the type "%s" and the document "%s".',  $parameters['type_alerte'],$parameters['id_document']));
         }
-        return $this->revendication;
+        return $this->alerte;
     }
 
     protected function doConvertObjectToArray($object) {  
-        $parameters = array("odg" => $object->odg, "campagne" => $object->campagne);
+        $parameters = array("id_document" => $object->id_document, "type_alerte" => $object->type_alerte);
         return $parameters;
     }
 
-    public function getRevendication() {
-        if (!$this->revendication) {
+    public function getAlerte() {
+        if (!$this->alerte) {
             $this->getObject();
         }
 
-        return $this->revendication;
+        return $this->alerte;
     }
 
-    public function getOdgs() {
-        return array('tours');
+    public function getTypesAlerte() {
+        return array_keys(AlerteClient::$alertes_libelles);
     }
 }

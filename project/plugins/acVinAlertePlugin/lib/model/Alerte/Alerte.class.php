@@ -15,11 +15,11 @@ class Alerte extends BaseAlerte {
         $this->updateStatut(AlerteClient::STATUT_NOUVEAU);
     }
     
-    public function updateStatut($statut, $date = null) {
+    public function updateStatut($statut, $commentaire = null, $date = null) {
         if (is_null($date)) {
             $date = date('Y-m-d');
         }
-        $this->statuts->add(null, array('statut' => $statut, 'date' => $date));
+        $this->statuts->add(null, array('statut' => $statut, 'commentaire' => $commentaire, 'date' => $date));
     }
     
     public function getStatut(){
