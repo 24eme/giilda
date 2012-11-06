@@ -1,0 +1,5 @@
+all:
+  alertes:
+    VRAC_NON_SOLDE:
+      class: AlerteGenerationVracsNonSoldes
+        
