@@ -8,7 +8,9 @@ class AlerteClient extends acCouchdbClient {
     const DRM_MANQUANTE = "DRMMANQUANTE";
     
     public static $alertes_libelles = array(self::VRAC_NON_SOLDES => "Contrat non soldé",
-                                   self::VRAC_PRIX_DEFINITIF => "");
+                                            self::VRAC_PRIX_DEFINITIF => "Contrat avec prix définitif non fixé",
+                                            self::VRAC_ATTENTE_ORIGINAL => "Contrat en attente de l'original",
+                                            self::DRM_MANQUANTE => 'DRM absente');
     
     const STATUT_NOUVEAU = 'NOUVEAU';    
     const STATUT_ENCOURS = 'ENCOURS';    
@@ -18,6 +20,7 @@ class AlerteClient extends acCouchdbClient {
     const STATUT_ARELANCER = 'ARELANCER';
     
     public static $statutsOpen =    array(self::STATUT_NOUVEAU,self::STATUT_ENCOURS,self::STATUT_FINDECAMPAGNE,self::STATUT_ARELANCER);
+    public static $statutsRelancable =    array(self::STATUT_NOUVEAU,self::STATUT_ENCOURS);
     public static $statutsClosed =    array(self::STATUT_FERME,self::STATUT_RESOLU);
     
     public static function getInstance() {
@@ -28,9 +31,8 @@ class AlerteClient extends acCouchdbClient {
         return sprintf('ALERTE-%s-%s', $type_alerte, $id_document);
     }
     
-    public static function getTypesWithLibelles() {
-        return array(self::VRAC_NON_SOLDES => 'Contrats non soldés',self::VRAC_PRIX_DEFINITIF => 'Contrats avec prix définitif non fixé',
-            self::VRAC_ATTENTE_ORIGINAL => "Contrats en attente de l'original", self::DRM_MANQUANTE => 'DRM absente');
+    public function findByTypeAndIdDocument($type_alerte, $id_document) {
+        return $this->find($this->buildId($type_alerte, $id_document));
     }
 
     public static function getStatutsWithLibelles() {

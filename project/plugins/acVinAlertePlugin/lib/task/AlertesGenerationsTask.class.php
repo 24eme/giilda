@@ -34,6 +34,6 @@ EOF;
 
     $container = new AlerteGenerationsContainer();
     $container->creations();
-  // $container->updates();
+    $container->updates();
   }
 }
