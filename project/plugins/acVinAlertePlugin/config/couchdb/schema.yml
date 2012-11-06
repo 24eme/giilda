@@ -20,4 +20,5 @@ Alerte:
                 fields:
                   date: { }
                   statut: { }
+                  commentaire: { }
       
