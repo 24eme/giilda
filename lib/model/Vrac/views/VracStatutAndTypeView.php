@@ -21,7 +21,17 @@ class VracStatutAndTypeView extends acCouchdbView {
         return acCouchdbManager::getView('vrac', 'statutAndType', 'Vrac');
     }
 
-    public function findContatsByStatutsAndTypes($statuts, $types, $date_saisie) {
+    public function findContatsByStatutsAndTypes($statuts, $types) {
+        $result = array();
+        foreach ($statuts as $statut) {
+            foreach ($types as $type) {
+                $result = array_merge($result, $this->findContatsByStatutAndType($statut, $type, '0000-00-00'));
+            }
+        }
+        return $result;
+    }
+    
+    public function findContatsByStatutsAndTypesAndDate($statuts, $types, $date_saisie) {
         $result = array();
         foreach ($statuts as $statut) {
             foreach ($types as $type) {

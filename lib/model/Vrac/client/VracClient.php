@@ -306,10 +306,14 @@ class VracClient extends acCouchdbClient {
         $jour = substr($id, 6,2);
         $num = substr($id, 8);
         return $jour.'/'.$mois.'/'.$annee.' n° '.$num;
-    }  
+    }
+    
+    public function retreiveByStatutsTypes($statuts,$types) {
+        return VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypes($statuts,$types);
+    }
     
     public function retreiveByStatutsTypesAndDate($statuts,$types,$date) {
-        return VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypes($statuts,$types,$date);
+        return VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndDate($statuts,$types,$date);
     }
     
 }
