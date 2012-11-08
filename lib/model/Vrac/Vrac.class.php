@@ -180,7 +180,7 @@ class Vrac extends BaseVrac {
         }
     }
 
-    public function isSolder() {
+    public function isSolde() {
         return $this->valide->statut == VracClient::STATUS_CONTRAT_SOLDE;
     }
 
@@ -191,6 +191,10 @@ class Vrac extends BaseVrac {
 
     public function desolder() {
         $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+    }
+    
+    public function prixDefinitifExist() {
+        return ($this->prix_variable) && ($this->part_variable != null);
     }
 
 }

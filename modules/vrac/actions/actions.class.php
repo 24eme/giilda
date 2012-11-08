@@ -380,7 +380,7 @@ class vracActions extends sfActions
     public function maj_valide($date_saisie = null,$identifiant = null,$statut=null)
     {
         if(!$this->vrac) return;
-        if(!$date_saisie) $date_saisie = date('d/m/Y');
+        if(!$date_saisie) $date_saisie = date('Y-m-d');
         $this->vrac->valide->date_saisie = $date_saisie;
         $this->vrac->valide->identifiant = $identifiant;
         $this->vrac->valide->statut = $statut;

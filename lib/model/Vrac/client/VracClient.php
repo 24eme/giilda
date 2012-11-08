@@ -316,4 +316,13 @@ class VracClient extends acCouchdbClient {
         return VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndDate($statuts,$types,$date);
     }
     
+    public function retreiveByWaitForOriginal() {
+        return VracOriginalPrixDefinitifView::getInstance()->findContatsByWaitForOriginal();
+    }
+    
+    public function findContatsByWaitForPrixDefinitif($date) {
+        return VracOriginalPrixDefinitifView::getInstance()->findContatsByWaitForPrixDefinitif($date);
+    }
+    
+    
 }
