@@ -22,15 +22,21 @@ class RevendicationClient extends acCouchdbClient {
         return $result;
     }
 
-    public function createDoc($odg,$campagne,$path) {        
-        $revendication = new Revendication();
-        $revendication->campagne = $campagne;
-        $revendication->odg = $odg;
-        $revendication->_id = $this->getId($odg, $campagne);
-        $revendication->save();
+    public function createOrFindDoc($odg,$campagne,$path) {
+        $revendication = $this->find($this->getId($odg, $campagne));
+        
+        if (!$revendication) {
+            $revendication = new Revendication();
+            $revendication->campagne = $campagne;
+            $revendication->odg = $odg;
+            $revendication->_id = $this->getId($odg, $campagne);
+            $revendication->save();
+        }
+        
         $revendication->storeAttachment($path, 'text/csv', 'revendication.csv');
         $revendication = $this->find($revendication->get('_id'));
         $revendication->storeDatas();
+        
         return $revendication;
     }    
 

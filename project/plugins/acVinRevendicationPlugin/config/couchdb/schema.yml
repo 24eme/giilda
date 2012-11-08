@@ -9,10 +9,13 @@ Revendication:
         definition:
           fields: 
             '*':
-              content_type: { }
-              revpos: { }
-              length: { }
-              stub: { }
+              type: collection
+              definition:
+                fields:
+                  content_type: { }
+                  revpos: { }
+                  length: { }
+                  stub: { }
       type: {}
       odg: { }
       campagne: { }
