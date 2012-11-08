@@ -1,6 +1,12 @@
 <?php
 class revendicationActions extends sfActions {
   
+    public function executeIndex(sfWebRequest $request) {
+        $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
+        $this->historiqueImport = 'historique';
+    }
+    
+    
     public function executeMonEspace(sfWebRequest $request) {
         $this->revendication_etablissement = null;
         $this->etablissement = $this->getRoute()->getEtablissement();
@@ -73,7 +79,7 @@ class revendicationActions extends sfActions {
         $this->csv = new RevendicationCsvFile($path);
         $odg = $request->getParameter('odg');
         $campagne = $request->getParameter('campagne');
-        $this->revendication = RevendicationClient::getInstance()->createDoc($odg,$campagne,$path);                        
+        $this->revendication = RevendicationClient::getInstance()->createOrFindDoc($odg,$campagne,$path);         
         $this->revendication->save();
         return $this->redirect('revendication_view_erreurs', array('odg' => $odg, 'campagne' => $campagne));
 

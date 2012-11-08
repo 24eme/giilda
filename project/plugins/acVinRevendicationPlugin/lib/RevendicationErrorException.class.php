@@ -7,7 +7,7 @@ class RevendicationErrorException extends Exception
     const ERREUR_TYPE_BAILLEUR_NOT_EXISTS = "BAILLEUR";
     const ERREUR_TYPE_DOUBLON = "DOUBLON";
     
-    const ERREUR_TYPE_DOUBLON_LIBELLE = "L'etablissement de cvi %s a déjà possède déjà un volume revendiqué pour le produit %s (%s hl).";
+    const ERREUR_TYPE_DOUBLON_LIBELLE = "L'etablissement de cvi %s possède déjà un volume revendiqué pour le produit %s (%s hl).";
     const ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS_LIBELLE = "L'etablissement de cvi %s n'existe pas.";
     const ERREUR_TYPE_PRODUIT_NOT_EXISTS_LIBELLE = "Le produit %s n'existe pas.";
     const ERREUR_TYPE_BAILLEUR_NOT_EXISTS_LIBELLE = "Le bailleur %s n'existe pas.";

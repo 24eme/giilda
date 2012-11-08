@@ -21,7 +21,7 @@
                     <?php foreach ($erreursType as $unmatched_data => $erreur) : ?>
                           <div class="generation_facture_options">
                               <label>
-                                  <?php if($type == RevendicationErreurs::ERREUR_TYPE_PRODUIT_NOT_EXISTS): ?>
+                                  <?php if($type == RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS): ?>
                                        <a href="<?php echo url_for('revendication_add_alias_to_configuration',array('odg' => $revendication->odg, 'campagne' => $revendication->campagne, 'alias' => $unmatched_data)); ?>"><?php echo $erreur->libelle_erreur; ?></a>
                                   <?php else : 
                                       echo $erreur->libelle_erreur;

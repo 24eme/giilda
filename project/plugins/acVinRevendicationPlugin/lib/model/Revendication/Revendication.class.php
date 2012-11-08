@@ -18,22 +18,24 @@ class Revendication extends BaseRevendication {
     public function storeDatas() {
         $this->setCSV();
         $this->setProduits();
-        foreach ($this->getCSV() as $n => $row) {
+        foreach ($this->getCSV() as $num_ligne => $row) {
+
             try {
+                $bailleur = null;
                 $etb = $this->matchEtablissement($row);
                 $hashLibelle = $this->matchProduit($row);
                 if ($this->rowHasMetayage($row)) {
                     $bailleur = $this->matchBailleur($row);
                 }
-                $doublon = $this->detectDoublon($row, $etb);
+                $this->detectDoublon($row, $etb);
+                $revendicationEtb = $this->datas->_add($etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID]);
+                $revendicationEtb->storeDeclarant($etb);
+                $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle, $bailleur);
             } catch (RevendicationErrorException $erreur) {
                 $erreurSortie = $this->erreurs->_add($num_ligne);
                 $erreurSortie->storeErreur($num_ligne, $row, $erreur->getErrorType());
                 continue;
             }
-            $revendicationEtb = $this->datas->_add($etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID]);
-            $revendicationEtb->storeDeclarant($etb);
-            $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle, $bailleur);
         }
     }
 
@@ -91,6 +93,7 @@ class Revendication extends BaseRevendication {
         if (count($etb) != 1) {
             throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS);
         }
+        return $etb[0];
     }
 
     private function matchProduit($row) {
@@ -109,7 +112,7 @@ class Revendication extends BaseRevendication {
             if (Search::matchTermLight($libelle_prod, $produit))
                 return array($hash, $produit);
         }
-        return null;
+        throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS);
     }
 
     private function rowHasMetayage($row) {
@@ -123,20 +126,21 @@ class Revendication extends BaseRevendication {
                 return $etablissement;
             }
         }
-        return null;
+        throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS);
     }
 
     private function detectDoublon($row, $etb) {
         $etbId = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID];
         $code_produit = $row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT];
-        if ($this->datas->exist($etbId) 
-            && $this->datas->{$etbId}->produits->exist($code_produit)
-            && ($this->datas->{$etbId}->commune == $row[RevendicationCsvFile::CSV_COL_VILLE])
-            && ($this->datas->{$etbId}->produits->{$code_produit}->volume == $row[RevendicationCsvFile::CSV_COL_VOLUME])) {
-
-            return $this->datas->{$etbId}->produits->{$code_produit};
+        if ($this->datas->exist($etbId)
+                && $this->datas->{$etbId}->produits->exist($code_produit)
+                && $this->datas->{$etbId}->commune == $row[RevendicationCsvFile::CSV_COL_VILLE]) {
+            foreach ($this->datas->{$etbId}->produits->{$code_produit}->volumes as $num => $volume) {
+                if ($volume->volume == $row[RevendicationCsvFile::CSV_COL_VOLUME]) {
+                    throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DOUBLON);
+                }
+            }
         }
-        return null;
     }
 
     public function sortByType() {

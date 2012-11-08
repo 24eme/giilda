@@ -9,10 +9,13 @@ Revendication:
         definition:
           fields: 
             '*':
-              content_type: { }
-              revpos: { }
-              length: { }
-              stub: { }
+              type: collection
+              definition:
+                fields:
+                  content_type: { }
+                  revpos: { }
+                  length: { }
+                  stub: { }
       type: {}
       odg: { }
       campagne: { }
@@ -27,6 +30,7 @@ Revendication:
                 fields:
                   declarant_cvi: {  }
                   declarant_nom: {  }
+                  commune: {  }
                   produits:
                     type: collection
                     definition:
