@@ -63,7 +63,7 @@ php symfony import:etablissement --trace $DATADIR/etablissements.csv
 
 echo "Import des vracs";
 
-php symfony import:etablissement --trace $DATADIR/vracs.csv
+php symfony import:vrac --trace $DATADIR/vracs.csv
 
 #echo "Import des drms";
 

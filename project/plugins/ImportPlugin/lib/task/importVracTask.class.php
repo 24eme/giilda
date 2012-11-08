@@ -172,12 +172,12 @@ EOF;
         $v->date_stats =  $date->format('Y-m-d');
         $v->valide->date_saisie = $date->format('Y-m-d');
 
-        $v->vendeur_identifiant = 'ETABLISSEMENT-'.$line[self::CSV_CODE_VITICULTEUR];
-        $v->acheteur_identifiant = 'ETABLISSEMENT-'.$line[self::CSV_CODE_NEGOCIANT];
+        $v->vendeur_identifiant = $line[self::CSV_CODE_VITICULTEUR];
+        $v->acheteur_identifiant = $line[self::CSV_CODE_NEGOCIANT];
         $v->mandataire_identifiant = null;
 
         if ($line[self::CSV_CODE_COURTIER]) {
-          $v->mandataire_identifiant   = 'ETABLISSEMENT-'.$line[self::CSV_CODE_COURTIER];
+          $v->mandataire_identifiant = $line[self::CSV_CODE_COURTIER];
         }
 
         $v->produit = $hash;
