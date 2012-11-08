@@ -67,7 +67,7 @@
 
             var url_ajax = select.attr('data-ajax');
             var limit = 20;
-            var prev_term = "";
+            //var prev_term = "";
             var minLength = (url_ajax) ? 1 : 0;
             var delay = (url_ajax) ? 500 : 200;
 
@@ -78,21 +78,20 @@
                 delay: delay,
                 minLength: minLength,
                 source: function( request, response ) {
-                    prev_term_matcher = new RegExp("^"+prev_term);
+                    // prev_term_matcher = new RegExp("^"+prev_term);
                     var new_url_ajax = select.attr('data-ajax');
                     if (new_url_ajax != url_ajax) {
                         url_ajax = new_url_ajax;
-                        prev_term = "";
+                        // prev_term = "";
                     }
 
-                    if((url_ajax && (prev_term == "" || (!prev_term_matcher.test(request.term) || select.children("option").length > limit)))
-                      ) {
+                    if(url_ajax) {
                         
-                        prev_term = request.term;
+                        //prev_term = request.term;
                         $.getJSON(url_ajax, {q:request.term,limit:limit+1}, function(data) {
-                            if (prev_term != request.term) {
+                            /*if (prev_term != request.term) {
                                 return ;
-                            }
+                            }*/
                             var inner_select = '';
                             for(hash in data) {
                                 inner_select += '<option value="'+hash+'">'+data[hash]+'</option>';
