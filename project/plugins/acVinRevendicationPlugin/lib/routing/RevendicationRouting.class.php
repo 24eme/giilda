@@ -12,6 +12,13 @@ class RevendicationRouting {
         
         $r = $event->getSubject();
         
+        $r->prependRoute('revendication', new sfRoute('/revendication', array('module' => 'revendication',
+								  'action' => 'index')));
+        
+        $r->prependRoute('revendication_upload', new sfRoute('/revendication-import', array('module' => 'revendication',
+                                                                                     'action' => 'upload')));
+        
+        
         $r->prependRoute('revendication_etablissement', new EtablissementRoute('/revendication/:identifiant', array('module' => 'revendication',
                     'action' => 'monEspace'),
                         array('sf_method' => array('get', 'post')),
@@ -19,8 +26,6 @@ class RevendicationRouting {
                             'type' => 'object')));
         
       
-        $r->prependRoute('revendication_upload', new sfRoute('/revendication', array('module' => 'revendication',
-								  'action' => 'upload')));
         
         $r->prependRoute('revendication_choose_etablissement', new sfRoute('/revendication/choix-etablissement', array('module' => 'revendication',
 								  'action' => 'chooseEtablissement')));

@@ -26,6 +26,7 @@ class RevendicationEtablissements extends BaseRevendicationEtablissements {
     public function storeDeclarant($etb) {
         $this->declarant_cvi = $etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI];
         $this->declarant_nom = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_NOM];
+        $this->commune = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_COMMUNE];
     }
     
 }

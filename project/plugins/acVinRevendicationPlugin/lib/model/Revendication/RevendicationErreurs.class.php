@@ -17,23 +17,23 @@ class RevendicationErreurs extends BaseRevendicationErreurs {
             throw new sfExcpetion("La ligne ".$numLigne." est mal formattée.");
         }
         switch ($erreur_type) {
-            case self::ERREUR_TYPE_PRODUIT_NOT_EXISTS:
-                $this->libelle_erreur = sprintf(self::ERREUR_TYPE_PRODUIT_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT]);
+            case RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS:
+                $this->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT]);
                 $this->data_erreur = $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT];
                 $this->ligne = $rowFormatted;
                break;
-            case self::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS:
-                $this->libelle_erreur = sprintf(self::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_CVI]);
+            case RevendicationErrorException::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS:
+                $this->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_CVI]);
                 $this->data_erreur = $row[RevendicationCsvFile::CSV_COL_CVI];
                 $this->ligne = $rowFormatted;
                 break;
-            case self::ERREUR_TYPE_BAILLEUR_NOT_EXISTS:
-                $this->libelle_erreur = sprintf(self::ERREUR_TYPE_BAILLEUR_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
+            case RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS:
+                $this->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
                 $this->data_erreur = $row[RevendicationCsvFile::CSV_COL_BAILLEUR];
                 $this->ligne = $rowFormatted;
                 break;            
-            case self::ERREUR_TYPE_DOUBLON:
-                $this->libelle_erreur = sprintf(self::ERREUR_TYPE_DOUBLON_LIBELLE,
+            case RevendicationErrorException::ERREUR_TYPE_DOUBLON:
+                $this->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_DOUBLON_LIBELLE,
                                                 $row[RevendicationCsvFile::CSV_COL_CVI],
                                                 $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT],
                                                 sprintf("%01.02f", round(floatval($row[RevendicationCsvFile::CSV_COL_VOLUME]), 2)));

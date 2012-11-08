@@ -27,6 +27,7 @@ Revendication:
                 fields:
                   declarant_cvi: {  }
                   declarant_nom: {  }
+                  commune: {  }
                   produits:
                     type: collection
                     definition:
