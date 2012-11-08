@@ -15,6 +15,17 @@ class Alerte extends BaseAlerte {
         $this->updateStatut(AlerteClient::STATUT_NOUVEAU);
     }
     
+    public function getLastDateARelance() {
+            $cpt = count($this->statuts)-1;
+            while ($cpt)
+            {
+                if($this->statuts[$cpt]->statut == AlerteClient::STATUT_ARELANCER) return $this->statuts[$cpt]->date;
+                $cpt--;
+            }
+            return null;
+    }
+
+
     public function updateStatut($statut, $commentaire = null, $date = null) {
         if (is_null($date)) {
             $date = date('Y-m-d');
@@ -35,5 +46,10 @@ class Alerte extends BaseAlerte {
     public function isFinished() {
         
         return in_array($this->getStatut()->statut, array(AlerteClient::STATUT_FERME, AlerteClient::STATUT_RESOLU));
+    }
+    
+    public function isClosed() {
+        
+        return $this->getStatut()->statut == AlerteClient::STATUT_FERME;
     }
 }

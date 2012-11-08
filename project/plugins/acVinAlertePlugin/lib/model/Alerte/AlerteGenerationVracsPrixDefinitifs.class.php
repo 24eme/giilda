@@ -6,32 +6,24 @@
  */
 
 /**
- * Description of class AlerteGenerationContratsNonSoldes
+ * Description of class AlerteGenerationVracsPrixDefinitifs
  * @author mathurin
  */
-class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
+class AlerteGenerationVracsPrixDefinitifs extends AlerteGeneration {
 
 
     public function getTypeAlerte() {
 
-        return AlerteClient::VRAC_NON_SOLDES;
+        return AlerteClient::VRAC_PRIX_DEFINITIFS;
     }
 
     public function creations() {
         $vracs = array();
-        if ($this->getConfigOptionDate('creation_date') == $this->getDate()) {
-            $vracs = VracClient::getInstance()->retreiveByStatutsTypes(
-                    array(VracClient::STATUS_CONTRAT_NONSOLDE), array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
-                VracClient::TYPE_TRANSACTION_VIN_VRAC)
-            );
-        } else {
-            $vracs = VracClient::getInstance()->retreiveByStatutsTypesAndDate(
-                    array(VracClient::STATUS_CONTRAT_NONSOLDE), array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
-                VracClient::TYPE_TRANSACTION_VIN_VRAC), $this->getConfigOptionDelaiDate('creation_delai', $this->getDate())
-            );
+        if (Date::supEqual($this->getDate(), $this->getConfigOptionDate('creation_date'))) {
+            $vracs = VracClient::getInstance()->findContatsByWaitForPrixDefinitif($this->getDate());
         }
         foreach ($vracs as $vrac) {
-            $alerte = $this->createOrFind($vrac->id, $vrac->key[VracStatutAndTypeView::KEY_IDENTIFIANT], $vrac->key[VracStatutAndTypeView::KEY_NOM]);
+            $alerte = $this->createOrFind($vrac->id, $vrac->key[VracOriginalPrixDefinitifView::KEY_IDENTIFIANT], $vrac->key[VracOriginalPrixDefinitifView::KEY_NOM]);
             if (!$alerte->isNew() && $alerte->isClosed()) {
                 $alerte->open();
             }
@@ -44,9 +36,9 @@ class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
             $vrac = VracClient::getInstance()->find($id_document);
             if (isset($vrac)) {
-                if ($vrac->isSolde()) {
+                if ($vrac->prixDefinitifExist()) {
                     $alerte = AlerteClient::getInstance()->find($alerteView->id);
-                    $alerte->updateStatut(AlerteClient::STATUT_FERME);
+                    $alerte->updateStatut(AlerteClient::STATUT_FERME,'Changement automatique au statut fermer', $this->getDate());
                     $alerte->save();
                     continue;
                 }

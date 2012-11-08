@@ -6,36 +6,29 @@
  */
 
 /**
- * Description of class AlerteGenerationContratsNonSoldes
+ * Description of class AlerteGenerationVracsAttenteOriginal
  * @author mathurin
  */
-class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
-
+class AlerteGenerationVracsAttenteOriginal extends AlerteGeneration {
 
     public function getTypeAlerte() {
 
-        return AlerteClient::VRAC_NON_SOLDES;
+        return AlerteClient::VRAC_ATTENTE_ORIGINAL;
     }
 
     public function creations() {
         $vracs = array();
-        if ($this->getConfigOptionDate('creation_date') == $this->getDate()) {
-            $vracs = VracClient::getInstance()->retreiveByStatutsTypes(
-                    array(VracClient::STATUS_CONTRAT_NONSOLDE), array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
-                VracClient::TYPE_TRANSACTION_VIN_VRAC)
-            );
-        } else {
-            $vracs = VracClient::getInstance()->retreiveByStatutsTypesAndDate(
-                    array(VracClient::STATUS_CONTRAT_NONSOLDE), array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
-                VracClient::TYPE_TRANSACTION_VIN_VRAC), $this->getConfigOptionDelaiDate('creation_delai', $this->getDate())
-            );
-        }
+        $vracs = VracClient::getInstance()->retreiveByWaitForOriginal();
         foreach ($vracs as $vrac) {
-            $alerte = $this->createOrFind($vrac->id, $vrac->key[VracStatutAndTypeView::KEY_IDENTIFIANT], $vrac->key[VracStatutAndTypeView::KEY_NOM]);
-            if (!$alerte->isNew() && $alerte->isClosed()) {
-                $alerte->open();
+            $date_saisie = $vrac->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE];
+            $date_limit = $this->getConfigOptionDelaiDate('creation_date', $date_saisie);
+            if (Date::supEqual($this->getDate(), $date_limit)) {
+                $alerte = $this->createOrFind($vrac->id, $vrac->key[VracOriginalPrixDefinitifView::KEY_IDENTIFIANT], $vrac->key[VracOriginalPrixDefinitifView::KEY_NOM]);
+                if (!$alerte->isNew() && $alerte->isClosed()) {
+                    $alerte->open();
+                }
+                $alerte->save();
             }
-            $alerte->save();
         }
     }
 
@@ -44,10 +37,10 @@ class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
             $vrac = VracClient::getInstance()->find($id_document);
             if (isset($vrac)) {
-                if ($vrac->isSolde()) {
-                    $alerte = AlerteClient::getInstance()->find($alerteView->id);
-                    $alerte->updateStatut(AlerteClient::STATUT_FERME);
-                    $alerte->save();
+                if (!$vrac->getOriginal()) {
+                        $alerte = AlerteClient::getInstance()->find($alerteView->id);
+                        $alerte->updateStatut(AlerteClient::STATUT_FERME, 'Changement automatique au statut fermer', $this->getDate());
+                        $alerte->save();
                     continue;
                 }
             }
@@ -67,7 +60,5 @@ class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
             }
         }
     }
-
-
 
 }

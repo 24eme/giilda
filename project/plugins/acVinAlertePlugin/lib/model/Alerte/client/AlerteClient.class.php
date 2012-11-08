@@ -3,12 +3,12 @@
 class AlerteClient extends acCouchdbClient {
 
     const VRAC_NON_SOLDES = "VRACNONSOLDE";
-    const VRAC_PRIX_DEFINITIF = "VRACPRIXDEFINITIF";
+    const VRAC_PRIX_DEFINITIFS = "VRACPRIXDEFINITIFS";
     const VRAC_ATTENTE_ORIGINAL = "VRACATTENTEORIGINAL";
     const DRM_MANQUANTE = "DRMMANQUANTE";
     
     public static $alertes_libelles = array(self::VRAC_NON_SOLDES => "Contrat non soldé",
-                                            self::VRAC_PRIX_DEFINITIF => "Contrat avec prix définitif non fixé",
+                                            self::VRAC_PRIX_DEFINITIFS => "Contrat avec prix définitif non fixé",
                                             self::VRAC_ATTENTE_ORIGINAL => "Contrat en attente de l'original",
                                             self::DRM_MANQUANTE => 'DRM absente');
     

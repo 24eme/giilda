@@ -8,12 +8,12 @@ abstract class AlerteGeneration {
 
     protected $dev = false;
     protected $config = null;
+    public $date = '2012-12-08';
 
-    
     public function __construct() {
         $configs = sfConfig::get('app_alertes_generations');
-        if(!array_key_exists($this->getTypeAlerte(), $configs))
-            throw new sfException(sprintf('Config %s not found in app.yml',$this->getTypeAlerte()));
+        if (!array_key_exists($this->getTypeAlerte(), $configs))
+            throw new sfException(sprintf('Config %s not found in app.yml', $this->getTypeAlerte()));
         $this->config = $configs[$this->getTypeAlerte()];
     }
 
@@ -27,11 +27,11 @@ abstract class AlerteGeneration {
     }
 
     public function getAlertesOpen() {
-        return AlerteHistoryView::getInstance()->findByTypeAndStatuts($this->getTypeAlerte(),  AlerteClient::$statutsOpen);
+        return AlerteHistoryView::getInstance()->findByTypeAndStatuts($this->getTypeAlerte(), AlerteClient::$statutsOpen);
     }
-    
+
     public function getAlertesRelancable() {
-        return AlerteHistoryView::getInstance()->findByTypeAndStatuts($this->getTypeAlerte(),  AlerteClient::$statutsRelancable);
+        return AlerteHistoryView::getInstance()->findByTypeAndStatuts($this->getTypeAlerte(), AlerteClient::$statutsRelancable);
     }
 
     public function getAlerte($id_document) {
@@ -50,29 +50,36 @@ abstract class AlerteGeneration {
         return $alerte;
     }
 
-    public function getConfigOption($field){
-        if(!isset($this->config[$field])) return null;
+    public function getConfigOption($field) {
+        if (!isset($this->config[$field]))
+            return null;
         return $this->config[$field];
     }
-    
+
     public function getConfigOptionDate($field) {
-        preg_match('/^([0-9]+)/([0-9]+)/', $this->getConfigOption($field), $dates);
-        
-        return sprintf('%02d-%02d-%04d', $dates[1], $dates[2], date('y')); 
+        $dates = array();
+        preg_match('/^([0-9]+)\/([0-9]+)/', $this->getConfigOption($field), $dates);
+        return sprintf('%04d-%02d-%02d', date('Y'), $dates[2], $dates[1]);
     }
-    
-    public function getConfigOptionDelaiDate($field, $date = 'Y-m-d') {
+
+    public function getConfigOptionDelaiDate($field, $date = null) {
+        if (!$date)
+            $date = date('Y-m-d');
         $delai = $this->getConfigOption($field);
         if (!$delai) {
             return null;
         }
-        
-        return date('Y-m-d', strtotime($delai, $date));
+        return Date::addDelaiToDate($delai, $date);
     }
-    
+
+    public function getDate() {
+
+        return $this->date; // return date('Y-m-d');
+    }
+
     public abstract function getTypeAlerte();
 
     public abstract function creations();
-    
+
     public abstract function updates();
 }
