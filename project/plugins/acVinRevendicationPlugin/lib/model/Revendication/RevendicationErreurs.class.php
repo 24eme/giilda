@@ -6,15 +6,7 @@
  */
 class RevendicationErreurs extends BaseRevendicationErreurs {
 
-    const ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS = "ETABLISSEMENT";
-    const ERREUR_TYPE_PRODUIT_NOT_EXISTS = "PRODUIT";
-    const ERREUR_TYPE_BAILLEUR_NOT_EXISTS = "BAILLEUR";
-    const ERREUR_TYPE_DOUBLON = "DOUBLON";
-    
-    const ERREUR_TYPE_DOUBLON_LIBELLE = "L'etablissement de cvi %s a déjà possède déjà un volume revendiqué pour le produit %s (%s hl).";
-    const ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS_LIBELLE = "L'etablissement de cvi %s n'existe pas.";
-    const ERREUR_TYPE_PRODUIT_NOT_EXISTS_LIBELLE = "Le produit %s n'existe pas.";
-    const ERREUR_TYPE_BAILLEUR_NOT_EXISTS_LIBELLE = "Le bailleur %s n'existe pas.";
+
 
     public function storeErreur($numLigne, $row, $erreur_type) {
         
@@ -39,8 +31,7 @@ class RevendicationErreurs extends BaseRevendicationErreurs {
                 $this->libelle_erreur = sprintf(self::ERREUR_TYPE_BAILLEUR_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
                 $this->data_erreur = $row[RevendicationCsvFile::CSV_COL_BAILLEUR];
                 $this->ligne = $rowFormatted;
-                break;
-            
+                break;            
             case self::ERREUR_TYPE_DOUBLON:
                 $this->libelle_erreur = sprintf(self::ERREUR_TYPE_DOUBLON_LIBELLE,
                                                 $row[RevendicationCsvFile::CSV_COL_CVI],
