@@ -31,6 +31,7 @@ class RevendicationClient extends acCouchdbClient {
             $revendication->odg = $odg;
             $revendication->_id = $this->getId($odg, $campagne);
             $revendication->date_creation = date('Y-m-d');
+            $revendication->etape = 2;
             $revendication->save();
         }
         

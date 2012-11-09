@@ -11,6 +11,7 @@
  * @property string $odg
  * @property string $campagne
  * @property string $date_creation
+ * @property string $etape
  * @property acCouchdbJson $datas
  * @property acCouchdbJson $erreurs
 
@@ -28,6 +29,8 @@
  * @method string setCampagne()
  * @method string getDateCreation()
  * @method string setDateCreation()
+ * @method string getEtape()
+ * @method string setEtape()
  * @method acCouchdbJson getDatas()
  * @method acCouchdbJson setDatas()
  * @method acCouchdbJson getErreurs()

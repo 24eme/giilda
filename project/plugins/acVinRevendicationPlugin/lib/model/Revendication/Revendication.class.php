@@ -32,8 +32,8 @@ class Revendication extends BaseRevendication {
                 $revendicationEtb->storeDeclarant($etb);
                 $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle, $bailleur);
             } catch (RevendicationErrorException $erreur) {
-                $erreurSortie = $this->erreurs->_add($num_ligne);
-                $erreurSortie->storeErreur($num_ligne, $row, $erreur->getErrorType());
+                $erreurSortie = $this->erreurs->_add($erreur->getErrorType());
+                $erreurSortie->storeErreur($num_ligne+1, $row, $erreur);
                 continue;
             }
         }
@@ -112,7 +112,7 @@ class Revendication extends BaseRevendication {
             if (Search::matchTermLight($libelle_prod, $produit))
                 return array($hash, $produit);
         }
-        throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS);
+        throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS);
     }
 
     private function rowHasMetayage($row) {
@@ -137,31 +137,10 @@ class Revendication extends BaseRevendication {
                 && $this->datas->{$etbId}->commune == $row[RevendicationCsvFile::CSV_COL_VILLE]) {
             foreach ($this->datas->{$etbId}->produits->{$code_produit}->volumes as $num => $volume) {
                 if ($volume->volume == $row[RevendicationCsvFile::CSV_COL_VOLUME]) {
-                    throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DOUBLON);
+                    throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DOUBLON,array('num_ligne' => $volume->num_ligne));
                 }
             }
         }
-    }
-
-    public function sortByType() {
-        $sortedErrors = new stdClass();
-        $sortedErrors->erreurs = array();
-        foreach ($this->erreurs as $erreur) {
-            if (!array_key_exists($erreur->type_erreur, $sortedErrors->erreurs)) {
-                $sortedErrors->erreurs[$erreur->type_erreur] = array();
-            }
-            if (!array_key_exists($erreur->data_erreur, $sortedErrors->erreurs[$erreur->type_erreur])) {
-                $sortedErrors->erreurs[$erreur->type_erreur][$erreur->data_erreur] = new stdClass();
-                $sortedErrors->erreurs[$erreur->type_erreur][$erreur->data_erreur]->lignes = array();
-                $sortedErrors->erreurs[$erreur->type_erreur][$erreur->data_erreur]->libelle_erreur = $erreur->libelle_erreur;
-            }
-            if (!isset($sortedErrors->{$erreur->type_erreur}))
-                $sortedErrors->{$erreur->type_erreur} = 0;
-
-            $sortedErrors->{$erreur->type_erreur}++;
-            $sortedErrors->erreurs[$erreur->type_erreur][$erreur->data_erreur]->lignes[] = $erreur->num_ligne;
-        }
-        return $sortedErrors;
     }
 
     public function updateProduit($cvi, $produit_hash_old, $produit_hash_new) {
@@ -209,6 +188,16 @@ class Revendication extends BaseRevendication {
 
     public function deleteRow($cvi, $row) {
         $this->getProduitNode($cvi, $row)->supprProduit();
+    }
+    
+    public function getNbErreurs() {
+        $nb_erreur = 0;
+        foreach ($this->erreurs as $erreurType) {
+            foreach ($erreurType as $erreurData) {
+                $nb_erreur+=count($erreurData);
+            }
+        }
+        return $nb_erreur;
     }
 
 }

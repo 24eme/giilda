@@ -20,6 +20,7 @@ Revendication:
       odg: { }
       campagne: {}
       date_creation: {}
+      etape: {}
       datas:
         type: collection
         definition:
@@ -60,7 +61,7 @@ Revendication:
                                           bailleur_nom: {  }
                                           date_insertion: {  }
       erreurs:
-        type: array_collection
+        type: collection
         definition:
           fields:
             '*':
@@ -68,8 +69,15 @@ Revendication:
               type: collection
               definition:
                 fields:
-                  type_erreur: {}
-                  data_erreur: {}
-                  libelle_erreur: {}
-                  ligne: {}
-                  num_ligne: {}
+                  '*':
+                    type: array_collection
+                    definition:
+                      fields:
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              data_erreur: {}
+                              libelle_erreur: {}
+                              ligne: {}
+                              num_ligne: {}

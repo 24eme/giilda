@@ -18,6 +18,14 @@ class RevendicationRouting {
         $r->prependRoute('revendication_upload', new sfRoute('/revendication-import', array('module' => 'revendication',
                                                                                      'action' => 'upload')));
         
+        $r->prependRoute('revendication_create', new sfRoute('/revendication-import/odg/:odg/:campagne/create', array('module' => 'revendication',
+                                                                  'action' => 'create')));
+        
+        $r->prependRoute('revendication_view_erreurs', new RevendicationRoute('/revendication-import/odg/:odg/:campagne/erreurs', array('module' => 'revendication',
+                                                            'action' => 'viewErreurs'),
+                                                            array('sf_method' => array('get', 'post')),
+                                                            array('model' => 'Revendication',
+                                                                'type' => 'object')));
         
         $r->prependRoute('revendication_etablissement', new EtablissementRoute('/revendication/:identifiant', array('module' => 'revendication',
                     'action' => 'monEspace'),
@@ -37,17 +45,10 @@ class RevendicationRouting {
 //                                                                  'action' => 'viewupload')));
 
         
-        $r->prependRoute('revendication_downloadCSV', new sfRoute('/revendication/odg/:md5/csv', array('module' => 'revendication',
+        $r->prependRoute('revendication_downloadCSV', new sfRoute('/revendication/:odg/:md5/csv', array('module' => 'revendication',
                                                                   'action' => 'downloadCSV')));
         
-        $r->prependRoute('revendication_create', new sfRoute('/revendication/odg/:odg/:campagne/create', array('module' => 'revendication',
-                                                                  'action' => 'create')));
 
-        $r->prependRoute('revendication_view_erreurs', new RevendicationRoute('/revendication/odg/:odg/:campagne/erreurs', array('module' => 'revendication',
-                                                            'action' => 'viewErreurs'),
-                                                            array('sf_method' => array('get', 'post')),
-                                                            array('model' => 'Revendication',
-                                                                'type' => 'object')));
         
         $r->prependRoute('revendication_edition', new RevendicationRoute('/revendication/odg/:odg/:campagne/edition', array('module' => 'revendication',
                                                             'action' => 'edition'),

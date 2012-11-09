@@ -1,7 +1,10 @@
+<?php
+use_helper('Date');
+?>
 <div id="contenu" class="revendication">
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><strong>Page d'accueil</strong></p>
+        <p id="fil_ariane"><strong><?php echo link_to("Page d'accueil",'revendication'); ?> > Import Volumes Revendiqués</strong></p>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
 
@@ -30,7 +33,7 @@
                     <?php foreach ($historiqueImport as $import) : ?>
                         <tr>
                             <td><?php echo $import->id; ?></td>
-                            <td><?php echo $import->key[RevendicationHistoryView::KEYS_DATE]; ?></td>
+                            <td><?php echo format_date($import->key[RevendicationHistoryView::KEYS_DATE],'dd/MM/yyyy'); ?></td>
                             <td><?php echo $import->key[RevendicationHistoryView::KEYS_CAMPAGNE]; ?></td>
                             <td><?php echo $import->key[RevendicationHistoryView::KEYS_ODG]; ?></td>
                         </tr>

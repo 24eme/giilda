@@ -1,11 +1,13 @@
 <?php
 use_helper('Float');
+use_helper('Date');
 foreach ($etb->produits as $hashKey => $prod) :
     if ($prod->statut != RevendicationProduits::STATUT_SUPPRIME) :
 
         foreach ($prod->volumes as $num_row => $volume) :
             ?>
             <tr>
+                <td><?php echo format_date($volume->date_insertion,'dd/MM/yyyy'); ?></td>
                 <td><?php echo $etb->getKey(); ?></td>
                 <td><?php
             echo $etb->declarant_nom;

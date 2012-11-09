@@ -27,6 +27,6 @@ class RevendicationHistoryView extends acCouchdbView
                     ->endkey(array($campagne, array()))
                     ->getView($this->design, $this->view)->rows;
             
-    }
-    
+     }
+     
 }  
