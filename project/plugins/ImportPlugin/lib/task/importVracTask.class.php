@@ -138,7 +138,7 @@ EOF;
 
     foreach(file($arguments['file']) as $line) {
     	$data = str_getcsv($line, ';');
-    	$this->importVrac($data);
+    $this->importVrac($data);
     }
 
   }
@@ -172,12 +172,12 @@ EOF;
         $v->date_stats =  $date->format('Y-m-d');
         $v->valide->date_saisie = $date->format('Y-m-d');
 
-        $v->vendeur_identifiant = 'ETABLISSEMENT-'.$line[self::CSV_CODE_VITICULTEUR];
-        $v->acheteur_identifiant = 'ETABLISSEMENT-'.$line[self::CSV_CODE_NEGOCIANT];
+        $v->vendeur_identifiant = $line[self::CSV_CODE_VITICULTEUR];
+        $v->acheteur_identifiant = $line[self::CSV_CODE_NEGOCIANT];
         $v->mandataire_identifiant = null;
 
         if ($line[self::CSV_CODE_COURTIER]) {
-          $v->mandataire_identifiant   = 'ETABLISSEMENT-'.$line[self::CSV_CODE_COURTIER];
+          $v->mandataire_identifiant = $line[self::CSV_CODE_COURTIER];
         }
 
         $v->produit = $hash;
@@ -261,12 +261,12 @@ EOF;
       return new DateTime(sprintf('%d-%d-%d', $matches[3], self::$months_fr[$matches[2]], $matches[1]));
     }
 
-    if (!preg_match('/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/', $date, $matches)) {
+    if (preg_match('/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/', $date, $matches)) {
 
       return new DateTime(sprintf('%d-%d-%d', $matches[3], $matches[2], $matches[1]));
     }
 
-    $this->logSection('Date format error', $date, null, 'ERROR');
+    $this->logSection('Date format error', "'".$date."'", null, 'ERROR');
 
     return new DateTime();
   }
