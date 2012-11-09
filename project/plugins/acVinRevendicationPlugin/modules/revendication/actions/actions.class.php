@@ -3,7 +3,7 @@ class revendicationActions extends sfActions {
   
     public function executeIndex(sfWebRequest $request) {
         $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
-        $this->historiqueImport = 'historique';
+        $this->historiqueImport = RevendicationClient::getInstance()->getHistory();
     }
     
     

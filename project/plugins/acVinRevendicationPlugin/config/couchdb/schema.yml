@@ -16,9 +16,10 @@ Revendication:
                   revpos: { }
                   length: { }
                   stub: { }
-      type: {}
+      type: { }
       odg: { }
-      campagne: { }
+      campagne: {}
+      date_creation: {}
       datas:
         type: collection
         definition:

@@ -9,11 +9,14 @@
                     <th>Problème détecté</th>
                 </tr>
             </thead>
+            <tbody>
+                
         <?php
             foreach ($errors as $error) {
                 echo "<tr><td>" . $error['num_ligne'] . "</td><td>" . $error['message'] . "</td></tr>";
             }
          ?>
+            </tbody>
          </table>
     </p>
 </fieldset>

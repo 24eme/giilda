@@ -30,6 +30,7 @@ class RevendicationClient extends acCouchdbClient {
             $revendication->campagne = $campagne;
             $revendication->odg = $odg;
             $revendication->_id = $this->getId($odg, $campagne);
+            $revendication->date_creation = date('Y-m-d');
             $revendication->save();
         }
         
@@ -39,5 +40,9 @@ class RevendicationClient extends acCouchdbClient {
         
         return $revendication;
     }    
+    
+    public function getHistory() {
+        return RevendicationHistoryView::getInstance()->getHistory();
+    }
 
 }
