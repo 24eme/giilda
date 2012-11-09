@@ -7,6 +7,7 @@ class FactureGenerationMasseForm extends FactureGenerationForm {
         'tours' => 'Tours');
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
+        $defaults['date_facturation'] = date('d/m/Y');
         parent::__construct($defaults, $options, $CSRFSecret);
     }
 

@@ -99,10 +99,12 @@ class FactureClient extends acCouchdbClient {
     public function filterWithParameters($mouvementsByEtb, $parameters) {
         
     if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '')){
+        $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
         foreach ($mouvementsByEtb as $identifiant => $mouvements) {
             foreach ($mouvements as $key => $mouvement) {
-                    if($this->supEqDate($mouvement->value[MouvementFacturationView::VALUE_DATE], $parameters['date_mouvement'])) {
+                    if(Date::supEqual($mouvement->value[MouvementFacturationView::VALUE_DATE],$date_mouvement)) {
                         unset($mouvements[$key]);
+                        $mouvementsByEtb[$identifiant] = $mouvements;
                     }
             }
         }
@@ -120,21 +122,26 @@ class FactureClient extends acCouchdbClient {
                 }           
         }
     }
-    if (count($mouvementsByEtb) == 0)
-        return null;
+    $mouvementsByEtb = $this->cleanMouvementsByEtb($mouvementsByEtb);
+    
 
     return $mouvementsByEtb;
     }
 
-    private function supEqDate($date_0, $date_1) {
-        $date_0 = str_replace('-', '', $date_0);
-        $date_1Arr = explode('/', $date_1);       
-        return $date_0 >= ($date_1Arr[2] . $date_1Arr[1] . $date_1Arr[0]);
+    private function cleanMouvementsByEtb($mouvementsByEtb){
+        if (count($mouvementsByEtb) == 0)
+        return null;
+        $nb_mouvements = 0;
+        foreach ($mouvementsByEtb as $identifiant => $mouvement) {
+            $nb_mouvements+= count($mouvement);
+            if($nb_mouvements > 0) return $mouvementsByEtb;
+            }
+        if($nb_mouvements==0) return null;
     }
 
 
     public function createFacturesByEtb($generationFactures,$date_facturation) {
-
+        
         $generation = new Generation();
         $generation->date_emission = date('Y-m-d-H:i');
         $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;

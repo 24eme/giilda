@@ -2,6 +2,12 @@
 
 class FactureGenerationForm extends BaseForm {
     
+    public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
+        $defaults['date_facturation'] = date('d/m/Y');
+        parent::__construct($defaults, $options, $CSRFSecret);
+    }
+
+
     public function configure()
     {
         $this->setWidget('date_mouvement', new sfWidgetFormInput());

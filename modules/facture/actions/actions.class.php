@@ -59,7 +59,7 @@ class factureActions extends sfActions {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->facturations = FactureClient::getInstance()->getFacturationForEtablissement($this->etablissement,9);
         $mouvementsByEtb = array($this->etablissement->identifiant => $this->facturations);        
-        $mouvementsByEtb = FactureClient::getInstance()->filterWithParameters($mouvementsByEtb,$parameters);
+        $mouvementsByEtb = FactureClient::getInstance()->filterWithParameters($mouvementsByEtb,$parameters);   
         
         if($mouvementsByEtb)
         {
