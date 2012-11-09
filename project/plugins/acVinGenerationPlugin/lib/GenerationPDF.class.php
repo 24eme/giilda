@@ -28,7 +28,7 @@ class GenerationPDF {
     foreach ($pdfs as $pdf) {
       $files[] = $this->generateAPDFForAPageId($pdf, $pageid);
     }
-    $fileres = $this-> concatenatePDFs($files);
+    $fileres = $this->concatenatePDFs($files);
     $this->cleanFiles($files);
     return $filesres;
   }
@@ -83,7 +83,7 @@ class GenerationPDF {
     $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
     foreach ($this->generation->documents as $docid) {
       $pdf = $this->generatePDFForADocumentID($docid);
-      if (!isset($factures[$pdf->getNbPages()]))
+      if (!isset($pdfs[$pdf->getNbPages()]))
 	$pdfs[$pdf->getNbPages()] = array();
       array_push($pdfs[$pdf->getNbPages()], $pdf);
     }
