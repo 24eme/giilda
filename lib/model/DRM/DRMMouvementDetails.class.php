@@ -21,6 +21,13 @@ class DRMMouvementDetails extends BaseDRMMouvementDetails {
         return $this->getParent()->getParent();
     }
 
+    public function init($params = array()) {
+        parent::init($params);
+
+        $this->getParent()->remove($this->getKey());
+        $this->getParent()->add($this->getKey());
+    }
+
     public function createMouvements($template_mouvement) {
         $mouvements = array();
 
