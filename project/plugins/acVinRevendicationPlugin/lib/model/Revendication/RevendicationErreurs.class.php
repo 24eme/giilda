@@ -16,7 +16,7 @@ class RevendicationErreurs extends BaseRevendicationErreurs {
                 $errorData = $this->add($row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT]);
                 $error = $errorData->add();                
                 $error->data_erreur = $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT];
-                $error->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT]);
+                $error->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT],$row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT]);
                 break;
             case RevendicationErrorException::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS:
                 $errorData = $this->add($row[RevendicationCsvFile::CSV_COL_CVI]);
