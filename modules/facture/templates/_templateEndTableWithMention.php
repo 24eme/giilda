@@ -1,11 +1,14 @@
-        <?php
-        for($i=0; $i<($max_lignes - $nb_lignes);$i++):
-        ?>
+<?php for($i = 0 ; $i < $add_blank_lines; $i++):  ?>
 ~ & ~ & ~ & ~ & ~ &\\
-        <?php 
-        endfor;
-        ?>
-    \multicolumn{6}{c}{Aucun escompte n'est prévu pour paiement anticipé. Pénalités de retard : 3 fois le taux d'intér\^{e}t légal} \\
+<?php endfor;?>
+    \multicolumn{6}{c}{<?php
+		       if (isset($end_document) && $end_document)
+			 echo "Aucun escompte n'est prévu pour paiement anticipé. Pénalités de retard : 3 fois le taux d'intér\^{e}t légal";
+		       else
+			 echo ".../...";
+			 
+      
+      ?>} \\
     ~ & ~ & ~ & ~ & ~ &\\
                 \end{tabular}
         };

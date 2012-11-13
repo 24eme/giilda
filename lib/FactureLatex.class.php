@@ -3,21 +3,14 @@
 class FactureLatex {
 
   private $facture = null;
-  
-  const MAX_LIGNE_TEMPLATE_ONEPAGE = 44;  //Avec Papillons
-  const MAX_LIGNE_TEMPLATE_TWOPAGE = 120; //Avec Papillons
-  
-  
-  const MAX_LIGNE_TABLE_ONEPAGE = 36;   //Lignes de tableau uniquement
-  const MAX_LIGNE_TABLE_FIRSTPAGE = 52; //Lignes de tableau uniquement
-  const MAX_LIGNE_TABLE_PERPAGE = 80;   //Lignes de tableau uniquement
-  const MAX_LIGNE_TABLE_LASTPAGE = 54;  //Lignes de tableau uniquement
-  
-  
-  
-  const TEMPLATE_ONEPAGE = 'facture1Page';
-  const TEMPLATE_TWOPAGE = 'facture2Pages';
-  const TEMPLATE_MOREPAGE = 'factureMorePages';
+
+  const MAX_LIGNES_PERPAGE = 60;
+  const NB_LIGNES_PAPILLONS_FIXE = 2;
+  const NB_LIGNES_PAPILLONS_PAR_ECHEANCE = 3;
+  const NB_LIGNES_ENTETE = 10;
+  const NB_LIGNES_REGLEMENT = 7;
+  const MAX_NB_LIGNES_ORGA = 3;
+
   const FACTURE_OUTPUT_TYPE_PDF = 'pdf';
   const FACTURE_OUTPUT_TYPE_LATEX = 'latex';
   
@@ -28,23 +21,12 @@ class FactureLatex {
   }
 
   public function getNbPages() {
-    $nbLigne = $this->facture->getNbLignes();
-    if ($nbLigne <= self::MAX_LIGNE_TEMPLATE_ONEPAGE)
-      return 1;
-    if ($nbLigne <= self::MAX_LIGNE_TEMPLATE_TWOPAGE)
-      return 2;
-    return (($nbLigne - self::MAX_LIGNE_TEMPLATE_TWOPAGE) / self::MAX_LIGNE_TEMPLATE_PERPAGE) + 2;
+    $nbLignes = $this->facture->getNbLignes() + self::NB_LIGNES_REGLEMENT + self::NB_LIGNES_ENTETE + self::MAX_NB_LIGNES_ORGA;
+    $nb_echeances = count($this->facture->echeances);
+    if ($nb_echeances)
+      $nbLignes += self::NB_LIGNES_PAPILLONS_FIXE + self::NB_LIGNES_PAPILLONS_PAR_ECHEANCE * $nb_echeances;
+    return floor(($nbLignes/ self::MAX_LIGNES_PERPAGE) + 1);
   }
-  
-  public function getTemplate() {
-    $nbPages = $this->getNbPages();
-    if ($nbPages <= 1)
-      return self::TEMPLATE_ONEPAGE;
-    if ($nbPages <= 2)
-      return self::TEMPLATE_TWOPAGE;
-    return self::TEMPLATE_MOREPAGE;
-  }
-  
   
   public function getLatexFileNameWithoutExtention() {
     return $this->getTEXWorkingDir().$this->facture->numero_facture.'_'.$this->facture->identifiant.'_'.$this->facture->_rev;
@@ -68,10 +50,9 @@ class FactureLatex {
   
   public function getLatexFileContents() {
     return html_entity_decode(htmlspecialchars_decode(
-						      get_partial('facture/'.$this->getTemplate(), array('facture' => $this->facture,
-											       'template' => $this->getTemplate(),
-                                                                                               'nb_page' => $this->getNbPages(),
-                                                                                               'nb_ligne' => $this->facture->getNbLignes()))
+						      get_partial('facture/latexContent', array('facture' => $this->facture,
+												'nb_pages' => $this->getNbPages(),
+												'nb_lines' => $this->facture->getNbLignes()))
 						      , HTML_ENTITIES));
   }
 
