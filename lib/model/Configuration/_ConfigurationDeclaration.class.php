@@ -201,6 +201,10 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
       if ($datas[ProduitCsvFile::CSV_PRODUIT_CODE_COMPTABLE_NOEUD] == $this->getTypeNoeud()) {
         $this->code_comptable = ($datas[ProduitCsvFile::CSV_PRODUIT_CODE_COMPTABLE])? $datas[ProduitCsvFile::CSV_PRODUIT_CODE_COMPTABLE] : null;
       }
+
+      if ($datas[ProduitCsvFile::CSV_PRODUIT_CODE_DOUANE_NOEUD] == $this->getTypeNoeud()) {
+        $this->code_douane = ($datas[ProduitCsvFile::CSV_PRODUIT_CODE_DOUANE])? $datas[ProduitCsvFile::CSV_PRODUIT_CODE_DOUANE] : null;
+      }      
     }
 
   	public abstract function hasDepartements();

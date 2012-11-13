@@ -153,6 +153,7 @@ Configuration:
                         code: {  }
                         code_produit: {  }
                         code_comptable: {  }
+                        code_douane: {  }
                         departements:
                           type: array_collection
                           definition:
@@ -218,6 +219,7 @@ Configuration:
                                     code: {  }
                                     code_produit: {  }
                                     code_comptable: {  }
+                                    code_douane: {  }
                                     detail:
                                       required: false
                                       class: ConfigurationDetail
@@ -353,6 +355,7 @@ Configuration:
                                                 code: {  }
                                                 code_produit: {  }
                                                 code_comptable: {  }
+                                                code_douane: {  }
                                                 detail:
                                                   required: false
                                                   class: ConfigurationDetail
@@ -488,6 +491,7 @@ Configuration:
                                                             code: {  }
                                                             code_produit: {  }
                                                             code_comptable: {  }
+                                                            code_douane: {  }
                                                             departements:
                                                               type: array_collection
                                                               definition:
@@ -577,6 +581,7 @@ Configuration:
                                                                         code: {  }
                                                                         code_produit: {  }
                                                                         code_comptable: {  }
+                                                                        code_douane: {  }
                                                                         departements:
                                                                           type: array_collection
                                                                           definition:
@@ -672,6 +677,7 @@ Configuration:
                                                                                     code: {  }
                                                                                     code_produit: {  }
                                                                                     code_comptable: {  }
+                                                                                    code_douane: {  }
                                                                                     cepages: 
                                                                                       type: collection
                                                                                       definition:
@@ -687,6 +693,7 @@ Configuration:
                                                                                                 code: {  }
                                                                                                 code_produit: {  }
                                                                                                 code_comptable: {  }
+                                                                                                code_douane: {  }
                         detail:
                           required: false
                           class: ConfigurationDetail

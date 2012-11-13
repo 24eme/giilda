@@ -41,6 +41,8 @@ class ProduitCsvFile extends CsvFile
   const CSV_PRODUIT_CODE_PRODUIT_NOEUD = 31;
   const CSV_PRODUIT_CODE_COMPTABLE = 32;
   const CSV_PRODUIT_CODE_COMPTABLE_NOEUD = 33;
+  const CSV_PRODUIT_CODE_DOUANE = 34;
+  const CSV_PRODUIT_CODE_DOUANE_NOEUD = 35;
   
   protected $config;
   protected $errors;
