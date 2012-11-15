@@ -8,13 +8,14 @@ abstract class AlerteGeneration {
 
     protected $dev = false;
     protected $config = null;
-    public $date = '2012-12-08';
+
 
     public function __construct() {
-        $configs = sfConfig::get('app_alertes_generations');
-        if (!array_key_exists($this->getTypeAlerte(), $configs))
-            throw new sfException(sprintf('Config %s not found in app.yml', $this->getTypeAlerte()));
-        $this->config = $configs[$this->getTypeAlerte()];
+        $this->config = new AlerteConfig($this->getTypeAlerte());
+    }
+
+    public function getConfig() {
+        return $this->config;
     }
 
     public function isDev() {
@@ -42,44 +43,35 @@ abstract class AlerteGeneration {
         $alerte = $this->getAlerte($id_document);
         if (!$alerte) {
             $alerte = new Alerte();
+            $alerte->setCreationDate($this->getDate());
             $alerte->type_alerte = $this->getTypeAlerte();
             $alerte->id_document = $id_document;
             $alerte->identifiant = $identifiant;
             $alerte->declarant_nom = $nom;
+            $alerte->nb_relances = 0;
+            $alerte->date_relance = $this->getConfig()->getOptionDelaiDate('relance_delai', $alerte->date_creation);
         }
         return $alerte;
     }
 
-    public function getConfigOption($field) {
-        if (!isset($this->config[$field]))
-            return null;
-        return $this->config[$field];
-    }
-
-    public function getConfigOptionDate($field) {
-        $dates = array();
-        preg_match('/^([0-9]+)\/([0-9]+)/', $this->getConfigOption($field), $dates);
-        return sprintf('%04d-%02d-%02d', date('Y'), $dates[2], $dates[1]);
-    }
-
-    public function getConfigOptionDelaiDate($field, $date = null) {
-        if (!$date)
-            $date = date('Y-m-d');
-        $delai = $this->getConfigOption($field);
-        if (!$delai) {
-            return null;
-        }
-        return Date::addDelaiToDate($delai, $date);
-    }
-
     public function getDate() {
 
-        return $this->date; // return date('Y-m-d');
+        return AlerteClient::getDate(); // return date('Y-m-d');
     }
 
     public abstract function getTypeAlerte();
 
     public abstract function creations();
 
-    public abstract function updates();
+    public function updates() {
+        foreach ($this->getAlertesRelancable() as $alerteView) {
+            $alerte = AlerteClient::getInstance()->find($alerteView->id);
+            $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
+            if ($relance) {
+                $alerte->updateStatut(AlerteClient::STATUT_ARELANCER,null,$this->getDate());
+                $alerte->save();
+            }
+        }
+    }
+
 }

@@ -3,6 +3,13 @@ use_helper('Date');
 $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
 ?>
 <fieldset>
+        <?php if(!count($alertesHistorique)): ?>
+    <div>
+        <span>
+            Aucune alertes ouvertes
+        </span>
+    </div>
+        <?php else: ?>
         <table class="table_recap">
         <thead>
         <tr>
@@ -32,4 +39,5 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
             ?>
         </tbody>
         </table> 
+        <?php endif; ?>
 </fieldset>
