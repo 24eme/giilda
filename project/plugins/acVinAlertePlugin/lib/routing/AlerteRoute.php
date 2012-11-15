@@ -14,9 +14,9 @@ class AlerteRoute extends sfObjectRoute  {
 	protected $alerte = null;
 
 	protected function getObjectForParameters($parameters) {
-
         if (in_array($parameters['type_alerte'], $this->getTypesAlerte())) {            
             $type_alerte = $parameters['type_alerte'];
+            
         } else {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'type_alerte', $parameters['type_alerte']));
         }

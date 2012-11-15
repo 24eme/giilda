@@ -17,15 +17,13 @@ class AlerteGenerationVracsAttenteOriginal extends AlerteGeneration {
     }
 
     public function creations() {
-        $vracs = array();
-        $vracs = VracClient::getInstance()->retreiveByWaitForOriginal();
+       $vracs = VracClient::getInstance()->retreiveByWaitForOriginal();
         foreach ($vracs as $vrac) {
-            $date_saisie = $vrac->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE];
-            $date_limit = $this->getConfigOptionDelaiDate('creation_date', $date_saisie);
-            if (Date::supEqual($this->getDate(), $date_limit)) {
+            if(Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date',$this->getDate()),
+                              $vrac->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
                 $alerte = $this->createOrFind($vrac->id, $vrac->key[VracOriginalPrixDefinitifView::KEY_IDENTIFIANT], $vrac->key[VracOriginalPrixDefinitifView::KEY_NOM]);
-                if (!$alerte->isNew() && $alerte->isClosed()) {
-                    $alerte->open();
+               if($alerte->isNew() || $alerte->isClosed()) {
+                   $alerte->open($this->getDate());
                 }
                 $alerte->save();
             }
@@ -45,20 +43,7 @@ class AlerteGenerationVracsAttenteOriginal extends AlerteGeneration {
                 }
             }
         }
-
-        foreach ($this->getAlertesRelancable() as $alerteView) {
-            $alerte = AlerteClient::getInstance()->find($alerteView->id);
-            $dateLastRelance = $alerte->getLastDateARelance();
-            if ($dateLastRelance) {
-                $dateRelance = $this->getConfigOptionDelaiDate('relances_suivantes', $dateLastRelance);
-            } else {
-                $dateRelance = $this->getConfigOptionDelaiDate('relance_delai_premiere', $alerte->date_creation);
-            }
-            if (Date::supEqual($this->getDate(), $dateRelance)) {
-                $alerte->updateStatut(AlerteClient::STATUT_ARELANCER, 'Changement automatique au statut à relancer', $this->getDate());
-                $alerte->save();
-            }
-        }
+        parent::updates();
     }
 
 }
