@@ -135,17 +135,22 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     set_time_limit(0);
-
+    $i = 1;
     foreach(file($arguments['file']) as $line) {
     	$data = str_getcsv($line, ';');
-    $this->importVrac($data);
+
+      try{
+        $this->importVrac($data);
+      } catch (Exception $e) {
+        $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
+      }
+
+      $i++;
     }
 
   }
 
   public function importVrac($line) {
-
-        try {
 
         $type_transaction = $this->convertTypeTransaction($line[self::CSV_TYPE_PRODUIT]);   
 
@@ -157,7 +162,7 @@ EOF;
 
         if (!isset($hash)) {
 
-          throw new sfException(sprintf("Produit hash not found : %s", implode($line, ";")));
+          throw new sfException(sprintf("Le produit avec le code %s n'existe pas", $line[self::CSV_CODE_APPELLATION]));
         } 
         
         $v = VracClient::getInstance()->findByNumContrat($this->constructNumeroContrat($line), acCouchdbClient::HYDRATE_JSON);
@@ -190,9 +195,14 @@ EOF;
 
         $v->millesime = $line[self::CSV_MILLESIME_ANNEE] ? (int)$line[self::CSV_MILLESIME_ANNEE] : null;
 
-        if (!$v->getVendeurObject() || !$v->getAcheteurObject()) {
+        if (!$v->getVendeurObject()) {
           
-          throw new sfException(sprintf("L'etablissement n'existe pas : %s", implode($line, ";")));
+          throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_VITICULTEUR]));
+        }
+
+        if (!$v->getAcheteurObject()) {
+          
+          throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_NEGOCIANT]));
         }
 
         if (!$v->mandataire_identifiant || !$v->getMandataireObject()) {
@@ -235,12 +245,6 @@ EOF;
         $v->update(); 
 
         $v->save();
-
-      } catch (Exception $e) {
-        $this->log($e->getMessage());
-      }
-
-        //$this->logSection("Creation", $v->numero_contrat);
   }
 
   protected function convertToFloat($number) {
