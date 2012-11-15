@@ -145,6 +145,8 @@ EOF;
 
   public function importVrac($line) {
 
+        try {
+
         $type_transaction = $this->convertTypeTransaction($line[self::CSV_TYPE_PRODUIT]);   
 
         if (!$type_transaction) {
@@ -154,8 +156,8 @@ EOF;
         $hash = $this->getHash($line);
 
         if (!isset($hash)) {
-          $this->logSection('Produit hash not found', $line[self::CSV_CODE_APPELLATION], null, 'ERROR');
-          return;
+
+          throw new sfException(sprintf("Produit hash not found : %s", implode($line, ";")));
         } 
         
         $v = VracClient::getInstance()->findByNumContrat($this->constructNumeroContrat($line), acCouchdbClient::HYDRATE_JSON);
@@ -189,8 +191,8 @@ EOF;
         $v->millesime = $line[self::CSV_MILLESIME_ANNEE] ? (int)$line[self::CSV_MILLESIME_ANNEE] : null;
 
         if (!$v->getVendeurObject() || !$v->getAcheteurObject()) {
-          $this->logSection("Les etablissements n'existes pas",  $line[self::CSV_CIAPL_REGION_VITICOLE]."@".$v->numero_contrat."V:".$v->vendeur_identifiant.";A:".$v->acheteur_identifiant, null, 'ERROR');
-          return;
+          
+          throw new sfException(sprintf("L'etablissement n'existe pas : %s", implode($line, ";")));
         }
 
         if (!$v->mandataire_identifiant || !$v->getMandataireObject()) {
@@ -233,6 +235,10 @@ EOF;
         $v->update(); 
 
         $v->save();
+
+      } catch (Exception $e) {
+        $this->log($e->getMessage());
+      }
 
         //$this->logSection("Creation", $v->numero_contrat);
   }
