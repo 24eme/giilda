@@ -30,7 +30,6 @@ class VracOriginalPrixDefinitifView extends acCouchdbView {
     
     public function findContatsByWaitForPrixDefinitif($date) {
          $year = substr($date, 0,4);
-            
          $startCampagne = ($year-1).'-08-01';
          $endCampagne = $year.'-07-31';
          $result0 = $this->client->startkey(array(1,1,$startCampagne,null))

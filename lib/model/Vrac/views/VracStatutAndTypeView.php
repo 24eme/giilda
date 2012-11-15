@@ -43,8 +43,8 @@ class VracStatutAndTypeView extends acCouchdbView {
 
     public function findContatsByStatutAndType($statut, $type, $date_saisie) {
 
-        return $this->client->startkey(array($statut, $type, $date_saisie))
-                        ->endkey(array($statut, $type, '9999-99-99', array()))
+        return $this->client->startkey(array($statut, $type, '0000-00-00'))
+                        ->endkey(array($statut, $type, $date_saisie, array()))
                         ->getView($this->design, $this->view)->rows;
     }
 
