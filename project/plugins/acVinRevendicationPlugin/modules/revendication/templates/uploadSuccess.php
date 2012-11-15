@@ -1,9 +1,8 @@
 <div id="contenu" class="revendication">
     
     <!-- #principal -->
-    <section id="principal">
-        <p id="fil_ariane"><strong>Page d'accueil</strong></p>
-        
+    <section id="principal">        
+            <?php include_partial('headerRevendication', array('revendication' => $revendication,'actif' => 0)); ?>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             
@@ -11,7 +10,7 @@
             
             <form method="POST" enctype="multipart/form-data" action="<?php echo url_for('revendication_upload'); ?>" >
                 
-                <h2>Import des volumes revendiqués</h2>
+                <h2>Importer un fichier de volumes revendiqués (ODG)</h2>
                 <?php echo $form->renderGlobalErrors(); ?>
                 <?php echo $form->renderHiddenFields(); ?>
                 <div class="generation_facture_options">

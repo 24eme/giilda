@@ -3,9 +3,32 @@ class revendicationActions extends sfActions {
   
     public function executeIndex(sfWebRequest $request) {
         $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
-        $this->historiqueImport = 'historique';
+        $this->historiqueImport = RevendicationClient::getInstance()->getHistory();
     }
     
+    public function executeUpload(sfWebRequest $request) {
+	$this->initIndex();
+        $this->revendication = new stdClass();
+	if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+            if ($this->form->isValid()) {
+                $file = $this->form->getValue('file');
+                $this->md5 = $file->getMd5();
+                RevendicationCsvFile::convertTxtToCSV(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
+                $this->csv = new RevendicationCsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
+                if(!$this->csv->check())
+                {
+                    $this->errors = $this->csv->getErrors(); 
+                    $this->revendication->etape = 1;
+                    return sfView::SUCCESS;
+                }
+                    
+                $odg = $this->form->getValue('odg');
+                $campagne = $this->form->getValue('campagne');
+                return $this->redirect('revendication_create', array('md5' => $file->getMD5(), 'odg' => $odg[0], 'campagne' => $campagne[0]));
+           }
+    	}
+  }
     
     public function executeMonEspace(sfWebRequest $request) {
         $this->revendication_etablissement = null;
@@ -32,27 +55,6 @@ class revendicationActions extends sfActions {
       $this->errors = array();
     }
     
-    public function executeUpload(sfWebRequest $request) {
-	$this->initIndex();             
-	if ($request->isMethod(sfWebRequest::POST)) {
-            $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
-            if ($this->form->isValid()) {
-                $file = $this->form->getValue('file');
-                $this->md5 = $file->getMd5();
-                RevendicationCsvFile::convertTxtToCSV(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
-                $this->csv = new RevendicationCsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
-                if(!$this->csv->check())
-                {
-                    $this->errors = $this->csv->getErrors();               
-                    return sfView::SUCCESS;
-                }
-                    
-                $odg = $this->form->getValue('odg');
-                $campagne = $this->form->getValue('campagne');
-                return $this->redirect('revendication_create', array('md5' => $file->getMD5(), 'odg' => $odg[0], 'campagne' => $campagne[0]));
-           }
-    	}
-  }
 
   public function executeDownloadCSV(sfWebRequest $request) {
         $md5 = $request->getParameter('md5');
@@ -79,7 +81,7 @@ class revendicationActions extends sfActions {
         $this->csv = new RevendicationCsvFile($path);
         $odg = $request->getParameter('odg');
         $campagne = $request->getParameter('campagne');
-        $this->revendication = RevendicationClient::getInstance()->createOrFindDoc($odg,$campagne,$path);         
+        $this->revendication = RevendicationClient::getInstance()->createOrFindDoc($odg,$campagne,$path);     
         $this->revendication->save();
         return $this->redirect('revendication_view_erreurs', array('odg' => $odg, 'campagne' => $campagne));
 
@@ -87,7 +89,7 @@ class revendicationActions extends sfActions {
   
     public function executeViewErreurs(sfWebRequest $request) {
         $this->revendication = $this->getRoute()->getRevendication();
-        $this->erreursByType = $this->revendication->sortByType();
+        $this->erreurs = $this->revendication->erreurs;
     }
 
     public function executeEdition(sfWebRequest $request) {

@@ -6,12 +6,15 @@
 
  * @property string $declarant_cvi
  * @property string $declarant_nom
+ * @property string $commune
  * @property acCouchdbJson $produits
 
  * @method string getDeclarantCvi()
  * @method string setDeclarantCvi()
  * @method string getDeclarantNom()
  * @method string setDeclarantNom()
+ * @method string getCommune()
+ * @method string setCommune()
  * @method acCouchdbJson getProduits()
  * @method acCouchdbJson setProduits()
  

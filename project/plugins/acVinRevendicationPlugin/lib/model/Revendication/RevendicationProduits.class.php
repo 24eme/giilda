@@ -20,10 +20,10 @@ class RevendicationProduits extends BaseRevendicationProduits {
             $volumes = $this->volumes->add($row[RevendicationCsvFile::CSV_COL_NUMERO_CA]);
             $volumes->volume = floatval($row[RevendicationCsvFile::CSV_COL_VOLUME]);
             $volumes->num_ligne = $num_ligne;
+            $volumes->date_insertion = date('Y-m-d');
             if ($bailleur) {
                 $volumes->bailleur_identifiant = $bailleur->key[EtablissementAllView::KEY_IDENTIFIANT];
                 $volumes->bailleur_nom = $bailleur->key[EtablissementAllView::KEY_NOM];
-                $volumes->date_insertion = date('Y-m-d');
                 }
         }
     }

@@ -1,17 +1,16 @@
 <div id="contenu" class="revendication">
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><strong>Page d'accueil</strong></p>
+        <?php include_partial('headerRevendication', array('revendication' => $revendication,'actif' => 3)); ?>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             
-            <a class="btn_etape_prec" href="<?php echo url_for('revendication_view_erreurs', array('odg' => $revendication->odg, 'campagne' => $revendication->campagne)); ?>"><span>Revenir aux erreurs</span></a>
-
             <h2>Volumes revendiqués</h2>
             <fieldset id="revendication_volume_revendiques_edition">
                 <table class="table_recap">
                     <thead>
                         <tr>
+                            <th>Date</th>
                             <th>CVI</th>
                             <th>Nom</th>
                             <th>Produit</th>

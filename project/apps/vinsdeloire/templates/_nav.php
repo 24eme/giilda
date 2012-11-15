@@ -29,7 +29,7 @@
         <?php include_component('global', 'navItem', array(
             'libelle' => 'Import VR',
             'prefix' => 'revendication',
-            'route' => 'revendication_upload',
+            'route' => 'revendication',
             'route_etablissement' => 'revendication_etablissement',
             'etablissement' => null,
         )) ?>

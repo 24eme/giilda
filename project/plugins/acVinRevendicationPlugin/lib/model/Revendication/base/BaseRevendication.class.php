@@ -8,9 +8,10 @@
  * @property string $_rev
  * @property acCouchdbJson $_attachments
  * @property string $type
- * @property integer $nb_data
  * @property string $odg
  * @property string $campagne
+ * @property string $date_creation
+ * @property string $etape
  * @property acCouchdbJson $datas
  * @property acCouchdbJson $erreurs
 
@@ -22,12 +23,14 @@
  * @method acCouchdbJson set_attachments()
  * @method string getType()
  * @method string setType()
- * @method integer getNbData()
- * @method integer setNbData()
  * @method string getOdg()
  * @method string setOdg()
  * @method string getCampagne()
  * @method string setCampagne()
+ * @method string getDateCreation()
+ * @method string setDateCreation()
+ * @method string getEtape()
+ * @method string setEtape()
  * @method acCouchdbJson getDatas()
  * @method acCouchdbJson setDatas()
  * @method acCouchdbJson getErreurs()
