@@ -11,8 +11,8 @@ class alerteActions extends sfActions {
     }
     
     public function executeModification(sfWebRequest $request) {
-         $this->alerte = $this->getRoute()->getAlerte();
-         $this->form = new AlerteModificationForm($this->alerte);
+           $this->alerte = $this->getRoute()->getAlerte();
+           $this->form = new AlerteModificationForm($this->alerte);
          if($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if($this->form->isValid())

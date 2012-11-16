@@ -9,6 +9,8 @@
  * @property string $type
  * @property string $type_alerte
  * @property string $date_creation
+ * @property string $date_relance
+ * @property integer $nb_relances
  * @property string $id_document
  * @property string $declarant_nom
  * @property string $identifiant
@@ -24,6 +26,10 @@
  * @method string setTypeAlerte()
  * @method string getDateCreation()
  * @method string setDateCreation()
+ * @method string getDateRelance()
+ * @method string setDateRelance()
+ * @method integer getNbRelances()
+ * @method integer setNbRelances()
  * @method string getIdDocument()
  * @method string setIdDocument()
  * @method string getDeclarantNom()

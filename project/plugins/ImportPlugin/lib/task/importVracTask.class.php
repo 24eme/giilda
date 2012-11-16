@@ -135,10 +135,17 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     set_time_limit(0);
-
+    $i = 1;
     foreach(file($arguments['file']) as $line) {
     	$data = str_getcsv($line, ';');
-    $this->importVrac($data);
+
+      try{
+        $this->importVrac($data);
+      } catch (Exception $e) {
+        $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
+      }
+
+      $i++;
     }
 
   }
@@ -154,8 +161,8 @@ EOF;
         $hash = $this->getHash($line);
 
         if (!isset($hash)) {
-          $this->logSection('Produit hash not found', $line[self::CSV_CODE_APPELLATION], null, 'ERROR');
-          return;
+
+          throw new sfException(sprintf("Le produit avec le code %s n'existe pas", $line[self::CSV_CODE_APPELLATION]));
         } 
         
         $v = VracClient::getInstance()->findByNumContrat($this->constructNumeroContrat($line), acCouchdbClient::HYDRATE_JSON);
@@ -188,9 +195,14 @@ EOF;
 
         $v->millesime = $line[self::CSV_MILLESIME_ANNEE] ? (int)$line[self::CSV_MILLESIME_ANNEE] : null;
 
-        if (!$v->getVendeurObject() || !$v->getAcheteurObject()) {
-          $this->logSection("Les etablissements n'existes pas",  $line[self::CSV_CIAPL_REGION_VITICOLE]."@".$v->numero_contrat."V:".$v->vendeur_identifiant.";A:".$v->acheteur_identifiant, null, 'ERROR');
-          return;
+        if (!$v->getVendeurObject()) {
+          
+          throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_VITICULTEUR]));
+        }
+
+        if (!$v->getAcheteurObject()) {
+          
+          throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_NEGOCIANT]));
         }
 
         if (!$v->mandataire_identifiant || !$v->getMandataireObject()) {
@@ -233,8 +245,6 @@ EOF;
         $v->update(); 
 
         $v->save();
-
-        //$this->logSection("Creation", $v->numero_contrat);
   }
 
   protected function convertToFloat($number) {
