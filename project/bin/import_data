@@ -70,4 +70,3 @@ php symfony import:vrac --trace $DATADIR/vracs.csv
 # php symfony import:etablissement --trace $DATADIR/drms.csv
 
 }
-

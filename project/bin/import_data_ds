@@ -1,0 +1,21 @@
+. bin/config.inc
+
+convert-utf8 () {
+    encodage=$(file --mime-encoding $1 | grep -oE ": .+$" | sed 's/: //');
+    iconv -f $encodage -t utf-8 $1
+}
+
+ajout-champ-commun () {
+    cat $3 | awk -F";" '{ printf("'"$1"';",'"$2"'); for (i=1;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sed -r 's/;$//'
+}
+
+suppression-champ-commun () {
+    cat $1 | awk -F";" '{ for (i=2;i<NF;i++) { printf("%s;",$i) } printf("\n") }'
+}
+
+cd /tmp/VINSDELOIRE_DATA
+DATADIR=$(pwd)
+convert-utf8 $DATADIR/cieds.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cieds-utf8.csv
+convert-utf8 $DATADIR/cilds.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cilds-utf8.csv
+join -t ";" $DATADIR/tmp/cilds-utf8.csv $DATADIR/tmp/cieds-utf8.csv | suppression-champ-commun | sort > $DATADIR/ds.csv
+
