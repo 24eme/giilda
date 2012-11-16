@@ -357,17 +357,6 @@ EOF;
     return $produits_hash[$line[self::CSV_CODE_APPELLATION]*1];
   }
 
-  private function couleurKeyToCode($key) {
-    $correspondances = array(1 => "rouge",
-                             2 => "rose",
-                             3 => "blanc");
-
-    if (!isset($correspondances[$key])) {
-      throw new Exception("Couleur pas connue $key");
-    }
-    return $correspondances[$key];
-  }
-
   private function getKey($key, $withDefault = false) 
   {
     if ($withDefault) {
