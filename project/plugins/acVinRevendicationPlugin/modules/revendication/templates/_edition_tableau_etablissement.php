@@ -18,13 +18,13 @@ foreach ($etb->produits as $hashKey => $prod) :
                 <td><?php echo $prod->produit_libelle; ?></td>
                 <td><?php echoFloat($volume->volume); ?></td>
                 <td>
-                    <a href="<?php
-            echo url_for('revendication_edition_row', array('odg' => $etb->getDocument()->odg,
-                'campagne' => $etb->getDocument()->campagne,
-                'cvi' => $etb->getKey(),
-                'row' => $num_row,
-                'retour' => $retour));
-            ?>">éditer</a>
+                    <a class="btn_majeur btn_modifier" href="<?php
+					echo url_for('revendication_edition_row', array('odg' => $etb->getDocument()->odg,
+						'campagne' => $etb->getDocument()->campagne,
+						'cvi' => $etb->getKey(),
+						'row' => $num_row,
+						'retour' => $retour));
+					?>">éditer</a>
                 </td>
             </tr>
             <?php

@@ -1887,7 +1887,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 #principal .generation_facture_options span {
   display:block;
   font-weight:bold;
-  margin-bottom:20px;
+  margin-bottom:5px;
 }
 #principal .generation_facture_options em {
   display:inline-block;
@@ -1970,6 +1970,96 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   font-weight:bold;
   margin:0 0 5px;
 }
+.revendication #revendication_import_fichier { overflow:hidden; }
+.revendication #revendication_import_fichier h2 {
+  margin:0;
+  float:left;
+}
+.revendication #revendication_import_fichier a { float:right; }
+.revendication #rapport_erreurs {
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:14px;
+  padding:10px;
+}
+.revendication #rapport_erreurs .nb_erreurs {
+  text-transform:uppercase;
+  font-weight:bold;
+  margin:0 0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs {
+  border-top:1px solid #e3e2e2;
+  margin:25px 0 0;
+  padding:15px 0 0;
+}
+.revendication #rapport_erreurs .type_erreurs h3 {
+  text-transform:uppercase;
+  font-weight:bold;
+  margin:0 0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs .item {
+  margin:15px 0 0;
+  padding:0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs .produit {
+  zoom:1;
+  min-height:1px;
+}
+.revendication #rapport_erreurs .type_erreurs .produit:before, .revendication #rapport_erreurs .type_erreurs .produit:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.revendication #rapport_erreurs .type_erreurs .produit:after { clear:both; }
+.revendication #rapport_erreurs .type_erreurs .produit p { font-weight:bold; }
+.revendication #rapport_erreurs .type_erreurs .produit .btn_voir {
+  float:right;
+  margin:0 0 0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs .num_erreurs { margin:5px 0 0; }
+.revendication #rapport_erreurs .type_erreurs .num_erreurs li {
+  display:inline-block;
+  margin:0 10px 0 0;
+}
+.ielt8 .revendication #rapport_erreurs .type_erreurs .num_erreurs li {
+  display:inline;
+  zoom:1;
+}
+.revendication #table_erreurs thead th:first-child { width:100px; }
+.revendication #table_erreurs tbody th, .revendication #table_erreurs tbody td {
+  font-size:12px;
+  padding:10px 0;
+}
+.revendication #table_erreurs tbody th {
+  border-top:1px solid #e3e2e2;
+  border-right:1px solid #e3e2e2;
+  background:0;
+}
+.revendication #table_erreurs tbody p.libelle {
+  border-bottom:1px solid #e3e2e2;
+  font-size:13px;
+  font-weight:bold;
+  margin:0 0 10px;
+  padding:0 0 10px;
+}
+.revendication #volumes_revendiques .ui-autocomplete-input { width:270px; }
+.revendication #volumes_revendiques .volume input { width:100px; }
+.revendication #volumes_revendiques .form_btn {
+  zoom:1;
+  min-height:1px;
+  margin:20px 0 0;
+}
+.revendication #volumes_revendiques .form_btn:before, .revendication #volumes_revendiques .form_btn:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.revendication #volumes_revendiques .form_btn:after { clear:both; }
+.revendication #volumes_revendiques .form_btn .btn_annuler { float:right; }
 #rail_etapes {
   zoom:1;
   min-height:1px;
