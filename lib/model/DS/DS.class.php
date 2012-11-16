@@ -17,14 +17,20 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 
     public function constructId() {
         $this->statut = DSClient::STATUT_A_SAISIR;
-        $this->campagne = DSClient::getInstance()->buildCampagne($this->periode);
         $this->set('_id', DSClient::getInstance()->buildId($this->identifiant, $this->periode));
     }
 
-    public function buildCampagne($periode) {
-        preg_match('/^([0-9]{4})([0-9]{2})$/', $periode, $matches);
+    public function setDateStock($date_stock) {
+        $this->date_echeance = Date::getIsoDateFinDeMoisISO($this->date_stock, 2);
+        $this->periode = DSClient::getInstance()->buildPeriode($this->date_stock);
 
-        return sprintf('%d-%d', $matches[1], $matches[2]);
+        return $this->_set('date_stock', $periode);
+    }
+
+    public function setPeriode($periode) {
+        $this->campagne = DSClient::getInstance()->buildCampagne($periode);
+
+        return $this->_set('periode', $periode);
     }
 
     public function getLastDRM() {
@@ -43,16 +49,6 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
         }
     }
     
-    public function updatePeriodefromDateStock() {
-        preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/', $this->date_stock, $matches);
-        $this->setPeriode(sprintf('%d%02d', $matches[1], $matches[2]));
-    }
-
-
-    public function updateDateEcheancefromDateStock() {
-        $this->setDateEcheance(Date::getIsoDateFinDeMoisISO($this->date_stock, 2));
-    }
-
     public function isStatutValide() {
         return $this->statut === DSClient::STATUT_VALIDE;
     }

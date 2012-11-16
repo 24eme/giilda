@@ -14,6 +14,12 @@ class DSClient extends acCouchdbClient {
         return sprintf('DS-%s-%s', $identifiant, $periode);
     }
 
+    public function buildPeriode($date) {
+        preg_match('/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/', $date, $matches);
+        
+        return sprintf('%d%02d', $matches[1], $matches[2]);
+    }
+
     public function buildDate($periode) {
 
         return sprintf('%4d-%02d-%02d', $this->getAnnee($periode), $this->getMois($periode), date("t", $this->getMois($periode)));
@@ -58,12 +64,19 @@ class DSClient extends acCouchdbClient {
         $ds = new DS();
         $ds->date_emission = date('Y-m-d');
         $ds->date_stock = $this->createDateStock($date_stock);
-        $ds->updateDateEcheancefromDateStock();
-        $ds->updatePeriodefromDateStock();
-        $ds->campagne = $this->buildCampagne($ds->periode);
         $ds->identifiant = $etablissementId;
         $ds->storeDeclarant();
         $ds->updateProduits();
+        return $ds;
+    }
+
+    public function createOrFind($etablissementId, $date_stock) {
+        $ds = $this->findByIdentifiantAndPeriode($etablissementId, $this->createDateStock($date_stock));
+
+        if(!$ds) {
+            return $this->createDsByEtbId($etablissementId, $date_stock);
+        }
+
         return $ds;
     }
 
