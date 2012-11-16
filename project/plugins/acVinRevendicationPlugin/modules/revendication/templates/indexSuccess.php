@@ -9,18 +9,19 @@ use_helper('Date');
         <section id="contenu_etape">
 
             <h2>Rechercher un opérateur :</h2>
-            <fieldset id="revendication_volume_revendiques_edition">
+			
+            <div id="revendication_selectionner_etablissement">
                 <?php include_component('revendication', 'chooseEtablissement'); ?>
-            </fieldset>
+            </div>
 
-            <h2>Importer un fichier de volumes revendiqués : </h2>
-            <fieldset id="revendication_volume_revendiques_edition">
-                <a href="<?php echo url_for('revendication_upload'); ?>" class="btn_majeur btn_vert">Démarrer</a>
-            </fieldset>
+            <div id="revendication_import_fichier">
+	            <h2>Importer un fichier de volumes revendiqués : </h2>
+				<a href="<?php echo url_for('revendication_upload'); ?>" class="btn_majeur btn_vert">Démarrer</a>
+            </div>
 
-            <h2>Historique des Imports</h2>
-            <fieldset id="revendication_volume_revendiques_edition">
-                <table class="table_recap">
+            <div id="revendication_historique_imports">
+                <h2>Historique des Imports</h2>
+				<table class="table_recap">
                     <thead>
                         <tr>
                             <th>N° import</th>
@@ -41,7 +42,7 @@ use_helper('Date');
                     <?php endforeach; ?>
                     </tbody>
                 </table>
-            </fieldset>
+            </div>
         </section>
     </section>
 </div>

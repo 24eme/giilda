@@ -11,13 +11,13 @@
                 <h2>Choisir un produit correspondant à ce libelle</h2>
                 <?php echo $form->renderGlobalErrors(); ?>
                 <?php echo $form->renderHiddenFields(); ?>
-                <div class="generation_facture_options">
-                    <span>                        
-                    <?php echo $form->getAlias(); ?> 
-                    </span> 
-                    <?php echo $form['produit_hash']->render(); ?>
-                </div>
-                <input type="submit" class="btn_majeur btn_valider" />
+				
+				<div class="section_label_maj" id="recherche_operateur">
+					<label><?php echo $form->getAlias(); ?></label>
+					<?php echo $form['produit_hash']->render(); ?>
+					
+					<button class="btn_majeur btn_valider" type="submit">Valider</button>
+				</div>
             </form>
         </section>
         <!-- fin #contenu_etape -->
