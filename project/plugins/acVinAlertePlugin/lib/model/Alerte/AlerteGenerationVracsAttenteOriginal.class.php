@@ -21,7 +21,7 @@ class AlerteGenerationVracsAttenteOriginal extends AlerteGeneration {
         foreach ($vracs as $vrac) {
             if(Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date',$this->getDate()),
                               $vrac->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
-                $alerte = $this->createOrFind($vrac->id, $vrac->key[VracOriginalPrixDefinitifView::KEY_IDENTIFIANT], $vrac->key[VracOriginalPrixDefinitifView::KEY_NOM]);
+               $alerte = $this->createOrFind($vrac->id, $vrac->key[VracOriginalPrixDefinitifView::KEY_IDENTIFIANT], $vrac->key[VracOriginalPrixDefinitifView::KEY_NOM]);
                if($alerte->isNew() || $alerte->isClosed()) {
                    $alerte->open($this->getDate());
                 }

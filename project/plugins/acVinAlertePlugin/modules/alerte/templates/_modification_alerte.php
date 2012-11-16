@@ -21,6 +21,5 @@
         <div>
             <button type="submit" id="alerte_valid" class="btn_majeur btn_modifier">Modifier</button>
         </div>
-
     </form>
 </fieldset>

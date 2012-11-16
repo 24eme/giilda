@@ -13,6 +13,7 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
         <table class="table_recap">
         <thead>
         <tr>
+            <th>Changer Type</th>
             <th>Type d'alerte</th>
             <th>Date d'ouverture</th>
             <th>Document concerné</th>
@@ -25,6 +26,10 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
                 <?php foreach ($alertesHistorique as $alerte) :
             ?>   
             <tr>
+                <td>
+                    <?php echo $modificationStatutForm[$alerte->id]->renderError(); ?>
+                    <?php echo $modificationStatutForm[$alerte->id]->render() ?> 
+                </td>
                 <td><?php echo link_to(AlerteClient::$alertes_libelles[$alerte->key[AlerteHistoryView::KEY_TYPE_ALERTE]],'alerte_modification',
                                        array('type_alerte' => $alerte->key[AlerteHistoryView::KEY_TYPE_ALERTE],
                                              'id_document' => $alerte->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE])); ?></td>
