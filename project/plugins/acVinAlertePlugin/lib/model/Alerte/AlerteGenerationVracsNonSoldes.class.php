@@ -18,22 +18,13 @@ class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
     }
 
     public function creations() {
-        $vracs = array();
-        if ($this->getConfigOptionDate('creation_date') == $this->getDate()) {
-            $vracs = VracClient::getInstance()->retreiveByStatutsTypes(
-                    array(VracClient::STATUS_CONTRAT_NONSOLDE), array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
-                VracClient::TYPE_TRANSACTION_VIN_VRAC)
-            );
-        } else {
-            $vracs = VracClient::getInstance()->retreiveByStatutsTypesAndDate(
-                    array(VracClient::STATUS_CONTRAT_NONSOLDE), array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
-                VracClient::TYPE_TRANSACTION_VIN_VRAC), $this->getConfigOptionDelaiDate('creation_delai', $this->getDate())
-            );
-        }
+        $vracs = VracClient::getInstance()->retreiveByStatutsTypesAndDate(
+                array(VracClient::STATUS_CONTRAT_NONSOLDE), array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
+            VracClient::TYPE_TRANSACTION_VIN_VRAC), $this->getConfig()->getOptionDelaiDate('creation_delai', $this->getDate()));
         foreach ($vracs as $vrac) {
             $alerte = $this->createOrFind($vrac->id, $vrac->key[VracStatutAndTypeView::KEY_IDENTIFIANT], $vrac->key[VracStatutAndTypeView::KEY_NOM]);
-            if (!$alerte->isNew() && $alerte->isClosed()) {
-                $alerte->open();
+            if ($alerte->isNew() || $alerte->isClosed()) {
+                $alerte->open($this->getDate());
             }
             $alerte->save();
         }
@@ -52,20 +43,7 @@ class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
                 }
             }
         }
-
-        foreach ($this->getAlertesRelancable() as $alerteView) {
-            $alerte = AlerteClient::getInstance()->find($alerteView->id);
-            $dateLastRelance = $alerte->getLastDateARelance();
-            if ($dateLastRelance) {
-                $dateRelance = $this->getConfigOptionDelaiDate('relances_suivantes', $dateLastRelance);
-            } else {
-                $dateRelance = $this->getConfigOptionDelaiDate('relance_delai_premiere', $alerte->date_creation);
-            }
-            if (Date::supEqual($this->getDate(), $dateRelance)) {
-                $alerte->updateStatut(AlerteClient::STATUT_ARELANCER, 'Changement automatique au statut à relancer', $this->getDate());
-                $alerte->save();
-            }
-        }
+        parent::updates();
     }
 
 

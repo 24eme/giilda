@@ -4,7 +4,7 @@
 
 if ! test "$1"; then
     echo "Téléchargement des données";
-    . bin/download_redmine_file https://clients.actualys.com/attachments/download/4270/VINSDELOIRE_DATA.tar.gz /tmp/VINSDELOIRE_DATA.tar.gz
+    . bin/download_redmine_file https://clients.actualys.com/attachments/download/4688/VINSDELOIRE_DATA.tar.gz /tmp/VINSDELOIRE_DATA.tar.gz
 fi
 
 SYMFODIR=$(pwd);
@@ -25,11 +25,11 @@ mkdir $DATADIR/tmp
 
 echo "Traitement des vracs";
 
-encodage=$(file --mime-encoding $DATADIR/cicon-2000-2012.csv | grep -oE ": .+$" | sed 's/: //');
-iconv -f $encodage -t utf-8 $DATADIR/cicon-2000-2012.csv > $DATADIR/tmp/cicon-utf8.csv;
+encodage=$(file --mime-encoding $DATADIR/cicon.csv | grep -oE ": .+$" | sed 's/: //');
+iconv -f $encodage -t utf-8 $DATADIR/cicon.csv > $DATADIR/tmp/cicon-utf8.csv;
 
-encodage=$(file --mime-encoding $DATADIR/ciapl-2000-2012.csv | grep -oE ": .+$" | sed 's/: //');
-iconv -f $encodage -t utf-8 $DATADIR/ciapl-2000-2012.csv > $DATADIR/tmp/ciapl-utf8.csv;
+encodage=$(file --mime-encoding $DATADIR/ciapl.csv | grep -oE ": .+$" | sed 's/: //');
+iconv -f $encodage -t utf-8 $DATADIR/ciapl.csv > $DATADIR/tmp/ciapl-utf8.csv;
 
 cat $DATADIR/tmp/cicon-utf8.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$10); for (i=1;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | sed -r 's/;$//' > $DATADIR/tmp/cicon-before-merge
 
@@ -70,4 +70,3 @@ php symfony import:vrac --trace $DATADIR/vracs.csv
 # php symfony import:etablissement --trace $DATADIR/drms.csv
 
 }
-
