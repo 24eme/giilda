@@ -30,11 +30,6 @@ class DSClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->buildCampagne($this->buildDate($periode));
     }
 
-    public function buildPeriode($annee, $mois) {
-
-        return sprintf("%04d%02d", $annee, $mois);
-    }
-
     public function getAnnee($periode) {
 
         return preg_replace('/([0-9]{4})([0-9]{2})/', '$1', $periode);
@@ -71,7 +66,7 @@ class DSClient extends acCouchdbClient {
     }
 
     public function createOrFind($etablissementId, $date_stock) {
-        $ds = $this->findByIdentifiantAndPeriode($etablissementId, $this->createDateStock($date_stock));
+        $ds = $this->findByIdentifiantAndPeriode($etablissementId, $this->buildPeriode($this->createDateStock($date_stock)));
 
         if(!$ds) {
             return $this->createDsByEtbId($etablissementId, $date_stock);

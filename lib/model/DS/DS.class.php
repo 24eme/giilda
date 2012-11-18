@@ -16,15 +16,17 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     }
 
     public function constructId() {
-        $this->statut = DSClient::STATUT_A_SAISIR;
+        if($this->statut == null) {
+            $this->statut = DSClient::STATUT_A_SAISIR;
+        }
         $this->set('_id', DSClient::getInstance()->buildId($this->identifiant, $this->periode));
     }
 
     public function setDateStock($date_stock) {
-        $this->date_echeance = Date::getIsoDateFinDeMoisISO($this->date_stock, 2);
-        $this->periode = DSClient::getInstance()->buildPeriode($this->date_stock);
+        $this->date_echeance = Date::getIsoDateFinDeMoisISO($date_stock, 2);
+        $this->periode = DSClient::getInstance()->buildPeriode($date_stock);
 
-        return $this->_set('date_stock', $periode);
+        return $this->_set('date_stock', $date_stock);
     }
 
     public function setPeriode($periode) {
