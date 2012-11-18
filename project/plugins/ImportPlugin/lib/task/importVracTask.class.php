@@ -1,6 +1,6 @@
 <?php
 
-class importVracTask extends sfBaseTask
+class importVracTask extends importAbstractTask
 {
 
   const CSV_DOSSIER = 0;
@@ -86,23 +86,6 @@ class importVracTask extends sfBaseTask
   const CSV_TYPE_CONTRAT_PAS_TRANSACTION_FINANCIERE = 'T';
   const CSV_TYPE_CONTRAT_VINAIGRERIE = 'V';
 
-  protected static $months_fr = array(
-    "août" => "08",
-    "avr" => "04",
-    "déc" => "12",
-    "févr" => "02",
-    "janv" => "01",
-    "juil" => "07",
-    "juin" => "06",
-    "mai" => "05",
-    "mars" => "03",
-    "nov" => "11",
-    "oct" => "10",
-    "sept" => "09",
-  );
-
-  protected $produits_hash = null;
-
   protected function configure()
   {
     // // add your own arguments here
@@ -157,13 +140,6 @@ EOF;
         if (!$type_transaction) {
           return;
         }
-
-        $hash = $this->getHash($line);
-
-        if (!isset($hash)) {
-
-          throw new sfException(sprintf("Le produit avec le code %s n'existe pas", $line[self::CSV_CODE_APPELLATION]));
-        } 
         
         $v = VracClient::getInstance()->findByNumContrat($this->constructNumeroContrat($line), acCouchdbClient::HYDRATE_JSON);
         
@@ -174,7 +150,7 @@ EOF;
 
         $v->label = array();
 
-        $date = $this->getDateCreationObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION]);
+        $date = $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION]);
         $v->date_signature =  $date->format('Y-m-d');
         $v->date_stats =  $date->format('Y-m-d');
         $v->valide->date_saisie = $date->format('Y-m-d');
@@ -187,7 +163,7 @@ EOF;
           $v->mandataire_identifiant = $line[self::CSV_CODE_COURTIER];
         }
 
-        $v->produit = $hash;
+        $v->produit = $this->getHash($line[self::CSV_CODE_APPELLATION]);
 
         if($line[self::CSV_CIAPL_SUR_LIE] == "O") {
           $v->label->add(null, "LIE");
@@ -247,11 +223,6 @@ EOF;
         $v->save();
   }
 
-  protected function convertToFloat($number) {
-
-  	return str_replace(",", ".", $number) * 1;
-  }
-
   protected function getDensite($line) {
   	if($line[self::CSV_UNITE_PRIX_VENTE] == 'kg') {
   		return $line[self::CSV_COEF_CONVERSION_PRIX];
@@ -264,26 +235,9 @@ EOF;
   	}
   }
 
-  protected function getDateCreationObject($date) {
-    
-    if (preg_match('/^([0-9]{2})-([a-zûé]+)-([0-9]{2})$/', $date, $matches)) {
-      
-      return new DateTime(sprintf('%d-%d-%d', $matches[3], self::$months_fr[$matches[2]], $matches[1]));
-    }
-
-    if (preg_match('/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/', $date, $matches)) {
-
-      return new DateTime(sprintf('%d-%d-%d', $matches[3], $matches[2], $matches[1]));
-    }
-
-    $this->logSection('Date format error', "'".$date."'", null, 'ERROR');
-
-    return new DateTime();
-  }
-
   protected function constructNumeroContrat($line) {
 
-    return $this->getDateCreationObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%04d", $line[self::CSV_NUMERO_CONTRAT]);
+    return $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%04d", $line[self::CSV_NUMERO_CONTRAT]);
   }
 
   protected function convertTypeTransaction($type) {
@@ -340,34 +294,6 @@ EOF;
     return VracClient::CVO_NATURE_MARCHE_DEFINITIF;
   }
 
-  protected function convertOuiNon($indicateur) {
-
-    return (int) ($indicateur == 'O');
-  }
-
-  private function getHash($line) 
-  {
-    $produits_hash = $this->getProduitsHash();
-
-    if (!array_key_exists($line[self::CSV_CODE_APPELLATION]*1, $produits_hash)) {
-      
-      return null;
-    }
-
-    return $produits_hash[$line[self::CSV_CODE_APPELLATION]*1];
-  }
-
-  private function getKey($key, $withDefault = false) 
-  {
-    if ($withDefault) {
-      return ($key)? $key : Configuration::DEFAULT_KEY;
-    } 
-    if (!$key) {
-      throw new Exception('La clé "'.$key.'" n\'est pas valide');
-    }
-    return $key;
-  }
-
   protected function getBouteilleContenanceLibelle($v) {
         $contenances = array("0.0075" => '75 cl',
                             "0.01" => '1 L',
@@ -380,13 +306,5 @@ EOF;
         }
 
         return null;
-  } 
-
-  protected function getProduitsHash() {
-    if (is_null($this->produits_hash)) {
-      $this->produits_hash =  ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeProduit('INTERPRO-inter-loire');
-    }
-
-    return $this->produits_hash;
   }
 }
