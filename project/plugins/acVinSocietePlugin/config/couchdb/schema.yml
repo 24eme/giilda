@@ -1,0 +1,19 @@
+#schema des Societe
+Societe:
+  definition:
+    fields:
+      _id: { }
+      _rev: { }
+      type: { }
+      identifiant: { }
+      raison_sociale: { }
+      telephone: { }
+      siret: { }
+      commune: { }
+      interpro: { }
+      code_postal: { }
+      etablissements :
+        type: collection
+        definition:
+          fields:
+            '*': { }
