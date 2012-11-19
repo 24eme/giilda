@@ -31,10 +31,10 @@ class Revendication extends BaseRevendication {
                 $this->detectDoublon($row, $etb);
                 $revendicationEtb = $this->datas->_add($etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID]);
                 $revendicationEtb->storeDeclarant($etb);
-                $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle, $bailleur);
+                $revendicationEtb->storeProduits($num_ligne+1, $row, $hashLibelle, $bailleur);
             } catch (RevendicationErrorException $erreur) {
                 $erreurSortie = $this->erreurs->_add($erreur->getErrorType());
-                $erreurSortie->storeErreur($num_ligne + 1, $row, $erreur);
+                $erreurSortie->storeErreur($num_ligne+1, $row, $erreur);
                 continue;
             }
         }
