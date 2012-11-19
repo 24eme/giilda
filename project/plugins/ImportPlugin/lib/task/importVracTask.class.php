@@ -235,11 +235,6 @@ EOF;
   	}
   }
 
-  protected function constructNumeroContrat($line) {
-
-    return $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%04d", $line[self::CSV_NUMERO_CONTRAT]);
-  }
-
   protected function convertTypeTransaction($type) {
     $type_transactions = array(
       self::CSV_TYPE_PRODUIT_INDETERMINE => null,
@@ -306,5 +301,10 @@ EOF;
         }
 
         return null;
+  }
+
+  protected function constructNumeroContrat($line) {
+
+    return $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%04d", $line[self::CSV_NUMERO_CONTRAT]);
   }
 }

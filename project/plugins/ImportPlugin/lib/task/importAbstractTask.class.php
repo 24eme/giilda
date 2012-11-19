@@ -21,7 +21,7 @@ abstract class importAbstractTask extends sfBaseTask
 
     protected function convertToFloat($number) {
 
-        return str_replace(",", ".", $number) * 1;
+        return round(str_replace(",", ".", $number) * 1, 2);
     }
 
     protected function convertToDateObject($date) {
@@ -35,9 +35,7 @@ abstract class importAbstractTask extends sfBaseTask
             return new DateTime(sprintf('%d-%d-%d', $matches[3], $matches[2], $matches[1]));
         }
 
-        $this->logSection('Date format error', "'".$date."'", null, 'ERROR');
-
-        return new DateTime();
+        throw new sfException(sprintf("La date '%s' est invalide", $date));
     }
 
     protected function convertOuiNon($indicateur) {
