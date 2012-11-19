@@ -9,6 +9,7 @@ class EditionRevendicationForm  extends acCouchdbForm {
     protected $produit_hash;
     protected $volume;
     protected $num_ligne;
+    protected $code_douane;
 
 
     public function __construct(acCouchdbDocument $revendication, $cvi, $row,$defaults = array(), $options = array(), $CSRFSecret = null) {
@@ -17,7 +18,8 @@ class EditionRevendicationForm  extends acCouchdbForm {
         $this->cvi = $cvi;
         $this->row = $row;        
         $volumeProduitObj = $this->getVolumeProduitObj($this->revendication,$this->cvi,$this->row);
-        $this->produit_hash = $volumeProduitObj->produit->produit_hash;
+        $this->code_douane = $volumeProduitObj->produit->key;
+        $this->produit_hash = substr($volumeProduitObj->produit->produit_hash, 1, strlen($volumeProduitObj->produit->produit_hash));
         $this->volume = sprintf("%01.02f", round($volumeProduitObj->volume->volume, 2));
         $this->num_ligne = $volumeProduitObj->volume->num_ligne;
         $defaults['produit_hash'] = $this->produit_hash;
@@ -55,8 +57,8 @@ class EditionRevendicationForm  extends acCouchdbForm {
     	return ConfigurationClient::getCurrent();
     }
     
-    public function doUpdate() {
-        $this->revendication->updateProduit($this->cvi,$this->produit_hash, $this->values['produit_hash']); 
-        $this->revendication->updateVolume($this->cvi,$this->values['produit_hash'], $this->row, $this->num_ligne,  $this->values['volume']);
+    public function doUpdate() {        
+        $this->revendication->updateProduit($this->cvi,$this->code_douane, $this->getConfig()->get($this->values['produit_hash'])->getCodeDouane()); 
+        $this->revendication->updateVolume($this->cvi,$this->getConfig()->get($this->values['produit_hash'])->getCodeDouane() , $this->row, $this->num_ligne,  $this->values['volume']);
     }
 }
