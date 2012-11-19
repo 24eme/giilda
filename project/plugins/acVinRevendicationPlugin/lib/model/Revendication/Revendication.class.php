@@ -9,6 +9,7 @@ class Revendication extends BaseRevendication {
     private $csvSource = null;
     private $produits = null;
     private $produitsAlias = null;
+    private $produitsCodeDouane = null;
     private $etablissements = null;
 
     public function __construct() {
@@ -18,8 +19,8 @@ class Revendication extends BaseRevendication {
     public function storeDatas() {
         $this->setCSV();
         $this->setProduits();
+        $this->setProduitsCodeDouaneHashes();
         foreach ($this->getCSV() as $num_ligne => $row) {
-
             try {
                 $bailleur = null;
                 $etb = $this->matchEtablissement($row);
@@ -33,7 +34,7 @@ class Revendication extends BaseRevendication {
                 $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle, $bailleur);
             } catch (RevendicationErrorException $erreur) {
                 $erreurSortie = $this->erreurs->_add($erreur->getErrorType());
-                $erreurSortie->storeErreur($num_ligne+1, $row, $erreur);
+                $erreurSortie->storeErreur($num_ligne + 1, $row, $erreur);
                 continue;
             }
         }
@@ -63,6 +64,12 @@ class Revendication extends BaseRevendication {
         return $this->produitsAlias;
     }
 
+    public function setProduitsCodeDouaneHashes() {
+        if (!$this->produitsCodeDouane)
+            $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouane('INTERPRO-inter-loire');
+        return $this->produitsCodeDouane;
+    }
+
     public function setEtablissements() {
         if (!$this->etablissements)
             $this->etablissements = EtablissementAllView::getInstance()->findByInterpro('INTERPRO-inter-loire');
@@ -81,6 +88,12 @@ class Revendication extends BaseRevendication {
         return $this->produitsAlias;
     }
 
+    public function getProduitsCodeDouaneHashes() {
+        if (!$this->produitsCodeDouane)
+            $this->setProduitsCodeDouaneHashes();
+        return $this->produitsCodeDouane;
+    }
+
     public function getEtablissements() {
         if (!$this->etablissements)
             $this->setEtablissements();
@@ -97,21 +110,24 @@ class Revendication extends BaseRevendication {
     }
 
     private function matchProduit($row) {
-        $libelle_prod = $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT];
+        
+        $produitsCodeDouaneHashes = $this->getProduitsCodeDouaneHashes();
         $produits = $this->getProduits();
+        if(array_key_exists($row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT], $this->getProduitsCodeDouaneHashes())){
+            $hash = $produitsCodeDouaneHashes[$row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT]];
+            return array($hash,$produits[substr($hash,1,  strlen($hash)-1)]);
+        }
+
+        $libelle_prod = $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT];
         foreach ($this->getProduitsAlias() as $hashKey => $produitAliases) {
             foreach ($produitAliases as $alias) {
                 if (Search::matchTermLight($libelle_prod, $alias)) {
                     $hash = str_replace('-', '/', $hashKey);
-                    return array($hash, $produits[$hash]);
+                    return array($hash, $produits[$hashKey]);
                 }
             }
         }
 
-        foreach ($produits as $hash => $produit) {
-            if (Search::matchTermLight($libelle_prod, $produit))
-                return array($hash, $produit);
-        }
         throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS);
     }
 
@@ -137,7 +153,7 @@ class Revendication extends BaseRevendication {
                 && $this->datas->{$etbId}->commune == $row[RevendicationCsvFile::CSV_COL_VILLE]) {
             foreach ($this->datas->{$etbId}->produits->{$code_produit}->volumes as $num => $volume) {
                 if ($volume->volume == $row[RevendicationCsvFile::CSV_COL_VOLUME]) {
-                    throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DOUBLON,array('num_ligne' => $volume->num_ligne));
+                    throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DOUBLON, array('num_ligne' => $volume->num_ligne));
                 }
             }
         }
@@ -189,7 +205,7 @@ class Revendication extends BaseRevendication {
     public function deleteRow($cvi, $row) {
         $this->getProduitNode($cvi, $row)->supprProduit();
     }
-    
+
     public function getNbErreurs() {
         $nb_erreur = 0;
         foreach ($this->erreurs as $erreurType) {

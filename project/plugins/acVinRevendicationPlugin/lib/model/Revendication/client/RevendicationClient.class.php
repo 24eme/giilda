@@ -1,30 +1,29 @@
 <?php
 
 class RevendicationClient extends acCouchdbClient {
-    
-    public static function getInstance()
-    {
-      return acCouchdbManager::getClient("Revendication");
-    }  
-    
-    public function getId($odg,$campagne) {
+
+    public static function getInstance() {
+        return acCouchdbManager::getClient("Revendication");
+    }
+
+    public function getId($odg, $campagne) {
         return 'REVENDICATION-' . strtoupper($odg) . '-' . $campagne;
     }
-    
-    public function findByOdgAndCampagne($odg,$campagne) {
+
+    public function findByOdgAndCampagne($odg, $campagne) {
         return $this->find($this->getId($odg, $campagne));
     }
 
-    public function getVolumeProduitObj($revendication,$cvi,$row) {
+    public function getVolumeProduitObj($revendication, $cvi, $row) {
         $result = new stdClass();
-        $result->produit = $revendication->getProduitNode($cvi,$row);
+        $result->produit = $revendication->getProduitNode($cvi, $row);
         $result->volume = $produit->volumes->get($row);
         return $result;
     }
 
-    public function createOrFindDoc($odg,$campagne,$path) {
+    public function createOrFindDoc($odg, $campagne, $path) {
         $revendication = $this->find($this->getId($odg, $campagne));
-        
+
         if (!$revendication) {
             $revendication = new Revendication();
             $revendication->campagne = $campagne;
@@ -34,16 +33,26 @@ class RevendicationClient extends acCouchdbClient {
             $revendication->etape = 2;
             $revendication->save();
         }
-        
+
         $revendication->storeAttachment($path, 'text/csv', 'revendication.csv');
         $revendication = $this->find($revendication->get('_id'));
         $revendication->storeDatas();
-        
+
         return $revendication;
-    }    
-    
+    }
+
     public function getHistory() {
         return RevendicationHistoryView::getInstance()->getHistory();
+    }
+
+    public function getRevendicationLibelle($id) {
+        $params = $this->getParametersFromId($id);
+        return 'Revendication de '.$params['campagne'].' ('.$params['odg'].')';
+    }
+
+    public function getParametersFromId($id) {
+        preg_match('/^REVENDICATION-([A-Z]*)-([0-9]{8})$/', $id, $matches);
+        return array('odg' => strtolower($matches[1]), 'campagne' => $matches[2]);
     }
 
 }

@@ -1,6 +1,3 @@
-<?php
-use_helper('Date');
-?>
 <div id="contenu" class="revendication">
     <!-- #principal -->
     <section id="principal">
@@ -20,28 +17,7 @@ use_helper('Date');
             </div>
 
             <div id="revendication_historique_imports">
-                <h2>Historique des Imports</h2>
-				<table class="table_recap">
-                    <thead>
-                        <tr>
-                            <th>N° import</th>
-                            <th>Date</th>
-                            <th>Campagne</th>
-                            <th>Odg</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach ($historiqueImport as $import) : ?>
-                        <tr>
-                            <td><?php echo $import->id; ?></td>
-                            <td><?php echo format_date($import->key[RevendicationHistoryView::KEYS_DATE],'dd/MM/yyyy'); ?></td>
-                            <td><?php echo $import->key[RevendicationHistoryView::KEYS_CAMPAGNE]; ?></td>
-                            <td><?php echo $import->key[RevendicationHistoryView::KEYS_ODG]; ?></td>
-                        </tr>
-
-                    <?php endforeach; ?>
-                    </tbody>
-                </table>
+                <?php                include_partial('historiqueRevendication', array('historiqueImport' => $historiqueImport)); ?>
             </div>
         </section>
     </section>
