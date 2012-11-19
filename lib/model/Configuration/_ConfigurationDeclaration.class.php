@@ -55,9 +55,27 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
 		return $this->codes;
 	}
+        
+        public function getProduitsHashByCodeDouane($interpro) {
+            $produits = array();
+            foreach($this->getChildrenNode() as $key => $item) {
+                $produits = array_merge($item->getProduitsHashByCodeDouane($interpro),$produits);
+            }
+
+            return $produits;
+        }
+        
+  public function getCodeDouane() {
+    if (!$this->_get('code_douane')) {
+
+      return $this->getParentNode()->getCodeDouane();
+    }
+
+    return $this->_get('code_douane');
+  }    
 
   public function getCodeProduit() {
-    if ($this->_get('code_produit')) {
+    if (!$this->_get('code_produit')) {
 
       return $this->getParentNode()->getCodeProduit();
     }
@@ -66,12 +84,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
   }
 
   public function getCodeComptable() {
-    if (!$this->_get('code_produit')) {
+    if (!$this->_get('code_comptable')) {
 
-      return $this->getParentNode()->getCodeProduit();
+      return $this->getParentNode()->getCodeComptable();
     }
     
-    return $this->_get('code_produit');
+    return $this->_get('code_comptable');
   }
 
 	public function getLibelleFormat($labels = array(), $format = "%g% %a% %m% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {

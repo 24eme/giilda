@@ -36,6 +36,11 @@ class ConfigurationCertification extends BaseConfigurationCertification {
 
       return $this->_get('code_comptable');
     }
+    
+    
+    public function getCodeDouane() {
+        return $this->_get('code_douane');
+    }
 
     public function getProduits($interpro, $departement) {
         $produits = ConfigurationProduitsView::getInstance()->findProduitsByCertificationByDepartement($interpro, 

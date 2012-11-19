@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Model for ConfigurationDeclaration
  *
  */
-
 class ConfigurationDeclaration extends BaseConfigurationDeclaration {
-	  const TYPE_NOEUD = 'declaration';
+
+    const TYPE_NOEUD = 'declaration';
 
     public function getChildrenNode() {
 
-      return $this->certifications;
+        return $this->certifications;
     }
 
     public function getProduits($interpro, $departement = null) {
@@ -20,40 +21,41 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
 
     public function getProduitsHashByCodeProduit($interpro) {
 
-      return ConfigurationProduitsView::getInstance()->formatProduitsHashByCodeProduit($this->getProduits($interpro));
+        return ConfigurationProduitsView::getInstance()->formatProduitsHashByCodeProduit($this->getProduits($interpro));
     }
 
     public function formatProduits($interpro, $departement = null, $format = "%g% %a% %m% %l% %co% %ce%") {
 
-    	return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits($interpro), $format);
+        return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits($interpro), $format);
     }
 
     public function setDonneesCsv($datas) {
-    	
+        
     }
-    
-  	public function hasDepartements() {
-  		
-  		return false;
-  	}
 
-  	public function hasDroits() {
+    public function hasDepartements() {
 
-  		return false;
-  	}
+        return false;
+    }
 
-  	public function hasLabels() {
+    public function hasDroits() {
 
-  		return false;
-  	}
-  	public function hasDetails() {
+        return false;
+    }
 
-  		return false;
-  	}
-	
-  	public function getTypeNoeud() {
+    public function hasLabels() {
 
-  		return self::TYPE_NOEUD;
-  	}
-  	
+        return false;
+    }
+
+    public function hasDetails() {
+
+        return false;
+    }
+
+    public function getTypeNoeud() {
+
+        return self::TYPE_NOEUD;
+    }
+
 }

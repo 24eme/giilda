@@ -46,6 +46,10 @@ class ConfigurationCepage extends BaseConfigurationCepage {
     public function getCouleur() {
         return $this->getParentNode();
     }
+    
+    public function getProduitsHashByCodeDouane($interpro) {
+        return array($this->getCodeDouane() => $this->getHash());
+    }
 
     public function setDonneesCsv($datas) {
         parent::setDonneesCsv($datas);
