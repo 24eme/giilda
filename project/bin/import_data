@@ -57,6 +57,11 @@ cd $SYMFODIR;
 
 read;
 
+echo "import des societes";
+
+iconv -f ISO88591 -t UTF8 $DATADIR/cipar.csv > $DATADIR/tmp/cipar.utf8.csv
+php symfony import:societe $DATADIR/tmp/cipar.utf8.csv
+
 echo "Import des établissements";
 
 php symfony import:etablissement --trace $DATADIR/etablissements.csv
