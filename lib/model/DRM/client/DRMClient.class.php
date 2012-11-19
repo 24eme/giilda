@@ -133,14 +133,14 @@ class DRMClient extends acCouchdbClient {
       return null;
     }
     
-    public function findOrCreateByIdentifiantAndPeriode($identifiant, $annee, $mois, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-      if ($obj = $this->findMasterByIdentifiantAndPeriode($identifiant, $this->getPeriode($annee, $mois), $hydrate)) {
+    public function findOrCreateByIdentifiantAndPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      if ($obj = $this->findMasterByIdentifiantAndPeriode($identifiant, $periode, $hydrate)) {
         return $obj;
       }
 
       $obj = new DRM();
       $obj->identifiant = $identifiant;
-      $obj->periode = $this->getPeriode($annee, $mois);
+      $obj->periode = $periode;
       
       return $obj;
     }
