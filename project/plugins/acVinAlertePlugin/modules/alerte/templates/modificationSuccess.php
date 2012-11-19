@@ -8,7 +8,7 @@
         <section id="contenu_etape">
             <?php include_partial('information_alerte', array('alerte' => $alerte)); ?>
             <?php include_partial('modification_alerte', array('alerte' => $alerte, 'form' => $form)); ?>            
-            <?php include_partial('liste_alertes', array('alerte' => $alerte, 'modificationStatutForm' => $modificationStatutForm)); ?>
+            <?php include_partial('history_alerte', array('alerte' => $alerte)); ?>
         </section>
         <!-- fin #contenu_etape -->
     </section>

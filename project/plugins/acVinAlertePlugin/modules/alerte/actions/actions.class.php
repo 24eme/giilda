@@ -3,7 +3,7 @@ class alerteActions extends sfActions {
   
     public function executeIndex(sfWebRequest $request) {
         $this->alertesHistorique = AlerteHistoryView::getInstance()->getHistory();
-        $this->modificationStatutForm = new AlertesStatutsModificationForm($this->alertesHistorique);    
+        $this->modificationStatutForm = new AlertesStatutsModificationForm($this->alertesHistorique);
         $this->form = new AlertesConsultationForm();
     }
         
@@ -12,6 +12,8 @@ class alerteActions extends sfActions {
     }
     
     public function executeModification(sfWebRequest $request) {
+         $this->alertesHistorique = AlerteHistoryView::getInstance()->getHistory();
+         $this->modificationStatutForm = new AlertesStatutsModificationForm($this->alertesHistorique);
          $this->alerte = $this->getRoute()->getAlerte();
          $this->form = new AlerteModificationForm($this->alerte);
          if($request->isMethod(sfWebRequest::POST)) {
@@ -19,6 +21,7 @@ class alerteActions extends sfActions {
             if($this->form->isValid())
             {
                 $this->form->doUpdate();
+                $this->redirect('alerte_modification',$this->alerte);
             }
         }
     }
