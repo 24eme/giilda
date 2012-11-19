@@ -1,6 +1,6 @@
 <?php
 
-class importEtablissementTask extends sfBaseTask
+class importEtablissementTask extends importAbstractTask
 {
   protected function configure()
   {

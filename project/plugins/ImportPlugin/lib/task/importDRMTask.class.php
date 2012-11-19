@@ -1,6 +1,6 @@
 <?php
 
-class importDRMTask extends sfBaseTask
+class importDRMTask extends importAbstractTask
 {
 
   // cieso

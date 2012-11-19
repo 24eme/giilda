@@ -1,6 +1,6 @@
 <?php
 
-class importVracTask extends sfBaseTask
+class importVracTask extends importAbstractTask
 {
 
   const CSV_DOSSIER = 0;
@@ -86,23 +86,6 @@ class importVracTask extends sfBaseTask
   const CSV_TYPE_CONTRAT_PAS_TRANSACTION_FINANCIERE = 'T';
   const CSV_TYPE_CONTRAT_VINAIGRERIE = 'V';
 
-  protected static $months_fr = array(
-    "août" => "08",
-    "avr" => "04",
-    "déc" => "12",
-    "févr" => "02",
-    "janv" => "01",
-    "juil" => "07",
-    "juin" => "06",
-    "mai" => "05",
-    "mars" => "03",
-    "nov" => "11",
-    "oct" => "10",
-    "sept" => "09",
-  );
-
-  protected $produits_hash = null;
-
   protected function configure()
   {
     // // add your own arguments here
@@ -135,10 +118,17 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     set_time_limit(0);
-
+    $i = 1;
     foreach(file($arguments['file']) as $line) {
     	$data = str_getcsv($line, ';');
-    $this->importVrac($data);
+
+      try{
+        $this->importVrac($data);
+      } catch (Exception $e) {
+        $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
+      }
+
+      $i++;
     }
 
   }
@@ -150,13 +140,6 @@ EOF;
         if (!$type_transaction) {
           return;
         }
-
-        $hash = $this->getHash($line);
-
-        if (!isset($hash)) {
-          $this->logSection('Produit hash not found', $line[self::CSV_CODE_APPELLATION], null, 'ERROR');
-          return;
-        } 
         
         $v = VracClient::getInstance()->findByNumContrat($this->constructNumeroContrat($line), acCouchdbClient::HYDRATE_JSON);
         
@@ -167,7 +150,7 @@ EOF;
 
         $v->label = array();
 
-        $date = $this->getDateCreationObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION]);
+        $date = $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION]);
         $v->date_signature =  $date->format('Y-m-d');
         $v->date_stats =  $date->format('Y-m-d');
         $v->valide->date_saisie = $date->format('Y-m-d');
@@ -180,7 +163,7 @@ EOF;
           $v->mandataire_identifiant = $line[self::CSV_CODE_COURTIER];
         }
 
-        $v->produit = $hash;
+        $v->produit = $this->getHash($line[self::CSV_CODE_APPELLATION]);
 
         if($line[self::CSV_CIAPL_SUR_LIE] == "O") {
           $v->label->add(null, "LIE");
@@ -188,9 +171,14 @@ EOF;
 
         $v->millesime = $line[self::CSV_MILLESIME_ANNEE] ? (int)$line[self::CSV_MILLESIME_ANNEE] : null;
 
-        if (!$v->getVendeurObject() || !$v->getAcheteurObject()) {
-          $this->logSection("Les etablissements n'existes pas",  $line[self::CSV_CIAPL_REGION_VITICOLE]."@".$v->numero_contrat."V:".$v->vendeur_identifiant.";A:".$v->acheteur_identifiant, null, 'ERROR');
-          return;
+        if (!$v->getVendeurObject()) {
+          
+          throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_VITICULTEUR]));
+        }
+
+        if (!$v->getAcheteurObject()) {
+          
+          throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_NEGOCIANT]));
         }
 
         if (!$v->mandataire_identifiant || !$v->getMandataireObject()) {
@@ -233,13 +221,6 @@ EOF;
         $v->update(); 
 
         $v->save();
-
-        //$this->logSection("Creation", $v->numero_contrat);
-  }
-
-  protected function convertToFloat($number) {
-
-  	return str_replace(",", ".", $number) * 1;
   }
 
   protected function getDensite($line) {
@@ -254,26 +235,9 @@ EOF;
   	}
   }
 
-  protected function getDateCreationObject($date) {
-    
-    if (preg_match('/^([0-9]{2})-([a-zûé]+)-([0-9]{2})$/', $date, $matches)) {
-      
-      return new DateTime(sprintf('%d-%d-%d', $matches[3], self::$months_fr[$matches[2]], $matches[1]));
-    }
-
-    if (preg_match('/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/', $date, $matches)) {
-
-      return new DateTime(sprintf('%d-%d-%d', $matches[3], $matches[2], $matches[1]));
-    }
-
-    $this->logSection('Date format error', "'".$date."'", null, 'ERROR');
-
-    return new DateTime();
-  }
-
   protected function constructNumeroContrat($line) {
 
-    return $this->getDateCreationObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%04d", $line[self::CSV_NUMERO_CONTRAT]);
+    return $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%04d", $line[self::CSV_NUMERO_CONTRAT]);
   }
 
   protected function convertTypeTransaction($type) {
@@ -330,45 +294,6 @@ EOF;
     return VracClient::CVO_NATURE_MARCHE_DEFINITIF;
   }
 
-  protected function convertOuiNon($indicateur) {
-
-    return (int) ($indicateur == 'O');
-  }
-
-  private function getHash($line) 
-  {
-    $produits_hash = $this->getProduitsHash();
-
-    if (!array_key_exists($line[self::CSV_CODE_APPELLATION]*1, $produits_hash)) {
-      
-      return null;
-    }
-
-    return $produits_hash[$line[self::CSV_CODE_APPELLATION]*1];
-  }
-
-  private function couleurKeyToCode($key) {
-    $correspondances = array(1 => "rouge",
-                             2 => "rose",
-                             3 => "blanc");
-
-    if (!isset($correspondances[$key])) {
-      throw new Exception("Couleur pas connue $key");
-    }
-    return $correspondances[$key];
-  }
-
-  private function getKey($key, $withDefault = false) 
-  {
-    if ($withDefault) {
-      return ($key)? $key : Configuration::DEFAULT_KEY;
-    } 
-    if (!$key) {
-      throw new Exception('La clé "'.$key.'" n\'est pas valide');
-    }
-    return $key;
-  }
-
   protected function getBouteilleContenanceLibelle($v) {
         $contenances = array("0.0075" => '75 cl',
                             "0.01" => '1 L',
@@ -381,13 +306,5 @@ EOF;
         }
 
         return null;
-  } 
-
-  protected function getProduitsHash() {
-    if (is_null($this->produits_hash)) {
-      $this->produits_hash =  ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeProduit('INTERPRO-inter-loire');
-    }
-
-    return $this->produits_hash;
   }
 }

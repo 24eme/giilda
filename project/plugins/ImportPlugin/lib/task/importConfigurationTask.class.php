@@ -83,9 +83,7 @@ EOF;
 
     $configurationContenances = $configuration->add('contenances', $contenances);   
 
-    $labels = array('grains_nobles' => 'Grains nobles',
-		    'primeur' => 'Primeur',
-		    'Agriculture_biologique' => 'Agriculture Biologique');
+    $labels = array('agriculture_biologique' => 'Agriculture Biologique');
 
     $configurationContenances = $configuration->add('labels', $labels);   
 
