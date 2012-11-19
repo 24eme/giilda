@@ -22,7 +22,7 @@
             <span>
                 Opérateur : 
                 <label>
-                    <?php echo $alerte->identifiant . ' ' . $alerte->declarant_nom; ?>
+                    <?php echo  $alerte->declarant_nom. ' ('.$alerte->identifiant . ') '; ?>
                 </label>
             </span>
         </div>

@@ -27,6 +27,7 @@ class AlerteRouting {
                                                             array('sf_method' => array('get', 'post')),
                                                             array('model' => 'Alerte',
                                                                   'type' => 'object')));
-        
+        $r->prependRoute('alerte_modification_statuts', new sfRoute('/alerte/statutsModification', array('module' => 'alerte',
+                    'action' => 'statutsModification'))); 
     }
 }

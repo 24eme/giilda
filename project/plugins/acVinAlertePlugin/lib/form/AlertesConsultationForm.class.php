@@ -17,8 +17,8 @@ class AlertesConsultationForm extends sfForm {
         $this->setWidget('region_alerte',new sfWidgetFormChoice(array('choices' => $this->getRegions(),'expanded' => false)));  
         $this->setWidget('type_alerte', new sfWidgetFormChoice(array('choices' => $this->getTypes(),'expanded' => false)));      
         $this->setWidget('statut_alerte',new sfWidgetFormChoice(array('choices' => $this->getStatuts(),'expanded' => false)));    
-        $this->setWidget('campagne_alerte',new sfWidgetFormChoice(array('choices' => $this->getCampagne(),'expanded' => false)));     
-                
+        $this->setWidget('campagne_alerte',new sfWidgetFormChoice(array('choices' => $this->getCampagne(),'expanded' => false))); 
+        
         $this->widgetSchema->setLabels(array(
             'declarant_alerte' => 'Rechercher un opérateur :',
             'region_alerte' => 'Region viticole :',

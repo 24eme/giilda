@@ -24,7 +24,14 @@
             'etablissement' => $etablissement,
         )) ?>
         
-        <li><a href="#">Contacts</a></li>
+        <?php include_component('global', 'navItem', array(
+            'libelle' => 'Contacts',
+            'prefix' => 'societe',
+            'route' => 'societe',
+            'route_etablissement' => 'societe_choose',
+            'etablissement' => null,
+        )) ?>
+        
         
         <?php include_component('global', 'navItem', array(
             'libelle' => 'Import VR',
