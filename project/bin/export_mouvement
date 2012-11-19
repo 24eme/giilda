@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "type document ; identifiant document ; campagne ; periode ; dococument id ;  produit_hash du mouvement ; type de mouvement ; numero vrac du mouvement ; detail identifiant ; libelle produit ;  libelle type ; volume mouvement ; vrac destinataire ; detail ;  date ; mouvement version ;";
+curl http://localhost:5984/vinsdeloire/_design/mouvement/_view/consultation | sed 's/.*"key":\[//' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g'
