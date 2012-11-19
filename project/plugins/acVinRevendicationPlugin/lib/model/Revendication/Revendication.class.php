@@ -159,15 +159,18 @@ class Revendication extends BaseRevendication {
         }
     }
 
-    public function updateProduit($cvi, $produit_hash_old, $produit_hash_new) {
+    public function updateProduit($cvi, $produit_key_old, $produit_key_new) {
+        $produitsCd = $this->getProduitsCodeDouaneHashes();
+        $hash = $produitsCd[$produit_key_new]; 
+        $hash = substr($hash, 1, strlen($hash));
         $produits = $this->getProduits();
-        $libelle = $produits[$produit_hash_new];
-        $this->getDatas()->get($cvi)->updateProduits($produit_hash_old, $produit_hash_new, $libelle);
-    }
-
-    public function updateVolume($cvi, $produit_hash, $row, $num_ligne, $new_volume) {
-        $produit_hash_key = str_replace('/', '-', $produit_hash);
-        $volume = $this->getDatas()->get($cvi)->produits->get($produit_hash_key)->volumes->add($row);
+        $libelle = $produits[$hash];      
+        $this->getDatas()->get($cvi)->updateProduits($produit_key_old, $produit_key_new, $libelle);
+        }
+        
+    public function updateVolume($cvi, $produit_key, $row, $num_ligne, $new_volume) {
+        
+        $volume = $this->getDatas()->get($cvi)->produits->get($produit_key)->volumes->add($row);
         $volume->num_ligne = $num_ligne;
         $volume->volume = $new_volume;
     }

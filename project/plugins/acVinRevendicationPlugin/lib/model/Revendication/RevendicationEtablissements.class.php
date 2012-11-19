@@ -11,16 +11,14 @@ class RevendicationEtablissements extends BaseRevendicationEtablissements {
             $produit_to_store->storeProduit($num_ligne,$row,$hashLibelle, $bailleur);
     }
     
-    public function updateProduits($old_hash ,$new_hash, $new_libelle) {
-        $old_hash_key = str_replace('/', '-', $old_hash);
-        $new_hash_key = str_replace('/', '-', $new_hash);
-        $old_produit = $this->produits->get($old_hash_key);
-        if(!$this->exist($new_hash_key))
+    public function updateProduits($old_key ,$new_key, $new_libelle) {
+        $old_produit = $this->produits->get($old_key);
+        if(!$this->exist($new_key))
         {
-            $old_produit->updateProduit($new_hash, $new_libelle);
-            $this->produits->add($new_hash_key,$old_produit);
+            $old_produit->updateProduit($new_key, $new_libelle);
+            $this->produits->add($new_key,$old_produit);
         }
-        $this->produits->get($old_hash_key)->supprProduit();
+        $this->produits->get($new_key)->supprProduit();
     }
     
     public function storeDeclarant($etb) {
