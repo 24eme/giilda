@@ -148,5 +148,23 @@ class revendicationActions extends sfActions {
         }
         
     }
+    
+        public function executeChooseRowForDoublon(sfWebRequest $request) {
+        $this->num_ligne = $request->getParameter('num_ligne');
+        $this->revendication = $this->getRoute()->getRevendication();
+        $this->form = new ChooseRowForm($this->revendication, $this->num_ligne);
+//        if ($request->isMethod(sfWebRequest::POST)) {
+//            $this->form->bind($request->getParameter($this->form->getName()));
+//            if ($this->form->isValid()) {
+//                $this->form->doUpdate();
+//                $this->revendication->updateErrors();
+//                $this->revendication->save();
+//                return $this->redirect('revendication_view_erreurs', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
+//            }
+//        }
+        
+    }
+    
+    
 
 }
