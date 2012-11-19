@@ -32,9 +32,10 @@
     <?php
     include_partial('revendication/etapeItem', array('num_etape' => 2,
         'revendication_etape' => $revendication->etape,
+        'revendication' => $revendication,
         'actif' => $actif,
         'label' => 'Erreurs',
-        'url_etape' => 'vrac_condition'
+        'url_etape' => 'revendication_view_erreurs'
     ));
     ?>
 

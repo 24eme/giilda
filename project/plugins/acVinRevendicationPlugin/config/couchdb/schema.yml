@@ -60,6 +60,7 @@ Revendication:
                                           bailleur_identifiant: {  }
                                           bailleur_nom: {  }
                                           date_insertion: {  }
+                                          ligne: {  }
       erreurs:
         type: collection
         definition:
