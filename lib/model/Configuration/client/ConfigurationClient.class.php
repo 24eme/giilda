@@ -76,8 +76,8 @@ class ConfigurationClient extends acCouchdbClient {
 
     public function buildDateDebutCampagne($date) {
         $annee = date('Y', strtotime($date));
-        if(date('m-d', strtotime($date)) < '08-01' && date('m-d', strtotime($date)) > '12-31') {
-            $annee += 1;
+        if(date('m', strtotime($date)) < 8) {
+            $annee -= 1;
         }
 
         return sprintf(self::CAMPAGNE_DATE_DEBUT, $annee); 
