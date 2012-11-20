@@ -14,12 +14,11 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
         <thead>
         <tr>
             <th>Changer Type</th>
-            <th>Type d'alerte</th>
-            <th>Date d'ouverture</th>
-            <th>Document concerné</th>
-            <th>Statut</th>
             <th>Date du statut</th>
+            <th>Statut</th>
             <th>Opérateur concerné</th>
+            <th>Type d'alerte</th>
+            <th>Document concerné</th>
         </tr>
         </thead>
         <tbody>
@@ -30,14 +29,16 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
                     <?php echo $modificationStatutForm[$alerte->id]->renderError(); ?>
                     <?php echo $modificationStatutForm[$alerte->id]->render() ?> 
                 </td>
+                <td>
+                    <?php echo format_date($alerte->key[AlerteHistoryView::KEY_DATE_ALERTE],'dd/MM/yyyy'); ?>
+                    (Ouv.: <?php echo format_date($alerte->key[AlerteHistoryView::KEY_DATE_CREATION_ALERTE],'dd/MM/yyyy'); ?>)
+                </td>
+                <td><?php echo $statutsWithLibelles[$alerte->key[AlerteHistoryView::KEY_STATUT_ALERTE]]; ?></td>
+                <td><?php echo $alerte->value[AlerteHistoryView::VALUE_NOM]; ?></td>
                 <td><?php echo link_to(AlerteClient::$alertes_libelles[$alerte->key[AlerteHistoryView::KEY_TYPE_ALERTE]],'alerte_modification',
                                        array('type_alerte' => $alerte->key[AlerteHistoryView::KEY_TYPE_ALERTE],
                                              'id_document' => $alerte->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE])); ?></td>
-                <td><?php echo format_date($alerte->key[AlerteHistoryView::KEY_DATE_CREATION_ALERTE],'dd/MM/yyyy'); ?></td>
                 <td><?php echo $alerte->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE]; ?></td>
-                <td><?php echo $statutsWithLibelles[$alerte->key[AlerteHistoryView::KEY_STATUT_ALERTE]]; ?></td>
-                <td><?php echo format_date($alerte->key[AlerteHistoryView::KEY_DATE_ALERTE],'dd/MM/yyyy'); ?></td>
-                <td><?php echo $alerte->value[AlerteHistoryView::VALUE_NOM]; ?></td>
             </tr>
             <?php
             endforeach;
