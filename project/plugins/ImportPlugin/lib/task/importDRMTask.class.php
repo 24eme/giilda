@@ -247,8 +247,14 @@ EOF;
   }
 
   protected function getPeriode($line) {
-     
-    return DRMClient::getInstance()->buildPeriode(substr($line[self::CSV_LIGNE_ID], 0, 4), substr($line[self::CSV_LIGNE_ID], 13, 2));
+    $mois = substr($line[self::CSV_LIGNE_ID], 13, 2);
+    $campagne = substr($line[self::CSV_LIGNE_ID], 0, 4);
+    $annee = $campagne;
+    if ($mois < 8) {
+      $annee = $campagne + 1;
+    }
+    
+    return DRMClient::getInstance()->buildPeriode($annee, $mois);
   }
 
   protected function getIdentifiant($line) {
@@ -265,10 +271,15 @@ EOF;
         $drm = $this->importLigne($drm, $line);
       } catch (Exception $e) {
         $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
+        return;
       }
     }
 
-    //$drm->save();
+    $drm->valide->date_saisie = date('c', strtotime($drm->getDate()));
+    $drm->valide->date_signee = date('c', strtotime($drm->getDate()));
+    $drm->update();
+    $drm->validate(array('no_vracs' => true));
+    $drm->save();
   }
 
   public function importLigne($drm, $line) {
@@ -318,7 +329,7 @@ EOF;
       throw new sfException(sprintf("Le contrat '%s' n'existe pas", $numero_contrat));
     }
 
-    $produit->sorties->vrac_details->add(null, array("identifiant" => $numero_contrat,
+    $produit->sorties->vrac_details->add(null, array("identifiant" => 'VRAC-'.$numero_contrat,
                                                      "volume" => $this->convertToFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]),
                                                      "date_enlevement" => $line[self::CSV_CONTRAT_DATE_ENLEVEMENT]));
   }
@@ -371,15 +382,21 @@ EOF;
   public function importLigneCave($drm, $line) {
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
-    /*$etablissement = EtablissementClient::getInstance()->find();
+    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
+      $etablissement = EtablissementClient::getInstance()->find($line[self::CSV_CAVE_CODE_COOPERATEUR]);
+      if(!$etablissement) {
 
-    if(!$contrat) {
-      throw new sfException(sprintf("Le contrat '%s' n'existe pas", $numero_contrat));
+        throw new sfException(sprintf("L'établissement cave coop '%s' n'existe pas", $line[self::CSV_CAVE_CODE_COOPERATEUR]));
+      }
+
+      $produit->sorties->cooperative_details->add(null, array("identifiant" => $etablissement->getIdentifiant(),
+                                                              "volume" => $this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]),
+                                                              "date_enlevement" => $line[self::CSV_CAVE_DATE_MOUVEMENT]));
     }
 
-    $produit->sorties->cooperative_details->add(null, array("identifiant" => $numero_contrat,
-                                                            "volume" => $this->convertToFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]),
-                                                            "date_enlevement" => $line[self::CSV_CONTRAT_DATE_ENLEVEMENT]));*/
+    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
+      $produit->entrees->cooperative = $this->convertToFloat($line[self::CSV_CAVE_VOLUME_ENTREE]);
+    }
   }
 
   public function importLigneTransfert($drm, $line) {
@@ -412,6 +429,10 @@ EOF;
       case self::CSV_LIGNE_TYPE_DIVERS:
         $this->verifyLineDivers($line);
         break;
+      case self::CSV_LIGNE_TYPE_CAVE_VITI:
+      case self::CSV_LIGNE_TYPE_CAVE_COOP:
+        $this->verifyLineCave($line);
+        break;
       case self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE:
       case self::CSV_LIGNE_TYPE_TRANSFERT_ENTREE:
         $this->verifyLineTransfert($line);
@@ -442,6 +463,16 @@ EOF;
 
   protected function verifyLineTransfert($line) {
     $this->verifyFloat($line[self::CSV_TRANSFERT_VOLUME_HL]);
+  }
+
+  protected function verifyLineCave($line) {
+    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
+      $this->verifyFloat($line[self::CSV_CAVE_VOLUME_SORTIE]);
+    }
+
+    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
+      $this->verifyFloat($line[self::CSV_CAVE_VOLUME_ENTREE]);
+    }
   }
 
   protected function verifyLineMouvement($line) {

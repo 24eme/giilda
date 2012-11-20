@@ -8,7 +8,8 @@ class alerteActions extends sfActions {
     }
         
     public function executeMonEspace(sfWebRequest $request) {
-         var_dump("here espace"); exit;
+
+        return $this->redirect('alerte');
     }
     
     public function executeModification(sfWebRequest $request) {

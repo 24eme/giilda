@@ -15,7 +15,7 @@
                         <li><a href="<?php echo url_for('drm_etablissement_stocks', $etablissement) ?>">Vue stock</a></li>
                     </ul>
                 </nav>
-                <?php include_component('drm', 'calendrier', array('etablissement' => $etablissement)); ?>
+                <?php include_component('drm', 'calendrier', array('etablissement' => $etablissement, 'campagne' => $campagne)); ?>
             </fieldset>
         </section>
         <!-- fin #contenu_etape -->

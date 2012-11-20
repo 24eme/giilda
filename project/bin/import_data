@@ -35,7 +35,7 @@ cat $DATADIR/tmp/cicon-utf8.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$10); for 
 
 cat $DATADIR/tmp/ciapl-utf8.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$3); for (i=1;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | sed -r 's/;$//' > $DATADIR/tmp/ciapl-before-merge
 
-join -t ";" $DATADIR/tmp/cicon-before-merge $DATADIR/tmp/ciapl-before-merge | awk -F";" '{ for (i=2;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort -r | grep -E "^10;20[1]{1}[0-9]{1}" > $DATADIR/vracs.csv
+join -t ";" $DATADIR/tmp/cicon-before-merge $DATADIR/tmp/ciapl-before-merge | awk -F";" '{ for (i=2;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort -r | grep -E "^10;2010" > $DATADIR/vracs.csv
 
 #FIN DU TRAITEMENT VRACS
 
