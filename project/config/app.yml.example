@@ -1,5 +1,21 @@
 all:
   alertes:
-    VRAC_NON_SOLDE:
-      class: AlerteGenerationVracsNonSoldes
-        
+    generations:
+      VRACNONSOLDE:
+        class: AlerteGenerationVracsNonSoldes
+        creation_delai: '-5 month'
+        enattente_delai: '+1 month'
+        relance_delai: '+2 month'
+        nb_relance: '3'
+      VRACPRIXDEFINITIFS:
+        class: AlerteGenerationVracsPrixDefinitifs
+        creation_delai: '-1 month'
+        enattente_delai: '+1 month'
+        relance_delai: '+2 month'
+        nb_relance: '2'
+      VRACATTENTEORIGINAL:
+        class: AlerteGenerationVracsAttenteOriginal
+        creation_delai: '-1 month'
+        enattente_delai: '+2 month'
+        relance_delai: '+2 month'
+        nb_relance: '2'
