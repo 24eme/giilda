@@ -1,8 +1,11 @@
+<?php
+$errors_exist = (count($errors) > 0);
+?>
 <div id="contenu" class="revendication">
     
     <!-- #principal -->
     <section id="principal">        
-            <?php include_partial('headerRevendication', array('revendication' => $revendication,'actif' => 0)); ?>
+            <?php include_partial('headerRevendication', array('revendication' => null,'actif' => $errors_exist)); ?>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             
@@ -38,8 +41,8 @@
 				</div>			
             </form>
             <?php 
-            if(count($errors) > 0)
-                include_partial('uploadErreurs',array('errors' => $errors,'md5' => $md5));
+            if($errors_exist)
+                include_partial('uploadErreurs',array('errors' => $errors,'md5' => $md5,'odg' => $odg));
             ?>
         </section>
         <!-- fin #contenu_etape -->

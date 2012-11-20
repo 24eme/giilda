@@ -14,6 +14,7 @@
     <?php
     include_partial('revendication/etapeItem', array('num_etape' => 0,
         'revendication_etape' => $revendication->etape,
+        'revendication' => $revendication,
         'actif' => $actif,
         'label' => 'Import',
         'url_etape' => 'revendication_upload'
@@ -23,6 +24,7 @@
     <?php
     include_partial('revendication/etapeItem', array('num_etape' => 1,
         'revendication_etape' => $revendication->etape,
+        'revendication' => $revendication,
         'actif' => $actif,
         'label' => 'Erreurs synthax.',
         'url_etape' => 'revendication_view_erreurs'
@@ -42,6 +44,7 @@
 <?php
 include_partial('revendication/etapeItem', array('num_etape' => 3,
     'revendication_etape' => $revendication->etape,
+    'revendication' => $revendication,
     'actif' => $actif,
     'label' => 'Edition',
     'url_etape' => 'vrac_validation'

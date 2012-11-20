@@ -16,6 +16,8 @@ class revendicationActions extends sfActions {
                 $this->md5 = $file->getMd5();
                 RevendicationCsvFile::convertTxtToCSV(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
                 $this->csv = new RevendicationCsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
+                $this->odg = $this->form->getValue('odg'); $this->odg = $this->odg[0];
+                $this->campagne = $this->form->getValue('campagne'); $this->campagne = $this->campagne[0];
                 if(!$this->csv->check())
                 {
                     $this->errors = $this->csv->getErrors(); 
@@ -23,9 +25,7 @@ class revendicationActions extends sfActions {
                     return sfView::SUCCESS;
                 }
                     
-                $odg = $this->form->getValue('odg');
-                $campagne = $this->form->getValue('campagne');
-                return $this->redirect('revendication_create', array('md5' => $file->getMD5(), 'odg' => $odg[0], 'campagne' => $campagne[0]));
+                return $this->redirect('revendication_create', array('md5' => $file->getMD5(), 'odg' => $this->odg, 'campagne' => $this->campagne));
            }
     	}
   }
