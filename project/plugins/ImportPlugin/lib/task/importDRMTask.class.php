@@ -323,7 +323,7 @@ EOF;
       throw new sfException(sprintf("Le contrat '%s' n'existe pas", $numero_contrat));
     }
 
-    $produit->sorties->vrac_details->add(null, array("identifiant" => $numero_contrat,
+    $produit->sorties->vrac_details->add(null, array("identifiant" => 'VRAC-'.$numero_contrat,
                                                      "volume" => $this->convertToFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]),
                                                      "date_enlevement" => $line[self::CSV_CONTRAT_DATE_ENLEVEMENT]));
   }
