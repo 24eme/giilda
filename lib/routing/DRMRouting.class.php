@@ -37,15 +37,16 @@ class DRMRouting {
         $r->prependRoute('drm', new sfRoute('/drm', array('module' => 'drm', 
                                                           'action' => 'chooseEtablissement')));
 		
-        $r->prependRoute('drm_etablissement', new EtablissementRoute('/drm/:identifiant', array('module' => 'drm', 
-                                                                                'action' => 'monEspace'),
+        $r->prependRoute('drm_etablissement', new EtablissementRoute('/drm/:identifiant/:campagne', array('module' => 'drm', 
+                                                                                'action' => 'monEspace', 'campagne' => null),
                                                          array('sf_method' => array('get','post')),
                                                           array('model' => 'Etablissement',
                                                                 'type' => 'object')
 								));
 
-        $r->prependRoute('drm_etablissement_stocks', new EtablissementRoute('/drm/:identifiant/stocks', array('module' => 'drm', 
-                                                                                'action' => 'stocks'),
+        $r->prependRoute('drm_etablissement_stocks', new EtablissementRoute('/drm/:identifiant/stocks/:campagne', array('module' => 'drm', 
+                                                                                'action' => 'stocks',
+                                                                                'campagne' => null),
                                                                      array('sf_method' => array('get','post')),
                                                                       array('model' => 'Etablissement',
                                                                             'type' => 'object')

@@ -207,7 +207,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         
         $this->setInterpros();        
         $this->generateMouvements();
-        $this->updateVracs();
+
+        if(!isset($options['no_vracs']) || !$options['no_vracs']) {
+            $this->updateVracs();
+        }
     }
 
     public function storeIdentifiant($options) {
@@ -229,7 +232,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$this->valide->date_signee) {
            $this->valide->add('date_signee', date('c'));
         }
-
     }
 
     public function updateVracs() {        

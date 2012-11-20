@@ -79,12 +79,19 @@ class drmActions extends sfActions
   {
     
     $this->etablissement = $this->getRoute()->getEtablissement();
+    $this->campagne = $request->getParameter('campagne');
+    if (!$this->campagne) {
+      $this->campagne = '2012-2013';
+    }
   }
 
 
   public function executeStocks(sfWebRequest $request) {
-    
-     $this->etablissement = $this->getRoute()->getEtablissement();
+    $this->etablissement = $this->getRoute()->getEtablissement();
+    $this->campagne = $request->getParameter('campagne');
+    if (!$this->campagne) {
+      $this->campagne = '2012-2013';
+    }
   }
 
  /**
@@ -94,8 +101,8 @@ class drmActions extends sfActions
   */
   public function executeHistorique(sfWebRequest $request)
   {
+    $this->etablissement = $this->getRoute()->getEtablissement();
     $this->campagne = $request->getParameter('campagne');
-    $this->historique = new DRMHistorique ($this->getRoute()->getEtablissement()->identifiant, $this->campagne);
   }
 
  /**

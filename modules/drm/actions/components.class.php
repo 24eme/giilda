@@ -93,11 +93,11 @@ class drmComponents extends sfComponents {
     }
 
     public function executeCalendrier() {
-        $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, '2012-2013');
+        $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
     }
 
     public function executeStocks() {
-        $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, '2012-2013');
+        $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
         $this->details = array();
         foreach($this->calendrier->getPeriodes() as $periode) {
             $drm = $this->calendrier->getDRM($periode);

@@ -4,7 +4,7 @@
 <div class="section_label_maj" id="calendrier_drm">
     <label for="">Campagne Viticole</label>
     <select name="" id="">
-        <option value="">2012 - 2013</option>
+        <option value=""><?php echo $campagne ?></option>
     </select>
     <table class="table_recap">
         <thead>

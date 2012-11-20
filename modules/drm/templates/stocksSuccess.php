@@ -16,7 +16,7 @@
                         <li class="actif"><span>Vue stock</span></li>
                     </ul>
                 </nav>
-                <?php include_component('drm', 'stocks', array('etablissement' => $etablissement)) ?>
+                <?php include_component('drm', 'stocks', array('etablissement' => $etablissement, 'campagne' => $campagne)) ?>
             </fieldset>
 
             <?php //include_partial('drm/calendrier', array('calendrier' => $calendrier)); ?>
