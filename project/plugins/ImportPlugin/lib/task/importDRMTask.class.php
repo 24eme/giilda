@@ -9,8 +9,11 @@ class importDRMTask extends importAbstractTask
   const CSV_LIGNE_TYPE_CONTRAT = '1.CONTRAT';
   const CSV_LIGNE_TYPE_VENTE = '2.VENTE';
   const CSV_LIGNE_TYPE_DIVERS = '3.DIVERS';
-  const CSV_LIGNE_TYPE_TRANSFERT = '5.TRANSFERT';
-  const CSV_LIGNE_TYPE_MOUVEMENT = '6.MOUVEMENT';
+  const CSV_LIGNE_TYPE_CAVE_VITI = '4.CAVE-VITI';
+  const CSV_LIGNE_TYPE_CAVE_COOP = '5.CAVE-COOP';
+  const CSV_LIGNE_TYPE_TRANSFERT_SORTIE = '6.TRANSFERT-SORTIE';
+  const CSV_LIGNE_TYPE_TRANSFERT_ENTREE = '7.TRANSFERT-ENTREE';
+  const CSV_LIGNE_TYPE_MOUVEMENT = '8.MOUVEMENT';
 
   const CSV_CONTRAT_DOSSIER = 2;
   const CSV_CONTRAT_CAMPAGNE = 3;
@@ -136,6 +139,27 @@ class importDRMTask extends importAbstractTask
   const CSV_TRANSFERT_STOCK_DISPO_APRES = 17;
   const CSV_TRANSFERT_CODE_UTILISATEUR_SUPPRESSION = 18;
   const CSV_TRANSFERT_DATE_SUPPRESSION = 19;
+
+  const CSV_CAVE_DOSSIER = 2;
+  const CSV_CAVE_CAMPAGNE = 3;
+  const CSV_CAVE_NUMERO_MOUVEMENT = 4;
+  const CSV_CAVE_ANNULATION = 5;
+  const CSV_CAVE_CODE_COOPERATEUR = 6;
+  const CSV_CAVE_CODE_COOPERATEUR_CHAI = 7;
+  const CSV_CAVE_CODE_VITICULTEUR = 8;
+  const CSV_CAVE_CODE_VITICULTEUR_CHAI = 9;
+  const CSV_CAVE_CODE_APPELLATION = 10;
+  const CSV_CAVE_DATE_MOUVEMENT = 11;
+  const CSV_CAVE_DATE_HEURE_SAISIE = 12;
+  const CSV_CAVE_VOLUME_ENTREE = 13;
+  const CSV_CAVE_VOLUME_SORTIE = 14;
+  const CSV_CAVE_CODE_UTILISATEUR = 15;
+  const CSV_CAVE_STOCK_DISPO_AVANT = 16;
+  const CSV_CAVE_STOCK_DISPO_APRES = 17;
+  const CSV_CAVE_CODE_UTILISATEUR_SUPPRESSION = 18;
+  const CSV_CAVE_DATE_SUPPRESSION = 19;  
+  const CSV_CAVE_MOIS_MOUVEMENT = 20;
+  const CSV_CAVE_NUMERO_DOCUMENT = 21;
 
   const CSV_MOUVEMENT_DOSSIER = 2;
   const CSV_MOUVEMENT_CAMPAGNE = 3;
@@ -266,7 +290,12 @@ EOF;
       case self::CSV_LIGNE_TYPE_DIVERS:
         $this->importLigneDivers($drm, $line);
         break;
-      case self::CSV_LIGNE_TYPE_TRANSFERT:
+      case self::CSV_LIGNE_TYPE_CAVE_VITI:
+      case self::CSV_LIGNE_TYPE_CAVE_COOP:
+        $this->importLigneCave($drm, $line);
+        break;
+      case self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE:
+      case self::CSV_LIGNE_TYPE_TRANSFERT_ENTREE:
         $this->importLigneTransfert($drm, $line);
         break;
       case self::CSV_LIGNE_TYPE_MOUVEMENT:
@@ -338,14 +367,35 @@ EOF;
     throw new sfException(sprintf("Ce mouvement n'est pas prit en compte '%s;%s'", $line[self::CSV_DIVERS_TEXTE_MOUVEMENT], $line[self::CSV_DIVERS_CODE_MOUVEMENT]));
   }
 
+
+  public function importLigneCave($drm, $line) {
+    $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
+
+    /*$etablissement = EtablissementClient::getInstance()->find();
+
+    if(!$contrat) {
+      throw new sfException(sprintf("Le contrat '%s' n'existe pas", $numero_contrat));
+    }
+
+    $produit->sorties->cooperative_details->add(null, array("identifiant" => $numero_contrat,
+                                                            "volume" => $this->convertToFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]),
+                                                            "date_enlevement" => $line[self::CSV_CONTRAT_DATE_ENLEVEMENT]));*/
+  }
+
   public function importLigneTransfert($drm, $line) {
-      
+    $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
+
+    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE) {
+      $produit->sorties->cession = $this->convertToFloat($line[self::CSV_TRANSFERT_VOLUME_HL]);
+    }
+
+    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_TRANSFERT_ENTREE) {
+      $produit->entrees->transfert = $this->convertToFloat($line[self::CSV_TRANSFERT_VOLUME_HL]);
+    }
   }
 
   public function importLigneMouvement($drm, $line) {
-    
   }
-
 
   protected function verifyLine($line) {
     if (!preg_match('/[0-9]{4}-[0-9]{6}-[0-9]{2}-[0-9]{4}/', $line[self::CSV_LIGNE_ID])) {
@@ -361,6 +411,10 @@ EOF;
         break;
       case self::CSV_LIGNE_TYPE_DIVERS:
         $this->verifyLineDivers($line);
+        break;
+      case self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE:
+      case self::CSV_LIGNE_TYPE_TRANSFERT_ENTREE:
+        $this->verifyLineTransfert($line);
         break;
       case self::CSV_LIGNE_TYPE_VENTE:
         $this->verifyLineVente($line);
@@ -387,7 +441,7 @@ EOF;
   }
 
   protected function verifyLineTransfert($line) {
-
+    $this->verifyFloat($line[self::CSV_TRANSFERT_VOLUME_HL]);
   }
 
   protected function verifyLineMouvement($line) {
