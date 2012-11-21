@@ -11,7 +11,6 @@
  */
 class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
 
-
     public function getTypeAlerte() {
 
         return AlerteClient::VRAC_NON_SOLDES;
@@ -46,6 +45,8 @@ class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
         parent::updates();
     }
 
-
+    public function setDatasRelance(Alerte $alerte) {
+        $this->setDatasRelanceForVrac($alerte);
+    }
 
 }

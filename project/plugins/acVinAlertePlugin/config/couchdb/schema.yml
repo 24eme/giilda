@@ -12,6 +12,7 @@ Alerte:
       id_document: { }
       declarant_nom: { }
       identifiant: { }
+      datas_relances: { }
       statuts:
         type: array_collection
         definition:

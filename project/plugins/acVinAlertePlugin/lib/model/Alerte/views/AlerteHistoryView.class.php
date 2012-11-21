@@ -44,6 +44,14 @@ class AlerteHistoryView extends acCouchdbView {
                         ->endkey(array($type_alerte, $statut_alerte, array()))
                         ->getView($this->design, $this->view)->rows;
     }
+    
+        public static function getLibelleForIdDocument($id_document) {
+        if(substr($id_document, 0 ,5) == 'VRAC-')
+                {
+            return 'Contrat du '.VracClient::getInstance()->getLibelleContratNum(str_replace('VRAC-', '', $id_document));
+                }
+                return '';
+    }
 
 }
 

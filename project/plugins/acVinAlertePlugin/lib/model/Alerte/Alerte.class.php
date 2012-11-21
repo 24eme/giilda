@@ -99,5 +99,13 @@ class Alerte extends BaseAlerte {
 
         return $this->getStatut()->statut == AlerteClient::STATUT_FERME;
     }
+    
+    public function getLibelleForIdDocument() {
+        if(substr($this->id_document, 0 ,5) == 'VRAC-')
+                {
+            return 'Contrat N° '.VracClient::getInstance()->getLibelleContratNum(str_replace('VRAC-', '', $alerte->id_document));
+                }
+                return '';
+    }
 
 }

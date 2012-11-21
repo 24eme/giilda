@@ -45,5 +45,9 @@ class AlerteGenerationVracsAttenteOriginal extends AlerteGeneration {
         }
         parent::updates();
     }
+    
+        public function setDatasRelance(Alerte $alerte) {
+            $this->setDatasRelanceForVrac($alerte);
+    }
 
 }

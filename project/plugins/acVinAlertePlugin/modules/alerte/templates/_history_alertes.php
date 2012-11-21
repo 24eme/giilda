@@ -38,7 +38,7 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
                 <td><?php echo link_to(AlerteClient::$alertes_libelles[$alerte->key[AlerteHistoryView::KEY_TYPE_ALERTE]],'alerte_modification',
                                        array('type_alerte' => $alerte->key[AlerteHistoryView::KEY_TYPE_ALERTE],
                                              'id_document' => $alerte->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE])); ?></td>
-                <td><?php echo $alerte->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE]; ?></td>
+                <td><?php echo AlerteHistoryView::getLibelleForIdDocument($alerte->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE]); ?></td>
             </tr>
             <?php
             endforeach;

@@ -14,6 +14,7 @@
  * @property string $id_document
  * @property string $declarant_nom
  * @property string $identifiant
+ * @property string $datas_relances
  * @property acCouchdbJson $statuts
 
  * @method string get_id()
@@ -36,6 +37,8 @@
  * @method string setDeclarantNom()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
+ * @method string getDatasRelances()
+ * @method string setDatasRelances()
  * @method acCouchdbJson getStatuts()
  * @method acCouchdbJson setStatuts()
  

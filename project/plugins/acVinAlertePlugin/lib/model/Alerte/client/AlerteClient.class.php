@@ -2,7 +2,7 @@
 
 class AlerteClient extends acCouchdbClient {
 
-    public static $date = '2013-02-21';
+    public static $date = '2013-03-21';
     
     const VRAC_NON_SOLDES = "VRACNONSOLDE";
     const VRAC_PRIX_DEFINITIFS = "VRACPRIXDEFINITIFS";
