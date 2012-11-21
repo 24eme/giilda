@@ -14,14 +14,13 @@ class DRMCalendrier {
     const VIEW_STATUT = 4;
     const VIEW_STATUT_DOUANE_ENVOI = 5;
     const VIEW_STATUT_DOUANE_ACCUSE = 6;
-
+    const VIEW_NUMERO_ARCHIVAGE = 8;
     const STATUT_NOUVELLE = 'NOUVELLE';
     const STATUT_EN_COURS = 'EN_COURS';
     const STATUT_VALIDEE = 'VALIDEE';
     const STATUT_CLOTURE = 'EN_COURS';
 
-    public function __construct($identifiant, $campagne)
-    {
+    public function __construct($identifiant, $campagne) {
         $this->identifiant = $identifiant;
         $this->campagne = $campagne;
         $this->periodes = DRMClient::getInstance()->getPeriodes($this->campagne);
@@ -34,9 +33,9 @@ class DRMCalendrier {
 
         $drms = DRMClient::getInstance()->viewByIdentifiantAndCampagne($this->identifiant, $this->campagne);
 
-        foreach($drms as $drm) {
+        foreach ($drms as $drm) {
             if (array_key_exists($drm[self::VIEW_PERIODE], $this->drms)) {
-                
+
                 continue;
             }
 
@@ -84,11 +83,11 @@ class DRMCalendrier {
     public function getPeriodeLibelle($periode) {
         $date = new sfDateFormat('fr_FR');
 
-        return $date->format($periode.'-01', 'MMMM');
+        return $date->format($periode . '-01', 'MMMM');
     }
 
     public function getNumero($periode) {
-        
+
         return $this->getPeriodeVersion($periode);
     }
 
@@ -101,26 +100,35 @@ class DRMCalendrier {
         $drm = $this->drms[$periode];
 
         if ($drm[self::VIEW_STATUT]) {
-            
+
             return self::STATUT_VALIDEE;
         }
 
-        return self::STATUT_EN_COURS;  
+        return self::STATUT_EN_COURS;
+    }
+
+    public function getNumeroArchivage($periode) {
+        if (!$this->hasDRM($periode)) {
+            return;
+        }
+        $drm = $this->drms[$periode];
+        return $drm[self::VIEW_NUMERO_ARCHIVAGE];
     }
 
     public function getStatutLibelle($periode) {
-
+        
     }
 
     public function getDRM($periode) {
         $id = $this->getId($periode);
 
-        if(!$id) {
+        if (!$id) {
 
             return null;
         }
 
         return DRMClient::getInstance()->find($id);
     }
+
 }
 
