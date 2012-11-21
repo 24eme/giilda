@@ -13,6 +13,15 @@
             </div>
         </section>
 </fieldset>    
+<fieldset>
+        <section>
+            <div>
+                <?php echo $modificationStatutForm['commentaire_all_alertes']->renderError(); ?>
+                <?php echo $modificationStatutForm['commentaire_all_alertes']->renderLabel() ?>
+                <?php echo $modificationStatutForm['commentaire_all_alertes']->render() ?> 
+            </div>
+        </section>
+</fieldset>    
     <div>
         <input type="submit" value="Valider" class="btn_majeur btn_modifier">
     </div>

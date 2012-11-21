@@ -29,9 +29,10 @@ class alerteActions extends sfActions {
     
     public function executeStatutsModification(sfWebRequest $request){
         $new_statut = $request['statut_all_alertes'];
+        $new_commentaire = $request['commentaire_all_alertes'];
          foreach ($request->getParameterHolder()->getAll() as $key => $param) {
            if (!strncmp($key, 'ALERTE-', strlen('ALERTE-'))) {
-               AlerteClient::getInstance()->updateStatutByAlerteId($new_statut,$key);
+               AlerteClient::getInstance()->updateStatutByAlerteId($new_statut,$new_commentaire,$key);
               }
         }
         $this->redirect('alerte');

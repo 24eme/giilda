@@ -2,7 +2,7 @@
 
 class AlerteClient extends acCouchdbClient {
 
-    public static $date = '2012-12-21';
+    public static $date = '2013-02-21';
     
     const VRAC_NON_SOLDES = "VRACNONSOLDE";
     const VRAC_PRIX_DEFINITIFS = "VRACPRIXDEFINITIFS";
@@ -50,9 +50,9 @@ class AlerteClient extends acCouchdbClient {
         return self::$date;
     }
     
-    public function updateStatutByAlerteId($new_statut,$alerteId) {
+    public function updateStatutByAlerteId($new_statut,$new_commentaire,$alerteId) {
        $alerte = $this->find($alerteId);
-       $alerte->updateStatut($new_statut,'Changement de statut groupé',  self::getDate());
+       $alerte->updateStatut($new_statut, $new_commentaire, self::getDate());
        $alerte->save();
     }
 }
