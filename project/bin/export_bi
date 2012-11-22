@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. bin/import_functions.inc
+
 echo "#MOUVEMENT ; type document ; identifiant document ; campagne ; periode ; dococument id ;  produit_hash du mouvement ; type de mouvement ; numero vrac du mouvement ; detail identifiant ; libelle produit ;  libelle type ; volume mouvement ; vrac destinataire ; detail ;  date ; version document ; identifiant mouvement ; pays export (si export)";
 curl http://localhost:5984/vinsdeloire/_design/mouvement/_view/consultation | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g'
 #doc.volume_enleve, doc.prix_unitaire, prix_definitif, doc.prix_variable, libelle_produit, "NON", original, doc.type_contrat, doc.date_signature, doc.date_stats, doc.valide.date_saisie, doc.millesime, doc.domaine, doc.part_variable, doc.cvo_repartition, doc.cvo_nature]);
@@ -7,3 +9,10 @@ echo "#CONTRAT ; SOLDE ; identifiant document ; identifiant acheteur; nom achete
 curl http://localhost:5984/vinsdeloire/_design/vrac/_view/history | sed 's/.*"value":\[/CONTRAT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^CONTRAT;"SOL' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g'
 echo "#ETABLISSEMENT ; doc.interpro  doc.famille ; doc._id ;  doc.nom ;   doc.identifiant ;  doc.raison_sociale ;   doc.siret ;   doc.cvi ;   doc.siege.commune ; doc.siege.code_postal ; region viticole "
 curl http://localhost:5984/vinsdeloire/_design/etablissement/_view/all | sed 's/.*"key":\["INTERPRO-inter-loire",/ETABLISSEMENT;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^ETABLISSEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g'
+echo "#DRM; campagne; identifiant declarant; hash produit; periode; version; volume; stock debut mois; volume revendique; entrees; sorties; stock fin de mois; nom declarant;libelle produit; "
+curl http://localhost:5984/vinsdeloire/_design/drm/_view/stocks | sed 's/.*"key":\[/DRM;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^DRM;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | ajout-champ-commun '%s%s%8s' '$3,$5,$6' | sort -r | uniq -w 17 | suppression-champ-commun
+echo "#REVENDICATION; campagne; declarant identifiant; hash produit; odg; volume; nom declarant; libelle produit;"
+curl http://localhost:5984/vinsdeloire/_design/revendication/_view/stocks | sed 's/.*"key":\[/REVENDICATION;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^REVENDICATION;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed -r 's/(REVENDICATION;")([0-9]{4})([0-9]{4})/\1\2-\3/'
+echo "#DS; campagne; declarant identifiant; hash produit; periode; volume; nom declarant; libelle produit;"
+curl http://localhost:5984/vinsdeloire/_design/ds/_view/stocks | sed 's/.*"key":\[/DS;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DS;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/'
+
