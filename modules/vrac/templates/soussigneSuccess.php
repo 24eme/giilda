@@ -125,7 +125,7 @@ else
                     </div>
                 </div>
 				
-                <div class="btn_etape">
+                <div class="btn_etape" id="ligne_btn">
                     <?php if($nouveau): ?>
 					<a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
 					<?php endif; ?>
