@@ -50,10 +50,18 @@
         )) ?>
 
         <?php include_component('global', 'navItem', array(
-            'libelle' => 'Stocks',
+            'libelle' => 'DS',
             'prefix' => 'ds',
             'route' => 'ds',
             'route_etablissement' => 'ds_etablissement',
+            'etablissement' => $etablissement,
+        )) ?>
+
+        <?php include_component('global', 'navItem', array(
+            'libelle' => 'Stocks',
+            'prefix' => 'stocks',
+            'route' => 'stocks',
+            'route_etablissement' => 'stocks_etablissement',
             'etablissement' => $etablissement,
         )) ?>
         
