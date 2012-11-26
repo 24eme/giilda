@@ -2,9 +2,16 @@
 class generationActions extends sfActions {
     
   public function executeView(sfWebRequest $request) {
-      $this->generation = GenerationClient::getInstance()->find(GenerationClient::getInstance()->getId($request['type_document'], $request['date_emission']));
+      $this->type = $request['type_document'];
+      $this->identifiant = isset($request['identifiant'])? $request['identifiant'] : null;
+      $this->nom = ($this->identifiant)? EtablissementClient::getInstance()->retrieveById($this->identifiant)->nom : null;
+      $this->generation = GenerationClient::getInstance()->find(GenerationClient::getInstance()->getId($this->type, $request['date_emission']));
 
   }
-
+  
+public function executeList(sfWebRequest $request) {
+      $this->type = $request['type_document'];
+      $this->historyGeneration = GenerationClient::getInstance()->findHistoryWithType($this->type);
+  }
     
 }
