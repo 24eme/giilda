@@ -43,7 +43,7 @@
 	$.fn.includeJS(jsPath, 'plugins/jquery.plugins.min.js');
 		
 	// Fonctions personnalisées)
-//	$.fn.includeJS(jsPath, 'global.js');
+	$.fn.includeJS(jsPath, 'global.js');
 	$.fn.includeJS(jsPath, 'popups.js');
 	$.fn.includeJS(jsPath, 'autocomplete.js');
     $.fn.includeJS(jsPath, 'ajaxHelper.js');
