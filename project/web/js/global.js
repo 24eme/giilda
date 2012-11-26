@@ -93,6 +93,45 @@ var fbConfig =
 	};
 	
 	
+	/**
+	 * Sélection de lignes de tableau
+	 * $.initTableSelection();
+	 ******************************************/
+	$.initTableSelection = function()
+	{
+		var tables = $('.table_selection');
+		
+		tables.each(function()
+		{
+			var table = $(this);
+			var selecteurGlobal = table.find('thead .selecteur input');
+			var selecteursLignes = table.find('tbody .selecteur input');
+			
+			// Selection / Déselection globale
+			selecteurGlobal.click(function()
+			{
+				if(selecteurGlobal.is(':checked'))
+				{
+					selecteursLignes.attr('checked', 'checked');
+				}
+				else
+				{
+					selecteursLignes.removeAttr('checked');
+				}
+			});
+			
+			// Déselection unique
+			selecteursLignes.click(function()
+			{
+				var selecteur = $(this);
+				
+				if(!selecteur.is(':checked'))
+				{
+					selecteurGlobal.removeAttr('checked');
+				}
+			});
+		});
+	};
 	
 	
 	
@@ -105,6 +144,8 @@ var fbConfig =
 		
 		//$.metadata.setType('html5');
 		$.inputPlaceholder();
+		
+		$.initTableSelection();
 		
 	});
 	

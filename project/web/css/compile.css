@@ -122,21 +122,36 @@ input[type="checkbox"] {
   vertical-align:bottom;
   *vertical-align:baseline;
 }
-input[type=text] {
+input[type=text], textarea {
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
   border:0;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
   padding:5px;
+}
+textarea {
+  height:120px;
+  padding:5px 10px;
+}
+select {
+  border:1px solid #d2d2d2;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  margin:0;
+  padding:5px 0;
 }
 .ie6 input { vertical-align:text-bottom; }
 button {
@@ -722,8 +737,12 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   vertical-align:middle;
 }
 .table_recap tr td+td { border-left:1px solid #e3e2e2; }
+.table_recap tr td.gauche { text-align:left; }
+.table_recap tr td.droite { text-align:right; }
 .table_recap tr:nth-child(2n+2) { background-color:#f7f7f7; }
 .table_recap tr.vide { display:none; }
+.table_selection .selecteur { padding:5px 10px; }
+.table_selection .selecteur input { margin:0; }
 .recap_info li {
   font-size:14px;
   margin:8px 0;
@@ -1069,13 +1088,11 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   -moz-border-radius:0 0 5px 0;
   border-radius:0 0 5px 0;
 }
-#principal .ligne_form {
-  padding:10px 0 0 10px;
-  min-height:40px;
-}
+#principal .ligne_form { padding:10px 0 10px 10px; }
 #principal .ligne_form label {
   display:inline-block;
   font-weight:bold;
+  vertical-align:top;
   width:150px;
 }
 #principal .ligne_form span { vertical-align:middle; }
@@ -1666,24 +1683,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   border-radius:0;
   border:0;
 }
-#vrac_condition #commentaires .bloc_form textarea {
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  border:0;
-  height:120px;
-  padding:10px;
-  width:100%;
-}
+#vrac_condition #commentaires .bloc_form textarea { width:100%; }
 .sv12 #num_sv12 {
   background:#ecebeb;
   font-size:14px;
@@ -1807,24 +1807,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   border-color:#6d6b6b;
 }
 .sv12 #contenu_etape #recherche_sv12 .volumes_vides { margin:10px 0 0; }
-.sv12 #contenu_etape #commentaire_sv12 textarea {
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  border:0;
-  height:120px;
-  padding:10px;
-  width:100%;
-}
+.sv12 #contenu_etape #commentaire_sv12 textarea { width:100%; }
 .creer_info {
   zoom:1;
   min-height:1px;
@@ -1944,24 +1927,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   border-radius:0;
   border:0;
 }
-.ds #commentaires .bloc_form textarea {
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  border:0;
-  height:120px;
-  padding:10px;
-  width:100%;
-}
+.ds #commentaires .bloc_form textarea { width:100%; }
 .ds #ds_recapitulatif_commentaires {
   font-size:14px;
   margin:15px 0;
@@ -2060,6 +2026,14 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 }
 .revendication #volumes_revendiques .form_btn:after { clear:both; }
 .revendication #volumes_revendiques .form_btn .btn_annuler { float:right; }
+.alerte #consultation_alerte, .alerte #modification_alerte { margin:0 0 20px; }
+.alerte #consultation_alerte .bloc_form label, .alerte #modification_alerte .bloc_form label { width:170px; }
+.alerte #consultation_alerte .bloc_form select, .alerte #modification_alerte .bloc_form select { width:200px; }
+.alerte #consultation_alerte .bloc_form textarea, .alerte #modification_alerte .bloc_form textarea { width:460px !important; }
+.alerte #consultation_alerte .btn_form, .alerte #modification_alerte .btn_form {
+  margin:15px 0 0;
+  text-align:right;
+}
 #rail_etapes {
   zoom:1;
   min-height:1px;
@@ -3923,6 +3897,8 @@ bouton.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm 
   vertical-align:middle;
 }
 .drm #principal fieldset#historique_drm .section_label_maj table tr td+td { border-left:1px solid #e3e2e2; }
+.drm #principal fieldset#historique_drm .section_label_maj table tr td.gauche { text-align:left; }
+.drm #principal fieldset#historique_drm .section_label_maj table tr td.droite { text-align:right; }
 .drm #principal fieldset#historique_drm .section_label_maj table tr:nth-child(2n+2) { background-color:#f7f7f7; }
 .drm #principal fieldset#historique_drm .section_label_maj table tr.vide { display:none; }
 .drm #principal fieldset#mouvement_drm td.positif { background-color:#f0fae1; }

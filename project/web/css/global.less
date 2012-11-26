@@ -89,12 +89,29 @@ textarea, input, select { .helvetica; color: @couleur-a3; font-size: 1em; }
 input[type=search] { -webkit-appearance: none; }
 input[type="radio"] { height: 14px; vertical-align: text-bottom; width: 14px; }
 input[type="checkbox"] { vertical-align: bottom; *vertical-align: baseline; }
-input[type=text]{
-	border : 0;
+input[type=text],
+textarea
+{
 	.border-radius(3px);
 	.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
+	border : 0;
 	padding: 5px;
 }
+
+textarea
+{
+	height: 120px;
+	padding: 5px 10px;
+}
+
+select
+{
+	.border(@couleur-a9);
+	.border-radius(3px);
+	margin: 0;
+	padding: 5px 0;
+}
+
 .ie6 input { vertical-align: text-bottom; }
 
 button { background: 0; border: 0; .arial; margin: 0; outline: 0; overflow: visible; padding: 0; }
@@ -452,6 +469,9 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 			vertical-align: middle;
 
 			&+td { border-left: 1px solid @couleur-a7; }
+		
+			&.gauche { text-align: left; }
+			&.droite { text-align: right; }
 		}
 
 		&:nth-child(2n+2){
@@ -462,6 +482,16 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	}
 }
 
+
+.table_selection
+{
+	.selecteur
+	{
+		padding: 5px 10px;
+		
+		input { margin: 0; }
+	}
+}
 
 
 
@@ -845,13 +875,13 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
         
        .ligne_form
        {
-            padding: 10px 0 0 10px;
-            min-height: 40px;
-			
+            padding: 10px 0 10px 10px;
+            
             label
             {
                 display: inline-block;
                 font-weight:bold;
+				vertical-align: top;
                 width: 150px;
             }
 
