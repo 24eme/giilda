@@ -129,15 +129,13 @@ class DRMHistorique
 	
 	public function hasDRMInProcess()
 	{
-		$result = false;
 		$drms = $this->getDRMs();
 		foreach ($drms as $drm) {
 			if (!$drm[self::VIEW_INDEX_STATUS]) {
-				$result = true;
-				break;
+				return true;
 			}
 		}
-		return $result;
+		return false;
 	}
 	
 	public function getIdentifiant() {

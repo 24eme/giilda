@@ -1,6 +1,6 @@
 <ol id="rail_etapes">
     <li class="actif">
-        <a href="/vinsdeloire_dev.php/vrac/nouveau">
+        <a href="#">
             <strong><span style="cursor: default;">1 </span>
                 Saisie 
             </strong>    </a>    
