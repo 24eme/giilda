@@ -6,6 +6,8 @@
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <?php include_component('stocks', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
+
+            <?php include_component('stocks', 'recap', array('campagne' => '2012-2013', 'etablissement' => $etablissement)); ?> 
         </section>
         <!-- fin #contenu_etape -->
     </section>
