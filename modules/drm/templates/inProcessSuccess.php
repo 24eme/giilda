@@ -8,11 +8,10 @@
         <section id="contenu_etape">
             <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
             
-            <fieldset id="historique_drm">
-                <legend>Cette DRM est en cours de saisie.</legend>
-            </fieldset>            
-            Cette DRM est déjà en cours de saisie.
+            <h2>Une DRM est déjà en cours de saisie.</h2>
+            <p >Vous devez en finir la saisie avant d'en créer une nouvelle.</p>
             <a href="<?php echo url_for('drm_etablissement', $etablissement) ?>" class="btn_majeur btn_jaune">Revenir au calendrier</a>
+       
           
         </section>
         <!-- fin #contenu_etape -->
