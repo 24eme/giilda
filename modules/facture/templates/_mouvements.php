@@ -40,7 +40,10 @@ use_helper('Prix');
 <form id="generation_form" action="<?php echo url_for('facture_generer',$etablissement); ?>" method="post">
 <?php include_partial('facture/datesGeneration', array('form' => $form)) ?>
 <br /> 
-<a href="#" id="generation_facture" class="btn_majeur btn_vert">Générer</a>
+<div class="generation_facture_valid">
+       <span>Cliquer sur "Générer" pour lancer la génération de la facture</span>
+    <a href="#" id="generation_facture" class="btn_majeur btn_refraichir">Générer</a>
+</div>
 </form>
 <?php else : ?>
 <p>Pas de mouvements en attente de facturation</p>

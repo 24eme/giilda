@@ -15,6 +15,7 @@ use_helper('Float');
             <thead>
                 <tr>
                     <th>Date</th>
+                    <th>Statut</th>                    
                     <th>Type</th>
                     <th>Génération</th>
                     <th>Nb facture/avoir</th>
@@ -27,9 +28,10 @@ use_helper('Float');
                     $documents = $generation->value[GenerationClient::HISTORY_VALUES_DOCUMENTS];
                     ?>
                     <tr>
-                        <td><?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->value[GenerationClient::HISTORY_VALUES_DATE]); ?></td>
+                        <td><?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION]); ?></td>
+                        <td><?php echo $generation->value[GenerationClient::HISTORY_VALUES_STATUT]; ?></td>
                         <td><?php echo 'F'; ?></td>
-                        <td><?php echo link_to($generation->value[GenerationClient::HISTORY_VALUES_DATE], 'generation_view', array('type_document' => GenerationClient::TYPE_DOCUMENT_FACTURES, 'date_emission' => $generation->value[GenerationClient::HISTORY_VALUES_DATE])); ?></td>
+                        <td><?php echo link_to($generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'generation_view', array('type_document' => GenerationClient::TYPE_DOCUMENT_FACTURES, 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])); ?></td>
                         <td><?php
                             echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC];
                     ?></td>

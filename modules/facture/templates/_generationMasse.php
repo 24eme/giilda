@@ -36,7 +36,8 @@
 </div>
 </form>
 <div class="generation_facture_valid">
-    <a href="#" id="facture_generation_btn" class="btn_majeur btn_vert">Générer</a>
+       <span>Cliquer sur "Générer" pour lancer la génération des factures</span>
+    <a href="#" id="facture_generation_btn" class="btn_majeur btn_refraichir">Générer</a>
 </div>
 
 <script type="text/javascript">
