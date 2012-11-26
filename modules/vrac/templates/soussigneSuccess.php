@@ -88,12 +88,18 @@ else
 						<a id="acheteur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
                     </div>
                 </div>
-				
+			
+                <div id="interne">            
+                        <?php echo $form['interne']->render(); ?>
+                        <?php echo $form['interne']->renderLabel(); ?>
+                        <?php echo $form['interne']->renderError(); ?>
+                </div>
+                
                 <!--  Affichage des mandataires disponibles  -->
 
                 <div id="has_mandataire">            
-                        <?php echo $form['mandataire_exist']->render() ?>
-                        <?php echo $form['mandataire_exist']->renderLabel() ?>
+                        <?php echo $form['mandataire_exist']->render(); ?>
+                        <?php echo $form['mandataire_exist']->renderLabel(); ?>
                         <?php echo $form['mandataire_exist']->renderError(); ?>
                 </div>
                 <div id="mandataire">     
