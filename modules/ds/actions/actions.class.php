@@ -2,7 +2,9 @@
 class dsActions extends sfActions {
     
   public function executeIndex(sfWebRequest $request) {
-      $this->form = new DSEtablissementChoiceForm('INTERPRO-inter-loire');
+      
+    $this->form = new DSEtablissementChoiceForm('INTERPRO-inter-loire');
+    $this->generations = GenerationClient::getInstance()->findHistoryWithType(GenerationClient::TYPE_DOCUMENT_DS,10);
       $this->generationForm = new DSGenerationForm();
        if ($request->isMethod(sfWebRequest::POST)) {
 	 $this->form->bind($request->getParameter($this->form->getName()));
