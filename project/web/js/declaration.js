@@ -40,7 +40,7 @@
 				$.fancybox({type : 'ajax',
 				href: input.attr('data-href'),
 				fitToView : false,
-				autoCenter: true,
+				autoCenter: false,
 				afterShow : function()
 				{
 					input.initDetailsPopup(colonne);
@@ -66,6 +66,7 @@
                     var lien = $(this);
                     lien.fancybox({type : 'ajax',
                        autoSize : false,
+                       autoCenter: false,
                        height : 'auto',
                        width : 'auto',
                        afterShow : function()
