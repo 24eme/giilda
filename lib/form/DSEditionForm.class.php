@@ -18,10 +18,6 @@ class DSEditionForm extends acCouchdbForm {
     
     public function configure()
     {
-        if(!count($this->ds->declarations))
-        {
-            $this->ds->declarations->add();
-        }
         foreach ($this->ds->declarations as $key => $declaration) {
             $this->setWidget($key, new sfWidgetFormInput());    
             $this->widgetSchema->setLabel($key, 'Volume Stock');

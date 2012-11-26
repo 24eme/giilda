@@ -58,7 +58,7 @@ class dsActions extends sfActions {
 	$generation->type_document = 'DS';
         $generation->add('documents')->add(0, $this->ds->_id);
 	$generation->save();
-        return $this->redirect('generation_view', array('type_document' => $generation->type_document,'date_emission' => $generation->date_emission));
+        return $this->redirect('generation_view', array('type_document' => $generation->type_document,'date_emission' => $generation->date_emission,'identifiant' => $this->etablissement->identifiant));
       
     }
     

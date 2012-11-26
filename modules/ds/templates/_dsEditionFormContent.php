@@ -1,5 +1,6 @@
 <?php
 use_helper('Float');
+
 ?>
 <form id="" action="<?php echo url_for('ds_edition_operateur', $ds); ?>" method="post">
 <?php
@@ -18,10 +19,11 @@ echo $form->renderGlobalErrors();
         <tbody class="ds_edition_tableBody">
             <?php
             foreach ($declarations as $key => $declaration){
-                    $d = $declarations->get($key);
-                    $prod_vol = $d->produit_libelle;
-                    if($d->stock_initial) $prod_vol .= ' ('.getArialFloat($d->stock_initial).' hl)';
-                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $d, 'prod_vol' => $prod_vol));
+                
+                    $prod_vol = $declaration->produit_libelle;
+                    $code_douane = $declaration->code_douane;
+                    if($declaration->stock_initial) $prod_vol .= ' ('.getArialFloat($declaration->stock_initial).' hl)';
+                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $declaration, 'prod_vol' => $prod_vol,'code_douane' => $code_douane));
                
             }
     ?>

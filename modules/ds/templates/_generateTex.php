@@ -24,7 +24,7 @@
 \setlength{\oddsidemargin}{-2cm}
 \setlength{\evensidemargin}{-2cm}
 \setlength{\textwidth}{19cm}
-\setlength{\headheight}{0cm}
+\setlength{\headheight}{1cm}
 \setlength{\topmargin}{-3.5cm}
 \addtolength{\textheight}{29.9cm} 
 
@@ -144,7 +144,7 @@ page \thepage / 1
   			\hline
                         <?php foreach ($ds->declarations as $declaration) :
                         ?>
-                        0000 &
+                        <?php echo $declaration->code_douane; ?> &
                         <?php echo $declaration->produit_libelle; ?> &~\\ \hline
                         <?php
                         endforeach;

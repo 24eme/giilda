@@ -16,13 +16,14 @@ use_helper('Float');
 			<?php 
 			include_partial('etablissementInformations', array('etablissement' => $etablissement));
 			?>
-			
-			<?php include_partial('generationFormulairesOperateur', array('etablissement' => $etablissement, 'generationOperateurForm' => $generationOperateurForm)); ?>
-			
+                        
 			<?php if(count($dsHistorique)) : ?>
 			<h2>Historique des déclarations de stocks</h2>
 			<?php  include_partial('dsHistorique', array('dsHistorique' => $dsHistorique)) ?>
 			<?php endif; ?>
+			
+			<?php include_partial('generationFormulairesOperateur', array('etablissement' => $etablissement, 'generationOperateurForm' => $generationOperateurForm)); ?>
+			
 		</section>
     </section>
     <!-- fin #principal -->

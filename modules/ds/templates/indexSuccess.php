@@ -7,7 +7,7 @@
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <?php include_component('ds', 'chooseEtablissement'); ?>
-            <?php include_partial('generation', array('generationForm' => $generationForm)); ?>
+            <?php include_partial('generation', array('generationForm' => $generationForm, 'type' => 'ds')); ?>
         </section>
         <!-- fin #contenu_etape -->
     </section>

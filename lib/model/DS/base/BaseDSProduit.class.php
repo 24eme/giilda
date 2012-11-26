@@ -4,11 +4,14 @@
  * 
  * Base model for DSProduit
 
+ * @property string $code_douane
  * @property string $produit_libelle
  * @property string $produit_hash
  * @property float $stock_initial
  * @property float $stock_revendique
 
+ * @method string getCodeDouane()
+ * @method string setCodeDouane()
  * @method string getProduitLibelle()
  * @method string setProduitLibelle()
  * @method string getProduitHash()
