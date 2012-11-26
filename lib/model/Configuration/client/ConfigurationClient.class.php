@@ -85,12 +85,22 @@ class ConfigurationClient extends acCouchdbClient {
 
     public function buildDateFinCampagne($date) {
 
-      return sprintf(self::CAMPAGNE_DATE_FIN, date('Y', strtotime($this->buildDateDebutCampagne($date)))+1);
+        return sprintf(self::CAMPAGNE_DATE_FIN, date('Y', strtotime($this->buildDateDebutCampagne($date)))+1);
     }
 
     public function getCurrentCampagne() {
 
         return $this->buildCampagne(date('Y-m-d'));
+    }
+
+    public function getPreviousCampagne($campagne) {
+        if (!preg_match('/^([0-9]+)-([0-9]+)$/', $campagne, $annees)) {
+
+            throw new sfException('campagne bad format');
+        }
+
+        return sprintf('%s-%s', $annees[1]-1, $annees[2]-1); 
+
     }
   
 }
