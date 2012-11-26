@@ -13,6 +13,8 @@ class GenerationRouting {
         $r = $event->getSubject();
         $r->prependRoute('generation_view', new sfRoute('/generation/:type_document/:date_emission', array('module' => 'generation',
 								  'action' => 'view')));
+        $r->prependRoute('generation_list', new sfRoute('/generation/list/:type_document', array('module' => 'generation',
+								  'action' => 'list')));
 
     }
 }
