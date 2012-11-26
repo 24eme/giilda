@@ -7,44 +7,53 @@ use_helper('Float');
         <p id="fil_ariane"><strong>Page d'accueil</strong></p>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-        	<h2>Volumes revendiqués</h2>
+            <h2>Volumes revendiqués</h2>
 
-			<form id="volumes_revendiques" action="<?php echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
-									'campagne' => $revendication->campagne,
-									'cvi' => $cvi,
-									'row' => $row,
-									'retour' => $retour));?>" method="POST">
-				<?php
-				echo $form->renderHiddenFields();
-				echo $form->renderGlobalErrors();
-				?>
-				<table class="table_recap">
-					<thead>
-						<tr>
-							<th>CVI</th>
-							<th>Nom</th>
-							<th>Produit</th>
-							<th >Volume (en hl)</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><?php echo $cvi; ?></td>
-							<td><?php echo $nom; ?></td>
-							<td><?php echo $form['produit_hash']->render(); ?></td>
-							<td class="volume"><?php echo $form['volume']->render(); ?></td>
-						</tr>
-					</tbody>
-				</table>
-				
-				<div class="form_btn">
-					<button type="submit" class="btn_majeur btn_modifier">Modifier</button>
-					<a href="<?php echo url_for('revendication_delete_row',array('odg' => $revendication->odg,
-																				'campagne' => $revendication->campagne,
-																				'cvi' => $cvi,
-																				'row' => $row)); ?>" class="btn_majeur btn_annuler">Supprimer</a>
-				</div>
-			</form>
+            <form id="volumes_revendiques" action="<?php
+echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
+    'campagne' => $revendication->campagne,
+    'cvi' => $cvi,
+    'row' => $row,
+    'retour' => $retour));
+?>" method="POST">
+                      <?php
+                      echo $form->renderHiddenFields();
+                      echo $form->renderGlobalErrors();
+                      ?>
+                <table class="table_recap">
+                    <thead>
+                        <tr>
+                            <th>CVI</th>
+                            <th>Nom</th>
+                            <th>Produit</th>
+                            <th >Volume (en hl)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?php echo $cvi; ?></td>
+                            <td><?php echo $nom; ?></td>
+                            <td><?php echo $form['produit_hash']->render(); ?></td>
+                            <td class="volume"><?php echo $form['volume']->render(); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="form_btn">
+                    <button type="submit" class="btn_majeur btn_valider">Modifier</button>
+                    
+                    <a href="<?php
+                      echo url_for('revendication_edition', array('odg' => $revendication->odg,
+                          'campagne' => $revendication->campagne));
+                      ?>" class="btn_majeur btn_modifier">Annuler</a>&nbsp;
+                    <a href="<?php
+                      echo url_for('revendication_delete_row', array('odg' => $revendication->odg,
+                          'campagne' => $revendication->campagne,
+                          'cvi' => $cvi,
+                          'row' => $row));
+                      ?>" class="btn_majeur btn_annuler">Supprimer</a>
+                </div>
+            </form>
         </section>
     </section>
 </div>
