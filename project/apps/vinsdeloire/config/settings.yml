@@ -3,14 +3,15 @@
 
 prod:
   .settings:
+    cache:                  true
     no_script_name:         true
     logging_enabled:        false
 
 dev:
   .settings:
     error_reporting:        <?php echo (E_ALL | E_STRICT)."\n" ?>
-    web_debug:              true
-    cache:                  false
+    web_debug:              false
+    cache:                  true
     no_script_name:         false
     etag:                   false
 

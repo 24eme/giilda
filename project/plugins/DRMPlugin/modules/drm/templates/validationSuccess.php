@@ -21,7 +21,7 @@
             <br />
             <div id="btn_etape_dr">
                 <a href="<?php echo url_for('drm_edition', $drm) ?>" class="btn_etape_prec" id="facture"><span>Précédent</span></a> 
-                <button type="submit" class="btn_etape_suiv" id="facture"><span>Suivant</span></button> 
+                <button type="submit" class="btn_etape_suiv" id="facture"><span>Valider</span></button> 
             </div>
         </form>
 

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat .git/config | sed 's/https:\/\/git.gitorious.org\//git@gitorious.org:/' > /tmp/gitconfig && mv /tmp/gitconfig .git/config

@@ -235,6 +235,7 @@
             this._initBoutons();
             this.groupes.init();
             this.colonnes.event_colonne_init(this);
+            this.calculer();
         }
 
         this.isActive = function() {
