@@ -12,6 +12,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     protected $mouvement_document = null;
     protected $version_document = null;
     protected $archivage_document = null;
+    protected $suivante = null;
 
     public function  __construct() {
         parent::__construct();   
@@ -105,18 +106,25 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $vracs;
     }
 
-    public function generateSuivante($periode, $keepStock = true) 
+    public function generateSuivante() 
     {
+
+        return $this->generateSuivanteByPeriode(DRMClient::getInstance()->getPeriodeSuivante($this->periode));
+    }
+
+    public function generateSuivanteByPeriode($periode) 
+    {
+        $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
+        $keepStock = ($periode > $this->periode);
+
         $drm_suivante = clone $this;
-    	$drm_suivante->init(array('keepStock' => $keepStock));
+        $drm_suivante->init(array('keepStock' => $keepStock));
         $drm_suivante->update();
         $drm_suivante->periode = $periode;
-	    $drm_suivante->precedente = $this->_id;
-        $drm_suivante->devalide();
-       
-    	foreach ($drm_suivante->getDetails() as $detail) {
-    	   $drm_suivante->get($detail->getHash())->remove('vrac');
-    	}
+
+        if ($is_just_the_next_periode) {
+            $drm_suivante->precedente = $this->_id;
+        }
 
         return $drm_suivante;
     }
@@ -128,9 +136,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->add('douane');
         $this->remove('declarant');
         $this->add('declarant');
+        $this->remove('editeurs'); 
+        $this->add('editeurs'); 
+
         $this->version = null;
         $this->raison_rectificative = null;
         $this->etape = null;
+        $this->precedente = null;
+        $this->remove('editeurs'); 
+        $this->add('editeurs');
+       
+        $this->devalide();
     }
 
     public function setDroits() {
@@ -173,15 +189,38 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function getSuivante() {
-       $periode = DRMClient::getInstance()->getPeriodeSuivante($this->periode);
+        if(is_null($this->suivante)) {
+            $periode = DRMClient::getInstance()->getPeriodeSuivante($this->periode);
+            $this->suivante = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
+        }
+      
+       return $this->suivante;
+    }
 
-       $next_drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
-       if (!$next_drm) {
+    public function isSuivanteCoherente() {
+        $drm_suivante = $this->getSuivante();
 
-           return null;
-       }
-       
-       return $next_drm;
+        if(!$drm_suivante) {
+
+            return true;
+        }
+
+        if ($this->declaration->total != $drm_suivante->declaration->total_debut_mois) {
+
+           return false;
+        }
+
+        if (count($this->getDetails()) != count($drm_suivante->getMother()->getDetails())) {
+
+           return false;
+        }
+
+        if ($this->droits->douane->getCumul() != $drm_suivante->droits->douane->getCumul()) {
+
+           return false;
+        }
+
+        return false;        
     }
 
     public function devalide() {
@@ -198,6 +237,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function validate($options = null) {
+        $this->update();
         $this->storeIdentifiant($options);
         $this->storeDates();
 
@@ -210,6 +250,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         if(!isset($options['no_vracs']) || !$options['no_vracs']) {
             $this->updateVracs();
+        }
+
+        if($this->getSuivante() && $this->isSuivanteCoherente()) {
+            $this->getSuivante()->precedente = $this->get('_id');
+            $this->getSuivante()->save();
         }
     }
 
@@ -299,7 +344,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     
     public function isDebutCampagne() {
     	
-        return DRMPaiement::isDebutCampagne((int)$this->getMois());
+        return $this->getMois() == 8;
     }
 
     public function getCurrentEtapeRouting() {
@@ -353,22 +398,22 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     		
         return true;
     }
-    /*
-     * Pour les users administrateur
-     */
-    public function canSetStockDebutMois() {
-    	if ($this->getPrecedente()->isNew()) {
-    		
-            return true;
-    	}
 
-        if ($this->isDebutCampagne()) {
-    		
+    public function canSetStockDebutMois() {
+        if (!$this->getPrecedente()) {
+            
             return true;
-    	}
-    		
+        } elseif ($this->getPrecedente() && $this->getPrecedente()->isNew()) {
+
+            return true;
+        } elseif ($this->isDebutCampagne()) {
+
+            return true;
+        }
+            
         return false;
     }
+
     public function hasProduits() {
     	return (count($this->declaration->getProduits()) > 0)? true : false;
     }
@@ -516,7 +561,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function needNextVersion() {
 
-       return $this->version_document->needNextVersion();      
+       return $this->version_document->needNextVersion() || !$this->isSuivanteCoherente();
     }
 
     public function getMaster() {
@@ -594,6 +639,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function generateNextVersion() {
+        if (!$this->hasVersion()) {
+
+            return $this->version_document->generateModificativeSuivante();
+        }
 
         return $this->version_document->generateNextVersion();
     }
@@ -604,16 +653,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function listenerGenerateNextVersion($document) {
         $this->replicate($document);
-        $document->update();
-        $document->valide();
+        $document->precedente = $this->get('_id');
+        $document->validate();
     }
 
     protected function replicate($drm) {
         foreach($this->getDiffWithMother() as $key => $value) {
             $this->replicateDetail($drm, $key, $value, 'total', 'total_debut_mois');
-            $this->replicateDetail($drm, $key, $value, 'stocks_fin/revendique', 'stocks_debut/warrante');
-            $this->replicateDetail($drm, $key, $value, 'stocks_fin/bloque', 'stocks_debut/bloque');
+            $this->replicateDetail($drm, $key, $value, 'stocks_fin/revendique', 'stocks_debut/revendique');
             $this->replicateDetail($drm, $key, $value, 'stocks_fin/instance', 'stocks_debut/instance');
+            $this->replicateDetail($drm, $key, $value, 'stocks_fin/bloque', 'stocks_debut/bloque');
         }
     }
 

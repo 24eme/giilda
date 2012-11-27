@@ -11,9 +11,10 @@ class DRMCalendrier {
     const VIEW_CAMPAGNE = 1;
     const VIEW_PERIODE = 2;
     const VIEW_VERSION = 3;
-    const VIEW_STATUT = 4;
-    const VIEW_STATUT_DOUANE_ENVOI = 5;
-    const VIEW_STATUT_DOUANE_ACCUSE = 6;
+    const VIEW_MODE_SAISIE = 4;
+    const VIEW_STATUT = 5;
+    const VIEW_STATUT_DOUANE_ENVOI = 6;
+    const VIEW_STATUT_DOUANE_ACCUSE = 7;
     const VIEW_NUMERO_ARCHIVAGE = 8;
     const STATUT_NOUVELLE = 'NOUVELLE';
     const STATUT_EN_COURS = 'EN_COURS';

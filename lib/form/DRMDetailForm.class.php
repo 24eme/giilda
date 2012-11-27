@@ -7,9 +7,10 @@ class DRMDetailForm extends acCouchdbObjectForm {
     public function configure() {
             
         if ($this->getObject()->getDocument()->canSetStockDebutMois()) {
-                $this->setWidget('total_debut_mois', new sfWidgetFormInputFloat());                    
+            $this->setWidget('total_debut_mois', new sfWidgetFormInputFloat());                    
         } else {
-                $this->setWidget('total_debut_mois', new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
+            
+            $this->setWidget('total_debut_mois', new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
         }
         $this->setValidator('total_debut_mois', new sfValidatorNumber(array('required' => false)));
 	    $this->stocks_debut = new DRMDetailStocksDebutForm($this->getObject()->stocks_debut);

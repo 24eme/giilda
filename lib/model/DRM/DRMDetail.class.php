@@ -100,6 +100,8 @@ class DRMDetail extends BaseDRMDetail {
   
   protected function update($params = array()) {
       parent::update($params);
+
+      $this->total_debut_mois = $this->stocks_debut->revendique;
       
       $this->sorties->vrac = 0;
       foreach ($this->sorties->vrac_details as $vrac_detail)
@@ -119,11 +121,12 @@ class DRMDetail extends BaseDRMDetail {
           $this->sorties->cooperative+=$cooperative_detail->volume;
       }
       
-      
       $this->total_entrees = $this->getTotalByKey('entrees');
       $this->total_sorties = $this->getTotalByKey('sorties');
-      
-      $this->total = $this->total_debut_mois + $this->total_entrees - $this->total_sorties;
+
+      $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
+
+      $this->total = $this->stocks_fin->revendique;
   }
   
   private function getTotalByKey($key) {
@@ -208,7 +211,6 @@ class DRMDetail extends BaseDRMDetail {
     $this->total_entrees = null;
     $this->total_sorties = null;
     $this->total = null;
-    
   }
 
   public function sommeLignes($lines) {

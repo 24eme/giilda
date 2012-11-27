@@ -31,12 +31,15 @@ class drmActions extends sfActions {
      * @param sfWebRequest $request 
      */
     public function executeNouvelle(sfWebRequest $request) {
+        $identifiant = $request->getParameter('identifiant');
+        $periode = $request->getParameter('periode');
 
-        $historique = new DRMHistorique($request->getParameter('identifiant'));
-        if ($historique->hasDRMInProcess()) {
-            $this->redirect('drm_inProcess', array('identifiant' => $historique->getIdentifiant()));
+        if (DRMClient::getInstance()->getDRMHistorique($identifiant)->hasDRMInProcess()) {
+            
+            return $this->redirect('drm_inProcess', array('identifiant' => $identifiant));
         }
-        $drm = DRMClient::getInstance()->createDoc($historique->getIdentifiant(), $request->getParameter('periode'));
+
+        $drm = DRMClient::getInstance()->createDoc($identifiant, $periode);
         $drm->save();
         $this->redirect('drm_edition', $drm);
     }
@@ -48,12 +51,6 @@ class drmActions extends sfActions {
     public function executeInit(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();
         $this->redirect('drm_edition', $drm);
-        /* if ($etape = $drm->etape) {
-          $this->redirect($drm->getCurrentEtapeRouting(), $drm);
-          } else {
-          $drm->setCurrentEtapeRouting('ajouts_liquidations');
-          $this->redirect('drm_recap', $drm);
-          } */
     }
 
     public function executeInProcess(sfWebRequest $request) {
@@ -181,21 +178,15 @@ class drmActions extends sfActions {
         $this->drm = $this->getRoute()->getDRM();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
 
-        /* $this->drmValidation = new DRMValidation($this->drm);
-          $this->form = new DRMValidationForm(array(), array('engagements' => $this->drmValidation->getEngagements())); */
         if ($request->isMethod(sfWebRequest::POST)) {
-            /* $this->form->bind($request->getParameter($this->form->getName()));
-              if ($this->form->isValid()) {
-              if ($this->drm->hasApurementPossible()) {
-              $this->drm->apurement_possible = 1;
-              } */
             $this->drm->validate();
             $this->drm->save();
+
+            DRMClient::getInstance()->generateVersionCascade($this->drm);
 
             $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
                 'periode_version' => $this->drm->getPeriodeAndVersion(),
                 'hide_rectificative' => 1));
-            /* } */
         }
     }
 
