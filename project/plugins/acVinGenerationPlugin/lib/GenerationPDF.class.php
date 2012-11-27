@@ -13,7 +13,10 @@ class GenerationPDF {
 
   function concatenatePDFs($pdffiles) {
     $fileres = rand().".pdf";
-    exec('pdftk "'.implode('" "', $pdffiles).'" cat output "'.$fileres.'"');
+    $str = system('/usr/bin/pdftk "'.implode('" "', $pdffiles).'" cat output "'.$fileres.'" 2>&1');
+    if ($str) {
+        throw new sfException('pdftk returned an error: '.$str);
+    }
     return $fileres;
   }
 
@@ -33,7 +36,7 @@ class GenerationPDF {
     return $filesres;
   }
 
-  private function generatePDFFile($pdfs) {
+  private function generatePDFFiles($pdfs) {
     $files = array();
     foreach ($pdfs as $pdf) {
       $files[] = $pdf->getPDFFile();
@@ -46,16 +49,16 @@ class GenerationPDF {
     $publishname = "/generation/$filename.pdf";
     $publishrealdirname =  "web".$publishname;
     if (!rename($originpdf, $publishrealdirname))
-      throw new sfException("cannot write $publishrealdirname");
+      throw new sfException("cannot write $publishrealdirname [rename($originpdf, $publishrealdirname)]");
     return urlencode($publishname);
   }
 
   function generatePDFAndConcatenateThem($pdfs) {
-    return $this->concatenatePDFs($this->generatePDFFile($pdfs));
+    return $this->concatenatePDFs($this->generatePDFFiles($pdfs));
   }
 
   function generatePDFGroupByPageNumberAndConcatenateThem($pdfs, $pagenumber) {
-    $files = $this->generatePDFFile($pdfs);
+    $files = $this->generatePDFFiles($pdfs);
     $filesbypage = array();
     for($i = 1 ; $i <= $pagenumber ; $i++) {
       $filesbypage[] = $this->concatenatePDFsForAPageId($pdfs, $i);
