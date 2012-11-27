@@ -37,8 +37,8 @@
 
 \def\DSClientNUM{<?php echo $ds->identifiant; ?>}
 \def\DSClientCVI{<?php echo $ds->declarant->cvi; ?>}
-\def\DSClientNom{<?php echo $ds->declarant->raison_sociale; ?>}
-\def\DSClientAdresse{<?php echo ($ds->declarant->adresse == "")? "ADRESSE" : $ds->declarant->adresse; ?>}
+\def\DSClientNom{<?php echo ($ds->declarant->raison_sociale)? $ds->declarant->raison_sociale : $ds->declarant->nom ; ?>}
+\def\DSClientAdresse{<?php echo ($ds->declarant->adresse)? "~" : $ds->declarant->adresse; ?>}
 \def\DSClientCP{<?php echo $ds->declarant->code_postal; ?>}
 \def\DSClientVille{<?php echo $ds->declarant->commune; ?>}
 

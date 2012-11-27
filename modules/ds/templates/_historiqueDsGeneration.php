@@ -33,7 +33,8 @@ use_helper('Float');
                         <td><?php echo link_to($generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'generation_view', array('type_document' => GenerationClient::TYPE_DOCUMENT_DS, 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])); ?></td>
                         <td><?php
                             echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC];
-                    ?></td>
+                        ?>
+                        </td>
                     </tr>
     <?php endforeach; ?>
             </tbody>
@@ -44,5 +45,5 @@ endif;
 </fieldset>
 <div class="historique_generation_ds">
     <span>Consulter l'historique de générations DS</span>
-        <a href="<?php echo url_for('generation_list',array('type_document' => 'DS')); ?>" id="historique_generation" class="btn_majeur">Consulter</a>
+    <a href="<?php echo url_for('generation_list',array('type_document' => GenerationClient::TYPE_DOCUMENT_DS)); ?>" id="historique_generation" class="btn_majeur">Consulter</a>
 </div>

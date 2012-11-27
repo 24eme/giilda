@@ -54,6 +54,7 @@ class DSLatex {
 
   public function generatePDF() {
     $cmdCompileLatex = '/usr/bin/pdflatex -output-directory="'.$this->getTEXWorkingDir().'" -synctex=1 -interaction=nonstopmode "'.$this->getLatexFile().'" 2>&1';
+    $output = array();
     exec($cmdCompileLatex, $output, $ret);
     $output = implode(' ', $output);
     if (!preg_match('/Transcript written/', $output)) {
@@ -64,8 +65,9 @@ class DSLatex {
       $grep = preg_grep('/^!/', file_get_contents($log));
       array_unshift($grep, "/!\ Latex error\n");
       array_unshift($grep, "Latex log $log:\n");
-      if ($grep)
-	      throw new sfException(implode(' ', $grep));
+      if ($grep){
+              throw new sfException(implode(' ', $grep));
+      }
     }
     return $this->getLatexFileNameWithoutExtention().'.pdf';
   }
