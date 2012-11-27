@@ -12,7 +12,7 @@ Facture:
       date_facturation: {}
       campagne: {}
       numero_archive: {  }
-      date_archivage: {  }
+      date_archivage: { required: false } #A RETIRER
       statut: {}
       versement_comptable: {type: integer}
       emetteur:

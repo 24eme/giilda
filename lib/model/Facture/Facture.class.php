@@ -10,10 +10,24 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
     protected $declarant_document = null;
     protected $archivage_document = null;
 
-    public function __construct() {
-        parent::__construct();
+    public function  __construct() {
+        parent::__construct();   
+        $this->initDocuments();
+    }
+
+    public function __clone() {
+        parent::__clone();
+        $this->initDocuments();
+    }   
+
+    protected function initDocuments() {
         $this->declarant_document = new DeclarantDocument($this);
         $this->archivage_document = new ArchivageDocument($this);
+    }
+
+    public function getCampagne() {
+
+        return $this->_get('campagne');
     }
 
     public function storeEmetteur($emetteur) {
@@ -335,20 +349,10 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
         return $this->_get('numero_archive');
     }
 
-    public function getDateArchivage() {
-
-        return $this->_get('date_archivage');
-    }
-
     public function isArchivageCanBeSet() {
 
         return true;
     }
 
-    public function getDateArchivageLimite() {
-
-        return sprintf('%04d-%02d-%02', date("Y", strtotime($this->date_archivage)), 12, 31);
-    }
-    
     /*** FIN ARCHIVAGE ***/
 }
