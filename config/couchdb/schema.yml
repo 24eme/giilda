@@ -25,7 +25,7 @@ DRM:
       precedente: {  }
       version: {  }
       numero_archive: {  }
-      date_archivage: {  }
+      date_archivage: { required: false } #A RETIRER
       droits:
         type: collection
         definition:

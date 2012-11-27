@@ -16,6 +16,15 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function  __construct() {
         parent::__construct();   
+        $this->initDocuments();
+    }
+
+    public function __clone() {
+        parent::__clone();
+        $this->initDocuments();
+    }   
+
+    protected function initDocuments() {
         $this->mouvement_document = new MouvementDocument($this);
         $this->version_document = new VersionDocument($this);
         $this->archivage_document = new ArchivageDocument($this);
@@ -26,6 +35,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->set('_id', DRMClient::getInstance()->buildId($this->identifiant, 
                                                             $this->periode, 
                                                             $this->version));
+    }
+
+    public function getCampagne() {
+
+        return $this->_get('campagne');
     }
 
     public function getPeriodeAndVersion() {
@@ -145,6 +159,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->precedente = null;
         $this->remove('editeurs'); 
         $this->add('editeurs');
+
+        $this->archivage_document->reset();
        
         $this->devalide();
     }
@@ -718,19 +734,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->_get('numero_archive');
     }
 
-    public function getDateArchivage() {
-
-        return $this->_get('date_archivage');
-    }
-
     public function isArchivageCanBeSet() {
 
         return $this->isValidee();
-    }
-
-    public function getDateArchivageLimite() {
-
-        return ConfigurationClient::getInstance()->buildDateFinCampagne($this->date_archivage);
     }
     
     /*** FIN ARCHIVAGE ***/
