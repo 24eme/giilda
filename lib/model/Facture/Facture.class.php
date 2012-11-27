@@ -144,6 +144,8 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
     private function createOrigineLibelle($ligne,$transacteur,$famille) {     
         if($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV){
             $origine_libelle = 'Contrat du '.  VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
+            if((strlen($transacteur)+(strlen($ligne->produit_libelle)*1.5)) > 68) 
+                $transacteur = substr($transacteur,0,(68 - (strlen($ligne->produit_libelle)*1.5))).'...';
             $origine_libelle .= ' ('.$transacteur.') ';
             if($famille==EtablissementFamilles::FAMILLE_NEGOCIANT)
                 $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
@@ -154,6 +156,8 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
             if($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS)
             {
                 $origine_libelle = 'Contrat du '.VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
+                if((strlen($transacteur)+(strlen($ligne->produit_libelle)*1.5)) > 75) 
+                    $transacteur = substr($transacteur,0,(75 - (strlen($ligne->produit_libelle)*1.5))).'...';
                 $origine_libelle .= ' ('.$transacteur.') ';
                 if($famille==EtablissementFamilles::FAMILLE_PRODUCTEUR)
                     $origine_libelle .= DRMClient::getInstance()->getLibelleFromId($ligne->origine_identifiant);

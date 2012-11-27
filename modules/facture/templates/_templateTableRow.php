@@ -1,7 +1,7 @@
 <?php
 use_helper('Float');
 ?>
-~~~~<?php echo $produit->produit_libelle.' \textbf{\begin{tiny}'.$produit->origine_libelle.'\end{tiny}}'; ?> &
+~~~~<?php echo $produit->produit_libelle.' \textbf{\begin{tiny}'.str_replace('&', "\&", $produit->origine_libelle).'\end{tiny}}'; ?> &
                             \multicolumn{1}{r|}{<?php echoArialFloat($produit->volume*-1); ?>} &
                             \multicolumn{1}{r|}{<?php echoArialFloat($produit->cotisation_taux); ?>} & 
                             \multicolumn{1}{r|}{<?php echoArialFloat($produit->montant_ht); ?>} & 

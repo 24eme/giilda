@@ -65,8 +65,8 @@ use_helper('Date');
 \def\FactureDate{<?php echo format_date($facture->date_emission,'dd/MM/yyyy'); ?>}
 \def\FactureRefClient{<?php echo $facture->identifiant; ?>}
 
-\def\FactureClientNom{<?php echo ($facture->declarant->raison_sociale == '')? $facture->declarant->nom : $facture->declarant->raison_sociale; ?>}
-\def\FactureClientAdresse{<?php echo ($facture->declarant->adresse == '')? 'Adresse' : $facture->declarant->adresse; ?>}
+\def\FactureClientNom{<?php echo ($facture->declarant->raison_sociale == '')? str_replace('&', "\&", $facture->declarant->nom) : str_replace('&', "\&", $facture->declarant->raison_sociale); ?>}
+\def\FactureClientAdresse{<?php echo ($facture->declarant->adresse == '')? "~" : $facture->declarant->adresse; ?>}
 \def\FactureClientCP{<?php echo $facture->declarant->code_postal; ?>}
 \def\FactureClientVille{<?php echo $facture->declarant->commune; ?>}
 
