@@ -9,8 +9,17 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     protected $declarant_document = null;
     protected $archivage_document = null;
 
-    public function __construct() {
-        parent::__construct();
+    public function  __construct() {
+        parent::__construct();   
+        $this->initDocuments();
+    }
+
+    public function __clone() {
+        parent::__clone();
+        $this->initDocuments();
+    }   
+
+    protected function initDocuments() {
         $this->declarant_document = new DeclarantDocument($this);
         $this->archivage_document = new ArchivageDocument($this);
     }
@@ -20,6 +29,11 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
             $this->statut = DSClient::STATUT_A_SAISIR;
         }
         $this->set('_id', DSClient::getInstance()->buildId($this->identifiant, $this->periode));
+    }
+    
+    public function getCampagne() {
+
+        return $this->_get('campagne');
     }
 
     public function setDateStock($date_stock) {
@@ -96,20 +110,10 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
         return $this->_get('numero_archive');
     }
 
-    public function getDateArchivage() {
-
-        return $this->_get('date_archivage');
-    }
-
     public function isArchivageCanBeSet() {
 
         return $this->isStatutValide();
     }
 
-    public function getDateArchivageLimite() {
-
-        return ConfigurationClient::getInstance()->buildDateFinCampagne($this->date_archivage);
-    }
-    
     /*** FIN ARCHIVAGE ***/
 }

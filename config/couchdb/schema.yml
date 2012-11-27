@@ -12,7 +12,7 @@ DS:
       campagne: {}
       periode: {}
       numero_archive: {  }
-      date_archivage: {  }
+      date_archivage: { required: false } #A RETIRER
       statut: {}
       commentaires: {}
       declarant:
