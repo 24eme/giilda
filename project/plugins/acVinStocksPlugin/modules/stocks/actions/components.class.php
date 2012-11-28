@@ -51,7 +51,10 @@ class stocksComponents extends sfComponents {
     }
 
     public function executeMouvements() {
-
+        $this->mouvements = array_merge(
+            DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne),
+            SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne)
+            );
     }
 
 }
