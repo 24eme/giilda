@@ -71,6 +71,15 @@ class VracClient extends acCouchdbClient {
       return 'VRAC-'.$numeroContrat;
     }
 
+    public function buildCampagne($numero_contrat) {
+      if(!preg_match('/^([0-9]{4})([0-9]{2})([0-9]{2})/', $numero_contrat, $matches)) {
+      exit;
+        return null;
+      }
+
+      return ConfigurationClient::getInstance()->buildCampagne(sprintf("%s-%s-%s", $matches[1], $matches[2], $matches[3]));
+    }
+
     public function getNextNoContrat()
     {   
         $id = '';

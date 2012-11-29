@@ -6,6 +6,7 @@ Vrac:
       _id: {  }
       _rev: { }
       type: { }
+      campagne: {  }
       numero_contrat: {  }
       etape: { type: integer }
       interne: { }
@@ -56,6 +57,7 @@ Vrac:
       original: { type: integer }
       type_transaction: {  }
       produit: {   }
+      produit_libelle: {   }
       millesime: { type: integer }
       contient_domaine: {   }
       domaine: {  }
