@@ -96,7 +96,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     	$libelle = ConfigurationProduitsView::getInstance()->formatLibelles($this->getLibelles(), $format);
     	$libelle = $this->getDocument()->formatLabelsLibelle($labels, $libelle, $label_separator);
 
-    	return $libelle;
+    	return trim($libelle);
   	}
 
   	public function getCodeFormat($format = "%g%%a%%m%%l%%co%%ce%") {
