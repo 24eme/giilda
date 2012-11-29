@@ -257,6 +257,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->update();
         $this->storeIdentifiant($options);
         $this->storeDates();
+        $this->storeDeclarant();
 
         if (!isset($options['no_droits']) || !$options['no_droits']) {
            //$this->setDroits();
@@ -284,6 +285,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         $this->valide->identifiant = $identifiant;
+    }
+
+    public function storeDeclarant() {
+        $this->declarant->nom = $this->getEtablissement()->nom;
     }
 
     public function storeDates() {
