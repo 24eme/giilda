@@ -2,6 +2,14 @@
 
 . bin/config.inc
 
+echo "Import de la configuration"
+
+php symfony import:configuration || exit
+
+echo Generation des vues
+
+bash bin/views
+
 if ! test "$1"; then
     echo "Téléchargement des données";
     . bin/download_redmine_file https://clients.actualys.com/attachments/download/4688/VINSDELOIRE_DATA.tar.gz /tmp/VINSDELOIRE_DATA.tar.gz
@@ -13,9 +21,17 @@ LOGDATE=$SYMFODIR/$(date +%Y%m%d%H%M%S_import_data.log)
 
 {
 
-echo "Dézippage";
-rm -rf /tmp/VINSDELOIRE_DATA 2>/dev/null ; mkdir /tmp/VINSDELOIRE_DATA 2> /dev/null ; cd /tmp/VINSDELOIRE_DATA
-tar -xzf /tmp/VINSDELOIRE_DATA.tar.gz
+if ! test "$1"; then
+
+	echo "Dézippage";
+	rm -rf /tmp/VINSDELOIRE_DATA 2>/dev/null
+	mkdir /tmp/VINSDELOIRE_DATA 2> /dev/null 
+	cd /tmp/VINSDELOIRE_DATA
+	tar -xzf /tmp/VINSDELOIRE_DATA.tar.gz
+fi
+
+mkdir /tmp/VINSDELOIRE_DATA 2> /dev/null 
+cd /tmp/VINSDELOIRE_DATA
 
 DATADIR=$(pwd);
 
@@ -35,7 +51,7 @@ cat $DATADIR/tmp/cicon-utf8.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$10); for 
 
 cat $DATADIR/tmp/ciapl-utf8.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$3); for (i=1;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | sed -r 's/;$//' > $DATADIR/tmp/ciapl-before-merge
 
-join -t ";" $DATADIR/tmp/cicon-before-merge $DATADIR/tmp/ciapl-before-merge | awk -F";" '{ for (i=2;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort -r | grep -E "^10;2010" > $DATADIR/vracs.csv
+join -t ";" $DATADIR/tmp/cicon-before-merge $DATADIR/tmp/ciapl-before-merge | awk -F";" '{ for (i=2;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort -r | grep -E "^10;2012" > $DATADIR/vracs.csv
 
 #FIN DU TRAITEMENT VRACS
 
@@ -70,8 +86,16 @@ echo "Import des vracs";
 
 php symfony import:vrac --trace $DATADIR/vracs.csv
 
-#echo "Import des drms";
+echo "Import des drms";
 
-# php symfony import:etablissement --trace $DATADIR/drms.csv
+bash bin/import_data_drm
+
+php symfony import:drm --trace $DATADIR/drm.csv
+
+echo "Import des DS"""
+
+bash bin/import_data_ds
+
+php symfony import:ds --trace $DATADIR/ds.csv
 
 }

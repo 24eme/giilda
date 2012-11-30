@@ -287,7 +287,7 @@ EOF;
       $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($this->getIdentifiant($line), $this->getPeriode($line));
 
       if(!$drm->getEtablissement()) {
-        throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_VITICULTEUR]));
+        throw new sfException(sprintf("L'etablissement %s n'existe pas", $this->getIdentifiant($line)));
       }
     }
 

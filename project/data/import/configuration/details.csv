@@ -25,6 +25,6 @@ declaration;sorties;cooperative;1;1;1;-1;0;0
 declaration;sorties;cession;1;1;0;-1;0;0
 declaration;sorties;elaboration;1;1;0;-1;0;0
 declaration;sorties;regularisation;1;1;0;-1;0;0
-declaration;stocks_fin;revendique;1;1;0;0;0;0
-declaration;stocks_fin;instance;1;1;0;0;0;0
-declaration;stocks_fin;bloque;1;1;0;0;0;0
+declaration;stocks_fin;revendique;1;0;0;0;0;0
+declaration;stocks_fin;instance;1;0;0;0;0;0
+declaration;stocks_fin;bloque;1;0;0;0;0;0
