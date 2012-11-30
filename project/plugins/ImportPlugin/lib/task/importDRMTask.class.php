@@ -247,13 +247,13 @@ EOF;
   }
 
   protected function getPeriode($line) {
-    $mois = substr($line[self::CSV_LIGNE_ID], 13, 2);
+    $mois = substr($line[self::CSV_LIGNE_ID], 12, 2);
     $campagne = substr($line[self::CSV_LIGNE_ID], 0, 4);
     $annee = $campagne;
     if ($mois < 8) {
-      $annee = $campagne + 1;
+      $annee = $campagne - 1;
     }
-    
+
     return DRMClient::getInstance()->buildPeriode($annee, $mois);
   }
 
