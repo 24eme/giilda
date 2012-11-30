@@ -1,0 +1,24 @@
+Compte:
+   definition:
+     fields:
+       _id: { }
+       _rev: { }
+       type: { }
+       identifiant: {  }
+       id_societe: {  }
+       adresse: {  }
+       adresse_complementaire: {  }
+       code_postal: {  }
+       commune: {  }
+       cedex: {  }
+       pays: {  }
+       email: {  }
+       telephone_bureau: {  }
+       telephone_mobile: {  }
+       fax: {  }
+       tags:
+         type: collection
+         definition:
+           fields:
+             '*': { }
+         

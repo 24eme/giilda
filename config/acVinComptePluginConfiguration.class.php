@@ -30,6 +30,6 @@ class acVinComptePluginConfiguration extends sfPluginConfiguration
    */
   public function initialize()
   {
-  	$this->dispatcher->connect('routing.load_configuration', array('acVinRouting', 'listenToRoutingLoadConfigurationEvent'));
+  	$this->dispatcher->connect('routing.load_configuration', array('acVinCompteRouting', 'listenToRoutingLoadConfigurationEvent'));
   }
 }

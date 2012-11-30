@@ -23,7 +23,7 @@
  * @author     Jean-Baptiste Le Metayer <lemetayer.jb@gmail.com>
  * @version    0.1
  */
-class acVinRouting
+class acVinCompteRouting
 {
   /**
    * Listens to the routing.load_configuration event.
