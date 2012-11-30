@@ -1,40 +1,61 @@
+#Etablissement
 Etablissement:
-  definition:
-    fields:
-      _id: {  }
-      _rev: {  }
-      identifiant: { }
-      nom: { }
-      type: {  }
-      statut: {  }
-      interpro: {  }
-      compte: {  }
-      num_interne: {  }
-      siret: {  }
-      raison_sociale: {  }
-      nom: {  }
-      cni: {  }
-      cvi: {  }
-      no_accises: {  }
-      carte_pro: {  }
-      no_tva_intracommunautaire: {  }
-      famille: {  }
-      sous_famille: {  }
-      email: {  }
-      telephone: {  }
-      fax: {  }
-      siege:
-          type: collection
-          definition:
-            fields:
-              adresse: {  }
-              code_postal: {  }
-              commune: {  }
-      comptabilite:
-          type: collection
-          definition:
-            fields:
-              adresse: {  }
-              code_postal: {  }
-              commune: {  }
-      service_douane: {  }
+   definition:
+     fields:
+       _id: {  }
+       _rev: {  }
+       type: {  }
+       interpro: {  }
+       identifiant: {  }
+       id_societe: {  }
+       nom: { }
+       statut: {  }
+       raisins_mouts: {  }
+       exclusion_drm: {  }
+       relance_ds: {  }
+       recette_locale: {  }
+       region: {  }
+       type_dr: {  }
+       liaisons_operateurs:
+           type: array_collection
+           definition:
+             fields:
+               '*':
+                 class: EtablissementLiaisonsOperateurs
+                 type: collection
+                 definition:
+                   fields:
+                     id_societe: { }
+                     type_liaison: { }
+       site_fiche: {  }            
+       compte: {  }
+       num_interne: {  }
+       siret: {  }
+       raison_sociale: {  }
+       nom: {  }
+       cni: {  }
+       cvi: {  }
+       no_accises: {  }
+       carte_pro: {  }
+       no_tva_intracommunautaire: {  }
+       famille: {  }
+       sous_famille: {  }
+       email: {  }
+       telephone: {  }
+       fax: {  }
+       commentaire: {  }
+       siege:
+           type: collection
+           definition:
+             fields:
+               adresse: {  }
+               code_postal: {  }
+               commune: {  }
+       comptabilite:
+           type: collection
+           definition:
+             fields:
+               adresse: {  }
+               code_postal: {  }
+               commune: {  }
+       service_douane: {  }
