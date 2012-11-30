@@ -80,7 +80,7 @@ inter-loire;AOC;AOC;Tranquille;TRANQ;Vouvray;VOU;;;;;Blanc;3;;;;;;;;;4;;A;;;;;;;
 inter-loire;AOC;AOC;VDN;VDN;Anjou;ANJ;Liquoreux;LIQ;Coteaux de la Loire;CDL;Blanc;3;Chenin;CHE;;;;;;;4;;A;;;;;;;21;cepage;;cepage;1B202L;cepage
 inter-loire;AOC;AOC;VDN;VDN;Bonnezeaux;BON;Liquoreux;LIQ;;;Blanc;3;;CHE;;;;;;;6;;A;;;;;;;71;cepage;;cepage;1B210L;cepage
 inter-loire;AOC;AOC;VDN;VDN;Coteaux de l'Aubance;COB;;;;;Blanc;3;Chenin;CHE;;;;;;;5,5;;A;;;;;;;191;cepage;;cepage;1B211L;cepage
-inter-loire;AOC;AOC;VDN;VDN;Coteaux de l'Aubance;COB;GN;Grains nobles;;;Blanc;3;Chenin;CHE;;;;;;;5,5;;A;;;;;;;191;cepage;;cepage;1B211L01;cepage
+inter-loire;AOC;AOC;VDN;VDN;Coteaux de l'Aubance;COB;SGN;Grains nobles;;;Blanc;3;Chenin;CHE;;;;;;;5,5;;A;;;;;;;191;cepage;;cepage;1B211L01;cepage
 inter-loire;AOC;AOC;VDN;VDN;Coteaux de Saumur;COS;Liquoreux;LIQ;;;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;231;cepage;;cepage;1B213L;cepage
 inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;;;;;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;201;cepage;;cepage;1B212L;cepage
 inter-loire;AOC;AOC;VDN;VDN;Coteaux du Layon;COL;SGN;Grains nobles;;;Blanc;3;Chenin;CHE;;;;;;;5;;A;;;;;;;201;cepage;;cepage;1B212L10;cepage
