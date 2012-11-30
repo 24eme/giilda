@@ -10,33 +10,43 @@
  * @author mathurin
  */
 class SocieteCreationForm extends sfForm {
-    
-    public function configure()
-    {
+
+    public function configure() {
         parent::configure();
-        
-        $this->setWidget('identifiant', new sfWidgetFormInput());
-        $this->setWidget('siret', new sfWidgetFormInput());
+
         $this->setWidget('raison_sociale', new sfWidgetFormInput());
-        $this->setWidget('telephone', new sfWidgetFormInput());
-       // $this->setWidget('etablissement', new sfWidgetFormChoice(array('choices' => $this->getEtablissements(),'expanded' => false)));
-        $this->setValidator('identifiant', new sfValidatorString(array('required' => true)));
-        $this->setValidator('siret', new sfValidatorString(array('required' => true)));
+        $this->setWidget('type', new sfWidgetFormChoice(array('choices' => $this->getSocieteTypes(), 'expanded' => false)));
+
         $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
-        $this->setValidator('telephone', new sfValidatorNumber(array('required' => true)));
-      //  $this->setValidator('etablissement', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getEtablissements()))));
-    
-        $this->widgetSchema->setLabel('identifiant', 'Identifiant : ');        
-        $this->widgetSchema->setLabel('siret', 'Siret : ');
-        $this->widgetSchema->setLabel('raison_sociale', 'Raison sociale : ');
-        $this->widgetSchema->setLabel('telephone', 'Telephone : ');
-                $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
-        $this->widgetSchema->setNameFormat('societe[%s]');
+        $this->setValidator('type', new sfValidatorChoice(array('required' => true, 'choices' => $this->getSocieteTypesValid())));
+
+        $this->widgetSchema->setLabel('raison_sociale', 'Nom de la société : ');
+        $this->widgetSchema->setLabel('type', 'Type de société : ');
+
+
+        $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+        $this->widgetSchema->setNameFormat('societe-creation[%s]');
     }
 
-    public function getEtablissements() {
-        return EtablissementClient::getInstance()->findAll();
+    public function getSocieteTypes() {
+        return SocieteClient::getInstance()->getSocieteTypes();
     }
+
+    public function getSocieteTypesValid() {
+        $societeType = SocieteClient::getInstance()->getSocieteTypes();
+        $types = array();
+        foreach ($societeType as $types) {
+            if (!is_array($types))
+                $result[] = $types;
+            else {
+                foreach ($types as $entree) {
+                    $result[] = $entree;
+                }
+            }
+        }
+        return $result;
+    }
+
 }
 
 ?>

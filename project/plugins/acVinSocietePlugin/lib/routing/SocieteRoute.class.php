@@ -4,7 +4,7 @@ class SocieteRoute extends sfObjectRoute implements InterfaceSocieteRoute {
     protected $societe = null;
     
     protected function getObjectForParameters($parameters = null) {
-      $this->societe = EtablissementClient::getInstance()->find($parameters['identifiant']);
+      $this->societe = SocieteClient::getInstance()->find($parameters['identifiant']);
       return $this->societe;
     }
 

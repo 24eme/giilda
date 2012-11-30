@@ -9,7 +9,7 @@
  * Description of class SocieteChoiceForlm
  * @author mathurin
  */
-class SocieteChoiceForm extends baseForm {
+class SocieteChoiceFormX extends baseForm {
 	
 	protected $interpro_id;
 	
@@ -21,15 +21,24 @@ class SocieteChoiceForm extends baseForm {
 
     public function configure()
     {
-        $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id)));
+        $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id), array('class' => 'autocomplete permissif')));
+        $this->setWidget('societeType', new sfWidgetFormChoice(array('choices' => $this->getSocieteTypes(),'expanded' => false)));
+        
 
-        $this->widgetSchema->setLabel('identifiant', 'Sélectionner une société&nbsp;:');
+        $this->widgetSchema->setLabel('identifiant', 'Nom de la société :');
+        $this->widgetSchema->setLabel('societeType', 'Type de société : ');        
         
         $this->setValidator('identifiant', new ValidatorSociete(array('required' => true)));
+        $this->setValidator('societeType', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getSocieteTypes()))));
         
         $this->validatorSchema['identifiant']->setMessage('required', 'Le choix d\'une societe est obligatoire');        
+        $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
         
         $this->widgetSchema->setNameFormat('societe[%s]');
+    }
+
+    public function getSocieteTypes() {
+        return SocieteClient::getSocieteTypes();
     }
 
     public function getSociete() {

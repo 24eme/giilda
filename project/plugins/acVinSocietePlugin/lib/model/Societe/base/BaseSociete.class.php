@@ -8,11 +8,19 @@
  * @property string $_rev
  * @property string $type
  * @property string $identifiant
+ * @property string $type_societe
  * @property string $raison_sociale
- * @property string $telephone
+ * @property string $raison_sociale_abregee
+ * @property string $statut
+ * @property string $type_numero_compte
+ * @property string $code_naf
  * @property string $siret
- * @property string $commune
- * @property string $code_postal
+ * @property string $interpro
+ * @property string $tva_intracom
+ * @property string $commentaire
+ * @property acCouchdbJson $enseignes
+ * @property string $id_compte_societe
+ * @property acCouchdbJson $contacts
  * @property acCouchdbJson $etablissements
 
  * @method string get_id()
@@ -23,16 +31,32 @@
  * @method string setType()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
+ * @method string getTypeSociete()
+ * @method string setTypeSociete()
  * @method string getRaisonSociale()
  * @method string setRaisonSociale()
- * @method string getTelephone()
- * @method string setTelephone()
+ * @method string getRaisonSocialeAbregee()
+ * @method string setRaisonSocialeAbregee()
+ * @method string getStatut()
+ * @method string setStatut()
+ * @method string getTypeNumeroCompte()
+ * @method string setTypeNumeroCompte()
+ * @method string getCodeNaf()
+ * @method string setCodeNaf()
  * @method string getSiret()
  * @method string setSiret()
- * @method string getCommune()
- * @method string setCommune()
- * @method string getCodePostal()
- * @method string setCodePostal()
+ * @method string getInterpro()
+ * @method string setInterpro()
+ * @method string getTvaIntracom()
+ * @method string setTvaIntracom()
+ * @method string getCommentaire()
+ * @method string setCommentaire()
+ * @method acCouchdbJson getEnseignes()
+ * @method acCouchdbJson setEnseignes()
+ * @method string getIdCompteSociete()
+ * @method string setIdCompteSociete()
+ * @method acCouchdbJson getContacts()
+ * @method acCouchdbJson setContacts()
  * @method acCouchdbJson getEtablissements()
  * @method acCouchdbJson setEtablissements()
  

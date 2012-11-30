@@ -6,14 +6,42 @@ Societe:
       _rev: { }
       type: { }
       identifiant: { }
+      type_societe: { }
       raison_sociale: { }
-      telephone: { }
+      raison_sociale_abregee: { }
+      statut: { }
+      type_numero_compte: { }
+      code_naf: { }
       siret: { }
-      commune: { }
       interpro: { }
-      code_postal: { }
+      tva_intracom: { }
+      commentaire: { }
+      enseignes:
+        type: array_collection
+        definition:
+          fields:
+            '*': { }
+      id_compte_societe: { }      
+      contacts:
+        type: collection
+        definition:
+          fields:
+            '*':
+              class: Contacts
+              type: collection
+              definition:
+                fields:
+                  id_compte: {}
+                  ordre: {}
       etablissements :
         type: collection
         definition:
           fields:
-            '*': { }
+            '*': 
+              class: Chai
+              type: collection
+              definition:
+                fields:
+                  id_etablissement: { }
+                  ordre: { }
+                  adresse_societe: { }
