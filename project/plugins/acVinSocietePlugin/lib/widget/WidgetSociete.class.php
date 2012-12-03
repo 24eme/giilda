@@ -27,7 +27,8 @@ class WidgetSociete extends sfWidgetFormChoice
 
         $this->setOption('choices', array());
         $this->addRequiredOption('interpro_id', null);
-        $this->setAttribute('class', 'autocomplete'); 
+        if(!count($attributes))
+            $this->setAttribute('class', 'autocomplete'); 
     }
 
     public function setOption($name, $value) {
@@ -65,5 +66,5 @@ class WidgetSociete extends sfWidgetFormChoice
 
         return parent::render($name, $value, $attributes, $errors);
     }
-
+    
 }
