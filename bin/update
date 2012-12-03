@@ -13,3 +13,10 @@ cd ../../..
 cd project/plugins/acVinConfigurationPlugin
 git checkout vinsdeloire
 cd ../../..
+
+cd project/plugins/acVinEtablissementPlugin
+git checkout vinsdeloire
+cd ../../..
+cd project/plugins/acVinComptePlugin
+git checkout vinsdeloire
+cd ../../..

@@ -12,15 +12,8 @@ class SocieteRouting {
 
         $r = $event->getSubject();
 
-        $r->prependRoute('societe_autocomplete_all', new sfRoute('/societe/autocomplete/:interpro_id/tous',
-                        array('module' => 'societe',
-                            'action' => 'all')));
-
         $r->prependRoute('societe', new sfRoute('/societe', array('module' => 'societe',
                     'action' => 'index')));
-
-        $r->prependRoute('societe_creation', new sfRoute('/societe/creation', array('module' => 'societe',
-                    'action' => 'createSociete')));
         
  	    $r->prependRoute('societe_choose', new SocieteRoute('/societe/:identifiant/espace', array('module' => 'societe', 
                                                                         'action' => 'monEspace'),
@@ -35,6 +28,16 @@ class SocieteRouting {
                     'action' => 'createSocieteInt')));
 		$r->prependRoute('societe_detail_int', new sfRoute('/societe/detail_int', array('module' => 'societe',
                     'action' => 'detailSocieteInt')));
+
+        $r->prependRoute('societe_creation', new sfRoute('/societe-creation', array('module' => 'societe',
+                    'action' => 'creationSociete')));
+        
+        $r->prependRoute('societe_modification', new SocieteRoute('/societe/:identifiant/modification', array('module' => 'societe',
+                    'action' => 'modification'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Societe',
+                            'type' => 'object')
+                ));
     }
 
 }
