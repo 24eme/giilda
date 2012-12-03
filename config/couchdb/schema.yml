@@ -6,9 +6,10 @@ Vrac:
       _id: {  }
       _rev: { }
       type: { }
+      campagne: {  }
       numero_contrat: {  }
       etape: { type: integer }
-
+      interne: { }
 #Soussigné (Part 1)
       vendeur_identifiant: {  }
       vendeur:        
@@ -56,6 +57,7 @@ Vrac:
       original: { type: integer }
       type_transaction: {  }
       produit: {   }
+      produit_libelle: {   }
       millesime: { type: integer }
       contient_domaine: {   }
       domaine: {  }

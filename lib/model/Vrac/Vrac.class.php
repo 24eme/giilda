@@ -16,6 +16,16 @@ class Vrac extends BaseVrac {
         if(!$this->date_stats) {
             $this->date_stats = date('d/m/Y');
         }
+    }   
+
+    public function setNumeroContrat($value) {
+        $this->_set('numero_contrat', $value);
+        $this->campagne = VracClient::getInstance()->buildCampagne($this->numero_contrat);
+    }
+
+    public function setProduit($value) {
+        $this->_set('produit', $value);
+        $this->produit_libelle = $this->getProduitObject()->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce%");
     }
     
     public function setBouteillesContenanceLibelle($c) {
@@ -70,55 +80,55 @@ class Vrac extends BaseVrac {
 
     private function setAcheteurInformations() 
     {
-       $acheteurObj = $this->getAcheteurObject();
-       $this->acheteur->nom = $acheteurObj->nom;
-       $this->acheteur->cvi = $acheteurObj->cvi;
-       $this->acheteur->commune = $acheteurObj->siege->commune;
-       $this->acheteur->code_postal = $acheteurObj->siege->code_postal;
+        $acheteurObj = $this->getAcheteurObject();
+        $this->acheteur->nom = $acheteurObj->nom;
+        $this->acheteur->cvi = $acheteurObj->cvi;
+        $this->acheteur->commune = $acheteurObj->siege->commune;
+        $this->acheteur->code_postal = $acheteurObj->siege->code_postal;
     }
     
     private function setMandataireInformations() 
     {
-       $mandataireObj = $this->getMandataireObject();
-       $this->mandataire->nom = $mandataireObj->nom;
-       //TODO : surement à changer
-       $this->mandataire->carte_pro = $mandataireObj->identifiant;
-       $this->mandataire->adresse = $mandataireObj->siege->commune.'  '.$mandataireObj->siege->code_postal;
+        $mandataireObj = $this->getMandataireObject();
+        $this->mandataire->nom = $mandataireObj->nom;
+        //TODO : surement à changer
+        $this->mandataire->carte_pro = $mandataireObj->identifiant;
+        $this->mandataire->adresse = $mandataireObj->siege->commune.'  '.$mandataireObj->siege->code_postal;
     }
     
     private function setVendeurInformations() 
     {
-       $vendeurObj = $this->getVendeurObject();
-       $this->vendeur->nom = $vendeurObj->nom;
-       $this->vendeur->cvi = $vendeurObj->cvi;
-       $this->vendeur->commune = $vendeurObj->siege->commune;
-       $this->vendeur->code_postal = $vendeurObj->siege->code_postal;       
+        $vendeurObj = $this->getVendeurObject();
+        $this->vendeur->nom = $vendeurObj->nom;
+        $this->vendeur->cvi = $vendeurObj->cvi;
+        $this->vendeur->commune = $vendeurObj->siege->commune;
+        $this->vendeur->code_postal = $vendeurObj->siege->code_postal;       
     }
 
     public function setDate($attribut, $d) {
-      if (preg_match('/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/', $d, $m)) {
-	     $d = $m[3].'-'.$m[2].'-'.$m[1];
-      }
-      return $this->_set($attribut, $d);
+        if (preg_match('/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/', $d, $m)) {
+	          $d = $m[3].'-'.$m[2].'-'.$m[1];
+        }
+        return $this->_set($attribut, $d);
     }
     public function getDate($attribut, $format) {
-      $d = $this->_get($attribut);
-      if (!$format)
-	return $d;
-      $date = new DateTime($d);
-      return $date->format($format);
+        $d = $this->_get($attribut);
+        if (!$format)
+	          return $d;
+        $date = new DateTime($d);
+        return $date->format($format);
     }
     public function setDateSignature($d) {
-      return $this->setDate('date_signature', $d);
+        return $this->setDate('date_signature', $d);
     }
     public function getDateSignature($format = 'd/m/Y') {
-      return $this->getDate('date_signature', $format);
+        return $this->getDate('date_signature', $format);
     }
     public function setDateStats($d) {
-      return $this->setDate('date_stats', $d);
+        return $this->setDate('date_stats', $d);
     }
     public function getDateStats($format = 'd/m/Y') {
-      return $this->getDate('date_stats', $format);
+        return $this->getDate('date_stats', $format);
     }
 
     public function getPeriode() {

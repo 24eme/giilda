@@ -21,6 +21,8 @@ class VracSoussigneForm extends acCouchdbObjectForm {
                  
         $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire','familles' =>  EtablissementFamilles::FAMILLE_NEGOCIANT)));
         
+        $this->setWidget('interne', new sfWidgetFormInputCheckbox());
+        
         $this->setWidget('mandataire_exist', new sfWidgetFormInputCheckbox());        
         
         $mandatant_identifiantChoice = array('vendeur' => 'vendeur','acheteur' => 'acheteur');
@@ -34,6 +36,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             'vendeur_identifiant' => 'Sélectionner un vendeur :',
             'acheteur_famille' => '',
             'acheteur_identifiant' => 'Sélectionner un acheteur :',
+            'interne' => 'Cocher si le contrat est interne',
             'mandataire_identifiant' => 'Sélectionner un mandataire :',
             'mandataire_exist' => "Décocher s'il n'y a pas de mandataire",
             'mandatant' => 'Mandaté par : '
@@ -42,6 +45,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         $this->setValidators(array(
             'vendeur_identifiant' => new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)),
             'acheteur_identifiant' => new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)),
+            'interne' => new sfValidatorBoolean(array('required' => false)),
             'mandataire_identifiant' => new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_COURTIER)),
             'mandataire_exist' => new sfValidatorBoolean(array('required' => false)),
             'mandatant' => new sfValidatorChoice(array('required' => false,'multiple'=> true, 'choices' => array_keys($mandatant_identifiantChoice)))

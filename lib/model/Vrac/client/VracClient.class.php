@@ -2,19 +2,20 @@
 
 class VracClient extends acCouchdbClient {
    
-    
-    const VRAC_VIEW_STATUT = 0;
-    const VRAC_VIEW_NUMCONTRAT = 1;
-    const VRAC_VIEW_ACHETEUR_ID = 2;
-    const VRAC_VIEW_ACHETEUR_NOM = 3;
-    const VRAC_VIEW_VENDEUR_ID = 4;
-    const VRAC_VIEW_VENDEUR_NOM = 5;
-    const VRAC_VIEW_MANDATAIRE_ID = 6;
-    const VRAC_VIEW_MANDATAIRE_NOM = 7;    
-    const VRAC_VIEW_TYPEPRODUIT = 8;
-    const VRAC_VIEW_PRODUIT_ID = 9;
-    const VRAC_VIEW_VOLPROP = 10;
-    const VRAC_VIEW_VOLENLEVE = 11;
+    const VRAC_VIEW_CAMPAGNE = 0;
+    const VRAC_VIEW_STATUT = 1;
+    const VRAC_VIEW_ID = 2;
+    const VRAC_VIEW_NUMCONTRAT = 3;
+    const VRAC_VIEW_ACHETEUR_ID = 4;
+    const VRAC_VIEW_ACHETEUR_NOM = 5;
+    const VRAC_VIEW_VENDEUR_ID = 6;
+    const VRAC_VIEW_VENDEUR_NOM = 7;
+    const VRAC_VIEW_MANDATAIRE_ID = 8;
+    const VRAC_VIEW_MANDATAIRE_NOM = 9;    
+    const VRAC_VIEW_TYPEPRODUIT = 10;
+    const VRAC_VIEW_PRODUIT_ID = 11;
+    const VRAC_VIEW_VOLPROP = 12;
+    const VRAC_VIEW_VOLENLEVE = 13;
 
     const VRAC_SIMILAIRE_KEY_VENDEURID = 0;   
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
@@ -69,6 +70,15 @@ class VracClient extends acCouchdbClient {
     public function getId($numeroContrat)
     {
       return 'VRAC-'.$numeroContrat;
+    }
+
+    public function buildCampagne($numero_contrat) {
+      if(!preg_match('/^([0-9]{4})([0-9]{2})([0-9]{2})/', $numero_contrat, $matches)) {
+      exit;
+        return null;
+      }
+
+      return ConfigurationClient::getInstance()->buildCampagne(sprintf("%s-%s-%s", $matches[1], $matches[2], $matches[3]));
     }
 
     public function getNextNoContrat()
@@ -300,7 +310,7 @@ class VracClient extends acCouchdbClient {
     
     public function getLibelleContratNum($id)
     {
-        //if(strlen($id)!=13) throw new Exception(sprintf ('Le numéro de contrat %s ne possède pas un bon format.',$id));
+       // if(strlen($id)!=13) throw new Exception(sprintf ('Le numéro de contrat %s ne possède pas un bon format.',$id));
         $annee = substr($id, 0,4);
         $mois = substr($id, 4,2);
         $jour = substr($id, 6,2);
