@@ -9,6 +9,7 @@
             <h2>Modification d'un établissement</h2>
             <form action="<?php echo url_for('compte_modification', array('identifiant' => $compteModificationForm->getObject()->identifiant)); ?>" method="post">
                 <?php 
+                    
                     include_partial('compte/modification', array('compteForm' => $compteModificationForm));
                  ?>
             </form>

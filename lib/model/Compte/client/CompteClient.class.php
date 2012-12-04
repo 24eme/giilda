@@ -8,8 +8,8 @@ class CompteClient extends acCouchdbClient {
        
     public function createCompte($societe_id) {   
         $compte = new Compte();
-        $compte->id_societe = $societe_id;
-        $compte->identifiant = $this->getNextIdentifiantForSociete($compte->id_societe);
+        $compte->id_societe = SocieteClient::getInstance()->getId($societe_id);
+        $compte->identifiant = $this->getNextIdentifiantForSociete($societe_id);
         $compte->constructId();
         $compte->save();
         return $compte;
@@ -25,7 +25,7 @@ class CompteClient extends acCouchdbClient {
         $id='';
     	$comptes = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($comptes) > 0) {
-            $id .= $societe_id.sprintf("%1$02d",((double)str_replace('COMPTE-', '', max($comptes)) + 1));
+            $id .= $societe_id.sprintf("%1$02d",((double)str_replace('COMPTE-', '', count($comptes)) + 1));
         } else {
             $id.= $societe_id.'01';
         }

@@ -4,12 +4,18 @@ Compte:
        _id: { }
        _rev: { }
        type: { }
-       identifiant: {  }
-       id_societe: {  }
-       adresse: {  }
-       adresse_complementaire: {  }
-       code_postal: {  }
-       commune: {  }
+       identifiant: { }
+       civilite: { }
+       prenom: { }
+       nom: { }
+       fonction: { }
+       commentaire: { }
+       id_societe: { }
+       adresse: { }       
+       adresse_complementaire: { }
+       code_postal: { }
+       commune: { }
+       type: { }
        cedex: {  }
        pays: {  }
        email: {  }

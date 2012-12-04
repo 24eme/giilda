@@ -8,6 +8,11 @@
  * @property string $_rev
  * @property string $type
  * @property string $identifiant
+ * @property string $civilite
+ * @property string $prenom
+ * @property string $nom
+ * @property string $fonction
+ * @property string $commentaire
  * @property string $id_societe
  * @property string $adresse
  * @property string $adresse_complementaire
@@ -29,6 +34,16 @@
  * @method string setType()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
+ * @method string getCivilite()
+ * @method string setCivilite()
+ * @method string getPrenom()
+ * @method string setPrenom()
+ * @method string getNom()
+ * @method string setNom()
+ * @method string getFonction()
+ * @method string setFonction()
+ * @method string getCommentaire()
+ * @method string setCommentaire()
  * @method string getIdSociete()
  * @method string setIdSociete()
  * @method string getAdresse()

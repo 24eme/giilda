@@ -1,9 +1,10 @@
+
+
 <div id="coordonnees_societe" class="form_section">
-    <h2>Coordonnées de la société</h2>
+    <h2>Détail du contact</h2>
 
     <div class="form_contenu">
         <fieldset>
-            <legend>Adresse</legend>
             <?php
             echo $compteForm->renderHiddenFields();
             echo $compteForm->renderGlobalErrors();
