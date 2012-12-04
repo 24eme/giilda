@@ -26,6 +26,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setWidget('raison_sociale', new sfWidgetFormInput());
         $this->setWidget('raison_sociale_abregee', new sfWidgetFormInput());
         $this->setWidget('statut', new sfWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false,'expanded' => true)));
+        
       //  $this->setWidget('type_societe', new sfWidgetFormChoice(array('choices' => $this->getSocieteTypes())));
         $this->setWidget('type_numero_compte', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompte(),'multiple' => true,'expanded' => true)));
         $this->setWidget('cooperative', new sfWidgetFormChoice(array('choices' => $this->getCooperative(),'multiple' => false,'expanded' => true)));
@@ -86,13 +87,13 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setSocieteTypes();
         return $this->types_societe;
     }
-
+    
     public function getTypesNumeroCompte() {
         if (!$this->types_numero_compte)
             $this->setTypesNumeroCompte();
         return $this->types_numero_compte;
     }
-
+    
     private function setSocieteTypes() {
         $this->types_societe = SocieteClient::getSocieteTypes();
     }
@@ -123,7 +124,6 @@ class SocieteModificationForm extends acCouchdbObjectForm {
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
     }
-
 }
 
 ?>

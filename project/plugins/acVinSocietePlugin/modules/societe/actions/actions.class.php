@@ -19,15 +19,13 @@ class societeActions extends sfActions {
         $this->societe = $this->getRoute()->getSociete();
         $this->contactSociete = CompteClient::getInstance()->find($this->societe->id_compte_societe);
         $this->societeForm = new SocieteModificationForm($this->societe);
-        $this->contactSocieteForm = new CompteModificationForm($this->contactSociete,null);
-        
+        $this->contactSocieteForm = new CompteModificationForm($this->contactSociete);
         $this->etablissementSocieteForm = null;
         if ($this->societe->hasChais()) {
-            $idEtablissement = $this->societe->etablissements[0]->id_etablissement;        
+            $idEtablissement = $this->societe->getIdFirstEtablissement();
             $etablissement = EtablissementClient::getInstance()->find($idEtablissement);
             $this->etablissementSocieteForm = new EtablissementModificationForm($etablissement);
-            $this->isSocieteCompte = $etablissement->contactIsSocieteContact();
-            $this->contactSocieteForm = new CompteModificationForm($this->contactSociete,$this->isSocieteCompte,$etablissement);
+            $this->contactSocieteForm = new CompteModificationForm($this->contactSociete);
         }
         
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -51,6 +49,9 @@ class societeActions extends sfActions {
     
     public function executeAddContact(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
+        $this->contact = $this->societe->addNewContact();
+        $this->societe->save();
+        $this->redirect('compte_new',array('identifiant' => $this->contact->identifiant));
     }
 	/***************
 	 * Intégration

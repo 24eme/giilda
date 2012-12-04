@@ -1,39 +1,82 @@
-<div id="societe_visualisation" class="section_label_maj">
-    <h2>Détail de la société </h2>   
-        <div class="section_label_maj" id="raison_sociale">
-           <?php echo $societe->raison_sociale; ?>
+<div id="detail_societe" class="form_section">
+    <h2>Détail de la société </h2>  
+    <div class="form_contenu">
+        <div class="form_ligne">
+            <label for="raison_sociale">
+                Nom de la société : 
+            </label>
+            <?php echo $societe->raison_sociale; ?>
         </div>
-        <div class="section_label_maj" id="raison_sociale_abregee">
+        <div class="form_ligne">
+            <label for="raison_sociale_abregee">
+                Abrégé : 
+            </label>
             <?php echo $societe->raison_sociale_abregee; ?>
         </div>
-        <div class="section_label_maj" id="statut">
+        <div class="form_ligne">
+            <label for="statut">
+                Statut : 
+            </label>
             <?php echo $societe->statut; ?>
         </div>
-        <div class="section_label_maj" id="type_societe">
-           <?php echo $societe->type_societe; ?>
+        <div class="form_ligne">
+            <label for="statut">
+                Statut : 
+            </label>
+            <?php echo $societe->type_societe; ?>
+        </div>    
+        <?php if ($societe->numero_compte_client) : ?>
+            <div class="form_ligne">
+                <label for="numero_compte_client">
+                    Numero de compte client : 
+                </label>
+                <?php echo $societe->numero_compte_client; ?>
+            </div>  
+        <?php endif; ?>
+        <?php if ($societe->numero_compte_fournisseur) : ?>
+            <div class="form_ligne"> 
+                <label for="numero_compte_fournisseur">
+                    Numero de compte Fournisseur : 
+                </label>
+
+                <?php echo $societe->numero_compte_fournisseur; ?>
+            </div>  
+        <?php endif; ?>
+        <div class="form_ligne">
+            <label for="siret">
+                SIRET : 
+            </label>
+            <?php echo $societe->siret; ?>
         </div>                
-        <div class="section_label_maj" id="type_numero_compte">
-           <?php echo $societe->type_numero_compte; ?>
-        </div>                 
-        <div class="section_label_maj" id="siret">
-             <?php echo $societe->siret; ?>
-        </div>                
-        <div class="section_label_maj" id="code_naf">
+        <div class="form_ligne">
+            <label for="code_naf">
+                Code Naf : 
+            </label>
             <?php echo $societe->code_naf; ?>
         </div>
         <?php
         foreach ($societe->enseignes as $key => $enseigne) :
             ?>
-            <div class="section_label_maj" id="enseigne_<?php echo $key; ?>">
+            <div class="form_ligne">
+                <label for="enseigne">
+                    Enseigne : 
+                </label>
                 <?php echo $enseigne; ?>
             </div>
             <?php
         endforeach;
         ?>
-        <div class="section_label_maj" id="tva_intracom">
+        <div class="form_ligne">
+            <label for="tva_intracom">
+                TVA intracom : 
+            </label>
             <?php echo $societe->tva_intracom; ?>
         </div>
-        <div class="section_label_maj" id="commentaire">
+        <div class="form_ligne">
+            <label for="commentaire">
+                commentaire : 
+            </label>
             <?php echo $societe->commentaire; ?>
         </div>
+    </div>
 </div>

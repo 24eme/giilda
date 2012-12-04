@@ -12,12 +12,14 @@
  * @property string $raison_sociale
  * @property string $raison_sociale_abregee
  * @property string $statut
- * @property acCouchdbJson $type_numero_compte
+ * @property string $numero_compte_client
+ * @property string $numero_compte_fournisseur
  * @property string $code_naf
  * @property string $siret
  * @property string $interpro
  * @property string $tva_intracom
  * @property string $commentaire
+ * @property acCouchdbJson $siege
  * @property string $cooperative
  * @property acCouchdbJson $enseignes
  * @property string $id_compte_societe
@@ -40,8 +42,10 @@
  * @method string setRaisonSocialeAbregee()
  * @method string getStatut()
  * @method string setStatut()
- * @method acCouchdbJson getTypeNumeroCompte()
- * @method acCouchdbJson setTypeNumeroCompte()
+ * @method string getNumeroCompteClient()
+ * @method string setNumeroCompteClient()
+ * @method string getNumeroCompteFournisseur()
+ * @method string setNumeroCompteFournisseur()
  * @method string getCodeNaf()
  * @method string setCodeNaf()
  * @method string getSiret()
@@ -52,6 +56,8 @@
  * @method string setTvaIntracom()
  * @method string getCommentaire()
  * @method string setCommentaire()
+ * @method acCouchdbJson getSiege()
+ * @method acCouchdbJson setSiege()
  * @method string getCooperative()
  * @method string setCooperative()
  * @method acCouchdbJson getEnseignes()
