@@ -1,6 +1,6 @@
 <?php
 
-class importSV12Task extends importAbstractTask
+class importSV12Task extends importVracTask
 {
 
   const CSV_DOSSIER = 0;
@@ -65,12 +65,12 @@ EOF;
 
   }
 
-  public function importDS($lines) {
+  public function importSV12($lines) {
     $ds = null;
 
     foreach($lines as $i => $line) {
       try{
-        $ds = $this->importLigne($ds, $line);
+        $ds = $this->importVrac($ds, $line);
       } catch (Exception $e) {
         $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
       }
@@ -80,7 +80,7 @@ EOF;
     $ds->save();
   }
 
-  public function importLigne($ds, $line) {
+  public function importVrac($ds, $line) {
     if (is_null($ds)) {
       $ds = DSClient::getInstance()->createOrFind($line[self::CSV_CODE_VITICULTEUR], $this->convertToDateObject($line[self::CSV_DATE_CREATION])->format('Y-m-d'));
 
