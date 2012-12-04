@@ -32,25 +32,12 @@ Societe:
             '*': { }
       id_compte_societe: { }      
       contacts:
-        type: array_collection
+        type: collection
         definition:
           fields:
-            '*':
-              class: Contacts
-              type: collection
-              definition:
-                fields:
-                  id_compte: {}
-                  ordre: {}
+            '*': {}
       etablissements :
         type: collection
         definition:
           fields:
-            '*': 
-              class: Chai
-              type: collection
-              definition:
-                fields:
-                  id_etablissement: { }
-                  ordre: { }
-                  adresse_societe: { }
+            '*': {}
