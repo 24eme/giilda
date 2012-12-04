@@ -6,8 +6,8 @@ class Etablissement extends BaseEtablissement {
     protected $droit = null;
 
     const STATUT_ACTIF = "ACTIF";
-    const STATUT_ARCHIVER = "ARCHIVER";
-    const STATUT_DELIER = "DELIER";
+    const STATUT_ARCHIVE = "ARCHIVE";
+    const STATUT_DELIE = "DELIE";
     const STATUT_CSV = "CSV";
 
     /**
