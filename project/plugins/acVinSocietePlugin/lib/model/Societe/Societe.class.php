@@ -42,13 +42,14 @@ class Societe extends BaseSociete {
         }
     }
 
-    public function addEtablissement() {
+    public function createEtablissement() {
         if ($this->hasChais()) {
             if (!$this->identifiant) {
                 throw new sfException("La societe ne possède pas encore d'identifiant");
             }
             $etablissement = EtablissementClient::getInstance()->createEtablissement($this->identifiant, $this->type_societe);
-            $this->etablissements->add(count(($this->etablissements) + 1) . '-' . $etablissement->_id);
+            
+            $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
         }
     }
 
@@ -68,4 +69,8 @@ class Societe extends BaseSociete {
         return $etablissements;
     }
 
+    public function addEtablissement($e, $ordre = 0) {
+	$this->etablissements->add(sprintf('%02d-%s', $ordre, $e->_id), $e->nom);
+    }
+   
 }
