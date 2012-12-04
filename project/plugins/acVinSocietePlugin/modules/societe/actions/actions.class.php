@@ -53,6 +53,15 @@ class societeActions extends sfActions {
         $this->societe->save();
         $this->redirect('compte_new',array('identifiant' => $this->contact->identifiant));
     }
+    
+    public function executeAddEtablissement(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->etablissement = $this->societe->addNewEtablissement();
+        $this->societe->save();
+        $this->redirect('etablissement_new',array('identifiant' => $this->etablissement->identifiant));
+    }
+    
+    
 	/***************
 	 * Intégration
 	 ***************/

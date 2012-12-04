@@ -25,6 +25,16 @@ class Societe extends BaseSociete {
         return $compte;
     }
 
+    public function addNewEtablissement() {
+        $etablissement = EtablissementClient::getInstance()->createEtablissement($this->identifiant, $this->type_societe);
+        $compteForEtb = CompteClient::getInstance()->createCompte($this->identifiant);
+        $etablissement->compte = $compteForEtb->_id;
+        $etablissement->save();
+        $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
+        return $etablissement;
+    }
+
+
     public function getMaxOrdreContacts() {
         $max = 0;
         foreach ($this->contacts as $contact) {

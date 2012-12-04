@@ -53,6 +53,15 @@ class SocieteRouting {
                         array('model' => 'Societe',
                             'type' => 'object')
         ));
+        
+        $r->prependRoute('societe_addEtablissement', new SocieteRoute('/societe/:identifiant/ajout-etablissement', array('module' => 'societe',
+                    'action' => 'addEtablissement'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Societe',
+                            'type' => 'object')
+        ));
+        
+        
     }
 
 }
