@@ -79,12 +79,27 @@ class Societe extends BaseSociete {
         return $etablissements;
     }
 
-    public function addEtablissement($e, $ordre = 0) {
-	$this->etablissements->add(sprintf('%02d-%s', $ordre, $e->_id), $e->nom);
+    public function addEtablissement($e, $ordre = null) {
+        if (! $this->etablissements->exist($e->_id)) {
+                $this->etablissements->add($e->_id, array('nom' => $e->nom, 'ordre' => $ordre));
+	} else {
+		$this->etablissements->add($e->_id)->nom = $e->nom;
+		if ($ordre !== null) {
+			$this->etablissements->add($e->_id)->ordre = $ordre;
+		}
+	}
+		
     }
-    
-    public function addCompte($c, $ordre = 0) {
-	$this->contacts->add(sprintf('%02d-%s', $ordre, $c->_id), $c->nom);
+
+    public function addCompte($c, $ordre = null) {
+	if (!$this->contacts->exist($c->_id)) {
+		$this->contacts->add($c->_id, array('nom' => $c->nom_a_afficher, 'ordre' => $ordre));
+	}else{
+		$this->contacts->add($c->_id)->nom = $c->nom_a_afficher;
+		if ($ordre !== null) {
+                        $this->contacts->add($c->_id)->ordre = $ordre;
+                }
+	}
     }
-   
+
 }

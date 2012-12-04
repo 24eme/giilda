@@ -35,9 +35,20 @@ Societe:
         type: collection
         definition:
           fields:
-            '*': {}
+            '*':
+              type: collection
+              definition:
+                fields:
+                  nom: {}
+                  ordre: {}
       etablissements :
         type: collection
         definition:
           fields:
-            '*': {}
+            '*':
+              type: collection
+              definition:
+                fields:
+                  nom: {}
+                  ordre: {}
+
