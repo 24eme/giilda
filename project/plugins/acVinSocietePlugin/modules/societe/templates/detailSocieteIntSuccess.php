@@ -19,14 +19,48 @@
 					<div id="detail_societe" class="form_section">
 						<h2>Détail de la société</h2>
 						<div class="form_contenu">
-							
+							<ul>
+								<li>
+									<span>Nom de la société</span>
+									<span>EARL Yannick &amp; Nicole Amirault</span>
+
+								</li>
+								<li>
+									<span>Abrégé</span>
+									<span>Amirault</span>
+									<span>Statut</span>
+									<span>Actif</span>
+								</li>
+								<li>
+									<span>Numéros de compte</span>
+									<span>Client</span>
+									<span>Fournisseur</span>
+								</li>
+								<li>
+									<span>SIRET</span>
+									<span>404 833 048 00022</span>
+									<span>Code NAF</span>
+									<span>0121Z</span>
+								</li>
+								<li>
+									<span>TVA Intracom</span>
+									<span>FR 83 404 833 048</span>
+								</li>
+								<li>
+									<span>Enseigne</span>
+									<span>Domaine du Bodinois</span>
+								</li>
+								<li>
+									<span>Enseigne</span>
+									<span>Mouton Aîné</span>
+								</li>
+							</ul>
 						</div>
 					</div>
 					
 					<div id="coordonnees_societe" class="form_section">
 						<h2>Coordonnées de la société</h2>
 						<div class="form_contenu">
-							
 						</div>
 					</div>
 					

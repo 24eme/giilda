@@ -2872,6 +2872,37 @@ bouton#colonne #contrat_actions a { height:26px; }
   width:15px;
 }
 .bloc_col .legende div .type_raisins, .bloc_col .legende div .type_mouts, .bloc_col .legende div .type_vin_vrac, .bloc_col .legende div .type_vin_bouteille { margin-bottom:5px; }
+#contacts .form_section {
+  border:1px solid #d2d2d2;
+  margin:0 0 35px 0;
+}
+#contacts .form_section .champ_long { width:425px; }
+#contacts .form_section .form_contenu { padding:15px 30px 23px 10px; }
+#contacts .form_section .form_ligne { margin:13px 0; }
+#contacts .form_section h2 {
+  background:#ecebeb;
+  font-size:14px;
+  margin:0;
+  padding:7px;
+  text-decoration:underline;
+  text-transform:none;
+}
+#contacts .form_section legend {
+  font-size:16px;
+  margin:15px 0;
+}
+#contacts .form_section textarea {
+  height:90px;
+  width:618px;
+}
+#contacts #detail_societe label {
+  display:inline-block;
+  width:140px;
+}
+#contacts #coordonnees_societe label, #contacts #detail_etablissement label {
+  display:inline-block;
+  width:190px;
+}
 .itemcache { display:none; }
 p#date_drm {
   font-size:14px;

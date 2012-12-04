@@ -1,0 +1,77 @@
+/**
+ * Fichier : contacts.less
+ * Description : styles spécifiques à la rubrique contacts
+ * Auteur : Mikaël Guillin - mguillin[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+
+
+#contacts
+{
+	/**
+	 * Etapes de la saisie
+	 ******************************************/
+
+	.form_section
+	{
+		.border(@couleur-a9);
+		margin: 0 0 35px 0;
+
+		.champ_long { width: 425px; }
+
+		.form_contenu { padding: 15px 30px 23px 10px; }
+
+		.form_ligne { margin: 13px 0; }
+
+		h2
+		{
+			background: @couleur-a5;
+			font-size: 14px;
+			margin: 0;
+			padding: 7px;
+			text-decoration: underline;
+			text-transform: none;
+		}
+
+		legend
+		{
+			font-size: 16px;
+			margin: 15px 0;
+		}
+
+		textarea
+		{
+			height: 90px;
+			width: 618px;
+		}
+		
+	}
+
+	/**
+	 * Détail société
+	 ******************************************/
+	 
+	 #detail_societe
+	 {
+		label
+		{
+			display: inline-block;
+			width: 140px;
+		}
+	 }
+
+	/**
+	 * Coordonnées de la société et détail établissement
+	 ******************************************/
+
+	 #coordonnees_societe,
+	 #detail_etablissement
+	 {
+		label
+		{
+			display: inline-block;
+			width: 190px;
+		}
+	}
+}
+
