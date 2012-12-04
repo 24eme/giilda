@@ -21,7 +21,7 @@ class Societe extends BaseSociete {
 
     public function addNewContact() {
         $compte = CompteClient::getInstance()->createCompte($this->identifiant);
-        $this->contacts->add((count($this->contacts) + 1) . '-' . $compte->_id, null);
+        $this->addCompte($compte,count(($this->contacts) + 1));
         return $compte;
     }
 
@@ -71,6 +71,10 @@ class Societe extends BaseSociete {
 
     public function addEtablissement($e, $ordre = 0) {
 	$this->etablissements->add(sprintf('%02d-%s', $ordre, $e->_id), $e->nom);
+    }
+    
+    public function addCompte($c, $ordre = 0) {
+	$this->contacts->add(sprintf('%02d-%s', $ordre, $c->_id), $c->nom);
     }
    
 }
