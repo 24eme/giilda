@@ -23,7 +23,7 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->setWidget('raisins_mouts', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
         $this->setWidget('exclusion_drm', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
         $this->setWidget('relance_ds', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
-        $this->setWidget('recette_locale', new sfWidgetFormChoice(array('choices' => $this->getRecettesLocales())));
+ //       $this->setWidget('recette_locale', new sfWidgetFormChoice(array('choices' => $this->getRecettesLocales())));
         $this->setWidget('region', new sfWidgetFormChoice(array('choices' => $this->getRegions())));
         $this->setWidget('type_dr', new sfWidgetFormChoice(array('choices' => $this->getTypeDR())));
 
@@ -44,7 +44,7 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('raisins_mouts', 'Raisins et Moûts');
         $this->widgetSchema->setLabel('exclusion_drm', 'Exclusion DRM');
         $this->widgetSchema->setLabel('relance_ds', 'Relance DS');
-        $this->widgetSchema->setLabel('recette_locale', 'Recette Locale');
+    //    $this->widgetSchema->setLabel('recette_locale', 'Recette Locale');
         $this->widgetSchema->setLabel('region', 'Région viticole');
         $this->widgetSchema->setLabel('type_dr', 'Type de DR');
         $this->widgetSchema->setLabel('type_liaison', 'Type de liaison (externe)');
@@ -65,7 +65,7 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->setValidator('raisins_mouts', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));
         $this->setValidator('exclusion_drm', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));
         $this->setValidator('relance_ds', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));
-        $this->setValidator('recette_locale', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getRecettesLocales()))));
+     //   $this->setValidator('recette_locale', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getRecettesLocales()))));
         $this->setValidator('region', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getRegions()))));
         $this->setValidator('type_dr', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeDR()))));
         $this->setValidator('type_liaison', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesLiaisons()))));

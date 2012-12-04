@@ -48,13 +48,13 @@
             <?php echo $etablissementForm['relance_ds']->render(); ?>
             <?php echo $etablissementForm['relance_ds']->renderError(); ?>
         </div>                
-        <div class="form_ligne">
+<!--        <div class="form_ligne">
             <label for="recette_locale">
-            <?php echo $etablissementForm['recette_locale']->renderLabel(); ?>
+            <?php //echo $etablissementForm['recette_locale']->renderLabel(); ?>
             </label>
-            <?php echo $etablissementForm['recette_locale']->render(); ?>
-            <?php echo $etablissementForm['recette_locale']->renderError(); ?>
-        </div>
+            <?php //echo $etablissementForm['recette_locale']->render(); ?>
+            <?php //echo $etablissementForm['recette_locale']->renderError(); ?>
+        </div>-->
         <div class="form_ligne">
             <label for="region">
             <?php echo $etablissementForm['region']->renderLabel(); ?>

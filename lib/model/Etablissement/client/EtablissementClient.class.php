@@ -31,8 +31,8 @@ class EtablissementClient extends acCouchdbClient {
 
     public function createEtablissement($societe_id, $societe_type) {
         $etablissement = new Etablissement();
-        $etablissement->id_societe = $societe_id;
-        $etablissement->identifiant = $this->getNextIdentifiantForSociete($etablissement->id_societe);
+        $etablissement->id_societe = SocieteClient::getInstance()->getId($societe_id);
+        $etablissement->identifiant = $this->getNextIdentifiantForSociete($societe_id);
         $famillesSocieteTypes = self::getFamillesSocieteTypesArray();
         $etablissement->famille = $famillesSocieteTypes[$societe_type];
         $etablissement->constructId();
@@ -42,13 +42,12 @@ class EtablissementClient extends acCouchdbClient {
 
     public function getNextIdentifiantForSociete($societe_id) {
         $id = '';
-        $comptes = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
-        if (count($comptes) > 0) {
-            $id .= $societe_id . sprintf("%1$02d", ((double) str_replace('ETABLISSEMENT-', '', max($comptes)) + 1));
+        $etbs = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+        if (count($etbs) > 0) {
+            $id .= $societe_id . sprintf("%1$02d", ((double) str_replace('ETABLISSEMENT-', '', count($etbs)) + 1));
         } else {
             $id.= $societe_id . '01';
         }
-
         return $id;
     }
 

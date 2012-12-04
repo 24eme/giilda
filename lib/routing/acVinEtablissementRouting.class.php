@@ -27,6 +27,13 @@ class acVinEtablissementRouting {
                     array('model' => 'Etablissement',
                         'type' => 'object') ));
                 
+                $r->prependRoute('etablissement_new', new EtablissementRoute('/etablissement/:identifiant/nouveau',
+                        array('module' => 'etablissement',
+                            'action' => 'nouveau'),
+                        array('sf_method' => array('get', 'post')),
+                    array('model' => 'Etablissement',
+                        'type' => 'object') ));
+                
                 
 
     }
