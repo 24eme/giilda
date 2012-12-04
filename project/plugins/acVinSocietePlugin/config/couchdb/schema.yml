@@ -28,7 +28,7 @@ Societe:
             '*': { }
       id_compte_societe: { }      
       contacts:
-        type: collection
+        type: array_collection
         definition:
           fields:
             '*':
