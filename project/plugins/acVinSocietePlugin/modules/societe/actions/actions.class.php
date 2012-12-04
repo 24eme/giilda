@@ -19,13 +19,13 @@ class societeActions extends sfActions {
         $this->societe = $this->getRoute()->getSociete();
         $this->contactSociete = CompteClient::getInstance()->find($this->societe->id_compte_societe);
         $this->societeForm = new SocieteModificationForm($this->societe);
-        $this->contactSocieteForm = new CompteSocieteModificationForm($this->contactSociete);
-        
+        $this->contactSocieteForm = new CompteModificationForm($this->contactSociete);
         $this->etablissementSocieteForm = null;
         if ($this->societe->hasChais()) {
-            $idEtablissement = $this->societe->etablissements[0]->id_etablissement;
+            $idEtablissement = $this->societe->getIdFirstEtablissement();
             $etablissement = EtablissementClient::getInstance()->find($idEtablissement);
             $this->etablissementSocieteForm = new EtablissementModificationForm($etablissement);
+            $this->contactSocieteForm = new CompteModificationForm($this->contactSociete);
         }
         
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -36,12 +36,32 @@ class societeActions extends sfActions {
                 $this->societeForm->save();
                 $this->contactSocieteForm->save();
                 if($this->societe->hasChais()) $this->etablissementSocieteForm->save();
-                var_dump('KIFFE ENGER');
-                exit;
+                $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
             }
         }
     }
 
+    
+    public function executeVisualisation(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->etablissements = $this->societe->getEtablissementsObj();
+    }
+    
+    public function executeAddContact(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->contact = $this->societe->addNewContact();
+        $this->societe->save();
+        $this->redirect('compte_new',array('identifiant' => $this->contact->identifiant));
+    }
+    
+    public function executeAddEtablissement(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->etablissement = $this->societe->addNewEtablissement();
+        $this->societe->save();
+        $this->redirect('etablissement_new',array('identifiant' => $this->etablissement->identifiant));
+    }
+    
+    
 	/***************
 	 * Intégration
 	 ***************/

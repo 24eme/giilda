@@ -1,0 +1,122 @@
+/**
+ * Fichier : contacts.less
+ * Description : styles spécifiques à la rubrique contacts
+ * Auteur : Mikaël Guillin - mguillin[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+
+
+#contacts
+{
+	/**
+	 * Etapes de la saisie
+	 ******************************************/
+
+	.form_section
+	{
+		.border(@couleur-a9);
+		margin: 0 0 35px 0;
+
+		.champ_long { width: 425px; }
+		.form_contenu { padding: 15px 30px 23px 10px; }
+		.form_ligne { margin: 13px 0; }
+
+		#conteneur_societe,
+		#conteneur_type_liaison
+		{
+			.inline-block-ie;
+		}
+
+		h2
+		{
+			background: @couleur-a5;
+			font-size: 14px;
+			margin: 0;
+			padding: 7px;
+			text-decoration: underline;
+			text-transform: none;
+		}
+
+		label
+		{
+			display: inline-block;
+			font-size: 14px;
+			font-weight: bold;
+
+			&[for="detail_societe_statut"],
+			&[for="detail_societe_code_naf"]
+			{
+				width: auto;
+			}
+
+			&[for="detail_societe_actif"],
+			&[for="detail_societe_suspendu"],
+			&[for="detail_etablissement_actif"],
+			&[for="detail_etablissement_suspendu"],
+			&[for="detail_etablissement_type_liaison"]
+			{
+				font-weight: normal;
+			}
+		}
+
+		legend
+		{
+			font-size: 16px;
+			font-weight: normal;
+			margin: 15px 0;
+		}
+
+		textarea
+		{
+			height: 90px;
+			width: 618px;
+		}
+		
+	}
+
+	/**
+	 * Détail société
+	 ******************************************/
+	 
+	 #detail_societe
+	 {
+		label 
+		{ 
+			width: 145px;
+
+			&[for="detail_societe_code_naf"],
+			&[for="detail_societe_statut"]
+			{
+				padding: 0 0 0 35px;
+			}
+		}
+		.label_court { width: auto; }
+	 }
+
+	 /**
+	 * Détail établissement
+	 ******************************************/
+	 
+	 #detail_etablissement
+	 {
+		label[for="detail_etablissement_ordre_affichage"],
+		label[for="detail_etablissement_exclusion_drm"],
+		label[for="detail_etablissement_recette_locale"],
+		label[for="detail_etablissement_type_dr"],
+		{
+			padding: 0 0 0 35px;
+		}
+	 }
+
+	/**
+	 * Coordonnées de la société et détail établissement
+	 ******************************************/
+
+	 #coordonnees_societe,
+	 #detail_etablissement
+	 {
+		label { width: 190px; }
+		.label_court { width: auto; }
+	 } 
+}
+
