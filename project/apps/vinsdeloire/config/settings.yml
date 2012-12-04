@@ -26,7 +26,7 @@ test:
 all:
   .settings:
 
-    enabled_modules:        [default, vrac, drm, drm_edition, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf, etablissement_autocomplete, facture, sv12, ds, generation, revendication, stocks, alerte, societe]
+    enabled_modules:        [default, vrac, drm, drm_edition, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf, etablissement, etablissement_autocomplete, facture, sv12, ds, generation, revendication, stocks, alerte, societe, compte]
 
     # Form security secret (CSRF protection)
     csrf_secret:            false
@@ -38,3 +38,4 @@ all:
     # Enable the database manager
     use_database:           true
     default_culture:        fr_FR
+

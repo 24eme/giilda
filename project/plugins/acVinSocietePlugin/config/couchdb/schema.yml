@@ -24,6 +24,7 @@ Societe:
             adresse: {  }
             code_postal: {  }
             commune: {  }
+      cooperative: { }
       enseignes:
         type: array_collection
         definition:

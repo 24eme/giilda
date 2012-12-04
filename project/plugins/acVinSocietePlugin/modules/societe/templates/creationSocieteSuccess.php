@@ -21,13 +21,6 @@
 						</div>
 						<button id="btn_rechercher" type="submit">Créer</button>
 				</div>
-				
-				<div id="detail_societe" class="form_section">
-					<div class="ligne_form">
-						<label>Nom de la société</label>
-						<input type="text" />
-					</div>
-				</div>
             <form>
         </section>
     </section>
