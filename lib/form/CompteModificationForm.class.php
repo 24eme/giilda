@@ -9,13 +9,15 @@
  * Description of class CompteSocieteModificationForm
  * @author mathurin
  */
-class CompteSocieteModificationForm extends acCouchdbObjectForm {
+class CompteModificationForm extends acCouchdbObjectForm {
 
     public function __construct(Compte $compte, $options = array(), $CSRFSecret = null) {
-        parent::__construct($compte, $options, $CSRFSecret);
+        parent::__construct($compte, $options, $CSRFSecret); 
+        $this->defaults['pays'] = 'FR';
     }
 
     public function configure() {
+
         $this->setWidget('adresse', new sfWidgetFormInput());
         $this->setWidget('adresse_complementaire', new sfWidgetFormInput());
         $this->setWidget('code_postal', new sfWidgetFormInput());
@@ -26,9 +28,10 @@ class CompteSocieteModificationForm extends acCouchdbObjectForm {
         $this->setWidget('telephone_bureau', new sfWidgetFormInput());
         $this->setWidget('telephone_mobile', new sfWidgetFormInput());
         $this->setWidget('fax', new sfWidgetFormInput());
-     //   $this->setWidget('tags', new sfWidgetFormChoice(array('choices' => $this->getAllTags())));
-        
-        
+        //   $this->setWidget('tags', new sfWidgetFormChoice(array('choices' => $this->getAllTags())));
+
+
+
         $this->widgetSchema->setLabel('adresse', 'N° et nom de rue');
         $this->widgetSchema->setLabel('adresse_complementaire', 'Adresse complémentaire');
         $this->widgetSchema->setLabel('code_postal', 'CP');
@@ -39,8 +42,8 @@ class CompteSocieteModificationForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('telephone_bureau', 'Telephone Bureau');
         $this->widgetSchema->setLabel('telephone_mobile', 'Mobile');
         $this->widgetSchema->setLabel('fax', 'Fax');
-    //    $this->widgetSchema->setLabel('tags', 'Tags');
-        
+        //    $this->widgetSchema->setLabel('tags', 'Tags');
+
         $this->setValidator('adresse', new sfValidatorString(array('required' => true)));
         $this->setValidator('adresse_complementaire', new sfValidatorString(array('required' => false)));
         $this->setValidator('code_postal', new sfValidatorString(array('required' => true)));
@@ -49,10 +52,10 @@ class CompteSocieteModificationForm extends acCouchdbObjectForm {
         $this->setValidator('pays', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCountryList()))));
         $this->setValidator('email', new sfValidatorString(array('required' => false)));
         $this->setValidator('telephone_bureau', new sfValidatorString(array('required' => true)));
-        $this->setValidator('telephone_mobile', new sfValidatorString(array('required' => false)));        
+        $this->setValidator('telephone_mobile', new sfValidatorString(array('required' => false)));
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
-      //  $this->setValidator('tags', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getAllTags()))));
-        
+        //  $this->setValidator('tags', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getAllTags()))));
+
         $this->widgetSchema->setNameFormat('compte_modification[%s]');
     }
 
@@ -61,14 +64,10 @@ class CompteSocieteModificationForm extends acCouchdbObjectForm {
         $destinationChoices = $destinationChoicesWidget->getChoices();
         $destinationChoices['inconnu'] = 'Inconnu';
         return $destinationChoices;
-    }
+    }    
     
-    public function getAllTags(){
+    public function getAllTags() {
         return CompteClient::getInstance()->getAllTags();
-    }
-
-    public function doUpdateObject($values) {
-        parent::doUpdateObject($values);
-    }
+    }    
 
 }

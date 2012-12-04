@@ -43,5 +43,13 @@ class acVinCompteRouting
     $r->prependRoute('ac_vin_compte_mot_de_passe_oublie_login', new sfRoute('/mot_de_passe_oublie/login/:login/:mdp', array('module' => 'acVinCompte', 'action' => 'motDePasseOublieLogin')));
     $r->prependRoute('ac_vin_compte_mot_de_passe_oublie', new sfRoute('/mot_de_passe_oublie', array('module' => 'acVinCompte', 'action' => 'motDePasseOublie')));
     $r->prependRoute('ac_vin_compte_mot_de_passe_oublie_confirm', new sfRoute('/mot_de_passe_oublie/confirm', array('module' => 'acVinCompte', 'action' => 'motDePasseOublieConfirm')));
+  
+     $r->prependRoute('compte_modification', new CompteRoute('/compte/:identifiant/modification',
+                        array('module' => 'compte',
+                            'action' => 'modification'),
+                        array('sf_method' => array('get', 'post')),
+                    array('model' => 'Compte',
+                        'type' => 'object') ));
+    
   }
 }
