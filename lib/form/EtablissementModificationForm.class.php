@@ -108,9 +108,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         return EtablissementClient::getTypesLiaisons();
     }
 
-    public function doUpdateObject($values) {
-        parent::doUpdateObject($values);
-    }
 
 }
 

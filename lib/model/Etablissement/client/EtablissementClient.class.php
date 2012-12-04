@@ -44,16 +44,16 @@ class EtablissementClient extends acCouchdbClient {
         $id = '';
         $comptes = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($comptes) > 0) {
-            $id .= $societe_id . '-' . sprintf("%1$02d", ((double) str_replace('ETABLISSEMENT-', '', max($comptes)) + 1));
+            $id .= $societe_id . sprintf("%1$02d", ((double) str_replace('ETABLISSEMENT-', '', max($comptes)) + 1));
         } else {
-            $id.= $societe_id . '-01';
+            $id.= $societe_id . '01';
         }
 
         return $id;
     }
 
     public function getAtSociete($societe_id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('ETABLISSEMENT-' . $societe_id . '-00')->endkey('ETABLISSEMENT-' . $societe_id . '-99')->execute($hydrate);
+        return $this->startkey('ETABLISSEMENT-' . $societe_id . '00')->endkey('ETABLISSEMENT-' . $societe_id . '99')->execute($hydrate);
     }
 
     public function getViewClient($view) {

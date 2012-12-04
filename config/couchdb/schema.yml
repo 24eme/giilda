@@ -13,7 +13,13 @@ Etablissement:
        raisins_mouts: {  }
        exclusion_drm: {  }
        relance_ds: {  }
-       recette_locale: {  }
+       recette_locale: 
+         type: collection
+         definition:
+           fields:
+             id_douane: {  }
+             nom: {  }
+             ville: {  }
        region: {  }
        type_dr: {  }
        liaisons_operateurs:
@@ -58,4 +64,3 @@ Etablissement:
                adresse: {  }
                code_postal: {  }
                commune: {  }
-       service_douane: {  }

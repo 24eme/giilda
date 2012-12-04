@@ -45,6 +45,17 @@ class Etablissement extends BaseEtablissement {
         return $phone;
     }
 
+    public function getContact() {
+        if ($this->compte)
+            return CompteClient::getInstance()->find($this->compte);
+        $societe = SocieteClient::getInstance()->find($this->id_societe);
+        return CompteClient::getInstance()->find($societe->id_compte_societe);
+    }
+
+    public function contactIsSocieteContact() {
+        return is_null($this->compte);
+    }
+
     public function setFax($fax) {
         if ($fax)
             $this->_set('fax', $this->cleanPhone($fax));
@@ -91,6 +102,15 @@ class Etablissement extends BaseEtablissement {
     public function getDroits() {
         return EtablissementFamilles::getDroitsByFamilleAndSousFamille($this->famille, $this->sous_famille);
     }
+
+//    public function setSiege()
+//    {
+//        if (!$this->siege) {
+//            
+//        }
+//        
+//    }
+
 
     public function save() {
         if (!$this->famille) {

@@ -15,7 +15,7 @@
  * @property string $raisins_mouts
  * @property string $exclusion_drm
  * @property string $relance_ds
- * @property string $recette_locale
+ * @property acCouchdbJson $recette_locale
  * @property string $region
  * @property string $type_dr
  * @property acCouchdbJson $liaisons_operateurs
@@ -37,7 +37,6 @@
  * @property string $commentaire
  * @property acCouchdbJson $siege
  * @property acCouchdbJson $comptabilite
- * @property string $service_douane
 
  * @method string get_id()
  * @method string set_id()
@@ -61,8 +60,8 @@
  * @method string setExclusionDrm()
  * @method string getRelanceDs()
  * @method string setRelanceDs()
- * @method string getRecetteLocale()
- * @method string setRecetteLocale()
+ * @method acCouchdbJson getRecetteLocale()
+ * @method acCouchdbJson setRecetteLocale()
  * @method string getRegion()
  * @method string setRegion()
  * @method string getTypeDr()
@@ -105,8 +104,6 @@
  * @method acCouchdbJson setSiege()
  * @method acCouchdbJson getComptabilite()
  * @method acCouchdbJson setComptabilite()
- * @method string getServiceDouane()
- * @method string setServiceDouane()
  
  */
  
