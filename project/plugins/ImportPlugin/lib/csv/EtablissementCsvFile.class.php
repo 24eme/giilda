@@ -2,21 +2,49 @@
 
 class EtablissementCsvFile extends CsvFile 
 {
-  const CSV_DOSSIER = 1;
-  const CSV_CODE_PARTENAIRE = 0;
-  const CSV_NOM_DU_PARTENAIRE = 2;
-  const CSV_TYPE_PARTENAIRE = 4;
-  const CSV_PARTENAIRE_COMMUNE = 14;
-  const CSV_PARTENAIRE_CODE_POSTAL = 13;
-  const CSV_CVI = 25;
+  const CSVPAR_DOSSIER = 1;
+  const CSVPAR_CODE_CLIENT = 0;
+  const CSVPAR_NOM_DU_PARTENAIRE = 2;
+  const CSVPAR_NOM_REDUIT = 3;
+  const CSVPAR_TYPE_PARTENAIRE = 4;
+  const CSVPAR_COOPERATIVEGROUPEMENT = 5;
+  const CSVPAR_CODE_COURTIER = 6;
+  const CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE = 7;
+  const CSVPAR_EN_ACTIVITE = 8;
+  const CSVPAR_ADRESSE1 = 9;
+  const CSVPAR_ADRESSE2 = 10;
+  const CSVPAR_ADRESSE3 = 11;
+  const CSVPAR_ADRESSE4 = 12;
+  const CSVPAR_CODE_POSTAL = 13;
+  const CSVPAR_COMMUNE = 14;
+  const CSVPAR_CODE_PAYS = 15;
+  const CSVPAR_DATE_CREATION = 16;
+  const CSVPAR_DATE_MODIFICATION = 17;
+  const CSVPAR_RELANCE_STOCK = 18;
+  const CSVPAR_ABONNE_JOURNAL = 19;
+  const CSVPAR_ENSEIGNE = 20;
+  const CSVPAR_REGION_VITI = 21;
   const CSV_TYPE_PARTENAIRE_VITICULTEUR = 'V';
   const CSV_TYPE_PARTENAIRE_NEGOCE = 'N';
   const CSV_TYPE_PARTENAIRE_COURTIER = 'C';
 
-  private function verifyCsvLine($line) {
-    if (!preg_match('/[0-9]+/', $line[self::CSV_CODE_PARTENAIRE])) {
+  const CSVCAV_DOSSIER = 24;
+  const CSVCAV_CODE_CHAI = 25;
+  const CSVCAV_CVI = 26;
+  const CSVCAV_ADRESSE1 = 27;
+  const CSVCAV_ADRESSE2 = 28;
+  const CSVCAV_ADRESSE3 = 29;
+  const CSVCAV_ADRESSE4 = 30;
+  const CSVCAV_CODE_POSTAL = 31;
+  const CSVCAV_PAYS = 32;
+  const CSVCAV_CODE_DEPARTEMENT = 33;
+  const CSVCAV_CODE_COMMUNE = 34;
+  const CSVCAV_LIBELLE_COMMUNE = 35;
 
-      throw new Exception(sprintf('Numero de dossier invalide : %s', $line[self::CSV_CODE_PARTENAIRE]));
+  private function verifyCsvLine($line) {
+    if (!preg_match('/[0-9]+/', $line[self::CSVPAR_CODE_CLIENT])) {
+
+      throw new Exception(sprintf('Numero de dossier invalide : %s', $line[self::CSVPAR_CODE_CLIENT]));
     }
   }
 
@@ -28,26 +56,72 @@ class EtablissementCsvFile extends CsvFile
       foreach ($csvs as $line) {
       	$this->verifyCsvLine($line);
 
-        $famille = $this->convertTypeInFamille($line[self::CSV_TYPE_PARTENAIRE]);
+        $famille = $this->convertTypeInFamille($line[self::CSVPAR_TYPE_PARTENAIRE]);
         if (!$famille) {
           continue;
         }
 
-      	$e = EtablissementClient::getInstance()->find($line[self::CSV_CODE_PARTENAIRE], acCouchdbClient::HYDRATE_JSON);
+      	$e = EtablissementClient::getInstance()->find($line[self::CSVPAR_CODE_CLIENT], acCouchdbClient::HYDRATE_JSON);
+        if ($e) {
+          acCouchdbManager::getClient()->deleteDoc($e);
+        }
+	
+	$chai = 1;
+	if (isset($line[self::CSVCAV_CODE_CHAI])) {
+		$chai = $line[self::CSVCAV_CODE_CHAI];
+	}
+        $id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
+	$e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
         if ($e) {
           acCouchdbManager::getClient()->deleteDoc($e);
         }
 
       	$e = new Etablissement();
-        $e->identifiant = $line[self::CSV_CODE_PARTENAIRE];
-        $e->nom = $line[self::CSV_NOM_DU_PARTENAIRE];
-        $e->cvi = isset($line[self::CSV_CVI]) ? $line[self::CSV_CVI] : null;
-        $e->siege->commune = $line[self::CSV_PARTENAIRE_COMMUNE];
-        $e->siege->code_postal = $line[self::CSV_PARTENAIRE_CODE_POSTAL];
+        $e->identifiant = $id;
+	if (isset($line[self::CSVCAV_LIBELLE_COMMUNE])) {
+	        $e->nom = $line[self::CSVPAR_NOM_DU_PARTENAIRE].' - '.$line[self::CSVCAV_LIBELLE_COMMUNE];
+	}else{
+		$e->nom = $line[self::CSVPAR_NOM_DU_PARTENAIRE];
+	}
+        $e->cvi = isset($line[self::CSVCAV_CVI]) ? $line[self::CSVCAV_CVI] : null;
+	if (isset( $line[self::CSVCAV_LIBELLE_COMMUNE])) {
+	        $e->siege->commune = $line[self::CSVCAV_LIBELLE_COMMUNE];
+        	$e->siege->code_postal = $line[self::CSVCAV_CODE_POSTAL];
+	        $e->siege->adresse = preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE1]);
+        	if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE2])) {
+		$e->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE2]);
+		if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE3])) {
+		$e->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE3]);
+        	if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE4])) {
+		$e->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE4]);
+	        }}}
+	}else{
+		$e->siege->commune = $line[self::CSVPAR_COMMUNE];
+                $e->siege->code_postal = $line[self::CSVPAR_CODE_POSTAL];
+	}
+	if (!$e->siege->adresse) {
+		$e->siege->adresse = preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE1]);
+	        if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE2])) {
+                $e->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE2]);
+	        if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE3])) {
+                $e->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE3]);
+        	if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE4])) {
+                $e->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE4]);
+	        }}}
+	}
         $e->famille = $famille;
         $e->sous_famille = $this->getSousFamilleDefaut($famille);
         $e->interpro = 'INTERPRO-inter-loire';
-        
+      
+	//le champ en activité contient en réalisé la valeur de suspendu 
+	if ($line[self::CSVPAR_EN_ACTIVITE] == 'O') {
+		$e->statut = Etablissement::STATUT_ARCHIVE;
+        }else{
+		$e->statut = Etablissement::STATUT_ACTIF;
+        }
+	$e->id_societe = "SOCIETE-".sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]); 
+	if ($line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]*1)
+	        $e->recette_locale->id_douane = "SOCIETE-".sprintf("%06d", $line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]);
       	$e->save();
       }
     }catch(Execption $e) {

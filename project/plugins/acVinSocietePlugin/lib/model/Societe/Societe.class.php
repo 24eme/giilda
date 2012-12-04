@@ -45,5 +45,9 @@ class Societe extends BaseSociete {
         }
         return $etablissements;
     }
+
+    public function addEtablissement($e, $ordre = 0) {
+	$this->etablissements->add(sprintf('%02d-%s', $ordre, $e->_id), $e->nom);
+    }
    
 }

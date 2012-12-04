@@ -1,0 +1,27 @@
+#!/bin/bash
+echo "Conversion des chais viti virtuels en négos originels"
+
+echo "conversion 1/2"
+printf "s/;113611;1.0;/;113621;2.0;/ \n s/;113674;1.0;/;113674;3.0;/ \n s/;111616;1.0;/;111616;3.0;/ \n s/;113567;1.0;/;113567;2.0;/ \n s/;300231;1.0;/;300231;2.0;/ \n s/;300494;1.0;/;300494;2.0;/\n s/;300603;1.0;/;300603;6.0;/ \n s/;300469;1.0;/;300469;2.0;/ \n s/;113854;1.0;/;113854;2.0;/ \n s/;113626;1.0;/;113626;2.0;/ " > /tmp/sed.cmd
+for csv in *.csv; do
+    sed -f /tmp/sed.cmd $csv > $csv.tmp
+    rm $csv
+    mv $csv.tmp $csv
+done
+
+grep -v '^10;4' cicav.csv > cicav.csv.tmp
+mv cicav.csv.tmp cicav.csv
+
+. bin/download_redmine_file https://clients.actualys.com/attachments/download/4824/vitivirtuel2negos.csv /tmp/vitivirtuel2negos.csv
+
+echo "conversion 2/2"
+echo -n > /tmp/sed.cmd
+cat /tmp/vitivirtuel2negos.csv | while read replace ; do
+    echo $replace | sed 's|;|;/;|' | sed 's|^|s/;|'  | sed 's|$|;/|' >> /tmp/sed.cmd
+done
+for csv in $(grep -l 400581 *); do
+    sed -f /tmp/sed.cmd $csv > $csv.tmp
+    rm $csv
+    mv $csv.tmp $csv
+done
+
