@@ -113,6 +113,12 @@ class Etablissement extends BaseEtablissement {
 
 
     public function save() {
+        if ($this->recette_locale->id_douane) {
+		$soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
+		if ($soc) {
+			$this->recette_locale->nom = $soc->raison_sociale;
+		}
+        }
         if (!$this->famille) {
             $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
         }
@@ -120,6 +126,20 @@ class Etablissement extends BaseEtablissement {
             $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
         }
         parent::save();
+
+	$soc = SocieteClient::getInstance()->find($this->id_societe);
+        if(!$soc)
+                throw sfException("$id n'est pas une société connue");
+        $soc->addEtablissement($this);
+	$soc->save();
+
+    }
+
+    public function setIdSociete($id) {
+	$soc = SocieteClient::getInstance()->find($id);
+	if(!$soc)
+		throw sfException("$id n'est pas une société connue");
+	$this->_set("id_societe", $id);
     }
 
     public function __toString() {
