@@ -64,6 +64,10 @@ class DRMHistorique {
         return DRMClient::getInstance()->find($next_drm->_id);
     }
 
+    public function reload() {
+        $this->loadDRMs();
+    }
+
     protected function loadDRMs() {
         $this->drms = array();
 

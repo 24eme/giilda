@@ -42,9 +42,7 @@ class DRMDetailExportItemForm extends acCouchdbObjectForm {
     }
 
     public function getCountryList() {
-        $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
-        $destinationChoices = $destinationChoicesWidget->getChoices();
-        $destinationChoices['inconnu'] = 'Inconnu';
-        return $destinationChoices;
+        
+        return ConfigurationClient::getInstance()->getCountryList();
     }
 }

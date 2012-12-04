@@ -150,11 +150,9 @@ class DRMClient extends acCouchdbClient {
             return $obj;
         }
 
-        $obj = new DRM();
-        $obj->identifiant = $identifiant;
-        $obj->periode = $periode;
+        $this->getDRMHistorique($identifiant)->reload();
       
-        return $obj;
+        return $this->createDocByPeriode($identifiant, $periode);
     }
 
     public function findByInterproDate($interpro, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
