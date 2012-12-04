@@ -41,22 +41,23 @@
 							<div class="form_ligne">
 								<label for="detail_societe_abrege">Abrégé</label>
 								<input type="text" id="detail_societe_abrege" />
-								<label for="detail_societe_statut">Statut</label>
+								<label for="detail_societe_statut" class="label_court">Statut</label>
 								<input type="radio" id="detail_societe_actif" />
-								<label for="detail_societe_actif">Actif</label>
+								<label for="detail_societe_actif" class="label_court">Actif</label>
 								<input type="radio" id="detail_societe_suspendu" />
 								<label for="detail_societe_suspendu">Suspendu</label>
 							</div>
 							<div class="form_ligne">
 								<label for="detail_societe_numero_compte">Numéros de Compte</label>
-								<input type="checkbox" id="detail_societe_numero_compte" />
+								<input type="checkbox" id="detail_societe_client" />
+								<label for="detail_societe_client">Client : 102800 001</label>
 								<input type="checkbox" id="detail_societe_fournisseur" />
 								<label for="detail_societe_fournisseur">Fournisseur</label>
 							</div>
 							<div class="form_ligne">
 								<label for="detail_societe_siret">SIRET</label>
 								<input type="text" id="detail_societe_siret" />
-								<label for="detail_societe_code_naf">Code NAF</label>
+								<label for="detail_societe_code_naf" class="label_court">Code NAF</label>
 								<input type="text" id="detail_societe_code_naf" />
 							</div>
 							<div class="form_ligne">
@@ -148,8 +149,11 @@
 								<select id="detail_etablissement_type">
 									<option>chai viticulteur</option>
 								</select>
-								<label for="detail_etablissement_ordre_affichage">Ordre affichage</label>
-								<input type="text" id="detail_etablissement_ordre_affichage" />
+								<label for="detail_etablissement_ordre_affichage" class="label_court">Ordre affichage</label>
+								<select id="detail_etablissement_ordre_affichage">
+									<option>1</option>
+									<option>2</option>
+								</select>
 							</div>							
 							<div class="form_ligne">
 								<label for="detail_etablissement_nom_chai">Nom du chai</label>
@@ -157,7 +161,10 @@
 							</div>
 							<div class="form_ligne">
 								<label for="detail_etablissement_statut">Statut</label>
-								<input type="radio" id="detail_etablissement_statut" />
+								<input type="radio" id="detail_etablissement_actif" />
+								<label for="detail_etablissement_actif" class="label_court">Actif</label>
+								<input type="radio" id="detail_etablissement_suspendu" />
+								<label for="detail_etablissement_suspendu" class="label_court">Suspendu</label>
 							</div>
 							<div class="form_ligne">
 								<label for="detail_etablissement_cvi">CVI</label>
@@ -169,7 +176,7 @@
 									<option>oui</option>
 									<option>non</option>
 								</select>
-								<label for="detail_etablissement_exclusion_drm">Exclusion DRM</label>
+								<label for="detail_etablissement_exclusion_drm" class="label_court">Exclusion DRM</label>
 								<select id="detail_etablissement_exclusion_drm">
 									<option>oui</option>
 									<option>oui</option>
@@ -181,7 +188,7 @@
 									<option>oui</option>
 									<option>non</option>
 								</select>
-								<label for="detail_etablissement_recette_locale">Recette locale</label>
+								<label for="detail_etablissement_recette_locale" class="label_court">Recette locale</label>
 								<select id="detail_etablissement_recette_locale">
 									<option>oui</option>
 									<option>oui</option>
@@ -193,22 +200,24 @@
 									<option>oui</option>
 									<option>non</option>
 								</select>
-							</div>
-							<div class="form_ligne">
-								<label for="detail_etablissement_type_dr">Type de DR</label>
+								<label for="detail_etablissement_type_dr" class="label_court">Type de DR</label>
 								<select id="detail_etablissement_type_dr">
 									<option>DRM</option>
 									<option>DRA</option>
 								</select>
 							</div>
 							<div class="form_ligne">
-								<label for="detail_etablissement_type_liaison">Type de liaison (externe)</label>
-								<select id="detail_etablissement_type_liaison">
-									<option>Contrat interne</option>
-								</select>
-								<label for="detail_etablissement_societe">Societe</label>
-								<input type="text" id="detail_etablissement_societe" />
-								<a href="#">Ajouter une liaison</a>
+								<div id="conteneur_type_liaison">
+									<label for="detail_etablissement_type_liaison">Type de liaison (externe)</label><br />
+									<select id="detail_etablissement_type_liaison">
+										<option>Contrat interne</option>
+									</select>
+								</div>
+								<div id="conteneur_societe">
+									<label for="detail_etablissement_societe">Société</label><br />
+									<input type="text" id="detail_etablissement_societe" />
+									<br /><a href="#">Ajouter une liaison</a>
+								</div>
 							</div>
 							<div class="form_ligne">
 								<label for="detail_etablissement_site_fiche_publique">Site fiche publique</label>
@@ -233,9 +242,9 @@
 								<div class="form_ligne">
 									<label>Même adresse que la société ?</label>
 									<input type="radio" id="detail_etablissement_oui" />
-									<label for="detail_etablissement_oui">oui</label>
+									<label for="detail_etablissement_oui" class="label_court">oui</label>
 									<input type="radio" id="detail_etablissement_non" />
-									<label for="detail_etablissement_non">non</label>
+									<label for="detail_etablissement_non" class="label_court">non</label>
 								</div>
 								
 								<div class="form_ligne">
