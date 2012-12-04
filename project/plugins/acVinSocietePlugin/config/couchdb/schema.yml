@@ -10,12 +10,20 @@ Societe:
       raison_sociale: { }
       raison_sociale_abregee: { }
       statut: { }
-      type_numero_compte: { }
+      numero_compte_client: { }
+      numero_compte_fournisseur: { }
       code_naf: { }
       siret: { }
       interpro: { }
       tva_intracom: { }
       commentaire: { }
+      siege:
+        type: collection
+        definition:
+          fields:
+            adresse: {  }
+            code_postal: {  }
+            commune: {  }
       enseignes:
         type: array_collection
         definition:
