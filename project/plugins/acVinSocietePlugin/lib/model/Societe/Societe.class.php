@@ -36,5 +36,14 @@ class Societe extends BaseSociete {
     public function hasChais() {
         return in_array($this->type_societe, SocieteClient::getSocieteTypesWithChais());
     }
+    
+    public function getEtablissementsObj() {
+        $etablissements = array();
+        foreach ($this->etablissements as $etablissement) {
+            $etablissements[$etablissement->ordre] = EtablissementClient::getInstance()->find($etablissement->id_etablissement);
+
+        }
+        return $etablissements;
+    }
    
 }

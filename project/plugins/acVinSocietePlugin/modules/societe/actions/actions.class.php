@@ -19,13 +19,15 @@ class societeActions extends sfActions {
         $this->societe = $this->getRoute()->getSociete();
         $this->contactSociete = CompteClient::getInstance()->find($this->societe->id_compte_societe);
         $this->societeForm = new SocieteModificationForm($this->societe);
-        $this->contactSocieteForm = new CompteSocieteModificationForm($this->contactSociete);
+        $this->contactSocieteForm = new CompteModificationForm($this->contactSociete,null);
         
         $this->etablissementSocieteForm = null;
         if ($this->societe->hasChais()) {
-            $idEtablissement = $this->societe->etablissements[0]->id_etablissement;
+            $idEtablissement = $this->societe->etablissements[0]->id_etablissement;        
             $etablissement = EtablissementClient::getInstance()->find($idEtablissement);
             $this->etablissementSocieteForm = new EtablissementModificationForm($etablissement);
+            $this->isSocieteCompte = $etablissement->contactIsSocieteContact();
+            $this->contactSocieteForm = new CompteModificationForm($this->contactSociete,$this->isSocieteCompte,$etablissement);
         }
         
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -36,12 +38,20 @@ class societeActions extends sfActions {
                 $this->societeForm->save();
                 $this->contactSocieteForm->save();
                 if($this->societe->hasChais()) $this->etablissementSocieteForm->save();
-                var_dump('KIFFE ENGER');
-                exit;
+                $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
             }
         }
     }
 
+    
+    public function executeVisualisation(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->etablissements = $this->societe->getEtablissementsObj();
+    }
+    
+    public function executeAddContact(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+    }
 	/***************
 	 * Intégration
 	 ***************/

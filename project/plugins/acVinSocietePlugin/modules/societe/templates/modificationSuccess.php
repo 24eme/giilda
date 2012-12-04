@@ -1,18 +1,18 @@
 <div id="contenu">
-
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><strong>Page d'accueil > Contacts > </strong> Création d'une société</p>
+        <p id="fil_ariane"><a href="#">Page d'accueil</a> &gt; <a href="#">Contact</a> &gt; <strong>Création d'une société</strong></p>
 
-        <!-- #contenu_etape -->
-        <section id="contenu_etape">
-            <h2>Création d'une société</h2>
+        <!-- #contacts -->
+        <section id="contacts">
+            <div id="creation_societe">
+                <h1>Création d'une nouvelle société</h1>
             <form action="<?php echo url_for('societe_modification', array('identifiant' => $societeForm->getObject()->identifiant)); ?>" method="post">
-                <button id="btn_rechercher" type="submit">Valider</button>
+                <button id="btn_valider" type="submit">Valider</button>
                 <?php include_partial('societeModification', array('societeForm' => $societeForm)); ?>
-                <?php include_partial('contactSocieteModification', array('contactSocieteForm' => $contactSocieteForm)); ?>
+                <?php include_partial('compte/modification', array('compteForm' => $contactSocieteForm)); ?>
                 <?php if($societe->hasChais()){
-                        include_partial('etablissementSocieteModification', array('etablissementSocieteForm' => $etablissementSocieteForm)); 
+                        include_partial('etablissement/modification', array('etablissementForm' => $etablissementSocieteForm)); 
                         }
                 ?>
             </form>
