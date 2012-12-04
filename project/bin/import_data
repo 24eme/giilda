@@ -37,42 +37,6 @@ DATADIR=$(pwd);
 
 mkdir $DATADIR/tmp
 
-# TRAITEMENT DES VRACS
-
-echo "Traitement des vracs";
-
-encodage=$(file --mime-encoding $DATADIR/cicon.csv | grep -oE ": .+$" | sed 's/: //');
-iconv -f $encodage -t utf-8 $DATADIR/cicon.csv > $DATADIR/tmp/cicon-utf8.csv;
-
-encodage=$(file --mime-encoding $DATADIR/ciapl.csv | grep -oE ": .+$" | sed 's/: //');
-iconv -f $encodage -t utf-8 $DATADIR/ciapl.csv > $DATADIR/tmp/ciapl-utf8.csv;
-
-cat $DATADIR/tmp/cicon-utf8.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$10); for (i=1;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | sed -r 's/;$//' > $DATADIR/tmp/cicon-before-merge
-
-cat $DATADIR/tmp/ciapl-utf8.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$3); for (i=1;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | sed -r 's/;$//' > $DATADIR/tmp/ciapl-before-merge
-
-join -t ";" $DATADIR/tmp/cicon-before-merge $DATADIR/tmp/ciapl-before-merge | awk -F";" '{ for (i=2;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort -r | grep -E "^10;2012" > $DATADIR/vracs.csv
-
-#FIN DU TRAITEMENT VRACS
-
-#TRAITEMNT DES DRMS
-
-# encodage=$(file --mime-encoding $DATADIR/cieso-2000-2012.csv | sed -r 's/^.+: //');
-# iconv -f $encodage -t utf-8 $DATADIR/cieso-2000-2012.csv | grep -E "^10;2011" | sed -r 's/;$//' | awk -F ";" '{ print sprintf("%s%s%010d;%s", $1, $2, $3, $0) }' | sort > $DATADIR/tmp/ciesco-utf8.csv;
-
-# encodage=$(file --mime-encoding $DATADIR/cilso-2000-2012.csv | sed -r 's/^.+: //');
-# iconv -f $encodage -t utf-8 $DATADIR/cilso-2000-2012.csv | grep -E "^10;2011" | sed -r 's/;$//' | awk -F ";" '{ print sprintf("%s%s%010d;%s", $1, $2, $3, $0) }' | sed -r 's/([0-9]+;)[0-9]+;[0-9]+;[0-9]+;/\1/' | sort > $DATADIR/tmp/cilso-utf8.csv;
-
-# join -t ";" $DATADIR/tmp/ciesco-utf8.csv $DATADIR/tmp/cilso-utf8.csv | sed -r 's/^[0-9]+;//'> $DATADIR/drms.csv
-
-#FIN DU TRAITEMENT DRMS
-
-echo "Merci d'appuyer sur entrer pour lancer l'import";
-
-cd $SYMFODIR;
-
-read;
-
 echo "import des societes";
 
 iconv -f ISO88591 -t UTF8 $DATADIR/cipar.csv > $DATADIR/tmp/cipar.utf8.csv
@@ -83,6 +47,8 @@ echo "Import des établissements";
 php symfony import:etablissement --trace $DATADIR/etablissements.csv
 
 echo "Import des vracs";
+
+bash bin/import_data_vrac
 
 php symfony import:vrac --trace $DATADIR/vracs.csv
 
