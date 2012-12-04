@@ -16,6 +16,7 @@
                         }
                 ?>
             </form>
+            </div>
         </section>
     </section>
     <aside id="colonne">

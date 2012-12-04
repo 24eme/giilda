@@ -4,21 +4,22 @@
         <p id="fil_ariane"><strong>Page d'accueil > Contacts > </strong> <?php echo $societe->raison_sociale; ?></p>
 
         <!-- #contenu_etape -->
-        <section id="contenu_etape">
+        <section id="contacts">
+            <div id="creation_societe">
             <h2><?php echo $societe->raison_sociale; ?></h2>
-            <div>
-                <a href="<?php echo url_for('societe_addContact', array('identifiant' => $societe->identifiant)); ?>" class="btnNouveau">Nouveau Contact
+            <div class="btn_etape">
+                <a href="<?php echo url_for('societe_addContact', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_vert">Nouveau Contact
                 </a>
-                
-                <a href="#" class="btnNouveau">Nouvel Etablissement
+                &nbsp;
+                <a href="<?php echo url_for('societe_addEtablissement', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_jaune">Nouvel Etablissement
                 </a>
             </div>
             <?php
             include_partial('visualisationPanel', array('societe' => $societe));?>
                 <h2>Coordonnées de la société </h2>
                 <?php
-            foreach ($etablissements as $ordre => $etablissement) {
-                include_partial('etablissement/visualisation', array('etablissement' => $etablissement, 'ordre' => $ordre));
+            foreach ($etablissements as $etablissementId => $etb) {
+                include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre));
             }
             ?>
 
