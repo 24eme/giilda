@@ -1,0 +1,11 @@
+#!/bin/bash
+. bin/import_functions.inc
+
+cd /tmp/VINSDELOIRE_DATA
+DATADIR=$(pwd)
+
+convert-utf8 $DATADIR/cicon.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$10); for (i=1;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | sed -r 's/;$//' > $DATADIR/tmp/cicon-before-merge
+
+convert-utf8 $DATADIR/ciapl.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$3); for (i=1;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | sed -r 's/;$//' > $DATADIR/tmp/ciapl-before-merge
+
+join -t ";" $DATADIR/tmp/cicon-before-merge $DATADIR/tmp/ciapl-before-merge | awk -F";" '{ for (i=2;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | grep -E "^10;(2009|2010|2012)" > $DATADIR/vracs.csv

@@ -82,4 +82,22 @@ abstract class importAbstractTask extends sfBaseTask
 
         return $this->produits_hash;
     }
+
+    protected function verifyVolume($value, $can_be_negatif = false) {
+        $this->verifyFloat($value, $can_be_negatif);
+    }
+
+    protected function verifyFloat($value, $can_be_negatif = false) {
+        if ($can_be_negatif && !(preg_match('/^[\-]{0,1}[0-9]+\.[0-9]+$/', $value))) {
+            throw new sfException(sprintf("Nombre flottant '%s' invalide", $value));
+        } elseif(!$can_be_negatif && !(preg_match('/^[0-9]+\.[0-9]+$/', $value))) {
+            throw new sfException(sprintf("Nombre flottant '%s' invalide", $value));
+        }
+
+        $value = $this->convertToFloat($value);
+
+        if(!$can_be_negatif && $value < 0) {
+          throw new sfException(sprintf("Nombre flottant '%s' négatif", $value));
+        }
+    }
 }
