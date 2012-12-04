@@ -3,188 +3,254 @@
 class importDRMTask extends importAbstractTask
 {
 
-  const CSV_LIGNE_ID = 0;
-  const CSV_LIGNE_TYPE = 1;
+  const CSV_LIGNE_ETABLISSEMENT = 0;
+  const CSV_LIGNE_PERIODE = 1;
+  const CSV_LIGNE_CODE_APPELLATION = 2;
+  const CSV_LIGNE_TYPE = 3;
+  const CSV_LIGNE_CAMPAGNE = 4;
 
-  const CSV_LIGNE_TYPE_CONTRAT = '1.CONTRAT';
-  const CSV_LIGNE_TYPE_VENTE = '2.VENTE';
-  const CSV_LIGNE_TYPE_DIVERS = '3.DIVERS';
-  const CSV_LIGNE_TYPE_CAVE_VITI = '4.CAVE-VITI';
-  const CSV_LIGNE_TYPE_CAVE_COOP = '5.CAVE-COOP';
-  const CSV_LIGNE_TYPE_TRANSFERT_SORTIE = '6.TRANSFERT-SORTIE';
-  const CSV_LIGNE_TYPE_TRANSFERT_ENTREE = '7.TRANSFERT-ENTREE';
-  const CSV_LIGNE_TYPE_MOUVEMENT = '8.MOUVEMENT';
+  const CSV_LIGNE_TYPE_DS = '01.DS';
+  const CSV_LIGNE_TYPE_CONTRAT = '02.CONTRAT';
+  const CSV_LIGNE_TYPE_ACHAT = '03.ACHAT';
+  const CSV_LIGNE_TYPE_VENTE = '04.VENTE';
+  const CSV_LIGNE_TYPE_DIVERS = '05.DIVERS';
+  const CSV_LIGNE_TYPE_CAVE_VITI = '06.CAVE-VITI';
+  const CSV_LIGNE_TYPE_CAVE_COOP = '07.CAVE-COOP';
+  const CSV_LIGNE_TYPE_TRANSFERT_ENTREE = '08.TRANSFERT-ENTREE';
+  const CSV_LIGNE_TYPE_TRANSFERT_SORTIE = '09.TRANSFERT-SORTIE';
+  const CSV_LIGNE_TYPE_MOUVEMENT = '10.MOUVEMENT';
 
-  const CSV_CONTRAT_DOSSIER = 2;
-  const CSV_CONTRAT_CAMPAGNE = 3;
-  const CSV_CONTRAT_NUMERO_CONTRAT = 4;
-  const CSV_CONTRAT_NUMERO_ENLEVEMENT = 5;
-  const CSV_CONTRAT_PERIODE_ENLEVEMENT = 6;
-  const CSV_CONTRAT_VOLUME_ENLEVE_UNITE_ACHAT = 7;
-  const CSV_CONTRAT_UNITE_ACHAT = 8;
-  const CSV_CONTRAT_COEF_CONVERSION_VOLUME = 9;
-  const CSV_CONTRAT_MODE_CONVERSION_VOLUME = 10;
-  const CSV_CONTRAT_VOLUME_ENLEVE_HL = 11;
-  const CSV_CONTRAT_COTISATION_CVO_NEGOCIANT = 12;
-  const CSV_CONTRAT_COTISATION_CVO_VITICULTEUR = 13;
-  const CSV_CONTRAT_DATE_ENLEVEMENT = 16;
-  const CSV_CONTRAT_CAMPAGNE_FACTURATION_VITICULTEUR = 17;
-  const CSV_CONTRAT_SITE_VITICULTEUR = 18;
-  const CSV_CONTRAT_NUMERO_FACTURE_VITICULTEUR = 19;
-  const CSV_CONTRAT_CAMPAGNE_FACTURATION_NEGOCIANT = 20;
-  const CSV_CONTRAT_SITE_NEGOCIANT = 21;
-  const CSV_CONTRAT_NUMERO_FACTURE_NEGOCIANT = 22;
-  const CSV_CONTRAT_DATE_ENREGISTREMENT = 26;
-  const CSV_CONTRAT_CODE_RECETTE_LOCALE = 27;
-  const CSV_CONTRAT_CODE_VITICULTEUR = 28;
-  const CSV_CONTRAT_CODE_CHAI_CAVE = 29;
-  const CSV_CONTRAT_CODE_NEGOCIANT = 30;
-  const CSV_CONTRAT_CODE_COURTIER = 31;
-  const CSV_CONTRAT_CODE_APPELLATION = 32;
-  const CSV_CONTRAT_TYPE_PRODUIT = 33;
-  const CSV_CONTRAT_MILLESIME = 34;
-  const CSV_CONTRAT_COTISATION_CVO_NEGOCIANT_TOTAL = 35;
-  const CSV_CONTRAT_COTISATION_CVO_VITICULTEUR_TOTAL = 36;
-  const CSV_CONTRAT_VOLUME = 37;
-  const CSV_CONTRAT_UNITE_VOLUME = 38;
-  const CSV_CONTRAT_COEF_CONVERSION_VOLUME_TOTAL = 39;
-  const CSV_CONTRAT_MODE_CONVERSION_VOLUME_TOTAL = 40;
-  const CSV_CONTRAT_VOLUME_PROPOSE_HL = 41;
-  const CSV_CONTRAT_VOLUME_ENLEVE_TOTAl_HL = 42;
-  const CSV_CONTRAT_PRIX_VENTE = 43;
-  const CSV_CONTRAT_CODE_DEVISE = 44;
-  const CSV_CONTRAT_UNITE_PRIX_VENTE = 45;
-  const CSV_CONTRAT_COEF_CONVERSION_PRIX = 46;
-  const CSV_CONTRAT_MODE_CONVERSION_PRIX = 47;
-  const CSV_CONTRAT_PRIX_AU_LITRE = 48;
-  const CSV_CONTRAT_CONTRAT_SOLDE = 49;
-  const CSV_CONTRAT_DATE_SIGNATURE_OU_CREATION = 50;
-  const CSV_CONTRAT_DATE_DERNIERE_MODIFICATION = 51;
-  const CSV_CONTRAT_CODE_SAISIE = 52;
-  const CSV_CONTRAT_DATE_LIVRAISON = 53;
-  const CSV_CONTRAT_CODE_MODE_PAIEMENT = 54;
-  const CSV_CONTRAT_COMPOSTAGE = 55;
-  const CSV_CONTRAT_TYPE_CONTRAT = 56;
-  const CSV_CONTRAT_ATTENTE_ORIGINAL = 57;
-  const CSV_CONTRAT_CATEGORIE_VIN = 58;
-  const CSV_CONTRAT_CEPAGE = 59;
-  const CSV_CONTRAT_MILLESIME_ANNEE = 60;
-  const CSV_CONTRAT_PRIX_HORS_CVO = 61;
-  const CSV_CONTRAT_PRIX_CVO_INCLUSE = 61;
-  const CSV_CONTRAT_TAUX_CVO_GLOBAL = 63;
 
-  const CSV_VENTE_DOSSIER = 2;
-  const CSV_VENTE_CAMPAGNE = 3;
-  const CSV_VENTE_NUMERO_SORTIE = 4;
-  const CSV_VENTE_MOIS_SORTIE = 5;
-  const CSV_VENTE_CODE_PARTENAIRE = 6;
-  const CSV_VENTE_CODE_CHAI = 7;
-  const CSV_VENTE_CODE_RECETTE_LOCALE = 8;
-  const CSV_VENTE_DATE_CREATION = 9;
-  const CSV_VENTE_DATE_MODIFICATION = 10;
-  const CSV_VENTE_CODE_SAISIS = 11;
-  const CSV_VENTE_DATE_SORTIE = 12;
-  const CSV_VENTE_DATE_SAISIE_SORTIE = 13;
-  const CSV_VENTE_NUMERO_LIGNE = 16;
-  const CSV_VENTE_CODE_APPELLATION = 17;
-  const CSV_VENTE_TYPE_VIN = 18;
-  const CSV_VENTE_COTISATION_VITICULEUR_VENTE_DIRECTE = 19;
-  const CSV_VENTE_VOLUME_EXPORT = 20;
-  const CSV_VENTE_VOLUME_CONGE = 21;
-  const CSV_VENTE_VOLUME_CRD = 22;
-  const CSV_VENTE_FACTURE_INDICATEUR = 23;
-  const CSV_VENTE_MILLESIME_INDICATEUR = 24;
-  const CSV_VENTE_CODE_PAYS = 25;
-  const CSV_VENTE_CAMPAGNE_FACTURE = 26;
-  const CSV_VENTE_CODE_SITE = 27;
-  const CSV_VENTE_NUMERO_FACTURE = 28;
+  const CSV_DS_DOSSIER = 5;
+  const CSV_DS_CAMPAGNE = 6;
+  const CSV_DS_NUMERO_DECLARATION = 7;
+  const CSV_DS_CODE_PARTENAIRE = 8;
+  const CSV_DS_CODE_CHAI = 9;
+  const CSV_DS_DATE_CREATION = 10;
+  const CSV_DS_DATE_MODIFICATION = 11;
+  const CSV_DS_CODE_SAISIS = 12;
+  const CSV_DS_NUMERO_LIGNE = 16;
+  const CSV_DS_CODE_APPELLATION = 17;
+  const CSV_DS_VOLUME_LIBRE = 18;
+  const CSV_DS_VOLUME_BLOQUE = 19;
+  const CSV_DS_RECOLTE = 20;
 
-  const CSV_DIVERS_DOSSIER = 2;
-  const CSV_DIVERS_CAMPAGNE = 3;
-  const CSV_DIVERS_NUMERO_MOUVEMENT = 4;
-  const CSV_DIVERS_ANNULATION = 5;
-  const CSV_DIVERS_CODE_PARTENAIRE = 6;
-  const CSV_DIVERS_CODE_CHAI = 7;
-  const CSV_DIVERS_CODE_APPELLATION_1 = 8;
-  const CSV_DIVERS_CODE_APPELLATION_2 = 9;
-  const CSV_DIVERS_TEXTE_MOUVEMENT = 10;
-  const CSV_DIVERS_CODE_MOUVEMENT = 11;
-  const CSV_DIVERS_DATE_MOUVEMENT = 12;
-  const CSV_DIVERS_MOIS_MOUVEMENT = 13;
-  const CSV_DIVERS_DATE_HEURE_SAISIE = 14;
-  const CSV_DIVERS_VOLUME_HL = 15;
-  const CSV_DIVERS_CODE_UTILISATEUR = 16;
-  const CSV_DIVERS_STOCK_DISPO_AVANT = 17;
-  const CSV_DIVERS_STOCK_DISPO_APRES = 18;
-  const CSV_DIVERS_STOCK_DISPO_PRECEDENT_AVANT = 19;
-  const CSV_DIVERS_STOCK_DISPO_PRECEDENT_APRES = 20;
-  const CSV_DIVERS_CODE_UTILISATEUR_SUPPRESSION = 21;
-  const CSV_DIVERS_DATE_SUPPRESSION = 22;
+  const CSV_CONTRAT_DOSSIER = 5;
+  const CSV_CONTRAT_CAMPAGNE = 6;
+  const CSV_CONTRAT_NUMERO_CONTRAT = 7;
+  const CSV_CONTRAT_NUMERO_ENLEVEMENT = 8;
+  const CSV_CONTRAT_PERIODE_ENLEVEMENT = 9;
+  const CSV_CONTRAT_VOLUME_ENLEVE_UNITE_ACHAT = 10;
+  const CSV_CONTRAT_UNITE_ACHAT = 11;
+  const CSV_CONTRAT_COEF_CONVERSION_VOLUME = 12;
+  const CSV_CONTRAT_MODE_CONVERSION_VOLUME = 13;
+  const CSV_CONTRAT_VOLUME_ENLEVE_HL = 14;
+  const CSV_CONTRAT_COTISATION_CVO_NEGOCIANT = 15;
+  const CSV_CONTRAT_COTISATION_CVO_VITICULTEUR = 16;
+  const CSV_CONTRAT_DATE_ENLEVEMENT = 19;
+  const CSV_CONTRAT_CAMPAGNE_FACTURATION_VITICULTEUR = 20;
+  const CSV_CONTRAT_SITE_VITICULTEUR = 21;
+  const CSV_CONTRAT_NUMERO_FACTURE_VITICULTEUR = 22;
+  const CSV_CONTRAT_CAMPAGNE_FACTURATION_NEGOCIANT = 23;
+  const CSV_CONTRAT_SITE_NEGOCIANT = 24;
+  const CSV_CONTRAT_NUMERO_FACTURE_NEGOCIANT = 25;
+  const CSV_CONTRAT_DATE_ENREGISTREMENT = 29;
+  const CSV_CONTRAT_CODE_RECETTE_LOCALE = 30;
+  const CSV_CONTRAT_CODE_VITICULTEUR = 31;
+  const CSV_CONTRAT_CODE_CHAI_CAVE = 32;
+  const CSV_CONTRAT_CODE_NEGOCIANT = 33;
+  const CSV_CONTRAT_CODE_COURTIER = 34;
+  const CSV_CONTRAT_CODE_APPELLATION = 35;
+  const CSV_CONTRAT_TYPE_PRODUIT = 36;
+  const CSV_CONTRAT_MILLESIME = 37;
+  const CSV_CONTRAT_COTISATION_CVO_NEGOCIANT_TOTAL = 38;
+  const CSV_CONTRAT_COTISATION_CVO_VITICULTEUR_TOTAL = 39;
+  const CSV_CONTRAT_VOLUME = 40;
+  const CSV_CONTRAT_UNITE_VOLUME = 41;
+  const CSV_CONTRAT_COEF_CONVERSION_VOLUME_TOTAL = 42;
+  const CSV_CONTRAT_MODE_CONVERSION_VOLUME_TOTAL = 43;
+  const CSV_CONTRAT_VOLUME_PROPOSE_HL = 44;
+  const CSV_CONTRAT_VOLUME_ENLEVE_TOTAl_HL = 45;
+  const CSV_CONTRAT_PRIX_VENTE = 46;
+  const CSV_CONTRAT_CODE_DEVISE = 47;
+  const CSV_CONTRAT_UNITE_PRIX_VENTE = 48;
+  const CSV_CONTRAT_COEF_CONVERSION_PRIX = 49;
+  const CSV_CONTRAT_MODE_CONVERSION_PRIX = 50;
+  const CSV_CONTRAT_PRIX_AU_LITRE = 51;
+  const CSV_CONTRAT_CONTRAT_SOLDE = 52;
+  const CSV_CONTRAT_DATE_SIGNATURE_OU_CREATION = 53;
+  const CSV_CONTRAT_DATE_DERNIERE_MODIFICATION = 54;
+  const CSV_CONTRAT_CODE_SAISIE = 55;
+  const CSV_CONTRAT_DATE_LIVRAISON = 56;
+  const CSV_CONTRAT_CODE_MODE_PAIEMENT = 57;
+  const CSV_CONTRAT_COMPOSTAGE = 58;
+  const CSV_CONTRAT_TYPE_CONTRAT = 59;
+  const CSV_CONTRAT_ATTENTE_ORIGINAL = 60;
+  const CSV_CONTRAT_CATEGORIE_VIN = 61;
+  const CSV_CONTRAT_CEPAGE = 62;
+  const CSV_CONTRAT_MILLESIME_ANNEE = 63;
+  const CSV_CONTRAT_PRIX_HORS_CVO = 64;
+  const CSV_CONTRAT_PRIX_CVO_INCLUSE = 65;
+  const CSV_CONTRAT_TAUX_CVO_GLOBAL = 66;
 
-  const CSV_TRANSFERT_DOSSIER = 2;
-  const CSV_TRANSFERT_CAMPAGNE = 3;
-  const CSV_TRANSFERT_NUMERO_MOUVEMENT = 4;
-  const CSV_TRANSFERT_ANNULATION = 5;
-  const CSV_TRANSFERT_CODE_PARTENAIRE = 6;
-  const CSV_TRANSFERT_CODE_CHAI = 7;
-  const CSV_TRANSFERT_CODE_PARTENAIRE_DESTINATAIRE = 8;
-  const CSV_TRANSFERT_CODE_CHAI_DESTINATAIRE = 9;
-  const CSV_TRANSFERT_CODE_APPELLATION = 10;
-  const CSV_TRANSFERT_DATE_MOUVEMENT = 11;
-  const CSV_TRANSFERT_MOIS_MOUVEMENT = 12;
-  const CSV_TRANSFERT_DATE_HEURE_SAISIE = 13;
-  const CSV_TRANSFERT_VOLUME_HL = 14;
-  const CSV_TRANSFERT_CODE_UTILISATEUR = 15;
-  const CSV_TRANSFERT_STOCK_DISPO_AVANT = 16;
-  const CSV_TRANSFERT_STOCK_DISPO_APRES = 17;
-  const CSV_TRANSFERT_CODE_UTILISATEUR_SUPPRESSION = 18;
-  const CSV_TRANSFERT_DATE_SUPPRESSION = 19;
+  const CSV_VENTE_DOSSIER = 5;
+  const CSV_VENTE_CAMPAGNE = 6;
+  const CSV_VENTE_NUMERO_SORTIE = 7;
+  const CSV_VENTE_MOIS_SORTIE = 8;
+  const CSV_VENTE_CODE_PARTENAIRE = 9;
+  const CSV_VENTE_CODE_CHAI = 10;
+  const CSV_VENTE_CODE_RECETTE_LOCALE = 11;
+  const CSV_VENTE_DATE_CREATION = 12;
+  const CSV_VENTE_DATE_MODIFICATION = 13;
+  const CSV_VENTE_CODE_SAISIS = 14;
+  const CSV_VENTE_DATE_SORTIE = 15;
+  const CSV_VENTE_DATE_SAISIE_SORTIE = 16;
+  const CSV_VENTE_NUMERO_LIGNE = 20;
+  const CSV_VENTE_CODE_APPELLATION = 21;
+  const CSV_VENTE_TYPE_VIN = 22;
+  const CSV_VENTE_COTISATION_VITICULEUR_VENTE_DIRECTE = 23;
+  const CSV_VENTE_VOLUME_EXPORT = 24;
+  const CSV_VENTE_VOLUME_CONGE = 25;
+  const CSV_VENTE_VOLUME_CRD = 26;
+  const CSV_VENTE_FACTURE_INDICATEUR = 27;
+  const CSV_VENTE_MILLESIME_INDICATEUR = 28;
+  const CSV_VENTE_CODE_PAYS = 29;
+  const CSV_VENTE_CAMPAGNE_FACTURE = 30;
+  const CSV_VENTE_CODE_SITE = 31;
+  const CSV_VENTE_NUMERO_FACTURE = 32;
 
-  const CSV_CAVE_DOSSIER = 2;
-  const CSV_CAVE_CAMPAGNE = 3;
-  const CSV_CAVE_NUMERO_MOUVEMENT = 4;
-  const CSV_CAVE_ANNULATION = 5;
-  const CSV_CAVE_CODE_COOPERATEUR = 6;
-  const CSV_CAVE_CODE_COOPERATEUR_CHAI = 7;
-  const CSV_CAVE_CODE_VITICULTEUR = 8;
-  const CSV_CAVE_CODE_VITICULTEUR_CHAI = 9;
-  const CSV_CAVE_CODE_APPELLATION = 10;
-  const CSV_CAVE_DATE_MOUVEMENT = 11;
-  const CSV_CAVE_DATE_HEURE_SAISIE = 12;
-  const CSV_CAVE_VOLUME_ENTREE = 13;
-  const CSV_CAVE_VOLUME_SORTIE = 14;
-  const CSV_CAVE_CODE_UTILISATEUR = 15;
-  const CSV_CAVE_STOCK_DISPO_AVANT = 16;
-  const CSV_CAVE_STOCK_DISPO_APRES = 17;
-  const CSV_CAVE_CODE_UTILISATEUR_SUPPRESSION = 18;
-  const CSV_CAVE_DATE_SUPPRESSION = 19;  
-  const CSV_CAVE_MOIS_MOUVEMENT = 20;
-  const CSV_CAVE_NUMERO_DOCUMENT = 21;
+  const CSV_ACHAT_DOSSIER = 5;
+  const CSV_ACHAT_CAMPAGNE = 6;
+  const CSV_ACHAT_NUMERO = 7;
+  const CSV_ACHAT_CODE_PARTENAIRE = 8;
+  const CSV_ACHAT_CODE_CHAI = 9;
+  const CSV_ACHAT_DATE_CREATION = 10;
+  const CSV_ACHAT_DATE_MODIFICATION = 11;
+  const CSV_ACHAT_CODE_SAISIS = 12;
+  const CSV_ACHAT_DATE_SORTIE = 13;
+  const CSV_ACHAT_NUMERO_LIGNE = 16;
+  const CSV_ACHAT_CODE_APPELLATION = 17;
+  const CSV_ACHAT_VOLUME_LIBRE = 18;
+  const CSV_ACHAT_VOLUME_BLOQUE = 19;
+  const CSV_ACHAT_CERTIFICAT = 20;
+  const CSV_ACHAT_VOLUME = 21;
+  const CSV_ACHAT_VOLUME_RECOLTE = 22;
+  const CSV_ACHAT_SUPERFICIE = 22;
+  const CSV_ACHAT_CODE_APPELLATION_INAO = 24;
+  const CSV_ACHAT_MILLESIME = 25;
+  const CSV_ACHAT_DATE_CERTIFICAT = 26;
+  const CSV_ACHAT_LABEL_AGREMENT = 27;
 
-  const CSV_MOUVEMENT_DOSSIER = 2;
-  const CSV_MOUVEMENT_CAMPAGNE = 3;
-  const CSV_MOUVEMENT_CODE_PARTENAIRE = 4;
-  const CSV_MOUVEMENT_CODE_CHAI = 5;
-  const CSV_MOUVEMENT_CODE_APPELLATION = 6;
-  const CSV_MOUVEMENT_CODE_MOUVEMENT = 7;
-  const CSV_MOUVEMENT_DATE_MOUVEMENT = 8;
-  const CSV_MOUVEMENT_DATE_HEURE_SAISIE = 9;
-  const CSV_MOUVEMENT_STOCK_FIN_CAMPAGNE = 10;
-  const CSV_MOUVEMENT_VOLUME_CONTRAT = 11;
-  const CSV_MOUVEMENT_VOLUME_SORTIE = 12;
-  const CSV_MOUVEMENT_VOLUME_ENLEVE = 13;
-  const CSV_MOUVEMENT_VOLUME_CONTRAT_NOUVELLE_RECOLTE = 14;
-  const CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE = 15;
-  const CSV_MOUVEMENT_VOLUME_AGREE_BLOQUE = 16;
-  const CSV_MOUVEMENT_VOLUME_SUSCEPTIBLE_RECLASSEMENT = 17;
-  const CSV_MOUVEMENT_VOLUME_REGULARISATION = 18;
-  const CSV_MOUVEMENT_VOLUME_VOLUME_BLOQUE_CAMPAGNE_PRECEDENTE = 20;
-  const CSV_MOUVEMENT_STOCK_COURANT = 21;
-  const CSV_MOUVEMENT_TYPE_DOCUMENT = 22;
-  const CSV_MOUVEMENT_NUMERO_DOCUMENT = 23;
-  const CSV_MOUVEMENT_COMMENTAIRE = 24;
-  const CSV_MOUVEMENT_VOLUME_RECOLTE = 25;
-  const CSV_MOUVEMENT_SUPERFICIE_RECOLTE = 26;
+  const CSV_DIVERS_DOSSIER = 5;
+  const CSV_DIVERS_CAMPAGNE = 6;
+  const CSV_DIVERS_NUMERO_MOUVEMENT = 7;
+  const CSV_DIVERS_ANNULATION = 8;
+  const CSV_DIVERS_CODE_PARTENAIRE = 9;
+  const CSV_DIVERS_CODE_CHAI = 10;
+  const CSV_DIVERS_CODE_APPELLATION_1 = 11;
+  const CSV_DIVERS_CODE_APPELLATION_2 = 12;
+  const CSV_DIVERS_TEXTE_MOUVEMENT = 13;
+  const CSV_DIVERS_CODE_MOUVEMENT = 14;
+  const CSV_DIVERS_DATE_MOUVEMENT = 15;
+  const CSV_DIVERS_MOIS_MOUVEMENT = 16;
+  const CSV_DIVERS_DATE_HEURE_SAISIE = 17;
+  const CSV_DIVERS_VOLUME_HL = 18;
+  const CSV_DIVERS_CODE_UTILISATEUR = 19;
+  const CSV_DIVERS_STOCK_DISPO_AVANT = 20;
+  const CSV_DIVERS_STOCK_DISPO_APRES = 21;
+  const CSV_DIVERS_STOCK_DISPO_PRECEDENT_AVANT = 22;
+  const CSV_DIVERS_STOCK_DISPO_PRECEDENT_APRES = 23;
+  const CSV_DIVERS_CODE_UTILISATEUR_SUPPRESSION = 24;
+  const CSV_DIVERS_DATE_SUPPRESSION = 25;
+
+  const CSV_TRANSFERT_DOSSIER = 5;
+  const CSV_TRANSFERT_CAMPAGNE = 6;
+  const CSV_TRANSFERT_NUMERO_MOUVEMENT = 7;
+  const CSV_TRANSFERT_ANNULATION = 8;
+  const CSV_TRANSFERT_CODE_PARTENAIRE = 9;
+  const CSV_TRANSFERT_CODE_CHAI = 10;
+  const CSV_TRANSFERT_CODE_PARTENAIRE_DESTINATAIRE = 11;
+  const CSV_TRANSFERT_CODE_CHAI_DESTINATAIRE = 12;
+  const CSV_TRANSFERT_CODE_APPELLATION = 13;
+  const CSV_TRANSFERT_DATE_MOUVEMENT = 14;
+  const CSV_TRANSFERT_MOIS_MOUVEMENT = 15;
+  const CSV_TRANSFERT_DATE_HEURE_SAISIE = 16;
+  const CSV_TRANSFERT_VOLUME_HL = 17;
+  const CSV_TRANSFERT_CODE_UTILISATEUR = 18;
+  const CSV_TRANSFERT_STOCK_DISPO_AVANT = 19;
+  const CSV_TRANSFERT_STOCK_DISPO_APRES = 20;
+  const CSV_TRANSFERT_CODE_UTILISATEUR_SUPPRESSION = 21;
+  const CSV_TRANSFERT_DATE_SUPPRESSION = 22;
+
+  const CSV_CAVE_DOSSIER = 5;
+  const CSV_CAVE_CAMPAGNE = 6;
+  const CSV_CAVE_NUMERO_MOUVEMENT = 7;
+  const CSV_CAVE_ANNULATION = 8;
+  const CSV_CAVE_CODE_COOPERATEUR = 9;
+  const CSV_CAVE_CODE_COOPERATEUR_CHAI = 10;
+  const CSV_CAVE_CODE_VITICULTEUR = 11;
+  const CSV_CAVE_CODE_VITICULTEUR_CHAI = 12;
+  const CSV_CAVE_CODE_APPELLATION = 13;
+  const CSV_CAVE_DATE_MOUVEMENT = 14;
+  const CSV_CAVE_DATE_HEURE_SAISIE = 15;
+  const CSV_CAVE_VOLUME_ENTREE = 16;
+  const CSV_CAVE_VOLUME_SORTIE = 17;
+  const CSV_CAVE_CODE_UTILISATEUR = 18;
+  const CSV_CAVE_STOCK_DISPO_AVANT = 19;
+  const CSV_CAVE_STOCK_DISPO_APRES = 20;
+  const CSV_CAVE_CODE_UTILISATEUR_SUPPRESSION = 21;
+  const CSV_CAVE_DATE_SUPPRESSION = 22;  
+  const CSV_CAVE_MOIS_MOUVEMENT = 23;
+  const CSV_CAVE_NUMERO_DOCUMENT = 24;
+
+  const CSV_MOUVEMENT_DOSSIER = 5;
+  const CSV_MOUVEMENT_CAMPAGNE = 6;
+  const CSV_MOUVEMENT_CODE_PARTENAIRE = 7;
+  const CSV_MOUVEMENT_CODE_CHAI = 8;
+  const CSV_MOUVEMENT_CODE_APPELLATION = 9;
+  const CSV_MOUVEMENT_CODE_MOUVEMENT = 10;
+  const CSV_MOUVEMENT_DATE_MOUVEMENT = 11;
+  const CSV_MOUVEMENT_DATE_HEURE_SAISIE = 12;
+  const CSV_MOUVEMENT_STOCK_FIN_CAMPAGNE = 13;
+  const CSV_MOUVEMENT_VOLUME_CONTRAT = 14;
+  const CSV_MOUVEMENT_VOLUME_SORTIE = 15;
+  const CSV_MOUVEMENT_VOLUME_ENLEVE = 16;
+  const CSV_MOUVEMENT_VOLUME_CONTRAT_NOUVELLE_RECOLTE = 17;
+  const CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE = 18;
+  const CSV_MOUVEMENT_VOLUME_AGREE_BLOQUE = 19;
+  const CSV_MOUVEMENT_VOLUME_SUSCEPTIBLE_RECLASSEMENT = 20;
+  const CSV_MOUVEMENT_VOLUME_REGULARISATION = 21;
+  const CSV_MOUVEMENT_VOLUME_AGR2 = 22;
+  const CSV_MOUVEMENT_VOLUME_VOLUME_BLOQUE_CAMPAGNE_PRECEDENTE = 23;
+  const CSV_MOUVEMENT_STOCK_COURANT = 24;
+  const CSV_MOUVEMENT_TYPE_DOCUMENT = 25;
+  const CSV_MOUVEMENT_NUMERO_DOCUMENT = 26;
+  const CSV_MOUVEMENT_COMMENTAIRE = 27;
+  const CSV_MOUVEMENT_VOLUME_RECOLTE = 28;
+  const CSV_MOUVEMENT_SUPERFICIE_RECOLTE = 29;
+
+  const CSV_CODE_MOUVEMENT_DS = 00;
+  const CSV_CODE_MOUVEMENT_DS_MODIF = 01;
+  const CSV_CODE_MOUVEMENT_DS_ANNULATION = 02;
+  const CSV_CODE_MOUVEMENT_ENLEVEMENT = 20;
+  const CSV_CODE_MOUVEMENT_ENLEVEMENT_ANNULATION = 21;
+  const CSV_CODE_MOUVEMENT_ENLEVEMENT_REGUL = 22;
+  const CSV_CODE_MOUVEMENT_SAISIE_DMVDP = 30;
+  const CSV_CODE_MOUVEMENT_MODIF_DMVDP = 31;
+  const CSV_CODE_MOUVEMENT_ANNUL_DMVDP = 32;
+  const CSV_CODE_MOUVEMENT_REPLI_SORTIE = 51;
+  const CSV_CODE_MOUVEMENT_REPLI_ENTREE = 52;
+  const CSV_CODE_MOUVEMENT_CAVE_DEPOT = 56;
+  const CSV_CODE_MOUVEMENT_CAVE_RETROCESSION = 57;
+  const CSV_CODE_MOUVEMENT_CAVE_DEPOT_ANNULATION = 58;
+  const CSV_CODE_MOUVEMENT_CAVE_RETROCESSION_ANNULATION = 59;
+  const CSV_CODE_MOUVEMENT_AGREMENT = 60;
+  const CSV_CODE_MOUVEMENT_AGREMENT_REGUL = 40;
+  const CSV_CODE_MOUVEMENT_AUTRES = 80;
+  const CSV_CODE_MOUVEMENT_DECLASSEMENT = 81;
+  const CSV_CODE_MOUVEMENT_DISTILLATION = 82;
+  const CSV_CODE_MOUVEMENT_CONSO_PERTES = 86;
+  const CSV_CODE_MOUVEMENT_DIVERS = 89;
 
   protected function configure()
   {
@@ -238,7 +304,7 @@ EOF;
 
   protected function getCodeProduit($line) {
     
-    return substr($line[self::CSV_LIGNE_ID], 15, 4);
+    return $line[self::CSV_LIGNE_CODE_APPELLATION];
   }
 
   protected function getId($line) {
@@ -247,23 +313,22 @@ EOF;
   }
 
   protected function getPeriode($line) {
-    $mois = substr($line[self::CSV_LIGNE_ID], 13, 2);
-    $campagne = substr($line[self::CSV_LIGNE_ID], 0, 4);
-    $annee = $campagne;
-    if ($mois < 8) {
-      $annee = $campagne + 1;
-    }
-    
+    $annee = substr($line[self::CSV_LIGNE_PERIODE], 0, 4);
+    $mois = substr($line[self::CSV_LIGNE_PERIODE], 4, 2);
+
+    $periode = DRMClient::getInstance()->buildPeriode($annee, $mois);
+
     return DRMClient::getInstance()->buildPeriode($annee, $mois);
   }
 
   protected function getIdentifiant($line) {
 
-    return substr($line[self::CSV_LIGNE_ID], 5, 6);
+    return substr($line[self::CSV_LIGNE_ETABLISSEMENT], 0, 6);
   }
 
   public function importDRM($lines) {
     $drm = null;
+    $coherence = $this->initCoheranceWithMouvement();
 
     foreach($lines as $i => $line) {
       try{
@@ -273,18 +338,37 @@ EOF;
         $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
         return;
       }
+
+      if ($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_MOUVEMENT) {
+          $coherence = $this->buildCoheranceWithMouvement($coherence, $line);
+      }
+    }
+
+    $drm->update();
+
+    try{
+      $coherence = $this->verifCoherenceWithMouvement($coherence, $drm);
+    } catch (Exception $e) {
+      $this->log(sprintf("%s (de la ligne %s à %s) :", $e->getMessage(), $i-count($lines), $i));
+      foreach($lines as $i => $line) {
+        $this->log(sprintf(" - %s : %s", $i, implode($line, ";")));
+      }
     }
 
     $drm->valide->date_saisie = date('c', strtotime($drm->getDate()));
     $drm->valide->date_signee = date('c', strtotime($drm->getDate()));
-    $drm->update();
+
     $drm->validate(array('no_vracs' => true));
     $drm->save();
   }
 
   public function importLigne($drm, $line) {
     if (is_null($drm)) {
-      $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($this->getIdentifiant($line), $this->getPeriode($line));
+      $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($this->getIdentifiant($line), $this->getPeriode($line), true);
+
+      if (!$drm->isNew()) {
+        throw new sfException(sprintf("La DRM de %s pour la période %s existe déjà", $this->getIdentifiant($line), $this->getPeriode($line)));
+      }
 
       if(!$drm->getEtablissement()) {
         throw new sfException(sprintf("L'etablissement %s n'existe pas", $this->getIdentifiant($line)));
@@ -292,8 +376,14 @@ EOF;
     }
 
     switch($line[self::CSV_LIGNE_TYPE]) {
+      case self::CSV_LIGNE_TYPE_DS:
+        $this->importLigneDS($drm, $line);
+        break;
       case self::CSV_LIGNE_TYPE_CONTRAT:
         $this->importLigneContrat($drm, $line);
+        break;
+      case self::CSV_LIGNE_TYPE_ACHAT:
+        $this->importLigneAchat($drm, $line);
         break;
       case self::CSV_LIGNE_TYPE_VENTE:
         $this->importLigneVente($drm, $line);
@@ -305,8 +395,8 @@ EOF;
       case self::CSV_LIGNE_TYPE_CAVE_COOP:
         $this->importLigneCave($drm, $line);
         break;
-      case self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE:
       case self::CSV_LIGNE_TYPE_TRANSFERT_ENTREE:
+      case self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE:
         $this->importLigneTransfert($drm, $line);
         break;
       case self::CSV_LIGNE_TYPE_MOUVEMENT:
@@ -317,6 +407,20 @@ EOF;
     }
 
     return $drm;
+  }
+
+  public function importLigneDS($drm, $line) {
+    $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
+
+    if (is_null($produit->stocks_debut->revendique)) {
+      $produit->stocks_debut->revendique = 0;
+    }
+
+    if($produit->stocks_debut->revendique != $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE])) {
+      $this->log(sprintf("WARNING;Le stock de la DS %s ne correpond pas au stock debut mois %s de cette DRM pour le produit %s : %s", $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]), $produit->stocks_debut->revendique, $this->getCodeProduit($line), implode(";", $line)));
+    }
+
+    $produit->stocks_debut->revendique = $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]);
   }
 
   public function importLigneContrat($drm, $line) {
@@ -337,41 +441,54 @@ EOF;
   public function importLigneVente($drm, $line) {
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
-    $produit->sorties->export_details->add(null, array("identifiant" => $line[self::CSV_VENTE_CODE_PAYS],
+    if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) > 0) {
+      $produit->sorties->export_details->add(null, array("identifiant" => $this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]),
                                                        "volume" => $this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]),
                                                        "date_enlevement" => $line[self::CSV_VENTE_DATE_SORTIE]));
+    } elseif($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) < 0) {
+      $produit->entrees->reintegration += abs($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]));
+    }
 
-    $produit->sorties->vracsanscontrat = $this->convertToFloat($line[self::CSV_VENTE_VOLUME_CONGE]);
-    $produit->sorties->bouteille = $this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]);
+    if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CONGE]) > 0) {
+      $produit->sorties->vracsanscontrat += $this->convertToFloat($line[self::CSV_VENTE_VOLUME_CONGE]);
+    } elseif($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CONGE]) < 0) {
+      $produit->entrees->reintegration += abs($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CONGE]));
+    }
+
+    if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]) > 0) {
+      $produit->sorties->bouteille += $this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]);
+    } elseif($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]) < 0) {
+      $produit->entrees->reintegration += $this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]);
+    }
   }
 
   public function importLigneDivers($drm, $line) {
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if($line[self::CSV_DIVERS_CODE_MOUVEMENT] == 86) {
-      $produit->sorties->regularisation = $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
+      $produit->sorties->consommation += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
       return;
     }
 
     if($line[self::CSV_DIVERS_CODE_MOUVEMENT] == 82) {
-      $produit->sorties->distillation = $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
+      $produit->sorties->distillation += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
       return;
     }
 
     if($line[self::CSV_DIVERS_CODE_MOUVEMENT] == 81) {
-      $produit->sorties->declassement = $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
+      $produit->sorties->declassement += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
       return;
     }
 
     if($line[self::CSV_DIVERS_CODE_MOUVEMENT] == 80) {
-      $produit->sorties->fermagemetayage = $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
+      $produit->sorties->fermagemetayage += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
       return;
     }
 
     if($line[self::CSV_DIVERS_TEXTE_MOUVEMENT] == "REPLI") {
-      $produit->sorties->repli = $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
+      $produit->sorties->repli += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
       $produit_repli = $drm->addProduit($this->getHash($line[self::CSV_DIVERS_CODE_APPELLATION_2]));
-      $produit_repli->entrees->repli = $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
+      $produit_repli->entrees->repli += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
       return;
     }
 
@@ -395,7 +512,7 @@ EOF;
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
-      $produit->entrees->cooperative = $this->convertToFloat($line[self::CSV_CAVE_VOLUME_ENTREE]);
+      $produit->entrees->cooperative += $this->convertToFloat($line[self::CSV_CAVE_VOLUME_ENTREE]);
     }
   }
 
@@ -403,28 +520,62 @@ EOF;
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE) {
-      $produit->sorties->cession = $this->convertToFloat($line[self::CSV_TRANSFERT_VOLUME_HL]);
+      $produit->sorties->cession += $this->convertToFloat($line[self::CSV_TRANSFERT_VOLUME_HL]);
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_TRANSFERT_ENTREE) {
-      $produit->entrees->transfert = $this->convertToFloat($line[self::CSV_TRANSFERT_VOLUME_HL]);
+      $produit->entrees->transfert += $this->convertToFloat($line[self::CSV_TRANSFERT_VOLUME_HL]);
     }
   }
 
   public function importLigneMouvement($drm, $line) {
+    $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
+    $produit->entrees->recolte += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]);
+  }
+
+  public function importLigneAchat($drm, $line) {
+    $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
+
+    $produit->entrees->achat += $this->convertToFloat($line[self::CSV_ACHAT_VOLUME_LIBRE]) + $this->convertToFloat($line[self::CSV_ACHAT_VOLUME_BLOQUE]);
   }
 
   protected function verifyLine($line) {
-    if (!preg_match('/[0-9]{4}-[0-9]{6}-[0-9]{2}-[0-9]{4}/', $line[self::CSV_LIGNE_ID])) {
+    if (!preg_match('/^[0-9]{4}-[0-9]{4}$/', $line[self::CSV_LIGNE_CAMPAGNE])) {
 
-      throw new sfException(sprintf("L'id '%s' de la ligne est incorrect", $line[self::CSV_LIGNE_ID]));
+      throw new sfException(sprintf("La campagne n'est pas au bon format %s", $line[self::CSV_LIGNE_CAMPAGNE]));
+    }
+
+    if (!preg_match('/^[0-9]{8}$/', $line[self::CSV_LIGNE_ETABLISSEMENT])) {
+
+      throw new sfException(sprintf("L'identifiant n'est pas au bon format %s", $line[self::CSV_LIGNE_ETABLISSEMENT]));
+    }
+
+    if (!preg_match('/^[2]{1}[0-9]{3}[0-1]{1}[0-9]{1}$/', $line[self::CSV_LIGNE_PERIODE])) {
+
+      throw new sfException(sprintf("La période n'est pas au bon format %s", $line[self::CSV_LIGNE_PERIODE]));
+    }
+
+    if (!preg_match('/^[0-9]{4}$/', $line[self::CSV_LIGNE_CODE_APPELLATION])) {
+
+      throw new sfException(sprintf("Le produit n'est pas au bon format %s", $line[self::CSV_LIGNE_CODE_APPELLATION]));
     }
 
     $this->getHash($this->getCodeProduit($line));
 
+    if (DRMClient::getInstance()->buildCampagne($this->getPeriode($line)) != $line[self::CSV_LIGNE_CAMPAGNE]) {
+
+      $this->log(sprintf("WARNING;Le periode %s ne fait pas parti de la campagne %s : %s", $this->getPeriode($line), $line[self::CSV_LIGNE_CAMPAGNE], implode(";", $line)));
+    }
+
     switch($line[self::CSV_LIGNE_TYPE]) {
+      case self::CSV_LIGNE_TYPE_DS:
+        $this->verifyLineDS($line);
+        break;
       case self::CSV_LIGNE_TYPE_CONTRAT:
         $this->verifyLineContrat($line);
+        break;
+      case self::CSV_LIGNE_TYPE_ACHAT:
+        $this->verifyLineAchat($line);
         break;
       case self::CSV_LIGNE_TYPE_DIVERS:
         $this->verifyLineDivers($line);
@@ -433,8 +584,8 @@ EOF;
       case self::CSV_LIGNE_TYPE_CAVE_COOP:
         $this->verifyLineCave($line);
         break;
-      case self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE:
       case self::CSV_LIGNE_TYPE_TRANSFERT_ENTREE:
+      case self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE:
         $this->verifyLineTransfert($line);
         break;
       case self::CSV_LIGNE_TYPE_VENTE:
@@ -443,18 +594,27 @@ EOF;
     }
   }
 
+  protected function verifyLineDS($line) {
+     $this->verifyVolume($line[self::CSV_DS_VOLUME_LIBRE]);
+  }
+
+  protected function verifyLineAchat($line) {
+    $this->verifyVolume($line[self::CSV_ACHAT_VOLUME_LIBRE]);
+    $this->verifyVolume($line[self::CSV_ACHAT_VOLUME_BLOQUE]);
+  }
+
   protected function verifyLineContrat($line) {
-    $this->verifyFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]);
+    $this->verifyVolume($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]);
   }
 
   protected function verifyLineVente($line) {
-    $this->verifyFloat($line[self::CSV_VENTE_VOLUME_CRD]);
-    $this->verifyFloat($line[self::CSV_VENTE_VOLUME_CONGE]);
-    $this->verifyFloat($line[self::CSV_VENTE_VOLUME_EXPORT]);
+    $this->verifyVolume($line[self::CSV_VENTE_VOLUME_CRD], true);
+    $this->verifyVolume($line[self::CSV_VENTE_VOLUME_CONGE], true);
+    $this->verifyVolume($line[self::CSV_VENTE_VOLUME_EXPORT], true);
   }
 
   protected function verifyLineDivers($line) {
-    $this->verifyFloat($line[self::CSV_DIVERS_VOLUME_HL]);
+    $this->verifyVolume($line[self::CSV_DIVERS_VOLUME_HL]);
 
     if($line[self::CSV_DIVERS_TEXTE_MOUVEMENT] == "REPLI") {
       $this->getHash($line[self::CSV_DIVERS_CODE_APPELLATION_2]);
@@ -462,31 +622,148 @@ EOF;
   }
 
   protected function verifyLineTransfert($line) {
-    $this->verifyFloat($line[self::CSV_TRANSFERT_VOLUME_HL]);
+    $this->verifyVolume($line[self::CSV_TRANSFERT_VOLUME_HL]);
   }
 
   protected function verifyLineCave($line) {
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
-      $this->verifyFloat($line[self::CSV_CAVE_VOLUME_SORTIE]);
+      $this->verifyVolume($line[self::CSV_CAVE_VOLUME_SORTIE]);
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
-      $this->verifyFloat($line[self::CSV_CAVE_VOLUME_ENTREE]);
+      $this->verifyVolume($line[self::CSV_CAVE_VOLUME_ENTREE]);
     }
   }
 
   protected function verifyLineMouvement($line) {
-  }
-
-  protected function verifyFloat($value) {
-    $value = $this->convertToFloat($value);
-    if(!(is_float($value) && $value >= 0)) {
-      throw new sfException(sprintf("Nombre flottant '%s' invalide", $value));
-    }
+    $this->verifyVolume($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]);
   }
 
   protected function constructNumeroContrat($line) {
 
       return $this->convertToDateObject($line[self::CSV_CONTRAT_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%04d", $line[self::CSV_CONTRAT_NUMERO_CONTRAT]);
   }
+
+  protected function convertCountry($country) {
+    $countries = ConfigurationClient::getInstance()->getCountryList();
+    if(!array_key_exists($country, $countries)) {
+      throw new sfException(sprintf("Code pays '%s' invalide", $country));
+    }
+    
+    return $country;
+  }
+
+  protected function initCoheranceWithMouvement() {
+    return array();
+  }
+
+  protected function buildCoheranceWithMouvement($coherence, $line) {
+    $code = $this->getCodeProduit($line);
+    if(!array_key_exists($code, $coherence)) {
+      $coherence[$code] = array("stock" => null, "entrees" => 0, "sorties" => 0); 
+    }
+
+    /*if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_DS, 
+                                                                 self::CSV_CODE_MOUVEMENT_DS_MODIF, 
+                                                                 self::CSV_CODE_MOUVEMENT_DS_ANNULATION))) {
+      if (is_null($coherence[$code]["stock"])) {
+        $coherence[$code]["stock"] = 0;
+      }
+
+      $coherence[$code]["stock"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_STOCK_FIN_CAMPAGNE]); //DS
+    }*/
+
+    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_ENLEVEMENT,
+                                                                 self::CSV_CODE_MOUVEMENT_ENLEVEMENT_ANNULATION, 
+                                                                 self::CSV_CODE_MOUVEMENT_ENLEVEMENT_REGUL))) {
+      $coherence[$code]["sorties"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_ENLEVE]); //Contrat
+    }
+
+
+    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_SAISIE_DMVDP, 
+                                                                 self::CSV_CODE_MOUVEMENT_MODIF_DMVDP,
+                                                                 self::CSV_CODE_MOUVEMENT_ANNUL_DMVDP))) {
+      $coherence[$code]["sorties"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_SORTIE]); //Ventes
+    }
+
+    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_AGREMENT,
+                                                                 self::CSV_CODE_MOUVEMENT_AGREMENT_REGUL))) {
+      $coherence[$code]["entrees"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]); //Agrément
+      $coherence[$code]["entrees"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_BLOQUE]); //Agrément
+    }
+
+
+    if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == self::CSV_CODE_MOUVEMENT_REPLI_SORTIE) {
+      //$coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_STOCK_FIN_CAMPAGNE])); //Repli
+      $coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE])); //Repli
+      $coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Repli
+    }
+
+    if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == self::CSV_CODE_MOUVEMENT_REPLI_ENTREE) {
+      //$coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_STOCK_FIN_CAMPAGNE])); //Repli
+      $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE])); //Repli
+      $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Repli
+    }
+
+    if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == array(self::CSV_CODE_MOUVEMENT_CAVE_DEPOT, 
+                                                          self::CSV_CODE_MOUVEMENT_CAVE_DEPOT_ANNULATION)) {
+      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) > 0) {
+        $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
+      }
+
+      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) < 0) {
+        $coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
+      }
+    }
+
+    if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == array(self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION, 
+                                                          self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION_ANNULATION)) {
+      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) < 0) {
+        $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
+      }
+
+      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) > 0) {
+        $coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
+      }
+    }
+
+    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_CAVE_DEPOT,
+                                                                 self::CSV_CODE_MOUVEMENT_CAVE_DEPOT_ANNULATION))) {
+      $coherence[$code]["sorties"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]); //Achat
+    }
+
+    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_AUTRES,
+                                                                 self::CSV_CODE_MOUVEMENT_CONSO_PERTES,
+                                                                 self::CSV_CODE_MOUVEMENT_DISTILLATION,
+                                                                 self::CSV_CODE_MOUVEMENT_DECLASSEMENT,
+                                                                 self::CSV_CODE_MOUVEMENT_DIVERS))) {
+      $coherence[$code]["sorties"] += -$this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]); //Divers
+    }
+
+
+
+    return $coherence;
+  }
+
+  protected function verifCoherenceWithMouvement($coherence, $drm) {
+
+    foreach($coherence as $code => $volumes) {
+      $produit = $drm->addProduit($this->getHash($code));
+
+      /*if(!(is_null($volumes["stock"])) && round($produit->stocks_debut->revendique, 2) != round($volumes["stock"], 2)) {
+        throw new sfException(sprintf("Le stock début de mois %s ne correspond pas à celui des mouvements %s pour le produit %s", $produit->stocks_debut->revendique, $volumes["stock"],  $code));
+      }*/
+
+      if (round($produit->total_sorties, 2) != round($volumes["sorties"], 2)) {
+        throw new sfException(sprintf("Le volume total en sortie %s ne correspond pas à celui des mouvements %s pour le produit %s", $produit->total_sorties, $volumes["sorties"],  $code));
+      }
+
+      $volumes["entrees"] += $produit->entrees->achat; // Petit hack cat le mouvement agrément n'a pas la bonne date
+
+      if (round($produit->total_entrees, 2) != round($volumes["entrees"], 2)) {
+        throw new sfException(sprintf("Le volume total en entree %s ne correspond pas à celui des mouvements %s pour le produit %s", $produit->total_entrees, $volumes["entrees"],  $code));
+      }
+
+    }
+  }   
 }
