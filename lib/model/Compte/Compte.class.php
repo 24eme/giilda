@@ -25,7 +25,7 @@ class Compte extends BaseCompte {
     public function save() {
 	parent::save();
 	$soc = $this->getSociete();
-	$soc->addContact($this);
+	$soc->addCompte($this);
 	$soc->save();
     }
 }
