@@ -102,5 +102,12 @@ class ConfigurationClient extends acCouchdbClient {
         return sprintf('%s-%s', $annees[1]-1, $annees[2]-1); 
 
     }
+
+    public function getCountryList() {
+        $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
+        $destinationChoices = $destinationChoicesWidget->getChoices();
+        $destinationChoices['inconnu'] = 'Inconnu';
+        return $destinationChoices;
+    }
   
 }
