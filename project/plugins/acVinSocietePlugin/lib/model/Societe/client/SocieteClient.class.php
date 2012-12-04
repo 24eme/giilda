@@ -41,7 +41,7 @@ class SocieteClient extends acCouchdbClient {
         
         $societe->constructId();
         $societe->setContactSociete();
-        $societe->addEtablissement();
+        $societe->createEtablissement();
         $societe->save();
         return $societe;
     }
