@@ -32,6 +32,7 @@ class EtablissementClient extends acCouchdbClient {
     public function createEtablissement($societe) {
         $etablissement = new Etablissement();
         $etablissement->id_societe = $societe->_id;
+	$etablissement->nom = $societe->raison_sociale;
         $etablissement->identifiant = $this->getNextIdentifiantForSociete($societe);
         $famillesSocieteTypes = self::getFamillesSocieteTypesArray();
         $etablissement->famille = $famillesSocieteTypes[$societe->type_societe];
