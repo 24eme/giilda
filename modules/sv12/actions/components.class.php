@@ -8,4 +8,8 @@ class sv12Components extends sfComponents {
       $this->form = new Sv12EtablissementChoiceForm('INTERPRO-inter-loire',array('identifiant' => $this->identifiant));
     }
   }
+
+  public function executeStocksRecap() {
+    $this->recaps = array();
+  }
 }
