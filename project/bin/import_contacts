@@ -4,9 +4,10 @@ DATADIR=/tmp/VINSDELOIRE_DATA
 
 
 echo "conversion des chais pour éviter les doublons"
+WORKINGDIR=$(pwd);
 
 cd $DATADIR
-bash bin/convert_chais
+bash $WORKINGDIR/bin/convert_chais
 cd -
 
 echo "Import Societe"
