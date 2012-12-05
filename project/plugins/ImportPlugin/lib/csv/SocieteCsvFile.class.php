@@ -52,12 +52,40 @@ class SocieteCsvFile extends CsvFile
 
       	$s = new Societe();
         $s->identifiant = $line[self::CSV_PARTENAIRE_CODE];
-        $s->raison_sociale = $line[self::CSV_PARTENAIRE_NOM];
-        $s->code_postal = $line[self::CSV_PARTENAIRE_CODEPOSTAL];
-        $s->commune = $line[self::CSV_PARTENAIRE_COMMUNE];
+        $s->raison_sociale = $line[self::CSV_PARTENAIRE_NOM_REDUIT];
+	$s->raison_sociale_abregee = $line[self::CSV_PARTENAIRE_NOM];
+	$s->siege->adresse = preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE1]);
+        if(preg_match('/[a-z]/i', $line[self::CSV_PARTENAIRE_ADRESSE2])) {
+        $s->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE2]);
+        if(preg_match('/[a-z]/i', $line[self::CSV_PARTENAIRE_ADRESSE3])) {
+        $s->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE3]);
+        if(preg_match('/[a-z]/i', $line[self::CSV_PARTENAIRE_ADRESSE4])) {
+        $s->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE4]);
+        }}}
+        $s->siege->code_postal = $line[self::CSV_PARTENAIRE_CODEPOSTAL];
+        $s->siege->commune = $line[self::CSV_PARTENAIRE_COMMUNE];
 	$s->interpro = 'INTERPRO-inter-loire';
-	$s->telephone = "02 XX YY ZZ QQ";
-	$s->SIRET = '49? ??? ???';
+	//Incohérent mais ce champ signifie en réalisé suspendu
+        if ($line[self::CSV_PARTENAIRE_ENACTIVITE] == 'O') {
+                $s->statut = SocieteClient::STATUT_SUSPENDU;
+        }else{
+                $s->statut = Etablissement::STATUT_ACTIF;
+        }
+	if ($line[self::CSV_PARTENAIRE_TYPE] == 'N') {
+		$s->type_societe = SocieteClient::SUB_TYPE_NEGOCIANT;
+		$s->numero_compte_client = sprintf("04%06d", $line[self::CSV_PARTENAIRE_CODE]);
+        }else if ($line[self::CSV_PARTENAIRE_TYPE] == 'C') {
+		$s->type_societe = SocieteClient::SUB_TYPE_COURTIER;
+	}else if ($line[self::CSV_PARTENAIRE_TYPE] == 'V') {
+		$s->type_societe = SocieteClient::SUB_TYPE_VITICULTEUR;
+		$s->numero_compte_client = sprintf("02%06d", $line[self::CSV_PARTENAIRE_CODE]);
+	}else if ($line[self::CSV_PARTENAIRE_TYPE] == 'R') {
+                $s->type_societe = SocieteClient::SUB_TYPE_DOUANE;
+	}
+	if ($line[self::CSV_PARTENAIRE_ENSEIGNE])
+		$s->enseignes->add(null, $line[self::CSV_PARTENAIRE_ENSEIGNE]);
+
+
       	$s->save();
       }
     }catch(Execption $e) {

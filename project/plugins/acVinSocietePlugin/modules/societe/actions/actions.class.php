@@ -19,13 +19,13 @@ class societeActions extends sfActions {
         $this->societe = $this->getRoute()->getSociete();
         $this->contactSociete = CompteClient::getInstance()->find($this->societe->id_compte_societe);
         $this->societeForm = new SocieteModificationForm($this->societe);
-        $this->contactSocieteForm = new CompteSocieteModificationForm($this->contactSociete);
-        
+        $this->contactSocieteForm = new CompteModificationForm($this->contactSociete);
         $this->etablissementSocieteForm = null;
         if ($this->societe->hasChais()) {
-            $idEtablissement = $this->societe->etablissements[0]->id_etablissement;
+            $idEtablissement = $this->societe->getIdFirstEtablissement();
             $etablissement = EtablissementClient::getInstance()->find($idEtablissement);
             $this->etablissementSocieteForm = new EtablissementModificationForm($etablissement);
+            $this->contactSocieteForm = new CompteModificationForm($this->contactSociete);
         }
         
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -36,83 +36,46 @@ class societeActions extends sfActions {
                 $this->societeForm->save();
                 $this->contactSocieteForm->save();
                 if($this->societe->hasChais()) $this->etablissementSocieteForm->save();
-                var_dump('KIFFE ENGER');
-                exit;
+                $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
             }
         }
     }
 
-//    
-//    public function executeChooseSociete(sfWebRequest $request) {       
-//       $this->form = new SocieteChoiceForm('INTERPRO-inter-loire');
-//       if ($request->isMethod(sfWebRequest::POST)) {
-//            $this->form->bind($request->getParameter($this->form->getName()));
-//            if ($this->form->isValid()) {
-//                var_dump($this->form->getSociete()); exit;
-//                return $this->redirect('societe_choose', $this->form->getSociete());
-//            }
-//        }
-//    }
-//    public function executeIndex(sfWebRequest $request) {    
-//        $this->form = new SocieteChoiceForm('INTERPRO-inter-loire');
-//        if ($request->isMethod(sfWebRequest::POST)) {
-//        //    if ($this->form->isValid()) {
-//            $societeParams = $request->getParameter('societe');
-//            $identifiant = $societeParams['identifiant'];
-//            $type = $societeParams['societeType'];
-//            $societe = SocieteClient::getInstance()->findByIdentifiant($identifiant);
-//            if(!$societe) {
-//                $this->redirect('societe_creation',array('nom' => $identifiant,'type' => $type));
-//            }
-//                $this->redirect('societe_modification',array('societe' => $societe));
-//            }
-//      //  }
-//    }
-//
-//    public function executeAll(sfWebRequest $request) {
-//        $interpro = $request->getParameter('interpro_id');
-//        $json = $this->matchSociete(SocieteAllView::getInstance()->findByInterpro($interpro)->rows, $request->getParameter('q'), $request->getParameter('limit', 100));
-//    return $this->renderText(json_encode($json));
-//    }
-//
-//    public function executeCreateSociete(sfWebRequest $request) {
-//       // $this->form = new SocieteCreationForm();
-//        $societe = SocieteClient::getInstance()->createSociete($request['nom'],$request['type']);
-//        return $this->redirect('societe_modification',array('societe',$societe));
-////        if ($request->isMethod(sfWebRequest::POST)) {
-////            $this->form->bind($request->getParameter($this->form->getName()));
-////            if ($this->form->isValid()) {
-////                $values = $this->form->getValues();
-////                $societe = new Societe();
-////                $societe->interpro = 'INTERPRO-inter-loire';
-////                $societe->identifiant = $values['identifiant'];
-////                $societe->siret = $values['siret'];
-////                $societe->raison_sociale = $values['raison_sociale'];
-////                $societe->telephone = $values['telephone'];
-////                $societe->save();
-////            }
-////        }
-//    }
-//    
-//    
-//    public function executeEspace(sfWebRequest $request) {
-//        var_dump('MA SOCIETE'); exit;
-//    }
-//    
-//    protected function matchSociete($societes, $term, $limit) {
-//    	$json = array();
-//
-//	  	foreach($societes as $key => $societe) {
-//	      $text = SocieteAllView::getInstance()->makeLibelle($societe->key);
-//	     
-//	      if (Search::matchTerm($term, $text)) {
-//	        $json[SocieteClient::getInstance()->getIdentifiant($societe->id)] = $text;
-//	      }
-//
-//	      if (count($json) >= $limit) {
-//	        break;
-//	      }
-//	    }
-//	    return $json;
-//	}
+    
+    public function executeVisualisation(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->etablissements = $this->societe->getEtablissementsObj();
+    }
+    
+    public function executeAddContact(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->contact = $this->societe->addNewContact();
+        $this->societe->save();
+        $this->redirect('compte_new',array('identifiant' => $this->contact->identifiant));
+    }
+    
+    public function executeAddEtablissement(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->etablissement = $this->societe->addNewEtablissement();
+        $this->societe->save();
+        $this->redirect('etablissement_new',array('identifiant' => $this->etablissement->identifiant));
+    }
+    
+    
+	/***************
+	 * Intégration
+	 ***************/
+	public function executeCreateSocieteInt(sfWebRequest $request) {
+        $this->societe = null;
+        if(!is_null($societeParam = $request->getParameter('societe'))){
+            $this->societe = SocieteClient::getInstance()->find($societeParam['identifiant']);
+        }
+    }
+	
+	public function executeDetailSocieteInt(sfWebRequest $request) {
+        $this->societe = null;
+        if(!is_null($societeParam = $request->getParameter('societe'))){
+            $this->societe = SocieteClient::getInstance()->find($societeParam['identifiant']);
+        }
+    }
 }

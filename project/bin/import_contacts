@@ -1,0 +1,32 @@
+DATADIR=/tmp/VINSDELOIRE_DATA
+
+
+
+
+echo "conversion des chais pour éviter les doublons"
+
+cd $DATADIR
+bash bin/convert_chais
+cd -
+
+echo "Import Societe"
+
+conv -f ISO88591 -t UTF8 $DATADIR/cipar.csv | sort -t ';' -k 2 > $DATADIR/tmp/cipar.utf8.csv
+php symfony import:societe $DATADIR/tmp/cipar.utf8.csv
+
+
+echo "Import Etablissement"
+
+iconv -f ISO88591 -t UTF8 $DATADIR/cicav.csv | sort -t ';' -k 2 > $DATADIR/tmp/cicav.utf8.csv
+join -t ';' -a 1 -1 2 -2 2 $DATADIR/tmp/cipar.utf8.csv $DATADIR/tmp/cicav.utf8.csv > $DATADIR/etablissement.csv
+
+php symfony import:etablissement $DATADIR/tmp/cipar.utf8.csv
+
+echo "Import Contact"
+
+iconv -f ISO88591 -t UTF8 $DATADIR/cifonct.csv | sort -t ';' -k 2 > $DATADIR/tmp/cifonct.utf8.csv
+join -t ';' -1 2 -2 2 $DATADIR/tmp/cifonct.utf8.csv $DATADIR/tmp/cipar.utf8.csv | sort -t ';' -k 3 > $DATADIR/tmp/cifonct_cipar.utf8.csv
+iconv -f ISO88591 -t UTF8 $DATADIR/cicontact.csv | sed 's/; */;/g' | sed 's/ *;/;/g' | sort -t ';' -k 2 > $DATADIR/tmp/cicontact.utf8.csv
+join -t ';' -1 2 -2 3 $DATADIR/tmp/cicontact.utf8.csv $DATADIR/tmp/cifonct_cipar.utf8.csv | sort -t ';' -k 2 -n  > $DATADIR/tmp/cicontact_cifonct_cipar.csv
+
+php symfony import:contact $DATADIR/tmp/cicontact_cifonct_cipar.csv

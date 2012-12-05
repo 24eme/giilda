@@ -23,7 +23,6 @@ use_helper('Display');
             Siret :
         </label>
         <div class="bloc_form">
-
             <?php display_field($societe, 'siret'); ?>
         </div>
     </div>

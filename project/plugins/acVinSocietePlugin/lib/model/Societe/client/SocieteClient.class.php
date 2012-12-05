@@ -8,6 +8,7 @@ class SocieteClient extends acCouchdbClient {
     const SUB_TYPE_COURTIER = 'courtier';
     const TYPE_PRESSE = 'presse';
     const TYPE_PARTENAIRE = 'partenaire';
+    const SUB_TYPE_DOUANE = 'douane';
     const SUB_TYPE_INSTITUTION = 'institution';
     const SUB_TYPE_HOTELRESTAURANT = 'hotel/restaurant';
     const SUB_TYPE_AUTRE = 'autre';
@@ -24,6 +25,8 @@ class SocieteClient extends acCouchdbClient {
     }
 
     public function getId($identifiant) {
+	if (preg_match('/^SOCIETE/', $identifiant))
+		return $identifiant;
         return 'SOCIETE-' . $identifiant;
     }
 
@@ -33,14 +36,18 @@ class SocieteClient extends acCouchdbClient {
         $societe->type_societe = $type;
         $societe->interpro = 'INTERPRO-inter-loire';
         $societe->identifiant = $this->getNextIdentifiantSociete();
+        $societe->statut = SocieteClient::STATUT_ACTIF;
+        $societe->cooperative = 0;
+        
         $societe->constructId();
         $societe->setContactSociete();
-        $societe->setFirstChai();
+        $societe->createEtablissement();
         $societe->save();
         return $societe;
     }
 
     public function find($id_or_identifiant, $hydrate = self::HYDRATE_DOCUMENT) {
+        if(preg_match('/^SOCIETE[-]{1}[0-9]*$/', $id_or_identifiant)) return parent::find($id_or_identifiant, $hydrate);
         return parent::find($this->getId($id_or_identifiant), $hydrate);
     }
 
@@ -48,13 +55,13 @@ class SocieteClient extends acCouchdbClient {
         $id = '';
         $societes = self::getSocietesIdentifiants(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($societes) > 0) {
-            $id .= sprintf("%1$06d",((double) str_replace('SOCIETE-', '', max($societes)) + 1));
+            $id .= sprintf("%1$06d",((double) str_replace('SOCIETE-', '', count($societes)) + 1));
         } else {
             $id.= '000001';
         }
         return $id;
     }
-
+    
     public function getSocietesIdentifiants($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return $this->startkey('SOCIETE-000000')->endkey('SOCIETE-999999')->execute($hydrate);
     }
