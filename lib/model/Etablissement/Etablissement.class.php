@@ -129,7 +129,7 @@ class Etablissement extends BaseEtablissement {
 
 	$soc = SocieteClient::getInstance()->find($this->id_societe);
         if(!$soc)
-                throw sfException("$id n'est pas une société connue");
+                throw new sfException("$id n'est pas une société connue");
         $soc->addEtablissement($this);
 	$soc->save();
 
@@ -138,7 +138,7 @@ class Etablissement extends BaseEtablissement {
     public function setIdSociete($id) {
 	$soc = SocieteClient::getInstance()->find($id);
 	if(!$soc)
-		throw sfException("$id n'est pas une société connue");
+		throw new sfException("$id n'est pas une société connue");
 	$this->_set("id_societe", $id);
     }
 
