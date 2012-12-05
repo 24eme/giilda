@@ -62,9 +62,9 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setValidator('type_numero_compte', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesNumeroCompte()), 'multiple' => true)));
         $this->setValidator('cooperative', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperative()))));
         
-        $this->setValidator('siret', new sfValidatorString(array('required' => true)));
-        $this->setValidator('code_naf', new sfValidatorString(array('required' => true)));
-        $this->setValidator('tva_intracom', new sfValidatorString(array('required' => true)));
+        $this->setValidator('siret', new sfValidatorString(array('required' => false)));
+        $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
+        $this->setValidator('tva_intracom', new sfValidatorString(array('required' => false)));
         foreach ($this->getObject()->enseignes as $key => $enseigne) {
             $this->setValidator('enseignes[' . $key . ']', new sfValidatorString(array('required' => false)));
         }

@@ -30,7 +30,7 @@ Societe:
         definition:
           fields:
             '*': { }
-      id_compte_societe: { }      
+      compte_societe: { }      
       contacts:
         type: collection
         definition:

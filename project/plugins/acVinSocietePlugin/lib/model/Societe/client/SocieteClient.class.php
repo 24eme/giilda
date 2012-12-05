@@ -38,11 +38,13 @@ class SocieteClient extends acCouchdbClient {
         $societe->identifiant = $this->getNextIdentifiantSociete();
         $societe->statut = SocieteClient::STATUT_ACTIF;
         $societe->cooperative = 0;
-        
         $societe->constructId();
-        $societe->setContactSociete();
-        $societe->createEtablissement();
-        $societe->save();
+	$societe->save();
+	$compte = $societe->createCompteSociete();
+	$compte->save();
+	if($societe->canHaveChais()) {
+		EtablissementClient::getInstance()->createEtablissement($societe);
+	}
         return $societe;
     }
 
@@ -55,15 +57,15 @@ class SocieteClient extends acCouchdbClient {
         $id = '';
         $societes = self::getSocietesIdentifiants(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($societes) > 0) {
-            $id .= sprintf("%1$06d",((double) str_replace('SOCIETE-', '', count($societes)) + 1));
+            $id .= '8'.sprintf("%1$05d",((double) str_replace('SOCIETE-8', '', count($societes)) + 1));
         } else {
-            $id.= '000001';
+            $id.= '800001';
         }
         return $id;
     }
     
     public function getSocietesIdentifiants($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('SOCIETE-000000')->endkey('SOCIETE-999999')->execute($hydrate);
+        return $this->startkey('SOCIETE-800000')->endkey('SOCIETE-999999')->execute($hydrate);
     }
 
     public function findByIdentifiantSociete($identifiant) {
