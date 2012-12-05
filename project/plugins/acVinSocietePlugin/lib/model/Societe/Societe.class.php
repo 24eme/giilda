@@ -70,12 +70,10 @@ class Societe extends BaseSociete {
 
     public function getEtablissementsObj() {
         $etablissements = array();
-        foreach ($this->etablissements as $id => $nom) {
-            $ordre = strstr($id,'-',true);
-            $idEtablissement = substr(strstr($id,'-'),1);
-            $etablissements[$idEtablissement] = new stdClass();
-            $etablissements[$idEtablissement]->etablissement =  EtablissementClient::getInstance()->find($idEtablissement);
-            $etablissements[$idEtablissement]->ordre = $ordre;
+        foreach ($this->etablissements as $id => $obj) {
+            $etablissements[$id] = new stdClass();
+            $etablissements[$id]->etablissement =  EtablissementClient::getInstance()->find($id);
+            $etablissements[$id]->ordre = $obj->ordre;
         }
         return $etablissements;
     }
