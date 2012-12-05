@@ -103,6 +103,16 @@ class ConfigurationClient extends acCouchdbClient {
 
     }
 
+    public function getNextCampagne($campagne) {
+        if (!preg_match('/^([0-9]+)-([0-9]+)$/', $campagne, $annees)) {
+
+            throw new sfException('campagne bad format');
+        }
+
+        return sprintf('%s-%s', $annees[1]+1, $annees[2]+1); 
+
+    }
+
     public function getCountryList() {
         $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
         $destinationChoices = $destinationChoicesWidget->getChoices();
