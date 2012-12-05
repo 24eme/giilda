@@ -42,7 +42,9 @@ class SocieteClient extends acCouchdbClient {
 	$societe->save();
 	$compte = $societe->createCompteSociete();
 	$compte->save();
-	EtablissementClient::getInstance()->createEtablissement($societe);
+	if($societe->canHaveChais()) {
+		EtablissementClient::getInstance()->createEtablissement($societe);
+	}
         return $societe;
     }
 

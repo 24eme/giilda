@@ -54,7 +54,7 @@ class Societe extends BaseSociete {
     }
 
     public function createEtablissement() {
-        if ($this->hasChais()) {
+        if ($this->canHaveChais()) {
             if (!$this->identifiant) {
                 throw new sfException("La societe ne possède pas encore d'identifiant");
             }
@@ -65,6 +65,10 @@ class Societe extends BaseSociete {
     }
 
     public function hasChais() {
+	return count($this->etablissements);
+    }
+
+    public function canHaveChais() {
         return in_array($this->type_societe, SocieteClient::getSocieteTypesWithChais());
     }
 
