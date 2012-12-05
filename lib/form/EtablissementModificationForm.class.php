@@ -61,7 +61,7 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->setValidator('famille', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getFamilles()))));
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
         $this->setValidator('statut', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatuts()))));
-        $this->setValidator('cvi', new sfValidatorString(array('required' => true)));
+        $this->setValidator('cvi', new sfValidatorString(array('required' => false)));
         $this->setValidator('raisins_mouts', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));
         $this->setValidator('exclusion_drm', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));
         $this->setValidator('relance_ds', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));
@@ -73,9 +73,9 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         foreach ($this->getObject()->liaisons_operateurs as $key => $liaison_societe) {
             $this->setValidator('liaisons_operateurs[' . $key . ']', new ValidatorSociete(array('required' => true)));
         }
-        $this->setValidator('site_fiche', new sfValidatorString(array('required' => true)));
-        $this->setValidator('carte_pro', new sfValidatorString(array('required' => true)));
-        $this->setValidator('no_accises', new sfValidatorString(array('required' => true)));
+        $this->setValidator('site_fiche', new sfValidatorString(array('required' => false)));
+        $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
+        $this->setValidator('no_accises', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');
     }

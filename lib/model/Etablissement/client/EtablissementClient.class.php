@@ -29,19 +29,20 @@ class EtablissementClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Etablissement");
     }
 
-    public function createEtablissement($societe_id, $societe_type) {
+    public function createEtablissement($societe) {
         $etablissement = new Etablissement();
-        $etablissement->id_societe = SocieteClient::getInstance()->getId($societe_id);
-        $etablissement->identifiant = $this->getNextIdentifiantForSociete($societe_id);
+        $etablissement->id_societe = $societe->_id;
+        $etablissement->identifiant = $this->getNextIdentifiantForSociete($societe);
         $famillesSocieteTypes = self::getFamillesSocieteTypesArray();
-        $etablissement->famille = $famillesSocieteTypes[$societe_type];
+        $etablissement->famille = $famillesSocieteTypes[$societe->type_societe];
         $etablissement->constructId();
         $etablissement->save();
         return $etablissement;
     }
 
-    public function getNextIdentifiantForSociete($societe_id) {
+    public function getNextIdentifiantForSociete($societe) {
         $id = '';
+	$societe_id = $societe->identifiant;
         $etbs = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($etbs) > 0) {
             $id .= $societe_id . sprintf("%1$02d", ((double) str_replace('ETABLISSEMENT-', '', count($etbs)) + 1));
