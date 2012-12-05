@@ -6,10 +6,10 @@ class CompteClient extends acCouchdbClient {
       return acCouchdbManager::getClient("Compte");
     }  
        
-    public function createCompte($societe_id) {   
+    public function createCompte($societe) {   
         $compte = new Compte();
-        $compte->id_societe = SocieteClient::getInstance()->getId($societe_id);
-        $compte->identifiant = $this->getNextIdentifiantForSociete($societe_id);
+        $compte->id_societe = $societe->_id;
+        $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
         $compte->constructId();
         $compte->save();
         return $compte;
@@ -20,16 +20,16 @@ class CompteClient extends acCouchdbClient {
       return 'COMPTE-'.$identifiant;
     }
 
-    public function getNextIdentifiantForSociete($societe_id)
+    public function getNextIdentifiantForSociete($societe)
     {   
         $id='';
+	$societe_id = $societe->identifiant;
     	$comptes = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($comptes) > 0) {
             $id .= $societe_id.sprintf("%1$02d",((double)str_replace('COMPTE-', '', count($comptes)) + 1));
         } else {
             $id.= $societe_id.'01';
         }
-
         return $id;
     }
     
