@@ -10,13 +10,14 @@ class Societe extends BaseSociete {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);
     }
 
-    public function setContactSociete() {
+    public function createCompteSociete() {
         if (!$this->identifiant) {
             throw new sfException("La societe ne possède pas encore d'identifiant");
         }
-        $contactSociete = CompteClient::getInstance()->createCompte($this->identifiant);
+        $contactSociete = CompteClient::getInstance()->createCompte($this);
         $contactSociete->setNom($this->raison_sociale);
-        $this->id_compte_societe = $contactSociete->_id;
+        $this->compte_societe = $contactSociete->_id;
+	return $contactSociete;
     }
 
     public function addNewContact() {
@@ -92,6 +93,9 @@ class Societe extends BaseSociete {
     }
 
     public function addCompte($c, $ordre = null) {
+      if (!$this->compte_societe) {
+	$this->compte_societe = $c->_id;
+      }
 	if (!$this->contacts->exist($c->_id)) {
 		$this->contacts->add($c->_id, array('nom' => $c->nom_a_afficher, 'ordre' => $ordre));
 	}else{

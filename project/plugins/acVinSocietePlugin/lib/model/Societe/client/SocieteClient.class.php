@@ -38,11 +38,11 @@ class SocieteClient extends acCouchdbClient {
         $societe->identifiant = $this->getNextIdentifiantSociete();
         $societe->statut = SocieteClient::STATUT_ACTIF;
         $societe->cooperative = 0;
-        
         $societe->constructId();
-        $societe->setContactSociete();
-        $societe->createEtablissement();
-        $societe->save();
+	$societe->save();
+	$compte = $societe->createCompteSociete();
+	$compte->save();
+	EtablissementClient::getInstance()->createEtablissement($societe);
         return $societe;
     }
 
