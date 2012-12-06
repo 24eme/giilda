@@ -20,5 +20,4 @@ class DRMMouvement extends BaseDRMMouvement {
             $key.= uniqid();
         return md5($key);
     }
-
 }
