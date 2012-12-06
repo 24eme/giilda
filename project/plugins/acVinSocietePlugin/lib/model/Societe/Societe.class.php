@@ -10,13 +10,14 @@ class Societe extends BaseSociete {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);
     }
 
-    public function setContactSociete() {
+    public function createCompteSociete() {
         if (!$this->identifiant) {
             throw new sfException("La societe ne possède pas encore d'identifiant");
         }
-        $contactSociete = CompteClient::getInstance()->createCompte($this->identifiant);
+        $contactSociete = CompteClient::getInstance()->createCompte($this);
         $contactSociete->setNom($this->raison_sociale);
-        $this->id_compte_societe = $contactSociete->_id;
+        $this->compte_societe = $contactSociete->_id;
+	return $contactSociete;
     }
 
     public function addNewContact() {
@@ -53,7 +54,7 @@ class Societe extends BaseSociete {
     }
 
     public function createEtablissement() {
-        if ($this->hasChais()) {
+        if ($this->canHaveChais()) {
             if (!$this->identifiant) {
                 throw new sfException("La societe ne possède pas encore d'identifiant");
             }
@@ -64,17 +65,19 @@ class Societe extends BaseSociete {
     }
 
     public function hasChais() {
+	return count($this->etablissements);
+    }
+
+    public function canHaveChais() {
         return in_array($this->type_societe, SocieteClient::getSocieteTypesWithChais());
     }
 
     public function getEtablissementsObj() {
         $etablissements = array();
-        foreach ($this->etablissements as $id => $nom) {
-            $ordre = strstr($id,'-',true);
-            $idEtablissement = substr(strstr($id,'-'),1);
-            $etablissements[$idEtablissement] = new stdClass();
-            $etablissements[$idEtablissement]->etablissement =  EtablissementClient::getInstance()->find($idEtablissement);
-            $etablissements[$idEtablissement]->ordre = $ordre;
+        foreach ($this->etablissements as $id => $obj) {
+            $etablissements[$id] = new stdClass();
+            $etablissements[$id]->etablissement =  EtablissementClient::getInstance()->find($id);
+            $etablissements[$id]->ordre = $obj->ordre;
         }
         return $etablissements;
     }
@@ -92,6 +95,9 @@ class Societe extends BaseSociete {
     }
 
     public function addCompte($c, $ordre = null) {
+      if (!$this->compte_societe) {
+	$this->compte_societe = $c->_id;
+      }
 	if (!$this->contacts->exist($c->_id)) {
 		$this->contacts->add($c->_id, array('nom' => $c->nom_a_afficher, 'ordre' => $ordre));
 	}else{

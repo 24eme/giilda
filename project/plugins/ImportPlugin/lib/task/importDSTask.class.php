@@ -54,7 +54,11 @@ EOF;
       $data = str_getcsv($line, ';');
       
       if($numero && $numero != $data[self::CSV_NUMERO_DECLARATION]) {
-        $this->importDS($lines);
+        try{
+          $this->importDS($lines);
+        } catch (Exception $e) {
+          $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
+        }
         $lines = array();
       }
       
@@ -69,11 +73,7 @@ EOF;
     $ds = null;
 
     foreach($lines as $i => $line) {
-      try{
         $ds = $this->importLigne($ds, $line);
-      } catch (Exception $e) {
-        $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
-      }
     }
 
     $ds->updateStatut();
@@ -82,10 +82,10 @@ EOF;
 
   public function importLigne($ds, $line) {
     if (is_null($ds)) {
-      $ds = DSClient::getInstance()->createOrFind($line[self::CSV_CODE_VITICULTEUR], $this->convertToDateObject($line[self::CSV_DATE_CREATION])->format('Y-m-d'));
+      $ds = DSClient::getInstance()->createOrFind($this->getIdentifiant($line), $this->convertToDateObject($line[self::CSV_DATE_CREATION])->format('Y-m-d'));
 
       if(!$ds->getEtablissementObject()) {
-        throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_VITICULTEUR]));
+        throw new sfException(sprintf("L'etablissement %s n'existe pas", $this->getIdentifiant($line)));
       }
     }
 
@@ -97,5 +97,10 @@ EOF;
     $produit->stock_revendique = $this->convertToFloat($line[self::CSV_VOLUME_LIBRE]);
 
     return $ds;
+  }
+
+  protected function getIdentifiant($line) {
+
+    return sprintf('%s%02d', $line[self::CSV_CODE_VITICULTEUR], $line[self::CSV_CODE_CHAI]);
   }
 }

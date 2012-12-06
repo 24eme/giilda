@@ -8,4 +8,4 @@ convert-utf8 $DATADIR/cicon.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$10); for 
 
 convert-utf8 $DATADIR/ciapl.csv | awk -F";" '{ printf("%s%s%s;",$1,$2,$3); for (i=1;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | sed -r 's/;$//' > $DATADIR/tmp/ciapl-before-merge
 
-join -t ";" $DATADIR/tmp/cicon-before-merge $DATADIR/tmp/ciapl-before-merge | awk -F";" '{ for (i=2;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | grep -E "^10;(2009|2010|2012)" > $DATADIR/vracs.csv
+join -t ";" $DATADIR/tmp/cicon-before-merge $DATADIR/tmp/ciapl-before-merge | awk -F";" '{ for (i=2;i<NF;i++) { printf("%s;",$i) } printf("\n") }' | sort | grep -E "^10;(2010|2011|2012)" > $DATADIR/vracs.csv

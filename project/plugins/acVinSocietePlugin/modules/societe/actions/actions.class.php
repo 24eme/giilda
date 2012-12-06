@@ -17,7 +17,7 @@ class societeActions extends sfActions {
 
     public function executeModification(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
-        $this->contactSociete = CompteClient::getInstance()->find($this->societe->id_compte_societe);
+        $this->contactSociete = CompteClient::getInstance()->find($this->societe->compte_societe);
         $this->societeForm = new SocieteModificationForm($this->societe);
         $this->contactSocieteForm = new CompteModificationForm($this->contactSociete);
         $this->etablissementSocieteForm = null;

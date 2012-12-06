@@ -323,7 +323,7 @@ EOF;
 
   protected function getIdentifiant($line) {
 
-    return substr($line[self::CSV_LIGNE_ETABLISSEMENT], 0, 6);
+    return $line[self::CSV_LIGNE_ETABLISSEMENT];
   }
 
   public function importDRM($lines) {

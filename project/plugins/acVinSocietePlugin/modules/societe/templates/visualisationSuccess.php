@@ -11,16 +11,20 @@
                 <a href="<?php echo url_for('societe_addContact', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_vert">Nouveau Contact
                 </a>
                 &nbsp;
+                <?php if($societe->hasChais()) : ?>  
                 <a href="<?php echo url_for('societe_addEtablissement', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_jaune">Nouvel Etablissement
                 </a>
+                <?php endif;?>
             </div>
             <?php
             include_partial('visualisationPanel', array('societe' => $societe));?>
+                <?php if(count($etablissements)) : ?>
                 <h2>Coordonnées de la société </h2>
+                <?php endif; ?>
                 <?php
-            foreach ($etablissements as $etablissementId => $etb) {
+            foreach ($etablissements as $etablissementId => $etb) :
                 include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre));
-            }
+            endforeach;
             ?>
 
         </section>

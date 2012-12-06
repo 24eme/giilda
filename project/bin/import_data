@@ -47,16 +47,16 @@ bash bin/import_data_vrac
 
 php symfony import:vrac --trace $DATADIR/vracs.csv
 
+echo "Import des DS"
+
+bash bin/import_data_ds
+
+php symfony import:ds --trace $DATADIR/ds.csv
+
 echo "Import des drms";
 
 bash bin/import_data_drm
 
 php symfony import:drm --trace $DATADIR/drm.csv
-
-echo "Import des DS"""
-
-bash bin/import_data_ds
-
-php symfony import:ds --trace $DATADIR/ds.csv
 
 }

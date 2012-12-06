@@ -155,12 +155,12 @@ EOF;
         $v->date_stats =  $date->format('Y-m-d');
         $v->valide->date_saisie = $date->format('Y-m-d');
 
-        $v->vendeur_identifiant = $line[self::CSV_CODE_VITICULTEUR];
-        $v->acheteur_identifiant = $line[self::CSV_CODE_NEGOCIANT];
+        $v->vendeur_identifiant = $this->getIdentifiantVendeur($line);
+        $v->acheteur_identifiant = $this->getIdentifiantAcheteur($line);
         $v->mandataire_identifiant = null;
 
         if ($line[self::CSV_CODE_COURTIER]) {
-          $v->mandataire_identifiant = $line[self::CSV_CODE_COURTIER];
+          $v->mandataire_identifiant = $this->getIdentifiantCourtier($line);
         }
 
         $v->produit = $this->getHash($line[self::CSV_CODE_APPELLATION]);
@@ -173,12 +173,12 @@ EOF;
 
         if (!$v->getVendeurObject()) {
           
-          throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_VITICULTEUR]));
+          throw new sfException(sprintf("L'etablissement %s n'existe pas", $v->vendeur_identifiant));
         }
 
         if (!$v->getAcheteurObject()) {
           
-          throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_NEGOCIANT]));
+          throw new sfException(sprintf("L'etablissement %s n'existe pas", $v->acheteur_identifiant));
         }
 
         if (!$v->mandataire_identifiant || !$v->getMandataireObject()) {
@@ -221,6 +221,21 @@ EOF;
         $v->update(); 
 
         $v->save();
+  }
+
+  protected function getIdentifiantVendeur($line) {
+
+    return sprintf('%s%02d', $line[self::CSV_CODE_VITICULTEUR], $line[self::CSV_CODE_CHAI_CAVE]);
+  }
+
+  protected function getIdentifiantAcheteur($line) {
+
+    return sprintf('%s%02d', $line[self::CSV_CODE_NEGOCIANT], 1);
+  }
+
+  protected function getIdentifiantCourtier($line) {
+
+    return sprintf('%s%02d', $line[self::CSV_CODE_COURTIER], 1);
   }
 
   protected function getDensite($line) {
