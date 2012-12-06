@@ -120,13 +120,30 @@ class DRMDetail extends BaseDRMDetail {
       {
           $this->sorties->cooperative+=$cooperative_detail->volume;
       }
-      
+
       $this->total_entrees = $this->getTotalByKey('entrees');
       $this->total_sorties = $this->getTotalByKey('sorties');
 
       $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
+      $this->total_recolte = $this->entrees->recolte;
+      $this->total_facturable = 0;
+      $this->updateNoeud('entrees');
+      $this->updateNoeud('sorties');
 
       $this->total = $this->stocks_fin->revendique;
+  }
+
+  protected function updateNoeud($hash) {
+    foreach($this->get($hash) as $key => $volume) {
+        if (!$this->getConfig()->exist($hash."/".$key)) {
+          continue;
+        }
+        $config = $this->getConfig()->get($hash."/".$key);
+        
+        if($config->facturable) {
+          $this->total_facturable += $volume;
+        }
+      }
   }
   
   private function getTotalByKey($key) {
@@ -264,7 +281,7 @@ class DRMDetail extends BaseDRMDetail {
       }
 
       $mouvement = DRMMouvement::freeInstance($this->getDocument());
-      $mouvement->produit_hash = $this->getHash();
+      $mouvement->produit_hash = $this->getCepage()->getConfig()->getHash();
       $mouvement->produit_libelle = $this->getLibelle("%a% %m% %l% %co% %ce% %la%");
       $mouvement->facture = 0;
       $mouvement->cvo = $this->getDroitCVO()->taux;

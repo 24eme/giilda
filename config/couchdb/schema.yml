@@ -74,7 +74,9 @@ DRM:
           fields:
             total_debut_mois: { type: float }
             total_entrees: { type: float }
+            total_recolte:  { type: float }
             total_sorties: { type: float }
+            total_facturable: { type: float }
             total: { type: float }
             certifications:
               type: collection
@@ -89,7 +91,9 @@ DRM:
                       fields:
                         total_debut_mois: { type: float }
                         total_entrees: { type: float }
+                        total_recolte:  { type: float }
                         total_sorties: { type: float }
+                        total_facturable: { type: float }
                         total: { type: float }
                         genres:
                           type: collection
@@ -104,7 +108,9 @@ DRM:
                                   fields:
                                     total_debut_mois: { type: float }
                                     total_entrees: { type: float }
+                                    total_recolte:  { type: float }
                                     total_sorties: { type: float }
+                                    total_facturable: { type: float }
                                     total: { type: float }
                                     appellations:
                                       type: collection
@@ -119,7 +125,9 @@ DRM:
                                               fields:
                                                 total_debut_mois: { type: float }
                                                 total_entrees: { type: float }
+                                                total_recolte:  { type: float }
                                                 total_sorties: { type: float }
+                                                total_facturable: { type: float }
                                                 total: { type: float }
                                                 mentions:
                                                   type: collection
@@ -134,7 +142,9 @@ DRM:
                                                           fields:
                                                             total_debut_mois: { type: float }
                                                             total_entrees: { type: float }
+                                                            total_recolte:  { type: float }
                                                             total_sorties: { type: float }
+                                                            total_facturable: { type: float }
                                                             total: { type: float }
                                                             lieux:
                                                               type: collection
@@ -149,7 +159,9 @@ DRM:
                                                                       fields:
                                                                         total_debut_mois: { type: float }
                                                                         total_entrees: { type: float }
+                                                                        total_recolte:  { type: float }
                                                                         total_sorties: { type: float }
+                                                                        total_facturable: { type: float }
                                                                         total: { type: float }
                                                                         couleurs:
                                                                           type: collection
@@ -164,7 +176,9 @@ DRM:
                                                                                   fields:
                                                                                     total_debut_mois: { type: float }
                                                                                     total_entrees: { type: float }
+                                                                                    total_recolte:  { type: float }
                                                                                     total_sorties: { type: float }
+                                                                                    total_facturable: { type: float }
                                                                                     total: { type: float }
                                                                                     cepages:
                                                                                       type: collection
@@ -179,7 +193,9 @@ DRM:
                                                                                               fields:
                                                                                                 total_debut_mois: { type: float }
                                                                                                 total_entrees: { type: float }
+                                                                                                total_recolte:  { type: float }
                                                                                                 total_sorties: { type: float }
+                                                                                                total_facturable: { type: float }
                                                                                                 total: { type: float }
                                                                                                 details:
                                                                                                   type: collection
@@ -194,7 +210,9 @@ DRM:
                                                                                                             pas_de_mouvement_check: { type: integer }
                                                                                                             total_debut_mois: { type: float }
                                                                                                             total_entrees: { type: float }
+                                                                                                            total_recolte:  { type: float }
                                                                                                             total_sorties: { type: float }
+                                                                                                            total_facturable: { type: float }
                                                                                                             total: { type: float }
                                                                                                             produit_libelle: {  }
                                                                                                             labels:

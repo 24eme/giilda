@@ -7,7 +7,7 @@
             <th>Déb.&nbsp;(DS)</th>
             <th>Entrées</th>
             <th>dont Rev.&nbsp;(ODG)</th>
-            <th>Sorties&nbsp;(Ventes)</th>
+            <th>Sorties&nbsp;(Fact.)</th>
             <th>Fin&nbsp;(DS)</th>
             <th>dont Com.</th>
         </tr>
