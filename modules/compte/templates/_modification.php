@@ -1,9 +1,4 @@
-
-
-<div id="coordonnees_societe" class="form_section">
-    <h2>Détail du contact</h2>
-
-    <div class="form_contenu">
+<div class="form_contenu">
         <fieldset>
             <?php
             echo $compteForm->renderHiddenFields();
@@ -89,4 +84,4 @@
     <?php //echo $compteForm['tags']->render(); ?>
     <?php //echo $compteForm['tags']->renderError(); ?>
             </div>-->
-</div>
+

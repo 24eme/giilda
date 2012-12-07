@@ -52,7 +52,7 @@ class CompteModificationEtbForm extends CompteModificationForm {
         } else {
             if ($this->etablissement && !($this->etablissement->compte))
             {
-                $new_compte = CompteClient::getInstance()->createCompte($compte->id_societe);
+                $new_compte = CompteClient::getInstance()->createCompte($compte);
                 $this->etablissement->compte = $new_compte->identifiant;
                 $this->etablissement->save();
                 $new_compte->fromArray($values);

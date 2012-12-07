@@ -6,11 +6,11 @@ class CompteClient extends acCouchdbClient {
       return acCouchdbManager::getClient("Compte");
     }  
        
-    public function createCompte($societe_id) {   
+    public function createCompte($societe) {   
         $compte = new Compte();
-        $compte->id_societe = SocieteClient::getInstance()->getId($societe_id);
-        $compte->identifiant = $this->getNextIdentifiantForSociete($societe_id);
-        $compte->constructId();
+        $compte->id_societe = $societe->_id;
+        $compte->identifiant = $this->getNextIdentifiantForSociete($societe->identifiant);
+        $compte->nom_a_afficher = "nom_a_afficher";
         $compte->save();
         return $compte;
     }

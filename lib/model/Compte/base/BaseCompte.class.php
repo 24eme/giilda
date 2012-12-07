@@ -21,9 +21,11 @@
  * @property string $cedex
  * @property string $pays
  * @property string $email
+ * @property string $telephone_perso
  * @property string $telephone_bureau
  * @property string $telephone_mobile
  * @property string $fax
+ * @property string $nom_a_afficher
  * @property acCouchdbJson $tags
 
  * @method string get_id()
@@ -60,12 +62,16 @@
  * @method string setPays()
  * @method string getEmail()
  * @method string setEmail()
+ * @method string getTelephonePerso()
+ * @method string setTelephonePerso()
  * @method string getTelephoneBureau()
  * @method string setTelephoneBureau()
  * @method string getTelephoneMobile()
  * @method string setTelephoneMobile()
  * @method string getFax()
  * @method string setFax()
+ * @method string getNomAAfficher()
+ * @method string setNomAAfficher()
  * @method acCouchdbJson getTags()
  * @method acCouchdbJson setTags()
  
