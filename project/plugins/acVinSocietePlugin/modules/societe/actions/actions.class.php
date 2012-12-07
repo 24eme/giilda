@@ -78,4 +78,18 @@ class societeActions extends sfActions {
             $this->societe = SocieteClient::getInstance()->find($societeParam['identifiant']);
         }
     }
+	
+	public function executeCreateContactInt(sfWebRequest $request) {
+        $this->societe = null;
+        if(!is_null($societeParam = $request->getParameter('societe'))){
+            $this->societe = SocieteClient::getInstance()->find($societeParam['identifiant']);
+        }
+    }
+	
+	public function executeCreateEtablissementInt(sfWebRequest $request) {
+        $this->societe = null;
+        if(!is_null($societeParam = $request->getParameter('societe'))){
+            $this->societe = SocieteClient::getInstance()->find($societeParam['identifiant']);
+        }
+    }
 }

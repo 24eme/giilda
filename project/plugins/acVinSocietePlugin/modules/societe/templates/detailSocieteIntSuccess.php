@@ -7,78 +7,79 @@
         <!-- #contacts -->
         <section id="contacts">
 		
-			<div id="form_societe">
-				<h1>EARL Yannick &amp; Nicole Amirault</h1>
+			<div id="detail_societe">
 				
-				<form action="" method="post">
-					<div class="form_btn">			
-						<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
-						<button type="submit" class="btn_majeur btn_valider">Valider</button>
+					<h2>EARL Yannick &amp; Nicole Amirault</h2>
+						
+					<div class="boutons_haut">
+						<button type="submit" class="btn_majeur">Nouveau contact</button>
+						<button type="submit" class="btn_majeur">Nouvel établissement</button>
 					</div>
-				
+					<div class="infos_societe">
+						<p>
+							Date de création : JJ/MM/AAAA <br />
+							Dernière modification : JJ/MM/AAAA, par (user_name)
+						</p>
+						<button type="submit" class="btn_majeur btn_modifier">Modifier</button>
+					</div>
+
 					<div id="detail_societe" class="form_section">
-						<h2>Détail de la société</h2>
+						<h3>Détail de la société</h3>
 						<div class="form_contenu">
 							<ul>
 								<li>
-									<span>Nom de la société</span>
+									<span class="intitule">Nom de la société</span>
 									<span>EARL Yannick &amp; Nicole Amirault</span>
-
 								</li>
 								<li>
-									<span>Abrégé</span>
-									<span>Amirault</span>
-									<span>Statut</span>
-									<span>Actif</span>
+									<div class="form_colonne">
+										<span class="intitule">Abrégé</span>
+										<span>Amirault</span>
+									</div>
+									<div class="form_colonne">
+										<span class="intitule">Statut</span>
+										<span>Actif</span>
+									</div>
 								</li>
 								<li>
-									<span>Numéros de compte</span>
+									<span class="intitule">Numéros de compte</span>
 									<span>Client</span>
 									<span>Fournisseur</span>
 								</li>
 								<li>
-									<span>SIRET</span>
+									<span class="intitule">SIRET</span>
 									<span>404 833 048 00022</span>
-									<span>Code NAF</span>
+									<span class="intitule">Code NAF</span>
 									<span>0121Z</span>
 								</li>
 								<li>
-									<span>TVA Intracom</span>
+									<span class="intitule">TVA Intracom</span>
 									<span>FR 83 404 833 048</span>
 								</li>
 								<li>
-									<span>Enseigne</span>
+									<span class="intitule">Enseigne</span>
 									<span>Domaine du Bodinois</span>
 								</li>
 								<li>
-									<span>Enseigne</span>
+									<span class="intitule">Enseigne</span>
 									<span>Mouton Aîné</span>
 								</li>
 							</ul>
 						</div>
 					</div>
-					
+
 					<div id="coordonnees_societe" class="form_section">
-						<h2>Coordonnées de la société</h2>
+						<h3>Coordonnées de la société</h3>
 						<div class="form_contenu">
 						</div>
 					</div>
-					
+
 					<div id="detail_etablissement" class="form_section form_etablissement">
-						<h2>Détail de l'établissement</h2>
+						<h3>Détail de l'établissement</h3>
 						<div class="form_contenu">
-							
+
 						</div>
 					</div>
-				
-					
-				
-					<div class="form_btn">			
-						<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
-						<button type="submit" class="btn_majeur btn_valider">Valider</button>
-					</div>
-				
-				</form>
 			</div>
         </section>
         <!-- fin #contacts -->
@@ -87,6 +88,16 @@
 
     <!-- #colonne -->
     <aside id="colonne">
+		<div class="bloc_col" id="contacts_actions">
+            <h2>Actions</h2>
+
+            <div class="contenu">
+                <ul>
+                    <li><button type="button" class="btn_majeur nouvelle_societe">Nouvelle société</button></li>
+                    <li><button type="button" class="btn_majeur nouvelle_recherche">Nouvelle recherche</button></li>
+                </ul>
+            </div>
+        </div>
         <div class="bloc_col" id="contrat_aide">
             <h2>Aide</h2>
 

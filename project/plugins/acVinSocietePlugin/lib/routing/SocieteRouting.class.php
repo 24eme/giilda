@@ -28,6 +28,10 @@ class SocieteRouting {
                     'action' => 'createSocieteInt')));
         $r->prependRoute('societe_detail_int', new sfRoute('/societe/detail_int', array('module' => 'societe',
                     'action' => 'detailSocieteInt')));
+		$r->prependRoute('societe_nouveau_contact_int', new sfRoute('/societe/nouveau_contact_int', array('module' => 'societe',
+                    'action' => 'createContactInt')));
+		$r->prependRoute('societe_nouveau_etablissement_int', new sfRoute('/societe/nouveau_etablissement_int', array('module' => 'societe',
+                    'action' => 'createEtablissementInt')));
 
         $r->prependRoute('societe_creation', new sfRoute('/societe-creation', array('module' => 'societe',
                     'action' => 'creationSociete')));
