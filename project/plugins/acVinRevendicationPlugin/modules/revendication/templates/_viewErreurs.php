@@ -15,17 +15,16 @@
                     <div class="produit">
                         <?php
                         switch ($type) :
-                            case RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS:
-                                ?>
+                            case RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS: ?>
                         <a href="<?php
                         echo url_for('revendication_add_alias_to_configuration', array('odg' => $revendication->odg,
                             'campagne' => $revendication->campagne,
                             'alias' => $unmatched_data))
                                         ?>" class="btn_majeur btn_voir">Trouver le produit</a>
-                                        <?php
-                                break;
-case RevendicationErrorException::ERREUR_TYPE_DOUBLON: ?>
-     <a href="<?php
+                                        
+                        <?php  break;
+                            case RevendicationErrorException::ERREUR_TYPE_DOUBLON: ?>
+                        <a href="<?php
                         echo url_for('revendication_choose_row', array('odg' => $revendication->odg,
                             'campagne' => $revendication->campagne,
                             'num_ligne' => $unmatched_data))

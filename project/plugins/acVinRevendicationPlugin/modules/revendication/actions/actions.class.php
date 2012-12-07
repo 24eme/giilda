@@ -125,20 +125,20 @@ class revendicationActions extends sfActions {
 
     public function executeEdition(sfWebRequest $request) {
         set_time_limit(0);
-        ini_set('memory_limit','1024M');
-        $this->revendication = $this->getRoute()->getRevendication();  
-       // $this->form = new EditionRevendicationForm($this->revendication);
+        $this->revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndODG('20122013', 'tours');
+        $this->revendication = $this->getRoute()->getRevendication();
+        //$this->form = new EditionRevendicationForm($this->revendication);
     }
     
     public function executeEditionRow(sfWebRequest $request) {
         ini_set('memory_limit','1024M');
         $this->revendication = $this->getRoute()->getRevendication();
-        $this->cvi = $request->getParameter('cvi');
-        $this->nom = $this->revendication->getDatas()->get($this->cvi)->declarant_nom;
+        $this->identifiant = $request->getParameter('identifiant');
         $this->row = $request->getParameter('row');
+        $this->rev = $this->revendication->datas->{$this->identifiant};
         $this->retour = $request->getParameter('retour');
-        $etablissement = EtablissementClient::getInstance()->findByCvi($this->cvi);
-        $this->form = new EditionRevendicationForm($this->revendication,$this->cvi,$this->row);
+        $etablissement = EtablissementClient::getInstance()->find($this->identifiant);
+        $this->form = new EditionRevendicationForm($this->revendication, $this->rev, $this->row);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
@@ -157,9 +157,9 @@ class revendicationActions extends sfActions {
     
     public function executeDeleteRow(sfWebRequest $request) {
         $this->revendication = $this->getRoute()->getRevendication();
-        $cvi = $request->getParameter('cvi');
+        $identifiant = $request->getParameter('identifiant');
         $row = $request->getParameter('row');
-        $this->revendication->deleteRow($cvi,$row);
+        $this->revendication->deleteRow($identifiant,$row);
         $this->revendication->save();
         return $this->redirect('revendication_edition', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
     }

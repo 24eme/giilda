@@ -10,8 +10,8 @@ class RevendicationClient extends acCouchdbClient {
         return 'REVENDICATION-' . strtoupper($odg) . '-' . $campagne;
     }
 
-    public function findByOdgAndCampagne($odg, $campagne) {
-        return $this->find($this->getId($odg, $campagne));
+    public function findByOdgAndCampagne($odg, $campagne, $hydrate = acCouchdbClient::HYDRATE_JSON) {
+        return $this->find($this->getId($odg, $campagne), $hydrate);
     }
 
     public function getVolumeProduitObj($revendication, $cvi, $row) {
@@ -54,6 +54,10 @@ class RevendicationClient extends acCouchdbClient {
     public function getParametersFromId($id) {
         preg_match('/^REVENDICATION-([A-Z]*)-([0-9]{8})$/', $id, $matches);
         return array('odg' => strtolower($matches[1]), 'campagne' => $matches[2]);
+    }
+
+    public function getODGs() {
+        return array("tours" => "Tours");
     }
 
 }

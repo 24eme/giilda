@@ -1,7 +1,7 @@
 <div id="contenu" class="revendication">
     <!-- #principal -->
     <section id="principal">
-            <?php include_partial('headerRevendication', array('revendication' => $revendication,'actif' => 2)); ?>
+            <?php include_partial('header', array('revendication' => $revendication,'actif' => 2)); ?>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <h2>Edition des volumes revendiqués :</h2>

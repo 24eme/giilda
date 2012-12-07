@@ -1,10 +1,10 @@
 <?php
 
-class EditionRevendicationForm  extends acCouchdbForm {
+class EditionRevendicationForm extends acCouchdbForm {
     
     protected $_choices_produits;
     protected $revendication;
-    protected $cvi;
+    protected $identifiant;
     protected $row;
     protected $produit_hash;
     protected $volume;
@@ -12,19 +12,19 @@ class EditionRevendicationForm  extends acCouchdbForm {
     protected $code_douane;
 
 
-    public function __construct(acCouchdbDocument $revendication, $cvi, $row,$defaults = array(), $options = array(), $CSRFSecret = null) {
+    public function __construct(acCouchdbDocument $revendication, $rev, $row, $defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults = array();
         $this->revendication = $revendication;
-        $this->cvi = $cvi;
+        $this->identifiant = $identifiant;
         $this->row = $row;        
-        $volumeProduitObj = $this->getVolumeProduitObj($this->revendication,$this->cvi,$this->row);
+        $volumeProduitObj = $this->getVolumeProduitObj($this->revendication, $this->identifiant,$this->row);
         $this->code_douane = $volumeProduitObj->produit->key;
         $this->produit_hash = substr($volumeProduitObj->produit->produit_hash, 1, strlen($volumeProduitObj->produit->produit_hash));
         $this->volume = sprintf("%01.02f", round($volumeProduitObj->volume->volume, 2));
         $this->num_ligne = $volumeProduitObj->volume->num_ligne;
         $defaults['produit_hash'] = $this->produit_hash;
         $defaults['volume'] = $this->volume;
-        parent::__construct($revendication,$defaults, $options, $CSRFSecret);
+        parent::__construct($revendication, $defaults, $options, $CSRFSecret);
    }
     
     public function configure() {
@@ -37,9 +37,9 @@ class EditionRevendicationForm  extends acCouchdbForm {
         $this->widgetSchema->setNameFormat('revendication_edition_row[%s]');
     }
     
-    public function getVolumeProduitObj($revendication,$cvi,$row) {
+    public function getVolumeProduitObj($revendication,$identifiant,$row) {
         $result = new stdClass();
-        $result->produit = $revendication->getProduitNode($cvi,$row);
+        $result->produit = $revendication->getProduitNode($identifiant,$row);
         $result->volume = $result->produit->volumes->get($row);
         return $result;
     }
@@ -58,7 +58,7 @@ class EditionRevendicationForm  extends acCouchdbForm {
     }
     
     public function doUpdate() {        
-        $this->revendication->updateProduit($this->cvi,$this->code_douane, $this->getConfig()->get($this->values['produit_hash'])->getCodeDouane()); 
-        $this->revendication->updateVolume($this->cvi,$this->getConfig()->get($this->values['produit_hash'])->getCodeDouane() , $this->row, $this->num_ligne,  $this->values['volume']);
+        $this->revendication->updateProduit($this->identifiant,$this->code_douane, $this->getConfig()->get($this->values['produit_hash'])->getCodeDouane()); 
+        $this->revendication->updateVolume($this->identifiant,$this->getConfig()->get($this->values['produit_hash'])->getCodeDouane() , $this->row, $this->num_ligne,  $this->values['volume']);
     }
 }
