@@ -93,6 +93,9 @@
                                 return ;
                             }*/
                             var inner_select = '';
+                            if(newValueAllowed) {
+                                inner_select += '<option value="'+request.term+'" ></option>';
+                            }
                             for(hash in data) {
                                 inner_select += '<option value="'+hash+'">'+data[hash]+'</option>';
                             }
@@ -206,7 +209,7 @@
                         input.autocomplete( "search", $(input).val());
                         input.focus();
                     });*/
-
+                    
                     $(input).parent().find('button').button( "option", "disabled", url_ajax && (select.children("option").length == 1 || select.children("option").length > limit));
                     },
 
