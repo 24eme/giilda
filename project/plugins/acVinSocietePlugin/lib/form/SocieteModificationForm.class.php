@@ -15,12 +15,14 @@ class SocieteModificationForm extends acCouchdbObjectForm {
     private $types_numero_compte = null;
     private $statuts = null;
     private $isOperateur = false;
+    private $enseignes = null;
 
     public function __construct(Societe $societe, $options = array(), $CSRFSecret = null) {
         $this->isOperateur = $societe->canHaveChais();
-        parent::__construct($societe, $options, $CSRFSecret);
         $this->setSocieteTypes();
         $this->setStatuts();
+        $this->enseignes = $societe->enseignes;
+        parent::__construct($societe, $options, $CSRFSecret);
     }
 
     public function configure() {
@@ -37,11 +39,11 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setWidget('siret', new sfWidgetFormInput());
         $this->setWidget('code_naf', new sfWidgetFormInput());
         $this->setWidget('tva_intracom', new sfWidgetFormInput());
-        foreach ($this->getObject()->enseignes as $key => $enseigne) {
-            $this->setWidget('enseignes[' . $key . ']', new sfWidgetFormInput());
-        }
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
+    //    foreach ($this->enseignes as $key => $enseigne) {
+        $this->embedForm('enseignes', new EnseignesItemForm($this->getObject()->enseignes));
+      //  }
 
         $this->widgetSchema->setLabel('raison_sociale', 'Nom de la société');
         $this->widgetSchema->setLabel('raison_sociale_abregee', 'Abrégé');
@@ -53,9 +55,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('siret', 'SIRET');
         $this->widgetSchema->setLabel('code_naf', 'Code Naf');
         $this->widgetSchema->setLabel('tva_intracom', 'TVA Intracom');
-        foreach ($this->getObject()->enseignes as $key => $enseigne) {
-            $this->widgetSchema->setLabel('enseignes[' . $key . ']', 'Enseigne');
-        }
+        
+        
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
 
 
@@ -71,9 +72,6 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setValidator('siret', new sfValidatorString(array('required' => false)));
         $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
         $this->setValidator('tva_intracom', new sfValidatorString(array('required' => false)));
-        foreach ($this->getObject()->enseignes as $key => $enseigne) {
-            $this->setValidator('enseignes[' . $key . ']', new sfValidatorString(array('required' => false)));
-        }
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
     }
@@ -129,6 +127,42 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             }
         }
         return $result;
+    }
+
+    public function update() {
+        foreach($this->getEmbeddedForms() as $key => $form) {
+            $form->updateObject($this->values[$key]);
+        }
+    }
+    
+    public function bind(array $taintedValues = null, array $taintedFiles = null)
+    {
+        foreach ($this->embeddedForms as $key => $form) {
+            if($form instanceof EnseignesItemForm) {
+                $form->bind($taintedValues[$key], $taintedFiles[$key]);
+                $this->updateEmbedForm($key, $form);
+            }
+        }
+        parent::bind($taintedValues, $taintedFiles);
+    }
+
+    public function updateEmbedForm($name, $form) {
+        $this->widgetSchema[$name] = $form->getWidgetSchema();
+        $this->validatorSchema[$name] = $form->getValidatorSchema();
+    }
+    
+    public function getFormTemplate() {
+        $societe = new Societe();
+        $form_embed = new EnseigneItemForm($societe->enseignes->add());
+        $form = new SocieteCollectionTemplateForm($this, 'enseignes', $form_embed);
+        return $form->getFormTemplate();
+    }
+    
+    protected function unembedForm($key) {
+        unset($this->widgetSchema[$key]);
+        unset($this->validatorSchema[$key]);
+        unset($this->embeddedForms[$key]);
+        $this->enseignes->remove($key);
     }
 }
 

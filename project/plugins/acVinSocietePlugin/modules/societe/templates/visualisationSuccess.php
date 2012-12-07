@@ -41,5 +41,8 @@
                 </ul>
             </div>
         </div>
+         <?php
+      //      include_component('societe', 'getInterlocuteurs', array('identifiant' => $societe->identifiant));
+        ?>
     </aside>
 </div>

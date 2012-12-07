@@ -51,8 +51,8 @@ class SocieteClient extends acCouchdbClient {
         $societe->statut = SocieteClient::STATUT_ACTIF;
         $societe->cooperative = 0;
         $societe->constructId();
-        $societe->createOrFindContactSociete();
         $societe->save();
+        $societe->createOrFindContactSociete();
                 
 //	$compte = $societe->createCompteSociete();
 //	//$compte->save();
@@ -84,6 +84,10 @@ class SocieteClient extends acCouchdbClient {
 
     public function findByIdentifiantSociete($identifiant) {
         return $this->find($this->getId($identifiant));
+    }
+    
+    public function getInterlocuteursWithOrdre($identifiant) {
+        return $this->findByIdentifiantSociete($identifiant)->getInterlocuteursWithOrdre();
     }
 
     public static function getSocieteTypes() {

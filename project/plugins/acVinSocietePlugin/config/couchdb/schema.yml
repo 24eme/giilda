@@ -29,7 +29,11 @@ Societe:
         type: array_collection
         definition:
           fields:
-            '*': { }
+            '*':
+              type: collection
+              definition:
+                fields:
+                  label: { }
       compte_societe: { }      
       contacts:
         type: collection
