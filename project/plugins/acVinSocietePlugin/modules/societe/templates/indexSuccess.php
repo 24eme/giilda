@@ -2,24 +2,19 @@
 
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><strong>Page d'accueil > Contacts > </strong> Création d'une société</p>
+        <p id="fil_ariane"><strong>Page d'accueil > Contacts</p>
 
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-            <h2>Création d'une société</h2>
+            <h2>Gestion des contacts</h2>
             <div id="recherche_societe" class="section_label_maj">
-                <h2>Sélectionner un type de société </h2>
-                <form action="<?php echo url_for('societe-creation'); ?>" method="post">
+                <h2>Recherche d'un société, d'un etablissement ou d'un interlocuteur</h2>
+                <form action="<?php echo url_for('societe'); ?>" method="post">
                     <div class="section_label_maj" id="recherche_societe">
-                        <?php echo $form['raison_sociale']->renderError(); ?>
-                        <?php echo $form['raison_sociale']->renderLabel(); ?>
-                        <?php echo $form['raison_sociale']->render(); ?>
-                        
-                        <?php echo $form['type']->renderLabel(); ?>
-                        <?php echo $form['type']->render(); ?>
-                        <?php echo $form['type']->renderError(); ?>
+                        <?php echo $contactsForm['identifiant']->renderError(); ?>
+                        <?php echo $contactsForm['identifiant']->render(); ?>
                     </div>
-                    <button id="btn_rechercher" type="submit">Créer</button>
+                    <button id="btn_rechercher" type="submit">Chercher</button>
                 </form>
                     
             </div>

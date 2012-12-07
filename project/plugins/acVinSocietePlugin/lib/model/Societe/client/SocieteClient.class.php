@@ -29,22 +29,36 @@ class SocieteClient extends acCouchdbClient {
 		return $identifiant;
         return 'SOCIETE-' . $identifiant;
     }
+    
+    public function getIdentifiant($id_or_identifiant) {
+        return $identifiant = str_replace('SOCIETE-', '', $id_or_identifiant);
+    }
+    
+    public function existSocieteWithRaisonSociale($raison_sociale) {
+        return count($this->getSocieteWithRaisonSociale($raison_sociale));
+    }
+    
+    public function getSocieteWithRaisonSociale($raison_sociale) {
+        return SocieteAllView::getInstance()->findByRaisonSociale($raison_sociale);
+    }
 
     public function createSociete($raison_sociale, $type) {
         $societe = new Societe();
         $societe->raison_sociale = $raison_sociale;
         $societe->type_societe = $type;
-        $societe->interpro = 'INTERPRO-inter-loire';
+        $societe->interpro = 'INTERPRO-inter-loire';        
         $societe->identifiant = $this->getNextIdentifiantSociete();
         $societe->statut = SocieteClient::STATUT_ACTIF;
         $societe->cooperative = 0;
         $societe->constructId();
-	$societe->save();
-	$compte = $societe->createCompteSociete();
-	$compte->save();
-	if($societe->canHaveChais()) {
-		EtablissementClient::getInstance()->createEtablissement($societe);
-	}
+        $societe->createOrFindContactSociete();
+        $societe->save();
+                
+//	$compte = $societe->createCompteSociete();
+//	//$compte->save();
+//	if($societe->canHaveChais()) {
+//		EtablissementClient::getInstance()->createEtablissement($societe);
+//	}
         return $societe;
     }
 

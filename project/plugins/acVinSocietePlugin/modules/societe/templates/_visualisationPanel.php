@@ -25,17 +25,17 @@
             </label>
             <?php echo $societe->type_societe; ?>
         </div>    
-        <?php if ($societe->numero_compte_client) : ?>
+        <?php if ($societe->code_comptable_client) : ?>
             <div class="form_ligne">
-                <label for="numero_compte_client">
+                <label for="code_comptable_client">
                     Numero de compte client : 
                 </label>
-                <?php echo $societe->numero_compte_client; ?>
+                <?php echo $societe->code_comptable_client; ?>
             </div>  
         <?php endif; ?>
-        <?php if ($societe->numero_compte_fournisseur) : ?>
+        <?php if ($societe->code_comptable_fournisseur) : ?>
             <div class="form_ligne"> 
-                <label for="numero_compte_fournisseur">
+                <label for="code_comptable_fournisseur">
                     Numero de compte Fournisseur : 
                 </label>
 

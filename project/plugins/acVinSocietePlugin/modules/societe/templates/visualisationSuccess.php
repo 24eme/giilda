@@ -11,7 +11,7 @@
                 <a href="<?php echo url_for('societe_addContact', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_vert">Nouveau Contact
                 </a>
                 &nbsp;
-                <?php if($societe->hasChais()) : ?>  
+                <?php if($societe->canHaveChais()) : ?>  
                 <a href="<?php echo url_for('societe_addEtablissement', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_jaune">Nouvel Etablissement
                 </a>
                 <?php endif;?>

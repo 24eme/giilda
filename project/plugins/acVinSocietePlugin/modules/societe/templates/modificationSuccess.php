@@ -7,15 +7,18 @@
         <section id="contacts">
             <div id="creation_societe">
                 <h1>Création d'une nouvelle société</h1>
-            <form action="<?php echo url_for('societe_modification', array('identifiant' => $societeForm->getObject()->identifiant)); ?>" method="post">
-                <button id="btn_valider" type="submit">Valider</button>
-                <?php include_partial('societeModification', array('societeForm' => $societeForm)); ?>
-                <?php include_partial('compte/modification', array('compteForm' => $contactSocieteForm)); ?>
-                <?php if($societe->hasChais()){
-                        include_partial('etablissement/modification', array('etablissementForm' => $etablissementSocieteForm)); 
-                        }
-                ?>
-            </form>
+                <form action="<?php echo url_for('societe_modification', array('identifiant' => $societeForm->getObject()->identifiant)); ?>" method="post">
+                    <button id="btn_valider" type="submit" class="btn_majeur btnValidation">Valider</button>
+
+                    <div id="detail_societe" class="form_section">
+                        <h2>Détail de la société</h2>  
+                        <?php include_partial('societeModification', array('societeForm' => $societeForm)); ?>
+                    </div>
+                    <div id="coordonnees_societe" class="form_section">
+                        <h2>Coordonnées de la société</h2>
+                        <?php include_partial('compte/modification', array('compteForm' => $contactSocieteForm)); ?>                
+                    </div>
+                </form>
             </div>
         </section>
     </section>
