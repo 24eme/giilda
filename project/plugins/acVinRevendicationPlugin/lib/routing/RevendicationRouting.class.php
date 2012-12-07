@@ -56,6 +56,11 @@ class RevendicationRouting {
                         array('model' => 'Revendication',
                             'type' => 'object')));
 
+        $r->prependRoute('revendication_edition_create', new RevendicationRoute('/revendication-creation/odg/:odg/:campagne/edition', array('module' => 'revendication',
+                    'action' => 'editionCreation'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Revendication',
+                            'type' => 'object')));
 
         $r->prependRoute('revendication_edition_row', new RevendicationRoute('/revendication/odg/:odg/:campagne/edition-row/:cvi/:row/:retour', array('module' => 'revendication',
                     'action' => 'editionRow', 'retour' => 'odg'),

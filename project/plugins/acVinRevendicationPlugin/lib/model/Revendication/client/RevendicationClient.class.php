@@ -21,7 +21,7 @@ class RevendicationClient extends acCouchdbClient {
         return $result;
     }
 
-    public function createOrFindDoc($odg, $campagne, $path) {
+    public function createOrFindDoc($odg, $campagne, $path = null) {
         $revendication = $this->find($this->getId($odg, $campagne));
 
         if (!$revendication) {
@@ -33,10 +33,11 @@ class RevendicationClient extends acCouchdbClient {
             $revendication->etape = 2;
             $revendication->save();
         }
-
-        $revendication->storeAttachment($path, 'text/csv', 'revendication.csv');
-        $revendication = $this->find($revendication->get('_id'));
-        $revendication->storeDatas();
+        if($path){
+            $revendication->storeAttachment($path, 'text/csv', 'revendication.csv');
+            $revendication = $this->find($revendication->get('_id'));
+            $revendication->storeDatas();
+        }
 
         return $revendication;
     }

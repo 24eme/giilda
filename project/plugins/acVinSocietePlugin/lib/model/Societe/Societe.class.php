@@ -21,18 +21,21 @@ class Societe extends BaseSociete {
     }
 
     public function addNewContact() {
-        $compte = CompteClient::getInstance()->createCompte($this->identifiant);
+        $compte = CompteClient::getInstance()->createCompte($this);
         $this->addCompte($compte,count(($this->contacts) + 1));
         return $compte;
     }
 
     public function addNewEtablissement() {
-        $etablissement = EtablissementClient::getInstance()->createEtablissement($this->identifiant, $this->type_societe);
-        $compteForEtb = CompteClient::getInstance()->createCompte($this->identifiant);
+        $etablissement = EtablissementClient::getInstance()->createEtablissement($this->identifiant, $this->type_societe);        
+        $compteForEtb = CompteClient::getInstance()->createCompte($this);
         $etablissement->compte = $compteForEtb->_id;
-        $etablissement->save();
         $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
         return $etablissement;
+    }
+    
+    public function addNewEnseigne() {
+        $this->enseignes->add(count($this->enseignes),null);
     }
 
 
@@ -106,6 +109,15 @@ class Societe extends BaseSociete {
                         $this->contacts->add($c->_id)->ordre = $ordre;
                 }
 	}
+    }
+    
+    public function createOrFindContactSociete() {
+        if($this->compte_societe)
+        return CompteClient::getInstance()->find($this->compte_societe);
+        
+        $compte = CompteClient::getInstance()->createCompte($this);
+        $this->compte_societe = $compte->_id;
+        return $compte;
     }
 
 }

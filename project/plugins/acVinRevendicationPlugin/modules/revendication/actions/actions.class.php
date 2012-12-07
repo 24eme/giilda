@@ -3,8 +3,39 @@ class revendicationActions extends sfActions {
   
     public function executeIndex(sfWebRequest $request) {
         $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
+        $this->form = new CreateRevendicationForm();
         $this->historiqueImport = RevendicationClient::getInstance()->getHistory();
+        
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+            if ($this->form->isValid()) {
+                    
+                    $values = $this->form->getValues();
+                    $this->campagne = $values['campagne'][0];
+                    $this->odg = $values['odg'][0];
+                    $this->revendication = RevendicationClient::getInstance()->createOrFindDoc($this->odg,$this->campagne); 
+                    return $this->redirect('revendication_edition_create', array('odg' => $this->odg, 'campagne' => $this->campagne));
+            }
+        }
     }
+    
+    public function executeEditionCreation(sfWebRequest $request) {
+        $this->form = new CreateLignesForm();
+
+//        
+//        if ($request->isMethod(sfWebRequest::POST)) {
+//            $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+//            if ($this->form->isValid()) {
+//                    
+//                    $values = $this->form->getValues();
+//                    $campagne = $values['campagne'][0];
+//                    $odg = $values['odg'][0];
+//                    $this->revendication = RevendicationClient::getInstance()->createOrFindDoc($odg,$campagne); 
+//                    return $this->redirect('revendication_edition_create', array('odg' => $this->odg, 'campagne' => $this->campagne));
+//            }
+//        }
+    }
+    
     
     public function executeUpload(sfWebRequest $request) {
 	$this->initIndex();

@@ -1,5 +1,6 @@
 <?php
 use_helper('Date');
+if(count($historiqueImport)):
 ?>
 <h2>Historique des Imports</h2>
 <table class="table_recap">
@@ -23,3 +24,6 @@ use_helper('Date');
         <?php endforeach; ?>
     </tbody>
 </table>
+<?php
+endif;
+?>

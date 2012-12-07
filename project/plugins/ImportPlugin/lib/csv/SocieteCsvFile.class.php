@@ -73,12 +73,12 @@ class SocieteCsvFile extends CsvFile
         }
 	if ($line[self::CSV_PARTENAIRE_TYPE] == 'N') {
 		$s->type_societe = SocieteClient::SUB_TYPE_NEGOCIANT;
-		$s->numero_compte_client = sprintf("04%06d", $line[self::CSV_PARTENAIRE_CODE]);
+		$s->code_comptable_client = sprintf("04%06d", $line[self::CSV_PARTENAIRE_CODE]);
         }else if ($line[self::CSV_PARTENAIRE_TYPE] == 'C') {
 		$s->type_societe = SocieteClient::SUB_TYPE_COURTIER;
 	}else if ($line[self::CSV_PARTENAIRE_TYPE] == 'V') {
 		$s->type_societe = SocieteClient::SUB_TYPE_VITICULTEUR;
-		$s->numero_compte_client = sprintf("02%06d", $line[self::CSV_PARTENAIRE_CODE]);
+		$s->code_comptable_client = sprintf("02%06d", $line[self::CSV_PARTENAIRE_CODE]);
 	}else if ($line[self::CSV_PARTENAIRE_TYPE] == 'R') {
                 $s->type_societe = SocieteClient::SUB_TYPE_DOUANE;
 	}
