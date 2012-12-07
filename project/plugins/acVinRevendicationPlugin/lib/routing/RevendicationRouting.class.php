@@ -62,13 +62,13 @@ class RevendicationRouting {
                         array('model' => 'Revendication',
                             'type' => 'object')));
 
-        $r->prependRoute('revendication_edition_row', new RevendicationRoute('/revendication/odg/:odg/:campagne/edition-row/:cvi/:row/:retour', array('module' => 'revendication',
+        $r->prependRoute('revendication_edition_row', new RevendicationRoute('/revendication/odg/:odg/:campagne/edition-row/:identifiant/:row/:retour', array('module' => 'revendication',
                     'action' => 'editionRow', 'retour' => 'odg'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Revendication',
                             'type' => 'object')));
 
-        $r->prependRoute('revendication_delete_row', new RevendicationRoute('/revendication/odg/:odg/:campagne/delete-row/:cvi/:row', array('module' => 'revendication',
+        $r->prependRoute('revendication_delete_row', new RevendicationRoute('/revendication/odg/:odg/:campagne/delete-row/:identifiant/:row', array('module' => 'revendication',
                     'action' => 'deleteRow'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Revendication',

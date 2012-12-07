@@ -12,10 +12,10 @@ use_helper('Float');
             <form id="volumes_revendiques" action="<?php
 echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
     'campagne' => $revendication->campagne,
-    'cvi' => $cvi,
+    'identifiant' => $identifiant,
     'row' => $row,
     'retour' => $retour));
-?>" method="POST">
+?>" method="post">
                       <?php
                       echo $form->renderHiddenFields();
                       echo $form->renderGlobalErrors();
@@ -23,6 +23,7 @@ echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
                 <table class="table_recap">
                     <thead>
                         <tr>
+                            <th>ODG</th>
                             <th>CVI</th>
                             <th>Nom</th>
                             <th>Produit</th>
@@ -31,8 +32,9 @@ echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
                     </thead>
                     <tbody>
                         <tr>
-                            <td><?php echo $cvi; ?></td>
-                            <td><?php echo $nom; ?></td>
+                            <td><?php echo $revendication->odg; ?></td>
+                            <td><?php echo $rev->declarant_cvi; ?></td>
+                            <td><?php echo $rev->declarant_nom; ?></td>
                             <td><?php echo $form['produit_hash']->render(); ?></td>
                             <td class="volume"><?php echo $form['volume']->render(); ?></td>
                         </tr>
@@ -40,18 +42,20 @@ echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
                 </table>
 
                 <div class="form_btn">
-                    <button type="submit" class="btn_majeur btn_valider">Modifier</button>
+                    <a href="<?php
+                      echo url_for('revendication_delete_row', array('odg' => $revendication->odg,
+                          'campagne' => $revendication->campagne,
+                          'identifiant' => $identifiant,
+                          'row' => $row));
+                      ?>" class="btn_majeur btn_annuler">Supprimer</a>
                     
                     <a href="<?php
                       echo url_for('revendication_edition', array('odg' => $revendication->odg,
                           'campagne' => $revendication->campagne));
                       ?>" class="btn_majeur btn_modifier">Annuler</a>&nbsp;
-                    <a href="<?php
-                      echo url_for('revendication_delete_row', array('odg' => $revendication->odg,
-                          'campagne' => $revendication->campagne,
-                          'cvi' => $cvi,
-                          'row' => $row));
-                      ?>" class="btn_majeur btn_annuler">Supprimer</a>
+
+
+                      <button type="submit" class="btn_majeur btn_valider">Modifier</button>
                 </div>
             </form>
         </section>

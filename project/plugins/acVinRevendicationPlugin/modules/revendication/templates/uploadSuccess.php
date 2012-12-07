@@ -5,7 +5,7 @@ $errors_exist = (count($errors) > 0);
     
     <!-- #principal -->
     <section id="principal">        
-            <?php include_partial('headerRevendication', array('revendication' => null,'actif' => $errors_exist)); ?>
+            <?php include_partial('header', array('revendication' => null,'actif' => $errors_exist)); ?>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             
