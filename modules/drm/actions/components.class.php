@@ -141,7 +141,7 @@ class drmComponents extends sfComponents {
 
         $revs = RevendicationStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
         foreach($revs as $rev) {
-            $this->recaps[$ds->produit_hash]['volume_revendique_drev'] = $rev->volume;
+            $this->recaps[$ds->produit_hash]['volume_revendique_drev'] += $rev->volume;
         }
 
         $dss = DSStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
