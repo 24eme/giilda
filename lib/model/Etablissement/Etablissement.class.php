@@ -48,8 +48,7 @@ class Etablissement extends BaseEtablissement {
     public function getContact() {
         if ($this->compte)
             return CompteClient::getInstance()->find($this->compte);
-        $societe = SocieteClient::getInstance()->find($this->id_societe);
-        return CompteClient::getInstance()->find($societe->id_compte_societe);
+        return CompteClient::getInstance()->find(SocieteClient::getInstance()->find($this->id_societe)->compte_societe);
     }
 
     public function contactIsSocieteContact() {

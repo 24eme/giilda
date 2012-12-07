@@ -36,7 +36,7 @@ class EtablissementClient extends acCouchdbClient {
         $famillesSocieteTypes = self::getFamillesSocieteTypesArray();
         $etablissement->famille = $famillesSocieteTypes[$societe_type];
         $etablissement->constructId();
-        $etablissement->save();
+        $etablissement->save(); //
         return $etablissement;
     }
 
