@@ -12,7 +12,6 @@ Facture:
       date_facturation: {}
       campagne: {}
       numero_archive: {  }
-      date_archivage: { required: false } #A RETIRER
       statut: {}
       versement_comptable: {type: integer}
       emetteur:
@@ -35,7 +34,6 @@ Facture:
             adresse: {  }
             commune: {  }
             code_postal: {   }
-            num_chai: {  }
             raison_sociale: {  }
       total_ht: {type: float}
       total_ttc: {type: float}
