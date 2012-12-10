@@ -63,12 +63,12 @@ class DRMClient extends acCouchdbClient {
 
     public function getPeriodeDebut($campagne) {
 
-        return date('Y-m', strtotime(ConfigurationClient::getInstance()->getDateDebutCampagne($campagne)));
+        return date('Ym', strtotime(ConfigurationClient::getInstance()->getDateDebutCampagne($campagne)));
     }
 
     public function getPeriodeFin($campagne) {
 
-        return date('Y-m', strtotime(ConfigurationClient::getInstance()->getDateFinCampagne($campagne)));
+        return date('Ym', strtotime(ConfigurationClient::getInstance()->getDateFinCampagne($campagne)));
     }
 
     public function buildCampagne($periode) {
@@ -78,7 +78,7 @@ class DRMClient extends acCouchdbClient {
 
     public function buildPeriode($annee, $mois) {
 
-        return sprintf("%04d-%02d", $annee, $mois);
+        return sprintf("%04d%02d", $annee, $mois);
     }
 
     public function buildPeriodeAndVersion($periode, $version) {
@@ -91,12 +91,12 @@ class DRMClient extends acCouchdbClient {
 
     public function getAnnee($periode) {
 
-        return preg_replace('/([0-9]{4})-([0-9]{2})/', '$1', $periode);
+        return preg_replace('/([0-9]{4})([0-9]{2})/', '$1', $periode);
     }
 
     public function getMois($periode) {
 
-        return preg_replace('/([0-9]{4})-([0-9]{2})/', '$2', $periode);
+        return preg_replace('/([0-9]{4})([0-9]{2})/', '$2', $periode);
     }
 
     public function getPeriodeSuivante($periode) {

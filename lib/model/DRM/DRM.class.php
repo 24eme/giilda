@@ -11,7 +11,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     protected $mouvement_document = null;
     protected $version_document = null;
+    protected $declarant_document = null;
     protected $archivage_document = null;
+
     protected $suivante = null;
 
     public function  __construct() {
@@ -27,6 +29,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     protected function initDocuments() {
         $this->mouvement_document = new MouvementDocument($this);
         $this->version_document = new VersionDocument($this);
+        $this->declarant_document = new DeclarantDocument($this);
         $this->archivage_document = new ArchivageDocument($this);
     }
 
@@ -89,8 +92,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function getDepartement() {
-        if($this->declarant->siege->code_postal )  {
-          return substr($this->declarant->siege->code_postal, 0, 2);
+        if($this->declarant->code_postal )  {
+          return substr($this->declarant->code_postal, 0, 2);
         }
 
         return null;
@@ -287,10 +290,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->valide->identifiant = $identifiant;
     }
 
-    public function storeDeclarant() {
-        $this->declarant->nom = $this->getEtablissement()->nom;
-    }
-
     public function storeDates() {
         if (!$this->valide->date_saisie) {
            $this->valide->add('date_saisie', date('c'));
@@ -473,11 +472,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     protected function preSave() {
         $this->preSaveEditeur();
-        
+        $this->archivage_document->preSave();
     }
 
     public function save() {
-        $this->archivage_document->preSave();
         parent::save();
     }
 
@@ -719,11 +717,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function generateMouvements() {
 
         return $this->mouvement_document->generateMouvements();
-    }
+    }    
     
     public function findMouvement($cle){
         
         return $this->mouvement_document->findMouvement($cle);
+    }
+
+    public function facturerMouvements() {
+
+        return $this->mouvement_document->facturerMouvements();
     }
 
     public function clearMouvements(){
@@ -732,6 +735,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /**** FIN DES MOUVEMENTS ****/
+
+    /**** DECLARANT ****/
+        
+    public function storeDeclarant() {
+        $this->declarant_document->storeDeclarant();
+    }
+
+    public function getEtablissementObject() {
+        return $this->declarant_document->getEtablissementObject();
+    }
 
     /*** ARCHIVAGE ***/
 
