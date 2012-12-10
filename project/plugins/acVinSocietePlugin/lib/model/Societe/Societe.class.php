@@ -35,9 +35,17 @@ class Societe extends BaseSociete {
     }
     
     public function addNewEnseigne() {
-        $this->enseignes->add(count($this->enseignes),null);
+        $this->enseignes->add(count($this->enseignes),"");
     }
 
+    
+    public function getInterlocuteursWithOrdre() {
+        
+        foreach ($this->contacts as $key => $interlocuteur) {
+            if(!$interlocuteur->ordre) $interlocuteur->ordre=0;
+        }
+        $interlocuteursTries = usort($this->contacts->toArray(), "cmpOrdreContacts");
+    }
 
     public function getMaxOrdreContacts() {
         $max = 0;
@@ -118,6 +126,14 @@ class Societe extends BaseSociete {
         $compte = CompteClient::getInstance()->createCompte($this);
         $this->compte_societe = $compte->_id;
         return $compte;
+    }
+    
+    function cmpOrdreContacts($a, $b)
+    {
+        if ($a->ordre == $b->ordre) {
+            return 0;
+        }
+        return (intval($a->ordre) < intval($b->ordre)) ? -1 : 1;
     }
 
 }
