@@ -1,7 +1,9 @@
 #!/bin/bash
 
-php symfony couchdb:build-view > /tmp/views;
+. bin/config.inc
 
-cat /tmp/views | grep -E "^http://" | awk '{ print "curl -s \"" $1 "\" > /dev/null &\nsleep 1;\nkill %1;\necho \"" $1 "\";" }' > /tmp/views_exec
+php symfony couchdb:build-view > $TMP/views;
 
-bash /tmp/views_exec
+cat /tmp/views | grep -E "^http://" | awk '{ print "curl -s \"" $1 "\" > /dev/null &\nsleep 1;\nkill %1;\necho \"" $1 "\";" }' > $TMP/views_exec
+
+bash $TMP/views_exec
