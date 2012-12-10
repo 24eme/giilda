@@ -28,6 +28,10 @@ class EtablissementCsvFile extends CsvFile
   const CSV_TYPE_PARTENAIRE_NEGOCE = 'N';
   const CSV_TYPE_PARTENAIRE_COURTIER = 'C';
 
+  const CSVCOURTIER_NUMCARTE = 25;
+  const CSVCOURTIER_ISCOURTIER = 26;
+  const CSVCOURTIER_ISCOURTIER_VALEUR = 'COURTIER';
+
   const CSVCAV_DOSSIER = 24;
   const CSVCAV_CODE_CHAI = 25;
   const CSVCAV_CVI = 26;
@@ -67,7 +71,7 @@ class EtablissementCsvFile extends CsvFile
         }
 	
 	$chai = 1;
-	if (isset($line[self::CSVCAV_CODE_CHAI])) {
+	if (isset($line[self::CSVCAV_CODE_CHAI]) && $line[self::CSVPAR_TYPE_PARTENAIRE] != self::CSV_TYPE_PARTENAIRE_COURTIER) {
 		$chai = $line[self::CSVCAV_CODE_CHAI];
 	}
         $id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
@@ -83,7 +87,7 @@ class EtablissementCsvFile extends CsvFile
 	}else{
 		$e->nom = $line[self::CSVPAR_NOM_DU_PARTENAIRE];
 	}
-        $e->cvi = isset($line[self::CSVCAV_CVI]) ? $line[self::CSVCAV_CVI] : null;
+        $e->cvi = (isset($line[self::CSVCAV_CVI]) && $line[self::CSVPAR_TYPE_PARTENAIRE] != self::CSV_TYPE_PARTENAIRE_COURTIER)? $line[self::CSVCAV_CVI] : null;
 	if (isset( $line[self::CSVCAV_LIBELLE_COMMUNE])) {
 	        $e->siege->commune = $line[self::CSVCAV_LIBELLE_COMMUNE];
         	$e->siege->code_postal = $line[self::CSVCAV_CODE_POSTAL];
@@ -133,6 +137,11 @@ class EtablissementCsvFile extends CsvFile
 
 	if ($line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]*1)
 	        $e->recette_locale->id_douane = "SOCIETE-".sprintf("%06d", $line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]);
+
+	if ($line[self::CSVPAR_TYPE_PARTENAIRE] == self::CSV_TYPE_PARTENAIRE_COURTIER && isset($line[self::CSVCOURTIER_NUMCARTE])) {
+		$e->carte_pro = $line[self::CSVCOURTIER_NUMCARTE];
+	}
+
       	$e->save();
       }
     }catch(Execption $e) {
