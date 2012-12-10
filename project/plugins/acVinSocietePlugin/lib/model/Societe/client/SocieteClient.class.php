@@ -52,13 +52,6 @@ class SocieteClient extends acCouchdbClient {
         $societe->cooperative = 0;
         $societe->constructId();
         $societe->save();
-        $societe->createOrFindContactSociete();
-                
-//	$compte = $societe->createCompteSociete();
-//	//$compte->save();
-//	if($societe->canHaveChais()) {
-//		EtablissementClient::getInstance()->createEtablissement($societe);
-//	}
         return $societe;
     }
 
@@ -87,7 +80,12 @@ class SocieteClient extends acCouchdbClient {
     }
     
     public function getInterlocuteursWithOrdre($identifiant) {
-        return $this->findByIdentifiantSociete($identifiant)->getInterlocuteursWithOrdre();
+        $contactsArr = $this->findByIdentifiantSociete($identifiant)->getInterlocuteursWithOrdre();
+        $result = array();
+        foreach ($contactsArr as $id => $value) {
+            $result[] = CompteClient::getInstance()->find($id);
+        }
+        return $result;
     }
 
     public static function getSocieteTypes() {

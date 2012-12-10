@@ -11,6 +11,5 @@ class societeComponents extends sfComponents {
   
   public function executeGetInterlocuteurs() {
       $this->contacts = SocieteClient::getInstance()->getInterlocuteursWithOrdre($this->identifiant);
-      var_dump($this->contacts);
     }   
 }

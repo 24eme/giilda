@@ -16,6 +16,8 @@ class Societe extends BaseSociete {
         }
         $contactSociete = CompteClient::getInstance()->createCompte($this);
         $contactSociete->setNom($this->raison_sociale);
+        $contactSociete->setAdresseSociete("1");
+        $contactSociete->save();
         $this->compte_societe = $contactSociete->_id;
 	return $contactSociete;
     }
@@ -29,7 +31,10 @@ class Societe extends BaseSociete {
     public function addNewEtablissement() {
         $etablissement = EtablissementClient::getInstance()->createEtablissement($this->identifiant, $this->type_societe);        
         $compteForEtb = CompteClient::getInstance()->createCompte($this);
+        $compteForEtb->origines->add(count($compteForEtb->origines),$etablissement->_id);
+        $compteForEtb->save();        
         $etablissement->compte = $compteForEtb->_id;
+        $etablissement->save();
         $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
         return $etablissement;
     }
@@ -41,10 +46,12 @@ class Societe extends BaseSociete {
     
     public function getInterlocuteursWithOrdre() {
         
+        
         foreach ($this->contacts as $key => $interlocuteur) {
-            if(!$interlocuteur->ordre) $interlocuteur->ordre=0;
+            if(is_null($interlocuteur->ordre)) $interlocuteur->ordre=0;
         }
-        $interlocuteursTries = usort($this->contacts->toArray(), "cmpOrdreContacts");
+       // $interlocuteursTries = usort($this->contacts->toArray(), array("Societe" ,"cmpOrdreContacts"));
+        return $this->contacts;
     }
 
     public function getMaxOrdreContacts() {
@@ -119,16 +126,7 @@ class Societe extends BaseSociete {
 	}
     }
     
-    public function createOrFindContactSociete() {
-        if($this->compte_societe)
-        return CompteClient::getInstance()->find($this->compte_societe);
-        
-        $compte = CompteClient::getInstance()->createCompte($this);
-        $this->compte_societe = $compte->_id;
-        return $compte;
-    }
-    
-    function cmpOrdreContacts($a, $b)
+    public static function cmpOrdreContacts($a, $b)
     {
         if ($a->ordre == $b->ordre) {
             return 0;
@@ -136,4 +134,33 @@ class Societe extends BaseSociete {
         return (intval($a->ordre) < intval($b->ordre)) ? -1 : 1;
     }
 
+    public function getCompte() {
+        return CompteClient::getInstance()->find($this->compte_societe);
+    }
+    
+    public function save($fromCompte = false) {
+        if ($fromCompte) 
+            return parent::save();
+        
+        $compte = null;
+        if (!$this->compte_societe) {
+            parent::save();
+            $compte = CompteClient::getInstance()->createCompte($this);
+            $compte->origines->add(count($compte->origines),$this->_id);
+            $compte->nom = $this->raison_sociale;
+            $compte->nom_a_afficher = $this->raison_sociale;
+            $compte->save(true);
+            $this->compte_societe = $compte->_id;
+        }
+        if (!$compte) {
+            $compte = $this->getCompte();
+        }
+        $compte->adresse = $this->siege->adresse;
+        $compte->code_postal = $this->siege->code_postal;
+        $compte->commune = $this->siege->commune;
+
+        $compte->save(true);
+        return parent::save();
+    }
+    
 }
