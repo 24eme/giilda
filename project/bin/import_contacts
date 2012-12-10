@@ -13,6 +13,8 @@ cd -
 
 echo "Import Societe"
 
+mkdir -p $DATADIR/tmp 2> /dev/null
+
 convert-utf8 $DATADIR/cipar.csv | sort -t ';' -k 2 > $DATADIR/tmp/cipar.utf8.csv
 php symfony import:societe $DATADIR/tmp/cipar.utf8.csv
 
