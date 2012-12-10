@@ -1,4 +1,6 @@
 #!/bin/bash
+PROJECTDIR=$1
+DATADIR=$(pwd)
 echo "Conversion des chais viti virtuels en négos originels"
 
 echo "conversion 1/2"
@@ -12,7 +14,9 @@ done
 grep -v '^10;4' cicav.csv > cicav.csv.tmp
 mv cicav.csv.tmp cicav.csv
 
+cd $PROJECTDIR
 . bin/download_redmine_file https://clients.actualys.com/attachments/download/4824/vitivirtuel2negos.csv /tmp/vitivirtuel2negos.csv
+cd $DATADIR
 
 echo "conversion 2/2"
 echo -n > /tmp/sed.cmd

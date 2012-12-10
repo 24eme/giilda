@@ -8,7 +8,7 @@ echo "conversion des chais pour éviter les doublons"
 WORKINGDIR=$(pwd);
 
 cd $DATADIR
-bash $WORKINGDIR/bin/convert_chais
+bash $WORKINGDIR/bin/convert_chais $WORKINGDIR
 cd -
 
 echo "Import Societe"
