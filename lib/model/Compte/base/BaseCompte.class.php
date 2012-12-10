@@ -11,9 +11,12 @@
  * @property string $civilite
  * @property string $prenom
  * @property string $nom
+ * @property string $nom_a_afficher
  * @property string $fonction
  * @property string $commentaire
+ * @property acCouchdbJson $origines
  * @property string $id_societe
+ * @property string $adresse_societe
  * @property string $adresse
  * @property string $adresse_complementaire
  * @property string $code_postal
@@ -25,7 +28,7 @@
  * @property string $telephone_bureau
  * @property string $telephone_mobile
  * @property string $fax
- * @property string $nom_a_afficher
+ * @property string $interpro
  * @property acCouchdbJson $tags
 
  * @method string get_id()
@@ -42,12 +45,18 @@
  * @method string setPrenom()
  * @method string getNom()
  * @method string setNom()
+ * @method string getNomAAfficher()
+ * @method string setNomAAfficher()
  * @method string getFonction()
  * @method string setFonction()
  * @method string getCommentaire()
  * @method string setCommentaire()
+ * @method acCouchdbJson getOrigines()
+ * @method acCouchdbJson setOrigines()
  * @method string getIdSociete()
  * @method string setIdSociete()
+ * @method string getAdresseSociete()
+ * @method string setAdresseSociete()
  * @method string getAdresse()
  * @method string setAdresse()
  * @method string getAdresseComplementaire()
@@ -70,8 +79,8 @@
  * @method string setTelephoneMobile()
  * @method string getFax()
  * @method string setFax()
- * @method string getNomAAfficher()
- * @method string setNomAAfficher()
+ * @method string getInterpro()
+ * @method string setInterpro()
  * @method acCouchdbJson getTags()
  * @method acCouchdbJson setTags()
  

@@ -62,7 +62,6 @@ class CompteAllView extends acCouchdbView {
         }
         $libelle .= ') ';
 
-
         return trim($libelle);
     }
 

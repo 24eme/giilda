@@ -1,6 +1,7 @@
 <?php
 
 class CompteClient extends acCouchdbClient {
+    
     public static function getInstance()
     {
       return acCouchdbManager::getClient("Compte");
@@ -10,8 +11,7 @@ class CompteClient extends acCouchdbClient {
         $compte = new Compte();
         $compte->id_societe = $societe->_id;
         $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
-        $compte->nom_a_afficher = "nom_a_afficher";
-        $compte->save();
+        $compte->interpro = 'INTERPRO-inter-loire';
         return $compte;
     }
     
