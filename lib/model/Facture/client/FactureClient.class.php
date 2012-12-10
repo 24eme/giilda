@@ -8,6 +8,7 @@ class FactureClient extends acCouchdbClient {
     const FACTURE_LIGNE_PRODUIT_TYPE_VINS = "contrat_vins";
     const FACTURE_LIGNE_PRODUIT_TYPE_MOUTS = "contrat_mouts";
     const FACTURE_LIGNE_PRODUIT_TYPE_RAISINS = "contrat_raisins";
+    const FACTURE_LIGNE_PRODUIT_TYPE_ECART = "ecart";
     
     const STATUT_REDRESSEE = 'redressee';
     const STATUT_NONREDRESSABLE = 'non redressable';
