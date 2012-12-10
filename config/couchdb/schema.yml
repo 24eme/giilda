@@ -8,6 +8,7 @@ Vrac:
       type: { }
       campagne: {  }
       numero_contrat: {  }
+      numero_archive: {  }
       etape: { type: integer }
       interne: { }
 #Soussigné (Part 1)
@@ -95,7 +96,7 @@ Vrac:
       commentaires: { }
 
 #Validations
-      date_stats: { }
+      date_campagne: { }
       date_signature: { }
 
       volume_propose: { type: float }
@@ -105,7 +106,7 @@ Vrac:
         type: collection
         definition:
           fields:
-            # les vues de date_stats/date_signature dans part3
+            # les vues de date_campagne/date_signature dans part3
             date_saisie: {  }
             identifiant: {  }
             statut: { }
