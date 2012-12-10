@@ -85,6 +85,20 @@ class DSClient extends acCouchdbClient {
         return $this->find($this->buildId($identifiant, $periode));
     }
 
+    public function findLastByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+		$result = DSHistoryView::getInstance()->findByEtablissement($identifiant);
+		$tabDs = array();
+        foreach($result as $id => $ds) {
+        	$tabDs[$ds->key[DSHistoryView::KEY_PERIODE]] = $ds->id;
+        }
+        krsort($tabDs);
+		if (count($tabDs) > 0) {
+			reset($tabDs);
+			return $this->find(current($tabDs), $hydrate);
+		}
+        return null;
+    }
+
     public function getLinkLibelleForHistory($statut) {
         if ($statut == self::STATUT_A_SAISIR)
             return '> Démarrer la saisie';
