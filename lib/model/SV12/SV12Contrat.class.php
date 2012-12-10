@@ -14,7 +14,11 @@ class SV12Contrat extends BaseSV12Contrat {
             return null;
         }
         $mouvement->vrac_destinataire = $this->getDocument()->declarant->nom;
-        $mouvement->cvo = $this->getDroitCVO()->taux * $this->getVrac()->cvo_repartition * 0.01;
+        if ($this->getVrac()) {
+        	$mouvement->cvo = $this->getDroitCVO()->taux * $this->getVrac()->cvo_repartition * 0.01;
+        } else {
+        	$mouvement->cvo = null;
+        }
 
         return $mouvement;
     }
@@ -29,7 +33,7 @@ class SV12Contrat extends BaseSV12Contrat {
 
         $mouvement->vrac_destinataire = $this->vendeur_nom;
         $mouvement->cvo = 0;
-        if ($this->getVrac()->cvo_repartition = 50) {
+        if ($this->getVrac() && $this->getVrac()->cvo_repartition = 50) {
             $mouvement->cvo = $this->getDroitCVO()->taux * 0.5;
         }
 
@@ -139,6 +143,18 @@ class SV12Contrat extends BaseSV12Contrat {
     {
 
         return ConfigurationClient::getCurrent()->get($this->produit_hash);
+    }
+
+    function updateNoContrat($produit)
+    {
+    	$this->contrat_numero = null;
+    	$this->contrat_type = null;
+    	$this->produit_libelle = $produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
+		$this->produit_hash = $produit->getHash();
+   		$this->vendeur_identifiant = null;
+    	$this->vendeur_nom = null;
+    	$this->volume_prop = null;
+    	$this->volume = null;
     }
 
 }

@@ -6,7 +6,7 @@ class SV12UpdateForm  extends acCouchdbForm {
     public function __construct(acCouchdbDocument $doc, $defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults = array();
         foreach ($doc->getContrats() as $value) {
-                $defaults[$value->contrat_numero] = $value->volume;
+                $defaults[$value->getKey()] = $value->volume;
     	}  
         
         parent::__construct($doc,$defaults, $options, $CSRFSecret);
@@ -15,8 +15,8 @@ class SV12UpdateForm  extends acCouchdbForm {
     
     public function configure() {  
     	foreach ($this->getDocument()->getContrats() as $value) {
-                $this->setWidget($value->contrat_numero, new sfWidgetFormInputFloat(array()));
-                $this->setValidator($value->contrat_numero, new sfValidatorNumber(array('required' => false)));
+                $this->setWidget($value->getKey(), new sfWidgetFormInputFloat(array()));
+                $this->setValidator($value->getKey(), new sfValidatorNumber(array('required' => false)));
     	}  
         
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);

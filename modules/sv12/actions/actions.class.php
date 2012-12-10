@@ -91,6 +91,20 @@ class sv12Actions extends sfActions {
         $this->sv12->saveBrouillon();
     }
     
+    public function executeUpdateAddProduit(sfWebRequest $request)
+    {
+        $this->sv12 = $this->getRoute()->getSV12();
+        $this->form = new SV12UpdateAddProduitForm($this->sv12);
+         if ($request->isMethod(sfWebRequest::POST)) {
+             $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $produit = $this->form->addProduit();
+                $this->sv12->save();
+                return $this->redirect('sv12_update', $this->sv12);
+            }
+       }
+    }
+    
     
 
 }
