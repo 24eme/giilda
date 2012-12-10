@@ -124,11 +124,11 @@ class EtablissementCsvFile extends CsvFile
 	if ($line[self::CSVPAR_REGION_VITI] == 'T') {
 		$e->region = EtablissementClient::REGION_TOURS;
 	}else if ($line[self::CSVPAR_REGION_VITI] == 'N') {
-		$e->region = EtablissementClient::REGION_NANTES
+		$e->region = EtablissementClient::REGION_NANTES;
         }else if ($line[self::CSVPAR_REGION_VITI] == 'A') {
-		$e->region = EtablissementClient::REGION_ANGERS
+		$e->region = EtablissementClient::REGION_ANGERS;
 	}else{
-		$e->region = EtablissementClient::REGION_HORSINTERLOIRE
+		$e->region = EtablissementClient::REGION_HORSINTERLOIRE;
 	}
 
 	if ($line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]*1)
