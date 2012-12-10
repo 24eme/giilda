@@ -38,7 +38,8 @@ class sv12Actions extends sfActions {
             return $this->renderPartial('popupWarning',array('sv12' => $sv12));
         }
         
-        $sv12 = SV12Client::getInstance()->createDoc($etbId,$periode);
+        $sv12 = SV12Client::getInstance()->createOrFind($etbId, $periode);
+        $sv12->storeContrats();
         $sv12->save();
         $this->redirect('sv12_update', $sv12);
     }

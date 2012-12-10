@@ -29,6 +29,7 @@ class SV12Contrat extends BaseSV12Contrat {
 
         $mouvement->vrac_destinataire = $this->vendeur_nom;
         $mouvement->cvo = 0;
+
         if ($this->getVrac()->cvo_repartition = 50) {
             $mouvement->cvo = $this->getDroitCVO()->taux * 0.5;
         }

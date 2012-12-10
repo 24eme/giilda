@@ -29,9 +29,9 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     public function constructId() {
-        $this->valide->statut = SV12Client::STATUT_BROUILLON;
-        $this->campagne = SV12Client::buildCampagne($this->periode);
-        $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
+        $this->campagne = SV12Client::getInstance()->buildCampagne($this->periode);
+	    $this->storeDeclarant(); 
+	    $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
                                                             $this->periode, 
                                                             $this->version));
     }
@@ -108,6 +108,25 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         }
     }
 
+    public function addContrat($vrac) {
+        if (!$vrac) {
+            throw new acCouchdbException(sprintf("Le Contrat \"%s\" n'existe pas!", $num_contrat));
+        }
+
+        $contrat = new stdClass();
+
+        $config_produit = $vrac->getProduitObject(); 
+        $contrat->contrat_numero = $vrac->numero_contrat;
+        $contrat->contrat_type = $vrac->type_transaction;
+        $contrat->produit_libelle = $config_produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
+        $contrat->produit_hash = $config_produit->getHash();
+        $contrat->vendeur_identifiant = $vrac->vendeur_identifiant;
+        $contrat->vendeur_nom = $vrac->vendeur->nom;
+        $contrat->volume_prop = $vrac->volume_propose;
+
+        return $this->contrats->add($vrac->numero_contrat, $contrat);
+    }
+
     public function solderContrats() {
        foreach ($this->contrats as $c) {
             if ($c->enleverVolume()) {
@@ -158,12 +177,15 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->contrats[$num_contrat]->volume = $volume;
     }
 
-    public function validate() {
+    public function validate($options = array()) {
         $this->valide->date_saisie = date('d-m-y');
         
         $this->generateMouvements();
         $this->updateTotaux();
-        $this->solderContrats();
+
+        if(!isset($options['pas_solder'])) {
+            $this->solderContrats();
+        }
 
         if($this->isAllContratsCanBeSoldable()) {
             $this->valide->statut = SV12Client::STATUT_VALIDE;
@@ -399,6 +421,11 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     public function findMouvement($cle){
         
         return $this->mouvement_document->findMouvement($cle);
+    }
+
+    public function facturerMouvements() {
+
+        return $this->mouvement_document->facturerMouvements();
     }
 
     public function clearMouvements(){

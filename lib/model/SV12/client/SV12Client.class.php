@@ -32,7 +32,7 @@ class SV12Client extends acCouchdbClient {
 
     public function buildPeriode($date) {
       
-        return str_replace('-', '' , ConfigurationClient::getInstance()->buildCampagne($date));
+        return ConfigurationClient::getInstance()->buildCampagne($date);
     }
 
     public function buildPeriodeAndVersion($periode, $version) {
@@ -43,18 +43,25 @@ class SV12Client extends acCouchdbClient {
       return $periode;
     }
 
-    public function buildCampagne($periode) {
-        preg_match('/^([0-9]{4})([0-9]{4})$/', $periode, $matches);
+    public function buildPeriodeFromCampagne($campagne) {
 
-        return sprintf('%d-%d', $matches[1], $matches[2]);
+      return $campagne;
+    }
+
+    public function buildCampagne($periode) {
+
+    	return $periode;
     }
     
-    public function createDoc($identifiant, $periode) {
-        $sv12 = new Sv12();
-        $sv12->identifiant = $identifiant;
-        $sv12->periode = $periode;  
-        $sv12->storeDeclarant();
-        $sv12->storeContrats();
+    public function createOrFind($identifiant, $periode) {
+        $sv12 = $this->find($this->buildId($identifiant, $periode));
+        if (!$sv12) {
+          $sv12 = new Sv12();
+          $sv12->identifiant = $identifiant;
+          $sv12->periode = $periode;  
+          $sv12->valide->statut = SV12Client::STATUT_BROUILLON;
+        }
+
         return $sv12;
     }
 
