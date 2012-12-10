@@ -11,7 +11,7 @@ class DSRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'periode', $parameters['periode']));
         }
         
-        if (preg_match('/^[0-9]{6}$/',$parameters['identifiant'])) {            
+        if (preg_match('/^[0-9]{8}$/',$parameters['identifiant'])) {            
             $identifiant = $parameters['identifiant'];
         } else {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'identifiant', $parameters['identifiant']));

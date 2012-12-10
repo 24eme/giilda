@@ -80,7 +80,15 @@ class dsActions extends sfActions {
     public function executeEditionDSAddProduit(sfWebRequest $request)
     {
         $this->ds = $this->getRoute()->getDS();
-        $this->form = new DSEditionForm($this->ds->declarations);
+        $this->form = new DSEditionAddProduitForm($this->ds);
+         if ($request->isMethod(sfWebRequest::POST)) {
+             $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $produit = $this->form->addProduit();
+                $this->ds->save();
+                return $this->redirect('ds_edition_operateur', $this->ds);
+            }
+       }
     }
     
     public function executeEditionDSValidationVisualisation(sfWebRequest $request) {

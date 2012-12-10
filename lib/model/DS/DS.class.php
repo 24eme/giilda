@@ -116,4 +116,24 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     }
 
     /*** FIN ARCHIVAGE ***/
+    
+    public function getDepartement() 
+    {
+        if($this->declarant->code_postal )  {
+          return substr($this->declarant->code_postal, 0, 2);
+        }
+        return null;
+    }
+
+    public function getEtablissement() 
+    {
+        return EtablissementClient::getInstance()->find($this->identifiant);
+    }
+    
+    public function getInterpro() 
+    {
+      	if ($this->getEtablissement()) {
+         	return $this->getEtablissement()->getInterproObject();
+     	}
+    }
 }

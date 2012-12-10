@@ -2,6 +2,7 @@
 use_helper('Float');
 
 ?>
+<a href="<?php echo url_for('ds_edition_operateur_addProduit', $ds) ?>">Ajouter un produit</a>
 <form id="" action="<?php echo url_for('ds_edition_operateur', $ds); ?>" method="post">
 <?php
 echo $form->renderHiddenFields();
@@ -11,7 +12,6 @@ echo $form->renderGlobalErrors();
         <table id="ds_edition_table" class="table_recap">
         <thead>
             <tr>
-                <th>Code</th>
                 <th>Produits</th>
                 <th>Volume saisie</th>
             </tr>
@@ -21,9 +21,8 @@ echo $form->renderGlobalErrors();
             foreach ($declarations as $key => $declaration){
                 
                     $prod_vol = $declaration->produit_libelle;
-                    $code_douane = $declaration->code_douane;
                     if($declaration->stock_initial) $prod_vol .= ' ('.getArialFloat($declaration->stock_initial).' hl)';
-                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $declaration, 'prod_vol' => $prod_vol,'code_douane' => $code_douane));
+                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $declaration, 'prod_vol' => $prod_vol));
                
             }
     ?>
