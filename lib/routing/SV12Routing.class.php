@@ -36,6 +36,16 @@ class SV12Routing {
                              'must_be_valid' => false,
                              'must_be_not_valid' => true
                 )));
+        
+        
+        $r->prependRoute('sv12_update_addProduit', new SV12Route('/sv12/:identifiant/edition/:periode_version/update/addProduit', array('module' => 'sv12',
+                    'action' => 'updateAddProduit'),
+                    array('sf_method' => array('get', 'post')),
+                    array('model' => 'SV12',
+                        'type' => 'object',
+                        'must_be_valid' => false,
+                        'must_be_not_valid' => true
+           		)));
 
         $r->prependRoute('sv12_modificative', new SV12Route('/sv12/:identifiant/modificative/:periode_version', 
                                                   array('module' => 'sv12', 

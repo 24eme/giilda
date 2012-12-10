@@ -14,7 +14,11 @@ class SV12Contrat extends BaseSV12Contrat {
             return null;
         }
         $mouvement->vrac_destinataire = $this->getDocument()->declarant->nom;
-        $mouvement->cvo = $this->getDroitCVO()->taux * $this->getVrac()->cvo_repartition * 0.01;
+        if ($this->getVrac()) {
+        	$mouvement->cvo = $this->getDroitCVO()->taux * $this->getVrac()->cvo_repartition * 0.01;
+        } else {
+        	$mouvement->cvo = $this->getDroitCVO()->taux * 0.01;
+        }
 
         return $mouvement;
     }
@@ -30,7 +34,7 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->vrac_destinataire = $this->vendeur_nom;
         $mouvement->cvo = 0;
 
-        if ($this->getVrac()->cvo_repartition = 50) {
+        if ($this->getVrac() && $this->getVrac()->cvo_repartition = 50) {
             $mouvement->cvo = $this->getDroitCVO()->taux * 0.5;
         }
 
@@ -71,13 +75,17 @@ class SV12Contrat extends BaseSV12Contrat {
         } elseif($this->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS;  
         }
-        
+        if (!$this->getVrac())
+        	$mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART;  
         $mouvement->type_hash = $this->contrat_type;
         $mouvement->type_libelle = $this->contrat_type;;
         $mouvement->volume = -1 * $volume;
         $mouvement->date = $this->getDocument()->getDate();
         $mouvement->vrac_numero = $this->contrat_numero;
-        $mouvement->detail_identifiant = $this->getVracIdentifiant();
+        if ($this->getVrac())
+        	$mouvement->detail_identifiant = $this->getVracIdentifiant();
+        else 
+        	$mouvement->detail_identifiant = null;
         $mouvement->detail_libelle = $this->contrat_numero;
         $mouvement->facturable = 1;
 
@@ -94,7 +102,8 @@ class SV12Contrat extends BaseSV12Contrat {
         if ($volume == 0) {
             return false;
         }
-
+		if (!$this->getVrac())
+			return false;
         $this->getVrac()->enleverVolume($this->getVolumeVersion());
         if ($this->canBeSoldable()) {
             $this->getVrac()->solder();
@@ -140,6 +149,18 @@ class SV12Contrat extends BaseSV12Contrat {
     {
 
         return ConfigurationClient::getCurrent()->get($this->produit_hash);
+    }
+
+    function updateNoContrat($produit)
+    {
+    	$this->contrat_numero = null;
+    	$this->contrat_type = null;
+    	$this->produit_libelle = $produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
+		$this->produit_hash = $produit->getHash();
+   		$this->vendeur_identifiant = null;
+    	$this->vendeur_nom = null;
+    	$this->volume_prop = null;
+    	$this->volume = null;
     }
 
 }

@@ -38,7 +38,7 @@
 							<label for="champ_volumes_vides"><input type="checkbox" id="champ_volumes_vides" /> Afficher uniquement les volumes non-saisis</label>
 						</div>
 					</div>
-					
+					<a href="<?php echo url_for('sv12_update_addProduit', $sv12) ?>">Ajouter un produit</a>
 					<table id="table_contrats" class="table_recap">
 						<thead>
 							<tr>
@@ -54,16 +54,20 @@
 							</tr>
 							<?php foreach ($sv12->contrats as $contrat) : ?> 
 							<tr id="<?php echo $contrat->getHTMLId() ?>">
-								<td><?php echo $contrat->vendeur_nom.' ('.$contrat->vendeur_identifiant.')'; ?></td>
+								<td><?php if ($contrat->vendeur_identifiant): ?><?php echo $contrat->vendeur_nom.' ('.$contrat->vendeur_identifiant.')'; ?><?php else: ?>-<?php endif; ?></td>
 								<td><?php echo $contrat->produit_libelle; ?></td>	
 								<td>
+									<?php if (!$contrat->contrat_numero): ?>
+									-
+									<?php else: ?>
 									<a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $contrat->contrat_numero)) ?>"><?php echo VracClient::getInstance()->getLibelleFromId($contrat->contrat_numero, '&nbsp;') ?></a>
 									<?php echo sprintf('(%s, %s hl)', $contrat->contrat_type, $contrat->volume_prop); ?>
+									<?php endif; ?>
 								</td>
 								<td>
 									<?php
-										echo $form[$contrat->contrat_numero]->renderError();
-										echo $form[$contrat->contrat_numero]->render();
+										echo $form[$contrat->getKey()]->renderError();
+										echo $form[$contrat->getKey()]->render();
 									?>
 								</td>
 							</tr>
