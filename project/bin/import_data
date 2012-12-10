@@ -12,7 +12,7 @@ bash bin/views
 
 if ! test "$1"; then
     echo "Téléchargement des données";
-    . bin/download_redmine_file https://clients.actualys.com/attachments/download/4688/VINSDELOIRE_DATA.tar.gz /tmp/VINSDELOIRE_DATA.tar.gz
+    . bin/download_redmine_file https://clients.actualys.com/attachments/download/4688/VINSDELOIRE_DATA.tar.gz $TMP/VINSDELOIRE_DATA.tar.gz
 fi
 
 SYMFODIR=$(pwd);
@@ -24,14 +24,14 @@ LOGDATE=$SYMFODIR/$(date +%Y%m%d%H%M%S_import_data.log)
 if ! test "$1"; then
 
 	echo "Dézippage";
-	rm -rf /tmp/VINSDELOIRE_DATA 2>/dev/null
-	mkdir /tmp/VINSDELOIRE_DATA 2> /dev/null 
-	cd /tmp/VINSDELOIRE_DATA
-	tar -xzf /tmp/VINSDELOIRE_DATA.tar.gz
+	rm -rf $TMP/VINSDELOIRE_DATA 2>/dev/null
+	mkdir $TMP/VINSDELOIRE_DATA 2> /dev/null 
+	cd $TMP/VINSDELOIRE_DATA
+	tar -xzf $TMP/VINSDELOIRE_DATA.tar.gz
 fi
 
-mkdir /tmp/VINSDELOIRE_DATA 2> /dev/null 
-cd /tmp/VINSDELOIRE_DATA
+mkdir $TMP/VINSDELOIRE_DATA 2> /dev/null 
+cd $TMP/VINSDELOIRE_DATA
 
 DATADIR=$(pwd);
 

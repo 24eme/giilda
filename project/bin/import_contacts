@@ -1,8 +1,9 @@
 #!/bin/bash
 
+. bin/config.inc
 . bin/import_functions.inc
 
-DATADIR=/tmp/VINSDELOIRE_DATA
+DATADIR=$TMP/VINSDELOIRE_DATA
 
 echo "conversion des chais pour éviter les doublons"
 WORKINGDIR=$(pwd);
