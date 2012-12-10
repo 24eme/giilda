@@ -65,6 +65,9 @@ class SocieteCsvFile extends CsvFile
         $s->siege->code_postal = $line[self::CSV_PARTENAIRE_CODEPOSTAL];
         $s->siege->commune = $line[self::CSV_PARTENAIRE_COMMUNE];
 	$s->interpro = 'INTERPRO-inter-loire';
+        if ($line[self::CSV_PARTENAIRE_COOPGROUP] == 'C') {
+		$s->cooperative = 1;
+        }
 	//Incohérent mais ce champ signifie en réalisé suspendu
         if ($line[self::CSV_PARTENAIRE_ENACTIVITE] == 'O') {
                 $s->statut = SocieteClient::STATUT_SUSPENDU;
@@ -84,8 +87,6 @@ class SocieteCsvFile extends CsvFile
 	}
 	if ($line[self::CSV_PARTENAIRE_ENSEIGNE])
 		$s->enseignes->add(null, $line[self::CSV_PARTENAIRE_ENSEIGNE]);
-
-
       	$s->save();
       }
     }catch(Execption $e) {

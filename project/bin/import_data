@@ -45,7 +45,7 @@ echo "Import des vracs";
 
 bash bin/import_data_vrac
 
-php symfony import:vrac --trace $DATADIR/vracs.csv
+php symfony import:vrac-sv12 --trace $DATADIR/vracs.csv
 
 echo "Import des DS"
 

@@ -3,65 +3,48 @@
 class importVracTask extends importAbstractTask
 {
 
-  const CSV_DOSSIER = 0;
-  const CSV_CAMPAGNE = 1;
-  const CSV_NUMERO_CONTRAT = 2;
-  const CSV_DATE_ENREGISTREMENT = 3;
-  const CSV_CODE_RECETTE_LOCALE = 4;
-  const CSV_CODE_VITICULTEUR = 5;
-  const CSV_CODE_CHAI_CAVE = 6;
-  const CSV_CODE_NEGOCIANT = 7;
-  const CSV_CODE_COURTIER = 8;
-  const CSV_CODE_APPELLATION = 9;
-  const CSV_TYPE_PRODUIT = 10;
-  const CSV_MILLESIME = 11;
-  const CSV_COTISATION_CVO_NEGOCIANT = 12;
-  const CSV_COTISATION_CVO_VITICULTEUR = 13;
-  const CSV_VOLUME = 14;
-  const CSV_UNITE_VOLUME = 15;
-  const CSV_COEF_CONVERSION_VOLUME = 16;
-  const CSV_MODE_CONVERSION_VOLUME = 17;
-  const CSV_VOLUME_PROPOSE_HL = 18;
-  const CSV_VOLUME_ENLEVE_HL = 19;
-  const CSV_PRIX_VENTE = 20;
-  const CSV_CODE_DEVISE = 21;
-  const CSV_UNITE_PRIX_VENTE = 22;
-  const CSV_COEF_CONVERSION_PRIX = 23;
-  const CSV_MODE_CONVERSION_PRIX = 24;
-  const CSV_PRIX_AU_LITRE = 25;
-  const CSV_CONTRAT_SOLDE = 26;
-  const CSV_DATE_SIGNATURE_OU_CREATION = 27;
-  const CSV_DATE_DERNIERE_MODIFICATION = 28;
-  const CSV_CODE_SAISIE = 29;
-  const CSV_DATE_LIVRAISON = 30;
-  const CSV_CODE_MODE_PAIEMENT = 31;
-  const CSV_COMPOSTAGE = 32;
-  const CSV_TYPE_CONTRAT = 33;
-  const CSV_ATTENTE_ORIGINAL = 34;
-  const CSV_CATEGORIE_VIN = 35;
-  const CSV_CEPAGE = 36;
-  const CSV_MILLESIME_ANNEE = 37;
-  const CSV_PRIX_HORS_CVO = 38;
-  const CSV_PRIX_CVO_INCLUSE = 39;
-  const CSV_TAUX_CVO_GLOBAL = 40;
-
-  const CSV_CIAPL_DOSSIER = 41;
-  const CSV_CIAPL_CAMPAGNE = 42;
-  const CSV_CIAPL_CODE = 43;
-  const CSV_CIAPL_LIBELLE = 44;
-  const CSV_CIAPL_CODE_COMPTABLE_ANALYTICS = 45;
-  const CSV_CIAPL_CODE_COMPTABLE_VENTE = 46;
-  const CSV_CIAPL_DATE_CREATION = 47;
-  const CSV_CIAPL_DATE_DERNIERE_MODIFICATION = 48;
-  const CSV_CIAPL_STQZ = 49;
-  const CSV_CIAPL_CEPAGE = 50;
-  const CSV_CIAPL_CODE_STATS = 51;
-  const CSV_CIAPL_SUSPENDU = 52;
-  const CSV_CIAPL_COULEUR = 53;
-  const CSV_CIAPL_SUR_LIE = 54;
-  const CSV_CIAPL_AGREMENT_LABEL = 55;
-  const CSV_CIAPL_REGION_VITICOLE = 56;
-  const CSV_CIAPL_MOUSSEUX = 57;
+  const CSV_TRI = 0;
+  const CSV_DOSSIER = 1;
+  const CSV_CAMPAGNE = 2;
+  const CSV_NUMERO_CONTRAT = 3;
+  const CSV_DATE_ENREGISTREMENT = 4;
+  const CSV_CODE_RECETTE_LOCALE = 5;
+  const CSV_CODE_VITICULTEUR = 6;
+  const CSV_CODE_CHAI_CAVE = 7;
+  const CSV_CODE_NEGOCIANT = 8;
+  const CSV_CODE_COURTIER = 9;
+  const CSV_CODE_APPELLATION = 10;
+  const CSV_TYPE_PRODUIT = 11;
+  const CSV_MILLESIME = 12;
+  const CSV_COTISATION_CVO_NEGOCIANT = 13;
+  const CSV_COTISATION_CVO_VITICULTEUR = 14;
+  const CSV_VOLUME = 15;
+  const CSV_UNITE_VOLUME = 16;
+  const CSV_COEF_CONVERSION_VOLUME = 17;
+  const CSV_MODE_CONVERSION_VOLUME = 18;
+  const CSV_VOLUME_PROPOSE_HL = 19;
+  const CSV_VOLUME_ENLEVE_HL = 20;
+  const CSV_PRIX_VENTE = 21;
+  const CSV_CODE_DEVISE = 22;
+  const CSV_UNITE_PRIX_VENTE = 23;
+  const CSV_COEF_CONVERSION_PRIX = 24;
+  const CSV_MODE_CONVERSION_PRIX = 25;
+  const CSV_PRIX_AU_LITRE = 26;
+  const CSV_CONTRAT_SOLDE = 27;
+  const CSV_DATE_SIGNATURE_OU_CREATION = 28;
+  const CSV_DATE_DERNIERE_MODIFICATION = 29;
+  const CSV_CODE_SAISIE = 30;
+  const CSV_DATE_LIVRAISON = 31;
+  const CSV_CODE_MODE_PAIEMENT = 32;
+  const CSV_COMPOSTAGE = 33;
+  const CSV_TYPE_CONTRAT = 34;
+  const CSV_ATTENTE_ORIGINAL = 35;
+  const CSV_CATEGORIE_VIN = 36;
+  const CSV_CEPAGE = 37;
+  const CSV_MILLESIME_ANNEE = 38;
+  const CSV_PRIX_HORS_CVO = 39;
+  const CSV_PRIX_CVO_INCLUSE = 40;
+  const CSV_TAUX_CVO_GLOBAL = 41;
 
   const CSV_TYPE_PRODUIT_INDETERMINE = 0;
   const CSV_TYPE_PRODUIT_RAISINS = 1;
@@ -123,10 +106,13 @@ EOF;
     	$data = str_getcsv($line, ';');
 
       try{
-        $this->importVrac($data);
+        $vrac = $this->importVrac($data);
       } catch (Exception $e) {
         $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
+
+        continue;
       }
+      $vrac->save();
 
       $i++;
     }
@@ -138,21 +124,24 @@ EOF;
         $type_transaction = $this->convertTypeTransaction($line[self::CSV_TYPE_PRODUIT]);   
 
         if (!$type_transaction) {
-          return;
+         
+         throw new sfException(sprintf("Le type de transaction est inexistant", $type_transaction));
         }
         
-        $v = VracClient::getInstance()->findByNumContrat($this->constructNumeroContrat($line), acCouchdbClient::HYDRATE_JSON);
+        $v = VracClient::getInstance()->findByNumContrat($this->constructNumeroContrat($line));
         
         if (!$v) {
           $v = new Vrac();
           $v->numero_contrat = $this->constructNumeroContrat($line);
         }
 
+        $v->numero_archive = $this->getNumeroArchive($line);
+
         $v->label = array();
 
-        $date = $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION]);
-        $v->date_signature =  $date->format('Y-m-d');
-        $v->date_stats =  $date->format('Y-m-d');
+        $date = $this->getDateCampagne($line);
+        $v->date_signature = $date->format('Y-m-d');
+        $v->date_campagne = $date->format('Y-m-d');
         $v->valide->date_saisie = $date->format('Y-m-d');
 
         $v->vendeur_identifiant = $this->getIdentifiantVendeur($line);
@@ -164,10 +153,6 @@ EOF;
         }
 
         $v->produit = $this->getHash($line[self::CSV_CODE_APPELLATION]);
-
-        if($line[self::CSV_CIAPL_SUR_LIE] == "O") {
-          $v->label->add(null, "LIE");
-        }
 
         $v->millesime = $line[self::CSV_MILLESIME_ANNEE] ? (int)$line[self::CSV_MILLESIME_ANNEE] : null;
 
@@ -220,7 +205,12 @@ EOF;
 
         $v->update(); 
 
-        $v->save();
+        return $v;
+  }
+
+  protected function getDateCampagne($line) {
+	  
+	  return $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION]);
   }
 
   protected function getIdentifiantVendeur($line) {
@@ -242,8 +232,9 @@ EOF;
   	if($line[self::CSV_UNITE_PRIX_VENTE] == 'kg') {
   		return $line[self::CSV_COEF_CONVERSION_PRIX];
   	}
-
-  	if (preg_match('/CREMANT DE LOIRE/i', $line[self::CSV_CIAPL_LIBELLE])) {
+	
+	$hash = $this->getHash($line[self::CSV_CODE_APPELLATION]);
+  	if (preg_match('/appellations\/CLO\//', $hash)) {
   		return 1.5;
   	} else {
   		return 1.3;
@@ -320,6 +311,11 @@ EOF;
 
   protected function constructNumeroContrat($line) {
 
-    return $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%04d", $line[self::CSV_NUMERO_CONTRAT]);
+    return $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . $this->getNumeroArchive($line);
+  }
+
+  protected function getNumeroArchive($line) {
+
+    return sprintf("%05d", $line[self::CSV_NUMERO_CONTRAT]);
   }
 }
