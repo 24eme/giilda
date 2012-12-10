@@ -11,6 +11,7 @@ class EtablissementClient extends acCouchdbClient {
     const REGION_TOURS = 'tours';
     const REGION_ANGERS = 'angers';
     const REGION_NANTES = 'nantes';
+    const REGION_HORSINTERLOIRE = 'hors interloire';
     
     const RECETTE_LOCALE = '(recette_locale)';
     
