@@ -47,7 +47,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     public function storeContrats() {
-        $contratsView = SV12Client::getInstance()->findContratsByEtablissement($this->identifiant);
+        $contratsView = SV12Client::getInstance()->findContratsByEtablissementAndCampagne($this->identifiant, $this->campagne);
         foreach ($contratsView as $contratView)
         {
             $idContrat = preg_replace('/VRAC-/', '', $contratView->value[VracClient::VRAC_VIEW_NUMCONTRAT]);
