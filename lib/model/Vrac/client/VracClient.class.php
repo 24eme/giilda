@@ -155,6 +155,18 @@ class VracClient extends acCouchdbClient {
     $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
     return $bySoussigneType;
     }
+    
+    public function retrieveBySoussigneTypeAndCampagne($soussigneId,$type, $campagne, $limit=300) {
+      $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
+      $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$type, $campagne))
+              ->endkey(array('TYPE',$soussigneId,$type, $campagne, array()));
+    
+    if ($limit){
+            $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
+        }
+    $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+    return $bySoussigneType;
+    }
         
     public function retrieveBySoussigneStatutAndType($soussigneId,$statut,$type,$limit=300) {
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
