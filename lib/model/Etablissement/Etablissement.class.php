@@ -102,16 +102,9 @@ class Etablissement extends BaseEtablissement {
         return EtablissementFamilles::getDroitsByFamilleAndSousFamille($this->famille, $this->sous_famille);
     }
 
-//    public function setSiege()
-//    {
-//        if (!$this->siege) {
-//            
-//        }
-//        
-//    }
-
-
     public function save() {
+        
+        
         if ($this->recette_locale->id_douane) {
 		$soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
 		if ($soc) {
@@ -124,11 +117,12 @@ class Etablissement extends BaseEtablissement {
         if (!$this->sous_famille) {
             $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
         }
+        
         parent::save();
 
 	$soc = SocieteClient::getInstance()->find($this->id_societe);
         if(!$soc)
-                throw sfException("$id n'est pas une société connue");
+                throw new sfException("$id n'est pas une société connue");
         $soc->addEtablissement($this);
 	$soc->save();
 
@@ -137,7 +131,7 @@ class Etablissement extends BaseEtablissement {
     public function setIdSociete($id) {
 	$soc = SocieteClient::getInstance()->find($id);
 	if(!$soc)
-		throw sfException("$id n'est pas une société connue");
+		throw new sfException("$id n'est pas une société connue");
 	$this->_set("id_societe", $id);
     }
 

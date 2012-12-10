@@ -16,7 +16,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-        $this->setWidget('famille', new sfWidgetFormChoice(array('choices' => $this->getFamilles())));
         $this->setWidget('nom', new sfWidgetFormInput());
         $this->setWidget('statut', new sfWidgetFormChoice(array('choices' => $this->getStatuts())));
         $this->setWidget('cvi', new sfWidgetFormInput());
@@ -37,7 +36,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->setWidget('no_accises', new sfWidgetFormInput());
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
-        $this->widgetSchema->setLabel('famille', 'Type établissement');
         $this->widgetSchema->setLabel('nom', 'Nom du chai');
         $this->widgetSchema->setLabel('statut', 'Statut');
         $this->widgetSchema->setLabel('cvi', 'CVI');
@@ -58,7 +56,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
 
 
-        $this->setValidator('famille', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getFamilles()))));
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
         $this->setValidator('statut', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatuts()))));
         $this->setValidator('cvi', new sfValidatorString(array('required' => true)));
@@ -78,10 +75,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->setValidator('no_accises', new sfValidatorString(array('required' => true)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');
-    }
-
-    public function getFamilles() {
-        return SocieteClient::getSocieteTypesWithChais();
     }
 
     public function getStatuts() {

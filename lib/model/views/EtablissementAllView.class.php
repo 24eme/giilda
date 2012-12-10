@@ -86,7 +86,7 @@ class EtablissementAllView extends acCouchdbView
 
     	if (isset($datas[$datas[self::KEY_CODE_POSTAL]]))
     	  	$libelle .= ' '.$datas[$datas[self::KEY_CODE_POSTAL]];
-        
+        $libelle .= " (Etablissement)";
         return trim($libelle);
     }
 

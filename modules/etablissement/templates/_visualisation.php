@@ -1,4 +1,4 @@
-<div id="eatblissement_<?php echo $etablissement->identifiant; ?>" class="form_section">
+<div id="etablissement_<?php echo $etablissement->identifiant; ?>" class="form_section">
     <h2>Détail de la société </h2>  
     <div class="form_contenu">  
         <div class="form_ligne">
