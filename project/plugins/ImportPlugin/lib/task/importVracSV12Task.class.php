@@ -1,6 +1,6 @@
 <?php
 
-class importSV12Task extends importVracTask
+class importVracSV12Task extends importVracTask
 {
 
   const CSV_DOSSIER = 0;
@@ -48,17 +48,19 @@ EOF;
 
     set_time_limit(0);
     $i = 1;
-    $numero = null;
+    $id = null;
     $lines = array();
     foreach(file($arguments['file']) as $line) {
       $data = str_getcsv($line, ';');
-      
-      if($numero && $numero != $data[self::CSV_NUMERO_DECLARATION]) {
-        $this->importDS($lines);
+	
+      $id_line = $this->getId($data);
+
+      if($id && $id != $id_line) {
+        $this->importSV12($lines);
         $lines = array();
       }
       
-      $numero = $data[self::CSV_NUMERO_DECLARATION];
+      $id = $id_line;
       $lines[$i] = $data;
       $i++;
     }
@@ -66,36 +68,61 @@ EOF;
   }
 
   public function importSV12($lines) {
-    $ds = null;
+    $sv12 = null;
 
     foreach($lines as $i => $line) {
+      $vrac = null;
       try{
-        $ds = $this->importVrac($ds, $line);
+        $vrac = $this->importVrac($line);
       } catch (Exception $e) {
-        $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
+        $this->log(sprintf("[VRAC]%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
+        
+        continue;
+      }
+      $vrac->save();
+
+
+      try{
+        $sv12 = $this->importLine($sv12, $vrac);
+      } catch (Exception $e) {
+        $this->log(sprintf("[SV12]%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
+
+        return;
       }
     }
+    
+    if(!$sv12) {
+      return;
+    }
 
-    $ds->updateStatut();
-    $ds->save();
+    $sv12->validate(array('pas_solder' => true));
+    $sv12->facturerMouvements();
+    $sv12->save();
   }
 
-  public function importVrac($ds, $line) {
-    if (is_null($ds)) {
-      $ds = DSClient::getInstance()->createOrFind($line[self::CSV_CODE_VITICULTEUR], $this->convertToDateObject($line[self::CSV_DATE_CREATION])->format('Y-m-d'));
-
-      if(!$ds->getEtablissementObject()) {
-        throw new sfException(sprintf("L'etablissement %s n'existe pas", $line[self::CSV_CODE_VITICULTEUR]));
-      }
+  public function importLine($sv12, $vrac) {
+    if(is_null($sv12)) {
+      $sv12 = SV12Client::getInstance()->createOrFind($vrac->acheteur_identifiant, SV12Client::getInstance()->buildPeriodeFromCampagne($vrac->campagne));
     }
 
-    $config_produit = $this->getConfigurationHash($line[self::CSV_CODE_APPELLATION]);
+    if($vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE) {
+        
+        return $sv12;
+    }
+    
+    $contrat = $sv12->addContrat($vrac);
+    $contrat->volume = $vrac->volume_enleve;
 
-    $produit = $ds->declarations->add($config_produit->getHashForKey());
-    $produit->produit_hash = $config_produit->getHash();
-    $produit->produit_libelle = $config_produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
-    $produit->stock_revendique = $this->convertToFloat($line[self::CSV_VOLUME_LIBRE]);
+    return $sv12;
+  }
 
-    return $ds;
+  protected function getId($line) {
+	
+	  return SV12Client::getInstance()->buildId($this->getIdentifiantAcheteur($line), $this->getPeriode($line)); 
+  }
+  
+  protected function getPeriode($line) {
+    
+    return SV12Client::getInstance()->buildPeriode($this->getDateCampagne($line)->format('Y-m-d'));
   }
 }
