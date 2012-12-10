@@ -30,7 +30,7 @@ class importVracSV12Task extends importVracTask
     ));
 
     $this->namespace        = 'import';
-    $this->name             = 'sv12';
+    $this->name             = 'vrac-sv12';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
 The [importVrac|INFO] task does things.

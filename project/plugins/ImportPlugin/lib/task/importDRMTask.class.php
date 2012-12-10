@@ -336,6 +336,7 @@ EOF;
         $drm = $this->importLigne($drm, $line);
       } catch (Exception $e) {
         $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
+        
         return;
       }
 
@@ -359,6 +360,7 @@ EOF;
     $drm->valide->date_signee = date('c', strtotime($drm->getDate()));
 
     $drm->validate(array('no_vracs' => true));
+    $drm->facturerMouvements();
     $drm->save();
   }
 
