@@ -142,6 +142,10 @@ class Etablissement extends BaseEtablissement {
 	$this->_set("id_societe", $id);
     }
 
+    public function isInterLoire() {
+      return ($this->region == EtablissementClient::REGION_HORSINTERLOIRE);
+    }
+
     public function __toString() {
 
         return sprintf('%s (%s)', $this->nom, $this->identifiant);
