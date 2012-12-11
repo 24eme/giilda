@@ -2347,6 +2347,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   vertical-align:top;
   width:329px;
 }
+#contenu_etape .ligne_form { height:38px; }
 #contenu_etape #recherche_operateur {
   background:#ecebeb;
   margin:0 0 25px;
