@@ -52,7 +52,7 @@ class Compte extends BaseCompte {
         if (!$fromsociete) {
             $soc = $this->getSociete();
             $soc->addCompte($this);
-            $soc->save();
+            $soc->save(true);
         }
     }
 
