@@ -476,7 +476,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function save() {
-        parent::save();
+      $this->region = $this->getEtablissement()->region;
+      parent::save();
     }
 
     protected function preSaveEditeur() {
