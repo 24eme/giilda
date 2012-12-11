@@ -52,7 +52,7 @@ class RevendicationClient extends acCouchdbClient {
     }
 
     public function getODGs() {
-        return array("tours" => "Tours");
+        return EtablissementClient::getRegionsWithoutHorsInterLoire();
     }
 
 }

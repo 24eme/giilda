@@ -1315,6 +1315,25 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   font-weight:bold;
   margin:20px 0;
 }
+#principal #points_bloquants .error, #principal #points_bloquants .warning, #principal #points_vigilance .error, #principal #points_vigilance .warning {
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  margin:10px 0;
+  padding:3px;
+}
+#principal #points_bloquants p, #principal #points_vigilance p { font-weight:bold; }
+#principal #points_bloquants .error {
+  background:#f1b2b3;
+  color:#8a0c0c;
+}
+#principal #points_vigilance .warning {
+  background:#ffd58c;
+  color:#a03b09;
+}
 #recap_infos_header { margin:0 0 20px; }
 #recap_infos_header li {
   font-size:14px;
@@ -2799,6 +2818,10 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   float:right;
   margin-top:8px;
 }
+#contenu_etape .warning {
+  background:orange;
+  color:white;
+}
 #contrats_similaires_list .statut {
   -webkit-border-radius:50%;
   -moz-border-radius:50%;
@@ -3768,7 +3791,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   padding-top:5px;
   font-weight:bold;
 }
-.drm #principal fieldset { margin-top:25px; }
+.drm #principal fieldset { margin:25px 0; }
 .drm #principal fieldset#historique_drm nav {
   position:relative;
   bottom:-1px;

@@ -24,7 +24,7 @@ class Societe extends BaseSociete {
 
     public function addNewContact() {
         $compte = CompteClient::getInstance()->createCompte($this);
-        $this->addCompte($compte,count(($this->contacts) + 1));
+        $compte->save(true);
         return $compte;
     }
 
