@@ -52,7 +52,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'domaine' => 'Nom du domaine',
             'label' => 'label',
             'bouteilles_quantite' => 'Quantité',
-            'raisin_quantite' => 'Nombre de raisins',
+            'raisin_quantite' => 'Quantité de raisins',
             'jus_quantite' => 'Volume proposé',
             'bouteilles_contenance_libelle' => 'Contenance',
             'prix_unitaire' => 'Prix'
