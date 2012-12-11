@@ -48,7 +48,7 @@ if(!isset($campagne)) $campagne = dateCampagneViticolePresent();
         </section>
         <aside id="colonne">
             <?php include_partial('actions'); ?>
-            <?php include_partial('contrat_campagne',array('vracs' => $vracs, 'visualisation' => false,'campagne' => $campagne)); ?>
+  <?php include_partial('contrat_campagne',array('vracs' => $vracs, 'visualisation' => false,'campagne' => $campagne, 'identifiant' => $identifiant)); ?>
         </aside>
     </div>
 </div>

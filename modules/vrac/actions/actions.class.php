@@ -33,11 +33,11 @@ class vracActions extends sfActions
   
   public function executeRecherche(sfWebRequest $request) 
   { 
-      $this->recherche = $this->getVracsFromRecherche($request, true);
+    $this->recherche = $this->getVracsFromRecherche($request, true);
       $this->form = new VracRechercheForm();
   }
    
-  private function getVracsFromRecherche($request, $limited)
+  private function getVracsFromRecherche($request, $limited = true)
   {
       $this->isType = isset($request['type']);
       $this->isStatut = isset($request['statut']);
@@ -52,13 +52,15 @@ class vracActions extends sfActions
       $this->actifs['type'] = '';
       $this->actifs['statut'] = '';
       
+      $this->campagne = $request->getParameter('campagne', ConfigurationClient::getInstance()->getCurrentCampagne());
+
       if($this->isType && $this->isStatut)
       {
           $this->statut = $request['statut'];
           $this->type = $request['type'];
           $this->vracs = ($limited)? 
-                            VracClient::getInstance()->retrieveBySoussigneStatutAndType($soussigneId,$this->statut,$this->type)
-                            : VracClient::getInstance()->retrieveBySoussigneStatutAndType($soussigneId,$this->statut,$this->type,false);
+	    VracClient::getInstance()->retrieveBySoussigneStatutAndType($soussigneId, $this->campagne, $this->statut,$this->type)
+	    : VracClient::getInstance()->retrieveBySoussigneStatutAndType($soussigneId, $this->campagne, $this->statut,$this->type,false);
           $this->actifs['statut'] = $request['statut'];
           $this->actifs['type'] = $request['type'];     
           $this->multiCritereStatut = true;
@@ -68,8 +70,8 @@ class vracActions extends sfActions
       {
           $this->statut = $request['statut'];
           $this->vracs = ($limited)? 
-                            VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId,$request['statut'])
-                            : VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId,$request['statut'],false);
+	    VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId, $this->campagne, $request['statut'])
+	    : VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId,$this->campagne, $request['statut'],false);
           $this->actifs['statut'] = $request['statut'];
           $this->multiCritereType = true;
       }
@@ -77,16 +79,16 @@ class vracActions extends sfActions
       {
           $this->type = $request['type'];
           $this->vracs = ($limited)? 
-                            VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId,$request['type'])
-                            : VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId,$request['type'],false);
+	    VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId, $this->campagne, $request['type'])
+	    : VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId, $this->campagne, $request['type'],false);
           $this->actifs['type'] = $request['type'];
           $this->multiCritereStatut = true;
       }
       else
       {          
           $this->vracs = ($limited)? 
-                            VracClient::getInstance()->retrieveBySoussigne($soussigneId)
-                            : VracClient::getInstance()->retrieveBySoussigne($soussigneId,false);
+	    VracClient::getInstance()->retrieveBySoussigne($soussigneId, $this->campagne)
+	    : VracClient::getInstance()->retrieveBySoussigne($soussigneId, $this->campagne, false);
       }
             
       usort($this->vracs->rows, array("vracActions", "rechercheTriListOnID"));

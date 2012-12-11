@@ -1,7 +1,7 @@
 <?php
 use_helper('Vrac');
 if(isset($vrac)) $campagneDate = dateCampagneViticole($vrac->dateSignature);
-if(isset($vracs)) $campagneDates = array('2012/2013','2011/2012','2010/2011');
+if(isset($vracs)) $campagneDates = VracClient::getInstance()->getCampagneByIdentifiant($identifiant);
 
 ?>
 <div id="campagne_viticole" class="bloc_col">
