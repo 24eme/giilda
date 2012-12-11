@@ -244,7 +244,7 @@ class Vrac extends BaseVrac {
                         ($this->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS));
         if(!$isRaisinMout) return false;
         $nego = EtablissementClient::getInstance()->findByIdentifiant($this->acheteur_identifiant);
-        return $nego->isInterLoire();
+        return !$nego->isInterLoire();
     }
 
     protected function preSave() {
