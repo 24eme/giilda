@@ -20,7 +20,7 @@
         ?>
         <tr class="<?php echo $statusColor; ?>" >
               <td class="type" ><span class="type_<?php echo $elt[VracClient::VRAC_VIEW_TYPEPRODUIT]; ?>"><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT])? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></span></td>
-	      <td id="num_contrat"><?php echo link_to(VracClient::getInstance()->getLibelleFromId($vracid, '&nbsp;'), '@vrac_visualisation?numero_contrat='.$vracid); ?></td>
+	      <td id="num_contrat"><?php echo link_to($elt[VracClient::VRAC_VIEW_NUMARCHIVE], '@vrac_visualisation?numero_contrat='.$vracid); ?></td>
 
               <td>
                   <ul>  

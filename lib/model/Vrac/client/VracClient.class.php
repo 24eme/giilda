@@ -6,16 +6,17 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_STATUT = 1;
     const VRAC_VIEW_ID = 2;
     const VRAC_VIEW_NUMCONTRAT = 3;
-    const VRAC_VIEW_ACHETEUR_ID = 4;
-    const VRAC_VIEW_ACHETEUR_NOM = 5;
-    const VRAC_VIEW_VENDEUR_ID = 6;
-    const VRAC_VIEW_VENDEUR_NOM = 7;
-    const VRAC_VIEW_MANDATAIRE_ID = 8;
-    const VRAC_VIEW_MANDATAIRE_NOM = 9;    
-    const VRAC_VIEW_TYPEPRODUIT = 10;
-    const VRAC_VIEW_PRODUIT_ID = 11;
-    const VRAC_VIEW_VOLPROP = 12;
-    const VRAC_VIEW_VOLENLEVE = 13;
+    const VRAC_VIEW_NUMARCHIVE = 4;
+    const VRAC_VIEW_ACHETEUR_ID = 5;
+    const VRAC_VIEW_ACHETEUR_NOM = 6;
+    const VRAC_VIEW_VENDEUR_ID = 7;
+    const VRAC_VIEW_VENDEUR_NOM = 8;
+    const VRAC_VIEW_MANDATAIRE_ID = 9;
+    const VRAC_VIEW_MANDATAIRE_NOM = 10;    
+    const VRAC_VIEW_TYPEPRODUIT = 11;
+    const VRAC_VIEW_PRODUIT_ID = 12;
+    const VRAC_VIEW_VOLPROP = 13;
+    const VRAC_VIEW_VOLENLEVE = 14;
 
     const VRAC_SIMILAIRE_KEY_VENDEURID = 0;   
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
@@ -102,10 +103,12 @@ class VracClient extends acCouchdbClient {
       return $this->descending(true)->limit($limit)->getView('vrac', 'history');
     }
     
-    public function retrieveBySoussigne($soussigneId,$limit=300) {
+    public function retrieveBySoussigne($soussigneId,$campagne,$limit=300) {
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-      $bySoussigneQuery = $this->startkey(array('STATUT',$soussigneId))
-              ->endkey(array('STATUT',$soussigneId, array()));
+      if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
+	throw new sfException("wrong campagne format ($campagne)");
+      $bySoussigneQuery = $this->startkey(array('STATUT',$soussigneId, $campagne))
+	->endkey(array('STATUT',$soussigneId, $campagne, array()));
       if ($limit){
             $bySoussigneQuery =  $bySoussigneQuery->limit($limit);
         }
@@ -114,59 +117,55 @@ class VracClient extends acCouchdbClient {
       return $bySoussigne;
     }
     
-    public function retrieveByType($type,$limit=300) {
+    public function retrieveByType($type,$campagne,$limit=300) {
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-      $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$type))
-              ->endkey(array('TYPE',$soussigneId,$type, array()));
+      if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
+	throw new sfException("wrong campagne format ($campagne)");
+      $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$campagne, $type))
+	->endkey(array('TYPE',$soussigneId,$campagne,$type, array()));
     
-    if ($limit){
-            $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
-        }
-    $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
-    return $bySoussigneType;
+      if ($limit){
+	$bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
+      }
+      $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+      return $bySoussigneType;
     }
     
-    public function retrieveBySoussigneAndStatut($soussigneId,$statut,$limit=300) {
+    public function retrieveBySoussigneAndStatut($soussigneId,$campagne,$statut,$limit=300) {
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-        $bySoussigneStatutQuery =  $this->startkey(array('STATUT',$soussigneId,$statut))
-                ->endkey(array('STATUT',$soussigneId,$statut, array()));
+      if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
+	throw new sfException("wrong campagne format ($campagne)");
+      $bySoussigneStatutQuery =  $this->startkey(array('STATUT',$soussigneId,$campagne,$statut))
+	->endkey(array('STATUT',$soussigneId,$campagne,$statut, array()));
 
-        if ($limit){
-            $bySoussigneStatutQuery =  $bySoussigneStatutQuery->limit($limit);
-        }
+      if ($limit){
+	$bySoussigneStatutQuery =  $bySoussigneStatutQuery->limit($limit);
+      }
       
-        $bySoussigneStatut = $bySoussigneStatutQuery->getView('vrac', 'soussigneidentifiant');
-        return $bySoussigneStatut;
+      $bySoussigneStatut = $bySoussigneStatutQuery->getView('vrac', 'soussigneidentifiant');
+      return $bySoussigneStatut;
     }
     
-    public function retrieveBySoussigneAndType($soussigneId,$type,$limit=300) {
+    public function retrieveBySoussigneAndType($soussigneId,$campagne,$type,$limit=300) {
+      if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
+	throw new sfException("wrong campagne format ($campagne)");
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-      $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$type))
-              ->endkey(array('TYPE',$soussigneId,$type, array()));
-    
-    if ($limit){
-            $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
-        }
-    $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
-    return $bySoussigneType;
+      $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$campagne,$type))
+	->endkey(array('TYPE',$soussigneId,$campagne,$type, array()));
+      
+      if ($limit){
+	$bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
+      }
+      $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+      return $bySoussigneType;
     }
     
-    public function retrieveBySoussigneTypeAndCampagne($soussigneId,$type, $campagne, $limit=300) {
+    public function retrieveBySoussigneStatutAndType($soussigneId,$campagne,$statut,$type,$limit=300) {
+      if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
+	throw new sfException("wrong campagne format ($campagne)");
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-      $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$type, $campagne))
-              ->endkey(array('TYPE',$soussigneId,$type, $campagne, array()));
-    
-    if ($limit){
-            $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
-        }
-    $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
-    return $bySoussigneType;
-    }
-        
-    public function retrieveBySoussigneStatutAndType($soussigneId,$statut,$type,$limit=300) {
-      $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-      $bySoussigneTypeQuery = $this->startkey(array('STATUT',$soussigneId,$statut,$type))
-                ->endkey(array('STATUT',$soussigneId,$statut,$type, array()));
+      $bySoussigneTypeQuery = $this->startkey(array('STATUT',$soussigneId,$campagne,$statut,$type))
+	->endkey(array('STATUT',$soussigneId,$campagne, $statut,$type, array()));
       
       if ($limit){
               $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
