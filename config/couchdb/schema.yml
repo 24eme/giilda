@@ -5,6 +5,7 @@ DRM:
       _id: {  }
       _rev: {  }
       type: {  }
+      region: {  }
       editeurs:
         type: array_collection
         definition:
