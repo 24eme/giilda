@@ -6,6 +6,7 @@ if(!$detail->hasContratVrac()) :
             <div class="drm_details_form_noItem">
                 <span>Il n'existe aucun contrat pour ce produit.</span>
             </div>
+            <a href="<?php echo url_for('drm_edition_detail', $detail); ?>" id="drm_vrac_details_annuler" class="btn_majeur btn_annuler drm_details_annuler">Abandonner</a>
 <?php
 else :
 ?>

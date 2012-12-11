@@ -6,7 +6,7 @@
                             include_partial('formContent',array('form' => $form, 'detail' => $detail));
                         ?>
                     </div>
-		<a href="<?php echo url_for('drm_edition_detail', $detail); ?>" id="drm_cooperative_details_annuler" class="btn_majeur btn_annuler drm_details_annuler">Annuler</a>
+		<a href="<?php echo url_for('drm_edition_detail', $detail); ?>" id="drm_cooperative_details_annuler" class="btn_majeur btn_annuler drm_details_annuler">Abandonner</a>
 		<button type="submit" class="btn_majeur btn_valider" >Valider</button>
 		</form>
                 <?php include_partial('templateItem', array('form' => $form->getFormTemplate(), 'detail' => $detail)); ?>
