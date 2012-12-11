@@ -60,7 +60,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     public function updateProduits() {
         $drm = $this->getLastDRM();
         if ($drm) {
-            $produits = $drm->getDetails();
+            $produits = $drm->getProduitsDetails();
 
             foreach ($produits as $produit) {
                 $produitDs = $this->declarations->add($produit->getHashForKey());
