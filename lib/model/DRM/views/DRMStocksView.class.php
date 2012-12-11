@@ -21,6 +21,25 @@ class DRMStocksView extends acCouchdbView
         return acCouchdbManager::getView('drm', 'stocks', 'DRM');
     }
 
+    public function getStockFin($campagne, Etablissement $etablissement, $hash_produit) {
+        $drms = $this->findByCampagneAndEtablissementAndProduit($campagne, null, $etablissement->identifiant, $hash_produit);
+        $stock_fin = 0;
+        foreach($drms as $drm) {
+            $stock_fin = $drm->volume_stock_fin_mois;
+        }
+
+        return $stock_fin;
+    }
+
+    public function findByCampagneAndEtablissementAndProduit($campagne, $societe_identifiant, $etablissement_identifiant, $hash_produit) {    
+
+        return $this->builds(
+                            $this->client->startkey(array($campagne, $societe_identifiant, $etablissement_identifiant, $hash_produit))
+                            ->endkey(array($campagne, $societe_identifiant, $etablissement_identifiant, $hash_produit, array()))
+                            ->getView($this->design, $this->view)->rows
+                            );
+    }
+
     public function findByCampagneAndEtablissement($campagne, $societe_identifiant, $etablissement_identifiant) {    
 
         return $this->builds(
