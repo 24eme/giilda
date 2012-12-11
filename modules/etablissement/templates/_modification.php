@@ -7,13 +7,6 @@
         echo $etablissementForm->renderGlobalErrors();
         ?>
         <div class="form_ligne">
-            <?php echo $etablissementForm['famille']->renderError(); ?>
-            <label for="famille">
-                <?php echo $etablissementForm['famille']->renderLabel(); ?>
-            </label>
-            <?php echo $etablissementForm['famille']->render(); ?>
-        </div>
-        <div class="form_ligne">
             <label for="nom">
             <?php echo $etablissementForm['nom']->renderLabel(); ?>
             <?php echo $etablissementForm['nom']->render(); ?>

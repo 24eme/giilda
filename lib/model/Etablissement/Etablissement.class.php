@@ -48,8 +48,7 @@ class Etablissement extends BaseEtablissement {
     public function getContact() {
         if ($this->compte)
             return CompteClient::getInstance()->find($this->compte);
-        $societe = SocieteClient::getInstance()->find($this->id_societe);
-        return CompteClient::getInstance()->find($societe->id_compte_societe);
+        return CompteClient::getInstance()->find(SocieteClient::getInstance()->find($this->id_societe)->compte_societe);
     }
 
     public function contactIsSocieteContact() {
@@ -103,16 +102,9 @@ class Etablissement extends BaseEtablissement {
         return EtablissementFamilles::getDroitsByFamilleAndSousFamille($this->famille, $this->sous_famille);
     }
 
-//    public function setSiege()
-//    {
-//        if (!$this->siege) {
-//            
-//        }
-//        
-//    }
-
-
     public function save() {
+        
+        
         if ($this->recette_locale->id_douane) {
 		$soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
 		if ($soc) {
@@ -125,6 +117,7 @@ class Etablissement extends BaseEtablissement {
         if (!$this->sous_famille) {
             $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
         }
+        
         parent::save();
 
 	$soc = SocieteClient::getInstance()->find($this->id_societe);

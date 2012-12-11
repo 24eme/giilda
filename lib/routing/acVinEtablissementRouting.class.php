@@ -14,28 +14,32 @@ class acVinEtablissementRouting {
         $r->prependRoute('etablissement_autocomplete_all', new sfRoute('/etablissement/autocomplete/:interpro_id/tous',
                         array('module' => 'etablissement_autocomplete',
                             'action' => 'all')));
-        															   
-		
-		$r->prependRoute('etablissement_autocomplete_byfamilles', new sfRoute('/etablissement/autocomplete/:interpro_id/familles/:familles', 
-        															   array('module' => 'etablissement_autocomplete', 
-                                                                             'action' => 'byFamilles')));
-                
-                $r->prependRoute('etablissement_modification', new EtablissementRoute('/etablissement/:identifiant/modification',
+
+
+        $r->prependRoute('etablissement_autocomplete_byfamilles', new sfRoute('/etablissement/autocomplete/:interpro_id/familles/:familles',
+                        array('module' => 'etablissement_autocomplete',
+                            'action' => 'byFamilles')));
+
+        $r->prependRoute('etablissement_modification', new EtablissementRoute('/etablissement/:identifiant/modification',
                         array('module' => 'etablissement',
                             'action' => 'modification'),
                         array('sf_method' => array('get', 'post')),
-                    array('model' => 'Etablissement',
-                        'type' => 'object') ));
-                
-                $r->prependRoute('etablissement_new', new EtablissementRoute('/etablissement/:identifiant/nouveau',
+                        array('model' => 'Etablissement',
+                            'type' => 'object')));
+
+        $r->prependRoute('etablissement_new', new EtablissementRoute('/etablissement/:identifiant/modification',
                         array('module' => 'etablissement',
                             'action' => 'nouveau'),
                         array('sf_method' => array('get', 'post')),
-                    array('model' => 'Etablissement',
-                        'type' => 'object') ));
-                
-                
-
+                        array('model' => 'Etablissement',
+                            'type' => 'object')));
+        $r->prependRoute('etablissement_visualisation', new EtablissementRoute('/etablissement/:identifiant/visualisation',
+                        array('module' => 'etablissement',
+                            'action' => 'visualisation'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Etablissement',
+                            'type' => 'object')));
+        
     }
 
 }
