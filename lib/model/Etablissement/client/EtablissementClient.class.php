@@ -189,10 +189,16 @@ class EtablissementClient extends acCouchdbClient {
         return array(self::RECETTE_LOCALE => self::RECETTE_LOCALE);
     }
     
-    public static function getRegions() {
+    public static function getRegionsWithoutHorsInterLoire() {
         return array(self::REGION_TOURS => self::REGION_TOURS,
             self::REGION_ANGERS => self::REGION_ANGERS,
-            self::REGION_NANTES => self::REGION_NANTES);
+            self::REGION_NANTES => self::REGION_NANTES);        
+    }
+
+
+    public static function getRegions() {
+        return array_merge(self::getRegionsWithoutHorsInterLoire(),
+                array(self::REGION_HORSINTERLOIRE => self::REGION_HORSINTERLOIRE));
     }
 
     public static function getTypeDR() {
