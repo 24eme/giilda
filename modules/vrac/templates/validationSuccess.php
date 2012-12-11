@@ -21,30 +21,24 @@ use_helper('Vrac');
             <?php include_partial('headerVrac', array('vrac' => $vrac, 'actif' => 4)); ?>        
             <div id="contenu_etape"> 
                 <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation', $vrac) ?>">
-                    <?php if ($isVolumeOrPrixMissing || $raisinMoutNegoHorsIL) : ?>
-                        <div id="titre">
-                            <span class="style_label">Ce contrat ne peut pas être validé.</span>
+                    <?php foreach($validation->getErrors() as $message): ?>
+                        <div lass="error">
+                            <span><?php echo $message ?></span>
                         </div>
-                    <?php endif; ?>
-                    <?php if ($isVolumeOrPrixMissing) : ?>
-                        <div id="titre">
-                            <span>Le volume ou le prix du contrat est manquant.</span>
+                    <?php endforeach; ?>
+
+                    <?php foreach($validation->getWarnings() as $message): ?>
+                        <div class="warning">
+                            <span><?php echo $message ?></span>
                         </div>
-                    <?php endif; ?>
-                    <?php if ($raisinMoutNegoHorsIL) : ?>
-                        <div id="titre">
-                            <span>Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de <?php echo showType($vrac); ?>.</span>
-                        </div>
-                    <?php endif; ?>
-                     <?php if (!$isVolumeOrPrixMissing && !$raisinMoutNegoHorsIL) : ?>
+                    <?php endforeach; ?>     
                     <div id="titre"><span class="style_label">Récapitulatif de la saisie</span></div>
-                    <?php endif; ?>
 
                     <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
 
                     <div class="btn_etape">
                         <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
-                        <?php if (!$isVolumeOrPrixMissing && !$raisinMoutNegoHorsIL) : ?>
+                        <?php if (!$validation->isValid()) : ?>
                             <a id="btn_validation" class="btn_validation"><span>Terminer la saisie</span></a>  
                         <?php endif; ?>
                     </div> 

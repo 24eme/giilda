@@ -7,6 +7,7 @@
  * Derniere date de modification : 28-05-12
  */
 use_helper('Vrac');
+use_helper('Float');
 $hasDomaine = is_null($vrac->domaine);
 ?>
 <div class="bloc_form">
@@ -68,6 +69,9 @@ $hasDomaine = is_null($vrac->domaine);
             <?php
             echo showRecapVolumePropose($vrac); 
             ?>
+            <?php if($vrac->isVin()): ?>
+            (stock commercialisable <?php echoFloat($vrac->getStockCommercialisable()) ?> hl)
+            <?php endif; ?>
             </span>
     </div>
     <?php 
