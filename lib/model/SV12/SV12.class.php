@@ -218,6 +218,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     protected function preSave() {
         $this->archivage_document->preSave();
+	$this->region = $this->getEtablissementObject()->region;
     }
     
     public function __toString()
