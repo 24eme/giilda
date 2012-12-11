@@ -3678,6 +3678,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
 #declaratif_info .error_daa { float:left; }
 #declaratif_info #organisme { display:none; }
 #btn_etape_dr { margin-top:10px; }
+#btn_etape_dr .btn_brouillon { margin-left:235px; }
 #btn_etape_dr .btn_etape_suiv { float:right; }
 .inactif { visibility:hidden; }
 #saving_notification, #error_notification { z-index:999; }
