@@ -5,6 +5,22 @@
  */
 
 class Vrac extends BaseVrac {
+
+    protected $archivage_document = null;
+
+    public function  __construct() {
+        parent::__construct();   
+        $this->initDocuments();
+    }
+
+    public function __clone() {
+        parent::__clone();
+        $this->initDocuments();
+    }   
+
+    protected function initDocuments() {
+        $this->archivage_document = new ArchivageDocument($this);
+    }
     
     public function constructId() {
         $this->set('_id', 'VRAC-'.$this->numero_contrat);
@@ -13,14 +29,18 @@ class Vrac extends BaseVrac {
             $this->date_signature = date('d/m/Y');
         }
         
-        if(!$this->date_stats) {
-            $this->date_stats = date('d/m/Y');
+        if(!$this->date_campagne) {
+            $this->date_campagne = date('d/m/Y');
         }
-    }   
+    }
+
+    public function getCampagne() {
+
+        return $this->_get('campagne');
+    } 
 
     public function setNumeroContrat($value) {
         $this->_set('numero_contrat', $value);
-        $this->campagne = VracClient::getInstance()->buildCampagne($this->numero_contrat);
     }
 
     public function setProduit($value) {
@@ -107,14 +127,14 @@ class Vrac extends BaseVrac {
 
     public function setDate($attribut, $d) {
         if (preg_match('/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/', $d, $m)) {
-	          $d = $m[3].'-'.$m[2].'-'.$m[1];
+              $d = $m[3].'-'.$m[2].'-'.$m[1];
         }
         return $this->_set($attribut, $d);
     }
     public function getDate($attribut, $format) {
         $d = $this->_get($attribut);
         if (!$format)
-	          return $d;
+              return $d;
         $date = new DateTime($d);
         return $date->format($format);
     }
@@ -124,11 +144,14 @@ class Vrac extends BaseVrac {
     public function getDateSignature($format = 'd/m/Y') {
         return $this->getDate('date_signature', $format);
     }
-    public function setDateStats($d) {
-        return $this->setDate('date_stats', $d);
+ 
+    public function setDateCampagne($d) {
+        $this->setDate('date_campagne', $d);
+        $this->campagne = VracClient::getInstance()->buildCampagne($this->getDateCampagne('Y-m-d'));
     }
-    public function getDateStats($format = 'd/m/Y') {
-        return $this->getDate('date_stats', $format);
+    
+    public function getDateCampagne($format = 'd/m/Y') {
+        return $this->getDate('date_campagne', $format);
     }
 
     public function getPeriode() {
@@ -202,9 +225,32 @@ class Vrac extends BaseVrac {
     public function desolder() {
         $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
     }
+
+    public function isValidee() {
+        
+        return in_array($this->valide->statut, array(VracClient::STATUS_CONTRAT_SOLDE,  VracClient::STATUS_CONTRAT_NONSOLDE));
+    }
     
     public function prixDefinitifExist() {
         return ($this->prix_variable) && ($this->part_variable != null);
     }
+
+    protected function preSave() {
+        $this->archivage_document->preSave();
+    }
+
+    /*** ARCHIVAGE ***/
+
+    public function getNumeroArchive() {
+
+        return $this->_get('numero_archive');
+    }
+
+    public function isArchivageCanBeSet() {
+
+        return $this->isValidee();
+    }
+    
+    /*** FIN ARCHIVAGE ***/
 
 }
