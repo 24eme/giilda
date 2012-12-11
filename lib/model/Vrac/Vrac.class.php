@@ -197,7 +197,9 @@ class Vrac extends BaseVrac {
 
     public function __toString() {
 
-        return sprintf("%s", VracClient::getInstance()->getLibelleFromId($this->get('_id')));
+      if ($this->exist("numero_archive") && $this->numero_archive)
+        return sprintf("%05d", $this->numero_archive);
+      return $this->numero_contrat;
     }
     
     public function enleverVolume($vol)
