@@ -80,26 +80,35 @@ class drmActions extends sfActions {
       }
     }
 
+    private function formCampagne(sfWebRequest $request, $route) {
+      $this->etablissement = $this->getRoute()->getEtablissement();
+      
+      $this->campagne = $request->getParameter('campagne');
+      if (!$this->campagne) {
+	$this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+      }
+      
+      $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+      if ($request->isMethod(sfWebRequest::POST)) {
+	$param = $request->getParameter($this->formCampagne->getName());
+	if ($param) {
+	  $this->formCampagne->bind($param);
+	  return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $this->formCampagne->getValue('campagne')));
+	}
+      }
+    }
+
     /**
      * Executes mon espace action
      *
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
-
-        $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->campagne = $request->getParameter('campagne');
-        if (!$this->campagne) {
-            $this->campagne = '2012-2013';
-        }
+      return $this->formCampagne($request, 'drm_etablissement');
     }
 
     public function executeStocks(sfWebRequest $request) {
-        $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->campagne = $request->getParameter('campagne');
-        if (!$this->campagne) {
-            $this->campagne = '2012-2013';
-        }
+      return $this->formCampagne($request, 'drm_etablissement_stocks');
     }
 
     /**

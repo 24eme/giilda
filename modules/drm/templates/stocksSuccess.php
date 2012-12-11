@@ -12,11 +12,11 @@
                 <legend>Historique des DRMs de l'opérateur</legend>
                 <nav>
                     <ul>
-                        <li><a href="<?php echo url_for('drm_etablissement', $etablissement) ?>">Vue calendaire</a></li>
+                        <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->getIdentifiant(), 'campagne' => $campagne)); ?>">Vue calendaire</a></li>
                         <li class="actif"><span>Vue stock</span></li>
                     </ul>
                 </nav>
-                <?php include_component('drm', 'stocks', array('etablissement' => $etablissement, 'campagne' => $campagne)) ?>
+	        <?php include_component('drm', 'stocks', array('etablissement' => $etablissement, 'campagne' => $campagne, 'formCampagne' => $formCampagne)); ?>
             </fieldset>
 
             <?php //include_partial('drm/calendrier', array('calendrier' => $calendrier)); ?>

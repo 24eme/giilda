@@ -2,10 +2,11 @@
 <?php use_helper('Date') ?>
 
 <div class="section_label_maj" id="calendrier_drm">
-    <label for="">Campagne Viticole</label>
-    <select name="" id="">
-        <option value=""><?php echo $campagne ?></option>
-    </select>
+   <form method="POST">
+   <?php echo $formCampagne->renderGlobalErrors() ?>
+   <?php echo $formCampagne->renderHiddenFields() ?>
+   <?php echo $formCampagne; ?> <input class="btn_majeur btn_vert" type="submit" value="changer"/>
+   </form>
     <table class="table_recap">
         <thead>
             <tr>

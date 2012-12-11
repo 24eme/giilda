@@ -155,6 +155,22 @@ class DRMClient extends acCouchdbClient {
         return $this->createDocByPeriode($identifiant, $periode);
     }
 
+    public function listCampagneByEtablissementId($identifiant) {
+      $rows = acCouchdbManager::getClient()
+	->group_level(2)
+	->startkey(array($identifiant))
+	->endkey(array($identifiant, array()))
+	->getView("drm", "all")
+	->rows;
+      $current = ConfigurationClient::getInstance()->getCurrentCampagne();
+      $list = array($current => $current);
+      foreach($rows as $r) {
+	$c = $r->key[1];
+	$list[$c] = $c;
+      }
+      return $list;
+    }
+
     public function findByInterproDate($interpro, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         $drm = array();
         foreach ($this->viewByInterproDate($interpro, $date) as $id => $key) {
