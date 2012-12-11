@@ -35,19 +35,11 @@ class DRMDetailVracItemForm extends acCouchdbObjectForm {
     }
     
     public function getDetail() {
-        
         return $this->getObject()->getDetail();
     }
 
     public function getContrats() {
-
-        return array_merge(
-                array("", ""),
-                DRMClient::getInstance()->getContratsFromProduit($this->getObject()->getDocument()->identifiant, 
-                                                                $this->getObject()->getDetail()->getCepage()->getHash(),  VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE),
-                DRMClient::getInstance()->getContratsFromProduit($this->getObject()->getDocument()->identifiant, 
-                                                                $this->getObject()->getDetail()->getCepage()->getHash(),  VracClient::TYPE_TRANSACTION_VIN_VRAC)
-                );
+      return array_merge(array("", ""), $this->getDetail()->getContratsVrac());
     }
     
     public function getDefaultDate() {

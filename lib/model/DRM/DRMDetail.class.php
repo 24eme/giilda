@@ -186,21 +186,13 @@ class DRMDetail extends BaseDRMDetail {
   }
 
   public function hasContratVrac() {
-      $etablissement = $this->getDocument()->identifiant;
-      $produit = $this->getCepage()->getHash();
-      if(substr($produit, 0, 1) == "/") {
-          $produit = substr($produit, 1);
-      }
-      $rows = acCouchdbManager::getClient()
-          ->startkey(array(VracClient::STATUS_CONTRAT_NONSOLDE, $etablissement, $produit))
-            ->endkey(array(VracClient::STATUS_CONTRAT_NONSOLDE, $etablissement, $produit, array()))
-            ->getView("vrac", "contratsFromProduit")->rows;
+    $rows = $this->getContratsVrac();
     return count($rows);
   }
   
   public function getContratsVrac() {
-  	  $etablissement = $this->getDocument()->identifiant;
-  	  return VracClient::getInstance()->retrieveFromEtablissementsAndHash($etablissement, $this->getHash());
+    return DRMClient::getInstance()->getContratsFromProduit($this->getDocument()->identifiant, 
+							    $this->getCepage()->getHash(), array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE, VracClient::TYPE_TRANSACTION_VIN_VRAC));
   }
 
   public function isModifiedMother($key) {
