@@ -92,8 +92,8 @@ class revendicationActions extends sfActions {
 
     public function executeEdition(sfWebRequest $request) {
         set_time_limit(0);
-        $this->revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndODG('20122013', 'tours');
         $this->revendication = $this->getRoute()->getRevendication();
+        $this->revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndODG($this->revendication->campagne, $this->revendication->odg);
         //$this->form = new EditionRevendicationForm($this->revendication);
     }
     

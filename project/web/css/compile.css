@@ -3768,7 +3768,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   padding-top:5px;
   font-weight:bold;
 }
-.drm #principal fieldset { margin-top:25px; }
+.drm #principal fieldset { margin:25px 0; }
 .drm #principal fieldset#historique_drm nav {
   position:relative;
   bottom:-1px;

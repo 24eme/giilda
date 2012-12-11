@@ -48,6 +48,6 @@ class RevendicationRoute extends sfObjectRoute  {
     }
 
     public function getOdgs() {
-        return array('tours');
+        return EtablissementClient::getRegionsWithoutHorsInterLoire();
     }
 }
