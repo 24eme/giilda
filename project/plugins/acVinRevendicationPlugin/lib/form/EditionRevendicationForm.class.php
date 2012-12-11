@@ -19,7 +19,7 @@ class EditionRevendicationForm extends acCouchdbForm {
         $this->row = $row;        
         $volumeProduitObj = $this->getVolumeProduitObj($this->revendication, $this->identifiant,$this->row);
         $this->code_douane = $volumeProduitObj->produit->key;
-        $this->produit_hash = substr($volumeProduitObj->produit->produit_hash, 1, strlen($volumeProduitObj->produit->produit_hash));
+        $this->produit_hash = $volumeProduitObj->produit->produit_hash;
         $this->volume = sprintf("%01.02f", round($volumeProduitObj->volume->volume, 2));
         $this->num_ligne = $volumeProduitObj->volume->num_ligne;
         $defaults['produit_hash'] = $this->produit_hash;

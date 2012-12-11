@@ -48,12 +48,16 @@ echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
                           'identifiant' => $identifiant,
                           'row' => $row));
                       ?>" class="btn_majeur btn_annuler">Supprimer</a>
-                    
+                    <?php if ($etablissement && $retour == 'etablissement'): ?>
+                    <a href="<?php
+                      echo url_for('revendication_etablissement', $etablissement);
+                      ?>" class="btn_majeur btn_modifier">Annuler</a>&nbsp;
+                    <?php else: ?>
                     <a href="<?php
                       echo url_for('revendication_edition', array('odg' => $revendication->odg,
                           'campagne' => $revendication->campagne));
                       ?>" class="btn_majeur btn_modifier">Annuler</a>&nbsp;
-
+                    <?php endif; ?>
 
                       <button type="submit" class="btn_majeur btn_valider">Modifier</button>
                 </div>

@@ -4,7 +4,7 @@
         <p id="fil_ariane"><strong><?php echo link_to("Page d'accueil",'revendication'); ?></strong></p>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-            <?php include_component('revendication', 'chooseEtablissement'); ?>
+            <?php include_component('revendication', 'chooseEtablissement', array('form' => $formEtablissement)); ?>
 
             <h2>Créer une revendication</h2>
             <div id="revendication_create_revendication">

@@ -2,11 +2,13 @@
 class revendicationActions extends sfActions {
   
     public function executeIndex(sfWebRequest $request) {
-        $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
+        if(!isset($this->formEtablissement)) {
+            $this->formEtablissement = null;
+        }
         $this->form = new CreateRevendicationForm();
         $this->historiqueImport = RevendicationClient::getInstance()->getHistory();
         
-        if ($request->isMethod(sfWebRequest::POST)) {
+        if ($request->isMethod(sfWebRequest::POST) && is_null($this->formEtablissement)) {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             if ($this->form->isValid()) {
                     $revendication = RevendicationClient::getInstance()->createOrFind($this->form->getValue('odg'), $this->form->getValue('campagne'));
@@ -15,25 +17,27 @@ class revendicationActions extends sfActions {
                     return $this->redirect('revendication_upload', $revendication);
             }
         }
+
+        $this->setTemplate('index');
     }
     
     public function executeMonEspace(sfWebRequest $request) {
         $this->revendication_etablissement = null;
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $revendication = RevendicationClient::getInstance()->find('REVENDICATION-TOURS-20122013');
-        if($revendication && $revendication->getDatas()->exist($this->etablissement->cvi))
-            $this->revendication_etablissement = $revendication->getDatas()->get($this->etablissement->cvi);
+        $this->revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndEtablissement('20122013', $this->etablissement);
     }
     
     public function executeChooseEtablissement(sfWebRequest $request) {
-      $this->initIndex();      
-      if ($request->isMethod(sfWebRequest::POST)) {
-	 $this->formEtablissement->bind($request->getParameter($this->formEtablissement->getName()));
-	 if ($this->formEtablissement->isValid()) {
-	   return $this->redirect('revendication_etablissement', $this->formEtablissement->getEtablissement());
-	 }
+        $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
+        if ($request->isMethod(sfWebRequest::POST)) {
+	        $this->formEtablissement->bind($request->getParameter($this->formEtablissement->getName()));
+	        if ($this->formEtablissement->isValid()) {
+	           
+               return $this->redirect('revendication_etablissement', $this->formEtablissement->getEtablissement());
+	        }
        }
-       $this->setTemplate('revendication_upload');
+
+       $this->executeIndex($request);
     }
 
     public function executeUpload(sfWebRequest $request) {
@@ -100,7 +104,7 @@ class revendicationActions extends sfActions {
         $this->row = $request->getParameter('row');
         $this->rev = $this->revendication->datas->{$this->identifiant};
         $this->retour = $request->getParameter('retour');
-        $etablissement = EtablissementClient::getInstance()->find($this->identifiant);
+        $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
         $this->form = new EditionRevendicationForm($this->revendication, $this->identifiant, $this->rev, $this->row);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));

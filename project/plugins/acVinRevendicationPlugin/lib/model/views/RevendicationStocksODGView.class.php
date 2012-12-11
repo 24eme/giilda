@@ -35,13 +35,13 @@ class RevendicationStocksODGView extends acCouchdbView
         return $this->findByCampagneAndSocieteAndEtablissement($campagne, $etablissement->id_societe, $etablissement->identifiant);
     }
 
-    public function findByCampagneAndSocieteAndEtablissement($campagne, $societe_identifiant, $etablissement) {    
+    public function findByCampagneAndSocieteAndEtablissement($campagne, $societe, $etablissement) {    
         $revs = array();
 
         foreach($this->client->getODGs() as $odg => $odg_libelle) {
             $revs = array_merge($revs, $this->builds(
-                            $this->client->startkey(array($campagne, $odg, $societe, $etablissement))
-                                         ->endkey(array($campagne, $odg, $societe, $etablissement, array()))
+                            $this->client->startkey(array($campagne, $odg, null, $etablissement))
+                                         ->endkey(array($campagne, $odg, null, $etablissement, array()))
                                          ->getView($this->design, $this->view)->rows
                             ));
         }
