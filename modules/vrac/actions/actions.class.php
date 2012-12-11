@@ -227,19 +227,18 @@ class vracActions extends sfActions
   {
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
-      
-      $this->isVolumeOrPrixMissing = $this->vrac->isVolumeOrPrixMissing();
-      
-      $this->raisinMoutNegoHorsIL = $this->vrac->isRaisinMoutNegoHorsIL();
 
       $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
       $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($this->vrac);
       VracClient::getInstance()->filterSimilaryContracts($this->vrac,$this->vracs);
       
       $this->contratsSimilairesExist = (isset($this->vracs) && ($this->vracs!=false) && count($this->vracs->rows)>0);
-        if ($request->isMethod(sfWebRequest::POST)) 
-        {
-            if((!$this->vrac->isVolumeOrPrixMissing()) && (!$this->vrac->isRaisinMoutNegoHorsIL())){
+
+      $this->validation = new VracValidation($this->vrac);
+      
+      if ($request->isMethod(sfWebRequest::POST)) 
+      {
+            if($this->validation->isValid()){
                 $this->maj_etape(4);
                 $this->maj_valide(null,null,VracClient::STATUS_CONTRAT_NONSOLDE);
                 $this->vrac->save();

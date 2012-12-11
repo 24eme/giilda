@@ -47,7 +47,6 @@ class VracClient extends acCouchdbClient {
     const STATUS_CONTRAT_ANNULE = 'ANNULE';
     const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
     
-    
     public static $contenance = array('75 cl' => 0.0075,
                                    '1 L' => 0.01,
                                      '1.5 L'=> 0.015,
@@ -56,7 +55,7 @@ class VracClient extends acCouchdbClient {
                                     '6 L' => 0.06);
 
     
-    
+    public static $types_transaction_vins = array(self::TYPE_TRANSACTION_VIN_VRAC, self::TYPE_TRANSACTION_VIN_BOUTEILLE);
 
     /**
      *

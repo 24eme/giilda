@@ -236,10 +236,6 @@ class Vrac extends BaseVrac {
     public function prixDefinitifExist() {
         return ($this->prix_variable) && ($this->part_variable != null);
     }
-    
-    public function isVolumeOrPrixMissing() {
-        return ((is_null($this->prix_unitaire)) || (is_null($this->volume_propose)));
-    }
 
     public function isRaisinMoutNegoHorsIL() {
         $isRaisinMout = (($this->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) || 
@@ -266,5 +262,21 @@ class Vrac extends BaseVrac {
     }
     
     /*** FIN ARCHIVAGE ***/
+
+    public function isVin() {
+
+        return in_array($this->type_transaction, VracClient::$types_transaction_vins);
+    }
+
+    public function getStockCommercialisable() {
+        if (!$this->isVin()) {
+            return null;
+        }
+        
+        $stock = DRMStocksView::getInstance()->getStockFin($this->campagne, $this->getVendeurObject(), $this->produit);
+        $volume_restant = VracStocksView::getInstance()->getVolumeRestantVin($this->campagne, $this->getVendeurObject(), $this->produit);
+
+        return $stock - $volume_restant;
+    }
 
 }

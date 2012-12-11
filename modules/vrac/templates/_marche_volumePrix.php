@@ -55,7 +55,6 @@ function getBouteilleContenance($value) {
     </div>
 </div>
 
-
 <!--  Affichage du prix unitaire variables selon le type de transaction choisi -->
 <div id="prixUnitaire" class="section_label_maj">
     <?php echo $form['prix_unitaire']->renderLabel() ?>
