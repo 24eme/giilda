@@ -2,10 +2,6 @@
 
 class FactureGenerationMasseForm extends FactureGenerationForm {
 
-    private $regions = array('angers' => 'Angers',
-        'nantes' => 'Nantes',
-        'tours' => 'Tours');
-
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults['date_facturation'] = date('d/m/Y');
         parent::__construct($defaults, $options, $CSRFSecret);
@@ -35,7 +31,7 @@ class FactureGenerationMasseForm extends FactureGenerationForm {
     }
 
     public function getRegions() {
-        return $this->regions;
+        return EtablissementClient::getRegionsWithoutHorsInterLoire();
     }
 
 }
