@@ -51,7 +51,7 @@ class CompteModificationForm extends acCouchdbObjectForm {
         $this->setValidator('cedex', new sfValidatorString(array('required' => false)));
         $this->setValidator('pays', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCountryList()))));
         $this->setValidator('email', new sfValidatorString(array('required' => false)));
-        $this->setValidator('telephone_bureau', new sfValidatorString(array('required' => true)));
+        $this->setValidator('telephone_bureau', new sfValidatorString(array('required' => false)));
         $this->setValidator('telephone_mobile', new sfValidatorString(array('required' => false)));
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
         //  $this->setValidator('tags', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getAllTags()))));
