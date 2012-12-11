@@ -223,7 +223,7 @@ var init_ajax_nouveau = function()
     ajaxifyAutocompleteGet('getInfos','#acheteur_choice','#acheteur_informations');
     ajaxifyAutocompleteGet('getInfos','#mandataire_choice','#mandataire_informations');
     $('#has_mandataire input').attr('checked', 'checked');
-    $('#vrac_mandatant_vendeur').attr('checked','checked');
+    $('#vrac_mandatant_acheteur').attr('checked','checked');
     
     majAutocompleteInteractions('vendeur');
     majAutocompleteInteractions('acheteur');
