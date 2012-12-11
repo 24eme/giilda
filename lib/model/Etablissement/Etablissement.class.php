@@ -101,6 +101,10 @@ class Etablissement extends BaseEtablissement {
     public function getDroits() {
         return EtablissementFamilles::getDroitsByFamilleAndSousFamille($this->famille, $this->sous_famille);
     }
+    
+    public function isInterLoire(){
+        return ($this->region != EtablissementClient::REGION_HORSINTERLOIRE);
+    }
 
     public function save() {
         
@@ -134,6 +138,7 @@ class Etablissement extends BaseEtablissement {
 		throw new sfException("$id n'est pas une société connue");
 	$this->_set("id_societe", $id);
     }
+    
 
     public function __toString() {
 
