@@ -24,7 +24,7 @@ class VracConditionForm extends acCouchdbObjectForm {
      private $cvo_repartition = array('50' => '50/50',
                                       '100' => '100% viticulteur',
                                       '0' => 'Vinaigrerie');
-     
+
     public function configure()
     {
         $this->setWidget('type_contrat', new sfWidgetFormChoice(array('choices' => $this->getTypesContrat(),'expanded' => true)));
@@ -90,7 +90,12 @@ class VracConditionForm extends acCouchdbObjectForm {
 
     public function getCvoRepartition() 
     {
-        return $this->cvo_repartition;    
+      $repartition = $this->cvo_repartition;
+      if ($this->getObject()->getAcheteurObject()->isInterLoire()) {
+	return $repartition;
+      }
+      unset($repartition['50']);
+      return $repartition;
     }
     
     public function doUpdateObject($values) 
