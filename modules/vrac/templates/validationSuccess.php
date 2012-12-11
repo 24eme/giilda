@@ -6,6 +6,7 @@
  * Version : 1.0.0 
  * Derniere date de modification : 28-05-12
  */
+use_helper('Vrac');
 ?>
 <script type="text/javascript">
     $(document).ready(function()
@@ -20,14 +21,22 @@
             <?php include_partial('headerVrac', array('vrac' => $vrac, 'actif' => 4)); ?>        
             <div id="contenu_etape"> 
                 <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation', $vrac) ?>">
-                    <?php if ($non_valide) : ?>
+                    <?php if ($isVolumeOrPrixMissing || $raisinMoutNegoHorsIL) : ?>
                         <div id="titre">
                             <span class="style_label">Ce contrat ne peut pas être validé.</span>
                         </div>
+                    <?php endif; ?>
+                    <?php if ($isVolumeOrPrixMissing) : ?>
                         <div id="titre">
                             <span>Le volume ou le prix du contrat est manquant.</span>
                         </div>
-                    <?php else: ?>
+                    <?php endif; ?>
+                    <?php if ($raisinMoutNegoHorsIL) : ?>
+                        <div id="titre">
+                            <span>Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de <?php echo showType($vrac); ?>.</span>
+                        </div>
+                    <?php endif; ?>
+                     <?php if (!$isVolumeOrPrixMissing && !$raisinMoutNegoHorsIL) : ?>
                     <div id="titre"><span class="style_label">Récapitulatif de la saisie</span></div>
                     <?php endif; ?>
 
@@ -35,7 +44,7 @@
 
                     <div class="btn_etape">
                         <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
-                        <?php if (!$non_valide) : ?>
+                        <?php if (!$isVolumeOrPrixMissing && !$raisinMoutNegoHorsIL) : ?>
                             <a id="btn_validation" class="btn_validation"><span>Terminer la saisie</span></a>  
                         <?php endif; ?>
                     </div> 

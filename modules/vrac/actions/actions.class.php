@@ -211,7 +211,7 @@ class vracActions extends sfActions
       $this->displayPartiePrixVariable = !(is_null($this->type_contrat) || ($this->type_contrat=='spot'));
       $this->displayPrixVariable = ($this->displayPartiePrixVariable && !is_null($vrac->prix_variable) && $vrac->prix_variable); 
       $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
-        if ($request->isMethod(sfWebRequest::POST)) 
+      if ($request->isMethod(sfWebRequest::POST)) 
         {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid())
@@ -227,7 +227,11 @@ class vracActions extends sfActions
   {
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
-      $this->non_valide = !$this->vrac->hasVolumeAndPrix();
+      
+      $this->isVolumeOrPrixMissing = $this->vrac->isVolumeOrPrixMissing();
+      
+      $this->raisinMoutNegoHorsIL = $this->vrac->isRaisinMoutNegoHorsIL();
+
       $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
       $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($this->vrac);
       VracClient::getInstance()->filterSimilaryContracts($this->vrac,$this->vracs);
@@ -235,7 +239,7 @@ class vracActions extends sfActions
       $this->contratsSimilairesExist = (isset($this->vracs) && ($this->vracs!=false) && count($this->vracs->rows)>0);
         if ($request->isMethod(sfWebRequest::POST)) 
         {
-            if($this->vrac->hasVolumeAndPrix()){
+            if((!$this->vrac->isVolumeOrPrixMissing()) && (!$this->vrac->isRaisinMoutNegoHorsIL())){
                 $this->maj_etape(4);
                 $this->maj_valide(null,null,VracClient::STATUS_CONTRAT_NONSOLDE);
                 $this->vrac->save();

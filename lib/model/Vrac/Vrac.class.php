@@ -235,8 +235,16 @@ class Vrac extends BaseVrac {
         return ($this->prix_variable) && ($this->part_variable != null);
     }
     
-    public function hasVolumeAndPrix() {
-        return ((!is_null($this->prix_unitaire)) && (!is_null($this->volume_propose)));
+    public function isVolumeOrPrixMissing() {
+        return ((is_null($this->prix_unitaire)) || (is_null($this->volume_propose)));
+    }
+
+    public function isRaisinMoutNegoHorsIL() {
+        $isRaisinMout = (($this->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) || 
+                        ($this->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS));
+        if(!$isRaisinMout) return false;
+        $nego = EtablissementClient::getInstance()->findByIdentifiant($this->acheteur_identifiant);
+        return $nego->isInterLoire();
     }
 
     protected function preSave() {
