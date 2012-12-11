@@ -10,6 +10,7 @@ SV12:
       campagne: {  }
       periode: {  }
       version: {  }
+      region: { }
       numero_archive: {  }
       declarant:        
         type: collection
