@@ -67,13 +67,17 @@ class drmActions extends sfActions {
      * @param sfWebRequest $request 
      */
     public function executeDelete(sfWebRequest $request) {
-        $drm = $this->getRoute()->getDRM();
-        if ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) && !$drm->isEnvoyee()) {
+      $drm = $this->getRoute()->getDRM();
+      if ($request->isMethod(sfRequest::POST)) {
+	if ($request->getParameter('confirm')) {
+	  if ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) && !$drm->isEnvoyee()) {
             $drm->delete();
-        } elseif (!$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) && !$drm->isValidee()) {
+	  } elseif (!$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) && !$drm->isValidee()) {
             $drm->delete();
-        }
-        $this->redirect('drm/monEspace');
+	  }
+	}
+	$this->redirect('drm_etablissement', $drm);
+      }
     }
 
     /**

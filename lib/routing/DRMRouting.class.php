@@ -78,7 +78,7 @@ class DRMRouting {
         $r->prependRoute('drm_delete', new DRMLightRoute('/drm/:identifiant/delete/:periode_version', 
                                                 array('module' => 'drm', 
                                                       'action' => 'delete'),
-                                                array('sf_method' => array('get')),
+							 array('sf_method' => array('get', 'post')),
                                                 array('must_be_valid' => false, 'must_be_not_valid' => false)));
 
         $r->prependRoute('drm_init', new DRMLightRoute('/drm/:identifiant/initialiser/:periode_version', 
