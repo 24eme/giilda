@@ -206,5 +206,9 @@ class Vrac extends BaseVrac {
     public function prixDefinitifExist() {
         return ($this->prix_variable) && ($this->part_variable != null);
     }
+    
+    public function hasVolumeAndPrix() {
+        return ((!is_null($this->prix_unitaire)) && (!is_null($this->volume_propose)));
+    }
 
 }
