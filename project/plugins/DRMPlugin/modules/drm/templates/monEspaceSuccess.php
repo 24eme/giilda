@@ -12,10 +12,10 @@
                 <nav>
                     <ul>
                         <li class="actif"><span>Vue calendaire</span></li>
-                        <li><a href="<?php echo url_for('drm_etablissement_stocks', $etablissement) ?>">Vue stock</a></li>
+                        <li><a href="<?php echo url_for('drm_etablissement_stocks', array('identifiant' => $etablissement->getIdentifiant(), 'campagne'=>$campagne)); ?>">Vue stock</a></li>
                     </ul>
                 </nav>
-                <?php include_component('drm', 'calendrier', array('etablissement' => $etablissement, 'campagne' => $campagne)); ?>
+							  <?php include_component('drm', 'calendrier', array('etablissement' => $etablissement, 'campagne' => $campagne, 'formCampagne' => $formCampagne)); ?>
             </fieldset>
         </section>
         <!-- fin #contenu_etape -->
