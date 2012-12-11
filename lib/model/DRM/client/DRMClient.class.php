@@ -274,28 +274,44 @@ class DRMClient extends acCouchdbClient {
         return $drms;
     }
     
-    public function getContratsFromProduit($vendeur_identifiant, $produit,$type_transaction)
+    public function getContratsFromProduit($vendeur_identifiant, $produit,$transaction_types = null)
     {
-        if(substr($produit, 0, 1) == "/") {
-            $produit = substr($produit, 1);
-        }
-        $rows = acCouchdbManager::getClient()
-              ->startkey(array(VracClient::STATUS_CONTRAT_NONSOLDE, $vendeur_identifiant, $produit,$type_transaction))
-              ->endkey(array(VracClient::STATUS_CONTRAT_NONSOLDE, $vendeur_identifiant, $produit,$type_transaction, array()))
-              ->getView("vrac", "contratsFromProduit")
-              ->rows;
-        $vracs = array();
-        foreach($rows as $key => $row) {
-            $vol_restant = $row->value[self::CONTRATSPRODUITS_VOL_TOTAL] - $row->value[self::CONTRATSPRODUITS_VOL_ENLEVE];
-            $volume = '['.$row->value[self::CONTRATSPRODUITS_VOL_ENLEVE].'/'.$row->value[self::CONTRATSPRODUITS_VOL_TOTAL].']';
-            $volume = ($row->value[self::CONTRATSPRODUITS_VOL_ENLEVE]=='')? '[0/'.$row->value[self::CONTRATSPRODUITS_VOL_TOTAL].']' : $volume;
-            $vracs[$row->id] = $row->value[self::CONTRATSPRODUITS_ETS_NOM].
-                ' ('.$row->value[self::CONTRATSPRODUITS_NUMERO_CONTRAT].') '.
-                 $vol_restant.' hl '.
-                 $volume;
-        }
+      if ($transaction_types && !is_array($transaction_types))
+	throw new sfException("transaction_types (param 3) must be an array");
+      if (!$transaction_types)
+	return $this->getContratsFromProduitAndATransaction($vendeur_identifiant, $produit);
 
-        return $vracs;       
+      $vracs = array();
+      foreach ($transaction_types as $t) {
+	$vracs = array_merge($vracs, $this->getContratsFromProduitAndATransaction($vendeur_identifiant, $produit, $t));
+      }
+      return $vracs;
+    }
+
+    public function getContratsFromProduitAndATransaction($vendeur_identifiant, $produit, $type_transaction = null)
+    {
+      $startkey = array(VracClient::STATUS_CONTRAT_NONSOLDE, $vendeur_identifiant, $produit);
+      if ($type_transaction) {
+	array_push($startkey, $type_transaction);
+      }
+      $endkey = $startkey;
+      array_push($endkey, array());
+      $rows = acCouchdbManager::getClient()
+	->startkey($startkey)
+	->endkey($endkey)
+	->getView("vrac", "contratsFromProduit")
+	->rows;
+      $vracs = array();
+      foreach($rows as $key => $row) {
+	$vol_restant = $row->value[self::CONTRATSPRODUITS_VOL_TOTAL] - $row->value[self::CONTRATSPRODUITS_VOL_ENLEVE];
+	$volume = '['.$row->value[self::CONTRATSPRODUITS_VOL_ENLEVE].'/'.$row->value[self::CONTRATSPRODUITS_VOL_TOTAL].']';
+	$volume = ($row->value[self::CONTRATSPRODUITS_VOL_ENLEVE]=='')? '[0/'.$row->value[self::CONTRATSPRODUITS_VOL_TOTAL].']' : $volume;
+	$vracs[$row->id] = $row->value[self::CONTRATSPRODUITS_ETS_NOM].
+	  ' ('.$row->value[self::CONTRATSPRODUITS_NUMERO_CONTRAT].') '.
+	  $vol_restant.' hl '.
+	  $volume;
+      }
+      return $vracs;       
     }
  
     public function findProduits() {
