@@ -1,13 +1,7 @@
 <?php
 
-class UploadCSVRevendicationForm extends CreateRevendicationForm {
-
-    public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
-        parent::__construct($defaults, $options, $CSRFSecret);
-    }
-
+class UploadCSVRevendicationForm extends acCouchdbForm {
     public function configure() {
-      parent::configure();     
       $this->setWidget('file', new sfWidgetFormInputFile(array('label' => 'Fichier')));
       $this->setValidator('file', new ValidatorImportCsv(array('file_path' => sfConfig::get('sf_data_dir').'/upload')));
       

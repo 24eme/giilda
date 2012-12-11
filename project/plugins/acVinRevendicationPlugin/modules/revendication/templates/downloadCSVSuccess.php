@@ -1,0 +1,1 @@
+<?php readfile(sfConfig::get('sf_data_dir') . '/upload/' . $md5); ?>

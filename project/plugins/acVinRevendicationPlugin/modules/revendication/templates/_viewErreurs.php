@@ -7,7 +7,7 @@
 
     <?php foreach ($revendication->erreurs as $type => $erreursType) : ?>
         <div class="type_erreurs">
-            <h3><?php echo $libellesForErrorsType[$type]; ?></h3>
+            <h3><?php echo $libellesForErrorsType[$type]; ?> :</h3>
 
             <?php foreach ($erreursType as $unmatched_data => $erreurs) : ?>
                 <div class="item">
@@ -24,11 +24,6 @@
                                         
                         <?php  break;
                             case RevendicationErrorException::ERREUR_TYPE_DOUBLON: ?>
-                        <a href="<?php
-                        echo url_for('revendication_choose_row', array('odg' => $revendication->odg,
-                            'campagne' => $revendication->campagne,
-                            'num_ligne' => $unmatched_data))
-                                        ?>" class="btn_majeur btn_voir">Choisir la ligne</a>
                                         <?php
                                 break;
                                default:
@@ -68,8 +63,14 @@
                     <tr id="erreur_<?php echo $erreur->num_ligne; ?>">
                         <th><?php echo $erreur->num_ligne; ?></th>
                         <td>
-                            <p class="libelle"><?php echo $erreur->libelle_erreur; ?></p>
+                            <p><?php echo $libellesForErrorsType[$type]; ?></p>
+                            <p class="libelle">
+                                <?php echo $erreur->libelle_erreur; ?>
+                            </p>
                             <p><?php echo str_replace('#', ';', $erreur->ligne); ?></p>
+                            <?php if ($type == RevendicationErrorException::ERREUR_TYPE_DOUBLON): ?> 
+                                <a style="margin-top: 5px;" href="" class="btn_majeur btn_annuler">Supprimer cette ligne</a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php

@@ -12,7 +12,7 @@ class EditionRevendicationForm extends acCouchdbForm {
     protected $code_douane;
 
 
-    public function __construct(acCouchdbDocument $revendication, $rev, $row, $defaults = array(), $options = array(), $CSRFSecret = null) {
+    public function __construct(acCouchdbDocument $revendication, $identifiant, $rev, $row, $defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults = array();
         $this->revendication = $revendication;
         $this->identifiant = $identifiant;

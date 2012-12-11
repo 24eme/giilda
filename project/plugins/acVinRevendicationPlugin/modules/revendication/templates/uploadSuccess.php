@@ -5,18 +5,20 @@ $errors_exist = (count($errors) > 0);
     
     <!-- #principal -->
     <section id="principal">        
-            <?php include_partial('header', array('revendication' => null,'actif' => $errors_exist)); ?>
+            <?php include_partial('revendication/header', array('revendication' => $revendication,'actif' => $errors_exist)); ?>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-            
-            <?php include_component('revendication', 'chooseEtablissement'); ?>
-                <h2>Importer un fichier de volumes revendiqués (ODG)</h2>
-            <?php include_partial('chooseOdgAndCampagne', array('form' => $form)); ?>
+            <h2>Importer un fichier de volumes revendiqués (ODG)</h2>
+            <?php include_partial('revendication/formUpload', array('form' => $form)); ?>
             
             <?php 
             if($errors_exist)
-                include_partial('uploadErreurs',array('errors' => $errors,'md5' => $md5,'odg' => $odg));
+                include_partial('revendication/uploadErreurs',array('errors' => $errors,'md5' => $md5,'odg' => $revendication->odg));
             ?>
+
+            <div class="btn_etape">
+                <a class="btn_etape_suiv" href="<?php echo url_for('revendication_view_erreurs', $revendication); ?>"><span>Suivant</span></a>
+            </div>
         </section>
         <!-- fin #contenu_etape -->
     </section>
