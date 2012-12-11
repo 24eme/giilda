@@ -15,7 +15,13 @@
         <tr <?php if($i%2!=0) echo ($mouvement->volume > 0)? ' class="alt"' : 'class="alt"';  ?>>
             <td><?php echo sprintf("%s - %s", ($mouvement->version) ? $mouvement->version : 'M00', format_date($mouvement->date_version));?></td>
             <td><?php echo $mouvement->produit_libelle ?> </td>
-            <td><?php echo $mouvement->type_libelle.' '.$mouvement->detail_libelle ?></td>
+            <td><?php
+	    if ($mouvement->vrac_numero)
+	      echo '<a href="'.url_for("vrac_visualisation", array("numero_contrat" => $mouvement->vrac_numero)).'">'; 
+echo $mouvement->type_libelle.' '.$mouvement->detail_libelle;
+if ($mouvement->vrac_numero)
+  echo "</a>"; 
+?></td>
             <td <?php echo ($mouvement->volume > 0)? ' class="positif"' : 'class="negatif"';?> >
                 <?php  echoSignedFloat($mouvement->volume); ?>
             </td>
