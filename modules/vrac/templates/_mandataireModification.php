@@ -12,7 +12,8 @@ $type = $form->getObject()->getFamilleType();
         setGreyPanel('vendeur');
         setGreyPanel('acheteur');
         setGreyPanel('has_mandataire');
-        setGreyPanel('ligne_btn');        
+        setGreyPanel('ligne_btn');
+        setGreyPanel('interne');        
     });                        
 </script>
 

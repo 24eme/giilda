@@ -13,6 +13,7 @@ $otherType = ($type=='acheteur')? 'vendeur' :  'acheteur';
         setGreyPanel('has_mandataire');
         setGreyPanel('mandataire');
         setGreyPanel('ligne_btn');        
+        setGreyPanel('interne');        
     });                        
 </script>
 

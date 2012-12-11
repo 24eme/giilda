@@ -26,6 +26,7 @@ use_helper('Display');
        removeGreyPanel('acheteur');
        removeGreyPanel('has_mandataire');
        removeGreyPanel('ligne_btn');
+       removeGreyPanel('interne');
     });
 </script>
 <div class="mandataire_infos bloc_form">

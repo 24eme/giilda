@@ -26,6 +26,7 @@ use_helper('Display');
        removeGreyPanel('has_mandataire');
        removeGreyPanel('mandataire');
        removeGreyPanel('ligne_btn');
+       removeGreyPanel('interne');
     });
 </script>
 
