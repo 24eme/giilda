@@ -29,12 +29,12 @@ class Societe extends BaseSociete {
     }
 
     public function addNewEtablissement() {
-        $etablissement = EtablissementClient::getInstance()->createEtablissement($this->identifiant, $this->type_societe);        
+        $etablissement = EtablissementClient::getInstance()->createEtablissement($this);        
         $compteForEtb = CompteClient::getInstance()->createCompte($this);
         $compteForEtb->origines->add(count($compteForEtb->origines),$etablissement->_id);
         $compteForEtb->save();        
         $etablissement->compte = $compteForEtb->_id;
-        $etablissement->save();
+        $etablissement->save(true);
         $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
         return $etablissement;
     }
