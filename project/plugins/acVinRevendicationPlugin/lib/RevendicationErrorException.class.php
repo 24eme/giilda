@@ -34,17 +34,10 @@ class RevendicationErrorException extends Exception {
     }
 
     public static function getLibellesForErrorsType() {
-        return array(self::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS => "CVI non reconnus :",
-            self::ERREUR_TYPE_PRODUIT_NOT_EXISTS => "Produits non reconnus :",
-            self::ERREUR_TYPE_BAILLEUR_NOT_EXISTS => "Bailleur non reconnus :",
-            self::ERREUR_TYPE_DOUBLON => "Doublons trouvés :");
+        return array(self::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS => "CVI non reconnus",
+            self::ERREUR_TYPE_PRODUIT_NOT_EXISTS => "Produits non reconnus",
+            self::ERREUR_TYPE_BAILLEUR_NOT_EXISTS => "Bailleur non reconnus",
+            self::ERREUR_TYPE_DOUBLON => "Doublons");
     }
     
-    public static function getLibelleForAnError($type,$args = array()) {
-        return array(self::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS => "CVI non reconnus :",
-            self::ERREUR_TYPE_PRODUIT_NOT_EXISTS => "Produits non reconnus :",
-            self::ERREUR_TYPE_BAILLEUR_NOT_EXISTS => "Bailleur non reconnus :",
-            self::ERREUR_TYPE_DOUBLON => "Doublons trouvés :");
-    }
-
 }

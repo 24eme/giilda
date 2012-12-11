@@ -23,15 +23,11 @@ class CreateRevendicationForm extends BaseForm {
     public function configure() {
         parent::configure();
         $this->setWidget('odg', new sfWidgetFormChoice(array('choices' => $this->getOdgs(),
-                    'multiple' => false,
-                    'expanded' => false,
                     'default' => array_keys($this->getOdgs()))));
-        $this->setWidget('campagne', new sfWidgetFormChoice(array('choices' => $this->getCampagnes(),
-                    'multiple' => false,
-                    'expanded' => false)));
+        $this->setWidget('campagne', new sfWidgetFormChoice(array('choices' => $this->getCampagnes())));
 
-        $this->setValidator('odg', new sfValidatorChoice(array('choices' => array_keys($this->getOdgs()), 'multiple' => true)));
-        $this->setValidator('campagne', new sfValidatorChoice(array('choices' => array_keys($this->getCampagnes()), 'multiple' => true)));
+        $this->setValidator('odg', new sfValidatorChoice(array('choices' => array_keys($this->getOdgs()))));
+        $this->setValidator('campagne', new sfValidatorChoice(array('choices' => array_keys($this->getCampagnes()))));
         $this->widgetSchema->setLabel('odg', 'Sélectionner une ODG :');
         $this->widgetSchema->setLabel('campagne', "Choisir la campagne :");
         $this->widgetSchema->setNameFormat('csvRevendication[%s]');

@@ -2,53 +2,58 @@
 class revendicationActions extends sfActions {
   
     public function executeIndex(sfWebRequest $request) {
-        $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
+        if(!isset($this->formEtablissement)) {
+            $this->formEtablissement = null;
+        }
         $this->form = new CreateRevendicationForm();
         $this->historiqueImport = RevendicationClient::getInstance()->getHistory();
         
-        if ($request->isMethod(sfWebRequest::POST)) {
+        if ($request->isMethod(sfWebRequest::POST) && is_null($this->formEtablissement)) {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             if ($this->form->isValid()) {
-                    
-                    $values = $this->form->getValues();
-                    $this->campagne = $values['campagne'][0];
-                    $this->odg = $values['odg'][0];
-                    $this->revendication = RevendicationClient::getInstance()->createOrFindDoc($this->odg,$this->campagne); 
-                    return $this->redirect('revendication_edition_create', array('odg' => $this->odg, 'campagne' => $this->campagne));
+                    $revendication = RevendicationClient::getInstance()->createOrFind($this->form->getValue('odg'), $this->form->getValue('campagne'));
+                    $revendication->save();
+
+                    return $this->redirect('revendication_upload', $revendication);
             }
         }
-    }
-    
-    public function executeEditionCreation(sfWebRequest $request) {
-        $this->form = new CreateLignesForm();
 
-//        
-//        if ($request->isMethod(sfWebRequest::POST)) {
-//            $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
-//            if ($this->form->isValid()) {
-//                    
-//                    $values = $this->form->getValues();
-//                    $campagne = $values['campagne'][0];
-//                    $odg = $values['odg'][0];
-//                    $this->revendication = RevendicationClient::getInstance()->createOrFindDoc($odg,$campagne); 
-//                    return $this->redirect('revendication_edition_create', array('odg' => $this->odg, 'campagne' => $this->campagne));
-//            }
-//        }
+        $this->setTemplate('index');
     }
     
+    public function executeMonEspace(sfWebRequest $request) {
+        $this->revendication_etablissement = null;
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $this->revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndEtablissement('20122013', $this->etablissement);
+    }
     
+    public function executeChooseEtablissement(sfWebRequest $request) {
+        $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
+        if ($request->isMethod(sfWebRequest::POST)) {
+	        $this->formEtablissement->bind($request->getParameter($this->formEtablissement->getName()));
+	        if ($this->formEtablissement->isValid()) {
+	           
+               return $this->redirect('revendication_etablissement', $this->formEtablissement->getEtablissement());
+	        }
+       }
+
+       $this->executeIndex($request);
+    }
+
     public function executeUpload(sfWebRequest $request) {
-	$this->initIndex();
-        $this->revendication = new stdClass();
-	if ($request->isMethod(sfWebRequest::POST)) {
+        $this->errors = array();
+        $this->revendication = $this->getRoute()->getRevendication();
+        $this->form = new UploadCSVRevendicationForm($this->revendication);
+        if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             if ($this->form->isValid()) {
                 $file = $this->form->getValue('file');
                 $this->md5 = $file->getMd5();
-                RevendicationCsvFile::convertTxtToCSV(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
-                $this->csv = new RevendicationCsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
-                $this->odg = $this->form->getValue('odg'); $this->odg = $this->odg[0];
-                $this->campagne = $this->form->getValue('campagne'); $this->campagne = $this->campagne[0];
+
+                $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
+
+                RevendicationCsvFile::convertTxtToCSV($path);
+                $this->csv = new RevendicationCsvFile($path);
                 if(!$this->csv->check())
                 {
                     $this->errors = $this->csv->getErrors(); 
@@ -56,68 +61,30 @@ class revendicationActions extends sfActions {
                     return sfView::SUCCESS;
                 }
                     
-                return $this->redirect('revendication_create', array('md5' => $file->getMD5(), 'odg' => $this->odg, 'campagne' => $this->campagne));
+                $this->revendication->updateCSV($path);
+                $this->revendication->save();
+
+                return $this->redirect('revendication_view_erreurs', $this->revendication);
            }
-    	}
-  }
-    
-    public function executeMonEspace(sfWebRequest $request) {
-        $this->revendication_etablissement = null;
-        $this->etablissement = $this->getRoute()->getEtablissement();
-        $revendication = RevendicationClient::getInstance()->find('REVENDICATION-TOURS-20122013');
-        if($revendication && $revendication->getDatas()->exist($this->etablissement->cvi))
-            $this->revendication_etablissement = $revendication->getDatas()->get($this->etablissement->cvi);
-    }
-    
-    public function executeChooseEtablissement(sfWebRequest $request) {
-      $this->initIndex();      
-      if ($request->isMethod(sfWebRequest::POST)) {
-	 $this->formEtablissement->bind($request->getParameter($this->formEtablissement->getName()));
-	 if ($this->formEtablissement->isValid()) {
-	   return $this->redirect('revendication_etablissement', $this->formEtablissement->getEtablissement());
-	 }
-       }
-       $this->setTemplate('revendication_upload');
+        }
     }
 
-    protected function initIndex() {
-      $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
-      $this->form = new UploadCSVRevendicationForm();
-      $this->errors = array();
-    }
-    
-
-  public function executeDownloadCSV(sfWebRequest $request) {
-        $md5 = $request->getParameter('md5');
-	header("Content-type: text/csv\n");
-        readfile(sfConfig::get('sf_data_dir') . '/upload/' . $md5);
-        set_time_limit(600);
-        $this->csv = new RevendicationCsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
-        exit;
-  }
-
-
-  public function executeUploadCSV(sfWebRequest $request) {
-        $campagne = $request->getParameter('campagne');
-        $odg = $request->getParameter('odg');
-        $this->csv = new RevendicationCsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $file->getMd5());
-  }
-  
-  public function executeCreate(sfWebRequest $request) {  
-        set_time_limit(0);
-        ini_set('memory_limit','1024M');
+    public function executeDownloadCSV(sfWebRequest $request) {
         $this->md5 = $request->getParameter('md5');
-    	$this->forward404Unless($this->interpro = InterproClient::getInstance()->getById($request->getParameter("id"))); 
-        $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
-        $this->csv = new RevendicationCsvFile($path);
         $odg = $request->getParameter('odg');
-        $campagne = $request->getParameter('campagne');
-        $this->revendication = RevendicationClient::getInstance()->createOrFindDoc($odg,$campagne,$path);     
-        $this->revendication->save();
-        return $this->redirect('revendication_view_erreurs', array('odg' => $odg, 'campagne' => $campagne));
-
+        $this->getResponse()->setHttpHeader('Content-type', 'text/csv');
+        $this->getResponse()->setHttpHeader('Content-Disposition', sprintf('filename="odg-%s-%s.csv"', $odg, $this->md5));
+        $this->setLayout(false);
     }
-  
+
+    public function executeUpdate(sfWebRequest $request) {
+        $this->revendication = $this->getRoute()->getRevendication();
+        $this->revendication->storeDatas();
+        $this->revendication->save();
+
+        return $this->redirect('revendication_view_erreurs', $this->revendication);
+    }
+
     public function executeViewErreurs(sfWebRequest $request) {
         $this->revendication = $this->getRoute()->getRevendication();
         $this->erreurs = $this->revendication->erreurs;
@@ -137,8 +104,8 @@ class revendicationActions extends sfActions {
         $this->row = $request->getParameter('row');
         $this->rev = $this->revendication->datas->{$this->identifiant};
         $this->retour = $request->getParameter('retour');
-        $etablissement = EtablissementClient::getInstance()->find($this->identifiant);
-        $this->form = new EditionRevendicationForm($this->revendication, $this->rev, $this->row);
+        $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
+        $this->form = new EditionRevendicationForm($this->revendication, $this->identifiant, $this->rev, $this->row);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {

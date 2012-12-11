@@ -13,13 +13,6 @@
                 <?php echo $form['campagne']->renderError() ?> 
                 <?php echo $form['campagne']->render(); ?>
             </li>
-                <?php if(isset($form['file'])) : ?>
-            <li>
-                <span>3. <?php echo $form['file']->renderlabel(); ?></span>      
-                <?php echo $form['file']->renderError(); ?>  
-                <?php echo $form['file']->render(); ?>
-            </li>
-            <?php endif; ?>
         </ul>    
     <div class="btn_etape">
         <button type="submit" class="btn_majeur btn_valider">Créer</button>
