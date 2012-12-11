@@ -83,9 +83,6 @@ $hasDomaine = is_null($vrac->domaine);
             echo (is_null($vrac->volume_enleve))? '0 hl' : ($vrac->volume_enleve.' hl');
             ?>
             </span>
-<?php  if(!is_null($vrac->valide->statut)) : ?>
-        <a class="btn_majeur btn_gris" href="<?php echo url_for('vrac_volumeEnleve',$vrac); ?>">Enlever du volume</a>
-  <?php endif; ?>
     </div>
     
     <?php 

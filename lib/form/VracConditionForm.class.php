@@ -24,7 +24,7 @@ class VracConditionForm extends acCouchdbObjectForm {
      private $cvo_repartition = array('50' => '50/50',
                                       '100' => '100% viticulteur',
                                       '0' => 'Vinaigrerie');
-     
+
     public function configure()
     {
         $this->setWidget('type_contrat', new sfWidgetFormChoice(array('choices' => $this->getTypesContrat(),'expanded' => true)));
@@ -33,7 +33,7 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setWidget('cvo_nature',  new sfWidgetFormChoice(array('choices' => $this->getCvoNature())));
         $this->setWidget('cvo_repartition',  new sfWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
         $this->setWidget('date_signature', new sfWidgetFormInput());
-        $this->setWidget('date_stats', new sfWidgetFormInput());
+        $this->setWidget('date_campagne', new sfWidgetFormInput());
         $this->setWidget('commentaires', new sfWidgetFormTextarea(array(),array('style' => 'width: 100%;resize:none;')));
         
         $this->widgetSchema->setLabels(array(
@@ -43,7 +43,7 @@ class VracConditionForm extends acCouchdbObjectForm {
             'cvo_nature' => 'Nature de la transaction',
             'cvo_repartition' => 'Répartition de la CVO',
             'date_signature' => 'Date de signature',
-            'date_stats' => 'Date de statistique',
+            'date_campagne' => 'Date de campagne',
             'commentaires' => 'Commentaires :'
         ));
         
@@ -65,7 +65,7 @@ class VracConditionForm extends acCouchdbObjectForm {
             'cvo_nature' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoNature()))),
             'cvo_repartition' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))),
             'date_signature' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),
-            'date_stats' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),
+            'date_campagne' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),
             'commentaires' => new sfValidatorString(array('required' => false))
             ));
         
@@ -90,7 +90,12 @@ class VracConditionForm extends acCouchdbObjectForm {
 
     public function getCvoRepartition() 
     {
-        return $this->cvo_repartition;    
+      $repartition = $this->cvo_repartition;
+      if ($this->getObject()->getAcheteurObject()->isInterLoire()) {
+	return $repartition;
+      }
+      unset($repartition['50']);
+      return $repartition;
     }
     
     public function doUpdateObject($values) 

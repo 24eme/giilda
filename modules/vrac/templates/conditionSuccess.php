@@ -47,10 +47,10 @@
                                     <span>(Date figurant sur le contrat)</span>
                                 </div>
                                 <!--  Affichage de la date de statistique -->
-                                <div id="date_stats" class="ligne_form ligne_form_alt champ_datepicker">
-                                    <?php echo $form['date_stats']->renderError() ?>        
-                                    <?php echo $form['date_stats']->renderLabel() ?>
-                                    <?php echo $form['date_stats']->render() ?>  
+                                <div id="date_campagne" class="ligne_form ligne_form_alt champ_datepicker">
+                                    <?php echo $form['date_campagne']->renderError() ?>        
+                                    <?php echo $form['date_campagne']->renderLabel() ?>
+                                    <?php echo $form['date_campagne']->render() ?>  
                                     <span>(Modifiable ultérieurement)</span>
                                 </div>
                             </div>
