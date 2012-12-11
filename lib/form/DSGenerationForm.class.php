@@ -1,9 +1,6 @@
 <?php
 class DSGenerationForm extends DSGenerationOperateurForm {
 
-    private $regions = array('angers' => 'Angers',
-                             'nantes' => 'Nantes',
-                             'tours' => 'Tours');
     
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         parent::__construct($defaults, $options, $CSRFSecret);
@@ -27,7 +24,7 @@ class DSGenerationForm extends DSGenerationOperateurForm {
     }
 
     public function getRegions() {
-        return $this->regions;
+        return EtablissementClient::getRegions();
     }
 
     public function getOperateurs() {
