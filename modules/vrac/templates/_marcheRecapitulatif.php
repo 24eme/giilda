@@ -69,7 +69,7 @@ $hasDomaine = is_null($vrac->domaine);
             <?php
             echo showRecapVolumePropose($vrac); 
             ?>
-            <?php if($vrac->isVin()): ?>
+            <?php if(!$vrac->isValidee() && $vrac->isVin()): ?>
             (stock commercialisable <?php echoFloat($vrac->getStockCommercialisable()) ?> hl)
             <?php endif; ?>
             </span>
