@@ -384,9 +384,6 @@ EOF;
       case self::CSV_LIGNE_TYPE_CONTRAT:
         $this->importLigneContrat($drm, $line);
         break;
-      case self::CSV_LIGNE_TYPE_ACHAT:
-        $this->importLigneAchat($drm, $line);
-        break;
       case self::CSV_LIGNE_TYPE_VENTE:
         $this->importLigneVente($drm, $line);
         break;
@@ -403,6 +400,8 @@ EOF;
         break;
       case self::CSV_LIGNE_TYPE_MOUVEMENT:
         $this->importLigneMouvement($drm, $line);
+        break;
+      case self::CSV_LIGNE_TYPE_ACHAT:
         break;
       default:
         throw new sfException(sprintf("Le type de ligne '%s' n'est pas pris en compte", $line[self::CSV_LIGNE_TYPE]));
@@ -535,12 +534,6 @@ EOF;
     $produit->entrees->recolte += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]);
   }
 
-  public function importLigneAchat($drm, $line) {
-    $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
-
-    $produit->entrees->achat += $this->convertToFloat($line[self::CSV_ACHAT_VOLUME_LIBRE]) + $this->convertToFloat($line[self::CSV_ACHAT_VOLUME_BLOQUE]);
-  }
-
   protected function verifyLine($line) {
     if (!preg_match('/^[0-9]{4}-[0-9]{4}$/', $line[self::CSV_LIGNE_CAMPAGNE])) {
 
@@ -576,9 +569,6 @@ EOF;
       case self::CSV_LIGNE_TYPE_CONTRAT:
         $this->verifyLineContrat($line);
         break;
-      case self::CSV_LIGNE_TYPE_ACHAT:
-        $this->verifyLineAchat($line);
-        break;
       case self::CSV_LIGNE_TYPE_DIVERS:
         $this->verifyLineDivers($line);
         break;
@@ -598,11 +588,6 @@ EOF;
 
   protected function verifyLineDS($line) {
      $this->verifyVolume($line[self::CSV_DS_VOLUME_LIBRE]);
-  }
-
-  protected function verifyLineAchat($line) {
-    $this->verifyVolume($line[self::CSV_ACHAT_VOLUME_LIBRE]);
-    $this->verifyVolume($line[self::CSV_ACHAT_VOLUME_BLOQUE]);
   }
 
   protected function verifyLineContrat($line) {
@@ -690,8 +675,7 @@ EOF;
 
     if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_AGREMENT,
                                                                  self::CSV_CODE_MOUVEMENT_AGREMENT_REGUL))) {
-      $coherence[$code]["entrees"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]); //Agrément
-      $coherence[$code]["entrees"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_BLOQUE]); //Agrément
+      $coherence[$code]["entrees"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]); //Recolte
     }
 
 
@@ -727,11 +711,6 @@ EOF;
       if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) > 0) {
         $coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
       }
-    }
-
-    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_CAVE_DEPOT,
-                                                                 self::CSV_CODE_MOUVEMENT_CAVE_DEPOT_ANNULATION))) {
-      $coherence[$code]["sorties"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]); //Achat
     }
 
     if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_AUTRES,
