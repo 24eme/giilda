@@ -187,8 +187,8 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
                 switch ($ligne->produit_type) {
                     case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS:
                     case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS:
-                        if (strstr($ligne->produit_hash, 'mentions/SL/')) {
-                            $this->createOrUpdateEcheanceC($ligne);
+                        if (strstr($ligne->produit_hash, 'mentions/LIE/')) {
+                            $this->createOrUpdateEcheanceD($ligne);
                         } else {
                             $this->createOrUpdateEcheanceB($ligne);
                         }
@@ -220,7 +220,7 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
             return;
         }
 
-//          if(01/04/N < date < 31/05/N)   { 50% comptant et  50% au 31/05 }              
+ //          if(01/04/N < date < 31/05/N)   { 50% comptant et  50% au 31/05 }              
         if (($d2 < $date) && ($date <= $d3)) {
             $this->updateEcheance('B', Date::getIsoDateFinDeMoisISO(date('Y-m-d'),1), $ligne->montant_ht * 0.5);
             $this->updateEcheance('B', date('Y').'-05-31', $ligne->montant_ht * 0.5);
@@ -234,10 +234,12 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
         }
     }
 
-    public function createOrUpdateEcheanceC($ligne) {
-        $ligne->echeance_code = 'C';
-        $date = date('Y') . '-09-30';
-        $this->updateEcheance('C', $date, $ligne->montant_ht);
+    public function createOrUpdateEcheanceD($ligne) {
+        $ligne->echeance_code = 'D';
+        $date = date('Y') . '0930';
+        $dateEcheance = date('Y') . '-09-30'; 
+        if(date('Ymd') >= $date) $dateEcheance = date('Y', strtotime("+1 years")) . '-09-30'; 
+        $this->updateEcheance('D', $dateEcheance, $ligne->montant_ht);
     }
 
     public function updateEcheance($echeance_code, $date, $montant_ht) {
