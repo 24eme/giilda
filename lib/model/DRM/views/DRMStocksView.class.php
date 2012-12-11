@@ -9,12 +9,13 @@ class DRMStocksView extends acCouchdbView
     const KEY_VERSION = 5;
 
     const VALUE_VOLUME_STOCK_DEBUT_MOIS = 0;
-    const VALUE_VOLUME_REVENDIQUE = 1;
-    const VALUE_VOLUME_ENTREES = 2;
+    const VALUE_VOLUME_ENTREES = 1;
+    const VALUE_VOLUME_RECOLTE = 2;
     const VALUE_VOLUME_SORTIES = 3;
-    const VALUE_VOLUME_STOCK_FIN_MOIS = 4;
-    const VALUE_DECLARANT_NOM = 5;
-    const VALUE_PRODUIT_LIBELLE = 6;
+    const VALUE_VOLUME_FACTURABLE = 4;
+    const VALUE_VOLUME_STOCK_FIN_MOIS = 5;
+    const VALUE_DECLARANT_NOM = 6;
+    const VALUE_PRODUIT_LIBELLE = 7;
 
     public static function getInstance() {
 
@@ -75,9 +76,10 @@ class DRMStocksView extends acCouchdbView
         $drm->produit_hash = $row->key[self::KEY_PRODUIT_HASH];
         $drm->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
         $drm->volume_stock_debut_mois = $row->value[self::VALUE_VOLUME_STOCK_DEBUT_MOIS];
-        $drm->volume_revendique = $row->value[self::VALUE_VOLUME_REVENDIQUE];
         $drm->volume_entrees = $row->value[self::VALUE_VOLUME_ENTREES];
+        $drm->volume_recolte = $row->value[self::VALUE_VOLUME_RECOLTE];
         $drm->volume_sorties = $row->value[self::VALUE_VOLUME_SORTIES];
+        $drm->volume_facturable = $row->value[self::VALUE_VOLUME_FACTURABLE];
         $drm->volume_stock_fin_mois = $row->value[self::VALUE_VOLUME_STOCK_FIN_MOIS];
 
         return $drm;

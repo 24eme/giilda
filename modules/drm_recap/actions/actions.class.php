@@ -143,7 +143,7 @@ class drm_recapActions extends sfActions
         $this->detail = null;
         $this->drm = $this->getRoute()->getDRM();
         $this->config = $this->drm->declaration->getConfig();
-        $this->produits = $this->drm->declaration->getProduits();
+        $this->produits = $this->drm->declaration->getProduitsDetails();
         /*$this->previous = $this->drm_lieu->getPreviousSisterWithMouvementCheck();
         $this->next = $this->drm_lieu->getNextSisterWithMouvementCheck();
     	$this->previous_certif = $this->drm_lieu->getCertification()->getPreviousSisterWithMouvementCheck();

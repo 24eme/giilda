@@ -22,7 +22,7 @@ class DRMRecapRoute extends DRMRoute {
 
         if (!array_key_exists('appellation', $parameters)) {
 
-        	return $drm_certification->getProduits()->getFirst()->getDeclaration();
+        	return $drm_certification->getProduitsDetails()->getFirst()->getDeclaration();
         }
 
         return $drm_certification->appellations->get($parameters['appellation']);

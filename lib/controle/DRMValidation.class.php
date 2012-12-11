@@ -46,7 +46,7 @@ class DRMValidation
 			}
 			$totalEntreeRepli = 0;
 			$totalSortiRepli = 0;
-			$details = $certification->getProduits();
+			$details = $certification->getProduitsDetails();
 			foreach ($details as $detail) {
 				$this->controleEngagements($detail);
 				$this->controleErrors($detail);

@@ -21,9 +21,9 @@
                 </td>
                 <td><?php echoFloat($recap['volume_entrees']) ?></td>
                 <td>
-                    <?php echoFloat($recap['volume_revendique']) ?>&nbsp;<?php if($recap['volume_revendique_drev'] !== null): ?>(<?php echoFloat($recap['volume_revendique_drev']) ?>)<?php else: ?>(Abs.)<?php endif; ?>
+                    <?php echoFloat($recap['volume_recolte']) ?>&nbsp;<?php if($recap['volume_revendique_drev'] !== null): ?>(<?php echoFloat($recap['volume_revendique_drev']) ?>)<?php else: ?>(Abs.)<?php endif; ?>
                 </td>
-                <td><?php echoFloat($recap['volume_sorties']) ?>&nbsp;(0.00)</td>
+                <td><?php echoFloat($recap['volume_sorties']) ?>&nbsp;(<?php echoFloat($recap['volume_facturable']) ?>)</td>
                 <td>
                     <?php echoFloat($recap['volume_stock_fin']) ?>&nbsp;<?php if($recap['volume_stock_fin_ds'] !== null): ?>(<?php echoFloat($recap['volume_stock_fin_ds']) ?>)<?php else: ?>(Abs.)<?php endif; ?> 
                 </td>

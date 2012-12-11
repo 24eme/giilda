@@ -78,7 +78,7 @@ class drm_editionActions extends sfActions
         $this->detail = null;
         $this->drm = $this->getRoute()->getDRM();
         $this->config = $this->drm->declaration->getConfig();
-        $this->produits = $this->drm->declaration->getProduits();
+        $this->details = $this->drm->declaration->getProduitsDetails();
     }
 
     public function executeAddLabel(sfWebRequest $request) 

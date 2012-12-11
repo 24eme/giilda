@@ -98,22 +98,40 @@ class drmComponents extends sfComponents {
 
     public function executeStocks() {
         $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
-        $this->details = array();
+        $this->produits = array();
         foreach($this->calendrier->getPeriodes() as $periode) {
             $drm = $this->calendrier->getDRM($periode);
             if($drm && $drm->isValidee()) {
-                foreach($drm->getDetails() as $detail) {
+                foreach($drm->getProduits() as $produit) {
                     $d = new stdClass();
                     $d->mois = ucfirst($this->calendrier->getPeriodeLibelle($periode));
-                    $d->libelle = $detail->getLibelle();
-                    $d->total_debut_mois = $detail->total_debut_mois;
-                    $d->total_entrees = $detail->total_entrees;
-                    $d->total_sorties = $detail->total_sorties;
-                    $d->total = $detail->total;
-                    $this->details[] = $d;
+                    $d->libelle = $produit->details->getFirst()->getLibelle();
+                    $d->total_debut_mois = $produit->total_debut_mois;
+                    $d->total_entrees = $produit->total_entrees;
+                    $d->total_sorties = $produit->total_sorties;
+                    $d->total = $produit->total;
+                    $d->total_facturable = $produit->total_facturable;
+                    $this->produits[] = $d;
                 }
             }      
         }
+    }
+
+    protected function initLigneRecap($produit_hash)  {
+        $ligne = array();
+        $ligne['produit'] = ConfigurationClient::getCurrent()->get($produit_hash)->getLibelleFormat();
+        $ligne['volume_stock_debut'] = 0;
+        $ligne['volume_stock_debut_ds'] = null;
+        $ligne['volume_recolte'] = 0;
+        $ligne['volume_revendique_drev'] = null;
+        $ligne['volume_entrees'] = 0;
+        $ligne['volume_sorties'] = 0;
+        $ligne['volume_facturable'] = 0;
+        $ligne['volume_stock_commercialisable'] = 0;
+        $ligne['volume_stock_fin'] = 0;
+        $ligne['volume_stock_fin_ds'] = null;
+
+        return $ligne;
     }
 
     public function executeStocksRecap() {
@@ -122,35 +140,38 @@ class drmComponents extends sfComponents {
         $drms = DRMStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
         foreach($drms as $drm) {
             if (!isset($this->recaps[$drm->produit_hash])) {
-                $this->recaps[$drm->produit_hash]['produit'] = ConfigurationClient::getCurrent()->get($drm->produit_hash)->getLibelleFormat();
+                $this->recaps[$drm->produit_hash] = $this->initLigneRecap($drm->produit_hash);
                 $this->recaps[$drm->produit_hash]['volume_stock_debut'] = $drm->volume_stock_debut_mois;
-                $this->recaps[$drm->produit_hash]['volume_stock_debut_ds'] = null;
-                $this->recaps[$drm->produit_hash]['volume_entrees'] = 0;
-                $this->recaps[$drm->produit_hash]['volume_sorties'] = 0;
-                $this->recaps[$drm->produit_hash]['volume_revendique'] = 0;
-                $this->recaps[$drm->produit_hash]['volume_revendique_drev'] = null;
-                $this->recaps[$drm->produit_hash]['volume_stock_fin'] = 0;
-                $this->recaps[$drm->produit_hash]['volume_stock_fin_ds'] = null;
             }
             
             $this->recaps[$drm->produit_hash]['volume_entrees'] += $drm->volume_entrees;
             $this->recaps[$drm->produit_hash]['volume_sorties'] += $drm->volume_sorties;
-            $this->recaps[$drm->produit_hash]['volume_revendique'] += $drm->volume_revendique;
+            $this->recaps[$drm->produit_hash]['volume_facturable'] += $drm->volume_facturable;
+            $this->recaps[$drm->produit_hash]['volume_recolte'] += $drm->volume_recolte;
             $this->recaps[$drm->produit_hash]['volume_stock_fin'] = $drm->volume_stock_fin_mois;  
         }
 
         $revs = RevendicationStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
         foreach($revs as $rev) {
-            $this->recaps[$ds->produit_hash]['volume_revendique_drev'] += $rev->volume;
+            if (!isset($this->recaps[$rev->produit_hash])) {
+                $this->recaps[$rev->produit_hash] = $this->initLigneRecap($rev->produit_hash);
+            }
+            $this->recaps[$rev->produit_hash]['volume_revendique_drev'] += $rev->volume;
         }
 
         $dss = DSStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
         foreach($dss as $ds) {
+            if (!isset($this->recaps[$ds->produit_hash])) {
+                $this->recaps[$ds->produit_hash] = $this->initLigneRecap($ds->produit_hash);
+            }
             $this->recaps[$ds->produit_hash]['volume_stock_debut_ds'] = $ds->volume;
         }
 
         $dss = DSStocksView::getInstance()->findByCampagneAndEtablissement(ConfigurationClient::getInstance()->getNextCampagne($this->campagne), null, $this->etablissement->identifiant);
         foreach($dss as $ds) {
+            if (!isset($this->recaps[$ds->produit_hash])) {
+                $this->recaps[$ds->produit_hash] = $this->initLigneRecap($ds->produit_hash);
+            }
             $this->recaps[$ds->produit_hash]['volume_stock_fin_ds'] = $ds->volume;
         }
     }

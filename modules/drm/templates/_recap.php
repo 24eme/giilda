@@ -14,7 +14,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $details = $certification->getProduits(); 
+				<?php $details = $certification->getProduitsDetails(); 
 					  $i = 1;?>
 
 				<?php foreach($details as $detail): 

@@ -99,14 +99,19 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return null;
     }
 
-    public function getDetails() {
-        
+    public function getProduits() {
+
         return $this->declaration->getProduits();
+    }
+
+    public function getProduitsDetails() {
+        
+        return $this->declaration->getProduitsDetails();
     }
 
     public function getDetailsAvecVrac() {
         $details = array();
-        foreach ($this->getDetails() as $d) {
+        foreach ($this->getProduitsDetails() as $d) {
         if ($d->sorties->vrac)
             $details[] = $d;
         }
@@ -116,7 +121,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     
    public function getVracs() {
         $vracs = array();
-        foreach ($this->getDetails() as $d) {
+        foreach ($this->getProduitsDetails() as $d) {
         if ($vrac = $d->sorties->vrac_details)
             $vracs[] = $vrac;
         }
@@ -230,7 +235,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
            return false;
         }
 
-        if (count($this->getDetails()) != count($drm_suivante->getDetails())) {
+        if (count($this->getProduitsDetails()) != count($drm_suivante->getProduitsDetails())) {
 
            return false;
         }
@@ -301,7 +306,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function updateVracs() {        
-        foreach ($this->getDetails() as $d) {            
+        foreach ($this->getProduitsDetails() as $d) {            
             foreach ($d->sorties->vrac_details as $vrac_detail) {                
                 $vrac = VracClient::getInstance()->find($vrac_detail->identifiant);
                 $vrac->enleverVolume($vrac_detail->volume);
@@ -435,8 +440,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return false;
     }
 
-    public function hasProduits() {
-    	return (count($this->declaration->getProduits()) > 0)? true : false;
+    public function hasDetails() {
+    	return (count($this->declaration->getProduitsDetails()) > 0)? true : false;
     }
     
     public function hasEditeurs() {
@@ -625,7 +630,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
            return true;
         }
 
-        if (count($this->getDetails()) != count($this->getMother()->getDetails())) {
+        if (count($this->getProduitsDetails()) != count($this->getMother()->getProduitsDetails())) {
            
            return true;
         }

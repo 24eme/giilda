@@ -17,12 +17,17 @@ class DRMCepage extends BaseDRMCepage {
   	}
 
   	public function getProduits() {
-        $produits = array();
-        foreach($this->getChildrenNode() as $key => $item) {
-            $produits[$item->getHash()] = $item;
-        }
+      
+        return array($this->getHash() => $this);
+    }
 
-        return $produits;
+    public function getProduitsDetails() {
+      $details = array();
+      foreach($this->getChildrenNode() as $key => $item) {
+          $details[$item->getHash()] = $item;
+      }
+
+      return $details;
     }
 
   	public function getLieuxArray() {

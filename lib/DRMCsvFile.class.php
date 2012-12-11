@@ -100,7 +100,7 @@ class DRMCsvFile extends CsvFile
   public static function createFromDRM(DRM $drm) {
     $csv = new DRMCsvFile();
     $csv->csvdata = array();
-    foreach ($drm->getDetails() as $d) {
+    foreach ($drm->getProduitsDetails() as $d) {
       $line = array();
       $line[self::CSV_COL_TYPE] = 'DETAIL';
       $line[self::CSV_COL_IDENTIFIANT_DECLARANT] = $d->getDocument()->getIdentifiant();

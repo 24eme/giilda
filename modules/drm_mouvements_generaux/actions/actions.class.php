@@ -20,7 +20,7 @@ class drm_mouvements_generauxActions extends sfActions
 					$this->certificationLibelle[$certification_key] = $certification_config->libelle;
 				}
 				if ($this->drm->declaration->certifications->exist($certification_key)) {
-	                $details = $this->drm->declaration->certifications->get($certification_key)->getProduits();
+	                $details = $this->drm->declaration->certifications->get($certification_key)->getProduitsDetails();
 					foreach ($details as $detail) {
 						$this->forms[$certification_key][] = new DRMMouvementsGenerauxProduitForm($detail);
 					}
@@ -72,7 +72,7 @@ class drm_mouvements_generauxActions extends sfActions
         $form = new DRMMouvementsGenerauxProduitsForm($drm);
         $form->bind($request->getParameter($form->getName()));
         if ($form->isValid()) {
-            foreach($drm->declaration->getProduits() as $produit) {
+            foreach($drm->declaration->getProduitsDetails() as $produit) {
             	$produit->pas_de_mouvement_check = ($form->getValue('pas_de_mouvement'))? 1 : 0;
             }
             $drm->save();
@@ -88,7 +88,7 @@ class drm_mouvements_generauxActions extends sfActions
     {
     	$drm = $this->getRoute()->getDRM();
     	$this->forward404Unless($drm->declaration->hasStockEpuise());
-        foreach($drm->declaration->getProduits() as $produit) {
+        foreach($drm->declaration->getProduitsDetails() as $produit) {
         	$produit->pas_de_mouvement_check = 1;
         }
         $drm->setCurrentEtapeRouting('declaratif');
