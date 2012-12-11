@@ -9,7 +9,7 @@
             <th>Campagne</th>
             <th>Etat</th>
             <th>Volume total raisins</th>
-            <th>Volume total mouts</th>
+            <th>Volume total moûts</th>
             <th>Total</th>
             <th></th>
         </tr>
