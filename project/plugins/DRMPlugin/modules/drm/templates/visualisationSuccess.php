@@ -36,18 +36,6 @@
     </section>
     <aside id="colonne">
 
-        <div id="contrat_progression" class="bloc_col">
-            <h2>Campagne viticole : 2011-2012</h2>
-
-            <div class="contenu">
-                <p><strong>10%</strong> de la DRM a été saisi</p>
-
-                <div id="barre_progression">
-                    <span style="width: 10%;"></span>
-                </div>
-            </div>
-        </div>
-
         <div id="contrat_aide" class="bloc_col">
             <h2>Aide</h2>
 
