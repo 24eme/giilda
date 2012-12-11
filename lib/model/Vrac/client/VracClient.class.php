@@ -46,7 +46,7 @@ class VracClient extends acCouchdbClient {
     const STATUS_CONTRAT_SOLDE = 'SOLDE';
     const STATUS_CONTRAT_ANNULE = 'ANNULE';
     const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
-    
+
     public static $contenance = array('75 cl' => 0.0075,
                                    '1 L' => 0.01,
                                      '1.5 L'=> 0.015,
@@ -298,16 +298,16 @@ class VracClient extends acCouchdbClient {
     }       
 
     public static function getTypes() {
-        return array(self::TYPE_TRANSACTION_MOUTS => self::TYPE_TRANSACTION_MOUTS,
-                     self::TYPE_TRANSACTION_RAISINS => self::TYPE_TRANSACTION_RAISINS,
-                     self::TYPE_TRANSACTION_VIN_BOUTEILLE => self::TYPE_TRANSACTION_VIN_BOUTEILLE,
-                     self::TYPE_TRANSACTION_VIN_VRAC => self::TYPE_TRANSACTION_VIN_VRAC);
+        return array(self::TYPE_TRANSACTION_MOUTS => "Moûts",
+                     self::TYPE_TRANSACTION_RAISINS => "Raisins",
+                     self::TYPE_TRANSACTION_VIN_BOUTEILLE => "Conditionné",
+                     self::TYPE_TRANSACTION_VIN_VRAC => "Vrac");
     }
 
     public static function getStatuts() {
-        return array(self::STATUS_CONTRAT_ANNULE => self::STATUS_CONTRAT_ANNULE,
-                     self::STATUS_CONTRAT_NONSOLDE => self::STATUS_CONTRAT_NONSOLDE,
-                     self::STATUS_CONTRAT_SOLDE => self::STATUS_CONTRAT_SOLDE);
+        return array(self::STATUS_CONTRAT_ANNULE => "Annulé",
+                     self::STATUS_CONTRAT_NONSOLDE => "Non soldé",
+                     self::STATUS_CONTRAT_SOLDE => "Soldé");
     }
 
     public function getLibelleFromId($id, $separation = " ") {
@@ -341,5 +341,9 @@ class VracClient extends acCouchdbClient {
         return VracOriginalPrixDefinitifView::getInstance()->findContatsByWaitForPrixDefinitif($date);
     }
     
+    public function getMandatants() {
+
+      return array('acheteur' => 'acheteur', 'vendeur' => 'vendeur');
+    }
     
 }

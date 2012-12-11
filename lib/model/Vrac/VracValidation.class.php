@@ -22,7 +22,7 @@ class VracValidation {
         }
 
         if ($this->vrac->isRaisinMoutNegoHorsIL()) {
-            $this->errors['hors_interloire_raisins_mouts'] = "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/mouts";
+            $this->errors['hors_interloire_raisins_mouts'] = "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts";
         }
 
         if ($this->vrac->isVin() && $this->vrac->volume_propose > $this->vrac->getStockCommercialisable()) {
