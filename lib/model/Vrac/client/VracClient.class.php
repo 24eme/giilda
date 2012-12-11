@@ -173,6 +173,14 @@ class VracClient extends acCouchdbClient {
       $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
       return $bySoussigneType;
     }
+
+    public function getCampagneByIdentifiant($identifiant) {
+      $rows = $this->startkey(array('STATUT', $identifiant))
+	->startkey(array('STATUT', $identifiant, []))
+	->limit(1)->getView('vrac', 'soussigneidentifiant')->rows;
+      return array($rows[0]->key[2] => $rows[0]->key[2]);
+    }
+
     public static function getCsvBySoussigne($vracs)
     {
         $result ="\xef\xbb\xbf";
