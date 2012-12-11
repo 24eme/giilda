@@ -6,7 +6,7 @@
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <?php include_component('stocks', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
-            <?php include_partial('stocks/recap', array('campagne' => '2011-2012', 'etablissement' => $etablissement)); ?>
+            <?php include_partial('stocks/recap', array('campagne' => '2012-2013', 'etablissement' => $etablissement)); ?>
 
             <script type="text/javascript"> 
                 var source_tags = {};

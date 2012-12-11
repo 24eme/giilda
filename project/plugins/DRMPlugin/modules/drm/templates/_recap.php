@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $details = $drm->getDetails(); 
+				<?php $details = $drm->getProduitsDetails(); 
 					  $i = 1;
 				?>
 
