@@ -129,6 +129,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $vracs;
     }
 
+    public function generateByDS(DS $ds) {
+        $this->identifiant = $ds->identifiant;
+        foreach($ds->declarations as $produit) {
+            if(!$produit->isActif()) {
+
+                continue;
+            }
+            $this->addProduit($produit->produit_hash);
+        }
+    }
+
     public function generateSuivante() 
     {
 
@@ -196,11 +207,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
          	return $this->getEtablissement()->getInterproObject();
      	}
-    }
-    
-    public function getDRMHistorique() {
-
-        return $this->store('drm_historique', array($this, 'getDRMHistoriqueAbstract'));
     }
 
     public function getPrecedente() {
@@ -315,16 +321,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }     
     }
 
-
     public function setInterpros() {
       $i = $this->getInterpro();
       if ($i)
        $this->interpros->add(0,$i->getKey());
-    }
-
-    protected function getDRMHistoriqueAbstract() {
-        
-        return new DRMHistorique($this->identifiant, $this->periode);
     }
 
     private function getTotalDroit($type) {
@@ -370,7 +370,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     
     public function isDebutCampagne() {
     	
-        return $this->getMois() == 8;
+        return ConfigurationClient::getInstance()->isDebutCampagne($this->periode);
     }
 
     public function getCurrentEtapeRouting() {
