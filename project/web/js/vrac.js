@@ -444,12 +444,15 @@ var setGreyPanel = function(divId)
     $('#'+divId+'_overlay').offset({top: offset.top});
 };
 
-var removeGreyPanel = function(divId) { $('#'+divId+'_overlay').remove(); };
+var removeGreyPanel = function(divId) { 
+    $('#'+divId+'_overlay').remove(); 
+};
 
 $(document).ready(function()
 {
      initMarche();
      initConditions();
+     $("#vrac_soussigne").bind("submit", function() {return false;});
      $('#vendeur_choice input').focus();
      initDatepicker();
 });
