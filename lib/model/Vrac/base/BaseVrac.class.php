@@ -7,7 +7,9 @@
  * @property string $_id
  * @property string $_rev
  * @property string $type
+ * @property string $campagne
  * @property string $numero_contrat
+ * @property string $numero_archive
  * @property integer $etape
  * @property string $interne
  * @property string $vendeur_identifiant
@@ -21,6 +23,7 @@
  * @property integer $original
  * @property string $type_transaction
  * @property string $produit
+ * @property string $produit_libelle
  * @property integer $millesime
  * @property string $contient_domaine
  * @property string $domaine
@@ -32,13 +35,14 @@
  * @property string $bouteilles_contenance_libelle
  * @property float $prix_unitaire
  * @property float $prix_total
+ * @property float $prix_hl
  * @property string $type_contrat
  * @property integer $prix_variable
  * @property float $part_variable
  * @property string $cvo_nature
  * @property string $cvo_repartition
  * @property string $commentaires
- * @property string $date_stats
+ * @property string $date_campagne
  * @property string $date_signature
  * @property float $volume_propose
  * @property float $volume_enleve
@@ -50,8 +54,12 @@
  * @method string set_rev()
  * @method string getType()
  * @method string setType()
+ * @method string getCampagne()
+ * @method string setCampagne()
  * @method string getNumeroContrat()
  * @method string setNumeroContrat()
+ * @method string getNumeroArchive()
+ * @method string setNumeroArchive()
  * @method integer getEtape()
  * @method integer setEtape()
  * @method string getInterne()
@@ -78,6 +86,8 @@
  * @method string setTypeTransaction()
  * @method string getProduit()
  * @method string setProduit()
+ * @method string getProduitLibelle()
+ * @method string setProduitLibelle()
  * @method integer getMillesime()
  * @method integer setMillesime()
  * @method string getContientDomaine()
@@ -100,6 +110,8 @@
  * @method float setPrixUnitaire()
  * @method float getPrixTotal()
  * @method float setPrixTotal()
+ * @method float getPrixHl()
+ * @method float setPrixHl()
  * @method string getTypeContrat()
  * @method string setTypeContrat()
  * @method integer getPrixVariable()
@@ -112,8 +124,8 @@
  * @method string setCvoRepartition()
  * @method string getCommentaires()
  * @method string setCommentaires()
- * @method string getDateStats()
- * @method string setDateStats()
+ * @method string getDateCampagne()
+ * @method string setDateCampagne()
  * @method string getDateSignature()
  * @method string setDateSignature()
  * @method float getVolumePropose()

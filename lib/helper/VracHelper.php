@@ -56,7 +56,8 @@ function showRecapPrixUnitaire($vrac)
     {
         switch ($type)
         {
-            case 'raisins': return echoF($vrac->prix_unitaire).' €/kg';
+            case 'raisins': return echoF($vrac->prix_unitaire).' €/kg, soit '.
+                    echoF($vrac->prix_hl).' €/hl';
             case 'mouts': return echoF($vrac->prix_unitaire).' €/hl';
             case 'vin_vrac': return echoF($vrac->prix_unitaire).' €/hl';                   
             case 'vin_bouteille': 
@@ -64,7 +65,7 @@ function showRecapPrixUnitaire($vrac)
                     return 0;
                 }
                 return echoF($vrac->prix_unitaire).' €/btle, soit '.
-                    echoF($vrac->prix_total/($vrac->bouteilles_quantite*($vrac->bouteilles_contenance_volume))).' €/hl';
+                    echoF($vrac->prix_hl).' €/hl';
         }
     }    
     return '';

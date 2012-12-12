@@ -86,8 +86,8 @@ class Vrac extends BaseVrac {
                 break;
             }              
         }
-
-        $this->prix_total = round($this->prix_total, 2);
+//        $this->prix_total = round($this->prix_total, 2);
+        $this->prix_hl = $this->prix_total/$this->volume_propose;
     }
 
     public function setInformations() 
