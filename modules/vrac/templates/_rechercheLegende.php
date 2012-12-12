@@ -72,7 +72,7 @@ if($rechercheMode){
             }
         }
         ?>
-        <span class="type_vin_bouteille">type_vin_bouteille</span><span class="legende_type_texte">Bouteilles</span>
+        <span class="type_vin_bouteille">type_vin_bouteille</span><span class="legende_type_texte">Conditionné</span>
         <?php if($rechercheMode) echo '</a>'; ?>
     </div>
     <br />
@@ -107,7 +107,7 @@ if($rechercheMode){
             }
         }
         ?>
-        <span class="statut statut_non-solde"></span><span class="legende_statut_texte">Non-soldé</span>
+        <span class="statut statut_non-solde"></span><span class="legende_statut_texte">Non soldé</span>
         <?php if($rechercheMode) echo '</a>'; ?>
     </div>
     <div <?php echo (($rechercheMode) && (isARechercheParam($actifs,VracClient::STATUS_CONTRAT_ANNULE)))? 'class="actif"' : ''; ?> >

@@ -54,7 +54,7 @@ class Vrac extends BaseVrac {
             $this->setBouteillesContenanceVolume(VracClient::$contenance[$c]);
         }
     }
-    
+
     public function update($params = array()) {
         
          $this->prix_total = null;

@@ -25,9 +25,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         
         $this->setWidget('mandataire_exist', new sfWidgetFormInputCheckbox());        
         
-        $mandatant_identifiantChoice = array('vendeur' => 'vendeur','acheteur' => 'acheteur');
-        
-        $this->setWidget('mandatant', new sfWidgetFormChoice(array('expanded' => true, 'multiple'=> true , 'choices' => $mandatant_identifiantChoice)));
+        $this->setWidget('mandatant', new sfWidgetFormChoice(array('expanded' => true, 'multiple'=> true , 'choices' => VracClient::getInstance()->getMandatants())));
                 
         $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' =>  EtablissementFamilles::FAMILLE_COURTIER)));
         
@@ -48,7 +46,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             'interne' => new sfValidatorBoolean(array('required' => false)),
             'mandataire_identifiant' => new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_COURTIER)),
             'mandataire_exist' => new sfValidatorBoolean(array('required' => false)),
-            'mandatant' => new sfValidatorChoice(array('required' => false,'multiple'=> true, 'choices' => array_keys($mandatant_identifiantChoice)))
+            'mandatant' => new sfValidatorChoice(array('required' => false,'multiple'=> true, 'choices' => array_keys(VracClient::getInstance()->getMandatants())))
             ));
         
         
