@@ -19,7 +19,7 @@ class importDRMTask extends importAbstractTask
   const CSV_LIGNE_TYPE_TRANSFERT_ENTREE = '08.TRANSFERT-ENTREE';
   const CSV_LIGNE_TYPE_TRANSFERT_SORTIE = '09.TRANSFERT-SORTIE';
   const CSV_LIGNE_TYPE_MOUVEMENT = '10.MOUVEMENT';
-
+  const CSV_LIGNE_TYPE_INFO = '11.INFO';
 
   const CSV_DS_DOSSIER = 5;
   const CSV_DS_CAMPAGNE = 6;
@@ -387,6 +387,8 @@ EOF;
       case self::CSV_LIGNE_TYPE_VENTE:
         $this->importLigneVente($drm, $line);
         break;
+      case self::CSV_LIGNE_TYPE_ACHAT:
+        break;
       case self::CSV_LIGNE_TYPE_DIVERS:
         $this->importLigneDivers($drm, $line);
         break;
@@ -401,7 +403,8 @@ EOF;
       case self::CSV_LIGNE_TYPE_MOUVEMENT:
         $this->importLigneMouvement($drm, $line);
         break;
-      case self::CSV_LIGNE_TYPE_ACHAT:
+      case self::CSV_LIGNE_TYPE_INFO:
+        $this->importLigneInfo($drm, $line);
         break;
       default:
         throw new sfException(sprintf("Le type de ligne '%s' n'est pas pris en compte", $line[self::CSV_LIGNE_TYPE]));
@@ -440,10 +443,6 @@ EOF;
   }
 
   public function importLigneVente($drm, $line) {
-    if(!$drm->numero_archive) {
-      $drm->numero_archive = sprintf("%05d", $line[self::CSV_VENTE_NUMERO_SORTIE]);
-    }
-
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) > 0) {
@@ -538,6 +537,10 @@ EOF;
     $produit->entrees->recolte += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]);
   }
 
+  public function importLigneInfo($drm, $line) {
+    $drm->numero_archive = sprintf("%05d", $line[self::CSV_VENTE_NUMERO_SORTIE]);
+  }
+
   protected function verifyLine($line) {
     if (!preg_match('/^[0-9]{4}-[0-9]{4}$/', $line[self::CSV_LIGNE_CAMPAGNE])) {
 
@@ -558,8 +561,6 @@ EOF;
 
       throw new sfException(sprintf("Le produit n'est pas au bon format %s", $line[self::CSV_LIGNE_CODE_APPELLATION]));
     }
-
-    $this->getHash($this->getCodeProduit($line));
 
     if (DRMClient::getInstance()->buildCampagne($this->getPeriode($line)) != $line[self::CSV_LIGNE_CAMPAGNE]) {
 
