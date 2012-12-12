@@ -6,6 +6,16 @@
 
 class DRMESDetails extends BaseDRMESDetails {
 
+  public function update($params = array()) {
+    parent::update($params);
+    if (count($this) == 1 && !$this[0]->identifiant) {
+      $p = $this->getParent();
+      $k = $this->getKey();
+      $this->delete();
+      $p->add($k);
+    }
+  }
+
     public function getNoeud() {
 
         return $this->getParent();

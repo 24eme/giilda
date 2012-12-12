@@ -46,6 +46,7 @@ class DRMDetailVracForm extends acCouchdbForm {
     public function update() {
         //$this->drm_sorties_vrac_details->clear();
         foreach($this->getEmbeddedForms() as $key => $form) {
+	  if (isset($this->values[$key]))
             $form->updateObject($this->values[$key]);
         }
     }
