@@ -221,7 +221,7 @@ var init_ajax_nouveau = function()
     ajaxifyAutocompleteGet('getInfos','#acheteur_choice','#acheteur_informations');
     ajaxifyAutocompleteGet('getInfos','#mandataire_choice','#mandataire_informations');
     $('#has_mandataire input').attr('checked', 'checked');
-    $('#vrac_mandatant_vendeur').attr('checked','checked');
+    $('#vrac_mandatant_acheteur').attr('checked','checked');
     
     majAutocompleteInteractions('vendeur');
     majAutocompleteInteractions('acheteur');
@@ -442,12 +442,16 @@ var setGreyPanel = function(divId)
     $('#'+divId+'_overlay').offset({top: offset.top});
 };
 
-var removeGreyPanel = function(divId) { $('#'+divId+'_overlay').remove(); };
+var removeGreyPanel = function(divId) { 
+    $('#'+divId+'_overlay').remove(); 
+};
 
 $(document).ready(function()
 {
      initMarche();
      initConditions();
+     $("#vrac_soussigne").bind("submit", function() {return false;});
+     $("#btn_soussigne_submit").bind("click", function() {$("#vrac_soussigne").unbind("submit");$("#vrac_soussigne").submit()});
      $('#vendeur_choice input').focus();
      initDatepicker();
 });
