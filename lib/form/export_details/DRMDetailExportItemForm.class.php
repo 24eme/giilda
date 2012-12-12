@@ -14,12 +14,13 @@ class DRMDetailExportItemForm extends acCouchdbObjectForm {
         $this->setWidget('volume', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off', 'class' => 'num num_float')));
         $this->setWidget('date_enlevement', new sfWidgetFormInput());
         
-        $this->setValidator('identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCountryList()))));
-        $this->setValidator('volume', new sfValidatorNumber(array('required' => true)));
-        $this->setValidator('date_enlevement', new sfValidatorDate(array('required' => true, 
+        $this->setValidator('identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getCountryList()))));
+        $this->setValidator('volume', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('date_enlevement', new sfValidatorDate(array('required' => false, 
                                                                          'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~',
                                                                          'date_output' => 'Y-m-d')));
         
+        $this->validatorSchema->setPostValidator(new DRMDetailExportItemValidator()); 
         $this->widgetSchema->setNameFormat('drm_detail_export_item[%s]');
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
