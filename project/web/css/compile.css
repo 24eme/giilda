@@ -1479,10 +1479,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   padding:2px 4px;
   width:120px;
 }
-#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select {
-  height:20px;
-  width:130px;
-}
+#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select { width:130px; }
 #vrac_soussigne .ligne_form .champ_form_radio_cb label, #vrac_marche .ligne_form .champ_form_radio_cb label, #vrac_condition .ligne_form .champ_form_radio_cb label, #vrac_validation .ligne_form .champ_form_radio_cb label, #vrac_recapitulatif .ligne_form .champ_form_radio_cb label {
   display:inline-block;
   margin:0 20px 0 0;
@@ -2347,7 +2344,6 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   vertical-align:top;
   width:329px;
 }
-#contenu_etape .ligne_form { height:38px; }
 #contenu_etape #recherche_operateur {
   background:#ecebeb;
   margin:0 0 25px;
