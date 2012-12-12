@@ -40,6 +40,11 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
       return $this->_set('periode', $p);
     }
     
+    //A conserver pour gestion des abstracts de InterfaceArchivageDoc
+    public function getCampagne() {
+      return $this->_get('campagne');
+    }
+
     public function getPeriodeAndVersion() {
 
         return SV12Client::getInstance()->buildPeriodeAndVersion($this->periode, $this->version);
