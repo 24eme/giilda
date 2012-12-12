@@ -4,7 +4,8 @@ class DRMHistorique {
 
     protected $identifiant = null;
     protected $drms = null;
-    protected $has_drm_process = null;
+    protected $drm_process = null;
+    protected $campagne = null;
 
     const VIEW_INDEX_ETABLISSEMENT = 0;
     const VIEW_CAMPAGNE = 1;
@@ -15,26 +16,27 @@ class DRMHistorique {
     const VIEW_STATUT_DOUANE_ENVOI = 6;
     const VIEW_STATUT_DOUANE_ACCUSE = 7;
 
-    public function __construct($identifiant)
+    public function __construct($identifiant, $campagne)
     {
         $this->identifiant = $identifiant;
+        $this->campagne = $campagne;
 
-        $this->loadDRMs();
+        $this->load();
     }
 
-    public function hasDRMInProcess() {
+    public function hasInProcess() {
         
-        return $this->has_drm_process;
+        return $this->drm_process;
     }
 
-    public function getLastDRM() {
+    public function getLast() {
         foreach($this->drms as $drm) {
             
             return DRMClient::getInstance()->find($drm->_id);
         }
     }
 
-    public function getPreviousDRM($periode) {
+    public function getPrevious($periode) {
         foreach($this->drms as $drm) {
             if ($drm->periode < $periode) {
 
@@ -43,7 +45,7 @@ class DRMHistorique {
         }
     }
 
-    public function getNextDRM($periode) {
+    public function getNext($periode) {
         $next_drm = new stdClass();
         $next_drm->_id = null;
         $next_drm->periode = '9999-99';
@@ -68,10 +70,10 @@ class DRMHistorique {
         $this->loadDRMs();
     }
 
-    protected function loadDRMs() {
+    protected function load() {
         $this->drms = array();
 
-        $drms = DRMClient::getInstance()->viewByIdentifiant($this->identifiant);
+        $drms = DRMClient::getInstance()->viewByIdentifiantAndCampagne($this->identifiant, $this->campagne);
 
         $this->has_drm_process = false;
 
@@ -86,7 +88,7 @@ class DRMHistorique {
             $this->drms[$key] = $this->build($drm);
 
             if (!$this->drms[$key]->valide->date_saisie) {
-                $this->has_drm_process = true;
+                $this->drm_process = true;
             }
         }
     }
@@ -111,35 +113,6 @@ class DRMHistorique {
     public function getDRMs() {
 
         return $this->drms;
-    }
-
-    public function getDRMsByCampagne($campagne) {
-        $drms = array();
-        foreach($this->getDRMs() as $drm) {
-            if ($drm->campagne == $campagne) {
-                $drms[$drm->_id] = $drm;
-            }
-        }
-        return $drms;
-    }
-
-    public function getLastDRMByCampagne($campagne) {
-        foreach($this->drms as $drm) {
-            if ($drm->campagne == $campagne) {
-               return DRMClient::getInstance()->find($drm->_id);
-            }
-        }
-        return null;
-    }
-
-    public function getCampagnes() {
-        $campagnes = array();
-        foreach($this->getDRMs() as $drm) {
-            if (!in_array($drm->campagne, $campagnes)) {
-                $campagnes[] = $drm->campagne;
-            }
-        }
-        return $campagnes;
     }
 
     public function getIdentifiant() {

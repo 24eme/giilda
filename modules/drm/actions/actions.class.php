@@ -34,7 +34,7 @@ class drmActions extends sfActions {
         $identifiant = $request->getParameter('identifiant');
         $periode = $request->getParameter('periode');
 
-        if (DRMClient::getInstance()->getDRMHistorique($identifiant)->hasDRMInProcess()) {
+        if (DRMClient::getInstance()->getHistorique($identifiant, $periode)->hasInProcess()) {
             
             return $this->redirect('drm_inProcess', array('identifiant' => $identifiant));
         }
@@ -55,8 +55,8 @@ class drmActions extends sfActions {
 
     public function executeInProcess(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->historique = new DRMHistorique($request->getParameter('identifiant'));
         $this->campagne = $request->getParameter('campagne');
+        $this->historique = new DRMHistorique($request->getParameter('identifiant'), $this->campagne);
         if (!$this->campagne) {
             $this->campagne = '2012-2013';
         }
