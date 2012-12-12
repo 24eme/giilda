@@ -191,11 +191,9 @@ var majTotal = function(quantiteField){
         var hlRaisins = quantite;
         if(quantiteField=='raisin_quantite')
         {
-            hlRaisins*=1.3;
-            $('#volume_total').val(quantite).trigger('change');
+            hlRaisins = (hlRaisins / 1.3);
+            hlRaisins = hlRaisins /100.0; 
         }
-        else
-            $('#volume_total').val(quantite).trigger('change');
         
         var prix_unitaire = $('#vrac_prix_unitaire').val();
         
