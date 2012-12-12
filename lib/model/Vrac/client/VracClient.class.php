@@ -181,7 +181,7 @@ class VracClient extends acCouchdbClient {
       $debut = preg_replace('/-[0-9]*/', '', $rows[0]->key[2]);
       $fin = preg_replace('/-[0-9]*/', '', ConfigurationClient::getInstance()->getCurrentCampagne());
       $campagnes = array();
-      for ($a = $debut ; $a <= $fin ; $a++) {
+      for ($a = $fin ; $a >= $debut ; $a--) {
 	$c = $a.'-'.($a+1);
 	$campagnes[$c] = $c;
       }
