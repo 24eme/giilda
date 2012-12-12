@@ -440,6 +440,10 @@ EOF;
   }
 
   public function importLigneVente($drm, $line) {
+    if(!$drm->numero_archive) {
+      $drm->numero_archive = sprintf("%05d", $line[self::CSV_VENTE_NUMERO_SORTIE]);
+    }
+
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) > 0) {
