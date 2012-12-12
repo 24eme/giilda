@@ -38,7 +38,6 @@
 							<label for="champ_volumes_vides"><input type="checkbox" id="champ_volumes_vides" /> Afficher uniquement les volumes non-saisis</label>
 						</div>
 					</div>
-					<a href="<?php echo url_for('sv12_update_addProduit', $sv12) ?>">Ajouter un produit</a>
 					<table id="table_contrats" class="table_recap">
 						<thead>
 							<tr>
@@ -76,6 +75,8 @@
 					</table> 
 				</fieldset>
 			
+				<fieldset><a class="btn_majeur btn_orange" href="<?php echo url_for('sv12_update_addProduit', $sv12) ?>">Ajouter un produit</a></fieldset>
+
 				<fieldset id="commentaire_sv12">
 					<legend>Commentaires</legend>
 					<textarea></textarea>
