@@ -57,14 +57,14 @@ class Vrac extends BaseVrac {
 
     public function update($params = array()) {
         
-         $this->prix_total = null;
+        $this->prix_total = null;
 
         switch ($this->type_transaction)
         {
             case 'raisins' :
             {
                 $this->prix_total = $this->raisin_quantite * $this->prix_unitaire;
-                $this->bouteilles_contenance_libelle = '';
+                $this->bouteilles_contenance_libelle = null;
                 $this->bouteilles_contenance_volume = null;
                 $this->volume_propose = $this->getDensite() * $this->raisin_quantite;
                 break;
@@ -83,8 +83,11 @@ class Vrac extends BaseVrac {
                 $this->bouteilles_contenance_libelle = '';
                 $this->bouteilles_contenance_volume = null;
                 $this->volume_propose = $this->jus_quantite;
+                break;
             }              
-        }        
+        }
+
+        $this->prix_total = round($this->prix_total, 2);
     }
 
     public function setInformations() 
