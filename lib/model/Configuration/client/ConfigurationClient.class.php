@@ -113,6 +113,58 @@ class ConfigurationClient extends acCouchdbClient {
 
     }
 
+    public function isDebutCampagne($periode) {
+
+        return $this->getMois($periode) == 8;
+    }
+
+    public function getMois($periode) {
+        
+        return preg_replace('/([0-9]{4})([0-9]{2})/', '$2', $periode);
+    }
+
+    public function getAnnee($periode) {
+        
+        return preg_replace('/([0-9]{4})([0-9]{2})/', '$1', $periode);
+    }
+
+    public function buildPeriode($annee, $mois) {
+
+        return sprintf("%04d%02d", $annee, $mois);
+    }
+
+    public function buildDate($periode) {
+        
+        return sprintf('%4d-%02d-%02d', $this->getAnnee($periode), $this->getMois($periode), date("t",$this->getMois($periode)));
+    }
+
+    public function getPeriodeDebut($campagne) {
+
+        return date('Ym', strtotime(ConfigurationClient::getInstance()->getDateDebutCampagne($campagne)));
+    }
+
+    public function getPeriodeFin($campagne) {
+
+        return date('Ym', strtotime(ConfigurationClient::getInstance()->getDateFinCampagne($campagne)));
+    }
+
+    public function getPeriodeSuivante($periode) {
+        $nextMonth = $this->getMois($periode) + 1;
+        $nextYear = $this->getAnnee($periode);
+
+        if ($nextMonth > 12) {
+            $nextMonth = 1;
+            $nextYear++;
+        }
+      
+        return $this->buildPeriode($nextYear, $nextMonth);
+    }
+
+    public function getCurrentPeriode() {
+
+        return date('Ym');
+    }
+
     public function getCountryList() {
         $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
         $destinationChoices = $destinationChoicesWidget->getChoices();
