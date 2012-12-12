@@ -21,4 +21,22 @@ class DRMDeclaration extends BaseDRMDeclaration {
         return $mouvements;
     }
 
+    public function cleanDetails() {
+        $delete = false;
+        foreach($this->getProduitsDetails() as $detail) {
+            if ($detail->hasStockEpuise()) {
+                $detail->delete();
+                $delete = true;
+            }
+        }
+
+        if($delete) {
+           $this->cleanNoeuds();
+        }
+    }
+
+    public function cleanNoeuds() {
+        $this->_cleanNoeuds();
+    }
+
 }

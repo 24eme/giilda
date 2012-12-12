@@ -272,6 +272,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->storeIdentifiant($options);
         $this->storeDates();
         $this->storeDeclarant();
+        $this->declaration->cleanDetails();
 
         if (!isset($options['no_droits']) || !$options['no_droits']) {
            //$this->setDroits();

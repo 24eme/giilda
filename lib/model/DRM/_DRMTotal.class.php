@@ -204,7 +204,35 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
 
         return $lieux;
     }
-  
+
+    protected function _cleanNoeuds() {
+        $noeuds = array();
+
+        foreach($this->getChildrenNode() as $key => $item) {
+            if($item instanceof _DRMTotal) {
+                $noeud = $item->cleanNoeuds();
+                if(isset($noeud)) {
+                    $noeuds[] = $noeud;
+                }
+            }
+        }
+
+        foreach($noeuds as $noeud) {
+            $noeud->delete();
+        }
+    }
+
+    public function cleanNoeuds() {
+        $this->_cleanNoeuds();
+
+        if (count($this->getChildrenNode()) == 0) {
+            
+            return $this;
+        }
+
+        return null;
+    }
+
     abstract public function getChildrenNode();
 
 }
