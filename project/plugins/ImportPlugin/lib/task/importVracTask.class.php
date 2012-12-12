@@ -241,6 +241,14 @@ EOF;
   	}
   }
 
+  protected function calculPrixUnitaire($vrac, $line) {
+    if(in_array($vrac->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS)) && $line[CSV_UNITE_PRIX_VENTE] == 'hl') {
+      return $line[CSV_UNITE_PRIX_VENTE] / $this->getDensite($line);
+    }
+
+    return $line[CSV_PRIX_VENTE];
+  }
+
   protected function convertTypeTransaction($type) {
     $type_transactions = array(
       self::CSV_TYPE_PRODUIT_INDETERMINE => null,
