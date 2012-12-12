@@ -3866,7 +3866,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#d30815;
   background-position:0 0;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne a {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne a.action {
   color:#ffffff;
   background-position:0 -130px;
   border-color:#b70808;
@@ -3883,7 +3883,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#8f8f8f;
   background-position:0 -46px;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne a {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne a.action {
   color:#ffffff;
   background-position:0 -52px;
   border-color:#6d6b6b;
@@ -3900,7 +3900,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#faa804;
   background-position:0 -23px;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne a {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne a.action {
   color:#ffffff;
   background-position:0 -104px;
   border-color:#f6b32c;
@@ -3917,7 +3917,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#9bd247;
   background-position:0 -69px;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne a {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne a.action {
   color:#ffffff;
   background-position:0 -52px;
   border-color:#6d6b6b;
@@ -3937,7 +3937,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   padding-left:5px;
   width:60px;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
@@ -3968,9 +3968,9 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   display:block;
   width:100%;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a:hover, .drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a:focus { text-decoration:none; }
-bouton.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a { height:26px; }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a span { display:inline-block; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action:hover, .drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action:focus { text-decoration:none; }
+bouton.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action { height:26px; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action span { display:inline-block; }
 .drm #principal fieldset#historique_drm .section_label_maj table {
   border:1px solid #e3e2e2;
   -webkit-border-radius:5px;
