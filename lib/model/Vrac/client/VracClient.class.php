@@ -178,7 +178,14 @@ class VracClient extends acCouchdbClient {
       $rows = $this->startkey(array('STATUT', $identifiant))
 	->startkey(array('STATUT', $identifiant, array()))
 	->limit(1)->getView('vrac', 'soussigneidentifiant')->rows;
-      return array($rows[0]->key[2] => $rows[0]->key[2]);
+      $debut = preg_replace('/-[0-9]*/', '', $rows[0]->key[2]);
+      $fin = preg_replace('/-[0-9]*/', '', ConfigurationClient::getInstance()->getCurrentCampagne());
+      $campagnes = array();
+      for ($a = $debut ; $a <= $fin ; $a++) {
+	$c = $a.'-'.($a+1);
+	$campagnes[$c] = $c;
+      }
+      return $campagnes;
     }
 
     public static function getCsvBySoussigne($vracs)
