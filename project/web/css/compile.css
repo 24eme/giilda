@@ -2429,6 +2429,7 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
 #contenu_etape #tableau_contrat .statut_non-solde td { background-color:#fff8e8; }
 #contenu_etape #tableau_contrat .statut_solde td { background-color:#f0fae1; }
 #contenu_etape #tableau_contrat .statut_annule td { background-color:#feecec; }
+#contenu_etape #vrac_soussigne .ligne_form { height:38px; }
 #contenu_etape #vrac_soussigne .section_label_maj {
   background:#ecebeb;
   margin:0 0 25px;
