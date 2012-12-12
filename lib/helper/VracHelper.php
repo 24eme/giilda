@@ -56,15 +56,15 @@ function showRecapPrixUnitaire($vrac)
     {
         switch ($type)
         {
-            case 'raisins': return $vrac->prix_unitaire.' €/kg';
-            case 'mouts': return $vrac->prix_unitaire.' €/hl';
-            case 'vin_vrac': return $vrac->prix_unitaire.' €/hl';                   
+            case 'raisins': return echoF($vrac->prix_unitaire).' €/kg';
+            case 'mouts': return echoF($vrac->prix_unitaire).' €/hl';
+            case 'vin_vrac': return echoF($vrac->prix_unitaire).' €/hl';                   
             case 'vin_bouteille': 
                 if ($vrac->bouteilles_quantite == 0 || $vrac->bouteilles_contenance_volume == 0) {
                     return 0;
                 }
-                return $vrac->prix_unitaire.' €/btle, soit '.
-                    $vrac->prix_total/($vrac->bouteilles_quantite*($vrac->bouteilles_contenance_volume)).' €/hl';
+                return echoF($vrac->prix_unitaire).' €/btle, soit '.
+                    echoF($vrac->prix_total/($vrac->bouteilles_quantite*($vrac->bouteilles_contenance_volume))).' €/hl';
         }
     }    
     return '';
@@ -95,12 +95,13 @@ function showRecapVolumePropose($vrac)
     {
         switch ($type)
         {
-            case 'raisins': return $vrac->raisin_quantite.' kg (raisins), soit '.$vrac->volume_propose.' hl';
-            case 'mouts': return $vrac->volume_propose.' hl (moûts)';
-            case 'vin_vrac': return $vrac->volume_propose.' hl (vin vrac)';                   
+            case 'raisins': 
+                return echoF($vrac->raisin_quantite).' kg (raisins), soit '.echoF($vrac->volume_propose).' hl';
+            case 'mouts': return echoF($vrac->volume_propose).' hl (moûts)';
+            case 'vin_vrac': return echoF($vrac->volume_propose).' hl (vin vrac)';                   
             case 'vin_bouteille': 
-                return $vrac->bouteilles_quantite.
-                    ' bouteilles, soit '.$vrac->volume_propose.' hl';
+                return echoF($vrac->bouteilles_quantite).
+                    ' bouteilles ('.$vrac->bouteilles_contenance_libelle.'), soit '.echoF($vrac->volume_propose).' hl' ;
         }
     }    
     return '';
@@ -136,3 +137,7 @@ function typeProduit($type)
     }
     return '';
 }   
+
+function echoF($f){
+    return sprintf("%01.02f", round($f, 2)); 
+}
