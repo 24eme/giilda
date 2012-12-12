@@ -1,10 +1,10 @@
 <?php
 /**
- * Model for DRMMouvementDetails
+ * Model for DRMESDetails
  *
  */
 
-class DRMMouvementDetails extends BaseDRMMouvementDetails {
+class DRMESDetails extends BaseDRMESDetails {
 
     public function getNoeud() {
 

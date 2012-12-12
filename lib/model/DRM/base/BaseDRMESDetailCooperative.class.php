@@ -1,8 +1,8 @@
 <?php
 /**
- * BaseDRMMouvementDetailExport
+ * BaseDRMESDetailCooperative
  * 
- * Base model for DRMMouvementDetailExport
+ * Base model for DRMESDetailCooperative
 
  * @property string $identifiant
  * @property float $volume
@@ -17,11 +17,11 @@
  
  */
 
-abstract class BaseDRMMouvementDetailExport extends acCouchdbDocumentTree {
+abstract class BaseDRMESDetailCooperative extends acCouchdbDocumentTree {
                 
     public function configureTree() {
        $this->_root_class_name = 'DRM';
-       $this->_tree_class_name = 'DRMMouvementDetailExport';
+       $this->_tree_class_name = 'DRMESDetailCooperative';
     }
                 
 }
