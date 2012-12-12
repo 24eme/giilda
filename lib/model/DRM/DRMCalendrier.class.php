@@ -84,7 +84,12 @@ class DRMCalendrier {
     public function getPeriodeLibelle($periode) {
         $date = new sfDateFormat('fr_FR');
 
-        return $date->format($periode . '-01', 'MMMM');
+        if(!preg_match('/([0-9]{4})([0-9]{2})/', $periode, $matches)) {
+
+            return null;
+        }
+
+        return $date->format(sprintf('%s-%s-%s', $matches[1], $matches[2], '01'), 'MMMM');
     }
 
     public function getNumero($periode) {
