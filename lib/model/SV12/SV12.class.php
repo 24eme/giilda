@@ -35,8 +35,9 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 							   $this->version));
     }
 
+    //Par homogénéisation, la période vaut la campagne
     public function setPeriode($p) {
-      $this->campagne = ConfigurationClient::getInstance()->buildCampagne($p);
+      $this->campagne = $p;
       return $this->_set('periode', $p);
     }
     

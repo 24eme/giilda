@@ -15,7 +15,7 @@
             <?php foreach ($mouvements as $mouvement) :
             ?>   
 
-            <tr <?php if($i%2!=0) echo ($mouvement->volume > 0)? ' class="alt"' : 'class="alt"';  ?>>
+            <tr class="<?php if($i%2!=0) echo 'alt'; if($mouvement->facturable) echo " facturable"; ?>">
                 <td><?php echo sprintf("%s - %s", ($mouvement->version) ? $mouvement->version : 'M00', format_date($mouvement->date_version));?></td>
                 <td>
                 	<?php if (!$mouvement->vrac_numero): ?>
