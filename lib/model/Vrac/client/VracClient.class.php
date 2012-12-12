@@ -176,7 +176,7 @@ class VracClient extends acCouchdbClient {
 
     public function getCampagneByIdentifiant($identifiant) {
       $rows = $this->startkey(array('STATUT', $identifiant))
-	->startkey(array('STATUT', $identifiant, []))
+	->startkey(array('STATUT', $identifiant, array()))
 	->limit(1)->getView('vrac', 'soussigneidentifiant')->rows;
       return array($rows[0]->key[2] => $rows[0]->key[2]);
     }
