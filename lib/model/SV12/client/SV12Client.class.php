@@ -58,7 +58,7 @@ class SV12Client extends acCouchdbClient {
         if (!$sv12) {
           $sv12 = new Sv12();
           $sv12->identifiant = $identifiant;
-          $sv12->periode = $periode;  
+          $sv12->periode = $periode;
           $sv12->valide->statut = SV12Client::STATUT_BROUILLON;
         }
 
@@ -88,14 +88,13 @@ class SV12Client extends acCouchdbClient {
     }
     
     public function findContratsByEtablissement($identifiant) {   
-       return array_merge(VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  VracClient::TYPE_TRANSACTION_MOUTS)->rows,
-                          VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  VracClient::TYPE_TRANSACTION_RAISINS)->rows);
+      return $this->findContratsByEtablissementAndCampagne($identifiant, ConfigurationClient::getInstance()->getCurrentCampagne());
         
     }
     
     public function findContratsByEtablissementAndCampagne($identifiant, $campagne) {   
-       return array_merge(VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  VracClient::TYPE_TRANSACTION_MOUTS, $campagne)->rows,
-                          VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  VracClient::TYPE_TRANSACTION_RAISINS, $campagne)->rows);
+      return array_merge(VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  $campagne, VracClient::TYPE_TRANSACTION_MOUTS)->rows,
+			 VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  $campagne, VracClient::TYPE_TRANSACTION_RAISINS)->rows);
         
     }
     

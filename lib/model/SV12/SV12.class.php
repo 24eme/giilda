@@ -29,18 +29,17 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     public function constructId() {
-        $this->campagne = SV12Client::getInstance()->buildCampagne($this->periode);
-	    $this->storeDeclarant(); 
-	    $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
-                                                            $this->periode, 
-                                                            $this->version));
+      $this->storeDeclarant();
+      $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
+							   $this->periode, 
+							   $this->version));
     }
 
-    public function getCampagne() {
-
-        return $this->_get('campagne');
+    public function setPeriode($p) {
+      $this->campagne = ConfigurationClient::getInstance()->buildCampagne($p);
+      return $this->_set('periode', $p);
     }
-
+    
     public function getPeriodeAndVersion() {
 
         return SV12Client::getInstance()->buildPeriodeAndVersion($this->periode, $this->version);
