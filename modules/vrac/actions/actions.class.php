@@ -191,16 +191,16 @@ class vracActions extends sfActions
   {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
-        $this->form = new VracMarcheForm($this->vrac);        
+        $this->form = new VracMarcheForm($this->vrac);   
+      
         if ($request->isMethod(sfWebRequest::POST)) 
         {
-            $this->form->bind($request->getParameter($this->form->getName()));
-           
+            $this->form->bind($request->getParameter($this->form->getName()));           
             if ($this->form->isValid())
-            {                 
-                $this->maj_etape(2);
-                $this->form->save();
-                $this->redirect('vrac_condition', $this->vrac);
+            {   
+                    $this->maj_etape(2);
+                    $this->form->save();
+                    $this->redirect('vrac_condition', $this->vrac);
             }
         }
   }

@@ -78,9 +78,12 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->validatorSchema['millesime']->setMessage('min', 'Le millésime doit être supérieur à 1980');        
         $this->validatorSchema['millesime']->setMessage('max', 'Le millésime doit être inférieur à '.$this->getCurrentYear());
         
+        
+ //       $this->validatorSchema->postValidator(new VracMarcheVolumeValidator(array($this->getWidget('bouteilles_quantite'))));
         $this->widgetSchema->setNameFormat('vrac[%s]');
         
     }
+
 
     protected function updateDefaultsFromObject() {
     	parent::updateDefaultsFromObject();
@@ -130,5 +133,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
         return (int) $year+1;
         
     }
+    
 }
 

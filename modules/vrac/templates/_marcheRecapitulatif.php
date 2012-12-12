@@ -8,7 +8,6 @@
  */
 use_helper('Vrac');
 use_helper('Float');
-$hasDomaine = is_null($vrac->domaine);
 ?>
 <div class="bloc_form">
     <div id="marche_recapitulatif_original" class="ligne_form">
@@ -38,17 +37,17 @@ $hasDomaine = is_null($vrac->domaine);
                 Type : 
             </label>
             <span>
-            <?php echo ($hasDomaine)? 'Générique' : 'Domaine'; ?>
+            <?php echo $vrac->contient_domaine; ?>
             </span>
     </div>
 
     <?php
-    if($hasDomaine && $vrac->domaine=="domaine")
+    if($vrac->contient_domaine=="domaine")
     {
     ?>
     <div id="marche_recapitulatif_domaine" class="ligne_form ligne_form_alt">
             <label>
-                Type : 
+                Domaine : 
             </label>
             <span>
             <?php echo $vrac->domaine; ?>
