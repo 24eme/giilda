@@ -176,12 +176,14 @@ class VracClient extends acCouchdbClient {
 
     public function getCampagneByIdentifiant($identifiant) {
       $rows = $this->startkey(array('STATUT', $identifiant))
-	->startkey(array('STATUT', $identifiant, array()))
+	->endkey(array('STATUT', $identifiant, array()))
 	->limit(1)->getView('vrac', 'soussigneidentifiant')->rows;
+      if(!isset($rows[0]))
+	return array();
       $debut = preg_replace('/-[0-9]*/', '', $rows[0]->key[2]);
       $fin = preg_replace('/-[0-9]*/', '', ConfigurationClient::getInstance()->getCurrentCampagne());
       $campagnes = array();
-      for ($a = $debut ; $a <= $fin ; $a++) {
+      for ($a = $fin ; $a >= $debut ; $a--) {
 	$c = $a.'-'.($a+1);
 	$campagnes[$c] = $c;
       }
