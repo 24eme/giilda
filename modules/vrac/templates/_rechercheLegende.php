@@ -2,22 +2,24 @@
 use_helper('Vrac');
 $rechercheMode = (isset($rechercheMode) && $rechercheMode);
 if($rechercheMode){
-    $actifs = $actifs->getRawValue();
-    isARechercheParam($actifs,VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE);
-    }
+  $actifs = $actifs->getRawValue();
+  isARechercheParam($actifs,VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE);
+}
+if (!isset($campagne))
+  $campagne = '';
 ?> 
 <div class="legende <?php echo ($rechercheMode)? 'rechercheMode' : '' ?>">    
     <div <?php echo (($rechercheMode) && (isARechercheParam($actifs,VracClient::TYPE_TRANSACTION_RAISINS)))? 'class="actif"' : ''; ?> >
         <?php 
         if($rechercheMode){
             if(isARechercheParam($actifs,VracClient::TYPE_TRANSACTION_RAISINS)){
-              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut)).'">';  
+              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut, 'campagne' => $campagne)).'">';  
             }    
             elseif($multiCritereType){
-            echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut , 'type' => VracClient::TYPE_TRANSACTION_RAISINS)).'">';
+            echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut , 'type' => VracClient::TYPE_TRANSACTION_RAISINS, 'campagne' => $campagne)).'">';
             }
             else{
-            echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => VracClient::TYPE_TRANSACTION_RAISINS)).'">';
+            echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => VracClient::TYPE_TRANSACTION_RAISINS, 'campagne' => $campagne)).'">';
             }
         }
         ?>
@@ -28,13 +30,13 @@ if($rechercheMode){
         <?php
         if($rechercheMode){
             if(isARechercheParam($actifs,VracClient::TYPE_TRANSACTION_MOUTS)){
-              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut)).'">';  
+              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut, 'campagne' => $campagne)).'">';  
             }    
             elseif($multiCritereType){
-            echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut , 'type' => VracClient::TYPE_TRANSACTION_MOUTS)).'">';
+            echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut , 'type' => VracClient::TYPE_TRANSACTION_MOUTS, 'campagne' => $campagne)).'">';
             }
             else{
-            echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => VracClient::TYPE_TRANSACTION_MOUTS)).'">';
+            echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => VracClient::TYPE_TRANSACTION_MOUTS, 'campagne' => $campagne)).'">';
             }
          }
         ?>
@@ -45,13 +47,13 @@ if($rechercheMode){
         <?php 
         if($rechercheMode){
             if(isARechercheParam($actifs,VracClient::TYPE_TRANSACTION_VIN_VRAC)){
-              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut)).'">';  
+              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut, 'campagne' => $campagne)).'">';  
             }    
             elseif($multiCritereType){
-                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut , 'type' => VracClient::TYPE_TRANSACTION_VIN_VRAC)).'">';
+                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut , 'type' => VracClient::TYPE_TRANSACTION_VIN_VRAC, 'campagne' => $campagne)).'">';
             }
             else{
-                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => VracClient::TYPE_TRANSACTION_VIN_VRAC)).'">'; 
+                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => VracClient::TYPE_TRANSACTION_VIN_VRAC, 'campagne' => $campagne)).'">'; 
             }
         }        
         ?>
@@ -62,13 +64,13 @@ if($rechercheMode){
         <?php 
         if($rechercheMode){
             if(isARechercheParam($actifs,VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)){
-              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut)).'">';  
+              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut, 'campagne' => $campagne)).'">';  
             }    
             elseif($multiCritereType){
-                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut , 'type' => VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)).'">';
+                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => $statut , 'type' => VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE, 'campagne' => $campagne)).'">';
             }
             else{
-                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)).'">'; 
+                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE, 'campagne' => $campagne)).'">'; 
             }
         }
         ?>
@@ -80,13 +82,13 @@ if($rechercheMode){
         <?php 
         if($rechercheMode){
             if(isARechercheParam($actifs,VracClient::STATUS_CONTRAT_SOLDE)){
-              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => $type)).'">';  
+              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => $type, 'campagne' => $campagne)).'">';  
             }    
             elseif($multiCritereStatut){
-                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_SOLDE , 'type' => $type)).'">';
+                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_SOLDE , 'type' => $type, 'campagne' => $campagne)).'">';
             }
             else{
-                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_SOLDE)).'">';
+                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_SOLDE, 'campagne' => $campagne)).'">';
             }
         }
         ?>
@@ -100,10 +102,10 @@ if($rechercheMode){
               echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => $type)).'">';  
             }    
             elseif($multiCritereStatut){
-                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_NONSOLDE , 'type' => $type)).'">';
+                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_NONSOLDE , 'type' => $type, 'campagne' => $campagne)).'">';
             }
             else{
-                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_NONSOLDE)).'">';
+                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_NONSOLDE, 'campagne' => $campagne)).'">';
             }
         }
         ?>
@@ -115,13 +117,13 @@ if($rechercheMode){
         if($rechercheMode)
             {
             if(isARechercheParam($actifs,VracClient::STATUS_CONTRAT_ANNULE)){
-              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => $type)).'">';  
+              echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'type' => $type, 'campagne' => $campagne)).'">';  
             }    
             elseif($multiCritereStatut){
-                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_ANNULE , 'type' => $type)).'">';
+                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_ANNULE , 'type' => $type, 'campagne' => $campagne)).'">';
             }
             else{
-                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_ANNULE)).'">';
+                echo '<a href="'.url_for('vrac_recherche',array('identifiant'=>$identifiant, 'statut' => VracClient::STATUS_CONTRAT_ANNULE, 'campagne' => $campagne)).'">';
             }
         }
         ?>

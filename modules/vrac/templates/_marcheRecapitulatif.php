@@ -111,7 +111,7 @@ $hasDomaine = is_null($vrac->domaine);
             <label>
                 Prix : 
             </label>
-            <span><?php echo $vrac->prix_total;?>&nbsp;€</span>
+        <span><?php echoFloat($vrac->prix_total);?>&nbsp;€</span>
     </div>
         
 </div>
