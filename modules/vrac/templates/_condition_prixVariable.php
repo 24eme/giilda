@@ -9,24 +9,33 @@
  */
 
 use_helper('Vrac');
+use_helper('Float');
  ?>
 <div id="prix_variable" <?php echo ($displayPrixVariable)? '' : 'style="display:none;"'; ?> class="section_label_maj">
     <label>Prix variable</label>
     <div class="bloc_form">
         <!--  Affichage des la part variable sur la quantité du contrat  -->
-        <div id="part_variable" class="ligne_form">
+        <div id="part_variable" class="ligne_form ligne_form_alt">
                 <span>
                     <?php echo $form['part_variable']->renderError() ?>
                     <?php echo $form['part_variable']->renderLabel() ?>
                     <?php echo $form['part_variable']->render() ?> <span>% (50% max)</span>
                 </span>
         </div>
+        <div id="prix_definitif_unitaire" class="ligne_form">
+                <span>
+                    <?php echo $form['prix_definitif_unitaire']->renderError() ?>
+                    <?php echo $form['prix_definitif_unitaire']->renderLabel() ?>
+                    <?php echo $form['prix_definitif_unitaire']->render() ?>
+                </span>
+        </div>
+        
         <!--  Affichage du taux de variation des produits du contrat  -->
         <div id="prixTotal_rappel" class="ligne_form ligne_form_alt">
             <span>
-                <label>Prix total</label>
-                <?php echo $form->getObject()->prix_unitaire ?> €/<?php echo showUnite($form->getObject()); ?>
-                <?php if( $form->getObject()->type_transaction == "vin_bouteille"){ echo "(soit ".$form->getObject()->bouteilles_quantite * (($form->getObject()->bouteilles_contenance_volume))." €/hl)"; } ?>      
+                <label>Prix total non définitif</label>
+                <?php echoFloat($form->getObject()->prix_unitaire); ?> €/<?php echo showUnite($form->getObject()); ?>
+                <?php if( $form->getObject()->type_transaction == "vin_bouteille"){ echo "(soit ".sprintFloat($form->getObject()->prix_hl)." €/hl)"; } ?>      
             </span>
         </div>
     </div>

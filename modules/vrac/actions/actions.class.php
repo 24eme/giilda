@@ -392,7 +392,18 @@ class vracActions extends sfActions
         $this->vrac->valide->date_saisie = $date_saisie;
         $this->vrac->valide->identifiant = $identifiant;
         $this->vrac->valide->statut = $statut;
+        if($this->vrac->prix_variable){
+            if($this->vrac->prix_definitif_unitaire){
+                   $this->vrac->prix_total_definitif =  $this->vrac->prix_definitif_hl * $this->vrac->volume_propose;
+            }
+            else
+                {
+                $this->vrac->prix_total_definitif = null;
+            }
+        }else
+            $this->vrac->prix_total_definitif = $this->vrac->prix_total;
     }
+            
   
     private function majStatut($statut)
     {

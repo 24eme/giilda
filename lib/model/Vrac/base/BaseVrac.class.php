@@ -39,6 +39,9 @@
  * @property string $type_contrat
  * @property integer $prix_variable
  * @property float $part_variable
+ * @property float $prix_definitif_unitaire
+ * @property float $prix_definitif_hl
+ * @property float $prix_total_definitif
  * @property string $cvo_nature
  * @property string $cvo_repartition
  * @property string $commentaires
@@ -118,6 +121,12 @@
  * @method integer setPrixVariable()
  * @method float getPartVariable()
  * @method float setPartVariable()
+ * @method float getPrixDefinitifUnitaire()
+ * @method float setPrixDefinitifUnitaire()
+ * @method float getPrixDefinitifHl()
+ * @method float setPrixDefinitifHl()
+ * @method float getPrixTotalDefinitif()
+ * @method float setPrixTotalDefinitif()
  * @method string getCvoNature()
  * @method string setCvoNature()
  * @method string getCvoRepartition()

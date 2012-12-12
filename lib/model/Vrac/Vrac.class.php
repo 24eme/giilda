@@ -58,7 +58,6 @@ class Vrac extends BaseVrac {
     public function update($params = array()) {
         
         $this->prix_total = null;
-
         switch ($this->type_transaction)
         {
             case 'raisins' :
@@ -86,7 +85,6 @@ class Vrac extends BaseVrac {
                 break;
             }              
         }
-//        $this->prix_total = round($this->prix_total, 2);
         $this->prix_hl = $this->prix_total/$this->volume_propose;
     }
 
@@ -153,6 +151,31 @@ class Vrac extends BaseVrac {
         $this->campagne = VracClient::getInstance()->buildCampagne($this->getDateCampagne('Y-m-d'));
     }
     
+    public function setPrixDefinitifUnitaire($p) {
+        $this->_set('prix_definitif_unitaire', $p);
+        $prix_total_definitif = null;
+        switch ($this->type_transaction)
+        {
+            case 'raisins' :
+            {
+                $prix_total_definitif = $this->raisin_quantite * $this->prix_definitif_unitaire;
+                break;
+            }
+            case 'vin_bouteille' :
+            {
+                $prix_total_definitif = $this->bouteilles_quantite * $this->prix_definitif_unitaire;
+                break;
+            }
+            
+            case 'mouts' :
+            case 'vin_vrac' :
+                $prix_total_definitif = $this->jus_quantite * $this->prix_definitif_unitaire;
+                break;              
+        }
+        if($this->prix_definitif_unitaire) $this->prix_definitif_hl = $prix_total_definitif/$this->volume_propose;
+    }
+
+
     public function getDateCampagne($format = 'd/m/Y') {
         return $this->getDate('date_campagne', $format);
     }

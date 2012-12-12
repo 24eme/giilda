@@ -71,6 +71,27 @@ function showRecapPrixUnitaire($vrac)
     return '';
 }
 
+function showRecapPrixUnitaireDefinitif($vrac)
+{
+    if($type = $vrac->type_transaction)
+    {
+        switch ($type)
+        {
+            case 'raisins': return echoF($vrac->prix_definitif_unitaire).' €/kg, soit '.
+                    echoF($vrac->prix_definitif_hl).' €/hl';
+            case 'mouts': 
+            case 'vin_vrac': return echoF($vrac->prix_definitif_unitaire).' €/hl';                   
+            case 'vin_bouteille': 
+                if ($vrac->bouteilles_quantite == 0 || $vrac->bouteilles_contenance_volume == 0) {
+                    return 0;
+                }
+                return echoF($vrac->prix_definitif_unitaire).' €/btle, soit '.
+                    echoF($vrac->prix_definitif_hl).' €/hl';
+        }
+    }    
+    return '';
+}
+
 function showType($vrac)
 {
     if($type = $vrac->type_transaction)
