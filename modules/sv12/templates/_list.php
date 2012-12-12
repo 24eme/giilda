@@ -40,7 +40,7 @@
                     <?php echoFloat($item->totaux->volume_mouts) ?>
                 </td>
                 <td>
-                    <?php echoFloat($item->totaux->volume_raisins + $item->totaux->volume_mouts) ?>
+                    <?php echoFloat($item->totaux->volume_raisins + $item->totaux->volume_mouts + $item->totaux->volume_ecarts) ?>
                 </td>
                 <td>
                     <?php if(in_array($item->valide->statut, array(SV12Client::STATUT_VALIDE, SV12Client::STATUT_VALIDE_PARTIEL))): ?>

@@ -24,7 +24,7 @@
                 </td>
 
                 <td>     
-                    <?php echoFloat($produit->volume_raisins + $produit->volume_mouts).' hl'; ?>
+                    <?php echoFloat($produit->volume_raisins + $produit->volume_mouts + $produit->volume_ecarts).' hl'; ?>
                 </td>
             </tr>
             <?php
@@ -39,7 +39,7 @@
                     <?php echoFloat($sv12->totaux->volume_mouts).' hl'; ?>
                 </td>
                 <td style="font-weight:bold;">
-                    <?php echoFloat($sv12->totaux->volume_raisins + $sv12->totaux->volume_mouts).' hl'; ?>
+                    <?php echoFloat($sv12->volume_total).' hl'; ?>
                 </td>
             </tr>
         </tbody>

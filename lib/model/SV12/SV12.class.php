@@ -150,6 +150,9 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         return true;
     } 
 
+    public function getVolumeTotal() {
+      return $this->totaux->volume_raisins + $this->totaux->volume_mouts + $this->totaux->volume_ecarts;
+    }
 
     public function updateTotaux() {
         $this->remove('totaux');
@@ -174,7 +177,10 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
             } elseif($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
                 $noeud->volume_mouts += $contrat->volume;
                 $this->totaux->volume_mouts += $contrat->volume;   
-            }
+            } else {
+                $noeud->volume_ecarts += $contrat->volume;
+                $this->totaux->volume_ecarts += $contrat->volume;   
+	    }
         }
     }
     
@@ -206,6 +212,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->valide->statut = SV12Client::STATUT_BROUILLON;
     }
     
+
     public function saveBrouillon() {
         $this->valide->date_saisie = date('d-m-y');
         $this->valide->statut = SV12Client::STATUT_BROUILLON;
@@ -222,6 +229,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     protected function preSave() {
+        $this->updateTotaux();
         $this->archivage_document->preSave();
 	$this->region = $this->getEtablissementObject()->region;
     }

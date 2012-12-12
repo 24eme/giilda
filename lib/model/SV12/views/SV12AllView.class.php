@@ -14,6 +14,7 @@ class SV12AllView extends acCouchdbView
     const VALUE_DATE_SAISIE = 4;
     const VALUE_VOLUME_RAISINS = 5;
     const VALUE_VOLUME_MOUTS = 6;
+    const VALUE_VOLUME_ECARTS = 7;
 
     public static function getInstance() {
 
@@ -114,6 +115,7 @@ class SV12AllView extends acCouchdbView
         $sv12->totaux = new stdClass();
         $sv12->totaux->volume_raisins = $row->value[self::VALUE_VOLUME_RAISINS];
         $sv12->totaux->volume_mouts = $row->value[self::VALUE_VOLUME_MOUTS];
+        $sv12->totaux->volume_ecarts = $row->value[self::VALUE_VOLUME_ECARTS];
 
         return $sv12;
     }

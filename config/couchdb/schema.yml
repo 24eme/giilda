@@ -30,6 +30,7 @@ SV12:
           fields:            
             volume_raisins: { type: float }
             volume_mouts: { type: float }
+            volume_ecarts: { type: float }
             produits:
               type: collection
               definition:
@@ -41,6 +42,7 @@ SV12:
                         produit_hash: {  }
                         volume_raisins: { type: float }
                         volume_mouts: { type: float }
+                        volume_ecarts: { type: float }
       contrats:
         type: collection
         definition:
