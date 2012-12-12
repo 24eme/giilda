@@ -5,7 +5,7 @@
         <tr>
             <th>Produit</th>
             <th>Raisins</th>
-            <th>Mouts</th>
+            <th>Moûts</th>
         </tr>
     </thead>
     <tbody>
