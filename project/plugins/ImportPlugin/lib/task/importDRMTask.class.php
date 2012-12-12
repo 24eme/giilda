@@ -628,7 +628,7 @@ EOF;
 
   protected function constructNumeroContrat($line) {
 
-      return $this->convertToDateObject($line[self::CSV_CONTRAT_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%04d", $line[self::CSV_CONTRAT_NUMERO_CONTRAT]);
+      return $this->convertToDateObject($line[self::CSV_CONTRAT_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%05d", $line[self::CSV_CONTRAT_NUMERO_CONTRAT]);
   }
 
   protected function convertCountry($country) {
