@@ -3,7 +3,7 @@
 . bin/import_functions.inc
 . bin/config.inc 
 
-cd $TMP/VINSDELOIRE_DATA
+cd $TMP/VINSDELOIRE_DATA || exit 1
 DATADIR=$(pwd)
 
 convert-utf8 $DATADIR/cimvs.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;10.MOUVEMENT;%4d-%4d' '$3,$4,substr($7,7,4),substr($7,4,2),$5,$2,$2+1' > $DATADIR/drm-mouvement.csv

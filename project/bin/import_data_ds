@@ -2,7 +2,7 @@
 . bin/config.inc
 . bin/import_functions.inc
 
-cd $TMP/VINSDELOIRE_DATA
+cd $TMP/VINSDELOIRE_DATA || exit 1
 DATADIR=$(pwd)
 
 convert-utf8 $DATADIR/cieds.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cieds-utf8.csv

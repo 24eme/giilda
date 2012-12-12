@@ -1479,10 +1479,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   padding:2px 4px;
   width:120px;
 }
-#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select {
-  height:20px;
-  width:130px;
-}
+#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select { width:130px; }
 #vrac_soussigne .ligne_form .champ_form_radio_cb label, #vrac_marche .ligne_form .champ_form_radio_cb label, #vrac_condition .ligne_form .champ_form_radio_cb label, #vrac_validation .ligne_form .champ_form_radio_cb label, #vrac_recapitulatif .ligne_form .champ_form_radio_cb label {
   display:inline-block;
   margin:0 20px 0 0;
@@ -2347,7 +2344,6 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   vertical-align:top;
   width:329px;
 }
-#contenu_etape .ligne_form { height:38px; }
 #contenu_etape #recherche_operateur {
   background:#ecebeb;
   margin:0 0 25px;
@@ -2872,39 +2868,8 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #colonne #contrats_similaires_list #millesime { padding-left:5px; }
 #colonne #contrats_similaires_list .separateur { background:url('../images/fonds/bg_colonne_separateur.png') right no-repeat; }
 #colonne #contrats_similaires_list .legende_contrat { margin-bottom:10px; }
-#colonne #contrat_actions a {
-  border:1px solid #c2c0c0;
-  -webkit-border-radius:4px;
-  -moz-border-radius:4px;
-  border-radius:4px;
-  -webkit-border-radius:4px;
-  -moz-border-radius:4px;
-  border-radius:4px;
-  -webkit-box-shadow:0 2px 0 #eeeeee;
-  -moz-box-shadow:0 2px 0 #eeeeee;
-  box-shadow:0 2px 0 #eeeeee;
-  -webkit-box-shadow:0 2px 0 #eeeeee;
-  -moz-box-shadow:0 2px 0 #eeeeee;
-  box-shadow:0 2px 0 #eeeeee;
-  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
-  text-transform:uppercase;
-  text-decoration:none;
-  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
-  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
-  text-shadow:1px 1px rgba(0,0,0,0.1);
-  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
-  color:#5e5c5c;
-  display:inline-block;
-  font-size:11px;
-  line-height:26px;
-  padding:0 10px;
-  position:relative;
-  display:block;
-  text-align:center;
-}
-#colonne #contrat_actions a:hover, #colonne #contrat_actions a:focus { text-decoration:none; }
-bouton#colonne #contrat_actions a { height:26px; }
-#colonne #contrat_actions a span { display:inline-block; }
+#colonne #contrat_actions a { margin:5px 0; }
+#colonne #contrat_actions .btn_nouveau { padding-left:27px; }
 #contrat_similaire_popup h2, #contrat_similaire_popup .legende_contrat { display:none; }
 #contrat_similaire_popup #ligne_btn {
   height:30px;
