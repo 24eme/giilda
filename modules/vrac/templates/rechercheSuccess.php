@@ -29,7 +29,7 @@ if(!isset($campagne)) $campagne = dateCampagneViticolePresent();
                                                               'multiCritereType' => $multiCritereType,
                                                               'multiCritereStatut'=> $multiCritereStatut,
                                                               'type' => $type,
-                                                              'statut' => $statut));
+                                                              'statut' => $statut, 'campagne' => $campagne));
                 ?>
                 <div class="section_label_maj">  
                 <?php
