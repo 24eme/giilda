@@ -136,7 +136,7 @@ else
 					<a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
 					<?php endif; ?>
 					
-					<button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
+					<button id="btn_soussigne_submit" class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
                 </div>
                 
                 </form>

@@ -149,15 +149,15 @@ class vracActions extends sfActions
         {
             $vracParam = $request->getParameter('vrac');
 
-            if(!is_null($vracParam['vendeur_identifiant']) && !empty($vracParam['vendeur_identifiant']))
+            if(isset($vracParam['vendeur_identifiant']) && $vracParam['vendeur_identifiant'])
             { 
                 $form->vendeur = EtablissementClient::getInstance()->find($vracParam['vendeur_identifiant']);
             }
-            if(!is_null($vracParam['acheteur_identifiant']) && !empty($vracParam['acheteur_identifiant']))
+            if(isset($vracParam['acheteur_identifiant']) && $vracParam['acheteur_identifiant'])
             { 
                 $form->acheteur = EtablissementClient::getInstance()->find($vracParam['acheteur_identifiant']);
             }
-            if(!is_null($vracParam['mandataire_identifiant']) && !empty($vracParam['mandataire_identifiant']))
+            if(isset($vracParam['mandataire_identifiant']) && $vracParam['mandataire_identifiant'])
             { 
                 $form->mandataire = EtablissementClient::getInstance()->find($vracParam['mandataire_identifiant']);
             }
