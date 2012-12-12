@@ -28,6 +28,11 @@ class DSProduit extends BaseDSProduit {
         $hash = substr($this->produit_hash,1,  strlen($this->produit_hash) - 1);
         if($ret = strstr($hash,'/details', true)) $hash=$ret;
         
-     return ConfigurationClient::getCurrent()->get($hash);   
+        return ConfigurationClient::getCurrent()->get($hash);   
+    }
+
+    public function isActif() {
+
+        return (!is_null($this->stock_revendique));
     }
 }

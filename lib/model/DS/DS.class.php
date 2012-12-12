@@ -50,10 +50,12 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     }
 
     public function getLastDRM() {
+        
         return DRMClient::getInstance()->findLastByIdentifiantAndCampagne($this->identifiant, $this->campagne);
     }
 
     public function getLastDS() {
+        
         return DSClient::getInstance()->findLastByIdentifiant($this->identifiant);
     }
 
@@ -70,12 +72,13 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
         $ds = $this->getLastDS();
         if ($ds) {
         	$this->declarations = $ds->declarations;
-        	foreach ($this->declarations as $hash => $declaration) {
-                if (is_null($declaration->stock_revendique)) {
+        	foreach ($this->declarations as $hash => $produit) {
+                if (!$produit->isActif()) {
                     unset($this->declarations[$hash]);
+                    continue;
                 }
-        		$declaration->stock_initial = null;
-        		$declaration->stock_revendique = null;
+        		$produit->stock_initial = null;
+        		$produit->stock_revendique = null;
         	}
         }
     }
