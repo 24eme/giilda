@@ -1,10 +1,10 @@
 <?php
 /**
- * Model for DRMMouvementDetailExport
+ * Model for DRMESDetailExport
  *
  */
 
-class DRMMouvementDetailExport extends BaseDRMMouvementDetailExport {
+class DRMESDetailExport extends BaseDRMESDetailExport {
     public function getDetail() {
         
         return $this->getParent()->getParent()->getParent();

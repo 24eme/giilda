@@ -1,8 +1,8 @@
 <?php
 /**
- * BaseDRMMouvementDetailVrac
+ * BaseDRMESDetailVrac
  * 
- * Base model for DRMMouvementDetailVrac
+ * Base model for DRMESDetailVrac
 
  * @property string $identifiant
  * @property float $volume
@@ -17,11 +17,11 @@
  
  */
 
-abstract class BaseDRMMouvementDetailVrac extends acCouchdbDocumentTree {
+abstract class BaseDRMESDetailVrac extends acCouchdbDocumentTree {
                 
     public function configureTree() {
        $this->_root_class_name = 'DRM';
-       $this->_tree_class_name = 'DRMMouvementDetailVrac';
+       $this->_tree_class_name = 'DRMESDetailVrac';
     }
                 
 }

@@ -268,39 +268,39 @@ DRM:
                                                                                                                   elaboration: { type: float }
                                                                                                                   regularisation: { type: float }
                                                                                                                   vrac_details:
-                                                                                                                    class: DRMMouvementDetails
+                                                                                                                    class: DRMESDetails
                                                                                                                     type:  array_collection
                                                                                                                     definition:
                                                                                                                       fields:
                                                                                                                         '*':
                                                                                                                           type: collection
-                                                                                                                          class: DRMMouvementDetailVrac
+                                                                                                                          class: DRMESDetailVrac
                                                                                                                           definition:
                                                                                                                             fields:
                                                                                                                               identifiant: {  }
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
                                                                                                                   export_details:
-                                                                                                                    class: DRMMouvementDetails
+                                                                                                                    class: DRMESDetails
                                                                                                                     type:  array_collection
                                                                                                                     definition:
                                                                                                                       fields:
                                                                                                                         '*':
                                                                                                                           type: collection
-                                                                                                                          class: DRMMouvementDetailExport
+                                                                                                                          class: DRMESDetailExport
                                                                                                                           definition:
                                                                                                                             fields:
                                                                                                                               identifiant: {  }
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
                                                                                                                   cooperative_details:
-                                                                                                                     class: DRMMouvementDetails
+                                                                                                                     class: DRMESDetails
                                                                                                                      type:  array_collection
                                                                                                                      definition:
                                                                                                                        fields:
                                                                                                                          '*':
                                                                                                                             type: collection
-                                                                                                                            class: DRMMouvementDetailCooperative
+                                                                                                                            class: DRMESDetailCooperative
                                                                                                                             definition:
                                                                                                                               fields:
                                                                                                                                 identifiant: {  }

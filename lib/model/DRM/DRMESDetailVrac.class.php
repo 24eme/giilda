@@ -1,10 +1,10 @@
 <?php
 /**
- * Model for DRMMouvementDetailVrac
+ * Model for DRMESDetailVrac
  *
  */
 
-class DRMMouvementDetailVrac extends BaseDRMMouvementDetailVrac {
+class DRMESDetailVrac extends BaseDRMESDetailVrac {
 
     protected $vrac = null;
 
