@@ -70,7 +70,10 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
         $ds = $this->getLastDS();
         if ($ds) {
         	$this->declarations = $ds->declarations;
-        	foreach ($this->declarations as $declaration) {
+        	foreach ($this->declarations as $hash => $declaration) {
+                if (is_null($declaration->stock_revendique)) {
+                    unset($this->declarations[$hash]);
+                }
         		$declaration->stock_initial = null;
         		$declaration->stock_revendique = null;
         	}
