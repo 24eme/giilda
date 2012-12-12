@@ -3,7 +3,6 @@
 class DSClient extends acCouchdbClient {
 
     const STATUT_VALIDE = 'valide';
-    const STATUT_VALIDE_PARTIEL = 'valide_partiel';
     const STATUT_A_SAISIR = 'a_saisir';
 
     public static function getInstance() {
@@ -102,8 +101,6 @@ class DSClient extends acCouchdbClient {
     public function getLinkLibelleForHistory($statut) {
         if ($statut == self::STATUT_A_SAISIR)
             return '> Démarrer la saisie';
-        if ($statut == self::STATUT_VALIDE_PARTIEL)
-            return '> Consulter/Modifier';
         if ($statut == self::STATUT_VALIDE)
             return '> Consulter';
         return '';
@@ -112,8 +109,6 @@ class DSClient extends acCouchdbClient {
     public function getLibelleStatutForHistory($statut) {
         if ($statut == self::STATUT_A_SAISIR)
             return 'A saisir';
-        if ($statut == self::STATUT_VALIDE_PARTIEL)
-            return 'A compléter';
         if ($statut == self::STATUT_VALIDE)
             return 'Validé';
         return '';

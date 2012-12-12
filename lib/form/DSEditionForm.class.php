@@ -10,8 +10,8 @@ class DSEditionForm extends acCouchdbForm {
         $this->ds = $ds;
         $defaults = array();
         foreach ($this->ds->getDeclarations() as $key => $value) {
-                $defaults[$key] = sprintf("%01.02f", round($value->stock_revendique, 2));
-    	}      
+            $defaults[$key] = $value->stock_revendique;
+        }      
         $defaults['commentaires'] = $this->ds->commentaires;
         parent::__construct($ds,$defaults, $options, $CSRFSecret);
     }
@@ -19,7 +19,7 @@ class DSEditionForm extends acCouchdbForm {
     public function configure()
     {
         foreach ($this->ds->declarations as $key => $declaration) {
-            $this->setWidget($key, new sfWidgetFormInput());    
+            $this->setWidget($key, new sfWidgetFormInputFloat());    
             $this->widgetSchema->setLabel($key, 'Volume Stock');
             $this->setValidator($key, new sfValidatorNumber(array('required' => false)));
         }

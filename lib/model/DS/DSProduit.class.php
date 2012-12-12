@@ -12,7 +12,7 @@ class DSProduit extends BaseDSProduit {
         $this->code_douane = $this->getConfig()->getCodeDouane();
         $this->produit_libelle = $produit->getLibelle("%g% %a% %m% %l% %co% %ce% %la%");
         $this->stock_initial = $produit->total;
-        $this->stock_revendique = 0;
+        $this->stock_revendique = null;
     }
 
     function updateProduitFromConfig($produit)
@@ -21,7 +21,7 @@ class DSProduit extends BaseDSProduit {
         $this->code_douane = $produit->getCodeDouane();
         $this->produit_libelle = $produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
         $this->stock_initial = 0;
-        $this->stock_revendique = 0;
+        $this->stock_revendique = null;
     }
 
     public function getConfig() {

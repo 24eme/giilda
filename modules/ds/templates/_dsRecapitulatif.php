@@ -19,7 +19,7 @@ use_helper('Float');
 				<?php echo $declaration->produit_libelle; ?>
 			</td>
 			<td class="ds_recap_declaration_stockInitial">
-				<?php echo $declaration->stock_initial; ?>
+				<?php echoFloat($declaration->stock_initial); ?>
 			</td>
 			<td class="ds_recap_declaration_vr">
 				<?php echoFloat($declaration->stock_revendique); ?>

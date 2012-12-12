@@ -81,22 +81,12 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
         return $this->statut === DSClient::STATUT_VALIDE;
     }
 
-    public function isStatutPartiel() {
-        return $this->statut === DSClient::STATUT_VALIDE_PARTIEL;
-    }
-
     public function isStatutASaisir() {
         return $this->statut === DSClient::STATUT_A_SAISIR;
     }
 
     public function updateStatut() {
         $this->statut = DSClient::STATUT_VALIDE;
-        foreach ($this->declarations as $declaration) {
-            if (is_null($declaration->stock_revendique) || $declaration->stock_revendique == 0) {
-                $this->statut = DSClient::STATUT_VALIDE_PARTIEL;
-                return;
-            }
-        }
     }
 
     protected function preSave() {
