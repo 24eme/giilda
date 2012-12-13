@@ -34,4 +34,13 @@ class DRMCepage extends BaseDRMCepage {
 
   		  throw new sfException('this function need to call before lieu tree');
   	}
+
+    public function cleanNoeuds() {
+        if (count($this->details) == 0) {
+          return $this;
+        }
+
+        return null;
+    }
+
 }

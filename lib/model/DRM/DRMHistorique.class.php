@@ -67,7 +67,7 @@ class DRMHistorique {
     }
 
     public function reload() {
-        $this->loadDRMs();
+        $this->load();
     }
 
     protected function load() {
