@@ -335,8 +335,7 @@ EOF;
         $this->verifyLine($line);
         $drm = $this->importLigne($drm, $line);
       } catch (Exception $e) {
-        $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
-        
+        $this->logLigne('ERROR', $e->getMessage(), $line, $i);
         return;
       }
 
@@ -348,12 +347,9 @@ EOF;
     $drm->update();
 
     try{
-      $coherence = $this->verifCoherenceWithMouvement($coherence, $drm);
+      $coherence = $this->verifCoherenceWithMouvement($coherence, $drm, $lines);
     } catch (Exception $e) {
-      $this->log(sprintf("%s (de la ligne %s à %s) :", $e->getMessage(), $i-count($lines), $i));
-      foreach($lines as $i => $line) {
-        $this->log(sprintf(" - %s : %s", $i, implode($line, ";")));
-      }
+      $this->logLignes('WARNING', $e->getMessage(), $lines, $i);
     }
 
     $drm->valide->date_saisie = date('c', strtotime($drm->getDate()));
@@ -421,7 +417,7 @@ EOF;
     }
 
     if($produit->stocks_debut->revendique != $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE])) {
-      $this->log(sprintf("WARNING;Le stock de la DS %s ne correpond pas au stock debut mois %s de cette DRM pour le produit %s : %s", $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]), $produit->stocks_debut->revendique, $this->getCodeProduit($line), implode(";", $line)));
+      $this->logLigne("WARNING", sprintf("Le stock de la DS %s ne correpond pas au stock debut mois %s de cette DRM pour le produit %s", $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]), $produit->stocks_debut->revendique, $this->getCodeProduit($line)), $line);
     }
 
     $produit->stocks_debut->revendique = $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]);
@@ -564,7 +560,7 @@ EOF;
 
     if (DRMClient::getInstance()->buildCampagne($this->getPeriode($line)) != $line[self::CSV_LIGNE_CAMPAGNE]) {
 
-      $this->log(sprintf("WARNING;Le periode %s ne fait pas parti de la campagne %s : %s", $this->getPeriode($line), $line[self::CSV_LIGNE_CAMPAGNE], implode(";", $line)));
+      $this->logLine("WARNING",sprintf("Le periode %s ne fait pas parti de la campagne %s : %s", $this->getPeriode($line), $line[self::CSV_LIGNE_CAMPAGNE], $line));
     }
 
     switch($line[self::CSV_LIGNE_TYPE]) {
@@ -633,7 +629,7 @@ EOF;
 
   protected function constructNumeroContrat($line) {
 
-      return $this->convertToDateObject($line[self::CSV_CONTRAT_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . sprintf("%05d", $line[self::CSV_CONTRAT_NUMERO_CONTRAT]);
+      return $this->convertToDateObject($line[self::CSV_CONTRAT_DATE_ENREGISTREMENT])->format('Ymd') . sprintf("%05d", $line[self::CSV_CONTRAT_NUMERO_CONTRAT]);
   }
 
   protected function convertCountry($country) {
@@ -735,7 +731,7 @@ EOF;
     return $coherence;
   }
 
-  protected function verifCoherenceWithMouvement($coherence, $drm) {
+  protected function verifCoherenceWithMouvement($coherence, $drm, $lines) {
 
     foreach($coherence as $code => $volumes) {
       $produit = $drm->addProduit($this->getHash($code));
@@ -755,5 +751,16 @@ EOF;
       }
 
     }
-  }   
+  }
+
+  public function logLignes($type, $message, $lines, $num_ligne = null) {
+    $this->log(sprintf("%s;%s (de la ligne %s à %s) :", $type, $message, $num_ligne-count($lines), $num_ligne));
+    foreach($lines as $i => $line) {
+      $this->log(sprintf(" - %s : %s", $i, implode($line, ";")));
+    }
+  }
+
+  public function logLigne($type, $message, $line, $num_ligne = null) {
+    $this->log(sprintf("%s;%s (ligne %s) : %s", $type, $message, $num_ligne, implode($line, ";")));
+  }
 }
