@@ -462,7 +462,7 @@ EOF;
     if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]) > 0) {
       $produit->sorties->bouteille += $this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]);
     } elseif($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]) < 0) {
-      $produit->entrees->reintegration += $this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]);
+      $produit->entrees->reintegration += abs($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]));
     }
   }
 
@@ -675,7 +675,11 @@ EOF;
     if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_SAISIE_DMVDP, 
                                                                  self::CSV_CODE_MOUVEMENT_MODIF_DMVDP,
                                                                  self::CSV_CODE_MOUVEMENT_ANNUL_DMVDP))) {
-      $coherence[$code]["sorties"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_SORTIE]); //Ventes
+      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_SORTIE]) > 0) {
+        $coherence[$code]["sorties"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_SORTIE]);
+      } elseif($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_SORTIE]) < 0) {
+        $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_SORTIE]));
+      }
     }
 
     if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_AGREMENT,
