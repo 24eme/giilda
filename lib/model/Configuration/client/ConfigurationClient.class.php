@@ -128,6 +128,21 @@ class ConfigurationClient extends acCouchdbClient {
         return preg_replace('/([0-9]{4})([0-9]{2})/', '$1', $periode);
     }
 
+    public function getPeriodeLibelle($periode) {
+      return $this->getMoisLibelle($periode).' '.$this->getAnnee($periode);
+    }
+
+    public function getMoisLibelle($periode) {
+        $date = new sfDateFormat('fr_FR');
+
+        if(!preg_match('/([0-9]{4})([0-9]{2})/', $periode, $matches)) {
+
+            return null;
+        }
+
+        return $date->format(sprintf('%s-%s-%s', $matches[1], $matches[2], '01'), 'MMMM');
+    }
+
     public function buildPeriode($annee, $mois) {
 
         return sprintf("%04d%02d", $annee, $mois);
