@@ -5,7 +5,7 @@
     <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>
         <a href="#" class="col_curseur" data-curseur="<?php echo $form->getObject()->getKey() ?>"></a>
-        <h2 class="titre_produit"><?php echo $form->getObject()->getLibelle("%g% %a% %co% %ce%") ?></h2>
+        <h2 class="titre_produit"><?php echo $form->getObject()->getLibelle("%g% %a% %l% %co% %ce%") ?></h2>
         <div class="col_cont">
             <p class="label">
                 <?php include_partial('labelsList', array('form' => $form)); ?>
