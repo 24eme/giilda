@@ -149,8 +149,8 @@ class ConfigurationClient extends acCouchdbClient {
     }
 
     public function buildDate($periode) {
-        
-        return sprintf('%4d-%02d-%02d', $this->getAnnee($periode), $this->getMois($periode), date("t",$this->getMois($periode)));
+        $lastDay = date('t',mktime(0, 0, 0, $this->getMois($periode), 1, $this->getAnnee($periode)));
+        return sprintf('%4d-%02d-%02d', $this->getAnnee($periode), $this->getMois($periode), $lastDay);
     }
 
     public function getPeriodeDebut($campagne) {
