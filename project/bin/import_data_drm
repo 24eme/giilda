@@ -8,7 +8,7 @@ DATADIR=$(pwd)
 
 convert-utf8 $DATADIR/cieso.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;11.INFO;%4d-%4d' '$5,$6,substr($11,7,4),substr($11,4,2),$17,$2,$2+1' > $DATADIR/drm-info.csv
 
-convert-utf8 $DATADIR/cimvs.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;10.MOUVEMENT;%4d-%4d' '$3,$4,substr($7,7,4),substr($7,4,2),$5,$2,$2+1' > $DATADIR/drm-mouvement.csv
+convert-utf8 $DATADIR/cimvs.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;10.MOUVEMENT;%4d-%4d' '$3,$4,$2+1,01,$5,$2,$2+1' > $DATADIR/drm-mouvement.csv
 
 convert-utf8 $DATADIR/cimvsdiv.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;05.DIVERS;%4d-%4d' '$5,$6,substr($11,7,4),substr($11,4,2),$7,$2,$2+1' > $DATADIR/drm-divers.csv
 
