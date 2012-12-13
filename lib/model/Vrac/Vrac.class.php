@@ -304,5 +304,25 @@ class Vrac extends BaseVrac {
 
         return $stock - $volume_restant;
     }
+    
+    
+    public function setPrixUnitaire($p) {
+       $this->_set('prix_unitaire', $this->convertStringToFloat($p));   
+    }
+    
+    public function setRaisinQuantite($q) {
+       $this->_set('raisin_quantite', $this->convertStringToFloat($q));   
+    }
+    
+    public function setJusQuantite($q) {
+        $this->_set('jus_quantite', $this->convertStringToFloat($q));      
+    }
+    
+    private function convertStringToFloat($q){
+        $qstring = str_replace(',','.',$q);
+        $qfloat = floatval($qstring);
+        if(!is_float($qfloat)) throw new sfException("La valeur $qstring n'est pas un nombre valide");
+        return $qfloat;
+    }
 
 }
