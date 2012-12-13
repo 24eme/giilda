@@ -41,7 +41,7 @@ class factureActions extends sfActions {
         $this->form = new FactureGenerationForm();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->factures = FactureEtablissementView::getInstance()->findByEtablissement($this->etablissement);
-        $this->mouvements = MouvementFacturationView::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
+        $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
     }
     
     public function executeDefacturer(sfWebRequest $resquest) {
@@ -74,7 +74,9 @@ class factureActions extends sfActions {
     public function executeLatex(sfWebRequest $request) {
         
         $this->setLayout(false);
-        $this->facture = FactureClient::getInstance()->findByEtablissementAndId($this->getRoute()->getEtablissement()->identifiant, $request->getParameter('factureid'));
+        $region = $this->getRoute()->getEtablissement()->region;
+        $prefix = EtablissementClient::getPrefixForRegion($region);
+        $this->facture = FactureClient::getInstance()->findByPrefixAndEtablissementAndId($prefix,$this->getRoute()->getEtablissement()->identifiant, $request->getParameter('factureid'));
         $this->forward404Unless($this->facture);
 	$latex = new FactureLatex($this->facture);
 //	$latex->echoFactureWithHTTPHeader('latex');

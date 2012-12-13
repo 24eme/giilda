@@ -24,7 +24,7 @@ if(count($factures->getRawValue())==0) :
                 ?>
                 <tr>
                     <td><?php $d = format_date($facture->value[FactureEtablissementView::VALUE_DATE_EMISSION],'dd/MM/yyyy');
-                        echo link_to($d, array('sf_route' => 'facture_pdf', 'identifiant' => str_replace('ETABLISSEMENT-', '', $facture->key[FactureEtablissementView::KEYS_CLIENT_ID]), 'factureid' => str_replace('FACTURE-' . $etablissement->identifiant . '-', '', $facture->key[FactureEtablissementView::KEYS_FACTURE_ID]))); ?>
+                        echo link_to($d, array('sf_route' => 'facture_pdf', 'identifiant' => str_replace('ETABLISSEMENT-', '', $facture->key[FactureEtablissementView::KEYS_CLIENT_ID]), 'factureid' => str_replace('FACTURE-'.EtablissementClient::getPrefixForRegion($etablissement->region).'-' . $etablissement->identifiant . '-', '', $facture->key[FactureEtablissementView::KEYS_FACTURE_ID]))); ?>
                     </td>
                     <td><?php foreach ($facture->value[FactureEtablissementView::VALUE_ORIGINES] as $drmid => $drmlibelle) {
 

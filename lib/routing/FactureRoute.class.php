@@ -7,7 +7,7 @@ class FactureRoute extends sfRequestRoute implements InterfaceEtablissementRoute
 
 	protected function getFactureForParameters($parameters) {
 
-        if (preg_match('/^[0-9]{8}-[0-9]{10}$/', $parameters['identifiant'])) {
+        if (preg_match('/^[1-3]{1}-[0-9]{8}-[0-9]{10}$/', $parameters['identifiant'])) {
             $identifiant = $parameters['identifiant'];
         } else {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'identifiant', $parameters['identifiant']));

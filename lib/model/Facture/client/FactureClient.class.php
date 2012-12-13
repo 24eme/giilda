@@ -17,29 +17,29 @@ class FactureClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Facture");
     }
 
-    public function getId($identifiant, $numeroFacture) {
-        return 'FACTURE-'.$identifiant.'-'.$numeroFacture;
+    public function getId($prefix,$identifiant, $numeroFacture) {
+        return 'FACTURE-'.$prefix.'-'.$identifiant.'-'.$numeroFacture;
     }
 
 
-    public function getNextNoFacture($idClient,$date)
+    public function getNextNoFacture($prefix,$idClient,$date)
     {   
         $id = '';
-    	$facture = self::getAtDate($idClient,$date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+    	$facture = self::getAtDate($prefix,$idClient,$date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($facture) > 0) {
-            $id .= ((double)str_replace('FACTURE-'.$idClient.'-', '', max($facture)) + 1);
+            $id .= ((double)str_replace('FACTURE-'.$prefix.'-'.$idClient.'-', '', max($facture)) + 1);
         } else {
             $id.= $date.'01';
         }
         return $id;
     }
     
-    public function getAtDate($idClient,$date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$idClient.'-'.$date.'99')->execute($hydrate);        
+    public function getAtDate($prefix,$idClient,$date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        return $this->startkey('FACTURE-'.$prefix.'-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$prefix.'-'.$idClient.'-'.$date.'99')->execute($hydrate);        
     }
 
     public function getFacturationForEtablissement($etablissement, $level) {
-        return MouvementFacturationView::getInstance()->getMouvementsByEtablissementWithReduce($etablissement, 0, 1, $level);
+        return MouvementfactureFacturationView::getInstance()->getMouvementsByEtablissementWithReduce($etablissement, 0, 1, $level);
     }
 
     public function createDoc($mvts, $etablissement, $emmetteur = null, $date_facturation = null) {
@@ -54,7 +54,7 @@ class FactureClient extends acCouchdbClient {
         $emetteur->telephone = '02.47.60.55.12';
         
         $facture->storeDatesCampagne($date_facturation,'2011-2012');        
-        $facture->constructIds($etablissement->identifiant);        
+        $facture->constructIds($etablissement);        
         $facture->storeEmetteur($emetteur);
         $facture->storeDeclarant();
         $facture->storeLignes($mvts,$etablissement->famille);        
@@ -68,17 +68,17 @@ class FactureClient extends acCouchdbClient {
         return $this->find('FACTURE-' . $identifiant);
     }
 
-    public function findByEtablissementAndId($idEtablissement, $idFacture) {
-        return $this->find('FACTURE-' . $idEtablissement . '-' . $idFacture);
+    public function findByPrefixAndEtablissementAndId($prefix,$idEtablissement, $idFacture) {
+        return $this->find('FACTURE-'.$prefix.'-'. $idEtablissement . '-' . $idFacture);
     }
 
     public function getMouvementsForMasse($regions,$level) {
         if(!$regions){
-            return MouvementFacturationView::getInstance()->getMouvements(0, 1,$level);
+            return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1,$level);
         }
         $mouvementsByRegions = array();
         foreach ($regions as $region) {
-            $mouvementsByRegions = array_merge(MouvementFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1,$region,$level),$mouvementsByRegions);
+            $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1,$region,$level),$mouvementsByRegions);
         }
         return $mouvementsByRegions;    
     }
@@ -87,11 +87,11 @@ class FactureClient extends acCouchdbClient {
 
         $generationFactures = array();
         foreach ($mouvements as $mouvement) {
-            if (array_key_exists($mouvement->key[MouvementFacturationView::KEYS_ETB_ID], $generationFactures)) {
-                $generationFactures[$mouvement->key[MouvementFacturationView::KEYS_ETB_ID]][] = $mouvement;
+            if (array_key_exists($mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID], $generationFactures)) {
+                $generationFactures[$mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID]][] = $mouvement;
             } else {
-                $generationFactures[$mouvement->key[MouvementFacturationView::KEYS_ETB_ID]] = array();
-                $generationFactures[$mouvement->key[MouvementFacturationView::KEYS_ETB_ID]][] = $mouvement;
+                $generationFactures[$mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID]] = array();
+                $generationFactures[$mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID]][] = $mouvement;
             }
         }
         return $generationFactures;
@@ -103,7 +103,7 @@ class FactureClient extends acCouchdbClient {
         $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
         foreach ($mouvementsByEtb as $identifiant => $mouvements) {
             foreach ($mouvements as $key => $mouvement) {
-                    if(Date::supEqual($mouvement->value[MouvementFacturationView::VALUE_DATE],$date_mouvement)) {
+                    if(Date::supEqual($mouvement->value[MouvementfactureFacturationView::VALUE_DATE],$date_mouvement)) {
                         unset($mouvements[$key]);
                         $mouvementsByEtb[$identifiant] = $mouvements;
                     }
@@ -114,7 +114,7 @@ class FactureClient extends acCouchdbClient {
         foreach ($mouvementsByEtb as $identifiant => $mouvements) {
             $somme = 0;
             foreach ($mouvements as $mouvement) {
-                $somme+= $mouvement->value[MouvementFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementFacturationView::VALUE_CVO];
+                $somme+= $mouvement->value[MouvementfactureFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementfactureFacturationView::VALUE_CVO];
             }
             $somme = abs($somme);
             $somme = $this->ttc($somme);

@@ -13,7 +13,9 @@
  * @property string $date_emission
  * @property string $date_facturation
  * @property string $campagne
+ * @property string $numero_archive
  * @property string $statut
+ * @property string $region
  * @property integer $versement_comptable
  * @property acCouchdbJson $emetteur
  * @property acCouchdbJson $declarant
@@ -42,8 +44,12 @@
  * @method string setDateFacturation()
  * @method string getCampagne()
  * @method string setCampagne()
+ * @method string getNumeroArchive()
+ * @method string setNumeroArchive()
  * @method string getStatut()
  * @method string setStatut()
+ * @method string getRegion()
+ * @method string setRegion()
  * @method integer getVersementComptable()
  * @method integer setVersementComptable()
  * @method acCouchdbJson getEmetteur()

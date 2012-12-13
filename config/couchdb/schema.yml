@@ -13,6 +13,7 @@ Facture:
       campagne: {}
       numero_archive: {  }
       statut: {}
+      region: {}
       versement_comptable: {type: integer}
       emetteur:
         type: collection
