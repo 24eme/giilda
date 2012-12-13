@@ -48,7 +48,7 @@
 				},
 				onClose : function()
 				{
-					$.unbindDetailsPopup();
+				    $.unbindDetailsPopup();
 				},
 				helpers :
 				{
@@ -442,7 +442,11 @@
                             input.attr('data-val-defaut',input.val());
                             colonne.active();
                             colonne.calculer();
-                            $.fancybox.close();    
+                            $.fancybox.close();
+			    $.fn.RevisionajaxSuccessCallBackData = colonne;
+			    $.fn.RevisionajaxSuccessCallBack = function () {
+				$.fn.RevisionajaxSuccessCallBackData.valider();
+			    }
                             }
                         }, "json");
 

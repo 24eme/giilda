@@ -49,7 +49,7 @@
 
 	$.initAjaxCouchdbForm = function() 
 	{
-		$(document).ajaxSuccess(
+		$(document).ajaxComplete(
 			function(event, xhr, settings) {
 				if (settings.type === "POST") {
 
@@ -66,7 +66,11 @@
 						return ;
 					}
 					
-					$("input[data-id="+ data.document.id + "]").val(data.document.revision);
+					$("input[data-id="+ data.document.id + "]").val(data.document.revision);				    
+				    if ($.fn.RevisionajaxSuccessCallBack) {
+					$.fn.RevisionajaxSuccessCallBack();
+					$.fn.RevisionajaxSuccessCallBack = null;
+				    }
 				}
 			}
 		);	
