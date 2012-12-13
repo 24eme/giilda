@@ -319,7 +319,7 @@ EOF;
 
   protected function constructNumeroContrat($line) {
 
-    return $this->convertToDateObject($line[self::CSV_DATE_SIGNATURE_OU_CREATION])->format('Ymd') . $this->getNumeroArchive($line);
+    return $this->convertToDateObject($line[self::CSV_DATE_ENREGISTREMENT])->format('Ymd') . $this->getNumeroArchive($line);
   }
 
   protected function getNumeroArchive($line) {
