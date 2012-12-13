@@ -1,31 +1,25 @@
 <?php
 
 class EtablissementClient extends acCouchdbClient {
-
     /**
      *
      * @return EtablissementClient
      */
-    
-    
+
     const REGION_TOURS = 'tours';
     const REGION_ANGERS = 'angers';
     const REGION_NANTES = 'nantes';
     const REGION_HORSINTERLOIRE = 'hors interloire';
-    
     const RECETTE_LOCALE = '(recette_locale)';
-    
     const STATUT_ACTIF = 'actif';
     const STATUT_SUSPENDU = 'suspendu';
-    
     const TYPE_DR_DRM = 'DRM';
     const TYPE_DR_DRA = 'DRA';
-    
     const TYPE_LIAISON_BAILLEUR = 'bailleur';
     const TYPE_LIAISON_METAYER = 'metayer';
     const TYPE_LIAISON_ADHERENT = 'adherent';
     const TYPE_LIAISON_CONTRAT_INTERNE = 'contrat_interne';
-    
+
     public static function getInstance() {
         return acCouchdbManager::getClient("Etablissement");
     }
@@ -43,7 +37,7 @@ class EtablissementClient extends acCouchdbClient {
 
     public function getNextIdentifiantForSociete($societe) {
         $id = '';
-	$societe_id = $societe->identifiant;
+        $societe_id = $societe->identifiant;
         $etbs = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($etbs) > 0) {
             $id .= $societe_id . sprintf("%1$02d", ((double) str_replace('ETABLISSEMENT-', '', count($etbs)) + 1));
@@ -187,30 +181,34 @@ class EtablissementClient extends acCouchdbClient {
     public static function getRecettesLocales() {
         return array(self::RECETTE_LOCALE => self::RECETTE_LOCALE);
     }
-    
+
     public static function getRegionsWithoutHorsInterLoire() {
         return array(self::REGION_TOURS => self::REGION_TOURS,
             self::REGION_ANGERS => self::REGION_ANGERS,
-            self::REGION_NANTES => self::REGION_NANTES);        
+            self::REGION_NANTES => self::REGION_NANTES);
     }
 
-
     public static function getRegions() {
-        return array_merge(self::getRegionsWithoutHorsInterLoire(),
-                array(self::REGION_HORSINTERLOIRE => self::REGION_HORSINTERLOIRE));
+        return array_merge(self::getRegionsWithoutHorsInterLoire(), array(self::REGION_HORSINTERLOIRE => self::REGION_HORSINTERLOIRE));
     }
 
     public static function getTypeDR() {
         return array(self::TYPE_DR_DRM => self::TYPE_DR_DRM,
             self::TYPE_DR_DRA => self::TYPE_DR_DRA);
     }
-    
+
     public static function getTypesLiaisons() {
         return array(self::TYPE_LIAISON_BAILLEUR => 'Bailleur de',
             self::TYPE_LIAISON_METAYER => 'Métayer de',
             self::TYPE_LIAISON_ADHERENT => 'Adhérent de (coop.)',
             self::TYPE_LIAISON_CONTRAT_INTERNE => 'Contrat interne');
-    }    
-    
+    }
+
+    public static function getPrefixForRegion($region) {
+        $prefixs = array(self::REGION_TOURS => '1',
+            self::REGION_ANGERS => '2',
+            self::REGION_NANTES => '3');
+        return $prefixs[$region];
+    }
 
 }
