@@ -14,7 +14,26 @@ class stocksActions extends sfActions {
         $this->setTemplate('index');
     }
 
-    public function executeMonEspace(sfWebRequest $request) {    
+    public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
-    }   
+        $this->formCampagne($request, 'stocks_etablissement');
+    }
+
+    private function formCampagne(sfWebRequest $request, $route) {
+        $this->etablissement = $this->getRoute()->getEtablissement();
+      
+        $this->campagne = $request->getParameter('campagne');
+        if (!$this->campagne) {
+            $this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+        }
+      
+        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $param = $request->getParameter($this->formCampagne->getName());
+            if ($param) {
+                $this->formCampagne->bind($param);
+                return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $this->formCampagne->getValue('campagne')));
+            }
+        }
+    }
 }
