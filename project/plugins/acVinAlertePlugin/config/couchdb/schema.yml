@@ -13,6 +13,8 @@ Alerte:
       declarant_nom: { }
       identifiant: { }
       datas_relances: { }
+      region: { }
+      campagne: { }
       statuts:
         type: array_collection
         definition:

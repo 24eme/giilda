@@ -3763,7 +3763,6 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
 .drm #principal fieldset#historique_drm nav {
   position:relative;
   bottom:-1px;
-  z-index:10;
 }
 .drm #principal fieldset#historique_drm nav ul {
   zoom:1;

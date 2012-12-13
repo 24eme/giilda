@@ -15,6 +15,8 @@
  * @property string $declarant_nom
  * @property string $identifiant
  * @property string $datas_relances
+ * @property string $region
+ * @property string $campagne
  * @property acCouchdbJson $statuts
 
  * @method string get_id()
@@ -39,6 +41,10 @@
  * @method string setIdentifiant()
  * @method string getDatasRelances()
  * @method string setDatasRelances()
+ * @method string getRegion()
+ * @method string setRegion()
+ * @method string getCampagne()
+ * @method string setCampagne()
  * @method acCouchdbJson getStatuts()
  * @method acCouchdbJson setStatuts()
  

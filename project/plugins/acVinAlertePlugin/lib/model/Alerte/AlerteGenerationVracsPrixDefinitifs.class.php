@@ -11,27 +11,27 @@
  */
 class AlerteGenerationVracsPrixDefinitifs extends AlerteGeneration {
 
-    
     public function getTypeAlerte() {
 
         return AlerteClient::VRAC_PRIX_DEFINITIFS;
     }
-    
+
     public function creations() {
         $vracs = VracClient::getInstance()->findContatsByWaitForPrixDefinitif($this->getDate());
         foreach ($vracs as $vrac) {
-            if(Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date',$this->getDate()),
-                              $vrac->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
+            if (Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date', $this->getDate()), $vrac->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
                 $alerte = $this->createOrFind($vrac->id, $vrac->key[VracOriginalPrixDefinitifView::KEY_IDENTIFIANT], $vrac->key[VracOriginalPrixDefinitifView::KEY_NOM]);
-               if($alerte->isNew() || $alerte->isClosed()) {
-                   $alerte->open($this->getDate());
+                $contrat = VracClient::getInstance()->find($vrac->id);
+                $alerte->campagne = $contrat->campagne;
+                $alerte->region = $this->getRegionFromIdEtb($contrat->vendeur_identifiant);
+                if ($alerte->isNew() || $alerte->isClosed()) {
+                    $alerte->open($this->getDate());
                 }
                 $alerte->save();
             }
         }
     }
-    
-    
+
     public function updates() {
         foreach ($this->getAlertesOpen() as $alerteView) {
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
@@ -47,9 +47,9 @@ class AlerteGenerationVracsPrixDefinitifs extends AlerteGeneration {
         }
         parent::updates();
     }
-    
-        public function setDatasRelance(Alerte $alerte) {
+
+    public function setDatasRelance(Alerte $alerte) {
         $this->setDatasRelanceForVrac($alerte);
-        
-        }
+    }
+
 }

@@ -22,6 +22,9 @@ class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
             VracClient::TYPE_TRANSACTION_VIN_VRAC), $this->getConfig()->getOptionDelaiDate('creation_delai', $this->getDate()));
         foreach ($vracs as $vrac) {
             $alerte = $this->createOrFind($vrac->id, $vrac->key[VracStatutAndTypeView::KEY_IDENTIFIANT], $vrac->key[VracStatutAndTypeView::KEY_NOM]);
+            $contrat = VracClient::getInstance()->find($vrac->id);
+            $alerte->campagne = $contrat->campagne;
+            $alerte->region = $this->getRegionFromIdEtb($contrat->vendeur_identifiant);
             if ($alerte->isNew() || $alerte->isClosed()) {
                 $alerte->open($this->getDate());
             }
