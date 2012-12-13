@@ -27,7 +27,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
 	$line_nb_current_page = 0;
 	$current_nb_pages++;
 	$max_line_nb_current_page = FactureLatex::MAX_LIGNES_PERPAGE;
-	$current_avg_nb_lines_per_page = ($nb_lines - $current_total_line_nb) / ($nb_pages - $current_nb_pages);
+        $current_avg_nb_lines_per_page = ($nb_lines - $current_total_line_nb) / ($nb_pages - $current_nb_pages);
       }
     }
   }
