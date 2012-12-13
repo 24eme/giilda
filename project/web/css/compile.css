@@ -1344,7 +1344,12 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   font-weight:bold;
   width:210px;
 }
-#recap_infos_header li:first-child {
+#recap_infos_header li {
+  margin-bottom:15px;
+  padding:0 10px;
+}
+#recap_infos_header li span { width:200px; }
+#recap_infos_header li:first-child, #recap_infos_header li.odd {
   background-color:#ecebeb;
   padding:0 10px;
   font-size:16px;
@@ -1353,7 +1358,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   line-height:45px;
   margin-bottom:15px;
 }
-#recap_infos_header li:first-child span { width:200px; }
+#recap_infos_header li:first-child span, #recap_infos_header li.odd span { width:200px; }
 #contenu_etape .btn_etape {
   zoom:1;
   min-height:1px;
@@ -2110,6 +2115,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 }
 .revendication #volumes_revendiques .form_btn:after { clear:both; }
 .revendication #volumes_revendiques .form_btn .btn_annuler { float:right; }
+.facturable { font-weight:bold; }
 .alerte #consultation_alerte, .alerte #modification_alerte { margin:0 0 20px; }
 .alerte #consultation_alerte .bloc_form label, .alerte #modification_alerte .bloc_form label { width:170px; }
 .alerte #consultation_alerte .bloc_form select, .alerte #modification_alerte .bloc_form select { width:200px; }

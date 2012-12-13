@@ -58,12 +58,15 @@
 {
 	.recap_info;
 	margin: 0 0 20px;
-
-	li:first-child
+	li {
+		margin-bottom: 15px;
+		span { width: 200px; }
+		padding: 0 10px;
+	}
+	li:first-child, li.odd
 	{
 		.info_principal;
 		margin-bottom: 15px;
-
 		span { width: 200px; }
 	}
 }
@@ -1082,6 +1085,10 @@
 	}
 }
 
+
+.facturable {
+	    font-weight: bold;
+}
 
 /**
  * Alertes

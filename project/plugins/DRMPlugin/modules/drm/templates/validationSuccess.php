@@ -9,7 +9,7 @@
 
 		<ul id="recap_infos_header">
 			<li><span>Nom de l'opérateur :</span> <?php echo $drm->getEtablissement()->nom ?> </li>
-			<li><span>Période :</span> <?php echo $drm->periode ?></li>
+			<li><span>Période :</span> <?php echo ucfirst($drm->getHumanPeriode()); ?></li>
 		</ul>
 
         <?php include_partial('drm/etapes'); ?>
