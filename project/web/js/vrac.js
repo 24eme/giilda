@@ -185,7 +185,19 @@ var updatePanelsAndUnitForBottle = function()
 
 var majTotal = function(quantiteField){
     var quantite = $('#vrac_'+quantiteField).val();
+    var numericComma =  new RegExp("^[0-9]+\,?[0-9]*$","g");
+    if(numericComma.test(quantite))
+    {
+        quantite = quantite.replace(",", ".");
+    }
+    
+    var prix_unitaire = $('#vrac_prix_unitaire').val();
+    if(numericComma.test(prix_unitaire))
+    {
+        prix_unitaire = prix_unitaire.replace(",", ".");
+    }
     var numeric =  new RegExp("^[0-9]+\.?[0-9]*$","g");
+    
     if(numeric.test(quantite))
     {
         var hlRaisins = quantite;
@@ -195,13 +207,12 @@ var majTotal = function(quantiteField){
             hlRaisins = hlRaisins /100.0; 
         }
         
-        var prix_unitaire = $('#vrac_prix_unitaire').val();
         
         var priceReg = (new RegExp("^[0-9]+[.]?[0-9]*$","g")).test(prix_unitaire);
         if(priceReg)
         {
            var prix_total =quantite * parseFloat(prix_unitaire);
-           $('#vrac_prix_total').text(prix_total);
+           $('#vrac_prix_total').text(parseFloat(prix_total).toFixed(2));
            if(quantiteField=='raisin_quantite')
            {
                var prix_hl = prix_total / hlRaisins;
