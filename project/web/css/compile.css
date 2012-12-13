@@ -2110,6 +2110,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 }
 .revendication #volumes_revendiques .form_btn:after { clear:both; }
 .revendication #volumes_revendiques .form_btn .btn_annuler { float:right; }
+.facturable { font-weight:bold; }
 .alerte #consultation_alerte, .alerte #modification_alerte { margin:0 0 20px; }
 .alerte #consultation_alerte .bloc_form label, .alerte #modification_alerte .bloc_form label { width:170px; }
 .alerte #consultation_alerte .bloc_form select, .alerte #modification_alerte .bloc_form select { width:200px; }
