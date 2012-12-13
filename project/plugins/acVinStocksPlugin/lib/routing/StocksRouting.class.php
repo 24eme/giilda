@@ -14,8 +14,8 @@ class StocksRouting {
         $r->prependRoute('stocks', new sfRoute('/stocks', array('module' => 'stocks',
                     'action' => 'index')));
         
-        $r->prependRoute('stocks_etablissement', new EtablissementRoute('/stocks/:identifiant', array('module' => 'stocks',
-                        'action' => 'monEspace'),
+        $r->prependRoute('stocks_etablissement', new EtablissementRoute('/stocks/:identifiant/:campagne', array('module' => 'stocks',
+                        'action' => 'monEspace', 'campagne' => null),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Etablissement',
                             'type' => 'object')));
