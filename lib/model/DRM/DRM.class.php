@@ -764,6 +764,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         return $this->isValidee();
     }
+
+    public function getHumanPeriode() {
+      return ConfigurationClient::getInstance()->getPeriodeLibelle($this->periode);
+    }
     
     /*** FIN ARCHIVAGE ***/
 }

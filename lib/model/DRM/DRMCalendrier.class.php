@@ -82,14 +82,11 @@ class DRMCalendrier {
     }
 
     public function getPeriodeLibelle($periode) {
-        $date = new sfDateFormat('fr_FR');
+      return ConfigurationClient::getInstance()->getPeriodeLibelle($periode);
+    }
 
-        if(!preg_match('/([0-9]{4})([0-9]{2})/', $periode, $matches)) {
-
-            return null;
-        }
-
-        return $date->format(sprintf('%s-%s-%s', $matches[1], $matches[2], '01'), 'MMMM');
+    public function getMoisLibelle($periode) {
+      return ConfigurationClient::getInstance()->getMoisLibelle($periode);
     }
 
     public function getNumero($periode) {
