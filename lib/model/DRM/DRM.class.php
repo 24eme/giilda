@@ -222,6 +222,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function getSuivante() {
         if(is_null($this->suivante)) {
             $periode = DRMClient::getInstance()->getPeriodeSuivante($this->periode);
+            $campagne = DRMClient::getInstance()->buildCampagne($periode);
+            if ($campagne != $this->campagne) {
+                return null;
+            }
             $this->suivante = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
         }
       
