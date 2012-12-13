@@ -462,7 +462,7 @@ EOF;
     if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]) > 0) {
       $produit->sorties->bouteille += $this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]);
     } elseif($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]) < 0) {
-      $produit->entrees->reintegration += $this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]);
+      $produit->entrees->reintegration += abs($this->convertToFloat($line[self::CSV_VENTE_VOLUME_CRD]));
     }
   }
 
