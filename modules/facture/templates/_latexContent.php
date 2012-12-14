@@ -16,8 +16,8 @@ foreach ($facture->lignes as $type => $typeLignes) {
   foreach ($produits as $prodHash => $p) {
     foreach ($p as $produit) {
       include_partial('facture/templateTableRow', array('produit' => $produit->getRawValue()));
-      $line_nb_current_page++;
-      if ($line_nb_current_page >= $current_avg_nb_lines_per_page || $line_nb_current_page >= $max_line_nb_current_page) {
+      $line_nb_current_page++;  
+if ($line_nb_current_page > $current_avg_nb_lines_per_page || $line_nb_current_page >= $max_line_nb_current_page) {
 	include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => $max_line_nb_current_page - $line_nb_current_page));
 	echo "\\newpage\n";
 	include_partial('facture/templateNumPage', array('nb_page' => $nb_pages));
@@ -26,7 +26,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
 	$current_total_line_nb += $line_nb_current_page;
 	$line_nb_current_page = 0;
 	$current_nb_pages++;
-	$max_line_nb_current_page = FactureLatex::MAX_LIGNES_PERPAGE;
+	$max_line_nb_current_page = FactureLatex::MAX_LIGNES_PERPAGE;        
         $current_avg_nb_lines_per_page = ($nb_lines - $current_total_line_nb) / ($nb_pages - $current_nb_pages);
       }
     }
