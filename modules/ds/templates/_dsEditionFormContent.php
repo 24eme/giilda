@@ -2,7 +2,6 @@
 use_helper('Float');
 
 ?>
-<a href="<?php echo url_for('ds_edition_operateur_addProduit', $ds) ?>">Ajouter un produit</a>
 <form id="" action="<?php echo url_for('ds_edition_operateur', $ds); ?>" method="post">
 <?php
 echo $form->renderHiddenFields();
@@ -29,6 +28,8 @@ echo $form->renderGlobalErrors();
         </tbody>
         </table>
 		
+  <input type="submit" class="btn_majeur btn_orange" name="addproduit" value="Ajouter un produit"/>
+
         <div id="commentaires" class="section_label_maj">
             <label>
                 <?php echo $form['commentaires']->renderLabel() ?>

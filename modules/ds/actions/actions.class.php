@@ -72,6 +72,8 @@ class dsActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->form->doUpdateObject();
                 $this->ds->save();
+		if ($request->getParameter('addproduit'))
+		  return $this->redirect('ds_edition_operateur_addProduit', $this->ds);
                 return $this->redirect('ds_edition_operateur_validation_visualisation', $this->ds);
             }
        }
