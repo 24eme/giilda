@@ -80,6 +80,9 @@ const CSV_COMPTE_CODE_PARTENAIRE = 22;
 	if (!$c->telephone_mobile) {
 		$c->telephone_mobile =  $line[self::CSV_COMPTE_PORTABLE_PERSO];
 	}
+	if (!$c->telephone_perso) {
+		$c->telephone_perso =  $line[self::CSV_COMPTE_PORTABLE_PERSO];
+	}
       	$c->save();
 	}catch(sfException $e) {
 		echo "WARNING: $e \n";

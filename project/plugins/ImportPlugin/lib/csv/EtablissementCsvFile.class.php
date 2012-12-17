@@ -93,11 +93,11 @@ class EtablissementCsvFile extends CsvFile
         	$e->siege->code_postal = $line[self::CSVCAV_CODE_POSTAL];
 	        $e->siege->adresse = preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE1]);
         	if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE2])) {
-		$e->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE2]);
+		$e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE2]);
 		if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE3])) {
-		$e->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE3]);
+		$e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE3]);
         	if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE4])) {
-		$e->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE4]);
+		$e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE4]);
 	        }}}
 	}else{
 		$e->siege->commune = $line[self::CSVPAR_COMMUNE];
