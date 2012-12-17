@@ -17,13 +17,15 @@ class AlerteGenerationVracsAttenteOriginal extends AlerteGeneration {
     }
 
     public function creations() {
-       $vracs = VracClient::getInstance()->retreiveByWaitForOriginal();
+        $vracs = VracClient::getInstance()->retreiveByWaitForOriginal();
         foreach ($vracs as $vrac) {
-            if(Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date',$this->getDate()),
-                              $vrac->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
-               $alerte = $this->createOrFind($vrac->id, $vrac->key[VracOriginalPrixDefinitifView::KEY_IDENTIFIANT], $vrac->key[VracOriginalPrixDefinitifView::KEY_NOM]);
-               if($alerte->isNew() || $alerte->isClosed()) {
-                   $alerte->open($this->getDate());
+            if (Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date', $this->getDate()), $vrac->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
+                $alerte = $this->createOrFind($vrac->id, $vrac->key[VracOriginalPrixDefinitifView::KEY_IDENTIFIANT], $vrac->key[VracOriginalPrixDefinitifView::KEY_NOM]);
+                $contrat = VracClient::getInstance()->find($vrac->id);
+                $alerte->campagne = $contrat->campagne;
+                $alerte->region = $this->getRegionFromIdEtb($contrat->vendeur_identifiant);
+                if ($alerte->isNew() || $alerte->isClosed()) {
+                    $alerte->open($this->getDate());
                 }
                 $alerte->save();
             }
@@ -36,18 +38,18 @@ class AlerteGenerationVracsAttenteOriginal extends AlerteGeneration {
             $vrac = VracClient::getInstance()->find($id_document);
             if (isset($vrac)) {
                 if (!$vrac->getOriginal()) {
-                        $alerte = AlerteClient::getInstance()->find($alerteView->id);
-                        $alerte->updateStatut(AlerteClient::STATUT_FERME, 'Changement automatique au statut fermer', $this->getDate());
-                        $alerte->save();
+                    $alerte = AlerteClient::getInstance()->find($alerteView->id);
+                    $alerte->updateStatut(AlerteClient::STATUT_FERME, 'Changement automatique au statut fermer', $this->getDate());
+                    $alerte->save();
                     continue;
                 }
             }
         }
         parent::updates();
     }
-    
-        public function setDatasRelance(Alerte $alerte) {
-            $this->setDatasRelanceForVrac($alerte);
+
+    public function setDatasRelance(Alerte $alerte) {
+        $this->setDatasRelanceForVrac($alerte);
     }
 
 }

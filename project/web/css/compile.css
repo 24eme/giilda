@@ -28,15 +28,6 @@
   margin-right:0;
   padding-right:0;
 }
-.clearfix { min-height:1px; }
-.clearfix:before, .clearfix:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.clearfix:after { clear:both; }
 .helvetica { font-family:Helvetica, Arial, sans-serif; }
 .helveticaneue-75-bold { font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif; }
 .grid_1 { width:60px; }
@@ -1324,6 +1315,25 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   font-weight:bold;
   margin:20px 0;
 }
+#principal #points_bloquants .error, #principal #points_bloquants .warning, #principal #points_vigilance .error, #principal #points_vigilance .warning {
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  margin:10px 0;
+  padding:3px;
+}
+#principal #points_bloquants p, #principal #points_vigilance p { font-weight:bold; }
+#principal #points_bloquants .error {
+  background:#f1b2b3;
+  color:#8a0c0c;
+}
+#principal #points_vigilance .warning {
+  background:#ffd58c;
+  color:#a03b09;
+}
 #recap_infos_header { margin:0 0 20px; }
 #recap_infos_header li {
   font-size:14px;
@@ -1334,7 +1344,12 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   font-weight:bold;
   width:210px;
 }
-#recap_infos_header li:first-child {
+#recap_infos_header li {
+  margin-bottom:15px;
+  padding:0 10px;
+}
+#recap_infos_header li span { width:200px; }
+#recap_infos_header li:first-child, #recap_infos_header li.odd {
   background-color:#ecebeb;
   padding:0 10px;
   font-size:16px;
@@ -1343,7 +1358,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   line-height:45px;
   margin-bottom:15px;
 }
-#recap_infos_header li:first-child span { width:200px; }
+#recap_infos_header li:first-child span, #recap_infos_header li.odd span { width:200px; }
 #contenu_etape .btn_etape {
   zoom:1;
   min-height:1px;
@@ -1469,10 +1484,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   padding:2px 4px;
   width:120px;
 }
-#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select {
-  height:20px;
-  width:130px;
-}
+#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select { width:130px; }
 #vrac_soussigne .ligne_form .champ_form_radio_cb label, #vrac_marche .ligne_form .champ_form_radio_cb label, #vrac_condition .ligne_form .champ_form_radio_cb label, #vrac_validation .ligne_form .champ_form_radio_cb label, #vrac_recapitulatif .ligne_form .champ_form_radio_cb label {
   display:inline-block;
   margin:0 20px 0 0;
@@ -2103,6 +2115,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 }
 .revendication #volumes_revendiques .form_btn:after { clear:both; }
 .revendication #volumes_revendiques .form_btn .btn_annuler { float:right; }
+.facturable { font-weight:bold; }
 .alerte #consultation_alerte, .alerte #modification_alerte { margin:0 0 20px; }
 .alerte #consultation_alerte .bloc_form label, .alerte #modification_alerte .bloc_form label { width:170px; }
 .alerte #consultation_alerte .bloc_form select, .alerte #modification_alerte .bloc_form select { width:200px; }
@@ -2422,6 +2435,7 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
 #contenu_etape #tableau_contrat .statut_non-solde td { background-color:#fff8e8; }
 #contenu_etape #tableau_contrat .statut_solde td { background-color:#f0fae1; }
 #contenu_etape #tableau_contrat .statut_annule td { background-color:#feecec; }
+#contenu_etape #vrac_soussigne .ligne_form { height:38px; }
 #contenu_etape #vrac_soussigne .section_label_maj {
   background:#ecebeb;
   margin:0 0 25px;
@@ -2808,6 +2822,10 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   float:right;
   margin-top:8px;
 }
+#contenu_etape .warning {
+  background:orange;
+  color:white;
+}
 #contrats_similaires_list .statut {
   -webkit-border-radius:50%;
   -moz-border-radius:50%;
@@ -2857,39 +2875,8 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #colonne #contrats_similaires_list #millesime { padding-left:5px; }
 #colonne #contrats_similaires_list .separateur { background:url('../images/fonds/bg_colonne_separateur.png') right no-repeat; }
 #colonne #contrats_similaires_list .legende_contrat { margin-bottom:10px; }
-#colonne #contrat_actions a {
-  border:1px solid #c2c0c0;
-  -webkit-border-radius:4px;
-  -moz-border-radius:4px;
-  border-radius:4px;
-  -webkit-border-radius:4px;
-  -moz-border-radius:4px;
-  border-radius:4px;
-  -webkit-box-shadow:0 2px 0 #eeeeee;
-  -moz-box-shadow:0 2px 0 #eeeeee;
-  box-shadow:0 2px 0 #eeeeee;
-  -webkit-box-shadow:0 2px 0 #eeeeee;
-  -moz-box-shadow:0 2px 0 #eeeeee;
-  box-shadow:0 2px 0 #eeeeee;
-  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
-  text-transform:uppercase;
-  text-decoration:none;
-  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
-  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
-  text-shadow:1px 1px rgba(0,0,0,0.1);
-  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
-  color:#5e5c5c;
-  display:inline-block;
-  font-size:11px;
-  line-height:26px;
-  padding:0 10px;
-  position:relative;
-  display:block;
-  text-align:center;
-}
-#colonne #contrat_actions a:hover, #colonne #contrat_actions a:focus { text-decoration:none; }
-bouton#colonne #contrat_actions a { height:26px; }
-#colonne #contrat_actions a span { display:inline-block; }
+#colonne #contrat_actions a { margin:5px 0; }
+#colonne #contrat_actions .btn_nouveau { padding-left:27px; }
 #contrat_similaire_popup h2, #contrat_similaire_popup .legende_contrat { display:none; }
 #contrat_similaire_popup #ligne_btn {
   height:30px;
@@ -2949,239 +2936,48 @@ bouton#colonne #contrat_actions a { height:26px; }
   width:15px;
 }
 .bloc_col .legende div .type_raisins, .bloc_col .legende div .type_mouts, .bloc_col .legende div .type_vin_vrac, .bloc_col .legende div .type_vin_bouteille { margin-bottom:5px; }
-#contacts .form_btn { margin:28px 0; }
-#contacts .form_btn .btn_valider { margin:0 0 0 470px; }
-#contacts .form_ligne {
-  zoom:1;
-  min-height:1px;
-  margin:13px 0;
-}
-#contacts .form_ligne:before, #contacts .form_ligne:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-#contacts .form_ligne:after { clear:both; }
 #contacts .form_section {
   border:1px solid #d2d2d2;
   margin:0 0 35px 0;
 }
 #contacts .form_section .champ_long { width:425px; }
-#contacts .form_section .form_colonne { float:left; }
 #contacts .form_section .form_contenu { padding:15px 30px 23px 10px; }
-#contacts .form_section .ajout_champ {
-  display:block;
-  font-size:12px;
-  padding:0 0 0 30px;
-  margin:15px 0 0 0;
-  position:relative;
-  text-decoration:underline;
+#contacts .form_section .form_ligne { margin:13px 0; }
+#contacts .form_section #conteneur_societe, #contacts .form_section #conteneur_type_liaison { display:inline-block; }
+.ielt8 #contacts .form_section #conteneur_societe, .ielt8 #contacts .form_section #conteneur_type_liaison {
+  display:inline;
+  zoom:1;
 }
-#contacts .form_section .ajout_champ:before {
-  bottom:auto;
-  left:0;
-  position:absolute;
-  right:auto;
-  top:-2px;
-  background:url("../images/pictos/pi_ajout.png") no-repeat;
-  content:"";
-  height:21px;
-  width:20px;
-}
-#contacts .form_section .champ_ajoute { padding:10px 0 0 0; }
-#contacts .form_section h3 {
+#contacts .form_section h2 {
   background:#ecebeb;
-  cursor:pointer;
-  margin:0;
-  padding:7px 0 7px 37px;
   font-size:14px;
-  font-weight:bold;
-  position:relative;
+  margin:0;
+  padding:7px;
   text-decoration:underline;
   text-transform:none;
-}
-#contacts .form_section h3:before {
-  bottom:auto;
-  left:10px;
-  position:absolute;
-  right:auto;
-  top:6px;
-  background:url("../images/pictos/fleche_col_groupe_ouvert.png") no-repeat;
-  content:"";
-  height:15px;
-  width:15px;
 }
 #contacts .form_section label {
   display:inline-block;
   font-size:14px;
   font-weight:bold;
 }
-#contacts .form_section .label_court { width:auto; }
+#contacts .form_section label[for="detail_societe_statut"], #contacts .form_section label[for="detail_societe_code_naf"] { width:auto; }
+#contacts .form_section label[for="detail_societe_actif"], #contacts .form_section label[for="detail_societe_suspendu"], #contacts .form_section label[for="detail_etablissement_actif"], #contacts .form_section label[for="detail_etablissement_suspendu"], #contacts .form_section label[for="detail_etablissement_type_liaison"] { font-weight:normal; }
 #contacts .form_section legend {
   font-size:16px;
   font-weight:normal;
   margin:15px 0;
 }
-#contacts .form_section select { width:113px; }
-#contacts .form_section .supprime_champ {
-  background:url("../images/pictos/pi_suppression.png") no-repeat;
-  height:21px;
-  margin:0 0 0 15px;
-  text-indent:100%;
-  width:20px;
-}
 #contacts .form_section textarea {
   height:90px;
   width:618px;
 }
-#contacts h2 {
-  text-transform:uppercase;
-  font-size:20px;
-  font-weight:bold;
-  margin:40px 0 0 0;
-  padding-left:42px;
-  position:relative;
-}
-#contacts h2:before { content:""; }
-#creation_societe h2:before, #detail_societe h2:before {
-  bottom:auto;
-  left:0;
-  position:absolute;
-  right:auto;
-  top:-10px;
-  background:url("../images/pictos/societe.png") no-repeat;
-  height:36px;
-  width:32px;
-}
-#nouveau_contact h2, #nouveau_etablissement h2 { margin-bottom:10px; }
-#nouveau_contact > h3, #nouveau_etablissement > h3 {
-  font-size:16px;
-  font-weight:bold;
-}
-#detail_etablissement .conteneur_societe .form_colonne:first-child + .form_colonne, #detail_etablissement .conteneur_enseigne .form_colonne:first-child + .form_colonne, #detail_societe .conteneur_societe .form_colonne:first-child + .form_colonne, #detail_societe .conteneur_enseigne .form_colonne:first-child + .form_colonne { padding-left:0; }
-#detail_etablissement .form_colonne:first-child + .form_colonne, #detail_societe .form_colonne:first-child + .form_colonne { padding:0 0 0 35px; }
-#detail_societe .boutons_haut .btn_majeur {
-  background-position:0 -182px;
-  color:#ffffff;
-  padding-left:40px;
-  width:197px;
-}
-#detail_societe .boutons_haut .btn_majeur:before {
-  bottom:auto;
-  left:8px;
-  position:absolute;
-  right:auto;
-  top:4px;
-  background:url("../images/boutons/btn_etablissement.png") no-repeat;
-  content:"";
-  height:16px;
-  width:23px;
-}
-#detail_societe .boutons_haut .btn_majeur:first-child {
-  background-position:0 -156px;
-  margin-right:16px;
-  padding-left:43px;
-  width:176px;
-}
-#detail_societe .boutons_haut .btn_majeur:first-child:before {
-  bottom:auto;
-  left:12px;
-  position:absolute;
-  right:auto;
-  top:3px;
-  background:url("../images/boutons/btn_contact.png") no-repeat;
-  content:"";
-  height:19px;
-  width:17px;
-}
-#detail_societe .form_colonne:first-child + .form_colonne label { width:auto; }
-#detail_societe .form_colonne:first-child + .form_colonne label:first-child { width:82px; }
-#detail_societe label { width:145px; }
-#detail_contact .form_ligne:first-child .form_colonne:first-child + .form_colonne label {
-  margin:0 0 0 241px;
-  width:120px;
-}
-#detail_contact .form_ligne:first-child .form_colonne:first-child + .form_colonne select { width:69px; }
-#detail_contact label[for="detail_contact_civilite"] { width:65px; }
-#detail_etablissement #detail_etablissement_region_viticole { width:134px; }
-#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 84px; }
-#coordonnees_societe label, #coordonnees_etablissement label, #detail_etablissement label { width:190px; }
-#coordonnees_etablissement .form_ligne .meme_adresse, #coordonnees_contact .form_ligne .meme_adresse {
-  font-weight:normal;
-  width:250px;
-}
-#creation_societe .form_section label[for="detail_societe_statut"], #creation_societe .form_section label[for="detail_societe_code_naf"] { width:auto; }
-#creation_societe .form_section label[for="detail_societe_actif"], #creation_societe .form_section label[for="detail_societe_suspendu"], #creation_societe .form_section label[for="detail_etablissement_actif"], #creation_societe .form_section label[for="detail_etablissement_suspendu"], #creation_societe .form_section label[for="detail_etablissement_type_liaison"] { font-weight:normal; }
-#contacts_actions li { text-align:center; }
-#contacts_actions li button {
-  padding-left:30px;
-  width:214px;
-}
-#contacts_actions li button:after {
-  height:26px;
-  width:20px;
-  background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
-  bottom:auto;
-  left:5px;
-  position:absolute;
-  right:auto;
-  top:0;
-  content:'';
-  cursor:pointer;
-  display:inline-block;
-}
-#contacts_actions li .nouvelle_recherche:after {
-  background:url("../images/pictos/pi_recherche.png") no-repeat;
-  top:7px;
-}
-#contacts_actions li .nouvelle_societe { margin:0 0 10px 0; }
-#contacts_actions li .nouvelle_societe:after {
-  background:url("../images/pictos/pi_societe.png") no-repeat;
-  top:3px;
-}
-#detail_societe .boutons_haut {
-  background:#ecebeb;
-  margin:10px 0 0 0;
-  padding:7px 0 7px 10px;
-}
-#detail_societe .form_contenu li { margin:13px 0; }
-#detail_societe .form_contenu li .intitule {
-  display:inline-block;
-  font-size:14px;
-  font-weight:bold;
-  width:190px;
-}
-#detail_societe .infos_societe { padding:8px 0; }
-#detail_societe .infos_societe .btn_modifier { margin:0 0 0 270px; }
-#detail_societe .infos_societe p {
-  float:left;
-  font-style:italic;
-}
-#nouveau_contact .form_section .form_contenu { background:#e9f1f9; }
-#nouveau_contact .form_section h3 { background:#cfe1f1; }
-#nouveau_contact h2:before {
-  bottom:auto;
-  left:0;
-  position:absolute;
-  right:auto;
-  top:-10px;
-  background:url("../images/pictos/contact.png") no-repeat;
-  height:35px;
-  width:30px;
-}
-#nouveau_contact label { width:187px; }
-#nouveau_etablissement h2:before {
-  bottom:auto;
-  left:0;
-  position:absolute;
-  right:auto;
-  top:-2px;
-  background:url("../images/pictos/etablissement.png") no-repeat;
-  height:24px;
-  width:36px;
-}
+#contacts #detail_societe label { width:145px; }
+#contacts #detail_societe label[for="detail_societe_code_naf"], #contacts #detail_societe label[for="detail_societe_statut"] { padding:0 0 0 35px; }
+#contacts #detail_societe .label_court { width:auto; }
+#contacts #detail_etablissement label[for="detail_etablissement_ordre_affichage"], #contacts #detail_etablissement label[for="detail_etablissement_exclusion_drm"], #contacts #detail_etablissement label[for="detail_etablissement_recette_locale"], #contacts #detail_etablissement label[for="detail_etablissement_type_dr"] { padding:0 0 0 35px; }
+#contacts #coordonnees_societe label, #contacts #detail_etablissement label { width:190px; }
+#contacts #coordonnees_societe .label_court, #contacts #detail_etablissement .label_court { width:auto; }
 .itemcache { display:none; }
 p#date_drm {
   font-size:14px;
@@ -3878,6 +3674,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
 #declaratif_info .error_daa { float:left; }
 #declaratif_info #organisme { display:none; }
 #btn_etape_dr { margin-top:10px; }
+#btn_etape_dr .btn_brouillon { margin-left:235px; }
 #btn_etape_dr .btn_etape_suiv { float:right; }
 .inactif { visibility:hidden; }
 #saving_notification, #error_notification { z-index:999; }
@@ -3967,11 +3764,10 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   padding-top:5px;
   font-weight:bold;
 }
-.drm #principal fieldset { margin-top:25px; }
+.drm #principal fieldset { margin:25px 0; }
 .drm #principal fieldset#historique_drm nav {
   position:relative;
   bottom:-1px;
-  z-index:10;
 }
 .drm #principal fieldset#historique_drm nav ul {
   zoom:1;
@@ -4075,7 +3871,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#d30815;
   background-position:0 0;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne a {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne a.action {
   color:#ffffff;
   background-position:0 -130px;
   border-color:#b70808;
@@ -4092,7 +3888,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#8f8f8f;
   background-position:0 -46px;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne a {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne a.action {
   color:#ffffff;
   background-position:0 -52px;
   border-color:#6d6b6b;
@@ -4109,7 +3905,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#faa804;
   background-position:0 -23px;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne a {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne a.action {
   color:#ffffff;
   background-position:0 -104px;
   border-color:#f6b32c;
@@ -4126,7 +3922,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#9bd247;
   background-position:0 -69px;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne a {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne a.action {
   color:#ffffff;
   background-position:0 -52px;
   border-color:#6d6b6b;
@@ -4146,7 +3942,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   padding-left:5px;
   width:60px;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
@@ -4177,9 +3973,9 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   display:block;
   width:100%;
 }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a:hover, .drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a:focus { text-decoration:none; }
-bouton.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a { height:26px; }
-.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a span { display:inline-block; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action:hover, .drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action:focus { text-decoration:none; }
+bouton.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action { height:26px; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action span { display:inline-block; }
 .drm #principal fieldset#historique_drm .section_label_maj table {
   border:1px solid #e3e2e2;
   -webkit-border-radius:5px;
@@ -4372,3 +4168,4 @@ bouton.drm #principal fieldset .btn_container_exporter a { height:26px; }
   width:auto;
 }
 .fancybox-wrap .fancybox-inner #contenu #principal #drm_export_details_form .btn_valider, .fancybox-wrap .fancybox-inner #contenu #principal #drm_vrac_details_form .btn_valider, .fancybox-wrap .fancybox-inner #contenu #principal #drm_cooperative_details_form .btn_valider { float:right; }
+.fancybox-wrap .fancybox-inner #contenu #principal .drm_details_form_noItem { margin-bottom:20px; }

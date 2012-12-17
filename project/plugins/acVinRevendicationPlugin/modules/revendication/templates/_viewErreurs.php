@@ -7,7 +7,7 @@
 
     <?php foreach ($revendication->erreurs as $type => $erreursType) : ?>
         <div class="type_erreurs">
-            <h3><?php echo $libellesForErrorsType[$type]; ?></h3>
+            <h3><?php echo $libellesForErrorsType[$type]; ?> :</h3>
 
             <?php foreach ($erreursType as $unmatched_data => $erreurs) : ?>
                 <div class="item">
@@ -15,21 +15,15 @@
                     <div class="produit">
                         <?php
                         switch ($type) :
-                            case RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS:
-                                ?>
+                            case RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS: ?>
                         <a href="<?php
                         echo url_for('revendication_add_alias_to_configuration', array('odg' => $revendication->odg,
                             'campagne' => $revendication->campagne,
                             'alias' => $unmatched_data))
                                         ?>" class="btn_majeur btn_voir">Trouver le produit</a>
-                                        <?php
-                                break;
-case RevendicationErrorException::ERREUR_TYPE_DOUBLON: ?>
-     <a href="<?php
-                        echo url_for('revendication_choose_row', array('odg' => $revendication->odg,
-                            'campagne' => $revendication->campagne,
-                            'num_ligne' => $unmatched_data))
-                                        ?>" class="btn_majeur btn_voir">Choisir la ligne</a>
+                                        
+                        <?php  break;
+                            case RevendicationErrorException::ERREUR_TYPE_DOUBLON: ?>
                                         <?php
                                 break;
                                default:
@@ -69,8 +63,14 @@ case RevendicationErrorException::ERREUR_TYPE_DOUBLON: ?>
                     <tr id="erreur_<?php echo $erreur->num_ligne; ?>">
                         <th><?php echo $erreur->num_ligne; ?></th>
                         <td>
-                            <p class="libelle"><?php echo $erreur->libelle_erreur; ?></p>
+                            <p><?php echo $libellesForErrorsType[$type]; ?></p>
+                            <p class="libelle">
+                                <?php echo $erreur->libelle_erreur; ?>
+                            </p>
                             <p><?php echo str_replace('#', ';', $erreur->ligne); ?></p>
+                            <?php if ($type == RevendicationErrorException::ERREUR_TYPE_DOUBLON): ?> 
+                                <a style="margin-top: 5px;" href="" class="btn_majeur btn_annuler">Supprimer cette ligne</a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php

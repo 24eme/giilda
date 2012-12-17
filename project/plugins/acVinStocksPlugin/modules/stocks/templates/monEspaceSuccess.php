@@ -6,7 +6,14 @@
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <?php include_component('stocks', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
-            <?php include_partial('stocks/recap', array('campagne' => '2011-2012', 'etablissement' => $etablissement)); ?>
+
+            <form method="POST">
+                <?php echo $formCampagne->renderGlobalErrors() ?>
+                <?php echo $formCampagne->renderHiddenFields() ?>
+                <?php echo $formCampagne; ?> <input class="btn_majeur btn_vert" type="submit" value="changer"/>
+            </form>
+
+            <?php include_partial('stocks/recap', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?>
 
             <script type="text/javascript"> 
                 var source_tags = {};
@@ -28,7 +35,7 @@
                     <label for="champ_volumes_vides"><input type="checkbox" id="champ_volumes_vides" /> Afficher uniquement les volumes non-saisis</label>
                 </div>
             </div>
-            <?php include_component('stocks', 'mouvements', array('campagne' => '2012-2013', 'etablissement' => $etablissement)); ?> 
+            <?php include_component('stocks', 'mouvements', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?> 
         </section>
         <!-- fin #contenu_etape -->
     </section>

@@ -16,6 +16,7 @@ Societe:
       siret: { }
       interpro: { }
       tva_intracom: { }
+      carte_professionnelle: { }
       commentaire: { }
       siege:
         type: collection
@@ -29,7 +30,11 @@ Societe:
         type: array_collection
         definition:
           fields:
-            '*': { }
+            '*':
+              type: collection
+              definition:
+                fields:
+                  label: { }
       compte_societe: { }      
       contacts:
         type: collection

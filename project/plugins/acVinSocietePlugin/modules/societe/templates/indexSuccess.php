@@ -22,6 +22,15 @@
         </section>
     </section>
     <aside id="colonne">
+        <div class="bloc_col" >
+            <h2>Actions</h2>
+
+            <div class="contenu">
+                <ul>
+                    <li class=""><a class="btn_majeur btn_acces" href="<?php echo url_for('societe_creation');?>">Créer une société</a></li>
+                </ul>
+            </div>
+        </div>
         <div class="bloc_col" id="contrat_aide">
             <h2>Aide</h2>
 

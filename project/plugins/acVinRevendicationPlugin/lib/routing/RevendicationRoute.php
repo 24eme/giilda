@@ -29,7 +29,7 @@ class RevendicationRoute extends sfObjectRoute  {
 
         $this->revendication = RevendicationClient::getInstance()->findByOdgAndCampagne($odg,$campagne);
         if (!$this->revendication) {
-            throw new sfError404Exception(sprintf('No DS found with the id "%s" and the periode "%s".',  $parameters['identifiant'],$parameters['periode']));
+            throw new sfError404Exception(sprintf('No Revendication found with the id "%s" and the campagne "%s".',  $parameters['identifiant'],$parameters['campagne']));
         }
         return $this->revendication;
     }
@@ -48,6 +48,6 @@ class RevendicationRoute extends sfObjectRoute  {
     }
 
     public function getOdgs() {
-        return array('tours');
+        return EtablissementClient::getRegionsWithoutHorsInterLoire();
     }
 }

@@ -58,7 +58,7 @@ class SocieteAllView extends acCouchdbView
 
     	if (isset($datas[self::KEY_CODE_POSTAL]) && $code_postal = $datas[self::KEY_CODE_POSTAL])
     	  	$libelle .= ' / '.$code_postal;
-        
+        $libelle .= ' (Société)';
         return trim($libelle);
     }
 

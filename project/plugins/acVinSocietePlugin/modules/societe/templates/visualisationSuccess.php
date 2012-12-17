@@ -8,8 +8,7 @@
             <div id="creation_societe">
             <h2><?php echo $societe->raison_sociale; ?></h2>
             <div class="btn_etape">
-                <a href="<?php echo url_for('societe_addContact', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_vert">Nouveau Contact
-                </a>
+                <a href="<?php echo url_for('societe_addContact', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_vert">Nouvel interlocuteur</a>
                 &nbsp;
                 <?php if($societe->canHaveChais()) : ?>  
                 <a href="<?php echo url_for('societe_addEtablissement', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_jaune">Nouvel Etablissement
@@ -41,5 +40,8 @@
                 </ul>
             </div>
         </div>
+         <?php
+            include_component('societe', 'getInterlocuteurs', array('identifiant' => $societe->identifiant));
+        ?>
     </aside>
 </div>

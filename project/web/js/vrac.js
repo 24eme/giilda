@@ -185,25 +185,34 @@ var updatePanelsAndUnitForBottle = function()
 
 var majTotal = function(quantiteField){
     var quantite = $('#vrac_'+quantiteField).val();
+    var numericComma =  new RegExp("^[0-9]+\,?[0-9]*$","g");
+    if(numericComma.test(quantite))
+    {
+        quantite = quantite.replace(",", ".");
+    }
+    
+    var prix_unitaire = $('#vrac_prix_unitaire').val();
+    if(numericComma.test(prix_unitaire))
+    {
+        prix_unitaire = prix_unitaire.replace(",", ".");
+    }
     var numeric =  new RegExp("^[0-9]+\.?[0-9]*$","g");
+    
     if(numeric.test(quantite))
     {
         var hlRaisins = quantite;
         if(quantiteField=='raisin_quantite')
         {
-            hlRaisins*=1.3;
-            $('#volume_total').val(quantite).trigger('change');
+            hlRaisins = (hlRaisins / 1.3);
+            hlRaisins = hlRaisins /100.0; 
         }
-        else
-            $('#volume_total').val(quantite).trigger('change');
         
-        var prix_unitaire = $('#vrac_prix_unitaire').val();
         
         var priceReg = (new RegExp("^[0-9]+[.]?[0-9]*$","g")).test(prix_unitaire);
         if(priceReg)
         {
            var prix_total =quantite * parseFloat(prix_unitaire);
-           $('#vrac_prix_total').text(prix_total);
+           $('#vrac_prix_total').text(parseFloat(prix_total).toFixed(2));
            if(quantiteField=='raisin_quantite')
            {
                var prix_hl = prix_total / hlRaisins;
@@ -223,7 +232,7 @@ var init_ajax_nouveau = function()
     ajaxifyAutocompleteGet('getInfos','#acheteur_choice','#acheteur_informations');
     ajaxifyAutocompleteGet('getInfos','#mandataire_choice','#mandataire_informations');
     $('#has_mandataire input').attr('checked', 'checked');
-    $('#vrac_mandatant_vendeur').attr('checked','checked');
+    $('#vrac_mandatant_acheteur').attr('checked','checked');
     
     majAutocompleteInteractions('vendeur');
     majAutocompleteInteractions('acheteur');
@@ -444,12 +453,16 @@ var setGreyPanel = function(divId)
     $('#'+divId+'_overlay').offset({top: offset.top});
 };
 
-var removeGreyPanel = function(divId) { $('#'+divId+'_overlay').remove(); };
+var removeGreyPanel = function(divId) { 
+    $('#'+divId+'_overlay').remove(); 
+};
 
 $(document).ready(function()
 {
      initMarche();
      initConditions();
+     $("#vrac_soussigne").bind("submit", function() {return false;});
+     $("#btn_soussigne_submit").bind("click", function() {$("#vrac_soussigne").unbind("submit");$("#vrac_soussigne").submit()});
      $('#vendeur_choice input').focus();
      initDatepicker();
 });

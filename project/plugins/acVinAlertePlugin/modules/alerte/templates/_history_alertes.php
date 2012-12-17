@@ -1,5 +1,5 @@
 <div id="toutes_alertes">
-	<h2>Les alertes</h2>
+	<h2>Les alertes de </h2>
 	
 	<?php
 	use_helper('Date');

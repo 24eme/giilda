@@ -48,7 +48,7 @@
 				},
 				onClose : function()
 				{
-					$.unbindDetailsPopup();
+				    $.unbindDetailsPopup();
 				},
 				helpers :
 				{
@@ -380,6 +380,7 @@
                     $('.drm_details_addTemplate').trigger('click');
                 } 
                 $.fancybox.update();	
+		$.majSommeLabelBind();
             });
             
             $('.drm_details_annuler').live('click',function()
@@ -441,7 +442,11 @@
                             input.attr('data-val-defaut',input.val());
                             colonne.active();
                             colonne.calculer();
-                            $.fancybox.close();    
+                            $.fancybox.close();
+			    $.fn.RevisionajaxSuccessCallBackData = colonne;
+			    $.fn.RevisionajaxSuccessCallBack = function () {
+				$.fn.RevisionajaxSuccessCallBackData.valider();
+			    }
                             }
                         }, "json");
 
@@ -462,8 +467,7 @@
         
         $.majSommeLabel = function()
         {
-            $('.drm_details_tableBody td.volume').unbind();
-            $('.drm_details_tableBody td.volume').bind('keyup', function()
+	    $.majSommeLabelBind = function()
             {
                 var vol = 0;
                 $('.drm_details_tableBody td.volume').each(function()
@@ -475,7 +479,9 @@
                     vol+=vol_val_float;
                 }); 
                 $('.drm_details_volume_total').text(vol.toFixed(2));
-            });
+            }
+            $('.drm_details_tableBody td.volume').unbind();
+            $('.drm_details_tableBody td.volume').bind('keyup', $.majSommeLabelBind);
         }
          	
 })(jQuery);

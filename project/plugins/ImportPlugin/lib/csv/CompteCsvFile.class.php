@@ -60,6 +60,7 @@ const CSV_COMPTE_CODE_PARTENAIRE = 22;
 	try{
       	$c = new Compte();
         $c->identifiant = $compteidentifiant;
+        $c->interpro = 'INTERPRO-inter-loire';
         $c->nom_a_afficher = $line[self::CSV_COMPTE_NOM_CONTACT];
 	$c->id_societe = sprintf("SOCIETE-%06d", $line[self::CSV_COMPTE_CODE_PARTENAIRE]);
 	$c->adresse = preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE1]);

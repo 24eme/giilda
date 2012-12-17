@@ -1143,11 +1143,13 @@ p#date_drm
 	#organisme { display:none; }
 }
 
-#btn_etape_dr{
-        margin-top : 10px;
-        .btn_etape_suiv { float:right; } 
+#btn_etape_dr
+{
+    margin-top : 10px;
+    .btn_brouillon { margin-left: 235px; }
+    .btn_etape_suiv { float:right; }
 
- }
+}
 
 .inactif { visibility: hidden; }
 
@@ -1308,13 +1310,12 @@ p#date_drm
 }
 .drm #principal{
 	fieldset{
-		margin-top: 25px;
+		margin: 25px 0;
 
 		&#historique_drm{
 			nav{
 				position: relative;
 				bottom: -1px;
-				z-index: 10;
 
 				ul{
 					.clearfix;
@@ -1399,7 +1400,7 @@ p#date_drm
 												span { .statut_suspendu; }
 											}
 
-											a { .btn_rouge; }
+											a.action { .btn_rouge; }
 										}
 
 										&.cloture_campagne{
@@ -1409,7 +1410,7 @@ p#date_drm
 												span { .statut_cloture; }
 											}
 
-											a { .btn_noir; }
+											a.action { .btn_noir; }
 										}
 
 										&.nouv_campagne{
@@ -1419,7 +1420,7 @@ p#date_drm
 												span { .statut_nouveau; }
 											}
 
-											a { .btn_orange; }
+											a.action { .btn_orange; }
 										}
 
 										&.valide_campagne{
@@ -1430,7 +1431,7 @@ p#date_drm
 												span { .statut_valide; }
 											}
 
-											a { .btn_noir; }
+											a.action { .btn_noir; }
 										}
 
 										li{
@@ -1450,7 +1451,7 @@ p#date_drm
 												width: 60px;
 											}
 
-											a{
+											a.action{
 												.btn_majeur;
 												text-align: center;
 												display: block;
@@ -1551,6 +1552,8 @@ p#date_drm
 	 			{
 	 				.btn_valider { float: right; }
 	 			}
+
+                                .drm_details_form_noItem { margin-bottom: 20px; }
 	 		}
 	 	}
 	 }

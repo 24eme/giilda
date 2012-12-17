@@ -38,6 +38,7 @@ class RevendicationStocksView extends acCouchdbView
 
     public function build($row) {
         $rev = new stdClass();
+        $rev->campagne = $row->key[self::KEY_CAMPAGNE];
         $rev->societe_identifiant = $row->key[self::KEY_SOCIETE_IDENTIFIANT];
         $rev->etablissement_identifiant = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT];
         $rev->declarant = new stdClass();

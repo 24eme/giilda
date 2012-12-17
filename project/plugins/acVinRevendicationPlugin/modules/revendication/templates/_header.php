@@ -1,6 +1,6 @@
 <p id="fil_ariane">
     <strong>
-        <?php echo link_to("Page d'accueil", 'revendication'); ?> > <?php echo link_to("Import Volumes Revendiqués", 'revendication_upload'); ?> > Import
+        <?php echo link_to("Page d'accueil", 'revendication'); ?> > <?php //echo link_to("Import Volumes Revendiqués", 'revendication_upload'); ?> > Import
     </strong>
 </p><?php
         if (is_null($revendication)){
@@ -26,28 +26,18 @@
         'revendication_etape' => $revendication->etape,
         'revendication' => $revendication,
         'actif' => $actif,
-        'label' => 'Erreurs synthax.',
-        'url_etape' => 'revendication_view_erreurs'
-    ));
-    ?>
-
-    <?php
-    include_partial('revendication/etapeItem', array('num_etape' => 2,
-        'revendication_etape' => $revendication->etape,
-        'revendication' => $revendication,
-        'actif' => $actif,
         'label' => 'Erreurs',
         'url_etape' => 'revendication_view_erreurs'
     ));
     ?>
 
 <?php
-include_partial('revendication/etapeItem', array('num_etape' => 3,
+include_partial('revendication/etapeItem', array('num_etape' => 2,
     'revendication_etape' => $revendication->etape,
     'revendication' => $revendication,
     'actif' => $actif,
     'label' => 'Edition',
-    'url_etape' => 'vrac_validation'
+    'url_etape' => 'revendication_edition'
 ));
 ?>
 

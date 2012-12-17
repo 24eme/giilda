@@ -15,7 +15,7 @@ class AlerteRouting {
         $r->prependRoute('alerte', new sfRoute('/alerte', array('module' => 'alerte',
                     'action' => 'index')));        
         
-        $r->prependRoute('alerte_etablissement', new EtablissementRoute('/alerte/:identifiant', array('module' => 'alerte',
+        $r->prependRoute('alerte_etablissement', new EtablissementRoute('/alerte/:identifiant/recherche', array('module' => 'alerte',
                     'action' => 'monEspace'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Etablissement',

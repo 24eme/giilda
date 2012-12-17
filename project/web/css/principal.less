@@ -20,18 +20,53 @@
 		font-weight: bold;
 		margin: 20px 0;
 	}
+
+        #points_bloquants,
+        #points_vigilance
+        {
+            .error,
+            .warning
+            {
+                .border-radius(4px);
+                margin: 10px 0;
+                padding: 3px;
+            }
+
+            p { font-weight: bold; }
+        }
+
+        #points_bloquants
+        {
+            .error
+            {
+                background: #f1b2b3;
+                color: #8a0c0c;
+            }   
+        }
+
+        #points_vigilance
+        {
+            .warning
+            {
+                background: #ffd58c;
+                color: #a03b09;
+            }
+        }
 }
 
 #recap_infos_header
 {
 	.recap_info;
 	margin: 0 0 20px;
-
-	li:first-child
+	li {
+		margin-bottom: 15px;
+		span { width: 200px; }
+		padding: 0 10px;
+	}
+	li:first-child, li.odd
 	{
 		.info_principal;
 		margin-bottom: 15px;
-
 		span { width: 200px; }
 	}
 }
@@ -167,11 +202,7 @@
 			
 		}
 		
-		select
-		{
-			height: 20px;
-			width: 130px;
-		}
+		select { width: 130px; }
 		
 		.champ_form_radio_cb 
 		{
@@ -1054,6 +1085,10 @@
 	}
 }
 
+
+.facturable {
+	    font-weight: bold;
+}
 
 /**
  * Alertes

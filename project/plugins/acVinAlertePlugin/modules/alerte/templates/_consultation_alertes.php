@@ -9,9 +9,9 @@
 		
 		<div class="bloc_form">
 			<div class="ligne_form">
-				<?php echo $form['declarant_alerte']->renderError(); ?>
-				<?php echo $form['declarant_alerte']->renderLabel() ?>
-				<?php echo $form['declarant_alerte']->render() ?> 
+				<?php echo $form['identifiant']->renderError(); ?>
+				<?php echo $form['identifiant']->renderLabel() ?>
+				<?php echo $form['identifiant']->render() ?> 
 			</div>
 			<div class="ligne_form ligne_form_alt">
 				<?php echo $form['region_alerte']->renderError(); ?>

@@ -61,7 +61,7 @@
                 <label for="enseigne">
                     Enseigne : 
                 </label>
-                <?php echo $enseigne; ?>
+                <?php echo $enseigne->label; ?>
             </div>
             <?php
         endforeach;

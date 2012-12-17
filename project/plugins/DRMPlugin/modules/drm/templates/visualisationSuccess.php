@@ -9,8 +9,8 @@
 
 		<ul id="recap_infos_header">
 			<li><span>Nom de l'opérateur :</span> <?php echo $drm->getEtablissement()->nom ?> </li>
-			<li><span>Période :</span> <?php echo $drm->periode ?></li>
-            <li><span>Numéro d'archive :</span> <?php echo $drm->numero_archive ?></li>
+			<li><span>Période :</span> <?php echo ucfirst($drm->getHumanPeriode()); ?></li>
+            <li class="odd"><span>Numéro d'archive :</span> <?php echo $drm->numero_archive ?></li>
 		</ul>
 		
         <?php if ($drm_suivante && $drm_suivante->isRectificative() && !$drm_suivante->isValidee()): ?>
@@ -30,23 +30,11 @@
 
 		<br />
 		<div id="btn_etape_dr">
-			<a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()) ?>" class="btn_etape_prec" id="facture"><span>Retour à mon espace</span></a> 
+			<a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant, 'campagne'=>$drm->campagne)) ?>" class="btn_etape_prec" id="facture"><span>Retour à mon espace</span></a> 
 		</div>
 
     </section>
     <aside id="colonne">
-
-        <div id="contrat_progression" class="bloc_col">
-            <h2>Campagne viticole : 2011-2012</h2>
-
-            <div class="contenu">
-                <p><strong>10%</strong> de la DRM a été saisi</p>
-
-                <div id="barre_progression">
-                    <span style="width: 10%;"></span>
-                </div>
-            </div>
-        </div>
 
         <div id="contrat_aide" class="bloc_col">
             <h2>Aide</h2>

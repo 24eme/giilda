@@ -320,10 +320,10 @@
 
 #contenu_etape
 {
-    .error_list
-    {
+    .error_list 
+    {  
         color: red;
-        float: right;
+        float: right; 
     }
 
     .col
@@ -331,12 +331,12 @@
         float: left;
         vertical-align: top;
         width: 329px;
-    }
+    } 
 
     #recherche_operateur
     {
         background:@couleur-a5;
-		margin: 0 0 25px;
+        margin: 0 0 25px;
         padding:10px 10px 30px;
 
         .ui-autocomplete-input
@@ -406,24 +406,27 @@
 
     #vrac_soussigne
     {
+
+        .ligne_form { height: 38px; }
+        
         .section_label_maj
-		{
-			background:@couleur-a5;
-			margin: 0 0 25px;
-			padding:10px 10px 30px;
-	
-			.ui-autocomplete-input
-			{
-			}
-		}
+        {
+                background:@couleur-a5;
+                margin: 0 0 25px;
+                padding:10px 10px 30px;
+
+                .ui-autocomplete-input
+                {
+                }
+        }
 
         #vendeur_infos { height : @grid-unite; }
 
 
         #has_mandataire
-		{
-			font-weight: bold;
-		}
+        {
+                font-weight: bold;
+        }
 
         #mandataire
         {
@@ -433,21 +436,21 @@
 
         #mandatant
         {
-			margin: 0 0 20px;
-			
-			* { vertical-align: middle; }
+            margin: 0 0 20px;
+
+            * { vertical-align: middle; }
 			
             .checkbox_list
             {
-				.inline-block-ie;
+                .inline-block-ie;
 
                 li
                 {
-					.inline-block-ie;
+                    .inline-block-ie;
                     width : 150px; 
                 }
 				
-				input { margin: 0 5px 0 0; }
+                input { margin: 0 5px 0 0; }
             }
         }
 
@@ -641,6 +644,12 @@
             margin-top: 8px;
         }
     }
+
+    .warning
+    {
+        background: orange;
+        color: white;
+    }
 }
 
 
@@ -735,12 +744,8 @@
 
     #contrat_actions
     {
-        a
-        {
-            .btn_majeur;
-            display: block;
-            text-align: center;
-        }
+        a { margin: 5px 0; }
+        .btn_nouveau { padding-left: 27px; }
     }
 }
 

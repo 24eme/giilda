@@ -6,6 +6,7 @@
             'route' => 'drm',
             'route_etablissement' => 'drm_etablissement',
             'etablissement' => $etablissement,
+            'target' => '_self'
         )) ?>
 
         <?php include_component('global', 'navItem', array(
@@ -14,6 +15,7 @@
             'route' => 'vrac',
             'route_etablissement' => 'vrac_recherche',
             'etablissement' => $etablissement,
+            'target' => '_blank'
         )) ?>
 
         <?php include_component('global', 'navItem', array(
@@ -22,6 +24,7 @@
             'route' => 'facture',
             'route_etablissement' => 'facture_etablissement',
             'etablissement' => $etablissement,
+            'target' => '_blank'
         )) ?>
         
         <?php include_component('global', 'navItem', array(
@@ -30,6 +33,7 @@
             'route' => 'societe',
             'route_etablissement' => 'societe_choose',
             'etablissement' => null,
+            'target' => '_blank'
         )) ?>
         
         
@@ -39,6 +43,7 @@
             'route' => 'revendication',
             'route_etablissement' => 'revendication_etablissement',
             'etablissement' => null,
+            'target' => '_self'
         )) ?>
 
         <?php include_component('global', 'navItem', array(
@@ -47,6 +52,7 @@
             'route' => 'sv12',
             'route_etablissement' => 'sv12_etablissement',
             'etablissement' => $etablissement,
+            'target' => '_self'
         )) ?>
 
         <?php include_component('global', 'navItem', array(
@@ -55,6 +61,7 @@
             'route' => 'ds',
             'route_etablissement' => 'ds_etablissement',
             'etablissement' => $etablissement,
+            'target' => '_self'
         )) ?>
 
         <?php include_component('global', 'navItem', array(
@@ -63,6 +70,7 @@
             'route' => 'stocks',
             'route_etablissement' => 'stocks_etablissement',
             'etablissement' => $etablissement,
+            'target' => '_self'
         )) ?>
         
         <?php
@@ -72,6 +80,7 @@
             'route' => 'alerte',
             'route_etablissement' => 'alerte_etablissement',
             'etablissement' => $etablissement,
+            'target' => '_self'
         )) ?>
 
         <li><a href="#">Relance</a></li>

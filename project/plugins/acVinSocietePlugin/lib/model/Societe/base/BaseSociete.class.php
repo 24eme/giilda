@@ -12,8 +12,8 @@
  * @property string $raison_sociale
  * @property string $raison_sociale_abregee
  * @property string $statut
- * @property string $numero_compte_client
- * @property string $numero_compte_fournisseur
+ * @property string $code_comptable_client
+ * @property string $code_comptable_fournisseur
  * @property string $code_naf
  * @property string $siret
  * @property string $interpro
@@ -22,7 +22,7 @@
  * @property acCouchdbJson $siege
  * @property string $cooperative
  * @property acCouchdbJson $enseignes
- * @property string $id_compte_societe
+ * @property string $compte_societe
  * @property acCouchdbJson $contacts
  * @property acCouchdbJson $etablissements
 
@@ -42,10 +42,10 @@
  * @method string setRaisonSocialeAbregee()
  * @method string getStatut()
  * @method string setStatut()
- * @method string getNumeroCompteClient()
- * @method string setNumeroCompteClient()
- * @method string getNumeroCompteFournisseur()
- * @method string setNumeroCompteFournisseur()
+ * @method string getCodeComptableClient()
+ * @method string setCodeComptableClient()
+ * @method string getCodeComptableFournisseur()
+ * @method string setCodeComptableFournisseur()
  * @method string getCodeNaf()
  * @method string setCodeNaf()
  * @method string getSiret()
@@ -62,8 +62,8 @@
  * @method string setCooperative()
  * @method acCouchdbJson getEnseignes()
  * @method acCouchdbJson setEnseignes()
- * @method string getIdCompteSociete()
- * @method string setIdCompteSociete()
+ * @method string getCompteSociete()
+ * @method string setCompteSociete()
  * @method acCouchdbJson getContacts()
  * @method acCouchdbJson setContacts()
  * @method acCouchdbJson getEtablissements()

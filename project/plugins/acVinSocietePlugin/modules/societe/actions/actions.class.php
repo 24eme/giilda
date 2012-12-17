@@ -4,9 +4,7 @@ class societeActions extends sfActions {
 
     public function executeAll(sfWebRequest $request) {
         $interpro = $request->getParameter('interpro_id');
-        $json = $this->matchSocieteEtablissementCompte(array('Societe' => SocieteAllView::getInstance()->findByInterpro($interpro)->rows,
-            'Etablissement' => EtablissementAllView::getInstance()->findByInterpro($interpro)->rows,
-            'Compte' => CompteAllView::getInstance()->findByInterpro($interpro)->rows), $request->getParameter('q'), $request->getParameter('limit', 100));
+        $json = $this->matchCompte(CompteAllView::getInstance()->findByInterpro($interpro)->rows, $request->getParameter('q'), $request->getParameter('limit', 100));
         return $this->renderText(json_encode($json));
     }
 
@@ -22,19 +20,13 @@ class societeActions extends sfActions {
     
     public function executeContactChosen(sfWebRequest $request) {
         $this->identifiant = $request->getParameter('identifiant',false);
-        if(preg_match('/^SOCIETE[-]{1}[0-9]*$/', $this->identifiant)){
-            $docRes = SocieteClient::getInstance()->find($this->identifiant);
-            if(!$docRes) throw new sfException("Le document $docRes n'existe plus");
-            $this->redirect('societe_visualisation', array('identifiant' => $docRes->identifiant));
-        }
-        if(preg_match('/^ETABLISSEMENT[-]{1}[0-9]*$/', $this->identifiant)){
-            $docRes = EtablissementClient::getInstance()->find($this->identifiant);
-            if(!$docRes) throw new sfException("Le document $docRes n'existe plus");
-            $this->redirect('societe_visualisation', array('identifiant' => $docRes->id_societe));
-        }
         if(preg_match('/^COMPTE[-]{1}[0-9]*$/', $this->identifiant)){
            $docRes = CompteClient::getInstance()->find($this->identifiant);
-            if(!$docRes) throw new sfException("Le document $docRes n'existe plus");
+           if(!$docRes) throw new sfException("Le document $docRes n'existe plus");
+           if($docRes->isSocieteContact())
+               $this->redirect('societe_visualisation', array('identifiant' => $docRes->getSocieteOrigine()));
+           if($docRes->isEtablissementContact())
+               $this->redirect('etablissement_visualisation', array('identifiant' => $docRes->getEtablissementOrigine()));
             $this->redirect('compte_modification', array('identifiant' => $docRes->identifiant));
         }
         if(!$this->identifiant) throw new sfException("L'identifiant $this->identifiant n'existe pas");
@@ -67,7 +59,8 @@ class societeActions extends sfActions {
             $this->contactSocieteForm->bind($request->getParameter($this->contactSocieteForm->getName()));
             if ($this->societeForm->isValid() && $this->contactSocieteForm->isValid()) {
                 $this->societeForm->save();
-                $this->contactSocieteForm->save();
+                $this->contactSocieteForm->save();  
+                
                 $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
             }
         }
@@ -88,7 +81,7 @@ class societeActions extends sfActions {
     public function executeAddContact(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->contact = $this->societe->addNewContact();
-        $this->societe->save();
+      //  $this->societe->save();
         $this->redirect('compte_new', array('identifiant' => $this->contact->identifiant));
     }
 
@@ -116,21 +109,17 @@ class societeActions extends sfActions {
         }
     }
 
-    protected function matchSocieteEtablissementCompte($view_results, $term, $limit) {
+    protected function matchCompte($view_res, $term, $limit) {
         $json = array();
-        foreach ($view_results as $type => $view_res) {
-            foreach ($view_res as $key => $one_row) {
-                $classView = $type . 'AllView';
-                $classClient = $type . 'Client';
-                $text = $classView::getInstance()->makeLibelle($one_row->key);
+        foreach ($view_res as $key => $one_row) {
+            $text = CompteAllView::getInstance()->makeLibelle($one_row->key);
 
-                if (Search::matchTerm($term, $text)) {
-                    $json[$one_row->id] = $text;
-                }
+            if (Search::matchTerm($term, $text)) {
+                $json[$one_row->id] = $text;
+            }
 
-                if (count($json) >= $limit) {
-                    break;
-                }
+            if (count($json) >= $limit) {
+                break;
             }
         }
         return $json;
