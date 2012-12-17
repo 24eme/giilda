@@ -8,8 +8,8 @@
         <h2>Déclaration Récapitulative Mensuelle</h2>
 
         <div id="recap_infos_header">
-            <div><label>Nom de l'opérateur : </label> <?php echo $drm->getEtablissement()->nom ?> </div>
-            <div><label>Période : </label><?php echo $drm->periode ?></div>
+            <li><label>Nom de l'opérateur : </label> <?php echo $drm->getEtablissement()->nom ?> </li>
+            <li><label>Période : </label><?php echo $drm->periode ?></li>
         </div>
 
         <?php include_partial('drm_edition/etapes'); ?>
