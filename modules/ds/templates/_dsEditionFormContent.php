@@ -12,6 +12,8 @@ echo $form->renderGlobalErrors();
         <thead>
             <tr>
                 <th>Produits</th>
+                <th>VCI</th>
+                <th>Réserve qual.</th>
                 <th>Volume saisie</th>
             </tr>
         </thead>

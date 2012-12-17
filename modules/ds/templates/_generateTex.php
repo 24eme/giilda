@@ -1,3 +1,6 @@
+<?php
+use_helper('Date');
+?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
 \usepackage[english]{babel}
@@ -30,9 +33,9 @@
 
  
 \def\DSDEADLINEDATE{31 ao\^{u}t 2012}	
-\def\DSSTOCKSDATE{<?php echo strtoupper($ds->date_stock); ?>}		
+\def\DSSTOCKSDATE{<?php echo format_date($ds->date_stock,'dd/MM/yyyy'); ?>}		
 \def\DSHEADTITRE{\textsl{\textbf{DECLARATION DE STOCKS DE VIN}}}       
-\def\DSHEADTEXTE{Cet imprimé doit \^{e}tre obligatoirement rempli \textsl{\textbf{avant le <?php echo $ds->date_echeance; ?>}} au plus tard \\par tous les propriétaires, fermiers, métayers, groupements de producteurs,\\négociants détenant des stocks de vins d'appellation d'origine (revendiqués et/ou\\agrées) et quels que soient leurs lieux d'entreposage selon la liste proposée\\ ci-après conformément à l'Accord Interprofessionnel d'InterLoire en vigueur.}
+\def\DSHEADTEXTE{Cet imprimé doit \^{e}tre obligatoirement rempli \textsl{\textbf{avant le <?php echo format_date($ds->date_echeance,'dd/MM/yyyy'); ?>}} au plus tard \\par tous les propriétaires, fermiers, métayers, groupements de producteurs,\\négociants détenant des stocks de vins d'appellation d'origine (revendiqués et/ou\\agrées) et quels que soient leurs lieux d'entreposage selon la liste proposée\\ ci-après conformément à l'Accord Interprofessionnel d'InterLoire en vigueur.}
 \def\DSNUMERO{<?php echo $ds->_id; ?>}
 
 \def\DSClientNUM{<?php echo $ds->identifiant; ?>}
@@ -134,23 +137,29 @@ page \thepage / 1
     \begin{tikzpicture}
 		\node[inner sep=1pt] (tab1){
 
-			\begin{tabular}{b{12mm}| m{118mm} |b{55mm}|}
+			\begin{tabular}{b{12mm}| m{95mm} | m{23mm} | m{23mm} |b{23mm}|}
 
   			\rowcolor{lightgray}
             \centering \textbf{Code} &
    			\centering \textbf{Produits} &
-             \multicolumn{1}{>{\columncolor{lightgray}} c|}{ \textbf{Volume en hl}} 
+   			\centering \textbf{Volume en hl} &
+   			\centering \textbf{VCI} &
+             \multicolumn{1}{>{\columncolor{lightgray}} c|}{ \textbf{Reserve qual.}} 
    			 \\
   			\hline
                         <?php foreach ($ds->declarations as $declaration) :
                         ?>
-                        <?php echo $declaration->code_douane; ?> &
-                        <?php echo $declaration->produit_libelle; ?> &~\\ \hline
+                        <?php echo $declaration->code_douane; ?>~ &
+                        <?php echo $declaration->produit_libelle; ?>~ & 
+                        ~ &
+                        <?php echo ($declaration->vci)? $declaration->vci : '~'; ?>&
+                        <?php echo ($declaration->reserve_qualitative)? $declaration->reserve_qualitative : '~'; ?>
+                        \\ \hline
                         <?php
                         endforeach;
                         
                         for($i=0; $i<(34 - count($ds->declarations)); $i++) : ?>
-                        ~ & ~ & ~ \\ \hline 
+                        ~ & ~ & ~ & ~ & ~ \\ \hline 
                         <?php endfor; ?>            
 			\end{tabular}
 		};

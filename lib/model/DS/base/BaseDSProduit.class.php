@@ -9,6 +9,8 @@
  * @property string $produit_hash
  * @property float $stock_initial
  * @property float $stock_revendique
+ * @property string $vci
+ * @property string $reserve_qualitative
 
  * @method string getCodeDouane()
  * @method string setCodeDouane()
@@ -20,6 +22,10 @@
  * @method float setStockInitial()
  * @method float getStockRevendique()
  * @method float setStockRevendique()
+ * @method string getVci()
+ * @method string setVci()
+ * @method string getReserveQualitative()
+ * @method string setReserveQualitative()
  
  */
 

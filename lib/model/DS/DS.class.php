@@ -50,39 +50,52 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     }
 
     public function getLastDRM() {
+        
         return DRMClient::getInstance()->findLastByIdentifiantAndCampagne($this->identifiant, $this->campagne);
     }
 
     public function getLastDS() {
+        
         return DSClient::getInstance()->findLastByIdentifiant($this->identifiant);
     }
 
     public function updateProduits() {
         $drm = $this->getLastDRM();
         if ($drm) {
-            $produits = $drm->getProduitsDetails();
-
-            foreach ($produits as $produit) {
-                $produitDs = $this->declarations->add($produit->getHashForKey());
-                $produitDs->updateProduit($produit);
-            }
+           
+           return $this->updateProduitsFromDRM($drm); 
         }
         $ds = $this->getLastDS();
         if ($ds) {
-        	$this->declarations = $ds->declarations;
-        	foreach ($this->declarations as $declaration) {
-        		$declaration->stock_initial = null;
-        		$declaration->stock_revendique = null;
-        	}
+            
+           return $this->updateProduitsFromDS($ds); 
+        }
+    }
+
+    protected function updateProduitsFromDRM($drm) {
+         $produits = $drm->getProduitsDetails();
+
+        foreach ($produits as $produit) {
+            $produitDs = $this->declarations->add($produit->getHashForKey());
+            $produitDs->updateProduit($produit);
+        }
+    }
+
+    protected function updateProduitsFromDS($ds) {
+        foreach ($ds->declarations as $hash => $produit) {
+            if (!$produit->isActif()) {
+                
+                continue;
+            }
+            $nouveau_produit = $this->declarations->add($hash, $produit);
+
+            $nouveau_produit->stock_initial = null;
+            $nouveau_produit->stock_revendique = null;
         }
     }
     
     public function isStatutValide() {
         return $this->statut === DSClient::STATUT_VALIDE;
-    }
-
-    public function isStatutPartiel() {
-        return $this->statut === DSClient::STATUT_VALIDE_PARTIEL;
     }
 
     public function isStatutASaisir() {
@@ -91,12 +104,6 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 
     public function updateStatut() {
         $this->statut = DSClient::STATUT_VALIDE;
-        foreach ($this->declarations as $declaration) {
-            if (is_null($declaration->stock_revendique) || $declaration->stock_revendique == 0) {
-                $this->statut = DSClient::STATUT_VALIDE_PARTIEL;
-                return;
-            }
-        }
     }
 
     protected function preSave() {

@@ -54,8 +54,6 @@ class dsActions extends sfActions {
         $this->ds = $this->getRoute()->getDS();
         $this->etablissement = EtablissementClient::getInstance()->retrieveById($this->ds->identifiant);
         $generation = new Generation();
-	//$generation->arguments->add('regions',array('tours' => 'tours'));
-	//$generation->arguments->add('operateur_types', array($this->etablissement->famille));
 	$generation->arguments->add('date_declaration', $this->ds->date_stock);
 	$generation->type_document = 'DS';
         $generation->add('documents')->add(0, $this->ds->_id);
@@ -109,6 +107,7 @@ class dsActions extends sfActions {
         $this->ds = $this->getRoute()->getDS();
         $this->forward404Unless($this->ds);
 	$latex = new DSLatex($this->ds);
+        //$latex->echoFactureWithHTTPHeader(DSLatex::DS_OUTPUT_TYPE_LATEX);
 	$latex->echoFactureWithHTTPHeader($request->getParameter('type'));
         exit;
     }

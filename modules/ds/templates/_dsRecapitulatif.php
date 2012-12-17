@@ -7,6 +7,8 @@ use_helper('Float');
 	<thead>
 		<tr>
 			<th>Produits</th>
+                        <th>VCI</th>
+                        <th>Réserve qual.</th>
 			<th>Stock initial</th>
 			<th>Volume revendiqué</th>
 		</tr>
@@ -18,8 +20,14 @@ use_helper('Float');
 			<td class="ds_recap_declaration_appelation">
 				<?php echo $declaration->produit_libelle; ?>
 			</td>
+                        <td class="ds_recap_declaration_vci">
+				<?php echo $declaration->vci; ?>
+			</td>
+                        <td class="ds_recap_declaration_reserve_qualitative">
+				<?php echo $declaration->reserve_qualitative; ?>
+			</td>
 			<td class="ds_recap_declaration_stockInitial">
-				<?php echo $declaration->stock_initial; ?>
+				<?php echoFloat($declaration->stock_initial); ?>
 			</td>
 			<td class="ds_recap_declaration_vr">
 				<?php echoFloat($declaration->stock_revendique); ?>

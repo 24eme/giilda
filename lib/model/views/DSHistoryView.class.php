@@ -9,6 +9,7 @@ class DSHistoryView extends acCouchdbView
 
     const VALUE_DS_ID = 0;
     const VALUE_DECLARANT_CVI = 1;
+    const VALUE_DECLARANT_NUMERO_ARCHIVE = 2;
 
     public static function getInstance() {
 
