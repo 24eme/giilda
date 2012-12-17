@@ -38,26 +38,35 @@ class WidgetSociete extends sfWidgetFormChoice
 
     public function getUrlAutocomplete() {
         $interpro_id = $this->getOption('interpro_id');
-        return sfContext::getInstance()->getRouting()->generate('societe_autocomplete_all', array('interpro_id' => $interpro_id));
+        return sfContext::getInstance()->getRouting()->generate('soc_etb_com_autocomplete_all', array('interpro_id' => $interpro_id));
     }
 
     public function getChoices() {
         if(!$this->identifiant) {
-
             return array();
         }
-        $societes = SocieteAllView::getInstance()->findByEtablissement($this->identifiant);
-        if (!$societes) {
-
+        $viewRes = null;
+        $class = null;
+        if(preg_match('/^SOCIETE[-]{1}[0-9]*$/', $this->identifiant)){
+            $docRes = SocieteClient::getInstance()->find($this->identifiant);
+            if(!$docRes) return array();
+            $viewRes = SocieteAllView::getInstance()->findByRaisonSocialeAndId($docRes->raison_sociale,$docRes->_id);
+        }
+        if(preg_match('/^ETABLISSEMENT[-]{1}[0-9]*$/', $this->identifiant)){
+            $viewRes = EtablissementAllView::getInstance()->findByEtablissement($this->identifiant);
+        }
+        if(preg_match('/^COMPTE[-]{1}[0-9]*$/', $this->identifiant)){
+            $docRes = CompteClient::getInstance()->find($this->identifiant);
+            if(!$docRes) return array();
+            $viewRes = CompteAllView::getInstance()->findByInterproAndId($docRes->interpro,$docRes->_id);
+        }
+        
+        if (!$viewRes) {
             return array();
         }
         
-        $choices = array();
-        foreach($societes->rows as $key => $societe) {
-            $choices[SocieteClient::getInstance()->getIdentifiant($societe->id)] = EtablissementAllView::getInstance()->makeLibelle($societe->key);
-        }
-
-        return $choices;
+        
+        return array($this->identifiant => EtablissementAllView::getInstance()->makeLibelle($viewRes->rows[0]->key));
     }
 
     public function render($name, $value = null, $attributes = array(), $errors = array())

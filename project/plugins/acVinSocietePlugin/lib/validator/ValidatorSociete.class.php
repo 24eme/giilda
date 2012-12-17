@@ -11,6 +11,6 @@ class ValidatorSociete extends acValidatorCouchdbDocument
     {
         parent::configure($options, $messages);
         $this->setOption('type', 'Societe');
-        $this->setOption('prefix', 'SOCIETE-');
+        $this->setOption('prefix', '');
     }    
 }

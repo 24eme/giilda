@@ -9,17 +9,22 @@
             <form action="<?php echo url_for('societe_creation'); ?>" method="post">
 				<div id="recherche_societe" class="section_label_maj">
 					<h2>Sélectionner un type de société </h2>
-						<div class="section_label_maj" id="recherche_societe">
-							<?php echo $form['raison_sociale']->renderError(); ?>
-							<?php echo $form['raison_sociale']->renderLabel(); ?>
-							<?php echo $form['raison_sociale']->render(); ?>
+                                        <?php if($raison_sociale) : ?>
+                                        <div class="error"> Attention, la société saisie correspond a une société existante!</div>  
+                                          <?php endif; ?>
+                                        <div class="section_label_maj <?php echo ($raison_sociale)? 'errors':''  ?>" id="recherche_societe">
+							<?php 
+                                                        echo $form['raison_sociale']->renderError(); 
+                                                        echo $form['raison_sociale']->renderLabel(); 
+                                                        echo $form['raison_sociale']->render(); 
+                                                        ?>
 						</div>
 						<div class="section_label_maj" id="recherche_societe">
 							<?php echo $form['type']->renderError(); ?>
 							<?php echo $form['type']->renderLabel(); ?>
 							<?php echo $form['type']->render(); ?>
 						</div>
-						<button id="btn_rechercher" type="submit">Créer</button>
+                                        <button id="btn_rechercher" type="submit" class="btn_majeur btn_acces">Créer</button>
 				</div>
             <form>
         </section>

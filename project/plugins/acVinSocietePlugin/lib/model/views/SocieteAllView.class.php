@@ -3,12 +3,13 @@
 class SocieteAllView extends acCouchdbView
 {
 	const KEY_INTERPRO_ID = 0;
-	const KEY_ID = 1;
-	const KEY_IDENTIFIANT = 2;
-	const KEY_RAISON_SOCIALE = 3;
-	const KEY_SIRET = 4;
-	const KEY_COMMUNE = 5;
-	const KEY_CODE_POSTAL = 6;
+	const KEY_RAISON_SOCIALE = 1;
+	const KEY_ID = 2;
+        const KEY_TYPESOCIETE = 3;
+	const KEY_IDENTIFIANT = 4;
+	const KEY_SIRET = 5;
+	const KEY_COMMUNE = 6;
+	const KEY_CODE_POSTAL = 7;
 
     public static function getInstance() {
         return acCouchdbManager::getView('societe', 'all', 'Societe');
@@ -21,16 +22,19 @@ class SocieteAllView extends acCouchdbView
                     		->getView($this->design, $this->view);
     }
 
-    public function findBySociete($identifiant) {
-        $societe = $this->client->find($identifiant, acCouchdbClient::HYDRATE_JSON);
+    public function findByRaisonSociale($raison_sociale) {
+        $interpro = 'INTERPRO-inter-loire';
+        return $this->client->startkey(array($interpro, $raison_sociale))
+                            ->endkey(array($interpro,  $raison_sociale, array()))
+                            ->getView($this->design, $this->view)->rows;
+        
+    }
 
-        if(!$societe) {
-            return null;
-        }
-
-        return $this->client->startkey(array($societe->interpro, $societe->_id))
-                            ->endkey(array($societe->interpro,  $societe->_id, array()))
-                            ->getView($this->design, $this->view);
+    public function findByRaisonSocialeAndId($raison_sociale,$id) {
+        $interpro = 'INTERPRO-inter-loire';
+        return $this->client->startkey(array($interpro, $raison_sociale, $id))
+                            ->endkey(array($interpro,  $raison_sociale, $id, array()))
+                            ->getView($this->design, $this->view)->rows;
         
     }
 
@@ -49,11 +53,11 @@ class SocieteAllView extends acCouchdbView
         }
         $libelle .= ') ';
 
-    	if (isset($datas[self::KEY_COMMUNE]))
-    	  	$libelle .= ' '.$datas[self::KEY_COMMUNE];
+    	if (isset($datas[self::KEY_COMMUNE]) && $commune = $datas[self::KEY_COMMUNE])
+    	  	$libelle .= ' / '.$commune;
 
-    	if (isset($datas[self::KEY_CODE_POSTAL]))
-    	  	$libelle .= ' '.$datas[self::KEY_CODE_POSTAL];
+    	if (isset($datas[self::KEY_CODE_POSTAL]) && $code_postal = $datas[self::KEY_CODE_POSTAL])
+    	  	$libelle .= ' / '.$code_postal;
         
         return trim($libelle);
     }

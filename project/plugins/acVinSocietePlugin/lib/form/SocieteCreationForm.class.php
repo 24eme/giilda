@@ -11,6 +11,13 @@
  */
 class SocieteCreationForm extends sfForm {
 
+    
+    public function __construct($raison_sociale = false, $defaults = array(), $options = array(), $CSRFSecret = null) {
+        if($raison_sociale) $defaults['raison_sociale'] = $raison_sociale;
+        parent::__construct($defaults, $options, $CSRFSecret);
+    }
+
+
     public function configure() {
         parent::configure();
 
@@ -20,7 +27,7 @@ class SocieteCreationForm extends sfForm {
         $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
         $this->setValidator('type', new sfValidatorChoice(array('required' => true, 'choices' => $this->getSocieteTypesValid())));
 
-        $this->widgetSchema->setLabel('raison_sociale', 'Nom de la société : ');
+        $this->widgetSchema->setLabel('raison_sociale', 'Raison sociale de la société : ');
         $this->widgetSchema->setLabel('type', 'Type de société : ');
 
 
