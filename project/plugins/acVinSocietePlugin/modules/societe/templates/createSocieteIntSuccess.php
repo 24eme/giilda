@@ -8,12 +8,18 @@
         <section id="contacts">
 		
 			<div id="creation_societe">
-				<h1>Création d'une nouvelle société</h1>
+				<h2>EARL Yannick &amp; Nicole Amirault</h2>
+				
+				<div class="form_btn">
+					<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
+					<button type="submit" class="btn_majeur btn_valider">Valider</button>
+				</div>
 				
 				<form action="" method="post">
 				
 					<div id="selection_societe" class="form_section">
-						<h2>Sélectionner un type de société</h2>
+						
+						<h3>Sélectionner un type de société</h3>
 						
 						<div class="form_contenu">
 							<div class="form_ligne">
@@ -31,7 +37,7 @@
 					
 					<div id="detail_societe" class="form_section">
 						
-						<h2>Détail de la société</h2>
+						<h3>Détail de la société</h3>
 						
 						<div class="form_contenu">
 							<div class="form_ligne">
@@ -39,13 +45,17 @@
 								<input type="text" id="detail_societe_nom" class="champ_long" />
 							</div>
 							<div class="form_ligne">
-								<label for="detail_societe_abrege">Abrégé</label>
-								<input type="text" id="detail_societe_abrege" />
-								<label for="detail_societe_statut" class="label_court">Statut</label>
-								<input type="radio" id="detail_societe_actif" />
-								<label for="detail_societe_actif" class="label_court">Actif</label>
-								<input type="radio" id="detail_societe_suspendu" />
-								<label for="detail_societe_suspendu">Suspendu</label>
+								<div class="form_colonne">
+									<label for="detail_societe_abrege">Abrégé</label>
+									<input type="text" id="detail_societe_abrege" />
+								</div>
+								<div class="form_colonne">
+									<label for="detail_societe_statut" class="label_court">Statut</label>
+									<input type="radio" id="detail_societe_actif" />
+									<label for="detail_societe_actif" class="label_court">Actif</label>
+									<input type="radio" id="detail_societe_suspendu" />
+									<label for="detail_societe_suspendu">Suspendu</label>
+								</div>
 							</div>
 							<div class="form_ligne">
 								<label for="detail_societe_numero_compte">Numéros de Compte</label>
@@ -55,18 +65,27 @@
 								<label for="detail_societe_fournisseur">Fournisseur</label>
 							</div>
 							<div class="form_ligne">
-								<label for="detail_societe_siret">SIRET</label>
-								<input type="text" id="detail_societe_siret" />
-								<label for="detail_societe_code_naf" class="label_court">Code NAF</label>
-								<input type="text" id="detail_societe_code_naf" />
+								<div class="form_colonne">
+									<label for="detail_societe_siret">SIRET</label>
+									<input type="text" id="detail_societe_siret" />
+								</div>
+								<div class="form_colonne">
+									<label for="detail_societe_code_naf" class="label_court">Code NAF</label>
+									<input type="text" id="detail_societe_code_naf" />
+								</div>
 							</div>
 							<div class="form_ligne">
 								<label for="detail_societe_tva_intracom">TVA Intracom</label>
 								<input type="text" id="detail_societe_tva_intracom" />
 							</div>
-							<div class="form_ligne">
-								<label for="detail_societe_enseigne">Enseigne</label>
-								<input type="text" id="detail_societe_enseigne" />
+							<div class="form_ligne conteneur_enseigne">
+								<div class="form_colonne">
+									<label for="detail_societe_enseigne">Enseigne</label>
+								</div>
+								<div class="form_colonne">
+									<input type="text" id="detail_societe_enseigne" />
+									<a href="#" class="ajout_champ">Ajouter une enseigne</a>
+								</div>
 							</div>
 							<div class="form_ligne">
 								<label for="detail_societe_commentaire">Commentaire</label>
@@ -76,7 +95,7 @@
 					</div>
 					
 					<div id="coordonnees_societe" class="form_section">
-						<h2>Coordonnées de la société</h2>
+						<h3>Coordonnées de la société</h3>
 						
 						<div class="form_contenu">
 							<fieldset>
@@ -141,19 +160,23 @@
 					</div>
 					
 					<div id="detail_etablissement" class="form_section">
-						<h2>Détail de l'établissement</h2>
+						<h3>Détail de l'établissement</h3>
 						
 						<div class="form_contenu">
 							<div class="form_ligne">
-								<label for="detail_etablissement_type">Type d'établissement</label>
-								<select id="detail_etablissement_type">
-									<option>chai viticulteur</option>
-								</select>
-								<label for="detail_etablissement_ordre_affichage" class="label_court">Ordre affichage</label>
-								<select id="detail_etablissement_ordre_affichage">
-									<option>1</option>
-									<option>2</option>
-								</select>
+								<div class="form_colonne">
+									<label for="detail_etablissement_type">Type d'établissement</label>
+									<select id="detail_etablissement_type">
+										<option>chai viticulteur</option>
+									</select>
+								</div>
+								<div class="form_colonne">
+									<label for="detail_etablissement_ordre_affichage" class="label_court">Ordre affichage</label>
+									<select id="detail_etablissement_ordre_affichage">
+										<option>1</option>
+										<option>2</option>
+									</select>
+								</div>
 							</div>							
 							<div class="form_ligne">
 								<label for="detail_etablissement_nom_chai">Nom du chai</label>
@@ -171,52 +194,63 @@
 								<input type="text" id="detail_etablissement_cvi" />
 							</div>
 							<div class="form_ligne">
-								<label for="detail_etablissement_raisins">Raisins et Moûts</label>
-								<select id="detail_etablissement_raisins">
-									<option>oui</option>
-									<option>non</option>
-								</select>
-								<label for="detail_etablissement_exclusion_drm" class="label_court">Exclusion DRM</label>
-								<select id="detail_etablissement_exclusion_drm">
-									<option>oui</option>
-									<option>oui</option>
-								</select>
+								<div class="form_colonne">
+									<label for="detail_etablissement_raisins">Raisins et Moûts</label>
+									<select id="detail_etablissement_raisins">
+										<option>oui</option>
+										<option>non</option>
+									</select>
+								</div>
+								<div class="form_colonne">
+									<label for="detail_etablissement_exclusion_drm" class="label_court">Exclusion DRM</label>
+									<select id="detail_etablissement_exclusion_drm">
+										<option>oui</option>
+										<option>oui</option>
+									</select>
+								</div>
 							</div>
 							<div class="form_ligne">
-								<label for="detail_etablissement_relance_ds">Relance DS</label>
-								<select id="detail_etablissement_relance_ds">
-									<option>oui</option>
-									<option>non</option>
-								</select>
-								<label for="detail_etablissement_recette_locale" class="label_court">Recette locale</label>
-								<select id="detail_etablissement_recette_locale">
-									<option>oui</option>
-									<option>oui</option>
-								</select>
+								<div class="form_colonne">
+									<label for="detail_etablissement_relance_ds">Relance DS</label>
+									<select id="detail_etablissement_relance_ds">
+										<option>oui</option>
+										<option>non</option>
+									</select>
+								</div>
+								<div class="form_colonne">
+									<label for="detail_etablissement_recette_locale" class="label_court">Recette locale</label>
+									<select id="detail_etablissement_recette_locale">
+										<option>oui</option>
+										<option>oui</option>
+									</select>
+								</div>
 							</div>
 							<div class="form_ligne">
-								<label for="detail_etablissement_region_viticole">Région viticole</label>
-								<select id="detail_etablissement_region_viticole">
-									<option>oui</option>
-									<option>non</option>
-								</select>
-								<label for="detail_etablissement_type_dr" class="label_court">Type de DR</label>
-								<select id="detail_etablissement_type_dr">
-									<option>DRM</option>
-									<option>DRA</option>
-								</select>
+								<div class="form_colonne">
+									<label for="detail_etablissement_region_viticole">Région viticole</label>
+									<select id="detail_etablissement_region_viticole">
+										<option>Tours</option>
+									</select>
+								</div>
+								<div class="form_colonne">
+									<label for="detail_etablissement_type_dr" class="label_court">Type de DR</label>
+									<select id="detail_etablissement_type_dr">
+										<option>DRM</option>
+										<option>DRA</option>
+									</select>
+								</div>
 							</div>
-							<div class="form_ligne">
-								<div id="conteneur_type_liaison">
+							<div class="form_ligne conteneur_societe">
+								<div class="form_colonne">
 									<label for="detail_etablissement_type_liaison">Type de liaison (externe)</label><br />
 									<select id="detail_etablissement_type_liaison">
 										<option>Contrat interne</option>
 									</select>
 								</div>
-								<div id="conteneur_societe">
+								<div class="form_colonne">
 									<label for="detail_etablissement_societe">Société</label><br />
 									<input type="text" id="detail_etablissement_societe" />
-									<br /><a href="#">Ajouter une liaison</a>
+									<a href="#" class="ajout_champ">Ajouter une liaison</a>
 								</div>
 							</div>
 							<div class="form_ligne">
@@ -298,7 +332,8 @@
 					</div>
 					
 					<div class="form_btn">
-						<button type="submit" class="btn_majeur btn_valider">Créer</button>
+						<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
+						<button type="submit" class="btn_majeur btn_valider">Valider</button>
 					</div>
 				</form>
 			</div>

@@ -220,3 +220,22 @@
 	margin-right: 0;
 	padding-right: 0;
 }
+
+.clearfix
+{
+	.z1;
+	
+	min-height: 1px;
+	
+	&:before,
+	&:after
+	{
+		content: "\0020";
+		display: block;
+		font-size: 0;
+		height: 0;
+		visibility: hidden; 
+	}
+	
+	&:after { clear: both; }
+}
