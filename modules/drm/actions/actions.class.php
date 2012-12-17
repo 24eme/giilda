@@ -83,6 +83,9 @@ class drmActions extends sfActions {
     private function formCampagne(sfWebRequest $request, $route) {
       $this->etablissement = $this->getRoute()->getEtablissement();
       
+      if($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
+	throw sfException("L'établissement sélectionné ne déclare pas de DRM");
+
       $this->campagne = $request->getParameter('campagne');
       if (!$this->campagne) {
 	$this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
