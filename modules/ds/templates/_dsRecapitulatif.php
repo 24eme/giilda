@@ -9,7 +9,7 @@ use_helper('Float');
 			<th>Produits</th>
                         <th>VCI</th>
                         <th>Réserve qual.</th>
-			<th>Stock initial</th>
+			<th>Stock init. (DRM)</th>
 			<th>Volume revendiqué</th>
 		</tr>
 	</thead>
