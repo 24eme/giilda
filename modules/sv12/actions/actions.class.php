@@ -55,7 +55,9 @@ class sv12Actions extends sfActions {
             if ($this->form->isValid()) {
                 $this->form->doUpdateObject();
                 $this->sv12->save();
-                $this->redirect('sv12_recapitulatif', $this->sv12);
+		if ($request->getParameter('addproduit'))
+		  return $this->redirect('sv12_update_addProduit', $this->sv12);
+                return $this->redirect('sv12_recapitulatif', $this->sv12);
             }
         }
     }

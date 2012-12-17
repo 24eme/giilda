@@ -75,7 +75,7 @@
 					</table> 
 				</fieldset>
 			
-				<fieldset><a class="btn_majeur btn_orange" href="<?php echo url_for('sv12_update_addProduit', $sv12) ?>">Ajouter un produit</a></fieldset>
+				<fieldset><input name="addproduit" type="submit" class="btn_majeur btn_orange" value="Ajouter un produit"/></fieldset>
 
 				<fieldset id="commentaire_sv12">
 					<legend>Commentaires</legend>
