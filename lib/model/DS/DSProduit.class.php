@@ -35,4 +35,8 @@ class DSProduit extends BaseDSProduit {
 
         return (!is_null($this->stock_revendique));
     }
+    
+    public function isEffervescent(){
+        return strstr($this->produit_hash, 'EFF')!==false;
+    }
 }
