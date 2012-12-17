@@ -31,4 +31,18 @@ class DSHistoryView extends acCouchdbView
                             ->endkey(array($identifiant, $campagne, $periode, array()))
                             ->getView($this->design, $this->view)->rows;
     }
+    
+    public function findByEtablissementDateSorted($id_or_identifiant){
+        $history = $this->findByEtablissement($id_or_identifiant);
+        usort($history, array("DSHistoryView", "cmp_ds_date"));
+        return $history;
+    }
+    
+    public static function cmp_ds_date($ds_0, $ds_1)
+    {
+        if ($ds_0->key[self::KEY_PERIODE] == $ds_1->key[self::KEY_PERIODE]) {
+            return 0;
+        }
+        return ($ds_0->key[self::KEY_PERIODE] < $ds_1->key[self::KEY_PERIODE]) ? +1 : -1;
+    }
 }

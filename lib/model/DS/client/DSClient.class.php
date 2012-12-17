@@ -75,8 +75,7 @@ class DSClient extends acCouchdbClient {
     }
 
     public function getHistoryByOperateur($etablissement) {
-
-        return DSHistoryView::getInstance()->findByEtablissement($etablissement->identifiant);
+        return DSHistoryView::getInstance()->findByEtablissementDateSorted($etablissement->identifiant);
     }
 
     public function findByIdentifiantAndPeriode($identifiant, $periode) {
