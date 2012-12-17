@@ -560,7 +560,7 @@ EOF;
 
     if (DRMClient::getInstance()->buildCampagne($this->getPeriode($line)) != $line[self::CSV_LIGNE_CAMPAGNE]) {
 
-      $this->logLigne("WARNING",sprintf("Le periode %s ne fait pas parti de la campagne %s", $this->getPeriode($line), $line[self::CSV_LIGNE_CAMPAGNE]), $line));
+      $this->logLigne("WARNING",sprintf("Le periode %s ne fait pas parti de la campagne %s", $this->getPeriode($line), $line[self::CSV_LIGNE_CAMPAGNE]), $line);
     }
 
     switch($line[self::CSV_LIGNE_TYPE]) {
