@@ -52,7 +52,8 @@
 	$.fn.includeJS(jsPath, 'drm.js');
 	$.fn.includeJS(jsPath, 'declaration.js');        
 	$.fn.includeJS(jsPath, 'sv12.js');
-        $.fn.includeJS(jsPath, 'ds.js');
+		$.fn.includeJS(jsPath, 'ds.js');
     $.fn.includeJS(jsPath, 'colonnes.js');
+	$.fn.includeJS(jsPath, 'contacts.js');
 
 })(jQuery);

@@ -6,35 +6,75 @@
  ******************************************/
 
 
+/**
+* Styles généraux de contacts
+******************************************/
+
 #contacts
 {
-	/**
-	 * Etapes de la saisie
-	 ******************************************/
+	.form_btn 
+	{ 
+		margin: 28px 0;
+		.btn_valider { margin: 0 0 0 470px; }
+	}
 
+	.form_ligne 
+	{
+		.clearfix;
+		margin: 13px 0; 
+	}
+	
 	.form_section
 	{
 		.border(@couleur-a9);
+		.champ_long { width: 425px; }
 		margin: 0 0 35px 0;
 
-		.champ_long { width: 425px; }
-		.form_contenu { padding: 15px 30px 23px 10px; }
-		.form_ligne { margin: 13px 0; }
+		.form_colonne { float: left; }
 
-		#conteneur_societe,
-		#conteneur_type_liaison
+		.form_contenu { padding: 15px 30px 23px 10px; }
+
+		.ajout_champ
 		{
-			.inline-block-ie;
+			display: block;
+			font-size: 12px;
+			padding: 0 0 0 30px;
+			margin: 15px 0 0 0;
+			position: relative;
+			text-decoration: underline;
+
+			&:before
+			{
+				.pos-abs(-2px, auto, auto, 0);
+				background: url("../images/pictos/pi_ajout.png") no-repeat;
+				content: "";
+				height: 21px;
+				width: 20px;
+			}
 		}
 
-		h2
+		.champ_ajoute { padding: 10px 0 0 0; }
+		
+		h3
 		{
 			background: @couleur-a5;
-			font-size: 14px;
+			cursor: pointer;
 			margin: 0;
-			padding: 7px;
+			padding: 7px 0 7px 37px;
+			font-size: 14px;
+			font-weight: bold;
+			position: relative;
 			text-decoration: underline;
 			text-transform: none;
+				
+			&:before
+			{
+				.pos-abs(6px, auto, auto, 10px);
+				background: url("../images/pictos/fleche_col_groupe_ouvert.png") no-repeat;
+				content: "";
+				height: 15px;
+				width: 15px;
+			}
 		}
 
 		label
@@ -42,22 +82,9 @@
 			display: inline-block;
 			font-size: 14px;
 			font-weight: bold;
-
-			&[for="detail_societe_statut"],
-			&[for="detail_societe_code_naf"]
-			{
-				width: auto;
-			}
-
-			&[for="detail_societe_actif"],
-			&[for="detail_societe_suspendu"],
-			&[for="detail_etablissement_actif"],
-			&[for="detail_etablissement_suspendu"],
-			&[for="detail_etablissement_type_liaison"]
-			{
-				font-weight: normal;
-			}
 		}
+
+		.label_court { width: auto; }
 
 		legend
 		{
@@ -66,57 +93,343 @@
 			margin: 15px 0;
 		}
 
+		select { width: 113px; }
+
+		.supprime_champ
+		{
+			background: url("../images/pictos/pi_suppression.png") no-repeat;
+			height: 21px;
+			margin: 0 0 0 15px;
+			text-indent: 100%;
+			width: 20px;
+		}
+
 		textarea
 		{
 			height: 90px;
 			width: 618px;
 		}
-		
 	}
 
-	/**
-	 * Détail société
-	 ******************************************/
-	 
-	 #detail_societe
-	 {
-		label 
-		{ 
-			width: 145px;
+	h2
+	{
+		.majuscules;
+		font-size: 20px;
+		font-weight: bold;
+		margin: 40px 0 0 0;
+		padding-left: 42px;
+		position: relative;
 
-			&[for="detail_societe_code_naf"],
-			&[for="detail_societe_statut"]
+		&:before 
+		{ content: ""; }
+	}
+}
+
+#creation_societe,
+#detail_societe
+{
+	h2
+	{
+		&:before
+		{
+			.pos-abs(-10px, auto, auto, 0);
+			background: url("../images/pictos/societe.png") no-repeat;
+			height: 36px;
+			width: 32px;
+		}
+	}
+}
+
+#nouveau_contact,
+#nouveau_etablissement
+{
+	h2 { margin-bottom: 10px; }
+
+	& > h3
+	{
+		font-size: 16px;
+		font-weight: bold;
+	}
+}
+
+#detail_etablissement,
+#detail_societe
+{
+
+	.conteneur_societe,
+	.conteneur_enseigne
+	{
+		/* Cible la deuxième colonne */
+		.form_colonne:first-child + .form_colonne { padding-left: 0; }
+	}
+	
+	/* Cible la deuxième colonne */
+	.form_colonne:first-child + .form_colonne  { padding: 0 0 0 35px; }
+}
+
+/**
+* Détail société
+******************************************/
+	 
+#detail_societe
+{
+	.boutons_haut
+	{
+		.btn_majeur
+		{
+			background-position: 0 -182px;
+			color: @couleur-a1;
+			padding-left: 40px;
+			width: 197px;
+
+			&:before
 			{
-				padding: 0 0 0 35px;
+				.pos-abs(4px, auto, auto, 8px);
+				background: url("../images/boutons/btn_etablissement.png") no-repeat;
+				content: "";
+				height: 16px;
+				width: 23px;
 			}
 		}
-		.label_court { width: auto; }
-	 }
+		
+		.btn_majeur:first-child
+		{ 
+			background-position: 0 -156px;
+			margin-right: 16px;
+			padding-left: 43px;
+			width: 176px;
 
-	 /**
-	 * Détail établissement
-	 ******************************************/
-	 
-	 #detail_etablissement
-	 {
-		label[for="detail_etablissement_ordre_affichage"],
-		label[for="detail_etablissement_exclusion_drm"],
-		label[for="detail_etablissement_recette_locale"],
-		label[for="detail_etablissement_type_dr"],
-		{
-			padding: 0 0 0 35px;
+			&:before
+			{
+				.pos-abs(3px, auto, auto, 12px);
+				background: url("../images/boutons/btn_contact.png") no-repeat;
+				content: "";
+				height: 19px;
+				width: 17px;
+			}
 		}
-	 }
+	}
+	
+	/* Cible la deuxième colonne */
+	.form_colonne:first-child + .form_colonne
+	{
+		label { width: auto; }
+		label:first-child { width: 82px; } 
+	}
+	
+	label { width: 145px; }
+}
 
-	/**
-	 * Coordonnées de la société et détail établissement
-	 ******************************************/
+/**
+* Détail contact
+******************************************/
 
-	 #coordonnees_societe,
-	 #detail_etablissement
-	 {
-		label { width: 190px; }
-		.label_court { width: auto; }
-	 } 
+#detail_contact
+{
+	.form_ligne:first-child
+	{
+		/* Cible la deuxième colonne */
+		.form_colonne:first-child + .form_colonne
+		{
+			label 
+			{ 
+				margin: 0 0 0 241px; 
+				width: 120px; 
+			}
+			
+			select { width: 69px; }
+		}
+	}
+
+	label[for="detail_contact_civilite"] { width: 65px; }
+}
+
+/**
+* Détail etablissement
+******************************************/
+
+#detail_etablissement
+{
+
+	#detail_etablissement_region_viticole { width: 134px; }
+	
+	/* Cible la deuxième colonne */
+	.form_colonne:first-child + .form_colonne
+	{
+		padding: 0 0 0 84px;
+	}
+}
+
+
+/**
+ * Coordonnées de la société et détail établissement
+ ******************************************/
+
+#coordonnees_societe,
+#coordonnees_etablissement,
+#detail_etablissement
+{
+   label { width: 190px; }
+}
+
+
+#coordonnees_etablissement,
+#coordonnees_contact
+{
+	.form_ligne
+	{
+		.meme_adresse
+		{
+			font-weight: normal;
+			width: 250px;
+		}
+	}
+}
+
+
+/**
+* Création société
+******************************************/
+
+#creation_societe
+{
+
+	.form_section
+	{
+
+		label
+		{
+			&[for="detail_societe_statut"],
+			&[for="detail_societe_code_naf"] { width: auto; }
+
+			&[for="detail_societe_actif"],
+			&[for="detail_societe_suspendu"],
+			&[for="detail_etablissement_actif"],
+			&[for="detail_etablissement_suspendu"],
+			&[for="detail_etablissement_type_liaison"] { font-weight: normal; }
+		}
+	}
+}
+
+/**
+* Fiche société
+******************************************/
+
+#contacts_actions
+{
+	li 
+	{ 
+		text-align: center;
+
+		button
+		{
+			.btn_icone;
+			width: 214px;
+		}
+
+		.nouvelle_recherche
+		{
+			&:after
+			{
+				background: url("../images/pictos/pi_recherche.png") no-repeat;
+				top: 7px;
+			}
+		}
+
+		.nouvelle_societe
+		{
+			margin: 0 0 10px 0;
+			
+			&:after
+			{
+				background: url("../images/pictos/pi_societe.png") no-repeat;
+				top: 3px;
+			}
+		}
+	}
+}
+
+#detail_societe
+{
+	
+	.boutons_haut
+	{
+		background: @couleur-a5;
+		margin: 10px 0 0 0;
+		padding: 7px 0 7px 10px;
+	}
+
+	.form_contenu
+	{
+		li
+		{
+			margin: 13px 0;
+
+			.intitule
+			{
+				display: inline-block;
+				font-size: 14px;
+				font-weight: bold;
+				width: 190px;
+			}
+		}
+	}
+
+	.infos_societe
+	{
+		clearfix;
+		padding: 8px 0;
+
+		.btn_modifier { margin: 0 0 0 270px; }
+
+		p
+		{
+			float: left;
+			font-style: italic;
+		}
+	}
+}
+
+
+#nouveau_contact
+{
+
+	.form_section
+	{
+		.form_contenu { background: @couleur-d8; }
+
+		h3 { background: @couleur-d9; }
+	}
+
+	h2
+	{	
+		&:before
+		{
+			.pos-abs(-10px, auto, auto, 0);
+			background: url("../images/pictos/contact.png") no-repeat;
+			height: 35px;
+			width: 30px;
+		}
+	}
+
+	label { width: 187px; }	
+}
+
+/**
+* Nouvel établissement
+******************************************/
+
+#nouveau_etablissement
+{
+	h2
+	{
+		&:before
+		{
+			.pos-abs(-2px, auto, auto, 0);
+			background: url("../images/pictos/etablissement.png") no-repeat;
+			height: 24px;
+			width: 36px;
+		}
+	}
 }
 

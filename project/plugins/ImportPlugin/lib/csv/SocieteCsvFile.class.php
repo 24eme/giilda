@@ -20,7 +20,7 @@ class SocieteCsvFile extends CsvFile
   const CSV_PARTENAIRE_PAYS = 15;
   const CSV_PARTENAIRE_CREATION_DATE = 16;
   const CSV_PARTENAIRE_MODIFICATION_DATE = 17;
-  const CSV_PARTENAIRE_RELANCE_DREV = 18;
+  const CSV_PARTENAIRE_RELANCE_STOCK = 18;
   const CSV_PARTENAIRE_JOURNAL_ABONNE = 19;
   const CSV_PARTENAIRE_JOURNAL_NBEXEMPLAIRES = 20;
   const CSV_PARTENAIRE_EXPLOITANTBAILLEUR = 21;
@@ -52,8 +52,8 @@ class SocieteCsvFile extends CsvFile
 
       	$s = new Societe();
         $s->identifiant = $line[self::CSV_PARTENAIRE_CODE];
-        $s->raison_sociale = $line[self::CSV_PARTENAIRE_NOM_REDUIT];
-	$s->raison_sociale_abregee = $line[self::CSV_PARTENAIRE_NOM];
+        $s->raison_sociale = $line[self::CSV_PARTENAIRE_NOM];
+	$s->raison_sociale_abregee = $line[self::CSV_PARTENAIRE_NOM_REDUIT];
 	$s->siege->adresse = preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE1]);
         if(preg_match('/[a-z]/i', $line[self::CSV_PARTENAIRE_ADRESSE2])) {
         $s->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE2]);
