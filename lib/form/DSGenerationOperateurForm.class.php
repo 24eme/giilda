@@ -22,7 +22,7 @@ class DSGenerationOperateurForm extends BaseForm {
         $annee = date('Y');
         
         $campagnes = array();
-        for ($currentA = $annee; $currentA > $this->anneeCampagneStart; $currentA--) {
+        for ($currentA = ($annee+1); $currentA > $this->anneeCampagneStart; $currentA--) {
             $elt = $currentA.'-'.($currentA+1);
             $campagnes[$elt] = $elt;
         }

@@ -137,23 +137,29 @@ page \thepage / 1
     \begin{tikzpicture}
 		\node[inner sep=1pt] (tab1){
 
-			\begin{tabular}{b{12mm}| m{118mm} |b{55mm}|}
+			\begin{tabular}{b{12mm}| m{95mm} | m{23mm} | m{23mm} |b{23mm}|}
 
   			\rowcolor{lightgray}
             \centering \textbf{Code} &
    			\centering \textbf{Produits} &
-             \multicolumn{1}{>{\columncolor{lightgray}} c|}{ \textbf{Volume en hl}} 
+   			\centering \textbf{Volume en hl} &
+   			\centering \textbf{VCI} &
+             \multicolumn{1}{>{\columncolor{lightgray}} c|}{ \textbf{Reserve qual.}} 
    			 \\
   			\hline
                         <?php foreach ($ds->declarations as $declaration) :
                         ?>
-                        <?php echo $declaration->code_douane; ?> &
-                        <?php echo $declaration->produit_libelle; ?> &~\\ \hline
+                        <?php echo $declaration->code_douane; ?>~ &
+                        <?php echo $declaration->produit_libelle; ?>~ & 
+                        ~ &
+                        <?php echo ($declaration->vci)? $declaration->vci : '~'; ?>&
+                        <?php echo ($declaration->reserve_qualitative)? $declaration->reserve_qualitative : '~'; ?>
+                        \\ \hline
                         <?php
                         endforeach;
                         
                         for($i=0; $i<(34 - count($ds->declarations)); $i++) : ?>
-                        ~ & ~ & ~ \\ \hline 
+                        ~ & ~ & ~ & ~ & ~ \\ \hline 
                         <?php endfor; ?>            
 			\end{tabular}
 		};

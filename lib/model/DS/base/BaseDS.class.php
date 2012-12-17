@@ -14,7 +14,6 @@
  * @property string $campagne
  * @property string $periode
  * @property string $numero_archive
- * @property string $date_archivage
  * @property string $statut
  * @property string $commentaires
  * @property acCouchdbJson $declarant
@@ -40,8 +39,6 @@
  * @method string setPeriode()
  * @method string getNumeroArchive()
  * @method string setNumeroArchive()
- * @method string getDateArchivage()
- * @method string setDateArchivage()
  * @method string getStatut()
  * @method string setStatut()
  * @method string getCommentaires()

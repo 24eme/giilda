@@ -40,3 +40,5 @@ DS:
                   produit_hash: {}
                   stock_initial: { type: float }
                   stock_revendique: { type: float }
+                  vci: { }
+                  reserve_qualitative: { }
