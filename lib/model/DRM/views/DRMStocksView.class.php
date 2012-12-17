@@ -56,7 +56,7 @@ class DRMStocksView extends acCouchdbView
         foreach($rows as $row) {
             $key = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT] . '_' . $row->key[self::KEY_PERIODE] . '_' . $row->key[self::KEY_PRODUIT_HASH];
 
-            if(!array_key_exists($key, $rows)) {
+            if(!array_key_exists($key, $drms)) {
                 $drms[$key] = $this->build($row);
             }
         }
