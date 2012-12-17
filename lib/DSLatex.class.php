@@ -40,7 +40,8 @@ class DSLatex {
   public function getLatexFileContents() {
     return html_entity_decode(htmlspecialchars_decode(
 						      get_partial('ds/generateTex', array('ds' => $this->ds,
-											       'nb_page' => $this->getNbPages()))
+                                                                                          'etablissement' => EtablissementClient::getInstance()->find($this->ds->identifiant),
+											  'nb_page' => $this->getNbPages()))
 						      , HTML_ENTITIES));
   }
 

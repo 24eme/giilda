@@ -39,11 +39,17 @@ use_helper('Date');
 \def\DSNUMERO{<?php echo $ds->_id; ?>}
 
 \def\DSClientNUM{<?php echo $ds->identifiant; ?>}
-\def\DSClientCVI{<?php echo $ds->declarant->cvi; ?>}
-\def\DSClientNom{<?php echo ($ds->declarant->raison_sociale)? $ds->declarant->raison_sociale : $ds->declarant->nom ; ?>}
-\def\DSClientAdresse{<?php echo ($ds->declarant->adresse)? "~" : $ds->declarant->adresse; ?>}
+\def\DSClientCVI{<?php echo ($ds->declarant->cvi)? $ds->declarant->cvi : ' . . . . . . . . . . . . . . . . . . . . . . . . .'; ?>}
+\def\DSClientNom{<?php $nom = ($ds->declarant->raison_sociale)? $ds->declarant->raison_sociale : $ds->declarant->nom ; 
+                        echo ($nom)? $nom : ' . . . . . . . . . . . . . . . . . . . . . . . . .';
+                  ?>}
+\def\DSClientAdresse{<?php echo ($ds->declarant->adresse)? $ds->declarant->adresse : ' . . . . . . . . . . . . . . . . . . . . . . . . .'; ?>}
 \def\DSClientCP{<?php echo $ds->declarant->code_postal; ?>}
 \def\DSClientVille{<?php echo $ds->declarant->commune; ?>}
+\def\DSClientTelephone{<?php echo ($etablissement->getContact()->telephone_bureau)? $etablissement->getContact()->telephone_bureau : ' . . . . . . . . . . . . . . . . . . . . . . . . .'; ?>}
+\def\DSClientMobile{<?php echo ($etablissement->getContact()->telephone_mobile)? $etablissement->getContact()->telephone_mobile : ' . . . . . . . . . . . . . . . . . . . . . . . . .'; ?>}
+\def\DSClientFax{<?php echo ($etablissement->getContact()->fax)? $etablissement->getContact()->fax : ' . . . . . . . . . . . . . . . . . . . . . . . . .'; ?>}
+
 
 \def\InterloireAdresse{\textbf{INTERLOIRE} - 12, rue Etienne Pallu - BP 61921 - 37019 TOURS CEDEX 01 \\
 		       Tél. : 02 47 60 55 17 - Fax : 02 47 60 55 19} 
@@ -70,11 +76,12 @@ use_helper('Date');
 \end{minipage}
 \bigskip
 
+
 \begin{minipage}[t]{0.5\textwidth}
        \begin{flushleft}
 		 \begin{tikzpicture}
             \node[inner sep=1pt] (tab2){
-                    \begin{tabular}{>{\columncolor{lightgray}} l | p{72mm}}
+                    \begin{tabular}{>{\columncolor{lightgray}} l | p{102mm}}
 				    
 				    \centering Ref. Client &
                     \multicolumn{1}{r}{\DSClientNUM} \\
@@ -83,21 +90,21 @@ use_helper('Date');
                     \multicolumn{1}{r}{\DSClientCVI} \\
                     
                     \centering Adresse cave : &
-                    \multicolumn{1}{r}{. . . . . . . . . . . . . . . . . . .} \\
+                    \multicolumn{1}{r}{\DSClientAdresse} \\
                     
                      &
-                    \multicolumn{1}{r}{. . . . . . . . . . . . . . . . . . .} \\
+                    \multicolumn{1}{r}{\DSClientCP ~\DSClientVille} \\
                      &
-                    \multicolumn{1}{r}{. . . . . . . . . . . . . . . . . . .} \\
+                    \multicolumn{1}{r}{ . . . . . . . . . . . . . . . . . . . . . . . . .} \\
                     
                     \centering Téléphone : &
-                    \multicolumn{1}{r}{. . . . . . . . . . . . . . . . . . .} \\
+                    \multicolumn{1}{r}{\DSClientTelephone} \\
                     
                     \centering Télécopie : &
-                    \multicolumn{1}{r}{. . . . . . . . . . . . . . . . . . .} \\
+                    \multicolumn{1}{r}{\DSClientFax} \\
 
 					\centering Portable : &
-                    \multicolumn{1}{r}{. . . . . . . . . . . . . . . . . . .} \\
+                    \multicolumn{1}{r}{\DSClientMobile} \\
                     \hline                 
                     \end{tabular}
             };
