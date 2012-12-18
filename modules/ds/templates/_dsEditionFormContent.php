@@ -12,7 +12,7 @@ echo $form->renderGlobalErrors();
         <table id="ds_edition_table" class="table_recap">
         <thead>
             <tr>
-                <th>Produits</th>
+                <th colspan="2">Produits</th>
                 <th>Volume saisie</th>
                 <th class="colonne_vci">VCI</th>
                 <th class="colonne_reservequalitative">Réserve qual.</th>
@@ -22,7 +22,8 @@ echo $form->renderGlobalErrors();
             <?php
             foreach ($declarations as $key => $declaration){
                     $prod_vol = '';
-                    if($declaration->stock_initial) $prod_vol .= ' ('.getArialFloat($declaration->stock_initial).' hl)';
+                    if($declaration->stock_initial) 
+		      $prod_vol = getArialFloat($declaration->stock_initial);
                     include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $declaration, 'prod_libelle' => $declaration->produit_libelle, 'prod_vol' => $prod_vol));
                
             }

@@ -1,5 +1,15 @@
 <tr>
-<td><?php echo $prod_libelle.' '.$prod_vol; if ($declaration->hasElaboration()) echo " - en cave"; ?></td>
+<td><?php 
+echo $prod_libelle;
+if ($declaration->hasElaboration()) 
+  echo " - en cave"; 
+?>
+</td><td>
+<?php
+if (isset($prod_vol))
+  $drm = $declaration->getDocument()->getLastDRM();
+echo " <span>(<a href=\"".url_for('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndversion()))."\">Vol. DRM de juillet: $prod_vol</a>)</span>";
+?></td>
 <td><?php
 echo $form['volumeStock_'.$key]->renderError();
 echo $form['volumeStock_'.$key]->render();
@@ -16,6 +26,7 @@ echo $form['reserveQualitative_'.$key]->render();
 <?php if  ($declaration->hasElaboration()): ?>
 <tr>
 <td><?php echo $prod_libelle; ?> - en élaboration</td>
+<td>&nbsp;</td>
 <td><?php
 echo $form['elaboration_'.$key]->renderError();
 echo $form['elaboration_'.$key]->render();
