@@ -54,9 +54,9 @@ class VracStocksView extends acCouchdbView {
         return 0;
     }
 
-    public function findVinByCampagneAndEtablissement($campagne, $societe_identifiant, $etablissement_identifiant) {
+    public function findVinByCampagneAndEtablissement($campagne, Etablissement $etablissement) {
 
-        return $this->findByManyTypesTransactionCampagneAndEtablissement($campagne, VracClient::$types_transaction_vins, $societe_identifiant, $etablissement_identifian)
+        return $this->findByManyTypesTransactionCampagneAndEtablissement($campagne, VracClient::$types_transaction_vins, $etablissement->id_societe, $etablissement->identifiant);
     }
 
     public function findByManyTypesTransactionCampagneAndEtablissement($campagne, array $types_transaction, $societe_identifiant, $etablissement_identifiant) {
@@ -64,8 +64,8 @@ class VracStocksView extends acCouchdbView {
 
         foreach($types_transaction as $type_transaction) {
             $items = $this->findByTypeTransactionCampagneAndEtablissement($campagne, $type_transaction, $societe_identifiant, $etablissement_identifiant);
-            $foreach($items as $produit_hash => $value) {
-                if(!array_key_exists($produit_hash, $item)) {
+            foreach($items as $produit_hash => $value) {
+                if(!array_key_exists($produit_hash, $stocks)) {
                     $stocks[$produit_hash] = 0;
                 }
 
@@ -80,15 +80,13 @@ class VracStocksView extends acCouchdbView {
     public function findByTypeTransactionCampagneAndEtablissement($campagne, $type_transaction, $societe_identifiant, $etablissement_identifiant) {    
         $stocks = array();
 
-        $rows = $this->client->startkey(array($campagne, $type_transaction, $societe, $etablissement))
-                                         ->endkey(array($campagne, $type_transaction, $societe, $etablissement, array()))
+        $rows = $this->client->startkey(array($campagne, $type_transaction, null, $etablissement_identifiant))
+                                         ->endkey(array($campagne, $type_transaction, null, $etablissement_identifiant, array()))
                                          ->group_level(self::KEY_PRODUIT_HASH + 1)
                                          ->getView($this->design, $this->view)->rows;
-                            );
 
         foreach($rows as $row) {
             $produit_hash = $row->key[self::KEY_PRODUIT_HASH];
-
             if(!array_key_exists($produit_hash, $stocks)) {
                 $stocks[$produit_hash] = 0;
             }
