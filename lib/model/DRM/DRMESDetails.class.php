@@ -59,30 +59,42 @@ class DRMESDetails extends BaseDRMESDetails {
     public function createMouvements($template_mouvement) {
         $mouvements = array();
 
-        foreach($this as $detail) {
-	        $mouvement = $this->createMouvement(clone $template_mouvement, $detail);
-            if(!$mouvement){
-                continue;
+        // Check les éventuels suppressions
+        if($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($this->getHash())) {
+            $mother_this = $this->getDocument()->motherGet($this->getHash());
+            foreach($mother_this as $key => $mother_detail) {
+                if(!$this->exist($key)) {
+                    $detail = $this->add($key, $mother_detail);
+                    $detail->volume = 0;
+                    $this->pushMouvement($mouvements, $template_mouvement, $detail);
+                    $this->remove($key);
+                }
             }
-            $mouvements[$this->getDocument()->getIdentifiant()][$mouvement->getMD5Key()] = $mouvement;
-
-            $mouvement_vrac_destinataire = $this->createMouvementVracDestinataire(clone $mouvement, $detail);
-
-            if (!$mouvement_vrac_destinataire) {
-                continue;
-            }
-
-            $mouvements[$detail->getVrac()->acheteur_identifiant][$mouvement->getMD5Key()] = $mouvement_vrac_destinataire;
         }
+
+        foreach($this as $detail) {
+	        $this->pushMouvement($mouvements, $template_mouvement, $detail);
+        }
+
         return $mouvements;
-    }  
+    }
+
+    public function pushMouvement(&$mouvements, $template_mouvement, $detail) {
+        $mouvement = $this->createMouvement(clone $template_mouvement, $detail);
+        if(!$mouvement){
+            return;
+        }
+        $mouvements[$this->getDocument()->getIdentifiant()][$mouvement->getMD5Key()] = $mouvement;
+
+        $mouvement_vrac_destinataire = $this->createMouvementVracDestinataire(clone $mouvement, $detail);
+        if (!$mouvement_vrac_destinataire) {
+            return;
+        }
+        $mouvements[$detail->getVrac()->acheteur_identifiant][$mouvement->getMD5Key()] = $mouvement_vrac_destinataire;
+    }
 
     public function createMouvement($mouvement, $detail) {
         $volume = $detail->volume;
-
-        if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($detail, 'volume')) {
-          return null;
-        }
 
         if($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($detail->getHash())) {
           $volume = $volume - $this->getDocument()->motherGet($detail->getHash())->volume;
@@ -92,6 +104,7 @@ class DRMESDetails extends BaseDRMESDetails {
         $volume = $config->mouvement_coefficient * $volume;
 
         if($volume == 0) {
+
           return null;
         }
 
