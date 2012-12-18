@@ -8,9 +8,9 @@ class DRMESDetailVrac extends BaseDRMESDetailVrac {
 
     protected $vrac = null;
 
-    public function getDetail() {
+    public function getProduitDetail() {
         
-        return $this->getParent()->getParent()->getParent();
+        return $this->getParent()->getProduitDetail();
     }
 
     public function getVrac() {

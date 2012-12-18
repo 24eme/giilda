@@ -2,16 +2,16 @@
 
 class DRMDetailVracTemplateForm extends DRMDetailVracForm {
     
-    public function __construct(acCouchdbJson $drm_sorties_vrac_detail, $defaults = array(), $options = array(), $CSRFSecret = null) {
-        parent::__construct($drm_sorties_vrac_detail, $defaults, $options, $CSRFSecret);
+    public function __construct(acCouchdbJson $details, $defaults = array(), $options = array(), $CSRFSecret = null) {
+        parent::__construct($details, $defaults, $options, $CSRFSecret);
         unset($this['_revision']);
     }
 
 
     public function configure() {
-
-        $this->embedForm('var---nbItem---', new DRMDetailVracItemForm($this->drm_sorties_vrac_details->add()));
-        $this->widgetSchema->setNameFormat('drm_detail_vrac[%s]');
+        $item_form_class = $this->getFormItemClass();
+        $this->embedForm('var---nbItem---', new $item_form_class($this->details->addDetail()));
+        $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
     
