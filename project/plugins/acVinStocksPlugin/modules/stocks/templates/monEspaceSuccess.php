@@ -30,10 +30,6 @@
                     <button class="btn_majeur btn_rechercher" type="button">Rechercher</button>
                     -->
                 </div>
-                
-                <div class="volumes_vides">
-                    <label for="champ_volumes_vides"><input type="checkbox" id="champ_volumes_vides" /> Afficher uniquement les volumes non-saisis</label>
-                </div>
             </div>
             <?php include_component('stocks', 'mouvements', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?> 
         </section>
