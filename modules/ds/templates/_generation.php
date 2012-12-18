@@ -27,7 +27,7 @@
 </form>
 
 <div class="generation_ds">
-    <span>Cliquer sur "Générer" pour lancer la création des formulaire</span>
+    <span>Cliquer sur "Générer" pour lancer la création des formulaires</span>
         <a href="#" id="generation" class="btn_majeur btn_refraichir">Générer</a>
 </div>
 
