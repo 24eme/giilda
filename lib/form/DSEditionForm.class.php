@@ -16,7 +16,7 @@ class DSEditionForm extends acCouchdbForm {
 	    $defaults['elaboration_'.$key] = $value->stock_elaboration;
 	  }
         }
-        $defaults['commentaires'] = $this->ds->commentaires;
+        $defaults['commentaire'] = $this->ds->commentaire;
         parent::__construct($ds, $defaults, $options, $CSRFSecret);
     }
 
@@ -40,9 +40,9 @@ class DSEditionForm extends acCouchdbForm {
 	    $this->widgetSchema->setLabel('elaboration_' . $key, 'Reserve qualitative');
 	  }
         }
-        $this->setWidget('commentaires', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
-        $this->setValidator('commentaires', new sfValidatorString(array('required' => false)));
-        $this->widgetSchema->setLabel('commentaires', 'Commentaires :');
+        $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
+        $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
+        $this->widgetSchema->setLabel('commentaire', 'Commentaires :');
 
         $this->widgetSchema->setNameFormat('ds[%s]');
     }
@@ -52,8 +52,8 @@ class DSEditionForm extends acCouchdbForm {
 
         foreach ($values as $prodKey => $volumeRev) {
 
-            if ($prodKey == 'commentaires') {
-                $this->getDocument()->commentaires = $volumeRev;
+            if ($prodKey == 'commentaire') {
+                $this->getDocument()->commentaire = $volumeRev;
             } else {
 	      if (substr($prodKey, 0, strlen('volumeStock_')) === 'volumeStock_')
 		$this->updateVolumeStock(substr($prodKey,strlen('volumeStock_')), $volumeRev);

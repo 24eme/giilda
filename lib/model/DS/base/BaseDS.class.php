@@ -15,7 +15,7 @@
  * @property string $periode
  * @property string $numero_archive
  * @property string $statut
- * @property string $commentaires
+ * @property string $commentaire
  * @property acCouchdbJson $declarant
  * @property acCouchdbJson $declarations
 
