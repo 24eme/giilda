@@ -58,7 +58,20 @@ class EtablissementClient extends acCouchdbClient {
     public function getViewClient($view) {
         return acCouchdbManager::getView("etablissement", $view, 'Etablissement');
     }
+    
+    public function findAll(){
+        return EtablissementRegionView::getInstance()->findAll();
+    }
+    
+    public function findByFamille($famille) {
+        return EtablissementRegionView::getInstance()->findByFamilleAndRegion($famille);
+    }
 
+    public function findByFamillesAndRegions($familles,$regions){
+        return EtablissementRegionView::getInstance()->findByFamillesAndRegions($familles,$regions,null);
+    }
+    
+    
     /**
      *
      * @param string $login
@@ -117,20 +130,6 @@ class EtablissementClient extends acCouchdbClient {
         }
 
         return $etab;
-    }
-
-    public function findByFamille($famille, $limit = 100) {
-        if ($limit == null) {
-            return $this->startkey(array($famille))
-                            ->endkey(array($famille, array()))->getView('etablissement', 'tous');
-        }
-        return $this->startkey(array($famille))
-                        ->endkey(array($famille, array()))->limit($limit)->getView('etablissement', 'tous');
-    }
-
-    public function findAll() {
-
-        return $this->limit(100)->getView('etablissement', 'tous');
     }
 
     public function matchFamille($f) {
