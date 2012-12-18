@@ -19,6 +19,8 @@
                 var source_tags = {};
             </script>
 
+<h2>Les mouvements</h2>
+
             <div id="recherche_sv12" style="margin-top: 30px;">
                 <div class="autocompletion_tags" data-table="#table_contrats" data-source="source_tags">
                     <label>Saisissez un type de document (DRM ou SV12), un produit ou un type de mouvement :</label>
@@ -31,6 +33,7 @@
                     -->
                 </div>
             </div>
+
             <?php include_component('stocks', 'mouvements', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?> 
         </section>
         <!-- fin #contenu_etape -->
