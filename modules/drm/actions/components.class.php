@@ -150,7 +150,8 @@ class drmComponents extends sfComponents {
             $this->recaps[$drm->produit_hash]['volume_sorties'] += $drm->volume_sorties;
             $this->recaps[$drm->produit_hash]['volume_facturable'] += $drm->volume_facturable;
             $this->recaps[$drm->produit_hash]['volume_recolte'] += $drm->volume_recolte;
-            $this->recaps[$drm->produit_hash]['volume_stock_fin'] = $drm->volume_stock_fin_mois;  
+            $this->recaps[$drm->produit_hash]['volume_stock_fin'] = $drm->volume_stock_fin_mois;
+            $this->recaps[$drm->produit_hash]['volume_stock_commercialisable'] = $this->recaps[$drm->produit_hash]['volume_stock_fin'];  
         }
 
 	$this->periode_fin = ConfigurationClient::getInstance()->getPeriodeLibelle($drm->periode);
@@ -176,6 +177,14 @@ class drmComponents extends sfComponents {
                 $this->recaps[$ds->produit_hash] = $this->initLigneRecap($ds->produit_hash);
             }
             $this->recaps[$ds->produit_hash]['volume_stock_fin_ds'] = $ds->volume;
+        }
+
+        $contrats = VracStocksView::getInstance()->findVinByCampagneAndEtablissement($this->campagne, $this->etablissement);
+        foreach($contrats as $hash_produit => $volume) {
+            if (!isset($this->recaps[$hash_produit])) {
+                $this->recaps[$hash_produit] = $this->initLigneRecap($hash_produit);
+            }
+            $this->recaps[$hash_produit]['volume_stock_commercialisable'] = $this->recaps[$hash_produit]['volume_stock_fin'] - $volume;
         }
     }
 }
