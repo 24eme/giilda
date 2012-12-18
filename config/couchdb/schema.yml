@@ -371,6 +371,7 @@ DRM:
                   organisme: {  }
       identifiant: {  }
       mode_de_saisie: {  }
+      commentaire: {}
       interpros:
         type: array_collection
         definition:
