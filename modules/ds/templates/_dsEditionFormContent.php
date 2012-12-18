@@ -21,10 +21,9 @@ echo $form->renderGlobalErrors();
         <tbody class="ds_edition_tableBody">
             <?php
             foreach ($declarations as $key => $declaration){
-                
-                    $prod_vol = $declaration->produit_libelle;
+                    $prod_vol = '';
                     if($declaration->stock_initial) $prod_vol .= ' ('.getArialFloat($declaration->stock_initial).' hl)';
-                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $declaration, 'prod_vol' => $prod_vol));
+                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $declaration, 'prod_libelle' => $declaration->produit_libelle, 'prod_vol' => $prod_vol));
                
             }
     ?>

@@ -7,10 +7,10 @@ use_helper('Float');
 	<thead>
 		<tr>
 			<th>Produits</th>
+			<th>Volume revendiqué</th>
+			<th>Stock init. (DRM)</th>
                         <th>VCI</th>
                         <th>Réserve qual.</th>
-			<th>Stock init. (DRM)</th>
-			<th>Volume revendiqué</th>
 		</tr>
 	</thead>
 	<tbody class="ds_recapitulatif_tableBody">
@@ -20,19 +20,32 @@ use_helper('Float');
 			<td class="ds_recap_declaration_appelation">
 				<?php echo $declaration->produit_libelle; ?>
 			</td>
+			<td class="ds_recap_declaration_vr">
+				<?php echoFloat($declaration->stock_declare); ?>
+			</td>
+			<td class="ds_recap_declaration_stockInitial">
+				<?php echoFloat($declaration->stock_initial); ?>
+			</td>
                         <td class="ds_recap_declaration_vci">
 				<?php echo $declaration->vci; ?>
 			</td>
                         <td class="ds_recap_declaration_reserve_qualitative">
 				<?php echo $declaration->reserve_qualitative; ?>
 			</td>
-			<td class="ds_recap_declaration_stockInitial">
-				<?php echoFloat($declaration->stock_initial); ?>
+		  </tr>
+  <?php if ($declaration->hasElaboration() && $declaration->exist('stock_elaboration')): ?>
+		<tr id="ds_declaration_recapitulatif">
+			<td class="ds_recap_declaration_appelation">
+				<?php echo $declaration->produit_libelle; ?> - en élaboration
 			</td>
 			<td class="ds_recap_declaration_vr">
-				<?php echoFloat($declaration->stock_declare); ?>
+				<?php echoFloat($declaration->stock_elaboration); ?>
 			</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
 		  </tr>
+  <?php endif; ?>
 		<?php
 		endforeach;
 		?>

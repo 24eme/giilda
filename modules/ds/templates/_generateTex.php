@@ -158,7 +158,7 @@ page \thepage / 1
 <?php
 foreach ($ds->declarations as $declaration) :
 
-    if ($declaration->isEffervescent()) :
+    if ($declaration->hasElaboration()) :
         ?>
 
         <?php echo $declaration->code_douane ?> &

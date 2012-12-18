@@ -36,7 +36,7 @@ class DSProduit extends BaseDSProduit {
         return (!is_null($this->stock_declare));
     }
     
-    public function isEffervescent(){
+    public function hasElaboration(){
         return strstr($this->produit_hash, 'EFF')!==false;
     }
 }

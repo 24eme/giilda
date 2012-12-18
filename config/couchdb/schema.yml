@@ -42,4 +42,4 @@ DS:
                   stock_declare: { type: float }
                   vci: { type: float }
                   reserve_qualitative: { type: float }
-		  stock_elaboration: { type: float }
+                  stock_elaboration: { type: float, required: false }
