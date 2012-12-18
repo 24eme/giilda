@@ -7,14 +7,15 @@ use_helper('Float');
 echo $form->renderHiddenFields();
 echo $form->renderGlobalErrors();
 ?>
+<fieldset><p><input id="saisie_vci_resqual" type="checkbox"><label for="saisie_vci_resqual">Saisir des réserves qualitatives ou des VCI</label></p></fieldset>
     <fieldset id="dsEdition">
         <table id="ds_edition_table" class="table_recap">
         <thead>
             <tr>
                 <th>Produits</th>
-                <th>VCI</th>
-                <th>Réserve qual.</th>
                 <th>Volume saisie</th>
+                <th class="colonne_vci">VCI</th>
+                <th class="colonne_reservequalitative">Réserve qual.</th>
             </tr>
         </thead>
         <tbody class="ds_edition_tableBody">
@@ -29,7 +30,23 @@ echo $form->renderGlobalErrors();
     ?>
         </tbody>
         </table>
+
+<input type="submit" style="display: none"/>
 		
+<script><!--
+  $('.colonne_vci').hide();
+  $('.colonne_reservequalitative').hide();
+  $('#saisie_vci_resqual').change(function() {
+      if ($(this).is(':checked')) {
+	$('.colonne_vci').show();
+	$('.colonne_reservequalitative').show();
+      }else{
+	$('.colonne_vci').hide();
+	$('.colonne_reservequalitative').hide();
+      }
+    })
+--></script>
+
   <input type="submit" class="btn_majeur btn_orange" name="addproduit" value="Ajouter un produit"/>
 
         <div id="commentaires" class="section_label_maj">

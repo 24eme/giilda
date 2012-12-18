@@ -115,24 +115,4 @@ class DSClient extends acCouchdbClient {
             return 'Validé';
         return '';
     }
-
-    public function createGenerationForAllEtablissements($etablissements, $campagne, $date_declaration) {
-        set_time_limit(0);
-        ini_set('memory_limit', '1024M');
-        $generation = new Generation();
-        $generation->date_emission = date('Y-m-d-H:i');
-        $generation->type_document = GenerationClient::TYPE_DOCUMENT_DS;
-        $generation->documents = array();
-        $generation->somme = 0;
-        $cpt = 0;
-
-        foreach ($etablissements as $etablissementView) {
-            $declarationDs = $this->createDsByEtbId($etablissementView->key[EtablissementAllView::KEY_IDENTIFIANT], $campagne);
-            $declarationDs->save();
-            $generation->add('documents')->add($cpt, $declarationDs->_id);
-            $cpt++;
-        }
-        return $generation;
-    }
-
 }

@@ -6,6 +6,7 @@ class DSStocksView extends acCouchdbView
     const KEY_ETABLISSEMENT_IDENTIFIANT = 2;
     const KEY_PRODUIT_HASH = 3;
     const KEY_PERIODE = 4;
+    const KEY_IDENTIFIANT = 5;
 
     const VALUE_VOLUME = 0;
     const VALUE_DECLARANT_NOM = 1;

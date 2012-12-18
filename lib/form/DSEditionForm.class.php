@@ -9,7 +9,9 @@ class DSEditionForm extends acCouchdbForm {
         $this->ds = $ds;
         $defaults = array();
         foreach ($this->ds->getDeclarations() as $key => $value) {
-            $defaults[$key] = $value->stock_revendique;
+	  $defaults['volumeStock_'.$key] = $value->stock_revendique;
+	  $defaults['vci_'.$key] = $value->vci;
+	  $defaults['reserveQualitative_'.$key] = $value->reserve_qualitative;
         }
         $defaults['commentaires'] = $this->ds->commentaires;
         parent::__construct($ds, $defaults, $options, $CSRFSecret);
@@ -17,17 +19,17 @@ class DSEditionForm extends acCouchdbForm {
 
     public function configure() {
         foreach ($this->ds->declarations as $key => $declaration) {
-            $this->setWidget('volumeStock_' . $key, new sfWidgetFormInputFloat());
-            $this->setWidget('vci_' . $key, new sfWidgetFormInput());
-            $this->setWidget('reserveQualitative_' . $key, new sfWidgetFormInput());
+	  $this->setWidget('volumeStock_' . $key, new sfWidgetFormInputFloat(array(), array('size' => '6')));
+	  $this->setWidget('vci_' . $key, new sfWidgetFormInput(array(), array('size' => '6')));
+	  $this->setWidget('reserveQualitative_' . $key, new sfWidgetFormInput(array(), array('size' => '6')));
 
-            $this->widgetSchema->setLabel('volumeStock_' . $key, 'Volume Stock');
-            $this->widgetSchema->setLabel('vci_' . $key, 'VCI');
-            $this->widgetSchema->setLabel('reserveQualitative_' . $key, 'Reserve qualitative');
-
-            $this->setValidator('volumeStock_' . $key, new sfValidatorNumber(array('required' => false)));
-            $this->setValidator('vci_' . $key, new sfValidatorString(array('required' => false)));
-            $this->setValidator('reserveQualitative_' . $key, new sfValidatorString(array('required' => false)));
+	  $this->widgetSchema->setLabel('volumeStock_' . $key, 'Volume Stock');
+	  $this->widgetSchema->setLabel('vci_' . $key, 'VCI');
+	  $this->widgetSchema->setLabel('reserveQualitative_' . $key, 'Reserve qualitative');
+	  
+	  $this->setValidator('volumeStock_' . $key, new sfValidatorNumber(array('required' => false)));
+	  $this->setValidator('vci_' . $key, new sfValidatorString(array('required' => false)));
+	  $this->setValidator('reserveQualitative_' . $key, new sfValidatorString(array('required' => false)));
         }
         $this->setWidget('commentaires', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
         $this->widgetSchema->setLabel('commentaires', 'Commentaires :');
