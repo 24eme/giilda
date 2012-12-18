@@ -1,3 +1,6 @@
+<?php
+use_helper("Generation");
+?>
 <div id="generation_infos" class="bloc_form">    
     <div class="ligne_form">
         <span>
@@ -23,6 +26,27 @@
             <?php echo $generation->statut; ?>
         </span>
     </div>
+    <div class="ligne_form">
+        <span>
+            <label>Arguments :</label>
+        </span>
+    </div>
+    <?php 
+    $cpt=0;
+    foreach ($generation->arguments as $key => $argument) : ?>
+    <div class="ligne_form <?php echo ($cpt%2 == 0)? 'ligne_form_alt' : '' ?>">
+        <span>
+            <label><?php echo getLabelForKeyArgument($key); ?> </label>
+            <?php 
+            echo $argument;
+            ?>
+        </span>
+    </div>
+     <?php 
+     $cpt++;
+     endforeach; 
+     ?>
+    
 </div>
 <?php if ($generation->statut == GenerationClient::GENERATION_STATUT_GENERE && count($generation->fichiers)) : ?>
     <h2>Liste des <?php echo $type; ?> : </h2>
