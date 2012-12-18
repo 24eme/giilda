@@ -30,8 +30,10 @@
 
             <?php include_partial('global/header'); ?>
 
-            <!-- fin #header -->
-            <div id="global_content">
+            <!-- fin #header --><?php 
+		  if ($sf_user->hasFlash('global_error'))
+		    echo '<div style="margin-bottom: 20px;margin-left: auto; margin-right: auto; width: 700px;" class="global_error"><p><span>'.$sf_user->getFlash('global_error')."</span></p></div>";
+            ?><div id="global_content">
                 <?php echo $sf_content ?>
 
                 <?php include_partial('global/footer'); ?>
