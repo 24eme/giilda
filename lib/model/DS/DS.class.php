@@ -90,7 +90,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
             $nouveau_produit = $this->declarations->add($hash, $produit);
 
             $nouveau_produit->stock_initial = null;
-            $nouveau_produit->stock_revendique = null;
+            $nouveau_produit->stock_declare = null;
         }
     }
     

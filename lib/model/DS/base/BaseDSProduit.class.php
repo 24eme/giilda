@@ -8,7 +8,7 @@
  * @property string $produit_libelle
  * @property string $produit_hash
  * @property float $stock_initial
- * @property float $stock_revendique
+ * @property float $stock_declare
  * @property string $vci
  * @property string $reserve_qualitative
 

@@ -30,7 +30,7 @@ use_helper('Float');
 				<?php echoFloat($declaration->stock_initial); ?>
 			</td>
 			<td class="ds_recap_declaration_vr">
-				<?php echoFloat($declaration->stock_revendique); ?>
+				<?php echoFloat($declaration->stock_declare); ?>
 			</td>
 		  </tr>
 		<?php

@@ -9,7 +9,7 @@ class DSEditionForm extends acCouchdbForm {
         $this->ds = $ds;
         $defaults = array();
         foreach ($this->ds->getDeclarations() as $key => $value) {
-	  $defaults['volumeStock_'.$key] = $value->stock_revendique;
+	  $defaults['volumeStock_'.$key] = $value->stock_declare;
 	  $defaults['vci_'.$key] = $value->vci;
 	  $defaults['reserveQualitative_'.$key] = $value->reserve_qualitative;
         }
@@ -57,7 +57,7 @@ class DSEditionForm extends acCouchdbForm {
 
     public function updateVolumeStock($prodKey, $volumeRev) {
         if ($this->getDocument()->declarations->exist($prodKey)) {
-            $this->getDocument()->declarations[$prodKey]->stock_revendique = $volumeRev;
+            $this->getDocument()->declarations[$prodKey]->stock_declare = $volumeRev;
         }
     }
         
