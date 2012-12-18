@@ -12,7 +12,7 @@ class ValidatorEtablissement extends acValidatorCouchdbDocument
     {
         parent::configure($options, $messages);
         $this->setOption('type', 'Etablissement');
-        $this->setOption('prefix', 'ETABLISSEMENT-');
+        $this->setOption('prefix', '');
         $this->addOption('familles', array());
     }    
 }
