@@ -1,0 +1,17 @@
+#!/bin/bash
+
+rm -rf /tmp/export_bi
+rm /tmp/export_bi.zip
+mkdir /tmp/export_bi
+
+bash bin/export_bi > /tmp/export_bi/export_bi.csv
+
+grep "MOUVEMENT;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_mouvements.csv
+grep "CONTRAT;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_contrats.csv
+grep "DS;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_dss.csv
+grep "ETABLISSEMENT;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_etablissement.csv
+grep "SOCIETE;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_societe.csv
+
+zip /tmp/export_bi.zip /tmp/export_bi/export_bi*
+
+echo "Zip created : /tmp/export_bi.zip"
