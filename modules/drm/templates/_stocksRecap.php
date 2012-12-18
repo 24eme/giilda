@@ -4,11 +4,11 @@
     <thead>
         <tr>
             <th>Produit</th>
-            <th>Déb.<br />(DS)</th>
+   <th><?php echo ucfirst(preg_replace('/ /', '&nbsp;', $periode_debut)); ?><br/>(DS)</th>
             <th>Entrées</th>
-            <th>dont Rev.<br />(ODG)</th>
-            <th>Sorties<br />(Fact.)</th>
-            <th>Fin<br />(DS)</th>
+            <th>dont Rev.<br/>(ODG)</th>
+            <th>Sorties<br/>(Fact.)</th>
+	    <th><?php echo ucfirst(preg_replace('/ /', '&nbsp;', $periode_fin)); ?><br/>(DS)</th>
             <th>dont Com.</th>
         </tr>
     </thead>
