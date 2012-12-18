@@ -11,14 +11,18 @@ class EtablissementClient extends acCouchdbClient {
     const REGION_NANTES = 'nantes';
     const REGION_HORSINTERLOIRE = 'hors interloire';
     const RECETTE_LOCALE = '(recette_locale)';
-    const STATUT_ACTIF = 'actif';
-    const STATUT_SUSPENDU = 'suspendu';
     const TYPE_DR_DRM = 'DRM';
     const TYPE_DR_DRA = 'DRA';
     const TYPE_LIAISON_BAILLEUR = 'bailleur';
     const TYPE_LIAISON_METAYER = 'metayer';
     const TYPE_LIAISON_ADHERENT = 'adherent';
     const TYPE_LIAISON_CONTRAT_INTERNE = 'contrat_interne';
+
+    const STATUT_ACTIF = 'ACTIF'; #'actif';
+    const STATUT_SUSPENDU = 'ARCHIVE'; #'suspendu';
+
+    public static $statuts = array(self::STATUT_ACTIF => 'Actif',
+                                   self::STATUT_SUSPENDU => 'Inactif'); 
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Etablissement");

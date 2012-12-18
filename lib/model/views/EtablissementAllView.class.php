@@ -3,15 +3,18 @@
 class EtablissementAllView extends acCouchdbView
 {
 	const KEY_INTERPRO_ID = 0;
-	const KEY_FAMILLE = 1;
-	const KEY_ETABLISSEMENT_ID = 2;
-	const KEY_NOM = 3;
-	const KEY_IDENTIFIANT = 4;
-	const KEY_RAISON_SOCIALE = 5;
-	const KEY_SIRET = 6;
+	const KEY_STATUT = 1;
+    const KEY_FAMILLE = 2;
+    const KEY_SOCIETE_ID = 3;
+    const KEY_ETABLISSEMENT_ID = 4;
+	const KEY_NOM = 5;
+	const KEY_IDENTIFIANT = 6;
 	const KEY_CVI = 7;
-	const KEY_COMMUNE = 8;
-	const KEY_CODE_POSTAL = 9;
+    const KEY_REGION = 8;
+
+    const VALUE_ADRESSE = 1;
+	const VALUE_COMMUNE = 2;
+	const VALUE_CODE_POSTAL = 3;
 
 	public static function getInstance() {
 
@@ -20,25 +23,52 @@ class EtablissementAllView extends acCouchdbView
 
     public function findByInterpro($interpro) {
 
-    	return $this->client->startkey(array($interpro))
-                    		->endkey(array($interpro, array()))
+        return $this->client->startkey(array($interpro))
+                            ->endkey(array($interpro, array()))
+                            ->getView($this->design, $this->view);
+    }
+
+    public function findByInterproAndStatut($interpro, $statut) {
+
+    	return $this->client->startkey(array($interpro, $statut))
+                    		->endkey(array($interpro, $statut, array()))
                     		->getView($this->design, $this->view);
     }
 
     public function findByInterproAndFamilles($interpro, array $familles) {
+        $etablissements = array();
+        foreach($familles as $famille) {
+            $etablissements = array_merge($etablissements, $this->findByInterproAndFamille($interpro, $famille));
+        }
+
+        return $etablissements;
+    }
+
+    public function findByInterproStatutAndFamilles($interpro, $statut, array $familles) {
     	$etablissements = array();
     	foreach($familles as $famille) {
-    		$etablissements = array_merge($etablissements, $this->findByInterproAndFamille($interpro, $famille)->rows);
+    		$etablissements = array_merge($etablissements, $statut, $this->findByInterproStatutAndFamille($interpro, $statut, $famille));
     	}
 
     	return $etablissements;
     }
 
-    public function findByInterproAndFamille($interpro, $famille) {
 
-    	return $this->client->startkey(array($interpro, $famille))
-                    		->endkey(array($interpro, $famille, array()))
-                    		->getView($this->design, $this->view);
+    public function findByInterproAndFamille($interpro, $famille) {
+        $etablissements = array();
+
+        foreach(EtablissementClient::$statuts as $statut => $nom) {
+            $etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, $famille)->rows);
+        }
+
+        return $etablissements;
+    }
+
+    public function findByInterproStatutAndFamille($interpro, $statut, $famille) {
+
+        return $this->client->startkey(array($interpro, $statut, $famille))
+                            ->endkey(array($interpro, $statut, $famille, array()))
+                            ->getView($this->design, $this->view);
     }
 
     public function findByEtablissement($identifiant) {
@@ -48,45 +78,37 @@ class EtablissementAllView extends acCouchdbView
             return null;
         }
 
-        return $this->client->startkey(array($etablissement->interpro, $etablissement->famille, $etablissement->_id))
-                            ->endkey(array($etablissement->interpro, $etablissement->famille, $etablissement->_id, array()))
+        return $this->client->startkey(array($etablissement->interpro, $etablissement->statut, $etablissement->famille, $etablissement->id_societe, $etablissement->_id))
+                            ->endkey(array($etablissement->interpro, $etablissement->statut, $etablissement->famille, $etablissement->id_societe,$etablissement->_id, array()))
                             ->getView($this->design, $this->view);
         
     }
 
-    public static function makeLibelle($datas) {
+    public static function makeLibelle($row) {
         $libelle = '';
 
-        if ($nom = $datas[self::KEY_NOM]) {
+        if ($nom = $row->key[self::KEY_NOM]) {
             $libelle .= $nom;
         }
 
-        if (isset($datas[self::KEY_RAISON_SOCIALE]) && $rs = $datas[self::KEY_RAISON_SOCIALE]) {
-            if ($libelle) {
-                $libelle .= ' / ';
-            }
-            $libelle .= $rs;
-        }
+        $libelle .= ' ('.$row->key[self::KEY_IDENTIFIANT];
 
-        $libelle .= ' ('.$datas[self::KEY_IDENTIFIANT];
-        if (isset($datas[self::KEY_SIRET]) && $siret = $datas[self::KEY_SIRET]) {
-            $libelle .= ' / '.$siret;
-        }
-
-        if (isset($datas[self::KEY_CVI]) && $cvi = $datas[self::KEY_CVI]) {
+        if (isset($row->key[self::KEY_CVI]) && $cvi = $row->key[self::KEY_CVI]) {
             $libelle .= ' / '.$cvi;
         }
         $libelle .= ') ';
 
-    	if (isset($datas[self::KEY_FAMILLE]))
-    	  	$libelle .= $datas[self::KEY_FAMILLE];
+    	if (isset($row->key[self::KEY_FAMILLE]))
+    	  	$libelle .= $row->key[self::KEY_FAMILLE];
 
-    	if (isset($datas[self::KEY_COMMUNE]))
-    	  	$libelle .= ' '.$datas[self::KEY_COMMUNE];
+    	if (isset($row->value[self::VALUE_COMMUNE]))
+    	  	$libelle .= ' '.$row->value[self::VALUE_COMMUNE];
 
-    	if (isset($datas[$datas[self::KEY_CODE_POSTAL]]))
-    	  	$libelle .= ' '.$datas[$datas[self::KEY_CODE_POSTAL]];
+    	if (isset($row->value[self::VALUE_CODE_POSTAL]))
+    	  	$libelle .= ' '.$row->value[self::VALUE_CODE_POSTAL];
+
         $libelle .= " (Etablissement)";
+        
         return trim($libelle);
     }
 

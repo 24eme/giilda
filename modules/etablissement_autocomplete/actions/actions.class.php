@@ -29,7 +29,7 @@ class etablissement_autocompleteActions extends sfActions
     	$json = array();
 
 	  	foreach($etablissements as $key => $etablissement) {
-	      $text = EtablissementAllView::getInstance()->makeLibelle($etablissement->key);
+	      $text = EtablissementAllView::getInstance()->makeLibelle($etablissement);
 	     
 	      if (Search::matchTerm($term, $text)) {
 	        $json[EtablissementClient::getInstance()->getIdentifiant($etablissement->id)] = $text;
