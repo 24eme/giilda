@@ -180,11 +180,6 @@ class DRMDetail extends BaseDRMDetail {
     return strtolower(str_replace($this->getDocument()->declaration->getHash(), '', str_replace('/', '_', preg_replace('|\/[^\/]+\/DEFAUT|', '', $this->getHash()))));
   }	
   
-  public function addVrac($contrat_numero, $volume) {
-    $contratVrac = $this->vrac->add($contrat_numero."");
-    $contratVrac->volume = $volume*1 ;
-  }
-
   public function hasContratVrac() {
     $rows = $this->getContratsVrac();
     return count($rows);
@@ -199,7 +194,6 @@ class DRMDetail extends BaseDRMDetail {
     
       return $this->getDocument()->isModifiedMother($this->getHash(), $key);
   }
-
 
   public function getDroitVolume($type) {
     

@@ -2,16 +2,16 @@
 
 class DRMDetailExportTemplateForm extends DRMDetailExportForm {
     
-    public function __construct(acCouchdbJson $drm_sorties_export_detail, $defaults = array(), $options = array(), $CSRFSecret = null) {
-        parent::__construct($drm_sorties_export_detail, $defaults, $options, $CSRFSecret);
+    public function __construct(acCouchdbJson $details, $defaults = array(), $options = array(), $CSRFSecret = null) {
+        parent::__construct($details, $defaults, $options, $CSRFSecret);
         unset($this['_revision']);
     }
 
 
     public function configure() {
-
-        $this->embedForm('var---nbItem---', new DRMDetailExportItemForm($this->drm_sorties_export_details->add()));
-        $this->widgetSchema->setNameFormat('drm_detail_export[%s]');
+        $item_form_class = $this->getFormItemClass();
+        $this->embedForm('var---nbItem---', new $item_form_class($this->details->addDetail()));
+        $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
     

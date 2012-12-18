@@ -8,12 +8,12 @@ class DRMESDetails extends BaseDRMESDetails {
 
   public function update($params = array()) {
     parent::update($params);
-    if (count($this) == 1 && !$this[0]->identifiant) {
+    /*if (count($this) == 1 && !$this[0]->identifiant) {
       $p = $this->getParent();
       $k = $this->getKey();
       $this->delete();
       $p->add($k);
-    }
+    }*/
   }
 
     public function getNoeud() {
@@ -26,7 +26,7 @@ class DRMESDetails extends BaseDRMESDetails {
         return str_replace('_details', '', $this->getKey());
     }
 
-    public function getDetail() {
+    public function getProduitDetail() {
 
         return $this->getParent()->getParent();
     }
@@ -36,6 +36,24 @@ class DRMESDetails extends BaseDRMESDetails {
 
         $this->getParent()->remove($this->getKey());
         $this->getParent()->add($this->getKey());
+    }
+
+    public function addDetail($identifiant = null, $volume = null, $date_enlevement = null) {
+        $detail = $this->add($identifiant);
+
+        $detail->identifiant = $identifiant;
+        
+        if ($volume && is_null($detail->volume)) {
+           $detail->volume = $volume; 
+        } elseif($volume) {
+          $detail->volume += $volume; 
+        }
+
+        if($date_enlevement) {
+            $detail->date_enlevement = $date_enlevement;
+        }
+
+        return $detail;
     }
 
     public function createMouvements($template_mouvement) {
@@ -70,7 +88,7 @@ class DRMESDetails extends BaseDRMESDetails {
           $volume = $volume - $this->getDocument()->motherGet($detail->getHash())->volume;
         }
 
-	    $config = $this->getDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
+	    $config = $this->getProduitDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
         $volume = $config->mouvement_coefficient * $volume;
 
         if($volume == 0) {
@@ -97,7 +115,7 @@ class DRMESDetails extends BaseDRMESDetails {
     }
 
     public function createMouvementVracDestinataire($mouvement, $detail) {
-        $config = $this->getDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
+        $config = $this->getProduitDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
 
         if (!$config->isVrac()) {
 

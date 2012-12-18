@@ -317,14 +317,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function updateVracs() {        
-        foreach ($this->getProduitsDetails() as $d) {            
+/*        foreach ($this->getProduitsDetails() as $d) {            
             foreach ($d->sorties->vrac_details as $vrac_detail) {                
                 $vrac = VracClient::getInstance()->find($vrac_detail->identifiant);
                 $vrac->enleverVolume($vrac_detail->volume);
                 $vrac->save();
             }          
         }     
-    }
+*/    }
 
     public function setInterpros() {
       $i = $this->getInterpro();

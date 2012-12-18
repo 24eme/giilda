@@ -269,7 +269,7 @@ DRM:
                                                                                                                   regularisation: { type: float }
                                                                                                                   vrac_details:
                                                                                                                     class: DRMESDetails
-                                                                                                                    type:  array_collection
+                                                                                                                    type:  collection
                                                                                                                     definition:
                                                                                                                       fields:
                                                                                                                         '*':
@@ -282,7 +282,7 @@ DRM:
                                                                                                                               date_enlevement: {  }
                                                                                                                   export_details:
                                                                                                                     class: DRMESDetails
-                                                                                                                    type:  array_collection
+                                                                                                                    type:  collection
                                                                                                                     definition:
                                                                                                                       fields:
                                                                                                                         '*':
@@ -295,7 +295,7 @@ DRM:
                                                                                                                               date_enlevement: {  }
                                                                                                                   cooperative_details:
                                                                                                                      class: DRMESDetails
-                                                                                                                     type:  array_collection
+                                                                                                                     type:  collection
                                                                                                                      definition:
                                                                                                                        fields:
                                                                                                                          '*':
