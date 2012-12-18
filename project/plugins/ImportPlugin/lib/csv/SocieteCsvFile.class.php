@@ -84,8 +84,12 @@ class SocieteCsvFile extends CsvFile
 		$s->code_comptable_client = sprintf("02%06d", $line[self::CSV_PARTENAIRE_CODE]);
 	}else if ($line[self::CSV_PARTENAIRE_TYPE] == 'R') {
                 $s->type_societe = SocieteClient::SUB_TYPE_DOUANE;
-	}else{
-	  throw new sfException("type partenaire inconnu");
+	}else if ($line[self::CSV_PARTENAIRE_TYPE] == 'D') {
+                $s->type_societe = SocieteClient::TYPE_PRESSE;
+	}
+        else{
+           $t = $line[self::CSV_PARTENAIRE_TYPE];
+	  throw new sfException("type partenaire inconnu => type : $t ");
 	}
 	if ($line[self::CSV_PARTENAIRE_ENSEIGNE])
 		$s->enseignes->add(null, $line[self::CSV_PARTENAIRE_ENSEIGNE]);
