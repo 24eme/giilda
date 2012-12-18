@@ -55,6 +55,10 @@ class DSClient extends acCouchdbClient {
     }
 
     public function createDsByEtbId($etablissementId, $date_stock) {
+        $periode = $this->buildPeriode($this->createDateStock($date_stock));
+        if($this->findByIdentifiantAndPeriode($etablissementId, $periode)){
+            throw new sfException("La DS pour l'etablissement $etablissementId existe dèjà pour la période $periode \n");
+        }
         $ds = new DS();
         $ds->date_emission = date('Y-m-d');
         $ds->date_stock = $this->createDateStock($date_stock);
@@ -66,7 +70,6 @@ class DSClient extends acCouchdbClient {
 
     public function createOrFind($etablissementId, $date_stock) {
         $ds = $this->findByIdentifiantAndPeriode($etablissementId, $this->buildPeriode($this->createDateStock($date_stock)));
-
         if(!$ds) {
             return $this->createDsByEtbId($etablissementId, $date_stock);
         }
