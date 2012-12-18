@@ -138,10 +138,12 @@ class drmComponents extends sfComponents {
         $this->recaps = array();
 
         $drms = DRMStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
+	$this->periode_debut = '';
         foreach($drms as $drm) {
             if (!isset($this->recaps[$drm->produit_hash])) {
                 $this->recaps[$drm->produit_hash] = $this->initLigneRecap($drm->produit_hash);
                 $this->recaps[$drm->produit_hash]['volume_stock_debut'] = $drm->volume_stock_debut_mois;
+		$this->periode_debut = ConfigurationClient::getInstance()->getPeriodeLibelle($drm->periode);
             }
             
             $this->recaps[$drm->produit_hash]['volume_entrees'] += $drm->volume_entrees;
@@ -151,6 +153,7 @@ class drmComponents extends sfComponents {
             $this->recaps[$drm->produit_hash]['volume_stock_fin'] = $drm->volume_stock_fin_mois;  
         }
 
+	$this->periode_fin = ConfigurationClient::getInstance()->getPeriodeLibelle($drm->periode);
         $revs = RevendicationStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
         foreach($revs as $rev) {
             if (!isset($this->recaps[$rev->produit_hash])) {
