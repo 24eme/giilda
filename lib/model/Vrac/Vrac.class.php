@@ -231,12 +231,15 @@ class Vrac extends BaseVrac {
     public function enleverVolume($vol)
     {
         $this->volume_enleve += $vol;
+
+        if($this->volume_enleve < 0 ) {
+
+            throw new sfException(sprintf("Suite à un enlevement le volume enleve sur le contrat '%s' est négatif, ce n'est pas normal !", $this->get('_id')));
+        }
         
         if($this->volume_propose <= $this->volume_enleve) { 
           $this->solder();
-        }
-
-        if ($this->volume_enleve == 0) {
+        } else {
           $this->desolder();
         }
     }
