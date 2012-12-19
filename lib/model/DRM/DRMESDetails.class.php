@@ -111,7 +111,6 @@ class DRMESDetails extends BaseDRMESDetails {
         $mouvement->detail_identifiant = $detail->identifiant;
         $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
 	    $mouvement->type_libelle = $config->getLibelle();
-	    $mouvement->facturable = $config->facturable;
         $mouvement->type_hash .= $this->getKey();
         $mouvement->volume = $volume;
 
