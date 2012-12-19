@@ -1,14 +1,11 @@
-<div id="coordonnees_societe" class="form_section">
-    <h2>Coordonnées de la société</h2>
+<div id="detail_contact" class="form_section">
+    <h3>Détail du contact</h3>
 
     <div class="form_contenu">
-        <fieldset>
-            <legend>Adresse</legend>
             <?php
             echo $compteForm->renderHiddenFields();
             echo $compteForm->renderGlobalErrors();
             ?>
-
 
             <div class="form_ligne">
                 <?php echo $compteForm['civilite']->renderError(); ?>
@@ -45,6 +42,5 @@
                 <?php echo $compteForm['commentaire']->render(); ?>
                 <?php echo $compteForm['commentaire']->renderError(); ?>
             </div> 
-        </fieldset>
     </div>
 </div>

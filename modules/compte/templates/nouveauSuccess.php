@@ -5,16 +5,26 @@
 
         <!-- #contacts -->
         <section id="contacts">
-            <div id="creation_societe">
-                <h1>Création d'une nouvelle société</h1>
-            <form action="<?php echo url_for('compte_new', array('identifiant' => $compte->identifiant)); ?>" method="post">
-                <button id="btn_valider" type="submit">Valider</button>
-                
-                <?php 
-                include_partial('modificationDetail', array('compteForm' => $compteForm)); 
-                include_partial('modification', array('compteForm' => $compteForm)); 
-                ?>
-            </form>
+            <div id="nouveau_contact">
+                <h2>Nouveau contact</h2>
+				
+				<div class="form_btn">
+					<button class="btn_majeur btn_annuler">Annuler</button>
+					<button class="btn_majeur btn_valider">Valider</button>
+				</div>
+				
+				<form action="<?php echo url_for('compte_new', array('identifiant' => $compte->identifiant)); ?>" method="post">
+					<?php 
+						include_partial('modificationDetail', array('compteForm' => $compteForm)); 
+						include_partial('modification', array('compteForm' => $compteForm)); 
+					?>
+				</form>
+				
+				<div class="form_btn">
+					<button class="btn_majeur btn_annuler">Annuler</button>
+					<button class="btn_majeur btn_valider">Valider</button>
+				</div>
+			</div>
         </section>
     </section>
     <aside id="colonne">
