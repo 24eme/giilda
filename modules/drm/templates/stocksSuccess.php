@@ -1,7 +1,5 @@
-<div id="contenu" class="drm">
-    
     <!-- #principal -->
-    <section id="principal">
+    <section id="principal"  class="drm">
         <p id="fil_ariane"><a href="<?php echo url_for('drm') ?>">Page d'accueil</a> &gt; <strong><?php echo $etablissement->nom ?></strong></p>
         
         <!-- #contenu_etape -->
@@ -25,26 +23,3 @@
         
     </section>
     <!-- fin #principal -->
-    
-    <!-- #colonne -->
-    <aside id="colonne">
-        
-        <div class="bloc_col" id="contrat_aide">
-            <h2>Aide</h2>
-            
-            <div class="contenu">
-                
-            </div>
-        </div>
-        
-        <div class="bloc_col" id="infos_contact">
-            <h2>Infos contact</h2>
-            
-            <div class="contenu">
-                
-            </div>
-        </div>
-    
-    </aside>
-    <!-- fin #colonne -->
-</div>
