@@ -1,10 +1,8 @@
 <?php
 use_helper('Float');
-?>
-<div id="contenu" class="ds">
-    
+?>    
     <!-- #principal -->
-    <section id="principal">
+    <section id="principal" class="ds">
         <p id="fil_ariane"><a href="<?php echo url_for('ds') ?>">Page d'accueil</a> &gt; <strong>Stocks : consultation & déclaration</strong></p>
         
         <!-- #contenu_etape -->
@@ -27,23 +25,7 @@ use_helper('Float');
 		</section>
     </section>
     <!-- fin #principal -->
-    
-    <!-- #colonne -->
-    <aside id="colonne">
-        <div class="bloc_col" id="contrat_aide">
-            <h2>Aide</h2>
-            
-            <div class="contenu">
-                <ul>
-                    <li class="raccourcis"><a href="#">Raccourcis clavier</a></li>
-                    <li class="assistance"><a href="#">Assistance</a></li>
-                    <li class="contact"><a href="#">Contacter le support</a></li>
-                </ul>
-            </div>
-        </div>
-    </aside>
-    <!-- fin #colonne -->
-</div>
+
 
 <script type="text/javascript">
     
