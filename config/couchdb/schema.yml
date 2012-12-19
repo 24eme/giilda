@@ -215,6 +215,7 @@ DRM:
                                                                                                             total_facturable: { type: float }
                                                                                                             total: { type: float }
                                                                                                             produit_libelle: {  }
+                                                                                                            cvo: {type: float}
                                                                                                             labels:
                                                                                                               type: array_collection
                                                                                                               definition:
