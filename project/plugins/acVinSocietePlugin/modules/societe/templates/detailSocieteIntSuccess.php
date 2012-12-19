@@ -11,7 +11,7 @@
 				
 					<h2>EARL Yannick &amp; Nicole Amirault</h2>
 						
-					<div class="boutons_haut">
+					<div class="btn_haut">
 						<button type="submit" class="btn_majeur">Nouveau contact</button>
 						<button type="submit" class="btn_majeur">Nouvel établissement</button>
 					</div>

@@ -6,19 +6,26 @@
         <!-- #contacts -->
         <section id="contacts">
             <div id="creation_societe">
-                <h1>Création d'une nouvelle société</h1>
+                <h2>Création d'une nouvelle société</h2>
+				<div class="form_btn">
+					<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
+					<button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
+				</div>
                 <form action="<?php echo url_for('societe_modification', array('identifiant' => $societeForm->getObject()->identifiant)); ?>" method="post">
-                    <button id="btn_valider" type="submit" class="btn_majeur btnValidation">Valider</button>
 
                     <div id="detail_societe" class="form_section">
-                        <h2>Détail de la société</h2>  
+                        <h3>Détail de la société</h3>  
                         <?php include_partial('societeModification', array('societeForm' => $societeForm)); ?>
                     </div>
                     <div id="coordonnees_societe" class="form_section">
-                        <h2>Coordonnées de la société</h2>
+                        <h3>Coordonnées de la société</h3>
                         <?php include_partial('compte/modification', array('compteForm' => $contactSocieteForm)); ?>                
                     </div>
                 </form>
+				<div class="form_btn">
+					<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
+					<button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
+				</div>
             </div>
         </section>
     </section>

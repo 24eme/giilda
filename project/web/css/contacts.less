@@ -12,6 +12,12 @@
 
 #contacts
 {
+
+	#enseignes_list
+	{
+		padding-left: 146px;
+	}
+	
 	.form_btn 
 	{ 
 		margin: 28px 0;
@@ -29,14 +35,9 @@
 		.border(@couleur-a9);
 		.champ_long { width: 425px; }
 		margin: 0 0 35px 0;
-
-		.form_colonne { float: left; }
-
-		.form_contenu { padding: 15px 30px 23px 10px; }
-
-		.ajout_champ
+		
+		.btn_ajouter_ligne_template
 		{
-			display: block;
 			font-size: 12px;
 			padding: 0 0 0 30px;
 			margin: 15px 0 0 0;
@@ -52,8 +53,26 @@
 				width: 20px;
 			}
 		}
+		
+		.checkbox_list,
+		.radio_list
+		{
+			clearfix;
+			float: left;
 
-		.champ_ajoute { padding: 10px 0 0 0; }
+			label { width: auto; }
+
+			li
+			{
+				float: left;
+				margin: 0;
+				width: auto;
+			}
+		}
+
+		.form_colonne { float: left; }
+
+		.form_contenu { padding: 15px 30px 23px 10px; }
 		
 		h3
 		{
@@ -84,7 +103,7 @@
 			font-weight: bold;
 		}
 
-		.label_court { width: auto; }
+		.label_court { width: 112px; }
 
 		legend
 		{
@@ -95,12 +114,13 @@
 
 		select { width: 113px; }
 
-		.supprime_champ
+		.btn_supprimer_ligne_template
 		{
 			background: url("../images/pictos/pi_suppression.png") no-repeat;
+			display: inline-block;
 			height: 21px;
 			margin: 0 0 0 15px;
-			text-indent: 100%;
+			text-indent: -9999px;
 			width: 20px;
 		}
 
@@ -126,7 +146,7 @@
 }
 
 #creation_societe,
-#detail_societe
+#visu_societe
 {
 	h2
 	{
@@ -168,19 +188,22 @@
 }
 
 /**
-* Détail société
+* Visu société
 ******************************************/
 	 
-#detail_societe
+#visu_societe
 {
-	.boutons_haut
+	.btn_haut
 	{
+		background: @couleur-a5;
+		margin: 10px 0;
+		padding: 7px 0 7px 10px;
+		
 		.btn_majeur
 		{
 			background-position: 0 -182px;
 			color: @couleur-a1;
 			padding-left: 40px;
-			width: 197px;
 
 			&:before
 			{
@@ -197,7 +220,6 @@
 			background-position: 0 -156px;
 			margin-right: 16px;
 			padding-left: 43px;
-			width: 176px;
 
 			&:before
 			{
@@ -267,7 +289,7 @@
 
 #coordonnees_societe,
 #coordonnees_etablissement,
-#detail_etablissement
+#detail_etablissement,
 {
    label { width: 190px; }
 }
@@ -286,30 +308,17 @@
 	}
 }
 
-
-/**
-* Création société
-******************************************/
-
-#creation_societe
+#coordonnees_etablissement
 {
-
-	.form_section
+	label
 	{
-
-		label
+		&[for="compte_modification_adresse_societe"]
 		{
-			&[for="detail_societe_statut"],
-			&[for="detail_societe_code_naf"] { width: auto; }
-
-			&[for="detail_societe_actif"],
-			&[for="detail_societe_suspendu"],
-			&[for="detail_etablissement_actif"],
-			&[for="detail_etablissement_suspendu"],
-			&[for="detail_etablissement_type_liaison"] { font-weight: normal; }
+			float: left;
 		}
 	}
 }
+
 
 /**
 * Fiche société
@@ -351,13 +360,6 @@
 
 #detail_societe
 {
-	
-	.boutons_haut
-	{
-		background: @couleur-a5;
-		margin: 10px 0 0 0;
-		padding: 7px 0 7px 10px;
-	}
 
 	.form_contenu
 	{
@@ -386,6 +388,27 @@
 		{
 			float: left;
 			font-style: italic;
+		}
+	}
+
+	label 
+	{ 
+		width: 148px;
+
+		&[for="societe_modification_statut"],
+		&[for="societe_modification_cooperative"],
+		&[for="societe_modification_type_numero_compte"]
+		{
+			float: left;
+		}
+	}
+
+	/* Cible la deuxième colonne */
+	.form_colonne:first-child + .form_colonne
+	{
+		label
+		{
+			width: auto;
 		}
 	}
 }

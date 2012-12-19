@@ -6,17 +6,19 @@ echo $societeForm->renderGlobalErrors();
     <div class="form_ligne">
         <?php echo $societeForm['raison_sociale']->renderError(); ?>
         <?php echo $societeForm['raison_sociale']->renderLabel(); ?>
-        <?php echo $societeForm['raison_sociale']->render(); ?>
+        <?php echo $societeForm['raison_sociale']->render(array('class' => 'champ_long')); ?>
     </div>
     <div class="form_ligne">
-        <?php echo $societeForm['raison_sociale_abregee']->renderLabel(); ?>
-        <?php echo $societeForm['raison_sociale_abregee']->render(); ?>
-        <?php echo $societeForm['raison_sociale_abregee']->renderError(); ?>
-    </div>
-    <div class="form_ligne">
-        <?php echo $societeForm['statut']->renderLabel(); ?>
-        <?php echo $societeForm['statut']->render(); ?>
-        <?php echo $societeForm['statut']->renderError(); ?>
+		<div class="form_colonne">
+			<?php echo $societeForm['raison_sociale_abregee']->renderLabel(); ?>
+			<?php echo $societeForm['raison_sociale_abregee']->render(); ?>
+			<?php echo $societeForm['raison_sociale_abregee']->renderError(); ?>
+		</div>
+		<div class="form_colonne">
+			<?php echo $societeForm['statut']->renderLabel(); ?>
+			<?php echo $societeForm['statut']->render(); ?>
+			<?php echo $societeForm['statut']->renderError(); ?>
+		</div>
     </div>
     <?php if ($societeForm->isVitiOrNego()) : ?>
         <div class="form_ligne">
@@ -30,16 +32,23 @@ echo $societeForm->renderGlobalErrors();
             <?php echo $societeForm['type_numero_compte']->renderError(); ?>
         </div>                 
         <div class="form_ligne">
-            <?php echo $societeForm['siret']->renderLabel(); ?>
-            <?php echo $societeForm['siret']->render(); ?>
-            <?php echo $societeForm['siret']->renderError(); ?>
+			<div class="form_colonne">
+				<?php echo $societeForm['siret']->renderLabel(); ?>
+				<?php echo $societeForm['siret']->render(); ?>
+				<?php echo $societeForm['siret']->renderError(); ?>
+			</div>
+			<div class="form_colonne">
+				<?php echo $societeForm['code_naf']->renderLabel(); ?>
+				<?php echo $societeForm['code_naf']->render(); ?>
+				<?php echo $societeForm['code_naf']->renderError(); ?>
+			</div>
         </div>                
         <div class="form_ligne">
-            <?php echo $societeForm['code_naf']->renderLabel(); ?>
-            <?php echo $societeForm['code_naf']->render(); ?>
-            <?php echo $societeForm['code_naf']->renderError(); ?>
+            <?php echo $societeForm['tva_intracom']->renderLabel(); ?>
+            <?php echo $societeForm['tva_intracom']->render(); ?>
+            <?php echo $societeForm['tva_intracom']->renderError(); ?>
         </div>
-        <div id="enseignes_list">
+		<div id="enseignes_list">
             <?php
             foreach ($societeForm['enseignes'] as $enseigneForm) {
                 include_partial('itemEnseigne', array('form' => $enseigneForm));
@@ -48,11 +57,6 @@ echo $societeForm->renderGlobalErrors();
             <div class="form_ligne">
                 <a class="btn_ajouter_ligne_template" data-container="#enseignes_list" data-template="#template_enseigne" href="#">Ajouter une enseigne</a>
             </div>
-        </div>
-        <div class="form_ligne">
-            <?php echo $societeForm['tva_intracom']->renderLabel(); ?>
-            <?php echo $societeForm['tva_intracom']->render(); ?>
-            <?php echo $societeForm['tva_intracom']->renderError(); ?>
         </div>
     <?php endif; ?>
     <?php if ($societeForm->isCourtier()) : ?>
