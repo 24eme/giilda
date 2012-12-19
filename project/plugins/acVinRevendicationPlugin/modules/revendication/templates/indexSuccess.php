@@ -1,6 +1,5 @@
-<div id="contenu" class="revendication">
-    <!-- #principal -->
-    <section id="principal">
+<!-- #principal -->
+<section id="principal">
         <p id="fil_ariane"><strong><?php echo link_to("Page d'accueil",'revendication'); ?></strong></p>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
@@ -15,5 +14,4 @@
                 <?php include_partial('historiqueRevendication', array('historiqueImport' => $historiqueImport)); ?>
             </div>
         </section>
-    </section>
-</div>
+ </section>

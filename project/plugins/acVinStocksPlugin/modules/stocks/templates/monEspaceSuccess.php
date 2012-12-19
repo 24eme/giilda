@@ -1,6 +1,5 @@
-<div id="contenu" class="sv12">    
-    <!-- #principal -->
-    <section id="principal">
+   <!-- #principal -->
+    <section id="principal"  class="sv12">
         <p id="fil_ariane"><strong>Page d'accueil</strong></p>
         
         <!-- #contenu_etape -->
@@ -36,20 +35,18 @@
         <!-- fin #contenu_etape -->
     </section>
     <!-- fin #principal -->
-    
-    <!-- #colonne -->
-    <aside id="colonne">
-        <div class="bloc_col" id="contrat_aide">
-            <h2>Aide</h2>
-            
-            <div class="contenu">
-                <ul>
-                    <li class="raccourcis"><a href="#">Raccourcis clavier</a></li>
-                    <li class="assistance"><a href="#">Assistance</a></li>
-                    <li class="contact"><a href="#">Contacter le support</a></li>
-                </ul>
-            </div>
+ 
+<?php
+slot('colButtons');
+?>
+<div id="action" class="bloc_col">
+    <h2>Action</h2>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('stocks'); ?>" class="btn_majeur btn_acces"><span>Retour à l'accueil</span></a>
         </div>
-    </aside>
-    <!-- fin #colonne -->
+    </div>
 </div>
+<?php
+end_slot();
+?>

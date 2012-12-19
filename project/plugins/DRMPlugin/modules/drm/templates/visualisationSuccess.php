@@ -1,7 +1,5 @@
-<div id="contenu" class="drm">
-
     <!-- #principal -->
-    <section id="principal" style="width: auto;">
+    <section id="principal" class="drm">
 
         <?php include_partial('drm/header', array('drm' => $drm)); ?>
 
@@ -30,49 +28,21 @@
 
 		<br />
 		<div id="btn_etape_dr">
-			<a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant, 'campagne'=>$drm->campagne)) ?>" class="btn_etape_prec" id="facture"><span>Retour à mon espace</span></a> 
+			<a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant, 'campagne'=>$drm->campagne)); ?>" class="btn_etape_prec" id="facture"><span>Retour à mon espace</span></a> 
 		</div>
 
     </section>
-    <aside id="colonne">
-
-        <div id="contrat_aide" class="bloc_col">
-            <h2>Aide</h2>
-
-            <div class="contenu">
-                <ul>
-                    <li class="raccourcis"><a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a></li>
-                    <li class="assistance"><a href="#">Assistance</a></li>
-                </ul>
-            </div>
+    <?php
+slot('colButtons');
+?>
+<div id="action" class="bloc_col">
+    <h2>Action</h2>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant, 'campagne'=>$drm->campagne)); ?>" class="btn_majeur btn_acces"><span>Retour au calendrier</span></a>
         </div>
-
-        <div id="infos_contact" class="bloc_col">
-            <h2>Infos contact</h2>
-
-            <div class="contenu">
-                <ul>
-                    <li id="infos_contact_vendeur">
-                        <a href="#">Coordonnées opérateur</a>
-                        <ul>
-                            <li class="nom">Nom du vendeur</li>
-                            <li class="tel">00 00 00 00 00</li>
-                            <li class="fax">00 00 00 00 00</li>
-                            <li class="email"><a href="mailto:email@email.com">email@email.com</a></li>
-                        </ul>
-                    </li>
-                    <li id="infos_contact_acheteur">
-                        <a href="#">Coordonnées recette locale</a>
-                        <ul>
-                            <li class="nom">Nom du vendeur</li>
-                            <li class="tel">00 00 00 00 00</li>
-                            <li class="fax">00 00 00 00 00</li>
-                            <li class="email"><a href="mailto:email@email.com">email@email.com</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-    </aside>
+    </div>
 </div>
+<?php
+end_slot();
+?>

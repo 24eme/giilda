@@ -1,9 +1,8 @@
 <?php
 use_helper('Float');
 ?>
-<div id="contenu" class="revendication">
     <!-- #principal -->
-    <section id="principal">
+    <section id="principal" class="revendication">
         <p id="fil_ariane"><strong>Page d'accueil</strong></p>
         <!-- #contenu_etape -->
         <section id="contenu_etape">
@@ -64,4 +63,23 @@ echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
             </form>
         </section>
     </section>
+<?php
+slot('colButtons');
+?>
+<div id="action" class="bloc_col">
+    <h2>Action</h2>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('revendication'); ?>" class="btn_majeur btn_acces"><span>Retour à l'accueil</span></a>
+        </div>
+    </div>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('revendication_edition',array('odg' => $revendication->odg, 'campagne' => $revendication->campagne)); ?>" class="btn_majeur btn_acces"><span>Retour à l'édition</span></a>
+        </div>
+    </div>
 </div>
+<?php
+end_slot();
+?>
+

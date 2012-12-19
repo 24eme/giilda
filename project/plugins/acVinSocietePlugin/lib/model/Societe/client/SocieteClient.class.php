@@ -80,7 +80,7 @@ class SocieteClient extends acCouchdbClient {
     }
     
     public function getInterlocuteursWithOrdre($identifiant) {
-        $contactsArr = $this->findByIdentifiantSociete($identifiant)->getInterlocuteursWithOrdre();
+        $contactsArr = $this->findByIdentifiantSociete($identifiant)->getInterlocuteursWithOrdre();        
         $result = array();
         foreach ($contactsArr as $id => $value) {
             $result[] = CompteClient::getInstance()->find($id);
