@@ -130,6 +130,8 @@ class DRMDetail extends BaseDRMDetail {
       $this->updateNoeud('entrees');
       $this->updateNoeud('sorties');
 
+      $this->cvo->volume_taxable = $this->total_facturable;
+
       $this->total = $this->stocks_fin->revendique;
   }
 
@@ -200,11 +202,6 @@ class DRMDetail extends BaseDRMDetail {
       return $this->sommeLignes(DRMDroits::getDroitSorties()) - $this->sommeLignes(DRMDroits::getDroitEntrees());
   }
 
-  public function getDroit($type) {
-      
-      return $this->getAppellation()->getDroit($type);
-  }
-
   protected function init($params = array()) {
     parent::init($params);
     
@@ -223,6 +220,7 @@ class DRMDetail extends BaseDRMDetail {
     }
     return $sum;
   }
+
   public function hasStockFinDeMoisDRMPrecedente() {
   	$result = false;
   	$drmPrecedente = $this->getDocument()->getPrecedente();
@@ -235,9 +233,7 @@ class DRMDetail extends BaseDRMDetail {
   	}
   	return $result;
   }
-/*
- * Fonction calculée
- */
+
   public function hasMouvement() {
 
       return $this->total_entrees > 0 || $this->total_sorties > 0;
@@ -255,6 +251,8 @@ class DRMDetail extends BaseDRMDetail {
 
   public function getMouvements() {
     
+    $this->cvo->calcul();
+
     return array_replace_recursive($this->getMouvementsByNoeud('entrees'), $this->getMouvementsByNoeud('sorties'));       
   }
 
@@ -270,7 +268,7 @@ class DRMDetail extends BaseDRMDetail {
       $mouvement->produit_hash = $this->getCepage()->getConfig()->getHash();
       $mouvement->produit_libelle = $this->getLibelle("%a% %m% %l% %co% %ce% %la%");
       $mouvement->facture = 0;
-      $mouvement->cvo = $this->getDroitCVO()->taux;
+      $mouvement->cvo = $this->cvo->taux;
       $mouvement->version = $this->getDocument()->getVersion();
       $mouvement->date_version = date('Y-m-d');
       $mouvement->categorie = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE;
@@ -315,8 +313,5 @@ class DRMDetail extends BaseDRMDetail {
 
     return $mouvement;
   }
-        
-  public function getDroitCVO($interpro = 'INTERPRO-inter-loire') {
-    return $this->getCepage()->getConfig()->getDroitCVO($this->getDocument()->getPeriode(), $interpro);
-  }
+
 }

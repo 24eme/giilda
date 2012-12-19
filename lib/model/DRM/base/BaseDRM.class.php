@@ -7,6 +7,7 @@
  * @property string $_id
  * @property string $_rev
  * @property string $type
+ * @property string $region
  * @property acCouchdbJson $editeurs
  * @property string $apurement_possible
  * @property string $raison_rectificative
@@ -15,12 +16,14 @@
  * @property string $periode
  * @property string $precedente
  * @property string $version
+ * @property string $numero_archive
  * @property acCouchdbJson $droits
  * @property DRMDeclaration $declaration
- * @property DRMDeclarant $declarant
+ * @property acCouchdbJson $declarant
  * @property DRMDeclaratif $declaratif
  * @property string $identifiant
  * @property string $mode_de_saisie
+ * @property string $commentaire
  * @property acCouchdbJson $interpros
  * @property acCouchdbJson $valide
  * @property acCouchdbJson $douane
@@ -32,6 +35,8 @@
  * @method string set_rev()
  * @method string getType()
  * @method string setType()
+ * @method string getRegion()
+ * @method string setRegion()
  * @method acCouchdbJson getEditeurs()
  * @method acCouchdbJson setEditeurs()
  * @method string getApurementPossible()
@@ -48,18 +53,22 @@
  * @method string setPrecedente()
  * @method string getVersion()
  * @method string setVersion()
+ * @method string getNumeroArchive()
+ * @method string setNumeroArchive()
  * @method acCouchdbJson getDroits()
  * @method acCouchdbJson setDroits()
  * @method DRMDeclaration getDeclaration()
  * @method DRMDeclaration setDeclaration()
- * @method DRMDeclarant getDeclarant()
- * @method DRMDeclarant setDeclarant()
+ * @method acCouchdbJson getDeclarant()
+ * @method acCouchdbJson setDeclarant()
  * @method DRMDeclaratif getDeclaratif()
  * @method DRMDeclaratif setDeclaratif()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
  * @method string getModeDeSaisie()
  * @method string setModeDeSaisie()
+ * @method string getCommentaire()
+ * @method string setCommentaire()
  * @method acCouchdbJson getInterpros()
  * @method acCouchdbJson setInterpros()
  * @method acCouchdbJson getValide()

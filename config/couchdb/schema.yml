@@ -226,6 +226,13 @@ DRM:
                                                                                                               definition:
                                                                                                                 fields:
                                                                                                                   '*': {  }
+                                                                                                            cvo:
+                                                                                                              type: collection
+                                                                                                              class: DRMDetailDroit
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  taux: { type: float }
+                                                                                                                  volume_taxable: { type: float }
                                                                                                             stocks_debut:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud

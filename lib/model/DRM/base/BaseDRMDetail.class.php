@@ -7,11 +7,16 @@
  * @property integer $pas_de_mouvement_check
  * @property float $total_debut_mois
  * @property float $total_entrees
+ * @property float $total_recolte
  * @property float $total_sorties
+ * @property float $total_facturable
  * @property float $total
+ * @property string $produit_libelle
  * @property acCouchdbJson $labels
  * @property string $label_supplementaire
  * @property acCouchdbJson $millesimes
+ * @property DRMDetailDroit $cvo
+ * @property DRMDetailDroit $douane
  * @property DRMDetailNoeud $stocks_debut
  * @property DRMDetailNoeud $entrees
  * @property DRMDetailNoeud $sorties
@@ -23,16 +28,26 @@
  * @method float setTotalDebutMois()
  * @method float getTotalEntrees()
  * @method float setTotalEntrees()
+ * @method float getTotalRecolte()
+ * @method float setTotalRecolte()
  * @method float getTotalSorties()
  * @method float setTotalSorties()
+ * @method float getTotalFacturable()
+ * @method float setTotalFacturable()
  * @method float getTotal()
  * @method float setTotal()
+ * @method string getProduitLibelle()
+ * @method string setProduitLibelle()
  * @method acCouchdbJson getLabels()
  * @method acCouchdbJson setLabels()
  * @method string getLabelSupplementaire()
  * @method string setLabelSupplementaire()
  * @method acCouchdbJson getMillesimes()
  * @method acCouchdbJson setMillesimes()
+ * @method DRMDetailDroit getCvo()
+ * @method DRMDetailDroit setCvo()
+ * @method DRMDetailDroit getDouane()
+ * @method DRMDetailDroit setDouane()
  * @method DRMDetailNoeud getStocksDebut()
  * @method DRMDetailNoeud setStocksDebut()
  * @method DRMDetailNoeud getEntrees()
