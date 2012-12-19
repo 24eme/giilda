@@ -5,9 +5,10 @@
  */
 
 class DRMESDetailCooperative extends BaseDRMESDetailCooperative {
+
     public function getDetail() {
         
-        return $this->getParent()->getParent()->getParent();
+        return $this->getParent()->getProduitDetail();
     }
 
     public function getIdentifiantLibelle() {

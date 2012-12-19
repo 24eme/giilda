@@ -180,11 +180,6 @@ class DRMDetail extends BaseDRMDetail {
     return strtolower(str_replace($this->getDocument()->declaration->getHash(), '', str_replace('/', '_', preg_replace('|\/[^\/]+\/DEFAUT|', '', $this->getHash()))));
   }	
   
-  public function addVrac($contrat_numero, $volume) {
-    $contratVrac = $this->vrac->add($contrat_numero."");
-    $contratVrac->volume = $volume*1 ;
-  }
-
   public function hasContratVrac() {
     $rows = $this->getContratsVrac();
     return count($rows);
@@ -199,7 +194,6 @@ class DRMDetail extends BaseDRMDetail {
     
       return $this->getDocument()->isModifiedMother($this->getHash(), $key);
   }
-
 
   public function getDroitVolume($type) {
     
@@ -316,12 +310,24 @@ class DRMDetail extends BaseDRMDetail {
     $mouvement->type_hash = $hash;
     $mouvement->type_libelle = $config->getLibelle();
     $mouvement->volume = $volume;
-    $mouvement->facturable = $config->facturable;
+    $mouvement->facturable = $this->isFacturable();
     $mouvement->date = $this->getDocument()->getDate();
 
     return $mouvement;
   }
-        
+  
+  public function isFacturable() {
+    return $this->getConfig()->get($hash)->facturable && $this->getCVO();
+  }
+
+  public function getCVO() {
+    $cvo = $this->_get('cvo');
+    if (!$cvo) {
+      $this->_set('cvo', $this->getDroitCVO()->taux);
+    }
+    return $this->_get('cvo');
+  }
+
   public function getDroitCVO($interpro = 'INTERPRO-inter-loire') {
     return $this->getCepage()->getConfig()->getDroitCVO($this->getDocument()->getPeriode(), $interpro);
   }

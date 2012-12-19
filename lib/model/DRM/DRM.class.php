@@ -317,13 +317,27 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function updateVracs() {        
-        foreach ($this->getProduitsDetails() as $d) {            
-            foreach ($d->sorties->vrac_details as $vrac_detail) {                
-                $vrac = VracClient::getInstance()->find($vrac_detail->identifiant);
-                $vrac->enleverVolume($vrac_detail->volume);
-                $vrac->save();
-            }          
-        }     
+        if(!$this->isValidee()) {
+
+            throw new sfException("La DRM doit être validée pour pouvoir enlever les volumes des contrats vracs");
+        }
+
+        $vracs = array();
+
+        foreach($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
+            if(!$mouvement->isVrac()) {
+                
+                continue;
+            }
+
+            $vrac = $mouvement->getVrac();
+            $vrac->enleverVolume($mouvement->volume * -1);
+            $vracs[$vrac->numero_contrat] = $vrac;
+        }
+
+        foreach($vracs as $vrac) {
+            $vrac->save();
+        }
     }
 
     public function setInterpros() {

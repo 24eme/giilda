@@ -215,6 +215,7 @@ DRM:
                                                                                                             total_facturable: { type: float }
                                                                                                             total: { type: float }
                                                                                                             produit_libelle: {  }
+                                                                                                            cvo: {type: float}
                                                                                                             labels:
                                                                                                               type: array_collection
                                                                                                               definition:
@@ -269,7 +270,7 @@ DRM:
                                                                                                                   regularisation: { type: float }
                                                                                                                   vrac_details:
                                                                                                                     class: DRMESDetails
-                                                                                                                    type:  array_collection
+                                                                                                                    type:  collection
                                                                                                                     definition:
                                                                                                                       fields:
                                                                                                                         '*':
@@ -282,7 +283,7 @@ DRM:
                                                                                                                               date_enlevement: {  }
                                                                                                                   export_details:
                                                                                                                     class: DRMESDetails
-                                                                                                                    type:  array_collection
+                                                                                                                    type:  collection
                                                                                                                     definition:
                                                                                                                       fields:
                                                                                                                         '*':
@@ -295,7 +296,7 @@ DRM:
                                                                                                                               date_enlevement: {  }
                                                                                                                   cooperative_details:
                                                                                                                      class: DRMESDetails
-                                                                                                                     type:  array_collection
+                                                                                                                     type:  collection
                                                                                                                      definition:
                                                                                                                        fields:
                                                                                                                          '*':
@@ -371,6 +372,7 @@ DRM:
                   organisme: {  }
       identifiant: {  }
       mode_de_saisie: {  }
+      commentaire: {}
       interpros:
         type: array_collection
         definition:

@@ -83,6 +83,9 @@ class drmActions extends sfActions {
     private function formCampagne(sfWebRequest $request, $route) {
       $this->etablissement = $this->getRoute()->getEtablissement();
       
+      if($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
+	throw sfException("L'établissement sélectionné ne déclare pas de DRM");
+
       $this->campagne = $request->getParameter('campagne');
       if (!$this->campagne) {
 	$this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
@@ -191,9 +194,18 @@ class drmActions extends sfActions {
         $this->drm = $this->getRoute()->getDRM();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
 
+	$this->form = new DRMCommentaireForm($this->drm);
+
         if ($request->isMethod(sfWebRequest::POST)) {
-            $this->drm->validate();
-            $this->drm->save();
+	  $this->form->bind($request->getParameter($this->form->getName()));
+	  $this->form->save();
+
+	  if ($request->getParameter('brouillon')) {
+	    return $this->redirect('drm_etablissement', $this->drm->getEtablissement());
+	  }
+	  
+	  $this->drm->validate();
+	  $this->drm->save();
 
             DRMClient::getInstance()->generateVersionCascade($this->drm);
 
