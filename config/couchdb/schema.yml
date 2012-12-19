@@ -13,7 +13,7 @@ DS:
       periode: {}
       numero_archive: {  }
       statut: {}
-      commentaires: {}
+      commentaire: {}
       declarant:
         type: collection
         definition:
@@ -39,6 +39,7 @@ DS:
                   produit_libelle: {}
                   produit_hash: {}
                   stock_initial: { type: float }
-                  stock_revendique: { type: float }
-                  vci: { }
-                  reserve_qualitative: { }
+                  stock_declare: { type: float }
+                  vci: { type: float }
+                  reserve_qualitative: { type: float }
+                  stock_elaboration: { type: float, required: false }

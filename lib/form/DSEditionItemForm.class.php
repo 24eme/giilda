@@ -11,14 +11,14 @@ class DSEditionItemForm extends acCouchdbObjectForm {
     public function configure() {
 
         
-        $this->setWidget('stock_revendique', new sfWidgetFormInput());    
+        $this->setWidget('stock_declare', new sfWidgetFormInput());    
 
         $this->widgetSchema->setLabels(array(
-            'stock_revendique' => 'Volume Stock'
+            'stock_declare' => 'Volume Stock'
         ));
 
         $this->setValidators(array(
-            'stock_revendique' => new sfValidatorNumber(array('required' => false))
+            'stock_declare' => new sfValidatorNumber(array('required' => false))
         ));
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);  
     }

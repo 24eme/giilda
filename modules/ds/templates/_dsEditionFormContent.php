@@ -12,7 +12,7 @@ echo $form->renderGlobalErrors();
         <table id="ds_edition_table" class="table_recap">
         <thead>
             <tr>
-                <th>Produits</th>
+                <th colspan="2">Produits</th>
                 <th>Volume saisie</th>
                 <th class="colonne_vci">VCI</th>
                 <th class="colonne_reservequalitative">Réserve qual.</th>
@@ -21,10 +21,10 @@ echo $form->renderGlobalErrors();
         <tbody class="ds_edition_tableBody">
             <?php
             foreach ($declarations as $key => $declaration){
-                
-                    $prod_vol = $declaration->produit_libelle;
-                    if($declaration->stock_initial) $prod_vol .= ' ('.getArialFloat($declaration->stock_initial).' hl)';
-                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $declaration, 'prod_vol' => $prod_vol));
+                    $prod_vol = '';
+                    if($declaration->stock_initial) 
+		      $prod_vol = getArialFloat($declaration->stock_initial);
+                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $declaration, 'prod_libelle' => $declaration->produit_libelle, 'prod_vol' => $prod_vol));
                
             }
     ?>
@@ -51,11 +51,11 @@ echo $form->renderGlobalErrors();
 
         <div id="commentaires" class="section_label_maj">
             <label>
-                <?php echo $form['commentaires']->renderLabel() ?>
+                <?php echo $form['commentaire']->renderLabel() ?>
             </label>
             <div class="bloc_form">
-                <?php echo $form['commentaires']->renderError() ?>       
-                <?php echo $form['commentaires']->render() ?>
+                <?php echo $form['commentaire']->renderError() ?>       
+                <?php echo $form['commentaire']->render() ?>
             </div>
         </div> 
         

@@ -9,31 +9,41 @@ class DSEditionForm extends acCouchdbForm {
         $this->ds = $ds;
         $defaults = array();
         foreach ($this->ds->getDeclarations() as $key => $value) {
-	  $defaults['volumeStock_'.$key] = $value->stock_revendique;
+	  $defaults['volumeStock_'.$key] = $value->stock_declare;
 	  $defaults['vci_'.$key] = $value->vci;
 	  $defaults['reserveQualitative_'.$key] = $value->reserve_qualitative;
+	  if ($value->exist('stock_elaboration')) {
+	    $defaults['elaboration_'.$key] = $value->stock_elaboration;
+	  }
         }
-        $defaults['commentaires'] = $this->ds->commentaires;
+        $defaults['commentaire'] = $this->ds->commentaire;
         parent::__construct($ds, $defaults, $options, $CSRFSecret);
     }
 
     public function configure() {
         foreach ($this->ds->declarations as $key => $declaration) {
 	  $this->setWidget('volumeStock_' . $key, new sfWidgetFormInputFloat(array(), array('size' => '6')));
-	  $this->setWidget('vci_' . $key, new sfWidgetFormInput(array(), array('size' => '6')));
-	  $this->setWidget('reserveQualitative_' . $key, new sfWidgetFormInput(array(), array('size' => '6')));
-
-	  $this->widgetSchema->setLabel('volumeStock_' . $key, 'Volume Stock');
-	  $this->widgetSchema->setLabel('vci_' . $key, 'VCI');
-	  $this->widgetSchema->setLabel('reserveQualitative_' . $key, 'Reserve qualitative');
-	  
 	  $this->setValidator('volumeStock_' . $key, new sfValidatorNumber(array('required' => false)));
-	  $this->setValidator('vci_' . $key, new sfValidatorString(array('required' => false)));
-	  $this->setValidator('reserveQualitative_' . $key, new sfValidatorString(array('required' => false)));
+	  $this->widgetSchema->setLabel('volumeStock_' . $key, 'Volume Stock');
+
+	  $this->setWidget('vci_' . $key, new sfWidgetFormInput(array(), array('size' => '6')));
+	  $this->setValidator('vci_' . $key, new sfValidatorNumber(array('required' => false)));
+	  $this->widgetSchema->setLabel('vci_' . $key, 'VCI');
+
+	  $this->setWidget('reserveQualitative_' . $key, new sfWidgetFormInput(array(), array('size' => '6')));	  
+	  $this->setValidator('reserveQualitative_' . $key, new sfValidatorNumber(array('required' => false)));
+	  $this->widgetSchema->setLabel('reserveQualitative_' . $key, 'Reserve qualitative');
+
+	  if ($declaration->hasElaboration()){
+	    $this->setWidget('elaboration_' . $key, new sfWidgetFormInput(array(), array('size' => '6')));	  
+	    $this->setValidator('elaboration_' . $key, new sfValidatorNumber(array('required' => false)));
+	    $this->widgetSchema->setLabel('elaboration_' . $key, 'Reserve qualitative');
+	  }
         }
-        $this->setWidget('commentaires', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
-        $this->widgetSchema->setLabel('commentaires', 'Commentaires :');
-        $this->setValidator('commentaires', new sfValidatorString(array('required' => false)));
+        $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
+        $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
+        $this->widgetSchema->setLabel('commentaire', 'Commentaires :');
+
         $this->widgetSchema->setNameFormat('ds[%s]');
     }
 
@@ -42,25 +52,33 @@ class DSEditionForm extends acCouchdbForm {
 
         foreach ($values as $prodKey => $volumeRev) {
 
-            if ($prodKey == 'commentaires') {
-                $this->getDocument()->commentaires = $volumeRev;
+            if ($prodKey == 'commentaire') {
+                $this->getDocument()->commentaire = $volumeRev;
             } else {
-                if (substr($prodKey, 0, strlen('volumeStock_')) === 'volumeStock_')
-                    $this->updateVolumeStock(substr($prodKey,strlen('volumeStock_')), $volumeRev);
-                if (substr($prodKey, 0, strlen('vci_')) === 'vci_')
-                    $this->updateVCI(substr($prodKey,strlen('vci_')), $volumeRev);
-                 if (substr($prodKey, 0, strlen('reserveQualitative_')) === 'reserveQualitative_')
-                    $this->updateReserveQualitative(substr($prodKey,strlen('reserveQualitative_')), $volumeRev);
+	      if (substr($prodKey, 0, strlen('volumeStock_')) === 'volumeStock_')
+		$this->updateVolumeStock(substr($prodKey,strlen('volumeStock_')), $volumeRev);
+	      if (substr($prodKey, 0, strlen('vci_')) === 'vci_')
+		$this->updateVCI(substr($prodKey,strlen('vci_')), $volumeRev);
+	      if (substr($prodKey, 0, strlen('reserveQualitative_')) === 'reserveQualitative_')
+		$this->updateReserveQualitative(substr($prodKey,strlen('reserveQualitative_')), $volumeRev);
+	      if (substr($prodKey, 0, strlen('elaboration_')) === 'elaboration_')
+		$this->updateElaborationStock(substr($prodKey,strlen('elaboration_')), $volumeRev);
             }
         }
     }
 
     public function updateVolumeStock($prodKey, $volumeRev) {
         if ($this->getDocument()->declarations->exist($prodKey)) {
-            $this->getDocument()->declarations[$prodKey]->stock_revendique = $volumeRev;
+            $this->getDocument()->declarations[$prodKey]->stock_declare = $volumeRev;
         }
     }
-        
+ 
+    public function updateElaborationStock($prodKey, $volumeRev) {
+      if ($this->getDocument()->declarations->exist($prodKey)) {
+	$this->getDocument()->declarations[$prodKey]->add('stock_elaboration', $volumeRev);
+      }
+    }
+       
     public function updateVCI($prodKey, $volumeRev) {
         if ($this->getDocument()->declarations->exist($prodKey)) {
             $this->getDocument()->declarations[$prodKey]->vci = $volumeRev;

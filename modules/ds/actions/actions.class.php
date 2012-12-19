@@ -43,8 +43,13 @@ class dsActions extends sfActions {
 	 if ($this->generationOperateurForm->isValid()) {
            $values = $this->generationOperateurForm->getValues();
            $date = $values["date_declaration"];
-	   $declarationDs = DSClient::getInstance()->createDsByEtb($this->etablissement, $date);     
-           $declarationDs->save();
+	   try {
+	     $declarationDs = DSClient::getInstance()->createDsByEtb($this->etablissement, $date);     
+	     $declarationDs->save();
+	   }catch(sfException $e) {
+	     $this->getUser()->setFlash('global_error', $e->getMessage());
+	     $this->redirect('ds_etablissement', $this->etablissement);
+	   }
            $this->redirect('ds_generation_operateur', array('identifiant' => $declarationDs->identifiant, 'periode' => $declarationDs->periode));
 	 }
        }
