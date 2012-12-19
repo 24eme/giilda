@@ -25,7 +25,11 @@
 
 		<?php include_partial('drm/recap', array('drm' => $drm)) ?>
 		<?php include_partial('drm/mouvements', array('mouvements' => $mouvements)) ?>
-
+   <br/>
+   <table class="table_recap">
+   <tr><th>Commentaire</th></tr>
+   <tr><td><?php echo $drm->commentaire; ?></td></tr>
+   </table>
 		<br />
 		<div id="btn_etape_dr">
 			<a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant, 'campagne'=>$drm->campagne)); ?>" class="btn_etape_prec" id="facture"><span>Retour à mon espace</span></a> 

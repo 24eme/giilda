@@ -433,18 +433,18 @@ EOF;
       throw new sfException(sprintf("Le contrat '%s' n'existe pas", $numero_contrat));
     }
 
-    $produit->sorties->vrac_details->add(null, array("identifiant" => 'VRAC-'.$numero_contrat,
-                                                     "volume" => $this->convertToFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]),
-                                                     "date_enlevement" => $line[self::CSV_CONTRAT_DATE_ENLEVEMENT]));
+    $produit->sorties->vrac_details->addDetail($contrat->get('_id'),
+                                               $this->convertToFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]),
+                                               $line[self::CSV_CONTRAT_DATE_ENLEVEMENT]);
   }
 
   public function importLigneVente($drm, $line) {
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) > 0) {
-      $produit->sorties->export_details->add(null, array("identifiant" => $this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]),
-                                                       "volume" => $this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]),
-                                                       "date_enlevement" => $line[self::CSV_VENTE_DATE_SORTIE]));
+      $produit->sorties->export_details->addDetail($this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]),
+                                                   $this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]),
+                                                   $line[self::CSV_VENTE_DATE_SORTIE]);
     } elseif($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) < 0) {
       $produit->entrees->reintegration += abs($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]));
     }
@@ -506,9 +506,9 @@ EOF;
         throw new sfException(sprintf("L'établissement cave coop '%s' n'existe pas", $line[self::CSV_CAVE_CODE_COOPERATEUR]));
       }
 
-      $produit->sorties->cooperative_details->add(null, array("identifiant" => $etablissement->getIdentifiant(),
-                                                              "volume" => $this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]),
-                                                              "date_enlevement" => $line[self::CSV_CAVE_DATE_MOUVEMENT]));
+      $produit->sorties->cooperative_details->addDetail($etablissement->get('_id'),
+                                                        $this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]),
+                                                        $line[self::CSV_CAVE_DATE_MOUVEMENT]);
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
