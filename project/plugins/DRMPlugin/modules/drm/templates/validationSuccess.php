@@ -19,9 +19,11 @@
             <?php include_partial('drm/mouvements', array('mouvements' => $mouvements)) ?>
 
             <br />
+
+            <?php echo $form ; ?>
             <div id="btn_etape_dr">
                 <a href="<?php echo url_for('drm_edition', $drm) ?>" class="btn_etape_prec" id="facture"><span>Précédent</span></a>
-                <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn_brouillon btn_majeur">Enregistrer en brouillon</a>
+                <button type="submit" name="brouillon" value="brouillon" class="btn_brouillon btn_majeur"><span>Enregistrer en brouillon</span></button>
                 <button type="submit" class="btn_etape_suiv" id="facture"><span>Valider</span></button> 
             </div>
         </form>
