@@ -100,7 +100,7 @@ Vrac:
       #cvo_repartition float ou string? "50/50" ou 0.5
       cvo_repartition: { }
       #commentaires
-      commentaires: { }
+      commentaire: { }
 
 #Validations
       date_campagne: { }

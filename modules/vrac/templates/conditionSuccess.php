@@ -51,22 +51,21 @@
                             <?php echo $form['date_campagne']->render() ?>  
                             <span>(Modifiable ultérieurement)</span>
                         </div>
+                        <div id="commentaire" class="section_label_maj">
+                            <label>
+                                <?php echo $form['commentaire']->renderLabel() ?>
+                            </label>
+                            <div class="bloc_form">
+                                <?php echo $form['commentaire']->renderError() ?>       
+                                <?php echo $form['commentaire']->render() ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div id="commentaires" class="section_label_maj">
-                    <label>
-                        <?php echo $form['commentaires']->renderLabel() ?>
-                    </label>
-                    <div class="bloc_form">
-                        <?php echo $form['commentaires']->renderError() ?>       
-                        <?php echo $form['commentaires']->render() ?>
-                    </div>
-                </div> 
-            </div>
-
             <div class="btn_etape">
                 <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
                 <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
+            </div>
             </div>
         </form>
     </div>

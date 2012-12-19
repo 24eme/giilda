@@ -67,9 +67,20 @@ class VracClient extends acCouchdbClient {
       return acCouchdbManager::getClient("Vrac");
     }
 
-    public function getId($numeroContrat)
+    public function getId($id_or_numerocontrat)
     {
-      return 'VRAC-'.$numeroContrat;
+      $id = $id_or_numerocontrat;
+      if (strpos($id_or_numerocontrat, 'VRAC-') === false) {
+          $id = 'VRAC-' . $id_or_numerocontrat;
+      }
+
+      return $id;
+    }
+
+    public function getNumeroContrat($id_or_numerocontrat)
+    {
+
+      return str_replace('VRAC-', '', $id_or_numerocontrat);
     }
 
     public function buildCampagne($date) {

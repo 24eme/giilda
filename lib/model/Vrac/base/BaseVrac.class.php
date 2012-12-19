@@ -44,7 +44,7 @@
  * @property float $prix_total_definitif
  * @property string $cvo_nature
  * @property string $cvo_repartition
- * @property string $commentaires
+ * @property string $commentaire
  * @property string $date_campagne
  * @property string $date_signature
  * @property float $volume_propose
