@@ -267,7 +267,7 @@ class DRMDetail extends BaseDRMDetail {
       $mouvement->produit_libelle = $this->getLibelle("%a% %m% %l% %co% %ce% %la%");
       $mouvement->facture = 0;
       $mouvement->cvo = $this->getCVOTaux();
-      $mouvement->facturable = $this->getConfig()->get($hash."/".$key)->facturable && $mouvement->cvo;
+      $mouvement->facturable = ($this->getConfig()->get($hash."/".$key)->facturable && $mouvement->cvo) ? 1 : 0;
       $mouvement->version = $this->getDocument()->getVersion();
       $mouvement->date_version = date('Y-m-d');
       $mouvement->categorie = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE;
