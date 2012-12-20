@@ -1,4 +1,3 @@
-	
     <div id="action" class="bloc_col">
             <h2>Action</h2>
 

@@ -36,7 +36,7 @@ use_helper('Float');
         ?></span>
     </div>
     
-    <div id="conditions_recapitulatif_commentaires" class="ligne_form ligne_form_alt">
+    <div id="conditions_recapitulatif_commentaire" class="ligne_form ligne_form_alt">
         <label>Commentaires&nbsp;: </label>
              <span style="width: 100%; height: 100%;"><?php 
             echo $vrac->commentaire;

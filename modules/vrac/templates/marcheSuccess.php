@@ -70,55 +70,67 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
         }
     });
 </script>
-<div id="contenu">
-    <div id="rub_contrats">
-        <section id="principal">
-            <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'actif' => 2)); ?>
-            <div id="contenu_etape">  
-                <form id="vrac_marche" method="post" action="<?php echo url_for('vrac_marche', $vrac) ?>">    
-                    
-                    <?php echo $form->renderHiddenFields() ?>
-                    <?php echo $form->renderGlobalErrors() ?>
+<section id="principal">
+    <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'actif' => 2)); ?>
+    <div id="contenu_etape">  
+        <form id="vrac_marche" method="post" action="<?php echo url_for('vrac_marche', $vrac) ?>">    
+
+            <?php echo $form->renderHiddenFields() ?>
+            <?php echo $form->renderGlobalErrors() ?>
 
 
-                    <div id="marche">
+            <div id="marche">
 
-                        <!--  Affichage des l'option original  -->
-                        <div id="original" class="original section_label_strong">
-                            <?php echo $form['original']->renderLabel() ?>
-                            <?php echo $form['original']->render() ?>        
-                            <?php echo $form['original']->renderError(); ?>
-                        </div>
+                <!--  Affichage des l'option original  -->
+                <div id="original" class="original section_label_strong">
+                    <?php echo $form['original']->renderLabel() ?>
+                    <?php echo $form['original']->render() ?>        
+                    <?php echo $form['original']->renderError(); ?>
+                </div>
 
-                        <!--  Affichage des transactions disponibles  -->
-                        <div id="type_transaction" class="type_transaction section_label_maj">
-                            <?php echo $form['type_transaction']->renderLabel() ?>
-                            <?php echo $form['type_transaction']->renderError(); ?>                    
-                            <?php echo $form['type_transaction']->render() ?>        
-                        </div>
+                <!--  Affichage des transactions disponibles  -->
+                <div id="type_transaction" class="type_transaction section_label_maj">
+                    <?php echo $form['type_transaction']->renderLabel() ?>
+                    <?php echo $form['type_transaction']->renderError(); ?>                    
+                    <?php echo $form['type_transaction']->render() ?>        
+                </div>
 
-                        <!--  Affichage des produits, des labels et du stock disponible  -->
-                        <div id="vrac_marche_produitLabel" class="section_label_maj">
-                            <?php include_partial('marche_produitLabel', array('form' => $form)); ?>
-                        </div>
+                <!--  Affichage des produits, des labels et du stock disponible  -->
+                <div id="vrac_marche_produitLabel" class="section_label_maj">
+                    <?php include_partial('marche_produitLabel', array('form' => $form)); ?>
+                </div>
 
-                        <!--  Affichage des volumes et des prix correspondant  -->
-                        <div id="vrac_marche_volumePrix" class="section_label_maj">
-                            <?php include_partial('marche_volumePrix', array('form' => $form)); ?>
-                        </div>
+                <!--  Affichage des volumes et des prix correspondant  -->
+                <div id="vrac_marche_volumePrix" class="section_label_maj">
+                    <?php include_partial('marche_volumePrix', array('form' => $form)); ?>
+                </div>
 
-                    </div>
+            </div>
 
-                    <div class="btn_etape">
-                        <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
-                        <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>     
-                        </div>
-                </form>
-            </div>      
-        </section>
-        <aside id="colonne">
-            <?php include_partial('colonne', array('vrac' => $form->getObject(), 'contratNonSolde' => $contratNonSolde)); ?>
-        </aside>
-    </div>
+            <div class="btn_etape">
+                <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
+                <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>     
+            </div>
+        </form>
+    </div>      
+</section>
 
+<?php
+slot('colApplications');
+/*
+ * Inclusion du panel de progression d'édition du contrat
+ */
+if(!$contratNonSolde) include_partial('contrat_progression', array('vrac' => $vrac));
 
+/*
+ * Inclusion du panel pour les contrats similaires
+ */
+include_partial('contratsSimilaires', array('vrac' => $vrac));
+
+/*
+ * Inclusion des Contacts
+ */
+include_partial('contrat_infos_contact', array('vrac' => $vrac));
+
+end_slot();
+?>  

@@ -328,4 +328,28 @@ class Vrac extends BaseVrac {
         return $qfloat;
     }
 
+    public function getCoordonneesVendeur(){
+        return $this->getCoordonnees($this->vendeur_identifiant);
+    }
+
+    public function getCoordonneesAcheteur(){
+        return $this->getCoordonnees($this->acheteur_identifiant);
+    }
+    
+    public function getCoordonneesMandataire(){
+        return $this->getCoordonnees($this->mandataire_identifiant);
+    }
+    
+    public function getCoordonnees($id_etb) {
+        if($etb = EtablissementClient::getInstance()->retrieveById($id_etb))
+             return $etb->getContact();
+        $compte = new stdClass();
+        $compte->nom_a_afficher = 'Nom Prénom';
+        $compte->telephone_bureau = '00 00 00 00 00';
+        $compte->telephone_mobile = '00 00 00 00 00';
+        $compte->fax = '00 00 00 00 00';
+        $compte->email = 'email@email.com';
+        return $compte;
+    }
+    
 }
