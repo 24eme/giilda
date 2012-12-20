@@ -93,9 +93,7 @@ class SV12Client extends acCouchdbClient {
     }
     
     public function findContratsByEtablissementAndCampagne($identifiant, $campagne) {   
-      return array_merge(VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  $campagne, VracClient::TYPE_TRANSACTION_MOUTS)->rows,
-			 VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  $campagne, VracClient::TYPE_TRANSACTION_RAISINS)->rows);
-        
+      return VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  $campagne, array('start' => VracClient::TYPE_TRANSACTION_MOUTS, 'end' => VracClient::TYPE_TRANSACTION_RAISINS), 10000)->rows;    
     }
     
     public function getLibelleFromId($id) {
