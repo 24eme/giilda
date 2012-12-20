@@ -56,7 +56,7 @@
  
  */
 
-abstract class BaseDRMMouvement extends acCouchdbDocumentTree {
+abstract class BaseDRMMouvement extends Mouvement {
                 
     public function configureTree() {
        $this->_root_class_name = 'DRM';

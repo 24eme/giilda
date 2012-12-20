@@ -410,6 +410,7 @@ DRM:
                 fields:
                   '*':
                     class: DRMMouvement
+                    inheritance: Mouvement
                     type: collection
                     definition:
                       fields:

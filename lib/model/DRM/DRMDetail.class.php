@@ -264,7 +264,6 @@ class DRMDetail extends BaseDRMDetail {
 
       $mouvement = DRMMouvement::freeInstance($this->getDocument());
       $mouvement->produit_hash = $this->getCepage()->getConfig()->getHash();
-      $mouvement->produit_libelle = $this->getLibelle("%a% %m% %l% %co% %ce% %la%");
       $mouvement->facture = 0;
       $mouvement->cvo = $this->getCVOTaux();
       $mouvement->facturable = ($this->getConfig()->get($hash."/".$key)->facturable && $mouvement->cvo) ? 1 : 0;
