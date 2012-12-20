@@ -160,9 +160,16 @@ class VracClient extends acCouchdbClient {
     public function retrieveBySoussigneAndType($soussigneId,$campagne,$type,$limit=300) {
       if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
 	throw new sfException("wrong campagne format ($campagne)");
+      if (is_array($type)) {
+	$typestart = $type['start'];
+	$typeend = $type['end'];	
+      }else {
+	$typestart = $type;
+	$typeend = $type;
+      }
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-      $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$campagne,$type))
-	->endkey(array('TYPE',$soussigneId,$campagne,$type, array()));
+      $bySoussigneTypeQuery = $this->startkey(array('TYPE',$soussigneId,$campagne,$typestart))
+	->endkey(array('TYPE',$soussigneId,$campagne,$typeend, array()));
       
       if ($limit){
 	$bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
