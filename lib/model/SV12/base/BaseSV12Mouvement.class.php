@@ -56,7 +56,7 @@
  
  */
 
-abstract class BaseSV12Mouvement extends acCouchdbDocumentTree {
+abstract class BaseSV12Mouvement extends Mouvement {
                 
     public function configureTree() {
        $this->_root_class_name = 'SV12';

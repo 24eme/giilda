@@ -11,6 +11,8 @@
  * @property string $campagne
  * @property string $periode
  * @property string $version
+ * @property string $region
+ * @property string $numero_archive
  * @property acCouchdbJson $declarant
  * @property acCouchdbJson $totaux
  * @property acCouchdbJson $contrats
@@ -31,6 +33,10 @@
  * @method string setPeriode()
  * @method string getVersion()
  * @method string setVersion()
+ * @method string getRegion()
+ * @method string setRegion()
+ * @method string getNumeroArchive()
+ * @method string setNumeroArchive()
  * @method acCouchdbJson getDeclarant()
  * @method acCouchdbJson setDeclarant()
  * @method acCouchdbJson getTotaux()

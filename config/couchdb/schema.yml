@@ -71,6 +71,7 @@ SV12:
                 fields:
                   '*':
                     class: SV12Mouvement
+                    inheritance: Mouvement
                     type: collection
                     definition:
                       fields:
