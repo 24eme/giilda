@@ -341,7 +341,7 @@ class Vrac extends BaseVrac {
     }
     
     public function getCoordonnees($id_etb) {
-        if($etb = EtablissementClient::getInstance()->retrieveById($id_etb))
+        if($etb = EtablissementClient::getInstance()->find($id_etb))
              return $etb->getContact();
         $compte = new stdClass();
         $compte->nom_a_afficher = 'Nom Prénom';

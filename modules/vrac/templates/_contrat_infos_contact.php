@@ -3,7 +3,8 @@ $nouveau = is_null($vrac);
 
 $vendeur_coord = $vrac->getCoordonneesVendeur();
 $acheteur_coord = $vrac->getCoordonneesAcheteur();
-$mandataire_coord = $vrac->getCoordonneesMandataire();
+if($vrac->mandataire_identifiant)
+    $mandataire_coord = $vrac->getCoordonneesMandataire();
 ?>
 
 <div id="infos_contact" class="bloc_col">
@@ -43,6 +44,7 @@ $mandataire_coord = $vrac->getCoordonneesMandataire();
                     <?php endif; ?>
                 </ul>
             </li>
+            <?php if($vrac->mandataire_identifiant): ?>
             <li id="infos_contact_mendataire">
                 <a href="<?php echo ($mandataire_coord->identifiant)? url_for('compte_modification',
                         array('identifiant' => $mandataire_coord->identifiant)) : '#'; ?>">Coordonnées mandataire</a>
@@ -59,6 +61,7 @@ $mandataire_coord = $vrac->getCoordonneesMandataire();
                     <?php endif; ?>
                 </ul>
             </li>
+            <?php endif; ?>
         </ul>
     </div>
 </div>
