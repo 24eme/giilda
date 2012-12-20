@@ -35,7 +35,7 @@ class Configuration extends BaseConfiguration {
       	return ConfigurationProduitsView::getInstance()->findProduits()->rows;
     }
 
-    public function formatProduits($format = "%g% %a% %m% %l% %co% %ce%") {
+    public function formatProduits($format = "%g% %a% %m% %l% %co% %ce% (%code_produit%)") {
 
     	return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits(), $format);
     }

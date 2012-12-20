@@ -147,7 +147,7 @@ class ConfigurationProduitsView extends acCouchdbView
 		  }
 		}
 
-        $libelle = preg_replace('/ +/', ' ', $libelle);
+    $libelle = preg_replace('/ +/', ' ', $libelle);
 
 		return $libelle;
   	}
@@ -171,12 +171,12 @@ class ConfigurationProduitsView extends acCouchdbView
 		  }
 		}
 
-        $code = preg_replace('/ +/', ' ', $code);
+    $code = preg_replace('/ +/', ' ', $code);
 
 		return $code;
   	}
 
-  	public function formatProduits($produits, $format = "%g% %a% %m% %l% %co% %ce% (%code%)") {
+  	public function formatProduits($produits, $format = "%g% %a% %m% %l% %co% %ce% (%code_produit%)") {
   		$produits_format = array();
   		foreach($produits as $produit) {
   			$produits_format[$produit->key[self::KEY_HASH]] = $this->formatProduit($produit, $format);
@@ -187,8 +187,20 @@ class ConfigurationProduitsView extends acCouchdbView
   	}
 
   	public function formatProduit($produit, $format = "%g% %a% %m% %l% %co% %ce%") {
-  		
-        return $this->formatLibelles($produit->value->libelles, $format).' ('.$produit->key[self::KEY_CODE].')';
+        $libelle = $this->formatLibelles($produit->value->libelles, $format);
+
+        $libelle = str_replace(array('%code%', 
+                          '%code_produit%', 
+                          '%code_comptable%'), 
+                    array($produit->key[self::KEY_CODE], 
+                          $produit->key[self::KEY_CODE_PRODUIT], 
+                          $produit->key[self::KEY_CODE_COMPTABLE]),
+                    $libelle);
+        $libelle = str_replace("()", "", $libelle);
+        $libelle = preg_replace('/ +/', ' ', $libelle);
+
+
+        return $libelle;
   	}
 
     public function formatProduitsHashByCodeProduit($produits) {

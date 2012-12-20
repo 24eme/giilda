@@ -24,7 +24,7 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
         return ConfigurationProduitsView::getInstance()->formatProduitsHashByCodeProduit($this->getProduits($interpro));
     }
 
-    public function formatProduits($interpro, $departement = null, $format = "%g% %a% %m% %l% %co% %ce%") {
+    public function formatProduits($interpro, $departement = null, $format = "%g% %a% %m% %l% %co% %ce% (%code_produit%)") {
 
         return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits($interpro), $format);
     }
