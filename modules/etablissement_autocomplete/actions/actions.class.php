@@ -5,7 +5,7 @@ class etablissement_autocompleteActions extends sfActions
 
   	public function executeAll(sfWebRequest $request) {
 	    $interpro = $request->getParameter('interpro_id');
-	    $json = $this->matchEtablissements(EtablissementAllView::getInstance()->findByInterpro($interpro)->rows,
+	    $json = $this->matchEtablissements(EtablissementAllView::getInstance()->findByInterproAndStatut($interpro, EtablissementClient::STATUT_ACTIF)->rows,
 	    								   $request->getParameter('q'),
 	    								   $request->getParameter('limit', 100));
 
@@ -17,7 +17,7 @@ class etablissement_autocompleteActions extends sfActions
 		$familles = $request->getParameter('familles');
 		
 	    $json = $this->matchEtablissements(
-	    	EtablissementAllView::getInstance()->findByInterproAndFamilles($interpro, explode('|', $familles)),
+	    	EtablissementAllView::getInstance()->findByInterproStatutAndFamilles($interpro, EtablissementClient::STATUT_ACTIF, explode('|', $familles)),
 		    $request->getParameter('q'),
 		   	$request->getParameter('limit', 100)
 		);

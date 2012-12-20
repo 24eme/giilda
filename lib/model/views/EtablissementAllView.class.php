@@ -47,7 +47,7 @@ class EtablissementAllView extends acCouchdbView
     public function findByInterproStatutAndFamilles($interpro, $statut, array $familles) {
     	$etablissements = array();
     	foreach($familles as $famille) {
-    		$etablissements = array_merge($etablissements, $statut, $this->findByInterproStatutAndFamille($interpro, $statut, $famille));
+    		$etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, $famille)->rows);
     	}
 
     	return $etablissements;
