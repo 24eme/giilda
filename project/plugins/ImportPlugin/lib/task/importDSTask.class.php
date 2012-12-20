@@ -87,6 +87,8 @@ EOF;
       if(!$ds->getEtablissementObject()) {
         throw new sfException(sprintf("L'etablissement %s n'existe pas", $this->getIdentifiant($line)));
       }
+
+      $ds->numero_archive = $this->getNumeroArchive($line);
     }
 
     $config_produit = $this->getConfigurationHash($line[self::CSV_CODE_APPELLATION]);
@@ -102,5 +104,10 @@ EOF;
   protected function getIdentifiant($line) {
 
     return sprintf('%s%02d', $line[self::CSV_CODE_VITICULTEUR], $line[self::CSV_CODE_CHAI]);
+  }
+
+  protected function getNumeroArchive($line) {
+
+    return sprintf("%05d", $line[self::CSV_NUMERO_DECLARATION]);
   }
 }
