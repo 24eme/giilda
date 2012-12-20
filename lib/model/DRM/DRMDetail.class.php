@@ -19,6 +19,11 @@ class DRMDetail extends BaseDRMDetail {
 
   	return $this->getCepage()->getConfig()->getCodeFormat($format);
   }
+
+  public function getCodeProduit() {
+
+    return $this->getCepage()->getConfig()->getCodeProduit();
+  }
   
   /**
    *
