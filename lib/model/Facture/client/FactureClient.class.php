@@ -45,17 +45,9 @@ class FactureClient extends acCouchdbClient {
     public function createDoc($mvts, $etablissement, $emmetteur = null, $date_facturation = null) {
 
         $facture = new Facture();
-        
-        $emetteur = new stdClass();
-        $emetteur->adresse = 'Chateau de la Frémoire';        
-        $emetteur->code_postal = '44120';
-        $emetteur->ville = 'VERTOU';
-        $emetteur->service_facturation = 'Nelly ALBERT';
-        $emetteur->telephone = '02.47.60.55.12';
-        
         $facture->storeDatesCampagne($date_facturation,'2011-2012');        
         $facture->constructIds($etablissement);        
-        $facture->storeEmetteur($emetteur);
+        $facture->storeEmetteur();
         $facture->storeDeclarant();
         $facture->storeLignes($mvts,$etablissement->famille);        
         $facture->storePapillons();        

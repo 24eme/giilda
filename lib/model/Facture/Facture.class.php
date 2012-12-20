@@ -30,7 +30,25 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
         return $this->_get('campagne');
     }
 
-    public function storeEmetteur($emetteur) {
+    public function storeEmetteur() {
+        $emetteur = new stdClass();
+        switch ($this->region) {
+            case EtablissementClient::REGION_TOURS:
+            case EtablissementClient::REGION_ANGERS:
+                $emetteur->adresse = '12, rue Etienne Pallu';
+                $emetteur->code_postal = 'BP 1921 37019';
+                $emetteur->ville = ' TOURS CEDEX 01';
+                $emetteur->service_facturation = 'Catherine BOISSAVY';
+                $emetteur->telephone = 'Tel: + 33 2 47 60 55 18 - Fax : + 33 2 47 60 55 19';
+                break;
+            case EtablissementClient::REGION_NANTES:
+                $emetteur->adresse = 'Chateau de la Frémoire';
+                $emetteur->code_postal = '44120';
+                $emetteur->ville = 'VERTOU';
+                $emetteur->service_facturation = 'Nelly ALBERT';
+                $emetteur->telephone = '02.47.60.55.12';
+                break;
+        }
         $this->emetteur = $emetteur;
     }
 
