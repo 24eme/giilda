@@ -16,8 +16,8 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->vrac_destinataire = $this->getDocument()->declarant->nom;
         if ($this->getVrac()) {
         	$mouvement->cvo = $this->getDroitCVO()->taux * $this->getVrac()->cvo_repartition * 0.01;
-        } else {
-        	$mouvement->cvo = $this->getDroitCVO()->taux * 0.01;
+	} else {
+        	$mouvement->cvo = $this->getDroitCVO()->taux * 0.5;
         }
 
         return $mouvement;
@@ -32,11 +32,13 @@ class SV12Contrat extends BaseSV12Contrat {
         }
 
         $mouvement->vrac_destinataire = $this->vendeur_nom;
-        $mouvement->cvo = 0;
-
-        if ($this->getVrac() && $this->getVrac()->cvo_repartition = 50) {
-            $mouvement->cvo = $this->getDroitCVO()->taux * 0.5;
-        }
+        if ($this->getVrac()) {
+            $mouvement->cvo = $this->getDroitCVO()->taux * $this->getVrac()->cvo_repartition * 0.01;
+        } else if ($this->vendeur_identifiant) {
+	  $mouvement->cvo = $this->getDroitCVO()->taux * 0.5;	  
+	} else {
+	  $mouvement->cvo = $this->getDroitCVO()->taux;	  
+	}
 
         return $mouvement;
     }
@@ -79,6 +81,7 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->type_hash = $this->contrat_type;
         $mouvement->type_libelle = $this->contrat_type;;
         $mouvement->volume = -1 * $volume;
+	$mouvement->facturable = 1;
         $mouvement->date = $this->getDocument()->getDate();
         $mouvement->vrac_numero = $this->contrat_numero;
         if ($this->getVrac())
@@ -86,7 +89,6 @@ class SV12Contrat extends BaseSV12Contrat {
         else 
         	$mouvement->detail_identifiant = null;
         $mouvement->detail_libelle = $this->contrat_numero;
-        $mouvement->facturable = 1;
 
         return $mouvement;
     }
@@ -150,16 +152,18 @@ class SV12Contrat extends BaseSV12Contrat {
         return ConfigurationClient::getCurrent()->get($this->produit_hash);
     }
 
-    function updateNoContrat($produit)
+    function updateNoContrat($produit, $infoviti = array('contrat_type' => null, 'vendeur_identifiant' => null, 'vendeur_nom' => null))
     {
-    	$this->contrat_numero = null;
-    	$this->contrat_type = null;
-    	$this->produit_libelle = $produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
-		$this->produit_hash = $produit->getHash();
-   		$this->vendeur_identifiant = null;
-    	$this->vendeur_nom = null;
-    	$this->volume_prop = null;
-    	$this->volume = null;
+      if ($this->volume)
+	return ;
+      $this->contrat_numero = null;
+      $this->contrat_type = $infoviti['contrat_type'];
+      $this->produit_libelle = $produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
+      $this->produit_hash = $produit->getHash();
+      $this->vendeur_identifiant = $infoviti['vendeur_identifiant'];
+      $this->vendeur_nom = $infoviti['vendeur_nom'];
+      $this->volume_prop = null;
+      $this->volume = null;
     }
 
 }

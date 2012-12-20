@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="volumes_vides">
-                        <label for="champ_volumes_vides"><input type="checkbox" id="champ_volumes_vides" /> Afficher uniquement les volumes non-saisis</label>
+                        <label for="champ_volumes_vides"><input type="checkbox" id="champ_volumes_vides" checked/> Afficher uniquement les volumes non-saisis</label>
                     </div>
                 </div>
                 <table id="table_contrats" class="table_recap">
@@ -52,7 +52,7 @@
                             <td colspan="4">Aucun résultat n'a été trouvé pour cette recherche</td>
                         </tr>
                         <?php foreach ($sv12->contrats as $contrat) : ?> 
-                            <tr id="<?php echo $contrat->getHTMLId() ?>">
+                            <tr id="<?php echo $contrat->getHTMLId() ?>" class="<?php if($contrat->volume){echo "saisi";} ?>">
                                 <td><?php if ($contrat->vendeur_identifiant): ?><?php echo $contrat->vendeur_nom . ' (' . $contrat->vendeur_identifiant . ')'; ?><?php else: ?>-<?php endif; ?></td>
                                 <td><?php echo $contrat->produit_libelle; ?></td>	
                                 <td>
@@ -74,8 +74,8 @@
                     </tbody>
                 </table> 
             </fieldset>
-
-            <fieldset><input name="addproduit" type="submit" class="btn_majeur btn_orange" value="Ajouter un produit"/></fieldset>
+<input type="submit" style="display: none"/>
+            <fieldset><input id="addproduit" name="addproduit" type="submit" class="btn_majeur btn_orange" value="Ajouter un produit"/></fieldset>
 
             <fieldset id="commentaire_sv12">
                 <legend>Commentaires</legend>
