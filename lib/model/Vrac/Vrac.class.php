@@ -99,6 +99,20 @@ class Vrac extends BaseVrac {
         }
     }
 
+    public function setVendeurIdentifiant($s) {
+	return $this->_set('vendeur_identifiant', str_replace('ETABLISSEMENT-', '', $s));
+    }
+
+    public function setAcheteurIdentifiant($s) {
+        return $this->_set('acheteur_identifiant', str_replace('ETABLISSEMENT-', '', $s));
+    }
+
+    public function setMandataireIdentifiant($s) {
+        return $this->_set('mandataire_identifiant', str_replace('ETABLISSEMENT-', '', $s));
+    }
+
+
+
     private function setAcheteurInformations() 
     {
         $acheteurObj = $this->getAcheteurObject();
