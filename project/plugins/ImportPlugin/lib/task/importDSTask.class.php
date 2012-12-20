@@ -96,7 +96,8 @@ EOF;
     $produit = $ds->declarations->add($config_produit->getHashForKey());
     $produit->produit_hash = $config_produit->getHash();
     $produit->produit_libelle = $config_produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
-    $produit->stock_revendique = $this->convertToFloat($line[self::CSV_VOLUME_LIBRE]);
+    $produit->stock_declare = $this->convertToFloat($line[self::CSV_VOLUME_LIBRE]);
+    $produit->vci = $this->convertToFloat($line[self::CSV_VOLUME_BLOQUE]);
 
     return $ds;
   }
