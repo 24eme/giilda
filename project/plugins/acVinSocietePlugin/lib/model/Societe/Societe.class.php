@@ -91,6 +91,8 @@ class Societe extends BaseSociete {
     }
 
     public function getFamille() {
+      if (!$this->canHaveChais())
+	throw new sfException('La societe '.$this->identifiant." ne peut pas avoir famille n'ayant pas d'établissement");
       return $this->getTypeSociete();
     }
 
