@@ -29,8 +29,6 @@ Facture:
         definition:
           fields:
             nom: {  }
-            cvi: {  }
-            num_accise: {   }
             num_tva_intracomm: {    }
             adresse: {  }
             commune: {  }

@@ -37,7 +37,7 @@ use_helper('Prix');
         </tbody>
     </table>
  <br />
-<form id="generation_form" action="<?php echo url_for('facture_generer',$etablissement); ?>" method="post">
+<form id="generation_form" action="<?php echo url_for('facture_generer',$societe); ?>" method="post">
 <?php include_partial('facture/datesGeneration', array('form' => $form)) ?>
 <br /> 
 <div class="generation_facture_valid">

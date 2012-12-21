@@ -4,7 +4,7 @@
  * Model for Facture
  *
  */
-class Facture extends BaseFacture implements InterfaceDeclarantDocument, InterfaceArchivageDocument {
+class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     private $documents_origine = array();
     protected $declarant_document = null;
@@ -60,13 +60,13 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
         $this->campagne = $campagne;
     }
 
-    public function constructIds($etb) {
-        $this->region = $etb->region;
-        $prefixNumFacture = $this->getPrefixForRegion();
-        $this->identifiant = $etb->identifiant;
-        $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($prefixNumFacture, $this->identifiant, date('Ymd'));
-        $this->_id = FactureClient::getInstance()->getId($prefixNumFacture, $this->identifiant, $this->numero_facture);
-        $this->num_archivage = $this->identifiant . '/' . date('Y/m') . '/' . substr($this->numero_facture, strlen($this->numero_facture) - 2);
+    public function constructIds($soc) {
+      $this->region = $soc->getRegionViticole();
+      $prefixNumFacture = $this->getPrefixForRegion();
+      $this->identifiant = $soc->identifiant;
+      $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($prefixNumFacture, $this->identifiant, date('Ymd'));
+      $this->_id = FactureClient::getInstance()->getId($prefixNumFacture, $this->identifiant, $this->numero_facture);
+      $this->num_archivage = $this->identifiant . '/' . date('Y/m') . '/' . substr($this->numero_facture, strlen($this->numero_facture) - 2);
     }
 
     public function getDocumentsOrigine() {
@@ -354,19 +354,19 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
         $this->archivage_document->preSave();
     }
 
-    /*     * **** DECLARANT ****** */
-
-    public function getEtablissementObject() {
-
-        return $this->declarant_document->getEtablissementObject();
-    }
-
     public function storeDeclarant() {
-
-        $this->declarant_document->storeDeclarant();
+      $declarant = $this->declarant;
+      $declarant->nom = $this->societe->raison_sociale;
+      $declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
+      $declarant->adresse = $this->societe->siege->adresse;        
+      $declarant->commune = $this->societe->siege->commune;
+      $declarant->code_postal = $this->societe->siege->code_postal;
+      $declarant->raison_sociale = $this->societe->raison_sociale;
     }
 
-    /*     * * FIN DECLARANT ** */
+    public function getSociete() {
+      return SocieteClient::getInstance()->find($this->identifiant);
+    }
 
     public function getPrefixForRegion() {
         return EtablissementClient::getPrefixForRegion($this->region);
