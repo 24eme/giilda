@@ -1,8 +1,10 @@
-<?php use_helper('DRM') ?>
+<?php use_helper('Mouvement') ?>
 
-<?php include_partial('global/hamzaStyle', array('table_selector' => '#table_mouvements', 
+<?php if(count($mouvements) > 0): ?>
+<?php if(isset($hamza_style)) : ?>
+    <?php include_partial('global/hamzaStyle', array('table_selector' => '#table_mouvements', 
                                                  'mots' => mouvement_get_words($mouvements))) ?>
-
+<?php endif; ?>
 <?php use_helper('Float'); use_helper('Date'); ?>
 <table id="table_mouvements" class="table_recap">
     <thead>
@@ -34,3 +36,6 @@ if ($mouvement->vrac_numero)
     <?php endforeach; ?>
     </tbody>
 </table>
+<?php else: ?>
+<p>Pas de mouvements</p>
+<?php endif; ?>
