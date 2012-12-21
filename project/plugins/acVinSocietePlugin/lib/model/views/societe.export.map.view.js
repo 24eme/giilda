@@ -21,7 +21,7 @@ function(doc) {
           cooperative,
           doc.siret,
           doc.code_naf,
-          doc.tva_intracom,
+          doc.no_tva_intracommunautaire,
           doc.enseignes.join("|"),
           doc.siege.adresse,
           doc.siege.code_postal,
