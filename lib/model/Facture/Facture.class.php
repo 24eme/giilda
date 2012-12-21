@@ -178,12 +178,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     private function createOrigineLibelle($ligne, $transacteur, $famille,$view) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV) {
-
-            $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getNumContrat($ligne->contrat_identifiant);
-            $origine_libelle .= ' (' . $transacteur . ') ';
-            if ($famille == EtablissementFamilles::FAMILLE_NEGOCIANT)
-                $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
-            return $origine_libelle;
+	  if  ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART) {
+	    $origine_libelle = "Écart";
+	    return $origine_libelle;
+	  }
+	  $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getNumContrat($ligne->contrat_identifiant);
+	  $origine_libelle .= ' (' . $transacteur . ') ';
+	  if ($famille == EtablissementFamilles::FAMILLE_NEGOCIANT)
+	    $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
+	  return $origine_libelle;
         }
 
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {

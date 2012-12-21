@@ -64,7 +64,7 @@ class FactureClient extends acCouchdbClient {
         return $this->find('FACTURE-'.$prefix.'-'. $idSociete . '-' . $idFacture);
     }
 
-    public function getMouvementsForMasse($regions,$level) {
+    public function getMouvementsForMasse($regions,$level = 9) {
         if(!$regions){
             return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1,$level);
         }
@@ -75,16 +75,16 @@ class FactureClient extends acCouchdbClient {
         return $mouvementsByRegions;    
     }
     
-    public function getMouvementsNonFacturesByEtb($mouvements) {
-
+    public function getMouvementsNonFacturesBySoc($mouvements) {
         $generationFactures = array();
         foreach ($mouvements as $mouvement) {
-            if (array_key_exists($mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID], $generationFactures)) {
-                $generationFactures[$mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID]][] = $mouvement;
-            } else {
-                $generationFactures[$mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID]] = array();
-                $generationFactures[$mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID]][] = $mouvement;
-            }
+	  $societe_id = substr($mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID], 0, -2);
+	  if (isset($generationFactures[$societe_id])) {
+	    $generationFactures[$societe_id][] = $mouvement;
+	  } else {
+	    $generationFactures[$societe_id] = array();
+	    $generationFactures[$societe_id][] = $mouvement;
+	  }
         }
         return $generationFactures;
     }
@@ -163,6 +163,7 @@ class FactureClient extends acCouchdbClient {
     public function getTypes() {
         return array(FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS,
             FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS,
+            FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART,
             FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS);
     }
 
@@ -189,16 +190,19 @@ class FactureClient extends acCouchdbClient {
         
     public function getTypeLignePdfLibelle($typeLibelle) {
       if ($typeLibelle == self::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE)
-	return 'propriété';
+	return 'Sorties de propriété';
       switch ($typeLibelle) {
       case self::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS:
-	return 'contrats moûts';
+	return 'Sorties de contrats moûts';
 	
       case self::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS:
-	return 'contrats raisins';
+	return 'Sorties de contrats raisins';
 	
       case self::FACTURE_LIGNE_PRODUIT_TYPE_VINS:
-	return 'contrats vins';
+	return 'Sorties de contrats vins';
+
+      case self::FACTURE_LIGNE_PRODUIT_TYPE_ECART:
+	return 'Écarts de stock';
       }
       return '';
     }
