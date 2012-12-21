@@ -1,3 +1,5 @@
+<?php include_partial('global/hamzaStyle', array('mots' => array())) ?>
+
 <?php use_helper('Float'); use_helper('Date'); ?>
 <table class="table_recap">
     <thead>
