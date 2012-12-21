@@ -1,7 +1,10 @@
-<?php include_partial('global/hamzaStyle', array('mots' => array())) ?>
+<?php use_helper('DRM') ?>
+
+<?php include_partial('global/hamzaStyle', array('table_selector' => '#table_mouvements', 
+                                                 'mots' => mouvement_get_words($mouvements))) ?>
 
 <?php use_helper('Float'); use_helper('Date'); ?>
-<table class="table_recap">
+<table id="table_mouvements" class="table_recap">
     <thead>
         <tr>
             <th style="width: 170px;">Date de modification</th>
@@ -14,7 +17,7 @@
     <?php $i = 1; ?>
     <?php foreach($mouvements as $mouvement): ?>
     <?php $i++; ?>
-        <tr class="<?php if($i%2!=0) echo "alt"; if ($mouvement->facturable) {echo " facturable";}  ?>">
+        <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php if($i%2!=0) echo "alt"; if ($mouvement->facturable) {echo " facturable";}  ?>">
             <td><?php echo sprintf("%s - %s", ($mouvement->version) ? $mouvement->version : 'M00', format_date($mouvement->date_version));?></td>
             <td><?php echo $mouvement->produit_libelle ?> </td>
             <td><?php
