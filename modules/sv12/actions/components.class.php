@@ -10,6 +10,6 @@ class sv12Components extends sfComponents {
   }
 
   public function executeStocksRecap() {
-    $this->recaps = array();
+    $this->sv12 = SV12Client::getInstance()->findMaster($this->etablissement->identifiant, $this->campagne);
   }
 }
