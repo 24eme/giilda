@@ -17,8 +17,8 @@ class FactureClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Facture");
     }
 
-    public function getId($prefix,$identifiant, $numeroFacture) {
-        return 'FACTURE-'.$prefix.'-'.$identifiant.'-'.$numeroFacture;
+    public function getId($identifiant, $numeroFacture) {
+        return 'FACTURE-'.$identifiant.'-'.$numeroFacture;
     }
 
 

@@ -65,7 +65,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $prefixNumFacture = $this->getPrefixForRegion();
         $this->identifiant = $soc->identifiant;
         $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($prefixNumFacture, $this->identifiant, date('Ymd'));
-        $this->_id = FactureClient::getInstance()->getId($prefixNumFacture, $this->identifiant, $this->numero_facture);
+        $this->_id = FactureClient::getInstance()->getId($this->identifiant, $this->numero_facture);
         $this->num_archivage = $this->identifiant . '/' . date('Y/m') . '/' . substr($this->numero_facture, strlen($this->numero_facture) - 2);
     }
 
