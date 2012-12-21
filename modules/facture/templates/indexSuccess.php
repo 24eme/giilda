@@ -5,7 +5,7 @@
         
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-            <?php include_component('facture', 'chooseEtablissement'); ?>
+            <?php include_component('facture', 'chooseSociete'); ?>
             <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
             <?php include_component('facture','generationMasse'); ?>
             
