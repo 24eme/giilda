@@ -19,19 +19,21 @@ class GenerationFacturePDF extends GenerationPDF {
        parent::preGeneratePDF();     
        $regions = explode(',',$this->generation->arguments->regions);
        $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse($regions,9); 
-       $mouvementsByEtb = FactureClient::getInstance()->getMouvementsNonFacturesByEtb($allMouvementsByRegion);
+       $mouvementsBySoc = FactureClient::getInstance()->getMouvementsNonFacturesBySoc($allMouvementsByRegion);
        $arguments = $this->generation->arguments->toArray();
-       $mouvementsByEtb = FactureClient::getInstance()->filterWithParameters($mouvementsByEtb,$arguments);
+       $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$arguments);
        $this->generation->documents = array();
        $this->generation->somme = 0;
        $cpt = 0;
-       foreach ($mouvementsByEtb as $etablissementID => $mouvementsEtb) {
-            $etablissement = EtablissementClient::getInstance()->findByIdentifiant($etablissementID);
-            $facture = FactureClient::getInstance()->createDoc($mouvementsEtb, $etablissement, $arguments['date_facturation']);
-            $facture->save();
-            $this->generation->somme += $facture->total_ttc;
-            $this->generation->documents->add($cpt, $facture->_id);
-            $cpt++;
+       foreach ($mouvementsBySoc as $societeID => $mouvementsSoc) {
+	 $societe = SocieteClient::getInstance()->find($societeID);
+	 if (!$societe)
+	   throw new sfException($societeID." unknown :(");
+	 $facture = FactureClient::getInstance()->createDoc($mouvementsSoc, $societe, $arguments['date_facturation']);
+	 $facture->save();
+	 $this->generation->somme += $facture->total_ttc;
+	 $this->generation->documents->add($cpt, $facture->_id);
+	 $cpt++;
         }
     }
     
