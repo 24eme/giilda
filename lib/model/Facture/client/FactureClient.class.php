@@ -218,7 +218,7 @@ class FactureClient extends acCouchdbClient {
       $avoir->total_ht *= -1;
       $avoir->remove('echeances');
       $avoir->add('echeances');
-      $soc = SsocieteClient::getInstance()->find($avoir->identifiant);
+      $soc = SocieteClient::getInstance()->find($avoir->identifiant);
       $avoir->constructIds($soc, $f->region);
       $avoir->statut = self::STATUT_NONREDRESSABLE;
       $avoir->save();
