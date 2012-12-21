@@ -18,7 +18,7 @@ class Generation extends BaseGeneration {
     if (count($this->fichiers)) {
       $this->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
     }
-    parent::save();
+    return parent::save();
   }
   
   public function __toString() {
