@@ -1,4 +1,5 @@
- 
+<?php use_helper('SV12'); ?>
+
 <!-- #principal -->
 <section id="principal" class="sv12">
     <p id="fil_ariane"><a href="<?php echo url_for('sv12') ?>">Page d'accueil</a> &gt; <a href="<?php echo url_for('sv12_etablissement', $sv12->getEtablissementObject()) ?>"><?php echo $sv12->declarant->nom ?></a> &gt; <strong><?php echo $sv12 ?></strong></p>
@@ -20,7 +21,7 @@
             <fieldset id="edition_sv12">
                 <legend>Saisie des volume</legend>
 
-                <?php include_partial('global/hamzaStyle', array('mots' => $sv12->getContratsWords())) ?>
+                <?php include_partial('global/hamzaStyle', array('mots' => contrat_get_words($sv12->contrats), 'table_selector' => '#table_contrats')) ?>
 
                 <!-- <div class="hamza_style">
                     <div class="autocompletion_tags" data-table="#table_contrats" data-source="source_tags">
@@ -50,7 +51,7 @@
                             <td colspan="4">Aucun résultat n'a été trouvé pour cette recherche</td>
                         </tr>
                         <?php foreach ($sv12->contrats as $contrat) : ?> 
-                            <tr id="<?php echo $contrat->getHTMLId() ?>" class="<?php if($contrat->volume){echo "saisi";} ?>">
+                            <tr id="<?php echo contrat_get_id($contrat) ?>" class="<?php if($contrat->volume){echo "saisi";} ?>">
                                 <td><?php if ($contrat->vendeur_identifiant): ?><?php echo $contrat->vendeur_nom . ' (' . $contrat->vendeur_identifiant . ')'; ?><?php else: ?>-<?php endif; ?></td>
                                 <td><?php echo $contrat->produit_libelle; ?></td>	
                                 <td>

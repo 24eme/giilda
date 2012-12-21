@@ -71,15 +71,6 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         return $contrats;
     }
 
-    public function getContratsWords() {
-        $words = array();
-        foreach($this->contrats as $c) {
-            $words[$c->getHTMLId()] = $c->getWords();
-        }
-
-        return $words;
-    }
-    
     public function isValidee() {
 
         return ($this->valide->date_saisie) && (in_array($this->valide->statut, array(SV12Client::STATUT_VALIDE, SV12Client::STATUT_VALIDE_PARTIEL)));

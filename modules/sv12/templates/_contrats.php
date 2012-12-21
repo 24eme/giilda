@@ -1,6 +1,10 @@
 <?php use_helper('Float'); ?>
+<?php use_helper('SV12'); ?>
+
+<?php //include_partial('global/hamzaStyle', array('mots' => contrat_get_words($contrats), 'table_selector' => '#table_contrats')) ?>
+
 <fieldset>
-        <table class="table_recap">
+        <table id="table_contrats" class="table_recap">
         <thead>
         <tr>
             <th>Viticulteur</th>
@@ -10,7 +14,7 @@
         </thead>
         <tbody>
             <?php foreach ($contrats as $contrat) : ?> 
-            <tr>
+            <tr id="<?php echo contrat_get_id($contrat) ?>">
                 <td><?php echo $contrat->vendeur_nom.' ('.$contrat->vendeur_identifiant.')'; ?></td>
                 <td><?php echo $contrat->produit_libelle; ?></td>   
                 <td>
