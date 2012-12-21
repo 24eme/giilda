@@ -427,6 +427,7 @@ DRM:
                         cvo: { type: float }
                         facture: { type: integer }
                         facturable: { type: integer }
+                        region: { }
                         date: {  }
                         date_version: {  }
                         version: {  }

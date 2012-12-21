@@ -110,7 +110,7 @@ class DRMESDetails extends BaseDRMESDetails {
 
         $mouvement->detail_identifiant = $detail->identifiant;
         $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
-	    $mouvement->type_libelle = $config->getLibelle();
+	$mouvement->type_libelle = $config->getLibelle();
         $mouvement->type_hash .= $this->getKey();
         $mouvement->volume = $volume;
 
@@ -135,6 +135,7 @@ class DRMESDetails extends BaseDRMESDetails {
         }
 
         $mouvement->vrac_destinataire = $detail->getVrac()->vendeur->nom;
+	$mouvement->region = $detail->getVrac()->getAcheteurObject()->region;
         
         if($detail->getVrac()->cvo_repartition != 50) {
             $mouvement->cvo = 0;
