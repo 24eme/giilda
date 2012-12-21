@@ -3,23 +3,37 @@
 class SocieteAllView extends acCouchdbView
 {
 	const KEY_INTERPRO_ID = 0;
-	const KEY_RAISON_SOCIALE = 1;
-	const KEY_ID = 2;
-        const KEY_TYPESOCIETE = 3;
-	const KEY_IDENTIFIANT = 4;
-	const KEY_SIRET = 5;
-	const KEY_COMMUNE = 6;
-	const KEY_CODE_POSTAL = 7;
+	const KEY_STATUT = 1;
+	const KEY_TYPESOCIETE = 2;
+	const KEY_ID = 3;
+	const KEY_RAISON_SOCIALE = 4;
+	const KEY_IDENTIFIANT = 5;
+	const KEY_SIRET = 6;
+	const KEY_COMMUNE = 7;
+	const KEY_CODE_POSTAL = 8;
 
     public static function getInstance() {
         return acCouchdbManager::getView('societe', 'all', 'Societe');
     }
 
-    public function findByInterpro($interpro) {
-
-    	return $this->client->startkey(array($interpro))
-                    		->endkey(array($interpro, array()))
-                    		->getView($this->design, $this->view);
+    public function findByInterpro($interpro, $statut, $typesocietes = array()) {
+      if (!count($typesocietes)) {
+	if ($statut) {
+	  return $this->client->startkey(array($interpro, $statut))
+	    ->endkey(array($interpro, $statut, array()))
+	    ->getView($this->design, $this->view)->rows;
+	}
+	return $this->client->startkey(array($interpro))
+	  ->endkey(array($interpro, array()))
+	  ->getView($this->design, $this->view)->rows;
+      }
+      $societes = array();
+      foreach($typesocietes as $ts) {
+	$societes = array_merge($societes, $this->client->startkey(array($interpro, $statut, $ts))
+				->endkey(array($interpro, $statut, $ts, array()))
+				->getView($this->design, $this->view)->rows);
+      }
+      return $societes;
     }
 
     public function findByRaisonSociale($raison_sociale) {
@@ -47,11 +61,11 @@ class SocieteAllView extends acCouchdbView
             }
             $libelle .= $rs;
         }
-        $libelle .= ' ('.$datas[self::KEY_IDENTIFIANT];
+        $libelle .= ' '.$datas[self::KEY_IDENTIFIANT];
         if (isset($datas[self::KEY_SIRET]) && $siret = $datas[self::KEY_SIRET]) {
             $libelle .= ' / '.$siret;
         }
-        $libelle .= ') ';
+        $libelle .= ' ';
 
     	if (isset($datas[self::KEY_COMMUNE]) && $commune = $datas[self::KEY_COMMUNE])
     	  	$libelle .= ' / '.$commune;

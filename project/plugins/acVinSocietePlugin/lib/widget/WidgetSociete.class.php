@@ -26,7 +26,7 @@ class WidgetSociete extends sfWidgetFormChoice
         parent::configure($options, $attributes);
 
         $this->setOption('choices', array());
-        $this->addOption('familles', array());
+        $this->addOption('type_societe', array());
         $this->addRequiredOption('interpro_id', null);
         if(!count($attributes))
             $this->setAttribute('class', 'autocomplete'); 
@@ -39,7 +39,7 @@ class WidgetSociete extends sfWidgetFormChoice
 
     public function getUrlAutocomplete() {
         $interpro_id = $this->getOption('interpro_id');
-        return sfContext::getInstance()->getRouting()->generate('soc_etb_com_autocomplete_all', array('interpro_id' => $interpro_id));
+        return sfContext::getInstance()->getRouting()->generate('societe_autocomplete_all', array('interpro_id' => $interpro_id));
     }
 
     public function getChoices() {
@@ -58,7 +58,7 @@ class WidgetSociete extends sfWidgetFormChoice
         }
         
         
-        return array($this->identifiant => EtablissementAllView::getInstance()->makeLibelle($viewRes->rows[0]->key));
+        return array($this->identifiant => SocieteAllView::getInstance()->makeLibelle($viewRes->rows[0]->key));
     }
 
     public function render($name, $value = null, $attributes = array(), $errors = array())

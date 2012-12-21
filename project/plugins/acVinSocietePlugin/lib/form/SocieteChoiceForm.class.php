@@ -22,18 +22,17 @@ class SocieteChoiceForm extends baseForm {
         
         $this->setValidator('identifiant', new ValidatorSociete(array('required' => true)));
         
-        $this->validatorSchema['identifiant']->setMessage('required', 'Le choix d\'un etablissement est obligatoire');        
+        $this->validatorSchema['identifiant']->setMessage('required', 'Le choix d\'une societe est obligatoire');        
         
         $this->widgetSchema->setNameFormat('societe[%s]');
     }
 
-    public function configureFamilles($familles) {
-        $this->getWidget('identifiant')->setOption('familles', $familles);
-        $this->getValidator('identifiant')->setOption('familles', $familles);
+    public function configureTypeSociete($types) {
+        $this->getWidget('identifiant')->setOption('type_societe', $types);
+        $this->getValidator('identifiant')->setOption('type_societe', $types);
     }
 
     public function getSociete() {
-
         return $this->getValidator('identifiant')->getDocument();
     }
     
