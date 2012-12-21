@@ -23,11 +23,11 @@ $(document).ready(function()
     });
 
 
-    $('#champ_volumes_vides').change($.fn.updateSaisi);
+    /*$('#champ_volumes_vides').change($.fn.updateSaisi);
 
     if($('#recherche_sv12').exists())
     {
 	$('#recherche_sv12 .autocompletion_tags').rechercheTableParTags();
-    }
+    }*/
 
 });

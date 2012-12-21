@@ -1114,7 +1114,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 #ligne_btn .btnAnnulation { float:left; }
 #ligne_btn .btnValidation { float:right; }
 .ligne_form_alt { background:#ecebeb; }
-.ui-autocomplete-input {
+input.ui-autocomplete-input {
   background:url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #ffffff;
   font-size:12px;
   padding:5px 5px 5px 25px;
@@ -4139,9 +4139,124 @@ bouton#principal.drm fieldset .btn_container_exporter a { height:26px; }
 }
 .fancybox-wrap .fancybox-inner #contenu #principal #drm_export_details_form .btn_valider, .fancybox-wrap .fancybox-inner #contenu #principal #drm_vrac_details_form .btn_valider, .fancybox-wrap .fancybox-inner #contenu #principal #drm_cooperative_details_form .btn_valider { float:right; }
 .fancybox-wrap .fancybox-inner #contenu #principal .drm_details_form_noItem { margin-bottom:20px; }
+.sv12 #num_sv12 {
+  background:#ecebeb;
+  font-size:14px;
+  font-weight:bold;
+  padding:10px;
+  margin:0 0 15px;
+}
+.sv12 #num_sv12 span {
+  display:inline-block;
+  width:200px;
+}
+.sv12 #negociant_infos { margin:0 0 25px; }
+.sv12 #btn_modifier_sv12 { margin:15px 0 0; }
+.sv12 #contenu_etape fieldset { margin:25px 0 0; }
+.sv12 #contenu_etape .hamza_style .volumes_vides { margin:10px 0 0; }
+.sv12 #contenu_etape #commentaire_sv12 textarea { width:100%; }
+.creer_info {
+  zoom:1;
+  min-height:1px;
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  margin-top:5px;
+}
+.creer_info:before, .creer_info:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.creer_info:after { clear:both; }
+.creer_info .btn_majeur {
+  float:right;
+  margin-top:8px;
+}
+#principal .generation_facture_valid {
+  zoom:1;
+  min-height:1px;
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  margin-top:5px;
+}
+#principal .generation_facture_valid:before, #principal .generation_facture_valid:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#principal .generation_facture_valid:after { clear:both; }
+#principal .generation_facture_valid .btn_majeur {
+  float:right;
+  margin-top:8px;
+}
+#principal .generation_facture_options {
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:14px;
+  padding-bottom:10px;
+  padding-top:10px;
+}
+#principal .generation_facture_options span {
+  display:block;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+#principal .generation_facture_options em {
+  display:inline-block;
+  margin-right:4px;
+  vertical-align:middle;
+}
+#principal .generation_facture_options ul:first-child li .ligne_etape { padding-left:10px; }
+#principal .generation_facture_options ul:first-child li .checkbox_list { padding-left:10px; }
+#principal .generation_facture_options ul:first-child li .checkbox_list li+li {
+  margin-bottom:0;
+  margin-top:8px;
+}
+#principal .generation_facture_options ul:first-child li .checkbox_list li input[type="checkbox"] { margin-right:12px; }
+#principal .generation_facture_options ul:first-child li+li { margin-top:20px; }
+#principal .generation_facture_options .champ_datepicker { height:auto; }
+#principal .generation_facture_options .champ_datepicker label, #principal .generation_facture_options .champ_datepicker img { vertical-align:middle; }
+#principal .generation_facture_options .champ_datepicker label {
+  font-weight:normal;
+  width:335px;
+}
+#principal .generation_facture_options .champ_datepicker img { position:static; }
 .ds #contenu_etape .generation_ds, .ds #contenu_etape .historique_generation_ds, .ds #contenu_etape .generation_ds_operateur {
+  zoom:1;
+  min-height:1px;
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  margin-top:5px;
   background:#ecebeb url(../images/pictos/fleche_bloc.png) 10px 50% no-repeat;
   padding-left:40px;
+}
+.ds #contenu_etape .generation_ds:before, .ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:before, .ds #contenu_etape .historique_generation_ds:after, .ds #contenu_etape .generation_ds_operateur:before, .ds #contenu_etape .generation_ds_operateur:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:after, .ds #contenu_etape .generation_ds_operateur:after { clear:both; }
+.ds #contenu_etape .generation_ds .btn_majeur, .ds #contenu_etape .historique_generation_ds .btn_majeur, .ds #contenu_etape .generation_ds_operateur .btn_majeur {
+  float:right;
+  margin-top:8px;
 }
 .ds #contenu_etape .bloc_form, .ds #contenu_etape .table_recap { margin:0 0 20px; }
 .ds #commentaires .bloc_form {
@@ -4162,130 +4277,6 @@ bouton#principal.drm fieldset .btn_container_exporter a { height:26px; }
   font-weight:bold;
   margin:0 0 5px;
 }
-.sv12 #num_sv12 {
-  background:#ecebeb;
-  font-size:14px;
-  font-weight:bold;
-  padding:10px;
-  margin:0 0 15px;
-}
-.sv12 #num_sv12 span {
-  display:inline-block;
-  width:200px;
-}
-.sv12 #negociant_infos { margin:0 0 25px; }
-.sv12 #btn_modifier_sv12 { margin:15px 0 0; }
-.sv12 #contenu_etape fieldset { margin:25px 0 0; }
-.sv12 #contenu_etape #recherche_sv12 {
-  background:#ecebeb;
-  margin:0 0 15px;
-  padding:10px;
-}
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags label {
-  display:block;
-  font-size:14px;
-  font-weight:bold;
-  margin:0 0 5px;
-}
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags {
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
-  background:#ffffff url(../images/pictos/pi_recherche.png) 5px 14px no-repeat;
-  font-size:14px;
-  margin:0 10px 0 0;
-  padding:3px 5px 3px 25px;
-  position:relative;
-  vertical-align:top;
-  width:100%;
-}
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags > li {
-  display:inline-block;
-  vertical-align:middle;
-  line-height:26px;
-}
-.ielt8 .sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags > li {
-  display:inline;
-  zoom:1;
-}
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice {
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  -webkit-border-radius:3px;
-  -moz-border-radius:3px;
-  border-radius:3px;
-  border:1px solid #c2c0c0;
-  background:#ecebeb;
-  margin:2px 5px;
-  padding:0 0 0 5px;
-}
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice:hover { background:#e3e2e2; }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice * {
-  display:inline-block;
-  vertical-align:top;
-}
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice .tagit-close {
-  background:url(../images/pictos/pi_actions.png) 100% -492px no-repeat;
-  height:26px;
-  padding:0 5px;
-  width:20px;
-  text-indent:-9999px;
-}
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new { margin:2px 0; }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new input {
-  -webkit-border-radius:0;
-  -moz-border-radius:0;
-  border-radius:0;
-  -webkit-border-radius:0;
-  -moz-border-radius:0;
-  border-radius:0;
-  -webkit-box-shadow:none;
-  -moz-box-shadow:none;
-  box-shadow:none;
-  -webkit-box-shadow:none;
-  -moz-box-shadow:none;
-  box-shadow:none;
-  background:0;
-  font-size:14px;
-  height:28px;
-  padding:0;
-  width:200px;
-}
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new input:focus { outline:0; }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .ui-autocomplete {
-  height:auto;
-  width:auto;
-  -webkit-box-shadow:0 5px 20px rgba(0,0,0,0.5);
-  -moz-box-shadow:0 5px 20px rgba(0,0,0,0.5);
-  box-shadow:0 5px 20px rgba(0,0,0,0.5);
-  -webkit-box-shadow:0 5px 20px rgba(0,0,0,0.5);
-  -moz-box-shadow:0 5px 20px rgba(0,0,0,0.5);
-  box-shadow:0 5px 20px rgba(0,0,0,0.5);
-  position:absolute;
-  top:38px !important;
-}
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags .tagit-hiddenSelect {
-  clip:rect(1px 1px 1px 1px);
-  clip:rect(1px,1px,1px,1px);
-  position:absolute !important;
-}
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags .btn_rechercher {
-  color:#ffffff;
-  background-position:0 -52px;
-  border-color:#6d6b6b;
-}
-.sv12 #contenu_etape #recherche_sv12 .volumes_vides { margin:10px 0 0; }
-.sv12 #contenu_etape #commentaire_sv12 textarea { width:100%; }
 .revendication #revendication_import_fichier { overflow:hidden; }
 .revendication #revendication_import_fichier h2 {
   margin:0;
