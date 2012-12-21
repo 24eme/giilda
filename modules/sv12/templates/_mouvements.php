@@ -1,5 +1,14 @@
-<?php use_helper('Float'); use_helper('Date'); ?>
-<fieldset id="mouvement_sv12">
+<?php use_helper('Float'); ?> 
+<?php use_helper('Date'); ?>
+<?php use_helper('Mouvement') ?>
+
+<?php if(count($mouvements) > 0): ?>
+
+<?php if(isset($hamza_style)) : ?>
+<?php include_partial('global/hamzaStyle', array('table_selector' => '#table_mouvements', 
+                                                 'mots' => mouvement_get_words($mouvements))) ?>
+<?php endif; ?>
+<fieldset id="table_mouvements">
         <table class="table_recap">
         <thead>
         <tr>
@@ -15,7 +24,7 @@
             <?php foreach ($mouvements as $mouvement) :
             ?>   
 
-            <tr class="<?php if($i%2!=0) echo 'alt'; if($mouvement->facturable) echo " facturable"; ?>">
+            <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php if($i%2!=0) echo 'alt'; if($mouvement->facturable) echo " facturable"; ?>">
                 <td><?php echo sprintf("%s - %s", ($mouvement->version) ? $mouvement->version : 'M00', format_date($mouvement->date_version));?></td>
                 <td>
  <?php if ($mouvement->vrac_numero) { ?>
@@ -37,3 +46,6 @@
         </tbody>
         </table> 
 </fieldset>
+<?php else: ?>
+<p>Pas de mouvements</p>
+<?php endif; ?>

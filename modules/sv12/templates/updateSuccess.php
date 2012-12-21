@@ -11,10 +11,6 @@
 
         <?php include_partial('negociant_infos', array('sv12' => $sv12)); ?>
 
-        <script type="text/javascript">	
-            var source_tags = <?php echo json_encode($sv12->getContratsWords()->getRawValue()); ?>;
-        </script>
-
         <form name="sv12_update" method="POST" action="<?php echo url_for('sv12_update', $sv12); ?>" >
             <?php
             echo $form->renderHiddenFields();
@@ -24,20 +20,22 @@
             <fieldset id="edition_sv12">
                 <legend>Saisie des volume</legend>
 
-                <div id="recherche_sv12">
+                <?php include_partial('global/hamzaStyle', array('mots' => $sv12->getContratsWords())) ?>
+
+                <!-- <div class="hamza_style">
                     <div class="autocompletion_tags" data-table="#table_contrats" data-source="source_tags">
                         <label>Saisissez le nom d'un viticulteur ou d'une appellation pour effectuer une recherche dans l'historique ci-dessous :</label>
 
                         <ul id="recherche_sv12_tags" class="tags"></ul>
-                        <!--
+                        
                         <button class="btn_majeur btn_rechercher" type="button">Rechercher</button>
-                        -->
+                        
                     </div>
 
                     <div class="volumes_vides">
                         <label for="champ_volumes_vides"><input type="checkbox" id="champ_volumes_vides" checked/> Afficher uniquement les volumes non-saisis</label>
                     </div>
-                </div>
+                </div> -->
                 <table id="table_contrats" class="table_recap">
                     <thead>
                         <tr>
