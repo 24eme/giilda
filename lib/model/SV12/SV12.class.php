@@ -91,7 +91,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
     
     public function updateContrats($num_contrat, $contrat) {
-      if ($this->contrats[$num_contrat])
+      if ($this->contrats->exist($num_contrat))
 	return ;
       if (!$contrat) {
 	throw new acCouchdbException(sprintf("Le Contrat \"%s\" n'existe pas!", $num_contrat));

@@ -21,7 +21,7 @@
             <?php include_partial('totaux', array('sv12' => $sv12)); ?>
 
             <h2> Détail des mouvements </h2>
-            <?php include_partial('mouvements',array('mouvements' => $mouvements)); ?>
+            <?php include_partial('mouvements',array('mouvements' => $mouvements, 'hamza_style' => true)); ?>
             
 			<div class="btn_etape">
 				<a class="btn_etape_prec" href="<?php echo url_for('sv12_etablissement', $sv12->getEtablissementObject()) ?>">
