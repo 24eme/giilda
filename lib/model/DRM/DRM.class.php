@@ -324,6 +324,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $vracs = array();
 
+        if(!$this->getMouvements()->exist($this->identifiant)) {
+
+            return;
+        }
+
         foreach($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
             if(!$mouvement->isVrac()) {
                 
