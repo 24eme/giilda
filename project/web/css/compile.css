@@ -1023,19 +1023,19 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   color:#ffffff;
   margin:0 0 0 7px;
 }
-#principal .section_label_maj {
+.section_label_maj {
   zoom:1;
   min-height:1px;
 }
-#principal .section_label_maj:before, #principal .section_label_maj:after {
+.section_label_maj:before, .section_label_maj:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-#principal .section_label_maj:after { clear:both; }
-#principal .section_label_maj > label:first-child {
+.section_label_maj:after { clear:both; }
+.section_label_maj > label:first-child {
   text-transform:uppercase;
   display:inline-block;
   font-size:15px;
@@ -1043,11 +1043,11 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   height:35px;
   padding-top:4px;
 }
-#principal .section_label_strong label:first-child {
+.section_label_strong label:first-child {
   display:inline-block;
   font-weight:bold;
 }
-#principal .bloc_form {
+.bloc_form {
   -webkit-border-radius:5px 5px 5px 5px;
   -moz-border-radius:5px 5px 5px 5px;
   border-radius:5px 5px 5px 5px;
@@ -1058,16 +1058,16 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   zoom:1;
   min-height:1px;
 }
-#principal .bloc_form:before, #principal .bloc_form:after {
+.bloc_form:before, .bloc_form:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-#principal .bloc_form:after { clear:both; }
-#principal .bloc_form .col:first-child { border-right:1px solid #e3e2e2; }
-#principal .bloc_form .col:first-child .ligne_form:first-child {
+.bloc_form:after { clear:both; }
+.bloc_form .col:first-child { border-right:1px solid #e3e2e2; }
+.bloc_form .col:first-child .ligne_form:first-child {
   -webkit-border-radius:5px 0 0 0;
   -moz-border-radius:5px 0 0 0;
   border-radius:5px 0 0 0;
@@ -1075,7 +1075,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   -moz-border-radius:5px 0 0 0;
   border-radius:5px 0 0 0;
 }
-#principal .bloc_form .col:first-child .ligne_form:last-child {
+.bloc_form .col:first-child .ligne_form:last-child {
   -webkit-border-radius:0 0 0 5px;
   -moz-border-radius:0 0 0 5px;
   border-radius:0 0 0 5px;
@@ -1083,7 +1083,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   -moz-border-radius:0 0 0 5px;
   border-radius:0 0 0 5px;
 }
-#principal .bloc_form .col:last-child .ligne_form:first-child {
+.bloc_form .col:last-child .ligne_form:first-child {
   -webkit-border-radius:0 5px 0 0;
   -moz-border-radius:0 5px 0 0;
   border-radius:0 5px 0 0;
@@ -1091,7 +1091,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   -moz-border-radius:0 5px 0 0;
   border-radius:0 5px 0 0;
 }
-#principal .bloc_form .col:last-child .ligne_form:last-child {
+.bloc_form .col:last-child .ligne_form:last-child {
   -webkit-border-radius:0 0 5px 0;
   -moz-border-radius:0 0 5px 0;
   border-radius:0 0 5px 0;
@@ -1099,48 +1099,48 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   -moz-border-radius:0 0 5px 0;
   border-radius:0 0 5px 0;
 }
-#principal .ligne_form { padding:10px 0 10px 10px; }
-#principal .ligne_form label {
+.ligne_form { padding:10px 0 10px 10px; }
+.ligne_form label {
   display:inline-block;
   font-weight:bold;
   vertical-align:top;
   width:150px;
 }
-#principal .ligne_form span { vertical-align:middle; }
-#principal #ligne_btn {
+.ligne_form span { vertical-align:middle; }
+#ligne_btn {
   display:block;
   margin:10px 0;
 }
-#principal #ligne_btn .btnAnnulation { float:left; }
-#principal #ligne_btn .btnValidation { float:right; }
-#principal .ligne_form_alt { background:#ecebeb; }
-#principal .ui-autocomplete-input {
+#ligne_btn .btnAnnulation { float:left; }
+#ligne_btn .btnValidation { float:right; }
+.ligne_form_alt { background:#ecebeb; }
+.ui-autocomplete-input {
   background:url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #ffffff;
   font-size:12px;
   padding:5px 5px 5px 25px;
   width:330px;
   height:30px;
 }
-#principal ul.radio_list {
+ul.radio_list {
   zoom:1;
   min-height:1px;
 }
-#principal ul.radio_list:before, #principal ul.radio_list:after {
+ul.radio_list:before, ul.radio_list:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-#principal ul.radio_list:after { clear:both; }
-#principal ul.radio_list li {
+ul.radio_list:after { clear:both; }
+ul.radio_list li {
   display:block;
   float:left;
   width:165px;
 }
-#principal ul.radio_list li label { font-weight:normal !important; }
-#principal .champ_datepicker { padding-top:10px; }
-#principal .champ_datepicker img {
+ul.radio_list li label { font-weight:normal !important; }
+.champ_datepicker { padding-top:10px; }
+.champ_datepicker img {
   position:absolute;
   margin-left:5px;
 }
@@ -1462,364 +1462,18 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 }
 #contenu_etape #recherche_societe span#recherche_avancee:after { clear:both; }
 #contenu_etape #recherche_societe span#recherche_avancee:hover, #contenu_etape #recherche_societe span#recherche_avancee:focus { text-decoration:none; }
-#vrac_soussigne h1, #vrac_marche h1, #vrac_condition h1, #vrac_validation h1, #vrac_recapitulatif h1 {
-  font-size:16px;
-  font-weight:bold;
-  margin:0 0 20px;
-  text-align:center;
-  color:#ffffff;
-}
-#vrac_soussigne h2, #vrac_marche h2, #vrac_condition h2, #vrac_validation h2, #vrac_recapitulatif h2 {
-  font-size:16px;
-  margin:0 0 15px;
-}
-#vrac_soussigne .col, #vrac_marche .col, #vrac_condition .col, #vrac_validation .col, #vrac_recapitulatif .col {
-  display:inline-block;
-  vertical-align:top;
-  width:425px;
-}
-.ielt8 #vrac_soussigne .col, .ielt8 #vrac_marche .col, .ielt8 #vrac_condition .col, .ielt8 #vrac_validation .col, .ielt8 #vrac_recapitulatif .col { display:inline-block; }
-.ielt8 .ielt8 #vrac_soussigne .col, .ielt8 .ielt8 #vrac_marche .col, .ielt8 .ielt8 #vrac_condition .col, .ielt8 .ielt8 #vrac_validation .col, .ielt8 .ielt8 #vrac_recapitulatif .col {
-  display:inline;
-  zoom:1;
-}
-#vrac_soussigne section, #vrac_marche section, #vrac_condition section, #vrac_validation section, #vrac_recapitulatif section { padding:5px 0px; }
-#vrac_soussigne .ligne_form .error_list, #vrac_marche .ligne_form .error_list, #vrac_condition .ligne_form .error_list, #vrac_validation .ligne_form .error_list, #vrac_recapitulatif .ligne_form .error_list { width:310px; }
-#vrac_soussigne .ligne_form label, #vrac_marche .ligne_form label, #vrac_condition .ligne_form label, #vrac_validation .ligne_form label, #vrac_recapitulatif .ligne_form label {
-  display:inline-block;
-  vertical-align:middle;
-  width:165px;
-}
-#vrac_soussigne .ligne_form.ligne_form_large label, #vrac_marche .ligne_form.ligne_form_large label, #vrac_condition .ligne_form.ligne_form_large label, #vrac_validation .ligne_form.ligne_form_large label, #vrac_recapitulatif .ligne_form.ligne_form_large label {
-  display:block;
-  margin:0 0 10px;
-  width:auto;
-}
-#vrac_soussigne .ligne_form input[type="text"], #vrac_soussigne .ligne_form input[type="password"], #vrac_soussigne .ligne_form select, #vrac_marche .ligne_form input[type="text"], #vrac_marche .ligne_form input[type="password"], #vrac_marche .ligne_form select, #vrac_condition .ligne_form input[type="text"], #vrac_condition .ligne_form input[type="password"], #vrac_condition .ligne_form select, #vrac_validation .ligne_form input[type="text"], #vrac_validation .ligne_form input[type="password"], #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form input[type="text"], #vrac_recapitulatif .ligne_form input[type="password"], #vrac_recapitulatif .ligne_form select {
-  font-size:12px;
-  position:relative;
-  vertical-align:middle;
-  margin:0;
-}
-#vrac_soussigne .ligne_form input[type="text"], #vrac_soussigne .ligne_form input[type="password"], #vrac_marche .ligne_form input[type="text"], #vrac_marche .ligne_form input[type="password"], #vrac_condition .ligne_form input[type="text"], #vrac_condition .ligne_form input[type="password"], #vrac_validation .ligne_form input[type="text"], #vrac_validation .ligne_form input[type="password"], #vrac_recapitulatif .ligne_form input[type="text"], #vrac_recapitulatif .ligne_form input[type="password"] {
-  padding:2px 4px;
-  width:120px;
-}
-#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select { width:130px; }
-#vrac_soussigne .ligne_form .champ_form_radio_cb label, #vrac_marche .ligne_form .champ_form_radio_cb label, #vrac_condition .ligne_form .champ_form_radio_cb label, #vrac_validation .ligne_form .champ_form_radio_cb label, #vrac_recapitulatif .ligne_form .champ_form_radio_cb label {
-  display:inline-block;
-  margin:0 20px 0 0;
-  width:auto;
-}
-#vrac_soussigne .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_marche .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_condition .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_validation .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_recapitulatif .ligne_form.ligne_form_large .champ_form_radio_cb input {
-  margin:0 5px 0 0;
-  vertical-align:middle;
-}
-#vrac_soussigne .ligne_btn, #vrac_marche .ligne_btn, #vrac_condition .ligne_btn, #vrac_validation .ligne_btn, #vrac_recapitulatif .ligne_btn {
-  margin:34px 0 0;
-  right:23px;
-}
-#vrac_soussigne .ligne_btn button, #vrac_soussigne .ligne_btn a, #vrac_marche .ligne_btn button, #vrac_marche .ligne_btn a, #vrac_condition .ligne_btn button, #vrac_condition .ligne_btn a, #vrac_validation .ligne_btn button, #vrac_validation .ligne_btn a, #vrac_recapitulatif .ligne_btn button, #vrac_recapitulatif .ligne_btn a {
-  line-height:24px;
-  font-weight:normal;
-  text-transform:uppercase;
-}
-#vrac_soussigne .ligne_btn button:hover, #vrac_soussigne .ligne_btn a:hover, #vrac_marche .ligne_btn button:hover, #vrac_marche .ligne_btn a:hover, #vrac_condition .ligne_btn button:hover, #vrac_condition .ligne_btn a:hover, #vrac_validation .ligne_btn button:hover, #vrac_validation .ligne_btn a:hover, #vrac_recapitulatif .ligne_btn button:hover, #vrac_recapitulatif .ligne_btn a:hover { text-decoration:none; }
-#vrac_soussigne .ligne_btn .btn_valider, #vrac_marche .ligne_btn .btn_valider, #vrac_condition .ligne_btn .btn_valider, #vrac_validation .ligne_btn .btn_valider, #vrac_recapitulatif .ligne_btn .btn_valider { padding:0 17px 0 15px; }
-#vrac_soussigne .ligne_btn .btn_ajouter, #vrac_marche .ligne_btn .btn_ajouter, #vrac_condition .ligne_btn .btn_ajouter, #vrac_validation .ligne_btn .btn_ajouter, #vrac_recapitulatif .ligne_btn .btn_ajouter {
-  background-image:url(../images/boutons/btn_ajouter.png);
-  background-position:7px center;
-  margin:0 10px 0 0;
-  padding:0 10px 0 30px;
-}
-#vrac_soussigne .ligne_btn .btn_supprimer, #vrac_marche .ligne_btn .btn_supprimer, #vrac_condition .ligne_btn .btn_supprimer, #vrac_validation .ligne_btn .btn_supprimer, #vrac_recapitulatif .ligne_btn .btn_supprimer {
-  background-position:0 -26px;
-  border-color:#d9d8d8;
-  background-image:url(../images/boutons/btn_supprimer.png);
-  background-position:7px center;
-  padding:0 10px 0 30px;
-  margin-right:20px;
-  text-transform:none;
-}
-#vrac_soussigne #infos_etablissements, #vrac_marche #infos_etablissements, #vrac_condition #infos_etablissements, #vrac_validation #infos_etablissements, #vrac_recapitulatif #infos_etablissements {
-  margin:15px 0 0;
-  position:relative;
-  padding:0;
-  width:895px;
-}
-#vrac_soussigne #infos_etablissements .etablissement, #vrac_marche #infos_etablissements .etablissement, #vrac_condition #infos_etablissements .etablissement, #vrac_validation #infos_etablissements .etablissement, #vrac_recapitulatif #infos_etablissements .etablissement {
-  border:1px solid #3e3e3e;
-  background:#5e5c5c;
-  display:inline-block;
-  margin:0 20px 20px 0;
-  padding:10px 10px 0;
-  position:relative;
-  vertical-align:top;
-  width:250px;
-}
-.ielt8 #vrac_soussigne #infos_etablissements .etablissement, .ielt8 #vrac_marche #infos_etablissements .etablissement, .ielt8 #vrac_condition #infos_etablissements .etablissement, .ielt8 #vrac_validation #infos_etablissements .etablissement, .ielt8 #vrac_recapitulatif #infos_etablissements .etablissement { display:inline-block; }
-.ielt8 .ielt8 #vrac_soussigne #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_marche #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_condition #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_validation #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_recapitulatif #infos_etablissements .etablissement {
-  display:inline;
-  zoom:1;
-}
-#vrac_soussigne #infos_etablissements .etablissement .error_list, #vrac_marche #infos_etablissements .etablissement .error_list, #vrac_condition #infos_etablissements .etablissement .error_list, #vrac_validation #infos_etablissements .etablissement .error_list, #vrac_recapitulatif #infos_etablissements .etablissement .error_list { width:auto; }
-#vrac_soussigne #infos_etablissements .etablissement .ligne_form label, #vrac_marche #infos_etablissements .etablissement .ligne_form label, #vrac_condition #infos_etablissements .etablissement .ligne_form label, #vrac_validation #infos_etablissements .etablissement .ligne_form label, #vrac_recapitulatif #infos_etablissements .etablissement .ligne_form label { width:110px; }
-#vrac_soussigne #infos_etablissements .etablissement a.supprimer, #vrac_marche #infos_etablissements .etablissement a.supprimer, #vrac_condition #infos_etablissements .etablissement a.supprimer, #vrac_validation #infos_etablissements .etablissement a.supprimer, #vrac_recapitulatif #infos_etablissements .etablissement a.supprimer {
-  height:13px;
-  width:13px;
-  bottom:auto;
-  left:auto;
-  position:absolute;
-  right:-5px;
-  top:-5px;
-  background:url(../images/pictos/pi_supprimer.png) 0 0 no-repeat;
-  display:inline-block;
-  text-indent:-9999px;
-}
-#vrac_soussigne a.btn_ajouter_etab, #vrac_marche a.btn_ajouter_etab, #vrac_condition a.btn_ajouter_etab, #vrac_validation a.btn_ajouter_etab, #vrac_recapitulatif a.btn_ajouter_etab {
-  background-position:0 -26px;
-  border-color:#d9d8d8;
-  background-image:url(../images/boutons/btn_ajouter.png);
-  background-position:7px center;
-  margin:0 10px 0 0;
-  padding:5px 10px 6px 30px;
-  position:absolute;
-  right:127px;
-  text-transform:none;
-}
-#vrac_soussigne a#btn_ajouter_etablissement, #vrac_marche a#btn_ajouter_etablissement, #vrac_condition a#btn_ajouter_etablissement, #vrac_validation a#btn_ajouter_etablissement, #vrac_recapitulatif a#btn_ajouter_etablissement {
-  background-position:0 -26px;
-  border-color:#d9d8d8;
-  background-image:url(../images/boutons/btn_ajouter.png);
-  background-position:10px center;
-  font-size:15px;
-  line-height:1;
-  position:absolute;
-  padding:4px 10px 4px 32px;
-  font-size:15px;
-  text-transform:uppercase;
-}
-#vrac_soussigne a#btn_ajouter_etablissement:hover, #vrac_marche a#btn_ajouter_etablissement:hover, #vrac_condition a#btn_ajouter_etablissement:hover, #vrac_validation a#btn_ajouter_etablissement:hover, #vrac_recapitulatif a#btn_ajouter_etablissement:hover { text-decoration:none; }
-#vrac_soussigne a#btn_ajouter_etablissement span, #vrac_marche a#btn_ajouter_etablissement span, #vrac_condition a#btn_ajouter_etablissement span, #vrac_validation a#btn_ajouter_etablissement span, #vrac_recapitulatif a#btn_ajouter_etablissement span {
-  color:#ffffff;
-  display:block;
-  font-size:14px;
-  font-weight:bold;
-  text-transform:none;
-}
-#vrac_soussigne #recapitulatif .recap_perso, #vrac_soussigne #recapitulatif .recap_etablissement, #vrac_marche #recapitulatif .recap_perso, #vrac_marche #recapitulatif .recap_etablissement, #vrac_condition #recapitulatif .recap_perso, #vrac_condition #recapitulatif .recap_etablissement, #vrac_validation #recapitulatif .recap_perso, #vrac_validation #recapitulatif .recap_etablissement, #vrac_recapitulatif #recapitulatif .recap_perso, #vrac_recapitulatif #recapitulatif .recap_etablissement { margin:0 0 20px; }
-#vrac_soussigne #recapitulatif .recap_perso p, #vrac_soussigne #recapitulatif .recap_etablissement p, #vrac_marche #recapitulatif .recap_perso p, #vrac_marche #recapitulatif .recap_etablissement p, #vrac_condition #recapitulatif .recap_perso p, #vrac_condition #recapitulatif .recap_etablissement p, #vrac_validation #recapitulatif .recap_perso p, #vrac_validation #recapitulatif .recap_etablissement p, #vrac_recapitulatif #recapitulatif .recap_perso p, #vrac_recapitulatif #recapitulatif .recap_etablissement p { margin:5px 0; }
-#vrac_soussigne #recapitulatif .recap_perso p span, #vrac_soussigne #recapitulatif .recap_etablissement p span, #vrac_marche #recapitulatif .recap_perso p span, #vrac_marche #recapitulatif .recap_etablissement p span, #vrac_condition #recapitulatif .recap_perso p span, #vrac_condition #recapitulatif .recap_etablissement p span, #vrac_validation #recapitulatif .recap_perso p span, #vrac_validation #recapitulatif .recap_etablissement p span, #vrac_recapitulatif #recapitulatif .recap_perso p span, #vrac_recapitulatif #recapitulatif .recap_etablissement p span { font-weight:bold; }
-#vrac_soussigne #recapitulatif .recap_perso p strong, #vrac_soussigne #recapitulatif .recap_etablissement p strong, #vrac_marche #recapitulatif .recap_perso p strong, #vrac_marche #recapitulatif .recap_etablissement p strong, #vrac_condition #recapitulatif .recap_perso p strong, #vrac_condition #recapitulatif .recap_etablissement p strong, #vrac_validation #recapitulatif .recap_perso p strong, #vrac_validation #recapitulatif .recap_etablissement p strong, #vrac_recapitulatif #recapitulatif .recap_perso p strong, #vrac_recapitulatif #recapitulatif .recap_etablissement p strong {
-  color:#000000;
-  font-style:italic;
-  font-weight:normal;
-}
-#vrac_soussigne #recapitulatif .recap_perso .adresse_comptabilite, #vrac_soussigne #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_marche #recapitulatif .recap_perso .adresse_comptabilite, #vrac_marche #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_condition #recapitulatif .recap_perso .adresse_comptabilite, #vrac_condition #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_validation #recapitulatif .recap_perso .adresse_comptabilite, #vrac_validation #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_recapitulatif #recapitulatif .recap_perso .adresse_comptabilite, #vrac_recapitulatif #recapitulatif .recap_etablissement .adresse_comptabilite { margin:20px 0 0; }
-#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter, #vrac_soussigne #recapitulatif .recap_perso .btn_supprimer, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer, #vrac_marche #recapitulatif .recap_perso .btn_ajouter, #vrac_marche #recapitulatif .recap_perso .btn_supprimer, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer, #vrac_condition #recapitulatif .recap_perso .btn_ajouter, #vrac_condition #recapitulatif .recap_perso .btn_supprimer, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer, #vrac_validation #recapitulatif .recap_perso .btn_ajouter, #vrac_validation #recapitulatif .recap_perso .btn_supprimer, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer {
-  background-position:7px center;
-  padding:0 10px 0 30px;
-}
-#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter, #vrac_marche #recapitulatif .recap_perso .btn_ajouter, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter, #vrac_condition #recapitulatif .recap_perso .btn_ajouter, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter, #vrac_validation #recapitulatif .recap_perso .btn_ajouter, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter {
-  background-image:url(../images/boutons/btn_ajouter.png);
-  margin:0 10px 0 0;
-}
-#vrac_soussigne #recapitulatif .recap_perso .btn_supprimer, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer, #vrac_marche #recapitulatif .recap_perso .btn_supprimer, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer, #vrac_condition #recapitulatif .recap_perso .btn_supprimer, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer, #vrac_validation #recapitulatif .recap_perso .btn_supprimer, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer {
-  background-position:0 -26px;
-  border-color:#d9d8d8;
-  background-image:url(../images/boutons/btn_supprimer.png);
-  margin-right:20px;
-  text-transform:none;
-}
-#vrac_soussigne #recapitulatif .ligne_btn, #vrac_marche #recapitulatif .ligne_btn, #vrac_condition #recapitulatif .ligne_btn, #vrac_validation #recapitulatif .ligne_btn, #vrac_recapitulatif #recapitulatif .ligne_btn {
-  text-align:right;
-  margin:0;
-}
-#vrac_soussigne input.ui-autocomplete-input, #vrac_marche input.ui-autocomplete-input, #vrac_condition input.ui-autocomplete-input, #vrac_validation input.ui-autocomplete-input, #vrac_recapitulatif input.ui-autocomplete-input {
-  font-size:12px;
-  width:390px;
-}
-#vrac_soussigne input.ui-autocomplete-input + button, #vrac_marche input.ui-autocomplete-input + button, #vrac_condition input.ui-autocomplete-input + button, #vrac_validation input.ui-autocomplete-input + button, #vrac_recapitulatif input.ui-autocomplete-input + button { border-left:0; }
-#vrac_soussigne input.ui-autocomplete-input + button:hover, #vrac_marche input.ui-autocomplete-input + button:hover, #vrac_condition input.ui-autocomplete-input + button:hover, #vrac_validation input.ui-autocomplete-input + button:hover, #vrac_recapitulatif input.ui-autocomplete-input + button:hover { background-color:#e9e9e9; }
-#vrac_soussigne input.ui-autocomplete-input + button .ui-icon, #vrac_marche input.ui-autocomplete-input + button .ui-icon, #vrac_condition input.ui-autocomplete-input + button .ui-icon, #vrac_validation input.ui-autocomplete-input + button .ui-icon, #vrac_recapitulatif input.ui-autocomplete-input + button .ui-icon {
-  background:url(../images/pictos/pi_desc.png) center center no-repeat;
-  height:20px;
-  width:20px;
-}
-#vrac_soussigne .ui-dropdownchecklist-selector-wrapper, #vrac_soussigne .ui-dropdownchecklist-selector, #vrac_marche .ui-dropdownchecklist-selector-wrapper, #vrac_marche .ui-dropdownchecklist-selector, #vrac_condition .ui-dropdownchecklist-selector-wrapper, #vrac_condition .ui-dropdownchecklist-selector, #vrac_validation .ui-dropdownchecklist-selector-wrapper, #vrac_validation .ui-dropdownchecklist-selector, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper, #vrac_recapitulatif .ui-dropdownchecklist-selector {
-  font-size:0;
-  line-height:1;
-}
-#vrac_soussigne .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_soussigne .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector .ui-dropdownchecklist-text {
-  background:#ffffff;
-  border:1px solid #d3d2cd;
-  color:#ffffff;
-  font-size:12px;
-  height:18px;
-  padding:2px 4px 0;
-  width:190px !important;
-}
-#vrac_soussigne .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_soussigne .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text { border-bottom-color:#f4f4f4; }
-#vrac_soussigne .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_marche .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_condition .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_validation .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer-wrapper {
-  height:auto !important;
-  width:auto !important;
-}
-#vrac_soussigne .ui-dropdownchecklist-dropcontainer, #vrac_marche .ui-dropdownchecklist-dropcontainer, #vrac_condition .ui-dropdownchecklist-dropcontainer, #vrac_validation .ui-dropdownchecklist-dropcontainer, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer {
-  background:#ffffff;
-  border:1px solid #d3d2cd;
-  height:200px !important;
-  width:250px;
-}
-#vrac_soussigne .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_marche .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_condition .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_validation .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item { padding:2px 4px; }
-#vrac_soussigne .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_marche .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_condition .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_validation .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label {
-  width:auto;
-  vertical-align:middle;
-}
-#vrac_soussigne label, #vrac_marche label, #vrac_condition label, #vrac_validation label, #vrac_recapitulatif label { padding-right:10px; }
-#vrac_soussigne input.ui-autocomplete-input { width:510px; }
-#vrac_soussigne .vendeur_infos, #vrac_soussigne .acheteur_infos
-	.mandataire_infos { border-collapse:collapse; }
-#vrac_soussigne .vendeur_infos tr, #vrac_soussigne .vendeur_infos td, #vrac_soussigne .acheteur_infos
-	.mandataire_infos tr, #vrac_soussigne .acheteur_infos
-	.mandataire_infos td {
-  padding:0px 10px;
-  border:1px solid lightgrey;
-  line-height:40px;
-}
-#vrac_soussigne .vendeur_infos tr .bold, #vrac_soussigne .vendeur_infos td .bold, #vrac_soussigne .acheteur_infos
-	.mandataire_infos tr .bold, #vrac_soussigne .acheteur_infos
-	.mandataire_infos td .bold {
-  font-weight:bold;
-  width:25%;
-}
-#vrac_soussigne .vendeur_infos, #vrac_soussigne .acheteur_infos {
-  width:100%;
-  padding:20px 0;
-}
-#vrac_soussigne .vendeur_infos tr, #vrac_soussigne .vendeur_infos td, #vrac_soussigne .acheteur_infos tr, #vrac_soussigne .acheteur_infos td { width:30%; }
-#vrac_soussigne .btnModification {
-  zoom:1;
-  min-height:1px;
-  margin:10px 0 30px;
-}
-#vrac_soussigne .btnModification:before, #vrac_soussigne .btnModification:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-#vrac_soussigne .btnModification:after { clear:both; }
-#vrac_soussigne .btnModification a { cursor:pointer; }
-#vrac_soussigne .btnModification .btn_annuler {
-  float:left;
-  display:none;
-}
-#vrac_soussigne .btnModification .btn_modifier, #vrac_soussigne .btnModification .btn_valider { float:right; }
-#statut_vrac {
-  margin:0 0 25px;
-  zoom:1;
-  min-height:1px;
-}
-#statut_vrac:before, #statut_vrac:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-#statut_vrac:after { clear:both; }
-#statut_vrac #vrac_etapes {
-  background:url(../images/fonds/bg_etapes_declaration.png) 0 0 no-repeat;
-  color:#ffffff;
-  float:left;
-  padding:11px 0 11px 6px;
-}
-#statut_vrac #vrac_etapes ol {
-  line-height:21px;
-  list-style:none;
-}
-#statut_vrac #vrac_etapes ol * { float:left; }
-#statut_vrac #vrac_etapes ol li { background:url(../images/fonds/bg_etapes_declaration.png) 0 -43px repeat-x; }
-#statut_vrac #vrac_etapes ol li > * {
-  background:url(../images/fonds/bg_etapes_declaration.png) 0 -106px no-repeat;
-  padding:0 15px 0 20px;
-}
-#statut_vrac #vrac_etapes ol li a { color:#ffffff; }
-#statut_vrac #vrac_etapes ol li a:hover { text-decoration:none; }
-#statut_vrac #vrac_etapes ol li.premier { background-position:0 -64px; }
-#statut_vrac #vrac_etapes ol li.premier > * {
-  background:0;
-  padding-left:10px;
-}
-#statut_vrac #vrac_etapes ol li.dernier > * { padding-right:0; }
-#statut_vrac #vrac_etapes ol li.dernier > * span {
-  background:url(../images/fonds/bg_etapes_declaration.png) right -148px no-repeat;
-  padding-right:20px;
-}
-#statut_vrac #vrac_etapes ol li.dernier.actif > * span { background-position:right -169px; }
-#statut_vrac #vrac_etapes ol li.passe, #statut_vrac #vrac_etapes ol li.actif { background-position:0 -64px; }
-#statut_vrac #vrac_etapes ol li.passe > *, #statut_vrac #vrac_etapes ol li.actif > * { background-position:0 -127px; }
-#statut_vrac #vrac_etapes ol li.actif { font-weight:bold; }
-#statut_vrac #vrac_etapes ol li.actif + li > * { background-position:0 -85px; }
-#statut_vrac #etat_avancement {
-  float:right;
-  margin:-10px 0 0;
-  width:130px;
-}
-#statut_vrac #etat_avancement p {
-  font-size:11px;
-  line-height:1;
-  margin:0 0 5px;
-  text-align:right;
-}
-#statut_vrac #etat_avancement p strong {
-  color:;
-  font-size:22px;
-  margin:0 0 0 5px;
-}
-#statut_vrac #etat_avancement p strong span { font-size:12px; }
-#statut_vrac #etat_avancement #barre_avancement { background:#ffffff; }
-#statut_vrac #etat_avancement #barre_avancement div {
-  background:;
-  height:3px;
-}
-#vrac_condition #commentaires .bloc_form {
-  -webkit-border-radius:0;
-  -moz-border-radius:0;
-  border-radius:0;
-  -webkit-border-radius:0;
-  -moz-border-radius:0;
-  border-radius:0;
-  border:0;
-}
-#vrac_condition #commentaires .bloc_form textarea { width:100%; }
-.sv12 #num_sv12 {
-  background:#ecebeb;
-  font-size:14px;
-  font-weight:bold;
-  padding:10px;
-  margin:0 0 15px;
-}
-.sv12 #num_sv12 span {
-  display:inline-block;
-  width:200px;
-}
-.sv12 #negociant_infos { margin:0 0 25px; }
-.sv12 #btn_modifier_sv12 { margin:15px 0 0; }
-.sv12 #contenu_etape fieldset { margin:25px 0 0; }
-.sv12 #contenu_etape #recherche_sv12 {
+.hamza_style {
   background:#ecebeb;
   margin:0 0 15px;
   padding:10px;
 }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags label {
+.hamza_style .autocompletion_tags label {
   display:block;
   font-size:14px;
   font-weight:bold;
   margin:0 0 5px;
 }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags {
+.hamza_style .autocompletion_tags ul.tags {
   -webkit-border-radius:3px;
   -moz-border-radius:3px;
   border-radius:3px;
@@ -1840,16 +1494,16 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   vertical-align:top;
   width:100%;
 }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags > li {
+.hamza_style .autocompletion_tags ul.tags > li {
   display:inline-block;
   vertical-align:middle;
   line-height:26px;
 }
-.ielt8 .sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags > li {
+.ielt8 .hamza_style .autocompletion_tags ul.tags > li {
   display:inline;
   zoom:1;
 }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice {
+.hamza_style .autocompletion_tags ul.tags .tagit-choice {
   -webkit-border-radius:3px;
   -moz-border-radius:3px;
   border-radius:3px;
@@ -1861,20 +1515,20 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   margin:2px 5px;
   padding:0 0 0 5px;
 }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice:hover { background:#e3e2e2; }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice * {
+.hamza_style .autocompletion_tags ul.tags .tagit-choice:hover { background:#e3e2e2; }
+.hamza_style .autocompletion_tags ul.tags .tagit-choice * {
   display:inline-block;
   vertical-align:top;
 }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice .tagit-close {
+.hamza_style .autocompletion_tags ul.tags .tagit-choice .tagit-close {
   background:url(../images/pictos/pi_actions.png) 100% -492px no-repeat;
   height:26px;
   padding:0 5px;
   width:20px;
   text-indent:-9999px;
 }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new { margin:2px 0; }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new input {
+.hamza_style .autocompletion_tags ul.tags .tagit-new { margin:2px 0; }
+.hamza_style .autocompletion_tags ul.tags .tagit-new input.ui-autocomplete-input.tagit-input {
   -webkit-border-radius:0;
   -moz-border-radius:0;
   border-radius:0;
@@ -1893,8 +1547,8 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   padding:0;
   width:200px;
 }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new input:focus { outline:0; }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .ui-autocomplete {
+.hamza_style .autocompletion_tags ul.tags .tagit-new input.ui-autocomplete-input.tagit-input:focus { outline:0; }
+.hamza_style .autocompletion_tags ul.tags .ui-autocomplete {
   height:auto;
   width:auto;
   -webkit-box-shadow:0 5px 20px rgba(0,0,0,0.5);
@@ -1906,244 +1560,15 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   position:absolute;
   top:38px !important;
 }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags .tagit-hiddenSelect {
+.hamza_style .autocompletion_tags .tagit-hiddenSelect {
   clip:rect(1px 1px 1px 1px);
   clip:rect(1px,1px,1px,1px);
   position:absolute !important;
 }
-.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags .btn_rechercher {
+.hamza_style .autocompletion_tags .btn_rechercher {
   color:#ffffff;
   background-position:0 -52px;
   border-color:#6d6b6b;
-}
-.sv12 #contenu_etape #recherche_sv12 .volumes_vides { margin:10px 0 0; }
-.sv12 #contenu_etape #commentaire_sv12 textarea { width:100%; }
-.creer_info {
-  zoom:1;
-  min-height:1px;
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:16px;
-  font-weight:bold;
-  height:45px;
-  line-height:45px;
-  margin-top:5px;
-}
-.creer_info:before, .creer_info:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.creer_info:after { clear:both; }
-.creer_info .btn_majeur {
-  float:right;
-  margin-top:8px;
-}
-#principal legend {
-  text-transform:uppercase;
-  font-size:15px;
-  font-weight:bold;
-  margin:20px 0;
-}
-#principal .generation_facture_valid {
-  zoom:1;
-  min-height:1px;
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:16px;
-  font-weight:bold;
-  height:45px;
-  line-height:45px;
-  margin-top:5px;
-}
-#principal .generation_facture_valid:before, #principal .generation_facture_valid:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-#principal .generation_facture_valid:after { clear:both; }
-#principal .generation_facture_valid .btn_majeur {
-  float:right;
-  margin-top:8px;
-}
-#principal .generation_facture_options {
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:14px;
-  padding-bottom:10px;
-  padding-top:10px;
-}
-#principal .generation_facture_options span {
-  display:block;
-  font-weight:bold;
-  margin-bottom:5px;
-}
-#principal .generation_facture_options em {
-  display:inline-block;
-  margin-right:4px;
-  vertical-align:middle;
-}
-#principal .generation_facture_options ul:first-child li .ligne_etape { padding-left:10px; }
-#principal .generation_facture_options ul:first-child li .checkbox_list { padding-left:10px; }
-#principal .generation_facture_options ul:first-child li .checkbox_list li+li {
-  margin-bottom:0;
-  margin-top:8px;
-}
-#principal .generation_facture_options ul:first-child li .checkbox_list li input[type="checkbox"] { margin-right:12px; }
-#principal .generation_facture_options ul:first-child li+li { margin-top:20px; }
-#principal .generation_facture_options .champ_datepicker { height:auto; }
-#principal .generation_facture_options .champ_datepicker label, #principal .generation_facture_options .champ_datepicker img { vertical-align:middle; }
-#principal .generation_facture_options .champ_datepicker label {
-  font-weight:normal;
-  width:335px;
-}
-#principal .generation_facture_options .champ_datepicker img { position:static; }
-.ds #contenu_etape .generation_ds, .ds #contenu_etape .historique_generation_ds, .ds #contenu_etape .generation_ds_operateur {
-  zoom:1;
-  min-height:1px;
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:16px;
-  font-weight:bold;
-  height:45px;
-  line-height:45px;
-  margin-top:5px;
-  background:#ecebeb url(../images/pictos/fleche_bloc.png) 10px 50% no-repeat;
-  padding-left:40px;
-}
-.ds #contenu_etape .generation_ds:before, .ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:before, .ds #contenu_etape .historique_generation_ds:after, .ds #contenu_etape .generation_ds_operateur:before, .ds #contenu_etape .generation_ds_operateur:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:after, .ds #contenu_etape .generation_ds_operateur:after { clear:both; }
-.ds #contenu_etape .generation_ds .btn_majeur, .ds #contenu_etape .historique_generation_ds .btn_majeur, .ds #contenu_etape .generation_ds_operateur .btn_majeur {
-  float:right;
-  margin-top:8px;
-}
-.ds #contenu_etape .bloc_form, .ds #contenu_etape .table_recap { margin:0 0 20px; }
-.ds #commentaires .bloc_form {
-  -webkit-border-radius:0;
-  -moz-border-radius:0;
-  border-radius:0;
-  -webkit-border-radius:0;
-  -moz-border-radius:0;
-  border-radius:0;
-  border:0;
-}
-.ds #commentaires .bloc_form textarea { width:100%; }
-.ds #ds_recapitulatif_commentaires {
-  font-size:14px;
-  margin:15px 0;
-}
-.ds #ds_recapitulatif_commentaires h3 {
-  font-weight:bold;
-  margin:0 0 5px;
-}
-.revendication #revendication_import_fichier { overflow:hidden; }
-.revendication #revendication_import_fichier h2 {
-  margin:0;
-  float:left;
-}
-.revendication #revendication_import_fichier a { float:right; }
-.revendication #rapport_erreurs {
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:14px;
-  padding:10px;
-}
-.revendication #rapport_erreurs .nb_erreurs {
-  text-transform:uppercase;
-  font-weight:bold;
-  margin:0 0 15px;
-}
-.revendication #rapport_erreurs .type_erreurs {
-  border-top:1px solid #e3e2e2;
-  margin:25px 0 0;
-  padding:15px 0 0;
-}
-.revendication #rapport_erreurs .type_erreurs h3 {
-  text-transform:uppercase;
-  font-weight:bold;
-  margin:0 0 15px;
-}
-.revendication #rapport_erreurs .type_erreurs .item {
-  margin:15px 0 0;
-  padding:0 15px;
-}
-.revendication #rapport_erreurs .type_erreurs .produit {
-  zoom:1;
-  min-height:1px;
-}
-.revendication #rapport_erreurs .type_erreurs .produit:before, .revendication #rapport_erreurs .type_erreurs .produit:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.revendication #rapport_erreurs .type_erreurs .produit:after { clear:both; }
-.revendication #rapport_erreurs .type_erreurs .produit p { font-weight:bold; }
-.revendication #rapport_erreurs .type_erreurs .produit .btn_voir {
-  float:right;
-  margin:0 0 0 15px;
-}
-.revendication #rapport_erreurs .type_erreurs .num_erreurs { margin:5px 0 0; }
-.revendication #rapport_erreurs .type_erreurs .num_erreurs li {
-  display:inline-block;
-  margin:0 10px 0 0;
-}
-.ielt8 .revendication #rapport_erreurs .type_erreurs .num_erreurs li {
-  display:inline;
-  zoom:1;
-}
-.revendication #table_erreurs thead th:first-child { width:100px; }
-.revendication #table_erreurs tbody th, .revendication #table_erreurs tbody td {
-  font-size:12px;
-  padding:10px 0;
-}
-.revendication #table_erreurs tbody th {
-  border-top:1px solid #e3e2e2;
-  border-right:1px solid #e3e2e2;
-  background:0;
-}
-.revendication #table_erreurs tbody p.libelle {
-  border-bottom:1px solid #e3e2e2;
-  font-size:13px;
-  font-weight:bold;
-  margin:0 0 10px;
-  padding:0 0 10px;
-}
-.revendication #volumes_revendiques .ui-autocomplete-input { width:270px; }
-.revendication #volumes_revendiques .volume input { width:100px; }
-.revendication #volumes_revendiques .form_btn {
-  zoom:1;
-  min-height:1px;
-  margin:20px 0 0;
-}
-.revendication #volumes_revendiques .form_btn:before, .revendication #volumes_revendiques .form_btn:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.revendication #volumes_revendiques .form_btn:after { clear:both; }
-.revendication #volumes_revendiques .form_btn .btn_annuler { float:right; }
-.facturable { font-weight:bold; }
-.alerte #consultation_alerte, .alerte #modification_alerte { margin:0 0 20px; }
-.alerte #consultation_alerte .bloc_form label, .alerte #modification_alerte .bloc_form label { width:170px; }
-.alerte #consultation_alerte .bloc_form select, .alerte #modification_alerte .bloc_form select { width:200px; }
-.alerte #consultation_alerte .bloc_form textarea, .alerte #modification_alerte .bloc_form textarea { width:460px !important; }
-.alerte #consultation_alerte .btn_form, .alerte #modification_alerte .btn_form {
-  margin:15px 0 0;
-  text-align:right;
 }
 #rail_etapes {
   zoom:1;
@@ -2234,6 +1659,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 #rail_etapes li.passe > * span { background:#fcf1d5; }
 #rail_etapes li.passe > *:after { background-position:0 -94px; }
 #rail_etapes li strong { font-weight:normal; }
+.facturable { font-weight:bold; }
 #contrat_progression p {
   font-weight:bold;
   margin:0 0 5px;
@@ -2957,6 +2383,338 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   width:15px;
 }
 .bloc_col .legende div .type_raisins, .bloc_col .legende div .type_mouts, .bloc_col .legende div .type_vin_vrac, .bloc_col .legende div .type_vin_bouteille { margin-bottom:5px; }
+#statut_vrac {
+  margin:0 0 25px;
+  zoom:1;
+  min-height:1px;
+}
+#statut_vrac:before, #statut_vrac:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#statut_vrac:after { clear:both; }
+#statut_vrac #vrac_etapes {
+  background:url(../images/fonds/bg_etapes_declaration.png) 0 0 no-repeat;
+  color:#ffffff;
+  float:left;
+  padding:11px 0 11px 6px;
+}
+#statut_vrac #vrac_etapes ol {
+  line-height:21px;
+  list-style:none;
+}
+#statut_vrac #vrac_etapes ol * { float:left; }
+#statut_vrac #vrac_etapes ol li { background:url(../images/fonds/bg_etapes_declaration.png) 0 -43px repeat-x; }
+#statut_vrac #vrac_etapes ol li > * {
+  background:url(../images/fonds/bg_etapes_declaration.png) 0 -106px no-repeat;
+  padding:0 15px 0 20px;
+}
+#statut_vrac #vrac_etapes ol li a { color:#ffffff; }
+#statut_vrac #vrac_etapes ol li a:hover { text-decoration:none; }
+#statut_vrac #vrac_etapes ol li.premier { background-position:0 -64px; }
+#statut_vrac #vrac_etapes ol li.premier > * {
+  background:0;
+  padding-left:10px;
+}
+#statut_vrac #vrac_etapes ol li.dernier > * { padding-right:0; }
+#statut_vrac #vrac_etapes ol li.dernier > * span {
+  background:url(../images/fonds/bg_etapes_declaration.png) right -148px no-repeat;
+  padding-right:20px;
+}
+#statut_vrac #vrac_etapes ol li.dernier.actif > * span { background-position:right -169px; }
+#statut_vrac #vrac_etapes ol li.passe, #statut_vrac #vrac_etapes ol li.actif { background-position:0 -64px; }
+#statut_vrac #vrac_etapes ol li.passe > *, #statut_vrac #vrac_etapes ol li.actif > * { background-position:0 -127px; }
+#statut_vrac #vrac_etapes ol li.actif { font-weight:bold; }
+#statut_vrac #vrac_etapes ol li.actif + li > * { background-position:0 -85px; }
+#statut_vrac #etat_avancement {
+  float:right;
+  margin:-10px 0 0;
+  width:130px;
+}
+#statut_vrac #etat_avancement p {
+  font-size:11px;
+  line-height:1;
+  margin:0 0 5px;
+  text-align:right;
+}
+#statut_vrac #etat_avancement p strong {
+  color:;
+  font-size:22px;
+  margin:0 0 0 5px;
+}
+#statut_vrac #etat_avancement p strong span { font-size:12px; }
+#statut_vrac #etat_avancement #barre_avancement { background:#ffffff; }
+#statut_vrac #etat_avancement #barre_avancement div {
+  background:;
+  height:3px;
+}
+#vrac_condition #commentaires .bloc_form {
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  border:0;
+}
+#vrac_condition #commentaires .bloc_form textarea { width:100%; }
+#vrac_soussigne h1, #vrac_marche h1, #vrac_condition h1, #vrac_validation h1, #vrac_recapitulatif h1 {
+  font-size:16px;
+  font-weight:bold;
+  margin:0 0 20px;
+  text-align:center;
+  color:#ffffff;
+}
+#vrac_soussigne h2, #vrac_marche h2, #vrac_condition h2, #vrac_validation h2, #vrac_recapitulatif h2 {
+  font-size:16px;
+  margin:0 0 15px;
+}
+#vrac_soussigne .col, #vrac_marche .col, #vrac_condition .col, #vrac_validation .col, #vrac_recapitulatif .col {
+  display:inline-block;
+  vertical-align:top;
+  width:425px;
+}
+.ielt8 #vrac_soussigne .col, .ielt8 #vrac_marche .col, .ielt8 #vrac_condition .col, .ielt8 #vrac_validation .col, .ielt8 #vrac_recapitulatif .col { display:inline-block; }
+.ielt8 .ielt8 #vrac_soussigne .col, .ielt8 .ielt8 #vrac_marche .col, .ielt8 .ielt8 #vrac_condition .col, .ielt8 .ielt8 #vrac_validation .col, .ielt8 .ielt8 #vrac_recapitulatif .col {
+  display:inline;
+  zoom:1;
+}
+#vrac_soussigne section, #vrac_marche section, #vrac_condition section, #vrac_validation section, #vrac_recapitulatif section { padding:5px 0px; }
+#vrac_soussigne .ligne_form .error_list, #vrac_marche .ligne_form .error_list, #vrac_condition .ligne_form .error_list, #vrac_validation .ligne_form .error_list, #vrac_recapitulatif .ligne_form .error_list { width:310px; }
+#vrac_soussigne .ligne_form label, #vrac_marche .ligne_form label, #vrac_condition .ligne_form label, #vrac_validation .ligne_form label, #vrac_recapitulatif .ligne_form label {
+  display:inline-block;
+  vertical-align:middle;
+  width:165px;
+}
+#vrac_soussigne .ligne_form.ligne_form_large label, #vrac_marche .ligne_form.ligne_form_large label, #vrac_condition .ligne_form.ligne_form_large label, #vrac_validation .ligne_form.ligne_form_large label, #vrac_recapitulatif .ligne_form.ligne_form_large label {
+  display:block;
+  margin:0 0 10px;
+  width:auto;
+}
+#vrac_soussigne .ligne_form input[type="text"], #vrac_soussigne .ligne_form input[type="password"], #vrac_soussigne .ligne_form select, #vrac_marche .ligne_form input[type="text"], #vrac_marche .ligne_form input[type="password"], #vrac_marche .ligne_form select, #vrac_condition .ligne_form input[type="text"], #vrac_condition .ligne_form input[type="password"], #vrac_condition .ligne_form select, #vrac_validation .ligne_form input[type="text"], #vrac_validation .ligne_form input[type="password"], #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form input[type="text"], #vrac_recapitulatif .ligne_form input[type="password"], #vrac_recapitulatif .ligne_form select {
+  font-size:12px;
+  position:relative;
+  vertical-align:middle;
+  margin:0;
+}
+#vrac_soussigne .ligne_form input[type="text"], #vrac_soussigne .ligne_form input[type="password"], #vrac_marche .ligne_form input[type="text"], #vrac_marche .ligne_form input[type="password"], #vrac_condition .ligne_form input[type="text"], #vrac_condition .ligne_form input[type="password"], #vrac_validation .ligne_form input[type="text"], #vrac_validation .ligne_form input[type="password"], #vrac_recapitulatif .ligne_form input[type="text"], #vrac_recapitulatif .ligne_form input[type="password"] {
+  padding:2px 4px;
+  width:120px;
+}
+#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select { width:130px; }
+#vrac_soussigne .ligne_form .champ_form_radio_cb label, #vrac_marche .ligne_form .champ_form_radio_cb label, #vrac_condition .ligne_form .champ_form_radio_cb label, #vrac_validation .ligne_form .champ_form_radio_cb label, #vrac_recapitulatif .ligne_form .champ_form_radio_cb label {
+  display:inline-block;
+  margin:0 20px 0 0;
+  width:auto;
+}
+#vrac_soussigne .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_marche .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_condition .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_validation .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_recapitulatif .ligne_form.ligne_form_large .champ_form_radio_cb input {
+  margin:0 5px 0 0;
+  vertical-align:middle;
+}
+#vrac_soussigne .ligne_btn, #vrac_marche .ligne_btn, #vrac_condition .ligne_btn, #vrac_validation .ligne_btn, #vrac_recapitulatif .ligne_btn {
+  margin:34px 0 0;
+  right:23px;
+}
+#vrac_soussigne .ligne_btn button, #vrac_soussigne .ligne_btn a, #vrac_marche .ligne_btn button, #vrac_marche .ligne_btn a, #vrac_condition .ligne_btn button, #vrac_condition .ligne_btn a, #vrac_validation .ligne_btn button, #vrac_validation .ligne_btn a, #vrac_recapitulatif .ligne_btn button, #vrac_recapitulatif .ligne_btn a {
+  line-height:24px;
+  font-weight:normal;
+  text-transform:uppercase;
+}
+#vrac_soussigne .ligne_btn button:hover, #vrac_soussigne .ligne_btn a:hover, #vrac_marche .ligne_btn button:hover, #vrac_marche .ligne_btn a:hover, #vrac_condition .ligne_btn button:hover, #vrac_condition .ligne_btn a:hover, #vrac_validation .ligne_btn button:hover, #vrac_validation .ligne_btn a:hover, #vrac_recapitulatif .ligne_btn button:hover, #vrac_recapitulatif .ligne_btn a:hover { text-decoration:none; }
+#vrac_soussigne .ligne_btn .btn_valider, #vrac_marche .ligne_btn .btn_valider, #vrac_condition .ligne_btn .btn_valider, #vrac_validation .ligne_btn .btn_valider, #vrac_recapitulatif .ligne_btn .btn_valider { padding:0 17px 0 15px; }
+#vrac_soussigne .ligne_btn .btn_ajouter, #vrac_marche .ligne_btn .btn_ajouter, #vrac_condition .ligne_btn .btn_ajouter, #vrac_validation .ligne_btn .btn_ajouter, #vrac_recapitulatif .ligne_btn .btn_ajouter {
+  background-image:url(../images/boutons/btn_ajouter.png);
+  background-position:7px center;
+  margin:0 10px 0 0;
+  padding:0 10px 0 30px;
+}
+#vrac_soussigne .ligne_btn .btn_supprimer, #vrac_marche .ligne_btn .btn_supprimer, #vrac_condition .ligne_btn .btn_supprimer, #vrac_validation .ligne_btn .btn_supprimer, #vrac_recapitulatif .ligne_btn .btn_supprimer {
+  background-position:0 -26px;
+  border-color:#d9d8d8;
+  background-image:url(../images/boutons/btn_supprimer.png);
+  background-position:7px center;
+  padding:0 10px 0 30px;
+  margin-right:20px;
+  text-transform:none;
+}
+#vrac_soussigne #infos_etablissements, #vrac_marche #infos_etablissements, #vrac_condition #infos_etablissements, #vrac_validation #infos_etablissements, #vrac_recapitulatif #infos_etablissements {
+  margin:15px 0 0;
+  position:relative;
+  padding:0;
+  width:895px;
+}
+#vrac_soussigne #infos_etablissements .etablissement, #vrac_marche #infos_etablissements .etablissement, #vrac_condition #infos_etablissements .etablissement, #vrac_validation #infos_etablissements .etablissement, #vrac_recapitulatif #infos_etablissements .etablissement {
+  border:1px solid #3e3e3e;
+  background:#5e5c5c;
+  display:inline-block;
+  margin:0 20px 20px 0;
+  padding:10px 10px 0;
+  position:relative;
+  vertical-align:top;
+  width:250px;
+}
+.ielt8 #vrac_soussigne #infos_etablissements .etablissement, .ielt8 #vrac_marche #infos_etablissements .etablissement, .ielt8 #vrac_condition #infos_etablissements .etablissement, .ielt8 #vrac_validation #infos_etablissements .etablissement, .ielt8 #vrac_recapitulatif #infos_etablissements .etablissement { display:inline-block; }
+.ielt8 .ielt8 #vrac_soussigne #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_marche #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_condition #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_validation #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_recapitulatif #infos_etablissements .etablissement {
+  display:inline;
+  zoom:1;
+}
+#vrac_soussigne #infos_etablissements .etablissement .error_list, #vrac_marche #infos_etablissements .etablissement .error_list, #vrac_condition #infos_etablissements .etablissement .error_list, #vrac_validation #infos_etablissements .etablissement .error_list, #vrac_recapitulatif #infos_etablissements .etablissement .error_list { width:auto; }
+#vrac_soussigne #infos_etablissements .etablissement .ligne_form label, #vrac_marche #infos_etablissements .etablissement .ligne_form label, #vrac_condition #infos_etablissements .etablissement .ligne_form label, #vrac_validation #infos_etablissements .etablissement .ligne_form label, #vrac_recapitulatif #infos_etablissements .etablissement .ligne_form label { width:110px; }
+#vrac_soussigne #infos_etablissements .etablissement a.supprimer, #vrac_marche #infos_etablissements .etablissement a.supprimer, #vrac_condition #infos_etablissements .etablissement a.supprimer, #vrac_validation #infos_etablissements .etablissement a.supprimer, #vrac_recapitulatif #infos_etablissements .etablissement a.supprimer {
+  height:13px;
+  width:13px;
+  bottom:auto;
+  left:auto;
+  position:absolute;
+  right:-5px;
+  top:-5px;
+  background:url(../images/pictos/pi_supprimer.png) 0 0 no-repeat;
+  display:inline-block;
+  text-indent:-9999px;
+}
+#vrac_soussigne a.btn_ajouter_etab, #vrac_marche a.btn_ajouter_etab, #vrac_condition a.btn_ajouter_etab, #vrac_validation a.btn_ajouter_etab, #vrac_recapitulatif a.btn_ajouter_etab {
+  background-position:0 -26px;
+  border-color:#d9d8d8;
+  background-image:url(../images/boutons/btn_ajouter.png);
+  background-position:7px center;
+  margin:0 10px 0 0;
+  padding:5px 10px 6px 30px;
+  position:absolute;
+  right:127px;
+  text-transform:none;
+}
+#vrac_soussigne a#btn_ajouter_etablissement, #vrac_marche a#btn_ajouter_etablissement, #vrac_condition a#btn_ajouter_etablissement, #vrac_validation a#btn_ajouter_etablissement, #vrac_recapitulatif a#btn_ajouter_etablissement {
+  background-position:0 -26px;
+  border-color:#d9d8d8;
+  background-image:url(../images/boutons/btn_ajouter.png);
+  background-position:10px center;
+  font-size:15px;
+  line-height:1;
+  position:absolute;
+  padding:4px 10px 4px 32px;
+  font-size:15px;
+  text-transform:uppercase;
+}
+#vrac_soussigne a#btn_ajouter_etablissement:hover, #vrac_marche a#btn_ajouter_etablissement:hover, #vrac_condition a#btn_ajouter_etablissement:hover, #vrac_validation a#btn_ajouter_etablissement:hover, #vrac_recapitulatif a#btn_ajouter_etablissement:hover { text-decoration:none; }
+#vrac_soussigne a#btn_ajouter_etablissement span, #vrac_marche a#btn_ajouter_etablissement span, #vrac_condition a#btn_ajouter_etablissement span, #vrac_validation a#btn_ajouter_etablissement span, #vrac_recapitulatif a#btn_ajouter_etablissement span {
+  color:#ffffff;
+  display:block;
+  font-size:14px;
+  font-weight:bold;
+  text-transform:none;
+}
+#vrac_soussigne #recapitulatif .recap_perso, #vrac_soussigne #recapitulatif .recap_etablissement, #vrac_marche #recapitulatif .recap_perso, #vrac_marche #recapitulatif .recap_etablissement, #vrac_condition #recapitulatif .recap_perso, #vrac_condition #recapitulatif .recap_etablissement, #vrac_validation #recapitulatif .recap_perso, #vrac_validation #recapitulatif .recap_etablissement, #vrac_recapitulatif #recapitulatif .recap_perso, #vrac_recapitulatif #recapitulatif .recap_etablissement { margin:0 0 20px; }
+#vrac_soussigne #recapitulatif .recap_perso p, #vrac_soussigne #recapitulatif .recap_etablissement p, #vrac_marche #recapitulatif .recap_perso p, #vrac_marche #recapitulatif .recap_etablissement p, #vrac_condition #recapitulatif .recap_perso p, #vrac_condition #recapitulatif .recap_etablissement p, #vrac_validation #recapitulatif .recap_perso p, #vrac_validation #recapitulatif .recap_etablissement p, #vrac_recapitulatif #recapitulatif .recap_perso p, #vrac_recapitulatif #recapitulatif .recap_etablissement p { margin:5px 0; }
+#vrac_soussigne #recapitulatif .recap_perso p span, #vrac_soussigne #recapitulatif .recap_etablissement p span, #vrac_marche #recapitulatif .recap_perso p span, #vrac_marche #recapitulatif .recap_etablissement p span, #vrac_condition #recapitulatif .recap_perso p span, #vrac_condition #recapitulatif .recap_etablissement p span, #vrac_validation #recapitulatif .recap_perso p span, #vrac_validation #recapitulatif .recap_etablissement p span, #vrac_recapitulatif #recapitulatif .recap_perso p span, #vrac_recapitulatif #recapitulatif .recap_etablissement p span { font-weight:bold; }
+#vrac_soussigne #recapitulatif .recap_perso p strong, #vrac_soussigne #recapitulatif .recap_etablissement p strong, #vrac_marche #recapitulatif .recap_perso p strong, #vrac_marche #recapitulatif .recap_etablissement p strong, #vrac_condition #recapitulatif .recap_perso p strong, #vrac_condition #recapitulatif .recap_etablissement p strong, #vrac_validation #recapitulatif .recap_perso p strong, #vrac_validation #recapitulatif .recap_etablissement p strong, #vrac_recapitulatif #recapitulatif .recap_perso p strong, #vrac_recapitulatif #recapitulatif .recap_etablissement p strong {
+  color:#000000;
+  font-style:italic;
+  font-weight:normal;
+}
+#vrac_soussigne #recapitulatif .recap_perso .adresse_comptabilite, #vrac_soussigne #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_marche #recapitulatif .recap_perso .adresse_comptabilite, #vrac_marche #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_condition #recapitulatif .recap_perso .adresse_comptabilite, #vrac_condition #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_validation #recapitulatif .recap_perso .adresse_comptabilite, #vrac_validation #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_recapitulatif #recapitulatif .recap_perso .adresse_comptabilite, #vrac_recapitulatif #recapitulatif .recap_etablissement .adresse_comptabilite { margin:20px 0 0; }
+#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter, #vrac_soussigne #recapitulatif .recap_perso .btn_supprimer, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer, #vrac_marche #recapitulatif .recap_perso .btn_ajouter, #vrac_marche #recapitulatif .recap_perso .btn_supprimer, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer, #vrac_condition #recapitulatif .recap_perso .btn_ajouter, #vrac_condition #recapitulatif .recap_perso .btn_supprimer, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer, #vrac_validation #recapitulatif .recap_perso .btn_ajouter, #vrac_validation #recapitulatif .recap_perso .btn_supprimer, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer {
+  background-position:7px center;
+  padding:0 10px 0 30px;
+}
+#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter, #vrac_marche #recapitulatif .recap_perso .btn_ajouter, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter, #vrac_condition #recapitulatif .recap_perso .btn_ajouter, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter, #vrac_validation #recapitulatif .recap_perso .btn_ajouter, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter {
+  background-image:url(../images/boutons/btn_ajouter.png);
+  margin:0 10px 0 0;
+}
+#vrac_soussigne #recapitulatif .recap_perso .btn_supprimer, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer, #vrac_marche #recapitulatif .recap_perso .btn_supprimer, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer, #vrac_condition #recapitulatif .recap_perso .btn_supprimer, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer, #vrac_validation #recapitulatif .recap_perso .btn_supprimer, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer {
+  background-position:0 -26px;
+  border-color:#d9d8d8;
+  background-image:url(../images/boutons/btn_supprimer.png);
+  margin-right:20px;
+  text-transform:none;
+}
+#vrac_soussigne #recapitulatif .ligne_btn, #vrac_marche #recapitulatif .ligne_btn, #vrac_condition #recapitulatif .ligne_btn, #vrac_validation #recapitulatif .ligne_btn, #vrac_recapitulatif #recapitulatif .ligne_btn {
+  text-align:right;
+  margin:0;
+}
+#vrac_soussigne input.ui-autocomplete-input, #vrac_marche input.ui-autocomplete-input, #vrac_condition input.ui-autocomplete-input, #vrac_validation input.ui-autocomplete-input, #vrac_recapitulatif input.ui-autocomplete-input {
+  font-size:12px;
+  width:390px;
+}
+#vrac_soussigne input.ui-autocomplete-input + button, #vrac_marche input.ui-autocomplete-input + button, #vrac_condition input.ui-autocomplete-input + button, #vrac_validation input.ui-autocomplete-input + button, #vrac_recapitulatif input.ui-autocomplete-input + button { border-left:0; }
+#vrac_soussigne input.ui-autocomplete-input + button:hover, #vrac_marche input.ui-autocomplete-input + button:hover, #vrac_condition input.ui-autocomplete-input + button:hover, #vrac_validation input.ui-autocomplete-input + button:hover, #vrac_recapitulatif input.ui-autocomplete-input + button:hover { background-color:#e9e9e9; }
+#vrac_soussigne input.ui-autocomplete-input + button .ui-icon, #vrac_marche input.ui-autocomplete-input + button .ui-icon, #vrac_condition input.ui-autocomplete-input + button .ui-icon, #vrac_validation input.ui-autocomplete-input + button .ui-icon, #vrac_recapitulatif input.ui-autocomplete-input + button .ui-icon {
+  background:url(../images/pictos/pi_desc.png) center center no-repeat;
+  height:20px;
+  width:20px;
+}
+#vrac_soussigne .ui-dropdownchecklist-selector-wrapper, #vrac_soussigne .ui-dropdownchecklist-selector, #vrac_marche .ui-dropdownchecklist-selector-wrapper, #vrac_marche .ui-dropdownchecklist-selector, #vrac_condition .ui-dropdownchecklist-selector-wrapper, #vrac_condition .ui-dropdownchecklist-selector, #vrac_validation .ui-dropdownchecklist-selector-wrapper, #vrac_validation .ui-dropdownchecklist-selector, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper, #vrac_recapitulatif .ui-dropdownchecklist-selector {
+  font-size:0;
+  line-height:1;
+}
+#vrac_soussigne .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_soussigne .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector .ui-dropdownchecklist-text {
+  background:#ffffff;
+  border:1px solid #d3d2cd;
+  color:#ffffff;
+  font-size:12px;
+  height:18px;
+  padding:2px 4px 0;
+  width:190px !important;
+}
+#vrac_soussigne .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_soussigne .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text { border-bottom-color:#f4f4f4; }
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_marche .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_condition .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_validation .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer-wrapper {
+  height:auto !important;
+  width:auto !important;
+}
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer, #vrac_marche .ui-dropdownchecklist-dropcontainer, #vrac_condition .ui-dropdownchecklist-dropcontainer, #vrac_validation .ui-dropdownchecklist-dropcontainer, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer {
+  background:#ffffff;
+  border:1px solid #d3d2cd;
+  height:200px !important;
+  width:250px;
+}
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_marche .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_condition .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_validation .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item { padding:2px 4px; }
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_marche .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_condition .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_validation .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label {
+  width:auto;
+  vertical-align:middle;
+}
+#vrac_soussigne label, #vrac_marche label, #vrac_condition label, #vrac_validation label, #vrac_recapitulatif label { padding-right:10px; }
+#vrac_soussigne input.ui-autocomplete-input { width:510px; }
+#vrac_soussigne .vendeur_infos, #vrac_soussigne .acheteur_infos
+    .mandataire_infos { border-collapse:collapse; }
+#vrac_soussigne .vendeur_infos tr, #vrac_soussigne .vendeur_infos td, #vrac_soussigne .acheteur_infos
+    .mandataire_infos tr, #vrac_soussigne .acheteur_infos
+    .mandataire_infos td {
+  padding:0px 10px;
+  border:1px solid lightgrey;
+  line-height:40px;
+}
+#vrac_soussigne .vendeur_infos tr .bold, #vrac_soussigne .vendeur_infos td .bold, #vrac_soussigne .acheteur_infos
+    .mandataire_infos tr .bold, #vrac_soussigne .acheteur_infos
+    .mandataire_infos td .bold {
+  font-weight:bold;
+  width:25%;
+}
+#vrac_soussigne .vendeur_infos, #vrac_soussigne .acheteur_infos {
+  width:100%;
+  padding:20px 0;
+}
+#vrac_soussigne .vendeur_infos tr, #vrac_soussigne .vendeur_infos td, #vrac_soussigne .acheteur_infos tr, #vrac_soussigne .acheteur_infos td { width:30%; }
+#vrac_soussigne .btnModification {
+  zoom:1;
+  min-height:1px;
+  margin:10px 0 30px;
+}
+#vrac_soussigne .btnModification:before, #vrac_soussigne .btnModification:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#vrac_soussigne .btnModification:after { clear:both; }
+#vrac_soussigne .btnModification a { cursor:pointer; }
+#vrac_soussigne .btnModification .btn_annuler {
+  float:left;
+  display:none;
+}
+#vrac_soussigne .btnModification .btn_modifier, #vrac_soussigne .btnModification .btn_valider { float:right; }
 #contacts .form_btn { margin:28px 0; }
 #contacts .form_btn .btn_valider { margin:0 0 0 470px; }
 #contacts .form_ligne {
@@ -4381,3 +4139,248 @@ bouton#principal.drm fieldset .btn_container_exporter a { height:26px; }
 }
 .fancybox-wrap .fancybox-inner #contenu #principal #drm_export_details_form .btn_valider, .fancybox-wrap .fancybox-inner #contenu #principal #drm_vrac_details_form .btn_valider, .fancybox-wrap .fancybox-inner #contenu #principal #drm_cooperative_details_form .btn_valider { float:right; }
 .fancybox-wrap .fancybox-inner #contenu #principal .drm_details_form_noItem { margin-bottom:20px; }
+.ds #contenu_etape .generation_ds, .ds #contenu_etape .historique_generation_ds, .ds #contenu_etape .generation_ds_operateur {
+  background:#ecebeb url(../images/pictos/fleche_bloc.png) 10px 50% no-repeat;
+  padding-left:40px;
+}
+.ds #contenu_etape .bloc_form, .ds #contenu_etape .table_recap { margin:0 0 20px; }
+.ds #commentaires .bloc_form {
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  border:0;
+}
+.ds #commentaires .bloc_form textarea { width:100%; }
+.ds #ds_recapitulatif_commentaires {
+  font-size:14px;
+  margin:15px 0;
+}
+.ds #ds_recapitulatif_commentaires h3 {
+  font-weight:bold;
+  margin:0 0 5px;
+}
+.sv12 #num_sv12 {
+  background:#ecebeb;
+  font-size:14px;
+  font-weight:bold;
+  padding:10px;
+  margin:0 0 15px;
+}
+.sv12 #num_sv12 span {
+  display:inline-block;
+  width:200px;
+}
+.sv12 #negociant_infos { margin:0 0 25px; }
+.sv12 #btn_modifier_sv12 { margin:15px 0 0; }
+.sv12 #contenu_etape fieldset { margin:25px 0 0; }
+.sv12 #contenu_etape #recherche_sv12 {
+  background:#ecebeb;
+  margin:0 0 15px;
+  padding:10px;
+}
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags label {
+  display:block;
+  font-size:14px;
+  font-weight:bold;
+  margin:0 0 5px;
+}
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags {
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  -webkit-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  -moz-box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  box-shadow:0px 1px 3px rgba(0,0,0,0.4) inset;
+  background:#ffffff url(../images/pictos/pi_recherche.png) 5px 14px no-repeat;
+  font-size:14px;
+  margin:0 10px 0 0;
+  padding:3px 5px 3px 25px;
+  position:relative;
+  vertical-align:top;
+  width:100%;
+}
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags > li {
+  display:inline-block;
+  vertical-align:middle;
+  line-height:26px;
+}
+.ielt8 .sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags > li {
+  display:inline;
+  zoom:1;
+}
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice {
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  border-radius:3px;
+  border:1px solid #c2c0c0;
+  background:#ecebeb;
+  margin:2px 5px;
+  padding:0 0 0 5px;
+}
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice:hover { background:#e3e2e2; }
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice * {
+  display:inline-block;
+  vertical-align:top;
+}
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice .tagit-close {
+  background:url(../images/pictos/pi_actions.png) 100% -492px no-repeat;
+  height:26px;
+  padding:0 5px;
+  width:20px;
+  text-indent:-9999px;
+}
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new { margin:2px 0; }
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new input {
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  -webkit-box-shadow:none;
+  -moz-box-shadow:none;
+  box-shadow:none;
+  -webkit-box-shadow:none;
+  -moz-box-shadow:none;
+  box-shadow:none;
+  background:0;
+  font-size:14px;
+  height:28px;
+  padding:0;
+  width:200px;
+}
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new input:focus { outline:0; }
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .ui-autocomplete {
+  height:auto;
+  width:auto;
+  -webkit-box-shadow:0 5px 20px rgba(0,0,0,0.5);
+  -moz-box-shadow:0 5px 20px rgba(0,0,0,0.5);
+  box-shadow:0 5px 20px rgba(0,0,0,0.5);
+  -webkit-box-shadow:0 5px 20px rgba(0,0,0,0.5);
+  -moz-box-shadow:0 5px 20px rgba(0,0,0,0.5);
+  box-shadow:0 5px 20px rgba(0,0,0,0.5);
+  position:absolute;
+  top:38px !important;
+}
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags .tagit-hiddenSelect {
+  clip:rect(1px 1px 1px 1px);
+  clip:rect(1px,1px,1px,1px);
+  position:absolute !important;
+}
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags .btn_rechercher {
+  color:#ffffff;
+  background-position:0 -52px;
+  border-color:#6d6b6b;
+}
+.sv12 #contenu_etape #recherche_sv12 .volumes_vides { margin:10px 0 0; }
+.sv12 #contenu_etape #commentaire_sv12 textarea { width:100%; }
+.revendication #revendication_import_fichier { overflow:hidden; }
+.revendication #revendication_import_fichier h2 {
+  margin:0;
+  float:left;
+}
+.revendication #revendication_import_fichier a { float:right; }
+.revendication #rapport_erreurs {
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:14px;
+  padding:10px;
+}
+.revendication #rapport_erreurs .nb_erreurs {
+  text-transform:uppercase;
+  font-weight:bold;
+  margin:0 0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs {
+  border-top:1px solid #e3e2e2;
+  margin:25px 0 0;
+  padding:15px 0 0;
+}
+.revendication #rapport_erreurs .type_erreurs h3 {
+  text-transform:uppercase;
+  font-weight:bold;
+  margin:0 0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs .item {
+  margin:15px 0 0;
+  padding:0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs .produit {
+  zoom:1;
+  min-height:1px;
+}
+.revendication #rapport_erreurs .type_erreurs .produit:before, .revendication #rapport_erreurs .type_erreurs .produit:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.revendication #rapport_erreurs .type_erreurs .produit:after { clear:both; }
+.revendication #rapport_erreurs .type_erreurs .produit p { font-weight:bold; }
+.revendication #rapport_erreurs .type_erreurs .produit .btn_voir {
+  float:right;
+  margin:0 0 0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs .num_erreurs { margin:5px 0 0; }
+.revendication #rapport_erreurs .type_erreurs .num_erreurs li {
+  display:inline-block;
+  margin:0 10px 0 0;
+}
+.ielt8 .revendication #rapport_erreurs .type_erreurs .num_erreurs li {
+  display:inline;
+  zoom:1;
+}
+.revendication #table_erreurs thead th:first-child { width:100px; }
+.revendication #table_erreurs tbody th, .revendication #table_erreurs tbody td {
+  font-size:12px;
+  padding:10px 0;
+}
+.revendication #table_erreurs tbody th {
+  border-top:1px solid #e3e2e2;
+  border-right:1px solid #e3e2e2;
+  background:0;
+}
+.revendication #table_erreurs tbody p.libelle {
+  border-bottom:1px solid #e3e2e2;
+  font-size:13px;
+  font-weight:bold;
+  margin:0 0 10px;
+  padding:0 0 10px;
+}
+.revendication #volumes_revendiques .ui-autocomplete-input { width:270px; }
+.revendication #volumes_revendiques .volume input { width:100px; }
+.revendication #volumes_revendiques .form_btn {
+  zoom:1;
+  min-height:1px;
+  margin:20px 0 0;
+}
+.revendication #volumes_revendiques .form_btn:before, .revendication #volumes_revendiques .form_btn:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.revendication #volumes_revendiques .form_btn:after { clear:both; }
+.revendication #volumes_revendiques .form_btn .btn_annuler { float:right; }
+.alerte #consultation_alerte, .alerte #modification_alerte { margin:0 0 20px; }
+.alerte #consultation_alerte .bloc_form label, .alerte #modification_alerte .bloc_form label { width:170px; }
+.alerte #consultation_alerte .bloc_form select, .alerte #modification_alerte .bloc_form select { width:200px; }
+.alerte #consultation_alerte .bloc_form textarea, .alerte #modification_alerte .bloc_form textarea { width:460px !important; }
+.alerte #consultation_alerte .btn_form, .alerte #modification_alerte .btn_form {
+  margin:15px 0 0;
+  text-align:right;
+}
