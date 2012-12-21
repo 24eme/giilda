@@ -86,6 +86,7 @@ SV12:
                         detail_libelle: {  }
                         volume: { type: float }
                         cvo: { type: float }
+                        region: {}
                         facture: { type: integer }
                         facturable: { type: integer }
                         date: {  }
