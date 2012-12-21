@@ -46,15 +46,15 @@
 	$.fn.includeJS(jsPath, 'global.js');
 	$.fn.includeJS(jsPath, 'popups.js');
 	$.fn.includeJS(jsPath, 'autocomplete.js');
-	$.fn.includeJS(jsPath, 'hamza_style.js');
     $.fn.includeJS(jsPath, 'ajaxHelper.js');
 	$.fn.includeJS(jsPath, 'vrac.js');
 	$.fn.includeJS(jsPath, 'form.js');
 	$.fn.includeJS(jsPath, 'drm.js');
 	$.fn.includeJS(jsPath, 'declaration.js');        
 	$.fn.includeJS(jsPath, 'sv12.js');
-		$.fn.includeJS(jsPath, 'ds.js');
+	$.fn.includeJS(jsPath, 'ds.js');
     $.fn.includeJS(jsPath, 'colonnes.js');
 	$.fn.includeJS(jsPath, 'contacts.js');
+	$.fn.includeJS(jsPath, 'hamza_style.js');
 
 })(jQuery);
