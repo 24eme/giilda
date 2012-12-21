@@ -84,7 +84,7 @@ class drmActions extends sfActions {
       $this->etablissement = $this->getRoute()->getEtablissement();
       
       if($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
-	throw sfException("L'établissement sélectionné ne déclare pas de DRM");
+	throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
 
       $this->campagne = $request->getParameter('campagne');
       if (!$this->campagne) {
