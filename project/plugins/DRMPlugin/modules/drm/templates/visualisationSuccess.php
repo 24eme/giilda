@@ -24,7 +24,7 @@
         <?php endif; ?>
 
 		<?php include_partial('drm/recap', array('drm' => $drm)) ?>
-		<?php include_partial('drm/mouvements', array('mouvements' => $mouvements)) ?>
+		<?php include_partial('drm/mouvements', array('mouvements' => $mouvements, 'hamza_style' => true)) ?>
    <br/>
    <table class="table_recap">
    <tr><th>Commentaire</th></tr>

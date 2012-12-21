@@ -13,9 +13,6 @@
             </form>
 
             <?php include_partial('stocks/recap', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?>
-
-            <h2>Les mouvements</h2>
-            
             <?php include_component('stocks', 'mouvements', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?> 
         </section>
         <!-- fin #contenu_etape -->
