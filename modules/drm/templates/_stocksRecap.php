@@ -1,5 +1,5 @@
 <?php use_helper('Float'); ?>
-
+<?php if(count($recaps) > 0): ?>
 <table class="table_recap">
     <thead>
         <tr>
@@ -30,8 +30,7 @@
                 <td><?php echoFloat($recap['volume_stock_commercialisable']) ?></td>
             </tr>
         <?php endforeach; ?>
-    </tbody>
-<tbody>
-
-</tbody>
 </table>
+<?php else: ?>
+Pas de stock
+<?php endif; ?>
