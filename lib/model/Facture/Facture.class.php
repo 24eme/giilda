@@ -156,7 +156,7 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
         $ligne->montant_ht = $ligne->cotisation_taux * $ligne->volume * -1;
         $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
-        $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille);
+        $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille,$ligneByType->value[MouvementfactureFacturationView::VALUE_DATE]);
     }
 
     private function createLigneOriginesMouvements($originesTable) {
@@ -175,9 +175,12 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
         return $origines;
     }
 
-    private function createOrigineLibelle($ligne, $transacteur, $famille) {
+    private function createOrigineLibelle($ligne, $transacteur, $famille,$date) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV) {
-            $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
+
+            $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getNumContrat($ligne->contrat_identifiant);
+
             if ((strlen($transacteur) + (strlen($ligne->produit_libelle) * 1.5)) > 68)
                 $transacteur = substr($transacteur, 0, (68 - (strlen($ligne->produit_libelle) * 1.5))) . '...';
             $origine_libelle .= ' (' . $transacteur . ') ';
@@ -188,7 +191,11 @@ class Facture extends BaseFacture implements InterfaceDeclarantDocument, Interfa
 
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
             if ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS) {
-                $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
+                if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
+                    $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
+                } else {
+                    $origine_libelle = 'Contrat n° ' . $ligne->contrat_identifiant.' enlèv. au '.format_date($date,'dd/MM/yyyy').' ';
+                }
                 if ((strlen($transacteur) + (strlen($ligne->produit_libelle) * 1.5)) > 75)
                     $transacteur = substr($transacteur, 0, (75 - (strlen($ligne->produit_libelle) * 1.5))) . '...';
                 $origine_libelle .= ' (' . $transacteur . ') ';
