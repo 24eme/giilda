@@ -61,12 +61,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function constructIds($soc) {
-      $this->region = $soc->getRegionViticole();
-      $prefixNumFacture = $this->getPrefixForRegion();
-      $this->identifiant = $soc->identifiant;
-      $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($prefixNumFacture, $this->identifiant, date('Ymd'));
-      $this->_id = FactureClient::getInstance()->getId($prefixNumFacture, $this->identifiant, $this->numero_facture);
-      $this->num_archivage = $this->identifiant . '/' . date('Y/m') . '/' . substr($this->numero_facture, strlen($this->numero_facture) - 2);
+        $this->region = $soc->getRegionViticole();
+        $prefixNumFacture = $this->getPrefixForRegion();
+        $this->identifiant = $soc->identifiant;
+        $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($prefixNumFacture, $this->identifiant, date('Ymd'));
+        $this->_id = FactureClient::getInstance()->getId($prefixNumFacture, $this->identifiant, $this->numero_facture);
+        $this->num_archivage = $this->identifiant . '/' . date('Y/m') . '/' . substr($this->numero_facture, strlen($this->numero_facture) - 2);
     }
 
     public function getDocumentsOrigine() {
@@ -156,7 +156,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $ligne->montant_ht = $ligne->cotisation_taux * $ligne->volume * -1;
         $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
-        $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille,$ligneByType);
+        $origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
+        $this->origine_libelle = $this->troncate($origine_libelle, $ligne->produit_libelle);
     }
 
     private function createLigneOriginesMouvements($originesTable) {
@@ -175,7 +176,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $origines;
     }
 
-    private function createOrigineLibelle($ligne, $transacteur, $famille,$view) {
+    private function createOrigineLibelle($ligne, $transacteur, $famille, $view) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV) {
 
@@ -191,7 +192,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
                     $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
                 } else {
-                    $origine_libelle = $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE].' enlèv. au '.format_date($view->value[MouvementfactureFacturationView::VALUE_DATE],'dd/MM/yyyy').' ';
+                    $origine_libelle = $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
                 }
                 $origine_libelle .= ' (' . $transacteur . ') ';
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR)
@@ -199,8 +200,16 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 return $origine_libelle;
             }
             return DRMClient::getInstance()->getLibelleFromId($ligne->origine_identifiant);
-            
         }
+    }
+
+    private function troncate($origine_libelle, $produit_libelle) {
+        if((str_len($produit_libelle)*1.5 + str_len($origine_libelle)) > 124){
+            $max = 124 - (str_len($produit_libelle)*1.5) - 4;
+            $produit_libelle= substr ($produit_libelle, 0,$max);
+            if(strstr($produit_libelle,"(")!==FALSE) $produit_libelle.=')';
+        }
+        return $produit_libelle;
     }
 
     public function storePapillons() {
@@ -351,17 +360,17 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeDeclarant() {
-      $declarant = $this->declarant;
-      $declarant->nom = $this->societe->raison_sociale;
-      $declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
-      $declarant->adresse = $this->societe->siege->adresse;        
-      $declarant->commune = $this->societe->siege->commune;
-      $declarant->code_postal = $this->societe->siege->code_postal;
-      $declarant->raison_sociale = $this->societe->raison_sociale;
+        $declarant = $this->declarant;
+        $declarant->nom = $this->societe->raison_sociale;
+        $declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
+        $declarant->adresse = $this->societe->siege->adresse;
+        $declarant->commune = $this->societe->siege->commune;
+        $declarant->code_postal = $this->societe->siege->code_postal;
+        $declarant->raison_sociale = $this->societe->raison_sociale;
     }
 
     public function getSociete() {
-      return SocieteClient::getInstance()->find($this->identifiant);
+        return SocieteClient::getInstance()->find($this->identifiant);
     }
 
     public function getPrefixForRegion() {
