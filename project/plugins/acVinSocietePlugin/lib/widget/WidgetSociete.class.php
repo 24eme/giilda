@@ -26,6 +26,7 @@ class WidgetSociete extends sfWidgetFormChoice
         parent::configure($options, $attributes);
 
         $this->setOption('choices', array());
+        $this->addOption('familles', array());
         $this->addRequiredOption('interpro_id', null);
         if(!count($attributes))
             $this->setAttribute('class', 'autocomplete'); 
@@ -52,15 +53,6 @@ class WidgetSociete extends sfWidgetFormChoice
             if(!$docRes) return array();
             $viewRes = SocieteAllView::getInstance()->findByRaisonSocialeAndId($docRes->raison_sociale,$docRes->_id);
         }
-        if(preg_match('/^ETABLISSEMENT[-]{1}[0-9]*$/', $this->identifiant)){
-            $viewRes = EtablissementAllView::getInstance()->findByEtablissement($this->identifiant);
-        }
-        if(preg_match('/^COMPTE[-]{1}[0-9]*$/', $this->identifiant)){
-            $docRes = CompteClient::getInstance()->find($this->identifiant);
-            if(!$docRes) return array();
-            $viewRes = CompteAllView::getInstance()->findByInterproAndId($docRes->interpro,$docRes->_id);
-        }
-        
         if (!$viewRes) {
             return array();
         }

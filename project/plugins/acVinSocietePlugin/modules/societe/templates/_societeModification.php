@@ -50,9 +50,9 @@ echo $societeForm->renderGlobalErrors();
             </div>
         </div>
         <div class="form_ligne">
-            <?php echo $societeForm['tva_intracom']->renderLabel(); ?>
-            <?php echo $societeForm['tva_intracom']->render(); ?>
-            <?php echo $societeForm['tva_intracom']->renderError(); ?>
+            <?php echo $societeForm['no_tva_intracommunautaire']->renderLabel(); ?>
+            <?php echo $societeForm['no_tva_intracommunautaire']->render(); ?>
+            <?php echo $societeForm['no_tva_intracommunautaire']->renderError(); ?>
         </div>
     <?php endif; ?>
     <?php if ($societeForm->isCourtier()) : ?>

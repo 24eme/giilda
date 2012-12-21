@@ -75,8 +75,8 @@
 								</div>
 							</div>
 							<div class="form_ligne">
-								<label for="detail_societe_tva_intracom">TVA Intracom</label>
-								<input type="text" id="detail_societe_tva_intracom" />
+								<label for="detail_societe_no_tva_intracommunautaire">TVA Intracom</label>
+								<input type="text" id="detail_societe_no_tva_intracommunautaire" />
 							</div>
 							<div class="form_ligne conteneur_enseigne">
 								<div class="form_colonne">

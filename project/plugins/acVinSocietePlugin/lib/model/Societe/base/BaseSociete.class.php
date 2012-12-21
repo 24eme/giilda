@@ -17,7 +17,7 @@
  * @property string $code_naf
  * @property string $siret
  * @property string $interpro
- * @property string $tva_intracom
+ * @property string $no_tva_intracommunautaire
  * @property string $commentaire
  * @property acCouchdbJson $siege
  * @property string $cooperative
