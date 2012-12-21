@@ -131,989 +131,207 @@
 }
 
 /**
- * vrac_soussigne
+ * hamza style
  ******************************************/
-#vrac_soussigne,
-#vrac_marche,
-#vrac_condition,
-#vrac_validation,
-#vrac_recapitulatif
+.hamza_style
 {
-	h1
-	{   font-size: 16px;
-        font-weight: bold;
-        margin: 0 0 20px;
-        text-align: center;
-        color: @couleur-a1;
-	}
+	background: @couleur-a5;
+	margin: 0 0 15px;
+	padding: 10px;
 	
-	h2
+	.autocompletion_tags
 	{
-		font-size: 16px;
-		margin: 0 0 15px;
-	}
-
-	.col
-	{
-		display: inline-block;
-		vertical-align: top;
-		width: 425px;
-		
-		.ielt8 & { .inline-block-ie; }
-	}
-        
-    section { padding: 5px 0px; }
-	
-	.ligne_form
-	{
-		/*margin: 0 0 15px;*/
-		
-		.error_list { width: 310px; }
-		
 		label
 		{
-			display: inline-block;
-			vertical-align: middle;
-			width: 165px;
-		}
-		
-		&.ligne_form_large label
-		{
 			display: block;
-			margin: 0 0 10px;
-			width: auto;
+			font-size: 14px;
+			font-weight: bold;
+			margin: 0 0 5px;
 		}
 		
-		input[type="text"],
-		input[type="password"],
-		select
+		/* Liste des tags */
+		ul.tags
 		{
-			font-size: 12px;
-			position: relative;
-			vertical-align: middle;
-			margin: 0;
-		}
-
-		input[type="text"],
-		input[type="password"]
-		{
-			padding: 2px 4px;
-			width: 120px;
-			
-		}
-		
-		select { width: 130px; }
-		
-		.champ_form_radio_cb 
-		{
-			label
-			{
-				display: inline-block;
-				margin: 0 20px 0 0;
-				width: auto;
-			}
-		}
-		
-		&.ligne_form_large .champ_form_radio_cb
-		{
-			input
-			{
-				margin: 0 5px 0 0;
-				vertical-align: middle;
-			}
-		}
-	}
-	
-	.ligne_btn 
-	{
-		margin: 34px 0 0;
-        right: 23px;
-		
-		button,
-		a
-		{
-			line-height: 24px;
-			font-weight: normal;
-			text-transform: uppercase;
-			&:hover { text-decoration: none; }
-		}
-		
-		.btn_valider
-		{
-			.btn_suiv;
-			padding: 0 17px 0 15px;
-		}
-		
-		.btn_ajouter
-		{
-			.btn_violet;
-			background-image: url(../images/boutons/btn_ajouter.png);
-			background-position: 7px center;
+			.border-radius(3px);
+			.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
+			/*.inline-block-ie;*/
+			background: #fff url(../images/pictos/pi_recherche.png) 5px 14px no-repeat;
+			font-size: 14px;
 			margin: 0 10px 0 0;
-			padding: 0 10px 0 30px;
-		}
-
-		.btn_supprimer
-		{
-			.btn_gris;
-			background-image: url(../images/boutons/btn_supprimer.png);
-			background-position: 7px center;
-			padding: 0 10px 0 30px;
-            margin-right:20px;
-            text-transform: none;
-		}
-
-        /*.btn_modifier
-		{
-			.btn_orange;
-
-			background-image: url(../images/boutons/btn_modifier.png);
-			background-position: 7px center;
-			padding: 0 10px 0 30px;
-            margin-right:20px;
-            text-transform: none;
-		}*/
-	}
-	
-	/* Ajout d'établissements */
-	#infos_etablissements
-	{
-		margin: 15px 0 0;
-		position: relative;
-		padding: 0;
-		width: 895px;
-				
-		.etablissement
-		{
-			.border(@couleur-a3);
-			background: @couleur-a4;
-			display: inline-block;
-			margin: 0 20px 20px 0;
-			padding: 10px 10px 0;
+			padding: 3px 5px 3px 25px;
 			position: relative;
 			vertical-align: top;
-			width: 250px;
+			width: 100%;
 			
-			.ielt8 & { .inline-block-ie; }
-			
-			.error_list { width: auto; }
-			
-			.ligne_form label { width: 110px; }
-		
-			a.supprimer
+			& > li
 			{
-				.box-dimensions(13px, 13px);
-				.pos-abs(-5px, -5px);
-				background: url(../images/pictos/pi_supprimer.png) 0 0 no-repeat;
-				display: inline-block;
-				text-indent: -9999px;
-			}
-		}
-	}
-
-        a.btn_ajouter_etab
-        {
-            .btn_gris;
-            background-image: url(../images/boutons/btn_ajouter.png);
-            background-position: 7px center;
-            margin: 0 10px 0 0;
-            padding: 5px 10px 6px 30px;
-            position: absolute;
-            right: 127px;
-            text-transform : none;
-        }
-
-        a#btn_ajouter_etablissement
-        {
-            .btn_gris;
-            background-image: url(../images/boutons/btn_ajouter.png);
-            background-position: 10px center;
-            font-size: 15px;
-            line-height: 1;
-            position: absolute;
-            padding: 4px 10px 4px 32px;
-            font-size: 15px;
-            text-transform: uppercase;
-
-            &:hover { text-decoration: none; }
-
-            span
-            {
-                color: #fff;
-                display: block;
-                font-size: 14px;
-                font-weight: bold;
-                text-transform: none;
-            }
-        }
-
-	/* Récapitulatif */
-	#recapitulatif
-	{
-		.recap_perso,
-		.recap_etablissement
-		{
-			margin: 0 0 20px;
-
-			p
-			{
-				margin: 5px 0;
-				span { font-weight: bold; }
-				strong
-				{
-					color: @couleur-a2;
-					font-style: italic;
-					font-weight: normal;
-				}
-			}
-		
-			.adresse_comptabilite { margin: 20px 0 0; } 
-
-			.btn_ajouter,
-			.btn_supprimer
-			{
-				background-position: 7px center;
-				padding: 0 10px 0 30px;
-			}
-
-            .btn_ajouter
-            {
-                .btn_violet;
-                background-image: url(../images/boutons/btn_ajouter.png);
-                margin: 0 10px 0 0;
-            }
-
-            .btn_supprimer
-            {
-                .btn_gris;
-                background-image: url(../images/boutons/btn_supprimer.png);
-                margin-right:20px;
-                text-transform: none;
-            }
-		}
-
-		.ligne_btn 
-        { 
-            text-align: right; 
-            margin:0;
-        }       
-	}
-
-	input.ui-autocomplete-input,
-	input.ui-autocomplete-input + button
-	{
-	}
-
-	input.ui-autocomplete-input
-	{
-		font-size: 12px;
-    	width: 390px;
-
-		& + button
-		{
-			border-left: 0;
-		
-			&:hover { background-color: #E9E9E9; }
-		
-			.ui-icon
-			{
-				background: url(../images/pictos/pi_desc.png) center center no-repeat;
-				height: 20px;
-				width: 20px;				
-			}
-		}
-	}
-
-	.ui-dropdownchecklist-selector-wrapper,
-	.ui-dropdownchecklist-selector
-	{
-		font-size: 0;
-		line-height: 1;
-		
-		.ui-dropdownchecklist-text
-		{
-			background: #fff;
-			border: 1px solid #d3d2cd;
-			color: @couleur-a1;
-			font-size: 12px;
-			height: 18px;
-			padding: 2px 4px 0;
-			width: 190px !important;
-		}
-		
-		&.ui-state-active
-		{
-			.ui-dropdownchecklist-text { border-bottom-color: #f4f4f4; }
-		}
-	}
-	
-	.ui-dropdownchecklist-dropcontainer-wrapper
-	{
-		height: auto !important;
-		width: auto !important;
-	}
-	
-	.ui-dropdownchecklist-dropcontainer
-	{
-		background: #fff;
-		border: 1px solid #d3d2cd;
-		height: 200px !important;
-		width: 250px;
-		
-		.ui-dropdownchecklist-item
-		{
-			padding: 2px 4px;
-			
-			label
-			{
-				width: auto;
+				.inline-block-ie;
 				vertical-align: middle;
+				line-height: 26px;
 			}
-		}
-	}
-
-	label { padding-right: 10px; }
-}
-
-
-
-#vrac_soussigne
-{
-	input.ui-autocomplete-input { width: 510px; }
-
-	.vendeur_infos,
-    .acheteur_infos
-	.mandataire_infos
-	{
-		border-collapse:collapse;
-
-		tr,
-        td
-        {
-            padding: 0px 10px;
-            border: 1px solid lightgrey;
-            line-height: 40px;
-
-            .bold
-            {
-                font-weight: bold;
-                width: 25%;
-            }
-        }
-	}
-
-    .vendeur_infos,
-    .acheteur_infos
-    {
-        width: 100%;
-        padding: 20px 0;
-        tr, td { width: 30%; }
-    }
-
-    .btnModification
-    {
-		.clearfix;
-		margin: 10px 0 30px;
-		
-		a { cursor: pointer; }
-		
-    	.btn_annuler
-    	{
-			float: left;
-			display: none;
-    	}
-
-    	.btn_modifier,
-		.btn_valider { float: right; }
-    }
-}
-
-
-
-
-/**
- * Statut Vrac
- ******************************************/
-#statut_vrac
-{
-	margin: 0 0 25px;
-	.clearfix;
-	
-	#vrac_etapes
-	{
-		background: url(../images/fonds/bg_etapes_declaration.png) 0 0 no-repeat;
-		color: #fff;
-		float: left;
-		padding: 11px 0 11px 6px;
-
-		ol
-		{
-			line-height: 21px;
-			list-style: none;
 			
-			* { float: left; }
-			
-			li
+			/* Tag ajouté */
+			.tagit-choice
 			{
-				background: url(../images/fonds/bg_etapes_declaration.png) 0 -43px repeat-x;
-
-				& > *
+				.border-radius(3px);
+				.border(@couleur-a6);
+				background: @couleur-a5;
+				margin: 2px 5px;
+				padding: 0 0 0 5px;
+				
+				&:hover { background: @couleur-a7; }
+				
+				*
 				{
-					background: url(../images/fonds/bg_etapes_declaration.png) 0 -106px no-repeat;
-					padding: 0 15px 0 20px;
+					display: inline-block;
+					vertical-align: top;
 				}
 				
-				a
+				.tagit-close
 				{
-					color: #fff;
-					&:hover { text-decoration: none; }
+					.sprite-pictos-actions(100% -492px);
+					height: 26px;
+					padding: 0 5px;
+					width: 20px;
+					text-indent: -9999px;
 				}
-
-				/* Premier */
-				&.premier
-				{
-					background-position: 0 -64px;
-					& > *
-					{
-						background: 0;
-						padding-left: 10px;
-					}
-				}
-
-				&.dernier
-				{
-					& > *
-					{
-						padding-right: 0;
-						span
-						{
-							background: url(../images/fonds/bg_etapes_declaration.png) right -148px no-repeat;
-							padding-right: 20px;
-						}
-					}
-
-					&.actif > * span { background-position: right -169px; }
-				}
+			}
+			
+			/* Tag saisi */
+			.tagit-new
+			{
+				margin: 2px 0;
 				
-				/* Elément passé / actif */
-				&.passe,
-				&.actif
+				input.ui-autocomplete-input.tagit-input
 				{
-					background-position: 0 -64px;
-					& > * { background-position: 0 -127px; }
-				}
-				
-				/* 2 éléments passés à la suite */
-				+ li.passe
-				{
-					& > * {  }
-				}
-				
-				/* Elément actif */
-				&.actif
-				{
-					font-weight: bold;
+					.border-radius(0);
+					.box-shadow(none);
+					background: 0;
+					font-size: 14px;
+					height: 28px;
+					padding: 0;
+					width: 200px;
 					
-					/* Elément après l'actif */
-					+ li
-					{
-						& > * { background-position: 0 -85px; }
-					}
+					&:focus { outline: 0; }						
 				}
 			}
-		}
-	}
-	
-	#etat_avancement
-	{
-		float: right;
-		margin: -10px 0 0;
-		width: 130px; /* anciennement 190 */
-		
-		p
-		{
-			font-size: 11px;
-			line-height: 1;
-			margin: 0 0 5px;
-			text-align: right;
 			
-			strong
+			/* Autocompletion */
+			.ui-autocomplete
 			{
-				color: @couleur-b3;
-				font-size: 22px;
-				margin: 0 0 0 5px;
-				span { font-size: 12px; }
+				.box-dimensions(auto, auto);
+				.box-shadow(0 5px 20px rgba(0, 0, 0, 0.5));
+				position: absolute;
+				top: 38px !important;
 			}
 		}
 		
-		#barre_avancement
-		{
-			background: @couleur-a1;
-			
-			div
-			{
-				background: @couleur-b3;
-				height: 3px;
-			}
-		}
+		/* Tous les tags */
+		.tagit-hiddenSelect { .invisible; }
+		
+		.btn_rechercher { .btn_noir; }
 	}
 }
-
-#vrac_condition
-{
-	#commentaires
-	{
-		.bloc_form
-		{
-			.border-radius(0);
-			border: 0;
-			
-			textarea { width: 100%; }
-		}
-	}
-}
-
 
 /**
- * SV 12
+ * Etapes de la saisie
  ******************************************/
-.sv12
+#rail_etapes
 {
-	/* Numéro de SV 12 */
-	#num_sv12
+	.clearfix;
+	.majuscules;
+	font-size: 14px;
+	line-height: 47px;
+	list-style: none;
+    left: -10px;
+    margin: 0 0 25px;
+	position: relative;
+
+	li
 	{
 		background: @couleur-a5;
-		font-size: 14px;
-		font-weight: bold;
-		padding: 10px;
-		margin: 0 0 15px;
+		border: solid #d5d4d4;
+		border-width: 1px 0;
+		float: left;
 		
-		span
-		{
-			display: inline-block;
-			width: 200px;
-		}
-	}
-	
-	#negociant_infos
-	{
-		margin: 0 0 25px;
-	}
-	
-	#btn_modifier_sv12
-	{
-		margin: 15px 0 0;
-	}
-	
-	#contenu_etape
-	{
-		fieldset { margin: 25px 0 0; }
+		a { .non-souligne(none); }
 		
-		/* Recherche SV 12 */
-		#recherche_sv12
-		{
-			background: @couleur-a5;
-			margin: 0 0 15px;
-			padding: 10px;
-			
-			.autocompletion_tags
-			{
-				label
-				{
-					display: block;
-					font-size: 14px;
-					font-weight: bold;
-					margin: 0 0 5px;
-				}
-				
-				/* Liste des tags */
-				ul.tags
-				{
-					.border-radius(3px);
-					.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
-					/*.inline-block-ie;*/
-					background: #fff url(../images/pictos/pi_recherche.png) 5px 14px no-repeat;
-					font-size: 14px;
-					margin: 0 10px 0 0;
-					padding: 3px 5px 3px 25px;
-					position: relative;
-					vertical-align: top;
-					width: 100%;
-					
-					& > li
-					{
-						.inline-block-ie;
-						vertical-align: middle;
-						line-height: 26px;
-					}
-					
-					/* Tag ajouté */
-					.tagit-choice
-					{
-						.border-radius(3px);
-						.border(@couleur-a6);
-						background: @couleur-a5;
-						margin: 2px 5px;
-						padding: 0 0 0 5px;
-						
-						&:hover { background: @couleur-a7; }
-						
-						*
-						{
-							display: inline-block;
-							vertical-align: top;
-						}
-						
-						.tagit-close
-						{
-							.sprite-pictos-actions(100% -492px);
-							height: 26px;
-							padding: 0 5px;
-							width: 20px;
-							text-indent: -9999px;
-						}
-					}
-					
-					/* Tag saisi */
-					.tagit-new
-					{
-						margin: 2px 0;
-						
-						input
-						{
-							.border-radius(0);
-							.box-shadow(none);
-							background: 0;
-							font-size: 14px;
-							height: 28px;
-							padding: 0;
-							width: 200px;
-							
-							&:focus { outline: 0; }						
-						}
-					}
-					
-					/* Autocompletion */
-					.ui-autocomplete
-					{
-						.box-dimensions(auto, auto);
-						.box-shadow(0 5px 20px rgba(0, 0, 0, 0.5));
-						position: absolute;
-						top: 38px !important;
-					}
-				}
-				
-				/* Tous les tags */
-				.tagit-hiddenSelect { .invisible; }
-				
-				.btn_rechercher { .btn_noir; }
-			}
-			
-			.volumes_vides { margin: 10px 0 0; }
-		}
-		
-		/* Commentaire SV 12 */
-		#commentaire_sv12
-		{
-			textarea { width: 100%; }
-		}
-	}
-	
-}
-
-/**
- * Facture
- ******************************************/
-
-.creer_info
-{
-	.clearfix;
-	.info_principal;
-	margin-top: 5px;
-
-	.btn_majeur
-	{
-		float: right;
-		margin-top: 8px;
-	}
-}
-
-#principal
-{
-	legend { #principal > h2; }
-
-	.generation_facture_valid { .creer_info; }
-
-	.generation_facture_options
-	{
-		.bloc_gris;
-
-		font-size: 14px;
-		padding-bottom: 10px;
-		padding-top: 10px;
-
-		span
+		& > *
 		{
 			display: block;
-			font-weight: bold;
-			margin-bottom: 5px;
-		}
-
-		em
-		{
-			display: inline-block;
-			margin-right: 4px;
-			vertical-align: middle;
-		}
-
-		ul:first-child
-		{
-			li{
-
-				.ligne_etape { padding-left: 10px; }
-
-				.checkbox_list
-				{
-					padding-left: 10px;
-
-					li
-					{
-						&+li
-						{
-							margin-bottom: 0;
-							margin-top: 8px;
-						}
-
-						input[type="checkbox"] { margin-right: 12px; }
-					}
-				}
-			}
-
-			li+li { margin-top: 20px; }
-		}
-
-		.champ_datepicker
-		{
-			height: auto;
-
-			label,
-			img { vertical-align: middle; }
-
-			label
+			padding: 0 18px 0 33px;
+			position: relative;
+			
+			span
 			{
-				font-weight: normal;
-				width: 335px;
+				.border-radius(50%);
+				.box-dimensions(22px, 22px);
+				.box-shadow(1px 1px 1px rgba(0, 0, 0, 0.3) inset);
+				
+				background: @couleur-a5;
+				display: inline-block;
+                font-weight: bold;
+				line-height: 22px;
+				margin: 0 5px 0 0;
+				text-align: center;
 			}
-
-			img { position: static; }
+			
+			&:after
+			{
+				.pos-abs(0, -21px);
+				.box-dimensions(21px, 47px);
+				background: url(../images/fonds/bg_rail_etapes.png) 0 0 no-repeat;
+				content: '';
+			}
 		}
+		
+		&:first-child
+		{
+			border-left-width: 1px;
+			
+			& > * { padding-left: 10px; }
+		}
+		
+		&.actif
+		{
+			background: #fab120 url(../images/fonds/bg_rail_etapes.png) 0 -143px repeat-x;
+			border-color: #f6b32c;
+
+			a
+            {
+                color: @couleur-a1;
+                .text-shadow(1px 1px rgba(214, 146, 10, 0.7));
+                strong { font-weight:bold; }
+            }
+			
+			& > *
+			{
+				span { background: #fbba3a; }
+				
+				&:after { background-position: 0 -47px; }
+			}
+		}
+		
+		&.passe
+		{
+			background: #fcf1d5;
+			border-color: #e4da97;
+			color: #8a6903;
+			
+			& > *
+			{
+				color: #886702;
+				
+				span { background: #fcf1d5; }
+				
+				&:after { background-position: 0 -94px; }
+			}
+		}
+		
+		strong { font-weight: normal; }
 	}
 }
-
-/**
- * DS
- ******************************************/
-
-.ds
-{
-	#contenu_etape
-	{
-		.generation_ds,
-		.historique_generation_ds,
-		.generation_ds_operateur
-		{
-			.creer_info;
-			background: @couleur-a5 url(../images/pictos/fleche_bloc.png) 10px 50% no-repeat;
-			padding-left: 40px;
-		}
-		
-		.bloc_form,
-		.table_recap
-		{
-			margin: 0 0 20px;
-		}
-	}
-	
-	#commentaires
-	{
-		.bloc_form
-		{
-			.border-radius(0);
-			border: 0;
-			
-			textarea { width: 100%; }
-		}
-	}
-	
-	#ds_recapitulatif_commentaires
-	{
-		font-size: 14px;
-		margin: 15px 0;
-		
-		h3
-		{
-			font-weight: bold;
-			margin: 0 0 5px;
-		}
-		
-		p {  }
-	}
-}
-
-
-/**
- * Revendication
- ******************************************/
-.revendication
-{
-	/* Import */
-	#revendication_import_fichier
-	{
-		overflow: hidden;
-		
-		h2 { margin: 0; float: left; }
-		a { float: right; }
-	}
-	
-	/* Rapport d'erreurs */
-	#rapport_erreurs
-	{
-		.bloc_gris;
-		font-size: 14px;
-		padding: 10px;
-		
-		.nb_erreurs
-		{
-			.majuscules;
-			font-weight: bold;
-			margin: 0 0 15px;
-		}
-		
-		.type_erreurs
-		{
-			.border-top(@couleur-a7);
-			margin: 25px 0 0;
-			padding: 15px 0 0;
-			
-			h3
-			{
-				.majuscules;
-				font-weight: bold;
-				margin: 0 0 15px;
-			}
-			
-			.item
-			{
-				margin: 15px 0 0;
-				padding: 0 15px;
-			}
-			
-			.produit
-			{
-				.clearfix;
-				
-				p { font-weight: bold; }
-				
-				.btn_voir
-				{
-					float: right;
-					margin: 0 0 0 15px;
-				}
-			}
-			
-			.num_erreurs
-			{
-				margin: 5px 0 0;
-				
-				li
-				{
-					.inline-block-ie;
-					margin: 0 10px 0 0;
-				}
-			}
-		}
-	}
-	
-	
-	/* Tableau d'erreurs */
-	#table_erreurs
-	{
-		thead
-		{
-			th:first-child { width: 100px; }
-		}
-		
-		tbody
-		{	
-			th, td
-			{
-				font-size: 12px;
-				padding: 10px 0;
-			}
-			
-			th
-			{
-				.border-top(@couleur-a7);
-				.border-right(@couleur-a7);
-				background: 0;
-			}
-			
-			p.libelle
-			{
-				.border-bottom(@couleur-a7);
-				font-size: 13px;
-				font-weight: bold;
-				margin: 0 0 10px;
-				padding: 0 0 10px;
-			}
-		}
-	}
-	
-	/* Volumes revendiqués */
-	#volumes_revendiques
-	{
-		.ui-autocomplete-input { width: 270px; }
-		
-		.volume input { width: 100px; }
-		
-		.form_btn
-		{
-			.clearfix;
-			margin: 20px 0 0;
-			.btn_annuler { float: right; }
-		}
-	}
-}
-
 
 .facturable {
 	    font-weight: bold;
-}
-
-/**
- * Alertes
- ******************************************/
-.alerte
-{
-	/* Modification */
-	#consultation_alerte,
-	#modification_alerte
-	{
-		margin: 0 0 20px;
-		
-		.bloc_form
-		{
-			label { width: 170px; }
-			select { width: 200px; }
-			textarea { width: 460px !important; }
-		}
-		
-		.btn_form
-		{
-			margin: 15px 0 0;
-			text-align: right;
-		}
-	}
-	
-	
 }
