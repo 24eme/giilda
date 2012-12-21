@@ -156,7 +156,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $ligne->montant_ht = $ligne->cotisation_taux * $ligne->volume * -1;
         $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
-        $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille,$ligneByType->value[MouvementfactureFacturationView::VALUE_DATE]);
+        $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille,$ligneByType);
     }
 
     private function createLigneOriginesMouvements($originesTable) {
@@ -175,14 +175,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $origines;
     }
 
-    private function createOrigineLibelle($ligne, $transacteur, $famille,$date) {
+    private function createOrigineLibelle($ligne, $transacteur, $famille,$view) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV) {
 
             $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getNumContrat($ligne->contrat_identifiant);
-
-            if ((strlen($transacteur) + (strlen($ligne->produit_libelle) * 1.5)) > 68)
-                $transacteur = substr($transacteur, 0, (68 - (strlen($ligne->produit_libelle) * 1.5))) . '...';
             $origine_libelle .= ' (' . $transacteur . ') ';
             if ($famille == EtablissementFamilles::FAMILLE_NEGOCIANT)
                 $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
@@ -194,16 +191,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
                     $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
                 } else {
-                    $origine_libelle = 'Contrat n° ' . $ligne->contrat_identifiant.' enlèv. au '.format_date($date,'dd/MM/yyyy').' ';
+                    $origine_libelle = $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE].' enlèv. au '.format_date($view->value[MouvementfactureFacturationView::VALUE_DATE],'dd/MM/yyyy').' ';
                 }
-                if ((strlen($transacteur) + (strlen($ligne->produit_libelle) * 1.5)) > 75)
-                    $transacteur = substr($transacteur, 0, (75 - (strlen($ligne->produit_libelle) * 1.5))) . '...';
                 $origine_libelle .= ' (' . $transacteur . ') ';
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR)
                     $origine_libelle .= DRMClient::getInstance()->getLibelleFromId($ligne->origine_identifiant);
                 return $origine_libelle;
             }
             return DRMClient::getInstance()->getLibelleFromId($ligne->origine_identifiant);
+            
         }
     }
 
