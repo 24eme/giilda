@@ -194,25 +194,35 @@ class drmActions extends sfActions {
         $this->drm = $this->getRoute()->getDRM();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
 
-	$this->form = new DRMCommentaireForm($this->drm);
+        $this->validation = new DRMValidation($this->drm);
 
-        if ($request->isMethod(sfWebRequest::POST)) {
-	  $this->form->bind($request->getParameter($this->form->getName()));
-	  $this->form->save();
+	    $this->form = new DRMCommentaireForm($this->drm);
 
-	  if ($request->getParameter('brouillon')) {
-	    return $this->redirect('drm_etablissement', $this->drm->getEtablissement());
-	  }
-	  
-	  $this->drm->validate();
-	  $this->drm->save();
+        if (!$request->isMethod(sfWebRequest::POST)) {
 
-            DRMClient::getInstance()->generateVersionCascade($this->drm);
+            return sfView::SUCCESS;
+        }
 
-            $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
+        if (!$this->validation->isValide()) {
+            return sfView::SUCCESS;
+        }
+
+    	$this->form->bind($request->getParameter($this->form->getName()));
+    	$this->form->save();
+
+    	if ($request->getParameter('brouillon')) {
+    	    return $this->redirect('drm_etablissement', $this->drm->getEtablissement());
+    	}
+    	  
+    	$this->drm->validate();
+    	$this->drm->save();
+
+        DRMClient::getInstance()->generateVersionCascade($this->drm);
+
+        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
                 'periode_version' => $this->drm->getPeriodeAndVersion(),
                 'hide_rectificative' => 1));
-        }
+        
     }
 
     public function executeShowError(sfWebRequest $request) {
