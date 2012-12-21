@@ -18,7 +18,7 @@ class SocieteChoiceForm extends baseForm {
     {
         $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id)));
 
-        $this->widgetSchema->setLabel('identifiant', 'Sélectionner un établissement&nbsp;:');
+        $this->widgetSchema->setLabel('identifiant', 'Sélectionner une societe&nbsp;:');
         
         $this->setValidator('identifiant', new ValidatorSociete(array('required' => true)));
         
