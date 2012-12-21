@@ -1,6 +1,6 @@
 <?php
 
-class FactureRoute extends sfRequestRoute implements InterfaceEtablissementRoute {
+class FactureRoute extends sfRequestRoute implements InterfaceSocieteRoute {
 
 	protected $facture = null;
 
@@ -30,8 +30,8 @@ class FactureRoute extends sfRequestRoute implements InterfaceEtablissementRoute
         return $this->facture;
     }
 
-    public function getEtablissement() {
+    public function getSociete() {
 
-        return $this->getFacture()->getClient();
+        return $this->getFacture()->getSociete();
     }
 }

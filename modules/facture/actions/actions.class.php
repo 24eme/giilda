@@ -36,12 +36,15 @@ class factureActions extends sfActions {
 
     }
        
+   public function executeEtablissement(sfWebRequest $request) {
+     return $this->redirect('facture_societe', $this->getRoute()->getEtablissement()->getSociete());
+   }
     
     public function executeMonEspace(sfWebRequest $resquest) {        
         $this->form = new FactureGenerationForm();
-        $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->factures = FactureEtablissementView::getInstance()->findByEtablissement($this->etablissement);
-        $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesByEtablissement($this->etablissement);
+        $this->societe = $this->getRoute()->getSociete();
+        $this->factures = FactureSocieteView::getInstance()->findByEtablissement($this->societe);
+        $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
     }
     
     public function executeDefacturer(sfWebRequest $resquest) {
@@ -56,17 +59,17 @@ class factureActions extends sfActions {
         $parameters = $request->getParameter('facture_generation');
         $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
         
-        $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->facturations = FactureClient::getInstance()->getFacturationForEtablissement($this->etablissement,9);
-        $mouvementsByEtb = array($this->etablissement->identifiant => $this->facturations);        
-        $mouvementsByEtb = FactureClient::getInstance()->filterWithParameters($mouvementsByEtb,$parameters);   
+        $this->societe = $this->getRoute()->getSociete();
+        $this->facturations = FactureClient::getInstance()->getFacturationForSociete($this->societe,9);
+        $mouvementsBySoc = array($this->societe->identifiant => $this->facturations);        
+        $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$parameters);   
         
-        if($mouvementsByEtb)
+        if($mouvementsBySoc)
         {
-            $generation = FactureClient::getInstance()->createFacturesByEtb($mouvementsByEtb,$parameters['date_facturation']);
+            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc,$parameters['date_facturation']);
             $generation->save();
         }
-        $this->redirect('facture_etablissement', $this->etablissement);
+        $this->redirect('facture_societe', $this->societe);
     }
 
 
@@ -74,9 +77,9 @@ class factureActions extends sfActions {
     public function executeLatex(sfWebRequest $request) {
         
         $this->setLayout(false);
-        $region = $this->getRoute()->getEtablissement()->region;
+        $region = $this->getRoute()->getSociete()->getRegionViticole();
         $prefix = EtablissementClient::getPrefixForRegion($region);
-        $this->facture = FactureClient::getInstance()->findByPrefixAndEtablissementAndId($prefix,$this->getRoute()->getEtablissement()->identifiant, $request->getParameter('factureid'));
+        $this->facture = FactureClient::getInstance()->findByPrefixAndSocieteAndId($prefix,$this->getRoute()->getSociete()->identifiant, $request->getParameter('factureid'));
         $this->forward404Unless($this->facture);
 	$latex = new FactureLatex($this->facture);
 //	$latex->echoFactureWithHTTPHeader('latex');

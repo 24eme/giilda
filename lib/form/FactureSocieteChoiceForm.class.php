@@ -1,6 +1,6 @@
 <?php
 
-class FactureEtablissementChoiceForm extends EtablissementChoiceForm {
+class FactureSocieteChoiceForm extends SocieteChoiceForm {
 
     public function configure()
     {

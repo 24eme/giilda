@@ -38,18 +38,18 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-'.$prefix.'-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$prefix.'-'.$idClient.'-'.$date.'99')->execute($hydrate);        
     }
 
-    public function getFacturationForEtablissement($etablissement, $level) {
-        return MouvementfactureFacturationView::getInstance()->getMouvementsByEtablissementWithReduce($etablissement, 0, 1, $level);
+    public function getFacturationForSociete($societe, $level) {
+        return MouvementfactureFacturationView::getInstance()->getMouvementsBySocieteWithReduce($societe, 0, 1, $level);
     }
 
-    public function createDoc($mvts, $etablissement, $emmetteur = null, $date_facturation = null) {
+    public function createDoc($mvts, $societe, $emmetteur = null, $date_facturation = null) {
 
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation,'2011-2012');        
-        $facture->constructIds($etablissement);        
+        $facture->constructIds($societe);        
         $facture->storeEmetteur();
         $facture->storeDeclarant();
-        $facture->storeLignes($mvts,$etablissement->famille);        
+        $facture->storeLignes($mvts,$societe->famille);        
         $facture->storePapillons();        
         $facture->updateTotaux();        
         $facture->storeOrigines();    
@@ -60,8 +60,8 @@ class FactureClient extends acCouchdbClient {
         return $this->find('FACTURE-' . $identifiant);
     }
 
-    public function findByPrefixAndEtablissementAndId($prefix,$idEtablissement, $idFacture) {
-        return $this->find('FACTURE-'.$prefix.'-'. $idEtablissement . '-' . $idFacture);
+    public function findByPrefixAndSocieteAndId($prefix,$idSociete, $idFacture) {
+        return $this->find('FACTURE-'.$prefix.'-'. $idSociete . '-' . $idFacture);
     }
 
     public function getMouvementsForMasse($regions,$level) {
@@ -133,7 +133,7 @@ class FactureClient extends acCouchdbClient {
     }
 
 
-    public function createFacturesByEtb($generationFactures,$date_facturation) {
+    public function createFacturesBySoc($generationFactures,$date_facturation) {
         
         $generation = new Generation();
         $generation->date_emission = date('Y-m-d-H:i');
@@ -142,9 +142,9 @@ class FactureClient extends acCouchdbClient {
         $generation->somme = 0;
         $cpt = 0;
 
-        foreach ($generationFactures as $etablissementID => $mouvementsEtb) {
-            $etablissement = EtablissementClient::getInstance()->findByIdentifiant($etablissementID);
-            $f = $this->createDoc($mouvementsEtb, $etablissement, $date_facturation);
+        foreach ($generationFactures as $societeID => $mouvementsSoc) {
+            $societe = SocieteClient::getInstance()->find($societeID);
+            $f = $this->createDoc($mouvementsSoc, $societe, $date_facturation);
             
             $f->save();
 
@@ -180,11 +180,11 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function isRedressee($factureview){
-      return ($factureview->value[FactureEtablissementView::VALUE_STATUT] == self::STATUT_REDRESSEE);
+      return ($factureview->value[FactureSocieteView::VALUE_STATUT] == self::STATUT_REDRESSEE);
     }
         
     public function isRedressable($factureview){
-      return !$this->isRedressee($factureview) && $factureview->value[FactureEtablissementView::VALUE_STATUT] != self::STATUT_NONREDRESSABLE;
+      return !$this->isRedressee($factureview) && $factureview->value[FactureSocieteView::VALUE_STATUT] != self::STATUT_NONREDRESSABLE;
     }
         
     public function getTypeLignePdfLibelle($typeLibelle) {
@@ -218,8 +218,8 @@ class FactureClient extends acCouchdbClient {
       $avoir->total_ht *= -1;
       $avoir->remove('echeances');
       $avoir->add('echeances');
-      $etb = EtablissementClient::getInstance()->find($avoir->identifiant);
-      $avoir->constructIds($etb);
+      $soc = SsocieteClient::getInstance()->find($avoir->identifiant);
+      $avoir->constructIds($soc, $f->region);
       $avoir->statut = self::STATUT_NONREDRESSABLE;
       $avoir->save();
       $f->defacturer();
