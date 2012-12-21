@@ -81,6 +81,10 @@ EOF;
       }
       $vrac->save();
 
+      if ($vrac->campagne == '2012-2013') {
+        
+        continue;
+      }
 
       try{
         $sv12 = $this->importLine($sv12, $vrac);
@@ -105,11 +109,16 @@ EOF;
       $sv12 = SV12Client::getInstance()->createOrFind($vrac->acheteur_identifiant, SV12Client::getInstance()->buildPeriodeFromCampagne($vrac->campagne));
     }
 
+    if (!in_array($vrac->type_transaction, VracClient::$types_transaction_non_vins)) {
+
+      return $sv12;
+    }
+
     if($vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE) {
         
         return $sv12;
     }
-    
+
     $contrat = $sv12->addContrat($vrac);
     $contrat->volume = $vrac->volume_enleve;
 

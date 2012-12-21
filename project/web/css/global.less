@@ -818,119 +818,110 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 #contenu
 {
 }
-
-
-/**
- * Principal
- ******************************************/
-#principal
+        
+.section_label_maj
 {
-        
-        .section_label_maj
-        {
-			.clearfix;
-			
-			& > label:first-child { .section-titre }
-        }
+	.clearfix;
+	
+	& > label:first-child { .section-titre }
+}
 
-        .section_label_strong
+.section_label_strong
+{
+    label
+    {
+         &:first-child
+         {
+            display: inline-block;
+            font-weight: bold;
+        }
+    }
+}
+
+.bloc_form
+{
+    .border-radius(5px 5px 5px 5px);
+    .border(#e3e2e2);
+	.clearfix;
+
+    .col
+    {
+        &:first-child
         {
-            label
+            border-right: 1px solid #e3e2e2;
+            .ligne_form
             {
-                 &:first-child
-                 {
-	                display: inline-block;
-	                font-weight: bold;
-                }
+                    &:first-child{ .border-radius(5px 0 0 0)}
+                    &:last-child{ .border-radius(0 0 0 5px) }
             }
         }
-        
-        .bloc_form
+        &:last-child
         {
-	        .border-radius(5px 5px 5px 5px);
-	        .border(#e3e2e2);
-			.clearfix;
-
-	        .col
-	        {
-                &:first-child
-                {
-                    border-right: 1px solid #e3e2e2;
-                    .ligne_form
-                    {
-                            &:first-child{ .border-radius(5px 0 0 0)}
-                            &:last-child{ .border-radius(0 0 0 5px) }
-                    }
-                }
-                &:last-child
-                {
-                    .ligne_form
-                    {
-                            &:first-child{ .border-radius(0 5px 0 0)  }
-                            &:last-child{ .border-radius(0 0 5px 0)  }
-                    }
-                }
-	        }
-       }
-        
-       .ligne_form
-       {
-            padding: 10px 0 10px 10px;
-            
-            label
+            .ligne_form
             {
-                display: inline-block;
-                font-weight:bold;
-                vertical-align: top;
-                width: 150px;
-            }
-
-            span
-            {
-                vertical-align: middle;
+                    &:first-child{ .border-radius(0 5px 0 0)  }
+                    &:last-child{ .border-radius(0 0 5px 0)  }
             }
         }
+    }
+}
 
-        #ligne_btn
-        { 
-            display:block;
-            .btnAnnulation { float:left; }
-            .btnValidation { float:right; }
-            margin: 10px 0;
-        }
+.ligne_form
+{
+    padding: 10px 0 10px 10px;
+    
+    label
+    {
+        display: inline-block;
+        font-weight:bold;
+        vertical-align: top;
+        width: 150px;
+    }
 
-        .ligne_form_alt { background : @couleur-a5; }
+    span
+    {
+        vertical-align: middle;
+    }
+}
 
-        .ui-autocomplete-input
-        {
-            background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
-            font-size:12px;
-            padding: 5px 5px 5px 25px;
-            width:330px;
-            height:30px;
-        }
+#ligne_btn
+{ 
+    display:block;
+    .btnAnnulation { float:left; }
+    .btnValidation { float:right; }
+    margin: 10px 0;
+}
 
-        ul.radio_list
-        {
-            .clearfix;
-            li{
-                display:block;
-                float:left;
-                label { font-weight:normal !important; }
-                width:165px;
-            }
-        }
-      
-        .champ_datepicker
-        {
-            padding-top:10px;
-            img
-            {
-                    position: absolute;
-                    margin-left:5px;
-            }
-        }
+.ligne_form_alt { background : @couleur-a5; }
 
+input.ui-autocomplete-input
+{
+    background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
+    font-size:12px;
+    padding: 5px 5px 5px 25px;
+    width:330px;
+    height:30px;
+}
+
+ul.radio_list
+{
+    .clearfix;
+    li{
+        display:block;
+        float:left;
+        label { font-weight:normal !important; }
+        width:165px;
+    }
+}
+
+.champ_datepicker
+{
+    padding-top:10px;
+    img
+    {
+            position: absolute;
+            margin-left:5px;
+    }
 }
 
 

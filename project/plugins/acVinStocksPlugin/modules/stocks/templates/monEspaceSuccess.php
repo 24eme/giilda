@@ -14,25 +14,8 @@
 
             <?php include_partial('stocks/recap', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?>
 
-            <script type="text/javascript"> 
-                var source_tags = {};
-            </script>
-
-<h2>Les mouvements</h2>
-
-            <div id="recherche_sv12" style="margin-top: 30px;">
-                <div class="autocompletion_tags" data-table="#table_contrats" data-source="source_tags">
-                    <label>Saisissez un type de document (DRM ou SV12), un produit ou un type de mouvement :</label>
-                    
-                    <ul id="recherche_sv12_tags" class="tags">
-                        <li></li>
-                    </ul>
-                    <!--
-                    <button class="btn_majeur btn_rechercher" type="button">Rechercher</button>
-                    -->
-                </div>
-            </div>
-
+            <h2>Les mouvements</h2>
+            
             <?php include_component('stocks', 'mouvements', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?> 
         </section>
         <!-- fin #contenu_etape -->
