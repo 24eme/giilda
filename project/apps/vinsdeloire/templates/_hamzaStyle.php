@@ -1,5 +1,5 @@
 <div class="hamza_style" style="margin-top: 30px;">
-    <div class="autocompletion_tags" data-table="#table_contrats" data-source="source_tags">
+    <div class="autocompletion_tags" data-table="<?php echo $table_selector ?>" data-source="source_tags">
     <label>Saisissez un produit, un type de mouvement, un numéro de contrat, un pays d'export, etc. :</label>
     
     <ul class="tags"></ul>
