@@ -195,7 +195,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
                     $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
                 } else {
-                    $origine_libelle = $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
+                    $origine_libelle = 'n°'.$view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
                 }
                 $origine_libelle .= ' (' . $transacteur . ') ';
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR)
