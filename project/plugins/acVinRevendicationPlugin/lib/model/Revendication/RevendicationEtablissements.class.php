@@ -11,7 +11,11 @@ class RevendicationEtablissements extends BaseRevendicationEtablissements {
             $produit_to_store->storeProduit($num_ligne,$row,$hashLibelle, $bailleur);
     }
     
-    public function updateProduits($old_key ,$new_key, $new_libelle) {
+
+    public function updateProduitsAndVolume($produitsNode, $old_key ,$new_key, $new_libelle, $row, $num_ligne, $new_volume) {
+        
+        var_dump($produitsNode->toJSon());
+        
         $old_produit = $this->produits->get($old_key);
         if(!$this->exist($new_key))
         {

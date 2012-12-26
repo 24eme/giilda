@@ -43,7 +43,7 @@ class RevendicationClient extends acCouchdbClient {
 
     public function getRevendicationLibelle($id) {
         $params = $this->getParametersFromId($id);
-        return 'Revendication de '.$params['campagne'].' ('.$params['odg'].')';
+        return 'Revendication de ' . $params['campagne'] . ' (' . $params['odg'] . ')';
     }
 
     public function getParametersFromId($id) {
@@ -53,6 +53,28 @@ class RevendicationClient extends acCouchdbClient {
 
     public function getODGs() {
         return EtablissementClient::getRegionsWithoutHorsInterLoire();
+    }
+
+    public function deleteRow($revendication, $identifiant, $row) {
+        if (!isset($revendication->datas->$identifiant))
+            throw new sfException("Le noeud d'identifiant $identifiant n'existe pas dans la revendication");
+        $produitNode = $this->getProduitNode($revendication, $identifiant, $row);
+        unset($produitNode->key);
+        if (!$produitNode)
+            throw new sfException("Le noeud produit d'identifiant $identifiant et de ligne $row n'existe pas dans la revendication");
+        $produitNode->statut = RevendicationProduits::STATUT_SUPPRIME;
+        $this->storeDoc($revendication);
+    }
+
+    public function getProduitNode($revendication, $identifiant, $row) {
+        $produitNode = null;
+        foreach ($revendication->datas->$identifiant->produits as $key => $produit) {
+            if (isset($produit->volumes->$row)) {
+                $produit->key = $key;
+                $produitNode = $produit;
+            }
+        }
+        return $produitNode;
     }
 
 }
