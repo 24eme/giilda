@@ -84,6 +84,11 @@ class RevendicationRouting {
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Revendication',
                             'type' => 'object')));
+        
+                $r->prependRoute('revendication_add_row', new sfRoute('/revendication/odg/:odg/:campagne/ajout-lignes', array('module' => 'revendication',
+                    'action' => 'addRows')));
+        
+        
     }
 
 }
