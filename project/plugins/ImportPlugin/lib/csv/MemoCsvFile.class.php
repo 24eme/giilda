@@ -16,8 +16,13 @@ class MemoCsvFile extends CsvFile
     foreach ($csvs as $line) {
       try {
 	$soc = SocieteClient::getInstance()->find($line[self::CSV_CODE_PARTENAIRE]);
-	$soc->commentaire .= $line[self::CSV_TEXTE].' ('.$line[self::CSV_CODE_UTILISATEUR].' ; '.$line[self::CSV_DATE_DE_MODIFICATION].")\n";
-	$soc->save();
+	if (!$soc) {
+	  throw new sfException('la société '.$line[self::CSV_CODE_PARTENAIRE]." n'est pas trouvée");
+	}
+	if ($line[self::CSV_TEXTE] && !preg_match('/'.preg_replace('/([\/\(\)])/', '\\$1', $line[self::CSV_TEXTE]).'/', $soc->commentaire)) {
+	  $soc->commentaire .= $line[self::CSV_TEXTE].' ('.$line[self::CSV_CODE_UTILISATEUR].' ; '.$line[self::CSV_DATE_DE_MODIFICATION].")\n";
+	  $soc->save();
+	}
       }catch(sfException $e) {
 	print "WARNING: ".$e->getMessage()."\n";
       }
