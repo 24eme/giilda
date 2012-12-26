@@ -6,6 +6,8 @@
  */
 class Societe extends BaseSociete {
 
+  private $changedCooperative = null;
+
     public function constructId() {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);
     }
@@ -132,7 +134,14 @@ class Societe extends BaseSociete {
 			$this->etablissements->add($e->_id)->ordre = $ordre;
 		}
 	}
-		
+    }
+
+    public function setCooperative($c) {
+      $this->_set('cooperative', $c);
+      foreach($this->getEtablissementsObj() as $e) {
+	$e->cooperative = $c;
+      }
+      $this->changedCooperative = true;
     }
 
     public function addCompte($c, $ordre = null) {
@@ -183,6 +192,14 @@ class Societe extends BaseSociete {
         $compte->commune = $this->siege->commune;
 
         $compte->save(true);
+
+	if ($this->changedCooperative) {
+	  foreach($this->getEtablissementsObj() as $e) {
+	    $e->save(true);
+	  }
+	}
+	$this->changedCooperative = false;
+	
         return parent::save();
     }
     
