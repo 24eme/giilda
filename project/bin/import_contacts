@@ -27,10 +27,10 @@ awk -F ';' '{print $2";"$20}' $DATADIR/tmp/cicontact.utf8.csv | grep -v '; *$' |
 join -t ';' -1 1 -2 1 $DATADIR/tmp/cartecourtier.csv $DATADIR/tmp/cifonct_contact.utf8.csv | sort -t ';' -k 5,5 > $DATADIR/tmp/cartecourtier_cifonct.csv
 
 convert-utf8  $DATADIR/cicav.csv | sed 's/\(10;[^;]*\);/\1_/' | sort -t ';' -k 2,2 > $DATADIR/tmp/cicav.utf8.csv
-grep ';2012;' $DATADIR/cidra.csv  | sed 's/10;2012;\([^;]*\);\([^;]*\);.*/\1_\2;OUI/' | sort -t ';' -k1,1  > $DATADIR/tmp/daa.csv
-join -t ';' -a 1 -1 2 -2 1 $DATADIR/tmp/cicav.utf8.csv $DATADIR/tmp/daa.csv | sed 's/;$/;NON/' | sed 's/_/;/' | sort -t ';' -k 1,1 | sed 's/^/10;/' > $DATADIR/tmp/cicav_daa.utf8.csv
+grep ';2012;' $DATADIR/cidra.csv  | sed 's/10;2012;\([^;]*\);\([^;]*\);.*/\1_\2;OUI/' | sort -t ';' -k1,1  > $DATADIR/tmp/dra.csv
+join -t ';' -a 1 -1 2 -2 1 $DATADIR/tmp/cicav.utf8.csv $DATADIR/tmp/dra.csv | sed 's/;$/;NON/' | sed 's/_/;/' | sort -t ';' -k 1,1 | sed 's/^/10;/' > $DATADIR/tmp/cicav_dra.utf8.csv
 
-join -t ';' -a 1 -1 2 -2 2 $DATADIR/tmp/cipar.utf8.csv $DATADIR/tmp/cicav_daa.utf8.csv > $DATADIR/etablissement.csv
+join -t ';' -a 1 -1 2 -2 2 $DATADIR/tmp/cipar.utf8.csv $DATADIR/tmp/cicav_dra.utf8.csv > $DATADIR/etablissement.csv
 join -t ';' -a 1 -1 1 -2 5 $DATADIR/etablissement.csv $DATADIR/tmp/cartecourtier_cifonct.csv > $DATADIR/etablissementsetcourtiers.csv
 php symfony import:etablissement $DATADIR/etablissementsetcourtiers.csv
 
