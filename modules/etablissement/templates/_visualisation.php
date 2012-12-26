@@ -1,5 +1,7 @@
-<div id="etablissement_<?php echo $etablissement->identifiant; ?>" class="form_section">
-    <h2>Détail de la société </h2>  
+<div id="etablissement_<?php echo $etablissement->identifiant; ?>" class="etablissement form_section ouvert">
+	
+    <h3>Nom établissement</h3>
+	
     <div class="form_contenu">  
         <div class="form_ligne">
             <label for="famille">

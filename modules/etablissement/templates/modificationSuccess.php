@@ -14,10 +14,15 @@
 			</div>
 			
             <form action="<?php echo url_for('etablissement_modification', array('identifiant' => $etablissementModificationForm->getObject()->identifiant)); ?>" method="post">
-                <?php 
-                    include_partial('etablissement/modification', array('etablissementForm' => $etablissementModificationForm));
-                    include_partial('compte/modification', array('compteForm' => $compteModificationForm, 'isSocieteCompte' => $isSocieteCompte));
-                ?>
+				<div id="detail_etablissement" class="form_section ouvert">
+					<h3>Détail de l'établissement</h3>
+					<?php include_partial('etablissement/modification', array('etablissementForm' => $etablissementModificationForm)); ?>
+				</div>
+				
+				<div id="coordonnees_etablissement" class="form_section ouvert">
+					<h3>Coordonnées de l'établissement</h3>
+					<?php include_partial('compte/modification', array('compteForm' => $compteModificationForm, 'isSocieteCompte' => $isSocieteCompte)); ?>
+				</div>
             </form>
 			
 			<div class="form_btn">
