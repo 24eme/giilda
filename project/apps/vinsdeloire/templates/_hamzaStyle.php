@@ -2,7 +2,7 @@
 
 <div class="hamza_style" style="margin-top: 30px;">
     <div class="autocompletion_tags" data-table="<?php echo $table_selector ?>" data-source="sources_<?php echo $uniq_id ?>">
-    <label>Saisissez un produit, un type de mouvement, un numéro de contrat, un pays d'export, etc. :</label>
+    <label><?php echo $consigne ?></label>
     
     <ul class="tags"></ul>
     <!--
