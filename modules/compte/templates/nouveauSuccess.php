@@ -14,10 +14,17 @@
 				</div>
 				
 				<form action="<?php echo url_for('compte_new', array('identifiant' => $compte->identifiant)); ?>" method="post">
-					<?php 
-						include_partial('modificationDetail', array('compteForm' => $compteForm)); 
-						include_partial('modification', array('compteForm' => $compteForm)); 
-					?>
+					<div id="detail_contact" class="form_section ouvert">
+						<h3>Détail du contact</h3>
+						<?php include_partial('modificationDetail', array('compteForm' => $compteForm)); ?>
+					</div>
+					
+					<div id="coordonnees_contact" class="form_section ouvert">
+						<h3>Coordonnées du contact</h3>
+						<div class="form_contenu">
+							<?php include_partial('modification', array('compteForm' => $compteForm)); ?>
+						</div>
+					</div>
 				</form>
 				
 				<div class="form_btn">
