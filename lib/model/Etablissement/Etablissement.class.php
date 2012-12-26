@@ -135,12 +135,14 @@ class Etablissement extends BaseEtablissement {
 	$this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
       }
       
+      $soc = SocieteClient::getInstance()->find($this->id_societe);
+      if(!$soc)
+	throw new sfException("$id n'est pas une société connue");
+      $this->cooperative = $soc->cooperative;
+
       parent::save();
 
       if (!$fromsociete) {
-	$soc = SocieteClient::getInstance()->find($this->id_societe);
-	if(!$soc)
-	  throw new sfException("$id n'est pas une société connue");
 	$soc->addEtablissement($this);
 	$soc->save();
       }

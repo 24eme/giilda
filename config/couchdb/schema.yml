@@ -5,6 +5,7 @@ Etablissement:
        _id: {  }
        _rev: {  }
        type: {  }
+       cooperative: {}
        interpro: {  }
        identifiant: {  }
        id_societe: {  }
