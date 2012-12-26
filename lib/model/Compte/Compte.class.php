@@ -51,6 +51,9 @@ class Compte extends BaseCompte {
         parent::save();
         if (!$fromsociete) {
             $soc = $this->getSociete();
+            if (!$soc) {
+		throw new sfException("Societe not found for ".$this->_id);
+            }
             $soc->addCompte($this);
             $soc->save(true);
         }
@@ -98,6 +101,13 @@ class Compte extends BaseCompte {
         $this->adresse_complementaire = $compteSociete->adresse_complementaire;
         $this->pays = $compteSociete->pays;
         
+    }
+
+    public function setEmail($email) {
+	if (preg_match('/^ *$/', $email)) {
+		return ;
+	}
+	return $this->_set('email', $email);
     }
     
 }
