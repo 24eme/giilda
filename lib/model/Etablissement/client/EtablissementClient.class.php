@@ -15,7 +15,7 @@ class EtablissementClient extends acCouchdbClient {
     const TYPE_DR_DRA = 'DRA';
     const TYPE_LIAISON_BAILLEUR = 'bailleur';
     const TYPE_LIAISON_METAYER = 'metayer';
-    const TYPE_LIAISON_ADHERENT = 'adherent';
+    const TYPE_LIAISON_ADHERENT = 'adherent'; //pour les cooperateurs
     const TYPE_LIAISON_CONTRAT_INTERNE = 'contrat_interne';
 
     const STATUT_ACTIF = 'ACTIF'; #'actif';
@@ -198,6 +198,10 @@ class EtablissementClient extends acCouchdbClient {
     public static function getTypeDR() {
         return array(self::TYPE_DR_DRM => self::TYPE_DR_DRM,
             self::TYPE_DR_DRA => self::TYPE_DR_DRA);
+    }
+
+    public static function listTypeLiaisons() {
+      return array_keys(self::getTypesLiaisons());
     }
 
     public static function getTypesLiaisons() {

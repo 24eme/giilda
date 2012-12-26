@@ -74,6 +74,15 @@ class Etablissement extends BaseEtablissement {
         return ($this->nom) ? $this->nom : $this->raison_sociale;
     }
 
+    public function addLiaison($type, $etablissement) {
+      if (!in_array($type, EtablissementClient::listTypeLiaisons()))
+	throw new sfException("liaison type \"$type\" unknown");
+      $liaison = $this->liaisons_operateurs->add($type.'_'.$etablissement->_id);
+      $liaison->type_liaison = $type;
+      $liaison->id_etablissement = $etablissement->_id;
+      $liaison->libelle_etablissement = $etablissement->nom;
+    }
+
     public function getFamilleType() {
         $familleType = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'vendeur',
             EtablissementFamilles::FAMILLE_NEGOCIANT => 'acheteur',
@@ -111,30 +120,30 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function save($fromsociete = false) {
-        
-        if ($this->recette_locale->id_douane) {
-		$soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
-		if ($soc) {
-			$this->recette_locale->nom = $soc->raison_sociale;
-		}
-        }
-        if (!$this->famille) {
-            $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
-        }
-        if (!$this->sous_famille) {
-            $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
-        }
-        
-        parent::save();
 
-        if (!$fromsociete) {
-            $soc = SocieteClient::getInstance()->find($this->id_societe);
-            if(!$soc)
-                    throw new sfException("$id n'est pas une société connue");
-            $soc->addEtablissement($this);
-            $soc->save();
-        }
+      if ($this->recette_locale->id_douane) {
+	$soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
+	if ($soc && $this->recette_locale->nom != $soc->raison_sociale) {
+	  $this->recette_locale->nom = $soc->raison_sociale;
+	}
+      }
+      
+      if (!$this->famille) {
+	$this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
+      }
+      if (!$this->sous_famille) {
+	$this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
+      }
+      
+      parent::save();
 
+      if (!$fromsociete) {
+	$soc = SocieteClient::getInstance()->find($this->id_societe);
+	if(!$soc)
+	  throw new sfException("$id n'est pas une société connue");
+	$soc->addEtablissement($this);
+	$soc->save();
+      }
     }
 
     public function setIdSociete($id) {

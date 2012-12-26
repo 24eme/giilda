@@ -69,12 +69,12 @@
             <?php echo $etablissementForm['type_liaison']->render(); ?>
             <?php echo $etablissementForm['type_liaison']->renderError(); ?>
         </div>
-        <?php foreach ($etablissementForm->getObject()->liaisons_operateurs as $key => $liaison_societe): ?>
+        <?php foreach ($etablissementForm->getObject()->liaisons_operateurs as $key => $liaison_etablissement): ?>
             <div class="form_ligne">
                 <label for='liaisons_operateurs[<?php echo $key; ?>]'>
                 <?php echo $etablissementForm['liaisons_operateurs[' . $key . ']']->renderLabel(); ?>
                 </label>               
- <?php echo $etablissementForm['liaisons_operateurs[' . $key . ']']->render(); ?>
+                <?php echo $etablissementForm['liaisons_operateurs[' . $key . ']']->render(); ?>
                 <?php echo $etablissementForm['liaisons_operateurs[' . $key . ']']->renderError(); ?>
             </div>
         <?php endforeach; ?>
