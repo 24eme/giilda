@@ -14,7 +14,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     protected $declarant_document = null;
     protected $archivage_document = null;
 
-    protected $suivante = null;
+    protected $document_precedent = null;
+    protected $document_suivant = null;
 
     public function  __construct() {
         parent::__construct();   
@@ -210,26 +211,30 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function getPrecedente() {
-        if ($this->exist('precedente') && $this->_get('precedente')) {
+        if (is_null($this->document_precedent) && $this->exist('precedente') && $this->_get('precedente')) {
 	        
-            return DRMClient::getInstance()->find($this->_get('precedente'));
-        } else {
-            
-            return new DRM();
+            $this->document_precedent = DRMClient::getInstance()->find($this->_get('precedente'));
         }
+
+        if(is_null($this->document_precedent)) {
+            
+            $this->document_precedent = new DRM();
+        }
+
+        return $this->document_precedent;
     }
 
     public function getSuivante() {
-        if(is_null($this->suivante)) {
+        if(is_null($this->document_suivant)) {
             $periode = DRMClient::getInstance()->getPeriodeSuivante($this->periode);
             $campagne = DRMClient::getInstance()->buildCampagne($periode);
             if ($campagne != $this->campagne) {
                 return null;
             }
-            $this->suivante = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
+            $this->document_suivant = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
         }
       
-       return $this->suivante;
+       return $this->document_suivant;
     }
 
     public function isSuivanteCoherente() {
@@ -449,19 +454,20 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return true;
     }
 
-    public function canSetStockDebutMois() {
+    public function hasPrecedente() {
+
         if (!$this->getPrecedente()) {
-            
-            return true;
+
+            return false;
         } elseif ($this->getPrecedente() && $this->getPrecedente()->isNew()) {
 
-            return true;
+            return false;
         } elseif ($this->isDebutCampagne()) {
 
-            return true;
+            return false;
         }
-            
-        return false;
+
+        return true;
     }
 
     public function hasDetails() {

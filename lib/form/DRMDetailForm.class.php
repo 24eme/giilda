@@ -6,7 +6,7 @@ class DRMDetailForm extends acCouchdbObjectForm {
         
     public function configure() {
             
-        if ($this->getObject()->getDocument()->canSetStockDebutMois()) {
+        if ($this->getObject()->canSetStockDebutMois()) {
             $this->setWidget('total_debut_mois', new sfWidgetFormInputFloat());                    
         } else {
             

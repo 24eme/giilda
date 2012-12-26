@@ -6,7 +6,7 @@ class DRMDetailStocksDebutForm  extends acCouchdbObjectForm {
     	$configurationDetail = $this->getObject()->getParent()->getConfig();
     	foreach ($configurationDetail->getStocksDebut() as $key => $value) {
     		if ($value->readable) {
-	    		if (!$value->writable || !$this->getObject()->getDocument()->canSetStockDebutMois()) {
+	    		if (!$value->writable || !$this->getObject()->getParent()->canSetStockDebutMois()) {
 	    			$this->setWidget($key, new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
 	    		} else {
 	    			$this->setWidget($key, new sfWidgetFormInputFloat());

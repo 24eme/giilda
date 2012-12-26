@@ -100,8 +100,27 @@ class DRMDetail extends BaseDRMDetail {
   public function getLabelsLibelle($format = "%la%", $label_separator = ", ") {
       
       return $this->getConfig()->getDocument()->formatLabelsLibelle($this->labels->toArray(), $format, $label_separator);
-  } 
+  }
 
+  public function canSetStockDebutMois() {
+
+    return !$this->hasPrecedente();
+  }
+
+  public function canSetLabels() {
+
+    return !$this->hasPrecedente();
+  }
+
+  public function hasPrecedente() {
+    if(!$this->getDocument()->hasPrecedente()) {
+
+      return false;
+    }
+
+
+    return $this->getDocument()->getPrecedente()->exist($this->getHash());
+  }
   
   protected function update($params = array()) {
       parent::update($params);
