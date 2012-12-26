@@ -16,6 +16,7 @@
                                                      'consigne' => "Saisissez un mois ou un produit :")) ?>
     <?php endif; ?>
 
+    <?php if($vigilance): ?>
     <div id="points_vigilance">
         <ul>
             <li class="warning">
@@ -23,6 +24,7 @@
             </li>
         </ul>
     </div>
+    <?php endif; ?>
 
     <table id="table_stocks" class="table_recap">
         <thead>

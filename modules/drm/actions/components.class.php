@@ -99,7 +99,7 @@ class drmComponents extends sfComponents {
     public function executeStocks() {
         $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
         $this->produits = array();
-        $this->drm_vigilance = false;
+        $this->vigilance = false;
         foreach($this->calendrier->getPeriodes() as $periode) {
             $drm = $this->calendrier->getDRM($periode);
             if($drm && $drm->isValidee()) {
@@ -117,8 +117,8 @@ class drmComponents extends sfComponents {
                     $d->total_facturable = $produit->total_facturable;
                     $this->produits[] = $d;
                 } 
-            } else {
-                $this->drm_vigilance = true;
+            } elseif($drm && !$drm->isValidee()) {
+                $this->vigilance = true;
             }      
         }
     }
