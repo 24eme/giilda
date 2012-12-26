@@ -2,7 +2,7 @@
 
 convert-utf8 () {
     encodage=$(file --mime-encoding $1 | grep -oE ": .+$" | sed 's/: //');
-    iconv -f iso-8859-1 -t utf-8 $1
+    iconv -f iso-8859-1 -t utf-8 $1 | sed 's/  *;/;/g'
 }
 
 ajout-champ-commun () {
