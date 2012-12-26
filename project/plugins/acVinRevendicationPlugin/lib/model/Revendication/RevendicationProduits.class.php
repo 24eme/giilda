@@ -25,7 +25,7 @@ class RevendicationProduits extends BaseRevendicationProduits {
             if ($bailleur) {
                 $volumes->bailleur_identifiant = $bailleur->key[EtablissementAllView::KEY_IDENTIFIANT];
                 $volumes->bailleur_nom = $bailleur->key[EtablissementAllView::KEY_NOM];
-                }
+            }
         }
     }
 

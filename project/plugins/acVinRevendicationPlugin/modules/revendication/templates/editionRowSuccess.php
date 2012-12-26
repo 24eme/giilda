@@ -9,8 +9,8 @@ use_helper('Float');
             <h2>Volumes revendiqués</h2>
 
             <form id="volumes_revendiques" action="<?php
-echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
-    'campagne' => $revendication->campagne,
+echo url_for('revendication_edition_row', array('odg' => $odg,
+    'campagne' => $campagne,
     'identifiant' => $identifiant,
     'row' => $row,
     'retour' => $retour));
@@ -42,8 +42,8 @@ echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
 
                 <div class="form_btn">
                     <a href="<?php
-                      echo url_for('revendication_delete_row', array('odg' => $revendication->odg,
-                          'campagne' => $revendication->campagne,
+                      echo url_for('revendication_delete_row', array('odg' => $odg,
+                          'campagne' => $campagne,
                           'identifiant' => $identifiant,
                           'row' => $row));
                       ?>" class="btn_majeur btn_annuler">Supprimer</a>
@@ -53,8 +53,8 @@ echo url_for('revendication_edition_row', array('odg' => $revendication->odg,
                       ?>" class="btn_majeur btn_modifier">Annuler</a>&nbsp;
                     <?php else: ?>
                     <a href="<?php
-                      echo url_for('revendication_edition', array('odg' => $revendication->odg,
-                          'campagne' => $revendication->campagne));
+                      echo url_for('revendication_edition', array('odg' => $odg,
+                          'campagne' => $campagne));
                       ?>" class="btn_majeur btn_modifier">Annuler</a>&nbsp;
                     <?php endif; ?>
 
