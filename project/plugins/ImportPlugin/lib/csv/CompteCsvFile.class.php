@@ -29,7 +29,10 @@ const CSV_COMPTE_CODE_PARTENAIRE = 22;
   private function verifyCsvLine($line) {
     if (!preg_match('/[0-9]+/', $line[self::CSV_COMPTE_CODE_CONTACT])) {
 
-      throw new Exception(sprintf('Numero de dossier invalide : %s', $line[self::CSV_COMPTE_CODE_CONTACT]));
+      throw new sfException(sprintf('Numero de dossier invalide : %s', $line[self::CSV_COMPTE_CODE_CONTACT]));
+    }
+    if (!isset($line[self::CSV_COMPTE_CODE_PARTENAIRE])) {
+      throw new sfException('Wrong format for line '.$this->line_nb);
     }
   }
 
@@ -47,8 +50,11 @@ const CSV_COMPTE_CODE_PARTENAIRE = 22;
     $this->errors = array();
     $societes = array();
     $csvs = $this->getCsv();
+    $this->line_nb = 0;
     try {
       foreach ($csvs as $line) {
+        try{
+	$this->line_nb++;
       	$this->verifyCsvLine($line);
 
 	$compteidentifiant = $this->generateIdentifiant($line[self::CSV_COMPTE_CODE_PARTENAIRE]);
@@ -57,7 +63,6 @@ const CSV_COMPTE_CODE_PARTENAIRE = 22;
         if ($c) {
           acCouchdbManager::getClient()->deleteDoc($c);
         }
-	try{
       	$c = new Compte();
         $c->identifiant = $compteidentifiant;
         $c->interpro = 'INTERPRO-inter-loire';
