@@ -92,7 +92,7 @@ class EtablissementCsvFile extends CsvFile
 	if (isset( $line[self::CSVCAV_LIBELLE_COMMUNE])) {
 	        $e->siege->commune = $line[self::CSVCAV_LIBELLE_COMMUNE];
         	$e->siege->code_postal = $line[self::CSVCAV_CODE_POSTAL];
-		if (!preg_match('/^(bailleur|métayage)/i', $line[self::CSVCAV_ADRESSE1]) {
+		if (!preg_match('/^(bailleur|métayage)/i', $line[self::CSVCAV_ADRESSE1])) {
 		    $e->siege->adresse = preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE1]);
 		    if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE2])) {
 		      $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE2]);
@@ -101,7 +101,7 @@ class EtablissementCsvFile extends CsvFile
 			if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE4])) {
 			  $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE4]);
 			}}}
-		  }
+		}
 	}else{
 		$e->siege->commune = $line[self::CSVPAR_COMMUNE];
                 $e->siege->code_postal = $line[self::CSVPAR_CODE_POSTAL];
@@ -138,7 +138,7 @@ class EtablissementCsvFile extends CsvFile
 		$e->region = EtablissementClient::REGION_HORSINTERLOIRE;
 	}
 
-	if (isset($line[self::CSVCAV_DAA]){
+	if (isset($line[self::CSVCAV_DRA])){
 	    if ($line[self::CSVCAV_DRA] == 'OUI') {
 	      $e->type_dr = EtablissementClient::TYPE_DR_DRA;
 	    }else{

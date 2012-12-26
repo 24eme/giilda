@@ -1,30 +1,41 @@
-<!-- #principal -->
-<section id="principal">
-    <p id="fil_ariane"><strong>Page d'accueil > Contacts > </strong> <?php echo $societe->raison_sociale; ?></p>
 
-    <!-- #contenu_etape -->
-    <section id="contacts">
-        <div id="creation_societe">
-        <h2><?php echo $societe->raison_sociale; ?></h2>
-        <div class="btn_etape">
-            <a href="<?php echo url_for('societe_addContact', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_vert">Nouvel interlocuteur</a>
-            &nbsp;
-            <?php if($societe->canHaveChais()) : ?>  
-            <a href="<?php echo url_for('societe_addEtablissement', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_jaune">Nouvel Etablissement
-            </a>
-            <?php endif;?>
-        </div>
-        <?php
-        include_partial('visualisationPanel', array('societe' => $societe));?>
-            <?php if(count($etablissements)) : ?>
-            <h2>Coordonnées de la société </h2>
-            <?php endif; ?>
-            <?php
-        foreach ($etablissements as $etablissementId => $etb) :
-            include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre));
-        endforeach;
-        ?>
+<div id="contenu">
+    <!-- #principal -->
+    <section id="principal">
+        <p id="fil_ariane">Page d'accueil > Contacts > <strong><?php echo $societe->raison_sociale; ?></strong></p>
 
+        <!-- #contenu_etape -->
+        <section id="contacts">
+			
+            <div id="visu_societe">
+				<h2><?php echo $societe->raison_sociale; ?></h2>
+				
+				<div class="btn_haut">
+					<a href="<?php echo url_for('societe_addContact', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur">Nouvel interlocuteur</a>
+					&nbsp;
+					<?php if($societe->canHaveChais()) : ?>  
+						<a href="<?php echo url_for('societe_addEtablissement', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur">Nouvel Etablissement</a>
+					<?php endif;?>
+				</div>
+				
+				<div class="infos_societe">
+					<p>
+						Date de création : JJ/MM/AAAA <br />
+						Dernière modification : JJ/MM/AAAA, par (user_name)
+					</p>
+					<a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_modifier">Modifier</a>
+				</div>
+				
+				<?php include_partial('visualisationPanel', array('societe' => $societe)); ?>
+				
+				<?php if(count($etablissements)): ?>
+				<?php endif; ?>
+				<?php
+					foreach ($etablissements as $etablissementId => $etb) :
+						include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre));
+					endforeach;
+				?>
+			</div>
     </section>
 </section>   
 
