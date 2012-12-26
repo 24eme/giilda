@@ -1,3 +1,4 @@
+
 <div id="contenu">
     <!-- #principal -->
     <section id="principal">
@@ -35,23 +36,32 @@
 					endforeach;
 				?>
 			</div>
-
-        </section>
     </section>
-    <aside id="colonne">
-        <div class="bloc_col" id="contrat_aide">
-            <h2>Aide</h2>
+</section>   
 
-            <div class="contenu">
-                <ul>
-                    <li class="raccourcis"><a href="#">Raccourcis clavier</a></li>
-                    <li class="assistance"><a href="#">Assistance</a></li>
-                    <li class="contact"><a href="#">Contacter le support</a></li>
-                </ul>
-            </div>
+<?php
+slot('colButtons');
+?>
+<div id="action" class="bloc_col">
+    <h2>Action</h2>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('societe'); ?>" class="btn_majeur btn_acces"><span>Retour à l'accueil</span></a>
         </div>
-         <?php
-            include_component('societe', 'getInterlocuteurs', array('identifiant' => $societe->identifiant));
-        ?>
-    </aside>
+    </div>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('societe_addContact',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel interlocuteur</span></a>
+        </div>
+    </div>
+    <?php if($societe->canHaveChais()) : ?>  
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('societe_addEtablissement',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel etablissement</span></a>
+        </div>
+    </div>
+    <?php  endif; ?>
 </div>
+<?php
+end_slot();
+?>

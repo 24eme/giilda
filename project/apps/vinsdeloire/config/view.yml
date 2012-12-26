@@ -18,3 +18,6 @@ default:
 
   has_layout:     true
   layout:         layout
+  
+  components:
+    colContacts: [societe, getInterlocuteurs]

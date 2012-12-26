@@ -2,9 +2,16 @@
 
 class societeActions extends sfActions {
 
-    public function executeAll(sfWebRequest $request) {
+    public function executeFullautocomplete(sfWebRequest $request) {
         $interpro = $request->getParameter('interpro_id');
         $json = $this->matchCompte(CompteAllView::getInstance()->findByInterpro($interpro)->rows, $request->getParameter('q'), $request->getParameter('limit', 100));
+        return $this->renderText(json_encode($json));
+    }
+
+    public function executeAutocomplete(sfWebRequest $request) {
+        $interpro = $request->getParameter('interpro_id');
+	$societes = SocieteAllView::getInstance()->findByInterpro($interpro, 'ACTIF', array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT));
+        $json = $this->matchSociete($societes, $request->getParameter('q'), $request->getParameter('limit', 100));
         return $this->renderText(json_encode($json));
     }
 
@@ -113,6 +120,22 @@ class societeActions extends sfActions {
         $json = array();
         foreach ($view_res as $key => $one_row) {
             $text = CompteAllView::getInstance()->makeLibelle($one_row->key);
+
+            if (Search::matchTerm($term, $text)) {
+                $json[$one_row->id] = $text;
+            }
+
+            if (count($json) >= $limit) {
+                break;
+            }
+        }
+        return $json;
+    }
+
+    protected function matchSociete($view_res, $term, $limit) {
+        $json = array();
+        foreach ($view_res as $key => $one_row) {
+            $text = SocieteAllView::getInstance()->makeLibelle($one_row->key);
 
             if (Search::matchTerm($term, $text)) {
                 $json[$one_row->id] = $text;

@@ -170,21 +170,21 @@ class Revendication extends BaseRevendication {
         }
     }
 
-    public function updateProduit($cvi, $produit_key_old, $produit_key_new) {
-        $produitsCd = $this->getProduitsCodeDouaneHashes();
-        $hash = $produitsCd[$produit_key_new]; 
-        $hash = substr($hash, 1, strlen($hash));
-        $produits = $this->getProduits();
-        $libelle = $produits[$hash];      
-        $this->getDatas()->get($cvi)->updateProduits($produit_key_old, $produit_key_new, $libelle);
-        }
+//    public function updateVolumeProduit($cvi, $produit_key_old, $produit_key_new, $row, $num_ligne, $new_volume) {
+//        var_dump('modif'); exit;
+//        $produitsCd = $this->getProduitsCodeDouaneHashes();
+//        $hash = $produitsCd[$produit_key_new]; 
+//        $produits = $this->getProduits();
+//        $libelle = $produits[$hash];         
+//        $this->getDatas()->get($cvi)->updateProduitsAndVolume($this->getDatas()->get($cvi)->produits, $produit_key_old, $produit_key_new, $libelle,$row, $num_ligne, $new_volume);
+//        }
         
-    public function updateVolume($cvi, $produit_key, $row, $num_ligne, $new_volume) {
-        
-        $volume = $this->getDatas()->get($cvi)->produits->get($produit_key)->volumes->add($row);
-        $volume->num_ligne = $num_ligne;
-        $volume->volume = $new_volume;
-    }
+//    public function majVolume($cvi, $produit_key, $row, $num_ligne, $new_volume) {
+//        
+//        $volume = $this->getDatas()->get($cvi)->produits->get($produit_key)->volumes->add($row);
+//        $volume->num_ligne = $num_ligne;
+//        $volume->volume = $new_volume;
+//    }
 
     public function getProduitNode($cvi, $row) {
         foreach ($this->getDatas()->get($cvi)->produits as $hash_key => $produit) {
@@ -194,7 +194,7 @@ class Revendication extends BaseRevendication {
         }
         return null;
     }
-
+    
     public function updateErrors() {
         $num_ligne = count($this->erreurs) - 1;
         while ($num_ligne >= 0) {

@@ -90,6 +90,29 @@ class Societe extends BaseSociete {
         return in_array($this->type_societe, SocieteClient::getSocieteTypesWithChais());
     }
 
+    public function getFamille() {
+      if (!$this->canHaveChais())
+	throw new sfException('La societe '.$this->identifiant." ne peut pas avoir famille n'ayant pas d'établissement");
+      return $this->getTypeSociete();
+    }
+
+    public function getRegionViticole() {
+      if (count($this->getRegionsViticoles()) > 1)
+	throw new sfException("La societe ".$this->identifiant." est reliée des établissements de plusieurs régions viticoles, ce qui n'est pas permis");
+      if (!count($this->getRegionsViticoles()))
+	throw new sfException("La societe ".$this->identifiant." n'a pas de région viti :(");
+      $regions = $this->getRegionsViticoles();
+      return array_shift($regions);
+    }
+
+    private function getRegionsViticoles() {
+      $regions = array();
+      foreach($this->getEtablissementsObj() as $id => $e) {
+	$regions[$e->etablissement->region] = $e->etablissement->region;
+      }
+      return $regions;
+    }
+
     public function getEtablissementsObj() {
         $etablissements = array();
         foreach ($this->etablissements as $id => $obj) {

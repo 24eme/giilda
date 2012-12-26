@@ -36,7 +36,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setWidget('cooperative', new sfWidgetFormChoice(array('choices' => $this->getCooperative(), 'multiple' => false, 'expanded' => true)));
             $this->setWidget('siret', new sfWidgetFormInput());
             $this->setWidget('code_naf', new sfWidgetFormInput());
-            $this->setWidget('tva_intracom', new sfWidgetFormInput());
+            $this->setWidget('no_tva_intracommunautaire', new sfWidgetFormInput());
         }
         if ($this->isCourtier()) {
             $this->setWidget('carte_professionnelle', new sfWidgetFormInput());
@@ -56,7 +56,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel('cooperative', 'Cave coopérative');
             $this->widgetSchema->setLabel('siret', 'SIRET');
             $this->widgetSchema->setLabel('code_naf', 'Code Naf');
-            $this->widgetSchema->setLabel('tva_intracom', 'TVA Intracom');
+            $this->widgetSchema->setLabel('no_tva_intracommunautaire', 'TVA Intracom');
         }
         if ($this->isCourtier()) {
             $this->widgetSchema->setLabel('carte_professionnelle', 'Numéro de carte professionnelle');
@@ -76,7 +76,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setValidator('cooperative', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperative()))));
             $this->setValidator('siret', new sfValidatorString(array('required' => false)));
             $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
-            $this->setValidator('tva_intracom', new sfValidatorString(array('required' => false)));
+            $this->setValidator('no_tva_intracommunautaire', new sfValidatorString(array('required' => false)));
         }
         if ($this->isCourtier()) {
             $this->setValidator('carte_professionnelle', new sfValidatorString(array('required' => false)));

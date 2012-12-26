@@ -67,10 +67,10 @@
         endforeach;
         ?>
         <div class="form_ligne">
-            <label for="tva_intracom">
+            <label for="no_tva_intracommunautaire">
                 TVA intracom : 
             </label>
-            <?php echo $societe->tva_intracom; ?>
+            <?php echo $societe->no_tva_intracommunautaire; ?>
         </div>
         <div class="form_ligne">
             <label for="commentaire">
