@@ -15,19 +15,19 @@ echo $societeForm->renderGlobalErrors();
 			<?php echo $societeForm['raison_sociale_abregee']->renderError(); ?>
 		</div>
 		<div class="form_colonne">
-			<?php echo $societeForm['statut']->renderLabel(); ?>
+			<?php echo $societeForm['statut']->renderLabel('',array('class' => 'label_liste')); ?>
 			<?php echo $societeForm['statut']->render(); ?>
 			<?php echo $societeForm['statut']->renderError(); ?>
 		</div>
     </div>
     <?php if ($societeForm->isVitiOrNego()) : ?>
         <div class="form_ligne">
-            <?php echo $societeForm['cooperative']->renderLabel(); ?>
+            <?php echo $societeForm['cooperative']->renderLabel('',array('class' => 'label_liste')); ?>
             <?php echo $societeForm['cooperative']->render(); ?>
             <?php echo $societeForm['cooperative']->renderError(); ?>
         </div>
         <div class="form_ligne">
-            <?php echo $societeForm['type_numero_compte']->renderLabel(); ?>
+            <?php echo $societeForm['type_numero_compte']->renderLabel('',array('class' => 'label_liste')); ?>
             <?php echo $societeForm['type_numero_compte']->render(); ?>
             <?php echo $societeForm['type_numero_compte']->renderError(); ?>
         </div>                 

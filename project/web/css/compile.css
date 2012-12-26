@@ -1318,6 +1318,18 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   background:#900000;
   width:450px;
 }
+.global_error {
+  margin-bottom:20px;
+  margin-left:auto;
+  margin-right:auto;
+  width:700px;
+}
+.global_error span {
+  background-color:red;
+  color:white;
+  font-weight:bold;
+  padding:5px;
+}
 #principal h2 {
   text-transform:uppercase;
   font-size:15px;
@@ -2946,6 +2958,13 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 }
 .bloc_col .legende div .type_raisins, .bloc_col .legende div .type_mouts, .bloc_col .legende div .type_vin_vrac, .bloc_col .legende div .type_vin_bouteille { margin-bottom:5px; }
 #contacts #enseignes_list { padding-left:146px; }
+#contacts .etablissement h3:first-child {
+  background:#f2d6be url('../images/pictos/pi_etablissement.png') 37px center no-repeat;
+  padding-left:75px;
+  text-decoration:none;
+}
+#contacts .etablissement .form_contenu { background:#faf0e7; }
+#contacts .ferme h3:before { background:url("../images/pictos/fleche_col_groupe_ferme.png") no-repeat; }
 #contacts .form_btn { margin:28px 0; }
 #contacts .form_btn .btn_valider { margin:0 0 0 470px; }
 #contacts .form_ligne {
@@ -2984,11 +3003,19 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   height:21px;
   width:20px;
 }
+#contacts .form_section .btn_supprimer_ligne_template {
+  background:url("../images/pictos/pi_suppression.png") no-repeat;
+  display:inline-block;
+  height:21px;
+  margin:0 0 0 15px;
+  text-indent:-9999px;
+  width:20px;
+}
 #contacts .form_section .checkbox_list, #contacts .form_section .radio_list { float:left; }
 #contacts .form_section .checkbox_list label, #contacts .form_section .radio_list label { width:auto; }
 #contacts .form_section .checkbox_list li, #contacts .form_section .radio_list li {
   float:left;
-  margin:0;
+  margin:0 5px 0;
   width:auto;
 }
 #contacts .form_section .form_colonne { float:left; }
@@ -3010,7 +3037,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   position:absolute;
   right:auto;
   top:6px;
-  background:url("../images/pictos/fleche_col_groupe_ouvert.png") no-repeat;
   content:"";
   height:15px;
   width:15px;
@@ -3024,17 +3050,8 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #contacts .form_section legend {
   font-size:16px;
   font-weight:normal;
-  margin:15px 0;
 }
 #contacts .form_section select { width:113px; }
-#contacts .form_section .btn_supprimer_ligne_template {
-  background:url("../images/pictos/pi_suppression.png") no-repeat;
-  display:inline-block;
-  height:21px;
-  margin:0 0 0 15px;
-  text-indent:-9999px;
-  width:20px;
-}
 #contacts .form_section textarea {
   height:90px;
   width:618px;
@@ -3047,24 +3064,32 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   padding-left:42px;
   position:relative;
 }
-#contacts h2:before { content:""; }
-#creation_societe h2:before, #visu_societe h2:before {
+#contacts h2:before {
+  content:"";
   bottom:auto;
   left:0;
   position:absolute;
   right:auto;
   top:-10px;
+}
+#contacts .label_liste { float:left; }
+#contacts .form_colonne:first-child + .form_colonne label {
+  padding-right:10px;
+  width:auto;
+}
+#contacts .ouvert h3:before { background:url("../images/pictos/fleche_col_groupe_ouvert.png") no-repeat; }
+#creation_societe h2:before, #visu_societe h2:before {
   background:url("../images/pictos/societe.png") no-repeat;
   height:36px;
   width:32px;
 }
-#nouveau_contact h2, #nouveau_etablissement h2 { margin-bottom:10px; }
-#nouveau_contact > h3, #nouveau_etablissement > h3 {
-  font-size:16px;
-  font-weight:bold;
-}
 #detail_etablissement .conteneur_societe .form_colonne:first-child + .form_colonne, #detail_etablissement .conteneur_enseigne .form_colonne:first-child + .form_colonne, #detail_societe .conteneur_societe .form_colonne:first-child + .form_colonne, #detail_societe .conteneur_enseigne .form_colonne:first-child + .form_colonne { padding-left:0; }
 #detail_etablissement .form_colonne:first-child + .form_colonne, #detail_societe .form_colonne:first-child + .form_colonne { padding:0 0 0 35px; }
+#coordonnees_societe .form_ligne .meme_adresse, #coordonnees_etablissement .form_ligne .meme_adresse, #coordonnees_contact .form_ligne .meme_adresse {
+  font-weight:normal;
+  width:250px;
+}
+#coordonnees_societe label, #coordonnees_etablissement label, #coordonnees_contact label { width:187px; }
 #visu_societe .btn_haut {
   background:#ecebeb;
   margin:10px 0;
@@ -3102,23 +3127,42 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   height:19px;
   width:17px;
 }
+#visu_societe .infos_societe { padding:0 0 10px 0; }
+#visu_societe .infos_societe .btn_modifier { margin:0 0 0 270px; }
+#visu_societe .infos_societe p {
+  float:left;
+  font-style:italic;
+}
 #visu_societe .form_colonne:first-child + .form_colonne label { width:auto; }
 #visu_societe .form_colonne:first-child + .form_colonne label:first-child { width:82px; }
 #visu_societe label { width:145px; }
+#detail_societe label { width:148px; }
+#nouveau_contact .form_section .form_contenu { background:#e9f1f9; }
+#nouveau_contact .form_section h3 { background:#cfe1f1; }
+#nouveau_contact h2:before {
+  background:url("../images/pictos/contact.png") no-repeat;
+  height:35px;
+  width:30px;
+}
+#detail_contact .form_ligne:first-child label { width:65px; }
 #detail_contact .form_ligne:first-child .form_colonne:first-child + .form_colonne label {
   margin:0 0 0 241px;
   width:120px;
 }
 #detail_contact .form_ligne:first-child .form_colonne:first-child + .form_colonne select { width:69px; }
-#detail_contact label[for="detail_contact_civilite"] { width:65px; }
-#detail_etablissement #detail_etablissement_region_viticole { width:134px; }
-#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 84px; }
-#coordonnees_societe label, #coordonnees_etablissement label, #detail_etablissement label { width:190px; }
-#coordonnees_etablissement .form_ligne .meme_adresse, #coordonnees_contact .form_ligne .meme_adresse {
-  font-weight:normal;
-  width:250px;
+#detail_contact label { width:187px; }
+#nouveau_etablissement h2:before {
+  background:url("../images/pictos/etablissement.png") no-repeat;
+  height:24px;
+  top:-2px;
+  width:36px;
 }
-#coordonnees_etablissement label[for="compte_modification_adresse_societe"] { float:left; }
+#detail_etablissement #detail_etablissement_region_viticole { width:134px; }
+#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 80px; }
+#detail_etablissement .form_colonne:first-child + .form_colonne label { width:115px; }
+#detail_etablissement label { width:190px; }
+#colonne #infos_contact h2 { background:#76a8d7; }
+#colonne #infos_contact h2:before { border-color:transparent transparent #376ea2 transparent; }
 #contacts_actions li { text-align:center; }
 #contacts_actions li button {
   padding-left:30px;
@@ -3145,45 +3189,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #contacts_actions li .nouvelle_societe:after {
   background:url("../images/pictos/pi_societe.png") no-repeat;
   top:3px;
-}
-#detail_societe .form_contenu li { margin:13px 0; }
-#detail_societe .form_contenu li .intitule {
-  display:inline-block;
-  font-size:14px;
-  font-weight:bold;
-  width:190px;
-}
-#detail_societe .infos_societe { padding:8px 0; }
-#detail_societe .infos_societe .btn_modifier { margin:0 0 0 270px; }
-#detail_societe .infos_societe p {
-  float:left;
-  font-style:italic;
-}
-#detail_societe label { width:148px; }
-#detail_societe label[for="societe_modification_statut"], #detail_societe label[for="societe_modification_cooperative"], #detail_societe label[for="societe_modification_type_numero_compte"] { float:left; }
-#detail_societe .form_colonne:first-child + .form_colonne label { width:auto; }
-#nouveau_contact .form_section .form_contenu { background:#e9f1f9; }
-#nouveau_contact .form_section h3 { background:#cfe1f1; }
-#nouveau_contact h2:before {
-  bottom:auto;
-  left:0;
-  position:absolute;
-  right:auto;
-  top:-10px;
-  background:url("../images/pictos/contact.png") no-repeat;
-  height:35px;
-  width:30px;
-}
-#nouveau_contact label { width:187px; }
-#nouveau_etablissement h2:before {
-  bottom:auto;
-  left:0;
-  position:absolute;
-  right:auto;
-  top:-2px;
-  background:url("../images/pictos/etablissement.png") no-repeat;
-  height:24px;
-  width:36px;
 }
 .itemcache { display:none; }
 p#date_drm {

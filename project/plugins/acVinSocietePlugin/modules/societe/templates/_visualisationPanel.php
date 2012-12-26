@@ -1,4 +1,4 @@
-<div id="detail_societe" class="form_section">
+<div id="detail_societe" class="form_section ouvert">
     <h3>Détail de la société </h3>  
     <div class="form_contenu">
         <div class="form_ligne">

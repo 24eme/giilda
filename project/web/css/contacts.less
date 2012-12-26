@@ -13,9 +13,28 @@
 #contacts
 {
 
-	#enseignes_list
+	#enseignes_list { padding-left: 146px; }
+
+	/* Blocs établissement */
+	.etablissement
 	{
-		padding-left: 146px;
+		h3:first-child
+		{
+			background: @couleur-e10 url('../images/pictos/pi_etablissement.png') 37px center no-repeat;
+			padding-left: 75px;
+			text-decoration: none;
+		}
+
+		.form_contenu { background: @couleur-e11; }
+	}
+
+	/* Bloc fermé */
+	.ferme
+	{
+		h3
+		{
+			&:before { background: url("../images/pictos/fleche_col_groupe_ferme.png") no-repeat; }
+		}
 	}
 	
 	.form_btn 
@@ -30,12 +49,14 @@
 		margin: 13px 0; 
 	}
 	
+	/* blocs de formulaire */
 	.form_section
 	{
 		.border(@couleur-a9);
 		.champ_long { width: 425px; }
 		margin: 0 0 35px 0;
 		
+		/* bouton d'ajout de champ */
 		.btn_ajouter_ligne_template
 		{
 			font-size: 12px;
@@ -54,6 +75,17 @@
 			}
 		}
 		
+		/* bouton de supression de champ */
+		.btn_supprimer_ligne_template
+		{
+			background: url("../images/pictos/pi_suppression.png") no-repeat;
+			display: inline-block;
+			height: 21px;
+			margin: 0 0 0 15px;
+			text-indent: -9999px;
+			width: 20px;
+		}
+		
 		.checkbox_list,
 		.radio_list
 		{
@@ -65,7 +97,7 @@
 			li
 			{
 				float: left;
-				margin: 0;
+				margin: 0 5px 0;
 				width: auto;
 			}
 		}
@@ -74,6 +106,7 @@
 
 		.form_contenu { padding: 15px 30px 23px 10px; }
 		
+		/* titres des blocs */
 		h3
 		{
 			background: @couleur-a5;
@@ -89,7 +122,6 @@
 			&:before
 			{
 				.pos-abs(6px, auto, auto, 10px);
-				background: url("../images/pictos/fleche_col_groupe_ouvert.png") no-repeat;
 				content: "";
 				height: 15px;
 				width: 15px;
@@ -109,20 +141,9 @@
 		{
 			font-size: 16px;
 			font-weight: normal;
-			margin: 15px 0;
 		}
 
 		select { width: 113px; }
-
-		.btn_supprimer_ligne_template
-		{
-			background: url("../images/pictos/pi_suppression.png") no-repeat;
-			display: inline-block;
-			height: 21px;
-			margin: 0 0 0 15px;
-			text-indent: -9999px;
-			width: 20px;
-		}
 
 		textarea
 		{
@@ -141,7 +162,31 @@
 		position: relative;
 
 		&:before 
-		{ content: ""; }
+		{ 
+			content: ""; 
+			.pos-abs(-10px, auto, auto, 0);
+		}
+	}
+
+	.label_liste { float: left; }
+
+	/* Cible la deuxième colonne */
+	.form_colonne:first-child + .form_colonne
+	{
+		label 
+		{ 
+			padding-right: 10px;
+			width: auto; 
+		}
+	}
+	
+	/* Bloc ouvert */
+	.ouvert
+	{
+		h3
+		{
+			&:before { background: url("../images/pictos/fleche_col_groupe_ouvert.png") no-repeat; }
+		}
 	}
 }
 
@@ -152,23 +197,10 @@
 	{
 		&:before
 		{
-			.pos-abs(-10px, auto, auto, 0);
 			background: url("../images/pictos/societe.png") no-repeat;
 			height: 36px;
 			width: 32px;
 		}
-	}
-}
-
-#nouveau_contact,
-#nouveau_etablissement
-{
-	h2 { margin-bottom: 10px; }
-
-	& > h3
-	{
-		font-size: 16px;
-		font-weight: bold;
 	}
 }
 
@@ -187,10 +219,32 @@
 	.form_colonne:first-child + .form_colonne  { padding: 0 0 0 35px; }
 }
 
+
 /**
-* Visu société
+ * Coordonnées
+ ******************************************/
+
+#coordonnees_societe,
+#coordonnees_etablissement,
+#coordonnees_contact
+{
+	.form_ligne
+	{
+		.meme_adresse
+		{
+			font-weight: normal;
+			width: 250px;
+		}
+	}
+
+	label { width: 187px; }	
+}
+
+/**
+* Société
 ******************************************/
-	 
+
+/* Fiche d'une société */	 
 #visu_societe
 {
 	.btn_haut
@@ -231,6 +285,20 @@
 			}
 		}
 	}
+
+	.infos_societe
+	{
+		clearfix;
+		padding: 0 0 10px 0;
+
+		.btn_modifier { margin: 0 0 0 270px; }
+
+		p
+		{
+			float: left;
+			font-style: italic;
+		}
+	}
 	
 	/* Cible la deuxième colonne */
 	.form_colonne:first-child + .form_colonne
@@ -242,14 +310,41 @@
 	label { width: 145px; }
 }
 
+#detail_societe
+{
+	label { width: 148px; }
+}
+
+
 /**
-* Détail contact
+* Contact
 ******************************************/
+
+#nouveau_contact
+{
+	.form_section
+	{
+		.form_contenu { background: @couleur-e8; }
+		h3 { background: @couleur-e9; }
+	}
+
+	h2
+	{	
+		&:before
+		{
+			background: url("../images/pictos/contact.png") no-repeat;
+			height: 35px;
+			width: 30px;
+		}
+	}
+}
 
 #detail_contact
 {
 	.form_ligne:first-child
 	{
+		label { width: 65px; }
+		
 		/* Cible la deuxième colonne */
 		.form_colonne:first-child + .form_colonne
 		{
@@ -263,12 +358,26 @@
 		}
 	}
 
-	label[for="detail_contact_civilite"] { width: 65px; }
+	label { width: 187px; }
 }
 
 /**
-* Détail etablissement
+* Etablissement
 ******************************************/
+
+#nouveau_etablissement
+{
+	h2
+	{
+		&:before
+		{
+			background: url("../images/pictos/etablissement.png") no-repeat;
+			height: 24px;
+			top: -2px;
+			width: 36px;
+		}
+	}
+}
 
 #detail_etablissement
 {
@@ -278,52 +387,36 @@
 	/* Cible la deuxième colonne */
 	.form_colonne:first-child + .form_colonne
 	{
-		padding: 0 0 0 84px;
+		padding: 0 0 0 80px;
+		label { width: 115px; }
 	}
-}
 
+	label { width: 190px; }
+}
 
 /**
- * Coordonnées de la société et détail établissement
- ******************************************/
-
-#coordonnees_societe,
-#coordonnees_etablissement,
-#detail_etablissement,
-{
-   label { width: 190px; }
-}
-
-
-#coordonnees_etablissement,
-#coordonnees_contact
-{
-	.form_ligne
-	{
-		.meme_adresse
-		{
-			font-weight: normal;
-			width: 250px;
-		}
-	}
-}
-
-#coordonnees_etablissement
-{
-	label
-	{
-		&[for="compte_modification_adresse_societe"]
-		{
-			float: left;
-		}
-	}
-}
-
-
-/**
-* Fiche société
+* Colonne
 ******************************************/
 
+#colonne
+{
+	
+	#infos_contact
+	{
+		h2
+		{
+			background: @couleur-e12;
+			
+			&:before
+			{
+				border-color: transparent transparent @couleur-e13 transparent;
+			}
+		}
+	}
+}
+
+
+/* boutons de la colonne */
 #contacts_actions
 {
 	li 
@@ -354,104 +447,6 @@
 				background: url("../images/pictos/pi_societe.png") no-repeat;
 				top: 3px;
 			}
-		}
-	}
-}
-
-#detail_societe
-{
-
-	.form_contenu
-	{
-		li
-		{
-			margin: 13px 0;
-
-			.intitule
-			{
-				display: inline-block;
-				font-size: 14px;
-				font-weight: bold;
-				width: 190px;
-			}
-		}
-	}
-
-	.infos_societe
-	{
-		clearfix;
-		padding: 8px 0;
-
-		.btn_modifier { margin: 0 0 0 270px; }
-
-		p
-		{
-			float: left;
-			font-style: italic;
-		}
-	}
-
-	label 
-	{ 
-		width: 148px;
-
-		&[for="societe_modification_statut"],
-		&[for="societe_modification_cooperative"],
-		&[for="societe_modification_type_numero_compte"]
-		{
-			float: left;
-		}
-	}
-
-	/* Cible la deuxième colonne */
-	.form_colonne:first-child + .form_colonne
-	{
-		label
-		{
-			width: auto;
-		}
-	}
-}
-
-
-#nouveau_contact
-{
-
-	.form_section
-	{
-		.form_contenu { background: @couleur-d8; }
-
-		h3 { background: @couleur-d9; }
-	}
-
-	h2
-	{	
-		&:before
-		{
-			.pos-abs(-10px, auto, auto, 0);
-			background: url("../images/pictos/contact.png") no-repeat;
-			height: 35px;
-			width: 30px;
-		}
-	}
-
-	label { width: 187px; }	
-}
-
-/**
-* Nouvel établissement
-******************************************/
-
-#nouveau_etablissement
-{
-	h2
-	{
-		&:before
-		{
-			.pos-abs(-2px, auto, auto, 0);
-			background: url("../images/pictos/etablissement.png") no-repeat;
-			height: 24px;
-			width: 36px;
 		}
 	}
 }

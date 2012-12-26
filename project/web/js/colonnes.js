@@ -670,6 +670,7 @@
             var object = this;
 
             this.element_titre.click(function() {
+				console.log('ca marche');
                 var groupes_row = object.getGroupesRow();
                 if (groupes_row.isOpen()) {
                     groupes_row.close();

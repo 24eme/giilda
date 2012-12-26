@@ -13,13 +13,15 @@
 				</div>
                 <form action="<?php echo url_for('societe_modification', array('identifiant' => $societeForm->getObject()->identifiant)); ?>" method="post">
 
-                    <div id="detail_societe" class="form_section">
+                    <div id="detail_societe" class="form_section ouvert">
                         <h3>Détail de la société</h3>  
                         <?php include_partial('societeModification', array('societeForm' => $societeForm)); ?>
                     </div>
-                    <div id="coordonnees_societe" class="form_section">
+                    <div id="coordonnees_societe" class="form_section ouvert">
                         <h3>Coordonnées de la société</h3>
-                        <?php include_partial('compte/modification', array('compteForm' => $contactSocieteForm)); ?>                
+						<div class="form_contenu">
+							<?php include_partial('compte/modification', array('compteForm' => $contactSocieteForm)); ?>
+						</div>
                     </div>
                 </form>
 				<div class="form_btn">
