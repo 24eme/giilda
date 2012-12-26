@@ -15,7 +15,7 @@
     <tbody>
         <?php foreach($recaps->getRawValue(ESC_RAW) as $recap): ?>
             <tr>
-                <td><?php echo $recap['produit'] ?></td>
+                <td><a class="lien_hamza_style" href="#filtre=<?php echo $recap['produit'] ?>"><?php echo $recap['produit'] ?></a></td>
                 <td>
                     <?php echoFloat($recap['volume_stock_debut']) ?><br /><?php if($recap['volume_stock_debut_ds'] !== null): ?>(<?php echoFloat($recap['volume_stock_debut_ds']) ?>)<?php else: ?>(Abs.)<?php endif; ?>    
                 </td>

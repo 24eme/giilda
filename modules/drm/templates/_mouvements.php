@@ -6,6 +6,7 @@
                                                  'mots' => mouvement_get_words($mouvements))) ?>
 <?php endif; ?>
 <?php use_helper('Float'); use_helper('Date'); ?>
+
 <table id="table_mouvements" class="table_recap">
     <thead>
         <tr>
@@ -20,7 +21,9 @@
     <?php foreach($mouvements as $mouvement): ?>
     <?php $i++; ?>
         <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php if($i%2!=0) echo "alt"; if ($mouvement->facturable) {echo " facturable";}  ?>">
-            <td><?php echo sprintf("%s - %s", ($mouvement->version) ? $mouvement->version : 'M00', format_date($mouvement->date_version));?></td>
+            <td>
+                <?php echo sprintf("%s - %s", ($mouvement->version) ? $mouvement->version : 'M00', format_date($mouvement->date_version));?>
+            </td>
             <td><?php echo $mouvement->produit_libelle ?> </td>
             <td><?php
 	    if ($mouvement->vrac_numero)
