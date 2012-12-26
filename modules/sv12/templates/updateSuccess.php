@@ -21,7 +21,9 @@
             <fieldset id="edition_sv12">
                 <legend>Saisie des volume</legend>
 
-                <?php include_partial('global/hamzaStyle', array('mots' => contrat_get_words($sv12->contrats), 'table_selector' => '#table_contrats')) ?>
+                <?php include_partial('global/hamzaStyle', array('table_selector' => '#table_contrats',
+                                                                 'mots' => contrat_get_words($sv12->contrats),
+                                                                 'consigne' => "Saisissez un produit, un numéro de contrat, un viticulteur ou un type (moût / raisin) :")) ?>
 
                 <!-- <div class="hamza_style">
                     <div class="autocompletion_tags" data-table="#table_contrats" data-source="source_tags">

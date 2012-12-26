@@ -6,7 +6,8 @@
 
 <?php if(isset($hamza_style)) : ?>
 <?php include_partial('global/hamzaStyle', array('table_selector' => '#table_mouvements', 
-                                                 'mots' => mouvement_get_words($mouvements))) ?>
+                                                 'mots' => mouvement_get_words($mouvements),
+                                                 'consigne' => "Saisissez un produit, un numéro de contrat, un viticulteur ou un type (moût / raisin) :")) ?>
 <?php endif; ?>
 <fieldset id="table_mouvements">
         <table class="table_recap">
