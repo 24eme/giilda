@@ -34,7 +34,7 @@ if (!isset($campagne))
             <?php
             if (count($vracs->rows->getRawValue())) {
                 echo '<label>Contrats saisis : </label>';
-                include_partial('table_contrats', array('vracs' => $vracs, 'identifiant' => $identifiant));
+                include_partial('table_contrats', array('vracs' => $vracs, 'identifiant' => $identifiant, 'hamza_style' => true));
             } else {
                 echo "<label>Il n'existe aucun contrat pour cette recherche</label>";
             }

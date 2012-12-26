@@ -163,3 +163,30 @@ function typeProduit($type)
 function echoF($f){
     return sprintf("%01.02f", round($f, 2)); 
 }
+
+function vrac_get_words($vracs) {
+    $words = array();
+        
+    foreach($vracs as $vrac) {
+        $words[vrac_get_id($vrac)] = vrac_get_word($vrac);
+    }
+
+    return $words;
+}
+
+function vrac_get_word($vrac) {
+
+    return array_merge(
+        Search::getWords($vrac->value[VracClient::VRAC_VIEW_NUMARCHIVE]),
+        Search::getWords($vrac->value[VracClient::VRAC_VIEW_VENDEUR_NOM]),
+        Search::getWords($vrac->value[VracClient::VRAC_VIEW_ACHETEUR_NOM]),
+        Search::getWords($vrac->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM]),
+        Search::getWords($vrac->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM]),
+        Search::getWords(ConfigurationClient::getCurrent()->get($vrac->value[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat())
+    );
+}
+
+function vrac_get_id($vrac) {
+
+    return 'vrac_'.$vrac->value[VracClient::VRAC_VIEW_NUMCONTRAT];
+}

@@ -1,6 +1,13 @@
-<?php
-use_helper('Float');
-?>
+<?php use_helper('Float'); ?>
+<?php use_helper('Vrac'); ?>
+
+<?php if(count($vracs->rows) > 0): ?>
+<?php if(isset($hamza_style)) : ?>
+    <?php include_partial('global/hamzaStyle', array('table_selector' => '#tableau_contrat', 
+                                                     'mots' => vrac_get_words($vracs->rows),
+                                                     'consigne' => "Saisissez un numéro de contrat, un soussigné ou un produit :")) ?>
+<?php endif; ?>
+
 <table id="tableau_contrat">    
     <thead>
         <tr>
@@ -19,7 +26,7 @@ use_helper('Float');
                 $statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
                 $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]);
                 ?>
-                <tr class="<?php echo $statusColor; ?>" >
+                <tr id="<?php echo vrac_get_id($value) ?>" class="<?php echo $statusColor; ?>" >
                     <td class="type" ><span class="type_<?php echo $elt[VracClient::VRAC_VIEW_TYPEPRODUIT]; ?>"><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) ? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></span></td>
                     <td id="num_contrat"><?php echo link_to($elt[VracClient::VRAC_VIEW_NUMARCHIVE], '@vrac_visualisation?numero_contrat=' . $vracid); ?></td>
 
@@ -66,3 +73,7 @@ use_helper('Float');
         ?>
     </tbody>
 </table>
+
+<?php else: ?>
+<p> Pas de contrats </p>
+<?php endif; ?>
