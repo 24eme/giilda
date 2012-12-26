@@ -36,6 +36,14 @@ $.fn.rechercheTableParTags = function()
     
     // Création des tags
     $.creerListeTags(objRecherche);
+
+    $.ajouterTagsParUrl(objRecherche, document.location.href);
+
+    $('a.lien_hamza_style').click(function(e) {
+        $.ajouterTagsParUrl(objRecherche, $(this).attr('href'));
+        $(document).scrollTo(table);
+        return false;
+    });
 };
 
 /**
@@ -107,7 +115,7 @@ $.fn.selectionIdParTags = function(objRecherche)
         {
             var trouve = true;
             var i = 0;
-            
+         
             // Parcours des tags ajoutés
             while(trouve && i <= (objRecherche.nbTagsAjoutes-1) )
             {
@@ -173,3 +181,28 @@ $.triTableParTags = function(objRecherche)
         $(selecteur).show();
     }
 };
+
+$.ajouterTagsParUrl = function(objRecherche, url) {
+    var url_parser = $.url(url);
+    var filtre = url_parser.fparam('filtre');
+
+    return $.ajouterTagsParChaine(objRecherche, filtre);
+}
+
+$.ajouterTagsParChaine = function(objRecherche, chaine) {
+    objRecherche.listeTags.tagit("reset");
+
+    for(key_tag in objRecherche.tagsSource) {
+        var tag = objRecherche.tagsSource[key_tag];
+        try {
+            if(chaine.match(new RegExp(tag, "i"))) {
+               var chaine = chaine.replace(tag, '', 'g');
+               objRecherche.listeTags.tagit("add", {label: tag, value: tag});
+            }
+        } catch (err) {
+
+        }
+    }
+    
+    return true;
+}
