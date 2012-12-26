@@ -1,25 +1,33 @@
 <!-- #principal -->
 <section id="principal">
     <p id="fil_ariane"><a href="#">Page d'accueil</a> &gt; <a href="#">Contact</a> &gt; <strong>Création d'une société</strong></p>
+        <!-- #contacts -->
+        <section id="contacts">
+            <div id="creation_societe">
+                <h2>Création d'une nouvelle société</h2>
+				<div class="form_btn">
+					<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
+					<button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
+				</div>
+                <form action="<?php echo url_for('societe_modification', array('identifiant' => $societeForm->getObject()->identifiant)); ?>" method="post">
 
-    <!-- #contacts -->
-    <section id="contacts">
-        <div id="creation_societe">
-            <h1>Création d'une nouvelle société</h1>
-            <form action="<?php echo url_for('societe_modification', array('identifiant' => $societeForm->getObject()->identifiant)); ?>" method="post">
-                <button id="btn_valider" type="submit" class="btn_majeur btnValidation">Valider</button>
-
-                <div id="detail_societe" class="form_section">
-                    <h2>Détail de la société</h2>  
-                    <?php include_partial('societeModification', array('societeForm' => $societeForm)); ?>
-                </div>
-                <div id="coordonnees_societe" class="form_section">
-                    <h2>Coordonnées de la société</h2>
-                    <?php include_partial('compte/modification', array('compteForm' => $contactSocieteForm)); ?>                
-                </div>
-            </form>
-        </div>
-    </section>
+                    <div id="detail_societe" class="form_section ouvert">
+                        <h3>Détail de la société</h3>  
+                        <?php include_partial('societeModification', array('societeForm' => $societeForm)); ?>
+                    </div>
+                    <div id="coordonnees_societe" class="form_section ouvert">
+                        <h3>Coordonnées de la société</h3>
+						<div class="form_contenu">
+							<?php include_partial('compte/modification', array('compteForm' => $contactSocieteForm)); ?>
+						</div>
+                    </div>
+                </form>
+				<div class="form_btn">
+					<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
+					<button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
+				</div>
+            </div>
+        </section>
 </section>
 <?php
 slot('colButtons');

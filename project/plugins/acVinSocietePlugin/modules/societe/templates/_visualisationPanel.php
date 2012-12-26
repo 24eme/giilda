@@ -1,5 +1,5 @@
-<div id="detail_societe" class="form_section">
-    <h2>Détail de la société </h2>  
+<div id="detail_societe" class="form_section ouvert">
+    <h3>Détail de la société </h3>  
     <div class="form_contenu">
         <div class="form_ligne">
             <label for="raison_sociale">

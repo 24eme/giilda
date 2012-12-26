@@ -1023,19 +1023,19 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   color:#ffffff;
   margin:0 0 0 7px;
 }
-.section_label_maj {
+#principal .section_label_maj {
   zoom:1;
   min-height:1px;
 }
-.section_label_maj:before, .section_label_maj:after {
+#principal .section_label_maj:before, #principal .section_label_maj:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-.section_label_maj:after { clear:both; }
-.section_label_maj > label:first-child {
+#principal .section_label_maj:after { clear:both; }
+#principal .section_label_maj > label:first-child {
   text-transform:uppercase;
   display:inline-block;
   font-size:15px;
@@ -1043,11 +1043,11 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   height:35px;
   padding-top:4px;
 }
-.section_label_strong label:first-child {
+#principal .section_label_strong label:first-child {
   display:inline-block;
   font-weight:bold;
 }
-.bloc_form {
+#principal .bloc_form {
   -webkit-border-radius:5px 5px 5px 5px;
   -moz-border-radius:5px 5px 5px 5px;
   border-radius:5px 5px 5px 5px;
@@ -1058,16 +1058,16 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   zoom:1;
   min-height:1px;
 }
-.bloc_form:before, .bloc_form:after {
+#principal .bloc_form:before, #principal .bloc_form:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-.bloc_form:after { clear:both; }
-.bloc_form .col:first-child { border-right:1px solid #e3e2e2; }
-.bloc_form .col:first-child .ligne_form:first-child {
+#principal .bloc_form:after { clear:both; }
+#principal .bloc_form .col:first-child { border-right:1px solid #e3e2e2; }
+#principal .bloc_form .col:first-child .ligne_form:first-child {
   -webkit-border-radius:5px 0 0 0;
   -moz-border-radius:5px 0 0 0;
   border-radius:5px 0 0 0;
@@ -1075,7 +1075,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   -moz-border-radius:5px 0 0 0;
   border-radius:5px 0 0 0;
 }
-.bloc_form .col:first-child .ligne_form:last-child {
+#principal .bloc_form .col:first-child .ligne_form:last-child {
   -webkit-border-radius:0 0 0 5px;
   -moz-border-radius:0 0 0 5px;
   border-radius:0 0 0 5px;
@@ -1083,7 +1083,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   -moz-border-radius:0 0 0 5px;
   border-radius:0 0 0 5px;
 }
-.bloc_form .col:last-child .ligne_form:first-child {
+#principal .bloc_form .col:last-child .ligne_form:first-child {
   -webkit-border-radius:0 5px 0 0;
   -moz-border-radius:0 5px 0 0;
   border-radius:0 5px 0 0;
@@ -1091,7 +1091,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   -moz-border-radius:0 5px 0 0;
   border-radius:0 5px 0 0;
 }
-.bloc_form .col:last-child .ligne_form:last-child {
+#principal .bloc_form .col:last-child .ligne_form:last-child {
   -webkit-border-radius:0 0 5px 0;
   -moz-border-radius:0 0 5px 0;
   border-radius:0 0 5px 0;
@@ -1099,48 +1099,48 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   -moz-border-radius:0 0 5px 0;
   border-radius:0 0 5px 0;
 }
-.ligne_form { padding:10px 0 10px 10px; }
-.ligne_form label {
+#principal .ligne_form { padding:10px 0 10px 10px; }
+#principal .ligne_form label {
   display:inline-block;
   font-weight:bold;
   vertical-align:top;
   width:150px;
 }
-.ligne_form span { vertical-align:middle; }
-#ligne_btn {
+#principal .ligne_form span { vertical-align:middle; }
+#principal #ligne_btn {
   display:block;
   margin:10px 0;
 }
-#ligne_btn .btnAnnulation { float:left; }
-#ligne_btn .btnValidation { float:right; }
-.ligne_form_alt { background:#ecebeb; }
-input.ui-autocomplete-input {
+#principal #ligne_btn .btnAnnulation { float:left; }
+#principal #ligne_btn .btnValidation { float:right; }
+#principal .ligne_form_alt { background:#ecebeb; }
+#principal .ui-autocomplete-input {
   background:url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #ffffff;
   font-size:12px;
   padding:5px 5px 5px 25px;
   width:330px;
   height:30px;
 }
-ul.radio_list {
+#principal ul.radio_list {
   zoom:1;
   min-height:1px;
 }
-ul.radio_list:before, ul.radio_list:after {
+#principal ul.radio_list:before, #principal ul.radio_list:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-ul.radio_list:after { clear:both; }
-ul.radio_list li {
+#principal ul.radio_list:after { clear:both; }
+#principal ul.radio_list li {
   display:block;
   float:left;
   width:165px;
 }
-ul.radio_list li label { font-weight:normal !important; }
-.champ_datepicker { padding-top:10px; }
-.champ_datepicker img {
+#principal ul.radio_list li label { font-weight:normal !important; }
+#principal .champ_datepicker { padding-top:10px; }
+#principal .champ_datepicker img {
   position:absolute;
   margin-left:5px;
 }
@@ -1462,18 +1462,364 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 }
 #contenu_etape #recherche_societe span#recherche_avancee:after { clear:both; }
 #contenu_etape #recherche_societe span#recherche_avancee:hover, #contenu_etape #recherche_societe span#recherche_avancee:focus { text-decoration:none; }
-.hamza_style {
+#vrac_soussigne h1, #vrac_marche h1, #vrac_condition h1, #vrac_validation h1, #vrac_recapitulatif h1 {
+  font-size:16px;
+  font-weight:bold;
+  margin:0 0 20px;
+  text-align:center;
+  color:#ffffff;
+}
+#vrac_soussigne h2, #vrac_marche h2, #vrac_condition h2, #vrac_validation h2, #vrac_recapitulatif h2 {
+  font-size:16px;
+  margin:0 0 15px;
+}
+#vrac_soussigne .col, #vrac_marche .col, #vrac_condition .col, #vrac_validation .col, #vrac_recapitulatif .col {
+  display:inline-block;
+  vertical-align:top;
+  width:425px;
+}
+.ielt8 #vrac_soussigne .col, .ielt8 #vrac_marche .col, .ielt8 #vrac_condition .col, .ielt8 #vrac_validation .col, .ielt8 #vrac_recapitulatif .col { display:inline-block; }
+.ielt8 .ielt8 #vrac_soussigne .col, .ielt8 .ielt8 #vrac_marche .col, .ielt8 .ielt8 #vrac_condition .col, .ielt8 .ielt8 #vrac_validation .col, .ielt8 .ielt8 #vrac_recapitulatif .col {
+  display:inline;
+  zoom:1;
+}
+#vrac_soussigne section, #vrac_marche section, #vrac_condition section, #vrac_validation section, #vrac_recapitulatif section { padding:5px 0px; }
+#vrac_soussigne .ligne_form .error_list, #vrac_marche .ligne_form .error_list, #vrac_condition .ligne_form .error_list, #vrac_validation .ligne_form .error_list, #vrac_recapitulatif .ligne_form .error_list { width:310px; }
+#vrac_soussigne .ligne_form label, #vrac_marche .ligne_form label, #vrac_condition .ligne_form label, #vrac_validation .ligne_form label, #vrac_recapitulatif .ligne_form label {
+  display:inline-block;
+  vertical-align:middle;
+  width:165px;
+}
+#vrac_soussigne .ligne_form.ligne_form_large label, #vrac_marche .ligne_form.ligne_form_large label, #vrac_condition .ligne_form.ligne_form_large label, #vrac_validation .ligne_form.ligne_form_large label, #vrac_recapitulatif .ligne_form.ligne_form_large label {
+  display:block;
+  margin:0 0 10px;
+  width:auto;
+}
+#vrac_soussigne .ligne_form input[type="text"], #vrac_soussigne .ligne_form input[type="password"], #vrac_soussigne .ligne_form select, #vrac_marche .ligne_form input[type="text"], #vrac_marche .ligne_form input[type="password"], #vrac_marche .ligne_form select, #vrac_condition .ligne_form input[type="text"], #vrac_condition .ligne_form input[type="password"], #vrac_condition .ligne_form select, #vrac_validation .ligne_form input[type="text"], #vrac_validation .ligne_form input[type="password"], #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form input[type="text"], #vrac_recapitulatif .ligne_form input[type="password"], #vrac_recapitulatif .ligne_form select {
+  font-size:12px;
+  position:relative;
+  vertical-align:middle;
+  margin:0;
+}
+#vrac_soussigne .ligne_form input[type="text"], #vrac_soussigne .ligne_form input[type="password"], #vrac_marche .ligne_form input[type="text"], #vrac_marche .ligne_form input[type="password"], #vrac_condition .ligne_form input[type="text"], #vrac_condition .ligne_form input[type="password"], #vrac_validation .ligne_form input[type="text"], #vrac_validation .ligne_form input[type="password"], #vrac_recapitulatif .ligne_form input[type="text"], #vrac_recapitulatif .ligne_form input[type="password"] {
+  padding:2px 4px;
+  width:120px;
+}
+#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select { width:130px; }
+#vrac_soussigne .ligne_form .champ_form_radio_cb label, #vrac_marche .ligne_form .champ_form_radio_cb label, #vrac_condition .ligne_form .champ_form_radio_cb label, #vrac_validation .ligne_form .champ_form_radio_cb label, #vrac_recapitulatif .ligne_form .champ_form_radio_cb label {
+  display:inline-block;
+  margin:0 20px 0 0;
+  width:auto;
+}
+#vrac_soussigne .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_marche .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_condition .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_validation .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_recapitulatif .ligne_form.ligne_form_large .champ_form_radio_cb input {
+  margin:0 5px 0 0;
+  vertical-align:middle;
+}
+#vrac_soussigne .ligne_btn, #vrac_marche .ligne_btn, #vrac_condition .ligne_btn, #vrac_validation .ligne_btn, #vrac_recapitulatif .ligne_btn {
+  margin:34px 0 0;
+  right:23px;
+}
+#vrac_soussigne .ligne_btn button, #vrac_soussigne .ligne_btn a, #vrac_marche .ligne_btn button, #vrac_marche .ligne_btn a, #vrac_condition .ligne_btn button, #vrac_condition .ligne_btn a, #vrac_validation .ligne_btn button, #vrac_validation .ligne_btn a, #vrac_recapitulatif .ligne_btn button, #vrac_recapitulatif .ligne_btn a {
+  line-height:24px;
+  font-weight:normal;
+  text-transform:uppercase;
+}
+#vrac_soussigne .ligne_btn button:hover, #vrac_soussigne .ligne_btn a:hover, #vrac_marche .ligne_btn button:hover, #vrac_marche .ligne_btn a:hover, #vrac_condition .ligne_btn button:hover, #vrac_condition .ligne_btn a:hover, #vrac_validation .ligne_btn button:hover, #vrac_validation .ligne_btn a:hover, #vrac_recapitulatif .ligne_btn button:hover, #vrac_recapitulatif .ligne_btn a:hover { text-decoration:none; }
+#vrac_soussigne .ligne_btn .btn_valider, #vrac_marche .ligne_btn .btn_valider, #vrac_condition .ligne_btn .btn_valider, #vrac_validation .ligne_btn .btn_valider, #vrac_recapitulatif .ligne_btn .btn_valider { padding:0 17px 0 15px; }
+#vrac_soussigne .ligne_btn .btn_ajouter, #vrac_marche .ligne_btn .btn_ajouter, #vrac_condition .ligne_btn .btn_ajouter, #vrac_validation .ligne_btn .btn_ajouter, #vrac_recapitulatif .ligne_btn .btn_ajouter {
+  background-image:url(../images/boutons/btn_ajouter.png);
+  background-position:7px center;
+  margin:0 10px 0 0;
+  padding:0 10px 0 30px;
+}
+#vrac_soussigne .ligne_btn .btn_supprimer, #vrac_marche .ligne_btn .btn_supprimer, #vrac_condition .ligne_btn .btn_supprimer, #vrac_validation .ligne_btn .btn_supprimer, #vrac_recapitulatif .ligne_btn .btn_supprimer {
+  background-position:0 -26px;
+  border-color:#d9d8d8;
+  background-image:url(../images/boutons/btn_supprimer.png);
+  background-position:7px center;
+  padding:0 10px 0 30px;
+  margin-right:20px;
+  text-transform:none;
+}
+#vrac_soussigne #infos_etablissements, #vrac_marche #infos_etablissements, #vrac_condition #infos_etablissements, #vrac_validation #infos_etablissements, #vrac_recapitulatif #infos_etablissements {
+  margin:15px 0 0;
+  position:relative;
+  padding:0;
+  width:895px;
+}
+#vrac_soussigne #infos_etablissements .etablissement, #vrac_marche #infos_etablissements .etablissement, #vrac_condition #infos_etablissements .etablissement, #vrac_validation #infos_etablissements .etablissement, #vrac_recapitulatif #infos_etablissements .etablissement {
+  border:1px solid #3e3e3e;
+  background:#5e5c5c;
+  display:inline-block;
+  margin:0 20px 20px 0;
+  padding:10px 10px 0;
+  position:relative;
+  vertical-align:top;
+  width:250px;
+}
+.ielt8 #vrac_soussigne #infos_etablissements .etablissement, .ielt8 #vrac_marche #infos_etablissements .etablissement, .ielt8 #vrac_condition #infos_etablissements .etablissement, .ielt8 #vrac_validation #infos_etablissements .etablissement, .ielt8 #vrac_recapitulatif #infos_etablissements .etablissement { display:inline-block; }
+.ielt8 .ielt8 #vrac_soussigne #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_marche #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_condition #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_validation #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_recapitulatif #infos_etablissements .etablissement {
+  display:inline;
+  zoom:1;
+}
+#vrac_soussigne #infos_etablissements .etablissement .error_list, #vrac_marche #infos_etablissements .etablissement .error_list, #vrac_condition #infos_etablissements .etablissement .error_list, #vrac_validation #infos_etablissements .etablissement .error_list, #vrac_recapitulatif #infos_etablissements .etablissement .error_list { width:auto; }
+#vrac_soussigne #infos_etablissements .etablissement .ligne_form label, #vrac_marche #infos_etablissements .etablissement .ligne_form label, #vrac_condition #infos_etablissements .etablissement .ligne_form label, #vrac_validation #infos_etablissements .etablissement .ligne_form label, #vrac_recapitulatif #infos_etablissements .etablissement .ligne_form label { width:110px; }
+#vrac_soussigne #infos_etablissements .etablissement a.supprimer, #vrac_marche #infos_etablissements .etablissement a.supprimer, #vrac_condition #infos_etablissements .etablissement a.supprimer, #vrac_validation #infos_etablissements .etablissement a.supprimer, #vrac_recapitulatif #infos_etablissements .etablissement a.supprimer {
+  height:13px;
+  width:13px;
+  bottom:auto;
+  left:auto;
+  position:absolute;
+  right:-5px;
+  top:-5px;
+  background:url(../images/pictos/pi_supprimer.png) 0 0 no-repeat;
+  display:inline-block;
+  text-indent:-9999px;
+}
+#vrac_soussigne a.btn_ajouter_etab, #vrac_marche a.btn_ajouter_etab, #vrac_condition a.btn_ajouter_etab, #vrac_validation a.btn_ajouter_etab, #vrac_recapitulatif a.btn_ajouter_etab {
+  background-position:0 -26px;
+  border-color:#d9d8d8;
+  background-image:url(../images/boutons/btn_ajouter.png);
+  background-position:7px center;
+  margin:0 10px 0 0;
+  padding:5px 10px 6px 30px;
+  position:absolute;
+  right:127px;
+  text-transform:none;
+}
+#vrac_soussigne a#btn_ajouter_etablissement, #vrac_marche a#btn_ajouter_etablissement, #vrac_condition a#btn_ajouter_etablissement, #vrac_validation a#btn_ajouter_etablissement, #vrac_recapitulatif a#btn_ajouter_etablissement {
+  background-position:0 -26px;
+  border-color:#d9d8d8;
+  background-image:url(../images/boutons/btn_ajouter.png);
+  background-position:10px center;
+  font-size:15px;
+  line-height:1;
+  position:absolute;
+  padding:4px 10px 4px 32px;
+  font-size:15px;
+  text-transform:uppercase;
+}
+#vrac_soussigne a#btn_ajouter_etablissement:hover, #vrac_marche a#btn_ajouter_etablissement:hover, #vrac_condition a#btn_ajouter_etablissement:hover, #vrac_validation a#btn_ajouter_etablissement:hover, #vrac_recapitulatif a#btn_ajouter_etablissement:hover { text-decoration:none; }
+#vrac_soussigne a#btn_ajouter_etablissement span, #vrac_marche a#btn_ajouter_etablissement span, #vrac_condition a#btn_ajouter_etablissement span, #vrac_validation a#btn_ajouter_etablissement span, #vrac_recapitulatif a#btn_ajouter_etablissement span {
+  color:#ffffff;
+  display:block;
+  font-size:14px;
+  font-weight:bold;
+  text-transform:none;
+}
+#vrac_soussigne #recapitulatif .recap_perso, #vrac_soussigne #recapitulatif .recap_etablissement, #vrac_marche #recapitulatif .recap_perso, #vrac_marche #recapitulatif .recap_etablissement, #vrac_condition #recapitulatif .recap_perso, #vrac_condition #recapitulatif .recap_etablissement, #vrac_validation #recapitulatif .recap_perso, #vrac_validation #recapitulatif .recap_etablissement, #vrac_recapitulatif #recapitulatif .recap_perso, #vrac_recapitulatif #recapitulatif .recap_etablissement { margin:0 0 20px; }
+#vrac_soussigne #recapitulatif .recap_perso p, #vrac_soussigne #recapitulatif .recap_etablissement p, #vrac_marche #recapitulatif .recap_perso p, #vrac_marche #recapitulatif .recap_etablissement p, #vrac_condition #recapitulatif .recap_perso p, #vrac_condition #recapitulatif .recap_etablissement p, #vrac_validation #recapitulatif .recap_perso p, #vrac_validation #recapitulatif .recap_etablissement p, #vrac_recapitulatif #recapitulatif .recap_perso p, #vrac_recapitulatif #recapitulatif .recap_etablissement p { margin:5px 0; }
+#vrac_soussigne #recapitulatif .recap_perso p span, #vrac_soussigne #recapitulatif .recap_etablissement p span, #vrac_marche #recapitulatif .recap_perso p span, #vrac_marche #recapitulatif .recap_etablissement p span, #vrac_condition #recapitulatif .recap_perso p span, #vrac_condition #recapitulatif .recap_etablissement p span, #vrac_validation #recapitulatif .recap_perso p span, #vrac_validation #recapitulatif .recap_etablissement p span, #vrac_recapitulatif #recapitulatif .recap_perso p span, #vrac_recapitulatif #recapitulatif .recap_etablissement p span { font-weight:bold; }
+#vrac_soussigne #recapitulatif .recap_perso p strong, #vrac_soussigne #recapitulatif .recap_etablissement p strong, #vrac_marche #recapitulatif .recap_perso p strong, #vrac_marche #recapitulatif .recap_etablissement p strong, #vrac_condition #recapitulatif .recap_perso p strong, #vrac_condition #recapitulatif .recap_etablissement p strong, #vrac_validation #recapitulatif .recap_perso p strong, #vrac_validation #recapitulatif .recap_etablissement p strong, #vrac_recapitulatif #recapitulatif .recap_perso p strong, #vrac_recapitulatif #recapitulatif .recap_etablissement p strong {
+  color:#000000;
+  font-style:italic;
+  font-weight:normal;
+}
+#vrac_soussigne #recapitulatif .recap_perso .adresse_comptabilite, #vrac_soussigne #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_marche #recapitulatif .recap_perso .adresse_comptabilite, #vrac_marche #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_condition #recapitulatif .recap_perso .adresse_comptabilite, #vrac_condition #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_validation #recapitulatif .recap_perso .adresse_comptabilite, #vrac_validation #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_recapitulatif #recapitulatif .recap_perso .adresse_comptabilite, #vrac_recapitulatif #recapitulatif .recap_etablissement .adresse_comptabilite { margin:20px 0 0; }
+#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter, #vrac_soussigne #recapitulatif .recap_perso .btn_supprimer, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer, #vrac_marche #recapitulatif .recap_perso .btn_ajouter, #vrac_marche #recapitulatif .recap_perso .btn_supprimer, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer, #vrac_condition #recapitulatif .recap_perso .btn_ajouter, #vrac_condition #recapitulatif .recap_perso .btn_supprimer, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer, #vrac_validation #recapitulatif .recap_perso .btn_ajouter, #vrac_validation #recapitulatif .recap_perso .btn_supprimer, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer {
+  background-position:7px center;
+  padding:0 10px 0 30px;
+}
+#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter, #vrac_marche #recapitulatif .recap_perso .btn_ajouter, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter, #vrac_condition #recapitulatif .recap_perso .btn_ajouter, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter, #vrac_validation #recapitulatif .recap_perso .btn_ajouter, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter {
+  background-image:url(../images/boutons/btn_ajouter.png);
+  margin:0 10px 0 0;
+}
+#vrac_soussigne #recapitulatif .recap_perso .btn_supprimer, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer, #vrac_marche #recapitulatif .recap_perso .btn_supprimer, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer, #vrac_condition #recapitulatif .recap_perso .btn_supprimer, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer, #vrac_validation #recapitulatif .recap_perso .btn_supprimer, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer {
+  background-position:0 -26px;
+  border-color:#d9d8d8;
+  background-image:url(../images/boutons/btn_supprimer.png);
+  margin-right:20px;
+  text-transform:none;
+}
+#vrac_soussigne #recapitulatif .ligne_btn, #vrac_marche #recapitulatif .ligne_btn, #vrac_condition #recapitulatif .ligne_btn, #vrac_validation #recapitulatif .ligne_btn, #vrac_recapitulatif #recapitulatif .ligne_btn {
+  text-align:right;
+  margin:0;
+}
+#vrac_soussigne input.ui-autocomplete-input, #vrac_marche input.ui-autocomplete-input, #vrac_condition input.ui-autocomplete-input, #vrac_validation input.ui-autocomplete-input, #vrac_recapitulatif input.ui-autocomplete-input {
+  font-size:12px;
+  width:390px;
+}
+#vrac_soussigne input.ui-autocomplete-input + button, #vrac_marche input.ui-autocomplete-input + button, #vrac_condition input.ui-autocomplete-input + button, #vrac_validation input.ui-autocomplete-input + button, #vrac_recapitulatif input.ui-autocomplete-input + button { border-left:0; }
+#vrac_soussigne input.ui-autocomplete-input + button:hover, #vrac_marche input.ui-autocomplete-input + button:hover, #vrac_condition input.ui-autocomplete-input + button:hover, #vrac_validation input.ui-autocomplete-input + button:hover, #vrac_recapitulatif input.ui-autocomplete-input + button:hover { background-color:#e9e9e9; }
+#vrac_soussigne input.ui-autocomplete-input + button .ui-icon, #vrac_marche input.ui-autocomplete-input + button .ui-icon, #vrac_condition input.ui-autocomplete-input + button .ui-icon, #vrac_validation input.ui-autocomplete-input + button .ui-icon, #vrac_recapitulatif input.ui-autocomplete-input + button .ui-icon {
+  background:url(../images/pictos/pi_desc.png) center center no-repeat;
+  height:20px;
+  width:20px;
+}
+#vrac_soussigne .ui-dropdownchecklist-selector-wrapper, #vrac_soussigne .ui-dropdownchecklist-selector, #vrac_marche .ui-dropdownchecklist-selector-wrapper, #vrac_marche .ui-dropdownchecklist-selector, #vrac_condition .ui-dropdownchecklist-selector-wrapper, #vrac_condition .ui-dropdownchecklist-selector, #vrac_validation .ui-dropdownchecklist-selector-wrapper, #vrac_validation .ui-dropdownchecklist-selector, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper, #vrac_recapitulatif .ui-dropdownchecklist-selector {
+  font-size:0;
+  line-height:1;
+}
+#vrac_soussigne .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_soussigne .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector .ui-dropdownchecklist-text {
+  background:#ffffff;
+  border:1px solid #d3d2cd;
+  color:#ffffff;
+  font-size:12px;
+  height:18px;
+  padding:2px 4px 0;
+  width:190px !important;
+}
+#vrac_soussigne .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_soussigne .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text { border-bottom-color:#f4f4f4; }
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_marche .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_condition .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_validation .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer-wrapper {
+  height:auto !important;
+  width:auto !important;
+}
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer, #vrac_marche .ui-dropdownchecklist-dropcontainer, #vrac_condition .ui-dropdownchecklist-dropcontainer, #vrac_validation .ui-dropdownchecklist-dropcontainer, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer {
+  background:#ffffff;
+  border:1px solid #d3d2cd;
+  height:200px !important;
+  width:250px;
+}
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_marche .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_condition .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_validation .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item { padding:2px 4px; }
+#vrac_soussigne .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_marche .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_condition .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_validation .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label {
+  width:auto;
+  vertical-align:middle;
+}
+#vrac_soussigne label, #vrac_marche label, #vrac_condition label, #vrac_validation label, #vrac_recapitulatif label { padding-right:10px; }
+#vrac_soussigne input.ui-autocomplete-input { width:510px; }
+#vrac_soussigne .vendeur_infos, #vrac_soussigne .acheteur_infos
+	.mandataire_infos { border-collapse:collapse; }
+#vrac_soussigne .vendeur_infos tr, #vrac_soussigne .vendeur_infos td, #vrac_soussigne .acheteur_infos
+	.mandataire_infos tr, #vrac_soussigne .acheteur_infos
+	.mandataire_infos td {
+  padding:0px 10px;
+  border:1px solid lightgrey;
+  line-height:40px;
+}
+#vrac_soussigne .vendeur_infos tr .bold, #vrac_soussigne .vendeur_infos td .bold, #vrac_soussigne .acheteur_infos
+	.mandataire_infos tr .bold, #vrac_soussigne .acheteur_infos
+	.mandataire_infos td .bold {
+  font-weight:bold;
+  width:25%;
+}
+#vrac_soussigne .vendeur_infos, #vrac_soussigne .acheteur_infos {
+  width:100%;
+  padding:20px 0;
+}
+#vrac_soussigne .vendeur_infos tr, #vrac_soussigne .vendeur_infos td, #vrac_soussigne .acheteur_infos tr, #vrac_soussigne .acheteur_infos td { width:30%; }
+#vrac_soussigne .btnModification {
+  zoom:1;
+  min-height:1px;
+  margin:10px 0 30px;
+}
+#vrac_soussigne .btnModification:before, #vrac_soussigne .btnModification:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#vrac_soussigne .btnModification:after { clear:both; }
+#vrac_soussigne .btnModification a { cursor:pointer; }
+#vrac_soussigne .btnModification .btn_annuler {
+  float:left;
+  display:none;
+}
+#vrac_soussigne .btnModification .btn_modifier, #vrac_soussigne .btnModification .btn_valider { float:right; }
+#statut_vrac {
+  margin:0 0 25px;
+  zoom:1;
+  min-height:1px;
+}
+#statut_vrac:before, #statut_vrac:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#statut_vrac:after { clear:both; }
+#statut_vrac #vrac_etapes {
+  background:url(../images/fonds/bg_etapes_declaration.png) 0 0 no-repeat;
+  color:#ffffff;
+  float:left;
+  padding:11px 0 11px 6px;
+}
+#statut_vrac #vrac_etapes ol {
+  line-height:21px;
+  list-style:none;
+}
+#statut_vrac #vrac_etapes ol * { float:left; }
+#statut_vrac #vrac_etapes ol li { background:url(../images/fonds/bg_etapes_declaration.png) 0 -43px repeat-x; }
+#statut_vrac #vrac_etapes ol li > * {
+  background:url(../images/fonds/bg_etapes_declaration.png) 0 -106px no-repeat;
+  padding:0 15px 0 20px;
+}
+#statut_vrac #vrac_etapes ol li a { color:#ffffff; }
+#statut_vrac #vrac_etapes ol li a:hover { text-decoration:none; }
+#statut_vrac #vrac_etapes ol li.premier { background-position:0 -64px; }
+#statut_vrac #vrac_etapes ol li.premier > * {
+  background:0;
+  padding-left:10px;
+}
+#statut_vrac #vrac_etapes ol li.dernier > * { padding-right:0; }
+#statut_vrac #vrac_etapes ol li.dernier > * span {
+  background:url(../images/fonds/bg_etapes_declaration.png) right -148px no-repeat;
+  padding-right:20px;
+}
+#statut_vrac #vrac_etapes ol li.dernier.actif > * span { background-position:right -169px; }
+#statut_vrac #vrac_etapes ol li.passe, #statut_vrac #vrac_etapes ol li.actif { background-position:0 -64px; }
+#statut_vrac #vrac_etapes ol li.passe > *, #statut_vrac #vrac_etapes ol li.actif > * { background-position:0 -127px; }
+#statut_vrac #vrac_etapes ol li.actif { font-weight:bold; }
+#statut_vrac #vrac_etapes ol li.actif + li > * { background-position:0 -85px; }
+#statut_vrac #etat_avancement {
+  float:right;
+  margin:-10px 0 0;
+  width:130px;
+}
+#statut_vrac #etat_avancement p {
+  font-size:11px;
+  line-height:1;
+  margin:0 0 5px;
+  text-align:right;
+}
+#statut_vrac #etat_avancement p strong {
+  color:;
+  font-size:22px;
+  margin:0 0 0 5px;
+}
+#statut_vrac #etat_avancement p strong span { font-size:12px; }
+#statut_vrac #etat_avancement #barre_avancement { background:#ffffff; }
+#statut_vrac #etat_avancement #barre_avancement div {
+  background:;
+  height:3px;
+}
+#vrac_condition #commentaires .bloc_form {
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  border:0;
+}
+#vrac_condition #commentaires .bloc_form textarea { width:100%; }
+.sv12 #num_sv12 {
+  background:#ecebeb;
+  font-size:14px;
+  font-weight:bold;
+  padding:10px;
+  margin:0 0 15px;
+}
+.sv12 #num_sv12 span {
+  display:inline-block;
+  width:200px;
+}
+.sv12 #negociant_infos { margin:0 0 25px; }
+.sv12 #btn_modifier_sv12 { margin:15px 0 0; }
+.sv12 #contenu_etape fieldset { margin:25px 0 0; }
+.sv12 #contenu_etape #recherche_sv12 {
   background:#ecebeb;
   margin:0 0 15px;
   padding:10px;
 }
-.hamza_style .autocompletion_tags label {
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags label {
   display:block;
   font-size:14px;
   font-weight:bold;
   margin:0 0 5px;
 }
-.hamza_style .autocompletion_tags ul.tags {
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags {
   -webkit-border-radius:3px;
   -moz-border-radius:3px;
   border-radius:3px;
@@ -1494,16 +1840,16 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   vertical-align:top;
   width:100%;
 }
-.hamza_style .autocompletion_tags ul.tags > li {
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags > li {
   display:inline-block;
   vertical-align:middle;
   line-height:26px;
 }
-.ielt8 .hamza_style .autocompletion_tags ul.tags > li {
+.ielt8 .sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags > li {
   display:inline;
   zoom:1;
 }
-.hamza_style .autocompletion_tags ul.tags .tagit-choice {
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice {
   -webkit-border-radius:3px;
   -moz-border-radius:3px;
   border-radius:3px;
@@ -1515,20 +1861,20 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   margin:2px 5px;
   padding:0 0 0 5px;
 }
-.hamza_style .autocompletion_tags ul.tags .tagit-choice:hover { background:#e3e2e2; }
-.hamza_style .autocompletion_tags ul.tags .tagit-choice * {
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice:hover { background:#e3e2e2; }
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice * {
   display:inline-block;
   vertical-align:top;
 }
-.hamza_style .autocompletion_tags ul.tags .tagit-choice .tagit-close {
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-choice .tagit-close {
   background:url(../images/pictos/pi_actions.png) 100% -492px no-repeat;
   height:26px;
   padding:0 5px;
   width:20px;
   text-indent:-9999px;
 }
-.hamza_style .autocompletion_tags ul.tags .tagit-new { margin:2px 0; }
-.hamza_style .autocompletion_tags ul.tags .tagit-new input.ui-autocomplete-input.tagit-input {
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new { margin:2px 0; }
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new input {
   -webkit-border-radius:0;
   -moz-border-radius:0;
   border-radius:0;
@@ -1547,8 +1893,8 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   padding:0;
   width:200px;
 }
-.hamza_style .autocompletion_tags ul.tags .tagit-new input.ui-autocomplete-input.tagit-input:focus { outline:0; }
-.hamza_style .autocompletion_tags ul.tags .ui-autocomplete {
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .tagit-new input:focus { outline:0; }
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags ul.tags .ui-autocomplete {
   height:auto;
   width:auto;
   -webkit-box-shadow:0 5px 20px rgba(0,0,0,0.5);
@@ -1560,15 +1906,244 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   position:absolute;
   top:38px !important;
 }
-.hamza_style .autocompletion_tags .tagit-hiddenSelect {
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags .tagit-hiddenSelect {
   clip:rect(1px 1px 1px 1px);
   clip:rect(1px,1px,1px,1px);
   position:absolute !important;
 }
-.hamza_style .autocompletion_tags .btn_rechercher {
+.sv12 #contenu_etape #recherche_sv12 .autocompletion_tags .btn_rechercher {
   color:#ffffff;
   background-position:0 -52px;
   border-color:#6d6b6b;
+}
+.sv12 #contenu_etape #recherche_sv12 .volumes_vides { margin:10px 0 0; }
+.sv12 #contenu_etape #commentaire_sv12 textarea { width:100%; }
+.creer_info {
+  zoom:1;
+  min-height:1px;
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  margin-top:5px;
+}
+.creer_info:before, .creer_info:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.creer_info:after { clear:both; }
+.creer_info .btn_majeur {
+  float:right;
+  margin-top:8px;
+}
+#principal legend {
+  text-transform:uppercase;
+  font-size:15px;
+  font-weight:bold;
+  margin:20px 0;
+}
+#principal .generation_facture_valid {
+  zoom:1;
+  min-height:1px;
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  margin-top:5px;
+}
+#principal .generation_facture_valid:before, #principal .generation_facture_valid:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+#principal .generation_facture_valid:after { clear:both; }
+#principal .generation_facture_valid .btn_majeur {
+  float:right;
+  margin-top:8px;
+}
+#principal .generation_facture_options {
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:14px;
+  padding-bottom:10px;
+  padding-top:10px;
+}
+#principal .generation_facture_options span {
+  display:block;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+#principal .generation_facture_options em {
+  display:inline-block;
+  margin-right:4px;
+  vertical-align:middle;
+}
+#principal .generation_facture_options ul:first-child li .ligne_etape { padding-left:10px; }
+#principal .generation_facture_options ul:first-child li .checkbox_list { padding-left:10px; }
+#principal .generation_facture_options ul:first-child li .checkbox_list li+li {
+  margin-bottom:0;
+  margin-top:8px;
+}
+#principal .generation_facture_options ul:first-child li .checkbox_list li input[type="checkbox"] { margin-right:12px; }
+#principal .generation_facture_options ul:first-child li+li { margin-top:20px; }
+#principal .generation_facture_options .champ_datepicker { height:auto; }
+#principal .generation_facture_options .champ_datepicker label, #principal .generation_facture_options .champ_datepicker img { vertical-align:middle; }
+#principal .generation_facture_options .champ_datepicker label {
+  font-weight:normal;
+  width:335px;
+}
+#principal .generation_facture_options .champ_datepicker img { position:static; }
+.ds #contenu_etape .generation_ds, .ds #contenu_etape .historique_generation_ds, .ds #contenu_etape .generation_ds_operateur {
+  zoom:1;
+  min-height:1px;
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:16px;
+  font-weight:bold;
+  height:45px;
+  line-height:45px;
+  margin-top:5px;
+  background:#ecebeb url(../images/pictos/fleche_bloc.png) 10px 50% no-repeat;
+  padding-left:40px;
+}
+.ds #contenu_etape .generation_ds:before, .ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:before, .ds #contenu_etape .historique_generation_ds:after, .ds #contenu_etape .generation_ds_operateur:before, .ds #contenu_etape .generation_ds_operateur:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:after, .ds #contenu_etape .generation_ds_operateur:after { clear:both; }
+.ds #contenu_etape .generation_ds .btn_majeur, .ds #contenu_etape .historique_generation_ds .btn_majeur, .ds #contenu_etape .generation_ds_operateur .btn_majeur {
+  float:right;
+  margin-top:8px;
+}
+.ds #contenu_etape .bloc_form, .ds #contenu_etape .table_recap { margin:0 0 20px; }
+.ds #commentaires .bloc_form {
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  -webkit-border-radius:0;
+  -moz-border-radius:0;
+  border-radius:0;
+  border:0;
+}
+.ds #commentaires .bloc_form textarea { width:100%; }
+.ds #ds_recapitulatif_commentaires {
+  font-size:14px;
+  margin:15px 0;
+}
+.ds #ds_recapitulatif_commentaires h3 {
+  font-weight:bold;
+  margin:0 0 5px;
+}
+.revendication #revendication_import_fichier { overflow:hidden; }
+.revendication #revendication_import_fichier h2 {
+  margin:0;
+  float:left;
+}
+.revendication #revendication_import_fichier a { float:right; }
+.revendication #rapport_erreurs {
+  background-color:#ecebeb;
+  padding:0 10px;
+  font-size:14px;
+  padding:10px;
+}
+.revendication #rapport_erreurs .nb_erreurs {
+  text-transform:uppercase;
+  font-weight:bold;
+  margin:0 0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs {
+  border-top:1px solid #e3e2e2;
+  margin:25px 0 0;
+  padding:15px 0 0;
+}
+.revendication #rapport_erreurs .type_erreurs h3 {
+  text-transform:uppercase;
+  font-weight:bold;
+  margin:0 0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs .item {
+  margin:15px 0 0;
+  padding:0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs .produit {
+  zoom:1;
+  min-height:1px;
+}
+.revendication #rapport_erreurs .type_erreurs .produit:before, .revendication #rapport_erreurs .type_erreurs .produit:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.revendication #rapport_erreurs .type_erreurs .produit:after { clear:both; }
+.revendication #rapport_erreurs .type_erreurs .produit p { font-weight:bold; }
+.revendication #rapport_erreurs .type_erreurs .produit .btn_voir {
+  float:right;
+  margin:0 0 0 15px;
+}
+.revendication #rapport_erreurs .type_erreurs .num_erreurs { margin:5px 0 0; }
+.revendication #rapport_erreurs .type_erreurs .num_erreurs li {
+  display:inline-block;
+  margin:0 10px 0 0;
+}
+.ielt8 .revendication #rapport_erreurs .type_erreurs .num_erreurs li {
+  display:inline;
+  zoom:1;
+}
+.revendication #table_erreurs thead th:first-child { width:100px; }
+.revendication #table_erreurs tbody th, .revendication #table_erreurs tbody td {
+  font-size:12px;
+  padding:10px 0;
+}
+.revendication #table_erreurs tbody th {
+  border-top:1px solid #e3e2e2;
+  border-right:1px solid #e3e2e2;
+  background:0;
+}
+.revendication #table_erreurs tbody p.libelle {
+  border-bottom:1px solid #e3e2e2;
+  font-size:13px;
+  font-weight:bold;
+  margin:0 0 10px;
+  padding:0 0 10px;
+}
+.revendication #volumes_revendiques .ui-autocomplete-input { width:270px; }
+.revendication #volumes_revendiques .volume input { width:100px; }
+.revendication #volumes_revendiques .form_btn {
+  zoom:1;
+  min-height:1px;
+  margin:20px 0 0;
+}
+.revendication #volumes_revendiques .form_btn:before, .revendication #volumes_revendiques .form_btn:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.revendication #volumes_revendiques .form_btn:after { clear:both; }
+.revendication #volumes_revendiques .form_btn .btn_annuler { float:right; }
+.facturable { font-weight:bold; }
+.alerte #consultation_alerte, .alerte #modification_alerte { margin:0 0 20px; }
+.alerte #consultation_alerte .bloc_form label, .alerte #modification_alerte .bloc_form label { width:170px; }
+.alerte #consultation_alerte .bloc_form select, .alerte #modification_alerte .bloc_form select { width:200px; }
+.alerte #consultation_alerte .bloc_form textarea, .alerte #modification_alerte .bloc_form textarea { width:460px !important; }
+.alerte #consultation_alerte .btn_form, .alerte #modification_alerte .btn_form {
+  margin:15px 0 0;
+  text-align:right;
 }
 #rail_etapes {
   zoom:1;
@@ -1659,7 +2234,6 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 #rail_etapes li.passe > * span { background:#fcf1d5; }
 #rail_etapes li.passe > *:after { background-position:0 -94px; }
 #rail_etapes li strong { font-weight:normal; }
-.facturable { font-weight:bold; }
 #contrat_progression p {
   font-weight:bold;
   margin:0 0 5px;
@@ -2383,338 +2957,14 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   width:15px;
 }
 .bloc_col .legende div .type_raisins, .bloc_col .legende div .type_mouts, .bloc_col .legende div .type_vin_vrac, .bloc_col .legende div .type_vin_bouteille { margin-bottom:5px; }
-#statut_vrac {
-  margin:0 0 25px;
-  zoom:1;
-  min-height:1px;
+#contacts #enseignes_list { padding-left:146px; }
+#contacts .etablissement h3:first-child {
+  background:#f2d6be url('../images/pictos/pi_etablissement.png') 37px center no-repeat;
+  padding-left:75px;
+  text-decoration:none;
 }
-#statut_vrac:before, #statut_vrac:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-#statut_vrac:after { clear:both; }
-#statut_vrac #vrac_etapes {
-  background:url(../images/fonds/bg_etapes_declaration.png) 0 0 no-repeat;
-  color:#ffffff;
-  float:left;
-  padding:11px 0 11px 6px;
-}
-#statut_vrac #vrac_etapes ol {
-  line-height:21px;
-  list-style:none;
-}
-#statut_vrac #vrac_etapes ol * { float:left; }
-#statut_vrac #vrac_etapes ol li { background:url(../images/fonds/bg_etapes_declaration.png) 0 -43px repeat-x; }
-#statut_vrac #vrac_etapes ol li > * {
-  background:url(../images/fonds/bg_etapes_declaration.png) 0 -106px no-repeat;
-  padding:0 15px 0 20px;
-}
-#statut_vrac #vrac_etapes ol li a { color:#ffffff; }
-#statut_vrac #vrac_etapes ol li a:hover { text-decoration:none; }
-#statut_vrac #vrac_etapes ol li.premier { background-position:0 -64px; }
-#statut_vrac #vrac_etapes ol li.premier > * {
-  background:0;
-  padding-left:10px;
-}
-#statut_vrac #vrac_etapes ol li.dernier > * { padding-right:0; }
-#statut_vrac #vrac_etapes ol li.dernier > * span {
-  background:url(../images/fonds/bg_etapes_declaration.png) right -148px no-repeat;
-  padding-right:20px;
-}
-#statut_vrac #vrac_etapes ol li.dernier.actif > * span { background-position:right -169px; }
-#statut_vrac #vrac_etapes ol li.passe, #statut_vrac #vrac_etapes ol li.actif { background-position:0 -64px; }
-#statut_vrac #vrac_etapes ol li.passe > *, #statut_vrac #vrac_etapes ol li.actif > * { background-position:0 -127px; }
-#statut_vrac #vrac_etapes ol li.actif { font-weight:bold; }
-#statut_vrac #vrac_etapes ol li.actif + li > * { background-position:0 -85px; }
-#statut_vrac #etat_avancement {
-  float:right;
-  margin:-10px 0 0;
-  width:130px;
-}
-#statut_vrac #etat_avancement p {
-  font-size:11px;
-  line-height:1;
-  margin:0 0 5px;
-  text-align:right;
-}
-#statut_vrac #etat_avancement p strong {
-  color:;
-  font-size:22px;
-  margin:0 0 0 5px;
-}
-#statut_vrac #etat_avancement p strong span { font-size:12px; }
-#statut_vrac #etat_avancement #barre_avancement { background:#ffffff; }
-#statut_vrac #etat_avancement #barre_avancement div {
-  background:;
-  height:3px;
-}
-#vrac_condition #commentaires .bloc_form {
-  -webkit-border-radius:0;
-  -moz-border-radius:0;
-  border-radius:0;
-  -webkit-border-radius:0;
-  -moz-border-radius:0;
-  border-radius:0;
-  border:0;
-}
-#vrac_condition #commentaires .bloc_form textarea { width:100%; }
-#vrac_soussigne h1, #vrac_marche h1, #vrac_condition h1, #vrac_validation h1, #vrac_recapitulatif h1 {
-  font-size:16px;
-  font-weight:bold;
-  margin:0 0 20px;
-  text-align:center;
-  color:#ffffff;
-}
-#vrac_soussigne h2, #vrac_marche h2, #vrac_condition h2, #vrac_validation h2, #vrac_recapitulatif h2 {
-  font-size:16px;
-  margin:0 0 15px;
-}
-#vrac_soussigne .col, #vrac_marche .col, #vrac_condition .col, #vrac_validation .col, #vrac_recapitulatif .col {
-  display:inline-block;
-  vertical-align:top;
-  width:425px;
-}
-.ielt8 #vrac_soussigne .col, .ielt8 #vrac_marche .col, .ielt8 #vrac_condition .col, .ielt8 #vrac_validation .col, .ielt8 #vrac_recapitulatif .col { display:inline-block; }
-.ielt8 .ielt8 #vrac_soussigne .col, .ielt8 .ielt8 #vrac_marche .col, .ielt8 .ielt8 #vrac_condition .col, .ielt8 .ielt8 #vrac_validation .col, .ielt8 .ielt8 #vrac_recapitulatif .col {
-  display:inline;
-  zoom:1;
-}
-#vrac_soussigne section, #vrac_marche section, #vrac_condition section, #vrac_validation section, #vrac_recapitulatif section { padding:5px 0px; }
-#vrac_soussigne .ligne_form .error_list, #vrac_marche .ligne_form .error_list, #vrac_condition .ligne_form .error_list, #vrac_validation .ligne_form .error_list, #vrac_recapitulatif .ligne_form .error_list { width:310px; }
-#vrac_soussigne .ligne_form label, #vrac_marche .ligne_form label, #vrac_condition .ligne_form label, #vrac_validation .ligne_form label, #vrac_recapitulatif .ligne_form label {
-  display:inline-block;
-  vertical-align:middle;
-  width:165px;
-}
-#vrac_soussigne .ligne_form.ligne_form_large label, #vrac_marche .ligne_form.ligne_form_large label, #vrac_condition .ligne_form.ligne_form_large label, #vrac_validation .ligne_form.ligne_form_large label, #vrac_recapitulatif .ligne_form.ligne_form_large label {
-  display:block;
-  margin:0 0 10px;
-  width:auto;
-}
-#vrac_soussigne .ligne_form input[type="text"], #vrac_soussigne .ligne_form input[type="password"], #vrac_soussigne .ligne_form select, #vrac_marche .ligne_form input[type="text"], #vrac_marche .ligne_form input[type="password"], #vrac_marche .ligne_form select, #vrac_condition .ligne_form input[type="text"], #vrac_condition .ligne_form input[type="password"], #vrac_condition .ligne_form select, #vrac_validation .ligne_form input[type="text"], #vrac_validation .ligne_form input[type="password"], #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form input[type="text"], #vrac_recapitulatif .ligne_form input[type="password"], #vrac_recapitulatif .ligne_form select {
-  font-size:12px;
-  position:relative;
-  vertical-align:middle;
-  margin:0;
-}
-#vrac_soussigne .ligne_form input[type="text"], #vrac_soussigne .ligne_form input[type="password"], #vrac_marche .ligne_form input[type="text"], #vrac_marche .ligne_form input[type="password"], #vrac_condition .ligne_form input[type="text"], #vrac_condition .ligne_form input[type="password"], #vrac_validation .ligne_form input[type="text"], #vrac_validation .ligne_form input[type="password"], #vrac_recapitulatif .ligne_form input[type="text"], #vrac_recapitulatif .ligne_form input[type="password"] {
-  padding:2px 4px;
-  width:120px;
-}
-#vrac_soussigne .ligne_form select, #vrac_marche .ligne_form select, #vrac_condition .ligne_form select, #vrac_validation .ligne_form select, #vrac_recapitulatif .ligne_form select { width:130px; }
-#vrac_soussigne .ligne_form .champ_form_radio_cb label, #vrac_marche .ligne_form .champ_form_radio_cb label, #vrac_condition .ligne_form .champ_form_radio_cb label, #vrac_validation .ligne_form .champ_form_radio_cb label, #vrac_recapitulatif .ligne_form .champ_form_radio_cb label {
-  display:inline-block;
-  margin:0 20px 0 0;
-  width:auto;
-}
-#vrac_soussigne .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_marche .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_condition .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_validation .ligne_form.ligne_form_large .champ_form_radio_cb input, #vrac_recapitulatif .ligne_form.ligne_form_large .champ_form_radio_cb input {
-  margin:0 5px 0 0;
-  vertical-align:middle;
-}
-#vrac_soussigne .ligne_btn, #vrac_marche .ligne_btn, #vrac_condition .ligne_btn, #vrac_validation .ligne_btn, #vrac_recapitulatif .ligne_btn {
-  margin:34px 0 0;
-  right:23px;
-}
-#vrac_soussigne .ligne_btn button, #vrac_soussigne .ligne_btn a, #vrac_marche .ligne_btn button, #vrac_marche .ligne_btn a, #vrac_condition .ligne_btn button, #vrac_condition .ligne_btn a, #vrac_validation .ligne_btn button, #vrac_validation .ligne_btn a, #vrac_recapitulatif .ligne_btn button, #vrac_recapitulatif .ligne_btn a {
-  line-height:24px;
-  font-weight:normal;
-  text-transform:uppercase;
-}
-#vrac_soussigne .ligne_btn button:hover, #vrac_soussigne .ligne_btn a:hover, #vrac_marche .ligne_btn button:hover, #vrac_marche .ligne_btn a:hover, #vrac_condition .ligne_btn button:hover, #vrac_condition .ligne_btn a:hover, #vrac_validation .ligne_btn button:hover, #vrac_validation .ligne_btn a:hover, #vrac_recapitulatif .ligne_btn button:hover, #vrac_recapitulatif .ligne_btn a:hover { text-decoration:none; }
-#vrac_soussigne .ligne_btn .btn_valider, #vrac_marche .ligne_btn .btn_valider, #vrac_condition .ligne_btn .btn_valider, #vrac_validation .ligne_btn .btn_valider, #vrac_recapitulatif .ligne_btn .btn_valider { padding:0 17px 0 15px; }
-#vrac_soussigne .ligne_btn .btn_ajouter, #vrac_marche .ligne_btn .btn_ajouter, #vrac_condition .ligne_btn .btn_ajouter, #vrac_validation .ligne_btn .btn_ajouter, #vrac_recapitulatif .ligne_btn .btn_ajouter {
-  background-image:url(../images/boutons/btn_ajouter.png);
-  background-position:7px center;
-  margin:0 10px 0 0;
-  padding:0 10px 0 30px;
-}
-#vrac_soussigne .ligne_btn .btn_supprimer, #vrac_marche .ligne_btn .btn_supprimer, #vrac_condition .ligne_btn .btn_supprimer, #vrac_validation .ligne_btn .btn_supprimer, #vrac_recapitulatif .ligne_btn .btn_supprimer {
-  background-position:0 -26px;
-  border-color:#d9d8d8;
-  background-image:url(../images/boutons/btn_supprimer.png);
-  background-position:7px center;
-  padding:0 10px 0 30px;
-  margin-right:20px;
-  text-transform:none;
-}
-#vrac_soussigne #infos_etablissements, #vrac_marche #infos_etablissements, #vrac_condition #infos_etablissements, #vrac_validation #infos_etablissements, #vrac_recapitulatif #infos_etablissements {
-  margin:15px 0 0;
-  position:relative;
-  padding:0;
-  width:895px;
-}
-#vrac_soussigne #infos_etablissements .etablissement, #vrac_marche #infos_etablissements .etablissement, #vrac_condition #infos_etablissements .etablissement, #vrac_validation #infos_etablissements .etablissement, #vrac_recapitulatif #infos_etablissements .etablissement {
-  border:1px solid #3e3e3e;
-  background:#5e5c5c;
-  display:inline-block;
-  margin:0 20px 20px 0;
-  padding:10px 10px 0;
-  position:relative;
-  vertical-align:top;
-  width:250px;
-}
-.ielt8 #vrac_soussigne #infos_etablissements .etablissement, .ielt8 #vrac_marche #infos_etablissements .etablissement, .ielt8 #vrac_condition #infos_etablissements .etablissement, .ielt8 #vrac_validation #infos_etablissements .etablissement, .ielt8 #vrac_recapitulatif #infos_etablissements .etablissement { display:inline-block; }
-.ielt8 .ielt8 #vrac_soussigne #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_marche #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_condition #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_validation #infos_etablissements .etablissement, .ielt8 .ielt8 #vrac_recapitulatif #infos_etablissements .etablissement {
-  display:inline;
-  zoom:1;
-}
-#vrac_soussigne #infos_etablissements .etablissement .error_list, #vrac_marche #infos_etablissements .etablissement .error_list, #vrac_condition #infos_etablissements .etablissement .error_list, #vrac_validation #infos_etablissements .etablissement .error_list, #vrac_recapitulatif #infos_etablissements .etablissement .error_list { width:auto; }
-#vrac_soussigne #infos_etablissements .etablissement .ligne_form label, #vrac_marche #infos_etablissements .etablissement .ligne_form label, #vrac_condition #infos_etablissements .etablissement .ligne_form label, #vrac_validation #infos_etablissements .etablissement .ligne_form label, #vrac_recapitulatif #infos_etablissements .etablissement .ligne_form label { width:110px; }
-#vrac_soussigne #infos_etablissements .etablissement a.supprimer, #vrac_marche #infos_etablissements .etablissement a.supprimer, #vrac_condition #infos_etablissements .etablissement a.supprimer, #vrac_validation #infos_etablissements .etablissement a.supprimer, #vrac_recapitulatif #infos_etablissements .etablissement a.supprimer {
-  height:13px;
-  width:13px;
-  bottom:auto;
-  left:auto;
-  position:absolute;
-  right:-5px;
-  top:-5px;
-  background:url(../images/pictos/pi_supprimer.png) 0 0 no-repeat;
-  display:inline-block;
-  text-indent:-9999px;
-}
-#vrac_soussigne a.btn_ajouter_etab, #vrac_marche a.btn_ajouter_etab, #vrac_condition a.btn_ajouter_etab, #vrac_validation a.btn_ajouter_etab, #vrac_recapitulatif a.btn_ajouter_etab {
-  background-position:0 -26px;
-  border-color:#d9d8d8;
-  background-image:url(../images/boutons/btn_ajouter.png);
-  background-position:7px center;
-  margin:0 10px 0 0;
-  padding:5px 10px 6px 30px;
-  position:absolute;
-  right:127px;
-  text-transform:none;
-}
-#vrac_soussigne a#btn_ajouter_etablissement, #vrac_marche a#btn_ajouter_etablissement, #vrac_condition a#btn_ajouter_etablissement, #vrac_validation a#btn_ajouter_etablissement, #vrac_recapitulatif a#btn_ajouter_etablissement {
-  background-position:0 -26px;
-  border-color:#d9d8d8;
-  background-image:url(../images/boutons/btn_ajouter.png);
-  background-position:10px center;
-  font-size:15px;
-  line-height:1;
-  position:absolute;
-  padding:4px 10px 4px 32px;
-  font-size:15px;
-  text-transform:uppercase;
-}
-#vrac_soussigne a#btn_ajouter_etablissement:hover, #vrac_marche a#btn_ajouter_etablissement:hover, #vrac_condition a#btn_ajouter_etablissement:hover, #vrac_validation a#btn_ajouter_etablissement:hover, #vrac_recapitulatif a#btn_ajouter_etablissement:hover { text-decoration:none; }
-#vrac_soussigne a#btn_ajouter_etablissement span, #vrac_marche a#btn_ajouter_etablissement span, #vrac_condition a#btn_ajouter_etablissement span, #vrac_validation a#btn_ajouter_etablissement span, #vrac_recapitulatif a#btn_ajouter_etablissement span {
-  color:#ffffff;
-  display:block;
-  font-size:14px;
-  font-weight:bold;
-  text-transform:none;
-}
-#vrac_soussigne #recapitulatif .recap_perso, #vrac_soussigne #recapitulatif .recap_etablissement, #vrac_marche #recapitulatif .recap_perso, #vrac_marche #recapitulatif .recap_etablissement, #vrac_condition #recapitulatif .recap_perso, #vrac_condition #recapitulatif .recap_etablissement, #vrac_validation #recapitulatif .recap_perso, #vrac_validation #recapitulatif .recap_etablissement, #vrac_recapitulatif #recapitulatif .recap_perso, #vrac_recapitulatif #recapitulatif .recap_etablissement { margin:0 0 20px; }
-#vrac_soussigne #recapitulatif .recap_perso p, #vrac_soussigne #recapitulatif .recap_etablissement p, #vrac_marche #recapitulatif .recap_perso p, #vrac_marche #recapitulatif .recap_etablissement p, #vrac_condition #recapitulatif .recap_perso p, #vrac_condition #recapitulatif .recap_etablissement p, #vrac_validation #recapitulatif .recap_perso p, #vrac_validation #recapitulatif .recap_etablissement p, #vrac_recapitulatif #recapitulatif .recap_perso p, #vrac_recapitulatif #recapitulatif .recap_etablissement p { margin:5px 0; }
-#vrac_soussigne #recapitulatif .recap_perso p span, #vrac_soussigne #recapitulatif .recap_etablissement p span, #vrac_marche #recapitulatif .recap_perso p span, #vrac_marche #recapitulatif .recap_etablissement p span, #vrac_condition #recapitulatif .recap_perso p span, #vrac_condition #recapitulatif .recap_etablissement p span, #vrac_validation #recapitulatif .recap_perso p span, #vrac_validation #recapitulatif .recap_etablissement p span, #vrac_recapitulatif #recapitulatif .recap_perso p span, #vrac_recapitulatif #recapitulatif .recap_etablissement p span { font-weight:bold; }
-#vrac_soussigne #recapitulatif .recap_perso p strong, #vrac_soussigne #recapitulatif .recap_etablissement p strong, #vrac_marche #recapitulatif .recap_perso p strong, #vrac_marche #recapitulatif .recap_etablissement p strong, #vrac_condition #recapitulatif .recap_perso p strong, #vrac_condition #recapitulatif .recap_etablissement p strong, #vrac_validation #recapitulatif .recap_perso p strong, #vrac_validation #recapitulatif .recap_etablissement p strong, #vrac_recapitulatif #recapitulatif .recap_perso p strong, #vrac_recapitulatif #recapitulatif .recap_etablissement p strong {
-  color:#000000;
-  font-style:italic;
-  font-weight:normal;
-}
-#vrac_soussigne #recapitulatif .recap_perso .adresse_comptabilite, #vrac_soussigne #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_marche #recapitulatif .recap_perso .adresse_comptabilite, #vrac_marche #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_condition #recapitulatif .recap_perso .adresse_comptabilite, #vrac_condition #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_validation #recapitulatif .recap_perso .adresse_comptabilite, #vrac_validation #recapitulatif .recap_etablissement .adresse_comptabilite, #vrac_recapitulatif #recapitulatif .recap_perso .adresse_comptabilite, #vrac_recapitulatif #recapitulatif .recap_etablissement .adresse_comptabilite { margin:20px 0 0; }
-#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter, #vrac_soussigne #recapitulatif .recap_perso .btn_supprimer, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer, #vrac_marche #recapitulatif .recap_perso .btn_ajouter, #vrac_marche #recapitulatif .recap_perso .btn_supprimer, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer, #vrac_condition #recapitulatif .recap_perso .btn_ajouter, #vrac_condition #recapitulatif .recap_perso .btn_supprimer, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer, #vrac_validation #recapitulatif .recap_perso .btn_ajouter, #vrac_validation #recapitulatif .recap_perso .btn_supprimer, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer {
-  background-position:7px center;
-  padding:0 10px 0 30px;
-}
-#vrac_soussigne #recapitulatif .recap_perso .btn_ajouter, #vrac_soussigne #recapitulatif .recap_etablissement .btn_ajouter, #vrac_marche #recapitulatif .recap_perso .btn_ajouter, #vrac_marche #recapitulatif .recap_etablissement .btn_ajouter, #vrac_condition #recapitulatif .recap_perso .btn_ajouter, #vrac_condition #recapitulatif .recap_etablissement .btn_ajouter, #vrac_validation #recapitulatif .recap_perso .btn_ajouter, #vrac_validation #recapitulatif .recap_etablissement .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_perso .btn_ajouter, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_ajouter {
-  background-image:url(../images/boutons/btn_ajouter.png);
-  margin:0 10px 0 0;
-}
-#vrac_soussigne #recapitulatif .recap_perso .btn_supprimer, #vrac_soussigne #recapitulatif .recap_etablissement .btn_supprimer, #vrac_marche #recapitulatif .recap_perso .btn_supprimer, #vrac_marche #recapitulatif .recap_etablissement .btn_supprimer, #vrac_condition #recapitulatif .recap_perso .btn_supprimer, #vrac_condition #recapitulatif .recap_etablissement .btn_supprimer, #vrac_validation #recapitulatif .recap_perso .btn_supprimer, #vrac_validation #recapitulatif .recap_etablissement .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_perso .btn_supprimer, #vrac_recapitulatif #recapitulatif .recap_etablissement .btn_supprimer {
-  background-position:0 -26px;
-  border-color:#d9d8d8;
-  background-image:url(../images/boutons/btn_supprimer.png);
-  margin-right:20px;
-  text-transform:none;
-}
-#vrac_soussigne #recapitulatif .ligne_btn, #vrac_marche #recapitulatif .ligne_btn, #vrac_condition #recapitulatif .ligne_btn, #vrac_validation #recapitulatif .ligne_btn, #vrac_recapitulatif #recapitulatif .ligne_btn {
-  text-align:right;
-  margin:0;
-}
-#vrac_soussigne input.ui-autocomplete-input, #vrac_marche input.ui-autocomplete-input, #vrac_condition input.ui-autocomplete-input, #vrac_validation input.ui-autocomplete-input, #vrac_recapitulatif input.ui-autocomplete-input {
-  font-size:12px;
-  width:390px;
-}
-#vrac_soussigne input.ui-autocomplete-input + button, #vrac_marche input.ui-autocomplete-input + button, #vrac_condition input.ui-autocomplete-input + button, #vrac_validation input.ui-autocomplete-input + button, #vrac_recapitulatif input.ui-autocomplete-input + button { border-left:0; }
-#vrac_soussigne input.ui-autocomplete-input + button:hover, #vrac_marche input.ui-autocomplete-input + button:hover, #vrac_condition input.ui-autocomplete-input + button:hover, #vrac_validation input.ui-autocomplete-input + button:hover, #vrac_recapitulatif input.ui-autocomplete-input + button:hover { background-color:#e9e9e9; }
-#vrac_soussigne input.ui-autocomplete-input + button .ui-icon, #vrac_marche input.ui-autocomplete-input + button .ui-icon, #vrac_condition input.ui-autocomplete-input + button .ui-icon, #vrac_validation input.ui-autocomplete-input + button .ui-icon, #vrac_recapitulatif input.ui-autocomplete-input + button .ui-icon {
-  background:url(../images/pictos/pi_desc.png) center center no-repeat;
-  height:20px;
-  width:20px;
-}
-#vrac_soussigne .ui-dropdownchecklist-selector-wrapper, #vrac_soussigne .ui-dropdownchecklist-selector, #vrac_marche .ui-dropdownchecklist-selector-wrapper, #vrac_marche .ui-dropdownchecklist-selector, #vrac_condition .ui-dropdownchecklist-selector-wrapper, #vrac_condition .ui-dropdownchecklist-selector, #vrac_validation .ui-dropdownchecklist-selector-wrapper, #vrac_validation .ui-dropdownchecklist-selector, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper, #vrac_recapitulatif .ui-dropdownchecklist-selector {
-  font-size:0;
-  line-height:1;
-}
-#vrac_soussigne .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_soussigne .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector .ui-dropdownchecklist-text {
-  background:#ffffff;
-  border:1px solid #d3d2cd;
-  color:#ffffff;
-  font-size:12px;
-  height:18px;
-  padding:2px 4px 0;
-  width:190px !important;
-}
-#vrac_soussigne .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_soussigne .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_marche .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_condition .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_validation .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector-wrapper.ui-state-active .ui-dropdownchecklist-text, #vrac_recapitulatif .ui-dropdownchecklist-selector.ui-state-active .ui-dropdownchecklist-text { border-bottom-color:#f4f4f4; }
-#vrac_soussigne .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_marche .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_condition .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_validation .ui-dropdownchecklist-dropcontainer-wrapper, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer-wrapper {
-  height:auto !important;
-  width:auto !important;
-}
-#vrac_soussigne .ui-dropdownchecklist-dropcontainer, #vrac_marche .ui-dropdownchecklist-dropcontainer, #vrac_condition .ui-dropdownchecklist-dropcontainer, #vrac_validation .ui-dropdownchecklist-dropcontainer, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer {
-  background:#ffffff;
-  border:1px solid #d3d2cd;
-  height:200px !important;
-  width:250px;
-}
-#vrac_soussigne .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_marche .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_condition .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_validation .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item { padding:2px 4px; }
-#vrac_soussigne .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_marche .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_condition .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_validation .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label, #vrac_recapitulatif .ui-dropdownchecklist-dropcontainer .ui-dropdownchecklist-item label {
-  width:auto;
-  vertical-align:middle;
-}
-#vrac_soussigne label, #vrac_marche label, #vrac_condition label, #vrac_validation label, #vrac_recapitulatif label { padding-right:10px; }
-#vrac_soussigne input.ui-autocomplete-input { width:510px; }
-#vrac_soussigne .vendeur_infos, #vrac_soussigne .acheteur_infos
-    .mandataire_infos { border-collapse:collapse; }
-#vrac_soussigne .vendeur_infos tr, #vrac_soussigne .vendeur_infos td, #vrac_soussigne .acheteur_infos
-    .mandataire_infos tr, #vrac_soussigne .acheteur_infos
-    .mandataire_infos td {
-  padding:0px 10px;
-  border:1px solid lightgrey;
-  line-height:40px;
-}
-#vrac_soussigne .vendeur_infos tr .bold, #vrac_soussigne .vendeur_infos td .bold, #vrac_soussigne .acheteur_infos
-    .mandataire_infos tr .bold, #vrac_soussigne .acheteur_infos
-    .mandataire_infos td .bold {
-  font-weight:bold;
-  width:25%;
-}
-#vrac_soussigne .vendeur_infos, #vrac_soussigne .acheteur_infos {
-  width:100%;
-  padding:20px 0;
-}
-#vrac_soussigne .vendeur_infos tr, #vrac_soussigne .vendeur_infos td, #vrac_soussigne .acheteur_infos tr, #vrac_soussigne .acheteur_infos td { width:30%; }
-#vrac_soussigne .btnModification {
-  zoom:1;
-  min-height:1px;
-  margin:10px 0 30px;
-}
-#vrac_soussigne .btnModification:before, #vrac_soussigne .btnModification:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-#vrac_soussigne .btnModification:after { clear:both; }
-#vrac_soussigne .btnModification a { cursor:pointer; }
-#vrac_soussigne .btnModification .btn_annuler {
-  float:left;
-  display:none;
-}
-#vrac_soussigne .btnModification .btn_modifier, #vrac_soussigne .btnModification .btn_valider { float:right; }
+#contacts .etablissement .form_contenu { background:#faf0e7; }
+#contacts .ferme h3:before { background:url("../images/pictos/fleche_col_groupe_ferme.png") no-repeat; }
 #contacts .form_btn { margin:28px 0; }
 #contacts .form_btn .btn_valider { margin:0 0 0 470px; }
 #contacts .form_ligne {
@@ -2735,17 +2985,14 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   margin:0 0 35px 0;
 }
 #contacts .form_section .champ_long { width:425px; }
-#contacts .form_section .form_colonne { float:left; }
-#contacts .form_section .form_contenu { padding:15px 30px 23px 10px; }
-#contacts .form_section .ajout_champ {
-  display:block;
+#contacts .form_section .btn_ajouter_ligne_template {
   font-size:12px;
   padding:0 0 0 30px;
   margin:15px 0 0 0;
   position:relative;
   text-decoration:underline;
 }
-#contacts .form_section .ajout_champ:before {
+#contacts .form_section .btn_ajouter_ligne_template:before {
   bottom:auto;
   left:0;
   position:absolute;
@@ -2756,7 +3003,23 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   height:21px;
   width:20px;
 }
-#contacts .form_section .champ_ajoute { padding:10px 0 0 0; }
+#contacts .form_section .btn_supprimer_ligne_template {
+  background:url("../images/pictos/pi_suppression.png") no-repeat;
+  display:inline-block;
+  height:21px;
+  margin:0 0 0 15px;
+  text-indent:-9999px;
+  width:20px;
+}
+#contacts .form_section .checkbox_list, #contacts .form_section .radio_list { float:left; }
+#contacts .form_section .checkbox_list label, #contacts .form_section .radio_list label { width:auto; }
+#contacts .form_section .checkbox_list li, #contacts .form_section .radio_list li {
+  float:left;
+  margin:0 5px 0;
+  width:auto;
+}
+#contacts .form_section .form_colonne { float:left; }
+#contacts .form_section .form_contenu { padding:15px 30px 23px 10px; }
 #contacts .form_section h3 {
   background:#ecebeb;
   cursor:pointer;
@@ -2774,7 +3037,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   position:absolute;
   right:auto;
   top:6px;
-  background:url("../images/pictos/fleche_col_groupe_ouvert.png") no-repeat;
   content:"";
   height:15px;
   width:15px;
@@ -2784,20 +3046,12 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   font-size:14px;
   font-weight:bold;
 }
-#contacts .form_section .label_court { width:auto; }
+#contacts .form_section .label_court { width:112px; }
 #contacts .form_section legend {
   font-size:16px;
   font-weight:normal;
-  margin:15px 0;
 }
 #contacts .form_section select { width:113px; }
-#contacts .form_section .supprime_champ {
-  background:url("../images/pictos/pi_suppression.png") no-repeat;
-  height:21px;
-  margin:0 0 0 15px;
-  text-indent:100%;
-  width:20px;
-}
 #contacts .form_section textarea {
   height:90px;
   width:618px;
@@ -2810,31 +3064,43 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   padding-left:42px;
   position:relative;
 }
-#contacts h2:before { content:""; }
-#creation_societe h2:before, #detail_societe h2:before {
+#contacts h2:before {
+  content:"";
   bottom:auto;
   left:0;
   position:absolute;
   right:auto;
   top:-10px;
+}
+#contacts .label_liste { float:left; }
+#contacts .form_colonne:first-child + .form_colonne label {
+  padding-right:10px;
+  width:auto;
+}
+#contacts .ouvert h3:before { background:url("../images/pictos/fleche_col_groupe_ouvert.png") no-repeat; }
+#creation_societe h2:before, #visu_societe h2:before {
   background:url("../images/pictos/societe.png") no-repeat;
   height:36px;
   width:32px;
 }
-#nouveau_contact h2, #nouveau_etablissement h2 { margin-bottom:10px; }
-#nouveau_contact > h3, #nouveau_etablissement > h3 {
-  font-size:16px;
-  font-weight:bold;
-}
 #detail_etablissement .conteneur_societe .form_colonne:first-child + .form_colonne, #detail_etablissement .conteneur_enseigne .form_colonne:first-child + .form_colonne, #detail_societe .conteneur_societe .form_colonne:first-child + .form_colonne, #detail_societe .conteneur_enseigne .form_colonne:first-child + .form_colonne { padding-left:0; }
 #detail_etablissement .form_colonne:first-child + .form_colonne, #detail_societe .form_colonne:first-child + .form_colonne { padding:0 0 0 35px; }
-#detail_societe .boutons_haut .btn_majeur {
+#coordonnees_societe .form_ligne .meme_adresse, #coordonnees_etablissement .form_ligne .meme_adresse, #coordonnees_contact .form_ligne .meme_adresse {
+  font-weight:normal;
+  width:250px;
+}
+#coordonnees_societe label, #coordonnees_etablissement label, #coordonnees_contact label { width:187px; }
+#visu_societe .btn_haut {
+  background:#ecebeb;
+  margin:10px 0;
+  padding:7px 0 7px 10px;
+}
+#visu_societe .btn_haut .btn_majeur {
   background-position:0 -182px;
   color:#ffffff;
   padding-left:40px;
-  width:197px;
 }
-#detail_societe .boutons_haut .btn_majeur:before {
+#visu_societe .btn_haut .btn_majeur:before {
   bottom:auto;
   left:8px;
   position:absolute;
@@ -2845,13 +3111,12 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   height:16px;
   width:23px;
 }
-#detail_societe .boutons_haut .btn_majeur:first-child {
+#visu_societe .btn_haut .btn_majeur:first-child {
   background-position:0 -156px;
   margin-right:16px;
   padding-left:43px;
-  width:176px;
 }
-#detail_societe .boutons_haut .btn_majeur:first-child:before {
+#visu_societe .btn_haut .btn_majeur:first-child:before {
   bottom:auto;
   left:12px;
   position:absolute;
@@ -2862,24 +3127,42 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   height:19px;
   width:17px;
 }
-#detail_societe .form_colonne:first-child + .form_colonne label { width:auto; }
-#detail_societe .form_colonne:first-child + .form_colonne label:first-child { width:82px; }
-#detail_societe label { width:145px; }
+#visu_societe .infos_societe { padding:0 0 10px 0; }
+#visu_societe .infos_societe .btn_modifier { margin:0 0 0 270px; }
+#visu_societe .infos_societe p {
+  float:left;
+  font-style:italic;
+}
+#visu_societe .form_colonne:first-child + .form_colonne label { width:auto; }
+#visu_societe .form_colonne:first-child + .form_colonne label:first-child { width:82px; }
+#visu_societe label { width:145px; }
+#detail_societe label { width:148px; }
+#nouveau_contact .form_section .form_contenu { background:#e9f1f9; }
+#nouveau_contact .form_section h3 { background:#cfe1f1; }
+#nouveau_contact h2:before {
+  background:url("../images/pictos/contact.png") no-repeat;
+  height:35px;
+  width:30px;
+}
+#detail_contact .form_ligne:first-child label { width:65px; }
 #detail_contact .form_ligne:first-child .form_colonne:first-child + .form_colonne label {
   margin:0 0 0 241px;
   width:120px;
 }
 #detail_contact .form_ligne:first-child .form_colonne:first-child + .form_colonne select { width:69px; }
-#detail_contact label[for="detail_contact_civilite"] { width:65px; }
-#detail_etablissement #detail_etablissement_region_viticole { width:134px; }
-#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 84px; }
-#coordonnees_societe label, #coordonnees_etablissement label, #detail_etablissement label { width:190px; }
-#coordonnees_etablissement .form_ligne .meme_adresse, #coordonnees_contact .form_ligne .meme_adresse {
-  font-weight:normal;
-  width:250px;
+#detail_contact label { width:187px; }
+#nouveau_etablissement h2:before {
+  background:url("../images/pictos/etablissement.png") no-repeat;
+  height:24px;
+  top:-2px;
+  width:36px;
 }
-#creation_societe .form_section label[for="detail_societe_statut"], #creation_societe .form_section label[for="detail_societe_code_naf"] { width:auto; }
-#creation_societe .form_section label[for="detail_societe_actif"], #creation_societe .form_section label[for="detail_societe_suspendu"], #creation_societe .form_section label[for="detail_etablissement_actif"], #creation_societe .form_section label[for="detail_etablissement_suspendu"], #creation_societe .form_section label[for="detail_etablissement_type_liaison"] { font-weight:normal; }
+#detail_etablissement #detail_etablissement_region_viticole { width:134px; }
+#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 80px; }
+#detail_etablissement .form_colonne:first-child + .form_colonne label { width:115px; }
+#detail_etablissement label { width:190px; }
+#colonne #infos_contact h2 { background:#76a8d7; }
+#colonne #infos_contact h2:before { border-color:transparent transparent #376ea2 transparent; }
 #contacts_actions li { text-align:center; }
 #contacts_actions li button {
   padding-left:30px;
@@ -2906,47 +3189,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #contacts_actions li .nouvelle_societe:after {
   background:url("../images/pictos/pi_societe.png") no-repeat;
   top:3px;
-}
-#detail_societe .boutons_haut {
-  background:#ecebeb;
-  margin:10px 0 0 0;
-  padding:7px 0 7px 10px;
-}
-#detail_societe .form_contenu li { margin:13px 0; }
-#detail_societe .form_contenu li .intitule {
-  display:inline-block;
-  font-size:14px;
-  font-weight:bold;
-  width:190px;
-}
-#detail_societe .infos_societe { padding:8px 0; }
-#detail_societe .infos_societe .btn_modifier { margin:0 0 0 270px; }
-#detail_societe .infos_societe p {
-  float:left;
-  font-style:italic;
-}
-#nouveau_contact .form_section .form_contenu { background:#e9f1f9; }
-#nouveau_contact .form_section h3 { background:#cfe1f1; }
-#nouveau_contact h2:before {
-  bottom:auto;
-  left:0;
-  position:absolute;
-  right:auto;
-  top:-10px;
-  background:url("../images/pictos/contact.png") no-repeat;
-  height:35px;
-  width:30px;
-}
-#nouveau_contact label { width:187px; }
-#nouveau_etablissement h2:before {
-  bottom:auto;
-  left:0;
-  position:absolute;
-  right:auto;
-  top:-2px;
-  background:url("../images/pictos/etablissement.png") no-repeat;
-  height:24px;
-  width:36px;
 }
 .itemcache { display:none; }
 p#date_drm {
@@ -3684,21 +3926,21 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   padding:0 13px;
   text-indent:-9999px;
 }
-#principal.drm {
+.drm #principal {
   width:700px !important;
   padding:20px 15px 0 10px;
 }
-#principal.drm #rail_etapes li a { padding:0 55px; }
-#principal.drm .recherche_etablissement {
+.drm #principal #rail_etapes li a { padding:0 55px; }
+.drm #principal .recherche_etablissement {
   background:none repeat scroll 0 0 #ecebeb;
   padding:10px 10px 30px;
 }
-#principal.drm #rail_etapes { margin:20px 10px; }
-#principal.drm .popup_raccourcis {
+.drm #principal #rail_etapes { margin:20px 10px; }
+.drm #principal .popup_raccourcis {
   float:right;
   position:relative;
 }
-#principal.drm #application_dr {
+.drm #principal #application_dr {
   width:675px;
   -webkit-border-radius:5px 5px 5px 5px;
   -moz-border-radius:5px 5px 5px 5px;
@@ -3708,18 +3950,18 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   border-radius:5px 5px 5px 5px;
   border:1px solid #e3e2e2;
 }
-#principal.drm #application_dr #form_produit_declaration { padding:10px; }
-#principal.drm #application_dr #form_produit_declaration label { width:200px; }
-#principal.drm #application_dr #form_produit_declaration .ui-autocomplete-input { width:450px !important; }
-#principal.drm #application_dr .titre_produit { background-color:#ecebeb; }
-#principal.drm .li_gris {
+.drm #principal #application_dr #form_produit_declaration { padding:10px; }
+.drm #principal #application_dr #form_produit_declaration label { width:200px; }
+.drm #principal #application_dr #form_produit_declaration .ui-autocomplete-input { width:450px !important; }
+.drm #principal #application_dr .titre_produit { background-color:#ecebeb; }
+.drm #principal .li_gris {
   background:#ecebeb;
   border:1px solid #e5e4e4;
   border-width:1px 0;
   height:35px !important;
 }
-#principal.drm .li_gris input { margin-top:7px; }
-#principal.drm .li_gris input[readonly] {
+.drm #principal .li_gris input { margin-top:7px; }
+.drm #principal .li_gris input[readonly] {
   background:#ecebeb;
   color:#3e3e3e;
   border:0;
@@ -3730,28 +3972,28 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   -moz-box-shadow:none;
   box-shadow:none;
 }
-#principal.drm #colonne_intitules .li_gris {
+.drm #principal #colonne_intitules .li_gris {
   padding-top:5px;
   font-weight:bold;
 }
-#principal.drm fieldset { margin:25px 0; }
-#principal.drm fieldset#historique_drm nav {
+.drm #principal fieldset { margin:25px 0; }
+.drm #principal fieldset#historique_drm nav {
   position:relative;
   bottom:-1px;
 }
-#principal.drm fieldset#historique_drm nav ul {
+.drm #principal fieldset#historique_drm nav ul {
   zoom:1;
   min-height:1px;
 }
-#principal.drm fieldset#historique_drm nav ul:before, #principal.drm fieldset#historique_drm nav ul:after {
+.drm #principal fieldset#historique_drm nav ul:before, .drm #principal fieldset#historique_drm nav ul:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-#principal.drm fieldset#historique_drm nav ul:after { clear:both; }
-#principal.drm fieldset#historique_drm nav ul li {
+.drm #principal fieldset#historique_drm nav ul:after { clear:both; }
+.drm #principal fieldset#historique_drm nav ul li {
   -webkit-border-radius:5px 5px 0 0;
   -moz-border-radius:5px 5px 0 0;
   border-radius:5px 5px 0 0;
@@ -3761,15 +4003,15 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   border:1px solid #e3e2e2;
   float:left;
 }
-#principal.drm fieldset#historique_drm nav ul li.actif { border-bottom-color:#ffffff; }
-#principal.drm fieldset#historique_drm nav ul li * {
+.drm #principal fieldset#historique_drm nav ul li.actif { border-bottom-color:#ffffff; }
+.drm #principal fieldset#historique_drm nav ul li * {
   display:block;
   font-weight:bold;
   letter-spacing:1px;
   padding:6px 4px;
 }
-#principal.drm fieldset#historique_drm nav ul li a { background:#ececec url(../images/fonds/bg_nav_historique.png) 0 0 repeat-x; }
-#principal.drm fieldset#historique_drm .section_label_maj {
+.drm #principal fieldset#historique_drm nav ul li a { background:#ececec url(../images/fonds/bg_nav_historique.png) 0 0 repeat-x; }
+.drm #principal fieldset#historique_drm .section_label_maj {
   border:1px solid #e3e2e2;
   -webkit-border-radius:0 5px 5px 0;
   -moz-border-radius:0 5px 5px 0;
@@ -3779,7 +4021,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   border-radius:0 5px 5px 0;
   padding:18px 3px 10px;
 }
-#principal.drm fieldset#historique_drm .section_label_maj > label {
+.drm #principal fieldset#historique_drm .section_label_maj > label {
   font-weight:bold;
   height:30px;
   line-height:30px;
@@ -3787,7 +4029,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   padding-top:0;
   text-transform:none;
 }
-#principal.drm fieldset#historique_drm .section_label_maj > select {
+.drm #principal fieldset#historique_drm .section_label_maj > select {
   -webkit-border-radius:5px 5px 5px 5px;
   -moz-border-radius:5px 5px 5px 5px;
   border-radius:5px 5px 5px 5px;
@@ -3797,30 +4039,30 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   border:1px solid #e3e2e2;
   padding:6px 0 6px 6px;
 }
-#principal.drm fieldset#historique_drm .section_label_maj .bloc_form, #principal.drm fieldset#historique_drm .section_label_maj table { margin-top:15px; }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose {
+.drm #principal fieldset#historique_drm .section_label_maj .bloc_form, .drm #principal fieldset#historique_drm .section_label_maj table { margin-top:15px; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose {
   height:auto;
   padding:0;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois {
   zoom:1;
   min-height:1px;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois:before, #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois:after {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois:before, .drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois:after { clear:both; }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois:after { clear:both; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li {
   box-sizing:border-box;
   float:left;
   width:25%;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li + li { border-left:1px solid #e3e2e2; }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li + li { border-left:1px solid #e3e2e2; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois {
   text-transform:uppercase;
   background-color:#ecebeb;
   font-size:14px;
@@ -3828,9 +4070,9 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   height:42px;
   line-height:42px;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos { padding:22px 5px 6px; }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne { background-color:#fae6e7; }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne li:first-child span {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos { padding:22px 5px 6px; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne { background-color:#fae6e7; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne li:first-child span {
   background-image:url(../images/pictos/sprite_calendrier.png);
   background-repeat:no-repeat;
   display:inline-block;
@@ -3841,13 +4083,13 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#d30815;
   background-position:0 0;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne a.action {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.attente_campagne a.action {
   color:#ffffff;
   background-position:0 -130px;
   border-color:#b70808;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne { background-color:#ffffff; }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne li:first-child span {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne { background-color:#ffffff; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne li:first-child span {
   background-image:url(../images/pictos/sprite_calendrier.png);
   background-repeat:no-repeat;
   display:inline-block;
@@ -3858,13 +4100,13 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#8f8f8f;
   background-position:0 -46px;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne a.action {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.cloture_campagne a.action {
   color:#ffffff;
   background-position:0 -52px;
   border-color:#6d6b6b;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne { background-color:#fef5e2; }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne li:first-child span {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne { background-color:#fef5e2; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne li:first-child span {
   background-image:url(../images/pictos/sprite_calendrier.png);
   background-repeat:no-repeat;
   display:inline-block;
@@ -3875,13 +4117,13 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#faa804;
   background-position:0 -23px;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne a.action {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.nouv_campagne a.action {
   color:#ffffff;
   background-position:0 -104px;
   border-color:#f6b32c;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne { background-color:#f0f9e4; }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne li:first-child span {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne { background-color:#f0f9e4; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne li:first-child span {
   background-image:url(../images/pictos/sprite_calendrier.png);
   background-repeat:no-repeat;
   display:inline-block;
@@ -3892,27 +4134,27 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   color:#9bd247;
   background-position:0 -69px;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne a.action {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos.valide_campagne a.action {
   color:#ffffff;
   background-position:0 -52px;
   border-color:#6d6b6b;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li {
   font-size:13px;
   text-align:left;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li label {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li label {
   display:inline-block;
   height:23px;
   line-height:23px;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li label {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li label {
   font-weight:bold;
   margin-bottom:15px;
   padding-left:5px;
   width:60px;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
@@ -3943,10 +4185,10 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
   display:block;
   width:100%;
 }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action:hover, #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action:focus { text-decoration:none; }
-bouton#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action { height:26px; }
-#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action span { display:inline-block; }
-#principal.drm fieldset#historique_drm .section_label_maj table {
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action:hover, .drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action:focus { text-decoration:none; }
+bouton.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action { height:26px; }
+.drm #principal fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois >li .mois_infos li a.action span { display:inline-block; }
+.drm #principal fieldset#historique_drm .section_label_maj table {
   border:1px solid #e3e2e2;
   -webkit-border-radius:5px;
   -moz-border-radius:5px;
@@ -3958,28 +4200,28 @@ bouton#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .
   box-sizing:border-box;
   width:100%;
 }
-#principal.drm fieldset#historique_drm .section_label_maj table tr th {
+.drm #principal fieldset#historique_drm .section_label_maj table tr th {
   background-color:#ecebeb;
   font-size:14px;
   padding:5px 0;
   vertical-align:middle;
 }
-#principal.drm fieldset#historique_drm .section_label_maj table tr th+th { border-left:1px solid #e3e2e2; }
-#principal.drm fieldset#historique_drm .section_label_maj table tr td {
+.drm #principal fieldset#historique_drm .section_label_maj table tr th+th { border-left:1px solid #e3e2e2; }
+.drm #principal fieldset#historique_drm .section_label_maj table tr td {
   text-align:center;
   border-top:1px solid #e3e2e2;
   height:35px;
   padding:5px 15px;
   vertical-align:middle;
 }
-#principal.drm fieldset#historique_drm .section_label_maj table tr td+td { border-left:1px solid #e3e2e2; }
-#principal.drm fieldset#historique_drm .section_label_maj table tr td.gauche { text-align:left; }
-#principal.drm fieldset#historique_drm .section_label_maj table tr td.droite { text-align:right; }
-#principal.drm fieldset#historique_drm .section_label_maj table tr:nth-child(2n+2) { background-color:#f7f7f7; }
-#principal.drm fieldset#historique_drm .section_label_maj table tr.vide { display:none; }
-#principal.drm fieldset#mouvement_drm td.positif { background-color:#f0fae1; }
-#principal.drm fieldset#mouvement_drm td.negatif { background-color:#feecec; }
-#principal.drm fieldset legend {
+.drm #principal fieldset#historique_drm .section_label_maj table tr td+td { border-left:1px solid #e3e2e2; }
+.drm #principal fieldset#historique_drm .section_label_maj table tr td.gauche { text-align:left; }
+.drm #principal fieldset#historique_drm .section_label_maj table tr td.droite { text-align:right; }
+.drm #principal fieldset#historique_drm .section_label_maj table tr:nth-child(2n+2) { background-color:#f7f7f7; }
+.drm #principal fieldset#historique_drm .section_label_maj table tr.vide { display:none; }
+.drm #principal fieldset#mouvement_drm td.positif { background-color:#f0fae1; }
+.drm #principal fieldset#mouvement_drm td.negatif { background-color:#feecec; }
+.drm #principal fieldset legend {
   text-transform:uppercase;
   text-transform:uppercase;
   display:inline-block;
@@ -3990,34 +4232,34 @@ bouton#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .
   margin-bottom:15px;
   padding-top:0;
 }
-#principal.drm fieldset .section_label_maj .bloc_form {
+.drm #principal fieldset .section_label_maj .bloc_form {
   zoom:1;
   min-height:1px;
 }
-#principal.drm fieldset .section_label_maj .bloc_form:before, #principal.drm fieldset .section_label_maj .bloc_form:after {
+.drm #principal fieldset .section_label_maj .bloc_form:before, .drm #principal fieldset .section_label_maj .bloc_form:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-#principal.drm fieldset .section_label_maj .bloc_form:after { clear:both; }
-#principal.drm fieldset .section_label_maj .bloc_form >.ligne_form {
+.drm #principal fieldset .section_label_maj .bloc_form:after { clear:both; }
+.drm #principal fieldset .section_label_maj .bloc_form >.ligne_form {
   text-align:center;
   clear:both;
 }
-#principal.drm fieldset .section_label_maj .bloc_form >.ligne_form label { width:auto; }
-#principal.drm fieldset .section_label_maj .bloc_form >.ligne_form .type_declar {
+.drm #principal fieldset .section_label_maj .bloc_form >.ligne_form label { width:auto; }
+.drm #principal fieldset .section_label_maj .bloc_form >.ligne_form .type_declar {
   background:url(../images/pictos/pi_mensuel.png) 0 -2px no-repeat;
   display:inline-block;
   margin-left:12px;
   padding-left:27px;
 }
-#principal.drm fieldset .btn_container_modifier {
+.drm #principal fieldset .btn_container_modifier {
   float:right;
   margin-top:10px;
 }
-#principal.drm fieldset .btn_container_modifier a {
+.drm #principal fieldset .btn_container_modifier a {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
@@ -4052,10 +4294,10 @@ bouton#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .
   background-position:0 -104px;
   border-color:#f6b32c;
 }
-#principal.drm fieldset .btn_container_modifier a:hover, #principal.drm fieldset .btn_container_modifier a:focus { text-decoration:none; }
-bouton#principal.drm fieldset .btn_container_modifier a { height:26px; }
-#principal.drm fieldset .btn_container_modifier a span { display:inline-block; }
-#principal.drm fieldset .btn_container_modifier a:after {
+.drm #principal fieldset .btn_container_modifier a:hover, .drm #principal fieldset .btn_container_modifier a:focus { text-decoration:none; }
+bouton.drm #principal fieldset .btn_container_modifier a { height:26px; }
+.drm #principal fieldset .btn_container_modifier a span { display:inline-block; }
+.drm #principal fieldset .btn_container_modifier a:after {
   height:26px;
   width:20px;
   background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
@@ -4068,9 +4310,9 @@ bouton#principal.drm fieldset .btn_container_modifier a { height:26px; }
   cursor:pointer;
   display:inline-block;
 }
-#principal.drm fieldset .btn_container_modifier a:after { background-position:3px -362px; }
-#principal.drm fieldset .btn_container_exporter { float:right; }
-#principal.drm fieldset .btn_container_exporter a {
+.drm #principal fieldset .btn_container_modifier a:after { background-position:3px -362px; }
+.drm #principal fieldset .btn_container_exporter { float:right; }
+.drm #principal fieldset .btn_container_exporter a {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;
   -moz-border-radius:4px;
@@ -4105,10 +4347,10 @@ bouton#principal.drm fieldset .btn_container_modifier a { height:26px; }
   background-position:0 -78px;
   border-color:#83a44d;
 }
-#principal.drm fieldset .btn_container_exporter a:hover, #principal.drm fieldset .btn_container_exporter a:focus { text-decoration:none; }
-bouton#principal.drm fieldset .btn_container_exporter a { height:26px; }
-#principal.drm fieldset .btn_container_exporter a span { display:inline-block; }
-#principal.drm fieldset .btn_container_exporter a:after {
+.drm #principal fieldset .btn_container_exporter a:hover, .drm #principal fieldset .btn_container_exporter a:focus { text-decoration:none; }
+bouton.drm #principal fieldset .btn_container_exporter a { height:26px; }
+.drm #principal fieldset .btn_container_exporter a span { display:inline-block; }
+.drm #principal fieldset .btn_container_exporter a:after {
   height:26px;
   width:20px;
   background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
@@ -4121,7 +4363,7 @@ bouton#principal.drm fieldset .btn_container_exporter a { height:26px; }
   cursor:pointer;
   display:inline-block;
 }
-#principal.drm fieldset .btn_container_exporter a:after { background-position:2px -315px; }
+.drm #principal fieldset .btn_container_exporter a:after { background-position:2px -315px; }
 .fancybox-wrap .fancybox-title-inside-wrap {
   text-transform:uppercase;
   color:#3e3e3e;
@@ -4139,239 +4381,3 @@ bouton#principal.drm fieldset .btn_container_exporter a { height:26px; }
 }
 .fancybox-wrap .fancybox-inner #contenu #principal #drm_export_details_form .btn_valider, .fancybox-wrap .fancybox-inner #contenu #principal #drm_vrac_details_form .btn_valider, .fancybox-wrap .fancybox-inner #contenu #principal #drm_cooperative_details_form .btn_valider { float:right; }
 .fancybox-wrap .fancybox-inner #contenu #principal .drm_details_form_noItem { margin-bottom:20px; }
-.sv12 #num_sv12 {
-  background:#ecebeb;
-  font-size:14px;
-  font-weight:bold;
-  padding:10px;
-  margin:0 0 15px;
-}
-.sv12 #num_sv12 span {
-  display:inline-block;
-  width:200px;
-}
-.sv12 #negociant_infos { margin:0 0 25px; }
-.sv12 #btn_modifier_sv12 { margin:15px 0 0; }
-.sv12 #contenu_etape fieldset { margin:25px 0 0; }
-.sv12 #contenu_etape .hamza_style .volumes_vides { margin:10px 0 0; }
-.sv12 #contenu_etape #commentaire_sv12 textarea { width:100%; }
-.creer_info {
-  zoom:1;
-  min-height:1px;
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:16px;
-  font-weight:bold;
-  height:45px;
-  line-height:45px;
-  margin-top:5px;
-}
-.creer_info:before, .creer_info:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.creer_info:after { clear:both; }
-.creer_info .btn_majeur {
-  float:right;
-  margin-top:8px;
-}
-#principal .generation_facture_valid {
-  zoom:1;
-  min-height:1px;
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:16px;
-  font-weight:bold;
-  height:45px;
-  line-height:45px;
-  margin-top:5px;
-}
-#principal .generation_facture_valid:before, #principal .generation_facture_valid:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-#principal .generation_facture_valid:after { clear:both; }
-#principal .generation_facture_valid .btn_majeur {
-  float:right;
-  margin-top:8px;
-}
-#principal .generation_facture_options {
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:14px;
-  padding-bottom:10px;
-  padding-top:10px;
-}
-#principal .generation_facture_options span {
-  display:block;
-  font-weight:bold;
-  margin-bottom:5px;
-}
-#principal .generation_facture_options em {
-  display:inline-block;
-  margin-right:4px;
-  vertical-align:middle;
-}
-#principal .generation_facture_options ul:first-child li .ligne_etape { padding-left:10px; }
-#principal .generation_facture_options ul:first-child li .checkbox_list { padding-left:10px; }
-#principal .generation_facture_options ul:first-child li .checkbox_list li+li {
-  margin-bottom:0;
-  margin-top:8px;
-}
-#principal .generation_facture_options ul:first-child li .checkbox_list li input[type="checkbox"] { margin-right:12px; }
-#principal .generation_facture_options ul:first-child li+li { margin-top:20px; }
-#principal .generation_facture_options .champ_datepicker { height:auto; }
-#principal .generation_facture_options .champ_datepicker label, #principal .generation_facture_options .champ_datepicker img { vertical-align:middle; }
-#principal .generation_facture_options .champ_datepicker label {
-  font-weight:normal;
-  width:335px;
-}
-#principal .generation_facture_options .champ_datepicker img { position:static; }
-.ds #contenu_etape .generation_ds, .ds #contenu_etape .historique_generation_ds, .ds #contenu_etape .generation_ds_operateur {
-  zoom:1;
-  min-height:1px;
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:16px;
-  font-weight:bold;
-  height:45px;
-  line-height:45px;
-  margin-top:5px;
-  background:#ecebeb url(../images/pictos/fleche_bloc.png) 10px 50% no-repeat;
-  padding-left:40px;
-}
-.ds #contenu_etape .generation_ds:before, .ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:before, .ds #contenu_etape .historique_generation_ds:after, .ds #contenu_etape .generation_ds_operateur:before, .ds #contenu_etape .generation_ds_operateur:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.ds #contenu_etape .generation_ds:after, .ds #contenu_etape .historique_generation_ds:after, .ds #contenu_etape .generation_ds_operateur:after { clear:both; }
-.ds #contenu_etape .generation_ds .btn_majeur, .ds #contenu_etape .historique_generation_ds .btn_majeur, .ds #contenu_etape .generation_ds_operateur .btn_majeur {
-  float:right;
-  margin-top:8px;
-}
-.ds #contenu_etape .bloc_form, .ds #contenu_etape .table_recap { margin:0 0 20px; }
-.ds #commentaires .bloc_form {
-  -webkit-border-radius:0;
-  -moz-border-radius:0;
-  border-radius:0;
-  -webkit-border-radius:0;
-  -moz-border-radius:0;
-  border-radius:0;
-  border:0;
-}
-.ds #commentaires .bloc_form textarea { width:100%; }
-.ds #ds_recapitulatif_commentaires {
-  font-size:14px;
-  margin:15px 0;
-}
-.ds #ds_recapitulatif_commentaires h3 {
-  font-weight:bold;
-  margin:0 0 5px;
-}
-.revendication #revendication_import_fichier { overflow:hidden; }
-.revendication #revendication_import_fichier h2 {
-  margin:0;
-  float:left;
-}
-.revendication #revendication_import_fichier a { float:right; }
-.revendication #rapport_erreurs {
-  background-color:#ecebeb;
-  padding:0 10px;
-  font-size:14px;
-  padding:10px;
-}
-.revendication #rapport_erreurs .nb_erreurs {
-  text-transform:uppercase;
-  font-weight:bold;
-  margin:0 0 15px;
-}
-.revendication #rapport_erreurs .type_erreurs {
-  border-top:1px solid #e3e2e2;
-  margin:25px 0 0;
-  padding:15px 0 0;
-}
-.revendication #rapport_erreurs .type_erreurs h3 {
-  text-transform:uppercase;
-  font-weight:bold;
-  margin:0 0 15px;
-}
-.revendication #rapport_erreurs .type_erreurs .item {
-  margin:15px 0 0;
-  padding:0 15px;
-}
-.revendication #rapport_erreurs .type_erreurs .produit {
-  zoom:1;
-  min-height:1px;
-}
-.revendication #rapport_erreurs .type_erreurs .produit:before, .revendication #rapport_erreurs .type_erreurs .produit:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.revendication #rapport_erreurs .type_erreurs .produit:after { clear:both; }
-.revendication #rapport_erreurs .type_erreurs .produit p { font-weight:bold; }
-.revendication #rapport_erreurs .type_erreurs .produit .btn_voir {
-  float:right;
-  margin:0 0 0 15px;
-}
-.revendication #rapport_erreurs .type_erreurs .num_erreurs { margin:5px 0 0; }
-.revendication #rapport_erreurs .type_erreurs .num_erreurs li {
-  display:inline-block;
-  margin:0 10px 0 0;
-}
-.ielt8 .revendication #rapport_erreurs .type_erreurs .num_erreurs li {
-  display:inline;
-  zoom:1;
-}
-.revendication #table_erreurs thead th:first-child { width:100px; }
-.revendication #table_erreurs tbody th, .revendication #table_erreurs tbody td {
-  font-size:12px;
-  padding:10px 0;
-}
-.revendication #table_erreurs tbody th {
-  border-top:1px solid #e3e2e2;
-  border-right:1px solid #e3e2e2;
-  background:0;
-}
-.revendication #table_erreurs tbody p.libelle {
-  border-bottom:1px solid #e3e2e2;
-  font-size:13px;
-  font-weight:bold;
-  margin:0 0 10px;
-  padding:0 0 10px;
-}
-.revendication #volumes_revendiques .ui-autocomplete-input { width:270px; }
-.revendication #volumes_revendiques .volume input { width:100px; }
-.revendication #volumes_revendiques .form_btn {
-  zoom:1;
-  min-height:1px;
-  margin:20px 0 0;
-}
-.revendication #volumes_revendiques .form_btn:before, .revendication #volumes_revendiques .form_btn:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.revendication #volumes_revendiques .form_btn:after { clear:both; }
-.revendication #volumes_revendiques .form_btn .btn_annuler { float:right; }
-.alerte #consultation_alerte, .alerte #modification_alerte { margin:0 0 20px; }
-.alerte #consultation_alerte .bloc_form label, .alerte #modification_alerte .bloc_form label { width:170px; }
-.alerte #consultation_alerte .bloc_form select, .alerte #modification_alerte .bloc_form select { width:200px; }
-.alerte #consultation_alerte .bloc_form textarea, .alerte #modification_alerte .bloc_form textarea { width:460px !important; }
-.alerte #consultation_alerte .btn_form, .alerte #modification_alerte .btn_form {
-  margin:15px 0 0;
-  text-align:right;
-}
