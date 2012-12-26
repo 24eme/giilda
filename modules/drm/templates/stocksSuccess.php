@@ -14,7 +14,7 @@
                         <li class="actif"><span>Vue stock</span></li>
                     </ul>
                 </nav>
-	        <?php include_component('drm', 'stocks', array('etablissement' => $etablissement, 'campagne' => $campagne, 'formCampagne' => $formCampagne)); ?>
+	        <?php include_component('drm', 'stocks', array('etablissement' => $etablissement, 'campagne' => $campagne, 'formCampagne' => $formCampagne, 'hamza_style' => true)); ?>
             </fieldset>
 
             <?php //include_partial('drm/calendrier', array('calendrier' => $calendrier)); ?>

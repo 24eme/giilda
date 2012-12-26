@@ -1,11 +1,14 @@
+<?php use_helper('Float'); ?>
+<?php use_helper('Date'); ?>
 <?php use_helper('Mouvement') ?>
 
 <?php if(count($mouvements) > 0): ?>
 <?php if(isset($hamza_style)) : ?>
     <?php include_partial('global/hamzaStyle', array('table_selector' => '#table_mouvements', 
-                                                 'mots' => mouvement_get_words($mouvements))) ?>
+                                                     'mots' => mouvement_get_words($mouvements),
+                                                     'consigne' => "Saisissez un produit, un type de mouvement, un numéro de contrat, un pays d'export, etc. :")) ?>
 <?php endif; ?>
-<?php use_helper('Float'); use_helper('Date'); ?>
+
 
 <table id="table_mouvements" class="table_recap">
     <thead>

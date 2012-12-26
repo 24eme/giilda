@@ -4,6 +4,7 @@ class DRMValidation extends DocumentValidation
 	public function configure() {
 		$this->addControle('erreur', 'repli', "La somme des replis en entrée et en sortie n'est pas la même");
 		$this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
+		$this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
 		
 		$this->addControle('vigilance', 'total_negatif', "Le stock revendiqué théorique fin de mois est négatif");
 		$this->addControle('vigilance', 'vrac_detail_negatif', "Le volume qui sera enlevé sur le contrat est supérieur au volume restant");
@@ -24,6 +25,11 @@ class DRMValidation extends DocumentValidation
 
 			foreach($detail->sorties->vrac_details as $vrac_detail) {
 				$vrac = $vrac_detail->getVrac();
+
+				if(!$vrac) {
+					$this->addPoint('erreur', 'vrac_detail_exist', sprintf("%s, Contrat %s", $detail->getLibelle(), $vrac_detail->identifiant), $this->generateUrl('drm_edition_detail', $detail));
+					continue;
+				}
 
 				if ($vrac->valide->statut != VracClient::STATUS_CONTRAT_NONSOLDE) {
 					$this->addPoint('erreur', 'vrac_detail_nonsolde', sprintf("%s, Contrat %s", $detail->getLibelle(), $vrac->__toString()), $this->generateUrl('vrac_visualisation', $vrac));

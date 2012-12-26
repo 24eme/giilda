@@ -99,20 +99,26 @@ class drmComponents extends sfComponents {
     public function executeStocks() {
         $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
         $this->produits = array();
+        $this->drm_vigilance = false;
         foreach($this->calendrier->getPeriodes() as $periode) {
             $drm = $this->calendrier->getDRM($periode);
             if($drm && $drm->isValidee()) {
                 foreach($drm->getProduits() as $produit) {
                     $d = new stdClass();
+                    $d->version = $drm->version;
+                    $d->periode = $periode;
                     $d->mois = ucfirst($this->calendrier->getPeriodeLibelle($periode));
-                    $d->libelle = $produit->details->getFirst()->getLibelle();
+                    $d->produit_hash = $produit->getHash();
+                    $d->produit_libelle = $produit->getLibelle();
                     $d->total_debut_mois = $produit->total_debut_mois;
                     $d->total_entrees = $produit->total_entrees;
                     $d->total_sorties = $produit->total_sorties;
                     $d->total = $produit->total;
                     $d->total_facturable = $produit->total_facturable;
                     $this->produits[] = $d;
-                }
+                } 
+            } else {
+                $this->drm_vigilance = true;
             }      
         }
     }
