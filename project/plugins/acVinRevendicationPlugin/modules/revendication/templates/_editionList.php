@@ -1,7 +1,10 @@
 <?php use_helper('Float'); ?>
-<?php use_helper('Date'); ?>        
+<?php use_helper('Date');
+?>        
 <h2>Volumes revendiqués</h2>
 <fieldset id="revendication_volume_revendiques_edition">
+    
+        <a class="btn_majeur btn_modifier" href="<?php echo url_for('revendication_add_row', array('odg'=> $odg, 'campagne' => $campagne)); ?>"><span>Ajouter lignes</span></a>
     <table class="table_recap">
         <thead>
             <tr>

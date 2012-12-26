@@ -1,52 +1,34 @@
-/**
- * Fichier : contact.js
- * Description : fonctions JS spécifiques aux contacts
- * Auteur : Mikael Guillin - mguillin[at]actualys.com
- * Copyright: Actualys
- ******************************************/
-
-/**
- * Initialisation
- ******************************************/
 (function($)
 {
-	
 	$(document).ready(function()
 	{
-		$.ajoutChamp();
-		$.suppressionChamp();
+		$.initFormSection();
 	});
 	
-	/**
-	 * Ajoute des champs 
-	 * $.ajoutChamp();
-	 ******************************************/
-	
-	$.ajoutChamp = function()
+	// Gère les ouverture / fermeture des blocs de formulaires
+	$.initFormSection = function()
 	{
-		var btnAjout = $('.ajout_champ');
+		var formSection = $('.form_section');
 		
-		btnAjout.click(function()
+		formSection.children('h3').click(function()
 		{
-			$(this).before('<div class="champ_ajoute"><input type="text" /><button type="button" class="supprime_champ">Supprimer</button></div>');			
-			return false;
-		});	
-	};
-	
-	/**
-	 * Supprime des champs 
-	 * $.suppressionChamp();
-	 ******************************************/
-	
-	$.suppressionChamp = function()
-	{	
-		var btnSuppression = $('.supprime_champ');
-		
-		btnSuppression.live('click', function()
-		{
-			$(this).parent().remove();
-		});	
+			var formSection = $(this).parent();
+			var formContenu = $(this).siblings('.form_contenu');
+			
+			if(formSection.hasClass('ferme'))
+			{
+				formSection.addClass('ouvert');
+				formSection.removeClass('ferme');
+				formContenu.slideDown();
+			}else
+			{
+				formSection.addClass('ferme');
+				formSection.removeClass('ouvert');
+				formContenu.slideUp();
+			}
+		});
 	};
 	
 })(jQuery);
+
 
