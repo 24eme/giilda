@@ -87,8 +87,6 @@ use_helper("Generation");
 echo (isset($identifiant)) ?
         url_for(strtolower($type) . '_etablissement', array('identifiant' => $identifiant)) :
         url_for(strtolower($type));
-?>" class="btn_etape_prec"><span>Retour</span></a>
-
-
-   <a class="btn_annuler btn_majeur" href="<?php url_for('generation_delete', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>">Supprimer</a>
+?>" class="btn_etape_prec"><span>Retour</span></a> &nbsp; 
+   <a class="btn_annuler btn_majeur" href="<?php echo url_for('generation_delete', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>">Supprimer</a>
 </div>
