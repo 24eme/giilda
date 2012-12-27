@@ -88,10 +88,15 @@
 	<div class="form_ligne">
 		<legend>Tags - étiquettes</legend>
 	</div>
+	<div class="form_ligne">
+		<label for="tags" class="label_liste">Tags</label>
+		<ul class="tags"></ul>
+	</div>
 </fieldset>
 
-<!--        <div class="section_label_maj" id="tags">
+<!--  <div class="section_label_maj" id="tags">
 <?php //echo $compteForm['tags']->renderLabel(); ?>
 <?php //echo $compteForm['tags']->render(); ?>
 <?php //echo $compteForm['tags']->renderError(); ?>
-	</div>-->
+	</div>
+-->
