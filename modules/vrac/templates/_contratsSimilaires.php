@@ -2,7 +2,6 @@
 use_helper('Vrac');
 if(is_null($vrac->type_transaction)) $vrac->type_transaction = VracClient::TYPE_TRANSACTION_VIN_VRAC;
 $vracs = VracClient::getInstance()->retrieveSimilaryContracts($vrac);
-VracClient::getInstance()->filterSimilaryContracts($vrac,$vracs);
 $flagStatut = false;
 ?>
 <div id="contrats_similaires" class="bloc_col">
@@ -12,17 +11,13 @@ $flagStatut = false;
                         <li class="legende_contrat"><span class="statut statut_solde"></span> Soldé <span class="f_right"><span class="statut statut_non-solde"></span> Non soldé</span></li>
                         <li class="separateur"></li>
                         <?php 
-                        if($vracs->rows)            
-                        foreach ($vracs->rows as $value) 
+                        if($vracs)            
+                        foreach ($vracs as $row) 
                         {                           
-                            $elt =$value->value;
+                            $elt = $row->value;
                             $statusColor = statusColor($elt[VracClient::VRAC_SIMILAIRE_VALUE_STATUT]);
                             //$statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
-                            if(($elt[VracClient::VRAC_SIMILAIRE_VALUE_NUMCONTRAT]!=$vrac['_id'])
-                                    && $elt[VracClient::VRAC_SIMILAIRE_VALUE_STATUT]!=null)
-
-                            {
-                                $flagStatut = true;
+			    $flagStatut = true;
                         ?>
                         <li>
                             <span class="statut <?php echo $statusColor; ?>"></span>                         
@@ -31,10 +26,12 @@ $flagStatut = false;
                                 $num_contrat = preg_replace('/VRAC-/', '',$elt[VracClient::VRAC_SIMILAIRE_VALUE_NUMCONTRAT]);
                                 $volprop = $elt[VracClient::VRAC_SIMILAIRE_VALUE_VOLPROP];
                                 $millesime = (is_null($elt[VracClient::VRAC_SIMILAIRE_VALUE_MILLESIME]))? null : $elt[VracClient::VRAC_SIMILAIRE_VALUE_MILLESIME];
+				$archive = $elt[VracClient::VRAC_SIMILAIRE_VALUE_NUMARCHIVE];
+				$datecontrat = preg_replace('/^\d{2}(\d{2})(\d{2})(\d{2}).*/', '$3/$2', $num_contrat);
                                                                 ?>                            
                             <a class="contrat_similaire_num_contrat" target="_blank" href="<?php echo url_for('vrac_visualisation',array('numero_contrat' => $num_contrat)); ?>">
-                                <span id="volprop"> <?php echo $volprop; ?></span>&nbsp;-&nbsp;
-                                <span id="num_contrat"><?php echo $num_contrat ; ?></span>
+                                <span id="volprop"> <?php echo $volprop; ?>&nbsp;hl</span> -
+							    <span id="num_contrat">n°<?php echo $archive ; ?>&nbsp;(<?php echo $datecontrat; ?>)</span>
                                 <?php if($millesime) : ?>
                                     <span id="millesime"><?php echo $millesime ; ?></span>
                                 <?php endif; ?>
@@ -43,12 +40,11 @@ $flagStatut = false;
                         </li>
                         <li class="separateur"></li>
                         <?php
-                            }
                         }
                         ?>
                 </ul>
             <?php
-                if($vracs===FALSE || !$flagStatut || count($vracs->rows)==0)
+                if(!$vracs || !$flagStatut || count($vracs)==0)
                 {
                 ?>
                 <span>Il n'existe aucun contrat similaire</span>
