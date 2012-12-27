@@ -147,6 +147,7 @@
 				if (data.success) {
                     colonne = colonnes.add(data.content);
                     selectProduit.find('optgroup[class=existant]').append('<option value="'+data.produit.hash+'">'+data.produit.libelle+'</option>')
+                    selectProduit.find('optgroup[label=nouveau]').find('option[value="'+data.produit.old_hash+'"]').remove();
                     selected.removeAttr('selected');
 					inputAutoComplete.val('');
 				}
