@@ -142,7 +142,7 @@ EOF;
         $date = $this->getDateCampagne($line);
         $v->date_signature = $date->format('Y-m-d');
         $v->date_campagne = $date->format('Y-m-d');
-        $v->valide->date_saisie = $date->format('Y-m-d');
+        $v->valide->date_saisie = $this->convertToDateObject($line[self::CSV_DATE_ENREGISTREMENT])->format('Y-m-d');
 
         $v->vendeur_identifiant = $this->getIdentifiantVendeur($line);
         $v->acheteur_identifiant = $this->getIdentifiantAcheteur($line);
@@ -196,6 +196,10 @@ EOF;
         $v->type_contrat = $this->convertTypeContrat($line[self::CSV_TYPE_CONTRAT]);
 
         $v->prix_variable = 0;
+
+        $v->attente_original = $this->convertOuiNon($line[self::CSV_ATTENTE_ORIGINAL]);
+
+        $v->categorie_vin = $line[self::CSV_CATEGORIE_VIN] == "D" ? VracClient::CATEGORIE_VIN_DOMAINE : VracClient::CATEGORIE_VIN_GENERIQUE;
 
         $v->cvo_nature = $this->convertCvoNature($line[self::CSV_TYPE_CONTRAT]);
 

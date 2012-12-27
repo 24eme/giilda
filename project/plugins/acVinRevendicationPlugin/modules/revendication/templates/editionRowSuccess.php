@@ -12,6 +12,7 @@ use_helper('Float');
 echo url_for('revendication_edition_row', array('odg' => $odg,
     'campagne' => $campagne,
     'identifiant' => $identifiant,
+    'produit' => $produit,
     'row' => $row,
     'retour' => $retour));
 ?>" method="post">
@@ -45,6 +46,7 @@ echo url_for('revendication_edition_row', array('odg' => $odg,
                       echo url_for('revendication_delete_row', array('odg' => $odg,
                           'campagne' => $campagne,
                           'identifiant' => $identifiant,
+                          'produit' => $produit,
                           'row' => $row));
                       ?>" class="btn_majeur btn_annuler">Supprimer</a>
                     <?php if ($etablissement && $retour == 'etablissement'): ?>

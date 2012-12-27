@@ -399,46 +399,47 @@
 * Champ tags
 ******************************************/
 
-.tags
+#contacts
 {
-	.clearfix;
-	float: left;
-	height: 50px;
-	position: relative;
-
-	input
+	.tags
 	{
-		background: @couleur-a1;
-		padding: 5px;
-		width: auto;
-	}
-	
-	.tagit-choice
-	{
-		.inline-block-ie;
-		margin: 0 0 0 25px;
-		padding: 0 0 0 26px;
+		.clearfix;
+		float: left;
 		position: relative;
-		text-decoration: underline;
-		top: 40px;
+		width: 425px;
 
-		&:first-child { margin-left: 0; }
+		input
+		{
+			background: @couleur-a1;
+			padding: 5px;
+			width: auto;
+		}
+
+		.tagit-choice
+		{
+			.inline-block-ie;
+			margin: 0 25px 10px 0;
+			padding: 0 0 0 26px;
+			position: relative;
+			text-decoration: underline;
+			top: 40px;
+		}
+
+		.tagit-close
+		{
+			.pos-abs(-2px, auto, auto, 0);
+			background: url('../images/pictos/pi_suppression.png') 0 center no-repeat;
+			cursor: pointer;
+			display: inline-block;
+			height: 21px;
+			text-indent: -9999px;
+			width: 20px;
+		}
+
+		.tagit-new 
+		{ .pos-abs(0, auto, auto, 0); }
+
 	}
-
-	.tagit-close
-	{
-		.pos-abs(-2px, auto, auto, 0);
-		background: url('../images/pictos/pi_suppression.png') 0 center no-repeat;
-		cursor: pointer;
-		display: inline-block;
-		height: 21px;
-		text-indent: -9999px;
-		width: 20px;
-	}
-
-	.tagit-new 
-	{ .pos-abs(0, auto, auto, 0); }
-
 }
 
 /**

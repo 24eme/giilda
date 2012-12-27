@@ -735,7 +735,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 }
 .table_recap tr th {
   background-color:#ecebeb;
-  font-size:14px;
+  font-size:13px;
   padding:5px 0;
   vertical-align:middle;
 }
@@ -1175,31 +1175,6 @@ ul.radio_list li label { font-weight:normal !important; }
 }
 .ui-autocomplete a.ui-state-hover, .ui-autocomplete a.ui-state-active { background:#e9e9e9; }
 .ui-autocomplete-loading { background:#ffffff url('../images/pictos/pi_loader.gif') right center no-repeat !important; }
-.type_raisins, .type_mouts, .type_vin_vrac, .type_vin_bouteille {
-  height:1px;
-  overflow:hidden;
-  text-indent:100%;
-  white-space:nowrap;
-  width:22px;
-  background:url(../images/pictos/sprite_type.png) no-repeat;
-  display:inline-block;
-}
-.type_raisins {
-  height:26px;
-  background-position:0 -59px;
-}
-.type_mouts {
-  height:27px;
-  background-position:0 -32px;
-}
-.type_vin_vrac {
-  height:26px;
-  background-position:0 -84px;
-}
-.type_vin_bouteille {
-  height:28px;
-  background-position:0 0;
-}
 #fil_ariane {
   font-style:italic;
   line-height:1;
@@ -1660,6 +1635,31 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 #rail_etapes li.passe > *:after { background-position:0 -94px; }
 #rail_etapes li strong { font-weight:normal; }
 .facturable { font-weight:bold; }
+.type_raisins, .type_mouts, .type_vin_vrac, .type_vin_bouteille {
+  height:1px;
+  overflow:hidden;
+  text-indent:100%;
+  white-space:nowrap;
+  width:22px;
+  background:url(../images/pictos/sprite_type.png) no-repeat;
+  display:inline-block;
+}
+.type_raisins {
+  height:26px;
+  background-position:0 -59px;
+}
+.type_mouts {
+  height:27px;
+  background-position:0 -32px;
+}
+.type_vin_vrac {
+  height:26px;
+  background-position:0 -84px;
+}
+.type_vin_bouteille {
+  height:28px;
+  background-position:0 0;
+}
 #contrat_progression p {
   font-weight:bold;
   margin:0 0 5px;
@@ -1863,33 +1863,32 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   float:right;
   margin-top:50px;
 }
-#contenu_etape #tableau_contrat th {
+#contenu_etape #table_contrats th {
   border:1px solid #e5e4e4;
   background:#ecebeb;
   vertical-align:middle;
 }
-#contenu_etape #tableau_contrat td {
+#contenu_etape #table_contrats td {
   border:1px solid #e5e4e4;
   vertical-align:top;
   padding:10px;
 }
-#contenu_etape #tableau_contrat td.type { vertical-align:middle; }
-#contenu_etape #tableau_contrat .num_contrat { text-align:center; }
-#contenu_etape #tableau_contrat .num_contrat a {
+#contenu_etape #table_contrats td.type { vertical-align:middle; }
+#contenu_etape #table_contrats .num_contrat { text-align:center; }
+#contenu_etape #table_contrats .num_contrat a {
   color:#2160cf;
   font-style:italic;
   text-decoration:underline;
 }
-#contenu_etape #tableau_contrat .statut_non-solde td { background-color:#fff8e8; }
-#contenu_etape #tableau_contrat .statut_solde td { background-color:#f0fae1; }
-#contenu_etape #tableau_contrat .statut_annule td { background-color:#feecec; }
+#contenu_etape #table_contrats .statut_non-solde td { background-color:#fff8e8; }
+#contenu_etape #table_contrats .statut_solde td { background-color:#f0fae1; }
+#contenu_etape #table_contrats .statut_annule td { background-color:#feecec; }
 #contenu_etape #vrac_soussigne .ligne_form { height:38px; }
 #contenu_etape #vrac_soussigne .section_label_maj {
   background:#ecebeb;
   margin:0 0 25px;
   padding:10px 10px 30px;
 }
-#contenu_etape #vrac_soussigne #vendeur_infos { height:160px; }
 #contenu_etape #vrac_soussigne #has_mandataire { font-weight:bold; }
 #contenu_etape #vrac_soussigne #mandataire {
   zoom:1;
@@ -2476,7 +2475,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #vrac_soussigne .col, #vrac_marche .col, #vrac_condition .col, #vrac_validation .col, #vrac_recapitulatif .col {
   display:inline-block;
   vertical-align:top;
-  width:425px;
 }
 .ielt8 #vrac_soussigne .col, .ielt8 #vrac_marche .col, .ielt8 #vrac_condition .col, .ielt8 #vrac_validation .col, .ielt8 #vrac_recapitulatif .col { display:inline-block; }
 .ielt8 .ielt8 #vrac_soussigne .col, .ielt8 .ielt8 #vrac_marche .col, .ielt8 .ielt8 #vrac_condition .col, .ielt8 .ielt8 #vrac_validation .col, .ielt8 .ielt8 #vrac_recapitulatif .col {
@@ -2921,40 +2919,39 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 80px; }
 #detail_etablissement .form_colonne:first-child + .form_colonne label { width:115px; }
 #detail_etablissement label { width:190px; }
-.tags {
+#contacts .tags {
   zoom:1;
   min-height:1px;
   float:left;
-  height:50px;
   position:relative;
+  width:425px;
 }
-.tags:before, .tags:after {
+#contacts .tags:before, #contacts .tags:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-.tags:after { clear:both; }
-.tags input {
+#contacts .tags:after { clear:both; }
+#contacts .tags input {
   background:#ffffff;
   padding:5px;
   width:auto;
 }
-.tags .tagit-choice {
+#contacts .tags .tagit-choice {
   display:inline-block;
-  margin:0 0 0 25px;
+  margin:0 25px 10px 0;
   padding:0 0 0 26px;
   position:relative;
   text-decoration:underline;
   top:40px;
 }
-.ielt8 .tags .tagit-choice {
+.ielt8 #contacts .tags .tagit-choice {
   display:inline;
   zoom:1;
 }
-.tags .tagit-choice:first-child { margin-left:0; }
-.tags .tagit-close {
+#contacts .tags .tagit-close {
   bottom:auto;
   left:0;
   position:absolute;
@@ -2967,7 +2964,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   text-indent:-9999px;
   width:20px;
 }
-.tags .tagit-new {
+#contacts .tags .tagit-new {
   bottom:auto;
   left:0;
   position:absolute;
@@ -4015,7 +4012,7 @@ bouton#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .
 }
 #principal.drm fieldset#historique_drm .section_label_maj table tr th {
   background-color:#ecebeb;
-  font-size:14px;
+  font-size:13px;
   padding:5px 0;
   vertical-align:middle;
 }
@@ -4332,6 +4329,8 @@ bouton#principal.drm fieldset .btn_container_exporter a { height:26px; }
   font-weight:bold;
   margin:0 0 5px;
 }
+.ds #operateur_infos .grand { height:54px; }
+.ds #operateur_infos .ligne_form label { width:135px; }
 .revendication #revendication_import_fichier { overflow:hidden; }
 .revendication #revendication_import_fichier h2 {
   margin:0;

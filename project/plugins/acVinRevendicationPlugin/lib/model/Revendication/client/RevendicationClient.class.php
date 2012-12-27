@@ -38,7 +38,7 @@ class RevendicationClient extends acCouchdbClient {
     }
 
     public function getHistory() {
-        return RevendicationHistoryView::getInstance()->getHistory();
+        return array_reverse(RevendicationHistoryView::getInstance()->getHistory());
     }
 
     public function getRevendicationLibelle($id) {
@@ -55,23 +55,22 @@ class RevendicationClient extends acCouchdbClient {
         return EtablissementClient::getRegionsWithoutHorsInterLoire();
     }
 
-    public function deleteRow($revendication, $identifiant, $row) {
+    public function deleteRow($revendication, $identifiant, $produit, $row) {
         if (!isset($revendication->datas->$identifiant))
             throw new sfException("Le noeud d'identifiant $identifiant n'existe pas dans la revendication");
-        $produitNode = $this->getProduitNode($revendication, $identifiant, $row);
+        $produitNode = $this->getProduitNode($revendication, $identifiant, $produit);
         if (!$produitNode)
-            throw new sfException("Le noeud produit d'identifiant $identifiant et de ligne $row n'existe pas dans la revendication");
-        $produitNode->statut = RevendicationProduits::STATUT_SUPPRIME;
+            throw new sfException("Le noeud produit d'identifiant $identifiant et de produit $produit n'existe pas dans la revendication");
+        if (!$produitNode->volumes->$row)
+            throw new sfException("La ligne $row n'existe pas pour le produit $produit et l'etablissement $identifiant");
+        $produitNode->volumes->$row->statut = RevendicationProduits::STATUT_SUPPRIME;
         $this->storeDoc($revendication);
     }
 
-    public function getProduitNode($revendication, $identifiant, $row) {
-        foreach ($revendication->datas->$identifiant->produits as $key => $produit) {
-            if (isset($produit->volumes->$row)) {
-                return $produit;
-            }
-        }
-        return null;
+    public function getProduitNode($revendication, $identifiant, $produit) {
+        if(!isset($revendication->datas->$identifiant->produits->$produit))
+            return null;
+        return $revendication->datas->$identifiant->produits->$produit;
     }
 
     

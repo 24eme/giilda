@@ -46,7 +46,6 @@ Revendication:
                               libelle_produit_csv: {}
                               produit_hash: {}
                               produit_libelle: {}
-                              statut: {}
                               volumes: 
                                 type: collection
                                 definition:
@@ -55,6 +54,7 @@ Revendication:
                                       type: collection
                                       definition:
                                         fields:
+                                          statut: {}
                                           num_ligne: { }
                                           volume: { type: float }
                                           bailleur_identifiant: {  }

@@ -3,7 +3,9 @@
  ******************************************/
 $(document).ready(function()
 {
-    $('.hamza_style .autocompletion_tags').rechercheTableParTags();
+	if($('.hamza_style .autocompletion_tags').exists()) {
+		$('.hamza_style .autocompletion_tags').rechercheTableParTags();
+	}
 });
 
 /**

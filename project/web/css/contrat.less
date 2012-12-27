@@ -5,9 +5,38 @@
  * Version : 1.0.0
  ******************************************/
 
-/**
- * Colonne
- ******************************************/
+.type_raisins,
+.type_mouts,
+.type_vin_vrac,
+.type_vin_bouteille
+{
+    .ir(22px);
+    background: url(../images/pictos/sprite_type.png) no-repeat;
+    display:inline-block;
+}
+
+.type_raisins
+{
+    height: 26px;
+    background-position: 0 -59px;
+}
+.type_mouts
+{
+    height: 27px;
+    background-position: 0 -32px;
+}
+.type_vin_vrac
+{
+    height: 26px;
+    background-position: 0 -84px;
+}
+.type_vin_bouteille
+{
+    height: 28px;
+    background-position: 0 0;
+}
+
+
 
 /* Progression de la saisie */
 #contrat_progression
@@ -267,7 +296,7 @@
         margin-top: 50px;
     }
 
-    #tableau_contrat
+    #table_contrats
     {
         th
         {
@@ -318,9 +347,6 @@
                 {
                 }
         }
-
-        #vendeur_infos { height : @grid-unite; }
-
 
         #has_mandataire
         {
@@ -914,7 +940,6 @@
     {
         display: inline-block;
         vertical-align: top;
-        width: 425px;
         
         .ielt8 & { .inline-block-ie; }
     }
