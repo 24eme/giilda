@@ -26,7 +26,7 @@ use_helper('Prix');
                 $numeroFormatted = (strstr($mouvement->numero, 'DRM')!== false)? DRMClient::getInstance()->getLibelleFromId($mouvement->numero) :
                 SV12Client::getInstance()->getLibelleFromId($mouvement->numero);
                 
-                echo $numeroFormatted; ?></td>
+                echo link_to($numeroFormatted, 'facture_redirect_to_doc', array('iddocument' => $mouvement->numero));?></td>
                 <td><?php echo $mouvement->produit_libelle ?> </td>
                 <td><?php echo $mouvement->type_libelle.' '.$mouvement->detail_libelle ?></td>
                 <td <?php echo ($mouvement->volume>0)? ' class="positif"' : 'class="negatif"';?> >
