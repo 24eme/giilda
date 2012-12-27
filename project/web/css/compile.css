@@ -1888,7 +1888,6 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   margin:0 0 25px;
   padding:10px 10px 30px;
 }
-#contenu_etape #vrac_soussigne #vendeur_infos { height:160px; }
 #contenu_etape #vrac_soussigne #has_mandataire { font-weight:bold; }
 #contenu_etape #vrac_soussigne #mandataire {
   zoom:1;
