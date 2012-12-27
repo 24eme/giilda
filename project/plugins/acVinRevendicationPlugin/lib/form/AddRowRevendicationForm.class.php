@@ -50,7 +50,7 @@ class AddRowRevendicationForm extends EditionRevendicationForm {
         if (isset($etbNode->produits->$newProduitDouane) && ($etbNode->produits->$newProduitDouane->statut != RevendicationProduits::STATUT_SUPPRIME))
             throw new sfException("Le produit $libelle a déjà été ajouté pour le viticuleur $etb->nom");
         $etbProd = $etbNode->produits->$newProduitDouane = new stdClass();
-        $etbProd->date_certification = date('Ymd');
+        $etbProd->date_certification = null;
         $etbProd->libelle_produit_csv = $libelle;
         $etbProd->produit_hash = $hash;
         $etbProd->produit_libelle = $libelle;

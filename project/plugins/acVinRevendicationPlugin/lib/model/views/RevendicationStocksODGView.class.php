@@ -2,18 +2,23 @@
 class RevendicationStocksODGView extends acCouchdbView
 {
     const KEY_CAMPAGNE = 0;
-    const KEY_ODG = 1;
+    const KEY_ODG = 1; 
     const KEY_SOCIETE_IDENTIFIANT = 2;
     const KEY_ETABLISSEMENT_IDENTIFIANT = 3;
     const KEY_PRODUIT_HASH = 4;
     const KEY_LIGNE_STATUT = 5;
     const KEY_LIGNE_IDENTIFIANT = 6;
+    const KEY_LIGNE_CODE_DOUANE = 7;
 
     const VALUE_VOLUME = 0;
     const VALUE_DATE_INSERTION = 1;
     const VALUE_PRODUIT_LIBELLE = 2;
     const VALUE_DECLARANT_CVI = 3;
     const VALUE_DECLARANT_NOM = 4;
+    const VALUE_DECLARANT_COMMUNE = 5;
+    const VALUE_DATE_TRAITEMENT = 6;
+    
+            
 
 
     public static function getInstance() {
@@ -73,7 +78,11 @@ class RevendicationStocksODGView extends acCouchdbView
         $rev->ligne_identifiant = $row->key[self::KEY_LIGNE_IDENTIFIANT];
         $rev->date_insertion = $row->value[self::VALUE_DATE_INSERTION];
         $rev->volume = $row->value[self::VALUE_VOLUME];
-
+        $rev->num_certif = $row->key[self::KEY_LIGNE_IDENTIFIANT];
+        $date_traitement = $row->value[self::VALUE_DATE_TRAITEMENT];        
+        if($date_traitement)
+            $rev->date_traitement = substr($date_traitement, 0,4).'-'.substr($date_traitement, 4,2).'-'.substr($date_traitement, 6);
+        $rev->code_douane = $row->key[self::KEY_LIGNE_CODE_DOUANE];
         return $rev;
     }
 }  
