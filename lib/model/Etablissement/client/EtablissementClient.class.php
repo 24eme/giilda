@@ -21,6 +21,10 @@ class EtablissementClient extends acCouchdbClient {
     const STATUT_ACTIF = 'ACTIF'; #'actif';
     const STATUT_SUSPENDU = 'ARCHIVE'; #'suspendu';
 
+    const RELANCE_DS_OUI = 'OUI';
+    const RELANCE_DS_NON = 'NON';
+
+
     public static $statuts = array(self::STATUT_ACTIF => 'Actif',
                                    self::STATUT_SUSPENDU => 'Inactif'); 
 
