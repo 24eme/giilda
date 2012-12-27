@@ -47,14 +47,13 @@ class AddRowRevendicationForm extends EditionRevendicationForm {
         $hash = $this->values['produit_hash'];
         $libelle = $this->getConfig()->get($hash)->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
         $newProduitDouane = $this->getConfig()->get($hash)->getCodeDouane();
-        if (isset($etbNode->produits->$newProduitDouane) && ($etbNode->produits->$newProduitDouane->statut != RevendicationProduits::STATUT_SUPPRIME))
+        if (isset($etbNode->produits->$newProduitDouane)) 
             throw new sfException("Le produit $libelle a déjà été ajouté pour le viticuleur $etb->nom");
         $etbProd = $etbNode->produits->$newProduitDouane = new stdClass();
         $etbProd->date_certification = null;
         $etbProd->libelle_produit_csv = $libelle;
         $etbProd->produit_hash = $hash;
         $etbProd->produit_libelle = $libelle;
-        $etbProd->statut = "saisie";
         if (!isset($etbProd->volumes)) {
             $etbProd->volumes = new stdClass();
         }
@@ -67,6 +66,7 @@ class AddRowRevendicationForm extends EditionRevendicationForm {
         $etbProd->volumes->$ligne->bailleur_identifiant = null;
         $etbProd->volumes->$ligne->bailleur_nom = null;
         $etbProd->volumes->$ligne->date_insertion = date('Y-m-d');
+        $etbProd->volumes->$ligne->statut = RevendicationProduits::STATUT_SAISIE;
         $etbProd->volumes->$ligne->ligne = "";
         return $this->revendication;
     }

@@ -19,9 +19,7 @@ class EditionRevendicationForm extends sfForm {
             $this->initFields($identifiant, $produit, $row);
             $this->setDefaults($defaults);
         }
-        
     }
-
 
     public function configure() {
         parent::configure();
@@ -39,15 +37,15 @@ class EditionRevendicationForm extends sfForm {
             throw new sfException("Le noeud d'identifiant $identifiant n'existe pas dans la revendication");
         $etbNode = $revendication->datas->$identifiant;
         //$produitNode = RevendicationClient::getInstance()->getProduitNode($revendication, $identifiant, $row);
-        
+
         if (!isset($etbNode->produits->$produit))
             throw new sfException("Le noeud produit ($produit) d'identifiant $identifiant n'existe pas dans la revendication");
-        
+
         $prodNode = $etbNode->produits->$produit;
-        
+
         if (!isset($prodNode->volumes->$row))
             throw new sfException("La ligne $row n'existe pas dans la revendication");
-        
+
         $result->produit = $prodNode;
         $result->volume = $prodNode->volumes->$row;
         return $result;
@@ -68,12 +66,12 @@ class EditionRevendicationForm extends sfForm {
     public function doUpdate() {
         $newProduitDouane = $this->getConfig()->get($this->values['produit_hash'])->getCodeDouane();
         $oldNode = RevendicationClient::getInstance()->getProduitNode($this->revendication, $this->identifiant, $this->produit);
-        
+        $row = $this->row;
         if ($this->code_douane != $newProduitDouane) {
-            $oldNode->statut = RevendicationProduits::STATUT_SUPPRIME;
-            $this->createAndGetProduitNewNode($newProduitDouane, $this->values['produit_hash'], $this->row, $oldNode);
+            $this->createAndGetProduitNewNode($newProduitDouane, $this->values['produit_hash'], $row, $oldNode);
+            $oldNode->volumes->$row->statut = RevendicationProduits::STATUT_SUPPRIME;
         }
-        $this->updateVolume($newProduitDouane, $this->row, $this->values['volume']);
+        $this->updateVolume($newProduitDouane, $row, $this->values['volume']);
         return $this->revendication;
     }
 
@@ -88,16 +86,23 @@ class EditionRevendicationForm extends sfForm {
         $produits = $this->revendication->datas->$identifiant->produits;
         if (!isset($produits->$codeDouane)) {
             $produits->$codeDouane = new stdClass();
-            $libelle = $this->getConfig()->get($this->values['produit_hash'])->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
-            $produits->$codeDouane->libelle_produit_csv = $libelle;
-            $produits->$codeDouane->produit_hash = $hash;
-            $produits->$codeDouane->produit_libelle = $libelle;
-            $produits->$codeDouane->date_certification = $oldNode->date_certification;
         }
-        $produits->$codeDouane->statut = RevendicationProduits::STATUT_MODIFIE;
+        $libelle = $this->getConfig()->get($this->values['produit_hash'])->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
+        $produits->$codeDouane->libelle_produit_csv = $libelle;
+        $produits->$codeDouane->produit_hash = $hash;
+        $produits->$codeDouane->produit_libelle = $libelle;
+        $produits->$codeDouane->date_certification = $oldNode->date_certification;
         if (!isset($produits->$codeDouane->volumes))
             $produits->$codeDouane->volumes = new stdClass();
-        $produits->$codeDouane->volumes->$row = $oldNode->volumes->$row;
+        $produits->$codeDouane->volumes->$row = new stdClass();
+        $new_ligne = $produits->$codeDouane->volumes->$row;
+        $new_ligne->num_ligne = $oldNode->volumes->$row->num_ligne;
+        $new_ligne->volume = $oldNode->volumes->$row->volume;
+        $new_ligne->bailleur_identifiant = $oldNode->volumes->$row->bailleur_identifiant;
+        $new_ligne->bailleur_nom = $oldNode->volumes->$row->bailleur_nom;        
+        $new_ligne->date_insertion = $oldNode->volumes->$row->date_insertion;
+        $new_ligne->ligne = $oldNode->volumes->$row->ligne;
+        $new_ligne->statut = RevendicationProduits::STATUT_MODIFIE;
         return $produits->$codeDouane;
     }
 
@@ -109,6 +114,7 @@ class EditionRevendicationForm extends sfForm {
         if (!isset($produits->$codeDouane))
             throw new sfException("Le noeud produit d'identifiant $identifiant et de code douane $codeDouane n'existe pas dans la revendication");
         $produits->$codeDouane->volumes->$row->volume = $volume;
+        $produits->$codeDouane->volumes->$row->statut = RevendicationProduits::STATUT_MODIFIE;
     }
 
     public function initFields($identifiant, $produit, $row) {
@@ -116,17 +122,17 @@ class EditionRevendicationForm extends sfForm {
         $this->produit = $produit;
         $this->row = $row;
         $volumeProduitObj = $this->getVolumeProduitObj($this->revendication, $this->identifiant, $this->produit, $this->row);
-        
+
         $this->produit_hash = $volumeProduitObj->produit->produit_hash;
         $this->code_douane = $produit;
         $this->volume = sprintf("%01.02f", round($volumeProduitObj->volume->volume, 2));
         $this->num_ligne = $volumeProduitObj->volume->num_ligne;
     }
-    
+
     public function setDefaults($defaults) {
         parent::setDefaults($defaults);
         $this->defaults['produit_hash'] = $this->produit_hash;
         $this->defaults['volume'] = $this->volume;
-        }
-    
+    }
+
 }
