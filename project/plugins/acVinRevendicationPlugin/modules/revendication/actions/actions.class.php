@@ -179,5 +179,12 @@ class revendicationActions extends sfActions {
         }
     }
     
+    public function executeDelete(sfWebRequest $request) {
+        $this->revendication = $this->getRoute()->getRevendication();
+        RevendicationClient::getInstance()->deleteRevendication($this->revendication);
+        return $this->redirect('revendication');
+    }
+        
+    
 
 }

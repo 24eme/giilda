@@ -16,7 +16,7 @@ class RevendicationRouting {
                     'action' => 'index')));
 
         $r->prependRoute('revendication_upload', new RevendicationRoute('/revendication-import/odg/:odg/:campagne/upload', array('module' => 'revendication',
-                    'action' => 'upload'),array('sf_method' => array('get', 'post')),
+                    'action' => 'upload'), array('sf_method' => array('get', 'post')),
                         array('model' => 'Revendication',
                             'type' => 'object')));
 
@@ -43,8 +43,8 @@ class RevendicationRouting {
         $r->prependRoute('revendication_choose_etablissement', new sfRoute('/revendication/choix-etablissement', array('module' => 'revendication',
                     'action' => 'chooseEtablissement')));
 
-        /*$r->prependRoute('revendication_uploadCSV', new sfRoute('/revendication/odg/:odg/:campagne/upload', array('module' => 'revendication',
-                    'action' => 'uploadCSV')));*/
+        /* $r->prependRoute('revendication_uploadCSV', new sfRoute('/revendication/odg/:odg/:campagne/upload', array('module' => 'revendication',
+          'action' => 'uploadCSV'))); */
 
 //	$r->prependRoute('revendication_viewupload', new sfRoute('/revendication/:md5', array('module' => 'revendication',
 //                                                                  'action' => 'viewupload')));
@@ -84,11 +84,15 @@ class RevendicationRouting {
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Revendication',
                             'type' => 'object')));
-        
-                $r->prependRoute('revendication_add_row', new sfRoute('/revendication/odg/:odg/:campagne/ajout-lignes', array('module' => 'revendication',
+
+        $r->prependRoute('revendication_add_row', new sfRoute('/revendication/odg/:odg/:campagne/ajout-lignes', array('module' => 'revendication',
                     'action' => 'addRows')));
-        
-        
+
+        $r->prependRoute('revendication_delete', new RevendicationRoute('/revendication/odg/:odg/:campagne/supprimer', array('module' => 'revendication',
+                    'action' => 'delete'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Revendication',
+                            'type' => 'object')));
     }
 
 }
