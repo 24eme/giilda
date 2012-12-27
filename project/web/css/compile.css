@@ -2806,6 +2806,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 }
 #contacts .form_section .label_court { width:112px; }
 #contacts .form_section legend {
+  text-transform:uppercase;
   font-size:16px;
   font-weight:normal;
 }
@@ -2919,6 +2920,59 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 80px; }
 #detail_etablissement .form_colonne:first-child + .form_colonne label { width:115px; }
 #detail_etablissement label { width:190px; }
+.tags {
+  zoom:1;
+  min-height:1px;
+  float:left;
+  height:50px;
+  position:relative;
+}
+.tags:before, .tags:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.tags:after { clear:both; }
+.tags input {
+  background:#ffffff;
+  padding:5px;
+  width:auto;
+}
+.tags .tagit-choice {
+  display:inline-block;
+  margin:0 0 0 25px;
+  padding:0 0 0 26px;
+  position:relative;
+  text-decoration:underline;
+  top:40px;
+}
+.ielt8 .tags .tagit-choice {
+  display:inline;
+  zoom:1;
+}
+.tags .tagit-choice:first-child { margin-left:0; }
+.tags .tagit-close {
+  bottom:auto;
+  left:0;
+  position:absolute;
+  right:auto;
+  top:-2px;
+  background:url('../images/pictos/pi_suppression.png') 0 center no-repeat;
+  cursor:pointer;
+  display:inline-block;
+  height:21px;
+  text-indent:-9999px;
+  width:20px;
+}
+.tags .tagit-new {
+  bottom:auto;
+  left:0;
+  position:absolute;
+  right:auto;
+  top:0;
+}
 #colonne #infos_contact h2 { background:#76a8d7; }
 #colonne #infos_contact h2:before { border-color:transparent transparent #376ea2 transparent; }
 #contacts_actions li { text-align:center; }
