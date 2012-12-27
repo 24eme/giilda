@@ -2475,7 +2475,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #vrac_soussigne .col, #vrac_marche .col, #vrac_condition .col, #vrac_validation .col, #vrac_recapitulatif .col {
   display:inline-block;
   vertical-align:top;
-  width:425px;
 }
 .ielt8 #vrac_soussigne .col, .ielt8 #vrac_marche .col, .ielt8 #vrac_condition .col, .ielt8 #vrac_validation .col, .ielt8 #vrac_recapitulatif .col { display:inline-block; }
 .ielt8 .ielt8 #vrac_soussigne .col, .ielt8 .ielt8 #vrac_marche .col, .ielt8 .ielt8 #vrac_condition .col, .ielt8 .ielt8 #vrac_validation .col, .ielt8 .ielt8 #vrac_recapitulatif .col {
