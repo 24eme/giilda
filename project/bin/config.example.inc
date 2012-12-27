@@ -3,3 +3,6 @@ REDMINE_USER=utilisateur
 REDMINE_PASS=***********
 TMP=/tmp
 WORKINGDIR=/home/vinsi
+COUCHHOST=localhost
+COUCHPORT=5984
+COUCHBASE=vinsdeloire

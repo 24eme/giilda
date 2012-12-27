@@ -107,7 +107,7 @@ class revendicationActions extends sfActions {
         $this->rev = $this->revendication->datas->{$this->identifiant};
         $this->retour = $request->getParameter('retour');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
-        $this->form = new EditionRevendicationForm($this->revendication, $this->identifiant, $this->rev, $this->row);
+        $this->form = new EditionRevendicationForm($this->revendication, $this->identifiant, $this->row);
         if ($request->isMethod(sfWebRequest::POST)) { 
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
@@ -163,6 +163,28 @@ class revendicationActions extends sfActions {
 //        }
         
     }
+    
+    public function executeAddRows(sfWebRequest $request) {
+        $this->odg = $request->getParameter('odg');
+        $this->campagne = $request->getParameter('campagne');        
+        $this->revendication = RevendicationClient::getInstance()->find(RevendicationClient::getInstance()->getId($this->odg, $this->campagne), acCouchdbClient::HYDRATE_JSON);
+        $this->form = new AddRowRevendicationForm($this->revendication);
+        if ($request->isMethod(sfWebRequest::POST)) { 
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->revendication = $this->form->doUpdate();
+                RevendicationClient::getInstance()->storeDoc($this->revendication);
+                return $this->redirect('revendication_edition', array('odg' => $this->odg, 'campagne' => $this->campagne));
+            }
+        }
+    }
+    
+    public function executeDelete(sfWebRequest $request) {
+        $this->revendication = $this->getRoute()->getRevendication();
+        RevendicationClient::getInstance()->deleteRevendication($this->revendication);
+        return $this->redirect('revendication');
+    }
+        
     
 
 }

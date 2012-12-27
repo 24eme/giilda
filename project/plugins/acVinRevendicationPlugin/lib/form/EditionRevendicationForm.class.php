@@ -11,22 +11,17 @@ class EditionRevendicationForm extends sfForm {
     protected $num_ligne;
     protected $code_douane;
 
-    public function __construct(stdClass $revendication, $identifiant, $rev, $row, $defaults = array(), $options = array(), $CSRFSecret = null) {
+    public function __construct(stdClass $revendication, $identifiant, $row, $defaults = array(), $options = array(), $CSRFSecret = null) {
         parent::__construct($defaults, $options, $CSRFSecret);
         $this->revendication = $revendication;
-        $this->identifiant = $identifiant;
-        $this->row = $row;
-        $volumeProduitObj = $this->getVolumeProduitObj($this->revendication, $this->identifiant, $this->row);
 
-        $this->code_douane = $volumeProduitObj->produit->key;
-        unset($volumeProduitObj->produit->key);
-        $this->produit_hash = $volumeProduitObj->produit->produit_hash;
-        $this->volume = sprintf("%01.02f", round($volumeProduitObj->volume->volume, 2));
-        $this->num_ligne = $volumeProduitObj->volume->num_ligne;
-        //var_dump($this->produit_hash); exit;
-        $this->defaults['produit_hash'] = $this->produit_hash;
-        $this->defaults['volume'] = $this->volume;
+        if (isset($identifiant) && isset($row)) {
+            $this->initFields($identifiant, $row);
+            $this->setDefaults($defaults);
+        }
+        
     }
+
 
     public function configure() {
         parent::configure();
@@ -67,21 +62,17 @@ class EditionRevendicationForm extends sfForm {
     public function doUpdate() {
         $newProduitDouane = $this->getConfig()->get($this->values['produit_hash'])->getCodeDouane();
         $oldNode = RevendicationClient::getInstance()->getProduitNode($this->revendication, $this->identifiant, $this->row);
-        unset($oldNode->key);
         if ($this->code_douane != $newProduitDouane) {
             $oldNode->statut = RevendicationProduits::STATUT_SUPPRIME;
             $this->createAndGetProduitNewNode($this->revendication, $this->identifiant, $newProduitDouane, $this->values['produit_hash'], $this->row, $oldNode);
         }
         $this->updateVolume($this->revendication, $this->identifiant, $newProduitDouane, $this->row, $this->num_ligne, $this->values['volume']);
-        
         return $this->revendication;
     }
 
     public function getDefaults() {
         return $this->defaults;
     }
-
-
 
     public function createAndGetProduitNewNode($revendication, $identifiant, $codeDouane, $hash, $row, $oldNode) {
         if (!isset($revendication->datas->$identifiant))
@@ -108,7 +99,23 @@ class EditionRevendicationForm extends sfForm {
         $produits = $revendication->datas->$identifiant->produits;
         if (!isset($produits->$codeDouane))
             throw new sfException("Le noeud produit d'identifiant $identifiant et de code douane $codeDouane n'existe pas dans la revendication");
-        $produits->$codeDouane->volumes->$row->volume = $volume;        
+        $produits->$codeDouane->volumes->$row->volume = $volume;
     }
 
+    public function initFields($identifiant, $row) {
+        $this->identifiant = $identifiant;
+        $this->row = $row;
+        $volumeProduitObj = $this->getVolumeProduitObj($this->revendication, $this->identifiant, $this->row);
+        $this->produit_hash = $volumeProduitObj->produit->produit_hash;
+        $this->code_douane = $this->getConfig()->get($this->produit_hash)->getCodeDouane();
+        $this->volume = sprintf("%01.02f", round($volumeProduitObj->volume->volume, 2));
+        $this->num_ligne = $volumeProduitObj->volume->num_ligne;
+    }
+    
+    public function setDefaults($defaults) {
+        parent::setDefaults($defaults);
+        $this->defaults['produit_hash'] = $this->produit_hash;
+        $this->defaults['volume'] = $this->volume;
+        }
+    
 }

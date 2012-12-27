@@ -12,14 +12,12 @@ cd $DATADIR
 bash $WORKINGDIR/bin/convert_chais $WORKINGDIR
 cd -
 
-echo "Import Societe"
-
 mkdir -p $DATADIR/tmp 2> /dev/null
 
+#Societe
 convert-utf8 $DATADIR/cipar.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cipar.utf8.csv
-php symfony import:societe $DATADIR/tmp/cipar.utf8.csv
 
-echo "Import Etablissement"
+#Etablissement 
 
 convert-utf8 $DATADIR/cifonct.csv | awk -F ';' '{print $3";"$2}' | sort -t ';' -k 1,1 > $DATADIR/tmp/cifonct_contact.utf8.csv
 convert-utf8 $DATADIR/cicontact.csv | sed 's/; */;/g' | sed 's/ *;/;/g' | sort -t ';' -k 2 > $DATADIR/tmp/cicontact.utf8.csv
@@ -32,13 +30,30 @@ join -t ';' -a 1 -1 2 -2 1 $DATADIR/tmp/cicav.utf8.csv $DATADIR/tmp/dra.csv | se
 
 join -t ';' -a 1 -1 2 -2 2 $DATADIR/tmp/cipar.utf8.csv $DATADIR/tmp/cicav_dra.utf8.csv > $DATADIR/etablissement.csv
 join -t ';' -a 1 -1 1 -2 5 $DATADIR/etablissement.csv $DATADIR/tmp/cartecourtier_cifonct.csv > $DATADIR/etablissementsetcourtiers.csv
-php symfony import:etablissement $DATADIR/etablissementsetcourtiers.csv
 
-echo "Import Contact"
-
+#Contacts
 convert-utf8 $DATADIR/cifonct.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cifonct.utf8.csv
 join -t ';' -1 2 -2 2 $DATADIR/tmp/cifonct.utf8.csv $DATADIR/tmp/cipar.utf8.csv | sort -t ';' -k 3,3 > $DATADIR/tmp/cifonct_cipar.utf8.csv
 convert-utf8 $DATADIR/cicontact.csv | sed 's/; */;/g' | sed 's/ *;/;/g' | sort -t ';' -k 2,2 > $DATADIR/tmp/cicontact.utf8.csv
 join -t ';' -1 2 -2 3 $DATADIR/tmp/cicontact.utf8.csv $DATADIR/tmp/cifonct_cipar.utf8.csv | sort -t ';' -k 2,2 -n  > $DATADIR/tmp/cicontact_cifonct_cipar.csv
 
+
+echo "Import Societe"
+php symfony import:societe $DATADIR/tmp/cipar.utf8.csv
+
+echo "Import Etablissement"
+php symfony import:etablissement $DATADIR/etablissementsetcourtiers.csv
+
+echo "Import Contact"
 php symfony import:compte $DATADIR/tmp/cicontact_cifonct_cipar.csv
+
+echo "Link bailleurs/métayés"
+
+convert-utf8 $DATADIR/ciattinao.csv | awk -F ';' '{print $3";"$19}' | grep '[0-9]$' | sed 's/^ //g' | sort -t ';' -k 1,1 | sed 's/$/01/' > $DATADIR/tmp/bailleursmetayers.csv
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/etablissement/_view/findByCvi | grep '[0-9]"],"value' | sed 's/.*key":\["//' | sed 's/"\],"value":\["/;/' | sed 's/".*//'| sort -t ';' -k 1,1 > $DATADIR/tmp/cvi2idetab.csv
+join -t ';' -1 1 -2 1 $DATADIR/tmp/cvi2idetab.csv $DATADIR/tmp/bailleursmetayers.csv | uniq > $DATADIR/tmp/idbailleursidmetayer.csv
+php symfony import:metayerBailleur $DATADIR/tmp/idbailleursidmetayer.csv
+
+echo "Import des mémos des sociétés"
+convert-utf8 $DATADIR/cimemop.csv > $DATADIR/tmp/cimemop.utf8.csv
+php symfony import:memo $DATADIR/tmp/cimemop.utf8.csv
