@@ -20,8 +20,8 @@ class EtablissementCsvFile extends CsvFile
   const CSVPAR_CODE_PAYS = 15;
   const CSVPAR_DATE_CREATION = 16;
   const CSVPAR_DATE_MODIFICATION = 17;
-  const CSVPAR_RELANCE_STOCK = 18;
-  const CSVPAR_ABONNE_JOURNAL = 19;
+  const CSVPAR_RELANCE_DS = 18;
+  const CSVPAR_EN_VALDELOIRE = 19;
   const CSVPAR_ENSEIGNE = 20;
   const CSVPAR_REGION_VITI = 21;
   const CSV_TYPE_PARTENAIRE_VITICULTEUR = 'V';
@@ -120,6 +120,12 @@ class EtablissementCsvFile extends CsvFile
         $e->sous_famille = $this->getSousFamilleDefaut($famille);
         $e->interpro = 'INTERPRO-inter-loire';
       
+	if ($line[self::CSVPAR_RELANCE_DS] == 'N') {
+	  $e->relance_ds = EtablissementClient::RELANCE_DS_NON;
+	}else{
+	  $e->relance_ds = EtablissementClient::RELANCE_DS_OUI;
+	}
+
 	//le champ en activité contient en réalisé la valeur de suspendu 
 	if ($line[self::CSVPAR_EN_ACTIVITE] == 'O') {
 		$e->statut = Etablissement::STATUT_ARCHIVE;
@@ -128,7 +134,9 @@ class EtablissementCsvFile extends CsvFile
         }
 	$e->id_societe = "SOCIETE-".sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]); 
 
-	if ($line[self::CSVPAR_REGION_VITI] == 'T') {
+	if ($line[self::CSVPAR_EN_VALDELOIRE] == 'N') {
+		$e->region = EtablissementClient::REGION_HORSINTERLOIRE;
+	}else if ($line[self::CSVPAR_REGION_VITI] == 'T') {
 		$e->region = EtablissementClient::REGION_TOURS;
 	}else if ($line[self::CSVPAR_REGION_VITI] == 'N') {
 		$e->region = EtablissementClient::REGION_NANTES;
