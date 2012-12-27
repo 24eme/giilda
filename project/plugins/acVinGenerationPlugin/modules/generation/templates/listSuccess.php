@@ -27,11 +27,12 @@
                             <td><?php echo $history->value[GenerationClient::HISTORY_VALUES_STATUT]; ?></td>                            
                             <td><?php echo $history->value[GenerationClient::HISTORY_VALUES_NBDOC]; ?></td>
                             
-                            <td><?php echo link_to($history->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'generation_view', array('type_document' => GenerationClient::TYPE_DOCUMENT_DS, 'date_emission' => $history->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])); ?></td>
+                            <td><?php echo link_to($history->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'generation_view', array('type_document' => $type, 'date_emission' => $history->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])); ?></td>
 
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table> 
         </section>
+     </section>
         <!-- fin #contenu_etape -->

@@ -298,6 +298,35 @@
 
     #table_contrats
     {
+        th
+        {
+            .border(@couleur-a10);
+            background:@couleur-a5;
+            /*&:first-child{ .border-radius(5px 0 0 0)}*/
+            /*&:last-child{ .border-radius(0 5px 0 0)}*/
+            vertical-align:middle;
+        }
+                
+        td
+        {
+            .border(@couleur-a10);
+            vertical-align: top;
+            padding: 10px;
+
+            &.type { vertical-align: middle; }
+        }
+
+        .num_contrat
+        {
+            text-align: center;
+            a
+            {
+                color:#2160cf;
+                font-style:italic;
+                text-decoration:underline;
+            }
+        }
+
         .statut_non-solde td { background-color : #fff8e8; }
         .statut_solde td { background-color : #f0fae1; }
         .statut_annule td { background-color : #feecec; }

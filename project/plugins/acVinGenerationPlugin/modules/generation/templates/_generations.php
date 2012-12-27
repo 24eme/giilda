@@ -55,7 +55,7 @@ use_helper("Generation");
             <thead>
                 <tr>
                     <th>Titre</th>
-                    <th>Impression</th>
+       <?php //                    <th>Impression</th> ?>
                     <th>Téléchargement</th>
                 </tr>
             </thead>
@@ -66,11 +66,11 @@ use_helper("Generation");
                         <td class="">
                             <?php echo $titre; ?>
                         </td>
-
+<?php /*
                         <td class="">
                             <a href="#" class="btn_vert btn_majeur" >impr.</a>
                         </td>
-
+      */?>
                         <td class="">
                             <a href="<?php echo urldecode($chemin); ?>" class="btn_jaune btn_majeur" >téléch.</a>
                         </td>
@@ -89,4 +89,6 @@ echo (isset($identifiant)) ?
         url_for(strtolower($type));
 ?>" class="btn_etape_prec"><span>Retour</span></a>
 
+
+   <a class="btn_annuler btn_majeur" href="<?php url_for('generation_delete', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>">Supprimer</a>
 </div>
