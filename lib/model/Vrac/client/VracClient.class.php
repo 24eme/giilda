@@ -51,6 +51,10 @@ class VracClient extends acCouchdbClient {
     const STATUS_CONTRAT_ANNULE = 'ANNULE';
     const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
 
+    const CVO_REPARTITION_50_50 = '50';
+    const CVO_REPARTITION_100_VITI = '100';
+    const CVO_REPARTITION_0_VINAIGRERIE = '0';
+
     public static $contenance = array('75 cl' => 0.0075,
                                       '1 L' => 0.01,
                                       '1.5 L'=> 0.015,
@@ -58,11 +62,15 @@ class VracClient extends acCouchdbClient {
                                       'BIB 3 L' => 0.03,
                                       '6 L' => 0.06);
 
-    public static $categories_vin = array(self::CATEGORIE_VIN_GENERIQUE => 'Domaine', self::CATEGORIE_VIN_DOMAINE => 'Générique');
+    public static $categories_vin = array(self::CATEGORIE_VIN_GENERIQUE => 'Générique', self::CATEGORIE_VIN_DOMAINE => 'Domaine');
 
     
     public static $types_transaction_vins = array(self::TYPE_TRANSACTION_VIN_VRAC, self::TYPE_TRANSACTION_VIN_BOUTEILLE);
     public static $types_transaction_non_vins = array(self::TYPE_TRANSACTION_RAISINS, self::TYPE_TRANSACTION_MOUTS);
+
+    public static $cvo_repartition = array(self::CVO_REPARTITION_50_50 => '50/50',
+                                           self::CVO_REPARTITION_100_VITI => '100% viticulteur',
+                                           self::CVO_REPARTITION_0_VINAIGRERIE => 'Vinaigrerie');
 
     /**
      *

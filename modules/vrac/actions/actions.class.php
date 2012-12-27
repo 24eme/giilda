@@ -238,9 +238,9 @@ class vracActions extends sfActions
       
       if ($request->isMethod(sfWebRequest::POST)) 
       {
-            if($this->validation->isValid()){
+            if($this->validation->isValide()){
                 $this->maj_etape(4);
-                $this->maj_valide(null,null,VracClient::STATUS_CONTRAT_NONSOLDE);
+                $this->vrac->validate();
                 $this->vrac->save();
                 $this->getUser()->setFlash('postValidation', true);
                 $this->redirect('vrac_visualisation', $this->vrac);
@@ -382,30 +382,10 @@ class vracActions extends sfActions
   {
       if($this->vrac->etape < $etapeNum) $this->vrac->etape = $etapeNum;
   }
-
-    public function maj_valide($date_saisie = null,$identifiant = null,$statut=null)
-    {
-        if(!$this->vrac) return;
-        if(!$date_saisie) $date_saisie = date('Y-m-d');
-        $this->vrac->valide->date_saisie = $date_saisie;
-        $this->vrac->valide->identifiant = $identifiant;
-        $this->vrac->valide->statut = $statut;
-        if($this->vrac->prix_variable){
-            if($this->vrac->prix_definitif_unitaire){
-                   $this->vrac->prix_total_definitif =  $this->vrac->prix_definitif_hl * $this->vrac->volume_propose;
-            }
-            else
-                {
-                $this->vrac->prix_total_definitif = null;
-            }
-        }else
-            $this->vrac->prix_total_definitif = $this->vrac->prix_total;
-    }
             
-  
-    private function majStatut($statut)
-    {
-        $this->vrac->valide->statut = $statut;
-    }
+  private function majStatut($statut)
+  {
+      $this->vrac->valide->statut = $statut;
+  }
     
 }

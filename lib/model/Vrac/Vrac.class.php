@@ -57,35 +57,42 @@ class Vrac extends BaseVrac {
 
     public function update($params = array()) {
         
-        $this->prix_total = null;
+        $this->prix_initial_total = null;
         switch ($this->type_transaction)
         {
             case VracClient::TYPE_TRANSACTION_RAISINS :
             {
-                $this->prix_total = $this->raisin_quantite * $this->prix_unitaire;
+                $this->prix_initial_total = round($this->raisin_quantite * $this->prix_initial_unitaire, 2);
                 $this->bouteilles_contenance_libelle = null;
                 $this->bouteilles_contenance_volume = null;
-                $this->volume_propose = ( $this->raisin_quantite / $this->getDensite() ) / 100.0;
+                $this->volume_propose = round(($this->raisin_quantite / $this->getDensite()) / 100.0, 2);
                 break;
             }
             case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
             {
-                $this->prix_total = $this->bouteilles_quantite * $this->prix_unitaire;
-                $this->volume_propose = $this->bouteilles_quantite * $this->bouteilles_contenance_volume;
+                $this->prix_initial_total = round($this->bouteilles_quantite * $this->prix_initial_unitaire, 2);
+                $this->volume_propose = round($this->bouteilles_quantite * $this->bouteilles_contenance_volume, 2);
                 break;
             }
             
             case VracClient::TYPE_TRANSACTION_MOUTS :
             case VracClient::TYPE_TRANSACTION_VIN_VRAC :
             {
-                $this->prix_total = $this->jus_quantite * $this->prix_unitaire;              
+                $this->prix_initial_total = round($this->jus_quantite * $this->prix_initial_unitaire, 2);              
                 $this->bouteilles_contenance_libelle = '';
                 $this->bouteilles_contenance_volume = null;
                 $this->volume_propose = $this->jus_quantite;
                 break;
             }              
         }
-        if(isset($this->volume_propose) && $this->volume_propose!=0) $this->prix_hl = $this->prix_total/$this->volume_propose;
+
+        if($this->volume_propose) {
+            $this->prix_initial_unitaire_hl = round($this->prix_initial_total / $this->volume_propose * 1.0, 2);
+        }
+
+        if($this->isValidee() && !$this->hasPrixVariable()) {
+            $this->setPrixUnitaire($this->prix_initial_unitaire);
+        }
     }
 
     public function setInformations() 
@@ -164,31 +171,78 @@ class Vrac extends BaseVrac {
         $this->setDate('date_campagne', $d);
         $this->campagne = VracClient::getInstance()->buildCampagne($this->getDateCampagne('Y-m-d'));
     }
-    
-    public function setPrixDefinitifUnitaire($p) {
-        $this->_set('prix_definitif_unitaire', $p);
-        $prix_total_definitif = null;
+
+    public function getPrixUnitaire() {
+        if(is_null($this->_get('prix_unitaire'))) {
+            return $this->prix_initial_unitaire;
+        }
+
+        return $this->_get('prix_unitaire');
+    }
+
+    public function getPrixTotal() {
+        if(is_null($this->_get('prix_total'))) {
+            return $this->prix_initial_total;
+        }
+
+        return $this->_get('prix_total');
+    }
+
+    public function setPrixVariable($value) {
+        if($this->_get('prix_variable') != $value) {
+            $this->setPrixUnitaire(null);
+        }
+
+        $this->_set('prix_variable', $value);
+    }
+
+    public function setPrixUnitaire($p) {
+        $this->_set('prix_unitaire', $p);
+
+        if(is_null($this->_get('prix_unitaire'))) {
+            $this->prix_total = null; 
+            $this->prix_unitaire_hl = null;
+
+            return;
+        }
+
         switch ($this->type_transaction)
         {
             case VracClient::TYPE_TRANSACTION_RAISINS :
             {
-                $prix_total_definitif = $this->raisin_quantite * $this->prix_definitif_unitaire;
+                $this->prix_total = round($this->raisin_quantite * $this->prix_unitaire, 2);
                 break;
             }
             case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
             {
-                $prix_total_definitif = $this->bouteilles_quantite * $this->prix_definitif_unitaire;
+                $this->prix_total = round($this->bouteilles_quantite * $this->prix_unitaire, 2);
                 break;
             }
             
             case VracClient::TYPE_TRANSACTION_MOUTS :
             case VracClient::TYPE_TRANSACTION_VIN_VRAC :
-                $prix_total_definitif = $this->jus_quantite * $this->prix_definitif_unitaire;
+                $this->prix_total = round($this->jus_quantite * $this->prix_unitaire, 2);
                 break;              
         }
-        if($this->prix_definitif_unitaire) $this->prix_definitif_hl = $prix_total_definitif/$this->volume_propose;
+
+        if($this->prix_unitaire) {
+            $this->prix_unitaire_hl = round($this->prix_total / $this->volume_propose * 1.0, 2);
+        }
     }
 
+    public function validate($options = array()) {
+        
+        $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+        if($this->valide->date_saisie) {
+            $this->valide->date_saisie = date('Y-m-d');
+        }
+
+        if(isset($options['identifiant'])) {
+            $this->valide->identifiant = $options['identifiant'];
+        }
+
+        $this->update();
+    }
 
     public function getDateCampagne($format = 'd/m/Y') {
         return $this->getDate('date_campagne', $format);
@@ -276,8 +330,13 @@ class Vrac extends BaseVrac {
         return in_array($this->valide->statut, array(VracClient::STATUS_CONTRAT_SOLDE,  VracClient::STATUS_CONTRAT_NONSOLDE));
     }
     
-    public function prixDefinitifExist() {
-        return ($this->prix_variable) && ($this->part_variable != null);
+    public function hasPrixVariable() {
+        return $this->prix_variable && $this->prix_variable == 1;
+    }
+
+    public function hasPrixDefinitif() {
+
+        return $this->_get('prix_unitaire') && $this->_get('prix_unitaire') > 0;
     }
 
     public function isRaisinMoutNegoHorsIL() {
@@ -320,19 +379,6 @@ class Vrac extends BaseVrac {
         $volume_restant = VracStocksView::getInstance()->getVolumeRestantVin($this->campagne, $this->getVendeurObject(), $this->produit);
 
         return $stock - $volume_restant;
-    }
-    
-    
-    public function setPrixUnitaire($p) {
-       $this->_set('prix_unitaire', $this->convertStringToFloat($p));   
-    }
-    
-    public function setRaisinQuantite($q) {
-       $this->_set('raisin_quantite', $this->convertStringToFloat($q));   
-    }
-    
-    public function setJusQuantite($q) {
-        $this->_set('jus_quantite', $this->convertStringToFloat($q));      
     }
     
     private function convertStringToFloat($q){

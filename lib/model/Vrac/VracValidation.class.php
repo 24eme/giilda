@@ -5,10 +5,12 @@ class VracValidation extends DocumentValidation{
     public function configure()
     {
       $this->addControle('erreur', 'volume_expected', 'Le volume du contrat est manquant');
-      $this->addControle('erreur', 'prix_expected', 'Le volume du contrat est manquant');
+      $this->addControle('erreur', 'prix_initial_expected', 'Le prix du contrat est manquant');
       $this->addControle('erreur', 'hors_interloire_raisins_mouts', "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts");
       $this->addControle('vigilance', 'stock_commercialisable_negatif', 'Le stock commercialisable est inférieur au stock proposé');
       $this->addControle('vigilance', 'contrats_similaires', 'Risque de doublons');
+      $this->addControle('vigilance', 'contrats_similaires', 'Risque de doublons');
+      $this->addControle('vigilance', 'prix_definitif_expected', "Le prix définitif de contrat n'a pas été saisi");
     }
 
     public function controle() {
@@ -16,8 +18,12 @@ class VracValidation extends DocumentValidation{
 	  $this->addPoint('erreur', 'volume_expected', 'saisir un volume', $this->generateUrl('vrac_marche', $this->document));
         }
 
-        if(is_null($this->document->prix_unitaire)) {
-	  $this->addPoint('erreur', 'prix_expected', 'saisir un prix', $this->generateUrl('vrac_marche', $this->document));
+        if(is_null($this->document->prix_initial_unitaire)) {
+	  $this->addPoint('erreur', 'prix_initial_expected', 'saisir un prix', $this->generateUrl('vrac_marche', $this->document));
+        }
+
+        if($this->document->hasPrixVariable() && !$this->document->hasPrixDefinitif()) {
+    $this->addPoint('vigilance', 'prix_definitif_expected', 'saisir le prix définitif', $this->generateUrl('vrac_marche', $this->document));
         }
 
         if ($this->document->isRaisinMoutNegoHorsIL()) {

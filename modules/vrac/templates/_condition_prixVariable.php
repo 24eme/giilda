@@ -22,22 +22,6 @@ use_helper('Float');
                     <?php echo $form['part_variable']->render() ?> <span>% (50% max)</span>
                 </span>
         </div>
-        <div id="prix_definitif_unitaire" class="ligne_form">
-                <span>
-                    <?php echo $form['prix_definitif_unitaire']->renderError() ?>
-                    <?php echo $form['prix_definitif_unitaire']->renderLabel() ?>
-                    <?php echo $form['prix_definitif_unitaire']->render() ?>
-                </span>
-        </div>
-        
-        <!--  Affichage du taux de variation des produits du contrat  -->
-        <div id="prixTotal_rappel" class="ligne_form ligne_form_alt">
-            <span>
-                <label>Prix total non définitif</label>
-                <?php echoFloat($form->getObject()->prix_unitaire); ?> €/<?php echo showUnite($form->getObject()); ?>
-                <?php if( $form->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE){ echo "(soit ".sprintFloat($form->getObject()->prix_hl)." €/hl)"; } ?>      
-            </span>
-        </div>
     </div>
 </div>
 <div class="section_label_maj">

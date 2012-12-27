@@ -52,44 +52,59 @@ function statusColor($status)
 
 function showRecapPrixUnitaire($vrac)
 {
-    if($type = $vrac->type_transaction)
-    {
-        switch ($type)
-        {
-            case VracClient::TYPE_TRANSACTION_RAISINS: return echoF($vrac->prix_unitaire).' €/kg, soit '.
-                    echoF($vrac->prix_hl).' €/hl';
-            case VracClient::TYPE_TRANSACTION_MOUTS: return echoF($vrac->prix_unitaire).' €/hl';
-            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return echoF($vrac->prix_unitaire).' €/hl';                   
-            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: 
-                if ($vrac->bouteilles_quantite == 0 || $vrac->bouteilles_contenance_volume == 0) {
-                    return 0;
-                }
-                return echoF($vrac->prix_unitaire).' €/btle, soit '.
-                    echoF($vrac->prix_hl).' €/hl';
-        }
-    }    
-    return '';
+    $unite = showPrixUnitaireUnite($vrac);
+
+    if($vrac->hasPrixVariable() && !$vrac->hasPrixDefinitif()) {
+        return sprintf("%s (Prix non définitif)", showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->prix_unitaire_hl));
+    } elseif($vrac->hasPrixVariable() && $vrac->hasPrixDefinitif()) {
+        return sprintf("%s (Prix initial : %s)", 
+                        showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->prix_unitaire_hl), 
+                        showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_initial_unitaire, $vrac->prix_initial_unitaire_hl));
+    }
+
+    return showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->prix_unitaire_hl);
 }
 
-function showRecapPrixUnitaireDefinitif($vrac)
-{
-    if($type = $vrac->type_transaction)
+function showRecapPrixUnitaireByUniteAndPrix($unite, $prix_unitaire, $prix_unitaire_hl)
+{   
+    if($unite == '€/hl') {
+        return sprintf('%s €/hl', echoF($prix_unitaire));
+    }
+
+    return sprintf('%s %s, soit %s €/hl', echoF($prix_unitaire), $unite, echoF($prix_unitaire_hl));
+}
+
+function showPrixUnitaireUnite($vrac) {
+    switch ($vrac->type_transaction)
     {
-        switch ($type)
-        {
-            case VracClient::TYPE_TRANSACTION_RAISINS: return echoF($vrac->prix_definitif_unitaire).' €/kg, soit '.
-                    echoF($vrac->prix_definitif_hl).' €/hl';
-            case VracClient::TYPE_TRANSACTION_MOUTS: 
-            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return echoF($vrac->prix_definitif_unitaire).' €/hl';                   
-            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: 
-                if ($vrac->bouteilles_quantite == 0 || $vrac->bouteilles_contenance_volume == 0) {
-                    return 0;
-                }
-                return echoF($vrac->prix_definitif_unitaire).' €/btle, soit '.
-                    echoF($vrac->prix_definitif_hl).' €/hl';
-        }
-    }    
-    return '';
+        case VracClient::TYPE_TRANSACTION_RAISINS: 
+            return '€/kg';
+            break;
+        case VracClient::TYPE_TRANSACTION_MOUTS: 
+            return '€/hl';
+            break;
+        case VracClient::TYPE_TRANSACTION_VIN_VRAC: 
+            return '€/hl';  
+            break;                 
+        case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: 
+            return '€/btle';
+            break;
+    }
+}
+
+function showRecapPrixTotal($vrac)
+{
+    if($vrac->hasPrixVariable() && !$vrac->hasPrixDefinitif()) {
+        
+        return sprintf('%s € (Prix non définitif)', echoF($vrac->getPrixTotal()));
+    }
+
+    if($vrac->hasPrixVariable() && $vrac->hasPrixDefinitif()) {
+
+        return sprintf('%s € (Prix initial : %s €)', echoF($vrac->getPrixTotal()), echoF($vrac->getPrixInitialTotal()));
+    }
+
+    return sprintf('%s €', echoF($vrac->getPrixTotal()));
 }
 
 function showType($vrac)

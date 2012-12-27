@@ -20,7 +20,7 @@ use_helper('Float');
     </div>
     <div id="marche_recapitulatif_produit" class="ligne_form ">
             <label>Produit :</label>
-            <span><?php echo implode(' ', $vrac->getProduitObject()->getLibelles()->getRawValue()); ?></span>
+            <span><?php echo $vrac->getProduitObject()->getLibelleFormat(); ?></span>
     </div>
 
     <div id="marche_recapitulatif_millesime" class="ligne_form ligne_form_alt">
@@ -97,9 +97,7 @@ use_helper('Float');
                 Prix unitaire: 
             </label>
             <span>
-            <?php
-            echo showRecapPrixUnitaire($vrac);
-            ?>
+            <?php echo showRecapPrixUnitaire($vrac); ?>
             </span>
     </div>
     <?php 
@@ -110,7 +108,7 @@ use_helper('Float');
             <label>
                 Prix : 
             </label>
-        <span><?php echoFloat($vrac->prix_total);?>&nbsp;€</span>
+        <span><?php echo showRecapPrixTotal($vrac); ?></span>
     </div>
         
 </div>

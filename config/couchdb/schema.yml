@@ -79,9 +79,13 @@ Vrac:
       bouteilles_contenance_volume: { type: float }
       bouteilles_contenance_libelle: { type: string }
 
+      prix_initial_unitaire: { type: float }
+      prix_initial_unitaire_hl: { type: float }
+      prix_initial_total: { type: float }
+
       prix_unitaire: { type: float }
+      prix_unitaire_hl: { type: float }
       prix_total: { type: float }
-      prix_hl: { type: float }
 
 #Conditions (Part 3)
 
@@ -90,15 +94,11 @@ Vrac:
 
       # prix_variable = true
       part_variable: { type: float }
-      
-      prix_definitif_unitaire: { type: float }
-      prix_definitif_hl: { type: float }
-      
-      prix_total_definitif: { type: float }
-      
+
       cvo_nature: { }
       #cvo_repartition float ou string? "50/50" ou 0.5
       cvo_repartition: { }
+      cvo: { }
       #commentaires
       commentaire: { }
 

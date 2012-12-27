@@ -1,3 +1,5 @@
+<?php use_helper('Float') ?>
+
 <?php
 /* Fichier : _marche_volumePrix.php
  * Description : Fichier php correspondant à la vue partielle de vrac/XXXXXXXXXXX/marche
@@ -56,6 +58,15 @@ function getBouteilleContenance($value) {
 </div>
 
 <!--  Affichage du prix unitaire variables selon le type de transaction choisi -->
+<div id="prixInitialUnitaire" class="section_label_maj">
+    <?php echo $form['prix_initial_unitaire']->renderLabel() ?>
+    <?php echo $form['prix_initial_unitaire']->render() ?>       
+    <span id="prix_initial_unitaire_unite" class="unite"></span>
+    <span id="prix_initial_unitaire_hl" class="small"></span>
+    <?php echo $form['prix_initial_unitaire']->renderError(); ?>
+</div>
+           
+<?php if ($form->getObject()->hasPrixVariable()): ?>
 <div id="prixUnitaire" class="section_label_maj">
     <?php echo $form['prix_unitaire']->renderLabel() ?>
     <?php echo $form['prix_unitaire']->render() ?>       
@@ -63,15 +74,27 @@ function getBouteilleContenance($value) {
     <span id="prix_unitaire_hl" class="small"></span>
     <?php echo $form['prix_unitaire']->renderError(); ?>
 </div>
-                
+<?php endif; ?>     
 
 <!--  Affichage du prix total (quantité x nbproduit)  -->
 <div class="bloc_form" >
-    <div id="prixTotal" class="ligne_form">
+    <div id="prixInitialTotal" class="ligne_form">
+        <?php if ($form->getObject()->hasPrixVariable()): ?>
+        <span><label>Prix initial total</label>
+        <?php else: ?>
         <span><label>Prix total</label>
-        <span id="vrac_prix_total" class="unite"></span>
-        <span id="prix_unite" class="small">€</span>  
+        <?php endif; ?>
+        <span id="vrac_prix_initial_total" class="unite"><?php echoFloat($form->getObject()->prix_initial_total) ?></span>
+        <span id="vrac_prix_initial_unite" class="small"><?php if(!is_null($form->getObject()->prix_initial_total)):?>€<?php endif; ?></span>  
         </span>
     </div>
+    <?php if ($form->getObject()->hasPrixVariable()): ?>
+    <div id="prixTotal" class="ligne_form">
+        <span><label>Prix définitif total</label>
+            <span id="vrac_prix_total" class="unite"><?php echoFloat($form->getObject()->prix_total) ?></span>
+            <span id="vrac_prix_unite" class="small"><?php if(!is_null($form->getObject()->prix_total)):?>€<?php endif; ?></span>
+        </span>
+    </div>
+    <?php endif; ?>
 </div>
                 

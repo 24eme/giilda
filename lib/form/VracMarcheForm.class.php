@@ -39,7 +39,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $contenance[$c] = $c;
         }
         $this->setWidget('bouteilles_contenance_libelle', new sfWidgetFormChoice(array('choices' => $contenance)));
-        $this->setWidget('prix_unitaire', new sfWidgetFormInput());
+        $this->setWidget('prix_initial_unitaire', new sfWidgetFormInput());
         
         $this->widgetSchema->setLabels(array(
             'attente_original' => "En attente de l'original ?",
@@ -53,7 +53,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'raisin_quantite' => 'Quantité de raisins',
             'jus_quantite' => 'Volume proposé',
             'bouteilles_contenance_libelle' => 'Contenance',
-            'prix_unitaire' => 'Prix'
+            'prix_initial_unitaire' => 'Prix'
         ));
         $validatorForNumbers =  new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
         $this->setValidators(array(
@@ -65,16 +65,22 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'domaine' => new sfValidatorString(array('required' => false)),
             'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->getLabels()))),
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),
-            'raisin_quantite' =>  $validatorForNumbers,
-            'jus_quantite' =>  $validatorForNumbers, 
+            'raisin_quantite' => new sfValidatorNumber(array('required' => false)),
+            'jus_quantite' => new sfValidatorNumber(array('required' => false)), 
             'bouteilles_contenance_libelle' => new sfValidatorString(array('required' => true)),
-            'prix_unitaire' => $validatorForNumbers
+            'prix_initial_unitaire' => new sfValidatorNumber(array('required' => true))
              ));
                         
         $this->validatorSchema['produit']->setMessage('required', 'Le choix d\'un produit est obligatoire');        
-        $this->validatorSchema['prix_unitaire']->setMessage('required', 'Le prix doit être renseigné');  
+        $this->validatorSchema['prix_initial_unitaire']->setMessage('required', 'Le prix doit être renseigné');  
         $this->validatorSchema['millesime']->setMessage('min', 'Le millésime doit être supérieur à 1980');        
         $this->validatorSchema['millesime']->setMessage('max', 'Le millésime doit être inférieur à '.$this->getCurrentYear());
+
+        if ($this->getObject()->hasPrixVariable()) {
+            $this->getWidget('prix_initial_unitaire')->setLabel('Prix initial');
+            $this->setWidget('prix_unitaire', new sfWidgetFormInput(array('label' => 'Prix définitif')));
+            $this->setValidator('prix_unitaire', new sfValidatorNumber(array('required' => false)));
+        }
         
         
  //       $this->validatorSchema->postValidator(new VracMarcheVolumeValidator(array($this->getWidget('bouteilles_quantite'))));
@@ -86,6 +92,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
     protected function updateDefaultsFromObject() {
       $this->setDefault('attente_original', 0);
       parent::updateDefaultsFromObject();
+      if ($this->getObject()->hasPrixVariable()) {
+        $this->setDefault('prix_unitaire', $this->getObject()->_get('prix_unitaire'));
+      }
     }
 
     public function getProduits() {
