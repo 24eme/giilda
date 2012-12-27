@@ -5,10 +5,10 @@
 
         <h2>Déclaration Récapitulative Mensuelle</h2>
 
-        <div id="recap_infos_header">
+        <ul id="recap_infos_header">
             <li><label>Nom de l'opérateur : </label> <?php echo $drm->getEtablissement()->nom ?> </li>
             <li><label>Période : </label><?php echo $drm->periode ?></li>
-        </div>
+        </ul>
 
         <?php include_partial('drm_edition/etapes'); ?>
 
