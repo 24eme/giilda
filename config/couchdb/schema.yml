@@ -60,7 +60,7 @@ Vrac:
       produit: {   }
       produit_libelle: {   }
       millesime: { type: integer }
-      contient_domaine: {   }
+      categorie_vin: {   } # Générique ou domaine
       domaine: {  }
       label:
         type: array_collection

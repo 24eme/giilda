@@ -15,14 +15,12 @@ class VracMarcheForm extends acCouchdbObjectForm {
                                        VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
                                        VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin conditionné');
     
-    private $contient_domaine = array('domaine' => 'Domaine', 'generique' =>'Générique');
-
     protected $_choices_produits;
      
     
     public function configure()
     {
-      $originalArray = array('0' =>'Non', '1' => 'Oui');
+        $originalArray = array('0' => 'Non', '1' => 'Oui');
         $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray,'expanded' => true)));
         $types_transaction = $this->types_transaction;
         $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $types_transaction,'expanded' => true)));
@@ -30,7 +28,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->getDomaines();
         $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->getProduits()), array('class' => 'autocomplete')));      
         $this->setWidget('millesime', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));        
-        $this->setWidget('contient_domaine', new sfWidgetFormChoice(array('choices' => $this->getContientDomaines(),'expanded' => true)));
+        $this->setWidget('categorie_vin', new sfWidgetFormChoice(array('choices' => $this->getCategoriesVin(),'expanded' => true)));
         $this->setWidget('domaine', new sfWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
         $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->getLabels(),'multiple' => true, 'expanded' => true)));
         $this->setWidget('raisin_quantite', new sfWidgetFormInput());
@@ -48,7 +46,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'type_transaction' => 'Type de transaction',
             'produit' => 'produit',
             'millesime' => 'Millésime',
-            'contient_domaine' => 'Type',
+            'categorie_vin' => 'Type',
             'domaine' => 'Nom du domaine',
             'label' => 'label',
             'bouteilles_quantite' => 'Quantité',
@@ -63,7 +61,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($types_transaction))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))),
             'millesime' => new sfValidatorInteger(array('required' => false, 'min' => 1980, 'max' => $this->getCurrentYear())),
-            'contient_domaine' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getContientDomaines()))),
+            'categorie_vin' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))),
             'domaine' => new sfValidatorString(array('required' => false)),
             'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->getLabels()))),
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),
@@ -114,9 +112,10 @@ class VracMarcheForm extends acCouchdbObjectForm {
 	}
     }
 
-    public function getContientDomaines() 
+    public function getCategoriesVin() 
     {
-        return $this->contient_domaine;
+
+        return VracClient::$categories_vin;
     }
 
     protected function getConfig() {
@@ -125,7 +124,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
     }
     
     protected function getLabels() {
-      return $this->getConfig()->labels->toArray();
+
+        return $this->getConfig()->labels->toArray();
     }
     
     private function getCurrentYear() {

@@ -37,12 +37,12 @@ use_helper('Float');
                 Type : 
             </label>
             <span>
-            <?php echo $vrac->contient_domaine; ?>
+            <?php echo $vrac->categorie_vin; ?>
             </span>
     </div>
 
     <?php
-    if($vrac->contient_domaine=="domaine")
+    if($vrac->categorie_vin == VracClient::CATEGORIE_VIN_DOMAINE)
     {
     ?>
     <div id="marche_recapitulatif_domaine" class="ligne_form ligne_form_alt">

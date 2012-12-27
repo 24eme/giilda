@@ -25,11 +25,11 @@
 </div>
 
 
-<?php echo $form['contient_domaine']->renderError(); ?>
+<?php echo $form['categorie_vin']->renderError(); ?>
 <!--  Affichage du type  -->
 <div id="type" class="section_label_maj">
-    <?php echo $form['contient_domaine']->renderLabel() ?> 
-    <?php echo $form['contient_domaine']->render() ?>    
+    <?php echo $form['categorie_vin']->renderLabel() ?> 
+    <?php echo $form['categorie_vin']->render() ?>    
 </div>
 
 <?php echo $form['domaine']->renderError(); ?>

@@ -60,7 +60,7 @@ class Vrac extends BaseVrac {
         $this->prix_total = null;
         switch ($this->type_transaction)
         {
-            case 'raisins' :
+            case VracClient::TYPE_TRANSACTION_RAISINS :
             {
                 $this->prix_total = $this->raisin_quantite * $this->prix_unitaire;
                 $this->bouteilles_contenance_libelle = null;
@@ -68,15 +68,15 @@ class Vrac extends BaseVrac {
                 $this->volume_propose = ( $this->raisin_quantite / $this->getDensite() ) / 100.0;
                 break;
             }
-            case 'vin_bouteille' :
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
             {
                 $this->prix_total = $this->bouteilles_quantite * $this->prix_unitaire;
                 $this->volume_propose = $this->bouteilles_quantite * $this->bouteilles_contenance_volume;
                 break;
             }
             
-            case 'mouts' :
-            case 'vin_vrac' :
+            case VracClient::TYPE_TRANSACTION_MOUTS :
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC :
             {
                 $this->prix_total = $this->jus_quantite * $this->prix_unitaire;              
                 $this->bouteilles_contenance_libelle = '';
@@ -170,19 +170,19 @@ class Vrac extends BaseVrac {
         $prix_total_definitif = null;
         switch ($this->type_transaction)
         {
-            case 'raisins' :
+            case VracClient::TYPE_TRANSACTION_RAISINS :
             {
                 $prix_total_definitif = $this->raisin_quantite * $this->prix_definitif_unitaire;
                 break;
             }
-            case 'vin_bouteille' :
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
             {
                 $prix_total_definitif = $this->bouteilles_quantite * $this->prix_definitif_unitaire;
                 break;
             }
             
-            case 'mouts' :
-            case 'vin_vrac' :
+            case VracClient::TYPE_TRANSACTION_MOUTS :
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC :
                 $prix_total_definitif = $this->jus_quantite * $this->prix_definitif_unitaire;
                 break;              
         }

@@ -3,12 +3,12 @@
 
 <?php if(count($vracs->rows) > 0): ?>
 <?php if(isset($hamza_style)) : ?>
-    <?php include_partial('global/hamzaStyle', array('table_selector' => '#tableau_contrat', 
+    <?php include_partial('global/hamzaStyle', array('table_selector' => '#table_contrats', 
                                                      'mots' => vrac_get_words($vracs->rows),
                                                      'consigne' => "Saisissez un numéro de contrat, un soussigné ou un produit :")) ?>
 <?php endif; ?>
 
-<table id="tableau_contrat">    
+<table id="table_contrats" class="table_recap">    
     <thead>
         <tr>
             <th class="type">Type</th>
@@ -27,7 +27,7 @@
                 $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]);
                 ?>
                 <tr id="<?php echo vrac_get_id($value) ?>" class="<?php echo $statusColor; ?>" >
-                    <td class="type" ><span class="type_<?php echo $elt[VracClient::VRAC_VIEW_TYPEPRODUIT]; ?>"><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) ? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></span></td>
+                    <td class="type" ><span class="type_<?php echo strtolower($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]); ?>"><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) ? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></span></td>
 																													<td class="num_contrat"><?php echo link_to($elt[VracClient::VRAC_VIEW_NUMARCHIVE].' ('.preg_replace('/(\d{4})(\d{2})(\d{2}).*/', '$3/$2/$1', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]).')', '@vrac_visualisation?numero_contrat=' . $vracid); ?></td>
 
                     <td>

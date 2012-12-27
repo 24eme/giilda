@@ -56,11 +56,11 @@ function showRecapPrixUnitaire($vrac)
     {
         switch ($type)
         {
-            case 'raisins': return echoF($vrac->prix_unitaire).' €/kg, soit '.
+            case VracClient::TYPE_TRANSACTION_RAISINS: return echoF($vrac->prix_unitaire).' €/kg, soit '.
                     echoF($vrac->prix_hl).' €/hl';
-            case 'mouts': return echoF($vrac->prix_unitaire).' €/hl';
-            case 'vin_vrac': return echoF($vrac->prix_unitaire).' €/hl';                   
-            case 'vin_bouteille': 
+            case VracClient::TYPE_TRANSACTION_MOUTS: return echoF($vrac->prix_unitaire).' €/hl';
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return echoF($vrac->prix_unitaire).' €/hl';                   
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: 
                 if ($vrac->bouteilles_quantite == 0 || $vrac->bouteilles_contenance_volume == 0) {
                     return 0;
                 }
@@ -77,11 +77,11 @@ function showRecapPrixUnitaireDefinitif($vrac)
     {
         switch ($type)
         {
-            case 'raisins': return echoF($vrac->prix_definitif_unitaire).' €/kg, soit '.
+            case VracClient::TYPE_TRANSACTION_RAISINS: return echoF($vrac->prix_definitif_unitaire).' €/kg, soit '.
                     echoF($vrac->prix_definitif_hl).' €/hl';
-            case 'mouts': 
-            case 'vin_vrac': return echoF($vrac->prix_definitif_unitaire).' €/hl';                   
-            case 'vin_bouteille': 
+            case VracClient::TYPE_TRANSACTION_MOUTS: 
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return echoF($vrac->prix_definitif_unitaire).' €/hl';                   
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: 
                 if ($vrac->bouteilles_quantite == 0 || $vrac->bouteilles_contenance_volume == 0) {
                     return 0;
                 }
@@ -105,8 +105,8 @@ function showTypeFromLabel($type)
 {
     switch ($type)
         {
-            case 'vin_vrac': return 'vin vrac';                   
-            case 'vin_bouteille': return 'vin conditionné';
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return 'Vrac';                   
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: return 'Conditionné';
             default: return $type;
         }
 }
@@ -117,11 +117,11 @@ function showRecapVolumePropose($vrac)
     {
         switch ($type)
         {
-            case 'raisins': 
+            case VracClient::TYPE_TRANSACTION_RAISINS: 
                 return echoF($vrac->raisin_quantite).' kg (raisins), soit '.echoF($vrac->volume_propose).' hl';
-            case 'mouts': return echoF($vrac->volume_propose).' hl (moûts)';
-            case 'vin_vrac': return echoF($vrac->volume_propose).' hl (vin vrac)';                   
-            case 'vin_bouteille': 
+            case VracClient::TYPE_TRANSACTION_MOUTS: return echoF($vrac->volume_propose).' hl (moûts)';
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return echoF($vrac->volume_propose).' hl (vrac)';                   
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: 
                 return echoF($vrac->bouteilles_quantite).
                     ' bouteilles ('.$vrac->bouteilles_contenance_libelle.'), soit '.echoF($vrac->volume_propose).' hl' ;
         }
@@ -135,10 +135,10 @@ function showUnite($vrac)
     {
         switch ($type)
         {
-            case 'raisins': return 'kg';
-            case 'mouts': return 'hl';
-            case 'vin_vrac': return 'hl';                    
-            case 'vin_bouteille': return 'btle';
+            case VracClient::TYPE_TRANSACTION_RAISINS: return 'kg';
+            case VracClient::TYPE_TRANSACTION_MOUTS: return 'hl';
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return 'hl';                    
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: return 'btle';
         }
     }    
     return '';

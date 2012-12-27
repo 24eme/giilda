@@ -25,7 +25,7 @@
  * @property string $produit
  * @property string $produit_libelle
  * @property integer $millesime
- * @property string $contient_domaine
+ * @property string $categorie_vin
  * @property string $domaine
  * @property acCouchdbJson $label
  * @property float $raisin_quantite

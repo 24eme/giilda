@@ -30,19 +30,21 @@ class VracClient extends acCouchdbClient {
     const VRAC_SIMILAIRE_VALUE_MILLESIME = 2;   
     const VRAC_SIMILAIRE_VALUE_VOLPROP = 3;
     
-    
-    const TYPE_TRANSACTION_RAISINS = 'raisins';
-    const TYPE_TRANSACTION_MOUTS = 'mouts';
-    const TYPE_TRANSACTION_VIN_VRAC = 'vin_vrac';
-    const TYPE_TRANSACTION_VIN_BOUTEILLE = 'vin_bouteille';
+    const TYPE_TRANSACTION_RAISINS = 'RAISINS';
+    const TYPE_TRANSACTION_MOUTS = 'MOUTS';
+    const TYPE_TRANSACTION_VIN_VRAC = 'VIN_VRAC';
+    const TYPE_TRANSACTION_VIN_BOUTEILLE = 'VIN_BOUTEILLE';
 
-    const TYPE_CONTRAT_SPOT = 'spot';
-    const TYPE_CONTRAT_PLURIANNUEL = 'pluriannuel';
+    const TYPE_CONTRAT_SPOT = 'SPOT';
+    const TYPE_CONTRAT_PLURIANNUEL = 'PLURIANNUEL';
 
-    const CVO_NATURE_MARCHE_DEFINITIF = 'marche_definitif';
-    const CVO_NATURE_COMPENSATION = 'compensation';
-    const CVO_NATURE_NON_FINANCIERE = 'non_financiere';
-    const CVO_NATURE_VINAIGRERIE = 'vinaigrerie';
+    const CVO_NATURE_MARCHE_DEFINITIF = 'MARCHE_DEFINITIF';
+    const CVO_NATURE_COMPENSATION = 'COMPENSATION';
+    const CVO_NATURE_NON_FINANCIERE = 'NON_FINANCIERE';
+    const CVO_NATURE_VINAIGRERIE = 'VINAIGRERIE';
+
+    const CATEGORIE_VIN_GENERIQUE = 'GENERIQUE';
+    const CATEGORIE_VIN_DOMAINE = 'DOMAINE';
     
     const STATUS_CONTRAT_SOLDE = 'SOLDE';
     const STATUS_CONTRAT_ANNULE = 'ANNULE';
@@ -54,6 +56,8 @@ class VracClient extends acCouchdbClient {
                                       '3 L' => 0.03,
                                       'BIB 3 L' => 0.03,
                                       '6 L' => 0.06);
+
+    public static $categories_vin = array(self::CATEGORIE_VIN_GENERIQUE => 'Domaine', self::CATEGORIE_VIN_DOMAINE => 'Générique');
 
     
     public static $types_transaction_vins = array(self::TYPE_TRANSACTION_VIN_VRAC, self::TYPE_TRANSACTION_VIN_BOUTEILLE);

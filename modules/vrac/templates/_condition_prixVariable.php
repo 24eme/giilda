@@ -35,7 +35,7 @@ use_helper('Float');
             <span>
                 <label>Prix total non définitif</label>
                 <?php echoFloat($form->getObject()->prix_unitaire); ?> €/<?php echo showUnite($form->getObject()); ?>
-                <?php if( $form->getObject()->type_transaction == "vin_bouteille"){ echo "(soit ".sprintFloat($form->getObject()->prix_hl)." €/hl)"; } ?>      
+                <?php if( $form->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE){ echo "(soit ".sprintFloat($form->getObject()->prix_hl)." €/hl)"; } ?>      
             </span>
         </div>
     </div>
