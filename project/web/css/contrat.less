@@ -404,6 +404,7 @@
         #millesime,
         #type,
         #label,
+        #prixInitialUnitaire,
         #prixUnitaire,
         #domaine
         {
@@ -432,7 +433,13 @@
 
         #label .checkbox_list { float: left; }
 
-        #prixTotal { label { width:215px; } }
+        #prixInitialTotal { label { width:215px; } }
+        
+        #prixTotal { 
+            label { width:215px; } 
+            span.unite { font-weight: bold; }
+            span.small { font-weight: bold; } 
+        }
 
         .error-list { width: 100%; }
     }

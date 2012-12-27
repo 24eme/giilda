@@ -2023,20 +2023,20 @@ bouton#contenu_etape #vrac_soussigne .btnModification .modification_div a { heig
   float:right;
 }
 #contenu_etape #vrac_soussigne .mandataire_infos .error_list { padding:0 0 0 53px; }
-#contenu_etape #vrac_marche #original, #contenu_etape #vrac_marche #produit, #contenu_etape #vrac_marche #millesime, #contenu_etape #vrac_marche #type, #contenu_etape #vrac_marche #label, #contenu_etape #vrac_marche #prixUnitaire, #contenu_etape #vrac_marche #domaine {
+#contenu_etape #vrac_marche #original, #contenu_etape #vrac_marche #produit, #contenu_etape #vrac_marche #millesime, #contenu_etape #vrac_marche #type, #contenu_etape #vrac_marche #label, #contenu_etape #vrac_marche #prixInitialUnitaire, #contenu_etape #vrac_marche #prixUnitaire, #contenu_etape #vrac_marche #domaine {
   zoom:1;
   min-height:1px;
   margin:20px 0;
 }
-#contenu_etape #vrac_marche #original:before, #contenu_etape #vrac_marche #original:after, #contenu_etape #vrac_marche #produit:before, #contenu_etape #vrac_marche #produit:after, #contenu_etape #vrac_marche #millesime:before, #contenu_etape #vrac_marche #millesime:after, #contenu_etape #vrac_marche #type:before, #contenu_etape #vrac_marche #type:after, #contenu_etape #vrac_marche #label:before, #contenu_etape #vrac_marche #label:after, #contenu_etape #vrac_marche #prixUnitaire:before, #contenu_etape #vrac_marche #prixUnitaire:after, #contenu_etape #vrac_marche #domaine:before, #contenu_etape #vrac_marche #domaine:after {
+#contenu_etape #vrac_marche #original:before, #contenu_etape #vrac_marche #original:after, #contenu_etape #vrac_marche #produit:before, #contenu_etape #vrac_marche #produit:after, #contenu_etape #vrac_marche #millesime:before, #contenu_etape #vrac_marche #millesime:after, #contenu_etape #vrac_marche #type:before, #contenu_etape #vrac_marche #type:after, #contenu_etape #vrac_marche #label:before, #contenu_etape #vrac_marche #label:after, #contenu_etape #vrac_marche #prixInitialUnitaire:before, #contenu_etape #vrac_marche #prixInitialUnitaire:after, #contenu_etape #vrac_marche #prixUnitaire:before, #contenu_etape #vrac_marche #prixUnitaire:after, #contenu_etape #vrac_marche #domaine:before, #contenu_etape #vrac_marche #domaine:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-#contenu_etape #vrac_marche #original:after, #contenu_etape #vrac_marche #produit:after, #contenu_etape #vrac_marche #millesime:after, #contenu_etape #vrac_marche #type:after, #contenu_etape #vrac_marche #label:after, #contenu_etape #vrac_marche #prixUnitaire:after, #contenu_etape #vrac_marche #domaine:after { clear:both; }
-#contenu_etape #vrac_marche #original label:first-child, #contenu_etape #vrac_marche #produit label:first-child, #contenu_etape #vrac_marche #millesime label:first-child, #contenu_etape #vrac_marche #type label:first-child, #contenu_etape #vrac_marche #label label:first-child, #contenu_etape #vrac_marche #prixUnitaire label:first-child, #contenu_etape #vrac_marche #domaine label:first-child {
+#contenu_etape #vrac_marche #original:after, #contenu_etape #vrac_marche #produit:after, #contenu_etape #vrac_marche #millesime:after, #contenu_etape #vrac_marche #type:after, #contenu_etape #vrac_marche #label:after, #contenu_etape #vrac_marche #prixInitialUnitaire:after, #contenu_etape #vrac_marche #prixUnitaire:after, #contenu_etape #vrac_marche #domaine:after { clear:both; }
+#contenu_etape #vrac_marche #original label:first-child, #contenu_etape #vrac_marche #produit label:first-child, #contenu_etape #vrac_marche #millesime label:first-child, #contenu_etape #vrac_marche #type label:first-child, #contenu_etape #vrac_marche #label label:first-child, #contenu_etape #vrac_marche #prixInitialUnitaire label:first-child, #contenu_etape #vrac_marche #prixUnitaire label:first-child, #contenu_etape #vrac_marche #domaine label:first-child {
   float:left;
   width:230px;
 }
@@ -2046,7 +2046,10 @@ bouton#contenu_etape #vrac_soussigne .btnModification .modification_div a { heig
 }
 #contenu_etape #vrac_marche #vrac_marche_volumePropose label:first-child { width:215px; }
 #contenu_etape #vrac_marche #label .checkbox_list { float:left; }
+#contenu_etape #vrac_marche #prixInitialTotal label { width:215px; }
 #contenu_etape #vrac_marche #prixTotal label { width:215px; }
+#contenu_etape #vrac_marche #prixTotal span.unite { font-weight:bold; }
+#contenu_etape #vrac_marche #prixTotal span.small { font-weight:bold; }
 #contenu_etape #vrac_marche .error-list { width:100%; }
 #contenu_etape #condition .section_label_maj { margin-top:20px; }
 #contenu_etape #condition .section_label_maj label { width:190px; }
