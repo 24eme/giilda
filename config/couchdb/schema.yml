@@ -28,7 +28,6 @@ Compte:
        email: {  }
        telephone_perso: {  }
        telephone_bureau: {  }
-       telephone_perso: {  }
        telephone_mobile: {  }
        fax: {  }
        nom_a_afficher: {  }
