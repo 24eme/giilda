@@ -249,7 +249,10 @@ class VracClient extends acCouchdbClient {
       }
       $start = $this->startkey($args);
       $args[] = array();
-      return $start->endkey($args)->limit(10)->getView('vrac', 'vracSimilaire');
+      $view = $start->endkey($args)->limit(10)->getView('vrac', 'vracSimilaire');
+      if ($vrac->_id)
+	$this->filterSimilaryContracts($view, $vrac->_id);
+      return $view->rows;
     }
     
     public function retrieveSimilaryContractsWithProdTypeVol($params) {
@@ -284,9 +287,10 @@ class VracClient extends acCouchdbClient {
                ->endkey(array($params['vendeur'],$params['acheteur'],$params['mandataire'],$params['type'],$params['produit'],$volumeHaut, array()))->limit(10)->getView('vrac', 'vracSimilaire');            
     }
     
-    public function filterSimilaryContracts($vrac,$similaryContracts) {
+    public function filterSimilaryContracts($similaryContracts, $vracid) {
+      
         foreach ($similaryContracts->rows as $key => $value) {
-            if($value->id === $vrac->_id){
+            if($value->id === $vracid){
                 unset($similaryContracts->rows[$key]);
                 return;
             }

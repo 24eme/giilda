@@ -232,9 +232,7 @@ class vracActions extends sfActions
 
       $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
       $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($this->vrac);
-      VracClient::getInstance()->filterSimilaryContracts($this->vrac,$this->vracs);
-      
-      $this->contratsSimilairesExist = (isset($this->vracs) && ($this->vracs!=false) && count($this->vracs->rows)>0);
+      $this->contratsSimilairesExist = (isset($this->vracs) && !$this->vracs && count($this->vracs)>0);
 
       $this->validation = new VracValidation($this->vrac);
       

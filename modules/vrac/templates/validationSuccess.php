@@ -26,7 +26,7 @@ use_helper('Vrac');
 
             <div class="btn_etape">
                 <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
-                <?php if ($validation->isValid()) : ?>
+                <?php if ($validation->isValide()) : ?>
                     <a id="btn_validation" class="btn_validation"><span>Terminer la saisie</span></a>  
                 <?php endif; ?>
             </div> 

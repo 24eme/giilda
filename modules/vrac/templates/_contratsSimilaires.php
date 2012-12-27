@@ -2,7 +2,6 @@
 use_helper('Vrac');
 if(is_null($vrac->type_transaction)) $vrac->type_transaction = VracClient::TYPE_TRANSACTION_VIN_VRAC;
 $vracs = VracClient::getInstance()->retrieveSimilaryContracts($vrac);
-VracClient::getInstance()->filterSimilaryContracts($vrac,$vracs);
 $flagStatut = false;
 ?>
 <div id="contrats_similaires" class="bloc_col">
@@ -12,17 +11,13 @@ $flagStatut = false;
                         <li class="legende_contrat"><span class="statut statut_solde"></span> Soldé <span class="f_right"><span class="statut statut_non-solde"></span> Non soldé</span></li>
                         <li class="separateur"></li>
                         <?php 
-                        if($vracs->rows)            
-                        foreach ($vracs->rows as $value) 
+                        if($vracs)            
+                        foreach ($vracs as $row) 
                         {                           
-                            $elt =$value->value;
+                            $elt = $row->value;
                             $statusColor = statusColor($elt[VracClient::VRAC_SIMILAIRE_VALUE_STATUT]);
                             //$statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
-                            if(($elt[VracClient::VRAC_SIMILAIRE_VALUE_NUMCONTRAT]!=$vrac['_id'])
-                                    && $elt[VracClient::VRAC_SIMILAIRE_VALUE_STATUT]!=null)
-
-                            {
-                                $flagStatut = true;
+			    $flagStatut = true;
                         ?>
                         <li>
                             <span class="statut <?php echo $statusColor; ?>"></span>                         
@@ -45,12 +40,11 @@ $flagStatut = false;
                         </li>
                         <li class="separateur"></li>
                         <?php
-                            }
                         }
                         ?>
                 </ul>
             <?php
-                if($vracs===FALSE || !$flagStatut || count($vracs->rows)==0)
+                if(!$vracs || !$flagStatut || count($vracs)==0)
                 {
                 ?>
                 <span>Il n'existe aucun contrat similaire</span>

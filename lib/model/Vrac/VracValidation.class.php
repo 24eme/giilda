@@ -28,7 +28,7 @@ class VracValidation extends DocumentValidation{
 	  $this->addPoint('vigilance', 'stock_commercialisable_negatif', 'modifier le volume' , $this->generateUrl('vrac_marche', $this->document));
         }
 
-	$nbsimilaires = count(VracClient::getInstance()->retrieveSimilaryContracts($this->document));
+	$nbsimilaires = count(array_keys(VracClient::getInstance()->retrieveSimilaryContracts($this->document)));
 	if ($nbsimilaires) {
 	  $this->addPoint('vigilance', 'contrats_similaires', 'Il y a '.$nbsimilaires.' contrat(s) similaire(s)');
 	}
