@@ -19,33 +19,7 @@ use_helper('Vrac');
     <?php include_partial('headerVrac', array('vrac' => $vrac, 'actif' => 4)); ?>        
     <div id="contenu_etape"> 
         <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation', $vrac) ?>">
-
-            <?php if (count($validation->getErrors()) > 0): ?>
-                <div id="points_bloquants">
-                    <p>Points bloquants :</p>
-                    <ul>
-                        <?php foreach ($validation->getErrors() as $message): ?>
-                            <li class="error">
-                                <span><?php echo $message ?></span>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
-
-            <?php if (count($validation->getWarnings()) > 0): ?>
-                <div id="points_vigilance">
-                    <p>Points de vigilance :</p>
-                    <ul>
-                        <?php foreach ($validation->getWarnings() as $message): ?>
-                            <li class="warning">
-                                <span><?php echo $message ?></span>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            <?php endif; ?>
-
+        <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
             <div id="titre"><span class="style_label">Récapitulatif de la saisie</span></div>
 
             <?php include_partial('showContrat', array('vrac' => $vrac)); ?>

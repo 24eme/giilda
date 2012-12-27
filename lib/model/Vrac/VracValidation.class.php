@@ -1,54 +1,36 @@
 <?php 
 
-class VracValidation {
+class VracValidation extends DocumentValidation{
 
-    protected $vrac = null;
-    protected $errors = array();
-    protected $warnings = array();
-
-    public function __construct($vrac, $options = null)
+    public function configure()
     {
-        $this->vrac = $vrac;
-        $this->check();
+      $this->addControle('erreur', 'volume_expected', 'Le volume du contrat est manquant');
+      $this->addControle('erreur', 'prix_expected', 'Le volume du contrat est manquant');
+      $this->addControle('erreur', 'hors_interloire_raisins_mouts', "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts");
+      $this->addControle('vigilance', 'stock_commercialisable_negatif', 'Le stock commercialisable est inférieur au stock proposé');
+      $this->addControle('vigilance', 'contrats_similaires', 'Risque de doublons');
     }
 
-    public function check() {
-        if(!$this->vrac->volume_propose) {
-            $this->errors['volume_exist'] = "Le volume du contrat est manquant";
+    public function controle() {
+        if(!$this->document->volume_propose) {
+	  $this->addPoint('erreur', 'volume_expected', 'saisir un volume', $this->generateUrl('vrac_marche', $this->document));
         }
 
-        if(is_null($this->vrac->prix_unitaire)) {
-            $this->errors['volume_exist'] = "Le prix du contrat est manquant";
+        if(is_null($this->document->prix_unitaire)) {
+	  $this->addPoint('erreur', 'prix_expected', 'saisir un prix', $this->generateUrl('vrac_marche', $this->document));
         }
 
-        if ($this->vrac->isRaisinMoutNegoHorsIL()) {
-            $this->errors['hors_interloire_raisins_mouts'] = "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts";
+        if ($this->document->isRaisinMoutNegoHorsIL()) {
+	  $this->addPoint('erreur', 'hors_interloire_raisins_mouts', 'changer' , $this->generateUrl('vrac_soussigne', $this->document));
         }
 
-        if ($this->vrac->isVin() && $this->vrac->volume_propose > $this->vrac->getStockCommercialisable()) {
-            $this->warnings['stock_commercialisable_negatif'] = "Le stock commercialisable est inférieur au stock proposé";
+        if ($this->document->isVin() && $this->document->volume_propose > $this->document->getStockCommercialisable()) {
+	  $this->addPoint('vigilance', 'stock_commercialisable_negatif', 'modifier le volume' , $this->generateUrl('vrac_marche', $this->document));
         }
 
-	$nbsimilaires = count(VracClient::getInstance()->retrieveSimilaryContracts($this->vrac));
+	$nbsimilaires = count(VracClient::getInstance()->retrieveSimilaryContracts($this->document));
 	if ($nbsimilaires) {
-	  $this->warnings['contrat_similaires'] = 'Il y a '.$nbsimilaires.' contrat(s) similaire(s)';
+	  $this->addPoint('vigilance', 'contrats_similaires', 'Il y a '.$nbsimilaires.' contrat(s) similaire(s)');
 	}
-
-        return $this->isValid();
-    }
-
-    public function getErrors() {
-
-        return $this->errors; 
-    }
-
-    public function getWarnings() {
-
-        return $this->warnings; 
-    }
-
-    public function isValid() {
-
-        return count($this->errors) == 0;
     }
 }
