@@ -5,6 +5,7 @@ class DRMProduitForm extends acCouchdbForm
 	protected $_choices_produits;
     protected $_drm = null;
     protected $_config = null;
+    protected $_produits_existant = null;
 
     public function __construct(DRM $drm, _ConfigurationDeclaration $config, $options = array(), $CSRFSecret = null) {
 		$this->_drm = $drm;
@@ -42,17 +43,27 @@ class DRMProduitForm extends acCouchdbForm
     }
 
     public function getProduits() {
+        $produit_existant = $this->getProduitsExistant();
+        $produits = $this->_config->formatProduits($this->_interpro->get('_id'), $this->_drm->getDepartement());
+    
+        foreach($produits as $hash => $produit) {
+            if(array_key_exists($hash."/details/DEFAUT", $produit_existant)) {
+                unset($produits[$hash]);
+            }
+        }
 
-        return $this->_config->formatProduits($this->_interpro->get('_id'), $this->_drm->getDepartement());
+        return $produits;
     }
 
     public function getProduitsExistant() {
-        $choices = array();
-        foreach($this->_drm->getProduitsDetails() as $key => $produit) {
-            $choices[$key] = sprintf("%s (%s)", $produit->getLibelle("%g% %a% %m% %l% %co% %ce% %la%"), $produit->getCodeProduit());
+        if(is_null($this->_produits_existant)) {
+            $this->_produits_existant = array();
+            foreach($this->_drm->getProduitsDetails() as $key => $produit) {
+                $this->_produits_existant[$key] = sprintf("%s (%s)", $produit->getLibelle("%g% %a% %m% %l% %co% %ce% %la%"), $produit->getCodeProduit());
+            }
         }
 
-        return $choices;
+        return $this->_produits_existant;
     }
 
     public function addProduit() {
