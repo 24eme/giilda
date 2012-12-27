@@ -22,8 +22,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
     
     public function configure()
     {
-        $originalArray = array('1' => 'Oui', '0' =>'Non');
-        $this->setWidget('original', new sfWidgetFormChoice(array('choices' => $originalArray,'expanded' => true)));
+      $originalArray = array('0' =>'Non', '1' => 'Oui');
+        $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray,'expanded' => true)));
         $types_transaction = $this->types_transaction;
         $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $types_transaction,'expanded' => true)));
 		
@@ -44,7 +44,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('prix_unitaire', new sfWidgetFormInput());
         
         $this->widgetSchema->setLabels(array(
-            'original' => "En attente de l'original ?",
+            'attente_original' => "En attente de l'original ?",
             'type_transaction' => 'Type de transaction',
             'produit' => 'produit',
             'millesime' => 'Millésime',
@@ -59,7 +59,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         ));
         $validatorForNumbers =  new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
         $this->setValidators(array(
-            'original' => new sfValidatorInteger(array('required' => true)),
+            'attente_original' => new sfValidatorInteger(array('required' => true)),
             'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($types_transaction))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))),
             'millesime' => new sfValidatorInteger(array('required' => false, 'min' => 1980, 'max' => $this->getCurrentYear())),
@@ -86,8 +86,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
 
     protected function updateDefaultsFromObject() {
-    	parent::updateDefaultsFromObject();
-    	$this->setDefault('original', 0);
+      $this->setDefault('attente_original', 0);
+      parent::updateDefaultsFromObject();
     }
 
     public function getProduits() {

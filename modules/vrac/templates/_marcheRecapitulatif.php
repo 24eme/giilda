@@ -11,8 +11,8 @@ use_helper('Float');
 ?>
 <div class="bloc_form">
     <div id="marche_recapitulatif_original" class="ligne_form">
-            <label>Original fourni :</label>
-            <span><?php echo ($vrac->original)? 'Oui' : 'Non'; ?></span>
+            <label>En attente de l'original :</label>
+            <span><?php echo ($vrac->attente_original)? 'Oui' : 'Non'; ?></span>
     </div>
     <div id="marche_recapitulatif_typeTransaction" class="ligne_form ligne_form_alt">
             <label>Type de transaction :</label>

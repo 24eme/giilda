@@ -55,7 +55,7 @@ Vrac:
 
 #Marché (Part 2)
 
-      original: { type: integer }
+      attente_original: { type: integer }
       type_transaction: {  }
       produit: {   }
       produit_libelle: {   }
