@@ -15,7 +15,7 @@
             'route' => 'vrac',
             'route_etablissement' => 'vrac_recherche',
             'etablissement' => $etablissement,
-            'target' => '_blank'
+            'target' => '_self'
         )) ?>
 
         <?php include_component('global', 'navItem', array(
@@ -24,7 +24,7 @@
             'route' => 'facture',
             'route_etablissement' => 'facture_etablissement',
             'etablissement' => $etablissement,
-            'target' => '_blank'
+            'target' => '_self'
         )) ?>
         
         <?php include_component('global', 'navItem', array(
@@ -33,7 +33,7 @@
             'route' => 'societe',
             'route_etablissement' => 'societe_choose',
             'etablissement' => null,
-            'target' => '_blank'
+            'target' => '_self'
         )) ?>
         
         
