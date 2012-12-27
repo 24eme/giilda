@@ -2,31 +2,6 @@
 use_helper('Float');
 ?>
 <form action="<?php echo url_for('ds_edition_operateur_validation_visualisation', $ds); ?>" method="post" id="ds_edition_validation_form">
-  <?php if (isset($validation)) : if (count($validation->getErrors()) > 0): ?>
-  <div id="points_bloquants">
-  <p>Points bloquants :</p>
-  <ul>
-  <?php foreach ($validation->getErrors() as $message): ?>
-  <li class="error">
-  <span><?php echo $message ?></span>
-  </li>
-  <?php endforeach; ?>
-  </ul>
-  </div>
-  <?php endif; ?>
-  <?php if (count($validation->getWarnings()) > 0): ?>
-  <div id="points_vigilance">
-  <p>Points de vigilance :</p>
-  <ul>
-  <?php foreach ($validation->getWarnings() as $message): ?>
-  <li class="warning">
-  <span><?php echo $message ?></span>
-  </li>
-  <?php endforeach; ?>
-  </ul>
-  </div>
-  <?php endif; ?>
-  <?php endif; ?>
  <fieldset id="dsRecapitulatif">
 	<table id="ds_recapitulatif_table" class="table_recap">
 	<thead>
