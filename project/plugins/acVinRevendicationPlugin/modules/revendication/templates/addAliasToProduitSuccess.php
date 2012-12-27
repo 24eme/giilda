@@ -16,6 +16,9 @@
 					
 					<button class="btn_majeur btn_valider" type="submit">Valider</button>
 				</div>
+            <div class="btn_etape">
+                <a class="btn_majeur btn_annuler" href="<?php echo url_for('revendication_view_erreurs', $revendication); ?>"><span>Annuler</span></a>
+            </div>
             </form>
         </section>
         <!-- fin #contenu_etape -->

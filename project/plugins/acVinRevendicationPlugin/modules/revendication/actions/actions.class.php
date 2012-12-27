@@ -142,7 +142,7 @@ class revendicationActions extends sfActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->doUpdate();
-                $this->revendication->updateErrors();
+                $this->revendication->updateErrors(RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS, $alias);
                 $this->revendication->save();
                 return $this->redirect('revendication_view_erreurs', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
             }
@@ -150,20 +150,13 @@ class revendicationActions extends sfActions {
         
     }
     
-        public function executeChooseRowForDoublon(sfWebRequest $request) {
+    public function executeDeleteDoublon(sfWebRequest $request) {
         $this->num_ligne = $request->getParameter('num_ligne');
-        $this->revendication = $this->getRoute()->getRevendication();
-        $this->form = new ChooseRowForm($this->revendication, $this->num_ligne);
-//        if ($request->isMethod(sfWebRequest::POST)) {
-//            $this->form->bind($request->getParameter($this->form->getName()));
-//            if ($this->form->isValid()) {
-//                $this->form->doUpdate();
-//                $this->revendication->updateErrors();
-//                $this->revendication->save();
-//                return $this->redirect('revendication_view_erreurs', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
-//            }
-//        }
-        
+        $this->doublon = $request->getParameter('doublon');
+        $this->revendication = $this->getRoute()->getRevendication();        
+        $this->revendication->deteteDoublon($this->num_ligne,$this->doublon);
+        $this->revendication->save();
+        return $this->redirect('revendication_view_erreurs', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));            
     }
     
     public function executeAddRows(sfWebRequest $request) {

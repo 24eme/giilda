@@ -27,26 +27,30 @@ class Revendication extends BaseRevendication {
         $this->setProduitsCodeDouaneHashes();
         $this->erreurs = array();
         foreach ($this->getCSV() as $num_ligne => $row) {
-            try {
-                $bailleur = null;
-                $etb = $this->matchEtablissement($row);
-                if($this->datas->exist(sprintf("%s/produits/%s/volumes/%s", $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID], $row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT], $row[RevendicationCsvFile::CSV_COL_NUMERO_CA]))) {
-                    
-                    continue;
-                }
-                $hashLibelle = $this->matchProduit($row);
-                if ($this->rowHasMetayage($row)) {
-                    $bailleur = $this->matchBailleur($row);
-                }
-                $this->detectDoublon($row, $etb);
-                $revendicationEtb = $this->datas->add($etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID]);
-                $revendicationEtb->storeDeclarant($etb);
-                $revendicationEtb->storeProduits($num_ligne+1, $row, $hashLibelle, $bailleur);
-            } catch (RevendicationErrorException $erreur) {
-                $erreurSortie = $this->erreurs->add($erreur->getErrorType());
-                $erreurSortie->storeErreur($num_ligne+1, $row, $erreur);
-                continue;
+            $this->insertRow($num_ligne, $row);
+        }
+    }
+
+    public function insertRow($num_ligne, $row) {
+        try {
+            $bailleur = null;
+            $etb = $this->matchEtablissement($row);
+//                if ($this->datas->exist(sprintf("%s/produits/%s/volumes/%s", $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID], $row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT], $row[RevendicationCsvFile::CSV_COL_NUMERO_CA]))) {
+//                    continue;
+//                }
+            $hashLibelle = $this->matchProduit($row);
+            if ($this->rowHasMetayage($row)) {
+                $bailleur = $this->matchBailleur($row);
             }
+            $this->detectDoublon($row, $etb);
+            $revendicationEtb = $this->datas->add($etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID]);
+            $revendicationEtb->storeDeclarant($etb);
+            $revendicationEtb->storeProduits($num_ligne + 1, $row, $hashLibelle, $bailleur);
+            return true;
+        } catch (RevendicationErrorException $erreur) {
+            $erreurSortie = $this->erreurs->add($erreur->getErrorType());
+            return $erreurSortie->storeErreur($num_ligne + 1, $row, $erreur);
+//        continue;
         }
     }
 
@@ -123,10 +127,10 @@ class Revendication extends BaseRevendication {
         $produitsCodeDouaneHashes = $this->getProduitsCodeDouaneHashes();
         $produits = $this->getProduits();
 
-        if(array_key_exists($row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT], $produitsCodeDouaneHashes)){
+        if (array_key_exists($row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT], $produitsCodeDouaneHashes)) {
             $hash = $produitsCodeDouaneHashes[$row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT]];
 
-            return array($hash,$produits[$hash]);
+            return array($hash, $produits[$hash]);
         }
 
         $libelle_prod = $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT];
@@ -134,7 +138,7 @@ class Revendication extends BaseRevendication {
             foreach ($produitAliases as $alias) {
                 if (Search::matchTermLight($libelle_prod, $alias)) {
                     $hash = str_replace('-', '/', $hashKey);
-                    return array($hash, $produits[$hashKey]);
+                    return array($hash, $produits[$hash]);
                 }
             }
         }
@@ -159,11 +163,12 @@ class Revendication extends BaseRevendication {
     private function detectDoublon($row, $etb) {
         $etbId = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID];
         $code_produit = $row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT];
+        // Les doublons ne comprennent pas la ligne doublonnée de base (qui fait partie des datas)! 
         if ($this->datas->exist($etbId)
                 && $this->datas->{$etbId}->produits->exist($code_produit)
                 && $this->datas->{$etbId}->commune == $row[RevendicationCsvFile::CSV_COL_VILLE]) {
             foreach ($this->datas->{$etbId}->produits->{$code_produit}->volumes as $num => $volume) {
-                if ($row[RevendicationCsvFile::CSV_COL_NUMERO_CA] != $num && $volume->volume == $row[RevendicationCsvFile::CSV_COL_VOLUME]) {
+                if ($row[RevendicationCsvFile::CSV_COL_NUMERO_CA] != $num && $volume->volume == $row[RevendicationCsvFile::CSV_COL_VOLUME]) {                    
                     throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DOUBLON, array('num_ligne' => $volume->num_ligne));
                 }
             }
@@ -178,7 +183,6 @@ class Revendication extends BaseRevendication {
 //        $libelle = $produits[$hash];         
 //        $this->getDatas()->get($cvi)->updateProduitsAndVolume($this->getDatas()->get($cvi)->produits, $produit_key_old, $produit_key_new, $libelle,$row, $num_ligne, $new_volume);
 //        }
-        
 //    public function majVolume($cvi, $produit_key, $row, $num_ligne, $new_volume) {
 //        
 //        $volume = $this->getDatas()->get($cvi)->produits->get($produit_key)->volumes->add($row);
@@ -194,32 +198,50 @@ class Revendication extends BaseRevendication {
         }
         return null;
     }
-    
-    public function updateErrors() {
-        $num_ligne = count($this->erreurs) - 1;
-        while ($num_ligne >= 0) {
 
-            $erreur = $this->erreurs[$num_ligne];
-            $row = explode('#', $erreur->ligne);
-            $etb = $this->matchEtablissement($row);
-            $hashLibelle = $this->matchProduit($row);
-            //$bailleur = ($row->value[RevendicationCsvFile::CSV_COL_PROPRIO_METAYER])? $this->matchBailleur($row) : null;
+    public function updateErrors($type_error = null, $entity_error = null) {
 
-            if ((!is_null($etb)) && (!is_null($hashLibelle))) {
-                if (!array_key_exists($etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI], $this->datas))
-                    $revendicationEtb = $this->datas->_add($etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI]);
-                $revendicationEtb->storeDeclarant($etb);
-                $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle, null);
-                unset($this->erreurs[$num_ligne]);
+        if ($type_error == RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS) {
+            if (!($this->erreurs->exist($type_error) && $this->erreurs->$type_error->exist($entity_error)))
+                throw new sfException("Il n'existe aucune erreur de type $type_error pour l'entité $entity_error");
+            $errorsToCheck = $this->erreurs->$type_error->$entity_error;
+
+            $key = count($errorsToCheck) - 1;
+            while ($key >= 0) {
+                $error = $errorsToCheck[$key];
+                $row = explode('#', $error->ligne);
+                $ret = $this->insertRow($error->num_ligne, $row);
+                if ($ret == true) {
+                    $error->delete();
+                }
+                $key--;
             }
-            $num_ligne--;
+            if(!count($errorsToCheck)) $errorsToCheck->delete();
+            if(!count($this->erreurs->$type_error)) $this->erreurs->$type_error->delete();
         }
+    }
+    
+    public function deteteDoublon($num_ligne,$doublon){
+        $doublon_type = RevendicationErrorException::ERREUR_TYPE_DOUBLON;
+        $errorsDoublons = $this->erreurs->$doublon_type->$num_ligne;
+        $key = count($errorsDoublons) - 1;
+        while ($key >= 0) {
+            $error = $errorsDoublons[$key];
+            if($error->num_ligne == intval($doublon)){
+                $error->delete();
+            }
+            $key--;
+        }
+        if(!count($errorsDoublons)) $errorsDoublons->clean();
+        if(!count($this->erreurs->$doublon_type)) $this->erreurs->$doublon_type->clean();
     }
 
     public function deleteRow($cvi, $row) {
         $this->getProduitNode($cvi, $row)->supprProduit();
     }
 
+    
+    
     public function getNbErreurs() {
         $nb_erreur = 0;
         foreach ($this->erreurs as $erreurType) {
