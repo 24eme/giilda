@@ -3,12 +3,13 @@
 	$(document).ready(function()
 	{
 		$.initFormSection();
+		$.initTags();
 	});
 	
 	// Gère les ouverture / fermeture des blocs de formulaires
 	$.initFormSection = function()
 	{
-		var formSection = $('.form_section');
+		var formSection = $('#contacts .form_section');
 		
 		formSection.children('h3').click(function()
 		{
@@ -27,6 +28,11 @@
 				formContenu.slideUp();
 			}
 		});
+	};
+	
+	$.initTags = function()
+	{
+		$('#contacts .tags').tagit();
 	};
 	
 })(jQuery);

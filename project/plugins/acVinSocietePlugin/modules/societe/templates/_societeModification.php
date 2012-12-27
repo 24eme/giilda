@@ -43,11 +43,6 @@ echo $societeForm->renderGlobalErrors();
 				<?php echo $societeForm['code_naf']->renderError(); ?>
 			</div>
         </div>                
-        <div class="form_ligne">
-            <?php echo $societeForm['tva_intracom']->renderLabel(); ?>
-            <?php echo $societeForm['tva_intracom']->render(); ?>
-            <?php echo $societeForm['tva_intracom']->renderError(); ?>
-        </div>
 		<div id="enseignes_list">
             <?php
             foreach ($societeForm['enseignes'] as $enseigneForm) {

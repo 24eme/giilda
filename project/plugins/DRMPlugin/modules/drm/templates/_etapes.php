@@ -1,6 +1,6 @@
 <ol id="rail_etapes">
     <li >
-        <a href="/vinsdeloire_dev.php/vrac/nouveau">
+        <a href="<?php echo url_for('drm_edition', $drm);?>">
             <strong><span style="cursor: default;">1 </span>
                 Saisie 
             </strong>    </a>    

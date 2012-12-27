@@ -1,22 +1,30 @@
 #!/bin/bash
 
+setOnGoodBranch () {
+    git submodule foreach git checkout master > /dev/null 2>&1
+    checkout project/plugins/acVinDRMPlugin vinsdeloire
+    checkout project/plugins/acVinConfigurationPlugin vinsdeloire
+    checkout project/plugins/acVinEtablissementPlugin vinsdeloire
+    checkout project/plugins/acVinComptePlugin vinsdeloire
+}
+
+checkout () {
+    path=$(pwd)
+    cd $1
+    git checkout $2 > /dev/null 2>&1
+    cd $path
+}
+
+setOnGoodBranch
+
 git pull
 git submodule foreach git pull
 
-git submodule init
-git submodule update
-git submodule foreach git checkout master
+git submodule init > /dev/null 2>&1
+git submodule update > /dev/null 2>&1
 
-cd project/plugins/acVinDRMPlugin
-git checkout vinsdeloire
-cd ../../..
-cd project/plugins/acVinConfigurationPlugin
-git checkout vinsdeloire
-cd ../../..
+setOnGoodBranch
 
-cd project/plugins/acVinEtablissementPlugin
-git checkout vinsdeloire
-cd ../../..
-cd project/plugins/acVinComptePlugin
-git checkout vinsdeloire
-cd ../../..
+
+
+
