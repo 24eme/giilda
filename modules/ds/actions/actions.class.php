@@ -99,12 +99,12 @@ class dsActions extends sfActions {
     
     public function executeEditionDSValidationVisualisation(sfWebRequest $request) {
         $this->ds = $this->getRoute()->getDS();        
-            if ($request->isMethod(sfWebRequest::POST)) {
-                $this->ds->updateStatut();
-                $this->ds->save();
-                return $this->redirect('ds_etablissement', array('identifiant' => $this->ds->identifiant));
-            }
-        
+	$this->validation = new DSValidation($this->ds);
+	if ($request->isMethod(sfWebRequest::POST)) {
+	  $this->ds->updateStatut();
+	  $this->ds->save();
+	  return $this->redirect('ds_etablissement', array('identifiant' => $this->ds->identifiant));
+	}
     }
 
     public function executeLatex(sfWebRequest $request) {

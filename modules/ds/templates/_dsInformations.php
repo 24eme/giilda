@@ -1,3 +1,6 @@
+<?php
+use_helper('Display');
+?>
 <div id="ds_infos" class="bloc_form">   
 	<div class="ligne_form">
 		<span>
