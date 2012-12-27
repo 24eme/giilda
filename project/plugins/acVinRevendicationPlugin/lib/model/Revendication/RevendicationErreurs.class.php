@@ -45,6 +45,7 @@ class RevendicationErreurs extends BaseRevendicationErreurs {
         }
         $error->ligne = $rowFormatted;
         $error->num_ligne = $numLigne;
+        return $error;
     }
 
 }
