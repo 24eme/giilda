@@ -4312,6 +4312,8 @@ bouton#principal.drm fieldset .btn_container_exporter a { height:26px; }
   font-weight:bold;
   margin:0 0 5px;
 }
+.ds #operateur_infos .grand { height:54px; }
+.ds #operateur_infos .ligne_form label { width:135px; }
 .revendication #revendication_import_fichier { overflow:hidden; }
 .revendication #revendication_import_fichier h2 {
   margin:0;
