@@ -31,6 +31,7 @@ use_helper('Float');
             $('#generation_ds').bind('click', function()
             {
                 $('form#generation_form').submit();
+		return false;
             });
         });
     

@@ -38,6 +38,7 @@
             $('#generation').bind('click', function()
             {
                 $('form#generation_form').submit();
+		return false;
             });
         });
     

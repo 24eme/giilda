@@ -41,6 +41,7 @@ end_slot();
             $('#generation_ds').bind('click', function()
             {
                 $('form#generation_form').submit();
+		return false;
             });
         });
     

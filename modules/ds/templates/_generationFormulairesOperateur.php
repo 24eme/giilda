@@ -21,6 +21,7 @@
             $('#generation_operateur').bind('click', function()
             {
                 $('form#generation_operateur_form').submit();
+		return false;
             });
         });
     
