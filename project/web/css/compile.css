@@ -1874,7 +1874,8 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   padding:10px;
 }
 #contenu_etape #tableau_contrat td.type { vertical-align:middle; }
-#contenu_etape #tableau_contrat #num_contrat a {
+#contenu_etape #tableau_contrat .num_contrat { text-align:center; }
+#contenu_etape #tableau_contrat .num_contrat a {
   color:#2160cf;
   font-style:italic;
   text-decoration:underline;
