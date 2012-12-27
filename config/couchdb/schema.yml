@@ -5,7 +5,6 @@ Facture:
       _id: {}
       _rev: {}
       type: {}
-      num_archivage: {}
       identifiant: {}
       numero_facture: {}
       date_emission: {}

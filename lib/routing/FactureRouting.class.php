@@ -37,10 +37,12 @@ class FactureRouting {
 									       'type' => 'object')
 									 ));
         
-        $r->prependRoute('facture_pdf', new SocieteRoute('/facture/:identifiant/view/:factureid/pdf', array('module' => 'facture', 
+       $r->prependRoute('facture_redirect_to_doc', new sfRoute('/facture/redirect/:iddocument', array('module' => 'facture', 'action' => 'redirect')));
+
+        $r->prependRoute('facture_pdf', new FactureRoute('/facture/:identifiant/pdf', array('module' => 'facture', 
 													'action' => 'latex'),
 									 array('sf_method' => array('get','post')),
-									 array('model' => 'Societe',
+									 array('model' => 'Facture',
 									       'type' => 'object')
 									 ));
         $r->prependRoute('defacturer', new FactureRoute('/facture/:identifiant/defacturer',

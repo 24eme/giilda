@@ -50,20 +50,22 @@ class factureActions extends sfActions {
     public function executeDefacturer(sfWebRequest $resquest) {
         $this->facture = $this->getRoute()->getFacture();
 	$this->avoir = FactureClient::getInstance()->defactureCreateAvoirAndSaveThem($this->facture);
-        $this->societe = SocieteClient::getInstance()->find($this->facture->identifiant);
-        $this->redirect('facture_societe', $this->societe);        
+        $this->redirect('facture_societe', array('identifiant' => $this->facture->identifiant));
     }
 
 
     public function executeGenerer(sfWebRequest $request) {
         $parameters = $request->getParameter('facture_generation');
         $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
+        $parameters['date_mouvement'] = (isset($parameters['date_mouvement']) && $parameters['date_mouvement']) ?  $parameters['date_mouvement'] : $parameters['date_facturation'];
         
         $this->societe = $this->getRoute()->getSociete();
-        $this->facturations = FactureClient::getInstance()->getFacturationForSociete($this->societe,9);
-        $mouvementsBySoc = array($this->societe->identifiant => $this->facturations);        
+
+        $mouvementsBySoc = array(
+				 $this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe,9)
+				 );        
         $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$parameters);   
-        
+
         if($mouvementsBySoc)
         {
             $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc,$parameters['date_facturation']);
@@ -74,12 +76,22 @@ class factureActions extends sfActions {
 
 
 
+    public function executeRedirect(sfWebRequest $request) {
+      $iddoc = $request->getParameter('iddocument');
+      if (preg_match('/^DRM/', $iddoc)) {
+	$drm = DRMClient::getInstance()->find($iddoc);
+	return $this->redirect('drm_visualisation', $drm);
+      }else if (preg_match('/^SV12/', $iddoc)) {
+	$sv12 = SV12Client::getInstance()->find($iddoc);
+	return $this->redirect('sv12_visualisation', $sv12);
+      }
+      return $this->forward404();
+    }
+
     public function executeLatex(sfWebRequest $request) {
         
         $this->setLayout(false);
-        $region = $this->getRoute()->getSociete()->getRegionViticole();
-        $prefix = EtablissementClient::getPrefixForRegion($region);
-        $this->facture = FactureClient::getInstance()->findByPrefixAndSocieteAndId($prefix,$this->getRoute()->getSociete()->identifiant, $request->getParameter('factureid'));
+        $this->facture = FactureClient::getInstance()->find($request->getParameter('identifiant'));
         $this->forward404Unless($this->facture);
 	$latex = new FactureLatex($this->facture);
 //	$latex->echoFactureWithHTTPHeader('latex');

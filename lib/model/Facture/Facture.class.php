@@ -61,12 +61,16 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function constructIds($soc) {
-        $this->region = $soc->getRegionViticole();
-        $prefixNumFacture = $this->getPrefixForRegion();
-        $this->identifiant = $soc->identifiant;
-        $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($prefixNumFacture, $this->identifiant, date('Ymd'));
-        $this->_id = FactureClient::getInstance()->getId($this->identifiant, $this->numero_facture);
-        $this->num_archivage = $this->identifiant . '/' . date('Y/m') . '/' . substr($this->numero_facture, strlen($this->numero_facture) - 2);
+      if (!$soc) 
+	throw new sfException('Pas de societe attribuée');
+      $this->region = $soc->getRegionViticole();
+      $this->identifiant = $soc->identifiant;
+      $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($this->identifiant, date('Ymd'));
+      $this->_id = FactureClient::getInstance()->getId($this->identifiant, $this->numero_facture);
+    }
+
+    public function getNumeroInterloire() {
+      return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->numero_facture).'/'.$this->getPrefixForRegion().'-'.$this->numero_archive;
     }
 
     public function getDocumentsOrigine() {
@@ -183,7 +187,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 	    $origine_libelle = "Écart";
 	    return $origine_libelle;
 	  }
-	  $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getNumContrat($ligne->contrat_identifiant);
+	  $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getNumeroContrat($ligne->contrat_identifiant);
 	  $origine_libelle .= ' (' . $transacteur . ') ';
 	  if ($famille == EtablissementFamilles::FAMILLE_NEGOCIANT)
 	    $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);

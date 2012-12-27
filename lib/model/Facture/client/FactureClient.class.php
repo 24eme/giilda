@@ -22,20 +22,20 @@ class FactureClient extends acCouchdbClient {
     }
 
 
-    public function getNextNoFacture($prefix,$idClient,$date)
+    public function getNextNoFacture($idClient,$date)
     {   
         $id = '';
-    	$facture = self::getAtDate($prefix,$idClient,$date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+    	$facture = self::getAtDate($idClient,$date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($facture) > 0) {
-            $id .= ((double)str_replace('FACTURE-'.$prefix.'-'.$idClient.'-', '', max($facture)) + 1);
+            $id .= ((double)str_replace('FACTURE-'.$idClient.'-', '', max($facture)) + 1);
         } else {
             $id.= $date.'01';
         }
         return $id;
     }
     
-    public function getAtDate($prefix,$idClient,$date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('FACTURE-'.$prefix.'-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$prefix.'-'.$idClient.'-'.$date.'99')->execute($hydrate);        
+    public function getAtDate($idClient,$date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$idClient.'-'.$date.'99')->execute($hydrate);        
     }
 
     public function getFacturationForSociete($societe, $level) {
@@ -45,7 +45,7 @@ class FactureClient extends acCouchdbClient {
     public function createDoc($mvts, $societe, $emmetteur = null, $date_facturation = null) {
 
         $facture = new Facture();
-        $facture->storeDatesCampagne($date_facturation,'2011-2012');        
+        $facture->storeDatesCampagne($date_facturation,'2011-2012');
         $facture->constructIds($societe);        
         $facture->storeEmetteur();
         $facture->storeDeclarant();
@@ -60,8 +60,8 @@ class FactureClient extends acCouchdbClient {
         return $this->find('FACTURE-' . $identifiant);
     }
 
-    public function findByPrefixAndSocieteAndId($prefix,$idSociete, $idFacture) {
-        return $this->find('FACTURE-'.$prefix.'-'. $idSociete . '-' . $idFacture);
+    public function findBySocieteAndId($idSociete, $idFacture) {
+        return $this->find('FACTURE-'.$idSociete . '-' . $idFacture);
     }
 
     public function getMouvementsForMasse($regions,$level = 9) {
@@ -90,12 +90,11 @@ class FactureClient extends acCouchdbClient {
     }
     
     public function filterWithParameters($mouvementsByEtb, $parameters) {
-        
     if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '')){
         $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
         foreach ($mouvementsByEtb as $identifiant => $mouvements) {
             foreach ($mouvements as $key => $mouvement) {
-                    if(Date::supEqual($mouvement->value[MouvementfactureFacturationView::VALUE_DATE],$date_mouvement)) {
+                    if(Date::sup($mouvement->value[MouvementfactureFacturationView::VALUE_DATE],$date_mouvement)) {
                         unset($mouvements[$key]);
                         $mouvementsByEtb[$identifiant] = $mouvements;
                     }

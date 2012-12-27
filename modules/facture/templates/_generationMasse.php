@@ -47,6 +47,7 @@
             $('#facture_generation_btn').bind('click', function()
             {
                 $('form#facture_generation').submit();
+		return false;
             });
         });
     

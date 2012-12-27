@@ -61,7 +61,7 @@ use_helper('Display');
 \def\InterloireBIC{AGRIFRPP847}
 \def\InterloireIBAN{FR76~1470~6000~1400~0000~2200~028}
 
-\def\FactureNum{<?php echo $facture->numero_facture; ?>}
+\def\FactureNum{<?php echo $facture->numero_interloire; ?>}
 \def\FactureNumREF{<?php echo substr($facture->numero_facture,6,2).' '.substr($facture->numero_facture,0,6); ?>}
 \def\FactureDate{<?php echo format_date($facture->date_emission,'dd/MM/yyyy'); ?>}
 \def\FactureRefClient{<?php echo $facture->identifiant; ?>}

@@ -24,13 +24,13 @@ if(count($factures->getRawValue())==0) :
                 ?>
                 <tr>
                     <td><?php $d = format_date($facture->value[FactureSocieteView::VALUE_DATE_EMISSION],'dd/MM/yyyy');
-                        echo link_to($d, array('sf_route' => 'facture_pdf', 'identifiant' => str_replace('SOCIETE-', '', $facture->key[FactureSocieteView::KEYS_CLIENT_ID]), 'factureid' => str_replace('FACTURE-'.EtablissementClient::getPrefixForRegion($societe->getRegionViticole()).'-' . $societe->identifiant . '-', '', $facture->key[FactureSocieteView::KEYS_FACTURE_ID]))); ?>
+                        echo link_to($d, array('sf_route' => 'facture_pdf', 'identifiant' => $facture->key[FactureSocieteView::KEYS_FACTURE_ID])); ?>
                     </td>
                     <td><?php foreach ($facture->value[FactureSocieteView::VALUE_ORIGINES] as $drmid => $drmlibelle) {
 
                         $drmIdFormat = (strstr($drmlibelle, 'DRM')!==FALSE)? DRMClient::getInstance()->getLibelleFromId($drmlibelle) :
                         SV12Client::getInstance()->getLibelleFromId($drmlibelle);
-                echo link_to($drmIdFormat, 'drm_redirect_to_visualisation', array('identifiant_drm' => $drmid)) . "<br/>";
+                echo link_to($drmIdFormat, 'facture_redirect_to_doc', array('iddocument' => $drmid)) . "<br/>";
             }; ?></td>
                     <td><?php echoFloat($facture->value[FactureSocieteView::VALUE_TOTAL_TTC]); ?>&nbsp;€</td>
                     <td><?php
