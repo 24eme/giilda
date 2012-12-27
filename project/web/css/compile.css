@@ -2923,8 +2923,8 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   zoom:1;
   min-height:1px;
   float:left;
-  height:50px;
   position:relative;
+  width:425px;
 }
 .tags:before, .tags:after {
   content:"\0020";
@@ -2941,7 +2941,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 }
 .tags .tagit-choice {
   display:inline-block;
-  margin:0 0 0 25px;
+  margin:0 25px 10px 0;
   padding:0 0 0 26px;
   position:relative;
   text-decoration:underline;
@@ -2951,7 +2951,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   display:inline;
   zoom:1;
 }
-.tags .tagit-choice:first-child { margin-left:0; }
 .tags .tagit-close {
   bottom:auto;
   left:0;
