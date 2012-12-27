@@ -17,6 +17,8 @@ class sv12Actions extends sfActions {
 
     public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
+	if (!$this->etablissement->isNegociant())
+	  throw new sfException('Seuls les négociants peuvent faire des SV12');
         $this->periode = SV12Client::getInstance()->buildPeriode(date('Y-m-d'));
         $this->list = SV12AllView::getInstance()->getMasterByEtablissement($this->etablissement->identifiant);
     }
@@ -64,6 +66,7 @@ class sv12Actions extends sfActions {
 
     public function executeRecapitulatif(sfWebRequest $request) {
         $this->sv12 = $this->getRoute()->getSV12();
+	$this->validation = new SV12Validation($this->sv12);
         $this->mouvements = $this->sv12->getMouvementsCalculeByIdentifiant($this->sv12->identifiant);
         $this->sv12->updateTotaux();
         
@@ -107,7 +110,4 @@ class sv12Actions extends sfActions {
             }
        }
     }
-    
-    
-
 }

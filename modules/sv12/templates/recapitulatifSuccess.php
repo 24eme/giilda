@@ -5,7 +5,7 @@
     <!-- #contenu_etape -->
     <section id="contenu_etape">
         <h2>Déclaration SV12</h2>
-
+        <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
         <?php include_partial('negociant_infos', array('sv12' => $sv12)); ?>
 
         <form name="sv12_recapitulatif" method="POST" action="<?php echo url_for('sv12_recapitulatif', $sv12); ?>" >
