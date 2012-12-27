@@ -752,15 +752,4 @@ EOF;
 
     }
   }
-
-  public function logLignes($type, $message, $lines, $num_ligne = null) {
-    $this->log(sprintf("%s;%s (de la ligne %s à %s) :", $type, $message, $num_ligne-count($lines), $num_ligne));
-    foreach($lines as $i => $line) {
-      $this->log(sprintf(" - %s : %s", $i, implode($line, ";")));
-    }
-  }
-
-  public function logLigne($type, $message, $line, $num_ligne = null) {
-    $this->log(sprintf("%s;%s (ligne %s) : %s", $type, $message, $num_ligne, implode($line, ";")));
-  }
 }
