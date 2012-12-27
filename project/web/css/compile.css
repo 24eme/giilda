@@ -735,7 +735,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 }
 .table_recap tr th {
   background-color:#ecebeb;
-  font-size:14px;
+  font-size:13px;
   padding:5px 0;
   vertical-align:middle;
 }
@@ -1175,31 +1175,6 @@ ul.radio_list li label { font-weight:normal !important; }
 }
 .ui-autocomplete a.ui-state-hover, .ui-autocomplete a.ui-state-active { background:#e9e9e9; }
 .ui-autocomplete-loading { background:#ffffff url('../images/pictos/pi_loader.gif') right center no-repeat !important; }
-.type_raisins, .type_mouts, .type_vin_vrac, .type_vin_bouteille {
-  height:1px;
-  overflow:hidden;
-  text-indent:100%;
-  white-space:nowrap;
-  width:22px;
-  background:url(../images/pictos/sprite_type.png) no-repeat;
-  display:inline-block;
-}
-.type_raisins {
-  height:26px;
-  background-position:0 -59px;
-}
-.type_mouts {
-  height:27px;
-  background-position:0 -32px;
-}
-.type_vin_vrac {
-  height:26px;
-  background-position:0 -84px;
-}
-.type_vin_bouteille {
-  height:28px;
-  background-position:0 0;
-}
 #fil_ariane {
   font-style:italic;
   line-height:1;
@@ -1660,6 +1635,31 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 #rail_etapes li.passe > *:after { background-position:0 -94px; }
 #rail_etapes li strong { font-weight:normal; }
 .facturable { font-weight:bold; }
+.type_raisins, .type_mouts, .type_vin_vrac, .type_vin_bouteille {
+  height:1px;
+  overflow:hidden;
+  text-indent:100%;
+  white-space:nowrap;
+  width:22px;
+  background:url(../images/pictos/sprite_type.png) no-repeat;
+  display:inline-block;
+}
+.type_raisins {
+  height:26px;
+  background-position:0 -59px;
+}
+.type_mouts {
+  height:27px;
+  background-position:0 -32px;
+}
+.type_vin_vrac {
+  height:26px;
+  background-position:0 -84px;
+}
+.type_vin_bouteille {
+  height:28px;
+  background-position:0 0;
+}
 #contrat_progression p {
   font-weight:bold;
   margin:0 0 5px;
@@ -1863,32 +1863,15 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   float:right;
   margin-top:50px;
 }
-#contenu_etape #tableau_contrat th {
-  border:1px solid #e5e4e4;
-  background:#ecebeb;
-  vertical-align:middle;
-}
-#contenu_etape #tableau_contrat td {
-  border:1px solid #e5e4e4;
-  vertical-align:top;
-  padding:10px;
-}
-#contenu_etape #tableau_contrat td.type { vertical-align:middle; }
-#contenu_etape #tableau_contrat #num_contrat a {
-  color:#2160cf;
-  font-style:italic;
-  text-decoration:underline;
-}
-#contenu_etape #tableau_contrat .statut_non-solde td { background-color:#fff8e8; }
-#contenu_etape #tableau_contrat .statut_solde td { background-color:#f0fae1; }
-#contenu_etape #tableau_contrat .statut_annule td { background-color:#feecec; }
+#contenu_etape #table_contrats .statut_non-solde td { background-color:#fff8e8; }
+#contenu_etape #table_contrats .statut_solde td { background-color:#f0fae1; }
+#contenu_etape #table_contrats .statut_annule td { background-color:#feecec; }
 #contenu_etape #vrac_soussigne .ligne_form { height:38px; }
 #contenu_etape #vrac_soussigne .section_label_maj {
   background:#ecebeb;
   margin:0 0 25px;
   padding:10px 10px 30px;
 }
-#contenu_etape #vrac_soussigne #vendeur_infos { height:160px; }
 #contenu_etape #vrac_soussigne #has_mandataire { font-weight:bold; }
 #contenu_etape #vrac_soussigne #mandataire {
   zoom:1;
@@ -2923,8 +2906,8 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   zoom:1;
   min-height:1px;
   float:left;
-  height:50px;
   position:relative;
+  width:425px;
 }
 .tags:before, .tags:after {
   content:"\0020";
@@ -2941,7 +2924,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 }
 .tags .tagit-choice {
   display:inline-block;
-  margin:0 0 0 25px;
+  margin:0 25px 10px 0;
   padding:0 0 0 26px;
   position:relative;
   text-decoration:underline;
@@ -2951,7 +2934,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   display:inline;
   zoom:1;
 }
-.tags .tagit-choice:first-child { margin-left:0; }
 .tags .tagit-close {
   bottom:auto;
   left:0;
@@ -4013,7 +3995,7 @@ bouton#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .
 }
 #principal.drm fieldset#historique_drm .section_label_maj table tr th {
   background-color:#ecebeb;
-  font-size:14px;
+  font-size:13px;
   padding:5px 0;
   vertical-align:middle;
 }

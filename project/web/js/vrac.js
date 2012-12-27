@@ -42,17 +42,17 @@ var initMarche = function()
     if($('#vrac_marche #original input:checked').length == 0)
         $('#vrac_marche #original input[value="1"]').attr('checked','checked');
     if($('#vrac_marche #type_transaction input:checked').length == 0)
-        $('#vrac_marche #type_transaction input[value="vin_vrac"]').attr('checked','checked');
-    if($('#type input[name="vrac[contient_domaine]"]:checked').length == 0)
-        $('#type input[value="generique"]').attr('checked','checked');  
+        $('#vrac_marche #type_transaction input[value="VIN_VRAC"]').attr('checked','checked');
+    if($('#type input[name="vrac[categorie_vin]"]:checked').length == 0)
+        $('#type input[value="GENERIQUE"]').attr('checked','checked');  
     
-    if($('#type input[value="generique"]:checked').length > 0){$('#domaine').hide();}
+    if($('#type input[value="GENERIQUE"]:checked').length > 0){$('#domaine').hide();}
     
          
     
     $('#type input').click(function()
     {
-        if($(this).val()=='generique') $('#domaine').hide();
+        if($(this).val()=='GENERIQUE') $('#domaine').hide();
         else  $('#domaine').show();       
     });
     
@@ -68,7 +68,7 @@ var updatePanelsAndUnitLabels = function()
 {
      switch ($('#vrac_marche #type_transaction input:checked').attr('value'))
     {
-         case 'raisins' :
+         case 'RAISINS' :
         {
             updatePanelsAndUnitForRaisins();
             
@@ -81,7 +81,7 @@ var updatePanelsAndUnitLabels = function()
             $('#vrac_prix_unitaire').bind('click',updatePanelsAndUnitForRaisins);
         }
         break;
-        case 'mouts' :
+        case 'MOUTS' :
         {
             updatePanelsAndUnitForJuice();
             
@@ -94,7 +94,7 @@ var updatePanelsAndUnitLabels = function()
             $('#vrac_prix_unitaire').bind('click',updatePanelsAndUnitForJuice);
         }
         break;
-        case 'vin_vrac' :
+        case 'VIN_VRAC' :
         {
             updatePanelsAndUnitForJuice();
             
@@ -107,7 +107,7 @@ var updatePanelsAndUnitLabels = function()
             $('#vrac_prix_unitaire').bind('click',updatePanelsAndUnitForJuice);
         }
         break;
-        case 'vin_bouteille' :
+        case 'VIN_BOUTEILLE' :
         {
             updatePanelsAndUnitForBottle();
             
