@@ -83,6 +83,10 @@ class Etablissement extends BaseEtablissement {
       $liaison->libelle_etablissement = $etablissement->nom;
     }
 
+    public function isNegociant() {
+      return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT);
+    }
+
     public function getFamilleType() {
         $familleType = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'vendeur',
             EtablissementFamilles::FAMILLE_NEGOCIANT => 'acheteur',
