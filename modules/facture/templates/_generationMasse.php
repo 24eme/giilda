@@ -27,9 +27,9 @@
                 <?php  echo $generationForm['date_facturation']->render(); ?>
             </div>
             <div class="ligne_form champ_datepicker">
-                <?php  echo $generationForm['date_mouvements']->renderlabel(); ?>
-                <?php echo $generationForm['date_mouvements']->renderError() ?> 
-                <?php  echo $generationForm['date_mouvements']->render(); ?>
+                <?php  echo $generationForm['date_mouvement']->renderlabel(); ?>
+                <?php echo $generationForm['date_mouvement']->renderError() ?> 
+                <?php  echo $generationForm['date_mouvement']->render(); ?>
             </div>
         </li>
     </ul>    

@@ -22,11 +22,11 @@ class factureActions extends sfActions {
 	   $generation = new Generation();
            
            $date_facturation = DATE::getIsoDateFromFrenchDate($values['date_facturation']);
-           $date_mouvements = DATE::getIsoDateFromFrenchDate($values['date_mouvements']);
+           $date_mouvement = DATE::getIsoDateFromFrenchDate($values['date_mouvement']);
            
            $generation->arguments->add('regions', implode(',', array_values($values['regions'])));
-	   $generation->arguments->add('date_facturation', $date_facturation);           
-	   $generation->arguments->add('date_mouvements', $date_mouvements);           
+	   $generation->arguments->add('date_facturation', $date_facturation);
+	   $generation->arguments->add('date_mouvement', $date_mouvement);
 	   $generation->arguments->add('seuil', $values['seuil']);
 	   $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
            $generation->save();
