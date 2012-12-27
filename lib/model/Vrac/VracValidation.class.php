@@ -13,7 +13,7 @@ class VracValidation {
     }
 
     public function check() {
-        if(is_null($this->vrac->volume_propose)) {
+        if(!$this->vrac->volume_propose) {
             $this->errors['volume_exist'] = "Le volume du contrat est manquant";
         }
 
@@ -28,6 +28,11 @@ class VracValidation {
         if ($this->vrac->isVin() && $this->vrac->volume_propose > $this->vrac->getStockCommercialisable()) {
             $this->warnings['stock_commercialisable_negatif'] = "Le stock commercialisable est inférieur au stock proposé";
         }
+
+	$nbsimilaires = count(VracClient::getInstance()->retrieveSimilaryContracts($this->vrac));
+	if ($nbsimilaires) {
+	  $this->warnings['contrat_similaires'] = 'Il y a '.$nbsimilaires.' contrat(s) similaire(s)';
+	}
 
         return $this->isValid();
     }
