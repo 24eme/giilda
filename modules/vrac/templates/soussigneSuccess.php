@@ -149,8 +149,6 @@ if (!$contratNonSolde)
 /*
  * Inclusion des Contacts
  */
-include_partial('contrat_infos_contact', array('vrac' => $vrac));
-
 end_slot();
 ?>
  
