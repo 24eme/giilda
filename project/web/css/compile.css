@@ -1863,6 +1863,23 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   float:right;
   margin-top:50px;
 }
+#contenu_etape #table_contrats th {
+  border:1px solid #e5e4e4;
+  background:#ecebeb;
+  vertical-align:middle;
+}
+#contenu_etape #table_contrats td {
+  border:1px solid #e5e4e4;
+  vertical-align:top;
+  padding:10px;
+}
+#contenu_etape #table_contrats td.type { vertical-align:middle; }
+#contenu_etape #table_contrats .num_contrat { text-align:center; }
+#contenu_etape #table_contrats .num_contrat a {
+  color:#2160cf;
+  font-style:italic;
+  text-decoration:underline;
+}
 #contenu_etape #table_contrats .statut_non-solde td { background-color:#fff8e8; }
 #contenu_etape #table_contrats .statut_solde td { background-color:#f0fae1; }
 #contenu_etape #table_contrats .statut_annule td { background-color:#feecec; }
@@ -1872,7 +1889,6 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   margin:0 0 25px;
   padding:10px 10px 30px;
 }
-#contenu_etape #vrac_soussigne #vendeur_infos { height:160px; }
 #contenu_etape #vrac_soussigne #has_mandataire { font-weight:bold; }
 #contenu_etape #vrac_soussigne #mandataire {
   zoom:1;
@@ -2906,27 +2922,27 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 80px; }
 #detail_etablissement .form_colonne:first-child + .form_colonne label { width:115px; }
 #detail_etablissement label { width:190px; }
-.tags {
+#contacts .tags {
   zoom:1;
   min-height:1px;
   float:left;
   position:relative;
   width:425px;
 }
-.tags:before, .tags:after {
+#contacts .tags:before, #contacts .tags:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-.tags:after { clear:both; }
-.tags input {
+#contacts .tags:after { clear:both; }
+#contacts .tags input {
   background:#ffffff;
   padding:5px;
   width:auto;
 }
-.tags .tagit-choice {
+#contacts .tags .tagit-choice {
   display:inline-block;
   margin:0 25px 10px 0;
   padding:0 0 0 26px;
@@ -2934,11 +2950,11 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   text-decoration:underline;
   top:40px;
 }
-.ielt8 .tags .tagit-choice {
+.ielt8 #contacts .tags .tagit-choice {
   display:inline;
   zoom:1;
 }
-.tags .tagit-close {
+#contacts .tags .tagit-close {
   bottom:auto;
   left:0;
   position:absolute;
@@ -2951,7 +2967,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   text-indent:-9999px;
   width:20px;
 }
-.tags .tagit-new {
+#contacts .tags .tagit-new {
   bottom:auto;
   left:0;
   position:absolute;
@@ -4316,6 +4332,8 @@ bouton#principal.drm fieldset .btn_container_exporter a { height:26px; }
   font-weight:bold;
   margin:0 0 5px;
 }
+.ds #operateur_infos .grand { height:54px; }
+.ds #operateur_infos .ligne_form label { width:135px; }
 .revendication #revendication_import_fichier { overflow:hidden; }
 .revendication #revendication_import_fichier h2 {
   margin:0;

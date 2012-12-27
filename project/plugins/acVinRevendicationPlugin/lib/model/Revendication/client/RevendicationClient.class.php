@@ -38,7 +38,7 @@ class RevendicationClient extends acCouchdbClient {
     }
 
     public function getHistory() {
-        return RevendicationHistoryView::getInstance()->getHistory();
+        return array_reverse(RevendicationHistoryView::getInstance()->getHistory());
     }
 
     public function getRevendicationLibelle($id) {
@@ -61,7 +61,9 @@ class RevendicationClient extends acCouchdbClient {
         $produitNode = $this->getProduitNode($revendication, $identifiant, $produit);
         if (!$produitNode)
             throw new sfException("Le noeud produit d'identifiant $identifiant et de produit $produit n'existe pas dans la revendication");
-        $produitNode->statut = RevendicationProduits::STATUT_SUPPRIME;
+        if (!$produitNode->volumes->$row)
+            throw new sfException("La ligne $row n'existe pas pour le produit $produit et l'etablissement $identifiant");
+        $produitNode->volumes->$row->statut = RevendicationProduits::STATUT_SUPPRIME;
         $this->storeDoc($revendication);
     }
 

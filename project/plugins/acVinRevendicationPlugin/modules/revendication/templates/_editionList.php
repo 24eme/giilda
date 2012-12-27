@@ -9,8 +9,7 @@
         <thead>
             <tr>
                 <th>ODG</th>
-                <th>Date</th>
-                <th>N° certif.</th>
+                <th>Date et N° certif.</th>
                 <th>CVI</th>
                 <th style="width: 150px;">Nom</th>
                 <th>Produit</th>
@@ -29,8 +28,8 @@
             <?php if ($rev->statut != RevendicationProduits::STATUT_SUPPRIME): ?>
             <tr>
                 <td><?php echo $rev->odg ?></td>
-                <td><?php echo isset($rev->date_traitement)? format_date($rev->date_traitement, 'dd/MM/yyyy') : 'N/A'; ?></td>
-                <td><?php echo $rev->num_certif; ?></td>
+                <td><?php echo isset($rev->date_traitement)? format_date($rev->date_traitement, 'dd/MM/yyyy') : 'N/A';
+                          echo ' ('.$rev->num_certif.')';  ?></td>
                 <td><?php echo $rev->declarant_cvi; ?></td>
                 <td>
                 <?php echo $rev->declarant_nom ?>

@@ -69,7 +69,7 @@
                             </p>
                             <p><?php echo str_replace('#', ';', $erreur->ligne); ?></p>
                             <?php if ($type == RevendicationErrorException::ERREUR_TYPE_DOUBLON): ?> 
-                                <a style="margin-top: 5px;" href="" class="btn_majeur btn_annuler">Supprimer cette ligne</a>
+                            <a style="margin-top: 5px;" href="<?php echo url_for('revendication_delete_doublon', array('odg' => $revendication->odg,'campagne' => $revendication->campagne,'num_ligne' => $unmatched_data,'doublon' => $erreur->num_ligne)); ?>" class="btn_majeur btn_annuler">Supprimer cette ligne</a>
                             <?php endif; ?>
                         </td>
                     </tr>
