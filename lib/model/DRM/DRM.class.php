@@ -755,9 +755,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->mouvement_document->generateMouvements();
     }    
     
-    public function findMouvement($cle){
-        
-        return $this->mouvement_document->findMouvement($cle);
+    public function findMouvement($cle, $id = null){
+      return $this->mouvement_document->findMouvement($cle, $id);
     }
 
     public function facturerMouvements() {
