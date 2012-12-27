@@ -2902,27 +2902,27 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 80px; }
 #detail_etablissement .form_colonne:first-child + .form_colonne label { width:115px; }
 #detail_etablissement label { width:190px; }
-.tags {
+#contacts .tags {
   zoom:1;
   min-height:1px;
   float:left;
   position:relative;
   width:425px;
 }
-.tags:before, .tags:after {
+#contacts .tags:before, #contacts .tags:after {
   content:"\0020";
   display:block;
   font-size:0;
   height:0;
   visibility:hidden;
 }
-.tags:after { clear:both; }
-.tags input {
+#contacts .tags:after { clear:both; }
+#contacts .tags input {
   background:#ffffff;
   padding:5px;
   width:auto;
 }
-.tags .tagit-choice {
+#contacts .tags .tagit-choice {
   display:inline-block;
   margin:0 25px 10px 0;
   padding:0 0 0 26px;
@@ -2930,11 +2930,11 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   text-decoration:underline;
   top:40px;
 }
-.ielt8 .tags .tagit-choice {
+.ielt8 #contacts .tags .tagit-choice {
   display:inline;
   zoom:1;
 }
-.tags .tagit-close {
+#contacts .tags .tagit-close {
   bottom:auto;
   left:0;
   position:absolute;
@@ -2947,7 +2947,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   text-indent:-9999px;
   width:20px;
 }
-.tags .tagit-new {
+#contacts .tags .tagit-new {
   bottom:auto;
   left:0;
   position:absolute;
