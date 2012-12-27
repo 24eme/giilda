@@ -16,7 +16,7 @@ use_helper('Date');
 \usepackage{textcomp}
 \usepackage{marvosym}
 \usepackage{lastpage}
-
+\usepackage{amssymb}
 
 \usetikzlibrary{fit}
 
@@ -140,6 +140,8 @@ page \thepage / 1
 \fbox{
 \textbf{RENSEIGNEMENTS RELATIFS AUX STOCKS DE VIN AU \DSSTOCKSDATE}}
 \end{center}
+
+$\square$ informations correctes~~~$\square$ informations à corriger
 
 \centering
 \begin{tikzpicture}
