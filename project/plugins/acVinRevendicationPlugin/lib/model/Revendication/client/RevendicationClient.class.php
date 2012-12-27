@@ -59,7 +59,6 @@ class RevendicationClient extends acCouchdbClient {
         if (!isset($revendication->datas->$identifiant))
             throw new sfException("Le noeud d'identifiant $identifiant n'existe pas dans la revendication");
         $produitNode = $this->getProduitNode($revendication, $identifiant, $row);
-        unset($produitNode->key);
         if (!$produitNode)
             throw new sfException("Le noeud produit d'identifiant $identifiant et de ligne $row n'existe pas dans la revendication");
         $produitNode->statut = RevendicationProduits::STATUT_SUPPRIME;
@@ -67,14 +66,16 @@ class RevendicationClient extends acCouchdbClient {
     }
 
     public function getProduitNode($revendication, $identifiant, $row) {
-        $produitNode = null;
         foreach ($revendication->datas->$identifiant->produits as $key => $produit) {
             if (isset($produit->volumes->$row)) {
-                $produit->key = $key;
-                $produitNode = $produit;
+                return $produit;
             }
         }
-        return $produitNode;
+        return null;
     }
 
+    
+    public function deleteRevendication($revendication){   
+        $this->delete($revendication);
+    }
 }
