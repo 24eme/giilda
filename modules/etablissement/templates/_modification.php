@@ -69,7 +69,7 @@
 		</div>
 	<?php endforeach; ?>
 
-	 <div class="form_ligne">
+	<div class="form_ligne">
 		<?php echo $etablissementForm['cvi']->renderLabel(); ?>
 		<?php echo $etablissementForm['cvi']->render(); ?>
 		<?php echo $etablissementForm['cvi']->renderError(); ?>

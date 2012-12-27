@@ -5,6 +5,8 @@ class EtablissementFamilles
     const FAMILLE_PRODUCTEUR = "producteur";
     const FAMILLE_NEGOCIANT = "negociant";
     const FAMILLE_COURTIER = "courtier";
+    // /!\ cooperative est une pseudo famille, elle est basée sur l'exploitation du champ cooperative
+    const PSEUDOFAMILLE_COOPERATIVE = "cooperative";
 
     const SOUS_FAMILLE_CAVE_PARTICULIERE = "cave_particuliere";
     const SOUS_FAMILLE_CAVE_COOPERATIVE = "cave_cooperative";

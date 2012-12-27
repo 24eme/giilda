@@ -5,6 +5,7 @@ Etablissement:
        _id: {  }
        _rev: {  }
        type: {  }
+       cooperative: {}
        interpro: {  }
        identifiant: {  }
        id_societe: {  }
@@ -23,7 +24,7 @@ Etablissement:
        region: {  }
        type_dr: {  }
        liaisons_operateurs:
-           type: array_collection
+           type: collection
            definition:
              fields:
                '*':
@@ -31,7 +32,8 @@ Etablissement:
                  type: collection
                  definition:
                    fields:
-                     id_societe: { }
+                     id_etablissement: { }
+                     libelle_etablissement: {}
                      type_liaison: { }
        site_fiche: {  }            
        compte: {  }

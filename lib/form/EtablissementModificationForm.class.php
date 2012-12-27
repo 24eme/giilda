@@ -27,8 +27,8 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->setWidget('type_dr', new sfWidgetFormChoice(array('choices' => $this->getTypeDR())));
 
         $this->setWidget('type_liaison', new sfWidgetFormChoice(array('choices' => $this->getTypesLiaisons())));
-        foreach ($this->getObject()->liaisons_operateurs as $key => $liaison_societe) {
-            $this->setWidget('liaisons_operateurs[' . $key . ']', new WidgetSociete(array('interpro_id' => $this->getObject()->interpro), array('class' => 'autocomplete')));
+        foreach ($this->getObject()->liaisons_operateurs as $key => $liaison_etablissement) {
+            $this->setWidget('liaisons_operateurs[' . $key . ']', new WidgetEtablissement(array('interpro_id' => $this->getObject()->interpro), array('class' => 'autocomplete')));
         }
 
         $this->setWidget('site_fiche', new sfWidgetFormInput());
@@ -47,8 +47,8 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('type_dr', 'Type de DR');
         $this->widgetSchema->setLabel('type_liaison', 'Type de liaison (externe)');
 
-        foreach ($this->getObject()->liaisons_operateurs as $key => $liaison_societe) {
-            $this->widgetSchema->setLabel('liaisons_operateurs[' . $key . ']', 'Société');
+        foreach ($this->getObject()->liaisons_operateurs as $key => $liaison_etablissement) {
+            $this->widgetSchema->setLabel('liaisons_operateurs[' . $key . ']', 'Établissement');
         }
         $this->widgetSchema->setLabel('site_fiche', 'Site Fiche Publique');
         $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnel');
@@ -67,8 +67,8 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->setValidator('type_dr', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeDR()))));
         $this->setValidator('type_liaison', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesLiaisons()))));
 
-        foreach ($this->getObject()->liaisons_operateurs as $key => $liaison_societe) {
-            $this->setValidator('liaisons_operateurs[' . $key . ']', new ValidatorSociete(array('required' => true)));
+        foreach ($this->getObject()->liaisons_operateurs as $key => $liaison_etablissement) {
+            $this->setValidator('liaisons_operateurs[' . $key . ']', new ValidatorEtablissement(array('required' => true)));
         }
         $this->setValidator('site_fiche', new sfValidatorString(array('required' => false)));
         $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));

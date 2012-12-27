@@ -1,8 +1,6 @@
-<div id="contenu">
-
-    <!-- #principal -->
-    <section id="principal">
-        <p id="fil_ariane">Page d'accueil > Contacts > <?php echo $societe->raison_sociale; ?> > <strong>Modification établissement</strong></p>
+<!-- #principal -->
+<section id="principal">
+    <p id="fil_ariane"><strong>Page d'accueil > Contacts > <?php echo $societe->raison_sociale; ?> > </strong>Modification établissement</p>
 
         <!-- #contenu_etape -->
         <section id="contacts">
@@ -41,17 +39,22 @@
             </div>
         </section>
     </section>
-    <aside id="colonne">
-        <div class="bloc_col" id="contrat_aide">
-            <h2>Aide</h2>
-
-            <div class="contenu">
-                <ul>
-                    <li class="raccourcis"><a href="#">Raccourcis clavier</a></li>
-                    <li class="assistance"><a href="#">Assistance</a></li>
-                    <li class="contact"><a href="#">Contacter le support</a></li>
-                </ul>
-            </div>
+<?php
+slot('colButtons');
+?>
+<div id="action" class="bloc_col">
+    <h2>Action</h2>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('societe'); ?>" class="btn_majeur btn_acces"><span>Accueil des sociétés</span></a>
         </div>
-    </aside>
+    </div>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Accueil de la société</span></a>
+        </div>
+    </div>
 </div>
+<?php
+end_slot();
+?> 
