@@ -37,7 +37,7 @@ class AlerteGenerationVracsPrixDefinitifs extends AlerteGeneration {
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
             $vrac = VracClient::getInstance()->find($id_document);
             if (isset($vrac)) {
-                if ($vrac->prixDefinitifExist()) {
+                if ($vrac->hasPrixDefinitif()) {
                     $alerte = AlerteClient::getInstance()->find($alerteView->id);
                     $alerte->updateStatut(AlerteClient::STATUT_FERME);
                     $alerte->save();
