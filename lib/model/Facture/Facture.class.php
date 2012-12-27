@@ -73,20 +73,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->numero_facture).'/'.$this->getPrefixForRegion().'-'.$this->numero_archive;
     }
 
-    public function getDocumentsOrigine() {
-        return $this->documents_origine;
-    }
-
     public function getTaxe() {
         return $this->total_ttc - $this->total_ht;
-    }
-
-    public function getDocumentOrigine($id) {
-        if (!array_key_exists($id, $this->documents_origine)) {
-            $this->documents_origine[$id] = acCouchdbManager::getClient()->find($id);
-        }
-
-        return $this->documents_origine[$id];
     }
 
     public function facturerMouvements() {
@@ -300,8 +288,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function storeOrigines() {
         foreach ($this->getLignes() as $lignesType) {
             foreach ($lignesType as $ligne) {
-                if (!array_key_exists($ligne->origine_identifiant, $this->origines))
-                    $this->origines->add($ligne->origine_identifiant, $ligne->origine_identifiant);
+	      foreach ($ligne->origine_mouvements as $idorigine => $null) {
+                if (!array_key_exists($idorigine, $this->origines))
+                    $this->origines->add($idorigine, $idorigine);
+	      }
             }
         }
     }
@@ -345,19 +335,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function save() {
-        parent::save();
-        $this->saveDocumentsOrigine();
+      parent::save();
+      $this->saveDocumentsOrigine();
     }
 
     public function saveDocumentsOrigine() {
-        foreach ($this->getDocumentsOrigine() as $doc) {
-            $doc->save();
-        }
+      foreach ($this->origines as $docid) {
+	$doc = FactureClient::getInstance()->getDocumentOrigine($docid);
+	$doc->save();
+      }
     }
 
     protected function preSave() {
         if ($this->isNew() && $this->total_ht > 0) {
             $this->facturerMouvements();
+	    $this->storeOrigines();
         }
         if (!$this->versement_comptable) {
             $this->versement_comptable = 0;

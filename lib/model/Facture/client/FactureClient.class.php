@@ -55,7 +55,15 @@ class FactureClient extends acCouchdbClient {
         $facture->storeOrigines();    
         return $facture;
     }  
-    
+
+    private $documents_origine = array();
+    public function getDocumentOrigine($id) {
+        if (!array_key_exists($id, $this->documents_origine)) {
+            $this->documents_origine[$id] = acCouchdbManager::getClient()->find($id);
+        }
+        return $this->documents_origine[$id];
+    }
+
     public function findByIdentifiant($identifiant) {
         return $this->find('FACTURE-' . $identifiant);
     }
@@ -71,8 +79,8 @@ class FactureClient extends acCouchdbClient {
         $mouvementsByRegions = array();
         foreach ($regions as $region) {
             $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1,$region,$level),$mouvementsByRegions);
-        }
-        return $mouvementsByRegions;    
+        } 
+       return $mouvementsByRegions;    
     }
     
     public function getMouvementsNonFacturesBySoc($mouvements) {
@@ -89,46 +97,43 @@ class FactureClient extends acCouchdbClient {
         return $generationFactures;
     }
     
-    public function filterWithParameters($mouvementsByEtb, $parameters) {
-    if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'] != '')){
+    public function filterWithParameters($mouvementsBySoc, $parameters) {
+      if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'])){
         $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
-        foreach ($mouvementsByEtb as $identifiant => $mouvements) {
+        foreach ($mouvementsBySoc as $identifiant => $mouvements) {
             foreach ($mouvements as $key => $mouvement) {
                     if(Date::sup($mouvement->value[MouvementfactureFacturationView::VALUE_DATE],$date_mouvement)) {
-                        unset($mouvements[$key]);
-                        $mouvementsByEtb[$identifiant] = $mouvements;
+		      unset($mouvements[$key]);
+		      $mouvementsBySoc[$identifiant] = $mouvements;
                     }
             }
         }
-    }
-    if (isset($parameters['seuil']) && $parameters['seuil'] != '') {
-        foreach ($mouvementsByEtb as $identifiant => $mouvements) {
+      }
+      if (isset($parameters['seuil']) && $parameters['seuil']) {
+        foreach ($mouvementsBySoc as $identifiant => $mouvements) {
             $somme = 0;
-            foreach ($mouvements as $mouvement) {
+            foreach ($mouvements as $key => $mouvement) {
                 $somme+= $mouvement->value[MouvementfactureFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementfactureFacturationView::VALUE_CVO];
             }
-            $somme = abs($somme);
+	    $somme = abs($somme);
             $somme = $this->ttc($somme);
-            if ($somme >= $parameters['seuil']) {
-                    unset($mouvementsByEtb[$identifiant]);
-                }           
+            if ($somme < $parameters['seuil']) {
+	      unset($mouvementsBySoc[$identifiant]);
+	    }
         }
-    }
-    $mouvementsByEtb = $this->cleanMouvementsByEtb($mouvementsByEtb);
-    
-
-    return $mouvementsByEtb;
+      }
+      $mouvementsBySoc = $this->cleanMouvementsBySoc($mouvementsBySoc);
+      return $mouvementsBySoc;
     }
 
-    private function cleanMouvementsByEtb($mouvementsByEtb){
-        if (count($mouvementsByEtb) == 0)
-        return null;
-        $nb_mouvements = 0;
-        foreach ($mouvementsByEtb as $identifiant => $mouvement) {
-            $nb_mouvements+= count($mouvement);
-            if($nb_mouvements > 0) return $mouvementsByEtb;
-            }
-        if($nb_mouvements==0) return null;
+    private function cleanMouvementsBySoc($mouvementsBySoc){
+      if (count($mouvementsBySoc) == 0)
+	return null;
+      foreach ($mouvementsBySoc as $identifiant => $mouvement) {
+	if (!count($mouvement))
+	  unset($mouvementsBySoc[$identifiant]);
+      }
+      return $mouvementsBySoc;
     }
 
 
