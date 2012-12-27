@@ -43,6 +43,7 @@ end_slot();
         $('#generation_facture').bind('click', function()
         {
             $('form#generation_form').submit();
+	    return false;
         });
     });
     
