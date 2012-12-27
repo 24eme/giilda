@@ -38,7 +38,7 @@ class RevendicationClient extends acCouchdbClient {
     }
 
     public function getHistory() {
-        return RevendicationHistoryView::getInstance()->getHistory();
+        return array_reverse(RevendicationHistoryView::getInstance()->getHistory());
     }
 
     public function getRevendicationLibelle($id) {
