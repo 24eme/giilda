@@ -185,7 +185,7 @@ EOF;
                                                       VracClient::TYPE_TRANSACTION_VIN_VRAC))) {
           	$v->jus_quantite = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS))) {
-          	$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL] * $this->getDensite($line)), 2);
+          	$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL] * $this->getDensite($line) * 100), 2);
         }
 
         $v->volume_propose = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
@@ -266,9 +266,9 @@ EOF;
   		return $line[self::CSV_COEF_CONVERSION_PRIX];
   	}
 	
-	$hash = $this->getHash($line[self::CSV_CODE_APPELLATION]);
+	  $hash = $this->getHash($line[self::CSV_CODE_APPELLATION]);
   	if (preg_match('/appellations\/CLO\//', $hash)) {
-  		return 1.5015;
+  		return 1.5;
   	} else {
   		return 1.3;
   	}
