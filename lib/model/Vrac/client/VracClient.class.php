@@ -55,7 +55,8 @@ class VracClient extends acCouchdbClient {
     const CVO_REPARTITION_100_VITI = '100';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
 
-    public static $contenance = array('75 cl' => 0.0075,
+    public static $contenance = array('35 cl' => 0.00375,
+                                      '75 cl' => 0.0075,
                                       '1 L' => 0.01,
                                       '1.5 L'=> 0.015,
                                       '3 L' => 0.03,
