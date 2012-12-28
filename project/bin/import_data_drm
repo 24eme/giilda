@@ -38,4 +38,8 @@ convert-utf8 $DATADIR/cicestrf.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;
 
 convert-utf8 $DATADIR/cicestrf.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;09.TRANSFERT-ENTREE;%4d-%4d' '$7,$8,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-transfert-entree.csv
 
-cat $DATADIR/drm-info.csv $DATADIR/drm-mouvement.csv $DATADIR/drm-divers.csv $DATADIR/drm-cave-coop.csv $DATADIR/drm-cave-viti.csv $DATADIR/drm-vente.csv $DATADIR/drm-contrat.csv $DATADIR/drm-transfert-sortie.csv $DATADIR/drm-transfert-entree.csv $DATADIR/drm-achat.csv $DATADIR/drm-ds.csv | sort > $DATADIR/drm.csv
+convert-utf8 $DATADIR/cistk.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;12.STOCK;%4d-%4d' '$3,$4,$2+1,7,$5,$2,$2+1' > $DATADIR/drm-stock.csv
+
+cat $DATADIR/drm-info.csv $DATADIR/drm-mouvement.csv $DATADIR/drm-divers.csv $DATADIR/drm-cave-coop.csv $DATADIR/drm-cave-viti.csv $DATADIR/drm-vente.csv $DATADIR/drm-contrat.csv $DATADIR/drm-transfert-sortie.csv $DATADIR/drm-transfert-entree.csv $DATADIR/drm-achat.csv $DATADIR/drm-ds.csv $DATADIR/drm-stock.csv | sort > $DATADIR/drm.csv
+
+
