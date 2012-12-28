@@ -98,7 +98,7 @@ Vrac:
       cvo_nature: { }
       #cvo_repartition float ou string? "50/50" ou 0.5
       cvo_repartition: { }
-      cvo: { }
+
       #commentaires
       commentaire: { }
 
