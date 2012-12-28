@@ -252,6 +252,8 @@ class importDRMTask extends importAbstractTask
   const CSV_CODE_MOUVEMENT_CONSO_PERTES = 86;
   const CSV_CODE_MOUVEMENT_DIVERS = 89;
 
+  const CSV_ANNULATION_OUI = "OUI";
+
   protected function configure()
   {
     // // add your own arguments here
@@ -416,9 +418,9 @@ EOF;
       $produit->stocks_debut->revendique = 0;
     }
 
-    if($produit->stocks_debut->revendique != $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE])) {
+    /*if($produit->stocks_debut->revendique != $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE])) {
       $this->logLigne("WARNING", sprintf("Le stock de la DS %s ne correpond pas au stock debut mois %s de cette DRM pour le produit %s", $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]), $produit->stocks_debut->revendique, $this->getCodeProduit($line)), $line);
-    }
+    }*/
 
     $produit->stocks_debut->revendique = $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]);
   }
@@ -477,6 +479,11 @@ EOF;
   }
 
   public function importLigneDivers($drm, $line) {
+
+    if($line[self::CSV_DIVERS_ANNULATION] == self::CSV_ANNULATION_OUI) {
+      return;
+    }
+
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if($line[self::CSV_DIVERS_CODE_MOUVEMENT] == 86) {
@@ -511,6 +518,10 @@ EOF;
 
 
   public function importLigneCave($drm, $line) {
+    if($line[self::CSV_CAVE_ANNULATION] == self::CSV_ANNULATION_OUI) {
+      return;
+    }
+
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
@@ -531,6 +542,10 @@ EOF;
   }
 
   public function importLigneTransfert($drm, $line) {
+    if($line[self::CSV_TRANSFERT_ANNULATION] == self::CSV_ANNULATION_OUI) {
+      return;
+    }
+
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE) {
