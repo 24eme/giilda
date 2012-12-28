@@ -214,16 +214,15 @@ EOF;
         } else {
           $v->cvo_repartition = VracClient::CVO_REPARTITION_100_VITI;          
         }
-        
 
         if($v->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI && $line[self::CSV_COTISATION_CVO_NEGOCIANT] > 0) {
           
-          throw new sfException(sprintf("Incohérence de CVO VITI v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]));
+          $this->logLigne('WARNING', sprintf("Incohérence de CVO VITI v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]), $line);
         }
 
         if($v->cvo_repartition == VracClient::CVO_REPARTITION_0_VINAIGRERIE && $line[self::CSV_COTISATION_CVO_NEGOCIANT]) {
 
-          throw new sfException(sprintf("Incohérence de CVO VINAIG v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]));
+          $this->logLigne('WARNING', sprintf("Incohérence de CVO VINAIG v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]), $line);
         }
 
         $v->attente_original = $this->convertOuiNon($line[self::CSV_ATTENTE_ORIGINAL]);
