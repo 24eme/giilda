@@ -234,7 +234,7 @@ EOF;
 
         $prix_au_litre = round($this->convertToFloat($line[self::CSV_PRIX_AU_LITRE]), 2);
 
-        if (abs($v->prix_initial_unitaire_hl - $prix_au_litre) > 0.01) {
+        if (abs($v->prix_initial_unitaire_hl - $prix_au_litre) > 0.02) {
           throw new sfException(sprintf("Le prix unitaire en €/hl issu du calcul n'est pas le même que celui du csv : %s / %s", $v->prix_initial_unitaire_hl, $prix_au_litre));
         }
 
@@ -268,7 +268,7 @@ EOF;
 	
 	$hash = $this->getHash($line[self::CSV_CODE_APPELLATION]);
   	if (preg_match('/appellations\/CLO\//', $hash)) {
-  		return 1.5;
+  		return 1.5015;
   	} else {
   		return 1.3;
   	}
