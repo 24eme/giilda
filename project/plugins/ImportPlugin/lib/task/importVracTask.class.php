@@ -200,14 +200,11 @@ EOF;
 
         $v->prix_variable = $this->convertOuiNon($line[self::CSV_INDICATEUR_PRIX_DEFINITIF]);
 
-        if($v->hasPrixVariable() && $line[self::CSV_PRIX_DEFINITIF]) {
-          var_dump($line[self::CSV_PRIX_DEFINITIF]);
-          //$v->prix_unitaire = round($this->convertToFloat($this->calculPrixDefinitifUnitaire($v, $line)), 2);
+        if($v->hasPrixVariable() && round($this->convertToFloat($line[self::CSV_PRIX_DEFINITIF], 2))) {
+          $v->prix_unitaire = round($this->convertToFloat($this->calculPrixDefinitifUnitaire($v, $line)), 2);
         }
 
-        $v->cvo = round($this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]), 2);
-
-        if(!$v->cvo) {
+        if(!round($this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]), 2)) {
           $v->cvo_repartition = VracClient::CVO_REPARTITION_0_VINAIGRERIE;
         } elseif($line[self::CSV_COTISATION_CVO_VITICULTEUR] == $line[self::CSV_COTISATION_CVO_NEGOCIANT]) {
           $v->cvo_repartition = VracClient::CVO_REPARTITION_50_50;
