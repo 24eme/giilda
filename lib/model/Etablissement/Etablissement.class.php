@@ -52,7 +52,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function getSociete() {
-      return SocieteClient::getInstance()->find($this->id_societe);
+        return SocieteClient::getInstance()->find($this->id_societe);
     }
 
     public function contactIsSocieteContact() {
@@ -75,17 +75,17 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function addLiaison($type, $etablissement) {
-      if (!in_array($type, EtablissementClient::listTypeLiaisons()))
-	throw new sfException("liaison type \"$type\" unknown");
-      $liaison = $this->liaisons_operateurs->add($type.'_'.$etablissement->_id);
-      $liaison->type_liaison = $type;
-      $liaison->id_etablissement = $etablissement->_id;
-      $liaison->libelle_etablissement = $etablissement->nom;
-      return $liaison;
+        if (!in_array($type, EtablissementClient::listTypeLiaisons()))
+            throw new sfException("liaison type \"$type\" unknown");
+        $liaison = $this->liaisons_operateurs->add($type . '_' . $etablissement->_id);
+        $liaison->type_liaison = $type;
+        $liaison->id_etablissement = $etablissement->_id;
+        $liaison->libelle_etablissement = $etablissement->nom;
+        return $liaison;
     }
 
     public function isNegociant() {
-      return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT);
+        return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT);
     }
 
     public function getFamilleType() {
@@ -119,50 +119,86 @@ class Etablissement extends BaseEtablissement {
     public function getDroits() {
         return EtablissementFamilles::getDroitsByFamilleAndSousFamille($this->famille, $this->sous_famille);
     }
-    
-    public function isInterLoire(){
+
+    public function isInterLoire() {
         return ($this->region != EtablissementClient::REGION_HORSINTERLOIRE);
     }
 
     public function save($fromsociete = false) {
 
-      if ($this->recette_locale->id_douane) {
-	$soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
-	if ($soc && $this->recette_locale->nom != $soc->raison_sociale) {
-	  $this->recette_locale->nom = $soc->raison_sociale;
-	}
-      }
-      
-      if (!$this->famille) {
-	$this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
-      }
-      if (!$this->sous_famille) {
-	$this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
-      }
-      
-      $soc = SocieteClient::getInstance()->find($this->id_societe);
-      if(!$soc)
-	throw new sfException("$id n'est pas une société connue");
-      $this->cooperative = $soc->cooperative;
+        if ($this->recette_locale->id_douane) {
+            $soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
+            if ($soc && $this->recette_locale->nom != $soc->raison_sociale) {
+                $this->recette_locale->nom = $soc->raison_sociale;
+            }
+        }
 
-      parent::save();
+        if (!$this->famille) {
+            $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
+        }
+        if (!$this->sous_famille) {
+            $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
+        }
 
-      if (!$fromsociete) {
-	$soc->addEtablissement($this);
-	$soc->save();
-      }
+        $soc = SocieteClient::getInstance()->find($this->id_societe);
+        if (!$soc)
+            throw new sfException("$id n'est pas une société connue");
+        $this->cooperative = $soc->cooperative;
+
+        parent::save();
+
+        if (!$fromsociete) {
+            $soc->addEtablissement($this);
+            $soc->save();
+        }
     }
 
     public function setIdSociete($id) {
-	$soc = SocieteClient::getInstance()->find($id);
-	if(!$soc)
-		throw new sfException("$id n'est pas une société connue");
-	$this->_set("id_societe", $id);
+        $soc = SocieteClient::getInstance()->find($id);
+        if (!$soc)
+            throw new sfException("$id n'est pas une société connue");
+        $this->_set("id_societe", $id);
     }
-    
+
     public function __toString() {
 
         return sprintf('%s (%s)', $this->nom, $this->identifiant);
+    }
+
+    public function getBailleurs() {
+        $bailleurs = array();
+        if (!(count($this->liaisons_operateurs)))
+            return $bailleurs;
+        $liaisons = $this->liaisons_operateurs;
+        foreach ($liaisons as $key => $liaison) {
+            if ($liaison->type_liaison == EtablissementClient::TYPE_LIAISON_BAILLEUR)
+                $bailleurs[$key] = $liaison;
+        }
+        return $bailleurs;
+    }
+
+    public function findBailleurByNom($nom) {
+        $bailleurs = $this->getBailleurs();
+        foreach ($bailleurs as $key => $liaison) {
+            if ($liaison->libelle_etablissement == $nom)
+                return EtablissementClient::getInstance()->find($liaison->id_etablissement);
+            if ($liaison->exist('aliases'))
+                foreach ($liaison->aliases as $alias) {
+                    if (strtoupper($alias) == strtoupper($nom))
+                        return EtablissementClient::getInstance()->find($liaison->id_etablissement);
+                }
+        }
+        return null;
+    }
+    
+    public function addAliasForBailleur($identifiant_bailleur,$alias) {
+        $bailleurNameNode = EtablissementClient::TYPE_LIAISON_BAILLEUR.'_'.$identifiant_bailleur;
+        if(!$this->liaisons_operateurs->exist($bailleurNameNode))
+            throw new sfException("La liaison avec le bailleur $identifiant_bailleur n'existe pas");
+        $node = $this->liaisons_operateurs->$bailleurNameNode;
+        if(!$node->exist('aliases'))
+            $node->add('aliases');
+        $node->aliases->add($alias,$alias);
     }
 
 }
