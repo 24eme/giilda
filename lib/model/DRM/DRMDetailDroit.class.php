@@ -10,8 +10,10 @@ class DRMDetailDroit extends BaseDRMDetailDroit {
         return $this->getParent()->getCepage()->getConfig()->getDroits($interpro)->get($this->getKey())->getCurrentDroit($this->getDocument()->getPeriode());
     }
 
-    protected function update($params = array()) {
-        $this->calcul();
+    protected function init($params = array()) {
+        parent::init($params);
+
+        $this->taux = null;
     }
 
     public function calcul() {

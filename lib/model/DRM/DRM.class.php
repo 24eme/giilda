@@ -313,11 +313,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function storeDates() {
         if (!$this->valide->date_saisie) {
-           $this->valide->add('date_saisie', date('c'));
+           $this->valide->add('date_saisie', date('Y-m-d'));
         }
 
         if (!$this->valide->date_signee) {
-           $this->valide->add('date_signee', date('c'));
+           $this->valide->add('date_signee', date('Y-m-d'));
         }
     }
 
@@ -502,7 +502,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     	$editeur->compte = $compte->_id;
     	$editeur->nom = $compte->nom;
     	$editeur->prenom = $compte->prenom;
-    	$editeur->date_modification = date('c');
+    	$editeur->date_modification = date('Y-m-d');
     }
 
     protected function preSave() {
@@ -521,7 +521,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $compte = $user->getCompte();
                 $canInsertEditeur = true;
                 if ($lastEditeur = $this->getLastEditeur()) {
-                    $diff = Date::diff($lastEditeur->date_modification, date('c'), 'i');
+                    $diff = Date::diff($lastEditeur->date_modification, date('Y-m-d'), 'i');
                     if ($diff < 25) {
                         $canInsertEditeur = false;
                     }
