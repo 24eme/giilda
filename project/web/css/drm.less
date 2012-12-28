@@ -775,7 +775,6 @@ p#date_drm
 			text-align: right;
 			height: 20px;
                         width: 106px;
-			&:hover, &:focus { border-color: #777; }
 		}
 		
 		input
@@ -963,6 +962,12 @@ p#date_drm
 		&.col_focus,
 		&.col_active
 		{
+			input,
+			select
+			{
+				&:hover, &:focus { border-color: #777; }
+			}
+			
 			.col_cont { border-color: @couleur-c1; }
                         h2 { 
                                 border-color: @couleur-c1; 
@@ -1149,6 +1154,14 @@ p#date_drm
     .btn_brouillon { margin-left: 235px; }
     .btn_etape_suiv { float:right; }
 
+	a.desactive
+	{ 
+		.opacite(0.70);
+		cursor: default;
+		
+		* { cursor: default; }
+	}
+
 }
 
 .inactif { visibility: hidden; }
@@ -1274,6 +1287,9 @@ p#date_drm
                             padding: 10px;
                             label{ width : 200px;}
                             .ui-autocomplete-input{ width : 450px !important;}
+
+							/* Champ désactivé */
+							input[disabled='disabled'] { background-color: @couleur-a5; }
                     }
 
                     .titre_produit{

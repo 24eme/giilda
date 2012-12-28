@@ -50,8 +50,11 @@ class RevendicationRouting {
 //                                                                  'action' => 'viewupload')));
 
 
-        $r->prependRoute('revendication_downloadCSV', new sfRoute('/revendication/csv/:odg/:md5', array('module' => 'revendication',
-                    'action' => 'downloadCSV')));
+        $r->prependRoute('revendication_downloadCSV', new RevendicationRoute('/revendication/odg/:odg/:campagne/csv', array('module' => 'revendication',
+                    'action' => 'downloadCSV'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Revendication',
+			      'type' => 'object')));
 
 
 
@@ -86,8 +89,8 @@ class RevendicationRouting {
                             'type' => 'object')));
 
 
-        $r->prependRoute('revendication_delete_doublon', new RevendicationRoute('/revendication/odg/:odg/:campagne/suppr-doublon/:num_ligne/:doublon', array('module' => 'revendication',
-                    'action' => 'deleteDoublon'),
+        $r->prependRoute('revendication_delete_line', new RevendicationRoute('/revendication/odg/:odg/:campagne/supprimer/:num_ligne/:num_ca', array('module' => 'revendication',
+                    'action' => 'deleteLine'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Revendication',
                             'type' => 'object')));

@@ -1,10 +1,13 @@
 <?php use_helper('Float'); ?>
 <?php use_helper('Date');
+$odg = $revendication->odg;
+$campagne = $revendication->campagne;
 ?>        
 <h2>Volumes revendiqués</h2>
 <fieldset id="revendication_volume_revendiques_edition">
     
         <a class="btn_majeur btn_modifier" href="<?php echo url_for('revendication_add_row', array('odg'=> $odg, 'campagne' => $campagne)); ?>"><span>Ajouter lignes</span></a>
+        <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
     <table class="table_recap">
         <thead>
             <tr>

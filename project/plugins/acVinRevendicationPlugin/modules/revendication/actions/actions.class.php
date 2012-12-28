@@ -63,16 +63,16 @@ class revendicationActions extends sfActions {
                     
                 $this->revendication->updateCSV($path);
                 $this->revendication->save();
-                return $this->redirect('revendication_view_erreurs', $this->revendication);
+                return $this->redirect('revendication_update', $this->revendication);
            }
         }
     }
 
     public function executeDownloadCSV(sfWebRequest $request) {
-        $this->md5 = $request->getParameter('md5');
-        $odg = $request->getParameter('odg');
+        $revendication = $this->getRoute()->getRevendication();
         $this->getResponse()->setHttpHeader('Content-type', 'text/csv');
-        $this->getResponse()->setHttpHeader('Content-Disposition', sprintf('filename="odg-%s-%s.csv"', $odg, $this->md5));
+        $this->getResponse()->setHttpHeader('Content-Disposition', sprintf('filename="DREV-%s-%s-%s.csv"', $revendication->odg, $revendication->campagne, $revendication->_rev));
+	$this->csv = $revendication->getAttachmentUri('revendication.csv');
         $this->setLayout(false);
     }
 
@@ -80,7 +80,6 @@ class revendicationActions extends sfActions {
         $this->revendication = $this->getRoute()->getRevendication();
         $this->revendication->storeDatas();
         $this->revendication->save();
-
         return $this->redirect('revendication_view_erreurs', $this->revendication);
     }
 
@@ -161,17 +160,16 @@ class revendicationActions extends sfActions {
                 return $this->redirect('revendication_update', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
             }
         }
-        
     }
     
     
-    public function executeDeleteDoublon(sfWebRequest $request) {
-        $this->num_ligne = $request->getParameter('num_ligne');
-        $this->doublon = $request->getParameter('doublon');
+    public function executeDeleteLine(sfWebRequest $request) {
+        $num_ligne = $request->getParameter('num_ligne');
+        $num_ca = $request->getParameter('num_ca');
         $this->revendication = $this->getRoute()->getRevendication();        
-        $this->revendication->deteteDoublon($this->num_ligne,$this->doublon);
+	$this->revendication->addIgnoredLine($num_ligne, $num_ca);
         $this->revendication->save();
-        return $this->redirect('revendication_view_erreurs', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));            
+        return $this->redirect('revendication_update', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));            
     }
     
     public function executeAddRows(sfWebRequest $request) {

@@ -9,17 +9,18 @@ class importDRMTask extends importAbstractTask
   const CSV_LIGNE_TYPE = 3;
   const CSV_LIGNE_CAMPAGNE = 4;
 
-  const CSV_LIGNE_TYPE_DS = '01.DS';
-  const CSV_LIGNE_TYPE_CONTRAT = '02.CONTRAT';
-  const CSV_LIGNE_TYPE_ACHAT = '03.ACHAT';
-  const CSV_LIGNE_TYPE_VENTE = '04.VENTE';
-  const CSV_LIGNE_TYPE_DIVERS = '05.DIVERS';
-  const CSV_LIGNE_TYPE_CAVE_VITI = '06.CAVE-VITI';
-  const CSV_LIGNE_TYPE_CAVE_COOP = '07.CAVE-COOP';
-  const CSV_LIGNE_TYPE_TRANSFERT_ENTREE = '08.TRANSFERT-ENTREE';
-  const CSV_LIGNE_TYPE_TRANSFERT_SORTIE = '09.TRANSFERT-SORTIE';
-  const CSV_LIGNE_TYPE_MOUVEMENT = '10.MOUVEMENT';
-  const CSV_LIGNE_TYPE_INFO = '11.INFO';
+  const CSV_LIGNE_TYPE_INFO = '01.INFO';
+  const CSV_LIGNE_TYPE_DS = '02.DS';
+  const CSV_LIGNE_TYPE_CONTRAT = '03.CONTRAT';
+  const CSV_LIGNE_TYPE_ACHAT = '04.ACHAT';
+  const CSV_LIGNE_TYPE_VENTE = '05.VENTE';
+  const CSV_LIGNE_TYPE_DIVERS = '06.DIVERS';
+  const CSV_LIGNE_TYPE_CAVE_VITI = '07.CAVE-VITI';
+  const CSV_LIGNE_TYPE_CAVE_COOP = '08.CAVE-COOP';
+  const CSV_LIGNE_TYPE_TRANSFERT_ENTREE = '09.TRANSFERT-ENTREE';
+  const CSV_LIGNE_TYPE_TRANSFERT_SORTIE = '10.TRANSFERT-SORTIE';
+  const CSV_LIGNE_TYPE_MOUVEMENT = '11.MOUVEMENT';
+  const CSV_LIGNE_TYPE_STOCK = '12.STOCK';
 
   const CSV_DS_DOSSIER = 5;
   const CSV_DS_CAMPAGNE = 6;
@@ -229,6 +230,27 @@ class importDRMTask extends importAbstractTask
   const CSV_MOUVEMENT_VOLUME_RECOLTE = 28;
   const CSV_MOUVEMENT_SUPERFICIE_RECOLTE = 29;
 
+  const CSV_STOCK_DOSSIER = 5;
+  const CSV_STOCK_CAMPAGNE = 6;
+  const CSV_STOCK_CODE_PARTENAIRE = 7;
+  const CSV_STOCK_CODE_CHAI = 8;
+  const CSV_STOCK_CODE_APPELLATION = 9;
+  const CSV_STOCK_STOCK_FIN_CAMPAGNE = 10;
+  const CSV_STOCK_VOLUME_CONTRAT = 11;
+  const CSV_STOCK_VOLUME_SORTIE = 12;
+  const CSV_STOCK_VOLUME_ENLEVEMENT = 13;
+  const CSV_STOCK_VOLUME_CONTRAT_NOUVELLE_RECOLTE = 14;
+  const CSV_STOCK_VOLUME_AGREE_COMMERCIALISABLE = 15;
+  const CSV_STOCK_VOLUME_AGREE = 16;
+  const CSV_STOCK_VOLUME_AGREE_BLOQUE = 17;
+  const CSV_STOCK_VOLUME_SUSCEPTIBLE_RECLASSEMENT = 18;
+  const CSV_STOCK_VOLUME_RECOLTE = 19;
+  const CSV_STOCK_VOLUME_REGULARISATION = 20;
+  const CSV_STOCK_NON_UTILISE_1 = 21;
+  const CSV_STOCK_VOLUME_VOLUME_BLOQUE_CAMPAGNE_PRECEDENTE = 22;
+  const CSV_STOCK_STOCK = 23;
+  const CSV_STOCK_NON_UTILISE_2 = 24;
+
   const CSV_CODE_MOUVEMENT_DS = 00;
   const CSV_CODE_MOUVEMENT_DS_MODIF = 01;
   const CSV_CODE_MOUVEMENT_DS_ANNULATION = 02;
@@ -251,6 +273,8 @@ class importDRMTask extends importAbstractTask
   const CSV_CODE_MOUVEMENT_DISTILLATION = 82;
   const CSV_CODE_MOUVEMENT_CONSO_PERTES = 86;
   const CSV_CODE_MOUVEMENT_DIVERS = 89;
+
+  const CSV_ANNULATION_OUI = "OUI";
 
   protected function configure()
   {
@@ -328,7 +352,7 @@ EOF;
 
   public function importDRM($lines) {
     $drm = null;
-    $coherence = $this->initCoheranceWithMouvement();
+    $coherence_mouv = $this->initCoheranceWithMouvement();
 
     foreach($lines as $i => $line) {
       try{
@@ -340,14 +364,14 @@ EOF;
       }
 
       if ($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_MOUVEMENT) {
-          $coherence = $this->buildCoheranceWithMouvement($coherence, $line);
+          $coherence_mouv = $this->buildCoheranceWithMouvement($coherence_mouv, $line);
       }
     }
 
     $drm->update();
 
     try{
-      $coherence = $this->verifCoherenceWithMouvement($coherence, $drm, $lines);
+      $this->verifCoherenceWithMouvement($coherence_mouv, $drm, $lines);
     } catch (Exception $e) {
       $this->logLignes('WARNING', $e->getMessage(), $lines, $i);
     }
@@ -374,6 +398,9 @@ EOF;
     }
 
     switch($line[self::CSV_LIGNE_TYPE]) {
+      case self::CSV_LIGNE_TYPE_INFO:
+        $this->importLigneInfo($drm, $line);
+        break;
       case self::CSV_LIGNE_TYPE_DS:
         $this->importLigneDS($drm, $line);
         break;
@@ -399,14 +426,18 @@ EOF;
       case self::CSV_LIGNE_TYPE_MOUVEMENT:
         $this->importLigneMouvement($drm, $line);
         break;
-      case self::CSV_LIGNE_TYPE_INFO:
-        $this->importLigneInfo($drm, $line);
-        break;
+      case self::CSV_LIGNE_TYPE_STOCK:
+        $this->verifCoherenceWithStock($drm, $line);
+        break;  
       default:
         throw new sfException(sprintf("Le type de ligne '%s' n'est pas pris en compte", $line[self::CSV_LIGNE_TYPE]));
     }
 
     return $drm;
+  }
+
+  public function importLigneInfo($drm, $line) {
+    $drm->numero_archive = sprintf("%05d", $line[self::CSV_VENTE_NUMERO_SORTIE]);
   }
 
   public function importLigneDS($drm, $line) {
@@ -416,15 +447,22 @@ EOF;
       $produit->stocks_debut->revendique = 0;
     }
 
-    if($produit->stocks_debut->revendique != $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE])) {
+    /*if($produit->stocks_debut->revendique != $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE])) {
       $this->logLigne("WARNING", sprintf("Le stock de la DS %s ne correpond pas au stock debut mois %s de cette DRM pour le produit %s", $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]), $produit->stocks_debut->revendique, $this->getCodeProduit($line)), $line);
-    }
+    }*/
 
     $produit->stocks_debut->revendique = $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]);
   }
 
   public function importLigneContrat($drm, $line) {
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
+
+    $cvo = $this->convertToFloat($line[self::CSV_CONTRAT_COTISATION_CVO_VITICULTEUR] + $line[self::CSV_CONTRAT_COTISATION_CVO_NEGOCIANT]);
+
+    if($produit->cvo->taux && $produit->cvo->taux != $cvo) {
+      throw new sfException(sprintf("Deux taux de cvo différent ont été défini pour un produit d'une même DRM %s / %s", $produit->cvo->taux, $cvo));      
+    }
+    $produit->cvo->taux = $cvo;
 
     $numero_contrat = $this->constructNumeroContrat($line);
     $contrat = VracClient::getInstance()->findByNumContrat($numero_contrat);
@@ -440,6 +478,13 @@ EOF;
 
   public function importLigneVente($drm, $line) {
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
+
+    $cvo = $this->convertToFloat($line[self::CSV_VENTE_COTISATION_VITICULEUR_VENTE_DIRECTE]);
+
+    if($produit->cvo->taux && $produit->cvo->taux != $cvo) {
+      throw new sfException(sprintf("Deux taux de cvo différent ont été défini pour un produit d'une même DRM %s / %s", $produit->cvo->taux, $cvo));      
+    }
+    $produit->cvo->taux = $cvo;
 
     if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) > 0) {
       $produit->sorties->export_details->addDetail($this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]),
@@ -463,6 +508,11 @@ EOF;
   }
 
   public function importLigneDivers($drm, $line) {
+
+    if($line[self::CSV_DIVERS_ANNULATION] == self::CSV_ANNULATION_OUI) {
+      return;
+    }
+
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if($line[self::CSV_DIVERS_CODE_MOUVEMENT] == 86) {
@@ -495,8 +545,11 @@ EOF;
     throw new sfException(sprintf("Ce mouvement n'est pas prit en compte '%s;%s'", $line[self::CSV_DIVERS_TEXTE_MOUVEMENT], $line[self::CSV_DIVERS_CODE_MOUVEMENT]));
   }
 
-
   public function importLigneCave($drm, $line) {
+    if($line[self::CSV_CAVE_ANNULATION] == self::CSV_ANNULATION_OUI) {
+      return;
+    }
+
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
@@ -517,6 +570,10 @@ EOF;
   }
 
   public function importLigneTransfert($drm, $line) {
+    if($line[self::CSV_TRANSFERT_ANNULATION] == self::CSV_ANNULATION_OUI) {
+      return;
+    }
+
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE) {
@@ -531,10 +588,6 @@ EOF;
   public function importLigneMouvement($drm, $line) {
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
     $produit->entrees->recolte += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]);
-  }
-
-  public function importLigneInfo($drm, $line) {
-    $drm->numero_archive = sprintf("%05d", $line[self::CSV_VENTE_NUMERO_SORTIE]);
   }
 
   protected function verifyLine($line) {
@@ -583,6 +636,9 @@ EOF;
         break;
       case self::CSV_LIGNE_TYPE_VENTE:
         $this->verifyLineVente($line);
+        break;
+      case self::CSV_LIGNE_TYPE_MOUVEMENT:
+        $this->verifyLineMouvement($line);
         break;
     }
   }
@@ -750,6 +806,32 @@ EOF;
         throw new sfException(sprintf("Le volume total en entree %s ne correspond pas à celui des mouvements %s pour le produit %s", $produit->total_entrees, $volumes["entrees"],  $code));
       }
 
+    }
+  }
+
+  protected function verifCoherenceWithStock($drm, $line) {
+
+    if(!$drm->exist($this->getHash($this->getCodeProduit($line)))) {
+      
+      $this->logLigne('WARNING', sprintf("Le produit %s n'existe pas dans cette campagne alors qu'il existe dans les stocks", $line[self::CSV_LIGNE_CODE_APPELLATION]), $line);
+      return;
+    }
+
+    $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
+
+    $stoc_fin_campagne_prec = $this->convertToFloat($line[self::CSV_STOCK_STOCK_FIN_CAMPAGNE]);
+    $entrees = 0;
+    $entrees += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_AGREE_COMMERCIALISABLE]);
+    $sorties = 0;
+    $sorties += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_SORTIE]);
+    $sorties += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_ENLEVEMENT]);
+    $sorties += abs($this->convertToFloat($line[self::CSV_STOCK_VOLUME_REGULARISATION]));
+    echo abs($this->convertToFloat($line[self::CSV_STOCK_VOLUME_REGULARISATION]))."\n";
+    $stock_fin_campagne = round($stoc_fin_campagne_prec + $entrees - $sorties, 2);
+
+    if ($produit->total != $stock_fin_campagne) {
+        
+        $this->logLigne('WARNING', sprintf("Le volume fin de campagne %s ne correspond pas à celui pévu dans les stocks %s pour le produit %s", $produit->total, $stock_fin_campagne,  $line[self::CSV_LIGNE_CODE_APPELLATION]), $line);
     }
   }
 }

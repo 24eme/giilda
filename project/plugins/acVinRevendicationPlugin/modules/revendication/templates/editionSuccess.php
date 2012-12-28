@@ -5,7 +5,7 @@
     <?php include_partial('header', array('revendication' => $revendication, 'actif' => 2)); ?>
     <!-- #contenu_etape -->
     <section id="contenu_etape">
-        <?php include_partial('revendication/editionList', array('revendications' => $revendications, 'odg' => $revendication->odg, 'campagne' => $revendication->campagne, 'retour' => 'odg')); ?>
+        <?php include_partial('revendication/editionList', array('revendication' => $revendication, 'revendications' => $revendications, 'retour' => 'odg')); ?>
     </section>
 </section>
 <?php

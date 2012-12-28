@@ -18,26 +18,41 @@ class Revendication extends BaseRevendication {
 
     public function updateCSV($path) {
         $this->storeAttachment($path, 'text/csv', 'revendication.csv');
-        $this->storeDatas();
     }
 
     public function storeDatas() {
         $this->setCSV();
         $this->setProduits();
         $this->setProduitsCodeDouaneHashes();
-        $this->erreurs = array();
+
+        $this->remove('erreurs');
+	$this->add('erreurs');
+
         foreach ($this->getCSV() as $num_ligne => $row) {
             $this->insertRow($num_ligne, $row);
         }
     }
 
+    public function addIgnoredLine($num_ligne, $num_ca) {
+      return $this->ignored_lines->add($num_ligne.'_'.$num_ca, array('num_ligne' => $num_ligne, 'numero_certification' => $num_ca));
+    }
+
+    public function lineToBeIgnored($num_ligne, $row) {
+      if ($this->ignored_lines->exist($num_ligne.'_'.$row[RevendicationCsvFile::CSV_COL_NUMERO_CA])) {
+	return true;
+      }
+      if ($row[RevendicationCsvFile::CSV_COL_VOLUME]*1 < 0) {
+	return true;
+      }
+    }
+
     public function insertRow($num_ligne, $row) {
+      if ($this->lineToBeIgnored($num_ligne, $row)) {
+	return ;
+      }
         try {
             $bailleur = null;
             $etb = $this->matchEtablissement($row);
-//                if ($this->datas->exist(sprintf("%s/produits/%s/volumes/%s", $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID], $row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT], $row[RevendicationCsvFile::CSV_COL_NUMERO_CA]))) {
-//                    continue;
-//                }
             $hashLibelle = $this->matchProduit($row);
             if ($this->rowHasMetayage($row)) {
                 $bailleur = $this->matchBailleur($row,  EtablissementClient::getInstance()->find($etb->id));
@@ -45,12 +60,11 @@ class Revendication extends BaseRevendication {
             $this->detectDoublon($row, $etb);
             $revendicationEtb = $this->datas->add($etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID]);
             $revendicationEtb->storeDeclarant($etb);
-            $revendicationEtb->storeProduits($num_ligne + 1, $row, $hashLibelle, $bailleur);
+            $revendicationEtb->storeProduits($num_ligne, $row, $hashLibelle, $bailleur);
             return true;
         } catch (RevendicationErrorException $erreur) {
             $erreurSortie = $this->erreurs->add($erreur->getErrorType());
-            return $erreurSortie->storeErreur($num_ligne + 1, $row, $erreur);
-//        continue;
+            return $erreurSortie->storeErreur($num_ligne, $row, $erreur);
         }
     }
 
@@ -164,15 +178,25 @@ class Revendication extends BaseRevendication {
     private function detectDoublon($row, $etb) {
         $etbId = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID];
         $code_produit = $row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT];
+	$md5 = md5($etbId.$code_produit.$row[RevendicationCsvFile::CSV_COL_VILLE].$row[RevendicationCsvFile::CSV_COL_DATE].$row[RevendicationCsvFile::CSV_COL_VOLUME]);
+	$exception = new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DOUBLON, array('md5' => $md5, 'etablissement_id' => $etbId, 'code_produit' => $code_produit, 'num_ca' => $row[RevendicationCsvFile::CSV_COL_NUMERO_CA]));
+	if ($this->erreurs->exist(RevendicationErrorException::ERREUR_TYPE_DOUBLON)) {
+	    if ($this->erreurs[RevendicationErrorException::ERREUR_TYPE_DOUBLON]->exist($md5)) {
+	      $exception->addArgument('exists', 'VRAI');
+	      throw $exception;
+	    }
+	}
         // Les doublons ne comprennent pas la ligne doublonnée de base (qui fait partie des datas)! 
         if ($this->datas->exist($etbId)
                 && $this->datas->{$etbId}->produits->exist($code_produit)
                 && $this->datas->{$etbId}->commune == $row[RevendicationCsvFile::CSV_COL_VILLE]) {
-            foreach ($this->datas->{$etbId}->produits->{$code_produit}->volumes as $num => $volume) {
-                if ($row[RevendicationCsvFile::CSV_COL_NUMERO_CA] != $num && $volume->volume == $row[RevendicationCsvFile::CSV_COL_VOLUME]) {                    
-                    throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DOUBLON, array('num_ligne' => $volume->num_ligne));
-                }
-            }
+	  foreach ($this->datas->{$etbId}->produits->{$code_produit}->volumes as $num_ca => $volume) {
+	    if ($row[RevendicationCsvFile::CSV_COL_NUMERO_CA] != $num_ca && $volume->volume == $row[RevendicationCsvFile::CSV_COL_VOLUME] && $volume->date_certification == $row[RevendicationCsvFile::CSV_COL_DATE]) {
+	      $exception->addArgument('inserted_volume', $volume);
+	      $this->datas->{$etbId}->produits->{$code_produit}->volumes->remove($num_ca);
+	      throw $exception;
+	    }
+	  }
         }
     }
 
