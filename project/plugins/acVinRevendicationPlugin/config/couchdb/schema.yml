@@ -16,6 +16,7 @@ Revendication:
                   revpos: { }
                   length: { }
                   stub: { }
+                  digest: { }
       type: { }
       odg: { }
       campagne: {}
@@ -59,7 +60,8 @@ Revendication:
                                           volume: { type: float }
                                           bailleur_identifiant: {  }
                                           bailleur_nom: {  }
-                                          date_insertion: {  }
+                                          date_certification: {  }
+                                          numero_certification: {  }
                                           ligne: {  }
       erreurs:
         type: collection
@@ -71,7 +73,7 @@ Revendication:
               definition:
                 fields:
                   '*':
-                    type: array_collection
+                    type: collection
                     definition:
                       fields:
                         '*':
@@ -82,3 +84,14 @@ Revendication:
                               libelle_erreur: {}
                               ligne: {}
                               num_ligne: {}
+                              numero_certification: {}
+      ignored_lines:
+        type: collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  num_ligne: {}
+                  numero_certification: {}

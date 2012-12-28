@@ -30,13 +30,12 @@
                                    break;
                            endswitch;
                            ?>
-
-                        <p><?php echo $erreurs[0]->libelle_erreur; ?></p>
+                          <p><?php echo $erreurs->getFirst()->libelle_erreur; ?></p>
                     </div>
 
                     <ul class="num_erreurs">
                         <?php foreach ($erreurs as $pos => $erreur) : ?>
-                            <li><a href="#erreur_<?php echo $erreur->num_ligne; ?>"><?php echo $erreur->num_ligne; ?></a></li>
+                            <li><a href="#erreur_<?php echo $erreur->num_ligne + 1; ?>"><?php echo $erreur->num_ligne + 1; ?></a></li>
                         <?php endforeach; ?>
                     </ul>
 
@@ -60,17 +59,15 @@
             foreach ($erreursType as $unmatched_data => $erreurs):
                 foreach ($erreurs as $pos => $erreur):
                     ?>
-                    <tr id="erreur_<?php echo $erreur->num_ligne; ?>">
-                        <th><?php echo $erreur->num_ligne; ?></th>
+                    <tr id="erreur_<?php echo $erreur->num_ligne +1; ?>">
+                        <th><?php echo $erreur->num_ligne + 1; ?></th>
                         <td>
                             <p><?php echo $libellesForErrorsType[$type]; ?></p>
                             <p class="libelle">
                                 <?php echo $erreur->libelle_erreur; ?>
                             </p>
                             <p><?php echo str_replace('#', ';', $erreur->ligne); ?></p>
-                            <?php if ($type == RevendicationErrorException::ERREUR_TYPE_DOUBLON): ?> 
-                            <a style="margin-top: 5px;" href="<?php echo url_for('revendication_delete_doublon', array('odg' => $revendication->odg,'campagne' => $revendication->campagne,'num_ligne' => $unmatched_data,'doublon' => $erreur->num_ligne)); ?>" class="btn_majeur btn_annuler">Supprimer cette ligne</a>
-                            <?php endif; ?>
+                            <a style="margin-top: 5px;" href="<?php echo url_for('revendication_delete_line', array('odg' => $revendication->odg,'campagne' => $revendication->campagne,'num_ligne' => $erreur->num_ligne,'num_ca' => $erreur->numero_certification)); ?>" class="btn_majeur btn_annuler">Supprimer cette ligne</a>
                         </td>
                     </tr>
                     <?php

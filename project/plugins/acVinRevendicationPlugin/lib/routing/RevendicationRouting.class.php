@@ -79,8 +79,8 @@ class RevendicationRouting {
                         array('model' => 'Revendication',
                             'type' => 'object')));
 
-        $r->prependRoute('revendication_delete_doublon', new RevendicationRoute('/revendication/odg/:odg/:campagne/suppr-doublon/:num_ligne/:doublon', array('module' => 'revendication',
-                    'action' => 'deleteDoublon'),
+        $r->prependRoute('revendication_delete_line', new RevendicationRoute('/revendication/odg/:odg/:campagne/supprimer/:num_ligne/:num_ca', array('module' => 'revendication',
+                    'action' => 'deleteLine'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Revendication',
                             'type' => 'object')));
