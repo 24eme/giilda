@@ -193,13 +193,23 @@ EOF;
         $v->volume_enleve = $this->convertToFloat($line[self::CSV_VOLUME_ENLEVE_HL]);
 
         $v->prix_initial_unitaire = round($this->convertToFloat($this->calculPrixInitialUnitaire($v, $line)), 2);
+        $v->prix_initial_unitaire_hl = round($this->convertToFloat($line[self::CSV_PRIX_AU_LITRE]), 2);
+        $v->prix_initial_total = $v->prix_initial_unitaire_hl * $v->volume_propose;
 
         $v->type_contrat = $this->convertTypeContrat($line[self::CSV_TYPE_CONTRAT]);
 
         $v->prix_variable = $this->convertOuiNon($line[self::CSV_INDICATEUR_PRIX_DEFINITIF]);
 
-        if($v->hasPrixVariable() && round($this->convertToFloat($line[self::CSV_PRIX_DEFINITIF], 2))) {
+        if(!$v->hasPrixVariable()) {
+          $v->prix_unitaire = $v->prix_initial_unitaire;
+          $v->prix_unitaire_hl = $v->prix_initial_unitaire_hl;
+          $v->prix_total = $v->prix_initial_total;
+        }
+
+        if($v->hasPrixVariable() && $line[self::CSV_PRIX_DEFINITIF]) {
           $v->prix_unitaire = round($this->convertToFloat($this->calculPrixDefinitifUnitaire($v, $line)), 2);
+          $v->prix_unitaire_hl = round($this->convertToFloat($line[self::CSV_PRIX_DEFINITIF]), 2);
+          $v->prix_total = $v->prix_unitaire_hl * $v->volume_propose;
         }
 
         if(!round($this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]), 2)) {
@@ -230,14 +240,6 @@ EOF;
 
         $v->setInformations();
 
-        $v->update();
-
-        $prix_au_litre = round($this->convertToFloat($line[self::CSV_PRIX_AU_LITRE]), 2);
-
-        if (abs($v->prix_initial_unitaire_hl - $prix_au_litre) > 0.02) {
-          throw new sfException(sprintf("Le prix unitaire en €/hl issu du calcul n'est pas le même que celui du csv : %s / %s", $v->prix_initial_unitaire_hl, $prix_au_litre));
-        }
-
         return $v;
   }
 
@@ -262,7 +264,7 @@ EOF;
   }
 
   protected function getDensite($line) {
-  	if($line[self::CSV_UNITE_PRIX_VENTE] == 'kg') {
+  	if($line[self::CSV_UNITE_PRIX_VENTE] == 'kg' && $line[self::CSV_COEF_CONVERSION_PRIX]) {
   		return $line[self::CSV_COEF_CONVERSION_PRIX];
   	}
 	
@@ -277,7 +279,7 @@ EOF;
   protected function calculPrixUnitaire($vrac, $line, $prix_unitaire) {
     if(in_array($vrac->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS)) && $line[self::CSV_UNITE_PRIX_VENTE] == 'hl') {
 
-      return $prix_unitaire * $vrac->volume_propose / $vrac->raisin_quantite / 100;
+      return $prix_unitaire * $vrac->volume_propose / $vrac->raisin_quantite;
     }
 
     return $prix_unitaire;
@@ -355,7 +357,8 @@ EOF;
   }
 
   protected function getBouteilleContenanceLibelle($v) {
-        $contenances = array("0.0075" => '75 cl',
+        $contenances = array("0.00375" => '37 cl',
+                            "0.0075" => '75 cl',
                             "0.01" => '1 L',
                             "0.015" => '1.5 L',
                             "0.03" => '3 L',
