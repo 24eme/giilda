@@ -81,6 +81,7 @@ class Etablissement extends BaseEtablissement {
       $liaison->type_liaison = $type;
       $liaison->id_etablissement = $etablissement->_id;
       $liaison->libelle_etablissement = $etablissement->nom;
+      return $liaison;
     }
 
     public function isNegociant() {

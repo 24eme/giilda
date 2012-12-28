@@ -35,6 +35,11 @@ Etablissement:
                      id_etablissement: { }
                      libelle_etablissement: {}
                      type_liaison: { }
+                     aliases:
+                       type: collection
+                       definition:
+                         fields:
+                           '*': { }
        site_fiche: {  }            
        compte: {  }
        num_interne: {  }
