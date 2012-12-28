@@ -4,7 +4,8 @@ class MetayerBailleurCsvFile extends CsvFile
 {
   const CSV_METAYER_CVI = 0;
   const CSV_METAYER_ID = 1;
-  const CSV_BAILLEUR_ID = 2;
+  const CSV_BAILLEUR_NOM = 2;
+  const CSV_BAILLEUR_ID = 3;
   
   public function importMetayerBailleur() {
     $csvs = $this->getCsv();
@@ -18,7 +19,8 @@ class MetayerBailleurCsvFile extends CsvFile
 	if (!$bailleur) {
 	  throw new sfException($line[self::CSV_BAILLEUR_ID]. ': Metayer not found');
 	}
-	$metayer->addLiaison(EtablissementClient::TYPE_LIAISON_BAILLEUR, $bailleur);
+	$liaison = $metayer->addLiaison(EtablissementClient::TYPE_LIAISON_BAILLEUR, $bailleur);
+	$liaison->add('aliases')->add($line[self::CSV_BAILLEUR_NOM], $line[self::CSV_BAILLEUR_NOM]);
 	$bailleur->addLiaison(EtablissementClient::TYPE_LIAISON_METAYER, $metayer);
 
 	if ($metayer->_id == $bailleur->_id) {

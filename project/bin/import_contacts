@@ -49,7 +49,7 @@ php symfony import:compte $DATADIR/tmp/cicontact_cifonct_cipar.csv
 
 echo "Link bailleurs/métayés"
 
-convert-utf8 $DATADIR/ciattinao.csv | awk -F ';' '{print $3";"$19}' | grep '[0-9]$' | sed 's/^ //g' | sort -t ';' -k 1,1 | sed 's/$/01/' > $DATADIR/tmp/bailleursmetayers.csv
+convert-utf8 $DATADIR/ciattinao.csv | awk -F ';' '{print $3";"$7";"$19}' | grep '[0-9]$' | sed 's/^ //g' | sort -t ';' -k 1,1 | sed 's/$/01/' > $DATADIR/tmp/bailleursmetayers.csv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/etablissement/_view/findByCvi | grep '[0-9]"],"value' | sed 's/.*key":\["//' | sed 's/"\],"value":\["/;/' | sed 's/".*//'| sort -t ';' -k 1,1 > $DATADIR/tmp/cvi2idetab.csv
 join -t ';' -1 1 -2 1 $DATADIR/tmp/cvi2idetab.csv $DATADIR/tmp/bailleursmetayers.csv | uniq > $DATADIR/tmp/idbailleursidmetayer.csv
 php symfony import:metayerBailleur $DATADIR/tmp/idbailleursidmetayer.csv
