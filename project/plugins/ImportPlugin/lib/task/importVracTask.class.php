@@ -124,7 +124,7 @@ EOF;
 
   public function importVrac($line) {
 
-        $type_transaction = $this->convertTypeTransaction($line[self::CSV_TYPE_PRODUIT]);   
+        $type_transaction = $this->convertTypeTransaction($line);   
 
         if (!$type_transaction) {
          
@@ -178,11 +178,9 @@ EOF;
         $v->type_transaction = $type_transaction;
         
         if (in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
-          if(preg_match('/^b[0-9]{1}$/', $line[self::CSV_UNITE_PRIX_VENTE])) {
           	$v->bouteilles_contenance_volume = $line[self::CSV_COEF_CONVERSION_PRIX] * 0.01;
             $v->bouteilles_contenance_libelle = $this->getBouteilleContenanceLibelle($v->bouteilles_contenance_volume);
           	$v->bouteilles_quantite = (int)round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]) / $v->bouteilles_contenance_volume);
-      	  }
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_MOUTS,
                                                       VracClient::TYPE_TRANSACTION_VIN_VRAC))) {
           	$v->jus_quantite = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
@@ -295,21 +293,26 @@ EOF;
     return $this->calculPrixUnitaire($vrac, $line, $line[self::CSV_PRIX_DEFINITIF]);
   }
 
-  protected function convertTypeTransaction($type) {
+  protected function convertTypeTransaction($line) {
     $type_transactions = array(
       self::CSV_TYPE_PRODUIT_INDETERMINE => null,
       self::CSV_TYPE_PRODUIT_RAISINS => VracClient::TYPE_TRANSACTION_RAISINS,
       self::CSV_TYPE_PRODUIT_MOUTS => VracClient::TYPE_TRANSACTION_MOUTS,
       self::CSV_TYPE_PRODUIT_VIN_VRAC => VracClient::TYPE_TRANSACTION_VIN_VRAC,
       self::CSV_TYPE_PRODUIT_TIRE_BOUCHE => VracClient::TYPE_TRANSACTION_VIN_VRAC,
-      self::CSV_TYPE_PRODUIT_VIN_LATTES => VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
+      self::CSV_TYPE_PRODUIT_VIN_LATTES => VracClient::TYPE_TRANSACTION_VIN_VRAC,
       self::CSV_TYPE_PRODUIT_VIN_CRD => VracClient::TYPE_TRANSACTION_VIN_VRAC,
-      self::CSV_TYPE_PRODUIT_VIN_BOUTEILLE => VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
+      self::CSV_TYPE_PRODUIT_VIN_BOUTEILLE => VracClient::TYPE_TRANSACTION_VIN_VRAC,
     );
 
-    if (array_key_exists($type, $type_transactions)) {
+    if(preg_match('/^b[0-9]{1}$/', $line[self::CSV_UNITE_PRIX_VENTE])) {
 
-      return $type_transactions[$type];
+      return VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE;
+    }
+
+    if (array_key_exists($line[self::CSV_TYPE_PRODUIT], $type_transactions)) {
+
+      return $type_transactions[$line[self::CSV_TYPE_PRODUIT]];
     }
 
     return null;
