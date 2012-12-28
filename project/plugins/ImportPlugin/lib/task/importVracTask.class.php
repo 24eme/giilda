@@ -358,11 +358,11 @@ EOF;
 
   protected function getBouteilleContenanceLibelle($v) {
         $contenances = array("0.00375" => '37 cl',
-                            "0.0075" => '75 cl',
-                            "0.01" => '1 L',
-                            "0.015" => '1.5 L',
-                            "0.03" => '3 L',
-                            "0.06" => '6 L');
+                             "0.0075" => '75 cl',
+                             "0.01" => '1 L',
+                             "0.015" => '1.5 L',
+                             "0.03" => '3 L',
+                             "0.06" => '6 L');
         $v = $v."";
         if (array_key_exists($v, $contenances)) {
           return $contenances[$v];
