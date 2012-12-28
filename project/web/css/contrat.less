@@ -298,23 +298,16 @@
 
     #table_contrats
     {
-        th
-        {
-            .border(@couleur-a10);
-            background:@couleur-a5;
-            /*&:first-child{ .border-radius(5px 0 0 0)}*/
-            /*&:last-child{ .border-radius(0 5px 0 0)}*/
-            vertical-align:middle;
-        }
                 
         td
         {
-            .border(@couleur-a10);
-            vertical-align: top;
             padding: 10px;
 
-            &.type { vertical-align: middle; }
+            &.soussigne {
+                text-align: left;
+            }
         }
+
 
         .num_contrat
         {

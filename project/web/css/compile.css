@@ -1863,17 +1863,8 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher { height:26px; }
   float:right;
   margin-top:50px;
 }
-#contenu_etape #table_contrats th {
-  border:1px solid #e5e4e4;
-  background:#ecebeb;
-  vertical-align:middle;
-}
-#contenu_etape #table_contrats td {
-  border:1px solid #e5e4e4;
-  vertical-align:top;
-  padding:10px;
-}
-#contenu_etape #table_contrats td.type { vertical-align:middle; }
+#contenu_etape #table_contrats td { padding:10px; }
+#contenu_etape #table_contrats td.soussigne { text-align:left; }
 #contenu_etape #table_contrats .num_contrat { text-align:center; }
 #contenu_etape #table_contrats .num_contrat a {
   color:#2160cf;

@@ -21,7 +21,8 @@ class RevendicationProduits extends BaseRevendicationProduits {
             $volumes->volume = floatval($row[RevendicationCsvFile::CSV_COL_VOLUME]);
             $volumes->num_ligne = $num_ligne;
             $volumes->statut = self::STATUT_IMPORTE;
-            $volumes->date_insertion = date('Y-m-d');
+            $volumes->date_certification = $row[RevendicationCsvFile::CSV_COL_DATE];
+            $volumes->numero_certification = $row[RevendicationCsvFile::CSV_COL_NUMERO_CA];
             $volumes->ligne = implode('#', $row);
             if ($bailleur) {
                 $volumes->bailleur_identifiant = $bailleur->key[EtablissementAllView::KEY_IDENTIFIANT];

@@ -33,6 +33,10 @@ class RevendicationErrorException extends Exception {
         return $this->exception_type;
     }
 
+    public function addArgument($k, $v)  {
+      $this->arguments[$k] = $v;
+    }
+
     public static function getLibellesForErrorsType() {
         return array(self::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS => "CVI non reconnus",
             self::ERREUR_TYPE_PRODUIT_NOT_EXISTS => "Produits non reconnus",
