@@ -9,17 +9,17 @@ class importDRMTask extends importAbstractTask
   const CSV_LIGNE_TYPE = 3;
   const CSV_LIGNE_CAMPAGNE = 4;
 
-  const CSV_LIGNE_TYPE_DS = '01.DS';
-  const CSV_LIGNE_TYPE_CONTRAT = '02.CONTRAT';
-  const CSV_LIGNE_TYPE_ACHAT = '03.ACHAT';
-  const CSV_LIGNE_TYPE_VENTE = '04.VENTE';
-  const CSV_LIGNE_TYPE_DIVERS = '05.DIVERS';
-  const CSV_LIGNE_TYPE_CAVE_VITI = '06.CAVE-VITI';
-  const CSV_LIGNE_TYPE_CAVE_COOP = '07.CAVE-COOP';
-  const CSV_LIGNE_TYPE_TRANSFERT_ENTREE = '08.TRANSFERT-ENTREE';
-  const CSV_LIGNE_TYPE_TRANSFERT_SORTIE = '09.TRANSFERT-SORTIE';
-  const CSV_LIGNE_TYPE_MOUVEMENT = '10.MOUVEMENT';
-  const CSV_LIGNE_TYPE_INFO = '11.INFO';
+  const CSV_LIGNE_TYPE_INFO = '01.INFO';
+  const CSV_LIGNE_TYPE_DS = '02.DS';
+  const CSV_LIGNE_TYPE_CONTRAT = '03.CONTRAT';
+  const CSV_LIGNE_TYPE_ACHAT = '04.ACHAT';
+  const CSV_LIGNE_TYPE_VENTE = '05.VENTE';
+  const CSV_LIGNE_TYPE_DIVERS = '06.DIVERS';
+  const CSV_LIGNE_TYPE_CAVE_VITI = '07.CAVE-VITI';
+  const CSV_LIGNE_TYPE_CAVE_COOP = '08.CAVE-COOP';
+  const CSV_LIGNE_TYPE_TRANSFERT_ENTREE = '09.TRANSFERT-ENTREE';
+  const CSV_LIGNE_TYPE_TRANSFERT_SORTIE = '10.TRANSFERT-SORTIE';
+  const CSV_LIGNE_TYPE_MOUVEMENT = '11.MOUVEMENT';
 
   const CSV_DS_DOSSIER = 5;
   const CSV_DS_CAMPAGNE = 6;
@@ -374,6 +374,9 @@ EOF;
     }
 
     switch($line[self::CSV_LIGNE_TYPE]) {
+      case self::CSV_LIGNE_TYPE_INFO:
+        $this->importLigneInfo($drm, $line);
+        break;
       case self::CSV_LIGNE_TYPE_DS:
         $this->importLigneDS($drm, $line);
         break;
@@ -399,9 +402,6 @@ EOF;
       case self::CSV_LIGNE_TYPE_MOUVEMENT:
         $this->importLigneMouvement($drm, $line);
         break;
-      case self::CSV_LIGNE_TYPE_INFO:
-        $this->importLigneInfo($drm, $line);
-        break;
       default:
         throw new sfException(sprintf("Le type de ligne '%s' n'est pas pris en compte", $line[self::CSV_LIGNE_TYPE]));
     }
@@ -426,6 +426,13 @@ EOF;
   public function importLigneContrat($drm, $line) {
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
+    $cvo = $this->convertToFloat($line[self::CSV_CONTRAT_COTISATION_CVO_VITICULTEUR] + $line[self::CSV_CONTRAT_COTISATION_CVO_NEGOCIANT]);
+
+    if($produit->cvo->taux && $produit->cvo->taux != $cvo) {
+      throw new sfException(sprintf("Deux taux de cvo différent ont été défini pour un produit d'une même DRM %s / %s", $produit->cvo->taux, $cvo));      
+    }
+    $produit->cvo->taux = $cvo;
+
     $numero_contrat = $this->constructNumeroContrat($line);
     $contrat = VracClient::getInstance()->findByNumContrat($numero_contrat);
 
@@ -440,6 +447,13 @@ EOF;
 
   public function importLigneVente($drm, $line) {
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
+
+    $cvo = $this->convertToFloat($line[self::CSV_VENTE_COTISATION_VITICULEUR_VENTE_DIRECTE]);
+
+    if($produit->cvo->taux && $produit->cvo->taux != $cvo) {
+      throw new sfException(sprintf("Deux taux de cvo différent ont été défini pour un produit d'une même DRM %s / %s", $produit->cvo->taux, $cvo));      
+    }
+    $produit->cvo->taux = $cvo;
 
     if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) > 0) {
       $produit->sorties->export_details->addDetail($this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]),
