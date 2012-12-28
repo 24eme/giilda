@@ -65,7 +65,7 @@ class Vrac extends BaseVrac {
                 $this->prix_initial_total = round($this->raisin_quantite * $this->prix_initial_unitaire, 2);
                 $this->bouteilles_contenance_libelle = null;
                 $this->bouteilles_contenance_volume = null;
-                $this->volume_propose = round(($this->raisin_quantite / $this->getDensite()) / 100.0, 2);
+                $this->volume_propose = round($this->raisin_quantite / $this->getDensite() / 100.0, 2);
                 break;
             }
             case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
