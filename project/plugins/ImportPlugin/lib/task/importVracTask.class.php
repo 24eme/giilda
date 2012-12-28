@@ -306,7 +306,9 @@ EOF;
     );
 
     if(preg_match('/^b[0-9]{1}$/', $line[self::CSV_UNITE_PRIX_VENTE])) {
-
+      if(self::CSV_TYPE_PRODUIT_RAISINS == $line[self::CSV_TYPE_PRODUIT] || self::CSV_TYPE_PRODUIT_MOUTS == $line[self::CSV_TYPE_PRODUIT]) {
+        throw new sfException("Le vrac est exprimé en bouteille mais ils s'agit de mout ou de raisins bizarre...");
+      }
       return VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE;
     }
 
