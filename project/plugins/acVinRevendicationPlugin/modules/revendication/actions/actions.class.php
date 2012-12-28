@@ -69,10 +69,10 @@ class revendicationActions extends sfActions {
     }
 
     public function executeDownloadCSV(sfWebRequest $request) {
-        $this->md5 = $request->getParameter('md5');
-        $odg = $request->getParameter('odg');
+        $revendication = $this->getRoute()->getRevendication();
         $this->getResponse()->setHttpHeader('Content-type', 'text/csv');
-        $this->getResponse()->setHttpHeader('Content-Disposition', sprintf('filename="odg-%s-%s.csv"', $odg, $this->md5));
+        $this->getResponse()->setHttpHeader('Content-Disposition', sprintf('filename="DREV-%s-%s-%s.csv"', $revendication->odg, $revendication->campagne, $revendication->_rev));
+	$this->csv = $revendication->getAttachmentUri('revendication.csv');
         $this->setLayout(false);
     }
 
