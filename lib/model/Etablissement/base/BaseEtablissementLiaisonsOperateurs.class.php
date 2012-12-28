@@ -4,13 +4,19 @@
  * 
  * Base model for EtablissementLiaisonsOperateurs
 
- * @property string $id_societe
+ * @property string $id_etablissement
+ * @property string $libelle_etablissement
  * @property string $type_liaison
+ * @property acCouchdbJson $aliases
 
- * @method string getIdSociete()
- * @method string setIdSociete()
+ * @method string getIdEtablissement()
+ * @method string setIdEtablissement()
+ * @method string getLibelleEtablissement()
+ * @method string setLibelleEtablissement()
  * @method string getTypeLiaison()
  * @method string setTypeLiaison()
+ * @method acCouchdbJson getAliases()
+ * @method acCouchdbJson setAliases()
  
  */
 

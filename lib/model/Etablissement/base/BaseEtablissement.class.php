@@ -7,6 +7,7 @@
  * @property string $_id
  * @property string $_rev
  * @property string $type
+ * @property string $cooperative
  * @property string $interpro
  * @property string $identifiant
  * @property string $id_societe
@@ -44,6 +45,8 @@
  * @method string set_rev()
  * @method string getType()
  * @method string setType()
+ * @method string getCooperative()
+ * @method string setCooperative()
  * @method string getInterpro()
  * @method string setInterpro()
  * @method string getIdentifiant()
