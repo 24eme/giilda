@@ -73,11 +73,18 @@ class RevendicationRouting {
         $r->prependRoute('revendication_delete_row', new sfRoute('/revendication/odg/:odg/:campagne/delete-row/:identifiant/produit/:produit/:row', array('module' => 'revendication',
                     'action' => 'deleteRow')));
 
-        $r->prependRoute('revendication_add_alias_to_configuration', new RevendicationRoute('/revendication/odg/:odg/:campagne/ajout-alias/:alias', array('module' => 'revendication',
+        $r->prependRoute('revendication_add_alias_to_configuration', new RevendicationRoute('/revendication/odg/:odg/:campagne/ajout-alias-produit/:alias', array('module' => 'revendication',
                     'action' => 'addAliasToProduit'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Revendication',
                             'type' => 'object')));
+
+        $r->prependRoute('revendication_add_alias_to_bailleur', new RevendicationRoute('/revendication/odg/:odg/:campagne/ajout-alias-bailleur/:identifiant/:alias', array('module' => 'revendication',
+                    'action' => 'addAliasToBailleur'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Revendication',
+                            'type' => 'object')));
+
 
         $r->prependRoute('revendication_delete_doublon', new RevendicationRoute('/revendication/odg/:odg/:campagne/suppr-doublon/:num_ligne/:doublon', array('module' => 'revendication',
                     'action' => 'deleteDoublon'),

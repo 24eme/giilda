@@ -40,7 +40,7 @@ class Revendication extends BaseRevendication {
 //                }
             $hashLibelle = $this->matchProduit($row);
             if ($this->rowHasMetayage($row)) {
-                $bailleur = $this->matchBailleur($row);
+                $bailleur = $this->matchBailleur($row,  EtablissementClient::getInstance()->find($etb->id));
             }
             $this->detectDoublon($row, $etb);
             $revendicationEtb = $this->datas->add($etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_ID]);
@@ -150,14 +150,15 @@ class Revendication extends BaseRevendication {
         return $row[RevendicationCsvFile::CSV_COL_PROPRIO_METAYER] == "2";
     }
 
-    private function matchBailleur($row) {
-        $etablissements = $this->getEtablissements();
-        foreach ($etablissements->rows as $etablissement) {
-            if (Search::matchTermLight($row[RevendicationCsvFile::CSV_COL_BAILLEUR], $etablissement->key[EtablissementAllView::KEY_NOM])) {
-                return $etablissement;
-            }
+    private function matchBailleur($row, $etb) {
+        if(!count($etb->getBailleurs()))
+            throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_NO_BAILLEURS,array('identifiant' => $etb->identifiant));        
+        $nom = $row[RevendicationCsvFile::CSV_COL_BAILLEUR];        
+        $bailleur = $etb->findBailleurByNom($nom);
+        if(!$bailleur){
+            throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS,array('identifiant' => $etb->identifiant));
         }
-        throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS);
+        return $bailleur;
     }
 
     private function detectDoublon($row, $etb) {

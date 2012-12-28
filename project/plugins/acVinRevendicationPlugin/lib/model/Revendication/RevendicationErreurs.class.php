@@ -25,10 +25,11 @@ class RevendicationErreurs extends BaseRevendicationErreurs {
                 $error->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_CVI]);
                 break;
             case RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS:
-                $errorData = $this->add($row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
+                $args = $erreurException->getArguments();
+                $errorData = $this->add($args['identifiant'].'_'.$row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
                 $error = $errorData->add();
                 $error->data_erreur = $row[RevendicationCsvFile::CSV_COL_BAILLEUR];
-                $error->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS_LIBELLE, $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
+                $error->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS_LIBELLE, $args['identifiant'], $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
                 break;
             case RevendicationErrorException::ERREUR_TYPE_DOUBLON:
                 $ligne_doublee = $erreurException->getArguments();
@@ -38,7 +39,14 @@ class RevendicationErreurs extends BaseRevendicationErreurs {
                 $error->data_erreur = $row[RevendicationCsvFile::CSV_COL_NUMERO_CA];
                 $error->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_DOUBLON_LIBELLE, $row[RevendicationCsvFile::CSV_COL_CVI], $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT], sprintf("%01.02f", round(floatval($row[RevendicationCsvFile::CSV_COL_VOLUME]), 2)));
                 break;
-
+            case RevendicationErrorException::ERREUR_TYPE_NO_BAILLEURS:
+                $args = $erreurException->getArguments();
+                $errorData = $this->add($args['identifiant']);
+                $error = $errorData->add();
+                $error->data_erreur = $row[RevendicationCsvFile::CSV_COL_BAILLEUR];
+                $error->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_NO_BAILLEURS_LIBELLE, $args['identifiant'],$row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
+                break;
+                
             default:
                 echo $numLigne;
                 break;
