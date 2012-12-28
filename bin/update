@@ -19,6 +19,7 @@ setOnGoodBranch
 
 git pull
 git submodule foreach git pull
+git pull
 
 git submodule init > /dev/null 2>&1
 git submodule update > /dev/null 2>&1

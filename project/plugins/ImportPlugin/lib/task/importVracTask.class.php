@@ -124,7 +124,7 @@ EOF;
 
   public function importVrac($line) {
 
-        $type_transaction = $this->convertTypeTransaction($line[self::CSV_TYPE_PRODUIT]);   
+        $type_transaction = $this->convertTypeTransaction($line);   
 
         if (!$type_transaction) {
          
@@ -178,16 +178,14 @@ EOF;
         $v->type_transaction = $type_transaction;
         
         if (in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
-          if(preg_match('/^b[0-9]{1}$/', $line[self::CSV_UNITE_PRIX_VENTE])) {
           	$v->bouteilles_contenance_volume = $line[self::CSV_COEF_CONVERSION_PRIX] * 0.01;
             $v->bouteilles_contenance_libelle = $this->getBouteilleContenanceLibelle($v->bouteilles_contenance_volume);
           	$v->bouteilles_quantite = (int)round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]) / $v->bouteilles_contenance_volume);
-      	  }
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_MOUTS,
                                                       VracClient::TYPE_TRANSACTION_VIN_VRAC))) {
           	$v->jus_quantite = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS))) {
-          	$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL] * $this->getDensite($line)), 2);
+          	$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL] * $this->getDensite($line) * 100), 2);
         }
 
         $v->volume_propose = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
@@ -200,30 +198,26 @@ EOF;
 
         $v->prix_variable = $this->convertOuiNon($line[self::CSV_INDICATEUR_PRIX_DEFINITIF]);
 
-        if($v->hasPrixVariable() && $line[self::CSV_PRIX_DEFINITIF]) {
-          var_dump($line[self::CSV_PRIX_DEFINITIF]);
-          //$v->prix_unitaire = round($this->convertToFloat($this->calculPrixDefinitifUnitaire($v, $line)), 2);
+        if($v->hasPrixVariable() && round($this->convertToFloat($line[self::CSV_PRIX_DEFINITIF], 2))) {
+          $v->prix_unitaire = round($this->convertToFloat($this->calculPrixDefinitifUnitaire($v, $line)), 2);
         }
 
-        $v->cvo = round($this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]), 2);
-
-        if(!$v->cvo) {
+        if(!round($this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]), 2)) {
           $v->cvo_repartition = VracClient::CVO_REPARTITION_0_VINAIGRERIE;
         } elseif($line[self::CSV_COTISATION_CVO_VITICULTEUR] == $line[self::CSV_COTISATION_CVO_NEGOCIANT]) {
           $v->cvo_repartition = VracClient::CVO_REPARTITION_50_50;
         } else {
           $v->cvo_repartition = VracClient::CVO_REPARTITION_100_VITI;          
         }
-        
 
         if($v->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI && $line[self::CSV_COTISATION_CVO_NEGOCIANT] > 0) {
           
-          throw new sfException(sprintf("Incohérence de CVO VITI v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]));
+          $this->logLigne('WARNING', sprintf("Incohérence de CVO VITI v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]), $line);
         }
 
         if($v->cvo_repartition == VracClient::CVO_REPARTITION_0_VINAIGRERIE && $line[self::CSV_COTISATION_CVO_NEGOCIANT]) {
 
-          throw new sfException(sprintf("Incohérence de CVO VINAIG v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]));
+          $this->logLigne('WARNING', sprintf("Incohérence de CVO VINAIG v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]), $line);
         }
 
         $v->attente_original = $this->convertOuiNon($line[self::CSV_ATTENTE_ORIGINAL]);
@@ -240,7 +234,7 @@ EOF;
 
         $prix_au_litre = round($this->convertToFloat($line[self::CSV_PRIX_AU_LITRE]), 2);
 
-        if (abs($v->prix_initial_unitaire_hl - $prix_au_litre) > 0.01) {
+        if (abs($v->prix_initial_unitaire_hl - $prix_au_litre) > 0.02) {
           throw new sfException(sprintf("Le prix unitaire en €/hl issu du calcul n'est pas le même que celui du csv : %s / %s", $v->prix_initial_unitaire_hl, $prix_au_litre));
         }
 
@@ -272,7 +266,7 @@ EOF;
   		return $line[self::CSV_COEF_CONVERSION_PRIX];
   	}
 	
-	$hash = $this->getHash($line[self::CSV_CODE_APPELLATION]);
+	  $hash = $this->getHash($line[self::CSV_CODE_APPELLATION]);
   	if (preg_match('/appellations\/CLO\//', $hash)) {
   		return 1.5;
   	} else {
@@ -299,21 +293,28 @@ EOF;
     return $this->calculPrixUnitaire($vrac, $line, $line[self::CSV_PRIX_DEFINITIF]);
   }
 
-  protected function convertTypeTransaction($type) {
+  protected function convertTypeTransaction($line) {
     $type_transactions = array(
       self::CSV_TYPE_PRODUIT_INDETERMINE => null,
       self::CSV_TYPE_PRODUIT_RAISINS => VracClient::TYPE_TRANSACTION_RAISINS,
       self::CSV_TYPE_PRODUIT_MOUTS => VracClient::TYPE_TRANSACTION_MOUTS,
       self::CSV_TYPE_PRODUIT_VIN_VRAC => VracClient::TYPE_TRANSACTION_VIN_VRAC,
-      self::CSV_TYPE_PRODUIT_TIRE_BOUCHE => VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
-      self::CSV_TYPE_PRODUIT_VIN_LATTES => VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
-      self::CSV_TYPE_PRODUIT_VIN_CRD => VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
-      self::CSV_TYPE_PRODUIT_VIN_BOUTEILLE => VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
+      self::CSV_TYPE_PRODUIT_TIRE_BOUCHE => VracClient::TYPE_TRANSACTION_VIN_VRAC,
+      self::CSV_TYPE_PRODUIT_VIN_LATTES => VracClient::TYPE_TRANSACTION_VIN_VRAC,
+      self::CSV_TYPE_PRODUIT_VIN_CRD => VracClient::TYPE_TRANSACTION_VIN_VRAC,
+      self::CSV_TYPE_PRODUIT_VIN_BOUTEILLE => VracClient::TYPE_TRANSACTION_VIN_VRAC,
     );
 
-    if (array_key_exists($type, $type_transactions)) {
+    if(preg_match('/^b[0-9]{1}$/', $line[self::CSV_UNITE_PRIX_VENTE])) {
+      if(self::CSV_TYPE_PRODUIT_RAISINS == $line[self::CSV_TYPE_PRODUIT] || self::CSV_TYPE_PRODUIT_MOUTS == $line[self::CSV_TYPE_PRODUIT]) {
+        throw new sfException("Le vrac est exprimé en bouteille mais ils s'agit de mout ou de raisins bizarre...");
+      }
+      return VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE;
+    }
 
-      return $type_transactions[$type];
+    if (array_key_exists($line[self::CSV_TYPE_PRODUIT], $type_transactions)) {
+
+      return $type_transactions[$line[self::CSV_TYPE_PRODUIT]];
     }
 
     return null;
