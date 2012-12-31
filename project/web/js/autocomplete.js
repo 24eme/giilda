@@ -55,6 +55,8 @@
             var self = this,
             select = this.element.hide(),
             selected = select.find( "option:selected" );
+			
+			console.log(selected);
 
             value = selected.text() ? selected.text() : "";
             
@@ -70,7 +72,9 @@
             //var prev_term = "";
             var minLength = (url_ajax) ? 1 : 0;
             var delay = (url_ajax) ? 500 : 200;
-
+			
+			console.log('value : ' + selected.text());
+			
             var input = this.input = $( "<input type='text'>" )
             .insertAfter( select )
             .val( value )
@@ -138,8 +142,6 @@
                     return false;
                 },
                 change: function( event, ui ) {
-                    //console.log('change');
-                    
                     if ( !ui.item ) {
                         var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "$", "i" ),
                         valid = false;
@@ -157,20 +159,19 @@
                             if(newValueAllowed)
                             {
                                 var newValue = $( this ).val();
-                                
-                                select.find(':selected').removeAttr('selected');
-                                newValueOption.attr('selected','selected').val(newValue); //.text(newValue);
+                                select.find('option').removeAttr('selected');
+                                newValueOption.attr('selected','selected').val(newValue).text(newValue);
                             }
                             else
                             {
                                 $( this ).val( "" );
                                 input.data( "autocomplete" ).term = "";
                             }
-                                    return false;
-                                }
-                            }
-                        }
-                    });
+							return false;
+						}
+					}
+				}
+			});
 
                     //.addClass( "ui-widget ui-widget-content ui-corner-left" );
 

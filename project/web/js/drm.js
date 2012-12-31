@@ -38,8 +38,6 @@ var objAjoutsLiquidations = {};
 		if(calendrierHistorique.exists()){
 			calendrierHistorique.find('.liste_mois > li').hauteurEgale();
 		}
-		
-		//$.desactiveElements();
 	});
 	
 	/**
@@ -184,32 +182,5 @@ var objAjoutsLiquidations = {};
 			else texteCaution.hide();
 		}); // fin de click()
 	}; // fin de $.choixCaution()
-	
-	/**
-	 * Rend les boutons et champs inactif lors de la saisie d'une colonne 
-	 * $.desactiveElements();
-	 ******************************************/
-	
-	$.desactiveElements = function()
-	{
-		var boutons = $('#btn_etape_dr a');
-		var champAppellation = $('#form_produit_declaration input[type="text"]');
-		var colonne = $('.col_recolte');
-		
-		// Si on a une colonne active
-		if(colonne.hasClass('col_active'))
-		{
-			alert('col_active');
-			boutons.css('background', 'red');
-			// On désactive les boutons
-			boutons.click(function(e)
-			{
-				e.preventDefault();
-			});
-			
-			// On désactive le champ appellation
-			champAppellation.attr('disabled', 'disabled');
-		}
-	};
         
 })(jQuery);
