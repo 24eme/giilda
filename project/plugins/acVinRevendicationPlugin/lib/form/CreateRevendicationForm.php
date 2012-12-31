@@ -42,7 +42,7 @@ class CreateRevendicationForm extends BaseForm {
 
         $campagnes = array();
         for ($currentA = $annee; $currentA > $this->anneeCampagneStart; $currentA--) {
-            $key = $currentA . ($currentA + 1);
+            $key = $currentA . '-' . ($currentA + 1);
             $value = $currentA . '-' . ($currentA + 1);
             $campagnes[$key] = $value;
         }

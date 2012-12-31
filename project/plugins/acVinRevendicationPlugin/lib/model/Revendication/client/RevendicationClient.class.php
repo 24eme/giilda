@@ -47,7 +47,7 @@ class RevendicationClient extends acCouchdbClient {
     }
 
     public function getParametersFromId($id) {
-        preg_match('/^REVENDICATION-([A-Z]*)-([0-9]{8})$/', $id, $matches);
+        preg_match('/^REVENDICATION-([A-Z]*)-([0-9]{4}-[0-9]{4})$/', $id, $matches);
         return array('odg' => strtolower($matches[1]), 'campagne' => $matches[2]);
     }
 
