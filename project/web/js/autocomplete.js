@@ -56,8 +56,6 @@
             select = this.element.hide(),
             selected = select.find( "option:selected" );
 			
-			console.log(selected);
-
             value = selected.text() ? selected.text() : "";
             
             var newValueAllowed  = select.hasClass('permissif');
@@ -72,8 +70,6 @@
             //var prev_term = "";
             var minLength = (url_ajax) ? 1 : 0;
             var delay = (url_ajax) ? 500 : 200;
-			
-			console.log('value : ' + selected.text());
 			
             var input = this.input = $( "<input type='text'>" )
             .insertAfter( select )
