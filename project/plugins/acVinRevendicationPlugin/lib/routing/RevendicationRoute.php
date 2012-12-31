@@ -21,7 +21,7 @@ class RevendicationRoute extends sfObjectRoute  {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'odg', $parameters['odg']));
         }
         
-        if (preg_match('/^[0-9]{4}[0-9]{4}$/',$parameters['campagne'])) {            
+        if (preg_match('/^[0-9]{4}-[0-9]{4}$/',$parameters['campagne'])) {            
             $campagne = $parameters['campagne'];
         } else {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'campagne', $parameters['campagne']));
