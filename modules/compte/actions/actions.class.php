@@ -29,5 +29,13 @@ class compteActions extends sfActions
         }
     }
     
+    public function executeVisualisation(sfWebRequest $request) {
+        $this->compte = $this->getRoute()->getCompte();
+        $this->societe = $this->compte->getSociete();
+        if($this->compte->isSocieteContact())
+            $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
+        if($this->compte->isEtablissementContact())
+            $this->redirect('etablissement_visualisation',array('identifiant' => preg_replace ('/^ETABLISSEMENT-/', '', $this->compte->getEtablissementOrigine())));
+    }    
 
 }

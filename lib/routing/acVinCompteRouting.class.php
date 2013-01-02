@@ -54,6 +54,12 @@ class acVinCompteRouting {
                             'action' => 'nouveau'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Compte',
+                            'type' => 'object')));        
+        $r->prependRoute('compte_visualisation', new CompteRoute('/compte/:identifiant/visualisation',
+                        array('module' => 'compte',
+                            'action' => 'visualisation'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Compte',
                             'type' => 'object')));
     }
 

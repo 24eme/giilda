@@ -7,12 +7,12 @@
 		<div id="nouveau_contact">
 			<h2>Nouveau contact</h2>
 
+
+			<form action="<?php echo url_for('compte_new', array('identifiant' => $compte->identifiant)); ?>" method="post">
 			<div class="form_btn">
 				<button class="btn_majeur btn_annuler">Annuler</button>
 				<button class="btn_majeur btn_valider">Valider</button>
 			</div>
-
-			<form action="<?php echo url_for('compte_new', array('identifiant' => $compte->identifiant)); ?>" method="post">
 				<div id="detail_contact" class="form_section ouvert">
 					<h3>Détail du contact</h3>
 					<?php include_partial('modificationDetail', array('compteForm' => $compteForm)); ?>

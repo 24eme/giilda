@@ -28,7 +28,7 @@ class Compte extends BaseCompte {
     public function save($fromsociete = false) {
         if (is_null($this->adresse_societe))
             $this->adresse_societe = (int) $fromsociete;
-        
+
         foreach ($this->origines as $origine) {
             if (preg_match('/^ETABLISSEMENT-/', $origine)) {
                 $etb = EtablissementClient::getInstance()->find($origine);
@@ -48,6 +48,7 @@ class Compte extends BaseCompte {
                 $this->nom_a_afficher = $soc->raison_sociale;
             }
         }
+        
         parent::save();
         if (!$fromsociete) {
             $soc = $this->getSociete();
