@@ -1,6 +1,6 @@
 <div id="etablissement_<?php echo $etablissement->identifiant; ?>" class="etablissement form_section ouvert">
 	
-    <h3>Nom établissement</h3>
+    <h3><?php echo $etablissement->nom; ?></h3>
 	
     <div class="form_contenu">  
         <div class="form_ligne">
