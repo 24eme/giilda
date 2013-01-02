@@ -40,3 +40,6 @@
 [submodule "project/plugins/acVinDocumentPlugin"]
 	path = project/plugins/acVinDocumentPlugin
 	url = git@gitorious.org:acvin/acvindocumentplugin.git
+[submodule "project/plugins/acElasticaPlugin"]
+	path = project/plugins/acElasticaPlugin
+	url = git@gitorious.org:accouchdbplugin/acelasticaplugin.git
