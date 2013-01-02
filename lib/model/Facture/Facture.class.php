@@ -61,16 +61,16 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function constructIds($soc) {
-      if (!$soc) 
-	throw new sfException('Pas de societe attribuée');
-      $this->region = $soc->getRegionViticole();
-      $this->identifiant = $soc->identifiant;
-      $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($this->identifiant, date('Ymd'));
-      $this->_id = FactureClient::getInstance()->getId($this->identifiant, $this->numero_facture);
+        if (!$soc)
+            throw new sfException('Pas de societe attribuée');
+        $this->region = $soc->getRegionViticole();
+        $this->identifiant = $soc->identifiant;
+        $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($this->identifiant, date('Ymd'));
+        $this->_id = FactureClient::getInstance()->getId($this->identifiant, $this->numero_facture);
     }
 
     public function getNumeroInterloire() {
-      return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->numero_facture).'/'.$this->getPrefixForRegion().'-'.$this->numero_archive;
+        return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->numero_facture) . '/' . $this->getPrefixForRegion() . '-' . $this->numero_archive;
     }
 
     public function getTaxe() {
@@ -171,15 +171,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     private function createOrigineLibelle($ligne, $transacteur, $famille, $view) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV) {
-	  if  ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART) {
-	    $origine_libelle = "Écart";
-	    return $origine_libelle;
-	  }
-	  $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getNumeroContrat($ligne->contrat_identifiant);
-	  $origine_libelle .= ' (' . $transacteur . ') ';
-	  if ($famille == EtablissementFamilles::FAMILLE_NEGOCIANT)
-	    $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
-	  return $origine_libelle;
+            if ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART) {
+                $origine_libelle = "Écart";
+                return $origine_libelle;
+            }
+            $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getNumeroContrat($ligne->contrat_identifiant);
+            $origine_libelle .= ' (' . $transacteur . ') ';
+            if ($famille == EtablissementFamilles::FAMILLE_NEGOCIANT)
+                $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
+            return $origine_libelle;
         }
 
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
@@ -187,7 +187,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
                     $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
                 } else {
-                    $origine_libelle = 'n°'.$view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
+                    $origine_libelle = 'n°' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
                 }
                 $origine_libelle .= ' (' . $transacteur . ') ';
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR)
@@ -199,10 +199,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     private function troncate($origine_libelle, $produit_libelle) {
-        if((strlen($produit_libelle)*1.5 + strlen($origine_libelle)) > 124){
-            $max = 124 - (strlen($produit_libelle)*1.5) - 4;
-            $origine_libelle= substr ($origine_libelle, 0,$max).'...';
-            if(strstr($origine_libelle,"(")!==FALSE) $origine_libelle.=')';
+        if ((strlen($produit_libelle) * 1.5 + strlen($origine_libelle)) > 124) {
+            $max = 124 - (strlen($produit_libelle) * 1.5) - 4;
+            $origine_libelle = substr($origine_libelle, 0, $max) . '...';
+            if (strstr($origine_libelle, "(") !== FALSE)
+                $origine_libelle.=')';
         }
         return $origine_libelle;
     }
@@ -213,12 +214,16 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 switch ($ligne->produit_type) {
                     case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS:
                     case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS:
+                        if ($this->isContratPluriannuel($ligne))
+                            $this->createOrUpdateEcheanceC($ligne);
+                        else
+                            $this->createOrUpdateEcheanceB($ligne);
+                        break;
+                    case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS:
                         if (strstr($ligne->produit_hash, 'mentions/LIE/')) {
                             $this->createOrUpdateEcheanceD($ligne);
-                        } else {
-                            $this->createOrUpdateEcheanceB($ligne);
+                            break;
                         }
-                        break;
                     default :
                         $this->createOrUpdateEcheanceA($ligne);
                         break;
@@ -227,47 +232,92 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
     }
 
+    private function isContratPluriannuel($l) {
+        $contrat = VracClient::getInstance()->findByNumContrat($l->contrat_identifiant, acCouchdbClient::HYDRATE_JSON);
+        if (!$contrat->type_contrat)
+            throw new sfException("Le contrat de numéro $l->contrat_identifiant n'est pas valide.");
+        return ($contrat->type_contrat == VracClient::TYPE_CONTRAT_PLURIANNUEL);
+    }
+
+    public function createOrUpdateEcheanceC($ligne) {
+        $ligne->echeance_code = 'C';
+        $date = date('Ymd');
+        
+        $d1 = date('Y') . '0331'; // 31/03/N
+        $d2 = date('Y') . '0630'; // 30/06/N
+        $d3 = date('Y') . '0930'; // 30/09/N
+        
+        //if( date < 31/03/N) { 33% 31/03/N 33% 30/06/N et 33% 30/09/N }
+        if ($date < $d1) {
+            $this->updateEcheance('C', date('Y') . '-03-31', $ligne->montant_ht * (1/3));
+            $this->updateEcheance('C', date('Y') . '-06-30', $ligne->montant_ht * (1/3));
+            $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht * (1/3));
+            return;
+        }
+
+        //if(01/04/N < date < 31/05/N)   { 50% au 30/06/N et 50% 30/09/N}              
+        if ($date < $d2 ) {            
+            $this->updateEcheance('C', date('Y') . '-06-30', $ligne->montant_ht * 0.5);
+            $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht * 0.5);
+            return;
+        }
+
+        //if(30/06/N < date < 30/09/N) { 100% 30/09/N } 
+        if ($date < $d3) {
+            $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht);
+            return;
+        }
+        
+        //Dépassement de délais -> 100% comptant
+        $this->createOrUpdateEcheanceE($ligne);
+    }
+
+    public function createOrUpdateEcheanceB($ligne) {        
+        $ligne->echeance_code = 'B';
+        $date = date('Ymd');
+        
+        $d1 = date('Y') . '0331'; // 31/03/N
+        $d2 = date('Y') . '0630'; // 30/06/N  
+                
+        //if( date < 31/03/N) { 50% 31/03/N 50% 30/06/N}
+        if ($date < $d1) {
+            $this->updateEcheance('B', date('Y') . '-03-31', $ligne->montant_ht * 0.5);
+            $this->updateEcheance('B', date('Y') . '-06-30', $ligne->montant_ht * 0.5);
+            return;
+        }
+        //if(01/04/N <= date < 30/06/N)   { 100% au 30/06 }              
+        if ($date < $d2) {
+            $this->updateEcheance('B', date('Y') . '-06-30', $ligne->montant_ht);
+            return;
+        }
+
+        //Dépassement de délais -> 100% comptant
+        $this->createOrUpdateEcheanceE($ligne);
+    }
+    
     public function createOrUpdateEcheanceA($ligne) {
         $ligne->echeance_code = 'A';
         $this->updateEcheance('A', Date::getIsoDateFinDeMoisISO(date('Y-m-d'), 2), $ligne->montant_ht);
     }
 
-    public function createOrUpdateEcheanceB($ligne) {
-        $ligne->echeance_code = 'B';
-        $date = date('Ymd');
-        $d1 = date('Y', strtotime("-1 years")) . '0801'; // 01/08/N-1
-        $d2 = date('Y') . '0331'; // 31/03/N
-        $d3 = date('Y') . '0531'; // 31/05/N    
-        //        
-//          if(01/08/N-1 < date < 31/03/N) { 50% au 31/03 et 50% au 31/05 }            
-        if (($d1 < $date) && ($date < $d2)) {
-            $this->updateEcheance('B', date('Y') . '-03-31', $ligne->montant_ht * 0.5);
-            $this->updateEcheance('B', date('Y') . '-05-31', $ligne->montant_ht * 0.5);
-            return;
-        }
-
-        //          if(01/04/N < date < 31/05/N)   { 50% comptant et  50% au 31/05 }              
-        if (($d2 < $date) && ($date <= $d3)) {
-            $this->updateEcheance('B', Date::getIsoDateFinDeMoisISO(date('Y-m-d'), 1), $ligne->montant_ht * 0.5);
-            $this->updateEcheance('B', date('Y') . '-05-31', $ligne->montant_ht * 0.5);
-            return;
-        }
-
-//            if(date > 31/05/N) { 100% comptant } 
-        if ($date > $d3) {
-            $this->updateEcheance('B', Date::getIsoDateFinDeMoisISO(date('Y-m-d'), 1), $ligne->montant_ht);
-            return;
-        }
-    }
 
     public function createOrUpdateEcheanceD($ligne) {
         $ligne->echeance_code = 'D';
         $date = date('Y') . '0930';
         $dateEcheance = date('Y') . '-09-30';
-        if (date('Ymd') >= $date)
-            $dateEcheance = date('Y', strtotime("+1 years")) . '-09-30';
-        $this->updateEcheance('D', $dateEcheance, $ligne->montant_ht);
+        if (date('Ymd') < $date){
+            $this->updateEcheance('D', $dateEcheance, $ligne->montant_ht);
+            return;
+        }
+        //Dépassement de délais -> 100% comptant
+        $this->createOrUpdateEcheanceE($ligne);        
     }
+
+    public function createOrUpdateEcheanceE($ligne) {
+        $ligne->echeance_code = 'E';
+        $this->updateEcheance('E', date('Y-m-d'), $ligne->montant_ht);
+    }
+
 
     public function updateEcheance($echeance_code, $date, $montant_ht) {
         foreach ($this->echeances as $echeance) {
@@ -288,10 +338,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function storeOrigines() {
         foreach ($this->getLignes() as $lignesType) {
             foreach ($lignesType as $ligne) {
-	      foreach ($ligne->origine_mouvements as $idorigine => $null) {
-                if (!array_key_exists($idorigine, $this->origines))
-                    $this->origines->add($idorigine, $idorigine);
-	      }
+                foreach ($ligne->origine_mouvements as $idorigine => $null) {
+                    if (!array_key_exists($idorigine, $this->origines))
+                        $this->origines->add($idorigine, $idorigine);
+                }
             }
         }
     }
@@ -335,21 +385,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function save() {
-      parent::save();
-      $this->saveDocumentsOrigine();
+        parent::save();
+        $this->saveDocumentsOrigine();
     }
 
     public function saveDocumentsOrigine() {
-      foreach ($this->origines as $docid) {
-	$doc = FactureClient::getInstance()->getDocumentOrigine($docid);
-	$doc->save();
-      }
+        foreach ($this->origines as $docid) {
+            $doc = FactureClient::getInstance()->getDocumentOrigine($docid);
+            $doc->save();
+        }
     }
 
     protected function preSave() {
         if ($this->isNew() && $this->total_ht > 0) {
             $this->facturerMouvements();
-	    $this->storeOrigines();
+            $this->storeOrigines();
         }
         if (!$this->versement_comptable) {
             $this->versement_comptable = 0;
