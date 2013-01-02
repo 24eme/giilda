@@ -71,7 +71,63 @@ class EtablissementAllView extends acCouchdbView
     }    
 
     public function findByInterproStatutAndFamille($interpro, $statut, $famille, $filter = null) {
-      return $this->findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter);
+      try{
+	return $this->findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $filter);
+      }catch(Exception $e) {
+	return $this->findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter);
+      }
+    }
+
+    public function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = null) { 
+      if (!$limit) {
+	$limit = 100;
+      }
+      
+      $q = explode(' ', $query);
+      for($i = 0 ; $i < count($q); $i++) {
+	$q[$i] = '*'.$q[$i].'*';
+      }
+      if ($statut) {
+	$q[] = 'statut:'.$statut;
+      }
+
+      if ($famille == EtablissementFamilles::PSEUDOFAMILLE_COOPERATIVE) {
+	$q[] = 'cooperative:1';
+      }else if ($famille) {
+	$q[] = 'famille:'.$famille;
+      }
+
+      $query = implode(' ', $q);
+
+      $index = acElasticaManager::getIndex()->getType('Etablissement');
+      $elasticaQueryString = new acElasticaQueryQueryString();
+      $elasticaQueryString->setDefaultOperator('AND');
+      $elasticaQueryString->setQuery($query);
+
+      // Create the actual search object with some data.
+      $q = new acElasticaQuery();
+      $q->setQuery($elasticaQueryString);
+      $q->setLimit($limit);
+
+      //Search on the index.
+      $res = $index->search($q);
+
+      $viewres = $this->elasticRes2View($res);
+      return $viewres;
+    }
+
+    private function elasticRes2View($resultset) {
+      $res = array();
+      foreach ($resultset->getResults() as $er) {
+	$r = $er->getData();
+	$e = new stdClass();
+	$e->id = $r['_id'];
+	$e->key = array($r['interpro'], $r['statut'], $r['famille'], $r['id_societe'], $r['_id'], $r['nom'], $r['identifiant'], $r['cvi'], $r['region']);
+	//doc.siege.adresse, doc.siege.commune, doc.siege.code_postal
+	$e->value = array($r['siege']['adresse'], $r['siege']['commune'], $r['siege']['code_postal']);
+	$res[] = $e;
+      }
+      return $res;
     }
 
     public function findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter = null) {
@@ -83,8 +139,6 @@ class EtablissementAllView extends acCouchdbView
       $keys[] = array();
       $view = $view->endkey($keys);
       $rows = $view->getView($this->design, $this->view)->rows;
-      print_r($rows);
-      exit;
       return $rows;
     }
 
