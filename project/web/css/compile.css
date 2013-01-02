@@ -3434,7 +3434,6 @@ p#date_drm {
   height:20px;
   width:106px;
 }
-#colonnes_dr .col_recolte input:hover, #colonnes_dr .col_recolte input:focus, #colonnes_dr .col_recolte select:hover, #colonnes_dr .col_recolte select:focus { border-color:#777777; }
 #colonnes_dr .col_recolte input {
   padding:2px 5px 0;
   position:relative;
@@ -3559,6 +3558,7 @@ p#date_drm {
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme, #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_groupe, #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_debut, #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_fin { color:#9d3032; }
 #colonnes_dr .col_recolte.col_inactive .col_cont .col_btn .col_btn { visibility:hidden; }
 #colonnes_dr .col_recolte.col_inactive .col_masque { display:block; }
+#colonnes_dr .col_recolte.col_focus input:hover, #colonnes_dr .col_recolte.col_focus input:focus, #colonnes_dr .col_recolte.col_focus select:hover, #colonnes_dr .col_recolte.col_focus select:focus, #colonnes_dr .col_recolte.col_active input:hover, #colonnes_dr .col_recolte.col_active input:focus, #colonnes_dr .col_recolte.col_active select:hover, #colonnes_dr .col_recolte.col_active select:focus { border-color:#777777; }
 #colonnes_dr .col_recolte.col_focus .col_cont, #colonnes_dr .col_recolte.col_active .col_cont { border-color:#faab0d; }
 #colonnes_dr .col_recolte.col_focus h2, #colonnes_dr .col_recolte.col_active h2 {
   border-color:#faab0d;
@@ -3692,6 +3692,14 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
 #btn_etape_dr { margin-top:10px; }
 #btn_etape_dr .btn_brouillon { margin-left:235px; }
 #btn_etape_dr .btn_etape_suiv { float:right; }
+#btn_etape_dr a.desactive {
+  -webkit-opacity:0.70;
+  -khtml-opacity:0.70;
+  -moz-opacity:0.70;
+  opacity:0.70;
+  cursor:default;
+}
+#btn_etape_dr a.desactive * { cursor:default; }
 .inactif { visibility:hidden; }
 #saving_notification, #error_notification { z-index:999; }
 #telecharger_pdf {
@@ -3757,6 +3765,7 @@ bouton#colonnes_dr .btn_edition_label { height:26px; }
 #principal.drm #application_dr #form_produit_declaration { padding:10px; }
 #principal.drm #application_dr #form_produit_declaration label { width:200px; }
 #principal.drm #application_dr #form_produit_declaration .ui-autocomplete-input { width:450px !important; }
+#principal.drm #application_dr #form_produit_declaration input[disabled='disabled'] { background-color:#ecebeb; }
 #principal.drm #application_dr .titre_produit { background-color:#ecebeb; }
 #principal.drm .li_gris {
   background:#ecebeb;

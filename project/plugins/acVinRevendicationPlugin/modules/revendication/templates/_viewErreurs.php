@@ -15,17 +15,36 @@
                     <div class="produit">
                         <?php
                         switch ($type) :
-                            case RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS: ?>
-                        <a href="<?php
-                        echo url_for('revendication_add_alias_to_configuration', array('odg' => $revendication->odg,
-                            'campagne' => $revendication->campagne,
-                            'alias' => $unmatched_data))
-                                        ?>" class="btn_majeur btn_voir">Trouver le produit</a>
-                                        
-                        <?php  break;
-                            case RevendicationErrorException::ERREUR_TYPE_DOUBLON: ?>
-                                        <?php
+                            case RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS:
+                                ?>
+                                <a href="<?php
+                echo url_for('revendication_add_alias_to_configuration', array('odg' => $revendication->odg,
+                    'campagne' => $revendication->campagne,
+                    'alias' => $unmatched_data))
+                                ?>" class="btn_majeur btn_voir">Trouver le produit</a>
+
+                                <?php
                                 break;
+                            case RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS:
+                                $pos = strpos($unmatched_data, '_');
+                                $id_etb = substr($unmatched_data, 0,$pos);
+                                $alias = substr($unmatched_data, $pos+1);
+                                ?>
+                                <a href="<?php
+                echo url_for('revendication_add_alias_to_bailleur', array('odg' => $revendication->odg,
+                    'campagne' => $revendication->campagne,
+                    'identifiant' => $id_etb,
+                    'alias' => $alias))
+                                ?>" class="btn_majeur btn_voir">Choisir un bailleur</a>
+                                   <?php
+                                   break;
+                               case RevendicationErrorException::ERREUR_TYPE_NO_BAILLEURS:
+                                   ?>
+                                <a href="<?php
+                   echo url_for('etablissement_modification', array('identifiant' => $unmatched_data));
+                                   ?>" class="btn_majeur btn_voir" target="_blank">Créer un bailleur</a>
+                                   <?php
+                                   break;
                                default:
                                    break;
                            endswitch;

@@ -5,13 +5,15 @@ class RevendicationErrorException extends Exception {
     const ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS = "ETABLISSEMENT";
     const ERREUR_TYPE_PRODUIT_NOT_EXISTS = "PRODUIT";
     const ERREUR_TYPE_BAILLEUR_NOT_EXISTS = "BAILLEUR";
+    const ERREUR_TYPE_NO_BAILLEURS = "NOBAILLEUR";
     const ERREUR_TYPE_DOUBLON = "DOUBLON";
     
     const ERREUR_TYPE_DOUBLON_LIBELLE = "L'etablissement de cvi %s possède déjà un volume revendiqué pour le produit %s (%s hl).";
     const ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS_LIBELLE = "L'etablissement de cvi %s n'existe pas.";
     const ERREUR_TYPE_PRODUIT_NOT_EXISTS_LIBELLE = "Le produit %s (%s) n'existe pas.";
-    const ERREUR_TYPE_BAILLEUR_NOT_EXISTS_LIBELLE = "Le bailleur %s n'existe pas.";
-
+    const ERREUR_TYPE_BAILLEUR_NOT_EXISTS_LIBELLE = "L'etablissement %s ne possède pas le bailleur %s.";
+    const ERREUR_TYPE_NO_BAILLEURS_LIBELLE = "L'etablissement %s ne possède aucun bailleurs, le bailleur %s ne peut être reconnu.";
+    
     protected $exception_type;
     protected $arguments;
 
@@ -41,7 +43,8 @@ class RevendicationErrorException extends Exception {
         return array(self::ERREUR_TYPE_ETABLISSEMENT_NOT_EXISTS => "CVI non reconnus",
             self::ERREUR_TYPE_PRODUIT_NOT_EXISTS => "Produits non reconnus",
             self::ERREUR_TYPE_BAILLEUR_NOT_EXISTS => "Bailleur non reconnus",
-            self::ERREUR_TYPE_DOUBLON => "Doublons");
+            self::ERREUR_TYPE_DOUBLON => "Doublons",
+            self::ERREUR_TYPE_NO_BAILLEURS => "Aucun bailleur");
     }
     
 }

@@ -224,7 +224,8 @@
 
         this.colonnes = colonnes;
         this.element = element;
-        this.groupes = new Groupes(this);
+        this.groupes = new Groupes(this); 
+		this.boutons_etapes = $('#btn_etape_dr a');
 
         this.init = function() {
             if (debug) {
@@ -257,6 +258,9 @@
             this.focus();
             this.element.addClass('col_active');
             this.colonnes.disabled();
+			
+			// On désactive les boutons et champs autour de la colonne
+			this.desactiveElements();
         }
 
         this.unActive = function() {
@@ -267,7 +271,35 @@
 
             this.element.removeClass('col_active');
             this.colonnes.enabled();
+			
+			// On réactive les boutons et champs autour de la colonne
+			this.reactiveElements();
         }
+		
+		this.desactiveBoutons = function(e)
+		{
+			e.preventDefault();
+		}
+		
+		this.desactiveElements = function() {
+		
+			// On désactive les boutons
+			this.boutons_etapes.addClass('desactive');
+			this.boutons_etapes.bind('click', this.desactiveBoutons);
+
+			// On désactive le champ appellation
+			$('#form_produit_declaration input[type="text"]').attr('disabled', 'disabled');
+		}
+		
+		this.reactiveElements = function() {
+			
+			// On réactive les boutons
+			this.boutons_etapes.removeClass('desactive');
+			this.boutons_etapes.unbind('click', this.desactiveBoutons);
+
+			// On réactive le champ appellation
+			$('#form_produit_declaration input[type="text"]').removeAttr('disabled');
+		}
 
         this.enabled = function()  {
             if (debug) {
@@ -1158,5 +1190,5 @@
             this.element.children('[value='+this.champ.attr('data-val-defaut')+']').attr('selected', 'selected');
         }
     }
-
+	
 }(jQuery, window));
