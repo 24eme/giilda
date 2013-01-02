@@ -8,9 +8,15 @@ if (!is_null($contacts)):
             <ul>
                 <?php foreach ($contacts as $id => $contact) : ?>
                     <li id="infos_contact_vendeur">
-                        <a href="<?php echo url_for('compte_modification', array('identifiant' => $contact->identifiant)); ?>">Coordonnées de <?php echo $contact->nom_a_afficher; ?></a>
+                        <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>">Coordonnées de <?php echo $contact->nom_a_afficher; ?></a>
                         <ul>
                             <li class="nom"><?php echo $contact->nom_a_afficher; ?></li>
+                            <?php if ($contact->telephone_perso): ?>
+                                <li class="tel_perso"><?php echo $contact->telephone_perso; ?></li>
+                            <?php endif; ?>
+                            <?php if ($contact->telephone_mobile): ?>
+                                <li class="tel_mobile"><?php echo $contact->telephone_mobile; ?></li>
+                            <?php endif; ?>
                             <?php if ($contact->telephone_bureau): ?>
                                 <li class="tel"><?php echo $contact->telephone_bureau; ?></li>
                             <?php endif; ?>
