@@ -701,7 +701,7 @@ Configuration:
                           definition:
                             fields:
                               stocks_debut:
-                                required: false	
+                                required: false
                                 type: collection
                                 definition:
                                   fields:
@@ -717,7 +717,7 @@ Configuration:
                                           vrac: { type: integer }
                                           facturable: { type: integer }
                               entrees:
-                                required: false	
+                                required: false
                                 type: collection
                                 definition:
                                   fields:
@@ -733,7 +733,7 @@ Configuration:
                                           vrac: { type: integer }
                                           facturable: { type: integer }
                               sorties:
-                                required: false	
+                                required: false
                                 type: collection
                                 definition:
                                   fields:
@@ -749,7 +749,7 @@ Configuration:
                                           vrac: { type: integer }
                                           facturable: { type: integer }
                               stocks_fin:
-                                required: false	
+                                required: false
                                 type: collection
                                 definition:
                                   fields:
