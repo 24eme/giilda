@@ -6,8 +6,9 @@ class etablissement_autocompleteActions extends sfActions
   	public function executeAll(sfWebRequest $request) {
 	    $interpro = $request->getParameter('interpro_id');
 	    $q = $request->getParameter('q');
-	    $e = EtablissementAllView::getInstance()->findByInterproAndStatut($interpro, EtablissementClient::STATUT_ACTIF, $q);
-	    $json = $this->matchEtablissements($e, $q, $request->getParameter('limit', 100));
+	    $limit = $request->getParameter('limit', 100);
+	    $e = EtablissementAllView::getInstance()->findByInterproAndStatut($interpro, EtablissementClient::STATUT_ACTIF, $q, $limit);
+	    $json = $this->matchEtablissements($e, $q, $limit);
 	    return $this->renderText(json_encode($json));
   	}
 
@@ -16,10 +17,11 @@ class etablissement_autocompleteActions extends sfActions
 		$familles = $request->getParameter('familles');
 
 	    $q = $request->getParameter('q');
+	    $limit = $request->getParameter('limit', 100);
 	    $json = $this->matchEtablissements(
-					       EtablissementAllView::getInstance()->findByInterproStatutAndFamilles($interpro, EtablissementClient::STATUT_ACTIF, explode('|', $familles), $q),
+					       EtablissementAllView::getInstance()->findByInterproStatutAndFamilles($interpro, EtablissementClient::STATUT_ACTIF, explode('|', $familles), $q, $limit),
 					       $q,
-					       $request->getParameter('limit', 100)
+					       $limit
 					       );
 	    
  		return $this->renderText(json_encode($json));	

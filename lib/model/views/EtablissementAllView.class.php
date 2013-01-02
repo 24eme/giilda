@@ -28,27 +28,27 @@ class EtablissementAllView extends acCouchdbView
                             ->getView($this->design, $this->view);
     }
 
-    public function findByInterproAndStatut($interpro, $statut, $filter = null) {
-      return $this->findByInterproStatutAndFamilles($interpro, $statut, array(), $filter);
+    public function findByInterproAndStatut($interpro, $statut, $filter = null, $limit = null) {
+      return $this->findByInterproStatutAndFamilles($interpro, $statut, array(), $filter, $limit);
     }
 
-    public function findByInterproAndFamilles($interpro, array $familles, $filter = null) {
-      return $this->findByInterproStatutsAndFamilles($interpro, null, $familles, $filter);
+    public function findByInterproAndFamilles($interpro, array $familles, $filter = null, $limit = null) {
+      return $this->findByInterproStatutsAndFamilles($interpro, null, $familles, $filter, $limit);
     }
 
-    public function findByInterproStatutAndFamilles($interpro, $statut, array $familles, $filter = null) {
-      return $this->findByInterproStatutsAndFamilles($interpro, array($statut), $familles, $filter);
+    public function findByInterproStatutAndFamilles($interpro, $statut, array $familles, $filter = null, $limit = null) {
+      return $this->findByInterproStatutsAndFamilles($interpro, array($statut), $familles, $filter, $limit);
     }
 
-    public function findByInterproAndFamille($interpro, $famille, $filter = null) {
-      return $this->findByInterproStatutsAndFamilles($interpro, array(), array($famille), $filter);
+    public function findByInterproAndFamille($interpro, $famille, $filter = null, $limit = null) {
+      return $this->findByInterproStatutsAndFamilles($interpro, array(), array($famille), $filter, $limit);
     }
 
-    public function findByInterproStatutsAndFamilles($interpro, array $statuts, array $familles, $filter = null) {
-      return $this->findByInterproStatutsAndFamillesVIEW($interpro, $statuts, $familles, $filter) ;
+    public function findByInterproStatutsAndFamilles($interpro, array $statuts, array $familles, $filter = null, $limit = null) {
+      return $this->findByInterproStatutsAndFamillesVIEW($interpro, $statuts, $familles, $filter, $limit) ;
     }
 
-    public function findByInterproStatutsAndFamillesVIEW($interpro, array $statuts, array $familles, $filter = null) {
+    public function findByInterproStatutsAndFamillesVIEW($interpro, array $statuts, array $familles, $filter = null, $limit = null) {
         $etablissements = array();
 
 	if(!count($statuts)) {
@@ -58,27 +58,27 @@ class EtablissementAllView extends acCouchdbView
 	if (count($familles)) {
 	  foreach($statuts as $statut) {
 	    foreach($familles as $famille) {
-	      $etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, $famille, $filter));
+	      $etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, $famille, $filter, $limit));
 	    }
 	  }
 	}else{
 	  foreach($statuts as $statut) {
-	      $etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, null, $filter));
+	      $etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, null, $filter, $limit));
 	  }
 	}
 
         return $etablissements;
     }    
 
-    public function findByInterproStatutAndFamille($interpro, $statut, $famille, $filter = null) {
+    public function findByInterproStatutAndFamille($interpro, $statut, $famille, $filter = null, $limit = null) {
       try{
-	return $this->findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $filter);
+	return $this->findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $filter, $limit);
       }catch(Exception $e) {
-	return $this->findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter);
+	return $this->findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter, $limit);
       }
     }
 
-    public function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = null) { 
+    public function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = null, $limit = null) { 
       if (!$limit) {
 	$limit = 100;
       }
@@ -130,7 +130,7 @@ class EtablissementAllView extends acCouchdbView
       return $res;
     }
 
-    public function findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter = null) {
+    public function findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter = null, $limit = null) {
       $keys = array($interpro, $statut);
       if ($famille) {
 	$keys[] = $famille;
