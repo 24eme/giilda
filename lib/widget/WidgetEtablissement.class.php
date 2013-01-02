@@ -59,7 +59,7 @@ class WidgetEtablissement extends sfWidgetFormChoice
         }
         
         $choices = array();
-        foreach($etablissements->rows as $key => $etablissement) {
+        foreach($etablissements as $key => $etablissement) {
             $choices[EtablissementClient::getInstance()->getId($etablissement->id)] = EtablissementAllView::getInstance()->makeLibelle($etablissement);
         }
 

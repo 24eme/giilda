@@ -28,47 +28,64 @@ class EtablissementAllView extends acCouchdbView
                             ->getView($this->design, $this->view);
     }
 
-    public function findByInterproAndStatut($interpro, $statut) {
-
-    	return $this->client->startkey(array($interpro, $statut))
-                    		->endkey(array($interpro, $statut, array()))
-                    		->getView($this->design, $this->view);
+    public function findByInterproAndStatut($interpro, $statut, $filter = null) {
+      return $this->findByInterproStatutAndFamilles($interpro, $statut, array(), $filter);
     }
 
-    public function findByInterproAndFamilles($interpro, array $familles) {
-        $etablissements = array();
-        foreach($familles as $famille) {
-            $etablissements = array_merge($etablissements, $this->findByInterproAndFamille($interpro, $famille));
-        }
-
-        return $etablissements;
+    public function findByInterproAndFamilles($interpro, array $familles, $filter = null) {
+      return $this->findByInterproStatutsAndFamilles($interpro, null, $familles, $filter);
     }
 
-    public function findByInterproStatutAndFamilles($interpro, $statut, array $familles) {
-    	$etablissements = array();
-    	foreach($familles as $famille) {
-    		$etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, $famille)->rows);
-    	}
-
-    	return $etablissements;
+    public function findByInterproStatutAndFamilles($interpro, $statut, array $familles, $filter = null) {
+      return $this->findByInterproStatutsAndFamilles($interpro, array($statut), $familles, $filter);
     }
 
+    public function findByInterproAndFamille($interpro, $famille, $filter = null) {
+      return $this->findByInterproStatutsAndFamilles($interpro, array(), array($famille), $filter);
+    }
 
-    public function findByInterproAndFamille($interpro, $famille) {
+    public function findByInterproStatutsAndFamilles($interpro, array $statuts, array $familles, $filter = null) {
+      return $this->findByInterproStatutsAndFamillesVIEW($interpro, $statuts, $familles, $filter) ;
+    }
+
+    public function findByInterproStatutsAndFamillesVIEW($interpro, array $statuts, array $familles, $filter = null) {
         $etablissements = array();
 
-        foreach(EtablissementClient::$statuts as $statut => $nom) {
-            $etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, $famille)->rows);
-        }
+	if(!count($statuts)) {
+	  $statuts = array_keys(EtablissementClient::$statuts);
+	}
+
+	if (count($familles)) {
+	  foreach($statuts as $statut) {
+	    foreach($familles as $famille) {
+	      $etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, $famille, $filter));
+	    }
+	  }
+	}else{
+	  foreach($statuts as $statut) {
+	      $etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, null, $filter));
+	  }
+	}
 
         return $etablissements;
+    }    
+
+    public function findByInterproStatutAndFamille($interpro, $statut, $famille, $filter = null) {
+      return $this->findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter);
     }
 
-    public function findByInterproStatutAndFamille($interpro, $statut, $famille) {
-
-        return $this->client->startkey(array($interpro, $statut, $famille))
-                            ->endkey(array($interpro, $statut, $famille, array()))
-                            ->getView($this->design, $this->view);
+    public function findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter = null) {
+      $keys = array($interpro, $statut);
+      if ($famille) {
+	$keys[] = $famille;
+      }
+      $view = $this->client->startkey($keys);
+      $keys[] = array();
+      $view = $view->endkey($keys);
+      $rows = $view->getView($this->design, $this->view)->rows;
+      print_r($rows);
+      exit;
+      return $rows;
     }
 
     public function findByEtablissement($identifiant) {
@@ -80,7 +97,7 @@ class EtablissementAllView extends acCouchdbView
 
         return $this->client->startkey(array($etablissement->interpro, $etablissement->statut, $etablissement->famille, $etablissement->id_societe, $etablissement->_id))
                             ->endkey(array($etablissement->interpro, $etablissement->statut, $etablissement->famille, $etablissement->id_societe,$etablissement->_id, array()))
-                            ->getView($this->design, $this->view);
+                            ->getView($this->design, $this->view)->rows;
         
     }
 
