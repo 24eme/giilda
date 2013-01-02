@@ -151,15 +151,15 @@ class DRMDetail extends BaseDRMDetail {
       $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
       $this->total_recolte = $this->entrees->recolte;
       $this->total_facturable = 0;
-      $this->updateNoeud('entrees');
-      $this->updateNoeud('sorties');
+      $this->updateNoeud('entrees', -1);
+      $this->updateNoeud('sorties', 1);
 
       $this->cvo->volume_taxable = $this->total_facturable;
 
       $this->total = $this->stocks_fin->revendique;
   }
 
-  protected function updateNoeud($hash) {
+  protected function updateNoeud($hash, $coefficient_facturable) {
     foreach($this->get($hash) as $key => $volume) {
         if (!$this->getConfig()->exist($hash."/".$key)) {
           continue;
@@ -167,7 +167,7 @@ class DRMDetail extends BaseDRMDetail {
         $config = $this->getConfig()->get($hash."/".$key);
         
         if($config->facturable) {
-          $this->total_facturable += $volume;
+          $this->total_facturable += $volume * $coefficient_facturable;
         }
       }
   }
