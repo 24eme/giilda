@@ -121,8 +121,8 @@ class VracClient extends acCouchdbClient {
         return $this->startkey('VRAC-'.$date.'00000')->endkey('VRAC-'.$date.'99999')->execute($hydrate);        
     }
     
-    public function findByNumContrat($num_contrat) {
-      return $this->find($this->getId($num_contrat));
+    public function findByNumContrat($num_contrat, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      return $this->find($this->getId($num_contrat), $hydrate);
     }
     
     public function retrieveLastDocs($limit = 300) {
