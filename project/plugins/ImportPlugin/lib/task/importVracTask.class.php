@@ -16,8 +16,8 @@ class importVracTask extends importAbstractTask
   const CSV_CODE_APPELLATION = 10;
   const CSV_TYPE_PRODUIT = 11;
   const CSV_MILLESIME = 12;
-  const CSV_COTISATION_CVO_VITICULTEUR = 13;
-  const CSV_COTISATION_CVO_NEGOCIANT = 14;
+  const CSV_COTISATION_CVO_NEGOCIANT = 13;
+  const CSV_COTISATION_CVO_VITICULTEUR = 14;
   const CSV_VOLUME = 15;
   const CSV_UNITE_VOLUME = 16;
   const CSV_COEF_CONVERSION_VOLUME = 17;
@@ -179,7 +179,7 @@ EOF;
         
         if (in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
           	$v->bouteilles_contenance_volume = $line[self::CSV_COEF_CONVERSION_PRIX] * 0.01;
-            $v->bouteilles_contenance_libelle = $this->getBouteilleContenanceLibelle($v->bouteilles_contenance_volume);
+		$v->bouteilles_contenance_libelle = $this->getBouteilleContenanceLibelle($v->bouteilles_contenance_volume);
           	$v->bouteilles_quantite = (int)round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]) / $v->bouteilles_contenance_volume);
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_MOUTS,
                                                       VracClient::TYPE_TRANSACTION_VIN_VRAC))) {
@@ -214,7 +214,7 @@ EOF;
 
         if(!round($this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]), 2)) {
           $v->cvo_repartition = VracClient::CVO_REPARTITION_0_VINAIGRERIE;
-        } elseif($line[self::CSV_COTISATION_CVO_VITICULTEUR] == $line[self::CSV_COTISATION_CVO_NEGOCIANT]) {
+        } elseif(abs($line[self::CSV_COTISATION_CVO_VITICULTEUR] - $line[self::CSV_COTISATION_CVO_NEGOCIANT]) <= 0.01) {
           $v->cvo_repartition = VracClient::CVO_REPARTITION_50_50;
         } else {
           $v->cvo_repartition = VracClient::CVO_REPARTITION_100_VITI;          
