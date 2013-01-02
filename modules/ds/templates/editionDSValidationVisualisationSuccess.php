@@ -7,9 +7,6 @@ use_helper('Float');
         
         <!-- #contenu_etape -->
         <section id="contenu_etape">
-            <h2>Consulter les stocks d'un opérateur :</h2>
-          <?php include_component('ds', 'chooseEtablissement', array('identifiant' => $ds->identifiant)); ?>
-        
 			<h2>Résumé de la DS</h2>
 			<?php
 			   include_partial('dsInformations', array('ds' => $ds));
