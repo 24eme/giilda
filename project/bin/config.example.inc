@@ -6,3 +6,6 @@ WORKINGDIR=/home/vinsi
 COUCHHOST=localhost
 COUCHPORT=5984
 COUCHBASE=vinsdeloire
+ELASTHOST=localhost
+ELASTPORT=9200
+ELASTBASE=vinsdeloire
