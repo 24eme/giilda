@@ -19,6 +19,7 @@ class Societe extends BaseSociete {
         $contactSociete = CompteClient::getInstance()->createCompte($this);
         $contactSociete->setNom($this->raison_sociale);
         $contactSociete->setAdresseSociete("1");
+        $contactSociete->origines->add($this->identifiant,$this->identifiant);
         $contactSociete->save();
         $this->compte_societe = $contactSociete->_id;
 	return $contactSociete;
@@ -33,7 +34,7 @@ class Societe extends BaseSociete {
     public function addNewEtablissement() {
         $etablissement = EtablissementClient::getInstance()->createEtablissement($this);        
         $compteForEtb = CompteClient::getInstance()->createCompte($this);
-        $compteForEtb->origines->add(count($compteForEtb->origines),$etablissement->_id);
+        $compteForEtb->origines->add($etablissement->_id,$etablissement->_id);
         $compteForEtb->save();        
         $etablissement->compte = $compteForEtb->_id;
         $etablissement->save(true);
@@ -178,7 +179,7 @@ class Societe extends BaseSociete {
         if (!$this->compte_societe) {
             parent::save();
             $compte = CompteClient::getInstance()->createCompte($this);
-            $compte->origines->add(count($compte->origines),$this->_id);
+            $compte->origines->add($this->_id,$this->_id);
             $compte->nom = $this->raison_sociale;
             $compte->nom_a_afficher = $this->raison_sociale;
             $compte->save(true);

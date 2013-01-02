@@ -19,10 +19,6 @@
 				</div>
 				
 				<div class="infos_societe">
-					<p>
-						Date de création : JJ/MM/AAAA <br />
-						Dernière modification : JJ/MM/AAAA, par (user_name)
-					</p>
 					<a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_modifier">Modifier</a>
 				</div>
 				

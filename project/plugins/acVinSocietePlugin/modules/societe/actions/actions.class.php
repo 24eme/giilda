@@ -88,7 +88,6 @@ class societeActions extends sfActions {
     public function executeAddContact(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->contact = $this->societe->addNewContact();
-      //  $this->societe->save();
         $this->redirect('compte_new', array('identifiant' => $this->contact->identifiant));
     }
 
