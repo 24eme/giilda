@@ -7,7 +7,7 @@
                 <h2>Création d'une nouvelle société</h2>
                 <form action="<?php echo url_for('societe_modification', array('identifiant' => $societeForm->getObject()->identifiant)); ?>" method="post">
 				<div class="form_btn">
-					<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
+                                    <a href="<?php echo url_for('societe_creation');?>" class="btn_majeur btn_annuler">Annuler</a>
 					<button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
 				</div>
 
@@ -22,7 +22,7 @@
 						</div>
                     </div>
 				<div class="form_btn">
-					<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
+					<a href="<?php echo url_for('societe_creation');?>" class="btn_majeur btn_annuler">Annuler</a>
 					<button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
 				</div>
                 </form>
