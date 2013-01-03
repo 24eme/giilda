@@ -203,17 +203,18 @@ class drmActions extends sfActions {
             return sfView::SUCCESS;
         }
 
+    	$this->form->bind($request->getParameter($this->form->getName()));
+    	if ($request->getParameter('brouillon')) {
+	  $this->form->save();
+    	    return $this->redirect('drm_etablissement', $this->drm->getEtablissement());
+    	}
+    	  
         if (!$this->validation->isValide()) {
             return sfView::SUCCESS;
         }
 
-    	$this->form->bind($request->getParameter($this->form->getName()));
     	$this->form->save();
 
-    	if ($request->getParameter('brouillon')) {
-    	    return $this->redirect('drm_etablissement', $this->drm->getEtablissement());
-    	}
-    	  
     	$this->drm->validate();
     	$this->drm->save();
 
