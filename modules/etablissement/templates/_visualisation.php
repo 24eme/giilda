@@ -1,5 +1,7 @@
+<div class="form_btn">
+    <a id="btn_modifier" href="<?php echo url_for('etablissement_modification',$etablissement); ?>" class="btn_majeur btn_modifier">Modifier</a>
+</div>
 <div id="etablissement_<?php echo $etablissement->identifiant; ?>" class="etablissement form_section ouvert">
-	
     <h3><?php echo $etablissement->nom; ?></h3>
 	
     <div class="form_contenu">  

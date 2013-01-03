@@ -5,22 +5,24 @@ class etablissement_autocompleteActions extends sfActions
 
   	public function executeAll(sfWebRequest $request) {
 	    $interpro = $request->getParameter('interpro_id');
-	    $json = $this->matchEtablissements(EtablissementAllView::getInstance()->findByInterproAndStatut($interpro, EtablissementClient::STATUT_ACTIF)->rows,
-	    								   $request->getParameter('q'),
-	    								   $request->getParameter('limit', 100));
-
+	    $q = $request->getParameter('q');
+	    $limit = $request->getParameter('limit', 100);
+	    $e = EtablissementAllView::getInstance()->findByInterproAndStatut($interpro, EtablissementClient::STATUT_ACTIF, $q, $limit);
+	    $json = $this->matchEtablissements($e, $q, $limit);
 	    return $this->renderText(json_encode($json));
   	}
 
  	public function executeByFamilles(sfWebRequest $request) {
 	    $interpro = $request->getParameter('interpro_id');
 		$familles = $request->getParameter('familles');
-		
+
+	    $q = $request->getParameter('q');
+	    $limit = $request->getParameter('limit', 100);
 	    $json = $this->matchEtablissements(
-	    	EtablissementAllView::getInstance()->findByInterproStatutAndFamilles($interpro, EtablissementClient::STATUT_ACTIF, explode('|', $familles)),
-		    $request->getParameter('q'),
-		   	$request->getParameter('limit', 100)
-		);
+					       EtablissementAllView::getInstance()->findByInterproStatutAndFamilles($interpro, EtablissementClient::STATUT_ACTIF, explode('|', $familles), $q, $limit),
+					       $q,
+					       $limit
+					       );
 	    
  		return $this->renderText(json_encode($json));	
   	}

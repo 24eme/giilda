@@ -25,16 +25,14 @@ class EtablissementAllView extends acCouchdbView
 
         return $this->client->startkey(array($interpro))
                             ->endkey(array($interpro, array()))
-			    ->reduce(false)
-			    ->getView($this->design, $this->view);
+                            ->getView($this->design, $this->view);
     }
 
     public function findByInterproAndStatut($interpro, $statut) {
 
     	return $this->client->startkey(array($interpro, $statut))
                     		->endkey(array($interpro, $statut, array()))
-				->reduce(false)
-				->getView($this->design, $this->view);
+                    		->getView($this->design, $this->view);
     }
 
     public function findByInterproAndFamilles($interpro, array $familles) {
@@ -57,6 +55,7 @@ class EtablissementAllView extends acCouchdbView
 
 
     public function findByInterproAndFamille($interpro, $famille) {
+        $etablissements = array();
 
         foreach(EtablissementClient::$statuts as $statut => $nom) {
             $etablissements = array_merge($etablissements, $this->findByInterproStatutAndFamille($interpro, $statut, $famille)->rows);
@@ -69,8 +68,7 @@ class EtablissementAllView extends acCouchdbView
 
         return $this->client->startkey(array($interpro, $statut, $famille))
                             ->endkey(array($interpro, $statut, $famille, array()))
-			    ->reduce(false)
-			    ->getView($this->design, $this->view);
+                            ->getView($this->design, $this->view);
     }
 
     public function findByEtablissement($identifiant) {
@@ -82,8 +80,7 @@ class EtablissementAllView extends acCouchdbView
 
         return $this->client->startkey(array($etablissement->interpro, $etablissement->statut, $etablissement->famille, $etablissement->id_societe, $etablissement->_id))
                             ->endkey(array($etablissement->interpro, $etablissement->statut, $etablissement->famille, $etablissement->id_societe,$etablissement->_id, array()))
-			    ->reduce(false)
-			    ->getView($this->design, $this->view);
+                            ->getView($this->design, $this->view);
         
     }
 
