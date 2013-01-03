@@ -20,7 +20,7 @@
 
         </section>
     </section>
-    <?php
+<?php
 slot('colButtons'); 
 ?>
  <div class="bloc_col" >
@@ -28,6 +28,7 @@ slot('colButtons');
 
             <div class="contenu">
                 <ul>
+                    <li class=""><a class="btn_majeur btn_acces" href="<?php echo url_for('compte_search');?>">Recherche avancée</a></li>
                     <li class=""><a class="btn_majeur btn_acces" href="<?php echo url_for('societe_creation');?>">Créer une société</a></li>
                 </ul>
             </div>

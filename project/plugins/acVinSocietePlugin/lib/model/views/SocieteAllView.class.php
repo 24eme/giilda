@@ -70,8 +70,7 @@ class SocieteAllView extends acCouchdbView
 	$e->value = null;
 	$res[] = $e;
       }
-      return $res;
- 
+      return $res; 
     }
 
     private function findByInterproVIEW($interpro, $statut, $typesocietes = array()) {
