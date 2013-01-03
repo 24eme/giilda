@@ -23,6 +23,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setStatuts();
         $this->enseignes = $societe->enseignes;
         parent::__construct($societe, $options, $CSRFSecret);
+        if($this->getObject()->code_comptable_client) $this->defaults['type_numero_compte'][] = SocieteClient::NUMEROCOMPTE_TYPE_CLIENT;
+        if($this->getObject()->code_comptable_fournisseur) $this->defaults['type_numero_compte'][] = SocieteClient::NUMEROCOMPTE_TYPE_FOURNISSEUR;
     }
 
     public function configure() {
@@ -77,13 +79,22 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setValidator('siret', new sfValidatorString(array('required' => false)));
             $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
             $this->setValidator('no_tva_intracommunautaire', new sfValidatorString(array('required' => false)));
+            if($this->existNumeroCompte())
+                $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
         }
         if ($this->isCourtier()) {
             $this->setValidator('carte_professionnelle', new sfValidatorString(array('required' => false)));
         }
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
+        
+        
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
     }
+
+    public function existNumeroCompte() {
+        return ($this->getObject()->code_comptable_client || $this->getObject()->code_comptable_fournisseur);
+    }
+
 
     public function isCourtier() {
         return $this->getObject()->type_societe == SocieteClient::SUB_TYPE_COURTIER;
@@ -149,6 +160,9 @@ class SocieteModificationForm extends acCouchdbObjectForm {
     public function update() {
         foreach ($this->getEmbeddedForms() as $key => $form) {
             $form->updateObject($this->values[$key]);
+        }
+        if ($this->values['type_numero_compte']) {
+            $this->getObject()->setCodesComptables($this->values['type_numero_compte']);
         }
     }
 

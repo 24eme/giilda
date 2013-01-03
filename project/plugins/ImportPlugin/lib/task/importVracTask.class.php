@@ -185,8 +185,12 @@ EOF;
                                                       VracClient::TYPE_TRANSACTION_VIN_VRAC))) {
           	$v->jus_quantite = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS))) {
-          	$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL] * $this->getDensite($line) * 100), 2);
-        }
+		if($line[self::CSV_UNITE_VOLUME] == 'kg') {  
+			$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME], 2));
+		} else {
+			$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL] * $this->getDensite($line) * 100), 2);
+		}	
+	}
 
         $v->volume_propose = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
 
@@ -194,7 +198,7 @@ EOF;
 
         $v->prix_initial_unitaire = round($this->convertToFloat($this->calculPrixInitialUnitaire($v, $line)), 2);
         $v->prix_initial_unitaire_hl = round($this->convertToFloat($line[self::CSV_PRIX_AU_LITRE]), 2);
-        $v->prix_initial_total = $v->prix_initial_unitaire_hl * $v->volume_propose;
+        $v->prix_initial_total = round($v->prix_initial_unitaire_hl * $v->volume_propose, 2);
 
         $v->type_contrat = $this->convertTypeContrat($line[self::CSV_TYPE_CONTRAT]);
 
@@ -209,7 +213,7 @@ EOF;
         if($v->hasPrixVariable() && $line[self::CSV_PRIX_DEFINITIF]) {
           $v->prix_unitaire = round($this->convertToFloat($this->calculPrixDefinitifUnitaire($v, $line)), 2);
           $v->prix_unitaire_hl = round($this->convertToFloat($line[self::CSV_PRIX_DEFINITIF]), 2);
-          $v->prix_total = $v->prix_unitaire_hl * $v->volume_propose;
+          $v->prix_total = round($v->prix_unitaire_hl * $v->volume_propose, 2);;
         }
 
         if(!round($this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]), 2)) {
