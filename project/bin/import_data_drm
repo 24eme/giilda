@@ -6,40 +6,40 @@
 cd $TMP/VINSDELOIRE_DATA || exit 1
 DATADIR=$(pwd)
 
-convert-utf8 $DATADIR/cieso.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;01.INFO;%4d-%4d' '$5,$6,substr($11,7,4),substr($11,4,2),$17,$2,$2+1' > $DATADIR/drm-info.csv
+convert-utf8 $DATADIR/cieso.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;01.INFO;%4d-%4d' '$5,$6,substr($11,7,4),substr($11,4,2),$17,$2,$2+1' > $DATADIR/drm-info.csv
 
-convert-utf8 $DATADIR/cimvs.csv | grep -vE ";[0-9]{4};60;" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;11.MOUVEMENT;%4d-%4d' '$3,$4,substr($7,7,4),substr($7,4,2),$5,$2,$2+1' > $DATADIR/drm-mouvement.csv
+convert-utf8 $DATADIR/cimvs.csv | grep -E "^10;(2010|2011|2012)" | grep -vE ";[0-9]{4};60;" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;11.MOUVEMENT;%4d-%4d' '$3,$4,substr($7,7,4),substr($7,4,2),$5,$2,$2+1' > $DATADIR/drm-mouvement.csv
 
-convert-utf8 $DATADIR/cimvs.csv | grep -E ";[0-9]{4};60;" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;11.MOUVEMENT;%4d-%4d' '$3,$4,$2+1,01,$5,$2,$2+1' >> $DATADIR/drm-mouvement.csv
+convert-utf8 $DATADIR/cimvs.csv | grep -E "^10;(2010|2011|2012)" | grep -E ";[0-9]{4};60;" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;11.MOUVEMENT;%4d-%4d' '$3,$4,$2+1,01,$5,$2,$2+1' >> $DATADIR/drm-mouvement.csv
 
-convert-utf8 $DATADIR/cimvsdiv.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;06.DIVERS;%4d-%4d' '$5,$6,substr($11,7,4),substr($11,4,2),$7,$2,$2+1' > $DATADIR/drm-divers.csv
+convert-utf8 $DATADIR/cimvsdiv.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;06.DIVERS;%4d-%4d' '$5,$6,substr($11,7,4),substr($11,4,2),$7,$2,$2+1' > $DATADIR/drm-divers.csv
 
-convert-utf8 $DATADIR/cimvscav.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;07.CAVE-VITI;%4d-%4d' '$7,$8,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-cave-viti.csv
+convert-utf8 $DATADIR/cimvscav.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;07.CAVE-VITI;%4d-%4d' '$7,$8,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-cave-viti.csv
 
-convert-utf8 $DATADIR/cimvscav.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;08.CAVE-COOP;%4d-%4d' '$5,$6,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-cave-coop.csv
+convert-utf8 $DATADIR/cimvscav.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;08.CAVE-COOP;%4d-%4d' '$5,$6,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-cave-coop.csv
 
-convert-utf8 $DATADIR/cieds.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cieds-utf8.csv
-convert-utf8 $DATADIR/cilds.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cilds-utf8.csv
+convert-utf8 $DATADIR/cieds.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cieds-utf8.csv
+convert-utf8 $DATADIR/cilds.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cilds-utf8.csv
 join -t ";" $DATADIR/tmp/cieds-utf8.csv $DATADIR/tmp/cilds-utf8.csv | suppression-champ-commun | ajout-champ-commun '%06d%02d;%04d%02d;%04d;02.DS;%4d-%4d' '$4,$5,$2+1,"08",$13,$2+1,$2+2' > $DATADIR/drm-ds.csv
 
-convert-utf8 $DATADIR/cieso.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cieso-utf8.csv
-convert-utf8 $DATADIR/cilso.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cilso-utf8.csv
+convert-utf8 $DATADIR/cieso.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cieso-utf8.csv
+convert-utf8 $DATADIR/cilso.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cilso-utf8.csv
 join -t ";" $DATADIR/tmp/cieso-utf8.csv $DATADIR/tmp/cilso-utf8.csv | suppression-champ-commun | ajout-champ-commun '%06d%02d;%04d%02d;%04d;05.VENTE;%4d-%4d' '$5,$6,substr($11,7,4),substr($11,4,2),$17,$2,$2+1' > $DATADIR/drm-vente.csv
 
-convert-utf8 $DATADIR/cienv.csv | ajout-champ-commun '%s%s%05d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cienv-utf8.csv
-convert-utf8 $DATADIR/cicon.csv | ajout-champ-commun '%s%s%05d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cicon-cienv-utf8.csv
+convert-utf8 $DATADIR/cienv.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%s%s%05d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cienv-utf8.csv
+convert-utf8 $DATADIR/cicon.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%s%s%05d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cicon-cienv-utf8.csv
 join -t ";" $DATADIR/tmp/cienv-utf8.csv $DATADIR/tmp/cicon-cienv-utf8.csv | suppression-champ-commun | ajout-champ-commun '%06d%02d;%04d%02d;%04d;03.CONTRAT;%4d-%4d' '$27,$28,substr($15,7,4),substr($15,4,2),$31,$2,$2+1' > $DATADIR/drm-contrat.csv
 
-#convert-utf8 $DATADIR/cieag.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cieag-utf8.csv
-#convert-utf8 $DATADIR/cilag.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cilag-utf8.csv
-#join -t ";" $DATADIR/tmp/cieag-utf8.csv $DATADIR/tmp/cilag-utf8.csv | suppression-champ-commun | ajout-champ-commun '%06d%02d;%04d%02d;%04d;04.ACHAT;%4d-%4d' '$4,$5,substr($22,7,4),substr($22,4,2),$13,$2,$2+1' > $DATADIR/drm-achat.csv
+# convert-utf8 $DATADIR/cieag.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cieag-utf8.csv
+# convert-utf8 $DATADIR/cilag.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cilag-utf8.csv
+# join -t ";" $DATADIR/tmp/cieag-utf8.csv $DATADIR/tmp/cilag-utf8.csv | suppression-champ-commun | ajout-champ-commun '%06d%02d;%04d%02d;%04d;04.ACHAT;%4d-%4d' '$4,$5,substr($22,7,4),substr($22,4,2),$13,$2,$2+1' > $DATADIR/drm-achat.csv
 
-convert-utf8 $DATADIR/cicestrf.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;10.TRANSFERT-SORTIE;%4d-%4d' '$5,$6,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-transfert-sortie.csv
+convert-utf8 $DATADIR/cicestrf.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;10.TRANSFERT-SORTIE;%4d-%4d' '$5,$6,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-transfert-sortie.csv
 
-convert-utf8 $DATADIR/cicestrf.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;09.TRANSFERT-ENTREE;%4d-%4d' '$7,$8,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-transfert-entree.csv
+convert-utf8 $DATADIR/cicestrf.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;09.TRANSFERT-ENTREE;%4d-%4d' '$7,$8,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-transfert-entree.csv
 
-convert-utf8 $DATADIR/cistk.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;12.STOCK;%4d-%4d' '$3,$4,$2+1,7,$5,$2,$2+1' > $DATADIR/drm-stock.csv
+convert-utf8 $DATADIR/cistk.csv | grep -E "^10;(2010|2011|2012)" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;12.STOCK;%4d-%4d' '$3,$4,$2+1,7,$5,$2,$2+1' > $DATADIR/drm-stock.csv
 
-cat $DATADIR/drm-info.csv $DATADIR/drm-mouvement.csv $DATADIR/drm-divers.csv $DATADIR/drm-cave-coop.csv $DATADIR/drm-cave-viti.csv $DATADIR/drm-vente.csv $DATADIR/drm-contrat.csv $DATADIR/drm-transfert-sortie.csv $DATADIR/drm-transfert-entree.csv $DATADIR/drm-ds.csv $DATADIR/drm-stock.csv | sort > $DATADIR/drm.csv
+cat $DATADIR/drm-info.csv $DATADIR/drm-mouvement.csv $DATADIR/drm-divers.csv $DATADIR/drm-cave-coop.csv $DATADIR/drm-cave-viti.csv $DATADIR/drm-vente.csv $DATADIR/drm-contrat.csv $DATADIR/drm-transfert-sortie.csv $DATADIR/drm-transfert-entree.csv $DATADIR/drm-ds.csv $DATADIR/drm-stock.csv | sort | grep -E "(20110[89]{1}|20111[0-2]{1}|2012[0-9]{2})" > $DATADIR/drm.csv
 
 
