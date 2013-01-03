@@ -1,11 +1,12 @@
 <!-- #principal -->
 <section id="principal">
-	<p id="fil_ariane"><a href="#">Page d'accueil</a> &gt; <a href="#">Contacts</a> &gt; <a href="#"><?php echo $societe->raison_sociale; ?></a> &gt; <strong><?php echo ($compte->nom)? $compte->nom : $compte->nom_a_afficher ;?></strong></p>
+	<p id="fil_ariane"><a href="#">Page d'accueil</a> &gt; <a href="#">Contacts</a> &gt; <a href="#"><?php echo $societe->raison_sociale; ?></a> &gt; 
+                            <strong><?php echo ($compte->nom_a_afficher)? $compte->nom_a_afficher : $compte->nom ;?></strong></p>
 
 	<!-- #contacts -->
 	<section id="contacts">
 		<div id="nouveau_contact">
-			<h2><?php echo ($compte->nom)? $compte->nom : $compte->nom_a_afficher ;?></h2>
+                    <h2><?php echo ($compte->nom_a_afficher)? $compte->nom_a_afficher : $compte->nom ;?>&nbsp;(<?php echo $compte->identifiant;?>)</h2>
 
 			<div class="form_btn">
                             <a href="<?php echo url_for('compte_new',$compte);?>" class="btn_majeur btn_modifier">Modifier</a>
