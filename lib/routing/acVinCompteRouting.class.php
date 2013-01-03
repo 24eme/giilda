@@ -43,6 +43,8 @@ class acVinCompteRouting {
         $r->prependRoute('ac_vin_compte_mot_de_passe_oublie', new sfRoute('/mot_de_passe_oublie', array('module' => 'acVinCompte', 'action' => 'motDePasseOublie')));
         $r->prependRoute('ac_vin_compte_mot_de_passe_oublie_confirm', new sfRoute('/mot_de_passe_oublie/confirm', array('module' => 'acVinCompte', 'action' => 'motDePasseOublieConfirm')));
 
+	$r->prependRoute('compte_search', new sfRoute('/compte/search', array('module' => 'compte', 'action' => 'search')));
+	$r->prependRoute('compte_search_csv', new sfRoute('/compte/search/csv', array('module' => 'compte', 'action' => 'searchcsv')));
         $r->prependRoute('compte_modification', new CompteRoute('/compte/:identifiant/modification',
                         array('module' => 'compte',
                             'action' => 'modification'),

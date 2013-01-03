@@ -110,5 +110,9 @@ class Compte extends BaseCompte {
 	}
 	return $this->_set('email', $email);
     }
+
+    public function getType() {
+      return CompteClient::getInstance()->createTypeFromOrigines($this->origines);
+    }
     
 }

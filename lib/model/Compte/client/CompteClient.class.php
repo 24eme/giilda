@@ -44,5 +44,16 @@ class CompteClient extends acCouchdbClient {
     public function getAllTags() {
         return array('TAG0' => 'TAG0','TAG1' => 'TAG1');
     }
+
+    public function createTypeFromOrigines($origines) {
+      if (!count($origines))
+	return "INTERLOCUTEUR";
+      foreach ($origines as $o) {
+	if (preg_match('/ETABLISSEMENT/', $o)) {
+	  return "ETABLISSEMENT";
+	}
+      }
+      return "SOCIETE";
+    }
     
 }
