@@ -166,6 +166,7 @@ class DRMClient extends acCouchdbClient {
 	$c = $r->key[1];
 	$list[$c] = $c;
       }
+      krsort($list);
       return $list;
     }
 
