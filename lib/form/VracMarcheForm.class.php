@@ -90,8 +90,10 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
 
     protected function updateDefaultsFromObject() {
-      $this->setDefault('attente_original', 0);
       parent::updateDefaultsFromObject();
+      if (!$this->getDefault('attente_original')) {
+	$this->setDefault('attente_original', '0');
+      }
       if ($this->getObject()->hasPrixVariable()) {
         $this->setDefault('prix_unitaire', $this->getObject()->_get('prix_unitaire'));
       }
