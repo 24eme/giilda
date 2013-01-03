@@ -48,7 +48,7 @@ class EtablissementAllView extends acCouchdbView
       return $this->findByInterproStatutsAndFamillesVIEW($interpro, $statuts, $familles, $filter, $limit) ;
     }
 
-    public function findByInterproStatutsAndFamillesVIEW($interpro, array $statuts, array $familles, $filter = null, $limit = null) {
+    private function findByInterproStatutsAndFamillesVIEW($interpro, array $statuts, array $familles, $filter = null, $limit = null) {
         $etablissements = array();
 
 	if(!count($statuts)) {
@@ -78,11 +78,7 @@ class EtablissementAllView extends acCouchdbView
       }
     }
 
-    public function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = null, $limit = null) { 
-      if (!$limit) {
-	$limit = 100;
-      }
-      
+    private function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = null, $limit = 100) { 
       $q = explode(' ', $query);
       for($i = 0 ; $i < count($q); $i++) {
 	$q[$i] = '*'.$q[$i].'*';
@@ -99,7 +95,7 @@ class EtablissementAllView extends acCouchdbView
 
       $query = implode(' ', $q);
 
-      $index = acElasticaManager::getIndex()->getType('Etablissement');
+      $index = acElasticaManager::getType('Etablissement');
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setDefaultOperator('AND');
       $elasticaQueryString->setQuery($query);
@@ -123,14 +119,13 @@ class EtablissementAllView extends acCouchdbView
 	$e = new stdClass();
 	$e->id = $r['_id'];
 	$e->key = array($r['interpro'], $r['statut'], $r['famille'], $r['id_societe'], $r['_id'], $r['nom'], $r['identifiant'], $r['cvi'], $r['region']);
-	//doc.siege.adresse, doc.siege.commune, doc.siege.code_postal
 	$e->value = array($r['siege']['adresse'], $r['siege']['commune'], $r['siege']['code_postal']);
 	$res[] = $e;
       }
       return $res;
     }
 
-    public function findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter = null, $limit = null) {
+    private function findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter = null, $limit = null) {
       $keys = array($interpro, $statut);
       if ($famille) {
 	$keys[] = $famille;
