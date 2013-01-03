@@ -98,7 +98,7 @@ class Revendication extends BaseRevendication {
         return $this->produitsCodeDouane;
     }
 
-    public function setEtablissements() {
+    private function setEtablissements() {
         if (!$this->etablissements)
             $this->etablissements = EtablissementAllView::getInstance()->findByInterpro('INTERPRO-inter-loire');
         return $this->etablissements;

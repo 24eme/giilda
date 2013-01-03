@@ -16,7 +16,12 @@ class SocieteAllView extends acCouchdbView
         return acCouchdbManager::getView('societe', 'all', 'Societe');
     }
 
-    public function findByInterpro($interpro, $statut, $typesocietes = array()) {
+    public function findByInterpro($interpro, $statut, $typesocietes = array(), $q = null, $limit = 100) {
+      return $this->findByInterproVIEW($interpro, $statut, $typesocietes, $q, $limit);
+    }
+
+
+    public function findByInterproVIEW($interpro, $statut, $typesocietes = array(), $q = null, $limit = 100) {
       if (!count($typesocietes)) {
 	if ($statut) {
 	  return $this->client->startkey(array($interpro, $statut))
