@@ -2,7 +2,7 @@
 # http://www.symfony-project.org/reference/1_4/en/07-Databases
 
 all:
-  couchdb:
+  default: #couchdb
     class: acCouchdbDatabase
     param:
       dsn: http://127.0.0.1:5984/
