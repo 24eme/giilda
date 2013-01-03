@@ -7,7 +7,7 @@
 var initConditions = function()
 {
     if($('#vrac_condition #type_contrat input:checked').length == 0)
-        $('#vrac_condition #type_contrat input[value="spot"]').attr('checked','checked');
+        $('#vrac_condition #type_contrat input[value="SPOT"]').attr('checked','checked');
     if($('#vrac_condition #prix_isVariable input:checked').length == 0)
         $('#vrac_condition #prix_isVariable input[value="0"]').attr('checked','checked');
     updatePanelsConditions();
@@ -18,7 +18,7 @@ var initConditions = function()
 
 var updatePanelsConditions = function()
 {
-    if($('#vrac_condition #type_contrat input:checked').val()=='spot')
+    if($('#vrac_condition #type_contrat input:checked').val()=='SPOT')
     {
         $('#prix_isVariable').hide();
     }
