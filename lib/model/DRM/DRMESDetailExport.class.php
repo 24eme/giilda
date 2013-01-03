@@ -12,6 +12,6 @@ class DRMESDetailExport extends BaseDRMESDetailExport {
 
     public function getIdentifiantLibelle() {
 
-        return sfCultureInfo::getInstance('fr_FR')->getCountry($this->identifiant);
+        return ConfigurationClient::getInstance()->getCountry($this->identifiant);
     }
 }
