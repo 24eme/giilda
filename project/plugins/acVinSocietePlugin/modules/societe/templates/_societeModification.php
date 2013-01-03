@@ -31,6 +31,7 @@ echo $societeForm->renderGlobalErrors();
             <?php echo $societeForm['type_numero_compte']->render(); ?>
             <?php echo $societeForm['type_numero_compte']->renderError(); ?>
         </div>                 
+    <?php endif; ?>
         <div class="form_ligne">
 			<div class="form_colonne">
 				<?php echo $societeForm['siret']->renderLabel(); ?>
@@ -42,8 +43,14 @@ echo $societeForm->renderGlobalErrors();
 				<?php echo $societeForm['code_naf']->render(); ?>
 				<?php echo $societeForm['code_naf']->renderError(); ?>
 			</div>
-        </div>                
-		<div id="enseignes_list">
+        </div> 
+        <div class="form_ligne">
+            <?php echo $societeForm['no_tva_intracommunautaire']->renderLabel(); ?>
+            <?php echo $societeForm['no_tva_intracommunautaire']->render(); ?>
+            <?php echo $societeForm['no_tva_intracommunautaire']->renderError(); ?>
+        </div> 
+    
+        <div id="enseignes_list">
             <?php
             foreach ($societeForm['enseignes'] as $enseigneForm) {
                 include_partial('itemEnseigne', array('form' => $enseigneForm));
@@ -53,14 +60,6 @@ echo $societeForm->renderGlobalErrors();
                 <a class="btn_ajouter_ligne_template" data-container="#enseignes_list" data-template="#template_enseigne" href="#">Ajouter une enseigne</a>
             </div>
         </div>
-    <?php endif; ?>
-    <?php if ($societeForm->isCourtier()) : ?>
-        <div class="form_ligne">
-            <?php echo $societeForm['carte_professionnelle']->renderLabel(); ?>
-            <?php echo $societeForm['carte_professionnelle']->render(); ?>
-            <?php echo $societeForm['carte_professionnelle']->renderError(); ?>
-        </div>
-    <?php endif; ?>
     <div class="form_ligne">
         <?php echo $societeForm['commentaire']->renderLabel(); ?>
         <?php echo $societeForm['commentaire']->render(); ?>
