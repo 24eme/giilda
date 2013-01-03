@@ -4,7 +4,7 @@
    Recherche d'un contact&nbsp;: <input type="text" name="q" value="<?php echo $q; ?>" role="textbox" aria-autocomplete="list" aria-haspopup="true"> <input type="submit" value="Recherche"/>
 </div>
 <p><?php echo $nb_results; ?> résultat(s) trouvé(s) (page <?php echo $current_page; ?> sur <?php echo $last_page; ?>)</p>
-<p><a href="<?php echo url_for('compte_search_csv', $args); ?>">Télécharger en CSV</a></p>
+<p><a  class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', $args); ?>">Télécharger le tableur</a></p>
 <table><?php 
 $cpt = 0;
 foreach($results as $res) {
@@ -29,3 +29,18 @@ foreach($results as $res) {
 <a href="<?php echo url_for('compte_search', $args); ?>"> ->> </a>
 </form>
 </section>
+<?php
+slot('colButtons'); 
+?>
+ <div class="bloc_col" >
+            <h2>Actions</h2>
+
+            <div class="contenu">
+                <ul>
+                    <li class=""><a class="btn_majeur btn_acces" href="<?php echo url_for('societe');?>">Accueil des contacts</a></li>
+                </ul>
+            </div>
+        </div>
+    <?php
+end_slot();
+?>
