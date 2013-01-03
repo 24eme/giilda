@@ -171,6 +171,13 @@ class Societe extends BaseSociete {
         return CompteClient::getInstance()->find($this->compte_societe);
     }
     
+    public function setCodesComptables($is_codes) {
+        if(in_array(SocieteClient::NUMEROCOMPTE_TYPE_CLIENT, $is_codes))
+                $this->code_comptable_client = '02'.$this->identifiant;        
+        if(in_array(SocieteClient::NUMEROCOMPTE_TYPE_FOURNISSEUR, $is_codes))
+                $this->code_comptable_fournisseur = '04'.$this->identifiant;
+    }
+    
     public function save($fromCompte = false) {
         if ($fromCompte) 
             return parent::save();
