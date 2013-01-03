@@ -5,8 +5,8 @@ foreach ($results as $res) {
   echo '"'.$data['nom_a_afficher']. '";';
   echo '"'.CompteClient::getInstance()->createTypeFromOrigines($data['origines']).'";';
   echo '"'.$data['civilite']. '";';
-  echo '"'.$data['nom']. '";';
   echo '"'.$data['prenom']. '";';
+  echo '"'.$data['nom']. '";';
   echo '"'.$data['adresse']. '";';
   echo '"'.$data['adresse_complementaire']. '";';
   echo '"'.$data['code_postal']. '";';
