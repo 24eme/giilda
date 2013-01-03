@@ -110,12 +110,12 @@ EOF;
 
       try{
         $vrac = $this->importVrac($data);
+        $vrac->save();
       } catch (Exception $e) {
-        $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
+        $this->log(sprintf("ERROR;%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
 
         continue;
       }
-      $vrac->save();
 
       $i++;
     }
@@ -179,18 +179,18 @@ EOF;
         
         if (in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
           	$v->bouteilles_contenance_volume = $line[self::CSV_COEF_CONVERSION_PRIX] * 0.01;
-		$v->bouteilles_contenance_libelle = $this->getBouteilleContenanceLibelle($v->bouteilles_contenance_volume);
+		        $v->bouteilles_contenance_libelle = $this->getBouteilleContenanceLibelle($v->bouteilles_contenance_volume);
           	$v->bouteilles_quantite = (int)round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]) / $v->bouteilles_contenance_volume);
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_MOUTS,
                                                       VracClient::TYPE_TRANSACTION_VIN_VRAC))) {
           	$v->jus_quantite = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS))) {
-		if($line[self::CSV_UNITE_VOLUME] == 'kg') {  
-			$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME], 2));
-		} else {
-			$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL] * $this->getDensite($line) * 100), 2);
-		}	
-	}
+      		if($line[self::CSV_UNITE_VOLUME] == 'kg') {  
+      			$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME], 2));
+      		} else {
+      			$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL] * $this->getDensite($line) * 100), 2);
+      		}	
+	      }
 
         $v->volume_propose = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
 
