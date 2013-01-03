@@ -4,6 +4,8 @@ class ConfigurationClient extends acCouchdbClient {
 	
 	private static $current = array();
 
+    protected $countries = null;
+
     const CAMPAGNE_DATE_DEBUT = '%s-08-01';
     const CAMPAGNE_DATE_FIN = '%s-07-31';
 
@@ -181,10 +183,19 @@ class ConfigurationClient extends acCouchdbClient {
     }
 
     public function getCountryList() {
-        $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
-        $destinationChoices = $destinationChoicesWidget->getChoices();
-        $destinationChoices['inconnu'] = 'Inconnu';
-        return $destinationChoices;
+        if(is_null($this->countries)) {
+            $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
+            $this->countries = $destinationChoicesWidget->getChoices();
+            $this->countries['inconnu'] = 'Inconnu';
+        }
+
+        return $this->countries;
+    }
+
+    public function getCountry($code) {
+        $countries = $this->getCountryList();
+
+        return $countries[$code];
     }
   
 }
