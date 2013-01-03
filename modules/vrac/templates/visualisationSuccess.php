@@ -11,7 +11,7 @@
     <div id="contenu_etape">
         <div id="vrac_visualisation"> 
             <div id="titre">
-                <span class="style_label">N° d'enregistrement du contrat : <?php echo $vrac->numero_archive ?></span>
+                <span class="style_label">N° d'enregistrement du contrat : <?php echo $vrac->numero_archive ?> (<?php echo $vrac->campagne ?>)</span>
             </div>
             <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>">  
                 <div id="ss_titre" class="legende"><span class="style_label">Etat du contrat</span>

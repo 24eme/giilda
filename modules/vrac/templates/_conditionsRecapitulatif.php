@@ -19,14 +19,17 @@ use_helper('Float');
         </span>
     </div>
     
-    <div id="conditions_recapitulatif_cvo" class="ligne_form">
-        <label>CVO&nbsp;: </label>
-        <span><?php 
-        echo getCvoLabels($vrac->cvo_nature).' ('. $vrac->cvo_repartition.')';
-        ?></span>
+    <div id="conditions_cvo_nature" class="ligne_form">
+        <label>Nature de la transaction&nbsp;: </label>
+        <span><?php echo $vrac->cvo_nature ?></span>
+    </div>
+
+    <div id="conditions_recapitulatif_cvo" class="ligne_form ligne_form_alt">
+        <label>Repartition de la CVO&nbsp;: </label>
+        <span><?php echo VracClient::$cvo_repartition[$vrac->cvo_repartition] ?></span>
     </div>
     
-    <div id="conditions_recapitulatif_commentaire" class="ligne_form ligne_form_alt">
+    <div id="conditions_recapitulatif_commentaire" class="ligne_form">
         <label>Commentaires&nbsp;: </label>
              <span style="width: 100%; height: 100%;"><?php 
             echo $vrac->commentaire;
