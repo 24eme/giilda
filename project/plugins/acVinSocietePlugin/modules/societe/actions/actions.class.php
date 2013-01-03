@@ -4,14 +4,18 @@ class societeActions extends sfActions {
 
     public function executeFullautocomplete(sfWebRequest $request) {
         $interpro = $request->getParameter('interpro_id');
-        $json = $this->matchCompte(CompteAllView::getInstance()->findByInterpro($interpro)->rows, $request->getParameter('q'), $request->getParameter('limit', 100));
+	$q = $request->getParameter('q');
+	$limit = $request->getParameter('limit', 100);
+	$json = $this->matchCompte(CompteAllView::getInstance()->findByInterpro($interpro, $q, $limit), $q, $limit);
         return $this->renderText(json_encode($json));
     }
 
     public function executeAutocomplete(sfWebRequest $request) {
         $interpro = $request->getParameter('interpro_id');
-	$societes = SocieteAllView::getInstance()->findByInterpro($interpro, 'ACTIF', array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT));
-        $json = $this->matchSociete($societes, $request->getParameter('q'), $request->getParameter('limit', 100));
+	$q = $request->getParameter('q');
+	$limit = $request->getParameter('limit', 100);
+	$societes = SocieteAllView::getInstance()->findByInterpro($interpro, 'ACTIF', array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT), $q, $limit);
+        $json = $this->matchSociete($societes, $q, $limit);
         return $this->renderText(json_encode($json));
     }
 
