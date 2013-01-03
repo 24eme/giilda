@@ -125,7 +125,7 @@ class Compte extends BaseCompte {
         return $this->_set('nom', $n); 
     }
 
-    public function getType() {
+    public function getCompteType() {
       return CompteClient::getInstance()->createTypeFromOrigines($this->origines);
     }
     
