@@ -20,18 +20,57 @@ class CompteAllView extends acCouchdbView {
     const KEY_CODE_POSTAL = 6;
     
     public static function getInstance() {
-
         return acCouchdbManager::getView('compte', 'all', 'Compte');
     }
 
     public function findByInterpro($interpro, $q = null, $limit = 100) {
-      return $this->findByInterproVIEW($interpro);
+      try {
+	return $this->findByInterproELASTIC($interpro, $q, $limit);
+      }catch(Exception $e) {
+	return $this->findByInterproVIEW($interpro);
+      }
     }
 
-    public function findByInterproVIEW($interpro) {
+    private function findByInterproELASTIC($interpro, $qs = null, $limit = 100) {
+      $index = acElasticaManager::getType('Compte');
+      $q = new acElasticaQuery();
+
+      if($qs) {
+	$query = array();
+	foreach(explode(' ', $qs) as $qs) {
+	  $query[] = '*'.$qs.'*';
+	}
+	$qs = implode(' ', $query);
+	$elasticaQueryString = new acElasticaQueryQueryString($qs);
+	$q->setQuery($elasticaQueryString);
+      }
+
+      $q->setLimit($limit);
+
+      //Search on the index.
+      $res = $index->search($q);
+      $viewres = $this->elasticRes2View($res);
+      return $viewres;
+    }
+
+    private function elasticRes2View($results) {
+      $res = array();
+      foreach ($results->getResults() as $er) {
+	$r = $er->getData();
+	$e = new stdClass();
+	$e->id = $r['_id'];
+	$e->key = array($r['interpro'], $r['_id'], $r['nom_a_afficher'], $r['identifiant'], $r['adresse'], $r['commune'], $r['code_postal']);
+	$e->value = null;
+	$res[] = $e;
+      }
+      return $res;
+    }
+
+
+    private function findByInterproVIEW($interpro) {
         return $this->client->startkey(array($interpro))
                         ->endkey(array($interpro, array()))
-                        ->getView($this->design, $this->view);
+                        ->getView($this->design, $this->view)->rows;
     }
 
     public function findByInterproAndId($interpro,$id) {
