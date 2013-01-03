@@ -87,6 +87,10 @@ class Etablissement extends BaseEtablissement {
     public function isNegociant() {
         return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT);
     }
+    
+    public function isCourtier() {
+        return ($this->famille == EtablissementFamilles::FAMILLE_COURTIER);
+    }
 
     public function getFamilleType() {
         $familleType = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'vendeur',
@@ -125,7 +129,6 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function save($fromsociete = false) {
-
         if ($this->recette_locale->id_douane) {
             $soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
             if ($soc && $this->recette_locale->nom != $soc->raison_sociale) {

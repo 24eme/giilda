@@ -8,7 +8,7 @@
                 <h2><?php echo $societe->raison_sociale; ?></h2>
 				
 				
-                <form action="<?php echo url_for('etablissement_new', array('identifiant' => $etablissementModificationForm->getObject()->identifiant)); ?>" method="post">
+                <form action="<?php echo url_for('etablissement_new', array('identifiant' => $etablissement->identifiant)); ?>" method="post">
 				<div class="form_btn">
 					<button type="submit" class="btn_majeur btn_annuler">Annuler</button>
 					<button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
@@ -16,7 +16,7 @@
 					
 					<div id="detail_etablissement" class="etablissement form_section ouvert">
 						<h3>Détail de l'établissement</h3>
-						<?php include_partial('etablissement/modification', array('etablissementForm' => $etablissementModificationForm)); ?>
+						<?php include_partial('etablissement/modification', array('etablissementForm' => $etablissementModificationForm, 'etablissement' => $etablissement)); ?>
 					</div>
                     <div id="coordonnees_etablissement" class="etablissement form_section ouvert">
                         <h3>Coordonnées de l'établissement</h3>
