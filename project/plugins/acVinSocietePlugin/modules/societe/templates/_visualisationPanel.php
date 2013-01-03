@@ -21,7 +21,7 @@
         </div>
         <div class="form_ligne">
             <label for="statut">
-                Statut : 
+                Type : 
             </label>
             <?php echo $societe->type_societe; ?>
         </div>    
