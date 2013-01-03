@@ -8,7 +8,7 @@ if (!is_null($contacts)):
             <ul>
                 <?php foreach ($contacts as $id => $contact) : ?>
                     <li id="infos_contact_vendeur">
-                        <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>">Coordonnées de <?php echo $contact->nom_a_afficher; ?></a>
+                        <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>" target="_blank">Coordonnées de <?php echo $contact->nom_a_afficher; ?></a>
                         <ul>
                             <li class="nom"><?php echo $contact->nom_a_afficher; ?></li>
                             <?php if ($contact->telephone_perso): ?>
