@@ -22,7 +22,7 @@ Compte:
        adresse_complementaire: { }
        code_postal: { }
        commune: { }
-       type: { }
+       compte_type: { }
        cedex: {  }
        pays: {  }
        email: {  }
