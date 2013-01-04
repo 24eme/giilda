@@ -75,7 +75,7 @@ EOF;
       try{
         $vrac = $this->importVrac($line);
       } catch (Exception $e) {
-        $this->log(sprintf("[VRAC]%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
+        $this->log(sprintf("[VRAC]ERROR;%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
         
         continue;
       }
@@ -89,7 +89,7 @@ EOF;
       try{
         $sv12 = $this->importLine($sv12, $vrac);
       } catch (Exception $e) {
-        $this->log(sprintf("[SV12]%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
+        $this->log(sprintf("[SV12]ERROR;%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
 
         return;
       }
