@@ -45,15 +45,16 @@ class acVinCompteRouting {
 
 	$r->prependRoute('compte_search', new sfRoute('/compte/search', array('module' => 'compte', 'action' => 'search')));
 	$r->prependRoute('compte_search_csv', new sfRoute('/compte/search/csv', array('module' => 'compte', 'action' => 'searchcsv')));
-        $r->prependRoute('compte_modification', new CompteRoute('/compte/:identifiant/modification',
+        
+        $r->prependRoute('compte_ajout', new SocieteRoute('/compte/:identifiant/nouveau',
+                        array('module' => 'compte',
+                            'action' => 'ajout'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Societe',
+                            'type' => 'object')));           
+                $r->prependRoute('compte_modification', new CompteRoute('/compte/:identifiant/modification',
                         array('module' => 'compte',
                             'action' => 'modification'),
-                        array('sf_method' => array('get', 'post')),
-                        array('model' => 'Compte',
-                            'type' => 'object')));
-        $r->prependRoute('compte_new', new CompteRoute('/compte/:identifiant/nouveau',
-                        array('module' => 'compte',
-                            'action' => 'nouveau'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Compte',
                             'type' => 'object')));        
