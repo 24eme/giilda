@@ -25,7 +25,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function __clone() {
         parent::__clone();
         $this->initDocuments();
-    }   
+        $this->document_precedent = null;
+        $this->document_suivant = null;
+    } 
 
     protected function initDocuments() {
         $this->mouvement_document = new MouvementDocument($this);
