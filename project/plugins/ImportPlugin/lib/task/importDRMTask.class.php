@@ -388,8 +388,8 @@ EOF;
       $this->logLignes('WARNING', $e->getMessage(), $lines, $i);
     }
 
-    $drm->valide->date_saisie = date('c', strtotime($drm->getDate()));
-    $drm->valide->date_signee = date('c', strtotime($drm->getDate()));
+    $drm->valide->date_saisie = date('Y-m-d', strtotime($drm->getDate()));
+    $drm->valide->date_signee = date('Y-m-d', strtotime($drm->getDate()));
 
     $drm->validate(array('no_vracs' => true));
     $drm->facturerMouvements();
@@ -486,7 +486,7 @@ EOF;
 
     $detail = $produit->sorties->vrac_details->addDetail('VRAC-'.$this->constructNumeroContrat($line),
                                                $this->convertToFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]),
-                                               $line[self::CSV_CONTRAT_DATE_ENLEVEMENT]);
+                                               $this->convertToDateObject($line[self::CSV_CONTRAT_DATE_ENLEVEMENT])->format('Y-m-d'));
     
     if ($detail->volume < 0) {
 	 throw new sfException(sprintf("Le volume enlevé sur le contrat est négatif %s", $detail->volume));
@@ -507,7 +507,7 @@ EOF;
       $code_pays = $this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]);
       $produit->sorties->export_details->addDetail($code_pays,
                                                    $this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]),
-                                                   $line[self::CSV_VENTE_DATE_SORTIE]);
+                                                   $this->convertToDateObject($line[self::CSV_VENTE_DATE_SORTIE])->format('Y-m-d'));
     } elseif($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) < 0) {
       $produit->entrees->reintegration += abs($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]));
     }
@@ -583,7 +583,7 @@ EOF;
 
       $produit->sorties->cooperative_details->addDetail($etablissement->_id,
                                                         $this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]),
-                                                        $line[self::CSV_CAVE_DATE_MOUVEMENT]);
+                                                        $this->convertToDateObject($line[self::CSV_CAVE_DATE_MOUVEMENT])->format('Y-m-d'));
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
