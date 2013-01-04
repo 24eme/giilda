@@ -51,8 +51,8 @@ inter-loire;AOC;AOC;;TRANQ;Saumur;SAU;;;Puy-Notre-Dame;PND;Rouge;1;;;;;;;;;4;;L;
 inter-loire;AOC;AOC;;TRANQ;Saumur;SAU;;;Champigny;CHA;Rouge;1;;;;;;;;;4;;L;;;;;;;162;cepage;70610000;cepage;1R208;cepage;
 inter-loire;AOC;AOC;EFF;EFF;Saumur;SAU;;;;;Blanc;3;;;;;;;;;3,8;;A;;;;;;;174;cepage;70610000;cepage;1B205M;cepage;1S205M
 inter-loire;AOC;AOC;;TRANQ;Saumur;SAU;;;;;Rouge;1;;;;;;;;;4,5;;G;;;;;;;182;cepage;70610000;cepage;1R206S;cepage;
-inter-loire;AOC;AOC;;TRANQ;Savennières;SAV;;;;;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;142;cepage;70610000;cepage;1B216S;cepage;1B216L|1B216S01|1B216L01
-inter-loire;AOC;AOC;;TRANQ;Savennières;SAV;;;Roche aux moines;RAM;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;141;cepage;70610000;cepage;1B216S02;cepage;1B216L02
+inter-loire;AOC;AOC;;TRANQ;Savennières;SAV;;;;;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;141;cepage;70610000;cepage;1B216S;cepage;1B216L|1B216S01|1B216L01
+inter-loire;AOC;AOC;;TRANQ;Savennières;SAV;;;Roche aux moines;RAM;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;651;cepage;70610000;cepage;1B216S02;cepage;1B216L02
 inter-loire;AOC;AOC;;TRANQ;St Nicolas de Bourgueil;STN;;;;;Rouge;1;Cabernet Franc;CBF;;;;;;;3,79;;A;;;;;;;602;cepage;70610000;cepage;1R221S;cepage;
 inter-loire;AOC;AOC;;TRANQ;St Nicolas de Bourgueil;STN;;;;;Rosé;2;Cabernet Franc;CBF;;;;;;;3,79;;A;;;;;;;603;cepage;70610000;cepage;1S221S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Noble-Joue;NJ;Rosé;2;;;;;;;;;3,74;;L;;;;;;;1040;cepage;70610000;cepage;1S239;cepage;
@@ -71,7 +71,7 @@ inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Mesland;MES;Blanc;3;Chenin;CHE;;;;;;;3
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Mesland;MES;Rouge;1;;;;;;;;;3,8;;L;;;;;;;552;cepage;70610000;cepage;1R238S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Mesland;MES;Rosé;2;;;;;;;;;3,8;;L;;;;;;;553;cepage;70610000;cepage;1S238;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Noble Joué;NJO;Rosé;2;;;;;;;;;4;;A;;;;;;;493;cepage;70610000;cepage;1S239;cepage;
-inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Blanc;3;Sauvignon Blanc;SAUB;;;;;;;4;;A;;;;;;;631;cepage;70610000;cepage;1B705S;cepage;
+inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Blanc;3;Sauvignon;SAUB;;;;;;;4;;A;;;;;;;631;cepage;70610000;cepage;1B705S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Rouge;1;;;;;;;;;4;;A;;;;;;;632;cepage;70610000;cepage;1R705S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Oisly;OIS;Blanc;3;Sauvignon Blanc;SAUB;;;;;;;4;;A;;;;;;;641;cepage;70610000;cepage;1B704S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Vouvray;VOU;;;;;Blanc;3;;;;;;;;;4;;A;;;;;;;571;cepage;70610000;cepage;1B226;cepage;
