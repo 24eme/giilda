@@ -2,7 +2,7 @@
 <div id="contenu">
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane">Page d'accueil > Contacts > <strong><?php echo $societe->raison_sociale; ?></strong></p>
+        <p id="fil_ariane"><a href="<?php echo url_for('societe');?>">Page d'accueil</a> &gt; Contacts &gt; <strong><?php echo $societe->raison_sociale; ?></strong></p>
 
         <!-- #contenu_etape -->
         <section id="contacts">
@@ -11,7 +11,7 @@
 				<h2><?php echo $societe->raison_sociale; ?></h2>
 				
 				<div class="btn_haut">
-					<a href="<?php echo url_for('societe_addContact', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur">Nouvel interlocuteur</a>
+					<a href="<?php echo url_for('compte_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur">Nouvel interlocuteur</a>
 					&nbsp;
 					<?php if($societe->canHaveChais()) : ?>  
 						<a href="<?php echo url_for('societe_addEtablissement', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur">Nouvel Etablissement</a>
@@ -47,7 +47,7 @@ slot('colButtons');
     </div>
     <div class="contenu">
         <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('societe_addContact',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel interlocuteur</span></a>
+            <a href="<?php echo url_for('compte_ajout',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel interlocuteur</span></a>
         </div>
     </div>
     <?php if($societe->canHaveChais()) : ?>  
