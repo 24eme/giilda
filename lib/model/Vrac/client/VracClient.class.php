@@ -55,12 +55,14 @@ class VracClient extends acCouchdbClient {
     const CVO_REPARTITION_100_VITI = '100';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
 
-    public static $contenance = array('37 cl' => 0.00375, 
-	    			      '75 cl' => 0.0075,
+    public static $contenance = array('37 cl' => 0.00375,
+                                      '50 cl' => 0.005,
+	    			                          '75 cl' => 0.0075,
                                       '1 L' => 0.01,
                                       '1.5 L'=> 0.015,
                                       '3 L' => 0.03,
                                       'BIB 3 L' => 0.03,
+                                      '5 L' => 0.05,
                                       '6 L' => 0.06);
 
     public static $categories_vin = array(self::CATEGORIE_VIN_GENERIQUE => 'Générique', self::CATEGORIE_VIN_DOMAINE => 'Domaine');
