@@ -62,21 +62,17 @@
             </div>
 <?php endif; ?>
     </div>
-    <div class="section_label_maj" id="type_liaison">
-        <?php echo $etablissementForm['type_liaison']->renderLabel(); ?>
-        <?php echo $etablissementForm['type_liaison']->render(); ?>
-    <?php echo $etablissementForm['type_liaison']->renderError(); ?>
-    </div>
-<?php foreach ($etablissementForm->getObject()->liaisons_operateurs as $key => $liaison_societe): ?>
-        <div class="form_ligne">
-            <label for='liaisons_operateurs[<?php echo $key; ?>]'>
-            <?php echo $etablissementForm['liaisons_operateurs[' . $key . ']']->renderLabel(); ?>
-            </label>               
-            <?php echo $etablissementForm['liaisons_operateurs[' . $key . ']']->render(); ?>
-        <?php echo $etablissementForm['liaisons_operateurs[' . $key . ']']->renderError(); ?>
+             <div id="liaisons_list">
+            <?php
+            foreach ($etablissementForm['liaisons_operateurs'] as $liaisonForm) {
+                include_partial('itemLiaison', array('form' => $liaisonForm));
+            }
+            ?>
+            <div class="form_ligne">
+                <a class="btn_ajouter_ligne_template" data-container="#liaisons_list" data-template="#template_liaison" href="#">Ajouter une liaison</a>
+            </div>
         </div>
-    <?php
-    endforeach;
+<?php
     if (!$etablissement->isCourtier()):
         ?>
         <div class="form_ligne">
@@ -109,3 +105,61 @@
     </div>
 
 </div>
+<?php include_partial('templateLiaisonItem', array('form' => $etablissementForm->getFormTemplate()));
+?>
+<script type="text/javascript">    
+    (function($)
+    {
+        $(document).ready(function()
+        {
+            initCollectionAddTemplate('.btn_ajouter_ligne_template', /var---nbItem---/g, callbackAddTemplate);
+            initCollectionDeleteTemplate();
+        });
+
+        var callbackAddTemplate = function(bloc)
+        {
+          
+        }
+
+       
+        var initCollectionAddTemplate = function(element, regexp_replace, callback)
+        {
+       
+            $(element).live('click', function()
+            {
+                
+        console.log($($(this).attr('data-template')).html());
+                var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
+
+                try {
+                    var params = jQuery.parseJSON($(this).attr('data-template-params'));
+                } catch (err) {
+
+                }
+
+                for(key in params) {
+                    bloc_html = bloc_html.replace(new RegExp(key, "g"), params[key]);
+                }
+
+                var bloc = $($(this).attr('data-container')).before(bloc_html);
+
+                if(callback) {
+                    callback(bloc);
+                }
+                return false;
+            });
+        }
+   
+        var initCollectionDeleteTemplate = function()
+        {
+            $('.btn_supprimer_ligne_template').live('click',function()
+            {
+                var element = $(this).attr('data-container');
+                $(this).parent(element).remove();
+   
+                return false;
+            });
+        }
+    })(jQuery);
+    
+</script>

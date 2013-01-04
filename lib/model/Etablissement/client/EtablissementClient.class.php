@@ -38,6 +38,7 @@ class EtablissementClient extends acCouchdbClient {
         $etablissement->identifiant = $this->getNextIdentifiantForSociete($societe);
         $famillesSocieteTypes = self::getFamillesSocieteTypesArray();
         $etablissement->famille = $famillesSocieteTypes[$societe->type_societe];
+        $etablissement->statut = self::STATUT_ACTIF;
         $etablissement->constructId();
         $etablissement->save(); //
         return $etablissement;
@@ -209,8 +210,8 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public static function getTypesLiaisons() {
-        return array(self::TYPE_LIAISON_BAILLEUR => 'Bailleur de',
-            self::TYPE_LIAISON_METAYER => 'Métayer de',
+        return array(self::TYPE_LIAISON_BAILLEUR => 'A pour bailleur',
+            self::TYPE_LIAISON_METAYER => 'A pour métayer',
             self::TYPE_LIAISON_ADHERENT => 'Adhérent de (coop.)',
             self::TYPE_LIAISON_CONTRAT_INTERNE => 'Contrat interne');
     }
