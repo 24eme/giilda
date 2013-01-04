@@ -96,7 +96,7 @@ class FactureLatex {
 
   public function getPDFFile() {
     $filename = $this->getLatexDestinationDir().$this->getPublicFileName();
-    if(file_exists($filename))
+    if(file_exists($filename) && filesize($filename))
       return $filename;
     $tmpfile = $this->generatePDF();
     rename($tmpfile, $filename);
