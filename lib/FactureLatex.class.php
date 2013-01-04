@@ -99,7 +99,9 @@ class FactureLatex {
     if(file_exists($filename) && filesize($filename))
       return $filename;
     $tmpfile = $this->generatePDF();
-    rename($tmpfile, $filename);
+    if (rename($tmpfile, $filename)) {
+      throw new sfException("Permission denied to write $filename");
+    }
     $this->cleanPDF();
     return $filename;
   }
