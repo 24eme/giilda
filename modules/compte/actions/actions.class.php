@@ -3,9 +3,20 @@
 class compteActions extends sfActions
 {
     
-    public function executeNouveau(sfWebRequest $request) {
-        $this->compte = $this->getRoute()->getCompte();
-        $this->societe = $this->compte->getSociete();
+    public function executeAjout(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->compte = CompteClient::getInstance()->createCompte($this->societe);
+        $this->processFormCompte($request);        
+        $this->setTemplate('modification');
+    }
+
+    public function executeModification(sfWebRequest $request) {
+        $this->compte = $this->getRoute()->getCompte();        
+        $this->societe = $this->compte->getSociete(); 
+        $this->processFormCompte($request);
+    }
+    
+    protected function processFormCompte(sfWebRequest $request) {
         $this->compteForm = new CompteExtendedModificationForm($this->compte);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
@@ -15,20 +26,7 @@ class compteActions extends sfActions
             }
         }
     }
-    
-    public function executeModification(sfWebRequest $request) {
-        $this->compte = $this->getRoute()->getCompte();
-        $this->societe = $this->compte->getSociete();
-        $this->compteModificationForm = new CompteModificationForm($this->compte);
-        if ($request->isMethod(sfWebRequest::POST)) {
-            $this->compteModificationForm->bind($request->getParameter($this->compteModificationForm->getName()));
-           if ($this->compteModificationForm->isValid()) {
-                $this->compteModificationForm->save();
-                
-            }
-        }
-    }
-    
+ 
     public function executeVisualisation(sfWebRequest $request) {
         $this->compte = $this->getRoute()->getCompte();
         $this->societe = $this->compte->getSociete();
