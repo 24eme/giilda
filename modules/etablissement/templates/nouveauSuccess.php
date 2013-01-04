@@ -1,6 +1,8 @@
 <!-- #principal -->
 <section id="principal">
-    <p id="fil_ariane"><strong>Page d'accueil > Contacts > <?php echo $societe->raison_sociale; ?> > </strong>Modification établissement</p>
+    <p id="fil_ariane"><a href="<?php echo url_for('societe');?>">Page d'accueil</a> &gt; Contacts
+            &gt; <a href="<?php echo url_for('societe_visualisation',array('identifiant'=> $societe->identifiant));?>">
+            <?php echo $societe->raison_sociale; ?></a> &gt; <strong>Modification établissement</strong></p>
 
         <!-- #contenu_etape -->
         <section id="contacts">

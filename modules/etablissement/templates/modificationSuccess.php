@@ -1,7 +1,7 @@
 
 <!-- #principal -->
 <section id="principal">
-    <p id="fil_ariane"><strong>Page d'accueil > Contacts > </strong>Modification d'un établissement</p>
+    <p id="fil_ariane">Page d'accueil > Contacts > <strong>Modification d'un établissement</strong></p>
 	
         <!-- #contenu_etape -->
         <section id="contenu_etape">
