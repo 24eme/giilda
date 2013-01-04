@@ -526,10 +526,9 @@ EOF;
   }
 
   public function importLigneDivers($drm, $line) {
-
-    if($line[self::CSV_DIVERS_ANNULATION] == self::CSV_ANNULATION_OUI) {
+    /*if($line[self::CSV_DIVERS_ANNULATION] == self::CSV_ANNULATION_OUI) {
       return;
-    }
+    }*/
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
@@ -553,7 +552,7 @@ EOF;
       return;
     }
 
-    if($line[self::CSV_DIVERS_TEXTE_MOUVEMENT] == 89) {
+    if($line[self::CSV_DIVERS_CODE_MOUVEMENT] == 89) {
       $produit->sorties->consommation += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
       return;
     }
@@ -569,9 +568,9 @@ EOF;
   }
 
   public function importLigneCave($drm, $line) {
-    if($line[self::CSV_CAVE_ANNULATION] == self::CSV_ANNULATION_OUI) {
+    /*if($line[self::CSV_CAVE_ANNULATION] == self::CSV_ANNULATION_OUI) {
       return;
-    }
+    }*/
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
     
@@ -593,9 +592,9 @@ EOF;
   }
 
   public function importLigneTransfert($drm, $line) {
-    if($line[self::CSV_TRANSFERT_ANNULATION] == self::CSV_ANNULATION_OUI) {
+    /*if($line[self::CSV_TRANSFERT_ANNULATION] == self::CSV_ANNULATION_OUI) {
       return;
-    }
+    }*/
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
@@ -713,7 +712,7 @@ EOF;
   }
 
   protected function verifyLineTransfert($line) {
-    $this->verifyVolume($line[self::CSV_TRANSFERT_VOLUME_HL]);
+    $this->verifyVolume($line[self::CSV_TRANSFERT_VOLUME_HL], true);
   
     return true;
   }

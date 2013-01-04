@@ -23,7 +23,7 @@ echo -n > /tmp/sed.cmd
 cat /tmp/vitivirtuel2negos.csv | while read replace ; do
     echo $replace | sed 's|;|;/;|' | sed 's|^|s/;|'  | sed 's|$|;/|' >> /tmp/sed.cmd
 done
-for csv in $(grep -l 400581 *); do
+for csv in cicav.csv cicon.csv cieag.csv ciedn.csv ciefc.csv ciefcrec.csv cifonct.csv cilag.csv cimvs.csv cipar.csv cistk.csv; do
     sed -f /tmp/sed.cmd $csv > $csv.tmp
     rm $csv
     mv $csv.tmp $csv
