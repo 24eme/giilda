@@ -63,7 +63,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
 
         $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
         $this->setValidator('raison_sociale_abregee', new sfValidatorString(array('required' => false)));
-        $this->setValidator('statut', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatuts()))));
+        $this->setValidator('statut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getStatuts()))));
         // $this->setValidator('type_societe', new sfValidatorChoice(array('required' => true, 'choices' => $this->getSocieteTypesValid())));
 
         if ($this->isVitiOrNego()) {
@@ -79,6 +79,11 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         
+        if($this->existNumeroCompte())
+                $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
+        
+        if(!count($this->getObject()->contacts))
+                $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
         
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
     }
@@ -155,7 +160,19 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         }
         if ($this->values['type_numero_compte']) {
             $this->getObject()->setCodesComptables($this->values['type_numero_compte']);
+        }       
+    }
+    
+     protected function doSave($con = null) {
+        if (null === $con) {
+            $con = $this->getConnection();
         }
+
+        $this->updateObject();        
+         if(!count($this->getObject()->contacts)){
+            $this->getObject()->setStatut(SocieteClient::STATUT_ACTIF);
+        }
+        $this->object->getCouchdbDocument()->save();        
     }
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {
