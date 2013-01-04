@@ -120,7 +120,7 @@ class importDRMTask extends importAbstractTask
   const CSV_VENTE_CODE_SITE = 31;
   const CSV_VENTE_NUMERO_FACTURE = 32;
 
-  const CSV_ACHAT_DOSSIER = 5;
+  /*const CSV_ACHAT_DOSSIER = 5;
   const CSV_ACHAT_CAMPAGNE = 6;
   const CSV_ACHAT_NUMERO = 7;
   const CSV_ACHAT_CODE_PARTENAIRE = 8;
@@ -140,7 +140,7 @@ class importDRMTask extends importAbstractTask
   const CSV_ACHAT_CODE_APPELLATION_INAO = 24;
   const CSV_ACHAT_MILLESIME = 25;
   const CSV_ACHAT_DATE_CERTIFICAT = 26;
-  const CSV_ACHAT_LABEL_AGREMENT = 27;
+  const CSV_ACHAT_LABEL_AGREMENT = 27;*/
 
   const CSV_DIVERS_DOSSIER = 5;
   const CSV_DIVERS_CAMPAGNE = 6;
@@ -306,14 +306,12 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
     set_time_limit(0);
     $i = 1;
     $id = null;
     $lines = array();
     foreach(file($arguments['file']) as $line) {
       $data = str_getcsv($line, ';');
-
       if($id && $id != $this->getId($data)) {
         $this->importDRM($lines);
         $lines = array();
@@ -323,6 +321,8 @@ EOF;
       $lines[$i] = $data;
       $i++;
     }
+
+    $this->importDRM($lines);
 
   }
 
@@ -357,9 +357,10 @@ EOF;
     foreach($lines as $i => $line) {
       try{
         if(!$this->verifyLine($line)) {	
-		continue;	
-	}
-	$drm = $this->importLigne($drm, $line);
+		      continue;	
+	      }
+
+	      $drm = $this->importLigne($drm, $line);
       } catch (Exception $e) {
         $this->logLigne('ERROR', $e->getMessage(), $line, $i);
         return;
@@ -476,9 +477,12 @@ EOF;
     $cvo = $this->convertToFloat($line[self::CSV_CONTRAT_COTISATION_CVO_VITICULTEUR] + $line[self::CSV_CONTRAT_COTISATION_CVO_NEGOCIANT]);
 
     if($produit->cvo->taux && $produit->cvo->taux != $cvo) {
-	throw new sfException(sprintf("Deux taux de cvo différent ont été défini pour un produit d'une même DRM %s / %s", $produit->cvo->taux, $cvo));      
+      $this->logLigne('WARNING', sprintf("Deux taux de cvo différent ont été défini pour un produit d'une même DRM %s / %s", $produit->cvo->taux, $cvo), $line);
     }
-    $produit->cvo->taux = $cvo;
+
+    if(!$produit->cvo->taux) {
+      $produit->cvo->taux = $cvo;
+    }
 
     $detail = $produit->sorties->vrac_details->addDetail('VRAC-'.$this->constructNumeroContrat($line),
                                                $this->convertToFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]),
@@ -500,7 +504,8 @@ EOF;
     $produit->cvo->taux = $cvo;
 
     if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) > 0) {
-      $produit->sorties->export_details->addDetail($this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]),
+      $code_pays = $this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]);
+      $produit->sorties->export_details->addDetail($code_pays,
                                                    $this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]),
                                                    $line[self::CSV_VENTE_DATE_SORTIE]);
     } elseif($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) < 0) {
@@ -545,6 +550,11 @@ EOF;
 
     if($line[self::CSV_DIVERS_CODE_MOUVEMENT] == 80) {
       $produit->sorties->fermagemetayage += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
+      return;
+    }
+
+    if($line[self::CSV_DIVERS_TEXTE_MOUVEMENT] == 89) {
+      $produit->sorties->consommation += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
       return;
     }
 
@@ -693,7 +703,7 @@ EOF;
   }
 
   protected function verifyLineDivers($line) {
-    $this->verifyVolume($line[self::CSV_DIVERS_VOLUME_HL]);
+    $this->verifyVolume($line[self::CSV_DIVERS_VOLUME_HL], true);
 
     if($line[self::CSV_DIVERS_TEXTE_MOUVEMENT] == "REPLI") {
       $this->getHash($line[self::CSV_DIVERS_CODE_APPELLATION_2]);
@@ -721,7 +731,7 @@ EOF;
   }
 
   protected function verifyLineMouvement($line) {
-    $this->verifyVolume($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]);
+    $this->verifyVolume($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE], true);
   
     return true;
   }
@@ -733,7 +743,13 @@ EOF;
 
   protected function convertCountry($country) {
     $countries = ConfigurationClient::getInstance()->getCountryList();
+
+    if($country == 'FRA') {
+      $country = 'FR';
+    }
+
     if(!array_key_exists($country, $countries)) {
+      
       throw new sfException(sprintf("Code pays '%s' invalide", $country));
     }
     
