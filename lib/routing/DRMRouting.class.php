@@ -176,13 +176,14 @@ class DRMRouting {
 									    'must_be_not_valid' => false)));
 	
 
-        $r->prependRoute('drm_visualisation', new DRMLightRoute('/drm/:identifiant/visualisation/:periode_version/:hide_rectificative', 
+        $r->prependRoute('drm_visualisation', new DRMRoute('/drm/:identifiant/visualisation/:periode_version/:hide_rectificative', 
                                                           array('module' => 'drm', 
                                                                 'action' => 'visualisation',
                                                           		  'hide_rectificative' => null),
                                                           array('sf_method' => array('get')),
-                                                          array('must_be_valid' => true,
-                              									                'must_be_not_valid' => false)));
+							   array('model' => 'DRM', 'type' => 'object', 
+								 'must_be_valid' => true,
+								'must_be_not_valid' => false)));
 
         $r->prependRoute('drm_pdf', new DRMLightRoute('/drm/:identifiant/pdf/:periode_version.:format', 
                                                           array('module' => 'drm', 
