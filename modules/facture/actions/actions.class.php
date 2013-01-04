@@ -62,7 +62,7 @@ class factureActions extends sfActions {
         $this->societe = $this->getRoute()->getSociete();
 
         $mouvementsBySoc = array(
-				 $this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe,9)
+				 $this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe)
 				 );        
         $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$parameters);   
 

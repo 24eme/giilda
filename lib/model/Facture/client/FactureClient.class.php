@@ -38,10 +38,6 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$idClient.'-'.$date.'99')->execute($hydrate);        
     }
 
-    public function getFacturationForSociete($societe, $level) {
-        return MouvementfactureFacturationView::getInstance()->getMouvementsBySocieteWithReduce($societe, 0, 1, $level);
-    }
-
     public function createDoc($mvts, $societe, $emmetteur = null, $date_facturation = null) {
 
         $facture = new Facture();
@@ -72,13 +68,21 @@ class FactureClient extends acCouchdbClient {
         return $this->find('FACTURE-'.$idSociete . '-' . $idFacture);
     }
 
-    public function getMouvementsForMasse($regions,$level = 9) {
+    private function getReduceLevelForFacturation() {
+      return MouvementfactureFacturationView::KEYS_VRAC_DEST + 1;
+    }
+
+    public function getFacturationForSociete($societe) {
+      return MouvementfactureFacturationView::getInstance()->getMouvementsBySocieteWithReduce($societe, 0, 1, $this->getReduceLevelForFacturation());
+    }
+
+    public function getMouvementsForMasse($regions) {
         if(!$regions){
-            return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1,$level);
+            return MouvementfactureFacturationView::getInstance()->getMouvements(0, 1, $this->getReduceLevelForFacturation());
         }
         $mouvementsByRegions = array();
         foreach ($regions as $region) {
-            $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1,$region,$level),$mouvementsByRegions);
+            $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1,$region,$this->getReduceLevelForFacturation()),$mouvementsByRegions);
         } 
        return $mouvementsByRegions;    
     }
