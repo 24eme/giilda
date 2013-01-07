@@ -14,7 +14,7 @@
 					<a href="<?php echo url_for('compte_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur">Nouvel interlocuteur</a>
 					&nbsp;
 					<?php if($societe->canHaveChais()) : ?>  
-						<a href="<?php echo url_for('societe_addEtablissement', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur">Nouvel Etablissement</a>
+						<a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur">Nouvel Etablissement</a>
 					<?php endif;?>
 				</div>
 				
@@ -53,7 +53,7 @@ slot('colButtons');
     <?php if($societe->canHaveChais()) : ?>  
     <div class="contenu">
         <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('societe_addEtablissement',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel etablissement</span></a>
+            <a href="<?php echo url_for('etablissement_ajout',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel etablissement</span></a>
         </div>
     </div>
     <?php  endif; ?>
