@@ -18,6 +18,7 @@ class CompteAllView extends acCouchdbView {
     const KEY_ADRESSE = 4;
     const KEY_COMMUNE = 5;
     const KEY_CODE_POSTAL = 6;
+    const KEY_COMPTE_TYPE = 7;
     
     public static function getInstance() {
         return acCouchdbManager::getView('compte', 'all', 'Compte');
@@ -59,7 +60,7 @@ class CompteAllView extends acCouchdbView {
 	$r = $er->getData();
 	$e = new stdClass();
 	$e->id = $r['_id'];
-	$e->key = array($r['interpro'], $r['_id'], $r['nom_a_afficher'], $r['identifiant'], $r['adresse'], $r['commune'], $r['code_postal']);
+	$e->key = array($r['interpro'], $r['_id'], $r['nom_a_afficher'], $r['identifiant'], $r['adresse'], $r['commune'], $r['code_postal'], $r['compte_type']);
 	$e->value = null;
 	$res[] = $e;
       }
@@ -104,7 +105,7 @@ class CompteAllView extends acCouchdbView {
         }
         $libelle .= ') ';
 
-	$libelle .= $datas[self::KEY_IDENTIFIANT];
+	$libelle .= $datas[self::KEY_COMPTE_TYPE].' - '.$datas[self::KEY_IDENTIFIANT];
 
         return trim($libelle);
     }
