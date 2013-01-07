@@ -10,7 +10,7 @@ if (!is_null($contacts)):
                     <li id="infos_contact_vendeur">
                         <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>" target="_blank">Coordonnées de <?php echo $contact->nom_a_afficher; ?></a>
                         <ul>
-                            <li class="nom"><?php echo $contact->nom_a_afficher; ?></li>
+                            <li class="<?php if ($contact->compte_type == CompteClient::TYPE_COMPTE_SOCIETE) { echo 'societe'; } else if ($contact->compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT) {echo 'etablissement'; } else {echo 'nom';} ?>"><?php echo $contact->nom_a_afficher; ?></li>
                             <?php if ($contact->telephone_perso): ?>
                                 <li class="tel_perso"><?php echo $contact->telephone_perso; ?></li>
                             <?php endif; ?>

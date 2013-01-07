@@ -1,6 +1,7 @@
 <p id="fil_ariane">
+    <?php echo link_to("Page d'accueil", 'revendication'); ?> &GT; <?php echo link_to("Volumes Revendiqués de ".$revendication->odg." (".$revendication->campagne.")", 'revendication_upload',array('odg' => $revendication->odg,'campagne' => $revendication->campagne)); ?> &GT; 
     <strong>
-        <?php echo link_to("Page d'accueil", 'revendication'); ?> > <?php //echo link_to("Import Volumes Revendiqués", 'revendication_upload'); ?> > Import
+        Import
     </strong>
 </p><?php
         if (is_null($revendication)){

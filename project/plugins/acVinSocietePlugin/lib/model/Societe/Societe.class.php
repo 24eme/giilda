@@ -47,11 +47,9 @@ class Societe extends BaseSociete {
     }
 
     
-    public function getInterlocuteursWithOrdre() {
-        
-        
+    public function getInterlocuteursWithOrdre() {        
         foreach ($this->contacts as $key => $interlocuteur) {
-            if(is_null($interlocuteur->ordre)) $interlocuteur->ordre=0;
+            if(is_null($interlocuteur->ordre)) $interlocuteur->ordre = 2;
         }
        // $interlocuteursTries = usort($this->contacts->toArray(), array("Societe" ,"cmpOrdreContacts"));
         return $this->contacts;
@@ -132,8 +130,12 @@ class Societe extends BaseSociete {
 	} else {
 		$this->etablissements->add($e->_id)->nom = $e->nom;
 		if ($ordre !== null) {
-			$this->etablissements->add($e->_id)->ordre = $ordre;
+		  $order = 0;
 		}
+		$this->etablissements->add($e->_id)->ordre = $ordre;
+	}
+	if ($e->compte) {
+	  $this->addCompte($e->getContact(), $ordre);
 	}
     }
 
@@ -149,14 +151,20 @@ class Societe extends BaseSociete {
       if (!$this->compte_societe) {
 	$this->compte_societe = $c->_id;
       }
-	if (!$this->contacts->exist($c->_id)) {
-		$this->contacts->add($c->_id, array('nom' => $c->nom_a_afficher, 'ordre' => $ordre));
-	}else{
-		$this->contacts->add($c->_id)->nom = $c->nom_a_afficher;
-		if ($ordre !== null) {
-                        $this->contacts->add($c->_id)->ordre = $ordre;
-                }
-	}
+      if (!$c->_id) {
+	return ;
+      }
+      if (!$ordre) {
+	$ordre = 0;
+      }
+
+      $cid = 'COMPTE-'.$c->identifiant;
+      if (!$this->contacts->exist($c->_id)) {
+	$this->contacts->add($cid, array('nom' => $c->nom_a_afficher, 'ordre' => $ordre));
+      }else{
+	$this->contacts->add($cid)->nom = $c->nom_a_afficher;
+	$this->contacts->add($cid)->ordre = $ordre;
+      }
     }
     
     public static function cmpOrdreContacts($a, $b)
@@ -168,7 +176,7 @@ class Societe extends BaseSociete {
     }
 
     public function getCompte() {
-        return CompteClient::getInstance()->find($this->compte_societe);
+        $comptes = CompteClient::getInstance()->find($this->compte_societe);
     }
     
     public function setCodesComptables($is_codes) {
@@ -191,6 +199,7 @@ class Societe extends BaseSociete {
             $compte->nom_a_afficher = $this->raison_sociale;
             $compte->save(true);
             $this->compte_societe = $compte->_id;
+	    $this->addCompte($compte, -1 );
         }
         if (!$compte) {
             $compte = $this->getCompte();

@@ -5,15 +5,15 @@ class importDSTask extends importAbstractTask
 
   const CSV_DOSSIER = 0;
   const CSV_CAMPAGNE = 1;
-  const CSV_CODE_VITICULTEUR = 11;
-  const CSV_CODE_CHAI = 12;
   const CSV_NUMERO_DECLARATION = 2;
-  const CSV_NUMERO_LIGNE = 3;
-  const CSV_CODE_APPELLATION = 4;
-  const CSV_VOLUME_LIBRE = 5;
-  const CSV_VOLUME_BLOQUE = 6;
-  const CSV_DATE_CREATION = 13;
-  const CSV_DATE_MODIFICATION = 14;
+  const CSV_CODE_VITICULTEUR = 3;
+  const CSV_CODE_CHAI = 4;
+  const CSV_DATE_CREATION = 5;
+  const CSV_DATE_MODIFICATION = 6;
+  const CSV_NUMERO_LIGNE = 11;
+  const CSV_CODE_APPELLATION = 12;
+  const CSV_VOLUME_LIBRE = 13;
+  const CSV_VOLUME_BLOQUE = 14;
 
   protected function configure()
   {
@@ -83,12 +83,18 @@ EOF;
   public function importLigne($ds, $line) {
     if (is_null($ds)) {
       $ds = DSClient::getInstance()->createOrFind($this->getIdentifiant($line), $this->getDateCreation($line));
+      $ds->date_emission = $ds->date_stock;
 
       if(!$ds->getEtablissementObject()) {
         throw new sfException(sprintf("L'etablissement %s n'existe pas", $this->getIdentifiant($line)));
       }
 
       $ds->numero_archive = $this->getNumeroArchive($line);
+    }
+
+    if(!isset($line[self::CSV_NUMERO_LIGNE])) {
+
+      return $ds;
     }
 
     $config_produit = $this->getConfigurationHash($line[self::CSV_CODE_APPELLATION]);
@@ -104,7 +110,7 @@ EOF;
 
   protected function getDateCreation($line) {
 
-  	return $this->convertToDateObject($line[self::CSV_DATE_CREATION])->format('Y').'-07-31';
+  	return ($line[self::CSV_CAMPAGNE] * 1 + 1).'-07-31';
   }
 
   protected function getIdentifiant($line) {
