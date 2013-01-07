@@ -11,7 +11,7 @@ $errors_exist = (count($errors) > 0);
             
             <?php 
             if($errors_exist)
-                include_partial('revendication/uploadErreurs',array('errors' => $errors,'md5' => $md5,'odg' => $revendication->odg));
+                include_partial('revendication/uploadErreurs',array('errors' => $errors,'md5' => $md5,'odg' => $revendication->odg, 'campagne' => $revendication->campagne));
             ?>
 
             <div class="btn_etape">
