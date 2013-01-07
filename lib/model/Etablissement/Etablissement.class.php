@@ -128,7 +128,7 @@ class Etablissement extends BaseEtablissement {
         return ($this->region != EtablissementClient::REGION_HORSINTERLOIRE);
     }
 
-    public function save($fromsociete = false) {
+    public function save($fromsociete = false, $fromclient = false) {
         if ($this->recette_locale->id_douane) {
             $soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
             if ($soc && $this->recette_locale->nom != $soc->raison_sociale) {
@@ -145,6 +145,21 @@ class Etablissement extends BaseEtablissement {
         if (!$soc)
             throw new sfException("$id n'est pas une société connue");
         $this->cooperative = $soc->cooperative;
+
+	if (!$fromclient) {
+	  if ($this->siege->adresse) {
+	    if (!$this->compte) {
+	      $compte = CompteClient::getInstance()->createCompteFromEtablissement($this);
+	      $compte->save(true, true);
+	      $this->compte = $compte->_id;
+	    }else{
+	      $compte = $this->getContact();
+	      $compte->updateFromEtablissement($e);
+	      $compte->save(true, true);
+	    }
+	  }
+	}
+
         parent::save();
 
         if (!$fromsociete) {
