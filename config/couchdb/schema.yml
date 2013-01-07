@@ -35,7 +35,7 @@ DS:
               type: collection
               definition:
                 fields:
-                  code_douane: {}
+                  code_douane: { required: false }
                   produit_libelle: {}
                   produit_hash: {}
                   stock_initial: { type: float }
