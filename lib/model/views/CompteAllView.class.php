@@ -104,6 +104,8 @@ class CompteAllView extends acCouchdbView {
         }
         $libelle .= ') ';
 
+	$libelle .= $datas[self::KEY_IDENTIFIANT];
+
         return trim($libelle);
     }
 
