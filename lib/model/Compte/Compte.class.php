@@ -50,6 +50,8 @@ class Compte extends BaseCompte {
             }
         }
 
+	$this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
+
         parent::save();
         if (!$fromsociete) {
             $soc = $this->getSociete();
@@ -132,4 +134,5 @@ class Compte extends BaseCompte {
     private function majNomAAfficher($c,$p,$n){
         $this->nom_a_afficher = $c.' '.$p.' '.$n;
     }
+
 }
