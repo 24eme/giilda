@@ -95,7 +95,7 @@ class RevendicationCsvFile extends CsvFile
 	$w = fopen("$file.tmp", 'w');
 	$firstline = 1;
 	while($s = fgets($r)) {
-		if ($firstline && substr($s, 10, 1) == ';') {
+		if ($firstline && preg_match('/ *;/',substr($s, 10, 5))) {
 			return;
 		}
 		$firstline = 0;

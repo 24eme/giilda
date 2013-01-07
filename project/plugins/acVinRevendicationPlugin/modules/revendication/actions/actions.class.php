@@ -59,6 +59,7 @@ class revendicationActions extends sfActions {
                 {
                     $this->errors = $this->csv->getErrors(); 
                     $this->revendication->etape = 1;
+                    $this->form = new UploadCSVRevendicationForm($this->revendication);
                     return sfView::SUCCESS;
                 }
                     
