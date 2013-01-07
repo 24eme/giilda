@@ -355,6 +355,10 @@ EOF;
     $coherence_mouv = $this->initCoheranceWithMouvement();
 
     foreach($lines as $i => $line) {
+      if ($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_MOUVEMENT) {
+          $coherence_mouv = $this->buildCoheranceWithMouvement($coherence_mouv, $line);
+      }
+
       try{
         if(!$this->verifyLine($line)) {	
 		      continue;	
@@ -364,10 +368,6 @@ EOF;
       } catch (Exception $e) {
         $this->logLigne('ERROR', $e->getMessage(), $line, $i);
         return;
-      }
-
-      if ($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_MOUVEMENT) {
-          $coherence_mouv = $this->buildCoheranceWithMouvement($coherence_mouv, $line);
       }
       
       if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_STOCK) {
@@ -639,6 +639,9 @@ EOF;
     }
 
     switch($line[self::CSV_LIGNE_TYPE]) {
+      case self::CSV_LIGNE_TYPE_INFO:
+        return true;
+        break;
       case self::CSV_LIGNE_TYPE_DS:
         return $this->verifyLineDS($line);
         break;
@@ -662,12 +665,9 @@ EOF;
       case self::CSV_LIGNE_TYPE_MOUVEMENT:
         return $this->verifyLineMouvement($line);
         break;
-      case self::CSV_LIGNE_TYPE_STOCK:
-	return false;      
-	break;
     }
 
-    return true;
+    return false;
   }
 
   protected function verifyLineDS($line) {
@@ -683,11 +683,11 @@ EOF;
     $contrat = VracClient::getInstance()->findByNumContrat($numero_contrat, acCouchdbClient::HYDRATE_JSON);
 
     if(!$contrat) {
-	throw new sfException(sprintf("Le contrat '%s' n'existe pas", $numero_contrat));
+	    throw new sfException(sprintf("Le contrat '%s' n'existe pas", $numero_contrat));
     }
     if(!in_array($contrat->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
     	
-	return false;
+	    return false;
     }
 
     return true;
@@ -731,8 +731,8 @@ EOF;
 
   protected function verifyLineMouvement($line) {
     $this->verifyVolume($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE], true);
-  
-    return true;
+
+    return ($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]) != 0);
   }
 
   protected function constructNumeroContrat($line) {
