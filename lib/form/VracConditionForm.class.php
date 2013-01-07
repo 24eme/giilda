@@ -43,6 +43,10 @@ class VracConditionForm extends acCouchdbObjectForm {
             'commentaire' => 'Commentaires :'
         ));
         
+        $cvo_repartion_notchangeable = !is_null($this->getObject()->volume_enleve) && $this->getObject()->volume_enleve > 0;
+        if($cvo_repartion_notchangeable) 
+            $this->widgetSchema['cvo_repartition']->setAttribute('disabled', 'disabled');
+        
         $dateRegexpOptions = array('required' => true,
                 'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
                 'min_length' => 10,
@@ -59,7 +63,7 @@ class VracConditionForm extends acCouchdbObjectForm {
                                                      array('max' => 'Part variable %max% max.',
                                                            'min' => 'Part variable %min% min.')),
             'cvo_nature' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoNature()))),
-            'cvo_repartition' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))),
+            'cvo_repartition' => new sfValidatorChoice(array('required' => !$cvo_repartion_notchangeable, 'choices' => array_keys($this->getCvoRepartition()))),
             'date_signature' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),
             'date_campagne' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),
             'commentaire' => new sfValidatorString(array('required' => false))

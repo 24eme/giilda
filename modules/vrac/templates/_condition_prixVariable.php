@@ -52,8 +52,8 @@ $volume = $form->getObject()->volume_propose;
         <div id="cvo_facturee_vendeur" class="ligne_form" >
             <span>
                 <label>CVO facturée (vendeur)</label>
-                <span id="prix_facturee_vendeur"><?php printf("%0.2f", $taux / 2); ?></span>&nbsp;€/hl
-                (soit <span  id="cvo_totale_vendeur"> <?php printf("%.02f", $taux * $volume / 2); ?></span>&nbsp;€)
+                <span id="prix_facturee_vendeur"><?php sprintFloatFr($taux / 2); ?></span>&nbsp;€/hl
+                (soit <span  id="cvo_totale_vendeur"> <?php sprintFloatFr($taux * $volume / 2); ?></span>&nbsp;€)
             </span>
         </div>
 
@@ -62,8 +62,8 @@ $volume = $form->getObject()->volume_propose;
         <div id="cvo_facturee_acheteur" class="ligne_form ligne_form_alt" >
             <span>
                 <label>CVO facturée (acheteur)</label>
-	        <span  id="prix_facturee_acheteur"><?php printf("%.02f", $taux / 2); ?></span>&nbsp;€/hl
-		(soit <span  id="cvo_totale_acheteur"> <?php printf("%.02f", $taux * $volume / 2); ?></span>&nbsp;€)
+	        <span  id="prix_facturee_acheteur"><?php sprintFloatFr($taux / 2); ?></span>&nbsp;€/hl
+		(soit <span  id="cvo_totale_acheteur"> <?php sprintFloatFr($taux * $volume / 2); ?></span>&nbsp;€)
             </span>
         </div>
     </div>
@@ -80,16 +80,16 @@ $volume = $form->getObject()->volume_propose;
         switch($('#vrac_cvo_repartition').val())
           {
           case "100":
-        $('#prix_facturee_vendeur').html(cvo_taux);
+        $('#prix_facturee_vendeur').html((cvo_taux).toFixed(2));
         $('#prix_facturee_acheteur').html("0.00");
-        $('#cvo_totale_vendeur').html(cvo_taux * cvo_volume);
+        $('#cvo_totale_vendeur').html((cvo_taux * cvo_volume).toFixed(2));
         $('#cvo_totale_acheteur').html("0.00");
         break;
           case "50":
-        $('#prix_facturee_vendeur').html(cvo_taux / 2);
-        $('#prix_facturee_acheteur').html(cvo_taux / 2);
-        $('#cvo_totale_vendeur').html(cvo_taux * cvo_volume / 2);
-        $('#cvo_totale_acheteur').html(cvo_taux * cvo_volume / 2);
+        $('#prix_facturee_vendeur').html((cvo_taux / 2).toFixed(2));
+        $('#prix_facturee_acheteur').html((cvo_taux / 2).toFixed(2));
+        $('#cvo_totale_vendeur').html((cvo_taux * cvo_volume / 2).toFixed(2));
+        $('#cvo_totale_acheteur').html((cvo_taux * cvo_volume / 2).toFixed(2));
         break;
           default:
         $('#prix_facturee_vendeur').html("0.00");
