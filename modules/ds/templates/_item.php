@@ -6,9 +6,12 @@ if ($declaration->hasElaboration())
 ?>
     </td><td>
         <?php
-        if (isset($prod_vol))
-            $drm = $declaration->getDocument()->getLastDRM();
-        echo " <span>(<a href=\"" . url_for('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndversion())) . "\">Vol. DRM de juillet: $prod_vol</a>)</span>";
+    if (isset($prod_vol)) {
+      $drm = $declaration->getDocument()->getLastDRM();
+      if ($drm) {
+	echo " <span>(<a href=\"" . url_for('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndversion())) . "\">Vol. DRM de juillet: $prod_vol</a>)</span>";
+      }
+    }
         ?></td>
     <td><?php
         echo $form['volumeStock_' . $key]->renderError();
