@@ -26,17 +26,17 @@ class Compte extends BaseCompte {
         return $this->_set('id_societe', $soc->_id);
     }
 
-    public function save($fromsociete = false) {
+    public function save($fromsociete = false, $frometablissement = false) {
         if (is_null($this->adresse_societe))
             $this->adresse_societe = (int) $fromsociete;
 
         foreach ($this->origines as $origine) {
-            if (preg_match('/^ETABLISSEMENT-/', $origine)) {
+            if (preg_match('/^ETABLISSEMENT-/', $origine) && !$frometablissement) {
                 $etb = EtablissementClient::getInstance()->find($origine);
                 $etb->siege->adresse = $this->adresse;
                 $etb->siege->code_postal = $this->code_postal;
                 $etb->siege->commune = $this->commune;
-                $etb->save();
+                $etb->save(false, true);
                 $this->nom_a_afficher = $etb->nom;
                 break;
             }
@@ -92,6 +92,19 @@ class Compte extends BaseCompte {
             }
         }
         return null;
+    }
+
+    public function updateFromEtablissement($e) {
+      $this->nom = $e->nom;
+      $this->email = $e->email;
+      $this->adresse = $e->siege->adresse;
+      $this->code_postal = $e->siege->code_postal;
+      $this->commune = $e->siege->commune;
+      $this->fax = $e->fax;
+      $this->telephone_bureau = $e->telephone;
+      $this->origines->add(null, $e->id_societe);
+      $this->origines->add(null, 'ETABLISSEMENT-'.$e->identifiant);
+      return $this;
     }
 
     public function updateWithAdresseSociete() {

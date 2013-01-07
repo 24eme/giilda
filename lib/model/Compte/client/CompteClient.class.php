@@ -1,6 +1,10 @@
 <?php
 
 class CompteClient extends acCouchdbClient {
+
+  const TYPE_COMPTE_SOCIETE = "SOCIETE";
+  const TYPE_COMPTE_ETABLISSEMENT = "ETABLISSEMENT";
+  const TYPE_COMPTE_INTERLOCUTEUR = "INTERLOCUTEUR";
     
     public static function getInstance()
     {
@@ -15,6 +19,12 @@ class CompteClient extends acCouchdbClient {
         return $compte;
     }
     
+    public function createCompteFromEtablissement($e) {
+      $compte = $this->createCompte($e->getSociete());
+      $compte->updateFromEtablissement($e);
+      return $compte;
+    }
+
     public function getId($identifiant)
     {
       return 'COMPTE-'.$identifiant;
@@ -47,13 +57,13 @@ class CompteClient extends acCouchdbClient {
 
     public function createTypeFromOrigines($origines) {
       if (!count($origines))
-	return "INTERLOCUTEUR";
+	return self::TYPE_COMPTE_INTERLOCUTEUR;
       foreach ($origines as $o) {
 	if (preg_match('/ETABLISSEMENT/', $o)) {
-	  return "ETABLISSEMENT";
+	  return self::TYPE_COMPTE_ETABLISSEMENT;
 	}
       }
-      return "SOCIETE";
+      return self::TYPE_COMPTE_SOCIETE;
     }
     
 }
