@@ -388,11 +388,16 @@ EOF;
       $this->logLignes('WARNING', $e->getMessage(), $lines, $i);
     }
 
+    if(!$drm->numero_archive) {
+      $drm->numero_archive = sprintf("%05d", ArchivageAllView::getInstance()->getLastNumeroArchiveByTypeAndCampagne('DRM', $drm->campagne, '60000', '89999') + 1);
+    }
+
     $drm->valide->date_saisie = date('Y-m-d', strtotime($drm->getDate()));
     $drm->valide->date_signee = date('Y-m-d', strtotime($drm->getDate()));
 
     $drm->validate(array('no_vracs' => true));
     $drm->facturerMouvements();
+
     $drm->save();
   }
 
