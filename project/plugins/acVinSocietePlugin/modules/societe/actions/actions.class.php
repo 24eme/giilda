@@ -95,17 +95,6 @@ class societeActions extends sfActions {
         $this->etablissements = $this->societe->getEtablissementsObj();
     }
 
-    public function executeAddContact(sfWebRequest $request) {
-        $this->societe = $this->getRoute()->getSociete();
-        $this->contact = $this->societe->addNewContact();
-        $this->redirect('compte_modification', array('identifiant' => $this->contact->identifiant));
-    }
-
-    public function executeAddEtablissement(sfWebRequest $request) {
-        $this->societe = $this->getRoute()->getSociete();
-        $this->etablissement = $this->societe->addNewEtablissement();
-        $this->redirect('etablissement_new', array('identifiant' => $this->etablissement->identifiant));
-    }
 
     /*     * *************
      * Intégration

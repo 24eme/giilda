@@ -31,16 +31,16 @@ class Societe extends BaseSociete {
         return $compte;
     }
 
-    public function addNewEtablissement() {
-        $etablissement = EtablissementClient::getInstance()->createEtablissement($this);        
-        $compteForEtb = CompteClient::getInstance()->createCompte($this);
-        $compteForEtb->origines->add($etablissement->_id,$etablissement->_id);
-        $compteForEtb->save();        
-        $etablissement->compte = $compteForEtb->_id;
-        $etablissement->save(true);
-        $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
-        return $etablissement;
-    }
+//    public function addNewEtablissement() {
+//        $etablissement = EtablissementClient::getInstance()->createEtablissement($this);        
+//        $compteForEtb = CompteClient::getInstance()->createCompte($this);
+//        $compteForEtb->origines->add($etablissement->_id,$etablissement->_id);
+//        $etablissement->compte = $compteForEtb->_id;
+//        $compteForEtb->save();        
+//        $etablissement->save(true);
+//        $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
+//        return $etablissement;
+//    }
     
     public function addNewEnseigne() {
         $this->enseignes->add(count($this->enseignes),"");
@@ -200,7 +200,6 @@ class Societe extends BaseSociete {
         $compte->commune = $this->siege->commune;
 
         $compte->save(true);
-
 	if ($this->changedCooperative) {
 	  foreach($this->getEtablissementsObj() as $e) {
 	    $e->save(true);

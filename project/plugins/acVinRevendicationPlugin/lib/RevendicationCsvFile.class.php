@@ -24,23 +24,23 @@ class RevendicationCsvFile extends CsvFile
 
   private function checkLine($line) {
         if (!isset($line[self::CSV_COL_CVI])) {
-		$this->errors[] = array('message' => 'La colonne CVI est introuvable. Veuillez verifier la cohérence de la ligne', 'num_ligne' => $this->current_line);
+		$this->errors[] = array('message' => 'La colonne "CVI" est introuvable. Veuillez verifier la cohérence de la ligne', 'num_ligne' => $this->current_line);
 		return false;
 	}      
 	if (!preg_match('/^[0-9]{9}.$/', $line[self::CSV_COL_CVI])) {
-		$this->errors[] = array('message' => 'La colonne CVI devrait être constituée de nombre', 'num_ligne' => $this->current_line);
+		$this->errors[] = array('message' => 'La colonne "CVI" devrait être constituée de nombre', 'num_ligne' => $this->current_line);
 		return false;
 	}
 	if (!$line[self::CSV_COL_RAISON_SOCIALE]) {
-		$this->errors[] = array('message' => 'La colonne raison sociale ne doit pas être vide', 'num_ligne' => $this->current_line);
+		$this->errors[] = array('message' => 'La colonne "raison sociale" ne doit pas être vide', 'num_ligne' => $this->current_line);
                 return false;
 	}
         if (!$line[self::CSV_COL_VILLE]) {
-                $this->errors[] = array('message' => 'La colonne ville ne doit pas être vide', 'num_ligne' => $this->current_line);
+                $this->errors[] = array('message' => 'La colonne "ville" ne doit pas être vide', 'num_ligne' => $this->current_line);
                 return false;
         }
         if (!$line[self::CSV_COL_ADRESSE]) {
-                $this->errors[] = array('message' => 'La colonne adresse ne doit pas être vide', 'num_ligne' => $this->current_line);
+                $this->errors[] = array('message' => 'La colonne "adresse" ne doit pas être vide', 'num_ligne' => $this->current_line);
                 return false;
         }
 	if ($line[self::CSV_COL_PROPRIO_METAYER] != '1' && $line[self::CSV_COL_PROPRIO_METAYER] != '2') {
@@ -48,7 +48,7 @@ class RevendicationCsvFile extends CsvFile
                 return false;
 	}
         if (!$line[self::CSV_COL_COMMUNE]) {
-                $this->errors[] = array('message' => 'La colonne commune ne doit pas être vide', 'num_ligne' => $this->current_line);
+                $this->errors[] = array('message' => 'La colonne "commune" ne doit pas être vide', 'num_ligne' => $this->current_line);
                 return false;
         }
 
@@ -57,11 +57,11 @@ class RevendicationCsvFile extends CsvFile
                 return false;
         }
         if (!$line[self::CSV_COL_CODE_PRODUIT]) {
-                $this->errors[] = array('message' => 'La colonne code produit ne doit pas être vide', 'num_ligne' => $this->current_line);
+                $this->errors[] = array('message' => 'La colonne "code produit" ne doit pas être vide', 'num_ligne' => $this->current_line);
                 return false;
         }
         if (!$line[self::CSV_COL_LIBELLE_PRODUIT]) {
-                $this->errors[] = array('message' => 'La colonne libellé produit ne doit pas être vide', 'num_ligne' => $this->current_line);
+                $this->errors[] = array('message' => 'La colonne "libellé produit" ne doit pas être vide', 'num_ligne' => $this->current_line);
                 return false;
         }
 
