@@ -20,6 +20,13 @@ class acVinEtablissementRouting {
                         array('module' => 'etablissement_autocomplete',
                             'action' => 'byFamilles')));
 
+         $r->prependRoute('etablissement_ajout', new SocieteRoute('/etablissement/:identifiant/nouveau',
+                        array('module' => 'etablissement',
+                            'action' => 'ajout'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Societe',
+                            'type' => 'object')));
+        
         $r->prependRoute('etablissement_modification', new EtablissementRoute('/etablissement/:identifiant/modification',
                         array('module' => 'etablissement',
                             'action' => 'modification'),
@@ -27,12 +34,6 @@ class acVinEtablissementRouting {
                         array('model' => 'Etablissement',
                             'type' => 'object')));
 
-        $r->prependRoute('etablissement_new', new EtablissementRoute('/etablissement/:identifiant/modification',
-                        array('module' => 'etablissement',
-                            'action' => 'nouveau'),
-                        array('sf_method' => array('get', 'post')),
-                        array('model' => 'Etablissement',
-                            'type' => 'object')));
         $r->prependRoute('etablissement_visualisation', new EtablissementRoute('/etablissement/:identifiant/visualisation',
                         array('module' => 'etablissement',
                             'action' => 'visualisation'),

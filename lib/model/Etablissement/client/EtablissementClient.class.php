@@ -40,7 +40,6 @@ class EtablissementClient extends acCouchdbClient {
         $etablissement->famille = $famillesSocieteTypes[$societe->type_societe];
         $etablissement->statut = self::STATUT_ACTIF;
         $etablissement->constructId();
-        $etablissement->save(); //
         return $etablissement;
     }
 

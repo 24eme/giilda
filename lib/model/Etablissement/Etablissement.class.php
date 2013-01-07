@@ -135,24 +135,21 @@ class Etablissement extends BaseEtablissement {
                 $this->recette_locale->nom = $soc->raison_sociale;
             }
         }
-
         if (!$this->famille) {
             $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
         }
         if (!$this->sous_famille) {
             $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
         }
-
         $soc = SocieteClient::getInstance()->find($this->id_societe);
         if (!$soc)
             throw new sfException("$id n'est pas une société connue");
         $this->cooperative = $soc->cooperative;
-
         parent::save();
 
         if (!$fromsociete) {
             $soc->addEtablissement($this);
-            $soc->save();
+            $soc->save(true);
         }
     }
 
