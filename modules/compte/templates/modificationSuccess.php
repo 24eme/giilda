@@ -12,7 +12,7 @@
 
 			<form action="<?php echo ($compte->isNew())? url_for('compte_ajout', array('identifiant' => $societe->identifiant)) : url_for('compte_modification', array('identifiant' => $compte->identifiant)); ?>" method="post">
 			<div class="form_btn">
-				<button class="btn_majeur btn_annuler">Annuler</button>
+				<a href="<?php echo url_for('societe_visualisation',array('identifiant'=> $societe->identifiant));?>" class="btn_majeur btn_annuler">Annuler</a>
 				<button class="btn_majeur btn_valider">Valider</button>
 			</div>
 				<div id="detail_contact" class="form_section ouvert">
@@ -26,12 +26,40 @@
 						<?php include_partial('modification', array('compteForm' => $compteForm)); ?>
 					</div>
 				</div>
+                            
+			<div class="form_btn">
+				<a href="<?php echo url_for('societe_visualisation',array('identifiant'=> $societe->identifiant));?>" class="btn_majeur btn_annuler" >Annuler</a>
+                                <button class="btn_majeur btn_valider">Valider</button>
+			</div>
+                            
 			</form>
 
-			<div class="form_btn">
-				<button class="btn_majeur btn_annuler">Annuler</button>
-				<button class="btn_majeur btn_valider">Valider</button>
-			</div>
 		</div>
 	</section>
 </section>
+<?php
+slot('colButtons');
+?>
+<div id="action" class="bloc_col">
+    <h2>Action</h2>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('societe'); ?>" class="btn_majeur btn_acces"><span>Accueil des sociétés</span></a>
+        </div>
+    </div>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Accueil de la société</span></a>
+        </div>
+    </div>
+    <?php if(!$compte->isNew()) : ?>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $compte->identifiant)); ?>" class="btn_majeur btn_acces"><span>Retour au compte</span></a>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>
+<?php
+end_slot();
+?> 

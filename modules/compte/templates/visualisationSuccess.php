@@ -32,3 +32,22 @@
 		</div>
 	</section>
 </section>
+<?php
+slot('colButtons');
+?>
+<div id="action" class="bloc_col">
+    <h2>Action</h2>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('societe'); ?>" class="btn_majeur btn_acces"><span>Accueil des sociétés</span></a>
+        </div>
+    </div>
+    <div class="contenu">
+        <div class="btnRetourAccueil">
+            <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Accueil de la société</span></a>
+        </div>
+    </div>
+</div>
+<?php
+end_slot();
+?> 

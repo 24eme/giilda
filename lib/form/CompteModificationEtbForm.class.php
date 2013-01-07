@@ -11,7 +11,7 @@
  */
 class CompteModificationEtbForm extends CompteModificationForm {
 
-    public function __construct(Compte $compte, $options = array(), $CSRFSecret = null) {
+    public function __construct(Compte $compte,  $options = array(), $CSRFSecret = null) {
         parent::__construct($compte);
     }
 
