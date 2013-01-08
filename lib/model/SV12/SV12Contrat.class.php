@@ -90,7 +90,7 @@ class SV12Contrat extends BaseSV12Contrat {
         if (!$this->getVrac())
         	$mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART;  
         $mouvement->type_hash = $this->contrat_type;
-        $mouvement->type_libelle = $this->contrat_type;;
+        $mouvement->type_libelle = sprintf("Contrat %s", strtolower($this->getContratTypeLibelle()));
         $mouvement->volume = -1 * $volume;
 	    $mouvement->facturable = 1;
         $mouvement->date = $this->getDocument()->getDate();
@@ -154,6 +154,11 @@ class SV12Contrat extends BaseSV12Contrat {
     {
 
         return ConfigurationClient::getCurrent()->get($this->produit_hash);
+    }
+
+    public function getContratTypeLibelle() {
+
+        return VracClient::$types_transaction[$this->contrat_type]; 
     }
 
     function updateNoContrat($produit, $infoviti = array('contrat_type' => null, 'vendeur_identifiant' => null, 'vendeur_nom' => null))
