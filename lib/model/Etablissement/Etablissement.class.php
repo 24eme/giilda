@@ -154,7 +154,7 @@ class Etablissement extends BaseEtablissement {
 	      $this->compte = $compte->_id;
 	    }else{
 	      $compte = $this->getContact();
-	      $compte->updateFromEtablissement($e);
+	      $compte->updateFromEtablissement($this);
 	      $compte->save(true, true);
 	    }
 	  }
