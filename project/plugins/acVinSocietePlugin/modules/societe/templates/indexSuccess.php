@@ -6,18 +6,14 @@
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <h2>Gestion des contacts</h2>
-            <div id="recherche_societe" class="section_label_maj">
-                <h2>Recherche d'un société, d'un etablissement ou d'un interlocuteur</h2>
-                <form action="<?php echo url_for('societe'); ?>" method="post">
-                    <div class="section_label_maj" id="recherche_societe">
-                        <?php echo $contactsForm['identifiant']->renderError(); ?>
-                        <?php echo $contactsForm['identifiant']->render(); ?>
-                    </div>
-                    <button id="btn_rechercher" type="submit">Chercher</button>
-                </form>
-                    
-            </div>
-
+			<form action="<?php echo url_for('societe'); ?>" method="post">
+				<div class="section_label_maj" id="recherche_societe">
+					<?php echo $contactsForm['identifiant']->renderError(); ?>
+					<label for="contacts_identifiant">Recherche d'un société, d'un etablissement ou d'un interlocuteur :</label>
+					<?php echo $contactsForm['identifiant']->render(); ?>
+					<button id="btn_rechercher" type="submit">Chercher</button>
+				</div>
+			</form>
         </section>
     </section>
 <?php
