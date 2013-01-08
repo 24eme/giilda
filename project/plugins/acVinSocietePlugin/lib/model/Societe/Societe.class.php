@@ -204,7 +204,6 @@ class Societe extends BaseSociete {
 	    $this->addCompte($compte, -1 );
         }
         if (!$compte) {
-	  echo "Récupère le compte du get compte\n";
             $compte = $this->getCompte();
         }
 	if (isset($this->siege)) {
