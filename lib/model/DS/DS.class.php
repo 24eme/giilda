@@ -108,6 +108,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 
     protected function preSave() {
         $this->archivage_document->preSave();
+	$this->updateProduits();
     }
 
     /*** DECLARANT ***/
