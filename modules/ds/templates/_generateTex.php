@@ -1,5 +1,7 @@
 <?php
 use_helper('Date');
+use_helper('Display');
+$pointille = ' . . . . . . . . . . . . . . . . . . . . . . . . . .';
 ?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
@@ -39,21 +41,27 @@ use_helper('Date');
 \def\DSNUMERO{<?php echo $ds->_id; ?>}
 
 \def\DSClientNUM{<?php echo $ds->identifiant; ?>}
-\def\DSClientCVI{<?php echo ($ds->declarant->cvi) ? $ds->declarant->cvi : ' . . . . . . . . . . . . . . . . . . . . . . . . .'; ?>}
+\def\DSClientCVI{<?php echo ($ds->declarant->cvi) ? $ds->declarant->cvi : $pointille; ?>}
+
 \def\DSClientNom{<?php
 $nom = ($ds->declarant->raison_sociale) ? $ds->declarant->raison_sociale : $ds->declarant->nom;
-echo ($nom) ? $nom : ' . . . . . . . . . . . . . . . . . . . . . . . . .';
+echo ($nom) ? cut_latex_string($nom,35) : $pointille;
 ?>}
-\def\DSClientAdresse{<?php echo ($ds->declarant->adresse) ? $ds->declarant->adresse : ' . . . . . . . . . . . . . . . . . . . . . . . . .'; ?>}
-\def\DSClientCP{<?php echo $ds->declarant->code_postal; ?>}
-\def\DSClientVille{<?php echo $ds->declarant->commune; ?>}
-\def\DSClientTelephone{<?php echo ($etablissement->getContact()->telephone_bureau) ? $etablissement->getContact()->telephone_bureau : ' . . . . . . . . . . . . . . . . . . . . . . . . .'; ?>}
-\def\DSClientMobile{<?php echo ($etablissement->getContact()->telephone_mobile) ? $etablissement->getContact()->telephone_mobile : ' . . . . . . . . . . . . . . . . . . . . . . . . .'; ?>}
-\def\DSClientFax{<?php echo ($etablissement->getContact()->fax) ? $etablissement->getContact()->fax : ' . . . . . . . . . . . . . . . . . . . . . . . . .'; ?>}
+\def\DSClientAdresse{<?php echo ($ds->declarant->adresse) ? cut_latex_string($ds->declarant->adresse,35) : $pointille; ?>}
 
+\def\DSClientCP{<?php echo $ds->declarant->code_postal; ?>}
+\def\DSClientVille{<?php echo cut_latex_string($ds->declarant->commune,29); ?>}
+\def\DSClientTelephone{<?php echo ($etablissement->getContact()->telephone_bureau) ? $etablissement->getContact()->telephone_bureau : $pointille; ?>}
+\def\DSClientMobile{<?php echo ($etablissement->getContact()->telephone_mobile) ? $etablissement->getContact()->telephone_mobile : $pointille; ?>}
+\def\DSClientFax{<?php echo ($etablissement->getContact()->fax) ? $etablissement->getContact()->fax : $pointille; ?>}
+
+
+\def\DSClientNomFenetre{<?php  echo display_latex_string($nom,';',30); ?>}
+\def\DSClientAdresseFenetre{<?php echo display_latex_string($ds->declarant->adresse,';',45); ?>}
+\def\DSClientVilleFenetre{<?php echo display_latex_string($ds->declarant->commune,';',35); ?>}
 
 \def\InterloireAdresse{\textbf{INTERLOIRE} - 12, rue Etienne Pallu - BP 61921 - 37019 TOURS CEDEX 01 \\
-Tél. : 02 47 60 55 17 - Fax : 02 47 60 55 19} 
+Tél. : 02 47 60 55 00 - Fax : 02 47 60 55 19} 
 
 
 \begin{document}
@@ -80,6 +88,7 @@ Tél. : 02 47 60 55 17 - Fax : 02 47 60 55 19}
 
 \begin{minipage}[t]{0.5\textwidth}
 \begin{flushleft}
+$\square$ Informations correctes~~~$\square$ Informations à corriger
 \begin{tikzpicture}
 \node[inner sep=1pt] (tab2){
 \begin{tabular}{>{\columncolor{lightgray}} l | p{102mm}}
@@ -110,19 +119,18 @@ Tél. : 02 47 60 55 17 - Fax : 02 47 60 55 19}
 \end{tabular}
 };
 \node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab2.north west) (tab2.north east) (tab2.south east) (tab2.south west)] {};	
-\end{tikzpicture}        
+\end{tikzpicture} 
 \end{flushleft}
-\end{minipage}   
+\end{minipage}
 \hfill
-\hspace{2cm}
+\hspace{1.5cm}
 \begin{minipage}[t]{0.5\textwidth}
-\vspace{-2cm}
+\vspace{1cm}
 \begin{flushleft}		
-\textbf{\DSClientNom \\}				
-\DSClientAdresse \\
-\DSClientCP ~\DSClientVille \\
+\textbf{\DSClientNomFenetre \\}				
+\DSClientAdresseFenetre \\
+\DSClientCP ~\DSClientVilleFenetre \\
 \end{flushleft}
-\hspace{6cm}
 \end{minipage}
 
 \begin{minipage}[t]{0.5\textwidth}
@@ -141,8 +149,6 @@ page \thepage / 1
 \textbf{RENSEIGNEMENTS RELATIFS AUX STOCKS DE VIN AU \DSSTOCKSDATE}}
 \end{center}
 
-$\square$ informations correctes~~~$\square$ informations à corriger
-
 \centering
 \begin{tikzpicture}
 \node[inner sep=1pt] (tab1){
@@ -151,7 +157,7 @@ $\square$ informations correctes~~~$\square$ informations à corriger
 
 \rowcolor{lightgray}
 \centering \textbf{Code} &
-\centering \textbf{Produits} &
+\centering \textbf{Appellations} &
 \centering \textbf{Volume en hl} &
 \centering \textbf{VCI} &
 \multicolumn{1}{>{\columncolor{lightgray}} c|}{ \textbf{Reserve qual.}} 
@@ -187,7 +193,7 @@ foreach ($ds->declarations as $declaration) :
     endif;
 endforeach;
 
-for ($i = 0; $i < (34 - count($ds->declarations)); $i++) :
+for ($i = 0; $i < (33 - count($ds->declarations)); $i++) :
     ?>
     ~ & ~ & ~ & ~ & ~ \\ \hline 
 <?php endfor; ?>            
@@ -196,7 +202,7 @@ for ($i = 0; $i < (34 - count($ds->declarations)); $i++) :
 \node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};	
 
 \end{tikzpicture}
-
+\small{VCI : Volumes complémentaires individuels en attente de revendication - Réserve qualitative : Volumes en attente de revendication}
 \begin{center}
 \hspace{5cm}
 Date et signature :	
