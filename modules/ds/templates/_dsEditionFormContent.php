@@ -24,7 +24,7 @@ echo $form->renderGlobalErrors();
                     $prod_vol = '';
                     if($declaration->stock_initial) 
 		      $prod_vol = getArialFloat($declaration->stock_initial);
-                    include_partial('item',array('form' => $form, 'key' => $key, 'ds_origine' => , preg_replace ('/.*-(\d{4})(\d{2})$/', '\2/\1', $declaration->drm_origine), 'declaration' => $declaration, 'prod_libelle' => $declaration->produit_libelle, 'prod_vol' => $prod_vol));
+                    include_partial('item',array('form' => $form, 'key' => $key, 'ds_origine' => preg_replace ('/.*-(\d{4})(\d{2})$/', '\2/\1', $declaration->getDocument()->drm_origine), 'declaration' => $declaration, 'prod_libelle' => $declaration->produit_libelle, 'prod_vol' => $prod_vol));
                
             }
     ?>
