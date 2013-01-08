@@ -63,6 +63,7 @@ Revendication:
                                           date_certification: {  }
                                           numero_certification: {  }
                                           ligne: {  }
+                                          date_insertion: { required: false}
       erreurs:
         type: collection
         definition:
