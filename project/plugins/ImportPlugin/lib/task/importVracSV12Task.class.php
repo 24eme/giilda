@@ -72,11 +72,6 @@ EOF;
       }
       $vrac->save();
 
-      if ($vrac->campagne == '2012-2013') {
-        
-        continue;
-      }
-
       try{
         $sv12 = $this->importLine($sv12, $vrac, $line);
       } catch (Exception $e) {
@@ -93,6 +88,11 @@ EOF;
     $sv12->valide->date_saisie = $sv12->getDate();
 
     $sv12->validate(array('pas_solder' => true));
+
+    if ($sv12->campagne == ConfigurationClient::getInstance()->buildCampagne(date('Y-m-d'))) { 
+        $sv12->valide->statut = SV12Client::STATUT_VALIDE_PARTIEL;
+    }
+
     $sv12->facturerMouvements();
     $sv12->save();
   }

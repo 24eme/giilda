@@ -180,25 +180,24 @@ EOF;
         if (in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
           	$v->bouteilles_contenance_volume = $line[self::CSV_COEF_CONVERSION_PRIX] * 0.01;
 		        $v->bouteilles_contenance_libelle = $this->getBouteilleContenanceLibelle($v->bouteilles_contenance_volume);
-          	$v->bouteilles_quantite = (int)round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]) / $v->bouteilles_contenance_volume);
+          	$v->bouteilles_quantite = (int)($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]) / $v->bouteilles_contenance_volume);
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_MOUTS,
                                                       VracClient::TYPE_TRANSACTION_VIN_VRAC))) {
           	$v->jus_quantite = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
         } elseif(in_array($v->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS))) {
       		if($line[self::CSV_UNITE_VOLUME] == 'kg') {  
-      			$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME], 2));
+      			$v->raisin_quantite = $this->convertToFloat($line[self::CSV_VOLUME]);
       		} else {
-      			$v->raisin_quantite = round($this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL] * $this->getDensite($line) * 100), 2);
+      			$v->raisin_quantite = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL] * $this->getDensite($line) * 100);
       		}	
 	      }
 
         $v->volume_propose = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
-
         $v->volume_enleve = $this->convertToFloat($line[self::CSV_VOLUME_ENLEVE_HL]);
 
-        $v->prix_initial_unitaire = round($this->convertToFloat($this->calculPrixInitialUnitaire($v, $line)), 2);
-        $v->prix_initial_unitaire_hl = round($this->convertToFloat($line[self::CSV_PRIX_AU_LITRE]), 2);
-        $v->prix_initial_total = round($v->prix_initial_unitaire_hl * $v->volume_propose, 2);
+        $v->prix_initial_unitaire = $this->convertToFloat($this->calculPrixInitialUnitaire($v, $line));
+        $v->prix_initial_unitaire_hl = $this->convertToFloat($line[self::CSV_PRIX_AU_LITRE]);
+        $v->prix_initial_total = $v->prix_initial_unitaire_hl * $v->volume_propose;
 
         $v->type_contrat = $this->convertTypeContrat($line[self::CSV_TYPE_CONTRAT]);
 
@@ -211,27 +210,9 @@ EOF;
         }
 
         if($v->hasPrixVariable() && $line[self::CSV_PRIX_DEFINITIF]) {
-          $v->prix_unitaire = round($this->convertToFloat($this->calculPrixDefinitifUnitaire($v, $line)), 2);
-          $v->prix_unitaire_hl = round($this->convertToFloat($line[self::CSV_PRIX_DEFINITIF]), 2);
-          $v->prix_total = round($v->prix_unitaire_hl * $v->volume_propose, 2);;
-        }
-
-        if(!round($this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]), 2)) {
-          $v->cvo_repartition = VracClient::CVO_REPARTITION_0_VINAIGRERIE;
-        } elseif(abs($line[self::CSV_COTISATION_CVO_VITICULTEUR] - $line[self::CSV_COTISATION_CVO_NEGOCIANT]) <= 0.01) {
-          $v->cvo_repartition = VracClient::CVO_REPARTITION_50_50;
-        } else {
-          $v->cvo_repartition = VracClient::CVO_REPARTITION_100_VITI;          
-        }
-
-        if($v->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI && $line[self::CSV_COTISATION_CVO_NEGOCIANT] > 0) {
-          
-          $this->logLigne('WARNING', sprintf("Incohérence de CVO VITI v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]), $line);
-        }
-
-        if($v->cvo_repartition == VracClient::CVO_REPARTITION_0_VINAIGRERIE && $line[self::CSV_COTISATION_CVO_NEGOCIANT]) {
-
-          $this->logLigne('WARNING', sprintf("Incohérence de CVO VINAIG v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]), $line);
+          $v->prix_unitaire = $this->convertToFloat($this->calculPrixDefinitifUnitaire($v, $line));
+          $v->prix_unitaire_hl = $this->convertToFloat($line[self::CSV_PRIX_DEFINITIF]);
+          $v->prix_total = $v->prix_unitaire_hl * $v->volume_propose;
         }
 
         $v->attente_original = $this->convertOuiNon($line[self::CSV_ATTENTE_ORIGINAL]);
@@ -239,6 +220,23 @@ EOF;
         $v->categorie_vin = $line[self::CSV_CATEGORIE_VIN] == "D" ? VracClient::CATEGORIE_VIN_DOMAINE : VracClient::CATEGORIE_VIN_GENERIQUE;
 
         $v->cvo_nature = $this->convertCvoNature($line[self::CSV_TYPE_CONTRAT]);
+
+        if(in_array($v->cvo_nature, array(VracClient::CVO_NATURE_VINAIGRERIE, VracClient::CVO_NATURE_NON_FINANCIERE)) || ($this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]) == 0 && $this->convertToFloat($line[self::CSV_COTISATION_CVO_NEGOCIANT]) == 0)) {
+          $v->_set('cvo_repartition', VracClient::CVO_REPARTITION_0_VINAIGRERIE);
+        } elseif(abs($line[self::CSV_COTISATION_CVO_VITICULTEUR] - $line[self::CSV_COTISATION_CVO_NEGOCIANT]) >= 0.5) {
+          $v->_set('cvo_repartition', VracClient::CVO_REPARTITION_50_50);
+        } else {
+          $v->_set('cvo_repartition', VracClient::CVO_REPARTITION_100_VITI);  
+        }
+
+        if(!$v->cvo_repartition) {
+          $this->logLigne('WARNING', sprintf("Répartition de la CVO vide"), $line);
+        } 
+
+        if($v->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI && $this->convertToFloat($line[self::CSV_COTISATION_CVO_NEGOCIANT]) > 0) {
+          
+          $this->logLigne('WARNING', sprintf("Incohérence de CVO VITI v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]), $line);
+        }
 
         $v->valide->statut = $line[self::CSV_CONTRAT_SOLDE] == "O" ? VracClient::STATUS_CONTRAT_SOLDE : VracClient::STATUS_CONTRAT_NONSOLDE;
 
