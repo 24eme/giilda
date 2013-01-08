@@ -17,7 +17,7 @@
                 <td><?php echo $ds->key[DSHistoryView::KEY_CAMPAGNE]; ?></td>
                 <td><a href="<?php echo url_for('ds_pdf',array('identifiant' => $ds->key[DSHistoryView::KEY_IDENTIFIANT], 'periode' => $ds->key[DSHistoryView::KEY_PERIODE])); ?>" id="saisie_ds" ><?php echo $ds->value[DSHistoryView::VALUE_DS_ID]; ?></a></td>
                 <td><?php echo $ds->value[DSHistoryView::VALUE_DECLARANT_NUMERO_ARCHIVE]; ?> </td>
-                <td><?php echo DSClient::getInstance()->getLibelleStatutForHistory($ds->key[DSHistoryView::KEY_STATUT]); ?></td>
+                <td><?php if ($ds->key[DSHistoryView::KEY_STATUT] == DSClient::STATUT_A_SAISIR) echo "A saisir"; else echo "Validée"; ?></td>
                 <td>
 <?php if ($ds->key[DSHistoryView::KEY_STATUT] == DSClient::STATUT_A_SAISIR) : ?>
 <a href="<?php echo url_for('ds_edition_operateur',array('identifiant' => $ds->key[DSHistoryView::KEY_IDENTIFIANT], 'periode' => $ds->key[DSHistoryView::KEY_PERIODE])); ?>" id="saisie_ds" >Saisir</a>

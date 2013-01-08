@@ -23,7 +23,7 @@ use_helper('Display');
 	<div class="ligne_form ligne_form_alt">
 		<span>
 			<label>Etat : </label>
-			<?php echo DSClient::getInstance()->getLibelleStatutForHistory($ds->statut); ?>
+                <?php if ($ds->key[DSHistoryView::KEY_STATUT] == DSClient::STATUT_A_SAISIR) echo "A saisir"; else echo "Validée"; ?>
 		</span>
 	</div>
 </div>
