@@ -392,7 +392,8 @@ DRM:
             date_saisie: {  }
             date_signee: {  }
             identifiant: {  }
-            status: {  }
+            status: { required: false }
+            statut: { }
       douane:
         type: collection
         definition:
