@@ -99,20 +99,4 @@ class DSClient extends acCouchdbClient {
 		}
         return null;
     }
-
-    public function getLinkLibelleForHistory($statut) {
-        if ($statut == self::STATUT_A_SAISIR)
-            return '> Démarrer la saisie';
-        if ($statut == self::STATUT_VALIDE)
-            return '> Consulter';
-        return '';
-    }
-
-    public function getLibelleStatutForHistory($statut) {
-        if ($statut == self::STATUT_A_SAISIR)
-            return 'A saisir';
-        if ($statut == self::STATUT_VALIDE)
-            return 'Validé';
-        return '';
-    }
 }
