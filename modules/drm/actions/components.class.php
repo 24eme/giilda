@@ -186,7 +186,7 @@ class drmComponents extends sfComponents {
             if (!isset($this->recaps[$ds->produit_hash])) {
                 $this->recaps[$ds->produit_hash] = $this->initLigneRecap($ds->produit_hash);
             }
-            $this->recaps[$ds->produit_hash]['volume_stock_deput_ds'] = $ds->volume;
+            $this->recaps[$ds->produit_hash]['volume_stock_debut_ds'] = $ds->volume;
         }
 
         $contrats = VracStocksView::getInstance()->findVinByCampagneAndEtablissement($this->campagne, $this->etablissement);
