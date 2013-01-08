@@ -21,7 +21,7 @@
         </div>
         <div class="form_ligne">
             <label for="statut">
-                Statut : 
+                Type : 
             </label>
             <?php echo $societe->type_societe; ?>
         </div>    
@@ -39,7 +39,7 @@
                     Numero de compte Fournisseur : 
                 </label>
 
-                <?php echo $societe->numero_compte_fournisseur; ?>
+                <?php echo $societe->code_comptable_fournisseur; ?>
             </div>  
         <?php endif; ?>
         <div class="form_ligne">

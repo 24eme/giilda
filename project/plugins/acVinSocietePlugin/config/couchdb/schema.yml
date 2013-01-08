@@ -16,7 +16,6 @@ Societe:
       siret: { }
       interpro: { }
       no_tva_intracommunautaire: { }
-      carte_professionnelle: { }
       commentaire: { }
       siege:
         type: collection

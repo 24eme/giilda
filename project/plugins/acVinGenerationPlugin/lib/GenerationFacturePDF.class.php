@@ -18,7 +18,7 @@ class GenerationFacturePDF extends GenerationPDF {
     public function preGeneratePDF() {
        parent::preGeneratePDF();     
        $regions = explode(',',$this->generation->arguments->regions);
-       $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse($regions,9); 
+       $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse($regions); 
        $mouvementsBySoc = FactureClient::getInstance()->getMouvementsNonFacturesBySoc($allMouvementsByRegion);
        $arguments = $this->generation->arguments->toArray();
        $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$arguments);

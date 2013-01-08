@@ -7,7 +7,10 @@ class RevendicationClient extends acCouchdbClient {
     }
 
     public function getId($odg, $campagne) {
-        return 'REVENDICATION-' . strtoupper($odg) . '-' . $campagne;
+      if (!preg_match('/[0-9]{4}-[0-9]{4}/', $campagne)) {
+	throw new sfException("Wrong campagne format ($campagne)");
+      }
+      return 'REVENDICATION-' . strtoupper($odg) . '-' . $campagne;
     }
 
     public function findByOdgAndCampagne($odg, $campagne, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
@@ -47,8 +50,10 @@ class RevendicationClient extends acCouchdbClient {
     }
 
     public function getParametersFromId($id) {
-        preg_match('/^REVENDICATION-([A-Z]*)-([0-9]{4}-[0-9]{4})$/', $id, $matches);
+      if (preg_match('/^REVENDICATION-([A-Z]*)-([0-9]{4}-[0-9]{4})$/', $id, $matches)) {
         return array('odg' => strtolower($matches[1]), 'campagne' => $matches[2]);
+      }
+      throw new sfException("$id is not a revendication ID");
     }
 
     public function getODGs() {
@@ -76,5 +81,12 @@ class RevendicationClient extends acCouchdbClient {
     
     public function deleteRevendication($revendication){   
         $this->delete($revendication);
+    }
+
+    public function save($document = null) {
+      if (!preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)) {
+	throw new sfException("Wrong campagne format (".$this->campagne.")");
+      }
+      return parent::save();
     }
 }

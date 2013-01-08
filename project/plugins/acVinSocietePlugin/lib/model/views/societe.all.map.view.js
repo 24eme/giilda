@@ -7,7 +7,7 @@ function(doc) {
             doc.raison_sociale, 
             doc.identifiant, 
             doc.siret,
-            doc.commune, 
-            doc.code_postal], null);
+            doc.siege.commune, 
+            doc.siege.code_postal], null);
     }
 }

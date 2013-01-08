@@ -120,7 +120,7 @@ class importDRMTask extends importAbstractTask
   const CSV_VENTE_CODE_SITE = 31;
   const CSV_VENTE_NUMERO_FACTURE = 32;
 
-  const CSV_ACHAT_DOSSIER = 5;
+  /*const CSV_ACHAT_DOSSIER = 5;
   const CSV_ACHAT_CAMPAGNE = 6;
   const CSV_ACHAT_NUMERO = 7;
   const CSV_ACHAT_CODE_PARTENAIRE = 8;
@@ -140,7 +140,7 @@ class importDRMTask extends importAbstractTask
   const CSV_ACHAT_CODE_APPELLATION_INAO = 24;
   const CSV_ACHAT_MILLESIME = 25;
   const CSV_ACHAT_DATE_CERTIFICAT = 26;
-  const CSV_ACHAT_LABEL_AGREMENT = 27;
+  const CSV_ACHAT_LABEL_AGREMENT = 27;*/
 
   const CSV_DIVERS_DOSSIER = 5;
   const CSV_DIVERS_CAMPAGNE = 6;
@@ -306,14 +306,12 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
     set_time_limit(0);
     $i = 1;
     $id = null;
     $lines = array();
     foreach(file($arguments['file']) as $line) {
       $data = str_getcsv($line, ';');
-
       if($id && $id != $this->getId($data)) {
         $this->importDRM($lines);
         $lines = array();
@@ -323,6 +321,8 @@ EOF;
       $lines[$i] = $data;
       $i++;
     }
+
+    $this->importDRM($lines);
 
   }
 
@@ -356,8 +356,11 @@ EOF;
 
     foreach($lines as $i => $line) {
       try{
-        $this->verifyLine($line);
-        $drm = $this->importLigne($drm, $line);
+        if(!$this->verifyLine($line)) {	
+		      continue;	
+	      }
+
+	      $drm = $this->importLigne($drm, $line);
       } catch (Exception $e) {
         $this->logLigne('ERROR', $e->getMessage(), $line, $i);
         return;
@@ -366,6 +369,15 @@ EOF;
       if ($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_MOUVEMENT) {
           $coherence_mouv = $this->buildCoheranceWithMouvement($coherence_mouv, $line);
       }
+      
+      if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_STOCK) {
+          $this->verifCoherenceWithStock($drm, $line);
+      }
+    }
+
+    if(is_null($drm)) {
+	    $this->logLignes('WARNING', sprintf("La DRM n'a pas été créée alors qu'il existe des lignes"), $lines, $i);
+	    return;
     }
 
     $drm->update();
@@ -376,8 +388,8 @@ EOF;
       $this->logLignes('WARNING', $e->getMessage(), $lines, $i);
     }
 
-    $drm->valide->date_saisie = date('c', strtotime($drm->getDate()));
-    $drm->valide->date_signee = date('c', strtotime($drm->getDate()));
+    $drm->valide->date_saisie = date('Y-m-d', strtotime($drm->getDate()));
+    $drm->valide->date_signee = date('Y-m-d', strtotime($drm->getDate()));
 
     $drm->validate(array('no_vracs' => true));
     $drm->facturerMouvements();
@@ -385,6 +397,7 @@ EOF;
   }
 
   public function importLigne($drm, $line) {
+	  
     if (is_null($drm)) {
       $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($this->getIdentifiant($line), $this->getPeriode($line), true);
 
@@ -394,6 +407,10 @@ EOF;
 
       if(!$drm->getEtablissement()) {
         throw new sfException(sprintf("L'etablissement %s n'existe pas", $this->getIdentifiant($line)));
+      }
+
+      if($drm->getEtablissement()->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR) {
+        throw new sfException(sprintf("L'etablissement %s n'est pas un producteur", $this->getIdentifiant($line)));
       }
     }
 
@@ -460,20 +477,20 @@ EOF;
     $cvo = $this->convertToFloat($line[self::CSV_CONTRAT_COTISATION_CVO_VITICULTEUR] + $line[self::CSV_CONTRAT_COTISATION_CVO_NEGOCIANT]);
 
     if($produit->cvo->taux && $produit->cvo->taux != $cvo) {
-      throw new sfException(sprintf("Deux taux de cvo différent ont été défini pour un produit d'une même DRM %s / %s", $produit->cvo->taux, $cvo));      
-    }
-    $produit->cvo->taux = $cvo;
-
-    $numero_contrat = $this->constructNumeroContrat($line);
-    $contrat = VracClient::getInstance()->findByNumContrat($numero_contrat);
-
-    if(!$contrat) {
-      throw new sfException(sprintf("Le contrat '%s' n'existe pas", $numero_contrat));
+      $this->logLigne('WARNING', sprintf("Deux taux de cvo différent ont été défini pour un produit d'une même DRM %s / %s", $produit->cvo->taux, $cvo), $line);
     }
 
-    $produit->sorties->vrac_details->addDetail($contrat->get('_id'),
+    if(!$produit->cvo->taux) {
+      $produit->cvo->taux = $cvo;
+    }
+
+    $detail = $produit->sorties->vrac_details->addDetail('VRAC-'.$this->constructNumeroContrat($line),
                                                $this->convertToFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]),
-                                               $line[self::CSV_CONTRAT_DATE_ENLEVEMENT]);
+                                               $this->convertToDateObject($line[self::CSV_CONTRAT_DATE_ENLEVEMENT])->format('Y-m-d'));
+    
+    if ($detail->volume < 0) {
+	 throw new sfException(sprintf("Le volume enlevé sur le contrat est négatif %s", $detail->volume));
+    }
   }
 
   public function importLigneVente($drm, $line) {
@@ -487,9 +504,10 @@ EOF;
     $produit->cvo->taux = $cvo;
 
     if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) > 0) {
-      $produit->sorties->export_details->addDetail($this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]),
+      $code_pays = $this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]);
+      $produit->sorties->export_details->addDetail($code_pays,
                                                    $this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]),
-                                                   $line[self::CSV_VENTE_DATE_SORTIE]);
+                                                   $this->convertToDateObject($line[self::CSV_VENTE_DATE_SORTIE])->format('Y-m-d'));
     } elseif($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) < 0) {
       $produit->entrees->reintegration += abs($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]));
     }
@@ -508,10 +526,9 @@ EOF;
   }
 
   public function importLigneDivers($drm, $line) {
-
-    if($line[self::CSV_DIVERS_ANNULATION] == self::CSV_ANNULATION_OUI) {
+    /*if($line[self::CSV_DIVERS_ANNULATION] == self::CSV_ANNULATION_OUI) {
       return;
-    }
+    }*/
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
@@ -535,6 +552,11 @@ EOF;
       return;
     }
 
+    if($line[self::CSV_DIVERS_CODE_MOUVEMENT] == 89) {
+      $produit->sorties->consommation += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
+      return;
+    }
+
     if($line[self::CSV_DIVERS_TEXTE_MOUVEMENT] == "REPLI") {
       $produit->sorties->repli += $this->convertToFloat($line[self::CSV_DIVERS_VOLUME_HL]);
       $produit_repli = $drm->addProduit($this->getHash($line[self::CSV_DIVERS_CODE_APPELLATION_2]));
@@ -546,22 +568,22 @@ EOF;
   }
 
   public function importLigneCave($drm, $line) {
-    if($line[self::CSV_CAVE_ANNULATION] == self::CSV_ANNULATION_OUI) {
+    /*if($line[self::CSV_CAVE_ANNULATION] == self::CSV_ANNULATION_OUI) {
       return;
-    }
+    }*/
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
-
+    
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
-      $etablissement = EtablissementClient::getInstance()->find($line[self::CSV_CAVE_CODE_COOPERATEUR]);
+      $etablissement = EtablissementClient::getInstance()->find($line[self::CSV_CAVE_CODE_COOPERATEUR], acCouchdbClient::HYDRATE_JSON);
       if(!$etablissement) {
 
-        throw new sfException(sprintf("L'établissement cave coop '%s' n'existe pas", $line[self::CSV_CAVE_CODE_COOPERATEUR]));
+	      throw new sfException(sprintf("L'établissement cave coop '%s' n'existe pas", sprintf("%06d%02d", $line[self::CSV_CAVE_CODE_COOPERATEUR], $line[self::CSV_CAVE_CODE_COOPERATEUR_CHAI])));
       }
 
-      $produit->sorties->cooperative_details->addDetail($etablissement->get('_id'),
+      $produit->sorties->cooperative_details->addDetail($etablissement->_id,
                                                         $this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]),
-                                                        $line[self::CSV_CAVE_DATE_MOUVEMENT]);
+                                                        $this->convertToDateObject($line[self::CSV_CAVE_DATE_MOUVEMENT])->format('Y-m-d'));
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
@@ -570,9 +592,9 @@ EOF;
   }
 
   public function importLigneTransfert($drm, $line) {
-    if($line[self::CSV_TRANSFERT_ANNULATION] == self::CSV_ANNULATION_OUI) {
+    /*if($line[self::CSV_TRANSFERT_ANNULATION] == self::CSV_ANNULATION_OUI) {
       return;
-    }
+    }*/
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
@@ -618,55 +640,81 @@ EOF;
 
     switch($line[self::CSV_LIGNE_TYPE]) {
       case self::CSV_LIGNE_TYPE_DS:
-        $this->verifyLineDS($line);
+        return $this->verifyLineDS($line);
         break;
       case self::CSV_LIGNE_TYPE_CONTRAT:
-        $this->verifyLineContrat($line);
+        return $this->verifyLineContrat($line);
         break;
       case self::CSV_LIGNE_TYPE_DIVERS:
-        $this->verifyLineDivers($line);
+        return $this->verifyLineDivers($line);
         break;
       case self::CSV_LIGNE_TYPE_CAVE_VITI:
       case self::CSV_LIGNE_TYPE_CAVE_COOP:
-        $this->verifyLineCave($line);
+        return $this->verifyLineCave($line);
         break;
       case self::CSV_LIGNE_TYPE_TRANSFERT_ENTREE:
       case self::CSV_LIGNE_TYPE_TRANSFERT_SORTIE:
-        $this->verifyLineTransfert($line);
+        return $this->verifyLineTransfert($line);
         break;
       case self::CSV_LIGNE_TYPE_VENTE:
-        $this->verifyLineVente($line);
+        return $this->verifyLineVente($line);
         break;
       case self::CSV_LIGNE_TYPE_MOUVEMENT:
-        $this->verifyLineMouvement($line);
+        return $this->verifyLineMouvement($line);
         break;
+      case self::CSV_LIGNE_TYPE_STOCK:
+	return false;      
+	break;
     }
+
+    return true;
   }
 
   protected function verifyLineDS($line) {
      $this->verifyVolume($line[self::CSV_DS_VOLUME_LIBRE]);
+  	
+     return true;
   }
 
   protected function verifyLineContrat($line) {
-    $this->verifyVolume($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]);
+    $this->verifyVolume($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL], true);
+  
+    $numero_contrat = $this->constructNumeroContrat($line);
+    $contrat = VracClient::getInstance()->findByNumContrat($numero_contrat, acCouchdbClient::HYDRATE_JSON);
+
+    if(!$contrat) {
+	throw new sfException(sprintf("Le contrat '%s' n'existe pas", $numero_contrat));
+    }
+    if(!in_array($contrat->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
+    	
+	return false;
+    }
+
+    return true;
   }
 
   protected function verifyLineVente($line) {
     $this->verifyVolume($line[self::CSV_VENTE_VOLUME_CRD], true);
     $this->verifyVolume($line[self::CSV_VENTE_VOLUME_CONGE], true);
     $this->verifyVolume($line[self::CSV_VENTE_VOLUME_EXPORT], true);
+  
+    return true;
   }
 
   protected function verifyLineDivers($line) {
-    $this->verifyVolume($line[self::CSV_DIVERS_VOLUME_HL]);
+    $this->verifyVolume($line[self::CSV_DIVERS_VOLUME_HL], true);
 
     if($line[self::CSV_DIVERS_TEXTE_MOUVEMENT] == "REPLI") {
       $this->getHash($line[self::CSV_DIVERS_CODE_APPELLATION_2]);
     }
+
+    return true;
   }
 
   protected function verifyLineTransfert($line) {
-    $this->verifyVolume($line[self::CSV_TRANSFERT_VOLUME_HL]);
+    $this->verifyVolume($line[self::CSV_TRANSFERT_VOLUME_HL], true);
+  
+    return true;
   }
 
   protected function verifyLineCave($line) {
@@ -677,10 +725,14 @@ EOF;
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
       $this->verifyVolume($line[self::CSV_CAVE_VOLUME_ENTREE]);
     }
+
+    return true;
   }
 
   protected function verifyLineMouvement($line) {
-    $this->verifyVolume($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]);
+    $this->verifyVolume($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE], true);
+  
+    return true;
   }
 
   protected function constructNumeroContrat($line) {
@@ -690,7 +742,13 @@ EOF;
 
   protected function convertCountry($country) {
     $countries = ConfigurationClient::getInstance()->getCountryList();
+
+    if($country == 'FRA') {
+      $country = 'FR';
+    }
+
     if(!array_key_exists($country, $countries)) {
+      
       throw new sfException(sprintf("Code pays '%s' invalide", $country));
     }
     
@@ -765,11 +823,11 @@ EOF;
 
     if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == array(self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION, 
                                                           self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION_ANNULATION)) {
-      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) < 0) {
+      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) > 0) {
         $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
       }
 
-      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) > 0) {
+      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) < 0) {
         $coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
       }
     }
@@ -826,7 +884,6 @@ EOF;
     $sorties += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_SORTIE]);
     $sorties += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_ENLEVEMENT]);
     $sorties += abs($this->convertToFloat($line[self::CSV_STOCK_VOLUME_REGULARISATION]));
-    echo abs($this->convertToFloat($line[self::CSV_STOCK_VOLUME_REGULARISATION]))."\n";
     $stock_fin_campagne = round($stoc_fin_campagne_prec + $entrees - $sorties, 2);
 
     if ($produit->total != $stock_fin_campagne) {

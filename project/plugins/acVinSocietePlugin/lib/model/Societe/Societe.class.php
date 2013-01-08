@@ -19,6 +19,7 @@ class Societe extends BaseSociete {
         $contactSociete = CompteClient::getInstance()->createCompte($this);
         $contactSociete->setNom($this->raison_sociale);
         $contactSociete->setAdresseSociete("1");
+        $contactSociete->origines->add($this->identifiant,$this->identifiant);
         $contactSociete->save();
         $this->compte_societe = $contactSociete->_id;
 	return $contactSociete;
@@ -30,16 +31,16 @@ class Societe extends BaseSociete {
         return $compte;
     }
 
-    public function addNewEtablissement() {
-        $etablissement = EtablissementClient::getInstance()->createEtablissement($this);        
-        $compteForEtb = CompteClient::getInstance()->createCompte($this);
-        $compteForEtb->origines->add(count($compteForEtb->origines),$etablissement->_id);
-        $compteForEtb->save();        
-        $etablissement->compte = $compteForEtb->_id;
-        $etablissement->save(true);
-        $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
-        return $etablissement;
-    }
+//    public function addNewEtablissement() {
+//        $etablissement = EtablissementClient::getInstance()->createEtablissement($this);        
+//        $compteForEtb = CompteClient::getInstance()->createCompte($this);
+//        $compteForEtb->origines->add($etablissement->_id,$etablissement->_id);
+//        $etablissement->compte = $compteForEtb->_id;
+//        $compteForEtb->save();        
+//        $etablissement->save(true);
+//        $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
+//        return $etablissement;
+//    }
     
     public function addNewEnseigne() {
         $this->enseignes->add(count($this->enseignes),"");
@@ -170,6 +171,13 @@ class Societe extends BaseSociete {
         return CompteClient::getInstance()->find($this->compte_societe);
     }
     
+    public function setCodesComptables($is_codes) {
+        if(in_array(SocieteClient::NUMEROCOMPTE_TYPE_CLIENT, $is_codes))
+                $this->code_comptable_client = '02'.$this->identifiant;        
+        if(in_array(SocieteClient::NUMEROCOMPTE_TYPE_FOURNISSEUR, $is_codes))
+                $this->code_comptable_fournisseur = '04'.$this->identifiant;
+    }
+    
     public function save($fromCompte = false) {
         if ($fromCompte) 
             return parent::save();
@@ -178,7 +186,7 @@ class Societe extends BaseSociete {
         if (!$this->compte_societe) {
             parent::save();
             $compte = CompteClient::getInstance()->createCompte($this);
-            $compte->origines->add(count($compte->origines),$this->_id);
+            $compte->origines->add($this->_id,$this->_id);
             $compte->nom = $this->raison_sociale;
             $compte->nom_a_afficher = $this->raison_sociale;
             $compte->save(true);
@@ -192,7 +200,6 @@ class Societe extends BaseSociete {
         $compte->commune = $this->siege->commune;
 
         $compte->save(true);
-
 	if ($this->changedCooperative) {
 	  foreach($this->getEtablissementsObj() as $e) {
 	    $e->save(true);

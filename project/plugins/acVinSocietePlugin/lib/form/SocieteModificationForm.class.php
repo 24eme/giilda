@@ -23,6 +23,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setStatuts();
         $this->enseignes = $societe->enseignes;
         parent::__construct($societe, $options, $CSRFSecret);
+        if($this->getObject()->code_comptable_client) $this->defaults['type_numero_compte'][] = SocieteClient::NUMEROCOMPTE_TYPE_CLIENT;
+        if($this->getObject()->code_comptable_fournisseur) $this->defaults['type_numero_compte'][] = SocieteClient::NUMEROCOMPTE_TYPE_FOURNISSEUR;
     }
 
     public function configure() {
@@ -34,14 +36,11 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         if ($this->isVitiOrNego()) {
             $this->setWidget('type_numero_compte', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompte(), 'multiple' => true, 'expanded' => true)));
             $this->setWidget('cooperative', new sfWidgetFormChoice(array('choices' => $this->getCooperative(), 'multiple' => false, 'expanded' => true)));
-            $this->setWidget('siret', new sfWidgetFormInput());
-            $this->setWidget('code_naf', new sfWidgetFormInput());
-            $this->setWidget('no_tva_intracommunautaire', new sfWidgetFormInput());
-        }
-        if ($this->isCourtier()) {
-            $this->setWidget('carte_professionnelle', new sfWidgetFormInput());
         }
 
+        $this->setWidget('siret', new sfWidgetFormInput());
+        $this->setWidget('code_naf', new sfWidgetFormInput());
+        $this->setWidget('no_tva_intracommunautaire', new sfWidgetFormInput());
 
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
@@ -54,36 +53,45 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         if ($this->isVitiOrNego()) {
             $this->widgetSchema->setLabel('type_numero_compte', 'Numéros de compte');
             $this->widgetSchema->setLabel('cooperative', 'Cave coopérative');
-            $this->widgetSchema->setLabel('siret', 'SIRET');
-            $this->widgetSchema->setLabel('code_naf', 'Code Naf');
-            $this->widgetSchema->setLabel('no_tva_intracommunautaire', 'TVA Intracom');
-        }
-        if ($this->isCourtier()) {
-            $this->widgetSchema->setLabel('carte_professionnelle', 'Numéro de carte professionnelle');
         }
 
-
+        $this->widgetSchema->setLabel('siret', 'SIRET');
+        $this->widgetSchema->setLabel('code_naf', 'Code Naf');
+        $this->widgetSchema->setLabel('no_tva_intracommunautaire', 'TVA Intracom.');
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
 
 
         $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
         $this->setValidator('raison_sociale_abregee', new sfValidatorString(array('required' => false)));
-        $this->setValidator('statut', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatuts()))));
+        $this->setValidator('statut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getStatuts()))));
         // $this->setValidator('type_societe', new sfValidatorChoice(array('required' => true, 'choices' => $this->getSocieteTypesValid())));
 
         if ($this->isVitiOrNego()) {
             $this->setValidator('type_numero_compte', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesNumeroCompte()), 'multiple' => true)));
             $this->setValidator('cooperative', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperative()))));
-            $this->setValidator('siret', new sfValidatorString(array('required' => false)));
-            $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
-            $this->setValidator('no_tva_intracommunautaire', new sfValidatorString(array('required' => false)));
+            if($this->existNumeroCompte())
+                $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
         }
-        if ($this->isCourtier()) {
-            $this->setValidator('carte_professionnelle', new sfValidatorString(array('required' => false)));
-        }
+        
+        $this->setValidator('siret', new sfValidatorString(array('required' => false)));
+        $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
+        $this->setValidator('no_tva_intracommunautaire', new sfValidatorString(array('required' => false)));
+        
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
+        
+        if($this->existNumeroCompte())
+                $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
+        
+        if(!count($this->getObject()->contacts))
+                $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
+        
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
     }
+
+    public function existNumeroCompte() {
+        return ($this->getObject()->code_comptable_client || $this->getObject()->code_comptable_fournisseur);
+    }
+
 
     public function isCourtier() {
         return $this->getObject()->type_societe == SocieteClient::SUB_TYPE_COURTIER;
@@ -150,6 +158,21 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         foreach ($this->getEmbeddedForms() as $key => $form) {
             $form->updateObject($this->values[$key]);
         }
+        if ($this->values['type_numero_compte']) {
+            $this->getObject()->setCodesComptables($this->values['type_numero_compte']);
+        }       
+    }
+    
+     protected function doSave($con = null) {
+        if (null === $con) {
+            $con = $this->getConnection();
+        }
+
+        $this->updateObject();        
+         if(!count($this->getObject()->contacts)){
+            $this->getObject()->setStatut(SocieteClient::STATUT_ACTIF);
+        }
+        $this->object->getCouchdbDocument()->save();        
     }
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {

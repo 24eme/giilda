@@ -57,15 +57,13 @@ abstract class importAbstractTask extends sfBaseTask
         return $key;
     }
 
-    protected function getConfigurationHash($code) 
-    {
-
-        return ConfigurationClient::getCurrent()->get($this->getHash($code));
-    }
-
     protected function getHash($code) 
     {
         $produits_hash = $this->getProduitsHash();
+
+        if($code == '0501') {
+            $code = '0631';
+        }
 
         if (!array_key_exists($code*1, $produits_hash)) {
       

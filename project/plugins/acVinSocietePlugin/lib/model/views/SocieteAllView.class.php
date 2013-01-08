@@ -16,7 +16,64 @@ class SocieteAllView extends acCouchdbView
         return acCouchdbManager::getView('societe', 'all', 'Societe');
     }
 
-    public function findByInterpro($interpro, $statut, $typesocietes = array()) {
+    public function findByInterpro($interpro, $statut, $typesocietes = array(), $q = null, $limit = 100) {
+      try {
+	return $this->findByInterproELASTIC($interpro, $statut, $typesocietes, $q, $limit);
+      }catch(badException $e) {
+	return $this->findByInterproVIEW($interpro, $statut, $typesocietes);
+      }
+    }
+
+    private function findByInterproELASTIC($interpro, $statut, $typesocietes, $q, $limit) {
+      $query = array();
+      foreach (explode(' ', $q) as $s) {
+	$query[] = "*$q*";
+      }
+      if ($statut) {
+	$query[] = "statut:$statut";
+      }
+      if (count($typesocietes)) {
+	$tq = '';
+	foreach($typesocietes as $ts) {
+	  if ($tq) {
+	    $tq .= ' OR ';
+	  }
+	  $tq .= 'type_societe:'.$ts;
+	}
+	$query[] = '('.$tq.')';
+      }
+      $q = implode(' ', $query);
+
+      $index = acElasticaManager::getType('Societe');
+      $elasticaQueryString = new acElasticaQueryQueryString();
+      $elasticaQueryString->setDefaultOperator('AND');
+      $elasticaQueryString->setQuery($q);
+
+      // Create the actual search object with some data.
+      $q = new acElasticaQuery();
+      $q->setQuery($elasticaQueryString);
+      $q->setLimit($limit);
+
+      //Search on the index.
+      $res = $index->search($q);
+      $viewres = $this->elasticRes2View($res);
+      return $viewres;
+    }
+
+    private function elasticRes2View($results) {
+      $res = array();
+      foreach ($results->getResults() as $er) {
+	$r = $er->getData();
+	$e = new stdClass();
+	$e->id = $r['_id'];
+	$e->key = array($r['interpro'], $r['statut'], $r['type_societe'], $r['_id'], $r['raison_sociale'], $r['identifiant'], $r['siret'], $r['siege']['commune'], $r['siege']['code_postal']);
+	$e->value = null;
+	$res[] = $e;
+      }
+      return $res; 
+    }
+
+    private function findByInterproVIEW($interpro, $statut, $typesocietes = array()) {
       if (!count($typesocietes)) {
 	if ($statut) {
 	  return $this->client->startkey(array($interpro, $statut))

@@ -82,7 +82,7 @@ EOF;
 
   public function importLigne($ds, $line) {
     if (is_null($ds)) {
-      $ds = DSClient::getInstance()->createOrFind($this->getIdentifiant($line), $this->convertToDateObject($line[self::CSV_DATE_CREATION])->format('Y-m-d'));
+      $ds = DSClient::getInstance()->createOrFind($this->getIdentifiant($line), $this->getDateCreation($line));
 
       if(!$ds->getEtablissementObject()) {
         throw new sfException(sprintf("L'etablissement %s n'existe pas", $this->getIdentifiant($line)));
@@ -100,6 +100,11 @@ EOF;
     $produit->vci = $this->convertToFloat($line[self::CSV_VOLUME_BLOQUE]);
 
     return $ds;
+  }
+
+  protected function getDateCreation($line) {
+
+  	return $this->convertToDateObject($line[self::CSV_DATE_CREATION])->format('Y').'-07-31';
   }
 
   protected function getIdentifiant($line) {

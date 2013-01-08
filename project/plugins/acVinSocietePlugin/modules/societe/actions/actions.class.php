@@ -4,14 +4,18 @@ class societeActions extends sfActions {
 
     public function executeFullautocomplete(sfWebRequest $request) {
         $interpro = $request->getParameter('interpro_id');
-        $json = $this->matchCompte(CompteAllView::getInstance()->findByInterpro($interpro)->rows, $request->getParameter('q'), $request->getParameter('limit', 100));
+	$q = $request->getParameter('q');
+	$limit = $request->getParameter('limit', 100);
+	$json = $this->matchCompte(CompteAllView::getInstance()->findByInterpro($interpro, $q, $limit), $q, $limit);
         return $this->renderText(json_encode($json));
     }
 
     public function executeAutocomplete(sfWebRequest $request) {
         $interpro = $request->getParameter('interpro_id');
-	$societes = SocieteAllView::getInstance()->findByInterpro($interpro, 'ACTIF', array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT));
-        $json = $this->matchSociete($societes, $request->getParameter('q'), $request->getParameter('limit', 100));
+	$q = $request->getParameter('q');
+	$limit = $request->getParameter('limit', 100);
+	$societes = SocieteAllView::getInstance()->findByInterpro($interpro, 'ACTIF', array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT), $q, $limit);
+        $json = $this->matchSociete($societes, $q, $limit);
         return $this->renderText(json_encode($json));
     }
 
@@ -26,17 +30,23 @@ class societeActions extends sfActions {
     }
     
     public function executeContactChosen(sfWebRequest $request) {
-        $this->identifiant = $request->getParameter('identifiant',false);
-        if(preg_match('/^COMPTE[-]{1}[0-9]*$/', $this->identifiant)){
-           $docRes = CompteClient::getInstance()->find($this->identifiant);
-           if(!$docRes) throw new sfException("Le document $docRes n'existe plus");
-           if($docRes->isSocieteContact())
-               $this->redirect('societe_visualisation', array('identifiant' => $docRes->getSocieteOrigine()));
-           if($docRes->isEtablissementContact())
-               $this->redirect('etablissement_visualisation', array('identifiant' => $docRes->getEtablissementOrigine()));
-            $this->redirect('compte_modification', array('identifiant' => $docRes->identifiant));
-        }
-        if(!$this->identifiant) throw new sfException("L'identifiant $this->identifiant n'existe pas");
+        $identifiant = $request->getParameter('identifiant',false);
+	if (preg_match('/^SOCIETE/', $identifiant)) {
+	  $docRes = SocieteClient::getInstance()->find($identifiant);
+	  $this->forward404Unless($docRes);
+	  return $this->redirect('societe_visualisation', array('identifiant' => $docRes->identifiant));
+	}
+	if (preg_match('/^ETABLISSEMENT/', $identifiant)) {
+	  $docRes = EtablissementClient::getInstance()->find($identifiant);
+	  $this->forward404Unless($docRes);
+	  return $this->redirect('etablissement_visualisation', array('identifiant' => $docRes->identifiant));
+	}
+	if (preg_match('/^COMPTE/', $identifiant)) {
+	  $docRes = CompteClient::getInstance()->find($identifiant);
+	  $this->forward404Unless($docRes);
+	  return $this->redirect('compte_visualisation', array('identifiant' => $docRes->identifiant));
+	}
+	$this->forward404();
     }
 
     public function executeCreationSociete(sfWebRequest $request) {
@@ -85,18 +95,6 @@ class societeActions extends sfActions {
         $this->etablissements = $this->societe->getEtablissementsObj();
     }
 
-    public function executeAddContact(sfWebRequest $request) {
-        $this->societe = $this->getRoute()->getSociete();
-        $this->contact = $this->societe->addNewContact();
-      //  $this->societe->save();
-        $this->redirect('compte_new', array('identifiant' => $this->contact->identifiant));
-    }
-
-    public function executeAddEtablissement(sfWebRequest $request) {
-        $this->societe = $this->getRoute()->getSociete();
-        $this->etablissement = $this->societe->addNewEtablissement();
-        $this->redirect('etablissement_new', array('identifiant' => $this->etablissement->identifiant));
-    }
 
     /*     * *************
      * Intégration
