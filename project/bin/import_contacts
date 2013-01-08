@@ -8,8 +8,6 @@ DATADIR=$TMP/VINSDELOIRE_DATA
 echo "conversion des chais pour éviter les doublons"
 WORKINGDIR=$(pwd);
 
-convert-utf8 $DATADIR/cipar.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cipar.reverse.utf8.csv
-
 cd $DATADIR
 bash $WORKINGDIR/bin/convert_chais $WORKINGDIR "1/2"
 cd -
@@ -17,7 +15,7 @@ cd -
 mkdir -p $DATADIR/tmp 2> /dev/null
 
 #Societe
-cat $DATADIR/tmp/cipar.reverse.utf8.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cipar.utf8.csv
+convert-utf8 $DATADIR/cipar.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cipar.utf8.csv
 
 #Etablissement 
 

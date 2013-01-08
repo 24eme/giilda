@@ -69,6 +69,8 @@ class EtablissementCsvFile extends CsvFile
 
       	$e = EtablissementClient::getInstance()->find($line[self::CSVPAR_CODE_CLIENT], acCouchdbClient::HYDRATE_JSON);
         if ($e) {
+	  echo "WARNING: Etablissement ".$line[self::CSVPAR_CODE_CLIENT]." existe\n";
+	  continue;
           acCouchdbManager::getClient()->deleteDoc($e);
         }
 	
@@ -79,6 +81,8 @@ class EtablissementCsvFile extends CsvFile
         $id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
 	$e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
         if ($e) {
+	  echo "WARNING: Etablissement ".$id." existe\n";
+	  continue;
           acCouchdbManager::getClient()->deleteDoc($e);
         }
 
