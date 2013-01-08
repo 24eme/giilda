@@ -21,8 +21,7 @@ if (count($historiqueImport)):
                     <td><?php echo format_date($import->key[RevendicationHistoryView::KEYS_DATE], 'dd/MM/yyyy'); ?></td>
                     <td><?php echo $import->key[RevendicationHistoryView::KEYS_CAMPAGNE]; ?></td>
                     <td><?php echo $import->key[RevendicationHistoryView::KEYS_ODG]; ?></td>
-                    <td><a href="<?php echo url_for('revendication_delete', array('odg' => $import->key[RevendicationHistoryView::KEYS_ODG],
-                        'campagne' => $import->key[RevendicationHistoryView::KEYS_CAMPAGNE])); ?>" class="btn_majeur btn_annuler" /></td>
+                    <td><a href="<?php echo url_for('revendication_delete', array('odg' => $import->key[RevendicationHistoryView::KEYS_ODG], 'campagne' => $import->key[RevendicationHistoryView::KEYS_CAMPAGNE])); ?>" class="btn_majeur btn_annuler">Supprimer</a></td>
                 </tr>
     <?php endforeach; ?>
         </tbody>

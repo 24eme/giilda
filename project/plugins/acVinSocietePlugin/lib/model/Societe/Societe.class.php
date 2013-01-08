@@ -186,6 +186,7 @@ class Societe extends BaseSociete {
                 $this->code_comptable_fournisseur = '04'.$this->identifiant;
     }
     
+    
     public function save($fromCompte = false) {
         if ($fromCompte) 
             return parent::save();
