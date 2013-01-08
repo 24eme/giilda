@@ -13,7 +13,7 @@ echo $form->renderGlobalErrors();
         <thead>
             <tr>
                 <th colspan="2">Produits</th>
-                <th>Volume saisie</th>
+                <th>Volume saisi</th>
                 <th class="colonne_vci">VCI</th>
                 <th class="colonne_reservequalitative">Réserve qual.</th>
             </tr>
@@ -24,7 +24,7 @@ echo $form->renderGlobalErrors();
                     $prod_vol = '';
                     if($declaration->stock_initial) 
 		      $prod_vol = getArialFloat($declaration->stock_initial);
-                    include_partial('item',array('form' => $form, 'key' => $key, 'declaration' => $declaration, 'prod_libelle' => $declaration->produit_libelle, 'prod_vol' => $prod_vol));
+                    include_partial('item',array('form' => $form, 'key' => $key, 'ds_origine' => preg_replace ('/.*-(\d{4})(\d{2})$/', '\2/\1', $declaration->getDocument()->drm_origine), 'declaration' => $declaration, 'prod_libelle' => $declaration->produit_libelle, 'prod_vol' => $prod_vol));
                
             }
     ?>

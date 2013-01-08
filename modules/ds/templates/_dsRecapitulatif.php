@@ -7,8 +7,8 @@ use_helper('Float');
 	<thead>
 		<tr>
 			<th>Produits</th>
-			<th>Volume revendiqué</th>
-			<th>Stock init. (DRM)</th>
+                        <th>(DRM <?php echo preg_replace ('/.*-(\d{4})(\d{2})$/', '\2/\1', $ds->drm_origine); ?>)</th>
+			<th>Volume déclaré</th>
                         <th>VCI</th>
                         <th>Réserve qual.</th>
 		</tr>
@@ -20,11 +20,11 @@ use_helper('Float');
 			<td class="ds_recap_declaration_appelation">
 				<?php echo $declaration->produit_libelle; ?>
 			</td>
+			<td class="ds_recap_declaration_stockInitial">
+                               (<?php echoFloat($declaration->stock_initial); ?>)
+			</td>
 			<td class="ds_recap_declaration_vr">
 				<?php echoFloat($declaration->stock_declare); ?>
-			</td>
-			<td class="ds_recap_declaration_stockInitial">
-				<?php echoFloat($declaration->stock_initial); ?>
 			</td>
                         <td class="ds_recap_declaration_vci">
 				<?php echo $declaration->vci; ?>

@@ -20,9 +20,9 @@
                 <td><?php if ($ds->key[DSHistoryView::KEY_STATUT] == DSClient::STATUT_A_SAISIR) echo "A saisir"; else echo "Validée"; ?></td>
                 <td>
 <?php if ($ds->key[DSHistoryView::KEY_STATUT] == DSClient::STATUT_A_SAISIR) : ?>
-<a href="<?php echo url_for('ds_edition_operateur',array('identifiant' => $ds->key[DSHistoryView::KEY_IDENTIFIANT], 'periode' => $ds->key[DSHistoryView::KEY_PERIODE])); ?>" id="saisie_ds" >Saisir</a>
+<a href="<?php echo url_for('ds_edition_operateur',array('identifiant' => $ds->key[DSHistoryView::KEY_IDENTIFIANT], 'periode' => $ds->key[DSHistoryView::KEY_PERIODE])); ?>" class="btn_majeur btn_orange" id="saisie_ds" >Saisir</a>
 <?php else : ?>
-<a href="<?php echo url_for('ds_edition_operateur_validation_visualisation',array('identifiant' => $ds->key[DSHistoryView::KEY_IDENTIFIANT], 'periode' => $ds->key[DSHistoryView::KEY_PERIODE])); ?>" id="saisie_ds" >Visualiser</a>
+<a href="<?php echo url_for('ds_edition_operateur_validation_visualisation',array('identifiant' => $ds->key[DSHistoryView::KEY_IDENTIFIANT], 'periode' => $ds->key[DSHistoryView::KEY_PERIODE])); ?>" id="saisie_ds" class="btn_majeur btn_vert">Visualiser</a>
 <?php endif; ?>
                 </td>
             </tr>

@@ -11,7 +11,6 @@ class DSProduit extends BaseDSProduit {
         $this->produit_hash = $produit->getHash();
         $this->produit_libelle = $produit->getLibelle("%g% %a% %m% %l% %co% %ce%");
         $this->stock_initial = $produit->total;
-        $this->stock_declare = null;
     }
 
     function updateProduitFromConfig($produit)
@@ -19,7 +18,6 @@ class DSProduit extends BaseDSProduit {
         $this->produit_hash = $produit->getHash();
         $this->produit_libelle = $produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce%");
         $this->stock_initial = 0;
-        $this->stock_declare = null;
     }
 
     public function isActif() {
