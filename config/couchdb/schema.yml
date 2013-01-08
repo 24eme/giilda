@@ -9,6 +9,7 @@ DS:
       date_emission: {}
       date_echeance: {}
       date_stock: {}
+      drm_origine: {}
       campagne: {}
       periode: {}
       numero_archive: {  }
