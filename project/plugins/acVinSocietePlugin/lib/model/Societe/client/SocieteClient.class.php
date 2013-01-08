@@ -2,23 +2,23 @@
 
 class SocieteClient extends acCouchdbClient {
 
-    const TYPE_OPERATEUR = 'operateur';
-    const SUB_TYPE_VITICULTEUR = 'viticulteur';
-    const SUB_TYPE_NEGOCIANT = 'negociant';
-    const SUB_TYPE_COURTIER = 'courtier';
-    const TYPE_PRESSE = 'presse';
-    const TYPE_PARTENAIRE = 'partenaire';
-    const SUB_TYPE_DOUANE = 'douane';
-    const SUB_TYPE_INSTITUTION = 'institution';
-    const SUB_TYPE_HOTELRESTAURANT = 'hotel/restaurant';
-    const SUB_TYPE_AUTRE = 'autre';
+    const TYPE_OPERATEUR = 'OPERATEUR';
+    const SUB_TYPE_VITICULTEUR = 'VITICULTEUR';
+    const SUB_TYPE_NEGOCIANT = 'NEGOCIANT';
+    const SUB_TYPE_COURTIER = 'COURTIER';
+    const TYPE_PRESSE = 'PRESSE';
+    const TYPE_PARTENAIRE = 'PARTENAIRE';
+    const SUB_TYPE_DOUANE = 'DOUANE';
+    const SUB_TYPE_INSTITUTION = 'INSTITUTION';
+    const SUB_TYPE_HOTELRESTAURANT = 'HOTEL-RESTAURANT';
+    const SUB_TYPE_AUTRE = 'AUTRE';
     
     
-    const STATUT_ACTIF = 'actif';
-    const STATUT_SUSPENDU = 'suspendu';
+    const STATUT_ACTIF = 'ACTIF';
+    const STATUT_SUSPENDU = 'SUSPENDU';
     
-    const NUMEROCOMPTE_TYPE_CLIENT = 'client';    
-    const NUMEROCOMPTE_TYPE_FOURNISSEUR = 'fournisseur';
+    const NUMEROCOMPTE_TYPE_CLIENT = 'CLIENT';    
+    const NUMEROCOMPTE_TYPE_FOURNISSEUR = 'FOURNISSEUR';
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Societe");
