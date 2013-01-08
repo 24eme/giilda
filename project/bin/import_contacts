@@ -42,13 +42,16 @@ bash $WORKINGDIR/bin/convert_chais $WORKINGDIR "2/2"
 cd -
 
 echo "Import Societe"
-php symfony import:societe $DATADIR/tmp/cipar.utf8.csv
+sort -t ';' -k 5,5 $DATADIR/tmp/cipar.utf8.csv > $DATADIR/tmp/societe.utf8.csv
+php symfony import:societe $DATADIR/tmp/societe.utf8.csv
 
 echo "Import Etablissement"
 php symfony import:etablissement $DATADIR/etablissementsetcourtiers.csv
 
+awk -F ';' '{print $1";"$2";"$3";"$4";"$5";"$6";"$7";"$8";"$9";"$10";"$11";"$12";"$13";"$14";"$15";"$16";"$17";"$18";"$19";"$20";"$21";"$22";"$23}' $DATADIR/tmp/cicontact_cifonct_cipar.csv | uniq > $DATADIR/tmp/contacts.csv
+
 echo "Import Contact"
-php symfony import:compte $DATADIR/tmp/cicontact_cifonct_cipar.csv
+php symfony import:compte $DATADIR/tmp/contacts.csv
 
 echo "Link bailleurs/métayés"
 

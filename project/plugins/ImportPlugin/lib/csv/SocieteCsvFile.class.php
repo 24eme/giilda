@@ -47,6 +47,8 @@ class SocieteCsvFile extends CsvFile
 
       	$s = SocieteClient::getInstance()->find($line[self::CSV_PARTENAIRE_CODE], acCouchdbClient::HYDRATE_JSON);
         if ($s) {
+	  echo "ERROR: Societe exists (".$line[self::CSV_PARTENAIRE_CODE].")\n";
+	  continue;
           acCouchdbManager::getClient()->deleteDoc($s);
         }
 

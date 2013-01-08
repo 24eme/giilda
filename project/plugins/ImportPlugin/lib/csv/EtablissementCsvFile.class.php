@@ -63,11 +63,14 @@ class EtablissementCsvFile extends CsvFile
 
         $famille = $this->convertTypeInFamille($line[self::CSVPAR_TYPE_PARTENAIRE]);
         if (!$famille) {
+	  echo "Etablissement ERROR: ".$line[self::CSVPAR_CODE_CLIENT].": Pas de Famille connue\n";
           continue;
         }
 
       	$e = EtablissementClient::getInstance()->find($line[self::CSVPAR_CODE_CLIENT], acCouchdbClient::HYDRATE_JSON);
         if ($e) {
+	  echo "WARNING: Etablissement ".$line[self::CSVPAR_CODE_CLIENT]." existe\n";
+	  continue;
           acCouchdbManager::getClient()->deleteDoc($e);
         }
 	
@@ -78,6 +81,8 @@ class EtablissementCsvFile extends CsvFile
         $id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
 	$e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
         if ($e) {
+	  echo "WARNING: Etablissement ".$id." existe\n";
+	  continue;
           acCouchdbManager::getClient()->deleteDoc($e);
         }
 
@@ -160,8 +165,6 @@ class EtablissementCsvFile extends CsvFile
 	if ($line[self::CSVPAR_TYPE_PARTENAIRE] == self::CSV_TYPE_PARTENAIRE_COURTIER && isset($line[self::CSVCOURTIER_NUMCARTE])) {
 		$e->carte_pro = $line[self::CSVCOURTIER_NUMCARTE];
 	}
-
-	
 
       	$e->save();
       }

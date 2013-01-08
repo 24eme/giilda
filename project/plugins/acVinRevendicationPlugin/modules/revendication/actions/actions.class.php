@@ -24,7 +24,7 @@ class revendicationActions extends sfActions {
     public function executeMonEspace(sfWebRequest $request) {
         $this->revendication_etablissement = null;
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndEtablissement('20122013', $this->etablissement);
+        $this->revendications = RevendicationEtablissementView::getInstance()->findByEtablissement($this->etablissement->identifiant);
     }
     
     public function executeChooseEtablissement(sfWebRequest $request) {
@@ -41,6 +41,8 @@ class revendicationActions extends sfActions {
     }
 
     public function executeUpload(sfWebRequest $request) {
+        ini_set('memory_limit','2048M');
+        set_time_limit(0);
         $this->errors = array();
         $this->revendication = $this->getRoute()->getRevendication();
         $this->form = new UploadCSVRevendicationForm($this->revendication);
@@ -78,6 +80,8 @@ class revendicationActions extends sfActions {
     }
 
     public function executeUpdate(sfWebRequest $request) {
+        ini_set('memory_limit','2048M');
+        set_time_limit(0);
         $this->revendication = $this->getRoute()->getRevendication();
         $this->revendication->storeDatas();
         $this->revendication->save();
@@ -90,6 +94,7 @@ class revendicationActions extends sfActions {
     }
 
     public function executeEdition(sfWebRequest $request) {
+        ini_set('memory_limit','2048M');
         set_time_limit(0);
         $this->revendication = $this->getRoute()->getRevendication();
         $this->revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndODG($this->revendication->campagne, $this->revendication->odg);
@@ -97,7 +102,8 @@ class revendicationActions extends sfActions {
     }
     
     public function executeEditionRow(sfWebRequest $request) {
-        ini_set('memory_limit','1024M');
+        ini_set('memory_limit','2048M');
+        set_time_limit(0);
         $this->odg = $request->getParameter('odg');
         $this->campagne = $request->getParameter('campagne');        
         $this->revendication = RevendicationClient::getInstance()->find(RevendicationClient::getInstance()->getId($this->odg, $this->campagne), acCouchdbClient::HYDRATE_JSON);
@@ -115,10 +121,8 @@ class revendicationActions extends sfActions {
                 $this->revendication = $this->form->doUpdate();
                 RevendicationClient::getInstance()->storeDoc($this->revendication);
                 if ($this->etablissement && $this->retour == 'etablissement') {
-                    
                     return $this->redirect('revendication_etablissement', $this->etablissement);
                 }
-                
                 return $this->redirect('revendication_edition', array('odg' => $this->odg, 'campagne' => $this->campagne));
             }
         }
@@ -134,6 +138,8 @@ class revendicationActions extends sfActions {
     }
 
     public function executeAddAliasToProduit(sfWebRequest $request) {
+        ini_set('memory_limit','2048M');
+        set_time_limit(0);
         $alias = $request->getParameter('alias');
         $this->revendication = $this->getRoute()->getRevendication();
         $this->form = new AddAliasToProduitForm($this->revendication, $alias);
@@ -141,10 +147,10 @@ class revendicationActions extends sfActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->doUpdate();
-                $this->revendication->updateErrors(RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS, $alias);
+               // $this->revendication->updateErrors(RevendicationErrorException::ERREUR_TYPE_PRODUIT_NOT_EXISTS, $alias);
                 $this->revendication->save();
-                return $this->redirect('revendication_view_erreurs', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
-            }
+                return $this->redirect('revendication_update', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
+               }
         }
         
     }

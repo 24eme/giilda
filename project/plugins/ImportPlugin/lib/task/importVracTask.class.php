@@ -343,7 +343,7 @@ EOF;
       return $type_contrats[$type];
     }
 
-    return null;
+    return VracClient::TYPE_CONTRAT_SPOT;
   }
 
   protected function convertCvoNature($type) {
