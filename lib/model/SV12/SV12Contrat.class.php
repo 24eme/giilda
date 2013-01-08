@@ -17,9 +17,9 @@ class SV12Contrat extends BaseSV12Contrat {
 	$mouvement->region = $this->getVendeur()->region;
 
         if ($this->getVrac()) {
-        	$mouvement->cvo = $this->getDroitCVO()->taux * $this->getVrac()->cvo_repartition * 0.01;
+        	$mouvement->cvo = $this->getTauxCvo() * $this->getVrac()->cvo_repartition * 0.01;
 	} else {
-        	$mouvement->cvo = $this->getDroitCVO()->taux * 0.5;
+        	$mouvement->cvo = $this->getTauxCvo() * 0.5;
         }
 
         return $mouvement;
@@ -44,11 +44,11 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->vrac_destinataire = $this->vendeur_nom;
 	$mouvement->region = $this->getAcheteur()->region;
         if ($this->getVrac()) {
-            $mouvement->cvo = $this->getDroitCVO()->taux * $this->getVrac()->cvo_repartition * 0.01;
+            $mouvement->cvo = $this->getTauxCvo() * $this->getVrac()->cvo_repartition * 0.01;
         } else if ($this->vendeur_identifiant) {
-	  $mouvement->cvo = $this->getDroitCVO()->taux * 0.5;	  
+	  $mouvement->cvo = $this->getTauxCvo() * 0.5;	  
 	} else {
-	  $mouvement->cvo = $this->getDroitCVO()->taux;	  
+	  $mouvement->cvo = $this->getTauxCvo();	  
 	}
 
         return $mouvement;
@@ -81,7 +81,7 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->produit_hash = $this->produit_hash;
         $mouvement->facture = 0;
         $mouvement->version = $this->getDocument()->version;
-        $mouvement->date_version = date('Y-m-d');
+        $mouvement->date_version = ($this->getDocument()->valide->date_saisie) ? ($this->getDocument()->valide->date_saisie) : date('Y-m-d');
         if ($this->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS) {
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS;  
         } elseif($this->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
@@ -92,7 +92,7 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->type_hash = $this->contrat_type;
         $mouvement->type_libelle = $this->contrat_type;;
         $mouvement->volume = -1 * $volume;
-	$mouvement->facturable = 1;
+	    $mouvement->facturable = 1;
         $mouvement->date = $this->getDocument()->getDate();
         $mouvement->vrac_numero = $this->contrat_numero;
         if ($this->getVrac())
@@ -138,8 +138,16 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function getDroitCVO() {
-
+        
         return $this->getProduitObject()->getDroitCVO($this->getDocument()->getDate());
+    }
+
+    public function getTauxCvo() {
+        if(is_null($this->cvo)) {
+            $this->cvo = $this->getDroitCVO()->taux;
+        }
+
+        return $this->cvo;
     }
 
     public function getProduitObject() 

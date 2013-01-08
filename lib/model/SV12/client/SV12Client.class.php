@@ -30,6 +30,15 @@ class SV12Client extends acCouchdbClient {
       return 'SV12-'.$identifiant.'-'.$this->buildPeriodeAndVersion($periode, $version);
     }
 
+    public function buildDate($periode) {
+      if(!preg_match('/([0-9]{4})-([0-9]{4})/', $periode, $matches)) {
+
+        throw new sfException(sprintf('Pas au format yyyy-yyyy %s', $periode));
+      }
+
+      return sprintf('%4d-%02d-%02d', $matches[2],1, 15);
+    }
+
     public function buildPeriode($date) {
       
         return ConfigurationClient::getInstance()->buildCampagne($date);

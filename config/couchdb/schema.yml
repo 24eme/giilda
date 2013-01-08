@@ -61,6 +61,7 @@ SV12:
                   vendeur_nom: {  }
                   volume_prop: { type : float }
                   volume: { type : float }
+                  cvo: { type: float }
       mouvements:
         type: collection
         definition:

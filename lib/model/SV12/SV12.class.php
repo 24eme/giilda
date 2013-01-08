@@ -205,7 +205,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     
     public function getDate() {
 
-        return date('Y-m-d');
+        return SV12Client::getInstance()->buildDate($this->periode);
     }
 
     public function getSuivante() {
