@@ -175,7 +175,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $origine_libelle = "Écart";
                 return $origine_libelle;
             }
-            $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getNumeroContrat($ligne->contrat_identifiant);
+            $origine_libelle = 'n° ' . VracClient::getInstance()->getNumeroArchiveEtDate($ligne->contrat_identifiant);
             $origine_libelle .= ' (' . $transacteur . ') ';
             if ($famille == EtablissementFamilles::FAMILLE_NEGOCIANT)
                 $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
@@ -185,9 +185,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
             if ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS) {
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
-                    $origine_libelle = 'Contrat du ' . VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
+                    $origine_libelle = 'n° ' . VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
                 } else {
-                    $origine_libelle = 'n°' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
+                    $origine_libelle = 'n° ' . VracClient::getInstance()->getNumeroArchiveEtDate($ligne->contrat_identifiant) . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
                 }
                 $origine_libelle .= ' (' . $transacteur . ') ';
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR)

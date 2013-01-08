@@ -2,7 +2,7 @@
 \begin{minipage}[t]{0.5\textwidth}
 	\begin{flushleft}
 	
-	\textbf{<?php echo ($facture->total_ht > 0)? 'FACTURE' : 'AVOIR'; ?>} \\
+	\textbf{<?php echo ($avoir)? 'FACTURE' : 'AVOIR'; ?>} \\
 	\vspace{0.5cm}
 	\begin{tikzpicture}
 		\node[inner sep=1pt] (tab0){

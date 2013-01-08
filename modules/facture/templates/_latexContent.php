@@ -1,7 +1,9 @@
-<?php include_partial('facture/templateEntete', array('facture' => $facture)); ?>
+<?php
+$avoir = ($facture->total_ht <= 0);
+include_partial('facture/templateEntete', array('facture' => $facture)); ?>
 \begin{document}
 <?php
-include_partial('facture/templateTitreAdresse', array('facture' => $facture)); 
+include_partial('facture/templateTitreAdresse', array('facture' => $facture, 'avoir' => $avoir)); 
 include_partial('facture/templateNumPage', array('nb_page' => $nb_pages));
 include_partial('facture/templateHeadTable');
 $line_nb_current_page = 0;
@@ -18,7 +20,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
       include_partial('facture/templateTableRow', array('produit' => $produit->getRawValue()));
       $line_nb_current_page++;  
 if ($line_nb_current_page > $current_avg_nb_lines_per_page || $line_nb_current_page >= $max_line_nb_current_page) {
-	include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => $max_line_nb_current_page - $line_nb_current_page));
+	include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => ($max_line_nb_current_page - $line_nb_current_page), 'avoir' => $avoir));
 	echo "\\newpage\n";
 	include_partial('facture/templateNumPage', array('nb_page' => $nb_pages));
 	include_partial('facture/templateHeadTable');
@@ -39,7 +41,7 @@ if ($nb_echeances)
 if (!$current_nb_pages) 
   $nb_blank -=  FactureLatex::NB_LIGNES_ENTETE;
   
-include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => $nb_blank, 'end_document' => true));
+include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => $nb_blank, 'end_document' => true, 'avoir' => $avoir));
 include_partial('facture/templateReglement', array('facture' => $facture)); 
 if ($nb_echeances)
   include_partial('facture/templateEcheances', array('echeances' => $facture->echeances)); 

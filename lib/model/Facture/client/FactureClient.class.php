@@ -224,6 +224,7 @@ class FactureClient extends acCouchdbClient {
 	foreach($lignes as $id => $ligne) {
 	  $ligne->volume *= -1;
 	  $ligne->montant_ht *= -1;
+          $ligne->echeance_code = null;
 	}
       }
       $avoir->total_ttc *= -1;

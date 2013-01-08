@@ -9,8 +9,6 @@ use_helper('Float');
        \begin{flushleft}
        
        \begin{minipage}[b]{0.60\textwidth}
-        Indémnité forfaitaire pour frais de recouvrement: 40~\texteuro{}
-        \\
         \small{\textbf{Règlement : }}
         \begin{itemize}
             \item \textbf{par virement} (merci de mentionner les n° suivants : \FactureRefClient~\FactureNumREF)
