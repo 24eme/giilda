@@ -6,9 +6,9 @@ class SV12Client extends acCouchdbClient {
      * @return DRMClient
      */
 
-    const STATUT_VALIDE = 'valide'; 
-    const STATUT_VALIDE_PARTIEL = 'valide_partiel'; 
-    const STATUT_BROUILLON = 'brouillon'; 
+    const STATUT_VALIDE = 'VALIDE'; 
+    const STATUT_VALIDE_PARTIEL = 'VALIDE_PARTIEL'; 
+    const STATUT_BROUILLON = 'BROUILLON'; 
     
     const SV12_VIEWHISTORY_ID = 0;
     const SV12_VIEWHISTORY_DATESAISIE = 1;    

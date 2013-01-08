@@ -173,8 +173,14 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->contrats[$num_contrat]->volume = $volume;
     }
 
+    public function storeDates() {
+        if (!$this->valide->date_saisie) {
+           $this->valide->add('date_saisie', date('Y-m-d'));
+        }
+    }
+
     public function validate($options = array()) {
-        $this->valide->date_saisie = date('d-m-y');
+        $this->storeDates();
         
         $this->generateMouvements();
         $this->updateTotaux();
