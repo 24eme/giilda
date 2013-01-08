@@ -233,7 +233,8 @@ class Vrac extends BaseVrac {
     
     public function setCvoRepartition($repartition) {
         if(!is_null($this->volume_enleve) && $this->volume_enleve > 0) return;
-            $this->_set('cvo_repartition', $repartition);
+        
+        $this->_set('cvo_repartition', $repartition);
     }
     
     public function validate($options = array()) {
