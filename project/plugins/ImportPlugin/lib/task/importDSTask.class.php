@@ -54,11 +54,7 @@ EOF;
       $data = str_getcsv($line, ';');
       
       if($numero && $numero != $data[self::CSV_NUMERO_DECLARATION]) {
-        try{
-          $this->importDS($lines);
-        } catch (Exception $e) {
-          $this->log(sprintf("ERROR;%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
-        }
+        $this->importDS($lines);
         $lines = array();
       }
       
@@ -67,17 +63,30 @@ EOF;
       $i++;
     }
 
+    if(count($lines) > 0) {
+      $this->importDS($lines);
+    }
+
   }
 
   public function importDS($lines) {
     $ds = null;
 
     foreach($lines as $i => $line) {
+      try{
         $ds = $this->importLigne($ds, $line);
+      } catch (Exception $e) {
+        $this->logLigne("ERROR", $e->getMessage(), $line, $i);
+        return;
+      }
     }
 
-    $ds->updateStatut();
-    $ds->save();
+    try{
+      $ds->updateStatut();
+      $ds->save();
+    } catch (Exception $e) {
+        $this->logLignes("ERROR", $e->getMessage(), $lines, $i);
+    }
   }
 
   public function importLigne($ds, $line) {
