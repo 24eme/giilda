@@ -176,8 +176,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     		return;
     	}
 
-      echo "Ajout d'une CVO de ".$datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]." pour $code_applicatif ".$this->getHash()."\n";
-
     	$droits = $this->getDroits('INTERPRO-'.strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
     	$date = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE])? $datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE] : '1900-01-01';
     	$taux = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE])? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) : null;
