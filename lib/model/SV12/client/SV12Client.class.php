@@ -107,7 +107,7 @@ class SV12Client extends acCouchdbClient {
     
     public function getLibelleFromId($id) {
 
-        if (!preg_match('/^SV12-[0-9]+-([0-9]{4})([0-9]{4})/', $id, $matches)) {
+        if (!preg_match('/^SV12-[0-9]+-([0-9]{4})-([0-9]{4})/', $id, $matches)) {
             
             return $id;
         }
