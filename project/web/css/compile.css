@@ -1381,8 +1381,8 @@ ul.radio_list li label { font-weight:normal !important; }
   padding:10px 10px 30px;
 }
 #contenu_etape #recherche_societe .ui-autocomplete-input {
-  width:360px;
-  float:right;
+  width:510px;
+  margin-right:10px;
 }
 #contenu_etape #recherche_societe #btn_rechercher {
   border:1px solid #c2c0c0;
