@@ -39,7 +39,7 @@ const CSV_COMPTE_CODE_PARTENAIRE = 22;
   private function generateIdentifiant($id) {
 	for ($i = 1 ;; $i++) {
 		$newid = sprintf("%06d%02d", $id, $i);
-		if (!isset($this->registeredid[$newid]))
+		if (!isset($this->registeredid[$newid]) && !CompteClient::getInstance()->find("COMPTE-".$newid, acCouchdbClient::HYDRATE_JSON))
 			break;
         }
 	$this->registeredid[$newid] = $newid;
@@ -70,9 +70,9 @@ const CSV_COMPTE_CODE_PARTENAIRE = 22;
 	$c->id_societe = sprintf("SOCIETE-%06d", $line[self::CSV_COMPTE_CODE_PARTENAIRE]);
 	$c->adresse = preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE1]);
         if(preg_match('/[a-z]/i', $line[self::CSV_COMPTE_ADRESSE2])) {
-        $c->adresse .= ", ".preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE2]);
+        $c->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE2]);
         if(preg_match('/[a-z]/i', $line[self::CSV_COMPTE_ADRESSE3])) {
-        $c->adresse .= ", ".preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE3]);
+        $c->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE3]);
         }}
         $c->code_postal = $line[self::CSV_COMPTE_CODE_POSTAL];
         $c->commune = $line[self::CSV_COMPTE_COMMUNE];

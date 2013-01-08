@@ -47,6 +47,8 @@ class SocieteCsvFile extends CsvFile
 
       	$s = SocieteClient::getInstance()->find($line[self::CSV_PARTENAIRE_CODE], acCouchdbClient::HYDRATE_JSON);
         if ($s) {
+	  echo "ERROR: Societe exists (".$line[self::CSV_PARTENAIRE_CODE].")\n";
+	  continue;
           acCouchdbManager::getClient()->deleteDoc($s);
         }
 
@@ -56,11 +58,11 @@ class SocieteCsvFile extends CsvFile
 	$s->raison_sociale_abregee = $line[self::CSV_PARTENAIRE_NOM_REDUIT];
 	$s->siege->adresse = preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE1]);
         if(preg_match('/[a-z]/i', $line[self::CSV_PARTENAIRE_ADRESSE2])) {
-        $s->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE2]);
+        $s->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE2]);
         if(preg_match('/[a-z]/i', $line[self::CSV_PARTENAIRE_ADRESSE3])) {
-        $s->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE3]);
+        $s->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE3]);
         if(preg_match('/[a-z]/i', $line[self::CSV_PARTENAIRE_ADRESSE4])) {
-        $s->siege->adresse .= ", ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE4]);
+        $s->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE4]);
         }}}
         $s->siege->code_postal = $line[self::CSV_PARTENAIRE_CODEPOSTAL];
         $s->siege->commune = $line[self::CSV_PARTENAIRE_COMMUNE];

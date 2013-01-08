@@ -388,11 +388,16 @@ EOF;
       $this->logLignes('WARNING', $e->getMessage(), $lines, $i);
     }
 
+    if(!$drm->numero_archive) {
+      $drm->numero_archive = sprintf("%05d", ArchivageAllView::getInstance()->getLastNumeroArchiveByTypeAndCampagne('DRM', $drm->campagne, '60000', '89999') + 1);
+    }
+
     $drm->valide->date_saisie = date('Y-m-d', strtotime($drm->getDate()));
     $drm->valide->date_signee = date('Y-m-d', strtotime($drm->getDate()));
 
     $drm->validate(array('no_vracs' => true));
     $drm->facturerMouvements();
+
     $drm->save();
   }
 
@@ -487,9 +492,10 @@ EOF;
     $detail = $produit->sorties->vrac_details->addDetail('VRAC-'.$this->constructNumeroContrat($line),
                                                $this->convertToFloat($line[self::CSV_CONTRAT_VOLUME_ENLEVE_HL]),
                                                $this->convertToDateObject($line[self::CSV_CONTRAT_DATE_ENLEVEMENT])->format('Y-m-d'));
-    
+
     if ($detail->volume < 0) {
-	 throw new sfException(sprintf("Le volume enlevé sur le contrat est négatif %s", $detail->volume));
+      $produit->entrees->reintegration += abs($detail->volume);
+      $detail->volume = 0;
     }
   }
 
@@ -526,9 +532,6 @@ EOF;
   }
 
   public function importLigneDivers($drm, $line) {
-    /*if($line[self::CSV_DIVERS_ANNULATION] == self::CSV_ANNULATION_OUI) {
-      return;
-    }*/
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
@@ -568,14 +571,11 @@ EOF;
   }
 
   public function importLigneCave($drm, $line) {
-    /*if($line[self::CSV_CAVE_ANNULATION] == self::CSV_ANNULATION_OUI) {
-      return;
-    }*/
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
     
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
-      $etablissement = EtablissementClient::getInstance()->find($line[self::CSV_CAVE_CODE_COOPERATEUR], acCouchdbClient::HYDRATE_JSON);
+      $etablissement = EtablissementClient::getInstance()->find(sprintf("%06d%02d", $line[self::CSV_CAVE_CODE_COOPERATEUR], $line[self::CSV_CAVE_CODE_COOPERATEUR_CHAI]), acCouchdbClient::HYDRATE_JSON);
       if(!$etablissement) {
 
 	      throw new sfException(sprintf("L'établissement cave coop '%s' n'existe pas", sprintf("%06d%02d", $line[self::CSV_CAVE_CODE_COOPERATEUR], $line[self::CSV_CAVE_CODE_COOPERATEUR_CHAI])));
@@ -592,9 +592,6 @@ EOF;
   }
 
   public function importLigneTransfert($drm, $line) {
-    /*if($line[self::CSV_TRANSFERT_ANNULATION] == self::CSV_ANNULATION_OUI) {
-      return;
-    }*/
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
@@ -765,16 +762,6 @@ EOF;
       $coherence[$code] = array("stock" => null, "entrees" => 0, "sorties" => 0); 
     }
 
-    /*if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_DS, 
-                                                                 self::CSV_CODE_MOUVEMENT_DS_MODIF, 
-                                                                 self::CSV_CODE_MOUVEMENT_DS_ANNULATION))) {
-      if (is_null($coherence[$code]["stock"])) {
-        $coherence[$code]["stock"] = 0;
-      }
-
-      $coherence[$code]["stock"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_STOCK_FIN_CAMPAGNE]); //DS
-    }*/
-
     if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_ENLEVEMENT,
                                                                  self::CSV_CODE_MOUVEMENT_ENLEVEMENT_ANNULATION, 
                                                                  self::CSV_CODE_MOUVEMENT_ENLEVEMENT_REGUL))) {
@@ -799,13 +786,11 @@ EOF;
 
 
     if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == self::CSV_CODE_MOUVEMENT_REPLI_SORTIE) {
-      //$coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_STOCK_FIN_CAMPAGNE])); //Repli
       $coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE])); //Repli
       $coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Repli
     }
 
     if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == self::CSV_CODE_MOUVEMENT_REPLI_ENTREE) {
-      //$coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_STOCK_FIN_CAMPAGNE])); //Repli
       $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE])); //Repli
       $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Repli
     }
