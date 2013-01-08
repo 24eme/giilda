@@ -33,7 +33,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    set_time_limit(600);
+    set_time_limit(0);
     $csv = new EtablissementCsvFile($arguments['file']);
     $csv->importEtablissements();
 

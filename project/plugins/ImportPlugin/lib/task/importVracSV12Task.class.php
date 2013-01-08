@@ -3,18 +3,6 @@
 class importVracSV12Task extends importVracTask
 {
 
-  const CSV_DOSSIER = 0;
-  const CSV_CAMPAGNE = 1;
-  const CSV_CODE_VITICULTEUR = 11;
-  const CSV_CODE_CHAI = 12;
-  const CSV_NUMERO_DECLARATION = 2;
-  const CSV_NUMERO_LIGNE = 3;
-  const CSV_CODE_APPELLATION = 4;
-  const CSV_VOLUME_LIBRE = 5;
-  const CSV_VOLUME_BLOQUE = 6;
-  const CSV_DATE_CREATION = 13;
-  const CSV_DATE_MODIFICATION = 14;
-
   protected function configure()
   {
     // // add your own arguments here
@@ -65,6 +53,9 @@ EOF;
       $i++;
     }
 
+    if(count($lines) > 0) {
+      $this->importSV12($lines);
+    }
   }
 
   public function importSV12($lines) {
@@ -81,13 +72,8 @@ EOF;
       }
       $vrac->save();
 
-      if ($vrac->campagne == '2012-2013') {
-        
-        continue;
-      }
-
       try{
-        $sv12 = $this->importLine($sv12, $vrac);
+        $sv12 = $this->importLine($sv12, $vrac, $line);
       } catch (Exception $e) {
         $this->log(sprintf("[SV12]ERROR;%s (ligne %s) : %s", $e->getMessage(), $i, implode($line, ";")));
 
@@ -99,19 +85,26 @@ EOF;
       return;
     }
 
+    $sv12->valide->date_saisie = $sv12->getDate();
+
     $sv12->validate(array('pas_solder' => true));
+
+    if ($sv12->campagne == ConfigurationClient::getInstance()->buildCampagne(date('Y-m-d'))) { 
+        $sv12->valide->statut = SV12Client::STATUT_VALIDE_PARTIEL;
+    }
+
     $sv12->facturerMouvements();
     $sv12->save();
   }
 
-  public function importLine($sv12, $vrac) {
-    if(is_null($sv12)) {
-      $sv12 = SV12Client::getInstance()->createOrFind($vrac->acheteur_identifiant, SV12Client::getInstance()->buildPeriodeFromCampagne($vrac->campagne));
-    }
-
+  public function importLine($sv12, $vrac, $line) {
     if (!in_array($vrac->type_transaction, VracClient::$types_transaction_non_vins)) {
 
       return $sv12;
+    }
+
+    if(is_null($sv12)) {
+      $sv12 = SV12Client::getInstance()->createOrFind($vrac->acheteur_identifiant, SV12Client::getInstance()->buildPeriodeFromCampagne($vrac->campagne));
     }
 
     if($vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE) {
@@ -121,6 +114,7 @@ EOF;
 
     $contrat = $sv12->addContrat($vrac);
     $contrat->volume = $vrac->volume_enleve;
+    $contrat->cvo = $this->convertToFloat($line[self::CSV_TAUX_CVO_GLOBAL]);
 
     return $sv12;
   }

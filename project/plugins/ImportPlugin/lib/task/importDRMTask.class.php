@@ -322,8 +322,9 @@ EOF;
       $i++;
     }
 
-    $this->importDRM($lines);
-
+    if(count($lines) > 0) {
+      $this->importDRM($lines);
+    }
   }
 
   protected function getCodeProduit($line) {
