@@ -14,6 +14,8 @@ dev:
     cache:                  true
     no_script_name:         false
     etag:                   false
+  .action:
+    error_500_includeexception:	true
 
 test:
   .settings:
@@ -22,6 +24,8 @@ test:
     web_debug:              false
     no_script_name:         false
     etag:                   false
+  .action:
+    error_500_includeexception:	true
 
 all:
   .settings:
@@ -39,3 +43,6 @@ all:
     use_database:           true
     default_culture:        fr_FR
 
+  .action:
+    error_500_module:       global
+    error_500_action:       error500

@@ -19,7 +19,7 @@ class SocieteAllView extends acCouchdbView
     public function findByInterpro($interpro, $statut, $typesocietes = array(), $q = null, $limit = 100) {
       try {
 	return $this->findByInterproELASTIC($interpro, $statut, $typesocietes, $q, $limit);
-      }catch(badException $e) {
+      }catch(Exception $e) {
 	return $this->findByInterproVIEW($interpro, $statut, $typesocietes);
       }
     }

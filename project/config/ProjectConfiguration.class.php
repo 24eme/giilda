@@ -29,5 +29,6 @@ class ProjectConfiguration extends sfProjectConfiguration
         $this->enablePlugins('acVinStocksPlugin');
         $this->enablePlugins('acVinComptePlugin');
         $this->enablePlugins('acElasticaPlugin');
+	   $this->dispatcher->connect('application.throw_exception', array('acError500', 'handleException'));
   	}
 }
