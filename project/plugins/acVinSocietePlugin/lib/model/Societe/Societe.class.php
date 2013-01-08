@@ -176,7 +176,7 @@ class Societe extends BaseSociete {
     }
 
     public function getCompte() {
-        $comptes = CompteClient::getInstance()->find($this->compte_societe);
+        return CompteClient::getInstance()->find($this->compte_societe);
     }
     
     public function setCodesComptables($is_codes) {
@@ -193,6 +193,7 @@ class Societe extends BaseSociete {
         
         $compte = null;
         if (!$this->compte_societe) {
+	  echo "Pas de compte societe\n";
             parent::save();
             $compte = CompteClient::getInstance()->createCompte($this);
             $compte->origines->add($this->_id,$this->_id);
@@ -205,10 +206,11 @@ class Societe extends BaseSociete {
         if (!$compte) {
             $compte = $this->getCompte();
         }
-        $compte->adresse = $this->siege->adresse;
-        $compte->code_postal = $this->siege->code_postal;
-        $compte->commune = $this->siege->commune;
-
+	if (isset($this->siege)) {
+	        $compte->adresse = $this->siege->adresse;
+	        $compte->code_postal = $this->siege->code_postal;
+	        $compte->commune = $this->siege->commune;
+	}
         $compte->save(true);
 	if ($this->changedCooperative) {
 	  foreach($this->getEtablissementsObj() as $e) {

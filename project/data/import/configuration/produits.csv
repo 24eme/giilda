@@ -1,5 +1,5 @@
 inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;;;Blanc;3;;;;;;;;;4,5;;G;;;;;;;11;cepage;70610000;cepage;1B200;cepage;1B200 03
-Inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;Coteaux de la Loire;CDL;Blanc;3;Chenin;CHE;;;;;;;4;;A;;;;;;;21;cepage;70610000;cepage;1B202L;cepage;
+Inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;Coteaux de la Loire;CDL;Blanc;3;Chenin;CHE;;;;;;;4;;L;;;;;;;21;cepage;70610000;cepage;1B202L;cepage;
 inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;;;Rouge;1;Gamay;GAM;;;;;;;4,5;;G;;;;;;;32;cepage;70610000;cepage;1R203S;cepage;
 inter-loire;AOC;AOC;EFF;EFF;Anjou;ANJ;;;;;Blanc;3;;;;;;;;;3,8;;A;;;;;;;44;cepage;70610000;cepage;1B200M;cepage;1S200M
 inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;;;Rouge;1;;;;;;;;;4,5;;G;;;;;;;52;cepage;70610000;cepage;1R200S;cepage;
@@ -7,8 +7,8 @@ inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;Primeur;PRI;;;Rouge;1;Gamay;GAM;;;;;;;4,5;;
 inter-loire;AOC;AOC;;TRANQ;Anjou-Villages;AJV;;;;;Rouge;1;;;;;;;;;4,5;;A;;;;;;;62;cepage;70610000;cepage;1R204S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Anjou-Villages;AJV;;;Brissac;BRI;Rouge;1;;;;;;;;;5,5;;L;;;;;;;92;cepage;70610000;cepage;1R217S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Bonnezeaux;BON;;;;;Blanc;3;;CHE;;;;;;;6;;A;;;;;;;71;cepage;70610000;cepage;1B210L;cepage;
-inter-loire;AOC;AOC;;TRANQ;Bourgueil;BRG;;;;;Rouge;1;Cabernet Franc;CBF;;;;;;;;;C;;;;;;;592;cepage;70610000;cepage;1S220S;cepage;
-inter-loire;AOC;AOC;;TRANQ;Bourgueil;BRG;;;;;Rosé;2;Cabernet Franc;CBF;;;;;;;;;C;;;;;;;593;cepage;70610000;cepage;1R220S;cepage;
+inter-loire;AOC;AOC;;TRANQ;Bourgueil;BRG;;;;;Rouge;1;Cabernet Franc;CBF;;;;;;;;;A;;;;;;;592;cepage;70610000;cepage;1S220S;cepage;
+inter-loire;AOC;AOC;;TRANQ;Bourgueil;BRG;;;;;Rosé;2;Cabernet Franc;CBF;;;;;;;;;A;;;;;;;593;cepage;70610000;cepage;1R220S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Cabernet d'Anjou;CAJ;;;;;Rosé;2;;;;;;;;;4,5;;A;;;;;;;83;cepage;70610000;cepage;1S201D;cepage;1S201D03
 inter-loire;AOC;AOC;;TRANQ;Cabernet de Saumur;CAS;;;;;Rosé;2;;;;;;;;;4;;A;;;;;;;103;cepage;70610000;cepage;1S207;cepage;1S20701
 inter-loire;AOC;AOC;;TRANQ;Chinon;CHI;;;;;Blanc;3;Chenin;CHE;;;;;;;4,5;;A;;;;;;;581;cepage;70610000;cepage;0631B;cepage;
@@ -26,11 +26,11 @@ inter-loire;AOC;AOC;;TRANQ;Coteaux du loir;CDL;;;;;Blanc;3;Chenin;CHE;;;;;;;4;;A
 inter-loire;AOC;AOC;;TRANQ;Coteaux du loir;CDL;;;;;Rouge;1;;;;;;;;;4;;A;;;;;;;612;cepage;70610000;cepage;1R223S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Coteaux du loir;CDL;;;;;Rosé;2;;;;;;;;;4;;A;;;;;;;613;cepage;70610000;cepage;1S223S;cepage;
 inter-loire;AOC;AOC;EFF;EFF;Crémant de Loire;CLO;;;;;Blanc;3;;;;;;;;;4;;G;;;;;;;404;cepage;70610000;cepage;1B215M;cepage;1S215M
-inter-loire;AOC;AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Blanc;3;;;;;;;;;4;;C;;;;;;;4010;cepage;70610000;cepage;;cepage;
-inter-loire;AOC;AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Rouge;1;;;;;;;;;4;;C;;;;;;;4020;cepage;70610000;cepage;;cepage;
-inter-loire;AOC;AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Rosé;2;;;;;;;;;4;;C;;;;;;;4030;cepage;70610000;cepage;;cepage;
-inter-loire;AOC;AOC;;TRANQ;Gros plant;GPL;;;;;Blanc;3;Folle blanche;FBL;;;;;;;4;;C;;;;;;;2000;cepage;70610000;cepage;2058B;cepage;
-inter-loire;AOC;AOC;;TRANQ;Gros plant;GPL;Sur lie;LIE;;;Blanc;3;Folle blanche;FBL;;;;;;;4;;C;;;;;;;2001;cepage;70610000;cepage;2058BSL;cepage;
+inter-loire;AOC;AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Blanc;3;;;;;;;;;4;;A;;;;;;;4010;cepage;70610000;cepage;;cepage;
+inter-loire;AOC;AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Rouge;1;;;;;;;;;4;;A;;;;;;;4020;cepage;70610000;cepage;;cepage;
+inter-loire;AOC;AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Rosé;2;;;;;;;;;4;;A;;;;;;;4030;cepage;70610000;cepage;;cepage;
+inter-loire;AOC;AOC;;TRANQ;Gros plant;GPL;;;;;Blanc;3;Folle blanche;FBL;;;;;;;4;;A;;;;;;;2000;cepage;70610000;cepage;2058B;cepage;
+inter-loire;AOC;AOC;;TRANQ;Gros plant;GPL;Sur lie;LIE;;;Blanc;3;Folle blanche;FBL;;;;;;;4;;A;;;;;;;2001;cepage;70610000;cepage;2058BSL;cepage;
 inter-loire;AOC;AOC;;TRANQ;Jasnières;JAS;;;;;Blanc;3;Chenin;CHE;;;;;;;4;;A;;;;;;;621;cepage;70610000;cepage;1B224;cepage;
 inter-loire;AOC;AOC;;TRANQ;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;;;;;;4;;A;;;;;;;561;cepage;70610000;cepage;1B225;cepage;
 inter-loire;AOC;AOC;EFF;EFF;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;;;;;;4;;G;;;;;;;564;cepage;70610000;cepage;1B225M;cepage;1B225P
@@ -64,8 +64,8 @@ inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;Primeur;PRI;;;Rosé;2;;;;;;;;;4;;A;;;;;;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Amboise;AMB;Blanc;3;Chenin;CHE;;;;;;;4;;A;;;;;;;531;cepage;70610000;cepage;1B236;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Amboise;AMB;Rouge;1;;;;;;;;;4;;A;;;;;;;532;cepage;70610000;cepage;1R236S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Amboise;AMB;Rosé;2;;;;;;;;;4;;A;;;;;;;533;cepage;70610000;cepage;1S236;cepage;
-inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Azay-le-rideau;ALR;Blanc;3;Chenin;CHE;;;;;;;4,5;;L;;;;;;;541;cepage;70610000;cepage;1B237;cepage;
-inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Azay-le-rideau;ALR;Rosé;2;;;;;;;;;4,5;;L;;;;;;;543;cepage;70610000;cepage;1S237S;cepage;
+inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Azay-le-rideau;ALR;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;541;cepage;70610000;cepage;1B237;cepage;
+inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Azay-le-rideau;ALR;Rosé;2;;;;;;;;;4,5;;G;;;;;;;543;cepage;70610000;cepage;1S237S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Mesland;MES;Blanc;3;Chenin;CHE;;;;;;;3,8;;L;;;;;;;551;cepage;70610000;cepage;1B238;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Mesland;MES;Rouge;1;;;;;;;;;3,8;;L;;;;;;;552;cepage;70610000;cepage;1R238S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Mesland;MES;Rosé;2;;;;;;;;;3,8;;L;;;;;;;553;cepage;70610000;cepage;1S238;cepage;
@@ -75,6 +75,6 @@ inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Rouge;1;;;;;;;;;4;;A;;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Oisly;OIS;Blanc;3;Sauvignon Blanc;SAUB;;;;;;;4;;A;;;;;;;641;cepage;70610000;cepage;1B704S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Vouvray;VOU;;;;;Blanc;3;;;;;;;;;4;;A;;;;;;;571;cepage;70610000;cepage;1B226;cepage;
 inter-loire;AOC;AOC;EFF;EFF;Vouvray;VOU;;;;;Blanc;3;;;;;;;;;4;;G;;;;;;;574;cepage;70610000;cepage;1B226M;cepage;1B226P
-inter-loire;Vin de pays;VdP;;TRANQ;;;;;;;Blanc;3;;;;;;;;;;;C;;;;;;;;;;;;cepage;
-inter-loire;Vin de pays;VdP;;TRANQ;;;;;;;Rosé;2;;;;;;;;;;;C;;;;;;;;;;;;cepage;
-inter-loire;Vin de pays;VdP;;TRANQ;;;;;;;Rouge;1;;;;;;;;;;;C;;;;;;;;;;;;cepage;
+inter-loire;Vin de pays;VdP;;TRANQ;;;;;;;Blanc;3;;;;;;;;;;;;;;;;;;;;;;;cepage;
+inter-loire;Vin de pays;VdP;;TRANQ;;;;;;;Rosé;2;;;;;;;;;;;;;;;;;;;;;;;cepage;
+inter-loire;Vin de pays;VdP;;TRANQ;;;;;;;Rouge;1;;;;;;;;;;;;;;;;;;;;;;;cepage;
