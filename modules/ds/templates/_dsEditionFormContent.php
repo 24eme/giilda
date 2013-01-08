@@ -13,7 +13,7 @@ echo $form->renderGlobalErrors();
         <thead>
             <tr>
                 <th colspan="2">Produits</th>
-                <th>Volume saisie</th>
+                <th>Volume saisi</th>
                 <th class="colonne_vci">VCI</th>
                 <th class="colonne_reservequalitative">Réserve qual.</th>
             </tr>

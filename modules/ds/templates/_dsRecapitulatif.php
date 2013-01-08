@@ -7,7 +7,7 @@ use_helper('Float');
 	<thead>
 		<tr>
 			<th>Produits</th>
-                        <th>(Volume dernière DRM)</th>
+                        <th>(DRM <?php echo preg_replace ('/.*-(\d{4})(\d{2})$/', '\2/\1', $ds->drm_origine); ?>)</th>
 			<th>Volume déclaré</th>
                         <th>VCI</th>
                         <th>Réserve qual.</th>
