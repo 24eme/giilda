@@ -24,7 +24,7 @@ class revendicationActions extends sfActions {
     public function executeMonEspace(sfWebRequest $request) {
         $this->revendication_etablissement = null;
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndEtablissement('20122013', $this->etablissement);
+        $this->revendications = RevendicationEtablissementView::getInstance()->findByEtablissement($this->etablissement->identifiant);
     }
     
     public function executeChooseEtablissement(sfWebRequest $request) {
