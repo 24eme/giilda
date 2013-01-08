@@ -2716,6 +2716,10 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 }
 #contacts .etablissement .form_contenu { background:#faf0e7; }
 #contacts .ferme h3:before { background:url("../images/pictos/fleche_col_groupe_ferme.png") no-repeat; }
+#contacts .form_modifier {
+  margin:0 0;
+  float:right;
+}
 #contacts .form_btn { margin:28px 0; }
 #contacts .form_btn .btn_valider { margin:0 0 0 470px; }
 #contacts .form_ligne {
@@ -2733,7 +2737,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #contacts .form_ligne:after { clear:both; }
 #contacts .form_section {
   border:1px solid #d2d2d2;
-  margin:0 0 35px 0;
+  margin:0 0;
 }
 #contacts .form_section .champ_long { width:425px; }
 #contacts .form_section .btn_ajouter_ligne_template {
