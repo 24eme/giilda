@@ -9,7 +9,7 @@ if ($declaration->hasElaboration())
     if (isset($prod_vol)) {
       $drm = $declaration->getDocument()->getLastDRM();
       if ($drm) {
-	echo " <span>(<a href=\"" . url_for('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndversion())) . "\">Vol. DRM".preg_replace ('/.*-(\d{4})(\d{2})$/', '\2/\1', $ds->drm_origine).": $prod_vol</a>)</span>";
+	echo " <span>(<a href=\"" . url_for('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndversion())) . "\">Vol. DRM $ds_origine : $prod_vol</a>)</span>";
       }
     }
         ?></td>
