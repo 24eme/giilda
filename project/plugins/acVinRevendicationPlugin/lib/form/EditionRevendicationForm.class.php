@@ -100,7 +100,7 @@ class EditionRevendicationForm extends sfForm {
         $new_ligne->volume = $oldNode->volumes->$row->volume;
         $new_ligne->bailleur_identifiant = $oldNode->volumes->$row->bailleur_identifiant;
         $new_ligne->bailleur_nom = $oldNode->volumes->$row->bailleur_nom;        
-        $new_ligne->date_insertion = $oldNode->volumes->$row->date_insertion;
+        $new_ligne->date_certification = $oldNode->volumes->$row->date_certification;
         $new_ligne->ligne = $oldNode->volumes->$row->ligne;
         $new_ligne->statut = RevendicationProduits::STATUT_MODIFIE;
         return $produits->$codeDouane;
