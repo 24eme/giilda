@@ -367,6 +367,11 @@ class VracClient extends acCouchdbClient {
         return $jour.'/'.$mois.'/'.$annee.' n° '.$num;
     }
     
+    public function getNumeroArchiveEtDate($id) {
+        $c = $this->findByNumContrat($id);
+        return $c->numero_archive.' du '.$c->date_signature;
+    }
+    
     public function retreiveByStatutsTypes($statuts,$types) {
         return VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypes($statuts,$types);
     }
