@@ -178,15 +178,15 @@ class drmComponents extends sfComponents {
             if (!isset($this->recaps[$ds->produit_hash])) {
                 $this->recaps[$ds->produit_hash] = $this->initLigneRecap($ds->produit_hash);
             }
-            $this->recaps[$ds->produit_hash]['volume_stock_debut_ds'] = $ds->volume;
+            $this->recaps[$ds->produit_hash]['volume_stock_fin_ds'] = $ds->volume;
         }
 
-        $dss = DSStocksView::getInstance()->findByCampagneAndEtablissement(ConfigurationClient::getInstance()->getNextCampagne($this->campagne), null, $this->etablissement->identifiant);
+        $dss = DSStocksView::getInstance()->findByCampagneAndEtablissement(ConfigurationClient::getInstance()->getPreviousCampagne($this->campagne), null, $this->etablissement->identifiant);
         foreach($dss as $ds) {
             if (!isset($this->recaps[$ds->produit_hash])) {
                 $this->recaps[$ds->produit_hash] = $this->initLigneRecap($ds->produit_hash);
             }
-            $this->recaps[$ds->produit_hash]['volume_stock_fin_ds'] = $ds->volume;
+            $this->recaps[$ds->produit_hash]['volume_stock_debut_ds'] = $ds->volume;
         }
 
         $contrats = VracStocksView::getInstance()->findVinByCampagneAndEtablissement($this->campagne, $this->etablissement);
