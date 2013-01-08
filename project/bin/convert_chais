@@ -22,7 +22,7 @@ grep -v '^10;4' cicav.csv > cicav.csv.tmp
 mv cicav.csv.tmp cicav.csv
 
 cd $PROJECTDIR
-. bin/download_redmine_file https://clients.actualys.com/attachments/download/4824/vitivirtuel2negos.csv /tmp/vitivirtuel2negos.csv
+. bin/download_redmine_file https://clients.actualys.com/attachments/download/4997/vitivirtuel2negos.csv /tmp/vitivirtuel2negos.csv
 cd $DATADIR
 
 echo "conversion 2/2"

@@ -54,14 +54,15 @@ class revendicationActions extends sfActions {
 
                 RevendicationCsvFile::convertTxtToCSV($path);
                 $this->csv = new RevendicationCsvFile($path);
+                $this->revendication->updateCSV($path);
                 if(!$this->csv->check())
                 {
                     $this->errors = $this->csv->getErrors(); 
                     $this->revendication->etape = 1;
+                    $this->form = new UploadCSVRevendicationForm($this->revendication);
                     return sfView::SUCCESS;
                 }
                     
-                $this->revendication->updateCSV($path);
                 $this->revendication->save();
                 return $this->redirect('revendication_update', $this->revendication);
            }
