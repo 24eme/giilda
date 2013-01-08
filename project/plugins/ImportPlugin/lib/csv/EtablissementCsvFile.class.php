@@ -63,6 +63,7 @@ class EtablissementCsvFile extends CsvFile
 
         $famille = $this->convertTypeInFamille($line[self::CSVPAR_TYPE_PARTENAIRE]);
         if (!$famille) {
+	  echo "Etablissement ERROR: ".$line[self::CSVPAR_CODE_CLIENT].": Pas de Famille connue\n";
           continue;
         }
 
@@ -160,8 +161,6 @@ class EtablissementCsvFile extends CsvFile
 	if ($line[self::CSVPAR_TYPE_PARTENAIRE] == self::CSV_TYPE_PARTENAIRE_COURTIER && isset($line[self::CSVCOURTIER_NUMCARTE])) {
 		$e->carte_pro = $line[self::CSVCOURTIER_NUMCARTE];
 	}
-
-	
 
       	$e->save();
       }
