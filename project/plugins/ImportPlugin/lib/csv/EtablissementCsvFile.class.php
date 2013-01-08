@@ -75,7 +75,7 @@ class EtablissementCsvFile extends CsvFile
         }
 	
 	$chai = 1;
-	if (isset($line[self::CSVCAV_CODE_CHAI]) && $line[self::CSVPAR_TYPE_PARTENAIRE] != self::CSV_TYPE_PARTENAIRE_COURTIER) {
+	if (isset($line[self::CSVCAV_CODE_CHAI]) && $line[self::CSVPAR_TYPE_PARTENAIRE] != self::CSV_TYPE_PARTENAIRE_COURTIER && $line[self::CSVCOURTIER_ISCOURTIER] != self::CSVCOURTIER_ISCOURTIER_VALEUR) {
 		$chai = $line[self::CSVCAV_CODE_CHAI];
 	}
         $id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
