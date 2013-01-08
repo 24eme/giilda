@@ -193,7 +193,6 @@ class Societe extends BaseSociete {
         
         $compte = null;
         if (!$this->compte_societe) {
-	  echo "Pas de compte societe\n";
             parent::save();
             $compte = CompteClient::getInstance()->createCompte($this);
             $compte->origines->add($this->_id,$this->_id);
