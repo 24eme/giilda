@@ -47,10 +47,10 @@ class RevendicationCsvFile extends CsvFile
 		$this->errors[] = array('message' => 'Un propriétaire devrait être indiqué comme 1 et un métayer comme 2', 'num_ligne' => $this->current_line);
                 return false;
 	}
-        if (!$line[self::CSV_COL_COMMUNE]) {
-                $this->errors[] = array('message' => 'La colonne "commune" ne doit pas être vide', 'num_ligne' => $this->current_line);
-                return false;
-        }
+//        if (!$line[self::CSV_COL_COMMUNE]) {
+//                $this->errors[] = array('message' => 'La colonne "commune" ne doit pas être vide', 'num_ligne' => $this->current_line);
+//                return false;
+//        }
 
         if (!preg_match('/^[0-9]{5}$/', $line[self::CSV_COL_CODE_POSTAL])) {
                 $this->errors[] = array('message' => 'Mauvais format pour le code postal', 'num_ligne' => $this->current_line);
@@ -118,7 +118,7 @@ class RevendicationCsvFile extends CsvFile
                         substr($s, 0, 5).';'. //CSV_COL_CODE_POSTAL
                         substr($s, 5, 30).';'.//CSV_COL_COMMUNE
                         substr($s, 35, 8).';'.//CSV_COL_CODE_PRODUIT
-                        substr($s, 43, 66).';';//CSV_COL_LIBELLE_PRODUIT
+                        str_replace('/','',str_replace('.','',substr($s, 43, 66))).';';//CSV_COL_LIBELLE_PRODUIT
 		$s = substr($s, 99);
 		$s = preg_replace('/^[^0-9]*/', '', $s);
 		$line .= 
