@@ -112,7 +112,7 @@ EOF;
         $vrac = $this->importVrac($data);
         $vrac->save();
       } catch (Exception $e) {
-        $this->log(sprintf("ERROR;%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
+        $this->logLigne("ERROR", $e->getMessage(), $data);
 
         continue;
       }
