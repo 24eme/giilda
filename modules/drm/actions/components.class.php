@@ -123,23 +123,6 @@ class drmComponents extends sfComponents {
         }
     }
 
-    protected function initLigneRecap($produit_hash)  {
-        $ligne = array();
-        $ligne['produit'] = ConfigurationClient::getCurrent()->get($produit_hash)->getLibelleFormat();
-        $ligne['volume_stock_debut'] = 0;
-        $ligne['volume_stock_debut_ds'] = null;
-        $ligne['volume_recolte'] = 0;
-        $ligne['volume_revendique_drev'] = null;
-        $ligne['volume_entrees'] = 0;
-        $ligne['volume_sorties'] = 0;
-        $ligne['volume_facturable'] = 0;
-        $ligne['volume_stock_commercialisable'] = 0;
-        $ligne['volume_stock_fin'] = 0;
-        $ligne['volume_stock_fin_ds'] = null;
-
-        return $ligne;
-    }
-
     public function executeStocksRecap() {
         $this->recaps = array();
 
@@ -196,5 +179,22 @@ class drmComponents extends sfComponents {
             }
             $this->recaps[$hash_produit]['volume_stock_commercialisable'] = $this->recaps[$hash_produit]['volume_stock_fin'] - $volume;
         }
+    }
+
+    protected function initLigneRecap($produit_hash)  {
+        $ligne = array();
+        $ligne['produit'] = ConfigurationClient::getCurrent()->get($produit_hash)->getLibelleFormat();
+        $ligne['volume_stock_debut'] = 0;
+        $ligne['volume_stock_debut_ds'] = null;
+        $ligne['volume_recolte'] = 0;
+        $ligne['volume_revendique_drev'] = null;
+        $ligne['volume_entrees'] = 0;
+        $ligne['volume_sorties'] = 0;
+        $ligne['volume_facturable'] = 0;
+        $ligne['volume_stock_commercialisable'] = 0;
+        $ligne['volume_stock_fin'] = 0;
+        $ligne['volume_stock_fin_ds'] = null;
+
+        return $ligne;
     }
 }

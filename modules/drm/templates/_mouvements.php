@@ -25,7 +25,7 @@
     <?php $i++; ?>
         <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php if($i%2!=0) echo "alt"; if ($mouvement->facturable) {echo " facturable";}  ?>">
             <td>
-                <?php echo sprintf("%s - %s", ($mouvement->version) ? $mouvement->version : 'M00', format_date($mouvement->date_version));?>
+                <?php echo sprintf("%s&nbsp;%s %s",$mouvement->type, ($mouvement->version) ? '('.$mouvement->version.')' : '', format_date($mouvement->date_version));?></td>
             </td>
             <td><?php echo $mouvement->produit_libelle ?> </td>
             <td><?php
