@@ -59,7 +59,7 @@ use_helper('Float');
 </div>
 
 <div class="btn_etape">
-	<a href="<?php echo url_for('ds_edition_operateur', $ds); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
+	<a href="<?php echo url_for('ds_edition_operateur', $ds); ?>" class="btn_majeur btn_modifier"><span>Modifier</span></a>
 	<button type="submit" id="ds_edition_validation" class="btn_majeur btn_valider ds_declaration_validation">Terminer</button>
 </div>
     
