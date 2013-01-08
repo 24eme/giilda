@@ -171,10 +171,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     
     protected function setDroitCvoCsv($datas, $code_applicatif) {
 
-    	if (!array_key_exists(ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD, $datas) || $code_applicatif != $datas[ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD]) {
+      if (!isset($datas[ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD]) || !$datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE] || $code_applicatif != $datas[ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD]) {
 
     		return;
     	}
+
+      echo "Ajout d'une CVO de ".$datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]." pour $code_applicatif ".$this->getHash()."\n";
 
     	$droits = $this->getDroits('INTERPRO-'.strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
     	$date = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE])? $datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE] : '1900-01-01';
@@ -183,7 +185,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     	$libelle = ConfigurationDroits::LIBELLE_CVO;
     	$canInsert = true;
     	foreach ($droits->cvo as $droit) {
-    		if ($droit->date == $date && $droit->taux == $taux && $droit->code == $code) {
+    		if ($droit->date == $date && $droit->code == $code) {
     			$canInsert = false;
     			break;
     		}

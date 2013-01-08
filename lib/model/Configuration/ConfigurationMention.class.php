@@ -57,6 +57,8 @@ class ConfigurationMention extends BaseConfigurationMention {
     	$this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_MENTION_LIBELLE])? $datas[ProduitCsvFile::CSV_PRODUIT_MENTION_LIBELLE] : null;
     	$this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_MENTION_CODE])? $datas[ProduitCsvFile::CSV_PRODUIT_MENTION_CODE] : null;
 
+    	$this->setDroitDouaneCsv($datas, ProduitCsvFile::CSV_PRODUIT_MENTION_CODE_APPLICATIF_DROIT);
+    	$this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_MENTION_CODE_APPLICATIF_DROIT); 
     	$this->setDepartementCsv($datas);
     }
     
@@ -64,7 +66,7 @@ class ConfigurationMention extends BaseConfigurationMention {
   		return true;
   	}
   	public function hasDroits() {
-  		return false;
+  		return true;
   	}
   	public function hasLabels() {
   		return false;
