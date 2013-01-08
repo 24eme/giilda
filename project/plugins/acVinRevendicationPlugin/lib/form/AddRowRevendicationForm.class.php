@@ -65,7 +65,7 @@ class AddRowRevendicationForm extends EditionRevendicationForm {
         $etbProd->volumes->$ligne->volume = $this->values['volume'];
         $etbProd->volumes->$ligne->bailleur_identifiant = null;
         $etbProd->volumes->$ligne->bailleur_nom = null;
-        $etbProd->volumes->$ligne->date_insertion = date('Y-m-d');
+        $etbProd->volumes->$ligne->date_certification = date('Y-m-d');
         $etbProd->volumes->$ligne->statut = RevendicationProduits::STATUT_SAISIE;
         $etbProd->volumes->$ligne->ligne = "";
         return $this->revendication;
