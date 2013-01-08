@@ -65,6 +65,11 @@ class VracClient extends acCouchdbClient {
                                       '5 L' => 0.05,
                                       '6 L' => 0.06);
 
+    public static $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
+                                      VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
+                                      VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
+                                      VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin conditionné');
+
     public static $categories_vin = array(self::CATEGORIE_VIN_GENERIQUE => 'Générique', self::CATEGORIE_VIN_DOMAINE => 'Domaine');
 
     

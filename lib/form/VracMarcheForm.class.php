@@ -9,11 +9,6 @@
  * @author mathurin
  */
 class VracMarcheForm extends acCouchdbObjectForm {
-   
-    private $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
-                                       VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
-                                       VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
-                                       VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin conditionné');
     
     protected $_choices_produits;
      
@@ -22,8 +17,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
     {
         $originalArray = array('0' => 'Non', '1' => 'Oui');
         $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray,'expanded' => true)));
-        $types_transaction = $this->types_transaction;
-        $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $types_transaction,'expanded' => true)));
+        $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $this->getTypesTransaction(),'expanded' => true)));
 		
         $this->getDomaines();
         $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->getProduits()), array('class' => 'autocomplete')));      
@@ -58,7 +52,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $validatorForNumbers =  new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
         $this->setValidators(array(
             'attente_original' => new sfValidatorInteger(array('required' => true)),
-            'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($types_transaction))),
+            'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))),
             'millesime' => new sfValidatorInteger(array('required' => false, 'min' => 1980, 'max' => $this->getCurrentYear())),
             'categorie_vin' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))),
@@ -120,7 +114,12 @@ class VracMarcheForm extends acCouchdbObjectForm {
         foreach ($domaines->rows as $resultDomaine) {
             $d = $resultDomaine->key[VracDomainesView::KEY_DOMAINE];
             $this->domaines[$d] = $d;
-	}
+	    }
+    }
+
+    public function getTypesTransaction() {
+
+        return VracClient::$types_transaction;
     }
 
     public function getCategoriesVin() 
