@@ -1,14 +1,13 @@
 <?php
-class RevendicationStocksODGView extends acCouchdbView
+class RevendicationEtablissementView extends acCouchdbView
 {
-    const KEY_CAMPAGNE = 0;
+    const KEY_ETABLISSEMENT_IDENTIFIANT = 0;
     const KEY_ODG = 1; 
-    const KEY_SOCIETE_IDENTIFIANT = 2;
-    const KEY_ETABLISSEMENT_IDENTIFIANT = 3;
-    const KEY_PRODUIT_HASH = 4;
-    const KEY_LIGNE_STATUT = 5;
-    const KEY_LIGNE_IDENTIFIANT = 6;
-    const KEY_LIGNE_CODE_DOUANE = 7;
+    const KEY_CAMPAGNE = 2;
+    const KEY_PRODUIT_HASH = 3;
+    const KEY_LIGNE_STATUT = 4;
+    const KEY_LIGNE_IDENTIFIANT = 5;
+    const KEY_LIGNE_CODE_DOUANE = 6;
 
     const VALUE_VOLUME = 0;
     const VALUE_DATE_INSERTION = 1;
@@ -23,17 +22,23 @@ class RevendicationStocksODGView extends acCouchdbView
 
     public static function getInstance() {
 
-        return acCouchdbManager::getView('revendication', 'stocks_odg', 'Revendication');
+        return acCouchdbManager::getView('revendication', 'etablissement', 'Revendication');
     }
 
-    public function findByCampagneAndODG($campagne, $odg) {    
+    public function findByEtablissement($etablissementId) {    
+        $revs = array();
 
-        return $this->builds(
-                            $this->client->startkey(array($campagne, $odg))
-                            ->endkey(array($campagne, $odg, array()))
-                            ->getView($this->design, $this->view)->rows
-                            );
+        foreach($this->client->getODGs() as $odg => $odg_libelle) {
+            $revs = array_merge($revs, $this->builds(
+                            $this->client->startkey(array($etablissementId, $odg))
+                                         ->endkey(array($etablissementId, $odg, array()))
+                                         ->getView($this->design, $this->view)->rows
+                            ));
+        }
+
+        return $revs;
     }
+
 
     public function builds($rows) {
         $revs = array();
@@ -47,7 +52,6 @@ class RevendicationStocksODGView extends acCouchdbView
 
     public function build($row) {
         $rev = new stdClass();
-        $rev->societe_identifiant = $row->key[self::KEY_SOCIETE_IDENTIFIANT];
         $rev->etablissement_identifiant = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT];
         $rev->declarant_nom = $row->value[self::VALUE_DECLARANT_NOM];
         $rev->declarant_cvi = $row->value[self::VALUE_DECLARANT_CVI];

@@ -9,9 +9,11 @@ if (isset($revendication)) {
 ?>        
 <h2>Volumes revendiqués</h2>
 <fieldset id="revendication_volume_revendiques_edition">
-<?php if (isset($revendication)) : ?>
+<?php if (isset($revendications) && count($revendications)) : ?>
+        <?php if (isset($revendication)) :  ?>
         <a class="btn_majeur btn_modifier" href="<?php echo url_for('revendication_add_row', array('odg'=> $odg, 'campagne' => $campagne)); ?>"><span>Ajouter lignes</span></a>
         <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
+        <?php endif;?>
     <table class="table_recap">
         <thead>
             <tr>
@@ -32,6 +34,7 @@ if (isset($revendication)) {
                 'row' => "%s",
                 'retour' => $retour))); ?>
         <?php foreach ($revendications as $rev) : ?>
+            
             <?php if ($rev->statut != RevendicationProduits::STATUT_SUPPRIME): ?>
             <tr>
                 <td><?php echo $rev->odg ?></td>
