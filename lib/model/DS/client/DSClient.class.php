@@ -2,8 +2,8 @@
 
 class DSClient extends acCouchdbClient {
 
-    const STATUT_VALIDE = 'valide';
-    const STATUT_A_SAISIR = 'a_saisir';
+    const STATUT_VALIDE = 'VALIDE';
+    const STATUT_A_SAISIR = 'A_SAISIR';
 
     public static function getInstance() {
         return acCouchdbManager::getClient("DS");
