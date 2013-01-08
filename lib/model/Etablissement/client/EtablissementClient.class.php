@@ -6,27 +6,27 @@ class EtablissementClient extends acCouchdbClient {
      * @return EtablissementClient
      */
 
-    const REGION_TOURS = 'tours';
-    const REGION_ANGERS = 'angers';
-    const REGION_NANTES = 'nantes';
-    const REGION_HORSINTERLOIRE = 'hors interloire';
-    const RECETTE_LOCALE = '(recette_locale)';
+    const REGION_TOURS = 'TOURS';
+    const REGION_ANGERS = 'ANGERS';
+    const REGION_NANTES = 'NANTES';
+    const REGION_HORSINTERLOIRE = 'HORS_INTERLOIRE';
+    const RECETTE_LOCALE = 'RECETTE_LOCALE';
     const TYPE_DR_DRM = 'DRM';
     const TYPE_DR_DRA = 'DRA';
-    const TYPE_LIAISON_BAILLEUR = 'bailleur';
-    const TYPE_LIAISON_METAYER = 'metayer';
-    const TYPE_LIAISON_ADHERENT = 'adherent'; //pour les cooperateurs
-    const TYPE_LIAISON_CONTRAT_INTERNE = 'contrat_interne';
+    const TYPE_LIAISON_BAILLEUR = 'BAILLEUR';
+    const TYPE_LIAISON_METAYER = 'METAYER';
+    const TYPE_LIAISON_ADHERENT = 'ADHERENT'; //pour les cooperateurs
+    const TYPE_LIAISON_CONTRAT_INTERNE = 'CONTRAT_INTERNE';
 
     const STATUT_ACTIF = 'ACTIF'; #'actif';
-    const STATUT_SUSPENDU = 'ARCHIVE'; #'suspendu';
+    const STATUT_SUSPENDU = 'SUSPENDU'; #'suspendu';
 
     const RELANCE_DS_OUI = 'OUI';
     const RELANCE_DS_NON = 'NON';
 
 
-    public static $statuts = array(self::STATUT_ACTIF => 'Actif',
-                                   self::STATUT_SUSPENDU => 'Inactif'); 
+    public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
+                                   self::STATUT_SUSPENDU => 'SUSPENDU'); 
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Etablissement");
@@ -186,7 +186,7 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public static function getRecettesLocales() {
-        return array(self::RECETTE_LOCALE => self::RECETTE_LOCALE);
+        return array(self::RECETTE_LOCALE => 'Recette locale');
     }
 
     public static function getRegionsWithoutHorsInterLoire() {

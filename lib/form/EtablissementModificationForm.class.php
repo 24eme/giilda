@@ -33,7 +33,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
                 $this->setWidget('type_dr', new sfWidgetFormChoice(array('choices' => $this->getTypeDR())));
             }
         }
-//       $this->setWidget('recette_locale', new sfWidgetFormChoice(array('choices' => $this->getRecettesLocales())));
         $this->setWidget('region', new sfWidgetFormChoice(array('choices' => $this->getRegions())));
 
 
@@ -58,7 +57,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
                 $this->widgetSchema->setLabel('type_dr', 'Type de DR');
             }
         }
-//    $this->widgetSchema->setLabel('recette_locale', 'Recette Locale');
         $this->widgetSchema->setLabel('region', 'Région viticole');
 
         $this->widgetSchema->setLabel('site_fiche', 'Site Fiche Publique');
@@ -80,7 +78,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
                 $this->setValidator('type_dr', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeDR()))));
             }
         }
-//   $this->setValidator('recette_locale', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getRecettesLocales()))));
         $this->setValidator('region', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getRegions()))));
 
         $this->setValidator('site_fiche', new sfValidatorString(array('required' => false)));
@@ -98,10 +95,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
 
     public function getOuiNonChoices() {
         return array('oui' => 'Oui', 'non' => 'Non');
-    }
-
-    public function getRecettesLocales() {
-        return EtablissementClient::getRecettesLocales();
     }
 
     public function getRegions() {
