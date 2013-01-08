@@ -47,6 +47,7 @@ class RevendicationStocksODGView extends acCouchdbView
 
     public function build($row) {
         $rev = new stdClass();
+        $rev->id = $row->id;
         $rev->societe_identifiant = $row->key[self::KEY_SOCIETE_IDENTIFIANT];
         $rev->etablissement_identifiant = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT];
         $rev->declarant_nom = $row->value[self::VALUE_DECLARANT_NOM];

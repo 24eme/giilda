@@ -52,6 +52,7 @@ class RevendicationEtablissementView extends acCouchdbView
 
     public function build($row) {
         $rev = new stdClass();
+        $rev->id = $row->id;
         $rev->etablissement_identifiant = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT];
         $rev->declarant_nom = $row->value[self::VALUE_DECLARANT_NOM];
         $rev->declarant_cvi = $row->value[self::VALUE_DECLARANT_CVI];
