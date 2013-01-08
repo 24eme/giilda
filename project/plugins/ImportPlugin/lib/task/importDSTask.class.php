@@ -57,7 +57,7 @@ EOF;
         try{
           $this->importDS($lines);
         } catch (Exception $e) {
-          $this->log(sprintf("%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
+          $this->log(sprintf("ERROR;%s (ligne %s) : %s", $e->getMessage(), $i, implode($data, ";")));
         }
         $lines = array();
       }

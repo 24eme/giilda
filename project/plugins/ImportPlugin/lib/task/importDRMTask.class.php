@@ -575,7 +575,7 @@ EOF;
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
     
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
-      $etablissement = EtablissementClient::getInstance()->find($line[self::CSV_CAVE_CODE_COOPERATEUR], acCouchdbClient::HYDRATE_JSON);
+      $etablissement = EtablissementClient::getInstance()->find(sprintf("%06d%02d", $line[self::CSV_CAVE_CODE_COOPERATEUR], $line[self::CSV_CAVE_CODE_COOPERATEUR_CHAI]), acCouchdbClient::HYDRATE_JSON);
       if(!$etablissement) {
 
 	      throw new sfException(sprintf("L'établissement cave coop '%s' n'existe pas", sprintf("%06d%02d", $line[self::CSV_CAVE_CODE_COOPERATEUR], $line[self::CSV_CAVE_CODE_COOPERATEUR_CHAI])));
