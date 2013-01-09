@@ -334,6 +334,7 @@ DRM:
             commune: {  }
             code_postal: {   }
             raison_sociale: {  }
+            region: {  }
       declaratif:
         class: DRMDeclaratif
         type: collection
