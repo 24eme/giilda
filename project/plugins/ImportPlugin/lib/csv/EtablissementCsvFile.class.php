@@ -93,7 +93,7 @@ class EtablissementCsvFile extends CsvFile
 	}else{
 		$e->nom = $line[self::CSVPAR_NOM_DU_PARTENAIRE];
 	}
-	$e->raison_social = $line[self::CSVPAR_NOM_DU_PARTENAIRE];
+	$e->raison_sociale = $line[self::CSVPAR_NOM_DU_PARTENAIRE];
         $e->cvi = (isset($line[self::CSVCAV_CVI]) && $line[self::CSVPAR_TYPE_PARTENAIRE] != self::CSV_TYPE_PARTENAIRE_COURTIER)? $line[self::CSVCAV_CVI] : null;
 	if (isset( $line[self::CSVCAV_LIBELLE_COMMUNE])) {
 	        $e->siege->commune = $line[self::CSVCAV_LIBELLE_COMMUNE];
