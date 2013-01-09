@@ -6,10 +6,10 @@
  */
 class RevendicationProduits extends BaseRevendicationProduits {
 
-    const STATUT_SUPPRIME = 'supprime';
-    const STATUT_MODIFIE = 'modifie';
-    const STATUT_IMPORTE = 'importe';
-    const STATUT_SAISIE = 'saisie';
+    const STATUT_SUPPRIME = 'SUPPRIME';
+    const STATUT_MODIFIE = 'MODIFIE';
+    const STATUT_IMPORTE = 'IMPORTE';
+    const STATUT_SAISIE = 'SAISIE';
 
     public function storeProduit($num_ligne, $row, $hashLibelle, $bailleur) {
         $this->libelle_produit_csv = $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT];
