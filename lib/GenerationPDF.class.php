@@ -106,7 +106,7 @@ class GenerationPDF {
       if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
 	$origin = $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfspage);
 	if ($origin)
-	  $this->generation->add('fichiers')->add($origin, $this->generation->date_emission.'-'.$page), 
+	  $this->generation->add('fichiers')->add($this->publishPDFFile($origin, $this->generation->date_emission.'-'.$page), 
 						$this->getDocumentName().' de '.$page.' page(s) trié par numéro de page');
       }else{
         $origin = $this->generatePDFAndConcatenateThem($pdfs);
