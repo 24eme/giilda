@@ -12,9 +12,9 @@
 class VracStocksView extends acCouchdbView {
 
     const KEY_CAMPAGNE = 0;
-    const KEY_TYPE_TRANSACTION = 1;
-    const KEY_SOCIETE_IDENTIFIANT = 2;
-    const KEY_ETABLISSEMENT_IDENTIFIANT = 3;
+    const KEY_SOCIETE_IDENTIFIANT = 1;
+    const KEY_ETABLISSEMENT_IDENTIFIANT = 2;
+    const KEY_TYPE_TRANSACTION = 3;
     const KEY_PRODUIT_HASH = 4;
     const KEY_NUMERO_CONTRAT = 5;
 
@@ -42,8 +42,8 @@ class VracStocksView extends acCouchdbView {
     }
 
     protected function _getVolumeRestant($campagne, $type_transaction, $societe, $etablissement, $hash_produit) {
-        $rows = $this->client->startkey(array($campagne, $type_transaction, $societe, $etablissement, $hash_produit))
-                     ->endkey(array($campagne, $type_transaction, $societe, $etablissement,$hash_produit, array()))
+        $rows = $this->client->startkey(array($campagne, $societe, $etablissement, $type_transaction, $hash_produit))
+                     ->endkey(array($campagne, $societe, $etablissement, $type_transaction, $hash_produit, array()))
                      ->group_level(self::KEY_PRODUIT_HASH + 1)
                      ->getView($this->design, $this->view)->rows;
         
@@ -80,8 +80,8 @@ class VracStocksView extends acCouchdbView {
     public function findByTypeTransactionCampagneAndEtablissement($campagne, $type_transaction, $societe_identifiant, $etablissement_identifiant) {    
         $stocks = array();
 
-        $rows = $this->client->startkey(array($campagne, $type_transaction, null, $etablissement_identifiant))
-                                         ->endkey(array($campagne, $type_transaction, null, $etablissement_identifiant, array()))
+        $rows = $this->client->startkey(array($campagne, null, $etablissement_identifiant, $type_transaction))
+                                         ->endkey(array($campagne, null, $etablissement_identifiant, $type_transaction, array()))
                                          ->group_level(self::KEY_PRODUIT_HASH + 1)
                                          ->getView($this->design, $this->view)->rows;
 
