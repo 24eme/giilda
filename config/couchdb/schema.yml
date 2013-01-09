@@ -40,17 +40,14 @@ Etablissement:
                        definition:
                          fields:
                            '*': { }
-       site_fiche: {  }            
+       site_fiche: {  }
        compte: {  }
        num_interne: {  }
-       siret: {  }
        raison_sociale: {  }
        nom: {  }
-       cni: {  }
        cvi: {  }
        no_accises: {  }
        carte_pro: {  }
-       no_tva_intracommunautaire: { required: false }
        famille: {  }
        sous_famille: {  }
        email: {  }

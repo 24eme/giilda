@@ -2,9 +2,9 @@
 
 class EtablissementDroit
 {
-    const DROIT_DRM_PAPIER = 'drm_papier';
-    const DROIT_DRM_DTI = 'drm_dti';
-    const DROIT_VRAC = 'vrac';
+    const DROIT_DRM_PAPIER = 'DRM_PAPIER';
+    const DROIT_DRM_DTI = 'DRM_DTI';
+    const DROIT_VRAC = 'VRAC';
 
 
     protected $etablissement;
