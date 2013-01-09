@@ -108,8 +108,7 @@ EOF;
 
     $config_produit = $this->getConfigurationHash($line[self::CSV_CODE_APPELLATION]);
 
-    $produit = $ds->declarations->add($config_produit->getHashForKey());
-    $produit->updateProduitFromConfig($config_produit);
+    $produit = $ds->addProduit($config_produit->getHash());
     $produit->stock_declare = $this->convertToFloat($line[self::CSV_VOLUME_LIBRE]);
     $produit->vci = $this->convertToFloat($line[self::CSV_VOLUME_BLOQUE]);
 
