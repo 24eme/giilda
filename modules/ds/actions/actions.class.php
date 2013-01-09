@@ -102,6 +102,7 @@ class dsActions extends sfActions {
 	$this->validation = new DSValidation($this->ds);
 	if ($request->isMethod(sfWebRequest::POST)) {
 	  $this->ds->updateStatut();
+	  $this->ds->updateProduits();
 	  $this->ds->save();
 	  return $this->redirect('ds_etablissement', array('identifiant' => $this->ds->identifiant));
 	}

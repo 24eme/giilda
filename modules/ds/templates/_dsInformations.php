@@ -19,11 +19,13 @@ use_helper('Display');
 			<label>Campagne viticole : </label>
 			<?php display_field($ds,'campagne'); ?>
 		</span>
-	</div>
+	</DIV>
+<?php if (isset($ds->key[DSHistoryView::KEY_STATUT])) : ?>
 	<div class="ligne_form ligne_form_alt">
 		<span>
 			<label>Etat : </label>
                 <?php if ($ds->key[DSHistoryView::KEY_STATUT] == DSClient::STATUT_A_SAISIR) echo "A saisir"; else echo "Validée"; ?>
 		</span>
 	</div>
+<?php endif; ?>
 </div>
