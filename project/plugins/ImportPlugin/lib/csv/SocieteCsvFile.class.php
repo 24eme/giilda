@@ -74,7 +74,7 @@ class SocieteCsvFile extends CsvFile
         if ($line[self::CSV_PARTENAIRE_ENACTIVITE] == 'O') {
                 $s->statut = SocieteClient::STATUT_SUSPENDU;
         }else{
-                $s->statut = Etablissement::STATUT_ACTIF;
+                $s->statut = SocieteClient::STATUT_ACTIF;
         }
 	if ($line[self::CSV_PARTENAIRE_TYPE] == 'N') {
 		$s->type_societe = SocieteClient::SUB_TYPE_NEGOCIANT;

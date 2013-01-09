@@ -134,9 +134,9 @@ class EtablissementCsvFile extends CsvFile
 
 	//le champ en activité contient en réalisé la valeur de suspendu 
 	if ($line[self::CSVPAR_EN_ACTIVITE] == 'O') {
-		$e->statut = Etablissement::STATUT_ARCHIVE;
+		$e->statut = EtablissementClient::STATUT_SUSPENDU;
         }else{
-		$e->statut = Etablissement::STATUT_ACTIF;
+		$e->statut = EtablissementClient::STATUT_ACTIF;
         }
 	$e->id_societe = "SOCIETE-".sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]); 
 
