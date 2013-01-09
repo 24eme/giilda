@@ -5,11 +5,6 @@ class Etablissement extends BaseEtablissement {
     protected $_interpro = null;
     protected $droit = null;
 
-    const STATUT_ACTIF = "ACTIF";
-    const STATUT_ARCHIVE = "ARCHIVE";
-    const STATUT_DELIE = "DELIE";
-    const STATUT_CSV = "CSV";
-
     /**
      * @return _Compte
      */
