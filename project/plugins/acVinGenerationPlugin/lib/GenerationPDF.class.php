@@ -46,7 +46,8 @@ class GenerationPDF {
   private function generatePDFFiles($pdfs) {
     $files = array();
     foreach ($pdfs as $pdf) {
-      $files[] = $pdf->getPDFFile();
+      if ($pdf)
+	$files[] = $pdf->getPDFFile();
     }
     return $files;
   }
