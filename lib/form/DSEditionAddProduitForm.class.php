@@ -50,7 +50,7 @@ class DSEditionAddProduitForm extends acCouchdbForm
         if (!$this->isValid()) {
             throw $this->getErrorSchema();
         }
-        $this->_ds->addProduit($this->values['hashref']);
+        $dsProduit = $this->_ds->addProduit($this->values['hashref']);
         return $dsProduit;
     }
     
