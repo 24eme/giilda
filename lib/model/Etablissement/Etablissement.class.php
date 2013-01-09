@@ -59,6 +59,17 @@ class Etablissement extends BaseEtablissement {
         return is_null($this->compte);
     }
 
+    public function getNoTvaIntraCommunautaire() {
+        $societe = $this->getSociete();
+
+        if (!$societe) {
+            
+            return null; 
+        }
+
+        return $societe->no_tva_intracommunautaire;
+    }
+
     public function setFax($fax) {
         if ($fax)
             $this->_set('fax', $this->cleanPhone($fax));
@@ -158,7 +169,7 @@ class Etablissement extends BaseEtablissement {
 	      $this->compte = $compte->_id;
 	    }else{
 	      $compte = $this->getContact();
-	      $compte->updateFromEtablissement($this);
+          $compte->updateFromEtablissement($this);
 	      $compte->save(true, true);
 	    }
 	  }
