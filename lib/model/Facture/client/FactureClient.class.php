@@ -45,12 +45,12 @@ class FactureClient extends acCouchdbClient {
         $facture->storeEmetteur();
         $facture->storeDeclarant();
         $facture->storeLignes($mvts,$societe->famille);        
-        $facture->storePapillons();        
-        $facture->updateTotaux();        
+        $facture->updateAvoir();
+        $facture->updateTotaux();
         $facture->storeOrigines();    
         return $facture;
     }  
-
+    
     private $documents_origine = array();
     public function getDocumentOrigine($id) {
         if (!array_key_exists($id, $this->documents_origine)) {

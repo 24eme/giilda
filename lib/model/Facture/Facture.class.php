@@ -253,6 +253,23 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
     }
 
+    public function updateAvoir() {
+        if ($this->total_ht > 0) {
+            $this->storePapillons();
+        } else {
+            $this->removeCodesEcheances();
+        }
+    }
+
+
+    private function removeCodesEcheances() {
+        foreach ($this->getLignes() as $typeLigne) {
+            foreach ($typeLigne as $ligne){
+                $ligne->echeance_code = null;
+            }
+        }
+    }
+    
     private function isContratPluriannuel($l) {
         $contrat = VracClient::getInstance()->findByNumContrat($l->contrat_identifiant, acCouchdbClient::HYDRATE_JSON);
         if (!$contrat->type_contrat)
@@ -384,6 +401,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function updateTotalTTC() {
         $this->total_ttc = 0;
+        if(!$this->echeances) $this->total_ttc = $this->ttc($this->total_ht);
         foreach ($this->echeances as $echeance) {
             $this->total_ttc += $echeance->montant_ttc;
         }
