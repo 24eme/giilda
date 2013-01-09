@@ -23,7 +23,10 @@ class revendicationActions extends sfActions {
     
     public function executeMonEspace(sfWebRequest $request) {
         $this->revendication_etablissement = null;
-        $this->etablissement = $this->getRoute()->getEtablissement();
+	$this->etablissement = $this->getRoute()->getEtablissement();
+	if(!$this->etablissement) {
+	  throw new sfException("Cet établissement n'a pas de volume renvendiqué");
+	}
         $this->revendications = RevendicationEtablissementView::getInstance()->findByEtablissement($this->etablissement->identifiant);
     }
     
