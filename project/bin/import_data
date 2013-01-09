@@ -41,7 +41,7 @@ cd $SYMFODIR;
 
 bash bin/import_contacts
 
-echo "Import des vracs";
+echo "Import des vracs et sv12";
 
 bash bin/import_data_vrac
 

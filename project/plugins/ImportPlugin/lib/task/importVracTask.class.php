@@ -223,13 +223,13 @@ EOF;
 
         if(in_array($v->cvo_nature, array(VracClient::CVO_NATURE_VINAIGRERIE, VracClient::CVO_NATURE_NON_FINANCIERE)) || ($this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]) == 0 && $this->convertToFloat($line[self::CSV_COTISATION_CVO_NEGOCIANT]) == 0)) {
           $v->_set('cvo_repartition', VracClient::CVO_REPARTITION_0_VINAIGRERIE);
-        } elseif(abs($line[self::CSV_COTISATION_CVO_VITICULTEUR] - $line[self::CSV_COTISATION_CVO_NEGOCIANT]) >= 0.5) {
+        } elseif(abs($line[self::CSV_COTISATION_CVO_VITICULTEUR] - $line[self::CSV_COTISATION_CVO_NEGOCIANT]) <= 0.5) {
           $v->_set('cvo_repartition', VracClient::CVO_REPARTITION_50_50);
         } else {
           $v->_set('cvo_repartition', VracClient::CVO_REPARTITION_100_VITI);  
         }
 
-        if(!$v->cvo_repartition) {
+        if(is_null($v->cvo_repartition)) {
           $this->logLigne('WARNING', sprintf("Répartition de la CVO vide"), $line);
         } 
 
