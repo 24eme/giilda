@@ -36,8 +36,7 @@ class sv12Actions extends sfActions {
 
         if($sv12)
         {               
-            
-            return $this->renderPartial('popupWarning',array('sv12' => $sv12));
+	    throw new sfException("Une SV12 existe déjà pour cette campagne");            
         }
         
         $sv12 = SV12Client::getInstance()->createOrFind($etbId, $periode);
