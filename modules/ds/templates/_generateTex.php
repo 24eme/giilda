@@ -169,13 +169,13 @@ foreach ($ds->declarations as $declaration) :
     if ($declaration->hasElaboration()) :
         ?>
 
-        <?php echo $declaration->code_douane ?> &
+        <?php echo $declaration->code_produit ?> &
         <?php echo $declaration->produit_libelle . ' (en cave)'; ?> ~ &
         ~ &
         <?php echo ($declaration->vci) ? $declaration->vci : '~'; ?>  &
         <?php echo ($declaration->reserve_qualitative) ? $declaration->reserve_qualitative : '~'; ?> 
         \\ \hline
-        <?php echo $declaration->code_douane ?> ~ &
+        <?php echo $declaration->code_produit ?> ~ &
         <?php echo $declaration->produit_libelle . ' (en élaboration)'; ?> ~ &
         ~ &
         <?php echo ($declaration->vci) ? $declaration->vci : '~'; ?>  &
@@ -183,7 +183,7 @@ foreach ($ds->declarations as $declaration) :
         \\ \hline
         <?php else:
         ?>
-        <?php echo $declaration->code_douane; ?> &
+        <?php echo $declaration->code_produit; ?> &
         <?php echo $declaration->produit_libelle; ?> ~ &
         ~ &
         <?php echo ($declaration->vci) ? $declaration->vci : '~'; ?> &

@@ -72,23 +72,31 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
         }
     }
 
+    public function addProduit($hash) {
+        $config = ConfigurationClient::getCurrent()->get($hash);
+        $produit = $this->declarations->add($config->getHashForKey());
+        $produit->produit_hash = $config->getHash();
+        $produit->updateProduit();
+
+        return $produit;
+    }
+
     protected function updateProduitsFromDRM($drm) {
         $produits = $drm->getProduits();
 	    $this->drm_origine = $drm->_id;
         foreach ($produits as $produit) {
-            $produitDs = $this->declarations->add($produit->getHashForKey());
-            $produitDs->updateProduitFromDRM($produit);
+            $produitDs = $this->addProduit($produit->getHash());
+            $produitDs->stock_initial = $produit->total;
         }
     }
 
     protected function updateProduitsFromDS($ds) {
-        foreach ($ds->declarations as $hash => $produit) {
+        foreach ($ds->declarations as $produit) {
             if (!$produit->isActif()) {
                 
                 continue;
             }
-            $produitDs = $this->declarations->add($hash);
-            $produitDs->updateProduitFromDS($produit);
+            $produitDs = $this->addProduit($produit->produit_hash);
         }
     }
     

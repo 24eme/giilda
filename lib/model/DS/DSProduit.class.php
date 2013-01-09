@@ -6,23 +6,10 @@
 
 class DSProduit extends BaseDSProduit {
 
-
-    public function updateProduitFromDS($produit)
+    public function updateProduit()
     {
-        $this->updateProduitFromConfig($produit->getConfig());
-    }
-
-    public function updateProduitFromDRM($produit)
-    {
-        $this->updateProduitFromConfig($produit->getConfig());
-        $this->stock_initial = $produit->total;
-    }
-
-    public function updateProduitFromConfig($produit_config)
-    {
-        $this->produit_hash = $produit_config->getHash();
-        $this->produit_libelle = $produit_config->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce%");
-        $this->code_douane = $produit_config->getCodeDouane();
+        $this->produit_libelle = $this->getConfig()->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce%");
+        $this->code_produit = $this->getConfig()->getCodeProduit();
     }
 
     public function isActif() {
