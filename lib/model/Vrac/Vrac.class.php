@@ -122,29 +122,34 @@ class Vrac extends BaseVrac {
 
     private function setAcheteurInformations() 
     {
-        $acheteurObj = $this->getAcheteurObject();
-        $this->acheteur->nom = $acheteurObj->nom;
-        $this->acheteur->cvi = $acheteurObj->cvi;
-        $this->acheteur->commune = $acheteurObj->siege->commune;
-        $this->acheteur->code_postal = $acheteurObj->siege->code_postal;
+        $this->setEtablissementInformations('vendeur', $this->getAcheteurObject());
     }
     
     private function setMandataireInformations() 
     {
         $mandataireObj = $this->getMandataireObject();
-        $this->mandataire->nom = $mandataireObj->nom;
-        //TODO : surement à changer
-        $this->mandataire->carte_pro = $mandataireObj->identifiant;
-        $this->mandataire->adresse = $mandataireObj->siege->commune.'  '.$mandataireObj->siege->code_postal;
+        $this->mandataire->nom = $etablissement->nom;
+        $this->mandataire->raison_sociale = $etablissement->raison_sociale;
+        $this->mandataire->adresse = $etablissement->siege->adresse;
+        $this->mandataire->commune = $etablissement->siege->commune;
+        $this->mandataire->code_postal = $etablissement->siege->code_postal;
     }
     
     private function setVendeurInformations() 
     {
-        $vendeurObj = $this->getVendeurObject();
-        $this->vendeur->nom = $vendeurObj->nom;
-        $this->vendeur->cvi = $vendeurObj->cvi;
-        $this->vendeur->commune = $vendeurObj->siege->commune;
-        $this->vendeur->code_postal = $vendeurObj->siege->code_postal;       
+        $this->setEtablissementInformations('vendeur', $this->getVendeurObject());
+    }
+
+    protected function setEtablissementInformations($type, $etablissement) {
+        $this->get($type)->nom = $etablissement->nom;
+        $this->get($type)->raison_sociale = $etablissement->raison_sociale;
+        $this->get($type)->cvi = $etablissement->cvi;
+        $this->get($type)->no_accises = $etablissement->no_accises;
+        $this->get($type)->no_tva_intracomm = $etablissement->getNoTvaIntraCommunautaire();
+        $this->get($type)->adresse = $etablissement->siege->adresse;
+        $this->get($type)->commune = $etablissement->siege->commune;
+        $this->get($type)->code_postal = $etablissement->siege->code_postal;
+        $this->get($type)->region = $etablissement->region;
     }
 
     public function setDate($attribut, $d) {

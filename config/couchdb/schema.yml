@@ -18,26 +18,28 @@ Vrac:
         definition:
           fields:            
             nom: {  }
+            raison_sociale: {  }
             cvi: {  }
-            num_accise: {   }
-            num_tva_intracomm: {    }
+            no_accises: {   }
+            no_tva_intracomm: {    }
             adresse: {  }
             commune: {  }
             code_postal: {   }
-            departement: {   }
+            region: {   }
       acheteur_identifiant: {  }
       acheteur:
         type: collection
         definition:
           fields:
             nom: {  }
+            raison_sociale: {  }
             cvi: {  }
-            num_accise: {   }
-            num_tva_intracomm: {    }
+            no_accises: {   }
+            no_tva_intracomm: {    }
             adresse: {  }
             commune: {  }
             code_postal: {   }
-            departement: {   }
+            region: {   }
       mandataire_exist: {   }
       mandatant: 
         type: array_collection
@@ -50,8 +52,11 @@ Vrac:
         definition:
           fields:
             nom: {  }
+            raison_sociale: {  }
             carte_pro: {  }
             adresse: {  }
+            commune: {  }
+            code_postal: {   }
 
 #Marché (Part 2)
 
