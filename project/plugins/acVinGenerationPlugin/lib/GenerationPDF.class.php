@@ -12,8 +12,12 @@ class GenerationPDF {
   }
 
   function concatenatePDFs($pdffiles) {
+    if (!count($pdffiles)) {
+      return null;
+    }
     $fileres = rand().".pdf";
-    $str = system('/usr/bin/pdftk "'.implode('" "', $pdffiles).'" cat output "'.$fileres.'" 2>&1');
+    file_put_contents("/tmp/$fileres.sh", '/usr/bin/pdftk "'.implode('" "', $pdffiles).'" cat output "'.$fileres.'"');
+    $str = system('bash /tmp/'.$fileres.'.sh 2>&1');
     if ($str) {
         throw new sfException('pdftk returned an error: '.$str);
     }
@@ -21,6 +25,8 @@ class GenerationPDF {
   }
 
   function generateAPDFForAPageId($pdf, $pageid) {
+    if (!count($pdf))
+      return null;
     $fileres = rand().".pdf";
     exec('pdftk "'.$pdf.'" cat '.intval($pageid).' output "'.$fileres.'"');
     return $fileres;    
@@ -29,7 +35,8 @@ class GenerationPDF {
   function concatenatePDFsForAPageId($pdfs, $pageid) {
     $files = array();
     foreach ($pdfs as $pdf) {
-      $files[] = $this->generateAPDFForAPageId($pdf, $pageid);
+      $f = $this->generateAPDFForAPageId($pdf, $pageid);
+      if ($f) $files[] = $f;
     }
     $fileres = $this->concatenatePDFs($files);
     $this->cleanFiles($files);
@@ -48,6 +55,8 @@ class GenerationPDF {
   private function publishPDFFile($originpdf, $filename) {
     $publishname = "/generation/$filename.pdf";
     $publishrealdirname =  "web".$publishname;
+    if (!file_exists($originpdf)) 
+      throw new sfException("Origin $originpdf doesn't exist");
     if (!rename($originpdf, $publishrealdirname))
       throw new sfException("cannot write $publishrealdirname [rename($originpdf, $publishrealdirname)]");
     return urlencode($publishname);
@@ -91,12 +100,16 @@ class GenerationPDF {
       array_push($pdfs[$pdf->getNbPages()], $pdf);
     }
     $pages = array();
-    foreach ($pdfs as $page => $pdfs) {
+    foreach ($pdfs as $page => $pdfspage) {
       if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
-	$this->generation->add('fichiers')->add($this->publishPDFFile($this->generatePDFGroupByPageNumberAndConcatenateThem($pdfs), $this->generation->date_emission.'-'.$page), 
+	$origin = $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfspage);
+	if ($origin)
+	  $this->generation->add('fichiers')->add($origin, $this->generation->date_emission.'-'.$page), 
 						$this->getDocumentName().' de '.$page.' page(s) trié par numéro de page');
       }else{
-	$this->generation->add('fichiers')->add($this->publishPDFFile($this->generatePDFAndConcatenateThem($pdfs), $this->generation->date_emission.'-'.$page), 
+        $origin = $this->generatePDFAndConcatenateThem($pdfs);
+	if ($origin)
+	  $this->generation->add('fichiers')->add($this->publishPDFFile($origin, $this->generation->date_emission.'-'.$page), 
 						$this->getDocumentName().' de '.$page.' page(s)');
       }
     }
