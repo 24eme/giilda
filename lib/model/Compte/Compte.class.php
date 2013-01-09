@@ -99,10 +99,10 @@ class Compte extends BaseCompte {
       $this->email = $e->email;
       $this->fax = $e->fax;
       $this->telephone_bureau = $e->telephone;
-      if (isset($e->siege)) {
-	$this->adresse = $e->siege->adresse;
-	$this->code_postal = $e->siege->code_postal;
-	$this->commune = $e->siege->commune;
+      if ($e->siege->adresse) {
+    	$this->adresse = $e->siege->adresse;
+	    $this->code_postal = $e->siege->code_postal;
+	    $this->commune = $e->siege->commune;
       }
       $this->origines->add(null, $e->id_societe);
       $this->origines->add(null, 'ETABLISSEMENT-'.$e->identifiant);
