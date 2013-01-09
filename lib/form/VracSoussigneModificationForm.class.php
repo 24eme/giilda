@@ -22,6 +22,11 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
 
         $this->widgetSchema->setNameFormat('vrac[%s]');    
     }
+
+    protected function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+        $this->setDefault('no_tva_intracommunautaire', $this->getObject()->getNoTvaIntraCommunautaire());
+    }
     
     private function configureAcheteurVendeur($label)
     {         
@@ -53,6 +58,18 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
             ));
            
     }
+
+    protected function doSave($con = null) {
+        parent::doSave($con);
+
+        $societe = $this->getObject()->getSociete();
+
+        if($societe) {
+            $societe->no_tva_intracommunautaire = $this->getValue('no_tva_intracommunautaire');
+            $societe->save();
+        }
+    } 
+
 }
 
 
