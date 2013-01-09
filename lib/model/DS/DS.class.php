@@ -61,7 +61,6 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 
     public function updateProduits() {
 	if ($this->getEtablissement()->isViticulteur()) {
-	  echo "VITI !!!";
 	  $drm = $this->getLastDRM();
 	  if ($drm) {
 	    return $this->updateProduitsFromDRM($drm); 
