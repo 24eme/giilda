@@ -123,6 +123,6 @@ class EtablissementFamilles
     
     public static function getKey($libelle)
     {
-    	return str_replace('-', '_', strtolower(KeyInflector::slugify($libelle)));
+    	return str_replace('-', '_', strtoupper(KeyInflector::slugify($libelle)));
     }
 }
