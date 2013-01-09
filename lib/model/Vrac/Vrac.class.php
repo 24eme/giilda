@@ -122,12 +122,12 @@ class Vrac extends BaseVrac {
 
     private function setAcheteurInformations() 
     {
-        $this->setEtablissementInformations('vendeur', $this->getAcheteurObject());
+        $this->setEtablissementInformations('acheteur', $this->getAcheteurObject());
     }
     
     private function setMandataireInformations() 
     {
-        $mandataireObj = $this->getMandataireObject();
+        $etablissement = $this->getMandataireObject();
         $this->mandataire->nom = $etablissement->nom;
         $this->mandataire->raison_sociale = $etablissement->raison_sociale;
         $this->mandataire->adresse = $etablissement->siege->adresse;
