@@ -232,6 +232,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 switch ($ligne->produit_type) {
                     case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS:
                     case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS:
+                        if (strstr($ligne->produit_hash, 'mentions/LIE/')) {
+                            $this->createOrUpdateEcheanceD($ligne);
+                            break;
+                        }
                         if ($this->isContratPluriannuel($ligne))
                             $this->createOrUpdateEcheanceC($ligne);
                         else
@@ -241,10 +245,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                         $this->createOrUpdateEcheanceB($ligne);
                         break;
                     case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS:
-                        if (strstr($ligne->produit_hash, 'mentions/LIE/')) {
-                            $this->createOrUpdateEcheanceD($ligne);
-                            break;
-                        }
                     default :
                         $this->createOrUpdateEcheanceA($ligne);
                         break;
