@@ -1,6 +1,7 @@
 <?php
 use_helper('Date');
 use_helper('Display');
+$coordonneesBancaires = $facture->getCoordonneesBancaire();
 ?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
@@ -57,13 +58,13 @@ use_helper('Display');
 \def\InterloireSIRET{429 164 072 00077}
 \def\InterloireAPE{APE 9499 Z} 
 \def\InterloireTVAIntracomm{FR 73 429164072}
-\def\InterloireBANQUE{Crédit Agricole Atlantique Vendée}
-\def\InterloireBIC{AGRIFRPP847}
-\def\InterloireIBAN{FR76~1470~6000~1400~0000~2200~028}
+\def\InterloireBANQUE{<?php echo $coordonneesBancaires->banque; ?>}
+\def\InterloireBIC{<?php echo $coordonneesBancaires->bic; ?>}
+\def\InterloireIBAN{<?php echo $coordonneesBancaires->iban; ?>}
 
 \def\FactureNum{<?php echo $facture->numero_interloire; ?>}
 \def\FactureNumREF{<?php echo substr($facture->numero_facture,6,2).' '.substr($facture->numero_facture,0,6); ?>}
-\def\FactureDate{<?php echo format_date($facture->date_emission,'dd/MM/yyyy'); ?>}
+\def\FactureDate{<?php echo format_date($facture->date_facturation,'dd/MM/yyyy'); ?>}
 \def\FactureRefClient{<?php echo $facture->identifiant; ?>}
 
 \def\FactureClientNom{<?php $nom = ($facture->declarant->raison_sociale == '')? $facture->declarant->nom : $facture->declarant->raison_sociale; 

@@ -4,6 +4,7 @@ use_helper('Float');
 
         
 \noindent{
+<?php if(!$avoir) : ?>
 \begin{minipage}[b]{1\textwidth}
 \noindent{
        \begin{flushleft}
@@ -19,6 +20,7 @@ use_helper('Float');
 }
 \hspace{-1.35cm}
 \vspace{-2.7cm}
+<?php endif; ?>
     \begin{flushright}
     \begin{minipage}[b]{0.31\textwidth}
             \begin{tikzpicture}
@@ -48,5 +50,5 @@ use_helper('Float');
             \end{tikzpicture} 
  \end{minipage}
  \end{flushright}
-\end{minipage}
+<?php if(!$avoir) : ?> \end{minipage} <?php endif; ?>
 }

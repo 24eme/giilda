@@ -2,13 +2,14 @@
 ~ & ~ & ~ & ~ & ~ &\\
 <?php endfor;?>
     <?php
-    if (isset($end_document) && $end_document && !$avoir){
+    if(!$avoir){
+    if (isset($end_document) && $end_document){
         echo "\multicolumn{6}{c}{Aucun escompte n'est prévu pour paiement anticipé. Pénalités de retard : 3 fois le taux d'intér\^{e}t légal} \\\\ ";
         echo "\multicolumn{6}{c}{Indemnité forfaitaire pour frais de recouvrement: 40~\\texteuro{}} \\\\ ";
     }
     else
         echo "\multicolumn{6}{c}{.../...} \\\\";
-	
+    }
       ?>
     ~ & ~ & ~ & ~ & ~ & \\
                 \end{tabular}

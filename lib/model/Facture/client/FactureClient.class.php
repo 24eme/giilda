@@ -38,10 +38,9 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$idClient.'-'.$date.'99')->execute($hydrate);        
     }
 
-    public function createDoc($mvts, $societe, $emmetteur = null, $date_facturation = null) {
-
+    public function createDoc($mvts, $societe, $date_facturation = null) {
         $facture = new Facture();
-        $facture->storeDatesCampagne($date_facturation,'2011-2012');
+        $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);        
         $facture->storeEmetteur();
         $facture->storeDeclarant();
@@ -166,7 +165,6 @@ class FactureClient extends acCouchdbClient {
         foreach ($generationFactures as $societeID => $mouvementsSoc) {
             $societe = SocieteClient::getInstance()->find($societeID);
             $f = $this->createDoc($mouvementsSoc, $societe, $date_facturation);
-            
             $f->save();
 
             $generation->somme += $f->total_ttc;

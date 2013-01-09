@@ -56,16 +56,16 @@ class factureActions extends sfActions {
 
     public function executeGenerer(sfWebRequest $request) {
         $parameters = $request->getParameter('facture_generation');
-        $parameters['date_facturation'] = (!isset($parameters['date_facturation']))? null : $parameters['date_facturation'];
-        $parameters['date_mouvement'] = (isset($parameters['date_mouvement']) && $parameters['date_mouvement']) ?  $parameters['date_mouvement'] : $parameters['date_facturation'];
-        
+        $date_facturation = (!isset($parameters['date_facturation']))? null : DATE::getIsoDateFromFrenchDate($parameters['date_facturation']);
+        $parameters['date_mouvement'] = (isset($parameters['date_mouvement']) && $parameters['date_mouvement']!='')?  $parameters['date_mouvement'] : $date_facturation;
+
         $this->societe = $this->getRoute()->getSociete();
 
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));        
         $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$parameters);   
         if($mouvementsBySoc)
         {
-            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc,$parameters['date_facturation']);
+            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc,$date_facturation);
             $generation->save();
         }
         $this->redirect('facture_societe', $this->societe);

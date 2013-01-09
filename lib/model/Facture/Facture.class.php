@@ -51,13 +51,31 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         $this->emetteur = $emetteur;
     }
+    
+    public function getCoordonneesBancaire(){
+        $coordonneesBancaires = new stdClass();
+        switch ($this->region) {
+            case EtablissementClient::REGION_TOURS:
+            case EtablissementClient::REGION_ANGERS:
+                $coordonneesBancaires->banque = 'Crédit Agricole Touraine Poitou';
+                $coordonneesBancaires->bic = ' AGRIFRPP894';
+                $coordonneesBancaires->iban = ' FR76~1940~6370~1579~1722~5300~105';
+                break;
+            case EtablissementClient::REGION_NANTES:
+                $coordonneesBancaires->banque = 'Crédit Agricole Atlantique Vendée';
+                $coordonneesBancaires->bic = 'AGRIFRPP847';
+                $coordonneesBancaires->iban = 'FR76~1470~6000~1400~0000~2200~028';
+                break;
+        }
+        return $coordonneesBancaires;
+    }
 
-    public function storeDatesCampagne($date_facturation, $campagne) {
+    public function storeDatesCampagne($date_facturation) {
         $this->date_emission = date('Y-m-d');
         $this->date_facturation = $date_facturation;
         if (!$this->date_facturation)
             $this->date_facturation = date('Y-m-d');
-        $this->campagne = $campagne;
+        $this->campagne = ConfigurationClient::getInstance()->buildCampagne($date_facturation);
     }
 
     public function constructIds($soc) {
@@ -244,7 +262,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function createOrUpdateEcheanceC($ligne) {
         $ligne->echeance_code = 'C';
-        $date = date('Ymd');
+        $date = str_replace('-','',$this->date_facturation);
         
         $d1 = date('Y') . '0331'; // 31/03/N
         $d2 = date('Y') . '0630'; // 30/06/N
@@ -277,7 +295,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function createOrUpdateEcheanceB($ligne) {        
         $ligne->echeance_code = 'B';
-        $date = date('Ymd');
+        $date = str_replace('-','',$this->date_facturation);
         
         $d1 = date('Y') . '0331'; // 31/03/N
         $d2 = date('Y') . '0630'; // 30/06/N  
@@ -300,7 +318,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     
     public function createOrUpdateEcheanceA($ligne) {
         $ligne->echeance_code = 'A';
-        $this->updateEcheance('A', Date::getIsoDateFinDeMoisISO(date('Y-m-d'), 2), $ligne->montant_ht);
+        $this->updateEcheance('A', Date::getIsoDateFinDeMoisISO($this->date_facturation, 2), $ligne->montant_ht);
     }
 
 
@@ -308,7 +326,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $ligne->echeance_code = 'D';
         $date = date('Y') . '0930';
         $dateEcheance = date('Y') . '-09-30';
-        if (date('Ymd') < $date){
+        if (str_replace('-','',$this->date_facturation) < $date){
             $this->updateEcheance('D', $dateEcheance, $ligne->montant_ht);
             return;
         }
@@ -318,7 +336,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function createOrUpdateEcheanceE($ligne) {
         $ligne->echeance_code = 'E';
-        $this->updateEcheance('E', date('Y-m-d'), $ligne->montant_ht);
+        $this->updateEcheance('E', $this->date_facturation, $ligne->montant_ht);
     }
 
 
