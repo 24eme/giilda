@@ -6,7 +6,7 @@ class FactureEtablissementView extends acCouchdbView
     const KEYS_VERSEMENT_COMPTABLE = 0;
     const KEYS_FACTURE_ID = 2;
     
-    const VALUE_DATE_EMISSION = 0;
+    const VALUE_DATE_FACTURATION = 0;
     const VALUE_ORIGINES = 1;
     const VALUE_TOTAL_TTC = 2;
     const VALUE_STATUT = 3;

@@ -418,7 +418,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     protected function preSave() {
-        if ($this->isNew() && $this->total_ht > 0) {
+        if ($this->isNew() && $this->statut != FactureClient::STATUT_REDRESSEE) {
             $this->facturerMouvements();
             $this->storeOrigines();
         }

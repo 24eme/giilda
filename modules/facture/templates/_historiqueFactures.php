@@ -23,7 +23,7 @@ if(count($factures->getRawValue())==0) :
             <?php foreach ($factures->getRawValue() as $facture) :
                 ?>
                 <tr>
-                    <td><?php $d = format_date($facture->value[FactureSocieteView::VALUE_DATE_EMISSION],'dd/MM/yyyy');
+                    <td><?php $d = format_date($facture->value[FactureSocieteView::VALUE_DATE_FACTURATION],'dd/MM/yyyy');
                         echo link_to($d, array('sf_route' => 'facture_pdf', 'identifiant' => $facture->key[FactureSocieteView::KEYS_FACTURE_ID])); ?>
                     </td>
                     <td><?php foreach ($facture->value[FactureSocieteView::VALUE_ORIGINES] as $drmid => $drmlibelle) {
