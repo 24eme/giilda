@@ -50,7 +50,7 @@ Etablissement:
        cvi: {  }
        no_accises: {  }
        carte_pro: {  }
-       no_tva_intracommunautaire: {  }
+       no_tva_intracommunautaire: { required: false }
        famille: {  }
        sous_famille: {  }
        email: {  }
