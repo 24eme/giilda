@@ -101,6 +101,8 @@ class GenerationPDF {
     }
     $pages = array();
     foreach ($pdfs as $page => $pdfspage) {
+      if (!count($pdfspage))
+        continue;
       if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
 	$origin = $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfspage);
 	if ($origin)
