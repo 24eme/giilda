@@ -12,8 +12,8 @@ class GenerationClient extends acCouchdbClient {
     const HISTORY_VALUES_DOCUMENTS = 1;
     const HISTORY_VALUES_SOMME = 2;
     const HISTORY_VALUES_STATUT = 3;
-    const GENERATION_STATUT_ENCOURS = "En cours";
-    const GENERATION_STATUT_GENERE = "Généré";
+    const GENERATION_STATUT_ENCOURS = "EN_COURS";
+    const GENERATION_STATUT_GENERE = "GENERE";
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Generation");
