@@ -2,19 +2,19 @@
 class EtablissementFamilles 
 {
 
-    const FAMILLE_PRODUCTEUR = "producteur";
-    const FAMILLE_NEGOCIANT = "negociant";
-    const FAMILLE_COURTIER = "courtier";
+    const FAMILLE_PRODUCTEUR = "PRODUCTEUR";
+    const FAMILLE_NEGOCIANT = "NEGOCIANT";
+    const FAMILLE_COURTIER = "COURTIER";
     // /!\ cooperative est une pseudo famille, elle est basée sur l'exploitation du champ cooperative
-    const PSEUDOFAMILLE_COOPERATIVE = "cooperative";
+    const PSEUDOFAMILLE_COOPERATIVE = "COOPERATIVE";
 
-    const SOUS_FAMILLE_CAVE_PARTICULIERE = "cave_particuliere";
-    const SOUS_FAMILLE_CAVE_COOPERATIVE = "cave_cooperative";
-    const SOUS_FAMILLE_REGIONAL = "regional";
-    const SOUS_FAMILLE_EXTERIEUR = "exterieur";
-    const SOUS_FAMILLE_ETRANGER = "etranger";
-    const SOUS_FAMILLE_UNION = "union";
-    const SOUS_FAMILLE_VINIFICATEUR = "vinificateur";
+    const SOUS_FAMILLE_CAVE_PARTICULIERE = "CAVE_PARTICULIERE";
+    const SOUS_FAMILLE_CAVE_COOPERATIVE = "CAVE_COOPERATIVE";
+    const SOUS_FAMILLE_REGIONAL = "REGIONAL";
+    const SOUS_FAMILLE_EXTERIEUR = "EXTERIEUR";
+    const SOUS_FAMILLE_ETRANGER = "ETRANGER";
+    const SOUS_FAMILLE_UNION = "UNION";
+    const SOUS_FAMILLE_VINIFICATEUR = "VINIFICATEUR";
 
     protected static $familles = array (
     	self::FAMILLE_PRODUCTEUR => "Producteur",
@@ -33,14 +33,14 @@ class EtablissementFamilles
     );
     
     protected static $droits = array (
-    	"producteur_cave_particuliere" => array(EtablissementDroit::DROIT_DRM_DTI, EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
-    	"producteur_cave_cooperative" => array(EtablissementDroit::DROIT_DRM_DTI, EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
-    	"negociant_regional" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
-    	"negociant_exterieur" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
-    	"negociant_etranger" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
-    	"negociant_union" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
-    	"negociant_vinificateur" => array(EtablissementDroit::DROIT_DRM_DTI, EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
-    	"courtier" => array(EtablissementDroit::DROIT_VRAC)
+    	"PRODUCTEUR_CAVE_PARTICULIERE" => array(EtablissementDroit::DROIT_DRM_DTI, EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
+    	"PRODUCTEUR_CAVE_COOPERATIVE" => array(EtablissementDroit::DROIT_DRM_DTI, EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
+    	"NEGOCIANT_REGIONAL" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
+    	"NEGOCIANT_EXTERIEUR" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
+    	"NEGOCIANT_ETRANGER" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
+    	"NEGOCIANT_UNION" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
+    	"NEGOCIANT_VINIFICATEUR" => array(EtablissementDroit::DROIT_DRM_DTI, EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
+    	"COURTIER" => array(EtablissementDroit::DROIT_VRAC)
     );
 
     public static function getFamilles() 
