@@ -60,16 +60,20 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     }
 
     public function updateProduits() {
+	if ($this->getEtablissement()->isViticulteur()) {
+	  echo "VITI !!!";
+	  $drm = $this->getLastDRM();
+	  if ($drm) {
+	    return $this->updateProduitsFromDRM($drm); 
+	  }
+	}
+	if ($this->getEtablissement()->isNegociant()) {
+	  return $this->updateProduitsFromVracs(); 
+	}
         $ds = $this->getLastDS();
         if ($ds) {
-            
            return $this->updateProduitsFromDS($ds); 
-        }
-        $drm = $this->getLastDRM();
-        if ($drm) {
-           
-           return $this->updateProduitsFromDRM($drm); 
-        }
+        }	
     }
 
     public function addProduit($hash) {
@@ -88,6 +92,13 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
             $produitDs = $this->addProduit($produit->getHash());
             $produitDs->stock_initial = $produit->total;
         }
+    }
+
+    protected function updateProduitsFromVracs() {
+      $hproduits = VracSoussigneIdentifiantView::getInstance()->getProduitHashesFromCampagneAndAcheteur($this->campagne, $this->getEtablissement());
+      foreach ($hproduits as $produit) {
+	$produitDs = $this->addProduit($produit);
+      }
     }
 
     protected function updateProduitsFromDS($ds) {
@@ -120,7 +131,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     /*** DECLARANT ***/
 
     public function getEtablissementObject() {
-        return $this->declarant_document->getEtablissementObject();
+        return $this->getEtablissement();
     }
 
     public function storeDeclarant() {
