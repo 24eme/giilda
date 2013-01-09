@@ -38,13 +38,12 @@ done
 sed 's/^/10;/' etablissementsetcourtiers.csv > etablissementsetcourtiers.csv.tmp ; mv  etablissementsetcourtiers.csv.tmp etablissementsetcourtiers.csv
 sed 's/^/10;/' etablissement.csv > etablissement.csv.tmp ; mv  etablissement.csv.tmp etablissement.csv
 
-
 for csv in cicav.viti.csv cicon.csv cieag.csv ciedn.csv ciefc.csv ciefcrec.csv cifonct.csv cilag.csv cimvs.csv cistk.csv tmp/cipar.utf8.csv etablissementsetcourtiers.csv etablissement.csv; do
     sed -f /tmp/sed.cmd $csv > $csv.tmp
     rm $csv
     mv $csv.tmp $csv
 done
-
+sort -t ';' -k 2,2 tmp/cipar.utf8.csv > tmp/cipar.utf8.csv.tmp ; mv tmp/cipar.utf8.csv.tmp tmp/cipar.utf8.csv
 sed 's/^10;//' etablissementsetcourtiers.csv > etablissementsetcourtiers.csv.tmp ; mv  etablissementsetcourtiers.csv.tmp etablissementsetcourtiers.csv
 sed 's/^10;//' etablissement.csv > etablissement.csv.tmp ; mv  etablissement.csv.tmp etablissement.csv
 
