@@ -6,18 +6,23 @@
 
 class DSProduit extends BaseDSProduit {
 
-    function updateProduit($produit)
+
+    public function updateProduitFromDS($produit)
     {
-        $this->produit_hash = $produit->getHash();
-        $this->produit_libelle = $produit->getLibelle("%g% %a% %m% %l% %co% %ce%");
+        $this->updateProduitFromConfig($produit->getConfig());
+    }
+
+    public function updateProduitFromDRM($produit)
+    {
+        $this->updateProduitFromConfig($produit->getConfig());
         $this->stock_initial = $produit->total;
     }
 
-    function updateProduitFromConfig($produit)
+    public function updateProduitFromConfig($produit_config)
     {
-        $this->produit_hash = $produit->getHash();
-        $this->produit_libelle = $produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce%");
-        $this->stock_initial = 0;
+        $this->produit_hash = $produit_config->getHash();
+        $this->produit_libelle = $produit_config->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce%");
+        $this->code_douane = $produit_config->getCodeDouane();
     }
 
     public function isActif() {
@@ -27,5 +32,10 @@ class DSProduit extends BaseDSProduit {
     
     public function hasElaboration(){
         return strstr($this->produit_hash, 'EFF')!==false;
+    }
+
+    public function getConfig() {
+
+        return ConfigurationClient::getCurrent()->get($this->produit_hash);
     }
 }

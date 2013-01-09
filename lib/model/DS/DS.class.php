@@ -60,24 +60,24 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     }
 
     public function updateProduits() {
-        $drm = $this->getLastDRM();
-        if ($drm) {
-           
-           return $this->updateProduitsFromDRM($drm); 
-        }
         $ds = $this->getLastDS();
         if ($ds) {
             
            return $this->updateProduitsFromDS($ds); 
         }
+        $drm = $this->getLastDRM();
+        if ($drm) {
+           
+           return $this->updateProduitsFromDRM($drm); 
+        }
     }
 
     protected function updateProduitsFromDRM($drm) {
-         $produits = $drm->getProduits();
-	$this->drm_origine = $drm->_id;
+        $produits = $drm->getProduits();
+	    $this->drm_origine = $drm->_id;
         foreach ($produits as $produit) {
             $produitDs = $this->declarations->add($produit->getHashForKey());
-            $produitDs->updateProduit($produit);
+            $produitDs->updateProduitFromDRM($produit);
         }
     }
 
@@ -87,10 +87,8 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
                 
                 continue;
             }
-            $nouveau_produit = $this->declarations->add($hash, $produit);
-
-            $nouveau_produit->stock_initial = null;
-            $nouveau_produit->stock_declare = null;
+            $produitDs = $this->declarations->add($hash);
+            $produitDs->updateProduitFromDS($produit);
         }
     }
     
