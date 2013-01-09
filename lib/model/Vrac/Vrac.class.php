@@ -180,7 +180,7 @@ class Vrac extends BaseVrac {
         return $this->_get('prix_unitaire');
     }
 
-    public function getPrixTotal() {
+    public function getPrixTotalOuInitial() {
         if(is_null($this->_get('prix_total'))) {
             return $this->prix_initial_total;
         }

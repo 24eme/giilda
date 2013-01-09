@@ -1,5 +1,6 @@
 <?php
 $isValidation = (is_null($vrac->valide->statut));
+$isPrixVariable = (!$vrac->prix_total);
 $liClass = ($isValidation)? '' : 'class="lightpadding"';
 ?>
 <ul>
@@ -28,7 +29,7 @@ $liClass = ($isValidation)? '' : 'class="lightpadding"';
             ?>
             </section>
             <?php
-            if($isValidation) :
+            if($isValidation || $isPrixVariable) :
             ?>
             <div class="btnModification f_right">
                 <a href="<?php echo url_for('vrac_marche',$vrac); ?>" class="btn_majeur btn_modifier">Modifier</a>

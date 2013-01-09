@@ -96,15 +96,15 @@ function showRecapPrixTotal($vrac)
 {
     if($vrac->hasPrixVariable() && !$vrac->hasPrixDefinitif()) {
         
-        return sprintf('%s € (Prix non définitif)', echoF($vrac->getPrixTotal()));
+        return sprintf('%s € (Prix non définitif)', echoF($vrac->getPrixTotalOuInitial()));
     }
 
     if($vrac->hasPrixVariable() && $vrac->hasPrixDefinitif()) {
 
-        return sprintf('%s € (Prix initial : %s €)', echoF($vrac->getPrixTotal()), echoF($vrac->getPrixInitialTotal()));
+        return sprintf('%s € (Prix initial : %s €)', echoF($vrac->getPrixTotal()), echoF($vrac->getPrixInitial()));
     }
 
-    return sprintf('%s €', echoF($vrac->getPrixTotal()));
+    return sprintf('%s €', echoF($vrac->getPrixTotalOuInitial()));
 }
 
 function showType($vrac)
