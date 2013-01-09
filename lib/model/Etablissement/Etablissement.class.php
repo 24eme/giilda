@@ -99,6 +99,10 @@ class Etablissement extends BaseEtablissement {
         return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT);
     }
     
+    public function isViticulteur() {
+        return ($this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR);
+    }
+    
     public function isCourtier() {
         return ($this->famille == EtablissementFamilles::FAMILLE_COURTIER);
     }
