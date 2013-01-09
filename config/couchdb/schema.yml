@@ -17,13 +17,12 @@ SV12:
         definition:
           fields:            
             nom: {  }
+            raison_sociale: {  }
             cvi: {  }
-            num_accise: {   }
-            num_tva_intracomm: {    }
+            no_accises: {   }
             adresse: {  }
             commune: {  }
             code_postal: {   }
-            raison_sociale: {  }
             region: {  }
       totaux:
         type: collection

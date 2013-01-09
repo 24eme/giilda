@@ -8,8 +8,8 @@ class SV12Historique
 	const VIEW_INDEX_STATUS = 4;
 	const VIEW_INDEX_STATUS_DOUANE_ENVOI = 5;
 	const VIEW_INDEX_STATUS_DOUANE_ACCUSE = 6;
-	const DERNIERE = 'derniere';
-	const CAMPAGNE = 'campagne';
+	const DERNIERE = 'DERNIERE';
+	const CAMPAGNE = 'CAMPAGNE';
         const REGEXP_CAMPAGNE = '#^[0-9]{4}-[0-9]{2}$#';
 
 	private $identifiant;
