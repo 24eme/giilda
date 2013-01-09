@@ -79,7 +79,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         
-        if($this->existNumeroCompte())
+        if($this->existNumeroCompte() && $this->isVitiOrNego())
                 $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
         
         if(!count($this->getObject()->contacts))
