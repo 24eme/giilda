@@ -33,6 +33,7 @@ Facture:
             commune: {  }
             code_postal: {   }
             raison_sociale: {  }
+            region: {  }
       total_ht: {type: float}
       total_ttc: {type: float}
       total_taxe: {type: float}
