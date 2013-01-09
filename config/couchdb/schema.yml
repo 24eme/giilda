@@ -327,13 +327,14 @@ DRM:
         definition:
           fields:
             nom: {  }
+            raison_sociale: {  }
             cvi: {  }
-            num_accise: {   }
-            num_tva_intracomm: {    }
+            num_accise: {  required: false } # A SUPPRIMER
+            no_accises: {   }
+            num_tva_intracomm: {  required: false } # A SUPPRIMER
             adresse: {  }
             commune: {  }
             code_postal: {   }
-            raison_sociale: {  }
             region: {  }
       declaratif:
         class: DRMDeclaratif
