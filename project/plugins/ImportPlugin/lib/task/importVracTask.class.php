@@ -233,7 +233,7 @@ EOF;
           $this->logLigne('WARNING', sprintf("Répartition de la CVO vide"), $line);
         } 
 
-        if($v->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI && $this->convertToFloat($line[self::CSV_COTISATION_CVO_NEGOCIANT]) > 0) {
+        if($v->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI && $this->convertToFloat($line[self::CSV_COTISATION_CVO_VITICULTEUR]) > 0 && $this->convertToFloat($line[self::CSV_COTISATION_CVO_NEGOCIANT]) > 0) {
           
           $this->logLigne('WARNING', sprintf("Incohérence de CVO VITI v:%s n:%s", $line[self::CSV_COTISATION_CVO_VITICULTEUR], $line[self::CSV_COTISATION_CVO_NEGOCIANT]), $line);
         }
