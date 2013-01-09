@@ -27,6 +27,7 @@ DS:
             commune: {  }
             code_postal: {   }
             raison_sociale: {  }
+            region: {  }
       declarations:
         type: collection
         definition:
