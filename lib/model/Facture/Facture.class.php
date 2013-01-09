@@ -172,7 +172,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV) {
             if ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART) {
-                $origine_libelle = "Écart";
+                $origine_libelle = " (".$transacteur.") ".SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
                 return $origine_libelle;
             }
             $origine_libelle = 'n° ' . VracClient::getInstance()->getNumeroArchiveEtDate($ligne->contrat_identifiant);
@@ -218,6 +218,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                             $this->createOrUpdateEcheanceC($ligne);
                         else
                             $this->createOrUpdateEcheanceB($ligne);
+                        break;
+                    case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART:
+                        $this->createOrUpdateEcheanceB($ligne);
                         break;
                     case FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS:
                         if (strstr($ligne->produit_hash, 'mentions/LIE/')) {

@@ -106,7 +106,8 @@ class FactureClient extends acCouchdbClient {
         $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
         foreach ($mouvementsBySoc as $identifiant => $mouvements) {
             foreach ($mouvements as $key => $mouvement) {
-                    if(Date::sup($mouvement->value[MouvementfactureFacturationView::VALUE_DATE],$date_mouvement)) {
+                    $farDateMvt = $this->getGreatestDate($mouvement->value[MouvementfactureFacturationView::VALUE_DATE]);
+                    if(Date::sup($farDateMvt,$date_mouvement)) {
 		      unset($mouvements[$key]);
 		      $mouvementsBySoc[$identifiant] = $mouvements;
                     }
@@ -130,6 +131,18 @@ class FactureClient extends acCouchdbClient {
       return $mouvementsBySoc;
     }
 
+    private function getGreatestDate($dates){
+        if(is_string($dates)) return $dates;
+        if(is_array($dates)){
+            $dateres = $dates[0];
+            foreach ($dates as $date) {
+                if(Date::sup($date, $dateres)) $dateres=$date;
+            }
+            return $dateres;
+        }
+         throw new sfException("La date du mouvement ou le tableau de date est mal formé ".print_r($dates, true));
+    }
+    
     private function cleanMouvementsBySoc($mouvementsBySoc){
       if (count($mouvementsBySoc) == 0)
 	return null;
@@ -210,7 +223,7 @@ class FactureClient extends acCouchdbClient {
 	return 'Sorties de contrats vins';
 
       case self::FACTURE_LIGNE_PRODUIT_TYPE_ECART:
-	return 'Écarts de stock';
+	return 'Sorties raisins et moûts';
       }
       return '';
     }
