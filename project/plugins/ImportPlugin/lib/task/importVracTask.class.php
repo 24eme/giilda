@@ -193,6 +193,12 @@ EOF;
 	      }
 
         $v->volume_propose = $this->convertToFloat($line[self::CSV_VOLUME_PROPOSE_HL]);
+
+        if ($v->volume_propose == 0) {
+
+          throw new sfException('Le Volume proposé est O');
+        }
+
         $v->volume_enleve = $this->convertToFloat($line[self::CSV_VOLUME_ENLEVE_HL]);
 
         $v->prix_initial_unitaire = $this->convertToFloat($this->calculPrixInitialUnitaire($v, $line));
