@@ -106,19 +106,32 @@ class SV12Contrat extends BaseSV12Contrat {
     
     public function canBeSoldable() {
         
-        return $this->volume > 0; 
+        return $this->isSaisi();
+    }
+
+    public function isSaisi() {
+        return !is_null($this->volume); 
     }
 
     public function enleverVolume() {
         $volume = $this->getVolumeVersion();
-        if ($volume == 0) {
+
+		if (!$this->getVrac()) {
+
+            throw new sfException(sprintf("Le contrat %s est introuvable", $this->getVracIdentifiant()));            
+        }
+
+        if ($this->isSaisi() && $volume == 0 && $this->getVrac()->isSolde()) {
+
             return false;
         }
-		if (!$this->getVrac())
-			return false;
+
         $this->getVrac()->enleverVolume($this->getVolumeVersion());
+
         if ($this->canBeSoldable()) {
             $this->getVrac()->solder();
+        } else {
+            $this->getVrac()->desolder();
         }
 
         return true;
