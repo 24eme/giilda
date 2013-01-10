@@ -17,10 +17,23 @@ class sv12Actions extends sfActions {
 
     public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
+        $this->campagne = $request->getParameter('campagne');
+        if (!$this->campagne) {
+            $this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+        }
+        $this->formCampagne = new VracEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
 	if (!$this->etablissement->isNegociant())
 	  throw new sfException('Seuls les négociants peuvent faire des SV12');
-        $this->periode = SV12Client::getInstance()->buildPeriode(date('Y-m-d'));
+       // $this->periode = SV12Client::getInstance()->buildPeriode(date('Y-m-d'));
         $this->list = SV12AllView::getInstance()->getMasterByEtablissement($this->etablissement->identifiant);
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $param = $request->getParameter($this->formCampagne->getName());
+            if ($param) {
+                $this->formCampagne->bind($param);
+                return $this->redirect('sv12_nouvelle', array('identifiant' => $this->etablissement->getIdentifiant(), 'periode' => $this->formCampagne->getValue('campagne')));
+            }
+        }
+        
     }
 
     /**
