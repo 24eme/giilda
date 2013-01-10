@@ -8,7 +8,13 @@
             <?php include_component('sv12', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
 			
             <?php include_partial('negociant_information',array('etablissement' => $etablissement)); ?>
-            <a class="btn_majeur btn_nouveau" href="<?php echo url_for('sv12_nouvelle', array('identifiant' => $etablissement->identifiant, 'periode' => $periode)) ?>">Créer une SV12</a>
+            
+            <form method="post" action="<?php echo url_for('sv12_etablissement', $etablissement); ?>">
+                <?php echo $formCampagne->renderGlobalErrors() ?>
+                <?php echo $formCampagne->renderHiddenFields() ?>
+                <?php echo $formCampagne; ?> <input class="btn_majeur btn_nouveau" type="submit" value="Créer une SV12"/>
+            </form>
+            
 
             <?php include_partial('sv12/list', array('list' => $list)) ?>
         </section>
