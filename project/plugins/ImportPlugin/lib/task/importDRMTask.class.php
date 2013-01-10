@@ -506,9 +506,12 @@ EOF;
     $cvo = $this->convertToFloat($line[self::CSV_VENTE_COTISATION_VITICULEUR_VENTE_DIRECTE]);
 
     if($produit->cvo->taux && $produit->cvo->taux != $cvo) {
-      throw new sfException(sprintf("Deux taux de cvo différent ont été défini pour un produit d'une même DRM %s / %s", $produit->cvo->taux, $cvo));      
+      $this->logLigne('WARNING', sprintf("Deux taux de cvo différent ont été défini pour un produit d'une même DRM %s / %s", $produit->cvo->taux, $cvo), $line);      
     }
-    $produit->cvo->taux = $cvo;
+    
+    if(!$produit->cvo->taux) {
+      $produit->cvo->taux = $cvo;
+    }
 
     if ($this->convertToFloat($line[self::CSV_VENTE_VOLUME_EXPORT]) > 0) {
       $code_pays = $this->convertCountry($line[self::CSV_VENTE_CODE_PAYS]);
