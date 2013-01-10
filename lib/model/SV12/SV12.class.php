@@ -82,25 +82,43 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
     
     public function updateContrats($num_contrat, $contrat) {
-      if ($this->contrats->exist($num_contrat))
-	return ;
-      if (!$contrat) {
-	throw new acCouchdbException(sprintf("Le Contrat \"%s\" n'existe pas!", $num_contrat));
-      }
-      $contratObj = new stdClass();
-      $contratObj->contrat_numero = $num_contrat;
-      $contratObj->contrat_type = $contrat[VracClient::VRAC_VIEW_TYPEPRODUIT];
-      $contratObj->produit_libelle = ConfigurationClient::getCurrent()->get($contrat[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
-      $contratObj->produit_hash = $contrat[VracClient::VRAC_VIEW_PRODUIT_ID];
-      $contratObj->vendeur_identifiant = $contrat[VracClient::VRAC_VIEW_VENDEUR_ID];
-      $contratObj->vendeur_nom = $contrat[VracClient::VRAC_VIEW_VENDEUR_NOM];
-      $contratObj->volume_prop = $contrat[VracClient::VRAC_VIEW_VOLPROP];
-      $this->contrats->add($num_contrat, $contratObj);
+        if ($this->contrats->exist($num_contrat)) {
+    	    if($contrat[VracClient::VRAC_VIEW_STATUT] == VracClient::STATUS_CONTRAT_ANNULE) {
+                $this->contrats->remove($num_contrat);
+            }
+
+            return;
+        }
+      
+        if (!$contrat) {
+	       
+           throw new acCouchdbException(sprintf("Le Contrat \"%s\" n'existe pas!", $num_contrat));
+        }
+
+        if(!in_array($contrat[VracClient::VRAC_VIEW_STATUT], VracClient::$statuts_valide)) {
+        
+            return;
+        }
+
+        $contratObj = new stdClass();
+        $contratObj->contrat_numero = $num_contrat;
+        $contratObj->contrat_type = $contrat[VracClient::VRAC_VIEW_TYPEPRODUIT];
+        $contratObj->produit_libelle = ConfigurationClient::getCurrent()->get($contrat[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
+        $contratObj->produit_hash = $contrat[VracClient::VRAC_VIEW_PRODUIT_ID];
+        $contratObj->vendeur_identifiant = $contrat[VracClient::VRAC_VIEW_VENDEUR_ID];
+        $contratObj->vendeur_nom = $contrat[VracClient::VRAC_VIEW_VENDEUR_NOM];
+        $contratObj->volume_prop = $contrat[VracClient::VRAC_VIEW_VOLPROP];
+        $this->contrats->add($num_contrat, $contratObj);
     }
 
     public function addContrat($vrac) {
         if (!$vrac) {
-            throw new acCouchdbException(sprintf("Le Contrat \"%s\" n'existe pas!", $num_contrat));
+            throw new acCouchdbException(sprintf("Le Contrat n'existe pas!"));
+        }
+
+        if(!$vrac->isValidee()) {
+
+            return;
         }
 
         $contrat = new stdClass();
