@@ -2,6 +2,14 @@
 
 class sv12Actions extends sfActions {
 
+    
+    public function executeRedirect(sfWebRequest $request) {
+        $sv12 = SV12Client::getInstance()->find($request->getParameter('identifiant_sv12'));
+        $this->forward404Unless($sv12);
+        return $this->redirect('sv12_visualisation', array('identifiant' => $sv12->identifiant, 'periode_version' => $sv12->getPeriodeAndVersion()));
+    }
+    
+    
     public function executeChooseEtablissement(sfWebRequest $request) {
         $this->form = new SV12EtablissementChoiceForm('INTERPRO-inter-loire');
 

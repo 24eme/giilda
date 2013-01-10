@@ -14,6 +14,12 @@ class SV12Routing {
         $r->prependRoute('sv12', new sfRoute('/sv12', array('module' => 'sv12',
 								  'action' => 'chooseEtablissement')));
         
+        $r->prependRoute('sv12_redirect_to_visualisation', new sfRoute('/sv12/redirect/:identifiant_sv12', 
+								      array('module' => 'sv12', 'action' => 'redirect'),  
+								      array('sf_method' => array('get')),
+								      array('must_be_valid' => true,
+									    'must_be_not_valid' => false)));
+        
         $r->prependRoute('sv12_etablissement', new EtablissementRoute('/sv12/:identifiant', array('module' => 'sv12', 
                                                                         'action' => 'monEspace'),
                                                     array('sf_method' => array('get','post')),
