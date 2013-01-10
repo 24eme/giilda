@@ -27,7 +27,12 @@ class stocksActions extends sfActions {
             $this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
         }
       
-        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+        if ($this->etablissement->isNegociant()) {
+            $this->formCampagne = new VracEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+        } elseif($this->etablissement->isViticulteur()) {
+            $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+        }
+        
         if ($request->isMethod(sfWebRequest::POST)) {
             $param = $request->getParameter($this->formCampagne->getName());
             if ($param) {

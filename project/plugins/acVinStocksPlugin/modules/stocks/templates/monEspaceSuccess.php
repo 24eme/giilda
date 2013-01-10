@@ -6,7 +6,7 @@
         <section id="contenu_etape">
             <?php include_component('stocks', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
 
-            <form method="POST">
+            <form method="post">
                 <?php echo $formCampagne->renderGlobalErrors() ?>
                 <?php echo $formCampagne->renderHiddenFields() ?>
                 <?php echo $formCampagne; ?> <input class="btn_majeur btn_vert" type="submit" value="changer"/>
