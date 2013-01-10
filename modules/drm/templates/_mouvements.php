@@ -25,7 +25,8 @@
     <?php $i++; ?>
         <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php if($i%2!=0) echo "alt"; if ($mouvement->facturable) {echo " facturable";}  ?>">
             <td>
-                <?php echo sprintf("%s&nbsp;%s %s",$mouvement->type, ($mouvement->version) ? '('.$mouvement->version.')' : '', format_date($mouvement->date_version));?></td>
+                <?php $drm_libelle =  sprintf("%s&nbsp;%s %s",$mouvement->type, ($mouvement->version) ? '('.$mouvement->version.')' : '', format_date($mouvement->date_version));
+                echo link_to2($drm_libelle,'redirect_visualisation', array('id_doc' => $mouvement->doc_id));  ?></td>
             </td>
             <td><?php echo $mouvement->produit_libelle ?> </td>
             <td><?php
