@@ -146,7 +146,7 @@ class VracClient extends acCouchdbClient {
             $bySoussigneQuery =  $bySoussigneQuery->limit($limit);
         }
       
-      $bySoussigne = $bySoussigneQuery->getView('vrac', 'soussigneidentifiant');
+      $bySoussigne = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
       return $bySoussigne;
     }
     
@@ -160,7 +160,7 @@ class VracClient extends acCouchdbClient {
       if ($limit){
 	$bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
       }
-      $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+      $bySoussigneType = $bySoussigneTypeQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
       return $bySoussigneType;
     }
     
@@ -175,7 +175,7 @@ class VracClient extends acCouchdbClient {
 	$bySoussigneStatutQuery =  $bySoussigneStatutQuery->limit($limit);
       }
       
-      $bySoussigneStatut = $bySoussigneStatutQuery->getView('vrac', 'soussigneidentifiant');
+      $bySoussigneStatut = $bySoussigneStatutQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
       return $bySoussigneStatut;
     }
     
@@ -196,7 +196,7 @@ class VracClient extends acCouchdbClient {
       if ($limit){
 	$bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
       }
-      $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+      $bySoussigneType = $bySoussigneTypeQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
       return $bySoussigneType;
     }
     
@@ -210,24 +210,24 @@ class VracClient extends acCouchdbClient {
       if ($limit){
               $bySoussigneTypeQuery =  $bySoussigneTypeQuery->limit($limit);
           }
-      $bySoussigneType = $bySoussigneTypeQuery->getView('vrac', 'soussigneidentifiant');
+      $bySoussigneType = $bySoussigneTypeQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
       return $bySoussigneType;
     }
 
-    public function getCampagneByIdentifiant($identifiant) {
+    public function listCampagneByEtablissementId($identifiant) {
       $rows = $this->startkey(array('STATUT', $identifiant))
-	->endkey(array('STATUT', $identifiant, array()))
-	->limit(1)->getView('vrac', 'soussigneidentifiant')->rows;
-      if(!isset($rows[0]))
-	return array();
-      $debut = preg_replace('/-[0-9]*/', '', $rows[0]->key[2]);
-      $fin = preg_replace('/-[0-9]*/', '', ConfigurationClient::getInstance()->getCurrentCampagne());
-      $campagnes = array();
-      for ($a = $fin ; $a >= $debut ; $a--) {
-	$c = $a.'-'.($a+1);
-	$campagnes[$c] = $c;
+                   ->endkey(array('STATUT', $identifiant, array()))
+                   ->group_level(3)
+                   ->getView('vrac', 'soussigneidentifiant')->rows;
+
+      $current = ConfigurationClient::getInstance()->getCurrentCampagne();
+      $list = array($current => $current);
+      foreach($rows as $r) {
+  $c = $r->key[2];
+  $list[$c] = $c;
       }
-      return $campagnes;
+      krsort($list);
+      return $list;
     }
 
     public static function getCsvBySoussigne($vracs)
