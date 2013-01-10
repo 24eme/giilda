@@ -383,9 +383,32 @@ var init_ajax_modification = function(type)
     
     ajaxifyGet('getInfos','#vrac_'+type+'_identifiant',
                    '#'+type+'_annulation_btn',
-                   '#'+type+'_informations');
+                   '#'+type+'_informations');                  
+                  
 };
 
+
+
+var bindEnterModif = function(div,relai)
+{
+    $(div).keypress(function(e) { 
+      if(e.keyCode == 13) {
+            $(relai).click();
+            return false;
+       }
+    });
+}
+
+var bindEnterValid = function()
+{
+    $(document).keypress(function(e) { 
+      if(e.keyCode == 13) {
+            alert('entrer');
+            $('#btn_soussigne_submit').click();
+            return false;
+       }
+    });
+}
 
 var init_informations = function(type)
 {
@@ -401,6 +424,7 @@ var init_informations = function(type)
     $("#"+type+"_annulation_btn").unbind();
     
     $('.btnValidation button').removeAttr('disabled');
+  //  bindEnterValid();
 };
     
 /*    
