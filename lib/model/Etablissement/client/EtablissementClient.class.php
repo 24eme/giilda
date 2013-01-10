@@ -68,11 +68,11 @@ class EtablissementClient extends acCouchdbClient {
     }
     
     public function findByFamille($famille) {
-        return EtablissementRegionView::getInstance()->findByFamilleAndRegion($famille);
+        return EtablissementRegionView::getInstance()->findByFamilleAndRegionNonSuspendu($famille);
     }
 
     public function findByFamillesAndRegions($familles,$regions){
-        return EtablissementRegionView::getInstance()->findByFamillesAndRegions($familles,$regions,null);
+        return EtablissementRegionView::getInstance()->findByFamillesAndRegionsNonSuspendus($familles,$regions,null);
     }
     
     

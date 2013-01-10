@@ -12,12 +12,13 @@
 class EtablissementRegionView extends acCouchdbView {
 
     const KEY_FAMILLE = 0;
-    const KEY_REGION = 1;
-    const KEY_COMMUNE = 2;
-    const KEY_CODE_POSTAL = 3;
-    const KEY_CVI = 4;
-    const KEY_NOM = 5;
-    const KEY_IDENTIFIANT = 6;
+    const KEY_STATUT = 1;
+    const KEY_REGION = 2;
+    const KEY_COMMUNE = 3;
+    const KEY_CODE_POSTAL = 4;
+    const KEY_CVI = 5;
+    const KEY_NOM = 6;
+    const KEY_IDENTIFIANT = 7;
 
     public static function getInstance() {
         return acCouchdbManager::getView('etablissement', 'region', 'Etablissement');
@@ -27,24 +28,24 @@ class EtablissementRegionView extends acCouchdbView {
         return $this->client->limit(100)->getView($this->design, $this->view);
     }
 
-    public function findByFamillesAndRegions($familles, $regions, $limit = 100) {
+    public function findByFamillesAndRegionsNonSuspendus($familles, $regions, $limit = 100) {
         $etablissements = array();
         foreach ($familles as $famille) {
             foreach ($regions as $region) {                
-                $etablissements = array_merge($etablissements, $this->findByFamilleAndRegion($famille, $region, $limit));
+                $etablissements = array_merge($etablissements, $this->findByFamilleAndRegionNonSuspendu($famille, $region, $limit));
             }            
         }
         return $etablissements;
     }
 
-    public function findByFamilleAndRegion($famille, $region = null, $limit = 100) {
+    public function findByFamilleAndRegionNonSuspendu($famille, $region = null, $limit = 100) {
         $query = null;
         if ($region) {
-            $query = $this->client->startkey(array($famille, $region))
-                    ->endkey(array($famille, $region, array()));
+            $query = $this->client->startkey(array($famille, EtablissementClient::STATUT_ACTIF, $region))
+                    ->endkey(array($famille, EtablissementClient::STATUT_ACTIF, $region, array()));
         } else {
-            $query = $this->client->startkey(array($famille))
-                    ->endkey(array($famille, array()));
+            $query = $this->client->startkey(array($famille, EtablissementClient::STATUT_ACTIF))
+                    ->endkey(array($famille, EtablissementClient::STATUT_ACTIF, array()));
         }
         
         if ($limit == null) {
