@@ -123,8 +123,8 @@ class RevendicationCsvFile extends CsvFile
 		$s = preg_replace('/^[^0-9]*/', '', $s);
 		$line .= 
                         substr($s, 0, 4).';'. //CSV_COL_CAMPAGNE
-			(preg_replace('/^0*/', '', preg_replace('/ /', '', substr($s, 4, 9)))/100).';'. //CSV_COL_VOLUME
-                        substr($s, 13, 7).';'.//CSV_COL_NUMERO_CA
+			(preg_replace('/^0*/', '', preg_replace('/ /', '', substr($s, 4, 7)))/100).';'. //CSV_COL_VOLUME
+                        preg_replace('/ /', '', substr($s, 11, 9)).';'.//CSV_COL_NUMERO_CA
 			substr($s, 20, 8).';'//CSV_COL_DATE
 		      ;
 		$line = preg_replace('/ *;/', ';', $line);
