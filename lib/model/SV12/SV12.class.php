@@ -63,7 +63,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     public function getContratsNonSaisis() {
         $contrats = array();
         foreach($this->contrats as $key => $c) {
-            if ($c->volume == 0) {
+            if (!$c->isSaisi()) {
                 $contrats[$key] = $c;
             }
         }
@@ -118,11 +118,17 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     public function solderContrats() {
-       foreach ($this->contrats as $c) {
+        $contrats_to_save = array();
+
+        foreach ($this->contrats as $c) {
             if ($c->enleverVolume()) {
-                $c->getVrac()->save();
+                $contrats_to_save[] = $c->getVrac();
             }
-        } 
+        }
+
+        foreach($contrats_to_save as $vrac)  {
+            $vrac->save();
+        }
     }
 
     public function isAllContratsCanBeSoldable() {
