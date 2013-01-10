@@ -80,6 +80,8 @@ class VracClient extends acCouchdbClient {
                                            self::CVO_REPARTITION_100_VITI => '100% viticulteur',
                                            self::CVO_REPARTITION_0_VINAIGRERIE => 'Vinaigrerie');
 
+    public static $statuts_valide = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE);
+
     /**
      *
      * @return DRMClient

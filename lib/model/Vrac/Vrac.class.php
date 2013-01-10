@@ -328,7 +328,6 @@ class Vrac extends BaseVrac {
         return $this->valide->statut == VracClient::STATUS_CONTRAT_SOLDE;
     }
 
-
     public function solder() {
         $this->valide->statut = VracClient::STATUS_CONTRAT_SOLDE;
     }
@@ -339,7 +338,7 @@ class Vrac extends BaseVrac {
 
     public function isValidee() {
         
-        return in_array($this->valide->statut, array(VracClient::STATUS_CONTRAT_SOLDE,  VracClient::STATUS_CONTRAT_NONSOLDE));
+        return in_array($this->valide->statut, VracClient::$statuts_valide);
     }
     
     public function hasPrixVariable() {
