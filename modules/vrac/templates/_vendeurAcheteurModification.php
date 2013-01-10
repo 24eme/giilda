@@ -8,18 +8,19 @@ $otherType = ($type=='acheteur')? 'vendeur' :  'acheteur';
 ?>
 <script type="text/javascript">
     $(document).ready(function() {
-        init_ajax_modification('<?php echo $type;?>');
         setGreyPanel('<?php echo $otherType;?>');
         setGreyPanel('has_mandataire');
         setGreyPanel('mandataire');
         setGreyPanel('ligne_btn');        
         setGreyPanel('interne');        
+        init_ajax_modification('<?php echo $type;?>');
+        bindEnterModif("<?php echo '#'.$type.'_infos'; ?>","<?php echo 'a#'.$type.'_modification_btn'; ?>"); 
     });                        
 </script>
 
 
 
-<div id="vendeur_infos" class="modification_infos bloc_form">
+<div id="<?php echo $type; ?>_infos" class="modification_infos bloc_form">
     
     <div class="col">
         <div class="ligne_form">

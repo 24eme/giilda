@@ -13,7 +13,8 @@ $type = $form->getObject()->getFamilleType();
         setGreyPanel('acheteur');
         setGreyPanel('has_mandataire');
         setGreyPanel('ligne_btn');
-        setGreyPanel('interne');        
+        setGreyPanel('interne');  
+        bindEnterModif('.mandataire_infos','a#mandataire_modification_btn'); 
     });                        
 </script>
 
