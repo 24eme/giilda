@@ -94,6 +94,10 @@ EOF;
       $ds = DSClient::getInstance()->createOrFind($this->getIdentifiant($line), $this->getDateCreation($line));
       $ds->date_emission = $ds->date_stock;
 
+      if (!$ds->isNew()) {
+        throw new sfException(sprintf("La DS existe déjà %s-%s", $ds->identifiant, $ds->periode));
+      }
+
       if(!$ds->getEtablissementObject()) {
         throw new sfException(sprintf("L'etablissement %s n'existe pas", $this->getIdentifiant($line)));
       }
