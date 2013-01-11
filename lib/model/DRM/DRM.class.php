@@ -540,6 +540,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return DRMClient::getInstance()->getLibelleFromId($this->_id);
     }
 
+    public function getHumanPeriode() {
+      
+      return ConfigurationClient::getInstance()->getPeriodeLibelle($this->periode);
+    }
+
     /**** VERSION ****/
 
     public static function buildVersion($rectificative, $modificative) {
@@ -793,10 +798,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function isArchivageCanBeSet() {
 
         return $this->isValidee();
-    }
-
-    public function getHumanPeriode() {
-      return ConfigurationClient::getInstance()->getPeriodeLibelle($this->periode);
     }
     
     /*** FIN ARCHIVAGE ***/
