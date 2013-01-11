@@ -58,7 +58,6 @@ include_partial('actions_visu', array('vrac' => $vrac));
 end_slot();
 
 slot('colApplications');
-include_partial('contrat_campagne', array('vrac' => $vrac, 'visualisation' => true));
 include_partial('contrat_infos_contact', array('vrac' => $vrac));
 
 end_slot();
