@@ -82,8 +82,6 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
     
     public function updateContrats($num_contrat, $contrat) {
-        echo $num_contrat;
-
         if ($this->contrats->exist($num_contrat)) {
     	    if($contrat[VracClient::VRAC_VIEW_STATUT] == VracClient::STATUS_CONTRAT_ANNULE) {
                 $this->contrats->remove($num_contrat);
