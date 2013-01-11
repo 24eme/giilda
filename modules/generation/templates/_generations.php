@@ -97,6 +97,11 @@ echo (isset($identifiant)) ?
         url_for(strtolower($type) . '_etablissement', array('identifiant' => $identifiant)) :
         url_for(strtolower($type));
 ?>" class="btn_etape_prec"><span>Retour</span></a> &nbsp; 
+<?php if($generation->statut == GenerationClient::GENERATION_STATUT_ENATTENTE): ?>
+<script><!--
+	      window.setTimeout("window.location.reload()", 30000);
+--></script>
+<?php endif; ?>
 <?php if($generation->statut == GenerationClient::GENERATION_STATUT_ENERREUR): ?>
    <a class="btn_vert btn_majeur" href="<?php echo url_for('generation_reload', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>">Relancer</a>
 <?php endif; ?>
