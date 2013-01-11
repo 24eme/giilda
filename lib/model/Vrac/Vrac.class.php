@@ -245,7 +245,7 @@ class Vrac extends BaseVrac {
     public function validate($options = array()) {
         
         $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
-        if($this->valide->date_saisie) {
+        if(!$this->valide->date_saisie) {
             $this->valide->date_saisie = date('Y-m-d');
         }
 
@@ -298,9 +298,13 @@ class Vrac extends BaseVrac {
 
     private function getDensite() 
     {
-        return 1.3;
+        return $this->getConfig()->getDensite();
     }
-
+    
+    public function getConfig() {
+        return ConfigurationClient::getCurrent()->get($this->produit);
+    }
+    
     public function __toString() {
 
       if ($this->exist("numero_archive") && $this->numero_archive)

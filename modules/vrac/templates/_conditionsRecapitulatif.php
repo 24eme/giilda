@@ -5,6 +5,7 @@
  */
 use_helper('Vrac');
 use_helper('Float');
+use_helper('Date');
 ?>
 <div class="bloc_form">
     <div id="conditions_recapitulatif_typeContrat" class="ligne_form">
@@ -29,7 +30,29 @@ use_helper('Float');
         <span><?php echo VracClient::$cvo_repartition[$vrac->cvo_repartition] ?></span>
     </div>
     
-    <div id="conditions_recapitulatif_commentaire" class="ligne_form">
+    <?php if($vrac->date_signature) : ?>
+    <div id="conditions_recapitulatif_date_signature" class="ligne_form">
+        <label>Date de signature&nbsp;: </label>
+        <span><?php echo $vrac->date_signature; ?></span>
+    </div>
+    <?php endif; ?> 
+    
+    <?php if($vrac->date_campagne) : ?>
+    <div id="conditions_recapitulatif_date_saisie" class="ligne_form ligne_form_alt">
+        <label>Date de campagne (statistique)&nbsp;: </label>
+        <span><?php echo $vrac->date_campagne; ?></span>
+    </div>
+    <?php endif; ?> 
+    
+    <?php if($vrac->valide->date_saisie) : ?>
+    <div id="conditions_recapitulatif_date_saisie" class="ligne_form">
+        <label>Date de saisie&nbsp;: </label>
+        <span><?php echo format_date($vrac->valide->date_saisie, 'dd/MM/yyyy'); ?></span>
+    </div>
+    <?php endif; ?> 
+    
+    
+    <div id="conditions_recapitulatif_commentaire" class="ligne_form <?php echo ($vrac->valide->date_saisie)? 'ligne_form_alt' : '' ;?>">
         <label>Commentaires&nbsp;: </label>
              <span style="width: 100%; height: 100%;"><?php 
             echo $vrac->commentaire;

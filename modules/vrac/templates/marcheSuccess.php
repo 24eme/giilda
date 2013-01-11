@@ -69,6 +69,18 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
             return true;
         }
     });
+    
+        var densites = [];
+        <?php
+        foreach ($form->getProduits() as $key => $prod) :
+            if ($key != "") :
+                ?>
+        densites["<?php echo $key ?>"] = "<?php echo ConfigurationClient::getCurrent()->get($key)->getDensite(); ?>";
+                <?php
+            endif;
+        endforeach;
+        ?>
+    
 </script>
 <section id="principal">
     <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'actif' => 2)); ?>
@@ -120,7 +132,8 @@ slot('colApplications');
 /*
  * Inclusion du panel de progression d'édition du contrat
  */
-if(!$contratNonSolde) include_partial('contrat_progression', array('vrac' => $vrac));
+if (!$contratNonSolde)
+    include_partial('contrat_progression', array('vrac' => $vrac));
 
 /*
  * Inclusion du panel pour les contrats similaires
