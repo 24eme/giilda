@@ -28,9 +28,8 @@
         ?>   
                 <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php if ($i % 2 != 0) echo 'alt'; if ($mouvement->facturable) echo " facturable"; ?>">
                         <td>
-                            <?php $sv12_libelle = sprintf("%s&nbsp;%s %s", $mouvement->type, ($mouvement->version) ? '(' . $mouvement->version . ')' : '', format_date($mouvement->date_version));
-                                echo link_to2($sv12_libelle,'redirect_visualisation', array('id_doc' => $mouvement->doc_id)); 
-                            ?></td>
+                            <a title="Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>" href="<?php echo url_for('redirect_visualisation', array('id_doc' => $mouvement->doc_id)) ?>"><?php echo acCouchdbManager::getClient($mouvement->type)->getLibelleFromId($mouvement->doc_id) ?><?php echo ($mouvement->version) ? ' ('.$mouvement->version.')' : '' ?></a>
+                        </td>
                         <td>
                             <?php if ($mouvement->vrac_numero) { ?>
                                 <a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $mouvement->vrac_numero)) ?>"><?php echo VracClient::getInstance()->getLibelleFromId($mouvement->vrac_numero, '&nbsp;') ?></a> <?php echo sprintf("(%s, %s)", $mouvement->type_libelle, $mouvement->vrac_destinataire); ?>
