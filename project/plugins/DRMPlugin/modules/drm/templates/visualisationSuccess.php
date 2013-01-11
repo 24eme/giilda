@@ -23,7 +23,17 @@
             <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
         <?php endif; ?>
 
+        <?php if(!$drm->isMaster()): ?>
+        <div id="points_vigilance">
+            <ul>
+                <li class="warning">Ce n'est pas la <a href="<?php echo url_for('drm_visualisation', $drm->getMaster()) ?>">dernière version</a> de la DRM, le tableau récapitulatif n'est donc pas à jour.</a></li>
+            </ul>
+        </div>
+        <?php endif; ?>
+
 		<?php include_partial('drm/recap', array('drm' => $drm)) ?>
+
+        <h2>Mouvement</h2>
 		<?php include_partial('drm/mouvements', array('mouvements' => $mouvements, 'hamza_style' => true)) ?>
    <br/>
    <table class="table_recap">
