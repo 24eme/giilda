@@ -80,7 +80,7 @@ Tél. : 02 47 60 55 00 - Fax : 02 47 60 55 19}
 \hfill
 \begin{minipage}[t]{0.40\textwidth}
 \begin{flushright}
-\includegraphics[scale=0.8]{/var/www/vinsdeloire/project/web/data/logo.jpg}	
+\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo.jpg"; ?>}	
 \end{flushright}
 \end{minipage}
 \bigskip
