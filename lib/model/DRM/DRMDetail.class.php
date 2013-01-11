@@ -268,6 +268,11 @@ class DRMDetail extends BaseDRMDetail {
       return $this->total_debut_mois == 0 && !$this->hasMouvement() && $this->total == 0;
   }
 
+  public function isSupprimable() {
+
+    return $this->hasStockEpuise() && !$this->getDocument()->hasVersion();
+  }
+
   public function hasMouvementCheck() {
 
       return !$this->pas_de_mouvement_check;

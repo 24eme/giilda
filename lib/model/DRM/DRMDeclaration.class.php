@@ -24,7 +24,7 @@ class DRMDeclaration extends BaseDRMDeclaration {
     public function cleanDetails() {
         $delete = false;
         foreach($this->getProduitsDetails() as $detail) {
-            if ($detail->hasStockEpuise()) {
+            if ($detail->isSupprimable()) {
                 $detail->delete();
                 $delete = true;
             }
