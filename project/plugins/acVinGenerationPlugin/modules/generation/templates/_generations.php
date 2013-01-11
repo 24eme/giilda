@@ -24,8 +24,17 @@ use_helper("Generation");
         <span>
             <label>Statut : </label>
             <?php echo $generation->statut; ?>
+            (Mis à jour le <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->date_maj); ?>)
         </span>
     </div>
+  <?php if ($generation->message) : ?>
+    <div class="ligne_form ligne_form_alt">
+        <span>
+            <label>Message : </label>
+            <?php echo $generation->message; ?>
+        </span>
+    </div>
+  <?php endif; ?>
     <div class="ligne_form">
         <span>
             <label>Arguments :</label>
@@ -34,7 +43,7 @@ use_helper("Generation");
     <?php 
     $cpt=0;
     foreach ($generation->arguments as $key => $argument) : ?>
-    <div class="ligne_form <?php echo ($cpt%2 == 0)? 'ligne_form_alt' : '' ?>">
+    <div class="ligne_form ligne_form_alt">
         <span>
             <label><?php echo getLabelForKeyArgument($key); ?> </label>
             <?php 
@@ -88,5 +97,8 @@ echo (isset($identifiant)) ?
         url_for(strtolower($type) . '_etablissement', array('identifiant' => $identifiant)) :
         url_for(strtolower($type));
 ?>" class="btn_etape_prec"><span>Retour</span></a> &nbsp; 
-   <a class="btn_annuler btn_majeur" href="<?php echo url_for('generation_delete', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>">Supprimer</a>
+<?php if($generation->statut == GenerationClient::GENERATION_STATUT_ENERREUR): ?>
+   <a class="btn_vert btn_majeur" href="<?php echo url_for('generation_reload', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>">Relancer</a>
+<?php endif; ?>
+   <a class="btn_rouge btn_majeur" href="<?php echo url_for('generation_delete', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>">Supprimer</a>
 </div>
