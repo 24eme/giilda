@@ -231,7 +231,7 @@ var majTotal = function(quantiteField){
         var hlRaisins = quantite;
         if(quantiteField=='raisin_quantite')
         {
-            hlRaisins = (hlRaisins / 1.3);
+            hlRaisins = (hlRaisins / densites[$('#vrac_produit').val()]);
             hlRaisins = hlRaisins /100.0; 
         }
         
