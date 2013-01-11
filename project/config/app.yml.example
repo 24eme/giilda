@@ -19,3 +19,23 @@ all:
         enattente_delai: '+2 month'
         relance_delai: '+2 month'
         nb_relance: '2'
+  facture:
+    emetteur:
+      TOURS:
+        adresse: 'adresse tours'
+        code_postal: 'cp tours'
+        ville: 'tours'
+        service_facturation: 'nom prenom personne'
+        telephone: 'tel tours - fax tours'
+      ANGERS:
+        adresse: 'adresse angers'
+        code_postal: 'cp angers'
+        ville: 'angers'
+        service_facturation: 'nom prenom personne'
+        telephone: 'tel angers - fax angers'
+      NANTES:
+        adresse: 'adresse nantes'
+        code_postal: 'cp nantes'
+        ville: 'nantes'
+        service_facturation: 'nom prenom personne'
+        telephone: 'tel nantes - fax nantes'
