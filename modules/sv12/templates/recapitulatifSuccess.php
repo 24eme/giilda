@@ -13,7 +13,7 @@
             <h2>Récapitulatif</h2>            
             <?php include_partial('totaux', array('sv12' => $sv12)); ?>
 
-            <h2> Détail des mouvements </h2>
+            <h2>Mouvements</h2>
             <?php include_partial('mouvements', array('mouvements' => $mouvements)); ?>
 
             <div class="btn_etape">
