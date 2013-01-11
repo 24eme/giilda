@@ -113,7 +113,17 @@ class SV12Contrat extends BaseSV12Contrat {
         return !is_null($this->volume); 
     }
 
+    public function isSansContrat() {
+
+        return is_null($this->contrat_numero);
+    }
+
     public function enleverVolume() {
+        if ($this->isSansContrat()) {
+
+            return false;
+        }
+
         $volume = $this->getVolumeVersion();
 
 		if (!$this->getVrac()) {
