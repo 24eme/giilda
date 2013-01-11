@@ -12,8 +12,10 @@ class GenerationClient extends acCouchdbClient {
     const HISTORY_VALUES_DOCUMENTS = 1;
     const HISTORY_VALUES_SOMME = 2;
     const HISTORY_VALUES_STATUT = 3;
-    const GENERATION_STATUT_ENCOURS = "EN_COURS";
+    const GENERATION_STATUT_ENATTENTE = "EN ATTENTE";
+    const GENERATION_STATUT_ENCOURS = "EN COURS";
     const GENERATION_STATUT_GENERE = "GENERE";
+    const GENERATION_STATUT_ENERREUR = "EN ERREUR";
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Generation");
@@ -38,19 +40,25 @@ class GenerationClient extends acCouchdbClient {
 //        return $views->getView("generation", "history")->rows;
 //    }
 
-    public function findHistoryWithType($type, $limit = 10) {
+    public function findHistoryWithType($type, $limit = 100) {
         $views = acCouchdbManager::getClient()
                 ->startkey(array($type))
                 ->endkey(array($type, array()));
         if ($limit)
             $views = $views->limit($limit);
-        return $views->getView("generation", "history")->rows;
+	$rows = $views->getView("generation", "history")->rows;
+        uasort($rows, "GenerationClient::sortHistory");
+	return $rows;
     }
 
-    public function getGenerationIdEnCours() {
+    public static function sortHistory($a, $b) {
+      return strcmp($b->id, $a->id);
+    }
+
+    public function getGenerationIdEnAttente() {
         $rows = acCouchdbManager::getClient()
-                        ->startkey(array(self::GENERATION_STATUT_ENCOURS))
-                        ->endkey(array(self::GENERATION_STATUT_ENCOURS, array()))
+                        ->startkey(array(self::GENERATION_STATUT_ENATTENTE))
+                        ->endkey(array(self::GENERATION_STATUT_ENATTENTE, array()))
                         ->getView("generation", "creation")
                 ->rows;
         $ids = array();

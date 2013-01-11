@@ -17,6 +17,8 @@ class GenerationRouting {
 								  'action' => 'delete')));
         $r->prependRoute('generation_list', new sfRoute('/generation/list/:type_document', array('module' => 'generation',
 								  'action' => 'list')));
+        $r->prependRoute('generation_reload', new sfRoute('/generation/:type_document/:date_emission/reload', array('module' => 'generation',
+								  'action' => 'reload')));
 
     }
 }
