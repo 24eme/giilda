@@ -39,29 +39,35 @@ EOF;
     if ($options['generation']) {
 	$generationids[] = $options['generation'];
     }else{
-	$generationids = GenerationClient::getInstance()->getGenerationIdEnCours();
+	$generationids = GenerationClient::getInstance()->getGenerationIdEnAttente();
     }
 
     foreach ($generationids as $gid) { 
       echo "Generation de $gid\n";
-      $generation = GenerationClient::getInstance()->find($gid);
-      if (!$generation) {
-        throw new sfException("$gid n'est pas un document valide");
-      }
-      $g = null;
-      switch ($generation->type_document) {
-          case GenerationClient::TYPE_DOCUMENT_FACTURES:
-              $g = new GenerationFacturePDF($generation, $this->configuration, $options);
-              break;
+      try {
+	$generation = GenerationClient::getInstance()->find($gid);
+	if (!$generation) {
+	  throw new sfException("$gid n'est pas un document valide");
+	}
+	$g = null;
+	switch ($generation->type_document) {
+	case GenerationClient::TYPE_DOCUMENT_FACTURES:
+	  $g = new GenerationFacturePDF($generation, $this->configuration, $options);
+	  break;
+	  
+	case GenerationClient::TYPE_DOCUMENT_DS:
+	  $g = new GenerationDSPDF($generation, $this->configuration, $options);
+	  break;
 
-          case GenerationClient::TYPE_DOCUMENT_DS:
-              $g = new GenerationDSPDF($generation, $this->configuration, $options);
-              break;
-      default:
-	throw new Exception($generation->type_document." n'est pas un type supporté");
-	
+	default:
+	  throw new sfException($generation->type_document." n'est pas un type supporté");
+	}
+	echo $g->generatePDF()."\n";
+      }catch(Exception $e) {
+	$generation->statut = GenerationClient::GENERATION_STATUT_ENERREUR;
+	$generation->message = $e->getMessage();
+	$generation->save();
       }
-      echo $g->generatePDF()."\n";
     }
   }
 }

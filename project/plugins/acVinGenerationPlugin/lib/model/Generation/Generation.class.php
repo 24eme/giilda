@@ -10,14 +10,15 @@ class Generation extends BaseGeneration {
     $this->setDateEmission(date('YmdHis'));
     $this->setIdentifiant($this->type_document.'-'.$this->date_emission);
     $this->set_id('GENERATION-'.$this->identifiant);
-    $this->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS);
+    $this->setStatut(GenerationClient::GENERATION_STATUT_ENATTENTE);
   }
 
   public function save() {
     $this->nb_documents = count($this->documents);
     if (count($this->fichiers)) {
       $this->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
-    }
+    } 
+    $this->setDateMaj(date('YmdHis'));
     return parent::save();
   }
   
