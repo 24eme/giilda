@@ -25,8 +25,8 @@
     <?php $i++; ?>
         <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php if($i%2!=0) echo "alt"; if ($mouvement->facturable) {echo " facturable";}  ?>">
             <td>
-                <?php $drm_libelle =  sprintf("%s&nbsp;%s %s",$mouvement->type, ($mouvement->version) ? '('.$mouvement->version.')' : '', format_date($mouvement->date_version));
-                echo link_to2($drm_libelle,'redirect_visualisation', array('id_doc' => $mouvement->doc_id));  ?></td>
+                <a title="Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>" href="<?php echo url_for('redirect_visualisation', array('id_doc' => $mouvement->doc_id)) ?>"><?php echo acCouchdbManager::getClient($mouvement->type)->getLibelleFromId($mouvement->doc_id) ?><?php echo ($mouvement->version) ? ' ('.$mouvement->version.')' : '' ?></a>
+            </td>
             </td>
             <td><?php echo $mouvement->produit_libelle ?> </td>
             <td><?php
