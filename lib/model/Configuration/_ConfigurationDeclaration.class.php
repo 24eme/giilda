@@ -87,10 +87,20 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     if (!$this->_get('code_comptable')) {
 
       return $this->getParentNode()->getCodeComptable();
-    }
+    }    
     
     return $this->_get('code_comptable');
   }
+  
+  
+    public function getDensite(){
+        if (!$this->exist('densite') || !$this->_get('densite')) {
+
+      return $this->getParentNode()->getDensite();
+    }    
+    
+    return $this->_get('densite');
+    }
 
 	public function getLibelleFormat($labels = array(), $format = "%g% %a% %m% %l% %co% %ce%", $label_separator = ", ") {
     	$libelle = ConfigurationProduitsView::getInstance()->formatLibelles($this->getLibelles(), $format);

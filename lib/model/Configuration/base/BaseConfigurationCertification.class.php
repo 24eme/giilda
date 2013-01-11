@@ -8,6 +8,7 @@
  * @property string $code
  * @property string $code_produit
  * @property string $code_comptable
+ * @property string $code_douane
  * @property acCouchdbJson $departements
  * @property acCouchdbJson $interpro
  * @property acCouchdbJson $genres
@@ -21,6 +22,8 @@
  * @method string setCodeProduit()
  * @method string getCodeComptable()
  * @method string setCodeComptable()
+ * @method string getCodeDouane()
+ * @method string setCodeDouane()
  * @method acCouchdbJson getDepartements()
  * @method acCouchdbJson setDepartements()
  * @method acCouchdbJson getInterpro()

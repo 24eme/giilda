@@ -356,6 +356,7 @@ Configuration:
                                                 code_produit: {  }
                                                 code_comptable: {  }
                                                 code_douane: {  }
+                                                densite: {  }
                                                 detail:
                                                   required: false
                                                   class: ConfigurationDetail

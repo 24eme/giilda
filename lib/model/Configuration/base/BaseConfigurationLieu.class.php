@@ -8,6 +8,8 @@
  * @property string $code
  * @property string $code_produit
  * @property string $code_comptable
+ * @property string $code_douane
+ * @property acCouchdbJson $interpro
  * @property acCouchdbJson $departements
  * @property ConfigurationDetail $detail
  * @property acCouchdbJson $couleurs
@@ -20,6 +22,10 @@
  * @method string setCodeProduit()
  * @method string getCodeComptable()
  * @method string setCodeComptable()
+ * @method string getCodeDouane()
+ * @method string setCodeDouane()
+ * @method acCouchdbJson getInterpro()
+ * @method acCouchdbJson setInterpro()
  * @method acCouchdbJson getDepartements()
  * @method acCouchdbJson setDepartements()
  * @method ConfigurationDetail getDetail()

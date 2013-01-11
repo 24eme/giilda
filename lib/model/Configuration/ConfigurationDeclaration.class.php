@@ -58,4 +58,13 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
         return self::TYPE_NOEUD;
     }
 
+    public function getDensite() {
+        if (!$this->exist('densite') || !$this->_get('densite')) {
+
+            return $this->getParentNode()->getDensite();
+        }
+
+        return $this->_get('densite');
+    }
+
 }
