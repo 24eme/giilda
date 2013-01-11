@@ -132,5 +132,19 @@ class SocieteAllView extends acCouchdbView
         $libelle .= ' (Société)';
         return trim($libelle);
     }
+    
+        public function findBySociete($identifiant) {
+            
+        $societe = $this->client->find($identifiant, acCouchdbClient::HYDRATE_JSON);
+
+        if(!$societe) {
+            return null;
+        }
+
+        return $this->client->startkey(array($societe->interpro, $societe->statut, $societe->type_societe, $societe->_id))
+                            ->endkey(array($societe->interpro, $societe->statut, $societe->type_societe, $societe->_id, array()))
+			    ->getView($this->design, $this->view)->rows;
+        
+    }
 
 }  

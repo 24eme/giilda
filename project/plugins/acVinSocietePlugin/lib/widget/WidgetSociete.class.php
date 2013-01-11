@@ -46,20 +46,18 @@ class WidgetSociete extends sfWidgetFormChoice
         if(!$this->identifiant) {
             return array();
         }
-        $viewRes = null;
-        $class = null;
-        if(preg_match('/^SOCIETE[-]{1}[0-9]*$/', $this->identifiant)){
-            $docRes = SocieteClient::getInstance()->find($this->identifiant);
-            if(!$docRes) return array();
-            $viewRes = SocieteAllView::getInstance()->findByRaisonSocialeAndId($docRes->raison_sociale,$docRes->_id);
-        }
-        if (!$viewRes) {
+        $societes = SocieteAllView::getInstance()->findBySociete($this->identifiant);
+        if (!$societes) {
             return array();
         }
         
-        
-        return array($this->identifiant => SocieteAllView::getInstance()->makeLibelle($viewRes->rows[0]->key));
-    }
+        $choices = array();
+        foreach($societes as $key => $societe) {
+            $choices[$societe->id] = SocieteAllView::getInstance()->makeLibelle($societe->key);
+        }
+
+        return $choices;
+   }
 
     public function render($name, $value = null, $attributes = array(), $errors = array())
     {
