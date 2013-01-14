@@ -32,7 +32,7 @@
                         </td>
                         <td>
                             <?php if ($mouvement->vrac_numero) { ?>
-	  <a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $mouvement->vrac_numero)) ?>"><?php $vrac = VracClient::getInstance()->find('VRAC-'.$mouvement->vrac_numero); echo sprintf("%s, n°%s, %s", $mouvement->type_libelle, $vrac->numero_archive, $mouvement->vrac_destinataire); ?></a> 
+	  <a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $mouvement->vrac_numero)) ?>"><?php echo sprintf("%s, n°%s, %s", $mouvement->type_libelle, $mouvement->numero_archive, $mouvement->vrac_destinataire); ?></a> 
                             <?php
                             } else if ($mouvement->vrac_destinataire) {
                                 echo "SANS CONTRAT " . sprintf("(%s, %s)", $mouvement->type_libelle, $mouvement->vrac_destinataire);
