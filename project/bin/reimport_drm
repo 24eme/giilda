@@ -46,14 +46,23 @@ do
 done
 
 for periode in ${PERIODES[*]}
-do
-    OBJ="DRM-$1-$periode-M01"
-    JSON=$(curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJ | grep -E '_id":"DRM-$1-[0-9]{6}');
+do  
+    OBJ="DRM-$1-$periode"
+    JSON=$(curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJ | grep "date_saisie\":\"2013");
 
     if [ "$JSON" != '' ]; then
-        echo "Une DRM modificatrice existe on arrête tout : $OBJ"
+        echo "La drm à été saisie par interloire et ne provient pas de l'import, on arrête tout : $OBJ"
         exit;
     fi
+
+    OBJ="DRM-$1-$periode-M01"
+    JSON=$(curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJ | grep -E "_id\":\"DRM-$1-[0-9]{6}");
+
+    if [ "$JSON" != '' ]; then
+        echo "Une DRM modificatrice existe, on arrête tout : $OBJ"
+        exit;
+    fi
+
 done
 
 for periode in ${PERIODES[*]}
