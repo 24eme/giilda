@@ -1,6 +1,7 @@
 REDMINE_PREFIX=https://clients.actualys.com
 REDMINE_USER=utilisateur
 REDMINE_PASS=***********
+PROJET=MONPROJET
 TMP=/tmp
 WORKINGDIR=/home/vinsi
 COUCHHOST=localhost
