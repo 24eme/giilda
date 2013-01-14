@@ -585,13 +585,24 @@ EOF;
 	      throw new sfException(sprintf("L'établissement cave coop '%s' n'existe pas", sprintf("%06d%02d", $line[self::CSV_CAVE_CODE_COOPERATEUR], $line[self::CSV_CAVE_CODE_COOPERATEUR_CHAI])));
       }
 
-      $produit->sorties->cooperative_details->addDetail($etablissement->_id,
+      $detail = $produit->sorties->cooperative_details->addDetail($etablissement->_id,
                                                         $this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]),
                                                         $this->convertToDateObject($line[self::CSV_CAVE_DATE_MOUVEMENT])->format('Y-m-d'));
+
+      if($detail->volume < 0) {
+        
+        throw new sfException(sprintf("Le volume coop en sortie est négatif %s", $detail->volume));
+      }
+    
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
       $produit->entrees->cooperative += $this->convertToFloat($line[self::CSV_CAVE_VOLUME_ENTREE]);
+
+      if($produit->entrees->cooperative < 0) {
+
+        throw new sfException(sprintf("Le volume coop en entrée est négatif %s", $produit->entrees->cooperative));
+      }
     }
   }
 
@@ -719,12 +730,12 @@ EOF;
   }
 
   protected function verifyLineCave($line) {
-    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
+    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI, true) {
       $this->verifyVolume($line[self::CSV_CAVE_VOLUME_SORTIE]);
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
-      $this->verifyVolume($line[self::CSV_CAVE_VOLUME_ENTREE]);
+      $this->verifyVolume($line[self::CSV_CAVE_VOLUME_ENTREE], true);
     }
 
     return true;
@@ -746,6 +757,10 @@ EOF;
 
     if($country == 'FRA') {
       $country = 'FR';
+    }
+
+    if($country == 'TU') {
+      $country = 'TR';
     }
 
     if(!array_key_exists($country, $countries)) {
