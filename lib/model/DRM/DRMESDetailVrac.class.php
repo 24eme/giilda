@@ -23,6 +23,6 @@ class DRMESDetailVrac extends BaseDRMESDetailVrac {
 
     public function getIdentifiantLibelle() {
 
-        return $this->getVrac()->__toString();
+        return $this->getVrac()->getNumeroArchive();
     }
 }
