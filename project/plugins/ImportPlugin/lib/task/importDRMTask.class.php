@@ -730,8 +730,8 @@ EOF;
   }
 
   protected function verifyLineCave($line) {
-    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI, true) {
-      $this->verifyVolume($line[self::CSV_CAVE_VOLUME_SORTIE]);
+    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
+      $this->verifyVolume($line[self::CSV_CAVE_VOLUME_SORTIE], true);
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
