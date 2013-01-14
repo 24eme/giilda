@@ -110,6 +110,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
     {
         parent::doUpdateObject($values);
         $this->getObject()->update();
+        $this->getObject()->setDomaine($this->values['domaine']);
     }
     
     public function getDomaines() {
@@ -147,6 +148,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
         return (int) $year+1;
         
     }
+    
+//    public function save($con = null) {
+//        parent::save($con);
+//        var_dump($this->values['domaine']); exit;
+//    }
     
 }
 
