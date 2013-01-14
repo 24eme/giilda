@@ -188,6 +188,10 @@ class SV12Contrat extends BaseSV12Contrat {
         return VracClient::$types_transaction[$this->contrat_type]; 
     }
 
+    function getNumeroArchive() {
+      return VracClient::getInstance()->findByNumContrat($this->contrat_numero)->numero_archive;
+    }
+
     function updateNoContrat($produit, $infoviti = array('contrat_type' => null, 'vendeur_identifiant' => null, 'vendeur_nom' => null))
     {
       if ($this->volume)

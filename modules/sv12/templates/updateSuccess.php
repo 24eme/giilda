@@ -60,7 +60,7 @@
                                     <?php if (!$contrat->contrat_numero): ?>
                                         -
                                     <?php else: ?>
-                                        <a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $contrat->contrat_numero)) ?>"><?php echo VracClient::getInstance()->getLibelleFromId($contrat->contrat_numero, '&nbsp;') ?></a>
+                                        <a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $contrat->contrat_numero)) ?>"><?php echo $contrat->numero_archive; ?></a>
                                         <?php echo sprintf('(%s,&nbsp;%s&nbsp;hl)', $contrat->getContratTypeLibelle(), $contrat->volume_prop); ?>
                                     <?php endif; ?>
                                 </td>
