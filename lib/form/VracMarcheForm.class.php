@@ -78,6 +78,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         
         
  //       $this->validatorSchema->postValidator(new VracMarcheVolumeValidator(array($this->getWidget('bouteilles_quantite'))));
+        
         $this->widgetSchema->setNameFormat('vrac[%s]');
         
     }
@@ -90,6 +91,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
       }
       if ($this->getObject()->hasPrixVariable()) {
         $this->setDefault('prix_unitaire', $this->getObject()->_get('prix_unitaire'));
+      }
+      if (!$this->getObject()->bouteilles_contenance_libelle) {
+          $this->setDefault('bouteilles_contenance_libelle','75 cl');
       }
     }
 

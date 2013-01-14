@@ -55,14 +55,14 @@ function showRecapPrixUnitaire($vrac)
     $unite = showPrixUnitaireUnite($vrac);
 
     if($vrac->hasPrixVariable() && !$vrac->hasPrixDefinitif()) {
-        return sprintf("%s (Prix non définitif)", showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->prix_unitaire_hl));
+        return sprintf("%s (Prix non définitif)", showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->prix_initial_unitaire_hl));
     } elseif($vrac->hasPrixVariable() && $vrac->hasPrixDefinitif()) {
         return sprintf("%s (Prix initial : %s)", 
                         showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->prix_unitaire_hl), 
                         showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_initial_unitaire, $vrac->prix_initial_unitaire_hl));
     }
-
-    return showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->prix_unitaire_hl);
+$prixHl = ($vrac->prix_unitaire_hl)? $vrac->prix_unitaire_hl : $vrac->prix_initial_unitaire_hl;
+    return showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $prixHl);
 }
 
 function showRecapPrixUnitaireByUniteAndPrix($unite, $prix_unitaire, $prix_unitaire_hl)
@@ -101,7 +101,7 @@ function showRecapPrixTotal($vrac)
 
     if($vrac->hasPrixVariable() && $vrac->hasPrixDefinitif()) {
 
-        return sprintf('%s € (Prix initial : %s €)', echoF($vrac->getPrixTotal()), echoF($vrac->getPrixInitial()));
+        return sprintf('%s € (Prix initial : %s €)', echoF($vrac->getPrixTotal()), echoF($vrac->prix_initial_total));
     }
 
     return sprintf('%s €', echoF($vrac->getPrixTotalOuInitial()));
