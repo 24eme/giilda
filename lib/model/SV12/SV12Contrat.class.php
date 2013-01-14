@@ -95,11 +95,15 @@ class SV12Contrat extends BaseSV12Contrat {
 	    $mouvement->facturable = 1;
         $mouvement->date = $this->getDocument()->getDate();
         $mouvement->vrac_numero = $this->contrat_numero;
-        if ($this->getVrac())
+        if ($this->getVrac()){
         	$mouvement->detail_identifiant = $this->getVracIdentifiant();
-        else 
-        	$mouvement->detail_identifiant = null;
-        $mouvement->detail_libelle = $this->contrat_numero;
+                $mouvement->detail_libelle = $this->vrac->numero_archive;
+        }
+        else
+            {
+            $mouvement->detail_identifiant = null;
+            $mouvement->detail_libelle = $this->contrat_numero;            
+        }
 
         return $mouvement;
     }
