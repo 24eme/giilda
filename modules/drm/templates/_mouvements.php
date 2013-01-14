@@ -30,11 +30,11 @@
             </td>
             <td><?php echo $mouvement->produit_libelle ?> </td>
             <td><?php
-	    if ($mouvement->vrac_numero)
-	      echo '<a href="'.url_for("vrac_visualisation", array("numero_contrat" => $mouvement->vrac_numero)).'">'; 
-echo $mouvement->type_libelle.' '.$mouvement->detail_libelle;
-if ($mouvement->vrac_numero)
-  echo "</a>"; 
+   if ($mouvement->vrac_numero) {
+     echo '<a href="'.url_for("vrac_visualisation", array("numero_contrat" => $mouvement->vrac_numero)).'">'.$mouvement->type_libelle.' '.$mouvement->numero_archive.'</a>';
+   }else{
+     echo $mouvement->type_libelle.' '.$mouvement->detail_libelle;
+   }
 ?></td>
             <td <?php echo ($mouvement->volume > 0)? ' class="positif"' : 'class="negatif"';?> >
                 <?php  echoSignedFloat($mouvement->volume); ?>
