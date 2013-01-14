@@ -340,7 +340,7 @@ var majMandatairePanel = function()
         if($(this).attr('checked'))
         {
             $('#mandataire').show();
-            $('#vrac_mandatant_vendeur').attr('checked','checked');
+            $('#vrac_mandatant_acheteur').attr('checked','checked');
         }
         else
         {
