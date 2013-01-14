@@ -154,8 +154,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $ligne->montant_ht = $ligne->cotisation_taux * $ligne->volume * -1;
         $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
-        $origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
-        $ligne->origine_libelle = $this->troncate($origine_libelle, $ligne->produit_libelle);
+        $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
+      //  $ligne->origine_libelle = $this->troncate($origine_libelle, $ligne->produit_libelle);
     }
 
     private function createLigneOriginesMouvements($originesTable) {
@@ -204,15 +204,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
     }
 
-    private function troncate($origine_libelle, $produit_libelle) {
-        if ((strlen($produit_libelle) * 1.5 + strlen($origine_libelle)) > 124) {
-            $max = 124 - (strlen($produit_libelle) * 1.5) - 4;
-            $origine_libelle = substr($origine_libelle, 0, $max) . '...';
-            if (strstr($origine_libelle, "(") !== FALSE)
-                $origine_libelle.=')';
-        }
-        return $origine_libelle;
-    }
+//    private function troncate($origine_libelle, $produit_libelle) {
+//        if ((strlen($produit_libelle) * 1.5 + strlen($origine_libelle)) > 124) {
+//            $max = 124 - (strlen($produit_libelle) * 1.5) - 4;
+//            $origine_libelle = substr($origine_libelle, 0, $max) . '...';
+//            if (strstr($origine_libelle, "(") !== FALSE)
+//                $origine_libelle.=')';
+//        }
+//        return $origine_libelle;
+//    }
 
     public function storePapillons() {
         foreach ($this->lignes as $typeLignes) {
