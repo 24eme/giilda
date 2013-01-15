@@ -186,6 +186,10 @@ class Societe extends BaseSociete {
                 $this->code_comptable_fournisseur = '04'.$this->identifiant;
     }
     
+    public function isNegoOrViti() {
+        return ($this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR)
+        || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
+    }
     
     public function save($fromCompte = false) {
         if ($fromCompte) 
