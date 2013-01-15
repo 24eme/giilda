@@ -23,13 +23,6 @@ then
     exit
 fi
 
-grep -E "^$1;" $3 | grep ";$2;" > /tmp/drm-$1-$2
-
-if [ "$(cat /tmp/drm-$1-$2)" == '' ]; then
-    echo "Aucune DRMs à importé trouvé dans le fichier"
-    exit;
-fi
-
 ANNEE_DEBUT=$(echo $2| sed -r 's/-[0-9]{4}$//')
 ANNEE_FIN=$(echo $2 | sed -r 's/^[0-9]{4}-//')
 
@@ -44,6 +37,17 @@ for i in {1..7}
 do
     PERIODES[$(printf "%s%02d" $ANNEE_FIN $i)]=$(printf "%s%02d" $ANNEE_FIN $i)
 done
+
+echo -n > /tmp/drm-$1-$2
+for periode in ${PERIODES[*]}
+do
+    grep -E "^$1;$periode" $3 >> /tmp/drm-$1-$2
+done
+
+if [ "$(cat /tmp/drm-$1-$2)" == '' ]; then
+    echo "Aucune DRMs à importé trouvé dans le fichier"
+    exit;
+fi
 
 for periode in ${PERIODES[*]}
 do  
