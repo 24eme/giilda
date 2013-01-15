@@ -889,14 +889,10 @@ EOF;
 
       $volumes["entrees"] += $produit->entrees->recolte;
 
-      /*if(!(is_null($volumes["stock"])) && round($produit->stocks_debut->revendique, 2) != round($volumes["stock"], 2)) {
-        throw new sfException(sprintf("Le stock début de mois %s ne correspond pas à celui des mouvements %s pour le produit %s", $produit->stocks_debut->revendique, $volumes["stock"],  $code));
-      }*/
-
       $stock_fin_de_mois = round($produit->total_debut_mois + $volumes["entrees"] - $volumes["sorties"], 2);
 
       if ($produit->total != $stock_fin_de_mois) {
-        throw new sfException(sprintf("Le stock fin de mois %s ne correspond pas à celui des mouvements %s (%s hl de différence) pour le produit %s", $produit->total, $stock_fin_de_mois, $stock_fin_de_mois - $produit->total, $code));
+        throw new sfException(sprintf("Le stock fin de mois %s != de celui des mouvements %s (%s hl de différence) pour le produit %s (peut être un contrat raisin/moût : ;code_produit;1 ou 2; à la ligne CONTRAT)", $produit->total, $stock_fin_de_mois, $stock_fin_de_mois - $produit->total, $code));
       }
 
     }
