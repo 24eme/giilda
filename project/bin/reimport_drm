@@ -78,7 +78,7 @@ do
     fi
 
     OBJREV=$(curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJ | sed 's/{"_id":"//' | sed 's/","_rev":"/?rev=/' | sed 's/".*//')
-    curl -X DELETE http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJREV
+    curl -sX DELETE http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJREV
 done
 
 php symfony import:drm /tmp/drm-$1-$2

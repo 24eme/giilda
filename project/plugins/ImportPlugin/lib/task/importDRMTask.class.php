@@ -834,8 +834,8 @@ EOF;
       $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Repli
     }
 
-    if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == array(self::CSV_CODE_MOUVEMENT_CAVE_DEPOT, 
-                                                          self::CSV_CODE_MOUVEMENT_CAVE_DEPOT_ANNULATION)) {
+    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_CAVE_DEPOT, 
+                                                          self::CSV_CODE_MOUVEMENT_CAVE_DEPOT_ANNULATION))) {
       if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) > 0) {
         $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
       }
@@ -845,8 +845,8 @@ EOF;
       }
     }
 
-    if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == array(self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION, 
-                                                          self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION_ANNULATION)) {
+    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION, 
+                                                          self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION_ANNULATION))) {
       if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) > 0) {
         $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
       }
