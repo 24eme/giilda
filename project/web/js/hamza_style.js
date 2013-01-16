@@ -45,8 +45,8 @@ $.fn.rechercheTableParTags = function()
 
     $('a.lien_hamza_style').click(function(e) {
         $.ajouterTagsParUrl(objRecherche, $(this).attr('href'));
-        $(document).scrollTo(table);
-        return false;
+        $(document).scrollTo($(this).attr('data-scrollto'));
+        return true;
     });
 };
 
@@ -214,7 +214,7 @@ $.ajouterTagsParChaine = function(objRecherche, chaine) {
     for(key_tag in objRecherche.tagsSource) {
         var tag = objRecherche.tagsSource[key_tag];
         try {
-            if(chaine.match(new RegExp(tag, "i"))) {
+            if(chaine.match(new RegExp('^'+tag+'$', "i"))) {
                var chaine = chaine.replace(tag, '', 'g');
                objRecherche.listeTags.tagit("add", {label: tag, value: tag});
             }

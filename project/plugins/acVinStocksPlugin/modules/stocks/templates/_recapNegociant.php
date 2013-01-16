@@ -13,7 +13,7 @@
     <tbody>
         <?php foreach($recaps->getRawValue(ESC_RAW) as $recap): ?>
             <tr>
-                <td><a class="lien_hamza_style" href="#filtre=<?php echo $recap['produit'] ?>"><?php echo $recap['produit'] ?></a></td>
+                <td><a class="lien_hamza_style" data-scrollto="#hamza_mouvement" href="#filtre=<?php echo str_replace(' ', '_', $recap['produit']); ?>"><?php echo $recap['produit'] ?></a></td>
                 <td><?php echoFloat($recap['volume_stock_raisin']) ?></td>
                 <td><?php echoFloat($recap['volume_stock_mout']) ?></td>
                 <td><?php echoFloat($recap['volume_stock_vin']) ?></td>
