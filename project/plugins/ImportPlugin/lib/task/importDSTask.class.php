@@ -1,6 +1,6 @@
 <?php
 
-class importDSTask extends importAbstractTask
+abstract class importDSTask extends importAbstractTask
 {
 
   const CSV_DOSSIER = 0;
@@ -10,10 +10,11 @@ class importDSTask extends importAbstractTask
   const CSV_CODE_CHAI = 4;
   const CSV_DATE_CREATION = 5;
   const CSV_DATE_MODIFICATION = 6;
-  const CSV_NUMERO_LIGNE = 11;
-  const CSV_CODE_APPELLATION = 12;
-  const CSV_VOLUME_LIBRE = 13;
-  const CSV_VOLUME_BLOQUE = 14;
+  const CSV_DATE_DECLARATION = 8;
+  const CSV_NUMERO_LIGNE = 12;
+  const CSV_CODE_APPELLATION = 13;
+  const CSV_VOLUME_1 = 14;
+  const CSV_VOLUME_2 = 15;
 
   protected function configure()
   {
@@ -105,28 +106,36 @@ EOF;
       $ds->numero_archive = $this->getNumeroArchive($line);
     }
 
-    if(!isset($line[self::CSV_NUMERO_LIGNE])) {
-
-      return $ds;
-    }
-
-    $config_produit = $this->getConfigurationHash($line[self::CSV_CODE_APPELLATION]);
-
-    $produit = $ds->addProduit($config_produit->getHash());
-    $produit->stock_declare = $this->convertToFloat($line[self::CSV_VOLUME_LIBRE]);
-    $produit->vci = $this->convertToFloat($line[self::CSV_VOLUME_BLOQUE]);
-
     return $ds;
   }
 
-  protected function getDateCreation($line) {
+  protected function hasNumeroLigne($line) {
+    
+    return isset($line[self::CSV_NUMERO_LIGNE]);
+  }
 
-  	return ($line[self::CSV_CAMPAGNE] * 1 + 1).'-07-31';
+  abstract protected function getDateCreation($line);
+
+  protected function getDateCreationJuillet($line) {
+    $annee = $line[self::CSV_CAMPAGNE] * 1 + 1;
+
+    return $annee.'-07-31';
+  }
+
+  protected function getDateCreationFevrier($line) {
+    $annee = $line[self::CSV_CAMPAGNE] * 1 + 1;
+    $day = (date('L', strtotime($annee.'-01-01'))) ? '29' : '28';
+    return $annee.'-02-'.$day;
   }
 
   protected function getIdentifiant($line) {
+    $code_chai = $line[self::CSV_CODE_CHAI];
 
-    return sprintf('%s%02d', $line[self::CSV_CODE_VITICULTEUR], $line[self::CSV_CODE_CHAI]);
+    if($code_chai == "0.0") {
+      $code_chai = 1;
+    }
+
+    return sprintf('%s%02d', $line[self::CSV_CODE_VITICULTEUR], $code_chai);
   }
 
   protected function getNumeroArchive($line) {
