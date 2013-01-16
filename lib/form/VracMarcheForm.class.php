@@ -78,6 +78,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         
         
  //       $this->validatorSchema->postValidator(new VracMarcheVolumeValidator(array($this->getWidget('bouteilles_quantite'))));
+        
         $this->widgetSchema->setNameFormat('vrac[%s]');
         
     }
@@ -90,6 +91,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
       }
       if ($this->getObject()->hasPrixVariable()) {
         $this->setDefault('prix_unitaire', $this->getObject()->_get('prix_unitaire'));
+      }
+      if (!$this->getObject()->bouteilles_contenance_libelle) {
+          $this->setDefault('bouteilles_contenance_libelle','75 cl');
       }
     }
 
@@ -106,6 +110,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
     {
         parent::doUpdateObject($values);
         $this->getObject()->update();
+        $this->getObject()->setDomaine($this->values['domaine']);
     }
     
     public function getDomaines() {
@@ -143,6 +148,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
         return (int) $year+1;
         
     }
+    
+//    public function save($con = null) {
+//        parent::save($con);
+//        var_dump($this->values['domaine']); exit;
+//    }
     
 }
 

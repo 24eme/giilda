@@ -57,7 +57,7 @@ class VracClient extends acCouchdbClient {
 
     private static $contenance = array('37 cl' => 0.00375,
                                       '50 cl' => 0.005,
-	    			                          '75 cl' => 0.0075,
+	    			      '75 cl' => 0.0075,
                                       '1 L' => 0.01,
                                       '1.5 L'=> 0.015,
                                       '3 L' => 0.03,

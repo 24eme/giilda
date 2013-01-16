@@ -61,7 +61,6 @@ function showRecapPrixUnitaire($vrac)
                         showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->getPrixUnitaireHlOuInitial()), 
                         showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_initial_unitaire, $vrac->prix_initial_unitaire_hl));
     }
-
     return showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->getPrixUnitaireHlOuInitial());
 }
 
@@ -101,7 +100,7 @@ function showRecapPrixTotal($vrac)
 
     if($vrac->hasPrixVariable() && $vrac->hasPrixDefinitif()) {
 
-        return sprintf('%s € (Prix initial : %s €)', echoF($vrac->getPrixTotal()), echoF($vrac->getPrixInitial()));
+        return sprintf('%s € (Prix initial : %s €)', echoF($vrac->getPrixTotal()), echoF($vrac->prix_initial_total));
     }
 
     return sprintf('%s €', echoF($vrac->getPrixTotalOuInitial()));
