@@ -51,7 +51,7 @@ class Vrac extends BaseVrac {
     public function setBouteillesContenanceLibelle($c) {
         $this->_set('bouteilles_contenance_libelle', $c);
         if ($c) {
-            $this->setBouteillesContenanceVolume(VracClient::$contenance[$c]);
+	  $this->setBouteillesContenanceVolume(VracClient::getInstance()->getContenance($c));
         }
     }
 

@@ -11,7 +11,7 @@
  ?>
 
 <script>
-var value2bouteilleContenance = <?php echo json_encode(VracClient::$contenance); ?>;
+var value2bouteilleContenance = <?php echo json_encode(VracClient::getInstance()->getContenances()); ?>;
 function getBouteilleContenance($value) {
     return value2bouteilleContenance[$value];
 }

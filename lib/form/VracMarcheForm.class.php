@@ -29,7 +29,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('jus_quantite', new sfWidgetFormInput());
         $this->setWidget('bouteilles_quantite', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));
         $contenance = array();
-        foreach (array_keys(VracClient::$contenance) as $c) {
+        foreach (array_keys(VracClient::getInstance()->getContenances()) as $c) {
             $contenance[$c] = $c;
         }
         $this->setWidget('bouteilles_contenance_libelle', new sfWidgetFormChoice(array('choices' => $contenance)));

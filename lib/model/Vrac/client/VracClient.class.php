@@ -55,7 +55,7 @@ class VracClient extends acCouchdbClient {
     const CVO_REPARTITION_100_VITI = '100';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
 
-    public static $contenance = array('37 cl' => 0.00375,
+    private static $contenance = array('37 cl' => 0.00375,
                                       '50 cl' => 0.005,
 	    			                          '75 cl' => 0.0075,
                                       '1 L' => 0.01,
@@ -89,6 +89,14 @@ class VracClient extends acCouchdbClient {
     public static function getInstance()
     {
       return acCouchdbManager::getClient("Vrac");
+    }
+
+    public function getContenances() {
+      return self::$contenance;
+    }
+
+    public function getContenance($k) {
+      return self::$contenance[$k];
     }
 
     public function getId($id_or_numerocontrat)
