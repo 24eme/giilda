@@ -55,14 +55,14 @@ function showRecapPrixUnitaire($vrac)
     $unite = showPrixUnitaireUnite($vrac);
 
     if($vrac->hasPrixVariable() && !$vrac->hasPrixDefinitif()) {
-        return sprintf("%s (Prix non définitif)", showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->prix_unitaire_hl));
+        return sprintf("%s (Prix non définitif)", showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->getPrixUnitaireHlOuInitial()));
     } elseif($vrac->hasPrixVariable() && $vrac->hasPrixDefinitif()) {
         return sprintf("%s (Prix initial : %s)", 
-                        showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->prix_unitaire_hl), 
+                        showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->getPrixUnitaireHlOuInitial()), 
                         showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_initial_unitaire, $vrac->prix_initial_unitaire_hl));
     }
 
-    return showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->prix_unitaire_hl);
+    return showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->getPrixUnitaireHlOuInitial());
 }
 
 function showRecapPrixUnitaireByUniteAndPrix($unite, $prix_unitaire, $prix_unitaire_hl)

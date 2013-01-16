@@ -193,6 +193,14 @@ class Vrac extends BaseVrac {
         return $this->_get('prix_total');
     }
 
+    public function getPrixUnitaireHlOuInitial() {
+        if(is_null($this->_get('prix_unitaire_hl'))) {
+            return $this->prix_initial_unitaire_hl;
+        }
+
+        return $this->_get('prix_unitaire_hl');
+    }
+
     public function setPrixVariable($value) {
         if($this->_get('prix_variable') != $value) {
             $this->setPrixUnitaire(null);
