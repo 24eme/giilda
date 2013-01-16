@@ -15,8 +15,9 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_MANDATAIRE_NOM = 10;    
     const VRAC_VIEW_TYPEPRODUIT = 11;
     const VRAC_VIEW_PRODUIT_ID = 12;
-    const VRAC_VIEW_VOLPROP = 13;
-    const VRAC_VIEW_VOLENLEVE = 14;
+    const VRAC_VIEW_PRODUIT_LIBELLE = 13;
+    const VRAC_VIEW_VOLPROP = 14;
+    const VRAC_VIEW_VOLENLEVE = 15;
 
     const VRAC_SIMILAIRE_KEY_VENDEURID = 0;   
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
@@ -244,8 +245,6 @@ class VracClient extends acCouchdbClient {
             foreach ($elt as $key => $champs)
             {
                 $cpt++;
-                if(($key == self::VRAC_VIEW_PRODUIT_ID) && ($champs!= ""))
-                   $champs = ConfigurationClient::getCurrent()->get($champs)->libelleProduit(array(),"%c% %g% %a% %m% %l% %co% %ce% %la%");                   
                 $result.='"'.$champs.'"';
                 if($cpt < count($elt)) $result.=';';              
             }

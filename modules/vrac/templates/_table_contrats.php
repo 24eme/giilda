@@ -52,7 +52,7 @@
                             </li>
                         </ul>
                     </td>              
-                    <td><?php echo ($elt[VracClient::VRAC_VIEW_PRODUIT_ID]) ? ConfigurationClient::getCurrent()->get($elt[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat() : ''; ?></td>
+                    <td><?php echo $elt[VracClient::VRAC_VIEW_PRODUIT_LIBELLE]; ?></td>
                     <td>           
         <?php
         if (isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))
