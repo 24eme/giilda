@@ -70,6 +70,7 @@ class dsActions extends sfActions {
     
      public function executeEditionDS(sfWebRequest $request) {        
          $this->ds = $this->getRoute()->getDS();
+	 $this->ds->updateProduits();
          $this->form = new DSEditionForm($this->ds);
          if ($request->isMethod(sfWebRequest::POST)) {
              $this->form->bind($request->getParameter($this->form->getName()));
@@ -98,7 +99,8 @@ class dsActions extends sfActions {
     }
     
     public function executeEditionDSValidationVisualisation(sfWebRequest $request) {
-        $this->ds = $this->getRoute()->getDS();        
+        $this->ds = $this->getRoute()->getDS();
+	$this->ds->updateProduits(); 
 	$this->validation = new DSValidation($this->ds);
 	if ($request->isMethod(sfWebRequest::POST)) {
 	  $this->ds->updateStatut();
