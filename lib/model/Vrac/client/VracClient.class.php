@@ -55,16 +55,6 @@ class VracClient extends acCouchdbClient {
     const CVO_REPARTITION_100_VITI = '100';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
 
-    private static $contenance = array('37 cl' => 0.00375,
-                                      '50 cl' => 0.005,
-	    			      '75 cl' => 0.0075,
-                                      '1 L' => 0.01,
-                                      '1.5 L'=> 0.015,
-                                      '3 L' => 0.03,
-                                      'BIB 3 L' => 0.03,
-                                      '5 L' => 0.05,
-                                      '6 L' => 0.06);
-
     public static $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
                                       VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
                                       VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
@@ -92,7 +82,10 @@ class VracClient extends acCouchdbClient {
     }
 
     public function getContenances() {
-      return self::$contenance;
+      $contenances = sfConfig::get('app_vrac_contenances');
+      if (!$contenances)
+	throw new sfException("Les contenances n'ont pas été renseignée dans le fichier de configuration app.yml");
+      return $contenances;
     }
 
     public function getContenance($k) {
