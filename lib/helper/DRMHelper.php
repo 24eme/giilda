@@ -13,7 +13,8 @@ function produit_get_words($produits) {
 function produit_get_word($produit) {
     return array_merge(
         Search::getWords($produit->mois),
-        Search::getWords($produit->produit_libelle)
+        Search::getWords($produit->produit_libelle),
+	array(str_replace(' ', '_', $produit->produit_libelle))
     );
 }
 
