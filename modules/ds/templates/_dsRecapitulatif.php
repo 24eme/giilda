@@ -7,10 +7,16 @@ use_helper('Float');
 	<thead>
 		<tr>
 			<th>Produits</th>
-                        <th>(DRM <?php echo preg_replace ('/.*-(\d{4})(\d{2})$/', '\2/\1', $ds->drm_origine); ?>)</th>
+            <th>
+                <?php if($ds->drm_origine): ?>
+                (DRM <?php echo preg_replace ('/.*-(\d{4})(\d{2})$/', '\2/\1', $ds->drm_origine); ?>)
+                <?php else: ?>
+                (Aucune DRM)
+                <?php endif; ?>
+            </th>
 			<th>Volume déclaré</th>
-                        <th>VCI</th>
-                        <th>Réserve qual.</th>
+            <th>VCI</th>
+            <th>Réserve qual.</th>
 		</tr>
 	</thead>
 	<tbody class="ds_recapitulatif_tableBody">
@@ -21,7 +27,9 @@ use_helper('Float');
 				<?php echo $declaration->produit_libelle; ?>
 			</td>
 			<td class="ds_recap_declaration_stockInitial">
-                               (<?php echoFloat($declaration->stock_initial); ?>)
+                <?php if(!is_null($declaration->stock_initial)): ?>
+                 (<?php echoFloat($declaration->stock_initial); ?>)
+                <?php endif; ?>
 			</td>
 			<td class="ds_recap_declaration_vr">
 				<?php echoFloat($declaration->stock_declare); ?>
@@ -38,10 +46,10 @@ use_helper('Float');
 			<td class="ds_recap_declaration_appelation">
 				<?php echo $declaration->produit_libelle; ?> - en élaboration
 			</td>
+            <td>&nbsp;</td>
 			<td class="ds_recap_declaration_vr">
 				<?php echoFloat($declaration->stock_elaboration); ?>
 			</td>
-  <td>&nbsp;</td>
   <td>&nbsp;</td>
   <td>&nbsp;</td>
 		  </tr>

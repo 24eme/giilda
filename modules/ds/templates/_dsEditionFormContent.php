@@ -19,7 +19,7 @@ echo $form->renderGlobalErrors();
             </tr>
         </thead>
         <tbody class="ds_edition_tableBody">
-            <?php
+            <?php 
             foreach ($declarations as $key => $declaration){
                     $prod_vol = '';
                     if($declaration->stock_initial) 
