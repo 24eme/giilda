@@ -273,6 +273,8 @@ class importDRMTask extends importAbstractTask
   const CSV_CODE_MOUVEMENT_DISTILLATION = 82;
   const CSV_CODE_MOUVEMENT_CONSO_PERTES = 86;
   const CSV_CODE_MOUVEMENT_DIVERS = 89;
+  const CSV_CODE_MOUVEMENT_CESSION_AU_VITI = 71;
+  const CSV_CODE_MOUVEMENT_CESSION_DU_VITI = 72;
 
   const CSV_ANNULATION_OUI = "OUI";
 
@@ -585,24 +587,44 @@ EOF;
 	      throw new sfException(sprintf("L'établissement cave coop '%s' n'existe pas", sprintf("%06d%02d", $line[self::CSV_CAVE_CODE_COOPERATEUR], $line[self::CSV_CAVE_CODE_COOPERATEUR_CHAI])));
       }
 
-      $detail = $produit->sorties->cooperative_details->addDetail($etablissement->_id,
-                                                        $this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]),
-                                                        $this->convertToDateObject($line[self::CSV_CAVE_DATE_MOUVEMENT])->format('Y-m-d'));
+      if($this->convertToFloat($line[self::CSV_CAVE_VOLUME_ENTREE]) > 0) {
 
-      if($detail->volume < 0) {
-        
-        throw new sfException(sprintf("Le volume coop en sortie est négatif %s", $detail->volume));
+        $detail = $produit->sorties->cooperative_details->addDetail($etablissement->_id,
+                                                        $this->convertToFloat($line[self::CSV_CAVE_VOLUME_ENTREE]),
+                                                        $this->convertToDateObject($line[self::CSV_CAVE_DATE_MOUVEMENT])->format('Y-m-d'));
+      }
+
+      if($this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]) > 0) {
+        $produit->entrees->cooperative += $this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]);
       }
     
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
-      $produit->entrees->cooperative += $this->convertToFloat($line[self::CSV_CAVE_VOLUME_ENTREE]);
 
-      if($produit->entrees->cooperative < 0) {
-
-        throw new sfException(sprintf("Le volume coop en entrée est négatif %s", $produit->entrees->cooperative));
+      if($this->convertToFloat($line[self::CSV_CAVE_VOLUME_ENTREE]) > 0) {
+        $produit->entrees->cooperative += $this->convertToFloat($line[self::CSV_CAVE_VOLUME_ENTREE]);
       }
+
+      if($this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]) > 0) {
+        $produit->sorties->cession += $this->convertToFloat($line[self::CSV_CAVE_VOLUME_SORTIE]);
+      }
+
+    }
+
+    if(isset($detail) && $detail->volume < 0) {
+        
+        throw new sfException(sprintf("Le volume coop en sortie est négatif %s", $detail->volume));
+    }
+
+    if($produit->sorties->cession < 0) {
+
+      throw new sfException(sprintf("Le volume coop cession / retrocédé est négatif %s", $produit->entrees->cooperative));
+    }
+
+    if($produit->entrees->cooperative < 0) {
+
+      throw new sfException(sprintf("Le volume coop en entrée est négatif %s", $produit->entrees->cooperative));
     }
   }
 
@@ -730,8 +752,8 @@ EOF;
   }
 
   protected function verifyLineCave($line) {
-    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI, true) {
-      $this->verifyVolume($line[self::CSV_CAVE_VOLUME_SORTIE]);
+    if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_VITI) {
+      $this->verifyVolume($line[self::CSV_CAVE_VOLUME_SORTIE], true);
     }
 
     if($line[self::CSV_LIGNE_TYPE] == self::CSV_LIGNE_TYPE_CAVE_COOP) {
@@ -798,10 +820,10 @@ EOF;
       }
     }
 
-    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_AGREMENT,
+    /*if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_AGREMENT,
                                                                  self::CSV_CODE_MOUVEMENT_AGREMENT_REGUL))) {
       $coherence[$code]["entrees"] += $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]); //Recolte
-    }
+    }*/
 
 
     if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == self::CSV_CODE_MOUVEMENT_REPLI_SORTIE) {
@@ -814,8 +836,8 @@ EOF;
       $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Repli
     }
 
-    if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == array(self::CSV_CODE_MOUVEMENT_CAVE_DEPOT, 
-                                                          self::CSV_CODE_MOUVEMENT_CAVE_DEPOT_ANNULATION)) {
+    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_CAVE_DEPOT, 
+                                                                 self::CSV_CODE_MOUVEMENT_CAVE_DEPOT_ANNULATION))) {
       if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) > 0) {
         $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
       }
@@ -825,14 +847,25 @@ EOF;
       }
     }
 
-    if($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT] == array(self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION, 
-                                                          self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION_ANNULATION)) {
+    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION, 
+                                                                 self::CSV_CODE_MOUVEMENT_CAVE_RETROCESSION_ANNULATION))) {
       if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) > 0) {
         $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
       }
 
       if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) < 0) {
         $coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cave
+      }
+    }
+
+    if(in_array($line[self::CSV_MOUVEMENT_CODE_MOUVEMENT], array(self::CSV_CODE_MOUVEMENT_CESSION_DU_VITI, 
+                                                                 self::CSV_CODE_MOUVEMENT_CESSION_AU_VITI))) {
+      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) > 0) {
+        $coherence[$code]["entrees"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cession
+      }
+
+      if($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION]) < 0) {
+        $coherence[$code]["sorties"] += abs($this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_REGULARISATION])); //Cession
       }
     }
 
@@ -854,18 +887,12 @@ EOF;
     foreach($coherence as $code => $volumes) {
       $produit = $drm->addProduit($this->getHash($code));
 
-      /*if(!(is_null($volumes["stock"])) && round($produit->stocks_debut->revendique, 2) != round($volumes["stock"], 2)) {
-        throw new sfException(sprintf("Le stock début de mois %s ne correspond pas à celui des mouvements %s pour le produit %s", $produit->stocks_debut->revendique, $volumes["stock"],  $code));
-      }*/
+      $volumes["entrees"] += $produit->entrees->recolte;
 
-      if (round($produit->total_sorties, 2) != round($volumes["sorties"], 2)) {
-        throw new sfException(sprintf("Le volume total en sortie %s ne correspond pas à celui des mouvements %s pour le produit %s", $produit->total_sorties, $volumes["sorties"],  $code));
-      }
+      $stock_fin_de_mois = round($produit->total_debut_mois + $volumes["entrees"] - $volumes["sorties"], 2);
 
-      $volumes["entrees"] += $produit->entrees->achat; // Petit hack cat le mouvement agrément n'a pas la bonne date
-
-      if (round($produit->total_entrees, 2) != round($volumes["entrees"], 2)) {
-        throw new sfException(sprintf("Le volume total en entree %s ne correspond pas à celui des mouvements %s pour le produit %s", $produit->total_entrees, $volumes["entrees"],  $code));
+      if (round($produit->total, 2) != $stock_fin_de_mois) {
+        throw new sfException(sprintf("Le stock fin de mois %s != de celui des mouvements %s (%s hl de différence) pour le produit %s (peut être un contrat raisin/moût : ;code_produit;1 ou 2; à la ligne CONTRAT)", $produit->total, $stock_fin_de_mois, $stock_fin_de_mois - $produit->total, $code));
       }
 
     }

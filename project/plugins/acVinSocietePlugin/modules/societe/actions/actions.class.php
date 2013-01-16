@@ -75,6 +75,7 @@ class societeActions extends sfActions {
             $this->societeForm->bind($request->getParameter($this->societeForm->getName()));
             $this->contactSocieteForm->bind($request->getParameter($this->contactSocieteForm->getName()));
             if ($this->societeForm->isValid() && $this->contactSocieteForm->isValid()) {
+                $this->societeForm->update();
                 $this->societeForm->save();
                 $this->contactSocieteForm->save();  
                 

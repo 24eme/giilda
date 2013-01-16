@@ -25,6 +25,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         parent::__construct($societe, $options, $CSRFSecret);
         if($this->getObject()->code_comptable_client) $this->defaults['type_numero_compte'][] = SocieteClient::NUMEROCOMPTE_TYPE_CLIENT;
         if($this->getObject()->code_comptable_fournisseur) $this->defaults['type_numero_compte'][] = SocieteClient::NUMEROCOMPTE_TYPE_FOURNISSEUR;
+        if($societe->isNegoOrViti() && !$societe->siret) $this->defaults['type_numero_compte'][] = SocieteClient::NUMEROCOMPTE_TYPE_CLIENT;
+        
     }
 
     public function configure() {
