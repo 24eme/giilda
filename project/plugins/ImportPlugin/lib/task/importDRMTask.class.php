@@ -891,7 +891,7 @@ EOF;
 
       $stock_fin_de_mois = round($produit->total_debut_mois + $volumes["entrees"] - $volumes["sorties"], 2);
 
-      if ($produit->total != $stock_fin_de_mois) {
+      if (round($produit->total, 2) != $stock_fin_de_mois) {
         throw new sfException(sprintf("Le stock fin de mois %s != de celui des mouvements %s (%s hl de différence) pour le produit %s (peut être un contrat raisin/moût : ;code_produit;1 ou 2; à la ligne CONTRAT)", $produit->total, $stock_fin_de_mois, $stock_fin_de_mois - $produit->total, $code));
       }
 
