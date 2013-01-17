@@ -2969,7 +2969,8 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   right:auto;
   top:0;
 }
-.recherche_contact .btn_excel { float:right; }
+.recherche_contact { position:relative; }
+.recherche_contact .btn_excel { margin:0 0 0 255px; }
 .recherche_contact #btn_rechercher {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;
@@ -3005,6 +3006,44 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 .recherche_contact #btn_rechercher:hover, .recherche_contact #btn_rechercher:focus { text-decoration:none; }
 bouton.recherche_contact #btn_rechercher { height:26px; }
 .recherche_contact #btn_rechercher span { display:inline-block; }
+.recherche_contact #colonne_tag {
+  -webkit-border-radius:5px 0 0 5px;
+  -moz-border-radius:5px 0 0 5px;
+  border-radius:5px 0 0 5px;
+  -webkit-border-radius:5px 0 0 5px;
+  -moz-border-radius:5px 0 0 5px;
+  border-radius:5px 0 0 5px;
+  bottom:auto;
+  left:-195px;
+  position:absolute;
+  right:auto;
+  top:198px;
+  background:#ffffff;
+  padding:10px;
+  width:195px;
+}
+.recherche_contact #colonne_tag h2:first-child { margin-top:0; }
+.recherche_contact #colonne_tag label { margin-right:5px; }
+.recherche_contact #colonne_tag li { padding:5px 0; }
+.recherche_contact #colonne_tag input { width:135px; }
+.recherche_contact .pagination {
+  zoom:1;
+  min-height:1px;
+  font-size:14px;
+  margin:20px 0 0;
+}
+.recherche_contact .pagination:before, .recherche_contact .pagination:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.recherche_contact .pagination:after { clear:both; }
+.recherche_contact .pagination .page_precedente { float:left; }
+.recherche_contact .pagination .page_precedente a { margin-right:10px; }
+.recherche_contact .pagination .page_suivante { float:right; }
+.recherche_contact .pagination .page_suivante a { margin-left:10px; }
 .recherche_contact #recherche_contact {
   background:#ecebeb;
   margin:0 0 25px;
