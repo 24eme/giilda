@@ -14,49 +14,78 @@
 	<span><?php echo $nb_results; ?> résultat(s) trouvé(s) (page <?php echo $current_page; ?> sur <?php echo $last_page; ?>)</span>
 	
 	<a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', $args); ?>">Télécharger le tableur</a>
+	
+	<aside id="colonne_tag">
+		<h2>tags sélectionnés</h2>
+		<ul>
+			<li>tag 1</li>
+			<li>tag 2</li>
+			<li>tag 3</li>
+		</ul>
+		
+		<h2>tags dispos</h2>
+		<ul>
+			<li>tag 1</li>
+			<li>tag 2</li>
+			<li>tag 3</li>
+		</ul>
+		
+		<h2>Créer un tag</h2>
+		<label for="creer_tag">tag :</label>
+		<input id="creer_tag" class="tags" type="text" />
+	</aside>
+	
+	<?php if($nb_results > 0): ?>
+	
+		<table id="resultats_contact" class="table_recap">	
+			<?php $cpt = 0; ?>
 
-	<table id="resultats_contact" class="table_recap">	
-		<?php $cpt = 0; ?>
-
-		<thead>
-			<tr>
-				<th>Nom</th>
-				<th>Adresse</th>
-				<th>Téléphone</th>
-				<th>Email</th>
-				<th>Détail</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			<?php foreach($results as $res): ?>
-
-				<?php 
-					$data = $res->getData();
-					$class = ($cpt % 2) ? ' class="even"' : ''; 
-				?>
-
-				<tr <?php echo $class; ?>>
-					<td><?php echo $data['nom_a_afficher']; ?></td>
-					<td><?php echo $data['adresse']; ?>, <?php echo $data['code_postal']; ?>, <?php echo $data['commune']; ?></td>
-					<td><?php echo $data['telephone_bureau']; ?> <?php echo $data['telephone_mobile'] ?> <?php echo $data['telephone_perso']; ?> <?php echo $data['fax']; ?></td>
-					<td><?php echo $data['email']; ?></td>
-					<td><a href="<?php url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>">détail</a></td>
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Adresse</th>
+					<th>Téléphone</th>
+					<th>Email</th>
+					<th>Détail</th>
 				</tr>
+			</thead>
 
-			<?php endforeach; ?>
-		</tbody>
-	</table>
+			<tbody>
+				<?php foreach($results as $res): ?>
+
+					<?php 
+						$data = $res->getData();
+						$class = ($cpt % 2) ? ' class="even"' : ''; 
+					?>
+
+					<tr <?php echo $class; ?>>
+						<td><?php echo $data['nom_a_afficher']; ?></td>
+						<td><?php echo $data['adresse']; ?>, <?php echo $data['code_postal']; ?>, <?php echo $data['commune']; ?></td>
+						<td><?php echo $data['telephone_bureau']; ?> <?php echo $data['telephone_mobile'] ?> <?php echo $data['telephone_perso']; ?> <?php echo $data['fax']; ?></td>
+						<td><?php echo $data['email']; ?></td>
+						<td><a href="<?php url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>">détail</a></td>
+					</tr>
+
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+
+		<div class="pagination">
+			<div class="page_precedente">
+				<?php $args = array('q' => $q); ?>
+				<a href="<?php echo url_for('compte_search', $args); ?>"> <<- </a>
+				<?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
+				<a href="<?php echo url_for('compte_search', $args); ?>"> <- </a>
+			</div>
+			<div class="page_suivante">
+				<?php if ($current_page < $last_page) $args['page'] = $current_page + 1; else $args['page'] = $last_page ;?>
+				<a href="<?php echo url_for('compte_search', $args); ?>"> -> </a>
+				<?php $args['page'] = $last_page; ?>
+				<a href="<?php echo url_for('compte_search', $args); ?>"> ->> </a>
+			</div>
+		</div>
 	
-	
-	<?php $args = array('q' => $q); ?>
-	<a href="<?php echo url_for('compte_search', $args); ?>"> <<- </a>
-	<?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
-	<a href="<?php echo url_for('compte_search', $args); ?>"> <- </a>
-	<?php if ($current_page < $last_page) $args['page'] = $current_page + 1; else $args['page'] = $last_page ;?>
-	<a href="<?php echo url_for('compte_search', $args); ?>"> -> </a>
-	<?php $args['page'] = $last_page; ?>
-	<a href="<?php echo url_for('compte_search', $args); ?>"> ->> </a>
+	<?php endif; ?>
 
 </section>
 <?php
