@@ -3054,8 +3054,11 @@ bouton.recherche_contact #btn_rechercher { height:26px; }
   width:510px;
 }
 .recherche_contact #resultats_contact { margin:20px 0 0; }
+#colonne #infos_contact .contact:before { background-position:0 -105px; }
+#colonne #infos_contact .etablissement:before { background-position:0 -518px; }
 #colonne #infos_contact h2 { background:#76a8d7; }
 #colonne #infos_contact h2:before { border-color:transparent transparent #376ea2 transparent; }
+#colonne #infos_contact .societe:before { background-position:0 -539px; }
 #contacts_actions li { text-align:center; }
 #contacts_actions li button {
   padding-left:30px;
