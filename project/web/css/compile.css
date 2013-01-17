@@ -2717,7 +2717,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #contacts .etablissement .form_contenu { background:#faf0e7; }
 #contacts .ferme h3:before { background:url("../images/pictos/fleche_col_groupe_ferme.png") no-repeat; }
 #contacts .form_modifier {
-  margin:0 0;
+  margin:20px;
   float:right;
 }
 #contacts .form_btn { margin:28px 0; }
@@ -2969,6 +2969,52 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   right:auto;
   top:0;
 }
+.recherche_contact .btn_excel { float:right; }
+.recherche_contact #btn_rechercher {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
+  color:#5e5c5c;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px;
+  position:relative;
+  color:#ffffff;
+  background-position:0 -52px;
+  border-color:#6d6b6b;
+  width:115px;
+}
+.recherche_contact #btn_rechercher:hover, .recherche_contact #btn_rechercher:focus { text-decoration:none; }
+bouton.recherche_contact #btn_rechercher { height:26px; }
+.recherche_contact #btn_rechercher span { display:inline-block; }
+.recherche_contact #recherche_contact {
+  background:#ecebeb;
+  margin:0 0 25px;
+  padding:10px 10px 30px;
+}
+.recherche_contact #recherche_contact .ui-autocomplete-input {
+  margin-right:10px;
+  width:510px;
+}
+.recherche_contact #resultats_contact { margin:20px 0 0; }
 #colonne #infos_contact h2 { background:#76a8d7; }
 #colonne #infos_contact h2:before { border-color:transparent transparent #376ea2 transparent; }
 #contacts_actions li { text-align:center; }
