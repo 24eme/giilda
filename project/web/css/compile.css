@@ -2914,8 +2914,8 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   width:36px;
 }
 #detail_etablissement #detail_etablissement_region_viticole { width:134px; }
-#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 80px; }
-#detail_etablissement .form_colonne:first-child + .form_colonne label { width:115px; }
+#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 60px; }
+#detail_etablissement .form_colonne:first-child + .form_colonne label { width:125px; }
 #detail_etablissement label { width:190px; }
 #contacts .tags {
   zoom:1;
