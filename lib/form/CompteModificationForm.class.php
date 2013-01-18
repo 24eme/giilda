@@ -32,12 +32,12 @@ class CompteModificationForm extends acCouchdbObjectForm {
 
 
 
-        $this->widgetSchema->setLabel('adresse', 'N° et nom de rue');
+        $this->widgetSchema->setLabel('adresse', 'N° et nom de rue *');
         $this->widgetSchema->setLabel('adresse_complementaire', 'Adresse complémentaire');
-        $this->widgetSchema->setLabel('code_postal', 'CP');
-        $this->widgetSchema->setLabel('commune', 'Ville');
+        $this->widgetSchema->setLabel('code_postal', 'CP *');
+        $this->widgetSchema->setLabel('commune', 'Ville *');
         $this->widgetSchema->setLabel('cedex', 'Cedex');
-        $this->widgetSchema->setLabel('pays', 'Pays');
+        $this->widgetSchema->setLabel('pays', 'Pays *');
         $this->widgetSchema->setLabel('email', 'E-mail');
         $this->widgetSchema->setLabel('telephone_bureau', 'Telephone Bureau');
         $this->widgetSchema->setLabel('telephone_mobile', 'Mobile');
