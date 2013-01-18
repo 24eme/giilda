@@ -37,7 +37,7 @@ $pointille = ' . . . . . . . . . . . . . . . . . . . . . . . . . .';
 \def\DSDEADLINEDATE{31 ao\^{u}t 2012}	
 \def\DSSTOCKSDATE{<?php echo format_date($ds->date_stock, 'dd/MM/yyyy'); ?>}		
 \def\DSHEADTITRE{\textsl{\textbf{DECLARATION DE STOCKS DE VIN}}}       
-\def\DSHEADTEXTE{Cet imprimé doit \^{e}tre obligatoirement rempli \textsl{\textbf{avant le <?php echo format_date($ds->date_echeance, 'dd/MM/yyyy'); ?>}} au plus tard \\par tous les propriétaires, fermiers, métayers, groupements de producteurs,\\négociants détenant des stocks de vins d'appellation d'origine (revendiqués et/ou\\agrées) et quels que soient leurs lieux d'entreposage selon la liste proposée\\ ci-après conformément à l'Accord Interprofessionnel d'InterLoire en vigueur.}
+\def\DSHEADTEXTE{<?php echo enteteDs($ds,format_date($ds->date_echeance, 'dd/MM/yyyy')); ?>}
 \def\DSNUMERO{<?php echo $ds->_id; ?>}
 
 \def\DSClientNUM{<?php echo $ds->identifiant; ?>}
