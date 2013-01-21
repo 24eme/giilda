@@ -19,6 +19,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \usepackage{textcomp}
 \usepackage{marvosym}
 \usepackage{lastpage}
+\usepackage{truncate}
 
 
 
@@ -42,7 +43,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 }
 
 \renewcommand{\familydefault}{\sfdefault}
-
+\renewcommand{\TruncateMarker}{\small{...}}
 
 \setlength{\oddsidemargin}{-2cm}
 \setlength{\evensidemargin}{-2cm}

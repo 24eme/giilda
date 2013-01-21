@@ -2,7 +2,7 @@
 use_helper('Float');
 $produit->origine_libelle = str_replace("&#039;", "'", $produit->origine_libelle);       
 ?>
-~~~~<?php echo $produit->produit_libelle.' \textbf{\begin{tiny}'.str_replace("&", "\&", $produit->origine_libelle).'\end{tiny}}'; ?> &
+~~~~\truncate{115mm}{<?php echo $produit->produit_libelle.' \textbf{\begin{tiny}'.str_replace("&", "\&", $produit->origine_libelle).'\end{tiny}}'; ?>} &
                             \multicolumn{1}{r|}{<?php echoArialFloat($produit->volume*-1); ?>} &
                             \multicolumn{1}{r|}{<?php echoArialFloat($produit->cotisation_taux); ?>} & 
                             \multicolumn{1}{r|}{<?php echoArialFloat($produit->montant_ht); ?>} & 

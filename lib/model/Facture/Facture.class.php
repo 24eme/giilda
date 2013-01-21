@@ -154,8 +154,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $ligne->montant_ht = $ligne->cotisation_taux * $ligne->volume * -1;
         $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
-        $origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
-        $ligne->origine_libelle = $this->troncate($origine_libelle, $ligne->produit_libelle);
+        $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
+      //  $ligne->origine_libelle = $this->troncate($origine_libelle, $ligne->produit_libelle);
     }
 
     private function createLigneOriginesMouvements($originesTable) {
@@ -174,14 +174,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $origines;
     }
 
-    private function createOrigineLibelle($ligne, $transacteur, $famille, $view) {
+    private function createOrigineLibelle($ligne, $transacteur, $famille, $view) { 
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV) {
             if ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART) {
                 $origine_libelle = " (".$transacteur.") ".SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
                 return $origine_libelle;
             }
-            $origine_libelle = 'n° ' . VracClient::getInstance()->getNumeroArchiveEtDate($ligne->contrat_identifiant);
+            $origine_libelle = 'n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE];
             $origine_libelle .= ' (' . $transacteur . ') ';
             if ($famille == EtablissementFamilles::FAMILLE_NEGOCIANT)
                 $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
@@ -191,9 +191,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
             if ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS) {
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
-                    $origine_libelle = 'n° ' . VracClient::getInstance()->getLibelleContratNum($ligne->contrat_identifiant);
+                    $origine_libelle = 'n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE];
                 } else {
-                    $origine_libelle = 'n° ' . VracClient::getInstance()->getNumeroArchiveEtDate($ligne->contrat_identifiant) . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
+                    $origine_libelle = 'n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
                 }
                 $origine_libelle .= ' (' . $transacteur . ') ';
                 if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR)
@@ -204,15 +204,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
     }
 
-    private function troncate($origine_libelle, $produit_libelle) {
-        if ((strlen($produit_libelle) * 1.5 + strlen($origine_libelle)) > 124) {
-            $max = 124 - (strlen($produit_libelle) * 1.5) - 4;
-            $origine_libelle = substr($origine_libelle, 0, $max) . '...';
-            if (strstr($origine_libelle, "(") !== FALSE)
-                $origine_libelle.=')';
-        }
-        return $origine_libelle;
-    }
+//    private function troncate($origine_libelle, $produit_libelle) {
+//        if ((strlen($produit_libelle) * 1.5 + strlen($origine_libelle)) > 124) {
+//            $max = 124 - (strlen($produit_libelle) * 1.5) - 4;
+//            $origine_libelle = substr($origine_libelle, 0, $max) . '...';
+//            if (strstr($origine_libelle, "(") !== FALSE)
+//                $origine_libelle.=')';
+//        }
+//        return $origine_libelle;
+//    }
 
     public function storePapillons() {
         foreach ($this->lignes as $typeLignes) {
