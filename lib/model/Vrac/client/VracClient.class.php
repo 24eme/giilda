@@ -90,7 +90,9 @@ class VracClient extends acCouchdbClient {
     }
 
     public function getContenance($k) {
-      return self::$contenance[$k];
+      $contenances = $this->getContenances();
+
+      return $contenances[$k];
     }
 
     public function getId($id_or_numerocontrat)
