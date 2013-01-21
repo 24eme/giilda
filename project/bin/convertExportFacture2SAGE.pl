@@ -2,11 +2,6 @@
 
 $verbose = shift;
 
-print "#FLG 001\n";
-print "#VER 14\n";
-print "#DEV EUR\n";
-
-
 while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
