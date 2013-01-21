@@ -2717,7 +2717,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #contacts .etablissement .form_contenu { background:#faf0e7; }
 #contacts .ferme h3:before { background:url("../images/pictos/fleche_col_groupe_ferme.png") no-repeat; }
 #contacts .form_modifier {
-  margin:0 0;
+  margin:20px;
   float:right;
 }
 #contacts .form_btn { margin:28px 0; }
@@ -2914,8 +2914,8 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   width:36px;
 }
 #detail_etablissement #detail_etablissement_region_viticole { width:134px; }
-#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 80px; }
-#detail_etablissement .form_colonne:first-child + .form_colonne label { width:115px; }
+#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 60px; }
+#detail_etablissement .form_colonne:first-child + .form_colonne label { width:125px; }
 #detail_etablissement label { width:190px; }
 #contacts .tags {
   zoom:1;
@@ -2969,8 +2969,96 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   right:auto;
   top:0;
 }
+.recherche_contact { position:relative; }
+.recherche_contact .btn_excel { margin:0 0 0 255px; }
+.recherche_contact #btn_rechercher {
+  border:1px solid #c2c0c0;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  -webkit-box-shadow:0 2px 0 #eeeeee;
+  -moz-box-shadow:0 2px 0 #eeeeee;
+  box-shadow:0 2px 0 #eeeeee;
+  font-family:"HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform:uppercase;
+  text-decoration:none;
+  -webkit-text-shadow:1px 1px rgba(0,0,0,0.1);
+  -moz-text-shadow:1px 1px rgba(0,0,0,0.1);
+  text-shadow:1px 1px rgba(0,0,0,0.1);
+  background:url(../images/boutons/btn_majeur.png) 0 0 repeat-x;
+  color:#5e5c5c;
+  display:inline-block;
+  font-size:11px;
+  line-height:26px;
+  padding:0 10px;
+  position:relative;
+  color:#ffffff;
+  background-position:0 -52px;
+  border-color:#6d6b6b;
+  width:115px;
+}
+.recherche_contact #btn_rechercher:hover, .recherche_contact #btn_rechercher:focus { text-decoration:none; }
+bouton.recherche_contact #btn_rechercher { height:26px; }
+.recherche_contact #btn_rechercher span { display:inline-block; }
+.recherche_contact #colonne_tag {
+  -webkit-border-radius:5px 0 0 5px;
+  -moz-border-radius:5px 0 0 5px;
+  border-radius:5px 0 0 5px;
+  -webkit-border-radius:5px 0 0 5px;
+  -moz-border-radius:5px 0 0 5px;
+  border-radius:5px 0 0 5px;
+  bottom:auto;
+  left:-195px;
+  position:absolute;
+  right:auto;
+  top:198px;
+  background:#ffffff;
+  padding:10px;
+  width:195px;
+}
+.recherche_contact #colonne_tag h2:first-child { margin-top:0; }
+.recherche_contact #colonne_tag label { margin-right:5px; }
+.recherche_contact #colonne_tag li { padding:5px 0; }
+.recherche_contact #colonne_tag input { width:135px; }
+.recherche_contact .pagination {
+  zoom:1;
+  min-height:1px;
+  font-size:14px;
+  margin:20px 0 0;
+}
+.recherche_contact .pagination:before, .recherche_contact .pagination:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.recherche_contact .pagination:after { clear:both; }
+.recherche_contact .pagination .page_precedente { float:left; }
+.recherche_contact .pagination .page_precedente a { margin-right:10px; }
+.recherche_contact .pagination .page_suivante { float:right; }
+.recherche_contact .pagination .page_suivante a { margin-left:10px; }
+.recherche_contact #recherche_contact {
+  background:#ecebeb;
+  margin:0 0 25px;
+  padding:10px 10px 30px;
+}
+.recherche_contact #recherche_contact .ui-autocomplete-input {
+  margin-right:10px;
+  width:510px;
+}
+.recherche_contact #resultats_contact { margin:20px 0 0; }
+#colonne #infos_contact .contact:before { background-position:0 -105px; }
+#colonne #infos_contact .etablissement:before { background-position:0 -518px; }
 #colonne #infos_contact h2 { background:#76a8d7; }
 #colonne #infos_contact h2:before { border-color:transparent transparent #376ea2 transparent; }
+#colonne #infos_contact .societe:before { background-position:0 -539px; }
 #contacts_actions li { text-align:center; }
 #contacts_actions li button {
   padding-left:30px;

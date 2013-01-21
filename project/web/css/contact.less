@@ -391,8 +391,8 @@
 	/* Cible la deuxième colonne */
 	.form_colonne:first-child + .form_colonne
 	{
-		padding: 0 0 0 80px;
-		label { width: 115px; }
+		padding: 0 0 0 60px;
+		label { width: 125px; }
 	}
 
 	label { width: 190px; }
@@ -446,6 +446,78 @@
 }
 
 /**
+* Recherche avancée
+******************************************/
+
+.recherche_contact
+{
+
+	position: relative;
+	
+	.btn_excel { margin: 0 0 0 255px; }
+
+	#btn_rechercher
+	{
+		.btn_majeur;
+		.btn_noir;
+		width:115px;
+	}
+
+	#colonne_tag
+	{
+		.border-radius(5px 0 0 5px);
+		.pos-abs(198px, auto, auto, -195px);
+		background: @couleur-a1;
+		padding: 10px;
+		width: 195px;
+
+		h2:first-child { margin-top: 0; }
+
+		label { margin-right: 5px; }
+
+		li { padding: 5px 0; }
+
+		input { width: 135px; }
+	}
+
+	.pagination
+	{
+		.clearfix;
+		font-size: 14px;
+		margin: 20px 0 0;
+
+		.page_precedente 
+		{ 
+			float: left;
+			
+			a { margin-right: 10px; }
+		}
+
+		.page_suivante 
+		{ 
+			float: right;
+
+			a { margin-left: 10px; }
+		}
+	}
+
+	#recherche_contact
+	{
+		background: @couleur-a5;
+        margin: 0 0 25px;
+        padding:10px 10px 30px;
+
+		.ui-autocomplete-input
+		{
+			margin-right: 10px;
+			width: 510px;
+		}
+	}
+
+	#resultats_contact { margin: 20px 0 0; }
+}
+
+/**
 * Colonne
 ******************************************/
 
@@ -454,6 +526,23 @@
 	
 	#infos_contact
 	{
+
+		.contact
+		{
+			&:before
+			{
+				background-position: 0 -105px;
+			}
+		}
+
+		.etablissement
+		{
+			&:before
+			{
+				background-position: 0 -518px;
+			}
+		}
+	
 		h2
 		{
 			background: @couleur-e12;
@@ -461,6 +550,14 @@
 			&:before
 			{
 				border-color: transparent transparent @couleur-e13 transparent;
+			}
+		}
+
+		.societe
+		{
+			&:before
+			{
+				background-position: 0 -539px;
 			}
 		}
 	}

@@ -48,13 +48,13 @@ class SocieteModificationForm extends acCouchdbObjectForm {
 
         $this->embedForm('enseignes', new EnseignesItemForm($this->getObject()->enseignes));
 
-        $this->widgetSchema->setLabel('raison_sociale', 'Nom de la société');
+        $this->widgetSchema->setLabel('raison_sociale', 'Nom de la société *');
         $this->widgetSchema->setLabel('raison_sociale_abregee', 'Abrégé');
         $this->widgetSchema->setLabel('statut', 'Statut');
         // $this->widgetSchema->setLabel('type_societe', 'Type de société');
         if ($this->isVitiOrNego()) {
             $this->widgetSchema->setLabel('type_numero_compte', 'Numéros de compte');
-            $this->widgetSchema->setLabel('cooperative', 'Cave coopérative');
+            $this->widgetSchema->setLabel('cooperative', 'Cave coopérative *');
         }
 
         $this->widgetSchema->setLabel('siret', 'SIRET');
