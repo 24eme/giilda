@@ -364,12 +364,10 @@ EOF;
       try{
         if(!$this->verifyLine($line)) {	
           $coherence_mouv = $this->postVerifLine($drm, $line, $coherence_mouv);
-          echo "VERIF:".$line[self::CSV_LIGNE_TYPE]."\n";
 		      continue;	
 	      }
 
 	      $drm = $this->importLigne($drm, $line);
-        echo "IMPORT:".$line[self::CSV_LIGNE_TYPE]."\n";
       } catch (Exception $e) {
         $this->logLigne('ERROR', $e->getMessage(), $line, $i);
         return;
