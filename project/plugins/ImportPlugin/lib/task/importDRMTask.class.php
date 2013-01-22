@@ -946,7 +946,7 @@ EOF;
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
-    $stoc_fin_campagne = $this->convertToFloat($line[self::CSV_STOCK_STOCK_FIN_CAMPAGNE]);
+    $stock_fin_campagne = $this->convertToFloat($line[self::CSV_STOCK_STOCK_FIN_CAMPAGNE]);
     $stock_fin_campagne += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_AGREE_COMMERCIALISABLE]);
     $stock_fin_campagne += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_SORTIE]) * -1;
     $stock_fin_campagne += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_ENLEVEMENT]) * -1;
