@@ -946,14 +946,12 @@ EOF;
 
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
-    $stoc_fin_campagne_prec = $this->convertToFloat($line[self::CSV_STOCK_STOCK_FIN_CAMPAGNE]);
-    $entrees = 0;
-    $entrees += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_AGREE_COMMERCIALISABLE]);
-    $sorties = 0;
-    $sorties += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_SORTIE]);
-    $sorties += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_ENLEVEMENT]);
-    $sorties += abs($this->convertToFloat($line[self::CSV_STOCK_VOLUME_REGULARISATION]));
-    $stock_fin_campagne = round($stoc_fin_campagne_prec + $entrees - $sorties, 2);
+    $stoc_fin_campagne = $this->convertToFloat($line[self::CSV_STOCK_STOCK_FIN_CAMPAGNE]);
+    $stock_fin_campagne += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_AGREE_COMMERCIALISABLE]);
+    $stock_fin_campagne += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_SORTIE]) * -1;
+    $stock_fin_campagne += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_ENLEVEMENT]) * -1;
+    $stock_fin_campagne += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_REGULARISATION]);
+    $stock_fin_campagne = round($stock_fin_campagne, 2);
 
     if (round($produit->total, 2) != $stock_fin_campagne) {
         
