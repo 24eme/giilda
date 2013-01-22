@@ -955,7 +955,7 @@ EOF;
     $sorties += abs($this->convertToFloat($line[self::CSV_STOCK_VOLUME_REGULARISATION]));
     $stock_fin_campagne = round($stoc_fin_campagne_prec + $entrees - $sorties, 2);
 
-    if ($produit->total != $stock_fin_campagne) {
+    if (round($produit->total, 2) != $stock_fin_campagne) {
         
         $this->logLigne('WARNING', sprintf("Le volume fin de campagne %s ne correspond pas à celui pévu dans les stocks %s pour le produit %s", $produit->total, $stock_fin_campagne,  $line[self::CSV_LIGNE_CODE_APPELLATION]), $line);
     }
