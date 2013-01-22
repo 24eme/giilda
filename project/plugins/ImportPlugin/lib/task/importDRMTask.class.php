@@ -457,6 +457,13 @@ EOF;
   }
 
   public function postVerifLine($drm, $line, $coherence_mouv) {
+    if(!$drm) {
+
+      return;
+    }
+
+    $drm->update();
+
     switch($line[self::CSV_LIGNE_TYPE]) {
       case self::CSV_LIGNE_TYPE_MOUVEMENT:
         $coherence_mouv = $this->buildCoheranceWithMouvement($coherence_mouv, $line);
@@ -947,9 +954,6 @@ EOF;
     $sorties += $this->convertToFloat($line[self::CSV_STOCK_VOLUME_ENLEVEMENT]);
     $sorties += abs($this->convertToFloat($line[self::CSV_STOCK_VOLUME_REGULARISATION]));
     $stock_fin_campagne = round($stoc_fin_campagne_prec + $entrees - $sorties, 2);
-
-    var_dump($produit->total);
-    var_dump($stock_fin_campagne);
 
     if ($produit->total != $stock_fin_campagne) {
         
