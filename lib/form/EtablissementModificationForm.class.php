@@ -18,6 +18,9 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->etablissement = $etablissement;
         $this->liaisons_operateurs = $etablissement->liaisons_operateurs;
         parent::__construct($etablissement, $options, $CSRFSecret);
+        $this->setDefault('adresse_societe', (int) $etablissement->isSameContactThanSociete());
+        if($etablissement->isNew())
+            $this->setDefault('adresse_societe', 1);
     }
 
     public function configure() {
@@ -71,6 +74,11 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnel');
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
+        
+        $this->setWidget('adresse_societe', new sfWidgetFormChoice(array('choices' => $this->getAdresseSociete(), 'expanded' => true, 'multiple' => false)));
+        $this->widgetSchema->setLabel('adresse_societe', 'Même adresse que la société ?');
+        $this->setValidator('adresse_societe', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getAdresseSociete()))));
+        
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');
     }
 
@@ -82,6 +90,10 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         return array('oui' => 'Oui', 'non' => 'Non');
     }
 
+    public function getAdresseSociete() {
+        return array(1 => 'oui', 0 => 'non');
+    }
+    
     public function getRegions() {
         return EtablissementClient::getRegions();
     }
@@ -105,7 +117,23 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
                 $this->etablissement->addLiaison($liaison['type_liaison'], EtablissementClient::getInstance()->find($liaison['id_etablissement']));
             }
         }
-        $this->object->getCouchdbDocument()->save();
+        $old_compte = $this->etablissement->compte;
+        $switch = false;
+        if($this->values['adresse_societe'] && !$this->etablissement->isSameContactThanSociete()){
+           $this->etablissement->compte = $this->etablissement->getSociete()->compte_societe;
+           $switch = true;
+        } elseif($this->etablissement->compte && $this->etablissement->isSameContactThanSociete()) {
+           $this->etablissement->compte = null;
+           $switch = true;
+        }
+        
+        $this->etablissement->save();
+        
+        if($switch) {
+            $this->etablissement->switchOrigineAndSaveCompte($old_compte);
+            $this->etablissement->save();
+        }
+        
     }
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {

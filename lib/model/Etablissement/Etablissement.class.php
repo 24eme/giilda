@@ -26,7 +26,7 @@ class Etablissement extends BaseEtablissement {
                         ->getView("drm", "all");
     }
 
-    private function cleanPhone($phone, $idcompte) {
+    private function cleanPhone($phone) {
         $phone = preg_replace('/[^0-9\+]+/', '', $phone);
         $phone = preg_replace('/^00/', '+', $phone);
         $phone = preg_replace('/^0/', '+33', $phone);
@@ -40,18 +40,29 @@ class Etablissement extends BaseEtablissement {
         return $phone;
     }
 
-    public function getContact() {
+    public function getMasterCompte() {
         if ($this->compte)
             return CompteClient::getInstance()->find($this->compte);
         return CompteClient::getInstance()->find($this->getSociete()->compte_societe);
+    }
+    
+    public function getContact() {
+        
+        return $this->getMasterCompte();
     }
 
     public function getSociete() {
         return SocieteClient::getInstance()->find($this->id_societe);
     }
 
-    public function contactIsSocieteContact() {
-        return is_null($this->compte);
+    public function isSameContactThanSociete() {
+        return ($this->compte == $this->getSociete()->compte_societe);
+    }
+    
+    public function getNumCompteEtablissement(){
+        if(!$this->compte) return null;
+        if($this->compte != $this->getSociete()->compte_societe) return $this->compte;
+        return null;
     }
 
     public function getNoTvaIntraCommunautaire() {
@@ -137,45 +148,83 @@ class Etablissement extends BaseEtablissement {
     public function isInterLoire() {
         return ($this->region != EtablissementClient::REGION_HORSINTERLOIRE);
     }
-
-    public function save($fromsociete = false, $fromclient = false) {
+    
+    protected function synchroRecetteLocale() {
         if ($this->recette_locale->id_douane) {
             $soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
             if ($soc && $this->recette_locale->nom != $soc->raison_sociale) {
                 $this->recette_locale->nom = $soc->raison_sociale;
             }
         }
+    }
+    
+    protected function initFamille() {
         if (!$this->famille) {
             $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
         }
         if (!$this->sous_famille) {
             $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
-        }
+        }  
+    }
+    
+    protected function synchroFromSociete() {
         $soc = SocieteClient::getInstance()->find($this->id_societe);
         if (!$soc)
             throw new sfException("$id n'est pas une société connue");
         $this->cooperative = $soc->cooperative;
-
+    }
+    
+    protected function synchroAndSaveSociete() {
+        $soc = $this->getSociete();
+        $soc->addEtablissement($this);
+        $soc->save(true);
+    }
+    
+    protected function synchroAndSaveCompte() {
+        if($this->isSameContactThanSociete()) {
+            $compte_master = $this->getMasterCompte();
+            $compte_master->addOrigine($this->_id);
+            $compte_master->save(false, true);
+        }
+    }
+    
+    public function switchOrigineAndSaveCompte($old_id) {
+        $this->synchroFromCompte();
+        
+        if(!$old_id) {
+            return;
+        }
+        
+        if($this->isSameContactThanSociete()) {
+            CompteClient::getInstance()->findAndDelete($old_id, true);
+        } else {
+            $compte = CompteClient::getInstance()->find($old_id);
+            $compte->save(false, true);
+        }
+    }
+    
+    public function save($fromsociete = false, $fromclient = false) {
+        $this->synchroRecetteLocale();
+        $this->initFamille();
+        $this->synchroFromSociete();
+        
 	if (!$fromclient) {
-	  if ($this->siege->adresse) {
 	    if (!$this->compte) {
 	      $compte = CompteClient::getInstance()->createCompteFromEtablissement($this);
-	      $compte->save(true, true);
-	      $this->compte = $compte->_id;
-	    }else{
-	      $compte = $this->getContact();
-          $compte->updateFromEtablissement($this);
-	      $compte->save(true, true);
-	    }
-	  }
+              $compte->constructId();
+              $this->compte = $compte->_id;
+              parent::save();
+              $compte->save(true, true);
+            }
 	}
 
         parent::save();
-
-        if (!$fromsociete) {
-            $soc->addEtablissement($this);
-            $soc->save(true);
+        
+        if(!$fromsociete) {
+            $this->synchroAndSaveSociete();
         }
+
+        $this->synchroAndSaveCompte();
     }
 
     public function setIdSociete($id) {
@@ -224,6 +273,24 @@ class Etablissement extends BaseEtablissement {
         if(!$node->exist('aliases'))
             $node->add('aliases');
         $node->aliases->add($alias,$alias);
+    }
+    
+    public function synchroFromCompte() {
+        $compte = $this->getMasterCompte();
+        
+        if(!$compte) {
+            
+            return null;
+        }
+        
+        $this->siege->adresse = $compte->adresse;
+        $this->siege->code_postal = $compte->code_postal;
+        $this->siege->commune = $compte->commune;
+        $this->email = $compte->email;
+        $this->fax = $compte->fax;
+        $this->telephone = $compte->telephone_bureau;
+       
+        return $this;
     }
 
 }
