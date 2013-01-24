@@ -49,7 +49,7 @@ class CompteClient extends acCouchdbClient {
         }
         
         if(!$from_etablissement) {
-            throw new sfExeption("Not yet implemented");
+            throw new sfException("Not yet implemented");
         }
     }
 
@@ -71,6 +71,7 @@ class CompteClient extends acCouchdbClient {
     
     
     public function findOrCreateCompteSociete($societe) {
+        $compte = null;
         if($societe->compte_societe) {
             $compte = $this->find($societe->compte_societe);
         }

@@ -23,6 +23,9 @@ class compteActions extends sfActions
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
             if ($this->compteForm->isValid()) {
+                if($this->compte->isNew()){
+                    $this->compte->setStatut(EtablissementClient::STATUT_ACTIF);
+                }
                 $this->compteForm->save();
                 $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
             }

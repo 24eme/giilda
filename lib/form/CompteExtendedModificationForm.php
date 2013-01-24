@@ -12,7 +12,7 @@
 class CompteExtendedModificationForm extends CompteModificationForm {
 
     public function __construct(Compte $compte, $options = array(), $CSRFSecret = null) {
-        parent::__construct($compte, $options, $CSRFSecret); 
+        parent::__construct($compte, $options, $CSRFSecret);         
     }
 
     public function configure() {

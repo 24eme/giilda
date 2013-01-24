@@ -73,9 +73,21 @@ class Compte extends BaseCompte {
         $this->nom_a_afficher = sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom);
     }
     
-    public function addOrigine($id) {
+    public function addOrigine($id) {    
         if(!in_array($id, $this->origines->toArray(false))) {
             $this->origines->add(null, $id);
+        }
+    }
+    
+    public function removeOrigine($id) {    
+        if(!in_array($id, $this->origines->toArray(false))) {
+            return;
+        }
+        foreach ($this->origines->toArray(false) as $key => $o) {
+            if($o == $id){
+                $this->origines->remove($key);
+                return;
+            }
         }
     }
     
@@ -88,29 +100,29 @@ class Compte extends BaseCompte {
         $soc->save(true);
     }
     
-    protected function synchroOrigines() {
-        $is_etablissement_contact = $this->isEtablissementContact();
-        $etablissement = $this->getEtablissement();
-        
-        $this->remove('origines');
-        $this->add('origines');
-        if ($this->isSocieteContact()) {
-            $this->addOrigine($this->id_societe);
-        }
-        
-        if ($is_etablissement_contact) {
-            if($etablissement->compte == 'COMPTE-'.$this->identifiant) {
-                $this->addOrigine($etablissement->_id);
-            }
-        }
-    }
+//    protected function synchroOrigines() {
+//        $is_etablissement_contact = $this->isEtablissementContact();
+//        $etablissement = $this->getEtablissement();
+//        
+//        $this->remove('origines');
+//        $this->add('origines');
+//        if ($this->isSocieteContact()) {
+//            $this->addOrigine($this->id_societe);
+//        }
+//        
+//        if ($is_etablissement_contact) {
+//            if($etablissement->compte == 'COMPTE-'.$this->identifiant) {
+//                $this->addOrigine($etablissement->_id);
+//            }
+//        }
+//    }
 
     public function save($fromsociete = false, $frometablissement = false) {
         if (is_null($this->adresse_societe)) {
             $this->adresse_societe = (int) $fromsociete;
         }
 	$this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-        $this->synchroOrigines();
+      //  $this->synchroOrigines();
         $this->synchro();
 
         parent::save();

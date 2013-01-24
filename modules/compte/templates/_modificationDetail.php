@@ -5,8 +5,8 @@
 		?>
                 <div class="form_ligne">
 			<?php echo $compteForm['statut']->renderError(); ?>
-			<label for="civilite">
-				<?php echo $compteForm['statut']->renderLabel('Statut *',array('class')); ?>
+			<label for="statut">
+				<?php echo $compteForm['statut']->renderLabel(); ?>
 			</label>
 			<?php echo $compteForm['statut']->render(); ?>
 		</div>

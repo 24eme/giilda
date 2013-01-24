@@ -10,10 +10,14 @@
  * @author mathurin
  */
 class CompteModificationForm extends acCouchdbObjectForm {
+    private $compte;
 
     public function __construct(Compte $compte, $options = array(), $CSRFSecret = null) {
+        $this->compte = $compte;
         parent::__construct($compte, $options, $CSRFSecret); 
         $this->defaults['pays'] = 'FR';
+        if($this->compte->isNew())
+            $this->setDefault('statut', $this->compte->getSociete()->statut);
     }
 
     public function configure() {
@@ -59,10 +63,11 @@ class CompteModificationForm extends acCouchdbObjectForm {
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
         $this->setValidator('statut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getStatuts()))));
         //  $this->setValidator('tags', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getAllTags()))));
-
+        if($this->compte->isNew())
+                $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
         $this->widgetSchema->setNameFormat('compte_modification[%s]');
     }
-
+   
     public function getCountryList() {
         $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
         $destinationChoices = $destinationChoicesWidget->getChoices();
