@@ -25,64 +25,132 @@ class Compte extends BaseCompte {
         $soc->addCompte($this);
         return $this->_set('id_societe', $soc->_id);
     }
-
-    public function save($fromsociete = false, $frometablissement = false) {
-        if (is_null($this->adresse_societe))
-            $this->adresse_societe = (int) $fromsociete;
-
-        foreach ($this->origines as $origine) {
-            if (preg_match('/^ETABLISSEMENT-/', $origine) && !$frometablissement) {
-                $etb = EtablissementClient::getInstance()->find($origine);
-                $etb->siege->adresse = $this->adresse;
-                $etb->siege->code_postal = $this->code_postal;
-                $etb->siege->commune = $this->commune;
-                $etb->save(false, true);
-                $this->nom_a_afficher = $etb->nom;
-                break;
-            }
-            if (preg_match('/^SOCIETE-/', $origine) && !$fromsociete) {
-                $soc = SocieteClient::getInstance()->find($origine);
-                $soc->siege->adresse = $this->adresse;
-                $soc->siege->code_postal = $this->code_postal;
-                $soc->siege->commune = $this->commune;
-                $soc->save(true);
-                $this->nom_a_afficher = $soc->raison_sociale;
-            }
+    
+    public function synchro() {
+        if($this->isSocieteContact()) {
+            
+            return $this->updateFromSociete();
         }
-
-	$this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-
-        parent::save();
-        if (!$fromsociete) {
-            $soc = $this->getSociete();
-            if (!$soc) {
-                throw new sfException("Societe not found for " . $this->_id);
+        
+        if($this->isEtablissementContact()) {
+            
+            return $this->updateFromEtablissement();
+        }
+        
+        return $this->updateFromNothing();
+    }
+    
+    protected function updateFromSociete() {
+         $societe = $this->getSociete();
+         
+         if(!$societe) {
+            return; 
+         }
+         
+         if (sfConfig::get('sf_logging_enabled')) {
+            sfContext::getInstance()->getLogger()->log(sprintf("{Contact} synchro du compte %s à partir de la societe %s", $this->_id, $societe->_id));
+         }
+         
+         $this->nom_a_afficher = $societe->raison_sociale;
+    }
+    
+    
+    protected function updateFromEtablissement() {
+         $etablissement = $this->getEtablissement();
+         
+         if(!$etablissement) {
+            return; 
+         }
+         
+         if (sfConfig::get('sf_logging_enabled')) {
+            sfContext::getInstance()->getLogger()->log(sprintf("{Contact} synchro du compte %s à partir de l'etablissement %s", $this->_id, $etablissement->_id));
+         }
+         
+         $this->nom_a_afficher = $etablissement->nom;
+    }
+    
+    protected function updateFromNothing() {
+        $this->nom_a_afficher = sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom);
+    }
+    
+    public function addOrigine($id) {
+        if(!in_array($id, $this->origines->toArray(false))) {
+            $this->origines->add(null, $id);
+        }
+    }
+    
+    protected function synchroAndSaveSociete() {
+        $soc = $this->getSociete();
+        if (!$soc) {
+            throw new sfException("Societe not found for " . $this->_id);
+        }
+        $soc->addCompte($this);
+        $soc->save(true);
+    }
+    
+    protected function synchroOrigines() {
+        $is_etablissement_contact = $this->isEtablissementContact();
+        $etablissement = $this->getEtablissement();
+        
+        $this->remove('origines');
+        $this->add('origines');
+        if ($this->isSocieteContact()) {
+            $this->addOrigine($this->id_societe);
+        }
+        
+        if ($is_etablissement_contact) {
+            if($etablissement->compte == 'COMPTE-'.$this->identifiant) {
+                $this->addOrigine($etablissement->_id);
             }
-            $soc->addCompte($this);
-            $soc->save(true);
         }
     }
 
+    public function save($fromsociete = false, $frometablissement = false) {
+        if (is_null($this->adresse_societe)) {
+            $this->adresse_societe = (int) $fromsociete;
+        }
+	$this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
+        $this->synchroOrigines();
+        $this->synchro();
+
+        parent::save();
+
+        if (!$fromsociete) {
+            $this->synchroAndSaveSociete();
+        }
+        
+        foreach ($this->origines as $origine) {
+            $doc = acCouchdbManager::getClient()->find($origine);
+            if($doc->type == 'Etablissement' && !$frometablissement) {
+                $doc->synchroFromCompte();
+                $doc->save();
+            }
+            
+            if($doc->type == 'Societe' && !$fromsociete) {
+                $doc->synchroFromCompte();
+                $doc->save();
+            }
+        }
+    }
+    
     public function isSocieteContact() {
+        
         return ((SocieteClient::getInstance()->find($this->id_societe)->compte_societe) == $this->_id);
     }
 
     public function isEtablissementContact() {
-        foreach ($this->origines as $origine) {
-            if (preg_match('/^ETABLISSEMENT[-]{1}[0-9]*$/', $origine)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    public function getSocieteOrigine() {
-        foreach ($this->origines as $origine) {
-            if (preg_match('/^SOCIETE[-]{1}[0-9]*$/', $origine)) {
-                return $origine;
-            }
+        return $this->getEtablissementOrigine() != null;
+    }
+    
+    public function getEtablissement() {
+        
+        if(!$this->getEtablissementOrigine()) {
+            
+            return null;
         }
-        return null;
+        
+        return EtablissementClient::getInstance()->find($this->getEtablissementOrigine());
     }
 
     public function getEtablissementOrigine() {
@@ -92,21 +160,6 @@ class Compte extends BaseCompte {
             }
         }
         return null;
-    }
-
-    public function updateFromEtablissement($e) {
-      $this->nom = $e->nom;
-      $this->email = $e->email;
-      $this->fax = $e->fax;
-      $this->telephone_bureau = $e->telephone;
-      if ($e->siege->adresse) {
-    	$this->adresse = $e->siege->adresse;
-	    $this->code_postal = $e->siege->code_postal;
-	    $this->commune = $e->siege->commune;
-      }
-      $this->origines->add(null, $e->id_societe);
-      $this->origines->add(null, 'ETABLISSEMENT-'.$e->identifiant);
-      return $this;
     }
 
     public function updateWithAdresseSociete() {
@@ -128,26 +181,22 @@ class Compte extends BaseCompte {
     }
 
     public function setCivilite($c) {
-        $this->majNomAAfficher($c, $this->prenom, $this->nom);
+      
        return $this->_set('civilite', $c); 
     }
 
     public function setPrenom($p) {
-        $this->majNomAAfficher($this->civilite, $p, $this->nom);
+        
         return $this->_set('prenom', $p); 
     }
 
     public function setNom($n) {
-        $this->majNomAAfficher($this->civilite, $this->prenom, $n);
+       
         return $this->_set('nom', $n); 
     }
 
     public function getCompteType() {
       return CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-    }
-    
-    private function majNomAAfficher($c,$p,$n){
-        $this->nom_a_afficher = $c.' '.$p.' '.$n;
     }
 
 }

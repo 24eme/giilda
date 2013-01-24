@@ -3,7 +3,14 @@
 		echo $compteForm->renderHiddenFields();
 		echo $compteForm->renderGlobalErrors();
 		?>
-
+                <div class="form_ligne">
+			<?php echo $compteForm['statut']->renderError(); ?>
+			<label for="civilite">
+				<?php echo $compteForm['statut']->renderLabel('Statut *',array('class')); ?>
+			</label>
+			<?php echo $compteForm['statut']->render(); ?>
+		</div>
+    
 		<div class="form_ligne">
 			<?php echo $compteForm['civilite']->renderError(); ?>
 			<label for="civilite">

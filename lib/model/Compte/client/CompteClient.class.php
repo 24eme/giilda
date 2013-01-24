@@ -9,20 +9,6 @@ class CompteClient extends acCouchdbClient {
     public static function getInstance()
     {
       return acCouchdbManager::getClient("Compte");
-    }  
-       
-    public function createCompte($societe) {   
-        $compte = new Compte();
-        $compte->id_societe = $societe->_id;
-        $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
-        $compte->interpro = 'INTERPRO-inter-loire';
-        return $compte;
-    }
-    
-    public function createCompteFromEtablissement($e) {
-      $compte = $this->createCompte($e->getSociete());
-      $compte->updateFromEtablissement($e);
-      return $compte;
     }
 
     public function getId($identifiant)
@@ -51,6 +37,23 @@ class CompteClient extends acCouchdbClient {
       return $this->find($this->getId($identifiant));
     }
 
+    public function findAndDelete($idCompte, $from_etablissement = false, $from_societe = false) {
+        $compte = $this->find($idCompte);
+        if(!$compte) return;
+        $this->delete($compte);
+        
+        if(!$from_societe) {
+            $societe = $compte->getSociete();
+            $societe->removeContact($idCompte);
+            $societe->save(true);
+        }
+        
+        if(!$from_etablissement) {
+            throw new sfExeption("Not yet implemented");
+        }
+    }
+
+
     public function getAllTags() {
         return array('TAG0' => 'TAG0','TAG1' => 'TAG1');
     }
@@ -64,6 +67,59 @@ class CompteClient extends acCouchdbClient {
 	}
       }
       return self::TYPE_COMPTE_SOCIETE;
+    }
+    
+    
+    public function findOrCreateCompteSociete($societe) {
+        if($societe->compte_societe) {
+            $compte = $this->find($societe->compte_societe);
+        }
+        
+        if(!$compte) {
+             $compte = $this->createCompteFromSociete($societe);
+        }
+        
+        return $compte;
+    }
+   
+        
+    public function findOrCreateCompteFromEtablissement($e) {
+        $compte = $this->find($e->getNumCompteEtablissement());
+        
+        if(!$compte) {
+         
+            $compte = $this->createCompteFromEtablissement($e);
+        }
+        
+        return $compte;
+    }
+    
+    public function createCompteFromSociete($societe) {
+        $compte = new Compte();
+        $compte->id_societe = $societe->_id;
+        $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
+        $compte->interpro = 'INTERPRO-inter-loire';
+        
+        return $compte;
+    }
+    
+    public function createCompteFromEtablissement($e) {
+      $compte = $this->createCompteFromSociete($e->getSociete());
+      
+      $compte->nom = $e->nom;
+      $compte->email = $e->email;
+      $compte->fax = $e->fax;
+      $compte->telephone_bureau = $e->telephone;
+      $compte->statut = $e->statut;
+      if ($e->siege->adresse) {
+    	$compte->adresse = $e->siege->adresse;
+	    $compte->code_postal = $e->siege->code_postal;
+	    $compte->commune = $e->siege->commune;
+      }
+      
+      $compte->addOrigine($e->_id);
+
+      return $compte;
     }
     
 }

@@ -23,10 +23,10 @@ class CompteExtendedModificationForm extends CompteModificationForm {
         $this->setWidget('fonction', new sfWidgetFormInput());
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
-        $this->widgetSchema->setLabel('civilite', 'Civilite');
-        $this->widgetSchema->setLabel('nom', 'Nom');
+        $this->widgetSchema->setLabel('civilite', 'Civilite *');
+        $this->widgetSchema->setLabel('nom', 'Nom *');
         $this->widgetSchema->setLabel('prenom', 'Prenom');
-        $this->widgetSchema->setLabel('fonction', 'Fonction');
+        $this->widgetSchema->setLabel('fonction', 'Fonction *');
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
 
         $this->setValidator('civilite', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCiviliteList()))));

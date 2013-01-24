@@ -21,6 +21,7 @@
  * @property string $adresse_complementaire
  * @property string $code_postal
  * @property string $commune
+ * @property string $compte_type
  * @property string $cedex
  * @property string $pays
  * @property string $email
@@ -29,6 +30,7 @@
  * @property string $telephone_mobile
  * @property string $fax
  * @property string $interpro
+ * @property string $statut
  * @property acCouchdbJson $tags
 
  * @method string get_id()
@@ -65,6 +67,8 @@
  * @method string setCodePostal()
  * @method string getCommune()
  * @method string setCommune()
+ * @method string getCompteType()
+ * @method string setCompteType()
  * @method string getCedex()
  * @method string setCedex()
  * @method string getPays()
@@ -81,6 +85,8 @@
  * @method string setFax()
  * @method string getInterpro()
  * @method string setInterpro()
+ * @method string getStatut()
+ * @method string setStatut()
  * @method acCouchdbJson getTags()
  * @method acCouchdbJson setTags()
  

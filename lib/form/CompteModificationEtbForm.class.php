@@ -9,9 +9,12 @@
  * Description of class CompteModificationEtbForm
  * @author mathurin
  */
-class CompteModificationEtbForm extends CompteModificationForm {
-
+class CompteModificationEtbForm extends acCouchdbObjectForm {
+    
+    private $compte = null;
+    
     public function __construct(Compte $compte,  $options = array(), $CSRFSecret = null) {
+        $this->compte = $compte;
         parent::__construct($compte);
     }
 
@@ -19,7 +22,7 @@ class CompteModificationEtbForm extends CompteModificationForm {
         $this->setWidget('adresse_societe', new sfWidgetFormChoice(array('choices' => $this->getAdresseSociete(), 'expanded' => true, 'multiple' => false)));
         $this->widgetSchema->setLabel('adresse_societe', 'Même adresse que la société ?');
         $this->setValidator('adresse_societe', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getAdresseSociete()))));
-        parent::configure();
+        $this->widgetSchema->setNameFormat('compte_modification[%s]');
     }
 
     public function getAdresseSociete() {
@@ -32,5 +35,5 @@ class CompteModificationEtbForm extends CompteModificationForm {
             $this->getObject()->updateWithAdresseSociete();
         }
     }
-
+    
 }

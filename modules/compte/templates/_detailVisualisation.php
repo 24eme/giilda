@@ -1,4 +1,10 @@
 <div class="form_contenu">
+                <div class="form_ligne">
+			<label for="statut">
+				Statut :
+			</label>
+			<?php echo $compte->statut; ?>
+		</div>
 		<div class="form_ligne">
 			<label for="civilite">
 				Civilité :

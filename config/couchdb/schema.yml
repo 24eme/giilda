@@ -32,6 +32,7 @@ Compte:
        fax: {  }
        nom_a_afficher: {  }
        interpro: {  }
+       statut: {  }
        tags:
          type: collection
          definition:

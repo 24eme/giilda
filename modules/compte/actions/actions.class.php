@@ -5,7 +5,7 @@ class compteActions extends sfActions
     
     public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
-        $this->compte = CompteClient::getInstance()->createCompte($this->societe);
+        $this->compte = CompteClient::getInstance()->createCompteFromSociete($this->societe);
         $this->processFormCompte($request);        
         $this->setTemplate('modification');
     }
@@ -15,6 +15,21 @@ class compteActions extends sfActions
         $this->societe = $this->compte->getSociete(); 
         $this->processFormCompte($request);
     }
+    
+    public function executeModificationCompteEtablissement(sfWebRequest $request) {
+        $this->compte = $this->getRoute()->getCompte();        
+        $this->societe = $this->compte->getSociete(); 
+        $this->compteForm = new CompteModificationForm($this->compte);
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
+            if ($this->compteForm->isValid()) {
+                $this->compteForm->save();
+                $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
+            }
+        }
+    }
+    
+    
     
     protected function processFormCompte(sfWebRequest $request) {
         $this->compteForm = new CompteExtendedModificationForm($this->compte);
