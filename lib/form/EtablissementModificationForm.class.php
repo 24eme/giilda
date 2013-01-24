@@ -43,7 +43,7 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
 
 
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
-        $this->setValidator('statut', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatuts()))));
+        $this->setValidator('statut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getStatuts()))));
         $this->setValidator('region', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getRegions()))));
         $this->setValidator('site_fiche', new sfValidatorString(array('required' => false)));
         $this->setValidator('no_accises', new sfValidatorString(array('required' => false)));
@@ -78,7 +78,8 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->setWidget('adresse_societe', new sfWidgetFormChoice(array('choices' => $this->getAdresseSociete(), 'expanded' => true, 'multiple' => false)));
         $this->widgetSchema->setLabel('adresse_societe', 'Même adresse que la société ?');
         $this->setValidator('adresse_societe', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getAdresseSociete()))));
-        
+        if($this->etablissement->isNew())
+             $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');
     }
 
@@ -108,6 +109,10 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         }
         $this->updateObject();
 
+        if(!$this->getObject()->isNew()){
+            $this->getObject()->setStatut(EtablissementClient::STATUT_ACTIF);
+        }
+        
         $this->etablissement->remove('liaisons_operateurs');
         $this->etablissement->add('liaisons_operateurs');
 
