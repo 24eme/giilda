@@ -9,7 +9,6 @@ Etablissement:
        interpro: {  }
        identifiant: {  }
        id_societe: {  }
-       nom: { }
        statut: {  }
        raisins_mouts: {  }
        exclusion_drm: {  }
