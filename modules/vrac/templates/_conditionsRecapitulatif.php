@@ -54,10 +54,7 @@ use_helper('Date');
     
     <div id="conditions_recapitulatif_commentaire" class="ligne_form <?php echo ($vrac->valide->date_saisie)? 'ligne_form_alt' : '' ;?>">
         <label>Commentaires&nbsp;: </label>
-             <span style="width: 100%; height: 100%;"><?php 
-            echo $vrac->commentaire;
-            ?></span>
-        </textarea>
+        <pre class="commentaire"><?php echo $vrac->commentaire;?></pre>
     </div>
     
 </div>
