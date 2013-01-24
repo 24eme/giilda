@@ -7,41 +7,19 @@
 class Societe extends BaseSociete {
 
   private $changedCooperative = null;
+  private $changedStatut = null;
 
     public function constructId() {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);
     }
-
-    public function createCompteSociete() {
-        if (!$this->identifiant) {
-            throw new sfException("La societe ne possède pas encore d'identifiant");
-        }
-        $contactSociete = CompteClient::getInstance()->createCompte($this);
-        $contactSociete->setNom($this->raison_sociale);
-        $contactSociete->setAdresseSociete("1");
-        $contactSociete->origines->add($this->identifiant,$this->identifiant);
-        $contactSociete->save();
-        $this->compte_societe = $contactSociete->_id;
-	return $contactSociete;
-    }
-
-    public function addNewContact() {
-        $compte = CompteClient::getInstance()->createCompte($this);
-        $compte->save(true);
-        return $compte;
-    }
-
-//    public function addNewEtablissement() {
-//        $etablissement = EtablissementClient::getInstance()->createEtablissement($this);        
-//        $compteForEtb = CompteClient::getInstance()->createCompte($this);
-//        $compteForEtb->origines->add($etablissement->_id,$etablissement->_id);
-//        $etablissement->compte = $compteForEtb->_id;
-//        $compteForEtb->save();        
-//        $etablissement->save(true);
-//        $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
-//        return $etablissement;
-//    }
     
+    public function removeContact($idContact){
+        if($this->contacts->exist($idContact)){
+            $this->contacts->remove($idContact);
+        }
+    }
+
+
     public function addNewEnseigne() {
         $this->enseignes->add(count($this->enseignes),"");
     }
@@ -62,25 +40,6 @@ class Societe extends BaseSociete {
                 $max = $contact->ordre;
         }
         return $max;
-    }
-
-    public function getIdFirstEtablissement() {       
-        $ordre = 0;
-        if(count($this->etablissements) <= 0) throw new sfException("Le premier établissement n'existe pas");        
-        foreach ($this->etablissements as $id => $nom) {
-            return substr(strstr($id,'-'),1);
-        }
-    }
-
-    public function createEtablissement() {
-        if ($this->canHaveChais()) {
-            if (!$this->identifiant) {
-                throw new sfException("La societe ne possède pas encore d'identifiant");
-            }
-            $etablissement = EtablissementClient::getInstance()->createEtablissement($this->identifiant, $this->type_societe);
-            
-            $this->addEtablissement($etablissement,count(($this->etablissements) + 1));
-        }
     }
 
     public function hasChais() {
@@ -123,6 +82,15 @@ class Societe extends BaseSociete {
         }
         return $etablissements;
     }
+    
+    public function getComptesObj() {
+        $comptes = array();
+        foreach ($this->contacts as $id => $obj) {
+            $comptes[$id] = new stdClass();
+            $comptes[$id]->compte =  CompteClient::getInstance()->find($id);
+        }
+        return $comptes;
+    }
 
     public function addEtablissement($e, $ordre = null) {
         if (! $this->etablissements->exist($e->_id)) {
@@ -130,12 +98,12 @@ class Societe extends BaseSociete {
 	} else {
 		$this->etablissements->add($e->_id)->nom = $e->nom;
 		if ($ordre !== null) {
-		  $order = 0;
+		  $ordre = 0;
 		}
 		$this->etablissements->add($e->_id)->ordre = $ordre;
 	}
 	if ($e->compte) {
-	  $this->addCompte($e->getContact(), $ordre);
+	  $this->addCompte($e->getMasterCompte(), $ordre);
 	}
     }
 
@@ -145,6 +113,14 @@ class Societe extends BaseSociete {
 	$e->cooperative = $c;
       }
       $this->changedCooperative = true;
+    }
+    
+    public function setStatut($s) {
+      $this->_set('statut', $s);
+      foreach($this->getEtablissementsObj() as $e) {
+	$e->statut = $s;
+      }
+      $this->changedStatut = true;
     }
 
     public function addCompte($c, $ordre = null) {
@@ -175,8 +151,14 @@ class Societe extends BaseSociete {
         return (intval($a->ordre) < intval($b->ordre)) ? -1 : 1;
     }
 
-    public function getCompte() {
+    public function getMasterCompte() {
+        
         return CompteClient::getInstance()->find($this->compte_societe);
+    }
+    
+    public function getContact() {
+        
+        return $this->getMasterCompte();
     }
     
     public function setCodesComptables($is_codes) {
@@ -191,38 +173,56 @@ class Societe extends BaseSociete {
         || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
     }
     
-    public function save($fromCompte = false) {
-        if ($fromCompte) 
-            return parent::save();
+    public function synchroFromCompte() {
+        $compte = $this->getMasterCompte();
         
-        $compte = null;
-        if (!$this->compte_societe) {
-            parent::save();
-            $compte = CompteClient::getInstance()->createCompte($this);
-            $compte->origines->add($this->_id,$this->_id);
-            $compte->nom = $this->raison_sociale;
-            $compte->nom_a_afficher = $this->raison_sociale;
-            $compte->save(true);
-            $this->compte_societe = $compte->_id;
-	    $this->addCompte($compte, -1 );
+        if(!$compte) {
+            
+            throw new sfException("Pas de compte societe. Bizarre !");
         }
-        if (!$compte) {
-            $compte = $this->getCompte();
-        }
-	if (isset($this->siege)) {
-	        $compte->adresse = $this->siege->adresse;
-	        $compte->code_postal = $this->siege->code_postal;
-	        $compte->commune = $this->siege->commune;
-	}
-        $compte->save(true);
-	if ($this->changedCooperative) {
-	  foreach($this->getEtablissementsObj() as $e) {
-	    $e->save(true);
-	  }
-	}
-	$this->changedCooperative = false;
-	
-        return parent::save();
+        
+        $this->siege->adresse = $compte->adresse;
+        $this->siege->code_postal = $compte->code_postal;
+        $this->siege->commune = $compte->commune;
+        
+        return $this;
     }
     
+    protected function createAndSaveCompte() {
+        $compte = CompteClient::getInstance()->findOrCreateCompteSociete($this);
+        $compte->nom = $this->raison_sociale;
+        $compte->addOrigine($this->_id);
+        $compte->save(true);
+        $this->compte_societe = $compte->_id;
+	$this->addCompte($compte, -1 );
+    }
+    
+    protected function synchroAndSaveEtablissement() {
+        if(($this->changedCooperative) or ($this->changedStatut)) {
+	  foreach($this->getEtablissementsObj() as $e) {
+	    $e->etablissement->save(true);
+	  }
+	}
+    }
+
+
+    public function save($fromCompte = false) {
+        if ($fromCompte) {
+            return parent::save();
+        }
+        
+        $compte = null;
+        
+        if (!$this->compte_societe) {
+            parent::save();
+            $this->createAndSaveCompte();
+        }
+        
+        $this->synchroAndSaveEtablissement();
+	$this->changedCooperative = false;
+	$this->changedStatut = false;
+        
+        return parent::save();
+    }
+        
 }

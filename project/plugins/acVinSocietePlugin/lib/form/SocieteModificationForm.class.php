@@ -84,8 +84,9 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         if($this->existNumeroCompte() && $this->isVitiOrNego())
                 $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
         
-        if(!count($this->getObject()->contacts))
+            if(!$this->getObject()->siege->commune){
                 $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
+            }
         
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
     }
@@ -162,7 +163,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         }
         if ($this->values['type_numero_compte']) {
             $this->getObject()->setCodesComptables($this->values['type_numero_compte']);
-        }       
+        }     
     }
     
      protected function doSave($con = null) {
@@ -171,7 +172,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         }
 
         $this->updateObject();        
-         if(!count($this->getObject()->contacts)){
+         if(!$this->getObject()->siege->commune){
             $this->getObject()->setStatut(SocieteClient::STATUT_ACTIF);
         }
         $this->object->getCouchdbDocument()->save();        
