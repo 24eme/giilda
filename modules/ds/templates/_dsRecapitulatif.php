@@ -63,7 +63,7 @@ use_helper('Float');
 
 <div id="ds_recapitulatif_commentaires">
     <h3>Commentaires&nbsp;: </h3>
-	<p><?php echo $ds->commentaire; ?></p>
+	<p><pre class="commentaire"><?php echo $ds->commentaire; ?></pre></p>
 </div>
 
 <div class="btn_etape">
