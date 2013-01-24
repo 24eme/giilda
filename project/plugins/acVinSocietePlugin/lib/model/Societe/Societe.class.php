@@ -7,6 +7,7 @@
 class Societe extends BaseSociete {
 
   private $changedCooperative = null;
+  private $changedStatut = null;
 
     public function constructId() {
         $this->set('_id', 'SOCIETE-' . $this->identifiant);
@@ -113,6 +114,14 @@ class Societe extends BaseSociete {
       }
       $this->changedCooperative = true;
     }
+    
+    public function setStatut($s) {
+      $this->_set('statut', $s);
+      foreach($this->getEtablissementsObj() as $e) {
+	$e->statut = $s;
+      }
+      $this->changedStatut = true;
+    }
 
     public function addCompte($c, $ordre = null) {
       if (!$this->compte_societe) {
@@ -182,13 +191,14 @@ class Societe extends BaseSociete {
     protected function createAndSaveCompte() {
         $compte = CompteClient::getInstance()->findOrCreateCompteSociete($this);
         $compte->nom = $this->raison_sociale;
+        $compte->addOrigine($this->_id);
         $compte->save(true);
         $this->compte_societe = $compte->_id;
 	$this->addCompte($compte, -1 );
     }
     
     protected function synchroAndSaveEtablissement() {
-        if ($this->changedCooperative) {
+        if(($this->changedCooperative) or ($this->changedStatut)) {
 	  foreach($this->getEtablissementsObj() as $e) {
 	    $e->etablissement->save(true);
 	  }
@@ -210,7 +220,8 @@ class Societe extends BaseSociete {
         
         $this->synchroAndSaveEtablissement();
 	$this->changedCooperative = false;
-	
+	$this->changedStatut = false;
+        
         return parent::save();
     }
         
