@@ -1305,6 +1305,7 @@ ul.radio_list li label { font-weight:normal !important; }
   font-weight:bold;
   padding:5px;
 }
+pre.commentaire { text-align:left; }
 #principal h2 {
   text-transform:uppercase;
   font-size:15px;

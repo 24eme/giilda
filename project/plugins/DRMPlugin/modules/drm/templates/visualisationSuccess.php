@@ -38,7 +38,7 @@
    <br/>
    <table class="table_recap">
    <tr><th>Commentaire</th></tr>
-   <tr><td><pre style="text-align: left;"><?php echo $drm->commentaire; ?></pre></td></tr>
+   <tr><td><pre class="commentaire"><?php echo $drm->commentaire; ?></pre></td></tr>
    </table>
 		<br />
 		<div id="btn_etape_dr">
