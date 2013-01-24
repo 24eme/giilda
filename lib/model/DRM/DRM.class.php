@@ -182,6 +182,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->precedente = null;
         $this->remove('editeurs'); 
         $this->add('editeurs');
+        $this->commentaire = null;
 
         $this->archivage_document->reset();
        
