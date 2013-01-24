@@ -77,7 +77,7 @@ class societeActions extends sfActions {
             if ($this->societeForm->isValid() && $this->contactSocieteForm->isValid()) {
                 $this->societeForm->update();
                 $this->societeForm->save();
-                $this->contactSocieteForm->save();  
+                $this->contactSocieteForm->save();
                 
                 $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
             }
