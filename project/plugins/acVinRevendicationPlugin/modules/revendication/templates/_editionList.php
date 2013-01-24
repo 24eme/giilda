@@ -11,9 +11,10 @@ if (isset($revendication)) {
 ?>        
 <h2>Volumes revendiqués</h2>
 <fieldset id="revendication_volume_revendiques_edition">
-    <a class="btn_majeur btn_modifier" href="<?php echo url_for('revendication_add_row', array('odg'=> $odg, 'campagne' => $campagne)); ?>"><span>Ajouter lignes</span></a>
+    <a class="btn_majeur btn_modifier" href="<?php echo url_for('revendication_add_row', array('odg'=> $odg, 'campagne' => $campagne)); ?>"><span>Ajouter une ligne
+    </span></a>
     <?php if (isset($revendications) && count($revendications)) : ?>
-        <?php if (isset($revendication)) :  ?>
+        <?php if (isset($revendication) && count($revendication->_attachments)) :  ?>
         <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
         <?php endif;?>
         <?php 
@@ -28,7 +29,7 @@ if (isset($revendication)) {
                 <th>CVI</th>
                 <th style="width: 150px;">Nom</th>
                 <th>Produit</th>
-                <th style="width: 100px;">Volume (en hl)</th>
+                <th style="width: 100px;">Volume<br />(en hl)</th>
                 <th>Editer</th>
             </tr>
         </thead>

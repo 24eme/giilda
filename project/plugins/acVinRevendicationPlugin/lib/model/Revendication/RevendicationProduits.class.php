@@ -10,6 +10,7 @@ class RevendicationProduits extends BaseRevendicationProduits {
     const STATUT_MODIFIE = 'MODIFIE';
     const STATUT_IMPORTE = 'IMPORTE';
     const STATUT_SAISIE = 'SAISIE';
+    const KEY_SAISIE = 'SAISIE';
 
     public function storeProduit($num_ligne, $row, $hashLibelle, $bailleur) {
         $this->libelle_produit_csv = $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT];
@@ -29,6 +30,19 @@ class RevendicationProduits extends BaseRevendicationProduits {
                 $volumes->bailleur_nom = $bailleur->nom;
             }
         }
+    }
+
+    public function addVolumeSaisi($volume, $date = null) {
+        if(is_null($date)) {
+            $date = date('Y-m-d');
+        }
+
+        $item_volume = $this->volumes->add(self::KEY_SAISIE);
+        $item_volume->volume += round($volume * 1, 2);
+        $item_volume->statut = self::STATUT_SAISIE;
+        $item_volume->date_certification = $date;
+
+        return $item_volume;
     }
 
     public function updateProduit($hash, $libelle) {
