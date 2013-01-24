@@ -28,11 +28,11 @@
 						
                         <div class="form_contenu">
                             <div class="form_ligne">
-                                <?php echo $compteModificationForm['adresse_societe']->renderError(); ?>
-                                <?php echo $compteModificationForm['adresse_societe']->renderLabel('Même adresse que la société ?', array('class' => 'label_liste')); ?>
-                                <?php echo $compteModificationForm['adresse_societe']->render(); ?>
+                                <?php echo $etablissementModificationForm['adresse_societe']->renderError(); ?>
+                                <?php echo $etablissementModificationForm['adresse_societe']->renderLabel('Même adresse que la société ?', array('class' => 'label_liste')); ?>
+                                <?php echo $etablissementModificationForm['adresse_societe']->render(); ?>
                             </div>
-                            <?php include_partial('compte/modification', array('compteForm' => $compteModificationForm)); ?>
+                            <?php //include_partial('compte/modification', array('compteForm' => $compteModificationForm)); ?>
                         </div>
                     </div>  
 				<div class="form_btn">

@@ -9,9 +9,9 @@
         <?php echo $etablissementForm['nom']->renderError(); ?>
     </div>
     <div class="form_ligne">
-        <?php echo $etablissementForm['statut']->renderLabel(); ?>
-        <?php echo $etablissementForm['statut']->render(); ?>
-        <?php echo $etablissementForm['statut']->renderError(); ?>
+            <?php echo $etablissementForm['statut']->renderLabel('Statut *',array('class' => 'label_liste')); ?>
+            <?php echo $etablissementForm['statut']->render(); ?>
+            <?php echo $etablissementForm['statut']->renderError(); ?>
     </div>
     <?php if (!$etablissement->isNegociant() && !$etablissement->isCourtier()) : ?>
         <div class="form_ligne">
@@ -37,14 +37,6 @@
     <?php echo $etablissementForm['relance_ds']->renderError(); ?>
             </div>
             <div class="form_colonne">
-                <!--    
-                <label for="recette_locale">
-                <?php // echo $etablissementForm['recette_locale']->renderLabel();   ?>
-                </label>
-                <?php // echo $etablissementForm['recette_locale']->render(); ?>
-    <?php // echo $etablissementForm['recette_locale']->renderError();   ?>
-                -->
-
             </div>
         </div>    
 <?php endif; ?>

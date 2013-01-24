@@ -39,8 +39,7 @@ class acVinEtablissementRouting {
                             'action' => 'visualisation'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Etablissement',
-                            'type' => 'object')));
-        
+                            'type' => 'object')));                
     }
 
 }
