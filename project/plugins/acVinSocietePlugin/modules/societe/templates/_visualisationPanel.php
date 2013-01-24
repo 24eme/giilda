@@ -76,7 +76,7 @@
             <label for="commentaire">
                 commentaire : 
             </label>
-            <?php echo $societe->commentaire; ?>
+            <pre class="commentaire"><?php echo $vrac->commentaire;?></pre>
         </div>
     </div>
 </div>
