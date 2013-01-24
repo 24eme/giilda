@@ -10,12 +10,16 @@ while(<STDIN>) {
 	print "code journal;" if ($verbose);
         print $field[0]."\n";
 	print "date;" if ($verbose);
+	$field[1] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$1$2$3/;
 	print $field[1]."\n";
         print "date saisie;" if ($verbose);
-        print $field[2]."\n";
+	$field[2] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$1$2$3/;
+	print $field[2]."\n";
+        print "piece;" if ($verbose);
+        print $field[3]."\n";
         print "numero de facture;" if ($verbose);
         print $field[3]."\n";
-        print "piece;" if ($verbose);
+        print "piece tréso;" if ($verbose);
         print $field[11]."\n";
         print "numero compte general;" if ($verbose);
         print $field[5]."\n";
@@ -71,6 +75,7 @@ while(<STDIN>) {
         print "\n";
         print "date de rapprochement;" if ($verbose);
         print "\n";
+	print "\n"; # ??????????
         print "reference;" if ($verbose);
         print $field[12]."\n";
         print "status reglement;" if ($verbose);

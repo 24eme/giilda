@@ -16,15 +16,21 @@ class SocieteAllView extends acCouchdbView
         return acCouchdbManager::getView('societe', 'all', 'Societe');
     }
 
-    public function findByInterpro($interpro, $statut, $typesocietes = array(), $q = null, $limit = 100) {
+    public function findByInterpro($interpro) {
+      return $this->client->startkey(array($interpro))
+	->endkey(array($interpro, array()))
+	->getView($this->design, $this->view)->rows;
+      }
+
+    public function findByInterproAndStatut($interpro, $statut, $typesocietes = array(), $q = null, $limit = null) {
       try {
-	return $this->findByInterproELASTIC($interpro, $statut, $typesocietes, $q, $limit);
+	return $this->findByInterproAndStatutELASTIC($interpro, $statut, $typesocietes, $q, $limit);
       }catch(Exception $e) {
-	return $this->findByInterproVIEW($interpro, $statut, $typesocietes);
+	return $this->findByInterproAndStatutVIEW($interpro, $statut, $typesocietes);
       }
     }
 
-    private function findByInterproELASTIC($interpro, $statut, $typesocietes, $q, $limit) {
+    private function findByInterproAndStatutELASTIC($interpro, $statut, $typesocietes, $q, $limit) {
       $query = array();
       foreach (explode(' ', $q) as $s) {
 	$query[] = "*$q*";
@@ -52,7 +58,8 @@ class SocieteAllView extends acCouchdbView
       // Create the actual search object with some data.
       $q = new acElasticaQuery();
       $q->setQuery($elasticaQueryString);
-      $q->setLimit($limit);
+      if ($limit)
+	$q->setLimit($limit);
 
       //Search on the index.
       $res = $index->search($q);
@@ -73,7 +80,7 @@ class SocieteAllView extends acCouchdbView
       return $res; 
     }
 
-    private function findByInterproVIEW($interpro, $statut, $typesocietes = array()) {
+    private function findByInterproAndStatutVIEW($interpro, $statut, $typesocietes = array()) {
       if (!count($typesocietes)) {
 	if ($statut) {
 	  return $this->client->startkey(array($interpro, $statut))
