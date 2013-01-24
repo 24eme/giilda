@@ -33,6 +33,6 @@
 			<label for="commentaire">
 				Commentaire :
 			</label>
-			<?php echo $compte->commentaire; ?>
+			<pre class="commentaire"><?php echo $compte->commentaire; ?></pre>
 		</div> 
 </div>
