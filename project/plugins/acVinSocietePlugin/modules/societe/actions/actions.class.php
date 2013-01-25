@@ -60,6 +60,7 @@ class societeActions extends sfActions {
                     $this->redirect('societe_creation', array('raison_sociale' => $values['raison_sociale']));
                 }
                 $societe = SocieteClient::getInstance()->createSociete($values['raison_sociale'], $values['type']);
+                $societe->save();
                 $this->redirect('societe_modification', array('identifiant' => $societe->identifiant));
             }
         }
@@ -99,6 +100,22 @@ class societeActions extends sfActions {
     public function executeVisualisation(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->etablissements = $this->societe->getEtablissementsObj();
+    }
+
+    public function executeAnnulation(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+
+        if (!$this->societe->isInCreation()) {
+            $this->redirect('societe_visualisation', $this->societe);
+        }
+
+        $master_compte = $this->societe->getMasterCompte();
+        if($master_compte) {
+            $master_compte->delete();
+        }
+        $this->societe->delete();
+
+        $this->redirect('societe_creation');
     }
 
 

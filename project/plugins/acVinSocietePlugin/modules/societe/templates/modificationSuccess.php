@@ -1,10 +1,10 @@
 <!-- #principal -->
 <section id="principal">
-    <p id="fil_ariane"><a href="<?php echo url_for('societe'); ?>">Page d'accueil</a> &gt; Contact &gt; <strong><?php echo (!count($societe->contacts)) ? "Création d'une nouvelle société" : $societe->raison_sociale; ?></strong></p>
+    <p id="fil_ariane"><a href="<?php echo url_for('societe'); ?>">Page d'accueil</a> &gt; Contact &gt; <strong><?php echo ($societe->isInCreation()) ? "Création d'une nouvelle société" : $societe->raison_sociale; ?></strong></p>
     <!-- #contacts -->
     <section id="contacts">
         <div id="creation_societe">
-            <h2><?php echo (!count($societe->contacts)) ? "Création d'une nouvelle société" : $societe->raison_sociale; ?></h2>
+            <h2><?php echo ($societe->isInCreation()) ? "Création d'une nouvelle société" : $societe->raison_sociale; ?></h2>
             <form action="<?php echo url_for('societe_modification', array('identifiant' => $societeForm->getObject()->identifiant)); ?>" method="post">
                 <div class="form_btn">
                     <a href="<?php echo url_for('societe_creation'); ?>" class="btn_majeur btn_annuler">Annuler</a>
@@ -22,7 +22,11 @@
                     </div>
                 </div>
                 <div class="form_btn">
-                    <a href="<?php echo url_for('societe_creation'); ?>" class="btn_majeur btn_annuler">Annuler</a>
+                    <?php if($societe->isInCreation()): ?>
+                    <a href="<?php echo url_for('societe_annulation', $societe); ?>" class="btn_majeur btn_annuler">Annuler</a>
+                    <?php else: ?>
+                    <a href="<?php echo url_for('societe_visualisation', $societe); ?>" class="btn_majeur btn_annuler">Annuler</a>
+                    <?php endif; ?>
                     <button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
                 </div>
             </form>

@@ -84,11 +84,19 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         if($this->existNumeroCompte() && $this->isVitiOrNego())
                 $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
         
-            if(!$this->getObject()->siege->commune){
-                $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
+            if($this->getObject()->isInCreation()){
+                $this->widgetSchema['statut']->setAttribute('readonly', 'readonly');
             }
         
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
+    }
+
+    protected function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+
+        if($this->getObject()->isInCreation()) {
+            $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
+        }
     }
 
     public function existNumeroCompte() {

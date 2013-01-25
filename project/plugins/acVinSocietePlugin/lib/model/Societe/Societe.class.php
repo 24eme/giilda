@@ -19,6 +19,11 @@ class Societe extends BaseSociete {
         }
     }
 
+    public function isInCreation() {
+
+        return $this->statut == SocieteClient::STATUT_EN_CREATION;
+    }
+
 
     public function addNewEnseigne() {
         $this->enseignes->add(count($this->enseignes),"");

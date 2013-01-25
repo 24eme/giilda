@@ -45,6 +45,13 @@ class SocieteRouting {
                             'type' => 'object')
         ));
 
+        $r->prependRoute('societe_annulation', new SocieteRoute('/societe/:identifiant/annulation', array('module' => 'societe',
+                    'action' => 'annulation'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Societe',
+                            'type' => 'object')
+        ));
+
 
         $r->prependRoute('societe_visualisation', new SocieteRoute('/societe/:identifiant/visualisation', array('module' => 'societe',
                     'action' => 'visualisation'),

@@ -16,6 +16,8 @@ class SocieteClient extends acCouchdbClient {
     
     const STATUT_ACTIF = 'ACTIF';
     const STATUT_SUSPENDU = 'SUSPENDU';
+    const STATUT_EN_CREATION = 'EN_CREATION';
+
     
     const NUMEROCOMPTE_TYPE_CLIENT = 'CLIENT';    
     const NUMEROCOMPTE_TYPE_FOURNISSEUR = 'FOURNISSEUR';
@@ -48,10 +50,10 @@ class SocieteClient extends acCouchdbClient {
         $societe->type_societe = $type;
         $societe->interpro = 'INTERPRO-inter-loire';        
         $societe->identifiant = $this->getNextIdentifiantSociete();
-        $societe->statut = SocieteClient::STATUT_ACTIF;
+        $societe->statut = SocieteClient::STATUT_EN_CREATION;
         $societe->cooperative = 0;
         $societe->constructId();
-        $societe->save();
+
         return $societe;
     }
 
