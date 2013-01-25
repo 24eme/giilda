@@ -108,8 +108,7 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
             $con = $this->getConnection();
         }
         $this->updateObject();
-
-        if(!$this->getObject()->isNew()){
+        if($this->getObject()->isNew()){
             $this->getObject()->setStatut(EtablissementClient::STATUT_ACTIF);
         }
         
@@ -131,7 +130,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
            $this->etablissement->compte = null;
            $switch = true;
         }
-        
         $this->etablissement->save();
         
         if($switch) {
