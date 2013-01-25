@@ -29,8 +29,8 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     public function constructId() {
-      $this->storeDeclarant();
-      $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
+        $this->storeDeclarant();
+        $this->set('_id', SV12Client::getInstance()->buildId($this->identifiant, 
 							   $this->periode, 
 							   $this->version));
     }
@@ -205,6 +205,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function validate($options = array()) {
         $this->storeDates();
+        $this->storeDeclarant();
         
         $this->generateMouvements();
         $this->updateTotaux();
