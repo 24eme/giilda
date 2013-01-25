@@ -50,7 +50,6 @@ class Compte extends BaseCompte {
          if (sfConfig::get('sf_logging_enabled')) {
             sfContext::getInstance()->getLogger()->log(sprintf("{Contact} synchro du compte %s à partir de la societe %s", $this->_id, $societe->_id));
          }
-         
          $this->nom_a_afficher = $societe->raison_sociale;
     }
     
@@ -100,29 +99,13 @@ class Compte extends BaseCompte {
         $soc->save(true);
     }
     
-//    protected function synchroOrigines() {
-//        $is_etablissement_contact = $this->isEtablissementContact();
-//        $etablissement = $this->getEtablissement();
-//        
-//        $this->remove('origines');
-//        $this->add('origines');
-//        if ($this->isSocieteContact()) {
-//            $this->addOrigine($this->id_societe);
-//        }
-//        
-//        if ($is_etablissement_contact) {
-//            if($etablissement->compte == 'COMPTE-'.$this->identifiant) {
-//                $this->addOrigine($etablissement->_id);
-//            }
-//        }
-//    }
 
     public function save($fromsociete = false, $frometablissement = false) {
         if (is_null($this->adresse_societe)) {
             $this->adresse_societe = (int) $fromsociete;
         }
 	$this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-      //  $this->synchroOrigines();
+
         $this->synchro();
 
         parent::save();

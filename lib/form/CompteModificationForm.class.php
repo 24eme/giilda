@@ -16,8 +16,9 @@ class CompteModificationForm extends acCouchdbObjectForm {
         $this->compte = $compte;
         parent::__construct($compte, $options, $CSRFSecret); 
         $this->defaults['pays'] = 'FR';
-        if($this->compte->isNew())
+        if($this->compte->isNew()){
             $this->setDefault('statut', $this->compte->getSociete()->statut);
+        }        
     }
 
     public function configure() {
@@ -79,8 +80,24 @@ class CompteModificationForm extends acCouchdbObjectForm {
         return CompteClient::getInstance()->getAllTags();
     }    
 
-        public function getStatuts() {
+    public function getStatuts() {
         return EtablissementClient::getStatuts();
+    }
+    
+    protected function doSave($con = null) {
+        if (null === $con) {
+            $con = $this->getConnection();
+        }
+
+        $this->updateObject();
+        if($this->compte->isSocieteContact())
+        {
+            $this->compte->statut = $this->compte->getSociete()->statut;
+        }
+        if($this->compte->isEtablissementContact()){
+            $this->compte->statut = $this->compte->getEtablissement()->statut;
+        }
+        $this->object->getCouchdbDocument()->save();
     }
     
 }
