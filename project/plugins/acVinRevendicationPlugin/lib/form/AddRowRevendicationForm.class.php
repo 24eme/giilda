@@ -27,48 +27,12 @@ class AddRowRevendicationForm extends EditionRevendicationForm {
     }
 
     public function doUpdate() {
-        $etb = EtablissementClient::getInstance()->find($this->values['etablissement']);
-        return $this->createAndGetEtablissementNode($etb);
-//        $this->initFields($etb->identifiant, 'SAISIE');
-//        return parent::doUpdate();
-    }
-
-    public function createAndGetEtablissementNode(Etablissement $etb) {
-        $identifiant = $etb->identifiant;
-        if (!isset($this->revendication->datas->$identifiant)) {
-            $etbNode = $this->revendication->datas->$identifiant = new stdClass();
-            $etbNode->declarant_cvi = $etb->cvi;
-            $etbNode->declarant_nom = $etb->nom;
-            $etbNode->commune = $etb->siege->commune;
-            $etbNode->produits = new stdClass();
-        }
-        $etbNode = $this->revendication->datas->$identifiant;
         
-        $hash = $this->values['produit_hash'];
-        $libelle = $this->getConfig()->get($hash)->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
-        $newProduitDouane = $this->getConfig()->get($hash)->getCodeDouane();
-        if (isset($etbNode->produits->$newProduitDouane)) 
-            throw new sfException("Le produit $libelle a déjà été ajouté pour le viticuleur $etb->nom");
-        $etbProd = $etbNode->produits->$newProduitDouane = new stdClass();
-        $etbProd->date_certification = null;
-        $etbProd->libelle_produit_csv = $libelle;
-        $etbProd->produit_hash = $hash;
-        $etbProd->produit_libelle = $libelle;
-        if (!isset($etbProd->volumes)) {
-            $etbProd->volumes = new stdClass();
-        }
-        $ligne = 'SAISIE';
-        if (!isset($etbProd->volumes->$ligne)) {
-            $etbProd->volumes->$ligne = new stdClass();
-        }
-        $etbProd->volumes->$ligne->num_ligne = 0;
-        $etbProd->volumes->$ligne->volume = $this->values['volume'];
-        $etbProd->volumes->$ligne->bailleur_identifiant = null;
-        $etbProd->volumes->$ligne->bailleur_nom = null;
-        $etbProd->volumes->$ligne->date_certification = date('Y-m-d');
-        $etbProd->volumes->$ligne->statut = RevendicationProduits::STATUT_SAISIE;
-        $etbProd->volumes->$ligne->ligne = "";
-        return $this->revendication;
+        return RevendicationClient::getInstance()->addVolumeSaisiByStdClass($this->revendication, 
+                                                                            $this->values['etablissement'], 
+                                                                            $this->values['produit_hash'], 
+                                                                            $this->values['volume'],
+                                                                            date('Y-m-d'));
     }
 
 }

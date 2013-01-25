@@ -26,11 +26,24 @@ class Revendication extends BaseRevendication {
         $this->setProduitsCodeDouaneHashes();
 
         $this->remove('erreurs');
-	$this->add('erreurs');
+	    $this->add('erreurs');
 
         foreach ($this->getCSV() as $num_ligne => $row) {
             $this->insertRow($num_ligne, $row);
         }
+    }
+
+    public function addVolumeSaisi($etablissement_id_or_identifiant, $produit_hash, $volume, $date) {
+        
+        return $this->addEtablissement($etablissement_id_or_identifiant)->addProduit($produit_hash)->addVolumeSaisi($volume, $date);
+    }
+
+    public function addEtablissement($etablissement_id_or_identifiant) {
+        $identifiant = EtablissementClient::getInstance()->getIdentifiant($etablissement_id_or_identifiant);
+        $item_etab = $this->datas->add($identifiant);
+        $item_etab->storeDeclarantAuto();
+
+        return $item_etab;
     }
 
     public function addIgnoredLine($num_ligne, $num_ca) {

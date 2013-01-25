@@ -28,5 +28,29 @@ class RevendicationEtablissements extends BaseRevendicationEtablissements {
         $this->declarant_nom = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_NOM];
         $this->commune = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_COMMUNE];
     }
+
+    public function storeDeclarantAuto() {
+        $etablissement = $this->getEtablissement(acCouchdbClient::HYDRATE_JSON);
+
+        $this->declarant_cvi = $etablissement->cvi;
+        $this->declarant_nom = $etablissement->nom;
+        $this->commune = $etablissement->siege->commune;
+    }
+
+    public function addProduit($produit_hash) {
+        $code_douane = ConfigurationClient::getCurrent()->get($produit_hash)->getCodeDouane();
+        $libelle = ConfigurationClient::getCurrent()->get($produit_hash)->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce%");
+        
+        $item_produit = $this->produits->add($code_douane);
+        $item_produit->libelle_produit_csv = $libelle;
+        $item_produit->produit_hash = $produit_hash;
+        $item_produit->produit_libelle = $libelle;
+
+        return $item_produit;
+    }
     
+    public function getEtablissement($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+
+        return EtablissementClient::getInstance()->find($this->getKey(), $hydrate);
+    }
 }

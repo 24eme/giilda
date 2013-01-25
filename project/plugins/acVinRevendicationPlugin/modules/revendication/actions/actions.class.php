@@ -12,6 +12,7 @@ class revendicationActions extends sfActions {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             if ($this->form->isValid()) {
                     $revendication = RevendicationClient::getInstance()->createOrFind($this->form->getValue('odg'), $this->form->getValue('campagne'));
+                    $revendication->etape = 1;
                     $revendication->save();
 
                     return $this->redirect('revendication_upload', $revendication);

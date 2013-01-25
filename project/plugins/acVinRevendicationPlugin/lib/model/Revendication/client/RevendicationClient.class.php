@@ -33,8 +33,6 @@ class RevendicationClient extends acCouchdbClient {
             $revendication->odg = $odg;
             $revendication->_id = $this->getId($odg, $campagne);
             $revendication->date_creation = date('Y-m-d');
-            $revendication->etape = 1;
-            $revendication->save();
         }
 
         return $revendication;
@@ -51,7 +49,7 @@ class RevendicationClient extends acCouchdbClient {
 
     public function getParametersFromId($id) {
       if (preg_match('/^REVENDICATION-([A-Z]*)-([0-9]{4}-[0-9]{4})$/', $id, $matches)) {
-        return array('odg' => strtolower($matches[1]), 'campagne' => $matches[2]);
+        return array('odg' => $matches[1], 'campagne' => $matches[2]);
       }
       throw new sfException("$id is not a revendication ID");
     }
@@ -89,4 +87,16 @@ class RevendicationClient extends acCouchdbClient {
       }
       return parent::save();
     }
+
+    public function addVolumeSaisiByStdClass(stdClass $rev, $etablissement_id_or_identifiant, $produit_hash, $volume, $date) {
+        $etablissement_identifiant = EtablissementClient::getInstance()->getIdentifiant($etablissement_id_or_identifiant);
+        $rev_obj = new Revendication();
+        $rev_obj->datas->add($etablissement_identifiant, isset($rev->datas->$etablissement_identifiant) ? $rev->datas->$etablissement_identifiant : null);
+        $rev_obj->addVolumeSaisi($etablissement_identifiant, $produit_hash, $volume, $date);
+        $rev->datas->$etablissement_identifiant = $rev_obj->datas->get($etablissement_identifiant)->toJson();
+
+        return $rev;
+    }
+
+
 }
