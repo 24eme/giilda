@@ -191,6 +191,7 @@ class Societe extends BaseSociete {
     protected function createAndSaveCompte() {
         $compte = CompteClient::getInstance()->findOrCreateCompteSociete($this);
         $compte->nom = $this->raison_sociale;
+        $compte->statut = $this->statut;
         $compte->addOrigine($this->_id);
         $compte->save(true);
         $this->compte_societe = $compte->_id;
@@ -198,12 +199,24 @@ class Societe extends BaseSociete {
     }
     
     protected function synchroAndSaveEtablissement() {
-        if(($this->changedCooperative) or ($this->changedStatut)) {
-	  foreach($this->getEtablissementsObj() as $e) {
+        if(($this->changedCooperative) || ($this->changedStatut)) {
+	  foreach($this->getEtablissementsObj() as $id => $e) {
+            $e->etablissement->cooperative = $this->cooperative;
+            $e->etablissement->statut = $this->statut;
 	    $e->etablissement->save(true);
 	  }
 	}
     }
+    
+    protected function synchroAndSaveCompte() {
+        if($this->changedStatut) {
+	  foreach($this->getComptesObj() as $id => $c) {
+            $c->compte->statut = $this->statut;
+	    $c->compte->save(true);
+	  }
+	}
+    }
+    
 
 
     public function save($fromCompte = false) {
@@ -219,9 +232,9 @@ class Societe extends BaseSociete {
         }
         
         $this->synchroAndSaveEtablissement();
+        $this->synchroAndSaveCompte();
 	$this->changedCooperative = false;
 	$this->changedStatut = false;
-        
         return parent::save();
     }
         

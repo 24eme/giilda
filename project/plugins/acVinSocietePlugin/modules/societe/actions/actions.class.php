@@ -77,6 +77,11 @@ class societeActions extends sfActions {
             if ($this->societeForm->isValid() && $this->contactSocieteForm->isValid()) {
                 $this->societeForm->update();
                 $this->societeForm->save();
+                
+                $this->contactSociete = CompteClient::getInstance()->find($this->societe->compte_societe);
+                $this->contactSocieteForm = new CompteModificationForm($this->contactSociete);
+                $this->contactSocieteForm->disabledRevisionVerification();
+                $this->contactSocieteForm->bind($request->getParameter($this->contactSocieteForm->getName()));
                 $this->contactSocieteForm->save();
                 
                 $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
