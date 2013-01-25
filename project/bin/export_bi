@@ -5,7 +5,7 @@
 
 curl -sX GET "http://localhost:5984/vinsdeloire/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g'| sed 's/null/""/' | awk -F ',' '{ print "s/" $7 "/\\0;" $9 "/" }' > $TMP/sed_produit_code
 
-echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code_produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail; date;version document;cvo;facturable;identifiant mouvement;pays export (si export)";
+echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code_produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail;date;version document;cvo;facturable;identifiant mouvement;pays export (si export)"
 curl http://localhost:5984/vinsdeloire/_design/mouvement/_view/consultation  | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed -f $TMP/sed_produit_code
 
 echo "#CONTRAT;campagne;SOLDE;identifiant document;numero contrat; numero archive; identifiant acheteur; nom acheteur ;identifiant vendeur; non vendeur;identifiant courtier;nom courtier; type de vente (VIN_VRAC, VIN_CONDITIONNE, RAISIN, MOUT); hash produit;code_produit;volume propose;volume enleve;prix unitaire;prix definitif;prix variable;libelle produit;contrat interne (OUI, NON);en attente de l'original (OUI, NON);type de contrat;date de signature;date de statistiques;date de validation;millesime;type de produit (GENERIQUE, DOMAINE); domaine;part variable;repartition cvo;nature de la cvo"
@@ -18,4 +18,8 @@ echo "#ETABLISSEMENT;statut (actif, suspendu);famille;identifiant societe;identi
 curl http://localhost:5984/vinsdeloire/_design/etablissement/_view/all | sed -f bin/unicode2alpha | sed 's/.*"key":\["INTERPRO-inter-loire",/ETABLISSEMENT;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^ETABLISSEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/ACTIF/actif/' | sed 's/ARCHIVE/suspendu/'
 
 echo "#SOCIETE;statut (actif, suspendu;type societe (viticulteur, negociant, courtier, presse, institution, hotel-restaurant, autre);identifiant interne;identifiant;code_comptable_client;code_comptable_fournisseur;nom;nom abrege;cave cooperative (oui, non);siret;code naf;tva intracommunautaire;enseignes (enseigne1|enseigne2);adresse;code postal;ville"
-curl http://localhost:5984/vinsdeloire/_design/societe/_view/export | sed -f bin/unicode2alpha | sed 's/.*"key":\["INTERPRO-inter-loire",/SOCIETE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^SOCIETE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/ACTIF/actif/' 
+curl http://localhost:5984/vinsdeloire/_design/societe/_view/export | sed -f bin/unicode2alpha | sed 's/.*"key":\["INTERPRO-inter-loire",/SOCIETE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^SOCIETE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/ACTIF/actif/'
+
+#++ REV
+
+#++ CATPRODUITS
