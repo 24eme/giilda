@@ -25,7 +25,7 @@ class etablissementActions extends sfActions {
                      $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
                 }
                 else{
-                    $this->redirect('compte_etablissement_modification', CompteClient::getInstance()->find($this->etablissement->compte));
+                    $this->redirect('compte_etablissement_modification', $this->etablissement->getMasterCompte());
                 }
             }
         }

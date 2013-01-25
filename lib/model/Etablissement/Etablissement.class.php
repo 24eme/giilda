@@ -172,7 +172,6 @@ class Etablissement extends BaseEtablissement {
         if (!$soc)
             throw new sfException("$id n'est pas une société connue");
         $this->cooperative = $soc->cooperative;
-        $this->statut = $soc->statut;
     }
     
     protected function synchroAndSaveSociete() {
@@ -204,6 +203,7 @@ class Etablissement extends BaseEtablissement {
             $compte = CompteClient::getInstance()->find($old_id);
             $compte->removeOrigine($this->_id);
         }
+            $compte->statut = $this->statut;
             $compte->save(false, true);
     }
     
