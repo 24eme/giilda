@@ -181,11 +181,13 @@ class Etablissement extends BaseEtablissement {
     }
     
     protected function synchroAndSaveCompte() {
+        $compte_master = $this->getMasterCompte();
         if($this->isSameContactThanSociete()) {
-            $compte_master = $this->getMasterCompte();
             $compte_master->addOrigine($this->_id);
-            $compte_master->save(false, true);
+        }else{
+            $compte_master->statut = $this->statut;
         }
+            $compte_master->save(false, true);
     }
     
     public function switchOrigineAndSaveCompte($old_id) {
@@ -202,9 +204,9 @@ class Etablissement extends BaseEtablissement {
         } else {
             $compte = CompteClient::getInstance()->find($old_id);
             $compte->removeOrigine($this->_id);
-        }
             $compte->statut = $this->statut;
-            $compte->save(false, true);
+        }
+        $compte->save(false, true);
     }
     
     public function save($fromsociete = false, $fromclient = false) {
@@ -216,6 +218,7 @@ class Etablissement extends BaseEtablissement {
 	    if (!$this->compte) {
 	      $compte = CompteClient::getInstance()->createCompteFromEtablissement($this);
               $compte->constructId();
+              $compte->statut = $this->statut;
               $this->compte = $compte->_id;
               parent::save();
               $compte->save(true, true);
