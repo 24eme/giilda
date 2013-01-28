@@ -56,5 +56,6 @@
     $.fn.includeJS(jsPath, 'colonnes.js');
 	$.fn.includeJS(jsPath, 'contacts.js');
 	$.fn.includeJS(jsPath, 'hamza_style.js');
+        $.fn.includeJS(jsPath, 'societe.js');
 
 })(jQuery);

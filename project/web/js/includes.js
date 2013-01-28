@@ -41,6 +41,7 @@ yepnope
 							jsPath+'ajaxHelper.js?v='+date,
 							jsPath+'vrac.js?v='+date,
 							jsPath+'sv12.js?v='+date,
+                                                        jsPath+'societe.js?v='+date,
 							jsPath+'plugins/jquery.plugins.min.js?v='+date,
 							jsPath+'global.js?v='+date
 						],

@@ -9,6 +9,14 @@ class societeActions extends sfActions {
 	$json = $this->matchCompte(CompteAllView::getInstance()->findByInterpro($interpro, $q, $limit), $q, $limit);
         return $this->renderText(json_encode($json));
     }
+    
+     public function executeActifautocomplete(sfWebRequest $request) {
+        $interpro = $request->getParameter('interpro_id');
+	$q = $request->getParameter('q');
+	$limit = $request->getParameter('limit', 100);
+	$json = $this->matchCompte(CompteAllView::getInstance()->findByInterproAndStatut($interpro,$q, $limit, 'ACTIF'), $q, $limit);
+        return $this->renderText(json_encode($json));
+    }
 
     public function executeAutocomplete(sfWebRequest $request) {
         $interpro = $request->getParameter('interpro_id');

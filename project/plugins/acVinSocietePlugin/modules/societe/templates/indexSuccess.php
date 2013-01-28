@@ -1,4 +1,3 @@
-
     <!-- #principal -->
     <section id="principal">
         <p id="fil_ariane"><strong>Page d'accueil > Contacts</p>
@@ -12,7 +11,11 @@
 					<label for="contacts_identifiant">Recherche d'un société, d'un etablissement ou d'un interlocuteur :</label>
 					<?php echo $contactsForm['identifiant']->render(); ?>
 					<button id="btn_rechercher" type="submit">Chercher</button>
+                                        
+                                        <label for="contacts_all">Inclure les contacts suspendus </label>
+                                        <input id="contacts_all" name="contacts_all" type="checkbox" value="1"/>
 				</div>
+                                
 			</form>
         </section>
     </section>
