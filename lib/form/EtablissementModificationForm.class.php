@@ -19,8 +19,12 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->liaisons_operateurs = $etablissement->liaisons_operateurs;
         parent::__construct($etablissement, $options, $CSRFSecret);
         $this->setDefault('adresse_societe', (int) $etablissement->isSameContactThanSociete());
-        if($etablissement->isNew())
+        if($etablissement->isNew()){
             $this->setDefault('adresse_societe', 1);
+            if($etablissement->isViticulteur()){
+                $this->setDefault('exclusion_drm', 'non');
+            }
+        }
     }
 
     public function configure() {
@@ -136,7 +140,6 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
             $this->etablissement->switchOrigineAndSaveCompte($old_compte);
             $this->etablissement->save();
         }
-        
     }
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {
