@@ -2,10 +2,9 @@
 class RevendicationStocksView extends acCouchdbView
 {
     const KEY_CAMPAGNE = 0;
-    const KEY_SOCIETE_IDENTIFIANT = 1;
-    const KEY_ETABLISSEMENT_IDENTIFIANT = 2;
-    const KEY_PRODUIT_HASH = 3;
-    const KEY_ODG = 4;
+    const KEY_ETABLISSEMENT_IDENTIFIANT = 1;
+    const KEY_PRODUIT_HASH = 2;
+    const KEY_ODG = 3;
 
     const VALUE_VOLUME = 0;
     const VALUE_DECLARANT_NOM = 1;
@@ -16,11 +15,11 @@ class RevendicationStocksView extends acCouchdbView
         return acCouchdbManager::getView('revendication', 'stocks', 'Revendication');
     }
 
-    public function findByCampagneAndEtablissement($campagne, $societe_identifiant, $etablissement_identifiant) {    
+    public function findByCampagneAndEtablissement($campagne, $etablissement_identifiant) {    
 
         return $this->builds(
-                            $this->client->startkey(array($campagne, $societe_identifiant, $etablissement_identifiant))
-                            ->endkey(array($campagne, $societe_identifiant, $etablissement_identifiant, array()))
+                            $this->client->startkey(array($campagne, $etablissement_identifiant))
+                            ->endkey(array($campagne, $etablissement_identifiant, array()))
                             ->getView($this->design, $this->view)->rows
                             );
     }
@@ -39,7 +38,6 @@ class RevendicationStocksView extends acCouchdbView
     public function build($row) {
         $rev = new stdClass();
         $rev->campagne = $row->key[self::KEY_CAMPAGNE];
-        $rev->societe_identifiant = $row->key[self::KEY_SOCIETE_IDENTIFIANT];
         $rev->etablissement_identifiant = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT];
         $rev->declarant = new stdClass();
         $rev->declarant->nom = $row->value[self::VALUE_DECLARANT_NOM];

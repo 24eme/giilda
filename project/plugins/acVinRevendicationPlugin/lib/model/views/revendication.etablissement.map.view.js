@@ -5,7 +5,6 @@ function(doc) {
 
     for(identifiant in doc.datas) {
         revs = doc.datas[identifiant];
-        var societe = null;
         for(code_douane in revs.produits) {
             rev = revs.produits[code_douane];
             for(id_ligne in rev.volumes) {
