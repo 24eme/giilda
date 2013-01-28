@@ -15,6 +15,7 @@ Societe:
       code_naf: { }
       siret: { }
       interpro: { }
+      date_modification: { }
       no_tva_intracommunautaire: { }
       commentaire: { }
       siege:

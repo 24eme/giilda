@@ -17,6 +17,7 @@
  * @property string $code_naf
  * @property string $siret
  * @property string $interpro
+ * @property string $date_modification
  * @property string $no_tva_intracommunautaire
  * @property string $commentaire
  * @property acCouchdbJson $siege
@@ -52,6 +53,8 @@
  * @method string setSiret()
  * @method string getInterpro()
  * @method string setInterpro()
+ * @method string getDateModification()
+ * @method string setDateModification()
  * @method string getNoTvaIntracommunautaire()
  * @method string setNoTvaIntracommunautaire()
  * @method string getCommentaire()

@@ -1,3 +1,6 @@
+<?php
+use_helper('Date');
+?>
 <div id="detail_societe" class="form_section ouvert">
     <h3>Détail de la société </h3>  
     <div class="form_contenu">
@@ -6,6 +9,12 @@
                 Nom de la société : 
             </label>
             <?php echo $societe->raison_sociale; ?>
+        </div>
+        <div class="form_ligne">
+            <label for="date_modification">
+                Dernière date de modification : 
+            </label>
+            <?php echo format_date($societe->date_modification,'dd/MM/yyyy'); ?>
         </div>
         <div class="form_ligne">
             <label for="raison_sociale_abregee">
