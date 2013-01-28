@@ -9,8 +9,11 @@ class DSStocksView extends acCouchdbView
     const KEY_IDENTIFIANT = 5;
 
     const VALUE_VOLUME = 0;
-    const VALUE_DECLARANT_NOM = 1;
-    const VALUE_PRODUIT_LIBELLE = 2;
+    const VALUE_VOLUME_EN_ELABORATION = 1;
+    const VALUE_VOLUME_VCI = 2;
+    const VALUE_VOLUME_RESERVE_QUALITATIVE = 3;
+    const VALUE_DECLARANT_NOM = 4;
+    const VALUE_PRODUIT_LIBELLE = 5;
 
     public static function getInstance() {
 
