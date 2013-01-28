@@ -3,12 +3,11 @@ class RevendicationStocksODGView extends acCouchdbView
 {
     const KEY_CAMPAGNE = 0;
     const KEY_ODG = 1; 
-    const KEY_SOCIETE_IDENTIFIANT = 2;
-    const KEY_ETABLISSEMENT_IDENTIFIANT = 3;
-    const KEY_PRODUIT_HASH = 4;
-    const KEY_LIGNE_STATUT = 5;
-    const KEY_LIGNE_IDENTIFIANT = 6;
-    const KEY_LIGNE_CODE_DOUANE = 7;
+    const KEY_ETABLISSEMENT_IDENTIFIANT = 2;
+    const KEY_PRODUIT_HASH = 3;
+    const KEY_LIGNE_STATUT = 4;
+    const KEY_LIGNE_IDENTIFIANT = 5;
+    const KEY_LIGNE_CODE_DOUANE = 6;
 
     const VALUE_VOLUME = 0;
     const VALUE_DATE_CERTIFICATION = 1;
@@ -48,7 +47,6 @@ class RevendicationStocksODGView extends acCouchdbView
     public function build($row) {
         $rev = new stdClass();
         $rev->id = $row->id;
-        $rev->societe_identifiant = $row->key[self::KEY_SOCIETE_IDENTIFIANT];
         $rev->etablissement_identifiant = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT];
         $rev->declarant_nom = $row->value[self::VALUE_DECLARANT_NOM];
         $rev->declarant_cvi = $row->value[self::VALUE_DECLARANT_CVI];
