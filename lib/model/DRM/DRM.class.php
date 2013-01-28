@@ -379,7 +379,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     private function setDroit($type, $appellation) {
-        $configurationDroits = $appellation->getConfig()->interpro->get($this->getInterpro()->get('_id'))->droits->get($type)->getCurrentDroit($this->periode);
+        $configurationDroits = $appellation->getConfig()->interpro->get($this->getInterpro()->get('_id'))->droits->get($type)->getCurrentDroit($this->getDate());
         $droit = $appellation->droits->get($type);
         $droit->ratio = $configurationDroits->ratio;
         $droit->code = $configurationDroits->code;

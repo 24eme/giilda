@@ -151,7 +151,7 @@ class drmComponents extends sfComponents {
     	    $this->periode_fin = ConfigurationClient::getInstance()->getPeriodeLibelle($drm->periode);
         }
         
-        $revs = RevendicationStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
+        $revs = RevendicationStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, $this->etablissement->identifiant);
         foreach($revs as $rev) {
             if (!isset($this->recaps[$rev->produit_hash])) {
                 $this->recaps[$rev->produit_hash] = $this->initLigneRecap($rev->produit_hash);
