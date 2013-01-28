@@ -21,7 +21,7 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->setDefault('adresse_societe', (int) $etablissement->isSameContactThanSociete());
         if($etablissement->isNew()){
             $this->setDefault('adresse_societe', 1);
-            if($etablissement->isViticulteur()){
+            if($etablissement->isNew()){
                 $this->setDefault('exclusion_drm', 'non');
             }
         }
