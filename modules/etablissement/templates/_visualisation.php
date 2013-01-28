@@ -34,7 +34,13 @@ $typesLiaisons =  EtablissementClient::getTypesLiaisons();
             <label for="cvi">
                 CVI </label>
             <?php echo $etablissement->cvi; ?>
-        </div>                
+        </div>  
+        <div class="form_ligne">
+            <label for="region">
+                Région :
+            </label>
+            <?php echo $etablissement->region; ?>
+        </div>
         <div class="form_ligne">
             <label for="commune">
                 Ville :
