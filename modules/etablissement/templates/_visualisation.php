@@ -11,7 +11,7 @@ $typesLiaisons =  EtablissementClient::getTypesLiaisons();
             <label for="famille">
                 Type établissement 
             </label>
-            <?php echo $etablissement->famille; ?>
+            <?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?>
         </div>
         <div class="form_ligne">
             <label for="ordre">
