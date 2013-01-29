@@ -10,16 +10,16 @@ $typesLiaisons =  EtablissementClient::getTypesLiaisons();
 		</div>
         <div class="form_ligne">
             <label for="famille">
-                Type établissement 
+                Type établissement :
             </label>
             <?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?>
         </div>
-        <div class="form_ligne">
+<!--        <div class="form_ligne">
             <label for="ordre">
-                Ordre affichage 
+                Ordre affichage :
             </label> 
-            <?php echo $ordre; ?>
-        </div>
+            <?php //echo $ordre; ?>
+        </div>-->
         <div class="form_ligne"> 
             <label for="nom">
                 Nom du chai :
@@ -28,14 +28,16 @@ $typesLiaisons =  EtablissementClient::getTypesLiaisons();
         </div>
         <div class="form_ligne">
             <label for="statut">
-                Statut </label>
+                Statut :</label>
             <?php echo $etablissement->statut; ?>
         </div>
-        <div class="form_ligne"> 
-            <label for="cvi">
-                CVI </label>
-            <?php echo $etablissement->cvi; ?>
-        </div>  
+        <?php if($etablissement->cvi): ?>
+            <div class="form_ligne"> 
+                <label for="cvi">
+                    CVI :</label>
+                <?php echo $etablissement->cvi; ?>
+            </div>  
+        <?php endif; ?>
         <div class="form_ligne">
             <label for="region">
                 Région :

@@ -5,23 +5,20 @@
             <?php echo $etablissement->getSociete()->raison_sociale; ?></a> &gt;
         <strong>
             <?php echo $etablissement->nom; ?>
-        </strong></p>
-        <!-- #contenu_etape -->
+        </strong>
+        </p>
         <!-- #contenu_etape -->    
         <section id="contacts">
          <div id="nouveau_etablissement">
             <h2><?php echo $etablissement->nom; ?></h2>
-			
+            <div id="detail_etablissement" >
+                    <?php include_partial('etablissement/visualisation', array('etablissement' => $etablissement,'ordre' => 0)); ?>
+            </div>
 
-			
-				<div id="detail_etablissement" >
-					<?php include_partial('etablissement/visualisation', array('etablissement' => $etablissement,'ordre' => 0)); ?>
-				</div>
-            
-				<div id="coordonnees_etablissement" class="form_section ouvert">
-					<h3>Coordonnées de l'établissement</h3>
-					<?php include_partial('compte/coordonneesVisualisation', array('compte' => $contact)); ?>
-				</div>
+            <div id="coordonnees_etablissement" class="form_section ouvert">
+                    <h3>Coordonnées de l'établissement</h3>
+                    <?php include_partial('compte/coordonneesVisualisation', array('compte' => $contact)); ?>
+            </div>
          </div>
         </section>
     </section>
