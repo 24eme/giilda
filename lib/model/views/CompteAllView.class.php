@@ -35,22 +35,22 @@ class CompteAllView extends acCouchdbView {
     
     public function findByInterproAndStatut($interpro, $q = null, $limit = 100, $statut = CompteClient::STATUT_ACTIF) {
       try {
-	return $this->findByInterproELASTIC($interpro, $q, $limit);
+	return $this->findByInterproELASTIC($interpro, $q, $limit, array(sprintf('statut:%s', $statut)));
       }catch(Exception $e) {
 	return $this->findByInterproAndStatutVIEW($interpro, $statut);
       }
     }
 
-    private function findByInterproELASTIC($interpro, $qs = null, $limit = 100) {
+    private function findByInterproELASTIC($interpro, $qs = null, $limit = 100, $query = array()) {
       $index = acElasticaManager::getType('Compte');
       $q = new acElasticaQuery();
 
       if($qs) {
-	$query = array();
 	foreach(explode(' ', $qs) as $qs) {
 	  $query[] = '*'.$qs.'*';
 	}
-	$qs = implode(' ', $query);
+
+        $qs = implode(' ', $query);
 	$elasticaQueryString = new acElasticaQueryQueryString($qs);
 	$q->setQuery($elasticaQueryString);
       }
