@@ -40,7 +40,7 @@ class compteActions extends sfActions
             $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
             if ($this->compteForm->isValid()) {
                 $this->compteForm->save();
-                $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
+                $this->redirect('compte_visualisation',array('identifiant' => $this->compte->identifiant));
             }
         }
     }

@@ -90,6 +90,9 @@ class CompteModificationForm extends acCouchdbObjectForm {
         }
 
         $this->updateObject();
+        if($this->compte->isNew()){
+            $this->compte->statut = CompteClient::STATUT_ACTIF;
+        }
         if($this->compte->isSocieteContact())
         {
             $this->compte->statut = $this->compte->getSociete()->statut;
