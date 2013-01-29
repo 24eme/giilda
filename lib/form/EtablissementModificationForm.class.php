@@ -18,12 +18,11 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->etablissement = $etablissement;
         $this->liaisons_operateurs = $etablissement->liaisons_operateurs;
         parent::__construct($etablissement, $options, $CSRFSecret);
-        $this->setDefault('adresse_societe', (int) $etablissement->isSameContactThanSociete());
-        if($etablissement->isNew()){
+        if($this->etablissement->isNew()){
             $this->setDefault('adresse_societe', 1);
-            if($etablissement->isNew()){
-                $this->setDefault('exclusion_drm', 'non');
-            }
+            $this->setDefault('exclusion_drm', 'non');
+        }else{
+            $this->setDefault('adresse_societe', (int) $this->etablissement->isSameContactThanSociete());
         }
     }
 
@@ -55,12 +54,16 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
 
 
         if (!$this->etablissement->isCourtier()) {
+            $recette_locale = $this->getRecettesLocales();
             $this->setWidget('cvi', new sfWidgetFormInput());
             $this->setWidget('relance_ds', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
+            $this->setWidget('recette_locale_choice', new sfWidgetFormChoice(array('choices' => $recette_locale)));
             $this->widgetSchema->setLabel('cvi', 'CVI');
-            $this->widgetSchema->setLabel('relance_ds', 'Relance DS *');
+            $this->widgetSchema->setLabel('relance_ds', 'Relance DS *');            
+            $this->widgetSchema->setLabel('recette_locale_choice', 'Recette Locale *');
             $this->setValidator('cvi', new sfValidatorString(array('required' => false)));
-            $this->setValidator('relance_ds', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));
+            $this->setValidator('relance_ds', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));            
+            $this->setValidator('recette_locale_choice', new sfValidatorChoice(array('choices' => array_keys($recette_locale))));
             
             if (!$this->etablissement->isNegociant()) {
                 $this->setWidget('raisins_mouts', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
@@ -118,12 +121,15 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         
         $this->etablissement->remove('liaisons_operateurs');
         $this->etablissement->add('liaisons_operateurs');
-
+        
         foreach ($this->getEmbeddedForms() as $key => $form) {
 
             foreach ($this->values[$key] as $liaison) {
                 $this->etablissement->addLiaison($liaison['type_liaison'], EtablissementClient::getInstance()->find($liaison['id_etablissement']));
             }
+        }
+        if($this->values['recette_locale_choice']){
+            $this->etablissement->recette_locale->id_douane = $this->values['recette_locale_choice'];
         }
         $old_compte = $this->etablissement->compte;
         $switch = false;
@@ -172,6 +178,18 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         unset($this->embeddedForms[$key]);
         $this->liaisons_operateurs->remove($key);
     }
+
+    protected function getRecettesLocales() {        
+        $douanes = SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', SocieteClient::STATUT_ACTIF, array(SocieteClient::SUB_TYPE_DOUANE));
+
+        $douanesList = array();
+        foreach ($douanes as $key => $douane) {
+            $douaneObj = SocieteClient::getInstance()->find($douane->id);            
+            $douanesList[$douane->id] = $douane->key[SocieteAllView::KEY_RAISON_SOCIALE].' '.$douaneObj->siege->commune.' ('.$douaneObj->siege->code_postal.')';
+        }
+        return $douanesList;    
+    }
+
 
 }
 

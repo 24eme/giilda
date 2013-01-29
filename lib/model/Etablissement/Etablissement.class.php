@@ -154,6 +154,7 @@ class Etablissement extends BaseEtablissement {
             $soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
             if ($soc && $this->recette_locale->nom != $soc->raison_sociale) {
                 $this->recette_locale->nom = $soc->raison_sociale;
+                $this->recette_locale->ville = $soc->siege->commune;
             }
         }
     }

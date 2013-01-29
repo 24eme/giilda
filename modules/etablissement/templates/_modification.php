@@ -30,6 +30,12 @@
     endif;
     if (!$etablissement->isCourtier()) :
         ?>
+            <div class="form_ligne">
+                <?php echo $etablissementForm['recette_locale_choice']->renderLabel(); ?>
+                <?php echo $etablissementForm['recette_locale_choice']->render(array('class' => 'champ_long')); ?>
+    <?php echo $etablissementForm['recette_locale_choice']->renderError(); ?>
+            </div> 
+    
         <div class="form_ligne">
             <div class="form_colonne">
                 <?php echo $etablissementForm['relance_ds']->renderLabel(); ?>
