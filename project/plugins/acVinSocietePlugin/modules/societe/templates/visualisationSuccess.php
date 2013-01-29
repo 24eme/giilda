@@ -30,7 +30,7 @@
 				<?php endif; ?>
 				<?php
                                 foreach ($etablissements as $etablissementId => $etb) :
-                                        include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre));
+                                        include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre, 'fromSociete' => true));
                                 endforeach;
 				?>
 			</div>
