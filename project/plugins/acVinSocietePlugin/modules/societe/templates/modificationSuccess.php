@@ -1,6 +1,6 @@
 <!-- #principal -->
 <section id="principal">
-    <p id="fil_ariane"><a href="<?php echo url_for('societe'); ?>">Page d'accueil</a> &gt; Contact &gt; <strong><?php echo ($societe->isInCreation()) ? "Création d'une nouvelle société" : $societe->raison_sociale; ?></strong></p>
+    <p id="fil_ariane"><a href="<?php echo url_for('societe'); ?>">Page d'accueil</a> &gt; <strong><?php echo ($societe->isInCreation()) ? "Création d'une nouvelle société" : $societe->raison_sociale; ?></strong></p>
     <!-- #contacts -->
     <section id="contacts">
         <div id="creation_societe">

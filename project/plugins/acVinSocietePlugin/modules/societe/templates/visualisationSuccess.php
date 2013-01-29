@@ -2,7 +2,7 @@
 <div id="contenu">
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><a href="<?php echo url_for('societe');?>">Page d'accueil</a> &gt; Contacts &gt; <strong><?php echo $societe->raison_sociale; ?></strong></p>
+        <p id="fil_ariane"><a href="<?php echo url_for('societe');?>">Page d'accueil</a> &gt; <strong><?php echo $societe->raison_sociale; ?></strong></p>
 
         <!-- #contenu_etape -->
         <section id="contacts">
