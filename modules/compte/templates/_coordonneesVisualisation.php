@@ -8,12 +8,14 @@
                 </label>
                 <?php echo $compte->adresse; ?>
 	</div>
+    <?php if($compte->adresse_complementaire) : ?>
 	<div class="form_ligne">
 		<label for="adresse_complementaire">
 			Adresse complémentaire :
 		</label>
 		<?php echo $compte->adresse_complementaire; ?>
 	</div>
+    <?php endif; ?>
 	<div class="form_ligne">
 		<label for="code_postal">
 			Code postal :
@@ -25,13 +27,15 @@
 			Commune :
 		</label>
 		<?php echo $compte->commune; ?>
-	</div>                
+	</div>   
+    <?php if($compte->cedex) : ?>
 	<div class="form_ligne">
 		<label for="cedex">
 			Cedex :
 		</label>
 		<?php echo $compte->cedex; ?>
-	</div>                 
+	</div>       
+    <?php endif; ?>
 	<div class="form_ligne">
 		<label for="pays">
 			Pays :
@@ -43,38 +47,48 @@
 	<div class="form_ligne">
 		<legend>E-mail / téléphone / fax</legend>
 	</div>
+      <?php if($compte->email) : ?>
 	<div class="form_ligne">
 		<label for="email">
 			E-mail : 
 		</label>
 		<?php echo $compte->email; ?>
 	</div>
+    <?php endif; ?>
+      <?php if($compte->telephone_perso) : ?>
     	<div class="form_ligne">
 		<label for="telephone_perso">
 			Téléphone perso :
 		</label>
 		<?php echo $compte->telephone_perso; ?>
 	</div>
+     <?php endif; ?>
+      <?php if($compte->telephone_bureau) : ?>
 	<div class="form_ligne">
 		<label for="telephone_bureau">
 			Téléphone bureau :
 		</label>
 		<?php echo $compte->telephone_bureau; ?>
 	</div>
+     <?php endif; ?>
+      <?php if($compte->telephone_mobile) : ?>
 	<div class="form_ligne">
 		<label for="telephone_mobile">
 			Téléphone mobile :
 		</label>
 		<?php echo $compte->telephone_mobile; ?>
 	</div>
+     <?php endif; ?>
+      <?php if($compte->fax) : ?>
 	<div class="form_ligne">
 		<label for="fax">
 			Fax :
 		</label>
 		<?php echo $compte->fax; ?>
 	</div>
+     <?php endif; ?>
 </fieldset>
-<fieldset>
+<!--<fieldset>
 	<div class="form_ligne">
 		<legend>Tags - étiquettes</legend>
 	</div>
@@ -83,4 +97,4 @@
 		<ul class="tags">
                 </ul>
 	</div>
-</fieldset>
+</fieldset>-->
