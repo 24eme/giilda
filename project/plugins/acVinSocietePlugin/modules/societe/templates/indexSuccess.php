@@ -12,8 +12,8 @@
 					<?php echo $contactsForm['identifiant']->render(); ?>
 					<button id="btn_rechercher" type="submit">Chercher</button>
                                         
-                                        <label for="contacts_all">Inclure les contacts suspendus </label>
-                                        <input id="contacts_all" name="contacts_all" type="checkbox" value="1"/>
+					<label for="contacts_all">Inclure les contacts suspendus </label>
+					<input id="contacts_all" name="contacts_all" type="checkbox" value="1" />
 				</div>
                                 
 			</form>
@@ -22,7 +22,7 @@
 <?php
 slot('colButtons'); 
 ?>
- <div class="bloc_col" >
+ <div id="action" class="bloc_col" >
             <h2>Actions</h2>
 
             <div class="contenu">

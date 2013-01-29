@@ -12,14 +12,14 @@
                 <?php if ($raison_sociale) : ?>
                     <div class="error"> Attention, la société saisie correspond a une société existante!</div>  
                 <?php endif; ?>
-                <div class="section_label_maj <?php echo ($raison_sociale) ? 'errors' : '' ?>" id="recherche_societe">
+                <div class="section_label_maj <?php echo ($raison_sociale) ? 'errors' : '' ?>">
                     <?php
                     echo $form['raison_sociale']->renderError();
                     echo $form['raison_sociale']->renderLabel();
                     echo $form['raison_sociale']->render();
                     ?>
                 </div>
-                <div class="section_label_maj" id="recherche_societe">
+                <div class="section_label_maj">
                     <?php echo $form['type']->renderError(); ?>
                     <?php echo $form['type']->renderLabel(); ?>
                     <?php echo $form['type']->render(); ?>

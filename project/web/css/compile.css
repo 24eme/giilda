@@ -847,6 +847,10 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   display:inline;
   zoom:1;
 }
+.error_list {
+  color:red;
+  font-size:14px;
+}
 .section-titre {
   text-transform:uppercase;
   display:inline-block;
@@ -1438,6 +1442,8 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 }
 #contenu_etape #recherche_societe span#recherche_avancee:after { clear:both; }
 #contenu_etape #recherche_societe span#recherche_avancee:hover, #contenu_etape #recherche_societe span#recherche_avancee:focus { text-decoration:none; }
+#contenu_etape #recherche_societe .section_label_maj { padding:10px; }
+#contenu_etape #recherche_societe .section_label_maj label { padding-right:10px; }
 .hamza_style {
   background:#ecebeb;
   margin:0 0 15px;
@@ -1696,7 +1702,10 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   height:17px;
   padding:0 5px;
 }
-#action .btn_majeur { width:215px; }
+#action .btn_majeur {
+  margin:5px 0;
+  width:215px;
+}
 #action .btn_acces:after {
   background-position:25px -466px;
   width:50px;
@@ -1767,6 +1776,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 #infos_contact .contenu > ul > li ul { padding:0 0 0 22px; }
 #infos_contact .contenu > ul > li ul li {
   margin:10px 0;
+  min-height:20px;
   padding:0 0 0 28px;
 }
 #infos_contact .contenu > ul > li ul li:before {
@@ -1789,10 +1799,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
   color:#e65658;
 }
 #infos_contact .contenu > ul > li ul li.email a:hover, #infos_contact .contenu > ul > li ul li.email a:focus { text-decoration:none; }
-#contenu_etape .error_list {
-  color:red;
-  float:right;
-}
+#contenu_etape .error_list { float:right; }
 #contenu_etape .col {
   float:left;
   vertical-align:top;
@@ -2026,7 +2033,6 @@ bouton#contenu_etape #vrac_soussigne .btnModification .modification_div a { heig
 }
 #contenu_etape #vrac_soussigne .btnModification .modification_div a:after { background-position:3px -362px; }
 #contenu_etape #vrac_soussigne .error_list {
-  color:red;
   width:100%;
   float:right;
 }
@@ -2317,7 +2323,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #colonne #contrats_similaires_list #millesime { padding-left:5px; }
 #colonne #contrats_similaires_list .separateur { background:url('../images/fonds/bg_colonne_separateur.png') right no-repeat; }
 #colonne #contrats_similaires_list .legende_contrat { margin-bottom:10px; }
-#colonne #contrat_actions a { margin:5px 0; }
 #colonne #contrat_actions .btn_nouveau { padding-left:27px; }
 #contrat_similaire_popup h2, #contrat_similaire_popup .legende_contrat { display:none; }
 #contrat_similaire_popup #ligne_btn {
@@ -2709,6 +2714,10 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   display:none;
 }
 #vrac_soussigne .btnModification .btn_modifier, #vrac_soussigne .btnModification .btn_valider { float:right; }
+#contacts #coordonnees_societe h3, #contacts #detail_societe h3 {
+  background:#ecebeb url('../images/pictos/pi_societe.png') 40px center no-repeat;
+  padding-left:75px;
+}
 #contacts #enseignes_list { padding-left:146px; }
 #contacts .etablissement h3:first-child {
   background:#f2d6be url('../images/pictos/pi_etablissement.png') 37px center no-repeat;
@@ -2718,8 +2727,8 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #contacts .etablissement .form_contenu { background:#faf0e7; }
 #contacts .ferme h3:before { background:url("../images/pictos/fleche_col_groupe_ferme.png") no-repeat; }
 #contacts .form_modifier {
-  margin:20px;
   float:right;
+  margin:13px 0 0;
 }
 #contacts .form_btn { margin:28px 0; }
 #contacts .form_btn .btn_valider { margin:0 0 0 470px; }
@@ -2738,7 +2747,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #contacts .form_ligne:after { clear:both; }
 #contacts .form_section {
   border:1px solid #d2d2d2;
-  margin:0 0;
+  margin:0 0 35px;
 }
 #contacts .form_section .champ_long { width:425px; }
 #contacts .form_section .btn_ajouter_ligne_template {
@@ -2835,89 +2844,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   width:auto;
 }
 #contacts .ouvert h3:before { background:url("../images/pictos/fleche_col_groupe_ouvert.png") no-repeat; }
-#creation_societe h2:before, #visu_societe h2:before {
-  background:url("../images/pictos/societe.png") no-repeat;
-  height:36px;
-  width:32px;
-}
-#detail_etablissement .conteneur_societe .form_colonne:first-child + .form_colonne, #detail_etablissement .conteneur_enseigne .form_colonne:first-child + .form_colonne, #detail_societe .conteneur_societe .form_colonne:first-child + .form_colonne, #detail_societe .conteneur_enseigne .form_colonne:first-child + .form_colonne { padding-left:0; }
-#detail_etablissement .form_colonne:first-child + .form_colonne, #detail_societe .form_colonne:first-child + .form_colonne { padding:0 0 0 35px; }
-#coordonnees_societe .form_ligne .meme_adresse, #coordonnees_etablissement .form_ligne .meme_adresse, #coordonnees_contact .form_ligne .meme_adresse {
-  font-weight:normal;
-  width:250px;
-}
-#coordonnees_societe label, #coordonnees_etablissement label, #coordonnees_contact label { width:187px; }
-#visu_societe .btn_haut {
-  background:#ecebeb;
-  margin:10px 0;
-  padding:7px 0 7px 10px;
-}
-#visu_societe .btn_haut .btn_majeur {
-  background-position:0 -182px;
-  color:#ffffff;
-  padding-left:40px;
-}
-#visu_societe .btn_haut .btn_majeur:before {
-  bottom:auto;
-  left:8px;
-  position:absolute;
-  right:auto;
-  top:4px;
-  background:url("../images/boutons/btn_etablissement.png") no-repeat;
-  content:"";
-  height:16px;
-  width:23px;
-}
-#visu_societe .btn_haut .btn_majeur:first-child {
-  background-position:0 -156px;
-  margin-right:16px;
-  padding-left:43px;
-}
-#visu_societe .btn_haut .btn_majeur:first-child:before {
-  bottom:auto;
-  left:12px;
-  position:absolute;
-  right:auto;
-  top:3px;
-  background:url("../images/boutons/btn_contact.png") no-repeat;
-  content:"";
-  height:19px;
-  width:17px;
-}
-#visu_societe .infos_societe { padding:0 0 10px 0; }
-#visu_societe .infos_societe .btn_modifier { margin:0 0 0 270px; }
-#visu_societe .infos_societe p {
-  float:left;
-  font-style:italic;
-}
-#visu_societe .form_colonne:first-child + .form_colonne label { width:auto; }
-#visu_societe .form_colonne:first-child + .form_colonne label:first-child { width:82px; }
-#visu_societe label { width:145px; }
-#detail_societe label { width:148px; }
-#nouveau_contact .form_section .form_contenu { background:#e9f1f9; }
-#nouveau_contact .form_section h3 { background:#cfe1f1; }
-#nouveau_contact h2:before {
-  background:url("../images/pictos/contact.png") no-repeat;
-  height:35px;
-  width:30px;
-}
-#detail_contact .form_ligne:first-child label { width:65px; }
-#detail_contact .form_ligne:first-child .form_colonne:first-child + .form_colonne label {
-  margin:0 0 0 241px;
-  width:120px;
-}
-#detail_contact .form_ligne:first-child .form_colonne:first-child + .form_colonne select { width:69px; }
-#detail_contact label { width:187px; }
-#nouveau_etablissement h2:before {
-  background:url("../images/pictos/etablissement.png") no-repeat;
-  height:24px;
-  top:-2px;
-  width:36px;
-}
-#detail_etablissement #detail_etablissement_region_viticole { width:134px; }
-#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 60px; }
-#detail_etablissement .form_colonne:first-child + .form_colonne label { width:125px; }
-#detail_etablissement label { width:190px; }
 #contacts .tags {
   zoom:1;
   min-height:1px;
@@ -2970,6 +2896,89 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   right:auto;
   top:0;
 }
+#creation_societe h2:before, #visu_societe h2:before {
+  background:url("../images/pictos/societe.png") no-repeat;
+  height:36px;
+  width:32px;
+}
+#detail_etablissement .conteneur_societe .form_colonne:first-child + .form_colonne, #detail_etablissement .conteneur_enseigne .form_colonne:first-child + .form_colonne, #detail_societe .conteneur_societe .form_colonne:first-child + .form_colonne, #detail_societe .conteneur_enseigne .form_colonne:first-child + .form_colonne { padding-left:0; }
+#detail_etablissement .form_colonne:first-child + .form_colonne, #detail_societe .form_colonne:first-child + .form_colonne { padding:0 0 0 35px; }
+#coordonnees_societe .form_ligne .meme_adresse, #coordonnees_etablissement .form_ligne .meme_adresse, #coordonnees_contact .form_ligne .meme_adresse {
+  font-weight:normal;
+  width:250px;
+}
+#coordonnees_societe label, #coordonnees_etablissement label, #coordonnees_contact label { width:187px; }
+#detail_societe label { width:148px; }
+#visu_societe .btn_haut {
+  background:#ecebeb;
+  margin:10px 0;
+  padding:7px 0 7px 10px;
+}
+#visu_societe .btn_haut .btn_majeur {
+  background-position:0 -182px;
+  color:#ffffff;
+  padding-left:40px;
+}
+#visu_societe .btn_haut .btn_majeur:before {
+  bottom:auto;
+  left:8px;
+  position:absolute;
+  right:auto;
+  top:4px;
+  background:url("../images/boutons/btn_etablissement.png") no-repeat;
+  content:"";
+  height:16px;
+  width:23px;
+}
+#visu_societe .btn_haut .btn_majeur:first-child {
+  background-position:0 -156px;
+  margin-right:16px;
+  padding-left:43px;
+}
+#visu_societe .btn_haut .btn_majeur:first-child:before {
+  bottom:auto;
+  left:12px;
+  position:absolute;
+  right:auto;
+  top:3px;
+  background:url("../images/boutons/btn_contact.png") no-repeat;
+  content:"";
+  height:19px;
+  width:17px;
+}
+#visu_societe .infos_societe { padding:0 0 10px 0; }
+#visu_societe .infos_societe .btn_modifier { margin:0 0 0 270px; }
+#visu_societe .infos_societe p {
+  float:left;
+  font-style:italic;
+}
+#visu_societe .form_colonne:first-child + .form_colonne label { width:auto; }
+#visu_societe .form_colonne:first-child + .form_colonne label:first-child { width:82px; }
+#visu_societe label { width:145px; }
+#nouveau_contact .form_section .form_contenu { background:#e9f1f9; }
+#nouveau_contact .form_section h3 { background:#cfe1f1; }
+#nouveau_contact h2:before {
+  background:url("../images/pictos/contact.png") no-repeat;
+  height:35px;
+  width:30px;
+}
+#detail_contact .form_ligne:first-child label { width:65px; }
+#detail_contact .form_ligne:first-child .form_colonne:first-child + .form_colonne label {
+  margin:0 0 0 241px;
+  width:120px;
+}
+#detail_contact .form_ligne:first-child .form_colonne:first-child + .form_colonne select { width:69px; }
+#detail_contact label { width:187px; }
+#nouveau_etablissement h2:before {
+  background:url("../images/pictos/etablissement.png") no-repeat;
+  height:24px;
+  top:-2px;
+  width:36px;
+}
+#detail_etablissement #detail_etablissement_region_viticole { width:134px; }
+#detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 60px; }
+#detail_etablissement .form_colonne:first-child + .form_colonne label { width:125px; }
+#detail_etablissement label { width:190px; }
 .recherche_contact { position:relative; }
 .recherche_contact .btn_excel { margin:0 0 0 255px; }
 .recherche_contact #btn_rechercher {
@@ -3060,6 +3069,7 @@ bouton.recherche_contact #btn_rechercher { height:26px; }
 #colonne #infos_contact h2 { background:#76a8d7; }
 #colonne #infos_contact h2:before { border-color:transparent transparent #376ea2 transparent; }
 #colonne #infos_contact .societe:before { background-position:0 -539px; }
+#colonne #infos_contact .tel_mobile:before { background-position:0 -125px; }
 #contacts_actions li { text-align:center; }
 #contacts_actions li button {
   padding-left:30px;

@@ -13,6 +13,17 @@
 #contacts
 {
 
+	/* Blocs société */
+	#coordonnees_societe,
+	#detail_societe
+	{	
+		h3
+		{
+			background: @couleur-a5 url('../images/pictos/pi_societe.png') 40px center no-repeat;
+			padding-left: 75px;
+		}
+	}
+
 	#enseignes_list { padding-left: 146px; }
 
 	/* Blocs établissement */
@@ -36,10 +47,14 @@
 			&:before { background: url("../images/pictos/fleche_col_groupe_ferme.png") no-repeat; }
 		}
 	}
-	.form_modifier {
-		margin: 20px;
+
+
+	.form_modifier 
+	{
 		float: right;
-        }
+		margin: 13px 0 0;
+	}
+
 	.form_btn 
 	{ 
 		margin: 28px 0;
@@ -57,7 +72,7 @@
 	{
 		.border(@couleur-a9);
 		.champ_long { width: 425px; }
-		margin: 0 0;
+		margin: 0 0 35px;
 		
 		/* bouton d'ajout de champ */
 		.btn_ajouter_ligne_template
@@ -192,6 +207,47 @@
 			&:before { background: url("../images/pictos/fleche_col_groupe_ouvert.png") no-repeat; }
 		}
 	}
+
+	/* Champs tags */
+	.tags
+	{
+		.clearfix;
+		float: left;
+		position: relative;
+		width: 425px;
+
+		input
+		{
+			background: @couleur-a1;
+			padding: 5px;
+			width: auto;
+		}
+
+		.tagit-choice
+		{
+			.inline-block-ie;
+			margin: 0 25px 10px 0;
+			padding: 0 0 0 26px;
+			position: relative;
+			text-decoration: underline;
+			top: 40px;
+		}
+
+		.tagit-close
+		{
+			.pos-abs(-2px, auto, auto, 0);
+			background: url('../images/pictos/pi_suppression.png') 0 center no-repeat;
+			cursor: pointer;
+			display: inline-block;
+			height: 21px;
+			text-indent: -9999px;
+			width: 20px;
+		}
+
+		.tagit-new 
+		{ .pos-abs(0, auto, auto, 0); }
+
+	}
 }
 
 #creation_societe,
@@ -211,7 +267,6 @@
 #detail_etablissement,
 #detail_societe
 {
-
 	.conteneur_societe,
 	.conteneur_enseigne
 	{
@@ -225,7 +280,7 @@
 
 
 /**
- * Coordonnées
+ * Blocs coordonnées
  ******************************************/
 
 #coordonnees_societe,
@@ -247,6 +302,11 @@
 /**
 * Société
 ******************************************/
+
+#detail_societe
+{
+	label { width: 148px; }
+}
 
 /* Fiche d'une société */	 
 #visu_societe
@@ -312,11 +372,6 @@
 	}
 	
 	label { width: 145px; }
-}
-
-#detail_societe
-{
-	label { width: 148px; }
 }
 
 
@@ -396,53 +451,6 @@
 	}
 
 	label { width: 190px; }
-}
-
-/**
-* Champ tags
-******************************************/
-
-#contacts
-{
-	.tags
-	{
-		.clearfix;
-		float: left;
-		position: relative;
-		width: 425px;
-
-		input
-		{
-			background: @couleur-a1;
-			padding: 5px;
-			width: auto;
-		}
-
-		.tagit-choice
-		{
-			.inline-block-ie;
-			margin: 0 25px 10px 0;
-			padding: 0 0 0 26px;
-			position: relative;
-			text-decoration: underline;
-			top: 40px;
-		}
-
-		.tagit-close
-		{
-			.pos-abs(-2px, auto, auto, 0);
-			background: url('../images/pictos/pi_suppression.png') 0 center no-repeat;
-			cursor: pointer;
-			display: inline-block;
-			height: 21px;
-			text-indent: -9999px;
-			width: 20px;
-		}
-
-		.tagit-new 
-		{ .pos-abs(0, auto, auto, 0); }
-
-	}
 }
 
 /**
@@ -558,6 +566,14 @@
 			&:before
 			{
 				background-position: 0 -539px;
+			}
+		}
+
+		.tel_mobile
+		{	
+			&:before
+			{
+				background-position: 0 -125px;
 			}
 		}
 	}

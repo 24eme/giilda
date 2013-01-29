@@ -4,6 +4,9 @@ use_helper('Date');
 <div id="detail_societe" class="form_section ouvert">
     <h3>Détail de la société </h3>  
     <div class="form_contenu">
+		<div class="form_modifier">
+			<a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_modifier">Modifier</a>
+		</div>
         <div class="form_ligne">
             <label for="raison_sociale">
                 Nom de la société : 
