@@ -19,13 +19,19 @@
 				</div>
 				
 				<?php include_partial('visualisationPanel', array('societe' => $societe)); ?>
-				
+                                <div id="detail_societe_coordonnees" class="form_section ouvert">
+					<h3>Coordonnées de la société</h3>
+					<div class="form_contenu">
+                                            <?php include_partial('compte/coordonneesVisualisation', array('compte' => $societe->getMasterCompte())); ?>
+					</div>
+				</div>
+                                
 				<?php if(count($etablissements)): ?>
 				<?php endif; ?>
 				<?php
-					foreach ($etablissements as $etablissementId => $etb) :
-						include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre));
-					endforeach;
+                                foreach ($etablissements as $etablissementId => $etb) :
+                                        include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre));
+                                endforeach;
 				?>
 			</div>
     </section>
