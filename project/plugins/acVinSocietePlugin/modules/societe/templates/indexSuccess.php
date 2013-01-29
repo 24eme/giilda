@@ -1,6 +1,6 @@
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><strong>Page d'accueil > Contacts</p>
+        <p id="fil_ariane"><strong>Page d'accueil</p>
 
         <!-- #contenu_etape -->
         <section id="contenu_etape">
