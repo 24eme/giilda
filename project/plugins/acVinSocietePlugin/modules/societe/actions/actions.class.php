@@ -14,7 +14,7 @@ class societeActions extends sfActions {
         $interpro = $request->getParameter('interpro_id');
 	$q = $request->getParameter('q');
 	$limit = $request->getParameter('limit', 100);
-	$json = $this->matchCompte(CompteAllView::getInstance()->findByInterproAndStatut($interpro,$q, $limit, 'ACTIF'), $q, $limit);
+	$json = $this->matchCompte(CompteAllView::getInstance()->findByInterproAndStatut($interpro,$q, $limit, SocieteClient::STATUT_ACTIF), $q, $limit);
         return $this->renderText(json_encode($json));
     }
 
@@ -22,7 +22,7 @@ class societeActions extends sfActions {
         $interpro = $request->getParameter('interpro_id');
 	$q = $request->getParameter('q');
 	$limit = $request->getParameter('limit', 100);
-	$societes = SocieteAllView::getInstance()->findByInterproAndStatut($interpro, 'ACTIF', array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT), $q, $limit);
+	$societes = SocieteAllView::getInstance()->findByInterproAndStatut($interpro, SocieteClient::STATUT_ACTIF, array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT), $q, $limit);
         $json = $this->matchSociete($societes, $q, $limit);
         return $this->renderText(json_encode($json));
     }
