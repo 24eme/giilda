@@ -6,9 +6,16 @@ if (!$etablissement->isNew() && $etablissement == EtablissementClient::STATUT_AC
 ?>
 <!-- #principal -->
 <section id="principal">
-    <p id="fil_ariane"><a href="<?php echo url_for('societe'); ?>">Page d'accueil</a> &gt; Contacts
+    <p id="fil_ariane"><a href="<?php echo url_for('societe'); ?>">Page d'accueil</a>
         &gt; <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>">
-            <?php echo $societe->raison_sociale; ?></a> &gt;
+            <?php echo $societe->raison_sociale; ?></a> 
+            &gt;
+            <?php if(!$etablissement->isNew()) : ?>
+            <a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>">
+                <?php echo $etablissement->nom; ?>
+            </a>
+            &gt;
+            <?php endif; ?>
         <strong>
             <?php echo ($etablissement->isNew()) ? 'Nouvel établissement' : 'Modification établissement'; ?>
         </strong></p>

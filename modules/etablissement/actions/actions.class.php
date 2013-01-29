@@ -22,7 +22,7 @@ class etablissementActions extends sfActions {
             if ($this->etablissementModificationForm->isValid() ){
                 $this->etablissementModificationForm->save();
                 if($this->etablissementModificationForm->getValue('adresse_societe')){
-                     $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
+                     $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablissement->identifiant));
                 }
                 else{
                     $this->redirect('compte_etablissement_modification', $this->etablissement->getMasterCompte());
