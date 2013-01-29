@@ -18,10 +18,6 @@
 					<?php endif;?>
 				</div>
 				
-				<div class="infos_societe">
-					<a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_modifier">Modifier</a>
-				</div>
-				
 				<?php include_partial('visualisationPanel', array('societe' => $societe)); ?>
 				
 				<?php if(count($etablissements)): ?>
@@ -44,19 +40,15 @@ slot('colButtons');
         <div class="btnRetourAccueil">
             <a href="<?php echo url_for('societe'); ?>" class="btn_majeur btn_acces"><span>Retour à l'accueil</span></a>
         </div>
-    </div>
-    <div class="contenu">
         <div class="btnRetourAccueil">
             <a href="<?php echo url_for('compte_ajout',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel interlocuteur</span></a>
         </div>
-    </div>
-    <?php if($societe->canHaveChais()) : ?>  
-    <div class="contenu">
-        <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('etablissement_ajout',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel etablissement</span></a>
-        </div>
-    </div>
-    <?php  endif; ?>
+		<?php if($societe->canHaveChais()) : ?>  
+			<div class="btnRetourAccueil">
+				<a href="<?php echo url_for('etablissement_ajout',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel etablissement</span></a>
+			</div>
+		<?php  endif; ?>
+	</div>
 </div>
 <?php
 end_slot();
