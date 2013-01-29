@@ -2722,7 +2722,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   float:right;
 }
 #contacts .form_btn { margin:28px 0; }
-#contacts .form_btn .btn_valider { margin:0 0 0 470px; }
+#contacts .form_btn .btn_valider { float:right; }
 #contacts .form_ligne {
   zoom:1;
   min-height:1px;
