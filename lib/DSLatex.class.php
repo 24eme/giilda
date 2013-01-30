@@ -58,7 +58,7 @@ class DSLatex {
     $output = array();
     exec($cmdCompileLatex, $output, $ret);
     $output = implode(' ', $output);
-    if (!preg_match('/Transcript written/', $output)) {
+    if (!preg_match('/Transcript written/', $output) || preg_match('/Fatal error/', $output)) {
       throw new sfException($output);
     }
     if ($ret) {
@@ -70,7 +70,11 @@ class DSLatex {
               throw new sfException(implode(' ', $grep));
       }
     }
-    return $this->getLatexFileNameWithoutExtention().'.pdf';
+    $pdfpath = $this->getLatexFileNameWithoutExtention().'.pdf';
+    if (!file_exists($pdfpath)) {
+      throw new sfException("pdf not created ($pdfpath): ".$output);
+    }
+    return $pdfpath;
   }
 
   private function cleanPDF() {
@@ -91,7 +95,12 @@ class DSLatex {
     if(file_exists($filename))
       return $filename;
     $tmpfile = $this->generatePDF();
-    rename($tmpfile, $filename);
+    if (!file_exists($tmpfile)) {
+      throw new sfException("pdf not created :(");
+    }
+    if (!rename($tmpfile, $filename)) {
+      throw new sfException("not possible to rename $tmpfile to $filename");
+    }
     $this->cleanPDF();
     return $filename;
   }
