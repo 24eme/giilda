@@ -1,4 +1,5 @@
 <?php
+use_helper('Etablissement');
 $typesLiaisons =  EtablissementClient::getTypesLiaisons();
 if(!isset($fromSociete)) $fromSociete = false;
 ?>
@@ -44,11 +45,49 @@ if(!isset($fromSociete)) $fromSociete = false;
                 <?php echo $etablissement->recette_locale->nom; ?>
             </div>  
         <?php endif; ?>
+        <?php if (!$fromSociete && $etablissement->raisins_mouts) : ?>
+            <div class="form_ligne">                   
+                <label for="raisins_mouts">
+                    Raisins et moûts : 
+                </label>
+            <?php echo $etablissement->raisins_mouts; ?>
+            </div>  
+        <?php endif; ?>             
+        <?php if (!$fromSociete && $etablissement->exclusion_drm) : ?>
+            <div class="form_ligne"> 
+                <label for="exclusion_drm">
+                    Exclusion DRM : 
+                </label>
+                <?php echo $etablissement->exclusion_drm; ?>
+            </div>  
+        <?php endif; ?>
+        <?php if (!$fromSociete && $etablissement->type_dr) : ?>
+            <div class="form_ligne"> 
+                <label for="type_dr">
+                    Type DR : 
+                </label>
+                <?php echo $etablissement->type_dr; ?>
+            </div>  
+        <?php endif; ?>
         <?php if($etablissement->cvi): ?>
             <div class="form_ligne"> 
                 <label for="cvi">
                     CVI :</label>
                 <?php echo $etablissement->cvi; ?>
+            </div>  
+        <?php endif; ?>
+        <?php if($etablissement->no_accises): ?>
+            <div class="form_ligne"> 
+                <label for="no_accises">
+                    Numéro d'accises :</label>
+                <?php echo $etablissement->no_accises; ?>
+            </div>  
+        <?php endif; ?>
+        <?php if(!$fromSociete && $etablissement->site_fiche): ?>
+            <div class="form_ligne"> 
+                <label for="site_fiche">
+                    Site fiche :</label>
+                <?php echo $etablissement->site_fiche; ?>
             </div>  
         <?php endif; ?>
         <div class="form_ligne">
@@ -63,7 +102,20 @@ if(!isset($fromSociete)) $fromSociete = false;
             </label>
             <?php echo $etablissement->siege->commune; ?>
         </div>
-        <?php if (count($etablissement->liaisons_operateurs) > 0) : ?> 
+            <div class="form_ligne"> 
+                <label for="adresse_societe">
+                    Adresse de la société :</label>
+                <?php echo display_adresse_societe($etablissement); ?>
+            </div>  
+        <?php if(!$fromSociete && $etablissement->commentaire): ?>
+            <div class="form_ligne"> 
+                <label for="commentaire">
+                    Commentaire :</label>
+                <?php echo $etablissement->commentaire; ?>
+            </div>  
+        <?php endif; ?>
+
+        <?php if (!$fromSociete && count($etablissement->liaisons_operateurs) > 0) : ?> 
             <div class="form_ligne">
                 <legend>
                     Liaisons opérateurs :
