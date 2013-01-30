@@ -20,7 +20,8 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         parent::__construct($etablissement, $options, $CSRFSecret);
         if($this->etablissement->isNew()){
             $this->setDefault('adresse_societe', 1);
-            $this->setDefault('exclusion_drm', 'non');
+            $this->setDefault('exclusion_drm', 'non');            
+            $this->setDefault('raisins_mouts', 'non');
         }else{
             $this->setDefault('adresse_societe', (int) $this->etablissement->isSameContactThanSociete());
         }
