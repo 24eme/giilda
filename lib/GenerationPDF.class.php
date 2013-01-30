@@ -11,11 +11,20 @@ class GenerationPDF {
     $this->options = $options;
   }
 
+  private function doesPDFsExist($pdffiles) {
+    foreach($pdffiles as $file) {
+      if (!file_exists($file)) {
+	throw new sfException("$file does not exist :(");
+      }
+    }
+  }
+
   function concatenatePDFs($pdffiles) {
     if (!count($pdffiles)) {
       return null;
     }
     $fileres = rand().".pdf";
+    $this->doesPDFsExist($pdffiles);
     file_put_contents("/tmp/$fileres.sh", '/usr/bin/pdftk "'.implode('" "', $pdffiles).'" cat output "'.$fileres.'"');
     $str = system('bash /tmp/'.$fileres.'.sh 2>&1');
     if ($str) {
@@ -46,8 +55,13 @@ class GenerationPDF {
   private function generatePDFFiles($pdfs) {
     $files = array();
     foreach ($pdfs as $pdf) {
-      if ($pdf)
-	$files[] = $pdf->getPDFFile();
+      if ($pdf) {
+	$file = $pdf->getPDFFile();
+	if (!file_exists($file)) {
+	  throw new sfException("$file doesn't exist");
+	}
+	$files[] = $file;
+      }
     }
     return $files;
   }
