@@ -25,10 +25,6 @@
 						<?php include_partial('coordonneesVisualisation', array('compte' => $compte)); ?>
 					</div>
 				</div>
-			<div class="form_btn">
-				<button class="btn_majeur btn_annuler">Annuler</button>
-				<button class="btn_majeur btn_valider">Valider</button>
-			</div>
 		</div>
 	</section>
 </section>

@@ -84,7 +84,7 @@
 		<?php echo $compteForm['fax']->renderError(); ?>
 	</div>
 </fieldset>
-<fieldset>
+<!--<fieldset>
 	<div class="form_ligne">
 		<legend>Tags - étiquettes</legend>
 	</div>
@@ -92,7 +92,7 @@
 		<label for="tags" class="label_liste">Tags</label>
 		<ul class="tags"></ul>
 	</div>
-</fieldset>
+</fieldset>-->
 
 <!--  <div class="section_label_maj" id="tags">
 <?php //echo $compteForm['tags']->renderLabel(); ?>
