@@ -2714,7 +2714,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   display:none;
 }
 #vrac_soussigne .btnModification .btn_modifier, #vrac_soussigne .btnModification .btn_valider { float:right; }
-#contacts #coordonnees_societe h3, #contacts #detail_societe h3 {
+#contacts #coordonnees_societe h3, #contacts #detail_societe h3, #contacts #detail_societe_coordonnees h3 {
   background:#ecebeb url('../images/pictos/pi_societe.png') 40px center no-repeat;
   padding-left:75px;
 }

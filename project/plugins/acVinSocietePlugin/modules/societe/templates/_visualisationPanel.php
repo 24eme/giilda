@@ -13,18 +13,27 @@ use_helper('Date');
             </label>
             <?php echo $societe->raison_sociale; ?>
         </div>
+         <div class="form_ligne">
+            <label for="date_creation">
+                Date de création : 
+            </label>
+            <?php echo format_date($societe->date_creation,'dd/MM/yyyy'); ?>
+        </div>
+        
         <div class="form_ligne">
             <label for="date_modification">
                 Dernière date de modification : 
             </label>
             <?php echo format_date($societe->date_modification,'dd/MM/yyyy'); ?>
         </div>
-        <div class="form_ligne">
-            <label for="raison_sociale_abregee">
-                Abrégé : 
-            </label>
-            <?php echo $societe->raison_sociale_abregee; ?>
-        </div>
+        <?php if($societe->raison_sociale_abregee) : ?>
+            <div class="form_ligne">
+                <label for="raison_sociale_abregee">
+                    Abrégé : 
+                </label>
+                <?php echo $societe->raison_sociale_abregee; ?>
+            </div>
+        <?php endif; ?>        
         <div class="form_ligne">
             <label for="statut">
                 Statut : 
@@ -32,7 +41,7 @@ use_helper('Date');
             <?php echo $societe->statut; ?>
         </div>
         <div class="form_ligne">
-            <label for="statut">
+            <label for="type_societe">
                 Type : 
             </label>
             <?php echo $societe->type_societe; ?>
@@ -54,18 +63,23 @@ use_helper('Date');
                 <?php echo $societe->code_comptable_fournisseur; ?>
             </div>  
         <?php endif; ?>
-        <div class="form_ligne">
-            <label for="siret">
-                SIRET : 
-            </label>
-            <?php echo $societe->siret; ?>
-        </div>                
+        <?php if ($societe->siret) : ?>
+            <div class="form_ligne">
+                <label for="siret">
+                    SIRET : 
+                </label>
+                <?php echo $societe->siret; ?>
+            </div>     
+        <?php endif; ?>
+        <?php if ($societe->code_naf) : ?>
         <div class="form_ligne">
             <label for="code_naf">
                 Code Naf : 
             </label>
             <?php echo $societe->code_naf; ?>
         </div>
+        <?php endif; ?> 
+        
         <?php
         foreach ($societe->enseignes as $key => $enseigne) :
             ?>
@@ -78,17 +92,21 @@ use_helper('Date');
             <?php
         endforeach;
         ?>
-        <div class="form_ligne">
-            <label for="no_tva_intracommunautaire">
-                TVA intracom : 
-            </label>
-            <?php echo $societe->no_tva_intracommunautaire; ?>
-        </div>
+        <?php if ($societe->no_tva_intracommunautaire) : ?>
+            <div class="form_ligne">
+                <label for="no_tva_intracommunautaire">
+                    TVA intracom : 
+                </label>
+                <?php echo $societe->no_tva_intracommunautaire; ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($societe->commentaire) : ?>        
         <div class="form_ligne">
             <label for="commentaire">
                 commentaire : 
             </label>
             <pre class="commentaire"><?php echo $societe->commentaire;?></pre>
         </div>
+        <?php endif; ?>
     </div>
 </div>
