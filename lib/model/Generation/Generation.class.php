@@ -21,6 +21,11 @@ class Generation extends BaseGeneration {
     $this->setDateMaj(date('YmdHis'));
     return parent::save();
   }
+
+  public function setStatut($statut) {
+    $this->message = "";
+    return $this->_set('statut', $statut);
+  }
   
   public function __toString() {
      return GenerationClient::getInstance()->getDateFromIdGeneration($this->_id);
