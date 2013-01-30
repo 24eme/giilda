@@ -18,6 +18,7 @@
  * @property string $siret
  * @property string $interpro
  * @property string $date_modification
+ * @property string $date_creation
  * @property string $no_tva_intracommunautaire
  * @property string $commentaire
  * @property acCouchdbJson $siege
@@ -55,6 +56,8 @@
  * @method string setInterpro()
  * @method string getDateModification()
  * @method string setDateModification()
+ * @method string getDateCreation()
+ * @method string setDateCreation()
  * @method string getNoTvaIntracommunautaire()
  * @method string setNoTvaIntracommunautaire()
  * @method string getCommentaire()

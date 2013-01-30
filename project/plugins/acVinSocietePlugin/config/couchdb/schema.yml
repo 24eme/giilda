@@ -16,6 +16,7 @@ Societe:
       siret: { }
       interpro: { }
       date_modification: { }
+      date_creation: { }
       no_tva_intracommunautaire: { }
       commentaire: { }
       siege:
