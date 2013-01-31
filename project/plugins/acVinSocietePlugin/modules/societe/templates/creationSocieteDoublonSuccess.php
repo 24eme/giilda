@@ -6,7 +6,13 @@
 
     <!-- #contenu_etape -->
     <section id="contenu_etape">
-        <h2>Sociétés existantes avec la raison sociale "<?php echo $raison_sociale; ?>" (<?php echo $type;?>)</h2>
+        <h2>Sociétés existantes</h2>
+        <div class="error_list">
+            <span class="error">
+           Les sociétés suivantes possède un raison sociale proche de "<?php echo $raison_sociale; ?>" et sont aussi de type <?php echo $type;?>
+            </span>
+        </div>
+        <br>
 <table class="table_recap">
     <thead>
         <tr>
@@ -43,11 +49,12 @@
             </tr>
         <?php endforeach; ?>
     </table>
-</section>
+        <br>    
     <div class="form_btn">
         <a href="<?php echo url_for('societe_creation'); ?>" class="btn_majeur btn_annuler">Annuler</a>                   
-        <a id="btn_valider" href="<?php echo url_for('societe_nouvelle',array('type' => $type,'raison_sociale' => $raison_sociale)); ?>" class="btn_majeur btn_valider">Créer</a>
+        <a style="float: right" href="<?php echo url_for('societe_nouvelle',array('type' => $type,'raison_sociale' => $raison_sociale)); ?>" class="btn_majeur btn_vert">Créer</a>
     </div>
+</section>
 </section>
 <?php  
 slot('colButtons');
