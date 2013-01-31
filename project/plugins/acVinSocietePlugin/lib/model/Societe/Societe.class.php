@@ -233,7 +233,7 @@ class Societe extends BaseSociete {
     }
 
     public function save($fromCompte = false) {
-        $this->date_modification = date('Y-m-d');
+        $this->add('date_modification', date('Y-m-d'));
         if ($fromCompte) {
             return parent::save();
         }

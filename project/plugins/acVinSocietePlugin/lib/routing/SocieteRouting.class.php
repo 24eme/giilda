@@ -40,7 +40,15 @@ class SocieteRouting {
         ));
 
         $r->prependRoute('societe_creation', new sfRoute('/societe-creation', array('module' => 'societe',
-                    'action' => 'creationSociete'), array('raison_sociale' => '0')));
+                    'action' => 'creationSociete')));
+        
+        
+        $r->prependRoute('societe_creation_doublon', new sfRoute('/societe-creation-doublon/:type/:raison_sociale', array('module' => 'societe',
+                    'action' => 'creationSocieteDoublon')));
+        
+        $r->prependRoute('societe_nouvelle', new sfRoute('/societe-nouvelle/:type/:raison_sociale', array('module' => 'societe',
+                    'action' => 'societeNew')));        
+        
 
         $r->prependRoute('societe_modification', new SocieteRoute('/societe/:identifiant/modification', array('module' => 'societe',
                     'action' => 'modification'),
@@ -78,8 +86,8 @@ class SocieteRouting {
                         array('model' => 'Societe',
                             'type' => 'object')
         ));
-
-
+        
+        
         /*         * *************
          * Intégration
          * ************* */
