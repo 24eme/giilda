@@ -11,12 +11,19 @@ class DRMRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
         if (!$this->drm) {
             throw new sfError404Exception(sprintf('No DRM found for this periode-version "%s".',  $parameters['periode_version']));
         }
-		if (isset($this->options['must_be_valid']) && $this->options['must_be_valid'] === true && !$this->drm->isValidee()) {
-			throw new sfError404Exception('DRM must be validated');
+
+        $control = isset($this->options['control']) ? $this->options['control'] : array();
+
+		if (in_array('valid', $control) && !$this->drm->isValidee()) {
+			
+            throw new sfError404Exception('La DRM doit être validée');
 		}
-		if (isset($this->options['must_be_not_valid']) && $this->options['must_be_not_valid'] === true && $this->drm->isValidee()) {
-			throw new sfError404Exception('DRM must not be validated');
+
+		if (in_array('edition', $control) && $this->drm->isValidee()) {
+
+			throw new sfError404Exception('La DRM ne peut pas être éditée car elle est validé');
 		}
+
         return $this->drm;
     }
 

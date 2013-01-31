@@ -556,6 +556,15 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       return ConfigurationClient::getInstance()->getPeriodeLibelle($this->periode);
     }
 
+    public function delete() {
+        if ($this->isValidee() || !$this->isMaster()) {
+
+            throw new sfException("Impossible de supprimer une DRM validée");
+        }
+        
+        parent::delete();
+    }
+
     /**** VERSION ****/
 
     public static function buildVersion($rectificative, $modificative) {

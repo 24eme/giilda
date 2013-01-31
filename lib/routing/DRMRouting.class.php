@@ -74,19 +74,24 @@ class DRMRouting {
                                                 	    'periode' => null),
                                                 array('sf_method' => array('get')),
                                                 array('model' => 'Etablissement',
-                                                                'type' => 'object')));
+                                                      'type' => 'object')));
 
-        $r->prependRoute('drm_delete', new DRMLightRoute('/drm/:identifiant/delete/:periode_version', 
+        $r->prependRoute('drm_delete', new DRMRoute('/drm/:identifiant/delete/:periode_version', 
                                                 array('module' => 'drm', 
                                                       'action' => 'delete'),
 							 array('sf_method' => array('get', 'post')),
-                                                array('must_be_valid' => false, 'must_be_not_valid' => false)));
+                                                array('model' => 'DRM',
+                                                      'type' => 'object',
+                                                      'control' => array('edition'),)));
 
-        $r->prependRoute('drm_init', new DRMLightRoute('/drm/:identifiant/initialiser/:periode_version', 
+        $r->prependRoute('drm_init', new DRMRoute('/drm/:identifiant/initialiser/:periode_version', 
                                                 array('module' => 'drm', 
                                                       'action' => 'init'),
                                                 array('sf_method' => array('get')),
-                                                array('must_be_valid' => false, 'must_be_not_valid' => false)));
+                                                array('model' => 'DRM',
+                                                      'type' => 'object',
+                                                      'control' => array('edition'),
+                                                     )));
 
         $r->prependRoute('drm_rectificative', new DRMRoute('/drm/:identifiant/rectifier/:periode_version', 
                                                           array('module' => 'drm', 
@@ -94,8 +99,8 @@ class DRMRouting {
                                                           array(),
                                                           array('model' => 'DRM',
                                                                 'type' => 'object',
-                                                                'must_be_valid' => true,
-                                                                'must_be_not_valid' => false)));
+                                                                'control' => array('valid'),
+                                                                )));
 
         $r->prependRoute('drm_modificative', new DRMRoute('/drm/:identifiant/modificative/:periode_version', 
                                                           array('module' => 'drm', 
@@ -103,37 +108,37 @@ class DRMRouting {
                                                           array(),
                                                 		      array('model' => 'DRM',
                                                                 'type' => 'object',
-                                                                'must_be_valid' => true,
-                                                                'must_be_not_valid' => false)));
+                                                                'control' => array('valid'),
+                                                                )));
 
-        $r->prependRoute('drm_informations', new DRMRoute('/drm/:identifiant/edition/:periode_version/informations', 
+        /*$r->prependRoute('drm_informations', new DRMRoute('/drm/:identifiant/edition/:periode_version/informations', 
                                                           array('module' => 'drm', 
                                                                 'action' => 'informations'),
                                                           array('sf_method' => array('get','post')),
                                                           array('model' => 'DRM',
                                                                 'type' => 'object',
                               									                'must_be_valid' => false,
-                              									                'must_be_not_valid' => true)));
+                              									                'must_be_not_valid' => true)));*/
         
-        $r->prependRoute('drm_modif_infos', new DRMRoute('/drm/:identifiant/edition/:periode_version/modification-informations', 
+        /*$r->prependRoute('drm_modif_infos', new DRMRoute('/drm/:identifiant/edition/:periode_version/modification-informations', 
                                                           array('module' => 'drm', 
                                                                 'action' => 'modificationInfos'),
                                                           array('sf_method' => array('get','post')),
                                                           array('model' => 'DRM',
                                                                 'type' => 'object',
                               									'must_be_valid' => false,
-                              									'must_be_not_valid' => true)));
+                              									'must_be_not_valid' => true)));*/
 
-        $r->prependRoute('drm_stock_debut_mois', new DRMRoute('/drm/:identifiant/edition/:periode_version/stock', 
+        /*$r->prependRoute('drm_stock_debut_mois', new DRMRoute('/drm/:identifiant/edition/:periode_version/stock', 
                                                           array('module' => 'drm', 
                                                                 'action' => 'stock'),
                                                           array('sf_method' => array('get','post')),
                                                           array('model' => 'DRM',
                                                                 'type' => 'object',
                               									'must_be_valid' => false,
-                              									'must_be_not_valid' => true)));
+                              									'must_be_not_valid' => true)));*/
 
-        $r->prependRoute('drm_declaratif', new DRMRoute('/drm/:identifiant/edition/:periode_version/declaratif', 
+        /*$r->prependRoute('drm_declaratif', new DRMRoute('/drm/:identifiant/edition/:periode_version/declaratif', 
                                                           array('module' => 'drm', 
                                                                 'action' => 'declaratif'),
                                                           array('sf_method' => array('get','post')),
@@ -150,7 +155,7 @@ class DRMRouting {
                                                           array('model' => 'DRM',
                                                                 'type' => 'object',
                                                                 'must_be_valid' => false,
-                                                                'must_be_not_valid' => true)));
+                                                                'must_be_not_valid' => true)));*/
 
         $r->prependRoute('drm_validation', new DRMRoute('/drm/:identifiant/edition/:periode_version/validation', 
                                                           array('module' => 'drm', 
@@ -158,8 +163,7 @@ class DRMRouting {
                                                           array('sf_method' => array('get','post')),
                                                           array('model' => 'DRM',
                                                                 'type' => 'object',
-                              									'must_be_valid' => false,
-                              									'must_be_not_valid' => true)));
+                              									                'control' => array('edition'))));
 
         // $r->prependRoute('drm_show_error', new DRMRoute('/drm/:identifiant/edition/:periode_version/voir-erreur/:type/:identifiant', 
         //                                                   array('module' => 'drm', 
@@ -172,9 +176,8 @@ class DRMRouting {
 
 	$r->prependRoute('drm_redirect_to_visualisation', new sfRoute('/drm/redirect/:identifiant_drm', 
 								      array('module' => 'drm', 'action' => 'redirect'),  
-								      array('sf_method' => array('get')),
-								      array('must_be_valid' => true,
-									    'must_be_not_valid' => false)));
+								      array('sf_method' => array('get'))
+								      ));
 	
 
         $r->prependRoute('drm_visualisation', new DRMRoute('/drm/:identifiant/visualisation/:periode_version/:hide_rectificative', 
@@ -182,17 +185,17 @@ class DRMRouting {
                                                                 'action' => 'visualisation',
                                                           		  'hide_rectificative' => null),
                                                           array('sf_method' => array('get')),
-							   array('model' => 'DRM', 'type' => 'object', 
-								 'must_be_valid' => true,
-								'must_be_not_valid' => false)));
+                                            						  array('model' => 'DRM', 
+                                                                'type' => 'object', 
+                                            							      'control' => array('valid'))));
 
-        $r->prependRoute('drm_pdf', new DRMLightRoute('/drm/:identifiant/pdf/:periode_version.:format', 
+        /*$r->prependRoute('drm_pdf', new DRMRoute('/drm/:identifiant/pdf/:periode_version.:format', 
                                                           array('module' => 'drm', 
                                                                 'action' => 'pdf',
                                                                 'format' => 'pdf'),
                                                           array('sf_method' => array('get'), 'format' => '(html|pdf)'),
                                                           array('must_be_valid' => false,
-                              									'must_be_not_valid' => false)));
+                              									'must_be_not_valid' => false)));*/
 
         /*$r->prependRoute('drm_mouvements_generaux', new DRMRoute('/drm/:identifiant/edition/:periode_version/mouvements-generaux', 
                                                           array('module' => 'drm_mouvements_generaux', 
@@ -349,12 +352,11 @@ class DRMRouting {
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'DRM',
                             'type' => 'object',
-                            'must_be_valid' => false,
-                            'must_be_not_valid' => true
+                            'control' => array('edition'),
                 )));
         
         
-        $r->prependRoute('drm_pdf_facture', new DRMRoute('/drm/:identifiant/facture/:periode_version/pdf', 
+        /*$r->prependRoute('drm_pdf_facture', new DRMRoute('/drm/:identifiant/facture/:periode_version/pdf', 
                                     array('module' => 'drm_pdf', 
                                         'action' => 'generatePdfFacture'),
                                     array('sf_method' => array('get','post')),
@@ -362,7 +364,7 @@ class DRMRouting {
                                         'type' => 'object',
                                         'must_be_valid' => false,
                                         'must_be_not_valid' => true
-                                        )));  
+                                        ))); */
 
         $r->prependRoute('drm_edition_detail', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/edition/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail',
                         array('module' => 'drm_edition',
@@ -370,8 +372,7 @@ class DRMRouting {
                         array('sf_method' => array('get')),
                         array('model' => 'DRMDetail',
                             'type' => 'object',
-                            'must_be_valid' => false,
-                            'must_be_not_valid' => true
+                            'control' => array('edition'),
                 )));
 
         $r->prependRoute('drm_edition_produit_ajout', new DRMRoute('/drm/:identifiant/edition/:periode_version/edition/produit-ajout',
@@ -381,8 +382,7 @@ class DRMRouting {
                 array('model' => 'DRMAppellation',
                     'type' => 'object',
                     'add_noeud' => true,
-                    'must_be_valid' => false,
-                    'must_be_not_valid' => true
+                    'control' => array('edition'),
         )));
 
         $r->prependRoute('drm_edition_update', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/edition/update/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail',
@@ -391,8 +391,7 @@ class DRMRouting {
                                                           array('sf_method' => array('post')),
                                                           array('model' => 'DRMDetail',
                                                                 'type' => 'object',
-                                                                'must_be_valid' => false,
-                                                                'must_be_not_valid' => true
+                                                                'control' => array('edition'),
                                                                     )));
         
         /*
@@ -432,8 +431,7 @@ class DRMRouting {
                                                     array('sf_method' => array('get','post')),
                                                     array('model' => 'DRM',
                                                         'type' => 'object',
-                                                        'must_be_valid' => false,
-                                                        'must_be_not_valid' => true)));
+                                                        'control' => array('edition'))));
   
         
         $r->prependRoute('drm_export_details', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/details-export/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', 
@@ -442,8 +440,7 @@ class DRMRouting {
                                                     array('sf_method' => array('get','post')),
                                                     array('model' => 'DRM',
                                                         'type' => 'object',
-                                                        'must_be_valid' => false,
-                                                        'must_be_not_valid' => true)));
+                                                        'control' => array('edition'))));
         
         $r->prependRoute('drm_cooperative_details', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/details-cooperative/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', 
                                                     array('module' => 'drm_cooperative_details', 
@@ -451,8 +448,7 @@ class DRMRouting {
                                                     array('sf_method' => array('get','post')),
                                                     array('model' => 'DRM',
                                                         'type' => 'object',
-                                                        'must_be_valid' => false,
-                                                        'must_be_not_valid' => true)));
+                                                        'control' => array('edition'))));
 
         $r->prependRoute('drm_edition_produit_addlabel', 
 			 new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/addlabel/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail',
@@ -461,8 +457,7 @@ class DRMRouting {
 					    array('sf_method' => array('get','post')),
 					    array('model' => 'DRM',
 						  'type' => 'object',
-						  'must_be_valid' => false,
-						  'must_be_not_valid' => true)));
+						  'control' => array('edition'))));
 	
     }
 
