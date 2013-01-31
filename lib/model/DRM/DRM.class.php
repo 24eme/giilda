@@ -151,6 +151,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function generateSuivanteByPeriode($periode) 
     {
+        if ($this->getHistorique()->hasInProcess()) {
+
+            throw new sfException(sprintf("Une drm est en cours d'édition pour cette campagne %s, impossible d'en créer une autre", $this->campagne));
+        }
+
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
         $keepStock = ($periode > $this->periode);
 
@@ -211,6 +216,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
          	return $this->getEtablissement()->getInterproObject();
      	}
+    }
+
+    public function getHistorique() {
+
+        return DRMClient::getInstance()->getHistorique($this->identifiant, $this->campagne);
     }
 
     public function getPrecedente() {
@@ -703,6 +713,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function generateNextVersion() {
+
         if (!$this->hasVersion()) {
 
             return $this->version_document->generateModificativeSuivante();
@@ -712,6 +723,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function listenerGenerateVersion($document) {
+        if ($this->getHistorique()->hasInProcess()) {
+
+            throw new sfException(sprintf("Une drm est déjà en cours d'édition pour cette campagne %s, impossible d'en créer une autre", $this->campagne));
+        }
         $document->devalide();
     }
 

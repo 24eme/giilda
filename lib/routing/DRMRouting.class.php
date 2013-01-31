@@ -68,12 +68,13 @@ class DRMRouting {
                                                                 'type' => 'object')
 								));
 
-        $r->prependRoute('drm_nouvelle', new DRMLightRoute('/drm/:identifiant/nouvelle/:periode', 
+        $r->prependRoute('drm_nouvelle', new EtablissementRoute('/drm/:identifiant/nouvelle/:periode', 
                                                 array('module' => 'drm', 
                                                       'action' => 'nouvelle',
                                                 	    'periode' => null),
                                                 array('sf_method' => array('get')),
-                                                array('must_be_valid' => false, 'must_be_not_valid' => false)));
+                                                array('model' => 'Etablissement',
+                                                                'type' => 'object')));
 
         $r->prependRoute('drm_delete', new DRMLightRoute('/drm/:identifiant/delete/:periode_version', 
                                                 array('module' => 'drm', 

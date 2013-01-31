@@ -34,11 +34,6 @@ class drmActions extends sfActions {
         $identifiant = $request->getParameter('identifiant');
         $periode = $request->getParameter('periode');
 
-        if (DRMClient::getInstance()->getHistorique($identifiant, $periode)->hasInProcess()) {
-            
-            return $this->redirect('drm_inProcess', array('identifiant' => $identifiant));
-        }
-
         $drm = DRMClient::getInstance()->createDoc($identifiant, $periode);
         $drm->save();
         $this->redirect('drm_edition', $drm);
