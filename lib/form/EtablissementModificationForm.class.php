@@ -137,7 +137,7 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         if($this->values['adresse_societe'] && !$this->etablissement->isSameContactThanSociete()){
            $this->etablissement->compte = $this->etablissement->getSociete()->compte_societe;
            $switch = true;
-        } elseif($this->etablissement->compte && $this->etablissement->isSameContactThanSociete()) {
+        } elseif(!$this->values['adresse_societe'] && $this->etablissement->isSameContactThanSociete()) {
            $this->etablissement->compte = null;
            $switch = true;
         }

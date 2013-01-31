@@ -42,7 +42,9 @@ if(!isset($fromSociete)) $fromSociete = false;
                 <label for="recette_locale">
                     Recette locale : 
                 </label>
-                <?php echo $etablissement->recette_locale->nom; ?>
+                <a href="<?php echo url_for('societe_visualisation',SocieteClient::getInstance()->find($etablissement->recette_locale->id_douane)); ?>">
+                    <?php echo $etablissement->recette_locale->nom; ?>
+                </a>
             </div>  
         <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->raisins_mouts) : ?>
