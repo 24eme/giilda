@@ -235,6 +235,10 @@ class Etablissement extends BaseEtablissement {
         $this->synchroAndSaveCompte();
     }
 
+    public function isActif() {
+      return ($this->statut == EtablissementClient::STATUT_ACTIF);
+    }
+
     public function setIdSociete($id) {
         $soc = SocieteClient::getInstance()->find($id);
         if (!$soc)
