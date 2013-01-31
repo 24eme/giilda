@@ -117,7 +117,7 @@ class dsActions extends sfActions {
         $this->forward404Unless($this->ds);
 	$latex = new DSLatex($this->ds);
         //$latex->echoFactureWithHTTPHeader(DSLatex::DS_OUTPUT_TYPE_LATEX);
-	$latex->echoFactureWithHTTPHeader($request->getParameter('type'));
+	$latex->echoWithHTTPHeader($request->getParameter('type'));
         exit;
     }
     
