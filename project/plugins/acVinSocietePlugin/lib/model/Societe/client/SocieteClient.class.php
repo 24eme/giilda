@@ -51,7 +51,7 @@ class SocieteClient extends acCouchdbClient {
         $societe->identifiant = $this->getNextIdentifiantSociete();
         $societe->statut = SocieteClient::STATUT_EN_CREATION;
         $societe->cooperative = 0;
-        $societe->date_creation = date('Y-m-d');
+        $societe->add("date_creation", date('Y-m-d'));
         $societe->constructId();
 
         return $societe;

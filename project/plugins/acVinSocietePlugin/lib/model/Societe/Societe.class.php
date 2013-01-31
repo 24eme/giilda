@@ -222,7 +222,15 @@ class Societe extends BaseSociete {
 	}
     }
     
+    public function getDateCreation() {
+	$this->add('date_creation');
+	return $this->_get('date_creation');
+    }
 
+    public function getDateModification() {
+        $this->add('date_modification');
+        return $this->_get('date_modification');
+    }
 
     public function save($fromCompte = false) {
         $this->add('date_modification', date('Y-m-d'));
