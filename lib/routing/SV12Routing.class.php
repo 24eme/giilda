@@ -16,9 +16,7 @@ class SV12Routing {
         
         $r->prependRoute('sv12_redirect_to_visualisation', new sfRoute('/sv12/redirect/:identifiant_sv12', 
 								      array('module' => 'sv12', 'action' => 'redirect'),  
-								      array('sf_method' => array('get')),
-								      array('must_be_valid' => true,
-									    'must_be_not_valid' => false)));
+								      array('sf_method' => array('get'))));
         
         $r->prependRoute('sv12_etablissement', new EtablissementRoute('/sv12/:identifiant', array('module' => 'sv12', 
                                                                         'action' => 'monEspace'),
@@ -27,11 +25,11 @@ class SV12Routing {
                                                         'type' => 'object')
                                                         ));
         
-        $r->prependRoute('sv12_nouvelle', new SV12LightRoute('/sv12/:identifiant/nouvelle/:periode', 
+        $r->prependRoute('sv12_nouvelle', new sfRoute('/sv12/:identifiant/nouvelle/:periode', 
                                                 array('module' => 'sv12', 
                                                       'action' => 'nouvelle'),
-                                                array('sf_method' => array('get')),
-                                                array('must_be_valid' => false, 'must_be_not_valid' => false)));
+                                                array('sf_method' => array('get'))
+                                                ));
         
         $r->prependRoute('sv12_update', new SV12Route('/sv12/:identifiant/edition/:periode_version/update',
                         array('module' => 'sv12',
@@ -39,8 +37,7 @@ class SV12Routing {
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'SV12',
                              'type' => 'object',
-                             'must_be_valid' => false,
-                             'must_be_not_valid' => true
+                             'control' => array('edition'),
                 )));
         
         
@@ -49,8 +46,7 @@ class SV12Routing {
                     array('sf_method' => array('get', 'post')),
                     array('model' => 'SV12',
                         'type' => 'object',
-                        'must_be_valid' => false,
-                        'must_be_not_valid' => true
+                        'control' => array('edition')
            		)));
 
         $r->prependRoute('sv12_modificative', new SV12Route('/sv12/:identifiant/modificative/:periode_version', 
@@ -59,17 +55,15 @@ class SV12Routing {
                                                   array(),
                                                   array('model' => 'SV12',
                                                         'type' => 'object',
-                                                        'must_be_valid' => true,
-                                                        'must_be_not_valid' => false)));
+                                                        'control' => array('valid'))));
         
         $r->prependRoute('sv12_recapitulatif', new SV12Route('/sv12/:identifiant/edition/:periode_version/recapitulatif',
                 array('module' => 'sv12',
                     'action' => 'recapitulatif'),
                 array('sf_method' => array('get', 'post')),
                 array('model' => 'SV12',
-                        'type' => 'object',
-                        'must_be_valid' => false,
-                        'must_be_not_valid' => true
+                      'type' => 'object',
+                      'control' => array('edition')
         )));
         
          $r->prependRoute('sv12_visualisation', new SV12Route('/sv12/:identifiant/visualisation/:periode_version',
@@ -77,9 +71,8 @@ class SV12Routing {
                     'action' => 'visualisation'),
                 array('sf_method' => array('get', 'post')),
                 array('model' => 'SV12',
-                        'type' => 'object',
-                        'must_be_valid' => false,
-                        'must_be_not_valid' => true
+                      'type' => 'object',
+                      'control' => array('valid')
         )));
         
     }

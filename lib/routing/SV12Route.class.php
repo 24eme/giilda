@@ -9,7 +9,20 @@ class SV12Route extends sfObjectRoute implements InterfaceEtablissementRoute {
         $this->sv12 = SV12Client::getInstance()->find('SV12-'.$parameters['identifiant'].'-'.$parameters['periode_version']);
 
         if (!$this->sv12) {
-            throw new sfError404Exception(sprintf('No SV12 found for this periode-version "%s".',  $parameters['periode_version']));
+
+            throw new sfError404Exception(sprintf("La SV12 n'a pas été trouvée"));
+        }
+
+        $control = isset($this->options['control']) ? $this->options['control'] : array();
+
+        if (in_array('valid', $control) && !$this->sv12->isValidee()) {
+            
+            throw new sfException('La SV12 doit être validée');
+        }
+
+        if (in_array('edition', $control) && $this->sv12->isValidee()) {
+
+            throw new sfException('La SV12 ne peut pas être éditée car elle est validée');
         }
 
         return $this->sv12;

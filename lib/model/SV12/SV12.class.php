@@ -204,6 +204,11 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     public function validate($options = array()) {
+        if($this->isValidee()) {
+
+            throw new sfExcpetion(sprintf("Cette SV12 est déjà validée"));
+        }
+
         $this->storeDates();
         $this->storeDeclarant();
         
@@ -248,6 +253,15 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->updateTotaux();
         $this->archivage_document->preSave();
 	$this->region = $this->getEtablissementObject()->region;
+    }
+
+    public function delete() {
+        if ($this->isValidee() || !$this->isMaster()) {
+
+            throw new sfException("Impossible de supprimer une SV12 validée");
+        }
+        
+        parent::delete();
     }
     
     public function __toString()
