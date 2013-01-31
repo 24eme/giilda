@@ -9,15 +9,11 @@
         <form action="<?php echo url_for('societe_creation'); ?>" method="post">
             <div id="recherche_societe" class="section_label_maj">
                 <h2>Sélectionner un type de société </h2>
-                <?php if ($raison_sociale) : ?>
-                    <div class="error"> Attention, la société saisie correspond a une société existante!</div>  
-                <?php endif; ?>
-                <div class="section_label_maj <?php echo ($raison_sociale) ? 'errors' : '' ?>">
-                    <?php
-                    echo $form['raison_sociale']->renderError();
-                    echo $form['raison_sociale']->renderLabel();
-                    echo $form['raison_sociale']->render();
-                    ?>
+                <div class="form_ligne">
+                <div class="section_label_maj">
+                <?php echo $form['raison_sociale']->renderError(); ?>
+                    <?php echo $form['raison_sociale']->renderLabel(); ?>
+                <?php echo $form['raison_sociale']->render(); ?>
                 </div>
                 <div class="section_label_maj">
                     <?php echo $form['type']->renderError(); ?>
@@ -26,11 +22,11 @@
                 </div>
                 <button id="btn_rechercher" type="submit" class="btn_majeur btn_acces">Créer</button>
             </div>
-            <form>
-                </section>
+        </form>
+    </section>
 </section>
-    <?php
-slot('colButtons'); 
+<?php
+slot('colButtons');
 ?>
 <div id="action" class="bloc_col">
     <h2>Action</h2>
@@ -40,6 +36,6 @@ slot('colButtons');
         </div>
     </div>
 </div>
-    <?php
+<?php
 end_slot();
 ?>

@@ -12,8 +12,7 @@
 class SocieteCreationForm extends sfForm {
 
     
-    public function __construct($raison_sociale = false, $defaults = array(), $options = array(), $CSRFSecret = null) {
-        if($raison_sociale) $defaults['raison_sociale'] = $raison_sociale;
+    public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         parent::__construct($defaults, $options, $CSRFSecret);
     }
 
