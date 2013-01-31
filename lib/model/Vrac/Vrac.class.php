@@ -370,6 +370,10 @@ class Vrac extends BaseVrac {
         return !$nego->isInterLoire();
     }
 
+    public function isVitiRaisinsMoutsTypeVins(){
+        return EtablissementClient::getInstance()->find($this->vendeur_identifiant)->raisins_mouts == 'oui' && $this->isVin();
+    }
+    
     protected function preSave() {
         $this->archivage_document->preSave();
     }

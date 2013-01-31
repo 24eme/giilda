@@ -7,6 +7,7 @@ class VracValidation extends DocumentValidation{
       $this->addControle('erreur', 'volume_expected', 'Le volume du contrat est manquant');
       $this->addControle('erreur', 'prix_initial_expected', 'Le prix du contrat est manquant');
       $this->addControle('erreur', 'hors_interloire_raisins_mouts', "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts");
+      $this->addControle('erreur', 'viti_raisins_mouts_type_vins', "Le viticulteur ne peut pas faire de contrats de vins (il possède une exclusivité de raisins/moûts)");
       $this->addControle('vigilance', 'stock_commercialisable_negatif', 'Le stock commercialisable est inférieur au stock proposé');
       $this->addControle('vigilance', 'contrats_similaires', 'Risque de doublons');
       $this->addControle('vigilance', 'contrats_similaires', 'Risque de doublons');
@@ -17,7 +18,9 @@ class VracValidation extends DocumentValidation{
         if(!$this->document->volume_propose) {
 	  $this->addPoint('erreur', 'volume_expected', 'saisir un volume', $this->generateUrl('vrac_marche', $this->document));
         }
-
+        if($this->document->isVitiRaisinsMoutsTypeVins()) {
+          $this->addPoint('erreur', 'viti_raisins_mouts_type_vins', 'modifier vendeur', $this->generateUrl('etablissement_visualisation', EtablissementClient::getInstance()->find($this->document->vendeur_identifiant)));
+        }
         if(is_null($this->document->prix_initial_unitaire)) {
 	  $this->addPoint('erreur', 'prix_initial_expected', 'saisir un prix', $this->generateUrl('vrac_marche', $this->document));
         }
