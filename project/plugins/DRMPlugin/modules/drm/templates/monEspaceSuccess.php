@@ -7,6 +7,11 @@
             <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
             <fieldset id="historique_drm">
                 <legend>Historique des DRMs de l'opérateur</legend>
+                <?php if($etablissement->type_dr) : ?>
+                    <div class="error_list">
+                    Cet opérateur effectue des <?php echo $etablissement->type_dr; ?>
+                    </div>
+                <?php endif; ?>
                 <nav>
                     <ul>
                         <li class="actif"><span>Vue calendaire</span></li>
