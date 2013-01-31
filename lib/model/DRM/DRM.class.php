@@ -290,6 +290,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function validate($options = null) {
+        if($this->isValidee()) {
+
+            throw new sfExcpetion(sprintf("Cette DRM est déjà validée"));
+        }
+
         $this->update();
         $this->storeIdentifiant($options);
         $this->storeDates();
@@ -561,7 +566,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
             throw new sfException("Impossible de supprimer une DRM validée");
         }
-        
+
         parent::delete();
     }
 
