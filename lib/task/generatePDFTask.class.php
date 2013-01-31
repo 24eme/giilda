@@ -14,6 +14,7 @@ class generatePDFTask extends sfBaseTask
 			    new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
 			    new sfCommandOption('generation', null, sfCommandOption::PARAMETER_REQUIRED, 'The generation id'),
 			    new sfCommandOption('page2perpage', null, sfCommandOption::PARAMETER_REQUIRED, 'The generation id', true),
+			    new sfCommandOption('debug', null, sfCommandOption::PARAMETER_REQUIRED, 'Debug', false),
       // add your own options here
     ));
 
@@ -64,6 +65,9 @@ EOF;
 	}
 	echo $g->generatePDF()."\n";
       }catch(Exception $e) {
+	if ($options['debug']) {
+	  throw $e;
+	}
 	$generation->statut = GenerationClient::GENERATION_STATUT_ENERREUR;
 	$generation->message = $e->getMessage();
 	$generation->save();
