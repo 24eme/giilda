@@ -26,12 +26,12 @@ echo $societeForm->renderGlobalErrors();
             <?php echo $societeForm['cooperative']->render(); ?>
             <?php echo $societeForm['cooperative']->renderError(); ?>
         </div>
+    <?php endif; ?>
     <div class="form_ligne">
             <?php echo $societeForm['type_numero_compte']->renderLabel('',array('class' => 'label_liste')); ?>
             <?php echo $societeForm['type_numero_compte']->render(); ?>
             <?php echo $societeForm['type_numero_compte']->renderError(); ?>
         </div>                 
-    <?php endif; ?>
         <div class="form_ligne">
 			<div class="form_colonne">
 				<?php echo $societeForm['siret']->renderLabel(); ?>

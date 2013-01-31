@@ -36,12 +36,11 @@ class SocieteClient extends acCouchdbClient {
         return $identifiant = str_replace('SOCIETE-', '', $id_or_identifiant);
     }
     
-    public function existSocieteWithRaisonSociale($raison_sociale) {
-        return count($this->getSocieteWithRaisonSociale($raison_sociale));
-    }
     
-    public function getSocieteWithRaisonSociale($raison_sociale) {
-        return SocieteAllView::getInstance()->findByRaisonSociale($raison_sociale);
+    public function getSocietesWithTypeAndRaisonSociale($type,$raison_sociale){
+         return SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire',
+                        null,
+                        array($type),$raison_sociale);
     }
 
     public function createSociete($raison_sociale, $type) {
@@ -52,6 +51,7 @@ class SocieteClient extends acCouchdbClient {
         $societe->identifiant = $this->getNextIdentifiantSociete();
         $societe->statut = SocieteClient::STATUT_EN_CREATION;
         $societe->cooperative = 0;
+        $societe->add("date_creation", date('Y-m-d'));
         $societe->constructId();
 
         return $societe;

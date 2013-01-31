@@ -35,8 +35,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setWidget('statut', new sfWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
 
         //  $this->setWidget('type_societe', new sfWidgetFormChoice(array('choices' => $this->getSocieteTypes())));
+        $this->setWidget('type_numero_compte', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompte(), 'multiple' => true, 'expanded' => true)));
         if ($this->isVitiOrNego()) {
-            $this->setWidget('type_numero_compte', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompte(), 'multiple' => true, 'expanded' => true)));
             $this->setWidget('cooperative', new sfWidgetFormChoice(array('choices' => $this->getCooperative(), 'multiple' => false, 'expanded' => true)));
         }
 
@@ -52,8 +52,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('raison_sociale_abregee', 'Abrégé');
         $this->widgetSchema->setLabel('statut', 'Statut');
         // $this->widgetSchema->setLabel('type_societe', 'Type de société');
+        $this->widgetSchema->setLabel('type_numero_compte', 'Numéros de compte');
         if ($this->isVitiOrNego()) {
-            $this->widgetSchema->setLabel('type_numero_compte', 'Numéros de compte');
             $this->widgetSchema->setLabel('cooperative', 'Cave coopérative *');
         }
 
@@ -68,11 +68,12 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setValidator('statut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getStatuts()))));
         // $this->setValidator('type_societe', new sfValidatorChoice(array('required' => true, 'choices' => $this->getSocieteTypesValid())));
 
+        $this->setValidator('type_numero_compte', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesNumeroCompte()), 'multiple' => true)));
+        
+        if($this->existNumeroCompte())
+            $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
         if ($this->isVitiOrNego()) {
-            $this->setValidator('type_numero_compte', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesNumeroCompte()), 'multiple' => true)));
             $this->setValidator('cooperative', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperative()))));
-            if($this->existNumeroCompte())
-                $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
         }
         
         $this->setValidator('siret', new sfValidatorString(array('required' => false)));
@@ -81,7 +82,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         
-        if($this->existNumeroCompte() && $this->isVitiOrNego())
+        if($this->existNumeroCompte())
                 $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
         
             if($this->getObject()->isInCreation()){

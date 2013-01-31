@@ -5,12 +5,13 @@ $verbose = shift;
 while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
+	next if ($field[0] !~ /[0-9]/);
 	print "Ecriture générale;" if ($verbose);
 	print "#MPCT\n";
 	print "numéro de compte (VINSI) :" if ($verbose);
 	print $field[0]."\n";
 	print "intitulé (VINSI) : " if ($verbose);
-	print $field[1]."\n";	
+	print substr($field[1], 0, 35)."\n";	
 	if ($field[2] eq "CLIENT") {
 	    print "type (client/fournisseur) (VINSI) : " if ($verbose);
 	    print "0\n";
@@ -25,17 +26,17 @@ while(<STDIN>) {
 	print "qualité : " if ($verbose);
 	print "\n";
 	print "abrégé (VINSI)" if ($verbose);
-	print $field[3]."\n";
+	print substr($field[3], 0, 17)."\n";
 	print "contact : " if ($verbose);
 	print "\n";
 	print "adresse (VINSI) : " if ($verbose);
-	print $field[4]."\n";
+	print substr($field[4], 0, 35)."\n";
 	print "complément adresse (VINSI) : " if ($verbose);
-	print $field[5]."\n";
+	print substr($field[5], 0, 35)."\n";
 	print "code postal (VINSI) : " if ($verbose);
 	print $field[6]."\n";
 	print "ville (VINSI) : " if ($verbose);
-	print $field[7]."\n";
+	print substr($field[7], 0, 35)."\n";
 	print "région : " if ($verbose);
 	print "\n";
 	print "pays (VINSI) : " if ($verbose);
@@ -125,6 +126,7 @@ while(<STDIN>) {
 	print "contrôle de l'encours : " if ($verbose);
 	print "0\n";
 	print "date de création (VINSI) : " if ($verbose);
+	$field[13] = '010112' if (!$field[13]);
 	print $field[13]."\n";
 	print "hors rappel/relevé (EXPORT SAGE) : " if ($verbose);
 	print $field[20]."\n";

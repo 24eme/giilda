@@ -58,20 +58,31 @@ class societeActions extends sfActions {
     }
 
     public function executeCreationSociete(sfWebRequest $request) {
-        $this->raison_sociale = $request->getParameter('raison_sociale', false);
-        $this->form = new SocieteCreationForm($this->raison_sociale);
+        $this->form = new SocieteCreationForm();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $values = $this->form->getValues();
-                if (SocieteClient::getInstance()->existSocieteWithRaisonSociale($values['raison_sociale'])) {
-                    $this->redirect('societe_creation', array('raison_sociale' => $values['raison_sociale']));
-                }
-                $societe = SocieteClient::getInstance()->createSociete($values['raison_sociale'], $values['type']);
-                $societe->save();
-                $this->redirect('societe_modification', array('identifiant' => $societe->identifiant));
+                $this->redirect('societe_creation_doublon', array('type' => $values['type'], 'raison_sociale' => $values['raison_sociale']));
             }
         }
+    }
+    
+    public function executeCreationSocieteDoublon(sfWebRequest $request) {
+         $this->raison_sociale = $request->getParameter('raison_sociale', false);
+         $this->type = $request->getParameter('type', false);
+         $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type,$this->raison_sociale);
+         if(!count($this->societesDoublons)){
+                    $this->redirect('societe_nouvelle', array('type' => $this->type, 'raison_sociale' => $this->raison_sociale));
+        }
+    }
+    
+    public function executeSocieteNew(sfWebRequest $request) {
+        $this->raison_sociale = $request->getParameter('raison_sociale', false);
+        $this->type = $request->getParameter('type', false);
+        $societe = SocieteClient::getInstance()->createSociete($this->raison_sociale, $this->type);
+        $societe->save();
+        $this->redirect('societe_modification', array('identifiant' => $societe->identifiant));
     }
 
     public function executeModification(sfWebRequest $request) {
