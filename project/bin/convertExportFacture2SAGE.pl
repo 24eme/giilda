@@ -5,6 +5,7 @@ $verbose = shift;
 while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
+	next if ($field[0] ne 'VEN');
 	print "Ecriture générale;" if ($verbose);
 	print "#MECG\n";
 	print "code journal;" if ($verbose);
@@ -30,10 +31,11 @@ while(<STDIN>) {
         print "numero compte tiers contre partie;" if ($verbose);
         print "\n";
         print "intitule;" if ($verbose);
-        print $field[4]."\n";
+        print substr($field[4], 0, 35)."\n";
         print "numero reglement;" if ($verbose);
         print "\n";
-        print "echeance;" if ($verbose);
+        print "date echeance;" if ($verbose);
+	$field[8] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$1$2$3/;
         print $field[8]."\n";
         print "partie;" if ($verbose);
         print "\n";
