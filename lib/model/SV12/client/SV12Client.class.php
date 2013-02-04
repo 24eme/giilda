@@ -10,6 +10,9 @@ class SV12Client extends acCouchdbClient {
     const STATUT_VALIDE_PARTIEL = 'VALIDE_PARTIEL'; 
     const STATUT_BROUILLON = 'BROUILLON'; 
     
+    const SV12_KEY_SANSCONTRAT = 'SANSCONTRAT'; 
+    const SV12_KEY_SANSVITI = 'SANSVITI'; 
+    
     const SV12_VIEWHISTORY_ID = 0;
     const SV12_VIEWHISTORY_DATESAISIE = 1;    
     const SV12_VIEWHISTORY_PERIODE = 2;
@@ -85,6 +88,11 @@ class SV12Client extends acCouchdbClient {
       return $this->find($sv12->_id);
     }
 
+    public function retreiveSV12s() {   
+      return SV12AllView::getInstance()->findAll();
+        
+    }
+    
     public function findMasterRectificative($id_or_identifiant, $periode, $version_rectificative) {
 
       $sv12 = SV12AllView::getInstance()->getMasterByEtablissementPeriodeAndVersionRectificative($id_or_identifiant, $periode, $version_rectificative);
@@ -95,6 +103,7 @@ class SV12Client extends acCouchdbClient {
 
       return $this->find($sv12->_id);
     }
+    
     
     public function findContratsByEtablissement($identifiant) {   
       return $this->findContratsByEtablissementAndCampagne($identifiant, ConfigurationClient::getInstance()->getCurrentCampagne());

@@ -14,7 +14,7 @@ class SV12Contrat extends BaseSV12Contrat {
             return null;
         }
         $mouvement->vrac_destinataire = $this->getDocument()->declarant->nom;
-	$mouvement->region = $this->getVendeur()->region;
+	$mouvement->region = ($mouvement->region)? $this->getVendeur()->region : null;
 
         if ($this->getVrac()) {
         	$mouvement->cvo = $this->getTauxCvo() * $this->getVrac()->cvo_repartition * 0.01;
@@ -184,8 +184,7 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function getContratTypeLibelle() {
-
-        return VracClient::$types_transaction[$this->contrat_type]; 
+        return ($this->contrat_type)? VracClient::$types_transaction[$this->contrat_type] : null; 
     }
 
     function getNumeroArchive() {

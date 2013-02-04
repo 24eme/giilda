@@ -21,6 +21,11 @@ class SV12AllView extends acCouchdbView
         return acCouchdbManager::getView('sv12', 'all', 'SV12');
     }
 
+    public function findAll() {
+        return $this->client->getView($this->design, $this->view)->rows;
+    }
+
+    
     public function findByEtablissement($id_or_identifiant) {
         $identifiant = EtablissementClient::getInstance()->getIdentifiant($id_or_identifiant);
 
