@@ -25,6 +25,7 @@ function(doc) {
           doc.enseignes.join("|"),
           doc.siege.adresse,
           doc.siege.code_postal,
-          doc.siege.commune
+          doc.siege.commune,
+          doc.siege.pays
           ]);
 }

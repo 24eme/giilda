@@ -11,7 +11,6 @@ class SocieteAllView extends acCouchdbView
 	const KEY_SIRET = 6;
 	const KEY_COMMUNE = 7;
 	const KEY_CODE_POSTAL = 8;
-  const KEY_PAYS = 8;
 
     public static function getInstance() {
         return acCouchdbManager::getView('societe', 'all', 'Societe');
