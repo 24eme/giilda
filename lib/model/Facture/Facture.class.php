@@ -346,6 +346,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
 
     public function updateEcheance($echeance_code, $date, $montant_ht) {
+        //Vérifie qu'il n'y a pas d'échéance à la même date avant de ajouter une nouvelle
         foreach ($this->echeances as $echeance) {
             if ($echeance->echeance_date == $date) {
                 $echeance->montant_ttc += $this->ttc($montant_ht);
@@ -354,6 +355,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 return;
             }
         }
+	//Ici on est sur qu'il n'y a pas d'échéance à cette date, alors on l'ajoute
         $echeance = new stdClass();
         $echeance->echeance_code = $echeance_code;
         $echeance->montant_ttc = $this->ttc($montant_ht);
@@ -408,7 +410,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     protected function ttc($p) {
-        return $p + $p * 0.196;
+      return round($p + $p * 0.196, 2);
     }
 
     public function save() {
