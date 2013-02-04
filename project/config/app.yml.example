@@ -1,21 +1,27 @@
 all:
   alertes:
     generations:
-      VRACNONSOLDE:
+      VRAC_NON_SOLDE:
         class: AlerteGenerationVracsNonSoldes
         creation_delai: '-5 month'
         enattente_delai: '+1 month'
         relance_delai: '+2 month'
         nb_relance: '3'
-      VRACPRIXDEFINITIFS:
+      VRAC_PRIX_DEFINITIFS:
         class: AlerteGenerationVracsPrixDefinitifs
         creation_delai: '-1 month'
         enattente_delai: '+1 month'
         relance_delai: '+2 month'
         nb_relance: '2'
-      VRACATTENTEORIGINAL:
+      VRAC_ATTENTE_ORIGINAL:
         class: AlerteGenerationVracsAttenteOriginal
         creation_delai: '-1 month'
+        enattente_delai: '+2 month'
+        relance_delai: '+2 month'
+        nb_relance: '2'
+      DRM_MANQUANTE:
+        class: AlerteGenerationDRMManquantes
+        creation_delai: '-2 month'
         enattente_delai: '+2 month'
         relance_delai: '+2 month'
         nb_relance: '2'

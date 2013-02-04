@@ -9,7 +9,7 @@
  * Description of class AlerteGenerationContratsNonSoldes
  * @author mathurin
  */
-class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
+class AlerteGenerationVracsNonSoldes extends AlerteGenerationVrac {
 
     public function getTypeAlerte() {
 
@@ -17,14 +17,14 @@ class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
     }
 
     public function creations() {
-        $vracs = VracClient::getInstance()->retreiveByStatutsTypesAndDate(
+        $rows = VracClient::getInstance()->retreiveByStatutsTypesAndDate(
                 array(VracClient::STATUS_CONTRAT_NONSOLDE), array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE,
             VracClient::TYPE_TRANSACTION_VIN_VRAC), $this->getConfig()->getOptionDelaiDate('creation_delai', $this->getDate()));
-        foreach ($vracs as $vrac) {
-            $alerte = $this->createOrFind($vrac->id, $vrac->key[VracStatutAndTypeView::KEY_IDENTIFIANT], $vrac->key[VracStatutAndTypeView::KEY_NOM]);
-            $contrat = VracClient::getInstance()->find($vrac->id);
-            $alerte->campagne = $contrat->campagne;
-            $alerte->region = $this->getRegionFromIdEtb($contrat->vendeur_identifiant);
+
+        foreach ($rows as $row) {
+            $vrac = VracClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
+            $alerte = $this->createOrFindByVrac($vrac);
+            
             if ($alerte->isNew() || $alerte->isClosed()) {
                 $alerte->open($this->getDate());
             }
@@ -36,20 +36,20 @@ class AlerteGenerationVracsNonSoldes extends AlerteGeneration {
         foreach ($this->getAlertesOpen() as $alerteView) {
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
             $vrac = VracClient::getInstance()->find($id_document);
-            if (isset($vrac)) {
-                if ($vrac->isSolde()) {
-                    $alerte = AlerteClient::getInstance()->find($alerteView->id);
-                    $alerte->updateStatut(AlerteClient::STATUT_FERME);
-                    $alerte->save();
-                    continue;
-                }
+            if(!$vrac) {
+
+                continue;
             }
+
+            if ($this->valide->statut != VracClient::STATUS_CONTRAT_SOLDE) {
+
+                continue;
+            }
+
+            $alerte = AlerteClient::getInstance()->find($alerteView->id);
+            $alerte->updateStatut(AlerteClient::STATUT_FERME);
+            $alerte->save();
         }
         parent::updates();
     }
-
-    public function setDatasRelance(Alerte $alerte) {
-        $this->setDatasRelanceForVrac($alerte);
-    }
-
 }

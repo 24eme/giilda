@@ -1,3 +1,4 @@
+
 <?php
 
 /*
@@ -9,7 +10,7 @@
  * Description of class AlerteGenerationVracsPrixDefinitifs
  * @author mathurin
  */
-class AlerteGenerationVracsPrixDefinitifs extends AlerteGeneration {
+class AlerteGenerationVracsPrixDefinitifs extends AlerteGenerationVrac {
 
     public function getTypeAlerte() {
 
@@ -17,13 +18,12 @@ class AlerteGenerationVracsPrixDefinitifs extends AlerteGeneration {
     }
 
     public function creations() {
-        $vracs = VracClient::getInstance()->findContatsByWaitForPrixDefinitif($this->getDate());
-        foreach ($vracs as $vrac) {
-            if (Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date', $this->getDate()), $vrac->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
-                $alerte = $this->createOrFind($vrac->id, $vrac->key[VracOriginalPrixDefinitifView::KEY_IDENTIFIANT], $vrac->key[VracOriginalPrixDefinitifView::KEY_NOM]);
-                $contrat = VracClient::getInstance()->find($vrac->id);
-                $alerte->campagne = $contrat->campagne;
-                $alerte->region = $this->getRegionFromIdEtb($contrat->vendeur_identifiant);
+        $rows = VracClient::getInstance()->findContatsByWaitForPrixDefinitif($this->getDate());
+        foreach ($rows as $row) {
+            if (Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date', $this->getDate()), $row->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
+                $vrac = VracClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
+                $alerte = $this->createOrFindByVrac($vrac);
+                
                 if ($alerte->isNew() || $alerte->isClosed()) {
                     $alerte->open($this->getDate());
                 }
@@ -36,20 +36,20 @@ class AlerteGenerationVracsPrixDefinitifs extends AlerteGeneration {
         foreach ($this->getAlertesOpen() as $alerteView) {
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
             $vrac = VracClient::getInstance()->find($id_document);
-            if (isset($vrac)) {
-                if ($vrac->hasPrixDefinitif()) {
-                    $alerte = AlerteClient::getInstance()->find($alerteView->id);
-                    $alerte->updateStatut(AlerteClient::STATUT_FERME);
-                    $alerte->save();
-                    continue;
-                }
+            if(!$vrac) {
+
+                continue;
             }
+
+            if (!$vrac->hasPrixDefinitif()) {
+
+                continue;
+            }
+
+            $alerte = AlerteClient::getInstance()->find($alerteView->id);
+            $alerte->updateStatut(AlerteClient::STATUT_FERME);
+            $alerte->save();
         }
         parent::updates();
     }
-
-    public function setDatasRelance(Alerte $alerte) {
-        $this->setDatasRelanceForVrac($alerte);
-    }
-
 }
