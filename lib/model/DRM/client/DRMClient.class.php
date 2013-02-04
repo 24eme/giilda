@@ -170,31 +170,6 @@ class DRMClient extends acCouchdbClient {
       return $list;
     }
 
-    public function findByInterproDate($interpro, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        $drm = array();
-        foreach ($this->viewByInterproDate($interpro, $date) as $id => $key) {
-    	      $drm[] = $this->find($id);
-        }
-        
-        return $drm;
-    }
-
-    protected function viewByInterproDate($interpro, $date) {
-        $rows = acCouchdbManager::getClient()
-	               ->startkey(array($interpro, $date))
-	               ->endkey(array($interpro, array()))
-	               ->getView("drm", "date")
-	               ->rows;
-
-        $drms = array();
-
-        foreach($rows as $row) {
-            $drms[$row->id] = $row->key;
-        }
-      
-        return $drms;
-    }
-
     public function viewByIdentifiant($identifiant) {
         $rows = acCouchdbManager::getClient()
             ->startkey(array($identifiant))
