@@ -9,8 +9,8 @@ class SocieteRoute extends sfObjectRoute implements InterfaceSocieteRoute {
     }
 
     protected function doConvertObjectToArray($object = null) {
-      $this->societe = $object;
-      return array("identifiant" => $object->getIdentifiant());
+
+        return array("identifiant" => $object->getIdentifiant());
     }
 
     public function getSociete() {
