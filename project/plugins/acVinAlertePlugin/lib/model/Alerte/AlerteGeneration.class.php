@@ -38,18 +38,16 @@ abstract class AlerteGeneration {
         return AlerteClient::getInstance()->find(AlerteClient::getInstance()->buildId($this->getTypeAlerte(), $id_document));
     }
 
-    public function createOrFind($id_document, $identifiant, $nom) {
+    public function createOrFind($id_document) {
         $alerte = $this->getAlerte($id_document);
         if (!$alerte) {
             $alerte = new Alerte();
             $alerte->setCreationDate($this->getDate());
             $alerte->type_alerte = $this->getTypeAlerte();
             $alerte->id_document = $id_document;
-            $alerte->identifiant = $identifiant;
-            $alerte->declarant_nom = $nom;
             $alerte->nb_relances = 0;
             $alerte->date_relance = $this->getConfig()->getOptionDelaiDate('relance_delai', $alerte->date_creation);
-            $this->setDatasRelance($alerte);
+            $this->storeDatasRelance($alerte);
         }
         return $alerte;
     }
@@ -65,7 +63,7 @@ abstract class AlerteGeneration {
 
     public abstract function getTypeAlerte();
 
-    public abstract function setDatasRelance(Alerte $alerte);
+    protected abstract function storeDatasRelance(Alerte $alerte);
 
     public abstract function creations();
 
@@ -79,9 +77,4 @@ abstract class AlerteGeneration {
             }
         }
     }
-
-    protected function setDatasRelanceForVrac(Alerte $alerte) {
-        $alerte->datas_relances = 'Contrat du ' . VracClient::getInstance()->getLibelleContratNum(str_replace('VRAC-', '', $alerte->id_document));
-    }
-
 }

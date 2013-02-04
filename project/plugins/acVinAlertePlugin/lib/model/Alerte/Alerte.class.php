@@ -54,10 +54,10 @@ class Alerte extends BaseAlerte {
         }
         $this->statuts->add(null, array('statut' => $statut, 'commentaire' => $commentaire, 'date' => $date));
         switch ($statut) {
-            case AlerteClient::STATUT_ARELANCER:
+            case AlerteClient::STATUT_A_RELANCER:
                 $this->updateStatutRelance($date);
                 break;
-            case AlerteClient::STATUT_ENATTENTEREPONSE:
+            case AlerteClient::STATUT_EN_ATTENTE_REPONSE:
                 $this->date_relance = $this->getConfig()->getOptionDelaiDate('enattente_delai', $date);
                 break;
         }
@@ -68,7 +68,7 @@ class Alerte extends BaseAlerte {
             $date = date('Y-m-d');
         }
         if ($this->nb_relances >= $this->getConfig()->getOption('nb_relance')) {
-            $this->updateStatut(AlerteClient::STATUT_ENSOMMEIL, 'Alerte en sommeil', $date);
+            $this->updateStatut(AlerteClient::STATUT_EN_SOMMEIL, 'Alerte en sommeil', $date);
             return;
         }
         $this->nb_relances++;
