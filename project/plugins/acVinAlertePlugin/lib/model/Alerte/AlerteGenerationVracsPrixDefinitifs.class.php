@@ -19,7 +19,7 @@ class AlerteGenerationVracsPrixDefinitifs extends AlerteGenerationVrac {
 
     public function creations() {
         $rows = VracClient::getInstance()->findContatsByWaitForPrixDefinitif($this->getDate());
-        foreach ($vracs as $row) {
+        foreach ($rows as $row) {
             if (Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date', $this->getDate()), $row->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
                 $vrac = VracClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
                 $alerte = $this->createOrFindByVrac($vrac);
