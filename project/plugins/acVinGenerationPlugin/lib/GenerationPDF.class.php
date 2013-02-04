@@ -37,24 +37,34 @@ class GenerationPDF {
     if (!count($pdf))
       return null;
     $fileres = rand().".pdf";
-    exec('pdftk "'.$pdf.'" cat '.intval($pageid).' output "'.$fileres.'"');
+    file_put_contents("/tmp/$fileres.sh", '/usr/bin/pdftk "'.$pdf.'" cat '.intval($pageid).' output "'.$fileres.'"');
+    $str = system('bash /tmp/'.$fileres.'.sh 2>&1');
+    if ($str) {
+        throw new sfException('pdftk returned an error: '.$str);
+    }
+    if (!file_exists($fileres) || !filesize($fileres)) {
+      throw new sfException("wrong result file $fileres extracting page # $pageid from $pdf");
+    }
     return $fileres;    
   }
 
   function concatenatePDFsForAPageId($pdfs, $pageid) {
     $files = array();
-    foreach ($pdfs as $pdf) {
+    foreach($pdfs as $pdf) {
       $f = $this->generateAPDFForAPageId($pdf, $pageid);
       if ($f) $files[] = $f;
     }
     $fileres = $this->concatenatePDFs($files);
+    if (!file_exists($fileres) || !filesize($fileres)) {
+      throw new sfException("$fileres (for pages # $pageid) not generated");
+    }
     $this->cleanFiles($files);
-    return $filesres;
+    return $fileres;
   }
 
   private function generatePDFFiles($pdfs) {
     $files = array();
-    foreach ($pdfs as $pdf) {
+    foreach($pdfs as $pdf) {
       if ($pdf) {
 	$file = $pdf->getPDFFile();
 	if (!file_exists($file)) {
@@ -85,11 +95,14 @@ class GenerationPDF {
     $files = $this->generatePDFFiles($pdfs);
     $filesbypage = array();
     for($i = 1 ; $i <= $pagenumber ; $i++) {
-      $filesbypage[] = $this->concatenatePDFsForAPageId($pdfs, $i);
+      $filesbypage[] = $this->concatenatePDFsForAPageId($files, $i);
     }
     $this->cleanFiles($files);
     $res = $this->concatenatePDFs($filesbypage);
     $this->cleanFiles($filesbypage);
+    if (!file_exists($res)) {
+      throw new sfException("$res doesn't exist");
+    }
     return $res;
   }
 
@@ -119,7 +132,7 @@ class GenerationPDF {
       if (!count($pdfspage))
         continue;
       if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
-	$origin = $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfspage);
+	$origin = $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfspage, $page);
 	if ($origin)
 	  $this->generation->add('fichiers')->add($this->publishPDFFile($origin, $this->generation->date_emission.'-'.$page), 
 						$this->getDocumentName().' de '.$page.' page(s) trié par numéro de page');
