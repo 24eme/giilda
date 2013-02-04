@@ -8,6 +8,7 @@ function(doc) {
             doc.identifiant, 
             doc.siret,
             doc.siege.commune, 
-            doc.siege.code_postal], null);
+            doc.siege.code_postal,
+            doc.siege.pays], null);
     }
 }
