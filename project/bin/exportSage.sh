@@ -11,9 +11,9 @@ cat $TMP/societesWithSageData.csv | perl bin/convertExportSociete2SAGE.pl > $TMP
 php symfony export:facture > $TMP/factures.csv
 cat $TMP/factures.csv | perl bin/convertExportFacture2SAGE.pl > $TMP/factures.sage
 
-echo  "#FLG 001";
-echo "#VER 14";
-echo "#DEV EUR";
-cat $TMP/societes.sage | iconv -f UTF8 -t ISO8859-1
-cat $TMP/factures.sage | iconv -f UTF8 -t ISO8859-1
+echo  "#FLG 001" | sed 's/$/\r/'
+echo "#VER 14" | sed 's/$/\r/'
+echo "#DEV EUR" | sed 's/$/\r/'
+cat $TMP/societes.sage | iconv -f UTF8 -t ISO8859-1 | sed 's/$/\r/'
+cat $TMP/factures.sage | iconv -f UTF8 -t ISO8859-1 | sed 's/$/\r/'
 
