@@ -151,7 +151,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $ligne->produit_type = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE];
         $ligne->produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
         $ligne->produit_hash = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
-        $ligne->montant_ht = $ligne->cotisation_taux * $ligne->volume * -1;
+        $ligne->montant_ht = round($ligne->cotisation_taux * $ligne->volume * -1, 2);
         $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
         $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
