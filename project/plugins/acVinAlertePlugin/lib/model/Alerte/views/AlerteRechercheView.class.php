@@ -14,7 +14,8 @@ class AlerteRechercheView extends acCouchdbView {
     const VALUE_ID_DOC = 0;
     const VALUE_NOM_ETB = 1;
     const VALUE_DATE_CREATION = 2;
-    const VALUE_DATE_MODIFICATION = 3;
+    const VALUE_DATE_MODIFICATION = 3;    
+    const VALUE_LIBELLE_DOCUMENT = 4;
     
     public static function getInstance() {
         return acCouchdbManager::getView('alerte', 'recherche', 'Alerte');

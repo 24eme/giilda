@@ -12,5 +12,5 @@ function(doc) {
         dernierChangement = doc.statuts[doc.statuts.length - 1];
     }
     
-    emit([doc.identifiant, doc.region, doc.type_alerte, dernierChangement.statut, doc.campagne],[ doc.id_document, doc.declarant_nom, doc.date_creation,dernierChangement.date]);
+    emit([doc.identifiant, doc.region, doc.type_alerte, dernierChangement.statut, doc.campagne],[ doc.id_document, doc.declarant_nom, doc.date_creation,dernierChangement.date, doc.libelle_document]);
 }

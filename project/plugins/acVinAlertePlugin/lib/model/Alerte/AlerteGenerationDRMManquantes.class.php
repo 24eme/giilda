@@ -22,12 +22,12 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         $drm_prec = null;
         
         foreach($drms as $drm) {
-            if($drm_prec->identifiant == $drm->identifiant && $drm_prec->periode == $drm->periode) {
+            if(($drm_prec) && ($drm_prec->identifiant == $drm->identifiant && $drm_prec->periode == $drm->periode)) {
                 // On n'exclut le versionnage d'une DRM
                 continue;
             }
 
-            if($drm_prec->identifiant != $drm->identifiant) {
+            if(($drm_prec) && ($drm_prec->identifiant != $drm->identifiant)) {
 
                 $drm_prec = null;
             }
@@ -47,8 +47,8 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
     }
 
     protected function createAlertesUntilDate($drm) {
-        $periode = DRMClient::getPeriodeSuivante($drm->periode); 
-        while(DRMClient::buildDate($periode) < date('Y-m-d')) {
+        $periode = DRMClient::getInstance()->getPeriodeSuivante($drm->periode); 
+        while(DRMClient::getInstance()->buildDate($periode) < date('Y-m-d')) {
             $alerte = $this->createOrFindByDRM($this->buildDRMManquante($drm, $periode));
             if(!$alerte->isNew() && !$alerte->isClosed()) {
                 

@@ -20,8 +20,7 @@ class AlerteRoute extends sfObjectRoute  {
         } else {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'type_alerte', $parameters['type_alerte']));
         }
-        
-        if (preg_match('/^[A-Z]+[-]{1}[0-9]*$/',$parameters['id_document'])) {            
+        if (preg_match('/^[A-Z12]+[-]{1}[0-9-M]*$/',$parameters['id_document'])) {            
             $id_document = $parameters['id_document'];
         } else {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'id_document', $parameters['id_document']));
