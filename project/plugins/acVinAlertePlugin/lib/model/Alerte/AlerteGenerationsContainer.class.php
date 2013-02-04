@@ -12,14 +12,25 @@
 class AlerteGenerationsContainer {
     
     protected $generations = array();
+    protected $configs = array();
     
     public function __construct() {
-        $configs = sfConfig::get('app_alertes_generations');
-        
-        foreach($configs as $key => $config) {
-            $class = $config['class'];
-            $this->generations[$key] = new $class();
+        $this->configs = sfConfig::get('app_alertes_generations');
+    }
+
+    public function addAll() {
+        foreach($this->configs as $key => $config) {
+            $this->add($key);
         }
+    }
+
+    public function add($name) {
+        if(!isset($this->configs[$name])) {
+
+            throw new sfException(sprintf("Alerte '%s' does not configure in app.yml", $name));
+        }
+        $class = $this->configs[$name]['class'];
+        $this->generations[$key] = new $class();
     }
     
     public function getGenerations() {

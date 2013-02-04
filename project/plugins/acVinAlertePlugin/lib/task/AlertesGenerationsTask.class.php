@@ -6,6 +6,7 @@ class AlertesGenerationTask extends sfBaseTask
   {
     // // add your own arguments here
     $this->addArguments(array(
+          new sfCommandArgument('alertes', sfCommandArgument::IS_ARRAY, "Liste d'alertes à lancer", array())
     ));
 
     $this->addOptions(array(
@@ -33,6 +34,15 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     $container = new AlerteGenerationsContainer();
+
+    if(count($arguments['alertes']) > 0) {
+      foreach($arguments['alertes'] as $name) {
+        $container->add($name);
+      }
+    } else {
+      $container->addAll();
+    }
+
     $container->creations();
     $container->updates();
   }
