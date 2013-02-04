@@ -73,7 +73,9 @@ class Societe extends BaseSociete {
     private function getRegionsViticoles() {
       $regions = array();
       foreach($this->getEtablissementsObj() as $id => $e) {
-	$regions[$e->etablissement->region] = $e->etablissement->region;
+	if ($e->etablissement->isActif()) {
+	  $regions[$e->etablissement->region] = $e->etablissement->region;
+	}
       }
       return $regions;
     }
