@@ -14,7 +14,7 @@
  * @property string $id_document
  * @property string $declarant_nom
  * @property string $identifiant
- * @property string $datas_relances
+ * @property string $libelle_document
  * @property string $region
  * @property string $campagne
  * @property acCouchdbJson $statuts
@@ -39,8 +39,8 @@
  * @method string setDeclarantNom()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
- * @method string getDatasRelances()
- * @method string setDatasRelances()
+ * @method string getLibelleDocument()
+ * @method string setLibelleDocument()
  * @method string getRegion()
  * @method string setRegion()
  * @method string getCampagne()

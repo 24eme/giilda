@@ -25,6 +25,12 @@ all:
         enattente_delai: '+2 month'
         relance_delai: '+2 month'
         nb_relance: '2'
+      SV12_SANS_VRAC:
+        class: AlerteGenerationSV12SansVrac
+        creation_delai: '-2 month'
+        enattente_delai: '+2 month'
+        relance_delai: '+2 month'
+        nb_relance: '2'
   facture:
     emetteur:
       TOURS:

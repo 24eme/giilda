@@ -30,7 +30,7 @@ class AlerteGenerationsContainer {
             throw new sfException(sprintf("Alerte '%s' does not configure in app.yml", $name));
         }
         $class = $this->configs[$name]['class'];
-        $this->generations[$key] = new $class();
+        $this->generations[$name] = new $class();
     }
     
     public function getGenerations() {

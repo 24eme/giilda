@@ -30,7 +30,6 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
 
         foreach($etablissement_rows as $etablissement_row) {
             $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);
-            echo $etablissement->identifiant."\n";
             foreach($periodes as $periode) {
                 $drm = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($etablissement->identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
 
@@ -46,9 +45,6 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                 }
                 $alerte->open($this->getDate());
                 $alerte->save();
-
-                echo $identifiant;
-                echo $periode;
             }
         }
     }

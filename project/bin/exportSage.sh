@@ -16,4 +16,4 @@ echo "#VER 14" | sed 's/$/\r/'
 echo "#DEV EUR" | sed 's/$/\r/'
 cat $TMP/societes.sage | iconv -f UTF8 -t ISO8859-1 | sed 's/$/\r/'
 cat $TMP/factures.sage | iconv -f UTF8 -t ISO8859-1 | sed 's/$/\r/'
-
+echo "#FIN" | sed 's/$/\r/'

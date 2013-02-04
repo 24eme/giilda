@@ -12,7 +12,7 @@ Alerte:
       id_document: { }
       declarant_nom: { }
       identifiant: { }
-      datas_relances: { }
+      libelle_document: { }
       region: { }
       campagne: { }
       statuts:
