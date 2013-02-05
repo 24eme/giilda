@@ -11,7 +11,7 @@ function(doc) {
             for(volume_key in rev.volumes) {
                 volume += rev.volumes[volume_key].volume;
             }
-            emit([doc.campagne, identifiant, rev.produit_hash, doc.odg], [volume, revs.declarant_nom, rev.libelle_produit_csv])
+            emit([doc.campagne, identifiant, rev.produit_hash, doc.odg, doc._id], [volume, revs.declarant_nom, rev.libelle_produit_csv])
         }
     }
 

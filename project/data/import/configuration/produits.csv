@@ -1,3 +1,4 @@
+#interpro;categorie_libelle;categorie_code;categorie_code_applicatif_droit genre_libelle;denomination_libelle;denomination_code;mention_libelle mention_code;lieu_libelle;lieu_code;couleur_libelle couleur_code;cepage_libelle;cepage_code departements;douane_code douane_libelle;douane_taxe douane_date douane_noeud;cvo_taxe;cvo_date;cvo_noeud;repli_entree;repli_sorti declassement_entree declassement_sorti;densite labels;code_produit;code_produit_noeud;code_analytique code_comptable_noeud;code_douane code_douane_noeud;alias_produit
 inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;;;Blanc;3;;;;;;;;;4,5;;G;;;;;;;11;cepage;09010;cepage;1B200;cepage;1B200 03
 Inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;Coteaux de la Loire;CDL;Blanc;3;Chenin;CHE;;;;;;;4;;L;;;;;;;21;cepage;09020;cepage;1B202L;cepage;
 inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;;;Rouge;1;Gamay;GAM;;;;;;;4,5;;G;;;;;;;32;cepage;09030;cepage;1R203S;cepage;

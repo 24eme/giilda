@@ -17,86 +17,56 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
     }
 
     public function creations() {
-        $drms = DRMAllView::getInstance()->findAll();
 
-        $drm_prec = null;
-        
-        foreach($drms as $drm) {
-            if(($drm_prec) && ($drm_prec->identifiant == $drm->identifiant && $drm_prec->periode == $drm->periode)) {
-                // On n'exclut le versionnage d'une DRM
-                continue;
-            }
+        $last_periode = DRMDerniereView::getInstance()->findLastPeriode();
 
-            if(($drm_prec) && ($drm_prec->identifiant != $drm->identifiant)) {
+        if(!$last_periode) {
 
-                $drm_prec = null;
-            }
-
-            $this->createAlertesUntilDate($drm);
-
-            if(!$drm_prec) {
-                $drm_prec = $drm;
-
-                continue;
-            }
-
-            $this->createAlertesATrou($drm_prec, $drm);
-         
-            $drm_prec = $drm;
+            return null;
         }
-    }
 
-    protected function createAlertesUntilDate($drm) {
-        $periode = DRMClient::getInstance()->getPeriodeSuivante($drm->periode); 
-        while(DRMClient::getInstance()->buildDate($periode) < date('Y-m-d')) {
-            $alerte = $this->createOrFindByDRM($this->buildDRMManquante($drm, $periode));
-            if(!$alerte->isNew() && !$alerte->isClosed()) {
+        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF);
+        $periodes = $this->getPeriodes();
+
+        foreach($etablissement_rows as $etablissement_row) {
+            $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);
+            foreach($periodes as $periode) {
+                $drm = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($etablissement->identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
+
+                if($drm) {
+
+                    continue;
+                }
+
+                $alerte = $this->createOrFindByDRM($this->buildDRMManquante($etablissement->identifiant, $periode));
+                if(!($alerte->isNew() || $alerte->isClosed())) {
                 
-                continue;
+                    continue;
+                }
+                $alerte->open($this->getDate());
+                $alerte->save();
             }
-            $alerte->open($this->getDate());
-            $alerte->save();
-
-            echo $drm->identifiant.$periode ."\n";
-
-            $periode = DRMClient::getInstance()->getPeriodeSuivante($periode);
         }
     }
 
-    protected function createAlertesATrou($drm_prec, $drm) {
-        $periode = DRMClient::getPeriodeSuivante($drm->periode);
-        while($drm_prec->periode != $periode) {
-            if(DRMClient::buildDate($periode) > date('Y-m-d')) {
-                continue;
-            }
-
-            $alerte = $this->createOrFindByDRM($this->buildDRMManquante($drm, $periode));
-
-            if(!$alerte->isNew() && !$alerte->isClosed()) {
-                
-                continue;
-            }
-            $alerte->open($this->getDate());
-            $alerte->save();
-
-            echo $drm->identifiant.$periode ."\n";
-
-            $periode = DRMClient::getInstance()->getPeriodeSuivante($drm->periode); 
-        }
+    protected function getPeriodes() {
+        return array('201208', '201209', '201210', '200501', '200401', '200301', '200506');
     }
 
-    public function buildDRMManquante($drm, $periode) {
-        $drm_manquante = DRMClient::getInstance()->find($drm->_id, acCouchdbClient::HYDRATE_JSON);
+    public function buildDRMManquante($identifiant, $periode) {
+        $id = DRMClient::getInstance()->buildId($identifiant, $periode);
+        $drm_manquante = new stdClass();
+        $drm_manquante->identifiant = $identifiant;
         $drm_manquante->periode = $periode;
         $drm_manquante->version = null;
-        $drm_manquante->_id = DRMClient::getInstance()->buildId($drm->identifiant, $periode);
+        $drm_manquante->_id = $id;
 
         return $drm_manquante;
     }
 
     public function updates() {
         foreach ($this->getAlertesOpen() as $alerteView) {
-            $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
+            /*$id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
             $vrac = VracClient::getInstance()->find($id_document);
             if (isset($vrac)) {
                 if (!$vrac->getOriginal()) {
@@ -105,7 +75,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                     $alerte->save();
                     continue;
                 }
-            }
+            }*/
         }
         parent::updates();
     }

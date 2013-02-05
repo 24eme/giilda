@@ -5,6 +5,7 @@ class RevendicationStocksView extends acCouchdbView
     const KEY_ETABLISSEMENT_IDENTIFIANT = 1;
     const KEY_PRODUIT_HASH = 2;
     const KEY_ODG = 3;
+    const KEY_ID = 4;
 
     const VALUE_VOLUME = 0;
     const VALUE_DECLARANT_NOM = 1;
@@ -46,6 +47,7 @@ class RevendicationStocksView extends acCouchdbView
         $rev->produit_hash = $row->key[self::KEY_PRODUIT_HASH];
         $rev->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
         $rev->volume = $row->value[self::VALUE_VOLUME];
+        $rev->_id = $row->_id;
 
         return $rev;
     }

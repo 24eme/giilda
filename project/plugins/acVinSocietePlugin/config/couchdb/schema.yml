@@ -26,6 +26,7 @@ Societe:
             adresse: {  }
             code_postal: {  }
             commune: {  }
+            pays: { required: false }
       cooperative: { }
       enseignes:
         type: array_collection
