@@ -150,6 +150,11 @@ class ConfigurationClient extends acCouchdbClient {
         return sprintf("%04d%02d", $annee, $mois);
     }
 
+    public function buildPeriodeFromDate($date) {
+
+        return $this->buildPeriode(date('Y', strtotime($date)), date('m', strtotime($date)));
+    }
+
     public function buildDate($periode) {
         $lastDay = date('t',mktime(0, 0, 0, $this->getMois($periode), 1, $this->getAnnee($periode)));
         return sprintf('%4d-%02d-%02d', $this->getAnnee($periode), $this->getMois($periode), $lastDay);
@@ -163,6 +168,11 @@ class ConfigurationClient extends acCouchdbClient {
     public function getPeriodeFin($campagne) {
 
         return date('Ym', strtotime(ConfigurationClient::getInstance()->getDateFinCampagne($campagne)));
+    }
+
+    public function buildCampagneByPeriode($periode) {
+      
+        return $this->buildCampagne($this->buildDate($periode));
     }
 
     public function getPeriodeSuivante($periode) {
