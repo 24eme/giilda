@@ -1,7 +1,7 @@
 <?php
 
 class AlerteClient extends acCouchdbClient {
-    
+
     const VRAC_NON_SOLDES = "VRAC_NON_SOLDE";
     const VRAC_PRIX_DEFINITIFS = "VRAC_PRIX_DEFINITIFS";
     const VRAC_ATTENTE_ORIGINAL = "VRAC_ATTENTE_ORIGINAL";
@@ -21,11 +21,9 @@ class AlerteClient extends acCouchdbClient {
     const STATUT_EN_SOMMEIL = 'EN_SOMMEIL';
     const STATUT_A_RELANCER = 'A_RELANCER';
     
-    
     public static $statutsOpen =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_EN_SOMMEIL,self::STATUT_A_RELANCER);
     public static $statutsRelancable =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_A_RELANCER);
     public static $statutsClosed =    array(self::STATUT_FERME);
-    
     
     public static function getInstance() {
         

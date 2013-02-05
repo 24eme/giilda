@@ -21,8 +21,10 @@ class AlerteGenerationSV12SansVrac extends AlerteGenerationSV12 {
         $prec_sv12 = null;
         foreach ($rows as $row) {
             $sv12 = SV12Client::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
-            if ((!$prec_sv12) || ($prec_sv12->identifiant != $sv12->identifiant) || ($prec_sv12->periode != $sv12->periode)) {
-            
+            if (($sv12->valide->statut != SV12Client::STATUT_VALIDE) || (!Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_delai', $this->getDate()), $sv12->valide->date_saisie))) {
+                continue;
+            }
+            if ((!$prec_sv12) || ($prec_sv12->identifiant != $sv12->identifiant) || ($prec_sv12->periode != $sv12->periode)) {            
                 $prec_sv12 = $this->createAlerteSV12SansContrat($sv12);
            }
         }

@@ -19,7 +19,7 @@ class AlerteGenerationVracsAttenteOriginal extends AlerteGenerationVrac {
     public function creations() {
         $rows = VracClient::getInstance()->retreiveByWaitForOriginal();
         foreach ($rows as $row) {
-            if (!Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date', $this->getDate()), $row->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
+            if (!Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_delai', $this->getDate()), $row->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
 
                 continue;
             }
