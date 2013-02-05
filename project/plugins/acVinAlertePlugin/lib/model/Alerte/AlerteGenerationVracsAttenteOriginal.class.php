@@ -49,7 +49,7 @@ class AlerteGenerationVracsAttenteOriginal extends AlerteGenerationVrac {
             }
 
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
-            $alerte->updateStatut(AlerteClient::STATUT_FERME, 'Changement automatique au statut fermer', $this->getDate());
+            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
             $alerte->save();
         }
         parent::updates();

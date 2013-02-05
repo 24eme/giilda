@@ -5,7 +5,7 @@ Alerte:
       _id: { }
       _rev: { }
       type: { }
-      type_alerte: { }      
+      type_alerte: { }
       date_creation: { }
       date_relance: { }
       nb_relances: { type: integer }
@@ -26,4 +26,3 @@ Alerte:
                   date: { }
                   statut: { }
                   commentaire: { }
-      

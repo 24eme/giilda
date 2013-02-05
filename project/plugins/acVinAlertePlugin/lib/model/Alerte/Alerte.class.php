@@ -30,6 +30,11 @@ class Alerte extends BaseAlerte {
         $this->_id = AlerteClient::getInstance()->buildId($this->type_alerte, $this->id_document);
     }
 
+    public function getDocument($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+
+        return acCouchdbManager::getClient()->find($this->id_document, $hydrate);
+    }
+
     public function setCreationDate($creation_date) {
         $this->date_creation = $creation_date;
     }

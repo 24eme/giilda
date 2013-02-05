@@ -12,8 +12,11 @@ class AlerteConfig  {
         $this->config = $configs[$typeAlerte];
     }
      public function getOption($field) {
-        if (!isset($this->config[$field]))
-            return null;
+        if (!isset($this->config[$field])) {
+
+            throw new sfException(sprintf("L'option %s n'existe pas", $field));
+        }
+
         return $this->config[$field];
     }
 
