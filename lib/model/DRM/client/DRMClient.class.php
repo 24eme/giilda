@@ -73,7 +73,7 @@ class DRMClient extends acCouchdbClient {
 
     public function buildCampagne($periode) {
       
-        return ConfigurationClient::getInstance()->buildCampagne($this->buildDate($periode));
+        return ConfigurationClient::getInstance()->buildCampagneByPeriode($periode);
     }
 
     public function buildPeriode($annee, $mois) {
