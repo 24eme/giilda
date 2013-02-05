@@ -54,7 +54,7 @@ abstract class AlerteGeneration {
     
     public function getDate() {
 
-        return return date('Y-m-d');
+        return date('Y-m-d');
     }
 
     public abstract function getTypeAlerte();

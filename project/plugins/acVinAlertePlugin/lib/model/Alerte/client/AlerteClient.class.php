@@ -20,6 +20,8 @@ class AlerteClient extends acCouchdbClient {
     const STATUT_FERME = 'FERME';  
     const STATUT_EN_SOMMEIL = 'EN_SOMMEIL';
     const STATUT_A_RELANCER = 'A_RELANCER';
+
+    const MESSAGE_AUTO_FERME = "Changement automatique au statut fermé";
     
     public static $statutsOpen =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_EN_SOMMEIL,self::STATUT_A_RELANCER);
     public static $statutsRelancable =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_A_RELANCER);
