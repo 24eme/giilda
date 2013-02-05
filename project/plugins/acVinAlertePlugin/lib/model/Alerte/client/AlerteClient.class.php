@@ -1,8 +1,6 @@
 <?php
 
 class AlerteClient extends acCouchdbClient {
-
-    public static $date = '2013-03-21';
     
     const VRAC_NON_SOLDES = "VRAC_NON_SOLDE";
     const VRAC_PRIX_DEFINITIFS = "VRAC_PRIX_DEFINITIFS";
@@ -49,11 +47,6 @@ class AlerteClient extends acCouchdbClient {
                     self::STATUT_FERME => 'Fermée',
                     self::STATUT_EN_SOMMEIL => 'En sommeil', 
                     self::STATUT_A_RELANCER => 'Alerte à relancer');
-    }
-    
-    public static function getDate()
-    {
-        return self::$date;
     }
     
     public function updateStatutByAlerteId($new_statut,$new_commentaire,$alerteId) {
