@@ -2,17 +2,19 @@
 
 class AlerteClient extends acCouchdbClient {
 
-    public static $date = '2013-03-21';
-    
     const VRAC_NON_SOLDES = "VRAC_NON_SOLDE";
     const VRAC_PRIX_DEFINITIFS = "VRAC_PRIX_DEFINITIFS";
     const VRAC_ATTENTE_ORIGINAL = "VRAC_ATTENTE_ORIGINAL";
     const DRM_MANQUANTE = "DRM_MANQUANTE";
+    const DRM_STOCK_NEGATIF = "DRM_STOCK_NEGATIF";
+    const SV12_SANS_VRAC = "SV12_SANS_VRAC";
     
     public static $alertes_libelles = array(self::VRAC_NON_SOLDES => "Contrat non soldé",
                                             self::VRAC_PRIX_DEFINITIFS => "Contrat avec prix définitif non fixé",
                                             self::VRAC_ATTENTE_ORIGINAL => "Contrat en attente de l'original",
-                                            self::DRM_MANQUANTE => 'DRM absente');
+                                            self::DRM_MANQUANTE => 'DRM absente',
+                                            self::DRM_STOCK_NEGATIF => 'DRM avec un stock négatif',        
+                                            self::SV12_SANS_VRAC => 'SV12 dont le contrat est absent');
     
     const STATUT_NOUVEAU = 'NOUVEAU';    
     const STATUT_EN_ATTENTE_REPONSE = 'EN_ATTENTE_REPONSE';
@@ -20,12 +22,12 @@ class AlerteClient extends acCouchdbClient {
     const STATUT_FERME = 'FERME';  
     const STATUT_EN_SOMMEIL = 'EN_SOMMEIL';
     const STATUT_A_RELANCER = 'A_RELANCER';
-    
+
+    const MESSAGE_AUTO_FERME = "Changement automatique au statut fermé";
     
     public static $statutsOpen =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_EN_SOMMEIL,self::STATUT_A_RELANCER);
     public static $statutsRelancable =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_A_RELANCER);
     public static $statutsClosed =    array(self::STATUT_FERME);
-    
     
     public static function getInstance() {
         
@@ -47,11 +49,6 @@ class AlerteClient extends acCouchdbClient {
                     self::STATUT_FERME => 'Fermée',
                     self::STATUT_EN_SOMMEIL => 'En sommeil', 
                     self::STATUT_A_RELANCER => 'Alerte à relancer');
-    }
-    
-    public static function getDate()
-    {
-        return self::$date;
     }
     
     public function updateStatutByAlerteId($new_statut,$new_commentaire,$alerteId) {

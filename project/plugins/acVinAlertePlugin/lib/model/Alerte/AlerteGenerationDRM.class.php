@@ -23,6 +23,6 @@ abstract class AlerteGenerationDRM extends AlerteGeneration {
     }
 
     protected function storeDatasRelance(Alerte $alerte) {
-        $alerte->datas_relances = null;
+        $alerte->libelle_document = DRMClient::getInstance()->getLibelleFromId($alerte->id_document);
     }
 }

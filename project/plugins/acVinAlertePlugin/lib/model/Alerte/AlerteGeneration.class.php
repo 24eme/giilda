@@ -52,13 +52,9 @@ abstract class AlerteGeneration {
         return $alerte;
     }
     
-    public function getRegionFromIdEtb($etb) {
-        return EtablissementClient::getInstance()->retrieveById($etb)->region;
-    }
-
     public function getDate() {
 
-        return AlerteClient::getDate(); // return date('Y-m-d');
+        return date('Y-m-d');
     }
 
     public abstract function getTypeAlerte();

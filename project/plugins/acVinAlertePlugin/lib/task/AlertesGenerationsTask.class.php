@@ -32,7 +32,7 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
+    $context = sfContext::createInstance($this->configuration);
     $container = new AlerteGenerationsContainer();
 
     if(count($arguments['alertes']) > 0) {
@@ -43,7 +43,7 @@ EOF;
       $container->addAll();
     }
 
-    $container->creations();
     $container->updates();
+    $container->creations();
   }
 }

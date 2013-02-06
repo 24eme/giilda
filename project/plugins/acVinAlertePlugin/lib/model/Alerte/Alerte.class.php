@@ -30,6 +30,11 @@ class Alerte extends BaseAlerte {
         $this->_id = AlerteClient::getInstance()->buildId($this->type_alerte, $this->id_document);
     }
 
+    public function getDocument($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+
+        return acCouchdbManager::getClient()->find($this->id_document, $hydrate);
+    }
+
     public function setCreationDate($creation_date) {
         $this->date_creation = $creation_date;
     }
@@ -100,12 +105,12 @@ class Alerte extends BaseAlerte {
         return $this->getStatut()->statut == AlerteClient::STATUT_FERME;
     }
     
-    public function getLibelleForIdDocument() {
-        if(substr($this->id_document, 0 ,5) == 'VRAC-')
-                {
-            return 'Contrat N° '.VracClient::getInstance()->getLibelleContratNum(str_replace('VRAC-', '', $alerte->id_document));
-                }
-                return '';
-    }
+//    public function getLibelleForIdDocument() {
+//        if(substr($this->id_document, 0 ,5) == 'VRAC-')
+//                {
+//            return 'Contrat N° '.VracClient::getInstance()->getLibelleContratNum(str_replace('VRAC-', '', $alerte->id_document));
+//                }
+//                return '';
+//    }
 
 }

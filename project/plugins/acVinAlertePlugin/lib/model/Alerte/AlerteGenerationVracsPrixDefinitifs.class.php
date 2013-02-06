@@ -20,7 +20,7 @@ class AlerteGenerationVracsPrixDefinitifs extends AlerteGenerationVrac {
     public function creations() {
         $rows = VracClient::getInstance()->findContatsByWaitForPrixDefinitif($this->getDate());
         foreach ($rows as $row) {
-            if (Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_date', $this->getDate()), $row->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
+            if (Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_delai', $this->getDate()), $row->key[VracOriginalPrixDefinitifView::KEY_DATE_SAISIE])) {
                 $vrac = VracClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
                 $alerte = $this->createOrFindByVrac($vrac);
                 
@@ -47,7 +47,7 @@ class AlerteGenerationVracsPrixDefinitifs extends AlerteGenerationVrac {
             }
 
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
-            $alerte->updateStatut(AlerteClient::STATUT_FERME);
+            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
             $alerte->save();
         }
         parent::updates();

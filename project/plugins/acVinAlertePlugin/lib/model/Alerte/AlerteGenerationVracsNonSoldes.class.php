@@ -47,7 +47,7 @@ class AlerteGenerationVracsNonSoldes extends AlerteGenerationVrac {
             }
 
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
-            $alerte->updateStatut(AlerteClient::STATUT_FERME);
+            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
             $alerte->save();
         }
         parent::updates();

@@ -5,14 +5,14 @@ Alerte:
       _id: { }
       _rev: { }
       type: { }
-      type_alerte: { }      
+      type_alerte: { }
       date_creation: { }
       date_relance: { }
       nb_relances: { type: integer }
       id_document: { }
       declarant_nom: { }
       identifiant: { }
-      datas_relances: { }
+      libelle_document: { }
       region: { }
       campagne: { }
       statuts:
@@ -26,4 +26,3 @@ Alerte:
                   date: { }
                   statut: { }
                   commentaire: { }
-      
