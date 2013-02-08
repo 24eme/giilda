@@ -130,6 +130,21 @@ class DRMClient extends acCouchdbClient {
 
         return null;
     }
+    
+    public function getMaster($id) {
+        $matches = array();
+        $drm_master = null;
+        if(preg_match('/^DRM-([0-9]{8})-([0-9]{6})*/', $id, $matches)){
+            $identifiant = $matches[1];
+            $periode = $matches[2];
+            $drm_master = $this->findMasterByIdentifiantAndPeriode($identifiant, $periode);
+        }
+        if(!$drm_master){
+            throw new sfException("La DRM master avec l'id $id n'a pas été trouvée.");
+        }
+        return $drm_master;
+        
+    }
 
     public function getMasterVersionOfRectificative($identifiant, $periode, $version_rectificative) {
         $drms = $this->viewByIdentifiantPeriodeAndVersion($identifiant, $periode, $version_rectificative);

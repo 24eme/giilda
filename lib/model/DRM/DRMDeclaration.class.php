@@ -38,5 +38,14 @@ class DRMDeclaration extends BaseDRMDeclaration {
     public function cleanNoeuds() {
         $this->_cleanNoeuds();
     }
-
+    
+    public function hasProduitDetailsWithStockNegatif() {
+       foreach ($this->getProduitsDetails() as $prod) {
+            if ($prod->hasProduitDetailsWithStockNegatif()) {
+                return true;
+            }
+        }        
+        return false;
+    }
+    
 }

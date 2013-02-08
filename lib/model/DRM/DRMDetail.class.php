@@ -70,6 +70,10 @@ class DRMDetail extends BaseDRMDetail {
     return $this->getLieu()->getAppellation();
   }
 
+  public function hasProduitDetailsWithStockNegatif(){
+      
+    return $this->getCepage()->hasProduitDetailsWithStockNegatif();
+  }
 
   public function getGenre() {
     return $this->getAppellation()->getGenre();
@@ -340,6 +344,7 @@ class DRMDetail extends BaseDRMDetail {
 
     return $mouvement;
   }
+
 
   public function getCVOTaux() {
     $this->cvo->calcul();

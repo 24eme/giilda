@@ -29,6 +29,16 @@ class DRMCepage extends BaseDRMCepage {
 
       return $details;
     }
+    
+    public function hasProduitDetailsWithStockNegatif() {
+        foreach ($this->getProduitsDetails() as $detail) {
+            if ($detail->total < 0) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
 
   	public function getLieuxArray() {
 

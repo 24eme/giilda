@@ -232,7 +232,16 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
 
         return null;
     }
-
+    
+    public function hasProduitDetailsWithStockNegatif() {
+        foreach ($this->getProduitsDetails() as $prod) {
+            if ($prod->hasProduitDetailsWithStockNegatif()) {
+                return true;
+            }
+        }        
+        return false;
+    }
+    
     abstract public function getChildrenNode();
 
 }
