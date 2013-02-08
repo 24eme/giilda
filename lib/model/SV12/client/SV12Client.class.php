@@ -77,6 +77,20 @@ class SV12Client extends acCouchdbClient {
         return $sv12;
     }
 
+    public function getMaster($id) {
+        $matches = array();
+        $sv12_master = null;
+        if(preg_match('/^SV12-([0-9]{8})-([0-9]{4}-[0-9]{4})*/', $id, $matches)){
+            $identifiant = $matches[1];
+            $periode = $matches[2];
+            $sv12_master = $this->findMaster($identifiant, $periode);
+        }
+        if(!$sv12_master){
+            throw new sfException("La SV12 master avec l'id $id n'a pas été trouvée.");
+        }
+        return $sv12_master;
+    }
+    
     public function findMaster($id_or_identifiant, $periode) {
 
       $sv12 = SV12AllView::getInstance()->getMasterByEtablissementAndPeriode($id_or_identifiant, $periode);
