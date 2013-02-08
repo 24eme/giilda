@@ -47,7 +47,7 @@ class GenerationClient extends acCouchdbClient {
         if ($limit)
             $views = $views->limit($limit);
 	$rows = $views->getView("generation", "history")->rows;
-        uasort($rows, "GenerationClient::sortHistory");
+        //uasort($rows, "GenerationClient::sortHistory");
 	return $rows;
     }
 

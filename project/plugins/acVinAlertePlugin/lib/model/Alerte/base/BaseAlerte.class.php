@@ -17,6 +17,7 @@
  * @property string $libelle_document
  * @property string $region
  * @property string $campagne
+ * @property string $type_document
  * @property acCouchdbJson $statuts
 
  * @method string get_id()
@@ -45,6 +46,8 @@
  * @method string setRegion()
  * @method string getCampagne()
  * @method string setCampagne()
+ * @method string getTypeDocument()
+ * @method string setTypeDocument()
  * @method acCouchdbJson getStatuts()
  * @method acCouchdbJson setStatuts()
  

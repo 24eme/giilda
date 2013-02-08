@@ -42,8 +42,8 @@ EOF;
     } else {
       $container->addAll();
     }
-
-    $container->updates();
-    $container->creations();
+    
+    $container->execute();
+ //   $container->creations();
   }
 }

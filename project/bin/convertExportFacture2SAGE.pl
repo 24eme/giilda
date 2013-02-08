@@ -6,15 +6,16 @@ while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
 	next if ($field[0] ne 'VEN');
+	next if (!$field[10]); #si montant à 0, l'ignorer
 	print "Ecriture générale;" if ($verbose);
 	print "#MECG\n";
 	print "code journal;" if ($verbose);
         print $field[0]."\n";
 	print "date;" if ($verbose);
-	$field[1] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$1$2$3/;
+	$field[1] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$3$2$1/;
 	print $field[1]."\n";
         print "date saisie;" if ($verbose);
-	$field[2] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$1$2$3/;
+	$field[2] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$3$2$1/;
 	print $field[2]."\n";
         print "piece;" if ($verbose);
         print $field[3]."\n";
@@ -35,7 +36,7 @@ while(<STDIN>) {
         print "numero reglement;" if ($verbose);
         print "\n";
         print "date echeance;" if ($verbose);
-	$field[8] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$1$2$3/;
+	$field[8] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$3$2$1/;
         print $field[8]."\n";
         print "partie;" if ($verbose);
         print "\n";

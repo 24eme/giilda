@@ -44,15 +44,10 @@ class AlerteGenerationsContainer {
         } 
     }
     
-    public function creations() {
+    public function execute() {
         foreach($this->getGenerations() as $generation) {
-            $generation->creations();
+            $generation->execute();
         }
     }
-    
-    public function updates() {
-        foreach($this->getGenerations() as $generation) {
-            $generation->updates();
-        }
-    }
+  
 }
