@@ -82,7 +82,6 @@ class Alerte extends BaseAlerte {
     }
 
     public function getStatut() {
-
         return $this->statuts->getLast();
     }
 
@@ -101,7 +100,6 @@ class Alerte extends BaseAlerte {
     }
 
     public function isClosed() {
-
         return $this->getStatut()->statut == AlerteClient::STATUT_FERME;
     }
     

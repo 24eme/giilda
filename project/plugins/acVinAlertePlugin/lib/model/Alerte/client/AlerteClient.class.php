@@ -22,6 +22,7 @@ class AlerteClient extends acCouchdbClient {
     const STATUT_FERME = 'FERME';  
     const STATUT_EN_SOMMEIL = 'EN_SOMMEIL';
     const STATUT_A_RELANCER = 'A_RELANCER';
+    const STATUT_RESOLU = 'STATUT_RESOLU';
 
     const MESSAGE_AUTO_FERME = "Changement automatique au statut fermé";
     

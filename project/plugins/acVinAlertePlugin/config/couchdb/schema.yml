@@ -15,6 +15,7 @@ Alerte:
       libelle_document: { }
       region: { }
       campagne: { }
+      type_document: { }
       statuts:
         type: array_collection
         definition:

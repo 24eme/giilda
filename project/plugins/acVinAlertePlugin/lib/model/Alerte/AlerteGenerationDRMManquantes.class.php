@@ -133,5 +133,22 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         return $drm_manquante;
     }
 
+    public function creationsByDocumentsIds(array $documents_id) {
+        
+    }
+
+    public function execute() {
+        $this->updates();
+        $this->creations();
+    }
+
+    public function isInAlerte($document) {
+        
+    }
+
+    public function updatesByDocumentsIds(array $documents_id) {
+        
+    }
+
   
 }
