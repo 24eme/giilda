@@ -78,11 +78,11 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         
         if($this->getObject()->hasNumeroCompte()) {
-                $this->widgetSchema['type_numero_compte']->setAttribute('readonly', 'readonly');
+                $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
         }
     
         if($this->getObject()->isInCreation()){
-            $this->widgetSchema['statut']->setAttribute('readonly', 'readonly');
+            $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
         }
         
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
@@ -95,7 +95,11 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
         }
 
-        $type_numero_compte = $this->getDefault('type_numero_compte');
+        $this->setDefault('type_numero_compte', $this->getDefaultNumeroCompte());
+    }
+
+    protected function getDefaultNumeroCompte() {
+        $type_numero_compte = array();
 
         if($this->getObject()->code_comptable_client) {
             $type_numero_compte[SocieteClient::NUMEROCOMPTE_TYPE_CLIENT] = SocieteClient::NUMEROCOMPTE_TYPE_CLIENT;
@@ -107,7 +111,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $type_numero_compte[SocieteClient::NUMEROCOMPTE_TYPE_CLIENT] = SocieteClient::NUMEROCOMPTE_TYPE_CLIENT;
         }
 
-        $this->setDefault('type_numero_compte', $type_numero_compte);
+        return $type_numero_compte;
     }
 
     public function getIsOperateur() {
@@ -193,6 +197,15 @@ class SocieteModificationForm extends acCouchdbObjectForm {
                 }
             }
         }
+
+        if(!array_key_exists('type_numero_compte', $taintedValues)) {
+            $taintedValues['type_numero_compte'] = $this->getDefaultNumeroCompte();
+        }
+
+        if(!array_key_exists('statut', $taintedValues)) {
+            $taintedValues['statut'] = SocieteClient::STATUT_ACTIF;
+        }
+
         parent::bind($taintedValues, $taintedFiles);
     }
 
