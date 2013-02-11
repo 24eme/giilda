@@ -23,10 +23,6 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setStatuts();
         $this->enseignes = $societe->enseignes;
         parent::__construct($societe, $options, $CSRFSecret);
-        if($this->getObject()->code_comptable_client) $this->defaults['type_numero_compte'][] = SocieteClient::NUMEROCOMPTE_TYPE_CLIENT;
-        if($this->getObject()->code_comptable_fournisseur) $this->defaults['type_numero_compte'][] = SocieteClient::NUMEROCOMPTE_TYPE_FOURNISSEUR;
-        if($societe->isNegoOrViti() && !$societe->siret) $this->defaults['type_numero_compte'][] = SocieteClient::NUMEROCOMPTE_TYPE_CLIENT;
-        
     }
 
     public function configure() {
@@ -36,7 +32,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
 
         //  $this->setWidget('type_societe', new sfWidgetFormChoice(array('choices' => $this->getSocieteTypes())));
         $this->setWidget('type_numero_compte', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompte(), 'multiple' => true, 'expanded' => true)));
-        if ($this->isVitiOrNego()) {
+        if ($this->getObject()->isNegoOrViti()) {
             $this->setWidget('cooperative', new sfWidgetFormChoice(array('choices' => $this->getCooperative(), 'multiple' => false, 'expanded' => true)));
         }
 
@@ -53,7 +49,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('statut', 'Statut');
         // $this->widgetSchema->setLabel('type_societe', 'Type de société');
         $this->widgetSchema->setLabel('type_numero_compte', 'Numéros de compte');
-        if ($this->isVitiOrNego()) {
+
+        if ($this->getObject()->isNegoOrViti()) {
             $this->widgetSchema->setLabel('cooperative', 'Cave coopérative *');
         }
 
@@ -69,10 +66,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         // $this->setValidator('type_societe', new sfValidatorChoice(array('required' => true, 'choices' => $this->getSocieteTypesValid())));
 
         $this->setValidator('type_numero_compte', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesNumeroCompte()), 'multiple' => true)));
-        
-        if($this->existNumeroCompte())
-            $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
-        if ($this->isVitiOrNego()) {
+
+        if ($this->getObject()->isNegoOrViti()) {
             $this->setValidator('cooperative', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperative()))));
         }
         
@@ -82,12 +77,13 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         
-        if($this->existNumeroCompte())
-                $this->widgetSchema['type_numero_compte']->setAttribute('disabled', 'disabled');
-        
-            if($this->getObject()->isInCreation()){
-                $this->widgetSchema['statut']->setAttribute('readonly', 'readonly');
-            }
+        if($this->getObject()->hasNumeroCompte()) {
+                $this->widgetSchema['type_numero_compte']->setAttribute('readonly', 'readonly');
+        }
+    
+        if($this->getObject()->isInCreation()){
+            $this->widgetSchema['statut']->setAttribute('readonly', 'readonly');
+        }
         
         $this->widgetSchema->setNameFormat('societe_modification[%s]');
     }
@@ -98,19 +94,20 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         if($this->getObject()->isInCreation()) {
             $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
         }
-    }
 
-    public function existNumeroCompte() {
-        return ($this->getObject()->code_comptable_client || $this->getObject()->code_comptable_fournisseur);
-    }
+        $type_numero_compte = $this->getDefault('type_numero_compte');
 
+        if($this->getObject()->code_comptable_client) {
+            $type_numero_compte[SocieteClient::NUMEROCOMPTE_TYPE_CLIENT] = SocieteClient::NUMEROCOMPTE_TYPE_CLIENT;
+        }
+        if($this->getObject()->code_comptable_fournisseur) {
+            $type_numero_compte[SocieteClient::NUMEROCOMPTE_TYPE_FOURNISSEUR] = SocieteClient::NUMEROCOMPTE_TYPE_FOURNISSEUR;
+        }
+        if($this->getObject()->isNegoOrViti() && !$this->getObject()->siret)  {
+            $type_numero_compte[SocieteClient::NUMEROCOMPTE_TYPE_CLIENT] = SocieteClient::NUMEROCOMPTE_TYPE_CLIENT;
+        }
 
-    public function isCourtier() {
-        return $this->getObject()->type_societe == SocieteClient::SUB_TYPE_COURTIER;
-    }
-
-    public function isVitiOrNego() {
-        return (($this->getObject()->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->getObject()->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR));
+        $this->setDefault('type_numero_compte', $type_numero_compte);
     }
 
     public function getIsOperateur() {

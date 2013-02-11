@@ -20,7 +20,7 @@ echo $societeForm->renderGlobalErrors();
 			<?php echo $societeForm['statut']->renderError(); ?>
 		</div>
     </div>
-    <?php if ($societeForm->isVitiOrNego()) : ?>
+    <?php if ($societeForm->getObject()->isNegoOrViti()) : ?>
         <div class="form_ligne">
             <?php echo $societeForm['cooperative']->renderLabel(null,array('class' => 'label_liste')); ?>
             <?php echo $societeForm['cooperative']->render(); ?>
