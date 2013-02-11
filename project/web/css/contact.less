@@ -531,26 +531,10 @@
 
 #colonne
 {
-	
+	/* Information sur les contacts */
 	#infos_contact
 	{
 
-		.contact
-		{
-			&:before
-			{
-				background-position: 0 -105px;
-			}
-		}
-
-		.etablissement
-		{
-			&:before
-			{
-				background-position: 0 -518px;
-			}
-		}
-	
 		h2
 		{
 			background: @couleur-e12;
@@ -561,19 +545,136 @@
 			}
 		}
 
-		.societe
+		.contenu > ul
 		{
-			&:before
+			line-height: 20px;
+			
+			li
 			{
-				background-position: 0 -539px;
+				position: relative;
+				
+				a { display: inline-block; }
 			}
-		}
-
-		.tel_mobile
-		{	
-			&:before
+			
+			& > li
 			{
-				background-position: 0 -125px;
+				padding: 7px 0 8px 0;
+				border-top: 1px dashed #aaa;
+				
+				&:first-child {
+					border-top: none;
+				}
+
+				/*& > a 
+				{
+					font-weight: bold;
+					padding: 0 0 0 22px;
+					
+					&:before
+					{
+						.box-dimensions(0, 0);
+						.pos-abs(3px, auto, auto, 6px);
+						content: '';
+						border-style: solid;
+						border-width: 7px 0 7px 8px;
+						border-color: transparent transparent transparent @couleur-a3;
+					}
+				}*/
+				
+				/*&.ouvert > a:before
+				{
+					border-width: 8px 7px 0;
+					border-color: @couleur-a3 transparent transparent;
+					top: 5px;
+					left: 0;
+				}*/
+				
+				ul
+				{
+					padding: 0 0 0 8px;
+					
+					li
+					{
+						margin: 10px 0;
+						min-height: 20px;
+						padding: 0 0 0 28px;
+						
+						&:before
+						{
+							.box-dimensions(20px, 20px);
+							.sprite-pictos-actions;
+							.pos-abs(0, auto, auto, 0);
+							content: '';
+						}
+
+						&.titre {
+							font-weight: bold;
+						}
+						
+						&.nom
+						{
+							&:before { background-position: 0 -105px; }
+
+						}
+
+	                    
+	                    &.societe
+	                    {
+	                        &:before
+	                        {
+	                            background-position: 0 -539px;
+	                        }
+	                    }
+
+						
+						&.tel
+						{
+							&:before { background-position: 0 -125px; }
+						}
+
+
+						&.tel_mobile
+						{	
+							&:before
+							{
+								background-position: 0 -125px;
+							}
+						}
+						
+						&.fax
+						{
+							&:before { background-position: 0 -145px; }
+						}
+						
+						&.email
+						{
+							&:before { background-position: 0 -165px; }
+							
+							a
+							{
+								.souligne;
+								color: #e65658;
+							}
+						}
+
+
+						&.contact
+						{
+							&:before
+							{
+								background-position: 0 -105px;
+							}
+						}
+
+						&.etablissement
+						{
+							&:before
+							{
+								background-position: 0 -518px;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
