@@ -23,12 +23,12 @@ MOUVEMENT;type de mouvement;sorties/fermagemetayage
 MOUVEMENT;type de mouvement;sorties/regularisation
 MOUVEMENT;type de mouvement;sorties/repli
 MOUVEMENT;type de mouvement;sorties/vracsanscontrat
-MOUVEMENT;typNONSOLDEe de mouvement;vrac_details
+MOUVEMENT;type de mouvement;vrac_details
 CONTRAT;statut;NONSOLDE
 CONTRAT;statut;SOLDE
 CONTRAT;type de vente;MOUTS
 CONTRAT;type de vente;RAISINS
-CONTRAT;type de vente;VIN_CONDITIONNE
+CONTRAT;type de vente;VIN_BOUTEILLE
 CONTRAT;type de vente;VIN_VRAC
 CONTRAT;prix variable;NON
 CONTRAT;prix variable;OUI
