@@ -63,11 +63,17 @@ const CSV_COMPTE_CODE_PARTENAIRE = 22;
         if ($c) {
           acCouchdbManager::getClient()->deleteDoc($c);
         }
+        $societe = SocieteClient::getInstance()->find(sprintf("SOCIETE-%06d", $line[self::CSV_COMPTE_CODE_PARTENAIRE]), acCouchdbClient::HYDRATE_JSON);
+        if(!$societe) {
+            throw new sfException(sptrinf("Societe introuvable '%s'", sprintf("SOCIETE-%06d", $line[self::CSV_COMPTE_CODE_PARTENAIRE])));
+        }
+        
       	$c = new Compte();
         $c->identifiant = $compteidentifiant;
         $c->interpro = 'INTERPRO-inter-loire';
         $c->nom_a_afficher = $line[self::CSV_COMPTE_NOM_CONTACT];
-	$c->id_societe = sprintf("SOCIETE-%06d", $line[self::CSV_COMPTE_CODE_PARTENAIRE]);
+	$c->id_societe = $societe->_id;
+        $c->statut = $societe->statut;
 	$c->adresse = preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE1]);
         if(preg_match('/[a-z]/i', $line[self::CSV_COMPTE_ADRESSE2])) {
         $c->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE2]);
