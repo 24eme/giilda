@@ -1,0 +1,73 @@
+type;colonne;constante
+MOUVEMENT;type document;DRM
+MOUVEMENT;type document;SV12
+MOUVEMENT;type de mouvement;cooperative_details
+MOUVEMENT;type de mouvement;entrees/achat
+MOUVEMENT;type de mouvement;entrees/cooperative
+MOUVEMENT;type de mouvement;entrees/recolte
+MOUVEMENT;type de mouvement;entrees/regularisation
+MOUVEMENT;type de mouvement;entrees/reintegration
+MOUVEMENT;type de mouvement;entrees/repli
+MOUVEMENT;type de mouvement;entrees/transfert
+MOUVEMENT;type de mouvement;export_details
+MOUVEMENT;type de mouvement;MOUTS
+MOUVEMENT;type de mouvement;RAISINS
+MOUVEMENT;type de mouvement;sorties/bib
+MOUVEMENT;type de mouvement;sorties/bouteille
+MOUVEMENT;type de mouvement;sorties/cession
+MOUVEMENT;type de mouvement;sorties/consommation
+MOUVEMENT;type de mouvement;sorties/declassement
+MOUVEMENT;type de mouvement;sorties/distillation
+MOUVEMENT;type de mouvement;sorties/elaboration
+MOUVEMENT;type de mouvement;sorties/fermagemetayage
+MOUVEMENT;type de mouvement;sorties/regularisation
+MOUVEMENT;type de mouvement;sorties/repli
+MOUVEMENT;type de mouvement;sorties/vracsanscontrat
+MOUVEMENT;type de mouvement;vrac_details
+CONTRAT;statut;NONSOLDE
+CONTRAT;statut;SOLDE
+CONTRAT;type de vente;MOUTS
+CONTRAT;type de vente;RAISINS
+CONTRAT;type de vente;VIN_BOUTEILLE
+CONTRAT;type de vente;VIN_VRAC
+CONTRAT;prix variable;NON
+CONTRAT;prix variable;OUI
+CONTRAT;en attente de l'original;NON
+CONTRAT;en attente de l'original;OUI
+CONTRAT;contrat interne;NON
+CONTRAT;contrat interne;OUI
+CONTRAT;type de contrat;SPOT
+CONTRAT;type de contrat;PLURIANNUEL
+CONTRAT;type de produit;DOMAINE
+CONTRAT;type de produit;GENERIQUE
+CONTRAT;nature de la cvo;MARCHE_DEFINITIF
+CONTRAT;nature de la cvo;COMPENSATION
+CONTRAT;nature de la cvo;NON_FINANCIERE
+CONTRAT;nature de la cvo;VINAIGRERIE
+REVENDIQUE;region;ANGERS
+REVENDIQUE;region;NANTES
+REVENDIQUE;region;TOURS
+REVENDIQUE;region;HORS_INTERLOIRE
+ETABLISSEMENT;statut;ACTIF
+ETABLISSEMENT;statut;SUSPENDU
+ETABLISSEMENT;famille;NEGOCIANT
+ETABLISSEMENT;famille;PRODUCTEUR
+ETABLISSEMENT;famille;COURTIER
+ETABLISSEMENT;famille;COOPERATIVE
+ETABLISSEMENT;region;ANGERS
+ETABLISSEMENT;region;NANTES
+ETABLISSEMENT;region;TOURS
+ETABLISSEMENT;region;HORS_INTERLOIRE
+SOCIETE;statut;ACTIF
+SOCIETE;statut;SUSPENDU
+SOCIETE;type societe;OPERATEUR
+SOCIETE;type societe;VITICULTEUR
+SOCIETE;type societe;NEGOCIANT
+SOCIETE;type societe;COURTIER
+SOCIETE;type societe;PRESSE
+SOCIETE;type societe;PARTENAIRE
+SOCIETE;type societe;INSTITUTION
+SOCIETE;type societe;HOTEL-RESTAURANT
+SOCIETE;type societe;AUTRE
+SOCIETE;cave cooperative;NON
+SOCIETE;cave cooperative;OUI

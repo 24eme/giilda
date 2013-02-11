@@ -62,7 +62,6 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
             $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
             $alerte->save();
-            echo $id_document.":closed\n";
         }
         parent::updates();
     }
