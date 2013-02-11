@@ -195,14 +195,19 @@ class Societe extends BaseSociete {
         return $this;
     }
     
-    protected function createAndSaveCompte() {
+    protected function createCompteSociete() {
+        if($this->compte_societe) {
+            return;
+        }
+        
         $compte = CompteClient::getInstance()->findOrCreateCompteSociete($this);
+        $this->compte_societe = $compte->_id;
         $compte->nom = $this->raison_sociale;
+        $compte->updateNomAAfficher();
         $compte->statut = $this->statut;
         $compte->addOrigine($this->_id);
-        $compte->save(true);
-        $this->compte_societe = $compte->_id;
 	$this->addCompte($compte, -1 );
+        return $compte;
     }
     
     protected function synchroAndSaveEtablissement() {
@@ -240,11 +245,10 @@ class Societe extends BaseSociete {
             return parent::save();
         }
         
-        $compte = null;
-        
         if (!$this->compte_societe) {
+            $compte = $this->createCompteSociete();
             parent::save();
-            $this->createAndSaveCompte();
+            $compte->save(true);
         }
         
         $this->synchroAndSaveEtablissement();
