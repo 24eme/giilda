@@ -36,8 +36,6 @@ class Compte extends BaseCompte {
             
             return $this->updateFromEtablissement();
         }
-        
-        return $this->updateFromNothing();
     }
     
     protected function updateFromSociete() {
@@ -50,7 +48,8 @@ class Compte extends BaseCompte {
          if (sfConfig::get('sf_logging_enabled')) {
             sfContext::getInstance()->getLogger()->log(sprintf("{Contact} synchro du compte %s à partir de la societe %s", $this->_id, $societe->_id));
          }
-         $this->nom_a_afficher = $societe->raison_sociale;
+         
+         $this->nom = $societe->raison_sociale;
     }
     
     
@@ -65,11 +64,15 @@ class Compte extends BaseCompte {
             sfContext::getInstance()->getLogger()->log(sprintf("{Contact} synchro du compte %s à partir de l'etablissement %s", $this->_id, $etablissement->_id));
          }
          
-         $this->nom_a_afficher = $etablissement->nom;
+         $this->nom = ($etablissement->nom) ? $etablissement->nom : $etablissement->raison_sociale;
     }
     
-    protected function updateFromNothing() {
-        $this->nom_a_afficher = sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom);
+    public function updateNomAAfficher() {
+        if(!$this->nom) {
+            return;
+        }
+        
+        $this->nom_a_afficher = trim(sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom));
     }
     
     public function addOrigine($id) {    
@@ -107,13 +110,13 @@ class Compte extends BaseCompte {
 	$this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
 
         $this->synchro();
+        $this->updateNomAAfficher();
 
         parent::save();
 
         if (!$fromsociete) {
             $this->synchroAndSaveSociete();
         }
-        
         foreach ($this->origines as $origine) {
             $doc = acCouchdbManager::getClient()->find($origine);
             if($doc->type == 'Etablissement' && !$frometablissement) {
@@ -123,13 +126,12 @@ class Compte extends BaseCompte {
             
             if($doc->type == 'Societe' && !$fromsociete) {
                 $doc->synchroFromCompte();
-                $doc->save();
+                $doc->save();               
             }
         }
     }
     
     public function isSocieteContact() {
-        
         return ((SocieteClient::getInstance()->find($this->id_societe)->compte_societe) == $this->_id);
     }
 
