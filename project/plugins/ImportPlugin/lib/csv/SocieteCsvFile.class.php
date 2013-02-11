@@ -54,6 +54,7 @@ class SocieteCsvFile extends CsvFile
 
       	$s = new Societe();
         $s->identifiant = $line[self::CSV_PARTENAIRE_CODE];
+        $s->constructId();
         $s->raison_sociale = $line[self::CSV_PARTENAIRE_NOM];
 	$s->raison_sociale_abregee = $line[self::CSV_PARTENAIRE_NOM_REDUIT];
 	$s->siege->adresse = preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE1]);
@@ -66,6 +67,7 @@ class SocieteCsvFile extends CsvFile
         }}}
         $s->siege->code_postal = $line[self::CSV_PARTENAIRE_CODEPOSTAL];
         $s->siege->commune = $line[self::CSV_PARTENAIRE_COMMUNE];
+        $s->siege->add('pays', $this->convertCountry($line[self::CSV_PARTENAIRE_PAYS]));
 	$s->interpro = 'INTERPRO-inter-loire';
         if ($line[self::CSV_PARTENAIRE_COOPGROUP] == 'C') {
 		$s->cooperative = 1;
@@ -106,6 +108,26 @@ class SocieteCsvFile extends CsvFile
   public function getErrors() {
     return $this->errors;
   }
+  
+   protected function convertCountry($country) {
+    $countries = ConfigurationClient::getInstance()->getCountryList();
+
+    if($country == 'FRA') {
+      $country = 'FR';
+    }
+
+    if($country == 'TU') {
+      $country = 'TR';
+    }
+
+    if(!array_key_exists($country, $countries)) {
+      
+      throw new sfException(sprintf("Code pays '%s' invalide", $country));
+    }
+    
+    return $country;
+  }
+
 
 
 }

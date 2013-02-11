@@ -30,7 +30,8 @@ EOF;
   protected function execute($arguments = array(), $options = array())
   {
     // initialize the database connection
-    $databaseManager = new sfDatabaseManager($this->configuration);
+    $databaseManager = new sfDatabaseManager($this->configuration);    
+    $context = sfContext::createInstance($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     set_time_limit(0);
