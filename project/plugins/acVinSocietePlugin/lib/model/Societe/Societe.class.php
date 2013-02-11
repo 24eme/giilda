@@ -179,6 +179,14 @@ class Societe extends BaseSociete {
         return ($this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR)
         || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
     }
+
+    public function isCourtier() {
+        return $this->type_societe == SocieteClient::SUB_TYPE_COURTIER;
+    }
+
+    public function hasNumeroCompte() {
+        return ($this->code_comptable_client || $this->code_comptable_fournisseur);
+    }
     
     public function synchroFromCompte() {
         $compte = $this->getMasterCompte();
