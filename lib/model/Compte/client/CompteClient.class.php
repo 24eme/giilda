@@ -98,9 +98,17 @@ class CompteClient extends acCouchdbClient {
     }
     
     public function createCompteFromSociete($societe) {
-        $compte = new Compte();
+        $compte = new Compte();        
         $compte->id_societe = $societe->_id;
+        if ($societe->siege->adresse) {
+            $compte->adresse = $societe->siege->adresse;
+	    $compte->code_postal = $societe->siege->code_postal;
+	    $compte->commune = $societe->siege->commune;
+            $societe->siege->add('pays');
+            $compte->pays = $societe->siege->pays;
+          }
         $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
+        $compte->constructId();
         $compte->interpro = 'INTERPRO-inter-loire';
         
         return $compte;
