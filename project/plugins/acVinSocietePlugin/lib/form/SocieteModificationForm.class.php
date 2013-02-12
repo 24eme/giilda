@@ -94,7 +94,11 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         if($this->getObject()->isInCreation()) {
             $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
         }
-
+        
+        if ($this->getObject()->isNegoOrViti() && is_null($this->getObject()->cooperative)) {
+            $this->setDefault('cooperative', 0);
+        }
+        
         $this->setDefault('type_numero_compte', $this->getDefaultNumeroCompte());
     }
 
@@ -181,8 +185,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $con = $this->getConnection();
         }
 
-        $this->updateObject();        
-         if(!$this->getObject()->siege->commune){
+        $this->updateObject();  
+        if(!$this->getObject()->siege->commune){
             $this->getObject()->setStatut(SocieteClient::STATUT_ACTIF);
         }
         $this->object->getCouchdbDocument()->save();        
