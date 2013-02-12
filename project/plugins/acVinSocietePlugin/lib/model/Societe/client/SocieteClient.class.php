@@ -35,7 +35,21 @@ class SocieteClient extends acCouchdbClient {
     public function getIdentifiant($id_or_identifiant) {
         return $identifiant = str_replace('SOCIETE-', '', $id_or_identifiant);
     }
-    
+
+    public function findBySiret($siret) {
+        $index = acElasticaManager::getType('Societe');
+        $elasticaQueryString = new acElasticaQueryQueryString();
+        $elasticaQueryString->setDefaultOperator('AND');
+        $elasticaQueryString->setQuery(sprintf("siret:%s", $siret));
+
+        $q = new acElasticaQuery();
+        $q->setQuery($elasticaQueryString);
+        $q->setLimit(1);
+        
+        $res = $index->search($q);
+
+        return $res;
+    }
     
     public function getSocietesWithTypeAndRaisonSociale($type,$raison_sociale){
          return SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire',

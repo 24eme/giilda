@@ -21,9 +21,7 @@
                 </div>
                 <div id="coordonnees_societe" class="form_section ouvert">
                     <h3>Coordonnées de la société</h3>
-                    <div class="form_contenu">
-                        <?php include_partial('compte/modification', array('compteForm' => $contactSocieteForm)); ?>
-                    </div>
+                    <?php include_partial('compte/modificationCoordonnee', array('compteForm' => $contactSocieteForm)) ?>
                 </div>
                 <div class="form_btn">
                     <?php if($societe->isInCreation()): ?>

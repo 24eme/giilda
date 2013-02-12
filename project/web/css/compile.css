@@ -2694,7 +2694,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 #contacts .form_ligne:after { clear:both; }
 #contacts .form_section {
   border:1px solid #d2d2d2;
-  margin:0 0 35px;
+  margin:0 0 15px;
 }
 #contacts .form_section .champ_long { width:425px; }
 #contacts .form_section .btn_ajouter_ligne_template {
@@ -2922,6 +2922,7 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
   top:-2px;
   width:36px;
 }
+#detail_etablissement { margin:20px 0 0 0; }
 #detail_etablissement #detail_etablissement_region_viticole { width:134px; }
 #detail_etablissement .form_colonne:first-child + .form_colonne { padding:0 0 0 60px; }
 #detail_etablissement .form_colonne:first-child + .form_colonne label { width:125px; }
