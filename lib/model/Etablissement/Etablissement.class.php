@@ -55,6 +55,11 @@ class Etablissement extends BaseEtablissement {
         return SocieteClient::getInstance()->find($this->id_societe);
     }
 
+    public function isSameCoordonneeThanSociete() {
+        
+        return $this->isSameContactThanSociete();
+    }
+
     public function isSameContactThanSociete() {
         return ($this->compte == $this->getSociete()->compte_societe);
     }
@@ -192,12 +197,12 @@ class Etablissement extends BaseEtablissement {
     }
     
     public function switchOrigineAndSaveCompte($old_id) {
-        $this->synchroFromCompte();
-        
         if(!$old_id) {
             return;
         }
-        
+
+        $this->synchroFromCompte();
+
         if($this->isSameContactThanSociete()) {
             CompteClient::getInstance()->findAndDelete($old_id, true);
             $compte = $this->getContact();

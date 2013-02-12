@@ -10,8 +10,6 @@ if(!isset($fromSociete)) $fromSociete = false;
 		<div class="form_modifier">
                     <?php if($fromSociete) : ?>
                     <a id="btn_modifier" href="<?php echo url_for('etablissement_visualisation', $etablissement); ?>" class="btn_majeur btn_voir">Voir Etablissement</a>
-                    <?php else : ?>
-			<a id="btn_modifier" href="<?php echo url_for('etablissement_modification', $etablissement); ?>" class="btn_majeur btn_modifier">Modifier</a>
                     <?php endif; ?>
                 </div>
         <div class="form_ligne">

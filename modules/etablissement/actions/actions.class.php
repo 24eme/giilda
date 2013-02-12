@@ -25,7 +25,7 @@ class etablissementActions extends sfActions {
                      $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablissement->identifiant));
                 }
                 else{
-                    $this->redirect('compte_etablissement_modification', $this->etablissement->getMasterCompte());
+                    $this->redirect('compte_coordonnee_modification', $this->etablissement->getMasterCompte());
                 }
             }
         }
