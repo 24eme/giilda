@@ -12,6 +12,7 @@ Facture:
       campagne: {}
       numero_archive: {  }
       statut: {}
+      avoir: {required: false}
       region: {}
       versement_comptable: {type: integer}
       emetteur:
