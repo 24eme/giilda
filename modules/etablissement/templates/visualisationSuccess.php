@@ -11,13 +11,18 @@
         <section id="contacts">
          <div id="nouveau_etablissement">
             <h2><?php echo $etablissement->nom; ?></h2>
+            <div class="form_btn">
+                <a href="<?php echo url_for('etablissement_modification',$etablissement);?>" class="btn_majeur btn_modifier">Modifier</a>
+            </div>
             <div id="detail_etablissement" >
                     <?php include_partial('etablissement/visualisation', array('etablissement' => $etablissement,'ordre' => 0)); ?>
             </div>
 
-            <div id="coordonnees_etablissement" class="form_section ouvert">
-                    <h3>Coordonnées de l'établissement</h3>
+            <div id="coordonnees_contact" class="form_section etablissement ouvert">
+                <h3>Coordonnées de l'établissement</h3>
+                <div class="form_contenu">
                     <?php include_partial('compte/coordonneesVisualisation', array('compte' => $contact)); ?>
+                </div>
             </div>
          </div>
         </section>

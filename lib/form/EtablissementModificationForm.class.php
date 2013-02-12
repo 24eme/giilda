@@ -9,7 +9,7 @@
  * Description of class SocieteModificationForm
  * @author mathurin
  */
-class EtablissementModificationForm extends acCouchdbObjectForm {
+class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
 
     private $etablissement;
     private $liaisons_operateurs = null;
@@ -19,15 +19,13 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         $this->liaisons_operateurs = $etablissement->liaisons_operateurs;
         parent::__construct($etablissement, $options, $CSRFSecret);
         if($this->etablissement->isNew()){
-            $this->setDefault('adresse_societe', 1);
             $this->setDefault('exclusion_drm', 'non');            
             $this->setDefault('raisins_mouts', 'non');
-        }else{
-            $this->setDefault('adresse_societe', (int) $this->etablissement->isSameContactThanSociete());
         }
     }
 
     public function configure() {
+        parent::configure();
         $this->setWidget('nom', new sfWidgetFormInput());
         $this->setWidget('statut', new sfWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
         $this->setWidget('region', new sfWidgetFormChoice(array('choices' => $this->getRegions())));
@@ -64,7 +62,7 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel('recette_locale_choice', 'Recette Locale *');
             $this->setValidator('cvi', new sfValidatorString(array('required' => false)));
             $this->setValidator('relance_ds', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));            
-            $this->setValidator('recette_locale_choice', new sfValidatorChoice(array('choices' => array_keys($recette_locale))));
+            $this->setValidator('recette_locale_choice', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($recette_locale))));
             
             if (!$this->etablissement->isNegociant()) {
                 $this->setWidget('raisins_mouts', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
@@ -83,23 +81,23 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
         
-        $this->setWidget('adresse_societe', new sfWidgetFormChoice(array('choices' => $this->getAdresseSociete(), 'expanded' => true, 'multiple' => false)));
-        $this->widgetSchema->setLabel('adresse_societe', 'Même adresse que la société ?');
-        $this->setValidator('adresse_societe', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getAdresseSociete()))));
         if($this->etablissement->isNew())
              $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');
     }
 
     public function getStatuts() {
+        
         return EtablissementClient::getStatuts();
     }
 
     public function getOuiNonChoices() {
+        
         return array('oui' => 'Oui', 'non' => 'Non');
     }
 
     public function getAdresseSociete() {
+        
         return array(1 => 'oui', 0 => 'non');
     }
     
@@ -132,6 +130,7 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
         if($this->values['recette_locale_choice']){
             $this->etablissement->recette_locale->id_douane = $this->values['recette_locale_choice'];
         }
+        
         $old_compte = $this->etablissement->compte;
         $switch = false;
          if($this->values['adresse_societe'] && !is_null($this->values['statut'])
