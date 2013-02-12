@@ -292,7 +292,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function validate($options = null) {
         if($this->isValidee()) {
 
-            throw new sfExcpetion(sprintf("Cette DRM est déjà validée"));
+            throw new sfException(sprintf("Cette DRM est déjà validée"));
         }
 
         $this->update();
