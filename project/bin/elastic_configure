@@ -29,7 +29,7 @@ fi
 echo '{
     "type" : "couchdb",
     "couchdb" : {
-        "host" : "'$COUCBHOST'",
+        "host" : "'$COUCHHOST'",
         "port" : "'$COUCHPORT'",
         "db" : "'$COUCHBASE'",
         "filter" : "app/type",
@@ -50,7 +50,7 @@ curl -s -X PUT -d '@/tmp/elastic.configure.json' "http://$ELASTHOST:$ELASTPORT/_
 echo '{
     "type" : "couchdb",
     "couchdb" : {
-        "host" : "'$COUCBHOST'",
+        "host" : "'$COUCHHOST'",
         "port" : "'$COUCHPORT'",
         "db" : "'$COUCHBASE'",
         "filter" : "app/type",
@@ -72,7 +72,7 @@ curl -s -X PUT -d '@/tmp/elastic.configure.json' "http://$ELASTHOST:$ELASTPORT/_
 echo '{
     "type" : "couchdb",
     "couchdb" : {
-        "host" : "'$COUCBHOST'",
+        "host" : "'$COUCHHOST'",
         "port" : "'$COUCHPORT'",
         "db" : "'$COUCHBASE'",
         "filter" : "app/type",
