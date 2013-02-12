@@ -1,7 +1,8 @@
 <?php
+printf("\xef\xbb\xbf");//UTF8 BOM (pour windows)
 echo "#nom complet ; type ; civilité ; nom ; prénom ; adresse ; adresse complémentaire ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email; id societe\n";
 foreach ($results as $res) {
-  $data = $res->getData();
+  $data = $res->getData(ESC_RAW);
   echo '"'.$data['nom_a_afficher']. '";';
   echo '"'.CompteClient::getInstance()->createTypeFromOrigines($data['origines']).'";';
   echo '"'.$data['civilite']. '";';

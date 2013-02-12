@@ -1,12 +1,18 @@
-<?php $args = array('q' => $q); ?>
+<?php $args = array('q' => $q, 'contacts_all' => $contacts_all); ?>
 <section id="principal" class="recherche_contact">
 	
 	<section id="contenu_etape">
 		<form>
 			<div id="recherche_contact" class="section_label_maj">
+                           <div>
 				<label for="champ_recherche">Recherche d'un contact&nbsp;:</label><br />
 				<input id="champ_recherche" class="ui-autocomplete-input" type="text" name="q" value="<?php echo $q; ?>" role="textbox" aria-autocomplete="list" aria-haspopup="true"> 
 				<button id="btn_rechercher" type="submit">Rechercher</button>
+                           </div>
+<div>
+<label for="contacts_all">Inclure les contacts suspendus </label>
+<input type="checkbox" value="1" name="contacts_all" id="contacts_all"<?php if($contacts_all) echo " CHECKED"; ?>/>
+</div>
 			</div>
 		</form>
 	</section>
@@ -63,7 +69,7 @@
 						<td><?php echo $data['adresse']; ?>, <?php echo $data['code_postal']; ?>, <?php echo $data['commune']; ?></td>
 						<td><?php echo $data['telephone_bureau']; ?> <?php echo $data['telephone_mobile'] ?> <?php echo $data['telephone_perso']; ?> <?php echo $data['fax']; ?></td>
 						<td><?php echo $data['email']; ?></td>
-						<td><a href="<?php url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>">détail</a></td>
+						<td><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>">détail</a></td>
 					</tr>
 
 				<?php endforeach; ?>
@@ -73,15 +79,21 @@
 		<div class="pagination">
 			<div class="page_precedente">
 				<?php $args = array('q' => $q); ?>
+<?php if ($current_page > 1) : ?>
 				<a href="<?php echo url_for('compte_search', $args); ?>"> <<- </a>
 				<?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
 				<a href="<?php echo url_for('compte_search', $args); ?>"> <- </a>
+<?php endif; ?>
 			</div>
 			<div class="page_suivante">
 				<?php if ($current_page < $last_page) $args['page'] = $current_page + 1; else $args['page'] = $last_page ;?>
+<?php if ($current_page != $args['page']): ?>
 				<a href="<?php echo url_for('compte_search', $args); ?>"> -> </a>
+<?php endif; ?>
 				<?php $args['page'] = $last_page; ?>
+<?php if ($current_page != $args['page']): ?>
 				<a href="<?php echo url_for('compte_search', $args); ?>"> ->> </a>
+<?php endif; ?>
 			</div>
 		</div>
 	
