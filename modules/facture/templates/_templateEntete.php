@@ -64,7 +64,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \def\InterloireIBAN{<?php echo $coordonneesBancaires->iban; ?>}
 
 \def\FactureNum{<?php echo $facture->numero_interloire; ?>}
-\def\FactureNumREF{<?php echo substr($facture->numero_facture,6,2).' '.substr($facture->numero_facture,0,6); ?>}
+\def\FactureNumREF{<?php echo $facture->numero_reference; ?>}
 \def\FactureDate{<?php echo format_date($facture->date_facturation,'dd/MM/yyyy'); ?>}
 \def\FactureRefClient{<?php echo $facture->identifiant; ?>}
 
