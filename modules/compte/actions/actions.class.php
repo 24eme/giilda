@@ -56,6 +56,9 @@ class compteActions extends sfActions
 
     private function initSearch(sfWebRequest $request) {
       $query = $request->getParameter('q', '*');
+      if (! $request->getParameter('contacts_all') ) {
+	$query .= " statut:ACTIF";
+      }
       $qs = new acElasticaQueryQueryString($query);
       $q = new acElasticaQuery();
       $q->setQuery($qs);
@@ -69,7 +72,7 @@ class compteActions extends sfActions
       $resset = $index->search($q);
       $this->results = $resset->getResults();
       $this->setLayout(false);
-      $this->getResponse()->setContentType('text/plain');
+      $this->getResponse()->setContentType('text/csv');
     }
 
     public function executeSearch(sfWebRequest $request) {
@@ -88,5 +91,6 @@ class compteActions extends sfActions
       $this->nb_results = $resset->getTotalHits();
       $this->last_page = ceil($this->nb_results / $res_by_page); 
       $this->current_page = $page; 
+      $this->contacts_all = $request->getParameter('contacts_all');
     }
 }
