@@ -43,7 +43,7 @@ if(!isset($fromSociete)) $fromSociete = false;
                     Recette locale : 
                 </label>
                 <a href="<?php echo url_for('societe_visualisation',SocieteClient::getInstance()->find($etablissement->recette_locale->id_douane)); ?>">
-                    <?php echo $etablissement->recette_locale->nom; ?>
+                    <?php echo $etablissement->recette_locale->nom.' - '.$etablissement->recette_locale->ville; ?>
                 </a>
             </div>  
         <?php endif; ?>

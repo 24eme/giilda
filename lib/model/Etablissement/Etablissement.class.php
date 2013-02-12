@@ -45,9 +45,9 @@ class Etablissement extends BaseEtablissement {
             return CompteClient::getInstance()->find($this->compte);
         return CompteClient::getInstance()->find($this->getSociete()->compte_societe);
     }
-    
+
     public function getContact() {
-        
+
         return $this->getMasterCompte();
     }
 
@@ -58,10 +58,12 @@ class Etablissement extends BaseEtablissement {
     public function isSameContactThanSociete() {
         return ($this->compte == $this->getSociete()->compte_societe);
     }
-    
-    public function getNumCompteEtablissement(){
-        if(!$this->compte) return null;
-        if($this->compte != $this->getSociete()->compte_societe) return $this->compte;
+
+    public function getNumCompteEtablissement() {
+        if (!$this->compte)
+            return null;
+        if ($this->compte != $this->getSociete()->compte_societe)
+            return $this->compte;
         return null;
     }
 
@@ -69,8 +71,8 @@ class Etablissement extends BaseEtablissement {
         $societe = $this->getSociete();
 
         if (!$societe) {
-            
-            return null; 
+
+            return null;
         }
 
         return $societe->no_tva_intracommunautaire;
@@ -104,11 +106,11 @@ class Etablissement extends BaseEtablissement {
     public function isNegociant() {
         return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT);
     }
-    
+
     public function isViticulteur() {
         return ($this->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR);
     }
-    
+
     public function isCourtier() {
         return ($this->famille == EtablissementFamilles::FAMILLE_COURTIER);
     }
@@ -148,7 +150,7 @@ class Etablissement extends BaseEtablissement {
     public function isInterLoire() {
         return ($this->region != EtablissementClient::REGION_HORSINTERLOIRE);
     }
-    
+
     protected function synchroRecetteLocale() {
         if ($this->recette_locale->id_douane) {
             $soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
@@ -158,47 +160,47 @@ class Etablissement extends BaseEtablissement {
             }
         }
     }
-    
+
     protected function initFamille() {
         if (!$this->famille) {
             $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
         }
         if (!$this->sous_famille) {
             $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
-        }  
+        }
     }
-    
+
     protected function synchroFromSociete() {
         $soc = SocieteClient::getInstance()->find($this->id_societe);
         if (!$soc)
             throw new sfException("$id n'est pas une société connue");
         $this->cooperative = $soc->cooperative;
     }
-    
+
     protected function synchroAndSaveSociete() {
         $soc = $this->getSociete();
         $soc->addEtablissement($this);
         $soc->save(true);
     }
-    
+
     protected function synchroAndSaveCompte() {
         $compte_master = $this->getMasterCompte();
-        if($this->isSameContactThanSociete()) {
+        if ($this->isSameContactThanSociete()) {
             $compte_master->addOrigine($this->_id);
-        }else{
+        } else {
             $compte_master->statut = $this->statut;
         }
-            $compte_master->save(false, true);
+        $compte_master->save(false, true);
     }
-    
+
     public function switchOrigineAndSaveCompte($old_id) {
         $this->synchroFromCompte();
-        
-        if(!$old_id) {
+
+        if (!$old_id) {
             return;
         }
-        
-        if($this->isSameContactThanSociete()) {
+
+        if ($this->isSameContactThanSociete()) {
             CompteClient::getInstance()->findAndDelete($old_id, true);
             $compte = $this->getContact();
             $compte->addOrigine($this->_id);
@@ -209,34 +211,33 @@ class Etablissement extends BaseEtablissement {
         }
         $compte->save(false, true);
     }
-    
+
     public function save($fromsociete = false, $fromclient = false) {
         $this->synchroRecetteLocale();
         $this->initFamille();
         $this->synchroFromSociete();
-        
-	if (!$fromclient) {
-	    if (!$this->compte) {
-	      $compte = CompteClient::getInstance()->createCompteFromEtablissement($this);
-              $compte->constructId();
-              $compte->statut = $this->statut;
-              $this->compte = $compte->_id;
-              parent::save();
-              $compte->save(true, true);
-            }
-	}
 
-        parent::save();
-        
-        if(!$fromsociete) {
-            $this->synchroAndSaveSociete();
+        if (!$fromclient) {
+            if (!$this->compte) {
+                $compte = CompteClient::getInstance()->createCompteFromEtablissement($this);
+                $compte->constructId();
+                $compte->statut = $this->statut;
+                $this->compte = $compte->_id;
+                parent::save();
+                $compte->save(true, true);
+            }
         }
 
-        $this->synchroAndSaveCompte();
+        parent::save();
+
+        if (!$fromsociete) {
+            $this->synchroAndSaveSociete();
+            $this->synchroAndSaveCompte();
+        }
     }
 
     public function isActif() {
-      return ($this->statut == EtablissementClient::STATUT_ACTIF);
+        return ($this->statut == EtablissementClient::STATUT_ACTIF);
     }
 
     public function setIdSociete($id) {
@@ -276,32 +277,32 @@ class Etablissement extends BaseEtablissement {
         }
         return null;
     }
-    
-    public function addAliasForBailleur($identifiant_bailleur,$alias) {
-        $bailleurNameNode = EtablissementClient::TYPE_LIAISON_BAILLEUR.'_'.$identifiant_bailleur;
-        if(!$this->liaisons_operateurs->exist($bailleurNameNode))
+
+    public function addAliasForBailleur($identifiant_bailleur, $alias) {
+        $bailleurNameNode = EtablissementClient::TYPE_LIAISON_BAILLEUR . '_' . $identifiant_bailleur;
+        if (!$this->liaisons_operateurs->exist($bailleurNameNode))
             throw new sfException("La liaison avec le bailleur $identifiant_bailleur n'existe pas");
         $node = $this->liaisons_operateurs->$bailleurNameNode;
-        if(!$node->exist('aliases'))
+        if (!$node->exist('aliases'))
             $node->add('aliases');
-        $node->aliases->add($alias,$alias);
+        $node->aliases->add($alias, $alias);
     }
-    
+
     public function synchroFromCompte() {
         $compte = $this->getMasterCompte();
-        
-        if(!$compte) {
-            
+
+        if (!$compte) {
+
             return null;
         }
-        
+
         $this->siege->adresse = $compte->adresse;
         $this->siege->code_postal = $compte->code_postal;
         $this->siege->commune = $compte->commune;
         $this->email = $compte->email;
         $this->fax = $compte->fax;
         $this->telephone = $compte->telephone_bureau;
-       
+
         return $this;
     }
 
