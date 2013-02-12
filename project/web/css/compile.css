@@ -3013,11 +3013,12 @@ bouton.recherche_contact #btn_rechercher { height:26px; }
 .recherche_contact #resultats_contact { margin:20px 0 0; }
 #colonne #infos_contact h2 { background:#76a8d7; }
 #colonne #infos_contact h2:before { border-color:transparent transparent #376ea2 transparent; }
+#colonne #infos_contact .contenu { padding:5px 0 15px; }
 #colonne #infos_contact .contenu > ul { line-height:20px; }
 #colonne #infos_contact .contenu > ul li { position:relative; }
 #colonne #infos_contact .contenu > ul li a { display:inline-block; }
 #colonne #infos_contact .contenu > ul > li {
-  padding:7px 0 8px 0;
+  padding:4px 0 4px 0;
   border-top:1px dashed #aaaaaa;
 }
 #colonne #infos_contact .contenu > ul > li:first-child { border-top:none; }

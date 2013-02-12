@@ -15,7 +15,7 @@ if (!is_null($contacts)):
                                 <li style="color: red"><?php echo $contact->statut; ?></li>
                             <?php endif; ?>
                             <li class="titre <?php if ($contact->compte_type == CompteClient::TYPE_COMPTE_SOCIETE) { echo 'societe'; } else if ($contact->compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT) {echo 'etablissement'; } else {echo 'nom';} ?>">
-                                <a href=""><?php echo $contact->nom_a_afficher; ?></a>
+                                <a title="<?php echo $contact->compte_type ?>" href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>"><?php echo $contact->nom_a_afficher; ?></a>
                             </li>
                             <?php if ($contact->telephone_perso): ?>
                                 <li class="tel_perso"><?php echo $contact->telephone_perso; ?></li>
