@@ -14,12 +14,12 @@
                             <a href="<?php echo url_for('compte_modification',$compte);?>" class="btn_majeur btn_modifier">Modifier</a>
 			</div>
 
-				<div id="detail_contact" class="form_section ouvert">
+				<div id="detail_contact" class="form_section contact ouvert">
 					<h3>Détail de l'interlocuteur</h3>
 					<?php include_partial('detailVisualisation', array('compte' => $compte)); ?>
 				</div>
 
-				<div id="coordonnees_contact" class="form_section ouvert">
+				<div id="coordonnees_contact" class="form_section contact ouvert">
 					<h3>Coordonnées de l'interlocuteur</h3>
 					<div class="form_contenu">
 						<?php include_partial('coordonneesVisualisation', array('compte' => $compte)); ?>

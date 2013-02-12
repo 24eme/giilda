@@ -14,6 +14,44 @@ class Compte extends BaseCompte {
         return SocieteClient::getInstance()->find($this->id_societe);
     }
 
+    public function getMasterCompte() {
+        if($this->isSameCoordonneeThanSociete()) {
+
+            return $this->getSociete()->getContact();
+        }
+
+        return null;
+    }
+
+    public function isSameCoordonneeThanSociete() {
+
+        return $this->getSociete()->getContact()->hasOrigine($this->_id);
+    }
+
+    public function doSameCoordonneeThanSocieteAndSave($value)  {
+        if($value && $this->isSameCoordonneeThanSociete()) {
+
+            return ;
+        }
+
+        if(!$value && !$this->isSameCoordonneeThanSociete()) {
+
+            return ;
+        }
+
+        $compte = $this->getSociete()->getContact();
+
+        if($value) {
+            $compte->addOrigine($this->_id);
+        } else {
+            $compte->removeOrigine($this->_id);
+        }
+
+        $compte->save(false, false, true);
+
+        $this->synchroFromCompte();
+    }
+
     public function setIdSociete($id) {
         $soc = SocieteClient::getInstance()->find($id);
         if (!$soc) {
@@ -92,6 +130,15 @@ class Compte extends BaseCompte {
             }
         }
     }
+
+    public function hasOrigine($id) {
+        foreach ($this->origines as $origine) {
+            if ($id == $origine) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     protected function synchroAndSaveSociete() {
         $soc = $this->getSociete();
@@ -103,7 +150,7 @@ class Compte extends BaseCompte {
     }
     
 
-    public function save($fromsociete = false, $frometablissement = false) {
+    public function save($fromsociete = false, $frometablissement = false, $from_compte = false) {
         if (is_null($this->adresse_societe)) {
             $this->adresse_societe = (int) $fromsociete;
         }
@@ -128,7 +175,34 @@ class Compte extends BaseCompte {
                 $doc->synchroFromCompte();
                 $doc->save();               
             }
+
+            if($doc->type == 'Compte' && !$from_compte) {
+                $doc->synchroFromCompte();
+                $doc->save();               
+            }
         }
+    }
+
+    public function synchroFromCompte() {
+        $compte = $this->getMasterCompte();
+
+        if(!$compte) {
+            
+            return null;
+        }
+
+        $this->adresse = $compte->adresse;
+        $this->adresse_complementaire = $compte->adresse_complementaire;
+        $this->code_postal = $compte->code_postal;
+        $this->commune = $compte->commune;
+        $this->cedex = $compte->cedex;
+        $this->pays = $compte->pays;
+        $this->email = $compte->email;
+        $this->fax = $compte->fax;
+        $this->telephone_bureau = $compte->telephone_bureau;
+        $this->telephone_mobile = $compte->telephone_mobile;
+
+        return $this;
     }
     
     public function isSocieteContact() {
@@ -157,17 +231,6 @@ class Compte extends BaseCompte {
             }
         }
         return null;
-    }
-
-    public function updateWithAdresseSociete() {
-        $soc = $this->getSociete();
-        $compteSociete = CompteClient::getInstance()->find($soc->compte_societe);
-        $this->commune = $compteSociete->commune;
-        $this->cedex = $compteSociete->cedex;
-        $this->code_postal = $compteSociete->code_postal;
-        $this->adresse = $compteSociete->adresse;
-        $this->adresse_complementaire = $compteSociete->adresse_complementaire;
-        $this->pays = $compteSociete->pays;
     }
 
     public function setEmail($email) {
