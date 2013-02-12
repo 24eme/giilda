@@ -37,7 +37,7 @@ Societe:
               definition:
                 fields:
                   label: { }
-      compte_societe: { }      
+      compte_societe: { }
       contacts:
         type: collection
         definition:
