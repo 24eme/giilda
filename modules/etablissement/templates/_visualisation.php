@@ -3,17 +3,17 @@ use_helper('Etablissement');
 $typesLiaisons =  EtablissementClient::getTypesLiaisons();
 if(!isset($fromSociete)) $fromSociete = false;
 ?>
-<div id="etablissement_<?php echo $etablissement->identifiant; ?>" class="etablissement form_section ouvert">
-    <h3><?php echo $etablissement->nom; ?></h3>
-    <div class="form_contenu">
-		
-		<div class="form_modifier">
+		<div class="form_btn">
                     <?php if($fromSociete) : ?>
                     <a id="btn_modifier" href="<?php echo url_for('etablissement_visualisation', $etablissement); ?>" class="btn_majeur btn_voir">Voir Etablissement</a>
                     <?php else : ?>
 			<a id="btn_modifier" href="<?php echo url_for('etablissement_modification', $etablissement); ?>" class="btn_majeur btn_modifier">Modifier</a>
                     <?php endif; ?>
                 </div>
+<div id="etablissement_<?php echo $etablissement->identifiant; ?>" class="etablissement form_section ouvert">
+    <h3><?php echo $etablissement->nom; ?></h3>
+    <div class="form_contenu">
+		
         <div class="form_ligne">
             <label for="famille">
                 Type établissement :
