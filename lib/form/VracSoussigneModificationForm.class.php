@@ -25,7 +25,7 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        $this->setDefault('no_tva_intracommunautaire', $this->getObject()->getNoTvaIntraCommunautaire());
+        $this->setDefault('no_tva_intracommunautaire', $this->getObject()->getSociete()->getNoTvaIntracommunautaire());
     }
     
     private function configureAcheteurVendeur($label)
@@ -67,6 +67,14 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
         if($societe) {
             $societe->no_tva_intracommunautaire = $this->getValue('no_tva_intracommunautaire');
             $societe->save();
+        }
+        
+        if(!$this->getObject()->isSameContactThanSociete()){
+            $this->getObject()->getMasterCompte()->updateAndSaveCoordoneesFromEtablissement($this->getObject());
+        }
+        else
+        {
+            throw new sfException("Les modifications ne peuvent être effectuées car cet etablissement à le même compte que la société.");
         }
     } 
 
