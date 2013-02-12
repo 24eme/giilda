@@ -469,6 +469,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return EtablissementClient::getPrefixForRegion($this->region);
     }
 
+    public function hasAvoir(){
+        return ($this->exist('avoir') && !is_null($this->get('avoir')));
+    }
+    
     /*     * * ARCHIVAGE ** */
 
     public function getNumeroArchive() {

@@ -232,6 +232,10 @@ class FactureClient extends acCouchdbClient {
 	return ;
       }
       $avoir = clone $f;
+      $soc = SocieteClient::getInstance()->find($avoir->identifiant);
+      $avoir->constructIds($soc, $f->region);
+      $f->add('avoir',$avoir->_id);
+      $f->save();
       foreach($avoir->lignes as $type => $lignes) {
 	foreach($lignes as $id => $ligne) {
 	  $ligne->volume *= -1;
@@ -243,8 +247,6 @@ class FactureClient extends acCouchdbClient {
       $avoir->total_ht *= -1;
       $avoir->remove('echeances');
       $avoir->add('echeances');
-      $soc = SocieteClient::getInstance()->find($avoir->identifiant);
-      $avoir->constructIds($soc, $f->region);
       $avoir->statut = self::STATUT_NONREDRESSABLE;
       $avoir->save();
       $f->defacturer();
