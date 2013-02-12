@@ -62,7 +62,6 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
             $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
             $alerte->save();
-            echo $id_document.":closed\n";
         }
         parent::updates();
     }
@@ -131,6 +130,23 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         $drm_manquante->_id = $id;
 
         return $drm_manquante;
+    }
+
+    public function creationsByDocumentsIds(array $documents_id) {
+        
+    }
+
+    public function execute() {
+        $this->updates();
+        $this->creations();
+    }
+
+    public function isInAlerte($document) {
+        
+    }
+
+    public function updatesByDocumentsIds(array $documents_id) {
+        
     }
 
   

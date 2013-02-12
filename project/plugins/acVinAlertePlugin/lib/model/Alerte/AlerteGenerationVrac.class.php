@@ -13,7 +13,8 @@ abstract class AlerteGenerationVrac extends AlerteGeneration {
         $alerte->campagne = $vrac->campagne;
         $alerte->region = $vrac->vendeur->region;
         $alerte->declarant_nom = $vrac->vendeur->nom;
-
+        $alerte->type_document = $vrac->type;
+        
         return $alerte;
     }
 

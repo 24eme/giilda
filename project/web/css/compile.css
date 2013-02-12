@@ -1746,59 +1746,6 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 #contrat_actions_fin ul { font-size:10px; }
 #contrat_actions_fin ul li { margin:10px 0; }
 #contrat_actions_fin ul li * { display:block; }
-#infos_contact .contenu > ul { line-height:20px; }
-#infos_contact .contenu > ul li { position:relative; }
-#infos_contact .contenu > ul li a { display:inline-block; }
-#infos_contact .contenu > ul > li { padding:0 0 15px; }
-#infos_contact .contenu > ul > li > a {
-  font-weight:bold;
-  padding:0 0 0 22px;
-}
-#infos_contact .contenu > ul > li > a:before {
-  height:0;
-  width:0;
-  bottom:auto;
-  left:6px;
-  position:absolute;
-  right:auto;
-  top:3px;
-  content:'';
-  border-style:solid;
-  border-width:7px 0 7px 8px;
-  border-color:transparent transparent transparent #3e3e3e;
-}
-#infos_contact .contenu > ul > li.ouvert > a:before {
-  border-width:8px 7px 0;
-  border-color:#3e3e3e transparent transparent;
-  top:5px;
-  left:0;
-}
-#infos_contact .contenu > ul > li ul { padding:0 0 0 22px; }
-#infos_contact .contenu > ul > li ul li {
-  margin:10px 0;
-  min-height:20px;
-  padding:0 0 0 28px;
-}
-#infos_contact .contenu > ul > li ul li:before {
-  height:20px;
-  width:20px;
-  background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
-  bottom:auto;
-  left:0;
-  position:absolute;
-  right:auto;
-  top:0;
-  content:'';
-}
-#infos_contact .contenu > ul > li ul li.nom:before { background-position:0 -105px; }
-#infos_contact .contenu > ul > li ul li.tel:before { background-position:0 -125px; }
-#infos_contact .contenu > ul > li ul li.fax:before { background-position:0 -145px; }
-#infos_contact .contenu > ul > li ul li.email:before { background-position:0 -165px; }
-#infos_contact .contenu > ul > li ul li.email a {
-  text-decoration:underline;
-  color:#e65658;
-}
-#infos_contact .contenu > ul > li ul li.email a:hover, #infos_contact .contenu > ul > li ul li.email a:focus { text-decoration:none; }
 #contenu_etape .error_list { float:right; }
 #contenu_etape .col {
   float:left;
@@ -3064,12 +3011,48 @@ bouton.recherche_contact #btn_rechercher { height:26px; }
   width:510px;
 }
 .recherche_contact #resultats_contact { margin:20px 0 0; }
-#colonne #infos_contact .contact:before { background-position:0 -105px; }
-#colonne #infos_contact .etablissement:before { background-position:0 -518px; }
 #colonne #infos_contact h2 { background:#76a8d7; }
 #colonne #infos_contact h2:before { border-color:transparent transparent #376ea2 transparent; }
-#colonne #infos_contact .societe:before { background-position:0 -539px; }
-#colonne #infos_contact .tel_mobile:before { background-position:0 -125px; }
+#colonne #infos_contact .contenu { padding:5px 0 15px; }
+#colonne #infos_contact .contenu > ul { line-height:20px; }
+#colonne #infos_contact .contenu > ul li { position:relative; }
+#colonne #infos_contact .contenu > ul li a { display:inline-block; }
+#colonne #infos_contact .contenu > ul > li {
+  padding:4px 0 4px 0;
+  border-top:1px dashed #aaaaaa;
+}
+#colonne #infos_contact .contenu > ul > li:first-child { border-top:none; }
+#colonne #infos_contact .contenu > ul > li ul { padding:0 0 0 8px; }
+#colonne #infos_contact .contenu > ul > li ul li {
+  margin:10px 0;
+  min-height:20px;
+  padding:0 0 0 28px;
+}
+#colonne #infos_contact .contenu > ul > li ul li:before {
+  height:20px;
+  width:20px;
+  background:url(../images/pictos/pi_actions.png) 0 0 no-repeat;
+  bottom:auto;
+  left:0;
+  position:absolute;
+  right:auto;
+  top:0;
+  content:'';
+}
+#colonne #infos_contact .contenu > ul > li ul li.titre { font-weight:bold; }
+#colonne #infos_contact .contenu > ul > li ul li.nom:before { background-position:0 -105px; }
+#colonne #infos_contact .contenu > ul > li ul li.societe:before { background-position:0 -539px; }
+#colonne #infos_contact .contenu > ul > li ul li.tel:before { background-position:0 -125px; }
+#colonne #infos_contact .contenu > ul > li ul li.tel_mobile:before { background-position:0 -125px; }
+#colonne #infos_contact .contenu > ul > li ul li.fax:before { background-position:0 -145px; }
+#colonne #infos_contact .contenu > ul > li ul li.email:before { background-position:0 -165px; }
+#colonne #infos_contact .contenu > ul > li ul li.email a {
+  text-decoration:underline;
+  color:#e65658;
+}
+#colonne #infos_contact .contenu > ul > li ul li.email a:hover, #colonne #infos_contact .contenu > ul > li ul li.email a:focus { text-decoration:none; }
+#colonne #infos_contact .contenu > ul > li ul li.contact:before { background-position:0 -105px; }
+#colonne #infos_contact .contenu > ul > li ul li.etablissement:before { background-position:0 -518px; }
 #contacts_actions li { text-align:center; }
 #contacts_actions li button {
   padding-left:30px;

@@ -9,12 +9,14 @@ if (!is_null($contacts)):
                 <?php foreach ($contacts as $id => $contact) : 
                     ?>
                     <li id="infos_contact_vendeur">
-                        <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>">Coordonnées de <?php echo $contact->nom_a_afficher; ?></a>
+                        <!--<a href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>">Coordonnées de <?php echo $contact->nom_a_afficher; ?></a>-->
                         <ul>
                             <?php if ($contact->statut && ($contact->statut == SocieteClient::STATUT_SUSPENDU)): ?>
                                 <li style="color: red"><?php echo $contact->statut; ?></li>
                             <?php endif; ?>
-                            <li class="<?php if ($contact->compte_type == CompteClient::TYPE_COMPTE_SOCIETE) { echo 'societe'; } else if ($contact->compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT) {echo 'etablissement'; } else {echo 'nom';} ?>"><?php echo $contact->nom_a_afficher; ?></li>
+                            <li class="titre <?php if ($contact->compte_type == CompteClient::TYPE_COMPTE_SOCIETE) { echo 'societe'; } else if ($contact->compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT) {echo 'etablissement'; } else {echo 'nom';} ?>">
+                                <a title="<?php echo $contact->compte_type ?>" href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>"><?php echo $contact->nom_a_afficher; ?></a>
+                            </li>
                             <?php if ($contact->telephone_perso): ?>
                                 <li class="tel_perso"><?php echo $contact->telephone_perso; ?></li>
                             <?php endif; ?>
