@@ -121,7 +121,7 @@ class Compte extends BaseCompte {
             $doc = acCouchdbManager::getClient()->find($origine);
             if($doc->type == 'Etablissement' && !$frometablissement) {
                 $doc->synchroFromCompte();
-                $doc->save();
+                $doc->save($fromsociete);
             }
             
             if($doc->type == 'Societe' && !$fromsociete) {
@@ -194,6 +194,13 @@ class Compte extends BaseCompte {
 
     public function getCompteType() {
       return CompteClient::getInstance()->createTypeFromOrigines($this->origines);
+    }
+    
+    public function updateAndSaveCoordoneesFromEtablissement($etablissement){
+        $this->adresse = $etablissement->siege->adresse;
+        $this->code_postal = $etablissement->siege->code_postal;
+        $this->commune = $etablissement->siege->commune;
+        $this->save(true, true);
     }
 
 }
