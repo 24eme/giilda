@@ -35,17 +35,21 @@ EOF;
 	$facture = FactureClient::getInstance()->find($vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]);
 	foreach($facture->lignes as $t => $lignes) {
 		foreach($lignes as $l) {
-			echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->identifiant.';Facture n°'.$facture->identifiant.' ('.$l->produit_libelle
+			echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->numero_interloire.';Facture n°'.$facture->numero_interloire.' ('.$l->produit_libelle
 .');70610000;;'.$l->produit_identifiant_analytique.';;CREDIT;'.$l->montant_ht.";;\n";
 
 		}
         }
-	echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->identifiant.';Facture n°'.$facture->identifiant.' (TVA);44570000;;;;CREDIT;'.$facture->taxe.";;\n";
+	echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->numero_interloire.';Facture n°'.$facture->numero_interloire.' (TVA);44570000;;;;CREDIT;'.$facture->taxe.";;\n";
 	$nbecheance = count($facture->echeances);
-	$i = 0;
-	foreach($facture->echeances as $e) {
-		$i++;
-		echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->identifiant.';Facture n°'.$facture->identifiant.' (Echeance '.$i.'/'.$nbecheance.');41100000;'.$facture->identifiant.';;'.$e->echeance_date.';DEBIT;'.$e->montant_ttc.";;\n";
+	if ($nbecheance) {
+	  $i = 0;
+	  foreach($facture->echeances as $e) {
+	    $i++;
+	    echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->numero_interloire.';Facture n°'.$facture->numero_interloire.' (Echeance '.($nbecheance - $i + 1).'/'.$nbecheance.');41100000;'.sprintf("%08d", $facture->code_comptable_client).';;'.$e->echeance_date.';DEBIT;'.$e->montant_ttc.";;\n";
+	  } 
+	}else{
+	    echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->numero_interloire.';Facture n°'.$facture->numero_interloire.' (Echeance unique);41100000;'.sprintf("%08d", $facture->code_comptable_client).';;'.$facture->date_facturation.';DEBIT;'.$facture->total_ttc.";;\n";
 	}
     }
   }
