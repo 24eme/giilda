@@ -6,6 +6,7 @@ Facture:
       _rev: {}
       type: {}
       identifiant: {}
+      code_comptable_client: {}
       numero_facture: {}
       date_emission: {}
       date_facturation: {}

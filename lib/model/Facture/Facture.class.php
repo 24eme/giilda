@@ -79,6 +79,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->numero_facture) . '/' . $this->getPrefixForRegion() . '-' . $this->numero_archive;
     }
 
+    public function getNumeroReference() {
+      return substr($facture->numero_facture,6,2).' '.substr($facture->numero_facture,0,6);
+    }
+
     public function getTaxe() {
         return $this->total_ttc - $this->total_ht;
     }
@@ -445,6 +449,16 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $declarant->commune = $this->societe->siege->commune;
         $declarant->code_postal = $this->societe->siege->code_postal;
         $declarant->raison_sociale = $this->societe->raison_sociale;
+	$this->code_comptable_client = $this->societe->code_comptable_client;
+    }
+
+    public function getCodeComptableClient() {
+      $code = $this->_get('code_comptable_client');
+      if (!$code) {
+	$code = $this->societe->code_comptable_client;
+	$this->_set('code_comptable_client', $code);
+      }
+      return $code;      
     }
 
     public function getSociete() {
