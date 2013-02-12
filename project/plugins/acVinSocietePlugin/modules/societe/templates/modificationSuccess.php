@@ -14,7 +14,9 @@
                     <?php endif; ?>
                     <button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
                 </div>
-
+                <?php if(isset($validation)): ?>
+                    <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+                <?php endif; ?>
                 <div id="detail_societe" class="form_section ouvert">
                     <h3>Détail de la société</h3>  
                     <?php include_partial('societeModification', array('societeForm' => $societeForm)); ?>

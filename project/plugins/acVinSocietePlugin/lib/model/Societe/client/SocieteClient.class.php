@@ -48,7 +48,13 @@ class SocieteClient extends acCouchdbClient {
         
         $res = $index->search($q);
 
-        return $res;
+        foreach($res->getResults() as $er) {
+            $r = $er->getData();
+            
+            return $this->find($r['_id']);
+        }
+
+        return null;
     }
     
     public function getSocietesWithTypeAndRaisonSociale($type,$raison_sociale){
