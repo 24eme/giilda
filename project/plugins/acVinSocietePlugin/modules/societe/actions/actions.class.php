@@ -106,10 +106,10 @@ class societeActions extends sfActions {
         $this->societeForm->updateObject();
         $this->societeForm->update();
 
-        /*$this->validation = new SocieteValidation($this->societe);
+        $this->validation = new SocieteValidation($this->societe);
         if(!$this->validation->isValide()) {
             return;   
-        }*/
+        }
         
         $this->societeForm->save();
         

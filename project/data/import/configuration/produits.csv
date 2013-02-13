@@ -1,4 +1,4 @@
-#interpro;categorie_libelle;categorie_code;categorie_code_applicatif_droit genre_libelle;denomination_libelle;denomination_code;mention_libelle mention_code;lieu_libelle;lieu_code;couleur_libelle couleur_code;cepage_libelle;cepage_code departements;douane_code douane_libelle;douane_taxe douane_date douane_noeud;cvo_taxe;cvo_date;cvo_noeud;repli_entree;repli_sorti declassement_entree declassement_sorti;densite labels;code_produit;code_produit_noeud;code_analytique code_comptable_noeud;code_douane code_douane_noeud;alias_produit
+#interpro;categorie_libelle;categorie_code;genre_libelle;genre_code;denomination_libelle;denomination_code;mention_libelle;mention_code;lieu_libelle;lieu_code;couleur_libelle;couleur_code;cepage_libelle;cepage_code;departements;douane_code;douane_libelle;douane_taxe;douane_date;douane_noeud;cvo_taxe;cvo_date;cvo_noeud;repli_entree;repli_sorti;declassement_entree;declassement_sorti;densite;labels;code_produit;code_produit_noeud;code_analytique;code_comptable_noeud;code_douane;code_douane_noeud;alias_produit
 inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;;;Blanc;3;;;;;;;;;4,5;;G;;;;;;;11;cepage;09010;cepage;1B200;cepage;1B200 03
 Inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;Coteaux de la Loire;CDL;Blanc;3;Chenin;CHE;;;;;;;4;;L;;;;;;;21;cepage;09020;cepage;1B202L;cepage;
 inter-loire;AOC;AOC;;TRANQ;Anjou;ANJ;;;;;Rouge;1;Gamay;GAM;;;;;;;4,5;;G;;;;;;;32;cepage;09030;cepage;1R203S;cepage;
@@ -70,7 +70,7 @@ inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Azay-le-rideau;ALR;Rosé;2;;;;;;;;;4,5
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Mesland;MES;Blanc;3;Chenin;CHE;;;;;;;3,8;;L;;;;;;;551;cepage;09550;cepage;1B238;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Mesland;MES;Rouge;1;;;;;;;;;3,8;;L;;;;;;;552;cepage;09550;cepage;1R238S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Mesland;MES;Rosé;2;;;;;;;;;3,8;;L;;;;;;;553;cepage;09550;cepage;1S238;cepage;
-inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Noble Joué;NJO;Rosé;2;;;;;;;;;3,74;;A;;;;;;;493;cepage;09610;cepage;1S239;cepage;
+inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Noble Joué;NJO;Rosé;2;;;;;;;;;3,74;;L;;;;;;;493;cepage;09610;cepage;1S239;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Blanc;3;Sauvignon;SAUB;;;;;;;4;;A;;;;;;;631;cepage;09650;cepage;1B705S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Rouge;1;;;;;;;;;4;;A;;;;;;;632;cepage;09650;cepage;1R705S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Touraine;TOU;;;Oisly;OIS;Blanc;3;Sauvignon Blanc;SAUB;;;;;;;4;;A;;;;;;;641;cepage;09640;cepage;1B704S;cepage;
