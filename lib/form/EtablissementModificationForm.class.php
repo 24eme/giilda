@@ -18,10 +18,6 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->etablissement = $etablissement;
         $this->liaisons_operateurs = $etablissement->liaisons_operateurs;
         parent::__construct($etablissement, $options, $CSRFSecret);
-        if($this->etablissement->isNew()){
-            $this->setDefault('exclusion_drm', 'non');            
-            $this->setDefault('raisins_mouts', 'non');
-        }
     }
 
     public function configure() {
@@ -81,9 +77,23 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
         
-        if($this->etablissement->isNew())
-             $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
+        if($this->etablissement->isNew()) {
+            $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
+        }
+
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');
+    }
+
+    protected function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+
+        $this->setDefault('recette_locale_choice', $this->getObject()->recette_locale->id_douane);
+
+        if($this->etablissement->isNew()){
+            $this->setDefault('exclusion_drm', 'non');            
+            $this->setDefault('raisins_mouts', 'non');
+            $this->setDefault('type_dr', EtablissementClient::TYPE_DR_DRM);
+        }
     }
 
     public function getStatuts() {
@@ -161,6 +171,11 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
                 }
             }
         }
+
+        if(!array_key_exists('statut', $taintedValues)) {
+            $taintedValues['statut'] = $this->getObject()->statut;
+        }
+
         parent::bind($taintedValues, $taintedFiles);
     }
 
