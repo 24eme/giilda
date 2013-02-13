@@ -89,24 +89,39 @@ class societeActions extends sfActions {
         $this->societe = $this->getRoute()->getSociete();
         $this->contactSociete = CompteClient::getInstance()->find($this->societe->compte_societe);
         $this->societeForm = new SocieteModificationForm($this->societe);
-        $this->contactSocieteForm = new CompteModificationForm($this->contactSociete);
+        $this->contactSocieteForm = new CompteCoordonneeForm($this->contactSociete);
 
-        if ($request->isMethod(sfWebRequest::POST)) {
-            $this->societeForm->bind($request->getParameter($this->societeForm->getName()));
-            $this->contactSocieteForm->bind($request->getParameter($this->contactSocieteForm->getName()));
-            if ($this->societeForm->isValid() && $this->contactSocieteForm->isValid()) {
-                $this->societeForm->update();
-                $this->societeForm->save();
-                
-                $this->contactSociete = CompteClient::getInstance()->find($this->societe->compte_societe);
-                $this->contactSocieteForm = new CompteModificationForm($this->contactSociete);
-                $this->contactSocieteForm->disabledRevisionVerification();
-                $this->contactSocieteForm->bind($request->getParameter($this->contactSocieteForm->getName()));
-                $this->contactSocieteForm->save();
-                
-                $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
-            }
+        if (!$request->isMethod(sfWebRequest::POST)) {
+
+            return;
         }
+
+        $this->societeForm->bind($request->getParameter($this->societeForm->getName()));
+        $this->contactSocieteForm->bind($request->getParameter($this->contactSocieteForm->getName()));
+
+        if (!$this->societeForm->isValid() || !$this->contactSocieteForm->isValid()) {
+            return;
+        }
+
+        $this->societeForm->updateObject();
+        $this->societeForm->update();
+
+        $this->validation = new SocieteValidation($this->societe);
+        if(!$this->validation->isValide()) {
+            return;   
+        }
+        
+        $this->societeForm->save();
+        
+        $this->contactSociete = CompteClient::getInstance()->find($this->societe->compte_societe);
+        $this->contactSocieteForm = new CompteCoordonneeForm($this->contactSociete);
+        $this->contactSocieteForm->disabledRevisionVerification();
+        $this->contactSocieteForm->bind($request->getParameter($this->contactSocieteForm->getName()));
+        $this->contactSocieteForm->save();
+        
+        $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
+            
+        
     }
 
     public function executeAddEnseigne(sfWebRequest $request) {
@@ -135,25 +150,6 @@ class societeActions extends sfActions {
         $this->societe->delete();
 
         $this->redirect('societe_creation');
-    }
-
-
-    /*     * *************
-     * Intégration
-     * ************* */
-
-    public function executeCreateSocieteInt(sfWebRequest $request) {
-        $this->societe = null;
-        if (!is_null($societeParam = $request->getParameter('societe'))) {
-            $this->societe = SocieteClient::getInstance()->find($societeParam['identifiant']);
-        }
-    }
-
-    public function executeDetailSocieteInt(sfWebRequest $request) {
-        $this->societe = null;
-        if (!is_null($societeParam = $request->getParameter('societe'))) {
-            $this->societe = SocieteClient::getInstance()->find($societeParam['identifiant']);
-        }
     }
 
     protected function matchCompte($view_res, $term, $limit) {

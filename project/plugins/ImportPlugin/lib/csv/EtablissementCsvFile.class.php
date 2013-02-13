@@ -44,7 +44,7 @@ class EtablissementCsvFile extends CsvFile
   const CSVCAV_CODE_DEPARTEMENT = 34;
   const CSVCAV_CODE_COMMUNE = 35;
   const CSVCAV_LIBELLE_COMMUNE = 36;
-  const CSVCAV_DRA = 39;
+  const CSVCAV_DRA = 40;
 
   private function verifyCsvLine($line) {
     if (!preg_match('/[0-9]+/', $line[self::CSVPAR_CODE_CLIENT])) {
@@ -153,13 +153,11 @@ class EtablissementCsvFile extends CsvFile
 		$e->region = EtablissementClient::REGION_HORSINTERLOIRE;
 	}
         
-        if(count($line) >= self::CSVCAV_DRA){
-            if ($line[self::CSVCAV_DRA] == 'OUI') {
-                $e->type_dr = EtablissementClient::TYPE_DR_DRA;
-            }else{
-                $e->type_dr = EtablissementClient::TYPE_DR_DRM;
-            }
-        }
+  if (isset($line[self::CSVCAV_DRA]) && $line[self::CSVCAV_DRA] == 'OUI') {
+      $e->type_dr = EtablissementClient::TYPE_DR_DRA;
+  }else{
+      $e->type_dr = EtablissementClient::TYPE_DR_DRM;
+  }
         
 	if ($line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]*1)
 	        $e->recette_locale->id_douane = "SOCIETE-".sprintf("%06d", $line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]);
