@@ -254,4 +254,13 @@ class FactureClient extends acCouchdbClient {
       return $avoir;
     }
     
+    public function getDateCreation($id) {
+        $d = substr($id, -10,8);
+        $matches = array();
+        if(preg_match('/^([0-9]{4})([0-9]{2})([0-9]{2})$/', $d, $matches)){
+        return $matches[3].'/'.$matches[2].'/'.$matches[1];
+        }
+        return '';
+    }
+    
 }

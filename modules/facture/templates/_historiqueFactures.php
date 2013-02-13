@@ -23,7 +23,8 @@ if(count($factures->getRawValue())==0) :
             <?php foreach ($factures->getRawValue() as $facture) :
                 ?>
                 <tr>
-                    <td><?php $d = format_date($facture->value[FactureSocieteView::VALUE_DATE_FACTURATION],'dd/MM/yyyy');
+                    <td><?php $fc = FactureClient::getInstance();
+                        $d = format_date($facture->value[FactureSocieteView::VALUE_DATE_FACTURATION],'dd/MM/yyyy').' (créée le '.$fc->getDateCreation($facture->id).')';
                         echo link_to($d, array('sf_route' => 'facture_pdf', 'identifiant' => $facture->key[FactureSocieteView::KEYS_FACTURE_ID])); ?>
                     </td>
                     <td><?php foreach ($facture->value[FactureSocieteView::VALUE_ORIGINES] as $drmid => $drmlibelle) {
@@ -34,7 +35,6 @@ if(count($factures->getRawValue())==0) :
             }; ?></td>
                     <td><?php echoFloat($facture->value[FactureSocieteView::VALUE_TOTAL_TTC]); ?>&nbsp;€</td>
                     <td><?php
-		    $fc = FactureClient::getInstance();
 if ($fc->isRedressee($facture)) {
   echo 'redressée';
 }else if ($fc->isRedressable($facture)) {
