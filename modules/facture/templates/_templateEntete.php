@@ -48,14 +48,14 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \setlength{\oddsidemargin}{-2cm}
 \setlength{\evensidemargin}{-2cm}
 \setlength{\textwidth}{19cm}
-\setlength{\headheight}{5cm}
+\setlength{\headheight}{5.3cm}
 \setlength{\topmargin}{-4.5cm}
 \addtolength{\textheight}{29.9cm} 
 
 \def\TVA{19.60} 
 \def\InterloireAdresse{<?php echo $facture->emetteur->adresse; ?> \\
 		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France} 
-\def\InterloireFacturation{\\Votre contact : <?php echo $facture->emetteur->service_facturation.' - '.$facture->emetteur->telephone; ?>} 
+\def\InterloireFacturation{\\Votre contact : <?php echo $facture->emetteur->service_facturation.' - '. $facture->emetteur->telephone; ?> \\ Email : <?php echo $facture->emetteur->email; ?>} 
 \def\InterloireSIRET{429 164 072 00077}
 \def\InterloireAPE{APE 9499 Z} 
 \def\InterloireTVAIntracomm{FR 73 429164072}
@@ -85,7 +85,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \lhead{
  \textbf{InterLoire - Service facturation} \\  
  \InterloireAdresse \\
- \textbf{\begin{footnotesize}\InterloireFacturation\end{footnotesize}}\\
+ \begin{small} \textbf{\begin{footnotesize}\InterloireFacturation\end{footnotesize}}\\ \end{small}
  \begin{tiny}
          RIB~:~\InterloireBANQUE~(BIC:~\InterloireBIC~IBAN:~\InterloireIBAN) 
  \end{tiny} \\

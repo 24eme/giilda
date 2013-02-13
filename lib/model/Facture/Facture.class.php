@@ -80,7 +80,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getNumeroReference() {
-      return substr($facture->numero_facture,6,2).' '.substr($facture->numero_facture,0,6);
+      return substr($this->numero_facture,6,2).' '.substr($this->numero_facture,0,6);
     }
 
     public function getTaxe() {

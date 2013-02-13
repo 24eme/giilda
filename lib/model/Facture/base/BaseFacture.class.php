@@ -7,14 +7,15 @@
  * @property string $_id
  * @property string $_rev
  * @property string $type
- * @property string $num_archivage
  * @property string $identifiant
+ * @property string $code_comptable_client
  * @property string $numero_facture
  * @property string $date_emission
  * @property string $date_facturation
  * @property string $campagne
  * @property string $numero_archive
  * @property string $statut
+ * @property string $avoir
  * @property string $region
  * @property integer $versement_comptable
  * @property acCouchdbJson $emetteur
@@ -32,10 +33,10 @@
  * @method string set_rev()
  * @method string getType()
  * @method string setType()
- * @method string getNumArchivage()
- * @method string setNumArchivage()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
+ * @method string getCodeComptableClient()
+ * @method string setCodeComptableClient()
  * @method string getNumeroFacture()
  * @method string setNumeroFacture()
  * @method string getDateEmission()
@@ -48,6 +49,8 @@
  * @method string setNumeroArchive()
  * @method string getStatut()
  * @method string setStatut()
+ * @method string getAvoir()
+ * @method string setAvoir()
  * @method string getRegion()
  * @method string setRegion()
  * @method integer getVersementComptable()
