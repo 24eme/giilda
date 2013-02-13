@@ -9,7 +9,7 @@ class SocieteValidation extends DocumentValidation
     {
         if($this->document->siret) {
             $societe = SocieteClient::getInstance()->findBySiret($this->document->siret);
-            if($societe) {
+            if($societe && $societe->_id != $this->document->_id) {
                 $this->addPoint('erreur', 'siret_unique', sprintf("Societe %s", $societe->raison_sociale), $this->generateUrl('societe_visualisation', $societe));
             }
         }
