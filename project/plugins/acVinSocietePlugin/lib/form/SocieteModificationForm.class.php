@@ -207,7 +207,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         }
 
         if(!array_key_exists('statut', $taintedValues)) {
-            $taintedValues['statut'] = SocieteClient::STATUT_ACTIF;
+
+            $taintedValues['statut'] = (!$this->getObject()->isInCreation()) ? $this->getObject()->statut : SocieteClient::STATUT_ACTIF;
         }
 
         parent::bind($taintedValues, $taintedFiles);
