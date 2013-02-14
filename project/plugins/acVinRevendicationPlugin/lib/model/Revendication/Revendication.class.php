@@ -58,12 +58,21 @@ class Revendication extends BaseRevendication {
 	return true;
       }
     }
-
+    
+    public function isRowGoodCampagne($row) {
+      $date = $row[RevendicationCsvFile::CSV_COL_DATE];
+      $campagne = RevendicationClient::getInstance()->getCampagneFromRowDate($date);      
+      if($campagne !=  $this->campagne){
+          throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DATE_CAMPAGNE);
+      }
+    }
+    
     public function insertRow($num_ligne, $row) {
       if ($this->lineToBeIgnored($num_ligne, $row)) {
 	return ;
       }
         try {
+            $this->isRowGoodCampagne($row);
             $bailleur = null;
             $etb = $this->matchEtablissement($row);
             $hashLibelle = $this->matchProduit($row);

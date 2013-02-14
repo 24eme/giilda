@@ -109,6 +109,12 @@ class RevendicationClient extends acCouchdbClient {
       krsort($list);
       return $list;
     }
+    
+    public function getCampagneFromRowDate($date){
+      $annee = substr($date,0,4);
+      $mois = substr($date,4,2);
+      return ($mois<8)? ($annee-1).'-'.$annee : $annee.'-'.($annee+1);
+    }
 
 
 }
