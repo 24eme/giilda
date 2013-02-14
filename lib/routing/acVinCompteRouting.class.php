@@ -65,9 +65,9 @@ class acVinCompteRouting {
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Compte',
                             'type' => 'object')));
-        $r->prependRoute('compte_etablissement_modification', new CompteRoute('/compte-etablissement/:identifiant/modification',
+        $r->prependRoute('compte_coordonnee_modification', new CompteRoute('/compte-coordonnee/:identifiant/modification',
                         array('module' => 'compte',
-                            'action' => 'modificationCompteEtablissement'),
+                            'action' => 'modificationCoordonnee'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Compte',
                             'type' => 'object')));        

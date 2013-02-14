@@ -16,10 +16,32 @@ class compteActions extends sfActions
         $this->processFormCompte($request);
     }
     
-    public function executeModificationCompteEtablissement(sfWebRequest $request) {
+    protected function processFormCompte(sfWebRequest $request) {
+        $this->compteForm = new CompteForm($this->compte);
+        if (!$request->isMethod(sfWebRequest::POST)) {
+          return;
+        }
+
+        $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
+        
+        if (!$this->compteForm->isValid()) {
+          return;
+        }
+        
+        $this->compteForm->save();
+                
+        if (!$this->compte->isSameCoordonneeThanSociete()) {
+                  
+            return $this->redirect('compte_coordonnee_modification', $this->compte);
+        }
+
+        return $this->redirect('compte_visualisation', $this->compte);
+    }
+
+    public function executeModificationCoordonnee(sfWebRequest $request) {
         $this->compte = $this->getRoute()->getCompte();        
         $this->societe = $this->compte->getSociete(); 
-        $this->compteForm = new CompteModificationForm($this->compte);
+        $this->compteForm = new CompteCoordonneeForm($this->compte);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
             if ($this->compteForm->isValid()) {
@@ -27,20 +49,7 @@ class compteActions extends sfActions
                     $this->compte->setStatut(EtablissementClient::STATUT_ACTIF);
                 }
                 $this->compteForm->save();
-                $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
-            }
-        }
-    }
-    
-    
-    
-    protected function processFormCompte(sfWebRequest $request) {
-        $this->compteForm = new CompteExtendedModificationForm($this->compte);
-        if ($request->isMethod(sfWebRequest::POST)) {
-            $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
-            if ($this->compteForm->isValid()) {
-                $this->compteForm->save();
-                $this->redirect('compte_visualisation',array('identifiant' => $this->compte->identifiant));
+                $this->redirect('compte_visualisation', $this->compte);
             }
         }
     }
