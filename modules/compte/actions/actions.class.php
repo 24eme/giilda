@@ -59,9 +59,16 @@ class compteActions extends sfActions
       if (! $request->getParameter('contacts_all') ) {
 	$query .= " statut:ACTIF";
       }
+      $this->selected_tags = array_unique(array_diff(explode(',', $request->getParameter('tags')), array('')));
+      foreach ($this->selected_tags as $t) {
+	$query .= ' tags.manuel:'.$t;
+      }
       $qs = new acElasticaQueryQueryString($query);
       $q = new acElasticaQuery();
       $q->setQuery($qs);
+      $this->contacts_all = $request->getParameter('contacts_all');
+      $this->q = $request->getParameter('q');
+      $this->args = array('q' => $this->q, 'contacts_all' => $this->contacts_all, 'tags' => implode(',', $this->selected_tags));
       return $q;
     }
 
@@ -75,22 +82,50 @@ class compteActions extends sfActions
       $this->getResponse()->setContentType('text/csv');
     }
 
+    public function executeAddtag(sfWebRequest $request) {
+      $q = $this->initSearch($request);
+      $q->setLimit(1000000);
+      $index = acElasticaManager::getType('Compte');
+      $resset = $index->search($q);
+      $tag = $request->getParameter('tag');
+      if (!$tag) {
+	throw new sfException("Un tag doit être fourni pour pouvoir être ajouté");
+      }
+      foreach ($resset->getResults() as $res) {
+	$data = $res->getData();
+	$myCompte = CompteClient::getInstance()->findByIdentifiant($data['identifiant']);
+	if (!$myCompte) {
+	  continue;
+	  throw new sfException($data['identifiant'].' ne correspond à aucun compte :(');
+	}
+	$myCompte->addTag('manuel', $tag);
+	$myCompte->save();
+      }
+      return $this->redirect('compte_search', $this->args);
+    }
+
     public function executeSearch(sfWebRequest $request) {
       $res_by_page = 50;
       $page = $request->getParameter('page', 1);
       $from = $res_by_page * ($page - 1);
-      $this->q = $request->getParameter('q');
 
       $q = $this->initSearch($request);
       $q->setLimit($res_by_page);
       $q->setFrom($from);
+      $elasticaFacet 	= new acElasticaFacetTerms('tags');
+      $elasticaFacet->setField('tags.manuel');
+      $elasticaFacet->setSize(10);
+      $elasticaFacet->setOrder('count');
+      $q->addFacet($elasticaFacet);
+
       $index = acElasticaManager::getType('Compte');
       $resset = $index->search($q);
-
       $this->results = $resset->getResults();
+
       $this->nb_results = $resset->getTotalHits();
+      $facets = $resset->getFacets();
+      $this->facets = $facets['tags']['terms'];
       $this->last_page = ceil($this->nb_results / $res_by_page); 
-      $this->current_page = $page; 
-      $this->contacts_all = $request->getParameter('contacts_all');
+      $this->current_page = $page;
     }
 }

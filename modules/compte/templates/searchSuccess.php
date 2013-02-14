@@ -1,4 +1,3 @@
-<?php $args = array('q' => $q, 'contacts_all' => $contacts_all); ?>
 <section id="principal" class="recherche_contact">
 	
 	<section id="contenu_etape">
@@ -22,23 +21,32 @@
 	<a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', $args); ?>">Télécharger le tableur</a>
 	
 	<aside id="colonne_tag">
+<?php if (count($selected_tags)) :  ?>
 		<h2>tags sélectionnés</h2>
 		<ul>
-			<li>tag 1</li>
-			<li>tag 2</li>
-			<li>tag 3</li>
+<?php foreach($selected_tags as $t) {
+$targs = $args->getRawValue();
+$targs['tags'] = implode(',', array_diff($selected_tags->getRawValue(), array($t)));
+   echo '<li><a href="'.url_for('compte_search', $targs).'">'.$t.'</a></li>';
+} ?>
 		</ul>
-		
+<?php endif; ?>
 		<h2>tags dispos</h2>
 		<ul>
-			<li>tag 1</li>
-			<li>tag 2</li>
-			<li>tag 3</li>
+<?php 
+foreach($facets as $f) {
+$targs = $args->getRawValue();
+$targs['tags'] = implode(',', array_merge($selected_tags->getRawValue(), array($f['term'])));
+echo '<li><a href="'.url_for('compte_search', $targs).'">'.$f['term'].' ('.$f['count'].')</a></li>';
+}
+?>
 		</ul>
 		
 		<h2>Créer un tag</h2>
-		<label for="creer_tag">tag :</label>
-		<input id="creer_tag" class="tags" type="text" />
+<form action="<?php echo url_for('compte_addtag', $args); ?>" method="POST">
+<input id="creer_tag" name="tag" class="tags" type="text" /><br/>
+<input type="submit" value="ajouter" class="btn_majeur btn_modifier"/>
+</form>
 	</aside>
 	
 	<?php if($nb_results > 0): ?>

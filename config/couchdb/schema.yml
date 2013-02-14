@@ -37,5 +37,9 @@ Compte:
          type: collection
          definition:
            fields:
-             '*': { }
-         
+             '*':
+               type: array_collection
+               definition:
+                 fields:
+                   '*': {}
+ 

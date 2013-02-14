@@ -75,6 +75,10 @@ class Compte extends BaseCompte {
         $this->nom_a_afficher = trim(sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom));
     }
     
+    public function addTag($type, $tag) {
+      $this->add('tags')->add($type)->add(null, str_replace(' ', '_', $tag));
+    }
+
     public function addOrigine($id) {    
         if(!in_array($id, $this->origines->toArray(false))) {
             $this->origines->add(null, $id);
