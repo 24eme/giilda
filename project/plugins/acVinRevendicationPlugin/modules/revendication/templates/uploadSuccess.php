@@ -10,13 +10,16 @@ $errors_exist = (count($errors) > 0);
             <?php include_partial('revendication/formUpload', array('form' => $form)); ?>
             
             <?php 
-            if($errors_exist)
+            if($errors_exist) :
                 include_partial('revendication/uploadErreurs',array('errors' => $errors,'md5' => $md5,'odg' => $revendication->odg, 'campagne' => $revendication->campagne));
+            elseif(!$not_valid_file) : 
             ?>
-
             <div class="btn_etape">
                 <a class="btn_etape_suiv" href="<?php echo url_for('revendication_view_erreurs', $revendication); ?>"><span>Suivant</span></a>
             </div>
+            <?php
+            endif;
+            ?>
         </section>
         <!-- fin #contenu_etape -->
     </section>
