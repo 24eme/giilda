@@ -1,8 +1,7 @@
 <h2>Import des volumes revendiqués</h2>
 <fieldset id="revendication_syntaxeErrors">
     <a href="<?php echo url_for('revendication_downloadCSV', array('md5' => $md5, 'odg' => $odg, 'campagne' => $campagne)); ?>" class="btn_majeur btn_orange">Download CSV</a>
-    <p>
-        <table class="table_recap">
+        <table style="margin-top: 20px;" class="table_recap">
             <thead>
                 <tr>
                     <th>Numéro de ligne</th>
@@ -18,5 +17,4 @@
          ?>
             </tbody>
          </table>
-    </p>
 </fieldset>

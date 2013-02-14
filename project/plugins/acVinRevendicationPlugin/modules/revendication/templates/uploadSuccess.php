@@ -9,14 +9,15 @@ $errors_exist = (count($errors) > 0);
             <h2>Importer un fichier de volumes revendiqués (ODG)</h2>
             <?php include_partial('revendication/formUpload', array('form' => $form)); ?>
             
-            <?php 
-            if($errors_exist)
-                include_partial('revendication/uploadErreurs',array('errors' => $errors,'md5' => $md5,'odg' => $revendication->odg, 'campagne' => $revendication->campagne));
-            ?>
+            <?php if($errors_exist): ?>
+                <?php include_partial('revendication/uploadErreurs',array('errors' => $errors,'md5' => $md5,'odg' => $revendication->odg, 'campagne' => $revendication->campagne)); ?> 
+            <?php endif; ?>
 
+            <?php if(!$errors_exist): ?>
             <div class="btn_etape">
                 <a class="btn_etape_suiv" href="<?php echo url_for('revendication_view_erreurs', $revendication); ?>"><span>Suivant</span></a>
             </div>
+            <?php endif; ?>
         </section>
         <!-- fin #contenu_etape -->
     </section>
