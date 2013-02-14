@@ -100,6 +100,7 @@ class RevendicationCsvFile extends CsvFile
 		}
 		$firstline = 0;
 		rtrim($s);
+    $s = utf8_encode($s);
 		$s = str_replace(';', ' ', $s);
 		$line = substr($s, 0, 12).';'. //CSV_COL_TYPE = 0;
 			substr($s, 12, 8).';'. //CSV_COL_UNKNOWN1 = 1

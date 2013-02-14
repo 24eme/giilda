@@ -46,7 +46,7 @@ class RevendicationErreurs extends BaseRevendicationErreurs {
             case RevendicationErrorException::ERREUR_TYPE_NO_BAILLEURS:
                 $args = $erreurException->getArguments();
                 $errorData = $this->add($args['identifiant']);
-                $error = $errorData->add();
+                $error = $errorData->add($numLigne);
                 $error->data_erreur = $row[RevendicationCsvFile::CSV_COL_BAILLEUR];
                 $error->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_NO_BAILLEURS_LIBELLE, $args['identifiant'],$row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
                 break;
