@@ -45,12 +45,11 @@ use_helper('Revendication');
                           echo ' ('.$rev->num_certif.')';  ?></td>
                 <td><?php echo $rev->declarant_cvi; ?></td>
                 <td>
-                <?php echo $rev->declarant_nom ?>
                 <?php
-                /*if ($volume->bailleur_nom)
-                echo 'Bailleur : '.$volume->bailleur_nom.' (en metayage avec : ' . $etb->declarant_nom . ')';
+                if ($rev->bailleur_nom)
+                echo 'Bailleur : '.$rev->bailleur_nom.' (en metayage avec : ' . $rev->declarant_nom . ')';
                 else
-                echo $etb->declarant_nom;*/
+                echo $rev->declarant_nom;
                 ?></td>
                 <td><?php echo $rev->produit_libelle; ?></td>
                 <td><?php echoFloat($rev->volume); ?></td>

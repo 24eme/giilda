@@ -16,6 +16,8 @@ class RevendicationEtablissementView extends acCouchdbView
     const VALUE_DECLARANT_NOM = 4;
     const VALUE_DECLARANT_COMMUNE = 5;
     const VALUE_DATE_TRAITEMENT = 6;
+    const VALUE_BAILLEUR_IDENTIFIANT = 7;
+    const VALUE_BAILLEUR_NOM = 8;
     
     public static function getInstance() {
 
@@ -91,6 +93,8 @@ class RevendicationEtablissementView extends acCouchdbView
         if($date_traitement)
             $rev->date_traitement = substr($date_traitement, 0,4).'-'.substr($date_traitement, 4,2).'-'.substr($date_traitement, 6);
         $rev->code_douane = $row->key[self::KEY_LIGNE_CODE_DOUANE];
+        $rev->bailleur_identifiant = $row->value[self::VALUE_BAILLEUR_IDENTIFIANT];
+        $rev->bailleur_nom = $row->value[self::VALUE_BAILLEUR_NOM];
         return $rev;
     }
 }  

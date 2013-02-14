@@ -16,6 +16,8 @@ class RevendicationStocksODGView extends acCouchdbView
     const VALUE_DECLARANT_NOM = 4;
     const VALUE_DECLARANT_COMMUNE = 5;
     const VALUE_DATE_TRAITEMENT = 6;
+    const VALUE_BAILLEUR_IDENTIFIANT = 7;
+    const VALUE_BAILLEUR_NOM = 8;
     
             
 
@@ -27,10 +29,9 @@ class RevendicationStocksODGView extends acCouchdbView
 
     public function findByCampagneAndODG($campagne, $odg) {    
 
-        return $this->builds(
-                            $this->client->startkey(array($campagne, $odg))
-                            ->endkey(array($campagne, $odg, array()))
-                            ->getView($this->design, $this->view)->rows
+        return $this->builds($this->client->startkey(array($campagne, $odg))
+                             ->endkey(array($campagne, $odg, array()))
+                             ->getView($this->design, $this->view)->rows
                             );
     }
 
@@ -63,6 +64,8 @@ class RevendicationStocksODGView extends acCouchdbView
         if($date_traitement)
             $rev->date_traitement = substr($date_traitement, 0,4).'-'.substr($date_traitement, 4,2).'-'.substr($date_traitement, 6);
         $rev->code_douane = $row->key[self::KEY_LIGNE_CODE_DOUANE];
+        $rev->bailleur_identifiant = $row->value[self::VALUE_BAILLEUR_IDENTIFIANT];
+        $rev->bailleur_nom = $row->value[self::VALUE_BAILLEUR_NOM];
         return $rev;
     }
 }  
