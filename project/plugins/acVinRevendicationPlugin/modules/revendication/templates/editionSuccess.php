@@ -5,7 +5,11 @@
     <?php include_partial('header', array('revendication' => $revendication, 'actif' => 2)); ?>
     <!-- #contenu_etape -->
     <section id="contenu_etape">
-        <?php include_component('revendication', 'editionList', array('revendication' => $revendication, 'revendications' => $revendications, 'retour' => 'odg')); ?>
+        <h2>Volumes revendiqués</h2>
+        <?php if(isset($revendication)): ?>
+            <a class="btn_majeur btn_modifier" href="<?php echo url_for('revendication_add_row', $revendication); ?>"><span>Ajouter une ligne</span></a>
+        <?php endif; ?>
+        <?php include_partial('revendication/editionList', array('revendication' => $revendication, 'revendications' => $revendications, 'retour' => 'odg')); ?>
     </section>
 </section>
 <?php
