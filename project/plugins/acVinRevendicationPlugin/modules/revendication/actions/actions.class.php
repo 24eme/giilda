@@ -97,6 +97,16 @@ class revendicationActions extends sfActions {
 	$this->csv = $revendication->getAttachmentUri('revendication.csv');
         $this->setLayout(false);
     }
+    
+    public function executeDownloadImportedRowsCSV(sfWebRequest $request) {
+        $this->setLayout(false);
+        $this->revendication = $this->getRoute()->getRevendication();
+        $attachement = 'attachment; filename='.sprintf('DREV-%s-%s-%s-importee.csv', $this->revendication->odg, $this->revendication->campagne, $this->revendication->_rev);
+        header("content-type: application/pdf\n");
+        header("content-disposition: $attachement\n\n");
+        echo RevendicationClient::getCsvImportedRows($this->revendication);
+        exit;
+    }
 
     public function executeUpdate(sfWebRequest $request) {
         ini_set('memory_limit','2048M');

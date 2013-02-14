@@ -117,4 +117,17 @@ class RevendicationClient extends acCouchdbClient {
     }
 
 
+    public static function getCsvImportedRows($revendication){
+        $result ="\xef\xbb\xbf";
+        foreach ($revendication->datas as $etb) {
+            foreach ($etb->produits as $prod) {
+                foreach ($prod->volumes as $prod) {
+                $result .= str_replace('#', ';', $prod->ligne)."\n";
+                }
+            }
+        }
+        $result = substr($result, 0, strlen($result)-1);
+        return $result;
+    }
+    
 }
