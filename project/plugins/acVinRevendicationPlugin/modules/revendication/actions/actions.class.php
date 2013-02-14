@@ -30,16 +30,17 @@ class revendicationActions extends sfActions {
     	  throw new sfException("Cet établissement n'a pas de volume renvendiqué");
     	}
 
-        $this->campagne = $request->getParameter('campagne');
+        $this->formCampagne($request, 'revendication_etablissement');
+
         $this->odg = RevendicationEtablissementView::getInstance()->getOdgByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
 
         if(!$this->odg) {
             $this->odg = $this->etablissement->region;
         }
+        
+        $this->revendication = RevendicationClient::getInstance()->findByOdgAndCampagne($this->odg, $this->campagne, acCouchdbClient::HYDRATE_JSON);
 
         $this->revendications = RevendicationEtablissementView::getInstance()->findByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
-
-        $this->formCampagne($request, 'revendication_etablissement');
     }
 
     public function executeChooseEtablissement(sfWebRequest $request) {

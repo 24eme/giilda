@@ -8,7 +8,6 @@ $errors_exist = (count($errors) > 0);
         <section id="contenu_etape">
             <h2>Importer un fichier de volumes revendiqués (ODG)</h2>
             <?php include_partial('revendication/formUpload', array('form' => $form)); ?>
-            
             <?php 
             if($errors_exist) :
                 include_partial('revendication/uploadErreurs',array('errors' => $errors,'md5' => $md5,'odg' => $revendication->odg, 'campagne' => $revendication->campagne));

@@ -95,8 +95,11 @@ class RevendicationRouting {
                         array('model' => 'Revendication',
                             'type' => 'object')));
 
-        $r->prependRoute('revendication_add_row', new sfRoute('/revendication/odg/:odg/:campagne/ajout-lignes', array('module' => 'revendication',
-                    'action' => 'addRows')));
+        $r->prependRoute('revendication_add_row', new RevendicationRoute('/revendication/odg/:odg/:campagne/ajout-lignes', array('module' => 'revendication',
+                    'action' => 'addRows'),
+                    array('sf_method' => array('get', 'post')),
+                        array('model' => 'Revendication',
+                            'type' => 'object')));
 
         $r->prependRoute('revendication_delete', new RevendicationRoute('/revendication/odg/:odg/:campagne/supprimer', array('module' => 'revendication',
                     'action' => 'delete'),
