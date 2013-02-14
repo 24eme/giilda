@@ -8,5 +8,11 @@ class revendicationComponents extends sfComponents {
               array('identifiant' => $this->identifiant));
     }
   }
-    
+
+  public function executeEditionList() {
+    if (isset($this->revendication)) {
+      $this->odg = $this->revendication->odg;
+      $this->campagne = $this->revendication->campagne;
+    }
+  }
 }

@@ -24,13 +24,24 @@ class revendicationActions extends sfActions {
     
     public function executeMonEspace(sfWebRequest $request) {
         $this->revendication_etablissement = null;
-	$this->etablissement = $this->getRoute()->getEtablissement();
-	if(!$this->etablissement) {
-	  throw new sfException("Cet établissement n'a pas de volume renvendiqué");
-	}
-        $this->revendications = RevendicationEtablissementView::getInstance()->findByEtablissement($this->etablissement->identifiant);
+    	
+        $this->etablissement = $this->getRoute()->getEtablissement();
+    	if(!$this->etablissement) {
+    	  throw new sfException("Cet établissement n'a pas de volume renvendiqué");
+    	}
+
+        $this->campagne = $request->getParameter('campagne');
+        $this->odg = RevendicationEtablissementView::getInstance()->getOdgByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
+
+        if(!$this->odg) {
+            $this->odg = $this->etablissement->region;
+        }
+
+        $this->revendications = RevendicationEtablissementView::getInstance()->findByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
+
+        $this->formCampagne($request, 'revendication_etablissement');
     }
-    
+
     public function executeChooseEtablissement(sfWebRequest $request) {
         $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -202,6 +213,26 @@ class revendicationActions extends sfActions {
         $this->revendication = $this->getRoute()->getRevendication();
         RevendicationClient::getInstance()->deleteRevendication($this->revendication);
         return $this->redirect('revendication');
+    }
+
+    protected function formCampagne(sfWebRequest $request, $route) {
+        $this->etablissement = $this->getRoute()->getEtablissement();
+      
+        $this->campagne = $request->getParameter('campagne');
+        if (!$this->campagne) {
+            $this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+        }
+
+        $this->formCampagne = new RevendicationEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+        
+        
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $param = $request->getParameter($this->formCampagne->getName());
+            if ($param) {
+                $this->formCampagne->bind($param);
+                return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $this->formCampagne->getValue('campagne')));
+            }
+        }
     }
         
     

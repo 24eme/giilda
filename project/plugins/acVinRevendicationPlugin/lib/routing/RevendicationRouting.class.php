@@ -32,8 +32,8 @@ class RevendicationRouting {
                         array('model' => 'Revendication',
                             'type' => 'object')));
 
-        $r->prependRoute('revendication_etablissement', new EtablissementRoute('/revendication/:identifiant', array('module' => 'revendication',
-                    'action' => 'monEspace'),
+        $r->prependRoute('revendication_etablissement', new EtablissementRoute('/revendication/:identifiant/:campagne', array('module' => 'revendication',
+                    'action' => 'monEspace', 'campagne' => null),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Etablissement',
                             'type' => 'object')));

@@ -9,7 +9,7 @@ function(doc) {
             rev = revs.produits[code_douane];
             for(id_ligne in rev.volumes) {
                 var ligne = rev.volumes[id_ligne];
-                emit([identifiant, doc.odg, doc.campagne, rev.produit_hash, ligne.statut, id_ligne, code_douane], [ligne.volume, ligne.date_insertion, rev.libelle_produit_csv, revs.declarant_cvi, revs.declarant_nom, revs.commune, rev.date_certification]);
+                emit([identifiant, doc.campagne, doc.odg, rev.produit_hash, ligne.statut, id_ligne, code_douane], [ligne.volume, ligne.date_insertion, rev.libelle_produit_csv, revs.declarant_cvi, revs.declarant_nom, revs.commune, rev.date_certification]);
             }
         }
     }

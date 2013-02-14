@@ -7,6 +7,12 @@
 
         <?php include_component('revendication', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
 
-        <?php include_partial('revendication/editionList', array('revendications' => $revendications, 'retour' => 'etablissement')); ?>
+        <form method="post">
+            <?php echo $formCampagne->renderGlobalErrors() ?>
+            <?php echo $formCampagne->renderHiddenFields() ?>
+            <?php echo $formCampagne; ?> <input class="btn_majeur btn_vert" type="submit" value="changer"/>
+        </form>
+
+        <?php include_component('revendication', 'editionList', array('revendications' => $revendications, 'campagne' => $campagne, 'odg' => $odg, 'retour' => 'etablissement')); ?>
     </section>
 </section>

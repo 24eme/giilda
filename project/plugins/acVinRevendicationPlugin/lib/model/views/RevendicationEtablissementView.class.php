@@ -2,8 +2,8 @@
 class RevendicationEtablissementView extends acCouchdbView
 {
     const KEY_ETABLISSEMENT_IDENTIFIANT = 0;
-    const KEY_ODG = 1; 
-    const KEY_CAMPAGNE = 2;
+    const KEY_CAMPAGNE = 1;
+    const KEY_ODG = 2; 
     const KEY_PRODUIT_HASH = 3;
     const KEY_LIGNE_STATUT = 4;
     const KEY_LIGNE_IDENTIFIANT = 5;
@@ -17,26 +17,48 @@ class RevendicationEtablissementView extends acCouchdbView
     const VALUE_DECLARANT_COMMUNE = 5;
     const VALUE_DATE_TRAITEMENT = 6;
     
-            
-
-
     public static function getInstance() {
 
         return acCouchdbManager::getView('revendication', 'etablissement', 'Revendication');
     }
 
-    public function findByEtablissement($etablissementId) {    
-        $revs = array();
+    public function findByEtablissementAndCampagne($identifiant, $campagne) {    
 
-        foreach($this->client->getODGs() as $odg => $odg_libelle) {
-            $revs = array_merge($revs, $this->builds(
-                            $this->client->startkey(array($etablissementId, $odg))
-                                         ->endkey(array($etablissementId, $odg, array()))
-                                         ->getView($this->design, $this->view)->rows
-                            ));
+        return $this->builds($this->getViewByEtablissementAndCampagne($identifiant, $campagne, $this->client->reduce(false))->rows);
+    }
+
+    public function getOdgByEtablissementAndCampagne($identifiant, $campagne) {
+
+        $rows = $this->getViewByEtablissementAndCampagne($identifiant, $campagne, $this->client->reduce(true))->rows;
+    
+        foreach($rows as $row) {
+
+            return $row->key[self::KEY_ODG];
         }
 
-        return $revs;
+        return null;
+    }
+
+    public function getViewByEtablissement($identifiant, $query = null) {
+
+        if(!$query) {
+            $query = $this->client;
+        }
+
+        return $query->startkey(array($identifiant))
+                     ->endkey(array($identifiant, array()))
+                     ->getView($this->design, $this->view);
+    }
+
+    public function getViewByEtablissementAndCampagne($identifiant, $campagne, $query = null) {
+
+        if(!$query) {
+            $query = $this->client;
+        }
+
+        return $query->startkey(array($identifiant, $campagne))
+                     ->endkey(array($identifiant, $campagne, array()))
+                     ->getView($this->design, $this->view);
     }
 
 

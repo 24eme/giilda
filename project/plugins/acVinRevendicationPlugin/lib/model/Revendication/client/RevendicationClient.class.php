@@ -98,5 +98,17 @@ class RevendicationClient extends acCouchdbClient {
         return $rev;
     }
 
+    public function listCampagneByEtablissementId($identifiant) {
+      $rows = RevendicationEtablissementView::getInstance()->getViewByEtablissement($identifiant, $this->reduce(true)->group_level(2))->rows;
+      $current = ConfigurationClient::getInstance()->getCurrentCampagne();
+      $list = array($current => $current);
+      foreach($rows as $r) {
+    $c = $r->key[RevendicationEtablissementView::KEY_CAMPAGNE];
+    $list[$c] = $c;
+      }
+      krsort($list);
+      return $list;
+    }
+
 
 }
