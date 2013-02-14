@@ -21,5 +21,13 @@
             return confirm("Les erreurs non traitées seront perdues.\n\nUn fichier a déjà été chargé, souhaitez vous le remplacez ?");
         });
         <?php endif; ?>
+
+        $('#csvRevendication_file').change(function() {
+            if($(this).val()) {
+                $('#btn_upload_suivant').hide();
+            } else {
+                $('#btn_upload_suivant').show();
+            }
+        });
     });
 </script>

@@ -22,7 +22,7 @@ $errors_exist = (count($errors) > 0);
             ?>
             
             <div class="btn_etape">
-                <a class="btn_etape_suiv" href="<?php echo url_for('revendication_view_erreurs', $revendication); ?>"><span>Suivant</span></a>
+                <a id="btn_upload_suivant" class="btn_etape_suiv" href="<?php echo url_for('revendication_view_erreurs', $revendication); ?>"><span>Suivant</span></a>
             </div>
             <?php
             endif;
