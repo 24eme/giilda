@@ -60,6 +60,7 @@ class revendicationActions extends sfActions {
         ini_set('memory_limit','2048M');
         set_time_limit(0);
         $this->errors = array();
+        $this->not_valid_file = false;
         $this->revendication = $this->getRoute()->getRevendication();
         $this->form = new UploadCSVRevendicationForm($this->revendication);
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -83,6 +84,8 @@ class revendicationActions extends sfActions {
                     
                 $this->revendication->save();
                 return $this->redirect('revendication_update', $this->revendication);
+           }else{
+               $this->not_valid_file = true; 
            }
         }
     }

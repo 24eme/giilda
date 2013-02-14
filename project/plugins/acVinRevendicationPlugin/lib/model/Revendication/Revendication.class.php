@@ -180,7 +180,7 @@ class Revendication extends BaseRevendication {
     private function matchBailleur($row, $etb) {
         if(!count($etb->getBailleurs()))
             throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_NO_BAILLEURS,array('identifiant' => $etb->identifiant));        
-        $nom = $row[RevendicationCsvFile::CSV_COL_BAILLEUR];        
+        $nom = str_replace('/', ' ', $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);        
         $bailleur = $etb->findBailleurByNom($nom);
         if(!$bailleur){
             throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS,array('identifiant' => $etb->identifiant));
