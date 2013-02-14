@@ -7,12 +7,20 @@ $errors_exist = (count($errors) > 0);
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <h2>Importer un fichier de volumes revendiqués (ODG)</h2>
-            <?php include_partial('revendication/formUpload', array('form' => $form)); ?>
+            <?php if (count($revendication->_attachments)) :  ?>
+            <div class="generation_facture_options" style="text-align: center; margin-bottom: 10px;">
+
+                    <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
+
+            </div>
+            <?php endif;?>
+            <?php include_partial('revendication/formUpload', array('form' => $form, 'revendication' => $revendication)); ?>
             <?php 
             if($errors_exist) :
                 include_partial('revendication/uploadErreurs',array('errors' => $errors,'md5' => $md5,'odg' => $revendication->odg, 'campagne' => $revendication->campagne));
             elseif(!$not_valid_file) : 
             ?>
+            
             <div class="btn_etape">
                 <a class="btn_etape_suiv" href="<?php echo url_for('revendication_view_erreurs', $revendication); ?>"><span>Suivant</span></a>
             </div>

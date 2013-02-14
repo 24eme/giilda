@@ -6,7 +6,9 @@ use_helper('Revendication');
 <fieldset id="revendication_volume_revendiques_edition">
     <?php if (isset($revendications) && count($revendications)) : ?>
         <?php if (isset($revendication) && count($revendication->_attachments)) :  ?>
-        <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
+        <div class="generation_facture_options" style="text-align: center; margin-top: 20px;">
+            <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
+        </div>
         <?php endif;?>
         <?php 
         include_partial('global/hamzaStyle', array('table_selector' => '#table_revendications', 
