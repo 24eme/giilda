@@ -679,7 +679,7 @@ bouton.btn_validation_declar { height:26px; }
   cursor:pointer;
   display:inline-block;
 }
-.btn_refraichir:after { background-position:3px -518px; }
+.btn_refraichir:after { background-position:3px -263px; }
 .btn_demarrer, .btn_enregistrer {
   border:1px solid #c2c0c0;
   -webkit-border-radius:4px;

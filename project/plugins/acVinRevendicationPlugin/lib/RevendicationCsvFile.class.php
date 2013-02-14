@@ -94,12 +94,14 @@ class RevendicationCsvFile extends CsvFile
 	$r = fopen($file, 'r');
 	$w = fopen("$file.tmp", 'w');
 	$firstline = 1;
+  fwrite($w, "\xef\xbb\xbf"); //UTF8 BOM (pour windows)
 	while($s = fgets($r)) {
 		if ($firstline && preg_match('/ *;/',substr($s, 10, 5))) {
 			return;
 		}
 		$firstline = 0;
 		rtrim($s);
+    $s = utf8_encode($s);
 		$s = str_replace(';', ' ', $s);
 		$line = substr($s, 0, 12).';'. //CSV_COL_TYPE = 0;
 			substr($s, 12, 8).';'. //CSV_COL_UNKNOWN1 = 1

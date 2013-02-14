@@ -49,9 +49,8 @@
                                    break;
                            endswitch;
                            ?>
-                           <?php if(count($erreurs) > 0): ?>
+
                            <p><?php echo $erreurs->getFirst()->libelle_erreur; ?></p>
-                           <?php endif; ?>
                     </div>
 
                     <ul class="num_erreurs">
