@@ -22,7 +22,8 @@ class RevendicationErreurs extends BaseRevendicationErreurs {
                 break;
             case RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS:
                 $args = $erreurException->getArguments();
-                $errorData = $this->add($args['identifiant'].'_'.$row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
+                $nom_bailleur = str_replace('/', ' ', $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
+                $errorData = $this->add($args['identifiant'].'_'.$nom_bailleur);
                 $error = $errorData->add($numLigne);
                 $error->data_erreur = $row[RevendicationCsvFile::CSV_COL_BAILLEUR];
                 $error->libelle_erreur = sprintf(RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS_LIBELLE, $args['identifiant'], $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
