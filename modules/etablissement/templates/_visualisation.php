@@ -86,7 +86,7 @@ if(!isset($fromSociete)) $fromSociete = false;
             <div class="form_ligne"> 
                 <label for="site_fiche">
                     Site fiche :</label>
-                <?php echo $etablissement->site_fiche; ?>
+                <a href="<?php echo $etablissement->site_fiche; ?>"><?php echo $etablissement->site_fiche; ?></a>
             </div>  
         <?php endif; ?>
         <div class="form_ligne">
