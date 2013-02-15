@@ -35,8 +35,8 @@ class CompteClient extends acCouchdbClient {
         return $this->startkey('COMPTE-'.$societe_id.'00')->endkey('COMPTE-'.$societe_id.'99')->execute($hydrate);        
     }
     
-    public function findByIdentifiant($identifiant) {
-      return $this->find($this->getId($identifiant));
+    public function findByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+      return $this->find($this->getId($identifiant), $hydrate);
     }
 
     public function findAndDelete($idCompte, $from_etablissement = false, $from_societe = false) {

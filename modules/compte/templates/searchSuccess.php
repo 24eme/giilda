@@ -4,7 +4,7 @@
 		<form>
 			<div id="recherche_contact" class="section_label_maj">
                            <div>
-				<label for="champ_recherche">Recherche d'un contact&nbsp;:</label><br />
+   <label for="champ_recherche">Recherche d'un contact&nbsp;:</label><br /><?php //'; ?>
 				<input id="champ_recherche" class="ui-autocomplete-input" type="text" name="q" value="<?php echo $q; ?>" role="textbox" aria-autocomplete="list" aria-haspopup="true"> 
 				<button id="btn_rechercher" type="submit">Rechercher</button>
                            </div>
@@ -27,7 +27,10 @@
 <?php foreach($selected_tags as $t) {
 $targs = $args->getRawValue();
 $targs['tags'] = implode(',', array_diff($selected_tags->getRawValue(), array($t)));
-   echo '<li><a href="'.url_for('compte_search', $targs).'">'.$t.'</a></li>';
+echo '<li><a href="'.url_for('compte_search', $targs).'">'.$t.'</a>&nbsp;';
+$targs = $args->getRawValue();
+$targs['tag'] = $t;
+echo '(<a href="'.url_for('compte_removetag', $targs).'">X</a>)</li>';
 } ?>
 		</ul>
 <?php endif; ?>
@@ -43,9 +46,11 @@ echo '<li><a href="'.url_for('compte_search', $targs).'">'.$f['term'].' ('.$f['c
 		</ul>
 		
 		<h2>Créer un tag</h2>
-<form action="<?php echo url_for('compte_addtag', $args); ?>" method="POST">
+<form action="<?php echo url_for('compte_addtag', $args->getRawValue()); ?>" method="GET">
 <input id="creer_tag" name="tag" class="tags" type="text" /><br/>
 <input type="submit" value="ajouter" class="btn_majeur btn_modifier"/>
+<input type="hidden" name="q" value="<?php echo $q;?>"/>
+<input type="hidden" name="tags" value="<?php echo implode(',', $selected_tags->getRawValue()); ?>"/>
 </form>
 	</aside>
 	

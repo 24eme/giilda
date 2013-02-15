@@ -98,9 +98,9 @@ class Compte extends BaseCompte {
             return; 
          }
          
-         if (sfConfig::get('sf_logging_enabled')) {
-            sfContext::getInstance()->getLogger()->log(sprintf("{Contact} synchro du compte %s à partir de l'etablissement %s", $this->_id, $etablissement->_id));
-         }
+	 if (sfConfig::get('sf_logging_enabled')) {
+	   sfContext::getInstance()->getLogger()->log(sprintf("{Contact} synchro du compte %s à partir de l'etablissement %s", $this->_id, $etablissement->_id));
+	 }
          
          $this->nom = ($etablissement->nom) ? $etablissement->nom : $etablissement->raison_sociale;
     }
@@ -114,7 +114,20 @@ class Compte extends BaseCompte {
     }
     
     public function addTag($type, $tag) {
-      $this->add('tags')->add($type)->add(null, str_replace(' ', '_', $tag));
+      $tag = strtolower($tag);
+      $tags = $this->add('tags')->add($type)->toArray(true, false);
+      $tags[] = preg_replace('/[ -=]/', '_', $tag);
+      $tags = array_unique($tags);
+      $this->get('tags')->remove($type);
+      $this->get('tags')->add($type, $tags);
+    }
+
+    public function removeTag($type, $tag) {
+      $tag = strtolower($tag);
+      $tags = $this->add('tags')->add($type)->toArray(true, false);
+      $tags = array_diff($tags, array(preg_replace('/[ -=]/', '_', $tag)));
+      $this->get('tags')->remove($type);
+      $this->get('tags')->add($type, $tags);
     }
 
     public function addOrigine($id) {    
@@ -155,6 +168,27 @@ class Compte extends BaseCompte {
     
 
     public function save($fromsociete = false, $frometablissement = false, $from_compte = false) {
+
+	if ($this->isSocieteContact()) {
+	  $this->addTag('automatique', 'Societe');
+	}
+	if ($this->isEtablissementContact()) {
+	  $this->addTag('automatique', 'Etablissement');
+	  $e = $this->getEtablissement();
+	  if($e && $e->isCourtier()) {
+	    $this->addTag('automatique', 'Courtier');
+	  }
+	  if($e && $e->isNegociant()) {
+	    $this->addTag('automatique', 'Négociant');
+	  }
+	  if($e && $e->isViticulteur()) {
+	    $this->addTag('automatique', 'Viticulteur');
+	  }
+	}
+	if (!$this->isEtablissementContact() && ! $this->isSocieteContact()) {
+	  $this->addTag('automatique', 'Individu');
+	}
+
         if (is_null($this->adresse_societe)) {
             $this->adresse_societe = (int) $fromsociete;
         }
@@ -164,6 +198,7 @@ class Compte extends BaseCompte {
         $this->updateNomAAfficher();
 
         parent::save();
+
 
         if (!$fromsociete) {
             $this->synchroAndSaveSociete();

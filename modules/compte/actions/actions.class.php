@@ -63,7 +63,7 @@ class compteActions extends sfActions
             $this->redirect('etablissement_visualisation',array('identifiant' => preg_replace ('/^ETABLISSEMENT-/', '', $this->compte->getEtablissementOrigine())));
     }    
 
-    private function initSearch(sfWebRequest $request) {
+    private function initSearch(sfWebRequest $request, $extratag = null, $excludeextratag = false) {
       $query = $request->getParameter('q', '*');
       if (! $request->getParameter('contacts_all') ) {
 	$query .= " statut:ACTIF";
@@ -71,6 +71,11 @@ class compteActions extends sfActions
       $this->selected_tags = array_unique(array_diff(explode(',', $request->getParameter('tags')), array('')));
       foreach ($this->selected_tags as $t) {
 	$query .= ' tags.manuel:'.$t;
+      }
+      $this->real_q = $query;
+      if ($extratag) {
+	$query .= ($excludeextratag) ? ' -' : ' ';
+	$query .= ' tags.manuel:'.$extratag;
       }
       $qs = new acElasticaQueryQueryString($query);
       $q = new acElasticaQuery();
@@ -91,28 +96,76 @@ class compteActions extends sfActions
       $this->getResponse()->setContentType('text/csv');
     }
 
-    public function executeAddtag(sfWebRequest $request) {
+    private function addremovetag(sfWebRequest $request, $remove = false) {
+      $index = acElasticaManager::getType('Compte');
       $q = $this->initSearch($request);
       $q->setLimit(1000000);
-      $index = acElasticaManager::getType('Compte');
       $resset = $index->search($q);
-      $tag = $request->getParameter('tag');
+      $tag = strtolower($request->getParameter('tag'));
       if (!$tag) {
 	throw new sfException("Un tag doit être fourni pour pouvoir être ajouté");
       }
+      if (!$this->real_q) {
+	throw new sfException("Il n'est pas possible d'ajouter un tag sur l'ensemble des contacts");
+      }
+      $cpt = 0;
+      $nbimpactables =  $resset->getTotalHits();
       foreach ($resset->getResults() as $res) {
 	$data = $res->getData();
-	$myCompte = CompteClient::getInstance()->findByIdentifiant($data['identifiant']);
-	if (!$myCompte) {
+	$doc = CompteClient::getInstance()->findByIdentifiant($data['identifiant'], acCouchdbClient::HYDRATE_JSON);
+	if (!$doc) {
 	  continue;
-	  throw new sfException($data['identifiant'].' ne correspond à aucun compte :(');
 	}
-	$myCompte->addTag('manuel', $tag);
-	$myCompte->save();
+	if (!isset($doc->tags->manuel)) {
+	  $doc->tags->manuel = array();
+	}
+	if ($remove) {
+	  var_dump($doc->tags->manuel);
+	  var_dump($tag);
+	  $doc->tags->manuel = array_diff($doc->tags->manuel, array($tag));
+	  var_dump($doc->tags->manuel);
+	}else{
+	  $doc->tags->manuel = array_unique(array_merge($doc->tags->manuel, array($tag)));
+	}
+	CompteClient::getInstance()->storeDoc($doc);
+
+	$cpt++;
+	if ($cpt > 50) {
+	  break;
+	}
+      }
+      $q = $this->initSearch($request);
+      $q->setLimit(1000000);
+      $resset = $index->search($q, $tag, $remove);
+
+      $nbimpactes = $resset->getTotalHits();
+      $this->setTemplate('addremovetag');
+      if ($remove && $nbimpactes) {
+	$this->restants = $nbimpactables;
+	return false;
+      }
+      if (!$remove && ($nbimpactables != $nbimpactes)) {
+	$this->restants = $nbimpactes;
+	return false;
+      }
+      return true;
+    }
+    
+    public function executeAddtag(sfWebRequest $request) {
+      if (!$this->addremovetag($request, false)) {
+	return ;
       }
       return $this->redirect('compte_search', $this->args);
     }
-
+    
+    public function executeRemovetag(sfWebRequest $request) {
+      if (!$this->addremovetag($request, true)) {
+	return ;
+      }
+      $this->args['tags'] = implode(',', array_diff($this->selected_tags, array($request->getParameter('tag'))));
+      return $this->redirect('compte_search', $this->args);
+    }
+    
     public function executeSearch(sfWebRequest $request) {
       $res_by_page = 50;
       $page = $request->getParameter('page', 1);
