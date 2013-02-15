@@ -150,6 +150,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
 
     private function setTypesNumeroCompte() {
         $this->types_numero_compte = SocieteClient::getTypesNumeroCompte();
+        if(!$this->getObject()->isNegoOrViti()) 
+            unset ($this->types_numero_compte[SocieteClient::NUMEROCOMPTE_TYPE_CLIENT]);
     }
 
     private function setStatuts() {
