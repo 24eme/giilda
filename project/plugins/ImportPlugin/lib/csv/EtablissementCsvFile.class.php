@@ -88,7 +88,7 @@ class EtablissementCsvFile extends CsvFile
 
       	$e = new Etablissement();
         $e->identifiant = $id;
-        $e->constructId();
+
 	if (isset($line[self::CSVCAV_LIBELLE_COMMUNE])) {
 	        $e->nom = $line[self::CSVPAR_NOM_DU_PARTENAIRE].' - '.$line[self::CSVCAV_LIBELLE_COMMUNE];
 	}else{
