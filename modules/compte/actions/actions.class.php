@@ -130,7 +130,7 @@ class compteActions extends sfActions
 	CompteClient::getInstance()->storeDoc($doc);
 
 	$cpt++;
-	if ($cpt > 5) {
+	if ($cpt > 200) {
 	  break;
 	}
       }
