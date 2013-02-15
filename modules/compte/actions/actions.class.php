@@ -120,10 +120,7 @@ class compteActions extends sfActions
 	  $doc->tags->manuel = array();
 	}
 	if ($remove) {
-	  var_dump($doc->tags->manuel);
-	  var_dump($tag);
 	  $doc->tags->manuel = array_diff($doc->tags->manuel, array($tag));
-	  var_dump($doc->tags->manuel);
 	}else{
 	  $doc->tags->manuel = array_unique(array_merge($doc->tags->manuel, array($tag)));
 	}
