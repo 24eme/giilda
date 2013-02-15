@@ -29,6 +29,7 @@ class societeActions extends sfActions {
 
     public function executeIndex(sfWebRequest $request) {
         $this->contactsForm = new ContactsChoiceForm('INTERPRO-inter-loire');
+        $this->societes_creation = SocieteClient::getInstance()->getSocietesWithStatut(SocieteClient::STATUT_EN_CREATION);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->contactsForm->bind($request->getParameter($this->contactsForm->getName()));
             if ($this->contactsForm->isValid()) {
@@ -139,6 +140,7 @@ class societeActions extends sfActions {
     public function executeAnnulation(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
 
+        
         if (!$this->societe->isInCreation()) {
             $this->redirect('societe_visualisation', $this->societe);
         }
@@ -149,6 +151,10 @@ class societeActions extends sfActions {
         }
         $this->societe->delete();
 
+        if($request->getParameter('back_home')){
+            $this->redirect('societe');
+        }
+        
         $this->redirect('societe_creation');
     }
 

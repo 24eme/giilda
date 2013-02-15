@@ -8,6 +8,8 @@ use_helper('Revendication');
         <?php if (isset($revendication) && count($revendication->_attachments)) :  ?>
         <div class="generation_facture_options" style="text-align: center; margin-top: 20px;">
             <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
+            <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_download_imported_rowsCSV', $revendication); ?>">Télécharger le fichier des lignes importées</a>
+         
         </div>
         <?php endif;?>
         <?php 
