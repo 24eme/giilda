@@ -136,9 +136,9 @@ class SocieteClient extends acCouchdbClient {
         return array(self::STATUT_ACTIF => 'Actif', self::STATUT_SUSPENDU => 'Suspendu');
     }
     
-    public static function getTypesNumeroCompte() {
-        return array(self::NUMEROCOMPTE_TYPE_CLIENT => 'Client', self::NUMEROCOMPTE_TYPE_FOURNISSEUR => 'Fournisseur');
-    }
+//    public static function getTypesNumeroCompte() {
+//        return array(self::NUMEROCOMPTE_TYPE_CLIENT => 'Client', self::NUMEROCOMPTE_TYPE_FOURNISSEUR => 'Fournisseur');
+//    }
     
     public static function getSocieteTypesWithChais() {
         return array(self::SUB_TYPE_VITICULTEUR => self::SUB_TYPE_VITICULTEUR,
