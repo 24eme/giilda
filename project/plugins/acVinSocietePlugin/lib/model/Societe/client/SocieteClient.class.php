@@ -57,6 +57,10 @@ class SocieteClient extends acCouchdbClient {
         return null;
     }
     
+    public function getSocietesWithStatut($statut) {
+        return array_reverse(SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', $statut));
+    }
+    
     public function getSocietesWithTypeAndRaisonSociale($type,$raison_sociale){
          return SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire',
                         null,

@@ -14,9 +14,10 @@
                                         
 					<label for="contacts_all">Inclure les contacts suspendus </label>
 					<input id="contacts_all" name="contacts_all" type="checkbox" value="1" />
-				</div>
+				</div> 
                                 
 			</form>
+                        <?php include_partial('societe/historyCreation', array('societes_creation' => $societes_creation)); ?>
         </section>
     </section>
 <?php
