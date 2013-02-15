@@ -73,7 +73,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             }
         } else {
             $this->setWidget('carte_pro', new sfWidgetFormInput());
-            $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnel');
+            $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnelle');
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
         

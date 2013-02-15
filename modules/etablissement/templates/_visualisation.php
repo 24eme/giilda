@@ -68,7 +68,7 @@ if(!isset($fromSociete)) $fromSociete = false;
                 <?php echo $etablissement->exclusion_drm; ?>
             </div>  
         <?php endif; ?>
-        <?php if (!$fromSociete && $etablissement->type_dr) : ?>
+        <?php if (!$fromSociete && $etablissement->type_dr && !$etablissement->isCourtier()) : ?>
             <div class="form_ligne"> 
                 <label for="type_dr">
                     Type DR : 
@@ -95,6 +95,14 @@ if(!isset($fromSociete)) $fromSociete = false;
                 <label for="site_fiche">
                     Site fiche :</label>
                 <a href="<?php echo $etablissement->site_fiche; ?>"><?php echo $etablissement->site_fiche; ?></a>
+            </div>  
+        <?php endif; ?>
+        <?php if (!$fromSociete && $etablissement->carte_pro && $etablissement->isCourtier()) : ?>
+            <div class="form_ligne"> 
+                <label for="carte_pro">
+                    Carte professionnelle : 
+                </label>
+                <?php echo $etablissement->carte_pro; ?>
             </div>  
         <?php endif; ?>
         <div class="form_ligne">
