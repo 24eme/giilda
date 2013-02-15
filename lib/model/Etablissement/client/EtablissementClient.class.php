@@ -21,9 +21,17 @@ class EtablissementClient extends acCouchdbClient {
     const STATUT_ACTIF = 'ACTIF'; #'actif';
     const STATUT_SUSPENDU = 'SUSPENDU'; #'suspendu';
 
-    const RELANCE_DS_OUI = 'OUI';
-    const RELANCE_DS_NON = 'NON';
+    const OUI = 'OUI';
+    const NON = 'NON';
 
+    const RELANCE_DS_OUI = self::OUI;
+    const RELANCE_DS_NON = self::NON;
+
+    const RAISINS_MOUTS_OUI = self::OUI;
+    const RAISINS_MOUTS_NON = self::NON;
+
+    const EXCLUSION_DRM_OUI = self::OUI;
+    const EXCLUSION_DRM_NON = self::NON;
 
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
                                    self::STATUT_SUSPENDU => 'SUSPENDU'); 
@@ -32,13 +40,12 @@ class EtablissementClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Etablissement");
     }
 
-    public function createEtablissement($societe) {
+    public function createEtablissementFromSociete($societe) {
         $etablissement = new Etablissement();
         $etablissement->id_societe = $societe->_id;
         $etablissement->identifiant = $this->getNextIdentifiantForSociete($societe);
         $famillesSocieteTypes = self::getFamillesSocieteTypesArray();
         $etablissement->famille = $famillesSocieteTypes[$societe->type_societe];
-        $etablissement->statut = self::STATUT_ACTIF;
         $etablissement->constructId();
         return $etablissement;
     }
@@ -123,17 +130,6 @@ class EtablissementClient extends acCouchdbClient {
     public function findByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
 
         return parent::find('ETABLISSEMENT-' . $identifiant, $hydrate);
-    }
-
-    public function retrieveOrCreateById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        $etab = parent::find('ETABLISSEMENT-' . $id, $hydrate);
-
-        if (!$etab) {
-            $etab = new Etablissement();
-            $etab->_id = 'ETABLISSEMENT-' . $id;
-        }
-
-        return $etab;
     }
 
     public function matchFamille($f) {

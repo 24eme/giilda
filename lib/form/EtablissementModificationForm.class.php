@@ -88,12 +88,6 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         parent::updateDefaultsFromObject();
 
         $this->setDefault('recette_locale_choice', $this->getObject()->recette_locale->id_douane);
-
-        if($this->etablissement->isNew()){
-            $this->setDefault('exclusion_drm', 'non');            
-            $this->setDefault('raisins_mouts', 'non');
-            $this->setDefault('type_dr', EtablissementClient::TYPE_DR_DRM);
-        }
     }
 
     public function getStatuts() {
@@ -103,12 +97,12 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
 
     public function getOuiNonChoices() {
         
-        return array('oui' => 'Oui', 'non' => 'Non');
+        return array(EtablissementClient::OUI => 'Oui', EtablissementClient::NON => 'Non');
     }
 
     public function getAdresseSociete() {
         
-        return array(1 => 'oui', 0 => 'non');
+        return array(1 => 'Oui', 0 => 'Non');
     }
     
     public function getRegions() {
@@ -124,9 +118,6 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $con = $this->getConnection();
         }
         $this->updateObject();
-        if($this->getObject()->isNew()){
-            $this->getObject()->setStatut(EtablissementClient::STATUT_ACTIF);
-        }
         
         $this->etablissement->remove('liaisons_operateurs');
         $this->etablissement->add('liaisons_operateurs');

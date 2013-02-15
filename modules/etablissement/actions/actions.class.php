@@ -4,7 +4,7 @@ class etablissementActions extends sfActions {
 
  public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
-        $this->etablissement = EtablissementClient::getInstance()->createEtablissement($this->societe);
+        $this->etablissement = EtablissementClient::getInstance()->createEtablissementFromSociete($this->societe);
         $this->processFormEtablissement($request);        
         $this->setTemplate('modification');    
     }    

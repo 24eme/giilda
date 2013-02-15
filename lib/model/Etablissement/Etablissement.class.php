@@ -18,6 +18,17 @@ class Etablissement extends BaseEtablissement {
 
     public function constructId() {
         $this->set('_id', 'ETABLISSEMENT-' . $this->identifiant);
+        if($this->isViticulteur()) {
+            $this->raisins_mouts = is_null($this->raisins_mouts) ? EtablissementClient::RAISINS_MOUTS_NON : $this->raisins_mouts;
+            $this->exclusion_drm = is_null($this->exclusion_drm) ? EtablissementClient::EXCLUSION_DRM_NON : $this->exclusion_drm;
+            $this->type_dr = is_null($this->type_dr) ? EtablissementClient::TYPE_DR_DRM : $this->type_dr;
+        }
+
+        if($this->isViticulteur() || $this->isNegociant()) {
+            $this->relance_ds = is_null($this->relance_ds) ? EtablissementClient::RELANCE_DS_OUI : $this->type_dr;
+        }
+
+        $this->statut = is_null($this->statut) ? EtablissementClient::STATUT_ACTIF : $this->statut;
     }
 
     public function getAllDRM() {
@@ -232,6 +243,10 @@ class Etablissement extends BaseEtablissement {
                 parent::save();
                 $compte->save(true, true);
             }
+        }
+
+        if($this->isViticulteur() && $this->type_dr == EtablissementClient::TYPE_DR_DRA) {
+            $this->exclusion_drm = EtablissementClient::EXCLUSION_DRM_OUI;
         }
 
         parent::save();

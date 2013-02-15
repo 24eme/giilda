@@ -44,6 +44,14 @@ if(!isset($fromSociete)) $fromSociete = false;
                 </a>
             </div>  
         <?php endif; ?>
+        <?php if (!$fromSociete && $etablissement->relance_ds) : ?>
+            <div class="form_ligne"> 
+                <label for="relance_ds">
+                    Relance DS : 
+                </label>
+                <?php echo $etablissement->relance_ds; ?>
+            </div>  
+        <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->raisins_mouts) : ?>
             <div class="form_ligne">                   
                 <label for="raisins_mouts">
@@ -51,7 +59,7 @@ if(!isset($fromSociete)) $fromSociete = false;
                 </label>
             <?php echo $etablissement->raisins_mouts; ?>
             </div>  
-        <?php endif; ?>             
+        <?php endif; ?>         
         <?php if (!$fromSociete && $etablissement->exclusion_drm) : ?>
             <div class="form_ligne"> 
                 <label for="exclusion_drm">
