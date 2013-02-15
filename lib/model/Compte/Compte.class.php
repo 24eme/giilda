@@ -113,19 +113,23 @@ class Compte extends BaseCompte {
         $this->nom_a_afficher = trim(sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom));
     }
     
-    public function addTag($type, $tag) {
+    public static function transformTag($tag) {
       $tag = strtolower($tag);
+      return preg_replace('/[ -=]/', '_', $tag);
+    }
+
+    public function addTag($type, $tag) {
       $tags = $this->add('tags')->add($type)->toArray(true, false);
-      $tags[] = preg_replace('/[ -=]/', '_', $tag);
+      $tags[] = Compte::transformTag($tag);
       $tags = array_unique($tags);
       $this->get('tags')->remove($type);
       $this->get('tags')->add($type, $tags);
     }
 
     public function removeTag($type, $tag) {
-      $tag = strtolower($tag);
+      $tag = Compte::transformTag($tag);
       $tags = $this->add('tags')->add($type)->toArray(true, false);
-      $tags = array_diff($tags, array(preg_replace('/[ -=]/', '_', $tag)));
+      $tags = array_diff($tags, array($tag));
       $this->get('tags')->remove($type);
       $this->get('tags')->add($type, $tags);
     }

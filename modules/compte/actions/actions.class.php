@@ -75,8 +75,9 @@ class compteActions extends sfActions
       $this->real_q = $query;
       if ($extratag) {
 	$query .= ($excludeextratag) ? ' -' : ' ';
-	$query .= ' tags.manuel:'.$extratag;
+	$query .= 'tags.manuel:'.$extratag;
       }
+
       $qs = new acElasticaQueryQueryString($query);
       $q = new acElasticaQuery();
       $q->setQuery($qs);
@@ -98,10 +99,10 @@ class compteActions extends sfActions
 
     private function addremovetag(sfWebRequest $request, $remove = false) {
       $index = acElasticaManager::getType('Compte');
-      $q = $this->initSearch($request);
+      $tag = Compte::transformTag($request->getParameter('tag'));
+      $q = $this->initSearch($request, $tag, !$remove);
       $q->setLimit(1000000);
       $resset = $index->search($q);
-      $tag = strtolower($request->getParameter('tag'));
       if (!$tag) {
 	throw new sfException("Un tag doit être fourni pour pouvoir être ajouté");
       }
@@ -118,8 +119,10 @@ class compteActions extends sfActions
 	}
 	if (!isset($doc->tags->manuel)) {
 	  $doc->tags->manuel = array();
+	}else{
+	  $doc->tags->manuel = json_decode(json_encode($doc->tags->manuel), true);
 	}
-	if ($remove) {
+	if ($remove && $doc->tags->manuel) {
 	  $doc->tags->manuel = array_diff($doc->tags->manuel, array($tag));
 	}else{
 	  $doc->tags->manuel = array_unique(array_merge($doc->tags->manuel, array($tag)));
@@ -127,21 +130,23 @@ class compteActions extends sfActions
 	CompteClient::getInstance()->storeDoc($doc);
 
 	$cpt++;
-	if ($cpt > 50) {
+	if ($cpt > 5) {
 	  break;
 	}
       }
-      $q = $this->initSearch($request);
+      $q = $this->initSearch($request, $tag, !$remove);
       $q->setLimit(1000000);
-      $resset = $index->search($q, $tag, $remove);
+      $resset = $index->search($q);
 
       $nbimpactes = $resset->getTotalHits();
+
       $this->setTemplate('addremovetag');
-      if ($remove && $nbimpactes) {
+      if ($nbimpactes) {
 	$this->restants = $nbimpactables;
 	return false;
       }
-      if (!$remove && ($nbimpactables != $nbimpactes)) {
+
+      if (!$remove && $nbimpactes) {
 	$this->restants = $nbimpactes;
 	return false;
       }
