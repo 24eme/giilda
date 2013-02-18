@@ -139,8 +139,11 @@ if(!isset($fromSociete)) $fromSociete = false;
             <?php foreach ($etablissement->liaisons_operateurs as $liaison_operateur): ?>
                 <div class="form_ligne">
                     <div class="form_colonne">
+                        
                         <label for="libelle_etablissement"><?php echo $typesLiaisons[$liaison_operateur->type_liaison]; ?></label>     
+                        <a href="<?php echo url_for('etablissement_visualisation', EtablissementClient::getInstance()->find($liaison_operateur->id_etablissement)); ?>">
                         <?php echo $liaison_operateur->libelle_etablissement; ?>
+                </a>
                     </div>
                 </div>
             <?php endforeach; ?>
