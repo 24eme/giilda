@@ -88,9 +88,10 @@ class SocieteClient extends acCouchdbClient {
 
     public function getNextIdentifiantSociete() {
         $id = '';
-        $societes = self::getSocietesIdentifiants(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+        $societes = $this->getSocietesIdentifiants(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+
         if (count($societes) > 0) {
-            $id .= '8'.sprintf("%1$05d",((double) str_replace('SOCIETE-8', '', count($societes)) + 1));
+            $id .= '8'.sprintf("%1$05d",((double) str_replace('SOCIETE-8', '', $societes[count($societes) - 1]) + 1));
         } else {
             $id.= '800001';
         }
