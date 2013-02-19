@@ -16,9 +16,9 @@ Compte:
          definition:
            fields:
              '*': { }
-       id_societe: { }       
+       id_societe: { }
        adresse_societe: {  }
-       adresse: { }       
+       adresse: { }
        adresse_complementaire: { }
        code_postal: { }
        commune: { }
