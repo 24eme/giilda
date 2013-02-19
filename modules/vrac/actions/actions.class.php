@@ -53,7 +53,6 @@ class vracActions extends sfActions
       $this->actifs['statut'] = '';
       
       $this->campagne = $request->getParameter('campagne', ConfigurationClient::getInstance()->getCurrentCampagne());
-
       if($this->isType && $this->isStatut)
       {
           $this->statut = $request['statut'];
@@ -368,7 +367,7 @@ class vracActions extends sfActions
     
     $this->response->setContentType('text/csv');
     $this->response->setHttpHeader('Content-Disposition',$attachement );
-    $this->response->setHttpHeader('Content-Length', filesize($file));    
+  //  $this->response->setHttpHeader('Content-Length', filesize($file));    
   }
   
 

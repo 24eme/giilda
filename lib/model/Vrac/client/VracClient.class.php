@@ -239,6 +239,7 @@ class VracClient extends acCouchdbClient {
     public static function getCsvBySoussigne($vracs)
     {
         $result ="\xef\xbb\xbf";
+        $statuts_libelles = self::getStatuts();
         foreach ($vracs->rows as $value)
         {   
             $cpt=0;
@@ -246,7 +247,11 @@ class VracClient extends acCouchdbClient {
             
             foreach ($elt as $key => $champs)
             {
-                $cpt++;
+                $cpt++;                
+                if($key == self::VRAC_VIEW_STATUT) $champs = $statuts_libelles[$champs];
+                if($key == self::VRAC_VIEW_NUMARCHIVE) $champs = "".$champs;    
+                if($key == self::VRAC_VIEW_TYPEPRODUIT) $champs = self::$types_transaction[$champs];
+                if($key == self::VRAC_VIEW_VOLPROP || $key == self::VRAC_VIEW_VOLENLEVE) $champs = sprintf("%01.02f", round($champs, 2));
                 $result.='"'.$champs.'"';
                 if($cpt < count($elt)) $result.=';';              
             }
