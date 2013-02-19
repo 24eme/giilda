@@ -248,7 +248,7 @@ class VracClient extends acCouchdbClient {
             foreach ($elt as $key => $champs)
             {
                 $cpt++;                
-                if($key == self::VRAC_VIEW_STATUT) $champs = $statuts_libelles[$champs];
+                if($key == self::VRAC_VIEW_STATUT) $champs = (array_key_exists($champs, $statuts_libelles))? $statuts_libelles[$champs] : $champs;
                 if($key == self::VRAC_VIEW_NUMARCHIVE) $champs = "".$champs;    
                 if($key == self::VRAC_VIEW_TYPEPRODUIT) $champs = self::$types_transaction[$champs];
                 if($key == self::VRAC_VIEW_VOLPROP || $key == self::VRAC_VIEW_VOLENLEVE) $champs = sprintf("%01.02f", round($champs, 2));
