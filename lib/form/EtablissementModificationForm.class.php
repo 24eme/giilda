@@ -136,7 +136,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $switch = false;
          if($this->values['adresse_societe'] && !is_null($this->values['statut'])
             && ($this->values['statut'] != ($socStatut = $this->etablissement->getSociete()->statut))){
-                throw new sfException("Cet etablissement possède le même compte que la société. Il doit possèder le statut $socStatut");
+                throw new sfException("Il s'agit de l'établissement pricipal de la société, il ne peut être suspendu. Pour le suspendre, vous devez suspendre la société.");
         }
         if($this->values['adresse_societe'] && !$this->etablissement->isSameContactThanSociete()){           
            $this->etablissement->compte = $this->etablissement->getSociete()->compte_societe;
