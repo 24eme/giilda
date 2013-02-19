@@ -201,6 +201,9 @@ class Societe extends BaseSociete {
         $this->siege->adresse = $compte->adresse;
         $this->siege->code_postal = $compte->code_postal;
         $this->siege->commune = $compte->commune;
+        $this->email = $compte->email;
+        $this->fax = $compte->fax;
+        $this->telephone = ($compte->telephone_bureau) ? $compte->telephone_bureau : $compte->telephone_mobile;
         
         return $this;
     }
