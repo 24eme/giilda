@@ -45,6 +45,7 @@ class EtablissementCsvFile extends CsvFile
   const CSVCAV_CODE_COMMUNE = 35;
   const CSVCAV_LIBELLE_COMMUNE = 36;
   const CSVCAV_DRA = 40;
+  const CSVCAV_EXCLUS_RELANCE_DRM = 41;
 
   private function verifyCsvLine($line) {
     if (!preg_match('/[0-9]+/', $line[self::CSVPAR_CODE_CLIENT])) {
@@ -79,11 +80,10 @@ class EtablissementCsvFile extends CsvFile
 		$chai = $line[self::CSVCAV_CODE_CHAI];
 	}
         $id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
-	$e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
+	       $e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
         if ($e) {
-	  echo "WARNING: Etablissement ".$id." existe\n";
-	  continue;
-          acCouchdbManager::getClient()->deleteDoc($e);
+      	  echo "WARNING: Etablissement ".$id." existe\n";
+      	  continue;
         }
 
       	$e = new Etablissement();
@@ -127,9 +127,9 @@ class EtablissementCsvFile extends CsvFile
         $e->sous_famille = $this->getSousFamilleDefaut($famille);
         $e->interpro = 'INTERPRO-inter-loire';
       
-	if ($line[self::CSVPAR_RELANCE_DS] == 'N') {
+	if (($e->isViticulteur() || $e->isNegociant()) && $line[self::CSVPAR_RELANCE_DS] == 'N') {
 	  $e->relance_ds = EtablissementClient::RELANCE_DS_NON;
-	}else{
+	}elseif($e->isViticulteur() || $e->isNegociant()){
 	  $e->relance_ds = EtablissementClient::RELANCE_DS_OUI;
 	}
 
@@ -153,10 +153,16 @@ class EtablissementCsvFile extends CsvFile
 		$e->region = EtablissementClient::REGION_HORSINTERLOIRE;
 	}
         
-  if (isset($line[self::CSVCAV_DRA]) && $line[self::CSVCAV_DRA] == 'OUI') {
+  if ($e->isViticulteur() && isset($line[self::CSVCAV_DRA]) && $line[self::CSVCAV_DRA] == 'OUI') {
       $e->type_dr = EtablissementClient::TYPE_DR_DRA;
-  }else{
+  }elseif($e->isViticulteur()) {
       $e->type_dr = EtablissementClient::TYPE_DR_DRM;
+  }
+
+  if ($e->isViticulteur() && isset($line[self::CSVCAV_EXCLUS_RELANCE_DRM]) && $line[self::CSVCAV_EXCLUS_RELANCE_DRM] == 'O') {
+    $e->exclusion_drm = EtablissementClient::EXCLUSION_DRM_OUI;
+  } elseif($e->isViticulteur()) {
+    $e->exclusion_drm = EtablissementClient::EXCLUSION_DRM_NON;
   }
         
 	if ($line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]*1)
@@ -165,7 +171,6 @@ class EtablissementCsvFile extends CsvFile
 	if ($line[self::CSVPAR_TYPE_PARTENAIRE] == self::CSV_TYPE_PARTENAIRE_COURTIER && isset($line[self::CSVCOURTIER_NUMCARTE])) {
 		$e->carte_pro = $line[self::CSVCOURTIER_NUMCARTE];
 	}
-
       	$e->save();
       }
     }catch(Execption $e) {
