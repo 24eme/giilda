@@ -12,7 +12,7 @@ class importVracSV12Task extends importVracTask
 
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
-      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
       // add your own options here
     ));
@@ -32,6 +32,7 @@ EOF;
   {
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
+    $context = sfContext::createInstance($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     set_time_limit(0);
