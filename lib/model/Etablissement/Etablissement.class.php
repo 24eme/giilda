@@ -31,6 +31,38 @@ class Etablissement extends BaseEtablissement {
         $this->statut = is_null($this->statut) ? EtablissementClient::STATUT_ACTIF : $this->statut;
     }
 
+    public function setRelanceDS($value) {
+        if(!($this->isViticulteur() || $this->isNegociant())) {
+            throw new sfException("Le champs 'relance_ds' n'est valable que pour les viticulteurs ou les négociants");
+        }
+
+        $this->_set('relance_ds', $value);
+    }
+
+    public function setExclusionDRM($value) {
+        if(!($this->isViticulteur())) {
+            throw new sfException("Le champs 'exclusion_drm' n'est valable que pour les viticulteurs");
+        }
+
+        $this->_set('exclusion_drm', $value);
+    }
+
+    public function setRaisinsMouts($value) {
+        if(!($this->isViticulteur())) {
+            throw new sfException("Le champs 'raisins_mouts' n'est valable que pour les viticulteurs");
+        }
+
+        $this->_set('raisins_mouts', $value);
+    }
+
+    public function setTypeDR($value) {
+        if(!($this->isViticulteur())) {
+            throw new sfException("Le champs 'type_dr' n'est valable que pour les viticulteurs");
+        }
+
+        $this->_set('type_dr', $value);
+    }
+
     public function getAllDRM() {
         return acCouchdbManager::getClient()->startkey(array($this->identifiant, null))
                         ->endkey(array($this->identifiant, null))
@@ -230,6 +262,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function save($fromsociete = false, $fromclient = false) {
+        $this->constructId();
         $this->synchroRecetteLocale();
         $this->initFamille();
         $this->synchroFromSociete();
@@ -322,7 +355,7 @@ class Etablissement extends BaseEtablissement {
         $this->siege->commune = $compte->commune;
         $this->email = $compte->email;
         $this->fax = $compte->fax;
-        $this->telephone = $compte->telephone_bureau;
+        $this->telephone = ($compte->telephone_bureau) ? $compte->telephone_bureau : $compte->telephone_mobile;
 
         return $this;
     }
