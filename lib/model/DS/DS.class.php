@@ -172,4 +172,12 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
          	return $this->getEtablissement()->getInterproObject();
      	}
     }
+    
+    public function getMaster() {
+        return $this;
+    }
+
+    public function isMaster(){
+        return true;
+    }
 }
