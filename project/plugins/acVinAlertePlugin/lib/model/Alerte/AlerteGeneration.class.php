@@ -99,7 +99,7 @@ abstract class AlerteGeneration {
         $seqs_file = file($path);
         $last_line = $seqs_file[count($seqs_file)-1];
         if($last_line === NULL){
-            return "0";
+            return "106299";
         }
         return substr($last_line, 0, strlen($last_line)-1);
     }
@@ -134,7 +134,7 @@ abstract class AlerteGeneration {
         }
     }
     
-    public function creationByDocumentId($document,$document_type){        
+    public function creationByDocumentId($document,$document_type){
         $document_master = ($document->isMaster())? $document : $document->getMaster();
         if (!$this->isInAlerte($document_master)) {
 
@@ -158,7 +158,7 @@ abstract class AlerteGeneration {
     }
     
     public function updateByDocumentId($document,$document_type){         
-        $alerte = $this->getAlerteForDocument($document->_id);
+        $alerte = $this->getAlerteForDocument($document->_id);        
         if(!$alerte) return;
         $document_master = ($document->isMaster())? $document : $document->getMaster();
         

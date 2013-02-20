@@ -19,12 +19,12 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
     }
 
     public function creations() {
-        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF);
+        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR));
         $periodes = $this->getPeriodes();
 
         foreach($etablissement_rows as $etablissement_row) {
             $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);
-
+            
             if($etablissement->type_dr != EtablissementClient::TYPE_DR_DRM) {
 
                 continue;
@@ -63,7 +63,6 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
             $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
             $alerte->save();
         }
-        parent::updates();
     }
 
     protected function getPeriodes() {
@@ -81,7 +80,6 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
 
             $periode_debut = ConfigurationClient::getInstance()->getPeriodeSuivante($periode_debut);
         }
-
 
         return $periodes;
     }

@@ -1,6 +1,8 @@
 <?php
 
 abstract class AlerteGenerationVrac extends AlerteGeneration {
+    
+    const TYPE_DOCUMENT = 'Vrac';
 
     protected function storeDatasRelance(Alerte $alerte) {
         $alerte->libelle_document = 'Contrat n° ' . VracClient::getInstance()->getNumeroArchiveEtDate(str_replace('VRAC-', '', $alerte->id_document));
