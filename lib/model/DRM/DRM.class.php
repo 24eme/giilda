@@ -4,7 +4,7 @@
  * Model for DRM
  *
  */
-class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersionDocument, InterfaceArchivageDocument {
+class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersionDocument, InterfaceDeclarantDocument, InterfaceArchivageDocument, InterfaceDroitDocument, InterfaceValidableDocument {
 
     const NOEUD_TEMPORAIRE = 'TMP';
     const DEFAULT_KEY = 'DEFAUT';
@@ -801,6 +801,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->mouvement_document->facturerMouvements();
     }
 
+    public function isFactures() {
+
+        return $this->mouvement_document->isFactures();
+    }
+
+    public function isNonFactures() {
+
+        return $this->mouvement_document->isNonFactures();
+    }
+
     public function clearMouvements(){
         $this->remove('mouvements');
         $this->add('mouvements');
@@ -831,4 +841,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
     
     /*** FIN ARCHIVAGE ***/
+
+    /*** DROIT ***/
+    public function storeDroits() {
+        foreach($this->getProduitsDetails() as $detail) {
+            $detail->storeDroits();
+        }
+    }
+    /*** FIN DROIT ***/
 }

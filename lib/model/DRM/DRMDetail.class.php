@@ -351,4 +351,9 @@ class DRMDetail extends BaseDRMDetail {
 
     return $this->cvo->taux;
   }
+
+  public function storeDroits() {
+    $this->cvo->taux = null;
+    $this->cvo->calcul();
+  }
 }
