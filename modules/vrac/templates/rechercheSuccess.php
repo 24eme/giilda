@@ -2,18 +2,23 @@
 use_helper('Vrac');
 
 $fil_arianeArray = array('fil' => ((isset($type) || isset($statut)) + 1), 'identifiant' => $identifiant);
-
-$urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant));
-if (isset($statut)) {
-    $urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant, 'statut' => $statut));
-    $fil_arianeArray['statut'] = $statut;
-}
-if (isset($type)) {
-    $urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant, 'type' => $type));
-    $fil_arianeArray['type'] = $type;
-}
 if (!isset($campagne))
     $campagne = dateCampagneViticolePresent();
+
+$urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant,'campagne' => $campagne));
+if (isset($statut)) {
+    $urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant,'campagne' => $campagne, 'statut' => $statut));
+    $fil_arianeArray['statut'] = $statut;
+}
+
+if (isset($type)) {
+    $urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant, 'campagne' => $campagne, 'type' => $type));
+    $fil_arianeArray['type'] = $type;
+}
+
+if (isset($type) && isset($statut)) {
+    $urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant, 'campagne' => $campagne, 'type' => $type,'statut' => $statut));
+}
 ?>
 <section id="principal">
         <?php include_partial('fil_ariane', $fil_arianeArray); ?>
