@@ -177,6 +177,11 @@ class SV12Contrat extends BaseSV12Contrat {
         return $this->cvo;
     }
 
+    public function storeDroits() {
+        $this->cvo = null;
+        $this->getTauxCvo();
+    }
+
     public function getProduitObject() 
     {
 

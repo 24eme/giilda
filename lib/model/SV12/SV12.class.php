@@ -4,7 +4,7 @@
  * Model for Vrac
  *
  */
-class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVersionDocument, InterfaceDeclarantDocument, InterfaceArchivageDocument  {
+class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVersionDocument, InterfaceDeclarantDocument, InterfaceArchivageDocument, InterfaceDroitDocument, InterfaceValidableDocument {
 
     protected $mouvement_document = null;
     protected $version_document = null;
@@ -471,6 +471,16 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         return $this->mouvement_document->facturerMouvements();
     }
 
+    public function isFactures() {
+
+        return $this->mouvement_document->isFactures();
+    }
+
+    public function isNonFactures() {
+
+        return $this->mouvement_document->isNonFactures();
+    }
+
     public function clearMouvements(){
         $this->remove('mouvements');
         $this->add('mouvements');
@@ -519,4 +529,12 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     /*** FIN ARCHIVAGE ***/
+
+    /*** DROIT ***/
+    public function storeDroits() {
+        foreach($this->contrats as $detail) {
+            $detail->storeDroits();
+        }
+    }
+    /*** FIN DROIT ***/
 }
