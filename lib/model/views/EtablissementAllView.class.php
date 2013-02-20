@@ -134,7 +134,7 @@ class EtablissementAllView extends acCouchdbView
       return $res;
     }
 
-    private function findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter = null, $limit = null) {
+    public function findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter = null, $limit = null) {
       $keys = array($interpro, $statut);
       if ($famille) {
 	$keys[] = $famille;
