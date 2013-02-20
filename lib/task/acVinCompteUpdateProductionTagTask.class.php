@@ -74,7 +74,6 @@ EOF;
       foreach ($tags as $type => $ttags) {
 	foreach ($ttags as $t => $null) {
 	  $compte->addTag($type, $t);
-	  $compte->removeTag('automatique', $type.' '.$t);
 	}
       }
       $compte->save();
