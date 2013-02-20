@@ -34,7 +34,6 @@ EOF;
     $context = sfContext::createInstance($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    set_time_limit(600);
     $csv = new CompteCsvFile($arguments['file']);
     $csv->importComptes();
 
