@@ -8,13 +8,16 @@ class AlerteClient extends acCouchdbClient {
     const DRM_MANQUANTE = "DRM_MANQUANTE";
     const DRM_STOCK_NEGATIF = "DRM_STOCK_NEGATIF";
     const SV12_SANS_VRAC = "SV12_SANS_VRAC";
+    const DS_NON_VALIDEE = "DS_NON_VALIDEE";
+    
     
     public static $alertes_libelles = array(self::VRAC_NON_SOLDES => "Contrat non soldé",
                                             self::VRAC_PRIX_DEFINITIFS => "Contrat avec prix définitif non fixé",
                                             self::VRAC_ATTENTE_ORIGINAL => "Contrat en attente de l'original",
                                             self::DRM_MANQUANTE => 'DRM absente',
                                             self::DRM_STOCK_NEGATIF => 'DRM avec un stock négatif',        
-                                            self::SV12_SANS_VRAC => 'SV12 dont le contrat est absent');
+                                            self::SV12_SANS_VRAC => 'SV12 dont le contrat est absent',
+                                            self::DS_NON_VALIDEE => 'DS non validée intégralement');
     
     const STATUT_NOUVEAU = 'NOUVEAU';    
     const STATUT_EN_ATTENTE_REPONSE = 'EN_ATTENTE_REPONSE';

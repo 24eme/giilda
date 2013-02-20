@@ -140,7 +140,8 @@ abstract class AlerteGeneration {
 
             return null;
         }
-        $date_saisie = ($document->exist('valide'))? $document->valide->date_saisie : $document->date_saisie;
+        $date_saisie = ($document->exist('valide'))? $document->valide->date_saisie : ($document->exist('date_saisie')? $document->date_saisie : $document->date_emission);
+
         if (!Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_delai', $this->getDate()), $date_saisie)) {
             return null;
         }
