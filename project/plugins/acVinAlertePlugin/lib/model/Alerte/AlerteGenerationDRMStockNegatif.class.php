@@ -16,6 +16,11 @@ class AlerteGenerationDRMStockNegatif extends AlerteGenerationDRM {
         return AlerteClient::DRM_STOCK_NEGATIF;
     }
 
+    public function execute(){
+        $this->updates();
+        $this->creations();
+    }
+    
     public function updates() {
         $this->updatesByDocumentsIds($this->getChanges(),self::TYPE_DOCUMENT);
     }
@@ -36,8 +41,4 @@ class AlerteGenerationDRMStockNegatif extends AlerteGenerationDRM {
          return $document->declaration->hasProduitDetailsWithStockNegatif();
     }
 
-    public function execute(){
-        $this->updates();
-        $this->creations();
-    }
 }
