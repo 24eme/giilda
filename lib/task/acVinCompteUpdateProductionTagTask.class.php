@@ -48,13 +48,14 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     foreach(EtablissementAllView::getInstance()->findByInterproStatutAndFamilleVIEW('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF,null) as $e) {
+      $this->logSection("test", $compte->identifiant);
       $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
       $tags = array();
-      $mvts = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, '2012-2013');
+      $mvts = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, ConfigurationClient::getInstance()->getCurrentCampagne());
       foreach($mvts as $m) {
 	$tags['produit '.$m->produit_libelle] = 1;
       }
-      $mvts = DRMMouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, '2012-2013');
+      $mvts = DRMMouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, ConfigurationClient::getInstance()->getCurrentCampagne());
       foreach($mvts as $m) {
 	$tags['produit '.$m->produit_libelle] = 1;
 	if ($m->detail_libelle && $m->type_libelle == 'Export') {
@@ -67,6 +68,9 @@ EOF;
 	throw new sfException("etablissement $id non trouvé");
       }
       $compte = $etablissement->getContact();
+      if (!count($tags)) {
+	continue;
+      }
       foreach ($tags as $t => $null) {
 	$compte->addTag('automatique', $t);
       }
