@@ -374,6 +374,18 @@ class Vrac extends BaseVrac {
         return EtablissementClient::getInstance()->find($this->vendeur_identifiant)->raisins_mouts == 'oui' && $this->isVin();
     }
     
+    public function isEnAttenteDOriginal(){
+        return $this->isValidee() && $this->attente_original;
+    }
+    
+    public function getMaster() {
+        return $this;
+    }
+
+    public function isMaster(){
+        return true;
+    }
+
     protected function preSave() {
         $this->archivage_document->preSave();
     }

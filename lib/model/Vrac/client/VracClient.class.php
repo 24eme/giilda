@@ -407,4 +407,8 @@ class VracClient extends acCouchdbClient {
       return array('acheteur' => 'acheteur', 'vendeur' => 'vendeur');
     }
     
+    public function getMaster($id) {
+        return $this->find($id);
+    }
+    
 }
