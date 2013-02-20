@@ -77,6 +77,9 @@ abstract class AlerteGeneration {
         $changes = AlerteClient::getInstance()->filter('app/type', $args)->getChanges();
         $this->changes = array();
         foreach ($changes->results as $change) {
+            if(isset($change->deleted)){
+                continue;
+            }
             $this->changes[] = $change->id;
         }
         if($changes->last_seq > $this->num_seq) $this->setLastSeq($changes->last_seq);
@@ -87,18 +90,22 @@ abstract class AlerteGeneration {
         return strstr($type_alerte, '_', true);
     }
 
+    protected function getDataPath() {
+        return realpath(dirname(__FILE__) . "/../../../../../data")."/";
+    }
+    
     protected function getLastSeq() {        
-        $path = realpath(dirname(__FILE__) . "/../../../../../data") . "/".$this->getTypeAlerte().".txt";
+        $path = $this->getDataPath().$this->getTypeAlerte().".txt";
         $seqs_file = file($path);
         $last_line = $seqs_file[count($seqs_file)-1];
         if($last_line === NULL){
-            return "110000";
+            return "0";
         }
         return substr($last_line, 0, strlen($last_line)-1);
     }
 
     protected function setlastSeq($seq) {
-        $file = realpath(dirname(__FILE__) . "/../../../../../data") . "/".$this->getTypeAlerte().".txt";
+        $file = $this->getDataPath().$this->getTypeAlerte().".txt";
         $current = file_get_contents($file);
         $current .= $seq . "\n";
         file_put_contents($file, $current);
@@ -129,11 +136,10 @@ abstract class AlerteGeneration {
     
     public function creationByDocumentId($document,$document_type){        
         $document_master = ($document->isMaster())? $document : $document->getMaster();
-        
         if (!$this->isInAlerte($document_master)) {
 
             return null;
-        }        
+        }
         $date_saisie = ($document->exist('valide'))? $document->valide->date_saisie : $document->date_saisie;
         if (!Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_delai', $this->getDate()), $date_saisie)) {
             return null;
@@ -141,10 +147,9 @@ abstract class AlerteGeneration {
         $fct_name = 'createOrFindBy'.$document_type;
         $alerte = $this->{$fct_name}($document_master);
         
-        if (!$alerte->isNew() && $alerte->isClosed()) {
+        if (!$alerte->isNew() && !$alerte->isClosed()) {
             return $alerte;
         }
-
         
         $alerte->open($this->getDate());
         $alerte->save();
@@ -157,13 +162,16 @@ abstract class AlerteGeneration {
         if(!$alerte) return;
         $document_master = ($document->isMaster())? $document : $document->getMaster();
         
-        if(!$alerte->isOpen()){
-            
+        if(!$alerte->isOpen()){            
             return $alerte;
         }
         
         if ($this->isInAlerte($document_master)) {
 
+            if (Date::supEqual($this->getConfig()->getOptionDelaiDate('relance_delai', $this->getDate()), $alerte->date_relance)) {
+                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, 'Changement automatique au statut à relancer', $this->getDate());
+                $alerte->save();
+            }
             return $alerte;
         }
         

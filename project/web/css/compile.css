@@ -2983,7 +2983,11 @@ bouton.recherche_contact #btn_rechercher { height:26px; }
 .recherche_contact #colonne_tag h2:first-child { margin-top:0; }
 .recherche_contact #colonne_tag label { margin-right:5px; }
 .recherche_contact #colonne_tag li { padding:5px 0; }
-.recherche_contact #colonne_tag input { width:135px; }
+.recherche_contact #colonne_tag li.typetag {
+  color:#bbbbbb;
+  font-weight:bold;
+  text-transform:uppercase;
+}
 .recherche_contact .pagination {
   zoom:1;
   min-height:1px;
