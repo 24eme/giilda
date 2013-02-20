@@ -16,8 +16,8 @@ class maintenanceCompteStatutTask extends sfBaseTask
       // add your own options here
     ));
 
-    $this->namespace        = '';
-    $this->name             = 'maintenanceCompteStatut';
+    $this->namespace        = 'maintenance';
+    $this->name             = 'compte-statut';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
 The [maintenanceCompteStatut|INFO] task does things.
@@ -32,8 +32,7 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
-
+    
     $rows = CompteAllView::getInstance()->findByInterproVIEW('INTERPRO-inter-loire');
 
     foreach($rows as $row) {
@@ -47,6 +46,5 @@ EOF;
 
       echo $compte->_id."\n";
     }
-    // add your code here
   }
 }
