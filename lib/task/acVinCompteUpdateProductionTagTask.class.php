@@ -51,11 +51,12 @@ EOF;
       $this->logSection("test", $compte->identifiant);
       $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
       $tags = array('export' => array(), 'produit' => array());
-      $mvts = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, ConfigurationClient::getInstance()->getCurrentCampagne());
+      $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+      $mvts = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
       foreach($mvts as $m) {
 	$tags['produit'][$m->produit_libelle] = 1;
       }
-      $mvts = DRMMouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, ConfigurationClient::getInstance()->getCurrentCampagne());
+      $mvts = DRMMouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
       foreach($mvts as $m) {
 	$tags['produit'][$m->produit_libelle] = 1;
 	if ($m->detail_libelle && $m->type_libelle == 'Export') {
