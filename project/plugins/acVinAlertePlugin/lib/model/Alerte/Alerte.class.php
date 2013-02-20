@@ -40,7 +40,12 @@ class Alerte extends BaseAlerte {
     }
 
     public function open($date = null) {
+        $current_statut_closed = count($this->statuts) && $this->isClosed();
         $this->updateStatut(AlerteClient::STATUT_NOUVEAU, 'Nouvelle alerte générée', $date);
+        if(!$current_statut_closed) return;
+        
+        $this->nb_relances = 0;
+        $this->date_relance = $this->getConfig()->getOptionDelaiDate('relance_delai', $date);
     }
 
     public function getLastDateARelance() {

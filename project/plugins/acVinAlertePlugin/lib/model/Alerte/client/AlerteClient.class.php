@@ -54,7 +54,7 @@ class AlerteClient extends acCouchdbClient {
     
     public function updateStatutByAlerteId($new_statut,$new_commentaire,$alerteId) {
        $alerte = $this->find($alerteId);
-       $alerte->updateStatut($new_statut, $new_commentaire, self::getDate());
+       $alerte->updateStatut($new_statut, $new_commentaire);
        $alerte->save();
     }
 }
