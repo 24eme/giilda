@@ -186,17 +186,18 @@ class compteActions extends sfActions
       foreach($facets as $nom => $f) {
 	$elasticaFacet 	= new acElasticaFacetTerms($nom);
 	$elasticaFacet->setField($f);
-	$elasticaFacet->setSize(10);
+	$elasticaFacet->setSize(20);
 	$elasticaFacet->setOrder('count');
 	$q->addFacet($elasticaFacet);
       }
 
       $index = acElasticaManager::getType('Compte');
       $resset = $index->search($q);
-      $this->results = $resset->getResults();
 
+      $this->results = $resset->getResults();
       $this->nb_results = $resset->getTotalHits();
       $this->facets = $resset->getFacets();
+
       $this->last_page = ceil($this->nb_results / $res_by_page); 
       $this->current_page = $page;
     }

@@ -50,16 +50,16 @@ EOF;
     foreach(EtablissementAllView::getInstance()->findByInterproStatutAndFamilleVIEW('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF,null) as $e) {
       $this->logSection("test", $compte->identifiant);
       $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
-      $tags = array();
+      $tags = array('export' => array(), 'produit' => array());
       $mvts = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, ConfigurationClient::getInstance()->getCurrentCampagne());
       foreach($mvts as $m) {
-	$tags['produit '.$m->produit_libelle] = 1;
+	$tags['produit'][$m->produit_libelle] = 1;
       }
       $mvts = DRMMouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, ConfigurationClient::getInstance()->getCurrentCampagne());
       foreach($mvts as $m) {
-	$tags['produit '.$m->produit_libelle] = 1;
+	$tags['produit'][$m->produit_libelle] = 1;
 	if ($m->detail_libelle && $m->type_libelle == 'Export') {
-	  $tags['export '.$m->detail_libelle] = 1;
+	  $tags['export'][$m->detail_libelle] = 1;
 	}
 
       }
@@ -71,8 +71,11 @@ EOF;
       if (!count($tags)) {
 	continue;
       }
-      foreach ($tags as $t => $null) {
-	$compte->addTag('automatique', $t);
+      foreach ($tags as $type => $ttags) {
+	foreach ($ttags as $t => $null) {
+	  $compte->addTag($type, $t);
+	  $compte->removeTag('automatique', $type.' '.$t);
+	}
       }
       $compte->save();
       $this->logSection("done", $compte->identifiant);
