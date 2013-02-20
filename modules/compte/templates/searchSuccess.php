@@ -1,5 +1,11 @@
 <section id="principal" class="recherche_contact">
-	
+<script>
+   $(document).ready(function() {
+   $(".removetag").click(function() {
+       return confirm('Etes vous sur(e) de vouloir supprimer définivement ce tag pour ces <?php echo $nb_results; ?> fiches ?');
+     });
+     });
+</script>
 	<section id="contenu_etape">
 		<form>
 			<div id="recherche_contact" class="section_label_maj">
@@ -21,26 +27,39 @@
 	<a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', $args); ?>">Télécharger le tableur</a>
 	
 	<aside id="colonne_tag">
-<?php if (count($selected_tags)) :  ?>
+<?php if (count($selected_typetags)) :  ?>
 		<h2>tags sélectionnés</h2>
 		<ul>
+   <?php foreach($selected_typetags as $type => $selected_tags) : ?>
+   <ul><li class="typetag"><?php echo $type; ?></li>
 <?php foreach($selected_tags as $t) {
 $targs = $args->getRawValue();
-$targs['tags'] = implode(',', array_diff($selected_tags->getRawValue(), array($t)));
+$targs['tags'] = implode(',', array_diff($selected_rawtags->getRawValue(), array($type.':'.$t)));
 echo '<li><a href="'.url_for('compte_search', $targs).'">'.$t.'</a>&nbsp;';
 $targs = $args->getRawValue();
 $targs['tag'] = $t;
-echo '(<a href="'.url_for('compte_removetag', $targs).'">X</a>)</li>';
+if ($type == 'manuel') {
+  echo '(<a class="removetag" href="'.url_for('compte_removetag', $targs).'">X</a>)';
+}
+echo '</li>';
 } ?>
 		</ul>
+<?php endforeach ?>
+</ul>
 <?php endif; ?>
 		<h2>tags dispos</h2>
 		<ul>
 <?php 
-foreach($facets as $f) {
-$targs = $args->getRawValue();
-$targs['tags'] = implode(',', array_merge($selected_tags->getRawValue(), array($f['term'])));
-echo '<li><a href="'.url_for('compte_search', $targs).'">'.$f['term'].' ('.$f['count'].')</a></li>';
+foreach($facets as $type => $ftype) {
+  if (count($ftype['terms'])) {
+    echo '<li class="typetag">'.$type.'</li><ul>';
+    foreach($ftype['terms'] as $f) {
+      $targs = $args->getRawValue();
+      $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term'])));
+      echo '<li><a href="'.url_for('compte_search', $targs).'">'.$f['term'].' ('.$f['count'].')</a></li>';
+    }
+    echo '</ul>';
+  }
 }
 ?>
 		</ul>
@@ -50,7 +69,7 @@ echo '<li><a href="'.url_for('compte_search', $targs).'">'.$f['term'].' ('.$f['c
 <input id="creer_tag" name="tag" class="tags" type="text" /><br/>
 <input type="submit" value="ajouter" class="btn_majeur btn_modifier"/>
 <input type="hidden" name="q" value="<?php echo $q;?>"/>
-<input type="hidden" name="tags" value="<?php echo implode(',', $selected_tags->getRawValue()); ?>"/>
+<input type="hidden" name="tags" value="<?php echo implode(',', $selected_rawtags->getRawValue()); ?>"/>
 </form>
 	</aside>
 	

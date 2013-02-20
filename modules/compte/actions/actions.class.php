@@ -68,9 +68,16 @@ class compteActions extends sfActions
       if (! $request->getParameter('contacts_all') ) {
 	$query .= " statut:ACTIF";
       }
-      $this->selected_tags = array_unique(array_diff(explode(',', $request->getParameter('tags')), array('')));
-      foreach ($this->selected_tags as $t) {
-	$query .= ' tags.manuel:'.$t;
+      $this->selected_rawtags = array_unique(array_diff(explode(',', $request->getParameter('tags')), array('')));
+      $this->selected_typetags = array();
+      foreach ($this->selected_rawtags as $t) {
+	if (preg_match('/^([^:]+):(.+)$/', $t, $m)) {
+	  if (!isset($this->selected_typetags[$m[1]])) {
+	    $this->selected_typetags[$m[1]] = array();
+	  }
+	  $this->selected_typetags[$m[1]][] = $m[2];
+	}
+	$query .= ' tags.'.$t;
       }
       $this->real_q = $query;
       if ($extratag) {
@@ -83,7 +90,7 @@ class compteActions extends sfActions
       $q->setQuery($qs);
       $this->contacts_all = $request->getParameter('contacts_all');
       $this->q = $request->getParameter('q');
-      $this->args = array('q' => $this->q, 'contacts_all' => $this->contacts_all, 'tags' => implode(',', $this->selected_tags));
+      $this->args = array('q' => $this->q, 'contacts_all' => $this->contacts_all, 'tags' => implode(',', $this->selected_rawtags));
       return $q;
     }
 
@@ -128,7 +135,6 @@ class compteActions extends sfActions
 	  $doc->tags->manuel = array_unique(array_merge($doc->tags->manuel, array($tag)));
 	}
 	CompteClient::getInstance()->storeDoc($doc);
-
 	$cpt++;
 	if ($cpt > 200) {
 	  break;
@@ -164,7 +170,7 @@ class compteActions extends sfActions
       if (!$this->addremovetag($request, true)) {
 	return ;
       }
-      $this->args['tags'] = implode(',', array_diff($this->selected_tags, array($request->getParameter('tag'))));
+      $this->args['tags'] = implode(',', array_diff($this->selected_rawtags, array('manuel:'.$request->getParameter('tag'))));
       return $this->redirect('compte_search', $this->args);
     }
     
@@ -176,19 +182,21 @@ class compteActions extends sfActions
       $q = $this->initSearch($request);
       $q->setLimit($res_by_page);
       $q->setFrom($from);
-      $elasticaFacet 	= new acElasticaFacetTerms('tags');
-      $elasticaFacet->setField('tags.manuel');
-      $elasticaFacet->setSize(10);
-      $elasticaFacet->setOrder('count');
-      $q->addFacet($elasticaFacet);
+      $facets = array('manuel' => 'tags.manuel', 'export' => 'tags.export', 'produits' => 'tags.produits', 'automatique' => 'tags.automatique');
+      foreach($facets as $nom => $f) {
+	$elasticaFacet 	= new acElasticaFacetTerms($nom);
+	$elasticaFacet->setField($f);
+	$elasticaFacet->setSize(10);
+	$elasticaFacet->setOrder('count');
+	$q->addFacet($elasticaFacet);
+      }
 
       $index = acElasticaManager::getType('Compte');
       $resset = $index->search($q);
       $this->results = $resset->getResults();
 
       $this->nb_results = $resset->getTotalHits();
-      $facets = $resset->getFacets();
-      $this->facets = $facets['tags']['terms'];
+      $this->facets = $resset->getFacets();
       $this->last_page = ceil($this->nb_results / $res_by_page); 
       $this->current_page = $page;
     }
