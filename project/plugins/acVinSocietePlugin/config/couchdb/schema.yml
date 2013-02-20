@@ -18,6 +18,9 @@ Societe:
       date_modification: { required: false }
       date_creation: { required: false}
       no_tva_intracommunautaire: { }
+      email: {  }
+      telephone: {  }
+      fax: {  }
       commentaire: { }
       siege:
         type: collection

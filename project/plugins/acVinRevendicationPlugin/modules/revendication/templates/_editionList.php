@@ -2,20 +2,15 @@
 use_helper('Float');
 use_helper('Date');
 use_helper('Revendication');
-$odg = '';
-$campagne = '';
-if (isset($revendication)) {
-  $odg = $revendication->odg;
-  $campagne = $revendication->campagne;
-}
-?>        
-<h2>Volumes revendiqués</h2>
+?>
 <fieldset id="revendication_volume_revendiques_edition">
-    <a class="btn_majeur btn_modifier" href="<?php echo url_for('revendication_add_row', array('odg'=> $odg, 'campagne' => $campagne)); ?>"><span>Ajouter une ligne
-    </span></a>
     <?php if (isset($revendications) && count($revendications)) : ?>
         <?php if (isset($revendication) && count($revendication->_attachments)) :  ?>
-        <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
+        <div class="generation_facture_options" style="text-align: center; margin-top: 20px;">
+            <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
+            <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_download_imported_rowsCSV', $revendication); ?>">Télécharger le fichier des lignes importées</a>
+         
+        </div>
         <?php endif;?>
         <?php 
         include_partial('global/hamzaStyle', array('table_selector' => '#table_revendications', 
@@ -49,12 +44,11 @@ if (isset($revendication)) {
                           echo ' ('.$rev->num_certif.')';  ?></td>
                 <td><?php echo $rev->declarant_cvi; ?></td>
                 <td>
-                <?php echo $rev->declarant_nom ?>
                 <?php
-                /*if ($volume->bailleur_nom)
-                echo 'Bailleur : '.$volume->bailleur_nom.' (en metayage avec : ' . $etb->declarant_nom . ')';
+                if ($rev->bailleur_nom)
+                echo 'Bailleur : '.$rev->bailleur_nom.' (en metayage avec : ' . $rev->declarant_nom . ')';
                 else
-                echo $etb->declarant_nom;*/
+                echo $rev->declarant_nom;
                 ?></td>
                 <td><?php echo $rev->produit_libelle; ?></td>
                 <td><?php echoFloat($rev->volume); ?></td>
@@ -66,5 +60,7 @@ if (isset($revendication)) {
             <?php endforeach; ?>
         </tbody>
     </table>
+<?php else: ?>
+<p>Aucun volume revendiqué</p>
 <?php endif; ?>
 </fieldset>

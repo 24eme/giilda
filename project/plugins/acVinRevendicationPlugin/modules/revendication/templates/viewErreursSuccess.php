@@ -9,7 +9,7 @@
             </div>
             <div class="generation_facture_options" style="text-align: center; margin-top: 30px;">
                 <a class="btn_majeur btn_refraichir" href="<?php echo url_for('revendication_update', $revendication); ?>">Revérifier les erreurs</a>
-                <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier</a>
+                <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
             </div>
             <?php include_partial('viewErreurs', array('revendication' => $revendication)) ?>
 

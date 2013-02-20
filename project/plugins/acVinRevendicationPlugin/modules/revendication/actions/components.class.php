@@ -8,5 +8,4 @@ class revendicationComponents extends sfComponents {
               array('identifiant' => $this->identifiant));
     }
   }
-    
 }

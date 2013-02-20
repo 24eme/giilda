@@ -28,9 +28,13 @@ echo $societeForm->renderGlobalErrors();
         </div>
     <?php endif; ?>
     <div class="form_ligne">
-            <?php echo $societeForm['type_numero_compte']->renderLabel('',array('class' => 'label_liste')); ?>
-            <?php echo $societeForm['type_numero_compte']->render(); ?>
-            <?php echo $societeForm['type_numero_compte']->renderError(); ?>
+            <?php echo $societeForm['type_numero_compte_fournisseur']->renderLabel('',array('class' => 'label_liste')); ?>
+            <?php if ($societeForm->getObject()->isNegoOrViti()) : ?>
+                <?php echo $societeForm['type_numero_compte_client']->render(); ?>
+                <?php echo $societeForm['type_numero_compte_client']->renderError(); ?>
+            <?php endif; ?>
+            <?php echo $societeForm['type_numero_compte_fournisseur']->render(); ?>
+            <?php echo $societeForm['type_numero_compte_fournisseur']->renderError(); ?>
         </div>                 
         <div class="form_ligne">
 			<div class="form_colonne">

@@ -24,13 +24,25 @@ class revendicationActions extends sfActions {
     
     public function executeMonEspace(sfWebRequest $request) {
         $this->revendication_etablissement = null;
-	$this->etablissement = $this->getRoute()->getEtablissement();
-	if(!$this->etablissement) {
-	  throw new sfException("Cet établissement n'a pas de volume renvendiqué");
-	}
-        $this->revendications = RevendicationEtablissementView::getInstance()->findByEtablissement($this->etablissement->identifiant);
+    	
+        $this->etablissement = $this->getRoute()->getEtablissement();
+    	if(!$this->etablissement) {
+    	  throw new sfException("Cet établissement n'a pas de volume renvendiqué");
+    	}
+
+        $this->formCampagne($request, 'revendication_etablissement');
+
+        $this->odg = RevendicationEtablissementView::getInstance()->getOdgByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
+
+        if(!$this->odg) {
+            $this->odg = $this->etablissement->region;
+        }
+        
+        $this->revendication = RevendicationClient::getInstance()->findByOdgAndCampagne($this->odg, $this->campagne, acCouchdbClient::HYDRATE_JSON);
+
+        $this->revendications = RevendicationEtablissementView::getInstance()->findByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
     }
-    
+
     public function executeChooseEtablissement(sfWebRequest $request) {
         $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -48,6 +60,7 @@ class revendicationActions extends sfActions {
         ini_set('memory_limit','2048M');
         set_time_limit(0);
         $this->errors = array();
+        $this->not_valid_file = false;
         $this->revendication = $this->getRoute()->getRevendication();
         $this->form = new UploadCSVRevendicationForm($this->revendication);
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -71,6 +84,8 @@ class revendicationActions extends sfActions {
                     
                 $this->revendication->save();
                 return $this->redirect('revendication_update', $this->revendication);
+           }else{
+               $this->not_valid_file = true; 
            }
         }
     }
@@ -81,6 +96,16 @@ class revendicationActions extends sfActions {
         $this->getResponse()->setHttpHeader('Content-Disposition', sprintf('filename="DREV-%s-%s-%s.csv"', $revendication->odg, $revendication->campagne, $revendication->_rev));
 	$this->csv = $revendication->getAttachmentUri('revendication.csv');
         $this->setLayout(false);
+    }
+    
+    public function executeDownloadImportedRowsCSV(sfWebRequest $request) {
+        $this->setLayout(false);
+        $this->revendication = $this->getRoute()->getRevendication();
+        $attachement = 'attachment; filename='.sprintf('DREV-%s-%s-%s-importee.csv', $this->revendication->odg, $this->revendication->campagne, $this->revendication->_rev);
+        header("content-type: application/pdf\n");
+        header("content-disposition: $attachement\n\n");
+        echo RevendicationClient::getCsvImportedRows($this->revendication);
+        exit;
     }
 
     public function executeUpdate(sfWebRequest $request) {
@@ -202,6 +227,26 @@ class revendicationActions extends sfActions {
         $this->revendication = $this->getRoute()->getRevendication();
         RevendicationClient::getInstance()->deleteRevendication($this->revendication);
         return $this->redirect('revendication');
+    }
+
+    protected function formCampagne(sfWebRequest $request, $route) {
+        $this->etablissement = $this->getRoute()->getEtablissement();
+      
+        $this->campagne = $request->getParameter('campagne');
+        if (!$this->campagne) {
+            $this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+        }
+
+        $this->formCampagne = new RevendicationEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+        
+        
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $param = $request->getParameter($this->formCampagne->getName());
+            if ($param) {
+                $this->formCampagne->bind($param);
+                return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $this->formCampagne->getValue('campagne')));
+            }
+        }
     }
         
     

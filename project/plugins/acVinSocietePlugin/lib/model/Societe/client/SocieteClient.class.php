@@ -57,6 +57,10 @@ class SocieteClient extends acCouchdbClient {
         return null;
     }
     
+    public function getSocietesWithStatut($statut) {
+        return array_reverse(SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', $statut));
+    }
+    
     public function getSocietesWithTypeAndRaisonSociale($type,$raison_sociale){
          return SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire',
                         null,
@@ -84,9 +88,10 @@ class SocieteClient extends acCouchdbClient {
 
     public function getNextIdentifiantSociete() {
         $id = '';
-        $societes = self::getSocietesIdentifiants(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+        $societes = $this->getSocietesIdentifiants(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+
         if (count($societes) > 0) {
-            $id .= '8'.sprintf("%1$05d",((double) str_replace('SOCIETE-8', '', count($societes)) + 1));
+            $id .= '8'.sprintf("%1$05d",((double) str_replace('SOCIETE-8', '', $societes[count($societes) - 1]) + 1));
         } else {
             $id.= '800001';
         }
@@ -132,9 +137,9 @@ class SocieteClient extends acCouchdbClient {
         return array(self::STATUT_ACTIF => 'Actif', self::STATUT_SUSPENDU => 'Suspendu');
     }
     
-    public static function getTypesNumeroCompte() {
-        return array(self::NUMEROCOMPTE_TYPE_CLIENT => 'Client', self::NUMEROCOMPTE_TYPE_FOURNISSEUR => 'Fournisseur');
-    }
+//    public static function getTypesNumeroCompte() {
+//        return array(self::NUMEROCOMPTE_TYPE_CLIENT => 'Client', self::NUMEROCOMPTE_TYPE_FOURNISSEUR => 'Fournisseur');
+//    }
     
     public static function getSocieteTypesWithChais() {
         return array(self::SUB_TYPE_VITICULTEUR => self::SUB_TYPE_VITICULTEUR,

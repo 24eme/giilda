@@ -32,8 +32,8 @@ class RevendicationRouting {
                         array('model' => 'Revendication',
                             'type' => 'object')));
 
-        $r->prependRoute('revendication_etablissement', new EtablissementRoute('/revendication/:identifiant', array('module' => 'revendication',
-                    'action' => 'monEspace'),
+        $r->prependRoute('revendication_etablissement', new EtablissementRoute('/revendication/:identifiant/:campagne', array('module' => 'revendication',
+                    'action' => 'monEspace', 'campagne' => null),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Etablissement',
                             'type' => 'object')));
@@ -55,6 +55,13 @@ class RevendicationRouting {
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Revendication',
 			      'type' => 'object')));
+        
+        $r->prependRoute('revendication_download_imported_rowsCSV', new RevendicationRoute('/revendication/odg/:odg/:campagne/lignes-importees-csv', array('module' => 'revendication',
+                    'action' => 'downloadImportedRowsCSV'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Revendication',
+			      'type' => 'object')));
+        
 
 
 
@@ -95,8 +102,11 @@ class RevendicationRouting {
                         array('model' => 'Revendication',
                             'type' => 'object')));
 
-        $r->prependRoute('revendication_add_row', new sfRoute('/revendication/odg/:odg/:campagne/ajout-lignes', array('module' => 'revendication',
-                    'action' => 'addRows')));
+        $r->prependRoute('revendication_add_row', new RevendicationRoute('/revendication/odg/:odg/:campagne/ajout-lignes', array('module' => 'revendication',
+                    'action' => 'addRows'),
+                    array('sf_method' => array('get', 'post')),
+                        array('model' => 'Revendication',
+                            'type' => 'object')));
 
         $r->prependRoute('revendication_delete', new RevendicationRoute('/revendication/odg/:odg/:campagne/supprimer', array('module' => 'revendication',
                     'action' => 'delete'),

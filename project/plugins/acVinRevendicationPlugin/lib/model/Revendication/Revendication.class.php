@@ -58,12 +58,21 @@ class Revendication extends BaseRevendication {
 	return true;
       }
     }
-
+    
+    public function isRowGoodCampagne($row) {
+      $date = $row[RevendicationCsvFile::CSV_COL_DATE];
+      $campagne = RevendicationClient::getInstance()->getCampagneFromRowDate($date);      
+      if($campagne !=  $this->campagne){
+          throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DATE_CAMPAGNE);
+      }
+    }
+    
     public function insertRow($num_ligne, $row) {
       if ($this->lineToBeIgnored($num_ligne, $row)) {
 	return ;
       }
         try {
+            $this->isRowGoodCampagne($row);
             $bailleur = null;
             $etb = $this->matchEtablissement($row);
             $hashLibelle = $this->matchProduit($row);
@@ -180,7 +189,7 @@ class Revendication extends BaseRevendication {
     private function matchBailleur($row, $etb) {
         if(!count($etb->getBailleurs()))
             throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_NO_BAILLEURS,array('identifiant' => $etb->identifiant));        
-        $nom = $row[RevendicationCsvFile::CSV_COL_BAILLEUR];        
+        $nom = str_replace('/', ' ', $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);        
         $bailleur = $etb->findBailleurByNom($nom);
         if(!$bailleur){
             throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS,array('identifiant' => $etb->identifiant));

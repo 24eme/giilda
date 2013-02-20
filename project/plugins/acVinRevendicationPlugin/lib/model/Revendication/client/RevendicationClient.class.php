@@ -98,5 +98,36 @@ class RevendicationClient extends acCouchdbClient {
         return $rev;
     }
 
+    public function listCampagneByEtablissementId($identifiant) {
+      $rows = RevendicationEtablissementView::getInstance()->getViewByEtablissement($identifiant, $this->reduce(true)->group_level(2))->rows;
+      $current = ConfigurationClient::getInstance()->getCurrentCampagne();
+      $list = array($current => $current);
+      foreach($rows as $r) {
+    $c = $r->key[RevendicationEtablissementView::KEY_CAMPAGNE];
+    $list[$c] = $c;
+      }
+      krsort($list);
+      return $list;
+    }
+    
+    public function getCampagneFromRowDate($date){
+      $annee = substr($date,0,4);
+      $mois = substr($date,4,2);
+      return ($mois<8)? ($annee-1).'-'.$annee : $annee.'-'.($annee+1);
+    }
 
+
+    public static function getCsvImportedRows($revendication){
+        $result ="\xef\xbb\xbf";
+        foreach ($revendication->datas as $etb) {
+            foreach ($etb->produits as $prod) {
+                foreach ($prod->volumes as $prod) {
+                $result .= str_replace('#', ';', $prod->ligne)."\n";
+                }
+            }
+        }
+        $result = substr($result, 0, strlen($result)-1);
+        return $result;
+    }
+    
 }
