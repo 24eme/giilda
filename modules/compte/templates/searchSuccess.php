@@ -35,7 +35,7 @@
 <?php foreach($selected_tags as $t) {
 $targs = $args->getRawValue();
 $targs['tags'] = implode(',', array_diff($selected_rawtags->getRawValue(), array($type.':'.$t)));
-echo '<li><a href="'.url_for('compte_search', $targs).'">'.$t.'</a>&nbsp;';
+echo '<li><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $t).'</a>&nbsp;';
 $targs = $args->getRawValue();
 $targs['tag'] = $t;
 if ($type == 'manuel') {
@@ -56,7 +56,7 @@ foreach($facets as $type => $ftype) {
     foreach($ftype['terms'] as $f) {
       $targs = $args->getRawValue();
       $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term'])));
-      echo '<li><a href="'.url_for('compte_search', $targs).'">'.$f['term'].' ('.$f['count'].')</a></li>';
+      echo '<li><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $f['term']).' ('.$f['count'].')</a></li>';
     }
     echo '</ul>';
   }

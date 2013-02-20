@@ -182,7 +182,7 @@ class compteActions extends sfActions
       $q = $this->initSearch($request);
       $q->setLimit($res_by_page);
       $q->setFrom($from);
-      $facets = array('manuel' => 'tags.manuel', 'export' => 'tags.export', 'produits' => 'tags.produits', 'automatique' => 'tags.automatique');
+      $facets = array('manuel' => 'tags.manuel', 'export' => 'tags.export', 'produit' => 'tags.produit', 'automatique' => 'tags.automatique');
       foreach($facets as $nom => $f) {
 	$elasticaFacet 	= new acElasticaFacetTerms($nom);
 	$elasticaFacet->setField($f);
