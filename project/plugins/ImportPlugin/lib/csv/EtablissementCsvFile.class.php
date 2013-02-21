@@ -173,8 +173,8 @@ class EtablissementCsvFile extends CsvFile
 	}
       	$e->save();
       }
-    }catch(Execption $e) {
-      $this->error[] = $e->getMessage();
+    }catch(Exception $e) {
+      echo $e->getMessage()."\n";
     }
     return $etablissements;
   }
