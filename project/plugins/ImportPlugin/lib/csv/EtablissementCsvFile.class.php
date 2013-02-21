@@ -60,123 +60,124 @@ class EtablissementCsvFile extends CsvFile
     $csvs = $this->getCsv();
       foreach ($csvs as $line) {
         try {
-      	$this->verifyCsvLine($line);
+      	  $this->verifyCsvLine($line);
 
-        $famille = $this->convertTypeInFamille($line[self::CSVPAR_TYPE_PARTENAIRE]);
-        if (!$famille) {
-	  echo "Etablissement ERROR: ".$line[self::CSVPAR_CODE_CLIENT].": Pas de Famille connue\n";
-          continue;
-        }
+          $famille = $this->convertTypeInFamille($line[self::CSVPAR_TYPE_PARTENAIRE]);
+          if (!$famille) {
+	          echo "Etablissement ERROR: ".$line[self::CSVPAR_CODE_CLIENT].": Pas de Famille connue\n";
+            continue;
+          }
 
-      	$e = EtablissementClient::getInstance()->find($line[self::CSVPAR_CODE_CLIENT], acCouchdbClient::HYDRATE_JSON);
-        if ($e) {
-	  echo "WARNING: Etablissement ".$line[self::CSVPAR_CODE_CLIENT]." existe\n";
-	  continue;
-          acCouchdbManager::getClient()->deleteDoc($e);
-        }
+      	  $e = EtablissementClient::getInstance()->find($line[self::CSVPAR_CODE_CLIENT], acCouchdbClient::HYDRATE_JSON);
+          
+          if ($e) {
+	          echo "WARNING: Etablissement ".$line[self::CSVPAR_CODE_CLIENT]." existe\n";
+	          continue;
+          }
 	
-	$chai = 1;
-	if (isset($line[self::CSVCAV_CODE_CHAI]) && $line[self::CSVPAR_TYPE_PARTENAIRE] != self::CSV_TYPE_PARTENAIRE_COURTIER && $line[self::CSVCOURTIER_ISCOURTIER] != self::CSVCOURTIER_ISCOURTIER_VALEUR) {
-		$chai = $line[self::CSVCAV_CODE_CHAI];
-	}
-        $id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
-	       $e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
-        if ($e) {
-      	  echo "WARNING: Etablissement ".$id." existe\n";
-      	  continue;
-        }
+	        $chai = 1;
+	        if (isset($line[self::CSVCAV_CODE_CHAI]) && $line[self::CSVPAR_TYPE_PARTENAIRE] != self::CSV_TYPE_PARTENAIRE_COURTIER && $line[self::CSVCOURTIER_ISCOURTIER] != self::CSVCOURTIER_ISCOURTIER_VALEUR) {
+		        $chai = $line[self::CSVCAV_CODE_CHAI];
+	        }
+          
+          $id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
+  	       $e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
+          if ($e) {
+        	  echo "WARNING: Etablissement ".$id." existe\n";
+        	  continue;
+          }
 
-      	$e = new Etablissement();
-        $e->identifiant = $id;
+        	$e = new Etablissement();
+          $e->identifiant = $id;
 
-	if (isset($line[self::CSVCAV_LIBELLE_COMMUNE])) {
-	        $e->nom = $line[self::CSVPAR_NOM_DU_PARTENAIRE].' - '.$line[self::CSVCAV_LIBELLE_COMMUNE];
-	}else{
-		$e->nom = $line[self::CSVPAR_NOM_DU_PARTENAIRE];
-	}
-	$e->raison_sociale = $line[self::CSVPAR_NOM_DU_PARTENAIRE];
-        $e->cvi = (isset($line[self::CSVCAV_CVI]) && $line[self::CSVPAR_TYPE_PARTENAIRE] != self::CSV_TYPE_PARTENAIRE_COURTIER)? $line[self::CSVCAV_CVI] : null;
-	if (isset( $line[self::CSVCAV_LIBELLE_COMMUNE])) {
-	        $e->siege->commune = $line[self::CSVCAV_LIBELLE_COMMUNE];
-        	$e->siege->code_postal = $line[self::CSVCAV_CODE_POSTAL];
-		if (!preg_match('/^(bailleur|métayage)/i', $line[self::CSVCAV_ADRESSE1])) {
-		    $e->siege->adresse = preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE1]);
-		    if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE2])) {
-		      $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE2]);
-		      if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE3])) {
-			$e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE3]);
-			if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE4])) {
-			  $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE4]);
-			}}}
-		}
-	}else{
-		$e->siege->commune = $line[self::CSVPAR_COMMUNE];
-                $e->siege->code_postal = $line[self::CSVPAR_CODE_POSTAL];
-	}
-	if (!$e->siege->adresse) {
-		$e->siege->adresse = preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE1]);
-	        if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE2])) {
-                $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE2]);
-	        if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE3])) {
-                $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE3]);
-        	if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE4])) {
-                $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE4]);
-	        }}}
-	}
-        $e->famille = $famille;
-        $e->sous_famille = $this->getSousFamilleDefaut($famille);
-        $e->interpro = 'INTERPRO-inter-loire';
+        	if (isset($line[self::CSVCAV_LIBELLE_COMMUNE])) {
+        	        $e->nom = $line[self::CSVPAR_NOM_DU_PARTENAIRE].' - '.$line[self::CSVCAV_LIBELLE_COMMUNE];
+        	}else{
+        		$e->nom = $line[self::CSVPAR_NOM_DU_PARTENAIRE];
+        	}
+        	$e->raison_sociale = $line[self::CSVPAR_NOM_DU_PARTENAIRE];
+                $e->cvi = (isset($line[self::CSVCAV_CVI]) && $line[self::CSVPAR_TYPE_PARTENAIRE] != self::CSV_TYPE_PARTENAIRE_COURTIER)? $line[self::CSVCAV_CVI] : null;
+        	if (isset( $line[self::CSVCAV_LIBELLE_COMMUNE])) {
+        	        $e->siege->commune = $line[self::CSVCAV_LIBELLE_COMMUNE];
+                	$e->siege->code_postal = $line[self::CSVCAV_CODE_POSTAL];
+        		if (!preg_match('/^(bailleur|métayage)/i', $line[self::CSVCAV_ADRESSE1])) {
+        		    $e->siege->adresse = preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE1]);
+        		    if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE2])) {
+        		      $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE2]);
+        		      if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE3])) {
+        			$e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE3]);
+        			if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE4])) {
+        			  $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE4]);
+        			}}}
+        		}
+        	}else{
+        		$e->siege->commune = $line[self::CSVPAR_COMMUNE];
+                        $e->siege->code_postal = $line[self::CSVPAR_CODE_POSTAL];
+        	}
+        	if (!$e->siege->adresse) {
+        		$e->siege->adresse = preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE1]);
+        	        if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE2])) {
+                        $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE2]);
+        	        if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE3])) {
+                        $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE3]);
+                	if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE4])) {
+                        $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE4]);
+        	        }}}
+        	}
+                $e->famille = $famille;
+                $e->sous_famille = $this->getSousFamilleDefaut($famille);
+                $e->interpro = 'INTERPRO-inter-loire';
+              
+        	if (($e->isViticulteur() || $e->isNegociant()) && $line[self::CSVPAR_RELANCE_DS] == 'N') {
+        	  $e->relance_ds = EtablissementClient::RELANCE_DS_NON;
+        	}elseif($e->isViticulteur() || $e->isNegociant()){
+        	  $e->relance_ds = EtablissementClient::RELANCE_DS_OUI;
+        	}
+
+        	//le champ en activité contient en réalisé la valeur de suspendu 
+        	if ($line[self::CSVPAR_EN_ACTIVITE] == 'O') {
+        		$e->statut = EtablissementClient::STATUT_SUSPENDU;
+                }else{
+        		$e->statut = EtablissementClient::STATUT_ACTIF;
+                }
+        	$e->id_societe = "SOCIETE-".sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]); 
+
+        	if ($line[self::CSVPAR_EN_VALDELOIRE] == 'N') {
+        		$e->region = EtablissementClient::REGION_HORSINTERLOIRE;
+        	}else if ($line[self::CSVPAR_REGION_VITI] == 'T') {
+        		$e->region = EtablissementClient::REGION_TOURS;
+        	}else if ($line[self::CSVPAR_REGION_VITI] == 'N') {
+        		$e->region = EtablissementClient::REGION_NANTES;
+                }else if ($line[self::CSVPAR_REGION_VITI] == 'A') {
+        		$e->region = EtablissementClient::REGION_ANGERS;
+        	}else{
+        		$e->region = EtablissementClient::REGION_HORSINTERLOIRE;
+        	}
+                
+          if ($e->isViticulteur() && isset($line[self::CSVCAV_DRA]) && $line[self::CSVCAV_DRA] == 'OUI') {
+              $e->type_dr = EtablissementClient::TYPE_DR_DRA;
+          }elseif($e->isViticulteur()) {
+              $e->type_dr = EtablissementClient::TYPE_DR_DRM;
+          }
+
+          if ($e->isViticulteur() && isset($line[self::CSVCAV_EXCLUS_RELANCE_DRM]) && $line[self::CSVCAV_EXCLUS_RELANCE_DRM] == 'O') {
+            $e->exclusion_drm = EtablissementClient::EXCLUSION_DRM_OUI;
+          } elseif($e->isViticulteur()) {
+            $e->exclusion_drm = EtablissementClient::EXCLUSION_DRM_NON;
+          }
+                
+        	if ($line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]*1)
+        	        $e->recette_locale->id_douane = "SOCIETE-".sprintf("%06d", $line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]);
+
+        	if ($line[self::CSVPAR_TYPE_PARTENAIRE] == self::CSV_TYPE_PARTENAIRE_COURTIER && isset($line[self::CSVCOURTIER_NUMCARTE])) {
+        		$e->carte_pro = $line[self::CSVCOURTIER_NUMCARTE];
+        	}
+        	$e->save();
       
-	if (($e->isViticulteur() || $e->isNegociant()) && $line[self::CSVPAR_RELANCE_DS] == 'N') {
-	  $e->relance_ds = EtablissementClient::RELANCE_DS_NON;
-	}elseif($e->isViticulteur() || $e->isNegociant()){
-	  $e->relance_ds = EtablissementClient::RELANCE_DS_OUI;
-	}
-
-	//le champ en activité contient en réalisé la valeur de suspendu 
-	if ($line[self::CSVPAR_EN_ACTIVITE] == 'O') {
-		$e->statut = EtablissementClient::STATUT_SUSPENDU;
-        }else{
-		$e->statut = EtablissementClient::STATUT_ACTIF;
-        }
-	$e->id_societe = "SOCIETE-".sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]); 
-
-	if ($line[self::CSVPAR_EN_VALDELOIRE] == 'N') {
-		$e->region = EtablissementClient::REGION_HORSINTERLOIRE;
-	}else if ($line[self::CSVPAR_REGION_VITI] == 'T') {
-		$e->region = EtablissementClient::REGION_TOURS;
-	}else if ($line[self::CSVPAR_REGION_VITI] == 'N') {
-		$e->region = EtablissementClient::REGION_NANTES;
-        }else if ($line[self::CSVPAR_REGION_VITI] == 'A') {
-		$e->region = EtablissementClient::REGION_ANGERS;
-	}else{
-		$e->region = EtablissementClient::REGION_HORSINTERLOIRE;
-	}
-        
-  if ($e->isViticulteur() && isset($line[self::CSVCAV_DRA]) && $line[self::CSVCAV_DRA] == 'OUI') {
-      $e->type_dr = EtablissementClient::TYPE_DR_DRA;
-  }elseif($e->isViticulteur()) {
-      $e->type_dr = EtablissementClient::TYPE_DR_DRM;
-  }
-
-  if ($e->isViticulteur() && isset($line[self::CSVCAV_EXCLUS_RELANCE_DRM]) && $line[self::CSVCAV_EXCLUS_RELANCE_DRM] == 'O') {
-    $e->exclusion_drm = EtablissementClient::EXCLUSION_DRM_OUI;
-  } elseif($e->isViticulteur()) {
-    $e->exclusion_drm = EtablissementClient::EXCLUSION_DRM_NON;
-  }
-        
-	if ($line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]*1)
-	        $e->recette_locale->id_douane = "SOCIETE-".sprintf("%06d", $line[self::CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE]);
-
-	if ($line[self::CSVPAR_TYPE_PARTENAIRE] == self::CSV_TYPE_PARTENAIRE_COURTIER && isset($line[self::CSVCOURTIER_NUMCARTE])) {
-		$e->carte_pro = $line[self::CSVCOURTIER_NUMCARTE];
-	}
-      	$e->save();
-    }catch(Exception $e) {
-      echo $e->getMessage()."\n";
-    }
+      }catch(Exception $e) {
+        echo $e->getMessage()."\n";
       }
-
+    }
     return $etablissements;
   }
 
