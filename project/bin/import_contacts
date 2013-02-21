@@ -31,7 +31,7 @@ grep ';2011;' $DATADIR/cidra.csv  | sed 's/10;2011;\([^;]*\);\([^;]*\);.*/\1_\2;
 join -t ';' -a 1 -1 2 -2 1 $DATADIR/tmp/cicav.utf8.csv $DATADIR/tmp/dra.csv | sed 's/;$/;NON/' | sed 's/_/;/' | sort -t ';' -k 1,1 | sed 's/^/10;/' > $DATADIR/tmp/cicav_dra.utf8.csv
 
 convert-utf8 $DATADIR/cifonct.csv | awk -F ';' '{print $3";"$2";"$4}' | grep "PARTENAIRE" | sort -t ';' -k 1,1 > $DATADIR/tmp/cifonct_contact_partenaire.utf8.csv
-join -t ";" -a 1 -1 1 -2 2 /tmp/VINSDELOIRE_DATA/tmp/cifonct_contact_partenaire.utf8.csv /tmp/VINSDELOIRE_DATA/tmp/cicontact.utf8.csv | awk -F ";" '{ print $2";"$23 }' | sort -t ";" -k 1,1 | uniq -w 6 > $DATADIR/tmp/cipar_relance_drm.csv
+join -t ";" -a 1 -1 1 -2 2 $DATADIR/tmp/cifonct_contact_partenaire.utf8.csv $DATADIR/tmp/cicontact.utf8.csv | awk -F ";" '{ print $2";"$23 }' | sort -t ";" -k 1,1 | uniq -w 6 > $DATADIR/tmp/cipar_relance_drm.csv
 
 join -t ';' -a 1 -1 2 -2 2 $DATADIR/tmp/cipar.utf8.csv $DATADIR/tmp/cicav_dra.utf8.csv | sort -t ";" -k 1,1 > $DATADIR/tmp/etablissement.csv
 join -t ';' -a 1 -1 1 -2 1 $DATADIR/tmp/etablissement.csv $DATADIR/tmp/cipar_relance_drm.csv | sort -t ";" -k 1,1 > $DATADIR/tmp/etablissement-relance-drm.csv
