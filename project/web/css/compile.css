@@ -2964,30 +2964,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 .recherche_contact #btn_rechercher:hover, .recherche_contact #btn_rechercher:focus { text-decoration:none; }
 bouton.recherche_contact #btn_rechercher { height:26px; }
 .recherche_contact #btn_rechercher span { display:inline-block; }
-.recherche_contact #colonne_tag {
-  -webkit-border-radius:5px 0 0 5px;
-  -moz-border-radius:5px 0 0 5px;
-  border-radius:5px 0 0 5px;
-  -webkit-border-radius:5px 0 0 5px;
-  -moz-border-radius:5px 0 0 5px;
-  border-radius:5px 0 0 5px;
-  bottom:auto;
-  left:-195px;
-  position:absolute;
-  right:auto;
-  top:198px;
-  background:#ffffff;
-  padding:10px;
-  width:195px;
-}
-.recherche_contact #colonne_tag h2:first-child { margin-top:0; }
-.recherche_contact #colonne_tag label { margin-right:5px; }
-.recherche_contact #colonne_tag li { padding:5px 0; }
-.recherche_contact #colonne_tag li.typetag {
-  color:#bbbbbb;
-  font-weight:bold;
-  text-transform:uppercase;
-}
 .recherche_contact .pagination {
   zoom:1;
   min-height:1px;
@@ -3016,6 +2992,10 @@ bouton.recherche_contact #btn_rechercher { height:26px; }
   width:510px;
 }
 .recherche_contact #resultats_contact { margin:20px 0 0; }
+#colonne .liste_tags, #colonne .form_ajout_tag { padding:20px 0; }
+#colonne .liste_tags li { margin:10px 0; }
+#colonne .form_ajout_tag #creer_tag { width:138px; }
+#colonne .form_ajout_tag input[type="submit"] { padding-left:10px; }
 #colonne #infos_contact h2 { background:#76a8d7; }
 #colonne #infos_contact h2:before { border-color:transparent transparent #376ea2 transparent; }
 #colonne #infos_contact .contenu { padding:5px 0 15px; }
