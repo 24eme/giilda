@@ -58,8 +58,8 @@ class EtablissementCsvFile extends CsvFile
     $this->errors = array();
     $etablissements = array();
     $csvs = $this->getCsv();
-    try {
       foreach ($csvs as $line) {
+        try {
       	$this->verifyCsvLine($line);
 
         $famille = $this->convertTypeInFamille($line[self::CSVPAR_TYPE_PARTENAIRE]);
@@ -172,10 +172,11 @@ class EtablissementCsvFile extends CsvFile
 		$e->carte_pro = $line[self::CSVCOURTIER_NUMCARTE];
 	}
       	$e->save();
-      }
     }catch(Exception $e) {
       echo $e->getMessage()."\n";
     }
+      }
+
     return $etablissements;
   }
 
