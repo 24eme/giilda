@@ -121,7 +121,6 @@ class FactureClient extends acCouchdbClient {
             }
 	    $somme = $somme * -1;
             $somme = $this->ttc($somme);
-          
             if($somme === 0){
                $mouvementsBySoc[$identifiant] = null; 
             }
