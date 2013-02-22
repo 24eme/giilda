@@ -75,7 +75,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
                             echo display_latex_string($nom,';',40);
                      ?>}
 \def\FactureClientAdresse{<?php $adresse = ($facture->declarant->adresse == '')? "~" : $facture->declarant->adresse;
-                            echo display_latex_string($adresse,';',50);
+                            echo display_latex_string($adresse,';',50,2);
                             ?>}
 \def\FactureClientCP{<?php echo $facture->declarant->code_postal; ?>}
 \def\FactureClientVille{<?php echo $facture->declarant->commune; ?>}
