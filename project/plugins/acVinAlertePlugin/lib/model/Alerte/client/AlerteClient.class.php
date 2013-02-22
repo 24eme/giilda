@@ -9,6 +9,7 @@ class AlerteClient extends acCouchdbClient {
     const DRA_MANQUANTE = "DRA_MANQUANTE";
     const DRM_STOCK_NEGATIF = "DRM_STOCK_NEGATIF";
     const SV12_SANS_VRAC = "SV12_SANS_VRAC";
+    const SV12_MANQUANTE = "SV12_MANQUANTE";
     const DS_NON_VALIDEE = "DS_NON_VALIDEE";
     
     
@@ -19,6 +20,7 @@ class AlerteClient extends acCouchdbClient {
                                             self::DRA_MANQUANTE => 'DRA absente',
                                             self::DRM_STOCK_NEGATIF => 'DRM avec un stock négatif',        
                                             self::SV12_SANS_VRAC => 'SV12 dont le contrat est absent',
+                                            self::SV12_MANQUANTE => 'SV12 absente',
                                             self::DS_NON_VALIDEE => 'DS non validée intégralement');
     
     const STATUT_NOUVEAU = 'NOUVEAU';    

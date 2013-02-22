@@ -52,14 +52,17 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
     public function updates() {
         foreach ($this->getAlertesOpen() as $alerteView) {
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
-
+            $alerte = AlerteClient::getInstance()->find($alerteView->id);
             $drm = DRMClient::getInstance()->find($id_document, acCouchdbClient::HYDRATE_JSON);
             if(!$drm)  {
-
+                $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
+                if ($relance) {
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, $this->getDate());
+                    $alerte->save();
+                }
                 continue;
             } 
 
-            $alerte = AlerteClient::getInstance()->find($alerteView->id);
             $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
             $alerte->save();
         }
