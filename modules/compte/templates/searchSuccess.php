@@ -140,6 +140,10 @@
 				  if (count($ftype['terms'])) {
 					echo '<li class="typetag">'.$type.'</li><ul>';
 					foreach($ftype['terms'] as $f) {
+                                           if (preg_match('/^(export|produit)_/', $f['term'])) {
+                                                continue;
+                                            }
+
 					  $targs = $args_copy->getRawValue();
 					  $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term'])));
 					  echo '<li><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $f['term']).' ('.$f['count'].')</a></li>';
