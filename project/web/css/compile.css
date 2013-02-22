@@ -2993,7 +2993,12 @@ bouton.recherche_contact #btn_rechercher { height:26px; }
 }
 .recherche_contact #resultats_contact { margin:20px 0 0; }
 #colonne .liste_tags, #colonne .form_ajout_tag { padding:20px 0; }
-#colonne .liste_tags li { margin:10px 0; }
+#colonne .liste_tags .typetag {
+  text-transform:uppercase;
+  font-weight:bold;
+}
+#colonne .liste_tags ul { margin:0 0 15px; }
+#colonne .liste_tags li { margin:0 0 10px; }
 #colonne .form_ajout_tag #creer_tag { width:138px; }
 #colonne .form_ajout_tag input[type="submit"] { padding-left:10px; }
 #colonne #infos_contact h2 { background:#76a8d7; }
