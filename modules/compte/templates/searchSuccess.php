@@ -26,52 +26,7 @@
 	
 	<a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', $args); ?>">Télécharger le tableur</a>
 	
-	<aside id="colonne_tag">
-<?php if (count($selected_typetags)) :  ?>
-		<h2>tags sélectionnés</h2>
-		<ul>
-   <?php foreach($selected_typetags as $type => $selected_tags) : ?>
-   <ul><li class="typetag"><?php echo $type; ?></li>
-<?php foreach($selected_tags as $t) {
-$targs = $args->getRawValue();
-$targs['tags'] = implode(',', array_diff($selected_rawtags->getRawValue(), array($type.':'.$t)));
-echo '<li><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $t).'</a>&nbsp;';
-$targs = $args->getRawValue();
-$targs['tag'] = $t;
-if ($type == 'manuel') {
-  echo '(<a class="removetag" href="'.url_for('compte_removetag', $targs).'">X</a>)';
-}
-echo '</li>';
-} ?>
-		</ul>
-<?php endforeach ?>
-</ul>
-<?php endif; ?>
-		<h2>tags dispos</h2>
-		<ul>
-<?php 
-foreach($facets as $type => $ftype) {
-  if (count($ftype['terms'])) {
-    echo '<li class="typetag">'.$type.'</li><ul>';
-    foreach($ftype['terms'] as $f) {
-      $targs = $args->getRawValue();
-      $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term'])));
-      echo '<li><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $f['term']).' ('.$f['count'].')</a></li>';
-    }
-    echo '</ul>';
-  }
-}
-?>
-		</ul>
-		
-		<h2>Créer un tag</h2>
-<form action="<?php echo url_for('compte_addtag', $args->getRawValue()); ?>" method="GET">
-<input id="creer_tag" name="tag" class="tags" type="text" /><br/>
-<input type="submit" value="ajouter" class="btn_majeur btn_modifier"/>
-<input type="hidden" name="q" value="<?php echo $q;?>"/>
-<input type="hidden" name="tags" value="<?php echo implode(',', $selected_rawtags->getRawValue()); ?>"/>
-</form>
-	</aside>
+	
 	
 	<?php if($nb_results > 0): ?>
 	
@@ -110,7 +65,9 @@ foreach($facets as $type => $ftype) {
 
 		<div class="pagination">
 			<div class="page_precedente">
-				<?php $args = array('q' => $q); ?>
+				<?php 
+                                $args_copy = $args;
+                                $args = array('q' => $q); ?>
 <?php if ($current_page > 1) : ?>
 				<a href="<?php echo url_for('compte_search', $args); ?>"> <<- </a>
 				<?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
@@ -124,7 +81,7 @@ foreach($facets as $type => $ftype) {
 <?php endif; ?>
 				<?php $args['page'] = $last_page; ?>
 <?php if ($current_page != $args['page']): ?>
-				<a href="<?php echo url_for('compte_search', $args); ?>"> ->> </a>
+                                <a href="<?php echo url_for('compte_search', $args); ?>"> ->> </a>
 <?php endif; ?>
 			</div>
 		</div>
@@ -147,3 +104,62 @@ foreach($facets as $type => $ftype) {
 <?php
 	end_slot();
 ?>
+
+<?php slot('colApplications');  ?>
+		<?php if (count($selected_typetags)) :  ?>
+			<div class="bloc_col">
+				<h2>tags sélectionnés</h2>
+				<ul class="liste_tags">
+					<li>
+						<?php foreach($selected_typetags as $type => $selected_tags) : ?>
+							<ul>
+								<li class="typetag"><h3><?php echo $type; ?></h3></li>
+								<?php foreach($selected_tags as $t) {
+									$targs = $args_copy->getRawValue();
+									$targs['tags'] = implode(',', array_diff($selected_rawtags->getRawValue(), array($type.':'.$t)));
+									echo '<li><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $t).'</a>&nbsp;';
+									$targs = $args_copy->getRawValue();
+									$targs['tag'] = $t;
+									if ($type == 'manuel') {
+									  echo '(<a class="removetag" href="'.url_for('compte_removetag', $targs).'">X</a>)';
+									}
+									echo '</li>';
+									} ?>
+							</ul>
+						<?php endforeach ?>
+					</li>
+				</ul>
+			</div>
+		<?php endif; ?>
+
+		<div class="bloc_col">
+			<h2>tags dispos</h2>
+			<ul class="liste_tags">
+				<?php 
+				foreach($facets as $type => $ftype) {
+				  if (count($ftype['terms'])) {
+					echo '<li class="typetag">'.$type.'</li><ul>';
+					foreach($ftype['terms'] as $f) {
+					  $targs = $args_copy->getRawValue();
+					  $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term'])));
+					  echo '<li><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $f['term']).' ('.$f['count'].')</a></li>';
+					}
+					echo '</ul>';
+				  }
+				}
+				?>
+			</ul>
+		</div>
+
+		<div class="bloc_col">
+		
+			<h2>Créer un tag</h2>
+
+			<form class="form_ajout_tag" action="<?php echo url_for('compte_addtag', $args_copy->getRawValue()); ?>" method="GET">
+			<input id="creer_tag" name="tag" class="tags" type="text" />
+			<input type="submit" value="ajouter" class="btn_majeur btn_modifier"/>
+			<input type="hidden" name="q" value="<?php echo $q;?>"/>
+			<input type="hidden" name="tags" value="<?php echo implode(',', $selected_rawtags->getRawValue()); ?>"/>
+			</form>
+		</div>
+<?php end_slot(); ?>
