@@ -114,7 +114,6 @@ class FactureClient extends acCouchdbClient {
             }
         }
       }
-      if (isset($parameters['seuil']) && $parameters['seuil']) {
         foreach ($mouvementsBySoc as $identifiant => $mouvements) {
             $somme = 0;
             foreach ($mouvements as $key => $mouvement) {
@@ -122,10 +121,17 @@ class FactureClient extends acCouchdbClient {
             }
 	    $somme = $somme * -1;
             $somme = $this->ttc($somme);
-            if (($somme < $parameters['seuil']) && ($somme >= 0)) {  
-	      $mouvementsBySoc[$identifiant] = null;
-	    }
-        }
+          
+            if($somme === 0){
+               $mouvementsBySoc[$identifiant] = null; 
+            }
+            
+            if (isset($parameters['seuil']) && $parameters['seuil']) {
+                if (($somme < $parameters['seuil']) && ($somme >= 0)) {  
+                    $mouvementsBySoc[$identifiant] = null;
+                    }
+          }
+        
       }
       $mouvementsBySoc = $this->cleanMouvementsBySoc($mouvementsBySoc);
       return $mouvementsBySoc;
