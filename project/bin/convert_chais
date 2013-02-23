@@ -35,15 +35,15 @@ cat /tmp/vitivirtuel2negos.csv | while read replace ; do
     echo $replace | sed 's|;|;/;|' | sed 's|^|s/;|'  | sed 's|$|;/|' >> /tmp/sed.cmd
 done
 
-sed 's/^/10;/' etablissementsetcourtiers.csv > etablissementsetcourtiers.csv.tmp ; mv  etablissementsetcourtiers.csv.tmp etablissementsetcourtiers.csv
-sed 's/^/10;/' etablissement.csv > etablissement.csv.tmp ; mv  etablissement.csv.tmp etablissement.csv
+sed 's/^/10;/' etablissements.csv > etablissements.csv.tmp ; mv  etablissements.csv.tmp etablissements.csv
+sed 's/^/10;/' tmp/etablissement.csv > tmp/etablissement.csv.tmp ; mv  tmp/etablissement.csv.tmp tmp/etablissement.csv
 
-for csv in cimvscav.csv cimvsdiv.csv cicestrf.csv cicav.viti.csv cicon.csv cieag.csv cieds.csv ciedn.csv ciefc.csv ciefcrec.csv cifonct.csv cilag.csv cimvs.csv cistk.csv tmp/cipar.utf8.csv etablissementsetcourtiers.csv etablissement.csv; do
+for csv in cimvscav.csv cimvsdiv.csv cicestrf.csv cicav.viti.csv cicon.csv cieag.csv cieds.csv ciedn.csv ciefc.csv ciefcrec.csv cifonct.csv cilag.csv cimvs.csv cistk.csv tmp/cipar.utf8.csv etablissements.csv tmp/etablissement.csv; do
     sed -f /tmp/sed.cmd $csv > $csv.tmp
     rm $csv
     mv $csv.tmp $csv
 done
 sort -t ';' -k 2,2 tmp/cipar.utf8.csv > tmp/cipar.utf8.csv.tmp ; mv tmp/cipar.utf8.csv.tmp tmp/cipar.utf8.csv
-sed 's/^10;//' etablissementsetcourtiers.csv > etablissementsetcourtiers.csv.tmp ; mv  etablissementsetcourtiers.csv.tmp etablissementsetcourtiers.csv
-sed 's/^10;//' etablissement.csv > etablissement.csv.tmp ; mv  etablissement.csv.tmp etablissement.csv
+sed 's/^10;//' etablissements.csv > etablissements.csv.tmp ; mv  etablissements.csv.tmp etablissements.csv
+sed 's/^10;//' tmp/etablissement.csv > tmp/etablissement.csv.tmp ; mv tmp/etablissement.csv.tmp tmp/etablissement.csv
 
