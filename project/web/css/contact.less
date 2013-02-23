@@ -472,28 +472,6 @@
 		width:115px;
 	}
 
-	#colonne_tag
-	{
-		.border-radius(5px 0 0 5px);
-		.pos-abs(198px, auto, auto, -195px);
-		background: @couleur-a1;
-		padding: 10px;
-		width: 195px;
-
-		h2:first-child { margin-top: 0; }
-
-		label { margin-right: 5px; }
-
-		li { padding: 5px 0; }
-
-		li.typetag {
-		    color: #BBBBBB;
-		    font-weight: bold;
-		    text-transform: uppercase;
-		}
-
-	}
-
 	.pagination
 	{
 		.clearfix;
@@ -537,6 +515,47 @@
 
 #colonne
 {
+
+	/* Liste des tags */
+	.liste_tags,
+	.form_ajout_tag
+	{
+		padding: 20px 0;
+	}
+
+	.liste_tags
+	{
+
+		.typetag
+		{
+			.majuscules;
+			font-weight: bold;
+		}
+
+		ul
+		{
+			margin: 0 0 15px;
+		}
+
+		li
+		{
+			margin: 0 0 10px;
+		}
+	}
+
+	.form_ajout_tag
+	{
+		#creer_tag
+		{
+			width: 138px;
+		}
+
+		input[type="submit"]
+		{
+			padding-left: 10px;
+		}
+	}
+	
 	/* Information sur les contacts */
 	#infos_contact
 	{

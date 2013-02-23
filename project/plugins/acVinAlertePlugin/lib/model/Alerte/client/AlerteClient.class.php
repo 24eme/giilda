@@ -6,8 +6,10 @@ class AlerteClient extends acCouchdbClient {
     const VRAC_PRIX_DEFINITIFS = "VRAC_PRIX_DEFINITIFS";
     const VRAC_ATTENTE_ORIGINAL = "VRAC_ATTENTE_ORIGINAL";
     const DRM_MANQUANTE = "DRM_MANQUANTE";
+    const DRA_MANQUANTE = "DRA_MANQUANTE";
     const DRM_STOCK_NEGATIF = "DRM_STOCK_NEGATIF";
     const SV12_SANS_VRAC = "SV12_SANS_VRAC";
+    const SV12_MANQUANTE = "SV12_MANQUANTE";
     const DS_NON_VALIDEE = "DS_NON_VALIDEE";
     
     
@@ -15,8 +17,10 @@ class AlerteClient extends acCouchdbClient {
                                             self::VRAC_PRIX_DEFINITIFS => "Contrat avec prix définitif non fixé",
                                             self::VRAC_ATTENTE_ORIGINAL => "Contrat en attente de l'original",
                                             self::DRM_MANQUANTE => 'DRM absente',
+                                            self::DRA_MANQUANTE => 'DRA absente',
                                             self::DRM_STOCK_NEGATIF => 'DRM avec un stock négatif',        
                                             self::SV12_SANS_VRAC => 'SV12 dont le contrat est absent',
+                                            self::SV12_MANQUANTE => 'SV12 absente',
                                             self::DS_NON_VALIDEE => 'DS non validée intégralement');
     
     const STATUT_NOUVEAU = 'NOUVEAU';    

@@ -55,7 +55,7 @@ abstract class AlerteGeneration {
     }
 
     public function getDate() {
-
+    //  return '2013-06-30';
         return date('Y-m-d');
     }
 
