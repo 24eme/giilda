@@ -38,7 +38,7 @@ EOF;
     foreach($rows as $row) {
       try {
       echo $row->id."\n";
-      $sv12 = SV12Client::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
+      $sv12 = SV12Client::getInstance()->find($row->id);
       foreach($sv12->mouvements as $etablissement_id => $mouvements) {
         foreach($mouvements as $mouvement) {
           $mouvement->date = SV12Client::getInstance()->buildDate($sv12->periode);
@@ -49,19 +49,19 @@ EOF;
           }
 
           try {
-            $vrac = VracClient::getInstance()->find($mouvement->detail_identifiant, acCouchdbClient::HYDRATE_JSON);
+            $vrac = VracClient::getInstance()->find($mouvement->detail_identifiant);
             if(!$vrac) {
-              throw new sfException("trouve pas le contrat %s", $mouvement->detail_identifiant);
+              throw new sfException(sprintf("trouve pas le contrat %s", $mouvement->detail_identifiant));
             }
           } catch (Exception $e) {
-            throw new sfException("trouve pas le contrat %s", $mouvement->detail_identifiant);
+            throw new sfException(sprintf("trouve pas le contrat %s", $mouvement->detail_identifiant));
           }
          
           $mouvement->detail_libelle = $vrac->numero_archive;
           $sv12_contrat = $sv12->contrats->{$mouvement->vrac_numero};
-
           if($sv12_contrat->vendeur_identifiant == $etablissement_id) {
             $mouvement->vrac_destinataire = $sv12->declarant->nom;
+
           }
 
           if($sv12->identifiant == $etablissement_id) {
