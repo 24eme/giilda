@@ -51,17 +51,17 @@ EOF;
           try {
             $vrac = VracClient::getInstance()->find($mouvement->detail_identifiant, acCouchdbClient::HYDRATE_JSON);
             if(!$vrac) {
-              throw new sfException("trouve pas le contrat %s", $mouvement->detail_identifiant);
+              throw new sfException(sprintf("trouve pas le contrat %s", $mouvement->detail_identifiant));
             }
           } catch (Exception $e) {
-            throw new sfException("trouve pas le contrat %s", $mouvement->detail_identifiant);
+            throw new sfException(sprintf("trouve pas le contrat %s", $mouvement->detail_identifiant));
           }
          
           $mouvement->detail_libelle = $vrac->numero_archive;
           $sv12_contrat = $sv12->contrats->{$mouvement->vrac_numero};
-
           if($sv12_contrat->vendeur_identifiant == $etablissement_id) {
             $mouvement->vrac_destinataire = $sv12->declarant->nom;
+
           }
 
           if($sv12->identifiant == $etablissement_id) {
