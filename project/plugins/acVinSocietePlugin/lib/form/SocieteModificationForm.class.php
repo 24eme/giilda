@@ -78,9 +78,13 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         $this->setValidator('no_tva_intracommunautaire', new sfValidatorString(array('required' => false)));
 
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
-
+        
         if ($this->getObject()->code_comptable_client) {
             $this->widgetSchema['type_numero_compte_client']->setAttribute('disabled', 'disabled');
+        }
+
+        if ($this->getObject()->code_comptable_fournisseur) {
+            $this->widgetSchema['type_numero_compte_fournisseur']->setAttribute('disabled', 'disabled');
         }
 
         if ($this->getObject()->isInCreation()) {
