@@ -52,7 +52,7 @@ class DRMValidation extends DocumentValidation
 		      $this->addPoint('vigilance', 
 				      'vrac_detail_negatif', 
 				      sprintf("%s, Contrat %s (%01.02f hl enlevé / %01.02f hl proposé)", 
-					      $mouvement->produit_libelle, 
+					      $volumes_restant[$id_volume_restant]['vrac']->produit_libelle, 
 					      $vrac->__toString(), 
 					      $vrac->volume_propose - $restant['volume'],
 					      $vrac->volume_propose), 
