@@ -92,8 +92,8 @@
     <div class="form_ligne">
         <legend>Tags - étiquettes </legend>
     </div>
-    <div class="form_ligne">
         <?php foreach ($compte->tags as $type_tag => $selected_tags) : ?>
+            <div class="form_ligne">
             <label for="tags" class="label_liste"><?php echo $type_tag; ?></label>
             <ul>
                 <?php
@@ -108,6 +108,6 @@
                 }
                 ?>
             </ul>
-<?php endforeach; ?>
     </div>
+<?php endforeach; ?>
 </fieldset>
