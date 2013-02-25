@@ -2,6 +2,7 @@
 use_helper('Date');
 use_helper('Display');
 $pointille = ' . . . . . . . . . . . . . . . . . . . . . . . . . .';
+$coordonneesInterLoire = $ds->getCoordonneesIL();
 ?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
@@ -60,8 +61,8 @@ echo ($nom) ? cut_latex_string($nom,35) : $pointille;
 \def\DSClientAdresseFenetre{<?php echo display_latex_string($ds->declarant->adresse,';',45); ?>}
 \def\DSClientVilleFenetre{<?php echo display_latex_string($ds->declarant->commune,';',35); ?>}
 
-\def\InterloireAdresse{\textbf{INTERLOIRE} - 12, rue Etienne Pallu - BP 61921 - 37019 TOURS CEDEX 01 \\
-Tél. : 02 47 60 55 00 - Fax : 02 47 60 55 19} 
+\def\InterloireAdresse{\textbf{INTERLOIRE} - <?php echo $coordonneesInterLoire['adresse'].' - '.$coordonneesInterLoire['code_postal'].' '.$coordonneesInterLoire['ville']; ?> \\
+<?php echo $coordonneesInterLoire['telephone'].' - '.$coordonneesInterLoire['email']; ?>} 
 
 
 \begin{document}

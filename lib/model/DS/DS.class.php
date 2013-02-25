@@ -37,7 +37,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     }
 
     public function setDateStock($date_stock) {
-        $this->date_echeance = Date::getIsoDateFinDeMoisISO($date_stock, 2);
+        $this->date_echeance = Date::getIsoDateFinDeMoisISO($date_stock, 1);
         $this->periode = DSClient::getInstance()->buildPeriode($date_stock);
 
         return $this->_set('date_stock', $date_stock);
@@ -179,5 +179,12 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 
     public function isMaster(){
         return true;
+    }
+    
+    public function getCoordonneesIL(){
+        $configs = sfConfig::get('app_facture_emetteur');
+        if (!array_key_exists($this->declarant->region, $configs))
+            throw new sfException(sprintf('Config %s not found in app.yml', $this->declarant->region));
+        return $configs[$this->declarant->region];
     }
 }
