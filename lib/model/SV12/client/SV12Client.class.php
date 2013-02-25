@@ -39,7 +39,7 @@ class SV12Client extends acCouchdbClient {
         throw new sfException(sprintf('Pas au format yyyy-yyyy %s', $periode));
       }
 
-      return sprintf('%4d-%02d-%02d', $matches[2],1, 15);
+      return sprintf('%4d-%02d-%02d', $matches[1], 12, 31);
     }
 
     public function buildPeriode($date) {
