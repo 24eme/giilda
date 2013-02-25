@@ -25,7 +25,7 @@ class Etablissement extends BaseEtablissement {
         }
 
         if($this->isViticulteur() || $this->isNegociant()) {
-            $this->relance_ds = is_null($this->relance_ds) ? EtablissementClient::RELANCE_DS_OUI : $this->type_dr;
+            $this->relance_ds = is_null($this->relance_ds) ? EtablissementClient::RELANCE_DS_OUI : $this->relance_ds;
         }
 
         $this->statut = is_null($this->statut) ? EtablissementClient::STATUT_ACTIF : $this->statut;
