@@ -37,6 +37,7 @@ EOF;
 
     foreach($rows as $row) {
       $sv12 = SV12Client::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON);
+      echo $sv12->_id."\n";
       foreach($sv12->mouvements as $etablissement_id => $mouvements) {
         foreach($mouvements as $mouvement) {
           $mouvement->date = SV12Client::getInstance()->buildDate($sv12->periode);
@@ -52,7 +53,8 @@ EOF;
               throw new sfException("trouve pas le contrat");
             }
           } catch (Exception $e) {
-            throw new sfException("trouve pas le contrat ".$mouvement->detail_identifiant);
+            echo sprintf("trouve pas le contrat %s \n", $mouvement->detail_identifiant);
+            continue;
           }
 
           $mouvement->detail_libelle = $vrac->numero_archive;
