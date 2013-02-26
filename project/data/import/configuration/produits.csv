@@ -47,11 +47,11 @@ inter-loire;AOC;AOC;;TRANQ;Muscadet Sèvre et Maine;MUSSM;Sur lie;LIE;;;Blanc;3;
 inter-loire;AOC;AOC;;TRANQ;Quarts de Chaume;QDC;;;;;Blanc;3;Chenin;CHE;;;;;;;6;;A;;;;;;;111;cepage;09110;cepage;1B214L;cepage;
 inter-loire;AOC;AOC;;TRANQ;Rosé d'Anjou;RAJ;;;;;Rosé;2;;;;;;;;;4,5;;A;;;;;;;123;cepage;09120;cepage;1S200D;cepage;1S200D03
 inter-loire;AOC;AOC;;TRANQ;Rosé de Loire;RLO;;;;;Rosé;2;;;;;;;;;4,5;;A;;;;;;;413;cepage;09410;cepage;1S209S;cepage;
-inter-loire;AOC;AOC;;TRANQ;Saumur;SAU;;;;;Blanc;3;Chenin;CHE;;;;;;;4,2;;L;;;;;;;151;cepage;09150;cepage;1B206;cepage;
+inter-loire;AOC;AOC;;TRANQ;Saumur;SAU;;;;;Blanc;3;Chenin;CHE;;;;;;;4,2;;CO;;;;;;;151;cepage;09150;cepage;1B206;cepage;
 inter-loire;AOC;AOC;;TRANQ;Saumur;SAU;;;Puy-Notre-Dame;PND;Rouge;1;;;;;;;;;4;;L;;;;;;;152;cepage;09240;cepage;1R189S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Saumur;SAU;;;Champigny;CHA;Rouge;1;;;;;;;;;4;;L;;;;;;;162;cepage;09160;cepage;1R208;cepage;
 inter-loire;AOC;AOC;EFF;EFF;Saumur;SAU;;;;;Blanc;3;;;;;;;;;3,8;;A;;;;;;;174;cepage;09170;cepage;1B205M;cepage;1S205M
-inter-loire;AOC;AOC;;TRANQ;Saumur;SAU;;;;;Rouge;1;;;;;;;;;4,5;;A;;;;;;;182;cepage;09180;cepage;1R206S;cepage;
+inter-loire;AOC;AOC;;TRANQ;Saumur;SAU;;;;;Rouge;1;;;;;;;;;4,5;;CO;;;;;;;182;cepage;09180;cepage;1R206S;cepage;
 inter-loire;AOC;AOC;;TRANQ;Savennières;SAV;;;;;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;141;cepage;09140;cepage;1B216S;cepage;1B216L|1B216S01|1B216L01
 inter-loire;AOC;AOC;;TRANQ;Savennières;SAV;;;Roche aux moines;RAM;Blanc;3;Chenin;CHE;;;;;;;4,5;;G;;;;;;;651;cepage;09250;cepage;1B216S02;cepage;1B216L02
 inter-loire;AOC;AOC;;TRANQ;St Nicolas de Bourgueil;STN;;;;;Rouge;1;Cabernet Franc;CBF;;;;;;;3,79;;A;;;;;;;602;cepage;09600;cepage;1R221S;cepage;
