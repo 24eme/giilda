@@ -23,8 +23,8 @@
 	</section>
 
 	<span><?php echo $nb_results; ?> résultat(s) trouvé(s) (page <?php echo $current_page; ?> sur <?php echo $last_page; ?>)</span>
-	
-	<a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', $args); ?>">Télécharger le tableur</a>
+        
+	<a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'])); ?>">Télécharger le tableur</a>
 	
 	
 	

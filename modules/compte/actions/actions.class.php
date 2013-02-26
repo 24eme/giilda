@@ -101,7 +101,16 @@ class compteActions extends sfActions
       $resset = $index->search($q);
       $this->results = $resset->getResults();
       $this->setLayout(false);
-      $this->getResponse()->setContentType('text/csv');
+      $filename = 'export';
+      
+//      $filename.=str_replace(',', '_', $this->q).'_';
+//      if(count($this->args['tags'])){
+//          $filename.= str_replace(',', '_', $this->args['tags']);
+//      }
+      
+      $attachement = "attachment; filename=".$filename.".csv";
+      $this->response->setContentType('text/csv');
+      $this->response->setHttpHeader('Content-Disposition',$attachement );
     }
 
     private function addremovetag(sfWebRequest $request, $remove = false) {
