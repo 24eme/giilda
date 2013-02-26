@@ -12,7 +12,7 @@ use_helper('Float');
        \begin{minipage}[b]{0.60\textwidth}
         \small{\textbf{Règlement : }}
         \begin{itemize}
-            \item \textbf{par virement} (merci de mentionner les n° suivants : \FactureRefClient~\FactureNumREF)
+            \item \textbf{par virement} (merci de mentionner les n° suivants : \FactureRefClient~\FactureNum)
             \item \textbf{par chèque en joignant le(s) papillon(s) ci-dessous : \\}
         \end{itemize}
         \end{minipage}
