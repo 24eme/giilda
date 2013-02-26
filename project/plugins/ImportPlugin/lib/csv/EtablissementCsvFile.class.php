@@ -44,8 +44,8 @@ class EtablissementCsvFile extends CsvFile
   const CSVCAV_CODE_DEPARTEMENT = 34;
   const CSVCAV_CODE_COMMUNE = 35;
   const CSVCAV_LIBELLE_COMMUNE = 36;
-  const CSVCAV_DRA = 40;
-  const CSVCAV_EXCLUS_RELANCE_DRM = 41;
+  const CSVCAV_DRA = 39;
+  const CSVCAV_EXCLUS_RELANCE_DRM = 40;
 
   private function verifyCsvLine($line) {
     if (!preg_match('/[0-9]+/', $line[self::CSVPAR_CODE_CLIENT])) {
