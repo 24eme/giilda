@@ -100,7 +100,7 @@ class SocieteClient extends acCouchdbClient {
     
     public function getNextCodeFournisseur() {
         $societes = SocieteExportView::getInstance()->findByInterpro('INTERPRO-inter-loire');
-        $nextCF = 1;
+        $nextCF = 0;
         foreach ($societes as $societe) {
             if($cf = $societe->value[SocieteExportView::VALUE_CODE_COMPTABLE_FOURNISSEUR]){
                 if(substr($cf, 1) > $nextCF){
