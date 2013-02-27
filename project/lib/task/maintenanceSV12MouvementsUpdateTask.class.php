@@ -61,11 +61,12 @@ EOF;
           $sv12_contrat = $sv12->contrats->{$mouvement->vrac_numero};
           if($sv12_contrat->vendeur_identifiant == $etablissement_id) {
             $mouvement->vrac_destinataire = $sv12->declarant->nom;
-
+            $mouvement->region = $vrac->vendeur->region;
           }
 
           if($sv12->identifiant == $etablissement_id) {
             $mouvement->vrac_destinataire = $sv12_contrat->vendeur_nom;
+            $mouvement->region = $vrac->acheteur->region;
           }
         }
       }
