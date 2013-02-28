@@ -169,6 +169,17 @@ class Societe extends BaseSociete {
     }
     
   
+    public function isManyEtbPrincipalActif(){
+        $cptActif = 0;
+        foreach ($this->getEtablissementsObj() as $etb) {
+            if($etb->etablissement->isSameContactThanSociete() && $etb->etablissement->isActif()){
+                $cptActif++;
+            } 
+            if($cptActif > 1) return true;
+        }
+        return false;
+    }
+    
     public function isNegoOrViti() {
         return ($this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR)
         || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
