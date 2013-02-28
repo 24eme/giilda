@@ -211,7 +211,7 @@ class Compte extends BaseCompte {
             $doc = acCouchdbManager::getClient()->find($origine);
             if($doc->type == 'Etablissement' && !$frometablissement) {
                 $doc->synchroFromCompte();
-                $doc->save($fromsociete);
+                $doc->save($fromsociete,false,$from_compte);
             }
             
             if($doc->type == 'Societe' && !$fromsociete) {

@@ -63,11 +63,9 @@ class CompteClient extends acCouchdbClient {
     public function createTypeFromOrigines($origines) {
       if (!count($origines))
 	return self::TYPE_COMPTE_INTERLOCUTEUR;
-      foreach ($origines as $o) {
-	if (preg_match('/ETABLISSEMENT/', $o)) {
+      if(count($origines)==1 && preg_match('/ETABLISSEMENT/',$origines[0])){
 	  return self::TYPE_COMPTE_ETABLISSEMENT;
 	}
-      }
       return self::TYPE_COMPTE_SOCIETE;
     }
     
