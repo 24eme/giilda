@@ -134,7 +134,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         
         $old_compte = $this->etablissement->compte;
         $switch = false;
-         if($this->values['adresse_societe'] && !is_null($this->values['statut'])
+         if($this->values['adresse_societe'] && !is_null($this->values['statut']) && !$this->etablissement->getSociete()->isManyEtbPrincipalActif()
             && ($this->values['statut'] != ($socStatut = $this->etablissement->getSociete()->statut))){
                 throw new sfException("Il s'agit de l'établissement pricipal de la société, il ne peut être suspendu. Pour le suspendre, vous devez suspendre la société.");
         }

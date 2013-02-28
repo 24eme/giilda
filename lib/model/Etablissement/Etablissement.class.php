@@ -18,13 +18,13 @@ class Etablissement extends BaseEtablissement {
 
     public function constructId() {
         $this->set('_id', 'ETABLISSEMENT-' . $this->identifiant);
-        if($this->isViticulteur()) {
+        if ($this->isViticulteur()) {
             $this->raisins_mouts = is_null($this->raisins_mouts) ? EtablissementClient::RAISINS_MOUTS_NON : $this->raisins_mouts;
             $this->exclusion_drm = is_null($this->exclusion_drm) ? EtablissementClient::EXCLUSION_DRM_NON : $this->exclusion_drm;
             $this->type_dr = is_null($this->type_dr) ? EtablissementClient::TYPE_DR_DRM : $this->type_dr;
         }
 
-        if($this->isViticulteur() || $this->isNegociant()) {
+        if ($this->isViticulteur() || $this->isNegociant()) {
             $this->relance_ds = is_null($this->relance_ds) ? EtablissementClient::RELANCE_DS_OUI : $this->relance_ds;
         }
 
@@ -32,7 +32,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function setRelanceDS($value) {
-        if(!($this->isViticulteur() || $this->isNegociant())) {
+        if (!($this->isViticulteur() || $this->isNegociant())) {
             throw new sfException("Le champs 'relance_ds' n'est valable que pour les viticulteurs ou les négociants");
         }
 
@@ -40,7 +40,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function setExclusionDRM($value) {
-        if(!($this->isViticulteur())) {
+        if (!($this->isViticulteur())) {
             throw new sfException("Le champs 'exclusion_drm' n'est valable que pour les viticulteurs");
         }
 
@@ -48,7 +48,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function setRaisinsMouts($value) {
-        if(!($this->isViticulteur())) {
+        if (!($this->isViticulteur())) {
             throw new sfException("Le champs 'raisins_mouts' n'est valable que pour les viticulteurs");
         }
 
@@ -56,7 +56,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function setTypeDR($value) {
-        if(!($this->isViticulteur())) {
+        if (!($this->isViticulteur())) {
             throw new sfException("Le champs 'type_dr' n'est valable que pour les viticulteurs");
         }
 
@@ -99,7 +99,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function isSameCoordonneeThanSociete() {
-        
+
         return $this->isSameContactThanSociete();
     }
 
@@ -235,21 +235,24 @@ class Etablissement extends BaseEtablissement {
         $compte_master = $this->getMasterCompte();
         if ($this->isSameContactThanSociete()) {
             $compte_master->addOrigine($this->_id);
+            if (($this->statut != EtablissementClient::STATUT_SUSPENDU)){
+                $compte_master->statut = $this->statut;
+            }
         } else {
             $compte_master->statut = $this->statut;
         }
         $compte_master->save(false, true);
     }
-
+    
     public function switchOrigineAndSaveCompte($old_id) {
 
-        if(!$old_id) {
+        if (!$old_id) {
             return;
         }
 
         $this->synchroFromCompte();
 
-        if($this->isSameContactThanSociete()) {
+        if ($this->isSameContactThanSociete()) {
             CompteClient::getInstance()->findAndDelete($old_id, true);
             $compte = $this->getContact();
             $compte->addOrigine($this->_id);
@@ -261,7 +264,7 @@ class Etablissement extends BaseEtablissement {
         $compte->save(false, true);
     }
 
-    public function save($fromsociete = false, $fromclient = false) {
+    public function save($fromsociete = false, $fromclient = false, $fromcompte = false) {
         $this->constructId();
         $this->synchroRecetteLocale();
         $this->initFamille();
@@ -278,7 +281,7 @@ class Etablissement extends BaseEtablissement {
             }
         }
 
-        if($this->isViticulteur() && $this->type_dr == EtablissementClient::TYPE_DR_DRA) {
+        if ($this->isViticulteur() && $this->type_dr == EtablissementClient::TYPE_DR_DRA) {
             $this->exclusion_drm = EtablissementClient::EXCLUSION_DRM_OUI;
         }
 
@@ -286,6 +289,8 @@ class Etablissement extends BaseEtablissement {
 
         if (!$fromsociete) {
             $this->synchroAndSaveSociete();
+        }
+        if (!$fromcompte) {
             $this->synchroAndSaveCompte();
         }
     }
