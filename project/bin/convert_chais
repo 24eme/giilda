@@ -38,7 +38,7 @@ done
 sed 's/^/10;/' etablissements.csv > etablissements.csv.tmp ; mv  etablissements.csv.tmp etablissements.csv
 sed 's/^/10;/' tmp/etablissement.csv > tmp/etablissement.csv.tmp ; mv  tmp/etablissement.csv.tmp tmp/etablissement.csv
 
-for csv in cimvscav.csv cimvsdiv.csv cicestrf.csv cicav.viti.csv cicon.csv cieag.csv cieds.csv ciedn.csv ciefc.csv ciefcrec.csv cifonct.csv cilag.csv cimvs.csv cistk.csv tmp/cipar.utf8.csv etablissements.csv tmp/etablissement.csv; do
+for csv in cimvscav.csv cieso.csv cilso.csv cimvsdiv.csv cicestrf.csv cicav.viti.csv cicon.csv cieag.csv cieds.csv ciedn.csv ciefc.csv ciefcrec.csv cifonct.csv cilag.csv cimvs.csv cistk.csv tmp/cipar.utf8.csv etablissements.csv tmp/etablissement.csv; do
     sed -f /tmp/sed.cmd $csv > $csv.tmp
     rm $csv
     mv $csv.tmp $csv
