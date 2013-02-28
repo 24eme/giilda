@@ -168,15 +168,18 @@ class Societe extends BaseSociete {
         return $this->getMasterCompte();
     }
     
-//    public function setCodesComptables($is_codes) {
-//        if(in_array(SocieteClient::NUMEROCOMPTE_TYPE_CLIENT, $is_codes))
-//                $this->code_comptable_client = '02'.$this->identifiant;        
-//        if(in_array(SocieteClient::NUMEROCOMPTE_TYPE_FOURNISSEUR, $is_codes))
-//                $this->code_comptable_fournisseur = '04'.$this->identifiant;
-//        else
-//            $this->code_comptable_fournisseur = null;
-//    }
-//    
+  
+    public function isManyEtbPrincipalActif(){
+        $cptActif = 0;
+        foreach ($this->getEtablissementsObj() as $etb) {
+            if($etb->etablissement->isSameContactThanSociete() && $etb->etablissement->isActif()){
+                $cptActif++;
+            } 
+            if($cptActif > 1) return true;
+        }
+        return false;
+    }
+    
     public function isNegoOrViti() {
         return ($this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR)
         || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);

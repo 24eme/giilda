@@ -98,6 +98,20 @@ class SocieteClient extends acCouchdbClient {
         return $id;
     }
     
+    public function getNextCodeFournisseur() {
+        $societes = SocieteExportView::getInstance()->findByInterpro('INTERPRO-inter-loire');
+        $nextCF = 0;
+        foreach ($societes as $societe) {
+            if($cf = $societe->value[SocieteExportView::VALUE_CODE_COMPTABLE_FOURNISSEUR]){
+                if(substr($cf, 1) > $nextCF){
+                    $nextCF = substr($cf, 1);
+                }
+            }
+        }
+        return 'F'.sprintf("%1$07d",((double) ($nextCF+1)));
+    }
+    
+    
     public function getSocietesIdentifiants($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return $this->startkey('SOCIETE-800000')->endkey('SOCIETE-999999')->execute($hydrate);
     }
