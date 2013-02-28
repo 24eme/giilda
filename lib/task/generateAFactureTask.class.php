@@ -37,6 +37,7 @@ EOF;
     $facture = FactureClient::getInstance()->find($arguments['factureid']);
     $latex = new FactureLatex($facture, $this->config);
     $file = $latex->getPDFFile();
-    copy($file, $options['directory'].'/'.$latex->getPublicFileName()) or die("pb rename $file ".$options['directory']);
+    $destdir = $options['directory'].'/'.$latex->getPublicFileName();
+    copy($file, $destdir) or die("pb rename $file $destdir");
   }
 }
