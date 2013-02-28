@@ -246,11 +246,11 @@ class Etablissement extends BaseEtablissement {
     
     public function switchOrigineAndSaveCompte($old_id) {
 
+        $this->synchroFromCompte();
+        
         if (!$old_id) {
             return;
-        }
-
-        $this->synchroFromCompte();
+        }        
 
         if ($this->isSameContactThanSociete()) {
             CompteClient::getInstance()->findAndDelete($old_id, true);
