@@ -10,3 +10,4 @@ COUCHBASE=vinsdeloire
 ELASTHOST=localhost
 ELASTPORT=9200
 ELASTBASE=vinsdeloire
+PDFDIR=data/archive/
