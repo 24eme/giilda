@@ -12,6 +12,7 @@ class AlerteClient extends acCouchdbClient {
     const SV12_MANQUANTE = "SV12_MANQUANTE";
     const DS_NON_VALIDEE = "DS_NON_VALIDEE";
     const ECART_DS_DRM_JUILLET = "ECART_DS_DRM_JUILLET";
+    const ECART_DS_DRM_AOUT = "ECART_DS_DRM_AOUT";
     
     
     public static $alertes_libelles = array(self::VRAC_NON_SOLDES => "Contrat non soldé",
@@ -23,7 +24,8 @@ class AlerteClient extends acCouchdbClient {
                                             self::SV12_SANS_VRAC => 'SV12 dont le contrat est absent',
                                             self::SV12_MANQUANTE => 'SV12 absente',
                                             self::DS_NON_VALIDEE => 'DS non validée intégralement',
-                                            self::ECART_DS_DRM_JUILLET => 'Ecart entre ds et drm de juillet');
+                                            self::ECART_DS_DRM_JUILLET => 'Ecart entre ds et drm de juillet',
+                                            self::ECART_DS_DRM_AOUT => 'Ecart entre ds et drm d\'aout');
     
     const STATUT_NOUVEAU = 'NOUVEAU';    
     const STATUT_EN_ATTENTE_REPONSE = 'EN_ATTENTE_REPONSE';
