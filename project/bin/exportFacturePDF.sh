@@ -10,3 +10,9 @@ do
 	mkdir -p $FACTUREDIR 2> /dev/null;
 	php symfony generate:AFacture --directory=$FACTUREDIR $facture ; 
 done
+
+if test $SAMB_FACTURELOCALDIR; then
+    mount $SAMBA_FACTURELOCALDIR
+    rsync -a $FACTUREDIR $SAMBA_FACTURELOCALDIR
+    umount $SAMBA_FACTURELOCALDIR
+fi
