@@ -15,7 +15,6 @@ abstract class AlerteGenerationDS extends AlerteGeneration {
     
     protected function createOrFindByDS($ds) {
         $alerte = $this->createOrFind($ds->_id);
-        
         $alerte->identifiant = $ds->identifiant;
         $alerte->campagne = $ds->campagne;
         $alerte->region = $ds->declarant->region;
