@@ -39,7 +39,7 @@ class ConfigurationCouleur extends BaseConfigurationCouleur {
     }
     
   	public function hasDepartements() {
-  		return true;
+  		return false;
   	}
   	public function hasDroits() {
   		return true;
@@ -48,7 +48,7 @@ class ConfigurationCouleur extends BaseConfigurationCouleur {
   		return false;
   	}
   	public function hasDetails() {
-  		return true;
+  		return false;
   	}
   	public function getTypeNoeud() {
   		return self::TYPE_NOEUD;

@@ -8,6 +8,9 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	
 	const CODE_CVO = 'CVO';
 	const LIBELLE_CVO = 'Cvo';
+
+	const DROIT_CVO = 'cvo';
+	const DROIT_DOUANE = 'douane';
 	
 	public function addDroit($date, $taux, $code, $libelle) {
 	  $value = $this->add();
@@ -37,7 +40,7 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	  }
 
 	  try {
-	    $parent = $this->getInterpro()->getParent()->getParent()->getParentNode();
+	    $parent = $this->getNoeud()->getParentNode();
 	    return $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo);
 	  } catch (sfException $e) {
 	    throw new sfException('Aucun droit spécifié pour '.$this->getHash());
@@ -46,6 +49,11 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	
 	public function getInterpro() {
 		return $this->getParent()->getParent();
+	}
+
+	public function getNoeud() {
+
+		return $this->getInterpro()->getParent()->getParent();
 	}
 
 }

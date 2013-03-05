@@ -87,18 +87,6 @@ class ConfigurationLieu extends BaseConfigurationLieu {
     	$this->setDepartementCsv($datas);
     }
     
-  	public function hasDepartements() {
-  		return true;
-  	}
-  	public function hasDroits() {
-  		return true;
-  	}
-  	public function hasLabels() {
-  		return false;
-  	}
-  	public function hasDetails() {
-  		return true;
-  	}
   	public function getTypeNoeud() {
   		return self::TYPE_NOEUD;
   	}

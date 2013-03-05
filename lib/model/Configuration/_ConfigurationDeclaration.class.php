@@ -56,14 +56,14 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 		return $this->codes;
 	}
         
-        public function getProduitsHashByCodeDouane($interpro) {
-            $produits = array();
-            foreach($this->getChildrenNode() as $key => $item) {
-                $produits = array_merge($item->getProduitsHashByCodeDouane($interpro),$produits);
-            }
+  public function getProduitsHashByCodeDouane($interpro) {
+      $produits = array();
+      foreach($this->getChildrenNode() as $key => $item) {
+          $produits = array_merge($item->getProduitsHashByCodeDouane($interpro),$produits);
+      }
 
-            return $produits;
-        }
+      return $produits;
+  }
         
   public function getCodeDouane() {
     if (!$this->_get('code_douane')) {
@@ -236,10 +236,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
       }      
     }
 
-  	public abstract function hasDepartements();
- 	  public abstract function hasDroits();
-  	public abstract function hasLabels();
-  	public abstract function hasDetails();
   	public abstract function getTypeNoeud();
 
   	public function getDetailConfiguration() {
@@ -262,4 +258,68 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
   		}
   		return $details;
   	}
+
+    public function getProduitsWithoutView() {
+      $produits = array();
+      foreach($this->getChildrenNode() as $key => $item) {
+          $produits = array_merge($produits, $item->getProduitsWithoutView());
+      }
+
+      return $produits;
+    }
+
+    public function getLibelleByKeys($noeud) {
+      if($noeud == $this->getTypeNoeud()) {
+
+        return array($this->getKey() => sprintf("%s (%s)", $this->getLibelle(), $this->getKey()));
+      }
+
+      $libelles = array();
+      foreach($this->getChildrenNode() as $key => $item) {
+          $libelles = array_merge($libelles, $item->getLibelleByKeys($noeud));
+      }
+
+      return $libelles;
+    }
+
+    public function addInterpro($interpro) 
+    {
+      if ($this->exist('interpro')) {
+        $this->interpro->getOrAdd($interpro);
+      }
+      return $this->getParentNode()->addInterpro($interpro);
+    }
+
+    public function hasDepartements() {
+        return false;
+    }
+
+    public function hasDroits() {
+        return true;
+    }
+
+    public function hasLabels() {
+        return false;
+    }
+
+    public function hasDetails() {
+        return false;
+    }
+
+    public function hasDroit($type) {
+      if(!$this->hasDroits()) {
+
+        return false;
+      }
+      
+      if($type == ConfigurationDroits::DROIT_CVO){
+        return true;
+      }
+
+      return false;
+    }
+
+    public function hasCodes() {
+        return false;
+    }
 }

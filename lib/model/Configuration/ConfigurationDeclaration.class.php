@@ -32,23 +32,8 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
     public function setDonneesCsv($datas) {
         
     }
-
-    public function hasDepartements() {
-
-        return false;
-    }
-
+    
     public function hasDroits() {
-
-        return false;
-    }
-
-    public function hasLabels() {
-
-        return false;
-    }
-
-    public function hasDetails() {
 
         return false;
     }

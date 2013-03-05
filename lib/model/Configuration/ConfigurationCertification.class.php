@@ -96,28 +96,6 @@ class ConfigurationCertification extends BaseConfigurationCertification {
     	$this->setDroitDouaneCsv($datas, ProduitCsvFile::CSV_PRODUIT_CATEGORIE_CODE_APPLICATIF_DROIT);
     	$this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_CATEGORIE_CODE_APPLICATIF_DROIT);
     }
-    
-  	public function hasDepartements() {
-  		
-  		return true;
-  	}
-  	public function hasDroits() {
-
-  		return true;
-  	}
-  	public function hasLabels() {
-
-  		return true;
-  	}
-  	public function hasDetails() {
-
-  		return true;
-  	}
-	
-  	public function getTypeNoeud() {
-
-  		return self::TYPE_NOEUD;
-  	}
   	
   	public function hasUniqProduit($interpro) {
   		if ($interpros = $this->get('interpro')) {
@@ -151,5 +129,15 @@ class ConfigurationCertification extends BaseConfigurationCertification {
 
   		return ($total > 0);
   	}
+
+    public function addInterpro($interpro) 
+    {
+      return null;  
+    }
+
+    public function getTypeNoeud() {
+        
+        return self::TYPE_NOEUD;
+    }
 
 }

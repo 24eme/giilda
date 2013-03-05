@@ -30,7 +30,6 @@ class ConfigurationAppellation extends BaseConfigurationAppellation {
       return 'Total';
     }
     
-    
     public function setDonneesCsv($datas) {
       parent::setDonneesCsv($datas);
     	$this->getGenre()->setDonneesCsv($datas);
@@ -43,19 +42,6 @@ class ConfigurationAppellation extends BaseConfigurationAppellation {
         
     }
     
-  	public function hasDepartements() {
-  		return true;
-  	}
-  	public function hasDroits() {
-  		return true;
-  	}
-  	public function hasLabels() {
-  		return true;
-  	}
-  	public function hasDetails() {
-  		return true;
-  	}
-	
   	public function getTypeNoeud() {
   		return self::TYPE_NOEUD;
   	}

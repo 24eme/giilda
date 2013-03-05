@@ -43,6 +43,11 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         return $this;
     }
 
+    public function getProduitsWithoutView() {
+        
+        return array($this->getHash() => $this);
+    }
+
     public function getCouleur() {
         return $this->getParentNode();
     }
@@ -59,24 +64,25 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         $this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE] : null;
     }
 
-    public function hasDepartements() {
-        return false;
+    public function getTypeNoeud() {
+        
+        return self::TYPE_NOEUD;
+    }
+
+    public function addInterpro($interpro) 
+    {
+        
+        return $this->getParentNode()->addInterpro($interpro);
     }
 
     public function hasDroits() {
+        
         return false;
     }
 
-    public function hasLabels() {
-        return false;
-    }
-
-    public function hasDetails() {
-        return false;
-    }
-
-    public function getTypeNoeud() {
-        return self::TYPE_NOEUD;
+    public function hasCodes() {
+        
+        return true;
     }
 
 }

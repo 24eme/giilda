@@ -35,7 +35,7 @@ class ConfigurationClient extends acCouchdbClient {
 	* @return Current
 	*/
 	public function retrieveCurrent() {
-	  	$configuration = parent::retrieveDocumentById('CONFIGURATION');
+	  	$configuration = $this->find('CONFIGURATION');
 	  	if (!sfConfig::get('sf_debug')) {
 	    	$configuration->loadAllData();
 	  	}
