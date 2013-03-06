@@ -1642,6 +1642,9 @@ bouton#contenu_etape #recherche_societe #btn_rechercher { height:26px; }
 #rail_etapes li.passe > *:after { background-position:0 -94px; }
 #rail_etapes li strong { font-weight:normal; }
 .facturable { font-weight:bold; }
+#global_content.no_right_col aside#colonne { display:none; }
+#global_content.no_right_col #contenu { background:#ffffff; }
+#global_content.no_right_col #principal { width:auto; }
 .type_raisins, .type_mouts, .type_vin_vrac, .type_vin_bouteille {
   height:1px;
   overflow:hidden;

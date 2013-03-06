@@ -71,7 +71,7 @@ EOF;
         }
       }
 
-      SV12Client::getInstance()->storeDoc($sv12);
+      $sv12->save();
       } catch (Exception $e) {
         echo sprintf("%s : %s\n", $e->getMessage(), $row->id);
         sleep(4);
