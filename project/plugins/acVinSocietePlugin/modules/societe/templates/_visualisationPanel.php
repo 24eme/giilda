@@ -13,13 +13,14 @@ use_helper('Date');
             </label>
             <?php echo $societe->raison_sociale; ?>
         </div>
+        <?php if($societe->date_creation) : ?>
          <div class="form_ligne">
             <label for="date_creation">
                 Date de création : 
             </label>
             <?php echo format_date($societe->date_creation,'dd/MM/yyyy'); ?>
         </div>
-        
+        <?php endif; ?>   
         <div class="form_ligne">
             <label for="date_modification">
                 Dernière date de modification : 
