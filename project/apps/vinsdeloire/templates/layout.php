@@ -35,7 +35,7 @@
             if ($sf_user->hasFlash('global_error'))
                 echo '<div style="margin-bottom: 20px;margin-left: auto; margin-right: auto; width: 700px;" class="global_error"><p><span>' . $sf_user->getFlash('global_error') . "</span></p></div>";
             ?>
-            <div id="global_content">
+            <div id="global_content" class="<?php include_slot('global_css_class', null) ?>">
                 <div id="contenu">
                     <?php echo $sf_content ?>
                     <aside id="colonne">
