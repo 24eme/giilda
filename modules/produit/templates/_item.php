@@ -36,7 +36,7 @@
 	</td>
 	<td class="center">
 		<a href="<?php echo url_for('produit_modification', array('noeud' => $produit->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>">
-			<?php echo ($produit->getCodeDouane()) ? $produit->getCodeDouane() : "(Aucun)" ?>
+			<?php echo ($produit->getCodeComptable()) ? $produit->getCodeComptable() : "(Aucun)" ?>
 		</a>
 	</td>
 </tr>
