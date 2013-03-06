@@ -10,8 +10,10 @@ class produitComponents extends sfComponents {
         } catch (Exception $e) {
             $this->cvo = null;
         }
+    }
 
-        
+    public function executeIndex() {
+        $this->produits = ConfigurationClient::getCurrent()->declaration->getProduitsWithoutView();
     }
 
 }

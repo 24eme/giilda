@@ -17,9 +17,10 @@ class produitActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-  	//$this->interpro = $this->getUser()->getCompte()->getGerantInterpro();
-	  $this->produits = ConfigurationClient::getCurrent()->declaration->getProduitsWithoutView();
+    $config_json = ConfigurationClient::getInstance()->findCurrent(acCouchdbClient::HYDRATE_JSON);
+    $this->rev = $config_json->_rev;
   }
+
   public function executeModification(sfWebRequest $request)
   {
   	$this->forward404Unless($request_noeud = $request->getParameter('noeud', null));
@@ -34,7 +35,7 @@ class produitActions extends sfActions
   	if ($request->isMethod(sfWebRequest::POST)) {
       $this->form->bind($request->getParameter($this->form->getName()));
   		if ($this->form->isValid()) {
-  			$this->form->save();
+        $this->form->save();
   			$this->getUser()->setFlash("notice", 'Le produit a été modifié avec success.');
 
         return $this->redirectModification($this->produit->getHash(), explode("|", $request->getParameter('noeud_to_edit', array())));

@@ -11,35 +11,67 @@ class Configuration extends BaseConfiguration {
   
     protected $produits_libelle = null;
     protected $produits_code = null;
+    protected $produits = null;
+    protected $format_produits = null;
+
+    public function loadAllData() {
+      parent::loadAllData();
+      $this->loadProduits();
+    }
+
+    protected function loadProduits() {
+      $this->getProduits();
+      $this->getProduitsLibelles();
+      $this->getProduitLibelleByHash();
+      $this->getProduitCodeByHash();
+    }
 
     public function constructId() {
         $this->set('_id', "CONFIGURATION");
     }
 
     public function getProduits() {
-      	
-      	return ConfigurationProduitsView::getInstance()->findProduits()->rows;
+        if(is_null($this->produits)) {
+          $this->produits = ConfigurationProduitsView::getInstance()->findProduits()->rows;
+        }
+
+      	return $this->produits;
     }
 
     public function formatProduits($format = "%g% %a% %m% %l% %co% %ce% (%code_produit%)") {
+      if(is_null($this->format_produits)) {
+        $this->format_produits = ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits(), $format);
+      }
+    	
+      return $this->format_produits;
+    }
 
-    	return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits(), $format);
+    public function getProduitsLibelles() {
+      if(is_null($this->produits_libelle)) {
+        $this->produits_libelle = ConfigurationProduitsView::getInstance()->getProduitsLibelles();
+      }
+
+      return $this->produits_libelle;
     }
 
     public function getProduitLibelleByHash($hash) {
-    	if(is_null($this->produits_libelle)) {
-    		$this->produits_libelle = ConfigurationProduitsView::getInstance()->getProduitsLibelles();
-    	}
+    	$produits_libelle = $this->getProduitsLibelles();
 
-    	return (array_key_exists($hash, $this->produits_libelle)) ? $this->produits_libelle[$hash] : null;
+    	return (array_key_exists($hash, $produits_libelle)) ? $produits_libelle[$hash] : null;
+    }
+
+    public function getProduitsCodes() {
+      if(is_null($this->produits_code)) {
+        $this->produits_code = ConfigurationProduitsView::getInstance()->getProduitsCodes();
+      }
+
+      return $this->produits_code;
     }
 
     public function getProduitCodeByHash($hash) {
-    	if(is_null($this->produits_code)) {
-    		$this->produits_code = ConfigurationProduitsView::getInstance()->getProduitsCodes();
-    	}
+      $produits_code = $this->getProduitsCodes();
 
-    	return (array_key_exists($hash, $this->produits_code)) ? $this->produits_code[$hash] : null;
+      return (array_key_exists($hash, $produits_code)) ? $produits_code[$hash] : null;
     }
 
     private static function normalizeLibelle($libelle) {
@@ -164,5 +196,14 @@ class Configuration extends BaseConfiguration {
             $this->alias->add($hashProduitKey,array());
         $pos = count($this->alias->get($hashProduitKey));
         $this->alias->get($hashProduitKey)->add($pos,$alias);
+    }
+
+    public function save() {
+        parent::save();
+        ConfigurationClient::getInstance()->cacheResetCurrent();
+    }
+
+    public function prepareCache() {
+      $this->loadAllData();
     }
 }

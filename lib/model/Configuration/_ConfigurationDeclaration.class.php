@@ -8,9 +8,11 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
 	protected $libelles = null;
 	protected $codes = null;
+  protected $produits_without_view = null;
 
 	protected function loadAllData() {
 		parent::loadAllData();
+    $this->getProduitsWithoutView();
   }
 
   abstract public function getChildrenNode();
@@ -265,12 +267,14 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
   	}
 
     public function getProduitsWithoutView() {
-      $produits = array();
-      foreach($this->getChildrenNode() as $key => $item) {
-          $produits = array_merge($produits, $item->getProduitsWithoutView());
+      if(is_null($this->produits_without_view)) {
+        $this->produits_without_view = array();
+        foreach($this->getChildrenNode() as $key => $item) {
+            $this->produits_without_view = array_merge($this->produits_without_view, $item->getProduitsWithoutView());
+        }
       }
 
-      return $produits;
+      return $this->produits_without_view;
     }
 
     public function getKeys($noeud) {

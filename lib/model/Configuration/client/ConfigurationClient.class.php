@@ -18,30 +18,39 @@ class ConfigurationClient extends acCouchdbClient {
 	  	return acCouchdbManager::getClient("CONFIGURATION");
 	}
 
+    public function findCurrent($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+
+        return $configuration = $this->find('CONFIGURATION', $hydrate);
+    }
+
 	/**
 	*
 	* @return Current 
 	*/
 	public static function getCurrent() {
 		if (self::$current == null) {
-		  self::$current = CacheFunction::cache('model', array(ConfigurationClient::getInstance(), 'retrieveCurrent'), array());
+            self::$current = self::getInstance()->cacheGetCurrent();
 		}
 
 		return self::$current;
 	}
   
-	/**
-	*
-	* @return Current
-	*/
-	public function retrieveCurrent() {
-	  	$configuration = $this->find('CONFIGURATION');
-	  	if (!sfConfig::get('sf_debug')) {
-	    	$configuration->loadAllData();
-	  	}
-
+	public function findCurrentForCache() {
+	  	$configuration = $this->findCurrent();
+        if(!sfConfig::get('sf_debug')) {
+            $configuration->prepareCache();
+        }
 		return $configuration;
 	}
+
+    public function cacheGetCurrent() {
+        
+        return CacheFunction::cache('model_configuration', array(ConfigurationClient::getInstance(), 'findCurrentForCache'), array());
+    }
+
+    public function cacheResetCurrent() {
+        CacheFunction::remove('model_configuration');
+    }
   
     public function findProduitsForAdmin($interpro) {
         return $this->startkey(array($interpro))

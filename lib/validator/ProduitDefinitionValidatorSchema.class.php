@@ -32,7 +32,7 @@ class ProduitDefinitionValidatorSchema extends sfValidatorSchema
   	if (isset($values['droit_douane'])) {
 	    foreach($values['droit_douane'] as $key => $value)
 	    {
-	      if (!$value['date'] && !$value['code'] && !$value['taux'])
+	      if (!$value['date'] && !$value['taux'])
 	      {
 	        unset($values['droit_douane'][$key]);
 	      }
@@ -41,7 +41,7 @@ class ProduitDefinitionValidatorSchema extends sfValidatorSchema
   	if (isset($values['droit_cvo'])) {
 	    foreach($values['droit_cvo'] as $key => $value)
 	    {
-	      if (!$value['date'] && !$value['code'] && !$value['taux'])
+	      if (!$value['date'] && !$value['taux'])
 	      {
 	        unset($values['droit_cvo'][$key]);
 	      }
