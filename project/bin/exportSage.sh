@@ -2,7 +2,7 @@
 
 . bin/config.inc
 
-if test "$SAMBA_IP" && test "$SAMBA_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_SAGESUBDIR" && test "$SAMBSAGEFILE"; then
+if test "$SAMBA_IP" && test "$SAMBA_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_SAGESUBDIR" && test "$SAMBA_SAGEFILE"; then
     cd $TMP
     smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; get $SAMBA_SAGEFILE"
     cd -
@@ -26,7 +26,7 @@ cat $TMP/factures.sage | iconv -f UTF8 -t ISO8859-1 | sed 's/$/\r/' >> $TMP/$VIN
 echo "#FIN" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 
 
-if test "$SAMBA_IP" && test "$SAMBA_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_SAGESUBDIR" && test "$SAMBSAGEFILE"; then
+if test "$SAMBA_IP" && test "$SAMBA_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_SAGESUBDIR"; then
     cd $TMP
     smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; put $VINSIEXPORT"
     cd -
