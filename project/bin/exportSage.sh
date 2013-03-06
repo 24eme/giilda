@@ -17,7 +17,7 @@ cat $TMP/societesWithSageData.csv | perl bin/convertExportSociete2SAGE.pl > $TMP
 php symfony export:facture > $TMP/factures.csv
 cat $TMP/factures.csv | perl bin/convertExportFacture2SAGE.pl > $TMP/factures.sage
 
-VINSIEXPORT=vinsi.export.sage.txt
+VINSIEXPORT=VinsiClientsSage.txt
 echo  "#FLG 001" | sed 's/$/\r/' > $TMP/$VINSIEXPORT
 echo "#VER 14" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 echo "#DEV EUR" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
