@@ -183,8 +183,12 @@ while(<STDIN>) {
 	print "0\n";
 	print "livraison partielle : " if ($verbose);
 	print "0\n";
-	print "intitulé modèle de règlement : " if ($verbose);
-	print "Cheque a 60 Jours Net\n";
+	print "intitulé modèle de règlement (calculé depuis l'EXPORT SAGE): " if ($verbose);
+	if ($field[23] || $field[24] || $field[25] || $field[26]) {
+	    print "Virement\n";
+	}else{
+	    print "Cheque a 60 Jours Net\n";
+	}
 	print "non soumis à pénalités de retard (EXPORT SAGE) : " if ($verbose);
 	print $field[22]."\n";
 	print "code banque élément banque : " if ($verbose);
@@ -224,5 +228,31 @@ while(<STDIN>) {
 	    print "41100000\n";
 	}else{
 	    print "40100000\n";
+	}
+	if ($field[23] || $field[24] || $field[25] || $field[26]) {
+	    print "Balise Règlement : " if ($verbose);
+	    print "#MRLT\n";
+	    print "Numéro règlement : " if ($verbose);
+	    print $field[23]."\n";
+	    print "Condition : " if ($verbose);
+	    print $field[24]."\n";
+	    print "Nombre de jours : " if ($verbose);
+	    print $field[25]."\n";
+	    print "Jours tombés 1/6 (EXPORT SAGE) : " if ($verbose);
+	    print $field[26]."\n";
+	    print "Jours tombés 2/6 : " if ($verbose);
+	    print "0\n";
+	    print "Jours tombés 3/6 : " if ($verbose);
+	    print "0\n";
+	    print "Jours tombés 4/6 : " if ($verbose);
+	    print "0\n";
+	    print "Jours tombés 5/6 : " if ($verbose);
+	    print "0\n";
+	    print "Jours tombés 6/6 : " if ($verbose);
+	    print "0\n";
+	    print "Type répartition : " if ($verbose);
+	    print "1\n";
+	    print "Valeur répartition : " if ($verbose);
+	    print "0.00\n";
 	}
 }
