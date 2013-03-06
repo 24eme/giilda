@@ -1,35 +1,41 @@
-<form id="form_ajout" action="<?php echo url_for('produit_modification', array('noeud' => $form->getObject()->getTypeNoeud(), 'hash' => str_replace('/', '-', $form->getHash()))) ?>" method="post">
+<form id="form_ajout" action="<?php echo url_for('produit_modification', array('noeud' => $form->getObject()->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>" method="post">
 	<?php echo $form->renderGlobalErrors() ?>
 	<?php echo $form->renderHiddenFields() ?>
-    <div class="form_ligne ">
+    <div class="ligne_form">
         <?php if($form['libelle']->hasError()) {?><span class="error"><?php echo $form['libelle']->renderError() ?></span><?php } ?>
         <?php echo $form['libelle']->renderLabel() ?>
         <?php echo $form['libelle']->render() ?>
     </div>
-    <div class="form_ligne">
+    <div class="ligne_form">
         <?php if($form['key']->hasError()){ ?><span class="error"><?php echo $form['key']->renderError() ?></span><?php } ?>
         <?php echo $form['key']->renderLabel() ?>
         <?php echo $form['key']->render() ?>
         <span style="color: #999999"><?php echo $form['key']->renderHelp() ?></span>
     </div>
-    <div class="form_ligne">
+    <div class="ligne_form">
         <?php if($form['code']->hasError()){ ?><span class="error"><?php echo $form['code']->renderError() ?></span><?php } ?>
         <?php echo $form['code']->renderLabel() ?>
         <?php echo $form['code']->render() ?>
         <span style="color: #999999"><?php echo $form['code']->renderHelp() ?></span>
     </div>
+    <?php if ($form->getObject()->exist('densite')): ?>
+        <?php if($form['densite']->hasError()){ ?><span class="error"><?php echo $form['densite']->renderError() ?></span><?php } ?>
+        <?php echo $form['densite']->renderLabel() ?>
+        <?php echo $form['densite']->render() ?>
+        <span style="color: #999999"><?php echo $form['densite']->renderHelp() ?></span>
+    <?php endif; ?>
     <?php if ($form->getObject()->hasCodes()): ?>
-        <div class="form_ligne ">
+        <div class="ligne_form">
             <?php if($form['code_produit']->hasError()) {?><span class="error"><?php echo $form['code_produit']->renderError() ?></span><?php } ?>
             <?php echo $form['code_produit']->renderLabel() ?>
             <?php echo $form['code_produit']->render() ?>
         </div>
-        <div class="form_ligne">
+        <div class="ligne_form">
             <?php if($form['code_douane']->hasError()){ ?><span class="error"><?php echo $form['code_douane']->renderError() ?></span><?php } ?>
             <?php echo $form['code_douane']->renderLabel() ?>
             <?php echo $form['code_douane']->render() ?>
         </div>
-        <div class="form_ligne">
+        <div class="ligne_form">
             <?php if($form['code_comptable']->hasError()){ ?><span class="error"><?php echo $form['code_comptable']->renderError() ?></span><?php } ?>
             <?php echo $form['code_comptable']->renderLabel() ?>
             <?php echo $form['code_comptable']->render() ?>
@@ -62,7 +68,6 @@
 		<?php foreach ($form['droit_cvo'] as $subform): ?>
 		  <?php include_partial('produit/subformDroits', array('form' => $subform))?>
 		<?php endforeach; ?>
-            <a href="javascript:void(0)" class="btn_majeur btn_orange">Ajouter une ligne</a>
 	    </div>
         <input class="counteur" type="hidden" name="nb_cvo" value="<?php echo count($form['droit_cvo']) ?>" />
     <?php endif; ?>
@@ -81,7 +86,7 @@
 		<div id="formsDetails">
 			<?php foreach ($form['detail'] as $detail): ?>
 			<?php foreach ($detail as $type): ?>
-			<div class="form_ligne">
+			<div class="ligne_form">
 				<?php if($type['readable']->hasError()){ ?><span class="error"><?php echo $type['readable']->renderError() ?></span><?php } ?>				<?php echo $type['readable']->renderLabel() ?>
 				<?php echo $type['readable']->render() ?>
 				<?php echo $type['writable']->render() ?>
@@ -91,9 +96,9 @@
 			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
-	<div class="form_ligne_btn">
+	<div class="form_ligne_btn" style="margin-top:20px;">
 		<a name="annuler" class="btn_majeur btn_annuler" href="<?php echo url_for('produits') ?>">Annuler</a>
-		<button name="valider" class="btn_majeur btn_valider" type="submit">Valider</button>
+		<button style="float: right;" name="valider" class="btn_majeur btn_valider" type="submit">Valider</button>
 	</div>
 </form>
 <?php 

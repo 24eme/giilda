@@ -7,6 +7,7 @@
 class Configuration extends BaseConfiguration {
 
     const DEFAULT_KEY = 'DEFAUT';
+    const DEFAULT_DENSITE = "1.3";
   
     protected $produits_libelle = null;
     protected $produits_code = null;

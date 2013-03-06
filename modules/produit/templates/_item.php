@@ -1,24 +1,24 @@
 <tr>
 	<td>
-		<?php include_partial('itemNoeud', array('noeud' => $produit->getCertification(), 'cvo' => $cvo)) ?>
+		<?php include_partial('itemNoeud', array('produit' => $produit, 'noeud' => $produit->getCertification(), 'cvo' => $cvo)) ?>
 	</td>
 	<td>
-		<?php include_partial('itemNoeud', array('noeud' => $produit->getGenre(), 'cvo' => $cvo)) ?>
+		<?php include_partial('itemNoeud', array('produit' => $produit, 'noeud' => $produit->getGenre(), 'cvo' => $cvo)) ?>
 	</td>
 	<td>
-		<?php include_partial('itemNoeud', array('noeud' => $produit->getAppellation(), 'cvo' => $cvo)) ?>
+		<?php include_partial('itemNoeud', array('produit' => $produit, 'noeud' => $produit->getAppellation(), 'cvo' => $cvo)) ?>
 	</td>
 	<td>
-		<?php include_partial('itemNoeud', array('noeud' => $produit->getMention(), 'cvo' => $cvo)) ?>
+		<?php include_partial('itemNoeud', array('produit' => $produit, 'noeud' => $produit->getMention(), 'cvo' => $cvo)) ?>
 	</td>
 	<td>
-		<?php include_partial('itemNoeud', array('noeud' => $produit->getLieu(), 'cvo' => $cvo)) ?>
+		<?php include_partial('itemNoeud', array('produit' => $produit, 'noeud' => $produit->getLieu(), 'cvo' => $cvo)) ?>
 	</td>
 	<td>
-		<?php include_partial('itemNoeud', array('noeud' => $produit->getCouleur(), 'cvo' => $cvo)) ?>
+		<?php include_partial('itemNoeud', array('produit' => $produit, 'noeud' => $produit->getCouleur(), 'cvo' => $cvo)) ?>
 	</td>
 	<td>
-		<?php include_partial('itemNoeud', array('noeud' => $produit->getCepage(), 'cvo' => $cvo)) ?>
+		<?php include_partial('itemNoeud', array('produit' => $produit, 'noeud' => $produit->getCepage(), 'cvo' => $cvo)) ?>
 	</td>
 	<td class="center">
 		<strong><?php echo (!is_null($cvo)) ? $cvo->taux : null ?></strong>

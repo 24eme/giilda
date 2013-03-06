@@ -1,12 +1,10 @@
 <?php
 class ProduitDefinitionForm extends acCouchdbObjectForm {
-	
-	public $hash = null;
 
     public function configure() {
     	$this->setWidgets(array(
 			'libelle' => new sfWidgetFormInputText(),
-            'key' => new sfWidgetFormInputText(),
+            'key' => ProduitNouveauForm::getWidgetKey($this->getObject()->getTypeNoeud()),
             'code' => new sfWidgetFormInputText(),
     	));
 		$this->widgetSchema->setLabels(array(
@@ -16,12 +14,12 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
 		));
 		$this->setValidators(array(
 			'libelle' => new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')),
-            'key' => new sfValidatorString(array('required' => ($this->getObject()->getTypeNoeud() == ConfigurationCouleur::TYPE_NOEUD)), array('required' => 'Champ obligatoire')),
+            'key' => ProduitNouveauForm::getValidatorKey($this->getObject()->getTypeNoeud()),
 			'code' => new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')),
 		));
 
         $this->widgetSchema->setHelp('key', "/!\ Cette clé est utilisée pour construire l'arbre, elle a donc un impacte sur le hash produit");
-        $this->widgetSchema->setHelp('code', "Ce code est pour inter-loire (en général identique à la clé sauf pour les couleurs)");
+        $this->widgetSchema->setHelp('code', "Ce code est pour inter-loire (il en général identique à la clé sauf pour les couleurs)");
 
         if($this->getObject()->hasCodes()) {
             $this->setWidget('code_produit', new sfWidgetFormInputText()); 
@@ -35,6 +33,13 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
             $this->setValidator('code_produit', new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')));
             $this->setValidator('code_douane', new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')));
             $this->setValidator('code_comptable', new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')));
+        }
+
+        if($this->getObject()->exist('densite')) {
+            $this->setWidget('densite', new sfWidgetFormInputText()); 
+            $this->getWidget('densite')->setLabel("Densité :");
+            $this->setValidator('densite', new sfValidatorString(array('required' => true), array('required' => 'Champ obligatoire')));
+            $this->widgetSchema->setHelp('densite', "La densité par défaut est de 1.3, celle des crémant est de 1.5");
         }
 		
 		if ($this->getObject()->hasDepartements()) {
@@ -75,17 +80,9 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        $this->setDefault('key', str_replace(Configuration::DEFAULT_KEY, '', $this->getObject()->getKey()));
+        $this->setDefault('key', $this->getObject()->getKey());
     }
 
-    public function getHash() {
-    	return $this->hash;
-    }
-    
-    public function setHash($hash) {
-    	$this->hash = $hash;
-    }
-    
     private function getNoeudInterpro($object = null)
     {
     	if (!$object) {
@@ -149,28 +146,12 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
     	$hash[count($hash) - 1] = $key;
     	return implode('/', $hash);
     }
-    
-    private function normalizeKey($key, $uppercase = true) {
-    	$key = sfInflector::underscore($key);
-        $key = str_replace('-', '_', $key);
-    	if ($uppercase) {
-    		$key = strtoupper($key);
-    	}
-    	return $key;
-    }
-
-    public function processValues($values) {
-        if(!$values['key']) {
-            $values['key'] = Configuration::DEFAULT_KEY;
-        }
-        return $values;
-    }
             
     public function save($con = null) {
     	$object = parent::save($con);
     	$values = $this->getValues();
     	if ($object->getKey() != $values['key']) {
-    		$object = $object->getDocument()->moveAndClean($object->getHash(), $this->replaceKey($object->getHash(), $this->normalizeKey($values['key'], (($object->getTypeNoeud() == ConfigurationCouleur::TYPE_NOEUD)? false : true))));
+    		$object = $object->getDocument()->moveAndClean($object->getHash(), $this->replaceKey($object->getHash(), $values['key']));
     	}
     	if ($object->hasDepartements()) {
     		$object->remove('departements');
@@ -183,13 +164,13 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
     		$this->getNoeudInterpro($object)->droits->remove('douane');
     		foreach ($values['droit_douane'] as $value) {
     			if ($value['taux'] > 0) {
-    				$this->setDroit($value['code'], $value['libelle']);
+    				$this->setDroit('DOUANE', 'Douane');
     				$date = $value['date'];
     				if ($date) {
     					$date = explode('/', $date);
     					$date = new DateTime($date[2].'-'.$date[1].'-'.$date[0]);
     				}
-    				$this->setNodeDroit($this->getNoeudDroit('douane', $object)->add(), $date->format('c'), $value['taux'], $value['code'], $value['libelle']);
+    				$this->setNodeDroit($this->getNoeudDroit('douane', $object)->add(), $date->format('c'), $value['taux'], 'DOUANE', 'Douane');
     			}
     		}
         }
@@ -197,13 +178,13 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
     		$this->getNoeudInterpro()->droits->remove('cvo');
     		foreach ($values['droit_cvo'] as $value) {
     			if ($value['taux'] > 0) {
-    				$this->setDroit($value['code'], $value['libelle']);
+    				$this->setDroit('CVO', 'Cvo');
     				$date = $value['date'];
     				if ($date) {
     					$date = explode('/', $date);
     					$date = new DateTime($date[2].'-'.$date[1].'-'.$date[0]);
     				}
-    				$this->setNodeDroit($this->getNoeudDroit('cvo', $object)->add(), $date->format('c'), $value['taux'], $value['code'], $value['libelle']);
+    				$this->setNodeDroit($this->getNoeudDroit('cvo', $object)->add(), $date->format('c'), $value['taux'], 'CVO', 'Cvo');
     			}
     		}
     	}
@@ -217,10 +198,5 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
     	}
     	$object->getDocument()->save();
     	return $object;    	
-    }
-
-    protected function getUser() {
-
-        return sfContext::getInstance()->getUser();
     }
 }

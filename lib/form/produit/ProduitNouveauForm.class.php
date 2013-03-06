@@ -1,9 +1,12 @@
 <?php
 class ProduitNouveauForm extends sfForm {
 	
+    protected $produit;
 	protected $configuration;
 	protected $configurationProduit;
-	protected static $configurationNoeud = array('certifications' => 'certification', 'genres' => 'genre', 'appellations' => 'appellation', 'mentions' => 'mention', 'lieux' => 'lieu', 'couleurs' => 'couleur', 'cepages' => 'cepage'); 
+	protected static $configurationNoeud = array('certifications' => 'certification', 'genres' => 'genre', 'appellations' => 'appellation', 'mentions' => 'mention', 'lieux' => 'lieu', 'couleurs' => 'couleur', 'cepages' => 'cepage');
+
+    protected static $noeudPermissif = array('appellation', 'lieu', 'cepage');
 	
 	
 	public function __construct($configuration, $interpro, $defaults = array(), $options = array(), $CSRFSecret = null) {
@@ -13,65 +16,108 @@ class ProduitNouveauForm extends sfForm {
 	}
 
     public function configure() {
-    	$this->setWidgets(array(
-			'certifications' => new sfWidgetFormChoice(array('choices' => $this->getLibelles('certification'))),
-    		'genres' => new sfWidgetFormChoice(array('choices' => $this->getLibelles('genre'))),
-			'appellations' => new sfWidgetFormChoice(array('choices' => $this->getLibelles('appellation'))),  	
-			'mentions' => new sfWidgetFormChoice(array('choices' => $this->getLibelles('mention'))), 	
-			'lieux' => new sfWidgetFormChoice(array('choices' => $this->getLibelles('lieu'))), 	
-			'couleurs' => new sfWidgetFormChoice(array('choices' => $this->getLibelles('couleur'))),   
-			'cepages' => new sfWidgetFormChoice(array('choices' => $this->getLibelles('cepage'))), 
-    	));
+
+        foreach(self::$configurationNoeud as $name => $noeud) {
+           $this->setWidget($name, self::getWidgetKey($noeud)); 
+        }
+
 		$this->widgetSchema->setLabels(array(
-			'certifications' => 'Catégorie: ',
-			'genres' => 'Genre: ',
-			'appellations' => 'Dénomination: ',  	
-			'mentions' => 'Mention: ', 		
-			'lieux' => 'Lieu: ', 	
-			'couleurs' => 'Couleur: ', 
-			'cepages' => 'Cépage: '
+			'certifications' => 'Clé catégorie: ',
+			'genres' => 'Clé genre: ',
+			'appellations' => 'Clé dénomination: ',  	
+			'mentions' => 'Clé mention: ', 		
+			'lieux' => 'Clé lieu: ', 	
+			'couleurs' => 'Clé couleur: ', 
+			'cepages' => 'Clé cépage: '
 		));
-		$this->setValidators(array(
-			'certifications' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getLibelles('certification')))),
-			'genres' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getLibelles('genre')))),
-			'appellations' => new sfValidatorString(array('required' => false)),
-			'mentions' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getLibelles('mention')))),
-			'lieux' => new sfValidatorString(array('required' => false)),
-			'couleurs' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getLibelles('couleur')))),
-			'cepages' => new sfValidatorString(array('required' => false)),
-		));
-		
+
+        foreach(self::$configurationNoeud as $name => $noeud) {
+           $this->setValidator($name, self::getValidatorKey($noeud)); 
+        }
+
         $this->widgetSchema->setNameFormat('produit[%s]');
     }
 
-    public function getLibelles($noeud) {
+    public static function getLibelles($noeud) {
+        $libelles = array();
+        $items = self::getItems($noeud);
 
-        return $this->configuration->declaration->getLibelleByKeys($noeud);
+        foreach($items as $key => $item) {
+            $libelles[$key] = sprintf('%s (%s)', $item->getKey(), $item->getLibelle());
+        }
+
+        return $libelles;
+    }
+
+    public static function getItems($noeud) {
+
+        return ConfigurationClient::getCurrent()->declaration->getKeys($noeud);
+    }
+
+    public static function getWidgetKey($noeud) {
+        
+        $widget = new sfWidgetFormChoice(array('choices' => self::getLibelles($noeud)));
+
+        if(in_array($noeud, self::$noeudPermissif)) {
+            $widget->setAttribute('class', 'autocomplete permissif');
+        }
+
+        return $widget;
+    }
+
+    public static function getValidatorKey($noeud) {
+        $message_required = "La clé est requise (vous pouvez choisir DEFAUT)";
+        $message_invalid = "La clé doit uniquement être composé de lettre en majuscule";
+
+        if(in_array($noeud, self::$noeudPermissif)) {
+           return new sfValidatorRegex(array('required' => true, 'pattern' => '/^[A-Z]+$/'), array('required' => $message_required,'invalid' => $message_invalid));
+        } else {
+            return new sfValidatorChoice(array('required' => true, 'choices' => array_keys(self::getLibelles($noeud))));
+        }
     }
     
     public function save() {
         $values = $this->getValues();
         $hash = 'declaration';
         $nodes = ConfigurationProduit::getArborescence();
-        $noeud = null;
+        $exist = true;
+        $new_noeud = array();
         foreach ($nodes as $node) {
-	        if ($values[$node]) {
-	        	if ($this->configuration->exist($hash.'/'.$node.'/'.$values[$node])) {
-	        		$hash = $hash.'/'.$node.'/'.$values[$node];
-	        		$noeud = self::$configurationNoeud[$node];
-	        		unset($values[$node]);
-	        	} else {
-	        		$hash = $hash.'/'.$node.'/'.Configuration::DEFAULT_KEY;
-	        	}
-	        } else {
-	        	$hash = $hash.'/'.$node.'/'.Configuration::DEFAULT_KEY;
-	        	unset($values[$node]);
-	        }
+            $key = $values[$node];
+            if(!$this->configuration->get($hash)->get($node)->exist($key)) {
+                $exist = false;
+                $items = $this->getItems(self::$configurationNoeud[$node]);
+                $noeud = $this->configuration->get($hash)->get($node)->add($key);
+                if(array_key_exists($key, $items)) {
+                    $noeud->libelle = $items[$key]->getLibelle();
+                    $noeud->code = $items[$key]->getCode();
+                } else {
+                    $new_noeud[] = $noeud->getTypeNoeud();
+                }
+            }
+    		$hash .= sprintf("/%s/%s", $node, $key);
         }
 
-        print_r(array('hash' => $hash, 'noeud' => $noeud, 'values' => $values));
-        exit;
-        return array('hash' => $hash, 'noeud' => $noeud, 'values' => $values);
+        if($exist) {
+
+            throw new sfException("Ce produit existe déjà");
+        }
+
+        if(!in_array('cepage', $new_noeud))  {
+            $new_noeud[] = 'cepage';
+        }
+
+        $this->produit = $this->configuration->get($hash);
+
+        $this->configuration->save();
+
+        return $new_noeud;
+    }
+
+    public function getProduit() {
+
+        return $this->produit;
     }
     
 }
+

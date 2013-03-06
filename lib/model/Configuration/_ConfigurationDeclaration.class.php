@@ -94,12 +94,17 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
   
   
     public function getDensite(){
-        if (!$this->exist('densite') || !$this->_get('densite')) {
+      if (!$this->exist('densite') || !$this->_get('densite')) {
+        try {
+          
+          return $this->getParentNode()->getDensite();
+        } catch (Exception $e) {
 
-      return $this->getParentNode()->getDensite();
-    }    
+          return null;
+        }
+      }    
     
-    return $this->_get('densite');
+      return $this->_get('densite');
     }
 
 	public function getLibelleFormat($labels = array(), $format = "%g% %a% %m% %l% %co% %ce%", $label_separator = ", ") {
@@ -268,18 +273,18 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
       return $produits;
     }
 
-    public function getLibelleByKeys($noeud) {
+    public function getKeys($noeud) {
       if($noeud == $this->getTypeNoeud()) {
 
-        return array($this->getKey() => sprintf("%s (%s)", $this->getLibelle(), $this->getKey()));
+        return array($this->getKey() => $this);
       }
 
-      $libelles = array();
+      $items = array();
       foreach($this->getChildrenNode() as $key => $item) {
-          $libelles = array_merge($libelles, $item->getLibelleByKeys($noeud));
+          $items = array_merge($items, $item->getKeys($noeud));
       }
 
-      return $libelles;
+      return $items;
     }
 
     public function addInterpro($interpro) 
