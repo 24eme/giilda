@@ -196,18 +196,28 @@ class SV12Contrat extends BaseSV12Contrat {
       return VracClient::getInstance()->findByNumContrat($this->contrat_numero)->numero_archive;
     }
 
-    function updateNoContrat($produit, $infoviti = array('contrat_type' => null, 'vendeur_identifiant' => null, 'vendeur_nom' => null))
+    function updateFromView($viewinfo) {
+      if ($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID] != $this->produit_hash || 
+	  $this->vendeur_identifiant != $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID] || 
+	  $this->contrat_type != $viewinfo[VracClient::VRAC_VIEW_TYPEPRODUIT]) {
+	$produit = ConfigurationClient::getCurrent()->get($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID]);
+	return $this->updateNoContrat($produit, array('contrat_type' => $viewinfo[VracClient::VRAC_VIEW_TYPEPRODUIT], 'vendeur_identifiant' => $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID], 'vendeur_nom' => $viewinfo[VracClient::VRAC_VIEW_VENDEUR_NOM], 'contrat_numero' => $this->contrat_numero, 'volume' => $this->volume, 'volume_prop' => $this->volume_prop));
+      }
+      return ;
+    }
+
+    function updateNoContrat($produit, $contratinfo = array('contrat_type' => null, 'vendeur_identifiant' => null, 'vendeur_nom' => null, 'contrat_numero' => null, 'volume' => null, 'volume_prop' => null))
     {
       if ($this->volume)
 	return ;
-      $this->contrat_numero = null;
-      $this->contrat_type = $infoviti['contrat_type'];
+      $this->contrat_numero = (isset($contratinfo['contrat_numero'])) ? $contratinfo['contrat_numero'] : null;
+      $this->contrat_type = $contratinfo['contrat_type'];
       $this->produit_libelle = $produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
       $this->produit_hash = $produit->getHash();
-      $this->vendeur_identifiant = $infoviti['vendeur_identifiant'];
-      $this->vendeur_nom = $infoviti['vendeur_nom'];
-      $this->volume_prop = null;
-      $this->volume = null;
+      $this->vendeur_identifiant = $contratinfo['vendeur_identifiant'];
+      $this->vendeur_nom = $contratinfo['vendeur_nom'];
+      $this->volume_prop = (isset($contratinfo['volume_prop'])) ? $contratinfo['volume_prop'] : null;
+      $this->volume = (isset($contratinfo['volume'])) ? $contratinfo['volume'] : null;
     }
 
 }
