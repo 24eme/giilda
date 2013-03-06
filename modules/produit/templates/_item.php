@@ -25,18 +25,18 @@
 	</td>
 	<td class="center">
 		<a href="<?php echo url_for('produit_modification', array('noeud' => $produit->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>">
-			<?php echo sprintf("%04d", $produit->getCodeProduit()) ?>
+			<?php echo ($produit->getCodeProduit()) ? sprintf("%04d", $produit->getCodeProduit()) : "(Aucun)" ?>
 		</a>
 	</td>
 
 	<td class="center">
 		<a href="<?php echo url_for('produit_modification', array('noeud' => $produit->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>">
-			<?php echo $produit->getCodeDouane() ?>
+			<?php echo ($produit->getCodeDouane()) ? $produit->getCodeDouane() : "(Aucun)" ?>
 		</a>
 	</td>
 	<td class="center">
 		<a href="<?php echo url_for('produit_modification', array('noeud' => $produit->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>">
-			<?php echo $produit->getCodeComptable() ?>
+			<?php echo ($produit->getCodeDouane()) ? $produit->getCodeDouane() : "(Aucun)" ?>
 		</a>
 	</td>
 </tr>
