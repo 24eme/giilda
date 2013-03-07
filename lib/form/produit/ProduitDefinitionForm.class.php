@@ -4,21 +4,17 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
     public function configure() {
     	$this->setWidgets(array(
 			'libelle' => new sfWidgetFormInputText(),
-            'key' => ProduitNouveauForm::getWidgetKey($this->getObject()->getTypeNoeud()),
             'code' => new sfWidgetFormInputText(),
     	));
 		$this->widgetSchema->setLabels(array(
 			'libelle' => 'Libellé :',
-            'key' => 'Clé :',
 			'code' => 'Code :',
 		));
 		$this->setValidators(array(
 			'libelle' => new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')),
-            'key' => ProduitNouveauForm::getValidatorKey($this->getObject()->getTypeNoeud()),
 			'code' => new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')),
 		));
 
-        $this->widgetSchema->setHelp('key', "/!\ Cette clé est utilisée pour construire l'arbre, elle a donc un impacte sur le hash produit");
         $this->widgetSchema->setHelp('code', "Ce code est pour inter-loire (il en général identique à la clé sauf pour les couleurs)");
 
         if($this->getObject()->hasCodes()) {
@@ -78,11 +74,6 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         $this->mergePostValidator(new ProduitDefinitionValidatorSchema($this->getObject()));
     }
 
-    protected function updateDefaultsFromObject() {
-        parent::updateDefaultsFromObject();
-        $this->setDefault('key', $this->getObject()->getKey());
-    }
-
     private function getNoeudInterpro($object = null)
     {
     	if (!$object) {
@@ -140,19 +131,11 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
     	$droit->code = $code;
     	$droit->libelle = $libelle;
     }
-    
-    private function replaceKey($hash, $key) {
-    	$hash = explode('/', $hash);
-    	$hash[count($hash) - 1] = $key;
-    	return implode('/', $hash);
-    }
             
     public function save($con = null) {
     	$object = parent::save($con);
     	$values = $this->getValues();
-    	if ($object->getKey() != $values['key']) {
-    		$object = $object->getDocument()->moveAndClean($object->getHash(), $this->replaceKey($object->getHash(), $values['key']));
-    	}
+
     	if ($object->hasDepartements()) {
     		$object->remove('departements');
     		$departements = $this->getNoeudDepartement($object);
