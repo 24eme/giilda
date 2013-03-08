@@ -304,6 +304,7 @@ class Compte extends BaseCompte {
     
     public function updateAndSaveCoordoneesFromEtablissement($etablissement){
         $this->adresse = $etablissement->siege->adresse;
+        $this->adresse_complementaire = ($etablissement->siege->exist('adresse_complementaire'))? $etablissement->siege->adresse_complementaire : "";
         $this->code_postal = $etablissement->siege->code_postal;
         $this->commune = $etablissement->siege->commune;
         $this->save(true, true);

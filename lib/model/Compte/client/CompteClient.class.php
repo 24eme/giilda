@@ -102,6 +102,7 @@ class CompteClient extends acCouchdbClient {
         $compte->id_societe = $societe->_id;
         if ($societe->siege->adresse) {
             $compte->adresse = $societe->siege->adresse;
+            $compte->adresse_complementaire = ($societe->siege->exist('adresse_complementaire'))? $societe->siege->adresse_complementaire : "";
 	    $compte->code_postal = $societe->siege->code_postal;
 	    $compte->commune = $societe->siege->commune;
             $societe->siege->add('pays');
@@ -123,7 +124,8 @@ class CompteClient extends acCouchdbClient {
       $compte->telephone_bureau = $e->telephone;
       $compte->statut = $e->statut;
       if ($e->siege->adresse) {
-    	$compte->adresse = $e->siege->adresse;
+            $compte->adresse = $e->siege->adresse;
+            $compte->adresse_complementaire = ($e->siege->exist('adresse_complementaire'))? $e->siege->adresse_complementaire : "";
 	    $compte->code_postal = $e->siege->code_postal;
 	    $compte->commune = $e->siege->commune;
       }
