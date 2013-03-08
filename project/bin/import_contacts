@@ -37,6 +37,9 @@ join -t ';' -a 1 -1 2 -2 2 $DATADIR/tmp/cipar.utf8.csv $DATADIR/tmp/cicav_dra.ut
 join -t ';' -a 1 -1 1 -2 1 $DATADIR/tmp/etablissement.csv $DATADIR/tmp/cipar_relance_drm.csv | sort -t ";" -k 1,1 > $DATADIR/tmp/etablissement-relance-drm.csv
 join -t ';' -a 1 -1 1 -2 5 $DATADIR/tmp/etablissement-relance-drm.csv $DATADIR/tmp/cartecourtier_cifonct.csv | sort -t ';' -k 5,5 > $DATADIR/etablissements.csv
 
+#Fournisseurs
+convert-utf8 $DATADIR/fournisseurs.csv | cut -d ";" -f 1,2,14 | sed -r 's/;([0-9]{2})([0-9]{6});/;\2;/' | grep -E "^[0-9]+;" | sort -t ";" -k 2,2 > $DATADIR/fournisseurs_cut.csv
+
 cd $DATADIR
 bash $WORKINGDIR/bin/convert_chais $WORKINGDIR "2/2"
 cd -
@@ -46,6 +49,11 @@ convert-utf8 $DATADIR/cifonct.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cifonct.ut
 join -t ';' -1 2 -2 2 $DATADIR/tmp/cifonct.utf8.csv $DATADIR/tmp/cipar.utf8.csv | sort -t ';' -k 3,3 > $DATADIR/tmp/cifonct_cipar.utf8.csv
 convert-utf8 $DATADIR/cicontact.csv | sed 's/; */;/g' | sed 's/ *;/;/g' | sort -t ';' -k 2,2 > $DATADIR/tmp/cicontact.utf8.csv
 join -t ';' -1 2 -2 3 $DATADIR/tmp/cicontact.utf8.csv $DATADIR/tmp/cifonct_cipar.utf8.csv | sort -t ';' -k 2,2 -n > $DATADIR/tmp/cicontact_cifonct_cipar.csv
+
+#Fournisseurs
+cat $DATADIR/societes.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/societe.sort
+join -t ";" -1 2 -2 2 -a 1 $DATADIR/tmp/societe.sort $DATADIR/fournisseurs_cut.csv | sed 's/;10;/;/' | sed 's/^/10;/' > $DATADIR/tmp/societes_fournisseurs.csv
+sort -t ';' -k 5,5 $DATADIR/tmp/societes_fournisseurs.csv > $DATADIR/societes.csv
 
 echo "Import Societe"
 php symfony import:societe $DATADIR/societes.csv
