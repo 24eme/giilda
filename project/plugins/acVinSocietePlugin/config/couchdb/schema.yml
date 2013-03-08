@@ -12,6 +12,7 @@ Societe:
       statut: { }
       code_comptable_client: { }
       code_comptable_fournisseur: { }
+      type_fournisseur: { required: false }
       code_naf: { }
       siret: { }
       interpro: { }
@@ -27,6 +28,7 @@ Societe:
         definition:
           fields:
             adresse: {  }
+            adresse_complementaire: { required: false }
             code_postal: {  }
             commune: {  }
             pays: { required: false }

@@ -35,8 +35,8 @@ EOF;
       print "FOURNISSEUR;";
     }
     print $societe->raison_sociale_abregee.";";
-    print preg_replace('/;.*/', '', $societe->siege->adresse).";";
-    print str_replace(';', '-', preg_replace('/.*;/', '', $societe->siege->adresse)).";";
+    print preg_replace('/;.*/', '', $societe->siege->adresse.' '.$societe->siege->adresse_complementaire).";";
+    print str_replace(';', '-', preg_replace('/.*;/', '', $societe->siege->adresse.' '.$societe->siege->adresse_complementaire)).";";
     print $societe->siege->code_postal.";";
     print $societe->siege->commune.";";
     print "France;";
