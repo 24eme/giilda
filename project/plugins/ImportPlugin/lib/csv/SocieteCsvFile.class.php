@@ -102,7 +102,7 @@ class SocieteCsvFile extends CsvFile
         if($line[self::CSV_PARTENAIRE_CODE_FOURNISSEUR])
                 $s->code_comptable_fournisseur = sprintf('F%07d', $line[self::CSV_PARTENAIRE_ENSEIGNE]);
         if($line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR])
-                $s->add('type_fournisseur',$line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR]);
+                $s->add('type_fournisseur',str_replace('Fournisseur ','',$line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR]));
       	$s->save();
       }
     }catch(Execption $e) {
