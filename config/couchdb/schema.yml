@@ -58,6 +58,7 @@ Etablissement:
            definition:
              fields:
                adresse: {  }
+               adresse_complementaire: { required: false }
                code_postal: {  }
                commune: {  }
        comptabilite:
