@@ -103,11 +103,11 @@ class EtablissementCsvFile extends CsvFile
         		if (!preg_match('/^(bailleur|métayage)/i', $line[self::CSVCAV_ADRESSE1])) {
         		    $e->siege->adresse = preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE1]);
         		    if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE2])) {
-        		      $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE2]);
+        		      $e->siege->add('adresse_complementaire',preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE2]));
         		      if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE3])) {
-        			$e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE3]);
+        			$e->siege->adresse_complementaire .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE3]);
         			if(preg_match('/[a-z]/i', $line[self::CSVCAV_ADRESSE4])) {
-        			  $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE4]);
+        			  $e->siege->adresse_complementaire .= " ; ".preg_replace('/,/', '', $line[self::CSVCAV_ADRESSE4]);
         			}}}
         		}
         	}else{
@@ -117,11 +117,11 @@ class EtablissementCsvFile extends CsvFile
         	if (!$e->siege->adresse) {
         		$e->siege->adresse = preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE1]);
         	        if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE2])) {
-                        $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE2]);
+                        $e->siege->add('adresse_complementaire',preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE2]));
         	        if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE3])) {
-                        $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE3]);
+                        $e->siege->adresse_complementaire .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE3]);
                 	if(preg_match('/[a-z]/i', $line[self::CSVPAR_ADRESSE4])) {
-                        $e->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE4]);
+                        $e->siege->adresse_complementaire .= " ; ".preg_replace('/,/', '', $line[self::CSVPAR_ADRESSE4]);
         	        }}}
         	}
                 $e->famille = $famille;

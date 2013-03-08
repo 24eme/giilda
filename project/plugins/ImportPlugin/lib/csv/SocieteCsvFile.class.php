@@ -28,6 +28,8 @@ class SocieteCsvFile extends CsvFile
   const CSV_PARTENAIRE_ENSEIGNE = 23;
   const CSV_PARTENAIRE_REGIONVITI = 24;
   const CSV_PARTENAIRE_CONTACT_CONTRATS = 25;
+  const CSV_PARTENAIRE_CODE_FOURNISSEUR = 26;
+  const CSV_PARTENAIRE_TYPE_FOURNISSEUR = 27;
 
 
   private function verifyCsvLine($line) {
@@ -59,11 +61,11 @@ class SocieteCsvFile extends CsvFile
 	$s->raison_sociale_abregee = $line[self::CSV_PARTENAIRE_NOM_REDUIT];
 	$s->siege->adresse = preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE1]);
         if(preg_match('/[a-z]/i', $line[self::CSV_PARTENAIRE_ADRESSE2])) {
-        $s->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE2]);
+        $s->siege->add('adresse_complementaire',preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE2]));
         if(preg_match('/[a-z]/i', $line[self::CSV_PARTENAIRE_ADRESSE3])) {
-        $s->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE3]);
+        $s->siege->adresse_complementaire .= " ; ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE3]);
         if(preg_match('/[a-z]/i', $line[self::CSV_PARTENAIRE_ADRESSE4])) {
-        $s->siege->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE4]);
+        $s->siege->adresse_complementaire .= " ; ".preg_replace('/,/', '', $line[self::CSV_PARTENAIRE_ADRESSE4]);
         }}}
         $s->siege->code_postal = $line[self::CSV_PARTENAIRE_CODEPOSTAL];
         $s->siege->commune = $line[self::CSV_PARTENAIRE_COMMUNE];
@@ -97,6 +99,10 @@ class SocieteCsvFile extends CsvFile
 	}
 	if ($line[self::CSV_PARTENAIRE_ENSEIGNE])
 		$s->enseignes->add(null, $line[self::CSV_PARTENAIRE_ENSEIGNE]);
+        if($line[self::CSV_PARTENAIRE_CODE_FOURNISSEUR])
+                $s->code_comptable_fournisseur = sprintf('F%07d', $line[self::CSV_PARTENAIRE_ENSEIGNE]);
+        if($line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR])
+                $s->add('type_fournisseur',$line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR]);
       	$s->save();
       }
     }catch(Execption $e) {

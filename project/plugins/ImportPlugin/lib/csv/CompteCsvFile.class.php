@@ -80,9 +80,9 @@ const COMPTE_FONCTION_PARTENAIRE = 'PARTENAIRE';
         $c->statut = $societe->statut;
 	       $c->adresse = preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE1]);
         if(preg_match('/[a-z]/i', $line[self::CSV_COMPTE_ADRESSE2])) {
-        $c->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE2]);
+        $c->add('adresse_complementaire',preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE2]));
         if(preg_match('/[a-z]/i', $line[self::CSV_COMPTE_ADRESSE3])) {
-        $c->adresse .= " ; ".preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE3]);
+        $c->adresse_complementaire .= " ; ".preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE3]);
         }}
         $c->code_postal = $line[self::CSV_COMPTE_CODE_POSTAL];
         $c->commune = $line[self::CSV_COMPTE_COMMUNE];
