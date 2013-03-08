@@ -75,7 +75,8 @@ join -t ';' -1 2 -2 3 $DATADIR/tmp/cicontact.utf8.csv $DATADIR/tmp/cifonct_cipar
 
 #Ajout des codes fournisseurs des sociétés
 cat $DATADIR/societes.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/societe.sort
-join -t ";" -1 2 -2 2 -a 1 $DATADIR/tmp/societe.sort $DATADIR/fournisseurs_cut.csv | sed 's/;10;/;/' | sed 's/^/10;/' > $DATADIR/tmp/societes_fournisseurs.csv
+cat $DATADIR/fournisseurs_cut.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/fournisseurs_cut.csv.sort
+join -t ";" -1 2 -2 2 -a 1 $DATADIR/tmp/societe.sort $DATADIR/tmp/fournisseurs_cut.csv.sort | sed 's/;10;/;/' | sed 's/^/10;/' > $DATADIR/tmp/societes_fournisseurs.csv
 sort -t ';' -k 5,5 $DATADIR/tmp/societes_fournisseurs.csv > $DATADIR/societes.csv
 
 echo "Import Societe"
