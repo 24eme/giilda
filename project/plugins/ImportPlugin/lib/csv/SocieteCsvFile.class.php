@@ -92,8 +92,9 @@ class SocieteCsvFile extends CsvFile
                 $s->type_societe = SocieteClient::SUB_TYPE_DOUANE;
 	}else if ($line[self::CSV_PARTENAIRE_TYPE] == 'D') {
                 $s->type_societe = SocieteClient::TYPE_PRESSE;
-	}
-        else{
+	}else if ($line[self::CSV_PARTENAIRE_TYPE] == 'A') {
+                $s->type_societe = SocieteClient::SUB_TYPE_AUTRE;
+  } else{
            $t = $line[self::CSV_PARTENAIRE_TYPE];
 	  throw new sfException("type partenaire inconnu => type : $t ");
 	}
