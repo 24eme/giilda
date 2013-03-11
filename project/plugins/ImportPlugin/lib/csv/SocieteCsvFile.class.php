@@ -26,10 +26,8 @@ class SocieteCsvFile extends CsvFile
   const CSV_PARTENAIRE_EXPLOITANTBAILLEUR = 21;
   const CSV_PARTENAIRE_CHAIPRINICPAL = 22;
   const CSV_PARTENAIRE_ENSEIGNE = 23;
-  const CSV_PARTENAIRE_REGIONVITI = 24;
-  const CSV_PARTENAIRE_CONTACT_CONTRATS = 25;
-  const CSV_PARTENAIRE_CODE_FOURNISSEUR = 26;
-  const CSV_PARTENAIRE_TYPE_FOURNISSEUR = 27;
+  const CSV_PARTENAIRE_CODE_FOURNISSEUR = 24;
+  const CSV_PARTENAIRE_TYPE_FOURNISSEUR = 25;
 
 
   private function verifyCsvLine($line) {
@@ -96,14 +94,17 @@ class SocieteCsvFile extends CsvFile
                 $s->type_societe = SocieteClient::SUB_TYPE_AUTRE;
   } else{
            $t = $line[self::CSV_PARTENAIRE_TYPE];
-	  throw new sfException("type partenaire inconnu => type : $t ");
+              $s->type_societe = SocieteClient::SUB_TYPE_AUTRE;
+            //throw new sfException("type partenaire inconnu => type : $t ");
 	}
 	if ($line[self::CSV_PARTENAIRE_ENSEIGNE])
 		$s->enseignes->add(null, $line[self::CSV_PARTENAIRE_ENSEIGNE]);
         if($line[self::CSV_PARTENAIRE_CODE_FOURNISSEUR])
-                $s->code_comptable_fournisseur = sprintf('F%07d', $line[self::CSV_PARTENAIRE_ENSEIGNE]);
-        if($line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR])
+                $s->code_comptable_fournisseur = sprintf('F%07d', $line[self::CSV_PARTENAIRE_CODE_FOURNISSEUR]);
+        if($line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR]){
                 $s->add('type_fournisseur',str_replace('Fournisseur ','',$line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR]));
+            
+        }
       	$s->save();
       }
     }catch(Execption $e) {
