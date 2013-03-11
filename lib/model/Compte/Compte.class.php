@@ -175,6 +175,9 @@ class Compte extends BaseCompte {
 
 	if ($this->isSocieteContact()) {
 	  $this->addTag('automatique', 'Societe');
+          if($this->getFournisseur()){
+              $this->addTag('automatique', $this->getFournisseur());
+          }
 	}
 	if ($this->isEtablissementContact()) {
 	  $this->addTag('automatique', 'Etablissement');
@@ -250,6 +253,14 @@ class Compte extends BaseCompte {
     
     public function isSocieteContact() {
         return ((SocieteClient::getInstance()->find($this->id_societe)->compte_societe) == $this->_id);
+    }
+    
+    public function getFournisseur() {
+        if(!SocieteClient::getInstance()->find($this->id_societe)->code_comptable_fournisseur) return false;
+        if(SocieteClient::getInstance()->find($this->id_societe)->exist('type_fournisseur')){
+            return SocieteClient::getInstance()->find($this->id_societe)->type_fournisseur;
+        }
+        return 'Fournisseur';
     }
 
     public function isEtablissementContact() {
