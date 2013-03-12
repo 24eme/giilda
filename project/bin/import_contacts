@@ -67,7 +67,7 @@ convert-utf8 $DATADIR/cicontact.csv | sed 's/; */;/g' | sed 's/ *;/;/g' | sort -
 cat $DATADIR/fournisseurs/cifonct_fournisseurs_* | grep -E "^;" | awk -F ";" '{ printf("10;72%04d;%s;PARTENAIRE;;;;", $2, $3); print "" }' > $DATADIR/tmp/cifonct_fournisseurs.csv
 cat $DATADIR/tmp/cifonct_fournisseurs.csv $DATADIR/tmp/cifonct.utf8.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cifonct.utf8.csv.tmp; cat $DATADIR/tmp/cifonct.utf8.csv.tmp > $DATADIR/tmp/cifonct.utf8.csv;
 
-cat /tmp/VINSDELOIRE_DATA/fournisseurs/cicontact_fournisseurs_* | grep "^;" | sed -r 's/^/10/' > $DATADIR/tmp/cicontact_fournisseurs.csv
+cat $DATADIR/fournisseurs/cicontact_fournisseurs_* | grep "^;" | sed -r 's/^/10/' > $DATADIR/tmp/cicontact_fournisseurs.csv
 cat $DATADIR/tmp/cicontact_fournisseurs.csv $DATADIR/tmp/cicontact.utf8.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cicontact.utf8.csv.tmp; cat $DATADIR/tmp/cicontact.utf8.csv.tmp > $DATADIR/tmp/cicontact.utf8.csv;
 
 #Contact
