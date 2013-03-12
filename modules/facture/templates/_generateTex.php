@@ -124,6 +124,7 @@ $nb_ligne = 0;
 		\begin{flushleft}		
 			\textbf{\FactureClientNom \\}				
 				\FactureClientAdresse \\
+                                \FactureClientAdresseComplementaire
 				\FactureClientCP ~\FactureClientVille \\
 			\end{flushleft}
 		\hspace{6cm}
