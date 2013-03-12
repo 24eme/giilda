@@ -59,6 +59,7 @@ echo ($nom) ? cut_latex_string($nom,35) : $pointille;
 
 \def\DSClientNomFenetre{<?php  echo display_latex_string($nom,';',30); ?>}
 \def\DSClientAdresseFenetre{<?php echo display_latex_string($ds->declarant->adresse,';',45); ?>}
+\def\DSClientAdresseComplementaireFenetre{<?php echo ($ds->declarant->exist('adresse_complementaire')) ? display_latex_string($ds->declarant->adresse_complementaire,';',45).' \\\\ ' : ''; ?>}
 \def\DSClientVilleFenetre{<?php echo display_latex_string($ds->declarant->commune,';',35); ?>}
 
 \def\InterloireAdresse{\textbf{INTERLOIRE} - <?php echo $coordonneesInterLoire['adresse'].' - '.$coordonneesInterLoire['code_postal'].' '.$coordonneesInterLoire['ville']; ?> \\
@@ -130,6 +131,7 @@ $\square$ Informations correctes~~~$\square$ Informations à corriger
 \begin{flushleft}		
 \textbf{\DSClientNomFenetre \\}				
 \DSClientAdresseFenetre \\
+\DSClientAdresseComplementaireFenetre
 \DSClientCP ~\DSClientVilleFenetre \\
 \end{flushleft}
 \end{minipage}

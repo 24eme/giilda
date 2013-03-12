@@ -24,6 +24,7 @@ DS:
             cvi: {  }
             no_accises: {   }
             adresse: {  }
+            adresse_complementaire: { required: false }
             commune: {  }
             code_postal: {   }
             region: {  }
