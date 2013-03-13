@@ -29,6 +29,10 @@ echo "#FIN" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 if test "$SAMBA_IP" && test "$SAMBA_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_SAGESUBDIR"; then
     cd $TMP
     smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; put $VINSIEXPORT"
+    recode UTF8..ISO88591 societesWithSageData.csv
+    smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; put societesWithSageData.csv societes.csv"
+    recode UTF8..ISO88591 factures.csv
+    smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; put factures.csv"
     cd -
 else
     cat $TMP/$VINSIEXPORT
