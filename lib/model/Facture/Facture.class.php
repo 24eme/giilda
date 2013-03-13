@@ -405,8 +405,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->total_taxe = $this->total_ttc - $this->total_ht;
     }
 
-    public function getNbLignes() {
-        $nbLigne = count($this->echeances) * 4;
+    public function getNbLignesMouvements() {
+       // $nbLigne = count($this->echeances) * 4;
         foreach ($this->lignes as $lignesType) {
             $nbLigne += count($lignesType) + 1;
         }
