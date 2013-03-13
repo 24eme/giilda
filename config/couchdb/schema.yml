@@ -33,7 +33,6 @@ Facture:
             nom: {  }
             num_tva_intracomm: {    }
             adresse: {  }
-            adresse_complementaire: {required: false}
             commune: {  }
             code_postal: {   }
             raison_sociale: {  }

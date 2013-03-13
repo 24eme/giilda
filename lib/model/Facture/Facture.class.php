@@ -445,9 +445,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $declarant = $this->declarant;
         $declarant->nom = $this->societe->raison_sociale;
         $declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
-        $declarant->adresse = $this->societe->siege->adresse;
-        if($this->societe->siege->exist('adresse_complementaire'))
-            $declarant->add('adresse_complementaire', $this->societe->siege->adresse_complementaire);
+        $declarant->adresse = $this->societe->getSiegeAdresses();
         $declarant->commune = $this->societe->siege->commune;
         $declarant->code_postal = $this->societe->siege->code_postal;
         $declarant->raison_sociale = $this->societe->raison_sociale;
