@@ -183,9 +183,9 @@ while(<STDIN>) {
 	print "0\n";
 	print "livraison partielle : " if ($verbose);
 	print "0\n";
-	print "intitulé modèle de règlement (calculé depuis l'EXPORT SAGE): " if ($verbose);
-	if ($field[23] || $field[24] || $field[25] || $field[26]) {
-	    print "Virement\n";
+	print "intitulé modèle de règlement (EXPORT SAGE): " if ($verbose);
+	if ($field[27]) {
+	    print $field[27]."\n";
 	}else{
 	    print "Cheque a 60 Jours Net\n";
 	}
