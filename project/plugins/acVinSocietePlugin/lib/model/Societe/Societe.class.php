@@ -193,6 +193,14 @@ class Societe extends BaseSociete {
         return ($this->code_comptable_client || $this->code_comptable_fournisseur);
     }
     
+    public function getSiegeAdresses() {
+      $a = $this->siege->adresse;
+      if ($this->siege->exist("adresse_complementaire")) {
+	$a .= ' ; '.$this->siege->adresse_complementaire;
+      }
+      return $a;
+    }
+
     public function synchroFromCompte() {
         $compte = $this->getMasterCompte();
         
