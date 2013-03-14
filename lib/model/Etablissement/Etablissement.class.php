@@ -289,9 +289,9 @@ class Etablissement extends BaseEtablissement {
 
         if (!$fromsociete) {
             $this->synchroAndSaveSociete();
-        }
-        if (!$fromcompte) {
-            $this->synchroAndSaveCompte();
+            if (!$fromcompte) {
+                $this->synchroAndSaveCompte();
+            }
         }
     }
 
