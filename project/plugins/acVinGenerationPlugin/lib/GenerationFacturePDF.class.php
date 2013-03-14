@@ -22,20 +22,16 @@ class GenerationFacturePDF extends GenerationPDF {
        $mouvementsBySoc = FactureClient::getInstance()->getMouvementsNonFacturesBySoc($allMouvementsByRegion);
        $arguments = $this->generation->arguments->toArray();
        $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$arguments);
-       $documents = array();
        $this->generation->somme = 0;
        $cpt = 0;
-       $total = 0;
        foreach ($mouvementsBySoc as $societeID => $mouvementsSoc) {
 	 $societe = SocieteClient::getInstance()->find($societeID);
 	 if (!$societe)
 	   throw new sfException($societeID." unknown :(");
 	 $facture = FactureClient::getInstance()->createDoc($mouvementsSoc, $societe, $arguments['date_facturation']);
          $facture->save();
-         $total += $facture->total_ttc;
-         $documents[$cpt] = $facture->_id;
-         $this->generation->somme = $total;
-	 $this->generation->documents = $documents;
+         $this->generation->somme += $facture->total_ttc;
+         $this->generation->documents->add($cpt,$facture->_id);
          $cpt++;
         }
     }
