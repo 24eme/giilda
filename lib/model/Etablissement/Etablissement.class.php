@@ -366,5 +366,13 @@ class Etablissement extends BaseEtablissement {
 
         return $this;
     }
+    
+    public function getSiegeAdresses() {
+      $a = $this->siege->adresse;
+      if ($this->siege->exist("adresse_complementaire")) {
+	$a .= ' ; '.$this->siege->adresse_complementaire;
+      }
+      return $a;
+    }
 
 }
