@@ -116,8 +116,10 @@ class GenerationPDF {
     if (!$this->generation) 
       throw new sfException('Object generation should not be null');    
     $pdfs = array();
-    if (!count($this->generation->documents)) {
+    if (!count($this->generation->documents) || $this->generation->exist('pregeneration_needed')) {
+      $this->generation->add('pregeneration_needed',1);
       $this->preGeneratePDF();
+      $this->generation->remove('pregeneration_needed');
       $this->generation->save();
     }
     $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);

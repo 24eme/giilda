@@ -12,6 +12,7 @@ Generation:
       type_document: {}      
       somme: {}
       statut: {}
+      pregeneration_needed: {required: false}
       message: {required: false;}
       fichiers:
         type: collection

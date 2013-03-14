@@ -22,8 +22,8 @@ class GenerationFacturePDF extends GenerationPDF {
        $mouvementsBySoc = FactureClient::getInstance()->getMouvementsNonFacturesBySoc($allMouvementsByRegion);
        $arguments = $this->generation->arguments->toArray();
        $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$arguments);
-       $this->generation->somme = 0;
-       $cpt = 0;
+       if(!$this->generation->exist('somme')) $this->generation->somme = 0;
+       $cpt = count($this->generation->documents);
        foreach ($mouvementsBySoc as $societeID => $mouvementsSoc) {
 	 $societe = SocieteClient::getInstance()->find($societeID);
 	 if (!$societe)
