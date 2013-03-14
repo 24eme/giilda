@@ -33,14 +33,17 @@ class GenerationDSPDF extends GenerationPDF {
         $etablissementsViews = EtablissementClient::getInstance()->findByFamillesAndRegions($operateur_types, $regions, null);
         $dsClient = DSClient::getInstance();
         $cpt = 0;
-        $documents = array();
         foreach ($etablissementsViews as $etablissement) {
-            $ds = $dsClient->createDsByEtbId($etablissement->key[EtablissementRegionView::KEY_IDENTIFIANT], $this->generation->arguments->date_declaration);
-            $ds->save();
-            $documents[$cpt] = $ds->_id;
-            $cpt++;
+            try {
+                $ds = $dsClient->createDsByEtbId($etablissement->key[EtablissementRegionView::KEY_IDENTIFIANT], $this->generation->arguments->date_declaration);
+                $ds->save();
+                $this->generation->documents->add($cpt, $ds->_id);
+                $cpt++;
+            } catch (sfException $exc) {
+                echo $exc->getMessage();
+                continue;
+            }
         }
-	$this->generation->documents = $documents;
     }
 
     protected function getDocumentName() {
