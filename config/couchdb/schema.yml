@@ -333,7 +333,6 @@ DRM:
             no_accises: {   }
             num_tva_intracomm: {  required: false } # A SUPPRIMER
             adresse: {  }
-            adresse_complementaire: { required: false}
             commune: {  }
             code_postal: {   }
             region: {  }
