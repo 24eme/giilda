@@ -17,7 +17,7 @@ class FactureLatex extends GenericLatex {
   }
 
   public function getNbPages() {
-    $nbLignes = $this->facture->getNbLignes() + self::NB_LIGNES_REGLEMENT + self::NB_LIGNES_ENTETE + self::MAX_NB_LIGNES_ORGA;
+    $nbLignes = $this->facture->getNbLignesMouvements() + self::NB_LIGNES_REGLEMENT + self::NB_LIGNES_ENTETE + self::MAX_NB_LIGNES_ORGA;
     $nb_echeances = count($this->facture->echeances);
     if ($nb_echeances)
       $nbLignes += self::NB_LIGNES_PAPILLONS_FIXE + self::NB_LIGNES_PAPILLONS_PAR_ECHEANCE * $nb_echeances;
@@ -33,7 +33,7 @@ class FactureLatex extends GenericLatex {
     return html_entity_decode(htmlspecialchars_decode(
 						      get_partial('facture/latexContent', array('facture' => $this->facture,
 												'nb_pages' => $this->getNbPages(),
-												'nb_lines' => $this->facture->getNbLignes()))
+												'nb_lines' => $this->facture->getNbLignesMouvements()))
 						      , HTML_ENTITIES));
   }
 
