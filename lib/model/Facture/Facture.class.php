@@ -425,7 +425,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function saveDocumentsOrigine() {
         foreach ($this->origines as $docid) {
             $doc = FactureClient::getInstance()->getDocumentOrigine($docid);
-            $doc->save();
+	    if ($doc) {
+	      $doc->save();
+	    }
         }
     }
 
@@ -478,6 +480,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function getNumeroArchive() {
 
         return $this->_get('numero_archive');
+    }
+
+    public function setVerseEnCompta() {
+      return $this->_set('versement_comptable', 1);
     }
 
     public function isArchivageCanBeSet() {
