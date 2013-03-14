@@ -34,12 +34,13 @@ class GenerationDSPDF extends GenerationPDF {
         $dsClient = DSClient::getInstance();
         $cpt = 0;
         foreach ($etablissementsViews as $etablissement) {
-            try {
+           try {           
                 $ds = $dsClient->createDsByEtbId($etablissement->key[EtablissementRegionView::KEY_IDENTIFIANT], $this->generation->arguments->date_declaration);
                 $ds->save();
                 $this->generation->documents->add($cpt, $ds->_id);
                 $cpt++;
             } catch (sfException $exc) {
+               // on continue en cas d'exception car une exception peut etre levé si une DS existe dèjà pour un etablissement et pour cette période 
                 echo $exc->getMessage();
                 continue;
             }
