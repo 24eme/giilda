@@ -406,7 +406,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getNbLignesMouvements() {
-       // $nbLigne = count($this->echeances) * 4;
+      $nbLigne = 0 ;
         foreach ($this->lignes as $lignesType) {
             $nbLigne += count($lignesType) + 1;
         }

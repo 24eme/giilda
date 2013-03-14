@@ -19,7 +19,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
     foreach ($p as $produit) {
       include_partial('facture/templateTableRow', array('produit' => $produit->getRawValue()));
       $line_nb_current_page++;  
-if ($line_nb_current_page > $current_avg_nb_lines_per_page || $line_nb_current_page >= $max_line_nb_current_page) {
+      if ($line_nb_current_page > $current_avg_nb_lines_per_page || $line_nb_current_page >= $max_line_nb_current_page) {
 	include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => ($max_line_nb_current_page - $line_nb_current_page), 'avoir' => $avoir));
 	echo "\\newpage\n";
 	include_partial('facture/templateNumPage', array('nb_page' => $nb_pages));
