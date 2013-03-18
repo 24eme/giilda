@@ -12,13 +12,14 @@ while(<STDIN>) {
 	print "code journal;" if ($verbose);
         print $field[0]."\n";
 	print "date;" if ($verbose);
-	$field[1] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$3$2$1/;
+	$field[1] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	print $field[1]."\n";
         print "date saisie;" if ($verbose);
-	$field[2] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$3$2$1/;
+	$field[2] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	print $field[2]."\n";
         print "piece;" if ($verbose);
-        print $field[3]."\n";
+        $piece = $field[3]; $piece =~ s/[^a-z0-9]//ig;
+        print $piece."\n";
         print "numero de facture;" if ($verbose);
         print $field[3]."\n";
         print "piece tréso;" if ($verbose);
@@ -36,7 +37,7 @@ while(<STDIN>) {
         print "numero reglement;" if ($verbose);
         print "\n";
         print "date echeance;" if ($verbose);
-	$field[8] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$3$2$1/;
+	$field[8] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
         print $field[8]."\n";
         print "partie;" if ($verbose);
         print "\n";

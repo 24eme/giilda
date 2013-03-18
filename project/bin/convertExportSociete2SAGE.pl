@@ -126,7 +126,7 @@ while(<STDIN>) {
 	print "contrôle de l'encours : " if ($verbose);
 	print "0\n";
 	print "date de création (VINSI) : " if ($verbose);
-	$field[13] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/$3$2$1/;
+	$field[13] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	$field[13] = '010112' if (!$field[13]);
 	print $field[13]."\n";
 	print "hors rappel/relevé (EXPORT SAGE) : " if ($verbose);
