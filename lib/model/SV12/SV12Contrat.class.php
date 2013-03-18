@@ -208,7 +208,7 @@ class SV12Contrat extends BaseSV12Contrat {
 
     function updateNoContrat($produit, $contratinfo = array('contrat_type' => null, 'vendeur_identifiant' => null, 'vendeur_nom' => null, 'contrat_numero' => null, 'volume' => null, 'volume_prop' => null))
     {
-      if ($this->volume)
+      if ($this->volume && (!isset($contratinfo['volume']) || !$contratinfo['volume']))
 	return ;
       $this->contrat_numero = (isset($contratinfo['contrat_numero'])) ? $contratinfo['contrat_numero'] : null;
       $this->contrat_type = $contratinfo['contrat_type'];
