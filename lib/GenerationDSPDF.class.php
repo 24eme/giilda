@@ -35,7 +35,7 @@ class GenerationDSPDF extends GenerationPDF {
         $cpt = 0;
 	$this->generation->documents = array();
         foreach ($etablissementsViews as $etablissement) {
-	  $ds = $dsClient->createDsByEtbId($etablissement->key[EtablissementRegionView::KEY_IDENTIFIANT], $this->generation->arguments->date_declaration);
+	  $ds = $dsClient->findOrCreateDsByEtbId($etablissement->key[EtablissementRegionView::KEY_IDENTIFIANT], $this->generation->arguments->date_declaration);
 	  $ds->save();
 	  $this->generation->documents->add($cpt, $ds->_id);
 	  $cpt++;
