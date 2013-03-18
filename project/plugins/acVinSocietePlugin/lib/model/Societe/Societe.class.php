@@ -62,11 +62,11 @@ class Societe extends BaseSociete {
     }
 
     public function getRegionViticole() {
-      if (count($this->getRegionsViticoles()) > 1)
-	throw new sfException("La societe ".$this->identifiant." est reliée des établissements de plusieurs régions viticoles, ce qui n'est pas permis");
-      if (!count($this->getRegionsViticoles()))
-	throw new sfException("La societe ".$this->identifiant." n'a pas de région viti :(");
       $regions = $this->getRegionsViticoles();
+      if (count($regions) > 1)
+	throw new sfException("La societe ".$this->identifiant." est reliée des établissements de plusieurs régions viticoles, ce qui n'est pas permis");
+      if (!count($regions))
+	throw new sfException("La societe ".$this->identifiant." n'a pas de région viti :(");
       return array_shift($regions);
     }
 
