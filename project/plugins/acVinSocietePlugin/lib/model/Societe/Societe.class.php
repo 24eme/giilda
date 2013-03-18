@@ -184,7 +184,7 @@ class Societe extends BaseSociete {
     }
     
     public function isTransaction() {
-      return $this->isNegoOrViti() && $this->isCourtier();
+      return $this->isNegoOrViti() || $this->isCourtier();
     }
 
     public function isNegoOrViti() {
