@@ -50,14 +50,12 @@ class DSClient extends acCouchdbClient {
         return $v->format('Y-m-d');
     }
 
-    public function createDsByEtb($etablissement, $date_stock) {
-        return $this->createDsByEtbId($etablissement->identifiant,$date_stock);
-    }
-
-    public function createDsByEtbId($etablissementId, $date_stock) {
+    public function findOrCreateDsByEtbId($etablissementId, $date_stock) {
         $periode = $this->buildPeriode($this->createDateStock($date_stock));
-        if($this->findByIdentifiantAndPeriode($etablissementId, $periode)){
-            throw new sfException("La DS pour l'etablissement $etablissementId existe dèjà pour la période $periode \n");
+        $ds = $this->findByIdentifiantAndPeriode($etablissementId, $periode);
+	if($ds){
+	  $ds->updateProduits();
+	  return $ds;
         }
         $ds = new DS();
         $ds->date_emission = date('Y-m-d');
@@ -69,12 +67,7 @@ class DSClient extends acCouchdbClient {
     }
 
     public function createOrFind($etablissementId, $date_stock) {
-        $ds = $this->findByIdentifiantAndPeriode($etablissementId, $this->buildPeriode($this->createDateStock($date_stock)));
-        if(!$ds) {
-            return $this->createDsByEtbId($etablissementId, $date_stock);
-        }
-
-        return $ds;
+      throw sfException('createOrFind deprecated use findOrCreateDsByEtbId instead');
     }
 
     public function getHistoryByOperateur($etablissement) {

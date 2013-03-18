@@ -95,6 +95,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 
     protected function updateProduitsFromVracs() {
       $hproduits = VracSoussigneIdentifiantView::getInstance()->getProduitHashesFromCampagneAndAcheteur($this->campagne, $this->getEtablissement());
+      $hproduits = array_merge($hproduits, VracSoussigneIdentifiantView::getInstance()->getProduitHashesFromCampagneAndAcheteur(ConfigurationClient::getInstance()->getPreviousCampagne($this->campagne), $this->getEtablissement()));
       foreach ($hproduits as $produit) {
 	$produitDs = $this->addProduit($produit);
       }
