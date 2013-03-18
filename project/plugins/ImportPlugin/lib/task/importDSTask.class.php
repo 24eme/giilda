@@ -92,7 +92,7 @@ EOF;
 
   public function importLigne($ds, $line) {
     if (is_null($ds)) {
-      $ds = DSClient::getInstance()->createOrFind($this->getIdentifiant($line), $this->getDateCreation($line));
+      $ds = DSClient::getInstance()->findOrCreateDsByEtbId($this->getIdentifiant($line), $this->getDateCreation($line));
       $ds->date_emission = $ds->date_stock;
 
       if (!$ds->isNew()) {
