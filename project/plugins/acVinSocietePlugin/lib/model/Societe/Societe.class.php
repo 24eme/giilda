@@ -62,6 +62,9 @@ class Societe extends BaseSociete {
     }
 
     public function getRegionViticole() {
+      if (!$this->isTransaction()) {
+	return '';
+      }
       $regions = $this->getRegionsViticoles();
       if (count($regions) > 1)
 	throw new sfException("La societe ".$this->identifiant." est reliée des établissements de plusieurs régions viticoles, ce qui n'est pas permis");
@@ -180,6 +183,10 @@ class Societe extends BaseSociete {
         return false;
     }
     
+    public function isTransaction() {
+      return $this->isNegoOrViti() && $this->isCourtier();
+    }
+
     public function isNegoOrViti() {
         return ($this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR)
         || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
