@@ -44,7 +44,7 @@ EOF;
     print $societe->no_tva_intracommunautaire.";";
     print $societe->siret.";";
     print $societe->statut.";";
-    print $societe->date_modification";";
+    print $societe->date_modification.";";
     print $societe->telephone.";"; 
     print $societe->fax.";"; 
     print $societe->email.";"; 
