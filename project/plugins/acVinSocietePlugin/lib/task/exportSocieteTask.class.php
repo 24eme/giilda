@@ -24,7 +24,7 @@ EOF;
   }
 
   const ISCLIENT = 1;
-  const ISFOURNISSEUR = 1;
+  const ISFOURNISSEUR = 2;
 
   private function printSociete($societe, $compte, $isclient = 1) {
     print $compte.";";
@@ -44,10 +44,10 @@ EOF;
     print $societe->no_tva_intracommunautaire.";";
     print $societe->siret.";";
     print $societe->statut.";";
-    print ";"; //DATE DE CREATION
-    print ";"; //TELEPHONE
-    print ";"; //FAX
-    print ";"; //EMAIL
+    print $societe->date_modification";";
+    print $societe->telephone.";"; 
+    print $societe->fax.";"; 
+    print $societe->email.";"; 
     print "http://10.0.2.196/societe/".$societe->identifiant."/visualisation;";
     try {
       print $societe->region_viticole.";";
