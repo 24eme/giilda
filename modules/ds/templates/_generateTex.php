@@ -48,7 +48,7 @@ $coordonneesInterLoire = $ds->getCoordonneesIL();
 $nom = ($ds->declarant->raison_sociale) ? $ds->declarant->raison_sociale : $ds->declarant->nom;
 echo ($nom) ? cut_latex_string($nom,35) : $pointille;
 ?>}
-\def\DSClientAdresse{<?php echo ($ds->declarant->adresse) ? cut_latex_string($ds->declarant->adresse,35) : $pointille; ?>}
+\def\DSClientAdresse{<?php echo ($ds->declarant->adresse) ? cut_latex_string(str_replace(';', ' ', $ds->declarant->adresse),35) : $pointille; ?>}
 
 \def\DSClientCP{<?php echo $ds->declarant->code_postal; ?>}
 \def\DSClientVille{<?php echo cut_latex_string($ds->declarant->commune,29); ?>}
@@ -62,7 +62,7 @@ echo ($nom) ? cut_latex_string($nom,35) : $pointille;
 \def\DSClientVilleFenetre{<?php echo display_latex_string($ds->declarant->commune,';',35); ?>}
 
 \def\InterloireAdresse{\textbf{INTERLOIRE} - <?php echo $coordonneesInterLoire['adresse'].' - '.$coordonneesInterLoire['code_postal'].' '.$coordonneesInterLoire['ville']; ?> \\
-<?php echo $coordonneesInterLoire['telephone'].' - '.$coordonneesInterLoire['email']; ?>} 
+<?php $email = '' ; if (isset($coordonneesInterLoire['email'])) { $email =' - '.$coordonneesInterLoire['email']; } echo $coordonneesInterLoire['telephone'].$email; ?>} 
 
 
 \begin{document}
@@ -165,12 +165,14 @@ page \thepage / 1
 \\
 \hline
 <?php
+$nblignes = 0;
 foreach ($ds->declarations as $declaration) :
 
     if ($declaration->hasElaboration()) :
-        ?>
 
-        <?php echo sprintf("%04d",$declaration->code_produit) ?> &
+      $nblignes += 2;
+
+        echo sprintf("%04d",$declaration->code_produit) ?> &
         <?php echo $declaration->produit_libelle . ' (en cave)'; ?> ~ &
         ~ &
         <?php echo ($declaration->vci) ? $declaration->vci : '~'; ?>  &
@@ -183,6 +185,7 @@ foreach ($ds->declarations as $declaration) :
         <?php echo ($declaration->reserve_qualitative) ? $declaration->reserve_qualitative : '~'; ?> 
         \\ \hline
         <?php else:
+	  $nblignes += 1;
         ?>
         <?php echo sprintf("%04d",$declaration->code_produit); ?> &
         <?php echo $declaration->produit_libelle; ?> ~ &
@@ -194,7 +197,7 @@ foreach ($ds->declarations as $declaration) :
     endif;
 endforeach;
 
-for ($i = 0; $i < (33 - count($ds->declarations)); $i++) :
+for ($i = 0; $i < (33 - $nblignes); $i++) :
     ?>
     ~ & ~ & ~ & ~ & ~ \\ \hline 
 <?php endfor; ?>            
