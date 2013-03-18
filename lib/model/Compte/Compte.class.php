@@ -256,11 +256,12 @@ class Compte extends BaseCompte {
     }
     
     public function getFournisseur() {
-        if(!SocieteClient::getInstance()->find($this->id_societe)->code_comptable_fournisseur) return false;
-        if(SocieteClient::getInstance()->find($this->id_societe)->exist('type_fournisseur')){
-            return SocieteClient::getInstance()->find($this->id_societe)->type_fournisseur;
+        $societe = SocieteClient::getInstance()->find($this->id_societe);
+        if(!$societe->code_comptable_fournisseur) return false;
+        if($societe->exist('type_fournisseur')){
+            return $societe->type_fournisseur;
         }
-        return 'Fournisseur';
+        return ($societe->isNegoOrViti())? 'Fournisseurs MDV' : 'Fournisseur';
     }
 
     public function isEtablissementContact() {
