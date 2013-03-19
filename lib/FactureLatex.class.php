@@ -28,8 +28,12 @@ class FactureLatex extends GenericLatex {
     return floor(($this->getNbLignes()/ self::MAX_LIGNES_PERPAGE) + 1);
   }
   
+  private function getFileNameWithoutExtention() {
+    return  'facture_'.$this->facture->identifiant.'_'.str_replace('/', '-', $this->facture->numero_interloire).'_'.$this->facture->numero_facture.'_'.$this->facture->_rev;
+  }
+
   public function getLatexFileNameWithoutExtention() {
-    return $this->getTEXWorkingDir().$this->facture->numero_facture.'_'.$this->facture->identifiant.'_'.$this->facture->_rev;
+    return $this->getTEXWorkingDir().$this->getFileNameWithoutExtention();
   }
 
 
@@ -47,7 +51,7 @@ class FactureLatex extends GenericLatex {
   }
 
   public function getPublicFileName($extention = '.pdf') {
-    return 'facture_'.$this->facture->identifiant.'_'.$this->facture->numero_facture.'_page'.$this->getNbPages().'_'.$this->facture->_rev.$extention;
+    return $this->getFileNameWithoutExtention().$extention;
   }
 
 }
