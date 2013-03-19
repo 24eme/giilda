@@ -193,7 +193,7 @@ class Compte extends BaseCompte {
 	  }
 	}
 	if (!$this->isEtablissementContact() && ! $this->isSocieteContact()) {
-	  $this->addTag('automatique', 'Individu');
+	  $this->addTag('automatique', 'Interlocuteur');
 	}
 
         if (is_null($this->adresse_societe)) {
