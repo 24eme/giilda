@@ -142,7 +142,7 @@ while(<STDIN>) {
 	print "email (VINSI) : " if ($verbose);
 	print substr($field[16], 0 ,69)."\n";
 	print "site (VINSI) : " if ($verbose);
-	print substr($field[17], 0,0 69)."\n";
+	print substr($field[17], 0, 0, 69)."\n";
 	print "numéro EASY : " if ($verbose);
 	print "\n";
 	print "placé sous surveillance : " if ($verbose);
