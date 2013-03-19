@@ -29,7 +29,7 @@
                             <td><?php echo $history->value[GenerationClient::HISTORY_VALUES_NBDOC]; ?></td>
                             
                             <td><?php echo link_to($history->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'generation_view', array('type_document' => $type, 'date_emission' => $history->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])); ?></td>
-<?php if ($type == GenerationClient::TYPE_DOCUMENT_FACTURES) {echo "<td>";printf("%02d €", $history->value[GenerationClient::HISTORY_VALUES_SOMME]); echo"</td>";} ?>
+<?php if ($type == GenerationClient::TYPE_DOCUMENT_FACTURES) {echo "<td>";printf("%.02f €", $history->value[GenerationClient::HISTORY_VALUES_SOMME]); echo"</td>";} ?>
 
                         </tr>
                     <?php endforeach; ?>
