@@ -126,12 +126,24 @@ class Compte extends BaseCompte {
       $this->get('tags')->add($type, $tags);
     }
 
-    public function removeTag($type, $tag) {
+    public function removeTag($type, $tags) {
       $tag = Compte::transformTag($tag);
-      $tags = $this->add('tags')->add($type)->toArray(true, false);
-      $tags = array_diff($tags, array($tag));
+      $tags_existant = $this->add('tags')->add($type)->toArray(true, false);      
+      
+      $tags_existant = array_diff($tags_existant, $tags);
       $this->get('tags')->remove($type);
       $this->get('tags')->add($type, $tags);
+    }
+    
+    public function removeTags($type, $tags) {
+      foreach ($tags as $k => $tag)
+              $tags[$k] = Compte::transformTag($tag);
+      
+      $tags_existant = $this->add('tags')->add($type)->toArray(true, false);      
+      
+      $tags_existant = array_diff($tags_existant, $tags);
+      $this->get('tags')->remove($type);
+      $this->get('tags')->add($type, $tags_existant);
     }
 
     public function addOrigine($id) {    
@@ -170,13 +182,15 @@ class Compte extends BaseCompte {
         $soc->save(true);
     }
     
-
     public function save($fromsociete = false, $frometablissement = false, $from_compte = false) {
 
 	if ($this->isSocieteContact()) {
 	  $this->addTag('automatique', 'Societe');
-          if($this->getFournisseur()){
-              $this->addTag('automatique', $this->getFournisseur());
+          if($this->getFournisseurs()){
+              $this->removeFournisseursTag();
+              foreach ($this->getFournisseurs() as $type_fournisseur) {
+                  $this->addTag('automatique', $type_fournisseur);
+              }
           }
 	}
 	if ($this->isEtablissementContact()) {
@@ -255,13 +269,17 @@ class Compte extends BaseCompte {
         return ((SocieteClient::getInstance()->find($this->id_societe)->compte_societe) == $this->_id);
     }
     
-    public function getFournisseur() {
+    private function removeFournisseursTag(){
+        $this->removeTags('automatique', array('Fournisseur', 'Fournisseurs MDV','MDV',  'PLV'));
+    }
+    
+    public function getFournisseurs() {
         $societe = SocieteClient::getInstance()->find($this->id_societe);
         if(!$societe->code_comptable_fournisseur) return false;
         if($societe->exist('type_fournisseur')){
             return $societe->type_fournisseur;
         }
-        return ($societe->isNegoOrViti())? 'Fournisseurs MDV' : 'Fournisseur';
+        return ($societe->isNegoOrViti())? array('Fournisseurs MDV') : array(SocieteClient::FOURNISSEUR_TYPE_FOURNISSEUR);
     }
 
     public function isEtablissementContact() {
