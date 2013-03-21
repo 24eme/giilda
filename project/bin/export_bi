@@ -20,11 +20,11 @@ curl http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/revendication/_view/stocks 
 echo "#ETABLISSEMENT;statut (ACTIF, SUSPENDU);famille;identifiant societe;identifiant interne;nom;identifiant;cvi;region viticole;raison sociale;siege.adresse;siege.commune;siege.code postal;no accises;carte pro;email;telephone;fax;recette locale identifiant societe;recette locale nom" > $TMP/export_bi_etablissements.csv > $TMP/export_bi_etablissements.csv
 curl http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/etablissement/_view/all?reduce=false | sed -f bin/unicode2alpha | sed 's/.*"key":\["INTERPRO-inter-loire",/ETABLISSEMENT;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^ETABLISSEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g'  >> $TMP/export_bi_etablissements.csv >> $TMP/export_bi_etablissements.csv
 
-echo "#SOCIETE;statut (ACTIF, SUSPENDU);type societe (OPERATEUR, VITICULTEUR, NEGOCIANT, COURTIER, PRESSE, PARTENAIRE, DOUANE, INSTITUTION, HOTEL-RESTAURANT, AUTRE);identifiant interne;identifiant;code_comptable_client;code_comptable_fournisseur;nom;nom abrege;cave cooperative (OUI, NON);siret;code naf;tva intracommunautaire;enseignes (enseigne1|enseigne2);adresse;code postal;ville;pays" > $TMP/export_bi_societes.csv
+echo "#SOCIETE;statut (ACTIF, SUSPENDU);type societe (OPERATEUR, VITICULTEUR, NEGOCIANT, COURTIER, PRESSE, PARTENAIRE, DOUANE, INSTITUTION, HOTEL-RESTAURANT, AUTRE);identifiant interne;identifiant;code_comptable_client;code_comptable_fournisseur;type fournisseur;nom;nom abrege;cave cooperative (OUI, NON);siret;code naf;tva intracommunautaire;enseignes (enseigne1|enseigne2);adresse;code postal;ville;pays" > $TMP/export_bi_societes.csv
 curl http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/societe/_view/export | sed -f bin/unicode2alpha | sed 's/.*"key":\["INTERPRO-inter-loire",/SOCIETE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^SOCIETE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' >> $TMP/export_bi_societes.csv
 
-cat  $TMP/export_bi_societes.csv | grep ';"MDV";' > $TMP/export_bi_mdv.csv
-cat  $TMP/export_bi_societes.csv | grep ';"PLV";' > $TMP/export_bi_plv.csv
+cat  $TMP/export_bi_societes.csv | grep -E ';"[PLV\|]*MDV[PLV\|]*";' > $TMP/export_bi_mdv.csv
+cat  $TMP/export_bi_societes.csv | grep -E ';"[MDV\|]*PLV[MDV\|]*";' > $TMP/export_bi_plv.csv
 
 echo -n > $TMP/export_bi_vitinego.csv
 cat  $TMP/export_bi_societes.csv | grep ';"VITICULTEUR";' >> $TMP/export_bi_vitinego.csv
