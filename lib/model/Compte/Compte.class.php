@@ -270,16 +270,16 @@ class Compte extends BaseCompte {
     }
     
     private function removeFournisseursTag(){
-        $this->removeTags('automatique', array('Fournisseur', 'Fournisseurs MDV','MDV',  'PLV'));
+        $this->removeTags('automatique', array('Fournisseur', 'MDV',  'PLV'));
     }
     
     public function getFournisseurs() {
         $societe = SocieteClient::getInstance()->find($this->id_societe);
         if(!$societe->code_comptable_fournisseur) return false;
-        if($societe->exist('type_fournisseur')){
+        if($societe->exist('type_fournisseur') && count($societe->type_fournisseur)){
             return $societe->type_fournisseur;
         }
-        return ($societe->isNegoOrViti())? array('Fournisseurs MDV') : array(SocieteClient::FOURNISSEUR_TYPE_FOURNISSEUR);
+        return array('Fournisseur');
     }
 
     public function isEtablissementContact() {
