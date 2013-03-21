@@ -64,6 +64,16 @@ use_helper('Date');
                 <?php echo $societe->code_comptable_fournisseur; ?>
             </div>  
         <?php endif; ?>
+        <?php if ($societe->exist('type_fournisseur') && count($societe->type_fournisseur)) : ?>
+            <div class="form_ligne"> 
+                <label for="type_fournisseur">
+                    Type de Fournisseur : 
+                </label>
+                <?php foreach ($societe->type_fournisseur as $type_fournisseur) : ?>
+                    <?php echo $type_fournisseur; ?>&nbsp;
+                <?php endforeach; ?>
+            </div>  
+        <?php endif; ?>
         <?php if ($societe->siret) : ?>
             <div class="form_ligne">
                 <label for="siret">

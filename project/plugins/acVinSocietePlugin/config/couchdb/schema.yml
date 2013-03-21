@@ -12,7 +12,12 @@ Societe:
       statut: { }
       code_comptable_client: { }
       code_comptable_fournisseur: { }
-      type_fournisseur: { required: false }
+      type_fournisseur:
+        required: false
+        type: array_collection
+        definition:
+          fields:
+            '*': { }
       code_naf: { }
       siret: { }
       interpro: { }

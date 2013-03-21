@@ -36,6 +36,13 @@ echo $societeForm->renderGlobalErrors();
             <?php echo $societeForm['type_numero_compte_fournisseur']->render(); ?>
             <?php echo $societeForm['type_numero_compte_fournisseur']->renderError(); ?>
         </div>                 
+        <?php if (!$societeForm->getObject()->isNegoOrViti()) : ?>
+         <div class="form_ligne">
+            <?php echo $societeForm['type_fournisseur']->renderLabel(null,array('class' => 'label_liste')); ?>
+            <?php echo $societeForm['type_fournisseur']->render(); ?>
+            <?php echo $societeForm['type_fournisseur']->renderError(); ?>
+             </div>   
+        <?php endif; ?>        
         <div class="form_ligne">
 			<div class="form_colonne">
 				<?php echo $societeForm['siret']->renderLabel(); ?>
