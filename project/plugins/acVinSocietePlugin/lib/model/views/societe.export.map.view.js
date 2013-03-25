@@ -25,8 +25,12 @@ function(doc) {
           doc.no_tva_intracommunautaire,
           doc.enseignes.join("|"),
           doc.siege.adresse,
+	  doc.siege.adresse_complementaire,
           doc.siege.code_postal,
           doc.siege.commune,
-          doc.siege.pays
+          doc.siege.pays,
+	  doc.telephone,
+          doc.fax,
+          doc.email
           ]);
 }
