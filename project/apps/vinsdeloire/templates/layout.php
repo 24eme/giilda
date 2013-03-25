@@ -35,6 +35,9 @@
             if ($sf_user->hasFlash('global_error'))
                 echo '<div style="margin-bottom: 20px;margin-left: auto; margin-right: auto; width: 700px;" class="global_error"><p><span>' . $sf_user->getFlash('global_error') . "</span></p></div>";
             ?>
+<?php if (sfConfig::get('app_instance') == 'preprod') : ?>
+            <div style="text-align:center; font-weight:bold; margin-bottom: 10px; color:red;">Vous êtes dans l'environnement de préproduction. Les données introduites peuvent être supprimées à tout moment.</div>
+<?php endif; ?>
             <div id="global_content" class="<?php include_slot('global_css_class', null) ?>">
                 <div id="contenu">
                     <?php echo $sf_content ?>
