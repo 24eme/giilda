@@ -24,7 +24,7 @@
 
         <?php include_javascripts() ?>
     </head>
-    <body id="app_compte">        
+    <body id="app_compte_<?php echo sfConfig::get('app_instance'); ?>">        
         <!-- #global -->
         <div id="global">
 
