@@ -107,11 +107,12 @@ html {
 }
 body {
   font-family:Helvetica, Arial, sans-serif;
-  background:url(../images/fonds/bg_body.png);
   color:#3e3e3e;
   font-size:12px;
   line-height:1.4;
 }
+body#app_transaction_prod, body#app_transaction_dev { background:url(../images/fonds/bg_body.png) repeat scroll 0 0 #e6e6e6; }
+body#app_compte_prod, body#app_compte_preprod, body#app_compte_dev { background:url(../images/fonds/bg_body.png) repeat scroll 0 0 #9d3032; }
 a {
   color:#3e3e3e;
   text-decoration:none;

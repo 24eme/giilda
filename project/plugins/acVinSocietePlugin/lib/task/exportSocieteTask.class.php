@@ -19,7 +19,7 @@ class exportSocieteTask extends sfBaseTask
 The [testFacture|INFO] task does things.
 Call it with:
 
-    [php symfony export:facture|INFO]
+    [php symfony export:societe|INFO]
 EOF;
   }
 
@@ -50,12 +50,13 @@ EOF;
     print $societe->email.";"; 
     print "http://10.0.2.196/societe/".$societe->identifiant."/visualisation;";
     try {
-      print $societe->region_viticole.";";
+      if ($isclient == self::ISCLIENT) {
+	print $societe->getRegionViticole(false).";";
+      }
     }catch(sfException $e) {
       print "INCONNUE;";
     }
     print "\n";
-      
   }
 
   protected function execute($arguments = array(), $options = array())
