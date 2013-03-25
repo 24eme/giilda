@@ -24,7 +24,7 @@
 
         <?php include_javascripts() ?>
     </head>
-    <body id="app_transaction">        
+    <body id="app_compte">        
         <!-- #global -->
         <div id="global">
 
