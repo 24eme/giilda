@@ -61,22 +61,36 @@ class Societe extends BaseSociete {
       return $this->getTypeSociete();
     }
 
-    public function getRegionViticole() {
+    public function getRegionViticole($throwexception = true) {
       if (!$this->isTransaction()) {
 	return '';
       }
-      $regions = $this->getRegionsViticoles();
-      if (count($regions) > 1)
-	throw new sfException("La societe ".$this->identifiant." est reliée des établissements de plusieurs régions viticoles, ce qui n'est pas permis");
-      if (!count($regions))
-	throw new sfException("La societe ".$this->identifiant." n'a pas de région viti :(");
+      $regions = $this->getRegionsViticoles($throwexception);
+      if (count($regions) > 1) {
+	if ($throwexception) {
+	  throw new sfException("La societe ".$this->identifiant." est reliée des établissements de plusieurs régions viticoles, ce qui n'est pas permis");
+	}
+	return array_shift($regions);
+      }
+      if (!count($regions)) {
+	if ($throwexception) {
+	  throw new sfException("La societe ".$this->identifiant." n'a pas de région viti :(");
+	}
+	return '';
+      }
       return array_shift($regions);
     }
 
-    private function getRegionsViticoles() {
+    private function getRegionsViticoles($excludeSuspendus = true) {
       $regions = array();
       foreach($this->getEtablissementsObj() as $id => $e) {
 	if ($e->etablissement->isActif()) {
+	  $regions[$e->etablissement->region] = $e->etablissement->region;
+	}
+      }
+      //Si tous suspendus que !excludeSuspendus, on va tout de même chercher des régions
+      if (!count($regions) && !$excludeSuspendus) {
+	foreach($this->getEtablissementsObj() as $id => $e) {
 	  $regions[$e->etablissement->region] = $e->etablissement->region;
 	}
       }

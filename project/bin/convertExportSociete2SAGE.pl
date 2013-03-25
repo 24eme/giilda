@@ -206,8 +206,12 @@ while(<STDIN>) {
 	    print "CL3\n";
 	}elsif ($field[18] == 'ANGERS') {
 	    print "CL2\n";
-	}else {
+	}elsif ($filed[18] == 'TOURS') {
 	    print "CL1\n";
+	}elsif ($filed[18] == 'HORS_INTERLOIRE') {
+	    print "CL1\n";
+	}else {
+	    print "\n";
 	}
 	print "collaborateur prénom : " if ($verbose);
 	print "\n";
