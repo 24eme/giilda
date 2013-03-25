@@ -1,4 +1,5 @@
 all:
+  instance: dev
   alertes:
     generations:
       VRAC_NON_SOLDE:
