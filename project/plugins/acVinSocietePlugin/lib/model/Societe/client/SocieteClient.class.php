@@ -21,6 +21,10 @@ class SocieteClient extends acCouchdbClient {
     
     const NUMEROCOMPTE_TYPE_CLIENT = 'CLIENT';    
     const NUMEROCOMPTE_TYPE_FOURNISSEUR = 'FOURNISSEUR';
+    
+    const FOURNISSEUR_TYPE_MDV = "MDV";
+    const FOURNISSEUR_TYPE_PLV = "PLV";
+    const FOURNISSEUR_TYPE_FOURNISSEUR = "FOURNISSEUR";
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Societe");

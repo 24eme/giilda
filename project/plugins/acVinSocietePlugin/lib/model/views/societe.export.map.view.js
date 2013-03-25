@@ -16,6 +16,7 @@ function(doc) {
           doc.identifiant], 
          [doc.code_comptable_client, 
           doc.code_comptable_fournisseur,
+          doc.type_fournisseur.join("|"),
           doc.raison_sociale,
           doc.raison_sociale_abregee,
           cooperative,

@@ -99,13 +99,13 @@ class SocieteCsvFile extends CsvFile
 	}
 	if ($line[self::CSV_PARTENAIRE_ENSEIGNE])
 		$s->enseignes->add(null, $line[self::CSV_PARTENAIRE_ENSEIGNE]);
-        if($line[self::CSV_PARTENAIRE_CODE_FOURNISSEUR])
-                $s->code_comptable_fournisseur = sprintf('F%07d', $line[self::CSV_PARTENAIRE_CODE_FOURNISSEUR]);
+        if($line[self::CSV_PARTENAIRE_CODE_FOURNISSEUR]){
+                $s->code_comptable_fournisseur = sprintf('%08d', $line[self::CSV_PARTENAIRE_CODE_FOURNISSEUR]);                
+        }
+        $s->add('type_fournisseur',array());
         if($line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR]){
-                $fournisseur_tag = str_replace('Fournisseur MDV','Fournisseur',$line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR]);
-                $fournisseur_tag = str_replace('Fournisseur PLV','Fournisseur',$fournisseur_tag);
-                $s->add('type_fournisseur',$fournisseur_tag);
-            
+                $fournisseur_tag = preg_replace ('/([A-Za-z ]*)(MDV|PLV)/','$2',$line[self::CSV_PARTENAIRE_TYPE_FOURNISSEUR]);
+                $s->add('type_fournisseur',array($fournisseur_tag));
         }
       	$s->save();
       }

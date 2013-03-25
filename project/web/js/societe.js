@@ -10,5 +10,10 @@ $(document).ready(function()
             $('select#contacts_identifiant').attr('data-ajax',url_actif);
         }
     });
-
-});
+ 
+    $('#societe_modification_type_numero_compte_fournisseur_FOURNISSEUR').change(function(){
+       if($(this).is(':checked')) $('input[name="societe_modification[type_fournisseur][]"]').removeAttr('disabled');
+       else $('input[name="societe_modification[type_fournisseur]"]').attr('disabled','disabled');
+    });
+ 
+    });

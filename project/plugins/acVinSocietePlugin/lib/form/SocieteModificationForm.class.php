@@ -35,6 +35,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setWidget('type_numero_compte_client', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteClient(), 'multiple' => true, 'expanded' => true)));
 
             $this->setWidget('cooperative', new sfWidgetFormChoice(array('choices' => $this->getCooperative(), 'multiple' => false, 'expanded' => true)));
+        }else{
+            $this->setWidget('type_fournisseur', new sfWidgetFormChoice(array('choices' => $this->getTypesFournisseur(), 'multiple' => true, 'expanded' => true)));
         }
 
         $this->setWidget('siret', new sfWidgetFormInput());
@@ -53,6 +55,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
 
         if ($this->getObject()->isNegoOrViti()) {
             $this->widgetSchema->setLabel('cooperative', 'Cave coopérative *');
+        }else{
+            $this->widgetSchema->setLabel('type_fournisseur', 'Type fournisseur');
         }
 
         $this->widgetSchema->setLabel('siret', 'SIRET');
@@ -71,6 +75,8 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         if ($this->getObject()->isNegoOrViti()) {
             $this->setValidator('cooperative', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperative()))));
             $this->setValidator('type_numero_compte_client', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesNumeroCompteClient()), 'multiple' => true)));
+        }else{
+            $this->setValidator('type_fournisseur', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesFournisseur()), 'multiple' => true)));
         }
 
         $this->setValidator('siret', new sfValidatorString(array('required' => false)));
@@ -86,6 +92,10 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         if ($this->getObject()->code_comptable_fournisseur) {
             $this->widgetSchema['type_numero_compte_fournisseur']->setAttribute('disabled', 'disabled');
         }
+        else{
+            if(!$this->getObject()->isNegoOrViti())
+                $this->widgetSchema['type_fournisseur']->setAttribute('disabled', 'disabled');
+        }
 
         if ($this->getObject()->isInCreation()) {
             $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
@@ -100,17 +110,31 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         if ($this->getObject()->isInCreation()) {
             $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
         }
+        
+        if (!$this->getObject()->isNegoOrViti()){             
+                $this->setDefault('type_fournisseur', $this->getDefaultTypesFournisseur());
+        }
 
         if ($this->getObject()->isNegoOrViti()) {
             if (is_null($this->getObject()->cooperative)) {
                 $this->setDefault('cooperative', 0);
             }
             $this->setDefault('type_numero_compte_client', $this->getDefaultNumeroCompteClient());
-            
         }
 
         $this->setDefault('type_numero_compte_fournisseur', $this->getDefaultNumeroCompteFournisseur());
     }
+
+    protected function getDefaultTypesFournisseur() {
+        $types_fournisseur = array();
+        if($this->getObject()->exist('type_fournisseur')){
+            foreach ($this->getObject()->type_fournisseur as $type_fournisseur) {
+                $types_fournisseur[$type_fournisseur] = $type_fournisseur;
+            }
+        }
+        return $types_fournisseur;
+    }
+
 
     protected function getDefaultNumeroCompteClient() {
         $type_numero_compte_client = array();
@@ -119,7 +143,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         }
         return $type_numero_compte_client;
     }
-
+    
     protected function getDefaultNumeroCompteFournisseur() {
         $type_numero_compte_fournisseur = array();
         if ($this->getObject()->code_comptable_fournisseur) {
@@ -155,6 +179,11 @@ class SocieteModificationForm extends acCouchdbObjectForm {
     public function getTypesNumeroCompteFournisseur() {
         return array(SocieteClient::NUMEROCOMPTE_TYPE_FOURNISSEUR => 'Fournisseur');
     }
+    
+    public function getTypesFournisseur() {
+        return array(SocieteClient::FOURNISSEUR_TYPE_MDV => SocieteClient::FOURNISSEUR_TYPE_MDV ,
+                     SocieteClient::FOURNISSEUR_TYPE_PLV => SocieteClient::FOURNISSEUR_TYPE_PLV);
+    }
 
     private function setSocieteTypes() {
         $this->types_societe = SocieteClient::getSocieteTypes();
@@ -183,7 +212,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         foreach ($this->getEmbeddedForms() as $key => $form) {
             $form->updateObject($this->values[$key]);
         }
-        if (($this->getObject()->code_comptable_client) || $this->values['type_numero_compte_client']){
+        if (($this->getObject()->code_comptable_client) || ($this->getObject()->isNegoOrViti() && $this->values['type_numero_compte_client'])){
             
             if($this->getObject()->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR)
                 $this->getObject()->code_comptable_client = '02' . $this->getObject()->identifiant;
@@ -193,10 +222,21 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         else
             $this->getObject()->code_comptable_client = null;
         
-        if ($this->values['type_numero_compte_fournisseur'])
+        if ($this->values['type_numero_compte_fournisseur']){
             $this->getObject()->code_comptable_fournisseur = SocieteClient::getInstance()->getNextCodeFournisseur();
-        else
-            $this->getObject()->code_comptable_fournisseur = null;
+        }
+        
+        if($this->getObject()->isNegoOrViti() && $this->getObject()->code_comptable_fournisseur){
+            $this->getObject()->add('type_fournisseur',SocieteClient::FOURNISSEUR_TYPE_MDV);
+        }
+        
+        if(!$this->getObject()->isNegoOrViti() && ($this->getObject()->code_comptable_fournisseur))
+        {
+            if($this->values['type_fournisseur'])
+                $this->getObject()->add('type_fournisseur',$this->values['type_fournisseur']);
+            else
+               $this->getObject()->add('type_fournisseur',array()); 
+        }
     }
 
     protected function doSave($con = null) {

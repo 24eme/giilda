@@ -19,17 +19,18 @@ class SocieteExportView extends acCouchdbView
         
 	const VALUE_CODE_COMPTABLE_CLIENT = 0;
         const VALUE_CODE_COMPTABLE_FOURNISSEUR = 1;
-        const VALUE_RAISON_SOCIALE = 2;        
-        const VALUE_RAISON_SOCIALE_ABREGEE = 3;
-        const VALUE_COOPERATIVE = 4;
-        const VALUE_SIRET = 5;
-        const VALUE_CODE_NAF = 6;
-        const VALUE_NO_TVA_INTRACOM = 7;
-        const VALUE_ENSEIGNES = 8;
-        const VALUE_ADRESSE = 9;
-        const VALUE_CODE_POSTAL = 10;
-        const VALUE_COMMUNE = 11;
-        const VALUE_PAYS = 12;
+        const VALUE_TYPES_FOURNISSEUR = 2;
+        const VALUE_RAISON_SOCIALE = 3;        
+        const VALUE_RAISON_SOCIALE_ABREGEE = 4;
+        const VALUE_COOPERATIVE = 5;
+        const VALUE_SIRET = 6;
+        const VALUE_CODE_NAF = 7;
+        const VALUE_NO_TVA_INTRACOM = 8;
+        const VALUE_ENSEIGNES = 9;
+        const VALUE_ADRESSE = 10;
+        const VALUE_CODE_POSTAL = 11;
+        const VALUE_COMMUNE = 12;
+        const VALUE_PAYS = 13;
 
     public static function getInstance() {
         return acCouchdbManager::getView('societe', 'export', 'Societe');
