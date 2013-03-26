@@ -30,7 +30,7 @@ test:
 all:
   .settings:
 
-    enabled_modules:        [default, societe, compte, document]
+    enabled_modules:        [default, societe, compte, document, etablissement]
 
     # Form security secret (CSRF protection)
     csrf_secret:            false
