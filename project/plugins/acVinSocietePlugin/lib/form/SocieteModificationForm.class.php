@@ -133,7 +133,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             }
         }
         return $types_fournisseur;
-    }
+     }
 
 
     protected function getDefaultNumeroCompteClient() {
@@ -227,7 +227,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         }
         
         if($this->getObject()->isNegoOrViti() && $this->getObject()->code_comptable_fournisseur){
-            $this->getObject()->add('type_fournisseur',SocieteClient::FOURNISSEUR_TYPE_MDV);
+            $this->getObject()->add('type_fournisseur',array(SocieteClient::FOURNISSEUR_TYPE_MDV));
         }
         
         if(!$this->getObject()->isNegoOrViti() && ($this->getObject()->code_comptable_fournisseur))
