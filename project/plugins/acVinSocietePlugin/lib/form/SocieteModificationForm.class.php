@@ -35,9 +35,9 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setWidget('type_numero_compte_client', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteClient(), 'multiple' => true, 'expanded' => true)));
 
             $this->setWidget('cooperative', new sfWidgetFormChoice(array('choices' => $this->getCooperative(), 'multiple' => false, 'expanded' => true)));
-        }else{
-            $this->setWidget('type_fournisseur', new sfWidgetFormChoice(array('choices' => $this->getTypesFournisseur(), 'multiple' => true, 'expanded' => true)));
         }
+        
+        $this->setWidget('type_fournisseur', new sfWidgetFormChoice(array('choices' => $this->getTypesFournisseur(), 'multiple' => true, 'expanded' => true)));
 
         $this->setWidget('siret', new sfWidgetFormInput());
         $this->setWidget('code_naf', new sfWidgetFormInput());
@@ -55,9 +55,10 @@ class SocieteModificationForm extends acCouchdbObjectForm {
 
         if ($this->getObject()->isNegoOrViti()) {
             $this->widgetSchema->setLabel('cooperative', 'Cave coopérative *');
-        }else{
-            $this->widgetSchema->setLabel('type_fournisseur', 'Type fournisseur');
         }
+        
+        $this->widgetSchema->setLabel('type_fournisseur', 'Type fournisseur');
+        
 
         $this->widgetSchema->setLabel('siret', 'SIRET');
         $this->widgetSchema->setLabel('code_naf', 'Code Naf');
@@ -75,9 +76,10 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         if ($this->getObject()->isNegoOrViti()) {
             $this->setValidator('cooperative', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperative()))));
             $this->setValidator('type_numero_compte_client', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesNumeroCompteClient()), 'multiple' => true)));
-        }else{
-            $this->setValidator('type_fournisseur', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesFournisseur()), 'multiple' => true)));
         }
+        
+        $this->setValidator('type_fournisseur', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesFournisseur()), 'multiple' => true)));
+        
 
         $this->setValidator('siret', new sfValidatorString(array('required' => false)));
         $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
@@ -93,7 +95,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->widgetSchema['type_numero_compte_fournisseur']->setAttribute('disabled', 'disabled');
         }
         else{
-            if(!$this->getObject()->isNegoOrViti())
+           // if(!$this->getObject()->isNegoOrViti())
                 $this->widgetSchema['type_fournisseur']->setAttribute('disabled', 'disabled');
         }
 
@@ -111,9 +113,9 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
         }
         
-        if (!$this->getObject()->isNegoOrViti()){             
+       // if (!$this->getObject()->isNegoOrViti()){             
                 $this->setDefault('type_fournisseur', $this->getDefaultTypesFournisseur());
-        }
+       // }
 
         if ($this->getObject()->isNegoOrViti()) {
             if (is_null($this->getObject()->cooperative)) {
@@ -226,9 +228,9 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->getObject()->code_comptable_fournisseur = SocieteClient::getInstance()->getNextCodeFournisseur();
         }
         
-        if($this->getObject()->isNegoOrViti() && $this->getObject()->code_comptable_fournisseur){
-            $this->getObject()->add('type_fournisseur',array(SocieteClient::FOURNISSEUR_TYPE_MDV));
-        }
+//        if($this->getObject()->isNegoOrViti() && $this->getObject()->code_comptable_fournisseur){
+//            $this->getObject()->add('type_fournisseur',array(SocieteClient::FOURNISSEUR_TYPE_MDV));
+//        }
         
         if(!$this->getObject()->isNegoOrViti() && ($this->getObject()->code_comptable_fournisseur))
         {
