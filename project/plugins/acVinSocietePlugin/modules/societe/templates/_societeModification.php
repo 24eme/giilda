@@ -4,6 +4,10 @@ echo $societeForm->renderGlobalErrors();
 ?>
 <div class="form_contenu">
     <div class="form_ligne">
+                <label for="type_societe">Type de la société</label>
+                <span class="champ_long"><?php echo $societeForm->getObject()->type_societe; ?></span>
+    </div>
+    <div class="form_ligne">
         <?php echo $societeForm['raison_sociale']->renderError(); ?>
         <?php echo $societeForm['raison_sociale']->renderLabel(); ?>
         <?php echo $societeForm['raison_sociale']->render(array('class' => 'champ_long')); ?>
