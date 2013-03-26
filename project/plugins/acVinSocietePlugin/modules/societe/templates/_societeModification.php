@@ -4,6 +4,10 @@ echo $societeForm->renderGlobalErrors();
 ?>
 <div class="form_contenu">
     <div class="form_ligne">
+                <label for="type_societe">Type de la société</label>
+                <span class="champ_long"><?php echo $societeForm->getObject()->type_societe; ?></span>
+    </div>
+    <div class="form_ligne">
         <?php echo $societeForm['raison_sociale']->renderError(); ?>
         <?php echo $societeForm['raison_sociale']->renderLabel(); ?>
         <?php echo $societeForm['raison_sociale']->render(array('class' => 'champ_long')); ?>
@@ -36,13 +40,11 @@ echo $societeForm->renderGlobalErrors();
             <?php echo $societeForm['type_numero_compte_fournisseur']->render(); ?>
             <?php echo $societeForm['type_numero_compte_fournisseur']->renderError(); ?>
         </div>                 
-        <?php if (!$societeForm->getObject()->isNegoOrViti()) : ?>
          <div class="form_ligne">
             <?php echo $societeForm['type_fournisseur']->renderLabel(null,array('class' => 'label_liste')); ?>
             <?php echo $societeForm['type_fournisseur']->render(); ?>
             <?php echo $societeForm['type_fournisseur']->renderError(); ?>
-             </div>   
-        <?php endif; ?>        
+             </div>          
         <div class="form_ligne">
 			<div class="form_colonne">
 				<?php echo $societeForm['siret']->renderLabel(); ?>

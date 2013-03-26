@@ -31,6 +31,9 @@ class SocieteExportView extends acCouchdbView
         const VALUE_CODE_POSTAL = 11;
         const VALUE_COMMUNE = 12;
         const VALUE_PAYS = 13;
+        const VALUE_TELEPHONE = 14;
+        const VALUE_FAX = 15;
+        const VALUE_EMAIL = 16;
 
     public static function getInstance() {
         return acCouchdbManager::getView('societe', 'export', 'Societe');
