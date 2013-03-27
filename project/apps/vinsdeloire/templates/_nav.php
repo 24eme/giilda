@@ -83,6 +83,14 @@
             'target' => '_self'
         )) ?>
 
-        <li><a href="#">Relance</a></li>
+        <?php
+        include_component('global', 'navItem', array(
+            'libelle' => 'Relance',
+            'prefix' => 'relance',
+            'route' => 'relance',
+            'route_etablissement' => 'relance_etablissement',
+            'etablissement' => $etablissement,
+            'target' => '_self'
+        )) ?>
     </ul>
 </nav>
