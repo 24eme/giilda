@@ -39,11 +39,13 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                 }
 
                 $alerte = $this->createOrFindByDRM($this->buildDRMManquante($etablissement, $periode));
+                $alerte->type_relance = $this->getTypeRelance();
+                
                 if(!($alerte->isNew() || $alerte->isClosed())) {
                 
                     continue;
                 }
-                $alerte->open($this->getDate());
+                $alerte->open(self::getDate());
                 $alerte->save();
             }
         }
@@ -129,7 +131,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         $drm_manquante->declarant->region = $etablissement->region;
         $drm_manquante->declarant->nom = $etablissement->nom;
         $drm_manquante->_id = $id;
-
+                
         return $drm_manquante;
     }
 
@@ -150,5 +152,8 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         
     }
 
+    public function getTypeRelance() {
+        return RelanceClient::TYPE_RELANCE_DECLARATIVE;
+    }
   
 }

@@ -23,7 +23,7 @@ class AlerteGenerationsContainer {
             $this->add($key);
         }
     }
-
+    
     public function add($name) {
         if(!isset($this->configs[$name])) {
 

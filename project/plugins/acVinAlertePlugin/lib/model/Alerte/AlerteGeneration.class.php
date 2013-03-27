@@ -44,7 +44,7 @@ abstract class AlerteGeneration {
         $alerte = $this->getAlerte($id_document);
         if (!$alerte) {
             $alerte = new Alerte();
-            $alerte->setCreationDate($this->getDate());
+            $alerte->setCreationDate(self::getDate());
             $alerte->type_alerte = $this->getTypeAlerte();
             $alerte->id_document = $id_document;
             $alerte->nb_relances = 0;
@@ -54,8 +54,8 @@ abstract class AlerteGeneration {
         return $alerte;
     }
 
-    public function getDate() {
-    //  return '2013-06-30';
+    public static function getDate() {
+ //       return '2013-08-01';
         return date('Y-m-d');
     }
 
@@ -99,7 +99,7 @@ abstract class AlerteGeneration {
         $seqs_file = file($path);
         $last_line = $seqs_file[count($seqs_file)-1];
         if($last_line === NULL){
-            return "106299";
+            return "110272";
         }
         return substr($last_line, 0, strlen($last_line)-1);
     }
@@ -122,19 +122,8 @@ abstract class AlerteGeneration {
     public abstract function updates();
 
     public abstract function isInAlerte($document);
-
-    public function relance() {
-        foreach ($this->getAlertesRelancable() as $alerteView) {
-            $alerte = AlerteClient::getInstance()->find($alerteView->id);
-            $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
-            if ($relance) {
-                $alerte->updateStatut(AlerteClient::STATUT_ARELANCER, null, $this->getDate());
-                $alerte->save();
-            }
-        }
-    }
-    
-    public function creationByDocumentId($document,$document_type){
+   
+    public function creationByDocumentId($document,$document_type, $statut_ouverture = null){
         $document_master = ($document->isMaster())? $document : $document->getMaster();
         if (!$this->isInAlerte($document_master)) {
 
@@ -142,17 +131,24 @@ abstract class AlerteGeneration {
         }
         $date_saisie = ($document->exist('valide'))? $document->valide->date_saisie : ($document->exist('date_saisie')? $document->date_saisie : $document->date_emission);
 
-        if (!Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_delai', $this->getDate()), $date_saisie)) {
+        if (!Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_delai', self::getDate()), $date_saisie)) {
             return null;
         }
+        
         $fct_name = 'createOrFindBy'.$document_type;
         $alerte = $this->{$fct_name}($document_master);
         
         if (!$alerte->isNew() && !$alerte->isClosed()) {
             return $alerte;
         }
-        
-        $alerte->open($this->getDate());
+        if($statut_ouverture){
+               $alerte->updateStatut($statut_ouverture, null, self::getDate());
+        }
+        else
+        {
+            $alerte->open(self::getDate());
+        }
+        $alerte->type_relance = $this->getTypeRelance();
         $alerte->save();
 
         return $alerte;
@@ -166,17 +162,8 @@ abstract class AlerteGeneration {
         if(!$alerte->isOpen()){            
             return $alerte;
         }
-        
-        if ($this->isInAlerte($document_master)) {
-
-            if (Date::supEqual($this->getConfig()->getOptionDelaiDate('relance_delai', $this->getDate()), $alerte->date_relance)) {
-                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, 'Changement automatique au statut à relancer', $this->getDate());
-                $alerte->save();
-            }
-            return $alerte;
-        }
-        
-        $alerte->updateStatut(AlerteClient::STATUT_FERME, 'Changement automatique au statut fermer', $this->getDate());
+       
+        $alerte->updateStatut(AlerteClient::STATUT_FERME, 'Changement automatique au statut fermer', self::getDate());
         $alerte->save();
         
         return $alerte;
@@ -194,6 +181,35 @@ abstract class AlerteGeneration {
            $class_name = $document_type.'Client';
            $this->update($class_name::getInstance()->getMaster($doc_id));
         }
+    }
+    
+    public function updatesRelancesForType(){
+        foreach ($this->getAlertesRelancable() as $alerteView) {
+            $alerte = AlerteClient::getInstance()->find($alerteView->id);       
+            if(!$alerte) return $alerte;
+            if(!$alerte->isOpen()){            
+                return $alerte;
+            }
+            $relance = Date::supEqual(self::getDate(), $alerte->date_relance);
+            if ($relance) {
+                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, self::getDate());
+                $alerte->save();
+                return $alerte;
+            }
+            $relance_date = $this->getConfig()->getOption('relance_delai');
+            if($relance_date && Date::supEqual($relance_date, self::getDate())){
+                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, 'Changement automatique au statut relance', self::getDate());
+                $alerte->save();
+                return $alerte;
+            }            
+            if (Date::supEqual($this->getConfig()->getOptionDelaiDate('relance_delai', $this->getDate()), $alerte->date_relance)) {
+                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, 'Changement automatique au statut à relancer', self::getDate());
+                $alerte->save();
+                return $alerte;
+            }
+            
+        }
+        return;
     }
 
 }

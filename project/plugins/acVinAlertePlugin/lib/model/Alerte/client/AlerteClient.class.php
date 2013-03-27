@@ -14,6 +14,7 @@ class AlerteClient extends acCouchdbClient {
     const ECART_DS_DRM_JUILLET = "ECART_DS_DRM_JUILLET";
     const ECART_DS_DRM_AOUT = "ECART_DS_DRM_AOUT";
     const ECART_DREV_DRM = "ECART_DREV_DRM";
+    const ECART_DS_VISU_STOCK = "ECART_DS_VISU_STOCK";
     
     
     public static $alertes_libelles = array(self::VRAC_NON_SOLDES => "Contrat non soldé",
@@ -27,7 +28,8 @@ class AlerteClient extends acCouchdbClient {
                                             self::DS_NON_VALIDEE => 'DS non validée intégralement',
                                             self::ECART_DS_DRM_JUILLET => 'Ecart entre ds et drm de juillet',
                                             self::ECART_DS_DRM_AOUT => 'Ecart entre ds et drm d\'aout',
-                                            self::ECART_DREV_DRM => 'Ecart entre la déclaration de revendication et dernière drm');
+                                            self::ECART_DREV_DRM => 'Ecart entre la déclaration de revendication et dernière drm',
+                                            self::ECART_DS_VISU_STOCK => "Ecart entre la DS et la visu Stock");
     
     const STATUT_NOUVEAU = 'NOUVEAU';    
     const STATUT_EN_ATTENTE_REPONSE = 'EN_ATTENTE_REPONSE';
@@ -35,9 +37,10 @@ class AlerteClient extends acCouchdbClient {
     const STATUT_FERME = 'FERME';  
     const STATUT_EN_SOMMEIL = 'EN_SOMMEIL';
     const STATUT_A_RELANCER = 'A_RELANCER';
-    const STATUT_RESOLU = 'STATUT_RESOLU';
+    const STATUT_RESOLU = 'RESOLU';
 
     const MESSAGE_AUTO_FERME = "Changement automatique au statut fermé";
+    const MESSAGE_AUTO_A_TRAITER = "Changement automatique au statut à traiter, le pdf a été généré";
     
     public static $statutsOpen =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_EN_SOMMEIL,self::STATUT_A_RELANCER);
     public static $statutsRelancable =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_A_RELANCER);
@@ -55,7 +58,7 @@ class AlerteClient extends acCouchdbClient {
     public function findByTypeAndIdDocument($type_alerte, $id_document) {
         return $this->find($this->buildId($type_alerte, $id_document));
     }
-
+    
     public static function getStatutsWithLibelles() {
         return array(self::STATUT_NOUVEAU => 'Nouveau',
                     self::STATUT_EN_ATTENTE_REPONSE => 'En attente de réponse',
@@ -69,5 +72,9 @@ class AlerteClient extends acCouchdbClient {
        $alerte = $this->find($alerteId);
        $alerte->updateStatut($new_statut, $new_commentaire);
        $alerte->save();
+    }
+    
+    public function getLibelleFromId($id) {
+        return $id;
     }
 }

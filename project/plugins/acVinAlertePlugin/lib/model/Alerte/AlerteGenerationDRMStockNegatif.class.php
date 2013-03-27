@@ -40,5 +40,9 @@ class AlerteGenerationDRMStockNegatif extends AlerteGenerationDRM {
     public function isInAlerte($document) {
          return $document->declaration->hasProduitDetailsWithStockNegatif();
     }
+    
+    public function getTypeRelance() {
+        return RelanceClient::TYPE_RELANCE_DECLARATIVE;
+    }
 
 }

@@ -30,7 +30,7 @@ class Alerte extends BaseAlerte {
         $this->_id = AlerteClient::getInstance()->buildId($this->type_alerte, $this->id_document);
     }
 
-    public function getDocument($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+    public function getDocumentObject($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
 
         return acCouchdbManager::getClient()->find($this->id_document, $hydrate);
     }
@@ -68,7 +68,12 @@ class Alerte extends BaseAlerte {
                 $this->updateStatutRelance($date);
                 break;
             case AlerteClient::STATUT_EN_ATTENTE_REPONSE:
-                $this->date_relance = $this->getConfig()->getOptionDelaiDate('enattente_delai', $date);
+                if($this->getConfig()->existsOption('enattente_date')){
+                    $this->date_relance = $this->getConfig()->getOptionDate('enattente_date');
+                }
+                if($this->getConfig()->existsOption('enattente_delai')){
+                    $this->date_relance = $this->getConfig()->getOptionDelaiDate('enattente_delai', $date);
+                }
                 break;
         }
     }
@@ -82,10 +87,17 @@ class Alerte extends BaseAlerte {
             return;
         }
         $this->nb_relances++;
-        $this->date_relance = $this->getConfig()->getOptionDelaiDate('relance_delai', $date);
+        if($this->getConfig()->existsOption('enattente_date')){
+            $this->date_relance = $this->getConfig()->getOptionDate('enattente_date');
+            return;
+        }
+        if($this->getConfig()->existsOption('enattente_delai')){
+            $this->date_relance = $this->getConfig()->getOptionDelaiDate('enattente_delai', $date);
+            return;
+        }
 
     }
-
+    
     public function getStatut() {
         return $this->statuts->getLast();
     }
@@ -106,6 +118,10 @@ class Alerte extends BaseAlerte {
 
     public function isClosed() {
         return $this->getStatut()->statut == AlerteClient::STATUT_FERME;
+    }
+    
+    public function getLibelle(){
+        return AlerteClient::$alertes_libelles[$this->getTypeAlerte()].' ('.$this->libelle_document.')';
     }
     
 //    public function getLibelleForIdDocument() {

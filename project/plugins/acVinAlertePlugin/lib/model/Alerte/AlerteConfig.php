@@ -11,8 +11,13 @@ class AlerteConfig  {
             throw new sfException(sprintf('Config %s not found in app.yml', $typeAlerte));
         $this->config = $configs[$typeAlerte];
     }
+    
+    public function existsOption($field){
+        return isset($this->config[$field]);
+    }
+    
      public function getOption($field) {
-        if (!isset($this->config[$field])) {
+        if (!$this->existsOption($field)) {
 
             throw new sfException(sprintf("L'option %s n'existe pas", $field));
         }

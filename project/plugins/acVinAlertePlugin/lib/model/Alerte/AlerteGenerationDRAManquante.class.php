@@ -18,7 +18,7 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
 
     public function creations() {
         $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR));
-
+        
         $periodes_by_campagnes = $this->getPeriodesByCampagnes();
         foreach ($etablissement_rows as $etablissement_row) {
             $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);
@@ -32,10 +32,11 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
             foreach ($periodes_by_campagnes as $campagne => $periodes_by_campagne) {
                 if (!$this->isDraInCampagneArray($etablissement->identifiant,$periodes_by_campagne)) {
                     $alerte = $this->createOrFindByDRM($this->buildDRAManquante($etablissement, $campagne));
+                    $alerte->type_relance = $this->getTypeRelance();
                     if (!($alerte->isNew() || $alerte->isClosed())) {
                         continue;
                     }
-                    $alerte->open($this->getDate());
+                    $alerte->open(self::getDate());
                     $alerte->save();
                 }
             }
@@ -80,7 +81,7 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
 
     public function execute() {
         $this->updates();
-     //   $this->creations();
+        $this->creations();
     }
 
     public function isInAlerteView($view) {
@@ -161,4 +162,8 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         
     }
 
+    public function getTypeRelance() {
+        return RelanceClient::TYPE_RELANCE_DECLARATIVE;
+    }
+    
 }
