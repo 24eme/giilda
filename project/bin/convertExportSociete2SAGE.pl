@@ -142,7 +142,7 @@ while(<STDIN>) {
 	print "email (VINSI) : " if ($verbose);
 	print substr($field[16], 0 ,69)."\n";
 	print "site (VINSI) : " if ($verbose);
-	print substr($field[17], 0, 0, 69)."\n";
+	print substr($field[17], 0, 69)."\n";
 	print "numéro EASY : " if ($verbose);
 	print "\n";
 	print "placé sous surveillance : " if ($verbose);
@@ -201,7 +201,7 @@ while(<STDIN>) {
 	print "0\n";
 	print "numéro tiers centrale d'achat : " if ($verbose);
 	print "\n";
-	print "collaborateur nom (VINSI) : " if ($verbose);
+	print "collaborateur nom (VINSI : ".$field[18].") : " if ($verbose);
 	if ($field[18] eq 'NANTES') {
 	    print "CL3\n";
 	}elsif ($field[18] eq 'ANGERS') {
