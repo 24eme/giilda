@@ -51,12 +51,12 @@ EOF;
     print "http://10.0.2.196/societe/".$societe->identifiant."/visualisation;";
     try {
       if ($isclient == self::ISCLIENT) {
-	print $societe->getRegionViticole(false).";";
+	print $societe->getRegionViticole(false);
       }
     }catch(sfException $e) {
-      print "INCONNUE;";
+      print "INCONNUE";
     }
-    print "\n";
+    print ";\n";
   }
 
   protected function execute($arguments = array(), $options = array())
