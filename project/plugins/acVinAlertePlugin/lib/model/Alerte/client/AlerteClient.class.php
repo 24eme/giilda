@@ -8,7 +8,7 @@ class AlerteClient extends acCouchdbClient {
     const DRM_MANQUANTE = "DRM_MANQUANTE";
     const DRA_MANQUANTE = "DRA_MANQUANTE";
     const DRM_STOCK_NEGATIF = "DRM_STOCK_NEGATIF";
-    const SV12_SANS_VRAC = "SV12_SANS_VRAC";
+    const VRAC_SANS_SV12 = "VRAC_SANS_SV12";
     const SV12_MANQUANTE = "SV12_MANQUANTE";
     const DS_NON_VALIDEE = "DS_NON_VALIDEE";
     const ECART_DS_DRM_JUILLET = "ECART_DS_DRM_JUILLET";
@@ -23,7 +23,7 @@ class AlerteClient extends acCouchdbClient {
                                             self::DRM_MANQUANTE => 'DRM absente',
                                             self::DRA_MANQUANTE => 'DRA absente',
                                             self::DRM_STOCK_NEGATIF => 'DRM avec un stock négatif',        
-                                            self::SV12_SANS_VRAC => 'SV12 dont le contrat est absent',
+                                            self::VRAC_SANS_SV12 => 'Contrats de raisins et de moûts sans SV12',
                                             self::SV12_MANQUANTE => 'SV12 absente',
                                             self::DS_NON_VALIDEE => 'DS non validée intégralement',
                                             self::ECART_DS_DRM_JUILLET => 'Ecart entre ds et drm de juillet',

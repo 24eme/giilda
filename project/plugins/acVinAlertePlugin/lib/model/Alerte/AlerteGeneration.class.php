@@ -6,6 +6,8 @@
  */
 abstract class AlerteGeneration {
 
+    const FIRST_SEQ = 297000;
+    
     protected $dev = false;
     protected $config = null;
     protected $num_seq = null;
@@ -94,21 +96,21 @@ abstract class AlerteGeneration {
         return realpath(dirname(__FILE__) . "/../../../../../data")."/";
     }
     
-    protected function getLastSeq() {        
-        $path = $this->getDataPath().$this->getTypeAlerte().".txt";
-        $seqs_file = file($path);
-        $last_line = $seqs_file[count($seqs_file)-1];
-        if($last_line === NULL){
-            return "110272";
+    protected function getLastSeq() { 
+        $ags = AlerteGenerationSequencesClient::getInstance()->findByAlerteType($this->getTypeAlerte());
+        if(!$ags){
+            $ags = new AlerteGenerationSequences();
+            $ags->type_alerte = $this->getTypeAlerte();
+            $ags->revisions->add(null,self::FIRST_SEQ);
+            $ags->save();
         }
-        return substr($last_line, 0, strlen($last_line)-1);
+        return $ags->getLastRevision();
     }
 
     protected function setlastSeq($seq) {
-        $file = $this->getDataPath().$this->getTypeAlerte().".txt";
-        $current = file_get_contents($file);
-        $current .= $seq . "\n";
-        file_put_contents($file, $current);
+        $ags = AlerteGenerationSequencesClient::getInstance()->findByAlerteType($this->getTypeAlerte());
+        $ags->revisions->add(null,$seq);
+        $ags->save();
     }
 
     public abstract function getTypeAlerte();
