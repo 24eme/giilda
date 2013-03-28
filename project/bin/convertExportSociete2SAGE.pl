@@ -206,9 +206,9 @@ while(<STDIN>) {
 	    print "CL3\n";
 	}elsif ($field[18] eq 'ANGERS') {
 	    print "CL2\n";
-	}elsif ($filed[18] eq 'TOURS') {
+	}elsif ($field[18] eq 'TOURS') {
 	    print "CL1\n";
-	}elsif ($filed[18] eq 'HORS_INTERLOIRE') {
+	}elsif ($field[18] eq 'HORS_INTERLOIRE') {
 	    print "CL1\n";
 	}else {
 	    print "\n";
