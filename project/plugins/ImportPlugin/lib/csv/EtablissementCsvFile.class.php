@@ -59,7 +59,6 @@ class EtablissementCsvFile extends CsvFile
     $etablissements = array();
     $csvs = $this->getCsv();
       foreach ($csvs as $line) {
-                    print_r($line);
         try {
       	  $this->verifyCsvLine($line);
 
