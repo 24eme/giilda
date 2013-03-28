@@ -27,4 +27,16 @@ Alerte:
                 fields:
                   date: { }
                   statut: { }
-                  commentaire: { }
+                  commentaire: { }                  
+AlerteGenerationSequences:
+  definition:
+    fields:
+      _id: { }
+      _rev: { }
+      type: { }
+      type_alerte: { }
+      revisions:
+        type: array_collection
+        definition:
+          fields:
+            '*': { type: integer }

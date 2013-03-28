@@ -9,11 +9,11 @@
  * Description of class AlerteSV12SansVrac
  * @author mathurin
  */
-class AlerteGenerationSV12SansVrac extends AlerteGenerationSV12 {
+class AlerteGenerationVracSansSV12 extends AlerteGenerationSV12 {
 
     public function getTypeAlerte() {
 
-        return AlerteClient::SV12_SANS_VRAC;
+        return AlerteClient::VRAC_SANS_SV12;
     }
 
     public function execute(){

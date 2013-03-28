@@ -18,6 +18,7 @@
  * @property string $region
  * @property string $campagne
  * @property string $type_document
+ * @property string $type_relance
  * @property acCouchdbJson $statuts
 
  * @method string get_id()
@@ -48,6 +49,8 @@
  * @method string setCampagne()
  * @method string getTypeDocument()
  * @method string setTypeDocument()
+ * @method string getTypeRelance()
+ * @method string setTypeRelance()
  * @method acCouchdbJson getStatuts()
  * @method acCouchdbJson setStatuts()
  

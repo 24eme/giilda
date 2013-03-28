@@ -39,7 +39,7 @@ join -t ';' -1 1 -2 1 $DATADIR/tmp/cartecourtier.csv $DATADIR/tmp/cifonct_contac
 
 convert-utf8  $DATADIR/cicav.viti.csv | sed 's/\(10;[^;]*\);/\1_/' | sort -t ';' -k 2,2 > $DATADIR/tmp/cicav.utf8.csv
 grep ';2011;' $DATADIR/cidra.csv  | sed 's/10;2011;\([^;]*\);\([^;]*\);.*/\1_\2;OUI/' | sort -t ';' -k1,1  > $DATADIR/tmp/dra.csv
-join -t ';' -a 1 -1 2 -2 1 $DATADIR/tmp/cicav.utf8.csv $DATADIR/tmp/dra.csv | sed 's/;$/;NON/' | sed 's/_/;/' | sort -t ';' -k 1,1 | sed 's/^/10;/' > $DATADIR/tmp/cicav_dra.utf8.csv
+join -t ';' -a 1 -1 2 -2 1 $DATADIR/tmp/cicav.utf8.csv $DATADIR/tmp/dra.csv | sed 's/;$/;;NON/' | sed 's/_/;/' | sort -t ';' -k 1,1 | sed 's/^/10;/' > $DATADIR/tmp/cicav_dra.utf8.csv
 
 convert-utf8 $DATADIR/cifonct.csv | awk -F ';' '{print $3";"$2";"$4}' | grep "PARTENAIRE" | sort -t ';' -k 1,1 > $DATADIR/tmp/cifonct_contact_partenaire.utf8.csv
 join -t ";" -a 1 -1 1 -2 2 $DATADIR/tmp/cifonct_contact_partenaire.utf8.csv $DATADIR/tmp/cicontact.utf8.csv | awk -F ";" '{ print $2";"$23 }' | sort -t ";" -k 1,1 | uniq -w 6 > $DATADIR/tmp/cipar_relance_drm.csv
@@ -89,7 +89,7 @@ php symfony import:etablissement $DATADIR/etablissements.csv
 awk -F ';' '{print $1";"$2";"$3";"$4";"$5";"$6";"$7";"$8";"$9";"$10";"$11";"$12";"$13";"$14";"$15";"$16";"$17";"$18";"$19";"$20";"$21";"$22";"$23";"$25}' $DATADIR/tmp/cicontact_cifonct_cipar.csv | uniq | sort -t ";" -k 1,1 -n > $DATADIR/contacts.csv
 
 echo "Import Contact"
-grep -vE ";($SOCIETE_A_SUPPRIMER);" $DATADIR/contacts.csv > $DATADIR/contacts.csv.tmp; $DATADIR/contacts.csv.tmp > $DATADIR/contacts.csv;
+cat $DATADIR/contacts.csv | grep -vE ";($SOCIETE_A_SUPPRIMER);" > $DATADIR/contacts.csv.tmp; cat $DATADIR/contacts.csv.tmp > $DATADIR/contacts.csv;
 php symfony import:compte $DATADIR/contacts.csv
 
 echo "Link bailleurs/métayés"
