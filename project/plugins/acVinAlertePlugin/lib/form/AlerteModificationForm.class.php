@@ -2,13 +2,12 @@
 
 class AlerteModificationForm extends acCouchdbObjectForm {
 
-    protected $alerte = null;
 
-    public function __construct(acCouchdbJson $alerte, $options = array(), $CSRFSecret = null) {
-        $this->alerte = $alerte;
+    public function __construct(Alerte $alerte, $options = array(), $CSRFSecret = null) {
+
         parent::__construct($alerte, $options, $CSRFSecret);
-        $this->defaults['statut'] = $this->alerte->getStatut()->statut;
-        $this->defaults['commentaire'] = $this->alerte->getStatut()->commentaire;
+        $this->defaults['statut'] = $alerte->getStatut()->statut;
+        $this->defaults['commentaire'] = $alerte->getStatut()->commentaire;
     }
 
     public function configure() {
@@ -30,8 +29,8 @@ class AlerteModificationForm extends acCouchdbObjectForm {
     }
     
     public function doUpdate() {
-        $this->alerte->updateStatut($this->values['statut'],  $this->values['commentaire'],  AlerteClient::getDate());
-        $this->alerte->save();
+        $this->getObject()->updateStatut($this->values['statut'],  $this->values['commentaire'], AlerteGeneration::getDate());
+        $this->getObject()->save();
     }
 
 }

@@ -16,6 +16,7 @@ Alerte:
       region: { }
       campagne: { }
       type_document: { }
+      type_relance: { }
       statuts:
         type: array_collection
         definition:

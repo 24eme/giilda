@@ -11,7 +11,15 @@ abstract class AlerteGenerationVrac extends AlerteGeneration {
     protected function createOrFindByVrac($vrac) {
         $alerte = $this->createOrFind($vrac->_id);
 
-        $alerte->identifiant = (isset($vrac->identifiant))? $vrac->identifiant : null;
+        switch ($this->getTypeAlerte()) {
+            case AlerteClient::VRAC_NON_SOLDES:
+                $alerte->identifiant =  $vrac->vendeur_identifiant;
+                break;
+            default:
+        $alerte->identifiant =  $vrac->acheteur_identifiant;
+                break;
+        }
+
         $alerte->campagne = $vrac->campagne;
         $alerte->region = $vrac->vendeur->region;
         $alerte->declarant_nom = $vrac->vendeur->nom;

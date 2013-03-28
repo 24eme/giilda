@@ -34,7 +34,7 @@ class AlerteGenerationEcartDSDRMAout extends AlerteGenerationDS {
                     if (!($alerte->isNew() || $alerte->isClosed())) {
                         continue;
                     }
-                    $alerte->open($this->getDate());
+                    $alerte->open(self::getDate());
                     $alerte->save();
                 }
             }
@@ -50,15 +50,15 @@ class AlerteGenerationEcartDSDRMAout extends AlerteGenerationDS {
             $periode_drm = substr($alerte->campagne, 5).'08';
             $drm_master = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($alerteView->key[AlerteHistoryView::KEY_IDENTIFIANT], $periode_drm);
             if ($this->isInAlerteWithDRM($ds,$drm_master)) {
-                $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
+                $relance = Date::supEqual(self::getDate(), $alerte->date_relance);
                 if ($relance) {
-                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, $this->getDate());
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, self::getDate());
                     $alerte->save();
                 }
                 continue;
             }
 
-            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
+            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, self::getDate());
             $alerte->save();
         }
     }
@@ -128,4 +128,7 @@ class AlerteGenerationEcartDSDRMAout extends AlerteGenerationDS {
         
     }
 
+     public function getTypeRelance() {
+        return RelanceClient::TYPE_RELANCE_ECART;
+    }
 }

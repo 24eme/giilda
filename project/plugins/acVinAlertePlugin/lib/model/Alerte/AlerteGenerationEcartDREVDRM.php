@@ -31,7 +31,7 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
                      if (!($alerte->isNew() || $alerte->isClosed())) {
                         continue;
                     }
-                    $alerte->open($this->getDate());
+                    $alerte->open(self::getDate());
                     $alerte->save();
                 }
             }
@@ -49,15 +49,15 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
             $drev = RevendicationClient::getInstance()->findByOdgAndCampagne($drm_master->declarant->region, $drm_master->campagne);
             if(!$drev) continue;
             if ($this->isInAlerteWithDrev($drm_master,$drev)) {
-                $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
+                $relance = Date::supEqual(self::getDate(), $alerte->date_relance);
                 if ($relance) {
-                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, $this->getDate());
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, self::getDate());
                     $alerte->save();
                 }
                 continue;
             }
 
-            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
+            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, self::getDate());
             $alerte->save();
         }
     }
@@ -134,6 +134,10 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
 
     public function isInAlerte($document) {
         
+    }
+    
+        public function getTypeRelance() {
+        return RelanceClient::TYPE_RELANCE_ECART;
     }
 
 }

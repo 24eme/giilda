@@ -30,6 +30,7 @@ class AlerteGenerationSV12Manquante extends AlerteGenerationSV12 {
                 }
 
                 $alerte = $this->createOrFindBySV12($this->buildSV12Manquante($etablissement, $campagne));
+                $alerte->type_relance = $this->getTypeRelance();
                 if(!($alerte->isNew() || $alerte->isClosed())) {
                 
                     continue;
@@ -108,5 +109,7 @@ class AlerteGenerationSV12Manquante extends AlerteGenerationSV12 {
         
     }
 
-  
+      public function getTypeRelance() {
+        return RelanceClient::TYPE_RELANCE_DECLARATIVE;
+    }
 }

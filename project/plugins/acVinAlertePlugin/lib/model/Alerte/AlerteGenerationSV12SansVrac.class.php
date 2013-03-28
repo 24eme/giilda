@@ -41,6 +41,8 @@ class AlerteGenerationSV12SansVrac extends AlerteGenerationSV12 {
          return $document->hasSansContratOrSansViti();
     }
 
-
+    public function getTypeRelance() {
+        return RelanceClient::TYPE_RELANCE_DECLARATIVE;
+    }
 
 }

@@ -42,5 +42,9 @@ class AlerteGenerationDSNonValidee extends AlerteGenerationDS {
     public function isInAlerte($document) {
          return $document->isStatutASaisir();
     }
+    
+    public function getTypeRelance() {
+        return RelanceClient::TYPE_RELANCE_DECLARATIVE;
+    }
   
 }

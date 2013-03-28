@@ -59,6 +59,10 @@ EOF;
 	case GenerationClient::TYPE_DOCUMENT_DS:
 	  $g = new GenerationDSPDF($generation, $this->configuration, $options);
 	  break;
+      
+        case GenerationClient::TYPE_DOCUMENT_RELANCE:
+	  $g = new GenerationRelancePDF($generation, $this->configuration, $options);
+	  break;
 
 	default:
 	  throw new sfException($generation->type_document." n'est pas un type supporté");

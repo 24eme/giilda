@@ -20,7 +20,7 @@ class AlerteHistoryView extends acCouchdbView {
     }
 
     public function getHistory() {
-        return acCouchdbManager::getClient()
+        return acCouchdbManager::getClient()->limit(100)
                         ->getView($this->design, $this->view)->rows;
     }
 

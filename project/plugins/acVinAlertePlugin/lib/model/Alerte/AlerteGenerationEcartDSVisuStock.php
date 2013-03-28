@@ -9,14 +9,14 @@
  * Description of class AlerteGenerationEcartDREVDRM
  * @author mathurin
  */
-class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
+class AlerteGenerationEcartDSVisuStock extends AlerteGenerationDS {
 
     public function getTypeAlerte() {
-        return AlerteClient::ECART_DREV_DRM;
+        return AlerteClient::ECART_DS_VISU_STOCK;
     }
 
     public function creations() {
-        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR));
+        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR, EtablissementFamilles::FAMILLE_NEGOCIANT));
         $campagnes = $this->getCampagnes();
         foreach ($etablissement_rows as $etablissement_row) {
             $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);
@@ -31,7 +31,7 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
                      if (!($alerte->isNew() || $alerte->isClosed())) {
                         continue;
                     }
-                    $alerte->open($this->getDate());
+                    $alerte->open(self::getDate());
                     $alerte->save();
                 }
             }
@@ -49,15 +49,15 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
             $drev = RevendicationClient::getInstance()->findByOdgAndCampagne($drm_master->declarant->region, $drm_master->campagne);
             if(!$drev) continue;
             if ($this->isInAlerteWithDrev($drm_master,$drev)) {
-                $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
+                $relance = Date::supEqual(self::getDate(), $alerte->date_relance);
                 if ($relance) {
-                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, $this->getDate());
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, self::getDate());
                     $alerte->save();
                 }
                 continue;
             }
 
-            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
+            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, self::getDate());
             $alerte->save();
         }
     }
@@ -136,4 +136,7 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
         
     }
 
+        public function getTypeRelance() {
+        return RelanceClient::TYPE_RELANCE_ECART;
+    }
 }

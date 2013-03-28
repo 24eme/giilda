@@ -40,7 +40,7 @@ class AlerteRoute extends sfObjectRoute  {
 
     public function getAlerte() {
         if (!$this->alerte) {
-            $this->getObject();
+            $this->alerte = $this->getObject();
         }
 
         return $this->alerte;
