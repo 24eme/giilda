@@ -35,7 +35,6 @@ class relanceActions extends sfActions {
         $this->forward404Unless($this->relance);
 	$latex = new RelanceLatex($this->relance);
 	$latex->echoWithHTTPHeader($request->getParameter('type'));
-        exit;
     }
 
 

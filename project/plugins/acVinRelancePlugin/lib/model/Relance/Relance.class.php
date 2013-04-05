@@ -80,6 +80,10 @@ class Relance extends BaseRelance  {
             if (!array_key_exists($alerte->id, $this->origines))
                         $this->origines->add($alerte->id, $alerte->id);
         }
+        
+        foreach ($this->origines as $alerte_id) {
+            AlerteClient::getInstance()->updateStatutByAlerteId(AlerteClient::STATUT_EN_ATTENTE_REPONSE,AlerteClient::MESSAGE_AUTO_A_TRAITER,$alerte_id);
+        }
     }         
     
 }

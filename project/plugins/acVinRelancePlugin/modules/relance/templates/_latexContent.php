@@ -41,7 +41,7 @@ use_helper('Relance');
 \def\RELANCERAPPELLOI{Nous vous rappelons qu’en vertu de l’article V-4 de l’Accord interprofessionnel en vigueur, InterLoire a la possibilité~:\\
 \begin{itemize}
 	\item
-	d’émettre une mise en demeure pour obtention des déclarations non déposées : « Lorsque le professionnel concerné omet d’effectuer l’une des déclarations auxquelles il est assujetti, y compris en copie, en application du présent accord, InterLoire peut mettre en demeure le professionnel de déposer lesdites déclarations. »
+	d’émettre une mise en demeure pour obtention des déclarations non déposées : « Lorsque le professionnel concerné omet d’effectuer l’une des déclarations auxquelles il est assujetti, y compris en copie, en application du présent accord, InterLoire peut mettre en demeure le professionnel de déposer les dites déclarations. »
 	\item
 	d’effectuer une évaluation d’office : « La notification d’évaluation d’office fait référence à la procédure d’évaluation d’office de l’article L.632-6 du Code Rural et de la pêche maritime, porte mention de la période pour laquelle l’assiette de la cotisation est évaluée d’office, indique le mode de calcul de l’évaluation d’office, et le montant des cotisations dues en conséquence de cette évaluation. »
 \end{itemize}
@@ -101,8 +101,6 @@ Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expressi
 <?php    
 endforeach;
 ?>
-
-
 \RELANCERAPPELLOI \\	
 \\
 \RELANCESIGNATURE \\

@@ -63,7 +63,7 @@ class RelanceTypes extends BaseRelanceTypes {
              $this->description = "Nous vous demandons de bien vouloir nous faire parvenir une copie de votre déclaration de production (document SV12) faisant suite à vos achats de raisins et moûts sur la campagne en cours.";
              $this->description_fin = "Ce document doit nous parvenir au plus tard \\textbf{le 15 janvier} de l’année suivant la récolte.";
            break;
-          case AlerteClient::SV12_SANS_VRAC:
+          case AlerteClient::VRAC_SANS_SV12:
              $this->multiple = false;
              $this->titre = "Déclaration de production SV12";
              $this->refarticle = "cf Art VI-3 Accord interprofessionnel en vigueur";

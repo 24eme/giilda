@@ -19,7 +19,7 @@ class RelanceTypeExplications extends BaseRelanceTypeExplications {
             case AlerteClient::VRAC_NON_SOLDES:
                 $doc = VracClient::getInstance()->find($alerte->value[AlerteRelanceView::VALUE_ID_DOC]);
                 $acheteur = $doc->getAcheteurObject();
-                $coordonneesAcheteur = $acheteur->raison_sociale.';'.$acheteur->getSiegeAdresses();
+                $coordonneesAcheteur = $acheteur->raison_sociale.' '.$acheteur->getSiegeAdresses();
                 $volume_enleve = ($doc->volume_enleve)? sprintFloatFr($doc->volume_enleve) : sprintFloatFr(0);
                 $this->explications = $doc->numero_contrat.'|'.$doc->date_signature.'|'.$coordonneesAcheteur.'|'.sprintFloatFr($doc->volume_propose).'|'.$volume_enleve.'|'.$doc->commentaire;
                 break;
@@ -27,7 +27,7 @@ class RelanceTypeExplications extends BaseRelanceTypeExplications {
             case AlerteClient::VRAC_PRIX_DEFINITIFS:  
                 $doc = VracClient::getInstance()->find($alerte->value[AlerteRelanceView::VALUE_ID_DOC]);
                 $vendeur = $doc->getVendeurObject();
-                $coordonneesVendeur = $vendeur->raison_sociale.';'.$vendeur->getSiegeAdresses();
+                $coordonneesVendeur = $vendeur->raison_sociale.' '.$vendeur->getSiegeAdresses();
                 $this->explications = $doc->numero_contrat.'|'.$doc->date_signature.'|'.$coordonneesVendeur.'|'.sprintFloatFr($doc->volume_propose);
                 break;
             case AlerteClient::DS_NON_VALIDEE:
@@ -46,9 +46,17 @@ class RelanceTypeExplications extends BaseRelanceTypeExplications {
                 break;
            case AlerteClient::SV12_MANQUANTE:               
                 break;            
-           case AlerteClient::SV12_SANS_VRAC:
-               $doc = SV12Client::getInstance()->find($alerte->value[AlerteRelanceView::VALUE_ID_DOC]);
+           case AlerteClient::VRAC_SANS_SV12:
+               $etbId = $alerte->key[AlerteRelanceView::KEY_IDENTIFIANT_ETB];
+               $campagne = $alerte->key[AlerteRelanceView::KEY_CAMPAGNE];
+               $contats_mouts = VracClient::getInstance()->retrieveBySoussigneStatutAndType($etbId,$campagne,VracClient::STATUS_CONTRAT_NONSOLDE,VracClient::TYPE_TRANSACTION_MOUTS,null)->rows;
+               $contats_raisins = VracClient::getInstance()->retrieveBySoussigneStatutAndType($etbId,$campagne,VracClient::STATUS_CONTRAT_NONSOLDE,VracClient::TYPE_TRANSACTION_RAISINS,null)->rows;
+               $vracs = array_merge($contats_mouts, $contats_raisins);
                $this->explications = "";
+               foreach ($vracs as $key => $vrac) {
+                  $this->explications .= $vrac->value[VracClient::VRAC_VIEW_NUMCONTRAT];
+                  if($key < count($vracs) -1) $this->explications .= ", ";
+               }
                break;
             default:
                 throw new sfException("L'alerte $alerte->id de type $type_alerte n'a pas été trouvée.");
