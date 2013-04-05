@@ -11,6 +11,12 @@
 class vracActions extends sfActions
 {
 
+    public function executeRedirect(sfWebRequest $request) {
+        $vrac = VracClient::getInstance()->find($request->getParameter('identifiant_vrac'));
+        $this->forward404Unless($vrac);
+        return $this->redirect('vrac_visualisation', array('numero_contrat' => $vrac->numero_contrat));
+    }
+    
   public function executeIndex(sfWebRequest $request)
   {
       $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);

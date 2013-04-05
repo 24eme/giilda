@@ -86,7 +86,10 @@ class VracRouting {
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
         
-      
+        	$r->prependRoute('vrac_redirect_to_visualisation', new sfRoute('/vrac/redirect/:identifiant_vrac', 
+								      array('module' => 'vrac', 'action' => 'redirect'),  
+								      array('sf_method' => array('get'))
+								      ));
     }
 
 }
