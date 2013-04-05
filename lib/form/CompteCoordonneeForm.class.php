@@ -28,6 +28,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         $this->setWidget('cedex', new sfWidgetFormInput());
         $this->setWidget('pays', new sfWidgetFormChoice(array('choices' => $this->getCountryList()), array('class' => 'autocomplete')));
         $this->setWidget('email', new sfWidgetFormInput());
+        $this->setWidget('telephone_perso', new sfWidgetFormInput());
         $this->setWidget('telephone_bureau', new sfWidgetFormInput());
         $this->setWidget('telephone_mobile', new sfWidgetFormInput());
         $this->setWidget('fax', new sfWidgetFormInput());
@@ -41,6 +42,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('cedex', 'Cedex');
         $this->widgetSchema->setLabel('pays', 'Pays *');
         $this->widgetSchema->setLabel('email', 'E-mail');
+        $this->widgetSchema->setLabel('telephone_perso', 'Telephone Perso.');
         $this->widgetSchema->setLabel('telephone_bureau', 'Telephone Bureau');
         $this->widgetSchema->setLabel('telephone_mobile', 'Mobile');
         $this->widgetSchema->setLabel('fax', 'Fax');
@@ -54,6 +56,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         $this->setValidator('cedex', new sfValidatorString(array('required' => false)));
         $this->setValidator('pays', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCountryList()))));
         $this->setValidator('email', new sfValidatorString(array('required' => false)));
+        $this->setValidator('telephone_perso', new sfValidatorString(array('required' => false)));
         $this->setValidator('telephone_bureau', new sfValidatorString(array('required' => false)));
         $this->setValidator('telephone_mobile', new sfValidatorString(array('required' => false)));
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
