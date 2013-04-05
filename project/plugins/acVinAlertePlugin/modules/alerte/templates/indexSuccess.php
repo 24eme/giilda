@@ -12,4 +12,17 @@
     </section>
     <!-- fin #principal -->
     
+    <?php
+slot('colButtons');
+?>
+<div id="action" class="bloc_col">
+    <h2>Action</h2>
+    <div class="contenu">
+        <?php include_partial('alerte/choose_date', array('dateForm' => $dateForm)); ?>
+      </div>
+</div>
+<?php
+end_slot();
+?>
+    
    

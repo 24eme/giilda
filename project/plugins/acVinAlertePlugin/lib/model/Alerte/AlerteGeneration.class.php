@@ -46,7 +46,7 @@ abstract class AlerteGeneration {
         $alerte = $this->getAlerte($id_document);
         if (!$alerte) {
             $alerte = new Alerte();
-            $alerte->setCreationDate(self::getDate());
+            $alerte->setCreationDate($this->getDate());
             $alerte->type_alerte = $this->getTypeAlerte();
             $alerte->id_document = $id_document;
             $alerte->nb_relances = 0;
@@ -56,9 +56,8 @@ abstract class AlerteGeneration {
         return $alerte;
     }
 
-    public static function getDate() {
- //       return '2013-08-01';
-        return date('Y-m-d');
+    public function getDate() {
+        return AlerteDateClient::getInstance()->getDate();
     }
 
     protected function getAlerteForDocument($document_id) {
@@ -133,7 +132,7 @@ abstract class AlerteGeneration {
         }
         $date_saisie = ($document->exist('valide'))? $document->valide->date_saisie : ($document->exist('date_saisie')? $document->date_saisie : $document->date_emission);
 
-        if (!Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_delai', self::getDate()), $date_saisie)) {
+        if (!Date::supEqual($this->getConfig()->getOptionDelaiDate('creation_delai', $this->getDate()), $date_saisie)) {
             return null;
         }
         
@@ -144,11 +143,11 @@ abstract class AlerteGeneration {
             return $alerte;
         }
         if($statut_ouverture){
-               $alerte->updateStatut($statut_ouverture, null, self::getDate());
+               $alerte->updateStatut($statut_ouverture, null, $this->getDate());
         }
         else
         {
-            $alerte->open(self::getDate());
+            $alerte->open($this->getDate());
         }
         $alerte->type_relance = $this->getTypeRelance();
         $alerte->save();
@@ -165,7 +164,7 @@ abstract class AlerteGeneration {
             return $alerte;
         }
        
-        $alerte->updateStatut(AlerteClient::STATUT_FERME, 'Changement automatique au statut fermer', self::getDate());
+        $alerte->updateStatut(AlerteClient::STATUT_FERME, 'Changement automatique au statut fermer', $this->getDate());
         $alerte->save();
         
         return $alerte;
@@ -192,20 +191,20 @@ abstract class AlerteGeneration {
             if(!$alerte->isOpen()){            
                 return $alerte;
             }
-            $relance = Date::supEqual(self::getDate(), $alerte->date_relance);
+            $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
             if ($relance) {
-                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, self::getDate());
+                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, $this->getDate());
                 $alerte->save();
                 return $alerte;
             }
             $relance_date = $this->getConfig()->getOption('relance_delai');
-            if($relance_date && Date::supEqual($relance_date, self::getDate())){
-                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, 'Changement automatique au statut relance', self::getDate());
+            if($relance_date && Date::supEqual($relance_date, $this->getDate())){
+                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, 'Changement automatique au statut relance', $this->getDate());
                 $alerte->save();
                 return $alerte;
             }            
             if (Date::supEqual($this->getConfig()->getOptionDelaiDate('relance_delai', $this->getDate()), $alerte->date_relance)) {
-                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, 'Changement automatique au statut à relancer', self::getDate());
+                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, 'Changement automatique au statut à relancer', $this->getDate());
                 $alerte->save();
                 return $alerte;
             }

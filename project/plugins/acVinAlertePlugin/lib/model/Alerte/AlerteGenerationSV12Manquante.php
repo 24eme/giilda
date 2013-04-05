@@ -68,7 +68,7 @@ class AlerteGenerationSV12Manquante extends AlerteGenerationSV12 {
         $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
         $campagnes = array();
 
-        for($i=$nb_campagne;$i>0;$i--) {
+        for($i=$nb_campagne-1;$i>=0;$i--) {
             preg_match('/([0-9]{4})-([0-9]{4})/', $campagne, $annees);
             $campagnes[] = sprintf("%s-%s", $annees[1]-$i, $annees[2]-$i);
         }

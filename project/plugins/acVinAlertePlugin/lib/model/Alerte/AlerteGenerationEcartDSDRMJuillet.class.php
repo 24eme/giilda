@@ -31,7 +31,7 @@ class AlerteGenerationEcartDSDRMJuillet extends AlerteGenerationDS {
                 }
                 if($this->isInAlerte($ds)){
                     $alerte = $this->createOrFindByDS($this->buildEcartDSDRMJuillet($etablissement, $ds));
-                    $alerte->open(self::getDate());
+                    $alerte->open($this->getDate());
                     $alerte->save();
                 }
             }
@@ -45,9 +45,9 @@ class AlerteGenerationEcartDSDRMJuillet extends AlerteGenerationDS {
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
             $ds = DSClient::getInstance()->find($id_document);
             if ($this->isInAlerte($ds)) {
-                $relance = Date::supEqual(self::getDate(), $alerte->date_relance);
+                $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
                 if ($relance) {
-                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, self::getDate());
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, $this->getDate());
                     $alerte->save();
                 }
                 continue;
