@@ -50,9 +50,14 @@ class alerteActions extends sfActions {
         foreach ($request->getParameterHolder()->getAll() as $key => $param) {
             if (!strncmp($key, 'ALERTE-', strlen('ALERTE-'))) {
                 AlerteClient::getInstance()->updateStatutByAlerteId($new_statut, $new_commentaire, $key);
+                $etbId = AlerteClient::getInstance()->find($key)->identifiant;
             }
         }
+        if(isset($request['retour']) && $request['retour']=="etablissement"){
+        $this->redirect('alerte_etablissement', array('identifiant' => $etbId));
+        }else{
         $this->redirect('alerte');
+        }
     }
 
 }

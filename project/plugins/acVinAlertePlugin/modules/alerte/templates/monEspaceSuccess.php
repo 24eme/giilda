@@ -5,7 +5,7 @@
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             
-            <form action="<?php echo url_for('alerte_modification_statuts'); ?>" method="post" >
+            <form action="<?php echo url_for('alerte_modification_statuts', array('retour' => 'etablissement')); ?>" method="post" >
             <div id="toutes_alertes">
                     <h2>Les alertes de <?php echo $etablissement->nom; ?></h2>
 
