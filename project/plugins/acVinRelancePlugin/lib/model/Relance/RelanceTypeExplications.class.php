@@ -79,7 +79,8 @@ class RelanceTypeExplications extends BaseRelanceTypeExplications {
                         if ($prod_node) {
                             $stock_drm = $prod_node->entrees->recolte;
                         }
-                        if(!$stock_drm) $stock_drm = 0;
+                        if (!$stock_drm)
+                            $stock_drm = 0;
                         $rev_vol = 0;
                         foreach ($produit->volumes as $num_ca => $vol) {
                             $rev_vol+=$vol->volume;
@@ -88,8 +89,25 @@ class RelanceTypeExplications extends BaseRelanceTypeExplications {
                         $seuil = $config->getOption('seuil');
                         if (abs($diff) > (abs($rev_vol) * ($seuil / 100))) {
                             $libelle = ConfigurationClient::getCurrent()->get($produit->produit_hash)->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
-                            $this->explications .= $libelle . '|' . sprintFloatFr($rev_vol) . '|' . sprintFloatFr($stock_drm) . '|' . sprintFloatFr($diff).' \\\\ ';
+                            $this->explications .= $libelle . '|' . sprintFloatFr($rev_vol) . '|' . sprintFloatFr($stock_drm) . '|' . sprintFloatFr($diff) . ' \\\\ ';
                         }
+                    }
+                }
+                break;
+            case AlerteClient::ECART_DS_DRM_JUILLET:
+                $etbId = $alerte->key[AlerteRelanceView::KEY_IDENTIFIANT_ETB];
+                $idDS = $alerte->value[AlerteRelanceView::VALUE_ID_DOC];
+                $ds = DRMClient::getInstance()->find($idDS);
+                if (!$ds)
+                    throw new sfException("La ds $ds n'existe pas, la relance du viticulteur $etbId ne peut pas être éditée.");
+                $config = new AlerteConfig(AlerteClient::ECART_DS_DRM_JUILLET);
+                $this->explications .= "";
+                foreach ($ds->declarations as $hashKey => $declaration) {
+                    $diff = $declaration->stock_initial - $declaration->stock_declare;
+                    $seuil = $config->getOption('seuil');
+                    if (abs($diff) > (abs($declaration->stock_initial) * ($seuil / 100))) {
+                        $libelle = ConfigurationClient::getCurrent()->get(str_replace('-', '/', $hashKey))->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
+                        $this->explications .= $libelle . '|' . sprintFloatFr($declaration->stock_initial) . '|' . sprintFloatFr($declaration->stock_declare) . '|' . sprintFloatFr($diff) . ' \\\\ ';
                     }
                 }
                 break;

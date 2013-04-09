@@ -77,6 +77,14 @@ class RelanceTypes extends BaseRelanceTypes {
              $this->description = "Nous constatons un écart entre les volumes revendiqués transmis par l’ODG et les volumes revendiqués portés sur vos DRM de la campagne ".$campagne.".";
              $this->liste_champs = "Appellation|Vol. rev. ODG|Vol. rev. DRM|Ecart";
              $this->description_fin = "Nous vous remercions de bien vouloir nous contacter afin de nous informer de la raison de cet écart.";
+          break;      
+      case AlerteClient::ECART_DS_DRM_JUILLET:
+             $this->multiple = true;
+             $this->titre = "DRM juillet / Déclaration de stocks";
+             $this->refarticle = "cf Art V-4 Accord interprofessionnel en vigueur";
+             $this->description = "Nous constatons un écart entre le stock final de votre DRM du mois de juillet ".substr($campagne, 5)." et votre Déclaration de stocks au ".$date." : ";
+             $this->liste_champs = "Appellation|DRM juillet|Décl. stocks|Ecart";
+             $this->description_fin = "Nous vous remercions de bien vouloir nous contacter afin de nous informer de la raison de cet écart.";
           break;
  
         default:
