@@ -6,7 +6,7 @@
 
 class RelanceTypes extends BaseRelanceTypes {
 
-    public function storeDescriptionsForType($type) {
+    public function storeDescriptionsForType($type,$campagne =null) {
     
     switch ($type) {
         case AlerteClient::VRAC_NON_SOLDES :
@@ -63,14 +63,21 @@ class RelanceTypes extends BaseRelanceTypes {
              $this->description = "Nous vous demandons de bien vouloir nous faire parvenir une copie de votre déclaration de production (document SV12) faisant suite à vos achats de raisins et moûts sur la campagne en cours.";
              $this->description_fin = "Ce document doit nous parvenir au plus tard \\textbf{le 15 janvier} de l’année suivant la récolte.";
            break;
-          case AlerteClient::VRAC_SANS_SV12:
+        case AlerteClient::VRAC_SANS_SV12:
              $this->multiple = false;
              $this->titre = "Déclaration de production SV12";
              $this->refarticle = "cf Art VI-3 Accord interprofessionnel en vigueur";
              $this->description = "Nous avons enregistré des contrats d’achats de raisins et moûts vous concernant sur la campagne en cours dont les N° d’enregistrements sont les suivants :";
              $this->description_fin = "Dans ce contexte, nous vous demandons de bien vouloir nous faire parvenir copie votre déclaration de production SV12 dans les meilleurs délais.";
           break;
-
+        case AlerteClient::ECART_DREV_DRM:
+             $this->multiple = true;
+             $this->titre = "Volume revendiqués";
+             $this->refarticle = "cf Art II-2 Accord interprofessionnel en vigueur";
+             $this->description = "Nous constatons un écart entre les volumes revendiqués transmis par l’ODG et les volumes revendiqués portés sur vos DRM de la campagne ".$campagne.".";
+             $this->liste_champs = "Appellation|Vol. rev. ODG|Vol. rev. DRM|Ecart";
+             $this->description_fin = "Nous vous remercions de bien vouloir nous contacter afin de nous informer de la raison de cet écart.";
+          break;
  
         default:
             break;

@@ -32,6 +32,7 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
                         continue;
                     }
                     $alerte->open($this->getDate());
+                    $alerte->type_relance = $this->getTypeRelance();
                     $alerte->save();
                 }
             }
@@ -68,7 +69,7 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
         $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
         $campagnes = array();
 
-        for ($i = $nb_campagne; $i > 0; $i--) {
+        for ($i = $nb_campagne-1; $i >= 0; $i--) {
             preg_match('/([0-9]{4})-([0-9]{4})/', $campagne, $annees);
             $campagnes[] = sprintf("%s-%s", $annees[1] - $i, $annees[2] - $i);
         }
@@ -136,7 +137,7 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
         
     }
     
-        public function getTypeRelance() {
+    public function getTypeRelance() {
         return RelanceClient::TYPE_RELANCE_ECART;
     }
 

@@ -73,7 +73,7 @@ class Relance extends BaseRelance  {
     
     public function storeVerificationForType($type_alerte, $alertes) {
         $verifications = $this->verifications->add($type_alerte);
-        $verifications->storeDescriptionsForType($type_alerte);
+        $verifications->storeDescriptionsForType($type_alerte,$alertes[0]->key[AlerteRelanceView::KEY_CAMPAGNE]);
         foreach ($alertes as $alerte) {
             $ligne = $verifications->lignes->add();
             $ligne->storeVerificationForAlerte($alerte);        
