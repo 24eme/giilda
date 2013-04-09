@@ -103,11 +103,13 @@ Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expressi
     <?php
     endif;
     ?>
-    <?php echo $verification->description_fin; ?> \\
+    <?php echo $verification->description_fin; ?>
 <?php    
 endforeach;
 ?>
-    \\
+    
+\section*{}  
+            
 \RELANCERAPPELLOI \\	
 \\
 \RELANCESIGNATURE \\
