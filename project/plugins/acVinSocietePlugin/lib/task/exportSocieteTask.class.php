@@ -48,7 +48,7 @@ EOF;
     print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";"; 
     print preg_replace('/[^\+0-9]/i', '', $societe->fax).";"; 
     print $societe->email.";"; 
-    print "http://10.0.2.196/societe/".$societe->identifiant."/visualisation;";
+    print "http://10.0.2.195/societe/".$societe->identifiant."/visualisation;";
     try {
       if ($isclient == self::ISCLIENT) {
 	print $societe->getRegionViticole(false);
