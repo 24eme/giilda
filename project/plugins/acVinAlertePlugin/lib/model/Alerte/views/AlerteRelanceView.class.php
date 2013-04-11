@@ -36,8 +36,21 @@ class AlerteRelanceView extends acCouchdbView {
                         ->getView($this->design, $this->view)->rows;
     }
 
+    public function getRechercheByEtablissementAndStatutAndTypeRelance($id_etb,$type_alerte,$type_relance) {
+        return acCouchdbManager::getClient()
+                        ->startkey(array($id_etb,$type_alerte,$type_relance))
+                        ->endkey(array($id_etb,$type_alerte,$type_relance, array()))
+                        ->getView($this->design, $this->view)->rows;
+    }
+    
+    
     public function getRechercheByEtablissementAndStatutSorted($id_etb,$type_alerte) {
         $alertesView = $this->getRechercheByEtablissementAndStatut($id_etb,$type_alerte);
+        return $this->sortAlertesForRelances($alertesView);
+    }
+    
+    public function getRechercheByEtablissementStatutAndTypeRelanceSorted($id_etb,$type_alerte,$typeRelance) {
+        $alertesView = $this->getRechercheByEtablissementAndStatutAndTypeRelance($id_etb,$type_alerte,$typeRelance);
         return $this->sortAlertesForRelances($alertesView);
     }
     

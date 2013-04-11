@@ -81,7 +81,7 @@ class RelanceTypeExplications extends BaseRelanceTypeExplications {
                 if (!$rev)
                     throw new sfException("La déclaration de revendication de  $region pour la campagne $campagne n'existe pas, la relance du viticulteur $etbId ne peut pas être éditée.");
                 $config = new AlerteConfig(AlerteClient::ECART_DREV_DRM);
-                $this->explications .= "";
+                $this->explications = "";
                 if ($rev->exist('datas') && $rev->datas->exist($etbId)) {
                     foreach ($rev->datas->{$etbId}->produits as $produit) {
                         $prod_node = $drm->getProduit($produit->produit_hash);
@@ -129,9 +129,9 @@ class RelanceTypeExplications extends BaseRelanceTypeExplications {
                 if (!$ds)
                     throw new sfException("La ds $ds n'existe pas, la relance du viticulteur $etbId ne peut pas être éditée.");
                 $config = new AlerteConfig(AlerteClient::ECART_DS_DRM_AOUT);
-                $periode = substr($campagne, 0,4).'08';
+                $periode = substr($campagne, 5,4).'08';
                 $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etbId, $periode);
-                $this->explications .= "";
+                $this->explications = "";
                 foreach ($ds->declarations as $hashKey => $declaration) {
                     $prod_node = $drm->getProduit(str_replace('-', '/', $hashKey));
                     $stock_drm = 0;
