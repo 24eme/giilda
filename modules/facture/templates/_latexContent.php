@@ -6,8 +6,8 @@ include_partial('facture/templateEntete', array('facture' => $facture)); ?>
 include_partial('facture/templateTitreAdresse', array('facture' => $facture, 'avoir' => $avoir)); 
 include_partial('facture/templateNumPage', array('nb_page' => $nb_pages));
 include_partial('facture/templateHeadTable');
-$line_nb_current_page = 0;
-$current_avg_nb_lines_per_page = $nb_lines / $nb_pages;
+$line_nb_current_page = FactureLatex::NB_LIGNES_ENTETE * ($nb_pages > 1);
+$current_avg_nb_lines_per_page = floor($nb_lines / $nb_pages);
 $max_line_nb_current_page = FactureLatex::MAX_LIGNES_PERPAGE - FactureLatex::NB_LIGNES_ENTETE;
 $current_total_line_nb = 0;
 $current_nb_pages = 0;
