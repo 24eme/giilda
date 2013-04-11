@@ -21,7 +21,7 @@ class AlerteGenerationEcartDSDRMAout extends AlerteGenerationDS {
         foreach ($etablissement_rows as $etablissement_row) {
             $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);
             foreach ($campagnes as $campagne) {
-                $periode = substr($campagne, 0,4).'08';
+                $periode = substr($campagne, 5,4).'08';
                 $drm_master = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etablissement->identifiant, $periode);
                 if (!$drm_master || ($drm_master->getMois() != 8))
                     continue;
