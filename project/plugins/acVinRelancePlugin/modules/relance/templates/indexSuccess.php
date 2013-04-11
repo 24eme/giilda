@@ -5,8 +5,8 @@
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <?php include_component('relance', 'chooseEtablissement'); ?>
-            <?php //include_partial('consultation_alertes', array('form' => $form)); ?>
-            <?php //include_partial('liste_alertes', array('alertesHistorique' => $alertesHistorique,'modificationStatutForm' => $modificationStatutForm)); ?>
+            <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
+            <?php include_component('relance','generationMasse'); ?>
         </section>
         <!-- fin #contenu_etape -->
     </section>

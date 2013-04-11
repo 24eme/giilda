@@ -4,11 +4,15 @@ class RelanceClient extends acCouchdbClient {
     
     const TYPE_RELANCE_ECART = 'ECART';
     const TYPE_RELANCE_DECLARATIVE = 'DECLARATIVE';
-
+    
     public static function getInstance() {
 
         return acCouchdbManager::getClient("Relance");
     }
+
+    public static $relances_types_libelles = array(self::TYPE_RELANCE_ECART => "Relance d'écart", 
+                                                    self::TYPE_RELANCE_DECLARATIVE => "Relance déclarative");
+
 
     public function buildId($idEtb, $typeRelance, $date) {
         return sprintf('RELANCE-%s-%s-%s', $idEtb, $typeRelance, $date);
@@ -60,6 +64,25 @@ class RelanceClient extends acCouchdbClient {
     
     public function getAtDate($idClient,$typeRelance, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return $this->startkey('RELANCE-'.$idClient.'-'.$typeRelance.'-'.$date.'00')->endkey('RELANCE-'.$idClient.'-'.$typeRelance.'-'.$date.'99')->execute($hydrate);        
+    }
+    
+    public function getRelancesTypesFromIds($relanceGenIds) {
+        $result = array();
+        foreach ($relanceGenIds as $relanceGenId) {
+            if(count($result) == 2 ) return $result;
+            $relanceType = $this->getRelanceTypeFromId($relanceGenId);
+            if(!array_key_exists($relanceType, $result)) $result[$relanceType] = self::$relances_types_libelles[$relanceType];
+        }
+        return $result;
+    }
+    
+    private function getRelanceTypeFromId($relanceGenId){
+        if(preg_match('/^RELANCE-([0-9]{8})-([A-Z]+)-([0-9]{10})$/', $relanceGenId, $id)){
+            $type = $id[2];
+        }
+        if(!in_array($type, array_keys(self::$relances_types_libelles)))
+            throw new sfException("La relance d'id $relanceGenId possède un type invalide.");
+        return $type;
     }
 
 }
