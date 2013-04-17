@@ -35,6 +35,14 @@ head -n 1 $TMP/export_bi_societes.csv > $TMP/PLV_Clients.csv
 cat  $TMP/export_bi_societes.csv | grep ';"VITICULTEUR";' >> $TMP/PLV_Clients.csv
 cat  $TMP/export_bi_societes.csv | grep ';"NEGOCIANT";' >> $TMP/PLV_Clients.csv
 
+cat $TMP/PLV_Clients.csv | sed 's/$/^M/' | sed "s/\"ACTIF\"//g" > $TMP/PLV_Clients.tmp.csv 
+cat $TMP/MDV_Fournisseurs.csv | sed 's/$/^M/' | sed "s/\"ACTIF\"//g" > $TMP/MDV_Fournisseurs.tmp.csv 
+cat $TMP/PLV_Fournisseurs.csv | sed 's/$/^M/' | sed "s/\"ACTIF\"//g" > $TMP/PLV_Fournisseurs.tmp.csv 
+
+cat $TMP/PLV_Clients.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16"|"$17; $17="#ASUPPRIMER#"; print $0 }' | sed 's/;"#ASUPPRIMER#";/;/' | sed 's/|";"/";"/g' > $TMP/PLV_Clients.csv
+cat $TMP/MDV_Fournisseurs.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16"|"$17; $17="#ASUPPRIMER#"; print $0 }' | sed 's/;"#ASUPPRIMER#";/;/' | sed 's/|";"/";"/g' > $TMP/MDV_Fournisseurs.csv
+cat $TMP/PLV_Fournisseurs.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16"|"$17; $17="#ASUPPRIMER#"; print $0 }' | sed 's/;"#ASUPPRIMER#";/;/' | sed 's/|";"/";"/g' > $TMP/PLV_Fournisseurs.csv
+
 cat data/import/configuration/produits.csv | sed -r 's/^/#PRODUIT;/' | sed -r 's/;#/;/' > $TMP/export_bi_produits.csv
 
 cat data/export/constantes.csv > $TMP/export_bi_constantes.csv
