@@ -28,7 +28,7 @@ class acVinCompteLdapUpdateTask extends sfBaseTask
   protected function configure()
   {
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'civa'),
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
     ));
@@ -50,16 +50,15 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $ids = acCouchdbManager::getClient('_Compte')->getAll(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+
+    $compteview = CompteAllView::getInstance()->findByInterpro('INTERPRO-inter-loire', '', 100000);
 
     $nb = 0;
-    foreach($ids as $id) {
-        $compte = acCouchdbManager::getClient('_Compte')->retrieveDocumentById($id);
-        if ($compte->getStatut() == _Compte::STATUT_INSCRIT) {
-            $this->log($id);
-            $nb++;
-            $compte->updateLdap();
-        }
+    foreach($compteview as $compteinfo) {
+      $compte = acCouchdbManager::getClient('Compte')->retrieveDocumentById($compteinfo->key[CompteAllView::KEY_ID]);
+      $this->log($compte->identifiant);
+      $nb++;
+      $compte->updateLdap();
     }
 
     $this->logSection("done", $nb);
