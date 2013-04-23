@@ -63,6 +63,13 @@
             <?php echo $compteForm['email']->renderError(); ?>
         </div>
         <div class="form_ligne">
+            <label for="telephone_perso">
+                <?php echo $compteForm['telephone_perso']->renderLabel(); ?>
+            </label>
+            <?php echo $compteForm['telephone_perso']->render(); ?>
+            <?php echo $compteForm['telephone_perso']->renderError(); ?>
+        </div>
+        <div class="form_ligne">
             <label for="telephone_bureau">
                 <?php echo $compteForm['telephone_bureau']->renderLabel(); ?>
             </label>
