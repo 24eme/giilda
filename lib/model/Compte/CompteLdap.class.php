@@ -41,11 +41,15 @@ class CompteLdap extends acVinLdap {
       $info['homeDirectory']    = '/home/'.$compte->identifiant;
       if ($compte->email)
       $info['mail']             = $compte->email;
+      if ($compte->adresse) {
       $info['street']           = preg_replace('/;/', '\n', $compte->adresse);
       if ($compte->adresse_complementaire)
 	$info['street']        .= " \n ".preg_replace('/;/', '\n', $compte->adresse_complementaire);
+      }
       $info['o']                = $compte->getSociete()->raison_sociale;
+      if ($compte->commune)
       $info['l']                = $compte->commune;
+      if ($compte->code_postal)
       $info['postalCode']       = $compte->code_postal;
       if ($compte->telephone_bureau)
       $info['telephoneNumber']  = $compte->telephone_bureau;
