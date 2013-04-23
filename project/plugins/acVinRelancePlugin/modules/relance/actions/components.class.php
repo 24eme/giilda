@@ -8,5 +8,10 @@ class relanceComponents extends sfComponents {
               array('identifiant' => $this->identifiant));
     }
   }
+    public function executeGenerationMasse() { 
+    if (!$this->generationForm) {
+      $this->generationForm = new RelanceGenerationMasseForm(array_keys(AlerteClient::$alertes_libelles));
+    }
+  }
     
 }

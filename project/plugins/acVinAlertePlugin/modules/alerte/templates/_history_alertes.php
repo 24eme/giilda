@@ -1,5 +1,5 @@
 <div id="toutes_alertes">
-	<h2>Les alertes de </h2>
+	<h2>Historique des alertes</h2>
 	
 	<?php
 	use_helper('Date');
@@ -38,11 +38,12 @@
 					(Ouv.: <?php echo format_date($alerte->key[AlerteHistoryView::KEY_DATE_CREATION_ALERTE],'dd/MM/yyyy'); ?>)
 				</td>
 				<td><?php echo $statutsWithLibelles[$alerte->key[AlerteHistoryView::KEY_STATUT_ALERTE]]; ?></td>
-				<td><?php echo $alerte->value[AlerteHistoryView::VALUE_NOM]; ?></td>
+				<td><?php echo link_to($alerte->value[AlerteHistoryView::VALUE_NOM],'alerte_etablissement',
+                                        array('identifiant' => $alerte->key[AlerteHistoryView::KEY_IDENTIFIANT])); ?></td>
 				<td><?php echo link_to(AlerteClient::$alertes_libelles[$alerte->key[AlerteHistoryView::KEY_TYPE_ALERTE]],'alerte_modification',
 									   array('type_alerte' => $alerte->key[AlerteHistoryView::KEY_TYPE_ALERTE],
 											 'id_document' => $alerte->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE])); ?></td>
-				<td><?php echo $alerte->value[AlerteHistoryView::VALUE_LIBELLE_DOCUMENT]; ?></td>
+				<td><?php echo link_to($alerte->value[AlerteHistoryView::VALUE_LIBELLE_DOCUMENT], 'redirect_visualisation', array('id_doc' => $alerte->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE])); ?></td>
 			</tr>
 			<?php
 			endforeach;

@@ -14,15 +14,17 @@ abstract class AlerteGenerationVrac extends AlerteGeneration {
         switch ($this->getTypeAlerte()) {
             case AlerteClient::VRAC_NON_SOLDES:
                 $alerte->identifiant =  $vrac->vendeur_identifiant;
+                $alerte->declarant_nom = $vrac->vendeur->nom;
                 break;
             default:
+                
+        $alerte->declarant_nom = $vrac->acheteur->nom;
         $alerte->identifiant =  $vrac->acheteur_identifiant;
                 break;
         }
 
         $alerte->campagne = $vrac->campagne;
         $alerte->region = $vrac->vendeur->region;
-        $alerte->declarant_nom = $vrac->vendeur->nom;
         $alerte->type_document = $vrac->type;
         
         return $alerte;

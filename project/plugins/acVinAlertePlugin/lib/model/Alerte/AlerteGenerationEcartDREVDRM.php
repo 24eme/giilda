@@ -31,7 +31,8 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
                      if (!($alerte->isNew() || $alerte->isClosed())) {
                         continue;
                     }
-                    $alerte->open(self::getDate());
+                    $alerte->open($this->getDate());
+                    $alerte->type_relance = $this->getTypeRelance();
                     $alerte->save();
                 }
             }
@@ -49,15 +50,15 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
             $drev = RevendicationClient::getInstance()->findByOdgAndCampagne($drm_master->declarant->region, $drm_master->campagne);
             if(!$drev) continue;
             if ($this->isInAlerteWithDrev($drm_master,$drev)) {
-                $relance = Date::supEqual(self::getDate(), $alerte->date_relance);
+                $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
                 if ($relance) {
-                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, self::getDate());
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, $this->getDate());
                     $alerte->save();
                 }
                 continue;
             }
 
-            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, self::getDate());
+            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
             $alerte->save();
         }
     }
@@ -68,7 +69,7 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
         $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
         $campagnes = array();
 
-        for ($i = $nb_campagne; $i > 0; $i--) {
+        for ($i = $nb_campagne-1; $i >= 0; $i--) {
             preg_match('/([0-9]{4})-([0-9]{4})/', $campagne, $annees);
             $campagnes[] = sprintf("%s-%s", $annees[1] - $i, $annees[2] - $i);
         }
@@ -136,7 +137,7 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
         
     }
     
-        public function getTypeRelance() {
+    public function getTypeRelance() {
         return RelanceClient::TYPE_RELANCE_ECART;
     }
 

@@ -50,7 +50,8 @@ while(<STDIN>) {
 	print "n° identifiant (VINSI) : " if ($verbose);
 	print $field[10]."\n";
 	print "n° siret (VINSI) : " if ($verbose);
-	print $field[11]."\n";
+	$field[11] =~ s/[^0-9]//g;
+	print substr($field[11], 0, 14)."\n";
 	print "valeurs stats 1: " if ($verbose);
 	print "\n";
 	print "valeurs stats 2: " if ($verbose);

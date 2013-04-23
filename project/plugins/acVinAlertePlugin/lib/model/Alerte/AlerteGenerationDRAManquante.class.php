@@ -36,7 +36,7 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
                     if (!($alerte->isNew() || $alerte->isClosed())) {
                         continue;
                     }
-                    $alerte->open(self::getDate());
+                    $alerte->open($this->getDate());
                     $alerte->save();
                 }
             }

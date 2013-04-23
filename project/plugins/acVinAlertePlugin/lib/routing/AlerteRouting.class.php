@@ -28,7 +28,7 @@ class AlerteRouting {
                                                             array('model' => 'Alerte',
                                                                   'type' => 'object')));
         
-        $r->prependRoute('alerte_modification_statuts', new sfRoute('/alerte/statutsModification', array('module' => 'alerte',
-                    'action' => 'statutsModification'))); 
+        $r->prependRoute('alerte_modification_statuts', new sfRoute('/alerte/statutsModification/:retour', array('module' => 'alerte',
+                    'action' => 'statutsModification', 'retour' => null))); 
     }
 }

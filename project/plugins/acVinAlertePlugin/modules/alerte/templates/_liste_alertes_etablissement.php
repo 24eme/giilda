@@ -38,7 +38,7 @@
                         echo link_to(AlerteClient::$alertes_libelles[$alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE]], 'alerte_modification', array('type_alerte' => $alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE],
                             'id_document' => $alerte->value[AlerteRechercheView::VALUE_ID_DOC]));
                                 ?></td>
-                            <td><?php echo $alerte->value[AlerteRechercheView::VALUE_LIBELLE_DOCUMENT]; ?></td>
+                            <td><?php echo link_to($alerte->value[AlerteRechercheView::VALUE_LIBELLE_DOCUMENT], 'redirect_visualisation', array('id_doc' => $alerte->value[AlerteRechercheView::VALUE_ID_DOC])); ?></td>
                         </tr>
                         <?php
                     endforeach;

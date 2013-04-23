@@ -29,7 +29,7 @@ class AlerteModificationForm extends acCouchdbObjectForm {
     }
     
     public function doUpdate() {
-        $this->getObject()->updateStatut($this->values['statut'],  $this->values['commentaire'], AlerteGeneration::getDate());
+        $this->getObject()->updateStatut($this->values['statut'],  $this->values['commentaire'], AlerteDateClient::getInstance()->getDate());
         $this->getObject()->save();
     }
 

@@ -33,6 +33,8 @@ class RelanceRouting {
 									 array('model' => 'Relance',
 									       'type' => 'object')
 									 ));
+                $r->prependRoute('relance_generation', new sfRoute('/relance/generation', array('module' => 'relance', 
+										      'action' => 'generation')));
         
     }
 }

@@ -60,7 +60,7 @@ function echoTypeRelance($type){
         case RelanceClient::TYPE_RELANCE_DECLARATIVE:
             echo 'Vérification déclarative';
             break;
-        case RelanceClient::TYPE_RELANCE_ECRAT:
+        case RelanceClient::TYPE_RELANCE_ECART:
             echo 'Vérification écart';
             break;
 
@@ -74,7 +74,7 @@ function echoIntroRelance($type){
         case RelanceClient::TYPE_RELANCE_DECLARATIVE:
             echo 'Après étude de votre compte, sauf erreur de notre part, il apparaît que nous sommes en attente de certains éléments de votre part selon le détail suivant :';
             break;
-        case RelanceClient::TYPE_RELANCE_ECRAT:
+        case RelanceClient::TYPE_RELANCE_ECART:
             echo 'Après étude de votre compte, sauf erreur de notre part, nous constatons des écarts de volumes entre différents éléments et nous souhaiterions pouvoir les rectifier :';
             break;
 

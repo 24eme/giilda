@@ -45,7 +45,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                 
                     continue;
                 }
-                $alerte->open(self::getDate());
+                $alerte->open(self::$this->getDate());
                 $alerte->save();
             }
         }

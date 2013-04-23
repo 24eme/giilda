@@ -6,8 +6,9 @@
 
 class RelanceTypes extends BaseRelanceTypes {
 
-    public function storeDescriptionsForType($type) {
+    public function storeDescriptionsForType($type,$campagne =null,$idDoc = null) {
     
+        sfApplicationConfiguration::getActive()->loadHelpers('Date');
     switch ($type) {
         case AlerteClient::VRAC_NON_SOLDES :
             $this->titre = "Contrats non soldés";
@@ -49,13 +50,18 @@ class RelanceTypes extends BaseRelanceTypes {
             $this->refarticle = "cf Art III-3 et VI-3 Accord interprofessionnel en vigueur";
             $this->description = "Nous vous remercions de nous transmettre votre DRM du (ou des) mois suivant(s) :";
             break;
-        case AlerteClient::DRA_MANQUANTE:
-            
+        case AlerteClient::DRA_MANQUANTE:            
              $this->multiple = false;
             $this->titre = "DRA manquante(s)";
             $this->refarticle = "cf Art III-3 et VI-3 Accord interprofessionnel en vigueur";
             $this->description = "Nous vous remercions de nous transmettre votre DRA du mois de :";
-            break;        
+            break; 
+        case AlerteClient::DRM_STOCK_NEGATIF:
+            $this->multiple = false;
+            $this->titre = "DRM avec un stock négatif";
+            $this->refarticle = " XXXXX ";
+            $this->description = "Nous vous remercions de corriger les volumes des DRM suivantes :";
+            break;
         case AlerteClient::SV12_MANQUANTE:            
              $this->multiple = false;
              $this->titre = "Déclaration de production SV12";
@@ -63,18 +69,41 @@ class RelanceTypes extends BaseRelanceTypes {
              $this->description = "Nous vous demandons de bien vouloir nous faire parvenir une copie de votre déclaration de production (document SV12) faisant suite à vos achats de raisins et moûts sur la campagne en cours.";
              $this->description_fin = "Ce document doit nous parvenir au plus tard \\textbf{le 15 janvier} de l’année suivant la récolte.";
            break;
-          case AlerteClient::SV12_SANS_VRAC:
+        case AlerteClient::VRAC_SANS_SV12:
              $this->multiple = false;
              $this->titre = "Déclaration de production SV12";
              $this->refarticle = "cf Art VI-3 Accord interprofessionnel en vigueur";
              $this->description = "Nous avons enregistré des contrats d’achats de raisins et moûts vous concernant sur la campagne en cours dont les N° d’enregistrements sont les suivants :";
              $this->description_fin = "Dans ce contexte, nous vous demandons de bien vouloir nous faire parvenir copie votre déclaration de production SV12 dans les meilleurs délais.";
           break;
-
- 
+        case AlerteClient::ECART_DREV_DRM:
+             $this->multiple = true;
+             $this->titre = "Volume revendiqués";
+             $this->refarticle = "cf Art II-2 Accord interprofessionnel en vigueur";
+             $this->description = "Nous constatons un écart entre les volumes revendiqués transmis par l’ODG et les volumes revendiqués portés sur vos DRM de la campagne ".$campagne.".";
+             $this->liste_champs = "Appellation|Vol. rev. ODG|Vol. rev. DRM|Ecart";
+             $this->description_fin = "Nous vous remercions de bien vouloir nous contacter afin de nous informer de la raison de cet écart.";
+          break;      
+      case AlerteClient::ECART_DS_DRM_JUILLET:
+             $this->multiple = true;
+             $date = format_date(DSClient::getInstance()->find($idDoc)->date_stock, 'dd/MM/yyyy');
+             $this->titre = "DRM de juillet / Déclaration de stocks";
+             $this->refarticle = "cf Art V-4 Accord interprofessionnel en vigueur";
+             $this->description = "Nous constatons un écart entre le stock final de votre DRM du mois de juillet ".substr($campagne, 5)." et votre Déclaration de stocks au ".$date." : ";
+             $this->liste_champs = "Appellation|DRM juillet|Décl. stocks|Ecart";
+             $this->description_fin = "Nous vous remercions de bien vouloir nous contacter afin de nous informer de la raison de cet écart.";
+          break;
+      case AlerteClient::ECART_DS_DRM_AOUT:
+             $this->multiple = true;
+             $date = format_date(DSClient::getInstance()->find($idDoc)->date_stock, 'dd/MM/yyyy');
+             $this->titre = "Déclaration de stocks / DRM d'août";
+             $this->refarticle = "cf Art V-4 Accord interprofessionnel en vigueur";
+             $this->description = "Nous constatons un écart entre le stock de votre DRM du mois d'août ".substr($campagne, 0,4)." et votre Déclaration de stocks au ".$date." : ";
+             $this->liste_champs = "Appellation|DRM août|Décl. stocks|Ecart";
+             $this->description_fin = "Nous vous remercions de bien vouloir nous contacter afin de nous informer de la raison de cet écart.";
+       break;
         default:
             break;
     }
  }
-
 }

@@ -36,7 +36,10 @@ EOF;
     }
     print $societe->raison_sociale_abregee.";";
     print preg_replace('/;.*/', '', $societe->getSiegeAdresses()).";";
-    print str_replace(';', '-', preg_replace('/.*;/', '', $societe->getSiegeAdresses())).";";
+    if (preg_match('/;/', $societe->getSiegeAdresses())) {
+        print str_replace(';', '-', preg_replace('/.*;/', '', $societe->getSiegeAdresses()));
+    }
+    print ";";
     print $societe->siege->code_postal.";";
     print $societe->siege->commune.";";
     print "France;";
@@ -48,7 +51,7 @@ EOF;
     print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";"; 
     print preg_replace('/[^\+0-9]/i', '', $societe->fax).";"; 
     print $societe->email.";"; 
-    print "http://10.0.2.196/societe/".$societe->identifiant."/visualisation;";
+    print "http://10.0.2.195/societe/".$societe->identifiant."/visualisation;";
     try {
       if ($isclient == self::ISCLIENT) {
 	print $societe->getRegionViticole(false);

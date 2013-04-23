@@ -43,3 +43,6 @@
 [submodule "project/plugins/acElasticaPlugin"]
 	path = project/plugins/acElasticaPlugin
 	url = git@gitorious.org:accouchdbplugin/acelasticaplugin.git
+[submodule "project/plugins/acLdapPlugin"]
+	path = project/plugins/acLdapPlugin
+	url = git@gitorious.org:acldapplugin/acldapplugin.git
