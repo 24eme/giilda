@@ -31,6 +31,8 @@ class acVinCompteLdapUpdateTask extends sfBaseTask
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+      new sfCommandOption('compte', null, sfCommandOption::PARAMETER_REQUIRED, 'Compte id to update to ldap', 0),
+      new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_REQUIRED, 'Verbose mode', 0),
     ));
 
     $this->namespace        = 'compte';
@@ -50,12 +52,24 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-
-    $compteview = CompteAllView::getInstance()->findByInterpro('INTERPRO-inter-loire', '', 100000);
+    if ($options['compte']) {
+       $c = new stdClass();
+       $c->key = array(CompteAllView::KEY_ID => $options['compte']);
+       $compteview = array($c);
+       print_r($compteview);
+    }else{
+     $compteview = CompteAllView::getInstance()->findByInterpro('INTERPRO-inter-loire', '', 100000);
+    }
 
     $nb = 0;
     foreach($compteview as $compteinfo) {
       $compte = acCouchdbManager::getClient('Compte')->retrieveDocumentById($compteinfo->key[CompteAllView::KEY_ID]);
+      if (!$compte) {
+	continue;
+      }
+      if ($options['verbose']) {
+	print_r($compte);
+      }
       $this->log($compte->identifiant);
       $nb++;
       $compte->updateLdap();
