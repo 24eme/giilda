@@ -47,8 +47,8 @@ class CompteLdap extends acVinLdap {
       $info['uidNumber']        = '1000';
       $info['gidNumber']        = '1000';
       $info['homeDirectory']    = '/home/'.$compte->identifiant;
-      if ($compte->email)
-      $info['mail']             = $compte->email;
+      if ($compte->email && preg_match('/@/', $compte->email))
+	$info['mail']             = $compte->email;
       if ($compte->adresse) {
       $info['street']           = preg_replace('/;/', '\n', $compte->adresse);
       if ($compte->adresse_complementaire)
