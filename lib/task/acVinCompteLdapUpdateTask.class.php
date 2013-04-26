@@ -56,19 +56,25 @@ EOF;
        $c = new stdClass();
        $c->key = array(CompteAllView::KEY_ID => 'COMPTE-'.$options['compte']);
        $compteview = array($c);
-       print_r($compteview);
     }else{
      $compteview = CompteAllView::getInstance()->findByInterpro('INTERPRO-inter-loire', '', 100000);
     }
 
     $nb = 0;
     foreach($compteview as $compteinfo) {
+      if ($options['verbose']) {
+       echo "vue : ";
+       print_r($compteinfo);
+       echo "\n";
+      }
       $compte = acCouchdbManager::getClient('Compte')->retrieveDocumentById($compteinfo->key[CompteAllView::KEY_ID]);
       if (!$compte) {
 	continue;
       }
       if ($options['verbose']) {
+	echo "compte : ";
 	print_r($compte);
+       echo "\n";
       }
       $this->log($compte->identifiant);
       $nb++;
