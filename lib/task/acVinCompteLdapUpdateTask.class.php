@@ -54,7 +54,7 @@ EOF;
 
     if ($options['compte']) {
        $c = new stdClass();
-       $c->key = array(CompteAllView::KEY_ID => $options['compte']);
+       $c->key = array(CompteAllView::KEY_ID => 'COMPTE-'.$options['compte']);
        $compteview = array($c);
        print_r($compteview);
     }else{
@@ -72,7 +72,7 @@ EOF;
       }
       $this->log($compte->identifiant);
       $nb++;
-      $compte->updateLdap();
+      $compte->updateLdap($options['verbose']);
     }
 
     $this->logSection("done", $nb);

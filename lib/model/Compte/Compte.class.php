@@ -344,12 +344,12 @@ class Compte extends BaseCompte {
       return ($this->statut == CompteClient::STATUT_ACTIF);
     }
 
-    public function updateLdap() {
+    public function updateLdap($verbose = 0) {
       $ldap = new CompteLdap();
       if ($this->isActif())
-	$ldap->saveCompte($this);
+	$ldap->saveCompte($this, $verbose);
       else
-	$ldap->deleteCompte($this);
+	$ldap->deleteCompte($this, $verbose);
     }
 
 }

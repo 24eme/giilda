@@ -1,9 +1,14 @@
 <?php
 class CompteLdap extends acVinLdap {
 
-    public function saveCompte($compte) 
+  public function saveCompte($compte, $verbose = 0) 
     {
-      return $this->save($compte->identifiant, $this->info($compte));
+      $info = $this->info($compte);
+      if ($verbose) {
+	echo "save : ";
+	print_r($info);
+      }
+      return $this->save($compte->identifiant, $info);
     }
 
     /**
@@ -11,7 +16,10 @@ class CompteLdap extends acVinLdap {
      * @param _Compte $compte
      * @return bool 
      */
-    public function deleteCompte($compte) {
+    public function deleteCompte($compte, $verbose = 0) {
+      if ($verbose) {
+	echo $compte->identifiant." deleted\n";
+      }
         return $this->delete($compte->identifiant);
     }
     
