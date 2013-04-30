@@ -44,10 +44,11 @@ cat $TMP/PLV_Clients.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' |
 cat $TMP/MDV_Fournisseurs.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16" |"$17; $17="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/MDV_Fournisseurs.csv
 cat $TMP/PLV_Fournisseurs.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16" |"$17; $17="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/PLV_Fournisseurs.csv
 
-echo -e "\r\n" >> $TMP/PLV_Clients.csv
-echo -e "\r\n" >> $TMP/MDV_Fournisseurs.csv
-echo -e "\r\n" >> $TMP/PLV_Fournisseurs.csv
-
+for file in PLV_Clients.csv MDV_Fournisseurs.csv PLV_Fournisseurs.csv ; do
+	cat $TMP/$file | sed 's/$/\r/' > $TMP/pivot.csv
+	echo -e "\r\n" >> $TMP/pivot.csv
+	mv $TMP/pivot.csv $TMP/$file
+done
 cat data/import/configuration/produits.csv | sed -r 's/^/#PRODUIT;/' | sed -r 's/;#/;/' > $TMP/export_bi_produits.csv
 
 cat data/export/constantes.csv > $TMP/export_bi_constantes.csv
