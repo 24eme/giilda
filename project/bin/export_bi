@@ -29,8 +29,8 @@ ENTETE_MDVPLV="SOCIETE;\"statut (ACTIF, SUSPENDU)\";\"type societe (OPERATEUR, V
 echo $ENTETE_MDVPLV > $TMP/MDV_Fournisseurs.csv
 cat  $TMP/export_bi_societes.csv | grep -E ';"[PLV\|]*MDV[\|PLV]*";' >> $TMP/MDV_Fournisseurs.csv
 
-echo "\"En Compte\";"$ENTETE_MDVPLV > $TMP/PLV_Fournisseurs.csv
-cat  $TMP/export_bi_societes.csv | grep -E ';"[MDV\|]*PLV[\|MDV]*";' | sed 's/^/\"En Compte\";/' >> $TMP/PLV_Fournisseurs.csv
+echo $ENTETE_MDVPLV > $TMP/PLV_Fournisseurs.csv
+cat  $TMP/export_bi_societes.csv | grep -E ';"[MDV\|]*PLV[\|MDV]*";' >> $TMP/PLV_Fournisseurs.csv
 
 echo "\"En Compte\";"$ENTETE_MDVPLV > $TMP/PLV_Clients.csv
 cat  $TMP/export_bi_societes.csv | grep ';"VITICULTEUR";' | sed 's/^/\"En Compte\";/' >> $TMP/PLV_Clients.csv
@@ -42,7 +42,7 @@ cat $TMP/PLV_Fournisseurs.csv | sed "s/\"ACTIF\"//g" > $TMP/PLV_Fournisseurs.tmp
 
 cat $TMP/PLV_Clients.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' |  awk -F '";"' 'BEGIN { OFS="\";\"" } { $15=$15" |"$16; $16="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/PLV_Clients.csv
 cat $TMP/MDV_Fournisseurs.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16" |"$17; $17="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/MDV_Fournisseurs.csv
-cat $TMP/PLV_Fournisseurs.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $15=$15" |"$16; $16="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/PLV_Fournisseurs.csv
+cat $TMP/PLV_Fournisseurs.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16" |"$17; $17="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/PLV_Fournisseurs.csv
 
 for file in PLV_Clients.csv MDV_Fournisseurs.csv PLV_Fournisseurs.csv ; do
 	cat $TMP/$file | sed 's/$/\r/' > $TMP/pivot.csv
