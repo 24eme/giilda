@@ -85,7 +85,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \fancyhf{}
 
 \lhead{
- \textbf{InterLoire - Service facturation} \\  
+ \textbf{InterLoire} \\  
  \InterloireAdresse \\
  \begin{small} \textbf{\begin{footnotesize}\InterloireFacturation\end{footnotesize}}\\ \end{small}
  \begin{tiny}

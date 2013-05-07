@@ -79,7 +79,7 @@ $nb_ligne = 0;
 \fancyhf{}
 
 \lhead{
- \textbf{InterLoire - Service facturation} \\  
+ \textbf{InterLoire} \\  
  \InterloireAdresse \\
  \textbf{\begin{footnotesize}\InterloireFacturation\end{footnotesize}}\\
  \begin{tiny}
