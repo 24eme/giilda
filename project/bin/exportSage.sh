@@ -33,8 +33,8 @@ echo -n > $TMP/$VINSIEXPORT
 #echo  "#FLG 001" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 echo "#VER 14" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 echo "#DEV EUR" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
-cat $TMP/societes.sage | iconv -f UTF8 -t ISO8859-1 | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
-cat $TMP/factures.sage | iconv -f UTF8 -t ISO8859-1 | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
+cat $TMP/societes.sage | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
+cat $TMP/factures.sage | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 echo "#FIN" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 
 
