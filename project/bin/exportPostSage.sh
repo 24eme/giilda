@@ -32,14 +32,14 @@ cd $TMP
 if smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; get societes.csv" | grep NT_STATUS_OBJECT_NAME_NOT_FOUND ; then
     echo "societes.csv not found" 1>&2
     echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
-    echo "ERREUR le fichier societes.csv n'a pas été trouvé sur le répertoire de partage" >> $TMP/$SAGE_EMAILFILE
+    echo "ERREUR le fichier societes.csv n'a pas été trouvé sur le répertoire de partage ($0)" >> $TMP/$SAGE_EMAILFILE
     sendEmail
     exit 4
 fi
 if smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; get factures.csv" | grep NT_STATUS_OBJECT_NAME_NOT_FOUND ; then
     echo "factures.csv not found" 1>&2
     echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
-    echo "ERREUR le fichier factures.csv n'a pas été trouvé sur le répertoire de partage" >> $TMP/$SAGE_EMAILFILE
+    echo "ERREUR le fichier factures.csv n'a pas été trouvé sur le répertoire de partage ($0)" >> $TMP/$SAGE_EMAILFILE
     sendEmail
     exit 5
 fi
