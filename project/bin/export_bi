@@ -24,15 +24,15 @@ echo "#SOCIETE;statut (ACTIF, SUSPENDU);type societe (OPERATEUR, VITICULTEUR, NE
 curl http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/societe/_view/export | sed -f bin/unicode2alpha | sed 's/.*"key":\["INTERPRO-inter-loire",/SOCIETE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^SOCIETE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' >> $TMP/export_bi_societes.csv
 
 
-ENTETE_MDVPLV="\"En Compte\";SOCIETE;\"statut (ACTIF, SUSPENDU)\";\"type societe (OPERATEUR, VITICULTEUR, NEGOCIANT, COURTIER, PRESSE, PARTENAIRE, DOUANE, INSTITUTION, HOTEL-RESTAURANT, AUTRE)\";\"identifiant interne\";\"identifiant\";\"code_comptable_client\";\"code_comptable_fournisseur\";\"type fournisseur\";\"nom\";\"nom abrege\";\"cave cooperative (OUI, NON)\";\"siret\";\"code naf\";\"tva intracommunautaire\";\"enseignes (enseigne1|enseigne2)\";\"adresse\";\"adresse complementaire\";\"code postal\";\"ville\";\"pays\";\"telephone\";\"fax\";\"email\"";
+ENTETE_MDVPLV="SOCIETE;\"statut (ACTIF, SUSPENDU)\";\"type societe (OPERATEUR, VITICULTEUR, NEGOCIANT, COURTIER, PRESSE, PARTENAIRE, DOUANE, INSTITUTION, HOTEL-RESTAURANT, AUTRE)\";\"identifiant interne\";\"identifiant\";\"code_comptable_client\";\"code_comptable_fournisseur\";\"type fournisseur\";\"nom\";\"nom abrege\";\"cave cooperative (OUI, NON)\";\"siret\";\"code naf\";\"tva intracommunautaire\";\"enseignes (enseigne1|enseigne2)\";\"adresse\";\"adresse complementaire\";\"code postal\";\"ville\";\"pays\";\"telephone\";\"fax\";\"email\"";
 
 echo $ENTETE_MDVPLV > $TMP/MDV_Fournisseurs.csv
-cat  $TMP/export_bi_societes.csv | grep -E ';"[PLV\|]*MDV[\|PLV]*";' | sed 's/^/\"En Compte\";/' >> $TMP/MDV_Fournisseurs.csv
+cat  $TMP/export_bi_societes.csv | grep -E ';"[PLV\|]*MDV[\|PLV]*";' >> $TMP/MDV_Fournisseurs.csv
 
 echo $ENTETE_MDVPLV > $TMP/PLV_Fournisseurs.csv
-cat  $TMP/export_bi_societes.csv | grep -E ';"[MDV\|]*PLV[\|MDV]*";' | sed 's/^/\"En Compte\";/' >> $TMP/PLV_Fournisseurs.csv
+cat  $TMP/export_bi_societes.csv | grep -E ';"[MDV\|]*PLV[\|MDV]*";' >> $TMP/PLV_Fournisseurs.csv
 
-echo $ENTETE_MDVPLV > $TMP/PLV_Clients.csv
+echo "\"En Compte\";"$ENTETE_MDVPLV > $TMP/PLV_Clients.csv
 cat  $TMP/export_bi_societes.csv | grep ';"VITICULTEUR";' | sed 's/^/\"En Compte\";/' >> $TMP/PLV_Clients.csv
 cat  $TMP/export_bi_societes.csv | grep ';"NEGOCIANT";' | sed 's/^/\"En Compte\";/' >> $TMP/PLV_Clients.csv
 
@@ -40,7 +40,7 @@ cat $TMP/PLV_Clients.csv | sed "s/\"ACTIF\"//g" > $TMP/PLV_Clients.tmp.csv
 cat $TMP/MDV_Fournisseurs.csv | sed "s/\"ACTIF\"//g" > $TMP/MDV_Fournisseurs.tmp.csv 
 cat $TMP/PLV_Fournisseurs.csv | sed "s/\"ACTIF\"//g" > $TMP/PLV_Fournisseurs.tmp.csv 
 
-cat $TMP/PLV_Clients.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' |  awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16" |"$17; $17="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/PLV_Clients.csv
+cat $TMP/PLV_Clients.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' |  awk -F '";"' 'BEGIN { OFS="\";\"" } { $15=$15" |"$16; $16="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/PLV_Clients.csv
 cat $TMP/MDV_Fournisseurs.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16" |"$17; $17="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/MDV_Fournisseurs.csv
 cat $TMP/PLV_Fournisseurs.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16" |"$17; $17="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/PLV_Fournisseurs.csv
 
