@@ -3,18 +3,23 @@
 . bin/config.inc
 
 function sendEmail {
-echo "Voici le compte rendu de l'import SAGE qui vient de s'effectuer" >  $TMP/$SAGE_EMAILFILE.header
+echo "Voici le compte rendu de l'import SAGE qui vient de s'effectuer :" >  $TMP/$SAGE_EMAILFILE.header
 echo >> $TMP/$SAGE_EMAILFILE.header
 echo "===========================================" >> $TMP/$SAGE_EMAILFILE.header
+
+echo "===========================================" > $TMP/$SAGE_EMAILFILE.footer
+echo "--" >>  $TMP/$SAGE_EMAILFILE.footer
+echo "envoyé automatiquement depuis $0" >>  $TMP/$SAGE_EMAILFILE.footer
+
 
 TITRE="Compte rendu"
 if grep ERREUR $TMP/$SAGE_EMAILFILE > /dev/null ; then
 TITRE="ERREUR"
 fi
 for email in $SAGE_EMAILS; do
-cat $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE | iconv -f UTF8 -t ISO88591 | mail -s "[Import SAGE] $TITRE" $email
+cat $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer | iconv -f UTF8 -t ISO88591 | mail -s "[Import SAGE] $TITRE" $email
 done
-rm $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE
+rm $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer
 }
 
 if ! test "$SAMBA_IP" || ! test "$SAMBA_SHARE" || ! test "$SAMBA_AUTH" || ! test "$SAMBA_SAGESUBDIR" || ! test "$SAMBA_SAGEFILE"; then
