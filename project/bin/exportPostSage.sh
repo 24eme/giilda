@@ -8,8 +8,9 @@ echo >> $TMP/$SAGE_EMAILFILE.header
 echo "===========================================" >> $TMP/$SAGE_EMAILFILE.header
 
 echo "===========================================" > $TMP/$SAGE_EMAILFILE.footer
+echo >>  $TMP/$SAGE_EMAILFILE.footer
 echo "--" >>  $TMP/$SAGE_EMAILFILE.footer
-echo "envoyé automatiquement depuis $0" >>  $TMP/$SAGE_EMAILFILE.footer
+echo "envoyé automatiquement depuis "$USER"@"$HOSTNAME":"$0 >>  $TMP/$SAGE_EMAILFILE.footer
 
 
 TITRE="Compte rendu"
