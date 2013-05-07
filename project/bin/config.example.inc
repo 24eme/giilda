@@ -18,6 +18,7 @@ SAMBA_SAGESUBDIR=yyyy
 SAMBA_SAGEFILE=sage.txt
 SAGE_EMAILFILE=sage_report.log
 SAGE_EMAILS="test@example.org test2@example.org"
+VINSIEXPORT=VinsiClientsSage.txt
 SAMBA_FACTURELOCALDIR=zzzz
 SAMBA_SAGEVERIFY=
 SAMBA_XLSOFT_IP=
