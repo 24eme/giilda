@@ -183,6 +183,7 @@ class drmActions extends sfActions {
     }
 
     public function executeValidation(sfWebRequest $request) {
+        set_time_limit(180);
         $this->drm = $this->getRoute()->getDRM();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
 
