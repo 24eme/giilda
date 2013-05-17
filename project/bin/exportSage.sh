@@ -10,10 +10,10 @@ if test "$SAMBA_IP" && test "$SAMBA_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA
 	 echo "ERREUR le fichier $SAMBA_SAGEFILE n'est pas present ($0)" >> $TMP/$SAGE_EMAILFILE
 	 exit 2
     fi
-    if test "$SAMBA_SAGEVERIFY" && smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; ls  $VINSIEXPORT" | grep -v NT_STATUS_NO_SUCH_FILE ; then
-	echo "$VINSIEXPORT should not be present" 1>&2
-         echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
-         echo "ERREUR le fichier $VINSIEXPORT ne devrait pas être present ($0)" >> $TMP/$SAGE_EMAILFILE
+    if test "$SAMBA_SAGEVERIFY" && test "$(smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; ls  $VINSIEXPORT" | grep -o "NT_STATUS_NO_SUCH_FILE")" != "NT_STATUS_NO_SUCH_FILE" ; then
+	    echo "$VINSIEXPORT should not be present" 1>&2
+        echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
+        echo "ERREUR le fichier $VINSIEXPORT ne devrait pas être present ($0)" >> $TMP/$SAGE_EMAILFILE
 	exit 3
     fi
     smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; rm factures.csv ; rm societes.csv"
