@@ -43,7 +43,7 @@ if smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; 
     sendEmail
     exit 5
 fi
-if test "$SAMBA_SAGEVERIFY" && smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; ls  $VINSIEXPORT" | grep -v NT_STATUS_NO_SUCH_FILE ; then
+if test "$SAMBA_SAGEVERIFY" && ! smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; ls  $VINSIEXPORT" | grep "NT_STATUS_NO_SUCH_FILE" ; then
     echo "$VINSIEXPORT should not be present" 1>&2
     echo -n $(date'+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
     echo "ERREUR IMPORT SAGE (le fichier $VINSIEXPORT ne devrait pas être present)" >> $TMP/$SAGE_EMAILFILE
