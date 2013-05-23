@@ -253,6 +253,7 @@ class FactureClient extends acCouchdbClient {
       $avoir->remove('echeances');
       $avoir->add('echeances');
       $avoir->statut = self::STATUT_NONREDRESSABLE;
+      $avoir->date_facturation = $avoir->date_emission;
       $avoir->save();
       $f->defacturer();
       $f->save();
