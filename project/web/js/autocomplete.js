@@ -66,7 +66,7 @@
             }
 
             var url_ajax = select.attr('data-ajax');
-            var limit = 20;
+            var limit = 100;
             //var prev_term = "";
             var minLength = (url_ajax) ? 1 : 0;
             var delay = (url_ajax) ? 500 : 200;
