@@ -22,7 +22,7 @@ class RelanceLatex extends GenericLatex {
   }
 
   public function getNbPages() {
-          return 1;
+       return intval(exec("/usr/bin/pdfinfo ".$this->getPDFFile()." | grep 'Pages' | sed 's/Pages:[ ]*//'"));
   }
   
   public function getLatexFileNameWithoutExtention() {

@@ -26,7 +26,7 @@ class AlerteGenerationEcartDSDRMAout extends AlerteGenerationDS {
                 if (!$drm_master || ($drm_master->getMois() != 8))
                     continue;
                 $ds = DSClient::getInstance()->findLastByIdentifiant($etablissement->identifiant);
-                if(!$ds){
+                if(!$ds || $ds->getCampagne() != $drm_master->getCampagne()){
                     continue;
                 }
                 if($this->isInAlerteWithDRM($ds,$drm_master)){

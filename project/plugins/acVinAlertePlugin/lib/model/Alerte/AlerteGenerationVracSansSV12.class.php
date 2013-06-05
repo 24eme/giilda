@@ -40,6 +40,7 @@ class AlerteGenerationVracSansSV12 extends AlerteGenerationSV12 {
                     continue;
                 }
                 $alerte->open($this->getDate());
+                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER,'Alerte mis en statut à relancer automatiquement',  $this->getDate());
                 $alerte->save();
             }
             

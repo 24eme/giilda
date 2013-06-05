@@ -131,6 +131,11 @@ class RelanceTypeExplications extends BaseRelanceTypeExplications {
                 $config = new AlerteConfig(AlerteClient::ECART_DS_DRM_AOUT);
                 $periode = substr($campagne, 5,4).'08';
                 $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etbId, $periode);
+                if(!$drm)
+                    $periode = substr($campagne, 0,4).'08';
+                $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etbId, $periode);
+                if(!$drm)
+                    throw new sfException("La drm de l'etb $etbId pour la periode $periode n'existe pas dans l'alerte $alerte->id.");
                 $this->explications = "";
                 foreach ($ds->declarations as $hashKey => $declaration) {
                     $prod_node = $drm->getProduit(str_replace('-', '/', $hashKey));

@@ -33,6 +33,7 @@ class AlerteGenerationEcartDSDRMJuillet extends AlerteGenerationDS {
                     $alerte = $this->createOrFindByDS($this->buildEcartDSDRMJuillet($etablissement, $ds));
                     $alerte->open($this->getDate());
                     $alerte->type_relance = $this->getTypeRelance();
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER,'Alerte mis en statut à relancer automatiquement',  $this->getDate());
                     $alerte->save();
                 }
             }

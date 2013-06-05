@@ -42,7 +42,7 @@ class AlerteGenerationVracsNonSoldes extends AlerteGenerationVrac {
         return $this->updateByDocumentId($document,self::TYPE_DOCUMENT);        
     }
 
-    public function isInAlerte($document) {
+    public function isInAlerte($document) {        
          return  $document->isVin() && $document->isValidee() && !$document->isSolde();
     }
     
