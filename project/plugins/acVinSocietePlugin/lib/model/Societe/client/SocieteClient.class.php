@@ -85,9 +85,13 @@ class SocieteClient extends acCouchdbClient {
         return $societe;
     }
 
-    public function find($id_or_identifiant, $hydrate = self::HYDRATE_DOCUMENT) {
-        if(preg_match('/^SOCIETE[-]{1}[0-9]*$/', $id_or_identifiant)) return parent::find($id_or_identifiant, $hydrate);
-        return parent::find($this->getId($id_or_identifiant), $hydrate);
+    public function find($id_or_identifiant, $hydrate = self::HYDRATE_DOCUMENT, $force_return_ls = false) {
+        if(preg_match('/^SOCIETE[-]{1}[0-9]*$/', $id_or_identifiant)) {
+
+            return parent::find($id_or_identifiant, $hydrate, $force_return_ls);
+        }
+        
+        return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
     public function getNextIdentifiantSociete() {
