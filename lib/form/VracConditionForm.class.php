@@ -100,6 +100,8 @@ class VracConditionForm extends acCouchdbObjectForm {
     
     public function doUpdateObject($values) 
     {
+        if($values['type_contrat'] == VracClient::TYPE_CONTRAT_SPOT)
+            $values['prix_variable'] = 0;
         parent::doUpdateObject($values);
     }
   
