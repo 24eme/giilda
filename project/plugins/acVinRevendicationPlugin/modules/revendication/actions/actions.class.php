@@ -69,8 +69,7 @@ class revendicationActions extends sfActions {
                 $file = $this->form->getValue('file');
                 $this->md5 = $file->getMd5();
 
-                $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
-
+                $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;           
                 RevendicationCsvFile::convertTxtToCSV($path);
                 $this->csv = new RevendicationCsvFile($path);
                 $this->revendication->updateCSV($path);
