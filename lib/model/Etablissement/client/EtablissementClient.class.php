@@ -95,8 +95,9 @@ class EtablissementClient extends acCouchdbClient {
         return parent::find('ETABLISSEMENT-' . $id, $hydrate);
     }
 
-    public function find($id_or_identifiant, $hydrate = self::HYDRATE_DOCUMENT) {
-        return parent::find($this->getId($id_or_identifiant), $hydrate);
+    public function find($id_or_identifiant, $hydrate = self::HYDRATE_DOCUMENT, $force_return_ls = false) {
+        
+        return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
     public function findByCvi($cvi) {
