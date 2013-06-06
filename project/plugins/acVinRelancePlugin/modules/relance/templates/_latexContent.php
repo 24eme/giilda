@@ -1,6 +1,7 @@
 <?php
 use_helper('Date');
 use_helper('Relance');
+use_helper('Display');
 ?>
 \documentclass[a4paper,8pt]{extarticle}
 \usepackage{geometry} % paper=a4paper
@@ -30,7 +31,7 @@ use_helper('Relance');
 
 \def\RELANCECLIENTNOM{<?php echo $relance->declarant->nom; ?>}
 
-\def\RELANCECLIENTADRESSE{<?php echo $relance->declarant->adresse; ?>}
+\def\RELANCECLIENTADRESSE{<?php display_latex_string($relance->declarant->adresse,';',50,2); ?>}
 
 \def\RELANCECLIENTCP{<?php echo $relance->declarant->code_postal; ?>}
 \def\RELANCECLIENTVILLE{<?php echo $relance->declarant->commune; ?>}

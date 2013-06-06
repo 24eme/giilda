@@ -43,7 +43,7 @@ if smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; 
     sendEmail
     exit 5
 fi
-if test "$SAMBA_SAGEVERIFY" && smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; ls  $VINSIEXPORT" | grep -v NT_STATUS_NO_SUCH_FILE ; then
+if test "$SAMBA_SAGEVERIFY" && ! smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; ls  $VINSIEXPORT" | grep "NT_STATUS_NO_SUCH_FILE" ; then
     echo "$VINSIEXPORT should not be present" 1>&2
     echo -n $(date'+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
     echo "ERREUR IMPORT SAGE (le fichier $VINSIEXPORT ne devrait pas être present)" >> $TMP/$SAGE_EMAILFILE
@@ -53,12 +53,16 @@ fi
 
 
 echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
-echo $(cut -d ';' -f 14 /tmp/prod/factures.csv | sort | uniq | wc -l)" facture(s) importée(s) sans erreur " >> $TMP/$SAGE_EMAILFILE
+echo $(cut -d ';' -f 14 $TMP/factures.csv | sort | uniq | wc -l)" facture(s) importée(s) sans erreur " >> $TMP/$SAGE_EMAILFILE
+echo $(cut -d ';' -f 14 $TMP/societes.csv | sort | uniq | wc -l)" societe(s) mise(s) à jour sans erreur " >> $TMP/$SAGE_EMAILFILE
 sendEmail
 
 cd -
 mkdir -p $PDFDIR/csv
 cp $TMP/factures.csv $PDFDIR/csv/$(date '+%Y%m%d')_factures.csv
+cp $TMP/societes.csv $PDFDIR/csv/$(date '+%Y%m%d')_societes.csv
+cp $TMP/societes.csv $PDFDIR/csv/societes.last.csv
+
 bash bin/exportFacturePDF.sh
 
 cat $TMP/factures.csv | awk -F ';' '{print $14}' | sort | uniq | while read FACTUREID; do

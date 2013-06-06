@@ -6,7 +6,7 @@
  */
 abstract class AlerteGeneration {
 
-    const FIRST_SEQ = 297000;
+    const FIRST_SEQ = 230000;
     
     protected $dev = false;
     protected $config = null;
@@ -82,13 +82,14 @@ abstract class AlerteGeneration {
                 continue;
             }
             $this->changes[] = $change->id;
-        }
+        }   
         if($changes->last_seq > $this->num_seq) $this->setLastSeq($changes->last_seq);
     }
     
     private function getTypeDocument(){
         $type_alerte = $this->getTypeAlerte();
-        return strstr($type_alerte, '_', true);
+        $type =  strstr($type_alerte, '_', true);
+        return strtoupper(substr($type, 0,1)).strtolower(substr($type, 1));
     }
 
     protected function getDataPath() {

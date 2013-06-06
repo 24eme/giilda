@@ -20,6 +20,9 @@ class AlerteGenerationSV12Manquante extends AlerteGenerationSV12 {
         $campagnes = $this->getCampagnes();
 
         foreach($etablissement_rows as $etablissement_row) {
+            if($etablissement_row->key[EtablissementAllView::KEY_REGION] == EtablissementClient::REGION_HORSINTERLOIRE){
+                continue;
+            }
             $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);
 
             foreach($campagnes as $campagne) {

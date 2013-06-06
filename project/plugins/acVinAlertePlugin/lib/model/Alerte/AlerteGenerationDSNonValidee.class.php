@@ -32,7 +32,7 @@ class AlerteGenerationDSNonValidee extends AlerteGenerationDS {
     }
     
     public function creation($document) {
-       return $this->creationByDocumentId($document,self::TYPE_DOCUMENT);        
+       return $this->creationByDocumentId($document,self::TYPE_DOCUMENT,  AlerteClient::STATUT_A_RELANCER);
     }
     
     public function update($document) {        

@@ -5,13 +5,13 @@ function printRelanceFormule($relance){
     echo 'Nous vous remercions de bien vouloir nous contacter afin de nous informer de la raison de cet écart.';
 }
 
-function escape_string_for_latex($string) {
-    $disp = str_replace("&#039;", "'", $string);
-    $disp = str_replace("&amp;", "&", $disp);
-    $disp = str_replace("&", "\&", $disp);
-    $disp = str_replace("%", "\%", $disp);
-    return $disp;
-}
+//function escape_string_for_latex($string) {
+//    $disp = str_replace("&#039;", "'", $string);
+//    $disp = str_replace("&amp;", "&", $disp);
+//    $disp = str_replace("&", "\&", $disp);
+//    $disp = str_replace("%", "\%", $disp);
+//    return $disp;
+//}
 
 function getTableRowHead($rowHead){
     $tab = explode('|', escape_string_for_latex($rowHead));
