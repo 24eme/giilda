@@ -20,15 +20,21 @@ class CompteClient extends acCouchdbClient {
 
     public function getNextIdentifiantForSociete($societe)
     {   
-        $id='';
-	$societe_id = $societe->identifiant;
+  	  $societe_id = $societe->identifiant;
     	$comptes = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
-        if (count($comptes) > 0) {
-            $id .= $societe_id.sprintf("%1$02d",((double)str_replace('COMPTE-', '', count($comptes)) + 1));
-        } else {
-            $id.= $societe_id.'01';
+      $last_num = 0;
+      foreach($comptes as $id) {
+        if(!preg_match('/COMPTE-[0-9]{6}([0-9]{2})/', $id, $matches)) {
+          continue;
         }
-        return $id;
+
+        $num = $matches[1];
+        if($num > $last_num) {
+          $last_num = $num;
+        }
+      }
+
+      return  sprintf("COMPTE-%s%02d", $societe_id, $last_num + 1);
     }
     
     public function getAtSociete($societe_id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
