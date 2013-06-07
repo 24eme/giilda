@@ -51,15 +51,21 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public function getNextIdentifiantForSociete($societe) {
-        $id = '';
         $societe_id = $societe->identifiant;
         $etbs = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
-        if (count($etbs) > 0) {
-            $id .= $societe_id . sprintf("%1$02d", ((double) str_replace('ETABLISSEMENT-', '', count($etbs)) + 1));
-        } else {
-            $id.= $societe_id . '01';
+        $last_num = 0;
+        foreach($etbs as $id) {
+            if(!preg_match('/ETABLISSEMENT-[0-9]{6}([0-9]{2})/', $id, $matches)) {
+              continue;
+            }
+
+            $num = $matches[1];
+            if($num > $last_num) {
+              $last_num = $num;
+            }
         }
-        return $id;
+
+        return sprintf("ETABLISSEMENT-%s%02d", $societe_id, $last_num + 1);
     }
 
     public function getAtSociete($societe_id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
