@@ -98,12 +98,19 @@ class SocieteClient extends acCouchdbClient {
         $id = '';
         $societes = $this->getSocietesIdentifiants(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
 
-        if (count($societes) > 0) {
-            $id .= '8'.sprintf("%1$05d",((double) str_replace('SOCIETE-8', '', $societes[count($societes) - 1]) + 1));
-        } else {
-            $id.= '800001';
+        $last_num = 0;
+        foreach($societes as $id) {
+            if(!preg_match('/SOCIETE-8([0-9]{5})/', $id, $matches)) {
+              continue;
+            }
+
+            $num = $matches[1];
+            if($num > $last_num) {
+              $last_num = $num;
+            }
         }
-        return $id;
+
+        return sprintf("8%05d", $last_num + 1);
     }
     
     public function getNextCodeFournisseur() {
