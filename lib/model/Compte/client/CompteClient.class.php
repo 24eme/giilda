@@ -34,7 +34,7 @@ class CompteClient extends acCouchdbClient {
         }
       }
 
-      return  sprintf("COMPTE-%s%02d", $societe_id, $last_num + 1);
+      return  sprintf("%s%02d", $societe_id, $last_num + 1);
     }
     
     public function getAtSociete($societe_id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
