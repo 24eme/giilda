@@ -8,11 +8,17 @@ function(doc) {
         for(code_douane in revs.produits) {
             rev = revs.produits[code_douane];
             var volume = 0;
+	    var flag = false;
             for(volume_key in rev.volumes) {
-                volume += rev.volumes[volume_key].volume;
+		if(rev.volumes[volume_key].statut != "SUPPRIME"){
+                	volume += rev.volumes[volume_key].volume;
+			flag = true;
+		}
             }
-            emit([doc.campagne, identifiant, rev.produit_hash, doc.odg, doc._id], [volume, revs.declarant_nom, rev.libelle_produit_csv])
-        }
+	    if(flag){
+              emit([doc.campagne, identifiant, rev.produit_hash, doc.odg, doc._id], [volume, revs.declarant_nom, rev.libelle_produit_csv])
+            }
+	}
     }
 
 }
