@@ -11,13 +11,14 @@ class RevendicationStocksODGView extends acCouchdbView
 
     const VALUE_VOLUME = 0;
     const VALUE_DATE_CERTIFICATION = 1;
-    const VALUE_PRODUIT_LIBELLE = 2;
+    const VALUE_PRODUIT_LIBELLE_ODG = 2;
     const VALUE_DECLARANT_CVI = 3;
     const VALUE_DECLARANT_NOM = 4;
     const VALUE_DECLARANT_COMMUNE = 5;
     const VALUE_DATE_TRAITEMENT = 6;
     const VALUE_BAILLEUR_IDENTIFIANT = 7;
     const VALUE_BAILLEUR_NOM = 8;
+    const VALUE_PRODUIT_LIBELLE = 9;
     
             
 
@@ -55,6 +56,7 @@ class RevendicationStocksODGView extends acCouchdbView
         $rev->odg = $row->key[self::KEY_ODG];
         $rev->statut = $row->key[self::KEY_LIGNE_STATUT];
         $rev->produit_hash = $row->key[self::KEY_PRODUIT_HASH];
+        $rev->produit_libelle_odg = $row->value[self::VALUE_PRODUIT_LIBELLE_ODG];
         $rev->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
         $rev->ligne_identifiant = $row->key[self::KEY_LIGNE_IDENTIFIANT];
         $rev->date_certification = $row->value[self::VALUE_DATE_CERTIFICATION];
