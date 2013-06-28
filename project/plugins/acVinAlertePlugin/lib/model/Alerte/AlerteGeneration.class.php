@@ -200,7 +200,7 @@ abstract class AlerteGeneration {
             }
             $relance_date = $this->getConfig()->getOption('relance_delai');
             if($relance_date && Date::supEqual($relance_date, $this->getDate())){
-                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, 'Changement automatique au statut relance', $this->getDate());
+                $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, 'Changement automatique au statut à relancé', $this->getDate());
                 $alerte->save();
                 return $alerte;
             }            

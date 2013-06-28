@@ -79,6 +79,11 @@ class Alerte extends BaseAlerte {
     }
 
     protected function updateStatutRelance($date = null) {
+        if($this->getStatut() != AlerteClient::STATUT_A_RELANCER) {
+
+            return;
+        }
+
         if (is_null($date)) {
             $date = date('Y-m-d');
         }
