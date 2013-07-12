@@ -56,6 +56,8 @@ class VracClient extends acCouchdbClient {
     const CVO_REPARTITION_100_VITI = '100';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
 
+    const RESULTAT_LIMIT = 500;
+
     public static $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
                                       VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
                                       VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
@@ -138,11 +140,11 @@ class VracClient extends acCouchdbClient {
       return $this->find($this->getId($num_contrat), $hydrate);
     }
     
-    public function retrieveLastDocs($limit = 300) {
+    public function retrieveLastDocs($limit = self::RESULTAT_LIMIT) {
       return $this->descending(true)->limit($limit)->getView('vrac', 'history');
     }
     
-    public function retrieveBySoussigne($soussigneId,$campagne,$limit=300) {
+    public function retrieveBySoussigne($soussigneId,$campagne,$limit = self::RESULTAT_LIMIT) {
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
       if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
 	throw new sfException("wrong campagne format ($campagne)");
@@ -156,7 +158,7 @@ class VracClient extends acCouchdbClient {
       return $bySoussigne;
     }
     
-    public function retrieveByType($type,$campagne,$limit=300) {
+    public function retrieveByType($type,$campagne,$limit=self::RESULTAT_LIMIT) {
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
       if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
 	throw new sfException("wrong campagne format ($campagne)");
@@ -170,7 +172,7 @@ class VracClient extends acCouchdbClient {
       return $bySoussigneType;
     }
     
-    public function retrieveBySoussigneAndStatut($soussigneId,$campagne,$statut,$limit=300) {
+    public function retrieveBySoussigneAndStatut($soussigneId,$campagne,$statut,$limit=self::RESULTAT_LIMIT) {
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
       if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
 	throw new sfException("wrong campagne format ($campagne)");
@@ -185,7 +187,7 @@ class VracClient extends acCouchdbClient {
       return $bySoussigneStatut;
     }
     
-    public function retrieveBySoussigneAndType($soussigneId,$campagne,$type,$limit=300) {
+    public function retrieveBySoussigneAndType($soussigneId,$campagne,$type,$limit=self::RESULTAT_LIMIT) {
       if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
 	throw new sfException("wrong campagne format ($campagne)");
       if (is_array($type)) {
@@ -206,7 +208,7 @@ class VracClient extends acCouchdbClient {
       return $bySoussigneType;
     }
     
-    public function retrieveBySoussigneStatutAndType($soussigneId,$campagne,$statut,$type,$limit=300) {
+    public function retrieveBySoussigneStatutAndType($soussigneId,$campagne,$statut,$type,$limit=self::RESULTAT_LIMIT) {
       if (!preg_match('/[0-9]*-[0-9]*/', $campagne)) 
 	throw new sfException("wrong campagne format ($campagne)");
       $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
