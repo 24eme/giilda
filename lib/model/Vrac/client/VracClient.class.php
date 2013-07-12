@@ -56,7 +56,7 @@ class VracClient extends acCouchdbClient {
     const CVO_REPARTITION_100_VITI = '100';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
 
-    const RESULTAT_LIMIT = 500;
+    const RESULTAT_LIMIT = 700;
 
     public static $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
                                       VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
