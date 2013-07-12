@@ -86,7 +86,7 @@ all:
         relance_delai: '+1 month'
         nb_relance: '2'
         seuil: '10'
-        nb_campagne: '1
+        nb_campagne: '1'
       #Ecart de volume (produit par produit) supérieur à un "seuil" de N% entre entre le stock révendiqué par l'ODG et celui revendiqué dans la DRM
       ECART_DREV_DRM:
         class: AlerteGenerationEcartDREVDRM
@@ -119,7 +119,7 @@ all:
         service_facturation: 'nom prenom personne'
         telephone: 'tel nantes - fax nantes'
         email: 'emaildenantes@nantes.fr'
-relance:
+  relance:
     responsable_financier: 'prenom nom'
     emetteur:
       TOURS:
@@ -142,7 +142,7 @@ relance:
         ville: 'nantes'
         services_operateurs:
          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
-          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
+         - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
   vrac:
     contenances: #volume exprimé en hl
       "37,5 cl": 0.00375
