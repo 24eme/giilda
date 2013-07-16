@@ -16,43 +16,59 @@ class AlertesConsultationForm extends sfForm {
     public function configure()
     {   
         $this->setWidget('identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => array(EtablissementFamilles::FAMILLE_PRODUCTEUR,  EtablissementFamilles::FAMILLE_NEGOCIANT))));  
-        $this->setWidget('region_alerte',new sfWidgetFormChoice(array('choices' => $this->getRegions(),'expanded' => false)));  
+        $this->setWidget('region',new sfWidgetFormChoice(array('choices' => $this->getRegions(),'expanded' => false)));  
         $this->setWidget('type_alerte', new sfWidgetFormChoice(array('choices' => $this->getTypes(),'expanded' => false)));      
-        $this->setWidget('statut_alerte',new sfWidgetFormChoice(array('choices' => $this->getStatuts(),'expanded' => false)));    
-        $this->setWidget('campagne_alerte',new sfWidgetFormChoice(array('choices' => $this->getCampagnes(),'expanded' => false))); 
+        $this->setWidget('statut_courant',new sfWidgetFormChoice(array('choices' => $this->getStatuts(),'expanded' => false)));    
+        $this->setWidget('campagne',new sfWidgetFormChoice(array('choices' => $this->getCampagnes(),'expanded' => false))); 
         
         $this->widgetSchema->setLabels(array(
             'identifiant' => 'Rechercher un opérateur :',
-            'region_alerte' => 'Region viticole :',
+            'region' => 'Region viticole :',
             'type_alerte' => "Type d'alerte :",
-            'statut_alerte' => "Statut d'alerte :",            
-            'campagne_alerte' => 'Campagne :'));
+            'statut_courant' => "Statut d'alerte :",            
+            'campagne' => 'Campagne :'));
         
-        $this->setValidator('identifiant',new ValidatorEtablissement(array('required' => true)));
-        $this->setValidator('region_alerte',new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getRegions()))));
+        $this->setValidator('identifiant',new ValidatorEtablissement(array('required' => false)));
+        $this->setValidator('region',new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getRegions()))));
         $this->setValidator('type_alerte',new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypes()))));
-        $this->setValidator('statut_alerte',new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getStatuts()))));
-        $this->setValidator('campagne_alerte',new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getCampagnes()))));        
-        $this->widgetSchema->setNameFormat('alerte_consultation[%s]');        
+        $this->setValidator('statut_courant',new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getStatuts()))));
+        $this->setValidator('campagne',new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getCampagnes()))));        
+        $this->widgetSchema->setNameFormat('consultation[%s]');        
+    }
+    
+    public function hasFilters()
+    {
+    	$values = $this->values;
+    	$hasFilter = false;
+    	foreach ($values as $value) {
+    		if ($value) {
+    			$hasFilter = true;
+    			break;
+    		}
+    	}
+    	return $hasFilter;
     }
     
     private function getTypes()
     {
-        return AlerteClient::$alertes_libelles;
+    	$choices = array_merge(array('' => ''), AlerteClient::$alertes_libelles);
+        return $choices;
     }
     
     private function getStatuts()
     {
-        return AlerteClient::getStatutsWithLibelles();
+    	$choices = array_merge(array('' => ''), AlerteClient::getStatutsWithLibelles());
+        return $choices;
     }
     
     private function getRegions() {
-        return EtablissementClient::getRegions();
+    	$choices = array_merge(array('' => ''), EtablissementClient::getRegions());
+        return $choices;
     }
     
     private function getCampagnes() {
         $annee = date('Y');
-        $campagnes = array();
+        $campagnes = array('' => '');
         for ($currentA = $annee; $currentA > $this->anneeCampagneStart; $currentA--) {
             $elt = $currentA.'-'.($currentA+1);
             $campagnes[$elt] = $elt;

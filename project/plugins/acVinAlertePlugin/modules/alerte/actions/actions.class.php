@@ -3,25 +3,34 @@
 class alerteActions extends sfActions {
 
     public function executeIndex(sfWebRequest $request) {
-        $this->alertesHistorique = AlerteHistoryView::getInstance()->getHistory();
-        $this->modificationStatutForm = new AlertesStatutsModificationForm($this->alertesHistorique);
+    	$search = new AlerteConsultationSearch();
+    	$this->page = $request->getParameter('p', 1);
+    	$this->consultationFilter = $this->makeParameterQuery(array('consultation' => $request->getParameter('consultation', null)));
+        $this->alertesHistorique = $search->getElasticSearchDefaultResult();
         $this->form = new AlertesConsultationForm();
         $this->dateAlerte = AlerteDateClient::getInstance()->find(AlerteDateClient::getInstance()->buildId());
         if(!$this->dateAlerte) $this->dateAlerte = new AlerteDate();
         $this->dateForm  = new AlertesDateForm($this->dateAlerte);
         if ($request->isMethod(sfWebRequest::POST)) {
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $values = $this->form->getValues();
-                $this->redirect('alerte_etablissement', array('identifiant' => $values['identifiant']));
-            }
             $this->dateForm->bind($request->getParameter($this->dateForm->getName()));
-                if ($this->dateForm->isValid()) {
-                    $this->dateForm->save();
-                    $this->redirect('alerte');
-                    
-                }
+            if ($this->dateForm->isValid()) {
+            	$this->dateForm->save();
+                $this->redirect('alerte');
             }
+        }
+    	$this->form->bind($request->getParameter($this->form->getName()));
+        if ($this->form->isValid() && $this->form->hasFilters()) {
+        	$search->setValues($this->form->getValues());
+            $this->alertesHistorique = $search->getElasticSearchResult();
+        }
+        $this->nbResult = $search->getNbResult();
+      	$this->nbPage = ceil($this->nbResult / $search->getLimit());   
+        $this->modificationStatutForm = new AlertesStatutsModificationForm($this->alertesHistorique);
+    }
+    
+    private function makeParameterQuery($values)
+    {
+    	return urldecode(http_build_query($values));
     }
 
     public function executeMonEspace(sfWebRequest $request) {

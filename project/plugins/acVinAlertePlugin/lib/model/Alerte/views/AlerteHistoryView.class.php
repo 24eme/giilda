@@ -24,6 +24,10 @@ class AlerteHistoryView extends acCouchdbView {
                         ->getView($this->design, $this->view)->rows;
     }
 
+    public function getAllHistory() {
+        return acCouchdbManager::getClient()->getView($this->design, $this->view)->rows;
+    }
+
     public function findByType($type_alerte) {
         return acCouchdbManager::getClient()
                         ->startkey(array($type_alerte))
