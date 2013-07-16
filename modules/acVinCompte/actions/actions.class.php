@@ -26,4 +26,23 @@ require_once dirname(__FILE__).'/../lib/BaseacVinCompteActions.class.php';
 class acVinCompteActions extends BaseacVinCompteActions 
 {   
 
+  public function executeLogin(sfWebRequest $request) {
+    $redirect = $request->getParameter('referer');
+    if (!$redirect) {
+      $redirect = $this->generateUrl('homepage', array(), true);
+    }
+    return $this->redirect($redirect);
+  }
+
+  public function executeLogout(sfWebRequest $request) {
+    $this->setLayout(false);
+    if (isset($_SERVER['HTTP_REFERER'])) {
+      $referer = $_SERVER['HTTP_REFERER'];
+    } else {
+      $referer = $this->generateUrl('homepage', array(), true);
+    }
+    $dest = $this->generateUrl('ac_vin_login', array('referer' => $referer), true); //"http://".$_SERVER["SERVER_NAME"];
+    $this->dest = preg_replace('/http:\/\//', 'http://logout:logout@', $dest);
+  }
+
 }

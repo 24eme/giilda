@@ -35,6 +35,8 @@ class acVinCompteRouting {
         $r = $event->getSubject();
         //$r->prependRoute('ac_vin_login', new sfRoute('/', array('module' => 'acVinCompte', 'action' => 'login')));
         $r->prependRoute('ac_vin_logout', new sfRoute('/logout', array('module' => 'acVinCompte', 'action' => 'logout')));
+        $r->prependRoute('ac_vin_login', new sfRoute('/login', array('module' => 'acVinCompte', 'action' => 'login')));
+	/*
         $r->prependRoute('ac_vin_compte', new sfRoute('/compte', array('module' => 'acVinCompte', 'action' => 'first')));
         $r->prependRoute('ac_vin_compte_creation', new sfRoute('/compte/creation', array('module' => 'acVinCompte', 'action' => 'creation')));
         $r->prependRoute('ac_vin_compte_modification_oublie', new sfRoute('/compte/mot_de_passe_oublie', array('module' => 'acVinCompte', 'action' => 'modificationOublie')));
@@ -42,7 +44,7 @@ class acVinCompteRouting {
         $r->prependRoute('ac_vin_compte_mot_de_passe_oublie_login', new sfRoute('/mot_de_passe_oublie/login/:login/:mdp', array('module' => 'acVinCompte', 'action' => 'motDePasseOublieLogin')));
         $r->prependRoute('ac_vin_compte_mot_de_passe_oublie', new sfRoute('/mot_de_passe_oublie', array('module' => 'acVinCompte', 'action' => 'motDePasseOublie')));
         $r->prependRoute('ac_vin_compte_mot_de_passe_oublie_confirm', new sfRoute('/mot_de_passe_oublie/confirm', array('module' => 'acVinCompte', 'action' => 'motDePasseOublieConfirm')));
-
+	*/
 	$r->prependRoute('compte_search', new sfRoute('/compte/search', array('module' => 'compte', 'action' => 'search')));
 	$r->prependRoute('compte_search_csv', new sfRoute('/compte/search/csv', array('module' => 'compte', 'action' => 'searchcsv')));
 	$r->prependRoute('compte_addtag', new sfRoute('/compte/search/addtag', array('module' => 'compte', 'action' => 'addtag')));
