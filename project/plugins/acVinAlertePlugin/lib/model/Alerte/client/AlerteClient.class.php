@@ -40,7 +40,7 @@ class AlerteClient extends acCouchdbClient {
     const STATUT_RESOLU = 'RESOLU';
 
     const MESSAGE_AUTO_FERME = "Changement automatique au statut fermé";
-    const MESSAGE_AUTO_A_TRAITER = "Changement automatique au statut à traiter, le pdf a été généré";
+    const MESSAGE_AUTO_RELANCE = "Changement automatique au statut en attente, le pdf a été généré";
     
     public static $statutsOpen =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_EN_SOMMEIL,self::STATUT_A_RELANCER);
     public static $statutsRelancable =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_A_RELANCER);
@@ -63,9 +63,9 @@ class AlerteClient extends acCouchdbClient {
         return array(self::STATUT_NOUVEAU => 'Nouveau',
                     self::STATUT_EN_ATTENTE_REPONSE => 'En attente de réponse',
                     self::STATUT_A_TRAITER => 'A traiter', 
-                    self::STATUT_FERME => 'Fermée',
+                    self::STATUT_RESOLU => 'Résolu',
                     self::STATUT_EN_SOMMEIL => 'En sommeil', 
-                    self::STATUT_A_RELANCER => 'Alerte à relancer');
+                    self::STATUT_A_RELANCER => 'A relancer');
     }
     
     public function updateStatutByAlerteId($new_statut,$new_commentaire,$alerteId) {

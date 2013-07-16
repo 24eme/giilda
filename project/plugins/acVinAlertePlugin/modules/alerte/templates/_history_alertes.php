@@ -1,5 +1,5 @@
 <div id="toutes_alertes">
-	<h2>Historique des alertes</h2>
+	<h2>Historique des alertes (<?php echo $nbResult ?>)</h2>
 	
 	<?php
 	use_helper('Date');
@@ -26,29 +26,40 @@
 			</tr>
 		</thead>
 		<tbody>
-				<?php foreach ($alertesHistorique as $alerte) :
+				<?php foreach ($alertesHistorique as $a) :
+				$alerte = $a->getData()->getRawValue();
+				$derniereAlerte = array_pop($alerte['statuts']);
 			?>   
 			<tr>
 				<td class="selecteur">
-					<?php echo $modificationStatutForm[$alerte->id]->renderError(); ?>
-					<?php echo $modificationStatutForm[$alerte->id]->render() ?> 
+					<?php echo $modificationStatutForm[$alerte['_id']]->renderError(); ?>
+					<?php echo $modificationStatutForm[$alerte['_id']]->render() ?> 
 				</td>
 				<td>
-					<?php echo format_date($alerte->key[AlerteHistoryView::KEY_DATE_ALERTE],'dd/MM/yyyy'); ?>
-					(Ouv.: <?php echo format_date($alerte->key[AlerteHistoryView::KEY_DATE_CREATION_ALERTE],'dd/MM/yyyy'); ?>)
+					<?php echo ($derniereAlerte)? format_date($derniereAlerte['date'],'dd/MM/yyyy') : null; ?>
+					(Ouv.: <?php echo format_date($alerte['date_creation'],'dd/MM/yyyy'); ?>)
 				</td>
-				<td><?php echo $statutsWithLibelles[$alerte->key[AlerteHistoryView::KEY_STATUT_ALERTE]]; ?></td>
-				<td><?php echo link_to($alerte->value[AlerteHistoryView::VALUE_NOM],'alerte_etablissement',
-                                        array('identifiant' => $alerte->key[AlerteHistoryView::KEY_IDENTIFIANT])); ?></td>
-				<td><?php echo link_to(AlerteClient::$alertes_libelles[$alerte->key[AlerteHistoryView::KEY_TYPE_ALERTE]],'alerte_modification',
-									   array('type_alerte' => $alerte->key[AlerteHistoryView::KEY_TYPE_ALERTE],
-											 'id_document' => $alerte->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE])); ?></td>
-				<td><?php echo link_to($alerte->value[AlerteHistoryView::VALUE_LIBELLE_DOCUMENT], 'redirect_visualisation', array('id_doc' => $alerte->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE])); ?></td>
+				<td><?php echo $statutsWithLibelles[$alerte['statut_courant']]; ?></td>
+				<td><?php echo link_to($alerte['declarant_nom'],'alerte_etablissement',
+                                        array('identifiant' => $alerte['identifiant'])); ?></td>
+				<td><?php echo link_to(AlerteClient::$alertes_libelles[$alerte['type_alerte']],'alerte_modification',
+									   array('type_alerte' => $alerte['type_alerte'],
+											 'id_document' => $alerte['id_document'])); ?></td>
+				<td><?php echo link_to($alerte['libelle_document'], 'redirect_visualisation', array('id_doc' => $alerte['id_document'])); ?></td>
 			</tr>
 			<?php
 			endforeach;
 			?>
 		</tbody>
 	</table> 
+	<div id="consultation_pagination">
+		<?php if ($page > 1): ?>
+		<a class="pagination_link" href="<?php echo url_for('alerte', array('p' => ($page - 1))) ?>&<?php echo esc_raw($consultationFilter) ?>">&lt;&lt;</a>
+		<?php endif; ?>
+		(<strong><?php echo $page ?></strong>/<?php echo $nbPage ?>)
+		<?php if ($page < $nbPage): ?>
+		<a class="pagination_link" href="<?php echo url_for('alerte', array('p' => ($page + 1))) ?>&<?php echo esc_raw($consultationFilter) ?>">&gt;&gt;</a>
+		<?php endif; ?>
+	</div>
 	<?php endif; ?>
 </div>

@@ -79,6 +79,11 @@ class Alerte extends BaseAlerte {
     }
 
     protected function updateStatutRelance($date = null) {
+        if($this->getStatut() != AlerteClient::STATUT_A_RELANCER) {
+
+            return;
+        }
+
         if (is_null($date)) {
             $date = date('Y-m-d');
         }
@@ -122,6 +127,12 @@ class Alerte extends BaseAlerte {
     
     public function getLibelle(){
         return AlerteClient::$alertes_libelles[$this->getTypeAlerte()].' ('.$this->libelle_document.')';
+    }
+    
+	protected function doSave() {
+        if ($statut = $this->getStatut()) {
+        	$this->statut_courant = $statut->statut;
+        }
     }
     
 //    public function getLibelleForIdDocument() {

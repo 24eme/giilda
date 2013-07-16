@@ -1,7 +1,7 @@
 <div id="consultation_alerte">
 	<h2>Consultation des alertes</h2>
 	
-	<form action="<?php echo url_for('alerte'); ?>" method="POST">
+	<form action="<?php echo url_for('alerte'); ?>" method="GET">
 		<?php
 		echo $form->renderHiddenFields();
 		echo $form->renderGlobalErrors();
@@ -14,9 +14,9 @@
 				<?php echo $form['identifiant']->render() ?> 
 			</div>
 			<div class="ligne_form ligne_form_alt">
-				<?php echo $form['region_alerte']->renderError(); ?>
-				<?php echo $form['region_alerte']->renderLabel() ?>
-				<?php echo $form['region_alerte']->render() ?> 
+				<?php echo $form['region']->renderError(); ?>
+				<?php echo $form['region']->renderLabel() ?>
+				<?php echo $form['region']->render() ?> 
 			</div>
 			<div class="ligne_form">
 				<?php echo $form['type_alerte']->renderError(); ?>
@@ -24,14 +24,14 @@
 				<?php echo $form['type_alerte']->render() ?> 
 			</div>
 			<div class="ligne_form ligne_form_alt">
-				<?php echo $form['statut_alerte']->renderError(); ?>
-				<?php echo $form['statut_alerte']->renderLabel() ?>
-				<?php echo $form['statut_alerte']->render() ?> 
+				<?php echo $form['statut_courant']->renderError(); ?>
+				<?php echo $form['statut_courant']->renderLabel() ?>
+				<?php echo $form['statut_courant']->render() ?> 
 			</div>
 			<div class="ligne_form">
-				<?php echo $form['campagne_alerte']->renderError(); ?>
-				<?php echo $form['campagne_alerte']->renderLabel() ?>
-				<?php echo $form['campagne_alerte']->render() ?> 
+				<?php echo $form['campagne']->renderError(); ?>
+				<?php echo $form['campagne']->renderLabel() ?>
+				<?php echo $form['campagne']->render() ?> 
 			</div>
 		</div>
 			

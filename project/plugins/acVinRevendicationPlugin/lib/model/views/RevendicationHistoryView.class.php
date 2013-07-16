@@ -14,9 +14,9 @@ class RevendicationHistoryView extends acCouchdbView
     }
 
     public function getHistory($limit = 10) {  
-            return acCouchdbManager::getClient()
-                    ->limit($limit)
-                    ->getView($this->design, $this->view)->rows;
+            $history = acCouchdbManager::getClient();
+            if($limit) $history->limit($limit);
+            return $history->getView($this->design, $this->view)->rows;
             
     }
     

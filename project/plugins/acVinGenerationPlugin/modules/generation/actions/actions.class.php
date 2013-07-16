@@ -29,6 +29,10 @@ class generationActions extends sfActions {
 
   public function executeDelete(sfWebRequest $request) {
     $this->generation = $this->getGenerationFromRequest($request);
+    if($this->generation->statut != GenerationClient::GENERATION_STATUT_GENERE) {
+
+      throw new sfException("La génération n'est pas supprimable car elle n'est pas finie");
+    }
     if ($request->isMethod(sfWebRequest::POST)) {
       if ($request->getParameter('delete')) {
 	$this->generation->delete();

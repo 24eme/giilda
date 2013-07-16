@@ -6,8 +6,7 @@ class revendicationActions extends sfActions {
             $this->formEtablissement = null;
         }
         $this->form = new CreateRevendicationForm();
-        $this->historiqueImport = RevendicationClient::getInstance()->getHistory();
-        
+        $this->historiqueImport = RevendicationClient::getInstance()->getHistory(null);
         if ($request->isMethod(sfWebRequest::POST) && is_null($this->formEtablissement)) {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             if ($this->form->isValid()) {
@@ -69,8 +68,7 @@ class revendicationActions extends sfActions {
                 $file = $this->form->getValue('file');
                 $this->md5 = $file->getMd5();
 
-                $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
-
+                $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;           
                 RevendicationCsvFile::convertTxtToCSV($path);
                 $this->csv = new RevendicationCsvFile($path);
                 $this->revendication->updateCSV($path);

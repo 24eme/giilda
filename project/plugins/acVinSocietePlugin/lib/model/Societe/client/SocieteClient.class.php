@@ -85,21 +85,32 @@ class SocieteClient extends acCouchdbClient {
         return $societe;
     }
 
-    public function find($id_or_identifiant, $hydrate = self::HYDRATE_DOCUMENT) {
-        if(preg_match('/^SOCIETE[-]{1}[0-9]*$/', $id_or_identifiant)) return parent::find($id_or_identifiant, $hydrate);
-        return parent::find($this->getId($id_or_identifiant), $hydrate);
+    public function find($id_or_identifiant, $hydrate = self::HYDRATE_DOCUMENT, $force_return_ls = false) {
+        if(preg_match('/^SOCIETE[-]{1}[0-9]*$/', $id_or_identifiant)) {
+
+            return parent::find($id_or_identifiant, $hydrate, $force_return_ls);
+        }
+        
+        return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
     public function getNextIdentifiantSociete() {
         $id = '';
         $societes = $this->getSocietesIdentifiants(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
 
-        if (count($societes) > 0) {
-            $id .= '8'.sprintf("%1$05d",((double) str_replace('SOCIETE-8', '', $societes[count($societes) - 1]) + 1));
-        } else {
-            $id.= '800001';
+        $last_num = 0;
+        foreach($societes as $id) {
+            if(!preg_match('/SOCIETE-8([0-9]{5})/', $id, $matches)) {
+              continue;
+            }
+
+            $num = $matches[1];
+            if($num > $last_num) {
+              $last_num = $num;
+            }
         }
-        return $id;
+
+        return sprintf("8%05d", $last_num + 1);
     }
     
     public function getNextCodeFournisseur() {

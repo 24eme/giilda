@@ -105,5 +105,7 @@ echo (isset($identifiant)) ?
 <?php if($generation->statut == GenerationClient::GENERATION_STATUT_ENERREUR): ?>
    <a class="btn_vert btn_majeur" href="<?php echo url_for('generation_reload', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>">Relancer</a>
 <?php endif; ?>
+<?php if($generation->statut == GenerationClient::GENERATION_STATUT_GENERE): ?>
    <a class="btn_rouge btn_majeur" href="<?php echo url_for('generation_delete', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>">Supprimer</a>
+<?php endif; ?>
 </div>

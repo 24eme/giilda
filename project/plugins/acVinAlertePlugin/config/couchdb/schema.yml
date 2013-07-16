@@ -17,6 +17,7 @@ Alerte:
       campagne: { }
       type_document: { }
       type_relance: { }
+      statut_courant: { }
       statuts:
         type: array_collection
         definition:

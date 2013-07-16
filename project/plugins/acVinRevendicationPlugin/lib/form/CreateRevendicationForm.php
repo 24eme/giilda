@@ -12,11 +12,14 @@
 class CreateRevendicationForm extends BaseForm {
 
     private $anneeCampagneStart = 1991;
+    private $presentCampagne = null;
 
     /**
      * 
      */
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
+        $this->presentCampagne = ConfigurationClient::getInstance()->buildCampagne(date('Y-m-d'));
+        $defaults['campagne'] = $this->presentCampagne;
         parent::__construct($defaults, $options, $CSRFSecret);
     }
 
@@ -38,8 +41,7 @@ class CreateRevendicationForm extends BaseForm {
     }
 
     public function getCampagnes() {
-        $annee = date('Y');
-
+        $annee = substr($this->presentCampagne,0,4);
         $campagnes = array();
         for ($currentA = $annee; $currentA > $this->anneeCampagneStart; $currentA--) {
             $key = $currentA . '-' . ($currentA + 1);
