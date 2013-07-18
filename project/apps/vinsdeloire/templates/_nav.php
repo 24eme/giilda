@@ -1,5 +1,7 @@
 <nav id="navigation">
     <ul>
+   <?php if ($sf_user->hasCredential('transaction')) : ?>
+
         <?php include_component('global', 'navItem', array(
             'libelle' => 'DRM',
             'prefix' => 'drm',
@@ -26,17 +28,7 @@
             'etablissement' => $etablissement,
             'target' => '_self'
         )) ?>
-        
-        <?php include_component('global', 'navItem', array(
-            'libelle' => 'Contacts',
-            'prefix' => 'societe',
-            'route' => 'societe',
-            'route_etablissement' => 'societe_choose',
-            'etablissement' => null,
-            'target' => '_self'
-        )) ?>
-        
-        
+              
         <?php include_component('global', 'navItem', array(
             'libelle' => 'Import VR',
             'prefix' => 'revendication',
@@ -92,5 +84,18 @@
             'etablissement' => $etablissement,
             'target' => '_self'
         )) ?>
+   <?php endif; ?>
+
+   <?php if ($sf_user->hasCredential('contacts')) : ?>
+        <?php include_component('global', 'navItem', array(
+            'libelle' => 'Contacts',
+            'prefix' => 'societe',
+            'route' => 'societe',
+            'route_etablissement' => 'societe_choose',
+            'etablissement' => null,
+            'target' => '_self'
+        )) ?>
+        
+   <?php endif; ?>
     </ul>
 </nav>
