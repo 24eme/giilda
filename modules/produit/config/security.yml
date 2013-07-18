@@ -1,2 +1,4 @@
-default:
-  credentials: [operateur]
+all:
+  is_secure: true
+  credentials: admin
+
