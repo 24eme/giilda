@@ -34,6 +34,9 @@ class acVinCompteActions extends BaseacVinCompteActions
     return $this->redirect($redirect);
   }
 
+  public function executeForbidden(sfWebRequest $request) {
+  }
+
   public function executeLogout(sfWebRequest $request) {
     $this->setLayout(false);
     if (isset($_SERVER['HTTP_REFERER'])) {
