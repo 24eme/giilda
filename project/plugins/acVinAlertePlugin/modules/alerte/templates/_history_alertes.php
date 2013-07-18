@@ -1,5 +1,5 @@
 <div id="toutes_alertes">
-	<h2>Historique des alertes (<?php echo $nbResult ?>)</h2>
+	<h2>Historique des alertes</h2>
 	
 	<?php
 	use_helper('Date');
@@ -14,6 +14,12 @@
 	</div>
 	
 	<?php else: ?>
+	<div>
+		<span>
+			<?php echo $nbResult ?> alerte<?php if ($nbResult > 1): ?>s<?php endif; ?> trouvée<?php if ($nbResult > 1): ?>s<?php endif; ?>
+		</span>
+	</div>
+	<?php include_partial('history_alertes_pagination', array('page' => $page, 'nbPage' => $nbPage, 'consultationFilter' => $consultationFilter, )); ?>
 	<table class="table_recap table_selection">
 		<thead>
 			<tr>
@@ -52,14 +58,6 @@
 			?>
 		</tbody>
 	</table> 
-	<div id="consultation_pagination">
-		<?php if ($page > 1): ?>
-		<a class="pagination_link" href="<?php echo url_for('alerte', array('p' => ($page - 1))) ?>&<?php echo esc_raw($consultationFilter) ?>">&lt;&lt;</a>
-		<?php endif; ?>
-		(<strong><?php echo $page ?></strong>/<?php echo $nbPage ?>)
-		<?php if ($page < $nbPage): ?>
-		<a class="pagination_link" href="<?php echo url_for('alerte', array('p' => ($page + 1))) ?>&<?php echo esc_raw($consultationFilter) ?>">&gt;&gt;</a>
-		<?php endif; ?>
-	</div>
+	<?php include_partial('history_alertes_pagination', array('page' => $page, 'nbPage' => $nbPage, 'consultationFilter' => $consultationFilter, )); ?>
 	<?php endif; ?>
 </div>

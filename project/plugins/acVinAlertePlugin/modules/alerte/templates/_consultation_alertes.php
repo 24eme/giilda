@@ -36,6 +36,7 @@
 		</div>
 			
 		<div class="btn_form">
+			<button type="reset" class="btn_majeur btn_modifier">Réinitialisation</button>
 			<button type="submit" id="alerte_search_valid" class="btn_majeur btn_valider">Rechercher</button>
 		</div>	
 	</form>
