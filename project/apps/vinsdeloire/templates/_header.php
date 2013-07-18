@@ -11,7 +11,7 @@
 			
 			<div id="actions_utilsateur">
 				<a class="admin" href="<?php echo url_for('produits') ?>">Admin</a>
-				<a class="deconnexion" href="#">Déconnexion</a>
+				<a class="deconnexion" href="<?php echo url_for('@ac_vin_logout') ?>">Déconnexion</a>
 			</div>
 		</div>
 	</header>
