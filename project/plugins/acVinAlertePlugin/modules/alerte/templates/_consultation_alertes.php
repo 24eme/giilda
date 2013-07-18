@@ -36,7 +36,7 @@
 		</div>
 			
 		<div class="btn_form">
-			<button type="reset" class="btn_majeur btn_modifier">Réinitialisation</button>
+			<a href="<?php echo url_for('alerte'); ?>" class="btn_majeur btn_modifier">Réinitialisation</a>
 			<button type="submit" id="alerte_search_valid" class="btn_majeur btn_valider">Rechercher</button>
 		</div>	
 	</form>
