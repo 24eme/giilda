@@ -1,0 +1,178 @@
+{
+    "_id": {
+        "type": "string"
+    },
+    "_rev": {
+        "type": "string"
+    },
+    "type": {
+        "type": "string"
+    },
+    "identifiant": {
+        "type": "string"
+    },
+    "campagne": {
+        "type": "string"
+    },
+    "periode": {
+        "type": "string"
+    },
+    "version": {
+        "type": "string"
+    },
+    "region": {
+        "type": "string"
+    },
+    "numero_archive": {
+        "type": "string"
+    },
+    "declarant": {
+        "nom": {
+            "type": "string"
+        },
+        "raison_sociale": {
+            "type": "string"
+        },
+        "cvi": {
+            "type": "string"
+        },
+        "no_accises": {
+            "type": "string"
+        },
+        "adresse": {
+            "type": "string"
+        },
+        "commune": {
+            "type": "string"
+        },
+        "code_postal": {
+            "type": "string"
+        },
+        "region": {
+            "type": "string"
+        }
+    },
+    "totaux": {
+        "volume_raisins": {
+            "type": "float"
+        },
+        "volume_mouts": {
+            "type": "float"
+        },
+        "volume_ecarts": {
+            "type": "float"
+        },
+        "produits": {
+            "*": {
+                "produit_hash": {
+                    "type": "string"
+                },
+                "volume_raisins": {
+                    "type": "float"
+                },
+                "volume_mouts": {
+                    "type": "float"
+                },
+                "volume_ecarts": {
+                    "type": "float"
+                }
+            }
+        }
+    },
+    "contrats": {
+        "*": {
+            "contrat_numero": {
+                "type": "string"
+            },
+            "contrat_type": {
+                "type": "string"
+            },
+            "produit_libelle": {
+                "type": "string"
+            },
+            "produit_hash": {
+                "type": "string"
+            },
+            "vendeur_identifiant": {
+                "type": "string"
+            },
+            "vendeur_nom": {
+                "type": "string"
+            },
+            "volume_prop": {
+                "type": "float"
+            },
+            "volume": {
+                "type": "float"
+            },
+            "cvo": {
+                "type": "float"
+            }
+        }
+    },
+    "mouvements": {
+        "*": {
+            "*": {
+                "categorie": {
+                    "type": "string"
+                },
+                "produit_hash": {
+                    "type": "string"
+                },
+                "produit_libelle": {
+                    "type": "string"
+                },
+                "type_hash": {
+                    "type": "string"
+                },
+                "type_libelle": {
+                    "type": "string"
+                },
+                "vrac_numero": {
+                    "type": "string"
+                },
+                "vrac_destinataire": {
+                    "type": "string"
+                },
+                "detail_identifiant": {
+                    "type": "string"
+                },
+                "detail_libelle": {
+                    "type": "string"
+                },
+                "volume": {
+                    "type": "float"
+                },
+                "cvo": {
+                    "type": "float"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "facture": {
+                    "type": "integer"
+                },
+                "facturable": {
+                    "type": "integer"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "date_version": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "valide": {
+        "date_saisie": {
+            "type": "string"
+        },
+        "statut": {
+            "type": "string"
+        }
+    }
+}

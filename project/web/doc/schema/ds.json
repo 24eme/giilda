@@ -1,0 +1,96 @@
+{
+    "_id": {
+        "type": "string"
+    },
+    "_rev": {
+        "type": "string"
+    },
+    "type": {
+        "type": "string"
+    },
+    "identifiant": {
+        "type": "string"
+    },
+    "date_emission": {
+        "type": "string"
+    },
+    "date_echeance": {
+        "type": "string"
+    },
+    "date_stock": {
+        "type": "string"
+    },
+    "drm_origine": {
+        "type": "string"
+    },
+    "campagne": {
+        "type": "string"
+    },
+    "periode": {
+        "type": "string"
+    },
+    "numero_archive": {
+        "type": "string"
+    },
+    "statut": {
+        "type": "string"
+    },
+    "commentaire": {
+        "type": "string"
+    },
+    "declarant": {
+        "nom": {
+            "type": "string"
+        },
+        "raison_sociale": {
+            "type": "string"
+        },
+        "cvi": {
+            "type": "string"
+        },
+        "no_accises": {
+            "type": "string"
+        },
+        "adresse": {
+            "type": "string"
+        },
+        "commune": {
+            "type": "string"
+        },
+        "code_postal": {
+            "type": "string"
+        },
+        "region": {
+            "type": "string"
+        }
+    },
+    "declarations": {
+        "*": {
+            "code_produit": {
+                "type": "string"
+            },
+            "produit_libelle": {
+                "type": "string"
+            },
+            "produit_hash": {
+                "type": "string"
+            },
+            "stock_initial": {
+                "type": "float"
+            },
+            "stock_declare": {
+                "type": "float"
+            },
+            "vci": {
+                "type": "float"
+            },
+            "reserve_qualitative": {
+                "type": "float"
+            },
+            "stock_elaboration": {
+                "type": "float",
+                "required": false
+            }
+        }
+    }
+}
