@@ -1,5 +1,17 @@
 all:
   instance: dev
+  ldap:
+    serveur: localhost
+    dn: cn=admin,dc=interloire,dc=tld
+    dc: dc=interloire,dc=tld
+    pass: pass
+  ad:
+    defaultuser: user
+    defaultpassword: pass
+    domain: interloire
+    basedn: dc=interloire,dc=tld
+    host: localhost
+    port: 389
   alertes:
     generations:
       #Contrats non soldé

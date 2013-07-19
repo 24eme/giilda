@@ -129,6 +129,12 @@ class Alerte extends BaseAlerte {
         return AlerteClient::$alertes_libelles[$this->getTypeAlerte()].' ('.$this->libelle_document.')';
     }
     
+	protected function doSave() {
+        if ($statut = $this->getStatut()) {
+        	$this->statut_courant = $statut->statut;
+        }
+    }
+    
 //    public function getLibelleForIdDocument() {
 //        if(substr($this->id_document, 0 ,5) == 'VRAC-')
 //                {

@@ -1,7 +1,7 @@
 <form action="<?php echo url_for('alerte_modification_statuts'); ?>" method="post" >
 
 	<?php
-	include_partial('history_alertes',array('alertesHistorique' => $alertesHistorique, 'modificationStatutForm' => $modificationStatutForm));
+	include_partial('history_alertes',array('alertesHistorique' => $alertesHistorique, 'consultationFilter' => $consultationFilter, 'page' => $page, 'nbPage' => $nbPage, 'nbResult' => $nbResult, 'modificationStatutForm' => $modificationStatutForm));
 	?>
 
 	<div id="modification_alerte">	

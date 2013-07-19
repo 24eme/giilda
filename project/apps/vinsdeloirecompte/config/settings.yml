@@ -30,7 +30,7 @@ test:
 all:
   .settings:
 
-    enabled_modules:        [default, societe, compte, document, etablissement]
+    enabled_modules:        [default, societe, compte, document, etablissement, acVinCompte]
 
     # Form security secret (CSRF protection)
     csrf_secret:            false
