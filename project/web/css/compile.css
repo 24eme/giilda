@@ -764,6 +764,26 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   font-weight:bold;
   width:210px;
 }
+.pagination {
+  zoom:1;
+  min-height:1px;
+  font-size:14px;
+  line-height:26px;
+  margin:20px 0;
+  text-align:center;
+}
+.pagination:before, .pagination:after {
+  content:"\0020";
+  display:block;
+  font-size:0;
+  height:0;
+  visibility:hidden;
+}
+.pagination:after { clear:both; }
+.pagination .page_precedente { float:left; }
+.pagination .page_precedente a { margin-right:10px; }
+.pagination .page_suivante { float:right; }
+.pagination .page_suivante a { margin-left:10px; }
 .bloc_gris {
   background-color:#ecebeb;
   padding:0 10px;
@@ -2968,24 +2988,6 @@ bouton#contenu_etape #btn_export_csv { height:26px; }
 .recherche_contact #btn_rechercher:hover, .recherche_contact #btn_rechercher:focus { text-decoration:none; }
 bouton.recherche_contact #btn_rechercher { height:26px; }
 .recherche_contact #btn_rechercher span { display:inline-block; }
-.recherche_contact .pagination {
-  zoom:1;
-  min-height:1px;
-  font-size:14px;
-  margin:20px 0 0;
-}
-.recherche_contact .pagination:before, .recherche_contact .pagination:after {
-  content:"\0020";
-  display:block;
-  font-size:0;
-  height:0;
-  visibility:hidden;
-}
-.recherche_contact .pagination:after { clear:both; }
-.recherche_contact .pagination .page_precedente { float:left; }
-.recherche_contact .pagination .page_precedente a { margin-right:10px; }
-.recherche_contact .pagination .page_suivante { float:right; }
-.recherche_contact .pagination .page_suivante a { margin-left:10px; }
 .recherche_contact #recherche_contact {
   background:#ecebeb;
   margin:0 0 25px;
