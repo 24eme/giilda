@@ -206,7 +206,7 @@ for ($i = 0; $i < (33 - $nblignes); $i++) :
 \node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};	
 
 \end{tikzpicture}
-\small{VCI : Volumes complémentaires individuels en attente de revendication - Réserve qualitative : Volumes en attente de revendication}
+\small{<?php echo '~'; //echo 'VCI : Volumes complémentaires individuels en attente de revendication - Réserve qualitative : Volumes en attente de revendication'; ?>}
 \begin{center}
 \hspace{5cm}
 Date et signature :	
