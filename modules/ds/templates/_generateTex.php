@@ -160,8 +160,8 @@ page \thepage / 1
 \centering \textbf{Code} &
 \centering \textbf{Appellations} &
 \centering \textbf{Volume en hl} &
-\centering \textbf{VCI} &
-\multicolumn{1}{>{\columncolor{lightgray}} c|}{ \textbf{Reserve qual.}} 
+\centering \textbf{<?php //echo 'VCI'; ?>} &
+\multicolumn{1}{>{\columncolor{lightgray}} c|}{ \textbf{<?php //echo 'Reserve qual.'; ?>}} 
 \\
 \hline
 <?php
