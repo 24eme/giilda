@@ -10,6 +10,15 @@ class myUser extends sfBasicSecurityUser
 		return $this->tiers;
 	}
 
+  public function getCompte() {
+    $user = new stdClass();
+    $user->_id = $this->getAttribute('AUTH_USER');
+    $user->prenom = $user->_id;
+    $user->nom = $user->_id;
+
+    return $user;
+  }
+
   /**
    * Récupération de l'interpro
    * @return Interpro
