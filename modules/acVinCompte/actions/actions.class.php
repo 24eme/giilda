@@ -45,7 +45,9 @@ class acVinCompteActions extends BaseacVinCompteActions
       $referer = $this->generateUrl('homepage', array(), true);
     }
     $dest = $this->generateUrl('ac_vin_login', array('referer' => $referer), true); //"http://".$_SERVER["SERVER_NAME"];
-    $this->dest = preg_replace('/http:\/\//', 'http://logout:logout@', $dest);
+    if (isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] != 'logout') {
+      $this->dest = preg_replace('/http:\/\//', 'http://logout:logout@', $dest);
+    }
   }
 
 }
