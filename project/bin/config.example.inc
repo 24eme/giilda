@@ -25,3 +25,5 @@ SAMBA_XLSOFT_IP=
 SAMBA_XLSOFT_SHARE=
 SAMBA_XLSOFT_DIR=
 DEV_EMAILS="test@example.org test2@example.org"
+
+mkdir -p $TMP > /dev/null
