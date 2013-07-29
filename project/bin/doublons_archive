@@ -17,9 +17,9 @@ fi
 cat $TMP/numeros_archive_doublons_ids $LOGFILEDOUBLON | sort | uniq -u > $TMP/numeros_archive_doublons.diff
 
 NB_DOUBLONS=$(cat $TMP/numeros_archive_doublons.diff | wc -l);
-echo "$NB_DOUBLONS doublons trouvés"
+
 if test $NB_DOUBLONS -gt 0 ; then
-	echo "Des doublons de numéro d'archives ont été trouvés :" > $TMP/email_doublons_numeros_archive.txt
+	echo "Des doublons de numéro d'archive ont été trouvés :" > $TMP/email_doublons_numeros_archive.txt
 	echo >> $TMP/email_doublons_numeros_archive.txt 
 	echo "===================================================" >> $TMP/email_doublons_numeros_archive.txt
 	cat $TMP/numeros_archive_doublons.diff >> $TMP/email_doublons_numeros_archive.txt
@@ -27,7 +27,6 @@ if test $NB_DOUBLONS -gt 0 ; then
 	echo >> $TMP/email_doublons_numeros_archive.txt 
 	echo "--" >> $TMP/email_doublons_numeros_archive.txt 
 	echo "envoyé automatiquement depuis "$USER"@"$HOSTNAME":"$0 >> $TMP/email_doublons_numeros_archive.txt
-	echo "email envoyé"
 	for email in $DEV_EMAILS; do
 		cat $TMP/email_doublons_numeros_archive.txt | iconv -f UTF8 -t ISO88591 | mail -s "[Numeros d'archives] Doublons détéctés" $email
 	done
