@@ -105,7 +105,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $contratObj = new stdClass();
         $contratObj->contrat_numero = $num_contrat;
         $contratObj->contrat_type = $contrat[VracClient::VRAC_VIEW_TYPEPRODUIT];
-        $contratObj->produit_libelle = ConfigurationClient::getCurrent()->get($contrat[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
+        $contratObj->produit_libelle = ConfigurationClient::getCurrent()->get($contrat[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat(array(), "%format_libelle% %la%");
         $contratObj->produit_hash = $contrat[VracClient::VRAC_VIEW_PRODUIT_ID];
         $contratObj->vendeur_identifiant = $contrat[VracClient::VRAC_VIEW_VENDEUR_ID];
         $contratObj->vendeur_nom = $contrat[VracClient::VRAC_VIEW_VENDEUR_NOM];
@@ -128,7 +128,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $config_produit = $vrac->getProduitObject(); 
         $contrat->contrat_numero = $vrac->numero_contrat;
         $contrat->contrat_type = $vrac->type_transaction;
-        $contrat->produit_libelle = $config_produit->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce% %la%");
+        $contrat->produit_libelle = $config_produit->getLibelleFormat("%format_libelle%");
         $contrat->produit_hash = $config_produit->getHash();
         $contrat->vendeur_identifiant = $vrac->vendeur_identifiant;
         $contrat->vendeur_nom = $vrac->vendeur->nom;
