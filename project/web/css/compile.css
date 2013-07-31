@@ -753,6 +753,11 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 .table_recap tr td.droite { text-align:right; }
 .table_recap tr:nth-child(2n+2) { background-color:#f7f7f7; }
 .table_recap tr.vide { display:none; }
+.table_recap.table_compact tr th { font-size:12px; }
+.table_recap.table_compact tr td {
+  font-size:12px;
+  padding:5px 5px;
+}
 .table_selection .selecteur { padding:5px 10px; }
 .table_selection .selecteur input { margin:0; }
 .recap_info li {
