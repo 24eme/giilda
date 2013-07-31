@@ -8,7 +8,7 @@ class DSProduit extends BaseDSProduit {
 
     public function updateProduit()
     {
-        $this->produit_libelle = $this->getConfig()->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce%");
+        $this->produit_libelle = $this->getConfig()->getLibelleFormat(array(), "%format_libelle%");
         $this->code_produit = $this->getConfig()->getCodeProduit();
     }
 
