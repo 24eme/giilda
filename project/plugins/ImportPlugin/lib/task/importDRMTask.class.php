@@ -834,7 +834,7 @@ EOF;
     
     return sprintf("%s en %s le %s de %01.02f hl : %s\n",
                                 $libelle,
-                                $produit->getLibelle("%g% %a% %m% %l% %co% %ce%"),
+                                $produit->getLibelle("%format_libelle%"),
                                 $this->convertToDateObject($line[self::CSV_MOUVEMENT_DATE_MOUVEMENT])->format('d/m/Y'),
                                 $this->convertToFloat($line[self::CSV_MOUVEMENT_VOLUME_AGREE_COMMERCIALISABLE]),
                                 $line[self::CSV_MOUVEMENT_COMMENTAIRE]);
