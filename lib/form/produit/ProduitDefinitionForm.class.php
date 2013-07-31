@@ -3,15 +3,18 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
 
     public function configure() {
     	$this->setWidgets(array(
-			'libelle' => new sfWidgetFormInputText(),
+            'libelle' => new sfWidgetFormInputText(),
+			'format_libelle' => new sfWidgetFormInputText(),
             'code' => new sfWidgetFormInputText(),
     	));
 		$this->widgetSchema->setLabels(array(
-			'libelle' => 'Libellé :',
+            'libelle' => 'Libellé :',
+			'format_libelle' => 'Format du Libellé:',
 			'code' => 'Code :',
 		));
 		$this->setValidators(array(
-			'libelle' => new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')),
+            'libelle' => new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')),
+			'format_libelle' => new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')),
 			'code' => new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')),
 		));
 

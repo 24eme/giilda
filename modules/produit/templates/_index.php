@@ -6,7 +6,7 @@
 
     <h2>Produits</h2>
 
-    <table class="table_recap">
+    <table class="table_recap table_compact">
         <thead>
             <?php include_partial('produit/itemHeader') ?>
         </thead>

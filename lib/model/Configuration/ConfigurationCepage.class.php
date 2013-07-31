@@ -43,7 +43,7 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         return $this;
     }
 
-    public function getProduitsWithoutView() {
+    public function getProduits($interpro = null, $departement = null) {
         
         return array($this->getHash() => $this);
     }

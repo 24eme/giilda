@@ -9,21 +9,8 @@ class Configuration extends BaseConfiguration {
     const DEFAULT_KEY = 'DEFAUT';
     const DEFAULT_DENSITE = "1.3";
   
-    protected $produits_libelle = null;
-    protected $produits_code = null;
-    protected $produits = null;
-    protected $format_produits = null;
-
     public function loadAllData() {
-      parent::loadAllData();
-      $this->loadProduits();
-    }
-
-    protected function loadProduits() {
-      $this->getProduits();
-      $this->getProduitsLibelles();
-      $this->getProduitLibelleByHash();
-      $this->getProduitCodeByHash();
+        parent::loadAllData();
     }
 
     public function constructId() {
@@ -31,47 +18,13 @@ class Configuration extends BaseConfiguration {
     }
 
     public function getProduits() {
-        if(is_null($this->produits)) {
-          $this->produits = ConfigurationProduitsView::getInstance()->findProduits()->rows;
-        }
 
-      	return $this->produits;
+        return $this->declaration->getProduits();
     }
 
-    public function formatProduits($format = "%g% %a% %m% %l% %co% %ce% (%code_produit%)") {
-      if(is_null($this->format_produits)) {
-        $this->format_produits = ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits(), $format);
-      }
-    	
-      return $this->format_produits;
-    }
+    public function formatProduits($format = "%format_libelle% (%code_produit%)") {
 
-    public function getProduitsLibelles() {
-      if(is_null($this->produits_libelle)) {
-        $this->produits_libelle = ConfigurationProduitsView::getInstance()->getProduitsLibelles();
-      }
-
-      return $this->produits_libelle;
-    }
-
-    public function getProduitLibelleByHash($hash) {
-    	$produits_libelle = $this->getProduitsLibelles();
-
-    	return (array_key_exists($hash, $produits_libelle)) ? $produits_libelle[$hash] : null;
-    }
-
-    public function getProduitsCodes() {
-      if(is_null($this->produits_code)) {
-        $this->produits_code = ConfigurationProduitsView::getInstance()->getProduitsCodes();
-      }
-
-      return $this->produits_code;
-    }
-
-    public function getProduitCodeByHash($hash) {
-      $produits_code = $this->getProduitsCodes();
-
-      return (array_key_exists($hash, $produits_code)) ? $produits_code[$hash] : null;
+      return $this->declaration->formatProduits(null, null, $format);
     }
 
     private static function normalizeLibelle($libelle) {
@@ -174,20 +127,19 @@ class Configuration extends BaseConfiguration {
         return $result;
     }
 
-
-    public function formatLabelsLibelle($labels, $format = "%la%", $separator = ", ") {
-      $libelles = $this->getLabelsLibelles($labels);
-      
-      return str_replace("%la%", implode($separator, $libelles), $format);
-    }
-
     public function getLabelsLibelles($labels) {
         $libelles = array(); 
         foreach($labels as $key) {
-            $libelles[$key] = ConfigurationClient::getCurrent()->labels[$key];
+            $libelles[$key] = $this->labels[$key];
         }
 
         return $libelles;
+    }
+
+     public function formatLabelsLibelle($labels, $format = "%la%", $separator = ", ") {
+      $libelles = $this->getLabelsLibelles($labels);
+
+      return ConfigurationClient::getInstance()->formatLabelsLibelle($libelles, $format, $separator);
     }
     
     public function updateAlias($hashProduit,$alias) {
@@ -206,4 +158,5 @@ class Configuration extends BaseConfiguration {
     public function prepareCache() {
       $this->loadAllData();
     }
+    
 }

@@ -13,7 +13,7 @@ class produitComponents extends sfComponents {
     }
 
     public function executeIndex() {
-        $this->produits = ConfigurationClient::getCurrent()->declaration->getProduitsWithoutView();
+        $this->produits = ConfigurationClient::getCurrent()->declaration->getProduits();
     }
 
 }

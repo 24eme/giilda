@@ -33,7 +33,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $produits = ConfigurationClient::getCurrent()->formatProduits("%g% %a% %m% %l% %co% %ce%");
+    $produits = ConfigurationClient::getCurrent()->formatProduits("%format_libelle%");
 
     echo sprintf("hash;libelle;code douane;code produit;code comptable;cvo\n");
 

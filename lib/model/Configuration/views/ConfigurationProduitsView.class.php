@@ -9,8 +9,8 @@ class ConfigurationProduitsView extends acCouchdbView
 	const KEY_LIEU_HASH = 4;
 	const KEY_HASH = 5;
 	const KEY_CODE = 6;
-        const KEY_CODE_PRODUIT = 7;
-        const KEY_CODE_COMPTABLE = 8;
+  const KEY_CODE_PRODUIT = 7;
+  const KEY_CODE_COMPTABLE = 8;
 
 	const VALUE_LIBELLE_CERTIFICATION = 0;
 	const VALUE_LIBELLE_GENRE = 1;
@@ -176,7 +176,7 @@ class ConfigurationProduitsView extends acCouchdbView
 		return $code;
   	}
 
-  	public function formatProduits($produits, $format = "%g% %a% %m% %l% %co% %ce% (%code_produit%)") {
+  	public function formatProduits($produits, $format = "%format_libelle% (%code_produit%)") {
   		$produits_format = array();
   		foreach($produits as $produit) {
   			$produits_format[$produit->key[self::KEY_HASH]] = $this->formatProduit($produit, $format);

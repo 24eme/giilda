@@ -13,22 +13,6 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
         return $this->certifications;
     }
 
-    public function getProduits($interpro, $departement = null) {
-        $produits = ConfigurationProduitsView::getInstance()->findProduitsByInterpro($interpro)->rows;
-
-        return $produits;
-    }
-
-    public function getProduitsHashByCodeProduit($interpro) {
-
-        return ConfigurationProduitsView::getInstance()->formatProduitsHashByCodeProduit($this->getProduits($interpro));
-    }
-
-    public function formatProduits($interpro, $departement = null, $format = "%g% %a% %m% %l% %co% %ce% (%code_produit%)") {
-
-        return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits($interpro), $format);
-    }
-
     public function setDonneesCsv($datas) {
         
     }
@@ -50,6 +34,11 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
         }
 
         return $this->_get('densite');
+    }
+
+    public function getFormatLibelle() {
+       
+       return "%g% %a% %m% %l% %co% %ce%"; 
     }
 
 }

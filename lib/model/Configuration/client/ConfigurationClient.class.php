@@ -9,6 +9,22 @@ class ConfigurationClient extends acCouchdbClient {
     const CAMPAGNE_DATE_DEBUT = '%s-08-01';
     const CAMPAGNE_DATE_FIN = '%s-07-31';
 
+    const VALUE_LIBELLE_CERTIFICATION = 0;
+    const VALUE_LIBELLE_GENRE = 1;
+    const VALUE_LIBELLE_APPELLATION = 2;
+    const VALUE_LIBELLE_MENTION = 3;
+    const VALUE_LIBELLE_LIEU = 4;
+    const VALUE_LIBELLE_COULEUR = 5;
+    const VALUE_LIBELLE_CEPAGE = 6;
+
+    const VALUE_CODE_CERTIFICATION = 0;
+    const VALUE_CODE_GENRE = 1;
+    const VALUE_CODE_APPELLATION = 2;
+    const VALUE_CODE_MENTION = 3;
+    const VALUE_CODE_LIEU = 4;
+    const VALUE_CODE_COULEUR = 5;
+    const VALUE_CODE_CEPAGE = 6;
+
 	/**
 	*
 	* @return CurrentClient 
@@ -215,6 +231,55 @@ class ConfigurationClient extends acCouchdbClient {
         $countries = $this->getCountryList();
 
         return $countries[$code];
+    }
+
+    public function formatLibelles($libelles, $format = "%g% %a% %m% %l% %co% %ce%") {
+        $format_index = array('%c%' => self::VALUE_LIBELLE_CERTIFICATION,
+                          '%g%' => self::VALUE_LIBELLE_GENRE,
+                          '%a%' => self::VALUE_LIBELLE_APPELLATION,
+                          '%m%' => self::VALUE_LIBELLE_MENTION,
+                          '%l%' => self::VALUE_LIBELLE_LIEU,
+                          '%co%' => self::VALUE_LIBELLE_COULEUR,
+                          '%ce%' => self::VALUE_LIBELLE_CEPAGE);
+
+        $libelle = $format;
+
+        foreach($format_index as $key => $item) {
+          if (isset($libelles[$item])) {
+            $libelle = str_replace($key, $libelles[$item], $libelle);
+          } else {
+            $libelle = str_replace($key, "", $libelle);
+          }
+        }
+
+        $libelle = preg_replace('/ +/', ' ', $libelle);
+
+        return $libelle;
+    }
+
+    public function formatCodes($codes, $format = "%g%%a%%m%%l%%co%%ce%") {
+        $format_index = array('%c%' => self::VALUE_CODE_CERTIFICATION,
+                              '%g%' => self::VALUE_CODE_GENRE,
+                              '%a%' => self::VALUE_CODE_APPELLATION,
+                              '%m%' => self::VALUE_CODE_MENTION,
+                              '%l%' => self::VALUE_CODE_LIEU,
+                              '%co%' => self::VALUE_CODE_COULEUR,
+                              '%ce%' => self::VALUE_CODE_CEPAGE);
+
+        $code = $format;
+
+        foreach($format_index as $key => $item) {
+            if (isset($codes[$item])) {
+                $code = str_replace($key, $codes[$item], $code);
+            } else {
+                $code = str_replace($key, "", $code);
+            }
+        }
+    }
+
+    public function formatLabelsLibelle($labels, $format = "%la%", $separator = ", ") {
+        
+        return str_replace("%la%", implode($separator, $labels), $format);
     }
   
 }

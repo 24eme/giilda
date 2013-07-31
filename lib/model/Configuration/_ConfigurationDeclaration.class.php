@@ -8,18 +8,25 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
 	protected $libelles = null;
 	protected $codes = null;
-  protected $produits_without_view = null;
+  protected $produits = null;
+  protected $format_produits = array();
+  protected $libelle_format = array();
 
 	protected function loadAllData() {
 		parent::loadAllData();
-    $this->getProduitsWithoutView();
+    $this->getProduits();
+    $this->getLibelles();
+    $this->getCodes();
+    $this->formatProduits();
+    $this->formatProduits(null, null, "%format_libelle%");
+    $this->formatProduits(null, null, "%format_libelle% %la%");
   }
 
   abstract public function getChildrenNode();
 
   public function getParentNode() {
 		$parent = $this->getParent()->getParent();
-		if ($parent->getKey() == 'declaration') {
+		if (!$parent instanceof _ConfigurationDeclaration) {
 
 			throw new sfException('Noeud racine atteint');
 		} else {
@@ -28,16 +35,22 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 		}
 	}
 
+  public function getProduits($interpro = null, $departement = null) {
+       
+    if(is_null($this->produits)) {
+      $this->produits = array();
+      foreach($this->getChildrenNode() as $key => $item) {
+          $this->produits = array_merge($this->produits, $item->getProduits());
+      }
+    }
+
+    return $this->produits;
+  }
+
 	public function getLibelles() {
 		if(is_null($this->libelles)) {
-			$libelles = $this->getDocument()->getProduitLibelleByHash($this->getHash());
-			if ($libelles !== null) {
-				$this->libelles = $libelles;
-			} else {
-
 				$this->libelles = array_merge($this->getParentNode()->getLibelles(), 
 							   	  array($this->libelle));
-			}
 		}
 
 		return $this->libelles;
@@ -45,14 +58,8 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
 	public function getCodes() {
 		if(is_null($this->codes)) {
-			$codes = $this->getDocument()->getProduitCodeByHash($this->getHash());
-			if ($codes !== null) {
-				$this->codes = $codes;
-			} else {
-
 				$this->codes = array_merge($this->getParentNode()->getCodes(), 
 							   	  array($this->code));
-			}
 		}
 
 		return $this->codes;
@@ -85,14 +92,32 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     return $this->_get('code_produit');
   }
 
-  public function getCodeComptable() {
-    if (!$this->_get('code_comptable')) {
+    public function getCodeComptable() {
+      if (!$this->_get('code_comptable')) {
 
-      return $this->getParentNode()->getCodeComptable();
-    }    
-    
-    return $this->_get('code_comptable');
-  }
+        return $this->getParentNode()->getCodeComptable();
+      }    
+      
+      return $this->_get('code_comptable');
+    }
+
+    public function getFormatLibelleCalcule() {
+      if (!$this->getFormatLibelle()) {
+
+        return $this->getParentNode()->getFormatLibelleCalcule();
+      }    
+      
+      return $this->getFormatLibelle();
+    }
+
+    public function getFormatLibelleDefinitionNoeud() {
+      if ($this->getFormatLibelle()) {
+
+        return $this;
+      }    
+      
+      return $this->getParentNode()->getFormatLibelleDefinitionNoeud();
+    }
   
   
     public function getDensite(){
@@ -109,27 +134,50 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
       return $this->_get('densite');
     }
 
-	public function getLibelleFormat($labels = array(), $format = "%g% %a% %m% %l% %co% %ce%", $label_separator = ", ") {
-    	$libelle = ConfigurationProduitsView::getInstance()->formatLibelles($this->getLibelles(), $format);
-    	$libelle = $this->getDocument()->formatLabelsLibelle($labels, $libelle, $label_separator);
+	 public function getLibelleFormat($labels = array(), $format = "%format_libelle%", $label_separator = ", ") {
+      if(!array_key_exists($format, $this->libelle_format)) {
+        $format_libelle = $this->getFormatLibelleCalcule();
+        $format = str_replace("%format_libelle%", $format_libelle, $format);
+      	$libelle = $this->formatProduitLibelle($format);
+      	$libelle = $this->getDocument()->formatLabelsLibelle($labels, $libelle, $label_separator);
 
-    	return trim($libelle);
+      	$this->libelle_format[$format] = trim($libelle);
+      }
+
+      return $this->libelle_format[$format];
   	}
+
+    public function formatProduitLibelle($format = "%g% %a% %m% %l% %co% %ce%") {
+        $libelle = ConfigurationClient::getInstance()->formatLibelles($this->getLibelles(), $format);
+
+        $libelle = str_replace(array('%code%', 
+                          '%code_produit%', 
+                          '%code_comptable%'), 
+                    array($this->getCodeFormat(), 
+                          $this->getCodeProduit(), 
+                          $this->getCodeComptable()),
+                    $libelle);
+        $libelle = str_replace("()", "", $libelle);
+        $libelle = preg_replace('/ +/', ' ', $libelle);
+
+
+        return $libelle;
+    }
 
   	public function getCodeFormat($format = "%g%%a%%m%%l%%co%%ce%") {
 
-  		return ConfigurationProduitsView::getInstance()->formatCodes($this->getCodes(), $format);
+  		return ConfigurationClient::getInstance()->formatCodes($this->getCodes(), $format);
   	}
 
-	public function getDroitCVO($date, $interpro = "INTERPRO-inter-loire") {
-    
-	  return $this->getDroits($interpro)->get(ConfigurationDroits::CODE_CVO)->getCurrentDroit($date);
-	}
+  	public function getDroitCVO($date, $interpro = "INTERPRO-inter-loire") {
+      
+  	  return $this->getDroits($interpro)->get(ConfigurationDroits::CODE_CVO)->getCurrentDroit($date);
+  	}
 	
     public function getDroits($interpro) {
       $droitsable = $this;
       while (!$droitsable->hasDroits()) {
-	$droitsable = $droitsable->getParent()->getParent();
+	      $droitsable = $droitsable->getParent()->getParent();
       }
       return $droitsable->interpro->getOrAdd($interpro)->droits;
     }
@@ -219,9 +267,16 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     	return floatval(str_replace(',', '.', $float));
     }
 
-    public function getProduits($interpro, $departement) {
-       
-      throw new sfException("The method \"getProduits\" is not defined");
+    public function formatProduits($interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)") {
+        if(!array_key_exists($format, $this->format_produits)) {
+          $produits = $this->getProduits();
+          $this->format_produits[$format] = array();
+          foreach($produits as $hash => $produit) {
+            $this->format_produits[$format][$hash] = $produit->getLibelleFormat(array(), $format);
+          }
+        }
+
+        return $this->format_produits[$format];
     }
 
     public function getLabels($interpro) {
@@ -265,17 +320,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
   		}
   		return $details;
   	}
-
-    public function getProduitsWithoutView() {
-      if(is_null($this->produits_without_view)) {
-        $this->produits_without_view = array();
-        foreach($this->getChildrenNode() as $key => $item) {
-            $this->produits_without_view = array_merge($this->produits_without_view, $item->getProduitsWithoutView());
-        }
-      }
-
-      return $this->produits_without_view;
-    }
 
     public function getKeys($noeud) {
       if($noeud == $this->getTypeNoeud()) {

@@ -7,6 +7,11 @@
         <?php echo $form['libelle']->render() ?>
     </div>
     <div class="ligne_form">
+        <?php if($form['format_libelle']->hasError()) {?><span class="error"><?php echo $form['format_libelle']->renderError() ?></span><?php } ?>
+        <?php echo $form['format_libelle']->renderLabel() ?>
+        <?php echo $form['format_libelle']->render() ?>
+    </div>
+    <div class="ligne_form">
         <label>Clé :</label>
         <span><?php echo $form->getObject()->getKey(); ?></span><br />
         <span style="color: #999999">Cette clé est utilisée pour construire l'arbre, elle est constituante du hash produit</span>

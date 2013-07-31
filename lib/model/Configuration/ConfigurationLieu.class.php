@@ -23,9 +23,12 @@ class ConfigurationLieu extends BaseConfigurationLieu {
      * @return ConfigurationAppellation
      */
     public function getMention() {
+        
         return $this->getParentNode();
     }
+
     public function getAppellation() {
+        
         return $this->getMention()->getAppellation();
     }
 
@@ -51,28 +54,6 @@ class ConfigurationLieu extends BaseConfigurationLieu {
         }
         
         return false;
-    }
-
-    public function getProduits($interpro, $departement) {
-        $produits = ConfigurationProduitsView::getInstance()->findProduitsByLieu($interpro, 
-        																		$this->getCertification()->getKey(), 
-        																		'', 
-        																		$this->getHash())->rows;
-
-        if ($departement) {
-          $produits = array_merge($produits, 
-          						 ConfigurationProduitsView::getInstance()->findProduitsByLieu($interpro, 
-          																				      $this->getCertification()->getKey(), 
-          																				      $departement, 
-          																				      $this->getHash())->rows);
-        }
-
-        return $produits;
-    }
-    
-    public function formatProduits($interpro, $departement, $format = "%co% %ce%") {
-
-    	return ConfigurationProduitsView::getInstance()->formatProduits($this->getProduits($interpro, $departement), $format);
     }
 
     public function setDonneesCsv($datas) {

@@ -23,6 +23,7 @@ class ConfigurationMention extends BaseConfigurationMention {
      * @return ConfigurationAppellation
      */
     public function getAppellation() {
+        
         return $this->getParentNode();
     }
 

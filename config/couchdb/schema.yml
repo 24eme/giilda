@@ -150,6 +150,7 @@ Configuration:
                     definition:
                       fields:
                         libelle: {  }
+                        format_libelle: {  }
                         code: {  }
                         code_produit: {  }
                         code_comptable: {  }
@@ -216,6 +217,7 @@ Configuration:
                                 definition:
                                   fields:
                                     libelle: {  }
+                                    format_libelle: {  }
                                     code: {  }
                                     code_produit: {  }
                                     code_comptable: {  }
@@ -352,6 +354,7 @@ Configuration:
                                             definition:
                                               fields:
                                                 libelle: {  }
+                                                format_libelle: {  }
                                                 code: {  }
                                                 code_produit: {  }
                                                 code_comptable: {  }
@@ -489,6 +492,7 @@ Configuration:
                                                         definition:
                                                           fields:
                                                             libelle: {  }
+                                                            format_libelle: {  }
                                                             code: {  }
                                                             code_produit: {  }
                                                             code_comptable: {  }
@@ -624,6 +628,7 @@ Configuration:
                                                                     definition:
                                                                       fields:
                                                                         libelle: {  }
+                                                                        format_libelle: {  }
                                                                         code: {  }
                                                                         code_produit: {  }
                                                                         code_comptable: {  }
@@ -760,6 +765,7 @@ Configuration:
                                                                                 definition:
                                                                                   fields:
                                                                                     libelle: {  }
+                                                                                    format_libelle: {  }
                                                                                     code: {  }
                                                                                     code_produit: {  }
                                                                                     code_comptable: {  }
@@ -896,6 +902,7 @@ Configuration:
                                                                                             definition:
                                                                                               fields:
                                                                                                 libelle: {  }
+                                                                                                format_libelle: {  }
                                                                                                 code: {  }
                                                                                                 code_produit: {  }
                                                                                                 code_comptable: {  }
