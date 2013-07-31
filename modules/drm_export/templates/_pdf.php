@@ -300,7 +300,7 @@
 					<?php endif; ?>
 					<td>
 						<strong><?php echo strtoupper($item->getCode()) ?></strong>
-			   			<span><?php echo $item->getConfig()->getLibelleFormat(array(), "%g% %a% %m% %l% %co% %ce%") ?></span>
+			   			<span><?php echo $item->getConfig()->getLibelleFormat(array(), "%format_libelle%") ?></span>
 					</td>
 					<?php endif; ?>
 				<?php $counter++; endforeach; ?>

@@ -34,8 +34,8 @@ class DRMLieuAjoutForm extends acCouchdbForm {
 
             $lieux_existant = $this->_drm->get($this->_config->getHash())->getLieuxArray();
 
-            $this->_choices_produits = $this->_config->formatProduitsLieux($this->_interpro->get('_id'), 
-                                                                        $this->_drm->getDepartement());
+            $this->_choices_produits = $this->_config->formatProduits($this->_interpro->get('_id'), 
+                                                                      $this->_drm->getDepartement());
             foreach($lieux_existant as $lieu) {
                 $hash = substr($lieu->getHash(), 1, strlen($lieu->getHash())-1);
 

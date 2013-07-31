@@ -89,7 +89,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       }
       
       $detail = $this->getOrAdd($hash)->details->addProduit($labels);
-      $detail->produit_libelle = $detail->getLibelle($format = "%g% %a% %m% %l% %co% %ce% %la%");
+      $detail->produit_libelle = $detail->getLibelle($format = "%format_libelle% %la%");
      
       return $detail;
     }

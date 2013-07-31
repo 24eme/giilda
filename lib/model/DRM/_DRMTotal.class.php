@@ -16,7 +16,7 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         return $this->getParent()->getParent();
     }
 
-    public function getLibelle($format = "%g% %a% %m% %l% %co% %ce%") {
+    public function getLibelle($format = "%format_libelle%") {
 
       return $this->getConfig()->getLibelleFormat(array(), $format);
     }
@@ -186,7 +186,7 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         return $produits;
     }
 
-    public function getProduitsLibelle($format = "%g% %a% %m% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
+    public function getProduitsLibelle($format = "%format_libelle% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
         $produits = $this->getProduitsDetails();
         $produits_format = array();
         foreach($produits as $key => $produit) {

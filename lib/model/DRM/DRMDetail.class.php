@@ -10,7 +10,7 @@ class DRMDetail extends BaseDRMDetail {
   	return ConfigurationClient::getCurrent()->declaration->detail;
   }
 
-  public function getLibelle($format = "%g% %a% %m% %l% %co% %ce% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
+  public function getLibelle($format = "%format_libelle% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
 
   	return $this->getCepage()->getConfig()->getLibelleFormat($this->labels->toArray(), $format, $label_separator);
   }
@@ -102,7 +102,7 @@ class DRMDetail extends BaseDRMDetail {
   }
 
   public function getLabelsLibelle($format = "%la%", $label_separator = ", ") {
-      
+
       return $this->getConfig()->getDocument()->formatLabelsLibelle($this->labels->toArray(), $format, $label_separator);
   }
 
