@@ -23,7 +23,10 @@ curl -s -X PUT -d '@/tmp/filter.json' http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_d
 
 if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
     curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE > /dev/null
-    curl -s -X DELETE "http://$ELASTHOST:$ELASTPORT/_river" > /dev/null
+    curl -s -X DELETE "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_compte" > /dev/null
+    curl -s -X DELETE "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_etablissement" > /dev/null
+    curl -s -X DELETE "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_societe" > /dev/null
+    curl -s -X DELETE "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_alerte" > /dev/null
 fi
 
 echo '{
