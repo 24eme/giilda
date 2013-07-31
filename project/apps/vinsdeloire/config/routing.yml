@@ -4,7 +4,7 @@
 # default rules
 homepage:
   url:   /
-  param: { module: vrac, action: index }
+  param: { module: global, action: home}
 
 # generic rules
 # please, remove them by adding more specific rules

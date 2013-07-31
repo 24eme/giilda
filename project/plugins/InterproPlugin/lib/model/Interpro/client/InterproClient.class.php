@@ -30,7 +30,7 @@ class InterproClient extends acCouchdbClient {
         return $this->getInterpro();
     }
 
-    public function find($id, $hydrate = self::HYDRATE_DOCUMENT) {
+    public function find($id, $hydrate = self::HYDRATE_DOCUMENT, $force_return_ls = false) {
 
         return $this->getInterpro();
     }
