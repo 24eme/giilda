@@ -9,10 +9,6 @@ class Configuration extends BaseConfiguration {
     const DEFAULT_KEY = 'DEFAUT';
     const DEFAULT_DENSITE = "1.3";
   
-    public function loadAllData() {
-        parent::loadAllData();
-    }
-
     public function constructId() {
         $this->set('_id', "CONFIGURATION");
     }

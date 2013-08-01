@@ -41,4 +41,14 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
        return "%g% %a% %m% %l% %co% %ce%"; 
     }
 
+    public function getLibelles() {
+
+        return null;
+    }
+
+    public function getCodes() {
+
+        return null;
+    }
+
 }

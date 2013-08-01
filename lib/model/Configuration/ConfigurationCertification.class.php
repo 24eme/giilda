@@ -6,12 +6,8 @@
 
 class ConfigurationCertification extends BaseConfigurationCertification {
 	
-	 const TYPE_NOEUD = 'certification';
+	  const TYPE_NOEUD = 'certification';
     
-    protected function loadAllData() {
-        parent::loadAllData();
-    }
-
     public function getChildrenNode() {
 
       return $this->genres;
