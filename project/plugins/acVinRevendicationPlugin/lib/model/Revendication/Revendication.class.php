@@ -104,19 +104,22 @@ class Revendication extends BaseRevendication {
 
     public function setProduits() {
         if (!$this->produits)
-            $this->produits = ConfigurationClient::getCurrent()->formatProduits();
+            $this->produits = ConfigurationClient::getCurrent()->formatProduits("%format_libelle%");
+
         return $this->produits;
     }
 
     public function setProduitsAlias() {
         if (!$this->produitsAlias)
             $this->produitsAlias = ConfigurationClient::getCurrent()->getAlias();
+
         return $this->produitsAlias;
     }
 
     public function setProduitsCodeDouaneHashes() {
         if (!$this->produitsCodeDouane)
             $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouane('INTERPRO-inter-loire');
+
         return $this->produitsCodeDouane;
     }
 
@@ -222,21 +225,6 @@ class Revendication extends BaseRevendication {
         }
     }
 
-//    public function updateVolumeProduit($cvi, $produit_key_old, $produit_key_new, $row, $num_ligne, $new_volume) {
-//        var_dump('modif'); exit;
-//        $produitsCd = $this->getProduitsCodeDouaneHashes();
-//        $hash = $produitsCd[$produit_key_new]; 
-//        $produits = $this->getProduits();
-//        $libelle = $produits[$hash];         
-//        $this->getDatas()->get($cvi)->updateProduitsAndVolume($this->getDatas()->get($cvi)->produits, $produit_key_old, $produit_key_new, $libelle,$row, $num_ligne, $new_volume);
-//        }
-//    public function majVolume($cvi, $produit_key, $row, $num_ligne, $new_volume) {
-//        
-//        $volume = $this->getDatas()->get($cvi)->produits->get($produit_key)->volumes->add($row);
-//        $volume->num_ligne = $num_ligne;
-//        $volume->volume = $new_volume;
-//    }
-
     public function getProduitNode($cvi, $row) {
         foreach ($this->getDatas()->get($cvi)->produits as $hash_key => $produit) {
             if ($produit->volumes->exist($row)) {
@@ -286,8 +274,6 @@ class Revendication extends BaseRevendication {
     public function deleteRow($cvi, $row) {
         $this->getProduitNode($cvi, $row)->supprProduit();
     }
-
-    
     
     public function getNbErreurs() {
         $nb_erreur = 0;
