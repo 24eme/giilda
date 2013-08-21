@@ -11,8 +11,10 @@
                     <h2><?php echo ($compte->nom_a_afficher)? $compte->nom_a_afficher : $compte->nom ;?>&nbsp;(<?php echo $compte->identifiant;?>)</h2>
 
 			<div class="form_btn">
+                            <?php if($modification): ?>
                             <a href="<?php echo url_for('compte_modification',$compte);?>" class="btn_majeur btn_modifier">Modifier</a>
-			</div>
+                            <?php endif; ?>
+                        </div>
 
 				<div id="detail_contact" class="form_section contact ouvert">
 					<h3>Détail de l'interlocuteur</h3>

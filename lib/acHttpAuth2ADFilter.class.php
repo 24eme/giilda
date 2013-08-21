@@ -30,8 +30,8 @@ class acHttpAuth2ADFilter extends sfFilter
     try {
       $rights = $ad->getDescription($_SERVER['PHP_AUTH_USER']);
     }catch(Exception $e) {
-      if (!sfConfig::get('app_ad_basebn')) {
-	      $rights = 'admin';
+      if (!sfConfig::get('app_ad_basebn')) {          
+	      $rights = sfConfig::get('app_no_ad_rights', 'admin');
 	      $user->addCredential('noAD');
       }
     }
