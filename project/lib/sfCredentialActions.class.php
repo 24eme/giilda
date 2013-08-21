@@ -1,0 +1,99 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of class sfCredentialActions
+ * @author mathurin
+ */
+class sfCredentialActions extends sfActions {
+
+    const CREDENTIAL_ADMIN = "admin";
+    const CREDENTIAL_COMPTA = "compta";
+    const CREDENTIAL_TRANSACTIONS = "transactions";
+    const CREDENTIAL_PRESSE = "presse";
+    const CREDENTIAL_DIRECTION = "direction";
+    const CREDENTIAL_AUTRE = "autre";
+
+    protected function getUserCredential() {
+        $users = $this->getUser()->getCredentials();
+        if (in_array(self::CREDENTIAL_ADMIN, $users)) {
+            return self::CREDENTIAL_ADMIN;
+        }
+        if (in_array(self::CREDENTIAL_COMPTA, $users)) {
+            return self::CREDENTIAL_COMPTA;
+        }
+        if (in_array(self::CREDENTIAL_TRANSACTIONS, $users)) {
+            return self::CREDENTIAL_TRANSACTIONS;
+        }
+        if (in_array(self::CREDENTIAL_PRESSE, $users)) {
+            return self::CREDENTIAL_PRESSE;
+        }
+        if (in_array(self::CREDENTIAL_DIRECTION, $users)) {
+            return self::CREDENTIAL_DIRECTION;
+        }
+        return self::CREDENTIAL_AUTRE;
+    }
+
+    protected function applyRights() {
+        $this->reduct_rights = false;
+        $this->modification = true;
+
+        $this->user = $this->getUserCredential();
+        if (!$this->user) {
+            return;
+        }
+
+        switch ($this->user) {
+            case self::CREDENTIAL_PRESSE:
+                if ($this->societe->isTransaction()) {
+                    $this->modification = true;
+                    $this->reduct_rights = true;
+                    return;
+                }
+                if ($this->societe->isInstitution()) {
+                    $this->modification = false;
+                    return;
+                }
+
+            case self::CREDENTIAL_DIRECTION:
+                if ($this->societe->isTransaction()) {
+                    $this->modification = true;
+                    $this->reduct_rights = true;
+                    return;
+                }
+                if ($this->societe->isPresse()) {
+                    $this->modification = false;
+                    return;
+                }
+
+            case self::CREDENTIAL_AUTRE:
+                if ($this->societe->isTransaction()) {
+                    $this->modification = true;
+                    $this->reduct_rights = true;
+                    return;
+                }
+                if ($this->societe->isPresse()) {
+                    $this->modification = false;
+                }
+                if ($this->societe->isInstitution()) {
+                    $this->modification = true;
+                }
+                return;
+            case self::CREDENTIAL_TRANSACTIONS:
+            case self::CREDENTIAL_COMPTA:
+                if ($this->societe->isPresse() ||
+                        $this->societe->isInstitution()) {
+                    $this->modification = false;
+                    return;
+                }
+            default:
+                return;
+        }
+    }
+
+}
