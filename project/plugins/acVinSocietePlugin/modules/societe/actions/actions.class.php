@@ -1,6 +1,6 @@
 <?php
 
-class societeActions extends sfActions {
+class societeActions extends sfCredentialActions {
 
     public function executeFullautocomplete(sfWebRequest $request) {
         $interpro = $request->getParameter('interpro_id');
@@ -86,25 +86,27 @@ class societeActions extends sfActions {
         $this->redirect('societe_modification', array('identifiant' => $societe->identifiant));
     }
 
-    public function executeModification(sfWebRequest $request) {
-        $this->societe = $this->getRoute()->getSociete();
+    public function executeModification(sfWebRequest $request) {  
+        $this->societe = $this->getRoute()->getSociete();       
+        $this->applyRights();
         $this->contactSociete = CompteClient::getInstance()->find($this->societe->compte_societe);
-        $this->societeForm = new SocieteModificationForm($this->societe);
-        $this->contactSocieteForm = new CompteCoordonneeForm($this->contactSociete);
+        $this->societeForm = new SocieteModificationForm($this->societe, $this->reduct_rights);
+        $this->contactSocieteForm = new CompteCoordonneeForm($this->contactSociete, $this->reduct_rights);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
-
             return;
         }
 
         $this->societeForm->bind($request->getParameter($this->societeForm->getName()));
         $this->contactSocieteForm->bind($request->getParameter($this->contactSocieteForm->getName()));
 
-        if (!$this->societeForm->isValid() || !$this->contactSocieteForm->isValid()) {
-            return;
+        if ((!$this->societeForm->isValid()) || !$this->contactSocieteForm->isValid()) {
+            return ;
         }
-
-        $this->societeForm->updateObject();
+        
+        if((!$this->reduct_rights)){
+            $this->societeForm->updateObject();
+        }
         $this->societeForm->update();
 
         $this->validation = new SocieteValidation($this->societe);
@@ -115,11 +117,10 @@ class societeActions extends sfActions {
         $this->societeForm->save();
         
         $this->contactSociete = CompteClient::getInstance()->find($this->societe->compte_societe);
-        $this->contactSocieteForm = new CompteCoordonneeForm($this->contactSociete);
+        $this->contactSocieteForm = new CompteCoordonneeForm($this->contactSociete,$this->reduct_rights);
         $this->contactSocieteForm->disabledRevisionVerification();
         $this->contactSocieteForm->bind($request->getParameter($this->contactSocieteForm->getName()));
         $this->contactSocieteForm->save();
-        
         $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
             
         
@@ -135,6 +136,8 @@ class societeActions extends sfActions {
     public function executeVisualisation(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->etablissements = $this->societe->getEtablissementsObj();
+        $this->applyRights();
+        
     }
 
     public function executeAnnulation(sfWebRequest $request) {
@@ -189,5 +192,5 @@ class societeActions extends sfActions {
         }
         return $json;
     }
-
+    
 }

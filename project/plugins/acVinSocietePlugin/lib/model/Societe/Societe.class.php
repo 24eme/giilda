@@ -304,5 +304,15 @@ class Societe extends BaseSociete {
 	$this->changedStatut = false;
         return parent::save();
     }
-        
+     
+    public function isPresse() {
+        return $this->exist('type_societe') && ($this->type_societe == SocieteClient::TYPE_PRESSE);
+    }
+ 
+    public function isInstitution() {
+        return $this->exist('type_societe') && ($this->type_societe == SocieteClient::SUB_TYPE_INSTITUTION);
+    }
+    
+    
+    
 }

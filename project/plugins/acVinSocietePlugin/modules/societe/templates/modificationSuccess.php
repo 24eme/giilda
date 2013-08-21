@@ -19,11 +19,22 @@
                 <?php endif; ?>
                 <div id="detail_societe" class="form_section ouvert">
                     <h3>Détail de la société</h3>  
-                    <?php include_partial('societeModification', array('societeForm' => $societeForm)); ?>
+                    <?php if($reduct_rights) :
+                            include_partial('societeModificationRestricted', array('societeForm' => $societeForm));
+                            else :
+                            include_partial('societeModification', array('societeForm' => $societeForm));
+                        endif;                    
+                    ?>
                 </div>
                 <div id="coordonnees_societe" class="form_section ouvert">
                     <h3>Coordonnées de la société</h3>
-                    <?php include_partial('compte/modificationCoordonnee', array('compteForm' => $contactSocieteForm)) ?>
+               <?php      
+                    if($reduct_rights) :
+                            include_partial('compte/modificationCoordonneeRestricted', array('compteForm' => $contactSocieteForm));
+                            else :
+                            include_partial('compte/modificationCoordonnee', array('compteForm' => $contactSocieteForm));
+                        endif;                    
+                    ?>
                 </div>
                 <div class="form_btn">
                     <?php if($societe->isInCreation()): ?>
