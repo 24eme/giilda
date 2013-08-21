@@ -1,6 +1,6 @@
 <?php
 
-class etablissementActions extends sfActions {
+class etablissementActions extends sfCredentialActions {
 
  public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
@@ -34,7 +34,8 @@ class etablissementActions extends sfActions {
     public function executeVisualisation(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
-        $this->contact = $this->etablissement->getContact();        
+        $this->contact = $this->etablissement->getContact(); 
+        $this->applyRights();
     }
 
 }
