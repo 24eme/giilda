@@ -486,6 +486,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       return $this->_set('versement_comptable', 1);
     }
 
+    public function setDeVerseEnCompta() {
+      return $this->_set('versement_comptable', 0);
+    }
+
     public function isArchivageCanBeSet() {
 
         return true;

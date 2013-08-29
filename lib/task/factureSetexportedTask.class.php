@@ -14,6 +14,7 @@ class FactureSetexportedTask extends sfBaseTask
 			    new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
 			    new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
 			    new sfCommandOption('directory', null, sfCommandOption::PARAMETER_REQUIRED, 'Output directory', '.'),
+          new sfCommandOption('deversement', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', false),
       // add your own options here
     ));
 
@@ -35,7 +36,11 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     $facture = FactureClient::getInstance()->find($arguments['factureid']);
-    $facture->setVerseEnCompta();
+    if(!$options['deversement']) {
+      $facture->setVerseEnCompta();
+    } else {
+      $facture->setDeVerseEnCompta();
+    }
     $facture->save();
   }
 }
