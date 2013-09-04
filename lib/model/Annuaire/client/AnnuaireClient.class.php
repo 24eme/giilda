@@ -9,16 +9,31 @@ class AnnuaireClient extends acCouchdbClient
  								self::ANNUAIRE_ACHETEURS_KEY => 'Acheteur', 
  								self::ANNUAIRE_VENDEURS_KEY => 'Vendeur'
  	);
+ 	static $tiers_correspondance_types = array(
+ 								'Acheteur' => self::ANNUAIRE_ACHETEURS_KEY, 
+ 								'Recoltant' => self::ANNUAIRE_VENDEURS_KEY
+ 	);
  	
   	public static function getAnnuaireTypes() 
   	{
   		return self::$annuaire_types;
+  	}
+ 	
+  	public static function getTiersCorrespondanceTypes() 
+  	{
+  		return self::$tiers_correspondance_types;
   	}
 	
     public static function getInstance()
     {
       return acCouchdbManager::getClient("Annuaire");
     }  
+    
+    public static function getTiersCorrespondanceType($tiersType)
+    {
+    	$types = self::getTiersCorrespondanceTypes();
+    	return $types[$tiersType];
+    }
     
     public function createAnnuaire($cvi)
     {
