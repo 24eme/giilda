@@ -4,6 +4,11 @@
  *
  */
 
-class Annuaire extends BaseAnnuaire {
+class Annuaire extends BaseAnnuaire 
+{
+    public function constructId() 
+    {
+        $this->set('_id', AnnuaireClient::getInstance()->buildId($this->cvi));
+    }
 
 }

@@ -17,4 +17,5 @@ Annuaire:
         definition:
           fields:
             '*': { }
+      cvi: {  }
       type: {  }
