@@ -1,0 +1,20 @@
+Annuaire:
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      acheteurs:
+        type: collection
+        class: AnnuaireAcheteur
+        inheritance: _AnnuaireTiers
+        definition:
+          fields:
+            '*': { }
+      vendeurs:
+        type: collection
+        class: AnnuaireVendeur
+        inheritance: _AnnuaireTiers
+        definition:
+          fields:
+            '*': { }
+      type: {  }
