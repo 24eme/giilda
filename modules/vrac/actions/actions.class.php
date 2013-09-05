@@ -376,6 +376,18 @@ class vracActions extends sfActions
   //  $this->response->setHttpHeader('Content-Length', filesize($file));    
   }
   
+  
+  public function executeExportEtiquette(sfWebRequest $request) 
+  {    
+    ini_set('memory_limit', '1024M');
+    $this->setLayout(false);
+    $filename = 'exportCSV_etiquette_'.date('Ymd'); 
+    
+    $attachement = "attachment; filename=".$filename.".csv";
+    
+    $this->response->setContentType('text/csv');
+    $this->response->setHttpHeader('Content-Disposition',$attachement ); 
+  }
 
   private function renderPartialInformations($etablissement,$nouveau) {
       $familleType = $etablissement->getFamilleType();

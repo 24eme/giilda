@@ -86,10 +86,13 @@ class VracRouting {
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
         
-        	$r->prependRoute('vrac_redirect_to_visualisation', new sfRoute('/vrac/redirect/:identifiant_vrac', 
-								      array('module' => 'vrac', 'action' => 'redirect'),  
-								      array('sf_method' => array('get'))
-								      ));
+        $r->prependRoute('vrac_export_etiquette', new sfRoute('/vrac/export-etiquette', array('module' => 'vrac', 
+                                                                        'action' => 'exportEtiquette')));
+        
+        $r->prependRoute('vrac_redirect_to_visualisation', new sfRoute('/vrac/redirect/:identifiant_vrac', 
+                                                        array('module' => 'vrac', 'action' => 'redirect'),  
+                                                        array('sf_method' => array('get'))
+                                                          ));
     }
 
 }

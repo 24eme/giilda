@@ -16,6 +16,7 @@ foreach ($datas as $data) {
         <?php include_component('vrac', 'formEtablissementChoice') ?>
         <div class="section_label_maj"> 
             <label>10 derniers contrats saisis : </label>                   
+            <a id="btn_export_csv" href="<?php echo url_for('vrac_export_etiquette'); ?>" >Ouvrir en tableur pour les étiquettes</a>
             <?php include_partial('table_contrats', array('vracs' => $vracs)); ?>
         </div>
     </div>
