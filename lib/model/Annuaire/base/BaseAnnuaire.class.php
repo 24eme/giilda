@@ -6,18 +6,24 @@
  *
  * @property string $_id
  * @property string $_rev
- * @property AnnuaireAcheteur $acheteurs
- * @property AnnuaireVendeur $vendeurs
+ * @property AnnuaireRecoltant $recoltant
+ * @property AnnuaireNegociant $negociant
+ * @property AnnuaireCaveCooperative $cave_cooperative
+ * @property string $cvi
  * @property string $type
 
  * @method string get_id()
  * @method string set_id()
  * @method string get_rev()
  * @method string set_rev()
- * @method AnnuaireAcheteur getAcheteurs()
- * @method AnnuaireAcheteur setAcheteurs()
- * @method AnnuaireVendeur getVendeurs()
- * @method AnnuaireVendeur setVendeurs()
+ * @method AnnuaireRecoltant getRecoltant()
+ * @method AnnuaireRecoltant setRecoltant()
+ * @method AnnuaireNegociant getNegociant()
+ * @method AnnuaireNegociant setNegociant()
+ * @method AnnuaireCaveCooperative getCaveCooperative()
+ * @method AnnuaireCaveCooperative setCaveCooperative()
+ * @method string getCvi()
+ * @method string setCvi()
  * @method string getType()
  * @method string setType()
  

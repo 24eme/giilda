@@ -3,25 +3,18 @@
 class AnnuaireClient extends acCouchdbClient 
 {
 	const ANNUAIRE_PREFIXE_ID = 'ANNUAIRE-';
-	const ANNUAIRE_ACHETEURS_KEY = 'acheteurs';
-	const ANNUAIRE_VENDEURS_KEY = 'vendeurs';
+	const ANNUAIRE_RECOLTANT_KEY = 'recoltants';
+	const ANNUAIRE_NEGOCIANTS_KEY = 'negociants';
+	const ANNUAIRE_CAVES_COOPERATIVES_KEY = 'caves_cooperatives';
  	static $annuaire_types = array(
- 								self::ANNUAIRE_ACHETEURS_KEY => 'Acheteur', 
- 								self::ANNUAIRE_VENDEURS_KEY => 'Vendeur'
- 	);
- 	static $tiers_correspondance_types = array(
- 								'Acheteur' => self::ANNUAIRE_ACHETEURS_KEY, 
- 								'Recoltant' => self::ANNUAIRE_VENDEURS_KEY
+ 								self::ANNUAIRE_RECOLTANT_KEY => 'Récoltant', 
+ 								self::ANNUAIRE_NEGOCIANTS_KEY => 'Négociants', 
+ 								self::ANNUAIRE_CAVES_COOPERATIVES_KEY => 'Cave coopérative'
  	);
  	
   	public static function getAnnuaireTypes() 
   	{
   		return self::$annuaire_types;
-  	}
- 	
-  	public static function getTiersCorrespondanceTypes() 
-  	{
-  		return self::$tiers_correspondance_types;
   	}
 	
     public static function getInstance()
@@ -54,5 +47,18 @@ class AnnuaireClient extends acCouchdbClient
     public function buildId($cvi)
     {
       return self::ANNUAIRE_PREFIXE_ID.$cvi;
+    }
+
+    public function findTiersByTypeAndIdentifiant($type, $identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) 
+    {
+    	if ($type == self::ANNUAIRE_RECOLTANT_KEY) {
+        	$tiers = parent::find('REC-'.$identifiant, $hydrate);
+    	} else {
+            $tiers = parent::find('ACHAT-'.$identifiant, $hydrate);
+    	}
+        if(!$tiers) {
+			$tiers = parent::find('MET-'.$identifiant, $hydrate);
+        }
+        return $tiers;
     }
 }

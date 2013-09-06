@@ -3,16 +3,23 @@ Annuaire:
     fields:
       _id: {  }
       _rev: {  }
-      acheteurs:
+      recoltants:
         type: collection
-        class: AnnuaireAcheteur
+        class: AnnuaireRecoltant
         inheritance: _AnnuaireTiers
         definition:
           fields:
             '*': { }
-      vendeurs:
+      negociants:
         type: collection
-        class: AnnuaireVendeur
+        class: AnnuaireNegociant
+        inheritance: _AnnuaireTiers
+        definition:
+          fields:
+            '*': { }
+      caves_cooperatives:
+        type: collection
+        class: AnnuaireCaveCooperative
         inheritance: _AnnuaireTiers
         definition:
           fields:

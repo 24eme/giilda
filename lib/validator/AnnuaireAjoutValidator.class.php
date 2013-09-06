@@ -18,18 +18,6 @@ class AnnuaireAjoutValidator extends sfValidatorBase
     
     protected function getTiers($values)
     {
-    	switch ($values['type']) {
-    		case AnnuaireClient::ANNUAIRE_ACHETEURS_KEY :
-    			$tiers = AcheteurClient::getInstance()->retrieveByCvi($values['identifiant']);
-    			break;
-    		case AnnuaireClient::ANNUAIRE_VENDEURS_KEY :
-    			$tiers = RecoltantClient::getInstance()->retrieveByCvi($values['identifiant']);
-    			break;
-    		default:
-    			$tiers = null;
-    			break;
-    			
-    	}
-    	return $tiers;
+    	return AnnuaireClient::getInstance()->findTiersByTypeAndIdentifiant($values['type'], $values['identifiant']);
     }
 }
