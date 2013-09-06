@@ -20,6 +20,7 @@ class vracActions extends sfActions
   public function executeIndex(sfWebRequest $request)
   {
       $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);
+      $this->etiquettesForm = new VracEtiquettesForm();
       $this->postFormEtablissement($request);
   }
 
@@ -378,7 +379,9 @@ class vracActions extends sfActions
   
   
   public function executeExportEtiquette(sfWebRequest $request) 
-  {    
+  {
+    $this->date_debut = $request['vrac_vignettes']['date_debut'];
+    $this->date_fin = $request['vrac_vignettes']['date_fin'];
     ini_set('memory_limit', '1024M');
     $this->setLayout(false);
     $filename = 'exportCSV_etiquette_'.date('Ymd'); 

@@ -48,12 +48,12 @@ class VracStatutAndTypeView extends acCouchdbView {
                         ->getView($this->design, $this->view)->rows;
     }
     
-    public function findContatsByStatutsAndTypesAndOneDate($statuts, $types, $date_saisie) {
+    public function findContatsByStatutsAndTypesAndDates($statuts, $types, $date_debut,$date_fin) {
         $result = array();
         foreach ($statuts as $statut) {
             foreach ($types as $type) {
-                $result = array_merge($result, $this->client->startkey(array($statut, $type, $date_saisie))
-                        ->endkey(array($statut, $type, $date_saisie, array()))
+                $result = array_merge($result, $this->client->startkey(array($statut, $type, $date_debut))
+                        ->endkey(array($statut, $type, $date_fin, array()))
                         ->getView($this->design, $this->view)->rows);
             }
         }

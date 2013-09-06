@@ -1,3 +1,3 @@
 <?php
-echo VracClient::getCsvForEtiquettes();        
+echo VracClient::getCsvForEtiquettes($date_debut,$date_fin);        
 ?>

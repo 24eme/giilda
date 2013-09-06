@@ -220,47 +220,56 @@ class VracClient extends acCouchdbClient {
         return $list;
     }
 
-    public static function getCsvForEtiquettes() {
-        $vracs = VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndOneDate(self::$statuts_valide, array_keys(self::$types_transaction), date('Y-m-d'));
+    public static function getCsvForEtiquettes($date_debut,$date_fin) {
+        if(!$date_debut || !$date_fin){
+            throw new sfException('La date de début et la date de fin sont obligatoires.');
+        }
+        $date_debut_iso = Date::getIsoDateFromFrenchDate($date_debut);
+        $date_fin_iso = Date::getIsoDateFromFrenchDate($date_fin);
+        
+        if(str_replace('-', '', $date_fin_iso) < str_replace('-', '', $date_debut_iso)){
+            throw new sfException('La date de fin ne peut etre supérieur à la date de fin.');
+        }        
+        
+        $vracs = VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndDates(self::$statuts_valide, array_keys(self::$types_transaction), $date_debut_iso,$date_fin_iso);
 
         $result = "\xef\xbb\xbf";
-        $result .="NUMERO CONTRAT;NUMERO ARCHIVAGE;";
-        $result .="IDENTIFIANT VENDEUR;NOM VENDEUR;ADRESSE VENDEUR;";
-        $result .="IDENTIFIANT ACHETEUR;NOM ACHETEUR;ADRESSE ACHETEUR;";
-        $result .="IDENTIFIANT COURTIER;NOM COURTIER;ADRESSE COURTIER\n";
-        
-        foreach ($vracs as $key => $vrac_row) {
-            
+        $result .="NOM;RAISON SOCIALE;ADRESSE;CODE POSTAL;VILLE\n";
+        $adress_tab = array();
+        foreach ($vracs as $key => $vrac_row) {            
             $vrac = VracClient::getInstance()->find($vrac_row->id, acCouchdbClient::HYDRATE_JSON);
-            $result.= $vrac->numero_contrat . ";";
-            $result.= $vrac->numero_archive . ";";
-
-            $vendeur = CompteClient::getInstance()->findByIdentifiant($vrac->vendeur_identifiant, acCouchdbClient::HYDRATE_JSON);
-            $result.= $vrac->vendeur_identifiant . ";";
-            $result.= $vendeur->nom_a_afficher . ";";
-            $result.= $vendeur->adresse . " " . $vendeur->adresse_complementaire . " " . $vendeur->code_postal . " " . $vendeur->commune . ";";
-
-            $acheteur = CompteClient::getInstance()->findByIdentifiant($vrac->acheteur_identifiant, acCouchdbClient::HYDRATE_JSON);
-            $result.= $vrac->acheteur_identifiant . ";";
-            $result.= $acheteur->nom_a_afficher . ";";
-            $result.= $acheteur->adresse . " " . $acheteur->adresse_complementaire . " " . $acheteur->code_postal . " " . $acheteur->commune . ";";
-
-            if ($vrac->mandataire_exist) {
-                $mandataire = CompteClient::getInstance()->findByIdentifiant($vrac->mandataire_identifiant, acCouchdbClient::HYDRATE_JSON);
-                $result.= $vrac->mandataire_identifiant . ";";
-                $result.= $mandataire->nom_a_afficher . ";";
-                $result.= $mandataire->adresse . " " . $mandataire->adresse_complementaire . " " . $mandataire->code_postal . " " . $mandataire->commune . ";";
-            } else {
-                $result.= ";;";
+            
+            $row_vendeur = self::constructRowForEtiquettes($vrac->vendeur);
+            if(!in_array($row_vendeur,$adress_tab)){
+                $result.=$row_vendeur;
+                $adress_tab[] = $row_vendeur;
             }
-
-            if($key < count($vracs)){
-                $result.="\n";                
+ 
+            $row_acheteur = self::constructRowForEtiquettes($vrac->acheteur);
+            if(!in_array($row_acheteur,$adress_tab)){
+                $result.=$row_acheteur;
+                $adress_tab[] = $row_acheteur;
             }
+            
+            $row_mandataire= self::constructRowForEtiquettes($vrac->mandataire);
+            if ($vrac->mandataire_exist && !in_array($row_mandataire,$adress_tab)) {
+                $result.=$row_mandataire;
+                $adress_tab[] = $row_mandataire;
+            } 
         }
+        $result = substr($result, 0, strlen($result) - 1);
         return $result;
     }
 
+    protected static function constructRowForEtiquettes($soussigne) {
+        $result= str_replace(";","", $soussigne->nom) . ";";
+        $result.= str_replace(";","", $soussigne->raison_sociale) . ";";
+        $result.= str_replace(";","",$soussigne->adresse) . ";";
+        $result.= $soussigne->code_postal .";";
+        $result.= $soussigne->commune."\n";
+        return $result;
+    }
+    
     public static function getCsvBySoussigne($vracs) {
         $result = "\xef\xbb\xbf";
         $statuts_libelles = self::getStatuts();
