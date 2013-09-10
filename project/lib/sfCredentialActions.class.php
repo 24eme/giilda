@@ -39,8 +39,43 @@ class sfCredentialActions extends sfActions {
         return self::CREDENTIAL_AUTRE;
     }
 
+    protected function getSocieteTypesRights() {
+        $this->user = $this->getUserCredential();
+        if (!$this->user) {
+            return;
+        }
+        switch ($this->user) {
+            case self::CREDENTIAL_COMPTA:
+            case self::CREDENTIAL_TRANSACTIONS:
+                return array(SocieteClient::SUB_TYPE_VITICULTEUR,
+                             SocieteClient::SUB_TYPE_NEGOCIANT,
+                             SocieteClient::SUB_TYPE_COURTIER, 
+                             SocieteClient::SUB_TYPE_HOTELRESTAURANT, 
+                             SocieteClient::SUB_TYPE_AUTRE);
+                
+            case self::CREDENTIAL_PRESSE:
+                return array(SocieteClient::TYPE_PRESSE,
+                    SocieteClient::SUB_TYPE_HOTELRESTAURANT, 
+                             SocieteClient::SUB_TYPE_AUTRE);
+
+            case self::CREDENTIAL_DIRECTION:
+                return array(SocieteClient::SUB_TYPE_INSTITUTION,
+                             SocieteClient::SUB_TYPE_HOTELRESTAURANT, 
+                             SocieteClient::SUB_TYPE_AUTRE);
+
+            case self::CREDENTIAL_AUTRE:
+                return array(SocieteClient::SUB_TYPE_HOTELRESTAURANT, 
+                             SocieteClient::SUB_TYPE_AUTRE);
+            default:
+                return;
+        }
+    }
+    
+    
     protected function applyRights() {
-        $this->reduct_rights = false;
+        //reduction de droit dans le module contact
+        $this->reduct_rights = false;        
+        //reduction des droit en lecture seule pour le module contact
         $this->modification = true;
 
         $this->user = $this->getUserCredential();

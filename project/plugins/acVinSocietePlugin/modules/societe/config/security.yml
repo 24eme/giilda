@@ -1,4 +1,2 @@
 all:
   credentials: contacts
-creationSociete:
-  credentials: transaction

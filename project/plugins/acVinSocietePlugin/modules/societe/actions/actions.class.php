@@ -59,7 +59,8 @@ class societeActions extends sfCredentialActions {
     }
 
     public function executeCreationSociete(sfWebRequest $request) {
-        $this->form = new SocieteCreationForm();
+        $this->societeTypes = $this->getSocieteTypesRights();
+        $this->form = new SocieteCreationForm($this->societeTypes);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
