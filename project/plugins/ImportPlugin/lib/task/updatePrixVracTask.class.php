@@ -79,7 +79,7 @@ EOF;
         }else{
             echo " Traitement du contrat numéro ".$id_vrac." \n";
             if($v->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
-                echo $warning_term." le contrat numéro ".$id_vrac." n'est plus BOUTEILLE! \n";
+                echo $this->warning_term." le contrat numéro ".$id_vrac." n'est plus BOUTEILLE! \n";
                 return null;
             }
             $v->bouteilles_contenance_volume = 0.0075;
@@ -89,7 +89,7 @@ EOF;
             $old_prix = $v->prix_unitaire;
               $v->prix_unitaire *= $v->bouteilles_contenance_volume;
               $v->prix_unitaire = $this->convertToFloat($v->prix_unitaire);
-              echo $warning_term." le prix unitaire a changé : ".$old_prix." => ".$v->prix_unitaire."  (ANORMAL)";
+              echo $this->warning_term." le prix unitaire a changé : ".$old_prix." => ".$v->prix_unitaire."  (ANORMAL)";
             }
 
               $v->prix_initial_unitaire = $this->convertToFloat($v->prix_unitaire);
