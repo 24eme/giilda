@@ -70,7 +70,8 @@ EOF;
 
   public function updatePrixVrac($id_vrac) {
 
-        $v = VracClient::getInstance()->findByNumContrat('VRAC-'.$id_vrac);
+        $id = (preg_match('/^VRAC-/', $id_vrac))? $id_vrac : 'VRAC-'.$id_vrac;
+        $v = VracClient::getInstance()->find($id);
         
         if (!$v) {
             echo $this->error_term." -> Le contrat ".$id_vrac." n'existe pas en base, cela est curieux! \n";
@@ -94,6 +95,7 @@ EOF;
               $v->prix_initial_unitaire = $this->convertToFloat($v->prix_unitaire);
               $v->bouteilles_quantite = (int) ($v->volume_propose / $v->bouteilles_contenance_volume);              
               $v->prix_total = $this->convertToFloat($v->bouteilles_quantite *  $v->prix_unitaire);
+              
               $v->prix_initial_unitaire_hl = $this->convertToFloat($v->prix_total / $v->volume_propose);
               $v->prix_unitaire_hl = $this->convertToFloat($v->prix_initial_unitaire_hl);
               $v->prix_initial_total = $this->convertToFloat($v->prix_total);

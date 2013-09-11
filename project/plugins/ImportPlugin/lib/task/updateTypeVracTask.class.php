@@ -157,6 +157,7 @@ EOF;
               $v->prix_initial_unitaire = $this->convertToFloat($v->prix_unitaire);
               $v->bouteilles_quantite = (int) ($v->volume_propose / $v->bouteilles_contenance_volume);              
               $v->prix_total = $this->convertToFloat($v->bouteilles_quantite *  $v->prix_unitaire);
+              
               $v->prix_initial_unitaire_hl = $this->convertToFloat($v->prix_total / $v->volume_propose);
               $v->prix_unitaire_hl = $this->convertToFloat($v->prix_initial_unitaire_hl);
               $v->prix_initial_total = $this->convertToFloat($v->prix_total);
