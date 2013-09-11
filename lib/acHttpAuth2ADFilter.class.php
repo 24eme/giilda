@@ -39,7 +39,7 @@ class acHttpAuth2ADFilter extends sfFilter
     $user->setAttribute('AUTH_DESC', $rights);
     $user->addCredential($rights);
     if ($rights == 'admin') {
-      $user->addCredential('transaction');
+      $user->addCredential('transactions');
     }
     if ($rights) {
       $user->addCredential('contacts');
