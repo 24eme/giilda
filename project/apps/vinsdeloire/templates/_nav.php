@@ -1,6 +1,6 @@
 <nav id="navigation">
     <ul>
-   <?php if ($sf_user->hasCredential('transaction')) : ?>
+   <?php if ($sf_user->hasCredential('transactions')) : ?>
 
         <?php include_component('global', 'navItem', array(
             'libelle' => 'DRM',
