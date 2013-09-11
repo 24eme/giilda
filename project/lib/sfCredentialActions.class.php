@@ -87,45 +87,40 @@ class sfCredentialActions extends sfActions {
             case self::CREDENTIAL_PRESSE:
                 if ($this->societe->isTransaction()) {
                     $this->modification = true;
-                    $this->reduct_rights = true;
-                    return;
+                    $this->reduct_rights = true;     
                 }
                 if ($this->societe->isInstitution()) {
                     $this->modification = false;
-                    return;
                 }
-
+            return;
             case self::CREDENTIAL_DIRECTION:
                 if ($this->societe->isTransaction()) {
                     $this->modification = true;
                     $this->reduct_rights = true;
-                    return;
                 }
                 if ($this->societe->isPresse()) {
                     $this->modification = false;
-                    return;
                 }
-
+            return;
             case self::CREDENTIAL_AUTRE:
                 if ($this->societe->isTransaction()) {
                     $this->modification = true;
                     $this->reduct_rights = true;
-                    return;
                 }
                 if ($this->societe->isPresse()) {
                     $this->modification = false;
                 }
                 if ($this->societe->isInstitution()) {
-                    $this->modification = true;
+                    $this->modification = true;                    
                 }
-                return;
+            return;      
             case self::CREDENTIAL_TRANSACTIONS:
             case self::CREDENTIAL_COMPTA:
                 if ($this->societe->isPresse() ||
                         $this->societe->isInstitution()) {
-                    $this->modification = false;
-                    return;
+                    $this->modification = false;                    
                 }
+            return;
             default:
                 return;
         }
