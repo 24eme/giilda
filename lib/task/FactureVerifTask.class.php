@@ -36,8 +36,6 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     $facture = FactureClient::getInstance()->find($arguments['factureid'], acCouchdbClient::HYDRATE_JSON);
 
-    $avoir = ($facture->statut == "non redressable");
-
     foreach($facture->lignes as $groupe_libelle => $groupe) {
       foreach($groupe as $num_ligne => $ligne) {
         $volume_doc = null;
@@ -57,12 +55,11 @@ EOF;
             }
           }
         }
-        $volume_doc = round($volume_doc, 2);
-        if($avoir) {
-          $volume_doc = $volume_doc * -1;
-        }
-        if($volume_doc != $ligne->volume) {
-          echo "ERREUR;$facture->_id;$groupe_libelle;$num_ligne;$ligne->volume;$volume_doc\n";
+        $volume_doc = abs(round($volume_doc, 2));
+        $volume_mouv = abs(round($ligne->volume, 2));
+
+        if($volume_doc != $volume_mouv) {
+          echo "ERREUR;$facture->_id;$groupe_libelle;$num_ligne;$volume_mouv;$volume_doc\n";
         }
       }
     }
