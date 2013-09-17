@@ -46,3 +46,6 @@
 [submodule "project/plugins/acLdapPlugin"]
 	path = project/plugins/acLdapPlugin
 	url = git@gitorious.org:acldapplugin/acldapplugin.git
+[submodule "project/plugins/acExceptionNotifierPlugin"]
+	path = project/plugins/acExceptionNotifierPlugin
+	url = git@gitorious.org:acexceptionnotifierplugin/acexceptionnotifierplugin.git
