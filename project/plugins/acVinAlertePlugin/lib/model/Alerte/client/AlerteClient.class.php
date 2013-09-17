@@ -65,7 +65,8 @@ class AlerteClient extends acCouchdbClient {
                     self::STATUT_A_TRAITER => 'A traiter', 
                     self::STATUT_RESOLU => 'Résolu',
                     self::STATUT_EN_SOMMEIL => 'En sommeil', 
-                    self::STATUT_A_RELANCER => 'A relancer');
+                    self::STATUT_A_RELANCER => 'A relancer',
+                    self::STATUT_FERME => 'Fermée');
     }
     
     public function updateStatutByAlerteId($new_statut,$new_commentaire,$alerteId) {
