@@ -52,7 +52,7 @@ slot('colButtons');
         <div class="btnRetourAccueil">
             <a href="<?php echo url_for('compte_ajout',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel interlocuteur</span></a>
         </div>
-		<?php if($societe->canHaveChais()) : ?>  
+		<?php if(!$reduct_rights && $societe->canHaveChais()) : ?>  
 			<div class="btnRetourAccueil">
 				<a href="<?php echo url_for('etablissement_ajout',array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel etablissement</span></a>
 			</div>
