@@ -52,7 +52,7 @@ class AlerteConsultationSearch
     	$query = $this->makeQuery(new acElasticaQueryMatchAll(), $from, $limit);
       	return $this->getResult($query);
     }
-    
+       
     public function getElasticSearchResult($from = 0, $limit = null)
     {
         $query = $this->makeQuery(new acElasticaFiltered(new acElasticaQueryMatchAll(), $this->getFilters()), $from, $limit);
@@ -61,11 +61,12 @@ class AlerteConsultationSearch
     
     protected function makeQuery($query, $from = 0, $limit = null)
     {
+       // var_dump($from,$limit); exit;
     	$limit = $this->getLimit($limit);
     	$elasticaQuery = new acElasticaQuery();
     	$elasticaQuery->setQuery($query);
         $elasticaQuery->setLimit($limit);
-      	$elasticaQuery->setFrom($from * $limit);
+        $elasticaQuery->setFrom($from);
       	return $elasticaQuery;
     }
     
