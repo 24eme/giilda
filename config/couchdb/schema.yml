@@ -24,5 +24,10 @@ Annuaire:
         definition:
           fields:
             '*': { }
+      commerciaux:
+        type: array_collection
+        definition:
+          fields:
+            '*': { }
       cvi: {  }
       type: {  }

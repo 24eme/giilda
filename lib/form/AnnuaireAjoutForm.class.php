@@ -21,9 +21,6 @@ class AnnuaireAjoutForm extends acCouchdbObjectForm
         	'type' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypes()))),
         	'identifiant' => new sfValidatorString(array('required' => true))
         ));
-        if ($this->type) {
-        	$this->setWidget('type', new sfWidgetFormInputHidden());
-        }
         $this->validatorSchema->setPostValidator(new AnnuaireAjoutValidator());
   		$this->widgetSchema->setNameFormat('annuaire_ajout[%s]');
     }
