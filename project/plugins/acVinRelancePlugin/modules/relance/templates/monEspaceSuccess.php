@@ -16,9 +16,12 @@
     <br />
     <?php include_partial('relance/alertesRelance', array('alertes' => $alertes, 'etablissement' => $etablissement)) ?>
     <form action="<?php echo url_for("relance_etablissement_creation",$etablissement); ?>" method="post">
-        <button type="submit">Créer une relancer</button> 
+    <div class="generation_facture_valid">
+        <span>Cliquer sur "Générer" pour créer les relances</span>
+        <button id="relance_generation_btn" class="btn_majeur btn_refraichir" href="#">Générer</button>
+    </div>
     </form>
-</section>
+    </section>
     <!-- fin #principal -->
 <?php
 slot('colButtons');
