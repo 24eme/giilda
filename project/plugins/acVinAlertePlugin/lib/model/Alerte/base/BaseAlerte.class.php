@@ -19,6 +19,8 @@
  * @property string $campagne
  * @property string $type_document
  * @property string $type_relance
+ * @property string $statut_courant
+ * @property string $date_dernier_statut
  * @property acCouchdbJson $statuts
 
  * @method string get_id()
@@ -51,6 +53,10 @@
  * @method string setTypeDocument()
  * @method string getTypeRelance()
  * @method string setTypeRelance()
+ * @method string getStatutCourant()
+ * @method string setStatutCourant()
+ * @method string getDateDernierStatut()
+ * @method string setDateDernierStatut()
  * @method acCouchdbJson getStatuts()
  * @method acCouchdbJson setStatuts()
  

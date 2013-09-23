@@ -61,11 +61,11 @@ class AlerteConsultationSearch
     
     protected function makeQuery($query, $from = 0, $limit = null)
     {
-       // var_dump($from,$limit); exit;
     	$limit = $this->getLimit($limit);
     	$elasticaQuery = new acElasticaQuery();
     	$elasticaQuery->setQuery($query);
         $elasticaQuery->setLimit($limit);
+        $elasticaQuery->setsort(array("date_dernier_statut" => array("order" => "desc")));
         $elasticaQuery->setFrom($from);
       	return $elasticaQuery;
     }

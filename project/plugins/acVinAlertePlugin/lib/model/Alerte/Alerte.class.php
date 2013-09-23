@@ -63,6 +63,7 @@ class Alerte extends BaseAlerte {
             $date = date('Y-m-d');
         }
         $this->statuts->add(null, array('statut' => $statut, 'commentaire' => $commentaire, 'date' => $date));
+        $this->add('date_dernier_statut', $date);
         switch ($statut) {
             case AlerteClient::STATUT_A_RELANCER:
                 $this->updateStatutRelance($date);

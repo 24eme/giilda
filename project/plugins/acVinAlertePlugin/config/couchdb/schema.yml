@@ -18,6 +18,7 @@ Alerte:
       type_document: { }
       type_relance: { }
       statut_courant: { }
+      date_dernier_statut: {required: false}
       statuts:
         type: array_collection
         definition:
