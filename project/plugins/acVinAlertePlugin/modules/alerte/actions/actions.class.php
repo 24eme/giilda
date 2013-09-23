@@ -40,6 +40,7 @@ class alerteActions extends sfActions {
     public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->alertesEtablissement = AlerteRechercheView::getInstance()->getRechercheByEtablissement($this->etablissement->identifiant);
+        usort($this->alertesEtablissement,array('alerteActions','triResultAlertesDates'));
         $this->modificationStatutForm = new AlertesStatutsModificationForm($this->alertesEtablissement);
     }
 
@@ -73,5 +74,15 @@ class alerteActions extends sfActions {
         }
     }
 
+   
+    static function triResultAlertesDates($a0, $a1)
+  {
+        $date0 = str_replace('-','', $a0->value[AlerteRechercheView::VALUE_DATE_MODIFICATION]);
+        $date1 = str_replace('-','', $a1->value[AlerteRechercheView::VALUE_DATE_MODIFICATION]);
+        if ($date0 == $date1) {
+          return 0;
+        }
+    return ($date0 > $date1) ? -1 : +1;
+  }
 }
 
