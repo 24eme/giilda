@@ -10,6 +10,8 @@
  * @author mathurin
  */
 class GenerationRelancePDF extends GenerationPDF {
+    
+    const MAX_LIGNE_TABLEAUX = 41;
 
     function __construct(Generation $g, $config = null, $options = null) {
         parent::__construct($g, $config, $options);

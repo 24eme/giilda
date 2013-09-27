@@ -86,17 +86,37 @@ Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expressi
     \section*{\small{$\bullet$ <?php echo $verification->titre; ?> \textit{(<?php echo $verification->refarticle; ?>)}}}
     <?php echo $verification->description; ?> \\
     
-    <?php if($verification->multiple): ?>
+    <?php if($verification->multiple):  ?>
+        <?php if(count($verification->lignes) < GenerationRelancePDF::MAX_LIGNE_TABLEAUX): ?>
             \begin{center}
-        \begin{tabularx}{\textwidth}{<?php echo getTableFormatVerification($verification); ?>}
+            \begin{tabularx}{\textwidth}{<?php echo getTableFormatVerification($verification); ?>}
         <?php echo getTableRowHead($verification->liste_champs); ?> \\
         <?php foreach($verification->lignes as $ligne): ?> 
             <?php echo getTableLigne($ligne->explications)?> \\
         <?php endforeach; ?> 
         \end{tabularx} 
         \end{center}
+        
+        <?php else: 
+            $nbPages = count($verification->lignes) / GenerationRelancePDF::MAX_LIGNE_TABLEAUX;
+            for($i=0; $i< $nbPages;$i++): 
+            $start_row = $i* GenerationRelancePDF::MAX_LIGNE_TABLEAUX; 
+            $end_row = ($i < $nbPages-1)? (($i+1)* GenerationRelancePDF::MAX_LIGNE_TABLEAUX) : (count($verification->lignes)); 
+            ?>
+            \begin{center}
+            \begin{tabularx}{\textwidth}{<?php echo getTableFormatVerification($verification); ?>}
+            <?php echo getTableRowHead($verification->liste_champs); ?> \\
+            <?php for($indice=$start_row;$indice<$end_row;$indice++): 
+                    $ligne = $verification->lignes[$indice];
+                ?> 
+                <?php echo getTableLigne($ligne->explications)?> \\
+            <?php endfor; ?> 
+            \end{tabularx} 
+            \end{center}            
         <?php
-    else:
+            endfor;
+            endif; 
+        else:
     ?>
     <?php foreach($verification->lignes as $ligne): ?> 
             <?php echo getLigne($ligne->explications); ?> \\
