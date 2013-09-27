@@ -252,7 +252,7 @@ class VracClient extends acCouchdbClient {
             }
             
             $row_mandataire = self::constructRowForEtiquettes($vrac->mandataire,$vrac->mandataire_identifiant);
-            if ($vrac->mandataire_exist && !in_array($row_mandataire,$adress_tab)) {
+            if ($row_mandataire!="" && $vrac->mandataire_exist && !in_array($row_mandataire,$adress_tab)) {
                 $result.=$row_mandataire;
                 $adress_tab[] = $row_mandataire;
             } 
@@ -262,14 +262,16 @@ class VracClient extends acCouchdbClient {
     }
 
     protected static function constructRowForEtiquettes($soussigne,$identifiant) {
-        if(!$identifiant) return null;
+        if(!$identifiant) return "";
         $societe = CompteClient::getInstance()->findByIdentifiant($identifiant)->getSociete();
                 
-        $result= str_replace(";","", $societe->raison_sociale) . ";";
-        $result.= str_replace(";","", $societe->siege->adresse) . ";";
-        $result.= str_replace(";","", $societe->siege->adresse_complementaire) . ";";
-        $result.= str_replace(";","",$societe->siege->code_postal) . ";";
-        $result.= str_replace(";","",$societe->siege->commune)."\n";
+        $result = ($societe->exist('raison_sociale'))? str_replace(";","", $societe->raison_sociale) . ";" : ";";
+        if(!$societe->exist('siege')) return $result.";;;\n";
+        
+        $result.= ($societe->siege->exist('adresse'))? str_replace(";","", $societe->siege->adresse) . ";" : ";";
+        $result.= ($societe->siege->exist('adresse_complementaire'))? str_replace(";","", $societe->siege->adresse_complementaire) . ";" : ";";
+        $result.= ($societe->siege->exist('code_postal'))? str_replace(";","",$societe->siege->code_postal) . ";" : ";";
+        $result.= ($societe->siege->exist('commune'))? str_replace(";","",$societe->siege->commune)."\n" : "\n";
         return $result;
     }
     
