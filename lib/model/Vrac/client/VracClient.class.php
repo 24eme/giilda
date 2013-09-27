@@ -234,24 +234,24 @@ class VracClient extends acCouchdbClient {
         $vracs = VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndDates(self::$statuts_valide, array_keys(self::$types_transaction), $date_debut_iso,$date_fin_iso);
 
         $result = "\xef\xbb\xbf";
-        $result .="NOM;RAISON SOCIALE;ADRESSE;CODE POSTAL;VILLE\n";
+        $result .="RAISON SOCIALE SOCIETE;ADRESSE SOCIETE ;ADRESSE COMPLEMENTAIRE SOCIETE;CODE POSTAL SOCIETE;VILLE SOCIETE\n";
         $adress_tab = array();
         foreach ($vracs as $key => $vrac_row) {            
             $vrac = VracClient::getInstance()->find($vrac_row->id, acCouchdbClient::HYDRATE_JSON);
             
-            $row_vendeur = self::constructRowForEtiquettes($vrac->vendeur);
+            $row_vendeur = self::constructRowForEtiquettes($vrac->vendeur,$vrac->vendeur_identifiant);
             if(!in_array($row_vendeur,$adress_tab)){
                 $result.=$row_vendeur;
                 $adress_tab[] = $row_vendeur;
             }
  
-            $row_acheteur = self::constructRowForEtiquettes($vrac->acheteur);
+            $row_acheteur = self::constructRowForEtiquettes($vrac->acheteur,$vrac->acheteur_identifiant);
             if(!in_array($row_acheteur,$adress_tab)){
                 $result.=$row_acheteur;
                 $adress_tab[] = $row_acheteur;
             }
             
-            $row_mandataire= self::constructRowForEtiquettes($vrac->mandataire);
+            $row_mandataire = self::constructRowForEtiquettes($vrac->mandataire,$vrac->mandataire_identifiant);
             if ($vrac->mandataire_exist && !in_array($row_mandataire,$adress_tab)) {
                 $result.=$row_mandataire;
                 $adress_tab[] = $row_mandataire;
@@ -261,12 +261,15 @@ class VracClient extends acCouchdbClient {
         return $result;
     }
 
-    protected static function constructRowForEtiquettes($soussigne) {
-        $result= str_replace(";","", $soussigne->nom) . ";";
-        $result.= str_replace(";","", $soussigne->raison_sociale) . ";";
-        $result.= str_replace(";","",$soussigne->adresse) . ";";
-        $result.= $soussigne->code_postal .";";
-        $result.= $soussigne->commune."\n";
+    protected static function constructRowForEtiquettes($soussigne,$identifiant) {
+        if(!$identifiant) return null;
+        $societe = CompteClient::getInstance()->findByIdentifiant($identifiant)->getSociete();
+                
+        $result= str_replace(";","", $societe->raison_sociale) . ";";
+        $result.= str_replace(";","", $societe->siege->adresse) . ";";
+        $result.= str_replace(";","", $societe->siege->adresse_complementaire) . ";";
+        $result.= str_replace(";","",$societe->siege->code_postal) . ";";
+        $result.= str_replace(";","",$societe->siege->commune)."\n";
         return $result;
     }
     
