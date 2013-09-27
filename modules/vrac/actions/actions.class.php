@@ -382,7 +382,8 @@ class vracActions extends sfActions
   {
     $this->date_debut = $request['vrac_vignettes']['date_debut'];
     $this->date_fin = $request['vrac_vignettes']['date_fin'];
-    ini_set('memory_limit', '1024M');
+    ini_set('memory_limit','2048M');
+    set_time_limit(0);
     $this->setLayout(false);
     $filename = 'exportCSV_etiquette_'.date('Ymd'); 
     
