@@ -32,7 +32,7 @@ class ConfigurationDroitsView extends acCouchdbView
                         }else{
                             $date_row = new DateTime($productNodeCVOs->date);
                             $date_row = $date_row->format('Y-m-d');
-                            if(($date_row < $date_of_day) && ($date_row > $current_cvo_date)){
+                            if(($date_row <= $date_of_day) && ($date_row > $current_cvo_date)){
                                 $current_cvo_date = $date_row;
                                 $current_cvo_taux = $productNodeCVOs->taux;
                             }
