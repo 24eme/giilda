@@ -104,21 +104,27 @@ class Revendication extends BaseRevendication {
 
     public function setProduits() {
         if (!$this->produits)
-            $this->produits = ConfigurationClient::getCurrent()->formatProduits("%format_libelle%");
-
+            $this->produits = ConfigurationClient::getCurrent()->formatProduitsWithoutCVONeg("%format_libelle%");
         return $this->produits;
     }
 
     public function setProduitsAlias() {
-        if (!$this->produitsAlias)
-            $this->produitsAlias = ConfigurationClient::getCurrent()->getAlias();
+        if (!$this->produitsAlias){
+            $aliases = ConfigurationClient::getCurrent()->getAlias();
+            foreach ($aliases as $key => $alias) {
+                $key_hash = str_replace('-', '/', $key);
+                if(array_key_exists($key_hash, $this->getProduits())){
+                    $this->produitsAlias[$key] = $alias;
+                }
+            }
+        }
 
         return $this->produitsAlias;
     }
 
     public function setProduitsCodeDouaneHashes() {
         if (!$this->produitsCodeDouane)
-            $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouane('INTERPRO-inter-loire');
+            $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouaneWithoutCVONeg('INTERPRO-inter-loire');
 
         return $this->produitsCodeDouane;
     }
@@ -165,7 +171,6 @@ class Revendication extends BaseRevendication {
     private function matchProduit($row) {
         $produitsCodeDouaneHashes = $this->getProduitsCodeDouaneHashes();
         $produits = $this->getProduits();
-
         if (array_key_exists($row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT], $produitsCodeDouaneHashes)) {
             $hash = $produitsCodeDouaneHashes[$row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT]];
 
