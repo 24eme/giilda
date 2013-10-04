@@ -47,6 +47,10 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         
         return array($this->getHash() => $this);
     }
+    
+    public function getProduitsWithoutCVONeg($interpro = null, $departement = null) {
+        return $this->getProduits($interpro = null, $departement = null);
+    }
 
     public function getCouleur() {
         return $this->getParentNode();
@@ -54,6 +58,10 @@ class ConfigurationCepage extends BaseConfigurationCepage {
     
     public function getProduitsHashByCodeDouane($interpro) {
         return array($this->getCodeDouane() => $this->getHash());
+    }
+    
+    public function getProduitsHashByCodeDouaneWithoutCVONeg($interpro) {
+        return $this->getProduitsHashByCodeDouane($interpro);
     }
 
     public function setDonneesCsv($datas) {

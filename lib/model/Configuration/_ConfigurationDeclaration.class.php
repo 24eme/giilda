@@ -6,11 +6,13 @@
 
 abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
-	protected $libelles = null;
-	protected $codes = null;
-  protected $produits = null;
-  protected $format_produits = array();
-  protected $libelle_format = array();
+    protected $libelles = null;
+    protected $codes = null;
+    protected $produits = null;
+    protected $produits_filtered = null;
+    protected $format_produits = array();
+    protected $format_produits_filtered = array();
+    protected $libelle_format = array();
 
 	protected function loadAllData() {
 		parent::loadAllData();
@@ -46,6 +48,24 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     return $this->produits;
   }
+  
+    public function getProduitsWithoutCVONeg($interpro = null, $departement = null) {
+        if(is_null($this->produits_filtered)) {
+            $this->produits_filtered = array();
+            $this->produits = $this->getProduits($interpro, $departement);
+      foreach($this->produits as $hash => $item) {
+          
+         $cvo_produit = ConfigurationDroitsView::getInstance()->findCVOForProduct($hash,$interpro);
+         if($cvo_produit > 0){
+             $this->produits_filtered[$hash] = $item;
+         }
+      }
+    }    
+
+    return $this->produits_filtered;
+  }
+  
+  
 
 	public function getLibelles() {
 		if(is_null($this->libelles)) {
@@ -72,6 +92,19 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
       }
 
       return $produits;
+  }
+  
+    public function getProduitsHashByCodeDouaneWithoutCVONeg($interpro) {
+      $produits = $this->getProduitsHashByCodeDouane($interpro);
+      $produits_withoutCVONeg = array();
+      foreach($produits as $hash => $item) {          
+         $cvo_produit = ConfigurationDroitsView::getInstance()->findCVOForProduct($hash,$interpro);
+         if($cvo_produit > 0){
+             $produits_withoutCVONeg[$hash] = $item;
+         }
+    }    
+
+    return $produits_withoutCVONeg;
   }
         
   public function getCodeDouane() {
@@ -169,7 +202,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
   		return ConfigurationClient::getInstance()->formatCodes($this->getCodes(), $format);
   	}
 
-  	public function getDroitCVO($date, $interpro = "INTERPRO-inter-loire") {
+    public function getDroitCVO($date, $interpro = "INTERPRO-inter-loire") {
       
   	  return $this->getDroits($interpro)->get(ConfigurationDroits::CODE_CVO)->getCurrentDroit($date);
   	}
@@ -277,6 +310,18 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
 
         return $this->format_produits[$format];
+    }
+    
+    public function formatProduitsWithoutCVONeg($interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)") {
+        if(!array_key_exists($format, $this->format_produits_filtered)) {
+          $produits = $this->getProduitsWithoutCVONeg('INTERPRO-inter-loire',$departement);
+          $this->format_produits_filtered[$format] = array();
+          foreach($produits as $hash => $produit) {
+            $this->format_produits_filtered[$format][$hash] = $produit->getLibelleFormat(array(), $format);
+          }
+        }
+
+        return $this->format_produits_filtered[$format];
     }
 
     public function getLabels($interpro) {

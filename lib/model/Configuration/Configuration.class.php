@@ -23,6 +23,11 @@ class Configuration extends BaseConfiguration {
       return $this->declaration->formatProduits(null, null, $format);
     }
 
+    public function formatProduitsWithoutCVONeg($format = "%format_libelle% (%code_produit%)") {
+
+      return $this->declaration->formatProduitsWithoutCVONeg(null, null, $format);
+    }
+    
     private static function normalizeLibelle($libelle) {
       	$libelle = str_ireplace('SAINT-', 'saint ', $libelle);
       	$libelle = preg_replace('/&nbsp;/', ' ', strtolower($libelle));
