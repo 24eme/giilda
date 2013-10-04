@@ -53,7 +53,7 @@ class EditionRevendicationForm extends sfForm {
 
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
-            $this->_choices_produits = array_merge(array("" => ""), $this->getConfig()->formatProduits());
+            $this->_choices_produits = array_merge(array("" => ""), $this->getConfig()->formatProduitsWithoutCVONeg());
         }
         return $this->_choices_produits;
     }
