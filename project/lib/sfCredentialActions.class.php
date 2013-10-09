@@ -73,9 +73,9 @@ class sfCredentialActions extends sfActions {
     
     
     protected function applyRights() {
-        //reduction de droit dans le module contact
+        //reduction de droits dans le module contact
         $this->reduct_rights = false;        
-        //reduction des droit en lecture seule pour le module contact
+        //reduction des droits en lecture seule pour le module contact
         $this->modification = true;
 
         $this->user = $this->getUserCredential();
