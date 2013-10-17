@@ -5,6 +5,8 @@ class ConfigurationClient extends acCouchdbClient {
 	private static $current = array();
 
     protected $countries = null;
+    protected $campagne_vinicole_manager = null;
+    protected $campagne_facturation_manager = null;
 
     const CAMPAGNE_DATE_DEBUT = '%s-08-01';
     const CAMPAGNE_DATE_FIN = '%s-07-31';
@@ -78,66 +80,52 @@ class ConfigurationClient extends acCouchdbClient {
               ->endkey(array($interpro, $certif, array()))->getView('configuration', 'produits_admin');
     }
 
+    public function getCampagneVinicole() {
+        if(is_null($this->campagne_vinicole_manager)) {
+
+            $this->campagne_vinicole_manager = new CampagneManager('08-01');
+        }
+
+        return $this->campagne_vinicole_manager;
+    }
+
+    public function getCampagneFacturation() {
+        if(is_null($this->campagne_facturation_manager)) {
+
+            $this->campagne_facturation_manager = new CampagneManager('01-01');
+        }
+
+        return $this->campagne_facturation_manager;
+    }
+
     public function buildCampagne($date) {
 
-        return sprintf('%s-%s', date('Y', strtotime($this->buildDateDebutCampagne($date))), date('Y', strtotime($this->buildDateFinCampagne($date))));
+        return $this->getCampagneVinicole()->getCampagneByDate($date); 
     }
 
     public function getDateDebutCampagne($campagne) {
-        if (!preg_match('/^([0-9]+)-([0-9]+)$/', $campagne, $annees)) {
-
-            throw new sfException('campagne bad format');
-        }
-
-        return sprintf(self::CAMPAGNE_DATE_DEBUT, $annees[1]); 
+        
+        return $this->getCampagneVinicole()->getDateDebutByCampagne($campagne); 
     }
 
     public function getDateFinCampagne($campagne) {
-        if (!preg_match('/^([0-9]+)-([0-9]+)$/', $campagne, $annees)) {
 
-            throw new sfException('campagne bad format');
-        }
-
-        return sprintf(self::CAMPAGNE_DATE_FIN, $annees[2]); 
-    }
-
-    public function buildDateDebutCampagne($date) {
-        $annee = date('Y', strtotime($date));
-        if(date('m', strtotime($date)) < 8) {
-            $annee -= 1;
-        }
-
-        return sprintf(self::CAMPAGNE_DATE_DEBUT, $annee); 
-    }
-
-    public function buildDateFinCampagne($date) {
-
-        return sprintf(self::CAMPAGNE_DATE_FIN, date('Y', strtotime($this->buildDateDebutCampagne($date)))+1);
+        return $this->getCampagneVinicole()->getDateFinByCampagne($campagne); 
     }
 
     public function getCurrentCampagne() {
 
-        return $this->buildCampagne(date('Y-m-d'));
+        return $this->getCampagneVinicole()->getCurrent(); 
     }
 
     public function getPreviousCampagne($campagne) {
-        if (!preg_match('/^([0-9]+)-([0-9]+)$/', $campagne, $annees)) {
-
-            throw new sfException('campagne bad format');
-        }
-
-        return sprintf('%s-%s', $annees[1]-1, $annees[2]-1); 
-
+        
+        return $this->getCampagneVinicole()->getPrevious($campagne);
     }
 
     public function getNextCampagne($campagne) {
-        if (!preg_match('/^([0-9]+)-([0-9]+)$/', $campagne, $annees)) {
 
-            throw new sfException('campagne bad format');
-        }
-
-        return sprintf('%s-%s', $annees[1]+1, $annees[2]+1); 
-
+        return $this->getCampagneVinicole()->getNext($campagne);
     }
 
     public function isDebutCampagne($periode) {
