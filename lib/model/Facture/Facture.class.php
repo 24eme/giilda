@@ -63,7 +63,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->date_facturation = $date_facturation;
         if (!$this->date_facturation)
             $this->date_facturation = date('Y-m-d');
-        $this->campagne = ConfigurationClient::getInstance()->buildCampagne($date_facturation);
+        $this->campagne = ConfigurationClient::getInstance()->getCampagneFacturation()->getCampagneByDate($date_facturation);
     }
 
     public function constructIds($soc) {
