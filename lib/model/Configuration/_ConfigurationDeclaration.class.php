@@ -9,19 +9,19 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     protected $libelles = null;
     protected $codes = null;
     protected $produits = null;
-    protected $produits_filtered = null;
+    protected $produits_with_negCVO = null;
     protected $format_produits = array();
-    protected $format_produits_filtered = array();
+    protected $format_produits_with_negCVO = array();
     protected $libelle_format = array();
 
 	protected function loadAllData() {
 		parent::loadAllData();
-    $this->getProduits();
-    $this->getLibelles();
-    $this->getCodes();
-    $this->formatProduits();
-    $this->formatProduits(null, null, "%format_libelle%");
-    $this->formatProduits(null, null, "%format_libelle% %la%");
+                $this->getProduitsWithCVONeg();
+                $this->getLibelles();
+                $this->getCodes();
+                $this->formatProduitsWithCVONeg();
+                $this->formatProduitsWithCVONeg(null, null, "%format_libelle%");
+                $this->formatProduitsWithCVONeg(null, null, "%format_libelle% %la%");
   }
 
   abstract public function getChildrenNode();
@@ -37,74 +37,76 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 		}
 	}
 
-  public function getProduits($interpro = null, $departement = null) {
-       
-    if(is_null($this->produits)) {
-      $this->produits = array();
+  public function getProduitsWithCVONeg($interpro = null, $departement = null) {       
+    if(is_null($this->produits_with_negCVO)) {
+      $this->produits_with_negCVO = array();
       foreach($this->getChildrenNode() as $key => $item) {
-          $this->produits = array_merge($this->produits, $item->getProduits());
+          $this->produits_with_negCVO = array_merge($this->produits_with_negCVO, $item->getProduitsWithCVONeg());
       }
     }
-
+    return $this->produits_with_negCVO;
+  }
+  
+    public function getProduits($date = null, $interpro = null, $departement = null) {
+        if(!$date) {
+            $date = date('Y-m-d');        
+        }
+        if(is_null($this->produits)) {
+            $produits_with_negCVO = $this->getProduitsWithCVONeg($interpro, $departement);
+            foreach($produits_with_negCVO as $hash => $item) {
+                try{
+                    $droit_produit = $item->getDroitCVO($date);
+                    $cvo_produit = $droit_produit->getTaux();
+                } catch (Exception $ex) {
+                    $cvo_produit = 0;
+                }
+             if($cvo_produit > 0){
+                 $this->produits[$hash] = $item;
+             }
+          }
+    }    
     return $this->produits;
   }
   
-    public function getProduitsWithoutCVONeg($interpro = null, $departement = null) {
-        if(is_null($this->produits_filtered)) {
-            $this->produits_filtered = array();
-            $this->produits = $this->getProduits($interpro, $departement);
-      foreach($this->produits as $hash => $item) {
-          
-         $cvo_produit = ConfigurationDroitsView::getInstance()->findCVOForProduct($hash,$interpro);
-         if($cvo_produit > 0){
-             $this->produits_filtered[$hash] = $item;
-         }
-      }
-    }    
-
-    return $this->produits_filtered;
-  }
-  
   
 
-	public function getLibelles() {
-		if(is_null($this->libelles)) {
-				$this->libelles = array_merge($this->getParentNode()->getLibelles(), 
-							   	  array($this->libelle));
-		}
+    public function getLibelles() {
+            if(is_null($this->libelles)) {
+                            $this->libelles = array_merge($this->getParentNode()->getLibelles(), 
+                                                              array($this->libelle));
+            }
 
-		return $this->libelles;
-	}
+            return $this->libelles;
+    }
 
-	public function getCodes() {
-		if(is_null($this->codes)) {
-				$this->codes = array_merge($this->getParentNode()->getCodes(), 
-							   	  array($this->code));
-		}
+    public function getCodes() {
+            if(is_null($this->codes)) {
+                            $this->codes = array_merge($this->getParentNode()->getCodes(), 
+                                                              array($this->code));
+            }
 
-		return $this->codes;
-	}
+            return $this->codes;
+    }
         
-  public function getProduitsHashByCodeDouane($interpro) {
-      $produits = array();
+  public function getProduitsHashByCodeDouaneWithCVONeg($interpro) {
+      $produits_with_negCVO = array();
       foreach($this->getChildrenNode() as $key => $item) {
-          $produits = array_merge($item->getProduitsHashByCodeDouane($interpro),$produits);
+          $produits_with_negCVO = array_merge($item->getProduitsHashByCodeDouaneWithCVONeg($interpro),$produits_with_negCVO);
       }
 
-      return $produits;
+      return $produits_with_negCVO;
   }
   
-    public function getProduitsHashByCodeDouaneWithoutCVONeg($interpro) {
-      $produits = $this->getProduitsHashByCodeDouane($interpro);
-      $produits_withoutCVONeg = array();
-      foreach($produits as $hash => $item) {          
-         $cvo_produit = ConfigurationDroitsView::getInstance()->findCVOForProduct($hash,$interpro);
-         if($cvo_produit > 0){
-             $produits_withoutCVONeg[$hash] = $item;
+  public function getProduitsHashByCodeDouane($date,$interpro) {
+      $produits_with_negCVO = $this->getProduitsHashByCodeDouaneWithCVONeg($interpro);
+      $produitsHashByCodeDouane = array();
+      $produits_hashs = array_keys($this->getProduits($date,$interpro));
+      foreach($produits_with_negCVO as $pos => $hash) {  
+         if(in_array($hash,  $produits_hashs)){
+             $produitsHashByCodeDouane[$pos] = $hash;
          }
     }    
-
-    return $produits_withoutCVONeg;
+    return $produitsHashByCodeDouane;
   }
         
   public function getCodeDouane() {
@@ -300,28 +302,33 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     	return floatval(str_replace(',', '.', $float));
     }
 
-    public function formatProduits($interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)") {
-        if(!array_key_exists($format, $this->format_produits)) {
-          $produits = $this->getProduits();
-          $this->format_produits[$format] = array();
-          foreach($produits as $hash => $produit) {
-            $this->format_produits[$format][$hash] = $produit->getLibelleFormat(array(), $format);
+    public function formatProduitsWithCVONeg($interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)") {
+        if(!array_key_exists($format, $this->format_produits_with_negCVO)) {
+          $produits_with_negCVO = $this->getProduitsWithCVONeg();
+          $this->format_produits_with_negCVO[$format] = array();
+          foreach($produits_with_negCVO as $hash => $produit) {
+            $this->format_produits_with_negCVO[$format][$hash] = $produit->getLibelleFormat(array(), $format);
           }
         }
 
-        return $this->format_produits[$format];
+        return $this->format_produits_with_negCVO[$format];
     }
     
-    public function formatProduitsWithoutCVONeg($interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)") {
-        if(!array_key_exists($format, $this->format_produits_filtered)) {
-          $produits = $this->getProduitsWithoutCVONeg('INTERPRO-inter-loire',$departement);
-          $this->format_produits_filtered[$format] = array();
+    public function formatProduits($date = null,$interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)") {
+        if(!$date){
+            $date = date('Y-d-m');
+        }
+        if(!array_key_exists($date, $this->format_produits)){
+            $this->format_produits[$date] = array();
+        }
+        if(!array_key_exists($format, $this->format_produits[$date])) {
+          $produits = $this->getProduits($date,'INTERPRO-inter-loire',$departement);
+          $this->format_produits[$date][$format] = array();
           foreach($produits as $hash => $produit) {
-            $this->format_produits_filtered[$format][$hash] = $produit->getLibelleFormat(array(), $format);
+            $this->format_produits[$date][$format][$hash] = $produit->getLibelleFormat(array(), $format);
           }
         }
-
-        return $this->format_produits_filtered[$format];
+        return $this->format_produits[$date][$format];
     }
 
     public function getLabels($interpro) {
