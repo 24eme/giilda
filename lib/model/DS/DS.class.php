@@ -35,6 +35,10 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 
         return $this->_get('campagne');
     }
+    
+    public function getFirstDayOfPeriode() {        
+       return substr($this->periode, 0,4).'-'.substr($this->periode, 4,2).'-01';
+    }
 
     public function setDateStock($date_stock) {
         $this->date_echeance = Date::getIsoDateFinDeMoisISO($date_stock, 1);

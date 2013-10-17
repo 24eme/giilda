@@ -42,7 +42,8 @@ class DSEditionAddProduitForm extends acCouchdbForm
 
     public function getProduits() 
     {
-        return $this->_config->formatProduits();
+        $date = $this->_ds->getFirstDayOfPeriode();
+        return $this->_config->formatProduits($date);
     }
 
     public function addProduit() 
