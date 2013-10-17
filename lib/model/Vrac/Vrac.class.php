@@ -452,7 +452,7 @@ class Vrac extends BaseVrac {
     }
     
     public function getProduitsConfig() {  
-        $date = (!$this->date_signature)? date('Y-m-d') : $this->date_signature;
+        $date = (!$this->date_signature)? date('Y-m-d') : Date::getIsoDateFromFrenchDate($this->date_signature);
         return ConfigurationClient::getCurrent()->formatProduits($date);
     }
     
