@@ -47,6 +47,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         return $this->_get('campagne');
     }
+    
+    public function getFirstDayOfPeriode() {        
+       return substr($this->periode, 0,4).'-'.substr($this->periode, 4,2).'-01';
+    }
 
     public function getPeriodeAndVersion() {
 

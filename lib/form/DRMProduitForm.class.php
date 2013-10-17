@@ -44,7 +44,8 @@ class DRMProduitForm extends acCouchdbForm
 
     public function getProduits() {
         $produit_existant = $this->getProduitsExistant();
-        $produits = $this->_config->formatProduits($this->_interpro->get('_id'), $this->_drm->getDepartement());
+        $date = $this->_drm->getFirstDayOfPeriode(); 
+        $produits = $this->_config->formatProduits($date,$this->_interpro->get('_id'), $this->_drm->getDepartement());
     
         foreach($produits as $hash => $produit) {
             if(array_key_exists($hash."/details/DEFAUT", $produit_existant)) {

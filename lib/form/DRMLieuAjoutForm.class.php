@@ -31,10 +31,10 @@ class DRMLieuAjoutForm extends acCouchdbForm {
 
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
-
+            $date = $this->_drm->getFirstDayOfPeriode();
             $lieux_existant = $this->_drm->get($this->_config->getHash())->getLieuxArray();
 
-            $this->_choices_produits = $this->_config->formatProduits($this->_interpro->get('_id'), 
+            $this->_choices_produits = $this->_config->formatProduits($date,$this->_interpro->get('_id'), 
                                                                       $this->_drm->getDepartement());
             foreach($lieux_existant as $lieu) {
                 $hash = substr($lieu->getHash(), 1, strlen($lieu->getHash())-1);
