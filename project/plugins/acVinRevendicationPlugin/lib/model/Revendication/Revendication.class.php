@@ -11,6 +11,7 @@ class Revendication extends BaseRevendication {
     private $produitsAlias = null;
     private $produitsCodeDouane = null;
     private $etablissements = null;
+    private $date = null;
 
     public function __construct() {
         parent::__construct();
@@ -21,9 +22,7 @@ class Revendication extends BaseRevendication {
     }
 
     public function storeDatas() {
-        $this->setCSV();
-        $this->setProduits();
-        $this->setProduitsCodeDouaneHashes();
+        $this->setCSV();        
 
         $this->remove('erreurs');
 	    $this->add('erreurs');
@@ -67,12 +66,30 @@ class Revendication extends BaseRevendication {
       }
     }
     
+    public function setDate() {
+        if(!$this->date){
+            $this->date = ConfigurationClient::getInstance()->buildDateDebutCampagne(substr($this->campagne,0,4).'-12-31');
+        }
+    }
+    
+    public function getDate() {
+        if(!$this->date){
+            $this->setDate();
+        }
+        return $this->date;
+    }
+        
     public function insertRow($num_ligne, $row) {
       if ($this->lineToBeIgnored($num_ligne, $row)) {
 	return ;
       }
         try {
             $this->isRowGoodCampagne($row);
+            $this->setDate();
+            
+            $this->setProduits();
+            $this->setProduitsCodeDouaneHashes();
+            
             $bailleur = null;
             $etb = $this->matchEtablissement($row);
             $hashLibelle = $this->matchProduit($row);
@@ -103,8 +120,9 @@ class Revendication extends BaseRevendication {
     }
 
     public function setProduits() {
-        if (!$this->produits)
-            $this->produits = ConfigurationClient::getCurrent()->formatProduitsWithoutCVONeg("%format_libelle%");
+        if (!$this->produits){
+            $this->produits = ConfigurationClient::getCurrent()->formatProduits($this->getDate(),"%format_libelle%");
+        }
         return $this->produits;
     }
 
@@ -123,8 +141,9 @@ class Revendication extends BaseRevendication {
     }
 
     public function setProduitsCodeDouaneHashes() {
-        if (!$this->produitsCodeDouane)
-            $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouaneWithoutCVONeg('INTERPRO-inter-loire');
+        if (!$this->produitsCodeDouane){
+            $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouane($this->date,'INTERPRO-inter-loire');
+        }
 
         return $this->produitsCodeDouane;
     }

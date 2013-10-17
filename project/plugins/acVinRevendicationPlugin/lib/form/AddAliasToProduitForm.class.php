@@ -4,9 +4,12 @@ class AddAliasToProduitForm  extends acCouchdbObjectForm {
     
     protected $alias;
     protected $_choices_produits;
-    
+    protected $date;
+
+
     public function __construct(acCouchdbJson $object, $alias, $options = array(), $CSRFSecret = null) {
         parent::__construct($object, $options, $CSRFSecret);
+        $this->date = $object->getDate();
         $this->alias = $alias;
     }
 
@@ -23,7 +26,7 @@ class AddAliasToProduitForm  extends acCouchdbObjectForm {
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
             $this->_choices_produits = array_merge(array("" => ""),
-            $this->getConfig()->formatProduitsWithoutCVONeg());
+            $this->getConfig()->formatProduits($this->date));
         }
         return $this->_choices_produits;
     }

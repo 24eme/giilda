@@ -10,11 +10,12 @@ class EditionRevendicationForm extends sfForm {
     protected $volume;
     protected $num_ligne;
     protected $code_douane;
+    protected $date;
 
     public function __construct(stdClass $revendication, $identifiant, $produit, $row, $defaults = array(), $options = array(), $CSRFSecret = null) {
         parent::__construct($defaults, $options, $CSRFSecret);
         $this->revendication = $revendication;
-
+        $this->date = ConfigurationClient::getInstance()->buildDateDebutCampagne(substr($revendication->campagne,0,4).'-12-31');
         if (isset($identifiant) && isset($produit) && isset($row)) {
             $this->initFields($identifiant, $produit, $row);
             $this->setDefaults($defaults);
@@ -53,7 +54,7 @@ class EditionRevendicationForm extends sfForm {
 
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
-            $this->_choices_produits = array_merge(array("" => ""), $this->getConfig()->formatProduitsWithoutCVONeg());
+            $this->_choices_produits = array_merge(array("" => ""), $this->getConfig()->formatProduits($this->date));
         }
         return $this->_choices_produits;
     }
