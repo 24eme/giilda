@@ -451,4 +451,9 @@ class Vrac extends BaseVrac {
         return $compte;
     }
     
+    public function getProduitsConfig() {  
+        $date = (!$this->date_signature)? date('Y-m-d') : $this->date_signature;
+        return ConfigurationClient::getCurrent()->formatProduits($date);
+    }
+    
 }
