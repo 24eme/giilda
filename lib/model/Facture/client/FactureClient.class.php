@@ -255,6 +255,7 @@ class FactureClient extends acCouchdbClient {
       $avoir->statut = self::STATUT_NONREDRESSABLE;
       $avoir->storeDatesCampagne(date('Y-m-d'));
       $avoir->numero_archive = null;
+      $avoir->numero_interloire = null;
       $avoir->save();
       $f->defacturer();
       $f->save();

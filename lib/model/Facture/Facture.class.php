@@ -63,7 +63,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->date_facturation = $date_facturation;
         if (!$this->date_facturation)
             $this->date_facturation = date('Y-m-d');
-        $this->campagne = ConfigurationClient::getInstance()->getCampagneFacturation()->getCampagneByDate($date_facturation);
+        $this->campagne = ConfigurationClient::getInstance()->getCampagneFacturation()->getCampagneByDate($this->date_facturation);
     }
 
     public function constructIds($soc) {
@@ -76,7 +76,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getNumeroInterloire() {
-        return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->numero_facture) . '/' . $this->getPrefixForRegion() . '-' . $this->numero_archive;
+        if($this->_get('numero_interloire')) {
+
+            return $this->_get('numero_interloire');
+        }
+
+        return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . '/' . $this->getPrefixForRegion() . '-' . $this->numero_archive;
     }
 
     public function getNumeroReference() {
@@ -441,6 +446,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
 
         $this->archivage_document->preSave();
+        $this->numero_interloire = $this->getNumeroInterloire();
     }
 
     public function storeDeclarant() {

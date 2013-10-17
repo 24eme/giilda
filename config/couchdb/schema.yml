@@ -8,6 +8,7 @@ Facture:
       identifiant: {}
       code_comptable_client: {}
       numero_facture: {}
+      numero_interloire: {}
       date_emission: {}
       date_facturation: {}
       campagne: {}
