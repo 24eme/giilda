@@ -111,7 +111,7 @@ class sfCredentialActions extends sfActions {
                     $this->modification = false;
                 }
                 if ($this->societe->isInstitution()) {
-                    $this->modification = true;                    
+                    $this->modification = false;                    
                 }
             return;      
             case self::CREDENTIAL_TRANSACTIONS:
