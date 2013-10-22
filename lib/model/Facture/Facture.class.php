@@ -161,26 +161,70 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $ligne->produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
         $ligne->produit_hash = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
         $ligne->montant_ht = round($ligne->cotisation_taux * $ligne->volume * -1, 2);
-        $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
+        $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligne);
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
         $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
-      //  $ligne->origine_libelle = $this->troncate($origine_libelle, $ligne->produit_libelle);
     }
 
-    private function createLigneOriginesMouvements($originesTable) {
-        $origines = array();
-        foreach ($originesTable as $origineFormatted) {
-            $origineKeyValue = explode(':', $origineFormatted);
-            if (count($origineKeyValue) != 2)
-                throw new Exception('Le mouvement est mal formé : %s', print_r($origineKeyValue));
-            $key = $origineKeyValue[0];
-            $value = $origineKeyValue[1];
-            if (!array_key_exists($key, $origines)) {
-                $origines[$key] = array();
+    private function createLigneOriginesMouvements($ligne) {
+        $mouvements_origines = array();
+
+        $docs = array();
+
+        for($i=0;$i<100;$i++) {
+            $id_doc = $ligne->origine_identifiant;
+            $version = VersionDocument::buildVersion(0, $i);
+            if($version) {
+                $id_doc = $id_doc."-".$version;
             }
-            $origines[$key][] = $value;
+            $doc = acCouchdbManager::getClient()->find($id_doc, acCouchdbClient::HYDRATE_JSON);
+            if(!$doc) {
+                break;
+            }
+            $docs[] = $doc;
         }
-        return $origines;
+
+        $volume = 0;
+
+        foreach($docs as $doc) {
+            foreach($doc->mouvements as $id_etablissement => $mouvements) {
+                if(!preg_match("/^".$this->identifiant."/", $id_etablissement)) {
+                    continue;
+                }
+                foreach($mouvements as $key => $mouvement) {
+                    if($mouvement->region != $this->region) {
+                        continue;
+                    }
+
+                    if(!$mouvement->facturable || $mouvement->facture) {
+                        continue;
+                    }
+
+                    if($mouvement->produit_hash != $ligne->produit_hash) {
+                        continue;
+                    }
+
+                    if($mouvement->categorie != $ligne->produit_type) {
+                        continue;
+                    }
+
+                    if($mouvement->vrac_numero != $ligne->contrat_identifiant) {
+                        continue;
+                    }
+
+                    $volume += $mouvement->volume;
+
+                    $mouvements_origines[$doc->_id][] = $key; 
+                }
+            }
+        }
+
+        if(round($volume, 2) != round($ligne->volume, 2)) {
+           
+            throw new sfException(sprintf("La recherche des mouvements ne semble pas correcte : %s hl provenant des mouvements / %s hl provenant de la vue", $volume, $ligne->volume));
+        }
+
+        return $mouvements_origines;
     }
 
     private function createOrigineLibelle($ligne, $transacteur, $famille, $view) { 
