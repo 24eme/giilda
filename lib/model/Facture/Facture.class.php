@@ -161,13 +161,35 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $ligne->produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
         $ligne->produit_hash = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
         $ligne->montant_ht = round($ligne->cotisation_taux * $ligne->volume * -1, 2);
-        $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
+        $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligne, $ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
         $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
-      //  $ligne->origine_libelle = $this->troncate($origine_libelle, $ligne->produit_libelle);
+
+        $this->verifLigneAndVolumeOrigines($ligne);
     }
 
-    private function createLigneOriginesMouvements($originesTable) {
+    protected function verifLigneAndVolumeOrigines($ligne) {
+        $volume = 0;
+        foreach($ligne->origine_mouvements as $doc_id => $keys) {
+            $doc = acCouchdbManager::getClient()->find($doc_id, acCouchdbClient::HYDRATE_JSON);
+            foreach($keys as $key) {
+                foreach($doc->mouvements as $identifiant => $mouvements) {
+                    if(!preg_match("/^".$this->identifiant."/", $identifiant)) {
+                        continue;
+                    }
+
+                    $mouvement = $mouvements->$key;
+                    $volume += $mouvement->volume;
+                }
+            }
+        }
+        if(round($ligne->volume, 2) != round($volume, 2)) {
+
+            throw new sfException(sprintf("Le volume de la ligne %s de %s hl ne correspond pas à la somme des volumes des mouvements %s hl", $ligne->getKey(), round($ligne->volume, 2), round($volume, 2)));
+        }
+    }
+
+    private function createLigneOriginesMouvements($ligne, $originesTable) {
         $origines = array();
         foreach ($originesTable as $origineFormatted) {
             $origineKeyValue = explode(':', $origineFormatted);
@@ -180,6 +202,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             }
             $origines[$key][] = $value;
         }
+
         return $origines;
     }
 
