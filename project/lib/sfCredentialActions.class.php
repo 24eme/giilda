@@ -104,7 +104,7 @@ class sfCredentialActions extends sfActions {
             return;
             case self::CREDENTIAL_AUTRE:
                 if ($this->societe->isTransaction()) {
-                    $this->modification = true;
+                    $this->modification = false;
                     $this->reduct_rights = true;
                 }
                 if ($this->societe->isPresse()) {
