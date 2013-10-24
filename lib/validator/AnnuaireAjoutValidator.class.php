@@ -4,7 +4,8 @@ class AnnuaireAjoutValidator extends sfValidatorBase
     
     public function configure($options = array(), $messages = array()) 
     {
-        $this->setMessage('invalid', "Ce cvi n'existe pas");
+        $this->setMessage('invalid', "CVI ou CIVABA incorrect pour ce type d'interlocuteur.");
+        $this->addMessage('inactif', "CVI ou CIVABA relatif à un compte inactif.");
     }
 
     protected function doClean($values) 
@@ -12,6 +13,9 @@ class AnnuaireAjoutValidator extends sfValidatorBase
         $tiers = $this->getTiers($values);
         if (!$tiers && $values['identifiant']) {
             throw new sfValidatorErrorSchema($this, array('identifiant' => new sfValidatorError($this, 'invalid')));
+        }
+        if (!$tiers->isActif()) {
+        	throw new sfValidatorErrorSchema($this, array('identifiant' => new sfValidatorError($this, 'inactif')));
         }
         return array_merge($values, array('tiers' => $tiers));
     }
