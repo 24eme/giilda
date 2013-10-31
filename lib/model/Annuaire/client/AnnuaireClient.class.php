@@ -74,7 +74,7 @@ class AnnuaireClient extends acCouchdbClient
         if(!$tiers && $checkMet) {
 			$tiers = parent::find('MET-'.$identifiant, $hydrate);
 			if ($tiers && $tiers->hasCvi()) {
-				$tiers = null;
+				$tiers = parent::find('ACHAT-'.$tiers->cvi_acheteur, $hydrate);
 			}
         }
         return $tiers;
