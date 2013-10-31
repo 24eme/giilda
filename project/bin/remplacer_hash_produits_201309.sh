@@ -14,8 +14,10 @@ cat /tmp/doc_ids_sorted | while read line; do
 	#[Modification] Muscadet / ... / Côtes de grandlieu / ... => Muscadet Côtes de grandlieu / ..
 	bash bin/remplacer_hash_produit_doc.sh $line "/declaration/certifications/AOC/genres/TRANQ/appellations/MUS/mentions/(.+)/lieux/CGL/" "/declaration/certifications/AOC/genres/TRANQ/appellations/MUSCGL/mentions/\1/lieux/DEFAUT/"
 
-	#[Modification] Muscadet / ... / AC / ... => Muscadet AC / ..
-	bash bin/remplacer_hash_produit_doc.sh $line "/declaration/certifications/AOC/genres/TRANQ/appellations/MUS/mentions/(.+)/lieux/AC/" "/declaration/certifications/AOC/genres/TRANQ/appellations/MUSAC/mentions/\1/lieux/DEFAUT/"
+	#[Modification] Muscadet / ... => Muscadet AC / ..
+	bash bin/remplacer_hash_produit_doc.sh $line "/declaration/certifications/AOC/genres/TRANQ/appellations/MUS/mentions/(.+)/lieux/(.+)/" "/declaration/certifications/AOC/genres/TRANQ/appellations/MUSAC/mentions/\1/lieux/DEFAUT/"
+	# Clean les noeuds Muscadet restants
+	bash bin/remplacer_hash_produit_doc.sh $line "/declaration/certifications/AOC/genres/TRANQ/appellations/MUS/.+" ""
 
 	#[Modficiation] Coteaux du Layon Villages / ... => Coteaux du Layon / Villages / (DEFAULT)
 	bash bin/remplacer_hash_produit_doc.sh $line "/declaration/certifications/AOC/genres/TRANQ/appellations/CLV/mentions/DEFAUT/" "/declaration/certifications/AOC/genres/TRANQ/appellations/COL/mentions/VIL/"
