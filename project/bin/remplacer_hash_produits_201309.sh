@@ -15,7 +15,7 @@ cat /tmp/doc_ids_sorted | while read line; do
 	bash bin/remplacer_hash_produit_doc.sh $line "/declaration/certifications/AOC/genres/TRANQ/appellations/MUS/mentions/(.+)/lieux/CGL/" "/declaration/certifications/AOC/genres/TRANQ/appellations/MUSCGL/mentions/\1/lieux/DEFAUT/"
 
 	#[Modification] Muscadet / ... => Muscadet AC / ..
-	bash bin/remplacer_hash_produit_doc.sh $line "/declaration/certifications/AOC/genres/TRANQ/appellations/MUS/mentions/(.+)/lieux/(.+)/" "/declaration/certifications/AOC/genres/TRANQ/appellations/MUSAC/mentions/\1/lieux/DEFAUT/"
+	bash bin/remplacer_hash_produit_doc.sh $line "/declaration/certifications/AOC/genres/TRANQ/appellations/MUS/mentions/(.+)/lieux/([^/]+)/" "/declaration/certifications/AOC/genres/TRANQ/appellations/MUSAC/mentions/\1/lieux/DEFAUT/"
 	# Clean les noeuds Muscadet restants
 	bash bin/remplacer_hash_produit_doc.sh $line "/declaration/certifications/AOC/genres/TRANQ/appellations/MUS/.+" ""
 
