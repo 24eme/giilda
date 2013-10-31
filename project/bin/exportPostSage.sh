@@ -20,6 +20,7 @@ fi
 for email in $SAGE_EMAILS; do
 cat $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer | iconv -f UTF8 -t ISO88591 | mail -s "[Import SAGE] $TITRE" $email
 done
+cat $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer > log/mail/$(date +%Y%m%d)"_SAGE.txt"
 rm $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer
 }
 
