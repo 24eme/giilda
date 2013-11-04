@@ -33,21 +33,17 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $produits = ConfigurationClient::getCurrent()->formatProduits("%format_libelle%");
+    $produits = ConfigurationClient::getCurrent()->getProduits();
 
     echo sprintf("hash;libelle;code douane;code produit;code comptable;cvo\n");
 
-    foreach($produits as $hash => $libelle) {
-        $produit = ConfigurationClient::getCurrent()->get($hash);
-
+    foreach($produits as $hash => $produit) {
         try {
             $droit_cvo = $produit->getDroitCVO(date('Y-m-d'))->taux;
         } catch(Exception $e) {
             $droit_cvo = null;
         }
-
-        echo sprintf("%s;%s;%s;%s;%s;%s\n", $hash, trim($libelle), $produit->getCodeDouane(), $produit->getCodeProduit(), $produit->getCodeComptable(),$droit_cvo);
+        echo sprintf("%s;%s;%s;%s;%s;%s\n", $hash, $produit->getLibelleFormat(), $produit->getCodeDouane(), $produit->getCodeProduit(), $produit->getCodeComptable(),$droit_cvo);
     }
-    // add your code here
   }
 }
