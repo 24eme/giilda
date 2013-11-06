@@ -3,12 +3,14 @@ MOUVEMENT;type document;DRM
 MOUVEMENT;type document;SV12
 MOUVEMENT;type de mouvement;cooperative_details
 MOUVEMENT;type de mouvement;entrees/achat
-MOUVEMENT;type de mouvement;entrees/cooperative
 MOUVEMENT;type de mouvement;entrees/recolte
-MOUVEMENT;type de mouvement;entrees/regularisation
-MOUVEMENT;type de mouvement;entrees/reintegration
-MOUVEMENT;type de mouvement;entrees/repli
 MOUVEMENT;type de mouvement;entrees/transfert
+MOUVEMENT;type de mouvement;entrees/cooperative
+MOUVEMENT;type de mouvement;entrees/reintegration
+MOUVEMENT;type de mouvement;entrees/elaboration
+MOUVEMENT;type de mouvement;entrees/repli
+MOUVEMENT;type de mouvement;entrees/regularisation
+MOUVEMENT;type de mouvement;entrees/fermagemetayage
 MOUVEMENT;type de mouvement;export_details
 MOUVEMENT;type de mouvement;MOUTS
 MOUVEMENT;type de mouvement;RAISINS
