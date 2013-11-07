@@ -20,7 +20,7 @@ use_helper('Float');
     </div>
     <div id="marche_recapitulatif_produit" class="ligne_form ">
             <label>Produit :</label>
-            <span><?php echo $vrac->getProduitObject()->getLibelleFormat(); ?></span>
+            <span><?php echo $vrac->produit_libelle; ?></span>
     </div>
 
     <div id="marche_recapitulatif_millesime" class="ligne_form ligne_form_alt">

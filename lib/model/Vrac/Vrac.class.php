@@ -44,8 +44,10 @@ class Vrac extends BaseVrac {
     }
 
     public function setProduit($value) {
-        $this->_set('produit', $value);
-        $this->produit_libelle = $this->getProduitObject()->getLibelleFormat(array(), "%format_libelle%");
+        if($value != $this->_get('produit')) {
+            $this->_set('produit', $value);
+            $this->produit_libelle = $this->getProduitObject()->getLibelleFormat(array(), "%format_libelle%");
+        }
     }
     
     public function setBouteillesContenanceLibelle($c) {
