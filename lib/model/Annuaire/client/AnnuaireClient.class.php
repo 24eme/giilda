@@ -77,6 +77,6 @@ class AnnuaireClient extends acCouchdbClient
 				$tiers = parent::find('ACHAT-'.$tiers->cvi_acheteur, $hydrate);
 			}
         }
-        return $tiers;
+        return ($tiers->statut == 'ACTIF')? $tiers : null;
     }
 }
