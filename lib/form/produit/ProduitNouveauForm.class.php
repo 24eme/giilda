@@ -11,7 +11,6 @@ class ProduitNouveauForm extends sfForm {
 	
 	public function __construct($configuration, $interpro, $defaults = array(), $options = array(), $CSRFSecret = null) {
 		$this->configuration = $configuration;
-		$this->configurationProduit = new ConfigurationProduit($interpro);
 		parent::__construct($defaults, $options, $CSRFSecret);
 	}
 
