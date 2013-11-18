@@ -12,8 +12,9 @@ class AnnuaireClient extends acCouchdbClient
  								self::ANNUAIRE_CAVES_COOPERATIVES_KEY => 'Cave coopérative'
  	);
  	static $tiers_qualites = array(
- 								self::ANNUAIRE_NEGOCIANTS_KEY => 'Negociant', 
- 								self::ANNUAIRE_CAVES_COOPERATIVES_KEY => 'Cooperative'
+ 								self::ANNUAIRE_RECOLTANTS_KEY => _TiersClient::QUALITE_RECOLTANT,
+                                self::ANNUAIRE_NEGOCIANTS_KEY => _TiersClient::QUALITE_NEGOCIANT, 
+                                self::ANNUAIRE_CAVES_COOPERATIVES_KEY => _TiersClient::QUALITE_COOPERATIVE,
  	);
  	
   	public static function getAnnuaireTypes() 
@@ -60,23 +61,29 @@ class AnnuaireClient extends acCouchdbClient
 
     public function findTiersByTypeAndIdentifiant($type, $identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) 
     {
-    	$checkMet = true;
-    	if ($type == self::ANNUAIRE_RECOLTANTS_KEY) {
-        	$tiers = parent::find('REC-'.$identifiant, $hydrate);
-    	} else {
-            $tiers = parent::find('ACHAT-'.$identifiant, $hydrate);
-            $tiersQualites = self::getTiersQualites();
-            if ($tiers && $tiers->qualite_categorie != $tiersQualites[$type] && $tiers->qualite_categorie != Acheteur::ACHETEUR_NEGOCAVE) {
-            	$tiers = null;
-            	$checkMet = false;
-            }
-    	}
-        if(!$tiers && $checkMet) {
-			$tiers = parent::find('MET-'.$identifiant, $hydrate);
-			if ($tiers && $tiers->hasCvi()) {
-				$tiers = parent::find('ACHAT-'.$tiers->cvi_acheteur, $hydrate);
-			}
+
+        $tiers = _TiersClient::findByCvi($identifiant);
+
+        if(!$tiers) {
+            $tiers = _TiersClient::findByCivaba($identifiant);
         }
-        return ($tiers->isActif())? $tiers : null;
+
+        if($tiers->type == 'MetteurEnMarche' && $tiers->hasCvi()) {
+            $tiers = $tiers->getCviObject();
+        }
+
+        $tiersQualites = self::getTiersQualites();
+
+        if($tiers->qualite_categorie != $tiersQualites[$type]) {
+            
+            return null;
+        }
+
+        if(!$tiers->isActif()) {
+
+            return null;
+        }
+
+        return $tiers;
     }
 }
