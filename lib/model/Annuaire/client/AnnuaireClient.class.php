@@ -61,10 +61,10 @@ class AnnuaireClient extends acCouchdbClient
 
     public function findTiersByTypeAndIdentifiant($type, $identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) 
     {
-        $tiers = _TiersClient::findByCvi($identifiant);
+        $tiers = _TiersClient::getInstance()->findByCvi($identifiant);
 
         if(!$tiers) {
-            $tiers = _TiersClient::findByCivaba($identifiant);
+            $tiers = _TiersClient::getInstance()->findByCivaba($identifiant);
         }
 
         if($tiers->type == 'MetteurEnMarche' && $tiers->hasCvi()) {
