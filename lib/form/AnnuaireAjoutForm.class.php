@@ -33,7 +33,8 @@ class AnnuaireAjoutForm extends acCouchdbObjectForm
     public function doUpdateObject($values) 
     {
     	$tiers = $values['tiers'];
-        $entree = $this->getObject()->get($values['type'])->add($tiers->_id, $tiers->nom);
+    	$libelle = ($tiers->intitule)? $tiers->intitule.' '.$tiers->nom : $tiers->nom;
+        $entree = $this->getObject()->get($values['type'])->add($tiers->_id, $libelle);
     }
     
     public function getTiers()
