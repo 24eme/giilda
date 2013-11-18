@@ -66,7 +66,7 @@ class AnnuaireClient extends acCouchdbClient
     	} else {
             $tiers = parent::find('ACHAT-'.$identifiant, $hydrate);
             $tiersQualites = self::getTiersQualites();
-            if ($tiers && $tiers->qualite != $tiersQualites[$type] && $tiers->qualite != Acheteur::ACHETEUR_NEGOCAVE) {
+            if ($tiers && $tiers->qualite_categorie != $tiersQualites[$type] && $tiers->qualite_categorie != Acheteur::ACHETEUR_NEGOCAVE) {
             	$tiers = null;
             	$checkMet = false;
             }
