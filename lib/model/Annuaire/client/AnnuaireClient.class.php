@@ -67,8 +67,13 @@ class AnnuaireClient extends acCouchdbClient
             $tiers = _TiersClient::getInstance()->findByCivaba($identifiant);
         }
 
-        if($tiers->type == 'MetteurEnMarche' && $tiers->hasCvi()) {
+        if($tiers->type == 'MetteurEnMarche' && $tiers->hasAcheteur()) {
             $tiers = $tiers->getCviObject();
+        }
+
+        if(!$tiers) {
+
+            return null;
         }
 
         $tiersQualites = self::getTiersQualites();
