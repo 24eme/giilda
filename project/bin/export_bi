@@ -3,7 +3,7 @@
 . bin/config.inc
 . bin/import_functions.inc
 
-curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g'| sed 's/null/""/' | awk -F ',' '{ print "s/;;\(" $7 "\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
+curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g'| sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
 echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_code
 
 echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export)" > $TMP/export_bi_mouvements.csv
