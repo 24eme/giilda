@@ -221,7 +221,7 @@ class VracClient extends acCouchdbClient {
     }
 
     public static function getCsvForEtiquettes($date_debut,$date_fin) {
-        if(!$date_debut || !$date_fin){
+        if(is_null($date_debut) || is_null($date_fin)){
             throw new sfException('La date de début et la date de fin sont obligatoires.');
         }
         $date_debut_iso = Date::getIsoDateFromFrenchDate($date_debut);
@@ -263,8 +263,11 @@ class VracClient extends acCouchdbClient {
 
     protected static function constructRowForEtiquettes($soussigne,$identifiant) {
         if(!$identifiant) return "";
-        $societe = CompteClient::getInstance()->findByIdentifiant($identifiant)->getSociete();
-                
+        $compte = CompteClient::getInstance()->findByIdentifiant($identifiant);
+        if(!$compte) return "";
+        $societe = $compte->getSociete();        
+        if(!$societe) return "";
+        
         $result = ($societe->exist('raison_sociale'))? str_replace(";","", $societe->raison_sociale) . ";" : ";";
         if(!$societe->exist('siege')) return $result.";;;\n";
         
