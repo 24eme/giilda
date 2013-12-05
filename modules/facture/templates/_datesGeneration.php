@@ -10,3 +10,8 @@
     <?php echo $form['date_mouvement']->renderError() ?> 
     <?php echo $form['date_mouvement']->render(); ?>
 </div>
+<div class="ligne_form">
+    <?php echo $form['message_communication']->renderlabel(); ?>
+    <?php echo $form['message_communication']->renderError() ?> 
+    <?php echo $form['message_communication']->render(); ?>
+</div>

@@ -9,6 +9,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     private $documents_origine = array();
     protected $declarant_document = null;
     protected $archivage_document = null;
+    const MESSAGE_DEFAULT = "ICI le message par défaut : Vous pouvez retrouver nos infos jours après jours sur http://www.vinsvaldeloire.fr";
 
     public function __construct() {
         parent::__construct();
@@ -522,6 +523,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function isArchivageCanBeSet() {
 
         return true;
+    }
+    
+    public function addOneMessageCommunication($message_communication = null) {
+        $this->add('message_communication', $message_communication);
+    }
+    
+    public function hasMessageCommunication() {
+        return $this->exist('message_communication');
+    }
+    
+    public function getMessageCommunicationWithDefault() {
+        if($this->exist('message_communication')){            
+            return $this->_get('message_communication');
+        }
+        return self::MESSAGE_DEFAULT;
     }
 
     /*     * * FIN ARCHIVAGE ** */

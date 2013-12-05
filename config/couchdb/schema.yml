@@ -17,6 +17,7 @@ Facture:
       avoir: {required: false}
       region: {}
       versement_comptable: {type: integer}
+      message_communication: {required: false}
       emetteur:
         type: collection
         definition:

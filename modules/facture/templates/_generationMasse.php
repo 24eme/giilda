@@ -31,6 +31,11 @@
                 <?php echo $generationForm['date_mouvement']->renderError() ?> 
                 <?php  echo $generationForm['date_mouvement']->render(); ?>
             </div>
+            <div class="ligne_form message_communication">
+                <?php  echo $generationForm['message_communication']->renderlabel(); ?>
+                <?php echo $generationForm['message_communication']->renderError() ?> 
+                <?php  echo $generationForm['message_communication']->render(); ?>
+            </div>
         </li>
     </ul>    
 </div>
