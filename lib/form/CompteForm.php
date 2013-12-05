@@ -57,7 +57,7 @@ class CompteForm extends CompteCoordonneeSameSocieteForm {
     }
 
     public function getCiviliteList() {
-        return array('Mlle' => 'Mlle', 'Mme' => 'Mme', 'M' => 'M');
+        return array('Mme' => 'Mme', 'M' => 'M');
     }
 
 
