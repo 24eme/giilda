@@ -313,6 +313,9 @@ class Societe extends BaseSociete {
         return $this->exist('type_societe') && ($this->type_societe == SocieteClient::SUB_TYPE_INSTITUTION);
     }
     
+    public function isSyndicat(){
+        return $this->exist('type_societe') && ($this->type_societe == SocieteClient::SUB_TYPE_SYNDICAT);
+    }
     
     
 }

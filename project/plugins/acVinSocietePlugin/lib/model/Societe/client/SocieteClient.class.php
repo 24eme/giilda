@@ -13,7 +13,8 @@ class SocieteClient extends acCouchdbClient {
     
     const SUB_TYPE_DOUANE = 'DOUANE';
     const SUB_TYPE_INSTITUTION = 'INSTITUTION';
-    const SUB_TYPE_HOTELRESTAURANT = 'HOTEL-RESTAURANT';
+    const SUB_TYPE_HOTELRESTAURANT = 'HOTEL-RESTAURANT';    
+    const SUB_TYPE_SYNDICAT = 'SYNDICAT';
     const SUB_TYPE_AUTRE = 'AUTRE';
     
     
@@ -162,6 +163,7 @@ class SocieteClient extends acCouchdbClient {
             self::TYPE_PRESSE => self::TYPE_PRESSE,
             self::TYPE_PARTENAIRE => array(self::SUB_TYPE_INSTITUTION => self::SUB_TYPE_INSTITUTION,
                 self::SUB_TYPE_HOTELRESTAURANT => self::SUB_TYPE_HOTELRESTAURANT,
+                self::SUB_TYPE_SYNDICAT => self::SUB_TYPE_SYNDICAT,
                 self::SUB_TYPE_AUTRE => self::SUB_TYPE_AUTRE));
     }
 

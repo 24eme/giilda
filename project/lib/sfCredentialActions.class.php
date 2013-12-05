@@ -17,7 +17,8 @@ class sfCredentialActions extends sfActions {
     const CREDENTIAL_TRANSACTIONS = "transactions";
     const CREDENTIAL_PRESSE = "presse";
     const CREDENTIAL_DIRECTION = "direction";
-    const CREDENTIAL_AUTRE = "autre";
+    const CREDENTIAL_AUTRE = "autre";    
+    const CREDENTIAL_BUREAU = "bureau";
 
     protected function getUserCredential() {
         $users = $this->getUser()->getCredentials();
@@ -35,6 +36,9 @@ class sfCredentialActions extends sfActions {
         }
         if (in_array(self::CREDENTIAL_DIRECTION, $users)) {
             return self::CREDENTIAL_DIRECTION;
+        }
+        if (in_array(self::CREDENTIAL_BUREAU, $users)) {
+            return self::CREDENTIAL_BUREAU;
         }
         return self::CREDENTIAL_AUTRE;
     }
@@ -66,6 +70,9 @@ class sfCredentialActions extends sfActions {
             case self::CREDENTIAL_AUTRE:
                 return array(SocieteClient::SUB_TYPE_HOTELRESTAURANT, 
                              SocieteClient::SUB_TYPE_AUTRE);
+                
+            case self::CREDENTIAL_BUREAU:
+                return array(SocieteClient::SUB_TYPE_SYNDICAT);
             default:
                 return;
         }
@@ -121,6 +128,13 @@ class sfCredentialActions extends sfActions {
                     $this->modification = false;                    
                 }
             return;
+            
+            case self::CREDENTIAL_BUREAU:
+            
+                 if (!$this->societe->isSyndicat()) {
+                    $this->modification = false;
+                }
+                return;
             default:
                 return;
         }
