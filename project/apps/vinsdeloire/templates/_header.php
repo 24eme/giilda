@@ -3,7 +3,7 @@
 		<div class="contenu">
 			<h1 id="logo">
 				<a title="Vins de Loire - Retour à l'accueil" href="#">
-					<img alt="" src="/images/visuels/logo_vinsdeloire.png">
+					<img alt="" src="/images/visuels/logo_vinsdeloire_new.png">
 				</a>
 			</h1>
 

@@ -986,10 +986,10 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 #footer:after { clear:both; }
 #header #logo {
   bottom:auto;
-  left:-95px;
+  left:-210px;
   position:absolute;
   right:auto;
-  top:0;
+  top:-12px;
 }
 #header #navigation {
   float:left;
@@ -4375,6 +4375,15 @@ bouton#principal.drm fieldset .btn_container_exporter a { height:26px; }
   width:335px;
 }
 #principal .generation_facture_options .champ_datepicker img { position:static; }
+#principal .generation_facture_options .message_communication textarea {
+  height:100px;
+  resize:none;
+}
+#principal .generation_facture_options .message_communication label {
+  font-weight:normal;
+  width:335px;
+}
+#principal .generation_facture_options .message_communication img { position:static; }
 .ds #contenu_etape .generation_ds, .ds #contenu_etape .historique_generation_ds, .ds #contenu_etape .generation_ds_operateur {
   zoom:1;
   min-height:1px;
