@@ -46,7 +46,7 @@
 		<div class="contenu">
 			<h1 id="logo">
 				<a href="#" title="<?php echo sfConfig::get('app_titre_site') ?> - Retour à l'accueil">
-					<img src="/images/visuels/logo_vinsdeloire.png" alt="<?php echo sfConfig::get('titre_site') ?>" />
+					<img src="/images/visuels/logo_vinsdeloire_new.png" alt="<?php echo sfConfig::get('titre_site') ?>" />
 				</a>
 			</h1>
 			
