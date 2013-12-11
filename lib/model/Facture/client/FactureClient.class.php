@@ -257,6 +257,7 @@ class FactureClient extends acCouchdbClient {
       $avoir->storeDatesCampagne(date('Y-m-d'));
       $avoir->numero_archive = null;
       $avoir->numero_interloire = null;
+      $avoir->versement_comptable = 0;
       $avoir->save();
       $f->defacturer();
       $f->save();
