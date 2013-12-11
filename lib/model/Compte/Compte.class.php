@@ -118,12 +118,12 @@ class Compte extends BaseCompte {
       return preg_replace('/[ -=]/', '_', $tag);
     }
 
-    public function addTag($type, $tag) {
+    public function addTag($type, $tag) {   
       $tags = $this->add('tags')->add($type)->toArray(true, false);
       $tags[] = Compte::transformTag($tag);
       $tags = array_unique($tags);
       $this->get('tags')->remove($type);
-      $this->get('tags')->add($type, $tags);
+      $this->get('tags')->add($type, array_values($tags));
     }
 
     public function removeTag($type, $tags) {
@@ -132,7 +132,7 @@ class Compte extends BaseCompte {
       
       $tags_existant = array_diff($tags_existant, $tags);
       $this->get('tags')->remove($type);
-      $this->get('tags')->add($type, $tags);
+      $this->get('tags')->add($type, array_values($tags));
     }
     
     public function removeTags($type, $tags) {
@@ -143,7 +143,7 @@ class Compte extends BaseCompte {
       
       $tags_existant = array_diff($tags_existant, $tags);
       $this->get('tags')->remove($type);
-      $this->get('tags')->add($type, $tags_existant);
+      $this->get('tags')->add($type, array_values($tags_existant));
     }
 
     public function addOrigine($id) {    
