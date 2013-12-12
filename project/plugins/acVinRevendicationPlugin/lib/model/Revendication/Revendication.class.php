@@ -68,7 +68,7 @@ class Revendication extends BaseRevendication {
     
     public function setDate() {
         if(!$this->date){
-            $this->date = ConfigurationClient::getInstance()->buildDateDebutCampagne(substr($this->campagne,0,4).'-12-31');
+            $this->date = ConfigurationClient::getInstance()->getDateDebutCampagne($this->campagne);
         }
     }
     
