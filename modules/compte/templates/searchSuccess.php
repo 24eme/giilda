@@ -155,10 +155,10 @@
 			</ul>
 		</div>
 
+                <?php if(isset($args_copy)): ?>
 		<div class="bloc_col">
 		
 			<h2>Créer un tag</h2>
-
 			<form class="form_ajout_tag" action="<?php echo url_for('compte_addtag', $args_copy->getRawValue()); ?>" method="GET">
 			<input id="creer_tag" name="tag" class="tags" type="text" />
 			<input type="submit" value="ajouter" class="btn_majeur btn_modifier"/>
@@ -166,4 +166,5 @@
 			<input type="hidden" name="tags" value="<?php echo implode(',', $selected_rawtags->getRawValue()); ?>"/>
 			</form>
 		</div>
+                <?php endif; ?>
 <?php end_slot(); ?>
