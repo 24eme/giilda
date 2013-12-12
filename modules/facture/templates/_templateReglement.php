@@ -13,7 +13,7 @@ use_helper('Float');
         \small{\textbf{Règlement : }}
         \begin{itemize}
             \item \textbf{par virement} (merci de mentionner les n° suivants : \FactureRefClient~\FactureNum)
-            \item \textbf{par chèque en joignant le(s) papillon(s) ci-dessous : \\}
+            \item \textbf{par chèque en joignant le(s) papillon(s) à l'adresse suivante :\\  \textit{Interloire, Château de la Fremoire - 44120 Vertou}} \\
         \end{itemize}
         \end{minipage}
         \end{flushleft}
@@ -22,7 +22,7 @@ use_helper('Float');
 \vspace{-2.7cm}
 <?php endif; ?>
     \begin{flushright}
-    \begin{minipage}[b]{0.31\textwidth}
+    \begin{minipage}[b]{0.27\textwidth}
             \begin{tikzpicture}
             \node[inner sep=1pt] (tab2){
                     \begin{tabular}{>{\columncolor{lightgray}} l | p{22mm}}

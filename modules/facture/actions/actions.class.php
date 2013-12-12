@@ -23,11 +23,13 @@ class factureActions extends sfActions {
            
            $date_facturation = DATE::getIsoDateFromFrenchDate($values['date_facturation']);
            $date_mouvement = DATE::getIsoDateFromFrenchDate($values['date_mouvement']);
+           $message_communication = $values['message_communication'];
            
            $generation->arguments->add('regions', implode(',', array_values($values['regions'])));
 	   $generation->arguments->add('date_facturation', $date_facturation);
 	   $generation->arguments->add('date_mouvement', $date_mouvement);
 	   $generation->arguments->add('seuil', $values['seuil']);
+           $generation->arguments->add('message_communication', $message_communication);
 	   $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
            $generation->save();
 	 }
@@ -59,15 +61,16 @@ class factureActions extends sfActions {
     public function executeGenerer(sfWebRequest $request) {
         $parameters = $request->getParameter('facture_generation');
         $date_facturation = (!isset($parameters['date_facturation']))? null : DATE::getIsoDateFromFrenchDate($parameters['date_facturation']);
+        $message_communication = (!isset($parameters['message_communication']))? null : $parameters['message_communication'];
         $parameters['date_mouvement'] = (isset($parameters['date_mouvement']) && $parameters['date_mouvement']!='')?  $parameters['date_mouvement'] : $date_facturation;
-
+        
         $this->societe = $this->getRoute()->getSociete();
 
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));        
         $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$parameters);   
         if($mouvementsBySoc)
         {
-            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc,$date_facturation);
+            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc,$date_facturation, $message_communication);
             $generation->save();
         }
         $this->redirect('facture_societe', $this->societe);

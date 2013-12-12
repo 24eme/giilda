@@ -38,17 +38,18 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$idClient.'-'.$date.'99')->execute($hydrate);        
     }
 
-    public function createDoc($mvts, $societe, $date_facturation = null) {
+    public function createDoc($mvts, $societe, $date_facturation = null, $message_communication = null) {
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);        
         $facture->storeEmetteur();
         $facture->storeDeclarant();
-        $facture->storeLignes($mvts,$societe->famille);     
+        $facture->storeLignes($mvts, $societe->famille);     
         $facture->updateTotalHT();
         $facture->updateAvoir();
         $facture->updateTotaux();
-        $facture->storeOrigines();    
+        $facture->storeOrigines(); 
+        $facture->addOneMessageCommunication($message_communication);
         return $facture;
     }  
     
@@ -159,7 +160,7 @@ class FactureClient extends acCouchdbClient {
     }
 
 
-    public function createFacturesBySoc($generationFactures,$date_facturation) {
+    public function createFacturesBySoc($generationFactures, $date_facturation, $message_communication = null) {
         
         $generation = new Generation();
         $generation->date_emission = date('Y-m-d-H:i');
@@ -170,7 +171,7 @@ class FactureClient extends acCouchdbClient {
 
         foreach ($generationFactures as $societeID => $mouvementsSoc) {
             $societe = SocieteClient::getInstance()->find($societeID);
-            $f = $this->createDoc($mouvementsSoc, $societe, $date_facturation);
+            $f = $this->createDoc($mouvementsSoc, $societe, $date_facturation, $message_communication);
             $f->save();
 
             $generation->somme += $f->total_ttc;
@@ -256,6 +257,7 @@ class FactureClient extends acCouchdbClient {
       $avoir->storeDatesCampagne(date('Y-m-d'));
       $avoir->numero_archive = null;
       $avoir->numero_interloire = null;
+      $avoir->versement_comptable = 0;
       $avoir->save();
       $f->defacturer();
       $f->save();
