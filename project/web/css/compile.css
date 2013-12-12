@@ -922,7 +922,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
   width:940px;
   position:relative;
   left:100px;
-  width:750px;
+  width:760px;
 }
 #header .contenu:before, #header .contenu:after {
   content:"\0020";
@@ -988,7 +988,7 @@ bouton.btn_demarrer, bouton.btn_enregistrer { height:26px; }
 #footer:after { clear:both; }
 #header #logo {
   bottom:auto;
-  left:-260px;
+  left:-270px;
   position:absolute;
   right:auto;
   top:-12px;
