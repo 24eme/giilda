@@ -68,6 +68,41 @@ EOF;
 
   }
 
+  public function updatePrixRaisin($id_vrac) {
+
+        $id = (preg_match('/^VRAC-/', $id_vrac))? $id_vrac : 'VRAC-'.$id_vrac;
+        $v = VracClient::getInstance()->find($id);
+        
+        if (!$v) {
+            echo $this->error_term." -> Le contrat ".$id_vrac." n'existe pas en base, cela est curieux! \n";
+	return null;
+        }else{
+            echo "On ne traite pas le contrat numéro ".$id_vrac." \n";
+            if($v->type_transaction != VracClient::TYPE_TRANSACTION_RAISINS){
+                return null;
+            }
+
+//            if($v->prix_unitaire > 20){
+    //          $old_prix = $v->prix_unitaire;
+//              $v->prix_unitaire *= $v->bouteilles_contenance_volume;
+//              $v->prix_unitaire = $this->convertToFloat($v->prix_unitaire);
+//              echo $this->warning_term." le prix unitaire a changé : ".$old_prix." => ".$v->prix_unitaire."  (ANORMAL)";
+//            }
+//
+//              $v->prix_initial_unitaire = $this->convertToFloat($v->prix_unitaire);
+//              $v->bouteilles_quantite = (int) ($v->volume_propose / $v->bouteilles_contenance_volume);              
+//              $v->prix_total = $this->convertToFloat($v->bouteilles_quantite *  $v->prix_unitaire);
+//              
+//              $v->prix_initial_unitaire_hl = $this->convertToFloat($v->prix_total / $v->volume_propose);
+//              $v->prix_unitaire_hl = $this->convertToFloat($v->prix_initial_unitaire_hl);
+//              $v->prix_initial_total = $this->convertToFloat($v->prix_total);
+//              
+//              echo " ===> contrat ".$id_vrac." MAJ des prix ini_hl total...\n";
+              return $v;
+            }	
+        return null;
+    }
+  
   public function updatePrixVrac($id_vrac) {
 
         $id = (preg_match('/^VRAC-/', $id_vrac))? $id_vrac : 'VRAC-'.$id_vrac;
@@ -79,8 +114,11 @@ EOF;
         }else{
             echo " Traitement du contrat numéro ".$id_vrac." \n";
             if($v->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
-                echo $this->warning_term." le contrat numéro ".$id_vrac." n'est plus BOUTEILLE! \n";
-                return null;
+                $v->update();
+                echo " ===> contrat ".$id_vrac." MAJ des prix ini_hl total...\n";
+                return $v;
+//                echo $this->warning_term." le contrat numéro ".$id_vrac." n'est plus BOUTEILLE! \n";
+//                return null;
             }
             $v->bouteilles_contenance_volume = 0.0075;
             $v->bouteilles_contenance_libelle = "75 cl";
