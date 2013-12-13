@@ -307,6 +307,9 @@ class Compte extends BaseCompte {
     }
 
     public function setEmail($email) {
+        if ($email == "") {
+            return $this->_set('email', "");
+        }
         if (preg_match('/^ *$/', $email)) {
             return;
         }
