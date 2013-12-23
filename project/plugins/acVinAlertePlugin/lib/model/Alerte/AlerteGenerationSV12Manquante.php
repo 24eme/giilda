@@ -95,7 +95,7 @@ class AlerteGenerationSV12Manquante extends AlerteGenerationSV12 {
         return $sv12_manquante;
     }
 
-    public function creationsByDocumentsIds(array $documents_id) {
+    public function creationsByDocumentsIds(array $documents_id,$document_type) {
         
     }
 
@@ -108,7 +108,7 @@ class AlerteGenerationSV12Manquante extends AlerteGenerationSV12 {
         
     }
 
-    public function updatesByDocumentsIds(array $documents_id) {
+    public function updatesByDocumentsIds(array $documents_id,$document_type) {
         
     }
 

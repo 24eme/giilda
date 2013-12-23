@@ -14,9 +14,15 @@
 				<?php echo $dateForm['debug']->renderLabel() ?>
 				<?php echo $dateForm['debug']->render() ?> 
 		</div>
-		
+            
+            
 		<div class="btn_form">
 			<button type="submit" id="alerte_valid" class="btn_majeur btn_modifier">Modifier</button>
 		</div>
 	</form>
+		<div class="bloc_form">
+                    <a class="btn_majeur btn_nouveau" href="<?php echo url_for('alerte_generate_all'); ?>">
+                        <span>Générer les alertes</span>
+                   </a>
+		</div>
 </div>

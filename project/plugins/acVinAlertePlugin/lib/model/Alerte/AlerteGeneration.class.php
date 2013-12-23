@@ -6,7 +6,7 @@
  */
 abstract class AlerteGeneration {
 
-    const FIRST_SEQ = 230000;
+    const FIRST_SEQ = 1002892;
     
     protected $dev = false;
     protected $config = null;
@@ -178,7 +178,7 @@ abstract class AlerteGeneration {
         }
     }
     
-    public function updatesByDocumentsIds(array $documents_id,$document_type) {
+    public function updatesByDocumentsIds(array $documents_id,$document_type) {        
         foreach ($documents_id as $doc_id) {
            $class_name = $document_type.'Client';
            $this->update($class_name::getInstance()->getMaster($doc_id));

@@ -93,7 +93,7 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
         return $drm_ecart;
     }
 
-    public function creationsByDocumentsIds(array $documents_id) {
+    public function creationsByDocumentsIds(array $documents_id, $document_type) {
         
     }
 
@@ -129,7 +129,7 @@ class AlerteGenerationEcartDREVDRM extends AlerteGenerationDRM {
         return false;
     }
 
-    public function updatesByDocumentsIds(array $documents_id) {
+    public function updatesByDocumentsIds(array $documents_id, $document_type) {
         
     }
 

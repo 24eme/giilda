@@ -97,7 +97,7 @@ class AlerteGenerationVracSansSV12 extends AlerteGenerationSV12 {
     }
 
 
-    public function creationsByDocumentsIds(array $documents_id) {
+    public function creationsByDocumentsIds(array $documents_id,$document_type) {
         
     }
 
@@ -110,7 +110,7 @@ class AlerteGenerationVracSansSV12 extends AlerteGenerationSV12 {
 
     }
 
-    public function updatesByDocumentsIds(array $documents_id) {
+    public function updatesByDocumentsIds(array $documents_id,$document_type) {
         
     }
 

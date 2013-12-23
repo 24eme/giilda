@@ -38,11 +38,11 @@ class AlerteGenerationVracsNonSoldes extends AlerteGenerationVrac {
        return $this->creationByDocumentId($document,self::TYPE_DOCUMENT,  AlerteClient::STATUT_A_RELANCER);        
     }
     
-    public function update($document) {        
-        return $this->updateByDocumentId($document,self::TYPE_DOCUMENT);        
+    public function update($document) {
+       return $this->updateByDocumentId($document,self::TYPE_DOCUMENT);        
     }
 
-    public function isInAlerte($document) {        
+    public function isInAlerte($document) {  
          return  $document->isVin() && $document->isValidee() && !$document->isSolde();
     }
     

@@ -45,7 +45,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                 
                     continue;
                 }
-                $alerte->open(self::$this->getDate());
+                $alerte->open($this->getDate());
                 $alerte->save();
             }
         }
@@ -135,7 +135,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         return $drm_manquante;
     }
 
-    public function creationsByDocumentsIds(array $documents_id) {
+    public function creationsByDocumentsIds(array $documents_id,$document_type) {
         
     }
 
@@ -148,7 +148,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         
     }
 
-    public function updatesByDocumentsIds(array $documents_id) {
+    public function updatesByDocumentsIds(array $documents_id, $document_type) {
         
     }
 

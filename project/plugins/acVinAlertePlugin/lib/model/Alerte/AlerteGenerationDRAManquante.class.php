@@ -76,7 +76,7 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         return $dra_manquante;
     }
 
-    public function creationsByDocumentsIds(array $documents_id) {
+    public function creationsByDocumentsIds(array $documents_id,$document_type) {
         
     }
 
@@ -105,7 +105,7 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         return false;
     }
 
-    public function updatesByDocumentsIds(array $documents_id) {
+    public function updatesByDocumentsIds(array $documents_id,$document_type) {
         
     }
 

@@ -30,5 +30,8 @@ class AlerteRouting {
         
         $r->prependRoute('alerte_modification_statuts', new sfRoute('/alerte/statutsModification/:retour', array('module' => 'alerte',
                     'action' => 'statutsModification', 'retour' => null))); 
+        
+        $r->prependRoute('alerte_generate_all', new sfRoute('/alerte/generationTotale', array('module' => 'alerte',
+                    'action' => 'generationTotale')));
     }
 }

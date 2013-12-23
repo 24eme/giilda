@@ -74,7 +74,15 @@ class alerteActions extends sfActions {
         }
     }
 
-   
+    public function executeGenerationTotale(sfWebRequest $request) {
+        $cmd_alertes = 'bash '.sfConfig::get('sf_root_dir').'/bin/generation_alertes.sh';
+        $output = shell_exec($cmd_alertes);
+        if($output){
+            throw new sfException("La génération d'alerte est déjà en cours d'execution.");
+        }
+        $this->redirect('alerte');
+    }
+    
     static function triResultAlertesDates($a0, $a1)
   {
         $date0 = str_replace('-','', $a0->value[AlerteRechercheView::VALUE_DATE_MODIFICATION]);
