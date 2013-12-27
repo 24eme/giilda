@@ -15,6 +15,7 @@ Facture:
       numero_archive: {  }
       statut: {}
       avoir: {required: false}
+      taux_tva: {required: false}
       region: {}
       versement_comptable: {type: integer}
       message_communication: {required: false}

@@ -432,6 +432,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function updateTotalTaxe() {
         $this->total_taxe = $this->total_ttc - $this->total_ht;
+        $this->add('taux_tva',$this->getTauxTva());
     }
 
     public function getNbLignesMouvements() {
@@ -447,18 +448,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       return round($p + $p * $taux_tva, 2);
     }
     
-    public function getTauxTva() {
+    public function getTauxTva() {     
+        if($this->exist('taux_tva') && $this->_get('taux_tva')){
+            return round($this->_get('taux_tva'),2);
+        }
         $config_tva = sfConfig::get('app_tva_taux');
         $date_facturation = str_replace('-', '', $this->date_facturation);
-        $taux_f = 0.0;
+        $taux_f = 0.0;        
         foreach ($config_tva as $date => $taux) {
             if($date_facturation >= $date){
                 $taux_f = round($taux,2);
             }
         }
         return $taux_f;
-    }
-
+    }    
+    
     public function save() {
         parent::save();
         $this->saveDocumentsOrigine();
@@ -516,6 +520,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function hasAvoir(){
         return ($this->exist('avoir') && !is_null($this->get('avoir')));
+    }
+    
+    public function isAvoir() {
+        return (($this->exist('statut')) &&
+                ($this->statut == self::STATUT_NONREDRESSABLE) && 
+                ($this->exist("total_ht")) &&
+                ($this->total_ht < 0.0));
     }
     
     /*     * * ARCHIVAGE ** */

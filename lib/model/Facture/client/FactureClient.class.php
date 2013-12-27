@@ -258,6 +258,7 @@ class FactureClient extends acCouchdbClient {
       $avoir->numero_archive = null;
       $avoir->numero_interloire = null;
       $avoir->versement_comptable = 0;
+      $avoir->add('taux_tva', round($f->getTauxTva(),2));
       $avoir->save();
       $f->defacturer();
       $f->save();
