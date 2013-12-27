@@ -33,7 +33,7 @@ use_helper('Float');
                     \centering \small{} &
                     \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
                     
-                    \centering \small{\textbf{TVA 19.6~\%}} &
+                    \centering \small{\textbf{TVA <?php echo number_format($facture->getTauxTva(), 1, '.', ' ');?>~\%}} &
                     \multicolumn{1}{r}{\small{<?php echoArialFloat($facture->taxe); ?>~\texteuro{}}} \\
                     
                     \centering \small{} &

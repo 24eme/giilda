@@ -215,7 +215,7 @@ page \thepage / <?php echo $nb_page; ?>
                     \centering \small{} &
                     \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
                     
-                    \centering \small{\textbf{TVA 19.6~\%}} &
+                    \centering \small{\textbf{TVA <?php echoArialFloat($facture->getTauxTva());?>~\%}} &
                     \multicolumn{1}{r}{\small{<?php echoArialFloat($facture->taxe); ?>~\texteuro{}}} \\
                     
                     \centering \small{} &

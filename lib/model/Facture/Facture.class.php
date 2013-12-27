@@ -443,7 +443,20 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     protected function ttc($p) {
-      return round($p + $p * 0.196, 2);
+      $taux_tva = $this->getTauxTva()/100;
+      return round($p + $p * $taux_tva, 2);
+    }
+    
+    public function getTauxTva() {
+        $config_tva = sfConfig::get('app_tva_taux');
+        $date_facturation = str_replace('-', '', $this->date_facturation);
+        $taux_f = 0.0;
+        foreach ($config_tva as $date => $taux) {
+            if($date_facturation >= $date){
+                $taux_f = round($taux,2);
+            }
+        }
+        return $taux_f;
     }
 
     public function save() {
