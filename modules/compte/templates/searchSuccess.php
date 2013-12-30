@@ -77,7 +77,7 @@
 			<div class="page_suivante">
 				<?php if ($current_page < $last_page) $args['page'] = $current_page + 1; else $args['page'] = $last_page ;?>
 <?php if ($current_page != $args['page']): ?>
-				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_suivante"> > </a>
+				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> > </a>
 <?php endif; ?>
 				<?php $args['page'] = $last_page; ?>
 <?php if ($current_page != $args['page']): ?>
