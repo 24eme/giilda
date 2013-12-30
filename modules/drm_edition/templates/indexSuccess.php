@@ -14,8 +14,6 @@
 
         <?php include_partial('drm/controlMessage'); ?>
 
-        <?php include_partial('shortcutKeys') ?>
-
         <div id="application_dr">
 
             <?php include_component('drm_edition', 'produitForm', array('drm' => $drm, 'config' => $config)) ?>
