@@ -1260,9 +1260,9 @@ ul.radio_list li label { font-weight:normal !important; }
 .ui-dialog .ui-dialog-titlebar {
   margin:0 0 15px;
   overflow:hidden;
-  position:relative;
   width:100%;
 }
+.ui-dialog h2 { font-weight:bold; }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-title {
   color:;
   display:block;

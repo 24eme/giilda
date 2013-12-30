@@ -59,7 +59,7 @@
 
                             <div class="contenu">
                                 <ul>
-                                    <li class="raccourcis"><a href="#">Raccourcis clavier</a></li>
+                                    <li class="raccourcis"><a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a></li>
                                     <li class="contact"><a href="mailto:f.bodin@vinsdeloire.fr">Contacter le support</a></li>
                                 </ul>
                             </div>
@@ -68,7 +68,7 @@
 
                     </aside>
                 </div>
-
+                <?php include_partial('global/shortcutKeys') ?>
                 <?php include_partial('global/footer'); ?>
             </div>
 
