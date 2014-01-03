@@ -18,6 +18,7 @@ Compte:
              '*': { }
        id_societe: { }
        raison_sociale_societe: { required: false }
+       type_societe: { required: false }
        adresse_societe: {  }
        adresse: { }
        adresse_complementaire: { }

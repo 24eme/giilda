@@ -219,6 +219,7 @@ class Compte extends BaseCompte {
         $this->updateNomAAfficher();
 
         $this->add('raison_sociale_societe',$this->getSociete()->raison_sociale);
+        $this->add('type_societe',$this->getSociete()->type_societe);
         
         parent::save();
 

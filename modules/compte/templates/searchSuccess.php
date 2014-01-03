@@ -62,8 +62,9 @@
                                                     $class_picto = "societe_picto";
                                                 }
                                                 $raison_sociale_societe = (isset($data['raison_sociale_societe']))? $data['raison_sociale_societe'] : '';
+                                                $type_societe = (isset($data['type_societe']))? $data['type_societe'] : '';
                                                 ?>
-                                                <td class="<?php echo $class_picto; ?>" title="<?php echo $raison_sociale_societe; ?>"></td>
+                                                <td class="<?php echo $class_picto; ?>" title="<?php echo $raison_sociale_societe.' ('.$type_societe.')'; ?>"></td>
 						<td><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>"><?php echo $data['nom_a_afficher']; ?></a></td>
 						<td><?php echo $data['adresse']; ?>, <?php echo $data['code_postal']; ?>, <?php echo $data['commune']; ?></td>
 						<td><?php echo $data['telephone_bureau']; ?> <?php echo $data['telephone_mobile'] ?> <?php echo $data['telephone_perso']; ?> <?php echo $data['fax']; ?></td>

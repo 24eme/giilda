@@ -53,7 +53,8 @@ EOF;
        try {
           $compte->save(false,false,true);
           $raison_sociale_societe = $compte->get('raison_sociale_societe');
-          echo "Le compte $id_doc a été sauvé et sa raison sociale est : $raison_sociale_societe \n";
+          $type_societe = $compte->get('type_societe');
+          echo "Le compte $id_doc a été sauvé et sa raison sociale est : $raison_sociale_societe de type $type_societe \n";
            } catch (sfException $exc) {
                echo "ERREUR :  $id_doc \n";
                echo $exc->getTraceAsString()."\n";
