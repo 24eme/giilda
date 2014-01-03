@@ -13,6 +13,7 @@
 			<div class="form_btn">
                             <?php if($modification): ?>
                             <a href="<?php echo url_for('compte_modification',$compte);?>" class="btn_majeur btn_modifier">Modifier</a>
+                            <a href="<?php echo url_for('compte_search', array('q' => $compte->identifiant)); ?>" class="btn_majeur btn_nouveau" style="float: right;">Ajouter un tag</a>
                             <?php endif; ?>
                         </div>
 

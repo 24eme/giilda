@@ -77,7 +77,7 @@ class CompteAllView extends acCouchdbView {
     }
 
 
-    private function findByInterproVIEW($interpro) {
+    public function findByInterproVIEW($interpro) {
         return $this->client->startkey(array($interpro))
                         ->endkey(array($interpro, array()))
                         ->getView($this->design, $this->view)->rows;

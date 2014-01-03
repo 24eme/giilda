@@ -214,10 +214,12 @@ class Compte extends BaseCompte {
             $this->adresse_societe = (int) $fromsociete;
         }
 	$this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-
+        
         $this->synchro();
         $this->updateNomAAfficher();
 
+        $this->add('raison_sociale_societe',$this->getSociete()->raison_sociale);
+        
         parent::save();
 
 

@@ -101,6 +101,7 @@
                     $targs['tags'] = implode(',',array($type_tag . ':' . $t));
                     echo '<li><a href="' . url_for('compte_search', $targs) . '">' . str_replace('_', ' ', $t) . '</a>&nbsp;';
                     $targs['tag'] = $t;
+                    $targs['q'] = $compte->identifiant;
                     if ($type_tag == 'manuel') {
                         echo '(<a class="removetag" href="' . url_for('compte_removetag', $targs) . '">X</a>)';
                     }

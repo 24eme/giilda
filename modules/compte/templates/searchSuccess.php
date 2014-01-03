@@ -35,11 +35,11 @@
 
 			<thead>
 				<tr>
+                                        <th>Type</th>
 					<th>Nom</th>
 					<th>Adresse</th>
 					<th>Téléphone</th>
 					<th>Email</th>
-					<th>Détail</th>
 				</tr>
 			</thead>
 
@@ -50,13 +50,24 @@
 						$data = $res->getData();
 						$class = ($cpt % 2) ? ' class="even"' : ''; 
 					?>
-
+                            
 					<tr <?php echo $class; ?>>
-						<td><?php echo $data['nom_a_afficher']; ?></td>
+                                                <?php 
+                                                $class_picto = "contact_picto";
+                                                $compte_type = $data['compte_type'];
+                                                if($compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT){
+                                                    $class_picto = "etablissement_picto";
+                                                }
+                                                if($compte_type == CompteClient::TYPE_COMPTE_SOCIETE){
+                                                    $class_picto = "societe_picto";
+                                                }
+                                                $raison_sociale_societe = (isset($data['raison_sociale_societe']))? $data['raison_sociale_societe'] : '';
+                                                ?>
+                                                <td class="<?php echo $class_picto; ?>" title="<?php echo $raison_sociale_societe; ?>"></td>
+						<td><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>"><?php echo $data['nom_a_afficher']; ?></a></td>
 						<td><?php echo $data['adresse']; ?>, <?php echo $data['code_postal']; ?>, <?php echo $data['commune']; ?></td>
 						<td><?php echo $data['telephone_bureau']; ?> <?php echo $data['telephone_mobile'] ?> <?php echo $data['telephone_perso']; ?> <?php echo $data['fax']; ?></td>
 						<td><?php echo $data['email']; ?></td>
-						<td><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>">détail</a></td>
 					</tr>
 
 				<?php endforeach; ?>
