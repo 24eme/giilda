@@ -13,8 +13,10 @@
             <h2><?php echo $etablissement->nom; ?></h2>
             <div class="form_btn">
                 <?php if($modification && !$reduct_rights): ?>
-                <a href="<?php echo url_for('etablissement_modification',$etablissement);?>" class="btn_majeur btn_modifier">Modifier</a>
-                <?php endif; ?>
+                <a href="<?php echo url_for('etablissement_modification',$etablissement);?>" class="btn_majeur btn_modifier">Modifier</a>    
+                <a href="<?php echo url_for('compte_search', array('q' => str_replace('COMPTE-', '', $etablissement->compte))); ?>" class="btn_majeur btn_nouveau" style="float: right;">Ajouter un tag</a>
+               
+                    <?php endif; ?>
             </div>
             <div id="detail_etablissement" >
                     <?php include_partial('etablissement/visualisation', array('etablissement' => $etablissement,'ordre' => 0)); ?>
