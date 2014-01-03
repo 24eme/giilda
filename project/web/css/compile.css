@@ -3083,6 +3083,21 @@ bouton.recherche_contact #btn_rechercher { height:26px; }
   background:url("../images/pictos/pi_societe.png") no-repeat;
   top:3px;
 }
+.recherche_contact .etablissement_picto {
+  width:60px;
+  background:#f2d6be url('../images/pictos/pi_etablissement.png') center no-repeat;
+  text-decoration:none;
+}
+.recherche_contact .societe_picto {
+  width:60px;
+  background:#ecebeb url("../images/pictos/pi_societe.png") center no-repeat;
+  text-decoration:none;
+}
+.recherche_contact .contact_picto {
+  width:60px;
+  background:#cfe1f1 url("../images/boutons/btn_contact.png") center no-repeat;
+  text-decoration:none;
+}
 .itemcache { display:none; }
 p#date_drm {
   font-size:14px;

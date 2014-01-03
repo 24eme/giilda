@@ -1,4 +1,4 @@
-<div style="display: none">
+<div style="display: none" id="raccourci_clavier">
 	<div id="raccourci_clavier">
 		<h2>Raccourcis clavier :</h2>
 		<ul>

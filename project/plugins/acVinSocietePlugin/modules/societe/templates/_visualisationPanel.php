@@ -6,7 +6,8 @@ use_helper('Date');
     <div class="form_contenu">
         <?php if($modification) : ?>
 		<div class="form_modifier">
-			<a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_modifier">Modifier</a>
+                    <a href="<?php echo url_for('compte_search', array('q' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_majeur btn_nouveau">Ajouter un tag</a>
+                        <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_modifier">Modifier</a>
 		</div>
         <?php endif; ?>
         <div class="form_ligne">
