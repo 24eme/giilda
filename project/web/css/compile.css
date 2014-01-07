@@ -3098,6 +3098,43 @@ bouton.recherche_contact #btn_rechercher { height:26px; }
   background:#cfe1f1 url("../images/boutons/btn_contact.png") center no-repeat;
   text-decoration:none;
 }
+#infobulle_contact {
+  -webkit-box-shadow:0 0 20px #666666;
+  -moz-box-shadow:0 0 20px #666666;
+  box-shadow:0 0 20px #666666;
+  -webkit-box-shadow:0 0 20px #666666;
+  -moz-box-shadow:0 0 20px #666666;
+  box-shadow:0 0 20px #666666;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
+  border-radius:5px;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
+  border-radius:5px;
+  border:3px solid #3e3e3e;
+  background:#ffffff;
+  display:none;
+  line-height:1.6;
+  padding:10px;
+  position:absolute;
+  min-width:200px;
+  margin:5px 0 0 70px;
+}
+#infobulle_contact:before {
+  bottom:auto;
+  left:-13px;
+  position:absolute;
+  right:auto;
+  top:20px;
+  content:'';
+  display:inline-block;
+  border-style:solid;
+  border-width:10px 10px 10px 0;
+  border-color:transparent #3e3e3e transparent transparent;
+  height:0;
+  width:0;
+}
+#infobulle_contact .texte span { font-weight:bold; }
 .itemcache { display:none; }
 p#date_drm {
   font-size:14px;

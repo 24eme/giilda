@@ -747,3 +747,34 @@
         }
 }
 
+/* Infobulle contact */ 
+#infobulle_contact
+{
+	.box-shadow(0 0 20px #666);
+	.border-radius(5px);
+	border: 3px solid @couleur-a3;
+	background: #fff;
+	display: none;
+	line-height: 1.6;
+	padding: 10px;
+	position: absolute;
+	min-width: 200px;
+	margin: 5px 0 0 70px;
+	
+	&:before
+	{
+		.pos-abs(20px, auto, auto, -13px);
+		content: '';
+		display: inline-block;
+		border-style: solid;
+		border-width: 10px 10px 10px 0;
+		border-color: transparent @couleur-a3 transparent transparent;
+		height: 0;
+		width: 0;
+	}
+	
+	.texte
+	{
+		span { font-weight: bold; }
+	}
+}

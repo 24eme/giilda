@@ -335,5 +335,39 @@
 	        return false;
 	    });
 	};
-
+	
+	
+	/**
+	 * Infobulles
+	 ******************************************/
+	$.initContactInfobulles
+	{
+		var infobulle = $('<div id="infobulle_contact"></div>');
+		var infobulleTexte = $('<p class="texte" />');
+		var tableau = $('#resultats_contact');
+		var tds = tableau.find('[data-contact-infos]');
+		
+		infobulle.append(infobulleTexte);
+		$('body').append(infobulle);
+		
+		tds.each(function()
+		{
+			var td = $(this);
+			var texte = td.attr('data-contact-infos');
+			var pos = td.offset();
+		
+			console.log(pos);
+		
+			td.hover(function()
+			{
+				infobulle.css(pos).show();
+				infobulleTexte.html(texte);
+				
+			}, function()
+			{
+				infobulle.hide();
+			});
+		});
+	}
+	
 })(jQuery);
