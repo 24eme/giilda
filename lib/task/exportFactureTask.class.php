@@ -40,7 +40,7 @@ EOF;
 
 		}
         }
-	echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->numero_interloire.';Facture n°'.$facture->numero_interloire.' (TVA);44570000;;;;CREDIT;'.$facture->taxe.';;;'.$facture->_id.";\n";
+	echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->numero_interloire.';Facture n°'.$facture->numero_interloire.' (TVA);'.$this->getSageCompteGeneral($facture).';;;;CREDIT;'.$facture->taxe.';;;'.$facture->_id.";\n";
 	$nbecheance = count($facture->echeances);
 	if ($nbecheance) {
 	  $i = 0;
@@ -52,5 +52,12 @@ EOF;
 	  echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->numero_interloire.';Facture n°'.$facture->numero_interloire.' (Echeance unique);41100000;'.sprintf("%08d", $facture->code_comptable_client).';;'.$facture->date_facturation.';DEBIT;'.$facture->total_ttc.';;;'.$facture->_id.";\n";
 	}
     }
+  }
+  
+  protected function getSageCompteGeneral($facture) {
+      if($facture->getTauxTva() == 20.0){
+          return "44570100";
+      }
+      return "44570000";
   }
 }
