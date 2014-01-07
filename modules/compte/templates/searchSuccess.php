@@ -30,6 +30,29 @@
 	
 	<?php if($nb_results > 0): ?>
 		
+        		<div class="pagination">
+			<div class="page_precedente">
+				<?php 
+                                $args_copy = $args;
+                                $args = array('q' => $q); ?>
+<?php if ($current_page > 1) : ?>
+				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> << </a>
+				<?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
+				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> < </a>
+<?php endif; ?>
+			</div>
+			<div class="page_suivante">
+				<?php if ($current_page < $last_page) $args['page'] = $current_page + 1; else $args['page'] = $last_page ;?>
+<?php if ($current_page != $args['page']): ?>
+				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> > </a>
+<?php endif; ?>
+				<?php $args['page'] = $last_page; ?>
+<?php if ($current_page != $args['page']): ?>
+                                <a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_suivante"> >> </a>
+<?php endif; ?>
+			</div>
+		</div>
+        
 		
 		<table id="resultats_contact" class="table_recap">	
 			<?php $cpt = 0; ?>
@@ -81,9 +104,6 @@
 
 		<div class="pagination">
 			<div class="page_precedente">
-				<?php 
-                                $args_copy = $args;
-                                $args = array('q' => $q); ?>
 <?php if ($current_page > 1) : ?>
 				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> << </a>
 				<?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
