@@ -63,7 +63,7 @@ class CompteLdap extends acVinLdap {
       $info['telephoneNumber']  = $compte->telephone_bureau;
       if ($compte->telephone_mobile)
       $info['mobile']           = $compte->telephone_mobile;
-					      
+      $info['description']      = ($compte->exist('type_societe'))? $compte->type_societe : '';				      
       return $info;
     }
     
