@@ -30,9 +30,9 @@
                     <h3>Coordonnées de la société</h3>
                <?php      
                     if($reduct_rights) :
-                            include_partial('compte/modificationCoordonneeRestricted', array('compteForm' => $contactSocieteForm));
+                            include_partial('compte/modificationCoordonneeRestricted', array('compteForm' => $contactSocieteForm, 'compteSociete' => true));
                             else :
-                            include_partial('compte/modificationCoordonnee', array('compteForm' => $contactSocieteForm));
+                            include_partial('compte/modificationCoordonnee', array('compteForm' => $contactSocieteForm, 'compteSociete' => true));
                         endif;                    
                     ?>
                 </div>
