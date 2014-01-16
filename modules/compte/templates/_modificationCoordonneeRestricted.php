@@ -93,5 +93,14 @@
             <?php echo $compteForm['fax']->render(); ?>
             <?php echo $compteForm['fax']->renderError(); ?>
         </div>
+        <?php if(isset($compteSociete) && $compteSociete):  ?>
+        <div class="form_ligne">
+            <label for="site">
+                <?php echo $compteForm['site_internet']->renderLabel(); ?>
+            </label>
+            <?php echo $compteForm['site_internet']->render(); ?>
+            <?php echo $compteForm['site_internet']->renderError(); ?>
+        </div>
+        <?php endif; ?>
     </fieldset>
 </div>

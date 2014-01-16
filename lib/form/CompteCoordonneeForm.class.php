@@ -37,6 +37,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         $this->setWidget('telephone_bureau', new sfWidgetFormInput());
         $this->setWidget('telephone_mobile', new sfWidgetFormInput());
         $this->setWidget('fax', new sfWidgetFormInput());
+        $this->setWidget('site_internet', new sfWidgetFormInput());
         
         //   $this->setWidget('tags', new sfWidgetFormChoice(array('choices' => $this->getAllTags())));
         if (!$this->reduct_rights) {
@@ -52,6 +53,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('telephone_bureau', 'Telephone Bureau');
         $this->widgetSchema->setLabel('telephone_mobile', 'Mobile');
         $this->widgetSchema->setLabel('fax', 'Fax');
+        $this->widgetSchema->setLabel('site_internet', 'Site Internet');
         
         //    $this->widgetSchema->setLabel('tags', 'Tags');
 
@@ -69,6 +71,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         $this->setValidator('telephone_bureau', new sfValidatorString(array('required' => false)));
         $this->setValidator('telephone_mobile', new sfValidatorString(array('required' => false)));
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
+        $this->setValidator('site_internet', new sfValidatorString(array('required' => false)));
         
         //  $this->setValidator('tags', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getAllTags()))));
 

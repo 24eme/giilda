@@ -1,6 +1,6 @@
 <?php
 printf("\xef\xbb\xbf");//UTF8 BOM (pour windows)
-echo "#nom complet ; type ; civilité ; nom ; prénom ; adresse ; adresse complémentaire ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email; id societe; raison sociale societe; type societe\n";
+echo "#nom complet ; type ; civilité ; nom ; prénom ; adresse ; adresse complémentaire ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email; commentaire; id societe; raison sociale societe; type societe\n";
 foreach ($results as $res) {
   $data = $res->getData(ESC_RAW);
   
@@ -21,7 +21,8 @@ foreach ($results as $res) {
   echo '"'.$data['telephone_mobile']. '";';
   echo '"'.$data['telephone_perso']. '";';
   echo '"'.$data['fax']. '";';
-  echo '"'.$data['email']. '";';
+  echo '"'.$data['email']. '";';  
+  echo '"'.$data['commentaire']. '";';
   echo '"'.preg_replace('/SOCIETE-/', '', $data['id_societe']). '";';
   echo '"'.$raison_sociale_societe. '";';
   echo '"'.$type_societe. '";';

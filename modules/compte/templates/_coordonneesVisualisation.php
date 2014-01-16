@@ -87,6 +87,14 @@
             <?php echo $compte->fax; ?>
         </div>
     <?php endif; ?>
+    <?php if ($compte->exist('site_internet')) : ?>
+        <div class="form_ligne">
+            <label for="site_internet">
+                Site Internet :
+            </label>
+            <a href="<?php echo $compte->site_internet; ?>"><?php echo $compte->site_internet; ?></a>
+        </div>
+    <?php endif; ?>
 </fieldset>
 <fieldset>
     <div class="form_ligne">
