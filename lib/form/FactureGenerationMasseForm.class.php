@@ -19,7 +19,7 @@ class FactureGenerationMasseForm extends FactureGenerationForm {
 	$this->setValidator('seuil', new sfValidatorNumber(array('required' => false)));
         $this->setValidator('date_mouvement', new sfValidatorString());
         $this->setValidator('date_facturation', new sfValidatorString());
-        $this->setValidator('message_communication', new sfValidatorString());
+        $this->setValidator('message_communication', new sfValidatorString(array('required' => false)));
         
         $this->widgetSchema->setLabels(array(
             'regions' => 'Sélectionner des régions à facturer :',

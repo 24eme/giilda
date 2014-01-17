@@ -16,7 +16,7 @@ class FactureGenerationForm extends BaseForm {
         
         $this->setValidator('date_mouvement', new sfValidatorString());
         $this->setValidator('date_facturation', new sfValidatorString());
-        $this->setValidator('message_communication', new sfValidatorString());
+        $this->setValidator('message_communication', new sfValidatorString(array('required' => false)));
         
         $this->widgetSchema->setLabels(array(
             'message_communication' => 'Cadre de communication :',

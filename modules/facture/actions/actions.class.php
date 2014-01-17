@@ -29,7 +29,9 @@ class factureActions extends sfActions {
 	   $generation->arguments->add('date_facturation', $date_facturation);
 	   $generation->arguments->add('date_mouvement', $date_mouvement);
 	   $generation->arguments->add('seuil', $values['seuil']);
-           $generation->arguments->add('message_communication', $message_communication);
+           if($message_communication) {
+              $generation->arguments->add('message_communication', $message_communication);
+           }
 	   $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
            $generation->save();
 	 }
