@@ -118,12 +118,12 @@ class Compte extends BaseCompte {
       return preg_replace('/[ -=]/', '_', $tag);
     }
 
-    public function addTag($type, $tag) {
+    public function addTag($type, $tag) {   
       $tags = $this->add('tags')->add($type)->toArray(true, false);
       $tags[] = Compte::transformTag($tag);
       $tags = array_unique($tags);
       $this->get('tags')->remove($type);
-      $this->get('tags')->add($type, $tags);
+      $this->get('tags')->add($type, array_values($tags));
     }
 
     public function removeTag($type, $tags) {
@@ -132,7 +132,7 @@ class Compte extends BaseCompte {
       
       $tags_existant = array_diff($tags_existant, $tags);
       $this->get('tags')->remove($type);
-      $this->get('tags')->add($type, $tags);
+      $this->get('tags')->add($type, array_values($tags));
     }
     
     public function removeTags($type, $tags) {
@@ -143,7 +143,7 @@ class Compte extends BaseCompte {
       
       $tags_existant = array_diff($tags_existant, $tags);
       $this->get('tags')->remove($type);
-      $this->get('tags')->add($type, $tags_existant);
+      $this->get('tags')->add($type, array_values($tags_existant));
     }
 
     public function addOrigine($id) {    
@@ -214,10 +214,13 @@ class Compte extends BaseCompte {
             $this->adresse_societe = (int) $fromsociete;
         }
 	$this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-
+        
         $this->synchro();
         $this->updateNomAAfficher();
 
+        $this->add('raison_sociale_societe',$this->getSociete()->raison_sociale);
+        $this->add('type_societe',$this->getSociete()->type_societe);
+        
         parent::save();
 
 
@@ -307,6 +310,9 @@ class Compte extends BaseCompte {
     }
 
     public function setEmail($email) {
+        if ($email == "") {
+            return $this->_set('email', "");
+        }
         if (preg_match('/^ *$/', $email)) {
             return;
         }

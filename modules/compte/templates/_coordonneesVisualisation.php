@@ -87,6 +87,14 @@
             <?php echo $compte->fax; ?>
         </div>
     <?php endif; ?>
+    <?php if ($compte->exist('site_internet')) : ?>
+        <div class="form_ligne">
+            <label for="site_internet">
+                Site Internet :
+            </label>
+            <a href="<?php echo $compte->site_internet; ?>"><?php echo $compte->site_internet; ?></a>
+        </div>
+    <?php endif; ?>
 </fieldset>
 <fieldset>
     <div class="form_ligne">
@@ -101,6 +109,7 @@
                     $targs['tags'] = implode(',',array($type_tag . ':' . $t));
                     echo '<li><a href="' . url_for('compte_search', $targs) . '">' . str_replace('_', ' ', $t) . '</a>&nbsp;';
                     $targs['tag'] = $t;
+                    $targs['q'] = $compte->identifiant;
                     if ($type_tag == 'manuel') {
                         echo '(<a class="removetag" href="' . url_for('compte_removetag', $targs) . '">X</a>)';
                     }

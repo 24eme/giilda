@@ -1,11 +1,15 @@
 <?php
 
-class compteActions extends sfActions
-{
+class compteActions extends sfCredentialActions {
     
     public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->compte = CompteClient::getInstance()->createCompteFromSociete($this->societe);
+        $this->applyRights();
+        if(!($this->modification && !$this->reduct_rights)){
+          
+          return $this->forward('acVinCompte','forbidden');
+        }
         $this->processFormCompte($request);        
         $this->setTemplate('modification');
     }
@@ -13,6 +17,11 @@ class compteActions extends sfActions
     public function executeModification(sfWebRequest $request) {
         $this->compte = $this->getRoute()->getCompte();        
         $this->societe = $this->compte->getSociete(); 
+        $this->applyRights();
+        if(!($this->modification && !$this->reduct_rights)){
+          
+          return $this->forward('acVinCompte','forbidden');
+        }
         $this->processFormCompte($request);
     }
     
@@ -57,6 +66,7 @@ class compteActions extends sfActions
     public function executeVisualisation(sfWebRequest $request) {
         $this->compte = $this->getRoute()->getCompte();
         $this->societe = $this->compte->getSociete();
+        $this->applyRights();
         if($this->compte->isSocieteContact())
             $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
         if($this->compte->isEtablissementContact())

@@ -29,17 +29,41 @@
 	
 	
 	<?php if($nb_results > 0): ?>
-	
+		
+        		<div class="pagination">
+			<div class="page_precedente">
+				<?php 
+                                $args_copy = $args;
+                                $args = array('q' => $q); ?>
+<?php if ($current_page > 1) : ?>
+				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> << </a>
+				<?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
+				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> < </a>
+<?php endif; ?>
+			</div>
+			<div class="page_suivante">
+				<?php if ($current_page < $last_page) $args['page'] = $current_page + 1; else $args['page'] = $last_page ;?>
+<?php if ($current_page != $args['page']): ?>
+				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> > </a>
+<?php endif; ?>
+				<?php $args['page'] = $last_page; ?>
+<?php if ($current_page != $args['page']): ?>
+                                <a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_suivante"> >> </a>
+<?php endif; ?>
+			</div>
+		</div>
+        
+		
 		<table id="resultats_contact" class="table_recap">	
 			<?php $cpt = 0; ?>
 
 			<thead>
 				<tr>
+                                        <th>Type</th>
 					<th>Nom</th>
 					<th>Adresse</th>
 					<th>Téléphone</th>
 					<th>Email</th>
-					<th>Détail</th>
 				</tr>
 			</thead>
 
@@ -50,13 +74,28 @@
 						$data = $res->getData();
 						$class = ($cpt % 2) ? ' class="even"' : ''; 
 					?>
-
+                            
 					<tr <?php echo $class; ?>>
-						<td><?php echo $data['nom_a_afficher']; ?></td>
+                                                <?php 
+                                                $class_picto = "contact_picto";
+                                                $compte_type = $data['compte_type'];
+                                                if($compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT){
+                                                    $class_picto = "etablissement_picto";
+                                                }
+                                                if($compte_type == CompteClient::TYPE_COMPTE_SOCIETE){
+                                                    $class_picto = "societe_picto";
+                                                }
+                                                $raison_sociale_societe = (isset($data['raison_sociale_societe']))? $data['raison_sociale_societe'] : '';
+                                                $type_societe = (isset($data['type_societe']))? $data['type_societe'] : '';
+												$texte_infobulle =  '<span>Type :</span> '. $type_societe.'<br /><span>Nom :</span> '.$raison_sociale_societe;
+                                                ?>
+                                                <td
+													class="<?php echo $class_picto; ?>" data-contact-infos="<?php echo $texte_infobulle; ?>">
+												</td>
+						<td><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>"><?php echo $data['nom_a_afficher']; ?></a></td>
 						<td><?php echo $data['adresse']; ?>, <?php echo $data['code_postal']; ?>, <?php echo $data['commune']; ?></td>
 						<td><?php echo $data['telephone_bureau']; ?> <?php echo $data['telephone_mobile'] ?> <?php echo $data['telephone_perso']; ?> <?php echo $data['fax']; ?></td>
 						<td><?php echo $data['email']; ?></td>
-						<td><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>">détail</a></td>
 					</tr>
 
 				<?php endforeach; ?>
@@ -65,23 +104,20 @@
 
 		<div class="pagination">
 			<div class="page_precedente">
-				<?php 
-                                $args_copy = $args;
-                                $args = array('q' => $q); ?>
 <?php if ($current_page > 1) : ?>
-				<a href="<?php echo url_for('compte_search', $args); ?>"> <<- </a>
+				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> << </a>
 				<?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
-				<a href="<?php echo url_for('compte_search', $args); ?>"> <- </a>
+				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> < </a>
 <?php endif; ?>
 			</div>
 			<div class="page_suivante">
 				<?php if ($current_page < $last_page) $args['page'] = $current_page + 1; else $args['page'] = $last_page ;?>
 <?php if ($current_page != $args['page']): ?>
-				<a href="<?php echo url_for('compte_search', $args); ?>"> -> </a>
+				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> > </a>
 <?php endif; ?>
 				<?php $args['page'] = $last_page; ?>
 <?php if ($current_page != $args['page']): ?>
-                                <a href="<?php echo url_for('compte_search', $args); ?>"> ->> </a>
+                                <a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_suivante"> >> </a>
 <?php endif; ?>
 			</div>
 		</div>
@@ -92,13 +128,19 @@
 <?php
 	slot('colButtons'); 
 ?>
- <div class="bloc_col" >
+ <div class="bloc_col" id="action" >
 	<h2>Actions</h2>
 
 	<div class="contenu">
-		<ul>
-			<li class=""><a class="btn_majeur btn_acces" href="<?php echo url_for('societe');?>">Accueil des contacts</a></li>
-		</ul>
+            <ul>
+                <li class="">
+			<a class="btn_majeur btn_acces" href="<?php echo url_for('societe');?>">Accueil des contacts</a>
+                </li>
+                <li class="">
+                     <a class="btn_majeur btn_acces" href="<?php echo url_for('compte_search');?>">Accueil rech. avancée</a>
+                </li>
+            </ul>
+		
 	</div>
 </div>
 <?php
@@ -155,10 +197,10 @@
 			</ul>
 		</div>
 
+                <?php if(isset($args_copy)): ?>
 		<div class="bloc_col">
 		
 			<h2>Créer un tag</h2>
-
 			<form class="form_ajout_tag" action="<?php echo url_for('compte_addtag', $args_copy->getRawValue()); ?>" method="GET">
 			<input id="creer_tag" name="tag" class="tags" type="text" />
 			<input type="submit" value="ajouter" class="btn_majeur btn_modifier"/>
@@ -166,4 +208,5 @@
 			<input type="hidden" name="tags" value="<?php echo implode(',', $selected_rawtags->getRawValue()); ?>"/>
 			</form>
 		</div>
+                <?php endif; ?>
 <?php end_slot(); ?>

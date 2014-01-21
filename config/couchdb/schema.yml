@@ -17,6 +17,8 @@ Compte:
            fields:
              '*': { }
        id_societe: { }
+       raison_sociale_societe: { required: false }
+       type_societe: { required: false }
        adresse_societe: {  }
        adresse: { }
        adresse_complementaire: { }
@@ -30,6 +32,7 @@ Compte:
        telephone_bureau: {  }
        telephone_mobile: {  }
        fax: {  }
+       site_internet: { required: false }
        nom_a_afficher: {  }
        interpro: {  }
        statut: {  }

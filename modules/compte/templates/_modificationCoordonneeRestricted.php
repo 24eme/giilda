@@ -1,56 +1,59 @@
 <div class="form_contenu">                  
     <?php
-        echo $compteForm->renderHiddenFields();
-        echo $compteForm->renderGlobalErrors();
+    $compte = $compteForm->getObject();
+    
+    echo $compteForm->renderHiddenFields();
+    echo $compteForm->renderGlobalErrors();
+    
+    $countries = $compteForm->getCountryList();
     ?>
+
 
     <fieldset>
         <div class="form_ligne">
             <legend>Adresse</legend>
         </div>
         <div class="form_ligne">
-            <?php echo $compteForm['adresse']->renderError(); ?>
             <label for="adresse">
-                <?php echo $compteForm['adresse']->renderLabel(); ?>
+                <label for="compte_modification_adresse">N° et nom de rue *</label> 
             </label>
-            <?php echo $compteForm['adresse']->render(array('class' => 'champ_long')); ?>
+            <input type="text" id="compte_modification_adresse" class="champ_long" value="<?php echo $compte->adresse ; ?>" disabled="disabled" >   
         </div>
         <div class="form_ligne">
             <label for="adresse_complementaire">
-                <?php echo $compteForm['adresse_complementaire']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['adresse_complementaire']->render(array('class' => 'champ_long')); ?>
-            <?php echo $compteForm['adresse_complementaire']->renderError(); ?>
+                <label for="compte_modification_adresse_complementaire">Adresse complémentaire</label>            </label>
+            <input type="text" id="compte_modification_adresse_complementaire" class="champ_long" value="<?php echo $compte->adresse_complementaire ; ?>" disabled="disabled" >      
         </div>
         <div class="form_ligne">
             <label for="code_postal">
-                <?php echo $compteForm['code_postal']->renderLabel(); ?>
+                <label for="compte_modification_code_postal">CP *</label>      
             </label>
-            <?php echo $compteForm['code_postal']->render(); ?>
-            <?php echo $compteForm['code_postal']->renderError(); ?>
+            <input type="text" id="compte_modification_code_postal" value="<?php echo $compte->code_postal ; ?>" disabled="disabled" >       
         </div>
         <div class="form_ligne">
             <label for="commune">
-                <?php echo $compteForm['commune']->renderLabel(); ?>
+                <label for="compte_modification_commune">Ville *</label>         
             </label>
-            <?php echo $compteForm['commune']->render(array('class' => 'champ_long')); ?>
-            <?php echo $compteForm['commune']->renderError(); ?>
+            <input type="text" id="compte_modification_commune" class="champ_long" value="<?php echo $compte->commune ; ?>" disabled="disabled" >  
         </div>                
         <div class="form_ligne">
             <label for="cedex">
-                <?php echo $compteForm['cedex']->renderLabel(); ?>
+                <label for="compte_modification_cedex">Cedex</label>           
             </label>
-            <?php echo $compteForm['cedex']->render(); ?>
-            <?php echo $compteForm['cedex']->renderError(); ?>
+            <input type="text" id="compte_modification_cedex" value="<?php echo $compte->cedex ; ?>" disabled="disabled" >     
         </div>                 
         <div class="form_ligne">
             <label for="pays">
-                <?php echo $compteForm['pays']->renderLabel(); ?>
+                <label for="compte_modification_pays">Pays *</label>            
             </label>
-            <?php echo $compteForm['pays']->render(); ?>
-            <?php echo $compteForm['pays']->renderError(); ?>
-        </div>
+            <select id="compte_modification_pays" class="autocomplete" name="compte_modification[pays]" disabled="disabled"  >
+                <?php foreach ($countries as $key => $country): ?>
+                    <option value="<?php echo $key; ?>" <?php echo ($compte->pays == $key)? 'selected="selected"' : '';?> ><?php echo $country; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>   
     </fieldset>
+
     <fieldset>
         <div class="form_ligne">
             <legend>E-mail / téléphone / fax</legend>

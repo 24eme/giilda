@@ -20,7 +20,7 @@ class acHttpAuth2ADFilter extends sfFilter
       acHttpAuth2ADFilter::logout();
     }
 
-    if ($user->getAttribute('AUTH_USER') == $_SERVER['PHP_AUTH_USER'] && !isset($_GET['forcead'])) {
+    if ($user->isAuthenticated() && $user->getAttribute('AUTH_USER') == $_SERVER['PHP_AUTH_USER'] && !isset($_GET['forcead'])) {
       return $filterChain->execute();
     }
     $user->clearCredentials();
@@ -30,16 +30,16 @@ class acHttpAuth2ADFilter extends sfFilter
     try {
       $rights = $ad->getDescription($_SERVER['PHP_AUTH_USER']);
     }catch(Exception $e) {
-      if (!sfConfig::get('app_ad_basebn')) {
-	$rights = sfConfig::get('app_ad_defaultright');
-	$user->addCredential('noAD');
+      if (!sfConfig::get('app_ad_basebn')) {          
+	      $rights = sfConfig::get('app_no_ad_rights', 'admin');
+	      $user->addCredential('noAD');
       }
     }
     $user->setAttribute('AUTH_USER', $_SERVER['PHP_AUTH_USER']);
     $user->setAttribute('AUTH_DESC', $rights);
     $user->addCredential($rights);
     if ($rights == 'admin') {
-      $user->addCredential('transaction');
+      $user->addCredential('transactions');
     }
     if ($rights) {
       $user->addCredential('contacts');
@@ -55,7 +55,11 @@ class acHttpAuth2ADFilter extends sfFilter
   public static function logout ($dest = null)
   {
     header('HTTP/1.0 401 Unauthorized');
-    header('WWW-Authenticate: Basic realm="' . sfConfig::get('app_auth_realm') . '"');
+    $extra = '';
+    if (isset($_SERVER['PHP_AUTH_USER'])) {
+      $extra = ' (not '.$_SERVER['PHP_AUTH_USER'].')';
+    }
+    header('WWW-Authenticate: Basic realm="Fake user'.$extra.'"');
     if ($dest) {
       header('Location: '.$dest."\n");
     }
