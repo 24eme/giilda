@@ -115,7 +115,7 @@ class Compte extends BaseCompte {
     
     public static function transformTag($tag) {
       $tag = strtolower($tag);
-      return preg_replace('/[^a-z0-9]/', '_', $tag);
+      return preg_replace('/[^a-z0-9éàùèêëïç]/', '_', $tag);
     }
 
     public function addTag($type, $tag) {   
