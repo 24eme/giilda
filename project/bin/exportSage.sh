@@ -14,6 +14,7 @@ if test "$SAMBA_IP" && test "$SAMBA_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA
 	    echo "$VINSIEXPORT should not be present" 1>&2
         echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
         echo "ERREUR le fichier $VINSIEXPORT ne devrait pas être present ($0)" >> $TMP/$SAGE_EMAILFILE
+	echo "DIAGNOSTIQUE: un import SAGE précédent ne s'est pas bien déroulé (pas executé ou executé de manière partiel). Vérifiez SAGE, supprimer le fichier $VINSIEXPORT pour que la tache d'export s'execute correctement lors de son prochain passage" >> $TMP/$SAGE_EMAILFILE
 	exit 3
     fi
     smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; rm factures.csv ; rm societes.csv"

@@ -48,6 +48,7 @@ if test "$SAMBA_SAGEVERIFY" && ! smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AU
     echo "$VINSIEXPORT should not be present" 1>&2
     echo -n $(date'+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
     echo "ERREUR IMPORT SAGE (le fichier $VINSIEXPORT ne devrait pas être present)" >> $TMP/$SAGE_EMAILFILE
+    echo "DIAGNOSTIQUE: l'import de SAGE ne s'est pas executé ou executé de manière partiel. Vérifiez l'import puis supprimer le fichier $VINSIEXPORT sur le serveur de fichier" >> $TMP/$SAGE_EMAILFILE
     sendEmail
     exit 3
 fi
