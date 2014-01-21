@@ -2,9 +2,14 @@
 
 . bin/config.inc
 
-php symfony export:facture > /tmp/factures.csv
+csv=$1
 
-awk -F ';' '{print $2";"$14}' /tmp/factures.csv  | grep FACTURE | sort | uniq  | while read datefacture ; 
+if ! test "$csv" ; then 
+    php symfony export:facture > /tmp/factures.csv
+    csv=/tmp/factures.csv
+fi
+
+awk -F ';' '{print $2";"$14}' $csv  | grep FACTURE | sort | uniq  | while read datefacture ; 
 do
         facture=$(echo $datefacture | sed 's/.*;//')
         date=$(echo $datefacture | sed 's/;.*//')
