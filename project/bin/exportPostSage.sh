@@ -25,7 +25,7 @@ rm $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer
 }
 
 if ! test "$SAMBA_IP" || ! test "$SAMBA_SHARE" || ! test "$SAMBA_AUTH" || ! test "$SAMBA_SAGESUBDIR" || ! test "$SAMBA_SAGEFILE"; then
-    echo "Pas d'info sur les contacts avec le serveur SAGE"
+    echo "ERREUR: Pas d'info sur les contacts avec le serveur SAGE (pb de configuration de VINSI)"
     exit 3
 fi
 
@@ -34,6 +34,7 @@ if smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; 
     echo "societes.csv not found" 1>&2
     echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
     echo "ERREUR le fichier societes.csv n'a pas été trouvé sur le répertoire de partage ($0)" >> $TMP/$SAGE_EMAILFILE
+    echo "DIAGNOSTIQUE: le transfer des fichiers VINSI ne semble pas s'être bien passé lors de l'etape exportSage" >> $TMP/$SAGE_EMAILFILE
     sendEmail
     exit 4
 fi
@@ -41,6 +42,7 @@ if smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; 
     echo "factures.csv not found" 1>&2
     echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
     echo "ERREUR le fichier factures.csv n'a pas été trouvé sur le répertoire de partage ($0)" >> $TMP/$SAGE_EMAILFILE
+    echo "DIAGNOSTIQUE: le transfer des fichiers VINSI ne semble pas s'être bien passé lors de l'etape exportSage" >> $TMP/$SAGE_EMAILFILE
     sendEmail
     exit 5
 fi
@@ -48,7 +50,7 @@ if test "$SAMBA_SAGEVERIFY" && ! smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AU
     echo "$VINSIEXPORT should not be present" 1>&2
     echo -n $(date'+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
     echo "ERREUR IMPORT SAGE (le fichier $VINSIEXPORT ne devrait pas être present)" >> $TMP/$SAGE_EMAILFILE
-    echo "DIAGNOSTIQUE: l'import de SAGE ne s'est pas executé ou executé de manière partiel. Vérifiez l'import puis supprimer le fichier $VINSIEXPORT sur le serveur de fichier" >> $TMP/$SAGE_EMAILFILE
+    echo "DIAGNOSTIQUE: l'import de SAGE ne s'est pas executé ou executé de manière partiel. Vérifiez l'état de SAGE, supprimez les eventuels imports (les factures seront reexportées au prochain export) puis supprimez le fichier $VINSIEXPORT sur le serveur de fichier" >> $TMP/$SAGE_EMAILFILE
     sendEmail
     exit 3
 fi
