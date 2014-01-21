@@ -4,7 +4,6 @@
    <p><?php echo $restants; ?> restants</p>
  </section>
 </section>
-<script>document.location.reload();</script>
 <?php
 	slot('colButtons'); 
 ?>
