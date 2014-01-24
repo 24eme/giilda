@@ -4,6 +4,13 @@
 . bin/import_functions.inc
 
 curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g'| sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
+
+
+echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/AJV\/mentions\/DEFAUT\/lieux\/BRI\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"92"/' >> $TMP/sed_produit_code
+echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/MUS\/mentions\/DEFAUT\/lieux\/AC\/couleurs\/blanc\/cepages\/MEL"\)/;\1;"1040"/' >> $TMP/sed_produit_code
+echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAV\/mentions\/DEFAUT\/lieux\/RAM\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"141"/' >> $TMP/sed_produit_code
+echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAU\/mentions\/DEFAUT\/lieux\/CHA\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"182"/' >> $TMP/sed_produit_code
+
 echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_code
 
 echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export)" > $TMP/export_bi_mouvements.csv
