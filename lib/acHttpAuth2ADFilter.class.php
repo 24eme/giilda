@@ -38,7 +38,6 @@ class acHttpAuth2ADFilter extends sfFilter
 	      $user->addCredential('noAD');
       }
     }
-    $user->setAttribute('AUTH_USER', $_SERVER['PHP_AUTH_USER']);
     if (isset($_SERVER['PHP_AUTH_USER'])) {
            $user->setAttribute('AUTH_USER', $_SERVER['PHP_AUTH_USER']);
     }else{
