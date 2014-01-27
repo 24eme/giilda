@@ -20,7 +20,7 @@ class acHttpAuth2ADFilter extends sfFilter
       acHttpAuth2ADFilter::logout();
     }
 
-    if ($user->isAuthenticated() && $user->getAttribute('AUTH_USER') == $_SERVER['PHP_AUTH_USER'] && !isset($_GET['forcead'])) {
+    if ($user->isAuthenticated() && isset($_SERVER['PHP_AUTH_USER']) && $user->getAttribute('AUTH_USER') == $_SERVER['PHP_AUTH_USER'] && !isset($_GET['forcead'])) {
       return $filterChain->execute();
     }
     $user->clearCredentials();
@@ -28,6 +28,9 @@ class acHttpAuth2ADFilter extends sfFilter
 
     $ad = new acActiveDirectory();
     try {
+      if (!isset($_SERVER['PHP_AUTH_USER'])) {
+	throw new Exception('phpauth');
+      }
       $rights = $ad->getDescription($_SERVER['PHP_AUTH_USER']);
     }catch(Exception $e) {
       if (!sfConfig::get('app_ad_basebn')) {          
@@ -36,6 +39,12 @@ class acHttpAuth2ADFilter extends sfFilter
       }
     }
     $user->setAttribute('AUTH_USER', $_SERVER['PHP_AUTH_USER']);
+    if (isset($_SERVER['PHP_AUTH_USER'])) {
+           $user->setAttribute('AUTH_USER', $_SERVER['PHP_AUTH_USER']);
+    }else{
+           $user->setAttribute('AUTH_USER',  sfConfig::get('app_no_ad_rights', 'admin'));
+    }
+
     $user->setAttribute('AUTH_DESC', $rights);
     $user->addCredential($rights);
     if ($rights == 'admin') {
@@ -54,6 +63,9 @@ class acHttpAuth2ADFilter extends sfFilter
    */
   public static function logout ($dest = null)
   {
+    if (!sfConfig::get('app_ad_basebn')) {
+      return ;
+    }
     header('HTTP/1.0 401 Unauthorized');
     $extra = '';
     if (isset($_SERVER['PHP_AUTH_USER'])) {
