@@ -93,7 +93,7 @@ class sfCredentialActions extends sfActions {
         switch ($this->user) {
             case self::CREDENTIAL_PRESSE:
                 if ($this->societe->isTransaction()) {
-                    $this->modification = true;
+                    $this->modification = false;
                     $this->reduct_rights = true;     
                 }
                 if ($this->societe->isInstitution()) {
@@ -102,7 +102,7 @@ class sfCredentialActions extends sfActions {
             return;
             case self::CREDENTIAL_DIRECTION:
                 if ($this->societe->isTransaction()) {
-                    $this->modification = true;
+                    $this->modification = false;
                     $this->reduct_rights = true;
                 }
                 if ($this->societe->isPresse()) {

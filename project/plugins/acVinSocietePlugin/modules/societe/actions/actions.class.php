@@ -90,7 +90,7 @@ class societeActions extends sfCredentialActions {
     public function executeModification(sfWebRequest $request) {  
         $this->societe = $this->getRoute()->getSociete();       
         $this->applyRights();
-        if(!($this->modification && !$this->reduct_rights)){
+        if(!$this->modification && !$this->reduct_rights){
           $this->forward('acVinCompte','forbidden');
         }
         $this->contactSociete = CompteClient::getInstance()->find($this->societe->compte_societe);
