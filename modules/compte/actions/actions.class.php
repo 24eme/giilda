@@ -6,7 +6,7 @@ class compteActions extends sfCredentialActions {
         $this->societe = $this->getRoute()->getSociete();
         $this->compte = CompteClient::getInstance()->createCompteFromSociete($this->societe);
         $this->applyRights();
-        if(!($this->modification && !$this->reduct_rights)){
+        if(!$this->modification && !$this->reduct_rights){
           
           return $this->forward('acVinCompte','forbidden');
         }
@@ -18,7 +18,7 @@ class compteActions extends sfCredentialActions {
         $this->compte = $this->getRoute()->getCompte();        
         $this->societe = $this->compte->getSociete(); 
         $this->applyRights();
-        if(!($this->modification && !$this->reduct_rights)){
+        if(!$this->modification && !$this->reduct_rights){
           
           return $this->forward('acVinCompte','forbidden');
         }
