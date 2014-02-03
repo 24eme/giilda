@@ -93,7 +93,7 @@ class sfCredentialActions extends sfActions {
         switch ($this->user) {
             case self::CREDENTIAL_PRESSE:
                 if ($this->societe->isTransaction()) {
-                    $this->modification = false;
+                    $this->modification = true;
                     $this->reduct_rights = true;     
                 }
                 if ($this->societe->isInstitution()) {
@@ -107,7 +107,7 @@ class sfCredentialActions extends sfActions {
                 }
                 if ($this->societe->isPresse()) {
                     $this->modification = false;
-                }
+                }                
             return;
             case self::CREDENTIAL_AUTRE:
                 if ($this->societe->isTransaction()) {
@@ -116,7 +116,7 @@ class sfCredentialActions extends sfActions {
                 }
                 if ($this->societe->isPresse()) {
                     $this->modification = false;
-                }
+                }                
                 if ($this->societe->isInstitution()) {
                     $this->modification = false;                    
                 }
@@ -132,7 +132,8 @@ class sfCredentialActions extends sfActions {
             case self::CREDENTIAL_BUREAU:
             
                  if (!$this->societe->isSyndicat()) {
-                    $this->modification = false;
+                    $this->modification = true;
+                    $this->reduct_rights = false;
                 }
                 return;
             default:
