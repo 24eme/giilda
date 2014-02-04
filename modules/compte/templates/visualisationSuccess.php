@@ -11,7 +11,7 @@
                     <h2><?php echo ($compte->nom_a_afficher)? $compte->nom_a_afficher : $compte->nom ;?>&nbsp;(<?php echo $compte->identifiant;?>)</h2>
 
 			<div class="form_btn">
-                            <?php if($modification): ?>
+                            <?php if($modification || $reduct_rights): ?>
                             <a href="<?php echo url_for('compte_modification',$compte);?>" class="btn_majeur btn_modifier">Modifier</a>
                             <a href="<?php echo url_for('compte_search', array('q' => $compte->identifiant)); ?>" class="btn_majeur btn_nouveau" style="float: right;">Ajouter un tag</a>
                             <?php endif; ?>
