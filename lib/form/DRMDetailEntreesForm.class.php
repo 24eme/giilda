@@ -11,7 +11,7 @@ class DRMDetailEntreesForm  extends acCouchdbObjectForm {
 	    		} else {
 	    			$this->setWidget($key, new sfWidgetFormInputFloat());
 	    		}
-	    		$this->setValidator($key, new sfValidatorNumber(array('required' => false, 'min' => 0)));
+	    		$this->setValidator($key, new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite"))));
     		}
     	}        
         $this->widgetSchema->setNameFormat('drm_detail_entrees[%s]');
