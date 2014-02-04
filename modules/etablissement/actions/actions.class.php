@@ -5,7 +5,7 @@ class etablissementActions extends sfCredentialActions {
  public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->applyRights();
-        if(!($this->modification && !$this->reduct_rights)){
+        if(!$this->modification){
             $this->forward('acVinCompte','forbidden');
         }
         $this->etablissement = EtablissementClient::getInstance()->createEtablissementFromSociete($this->societe);
@@ -17,7 +17,7 @@ class etablissementActions extends sfCredentialActions {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
         $this->applyRights();
-        if(!($this->modification && !$this->reduct_rights)){
+        if(!$this->modification){
           $this->forward('acVinCompte','forbidden');
         }
         $this->processFormEtablissement($request);
