@@ -11,7 +11,7 @@
 				<h2><?php echo $societe->raison_sociale; ?></h2>
 				
 				<div class="btn_haut">
-                                  <?php if($modification) : ?>  
+                                  <?php if($modification || $reduct_rights) : ?>  
 					<a href="<?php echo url_for('compte_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur">Nouvel interlocuteur</a>
 					&nbsp;
 					<?php if(!$reduct_rights && $societe->canHaveChais()) : ?>  
@@ -20,7 +20,7 @@
                                   <?php endif; ?>  
 				</div>
 				
-				<?php include_partial('visualisationPanel', array('societe' => $societe, 'modification' => $modification)); ?>
+				<?php include_partial('visualisationPanel', array('societe' => $societe, 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
                                 <div id="detail_societe_coordonnees" class="form_section ouvert">
 					<h3>Coordonnées de la société</h3>
 					<div class="form_contenu">
