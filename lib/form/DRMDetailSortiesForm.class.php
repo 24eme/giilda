@@ -11,7 +11,7 @@ class DRMDetailSortiesForm  extends acCouchdbObjectForm {
 	    		} else {
 	    			$this->setWidget($key, new sfWidgetFormInputFloat());
 	    		}
-	    		$this->setValidator($key, new sfValidatorNumber(array('required' => false)));
+	    		$this->setValidator($key, new sfValidatorNumber(array('required' => false, 'min' => 0)));
     		}
     	}        
         $this->widgetSchema->setNameFormat('drm_detail_sorties[%s]');
