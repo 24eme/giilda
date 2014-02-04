@@ -16,7 +16,7 @@ class SV12UpdateForm  extends acCouchdbForm {
     public function configure() {  
     	foreach ($this->getDocument()->getContrats() as $value) {
                 $this->setWidget($value->getKey(), new sfWidgetFormInputFloat(array()));
-                $this->setValidator($value->getKey(), new sfValidatorNumber(array('required' => false)));
+                $this->setValidator($value->getKey(), new sfValidatorNumber(array('required' => false, 'min' => 0)));
     	}  
         
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
