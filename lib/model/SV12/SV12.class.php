@@ -45,6 +45,10 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     public function getCampagne() {
       return $this->_get('campagne');
     }
+    
+    public function getFirstDayOfPeriode() {        
+       return substr($this->periode, 0,4).'-'.substr($this->periode, 4,2).'-01';
+    }
 
     public function getPeriodeAndVersion() {
 
