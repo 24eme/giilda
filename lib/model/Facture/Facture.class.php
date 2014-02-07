@@ -209,7 +209,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     private function createOrigineLibelle($ligne, $transacteur, $famille, $view) { 
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
-        if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV) {
+        if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12) {
             if ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART) {
                 $origine_libelle = " (".$transacteur.") ".SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
                 return $origine_libelle;

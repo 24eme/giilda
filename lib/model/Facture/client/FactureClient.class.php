@@ -2,7 +2,7 @@
 class FactureClient extends acCouchdbClient {
 
     const FACTURE_LIGNE_ORIGINE_TYPE_DRM = "DRM";
-    const FACTURE_LIGNE_ORIGINE_TYPE_SV = "SV12";
+    const FACTURE_LIGNE_ORIGINE_TYPE_SV12 = "SV12";
     const FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE = "propriete";
     const FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT = "contrat";
     const FACTURE_LIGNE_PRODUIT_TYPE_VINS = "contrat_vins";
@@ -12,6 +12,8 @@ class FactureClient extends acCouchdbClient {
     
     const STATUT_REDRESSEE = 'redressee';
     const STATUT_NONREDRESSABLE = 'non redressable';
+
+    public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12);
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Facture");
@@ -105,24 +107,37 @@ class FactureClient extends acCouchdbClient {
     }
     
     public function filterWithParameters($mouvementsBySoc, $parameters) {
-      if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'])){
-        $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
-        foreach ($mouvementsBySoc as $identifiant => $mouvements) {
-            foreach ($mouvements as $key => $mouvement) {
-                    $farDateMvt = $this->getGreatestDate($mouvement->value[MouvementfactureFacturationView::VALUE_DATE]);
-                    if(Date::sup($farDateMvt,$date_mouvement)) {
-		      unset($mouvements[$key]);
-		      $mouvementsBySoc[$identifiant] = $mouvements;
-                    }
-            }
+        if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'])){
+          $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
+          foreach ($mouvementsBySoc as $identifiant => $mouvements) {
+              foreach ($mouvements as $key => $mouvement) {
+                      $farDateMvt = $this->getGreatestDate($mouvement->value[MouvementfactureFacturationView::VALUE_DATE]);
+                      if(Date::sup($farDateMvt,$date_mouvement)) {
+  		                    unset($mouvements[$key]);
+                          $mouvementsBySoc[$identifiant] = $mouvements;
+                          continue;
+                      }
+                        
+                      if(isset($parameters['type_document']) && !in_array($parameters['type_document'], self::$origines)) {
+                          unset($mouvements[$key]);
+                          $mouvementsBySoc[$identifiant] = $mouvements;
+                          continue;
+                      }
+                      
+                      if(isset($parameters['type_document']) && $parameters['type_document'] != $mouvement->key[MouvementfactureFacturationView::KEYS_ORIGIN]) {
+                        unset($mouvements[$key]);
+                        $mouvementsBySoc[$identifiant] = $mouvements;
+                        continue;
+                      }
+              }
+          }
         }
-      }
         foreach ($mouvementsBySoc as $identifiant => $mouvements) {
             $somme = 0;
             foreach ($mouvements as $key => $mouvement) {
                 $somme+= $mouvement->value[MouvementfactureFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementfactureFacturationView::VALUE_CVO];
             }
-	    $somme = $somme * -1;
+	          $somme = $somme * -1;
             $somme = $this->ttc($somme);
             if($somme == 0){
                $mouvementsBySoc[$identifiant] = null; 
@@ -131,7 +146,7 @@ class FactureClient extends acCouchdbClient {
             if (isset($parameters['seuil']) && $parameters['seuil']) {
                 if (($somme < $parameters['seuil']) && ($somme >= 0)) {  
                     $mouvementsBySoc[$identifiant] = null;
-                    }
+                }
           }
         
       }
