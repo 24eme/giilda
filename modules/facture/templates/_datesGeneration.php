@@ -1,3 +1,8 @@
+<div class="ligne_form">
+    <?php echo $form['type_document']->renderlabel(); ?>
+    <?php echo $form['type_document']->renderError() ?> 
+    <?php echo $form['type_document']->render(); ?>
+</div>
 <span>Choisir la date de facturation :</span>
 <span>(Tous les mouvements antérieurs à la date saisie seront facturés. Cette date figurera sur la facture)</span>
 <div class="ligne_form champ_datepicker">
