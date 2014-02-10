@@ -34,7 +34,7 @@
 			<div class="page_precedente">
 				<?php 
                                 $args_copy = $args;
-                                $args = array('q' => $q); ?>
+                                $args = array('q' => $q, 'tags' => $args['tags']); ?>
 <?php if ($current_page > 1) : ?>
 				<a href="<?php echo url_for('compte_search', $args); ?>" class="btn_majeur page_precedente"> << </a>
 				<?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
