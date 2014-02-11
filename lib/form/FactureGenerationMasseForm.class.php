@@ -10,7 +10,7 @@ class FactureGenerationMasseForm extends FactureGenerationForm {
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults['date_facturation'] = date('d/m/Y');
-        $defaults['type_document'] = self::TYPE_DOCUMENT_TOUS;
+        $defaults['type_document'] = FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM;
         parent::__construct($defaults, $options, $CSRFSecret);
     }
 
