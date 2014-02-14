@@ -176,13 +176,12 @@ class DRMClient extends acCouchdbClient {
 	->getView("drm", "all")
 	->rows;
       $current = ConfigurationClient::getInstance()->getCurrentCampagne();
-      $list = array($current => $current);
       foreach($rows as $r) {
 	$c = $r->key[1];
 	$list[$c] = $c;
       }
       krsort($list);
-      return $list;
+      return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
     }
 
     public function viewByIdentifiant($identifiant) {
