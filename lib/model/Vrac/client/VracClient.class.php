@@ -214,6 +214,10 @@ class VracClient extends acCouchdbClient {
         $list = array();
         foreach ($rows as $r) {
             $c = $r->key[2];
+            if(!$c) {
+
+                continue;
+            }
             $list[$c] = $c;
         }
         krsort($list);
