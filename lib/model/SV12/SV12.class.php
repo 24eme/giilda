@@ -221,6 +221,8 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->generateMouvements();
         $this->updateTotaux();
 
+        $this->archivage_document->archiver();
+
         if(!isset($options['pas_solder'])) {
             $this->solderContrats();
         }
