@@ -176,6 +176,7 @@ class DRMClient extends acCouchdbClient {
 	->getView("drm", "all")
 	->rows;
       $current = ConfigurationClient::getInstance()->getCurrentCampagne();
+      $list = array();
       foreach($rows as $r) {
 	$c = $r->key[1];
 	$list[$c] = $c;
