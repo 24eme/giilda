@@ -59,7 +59,7 @@ class acVinCompteActions extends sfActions
     }
     $this->dest = $this->generateUrl('ac_vin_login', array('referer' => $referer), true); //"http://".$_SERVER["SERVER_NAME"];
     if (isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] != 'logout') {
-      $this->dest = preg_replace('/http:\/\//', 'http://logout:logout@', $dest);
+      $this->dest = preg_replace('/http:\/\//', 'http://logout:logout@', $this->dest);
     }
   }
 
