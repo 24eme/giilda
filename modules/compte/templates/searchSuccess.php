@@ -181,16 +181,23 @@
 				foreach($facets as $type => $ftype) {
 				  if (count($ftype['terms'])) {
 					echo '<li class="typetag">'.$type.'</li><ul>';
-					foreach($ftype['terms'] as $f) {
-                                           if (preg_match('/^(export|produit)_/', $f['term'])) {
-                                                continue;
-                                            }
+					$i=0;
+                    foreach($ftype['terms'] as $f) {
+                        if (preg_match('/^(export|produit)_/', $f['term'])) {
+                            continue;
+                        }
 
 					  $targs = $args_copy->getRawValue();
 					  $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term'])));
-					  echo '<li><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $f['term']).' ('.$f['count'].')</a></li>';
+					  echo '<li class="'.(($i>=20) ? 'tag_overflow' : '').'"><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $f['term']).' ('.$f['count'].')</a></li>';
+                      $i++;
 					}
-					echo '</ul>';
+                    ?>
+                    <?php if($i > 20): ?>
+                        <li><a class="tags_more" data-toggle-text="(réduire)" href="">(voir plus)</a></li>
+                    <?php endif; ?>
+					</ul>
+                    <?php
 				  }
 				}
 				?>

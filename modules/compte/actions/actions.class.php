@@ -205,7 +205,7 @@ class compteActions extends sfCredentialActions {
       foreach($facets as $nom => $f) {
 	$elasticaFacet 	= new acElasticaFacetTerms($nom);
 	$elasticaFacet->setField($f);
-	$elasticaFacet->setSize(20);
+	$elasticaFacet->setSize(200);
 	$elasticaFacet->setOrder('count');
 	$q->addFacet($elasticaFacet);
       }
