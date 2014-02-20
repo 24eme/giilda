@@ -50,6 +50,8 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask
 
         if(!isset($options['campagne']) || !$options['campagne']) {
             $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+        } else {
+            $campagne = $options['campagne'];
         }
 
         $this->logSection("campagne use", $campagne);
@@ -70,22 +72,22 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask
               	if ($m->detail_libelle && $m->type_libelle == 'Export') {
               	  $tags['export'][$m->detail_libelle] = 1;
               	}
-            }
+            }   
             $etablissement = EtablissementClient::getInstance()->findByIdentifiant(str_replace('ETABLISSEMENT-', '' ,$id));
             if (!$etablissement) {
       	        throw new sfException("etablissement $id non trouvé");
             }
             $compte = $etablissement->getContact();
-            if (!count($tags)) {
-      	        continue;
-            }
             if($options['reinitialisation_tags_export']) {
                 $compte->tags->remove('export');
-                $this->logSection("reset tag export", $compte->identifiant);
+                $this->logSection("reset tags export", $compte->identifiant);
             }
             if($options['reinitialisation_tags_produit']) {
                 $compte->tags->remove('produit');
-                $this->logSection("reset tag produit", $compte->identifiant);
+                $this->logSection("reset tags produit", $compte->identifiant);
+            }
+            if (!count($tags)) {
+      	        continue;
             }
             foreach ($tags as $type => $ttags) {
               	foreach ($ttags as $t => $null) {
