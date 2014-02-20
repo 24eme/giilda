@@ -72,8 +72,6 @@
 		// Soumission
 		form.live('submit', function()
 		{
-			//console.log('ok');
-			
 			popup.addClass('popup_chargement');
 			formBtn.attr('disabled', 'disabled');
 			
@@ -355,8 +353,6 @@
 			var td = $(this);
 			var texte = td.attr('data-contact-infos');
 			var pos = td.offset();
-		
-			console.log(pos);
 		
 			td.hover(function()
 			{

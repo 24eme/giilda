@@ -4,6 +4,7 @@
 	{
 		$.initFormSection();
 		$.initTags();
+		$.initSearch();
 	});
 	
 	// Gère les ouverture / fermeture des blocs de formulaires
@@ -34,6 +35,21 @@
 	{
 		$('#contacts .tags').tagit();
 	};
+
+	$.initSearch = function()
+	{
+		$('a.tags_more').click(function() {
+			$(this).parent().parent().find("li.tag_overflow").toggle();
+
+			var libelle = $(this).html();
+			$(this).html($(this).attr('data-toggle-text'));
+			$(this).attr('data-toggle-text', libelle);
+
+			$(this).blur();
+
+			return false;
+		});
+	}
 	
 })(jQuery);
 

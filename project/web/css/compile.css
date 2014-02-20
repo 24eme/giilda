@@ -3012,6 +3012,8 @@ bouton.recherche_contact #btn_rechercher { height:26px; }
 }
 #colonne .liste_tags ul { margin:0 0 15px; }
 #colonne .liste_tags li { margin:0 0 10px; }
+#colonne .liste_tags li.tag_overflow { display:none; }
+#colonne .liste_tags .tags_more { font-weight:bold; }
 #colonne .form_ajout_tag #creer_tag { width:138px; }
 #colonne .form_ajout_tag input[type="submit"] { padding-left:10px; }
 #colonne #infos_contact h2 { background:#76a8d7; }
