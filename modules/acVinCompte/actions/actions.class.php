@@ -23,11 +23,24 @@ require_once dirname(__FILE__).'/../lib/BaseacVinCompteActions.class.php';
  * @author     Jean-Baptiste Le Metayer <lemetayer.jb@gmail.com>
  * @version    0.1
  */
-class acVinCompteActions extends BaseacVinCompteActions 
+class acVinCompteActions extends sfActions 
 {   
 
   public function executeLogin(sfWebRequest $request) {
-    $redirect = $request->getParameter('referer');
+    $redirect = ($request->getParameter('referer')) ? $request->getParameter('referer') : $request->getUri();
+
+    if($redirect == $this->generateUrl('ac_vin_login', array(), true)) {
+      $redirect = null;
+    }
+
+    if($redirect == $this->generateUrl('ac_vin_logout', array(), true)) {
+      $redirect = null;
+    }
+
+    if($redirect == $this->generateUrl('ac_vin_forbidden', array(), true)) {
+      $redirect = null;
+    }
+
     if (!$redirect) {
       $redirect = $this->generateUrl('homepage', array(), true);
     }
@@ -44,7 +57,7 @@ class acVinCompteActions extends BaseacVinCompteActions
     } else {
       $referer = $this->generateUrl('homepage', array(), true);
     }
-    $dest = $this->generateUrl('ac_vin_login', array('referer' => $referer), true); //"http://".$_SERVER["SERVER_NAME"];
+    $this->dest = $this->generateUrl('ac_vin_login', array('referer' => $referer), true); //"http://".$_SERVER["SERVER_NAME"];
     if (isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] != 'logout') {
       $this->dest = preg_replace('/http:\/\//', 'http://logout:logout@', $dest);
     }
