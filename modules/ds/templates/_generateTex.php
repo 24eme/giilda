@@ -31,7 +31,7 @@ $coordonneesInterLoire = $ds->getCoordonneesIL();
 \setlength{\evensidemargin}{-2cm}
 \setlength{\textwidth}{19cm}
 \setlength{\headheight}{1cm}
-\setlength{\topmargin}{-3.5cm}
+\setlength{\topmargin}{-4.6cm}
 \addtolength{\textheight}{29.9cm} 
 
 
@@ -81,7 +81,7 @@ echo ($nom) ? cut_latex_string($nom,35) : $pointille;
 \hfill
 \begin{minipage}[t]{0.40\textwidth}
 \begin{flushright}
-\includegraphics[scale=1]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_new.jpg"; ?>}
+\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_new.jpg"; ?>}
 \end{flushright}
 \end{minipage}
 \bigskip
