@@ -81,7 +81,7 @@ echo ($nom) ? cut_latex_string($nom,35) : $pointille;
 \hfill
 \begin{minipage}[t]{0.40\textwidth}
 \begin{flushright}
-\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo.jpg"; ?>}	
+\includegraphics[scale=1]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_new.jpg"; ?>}
 \end{flushright}
 \end{minipage}
 \bigskip
