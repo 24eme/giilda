@@ -30,6 +30,8 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     $doc = acCouchdbManager::getClient('SV12')->find($arguments['doc_id']);
+
+    $save = false;
     
     $mouvements = $doc->getMouvements()->toArray(true, false);
 
@@ -38,18 +40,15 @@ EOF;
     $new_mouvements = $doc->getMouvements()->toArray(true, false);
     
     foreach($mouvements as $identifiant => $mouvement) {
-        echo "--".$identifiant."\n";
         foreach($mouvement as $hash => $m) {
             $egal = false;
             foreach($new_mouvements[$identifiant] as $new_hash => $new_m) {
                 if($this->compareMouvement($m, $new_m)) {
-                    echo "egal:\n";
                     $egal = !$egal;
                     unset($new_mouvements[$identifiant][$new_hash]);
                 }
             }
             if(!$egal) {
-                echo "différent:\n";
                 var_dump($new_mouvements[$identifiant]);
                 var_dump($m);
                 print_r(array_diff($new_m, $m));
@@ -58,26 +57,27 @@ EOF;
         }
     }
 
-    echo "Ajout des nouveaux mouvements\n";
-
     $nb_total = 0;
     foreach($new_mouvements as $identifiant => $mouvement) {
         $nb = 0;
-        echo "--".$identifiant."\n";
         foreach($mouvement as $hash => $m) {
-            $mouvements[$identifiant][$hash] = $m;
+            $save = true;
+            $mouvements[$identifiant][$hash] = $m;  
             $nb++;
         }
         $nb_total += $nb;
-        echo sprintf("%s nouveau(x) mouvement(s)\n", $nb);
+        if($nb > 0) {
+            echo sprintf("%s;%s;%s nouveau(x) mouvement(s)\n", $doc->_id, $identifiant, $nb);
+        }
     }
-
-    
 
     $doc->remove('mouvements');
     $doc->add('mouvements', $mouvements);
 
-    echo sprintf("Done %s : %s nouveau(x) mouvement(s) \n", $doc->_id, $nb_total);
+    if($save) {
+        $doc->save();
+        echo sprintf("%s;saved\n", $doc->_id);
+    }
   }
 
   protected function compareMouvement($m1, $m2) {
