@@ -34,7 +34,7 @@ class acVinCompteUpdateTask extends sfBaseTask
     ));
 
     $this->namespace        = 'compte';
-    $this->name             = 'udpate';
+    $this->name             = 'update';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
 
@@ -46,7 +46,6 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     set_time_limit(0);
-
     foreach(CompteAllView::getInstance()->findByInterproVIEW('INTERPRO-inter-loire') as $compteRow) {
         $id_doc = $compteRow->key[CompteAllView::KEY_ID];
         $compte = CompteClient::getInstance()->find($id_doc);
