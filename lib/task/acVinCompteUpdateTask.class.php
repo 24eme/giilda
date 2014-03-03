@@ -34,7 +34,7 @@ class acVinCompteUpdateTask extends sfBaseTask
     ));
 
     $this->namespace        = 'compte';
-    $this->name             = 'updateForRaisonSociale';
+    $this->name             = 'udpate';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
 
@@ -49,17 +49,14 @@ EOF;
 
     foreach(CompteAllView::getInstance()->findByInterproVIEW('INTERPRO-inter-loire') as $compteRow) {
         $id_doc = $compteRow->key[CompteAllView::KEY_ID];
-       $compte = CompteClient::getInstance()->find($id_doc);
-       try {
+        $compte = CompteClient::getInstance()->find($id_doc);
+        try {
           $compte->save(false,false,true);
-          $raison_sociale_societe = $compte->get('raison_sociale_societe');
-          $type_societe = $compte->get('type_societe');
-          echo "Le compte $id_doc a été sauvé et sa raison sociale est : $raison_sociale_societe de type $type_societe \n";
-           } catch (sfException $exc) {
-               echo "ERREUR :  $id_doc \n";
-               echo $exc->getTraceAsString()."\n";
-                echo "FIN ERREUR :  $id_doc \n";
-           }
-       }
+        } catch (sfException $exc) {
+             echo "ERREUR :  $id_doc \n";
+                 echo $exc->getTraceAsString()."\n";
+                  echo "FIN ERREUR :  $id_doc \n";
+        }
+    }
   }
 }
