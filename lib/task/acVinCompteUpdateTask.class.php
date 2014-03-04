@@ -27,6 +27,11 @@ class acVinCompteUpdateTask extends sfBaseTask
 {
   protected function configure()
   {
+    $this->addArguments(array(
+      new sfCommandArgument('doc_id', sfCommandArgument::REQUIRED, 'Document ID'),
+    ));
+
+
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
@@ -45,17 +50,9 @@ EOF;
   {
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-    set_time_limit(0);
-    foreach(CompteAllView::getInstance()->findByInterproVIEW('INTERPRO-inter-loire') as $compteRow) {
-        $id_doc = $compteRow->key[CompteAllView::KEY_ID];
-        $compte = CompteClient::getInstance()->find($id_doc);
-        try {
-          $compte->save(false,false,true);
-        } catch (sfException $exc) {
-             echo "ERREUR :  $id_doc \n";
-                 echo $exc->getTraceAsString()."\n";
-                  echo "FIN ERREUR :  $id_doc \n";
-        }
-    }
+    
+    $compte = CompteClient::getInstance()->find($arguments['doc_id']);
+    $compte->save(false,false,true);
+        
   }
 }
