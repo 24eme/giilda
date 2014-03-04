@@ -195,20 +195,13 @@ class Compte extends BaseCompte {
 	}
 	if ($this->isEtablissementContact()) {
 	  $this->addTag('automatique', 'Etablissement');
-	  $e = $this->getEtablissement();
-	  if($e && $e->isCourtier()) {
-	    $this->addTag('automatique', 'Courtier');
-	  }
-	  if($e && $e->isNegociant()) {
-	    $this->addTag('automatique', 'Négociant');
-	  }
-	  if($e && $e->isViticulteur()) {
-	    $this->addTag('automatique', 'Viticulteur');
-	  }
 	}
 	if (!$this->isEtablissementContact() && ! $this->isSocieteContact()) {
 	  $this->addTag('automatique', 'Interlocuteur');
 	}
+
+    $societe = $this->getSociete();
+    $this->addTag('automatique', $societe->type_societe);
 
         if (is_null($this->adresse_societe)) {
             $this->adresse_societe = (int) $fromsociete;
