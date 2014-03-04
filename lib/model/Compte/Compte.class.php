@@ -183,30 +183,32 @@ class Compte extends BaseCompte {
     }
     
     public function save($fromsociete = false, $frometablissement = false, $from_compte = false) {
-
-	if ($this->isSocieteContact()) {
-	  $this->addTag('automatique', 'Societe');
-          if($this->getFournisseurs()){
-              $this->removeFournisseursTag();
-              foreach ($this->getFournisseurs() as $type_fournisseur) {
-                  $this->addTag('automatique', $type_fournisseur);
+        $this->tags->remove('automatique');
+        $this->tags->add('automatique');
+    	
+        if ($this->isSocieteContact()) {
+    	  $this->addTag('automatique', 'Societe');
+              if($this->getFournisseurs()){
+                  $this->removeFournisseursTag();
+                  foreach ($this->getFournisseurs() as $type_fournisseur) {
+                      $this->addTag('automatique', $type_fournisseur);
+                  }
               }
-          }
-	}
-	if ($this->isEtablissementContact()) {
-	  $this->addTag('automatique', 'Etablissement');
-	}
-	if (!$this->isEtablissementContact() && ! $this->isSocieteContact()) {
-	  $this->addTag('automatique', 'Interlocuteur');
-	}
+    	}
+    	if ($this->isEtablissementContact()) {
+    	  $this->addTag('automatique', 'Etablissement');
+    	}
+    	if (!$this->isEtablissementContact() && ! $this->isSocieteContact()) {
+    	  $this->addTag('automatique', 'Interlocuteur');
+    	}
 
-    $societe = $this->getSociete();
-    $this->addTag('automatique', $societe->type_societe);
+        $societe = $this->getSociete();
+        $this->addTag('automatique', $societe->type_societe);
 
         if (is_null($this->adresse_societe)) {
             $this->adresse_societe = (int) $fromsociete;
         }
-	$this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
+	   $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
         
         $this->synchro();
         $this->updateNomAAfficher();
