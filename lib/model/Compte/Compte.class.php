@@ -274,10 +274,12 @@ class Compte extends BaseCompte {
     public function getFournisseurs() {
         $societe = SocieteClient::getInstance()->find($this->id_societe);
         if(!$societe->code_comptable_fournisseur) return false;
+
+        $fournisseurs = array('Fournisseur');
         if($societe->exist('type_fournisseur') && count($societe->type_fournisseur)){
-            return $societe->type_fournisseur;
+            $fournisseurs = array_merge($fournisseurs, $societe->type_fournisseur);
         }
-        return array('Fournisseur');
+        return $fournisseurs;
     }
 
     public function isEtablissementContact() {
