@@ -276,8 +276,8 @@ class Compte extends BaseCompte {
         if(!$societe->code_comptable_fournisseur) return false;
 
         $fournisseurs = array('Fournisseur');
-        if($societe->exist('type_fournisseur') && count($societe->type_fournisseur)){
-            $fournisseurs = array_merge($fournisseurs, $societe->type_fournisseur);
+        if($societe->exist('type_fournisseur') && count($societe->type_fournisseur->toArray(true, false))){
+            $fournisseurs = array_merge($fournisseurs, $societe->type_fournisseur->toArray(true, false));
         }
         return $fournisseurs;
     }
