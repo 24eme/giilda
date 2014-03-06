@@ -135,12 +135,18 @@ class FactureClient extends acCouchdbClient {
         foreach ($mouvementsBySoc as $identifiant => $mouvements) {
             $somme = 0;
             foreach ($mouvements as $key => $mouvement) {
-                $somme+= $mouvement->value[MouvementfactureFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementfactureFacturationView::VALUE_CVO];
+                $prix = $mouvement->value[MouvementfactureFacturationView::VALUE_VOLUME] * $mouvement->value[MouvementfactureFacturationView::VALUE_CVO];
+                if(!$prix) {
+                  unset($mouvementsBySoc[$identifiant][$key]);
+                  continue;
+                }
+                $somme += $prix;
             }
 	          $somme = $somme * -1;
             $somme = $this->ttc($somme);
-            if($somme == 0){
-               $mouvementsBySoc[$identifiant] = null; 
+
+            if(count($mouvementsBySoc[$identifiant]) == 0) {
+              $mouvementsBySoc[$identifiant] = null; 
             }
             
             if (isset($parameters['seuil']) && $parameters['seuil']) {
