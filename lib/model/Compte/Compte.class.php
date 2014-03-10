@@ -248,6 +248,8 @@ class Compte extends BaseCompte {
             return;
         }
 
+        $this->remove('raison_sociale_societe');
+        $this->remove('type_societe');
         $this->societe_informations->type = $societe->type_societe;
         $this->societe_informations->raison_sociale = $societe->raison_sociale;
         $this->societe_informations->adresse = $societe->siege->adresse;
