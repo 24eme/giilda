@@ -224,15 +224,16 @@ class Societe extends BaseSociete {
 
     public function synchroFromCompte() {
         $compte = $this->getMasterCompte();
-        
+
         if(!$compte) {
-            
-            throw new sfException("Pas de compte societe. Bizarre !");
+              
+              throw new sfException("Pas de compte societe. Bizarre !");
         }
-        
+
         $this->siege->adresse = $compte->adresse;
-        if($compte->exist("adresse_complementaire"))
-            $this->siege->add("adresse_complementaire",$compte->adresse_complementaire);
+        if($compte->exist("adresse_complementaire")) {
+            $this->siege->add("adresse_complementaire", $compte->adresse_complementaire);
+        }
         $this->siege->code_postal = $compte->code_postal;
         $this->siege->commune = $compte->commune;
         $this->email = $compte->email;
@@ -267,13 +268,14 @@ class Societe extends BaseSociete {
 	}
     }
     
-    protected function synchroAndSaveCompte() {
+    public function synchroAndSaveCompte() {
+  	  foreach($this->getComptesObj() as $id => $c) {
         if($this->changedStatut) {
-	  foreach($this->getComptesObj() as $id => $c) {
-            $c->compte->statut = $this->statut;
-	    $c->compte->save(true);
-	  }
-	}
+          $c->compte->statut = $this->statut;
+        }
+        $c->compte->synchroFromSociete($this);
+        $c->compte->save(true, true, true);
+  	  }
     }
     
     public function getDateCreation() {
