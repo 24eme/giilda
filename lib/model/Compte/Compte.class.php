@@ -213,15 +213,12 @@ class Compte extends BaseCompte {
         $this->synchro();
         $this->updateNomAAfficher();
 
-        $this->add('raison_sociale_societe',$this->getSociete()->raison_sociale);
-        $this->add('type_societe',$this->getSociete()->type_societe);
-        
         parent::save();
-
 
         if (!$fromsociete) {
             $this->synchroAndSaveSociete();
         }
+
         foreach ($this->origines as $origine) {
             $doc = acCouchdbManager::getClient()->find($origine);
             if($doc->type == 'Etablissement' && !$frometablissement) {
@@ -239,6 +236,30 @@ class Compte extends BaseCompte {
                 $doc->save();               
             }
         }
+    }
+
+    public function synchroFromSociete($societe = null) {
+        if(!$societe) {
+            $societe = $this->getSociete();
+        }
+
+        if(!$societe) {
+
+            return;
+        }
+
+        $this->societe_informations->type = $societe->type_societe;
+        $this->societe_informations->raison_sociale = $societe->raison_sociale;
+        $this->societe_informations->adresse = $societe->siege->adresse;
+        $this->societe_informations->adresse_complementaire = "";
+        if($societe->siege->exist("adresse_complementaire")) {
+            $this->societe_informations->adresse_complementaire = $societe->siege->adresse_complementaire;
+        }
+        $this->societe_informations->code_postal = $societe->siege->code_postal;
+        $this->societe_informations->commune = $societe->siege->commune;
+        $this->societe_informations->email = $societe->email;
+        $this->societe_informations->telephone = $societe->telephone;
+        $this->societe_informations->fax = $societe->fax;
     }
 
     public function synchroFromCompte() {

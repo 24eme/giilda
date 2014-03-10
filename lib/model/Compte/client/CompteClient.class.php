@@ -122,6 +122,7 @@ class CompteClient extends acCouchdbClient {
         $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
         $compte->constructId();
         $compte->interpro = 'INTERPRO-inter-loire';
+        $compte->synchroFromSociete();
         
         return $compte;
     }
@@ -142,6 +143,7 @@ class CompteClient extends acCouchdbClient {
       }
       
       $compte->addOrigine($e->_id);
+      $compte->synchroFromSociete();
 
       return $compte;
     }

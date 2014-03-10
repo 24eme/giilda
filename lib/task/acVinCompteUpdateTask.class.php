@@ -52,7 +52,7 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     
     $compte = CompteClient::getInstance()->find($arguments['doc_id']);
-    $compte->save(false,false,true);
+    $compte->save(false,false,false);
         
   }
 }
