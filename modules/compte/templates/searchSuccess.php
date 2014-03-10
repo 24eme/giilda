@@ -72,6 +72,7 @@
 
 					<?php 
 						$data = $res->getData();
+                        $societe_informations = $data['societe_informations'];
 						$class = ($cpt % 2) ? ' class="even"' : ''; 
 					?>
                             
@@ -85,9 +86,7 @@
                                                 if($compte_type == CompteClient::TYPE_COMPTE_SOCIETE){
                                                     $class_picto = "societe_picto";
                                                 }
-                                                $raison_sociale_societe = (isset($data['raison_sociale_societe']))? $data['raison_sociale_societe'] : '';
-                                                $type_societe = (isset($data['type_societe']))? $data['type_societe'] : '';
-												$texte_infobulle =  '<span>Type :</span> '. $type_societe.'<br /><span>Nom :</span> '.$raison_sociale_societe;
+												$texte_infobulle =  '<span>Type :</span> '. $societe_informations['type'].'<br /><span>Nom :</span> '.$societe_informations['raison_sociale'];
                                                 ?>
                                                 <td
 													class="<?php echo $class_picto; ?>" data-contact-infos="<?php echo $texte_infobulle; ?>">
