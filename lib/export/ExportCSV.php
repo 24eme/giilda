@@ -24,6 +24,11 @@ class ExportCSV
             $facture = FactureClient::getInstance()->find($doc_or_id);
         }
 
+        if(!$facture) {
+            echo sprintf("WARNING;Le document n'existe pas %s\n", $doc_or_id);
+            return;
+        }
+
         foreach($facture->lignes as $t => $lignes) {
             foreach($lignes as $l) {
                 echo 'VEN;'.$facture->date_facturation.';'.$facture->date_emission.';'.$facture->numero_interloire.';Facture n°'.$facture->numero_interloire.' ('.$l->produit_libelle
