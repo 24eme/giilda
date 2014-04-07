@@ -65,7 +65,7 @@ class CompteLdap extends acVinLdap {
       $info['facsimileTelephoneNumber'] = $compte->fax;
       if ($compte->telephone_mobile)
       $info['mobile']           = $compte->telephone_mobile;
-      $info['description']      = ($compte->exist('type_societe'))? $compte->type_societe : '';				      
+      $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';				      
       return $info;
     }
     
