@@ -27,11 +27,14 @@ class acVinCompteLdapUpdateTask extends sfBaseTask
 {
   protected function configure()
   {
+    $this->addArguments(array(
+      new sfCommandArgument('doc_id', sfCommandArgument::REQUIRED, 'Document ID'),
+    ));
+
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
-      new sfCommandOption('compte', null, sfCommandOption::PARAMETER_REQUIRED, 'Compte id to update to ldap', 0),
       new sfCommandOption('verbose', null, sfCommandOption::PARAMETER_REQUIRED, 'Verbose mode', 0),
     ));
 
@@ -52,35 +55,12 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    if ($options['compte']) {
-       $c = new stdClass();
-       $c->key = array(CompteAllView::KEY_ID => 'COMPTE-'.$options['compte']);
-       $compteview = array($c);
-    }else{
-     $compteview = CompteAllView::getInstance()->findByInterpro('INTERPRO-inter-loire', '', 100000);
+    $compte = CompteClient::getInstance()->find($arguments['doc_id']);
+    if(!$compte) {
+
+      throw new sfCommandException(sprintf("The Document \"%s\" does not exist", $arguments['doc_id']));
     }
 
-    $nb = 0;
-    foreach($compteview as $compteinfo) {
-      if ($options['verbose']) {
-       echo "vue : ";
-       print_r($compteinfo);
-       echo "\n";
-      }
-      $compte = acCouchdbManager::getClient('Compte')->retrieveDocumentById($compteinfo->key[CompteAllView::KEY_ID]);
-      if (!$compte) {
-	continue;
-      }
-      if ($options['verbose']) {
-	echo "compte : ";
-	print_r($compte);
-       echo "\n";
-      }
-      $this->log($compte->identifiant);
-      $nb++;
-      $compte->updateLdap($options['verbose']);
-    }
-
-    $this->logSection("done", $nb);
+    $compte->updateLdap($options['verbose']);
   }
 }
