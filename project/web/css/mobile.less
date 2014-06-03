@@ -1,0 +1,45 @@
+/**
+ * Fichier : mobile.less
+ * Description : styles spécifiques aux mobiles
+ * Auteur : Hamza Iqbal - hiqbal[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+
+@media screen and (max-width: @largeur-tablette)
+{
+
+/* ======================================================= */
+/* STRUCTURE GENERIQUE */
+/* ======================================================= */
+
+#header .contenu,
+#contenu,
+#footer
+{
+	width: auto;
+}
+
+/**
+ * Header
+ ******************************************/
+#header
+{
+	.box-shadow(none);
+	padding: 15px 15px 0;
+
+	#logo
+	{
+		text-align: left;
+	}
+}
+
+/**
+ * Colonne
+ ******************************************/
+#colonne,
+#btn_colonne
+{
+	display: none !important;
+}
+
+}
