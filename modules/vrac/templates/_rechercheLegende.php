@@ -8,7 +8,7 @@ if($rechercheMode){
 if (!isset($campagne))
   $campagne = '';
 ?> 
-<div class="legende <?php echo ($rechercheMode)? 'rechercheMode' : '' ?>">    
+<div class="contenu legende <?php echo ($rechercheMode)? 'rechercheMode' : '' ?>">    
     <div <?php echo (($rechercheMode) && (isARechercheParam($actifs,VracClient::TYPE_TRANSACTION_RAISINS)))? 'class="actif"' : ''; ?> >
         <?php 
         if($rechercheMode){

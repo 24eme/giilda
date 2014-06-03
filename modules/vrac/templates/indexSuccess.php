@@ -28,16 +28,21 @@ end_slot();
 
 slot('colApplications');
 ?>
-<div id="action" class="bloc_col">
+<div id="export_soussignes" class="bloc_col">
     <h2>Export des soussignés</h2>
         <?php
         include_partial('exportEtiquettes',array('etiquettesForm' => $etiquettesForm));
         ?>
+</div>
+
+<div id="recherche_legende" class="bloc_col">
     <h2>Légende</h2>
     <?php
     include_partial('rechercheLegende');
     ?>
 </div>
+
+
 <?php
 end_slot();
 ?>
