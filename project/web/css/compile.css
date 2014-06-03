@@ -1478,6 +1478,9 @@ bouton.btn_enregistrer {
 .ligne_form span {
   vertical-align: middle;
 }
+.bloc_form_condensed .ligne_form {
+  padding: 5px 10px;
+}
 #ligne_btn {
   display: block;
   margin: 10px 0;
@@ -2384,6 +2387,9 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher {
 }
 #contenu_etape #vrac_soussigne .ligne_form {
   height: 38px;
+}
+#contenu_etape #vrac_soussigne .bloc_form_condensed .ligne_form {
+  height: auto;
 }
 #contenu_etape #vrac_soussigne .section_label_maj {
   background: #ecebeb;
@@ -6667,6 +6673,18 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   #colonne #recherche_legende .legende div {
     width: 165px;
   }
+  #rail_etapes {
+    margin: 0 10px 25px;
+  }
+  #rail_etapes li {
+    width: 25%;
+  }
+  .bloc_form .col:first-child {
+    border-right: 0;
+  }
+  #vrac_soussigne input.ui-autocomplete-input {
+    width: 100%;
+  }
 }
 @media screen and (max-width: 740px) {
   #header .contenu,
@@ -6686,5 +6704,22 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   #colonne,
   #btn_colonne {
     display: none !important;
+  }
+  #contenu_etape #recherche_operateur .ui-autocomplete-input {
+    margin-right: 0;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  #contenu_etape #recherche_operateur #btn_rechercher {
+    display: block;
+    width: 100%;
+  }
+  #rail_etapes li {
+    border-left-width: 1px;
+    float: none;
+    width: 100%;
+  }
+  #rail_etapes li:first-child > * {
+    padding-left: 33px;
   }
 }
