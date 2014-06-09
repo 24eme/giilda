@@ -458,4 +458,32 @@ class Vrac extends BaseVrac {
         return ConfigurationClient::getCurrent()->formatProduits($date);
     }
     
+    public function getQuantite() {
+        switch ($this->type_transaction) {
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC :
+            case VracClient::TYPE_TRANSACTION_MOUTS :
+                return $this->jus_quantite;
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
+                return $this->bouteilles_quantite;
+            case VracClient::TYPE_TRANSACTION_RAISINS :
+                return $this->raisin_quantite;
+            default:
+                return null;
+        }
+    }
+    
+    public function getVisa() {
+        if($this->exist('visa')){
+            return $this->visa;
+        }
+        return "Pas de visa";
+    }
+    
+    public function getFraisDeGarde() {
+                if($this->exist('frais_de_garde')){
+            return $this->visa;
+        }
+        return "0";
+    }
+    
 }

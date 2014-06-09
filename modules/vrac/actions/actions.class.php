@@ -392,6 +392,16 @@ class vracActions extends sfActions
     $this->response->setContentType('text/csv');
     $this->response->setHttpHeader('Content-Disposition',$attachement ); 
   }
+  
+  public function executeLatex(sfWebRequest $request) {        
+        $this->setLayout(false);
+        $this->vrac = $this->getRoute()->getVrac();
+        $this->forward404Unless($this->vrac);
+	$latex = new VracLatex($this->vrac);
+	$latex->echoWithHTTPHeader($request->getParameter('type'));
+        exit;
+    }
+  
 
   private function renderPartialInformations($etablissement,$nouveau) {
       $familleType = $etablissement->getFamilleType();

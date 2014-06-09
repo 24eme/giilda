@@ -93,6 +93,11 @@ class VracRouting {
                                                         array('module' => 'vrac', 'action' => 'redirect'),  
                                                         array('sf_method' => array('get'))
                                                           ));
+        $r->prependRoute('vrac_pdf', new VracRoute('/vrac/:numero_contrat/pdf',
+                                                        array('module' => 'vrac', 'action' => 'latex'),
+							array('sf_method' => array('get','post')),
+                                                        array('model' => 'Vrac', 'type' => 'object')
+                                                         ));
     }
 
 }
