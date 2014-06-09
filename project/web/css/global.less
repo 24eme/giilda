@@ -771,7 +771,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 #colonne
 {
 	.largeur-col(3, 3);
-	float: left;
+	float: right;
 	padding: 30px 10px 0;
 }
 
@@ -934,6 +934,11 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
     {
         vertical-align: middle;
     }
+
+    .bloc_form_condensed &
+    {
+       padding: 5px 10px;
+    }
 }
 
 #ligne_btn
@@ -1061,16 +1066,29 @@ ul.radio_list
                 
 	}
 
-        #action{
-                        
-                padding: 15px 0;
+    #action{
+                    
+            padding: 15px 0;
 
-                .contenu{
-                            padding: 5px 0 ;
-                }
-        }
+            .contenu{
+                        padding: 5px 0 ;
+            }
+    }
+}
 
-	
+#btn_colonne
+{
+	display: none;
+	margin: 15px 0;
+
+	i { font-style: normal; }
+	.fermer { display: none; }
+
+	&.ouvert
+	{
+		.ouvrir { display: none; }
+		.fermer { display: inline; }
+	}
 }
 
 /**

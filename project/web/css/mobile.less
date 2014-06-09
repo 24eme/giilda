@@ -1,0 +1,79 @@
+/**
+ * Fichier : mobile.less
+ * Description : styles spécifiques aux mobiles
+ * Auteur : Hamza Iqbal - hiqbal[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+
+@media screen and (max-width: @largeur-tablette)
+{
+
+/* ======================================================= */
+/* STRUCTURE GENERIQUE */
+/* ======================================================= */
+
+#header .contenu,
+#contenu,
+#footer
+{
+	width: auto;
+}
+
+/**
+ * Header
+ ******************************************/
+#header
+{
+	.box-shadow(none);
+	padding: 15px 15px 0;
+
+	#logo
+	{
+		text-align: left;
+	}
+}
+
+/**
+ * Colonne
+ ******************************************/
+#colonne,
+#btn_colonne
+{
+	display: none !important;
+}
+
+/* ======================================================= */
+/* RECHERCHE OPERATEUR */
+/* ======================================================= */
+#contenu_etape #recherche_operateur
+{
+	.ui-autocomplete-input
+	{
+		margin-right: 0;
+		margin-bottom: 10px;
+		width: 100%;
+	}
+
+	#btn_rechercher
+	{
+		display: block;
+		width: 100%;
+	}
+}
+
+/* ======================================================= */
+/* RAIL D'ETAPES */
+/* ======================================================= */
+#rail_etapes
+{
+	li
+	{
+		border-left-width: 1px;
+		float: none;
+		width: 100%;
+
+		&:first-child > * { padding-left: 33px; }
+	}
+}
+
+}
