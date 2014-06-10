@@ -441,6 +441,25 @@ class Vrac extends BaseVrac {
         return $this->getCoordonnees($this->mandataire_identifiant);
     }
     
+    private function isMandatant($mandatant_name) {
+        if(!$this->exist('mandatant')){
+            return false;
+        }
+        foreach ($this->mandatant as $mandatant) {
+        if($mandatant_name == $mandatant){
+            return true; 
+            }
+        }
+        return false;    }
+
+    public function isMandatantAcheteur() {
+        return $this->isMandatant('acheteur');
+    }
+    
+    public function isMandatantVendeur() {
+        return $this->isMandatant('vendeur');
+    }
+    
     public function getCoordonnees($id_etb) {
         if($etb = EtablissementClient::getInstance()->retrieveById($id_etb))
              return $etb->getContact();

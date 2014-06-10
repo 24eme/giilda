@@ -99,3 +99,7 @@ function getPrixTouteLettre($vrac){
     }
     return "~0 euro~";
 }
+
+function getCheckBoxe(bool $b) {
+    return ($b)? '\squareChecked' : '$\square$';
+}

@@ -60,10 +60,12 @@
 \end{minipage}
 \end{multicols}  
 
-Par l'entremise de \CONTRATCOURTIERNOM ~~~ Courtier en vins n° carte professionnelle: \CONTRATCOURTIERCARTEPRO
+<?php if($vrac->mandataireExist()): ?> 
+Par l'entremise de \CONTRATCOURTIERNOM, ~~~ Courtier en vins n° carte professionnelle: \CONTRATCOURTIERCARTEPRO
 
-Mandaté pour signature par : ~~~ le vendeur ~  $\square$ ~~~ l'acheteur ~ \squareChecked
+Mandaté pour signature par : ~~~ le vendeur ~  <?php echo getCheckBoxe($vrac->isMandatantVendeur()); ?> ~~~ l'acheteur ~  <?php echo getCheckBoxe($vrac->isMandatantAcheteur()); ?> 
 \\
+<?php endif; ?>
 
 A été conclu le marché suivant: \\
 
