@@ -7,7 +7,7 @@ use_helper('Vrac');
 use_helper('Float');
 use_helper('Date');
 ?>
-<div class="bloc_form">
+<div class="bloc_form bloc_form_condensed">
     <div id="conditions_recapitulatif_typeContrat" class="ligne_form">
         <label>Type de contrat&nbsp;:</label>
         <span><?php echo $vrac->type_contrat; ?></span>

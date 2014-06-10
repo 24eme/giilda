@@ -30,8 +30,8 @@ use_helper('Display');
     });
 </script>
 
-<div id="vendeur_infos" class="bloc_form">    
-    <div class="col">
+<div id="vendeur_infos" class="bloc_form bloc_form_condensed">    
+    <!--div class="col"-->
         <div class="ligne_form">
             <span>
                   <label>Nom du vendeur :</label>
@@ -56,9 +56,9 @@ use_helper('Display');
                 <?php display_field($vendeur,'no_tva_intracommunautaire'); ?>
             </span>
         </div>
-    </div>
+    <!--/div-->
     
-    <div class="col">
+    <!--div class="col col_right"-->
         <div class="ligne_form">
             <span>
                 <label>Adresse</label>
@@ -77,8 +77,8 @@ use_helper('Display');
                 <?php display_field($vendeur,'siege/commune'); ?>
             </span>
         </div>
-        <div class="ligne_form ligne_form_alt">
+        <!--div class="ligne_form ligne_form_alt">
             
-        </div>
-    </div>
+        </div-->
+    <!--/div-->
 </div>

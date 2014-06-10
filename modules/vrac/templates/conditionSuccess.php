@@ -51,15 +51,13 @@
                             <?php echo $form['date_campagne']->render() ?>  
                             <span>(Modifiable ultérieurement)</span>
                         </div>
-                        <div id="commentaire" class="section_label_maj">
-                            <label>
-                                <?php echo $form['commentaire']->renderLabel() ?>
-                            </label>
-                            <div class="bloc_form">
-                                <?php echo $form['commentaire']->renderError() ?>       
-                                <?php echo $form['commentaire']->render() ?>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+                <div id="commentaire" class="section_label_maj">
+                    <?php echo $form['commentaire']->renderLabel() ?>
+                    <div class="bloc_form">
+                        <?php echo $form['commentaire']->renderError() ?>       
+                        <?php echo $form['commentaire']->render() ?>
                     </div>
                 </div>
             <div class="btn_etape">

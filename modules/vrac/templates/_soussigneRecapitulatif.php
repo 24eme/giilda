@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 ?>
-<div class="bloc_form">
+<div class="bloc_form bloc_form_condensed">
     <div id="soussigne_recapitulatif_vendeur" class="ligne_form">
         <label>Vendeur :</label>
         <span><a href="<?php echo url_for('vrac/recherche?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $vrac->vendeur_identifiant)) ?>"><?php echo $vrac->getVendeurObject()->getNom(); ?></a></span>

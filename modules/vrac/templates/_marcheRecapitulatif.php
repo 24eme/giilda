@@ -9,7 +9,7 @@
 use_helper('Vrac');
 use_helper('Float');
 ?>
-<div class="bloc_form">
+<div class="bloc_form bloc_form_condensed">
     <div id="marche_recapitulatif_original" class="ligne_form">
             <label>En attente de l'original :</label>
             <span><?php echo ($vrac->attente_original)? 'Oui' : 'Non'; ?></span>

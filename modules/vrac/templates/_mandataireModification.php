@@ -19,7 +19,7 @@ $type = $form->getObject()->getFamilleType();
 </script>
 
 
-<div class="mandataire_infos bloc_form">
+<div class="mandataire_infos bloc_form bloc_form_condensed">
     <div class="ligne_form">
         <span>
             <label>Nom du <?php echo $type; ?> :</label>

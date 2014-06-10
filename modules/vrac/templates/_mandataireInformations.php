@@ -29,7 +29,7 @@ use_helper('Display');
        removeGreyPanel('interne');
     });
 </script>
-<div class="mandataire_infos bloc_form">
+<div class="mandataire_infos bloc_form bloc_form_condensed">
     <div class="ligne_form">
         <span>
             <label>Nom du mandataire :</label>

@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 ?>
-<div id="contenu bloc_col">
+<div class="contenu">
 	<form action="<?php echo url_for('vrac_export_etiquette'); ?>" method="POST">
 		<?php
 		echo $etiquettesForm->renderHiddenFields();
