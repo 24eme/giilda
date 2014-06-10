@@ -3,8 +3,8 @@
 class VracLatex extends GenericLatex {
 
   private $vrac = null;
-  const DS_OUTPUT_TYPE_PDF = 'pdf';
-  const DS_OUTPUT_TYPE_LATEX = 'latex';
+  const VRAC_OUTPUT_TYPE_PDF = 'pdf';
+  const VRAC_OUTPUT_TYPE_LATEX = 'latex';
   
 
   function __construct(Vrac $v, $config = null) {
@@ -29,7 +29,7 @@ class VracLatex extends GenericLatex {
   }
 
   public function getPublicFileName($extention = '.pdf') {
-    return 'ds_'.$this->vrac->numero_contrat.'_'.$this->vrac->_rev.$extention;
+    return 'contrat_'.$this->vrac->numero_contrat.'_'.$this->vrac->_rev.$extention;
   }
 
 }

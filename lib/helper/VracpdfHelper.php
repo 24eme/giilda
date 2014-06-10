@@ -79,11 +79,12 @@ function getPrixTouteLettre($vrac){
                 if($price_rounded_supmillion > 1){
                    $price.="s"; 
                 }
-                $price_rounded_infmill = substr($price_rounded, 3);
+                $price_rounded_supmill = substr($price_rounded,0, -3);
+                $price_rounded_infmill = substr($price_rounded, -3);
                 $price.="\\numberstringnum{".$price_rounded_supmill."}~mille~\\numberstringnum{".$price_rounded_infmill."}~euro";
             }elseif(intval($price_rounded) > 9999){
                 $price_rounded_supmill = substr($price_rounded,0, -3);
-                $price_rounded_infmill = substr($price_rounded, 3);
+                $price_rounded_infmill = substr($price_rounded, -3);
                 $price.="\\numberstringnum{".$price_rounded_supmill."}~mille~\\numberstringnum{".$price_rounded_infmill."}~euro";
             }else{
                 $price.="\\numberstringnum{".$price_rounded."}~euro";
@@ -100,6 +101,6 @@ function getPrixTouteLettre($vrac){
     return "~0 euro~";
 }
 
-function getCheckBoxe(bool $b) {
+function getCheckBoxe($b) {
     return ($b)? '\squareChecked' : '$\square$';
 }

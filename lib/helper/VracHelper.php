@@ -119,8 +119,10 @@ function showTypeFromLabel($type)
 {
     switch ($type)
         {
-            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return 'Vrac';                   
-            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: return 'Conditionné';
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return 'Type de contrat : Vin en vrac';                   
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: return 'Type de contrat : Conditionné';
+            case VracClient::TYPE_TRANSACTION_RAISINS: return 'Type de contrat : Raisins';
+            case VracClient::TYPE_TRANSACTION_MOUTS: return 'Type de contrat : Moût';
             default: return $type;
         }
 }

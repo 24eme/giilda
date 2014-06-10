@@ -505,4 +505,32 @@ class Vrac extends BaseVrac {
         return "0";
     }
     
+    public function isGenerique() {
+        return $this->categorie_vin == VracClient::CATEGORIE_VIN_GENERIQUE;
+    }
+    
+    public function isDomaine() {
+        return $this->categorie_vin == VracClient::CATEGORIE_VIN_DOMAINE;
+    }    
+    
+    public function getMaxEnlevement() {
+        if($this->exist('date_max_enlevement') && $this->date_max_enlevement){
+            return $this->date_max_enlevement;
+        }
+        if($this->exist('date_signature') && $this->date_signature){
+            return Date::addDelaiToDate('-1 month',Date::getIsoDateFromFrenchDate($this->date_signature));
+        }
+        return null;
+    }
+    
+    public function getResponsableLieu() {
+        if($this->mandataire_exist){
+         return $this->mandataire->commune;
+        }
+        return $this->acheteur->commune;
+    }
+    
+    public function isPluriannuel() {
+        return ($this->exist('type_contrat') && $this->type_contrat == VracClient::TYPE_CONTRAT_PLURIANNUEL);
+    }
 }

@@ -60,7 +60,7 @@
 \end{minipage}
 \end{multicols}  
 
-<?php if($vrac->mandataireExist()): ?> 
+<?php if($vrac->exist('mandataire_exist') && $vrac->mandataire_exist): ?> 
 Par l'entremise de \CONTRATCOURTIERNOM, ~~~ Courtier en vins n° carte professionnelle: \CONTRATCOURTIERCARTEPRO
 
 Mandaté pour signature par : ~~~ le vendeur ~  <?php echo getCheckBoxe($vrac->isMandatantVendeur()); ?> ~~~ l'acheteur ~  <?php echo getCheckBoxe($vrac->isMandatantAcheteur()); ?> 
@@ -78,15 +78,21 @@ A été conclu le marché suivant: \\
 ~ & ~ & \cellcolor{gray!25}~ & ~ \\
 \hline
 
-\multicolumn{2}{|c|}{ ~ } & \multirow{6}{*}{ \centering \textbf{\CONTRATPRODUITQUANTITE} } & \multirow{6}{*}{ \centering \textbf{\CONTRATPRIX	} } \\ 
+\multicolumn{2}{|c|}{ ~ } & \multicolumn{1}{r|}{ \multirow{6}{*}{ \textbf{\CONTRATPRODUITQUANTITE~\CONTRATTYPEUNITE} }} & \multicolumn{1}{r|}{\multirow{6}{*}{ \textbf{\CONTRATPRIX~\euro}}} \\ 
 
-\multicolumn{2}{|c|}{ qénérique ~  $\square$ ~~~ ou domaine ~ \squareChecked } & ~ & ~ \\
+\multicolumn{2}{|c|}{ générique ~ <?php echo getCheckBoxe($vrac->isGenerique())?> ~~~ ou domaine ~ <?php echo getCheckBoxe($vrac->isDomaine())?> } & ~ & ~ \\
 
 \multicolumn{2}{|c|}{Nom de domaine utilisable par l'acheteur:} & ~ & ~ \\ 
 \cline{1-2} 
+<?php if($vrac->isGenerique()): ?>
 \multicolumn{2}{|c|}{ \cellcolor{gray!25}~ } & ~ & ~ \\ 
 \multicolumn{2}{|c|}{ \cellcolor{gray!25}~ } & ~ & ~ \\ 
 \multicolumn{2}{|c|}{ \cellcolor{gray!25}~ } & ~ & ~ \\ 
+<?php else: ?>
+\multicolumn{2}{|c|}{ ~ } & ~ & ~ \\ 
+\multicolumn{2}{|c|}{ \textbf{<?php echo $vrac->domaine; ?>} } & ~ & ~ \\ 
+\multicolumn{2}{|c|}{ ~ } & ~ & ~ \\
+<?php endif; ?>
 \hline
              
             \end{tabularx}
@@ -98,7 +104,7 @@ A été conclu le marché suivant: \\
 \textbf{\underline{\CONTRATTYPEEXPLICATIONPRIX}}
 \\
 
-\textbf{L'achat rentre dans le cadre d'un contrat pluriannuel:}~~~~\textbf{OUI}~ $\square$ ~~~\textbf{NON}~ \squareChecked \textbf{, conforme à l'art. III-2 de l'accord Interprofessionnel}
+\textbf{L'achat rentre dans le cadre d'un contrat pluriannuel:}~~~~\textbf{OUI}~ <?php echo getCheckBoxe($vrac->isPluriannuel())?> ~~~\textbf{NON}~ <?php echo getCheckBoxe(!$vrac->isPluriannuel())?> \textbf{, conforme à l'art. III-2 de l'accord Interprofessionnel}
 \\
 
 \textbf{Hors contrat pluriannuel, le prix est obligatoirement déterminé donc connu au jour de la transaction. Dans le cadre d'un contrat pluriannuel avec une partie de prix variable, le prix indiqué est la partie fixe du prix s'appliquant à 50\% minimum de la quantité.}
