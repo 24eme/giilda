@@ -58,4 +58,10 @@ Compte:
               definition:
                 fields:
                   '*': {}
+      droits:
+        type: array_collection
+        required: false
+        definition:
+          fields:
+            '*': { }
  

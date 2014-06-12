@@ -28,7 +28,21 @@
 				Fonction :
 			</label>
 			<?php echo $compte->fonction; ?>
-		</div>                
+		</div>     
+             <?php if ($compte->getDroitsLabelsArray()) : ?>
+                    <div class="form_ligne">
+                        <label for="droits" class="label_liste">
+                            Droits de l'interlocuteur : 
+                        </label>
+                        <ul>                            
+                        <?php foreach ($compte->getDroitsLabelsArray() as $droit) : ?>
+                            <li>
+                            <?php echo $droit; ?>
+                            </li>
+                        <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
 		<div class="form_ligne">
 			<label for="commentaire">
 				Commentaire :

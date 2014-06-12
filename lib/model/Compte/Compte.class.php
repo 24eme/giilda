@@ -182,7 +182,12 @@ class Compte extends BaseCompte {
         $soc->save(true);
     }
     
-    public function save($fromsociete = false, $frometablissement = false, $from_compte = false) {
+    public function save($fromsociete = false, $frometablissement = false, $from_compte = false, $from_task = false) {
+        
+        if($from_task){
+            parent::save();
+            return;
+        }
         $this->tags->remove('automatique');
         $this->tags->add('automatique');
     	
@@ -377,5 +382,31 @@ class Compte extends BaseCompte {
       else
 	$ldap->deleteCompte($this, $verbose);
     }
+    
+    public function buildDroits($removeAll = false) {
+        if(!$this->exist('type_societe') || !$this->type_societe){
+            throw new sfException("Aucun type de société les droits ne sont pas enregistrables");
+        }
+        if($removeAll && $this->exist('droits') && $this->droits){
+            $this->remove('droits');
+        }
+        $droits = $this->add('droits');
+        if($this->type_societe != SocieteClient::SUB_TYPE_COURTIER){
+            $droits->add(CompteClient::DROITS_COMPTE_OBSERVATOIRE_ECO,CompteClient::DROITS_COMPTE_OBSERVATOIRE_ECO);
+        }
+        if(($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->type_societe == SocieteClient::SUB_TYPE_COURTIER)){
+            $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION,CompteClient::DROITS_COMPTE_TELEDECLARATION);
+        }
+    }
 
+    public function getDroitsLabelsArray() {
+        if(!$this->exist('droits') || !$this->droits){
+            return null;
+        }
+        $result = array();
+       foreach ($this->droits as $droit) {
+           $result[] = constant('CompteClient::'.$droit."_LABEL");
+       }
+       return $result;
+    }
 }

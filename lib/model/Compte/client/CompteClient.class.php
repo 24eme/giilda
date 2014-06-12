@@ -6,6 +6,12 @@ class CompteClient extends acCouchdbClient {
   const TYPE_COMPTE_ETABLISSEMENT = "ETABLISSEMENT";
   const TYPE_COMPTE_INTERLOCUTEUR = "INTERLOCUTEUR";
   
+  const DROITS_COMPTE_OBSERVATOIRE_ECO = "OBSERVATOIRE_ECO";
+  const DROITS_COMPTE_TELEDECLARATION = "TELEDECLARATION";
+  
+  const OBSERVATOIRE_ECO_LABEL = "Observatoire Economique";
+  const TELEDECLARATION_LABEL = "Télédéclaration Contrat";
+  
   const STATUT_ACTIF = "ACTIF";
       
     public static function getInstance()
