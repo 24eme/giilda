@@ -48,6 +48,10 @@ class AnnuaireClient extends acCouchdbClient
     
     public function findOrCreateAnnuaire($cvi)
     {
+        if(preg_match("/^(C?[0-9]{10})[0-9]{2}$/", $cvi, $matches)) {
+            $cvi = $matches[1];
+        }
+
     	if ($annuaire = $this->find(self::ANNUAIRE_PREFIXE_ID.$cvi)) {
     		return $annuaire;
     	}
