@@ -6,11 +6,12 @@ class CompteClient extends acCouchdbClient {
   const TYPE_COMPTE_ETABLISSEMENT = "ETABLISSEMENT";
   const TYPE_COMPTE_INTERLOCUTEUR = "INTERLOCUTEUR";
   
-  const DROITS_COMPTE_OBSERVATOIRE_ECO = "OBSERVATOIRE_ECO";
-  const DROITS_COMPTE_TELEDECLARATION = "TELEDECLARATION";
+  const DROITS_COMPTE_OBSERVATOIRE_ECO = "observatoire_eco";  
+  const DROITS_COMPTE_TELEDECLARATION_VRAC = "teledeclaration_vrac";
+  const DROITS_COMPTE_TELEDECLARATION = "teledeclaration";
   
-  const OBSERVATOIRE_ECO_LABEL = "Observatoire Economique";
-  const TELEDECLARATION_LABEL = "Télédéclaration Contrat";
+  const OBSERVATOIRE_ECO_LABEL = "observatoire Economique";
+  const TELEDECLARATION_VRAC_LABEL = "Télédéclaration Contrat";
   
   const STATUT_ACTIF = "ACTIF";
       
@@ -152,6 +153,20 @@ class CompteClient extends acCouchdbClient {
       $compte->synchroFromSociete();
 
       return $compte;
+    }
+    
+    /**
+     *
+     * @param string $login
+     * @param integer $hydrate
+     * @return Compte 
+     */
+    public function retrieveByLogin($login, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        return $this->findByLogin($login, $hydrate);
+    }
+
+    public function findByLogin($login, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        return parent::find('COMPTE-'.$login, $hydrate);
     }
     
 }

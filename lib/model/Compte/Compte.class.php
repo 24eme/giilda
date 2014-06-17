@@ -395,8 +395,13 @@ class Compte extends BaseCompte {
             $droits->add(CompteClient::DROITS_COMPTE_OBSERVATOIRE_ECO,CompteClient::DROITS_COMPTE_OBSERVATOIRE_ECO);
         }
         if(($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->type_societe == SocieteClient::SUB_TYPE_COURTIER)){
-            $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION,CompteClient::DROITS_COMPTE_TELEDECLARATION);
+            $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC,CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC);
         }
+    }
+    
+    public function hasDroit($droit) {
+        $droits = $this->get('droits')->toArray(0,1);
+        return in_array($droit, $droits);
     }
 
     public function getDroitsLabelsArray() {
