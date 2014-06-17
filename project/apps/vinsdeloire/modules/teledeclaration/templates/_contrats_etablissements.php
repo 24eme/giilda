@@ -11,66 +11,83 @@ use_helper('Float');
         <li>
             <div>
                <?php echo 'Etablissement #'.$num_etb; ?>
+                
+                <?php include_partial('teledeclaration/contrat_info_etablissement', array('etablissement' => $etablissements[$etbId]->etablissement)); ?>
             </div>
             <?php if (count($contratsEtablissement)): ?>
                 <table id="table_contrats" class="table_recap">    
                     <thead>
                         <tr>
                             <th class="type">Type</th>
-                            <th>N° Contrat</th>
-                            <th>Soussignés</th>   
+                            <th>N° - Date</th>
                             <th>Produit</th>
-                            <th>Vol. enlevé. / Vol. prop.</th>
+                            <th>Soussignés</th>   
+                            <th>Statut</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         foreach ($contratsEtablissement as $campagne => $contrats) :
                             foreach ($contrats as $contrat) :
-                                $elt = $contrat->value;
-                                if (!is_null($elt[VracClient::VRAC_VIEW_STATUT])):
-                                    $statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
-                                    $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]);
+                                if (!is_null($contrat->valide->statut)):
+                                    $statusColor = statusColor($contrat->valide->statut);
+                                    $vracid = preg_replace('/VRAC-/', '', $contrat->numero_contrat);
                                     ?>
                                     <tr id="<?php echo vrac_get_id($value) ?>" class="<?php echo $statusColor; ?>" >
-                                        <td class="type" ><span class="type_<?php echo strtolower($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]); ?>"><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) ? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></span></td>
-                                        <td class="num_contrat"><?php echo link_to($elt[VracClient::VRAC_VIEW_NUMARCHIVE] . '&nbsp;(' . preg_replace('/(\d{4})(\d{2})(\d{2}).*/', '$3/$2/$1', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]) . ')', '@vrac_visualisation?numero_contrat=' . $vracid); ?></td>
+                                        <td class="type" ><span class="type_<?php echo strtolower($contrat->type_transaction); ?>"><?php echo ($contrat->type_transaction) ? typeProduit($contrat->type_transaction) : ''; ?></span></td>
+                                        <td class="num_contrat">
+                                            <a href="<?php echo url_for('@vrac_visualisation?numero_contrat=' . $vracid); ?>">
+                                            <span style="font-weight: bold;"><?php echo $contrat->numero_archive; ?></span><br> <?php echo preg_replace('/(\d{4})(\d{2})(\d{2}).*/', '$3/$2/$1', $contrat->numero_contrat); ?>
+                                            </a>
+                                        </td>
 
+                                        <td><?php echo $contrat->produit_libelle; ?></td>
                                         <td class="soussigne">
                                             <ul>  
+                                                <?php if($contrat->vendeur_identifiant && $societe->type_societe != SocieteClient::SUB_TYPE_VITICULTEUR):?>
                                                 <li>
-                                                    <?php
-                                                    echo ($elt[VracClient::VRAC_VIEW_VENDEUR_ID]) ?
-                                                            'Vendeur : ' . link_to($elt[VracClient::VRAC_VIEW_VENDEUR_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracClient::VRAC_VIEW_VENDEUR_ID])) : '';
-                                                    ?>
+                                                    <span style="font-weight: bold;" >
+                                                        Vendeur :
+                                                    </span>                                                    
+                                                    <?php echo $contrat->vendeur->nom; ?>
                                                 </li>
+                                                <?php endif; ?>
+                                                <?php if($contrat->acheteur_identifiant && $societe->type_societe != SocieteClient::SUB_TYPE_NEGOCIANT):?>
                                                 <li>
-                                                    <?php
-                                                    echo ($elt[VracClient::VRAC_VIEW_ACHETEUR_ID]) ?
-                                                            'Acheteur : ' . link_to($elt[VracClient::VRAC_VIEW_ACHETEUR_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracClient::VRAC_VIEW_ACHETEUR_ID])) : '';
-                                                    ?>
+                                                    <span style="font-weight: bold;" >
+                                                        Acheteur :
+                                                    </span>
+                                                    <?php echo $contrat->acheteur->nom; ?>
                                                 </li>
-                                                <li>
-                                                    <?php
-                                                    echo ($elt[VracClient::VRAC_VIEW_MANDATAIRE_ID]) ?
-                                                            'Mandataire : ' . link_to($elt[VracClient::VRAC_VIEW_MANDATAIRE_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracClient::VRAC_VIEW_MANDATAIRE_ID])) : '';
-                                                    ?>
+                                                 <?php endif; ?>
+                                                <?php if($contrat->mandataire_identifiant && $societe->type_societe != SocieteClient::SUB_TYPE_COURTIER):?>
+                                                <li>                                                    
+                                                    <span style="font-weight: bold;" >
+                                                        Mandataire :
+                                                    </span>
+                                                    <?php echo $contrat->mandataire->nom;?>
                                                 </li>
+                                                <?php endif; ?>
                                             </ul>
                                         </td>              
-                                        <td><?php echo $elt[VracClient::VRAC_VIEW_PRODUIT_LIBELLE]; ?></td>
                                         <td>           
-                                            <?php
-                                            if (isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))
-                                                echoFloat($elt[VracClient::VRAC_VIEW_VOLENLEVE]);
-                                            else
-                                                echo '0.00';
-                                            echo '&nbsp;/&nbsp;';
-                                            if (isset($elt[VracClient::VRAC_VIEW_VOLPROP]))
-                                                echoFloat($elt[VracClient::VRAC_VIEW_VOLPROP]);
-                                            else
-                                                echo '0.00';
-                                            ?>
+                                            <?php echo $contrat->getTeledeclarationStatut(); ?>
+                                        </td>
+                                        <td>           
+                                          <?php if ($contrat->getTeledeclarationStatut() == VracClient::STATUS_TELEDECLARATION_VALIDE): ?>
+                                            <a href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $contrat->numero_contrat))?>">
+                                                <span id="picto_visualiser">
+                                                    Visualiser
+                                                </span>
+                                            </a>
+                                          <?php elseif($contrat->getTeledeclarationStatut() == VracClient::STATUS_TELEDECLARATION_ATTENTE_SIGNATURE): ?>
+                                           <a href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $contrat->numero_contrat))?>">
+                                                <span id="picto_visualiser">
+                                                    Visualiser pour signer
+                                                </span>
+                                            </a>
+                                          <?php endif; ?>
                                         </td>
                                     </tr>
                                     <?php

@@ -77,18 +77,35 @@ class teledeclarationActions extends sfActions
                 $idCompte = $this->form->process()->identifiant;
                 $idSociete = $this->form->process()->getSociete()->getIdentifiant();
                 $this->getUser()->signIn($idCompte);
-                $this->redirect('teledeclaration_monespace',array('identifiant' => $idSociete));
+                $this->redirect('teledeclaration_monespace',array('identifiant' => $idCompte));
             }
         }
     }
     
     public function executeMonEspace(sfWebRequest $request) {
         $this->compte = CompteClient::getInstance()->findByIdentifiant($request['identifiant']);
+        $this->secureVrac(VracSecurity::DROITS_TELEDECLARATION_VRAC, $this->vrac);
         if(!$this->compte){
             new sfException("Le compte $compte n'existe pas");
         }
         $this->societe = $this->compte->getSociete();
+        $this->etablissements = $this->societe->getEtablissementsObj();
         $this->contratsEtablissements = VracClient::getInstance()->retrieveBySociete($this->societe->identifiant);
+    }
+    
+    protected function secureVrac($droits, $vrac) {
+
+        if(!VracSecurity::getInstance($this->getUser(), $vrac)->isAuthorized($droits)) {
+            
+            return $this->forwardSecure();
+        }
+    }
+
+    protected function forwardSecure()
+    {    
+        $this->context->getController()->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+
+        throw new sfStopException();
     }
 
 }
