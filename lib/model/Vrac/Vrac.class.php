@@ -533,4 +533,14 @@ class Vrac extends BaseVrac {
     public function isPluriannuel() {
         return ($this->exist('type_contrat') && $this->type_contrat == VracClient::TYPE_CONTRAT_PLURIANNUEL);
     }
+    
+    public function getTeledeclarationStatut() {
+        if($this->isSolde() || $this->isValidee()){
+            return VracClient::STATUS_TELEDECLARATION_VALIDE;
+        }
+        if(!$this->exist('teledeclaration_statut') || !$this->teledeclaration_statut){
+            return VracClient::STATUS_TELEDECLARATION_ATTENTE_SIGNATURE;
+        }        
+        return $this->teledeclaration_statut;
+    }
 }

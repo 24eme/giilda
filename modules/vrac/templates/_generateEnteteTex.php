@@ -34,7 +34,7 @@ use_helper('Display');
 \def\CONTRATACHETEURLIEU{<?php echo cut_latex_string($vrac->acheteur->commune,55); ?>}
 \def\CONTRATACHETEURDEPT{<?php echo substr($vrac->acheteur->code_postal,0,2); ?>}
 
-\def\CONTRATCOURTIERNOM{M<?php echo cut_latex_string($vrac->mandataire->nom,60);; ?>}
+\def\CONTRATCOURTIERNOM{<?php echo cut_latex_string($vrac->mandataire->nom,60);; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro; ?>}
 
 \def\CONTRATTYPE{<?php echo showType($vrac); ?>}

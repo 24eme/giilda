@@ -48,6 +48,10 @@ class VracClient extends acCouchdbClient {
     const CVO_REPARTITION_100_VITI = '100';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
     const RESULTAT_LIMIT = 700;
+    
+    const STATUS_TELEDECLARATION_VALIDE = 'VALIDE';
+    const STATUS_TELEDECLARATION_ATTENTE_SIGNATURE = 'ATTENTE_SIGNATURE';
+    const STATUS_TELEDECLARATION_VISE = 'VISE';
 
     public static $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
         VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
@@ -146,10 +150,19 @@ class VracClient extends acCouchdbClient {
             }
             $contratsEtablissements[$identifiantEtb] = array();
                     
-            $contratsEtablissements[$identifiantEtb][$campagne] = $this->retrieveBySoussigne($identifiantEtb,$campagne,$limit)->rows;
-            $contratsEtablissements[$identifiantEtb][$campagnemoins1] = $this->retrieveBySoussigne($identifiantEtb,$campagnemoins1,$limit)->rows;
+            $contratsEtablissements[$identifiantEtb][$campagne] = $this->retrieveVracObjsBySoussigne($identifiantEtb,$campagne,$limit);
+            $contratsEtablissements[$identifiantEtb][$campagnemoins1] = $this->retrieveVracObjsBySoussigne($identifiantEtb,$campagnemoins1,$limit);
         }
         return $contratsEtablissements;
+    }
+    
+    public function retrieveVracObjsBySoussigne($identifiantEtb, $campagne, $limit = self::RESULTAT_LIMIT) {
+        $vracs = $this->retrieveBySoussigne($identifiantEtb,$campagne,$limit)->rows;
+        $vracsObj = array();
+        foreach ($vracs as $vracView) {
+           $vracsObj[$vracView->id] = $this->find($vracView->id);
+        }
+        return $vracsObj;
     }
     
     
