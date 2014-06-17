@@ -110,19 +110,19 @@ function showType($vrac)
 {
     if($type = $vrac->type_transaction)
     {
-        return showTypeFromLabel($type);
+        return showTypeFromLabel($type,'');
     }    
     return '';
 }
 
-function showTypeFromLabel($type)
+function showTypeFromLabel($type, $prefix = 'Type de contrat : ')
 {
     switch ($type)
         {
-            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return 'Type de contrat : Vin en vrac';                   
-            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: return 'Type de contrat : Conditionné';
-            case VracClient::TYPE_TRANSACTION_RAISINS: return 'Type de contrat : Raisins';
-            case VracClient::TYPE_TRANSACTION_MOUTS: return 'Type de contrat : Moût';
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC: return $prefix.'Vin en vrac';                   
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: return $prefix.'Conditionné';
+            case VracClient::TYPE_TRANSACTION_RAISINS: return $prefix.'Raisins';
+            case VracClient::TYPE_TRANSACTION_MOUTS: return $prefix.'Moût';
             default: return $type;
         }
 }

@@ -21,7 +21,7 @@ use_helper('Display');
 \def\CONTRAT_TITRE{<?php echo "CONTRAT D'ACHAT EN PROPRIETE"; ?>}
 
 
-\def\CONTRATVENDEURNOM{<?php echo cut_latex_string($vrac->vendeur->nom,33); ?>}
+\def\CONTRATVENDEURNOM{<?php echo cut_latex_string($vrac->vendeur->nom,55); ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi; ?>}
 \def\CONTRATVENDEURACCISE{<?php echo $vrac->vendeur->no_accises; ?>}
 \def\CONTRATVENDEURNUMTVA{<?php echo $vrac->vendeur->no_tva_intracomm; ?>}
@@ -31,7 +31,7 @@ use_helper('Display');
 \def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi; ?>}
 \def\CONTRATACHETEURACCISE{<?php echo $vrac->acheteur->no_accises; ?>}
 \def\CONTRATACHETEURNUMTVA{<?php echo $vrac->acheteur->no_tva_intracomm; ?>}
-\def\CONTRATACHETEURLIEU{<?php echo cut_latex_string($vrac->acheteur->commune,31); ?>}
+\def\CONTRATACHETEURLIEU{<?php echo cut_latex_string($vrac->acheteur->commune,55); ?>}
 \def\CONTRATACHETEURDEPT{<?php echo substr($vrac->acheteur->code_postal,0,2); ?>}
 
 \def\CONTRATCOURTIERNOM{M<?php echo cut_latex_string($vrac->mandataire->nom,60);; ?>}
@@ -42,7 +42,7 @@ use_helper('Display');
 \def\CONTRATPRODUITLIBELLE{<?php echo $vrac->produit_libelle; ?>}
 \def\CONTRATPRODUITMILLESIME{<?php echo $vrac->millesime; ?>}
 \def\CONTRATPRODUITQUANTITE{<?php echo $vrac->getQuantite(); ?>}
-\def\CONTRATPRIX{<?php echo $vrac->prix_initial_total; ?>}
+\def\CONTRATPRIXUNITAIRE{<?php echo $vrac->prix_unitaire; ?>}
 \def\CONTRATTYPEEXPLICATIONPRIX{<?php echo vracTypeExplication($vrac);?>}
 
 \def\CONTRATDATEMAXENLEVEMENT{Au plus tard le~<?php echo cut_latex_string(Date::francizeDate($vrac->getMaxEnlevement()),50); ?>}

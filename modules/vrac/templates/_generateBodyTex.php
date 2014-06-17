@@ -2,19 +2,19 @@
 
 \begin{document}
 
-\begin{tabularx}{\textwidth}{|X|X|X|}
+\begin{tabularx}{\textwidth}{|X|X|p{35mm}p{15mm}|}
 	\hline
-	& ~ & ~ \\
+	~ & ~ & ~ & ~ \\
 	 \textbf{\INTERLOIRECOORDONNEESTITRE} & \multirow{7}{*}{ 
 \includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf.jpg"; ?>} 
-} & Numéro d'enregistement \\ 	
-	 \INTERLOIRECOORDONNEESADRESSE & ~ & ~ \\ 
-	 \INTERLOIRECOORDONNEESCPVILLE  & ~ & \multicolumn{1}{r|}{{\textbf{\CONTRATNUMENREGISTREMENT}}} \\
-	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} & ~ & Visa : \\
-	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONEANJOU} & ~ & \multicolumn{1}{r|}{\textbf{\CONTRATVISA}} \\
-	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONETOURS} & ~ & Date : \\
-	 ~~~\small{\INTERLOIRECOORDONNEESFAX} & ~ &  \multicolumn{1}{r|}{ \textbf{\CONTRATDATEENTETE}} \\
-	 ~~~\small{\INTERLOIRECOORDONNEESEMAIL} & ~ & ~ \\
+} & Numéro d'enregistement : & \textbf{\CONTRATNUMENREGISTREMENT} \\ 	
+	 \INTERLOIRECOORDONNEESADRESSE & ~ & ~ & ~ \\ 
+	 \INTERLOIRECOORDONNEESCPVILLE  & ~ & ~ & ~ \\
+	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} & ~ & Visa : & \textbf{\CONTRATVISA} \\
+	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONEANJOU} & ~ & ~ & ~  \\
+	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONETOURS} & ~ & Date : & \textbf{\CONTRATDATEENTETE} \\
+	 ~~~\small{\INTERLOIRECOORDONNEESFAX} & ~ &  ~ & ~ \\
+	 ~~~\small{\INTERLOIRECOORDONNEESEMAIL} & ~ & ~ & ~ \\
 	\hline	
 	
 \end{tabularx}
@@ -32,13 +32,14 @@
 \begin{tabularx}{\textwidth}{|Xr|}
 	\hline 
          ~ & ~ \\
-	 M. & \CONTRATVENDEURNOM \\
-	 C.V.I. & \CONTRATVENDEURCVI \\ 
-	 N° ACCISE & \CONTRATVENDEURACCISE \\
-	  N° TVA Intracomm & \CONTRATVENDEURNUMTVA \\
-	 Propriétaire à & \CONTRATVENDEURLIEU \\	
+	 \multicolumn{2}{|c|}{\textbf{\CONTRATVENDEURNOM}} \\
+         ~ & ~ \\
+	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\ 
+	 N° ACCISE & \textbf{\CONTRATVENDEURACCISE} \\
+	  N° TVA Intracomm & \textbf{\CONTRATVENDEURNUMTVA} \\
+	 Propriétaire à & \textbf{\CONTRATVENDEURLIEU} \\	
 	 ~ & ~ \\
-	 ~ & Ci après dénommé le vendeur, \\
+	 \multicolumn{2}{|r|}{Ci après dénommé le vendeur,} \\
 	 
 	\hline	
 \end{tabularx} 
@@ -48,13 +49,14 @@
 \begin{tabularx}{\textwidth}{|Xr|}
 	\hline 
          ~ & ~ \\
-	 Société ou M. & \CONTRATACHETEUREURNOM \\
-         C.V.I. & \CONTRATACHETEURCVI \\ 
-	 N° ACCISE & \CONTRATACHETEURACCISE \\
-	 N° TVA Intracomm & \CONTRATACHETEURNUMTVA \\
-	 Etablissement situé à & \CONTRATACHETEURLIEU \\
-	 Département n° & \CONTRATACHETEURDEPT \\
-	 ~ & Ci après dénommé l'acheteur,\\
+	 \multicolumn{2}{|c|}{\textbf{\CONTRATACHETEUREURNOM}} \\
+         ~ & ~ \\
+         C.V.I. & \textbf{\CONTRATACHETEURCVI} \\ 
+	 N° ACCISE & \textbf{\CONTRATACHETEURACCISE} \\
+	 N° TVA Intracomm & \textbf{\CONTRATACHETEURNUMTVA} \\
+	 Etablissement situé à & \textbf{\CONTRATACHETEURLIEU~(\CONTRATACHETEURDEPT)}\\
+         ~ & ~ \\
+	 \multicolumn{2}{|r|}{Ci après dénommé l'acheteur,}\\
 	 \hline
 \end{tabularx}
 \end{minipage}
@@ -69,37 +71,27 @@ Mandaté pour signature par : ~~~ le vendeur ~  <?php echo getCheckBoxe($vrac->i
 
 A été conclu le marché suivant: \\
 
-\begin{tabularx}{\textwidth}{|X|X|X|X|}
+\begin{tabularx}{\textwidth}{|X|p{12mm}|p{22mm}|p{32mm}|p{32mm}|}
 \hline
-\textbf{Appellation / couleur / type} & \textbf{Millésime} & \textbf{Volume en \CONTRATTYPEUNITE} & \textbf{Prix} \\
+~ & ~ & ~ & ~ & ~ \\
+\textbf{Appellation / couleur / type} & \multicolumn{1}{c|}{\textbf{Millésime}} & \textbf{Type de Contrat} & \multicolumn{1}{c|}{\textbf{Volume en \CONTRATTYPEUNITE}} & \multicolumn{1}{c|}{\textbf{Prix en \euro par \CONTRATTYPEUNITE}} \\
+~ & ~ & ~ & ~ & ~ \\
 \hline
-~ & ~ & \cellcolor{gray!25}~ & ~ \\
-\textbf{\CONTRATPRODUITLIBELLE} & \textbf{\CONTRATPRODUITMILLESIME} & \cellcolor{gray!25}~ & \textbf{\CONTRATTYPE} \\
-~ & ~ & \cellcolor{gray!25}~ & ~ \\
-\hline
-
-\multicolumn{2}{|c|}{ ~ } & \multicolumn{1}{r|}{ \multirow{6}{*}{ \textbf{\CONTRATPRODUITQUANTITE~\CONTRATTYPEUNITE} }} & \multicolumn{1}{r|}{\multirow{6}{*}{ \textbf{\CONTRATPRIX~\euro}}} \\ 
-
-\multicolumn{2}{|c|}{ générique ~ <?php echo getCheckBoxe($vrac->isGenerique())?> ~~~ ou domaine ~ <?php echo getCheckBoxe($vrac->isDomaine())?> } & ~ & ~ \\
-
-\multicolumn{2}{|c|}{Nom de domaine utilisable par l'acheteur:} & ~ & ~ \\ 
-\cline{1-2} 
-<?php if($vrac->isGenerique()): ?>
-\multicolumn{2}{|c|}{ \cellcolor{gray!25}~ } & ~ & ~ \\ 
-\multicolumn{2}{|c|}{ \cellcolor{gray!25}~ } & ~ & ~ \\ 
-\multicolumn{2}{|c|}{ \cellcolor{gray!25}~ } & ~ & ~ \\ 
-<?php else: ?>
-\multicolumn{2}{|c|}{ ~ } & ~ & ~ \\ 
-\multicolumn{2}{|c|}{ \textbf{<?php echo $vrac->domaine; ?>} } & ~ & ~ \\ 
-\multicolumn{2}{|c|}{ ~ } & ~ & ~ \\
+~ & ~ & ~ & ~ & ~ 
+\\
+\textbf{\CONTRATPRODUITLIBELLE} & \multicolumn{1}{c|}{\textbf{\CONTRATPRODUITMILLESIME}} &
+ \multicolumn{1}{c|}{\textbf{\CONTRATTYPE}} & ~ & ~ \\
+ ~ & ~ & ~ & \multicolumn{1}{r|}{\multirow{3}{*}{ \textbf{\CONTRATPRODUITQUANTITE~\CONTRATTYPEUNITE}}} & \multicolumn{1}{r|}{\multirow{3}{*}{ \textbf{\CONTRATPRIXUNITAIRE~\euro/\CONTRATTYPEUNITE}}} \\
+\cline{1-3} 
+\multicolumn{3}{|c|}{ ~ } & ~ & ~ \\ 
+\multicolumn{3}{|c|}{ \textbf{générique ~ <?php echo getCheckBoxe($vrac->isGenerique())?> ~~~ ou domaine ~ <?php echo getCheckBoxe($vrac->isDomaine())?>} } & ~ & ~ \\
+<?php if(!$vrac->isGenerique()): ?>
+\multicolumn{3}{|c|}{ \textbf{<?php echo $vrac->domaine; ?>} } & ~ & ~ \\ 
 <?php endif; ?>
+\multicolumn{3}{|c|}{ ~ } & ~ & ~ \\ 
 \hline
-             
-            \end{tabularx}
-            \\
-\begin{flushright}
-\textbf{Prix en toute lettres : } \framebox[1.05\width]{\textbf{<?php echo getPrixTouteLettre($vrac); ?>}} \\
-\end{flushright}
+\end{tabularx}
+\\
 
 \textbf{\underline{\CONTRATTYPEEXPLICATIONPRIX}}
 \\
@@ -107,8 +99,6 @@ A été conclu le marché suivant: \\
 \textbf{L'achat rentre dans le cadre d'un contrat pluriannuel:}~~~~\textbf{OUI}~ <?php echo getCheckBoxe($vrac->isPluriannuel())?> ~~~\textbf{NON}~ <?php echo getCheckBoxe(!$vrac->isPluriannuel())?> \textbf{, conforme à l'art. III-2 de l'accord Interprofessionnel}
 \\
 
-\textbf{Hors contrat pluriannuel, le prix est obligatoirement déterminé donc connu au jour de la transaction. Dans le cadre d'un contrat pluriannuel avec une partie de prix variable, le prix indiqué est la partie fixe du prix s'appliquant à 50\% minimum de la quantité.}
-\\
 
 La cotisation interprofessionnel est payée par moitié par le vendeur et l'acheteur. Toutefois la cotisation interprofessionnelle concernant la vente de vins à destination d'un acheteur hors du ressort d'InterLoire (1) est payée en totalité par le vendeur.
 \\
