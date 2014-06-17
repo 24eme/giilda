@@ -1,16 +1,20 @@
 <?php
 
-class myUser extends sfBasicSecurityUser
+class myUser extends TeledeclarationSecurityUser
 {
-	const CREDENTIAL_ADMIN = 'admin';
+    const CREDENTIAL_ADMIN = 'admin';
 
-	protected $tiers = null;
+    protected $tiers = null;
 
-	public function getTiers() {		
-		return $this->tiers;
-	}
+    public function getTiers() {		
+            return $this->tiers;
+    }
 
   public function getCompte() {
+    $user = parent::getCompte();  
+      if($user){
+          return $user;
+      }
     $user = new stdClass();
     $user->_id = $this->getAttribute('AUTH_USER');
     $user->prenom = $user->_id;

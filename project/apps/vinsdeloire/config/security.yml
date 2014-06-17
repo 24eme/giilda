@@ -3,4 +3,4 @@
 
 all:
   is_secure: true
-  credentials: transactions
+  credentials: null

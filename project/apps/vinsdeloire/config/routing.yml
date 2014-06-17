@@ -6,5 +6,30 @@ homepage:
   url:   /
   param: { module: global, action: home}
 
-# generic rules
-# please, remove them by adding more specific rules
+
+# TELEDECLARATION
+
+teledeclaration:
+  url:   /teledeclaration
+  param: { module: teledeclaration, action: login}
+  
+teledeclaration_login_no_cas:
+  url:   /teledeclaration/login-no-cas
+  param: { module: teledeclaration, action: loginNoCas}
+
+teledeclaration_login:
+  url:   /teledeclaration/login
+  param: { module: teledeclaration, action: login}
+  
+teledeclaration_logout:
+  url:   /teledeclaration/login
+  param: { module: teledeclaration, action: logout}
+  
+teledeclaration_forbidden:
+  url:   /teledeclaration/forbidden
+  param: { module: teledeclaration, action: forbidden}
+  
+teledeclaration_monespace:
+  url:   /teledeclaration/monEspace/:identifiant
+  param: { module: teledeclaration, action: monEspace}
+     
