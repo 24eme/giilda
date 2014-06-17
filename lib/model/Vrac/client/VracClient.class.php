@@ -126,6 +126,33 @@ class VracClient extends acCouchdbClient {
         return $this->descending(true)->limit($limit)->getView('vrac', 'history');
     }
 
+    public function retrieveBySociete($societeId, $limit = self::RESULTAT_LIMIT) {
+        $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+        $campagnemoins1 = ConfigurationClient::getInstance()->getPreviousCampagne($campagne);
+        
+        $societe = SocieteClient::getInstance()->findByIdentifiantSociete($societeId);
+        if(!$societe){
+            throw new sfException("La societe d'identifiant $societeId n'a pas été trouvé");
+        }
+        $etbs = $societe->getEtablissementsObj();
+        if(!$etbs || !count($etbs)){
+            throw new sfException("La societe d'identifiant $societeId ne possède aucun etablissement");
+        }
+        $contratsEtablissements = array();
+        foreach (array_keys($etbs) as $identifiantEtb) {
+            $etb = EtablissementClient::getInstance()->find($identifiantEtb);
+            if(!$etb){
+               throw new sfException("L'établissement d'identifiant $identifiantEtb n'a pas été trouvé");
+            }
+            $contratsEtablissements[$identifiantEtb] = array();
+                    
+            $contratsEtablissements[$identifiantEtb][$campagne] = $this->retrieveBySoussigne($identifiantEtb,$campagne,$limit)->rows;
+            $contratsEtablissements[$identifiantEtb][$campagnemoins1] = $this->retrieveBySoussigne($identifiantEtb,$campagnemoins1,$limit)->rows;
+        }
+        return $contratsEtablissements;
+    }
+    
+    
     public function retrieveBySoussigne($soussigneId, $campagne, $limit = self::RESULTAT_LIMIT) {
         $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
         if (!preg_match('/[0-9]*-[0-9]*/', $campagne))
