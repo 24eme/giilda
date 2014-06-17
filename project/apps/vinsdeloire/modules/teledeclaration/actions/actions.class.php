@@ -88,6 +88,7 @@ class teledeclarationActions extends sfActions
             new sfException("Le compte $compte n'existe pas");
         }
         $this->societe = $this->compte->getSociete();
+        $this->contratsEtablissements = VracClient::getInstance()->retrieveBySociete($this->societe->identifiant);
     }
 
 }
