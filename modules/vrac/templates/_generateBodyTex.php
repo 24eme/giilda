@@ -9,11 +9,11 @@
 \includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf.jpg"; ?>} 
 } & Numéro d'enregistement \\ 	
 	 \INTERLOIRECOORDONNEESADRESSE & ~ & ~ \\ 
-	 \INTERLOIRECOORDONNEESCPVILLE  & ~ & \multicolumn{1}{c|}{{\textbf{\CONTRATNUMENREGISTREMENT}}} \\
+	 \INTERLOIRECOORDONNEESCPVILLE  & ~ & \multicolumn{1}{r|}{{\textbf{\CONTRATNUMENREGISTREMENT}}} \\
 	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} & ~ & Visa : \\
-	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONEANJOU} & ~ & \multicolumn{1}{c|}{\textbf{\CONTRATVISA}} \\
+	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONEANJOU} & ~ & \multicolumn{1}{r|}{\textbf{\CONTRATVISA}} \\
 	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONETOURS} & ~ & Date : \\
-	 ~~~\small{\INTERLOIRECOORDONNEESFAX} & ~ &  \multicolumn{1}{c|}{ \textbf{\CONTRATDATEENTETE}} \\
+	 ~~~\small{\INTERLOIRECOORDONNEESFAX} & ~ &  \multicolumn{1}{r|}{ \textbf{\CONTRATDATEENTETE}} \\
 	 ~~~\small{\INTERLOIRECOORDONNEESEMAIL} & ~ & ~ \\
 	\hline	
 	
