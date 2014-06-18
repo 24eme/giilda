@@ -2233,7 +2233,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   width: 50px;
 }
 #action .btn_calendrier:after {
-  background-position: 25px -544px;
+  background-position: 25px -537px;
   width: 50px;
 }
 #action .btn_acces,
@@ -2872,7 +2872,6 @@ bouton#contenu_etape #vrac_visualisation #vrac_condition #btn_annuler_contrat {
   background-position: 0 -104px;
   border-color: #f6b32c;
   padding-left: 30px;
-  margin-right: 90px;
 }
 #contenu_etape #vrac_visualisation #vrac_condition #btn_editer_contrat:after {
   height: 26px;
@@ -6715,6 +6714,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     padding: 15px 15px 0;
   }
   #header #logo {
+    float: left;
     text-align: left;
   }
   #header #navigation {
@@ -6742,6 +6742,11 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   #header #navigation li a {
     border-radius: 0;
     margin: 0;
+  }
+  #header #actions_utilsateur {
+    float: right;
+    margin: 18px 0 0;
+    position: static;
   }
   #header #actions_utilsateur .btn_menu {
     display: inline-block;
@@ -6800,7 +6805,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     left: 0;
     top: 0;
     bottom: 0;
-    width: 180px;
+    width: 150px;
   }
   #contenu_etape #table_contrats td + td {
     border-top: 0;
