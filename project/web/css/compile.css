@@ -1348,7 +1348,8 @@ bouton.btn_enregistrer {
   line-height: 21px;
   padding: 6px 0 0;
 }
-#header #actions_utilsateur a {
+#header #actions_utilsateur a,
+#header #actions_utilsateur button {
   background: url(../images/pictos/pi_actions.png) 0 0 no-repeat;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -1359,21 +1360,36 @@ bouton.btn_enregistrer {
   padding: 0 5px 0 22px;
 }
 #header #actions_utilsateur a:hover,
-#header #actions_utilsateur a:focus {
+#header #actions_utilsateur a:focus,
+#header #actions_utilsateur button:hover,
+#header #actions_utilsateur button:focus {
   text-decoration: none;
 }
-#header #actions_utilsateur a.admin {
+#header #actions_utilsateur a.admin,
+#header #actions_utilsateur button.admin {
   background-color: #eee;
   background-position: 5px 0;
   border-color: #c2c0c0;
   color: #5e5c5c;
 }
-#header #actions_utilsateur a.deconnexion {
+#header #actions_utilsateur a.deconnexion,
+#header #actions_utilsateur button.deconnexion {
   background-color: #b8b7b7;
   background-position: 5px -21px;
   border-color: #929292;
   color: #fff;
   margin: 0 0 0 7px;
+}
+#header #actions_utilsateur .btn_menu {
+  font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  background-color: #eee;
+  background-position: 5px -560px;
+  border-color: #c2c0c0;
+  color: #5e5c5c;
+  display: none;
+  font-size: 11px;
+  margin: 0 7px 0 0;
+  padding: 3px 5px 4px 25px;
 }
 .section_label_maj {
   zoom: 1;
@@ -6700,6 +6716,35 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   }
   #header #logo {
     text-align: left;
+  }
+  #header #navigation {
+    background: #FFF;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -15px;
+    right: -15px;
+    line-height: 35px;
+    z-index: 10;
+  }
+  #header #navigation li,
+  #header #navigation li a {
+    display: block;
+  }
+  #header #navigation li {
+    background: none;
+    border-bottom: 1px solid #dddcdc;
+    border-top: 1px solid #dddcdc;
+  }
+  #header #navigation li + li {
+    border-top: 0;
+  }
+  #header #navigation li a {
+    border-radius: 0;
+    margin: 0;
+  }
+  #header #actions_utilsateur .btn_menu {
+    display: inline-block;
   }
   #colonne,
   #btn_colonne {

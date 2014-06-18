@@ -31,6 +31,40 @@
 	{
 		text-align: left;
 	}
+
+	#navigation
+	{
+		background: #FFF;
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: -15px;
+		right: -15px;
+		line-height: 35px;
+		z-index: 10;
+
+		li, li a { display: block; }
+
+		li 
+		{ 
+			background: none;
+			border-bottom: 1px solid #dddcdc;
+			border-top: 1px solid #dddcdc;
+
+			& + li { border-top: 0; } 
+
+			a
+			{
+				border-radius: 0;
+				margin: 0;
+			}
+		}
+	}
+
+	#actions_utilsateur
+	{
+		.btn_menu { display: inline-block; }
+	}
 }
 
 /**
