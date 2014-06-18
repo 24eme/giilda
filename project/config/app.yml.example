@@ -131,6 +131,10 @@ all:
         service_facturation: 'nom prenom personne'
         telephone: 'tel nantes - fax nantes'
         email: 'emaildenantes@nantes.fr'
+  tva:
+    taux:
+      19700101: 19.6
+      20140101: 20.0
   relance:
     responsable_financier: 'prenom nom'
     emetteur:

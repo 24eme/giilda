@@ -4,7 +4,7 @@ use_helper('Date');
 <div id="detail_societe" class="form_section ouvert">
     <h3>Détail de la société </h3>  
     <div class="form_contenu">
-        <?php if($modification) : ?>
+        <?php if($modification || $reduct_rights) : ?>
 		<div class="form_modifier">
                     <a href="<?php echo url_for('compte_search', array('q' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_majeur btn_nouveau">Ajouter un tag</a>
                         <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_modifier">Modifier</a>
@@ -114,6 +114,21 @@ use_helper('Date');
                 <?php echo $societe->no_tva_intracommunautaire; ?>
             </div>
         <?php endif; ?>
+        <?php if ($societe->getDroitsCompte()) : ?>
+            <div class="form_ligne">
+                <label for="no_tva_intracommunautaire" class="label_liste">
+                    Droits de la société : 
+                </label>
+                <ul>
+                <?php foreach ($societe->getDroitsCompte() as $droit) : ?>
+                    <li>
+                    <?php echo $droit; ?>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+        
         <?php if ($societe->commentaire) : ?>        
         <div class="form_ligne">
             <label for="commentaire">

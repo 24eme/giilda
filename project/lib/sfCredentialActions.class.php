@@ -80,8 +80,10 @@ class sfCredentialActions extends sfActions {
     
     
     protected function applyRights() {
+        
         //reduction de droits dans le module contact
         $this->reduct_rights = false;        
+        
         //reduction des droits en lecture seule pour le module contact
         $this->modification = true;
 
@@ -96,41 +98,38 @@ class sfCredentialActions extends sfActions {
                     $this->modification = false;
                     $this->reduct_rights = true;     
                 }
-                if ($this->societe->isInstitution()) {
+                if ($this->societe->isInstitution() || $this->societe->isSyndicat()) {
                     $this->modification = false;
                 }
             return;
             case self::CREDENTIAL_DIRECTION:
                 if ($this->societe->isTransaction()) {
-                    $this->modification = true;
+                    $this->modification = false;
                     $this->reduct_rights = true;
                 }
-                if ($this->societe->isPresse()) {
+                if ($this->societe->isPresse() || $this->societe->isSyndicat()) {
                     $this->modification = false;
-                }
+                }                
             return;
             case self::CREDENTIAL_AUTRE:
                 if ($this->societe->isTransaction()) {
                     $this->modification = false;
                     $this->reduct_rights = true;
                 }
-                if ($this->societe->isPresse()) {
+                if ($this->societe->isPresse() || $this->societe->isInstitution() || $this->societe->isSyndicat()) {
                     $this->modification = false;
-                }
-                if ($this->societe->isInstitution()) {
-                    $this->modification = false;                    
-                }
+                }  
             return;      
             case self::CREDENTIAL_TRANSACTIONS:
             case self::CREDENTIAL_COMPTA:
                 if ($this->societe->isPresse() ||
-                        $this->societe->isInstitution()) {
+                        $this->societe->isInstitution()
+                        || $this->societe->isSyndicat()) {
                     $this->modification = false;                    
                 }
             return;
             
-            case self::CREDENTIAL_BUREAU:
-            
+            case self::CREDENTIAL_BUREAU:            
                  if (!$this->societe->isSyndicat()) {
                     $this->modification = false;
                 }
