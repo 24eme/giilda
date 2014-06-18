@@ -6722,4 +6722,60 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   #rail_etapes li:first-child > * {
     padding-left: 33px;
   }
+  #contenu_etape #table_contrats {
+    border: 0;
+    border-collapse: collapse;
+  }
+  #contenu_etape #table_contrats,
+  #contenu_etape #table_contrats tbody,
+  #contenu_etape #table_contrats th,
+  #contenu_etape #table_contrats td,
+  #contenu_etape #table_contrats tr {
+    display: block;
+  }
+  #contenu_etape #table_contrats thead {
+    display: none;
+  }
+  #contenu_etape #table_contrats tr {
+    border: 0;
+    margin: 0 0 20px;
+  }
+  #contenu_etape #table_contrats td {
+    border: 1px solid #e3e2e2;
+    height: auto;
+    position: relative;
+    padding-left: 210px;
+  }
+  #contenu_etape #table_contrats td:before {
+    background: #ecebeb;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+  }
+  #contenu_etape #table_contrats td + td {
+    border-top: 0;
+  }
+  #contenu_etape #table_contrats td.type:before {
+    content: 'Type';
+  }
+  #contenu_etape #table_contrats td.num_contrat:before {
+    content: 'Numéro de contrat';
+  }
+  #contenu_etape #table_contrats td.soussigne {
+    text-align: center;
+  }
+  #contenu_etape #table_contrats td.soussigne:before {
+    content: 'Soussignés';
+  }
+  #contenu_etape #table_contrats td.produit:before {
+    content: 'Produit';
+  }
+  #contenu_etape #table_contrats td.volume:before {
+    content: 'Vol. enlevé. / Vol. prop.';
+  }
 }

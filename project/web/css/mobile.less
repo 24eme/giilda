@@ -76,4 +76,60 @@
 	}
 }
 
+/* ======================================================= */
+/* TABLEAU DES CONTRATS */
+/* ======================================================= */
+#contenu_etape #table_contrats
+{
+	border: 0;
+	border-collapse: collapse;
+
+	&, tbody, th, td, tr { display: block; }
+
+	thead { display: none; }
+
+	tr 
+	{
+		border: 0; 
+		margin: 0 0 20px; 
+	}
+
+	td 
+	{
+		border: 1px solid #e3e2e2;
+		height: auto;
+		position: relative;
+		padding-left: 210px;
+
+		&:before
+		{
+			background: #ecebeb;
+			font-size: 13px;
+			font-weight: bold;
+			padding: 10px;
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			width: 180px;
+		}
+
+		& + td { border-top: 0; }
+
+		&.type:before { content: 'Type'; }
+
+		&.num_contrat:before { content: 'Numéro de contrat'; }
+
+		&.soussigne { text-align: center; }
+
+		&.soussigne:before { content: 'Soussignés'; }
+
+		&.produit:before { content: 'Produit'; }
+
+		&.volume:before { content: 'Vol. enlevé. / Vol. prop.'; }
+
+	}
+
+}
+
 }
