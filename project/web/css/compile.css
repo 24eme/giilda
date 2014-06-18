@@ -2170,6 +2170,9 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 #global_content.no_right_col #principal {
   width: auto;
 }
+.block_overlay {
+  position: relative;
+}
 .type_raisins,
 .type_mouts,
 .type_vin_vrac,
@@ -6827,5 +6830,55 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   }
   #contenu_etape #table_contrats td.volume:before {
     content: 'Vol. enlevé. / Vol. prop.';
+  }
+  #vendeur_infos .bloc_form label,
+  #vendeur_infos .bloc_form .infos,
+  #conditions_recapitulatif .bloc_form label,
+  #conditions_recapitulatif .bloc_form .infos,
+  #marche_recapitulatif .bloc_form label,
+  #marche_recapitulatif .bloc_form .infos,
+  #soussigne_recapitulatif .bloc_form label,
+  #soussigne_recapitulatif .bloc_form .infos,
+  #vrac_marche_prixVariable .bloc_form label,
+  #vrac_marche_prixVariable .bloc_form .infos,
+  #vrac_soussigne .bloc_form label,
+  #vrac_soussigne .bloc_form .infos,
+  #date_campagne.ligne_form label,
+  #date_campagne.ligne_form .infos,
+  #date_signature.ligne_form label,
+  #date_signature.ligne_form .infos {
+    display: block;
+  }
+  #vendeur_infos .bloc_form label,
+  #conditions_recapitulatif .bloc_form label,
+  #marche_recapitulatif .bloc_form label,
+  #soussigne_recapitulatif .bloc_form label,
+  #vrac_marche_prixVariable .bloc_form label,
+  #vrac_soussigne .bloc_form label,
+  #date_campagne.ligne_form label,
+  #date_signature.ligne_form label {
+    margin: 0 0 5px;
+  }
+  #vendeur_infos .bloc_form .infos,
+  #conditions_recapitulatif .bloc_form .infos,
+  #marche_recapitulatif .bloc_form .infos,
+  #soussigne_recapitulatif .bloc_form .infos,
+  #vrac_marche_prixVariable .bloc_form .infos,
+  #vrac_soussigne .bloc_form .infos,
+  #date_campagne.ligne_form .infos,
+  #date_signature.ligne_form .infos {
+    margin: 10px 0 0 !important;
+  }
+  #contenu_etape #vrac_soussigne .ligne_form {
+    height: auto;
+  }
+  #vrac_soussigne .col,
+  #vrac_marche .col,
+  #vrac_condition .col,
+  #vrac_validation .col,
+  #vrac_recapitulatif .col {
+    display: block;
+    float: none;
+    width: auto;
   }
 }
