@@ -12,7 +12,7 @@ use_helper('Float');
             <div>
                <?php echo 'Etablissement #'.$num_etb; ?>
                 
-                <?php include_partial('teledeclaration/contrat_info_etablissement', array('etablissement' => $etablissements[$etbId]->etablissement)); ?>
+                <?php include_partial('teledeclaration/contrat_info_etablissement', array('etablissement' => $etablissements[$etbId]->etablissement,'compte' => $compte)); ?>
             </div>
             <?php if (count($contratsEtablissement)): ?>
                 <table id="table_contrats" class="table_recap">    

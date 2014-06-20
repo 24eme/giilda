@@ -75,7 +75,7 @@ class teledeclarationActions extends sfActions
             $this->form->bind($request->getParameter($this->form->getName()));            
             if ($this->form->isValid()) {
                 $idCompte = $this->form->process()->identifiant;
-                $idSociete = $this->form->process()->getSociete()->getIdentifiant();
+                $idSociete = $this->form->process()->getSociete()->getIdentifiant();                
                 $this->getUser()->signIn($idCompte);
                 $this->redirect('teledeclaration_monespace',array('identifiant' => $idCompte));
             }

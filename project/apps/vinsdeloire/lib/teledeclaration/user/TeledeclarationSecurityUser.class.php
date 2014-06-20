@@ -101,6 +101,9 @@ abstract class TeledeclarationSecurityUser extends sfBasicSecurityUser
         }
         $this->setAuthenticated(false);
         $this->clearCredentials();
+        
+        $this->_compte = null;
+        $this->getAttributeHolder()->removeNamespace($namespace);
     }
 
     /**
@@ -153,7 +156,6 @@ abstract class TeledeclarationSecurityUser extends sfBasicSecurityUser
             $this->_compte = CompteClient::getInstance()->retrieveByLogin($this->getAttribute(self::SESSION_COMPTE, null, $this->getNamespaceCompte()));
             if (!$this->_compte) {
                 $this->signOut();
-                throw new sfException("The compte does not exist");
             }
         }
         return $this->_compte;

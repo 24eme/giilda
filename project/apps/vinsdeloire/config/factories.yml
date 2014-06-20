@@ -42,6 +42,5 @@ all:
       cache_key_use_host_name:    true
 
   user:
-    class: myUser
     param:
       timeout: 7200
