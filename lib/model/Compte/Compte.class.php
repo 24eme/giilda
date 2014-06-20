@@ -391,11 +391,23 @@ class Compte extends BaseCompte {
             $this->remove('droits');
         }
         $droits = $this->add('droits');
+        $acces_teledeclaration = false;
         if($this->type_societe != SocieteClient::SUB_TYPE_COURTIER){
+            $acces_teledeclaration = true;
             $droits->add(CompteClient::DROITS_COMPTE_OBSERVATOIRE_ECO,CompteClient::DROITS_COMPTE_OBSERVATOIRE_ECO);
         }
         if(($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->type_societe == SocieteClient::SUB_TYPE_COURTIER)){
+            $acces_teledeclaration = true;
             $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC,CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC);
+            $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC_CREATION,CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC_CREATION);
+        }
+        
+        if($this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR){     
+            $acces_teledeclaration = true;
+            $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC,CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC);
+        }
+        if($acces_teledeclaration){
+            $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION,CompteClient::DROITS_COMPTE_TELEDECLARATION);
         }
     }
     
@@ -413,5 +425,11 @@ class Compte extends BaseCompte {
            $result[] = constant('CompteClient::'.$droit."_LABEL");
        }
        return $result;
+    }
+    
+    public function isTeledeclarantVrac() {
+        return ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_NEGOCIANT)
+            || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_VITICULTEUR)
+            || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_COURTIER);
     }
 }

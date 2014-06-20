@@ -77,6 +77,7 @@ abstract class acVinCompteSecurityUser extends sfBasicSecurityUser
      */
     public function signIn($cas_user) 
     {
+        var_dump('here');
         $compte = acCouchdbManager::getClient('_Compte')->retrieveByLogin($cas_user);
         if (!$compte) {
             throw new sfException('compte does not exist');
@@ -179,6 +180,25 @@ abstract class acVinCompteSecurityUser extends sfBasicSecurityUser
         if (!$this->isAuthenticated() && $this->hasCredential(self::CREDENTIAL_COMPTE)) {
 	  		throw new sfException("you must be logged with a tiers");
         }
+    }
+    
+        public function getDeclarantVrac() {
+        $declarants = $this->getDeclarantsVrac();
+		
+        return current($declarants);
+    }
+
+    public function getDeclarantsVrac() {
+        $declarants = array();
+        $tiers = $this->getTiers();
+
+        if($tiers->type == 'Recoltant' && isset($this->_tiers['MetteurEnMarche']) && $this->_tiers['MetteurEnMarche']->qualite_categorie == 'Negociant') {
+
+            $declarants[$this->_tiers['MetteurEnMarche']->_id] = $this->_tiers['MetteurEnMarche'];
+        }
+
+        $declarants[$tiers->_id] = $tiers;
+        return $declarants;
     }
 
 }
