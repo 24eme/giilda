@@ -124,7 +124,9 @@ class Vrac extends BaseVrac {
 
     private function setAcheteurInformations() 
     {
-        $this->setEtablissementInformations('acheteur', $this->getAcheteurObject());
+        if($this->exist('acheteur_identifiant') && $this->acheteur_identifiant){
+            $this->setEtablissementInformations('acheteur', $this->getAcheteurObject());
+        }
     }
     
     private function setMandataireInformations() 
@@ -139,7 +141,9 @@ class Vrac extends BaseVrac {
     
     private function setVendeurInformations() 
     {
-        $this->setEtablissementInformations('vendeur', $this->getVendeurObject());
+        if($this->exist('vendeur_identifiant') && $this->vendeur_identifiant){
+            $this->setEtablissementInformations('vendeur', $this->getVendeurObject());
+        }
     }
 
     protected function setEtablissementInformations($type, $etablissement) {
@@ -542,5 +546,15 @@ class Vrac extends BaseVrac {
             return VracClient::STATUS_TELEDECLARATION_ATTENTE_SIGNATURE;
         }        
         return $this->teledeclaration_statut;
+    }
+    
+    public function setEtablissementCreateur($etablissement) {
+        if($etablissement->getSociete()->isCourtier()){
+            $this->setMandataireIdentifiant($etablissement->_id);
+            $this->mandataire_exist = true;
+        }
+        if($etablissement->getSociete()->isNegociant()){
+            $this->setAcheteurIdentifiant($etablissement->_id);
+        }
     }
 }

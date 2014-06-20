@@ -11,6 +11,13 @@ class VracRouting {
     static public function listenToRoutingLoadConfigurationEvent(sfEvent $event) {
         
         $r = $event->getSubject();
+        
+        $r->prependRoute('vrac_creation', new EtablissementRoute('/vrac/creation/:identifiant', array('module' => 'vrac',
+                                                            'action' => 'creation'),
+                                                            array('sf_method' => array('get','post')),
+                                                            array('model' => 'Etablissement', 'type' => 'object')));  
+        
+
         $r->prependRoute('vrac', new sfRoute('/vrac', array('module' => 'vrac',
                                                             'action' => 'index')));
         $r->prependRoute('vrac_recherche',  new EtablissementRoute('/vrac/recherche/:identifiant', array('module' => 'vrac', 
@@ -20,7 +27,9 @@ class VracRouting {
                                                         'type' => 'object')
                                                         ));
         $r->prependRoute('vrac_exportCsv', new sfRoute('/vrac/exportCsv', array('module' => 'vrac',
-                                                            'action' => 'exportCsv')));        
+                                                            'action' => 'exportCsv')));  
+              
+ 
         $r->prependRoute('vrac_nouveau', new sfRoute('/vrac/nouveau', array('module' => 'vrac',
                                                             'action' => 'nouveau')));
         $r->prependRoute('vrac_soussigne', new VracRoute('/vrac/:numero_contrat/soussigne',

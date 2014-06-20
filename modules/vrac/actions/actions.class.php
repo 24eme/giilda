@@ -23,6 +23,19 @@ class vracActions extends sfActions
       $this->etiquettesForm = new VracEtiquettesForm();
       $this->postFormEtablissement($request);
   }
+  
+  public function executeCreation(sfWebRequest $request) {
+      $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
+      $etablissement = EtablissementClient::getInstance()->find($this->identifiant);
+      $this->vrac = new Vrac();
+      
+      $this->vrac->setEtablissementCreateur($etablissement);
+      $this->vrac->update();
+      $this->vrac->setInformations();
+      $this->vrac->numero_contrat = VracClient::getInstance()->getNextNoContrat();
+      $this->vrac->save();
+      $this->redirect('vrac_soussigne',array('numero_contrat' => $this->vrac->numero_contrat));
+  }
 
   protected function postFormEtablissement(sfWebRequest $request) {
     if ($request->isMethod(sfWebRequest::POST)) {
