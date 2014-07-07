@@ -51,8 +51,8 @@
 	 \multicolumn{2}{|c|}{\textbf{\CONTRATACHETEUREURNOM}} \\
          ~ & ~ \\
          C.V.I. & \textbf{\CONTRATACHETEURCVI} \\ 
-	     SIRET & \textbf{\CONTRATVENDEURSIRET} \\
-	     Adresse & \textbf{\CONTRATVENDEURADRESSE} \\
+	     SIRET & \textbf{\CONTRATACHETEURSIRET} \\
+	     Adresse & \textbf{\CONTRATACHETEURADRESSE} \\
          Commune & \textbf{\CONTRATACHETEURCOMMUNE} \\
          ~ & ~ \\
 	 \multicolumn{2}{|r|}{Ci après dénommé l'acheteur,}\\
