@@ -119,16 +119,13 @@ A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 j
 
 \fbox{
 \parbox{17.7cm}{
-\underline{Clause de réserve de propriété :} \\\\ Le transfert de propriété de la marchandise est subordonné au complet paiement du prix à l'échéance convenue. Toutefois, les risques sont transférés dès l'enlèvement. En cas de défaut de paiement à l'échéance, le vendeur reprend possession de la marchandise dont il reste propriétaire sans aucune formalité préalable et peut à son gré résoudre le contrat par simple lettre recommandée avec accusé de réception. L’acheteur ne peut en aucun cas donner les marchandises non encore intégralement payées, en gage, ni en transférer la propriété à titre de garantie.
+\underline{\small{Clause de réserve de propriété :}} \\\\ \small{Le transfert de propriété de la marchandise est subordonné au complet paiement du prix à l'échéance convenue. Toutefois, les risques sont transférés dès l'enlèvement. En cas de défaut de paiement à l'échéance, le vendeur reprend possession de la marchandise dont il reste propriétaire sans aucune formalité préalable et peut à son gré résoudre le contrat par simple lettre recommandée avec accusé de réception. L’acheteur ne peut en aucun cas donner les marchandises non encore intégralement payées, en gage, ni en transférer la propriété à titre de garantie.}
 }
 }
-\\
-\\
 \\
 \\
 
 \normalsize{\textbf{Les soussignés ont pris connaissance que toute fausse déclaration entraînera les sanctions prévues par l'article L.632-7 du Code rural et de la pêche maritime.}}
-\\
 \\
 
 \textbf{Fait à : \CONTRATLIEUCREATION ~~~~~ Le : \CONTRATDATECREATION}
