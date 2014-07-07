@@ -7,16 +7,15 @@
 	~ & ~ & ~ & ~ \\
 	 \textbf{\INTERLOIRECOORDONNEESTITRE} & \multirow{7}{*}{ 
 \includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf.jpg"; ?>} 
-} & Numéro d'enregistement : & \textbf{\CONTRATNUMENREGISTREMENT} \\ 	
+} & \multicolumn{2}{c|}{Numéro d'enregistement} \\
 	 \INTERLOIRECOORDONNEESADRESSE & ~ & ~ & ~ \\ 
-	 \INTERLOIRECOORDONNEESCPVILLE  & ~ & ~ & ~ \\
-	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} & ~ & Visa : & \textbf{\CONTRATVISA} \\
+	 \INTERLOIRECOORDONNEESCPVILLE  & ~  & \multicolumn{2}{c|}{\textbf{\CONTRATNUMENREGISTREMENT}} \\
+	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} & ~ & ~ & ~ \\
 	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONEANJOU} & ~ & ~ & ~  \\
-	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONETOURS} & ~ & Date : & \textbf{\CONTRATDATEENTETE} \\
-	 ~~~\small{\INTERLOIRECOORDONNEESFAX} & ~ &  ~ & ~ \\
+	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONETOURS} & ~ & ~ & ~ \\
+	 ~~~\small{\INTERLOIRECOORDONNEESFAX} & ~ &  \multicolumn{2}{c|}{Le \textbf{\CONTRATDATEENTETE ~ à 12h30}} \\
 	 ~~~\small{\INTERLOIRECOORDONNEESEMAIL} & ~ & ~ & ~ \\
 	\hline	
-	
 \end{tabularx}
 \vspace{0.4cm}
   \begin{center}    
@@ -35,9 +34,9 @@
 	 \multicolumn{2}{|c|}{\textbf{\CONTRATVENDEURNOM}} \\
          ~ & ~ \\
 	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\ 
-	 N° ACCISE & \textbf{\CONTRATVENDEURACCISE} \\
-	  N° TVA Intracomm & \textbf{\CONTRATVENDEURNUMTVA} \\
-	 Propriétaire à & \textbf{\CONTRATVENDEURLIEU} \\	
+	 SIRET & \textbf{\CONTRATVENDEURSIRET} \\
+	 Adresse & \textbf{\CONTRATVENDEURADRESSE} \\
+     Commune & \textbf{\CONTRATVENDEURCOMMUNE} \\
 	 ~ & ~ \\
 	 \multicolumn{2}{|r|}{Ci après dénommé le vendeur,} \\
 	 
@@ -52,9 +51,9 @@
 	 \multicolumn{2}{|c|}{\textbf{\CONTRATACHETEUREURNOM}} \\
          ~ & ~ \\
          C.V.I. & \textbf{\CONTRATACHETEURCVI} \\ 
-	 N° ACCISE & \textbf{\CONTRATACHETEURACCISE} \\
-	 N° TVA Intracomm & \textbf{\CONTRATACHETEURNUMTVA} \\
-	 Etablissement situé à & \textbf{\CONTRATACHETEURLIEU~(\CONTRATACHETEURDEPT)}\\
+	     SIRET & \textbf{\CONTRATVENDEURSIRET} \\
+	     Adresse & \textbf{\CONTRATVENDEURADRESSE} \\
+         Commune & \textbf{\CONTRATACHETEURCOMMUNE} \\
          ~ & ~ \\
 	 \multicolumn{2}{|r|}{Ci après dénommé l'acheteur,}\\
 	 \hline
@@ -71,69 +70,64 @@ Mandaté pour signature par : ~~~ le vendeur ~  <?php echo getCheckBoxe($vrac->i
 
 A été conclu le marché suivant: \\
 
-\begin{tabularx}{\textwidth}{|X|p{12mm}|p{22mm}|p{32mm}|p{32mm}|}
+\begin{tabularx}{\textwidth}{|X|p{12mm}|p{24mm}|p{24mm}|p{24mm}|}
 \hline
 ~ & ~ & ~ & ~ & ~ \\
-\textbf{Appellation / couleur / type} & \multicolumn{1}{c|}{\textbf{Millésime}} & \textbf{Type de Contrat} & \multicolumn{1}{c|}{\textbf{Volume en \CONTRATTYPEUNITE}} & \multicolumn{1}{c|}{\textbf{Prix en \euro par \CONTRATTYPEUNITE}} \\
+\textbf{Appellation / couleur / type} & \multicolumn{1}{c|}{\textbf{Millésime}} & \multicolumn{1}{c|}{\textbf{Type de Contrat}} & \multicolumn{1}{c|}{\textbf{Volume en \CONTRATTYPEUNITE}} & \multicolumn{1}{c|}{\textbf{Prix en \euro ~ par \CONTRATTYPEUNITE}} \\
 ~ & ~ & ~ & ~ & ~ \\
 \hline
 ~ & ~ & ~ & ~ & ~ 
 \\
-\textbf{\CONTRATPRODUITLIBELLE} & \multicolumn{1}{c|}{\textbf{\CONTRATPRODUITMILLESIME}} &
- \multicolumn{1}{c|}{\textbf{\CONTRATTYPE}} & ~ & ~ \\
- ~ & ~ & ~ & \multicolumn{1}{r|}{\multirow{3}{*}{ \textbf{\CONTRATPRODUITQUANTITE~\CONTRATTYPEUNITE}}} & \multicolumn{1}{r|}{\multirow{3}{*}{ \textbf{\CONTRATPRIXUNITAIRE~\euro/\CONTRATTYPEUNITE}}} \\
-\cline{1-3} 
-\multicolumn{3}{|c|}{ ~ } & ~ & ~ \\ 
-\multicolumn{3}{|c|}{ \textbf{générique ~ <?php echo getCheckBoxe($vrac->isGenerique())?> ~~~ ou domaine ~ <?php echo getCheckBoxe($vrac->isDomaine())?>} } & ~ & ~ \\
-<?php if(!$vrac->isGenerique()): ?>
-\multicolumn{3}{|c|}{ \textbf{<?php echo $vrac->domaine; ?>} } & ~ & ~ \\ 
-<?php endif; ?>
-\multicolumn{3}{|c|}{ ~ } & ~ & ~ \\ 
+
+\textbf{\CONTRATPRODUITLIBELLE} & \multicolumn{1}{c|}{\textbf{2014}} & \multicolumn{1}{c|}{\textbf{\CONTRATTYPE}} & \multicolumn{1}{r|}{ \textbf{\CONTRATPRODUITQUANTITE~\CONTRATTYPEUNITE}} & \multicolumn{1}{r|}{\textbf{\CONTRATPRIXUNITAIRE~\euro/\CONTRATTYPEUNITE}} \\
+\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}} & ~ & ~ & ~ & ~ \\
+~ & ~ & ~ & ~ & ~
+\\
 \hline
 \end{tabularx}
 \\
-
-\textbf{\underline{\CONTRATTYPEEXPLICATIONPRIX}}
+\\
+\\
+\textbf{\normalsize{\underline{Prix :}}} \CONTRATTYPEEXPLICATIONPRIX
 \\
 
 \textbf{L'achat rentre dans le cadre d'un contrat pluriannuel:}~~~~\textbf{OUI}~ <?php echo getCheckBoxe($vrac->isPluriannuel())?> ~~~\textbf{NON}~ <?php echo getCheckBoxe(!$vrac->isPluriannuel())?> \textbf{, conforme à l'art. III-2 de l'accord Interprofessionnel}
 \\
 
-
 La cotisation interprofessionnel est payée par moitié par le vendeur et l'acheteur. Toutefois la cotisation interprofessionnelle concernant la vente de vins à destination d'un acheteur hors du ressort d'InterLoire (1) est payée en totalité par le vendeur.
 \\
 
-\textbf{\underline{Délais de paiement} : conformes aux dispositions de l'Accord Interprofessionnel rappelées au verso.} \\
-\small{Tout incident se produisant au paiement de l'une des échéances prévues rend immédiatement exigible la totalité des somme restant dues. De plus, tout règlement effectué après la date d'échéance entraîne le paiement d’intérêts de retard. Le montant de ce intérêts est égal à trois fois le taux d’intérêt général. Ces intérêts sont dus sans mis en demeure préalable et les frais de recouvrement sont à la charge de l’acheteur.}
+\textbf{\underline{Délais de paiement :} conformes aux dispositions de l'Accord Interprofessionnel rappelées au verso.} \\
 \\
-\begin{multicols}{2}
+Tout incident se produisant au paiement de l'une des échéances prévues rend immédiatement exigible la totalité des somme restant dues. De plus, tout règlement effectué après la date d'échéance entraîne le paiement d’intérêts de retard. Le montant de ce intérêts est égal à trois fois le taux d’intérêt général. Ces intérêts sont dus sans mis en demeure préalable et les frais de recouvrement sont à la charge de l’acheteur.
 
+\begin{multicols}{2}
 \begin{flushleft}
 \textbf{\normalsize{\underline{Conditions d'enlèvement :}}} 
 \end{flushleft}
-
 \begin{flushright}
-\framebox[1.05\width]{\textbf{\normalsize{\CONTRATDATEMAXENLEVEMENT} }}
+\framebox[1.05\width]{\textbf{\normalsize{\CONTRATDATEMAXENLEVEMENT}}}
 \end{flushright}
-
 \end{multicols}
 
-\small{A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 jours à compter de la date de signature du présent contrat. Passé cette date, si l'enlèvement n'a pas été effectué, le vendeur peut, à sa convenance, résoudre le contrat par simple lettre recommandée ou facturer à l'acheteur les frais de garde qui sont fixés à}
-\framebox[1.05\width]{\textbf{\CONTRATFRAISDEGARDE} }~ \small{par mois. L'émission de la facture ne peut en aucun cas être postérieur à la date stipulée pour l'enlèvement.}
+A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 jours à compter de la date de signature du présent contrat. Passé cette date, si l'enlèvement n'a pas été effectué, le vendeur peut, à sa convenance, résoudre le contrat par simple lettre recommandée ou facturer à l'acheteur les frais de garde qui sont fixés à
+\framebox[1.05\width]{\textbf{\CONTRATFRAISDEGARDE} }~ par mois. L'émission de la facture ne peut en aucun cas être postérieur à la date stipulée pour l'enlèvement.
 \\
 
-\underline{Sanction :} \small{Tout manquement grave au contrat (de type modification unilatérale de prix, résolution fautive du contrat) entraîne, de plein droit et après mise en demeure, le paiement, à titre de dommages et intérêts, de 15\% du prix stipulé au contrat.}
+\textbf{\underline{Sanction :}} Tout manquement grave au contrat (de type modification unilatérale de prix, résolution fautive du contrat) entraîne, de plein droit et après mise en demeure, le paiement, à titre de dommages et intérêts, de 15\% du prix stipulé au contrat.
 \\
 
 \fbox{
 \parbox{17.7cm}{
-\underline{Clause de réserve de propriété :} \\ \small{Le transfert de propriété de la marchandise est subordonné au complet paiement du prix à l'échéance convenue. Toutefois, les risques sont transférés dès l'enlèvement. En cas de défaut de paiement à l'échéance, le vendeur reprend possession de la marchandise dont il reste propriétaire sans aucune formalité préalable et peut à son gré résoudre le contrat par simple lettre recommandée avec accusé de réception. L’acheteur ne peut en aucun cas donner les marchandises non encore intégralement payées, en gage, ni en transférer la propriété à titre de garantie.}
+\underline{Clause de réserve de propriété :} \\\\ Le transfert de propriété de la marchandise est subordonné au complet paiement du prix à l'échéance convenue. Toutefois, les risques sont transférés dès l'enlèvement. En cas de défaut de paiement à l'échéance, le vendeur reprend possession de la marchandise dont il reste propriétaire sans aucune formalité préalable et peut à son gré résoudre le contrat par simple lettre recommandée avec accusé de réception. L’acheteur ne peut en aucun cas donner les marchandises non encore intégralement payées, en gage, ni en transférer la propriété à titre de garantie.
 }
 }
+\\
+\\
+\\
 \\
 
 \normalsize{\textbf{Les soussignés ont pris connaissance que toute fausse déclaration entraînera les sanctions prévues par l'article L.632-7 du Code rural et de la pêche maritime.}}
-\\
 \\
 \\
 
@@ -152,7 +146,8 @@ Le XX/XX/XX, & Le XX/XX/XX, & Le XX/XX/XX, \\
 \end{tabularx}
  \begin{center}
 \begin{tiny}
-(1) Les régions du ressort d'InterLoire sont constituées par les zones de production des vins d'appellation d'origine dont la liste est annexée à l'Accord interprofessionnel Vin, moût ou raisins, loyaux et marchands, correspondant aux normes éditées par la réglementation en vigueur.
+(1) Les régions du ressort d'InterLoire sont constituées par les zones de production des vins d'appellation d'origine dont la liste est annexée à l'Accord interprofessionnel Vin, moût ou raisins, loyaux et marchands, correspondant aux normes éditées par la réglementation en vigueur.\\
+Vin, moûts ou raisins, loyaux et marchands, correspondant aux normes édictées par la réglementation en vigueur.
 \end{tiny}
 \end{center}
 \end{document}
