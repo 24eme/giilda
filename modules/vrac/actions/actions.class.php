@@ -139,6 +139,9 @@ class vracActions extends sfActions
   {      
       $this->getResponse()->setTitle('Contrat - Nouveau');
       $this->vrac = new Vrac();
+      if($request->getParameter("etablissement")) {
+        $this->vrac->setAcheteurIdentifiant($request->getParameter("etablissement"));
+      }
       $this->form = new VracSoussigneForm($this->vrac);
  
       $this->init_soussigne($request,$this->form);

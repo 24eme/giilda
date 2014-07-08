@@ -16,7 +16,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
     public function configure()
     {
         $originalArray = array('0' => 'Non', '1' => 'Oui');
-        $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray,'expanded' => true)));
+        if(!$this->getObject()->isTeledeclare()) {
+            $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray,'expanded' => true)));
+            $this->setValidator('attente_original', new sfValidatorInteger(array('required' => true)));
+            $this->getWidget('attente_original')->setLabel('attente_original', "En attente de l'original ?");
+        }
         $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $this->getTypesTransaction(),'expanded' => true)));
 		
         $this->getDomaines();
@@ -36,7 +40,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('prix_initial_unitaire', new sfWidgetFormInput());
         
         $this->widgetSchema->setLabels(array(
-            'attente_original' => "En attente de l'original ?",
             'type_transaction' => 'Type de transaction',
             'produit' => 'produit',
             'millesime' => 'Millésime',
@@ -51,7 +54,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
         ));
         $validatorForNumbers =  new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
         $this->setValidators(array(
-            'attente_original' => new sfValidatorInteger(array('required' => true)),
             'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))),
             'millesime' => new sfValidatorInteger(array('required' => false, 'min' => 1980, 'max' => $this->getCurrentYear())),

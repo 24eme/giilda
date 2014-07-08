@@ -26,23 +26,15 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setWidget('type_contrat', new sfWidgetFormChoice(array('choices' => $this->getTypesContrat(),'expanded' => true)));
         $this->setWidget('prix_variable', new sfWidgetFormChoice(array('choices' => $this->getPrixVariable(),'expanded' => true)));
         $this->setWidget('part_variable', new sfWidgetFormInput());
-        $this->setWidget('cvo_nature',  new sfWidgetFormChoice(array('choices' => $this->getCvoNature())));
-        $this->setWidget('cvo_repartition',  new sfWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
-        $this->setWidget('date_signature', new sfWidgetFormInput());
-        $this->setWidget('date_campagne', new sfWidgetFormInput());
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(),array('style' => 'width: 100%;resize:none;')));
         
         $this->widgetSchema->setLabels(array(
             'type_contrat' => 'Type de contrat',
             'prix_variable' => 'Partie de prix variable ?',
             'part_variable' => 'Part du prix variable sur la quantité',
-            'cvo_nature' => 'Nature de la transaction',
-            'cvo_repartition' => 'Répartition de la CVO',
-            'date_signature' => 'Date de signature',
-            'date_campagne' => 'Date de campagne',
-            'commentaire' => 'Commentaires :'
+            'commentaire' => 'Commentaires :',
         ));
-        
+
         $cvo_repartion_notchangeable = !is_null($this->getObject()->volume_enleve) && $this->getObject()->volume_enleve > 0;
         if($cvo_repartion_notchangeable) 
             $this->widgetSchema['cvo_repartition']->setAttribute('disabled', 'disabled');
@@ -62,13 +54,37 @@ class VracConditionForm extends acCouchdbObjectForm {
             'part_variable' => new sfValidatorNumber(array('required' => false, 'max' => 50, 'min' => 0),
                                                      array('max' => 'Part variable %max% max.',
                                                            'min' => 'Part variable %min% min.')),
-            'cvo_nature' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoNature()))),
-            'cvo_repartition' => new sfValidatorChoice(array('required' => !$cvo_repartion_notchangeable, 'choices' => array_keys($this->getCvoRepartition()))),
-            'date_signature' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),
-            'date_campagne' => new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors),
-            'commentaire' => new sfValidatorString(array('required' => false))
+            'commentaire' => new sfValidatorString(array('required' => false)),
             ));
+
+        $this->setWidget('cvo_nature', new sfWidgetFormChoice(array('choices' => $this->getCvoNature())));
+        $this->getWidget('cvo_nature')->setLabel("Nature de la transaction");
+        $this->setValidator('cvo_nature', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoNature()))));
+
+        if(!$this->getObject()->isTeledeclare()) {
+            $this->setWidget('cvo_repartition', new sfWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
+            $this->getWidget('cvo_repartition')->setLabel("Répartition de la CVO");
+            $this->setValidator('cvo_repartition', new sfValidatorChoice(array('required' => !$cvo_repartion_notchangeable, 'choices' => array_keys($this->getCvoRepartition()))));
+
+            $this->setWidget('date_signature', new sfWidgetFormInput());
+            $this->getWidget('date_signature')->setLabel("Date de signature");
+            $this->setValidator('date_signature', new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors));
+
+            $this->setWidget('date_campagne', new sfWidgetFormInput());
+            $this->getWidget('date_campagne')->setLabel("Date de campagne");
+            $this->setValidator('date_campagne', new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors));
+        }
         
+        if($this->getObject()->isTeledeclare()) {
+            $this->setWidget('enlevement_date', new sfWidgetFormInput());
+            $this->getWidget('enlevement_date')->setLabel("Date d'enlèvement");
+            $this->setValidator('enlevement_date', new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors));
+
+            $this->setWidget('enlevement_frais_garde', new sfWidgetFormInput());
+            $this->getWidget('enlevement_frais_garde')->setLabel("Frais de garde");
+            $this->setValidator('enlevement_frais_garde', new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors));
+        }
+
         $this->widgetSchema->setNameFormat('vrac[%s]');
         
     }

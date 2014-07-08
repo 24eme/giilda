@@ -557,4 +557,9 @@ class Vrac extends BaseVrac {
             $this->setAcheteurIdentifiant($etablissement->_id);
         }
     }
+
+    public function isTeledeclare() {
+
+        return true;
+    }
 }
