@@ -1,6 +1,6 @@
 all:
   is_secure: false
-  credentials: null
+  credentials: transactions
 
 home:
   is_secure: true
