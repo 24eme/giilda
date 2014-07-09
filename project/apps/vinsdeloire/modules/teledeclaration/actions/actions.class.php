@@ -83,6 +83,8 @@ class teledeclarationActions extends sfActions
     }
     
     public function executeMonEspace(sfWebRequest $request) {
+    	$this->getUser()->setAttribute('vrac_object', null);
+    	$this->getUser()->setAttribute('vrac_acteur', null);
         $this->compte = CompteClient::getInstance()->findByIdentifiant($request['identifiant']);
         $this->secureVrac(VracSecurity::DROITS_TELEDECLARATION_VRAC, $this->vrac);
         if(!$this->compte){

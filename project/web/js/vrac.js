@@ -529,7 +529,7 @@ $(document).ready(function()
 {
      initMarche();
      initConditions();
-     $("#vrac_soussigne").bind("submit", function() {return false;});
+     //$("#vrac_soussigne").bind("submit", function() {return false;});
      $("#btn_soussigne_submit").bind("click", function() {$("#vrac_soussigne").unbind("submit");$("#vrac_soussigne").submit()});
      $('#vendeur_choice input').focus();
      initDatepicker();
