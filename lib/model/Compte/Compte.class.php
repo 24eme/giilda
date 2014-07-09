@@ -432,4 +432,13 @@ class Compte extends BaseCompte {
             || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_VITICULTEUR)
             || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_COURTIER);
     }
+
+    public function getDroits() {
+        if($this->isTeledeclarantVrac()) {
+
+            $this->add('droits', array(Roles::CONTRAT, Roles::TELEDECLARANT));
+        }
+
+        return $this->_get('droits');
+    }
 }
