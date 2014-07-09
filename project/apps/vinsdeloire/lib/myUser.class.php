@@ -26,7 +26,6 @@ class myUser extends sfBasicSecurityUser
 
     public function getCompte() 
     {
-
         return CompteClient::getInstance()->find($this->getAttribute(self::SESSION_COMPTE, null, self::NAMESPACE_COMPTE));
     }
 

@@ -27,7 +27,7 @@ class authActions extends sfActions
   }
 
   public function executeLogout(sfWebRequest $request) {
-      return AuthFilter::logout();
+
   }
 
   public function executeForbidden(sfWebRequest $request) {
