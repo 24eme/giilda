@@ -10,6 +10,7 @@
 			<?php include_component('global', 'nav'); ?>
 			
 			<div id="actions_utilsateur">
+				<button class="btn_menu" type="button">Menu</button>
    <?php if ($sf_user->hasCredential('admin')) : ?>
 				<a class="admin" href="<?php echo url_for('produits') ?>">Admin</a>
    <?php endif; ?>

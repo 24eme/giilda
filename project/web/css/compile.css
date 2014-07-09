@@ -1348,7 +1348,8 @@ bouton.btn_enregistrer {
   line-height: 21px;
   padding: 6px 0 0;
 }
-#header #actions_utilsateur a {
+#header #actions_utilsateur a,
+#header #actions_utilsateur button {
   background: url(../images/pictos/pi_actions.png) 0 0 no-repeat;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -1359,21 +1360,36 @@ bouton.btn_enregistrer {
   padding: 0 5px 0 22px;
 }
 #header #actions_utilsateur a:hover,
-#header #actions_utilsateur a:focus {
+#header #actions_utilsateur a:focus,
+#header #actions_utilsateur button:hover,
+#header #actions_utilsateur button:focus {
   text-decoration: none;
 }
-#header #actions_utilsateur a.admin {
+#header #actions_utilsateur a.admin,
+#header #actions_utilsateur button.admin {
   background-color: #eee;
   background-position: 5px 0;
   border-color: #c2c0c0;
   color: #5e5c5c;
 }
-#header #actions_utilsateur a.deconnexion {
+#header #actions_utilsateur a.deconnexion,
+#header #actions_utilsateur button.deconnexion {
   background-color: #b8b7b7;
   background-position: 5px -21px;
   border-color: #929292;
   color: #fff;
   margin: 0 0 0 7px;
+}
+#header #actions_utilsateur .btn_menu {
+  font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  background-color: #eee;
+  background-position: 5px -560px;
+  border-color: #c2c0c0;
+  color: #5e5c5c;
+  display: none;
+  font-size: 11px;
+  margin: 0 7px 0 0;
+  padding: 3px 5px 4px 25px;
 }
 .section_label_maj {
   zoom: 1;
@@ -2154,6 +2170,9 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 #global_content.no_right_col #principal {
   width: auto;
 }
+.block_overlay {
+  position: relative;
+}
 .type_raisins,
 .type_mouts,
 .type_vin_vrac,
@@ -2217,7 +2236,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   width: 50px;
 }
 #action .btn_calendrier:after {
-  background-position: 25px -544px;
+  background-position: 25px -537px;
   width: 50px;
 }
 #action .btn_acces,
@@ -2856,7 +2875,6 @@ bouton#contenu_etape #vrac_visualisation #vrac_condition #btn_annuler_contrat {
   background-position: 0 -104px;
   border-color: #f6b32c;
   padding-left: 30px;
-  margin-right: 90px;
 }
 #contenu_etape #vrac_visualisation #vrac_condition #btn_editer_contrat:after {
   height: 26px;
@@ -6699,7 +6717,42 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     padding: 15px 15px 0;
   }
   #header #logo {
+    float: left;
     text-align: left;
+  }
+  #header #navigation {
+    background: #FFF;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -15px;
+    right: -15px;
+    line-height: 35px;
+    z-index: 10;
+  }
+  #header #navigation li,
+  #header #navigation li a {
+    display: block;
+  }
+  #header #navigation li {
+    background: none;
+    border-bottom: 1px solid #dddcdc;
+    border-top: 1px solid #dddcdc;
+  }
+  #header #navigation li + li {
+    border-top: 0;
+  }
+  #header #navigation li a {
+    border-radius: 0;
+    margin: 0;
+  }
+  #header #actions_utilsateur {
+    float: right;
+    margin: 18px 0 0;
+    position: static;
+  }
+  #header #actions_utilsateur .btn_menu {
+    display: inline-block;
   }
   #colonne,
   #btn_colonne {
@@ -6721,5 +6774,111 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   }
   #rail_etapes li:first-child > * {
     padding-left: 33px;
+  }
+  #contenu_etape #table_contrats {
+    border: 0;
+    border-collapse: collapse;
+  }
+  #contenu_etape #table_contrats,
+  #contenu_etape #table_contrats tbody,
+  #contenu_etape #table_contrats th,
+  #contenu_etape #table_contrats td,
+  #contenu_etape #table_contrats tr {
+    display: block;
+  }
+  #contenu_etape #table_contrats thead {
+    display: none;
+  }
+  #contenu_etape #table_contrats tr {
+    border: 0;
+    margin: 0 0 20px;
+  }
+  #contenu_etape #table_contrats td {
+    border: 1px solid #e3e2e2;
+    height: auto;
+    position: relative;
+    padding-left: 210px;
+  }
+  #contenu_etape #table_contrats td:before {
+    background: #ecebeb;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 10px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+  }
+  #contenu_etape #table_contrats td + td {
+    border-top: 0;
+  }
+  #contenu_etape #table_contrats td.type:before {
+    content: 'Type';
+  }
+  #contenu_etape #table_contrats td.num_contrat:before {
+    content: 'Numéro de contrat';
+  }
+  #contenu_etape #table_contrats td.soussigne {
+    text-align: center;
+  }
+  #contenu_etape #table_contrats td.soussigne:before {
+    content: 'Soussignés';
+  }
+  #contenu_etape #table_contrats td.produit:before {
+    content: 'Produit';
+  }
+  #contenu_etape #table_contrats td.volume:before {
+    content: 'Vol. enlevé. / Vol. prop.';
+  }
+  #vendeur_infos .bloc_form label,
+  #vendeur_infos .bloc_form .infos,
+  #conditions_recapitulatif .bloc_form label,
+  #conditions_recapitulatif .bloc_form .infos,
+  #marche_recapitulatif .bloc_form label,
+  #marche_recapitulatif .bloc_form .infos,
+  #soussigne_recapitulatif .bloc_form label,
+  #soussigne_recapitulatif .bloc_form .infos,
+  #vrac_marche_prixVariable .bloc_form label,
+  #vrac_marche_prixVariable .bloc_form .infos,
+  #vrac_soussigne .bloc_form label,
+  #vrac_soussigne .bloc_form .infos,
+  #date_campagne.ligne_form label,
+  #date_campagne.ligne_form .infos,
+  #date_signature.ligne_form label,
+  #date_signature.ligne_form .infos {
+    display: block;
+  }
+  #vendeur_infos .bloc_form label,
+  #conditions_recapitulatif .bloc_form label,
+  #marche_recapitulatif .bloc_form label,
+  #soussigne_recapitulatif .bloc_form label,
+  #vrac_marche_prixVariable .bloc_form label,
+  #vrac_soussigne .bloc_form label,
+  #date_campagne.ligne_form label,
+  #date_signature.ligne_form label {
+    margin: 0 0 5px;
+  }
+  #vendeur_infos .bloc_form .infos,
+  #conditions_recapitulatif .bloc_form .infos,
+  #marche_recapitulatif .bloc_form .infos,
+  #soussigne_recapitulatif .bloc_form .infos,
+  #vrac_marche_prixVariable .bloc_form .infos,
+  #vrac_soussigne .bloc_form .infos,
+  #date_campagne.ligne_form .infos,
+  #date_signature.ligne_form .infos {
+    margin: 10px 0 0 !important;
+  }
+  #contenu_etape #vrac_soussigne .ligne_form {
+    height: auto;
+  }
+  #vrac_soussigne .col,
+  #vrac_marche .col,
+  #vrac_condition .col,
+  #vrac_validation .col,
+  #vrac_recapitulatif .col {
+    display: block;
+    float: none;
+    width: auto;
   }
 }

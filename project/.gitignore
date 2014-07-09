@@ -2,8 +2,6 @@ cache/[^.]*
 log/[^.]*
 config/databases.yml
 config/app.yml
-apps/vinsdeloire/config/settings.yml
-config/ProjectConfiguration.class.php
 web/vinsdeloire_dev.php
 web/integration_dev.php
 web/edi_dev.php

@@ -165,6 +165,21 @@ var fbConfig =
 		});
 	};
 
+	/**
+	 * Ouvre / Ferme le menu sur mobile
+	 * $.initToggleNavMobile();
+	 ******************************************/
+	$.initToggleNavMobile = function()
+	{
+		var nav = $('#navigation');
+		var btnMenu = $('#header .btn_menu');
+
+		btnMenu.click(function()
+		{
+			nav.toggle();
+		});
+	};
+
 	
 	
 	/* =================================================================================== */
@@ -180,6 +195,8 @@ var fbConfig =
 		$.initTableSelection();
 
 		$.initToggleColonne();
+
+		$.initToggleNavMobile();
 		
 	});
 	

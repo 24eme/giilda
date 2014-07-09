@@ -29,7 +29,46 @@
 
 	#logo
 	{
+		float: left;
 		text-align: left;
+	}
+
+	#navigation
+	{
+		background: #FFF;
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: -15px;
+		right: -15px;
+		line-height: 35px;
+		z-index: 10;
+
+		li, li a { display: block; }
+
+		li 
+		{ 
+			background: none;
+			border-bottom: 1px solid #dddcdc;
+			border-top: 1px solid #dddcdc;
+
+			& + li { border-top: 0; } 
+
+			a
+			{
+				border-radius: 0;
+				margin: 0;
+			}
+		}
+	}
+
+	#actions_utilsateur
+	{
+		float: right;
+		margin: 18px 0 0;
+		position: static;
+
+		.btn_menu { display: inline-block; }
 	}
 }
 
@@ -73,6 +112,99 @@
 		width: 100%;
 
 		&:first-child > * { padding-left: 33px; }
+	}
+}
+
+/* ======================================================= */
+/* TABLEAU DES CONTRATS */
+/* ======================================================= */
+#contenu_etape #table_contrats
+{
+	border: 0;
+	border-collapse: collapse;
+
+	&, tbody, th, td, tr { display: block; }
+
+	thead { display: none; }
+
+	tr 
+	{
+		border: 0; 
+		margin: 0 0 20px; 
+	}
+
+	td 
+	{
+		border: 1px solid #e3e2e2;
+		height: auto;
+		position: relative;
+		padding-left: 210px;
+
+		&:before
+		{
+			background: #ecebeb;
+			font-size: 13px;
+			font-weight: bold;
+			padding: 10px;
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			width: 150px;
+		}
+
+		& + td { border-top: 0; }
+
+		&.type:before { content: 'Type'; }
+
+		&.num_contrat:before { content: 'Numéro de contrat'; }
+
+		&.soussigne { text-align: center; }
+
+		&.soussigne:before { content: 'Soussignés'; }
+
+		&.produit:before { content: 'Produit'; }
+
+		&.volume:before { content: 'Vol. enlevé. / Vol. prop.'; }
+
+	}
+
+}
+
+
+/* ======================================================= */
+/* FORMULAIRES */
+/* ======================================================= */
+#vendeur_infos .bloc_form,
+#conditions_recapitulatif .bloc_form,
+#marche_recapitulatif .bloc_form,
+#soussigne_recapitulatif .bloc_form,
+#vrac_marche_prixVariable .bloc_form,
+#vrac_soussigne .bloc_form,
+#date_campagne.ligne_form,
+#date_signature.ligne_form
+{
+	label,
+	.infos { display: block; }
+
+	label { margin: 0 0 5px; }
+
+	.infos { margin: 10px 0 0 !important; }
+}
+
+#contenu_etape #vrac_soussigne .ligne_form { height: auto; }
+
+#vrac_soussigne, 
+#vrac_marche,
+#vrac_condition, 
+#vrac_validation, 
+#vrac_recapitulatif
+{
+	.col
+	{
+		display: block;
+		float: none;
+		width: auto;
 	}
 }
 

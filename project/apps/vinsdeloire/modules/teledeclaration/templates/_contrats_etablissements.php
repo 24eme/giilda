@@ -13,7 +13,10 @@ use_helper('Float');
                <?php echo 'Etablissement #'.$num_etb; ?>
                 
                 <?php include_partial('teledeclaration/contrat_info_etablissement', array('etablissement' => $etablissements[$etbId]->etablissement,'compte' => $compte)); ?>
+                <a class="btn_vert btn_majeur" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etbId)); ?>">Nouveau contrat</a>
             </div>
+
+
             <?php if (count($contratsEtablissement)): ?>
                 <table id="table_contrats" class="table_recap">    
                     <thead>
