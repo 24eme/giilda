@@ -8,35 +8,28 @@
  * Description of class VracSoussigneForm
  * @author mathurin
  */
-class VracSoussigneForm extends acCouchdbObjectForm {
+class VracSoussigneAnnuaireForm extends VracSoussigneForm {
 
-   private $vendeurs = null;
-   private $acheteurs = null;
-   private $mandataires = null;
-   
-	public function getAnnuaire()
-   	{
-		return AnnuaireClient::getInstance()->findOrCreateAnnuaire(str_replace('ETABLISSEMENT-', '', $this->getObject()->createur_identifiant));
-   	}
+
    
     public function configure()
     {
+    	$this->disableCSRFProtection();
         if ($this->getObject()->isTeledeclare() && $this->getObject()->createur_identifiant) {
         	$vendeurs = $this->getRecoltants();
         	$acheteurs = $this->getNegociants();
         	$commerciaux = $this->getCommerciaux();
         	$this->setWidget('vendeur_identifiant', new sfWidgetFormChoice(array('choices' => $vendeurs), array('class' => 'autocomplete')));
         	$this->setWidget('acheteur_identifiant', new sfWidgetFormChoice(array('choices' => $acheteurs), array('class' => 'autocomplete')));
-        	$this->setWidget('commercial', new sfWidgetFormChoice(array('choices' => $commerciaux), array('class' => 'autocomplete')));
-            $this->setValidator('vendeur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
-        	$this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($acheteurs))));
+        	$this->setWidget('commercial', new sfWidgetFormChoice(array('choices' => $commerciaux), array('class' => '')));
+            $this->setValidator('vendeur_identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($vendeurs))));
+        	$this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($acheteurs))));
         	$this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
-        	$this->widgetSchema->setLabel('commercial', 'Sélectionner un interlocuteur commercial :');
         } else {
         	$this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire','familles' =>  EtablissementFamilles::FAMILLE_NEGOCIANT)));
-            $this->setValidator('vendeur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
-        	$this->setValidator('acheteur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
+            $this->setValidator('vendeur_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
+        	$this->setValidator('acheteur_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
         }
         
         
@@ -70,22 +63,6 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
     
-	protected function updateDefaultsFromObject() {
-        parent::updateDefaultsFromObject();
-        $defaults = $this->getDefaults();
-        if ($this->getObject()->vendeur_identifiant) {
-        	$defaults['vendeur_identifiant'] = 'ETABLISSEMENT-'.$this->getObject()->vendeur_identifiant;
-        }
-        if ($this->getObject()->acheteur_identifiant) {
-        	$defaults['acheteur_identifiant'] = 'ETABLISSEMENT-'.$this->getObject()->acheteur_identifiant;
-        }
-        if ($this->getObject()->interlocuteur_commercial->nom) {
-        	$defaults['commercial'] = $this->getObject()->interlocuteur_commercial->nom;
-        }
-        
-        $this->setDefaults($defaults); 
-    }
-    
     public function doUpdateObject($values) {
         if(isset($values['mandataire_exist']) && !$values['mandataire_exist'])
         {
@@ -105,53 +82,11 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         parent::doUpdateObject($values);
         $this->getObject()->setInformations();
     }
-
-
-    public function getUrlAutocomplete($famille) {
-
-        return sfContext::getInstance()->getRouting()->generate('etablissement_autocomplete_byfamilles', array('familles' => $famille));
-    }
     
-    public function getRecoltants()
-    {
-    	$annuaire = $this->getAnnuaire();
-    	if (!$annuaire) {
-    		return array();
-    	}
-    	$result = array();
-    	foreach ($annuaire->recoltants as $key => $value) {
-    		$num = explode('-', $key);
-    		$result[$key] = $value." (".$num[1].")";
-    	}
-    	return array_merge(array('' => ''), $result);
-    }
-    
-    public function getNegociants()
-    {
-    	$annuaire = $this->getAnnuaire();
-    	if (!$annuaire) {
-    		return array();
-    	}
-    	$result = array();
-    	foreach ($annuaire->negociants as $key => $value) {
-    		$num = explode('-', $key);
-    		$result[$key] = $value." (".$num[1].")";
-    	}
-    	return array_merge(array('' => ''), $result);
-    }
-    
-    public function getCommerciaux()
-    {
-    	$annuaire = $this->getAnnuaire();
-    	if (!$annuaire) {
-    		return array();
-    	}
-    	$commerciaux = $annuaire->commerciaux->toArray();
-    	$choices = array();
-    	foreach ($commerciaux as $key => $commercial) {
-    		$choices[$key] = $key;
-    	}
-    	return array_merge(array('' => ''), $choices);
-    }
+	public function getUpdatedVrac()
+  	{
+  		$this->doUpdateObject($this->getValues());
+    	return $this->getObject();
+  	}
 }
 

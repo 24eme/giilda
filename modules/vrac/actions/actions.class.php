@@ -138,9 +138,11 @@ class vracActions extends sfActions
   public function executeNouveau(sfWebRequest $request)
   {      
       $this->getResponse()->setTitle('Contrat - Nouveau');
-      $this->vrac = new Vrac();
-      if($request->getParameter("etablissement")) {
-        $this->vrac->setAcheteurIdentifiant($request->getParameter("etablissement"));
+      $this->vrac = ($this->getUser()->getAttribute('vrac_object'))? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
+      $this->vrac = $this->populateVracTiers($this->vrac);
+      if($this->etablissement = $request->getParameter("etablissement")) {
+        //$this->vrac->setAcheteurIdentifiant($this->etablissement);
+        $this->vrac->createur_identifiant = $this->etablissement;
       }
       $this->form = new VracSoussigneForm($this->vrac);
  
@@ -172,6 +174,61 @@ class vracActions extends sfActions
     $this->contratsEtablissements = VracClient::getInstance()->retrieveBySociete($this->societe->identifiant);
   }
     
+	
+	public function executeAnnuaire(sfWebRequest $request)
+	{
+		$this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
+		$this->type = $request->getParameter('type');
+		$this->acteur = $request->getParameter('acteur');
+		$types = array_keys(AnnuaireClient::getAnnuaireTypes());
+		if (!in_array($this->type, $types)) {
+			throw new sfError404Exception('Le type "'.$this->type.'" n\'est pas pris en charge.');
+		}
+
+		$this->vrac = ($request->getParameter('numero_contrat'))? VracClient::getInstance()->find($request->getParameter('numero_contrat')) : new Vrac() ;
+		$this->vrac = $this->populateVracTiers($this->vrac);
+		if($this->identifiant) {
+        	$this->vrac->createur_identifiant = $this->identifiant;
+      	}
+		$this->form = new VracSoussigneAnnuaireForm($this->vrac);
+		if ($request->isMethod(sfWebRequest::POST)) {
+			$parameters = $request->getParameter($this->form->getName());
+			unset($parameters['_csrf_token']);
+    		$this->form->bind($parameters);
+        	if ($this->form->isValid()) {
+        		$this->vrac = $this->form->getUpdatedVrac();
+        	} else {
+        		throw new sfException($this->form->renderGlobalErrors());
+        	}
+		}
+		$this->getUser()->setAttribute('vrac_object', serialize($this->vrac));
+		$this->getUser()->setAttribute('vrac_acteur', $this->acteur);
+		return $this->redirect('annuaire_selectionner', array('identifiant' => $this->identifiant, 'type' => $this->type));
+	}
+	
+	public function executeAnnuaireCommercial(sfWebRequest $request)
+	{
+		$this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
+		$this->vrac = ($request->getParameter('numero_contrat'))? VracClient::getInstance()->find($request->getParameter('numero_contrat')) : new Vrac() ;
+		$this->vrac = $this->populateVracTiers($this->vrac);
+		if($this->identifiant) {
+        	$this->vrac->createur_identifiant = $this->identifiant;
+      	}
+		$this->form = new VracSoussigneAnnuaireForm($this->vrac);
+		if ($request->isMethod(sfWebRequest::POST)) {
+			$parameters = $request->getParameter($this->form->getName());
+			unset($parameters['_csrf_token']);
+    		$this->form->bind($parameters);
+        	if ($this->form->isValid()) {
+        		$this->vrac = $this->form->getUpdatedVrac();
+        	} else {
+        		throw new sfException($this->form->renderGlobalErrors());
+        	}
+		}
+		$this->getUser()->setAttribute('vrac_object', serialize($this->vrac));
+		$this->getUser()->setAttribute('vrac_acteur', $this->acteur);
+		return $this->redirect('annuaire_commercial_ajouter', array('identifiant' => $this->identifiant));
+	}
   
   private function init_soussigne($request,$form)
     {
@@ -201,7 +258,7 @@ class vracActions extends sfActions
   public function executeSoussigne(sfWebRequest $request)
   {
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Soussignés', $request["numero_contrat"]));
-      $this->vrac = $this->getRoute()->getVrac();
+      $this->vrac = $this->vrac = ($this->getUser()->getAttribute('vrac_object'))? unserialize($this->getUser()->getAttribute('vrac_object')) : $this->getRoute()->getVrac();
       $this->form = new VracSoussigneForm($this->vrac);
       
       $this->init_soussigne($request,$this->form);
@@ -223,6 +280,8 @@ class vracActions extends sfActions
   
   public function executeMarche(sfWebRequest $request)
   {
+  		$this->getUser()->setAttribute('vrac_object', null);
+    	$this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
         $this->form = new VracMarcheForm($this->vrac);   
@@ -241,6 +300,8 @@ class vracActions extends sfActions
 
   public function executeCondition(sfWebRequest $request)
   {
+  	  $this->getUser()->setAttribute('vrac_object', null);
+      $this->getUser()->setAttribute('vrac_acteur', null);
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
       $this->form = new VracConditionForm($this->vrac);
@@ -261,6 +322,8 @@ class vracActions extends sfActions
 
    public function executeValidation(sfWebRequest $request)
   {
+  	    $this->getUser()->setAttribute('vrac_object', null);
+    	$this->getUser()->setAttribute('vrac_acteur', null);
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
 
@@ -285,6 +348,8 @@ class vracActions extends sfActions
    
   public function executeVisualisation(sfWebRequest $request)
   {
+  	   $this->getUser()->setAttribute('vrac_object', null);
+    	$this->getUser()->setAttribute('vrac_acteur', null);
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();   
       $this->vrac->save();
@@ -446,6 +511,7 @@ class vracActions extends sfActions
   {
       $this->vrac->valide->statut = $statut;
   }
+<<<<<<< HEAD
 
 
   protected function secureVrac($droits, $vrac) {
@@ -464,3 +530,13 @@ class vracActions extends sfActions
   }
 
 }
+=======
+  
+	protected function populateVracTiers($vrac)
+    {
+    	$vrac->setInformations();
+		return $vrac;
+    }
+    
+}
+>>>>>>> 7f80ffcf0ad2df1d2b4df1d259a070b230ea2bf6
