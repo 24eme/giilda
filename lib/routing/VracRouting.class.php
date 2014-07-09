@@ -107,6 +107,9 @@ class VracRouting {
 							array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')
                                                          ));
+
+        $r->prependRoute('vrac_societe',  new sfRoute('/contrats/societe/:identifiant', array('module' => 'vrac', 
+                                                                                              'action' => 'societe')));
     }
 
 }

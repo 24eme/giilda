@@ -16,7 +16,7 @@ class vracActions extends sfActions
         $this->forward404Unless($vrac);
         return $this->redirect('vrac_visualisation', array('numero_contrat' => $vrac->numero_contrat));
     }
-    
+
   public function executeIndex(sfWebRequest $request)
   {
       $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);
@@ -160,6 +160,18 @@ class vracActions extends sfActions
         }
       $this->setTemplate('soussigne');
   }
+
+   public function executeSociete(sfWebRequest $request) {
+    $this->compte = CompteClient::getInstance()->findByIdentifiant($request['identifiant']);
+
+    if(!$this->compte){
+        new sfException("Le compte $compte n'existe pas");
+    }
+    $this->societe = $this->compte->getSociete();
+    $this->etablissements = $this->societe->getEtablissementsObj();
+    $this->contratsEtablissements = VracClient::getInstance()->retrieveBySociete($this->societe->identifiant);
+  }
+    
   
   private function init_soussigne($request,$form)
     {
@@ -434,5 +446,21 @@ class vracActions extends sfActions
   {
       $this->vrac->valide->statut = $statut;
   }
-    
+
+
+  protected function secureVrac($droits, $vrac) {
+
+      if(!VracSecurity::getInstance($this->getUser(), $vrac)->isAuthorized($droits)) {
+          
+          return $this->forwardSecure();
+      }
+  }
+
+  protected function forwardSecure()
+  {    
+      $this->context->getController()->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+
+      throw new sfStopException();
+  }
+
 }

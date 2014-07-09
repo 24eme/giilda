@@ -49,9 +49,9 @@ class VracClient extends acCouchdbClient {
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
     const RESULTAT_LIMIT = 700;
     
-    const STATUS_TELEDECLARATION_VALIDE = 'VALIDE';
-    const STATUS_TELEDECLARATION_ATTENTE_SIGNATURE = 'ATTENTE_SIGNATURE';
-    const STATUS_TELEDECLARATION_VISE = 'VISE';
+    const STATUS_VALIDE = 'VALIDE';
+    const STATUS_ATTENTE_SIGNATURE = 'ATTENTE_SIGNATURE';
+    const STATUS_VISE = 'VISE';
 
     public static $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
         VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',

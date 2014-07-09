@@ -540,10 +540,10 @@ class Vrac extends BaseVrac {
     
     public function getTeledeclarationStatut() {
         if($this->isSolde() || $this->isValidee()){
-            return VracClient::STATUS_TELEDECLARATION_VALIDE;
+            return VracClient::STATUS_VALIDE;
         }
         if(!$this->exist('teledeclaration_statut') || !$this->teledeclaration_statut){
-            return VracClient::STATUS_TELEDECLARATION_ATTENTE_SIGNATURE;
+            return VracClient::STATUS_ATTENTE_SIGNATURE;
         }        
         return $this->teledeclaration_statut;
     }
