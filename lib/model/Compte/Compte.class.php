@@ -383,7 +383,7 @@ class Compte extends BaseCompte {
 	$ldap->deleteCompte($this, $verbose);
     }
     
-    public function buildDroits($removeAll = false) {
+    /*public function buildDroits($removeAll = false) {
         if(!$this->exist('type_societe') || !$this->type_societe){
             throw new sfException("Aucun type de société les droits ne sont pas enregistrables");
         }
@@ -409,22 +409,11 @@ class Compte extends BaseCompte {
         if($acces_teledeclaration){
             $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION,CompteClient::DROITS_COMPTE_TELEDECLARATION);
         }
-    }
+    }*/
     
     public function hasDroit($droit) {
         $droits = $this->get('droits')->toArray(0,1);
         return in_array($droit, $droits);
-    }
-
-    public function getDroitsLabelsArray() {
-        if(!$this->exist('droits') || !$this->droits){
-            return null;
-        }
-        $result = array();
-       foreach ($this->droits as $droit) {
-           $result[] = constant('CompteClient::'.$droit."_LABEL");
-       }
-       return $result;
     }
     
     public function isTeledeclarantVrac() {
@@ -434,7 +423,7 @@ class Compte extends BaseCompte {
     }
 
     public function getDroits() {
-        if($this->isTeledeclarantVrac()) {
+        if(!$this->exist('droits') && $this->isTeledeclarantVrac()) {
 
             $this->add('droits', array(Roles::CONTRAT, Roles::TELEDECLARANT));
         }

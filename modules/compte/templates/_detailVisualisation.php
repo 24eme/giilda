@@ -29,13 +29,13 @@
 			</label>
 			<?php echo $compte->fonction; ?>
 		</div>     
-             <?php if ($compte->getDroitsLabelsArray()) : ?>
+             <?php if ($compte->getDroits()) : ?>
                     <div class="form_ligne">
                         <label for="droits" class="label_liste">
                             Droits de l'interlocuteur : 
                         </label>
                         <ul>                            
-                        <?php foreach ($compte->getDroitsLabelsArray() as $droit) : ?>
+                        <?php foreach ($compte->getDroits() as $droit) : ?>
                             <li>
                             <?php echo $droit; ?>
                             </li>
