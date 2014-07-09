@@ -84,7 +84,7 @@
 		</div>
 	</div>
 
-	<a class="btn_orange btn_majeur" href="<?php echo url_for('teledeclaration_monespace', array('identifiant' => $etablissement->identifiant)) ?>">Retourner à l'espace contrats</a>
+	<a class="btn_orange btn_majeur" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissement->identifiant)) ?>">Retourner à l'espace contrats</a>
 
 </section>
 
