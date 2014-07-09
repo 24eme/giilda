@@ -5,6 +5,7 @@ class AnnuaireClient extends acCouchdbClient
 	const ANNUAIRE_PREFIXE_ID = 'ANNUAIRE-';
 	const ANNUAIRE_RECOLTANTS_KEY = 'recoltants';
 	const ANNUAIRE_NEGOCIANTS_KEY = 'negociants';
+	const ANNUAIRE_COMMERICAUX_KEY = 'commerciaux';
 	const ANNUAIRE_CAVES_COOPERATIVES_KEY = 'caves_cooperatives';
  	static $annuaire_types = array(
  								self::ANNUAIRE_RECOLTANTS_KEY => 'Viticulteur', 

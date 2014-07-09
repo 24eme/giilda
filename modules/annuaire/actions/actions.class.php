@@ -3,6 +3,7 @@ class annuaireActions extends sfActions {
 
 	public function executeIndex(sfWebRequest $request) 
 	{
+		$this->cleanSessions();
 		$this->identifiant = $request->getParameter('identifiant');
 		$this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
 		$this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($this->identifiant);
@@ -45,16 +46,18 @@ class annuaireActions extends sfActions {
         		$etablissement = AnnuaireClient::getInstance()->findTiersByTypeAndTiers($values['type'], $values['tiers']);
         		if ($this->tiersObject->_id == $etablissement->_id) {
        				$this->form->save();
-       				/*if ($vrac = $this->getUser()->getAttribute('vrac_object')) {
+       				if ($vrac = $this->getUser()->getAttribute('vrac_object')) {
        					$vrac = unserialize($vrac);
        					$acteur = $this->getUser()->getAttribute('vrac_acteur');
-       					$vrac->addActeur($acteur, $this->tiers);
-       					$vrac->addType($acteur, $values['type']);
+       					$vrac->{$acteur.'_identifiant'} = $etablissement->_id;
        					$this->getUser()->setAttribute('vrac_object', serialize($vrac));
        					$this->getUser()->setAttribute('vrac_acteur', null);
-       					$etapes = VracEtapes::getInstance();
-       					return $this->redirect('vrac_etape', array('numero_contrat' => !$vrac->isNew() ? $vrac->numero_contrat : VracRoute::NOUVEAU, 'etape' => $etapes->getFirst()));
-       				}*/
+       					if ($vrac->isNew()) {
+       						return $this->redirect('vrac_nouveau', array('etablissement' => $this->etablissement->_id));
+       					} else {
+       						return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
+       					}
+       				}
        				return $this->redirect('annuaire', array('identifiant' => $this->identifiant));
         		}
         		return $this->redirect('annuaire_ajouter', array('type' => $values['type'], 'identifiant' => $this->identifiant, 'tiers' => $values['tiers']));
@@ -72,13 +75,17 @@ class annuaireActions extends sfActions {
         	$this->form->bind($request->getParameter($this->form->getName()));
         	if ($this->form->isValid()) {
        			$this->form->save();
-       			/*if ($vrac = $this->getUser()->getAttribute('vrac_object')) {
+       			$values = $this->form->getValues();
+       			if ($vrac = $this->getUser()->getAttribute('vrac_object')) {
        				$vrac = unserialize($vrac);
               		$vrac->storeInterlocuteurCommercialInformations($values['identite'], $value['contact']);
        				$this->getUser()->setAttribute('vrac_object', serialize($vrac));
-       				$etapes = VracEtapes::getInstance();
-       				return $this->redirect('vrac_etape', array('numero_contrat' => !$vrac->isNew() ? $vrac->numero_contrat : VracRoute::NOUVEAU, 'etape' => $etapes->getFirst()));
-       			}*/
+       				if ($vrac->isNew()) {
+       					return $this->redirect('vrac_nouveau', array('etablissement' => $this->etablissement->_id));
+       				} else {
+       					return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
+       				}
+       			}
        			return $this->redirect('annuaire', array('identifiant' => $this->identifiant));
         	}
         }
@@ -95,6 +102,7 @@ class annuaireActions extends sfActions {
 
 	public function executeSupprimer(sfWebRequest $request) 
 	{
+		$this->cleanSessions();
 		$type = $request->getParameter('type');
 		$id = $request->getParameter('id');
 		$identifiant = $request->getParameter('identifiant');
@@ -111,5 +119,11 @@ class annuaireActions extends sfActions {
 			}
 		}
 		throw new sfError404Exception('La paire "'.$type.'"/"'.$id.'" n\'existe pas dans l\'annuaire');
+    }
+    
+    public function cleanSessions()
+    {
+    	$this->getUser()->setAttribute('vrac_object', null);
+    	$this->getUser()->setAttribute('vrac_acteur', null);
     }
 }
