@@ -33,6 +33,7 @@ use_helper('Float');
                     <a href="<?php echo url_for('vrac_creation',array('identifiant' => $etablissement->identifiant)) ?>">Nouveau</a>
                 </div>-->
                 <a class="btn_vert btn_majeur" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etbId)); ?>">Nouveau contrat</a>
+                <a class="btn_orange btn_majeur" href="<?php echo url_for('annuaire', array('identifiant' => $etablissements[$etbId]->etablissement->identifiant)); ?>">Annuaire</a>
             </div>
 
 

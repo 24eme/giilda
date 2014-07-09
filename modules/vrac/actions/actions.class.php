@@ -164,6 +164,8 @@ class vracActions extends sfActions
   }
 
    public function executeSociete(sfWebRequest $request) {
+    $this->getUser()->setAttribute('vrac_object', null);
+    $this->getUser()->setAttribute('vrac_acteur', null);
     $this->compte = CompteClient::getInstance()->findByIdentifiant($request['identifiant']);
 
     if(!$this->compte){
