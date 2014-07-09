@@ -513,8 +513,6 @@ class vracActions extends sfActions
   {
       $this->vrac->valide->statut = $statut;
   }
-<<<<<<< HEAD
-
 
   protected function secureVrac($droits, $vrac) {
 
@@ -531,9 +529,6 @@ class vracActions extends sfActions
       throw new sfStopException();
   }
 
-}
-=======
-  
 	protected function populateVracTiers($vrac)
     {
     	$vrac->setInformations();
@@ -541,4 +536,3 @@ class vracActions extends sfActions
     }
     
 }
->>>>>>> 7f80ffcf0ad2df1d2b4df1d259a070b230ea2bf6
