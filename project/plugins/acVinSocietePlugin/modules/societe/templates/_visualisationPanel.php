@@ -114,13 +114,13 @@ use_helper('Date');
                 <?php echo $societe->no_tva_intracommunautaire; ?>
             </div>
         <?php endif; ?>
-        <?php if ($societe->getDroitsCompte()) : ?>
+        <?php if ($societe->getMasterCompte()->getDroits()) : ?>
             <div class="form_ligne">
                 <label for="no_tva_intracommunautaire" class="label_liste">
                     Droits de la société : 
                 </label>
                 <ul>
-                <?php foreach ($societe->getDroitsCompte() as $droit) : ?>
+                <?php foreach ($societe->getMasterCompte()->getDroits() as $droit) : ?>
                     <li>
                     <?php echo $droit; ?>
                     </li>

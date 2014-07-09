@@ -8,8 +8,8 @@ class VracSecurity implements SecurityInterface {
     protected $myUser;
     protected $compte;
     
-    const DROITS_TELEDECLARATION_VRAC = 'teledeclaration_vrac';
-    const DROITS_TELEDECLARATION_VRAC_CREATION = 'teledeclaration_vrac_creation';
+    const CREATION = 'CREATION';
+    const DECLARANT = 'OPERATEUR';
 
     public static function getInstance($myUser, $vrac = null) {
 

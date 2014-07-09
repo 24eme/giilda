@@ -1,12 +1,20 @@
 <?php
 
 class globalActions extends sfActions {
-	public function executeError500(sfWebRequest $request) {
+	
+    public function executeError500(sfWebRequest $request) {
        $this->exception = $request->getParameter('exception');
 	}
+
 	public function executeHome(sfWebRequest $request) {
         if($this->getUser()->hasCredential('transactions')) {
-	        return $this->redirect('vrac');
+	        
+            return $this->redirect('vrac');
+        }
+
+        if($this->getUser()->hasCredential('teledeclarant')) {
+
+            return $this->redirect('vrac_societe', array("identifiant" => $this->getUser()->getCompte()->identifiant));
         }
 
         return $this->redirect('societe');

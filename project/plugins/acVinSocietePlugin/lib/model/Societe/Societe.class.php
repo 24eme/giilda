@@ -323,16 +323,4 @@ class Societe extends BaseSociete {
         return $this->exist('type_societe') && ($this->type_societe == SocieteClient::SUB_TYPE_SYNDICAT);
     }
     
-    public function getDroitsCompte() {
-        $compte = $this->getMasterCompte();
-        if(!$compte){
-            return null;
-        }
-       $droits = $compte->getDroitsLabelsArray();
-       if(!$droits){
-           return null;
-       }
-      return $droits;
-    }
-    
 }

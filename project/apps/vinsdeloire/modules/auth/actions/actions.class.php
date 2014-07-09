@@ -23,7 +23,7 @@ class authActions extends sfActions
       $idCompte = $this->form->process()->identifiant;
       $idSociete = $this->form->process()->getSociete()->getIdentifiant();                
       $this->getUser()->signIn($this->form->getValue("compte"));
-      $this->redirect('teledeclaration_monespace',array('identifiant' => $idCompte));
+      $this->redirect('vrac_societe',array('identifiant' => $idCompte));
   }
 
   public function executeLogout(sfWebRequest $request) {

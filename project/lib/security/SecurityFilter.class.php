@@ -8,7 +8,7 @@ class SecurityFilter extends sfBasicSecurityFilter
     {
         parent::__construct($context, $parameters);
 
-        $auth = sfConfig::get("authentification");
+        $auth = sfConfig::get("app_authentification");
 
         if($auth == "HTTP_AD") {
             $this->filter = new HttpAuth2ADSecurityFilter($context, array());

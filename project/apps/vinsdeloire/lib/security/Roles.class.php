@@ -4,7 +4,6 @@ class Roles
 {
     const ADMIN = 'admin';
     const OPERATEUR = 'operateur';
-    const TELEDECLARANT = 'teledeclarant';
 
     const TRANSACTION = 'transactions';
     const CONTRAT = 'contrat';
@@ -45,13 +44,20 @@ class Roles
         self::AUTRE => array(self::CONTACT),
     );
 
-    public function getRoles($role) {
+    public static function getRoles($role) {
         $roles = array($role);
 
         if(isset(self::$hierarchy[$role])) {
-            $roles = array_merge($roles, self::$hierarchy[$role]);
+            foreach(self::$hierarchy[$role] as $r) {
+                $roles = array_merge($roles, self::getRoles($r));
+            }
+            
         }
 
         return $roles;
+    }
+
+    public function getRolesCompte() {
+        return array(self::CONTRAT => "Contrat");
     }
 }
