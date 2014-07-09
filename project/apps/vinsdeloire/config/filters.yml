@@ -4,5 +4,8 @@
 rendering: ~
 security:  ~
 
+AuthFilter:
+   class: AuthFilter
+
 cache:     ~
 execution: ~
