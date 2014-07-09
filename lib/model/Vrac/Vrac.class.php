@@ -562,4 +562,20 @@ class Vrac extends BaseVrac {
 
         return true;
     }
+    
+	public function storeInterlocuteurCommercialInformations($nom, $contact) {
+        $email = trim(preg_replace("/\([0-9]+\)/", "", $contact));
+
+        $telephone = null;
+        if(preg_match("/\(([0-9]+)\)/", $contact, $matches)) {
+            $telephone = $matches[1];
+        }
+
+        $this->interlocuteur_commercial->nom = $nom;    
+        $this->interlocuteur_commercial->email = ($email) ? $email : null;
+        if(!$this->interlocuteur_commercial->exist('telephone')) {
+            $this->interlocuteur_commercial->add('telephone');
+        }
+        $this->interlocuteur_commercial->telephone = ($telephone) ? $telephone : null;
+    }
 }

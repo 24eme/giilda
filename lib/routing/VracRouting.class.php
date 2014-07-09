@@ -107,6 +107,16 @@ class VracRouting {
 							array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')
                                                          ));
+        $r->prependRoute('vrac_annuaire_commercial', new sfRoute('/vrac/annuaire/commercial',
+                                                        array('module' => 'vrac', 'action' => 'annuaireCommercial'),
+							array('sf_method' => array('get','post')),
+                                                        array('model' => 'Vrac', 'type' => 'object')
+                                                         ));
+        $r->prependRoute('vrac_annuaire', new sfRoute('/vrac/annuaire/:acteur/:type',
+                                                        array('module' => 'vrac', 'action' => 'annuaire'),
+							array('sf_method' => array('get','post')),
+                                                        array('model' => 'Vrac', 'type' => 'object')
+                                                         ));
     }
 
 }
