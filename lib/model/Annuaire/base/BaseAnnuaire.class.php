@@ -9,7 +9,7 @@
  * @property AnnuaireRecoltant $recoltant
  * @property AnnuaireNegociant $negociant
  * @property AnnuaireCaveCooperative $cave_cooperative
- * @property string $cvi
+ * @property string $identifiant
  * @property string $type
 
  * @method string get_id()
@@ -22,8 +22,8 @@
  * @method AnnuaireNegociant setNegociant()
  * @method AnnuaireCaveCooperative getCaveCooperative()
  * @method AnnuaireCaveCooperative setCaveCooperative()
- * @method string getCvi()
- * @method string setCvi()
+ * @method string getIdentifiant()
+ * @method string setIdentifiant()
  * @method string getType()
  * @method string setType()
  

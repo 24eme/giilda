@@ -4,20 +4,20 @@ class AnnuaireAjoutValidator extends sfValidatorBase
     
     public function configure($options = array(), $messages = array()) 
     {
-        $this->setMessage('invalid', "CVI ou CIVABA incorrect pour ce type d'interlocuteur.");
+        $this->setMessage('invalid', "CVI incorrect pour ce type d'interlocuteur.");
     }
 
     protected function doClean($values) 
     {
         $tiers = $this->getTiers($values);
-        if (!$tiers && $values['identifiant']) {
-            throw new sfValidatorErrorSchema($this, array('identifiant' => new sfValidatorError($this, 'invalid')));
+        if (!$tiers && $values['tiers']) {
+            throw new sfValidatorErrorSchema($this, array('tiers' => new sfValidatorError($this, 'invalid')));
         }
-        return array_merge($values, array('tiers' => $tiers));
+        return array_merge($values, array('etablissement' => $tiers));
     }
     
     protected function getTiers($values)
     {
-    	return AnnuaireClient::getInstance()->findTiersByTypeAndIdentifiant($values['type'], $values['identifiant']);
+    	return AnnuaireClient::getInstance()->findTiersByTypeAndTiers($values['type'], $values['tiers']);
     }
 }

@@ -7,14 +7,12 @@ class AnnuaireClient extends acCouchdbClient
 	const ANNUAIRE_NEGOCIANTS_KEY = 'negociants';
 	const ANNUAIRE_CAVES_COOPERATIVES_KEY = 'caves_cooperatives';
  	static $annuaire_types = array(
- 								self::ANNUAIRE_RECOLTANTS_KEY => 'Récoltant', 
- 								self::ANNUAIRE_NEGOCIANTS_KEY => 'Négociant', 
- 								self::ANNUAIRE_CAVES_COOPERATIVES_KEY => 'Cave coopérative'
+ 								self::ANNUAIRE_RECOLTANTS_KEY => 'Viticulteur', 
+ 								self::ANNUAIRE_NEGOCIANTS_KEY => 'Négociant'
  	);
  	static $tiers_qualites = array(
- 								self::ANNUAIRE_RECOLTANTS_KEY => _TiersClient::QUALITE_RECOLTANT,
-                                self::ANNUAIRE_NEGOCIANTS_KEY => _TiersClient::QUALITE_NEGOCIANT, 
-                                self::ANNUAIRE_CAVES_COOPERATIVES_KEY => _TiersClient::QUALITE_COOPERATIVE,
+ 								self::ANNUAIRE_RECOLTANTS_KEY => '',
+                                self::ANNUAIRE_NEGOCIANTS_KEY => ''
  	);
  	
   	public static function getAnnuaireTypes() 
@@ -38,60 +36,53 @@ class AnnuaireClient extends acCouchdbClient
     	return $types[$tiersType];
     }
     
-    public function createAnnuaire($cvi)
+    public function createAnnuaire($identifiant)
     {
     	$annuaire = new Annuaire();
-    	$annuaire->cvi = $cvi;
+    	$annuaire->identifiant = $identifiant;
     	$annuaire->save();
     	return $annuaire;
     }
     
-    public function findOrCreateAnnuaire($cvi)
+    public function findOrCreateAnnuaire($identifiant)
     {
-        if(preg_match("/^(C?[0-9]{10})[0-9]{2}$/", $cvi, $matches)) {
-            $cvi = $matches[1];
+        if(preg_match("/^(C?[0-9]{10})[0-9]{2}$/", $identifiant, $matches)) {
+            $identifiant = $matches[1];
         }
 
-    	if ($annuaire = $this->find(self::ANNUAIRE_PREFIXE_ID.$cvi)) {
+    	if ($annuaire = $this->find(self::ANNUAIRE_PREFIXE_ID.$identifiant)) {
     		return $annuaire;
     	}
-    	return $this->createAnnuaire($cvi);
+    	return $this->createAnnuaire($identifiant);
     }
 
-    public function buildId($cvi)
+    public function buildId($identifiant)
     {
-      return self::ANNUAIRE_PREFIXE_ID.$cvi;
+      return self::ANNUAIRE_PREFIXE_ID.$identifiant;
     }
 
-    public function findTiersByTypeAndIdentifiant($type, $identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) 
+    public function findTiersByTypeAndTiers($type, $identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) 
     {
-        $tiers = _TiersClient::getInstance()->findByCvi($identifiant);
+    	$etablissement = EtablissementClient::getInstance()->find($identifiant);
 
-        if(!$tiers) {
-            $tiers = _TiersClient::getInstance()->findByCivaba($identifiant);
-        }
-
-        if($tiers->type == 'MetteurEnMarche' && $tiers->hasAcheteur()) {
-            $tiers = $tiers->getCviObject();
-        }
-
-        if(!$tiers) {
+        if(!$etablissement) {
 
             return null;
         }
 
-        $tiersQualites = self::getTiersQualites();
-
-        if($tiers->qualite_categorie != $tiersQualites[$type]) {
-            
-            return null;
-        }
-
-        if(!$tiers->isActif()) {
+        if(!$etablissement->isActif()) {
 
             return null;
         }
+        
+        if ($type == self::ANNUAIRE_RECOLTANTS_KEY && $etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR) {
+        	return null;
+        }
+        
+        if ($type == self::ANNUAIRE_NEGOCIANTS_KEY && $etablissement->famille != EtablissementFamilles::FAMILLE_NEGOCIANT	) {
+        	return null;
+        }
 
-        return $tiers;
+        return $etablissement;
     }
 }

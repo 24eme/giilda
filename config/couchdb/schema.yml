@@ -1,3 +1,4 @@
+
 Annuaire:
   definition:
     fields:
@@ -29,5 +30,5 @@ Annuaire:
         definition:
           fields:
             '*': { }
-      cvi: {  }
+      identifiant: {  }
       type: {  }
