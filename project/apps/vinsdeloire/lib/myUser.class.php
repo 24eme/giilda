@@ -1,40 +1,35 @@
 <?php
 
-class myUser extends TeledeclarationSecurityUser
+class myUser extends sfBasicSecurityUser
 {
-    const CREDENTIAL_ADMIN = 'admin';
+    const SESSION_COMPTE = "COMPTE";
+    const NAMESPACE_COMPTE = "COMPTE";
 
-    protected $tiers = null;
+    public function signIn(Compte $compte) 
+    {
+        $this->setAttribute(self::SESSION_COMPTE, $compte->_id, self::NAMESPACE_COMPTE);
 
-    public function getTiers() {        
-            return $this->tiers;
+        foreach($compte->droits as $droit) {
+            $roles = Roles::getRoles($droit);
+            $this->addCredentials($roles);
+        }
+
+        $this->setAuthenticated(true);
     }
 
-  public function getCompte() {
-    $user = parent::getCompte();  
-      if($user){
-          return $user;
-      }
-    $user = new stdClass();
-    $user->_id = $this->getAttribute('AUTH_USER');
-    $user->prenom = $user->_id;
-    $user->nom = $user->_id;
+    public function signOut() 
+    {
+        $this->setAuthenticated(false);
+        $this->clearCredentials();
+        $this->getAttributeHolder()->removeNamespace(self::NAMESPACE_COMPTE);
+    }
 
-    return $user;
-  }
+    public function getCompte() 
+    {
 
-  /**
-   * Récupération de l'interpro
-   * @return Interpro
-   */
-  public function getInterpro()
-  {
-      $interpro = new Interpro();
-      $interpro->identifiant = 'inter-loire';
-      $interpro->nom = "Inter Loire";
-      $interpro->set('_id', 'INTERPRO-'.$interpro->identifiant);
+        return CompteClient::getInstance()->find($this->getAttribute(self::SESSION_COMPTE, null, self::NAMESPACE_COMPTE));
+    }
 
-      return $interpro;
-  }
+
 
 }

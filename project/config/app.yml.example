@@ -1,5 +1,6 @@
 all:
   instance: dev
+  authentification: NO_CAS #HTTP_AD, CAS, NO_CAS
   ldap:
     serveur: localhost
     dn: cn=admin,dc=interloire,dc=tld

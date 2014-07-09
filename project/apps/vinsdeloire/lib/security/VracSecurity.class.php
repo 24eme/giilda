@@ -43,8 +43,8 @@ class VracSecurity implements SecurityInterface {
             return false;
         }
 
-        if(!$this->myUser->getCompte()->hasDroit(CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC)) {
-            
+        if(!$this->myUser->getCompte()->hasDroit(Roles::CONTRAT)) {
+
             return false;
         }
 
