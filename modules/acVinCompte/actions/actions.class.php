@@ -51,7 +51,11 @@ class acVinCompteActions extends sfActions
   }
 
   public function executeLogout(sfWebRequest $request) {
-    $this->setLayout(false);
+    $this->getUser()->signOut();
+
+    return $this->redirect('homepage');
+
+    /*$this->setLayout(false);
     if (isset($_SERVER['HTTP_REFERER'])) {
       $referer = $_SERVER['HTTP_REFERER'];
     } else {
@@ -60,7 +64,7 @@ class acVinCompteActions extends sfActions
     $this->dest = $this->generateUrl('ac_vin_login', array('referer' => $referer), true); //"http://".$_SERVER["SERVER_NAME"];
     if (isset($_SERVER['PHP_AUTH_USER']) && $_SERVER['PHP_AUTH_USER'] != 'logout') {
       $this->dest = preg_replace('/http:\/\//', 'http://logout:logout@', $this->dest);
-    }
+    }*/
   }
 
 }
