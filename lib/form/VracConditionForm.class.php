@@ -57,11 +57,13 @@ class VracConditionForm extends acCouchdbObjectForm {
             'commentaire' => new sfValidatorString(array('required' => false)),
             ));
 
-        $this->setWidget('cvo_nature', new sfWidgetFormChoice(array('choices' => $this->getCvoNature())));
-        $this->getWidget('cvo_nature')->setLabel("Nature de la transaction");
-        $this->setValidator('cvo_nature', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoNature()))));
+        
 
         if(!$this->getObject()->isTeledeclare()) {
+            $this->setWidget('cvo_nature', new sfWidgetFormChoice(array('choices' => $this->getCvoNature())));
+            $this->getWidget('cvo_nature')->setLabel("Nature de la transaction");
+            $this->setValidator('cvo_nature', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoNature()))));
+
             $this->setWidget('cvo_repartition', new sfWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
             $this->getWidget('cvo_repartition')->setLabel("Répartition de la CVO");
             $this->setValidator('cvo_repartition', new sfValidatorChoice(array('required' => !$cvo_repartion_notchangeable, 'choices' => array_keys($this->getCvoRepartition()))));
@@ -80,9 +82,9 @@ class VracConditionForm extends acCouchdbObjectForm {
             $this->getWidget('enlevement_date')->setLabel("Date d'enlèvement");
             $this->setValidator('enlevement_date', new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors));
 
-            $this->setWidget('enlevement_frais_garde', new sfWidgetFormInput());
+            $this->setWidget('enlevement_frais_garde', new sfWidgetFormInputFloat());
             $this->getWidget('enlevement_frais_garde')->setLabel("Frais de garde");
-            $this->setValidator('enlevement_frais_garde', new sfValidatorRegex($dateRegexpOptions,$dateRegexpErrors));
+            $this->setValidator('enlevement_frais_garde', new sfValidatorNumber(array('required' => false)));
         }
 
         $this->widgetSchema->setNameFormat('vrac[%s]');
