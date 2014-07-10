@@ -100,4 +100,13 @@
         </div>
         <?php endif; ?>
     </fieldset>
+    <fieldset>
+        <div class="form_ligne">
+            <legend>Droits</legend>
+        </div>
+        <div class="form_ligne">
+            <?php echo $compteForm['droits']->renderError(); ?>
+            <?php echo $compteForm['droits']->render(); ?>
+        </div>
+    </fieldset>
 </div>
