@@ -62,10 +62,7 @@
 \end{multicols}  
 
 <?php if($vrac->exist('mandataire_exist') && $vrac->mandataire_exist): ?> 
-Par l'entremise de \CONTRATCOURTIERNOM, ~~~ Courtier en vins n° carte professionnelle: \CONTRATCOURTIERCARTEPRO
-
-Mandaté pour signature par : ~~~ le vendeur ~  <?php echo getCheckBoxe($vrac->isMandatantVendeur()); ?> ~~~ l'acheteur ~  <?php echo getCheckBoxe($vrac->isMandatantAcheteur()); ?> 
-\\
+Par l'entremise de \CONTRATCOURTIERNOM, Courtier en vins n° carte professionnelle: \CONTRATCOURTIERCARTEPRO \\
 <?php endif; ?>
 
 A été conclu le marché suivant: \\
@@ -128,9 +125,9 @@ A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 j
 \normalsize{\textbf{Les soussignés ont pris connaissance que toute fausse déclaration entraînera les sanctions prévues par l'article L.632-7 du Code rural et de la pêche maritime.}}
 \\
 
-\textbf{Fait à : \CONTRATLIEUCREATION ~~~~~ Le : \CONTRATDATECREATION}
+\textbf{Fait à : \CONTRATLIEUCREATION ~~~~~ Le : \CONTRATDATECREATION~ à 12h30}
 \\
-
+<?php if($vrac->exist('mandataire_exist') && $vrac->mandataire_exist): ?> 
 \begin{tabularx}{\textwidth}{|X|X|X|}
 \hline
 \cellcolor{gray!25}\textbf{Le courtier,} & \cellcolor{gray!25}\textbf{Le vendeur,} & \cellcolor{gray!25}\textbf{L'Acheteur} \\
@@ -141,6 +138,19 @@ Le XX/XX/XX, & Le XX/XX/XX, & Le XX/XX/XX, \\
 \textbf{Signé électroniquement} & \textbf{Signé électroniquement} & \textbf{Signé électroniquement} \\
 \hline
 \end{tabularx}
+<?php else: ?>
+\\
+\begin{tabularx}{\textwidth}{|X|X|}
+\hline
+\cellcolor{gray!25}\textbf{Le vendeur,} & \cellcolor{gray!25}\textbf{L'Acheteur} \\
+\hline
+~ & ~ \\
+Le XX/XX/XX, & Le XX/XX/XX, \\
+~ & ~ \\
+\textbf{Signé électroniquement} & \textbf{Signé électroniquement} \\
+\hline
+\end{tabularx}
+<?php endif; ?>
  \begin{center}
 \begin{tiny}
 (1) Les régions du ressort d'InterLoire sont constituées par les zones de production des vins d'appellation d'origine dont la liste est annexée à l'Accord interprofessionnel Vin, moût ou raisins, loyaux et marchands, correspondant aux normes éditées par la réglementation en vigueur.\\
