@@ -12,7 +12,7 @@ class globalActions extends sfActions {
             return $this->redirect('vrac');
         }
 
-        if($this->getUser()->hasCredential('teledeclarant')) {
+        if(!$this->getUser()->hasCredential('operateur')) {
 
             return $this->redirect('vrac_societe', array("identifiant" => $this->getUser()->getCompte()->identifiant));
         }
