@@ -425,7 +425,7 @@ class Compte extends BaseCompte {
     public function getDroits() {
         if(!$this->exist('droits') && $this->isTeledeclarantVrac()) {
 
-            $this->add('droits', array(Roles::CONTRAT, Roles::TELEDECLARANT));
+            $this->add('droits', array(Roles::CONTRAT));
         }
 
         return $this->_get('droits');
