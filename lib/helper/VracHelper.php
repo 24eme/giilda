@@ -206,3 +206,48 @@ function vrac_get_id($vrac) {
 
     return 'vrac_'.$vrac->value[VracClient::VRAC_VIEW_NUMCONTRAT];
 }
+
+function formatQuantite($vrac, $dec_point = ".", $thousands_sep = "") {
+    $quantite = $vrac->getQuantite();
+    $decimals = 0;
+    $nb_decimals = strlen(preg_replace("/^[0-9]+\.?/", "", $quantite));
+    if($nb_decimals > 0) {
+        $decimals = 2;
+    }
+    switch ($vrac->type_transaction)
+    {
+        case VracClient::TYPE_TRANSACTION_RAISINS: 
+
+            return number_format($quantite, $decimals, $dec_point, $thousands_sep);
+        case VracClient::TYPE_TRANSACTION_MOUTS: 
+            
+            return number_format($quantite, 2, $dec_point, $thousands_sep);
+        case VracClient::TYPE_TRANSACTION_VIN_VRAC: 
+
+            return number_format($quantite, 2, $dec_point, $thousands_sep);
+        case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: 
+
+            return number_format($quantite, $decimals, $dec_point, $thousands_sep);
+    }
+}
+
+function formatPrix($prix, $dec_point = ".", $thousands_sep = "") {
+    $decimals = 2;
+
+    $nb_decimals = strlen(preg_replace("/^[0-9]+\.?/", "", $prix));
+    if($nb_decimals > 2) {
+        $decimals = $nb_decimals;
+    }
+
+    return number_format($prix, $decimals, $dec_point, $thousands_sep);
+}
+
+function formatPrixFr($prix) {
+
+    return formatPrix($prix, ",", " ");
+}
+
+function formatQuantiteFr($vrac) {
+
+    return formatQuantite($vrac, ",", " ");
+}

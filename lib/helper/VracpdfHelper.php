@@ -23,13 +23,13 @@ function getPrefixPoint($str,$size){
 function vracTypeExplication($vrac){
     switch ($vrac->type_transaction) {
             case VracClient::TYPE_TRANSACTION_VIN_VRAC :
-                return "Le prix a payé est exprimé en euros par hectolitre";
+                return "Le prix payé est exprimé en euros par hectolitre";
             case VracClient::TYPE_TRANSACTION_MOUTS :
-                return "Le prix a payé est exprimé en euros par hectolitre";
+                return "Le prix payé est exprimé en euros par hectolitre";
             case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
-                return "Le prix a payé est exprimé en euros pour une bouteille et sa contenance (comprenant le vin, la mise, les matières sèches ...)";
+                return "Le prix payé est exprimé en euros pour une bouteille, un BIB® et sa contenance (comprenant le vin, la mise, les matières sèches ...)";
             case VracClient::TYPE_TRANSACTION_RAISINS :
-                return "Le prix a payé est exprimé en euros par kilogramme de raisin";
+                return "Le prix payé est exprimé en euros par kilogramme de raisin";
             default:
                 return null;
         }    
