@@ -578,4 +578,15 @@ class Vrac extends BaseVrac {
         }
         $this->interlocuteur_commercial->telephone = ($telephone) ? $telephone : null;
     }
+    
+    public function getMillesimeLabel() {
+        $type_transaction = $this->type_transaction;
+        if($type_transaction && 
+                (($type_transaction == VracClient::TYPE_TRANSACTION_RAISINS)
+                || ($type_transaction == VracClient::TYPE_TRANSACTION_MOUTS))){
+            return 'Récolte';
+        }
+        return 'Millésime';
+    }
+    
 }

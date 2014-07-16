@@ -88,8 +88,8 @@ function showPrixUnitaireUnite($vrac) {
         case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: 
             return '€/btle';
             break;
+        }
     }
-}
 
 function showRecapPrixTotal($vrac)
 {
@@ -154,13 +154,15 @@ function showUnite($vrac)
             case VracClient::TYPE_TRANSACTION_RAISINS: return 'kg';
             case VracClient::TYPE_TRANSACTION_MOUTS: return 'hl';
             case VracClient::TYPE_TRANSACTION_VIN_VRAC: return 'hl';                    
-            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: return 'btle';
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: {
+                return bouteilleUnitTerm($vrac,true);
+            }
         }
     }    
     return '';
 }
 
-      
+
 function typeProduit($type)
 {
     switch ($type) {
@@ -250,4 +252,14 @@ function formatPrixFr($prix) {
 function formatQuantiteFr($vrac) {
 
     return formatQuantite($vrac, ",", " ");
+}
+
+function bouteilleUnitTerm($vrac, $abbr = false){
+    if($vrac->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE){
+        return '';
+    }
+    if(preg_match('/(Bouteille|cl)/', $vrac->bouteilles_contenance_libelle)){
+              return ($abbr)? 'btle' : 'bouteilles';
+          }
+    return 'BIB®';  
 }

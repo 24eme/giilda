@@ -104,3 +104,19 @@ function getPrixTouteLettre($vrac){
 function getCheckBoxe($b) {
     return ($b)? '\squareChecked' : '$\square$';
 }
+
+function getContenancePdf($vrac){
+      if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
+          if(preg_match('/cl/', $vrac->bouteilles_contenance_libelle)){
+            if(preg_match('/Bouteille/', $vrac->bouteilles_contenance_libelle)){
+              return '('.$vrac->bouteilles_contenance_libelle.')';
+            }else
+              return '(Bouteille '.$vrac->bouteilles_contenance_libelle.')';  
+          }
+          else
+          {
+              return '('.str_replace('BIB', 'BIB®', $vrac->bouteilles_contenance_libelle).')';  
+          }
+        }    
+        return "~";
+}

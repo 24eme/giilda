@@ -45,7 +45,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabels(array(
             'type_transaction' => 'Type de transaction',
             'produit' => 'produit',
-            'millesime' => 'Millésime',
+            'millesime' => $this->getMillesimeLabel(),
             'categorie_vin' => 'Type',
             'domaine' => 'Nom du domaine',
             'bouteilles_quantite' => 'Quantité',
@@ -150,10 +150,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
         
     }
     
-//    public function save($con = null) {
-//        parent::save($con);
-//        var_dump($this->values['domaine']); exit;
-//    }
+    private function getMillesimeLabel() {
+        return $this->getObject()->getMillesimeLabel();
+    }
     
 }
 

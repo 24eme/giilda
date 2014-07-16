@@ -71,14 +71,14 @@ A été conclu le marché suivant: \\
 \begin{tabularx}{\textwidth}{|X|p{12mm}|p{24mm}|p{24mm}|p{24mm}|}
 \hline
 ~ & ~ & ~ & ~ & ~ \\
-\textbf{Appellation / couleur / type} & \multicolumn{1}{c|}{\textbf{Millésime}} & \multicolumn{1}{c|}{\textbf{Type de Contrat}} & \multicolumn{1}{c|}{\textbf{Volume}} & \multicolumn{1}{c|}{\textbf{Prix}} \\
+\textbf{Appellation / couleur / type} & \multicolumn{1}{c|}{\textbf{<?php echo $vrac->getMillesimeLabel(); ?>}} & \multicolumn{1}{c|}{\textbf{Type de Contrat}} & \multicolumn{1}{c|}{\textbf{Volume}} & \multicolumn{1}{c|}{\textbf{Prix}} \\
 ~ & ~ & ~ & ~ & ~ \\
 \hline
 ~ & ~ & ~ & ~ & ~ 
 \\
 
 \large{\CONTRATPRODUITLIBELLE} & \multicolumn{1}{c|}{\large{2014}} & \multicolumn{1}{c|}{\large{\CONTRATTYPE}} & \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} \\
-\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}} & ~ & ~ & \multicolumn{1}{c|}{\small{\textit{(Bouteille 75 cl)}}} & ~ \\
+\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}} & ~ & ~ & \multicolumn{1}{c|}{\small{\textit{<?php echo getContenancePdf($vrac); ?>}}} & ~ \\
 ~ & ~ & ~ & ~ & ~
 \\
 \hline

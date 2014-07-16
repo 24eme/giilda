@@ -33,8 +33,23 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
         $('#type_transaction input').change(function()
         {
             var integrite = getContratSimilaireParams(ajaxParams,null);
+            changeMillesimeLabel();
             refreshContratsSimilaire(integrite,ajaxParams);                 
         });
+       
+       var changeMillesimeLabel = function(){
+           switch($("#type_transaction input:checked").val()){
+               case "<?php echo VracClient::TYPE_TRANSACTION_MOUTS ?>":
+               case "<?php echo VracClient::TYPE_TRANSACTION_RAISINS ?>":
+                  $("div#millesime label").text('Récolte');
+                  break;
+               
+               case "<?php echo VracClient::TYPE_TRANSACTION_VIN_VRAC ?>":
+               case "<?php echo VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE ?>":
+                  $("div#millesime label").text('Millésime');
+                  break;
+           }
+       }
        
         var refreshContratsSimilaire = function(integrite,ajaxParams) 
         {

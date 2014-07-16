@@ -495,5 +495,5 @@ class VracClient extends acCouchdbClient {
     public function getMaster($id) {
         return $this->find($id);
     }
-
+    
 }

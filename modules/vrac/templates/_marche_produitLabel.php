@@ -20,8 +20,8 @@
 <?php echo $form['millesime']->renderError(); ?>
 <!--  Affichage des millésimes  -->
 <div id="millesime" class="section_label_maj">
-    <?php echo $form['millesime']->renderLabel() ?> 
-    <?php echo $form['millesime']->render() ?>
+    <?php echo $form['millesime']->renderLabel(); ?> 
+    <?php echo $form['millesime']->render(); ?>
 </div>
 
 

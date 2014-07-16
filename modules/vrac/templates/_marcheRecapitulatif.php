@@ -25,7 +25,7 @@ use_helper('Float');
 
     <div id="marche_recapitulatif_millesime" class="ligne_form ligne_form_alt">
             <label>
-                Millésime : 
+                <?php echo $vrac->getMillesimeLabel().' :'; ?>
             </label>
             <span>
             <?php echo $vrac->millesime; ?>
