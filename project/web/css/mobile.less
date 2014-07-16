@@ -82,21 +82,44 @@
 }
 
 /* ======================================================= */
-/* RECHERCHE OPERATEUR */
+/* ETAPES */
 /* ======================================================= */
-#contenu_etape #recherche_operateur
+#contenu_etape
 {
-	.ui-autocomplete-input
+	#recherche_operateur
 	{
-		margin-right: 0;
-		margin-bottom: 10px;
-		width: 100%;
+		.ui-autocomplete-input
+		{
+			margin-right: 0;
+			margin-bottom: 10px;
+			width: 100%;
+		}
+
+		#btn_rechercher
+		{
+			display: block;
+			width: 100%;
+		}
 	}
 
-	#btn_rechercher
+	#vrac_marche
 	{
-		display: block;
-		width: 100%;
+		#type_transaction .radio_list
+		{
+			li
+			{
+				float: none;
+				width: auto;
+
+				+ li { margin: 25px 0 0; }
+
+				label[for$="VIN_BOUTEILLE"]
+				{
+					left: 6px;
+					padding-left: 24px;
+				}
+			}
+		}
 	}
 }
 
@@ -107,9 +130,8 @@
 {
 	li
 	{
-		border-left-width: 1px;
-		float: none;
-		width: 100%;
+		display: block;
+		width: auto;
 
 		&:first-child > * { padding-left: 33px; }
 	}
@@ -159,9 +181,12 @@
 
 		&.num_contrat:before { content: 'Numéro de contrat'; }
 
-		&.soussigne { text-align: center; }
+		&.soussigne 
+		{ 
+			text-align: center; 
 
-		&.soussigne:before { content: 'Soussignés'; }
+			&:before { content: 'Soussignés'; }
+		}
 
 		&.produit:before { content: 'Produit'; }
 
