@@ -1,6 +1,5 @@
 <?php use_helper('Vracpdf') ?>
 
-\begin{document}
 
 \begin{tabularx}{\textwidth}{|X|X|p{35mm}p{15mm}|}
 	\hline
@@ -32,12 +31,12 @@
 \begin{tabularx}{\textwidth}{|Xr|}
 	\hline 
          ~ & ~ \\
-	 \multicolumn{2}{|c|}{\textbf{\CONTRATVENDEURNOM}} \\
+	 \multicolumn{2}{|c|}{\truncate{83mm}{\textbf{\CONTRATVENDEURNOM}}} \\
          ~ & ~ \\
 	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\ 
-	 N° ACCISE & \textbf{\CONTRATVENDEURACCISE} \\
-	  N° TVA Intracomm & \textbf{\CONTRATVENDEURNUMTVA} \\
-	 Propriétaire à & \textbf{\CONTRATVENDEURLIEU} \\	
+	 SIRET & \textbf{\CONTRATVENDEURSIRET} \\
+	 Adresse & \truncate{72mm}{\textbf{\CONTRATVENDEURADRESSE}} \\
+        Commune & \textbf{\CONTRATVENDEURCOMMUNE} \\
 	 ~ & ~ \\
 	 \multicolumn{2}{|r|}{Ci après dénommé le vendeur,} \\
 	 
@@ -49,12 +48,12 @@
 \begin{tabularx}{\textwidth}{|Xr|}
 	\hline 
          ~ & ~ \\
-	 \multicolumn{2}{|c|}{\textbf{\CONTRATACHETEUREURNOM}} \\
+	 \multicolumn{2}{|c|}{\truncate{83mm}{\textbf{\CONTRATACHETEUREURNOM}}} \\
          ~ & ~ \\
          C.V.I. & \textbf{\CONTRATACHETEURCVI} \\ 
-	 N° ACCISE & \textbf{\CONTRATACHETEURACCISE} \\
-	 N° TVA Intracomm & \textbf{\CONTRATACHETEURNUMTVA} \\
-	 Etablissement situé à & \textbf{\CONTRATACHETEURLIEU~(\CONTRATACHETEURDEPT)}\\
+	     SIRET & \textbf{\CONTRATACHETEURSIRET} \\
+	     Adresse & \truncate{72mm}{\textbf{\CONTRATACHETEURADRESSE}} \\
+         Commune & \textbf{\CONTRATACHETEURCOMMUNE} \\
          ~ & ~ \\
 	 \multicolumn{2}{|r|}{Ci après dénommé l'acheteur,}\\
 	 \hline
@@ -155,4 +154,3 @@ Le XX/XX/XX, & Le XX/XX/XX, & Le XX/XX/XX, \\
 (1) Les régions du ressort d'InterLoire sont constituées par les zones de production des vins d'appellation d'origine dont la liste est annexée à l'Accord interprofessionnel Vin, moût ou raisins, loyaux et marchands, correspondant aux normes éditées par la réglementation en vigueur.
 \end{tiny}
 \end{center}
-\end{document}
