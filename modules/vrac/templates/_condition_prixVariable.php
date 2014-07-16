@@ -24,10 +24,12 @@ use_helper('Float');
         </div>
     </div>
 </div>
+<?php if(isset($form['cvo_nature']) || isset($form['cvo_repartition'])): ?>
 <div class="section_label_maj">
     <label>CVO appliquée</label>
     <div class="bloc_form">
         <!--  Affichage de la nature du contrat  -->
+        <?php if(isset($form['cvo_nature'])): ?>
         <div id="cvo_nature" class="ligne_form" >
             <span>
                 <?php echo $form['cvo_nature']->renderError() ?> 
@@ -35,7 +37,9 @@ use_helper('Float');
                 <?php echo $form['cvo_nature']->render() ?>
             </span>   
         </div>
+        <?php endif; ?>
 
+        <?php if(isset($form['cvo_repartition'])): ?>
         <!--  Affichage de la repartition (vendeur/acheteur) pour le paiement de la CVO  -->
         <div id="taux_variation" class="ligne_form ligne_form_alt" >
             <span>
@@ -44,6 +48,7 @@ use_helper('Float');
                 <?php echo $form['cvo_repartition']->render() ?>
             </span>
         </div>
+
 <?php
 $taux = $form->getObject()->getDroitCVO()->taux;
 $volume = $form->getObject()->volume_propose;
@@ -101,3 +106,5 @@ $volume = $form->getObject()->volume_propose;
     }
     update_cvo_repartition();
 </script>
+<?php endif; ?>
+<?php endif; ?>

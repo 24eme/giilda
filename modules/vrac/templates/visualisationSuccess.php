@@ -46,11 +46,16 @@
                             && (is_null($vrac->volume_enleve) || ($vrac->volume_enleve == 0))):
                         ?>
                         <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
-                        <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>                                
+                        <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>            
             <?php endif; ?>                                 
                 </div>
             </form>
 <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
+            <?php if (!is_null($vrac->valide->statut)
+                            && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE):
+                        ?>
+                        <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_orange f_right">Télécharger le PDF</a>  
+            <?php endif; ?>
         </div>
     </div>
 </section>

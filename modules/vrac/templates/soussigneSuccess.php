@@ -35,7 +35,7 @@ if ($nouveau) {
 <section id="principal">
 <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'actif' => 1)); ?>
     <div id="contenu_etape">
-        <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew()) ? url_for('vrac_nouveau') : url_for('vrac_soussigne', $vrac); ?>">   
+        <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew() && isset($etablissement)) ? url_for('vrac_nouveau', array('etablissement' => $etablissement)) : url_for('vrac_soussigne', $vrac); ?>">   
     <?php echo $form->renderHiddenFields() ?>
 <?php echo $form->renderGlobalErrors() ?>
 
@@ -45,6 +45,10 @@ if ($nouveau) {
                 <div id="vendeur_choice" class="section_label_maj">
 <?php echo $form['vendeur_identifiant']->renderLabel() ?>
 <?php echo $form['vendeur_identifiant']->render() ?>
+<?php if ($form->getObject()->isTeledeclare()): ?>
+					<br /><br />
+					<a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id,'sf_subject' => $form->getObject(), 'identifiant' => $etablissement, 'type' => AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY, 'acteur' => 'vendeur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
+<?php endif; ?>
                 </div>
 
                 <!--  Affichage des informations sur le vendeur sélectionné AJAXIFIED -->
@@ -52,13 +56,15 @@ if ($nouveau) {
 <?php
 $vendeurArray = array();
 $vendeurArray['vendeur'] = $form->vendeur;
-$vendeurArray['vendeur'] = ($nouveau) ? $vendeurArray['vendeur'] : $form->getObject()->getVendeurObject();
+$vendeurArray['vendeur'] = ($nouveau) ? $form->getObject()->getVendeurObject() : $form->getObject()->getVendeurObject();
 include_partial('vendeurInformations', $vendeurArray);
 ?>
                 </div>
                 <div class="btnModification">
                     <a id="vendeur_annulation_btn" class="btn_majeur btn_annuler" style="display: none;">Retour</a>
+                    <?php if (!$form->getObject()->isTeledeclare()): ?>
                     <a id="vendeur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
+                    <?php endif; ?>
                 </div>
             </div>
 <?php echo $form['acheteur_identifiant']->renderError(); ?>
@@ -67,6 +73,10 @@ include_partial('vendeurInformations', $vendeurArray);
                 <div id="acheteur_choice" class="section_label_maj">
 <?php echo $form['acheteur_identifiant']->renderLabel() ?>
 <?php echo $form['acheteur_identifiant']->render() ?>
+<?php if ($form->getObject()->isTeledeclare()): ?>
+					<br /><br />
+					<a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissement, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
+<?php endif; ?>
                 </div>
 
                 <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
@@ -74,24 +84,41 @@ include_partial('vendeurInformations', $vendeurArray);
 <?php
 $acheteurArray = array();
 $acheteurArray['acheteur'] = $form->acheteur;
-$acheteurArray['acheteur'] = ($nouveau) ? $acheteurArray['acheteur'] : $form->getObject()->getAcheteurObject();
+$acheteurArray['acheteur'] = ($nouveau) ? $form->getObject()->getAcheteurObject() : $form->getObject()->getAcheteurObject();
 include_partial('acheteurInformations', $acheteurArray);
 ?>
                 </div>
                 <div class="btnModification">
                     <a id="acheteur_annulation_btn" class="btn_majeur btn_annuler" style="display: none;">Retour</a>
+                    <?php if (!$form->getObject()->isTeledeclare()): ?>
                     <a id="acheteur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
+                    <?php endif; ?>
                 </div>
             </div>
 
-            <div id="interne">            
+            
+
+            <!--  Affichage des mandataires disponibles  -->
+			<?php if ($form->getObject()->isTeledeclare()): ?>
+				<div id="">     
+	                <div id="" class="section_label_maj">
+	                    <?php if (isset($form['commercial'])): ?>
+						<?php echo $form['commercial']->renderError(); ?>
+						<?php echo $form['commercial']->renderLabel() ?>
+	                    <?php echo $form['commercial']->render() ?>
+						<br /><br />
+						<a class="ajouter_annuaire" href="<?php echo url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissement)) ?>">Ajouter un contact</a>
+	                	<?php endif; ?>
+	                </div>
+                </div>
+			<?php else: ?>
+			
+			<div id="interne">            
 <?php echo $form['interne']->render(); ?>
 <?php echo $form['interne']->renderLabel(); ?>
                 <?php echo $form['interne']->renderError(); ?>
             </div>
-
-            <!--  Affichage des mandataires disponibles  -->
-
+            
             <div id="has_mandataire">            
 <?php echo $form['mandataire_exist']->render(); ?>
 <?php echo $form['mandataire_exist']->renderLabel(); ?>
@@ -108,6 +135,14 @@ include_partial('acheteurInformations', $acheteurArray);
 <?php echo $form['mandataire_identifiant']->renderError(); ?>
 <?php echo $form['mandataire_identifiant']->renderLabel() ?>
                     <?php echo $form['mandataire_identifiant']->render() ?>
+                    <?php if (isset($form['commercial'])): ?>
+                    <br /><br />
+					<?php echo $form['commercial']->renderError(); ?>
+					<?php echo $form['commercial']->renderLabel() ?>
+                    <?php echo $form['commercial']->render() ?>
+					<br /><br />
+					<a class="ajouter_annuaire" href="<?php echo url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissement)) ?>">Ajouter un contact</a>
+                	<?php endif; ?>
                 </div>
 
                 <!--  Affichage des informations sur le mandataire sélectionné AJAXIFIED -->
@@ -125,7 +160,7 @@ include_partial('mandataireInformations', $mandataireArray);
                     <a id="mandataire_modification_btn" class="btn_majeur">Modifier</a>
                 </div>
             </div>
-
+			<?php endif; ?>
             <div class="btn_etape" id="ligne_btn">
 <?php if ($nouveau): ?>
                     <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
@@ -137,6 +172,16 @@ include_partial('mandataireInformations', $mandataireArray);
         </form>
     </div>
 </section>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$(".ajouter_annuaire").click(function() {
+			$("#vrac_soussigne").attr('action', $(this).attr('href'));
+			$("#vrac_soussigne").submit();
+			return false;
+		});
+	});
+</script>
     
 <?php
 slot('colApplications');

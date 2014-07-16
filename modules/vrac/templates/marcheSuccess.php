@@ -93,12 +93,14 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
 
             <div id="marche">
 
+                <?php if (isset($form['attente_original'])): ?>
                 <!--  Affichage des l'option original  -->
                 <div id="original" class="original section_label_strong">
                     <?php echo $form['attente_original']->renderLabel() ?>
                     <?php echo $form['attente_original']->render() ?>        
                     <?php echo $form['attente_original']->renderError(); ?>
                 </div>
+                <?php endif; ?>
 
                 <!--  Affichage des transactions disponibles  -->
                 <div id="type_transaction" class="type_transaction section_label_maj">

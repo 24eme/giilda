@@ -16,7 +16,15 @@ class VracMarcheForm extends acCouchdbObjectForm {
     public function configure()
     {
         $originalArray = array('0' => 'Non', '1' => 'Oui');
-        $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray,'expanded' => true)));
+        if(!$this->getObject()->isTeledeclare()) {
+            $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray,'expanded' => true)));
+            $this->setValidator('attente_original', new sfValidatorInteger(array('required' => true)));
+            $this->getWidget('attente_original')->setLabel("En attente de l'original ?");
+
+            $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->getLabels(),'multiple' => true, 'expanded' => true)));
+            $this->setValidator('label', new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->getLabels()))));
+            $this->getWidget('label')->setLabel("Label");
+        }
         $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $this->getTypesTransaction(),'expanded' => true)));
 		
         $this->getDomaines();
@@ -24,8 +32,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('millesime', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));        
         $this->setWidget('categorie_vin', new sfWidgetFormChoice(array('choices' => $this->getCategoriesVin(),'expanded' => true)));
         $this->setWidget('domaine', new sfWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
-        $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->getLabels(),'multiple' => true, 'expanded' => true)));
-        $this->setWidget('raisin_quantite', new sfWidgetFormInput());
+         $this->setWidget('raisin_quantite', new sfWidgetFormInput());
         $this->setWidget('jus_quantite', new sfWidgetFormInput());
         $this->setWidget('bouteilles_quantite', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));
         $contenance = array();
@@ -36,13 +43,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('prix_initial_unitaire', new sfWidgetFormInput());
         
         $this->widgetSchema->setLabels(array(
-            'attente_original' => "En attente de l'original ?",
             'type_transaction' => 'Type de transaction',
             'produit' => 'produit',
             'millesime' => 'Millésime',
             'categorie_vin' => 'Type',
             'domaine' => 'Nom du domaine',
-            'label' => 'label',
             'bouteilles_quantite' => 'Quantité',
             'raisin_quantite' => 'Quantité de raisins',
             'jus_quantite' => 'Volume proposé',
@@ -51,13 +56,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
         ));
         $validatorForNumbers =  new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
         $this->setValidators(array(
-            'attente_original' => new sfValidatorInteger(array('required' => true)),
             'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))),
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))),
             'millesime' => new sfValidatorInteger(array('required' => false, 'min' => 1980, 'max' => $this->getCurrentYear())),
             'categorie_vin' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))),
             'domaine' => new sfValidatorString(array('required' => false)),
-            'label' => new sfValidatorChoice(array('required' => false,'multiple' => true, 'choices' => array_keys($this->getLabels()))),
             'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),
             'raisin_quantite' => new sfValidatorNumber(array('required' => false)),
             'jus_quantite' => new sfValidatorNumber(array('required' => false)), 

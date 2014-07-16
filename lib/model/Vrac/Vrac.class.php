@@ -540,10 +540,10 @@ class Vrac extends BaseVrac {
     
     public function getTeledeclarationStatut() {
         if($this->isSolde() || $this->isValidee()){
-            return VracClient::STATUS_TELEDECLARATION_VALIDE;
+            return VracClient::STATUS_VALIDE;
         }
         if(!$this->exist('teledeclaration_statut') || !$this->teledeclaration_statut){
-            return VracClient::STATUS_TELEDECLARATION_ATTENTE_SIGNATURE;
+            return VracClient::STATUS_ATTENTE_SIGNATURE;
         }        
         return $this->teledeclaration_statut;
     }
@@ -556,5 +556,26 @@ class Vrac extends BaseVrac {
         if($etablissement->getSociete()->isNegociant()){
             $this->setAcheteurIdentifiant($etablissement->_id);
         }
+    }
+
+    public function isTeledeclare() {
+
+        return true;
+    }
+    
+	public function storeInterlocuteurCommercialInformations($nom, $contact) {
+        $email = trim(preg_replace("/\([0-9]+\)/", "", $contact));
+
+        $telephone = null;
+        if(preg_match("/\(([0-9]+)\)/", $contact, $matches)) {
+            $telephone = $matches[1];
+        }
+
+        $this->interlocuteur_commercial->nom = $nom;    
+        $this->interlocuteur_commercial->email = ($email) ? $email : null;
+        if(!$this->interlocuteur_commercial->exist('telephone')) {
+            $this->interlocuteur_commercial->add('telephone');
+        }
+        $this->interlocuteur_commercial->telephone = ($telephone) ? $telephone : null;
     }
 }

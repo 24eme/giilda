@@ -39,22 +39,11 @@
     <?php echo $form['domaine']->render() ?>   
 </div>
 
-
+<?php if (isset($form['label'])): ?>
 <?php echo $form['label']->renderError(); ?>
 <!--  Affichage des label disponibles -->
 <div id="label" class="section_label_maj">
     <?php echo $form['label']->renderLabel() ?> 
     <?php echo $form['label']->render() ?>
 </div>
-<!--  
-<br>
-
-<div id="stock">
-    <strong>Stocks disponibles</strong> 
-        
-        <?php 
-       // echo "500 hl";
-        ?>
-</div>
-        
-Affichage du stock disponible pour ce produit WARNING TO AJAXIFY -->
+<?php endif; ?>

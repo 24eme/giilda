@@ -11,6 +11,14 @@ Vrac:
       numero_archive: {  }
       etape: { type: integer }
       interne: { }
+      createur_identifiant: { require:false }
+      interlocuteur_commercial:
+        type: collection
+        definition:
+          fields:
+            nom: {  }
+            email: {  }
+            telephone: {  }
 #Soussigné (Part 1)
       vendeur_identifiant: {  }
       vendeur:        
@@ -113,6 +121,9 @@ Vrac:
 
       volume_propose: { type: float }
       volume_enleve: { type: float }
+      
+      enlevement_date: {  }
+      enlevement_frais_garde: { type: float }
 
       valide:
         type: collection

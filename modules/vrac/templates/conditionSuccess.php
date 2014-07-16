@@ -34,6 +34,7 @@
                     ?>
                 </div>
 
+                <?php if(isset($form['date_signature']) && isset($form['date_campagne'])): ?>
                 <div class="section_label_maj">
                     <label>Dates</label>
                     <div class="bloc_form">
@@ -53,6 +54,28 @@
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
+
+                <?php if(isset($form['enlevement_date']) && isset($form['enlevement_frais_garde'])): ?>
+                <div class="section_label_maj">
+                    <label>Conditions&nbsp;d'enlévement</label>
+                    <div class="bloc_form">
+                        <div class="ligne_form champ_datepicker">
+                            <?php echo $form['enlevement_date']->renderError() ?>        
+                            <?php echo $form['enlevement_date']->renderLabel() ?>
+                            <?php echo $form['enlevement_date']->render() ?>
+                            <span>(Date d'enlèvement maximale prévue pour le contrat)</span>  
+                        </div>
+                        <div class="ligne_form ligne_form_alt">
+                            <?php echo $form['enlevement_frais_garde']->renderError() ?>        
+                            <?php echo $form['enlevement_frais_garde']->renderLabel() ?>
+                            <?php echo $form['enlevement_frais_garde']->render() ?>
+                            <span>€ (Par mois)</span>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
+
                 <div id="commentaire" class="section_label_maj">
                     <?php echo $form['commentaire']->renderLabel() ?>
                     <div class="bloc_form">
