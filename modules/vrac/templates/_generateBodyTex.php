@@ -30,11 +30,11 @@
 \begin{tabularx}{\textwidth}{|Xr|}
 	\hline 
          ~ & ~ \\
-	 \multicolumn{2}{|c|}{\truncate{83mm}{\textbf{\CONTRATVENDEURNOM}}} \\
+	 \multicolumn{2}{|c|}{\textbf{\CONTRATVENDEURNOM}} \\
          ~ & ~ \\
 	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\ 
 	 SIRET & \textbf{\CONTRATVENDEURSIRET} \\
-	 Adresse & \truncate{72mm}{\textbf{\CONTRATVENDEURADRESSE}} \\
+	 Adresse & \textbf{\CONTRATVENDEURADRESSE} \\
         Commune & \textbf{\CONTRATVENDEURCOMMUNE} \\
 	 ~ & ~ \\
 	 \multicolumn{2}{|r|}{Ci après dénommé le vendeur,} \\
@@ -47,11 +47,11 @@
 \begin{tabularx}{\textwidth}{|Xr|}
 	\hline 
          ~ & ~ \\
-	 \multicolumn{2}{|c|}{\truncate{83mm}{\textbf{\CONTRATACHETEUREURNOM}}} \\
+	 \multicolumn{2}{|c|}{\textbf{\CONTRATACHETEUREURNOM}} \\
          ~ & ~ \\
          C.V.I. & \textbf{\CONTRATACHETEURCVI} \\ 
 	     SIRET & \textbf{\CONTRATACHETEURSIRET} \\
-	     Adresse & \truncate{72mm}{\textbf{\CONTRATACHETEURADRESSE}} \\
+	     Adresse & \textbf{\CONTRATACHETEURADRESSE} \\
          Commune & \textbf{\CONTRATACHETEURCOMMUNE} \\
          ~ & ~ \\
 	 \multicolumn{2}{|r|}{Ci après dénommé l'acheteur,}\\
