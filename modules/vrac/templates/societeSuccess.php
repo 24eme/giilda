@@ -32,8 +32,12 @@ use_helper('Float');
                 <!--<div id="etablissements_vracs_button">    
                     <a href="<?php echo url_for('vrac_creation',array('identifiant' => $etablissement->identifiant)) ?>">Nouveau</a>
                 </div>-->
-                <a class="btn_vert btn_majeur" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etbId)); ?>">Nouveau contrat</a>
-                <a class="btn_orange btn_majeur" href="<?php echo url_for('annuaire', array('identifiant' => $etablissements[$etbId]->etablissement->identifiant)); ?>">Annuaire</a>
+
+                <div id="ligne_btn" class="txt_droite">
+                    <a class="btn_orange btn_majeur" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etbId)); ?>">
+                        Nouveau contrat
+                    </a>
+                </div>
             </div>
 
 
@@ -58,27 +62,27 @@ use_helper('Float');
                                     $vracid = preg_replace('/VRAC-/', '', $contrat->numero_contrat);
                                     ?>
                                     <tr id="<?php echo vrac_get_id($value) ?>" class="<?php echo $statusColor; ?>" >
-                                        <td class="type" ><span class="type_<?php echo strtolower($contrat->type_transaction); ?>"><?php echo ($contrat->type_transaction) ? typeProduit($contrat->type_transaction) : ''; ?></span></td>
+                                        <td class="type"><span class="type_<?php echo strtolower($contrat->type_transaction); ?>"><?php echo ($contrat->type_transaction) ? typeProduit($contrat->type_transaction) : ''; ?></span></td>
                                         <td class="num_contrat">
                                             <a href="<?php echo url_for('@vrac_visualisation?numero_contrat=' . $vracid); ?>">
                                             <span style="font-weight: bold;"><?php echo $contrat->numero_archive; ?></span><br> <?php echo preg_replace('/(\d{4})(\d{2})(\d{2}).*/', '$3/$2/$1', $contrat->numero_contrat); ?>
                                             </a>
                                         </td>
 
-                                        <td><?php echo $contrat->produit_libelle; ?></td>
+                                        <td class="produit"><?php echo $contrat->produit_libelle; ?></td>
                                         <td class="soussigne">
                                             <ul>  
                                                 <?php if($contrat->vendeur_identifiant && $societe->type_societe != SocieteClient::SUB_TYPE_VITICULTEUR):?>
-                                                <li>
-                                                    <span style="font-weight: bold;" >
+                                                <li class="contrat_signe_moi">
+                                                    <span style="font-weight: bold;">
                                                         Vendeur :
                                                     </span>                                                    
                                                     <?php echo $contrat->vendeur->nom; ?>
                                                 </li>
                                                 <?php endif; ?>
                                                 <?php if($contrat->acheteur_identifiant && $societe->type_societe != SocieteClient::SUB_TYPE_NEGOCIANT):?>
-                                                <li>
-                                                    <span style="font-weight: bold;" >
+                                                <li class="contrat_attente">
+                                                    <span style="font-weight: bold;">
                                                         Acheteur :
                                                     </span>
                                                     <?php echo $contrat->acheteur->nom; ?>
@@ -86,7 +90,7 @@ use_helper('Float');
                                                  <?php endif; ?>
                                                 <?php if($contrat->mandataire_identifiant && $societe->type_societe != SocieteClient::SUB_TYPE_COURTIER):?>
                                                 <li>                                                    
-                                                    <span style="font-weight: bold;" >
+                                                    <span style="font-weight: bold;">
                                                         Mandataire :
                                                     </span>
                                                     <?php echo $contrat->mandataire->nom;?>
@@ -94,21 +98,17 @@ use_helper('Float');
                                                 <?php endif; ?>
                                             </ul>
                                         </td>              
-                                        <td>           
+                                        <td class="statut">           
                                             <?php echo $contrat->getTeledeclarationStatut(); ?>
                                         </td>
-                                        <td>           
+                                        <td class="actions">           
                                           <?php if ($contrat->getTeledeclarationStatut() == VracClient::STATUS_VALIDE): ?>
-                                            <a href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $contrat->numero_contrat))?>">
-                                                <span id="picto_visualiser">
-                                                    Visualiser
-                                                </span>
+                                            <a class="visualiser_contrat" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $contrat->numero_contrat))?>">
+                                                Visualiser
                                             </a>
                                           <?php elseif($contrat->getTeledeclarationStatut() == VracClient::STATUS_ATTENTE_SIGNATURE): ?>
-                                           <a href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $contrat->numero_contrat))?>">
-                                                <span id="picto_visualiser">
-                                                    Visualiser pour signer
-                                                </span>
+                                           <a class="visualiser_contrat" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $contrat->numero_contrat))?>">
+                                                Visualiser pour signer
                                             </a>
                                           <?php endif; ?>
                                         </td>
@@ -126,4 +126,10 @@ use_helper('Float');
         </li>
     <?php endforeach; ?>
 </ul>
+
+<div id="ligne_btn" class="txt_droite">
+    <a class="btn_vert btn_majeur" href="<?php echo url_for('annuaire', array('identifiant' => $etablissements[$etbId]->etablissement->identifiant)); ?>">
+        Annuaire
+    </a>
+</div>
 </section>
