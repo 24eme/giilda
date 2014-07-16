@@ -138,6 +138,12 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 }
  
 /* Textes */
+.txt_gauche { text-align: left; }
+
+.txt_centre { text-align: center; }
+
+.txt_droite { text-align: right; }
+
 .majuscules { text-transform: uppercase; }
 
 .souligne(@hover: none)
@@ -572,7 +578,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	line-height: 45px;
 }
 
-/* Status Pictos */
+/* Pictos */
 .statut_suspendu,.statut_nouveau,.statut_valide,.statut_cloture{
 	background-image: url(../images/pictos/sprite_calendrier.png);
 	background-repeat: no-repeat;
@@ -602,6 +608,38 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	color: @couleur-d7;
 	background-position: 0 -46px;
 }
+
+.visualiser_contrat
+{
+	display: block;
+	padding-left: 25px;
+    position: relative;
+    text-align: left;
+
+    &:before
+    {
+        .pos-abs(-3px, auto, auto, 0);
+        background: url('../images/pictos/pi_actions.png') 0 -581px no-repeat;
+        content: '';
+        height: 21px;
+        width: 21px;
+    }
+}
+
+.contrat_signe_moi,
+.contrat_attente,
+.contrat_signe_soussigne
+{
+	background: 100% 0 no-repeat;
+	padding-right: 20px;
+	text-align: left;
+}
+
+.contrat_signe_moi { background-image: url('/images/pictos/pi_ok.png'); }
+
+.contrat_attente { background-image: url('../images/pictos/pi_attente.png'); }
+
+.contrat_signe_soussigne { background-image: url('../images/pictos/pi_ok_gris.png'); }
 
 /* Divers */
 .ir(@width: 1px, @height: 1px)
