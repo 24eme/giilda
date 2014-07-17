@@ -93,6 +93,9 @@
                                 return ;
                             }*/
                             var inner_select = '';
+
+                            //input.trigger('autocompleteresponse');
+
                             if(newValueAllowed) {
                                 inner_select += '<option value="'+request.term+'" ></option>';
                             }
@@ -218,4 +221,11 @@
                 }
             });
 
+            $('.ui-autocomplete-input').hide();
+
+            $('.ui-autocomplete-input').on("autocompletesearch", function(event, ui) 
+            {
+                alert('toto');
+                //$('.ui-autocomplete').append('<li>coucou</li>');  
+            });
 })(jQuery);

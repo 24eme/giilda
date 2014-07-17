@@ -249,19 +249,18 @@
 {
 	.clearfix;
 	.majuscules;
-	font-size: 14px;
-	line-height: 47px;
+	font-size: 0;
+	line-height: 35px;
 	list-style: none;
-    left: -10px;
     margin: 0 0 25px;
 	position: relative;
 
 	li
 	{
 		background: @couleur-a5;
-		border: solid #d5d4d4;
-		border-width: 1px 0;
-		float: left;
+		display: inline-block;
+		font-size: 14px;
+		width: 25%;
 		
 		a { .non-souligne(none); }
 		
@@ -273,14 +272,6 @@
 			
 			span
 			{
-				.border-radius(50%);
-				.box-dimensions(22px, 22px);
-				.box-shadow(1px 1px 1px rgba(0, 0, 0, 0.3) inset);
-				
-				background: @couleur-a5;
-				display: inline-block;
-                font-weight: bold;
-				line-height: 22px;
 				margin: 0 5px 0 0;
 				text-align: center;
 			}
@@ -293,18 +284,13 @@
 				content: '';
 			}
 		}
-		
-		&:first-child
-		{
-			border-left-width: 1px;
-			
-			& > * { padding-left: 10px; }
-		}
+
+		+ li { border-left: 1px solid #FFF; }
 		
 		&.actif
 		{
-			background: #fab120 url(../images/fonds/bg_rail_etapes.png) 0 -143px repeat-x;
-			border-color: #f6b32c;
+			background: #fab120 url(../images/fonds/bg_rail_etapes.jpg) repeat-x;
+			line-height: 49px;
 
 			a
             {
@@ -324,7 +310,6 @@
 		&.passe
 		{
 			background: #fcf1d5;
-			border-color: #e4da97;
 			color: #8a6903;
 			
 			& > *

@@ -82,21 +82,44 @@
 }
 
 /* ======================================================= */
-/* RECHERCHE OPERATEUR */
+/* ETAPES */
 /* ======================================================= */
-#contenu_etape #recherche_operateur
+#contenu_etape
 {
-	.ui-autocomplete-input
+	#recherche_operateur
 	{
-		margin-right: 0;
-		margin-bottom: 10px;
-		width: 100%;
+		.ui-autocomplete-input
+		{
+			margin-right: 0;
+			margin-bottom: 10px;
+			width: 100%;
+		}
+
+		#btn_rechercher
+		{
+			display: block;
+			width: 100%;
+		}
 	}
 
-	#btn_rechercher
+	#vrac_marche
 	{
-		display: block;
-		width: 100%;
+		#type_transaction .radio_list
+		{
+			li
+			{
+				float: none;
+				width: auto;
+
+				+ li { margin: 25px 0 0; }
+
+				label[for$="VIN_BOUTEILLE"]
+				{
+					left: 6px;
+					padding-left: 24px;
+				}
+			}
+		}
 	}
 }
 
@@ -107,9 +130,10 @@
 {
 	li
 	{
-		border-left-width: 1px;
-		float: none;
-		width: 100%;
+		display: block;
+		width: auto;
+
+		+ li { border-top: 1px solid #FFF; }
 
 		&:first-child > * { padding-left: 33px; }
 	}
@@ -118,7 +142,7 @@
 /* ======================================================= */
 /* TABLEAU DES CONTRATS */
 /* ======================================================= */
-#contenu_etape #table_contrats
+#table_contrats
 {
 	border: 0;
 	border-collapse: collapse;
@@ -138,18 +162,19 @@
 		border: 1px solid #e3e2e2;
 		height: auto;
 		position: relative;
-		padding-left: 210px;
+		padding-left: 210px !important;
 
 		&:before
 		{
 			background: #ecebeb;
 			font-size: 13px;
 			font-weight: bold;
-			padding: 10px;
+			padding: 5px;
 			position: absolute;
 			left: 0;
 			top: 0;
 			bottom: 0;
+			text-align: center;
 			width: 150px;
 		}
 
@@ -159,9 +184,18 @@
 
 		&.num_contrat:before { content: 'Numéro de contrat'; }
 
-		&.soussigne { text-align: center; }
+		&.date:before { content: 'Date'; }
 
-		&.soussigne:before { content: 'Soussignés'; }
+		&.actions:before { content: 'Actions'; }
+
+		&.statut:before { content: 'Statut'; }
+
+		&.soussigne 
+		{ 
+			text-align: center; 
+
+			&:before { content: 'Soussignés'; }
+		}
 
 		&.produit:before { content: 'Produit'; }
 

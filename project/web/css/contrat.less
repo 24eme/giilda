@@ -227,7 +227,6 @@
             }
         }
 
-
         .num_contrat
         {
             text-align: center;
@@ -359,6 +358,66 @@
                 {
                     float:left;
                     width:230px;
+                }
+            }
+        }
+
+        #type_transaction .radio_list
+        {
+            background: @couleur-a5;
+            padding: 25px 0;
+
+            li
+            {
+                padding: 0 10px;
+                width: 25%;
+
+                label
+                {
+                    display: inline-block;
+                    padding-left: 30px;
+                    position: relative;
+
+                    &:before
+                    {
+                        background: url('../images/pictos/sprite_type.png') no-repeat;
+                        content: '';
+                        left: 0;
+                        position: absolute;
+                        top: -5px;
+                        width: 22px;
+                    }
+
+                    &[for$="RAISINS"]:before
+                    {
+                        background-position: 0 -59px;
+                        height: 26px;
+                    }
+
+                    &[for$="MOUTS"]:before
+                    {
+                        background-position: 0 -32px;
+                        height: 27px;
+                        top: -4px;
+                    }
+
+                    &[for$="VIN_VRAC"]:before
+                    {
+                        background-position: 0 -85px;
+                        height: 28px;
+                    }
+
+                    &[for$="VIN_BOUTEILLE"]
+                    {
+                        padding-left: 18px;
+
+                        &:before
+                        {
+                            height: 32px;
+                            left: -6px;
+                            top: -10px;
+                        }
+                    }
                 }
             }
         }
@@ -943,13 +1002,13 @@
         
         .btn_valider
         {
-            .btn_suiv;
+            &:extend(.btn_suiv);
             padding: 0 17px 0 15px;
         }
         
         .btn_ajouter
         {
-            .btn_violet;
+            &:extend(.btn_violet);
             background-image: url(../images/boutons/btn_ajouter.png);
             background-position: 7px center;
             margin: 0 10px 0 0;
@@ -1081,14 +1140,14 @@
 
             .btn_ajouter
             {
-                .btn_violet;
+                &:extend(.btn_violet);
                 background-image: url(../images/boutons/btn_ajouter.png);
                 margin: 0 10px 0 0;
             }
 
             .btn_supprimer
             {
-                .btn_gris;
+                &:extend(.btn_gris);
                 background-image: url(../images/boutons/btn_supprimer.png);
                 margin-right:20px;
                 text-transform: none;
