@@ -171,6 +171,33 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	background-clip: padding-box;
 }
 
+/* Titres */
+.section-titre
+{
+    .majuscules;
+	display: inline-block;
+    font-size: 15px;
+    font-weight: bold;
+    height: 35px;
+    padding-top:4px;
+}
+
+#principal .titre_societe
+{
+	.majuscules;
+	padding-left: 25px;
+	position: relative;
+	
+	&:before
+	{
+		.pos-abs(-2px, auto, auto, 0);
+		.sprite-pictos-actions(0 -105px);
+		content: '';
+		height: 20px;
+		width: 20px;
+	}
+}
+
 /* Boutons / Liens */
 .btn_majeur
 {
@@ -449,6 +476,12 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 .btn_enregistrer { .btn_noir; }
 
+.btn_ajout_autocomplete
+{
+	.pos-abs(100%, 0, auto, 0);
+	display: block;
+}
+
 /* Tableau recapitulatif */
 .table_recap
 {
@@ -722,16 +755,6 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 {
 	color: red;
 	font-size: 14px;
-}
-
-.section-titre
-{
-    .majuscules;
-	display: inline-block;
-    font-size: 15px;
-    font-weight: bold;
-    height: 35px;
-    padding-top:4px;
 }
 
 /**
