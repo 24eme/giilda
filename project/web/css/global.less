@@ -851,13 +851,45 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 #header
 {
 	/* Logo */
-	#logo { .pos-abs(-12px, auto, auto, -270px) }
+	#logo 
+	{ 
+		.pos-abs(0, auto, auto, -280px);
+	}
+
+	/* Baseline */
+	.baseline
+	{
+		.helvetica;
+		color: #555353;
+		display: inline-block;
+		font-size: 20px;
+		margin: 0 0 10px;
+	}
+
+	.conteneur_nav 
+	{ 
+		float: left;
+		padding: 0 30px;
+		position: relative;
+		width: 640px;
+
+		&:before
+		{
+			.pos-abs(10px, 0, auto, 0);
+			border-left: 1px solid #9a9a9a;
+			border-right: 1px solid #9a9a9a;
+			height: 50px;
+			content: '';
+		} 
+	}
 	
 	/* Navigation */
 	#navigation
 	{
 		float: left;
 		line-height: 33px;
+
+		ul { .clearfix; }
 		
 		li
 		{
@@ -885,54 +917,42 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 			}
 		}
 	}
+
+
+	/* Bouton menu tablette et mobile */
+	.btn_menu
+	{
+		background: url('/images/pictos/pi_menu.png') no-repeat;
+		display: none;
+		float: right;
+		height: 20px;
+		margin: 25px 0 0;
+		overflow: hidden;
+		text-indent: 100%;
+		white-space: nowrap;
+		width: 26px; 
+	}
 	
 	/* Actions utilisateur */
 	#actions_utilsateur
 	{
-		.helveticaneue-75-bold;
 		float: right;
-		font-size: 11px;
-		line-height: 21px;
-		padding: 6px 0 0;
+		font-size: 12px;
+		padding: 0 0 0 25px;
 		
 		a, button
 		{
-			.sprite-pictos-actions;
-			.border-radius(4px);
-			.non-souligne(none);
-			border: 1px solid;
-			display: inline-block;
-			padding: 0 5px 0 22px;
-			
-			&.admin
-			{
-				background-color: #eee;
-				background-position: 5px 0;
-				border-color: #c2c0c0;
-				color: @couleur-a4;
-			}
-			
-			&.deconnexion
-			{
-				background-color: #b8b7b7;
-				background-position: 5px -21px;
-				border-color: #929292;
-				color: @couleur-a1;
-				margin: 0 0 0 7px;
-			}
-		}
+			display: block;
+			margin: 10px 0;
+			padding: 0 0 0 20px;
+			position: relative;
 
-		.btn_menu
-		{
-			.helveticaneue-75-bold;
-			background-color: #eee;
-			background-position: 5px -560px;
-			border-color: #c2c0c0;
-			color: #5e5c5c;
-			display: none;
-			font-size: 11px;
-			margin: 0 7px 0 0;
-			padding: 3px 5px 4px 25px;
+			&:before
+			{
+				.pos-abs(4px, auto, auto, 0);
+				.triangle-r(12px, 7px, @couleur-a3);
+				content: '';
+			}
 		}
 	}
 }
