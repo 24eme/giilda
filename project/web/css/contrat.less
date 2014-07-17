@@ -510,6 +510,23 @@
             }
         }
 
+        #soussigne_recapitulatif
+        {
+            .ligne_form
+            {
+                position: relative;
+                
+                &:before
+                {
+                    .sprite-pictos-actions(0 -581px);
+                    .pos-abs(0, 5px);
+                    content: '';
+                    height: 21px;
+                    width: 21px;
+                }   
+            }
+        }
+
         #vrac_condition
         {
             #btn_editer_contrat,
