@@ -3,7 +3,7 @@ use_helper('Vrac');
 use_helper('Float');
 ?>
 <section id="principal">
-<h2>
+<h2 class="titre_societe">
     Espace de <?php echo $societe->raison_sociale; ?>
 </h2>
 <ul>
