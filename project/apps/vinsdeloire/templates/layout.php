@@ -63,9 +63,18 @@
                             <h2>Aide</h2>
 
                             <div class="contenu">
-                                <ul>
-                                    <li class="raccourcis"><a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a></li>
-                                    <li class="contact"><a href="mailto:f.bodin@vinsdeloire.fr">Contacter le support</a></li>
+                                <p>
+                                    En cas de besoin n'hésitez pas à consulter la notice d'aide complète au format pdf.
+                                </p>
+
+                                <a href="#" class="lien_notice">Télécharger la notice</a>
+
+                                <h3>Votre contact - mise en marche</h3>
+
+                                <ul class="contact"> 
+                                    <li class="nom">Fanny Gillet</li>
+                                    <li class="email"><a href="mailto:f.gillet@vinsdeloire.fr">f.gillet@vinsdeloire.fr</a></li>
+                                    <li class="telephone">02 47 60 55 08</li>
                                 </ul>
                             </div>
                         </div>

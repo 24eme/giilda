@@ -42,113 +42,6 @@
     background-position: 0 0;
 }
 
-
-
-/* Progression de la saisie */
-#contrat_progression
-{
-	p
-	{
-		font-weight: bold;
-		margin: 0 0 5px;
-		
-		strong
-		{
-			font-size: 22px;
-			margin: 0 5px 0 0;
-		}
-	}
-	
-	#barre_progression
-	{
-		.border-radius(5px);
-		.box-shadow(0px 1px 2px #9e9e9e inset);
-		background: url(../images/fonds/bg_fond_progression.png) 0 0 repeat-x #f0efef;
-		
-		span
-		{
-			.border-radius(5px);
-			background: url(../images/fonds/bg_barre_progression.png) 0 0 repeat-x;
-			display: block;
-			height: 17px;
-			padding: 0 5px;
-		}
-	}
-}
-
-/* actions */
-#action
-{
-    .btn_majeur 
-	{ 
-		margin: 5px 0;
-		width: 215px; 
-	}
-
-    .btn_acces
-    {
-        &:after { background-position: 25px -466px; width:50px;} 
-    }
-
-    .btn_calendrier
-    {
-        &:after { background-position: 25px -537px; width:50px;}
-    }
-
-    .btn_acces, .btn_calendrier
-    {
-        padding-left: 53px; 
-        &:after { width:50px; }
-    }
-}
-
-/* Aide à la saisie */
-#contrat_aide
-{
-	
-	ul
-	{
-		font-weight: bold;
-		line-height: 21px;
-		
-		li
-		{
-			margin: 8px 0;
-			position: relative;
-			
-			a
-			{
-				color: @couleur-a4;
-				display: inline-block;
-				padding: 0 0 0 28px;
-				
-				&:before
-				{
-					.box-dimensions(21px, 21px);
-					.sprite-pictos-actions;
-					.pos-abs(0, auto, auto, 0);
-					content: '';
-				}
-			}
-			
-			&.raccourcis
-			{
-				a:before { background-position: 0 -42px; }
-			}
-			
-			&.assistance
-			{
-				a:before { background-position: 0 -63px; }
-			}
-			
-			&.contact
-			{
-				a:before { background-position: 0 -84px; }
-			}
-		}
-	}
-}
-
 /* Actions */
 #contrat_actions_fin
 {
@@ -1275,9 +1168,68 @@
     }
 }
 
-/* Colonne */
+/**
+ * Colonne
+ ******************************************/
 #colonne
 {
+    /* Progression de la saisie */
+    #contrat_progression
+    {
+        p
+        {
+            font-weight: bold;
+            margin: 0 0 5px;
+            
+            strong
+            {
+                font-size: 22px;
+                margin: 0 5px 0 0;
+            }
+        }
+        
+        #barre_progression
+        {
+            .border-radius(5px);
+            .box-shadow(0px 1px 2px #9e9e9e inset);
+            background: url(../images/fonds/bg_fond_progression.png) 0 0 repeat-x #f0efef;
+            
+            span
+            {
+                .border-radius(5px);
+                background: url(../images/fonds/bg_barre_progression.png) 0 0 repeat-x;
+                display: block;
+                height: 17px;
+                padding: 0 5px;
+            }
+        }
+    }
+
+    /* actions */
+    #action
+    {
+        .btn_majeur 
+        { 
+            margin: 5px 0;
+            width: 215px; 
+        }
+
+        .btn_acces
+        {
+            &:after { background-position: 25px -466px; width:50px;} 
+        }
+
+        .btn_calendrier
+        {
+            &:after { background-position: 25px -537px; width:50px;}
+        }
+
+        .btn_acces, .btn_calendrier
+        {
+            padding-left: 53px; 
+            &:after { width:50px; }
+        }
+    }
 
     #contrats_similaires_list
     {
@@ -1305,6 +1257,53 @@
     #contrat_actions
     {
         .btn_nouveau { padding-left: 27px; }
+    }
+
+    /* Aide à la saisie */
+    #contrat_aide
+    {
+        h3 
+        {
+            .helveticaneue-75-bold;
+            .majuscules;
+            margin: 30px 0 10px;
+            white-space: nowrap;
+        }
+
+        .lien_notice
+        {
+            .helveticaneue-75-bold;
+            .majuscules;
+            color: #d00815;
+            display: inline-block;
+            margin: 30px 0 0;
+        }
+        
+        .contact
+        {
+            font-weight: bold;
+            
+            li
+            {
+                margin: 10px 0;
+                position: relative;
+                padding: 0 0 0 28px;
+                
+                &:before
+                {
+                    .box-dimensions(21px, 21px);
+                    .sprite-pictos-actions;
+                    .pos-abs(-3px, auto, auto, 0);
+                    content: '';
+                }
+
+                &.nom:before { background-position: 0 -105px; }
+
+                &.email:before { background-position: 0 -165px; }
+
+                &.telephone:before { background-position: 0 -125px; }
+            }
+        }
     }
 
     #legende
