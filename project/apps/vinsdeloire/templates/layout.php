@@ -69,6 +69,39 @@
                                 </ul>
                             </div>
                         </div>
+
+                        <div id="legende" class="bloc_col">
+                            <h2>Légende</h2>
+
+                            <div class="contenu">
+                                <h3>Types de marchés :</h3>
+
+                                <div class="contenu legende">    
+                                    <div>
+                                        <span class="type_raisins">type_raisins</span>
+                                        <span class="legende_type_texte">Raisins</span>
+                                    </div>
+                                    <div>
+                                        <span class="type_mouts">type_mouts</span><span class="legende_type_texte">Mouts</span>
+                                    </div>
+                                    <div>
+                                        <span class="type_vin_vrac">type_vin_vrac</span><span class="legende_type_texte">Vrac</span>
+                                    </div>
+                                    <div>
+                                        <span class="type_vin_bouteille">type_vin_bouteille</span><span class="legende_type_texte">Conditionné</span>
+                                    </div>
+                                </div>
+
+
+                                <h3>Statuts de contrats :</h3>
+
+                                <ul class="status_contrats">
+                                    <li><img src="/images/pictos/pi_ok.png" alt="" /> Signé par moi</li>
+                                    <li><img src="/images/pictos/pi_attente.png" alt="" /> En attente de signature</li>
+                                    <li><img src="/images/pictos/pi_ok_gris.png" alt="" /> Signé par d'autres soussignés</li>
+                                </ul>
+                            </div>
+                        </div>
                         <?php endif; ?>
                     </aside>
                     <?php echo $sf_content ?>

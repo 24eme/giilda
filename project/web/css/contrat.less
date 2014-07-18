@@ -639,38 +639,6 @@
     }
 }
 
-#colonne
-{
-
-    #contrats_similaires_list
-    {
-   
-        margin: 0;
-
-        li { padding : 3px 0; }
-
-
-        #millesime,
-        #volprop
-        {
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        #millesime { padding-left:5px; }
-
-        .separateur { background: url('../images/fonds/bg_colonne_separateur.png') right no-repeat; }
-
-        .legende_contrat { margin-bottom: 10px; }
-        
-    }
-
-    #contrat_actions
-    {
-        .btn_nouveau { padding-left: 27px; }
-    }
-}
-
 
 #contrat_similaire_popup
 {
@@ -1304,5 +1272,60 @@
 
         .btn_modifier,
         .btn_valider { float: right; }
+    }
+}
+
+/* Colonne */
+#colonne
+{
+
+    #contrats_similaires_list
+    {
+   
+        margin: 0;
+
+        li { padding : 3px 0; }
+
+
+        #millesime,
+        #volprop
+        {
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        #millesime { padding-left:5px; }
+
+        .separateur { background: url('../images/fonds/bg_colonne_separateur.png') right no-repeat; }
+
+        .legende_contrat { margin-bottom: 10px; }
+        
+    }
+
+    #contrat_actions
+    {
+        .btn_nouveau { padding-left: 27px; }
+    }
+
+    #legende
+    {
+        h3 
+        {
+            color: @couleur-a3; 
+            font-weight: bold;
+        }
+
+        .legende { padding: 0; }
+
+        .status_contrats
+        {
+            img 
+            { 
+                margin: 0 5px 0 0; 
+                vertical-align: middle;
+            }
+
+            li { margin: 10px 0; }
+        }
     }
 }
