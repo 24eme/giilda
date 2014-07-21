@@ -44,7 +44,7 @@ if ($nouveau) {
                 <!--  Affichage des vendeurs disponibles  -->
                 <div id="vendeur_choice" class="section_label_maj">
 <?php echo $form['vendeur_identifiant']->renderLabel() ?>
-<?php echo $form['vendeur_identifiant']->render() ?>
+<?php echo $form['vendeur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur')) ?>
 <?php if ($form->getObject()->isTeledeclare()): ?>
 					<br /><br />
 					<a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id,'sf_subject' => $form->getObject(), 'identifiant' => $etablissement, 'type' => AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY, 'acteur' => 'vendeur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
