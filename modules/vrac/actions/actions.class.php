@@ -141,8 +141,9 @@ class vracActions extends sfActions
       $this->vrac = ($this->getUser()->getAttribute('vrac_object'))? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
       $this->vrac = $this->populateVracTiers($this->vrac);
       if($this->etablissement = $request->getParameter("etablissement")) {
-        //$this->vrac->setAcheteurIdentifiant($this->etablissement);
-        $this->vrac->createur_identifiant = $this->etablissement;
+        $this->vrac->add('createur_identifiant',$this->etablissement);
+        $this->vrac->add('teledeclare',true);
+        $this->vrac->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
       }
       $this->form = new VracSoussigneForm($this->vrac);
  
@@ -165,16 +166,46 @@ class vracActions extends sfActions
 
    public function executeSociete(sfWebRequest $request) {
     $this->getUser()->setAttribute('vrac_object', null);
-    $this->getUser()->setAttribute('vrac_acteur', null);
+    $this->getUser()->setAttribute('vrac_acteur', null);    
     $this->compte = CompteClient::getInstance()->findByIdentifiant($request['identifiant']);
 
     if(!$this->compte){
         new sfException("Le compte $compte n'existe pas");
     }
     $this->societe = $this->compte->getSociete();
-    $this->etablissements = $this->societe->getEtablissementsObj();
-    $this->contratsEtablissements = VracClient::getInstance()->retrieveBySociete($this->societe->identifiant);
+    $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
+    $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe->identifiant,10);
   }
+  
+  public function executeHistory(sfWebRequest $request) {      
+    $this->getUser()->setAttribute('vrac_object', null);
+    $this->getUser()->setAttribute('vrac_acteur', null);  
+    
+    $this->identifiant = $request['identifiant'];
+    $this->compte = CompteClient::getInstance()->findByIdentifiant($this->identifiant);
+
+    if(!$this->compte){
+        new sfException("Le compte $compte n'existe pas");
+    }
+    
+    $this->societe = $this->compte->getSociete();
+    
+    $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
+    $allCampagne = VracClient::getInstance()->listCampagneBySocieteId($this->societe->identifiant);
+    $this->campagnes = (!isset($request['campagne']) || $request['campagne'] == 'all')? $allCampagne : array($request['campagne']);    
+    $allEtablissementsIds = array_keys($this->societe->getEtablissementsObj());
+    $allEtablissements = array();
+    foreach ($allEtablissementsIds as $allEtablissementsId) {
+        $allEtablissements[] = str_replace( "ETABLISSEMENT-", "", $allEtablissementsId);
+    }
+    
+    $this->etablissements = (!isset($request['etablissement']) || $request['etablissement'] == 'all')? $allEtablissements : array($request['etablissement']);
+    
+    $this->form = new VracHistoryRechercheForm($this->societe,$request['etablissement'],$request['campagne']);           
+    
+    $this->contratsByEtablissementsAndCampagne = VracClient::getInstance()->retrieveByEtablissementsAndCampagnes($this->etablissements,$this->campagnes);
+   
+    }
     
 	
 	public function executeAnnuaire(sfWebRequest $request)

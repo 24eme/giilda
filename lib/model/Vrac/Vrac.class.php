@@ -1,35 +1,35 @@
 <?php
+
 /**
  * Model for Vrac
  *
  */
-
 class Vrac extends BaseVrac {
 
     protected $archivage_document = null;
 
-    public function  __construct() {
-        parent::__construct();   
+    public function __construct() {
+        parent::__construct();
         $this->initDocuments();
     }
 
     public function __clone() {
         parent::__clone();
         $this->initDocuments();
-    }   
+    }
 
     protected function initDocuments() {
         $this->archivage_document = new ArchivageDocument($this);
     }
-    
-    public function constructId() {
-        $this->set('_id', 'VRAC-'.$this->numero_contrat);
 
-        if(!$this->date_signature) {
+    public function constructId() {
+        $this->set('_id', 'VRAC-' . $this->numero_contrat);
+
+        if (!$this->date_signature) {
             $this->date_signature = date('d/m/Y');
         }
-        
-        if(!$this->date_campagne) {
+
+        if (!$this->date_campagne) {
             $this->date_campagne = date('d/m/Y');
         }
     }
@@ -37,79 +37,72 @@ class Vrac extends BaseVrac {
     public function getCampagne() {
 
         return $this->_get('campagne');
-    } 
+    }
 
     public function setNumeroContrat($value) {
         $this->_set('numero_contrat', $value);
     }
 
     public function setProduit($value) {
-        if($value != $this->_get('produit')) {
+        if ($value != $this->_get('produit')) {
             $this->_set('produit', $value);
             $this->produit_libelle = $this->getProduitObject()->getLibelleFormat(array(), "%format_libelle%");
         }
     }
-    
+
     public function setBouteillesContenanceLibelle($c) {
         $this->_set('bouteilles_contenance_libelle', $c);
         if ($c) {
-	  $this->setBouteillesContenanceVolume(VracClient::getInstance()->getContenance($c));
+            $this->setBouteillesContenanceVolume(VracClient::getInstance()->getContenance($c));
         }
     }
 
     public function update($params = array()) {
-        
+
         $this->prix_initial_total = null;
-        switch ($this->type_transaction)
-        {
-            case VracClient::TYPE_TRANSACTION_RAISINS :
-            {
-                $this->prix_initial_total = round($this->raisin_quantite * $this->prix_initial_unitaire, 2);
-                $this->bouteilles_contenance_libelle = null;
-                $this->bouteilles_contenance_volume = null;
-                $this->volume_propose = round($this->raisin_quantite / $this->getDensite() / 100.0, 2);
-                break;
-            }
-            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
-            {
-                $this->prix_initial_total = round($this->bouteilles_quantite * $this->prix_initial_unitaire, 2);
-                $this->volume_propose = round($this->bouteilles_quantite * $this->bouteilles_contenance_volume, 2);
-                break;
-            }
-            
+        switch ($this->type_transaction) {
+            case VracClient::TYPE_TRANSACTION_RAISINS : {
+                    $this->prix_initial_total = round($this->raisin_quantite * $this->prix_initial_unitaire, 2);
+                    $this->bouteilles_contenance_libelle = null;
+                    $this->bouteilles_contenance_volume = null;
+                    $this->volume_propose = round($this->raisin_quantite / $this->getDensite() / 100.0, 2);
+                    break;
+                }
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE : {
+                    $this->prix_initial_total = round($this->bouteilles_quantite * $this->prix_initial_unitaire, 2);
+                    $this->volume_propose = round($this->bouteilles_quantite * $this->bouteilles_contenance_volume, 2);
+                    break;
+                }
+
             case VracClient::TYPE_TRANSACTION_MOUTS :
-            case VracClient::TYPE_TRANSACTION_VIN_VRAC :
-            {
-                $this->prix_initial_total = round($this->jus_quantite * $this->prix_initial_unitaire, 2);              
-                $this->bouteilles_contenance_libelle = '';
-                $this->bouteilles_contenance_volume = null;
-                $this->volume_propose = $this->jus_quantite;
-                break;
-            }              
+            case VracClient::TYPE_TRANSACTION_VIN_VRAC : {
+                    $this->prix_initial_total = round($this->jus_quantite * $this->prix_initial_unitaire, 2);
+                    $this->bouteilles_contenance_libelle = '';
+                    $this->bouteilles_contenance_volume = null;
+                    $this->volume_propose = $this->jus_quantite;
+                    break;
+                }
         }
 
-        if($this->volume_propose) {
+        if ($this->volume_propose) {
             $this->prix_initial_unitaire_hl = round($this->prix_initial_total / $this->volume_propose * 1.0, 2);
         }
 
-        if($this->isValidee() && !$this->hasPrixVariable()) {
+        if ($this->isValidee() && !$this->hasPrixVariable()) {
             $this->setPrixUnitaire($this->prix_initial_unitaire);
         }
     }
 
-    public function setInformations() 
-    {        
+    public function setInformations() {
         $this->setAcheteurInformations();
         $this->setVendeurInformations();
-        if($this->mandataire_identifiant!=null && $this->mandataire_exist)
-        {
+        if ($this->mandataire_identifiant != null && $this->mandataire_exist) {
             $this->setMandataireInformations();
-            
         }
     }
 
     public function setVendeurIdentifiant($s) {
-	return $this->_set('vendeur_identifiant', str_replace('ETABLISSEMENT-', '', $s));
+        return $this->_set('vendeur_identifiant', str_replace('ETABLISSEMENT-', '', $s));
     }
 
     public function setAcheteurIdentifiant($s) {
@@ -120,17 +113,13 @@ class Vrac extends BaseVrac {
         return $this->_set('mandataire_identifiant', str_replace('ETABLISSEMENT-', '', $s));
     }
 
-
-
-    private function setAcheteurInformations() 
-    {
-        if($this->exist('acheteur_identifiant') && $this->acheteur_identifiant){
+    private function setAcheteurInformations() {
+        if ($this->exist('acheteur_identifiant') && $this->acheteur_identifiant) {
             $this->setEtablissementInformations('acheteur', $this->getAcheteurObject());
         }
     }
-    
-    private function setMandataireInformations() 
-    {
+
+    private function setMandataireInformations() {
         $etablissement = $this->getMandataireObject();
         $this->mandataire->nom = $etablissement->nom;
         $this->mandataire->raison_sociale = $etablissement->raison_sociale;
@@ -138,10 +127,9 @@ class Vrac extends BaseVrac {
         $this->mandataire->commune = $etablissement->siege->commune;
         $this->mandataire->code_postal = $etablissement->siege->code_postal;
     }
-    
-    private function setVendeurInformations() 
-    {
-        if($this->exist('vendeur_identifiant') && $this->vendeur_identifiant){
+
+    private function setVendeurInformations() {
+        if ($this->exist('vendeur_identifiant') && $this->vendeur_identifiant) {
             $this->setEtablissementInformations('vendeur', $this->getVendeurObject());
         }
     }
@@ -160,31 +148,34 @@ class Vrac extends BaseVrac {
 
     public function setDate($attribut, $d) {
         if (preg_match('/^([0-9]{2})\/([0-9]{2})\/([0-9]{4})$/', $d, $m)) {
-              $d = $m[3].'-'.$m[2].'-'.$m[1];
+            $d = $m[3] . '-' . $m[2] . '-' . $m[1];
         }
         return $this->_set($attribut, $d);
     }
+
     public function getDate($attribut, $format) {
         $d = $this->_get($attribut);
         if (!$format)
-              return $d;
+            return $d;
         $date = new DateTime($d);
         return $date->format($format);
     }
+
     public function setDateSignature($d) {
         return $this->setDate('date_signature', $d);
     }
+
     public function getDateSignature($format = 'd/m/Y') {
         return $this->getDate('date_signature', $format);
     }
- 
+
     public function setDateCampagne($d) {
         $this->setDate('date_campagne', $d);
         $this->campagne = VracClient::getInstance()->buildCampagne($this->getDateCampagne('Y-m-d'));
     }
 
     public function getPrixUnitaire() {
-        if(is_null($this->_get('prix_unitaire'))) {
+        if (is_null($this->_get('prix_unitaire'))) {
             return $this->prix_initial_unitaire;
         }
 
@@ -192,7 +183,7 @@ class Vrac extends BaseVrac {
     }
 
     public function getPrixTotalOuInitial() {
-        if(is_null($this->_get('prix_total'))) {
+        if (is_null($this->_get('prix_total'))) {
             return $this->prix_initial_total;
         }
 
@@ -200,7 +191,7 @@ class Vrac extends BaseVrac {
     }
 
     public function getPrixUnitaireHlOuInitial() {
-        if(is_null($this->_get('prix_unitaire_hl'))) {
+        if (is_null($this->_get('prix_unitaire_hl'))) {
             return $this->prix_initial_unitaire_hl;
         }
 
@@ -208,7 +199,7 @@ class Vrac extends BaseVrac {
     }
 
     public function setPrixVariable($value) {
-        if($this->_get('prix_variable') != $value) {
+        if ($this->_get('prix_variable') != $value) {
             $this->setPrixUnitaire(null);
         }
 
@@ -218,52 +209,52 @@ class Vrac extends BaseVrac {
     public function setPrixUnitaire($p) {
         $this->_set('prix_unitaire', $p);
 
-        if(is_null($this->_get('prix_unitaire'))) {
-            $this->prix_total = null; 
+        if (is_null($this->_get('prix_unitaire'))) {
+            $this->prix_total = null;
             $this->prix_unitaire_hl = null;
 
             return;
         }
 
-        switch ($this->type_transaction)
-        {
-            case VracClient::TYPE_TRANSACTION_RAISINS :
-            {
-                $this->prix_total = round($this->raisin_quantite * $this->prix_unitaire, 2);
-                break;
-            }
-            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
-            {
-                $this->prix_total = round($this->bouteilles_quantite * $this->prix_unitaire, 2);
-                break;
-            }
-            
+        switch ($this->type_transaction) {
+            case VracClient::TYPE_TRANSACTION_RAISINS : {
+                    $this->prix_total = round($this->raisin_quantite * $this->prix_unitaire, 2);
+                    break;
+                }
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE : {
+                    $this->prix_total = round($this->bouteilles_quantite * $this->prix_unitaire, 2);
+                    break;
+                }
+
             case VracClient::TYPE_TRANSACTION_MOUTS :
             case VracClient::TYPE_TRANSACTION_VIN_VRAC :
                 $this->prix_total = round($this->jus_quantite * $this->prix_unitaire, 2);
-                break;              
+                break;
         }
 
-        if($this->prix_unitaire) {
+        if ($this->prix_unitaire) {
             $this->prix_unitaire_hl = round($this->prix_total / $this->volume_propose * 1.0, 2);
         }
     }
 
-    
     public function setCvoRepartition($repartition) {
-        if(!is_null($this->volume_enleve) && $this->volume_enleve > 0) return;
-        
+        if (!is_null($this->volume_enleve) && $this->volume_enleve > 0)
+            return;
+
         $this->_set('cvo_repartition', $repartition);
     }
-    
+
     public function validate($options = array()) {
-        
-        $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
-        if(!$this->valide->date_saisie) {
+        if ($this->isTeledeclare) {
+            $this->valide->statut = VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE;
+        } else {
+            $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+        }
+        if (!$this->valide->date_saisie) {
             $this->valide->date_saisie = date('Y-m-d');
         }
 
-        if(isset($options['identifiant'])) {
+        if (isset($options['identifiant'])) {
             $this->valide->identifiant = $options['identifiant'];
         }
 
@@ -275,70 +266,63 @@ class Vrac extends BaseVrac {
     }
 
     public function getPeriode() {
-      $date = $this->getDateSignature('');
-      if ($date)
-	return $date;
-      return date('Y-m-d');
+        $date = $this->getDateSignature('');
+        if ($date)
+            return $date;
+        return date('Y-m-d');
     }
 
     public function getDroitCVO() {
-      return $this->getProduitObject()->getDroitCVO($this->getPeriode());
+        return $this->getProduitObject()->getDroitCVO($this->getPeriode());
     }
 
-    public function getProduitObject() 
-    {
-      return ConfigurationClient::getCurrent()->get($this->produit);
+    public function getProduitObject() {
+        return ConfigurationClient::getCurrent()->get($this->produit);
     }
 
-    public function getVendeurObject() 
-    {
-        return EtablissementClient::getInstance()->find($this->vendeur_identifiant,acCouchdbClient::HYDRATE_DOCUMENT);
-    }
-    
-    public function getAcheteurObject() 
-    {
-        return EtablissementClient::getInstance()->find($this->acheteur_identifiant,acCouchdbClient::HYDRATE_DOCUMENT);
-    }
-    
-    public function getMandataireObject() 
-    {
-        return EtablissementClient::getInstance()->find($this->mandataire_identifiant,acCouchdbClient::HYDRATE_DOCUMENT);
-    }
-    
-    public function getSoussigneObjectById($soussigneId) 
-    {
-        return EtablissementClient::getInstance()->find($soussigneId,acCouchdbClient::HYDRATE_DOCUMENT);
+    public function getVendeurObject() {
+        return EtablissementClient::getInstance()->find($this->vendeur_identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
     }
 
-    private function getDensite() 
-    {
+    public function getAcheteurObject() {
+        return EtablissementClient::getInstance()->find($this->acheteur_identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+
+    public function getMandataireObject() {
+        return EtablissementClient::getInstance()->find($this->mandataire_identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+
+    public function getSoussigneObjectById($soussigneId) {
+        return EtablissementClient::getInstance()->find($soussigneId, acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+
+    private function getDensite() {
         return $this->getConfig()->getDensite();
     }
-    
+
     public function getConfig() {
         return ConfigurationClient::getCurrent()->get($this->produit);
     }
-    
+
     public function __toString() {
 
-      if ($this->exist("numero_archive") && $this->numero_archive)
-        return sprintf("%05d", $this->numero_archive);
-      return $this->numero_contrat;
+        if ($this->exist("numero_archive") && $this->numero_archive)
+            return sprintf("%05d", $this->numero_archive);
+        return $this->numero_contrat;
     }
-    
-    public function enleverVolume($vol)
-    {
+
+    public function enleverVolume($vol) {
         $this->volume_enleve += $vol;
 
-        if($this->volume_enleve < 0 ) {
+        if ($this->volume_enleve < 0) {
 
             throw new sfException(sprintf("Suite à un enlevement le volume enleve sur le contrat '%s' est négatif, ce n'est pas normal !", $this->get('_id')));
         }
-        
-        if($this->volume_propose <= $this->volume_enleve) { 
-          $this->solder();
+
+        if ($this->volume_propose <= $this->volume_enleve) {
+            $this->solder();
         } else {
-          $this->desolder();
+            $this->desolder();
         }
     }
 
@@ -355,10 +339,10 @@ class Vrac extends BaseVrac {
     }
 
     public function isValidee() {
-        
+
         return in_array($this->valide->statut, VracClient::$statuts_valide);
     }
-    
+
     public function hasPrixVariable() {
         return $this->prix_variable && $this->prix_variable == 1;
     }
@@ -369,26 +353,27 @@ class Vrac extends BaseVrac {
     }
 
     public function isRaisinMoutNegoHorsIL() {
-        $isRaisinMout = (($this->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) || 
-                        ($this->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS));
-        if(!$isRaisinMout) return false;
+        $isRaisinMout = (($this->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) ||
+                ($this->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS));
+        if (!$isRaisinMout)
+            return false;
         $nego = EtablissementClient::getInstance()->findByIdentifiant($this->acheteur_identifiant);
         return !$nego->isInterLoire();
     }
 
-    public function isVitiRaisinsMoutsTypeVins(){
+    public function isVitiRaisinsMoutsTypeVins() {
         return EtablissementClient::getInstance()->find($this->vendeur_identifiant)->raisins_mouts == 'oui' && $this->isVin();
     }
-    
-    public function isEnAttenteDOriginal(){
+
+    public function isEnAttenteDOriginal() {
         return $this->isValidee() && $this->attente_original;
     }
-    
+
     public function getMaster() {
         return $this;
     }
 
-    public function isMaster(){
+    public function isMaster() {
         return true;
     }
 
@@ -396,7 +381,7 @@ class Vrac extends BaseVrac {
         $this->archivage_document->preSave();
     }
 
-    /*** ARCHIVAGE ***/
+    /*     * * ARCHIVAGE ** */
 
     public function getNumeroArchive() {
 
@@ -407,8 +392,8 @@ class Vrac extends BaseVrac {
 
         return $this->isValidee();
     }
-    
-    /*** FIN ARCHIVAGE ***/
+
+    /*     * * FIN ARCHIVAGE ** */
 
     public function isVin() {
 
@@ -419,54 +404,56 @@ class Vrac extends BaseVrac {
         if (!$this->isVin()) {
             return null;
         }
-        
+
         $stock = DRMStocksView::getInstance()->getStockFin($this->campagne, $this->getVendeurObject(), $this->produit);
         $volume_restant = VracStocksView::getInstance()->getVolumeRestantVin($this->campagne, $this->getVendeurObject(), $this->produit);
 
         return $stock - $volume_restant;
     }
-    
-    private function convertStringToFloat($q){
-        $qstring = str_replace(',','.',$q);
+
+    private function convertStringToFloat($q) {
+        $qstring = str_replace(',', '.', $q);
         $qfloat = floatval($qstring);
-        if(!is_float($qfloat)) throw new sfException("La valeur $qstring n'est pas un nombre valide");
+        if (!is_float($qfloat))
+            throw new sfException("La valeur $qstring n'est pas un nombre valide");
         return $qfloat;
     }
 
-    public function getCoordonneesVendeur(){
+    public function getCoordonneesVendeur() {
         return $this->getCoordonnees($this->vendeur_identifiant);
     }
 
-    public function getCoordonneesAcheteur(){
+    public function getCoordonneesAcheteur() {
         return $this->getCoordonnees($this->acheteur_identifiant);
     }
-    
-    public function getCoordonneesMandataire(){
+
+    public function getCoordonneesMandataire() {
         return $this->getCoordonnees($this->mandataire_identifiant);
     }
-    
+
     private function isMandatant($mandatant_name) {
-        if(!$this->exist('mandatant')){
+        if (!$this->exist('mandatant')) {
             return false;
         }
         foreach ($this->mandatant as $mandatant) {
-        if($mandatant_name == $mandatant){
-            return true; 
+            if ($mandatant_name == $mandatant) {
+                return true;
             }
         }
-        return false;    }
+        return false;
+    }
 
     public function isMandatantAcheteur() {
         return $this->isMandatant('acheteur');
     }
-    
+
     public function isMandatantVendeur() {
         return $this->isMandatant('vendeur');
     }
-    
+
     public function getCoordonnees($id_etb) {
-        if($etb = EtablissementClient::getInstance()->retrieveById($id_etb))
-             return $etb->getContact();
+        if ($etb = EtablissementClient::getInstance()->retrieveById($id_etb))
+            return $etb->getContact();
         $compte = new stdClass();
         $compte->nom_a_afficher = 'Nom Prénom';
         $compte->telephone_bureau = '00 00 00 00 00';
@@ -475,12 +462,12 @@ class Vrac extends BaseVrac {
         $compte->email = 'email@email.com';
         return $compte;
     }
-    
-    public function getProduitsConfig() {  
-        $date = (!$this->date_signature)? date('Y-m-d') : Date::getIsoDateFromFrenchDate($this->date_signature);
+
+    public function getProduitsConfig() {
+        $date = (!$this->date_signature) ? date('Y-m-d') : Date::getIsoDateFromFrenchDate($this->date_signature);
         return ConfigurationClient::getCurrent()->formatProduits($date);
     }
-    
+
     public function getQuantite() {
         switch ($this->type_transaction) {
             case VracClient::TYPE_TRANSACTION_VIN_VRAC :
@@ -494,99 +481,106 @@ class Vrac extends BaseVrac {
                 return null;
         }
     }
-    
+
     public function getVisa() {
-        if($this->exist('visa')){
+        if ($this->exist('visa')) {
             return $this->visa;
         }
         return "Pas de visa";
     }
-    
+
     public function getFraisDeGarde() {
-                if($this->exist('frais_de_garde')){
+        if ($this->exist('frais_de_garde')) {
             return $this->visa;
         }
         return "0";
     }
-    
+
     public function isGenerique() {
         return $this->categorie_vin == VracClient::CATEGORIE_VIN_GENERIQUE;
     }
-    
+
     public function isDomaine() {
         return $this->categorie_vin == VracClient::CATEGORIE_VIN_DOMAINE;
-    }    
-    
+    }
+
     public function getMaxEnlevement() {
-        if($this->exist('date_max_enlevement') && $this->date_max_enlevement){
+        if ($this->exist('date_max_enlevement') && $this->date_max_enlevement) {
             return $this->date_max_enlevement;
         }
-        if($this->exist('date_signature') && $this->date_signature){
-            return Date::addDelaiToDate('-1 month',Date::getIsoDateFromFrenchDate($this->date_signature));
+        if ($this->exist('date_signature') && $this->date_signature) {
+            return Date::addDelaiToDate('-1 month', Date::getIsoDateFromFrenchDate($this->date_signature));
         }
         return null;
     }
-    
+
     public function getResponsableLieu() {
-        if($this->mandataire_exist){
-         return $this->mandataire->commune;
+        if ($this->mandataire_exist) {
+            return $this->mandataire->commune;
         }
         return $this->acheteur->commune;
     }
-    
+
     public function isPluriannuel() {
         return ($this->exist('type_contrat') && $this->type_contrat == VracClient::TYPE_CONTRAT_PLURIANNUEL);
     }
-    
+
     public function getTeledeclarationStatut() {
-        if($this->isSolde() || $this->isValidee()){
-            return VracClient::STATUS_VALIDE;
-        }
-        if(!$this->exist('teledeclaration_statut') || !$this->teledeclaration_statut){
-            return VracClient::STATUS_ATTENTE_SIGNATURE;
+        if ($this->isSolde() || $this->isValidee()) {
+            return VracClient::STATUS_CONTRAT_VALIDE;
         }        
-        return $this->teledeclaration_statut;
+        return $this->valide->statut;
     }
     
+    public function isSigneVendeur() {
+        return $this->valide->exist('date_signature_vendeur') && $this->valide->date_signature_vendeur;
+    }
+     
+    public function isSigneAcheteur() {
+        return $this->valide->exist('date_signature_acheteur') && $this->valide->date_signature_acheteur;
+    }
+     
+    public function isSigneCourtier() {        
+        return $this->valide->exist('date_signature_courtier') && $this->valide->date_signature_courtier;
+    }
+
     public function setEtablissementCreateur($etablissement) {
-        if($etablissement->getSociete()->isCourtier()){
+        if ($etablissement->getSociete()->isCourtier()) {
             $this->setMandataireIdentifiant($etablissement->_id);
             $this->mandataire_exist = true;
         }
-        if($etablissement->getSociete()->isNegociant()){
+        if ($etablissement->getSociete()->isNegociant()) {
             $this->setAcheteurIdentifiant($etablissement->_id);
         }
     }
 
     public function isTeledeclare() {
-
-        return true;
+        return $this->exist('teledeclare') && $this->teledeclare;
     }
-    
-	public function storeInterlocuteurCommercialInformations($nom, $contact) {
+
+    public function storeInterlocuteurCommercialInformations($nom, $contact) {
         $email = trim(preg_replace("/\([0-9]+\)/", "", $contact));
 
         $telephone = null;
-        if(preg_match("/\(([0-9]+)\)/", $contact, $matches)) {
+        if (preg_match("/\(([0-9]+)\)/", $contact, $matches)) {
             $telephone = $matches[1];
         }
 
-        $this->interlocuteur_commercial->nom = $nom;    
+        $this->interlocuteur_commercial->nom = $nom;
         $this->interlocuteur_commercial->email = ($email) ? $email : null;
-        if(!$this->interlocuteur_commercial->exist('telephone')) {
+        if (!$this->interlocuteur_commercial->exist('telephone')) {
             $this->interlocuteur_commercial->add('telephone');
         }
         $this->interlocuteur_commercial->telephone = ($telephone) ? $telephone : null;
     }
-    
+
     public function getMillesimeLabel() {
         $type_transaction = $this->type_transaction;
-        if($type_transaction && 
-                (($type_transaction == VracClient::TYPE_TRANSACTION_RAISINS)
-                || ($type_transaction == VracClient::TYPE_TRANSACTION_MOUTS))){
+        if ($type_transaction &&
+                (($type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) || ($type_transaction == VracClient::TYPE_TRANSACTION_MOUTS))) {
             return 'Récolte';
         }
         return 'Millésime';
     }
-    
+
 }

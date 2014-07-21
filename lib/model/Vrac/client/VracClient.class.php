@@ -41,17 +41,21 @@ class VracClient extends acCouchdbClient {
     const CVO_NATURE_VINAIGRERIE = 'VINAIGRERIE';
     const CATEGORIE_VIN_GENERIQUE = 'GENERIQUE';
     const CATEGORIE_VIN_DOMAINE = 'DOMAINE';
-    const STATUS_CONTRAT_SOLDE = 'SOLDE';
-    const STATUS_CONTRAT_ANNULE = 'ANNULE';
-    const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
     const CVO_REPARTITION_50_50 = '50';
     const CVO_REPARTITION_100_VITI = '100';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
     const RESULTAT_LIMIT = 700;
     
-    const STATUS_VALIDE = 'VALIDE';
-    const STATUS_ATTENTE_SIGNATURE = 'ATTENTE_SIGNATURE';
-    const STATUS_VISE = 'VISE';
+    const STATUS_CONTRAT_BROUILLON = 'BROUILLON';
+    const STATUS_CONTRAT_ATTENTE_SIGNATURE = 'ATTENTE_SIGNATURE';
+    const STATUS_CONTRAT_VISE = 'VISE';
+    const STATUS_CONTRAT_VALIDE = 'VALIDE';
+    
+    const STATUS_CONTRAT_SOLDE = 'SOLDE';
+    const STATUS_CONTRAT_ANNULE = 'ANNULE';
+    const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
+    
+    const STATUS_CONTRAT_TOUS = 'TOUS';
 
     public static $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
         VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
@@ -129,12 +133,11 @@ class VracClient extends acCouchdbClient {
     public function retrieveLastDocs($limit = self::RESULTAT_LIMIT) {
         return $this->descending(true)->limit($limit)->getView('vrac', 'history');
     }
-
-    public function retrieveBySociete($societeId, $limit = self::RESULTAT_LIMIT) {
-        $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
-        $campagnemoins1 = ConfigurationClient::getInstance()->getPreviousCampagne($campagne);
+    
+    public function retrieveBySocieteAndCampagne(&$contratsEtablissements, $societeId, $campagne, $limit = self::RESULTAT_LIMIT) {
         
         $societe = SocieteClient::getInstance()->findByIdentifiantSociete($societeId);
+        
         if(!$societe){
             throw new sfException("La societe d'identifiant $societeId n'a pas été trouvé");
         }
@@ -142,19 +145,112 @@ class VracClient extends acCouchdbClient {
         if(!$etbs || !count($etbs)){
             throw new sfException("La societe d'identifiant $societeId ne possède aucun etablissement");
         }
-        $contratsEtablissements = array();
         foreach (array_keys($etbs) as $identifiantEtb) {
             $etb = EtablissementClient::getInstance()->find($identifiantEtb);
             if(!$etb){
                throw new sfException("L'établissement d'identifiant $identifiantEtb n'a pas été trouvé");
-            }
-            $contratsEtablissements[$identifiantEtb] = array();
-                    
+            }                   
             $contratsEtablissements[$identifiantEtb][$campagne] = $this->retrieveVracObjsBySoussigne($identifiantEtb,$campagne,$limit);
-            $contratsEtablissements[$identifiantEtb][$campagnemoins1] = $this->retrieveVracObjsBySoussigne($identifiantEtb,$campagnemoins1,$limit);
         }
         return $contratsEtablissements;
+     }
+
+    public function retrieveBySociete($societeId, $limit = self::RESULTAT_LIMIT) {
+        $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+        $campagnemoins1 = ConfigurationClient::getInstance()->getPreviousCampagne($campagne);        
+        $contratsEtablissements = array();
+        $this->retrieveBySocieteAndCampagne($contratsEtablissements,$societeId,$campagne,$limit);
+        $this->retrieveBySocieteAndCampagne($contratsEtablissements,$societeId,$campagnemoins1,$limit);
+        return $contratsEtablissements;
     }
+    
+    public function retrieveByEtablissementsAndCampagnes(Array $etablissements, Array $campagnes){
+        $result = array();
+        foreach ($etablissements as $etbIdentifiant) {
+            foreach ($campagnes as $campagne) {
+                $result = array_merge($result,$this->retrieveVracObjsBySoussigne($etbIdentifiant,$campagne));  
+            }
+        } 
+        return $result;
+    }
+    
+    public function retrieveBySocieteWithInfosLimit($societeId, $limit = self::RESULTAT_LIMIT) {
+        $nb = 0;
+        $result = new stdClass();        
+        $result->contrats = array();
+        $this->buildInfosObj($result);
+        $vracSocieteNoLimit = $this->retrieveBySociete($societeId);
+        
+        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "brouillon" , $limit, true);
+        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "attente_signature" , $limit,true);        
+        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "valide" , $limit,true);
+        
+        foreach ($vracSocieteNoLimit as $etbId => $vracByCampagne) {
+            foreach ($vracByCampagne as $campagne => $vracs) {
+                foreach ($vracs as $vrac) {
+                    if(($vrac->valide->statut == VracClient::STATUS_CONTRAT_VISE)
+                            || ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE)
+                            || ($vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE)){
+                        if($nb < $limit){
+                            $result->contrats[] = $vrac;
+                            $nb++;
+                        }
+                        $result->infos->vise++;
+                    }
+                }
+                
+            }
+        }
+        
+        return $result;
+    }
+    
+     public function listCampagneBySocieteId($societeId){
+        
+        $societe = SocieteClient::getInstance()->findByIdentifiantSociete($societeId);         
+        $result = array();
+        foreach ($societe->getEtablissementsObj() as $etbObj) {
+           $result = array_merge($this->listCampagneByEtablissementId($etbObj->etablissement->identifiant));
+        } 
+        return $result;
+    }
+    
+    
+    private function buildInfosObj(&$result) {
+        $result->infos = new stdClass();
+        $result->infos->attente_signature = 0;
+        $result->infos->brouillon = 0;
+        $result->infos->valide = 0;
+        $result->infos->vise = 0;
+    }
+    
+    private function buildVracsBySocieteWithInfos(&$result_array, &$nb,$vracSocieteNoLimit, $status_word , $limit, $reverse = false) {
+        
+        $statusConst = constant('VracClient::STATUS_CONTRAT_'.strtoupper($status_word));
+       
+        foreach ($vracSocieteNoLimit as $etbId => $vracByCampagne) {
+            $vracByCampagneArr = $vracByCampagne;
+            if($reverse){
+                $vracByCampagneArr = array_reverse($vracByCampagne);
+            }
+            foreach ($vracByCampagneArr as $campagne => $vracs) {
+                $vracsArr = $vracs;
+                if($reverse){
+                    $vracsArr = array_reverse($vracs);
+                }
+                foreach ($vracsArr as $vrac) {
+                        if($vrac->valide->statut == $statusConst){
+                              if($nb < $limit){ 
+                                $result_array->contrats[] = $vrac;
+                                $nb++;
+                                }
+                            $result_array->infos->$status_word++;
+                        }
+                    }
+                }
+                
+            }
+        }
     
     public function retrieveVracObjsBySoussigne($identifiantEtb, $campagne, $limit = self::RESULTAT_LIMIT) {
         $vracs = $this->retrieveBySoussigne($identifiantEtb,$campagne,$limit)->rows;
@@ -451,7 +547,7 @@ class VracClient extends acCouchdbClient {
             self::STATUS_CONTRAT_NONSOLDE => "Non soldé",
             self::STATUS_CONTRAT_SOLDE => "Soldé");
     }
-
+    
     public function getLibelleFromId($id, $separation = " ") {
         $id = str_replace('VRAC-', '', $id);
         return sprintf('%s%s%s', substr($id, 0, 8), $separation, substr($id, 8, strlen($id) - 1));

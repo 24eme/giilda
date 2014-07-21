@@ -12,6 +12,7 @@ Vrac:
       etape: { type: integer }
       interne: { }
       createur_identifiant: { require:false }
+      teledeclare: { require:false }
       interlocuteur_commercial:
         type: collection
         definition:
@@ -133,3 +134,6 @@ Vrac:
             date_saisie: {  }
             identifiant: {  }
             statut: { }
+            date_signature_vendeur: { require:false }
+            date_signature_acheteur: { require:false }
+            date_signature_courtier: { require:false }

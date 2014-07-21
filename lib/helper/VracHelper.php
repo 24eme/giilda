@@ -263,3 +263,9 @@ function bouteilleUnitTerm($vrac, $abbr = false){
           }
     return 'BIB®';  
 }
+
+function echoPictoSignature($contrat, $type){
+    $fctName = 'isSigne'.$type;
+    $isSigne = $contrat->$fctName();
+    echo ($isSigne)? 'contrat_signe_moi' : 'contrat_attente';    
+}

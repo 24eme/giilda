@@ -120,6 +120,10 @@ class VracRouting {
 							array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')
                                                          ));
+        
+        $r->prependRoute('vrac_history',  new sfRoute('/contrats/historique/:identifiant', array('module' => 'vrac', 
+                                                                                              'action' => 'history')));
+        
     }
 
 }
