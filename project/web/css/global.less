@@ -478,8 +478,33 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 .btn_ajout_autocomplete
 {
-	.pos-abs(100%, 0, auto, 0);
+	background: #ebebeb;
+	border: 1px solid transparent;
+	border-radius: 4px;
 	display: block;
+	height: 40px;
+	padding: 5px;
+	position: relative;
+	text-align: left;
+	width: 100%;
+
+	&:hover,
+	&:focus { border-color: #999; }
+
+	&:after
+	{
+		.pos-abs(8px, 5px);
+		background: #fff;
+		border: 1px solid #aaa;
+		color: #aaa; 
+		content: '+';
+		font-size: 18px;
+		font-weight: bold;
+		line-height: 20px;
+		height: 20px;
+		text-align: center;
+		width: 20px;
+	}
 }
 
 /* Tableau recapitulatif */
@@ -1088,6 +1113,7 @@ ul.radio_list
 
     a
     { 
+    	border: 1px solid transparent;
         display:block; 
         padding:5px;
         text-decoration:none;
@@ -1102,7 +1128,12 @@ ul.radio_list
 	a.ui-state-active { background: #E9E9E9; }
 }
 
-.ui-autocomplete-loading { background: #fff url('../images/pictos/pi_loader.gif') right center no-repeat !important; }
+.ui-autocomplete-loading 
+{ 
+	background: #fff url('../images/pictos/pi_loader.gif') right 5px top 50% no-repeat !important;
+
+	.combobox + & { background-position: right 35px top 50% !important; }
+}
 
 /* Fil d'Ariane */
 #fil_ariane
