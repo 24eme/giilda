@@ -54,8 +54,6 @@ class VracClient extends acCouchdbClient {
     const STATUS_CONTRAT_SOLDE = 'SOLDE';
     const STATUS_CONTRAT_ANNULE = 'ANNULE';
     const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
-    
-    const STATUS_CONTRAT_TOUS = 'TOUS';
 
     public static $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
         VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',

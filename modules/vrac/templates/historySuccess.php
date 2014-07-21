@@ -48,7 +48,7 @@ use_helper('Float');
         </form>
 
         <div id="ligne_btn" class="txt_droite">
-            <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant,'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(),'statut' => VracClient::STATUS_CONTRAT_TOUS)); ?>">
+            <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant,'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(),'etablissement' => 'all')); ?>">
             Voir tout l'historique
             </a>
             <a class="btn_vert btn_majeur" href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>">
@@ -60,9 +60,10 @@ use_helper('Float');
         </div>
     </div>
 
-   <?php include_partial('contratsTable', array('contrats' => $contratsByEtablissementsAndCampagne, 'societe' => $societe)); ?>    
+   <?php 
+      include_partial('contratsTable', array('contrats' => $contratsByEtablissementsAndCampagne, 'societe' => $societe)); ?>    
     <div id="ligne_btn" class="txt_droite">
-        <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant,'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(),'statut' => VracClient::STATUS_CONTRAT_TOUS)); ?>">
+        <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant,'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(),'etablissement' => 'all')); ?>">
             Voir tout l'historique
         </a>
         <a class="btn_vert btn_majeur" href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>">

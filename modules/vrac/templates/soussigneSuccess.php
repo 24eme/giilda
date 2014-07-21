@@ -40,11 +40,11 @@ if ($nouveau) {
 <?php echo $form->renderGlobalErrors() ?>
 
             <?php echo $form['vendeur_identifiant']->renderError(); ?>
-            <div id="vendeur">   
+            <div id="vendeur" class="block_overlay">   
                 <!--  Affichage des vendeurs disponibles  -->
                 <div id="vendeur_choice" class="section_label_maj">
 <?php echo $form['vendeur_identifiant']->renderLabel() ?>
-<?php echo $form['vendeur_identifiant']->render() ?>
+<?php echo $form['vendeur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur')) ?>
 <?php if ($form->getObject()->isTeledeclare()): ?>
 					<br /><br />
 					<a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id,'sf_subject' => $form->getObject(), 'identifiant' => $etablissement, 'type' => AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY, 'acteur' => 'vendeur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
@@ -69,7 +69,7 @@ include_partial('vendeurInformations', $vendeurArray);
             </div>
 <?php echo $form['acheteur_identifiant']->renderError(); ?>
             <!--  Affichage des acheteurs disponibles  -->
-            <div id="acheteur"> 
+            <div id="acheteur" class="block_overlay"> 
                 <div id="acheteur_choice" class="section_label_maj">
 <?php echo $form['acheteur_identifiant']->renderLabel() ?>
 <?php echo $form['acheteur_identifiant']->render() ?>
@@ -96,6 +96,7 @@ include_partial('acheteurInformations', $acheteurArray);
                 </div>
             </div>
 
+
             
 
             <!--  Affichage des mandataires disponibles  -->
@@ -112,19 +113,20 @@ include_partial('acheteurInformations', $acheteurArray);
 	                </div>
                 </div>
 			<?php else: ?>
-			
-			<div id="interne">            
+
+            <div id="interne" class="block_overlay">            
+
 <?php echo $form['interne']->render(); ?>
 <?php echo $form['interne']->renderLabel(); ?>
                 <?php echo $form['interne']->renderError(); ?>
             </div>
             
-            <div id="has_mandataire">            
+            <div id="has_mandataire" class="block_overlay">            
 <?php echo $form['mandataire_exist']->render(); ?>
 <?php echo $form['mandataire_exist']->renderLabel(); ?>
                 <?php echo $form['mandataire_exist']->renderError(); ?>
             </div>
-            <div id="mandataire">     
+            <div id="mandataire" class="block_overlay">     
                 <div id="mandatant" class="section_label_strong" >
 <?php echo $form['mandatant']->renderError(); ?>
 <?php echo $form['mandatant']->renderLabel() ?>
@@ -161,7 +163,8 @@ include_partial('mandataireInformations', $mandataireArray);
                 </div>
             </div>
 			<?php endif; ?>
-            <div class="btn_etape" id="ligne_btn">
+            
+            <div class="btn_etape block_overlay" id="ligne_btn">
 <?php if ($nouveau): ?>
                     <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
                 <?php endif; ?>

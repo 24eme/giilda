@@ -52,8 +52,8 @@
                             </li>
                         </ul>
                     </td>              
-                    <td><?php echo $elt[VracClient::VRAC_VIEW_PRODUIT_LIBELLE]; ?></td>
-                    <td>           
+                    <td class="produit"><?php echo $elt[VracClient::VRAC_VIEW_PRODUIT_LIBELLE]; ?></td>
+                    <td class="volume">           
         <?php
         if (isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))
             echoFloat($elt[VracClient::VRAC_VIEW_VOLENLEVE]);
