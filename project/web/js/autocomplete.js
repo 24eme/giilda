@@ -212,10 +212,7 @@
 				});
 
 				input.on('autocompleteopen', function()
-				{
-					//$('.ui-autocomplete:visible').append('<li><button class="btn_ajout_autocomplete" type="button">' + select.data('btn-ajout-txt') + '</button></li>');
-
-					
+				{					
 					$(this).data("autocomplete").menu.element.append(
 						'<li><button class="btn_ajout_autocomplete" type="button">' 
 						+ select.data('btn-ajout-txt') + 
