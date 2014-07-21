@@ -63,9 +63,51 @@
                             <h2>Aide</h2>
 
                             <div class="contenu">
-                                <ul>
-                                    <li class="raccourcis"><a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a></li>
-                                    <li class="contact"><a href="mailto:f.bodin@vinsdeloire.fr">Contacter le support</a></li>
+                                <p>
+                                    En cas de besoin n'hésitez pas à consulter la notice d'aide complète au format pdf.
+                                </p>
+
+                                <a href="#" class="lien_notice">Télécharger la notice</a>
+
+                                <h3>Votre contact - mise en marche</h3>
+
+                                <ul class="contact"> 
+                                    <li class="nom">Fanny Gillet</li>
+                                    <li class="email"><a href="mailto:f.gillet@vinsdeloire.fr">f.gillet@vinsdeloire.fr</a></li>
+                                    <li class="telephone">02 47 60 55 08</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div id="legende" class="bloc_col">
+                            <h2>Légende</h2>
+
+                            <div class="contenu">
+                                <h3>Types de marchés :</h3>
+
+                                <div class="contenu legende">    
+                                    <div>
+                                        <span class="type_raisins">type_raisins</span>
+                                        <span class="legende_type_texte">Raisins</span>
+                                    </div>
+                                    <div>
+                                        <span class="type_mouts">type_mouts</span><span class="legende_type_texte">Mouts</span>
+                                    </div>
+                                    <div>
+                                        <span class="type_vin_vrac">type_vin_vrac</span><span class="legende_type_texte">Vrac</span>
+                                    </div>
+                                    <div>
+                                        <span class="type_vin_bouteille">type_vin_bouteille</span><span class="legende_type_texte">Conditionné</span>
+                                    </div>
+                                </div>
+
+
+                                <h3>Statuts de contrats :</h3>
+
+                                <ul class="status_contrats">
+                                    <li><img src="/images/pictos/pi_ok.png" alt="" /> Signé par moi</li>
+                                    <li><img src="/images/pictos/pi_attente.png" alt="" /> En attente de signature</li>
+                                    <li><img src="/images/pictos/pi_ok_gris.png" alt="" /> Signé par d'autres soussignés</li>
                                 </ul>
                             </div>
                         </div>

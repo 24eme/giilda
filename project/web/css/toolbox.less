@@ -239,3 +239,61 @@
 	
 	&:after { clear: both; }
 }
+
+.square(@cote: 1px)
+{
+	.box-dimensions(@cote, @cote);
+}
+
+/* ============================================================= */
+/* TRIANGLES */
+/* ============================================================= */
+.triangle(@width: 0, @color: #000)
+{
+	.square(0px);
+	border-style: solid;
+	border-width: @width;
+	border-color: @color;
+	content: '';
+	display: inline-block;
+}
+
+.triangle-tl(@width: 0, @height: 0, @color: #000)
+{
+	.triangle(@width @width 0 0, @color transparent transparent);
+}
+
+.triangle-t(@width: 0, @height: 0, @color: #000)
+{
+	.triangle(0 (@width / 2) @height, transparent transparent @color);
+}
+
+.triangle-tr(@width: 0, @height: 0, @color: #000)
+{
+	.triangle(0 @width @width 0, transparent @color transparent transparent);
+}
+
+.triangle-r(@width: 0, @height: 0, @color: #000)
+{
+	.triangle((@width / 2) 0 (@width / 2) @height, transparent transparent transparent @color);
+}
+
+.triangle-br(@width: 0, @height: 0, @color: #000)
+{
+	.triangle(0 0 @width @width, transparent transparent @color);
+}
+
+.triangle-b(@width: 0, @height: 0, @color: #000)
+{
+	.triangle(@height (@width / 2) 0, @color transparent transparent);
+}
+
+.triangle-bl(@width: 0, @height: 0, @color: #000)
+{
+	.triangle(@width 0 0 @width, transparent transparent transparent @color);
+}
+
+.triangle-l(@width: 0, @height: 0, @color: #000)
+{
+	.triangle((@width / 2) @height (@width / 2) 0, transparent @color transparent transparent);
+}
