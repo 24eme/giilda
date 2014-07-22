@@ -51,8 +51,8 @@ use_helper('Float');
             <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant,'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(),'etablissement' => 'all')); ?>">
             Voir tout l'historique
             </a>
-            <a class="btn_vert btn_majeur" href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>">
-                Annuaire
+            <a class="btn_vert btn_majeur" href="<?php echo url_for('vrac_history_exportCsv', array('identifiant' => $etablissementPrincipal->identifiant, 'etablissement' => $etablissement, 'campagne' => $campagne)); ?>">
+                Export CSV
             </a>
             <a class="btn_orange btn_majeur" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
                 Nouveau contrat
@@ -66,9 +66,9 @@ use_helper('Float');
         <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant,'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(),'etablissement' => 'all')); ?>">
             Voir tout l'historique
         </a>
-        <a class="btn_vert btn_majeur" href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>">
-            Annuaire
-        </a>
+                  <a class="btn_vert btn_majeur" href="<?php echo url_for('vrac_history_exportCsv', array('identifiant' => $etablissementPrincipal->identifiant, 'etablissement' => $etablissement, 'campagne' => $campagne)); ?>">
+                Export CSV
+            </a>
         <a class="btn_orange btn_majeur" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
             Nouveau contrat
         </a>

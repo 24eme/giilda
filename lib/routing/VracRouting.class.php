@@ -124,6 +124,9 @@ class VracRouting {
         $r->prependRoute('vrac_history',  new sfRoute('/contrats/historique/:identifiant', array('module' => 'vrac', 
                                                                                               'action' => 'history')));
         
+        $r->prependRoute('vrac_history_exportCsv', new sfRoute('/vrac/exportHistoriqueCsv', array('module' => 'vrac',
+                                                            'action' => 'exportHistoriqueCsv')));  
+        
     }
 
 }

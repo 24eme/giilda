@@ -441,6 +441,42 @@ class VracClient extends acCouchdbClient {
         }
         return $result;
     }
+    
+        public static function getCsvBySociete($vracs) {
+        $result = "\xef\xbb\xbf";
+        $result.= "numero_contrat;numero_archive;statut;type_transaction;vendeur_identifiant;vendeur_nom;vendeur_cvi;";
+        $result.= "acheteur_identifiant;acheteur_nom;acheteur_cvi;courtier_identifiant;courtier_nom;courtier carte pro;";        
+        $result.= "produit_libelle;prix_unitaire;prix_total\n";
+        foreach ($vracs as $vrac) {
+            $cpt = 0;
+            $contrat = $vrac->getRawValue();
+            
+            $result.= $contrat->numero_contrat.';';
+            $result.= $contrat->numero_archive.';';
+            $result.= $contrat->valide->statut.';';            
+            $result.= $contrat->type_transaction.';';
+            
+            $result.= $contrat->vendeur_identifiant.';';
+            $result.= $contrat->vendeur->nom.';';
+            $result.= $contrat->vendeur->cvi.';';
+            
+            $result.= $contrat->acheteur_identifiant.';';
+            $result.= $contrat->acheteur->nom.';';
+            $result.= $contrat->acheteur->cvi.';';
+            
+            $result.= $contrat->mandataire_identifiant.';';
+            $result.= $contrat->mandataire->nom.';';
+            $result.= $contrat->mandataire->carte_pro.';';            
+            
+            $result.= $contrat->produit_libelle.';';
+            $result.= $contrat->prix_unitaire.';';
+            $result.= $contrat->prix_total;
+            
+            $result.="\n";
+        }
+        return $result;
+    }
+    
 
     public function retrieveSimilaryContracts($vrac) {
         if (isset($vrac->vendeur_identifiant) || isset($vrac->acheteur_identifiant)) {
