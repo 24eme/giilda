@@ -107,6 +107,22 @@ class Societe extends BaseSociete {
         return $etablissements;
     }
     
+    public function getEtablissementPrincipal() {
+        $etablissements = $this->getEtablissementsObj();
+        if(!count($etablissements)){
+            return null;
+        }
+        foreach ($etablissements as $id => $etbObj) {
+            $etablissement = $etbObj->etablissement;
+            $compte = CompteClient::getInstance()->find($etablissement->compte);
+            if($compte->compte_type == CompteClient::TYPE_COMPTE_SOCIETE){
+                return $etablissement;
+            }
+        }
+        $etbObj = array_shift($etablissements);
+        return $etbObj->etablissement;
+    }
+    
     public function getComptesObj() {
         $comptes = array();
         foreach ($this->contacts as $id => $obj) {
