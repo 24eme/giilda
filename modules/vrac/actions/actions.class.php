@@ -184,9 +184,7 @@ class vracActions extends sfActions
       $this->vrac = $this->populateVracTiers($this->vrac);
       if($this->etablissement = $request->getParameter("etablissement")) {
         $this->vrac->initCreateur($this->etablissement);
-        $this->vrac->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
-        $this->initSocieteAndEtablissementPrincipal();
-        
+        $this->initSocieteAndEtablissementPrincipal();           
       }
       $this->form = new VracSoussigneForm($this->vrac);
  
@@ -200,6 +198,7 @@ class vracActions extends sfActions
             {
                 $this->maj_etape(1);
                 $this->vrac->numero_contrat = VracClient::getInstance()->getNextNoContrat();
+                $this->vrac->constructId();
                 $this->form->save();    
                 return $this->redirect('vrac_marche', $this->vrac);
             }            
@@ -407,7 +406,7 @@ class vracActions extends sfActions
             $this->initSocieteAndEtablissementPrincipal();
         }
       $this->form = new VracConditionForm($this->vrac);
-      $this->displayPartiePrixVariable = !(is_null($this->type_contrat) || ($this->type_contrat=='spot'));
+      $this->displayPartiePrixVariable = !($this->vrac->isTeledeclare()) && !(is_null($this->type_contrat) || ($this->type_contrat=='spot'));
       $this->displayPrixVariable = ($this->displayPartiePrixVariable && !is_null($vrac->prix_variable) && $vrac->prix_variable); 
       $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
       if ($request->isMethod(sfWebRequest::POST)) 

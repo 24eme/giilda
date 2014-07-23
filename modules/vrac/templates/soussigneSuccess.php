@@ -112,7 +112,11 @@ include_partial('acheteurInformations', $acheteurArray);
 	                	<?php endif; ?>
 	                </div>
                 </div>
-			<?php else: ?>
+                <?php if($form->getObject()->getMandataireExist()): ?>
+                    <input id="vrac_mandataire_exist" type="hidden" value="1" name="vrac[mandataire_exist]">                
+                    <input id="vrac_mandataire_identifiant" type="hidden" value="ETABLISSEMENT-<?php echo $form->getObject()->getMandataireIdentifiant(); ?>" name="vrac[mandataire_identifiant]">
+                <?php endif; ?>
+                    <?php else: ?>
 
             <div id="interne" class="block_overlay">            
 

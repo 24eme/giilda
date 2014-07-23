@@ -153,7 +153,8 @@ class Vrac extends BaseVrac {
             $this->setAcheteurIdentifiant($etbId);
             $this->setAcheteurInformations();
         }
-        
+        $this->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
+        $this->setDateCampagne(date('Y-m-d'));
         $this->add('createur_identifiant',$etbId);
         $this->add('teledeclare',true);
     }

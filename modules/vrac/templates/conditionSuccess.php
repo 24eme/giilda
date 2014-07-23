@@ -21,12 +21,16 @@
                     <?php echo $form['type_contrat']->render() ?>
                 </div>
                 <!--  Affichage de la présence de la part variable du contrat (si non la suite n'est pas affiché JS) -->
-                <div id="prix_isVariable" class="section_label_maj" <?php echo ($displayPartiePrixVariable) ? '' : 'style="display:none;"'; ?>>
-                    <?php echo $form['prix_variable']->renderError() ?>        
-                    <?php echo $form['prix_variable']->renderLabel() ?> 
-                    <?php echo $form['prix_variable']->render() ?>        
-                </div>
-
+                <?php  if(!$vrac->isTeledeclare()): ?>
+                    <div id="prix_isVariable" class="section_label_maj" <?php echo ($displayPartiePrixVariable) ? '' : 'style="display:none;"'; ?>>
+                        <?php echo $form['prix_variable']->renderError() ?>        
+                        <?php echo $form['prix_variable']->renderLabel() ?> 
+                        <?php echo $form['prix_variable']->render() ?>        
+                    </div>
+                <?php  else: ?>
+                <input id="vrac_prix_variable" type="hidden" value="0" name="vrac[prix_variable]"/>
+                <?php  endif; ?>
+                <?php  if(!$vrac->isTeledeclare()) : ?>
                 <!--  Affiché si et seulement si type de contrat = 'pluriannuel' et partie de prix variable = 'Oui' -->
                 <div id="vrac_marche_prixVariable">
                     <?php
@@ -34,6 +38,7 @@
                     ?>
                 </div>
 
+                <?php  endif; ?>
                 <?php if(isset($form['date_signature']) && isset($form['date_campagne'])): ?>
                 <div class="section_label_maj">
                     <label>Dates</label>
@@ -75,7 +80,7 @@
                     </div>
                 </div>
                 <?php endif; ?>
-
+                <?php  if(!$vrac->isTeledeclare()) : ?>
                 <div id="commentaire" class="section_label_maj">
                     <?php echo $form['commentaire']->renderLabel() ?>
                     <div class="bloc_form">
@@ -83,6 +88,7 @@
                         <?php echo $form['commentaire']->render() ?>
                     </div>
                 </div>
+                <?php endif; ?>
             <div class="btn_etape">
                 <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
                 <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
