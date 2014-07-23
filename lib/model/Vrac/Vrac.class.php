@@ -134,6 +134,30 @@ class Vrac extends BaseVrac {
         }
     }
 
+    public function initCreateur($etbId) {
+       
+        $etb = EtablissementClient::getInstance()->findByIdentifiant($etbId);
+        if(!$etb){
+            throw new sfException("L'etablissement d'id $etbId n'existe pas en base");
+        }
+        if(!$etb->isCourtier() && !$etb->isNegociant()){
+            throw new sfException("La création d'un contrat ne peut pas se faire l'etablissement $etbId n'est ni courtier ni négociant");
+        }
+        if($etb->isCourtier()){
+            $this->mandataire_exist = true;
+            $this->setMandataireIdentifiant($etbId);
+            $this->setMandataireInformations();
+        }
+        
+        if($etb->isNegociant()){
+            $this->setAcheteurIdentifiant($etbId);
+            $this->setAcheteurInformations();
+        }
+        
+        $this->add('createur_identifiant',$etbId);
+        $this->add('teledeclare',true);
+    }
+    
     protected function setEtablissementInformations($type, $etablissement) {
         $this->get($type)->nom = $etablissement->nom;
         $this->get($type)->raison_sociale = $etablissement->raison_sociale;
@@ -245,8 +269,14 @@ class Vrac extends BaseVrac {
     }
 
     public function validate($options = array()) {
-        if ($this->isTeledeclare) {
+        if ($this->isTeledeclare()) {
             $this->valide->statut = VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE;
+            if($this->acheteur_identifiant == $this->createur_identifiant){
+                $this->valide->add('date_signature_acheteur', date('Y-m-d'));
+            }
+            if($this->mandataire_identifiant == $this->createur_identifiant){
+                $this->valide->add('date_signature_courtier', date('Y-m-d'));
+            }
         } else {
             $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
         }
@@ -294,6 +324,23 @@ class Vrac extends BaseVrac {
 
     public function getSoussigneObjectById($soussigneId) {
         return EtablissementClient::getInstance()->find($soussigneId, acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+    
+    public function getCreateurObject() {
+        return EtablissementClient::getInstance()->find($this->createur_identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+    
+    public function getNonCreateursArray() {
+        $non_createurs = array();
+        $non_createurs[$this->vendeur_identifiant] = $this->getVendeurObject();
+        if(!$this->mandataire_exist){
+            return $non_createurs;
+        }
+        if($this->mandataire_identifiant == $this->createur_identifiant){
+            $non_createurs[$this->acheteur_identifiant] = $this->getAcheteurObject();
+            return $non_createurs;
+        }    
+        return $non_createurs;
     }
 
     private function getDensite() {

@@ -5,7 +5,7 @@
  *
  * @package    vinsdeloire
  * @subpackage vrac
- * @author     Your name here
+ * @author     Mathurin Petit
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
 class vracActions extends sfActions
@@ -183,9 +183,10 @@ class vracActions extends sfActions
       $this->vrac = ($this->getUser()->getAttribute('vrac_object'))? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
       $this->vrac = $this->populateVracTiers($this->vrac);
       if($this->etablissement = $request->getParameter("etablissement")) {
-        $this->vrac->add('createur_identifiant',$this->etablissement);
-        $this->vrac->add('teledeclare',true);
+        $this->vrac->initCreateur($this->etablissement);
         $this->vrac->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
+        $this->initSocieteAndEtablissementPrincipal();
+        
       }
       $this->form = new VracSoussigneForm($this->vrac);
  
@@ -351,6 +352,9 @@ class vracActions extends sfActions
   {
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Soussignés', $request["numero_contrat"]));
       $this->vrac = $this->vrac = ($this->getUser()->getAttribute('vrac_object'))? unserialize($this->getUser()->getAttribute('vrac_object')) : $this->getRoute()->getVrac();
+      
+      $this->initSocieteAndEtablissementPrincipal();
+      
       $this->form = new VracSoussigneForm($this->vrac);
       
       $this->init_soussigne($request,$this->form);
@@ -372,10 +376,13 @@ class vracActions extends sfActions
   
   public function executeMarche(sfWebRequest $request)
   {
-  		$this->getUser()->setAttribute('vrac_object', null);
+  	$this->getUser()->setAttribute('vrac_object', null);
     	$this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
+        if($this->vrac->isTeledeclare()){
+            $this->initSocieteAndEtablissementPrincipal();
+        }
         $this->form = new VracMarcheForm($this->vrac);   
       
         if ($request->isMethod(sfWebRequest::POST)) 
@@ -396,6 +403,9 @@ class vracActions extends sfActions
       $this->getUser()->setAttribute('vrac_acteur', null);
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
+      if($this->vrac->isTeledeclare()){
+            $this->initSocieteAndEtablissementPrincipal();
+        }
       $this->form = new VracConditionForm($this->vrac);
       $this->displayPartiePrixVariable = !(is_null($this->type_contrat) || ($this->type_contrat=='spot'));
       $this->displayPrixVariable = ($this->displayPartiePrixVariable && !is_null($vrac->prix_variable) && $vrac->prix_variable); 
@@ -414,11 +424,15 @@ class vracActions extends sfActions
 
    public function executeValidation(sfWebRequest $request)
   {
-  	    $this->getUser()->setAttribute('vrac_object', null);
-    	$this->getUser()->setAttribute('vrac_acteur', null);
+      $this->getUser()->setAttribute('vrac_object', null);
+      $this->getUser()->setAttribute('vrac_acteur', null);
+      
+      
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();
-
+      if($this->vrac->isTeledeclare()){
+            $this->initSocieteAndEtablissementPrincipal();
+      }
       $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut!=VracClient::STATUS_CONTRAT_SOLDE));
       $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($this->vrac);
       $this->contratsSimilairesExist = (isset($this->vracs) && !$this->vracs && count($this->vracs)>0);
@@ -429,8 +443,9 @@ class vracActions extends sfActions
       {
             if($this->validation->isValide()){
                 $this->maj_etape(4);
-                $this->vrac->validate();
+                $this->vrac->validate();                
                 $this->vrac->save();
+                $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
                 $this->redirect('vrac_visualisation', $this->vrac);
             }   
@@ -444,7 +459,10 @@ class vracActions extends sfActions
     	$this->getUser()->setAttribute('vrac_acteur', null);
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();   
-      $this->vrac->save();
+      $this->vrac->save(); 
+      if($this->vrac->isTeledeclare()){
+            $this->initSocieteAndEtablissementPrincipal();
+      }
       if ($request->isMethod(sfWebRequest::POST)) 
       {
             $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);
@@ -588,6 +606,15 @@ class vracActions extends sfActions
     }
   
 
+    private function initSocieteAndEtablissementPrincipal() {
+        $this->compte = $this->getUser()->getCompte();
+        if(!$this->compte){
+            new sfException("Le compte $compte n'existe pas");
+        }
+        $this->societe = $this->compte->getSociete();
+        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
+    }
+    
   private function renderPartialInformations($etablissement,$nouveau) {
       $familleType = $etablissement->getFamilleType();
       return $this->renderPartial($familleType.'Informations', 
@@ -604,6 +631,65 @@ class vracActions extends sfActions
       $this->vrac->valide->statut = $statut;
   }
 
+  private function postValidateActions() {
+      if($this->vrac->isTeledeclare() &&
+              ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE)){
+          if(!$this->vrac->exist('createur_identifiant') || !$this->vrac->createur_identifiant){
+              throw new sfException("Le créateur du contrat $this->vrac->_id ne peut pas être null.");
+          }
+          $createurObject = $this->vrac->getCreateurObject();
+          $nonCreateursArr = $this->vrac->getNonCreateursArray();
+          foreach ($nonCreateursArr as $id => $nonCreateur) {
+              $mess = 'Contrat : « '.VracClient::$types_transaction[$this->vrac->type_transaction].' » du '.$this->vrac->valide->date_saisie
+.'
+
+ 
+
+Vendeur : '.$this->vrac->vendeur->nom.'
+
+Acheteur : '.$this->vrac->acheteur->nom;
+             if($this->vrac->mandataire_exist){
+             $mess .= '
+
+Courtier : '.$this->vrac->mandataire->nom;}
+               $mess .= '  
+
+ 
+
+Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : http://vinsdeloire.pro
+
+ 
+
+Pour être valable, le contrat doit être signé par toutes les parties et visé par INTERLOIRE. Le PDF correspondant avec le numéro de visa INTERLOIRE vous sera alors envoyé par courriel.
+
+ 
+
+Attention si le contrat n’est pas signé par toutes les parties dans les 5 jours à compte de sa date de saisie, il sera automatiquement supprimé.
+
+ 
+
+Pour toutes questions, veuillez contacter l’interlocuteur commercial, responsable du contrat.
+
+ 
+
+———
+
+L’application de télédéclaration des contrats d’INTERLOIRE';
+               
+              $message = $this->getMailer()->compose(array('declaration@vinsvaldeloire.fr' => "Contrats INTERLOIRE"),
+                                                       $nonCreateur->email,
+                                                       '[Contact télédéclaration] Demande de signature ('.$createurObject->nom.')', $mess);
+          
+              try {
+                   $this->getMailer()->send($message);
+                    } catch (Exception $e) {
+                        $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
+                    }
+             }
+                
+      }
+  }
+  
   protected function secureVrac($droits, $vrac) {
 
       if(!VracSecurity::getInstance($this->getUser(), $vrac)->isAuthorized($droits)) {

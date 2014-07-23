@@ -264,8 +264,14 @@ function bouteilleUnitTerm($vrac, $abbr = false){
     return 'BIB®';  
 }
 
-function echoPictoSignature($contrat, $type){
+function echoPictoSignature($societe, $contrat, $type){
     $fctName = 'isSigne'.$type;
     $isSigne = $contrat->$fctName();
-    echo ($isSigne)? 'contrat_signe_moi' : 'contrat_attente';    
+    if(($societe->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR && $type == 'Vendeur' && $isSigne)
+            || ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT && $type == 'Acheteur' && $isSigne)
+            || ($societe->type_societe == SocieteClient::SUB_TYPE_COURTIER && $type == 'Courtier' && $isSigne)){
+        echo 'contrat_signe_moi';
+    }else{
+        echo ($isSigne)? 'contrat_signe_soussigne' : 'contrat_attente';  
+    }
 }

@@ -28,24 +28,24 @@
                                     <td class="produit"><?php echo $contrat->produit_libelle; ?></td>
                                     <td class="soussigne">
                                         <ul>  
-                                            <?php if ($contrat->vendeur_identifiant && $societe->type_societe != SocieteClient::SUB_TYPE_VITICULTEUR): ?>
-                                            <li class="<?php echoPictoSignature($contrat, 'Vendeur'); ?>">
+                                            <?php if ($contrat->vendeur_identifiant): ?>
+                                            <li class="<?php echoPictoSignature($societe, $contrat, 'Vendeur'); ?>">
                                                     <span style="font-weight: bold;">
                                                         Vendeur :
                                                     </span>                                                    
                                                     <?php echo $contrat->vendeur->nom; ?>
                                                 </li>
                                             <?php endif; ?>
-                                            <?php if ($contrat->acheteur_identifiant && $societe->type_societe != SocieteClient::SUB_TYPE_NEGOCIANT): ?>
-                                                <li class="<?php echoPictoSignature($contrat, 'Acheteur'); ?>">
+                                            <?php if ($contrat->acheteur_identifiant): ?>
+                                                <li class="<?php echoPictoSignature($societe, $contrat, 'Acheteur'); ?>">
                                                     <span style="font-weight: bold;">
                                                         Acheteur :
                                                     </span>
                                                     <?php echo $contrat->acheteur->nom; ?>
                                                 </li>
                                             <?php endif; ?>
-                                            <?php if ($contrat->mandataire_identifiant && $societe->type_societe != SocieteClient::SUB_TYPE_COURTIER): ?>
-                                                <li class="<?php echoPictoSignature($contrat, 'Courtier'); ?>">                                                    
+                                            <?php if ($contrat->mandataire_identifiant): ?>
+                                                <li class="<?php echoPictoSignature($societe, $contrat, 'Courtier'); ?>">                                                    
                                                     <span style="font-weight: bold;">
                                                         Mandataire :
                                                     </span>

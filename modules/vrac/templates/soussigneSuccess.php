@@ -187,6 +187,11 @@ include_partial('mandataireInformations', $mandataireArray);
 </script>
     
 <?php
+
+
+if($vrac->isTeledeclare()):
+include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+else:
 slot('colApplications');
 /*
  * Inclusion du panel de progression d'édition du contrat
@@ -198,5 +203,7 @@ if (!$contratNonSolde)
  * Inclusion des Contacts
  */
 end_slot();
+endif;
+
 ?>
  

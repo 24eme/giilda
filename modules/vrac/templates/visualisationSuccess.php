@@ -50,7 +50,7 @@
             <?php endif; ?>                                 
                 </div>
             </form>
-<?php include_partial('showContrat', array('vrac' => $vrac)); ?>
+<?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe)); ?>
             <?php if (!is_null($vrac->valide->statut)
                             && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE):
                         ?>

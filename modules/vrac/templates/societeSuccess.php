@@ -18,9 +18,6 @@ use_helper('Float');
             <div id="nb_contrat_valide">
                 <?php echo $contratsSocietesWithInfos->infos->valide; ?> contrats validés
             </div>
-            <div id="nb_contrat_vise">
-                <?php echo $contratsSocietesWithInfos->infos->vise; ?> contrats visés
-            </div>
         </div>
 
         <div id="etablissement_<?php echo $etablissementPrincipal->identifiant; ?>" class="">
@@ -69,3 +66,9 @@ use_helper('Float');
     </div>
 
 </section>
+
+<?php
+
+include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+
+?>

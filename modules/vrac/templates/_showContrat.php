@@ -8,7 +8,7 @@ $liClass = ($isValidation)? '' : 'class="lightpadding"';
             <div class="style_label">1. Les soussignés</div>
             <div id="soussigne_recapitulatif">
             <?php
-            include_partial('soussigneRecapitulatif', array('vrac' => $vrac));
+            include_partial('soussigneRecapitulatif', array('vrac' => $vrac, 'societe' => $societe ));
             ?>
             </div>  
             <?php

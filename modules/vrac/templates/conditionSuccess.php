@@ -92,6 +92,9 @@
     </div>
 </section>
 <?php
+if($vrac->isTeledeclare()):
+include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+else:
 slot('colApplications');
 /*
  * Inclusion du panel de progression d'édition du contrat
@@ -109,6 +112,7 @@ include_partial('contratsSimilaires', array('vrac' => $vrac));
 include_partial('contrat_infos_contact', array('vrac' => $vrac));
 
 end_slot();
+endif;
 ?>  
 
 

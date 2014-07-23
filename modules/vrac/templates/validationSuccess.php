@@ -22,7 +22,7 @@ use_helper('Vrac');
         <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
             <div id="titre"><span class="style_label">Récapitulatif de la saisie</span></div>
 
-            <?php include_partial('showContrat', array('vrac' => $vrac)); ?>
+            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe)); ?>
 
             <div class="btn_etape">
                 <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
@@ -34,6 +34,9 @@ use_helper('Vrac');
     </div>
 </section>
 <?php
+if($vrac->isTeledeclare()):
+include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+else:
 slot('colApplications');
 /*
  * Inclusion du panel de progression d'édition du contrat
@@ -55,4 +58,5 @@ end_slot();
 
 if ($contratsSimilairesExist)
     include_partial('contratsSimilaires_warning_popup', array('vrac' => $vrac));
+endif;
 ?>
