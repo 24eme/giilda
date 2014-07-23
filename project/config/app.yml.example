@@ -184,3 +184,19 @@ all:
       from_name: "acExceptionNotifierPlugin"
       to: ["email@email.email"]
       subject: "500 | Internal Server Error | Exception"
+
+  teledeclaration:
+    contact:
+      contrat:
+        TOURS:
+          nom: 'Prenom Nom'
+          telephone: '00 00 00 00 00'
+          email: 'mail@mail.fr'
+        ANGERS:
+          nom: 'Prenom Nom'
+          telephone: '00 00 00 00 00'
+          email: 'mail@mail.fr'
+        NANTES:
+          nom: 'Prenom Nom'
+          telephone: '00 00 00 00 00'
+          email: 'mail@mail.fr'
