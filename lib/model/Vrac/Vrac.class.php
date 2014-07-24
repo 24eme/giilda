@@ -135,30 +135,30 @@ class Vrac extends BaseVrac {
     }
 
     public function initCreateur($etbId) {
-       
+
         $etb = EtablissementClient::getInstance()->findByIdentifiant($etbId);
-        if(!$etb){
+        if (!$etb) {
             throw new sfException("L'etablissement d'id $etbId n'existe pas en base");
         }
-        if(!$etb->isCourtier() && !$etb->isNegociant()){
+        if (!$etb->isCourtier() && !$etb->isNegociant()) {
             throw new sfException("La création d'un contrat ne peut pas se faire l'etablissement $etbId n'est ni courtier ni négociant");
         }
-        if($etb->isCourtier()){
+        if ($etb->isCourtier()) {
             $this->mandataire_exist = true;
             $this->setMandataireIdentifiant($etbId);
             $this->setMandataireInformations();
         }
-        
-        if($etb->isNegociant()){
+
+        if ($etb->isNegociant()) {
             $this->setAcheteurIdentifiant($etbId);
             $this->setAcheteurInformations();
         }
         $this->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
         $this->setDateCampagne(date('Y-m-d'));
-        $this->add('createur_identifiant',$etbId);
-        $this->add('teledeclare',true);
+        $this->add('createur_identifiant', $etbId);
+        $this->add('teledeclare', true);
     }
-    
+
     protected function setEtablissementInformations($type, $etablissement) {
         $this->get($type)->nom = $etablissement->nom;
         $this->get($type)->raison_sociale = $etablissement->raison_sociale;
@@ -272,10 +272,10 @@ class Vrac extends BaseVrac {
     public function validate($options = array()) {
         if ($this->isTeledeclare()) {
             $this->valide->statut = VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE;
-            if($this->acheteur_identifiant == $this->createur_identifiant){
+            if ($this->acheteur_identifiant == $this->createur_identifiant) {
                 $this->valide->add('date_signature_acheteur', date('Y-m-d'));
             }
-            if($this->mandataire_identifiant == $this->createur_identifiant){
+            if ($this->mandataire_identifiant == $this->createur_identifiant) {
                 $this->valide->add('date_signature_courtier', date('Y-m-d'));
             }
         } else {
@@ -326,21 +326,21 @@ class Vrac extends BaseVrac {
     public function getSoussigneObjectById($soussigneId) {
         return EtablissementClient::getInstance()->find($soussigneId, acCouchdbClient::HYDRATE_DOCUMENT);
     }
-    
+
     public function getCreateurObject() {
         return EtablissementClient::getInstance()->find($this->createur_identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
     }
-    
+
     public function getNonCreateursArray() {
         $non_createurs = array();
         $non_createurs[$this->vendeur_identifiant] = $this->getVendeurObject();
-        if(!$this->mandataire_exist){
+        if (!$this->mandataire_exist) {
             return $non_createurs;
         }
-        if($this->mandataire_identifiant == $this->createur_identifiant){
+        if ($this->mandataire_identifiant == $this->createur_identifiant) {
             $non_createurs[$this->acheteur_identifiant] = $this->getAcheteurObject();
             return $non_createurs;
-        }    
+        }
         return $non_createurs;
     }
 
@@ -576,19 +576,19 @@ class Vrac extends BaseVrac {
     public function getTeledeclarationStatut() {
         if ($this->isSolde() || $this->isValidee()) {
             return VracClient::STATUS_CONTRAT_VALIDE;
-        }        
+        }
         return $this->valide->statut;
     }
-    
+
     public function isSigneVendeur() {
         return $this->valide->exist('date_signature_vendeur') && $this->valide->date_signature_vendeur;
     }
-     
+
     public function isSigneAcheteur() {
         return $this->valide->exist('date_signature_acheteur') && $this->valide->date_signature_acheteur;
     }
-     
-    public function isSigneCourtier() {        
+
+    public function isSigneCourtier() {
         return $this->valide->exist('date_signature_courtier') && $this->valide->date_signature_courtier;
     }
 
@@ -629,6 +629,23 @@ class Vrac extends BaseVrac {
             return 'Récolte';
         }
         return 'Millésime';
+    }
+
+    public function isSocieteHasSigned($societe) {
+        $etbsId = array_keys($societe->getEtablissementsObj());
+        foreach ($etbsId as $etbId) {
+            $identifiant =str_replace('ETABLISSEMENT-', '', $etbId);
+            if (($identifiant == $this->acheteur_identifiant) && $this->isSigneAcheteur()) {
+                return true;
+            }
+            if (($identifiant == $this->vendeur_identifiant) && $this->isSigneVendeur()) {
+                return true;
+            }
+            if (($identifiant == $this->mandataire_identifiant) && $this->isSigneCourtier()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
