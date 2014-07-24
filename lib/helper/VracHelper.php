@@ -110,19 +110,22 @@ function showType($vrac)
 {
     if($type = $vrac->type_transaction)
     {
-        return showTypeFromLabel($type,'');
+        return showTypeFromLabel($type,'', $vrac);
     }    
     return '';
 }
 
-function showTypeFromLabel($type, $prefix = 'Type de contrat : ')
+function showTypeFromLabel($type, $prefix = 'Type de transaction : ', $vrac = null)
 {
     switch ($type)
         {
             case VracClient::TYPE_TRANSACTION_VIN_VRAC: return $prefix.'Vin en vrac';                   
-            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: return $prefix.'Conditionné';
+            case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE:{
+                   $bibOrBouteille = ($vrac)? bouteilleUnitTerm($vrac) : '';
+                return   $prefix.'Conditionné '.$bibOrBouteille;
+            }
             case VracClient::TYPE_TRANSACTION_RAISINS: return $prefix.'Raisins';
-            case VracClient::TYPE_TRANSACTION_MOUTS: return $prefix.'Moût';
+            case VracClient::TYPE_TRANSACTION_MOUTS: return $prefix.'Moûts';
             default: return $type;
         }
 }
@@ -259,7 +262,7 @@ function bouteilleUnitTerm($vrac, $abbr = false){
         return '';
     }
     if(preg_match('/(Bouteille|cl)/', $vrac->bouteilles_contenance_libelle)){
-              return ($abbr)? 'btle' : 'bouteilles';
+              return ($abbr)? 'btles' : 'bouteilles';
           }
     return 'BIB®';  
 }

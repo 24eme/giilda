@@ -6,7 +6,7 @@
 	~ & ~ & ~ & ~ \\
 	 \textbf{\INTERLOIRECOORDONNEESTITRE} & \multirow{7}{*}{ 
 \includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf.jpg"; ?>} 
-} & \multicolumn{2}{c|}{Numéro d'enregistement} \\
+} & \multicolumn{2}{c|}{Numéro d'enregistrement} \\
 	 \INTERLOIRECOORDONNEESADRESSE & ~ & ~ & ~ \\ 
 	 \INTERLOIRECOORDONNEESCPVILLE  & ~  & \multicolumn{2}{c|}{\textbf{\LARGE{\CONTRATNUMENREGISTREMENT}}} \\
 	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} & ~ & ~ & ~ \\
@@ -71,7 +71,7 @@ A été conclu le marché suivant: \\
 \begin{tabularx}{\textwidth}{|X|p{12mm}|p{24mm}|p{24mm}|p{24mm}|}
 \hline
 ~ & ~ & ~ & ~ & ~ \\
-\textbf{Appellation / couleur / type} & \multicolumn{1}{c|}{\textbf{<?php echo $vrac->getMillesimeLabel(); ?>}} & \multicolumn{1}{c|}{\textbf{Type de Contrat}} & \multicolumn{1}{c|}{\textbf{Volume}} & \multicolumn{1}{c|}{\textbf{Prix}} \\
+\textbf{Appellation / couleur / type} & \multicolumn{1}{c|}{\textbf{<?php echo $vrac->getMillesimeLabel(); ?>}} & \multicolumn{1}{c|}{\textbf{Type de Transaction}} & \multicolumn{1}{c|}{\textbf{Volume Proposé}} & \multicolumn{1}{c|}{\textbf{Prix}} \\
 ~ & ~ & ~ & ~ & ~ \\
 \hline
 ~ & ~ & ~ & ~ & ~ 
@@ -94,12 +94,12 @@ A été conclu le marché suivant: \\
 \\
 La cotisation interprofessionnelle est payée par moitié par le vendeur et par moitié par l'acheteur. Toutefois :\\
 - la cotisation interprofessionnelle concernant une vente à destination d'un acheteur hors du ressort d'InterLoire (1) est payée en totalité par le vendeur,\\
-- la cotisation interprofessionnelle concernant la vente de raisins et moûts est facturée par InterLoire en totalité auprès de l'acheteur. Le prix d'achat de l'acheteur intègre alors la retenue de 50\% de la CVO correspondant à la part du vendeur.
+- la cotisation interprofessionnelle concernant la vente de raisins et moûts est facturée par InterLoire en totalité auprès de l'acheteur.
 \\
 
 \textbf{\normalsize{\underline{Délais de paiement} :} conformes aux dispositions de l'Accord Interprofessionnel rappelées au verso.} \\
 \\
-Tout incident se produisant au paiement de l'une des échéances prévues rend immédiatement exigible la totalité des sommes restant dues. De plus, tout règlement effectué après la date d'échéance entraîne le paiement d'intérêts de retard. Le montant de ces intérêts est  égal à troisfois le taux d'intérêt général. Ces intérêts de retard sont dus sans mise en demeure préalable et les frais de recouvrement sont à la charge de l'acheteur.
+Tout incident se produisant au paiement de l'une des échéances prévues rend immédiatement exigible la totalité des sommes restant dues. De plus, tout règlement effectué après la date d'échéance entraîne le paiement d'intérêts de retard. Le montant de ces intérêts est  égal à trois fois le taux d'intérêt général. Ces intérêts de retard sont dus sans mise en demeure préalable et les frais de recouvrement sont à la charge de l'acheteur.
 
 \begin{multicols}{2}
 \begin{flushleft}
@@ -117,9 +117,9 @@ A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 j
 
 \fbox{
 \parbox{17.7cm}{
-\small{\underline{Clause de réserve de propriété} :}\\
-\small{Le transfert de propriété de la marchandise est subordonné au complet paiement du prix à l'échéance convenue. Toutefois, les risques sont  transférés dès l'enlèvement. En cas de défaut de paiement à l''échéance, le vendeur reprend possession de la marchandise dont il est resté propriétaire sans aucune formalité préalable et peut à son gré résoudre le contrat par simple lettre recommandée avec accusé de réception. L'acheteur ne peut en aucun cas donner les marchandises non encore intégralement payées, en gage, ni en transférer la propriété à titre de garantie.}
-}
+\underline{Clause de réserve de propriété} :\\
+Le transfert de propriété de la marchandise est subordonné au complet paiement du prix à l'échéance convenue. Toutefois, les risques sont  transférés dès l'enlèvement. En cas de défaut de paiement à l'échéance, le vendeur reprend possession de la marchandise dont il est resté propriétaire sans aucune formalité préalable et peut à son gré résoudre le contrat par simple lettre recommandée avec accusé de réception. L'acheteur ne peut en aucun cas donner les marchandises non encore intégralement payées, en gage, ni en transférer la propriété à titre de garantie.}
+
 }
 \\
 \\
@@ -132,7 +132,7 @@ A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 j
 \cellcolor{gray!25}\textbf{Le courtier,} & \cellcolor{gray!25}\textbf{Le vendeur,} & \cellcolor{gray!25}\textbf{L'acheteur} \\
 \hline
 ~ & ~ & ~ \\
-Le XX/XX/XX à 12:30, & Le XX/XX/XX à 12h30, & Le XX/XX/XX à 12h30, \\
+Le XX/XX/XX à 12h30, & Le XX/XX/XX à 12h30, & Le XX/XX/XX à 12h30, \\
 ~ & ~ & ~ \\
 \textbf{Signé électroniquement} & \textbf{Signé électroniquement} & \textbf{Signé électroniquement} \\
 \hline

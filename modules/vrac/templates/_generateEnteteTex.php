@@ -21,20 +21,23 @@ use_helper('Display');
 \def\CONTRAT_TITRE{<?php echo "CONTRAT D'ACHAT EN PROPRIETE"; ?>}
 
 
-\def\CONTRATVENDEURNOM{<?php echo cut_latex_string($vrac->vendeur->nom, 50); ?>}
+\def\CONTRATVENDEURNOM{<?php echo cut_latex_string($vrac->vendeur->raison_sociale
+, 50); ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi; ?>}
 \def\CONTRATVENDEURSIRET{<?php echo $vrac->getVendeurObject()->getSociete()->getSiret(); ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo cut_latex_string($vrac->vendeur->adresse, 45); ?>}
 \def\CONTRATVENDEURCOMMUNE{<?php echo cut_latex_string(sprintf("%s %s", $vrac->vendeur->code_postal, $vrac->vendeur->commune), 55); ?>}
 
 
-\def\CONTRATACHETEUREURNOM{<?php echo cut_latex_string($vrac->acheteur->nom, 50); ?>}
+\def\CONTRATACHETEUREURNOM{<?php echo cut_latex_string($vrac->acheteur->raison_sociale
+, 50); ?>}
 \def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi; ?>}
 \def\CONTRATACHETEURSIRET{<?php echo $vrac->getAcheteurObject()->getSociete()->getSiret(); ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo cut_latex_string($vrac->acheteur->adresse, 45); ?>}
 \def\CONTRATACHETEURCOMMUNE{<?php echo cut_latex_string(sprintf("%s %s", $vrac->acheteur->code_postal, $vrac->acheteur->commune), 55); ?>}
 
-\def\CONTRATCOURTIERNOM{<?php echo cut_latex_string($vrac->mandataire->nom, 55); ?>}
+\def\CONTRATCOURTIERNOM{<?php echo cut_latex_string($vrac->mandataire->raison_sociale
+, 55); ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro; ?>}
 
 \def\CONTRATTYPE{<?php echo showType($vrac); ?>}

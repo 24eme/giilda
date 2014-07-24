@@ -16,6 +16,27 @@
 \usepackage{amssymb}
 \usepackage{ulem}
 \usepackage{fmtcount}
+\usepackage{eso-pic}
+
+\makeatletter
+\newlength\@tempdim@x
+\newlength\@tempdim@y
+
+\newcommand\AtLowerLeftCorner[3]{%
+\begingroup
+\@tempdim@x=0cm
+\@tempdim@y=0cm
+\advance\@tempdim@x#1
+\advance\@tempdim@y#2
+\put(\LenToUnit{\@tempdim@x},\LenToUnit{\@tempdim@y}){#3}%
+\endgroup
+}
+
+\AddToShipoutPicture{%
+\AtLowerLeftCorner{0.75cm}{-12cm}{\ifodd\c@page\rotatebox{90}{\begin{minipage}{\paperheight} \centering AOÛT 2014\end{minipage}}\fi}
+}
+\makeatother
+
 
 \pagestyle{empty}
 
