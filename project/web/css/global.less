@@ -476,17 +476,15 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 .btn_enregistrer { .btn_noir; }
 
-.btn_ajout_autocomplete
+.ui-autocomplete .btn_ajout_autocomplete a
 {
 	background: #ebebeb;
 	border: 1px solid transparent;
 	border-radius: 4px;
 	display: block;
-	height: 40px;
-	padding: 5px;
+	padding: 10px 5px;
 	position: relative;
 	text-align: left;
-	width: 100%;
 
 	&:hover,
 	&:focus { border-color: #999; }
@@ -1107,9 +1105,10 @@ ul.radio_list
     .border(@couleur-a9);
     .border-radius(3px);
     .box-shadow(0px 0px 5px rgba(0, 0, 0, 0.1) inset);
-    .box-dimensions(333px, 210px);
     cursor:pointer;
+    max-height: 210px;
     overflow:auto;
+    width: 333px;
 
     a
     { 

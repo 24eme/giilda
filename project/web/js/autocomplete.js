@@ -109,13 +109,13 @@
 										value: text,
 										option: this
 									};
-								}));
+							}));
 
 							$(input).parent().find('button').button("option", "disabled", select.children("option").length > limit);
 						});
 
 						return;
-					} 
+					}
 
 
 					response(select.find("option").map(function() {
@@ -180,6 +180,19 @@
 				.appendTo(ul);
 			};
 
+			// Surcharge de la réponse pour pouvoir afficher quand même le bouton d'ajout même quand il n'y a pas de résultats
+			input.data('autocomplete').__response = function(content) {
+
+				if(!this.options.disabled && content && content.length) {
+					content = this._normalize(content);
+					this._suggest(content);
+				}else {
+					this._suggest('');
+				}
+
+				this._trigger("open");
+			};
+
 			// Si le select a la classe combobox, on ajoute le bouton pour afficher toute la liste
 			if(select.hasClass('combobox'))
 			{
@@ -212,12 +225,18 @@
 				});
 
 				input.on('autocompleteopen', function()
-				{					
-					$(this).data("autocomplete").menu.element.append(
-						'<li><button class="btn_ajout_autocomplete" type="button">' 
-						+ select.data('btn-ajout-txt') + 
-						'</button></li>'
-					);
+				{	
+					var autocomplete_courant = $(this).data("autocomplete").menu.element;
+
+					if(!autocomplete_courant.find('.btn_ajout_autocomplete').length) {
+
+						autocomplete_courant.append(
+							'<li class="btn_ajout_autocomplete"><a href="#">' 
+							+ select.data('btn-ajout-txt') + 
+							'</a></li>'
+						);
+					}
+
 				});
 			}
 			
