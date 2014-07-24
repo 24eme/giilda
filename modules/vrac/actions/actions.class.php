@@ -454,14 +454,24 @@ class vracActions extends sfActions
    
   public function executeVisualisation(sfWebRequest $request)
   {
-  	   $this->getUser()->setAttribute('vrac_object', null);
-    	$this->getUser()->setAttribute('vrac_acteur', null);
+      $this->getUser()->setAttribute('vrac_object', null);
+      $this->getUser()->setAttribute('vrac_acteur', null);
       $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));
       $this->vrac = $this->getRoute()->getVrac();   
       $this->vrac->save(); 
+      $this->signatureDemande = false;
+      $this->authenticated =  $this->getUser()->isAuthenticated();
       if($this->vrac->isTeledeclare()){
-            $this->initSocieteAndEtablissementPrincipal();
+            $this->initSocieteAndEtablissementPrincipal();            
+            $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);
       }
+      else
+      {
+        if($this->getUser()->isAuthenticated()){
+            $this->initSocieteAndEtablissementPrincipal(); 
+        }
+      }
+      
       if ($request->isMethod(sfWebRequest::POST)) 
       {
             $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);

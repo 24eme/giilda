@@ -14,7 +14,8 @@
                 <a id="btn_pdf_contrat" href="<?php echo url_for('vrac_pdf', $vrac); ?>">
                     <span class="style_label">N° d'enregistrement du contrat : <?php echo $vrac->numero_archive ?> (<?php echo $vrac->campagne ?>)</span>
                 </a>
-            </div>
+            </div>            
+            <?php if(!$vrac->isTeledeclare() && !(isset($authenticated) || $authenticated)): ?>    
             <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>">  
                 <div id="ss_titre" class="legende"><span class="style_label">Etat du contrat</span>
                     <?php if ($vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE) : ?>
@@ -50,7 +51,10 @@
             <?php endif; ?>                                 
                 </div>
             </form>
-<?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe)); ?>
+            <?php endif; ?> 
+                
+            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'signatureDemande' => $signatureDemande)); ?>
+                
             <?php if (!is_null($vrac->valide->statut)
                             && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE):
                         ?>
@@ -58,8 +62,15 @@
             <?php endif; ?>
         </div>
     </div>
+    <?php if($signatureDemande): ?>
+            <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_vert f_right">Signer le contrat</a>      
+            <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
+    <?php endif; ?>
 </section>
 <?php
+if($vrac->isTeledeclare() || (isset($authenticated) && $authenticated)):
+include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+else:
 slot('colButtons');
 include_partial('actions_visu', array('vrac' => $vrac));
 end_slot();
@@ -68,5 +79,6 @@ slot('colApplications');
 include_partial('contrat_infos_contact', array('vrac' => $vrac));
 
 end_slot();
+endif;
 ?>
 
