@@ -666,9 +666,9 @@ class Vrac extends BaseVrac {
     }
 
     public function isSocieteHasSigned($societe) {
-        $etbsId = array_keys($societe->getEtablissementsObj());
-        foreach ($etbsId as $etbId) {
-            $identifiant = str_replace('ETABLISSEMENT-', '', $etbId);
+        $etbsArr = $societe->getEtablissementsObj();
+        foreach ($etbsArr as $id => $etbObj) {
+            $identifiant = str_replace('ETABLISSEMENT-', '', $id);
             if (($identifiant == $this->acheteur_identifiant) && $this->isSigneAcheteur()) {
                 return true;
             }

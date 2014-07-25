@@ -58,11 +58,12 @@
                                         <?php echo $contrat->getTeledeclarationStatutLabel(); ?>
                                     </td>
                                     <td class="actions">           
-                                        <?php if (($contrat->getTeledeclarationStatut() == VracClient::STATUS_CONTRAT_VALIDE) || ($contrat->getTeledeclarationStatut() == VracClient::STATUS_CONTRAT_VISE)): ?>
+                                        <?php if ($contrat->isSocieteHasSigned($societe) || ($contrat->getTeledeclarationStatut() == VracClient::STATUS_CONTRAT_VALIDE) || ($contrat->getTeledeclarationStatut() == VracClient::STATUS_CONTRAT_VISE)): ?>
                                             <a class="visualiser_contrat" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $contrat->numero_contrat)) ?>">
                                                 Visualiser
                                             </a>
-                                        <?php elseif ($contrat->getTeledeclarationStatut() == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE): ?>
+                                        <?php elseif (($contrat->getTeledeclarationStatut() == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE)
+                                                && !$contrat->isSocieteHasSigned($societe)): ?>
                                             <a class="visualiser_contrat" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $contrat->numero_contrat)) ?>">
                                                 Visualiser pour signer
                                             </a>
