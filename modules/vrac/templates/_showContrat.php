@@ -4,15 +4,6 @@ $isPrixVariable = (!$vrac->prix_total);
 $liClass = ($isValidation) ? '' : 'class="lightpadding"';
 ?>
 <ul>
-    <?php if ($signatureDemande): ?>
-        <li <?php echo $liClass ?> >
-            <div id="vrac_validation" class="bloc_form bloc_form_condensed ">
-                    <a href="<?php echo url_for('vrac_signature', $vrac) ?>" class="btn_majeur btn_vert f_right">Signer le contrat</a> 
-            </div>
-        </li>
-    <?php endif; ?>
-
-
     <li <?php echo $liClass ?> >
         <div class="style_label">1. Les soussignés</div>
         <div id="soussigne_recapitulatif">

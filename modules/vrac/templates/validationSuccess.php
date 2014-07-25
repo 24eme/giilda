@@ -41,9 +41,9 @@ slot('colApplications');
 /*
  * Inclusion du panel de progression d'édition du contrat
  */
-if (!$contratNonSolde)
+if (!$contratNonSolde):
     include_partial('contrat_progression', array('vrac' => $vrac));
-
+endif;
 /*
  * Inclusion du panel pour les contrats similaires
  */
@@ -56,7 +56,8 @@ include_partial('contrat_infos_contact', array('vrac' => $vrac));
 
 end_slot();
 
-if ($contratsSimilairesExist)
-    include_partial('contratsSimilaires_warning_popup', array('vrac' => $vrac));
+    if ($contratsSimilairesExist):
+        include_partial('contratsSimilaires_warning_popup', array('vrac' => $vrac));
+    endif;
 endif;
 ?>
