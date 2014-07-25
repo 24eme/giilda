@@ -132,7 +132,7 @@ Le transfert de propriété de la marchandise est subordonné au complet paiemen
 \cellcolor{gray!25}\textbf{Le courtier,} & \cellcolor{gray!25}\textbf{Le vendeur,} & \cellcolor{gray!25}\textbf{L'acheteur} \\
 \hline
 ~ & ~ & ~ \\
-Le XX/XX/XX à 12h30, & Le XX/XX/XX à 12h30, & Le XX/XX/XX à 12h30, \\
+Le \CONTRATMANDATAIREVISA, & Le \CONTRATDATESIGNATUREVENDEUR, & Le \CONTRATDATESIGNATUREACHETEUR, \\
 ~ & ~ & ~ \\
 \textbf{Signé électroniquement} & \textbf{Signé électroniquement} & \textbf{Signé électroniquement} \\
 \hline
@@ -144,7 +144,7 @@ Le XX/XX/XX à 12h30, & Le XX/XX/XX à 12h30, & Le XX/XX/XX à 12h30, \\
 \cellcolor{gray!25}\textbf{Le vendeur,} & \cellcolor{gray!25}\textbf{L'acheteur} \\
 \hline
 ~ & ~ \\
-Le XX/XX/XX à 12h30, & Le XX/XX/XX à 12h30, \\
+Le \CONTRATDATESIGNATUREVENDEUR, & Le \CONTRATDATESIGNATUREACHETEUR, \\
 ~ & ~ \\
 \textbf{Signé électroniquement} & \textbf{Signé électroniquement} \\
 \hline

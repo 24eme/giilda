@@ -15,8 +15,9 @@
                     <span class="style_label">N° d'enregistrement du contrat : <?php echo $vrac->numero_archive ?> (<?php echo $vrac->campagne ?>)</span>
                 </a>
             </div>            
-            <?php if (!$vrac->isTeledeclare() && !(isset($authenticated) || $authenticated)): ?>    
-                <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>">  
+            <?php if (!$isVisu || $isAnnulable): ?>    
+                <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>"> 
+                    <?php if (!$isVisu): ?>
                     <div id="ss_titre" class="legende"><span class="style_label">Etat du contrat</span>
                         <?php if ($vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE) : ?>
                             <?php if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE) : ?>
@@ -27,26 +28,17 @@
                             <?php endif; ?>
                         <?php endif; ?>
                         <div>
-                            <?php
-                            if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE) {
-                                $class = 'statut_non-solde';
-                            } elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ANNULE) {
-                                $class = 'statut_annule';
-                            } else {
-                                $class = 'statut_solde';
-                            }
-                            ?>
-
-                            <span class="statut <?php echo $class; ?>"></span><span class="legende_statut_texte"><?php echo $vrac->valide->statut; ?></span>
+                            <span class="statut <?php echo getClassStatutPicto($vrac); ?>"></span><span class="legende_statut_texte"><?php echo $vrac->valide->statut; ?></span>
                         </div>                            
                     </div>
+                    <?php endif; ?>
                     <div id="ligne_btn">
                         <?php
                         if (!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE && (is_null($vrac->volume_enleve) || ($vrac->volume_enleve == 0))):
                             ?>
                             <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
                             <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>            
-    <?php endif; ?>                                 
+                        <?php endif; ?>                                 
                     </div>
                 </form>
 <?php endif; ?> 
@@ -80,7 +72,7 @@
 <?php endif; ?>
 </section>
     <?php
-    if ($vrac->isTeledeclare() || (isset($authenticated) && $authenticated)):
+    if ($isVisu):
         include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
     else:
         slot('colButtons');

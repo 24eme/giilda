@@ -39,33 +39,33 @@ function getMandataireVisa($vrac) {
     if(!$vrac->mandataire_exist){
         return "";
     }
-    if(!$vrac->exist('signatures')){
+    if(!$vrac->valide->exist('date_signature_courtier')){
         return "";
     }
-    if(!$vrac->signatures->exist('mandataire')){
+    if(!$vrac->valide->date_signature_courtier){
         return "";
-    }
-    return $vrac->signatures->mandataire->visa;
+    }    
+    return date("F j, Y, g:i a", strtotime($vrac->valide->date_signature_courtier));
 }
 
 function getDateSignatureVendeur($vrac) {
-    if(!$vrac->exist('signatures')){
+    if(!$vrac->valide->exist('date_signature_vendeur')){
         return "";
     }
-    if(!$vrac->signatures->exist('vendeur')){
+    if(!$vrac->valide->date_signature_vendeur){
         return "";
     }
-    return $vrac->signatures->vendeur->date_signature;
+    return date("F j, Y, g:i a", strtotime($vrac->valide->date_signature_vendeur));
 }
 
 function getDateSignatureAcheteur($vrac) {
-    if(!$vrac->exist('signatures')){
+     if(!$vrac->valide->exist('date_signature_acheteur')){
         return "";
     }
-    if(!$vrac->signatures->exist('acheteur')){
+    if(!$vrac->valide->date_signature_acheteur){
         return "";
     }
-    return $vrac->signatures->acheteur->date_signature;
+     return date("F j, Y, g:i a", strtotime($vrac->valide->date_signature_acheteur));
 }
 
 function getPrixTouteLettre($vrac){

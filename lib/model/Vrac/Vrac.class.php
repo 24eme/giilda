@@ -273,16 +273,16 @@ class Vrac extends BaseVrac {
         if ($this->isTeledeclare()) {
             $this->valide->statut = VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE;
             if ($this->acheteur_identifiant == $this->createur_identifiant) {
-                $this->valide->add('date_signature_acheteur', date('Y-m-d'));
+                $this->valide->add('date_signature_acheteur', date('Y-m-d H:i:s'));
             }
             if ($this->mandataire_identifiant == $this->createur_identifiant) {
-                $this->valide->add('date_signature_courtier', date('Y-m-d'));
+                $this->valide->add('date_signature_courtier', date('Y-m-d H:i:s'));
             }
         } else {
             $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
         }
         if (!$this->valide->date_saisie) {
-            $this->valide->date_saisie = date('Y-m-d');
+            $this->valide->date_saisie = date('Y-m-d H:i:s');
         }
 
         if (isset($options['identifiant'])) {
@@ -612,13 +612,13 @@ class Vrac extends BaseVrac {
             case 'vendeur' :
                 if ($etb->identifiant == $this->vendeur_identifiant)
                 {
-                    $this->valide->_add('date_signature_vendeur', date('Y-m-d'));
+                    $this->valide->_add('date_signature_vendeur', date('Y-m-d H:i:s'));
                 }
                 break;
              case 'acheteur' :
                 if ($etb->identifiant == $this->acheteur_identifiant){
                     
-                    $this->valide->_add('date_signature_acheteur', date('Y-m-d'));
+                    $this->valide->_add('date_signature_acheteur', date('Y-m-d H:i:s'));
                 }
                 break;
         }
@@ -632,6 +632,9 @@ class Vrac extends BaseVrac {
         }
         if($allSignatures){
             $this->valide->statut = VracClient::STATUS_CONTRAT_VALIDE;
+            if (!$this->valide->date_signature) {
+                $this->valide->date_signature = date('Y-m-d H:i:s');
+            }
         }
         return $allSignatures;
     }
@@ -703,4 +706,8 @@ class Vrac extends BaseVrac {
         return $this->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON;
     }
 
+    public function isTeledeclarationAnnulable() {
+        return true;
+    }
+    
 }

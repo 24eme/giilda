@@ -389,6 +389,7 @@ class vracActions extends sfActions {
         $this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
+        $this->compte = null;
         if ($this->vrac->isTeledeclare()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
@@ -413,6 +414,7 @@ class vracActions extends sfActions {
 
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
+        $this->compte = null;
         if ($this->vrac->isTeledeclare()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
@@ -442,13 +444,15 @@ class vracActions extends sfActions {
         $this->vrac->save();
         $this->signatureDemande = false;
         $this->compte = null;
-        $this->authenticated = $this->getUser()->isAuthenticated();
         if ($this->vrac->isTeledeclare() || $this->authenticated) {
             $this->initSocieteAndEtablissementPrincipal();
             $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);
             $this->popupSignature = ($this->signatureDemande) && $request->hasParameter('signature') && ($request->getParameter('signature') == "1");
         }
-
+        $this->authenticated = $this->getUser()->isAuthenticated();
+        $this->isVisu = $this->vrac->isTeledeclare() || (isset($this->authenticated) && $this->authenticated);
+        $this->isAnnulable = $this->vrac->isTeledeclarationAnnulable() 
+                && ($this->vrac->getCreateurObject()->getSociete()->identifiant === $this->societe->identifiant);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);
             $this->vrac->save();
