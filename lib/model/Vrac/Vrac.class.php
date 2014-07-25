@@ -602,6 +602,35 @@ class Vrac extends BaseVrac {
         }
     }
 
+    public function signatureByEtb($etb) {        
+        switch ($etb->getFamilleType()) {
+            case 'vendeur' :
+                if ($etb->identifiant == $this->vendeur_identifiant)
+                {
+                    $this->valide->_add('date_signature_vendeur', date('Y-m-d'));
+                }
+                break;
+             case 'acheteur' :
+                if ($etb->identifiant == $this->acheteur_identifiant){
+                    
+                    $this->valide->_add('date_signature_acheteur', date('Y-m-d'));
+                }
+                break;
+        }
+        return $this->updateStatutForSignatures();
+    }
+
+    private function updateStatutForSignatures() {
+        $allSignatures = ($this->isSigneVendeur() && $this->isSigneAcheteur());
+        if($this->mandataire_exist){
+            $allSignatures = $allSignatures &&  $this->isSigneCourtier();
+        }
+        if($allSignatures){
+            $this->valide->statut = VracClient::STATUS_CONTRAT_VALIDE;
+        }
+        return $allSignatures;
+    }
+    
     public function isTeledeclare() {
         return $this->exist('teledeclare') && $this->teledeclare;
     }
@@ -634,7 +663,7 @@ class Vrac extends BaseVrac {
     public function isSocieteHasSigned($societe) {
         $etbsId = array_keys($societe->getEtablissementsObj());
         foreach ($etbsId as $etbId) {
-            $identifiant =str_replace('ETABLISSEMENT-', '', $etbId);
+            $identifiant = str_replace('ETABLISSEMENT-', '', $etbId);
             if (($identifiant == $this->acheteur_identifiant) && $this->isSigneAcheteur()) {
                 return true;
             }
@@ -646,6 +675,23 @@ class Vrac extends BaseVrac {
             }
         }
         return false;
+    }
+    
+    public function getEtbConcerned($societe) {
+        $etbs = $societe->getEtablissementsObj();
+        foreach ($etbs as $etbId => $etbStruct) {
+            $identifiant = str_replace('ETABLISSEMENT-', '', $etbId);
+            if ($identifiant == $this->acheteur_identifiant) {
+                return $etbStruct->etablissement;
+            }
+            if ($identifiant == $this->vendeur_identifiant) {
+                return $etbStruct->etablissement;
+            }
+            if ($identifiant == $this->mandataire_identifiant) {
+                return $etbStruct->etablissement;
+            }
+        }
+        return null;
     }
 
 }

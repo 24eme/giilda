@@ -7,7 +7,7 @@ $liClass = ($isValidation) ? '' : 'class="lightpadding"';
     <?php if ($signatureDemande): ?>
         <li <?php echo $liClass ?> >
             <div id="vrac_validation" class="bloc_form bloc_form_condensed ">
-                    <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_vert f_right">Signer le contrat</a> 
+                    <a href="<?php echo url_for('vrac_signature', $vrac) ?>" class="btn_majeur btn_vert f_right">Signer le contrat</a> 
             </div>
         </li>
     <?php endif; ?>

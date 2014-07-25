@@ -63,7 +63,9 @@
         </div>
     </div>
     <?php if($signatureDemande): ?>
-            <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_vert f_right">Signer le contrat</a>      
+            <a href="<?php echo url_for('vrac_signature', $vrac) ?>" class="btn_majeur btn_vert f_right">Signer le contrat</a>      
+    <?php endif; ?>
+    <?php if($popupSignature): ?>
             <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
     <?php endif; ?>
 </section>

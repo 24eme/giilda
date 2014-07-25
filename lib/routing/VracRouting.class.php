@@ -110,12 +110,12 @@ class VracRouting {
 
         $r->prependRoute('vrac_societe',  new sfRoute('/contrats/societe/:identifiant', array('module' => 'vrac', 
                                                                                               'action' => 'societe')));
-        $r->prependRoute('vrac_annuaire_commercial', new sfRoute('/vrac/annuaire/commercial',
+        $r->prependRoute('vrac_annuaire_commercial', new sfRoute('/contrats/annuaire/commercial',
                                                         array('module' => 'vrac', 'action' => 'annuaireCommercial'),
 							array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')
                                                          ));
-        $r->prependRoute('vrac_annuaire', new sfRoute('/vrac/annuaire/:acteur/:type',
+        $r->prependRoute('vrac_annuaire', new sfRoute('/contrats/annuaire/:acteur/:type',
                                                         array('module' => 'vrac', 'action' => 'annuaire'),
 							array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')
@@ -124,8 +124,13 @@ class VracRouting {
         $r->prependRoute('vrac_history',  new sfRoute('/contrats/historique/:identifiant', array('module' => 'vrac', 
                                                                                               'action' => 'history')));
         
-        $r->prependRoute('vrac_history_exportCsv', new sfRoute('/vrac/exportHistoriqueCsv', array('module' => 'vrac',
-                                                            'action' => 'exportHistoriqueCsv')));  
+        $r->prependRoute('vrac_history_exportCsv', new sfRoute('/contrats/exportHistoriqueCsv', array('module' => 'vrac',
+                                                            'action' => 'exportHistoriqueCsv'))); 
+        
+        $r->prependRoute('vrac_signature',  new VracRoute('/contrats/:numero_contrat/signature', array('module' => 'vrac', 
+                                                                                              'action' => 'signature'),
+                                                                                            array('sf_method' => array('get','post')),
+                                                                                            array('model' => 'Vrac', 'type' => 'object')));
         
     }
 
