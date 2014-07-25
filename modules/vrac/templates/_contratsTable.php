@@ -55,7 +55,7 @@
                                         </ul>
                                     </td>              
                                     <td class="statut">           
-                                        <?php echo $contrat->getTeledeclarationStatut(); ?>
+                                        <?php echo $contrat->getTeledeclarationStatutLabel(); ?>
                                     </td>
                                     <td class="actions">           
                                         <?php if ($contrat->getTeledeclarationStatut() == VracClient::STATUS_CONTRAT_VALIDE): ?>

@@ -45,12 +45,10 @@ class VracClient extends acCouchdbClient {
     const CVO_REPARTITION_100_VITI = '100';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
     const RESULTAT_LIMIT = 700;
-    
     const STATUS_CONTRAT_BROUILLON = 'BROUILLON';
     const STATUS_CONTRAT_ATTENTE_SIGNATURE = 'ATTENTE_SIGNATURE';
     const STATUS_CONTRAT_VISE = 'VISE';
     const STATUS_CONTRAT_VALIDE = 'VALIDE';
-    
     const STATUS_CONTRAT_SOLDE = 'SOLDE';
     const STATUS_CONTRAT_ANNULE = 'ANNULE';
     const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
@@ -66,6 +64,13 @@ class VracClient extends acCouchdbClient {
         self::CVO_REPARTITION_100_VITI => '100% viticulteur',
         self::CVO_REPARTITION_0_VINAIGRERIE => 'Vinaigrerie');
     public static $statuts_valide = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE);
+    public static $statuts_labels = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
+        self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En Attente de Signature',
+        self::STATUS_CONTRAT_VISE => 'Visé',
+        self::STATUS_CONTRAT_VALIDE => 'Validé',
+        self::STATUS_CONTRAT_SOLDE => 'Soldé',
+        self::STATUS_CONTRAT_ANNULE => 'Annulé',
+        self::STATUS_CONTRAT_NONSOLDE => 'Non Soldé');
 
     /**
      *
@@ -131,89 +136,85 @@ class VracClient extends acCouchdbClient {
     public function retrieveLastDocs($limit = self::RESULTAT_LIMIT) {
         return $this->descending(true)->limit($limit)->getView('vrac', 'history');
     }
-    
+
     public function retrieveBySocieteAndCampagne(&$contratsEtablissements, $societeId, $campagne, $limit = self::RESULTAT_LIMIT) {
-        
+
         $societe = SocieteClient::getInstance()->findByIdentifiantSociete($societeId);
-        
-        if(!$societe){
+
+        if (!$societe) {
             throw new sfException("La societe d'identifiant $societeId n'a pas été trouvé");
         }
         $etbs = $societe->getEtablissementsObj();
-        if(!$etbs || !count($etbs)){
+        if (!$etbs || !count($etbs)) {
             throw new sfException("La societe d'identifiant $societeId ne possède aucun etablissement");
         }
         foreach (array_keys($etbs) as $identifiantEtb) {
             $etb = EtablissementClient::getInstance()->find($identifiantEtb);
-            if(!$etb){
-               throw new sfException("L'établissement d'identifiant $identifiantEtb n'a pas été trouvé");
-            }                   
-            $contratsEtablissements[$identifiantEtb][$campagne] = $this->retrieveVracObjsBySoussigne($identifiantEtb,$campagne,$limit);
+            if (!$etb) {
+                throw new sfException("L'établissement d'identifiant $identifiantEtb n'a pas été trouvé");
+            }
+            $contratsEtablissements[$identifiantEtb][$campagne] = $this->retrieveVracObjsBySoussigne($identifiantEtb, $campagne, $limit);
         }
         return $contratsEtablissements;
-     }
+    }
 
     public function retrieveBySociete($societeId, $limit = self::RESULTAT_LIMIT) {
         $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
-        $campagnemoins1 = ConfigurationClient::getInstance()->getPreviousCampagne($campagne);        
+        $campagnemoins1 = ConfigurationClient::getInstance()->getPreviousCampagne($campagne);
         $contratsEtablissements = array();
-        $this->retrieveBySocieteAndCampagne($contratsEtablissements,$societeId,$campagne,$limit);
-        $this->retrieveBySocieteAndCampagne($contratsEtablissements,$societeId,$campagnemoins1,$limit);
+        $this->retrieveBySocieteAndCampagne($contratsEtablissements, $societeId, $campagne, $limit);
+        $this->retrieveBySocieteAndCampagne($contratsEtablissements, $societeId, $campagnemoins1, $limit);
         return $contratsEtablissements;
     }
-    
-    public function retrieveByEtablissementsAndCampagnes(Array $etablissements, Array $campagnes){
+
+    public function retrieveByEtablissementsAndCampagnes(Array $etablissements, Array $campagnes) {
         $result = array();
         foreach ($etablissements as $etbIdentifiant) {
             foreach ($campagnes as $campagne) {
-                $result = array_merge($result,$this->retrieveVracObjsBySoussigne($etbIdentifiant,$campagne));  
+                $result = array_merge($result, $this->retrieveVracObjsBySoussigne($etbIdentifiant, $campagne));
             }
-        } 
+        }
         return $result;
     }
-    
+
     public function retrieveBySocieteWithInfosLimit($societeId, $limit = self::RESULTAT_LIMIT) {
         $nb = 0;
-        $result = new stdClass();        
+        $result = new stdClass();
         $result->contrats = array();
         $this->buildInfosObj($result);
         $vracSocieteNoLimit = $this->retrieveBySociete($societeId);
-        
-        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "brouillon" , $limit, true);
-        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "attente_signature" , $limit,true);        
-        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "valide" , $limit,true);
-        
+
+        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "brouillon", $limit, true);
+        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "attente_signature", $limit, true);
+        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "valide", $limit, true);
+
         foreach ($vracSocieteNoLimit as $etbId => $vracByCampagne) {
             foreach ($vracByCampagne as $campagne => $vracs) {
                 foreach ($vracs as $vrac) {
-                    if(($vrac->valide->statut == VracClient::STATUS_CONTRAT_VISE)
-                            || ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE)
-                            || ($vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE)){
-                        if($nb < $limit){
+                    if (($vrac->valide->statut == VracClient::STATUS_CONTRAT_VISE) || ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE) || ($vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE)) {
+                        if ($nb < $limit) {
                             $result->contrats[] = $vrac;
                             $nb++;
                         }
                         $result->infos->vise++;
                     }
                 }
-                
             }
         }
-        
+
         return $result;
     }
-    
-     public function listCampagneBySocieteId($societeId){
-        
-        $societe = SocieteClient::getInstance()->findByIdentifiantSociete($societeId);         
+
+    public function listCampagneBySocieteId($societeId) {
+
+        $societe = SocieteClient::getInstance()->findByIdentifiantSociete($societeId);
         $result = array();
         foreach ($societe->getEtablissementsObj() as $etbObj) {
-           $result = array_merge($this->listCampagneByEtablissementId($etbObj->etablissement->identifiant));
-        } 
+            $result = array_merge($this->listCampagneByEtablissementId($etbObj->etablissement->identifiant));
+        }
         return $result;
     }
-    
-    
+
     private function buildInfosObj(&$result) {
         $result->infos = new stdClass();
         $result->infos->attente_signature = 0;
@@ -221,45 +222,43 @@ class VracClient extends acCouchdbClient {
         $result->infos->valide = 0;
         $result->infos->vise = 0;
     }
-    
-    private function buildVracsBySocieteWithInfos(&$result_array, &$nb,$vracSocieteNoLimit, $status_word , $limit, $reverse = false) {
-        
-        $statusConst = constant('VracClient::STATUS_CONTRAT_'.strtoupper($status_word));
-       
+
+    private function buildVracsBySocieteWithInfos(&$result_array, &$nb, $vracSocieteNoLimit, $status_word, $limit, $reverse = false) {
+
+        $statusConst = constant('VracClient::STATUS_CONTRAT_' . strtoupper($status_word));
+
         foreach ($vracSocieteNoLimit as $etbId => $vracByCampagne) {
             $vracByCampagneArr = $vracByCampagne;
-            if($reverse){
+            if ($reverse) {
                 $vracByCampagneArr = array_reverse($vracByCampagne);
             }
             foreach ($vracByCampagneArr as $campagne => $vracs) {
                 $vracsArr = $vracs;
-                if($reverse){
+                if ($reverse) {
                     $vracsArr = array_reverse($vracs);
                 }
                 foreach ($vracsArr as $vrac) {
-                        if($vrac->valide->statut == $statusConst){
-                              if($nb < $limit){ 
-                                $result_array->contrats[] = $vrac;
-                                $nb++;
-                                }
-                            $result_array->infos->$status_word++;
+                    if ($vrac->valide->statut == $statusConst) {
+                        if ($nb < $limit) {
+                            $result_array->contrats[] = $vrac;
+                            $nb++;
                         }
+                        $result_array->infos->$status_word++;
                     }
                 }
-                
             }
         }
-    
+    }
+
     public function retrieveVracObjsBySoussigne($identifiantEtb, $campagne, $limit = self::RESULTAT_LIMIT) {
-        $vracs = $this->retrieveBySoussigne($identifiantEtb,$campagne,$limit)->rows;
+        $vracs = $this->retrieveBySoussigne($identifiantEtb, $campagne, $limit)->rows;
         $vracsObj = array();
         foreach ($vracs as $vracView) {
-           $vracsObj[$vracView->id] = $this->find($vracView->id);
+            $vracsObj[$vracView->id] = $this->find($vracView->id);
         }
         return $vracsObj;
     }
-    
-    
+
     public function retrieveBySoussigne($soussigneId, $campagne, $limit = self::RESULTAT_LIMIT) {
         $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
         if (!preg_match('/[0-9]*-[0-9]*/', $campagne))
@@ -348,7 +347,7 @@ class VracClient extends acCouchdbClient {
         $list = array();
         foreach ($rows as $r) {
             $c = $r->key[2];
-            if(!$c) {
+            if (!$c) {
 
                 continue;
             }
@@ -358,64 +357,68 @@ class VracClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
     }
 
-    public static function getCsvForEtiquettes($date_debut,$date_fin) {
-        if(is_null($date_debut) || is_null($date_fin)){
+    public static function getCsvForEtiquettes($date_debut, $date_fin) {
+        if (is_null($date_debut) || is_null($date_fin)) {
             throw new sfException('La date de début et la date de fin sont obligatoires.');
         }
         $date_debut_iso = Date::getIsoDateFromFrenchDate($date_debut);
         $date_fin_iso = Date::getIsoDateFromFrenchDate($date_fin);
-        
-        if(str_replace('-', '', $date_fin_iso) < str_replace('-', '', $date_debut_iso)){
+
+        if (str_replace('-', '', $date_fin_iso) < str_replace('-', '', $date_debut_iso)) {
             throw new sfException('La date de fin ne peut etre supérieur à la date de fin.');
-        }        
-        
-        $vracs = VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndDates(self::$statuts_valide, array_keys(self::$types_transaction), $date_debut_iso,$date_fin_iso);
+        }
+
+        $vracs = VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndDates(self::$statuts_valide, array_keys(self::$types_transaction), $date_debut_iso, $date_fin_iso);
 
         $result = "\xef\xbb\xbf";
         $result .="RAISON SOCIALE SOCIETE;ADRESSE SOCIETE ;ADRESSE COMPLEMENTAIRE SOCIETE;CODE POSTAL SOCIETE;VILLE SOCIETE\n";
         $adress_tab = array();
-        foreach ($vracs as $key => $vrac_row) {            
+        foreach ($vracs as $key => $vrac_row) {
             $vrac = VracClient::getInstance()->find($vrac_row->id, acCouchdbClient::HYDRATE_JSON);
-            
-            $row_vendeur = self::constructRowForEtiquettes($vrac->vendeur,$vrac->vendeur_identifiant);
-            if(!in_array($row_vendeur,$adress_tab)){
+
+            $row_vendeur = self::constructRowForEtiquettes($vrac->vendeur, $vrac->vendeur_identifiant);
+            if (!in_array($row_vendeur, $adress_tab)) {
                 $result.=$row_vendeur;
                 $adress_tab[] = $row_vendeur;
             }
- 
-            $row_acheteur = self::constructRowForEtiquettes($vrac->acheteur,$vrac->acheteur_identifiant);
-            if(!in_array($row_acheteur,$adress_tab)){
+
+            $row_acheteur = self::constructRowForEtiquettes($vrac->acheteur, $vrac->acheteur_identifiant);
+            if (!in_array($row_acheteur, $adress_tab)) {
                 $result.=$row_acheteur;
                 $adress_tab[] = $row_acheteur;
             }
-            
-            $row_mandataire = self::constructRowForEtiquettes($vrac->mandataire,$vrac->mandataire_identifiant);
-            if ($row_mandataire!="" && $vrac->mandataire_exist && !in_array($row_mandataire,$adress_tab)) {
+
+            $row_mandataire = self::constructRowForEtiquettes($vrac->mandataire, $vrac->mandataire_identifiant);
+            if ($row_mandataire != "" && $vrac->mandataire_exist && !in_array($row_mandataire, $adress_tab)) {
                 $result.=$row_mandataire;
                 $adress_tab[] = $row_mandataire;
-            } 
+            }
         }
         $result = substr($result, 0, strlen($result) - 1);
         return $result;
     }
 
-    protected static function constructRowForEtiquettes($soussigne,$identifiant) {
-        if(!$identifiant) return "";
+    protected static function constructRowForEtiquettes($soussigne, $identifiant) {
+        if (!$identifiant)
+            return "";
         $compte = CompteClient::getInstance()->findByIdentifiant($identifiant);
-        if(!$compte) return "";
-        $societe = $compte->getSociete();        
-        if(!$societe) return "";
-        
-        $result = ($societe->exist('raison_sociale'))? str_replace(";","", $societe->raison_sociale) . ";" : ";";
-        if(!$societe->exist('siege')) return $result.";;;\n";
-        
-        $result.= ($societe->siege->exist('adresse'))? str_replace(";","", $societe->siege->adresse) . ";" : ";";
-        $result.= ($societe->siege->exist('adresse_complementaire'))? str_replace(";","", $societe->siege->adresse_complementaire) . ";" : ";";
-        $result.= ($societe->siege->exist('code_postal'))? str_replace(";","",$societe->siege->code_postal) . ";" : ";";
-        $result.= ($societe->siege->exist('commune'))? str_replace(";","",$societe->siege->commune)."\n" : "\n";
+        if (!$compte)
+            return "";
+        $societe = $compte->getSociete();
+        if (!$societe)
+            return "";
+
+        $result = ($societe->exist('raison_sociale')) ? str_replace(";", "", $societe->raison_sociale) . ";" : ";";
+        if (!$societe->exist('siege'))
+            return $result . ";;;\n";
+
+        $result.= ($societe->siege->exist('adresse')) ? str_replace(";", "", $societe->siege->adresse) . ";" : ";";
+        $result.= ($societe->siege->exist('adresse_complementaire')) ? str_replace(";", "", $societe->siege->adresse_complementaire) . ";" : ";";
+        $result.= ($societe->siege->exist('code_postal')) ? str_replace(";", "", $societe->siege->code_postal) . ";" : ";";
+        $result.= ($societe->siege->exist('commune')) ? str_replace(";", "", $societe->siege->commune) . "\n" : "\n";
         return $result;
     }
-    
+
     public static function getCsvBySoussigne($vracs) {
         $result = "\xef\xbb\xbf";
         $statuts_libelles = self::getStatuts();
@@ -441,42 +444,41 @@ class VracClient extends acCouchdbClient {
         }
         return $result;
     }
-    
-        public static function getCsvBySociete($vracs) {
+
+    public static function getCsvBySociete($vracs) {
         $result = "\xef\xbb\xbf";
         $result.= "numero_contrat;numero_archive;statut;type_transaction;vendeur_identifiant;vendeur_nom;vendeur_cvi;";
-        $result.= "acheteur_identifiant;acheteur_nom;acheteur_cvi;courtier_identifiant;courtier_nom;courtier carte pro;";        
+        $result.= "acheteur_identifiant;acheteur_nom;acheteur_cvi;courtier_identifiant;courtier_nom;courtier carte pro;";
         $result.= "produit_libelle;prix_unitaire;prix_total\n";
         foreach ($vracs as $vrac) {
             $cpt = 0;
             $contrat = $vrac->getRawValue();
-            
-            $result.= $contrat->numero_contrat.';';
-            $result.= $contrat->numero_archive.';';
-            $result.= $contrat->valide->statut.';';            
-            $result.= $contrat->type_transaction.';';
-            
-            $result.= $contrat->vendeur_identifiant.';';
-            $result.= $contrat->vendeur->nom.';';
-            $result.= $contrat->vendeur->cvi.';';
-            
-            $result.= $contrat->acheteur_identifiant.';';
-            $result.= $contrat->acheteur->nom.';';
-            $result.= $contrat->acheteur->cvi.';';
-            
-            $result.= $contrat->mandataire_identifiant.';';
-            $result.= $contrat->mandataire->nom.';';
-            $result.= $contrat->mandataire->carte_pro.';';            
-            
-            $result.= $contrat->produit_libelle.';';
-            $result.= $contrat->prix_unitaire.';';
+
+            $result.= $contrat->numero_contrat . ';';
+            $result.= $contrat->numero_archive . ';';
+            $result.= $contrat->valide->statut . ';';
+            $result.= $contrat->type_transaction . ';';
+
+            $result.= $contrat->vendeur_identifiant . ';';
+            $result.= $contrat->vendeur->nom . ';';
+            $result.= $contrat->vendeur->cvi . ';';
+
+            $result.= $contrat->acheteur_identifiant . ';';
+            $result.= $contrat->acheteur->nom . ';';
+            $result.= $contrat->acheteur->cvi . ';';
+
+            $result.= $contrat->mandataire_identifiant . ';';
+            $result.= $contrat->mandataire->nom . ';';
+            $result.= $contrat->mandataire->carte_pro . ';';
+
+            $result.= $contrat->produit_libelle . ';';
+            $result.= $contrat->prix_unitaire . ';';
             $result.= $contrat->prix_total;
-            
+
             $result.="\n";
         }
         return $result;
     }
-    
 
     public function retrieveSimilaryContracts($vrac) {
         if (isset($vrac->vendeur_identifiant) || isset($vrac->acheteur_identifiant)) {
@@ -581,7 +583,7 @@ class VracClient extends acCouchdbClient {
             self::STATUS_CONTRAT_NONSOLDE => "Non soldé",
             self::STATUS_CONTRAT_SOLDE => "Soldé");
     }
-    
+
     public function getLibelleFromId($id, $separation = " ") {
         $id = str_replace('VRAC-', '', $id);
         return sprintf('%s%s%s', substr($id, 0, 8), $separation, substr($id, 8, strlen($id) - 1));
@@ -625,5 +627,5 @@ class VracClient extends acCouchdbClient {
     public function getMaster($id) {
         return $this->find($id);
     }
-    
+
 }

@@ -579,6 +579,11 @@ class Vrac extends BaseVrac {
         }
         return $this->valide->statut;
     }
+    
+    
+    public function getTeledeclarationStatutLabel() {
+        return VracClient::$statuts_labels[$this->getTeledeclarationStatut()];
+    }
 
     public function isSigneVendeur() {
         return $this->valide->exist('date_signature_vendeur') && $this->valide->date_signature_vendeur;
