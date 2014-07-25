@@ -110,6 +110,7 @@ class VracRouting {
 
         $r->prependRoute('vrac_societe',  new sfRoute('/contrats/societe/:identifiant', array('module' => 'vrac', 
                                                                                               'action' => 'societe')));
+        
         $r->prependRoute('vrac_annuaire_commercial', new sfRoute('/contrats/annuaire/commercial',
                                                         array('module' => 'vrac', 'action' => 'annuaireCommercial'),
 							array('sf_method' => array('get','post')),
@@ -129,6 +130,11 @@ class VracRouting {
         
         $r->prependRoute('vrac_signature',  new VracRoute('/contrats/:numero_contrat/signature', array('module' => 'vrac', 
                                                                                               'action' => 'signature'),
+                                                                                            array('sf_method' => array('get','post')),
+                                                                                            array('model' => 'Vrac', 'type' => 'object')));
+        
+        $r->prependRoute('vrac_redirect_saisie',  new VracRoute('/contrats/:numero_contrat/saisie', array('module' => 'vrac', 
+                                                                                              'action' => 'redirectSaisie'),
                                                                                             array('sf_method' => array('get','post')),
                                                                                             array('model' => 'Vrac', 'type' => 'object')));
         

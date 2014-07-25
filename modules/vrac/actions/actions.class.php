@@ -244,7 +244,7 @@ class vracActions extends sfActions {
         $this->etablissement_concerned = $this->vrac->getEtbConcerned($this->societe);
         $allSigned = $this->vrac->signatureByEtb($this->etablissement_concerned);
         $this->vrac->save();
-        if($allSigned){
+        if ($allSigned) {
             $mailManager = new VracEmailManager($this->getMailer(), $this->vrac);
             $mailManager->sendMailContratValide();
         }
@@ -285,11 +285,11 @@ class vracActions extends sfActions {
             unset($parameters['_csrf_token']);
             $this->form->bind($parameters);
             if ($this->form->isValid()) {
-        		$this->vrac = $this->form->getUpdatedVrac();
+                $this->vrac = $this->form->getUpdatedVrac();
             } else {
                 throw new sfException($this->form->renderGlobalErrors());
             }
-		}
+        }
         $this->getUser()->setAttribute('vrac_object', serialize($this->vrac));
         $this->getUser()->setAttribute('vrac_acteur', $this->acteur);
         return $this->redirect('annuaire_selectionner', array('identifiant' => $this->identifiant, 'type' => $this->type));
@@ -341,6 +341,7 @@ class vracActions extends sfActions {
     public function executeSoussigne(sfWebRequest $request) {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Soussignés', $request["numero_contrat"]));
         $this->vrac = $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : $this->getRoute()->getVrac();
+        $this->compte = null;
 
         if ($this->vrac->isTeledeclare()) {
             $this->initSocieteAndEtablissementPrincipal();
@@ -367,6 +368,7 @@ class vracActions extends sfActions {
         $this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
+        $this->compte = null;
         if ($this->vrac->isTeledeclare()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
@@ -439,6 +441,7 @@ class vracActions extends sfActions {
         $this->vrac = $this->getRoute()->getVrac();
         $this->vrac->save();
         $this->signatureDemande = false;
+        $this->compte = null;
         $this->authenticated = $this->getUser()->isAuthenticated();
         if ($this->vrac->isTeledeclare() || $this->authenticated) {
             $this->initSocieteAndEtablissementPrincipal();
@@ -575,6 +578,38 @@ class vracActions extends sfActions {
         exit;
     }
 
+    public function executeRedirectSaisie(sfWebRequest $request) {
+        $this->setLayout(false);
+        $this->vrac = $this->getRoute()->getVrac();
+        $this->forward404Unless($this->vrac);
+        if ($this->vrac->isTeledeclare() && $this->vrac->isBrouillon()) {
+            $this->initSocieteAndEtablissementPrincipal();
+        } else {
+            throw new sfException("Le contrat n'est pas un brouillon, ou n'est pas un contrat télédéclaré");
+        }
+        return $this->redirectWithStep();
+    }
+
+    private function redirectWithStep() {
+        switch ($this->vrac->etape) {
+            case 1:
+                return $this->redirect('vrac_soussigne', array('numero_contrat' => $this->vrac->numero_contrat));
+                break;
+            case 2:
+                $this->redirect('vrac_marche', $this->vrac);
+                break;
+            case 3:
+                $this->redirect('vrac_condition', $this->vrac);
+                break;
+            case 4:
+                $this->redirect('vrac_validation', $this->vrac);
+                break;
+            default :
+                $this->redirect('vrac_visualisation', $this->vrac);
+                break;
+        }
+    }
+
     private function initSocieteAndEtablissementPrincipal() {
         $this->compte = $this->getUser()->getCompte();
         if (!$this->compte) {
@@ -604,8 +639,8 @@ class vracActions extends sfActions {
             if (!$this->vrac->exist('createur_identifiant') || !$this->vrac->createur_identifiant) {
                 throw new sfException("Le créateur du contrat $this->vrac->_id ne peut pas être null.");
             }
-            $mailManager = new VracEmailManager($this->getMailer(),$this->vrac);
-            $mailManager->sendMailAttenteSignature();            
+            $mailManager = new VracEmailManager($this->getMailer(), $this->vrac);
+            $mailManager->sendMailAttenteSignature();
         }
     }
 

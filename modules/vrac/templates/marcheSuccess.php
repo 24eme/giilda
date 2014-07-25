@@ -98,7 +98,7 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
     
 </script>
 <section id="principal">
-    <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'actif' => 2)); ?>
+    <?php include_partial('headerVrac', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 2)); ?>
     <div id="contenu_etape">  
         <form id="vrac_marche" method="post" action="<?php echo url_for('vrac_marche', $vrac) ?>">    
 

@@ -67,7 +67,7 @@
                                                 Visualiser pour signer
                                             </a>
                                         <?php elseif ($contrat->getTeledeclarationStatut() == VracClient::STATUS_CONTRAT_BROUILLON): ?>
-                                            <a class="visualiser_contrat" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $contrat->numero_contrat)) ?>">
+                                            <a class="visualiser_contrat" href="<?php echo url_for('vrac_redirect_saisie', array('numero_contrat' => $contrat->numero_contrat)) ?>">
                                                 Continuer
                                             </a>
                                         <?php endif; ?>

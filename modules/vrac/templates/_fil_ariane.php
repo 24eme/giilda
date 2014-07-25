@@ -1,9 +1,10 @@
 <?php
 use_helper('Vrac');
 if($fil>0) $etablissement = EtablissementClient::getInstance()->find($identifiant);
+$urlAccueil = ($vrac->isTeledeclare())? url_for('vrac_societe', array('identifiant' => $compte->identifiant)) : url_for('vrac');
 ?>
 <p id="fil_ariane">
-    <a href="<?php echo url_for('vrac'); ?>">
+    <a href="<?php echo $urlAccueil; ?>">
         <?php if($fil==0): ?><strong><?php endif; ?>
             Page d'accueil
         <?php if($fil==0): ?></strong><?php endif; ?>

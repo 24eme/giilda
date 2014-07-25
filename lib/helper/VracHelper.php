@@ -268,6 +268,9 @@ function bouteilleUnitTerm($vrac, $abbr = false){
 }
 
 function echoPictoSignature($societe, $contrat, $type){
+    if(!$contrat->isTeledeclare()){
+        return;
+    }
     $fctName = 'isSigne'.$type;
     $isSigne = $contrat->$fctName();
     if(($societe->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR && $type == 'Vendeur' && $isSigne)

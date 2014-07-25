@@ -33,7 +33,7 @@ if ($nouveau) {
 }
 ?>
 <section id="principal">
-<?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'actif' => 1)); ?>
+<?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1)); ?>
     <div id="contenu_etape">
         <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew() && isset($etablissement)) ? url_for('vrac_nouveau', array('etablissement' => $etablissement)) : url_for('vrac_soussigne', $vrac); ?>">   
     <?php echo $form->renderHiddenFields() ?>

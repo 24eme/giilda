@@ -698,5 +698,9 @@ class Vrac extends BaseVrac {
         }
         return null;
     }
+    
+    public function isBrouillon() {
+        return $this->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON;
+    }
 
 }
