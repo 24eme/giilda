@@ -12,7 +12,7 @@ class acVinValidatorAdminCompteLogin extends sfValidatorBase {
             return array_merge($values);
         }
         
-        $compte = CompteClient::getInstance()->retrieveByLogin($values['login']);
+        $compte = CompteClient::getInstance()->findByLogin($values['login']);
         if (!$compte) {            
             throw new sfValidatorErrorSchema($this, array($this->getOption('login') => new sfValidatorError($this, 'invalid')));
         }        

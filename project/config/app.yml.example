@@ -1,6 +1,11 @@
 all:
   instance: dev
-  authentification: NO_CAS #HTTP_AD, CAS, NO_CAS
+  auth_mode: NO_CAS #HTTP_AD, CAS, NO_CAS
+  cas:
+    domain: login.cas
+    port: 443
+    path: cas
+    url : "https://login.cas:443/cas"
   ldap:
     serveur: localhost
     dn: cn=admin,dc=interloire,dc=tld

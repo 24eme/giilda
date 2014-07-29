@@ -2,19 +2,25 @@
 
 class myUser extends sfBasicSecurityUser
 {
-    const SESSION_COMPTE = "COMPTE";
+    const SESSION_COMPTE_LOGIN = "COMPTE_LOGIN";
+    const SESSION_COMPTE_DOC_ID = "COMPTE_DOC_ID";
     const NAMESPACE_COMPTE = "COMPTE";
 
-    public function signIn(Compte $compte) 
+    public function signIn($login) 
     {
-        $this->setAttribute(self::SESSION_COMPTE, $compte->_id, self::NAMESPACE_COMPTE);
-
-        foreach($compte->droits as $droit) {
-            $roles = Roles::getRoles($droit);
-            $this->addCredentials($roles);
-        }
-
         $this->setAuthenticated(true);
+        $this->setAttribute(self::SESSION_COMPTE_LOGIN, $login, self::NAMESPACE_COMPTE);
+
+        $compte = CompteClient::getInstance()->findByLogin($login);
+        
+        if(!$compte) {
+            $this->setAttribute(self::SESSION_COMPTE_DOC_ID, $compte->_id, self::NAMESPACE_COMPTE);
+            foreach($compte->droits as $droit) {
+                $roles = Roles::getRoles($droit);
+                $this->addCredentials($roles);
+            }
+        }
+        
     }
 
     public function signOut() 
@@ -26,7 +32,7 @@ class myUser extends sfBasicSecurityUser
 
     public function getCompte() 
     {
-        return CompteClient::getInstance()->find($this->getAttribute(self::SESSION_COMPTE, null, self::NAMESPACE_COMPTE));
+        return CompteClient::getInstance()->find($this->getAttribute(self::SESSION_COMPTE_DOC_ID, null, self::NAMESPACE_COMPTE));
     }
 
 

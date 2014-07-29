@@ -19,7 +19,7 @@
 					<a class="admin" href="<?php echo url_for('produits') ?>">Admin</a>
    				<?php endif; ?>
    				<a href="#">Mon compte</a>
-				<a class="deconnexion" href="<?php echo url_for('@ac_vin_logout') ?>">Déconnexion</a>
+				<a class="deconnexion" href="<?php echo url_for('auth_logout') ?>">Déconnexion</a>
 			</div>
 		</div>
 	</header>

@@ -9,7 +9,12 @@ homepage:
 
 # TELEDECLARATION
 
-login_no_cas:
+auth_login_no_cas:
   url:   /login_no_cas
   param: { module: auth, action: login}
+
+
+auth_logout:
+  url:   /logout
+  param: { module: auth, action: logout}
 
