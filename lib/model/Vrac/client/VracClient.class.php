@@ -63,7 +63,7 @@ class VracClient extends acCouchdbClient {
     public static $cvo_repartition = array(self::CVO_REPARTITION_50_50 => '50/50',
         self::CVO_REPARTITION_100_VITI => '100% viticulteur',
         self::CVO_REPARTITION_0_VINAIGRERIE => 'Vinaigrerie');
-    public static $statuts_valide = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE);
+    public static $statuts_valide = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE,self::STATUS_CONTRAT_VALIDE);
     public static $statuts_labels = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
         self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En Attente de Signature',
         self::STATUS_CONTRAT_VISE => 'Visé',

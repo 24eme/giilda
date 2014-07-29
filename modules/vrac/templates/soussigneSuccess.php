@@ -35,7 +35,7 @@ if ($nouveau) {
 <section id="principal">
 <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1)); ?>
     <div id="contenu_etape">
-        <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew() && isset($etablissement)) ? url_for('vrac_nouveau', array('etablissement' => $etablissement)) : url_for('vrac_soussigne', $vrac); ?>">   
+        <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew() && isset($etablissementPrincipal)) ? url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)) : url_for('vrac_soussigne', $vrac); ?>">   
     <?php echo $form->renderHiddenFields() ?>
 <?php echo $form->renderGlobalErrors() ?>
 
@@ -47,7 +47,7 @@ if ($nouveau) {
 <?php echo $form['vendeur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur')) ?>
 <?php if ($form->getObject()->isTeledeclare()): ?>
 					<br /><br />
-					<a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id,'sf_subject' => $form->getObject(), 'identifiant' => $etablissement, 'type' => AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY, 'acteur' => 'vendeur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
+					<a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id,'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY, 'acteur' => 'vendeur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
 <?php endif; ?>
                 </div>
 
@@ -75,7 +75,7 @@ include_partial('vendeurInformations', $vendeurArray);
 <?php echo $form['acheteur_identifiant']->render() ?>
 <?php if ($form->getObject()->isTeledeclare()): ?>
 					<br /><br />
-					<a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissement, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
+					<a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
 <?php endif; ?>
                 </div>
 
@@ -108,7 +108,7 @@ include_partial('acheteurInformations', $acheteurArray);
 						<?php echo $form['commercial']->renderLabel() ?>
 	                    <?php echo $form['commercial']->render() ?>
 						<br /><br />
-						<a class="ajouter_annuaire" href="<?php echo url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissement)) ?>">Ajouter un contact</a>
+						<a class="ajouter_annuaire" href="<?php echo url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant)) ?>">Ajouter un contact</a>
 	                	<?php endif; ?>
 	                </div>
                 </div>
@@ -147,7 +147,7 @@ include_partial('acheteurInformations', $acheteurArray);
 					<?php echo $form['commercial']->renderLabel() ?>
                     <?php echo $form['commercial']->render() ?>
 					<br /><br />
-					<a class="ajouter_annuaire" href="<?php echo url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissement)) ?>">Ajouter un contact</a>
+					<a class="ajouter_annuaire" href="<?php echo url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant)) ?>">Ajouter un contact</a>
                 	<?php endif; ?>
                 </div>
 

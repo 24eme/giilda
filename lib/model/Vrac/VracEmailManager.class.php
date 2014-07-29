@@ -21,6 +21,11 @@ class VracEmailManager {
         $this->vrac = $vrac;
     }
 
+    public function setVrac($vrac) {
+        $this->vrac = $vrac;
+    }
+    
+    
     public function sendMailAttenteSignature() {
         $createurObject = $this->vrac->getCreateurObject();
         $nonCreateursArr = $this->vrac->getNonCreateursArray();

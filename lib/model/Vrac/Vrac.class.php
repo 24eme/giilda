@@ -93,6 +93,12 @@ class Vrac extends BaseVrac {
         }
     }
 
+    public function createVisa() {
+        $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+        $this->add('visa', $this->numero_archive);
+        $this->update();
+    }
+    
     public function setInformations() {
         $this->setAcheteurInformations();
         $this->setVendeurInformations();
@@ -616,8 +622,8 @@ class Vrac extends BaseVrac {
                 }
                 break;
              case 'acheteur' :
-                if ($etb->identifiant == $this->acheteur_identifiant){
-                    
+                if ($etb->identifiant == $this->acheteur_identifiant)
+                {
                     $this->valide->_add('date_signature_acheteur', date('Y-m-d H:i:s'));
                 }
                 break;
@@ -632,8 +638,8 @@ class Vrac extends BaseVrac {
         }
         if($allSignatures){
             $this->valide->statut = VracClient::STATUS_CONTRAT_VALIDE;
-            if (!$this->valide->date_signature) {
-                $this->valide->date_signature = date('Y-m-d H:i:s');
+            if (!$this->date_signature) {
+                $this->date_signature = date('Y-m-d H:i:s');
             }
         }
         return $allSignatures;
