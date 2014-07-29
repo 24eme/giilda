@@ -519,7 +519,12 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     }
 
     public function getEtablissementObject() {
-        return $this->declarant_document->getEtablissementObject();
+        return $this->getEtablissement();
+    }
+
+    public function getEtablissement() {
+        
+        return EtablissementClient::getInstance()->find($this->identifiant);
     }
     
     /**** FIN DES DECLARANT ****/
