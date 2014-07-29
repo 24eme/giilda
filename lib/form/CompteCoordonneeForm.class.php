@@ -30,6 +30,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->setWidget('commune', new sfWidgetFormInput());
             $this->setWidget('cedex', new sfWidgetFormInput());
             $this->setWidget('pays', new sfWidgetFormChoice(array('choices' => $this->getCountryList()), array('class' => 'autocomplete')));
+            $this->setWidget('droits', new sfWidgetFormChoice(array('choices' => $this->getDroits(), 'multiple' => true, 'expanded' => true)));
         }
 
         $this->setWidget('email', new sfWidgetFormInput());
@@ -47,6 +48,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel('commune', 'Ville *');
             $this->widgetSchema->setLabel('cedex', 'Cedex');
             $this->widgetSchema->setLabel('pays', 'Pays *');
+            $this->widgetSchema->setLabel('droits', 'Droits *');
         }
         $this->widgetSchema->setLabel('email', 'E-mail');
         $this->widgetSchema->setLabel('telephone_perso', 'Telephone Perso.');
@@ -64,6 +66,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->setValidator('commune', new sfValidatorString(array('required' => true)));
             $this->setValidator('cedex', new sfValidatorString(array('required' => false)));
             $this->setValidator('pays', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCountryList()))));
+            $this->setValidator('droits', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getDroits()))));
         }
         
         $this->setValidator('email', new sfValidatorString(array('required' => false)));
@@ -78,6 +81,11 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         if($this->compte->isNew())
                 $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
         $this->widgetSchema->setNameFormat('compte_modification[%s]');
+    }
+
+    public function getDroits() {
+
+        return array(Roles::CONTRAT => "Contrat");
     }
    
     public function getCountryList() {

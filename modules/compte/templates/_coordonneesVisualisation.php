@@ -97,6 +97,18 @@
     <?php endif; ?>
 </fieldset>
 <fieldset>
+        <div class="form_ligne">
+            <legend>Droits</legend>
+        </div>
+        <div class="form_ligne">
+            <ul>
+                <?php foreach ($compte->getDroits() as $droit) : ?>
+                    <li><?php echo $droit; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+</fieldset>
+<fieldset>
     <div class="form_ligne">
         <legend>Tags - étiquettes </legend>
     </div>
