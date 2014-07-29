@@ -13,7 +13,7 @@ class myUser extends sfBasicSecurityUser
 
         $compte = CompteClient::getInstance()->findByLogin($login);
         
-        if(!$compte) {
+        if($compte) {
             $this->setAttribute(self::SESSION_COMPTE_DOC_ID, $compte->_id, self::NAMESPACE_COMPTE);
             foreach($compte->droits as $droit) {
                 $roles = Roles::getRoles($droit);
