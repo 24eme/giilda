@@ -24,6 +24,11 @@ class Roles
     const BUREAU = 'bureau';
     const AUTRE = 'autre';
 
+    const TELEDECLARATION = 'teledeclaration';
+    const TELEDECLARATION_VRAC = 'teledeclaration_vrac';
+    
+    const OBSERVATOIRE = 'observatoire';
+
     protected static $hierarchy = array(
         self::ADMIN => array(self::OPERATEUR, self::TRANSACTION),
         self::OPERATEUR => array(),

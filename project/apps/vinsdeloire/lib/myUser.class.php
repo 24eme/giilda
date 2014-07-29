@@ -29,6 +29,11 @@ class myUser extends sfBasicSecurityUser
         return CompteClient::getInstance()->find($this->getAttribute(self::SESSION_COMPTE, null, self::NAMESPACE_COMPTE));
     }
 
-
-
+    public function hasTeledeclaration() {
+        return $this->isAuthenticated() && $this->getCompte() && $this->hasCredential(Roles::TELEDECLARATION);
+    }
+    
+    public function hasTeledeclarationVrac() {
+        return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_VRAC);
+    }
 }

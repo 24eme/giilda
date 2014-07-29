@@ -48,7 +48,7 @@ class VracSecurity implements SecurityInterface {
             return false;
         }
 
-        if(in_array(self::DROITS_TELEDECLARATION_VRAC, $droits)) {
+        if(in_array(Roles::TELEDECLARATION_VRAC, $droits)) {
 
             return true;
         }
