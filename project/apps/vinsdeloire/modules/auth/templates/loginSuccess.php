@@ -4,7 +4,7 @@
 
     <!-- #nouvelle_declaration -->
     <div id="nouvelle_declaration" style="width: 504px;">
-        <form action="<?php echo url_for('login_no_cas') ?>" method="post" id="principal">
+        <form action="<?php echo url_for('auth_login_no_cas') ?>" method="post" id="principal">
         <h3 class="titre_section" style="background-color: #5e88bc; color: #0f2c50">Connexion à un compte</h3>
         <div class="contenu_section">
             <p class="intro">Pour vous connecter, merci d'indiquer le login :</p>

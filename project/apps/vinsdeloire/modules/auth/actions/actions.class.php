@@ -4,6 +4,11 @@ class authActions extends sfActions
 {
 
   public function executeLogin(sfWebRequest $request) {
+      if(sfConfig::get("app_auth_mode") != 'NO_CAS') {
+            
+            return $this->forward404();
+      }
+      
       $this->form = new TeledeclarationCompteLoginForm(null, array('comptes_type' => array('Compte'), false));
       
 
@@ -22,12 +27,20 @@ class authActions extends sfActions
 
       $idCompte = $this->form->process()->identifiant;
       $idSociete = $this->form->process()->getSociete()->getIdentifiant();                
-      $this->getUser()->signIn($this->form->getValue("compte"));
+      $this->getUser()->signIn($this->form->getValue("login"));
       $this->redirect('vrac_societe',array('identifiant' => $idCompte));
   }
 
   public function executeLogout(sfWebRequest $request) {
+      $this->getUser()->signOut();
 
+      $urlBack = $this->generateUrl('homepage', array(), true);
+
+      if(sfConfig::get("app_auth_mode") == 'CAS') {
+          acCas::processLogout($urlBack);
+      }
+
+      return $this->redirect('homepage');
   }
 
   public function executeForbidden(sfWebRequest $request) {
