@@ -831,7 +831,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function getEtablissementObject() {
-        return $this->declarant_document->getEtablissementObject();
+        return $this->getEtablissement();
     }
 
     /*** ARCHIVAGE ***/
