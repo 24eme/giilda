@@ -239,6 +239,8 @@ function bouteilleUnitTerm($vrac, $abbr = false) {
 }
 
 function echoPictoSignature($societe, $contrat, $type) {
+    if(!$societe) return null;
+    
     if (!$contrat->isTeledeclare()) {
         return;
     }
@@ -257,6 +259,12 @@ function getClassStatutPicto($vrac) {
         return 'statut_non-solde';
     } elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ANNULE) {
         return 'statut_annule';
+    }
+    elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) {
+        return 'statut_attente_signature';
+    }
+     elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) {
+        return 'statut_brouillon';
     }
     return 'statut_solde';
     

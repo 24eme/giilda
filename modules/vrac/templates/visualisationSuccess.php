@@ -6,42 +6,46 @@
  * Version : 1.0.0 
  * Derniere date de modification : 29-05-12
  */
+use_helper('Vrac');
 ?>
 <section id="principal">      
     <div id="contenu_etape">
         <div id="vrac_visualisation"> 
+            <?php if($vrac->isVise()): ?>
             <div id="titre">
                 <a id="btn_pdf_contrat" href="<?php echo url_for('vrac_pdf', $vrac); ?>">
                     <span class="style_label">N° d'enregistrement du contrat : <?php echo $vrac->numero_archive ?> (<?php echo $vrac->campagne ?>)</span>
                 </a>
-            </div>            
-            <?php if (!$isVisu || $isAnnulable): ?>    
+            </div> 
+            <?php endif; ?>  
                 <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>"> 
-                    <?php if (!$isVisu): ?>
                     <div id="ss_titre" class="legende"><span class="style_label">Etat du contrat</span>
-                        <?php if ($vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE) : ?>
-                            <?php if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE) : ?>
-                                <a href="<?php echo url_for('vrac_solder', $vrac) ?>" class="btn_majeur btn_vert f_right">Solder le contrat</a>
-                            <?php endif; ?>
-                            <?php if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE) : ?>
-                                <a href="<?php echo url_for('vrac_nonsolder', $vrac) ?>" class="btn_majeur btn_orange f_right">Annuler le solde</a>
-                            <?php endif; ?>
+                        <?php if ((!$sf_user->hasTeledeclaration()) 
+                                && ($vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE)) : ?>
+                                <?php if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE) : ?>
+                                    <a href="<?php echo url_for('vrac_solder', $vrac) ?>" class="btn_majeur btn_vert f_right">Solder le contrat</a>
+                                <?php endif; ?>
+                                <?php if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE) : ?>
+                                    <a href="<?php echo url_for('vrac_nonsolder', $vrac) ?>" class="btn_majeur btn_orange f_right">Annuler le solde</a>
+                                <?php endif; ?>
                         <?php endif; ?>
                         <div>
                             <span class="statut <?php echo getClassStatutPicto($vrac); ?>"></span><span class="legende_statut_texte"><?php echo $vrac->valide->statut; ?></span>
                         </div>                            
                     </div>
-                    <?php endif; ?>
                     <div id="ligne_btn">
                         <?php
                         if (!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE && (is_null($vrac->volume_enleve) || ($vrac->volume_enleve == 0))):
+                            if(!$isTeledeclare):
                             ?>
                             <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
-                            <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>            
+                            <?php endif; ?>
+                             <?php if(!$isTeledeclare || !$vrac->isVise()): ?>
+                                <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>   
+                            <?php endif; ?>        
                         <?php endif; ?>                                 
                     </div>
                 </form>
-<?php endif; ?> 
 
 
 <?php if ($signatureDemande): ?>
@@ -52,7 +56,7 @@
             <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'signatureDemande' => $signatureDemande)); ?>
 
             <?php
-            if (!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE):
+            if ($vrac->isVise()):
                 ?>
                 <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_orange f_right">Télécharger le PDF</a>  
             <?php endif; ?>
@@ -72,7 +76,7 @@
 <?php endif; ?>
 </section>
     <?php
-    if ($isVisu):
+    if ($isTeledeclare):
         include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
     else:
         slot('colButtons');

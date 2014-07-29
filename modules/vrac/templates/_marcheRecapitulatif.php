@@ -10,10 +10,12 @@ use_helper('Vrac');
 use_helper('Float');
 ?>
 <div class="bloc_form bloc_form_condensed">
+    <?php if(!$vrac->isTeledeclare()): ?>
     <div id="marche_recapitulatif_original" class="ligne_form">
             <label>En attente de l'original :</label>
             <span><?php echo ($vrac->attente_original)? 'Oui' : 'Non'; ?></span>
     </div>
+    <?php endif; ?>
     <div id="marche_recapitulatif_typeTransaction" class="ligne_form ligne_form_alt">
             <label>Type de transaction :</label>
             <span><?php echo showType($vrac); ?></span>
@@ -68,7 +70,7 @@ use_helper('Float');
             <?php
             echo showRecapVolumePropose($vrac); 
             ?>
-            <?php if(!$vrac->isValidee() && $vrac->isVin()): ?>
+            <?php if(!$vrac->isVise() && $vrac->isVin()): ?>
             (stock commercialisable <?php echoFloat($vrac->getStockCommercialisable()) ?> hl)
             <?php endif; ?>
             </span>
@@ -77,6 +79,7 @@ use_helper('Float');
         if($alt == "ligne_form_alt") $alt= "ligne_form";
         else $alt= "ligne_form_alt";
     ?>    
+    <?php if(!$vrac->isTeledeclare()): ?>
     <div id="marche_recapitulatif_volumeEnleve" class="ligne_form <?php echo $alt; ?>">
             <label>
                 Volumes enlevé: 
@@ -87,7 +90,7 @@ use_helper('Float');
             ?>
             </span>
     </div>
-    
+    <?php endif; ?>
     <?php 
         if($alt == "ligne_form_alt") $alt= "ligne_form";
         else $alt= "ligne_form_alt";

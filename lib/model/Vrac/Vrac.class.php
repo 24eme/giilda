@@ -88,7 +88,7 @@ class Vrac extends BaseVrac {
             $this->prix_initial_unitaire_hl = round($this->prix_initial_total / $this->volume_propose * 1.0, 2);
         }
 
-        if ($this->isValidee() && !$this->hasPrixVariable()) {
+        if ($this->isVise() && !$this->hasPrixVariable()) {
             $this->setPrixUnitaire($this->prix_initial_unitaire);
         }
     }
@@ -392,9 +392,9 @@ class Vrac extends BaseVrac {
         $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
     }
 
-    public function isValidee() {
+    public function isVise() {
 
-        return in_array($this->valide->statut, VracClient::$statuts_valide);
+        return in_array($this->valide->statut, VracClient::$statuts_vise);
     }
 
     public function hasPrixVariable() {
@@ -420,7 +420,7 @@ class Vrac extends BaseVrac {
     }
 
     public function isEnAttenteDOriginal() {
-        return $this->isValidee() && $this->attente_original;
+        return $this->isVise() && $this->attente_original;
     }
 
     public function getMaster() {
@@ -444,7 +444,7 @@ class Vrac extends BaseVrac {
 
     public function isArchivageCanBeSet() {
 
-        return $this->isValidee();
+        return $this->isVise();
     }
 
     /*     * * FIN ARCHIVAGE ** */
@@ -580,8 +580,8 @@ class Vrac extends BaseVrac {
     }
 
     public function getTeledeclarationStatut() {
-        if ($this->isSolde() || $this->isValidee()) {
-            return VracClient::STATUS_CONTRAT_VALIDE;
+        if ($this->isVise()) {
+            return VracClient::STATUS_CONTRAT_VISE;
         }
         return $this->valide->statut;
     }
@@ -713,7 +713,7 @@ class Vrac extends BaseVrac {
     }
 
     public function isTeledeclarationAnnulable() {
-        return true;
+        return !$this->isVise();
     }
     
 }

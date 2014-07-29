@@ -232,7 +232,7 @@ class vracActions extends sfActions {
     public function executeSignature(sfWebRequest $request) {
         $this->setLayout(false);
         $this->vrac = $this->getRoute()->getVrac();
-        if ($this->vrac->isTeledeclare()) {
+        if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
 
@@ -343,7 +343,7 @@ class vracActions extends sfActions {
         $this->vrac = $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : $this->getRoute()->getVrac();
         $this->compte = null;
 
-        if ($this->vrac->isTeledeclare()) {
+        if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
         $this->form = new VracSoussigneForm($this->vrac);
@@ -369,7 +369,7 @@ class vracActions extends sfActions {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
-        if ($this->vrac->isTeledeclare()) {
+        if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
         $this->form = new VracMarcheForm($this->vrac);
@@ -390,7 +390,7 @@ class vracActions extends sfActions {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
-        if ($this->vrac->isTeledeclare()) {
+        if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
         $this->form = new VracConditionForm($this->vrac);
@@ -415,7 +415,7 @@ class vracActions extends sfActions {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
-        if ($this->vrac->isTeledeclare()) {
+        if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
         $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));
@@ -444,14 +444,16 @@ class vracActions extends sfActions {
         $this->vrac->save();
         $this->signatureDemande = false;
         $this->compte = null;
-        if ($this->vrac->isTeledeclare() || $this->authenticated) {
+        $this->societe = null;
+        $this->popupSignature = null;
+        if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
             $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);
             $this->popupSignature = ($this->signatureDemande) && $request->hasParameter('signature') && ($request->getParameter('signature') == "1");
         }
-        $this->authenticated = $this->getUser()->isAuthenticated();
-        $this->isVisu = $this->vrac->isTeledeclare() || (isset($this->authenticated) && $this->authenticated);
-        $this->isAnnulable = $this->vrac->isTeledeclarationAnnulable() 
+        
+        $this->isTeledeclare = $this->vrac->isTeledeclare(); 
+        $this->isAnnulable = $this->isTeledeclarationVrac() && $this->vrac->isTeledeclarationAnnulable() 
                 && ($this->vrac->getCreateurObject()->getSociete()->identifiant === $this->societe->identifiant);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);
@@ -586,7 +588,7 @@ class vracActions extends sfActions {
         $this->setLayout(false);
         $this->vrac = $this->getRoute()->getVrac();
         $this->forward404Unless($this->vrac);
-        if ($this->vrac->isTeledeclare() && $this->vrac->isBrouillon()) {
+        if ($this->isTeledeclarationVrac() && $this->vrac->isBrouillon()) {
             $this->initSocieteAndEtablissementPrincipal();
         } else {
             throw new sfException("Le contrat n'est pas un brouillon, ou n'est pas un contrat télédéclaré");
@@ -613,8 +615,12 @@ class vracActions extends sfActions {
                 break;
         }
     }
+    
+    private function isTeledeclarationVrac() {
+        return $this->getUser()->hasTeledeclarationVrac();
+    }
 
-    private function initSocieteAndEtablissementPrincipal() {
+    private function initSocieteAndEtablissementPrincipal() {        
         $this->compte = $this->getUser()->getCompte();
         if (!$this->compte) {
             new sfException("Le compte $compte n'existe pas");

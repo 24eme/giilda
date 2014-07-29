@@ -63,7 +63,7 @@ class VracClient extends acCouchdbClient {
     public static $cvo_repartition = array(self::CVO_REPARTITION_50_50 => '50/50',
         self::CVO_REPARTITION_100_VITI => '100% viticulteur',
         self::CVO_REPARTITION_0_VINAIGRERIE => 'Vinaigrerie');
-    public static $statuts_valide = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE,self::STATUS_CONTRAT_VALIDE);
+    public static $statuts_vise = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE,self::STATUS_CONTRAT_VISE);
     public static $statuts_labels = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
         self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En Attente de Signature',
         self::STATUS_CONTRAT_VISE => 'Visé',
@@ -368,7 +368,7 @@ class VracClient extends acCouchdbClient {
             throw new sfException('La date de fin ne peut etre supérieur à la date de fin.');
         }
 
-        $vracs = VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndDates(self::$statuts_valide, array_keys(self::$types_transaction), $date_debut_iso, $date_fin_iso);
+        $vracs = VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndDates(self::$statuts_vise, array_keys(self::$types_transaction), $date_debut_iso, $date_fin_iso);
 
         $result = "\xef\xbb\xbf";
         $result .="RAISON SOCIALE SOCIETE;ADRESSE SOCIETE ;ADRESSE COMPLEMENTAIRE SOCIETE;CODE POSTAL SOCIETE;VILLE SOCIETE\n";

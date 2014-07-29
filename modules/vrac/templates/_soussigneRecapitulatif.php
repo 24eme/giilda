@@ -17,7 +17,7 @@ use_helper('Vrac');
     </div>
     <?php endif; ?>
     <div id="soussigne_recapitulatif_mandataire" class="ligne_form ligne_form_alt <?php if($vrac->mandataire_exist) : echoPictoSignature($societe, $vrac, 'Courtier'); endif; ?>">
-        <?php if($vrac->mandataire_identifiant!=null && $vrac->mandataire_exist): ?>
+        <?php if($vrac->mandataire_identifiant != null && $vrac->mandataire_exist): ?>
             <label>Mandataire&nbsp;:</label>
             <span><?php echo $vrac->getMandataireObject()->getNom();?></span>
         <?php else: ?>

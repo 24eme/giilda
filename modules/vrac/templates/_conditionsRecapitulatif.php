@@ -12,6 +12,7 @@ use_helper('Date');
         <label>Type de contrat&nbsp;:</label>
         <span><?php echo $vrac->type_contrat; ?></span>
     </div>
+    <?php if(!$vrac->isTeledeclare()): ?>
     <div id="conditions_recapitulatif_isvariable" class="ligne_form ligne_form_alt">
         <label>Prix variable :</label>
         <span><?php echo ($vrac->prix_variable) ? 'Oui' : 'Non';
@@ -24,11 +25,14 @@ use_helper('Date');
         <label>Nature de la transaction&nbsp;: </label>
         <span><?php echo $vrac->cvo_nature ?></span>
     </div>
-
+    <?php endif; ?>
+    
+    <?php if(!$sf_user->hasTeledeclarationVrac()): ?>
     <div id="conditions_recapitulatif_cvo" class="ligne_form ligne_form_alt">
         <label>Repartition de la CVO&nbsp;: </label>
         <span><?php echo VracClient::$cvo_repartition[$vrac->cvo_repartition] ?></span>
     </div>
+    <?php endif; ?>
     
     <?php if($vrac->date_signature) : ?>
     <div id="conditions_recapitulatif_date_signature" class="ligne_form">
@@ -37,7 +41,7 @@ use_helper('Date');
     </div>
     <?php endif; ?> 
     
-    <?php if($vrac->date_campagne) : ?>
+    <?php if($vrac->date_campagne && !$sf_user->hasTeledeclarationVrac()) : ?>
     <div id="conditions_recapitulatif_date_saisie" class="ligne_form ligne_form_alt">
         <label>Date de campagne (statistique)&nbsp;: </label>
         <span><?php echo $vrac->date_campagne; ?></span>
@@ -51,10 +55,10 @@ use_helper('Date');
     </div>
     <?php endif; ?> 
     
-    
+    <?php if(!$vrac->isTeledeclare()): ?>
     <div id="conditions_recapitulatif_commentaire" class="ligne_form <?php echo ($vrac->valide->date_saisie)? 'ligne_form_alt' : '' ;?>">
         <label>Commentaires&nbsp;: </label>
         <pre class="commentaire"><?php echo $vrac->commentaire;?></pre>
     </div>
-    
+    <?php endif; ?> 
 </div>
