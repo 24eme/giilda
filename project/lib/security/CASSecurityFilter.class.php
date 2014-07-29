@@ -27,17 +27,9 @@ class CASSecurityFilter extends sfBasicSecurityFilter
    */
   public function execute ($filterChain)
   {
-      if ($this->request->getParameter('ticket')) {
-          /** CAS * */
-          error_reporting(E_ALL);
-          require_once(sfConfig::get('sf_lib_dir') . '/vendor/phpCAS/CAS.class.php');
-          phpCAS::client(CAS_VERSION_2_0, sfConfig::get('app_cas_domain'), sfConfig::get('app_cas_port'), sfConfig::get('app_cas_path'), false);
-          phpCAS::setNoCasServerValidation();
-          $this->getContext()->getLogger()->debug('{sfCASRequiredFilter} about to force auth');
-          phpCAS::forceAuthentication();
-          $this->getContext()->getLogger()->debug('{sfCASRequiredFilter} auth is good');
-          /** ***** */
-          $this->getUser()->signIn(phpCAS::getUser());
+      if (!$this->context->getUser()->isAuthenticated() && $this->request->getParameter('ticket')) {
+          acCas::processAuth();
+          $this->getContext()->getUser()->signIn(acCas::getUser());
       }
 
       parent::execute($filterChain);
