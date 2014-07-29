@@ -159,7 +159,8 @@ class CompteClient extends acCouchdbClient {
     }
 
     public function findByLogin($login, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return parent::find('COMPTE-'.$login, $hydrate);
+        
+        return parent::find('COMPTE-'.$login."01", $hydrate);
     }
     
 }

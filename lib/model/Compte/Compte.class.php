@@ -14,6 +14,11 @@ class Compte extends BaseCompte {
         return SocieteClient::getInstance()->find($this->id_societe);
     }
 
+    public function getLogin() {
+
+        return preg_replace("^[0-9]{6}([0-9]+)$", "", $this->identifiant);
+    }
+
     public function getMasterCompte() {
         if($this->isSameCoordonneeThanSociete()) {
 

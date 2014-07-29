@@ -34,9 +34,9 @@ class acVinCompteRouting {
     static public function listenToRoutingLoadConfigurationEvent(sfEvent $event) {
         $r = $event->getSubject();
         //$r->prependRoute('ac_vin_login', new sfRoute('/', array('module' => 'acVinCompte', 'action' => 'login')));
-        $r->prependRoute('ac_vin_logout', new sfRoute('/logout', array('module' => 'acVinCompte', 'action' => 'logout')));
+        /*$r->prependRoute('ac_vin_logout', new sfRoute('/logout', array('module' => 'acVinCompte', 'action' => 'logout')));
         $r->prependRoute('ac_vin_login', new sfRoute('/login', array('module' => 'acVinCompte', 'action' => 'login')));
-        $r->prependRoute('ac_vin_forbidden', new sfRoute('/forbidden', array('module' => 'acVinCompte', 'action' => 'forbidden')));
+        $r->prependRoute('ac_vin_forbidden', new sfRoute('/forbidden', array('module' => 'acVinCompte', 'action' => 'forbidden')));*/
 	/*
         $r->prependRoute('ac_vin_compte', new sfRoute('/compte', array('module' => 'acVinCompte', 'action' => 'first')));
         $r->prependRoute('ac_vin_compte_creation', new sfRoute('/compte/creation', array('module' => 'acVinCompte', 'action' => 'creation')));
