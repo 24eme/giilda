@@ -56,9 +56,15 @@
                         
                         <?php include_component_slot('colContacts'); ?>
                         
+                        <?php if (has_slot('colCompte')): ?>
+                        <?php include_slot('colCompte'); ?>
+                        <?php endif; ?>
+                        
                         <?php if (has_slot('colAide')): ?>
-                            <?php include_slot('colAide'); ?>
-                        <?php else: ?>
+                        <?php include_slot('colAide'); ?>
+                        <?php else: 
+                            $contacts = sfConfig::get('app_teledeclaration_contact_contrat');                        
+                            ?>
                         <div class="bloc_col" id="contrat_aide">
                             <h2>Aide</h2>
 
@@ -72,13 +78,18 @@
                                 <h3>Votre contact - mise en marche</h3>
 
                                 <ul class="contact"> 
-                                    <li class="nom">Fanny Gillet</li>
-                                    <li class="email"><a href="mailto:f.gillet@vinsdeloire.fr">f.gillet@vinsdeloire.fr</a></li>
-                                    <li class="telephone">02 47 60 55 08</li>
+                                    <li class="nom"><?php echo $contacts["TOURS"]['nom']; ?></li>
+                                    <li class="email"><a href="mailto:<?php echo $contacts["TOURS"]['email']; ?>"><?php echo $contacts["TOURS"]['email']; ?></a></li>
+                                    <li class="telephone"><?php echo $contacts["TOURS"]['telephone']; ?></li>
                                 </ul>
                             </div>
                         </div>
-
+                        <?php endif; ?>
+                        <?php if (has_slot('colLegende')): ?>
+                        <?php include_slot('colLegende'); ?>
+                        <?php else: ?>
+                        
+                        
                         <div id="legende" class="bloc_col">
                             <h2>Légende</h2>
 

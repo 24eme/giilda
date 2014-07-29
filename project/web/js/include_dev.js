@@ -58,5 +58,6 @@
 	$.fn.includeJS(jsPath, 'hamza_style.js');
         $.fn.includeJS(jsPath, 'societe.js');
         $.fn.includeJS(jsPath, 'etablissement.js');
+        $.fn.includeJS(jsPath, 'teledeclaration_vrac.js');
 
 })(jQuery);
