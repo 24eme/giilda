@@ -57,9 +57,21 @@ class vracActions extends sfActions {
     public function executeConnexion(sfWebRequest $request) {
        $this->etablissement = $this->getRoute()->getEtablissement();
        $societeIdentifiant = $this->etablissement->getSociete()->identifiant;
-       $this->getUser()->signOut();
-       $this->getUser()->signIn($societeIdentifiant);
+
+       $this->getUser()->usurpationOn($societeIdentifiant, $request->getReferer());
        $this->redirect('homepage');
+    }
+
+    public function executeDeconnexion(sfWebRequest $request) {
+
+        $url_back = $this->getUser()->usurpationOff();
+
+        if($url_back) {
+
+            return $this->redirect($url_back);
+        }
+
+        $this->redirect('homepage');
     }
 
     private function getCsvFromHistory($request, $limited = true) {
