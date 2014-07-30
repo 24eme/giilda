@@ -9,15 +9,21 @@ use_helper('Float');
     </h2>
     <div class="clearfix">
         <ul class="stats_contrats">
+            <?php if($contratsSocietesWithInfos->infos->attente_signature > 0) :?>
             <li>
-                <?php echo $contratsSocietesWithInfos->infos->attente_signature; ?> contrats à signer
+                <?php echo $contratsSocietesWithInfos->infos->attente_signature; ?> contrat(s) à signer
             </li>
+            <?php endif; ?>
+            <?php if($contratsSocietesWithInfos->infos->brouillon > 0) :?>
             <li>
-                <?php echo $contratsSocietesWithInfos->infos->brouillon; ?> contrats en brouillon
+                <?php echo $contratsSocietesWithInfos->infos->brouillon; ?> contrat(s) en brouillon
             </li>
+            <?php endif; ?>
+            <?php if($contratsSocietesWithInfos->infos->valide > 0) :?>
             <li>
-                <?php echo $contratsSocietesWithInfos->infos->valide; ?> contrats validés
+                <?php echo $contratsSocietesWithInfos->infos->valide; ?> contrat(s) validé(s) (en attente de Visa)
             </li>
+            <?php endif; ?>
         </ul>
 
         <div id="etablissement_<?php echo $etablissementPrincipal->identifiant; ?>" class="infos_etablissement">
@@ -33,16 +39,24 @@ use_helper('Float');
         </div>
 
     </div>
-
-     <?php include_partial('teledeclarationActionsButtons', array('compte' => $compte, 'etablissementPrincipal' => $etablissementPrincipal, 'societe' => $societe)); ?>
-
-    
+    <div class="ligne_btn txt_droite">
+    <?php if($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>      
+    <a class="btn_orange btn_majeur" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
+        Saisir Un Nouveau contrat
+    </a>
+    <?php endif; ?>
+    </div>
 
     <?php include_partial('contratsTable', array('contrats' => $contratsSocietesWithInfos->contrats, 'societe' => $societe)); ?>
 
-
-   <?php include_partial('teledeclarationActionsButtons', array('compte' => $compte, 'etablissementPrincipal' => $etablissementPrincipal, 'societe' => $societe)); ?>
-
+    <div class="ligne_btn txt_droite">
+    <?php if($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>      
+        <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'all')); ?>">
+        Voir tout l'historique
+    </a>
+    <?php endif; ?>
+    </div>
+   
 
 </section>
 

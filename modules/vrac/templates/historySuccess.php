@@ -20,7 +20,7 @@ use_helper('Float');
         </div>
     </div>
         
-   <form class="filtres_historique" action="<?php echo url_for('vrac_history',array('identifiant' => $identifiant)); ?>" method="POST">
+   <form class="filtres_historique" id="filtres_historique" action="<?php echo url_for('vrac_history',array('identifiant' => $identifiant)); ?>" method="POST">
         <?php
 		  echo $form->renderHiddenFields();
 		  echo $form->renderGlobalErrors();
@@ -36,22 +36,24 @@ use_helper('Float');
 			<?php echo $form['etablissement']->renderLabel() ?>
 			<?php echo $form['etablissement']->render() ?> 
         </div>
-	
-		<div class="btn_form">
-			<button type="submit" id="alerte_valid" class="btn_majeur btn_valider">Rechercher</button>
-		</div>
     </form>
 
-   <?php include_partial('teledeclarationActionsButtons', array('compte' => $compte, 'etablissementPrincipal' => $etablissementPrincipal, 'societe' => $societe)); ?>
-
+<div class="ligne_btn txt_droite">   
+    <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => 'all', 'etablissement' => 'all')); ?>">
+        Voir tout l'historique
+    </a>
+    
+    <a class="btn_majeur btn_vert btn_excel" href="<?php echo url_for('vrac_history_exportCsv', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => $campagne)); ?>">
+        Voir tout l'historique
+    </a>
+</div>
    <?php 
       include_partial('contratsTable', array('contrats' => $contratsByEtablissementsAndCampagne, 'societe' => $societe)); ?>    
-   <?php include_partial('teledeclarationActionsButtons', array('compte' => $compte, 'etablissementPrincipal' => $etablissementPrincipal, 'societe' => $societe)); ?>
-
+   
 </section>
 
 <?php
 
-include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
 
 ?>

@@ -67,7 +67,7 @@ class VracClient extends acCouchdbClient {
     public static $statuts_labels = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
         self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En Attente de Signature',
         self::STATUS_CONTRAT_VISE => 'Visé',
-        self::STATUS_CONTRAT_VALIDE => 'Validé',
+        self::STATUS_CONTRAT_VALIDE => 'Validé (en attente de Visa)',
         self::STATUS_CONTRAT_SOLDE => 'Soldé',
         self::STATUS_CONTRAT_ANNULE => 'Annulé',
         self::STATUS_CONTRAT_NONSOLDE => 'Non Soldé');
@@ -193,7 +193,7 @@ class VracClient extends acCouchdbClient {
                             $result->contrats[] = $vrac;
                             $nb++;
                         }
-                        $result->infos->vise++;
+                        $result->infos->brouillon++;
                     }
                 }
             }
