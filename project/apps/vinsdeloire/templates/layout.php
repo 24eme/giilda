@@ -56,73 +56,12 @@
                         
                         <?php include_component_slot('colContacts'); ?>
                         
-                        <?php if (has_slot('colCompte')): ?>
                         <?php include_slot('colCompte'); ?>
-                        <?php endif; ?>
                         
-                        <?php if (has_slot('colAide')): ?>
                         <?php include_slot('colAide'); ?>
-                        <?php else: 
-                            $contacts = sfConfig::get('app_teledeclaration_contact_contrat');                        
-                            ?>
-                        <div class="bloc_col" id="contrat_aide">
-                            <h2>Aide</h2>
-
-                            <div class="contenu">
-                                <p>
-                                    En cas de besoin n'hésitez pas à consulter la notice d'aide complète au format pdf.
-                                </p>
-
-                                <a href="#" class="lien_notice">Télécharger la notice</a>
-
-                                <h3>Votre contact - mise en marche</h3>
-
-                                <ul class="contact"> 
-                                    <li class="nom"><?php echo $contacts["TOURS"]['nom']; ?></li>
-                                    <li class="email"><a href="mailto:<?php echo $contacts["TOURS"]['email']; ?>"><?php echo $contacts["TOURS"]['email']; ?></a></li>
-                                    <li class="telephone"><?php echo $contacts["TOURS"]['telephone']; ?></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <?php endif; ?>
-                        <?php if (has_slot('colLegende')): ?>
+                        
                         <?php include_slot('colLegende'); ?>
-                        <?php else: ?>
                         
-                        
-                        <div id="legende" class="bloc_col">
-                            <h2>Légende</h2>
-
-                            <div class="contenu">
-                                <h3>Types de marchés :</h3>
-
-                                <div class="contenu legende">    
-                                    <div>
-                                        <span class="type_raisins">type_raisins</span>
-                                        <span class="legende_type_texte">Raisins</span>
-                                    </div>
-                                    <div>
-                                        <span class="type_mouts">type_mouts</span><span class="legende_type_texte">Mouts</span>
-                                    </div>
-                                    <div>
-                                        <span class="type_vin_vrac">type_vin_vrac</span><span class="legende_type_texte">Vrac</span>
-                                    </div>
-                                    <div>
-                                        <span class="type_vin_bouteille">type_vin_bouteille</span><span class="legende_type_texte">Conditionné</span>
-                                    </div>
-                                </div>
-
-
-                                <h3>Statuts de contrats :</h3>
-
-                                <ul class="status_contrats">
-                                    <li><img src="/images/pictos/pi_ok.png" alt="" /> Signé par moi</li>
-                                    <li><img src="/images/pictos/pi_attente.png" alt="" /> En attente de signature</li>
-                                    <li><img src="/images/pictos/pi_ok_gris.png" alt="" /> Signé par d'autres soussignés</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <?php endif; ?>
                     </aside>
                     <?php echo $sf_content ?>
                 </div>

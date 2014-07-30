@@ -19,8 +19,7 @@ class HttpAuth2ADSecurityFilter extends sfBasicSecurityFilter
     if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] == 'logout') {
       acHttpAuth2ADFilter::logout();
     }
-
-    if ($user->isAuthenticated() && isset($_SERVER['PHP_AUTH_USER']) && $user->getAttribute('AUTH_USER') == $_SERVER['PHP_AUTH_USER'] && !isset($_GET['forcead'])) {
+    if ($user->isAuthenticated()){ //&& isset($_SERVER['PHP_AUTH_USER']) && $user->getAttribute('AUTH_USER') == $_SERVER['PHP_AUTH_USER'] && !isset($_GET['forcead'])) {
       return $filterChain->execute();
     }
 
@@ -42,8 +41,7 @@ class HttpAuth2ADSecurityFilter extends sfBasicSecurityFilter
     }
 
     $user->setAttribute('AUTH_DESC', $rights);
-
-    $user->signIn($this->getCompte($user->getAttribute('AUTH_USER'), $user->getAttribute('AUTH_DESC')));
+    $user->signInOrigin($this->getCompte($user->getAttribute('AUTH_USER'), $user->getAttribute('AUTH_DESC')));
 
     $filterChain->execute();
   }

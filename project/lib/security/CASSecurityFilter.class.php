@@ -29,7 +29,7 @@ class CASSecurityFilter extends sfBasicSecurityFilter
   {
       if (!$this->context->getUser()->isAuthenticated() && $this->request->getParameter('ticket')) {
           acCas::processAuth();
-          $this->getContext()->getUser()->signIn(acCas::getUser());
+          $this->getContext()->getUser()->signInOrigin(acCas::getUser());
       }
 
       parent::execute($filterChain);

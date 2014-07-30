@@ -17,7 +17,6 @@ class authActions extends sfActions
           return sfView::SUCCESS;
       }
 
-
       $this->form->bind($request->getParameter($this->form->getName()));            
       
       if (!$this->form->isValid()) {
@@ -27,13 +26,12 @@ class authActions extends sfActions
 
       $idCompte = $this->form->process()->identifiant;
       $idSociete = $this->form->process()->getSociete()->getIdentifiant();                
-      $this->getUser()->signIn($this->form->getValue("login"));
+      $this->getUser()->signInOrigin($this->form->getValue("login"));
       $this->redirect('vrac_societe',array('identifiant' => $idCompte));
   }
 
   public function executeLogout(sfWebRequest $request) {
-      $this->getUser()->signOut();
-
+      $this->getUser()->signOutOrigin();
       $urlBack = $this->generateUrl('homepage', array(), true);
 
       if(sfConfig::get("app_auth_mode") == 'CAS') {

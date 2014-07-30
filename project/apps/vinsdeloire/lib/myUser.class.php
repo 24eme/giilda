@@ -5,17 +5,17 @@ class myUser extends sfBasicSecurityUser
     const SESSION_COMPTE_LOGIN = "COMPTE_LOGIN";
     const SESSION_COMPTE_DOC_ID = "COMPTE_DOC_ID";
     const NAMESPACE_COMPTE = "COMPTE";
-
+    const NAMESPACE_COMPTE_ORIGIN = "COMPTE_ORIGIN";
+    
     public function signIn($login_or_compte) 
     {
         if(is_object($login_or_compte) && $login_or_compte instanceof Compte) {
             $compte = $login_or_compte;
             $login = $compte->getLogin();
         } else {
-            $compte = CompteClient::getInstance()->findByLogin($login);
+            $compte = CompteClient::getInstance()->findByLogin($login_or_compte);
             $login = $login_or_compte;
         }
-        $this->setAuthenticated(true);
         $this->setAttribute(self::SESSION_COMPTE_LOGIN, $login, self::NAMESPACE_COMPTE);
         
         if($compte) {
@@ -27,12 +27,38 @@ class myUser extends sfBasicSecurityUser
         }
         
     }
+    
+    
+    public function signInOrigin($login_or_compte) 
+    {        
+        if(is_object($login_or_compte) && $login_or_compte instanceof Compte) {
+            $compte = $login_or_compte;
+            $login = $compte->getLogin();
+        } else {
+            $compte = CompteClient::getInstance()->findByLogin($login_or_compte);
+            $login = $login_or_compte;
+        }
+        $this->setAuthenticated(true);
+        $this->setAttribute(self::SESSION_COMPTE_LOGIN, $login, self::NAMESPACE_COMPTE_ORIGIN);
+         
+        if($compte) {
+            $this->setAttribute(self::SESSION_COMPTE_DOC_ID, $compte->_id, self::NAMESPACE_COMPTE_ORIGIN);
+        }
+        $this->signIn($login_or_compte);        
+    }
 
     public function signOut() 
     {
-        $this->setAuthenticated(false);
         $this->clearCredentials();
         $this->getAttributeHolder()->removeNamespace(self::NAMESPACE_COMPTE);
+    }
+    
+    public function signOutOrigin() 
+    {
+        $this->signOut();
+        $this->setAuthenticated(false);
+        $this->clearCredentials();
+        $this->getAttributeHolder()->removeNamespace(self::NAMESPACE_COMPTE_ORIGIN);
     }
 
     public function getCompte() 
