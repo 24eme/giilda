@@ -9,5 +9,5 @@
         Voir tout l'historique
     </a>
 
-    <a href="#" class="btn_majeur btn_excel">Exporter les contrats en CSV</a>
+    <a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_excel">Exporter les contrats en CSV</a>
 </div>
