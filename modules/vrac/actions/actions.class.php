@@ -171,6 +171,8 @@ class vracActions extends sfActions {
         $this->getResponse()->setTitle('Contrat - Nouveau');
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
         $this->vrac = $this->populateVracTiers($this->vrac);
+        $this->compte = null;
+        $this->etablissementPrincipal = null;
         if ($this->etablissement = $request->getParameter("etablissement")) {
             $this->vrac->initCreateur($this->etablissement);
             $this->initSocieteAndEtablissementPrincipal();
@@ -347,9 +349,9 @@ class vracActions extends sfActions {
         }
     }
 
-    public function executeSoussigne(sfWebRequest $request) {
+    public function executeSoussigne(sfWebRequest $request) {        
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Soussignés', $request["numero_contrat"]));
-        $this->vrac = $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : $this->getRoute()->getVrac();
+        $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : $this->getRoute()->getVrac();
         $this->compte = null;
 
         if ($this->isTeledeclarationVrac()) {
@@ -424,6 +426,7 @@ class vracActions extends sfActions {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
+        $this->societe = null;
         if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
         }

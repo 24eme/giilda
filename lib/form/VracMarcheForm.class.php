@@ -55,18 +55,16 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'prix_initial_unitaire' => 'Prix'
         ));
         $validatorForNumbers =  new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
-        $this->setValidators(array(
-            'type_transaction' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))),
-            'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))),
-            'millesime' => new sfValidatorInteger(array('required' => false, 'min' => 1980, 'max' => $this->getCurrentYear())),
-            'categorie_vin' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))),
-            'domaine' => new sfValidatorString(array('required' => false)),
-            'bouteilles_quantite' =>  new sfValidatorInteger(array('required' => false)),
-            'raisin_quantite' => new sfValidatorNumber(array('required' => false)),
-            'jus_quantite' => new sfValidatorNumber(array('required' => false)), 
-            'bouteilles_contenance_libelle' => new sfValidatorString(array('required' => true)),
-            'prix_initial_unitaire' => new sfValidatorNumber(array('required' => true))
-             ));
+        $this->setValidator('type_transaction',new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
+        $this->setValidator('produit', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))));
+        $this->setValidator('millesime', new sfValidatorInteger(array('required' => false, 'min' => 1980, 'max' => $this->getCurrentYear())));
+        $this->setValidator('categorie_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))));
+        $this->setValidator('domaine', new sfValidatorString(array('required' => false)));
+        $this->setValidator('bouteilles_quantite',  new sfValidatorInteger(array('required' => false)));
+        $this->setValidator('raisin_quantite', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('jus_quantite' , new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('bouteilles_contenance_libelle', new sfValidatorString(array('required' => true)));
+        $this->setValidator('prix_initial_unitaire', new sfValidatorNumber(array('required' => true)));
                         
         $this->validatorSchema['produit']->setMessage('required', 'Le choix d\'un produit est obligatoire');        
         $this->validatorSchema['prix_initial_unitaire']->setMessage('required', 'Le prix doit être renseigné');  

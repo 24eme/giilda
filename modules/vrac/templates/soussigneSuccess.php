@@ -31,11 +31,22 @@ if ($nouveau) {
     </script>
     <?php
 }
+$urlForm = null;
+
+if(($form->getObject()->isNew() && !isset($etablissementPrincipal)) 
+        || ($form->getObject()->isNew() && !$etablissementPrincipal)){
+   $urlForm = url_for('vrac_nouveau');
+}  elseif ($form->getObject()->isNew() && isset($etablissementPrincipal) && $etablissementPrincipal){
+    $urlForm = url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant));
+}else{
+    $urlForm = url_for('vrac_soussigne', $vrac);
+}
+
 ?>
 <section id="principal">
 <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1)); ?>
     <div id="contenu_etape">
-        <form id="vrac_soussigne" method="post" action="<?php echo ($form->getObject()->isNew() && isset($etablissementPrincipal)) ? url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)) : url_for('vrac_soussigne', $vrac); ?>">   
+        <form id="vrac_soussigne" method="post" action="<?php echo $urlForm; ?>">   
     <?php echo $form->renderHiddenFields() ?>
 <?php echo $form->renderGlobalErrors() ?>
 
