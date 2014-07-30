@@ -12,7 +12,11 @@
             <ul class="compte"> 
                 &gt; &nbsp;<a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="lien_declaration">Mes déclarations</a>
                 &gt; &nbsp;<a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))).'/compte'; ?>" class="lien_compte">Mon compte</a>
-            </ul>  
+            </ul>
+
+            <div class="ligne_btn txt_centre">
+                <a href="#" class="btn_majeur btn_annuaire">Annuaire</a>
+            </div>
         </div>
     </div>
     <?php
