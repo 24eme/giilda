@@ -45,7 +45,7 @@ function getMandataireVisa($vrac) {
     if(!$vrac->valide->date_signature_courtier){
         return "";
     }    
-    return date("F j, Y, g:i a", strtotime($vrac->valide->date_signature_courtier));
+    return date("d/m/Y à H\hi", strtotime($vrac->valide->date_signature_courtier));
 }
 
 function getDateSignatureVendeur($vrac) {
@@ -55,7 +55,7 @@ function getDateSignatureVendeur($vrac) {
     if(!$vrac->valide->date_signature_vendeur){
         return "";
     }
-    return date("F j, Y, g:i a", strtotime($vrac->valide->date_signature_vendeur));
+    return date("d/m/Y à H\hi", strtotime($vrac->valide->date_signature_vendeur));
 }
 
 function getDateSignatureAcheteur($vrac) {
@@ -65,7 +65,7 @@ function getDateSignatureAcheteur($vrac) {
     if(!$vrac->valide->date_signature_acheteur){
         return "";
     }
-     return date("F j, Y, g:i a", strtotime($vrac->valide->date_signature_acheteur));
+     return date("d/m/Y à H\hi", strtotime($vrac->valide->date_signature_acheteur));
 }
 
 function getPrixTouteLettre($vrac){
