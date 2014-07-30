@@ -203,7 +203,7 @@ class vracActions extends sfActions {
         }
         $this->societe = $this->compte->getSociete();
         $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
-        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe->identifiant, 10);
+        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe->identifiant,$this->etablissementPrincipal, 10);
     }
 
     public function executeHistory(sfWebRequest $request) {
@@ -448,13 +448,14 @@ class vracActions extends sfActions {
     public function executeVisualisation(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
-        $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));
+        $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));        
         $this->vrac = $this->getRoute()->getVrac();
         $this->vrac->save();
         $this->signatureDemande = false;
         $this->compte = null;
         $this->societe = null;
         $this->popupSignature = null;
+        
         if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
             $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);

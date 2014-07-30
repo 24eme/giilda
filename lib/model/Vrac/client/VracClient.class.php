@@ -63,7 +63,7 @@ class VracClient extends acCouchdbClient {
     public static $cvo_repartition = array(self::CVO_REPARTITION_50_50 => '50/50',
         self::CVO_REPARTITION_100_VITI => '100% viticulteur',
         self::CVO_REPARTITION_0_VINAIGRERIE => 'Vinaigrerie');
-    public static $statuts_vise = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE,self::STATUS_CONTRAT_VISE);
+    public static $statuts_vise = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE, self::STATUS_CONTRAT_VISE);
     public static $statuts_labels = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
         self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En Attente de Signature',
         self::STATUS_CONTRAT_VISE => 'Visé',
@@ -177,21 +177,35 @@ class VracClient extends acCouchdbClient {
         return $result;
     }
 
-    public function retrieveBySocieteWithInfosLimit($societeId, $limit = self::RESULTAT_LIMIT) {
+    public function retrieveBySocieteWithInfosLimit($societeId, $etbPrincipal, $limit = self::RESULTAT_LIMIT) {
         $nb = 0;
         $result = new stdClass();
         $result->contrats = array();
         $this->buildInfosObj($result);
         $vracSocieteNoLimit = $this->retrieveBySociete($societeId);
 
-        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "brouillon", $limit, true);
+        foreach ($vracSocieteNoLimit as $etbId => $vracByCampagne) {
+            foreach (array_reverse($vracByCampagne) as $campagne => $vracs) {
+                foreach (array_reverse($vracs) as $vrac) {
+                    if ($vrac->isBrouillon() && ($vrac->createur_identifiant == $etbPrincipal->identifiant)) {
+                        if ($nb < $limit) {
+
+                            $result->contrats[] = $vrac;
+                            $nb++;
+                        }
+                        $result->infos->vise++;
+                    }
+                }
+            }
+        }
+
         $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "attente_signature", $limit, true);
         $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "valide", $limit, true);
 
         foreach ($vracSocieteNoLimit as $etbId => $vracByCampagne) {
             foreach ($vracByCampagne as $campagne => $vracs) {
                 foreach ($vracs as $vrac) {
-                    if (($vrac->valide->statut == VracClient::STATUS_CONTRAT_VISE) || ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE) || ($vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE)) {
+                    if ($vrac->isVise()) {
                         if ($nb < $limit) {
                             $result->contrats[] = $vrac;
                             $nb++;
