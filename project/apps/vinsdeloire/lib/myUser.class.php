@@ -6,12 +6,17 @@ class myUser extends sfBasicSecurityUser
     const SESSION_COMPTE_DOC_ID = "COMPTE_DOC_ID";
     const NAMESPACE_COMPTE = "COMPTE";
 
-    public function signIn($login) 
+    public function signIn($login_or_compte) 
     {
+        if(is_object($login_or_compte) && $login_or_compte instanceof Compte) {
+            $compte = $login_or_compte;
+            $login = $compte->getLogin();
+        } else {
+            $compte = CompteClient::getInstance()->findByLogin($login);
+            $login = $login_or_compte;
+        }
         $this->setAuthenticated(true);
         $this->setAttribute(self::SESSION_COMPTE_LOGIN, $login, self::NAMESPACE_COMPTE);
-
-        $compte = CompteClient::getInstance()->findByLogin($login);
         
         if($compte) {
             $this->setAttribute(self::SESSION_COMPTE_DOC_ID, $compte->_id, self::NAMESPACE_COMPTE);
@@ -32,6 +37,9 @@ class myUser extends sfBasicSecurityUser
 
     public function getCompte() 
     {
+        if(!$this->getAttribute(self::SESSION_COMPTE_DOC_ID, null, self::NAMESPACE_COMPTE)){
+            return null;
+        }
         return CompteClient::getInstance()->find($this->getAttribute(self::SESSION_COMPTE_DOC_ID, null, self::NAMESPACE_COMPTE));
     }
 
