@@ -46,7 +46,24 @@
 {
     .infos_etablissement
     {
-        .btn_excel { float: right; }
+        float: right;
+
+        span { font-weight: bold; }
+    }
+
+    .stats_contrats
+    {
+        float: left;
+        color: #d00815;
+
+        li
+        {
+            &:before
+            {
+                .triangle-r(10px, 5px, #d00815);
+                margin: 0 5px 0 0;
+            }
+        }
     }
 
     .filtres_historique
@@ -1196,6 +1213,13 @@
  ******************************************/
 #colonne
 {
+    #contrat_compte
+    {
+        h3 { font-weight: bold; }
+
+        .ligne_btn { margin-bottom: 0; }
+    }
+
     /* Progression de la saisie */
     #contrat_progression
     {

@@ -476,6 +476,13 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 .btn_enregistrer { .btn_noir; }
 
+.btn_annuaire
+{
+	.btn_icone;
+
+	&:after { background-position: 3px -601px; }
+}
+
 .ui-autocomplete .btn_ajout_autocomplete a
 {
 	background: #ebebeb;
@@ -1058,7 +1065,8 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
     }
 }
 
-#ligne_btn
+#ligne_btn,
+.ligne_btn
 { 
     display:block;
     .btnAnnulation { float:left; }
