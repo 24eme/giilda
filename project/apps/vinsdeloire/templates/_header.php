@@ -19,7 +19,11 @@
 					<a class="admin" href="<?php echo url_for('produits') ?>">Admin</a>
    				<?php endif; ?>
    				<a href="#">Mon compte</a>
-				<a class="deconnexion" href="<?php echo url_for('auth_logout') ?>">Déconnexion</a>
+   				<?php if($sf_user->isUsurpationCompte()): ?>
+   					<a class="deconnexion" href="<?php echo url_for('vrac_dedebrayage') ?>">Quitter</a>
+   				<?php else: ?>
+					<a class="deconnexion" href="<?php echo url_for('auth_logout') ?>">Déconnexion</a>
+				<?php endif; ?>
 			</div>
 		</div>
 	</header>
