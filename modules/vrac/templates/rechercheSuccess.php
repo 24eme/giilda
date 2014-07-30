@@ -50,7 +50,7 @@ if (isset($type) && isset($statut)) {
 
 <?php
 slot('colButtons');
-include_partial('actions');
+include_partial('actions', array('debrayage' => true, 'identifiant' => $identifiant));
 end_slot();
 
 slot('colApplications');

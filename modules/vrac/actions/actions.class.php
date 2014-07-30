@@ -52,6 +52,15 @@ class vracActions extends sfActions {
         $this->recherche = $this->getVracsFromRecherche($request, true);
         $this->form = new VracRechercheForm();
     }
+    
+    
+    public function executeConnexion(sfWebRequest $request) {
+       $this->etablissement = $this->getRoute()->getEtablissement();
+       $societeIdentifiant = $this->etablissement->getSociete()->identifiant;
+       $this->getUser()->signOut();
+       $this->getUser()->signIn($societeIdentifiant);
+       $this->redirect('homepage');
+    }
 
     private function getCsvFromHistory($request, $limited = true) {
 

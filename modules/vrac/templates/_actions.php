@@ -8,5 +8,10 @@
                 <div class="btnNouveau">
                     <a href="<?php echo url_for('vrac_nouveau'); ?>" class="btn_majeur btn_nouveau"><span>Saisir un nouveau contrat</span></a>
                 </div>
+                <?php if(isset($debrayage) && $debrayage && isset($identifiant)): ?>
+                    <div class="btnConnexion">
+                        <a href="<?php echo url_for('vrac_debrayage', array('identifiant' => $identifiant)); ?>" class="btn_majeur lien_connexion"><span>Connexion <?php echo $identifiant ?></span></a>
+                    </div>
+                <?php endif; ?>
             </div>
     </div>
