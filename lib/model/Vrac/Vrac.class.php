@@ -675,6 +675,9 @@ class Vrac extends BaseVrac {
     }
 
     public function isSocieteHasSigned($societe) {
+        if(!$this->isTeledeclare()){
+            return true;
+        }
         $etbsArr = $societe->getEtablissementsObj();
         foreach ($etbsArr as $id => $etbObj) {
             $identifiant = str_replace('ETABLISSEMENT-', '', $id);

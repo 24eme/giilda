@@ -36,11 +36,12 @@ use_helper('Vrac');
                     <div id="ligne_btn">
                         <?php
                         if (!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE && (is_null($vrac->volume_enleve) || ($vrac->volume_enleve == 0))):
-                            if(!$isTeledeclare):
+                            if((!$isTeledeclare) && !$sf_user->hasTeledeclaration()):
                             ?>
                             <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
                             <?php endif; ?>
-                             <?php if(!$isTeledeclare || !$vrac->isVise()): ?>
+                             <?php if(($sf_user->hasTeledeclaration() && $isTeledeclare) ||
+                                     (!$sf_user->hasTeledeclaration() && !$vrac->isVise() && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE && $vrac->valide->statut != VracClient::STATUS_CONTRAT_VALIDE)): ?>
                                 <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>   
                             <?php endif; ?>        
                         <?php endif; ?>                                 
@@ -56,7 +57,7 @@ use_helper('Vrac');
             <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'signatureDemande' => $signatureDemande)); ?>
 
             <?php
-            if ($vrac->isVise()):
+            if ($vrac->isVise() && ($isTeledeclare) && $sf_user->hasTeledeclaration()):
                 ?>
                 <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_orange f_right">Télécharger le PDF</a>  
             <?php endif; ?>
@@ -76,7 +77,7 @@ use_helper('Vrac');
 <?php endif; ?>
 </section>
     <?php
-    if ($isTeledeclare):
+    if ($sf_user->hasTeledeclaration()):
         include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
     else:
         slot('colButtons');
