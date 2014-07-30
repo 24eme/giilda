@@ -10,7 +10,7 @@ use_helper('Vrac');
 use_helper('Float');
 ?>
 <div class="bloc_form bloc_form_condensed">
-    <?php if(!$vrac->isTeledeclare()): ?>
+    <?php if(!$isTeledeclarationMode): ?>
     <div id="marche_recapitulatif_original" class="ligne_form">
             <label>En attente de l'original :</label>
             <span><?php echo ($vrac->attente_original)? 'Oui' : 'Non'; ?></span>
@@ -79,7 +79,7 @@ use_helper('Float');
         if($alt == "ligne_form_alt") $alt= "ligne_form";
         else $alt= "ligne_form_alt";
     ?>    
-    <?php if(!$vrac->isTeledeclare()): ?>
+    <?php if(!$isTeledeclarationMode): ?>
     <div id="marche_recapitulatif_volumeEnleve" class="ligne_form <?php echo $alt; ?>">
             <label>
                 Volumes enlevé: 

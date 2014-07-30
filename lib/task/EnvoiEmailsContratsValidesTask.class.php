@@ -43,15 +43,14 @@ EOF;
       if(!count($contrats)){
            echo "Aucun contrat en attente de Visa\n"; 
       }
-      $vracEmailManager = new VracEmailManager($this->getMailer(),$contrats[0]);
+      $vracEmailManager = new VracEmailManager($this->getMailer());
       foreach ($contrats as $contratView) {
           $vrac = VracClient::getInstance()->find($contratView->id);
           $vracEmailManager->setVrac($vrac);
-          $vracEmailManager->sendMailContratValide();
           $vrac->createVisa();
           $vrac->save();
-          echo "changement de statut du contrat ".$vrac->identifiant."\n"; 
+          $vracEmailManager->sendMailContratValide();
+          echo "changement de statut du contrat ".$vrac->numero_contrat." qui porte mainenant le visa ".$vrac->numero_archive."\n"; 
       }
-      exit;
   }
 }

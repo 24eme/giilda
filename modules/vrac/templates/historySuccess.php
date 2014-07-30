@@ -44,7 +44,7 @@ use_helper('Float');
     </a>
     
     <a class="btn_majeur btn_vert btn_excel" href="<?php echo url_for('vrac_history_exportCsv', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => $campagne)); ?>">
-        Voir tout l'historique
+        Télécharger Export CSV
     </a>
 </div>
    <?php 

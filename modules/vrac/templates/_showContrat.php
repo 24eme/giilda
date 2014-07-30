@@ -8,26 +8,22 @@ $liClass = ($isValidation) ? '' : 'class="lightpadding"';
         <div class="style_label">1. Les soussignés</div>
         <div id="soussigne_recapitulatif">
             <?php
-            include_partial('soussigneRecapitulatif', array('vrac' => $vrac, 'societe' => $societe));
+            include_partial('soussigneRecapitulatif', array('vrac' => $vrac, 'societe' => $societe, 'isTeledeclarationMode' => $isTeledeclarationMode));
             ?>
         </div>  
-        <?php
-        if ($isValidation) :
-            ?>
-        <?php if(!$vrac->isTeledeclare()): ?>
+        <?php if($isValidation && !$isTeledeclarationMode): ?>
             <div class="btnModification f_right">
                 <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_majeur btn_modifier">Modifier</a>
             </div> 
             <?php     
             endif;
-        endif;
         ?>
     </li>
     <li <?php echo $liClass ?> >
         <div class="style_label">2. Le marché</div>           
         <section id="marche_recapitulatif">
             <?php
-            include_partial('marcheRecapitulatif', array('vrac' => $vrac));
+            include_partial('marcheRecapitulatif', array('vrac' => $vrac,'isTeledeclarationMode' => $isTeledeclarationMode ));
             ?>
         </section>
         <?php
@@ -44,7 +40,7 @@ $liClass = ($isValidation) ? '' : 'class="lightpadding"';
         <div class="style_label">3. Les conditions</div>            
         <section id="conditions_recapitulatif">
             <?php
-            include_partial('conditionsRecapitulatif', array('vrac' => $vrac));
+            include_partial('conditionsRecapitulatif', array('vrac' => $vrac,'isTeledeclarationMode' => $isTeledeclarationMode ));
             ?>
         </section>
         <?php

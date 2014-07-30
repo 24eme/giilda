@@ -260,15 +260,15 @@ function echoPictoSignature($societe, $contrat, $type) {
     }
 }
 
-function getClassStatutPicto($vrac) {
+function getClassStatutPicto($vrac, $isTeledeclarationMode = false) {
 
-    if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE) {
+    if (!$isTeledeclarationMode && ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE)) {
         return 'statut_non-solde';
     } elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ANNULE) {
         return 'statut_annule';
     }
-    elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) {
-        return 'statut_attente_signature';
+    elseif ($isTeledeclarationMode && ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE)) {
+        return 'statut_non-solde';
     }
      elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) {
         return 'statut_brouillon';

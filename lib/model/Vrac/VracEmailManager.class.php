@@ -16,9 +16,8 @@ class VracEmailManager {
     protected $vrac = null;
     protected $mailer = null;
 
-    public function __construct($mailer, Vrac $vrac) {
+    public function __construct($mailer) {
         $this->mailer = $mailer;
-        $this->vrac = $vrac;
     }
 
     public function setVrac($vrac) {

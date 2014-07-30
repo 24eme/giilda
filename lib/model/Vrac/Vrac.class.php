@@ -95,7 +95,6 @@ class Vrac extends BaseVrac {
 
     public function createVisa() {
         $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
-        $this->add('visa', $this->numero_archive);
         $this->update();
     }
     

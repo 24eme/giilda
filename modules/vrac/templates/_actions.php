@@ -10,7 +10,7 @@
                 </div>
                 <?php if(isset($debrayage) && $debrayage && isset($identifiant)): ?>
                     <div class="btnConnexion">
-                        <a href="<?php echo url_for('vrac_debrayage', array('identifiant' => $identifiant)); ?>" class="btn_majeur lien_connexion"><span>Connexion <?php echo $identifiant ?></span></a>
+                        <a href="<?php echo url_for('vrac_debrayage', array('identifiant' => $identifiant)); ?>" class="btn_majeur lien_connexion"><span>Connexion à la télédecl.</span></a>
                     </div>
                 <?php endif; ?>
             </div>

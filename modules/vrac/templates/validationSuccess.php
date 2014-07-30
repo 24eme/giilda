@@ -22,12 +22,12 @@ use_helper('Vrac');
         <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
             <div id="titre"><span class="style_label">Récapitulatif de la saisie</span></div>
 
-            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe)); ?>
+            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
             <div class="btn_etape">
                 <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
                 <?php if ($validation->isValide()) : ?>
-                    <a id="btn_validation" class="btn_validation"><span>Terminer la saisie</span></a>  
+                    <a id="btn_validation" class="btn_validation"><span><?php if($isTeledeclarationMode): ?>Signer le contrat<?php else: ?>Terminer la saisie<?php endif; ?></span></a>  
                 <?php endif; ?>
             </div> 
         </form>
@@ -35,7 +35,7 @@ use_helper('Vrac');
 </section>
 <?php
 if($vrac->isTeledeclare()):
-include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
 else:
 slot('colApplications');
 /*

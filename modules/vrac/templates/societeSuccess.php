@@ -49,12 +49,10 @@ use_helper('Float');
 
     <?php include_partial('contratsTable', array('contrats' => $contratsSocietesWithInfos->contrats, 'societe' => $societe)); ?>
 
-    <div class="ligne_btn txt_droite">
-    <?php if($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>      
+    <div class="ligne_btn txt_droite">     
         <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'all')); ?>">
         Voir tout l'historique
     </a>
-    <?php endif; ?>
     </div>
    
 

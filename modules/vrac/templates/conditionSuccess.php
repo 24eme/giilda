@@ -99,7 +99,7 @@
 </section>
 <?php
 if($vrac->isTeledeclare()):
-include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
 else:
 slot('colApplications');
 /*

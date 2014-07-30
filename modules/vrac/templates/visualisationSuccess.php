@@ -20,7 +20,7 @@ use_helper('Vrac');
             <?php endif; ?>  
                 <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>"> 
                     <div id="ss_titre" class="legende"><span class="style_label">Etat du contrat</span>
-                        <?php if ((!$sf_user->hasTeledeclaration()) 
+                        <?php if ((!$isTeledeclarationMode) 
                                 && ($vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE)) : ?>
                                 <?php if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE) : ?>
                                     <a href="<?php echo url_for('vrac_solder', $vrac) ?>" class="btn_majeur btn_vert f_right">Solder le contrat</a>
@@ -30,18 +30,18 @@ use_helper('Vrac');
                                 <?php endif; ?>
                         <?php endif; ?>
                         <div>
-                            <span class="statut <?php echo getClassStatutPicto($vrac); ?>"></span><span class="legende_statut_texte"><?php echo $vrac->valide->statut; ?></span>
+                            <span class="statut <?php echo getClassStatutPicto($vrac,$isTeledeclarationMode); ?>"></span><span class="legende_statut_texte"><?php echo $vrac->getTeledeclarationStatut(); ?></span>
                         </div>                            
                     </div>
                     <div id="ligne_btn">
                         <?php
                         if (!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE && (is_null($vrac->volume_enleve) || ($vrac->volume_enleve == 0))):
-                            if((!$isTeledeclare) && !$sf_user->hasTeledeclaration()):
+                            if(!$isTeledeclare && !$isTeledeclarationMode):
                             ?>
                             <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
                             <?php endif; ?>
-                             <?php if(($sf_user->hasTeledeclaration() && $isTeledeclare) ||
-                                     (!$sf_user->hasTeledeclaration() && !$vrac->isVise() && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE && $vrac->valide->statut != VracClient::STATUS_CONTRAT_VALIDE)): ?>
+                             <?php if(($isTeledeclarationMode && $isTeledeclare && $isProprietaire) ||
+                                     (!$isTeledeclarationMode && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE && $vrac->valide->statut != VracClient::STATUS_CONTRAT_VALIDE)): ?>
                                 <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>   
                             <?php endif; ?>        
                         <?php endif; ?>                                 
@@ -54,7 +54,7 @@ use_helper('Vrac');
    
 <?php endif; ?>
 
-            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'signatureDemande' => $signatureDemande)); ?>
+            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'signatureDemande' => $signatureDemande,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
             <?php
             if ($vrac->isVise() && ($isTeledeclare) && $sf_user->hasTeledeclaration()):
@@ -78,7 +78,7 @@ use_helper('Vrac');
 </section>
     <?php
     if ($sf_user->hasTeledeclaration()):
-        include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+        include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
     else:
         slot('colButtons');
         include_partial('actions_visu', array('vrac' => $vrac));

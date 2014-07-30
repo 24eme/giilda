@@ -10,7 +10,7 @@ use_helper('Vrac');
         <label>Acheteur :</label>
         <span><a href="<?php echo url_for('vrac/recherche?identifiant='.preg_replace('/ETABLISSEMENT-/', '', $vrac->acheteur_identifiant)) ?>"><?php echo $vrac->getAcheteurObject()->getNom(); ?></a></span>
     </div>
-    <?php if(!$vrac->isTeledeclare()): ?>
+    <?php if(!$isTeledeclarationMode): ?>
     <div id="soussigne_recapitulatif_mandataire" class="ligne_form">
         <label>Contrat interne :</label>
         <span><?php echo ($vrac->interne) ? 'Oui' : 'Non'; ?></span>

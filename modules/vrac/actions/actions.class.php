@@ -427,6 +427,7 @@ class vracActions extends sfActions {
         $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
         $this->societe = null;
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
@@ -464,7 +465,8 @@ class vracActions extends sfActions {
             $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);
             $this->popupSignature = ($this->signatureDemande) && $request->hasParameter('signature') && ($request->getParameter('signature') == "1");
         }
-        
+        $this->isProprietaire = $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->etablissementPrincipal->identifiant == $this->vrac->createur_identifiant);
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         $this->isTeledeclare = $this->vrac->isTeledeclare(); 
         $this->isAnnulable = $this->isTeledeclarationVrac() && $this->vrac->isTeledeclarationAnnulable() 
                 && ($this->vrac->getCreateurObject()->getSociete()->identifiant === $this->societe->identifiant);

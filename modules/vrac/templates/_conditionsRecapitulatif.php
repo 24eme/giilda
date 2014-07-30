@@ -27,7 +27,7 @@ use_helper('Date');
     </div>
     <?php endif; ?>
     
-    <?php if(!$sf_user->hasTeledeclarationVrac()): ?>
+    <?php if(!$isTeledeclarationMode): ?>
     <div id="conditions_recapitulatif_cvo" class="ligne_form ligne_form_alt">
         <label>Repartition de la CVO&nbsp;: </label>
         <span><?php echo VracClient::$cvo_repartition[$vrac->cvo_repartition] ?></span>
@@ -55,7 +55,7 @@ use_helper('Date');
     </div>
     <?php endif; ?> 
     
-    <?php if(!$vrac->isTeledeclare()): ?>
+    <?php if(!$isTeledeclarationMode): ?>
     <div id="conditions_recapitulatif_commentaire" class="ligne_form <?php echo ($vrac->valide->date_saisie)? 'ligne_form_alt' : '' ;?>">
         <label>Commentaires&nbsp;: </label>
         <pre class="commentaire"><?php echo $vrac->commentaire;?></pre>
