@@ -7,9 +7,12 @@ use_helper('Float');
         Espace de <?php echo $societe->raison_sociale; ?>
     </h2>
     <div>
-        <div id="etablissement_<?php echo $societe->identifiant; ?>" class="">
+        <div id="etablissement_<?php echo $societe->identifiant; ?>" class="infos_etablissement">
+            <a href="#" class="btn_majeur btn_excel">Exporter les contrats en CSV</a>
+            
             <h3><?php echo $societe->raison_sociale; ?></h3>
-            <ul id="liste_statuts_nb" class="">    
+    
+            <ul id="liste_statuts_nb" class="">
 
             </ul>
             <div id="num_etb">
@@ -23,28 +26,26 @@ use_helper('Float');
             </div>
         </div>
         
-       <form action="<?php echo url_for('vrac_history',array('identifiant' => $identifiant)); ?>" method="POST">
-<?php
-		echo $form->renderHiddenFields();
-		echo $form->renderGlobalErrors();
-		?>
+       <form class="filtres_historique" action="<?php echo url_for('vrac_history',array('identifiant' => $identifiant)); ?>" method="POST">
+            <?php
+    		  echo $form->renderHiddenFields();
+    		  echo $form->renderGlobalErrors();
+    		?>
 	
-		<ul>
-                    <li id="date_debut" class="ligne_form ">                        
-				<?php echo $form['campagne']->renderError(); ?>
+            <div class="campagne">
+                <?php echo $form['campagne']->renderError(); ?>
 				<?php echo $form['campagne']->renderLabel() ?>
 				<?php echo $form['campagne']->render() ?>
-                    </li>
-                     <li id="date_fin" class="ligne_form ">       
+            </div>
+            <div class="etablissement">       
 				<?php echo $form['etablissement']->renderError(); ?>
 				<?php echo $form['etablissement']->renderLabel() ?>
 				<?php echo $form['etablissement']->render() ?> 
-                     </li>
-		</ul>
+            </div>
 		
-		<div class="btn_form">
-			<button type="submit" id="alerte_valid" class="btn_majeur btn_valider">Rechercher</button>
-		</div>
+    		<div class="btn_form">
+    			<button type="submit" id="alerte_valid" class="btn_majeur btn_valider">Rechercher</button>
+    		</div>
         </form>
 
 
