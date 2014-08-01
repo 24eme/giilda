@@ -32,6 +32,9 @@ class VracRouting {
                                                                 array('model' => 'Etablissement',
                                                                     'type' => 'object')
                                                                     ));
+
+        $r->prependRoute('vrac_dedebrayage',  new sfRoute('/vrac/deconnexion', array('module' => 'vrac', 
+                                                                        'action' => 'deconnexion')));
         
         
         $r->prependRoute('vrac_exportCsv', new sfRoute('/vrac/exportCsv', array('module' => 'vrac',
