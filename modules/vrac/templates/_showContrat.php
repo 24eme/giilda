@@ -27,7 +27,7 @@ $liClass = ($isValidation) ? '' : 'class="lightpadding"';
             ?>
         </section>
         <?php
-        if (!$vrac->isTeledeclare() && ($isValidation || $isPrixVariable)) :
+        if (!$isTeledeclarationMode && !$vrac->isTeledeclare() && ($isValidation || $isPrixVariable)) :
             ?>
             <div class="btnModification f_right">
                 <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_majeur btn_modifier">Modifier</a>
