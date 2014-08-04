@@ -57,7 +57,7 @@ class annuaireActions extends sfActions {
                     $this->getUser()->setAttribute('vrac_object', serialize($vrac));
                     $this->getUser()->setAttribute('vrac_acteur', null);
                     if ($vrac->isNew()) {
-                        return $this->redirect('vrac_nouveau', array('etablissement' => $this->etablissement->_id));
+                        return $this->redirect('vrac_nouveau', array('etablissement' => $this->identifiant));
                     } else {
                         return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
                     }
