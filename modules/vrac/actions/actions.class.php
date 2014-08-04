@@ -195,7 +195,6 @@ class vracActions extends sfActions {
         $this->nouveau = true;
         $this->contratNonSolde = false;
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
@@ -302,7 +301,8 @@ class vracActions extends sfActions {
         $this->vrac = ($request->getParameter('numero_contrat')) ? VracClient::getInstance()->find($request->getParameter('numero_contrat')) : new Vrac();
         $this->vrac = $this->populateVracTiers($this->vrac);
         if ($this->identifiant) {
-            $this->vrac->createur_identifiant = $this->identifiant;
+            $this->vrac->add('createur_identifiant',$this->identifiant);
+            $this->vrac->add('teledeclare',true);
         }
         $this->form = new VracSoussigneAnnuaireForm($this->vrac);
         if ($request->isMethod(sfWebRequest::POST)) {
