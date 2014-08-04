@@ -1,4 +1,5 @@
 #!/bin/bash
+
 . bin/config.inc
 
 FORCE_PUT_DOC_FILTER=$1
@@ -24,6 +25,6 @@ if ! test "$DOC_FILTER_REV" || test $FORCE_PUT_DOC_FILTER ; then
     curl -H "Content-Type: application/json" -X PUT -d '@/tmp/doc_replication_teledeclaration.json' "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/$DOC_FILTER_ID"
 fi
 
-echo "{\"source\":\"$COUCHBASE\",\"target\":\"$REPLICATE_TELEDECLARATION_URL\",\"filter\":\"$DOC_FILTER_ID/$DOC_FILTER_ID\"}" > /tmp/params_replication_teleclaration.json
+echo "{\"source\":\"$COUCHBASE\",\"target\":\"$REPLICATE_TELEDECLARATION_URL\",\"filter\":\"$DOC_FILTER_ID/$DOC_FILTER_ID\",\"continuous\": true}" > /tmp/params_replication_teleclaration.json
 
 curl -H "Content-Type: application/json" -X POST -d '@/tmp/params_replication_teleclaration.json' "http://$COUCHHOST:$COUCHPORT/_replicate"
