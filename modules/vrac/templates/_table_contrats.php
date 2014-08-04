@@ -48,7 +48,7 @@
                             <li>
         <?php
         echo ($elt[VracClient::VRAC_VIEW_MANDATAIRE_ID]) ?
-                'Mandataire : ' . link_to($elt[VracClient::VRAC_VIEW_MANDATAIRE_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracClient::VRAC_VIEW_MANDATAIRE_ID])) : '';
+                'Courtier : ' . link_to($elt[VracClient::VRAC_VIEW_MANDATAIRE_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracClient::VRAC_VIEW_MANDATAIRE_ID])) : '';
         ?>
                             </li>
                         </ul>

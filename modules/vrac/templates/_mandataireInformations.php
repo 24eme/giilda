@@ -33,7 +33,7 @@ use_helper('Display');
 <div class="mandataire_infos bloc_form bloc_form_condensed">
     <div class="ligne_form">
         <span>
-            <label>Nom du mandataire :</label>
+            <label>Nom du courtier :</label>
             <?php display_field($mandataire,'nom'); ?>
         </span>
     </div>

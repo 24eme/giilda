@@ -661,7 +661,7 @@ class vracActions extends sfActions {
 
     private function renderPartialInformations($etablissement, $nouveau) {
         $familleType = $etablissement->getFamilleType();
-        return $this->renderPartial($familleType . 'Informations', array($familleType => $etablissement, 'nouveau' => $nouveau));
+        return $this->renderPartial($familleType . 'Informations', array($familleType => $etablissement, 'nouveau' => $nouveau, 'isTeledeclarationMode' => false));
     }
 
     private function maj_etape($etapeNum) {

@@ -47,7 +47,7 @@
                                             <?php if ($contrat->mandataire_identifiant): ?>
                                                 <li class="<?php echoPictoSignature($societe, $contrat, 'Courtier'); ?>">                                                    
                                                     <span style="font-weight: bold;">
-                                                        Mandataire :
+                                                        Courtier :
                                                     </span>
                                                     <?php echo $contrat->mandataire->nom; ?>
                                                 </li>

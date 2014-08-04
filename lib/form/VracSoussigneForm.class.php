@@ -54,8 +54,8 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             'acheteur_famille' => '',
             'acheteur_identifiant' => 'Sélectionner un acheteur :',
             'interne' => 'Cocher si le contrat est interne',
-            'mandataire_identifiant' => 'Sélectionner un mandataire :',
-            'mandataire_exist' => "Décocher s'il n'y a pas de mandataire",
+            'mandataire_identifiant' => 'Sélectionner un courtier :',
+            'mandataire_exist' => "Décocher s'il n'y a pas de courtier",
             'mandatant' => 'Mandaté par : '
         ));
         

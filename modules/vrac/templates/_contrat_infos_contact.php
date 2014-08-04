@@ -54,7 +54,7 @@ if ($vrac) {
 <?php if($mandataire_coord): ?>
             <li id="infos_contact_mendataire">
                 <a href="<?php echo ($mandataire_coord->identifiant)? url_for('compte_visualisation',
-                        array('identifiant' => $mandataire_coord->identifiant)) : '#'; ?>">Coordonnées mandataire</a>
+                        array('identifiant' => $mandataire_coord->identifiant)) : '#'; ?>">Coordonnées courtier</a>
                 <ul>
                     <li class="nom"><?php echo $mandataire_coord->nom_a_afficher; ?></li>
                     <?php if ($mandataire_coord->telephone_bureau != ""): ?>
