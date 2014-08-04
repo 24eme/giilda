@@ -718,4 +718,19 @@ class Vrac extends BaseVrac {
         return !$this->isVise();
     }
     
+    public function isCreateurType($etb_type) {
+
+        if(!$this->exist('createur_identifiant')
+                || !$this->createur_identifiant 
+                || !$this->exist('teledeclare')
+                || !$this->teledeclare ){
+            return false;
+        }
+        $etablissement = EtablissementClient::getInstance()->findByIdentifiant($this->createur_identifiant);
+        if(!$etablissement){
+            return false;
+        }
+        return $etablissement->famille === $etb_type;
+    }
+    
 }

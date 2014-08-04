@@ -47,7 +47,7 @@ class VracSoussigneAnnuaireForm extends VracSoussigneForm {
             'acheteur_famille' => '',
             'acheteur_identifiant' => 'Sélectionner un acheteur :',
             'interne' => 'Cocher si le contrat est interne',
-            'mandataire_identifiant' => 'Sélectionner un mandataire :',
+            'mandataire_identifiant' => 'Sélectionner un courtier :',
             'mandataire_exist' => "Décocher s'il n'y a pas de mandataire",
             'mandatant' => 'Mandaté par : '
         ));
