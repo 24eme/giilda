@@ -68,6 +68,7 @@ if(($form->getObject()->isNew() && !isset($etablissementPrincipal))
 $vendeurArray = array();
 $vendeurArray['vendeur'] = $form->vendeur;
 $vendeurArray['vendeur'] = ($nouveau) ? $form->getObject()->getVendeurObject() : $form->getObject()->getVendeurObject();
+$vendeurArray['isTeledeclarationMode'] = $isTeledeclarationMode;
 include_partial('vendeurInformations', $vendeurArray);
 ?>
                 </div>
@@ -96,6 +97,7 @@ include_partial('vendeurInformations', $vendeurArray);
 $acheteurArray = array();
 $acheteurArray['acheteur'] = $form->acheteur;
 $acheteurArray['acheteur'] = ($nouveau) ? $form->getObject()->getAcheteurObject() : $form->getObject()->getAcheteurObject();
+$acheteurArray['isTeledeclarationMode'] = $isTeledeclarationMode;
 include_partial('acheteurInformations', $acheteurArray);
 ?>
                 </div>
@@ -169,6 +171,7 @@ $mandataireArray = array();
 $mandataireArray['mandataire'] = $form->mandataire;
 if (!$nouveau)
     $mandataireArray['mandataire'] = (!$hasmandataire) ? $mandataireArray['mandataire'] : $form->getObject()->getMandataireObject();
+$mandataireArray['isTeledeclarationMode'] = $isTeledeclarationMode;
 include_partial('mandataireInformations', $mandataireArray);
 ?>    
                 </div>

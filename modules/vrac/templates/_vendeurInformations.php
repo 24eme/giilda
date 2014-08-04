@@ -29,7 +29,7 @@ use_helper('Display');
        removeGreyPanel('interne');
     });
 </script>
-
+<?php $asterisk = ($isTeledeclarationMode)? '' : '*'; ?>
 <div id="vendeur_infos" class="bloc_form bloc_form_condensed">    
     <!--div class="col"-->
         <div class="ligne_form">
@@ -67,13 +67,13 @@ use_helper('Display');
         </div>
         <div class="ligne_form ligne_form_alt">
             <span>
-                <label>CP*</label>
+                <label>CP<?php echo $asterisk ?></label>
                 <?php display_field($vendeur,'siege/code_postal'); ?>
             </span>
         </div>
         <div class="ligne_form">
             <span>
-                <label>Ville*</label>
+                <label>Ville<?php echo $asterisk ?></label>
                 <?php display_field($vendeur,'siege/commune'); ?>
             </span>
         </div>
