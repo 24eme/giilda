@@ -398,6 +398,7 @@ class vracActions extends sfActions {
         if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         $this->form = new VracMarcheForm($this->vrac);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -678,7 +679,8 @@ class vracActions extends sfActions {
             if (!$this->vrac->exist('createur_identifiant') || !$this->vrac->createur_identifiant) {
                 throw new sfException("Le créateur du contrat $this->vrac->_id ne peut pas être null.");
             }
-            $mailManager = new VracEmailManager($this->getMailer(), $this->vrac);
+            $mailManager = new VracEmailManager($this->getMailer());
+            $mailManager->setVrac($this->vrac);
             $mailManager->sendMailAttenteSignature();
         }
     }

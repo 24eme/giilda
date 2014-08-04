@@ -11,6 +11,9 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
 <script type="text/javascript">
     $(document).ready(function()
     {
+        initMarche(<?php echo $isTeledeclarationMode; ?>);
+        
+        
         var ajaxParams = { 'numero_contrat' : '<?php echo $form->getObject()->numero_contrat ?>',
             'vendeur' : '<?php echo $form->getObject()->vendeur_identifiant ?>',
             'acheteur' : '<?php echo $form->getObject()->acheteur_identifiant ?>',
@@ -33,20 +36,24 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
         $('#type_transaction input').change(function()
         {
             var integrite = getContratSimilaireParams(ajaxParams,null);
-            changeMillesimeLabel();
+            changeMillesimeLabelAndDefault("<?php echo $form->getNextMillesime(); ?>","<?php echo $form->getActuelMillesime(); ?>");
             refreshContratsSimilaire(integrite,ajaxParams);                 
         });
        
-       var changeMillesimeLabel = function(){
+       var changeMillesimeLabelAndDefault = function(nextMillesime,actuelMillesime){
            switch($("#type_transaction input:checked").val()){
                case "<?php echo VracClient::TYPE_TRANSACTION_MOUTS ?>":
                case "<?php echo VracClient::TYPE_TRANSACTION_RAISINS ?>":
                   $("div#millesime label").text('Récolte');
+                  $("div#millesime > input").val(nextMillesime);
+                  $("div#millesime > input").change();
                   break;
                
                case "<?php echo VracClient::TYPE_TRANSACTION_VIN_VRAC ?>":
                case "<?php echo VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE ?>":
                   $("div#millesime label").text('Millésime');
+                  $("div#millesime > input").val(actuelMillesime);
+                  $("div#millesime > input").change();
                   break;
            }
        }
