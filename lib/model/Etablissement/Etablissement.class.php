@@ -374,5 +374,13 @@ class Etablissement extends BaseEtablissement {
       }
       return $a;
     }
+    
+    public function getTeledeclarationMail() {
+        $etablissementPrincipal = $this->getSociete()->getEtablissementPrincipal();
+        if(!$etablissementPrincipal->exist('email') || !$etablissementPrincipal->email){
+            return false;
+        }
+        return $etablissementPrincipal->email;
+    }
 
 }
