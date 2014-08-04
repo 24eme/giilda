@@ -230,6 +230,10 @@ class Societe extends BaseSociete {
         return ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
     }
     
+    public function isActif() {
+        return $this->exist('statut') && $this->statut === EtablissementClient::STATUT_ACTIF;
+    }
+    
     public function hasNumeroCompte() {
         return ($this->code_comptable_client || $this->code_comptable_fournisseur);
     }
