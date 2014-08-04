@@ -17,7 +17,8 @@ class AnnuaireRouting {
         $r->prependRoute('annuaire_commercial_ajouter', new sfRoute('/annuaire/:identifiant/ajouter/commercial', array('module' => 'annuaire', 'action' => 'ajouterCommercial')));
         $r->prependRoute('annuaire_ajouter', new sfRoute('/annuaire/:identifiant/ajouter/:type/:tiers', array('module' => 'annuaire', 'action' => 'ajouter')));
         $r->prependRoute('annuaire_supprimer', new sfRoute('/annuaire/:identifiant/supprimer/:type/:id', array('module' => 'annuaire', 'action' => 'supprimer')));
-        
+        $r->prependRoute('annuaire_relais', new sfRoute('/annuaire/:identifiant/relais/:type/:tiers', array('module' => 'annuaire', 'action' => 'relais')));
+        $r->prependRoute('annuaire_choix_etablissement', new sfRoute('/annuaire/:identifiant/choix/:type/:tiers', array('module' => 'annuaire', 'action' => 'choix')));
     }
 
 }

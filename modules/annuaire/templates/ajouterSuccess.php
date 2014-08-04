@@ -1,6 +1,6 @@
 <div id="contrats_vrac" class="clearfix">
 	<div class="ajout_annuaire">
-		<form id="principal" class="ui-tabs" method="post" action="<?php echo url_for('annuaire_ajouter', array('identifiant' => $identifiant, 'type' => $type, 'tiers' => $tiers)) ?>">
+		<form id="principal" class="ui-tabs" method="post" action="<?php echo url_for('annuaire_ajouter', array('identifiant' => $identifiant, 'type' => $type, 'tiers' => $societeId)) ?>">
 			
 			<h2 class="titre_principal">Ajouter un contact</h2>
 
@@ -31,18 +31,31 @@
 						</tbody>
 				</table>
 	
-				<?php if ($tiersObject): ?>
+				<?php if (!$form->hasSocieteChoice()): ?>
 					<h2>INFORMATIONS</h2>
 					<ul>
-						<li>Nom : <strong><?php echo $tiersObject->nom ?></strong></li>
-						<li>N° CVI : <strong><?php echo $tiersObject->cvi ?></strong></li>
-						<li>N° ACCISE : <strong><?php echo $tiersObject->no_accises ?></strong></li>
-						<li>Téléphone : <strong><?php echo $tiersObject->telephone ?></strong></li>
-						<li>Fax : <strong><?php echo $tiersObject->fax ?></strong></li>
-						<li>Adresse : <strong><?php echo $tiersObject->siege->adresse ?></strong></li>
-						<li>Code postal : <strong><?php echo $tiersObject->siege->code_postal ?></strong></li>
-						<li>Commune : <strong><?php echo $tiersObject->siege->commune ?></strong></li>
+						<li>Nom : <strong><?php echo $etbObject->nom ?></strong></li>
+						<li>N° CVI : <strong><?php echo $etbObject->cvi ?></strong></li>
+						<li>N° ACCISE : <strong><?php echo $etbObject->no_accises ?></strong></li>
+						<li>Téléphone : <strong><?php echo $etbObject->telephone ?></strong></li>
+						<li>Fax : <strong><?php echo $etbObject->fax ?></strong></li>
+						<li>Adresse : <strong><?php echo $etbObject->siege->adresse ?></strong></li>
+						<li>Code postal : <strong><?php echo $etbObject->siege->code_postal ?></strong></li>
+						<li>Commune : <strong><?php echo $etbObject->siege->commune ?></strong></li>
 					</ul>
+				<?php endif; ?>
+                                <?php if ($form->hasSocieteChoice()): ?>
+                                        
+					<h2>INFORMATIONS</h2>
+                                        <div style="position: relative;">
+                                            <div style="float: left;">
+                                                La Société suivante possède plusieurs etablissements, veuillez choisir quel est l'établissement à ajouter à l'annuaire
+                                            </div>
+                                            <div style="float: right;">
+                                                <span><?php echo $form['etablissementChoice']->renderError() ?></span>
+                                                      <?php echo $form['etablissementChoice']->render() ?>
+                                            </div>
+                                        </div>
 				<?php endif; ?>
 			</div>
 			<div style="margin: 10px 0; clear: both;">
