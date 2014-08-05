@@ -188,6 +188,8 @@ class vracActions extends sfActions {
         $this->etablissementPrincipal = null;        
         
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        $this->isAcheteurResponsable = $this->isAcheteurResponsable();
+        $this->isCourtierResponsable = $this->isCourtierResponsable();
         
         if($this->isTeledeclarationMode){
             if ($this->etablissement = $request->getParameter("etablissement")) {
@@ -685,20 +687,7 @@ class vracActions extends sfActions {
                 $this->redirect('vrac_visualisation', $this->vrac);
                 break;
         }
-    }
-    
-    private function isTeledeclarationVrac() {
-        return $this->getUser()->hasTeledeclarationVrac();
-    }
-
-    private function initSocieteAndEtablissementPrincipal() {        
-        $this->compte = $this->getUser()->getCompte();
-        if (!$this->compte) {
-            new sfException("Le compte $compte n'existe pas");
-        }
-        $this->societe = $this->compte->getSociete();
-        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
-    }
+    }  
 
     private function renderPartialInformations($etablissement, $nouveau) {
         $familleType = $etablissement->getFamilleType();
@@ -740,9 +729,40 @@ class vracActions extends sfActions {
         throw new sfStopException();
     }
 
+    /*
+     * Fonctions pour la population de l'annuaire
+     * 
+     */
     protected function populateVracTiers($vrac) {
         $vrac->setInformations();
         return $vrac;
     }
+    
+    /*
+     * Fonctions de service liées aux droits Users
+     * 
+     */
+    private function isTeledeclarationVrac() {
+        return $this->getUser()->hasTeledeclarationVrac();
+    }
+    
+    private function isAcheteurResponsable() {
+        return $this->getUser()->getCompte()->getSociete()->isNegociant();
+    }
+    
+    private function isCourtierResponsable() {
+        return $this->getUser()->getCompte()->getSociete()->isCourtier();
+    }    
+
+    private function initSocieteAndEtablissementPrincipal() {        
+        $this->compte = $this->getUser()->getCompte();
+        if (!$this->compte) {
+            new sfException("Le compte $compte n'existe pas");
+        }
+        $this->societe = $this->compte->getSociete();
+        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
+    }
+    
+    
 
 }

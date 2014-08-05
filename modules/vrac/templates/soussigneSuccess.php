@@ -83,6 +83,7 @@ endif;
             <?php echo $form['acheteur_identifiant']->renderError(); ?>
             <!--  Affichage des acheteurs disponibles  -->
             <div id="acheteur" class="block_overlay"> 
+                <?php if(!$isTeledeclarationMode && !$isAcheteurResponsable): ?>
                 <div id="acheteur_choice" class="section_label_maj">
                     <?php echo $form['acheteur_identifiant']->renderLabel() ?>
                     <?php echo $form['acheteur_identifiant']->render() ?>
@@ -95,7 +96,11 @@ endif;
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
-
+            <?php else: ?>
+                <div id="acheteur_choice" class="section_label_maj">
+                <label >Acheteur :</label>
+                </div>
+            <?php endif; ?> 
                 <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
                 <div id="acheteur_informations">
                     <?php

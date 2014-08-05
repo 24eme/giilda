@@ -1,5 +1,17 @@
 <?php
 
+function display_teledeclaration_soussigne_NomCvi($object){
+    if(!$object){
+        echo "";
+        return;
+    }
+    $result = $object->nom;
+    if($object->cvi){
+        $result.= '&nbsp('.$object->cvi.')';
+    }
+    echo $result;
+}
+
 function getCvoLabels($label) {
     $cvo_nature = array(VracClient::CVO_NATURE_MARCHE_DEFINITIF => 'Marché définitif',
         VracClient::CVO_NATURE_COMPENSATION => 'Compensation',
