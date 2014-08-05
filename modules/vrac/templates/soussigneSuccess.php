@@ -6,7 +6,7 @@
  * Version : 1.0.0 
  * Derniere date de modification : 29-05-12
  */
-if (!$isTeledeclarationMode) :
+//if (!$isTeledeclarationMode) :
     if ($nouveau) :
         ?>
         <script type="text/javascript">
@@ -32,7 +32,7 @@ if (!$isTeledeclarationMode) :
         </script>
     <?php
     endif;
-endif;
+//endif;
 
 $urlForm = null;
 

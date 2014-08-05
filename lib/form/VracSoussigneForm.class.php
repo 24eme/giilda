@@ -14,10 +14,12 @@ class VracSoussigneForm extends acCouchdbObjectForm {
    private $acheteurs = null;
    private $mandataires = null;
    
-	public function getAnnuaire()
-   	{
-		return AnnuaireClient::getInstance()->findOrCreateAnnuaire(str_replace('ETABLISSEMENT-', '', $this->getObject()->createur_identifiant));
-   	}
+    public function getAnnuaire()
+    {
+            $createur_identifiant = $this->getObject()->createur_identifiant;
+            $identifiantEtb = EtablissementClient::getInstance()->findByIdentifiant($createur_identifiant)->getEtablissementPrincipal()->identifiant;
+            return AnnuaireClient::getInstance()->findOrCreateAnnuaire($identifiantEtb);
+    }
    
     public function configure()
     {
@@ -115,6 +117,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     public function getRecoltants()
     {
     	$annuaire = $this->getAnnuaire();
+           // var_dump($annuaire); exit;
     	if (!$annuaire) {
     		return array();
     	}
