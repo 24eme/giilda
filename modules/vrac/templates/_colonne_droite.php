@@ -40,10 +40,6 @@
             <a href="#" class="lien_notice">Télécharger la notice</a>
 
 
-            <h3>Contact Hotline</h3>
-            <ul class="contact"> 
-                <li class="telephone"><?php echo $contacts[$region]['telephone']; ?></li>
-            </ul>  
             <h3>Votre contact - mise en marche</h3>
 
             <ul class="contact"> 
