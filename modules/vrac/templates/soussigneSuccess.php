@@ -54,8 +54,14 @@ endif;
             <?php echo $form['vendeur_identifiant']->renderError(); ?>
             <div id="vendeur" class="block_overlay">   
                 <!--  Affichage des vendeurs disponibles  -->
-                <div id="vendeur_choice" class="section_label_maj">
-                    <?php echo $form['vendeur_identifiant']->renderLabel() ?>
+                <div id="vendeur_choice" class="section_label_maj <?php echo ($isTeledeclarationMode) ? 'section_label_maj_teledeclaration' : '' ?>">
+                    <?php if ($isTeledeclarationMode): ?>
+                        <label>Vendeur</label><br />
+                    <?php endif; ?>
+                    <?php
+                    $class = ($isTeledeclarationMode) ? array('class' => 'label_soussigne_identifiant') : array();
+                    echo $form['vendeur_identifiant']->renderLabel(null, $class);
+                    ?>
                     <?php echo $form['vendeur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur')) ?>
                     <?php if ($isTeledeclarationMode): ?>
                         <br /><br />
@@ -81,26 +87,33 @@ endif;
                 </div>
             </div>
             <?php echo $form['acheteur_identifiant']->renderError(); ?>
+
             <!--  Affichage des acheteurs disponibles  -->
             <div id="acheteur" class="block_overlay"> 
-                <?php if(!$isTeledeclarationMode && !$isAcheteurResponsable): ?>
-                <div id="acheteur_choice" class="section_label_maj">
-                    <?php echo $form['acheteur_identifiant']->renderLabel() ?>
-                    <?php echo $form['acheteur_identifiant']->render() ?>
-                    <?php if ($isTeledeclarationMode): ?>
-                        <br /><br />
-                        <?php if (!$vrac->isCreateurType(SocieteClient::SUB_TYPE_NEGOCIANT)) : ?>
-                            <a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
-                        <?php else: ?>
-
+                <?php if (!$isTeledeclarationMode && !$isAcheteurResponsable): ?>
+                    <div id="acheteur_choice" class="section_label_maj <?php echo ($isTeledeclarationMode) ? 'section_label_maj_teledeclaration' : '' ?>">
+                        <?php if ($isTeledeclarationMode): ?>
+                            <label>Acheteur</label><br />
                         <?php endif; ?>
-                    <?php endif; ?>
-                </div>
-            <?php else: ?>
-                <div id="acheteur_choice" class="section_label_maj">
-                <label >Acheteur :</label>
-                </div>
-            <?php endif; ?> 
+                        <?php
+                        $class = ($isTeledeclarationMode) ? array('class' => 'label_soussigne_identifiant') : array();
+                        echo $form['acheteur_identifiant']->renderLabel(null, $class);
+                        ?>
+                        <?php echo $form['acheteur_identifiant']->render() ?>
+                        <?php if ($isTeledeclarationMode): ?>
+                            <br /><br />
+                            <?php if (!$vrac->isCreateurType(SocieteClient::SUB_TYPE_NEGOCIANT)) : ?>
+                                <a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
+                            <?php else: ?>
+
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+                <?php else: ?>
+                    <div id="acheteur_choice" class="section_label_maj section_label_maj_teledeclaration">
+                        <label >Acheteur :</label>
+                    </div>
+                <?php endif; ?> 
                 <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
                 <div id="acheteur_informations">
                     <?php
@@ -119,16 +132,15 @@ endif;
                 </div>
             </div>
 
-
-
-
             <!--  Affichage des mandataires disponibles  -->
             <?php if ($isTeledeclarationMode): ?>
                 <div id="">     
                     <div id="" class="section_label_maj">
                         <?php if (isset($form['commercial'])): ?>
+                        
+                            <label>Courtier</label><br />
                             <?php echo $form['commercial']->renderError(); ?>
-                            <?php echo $form['commercial']->renderLabel() ?>
+                            <?php echo $form['commercial']->renderLabel(null,array('class' => 'label_soussigne_identifiant')) ?>
                             <?php echo $form['commercial']->render() ?>
                             <br /><br />
                             <?php if (!$vrac->isCreateurType(SocieteClient::SUB_TYPE_COURTIER)) : ?>
