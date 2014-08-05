@@ -190,10 +190,10 @@ class vracActions extends sfActions {
         $this->etablissementPrincipal = null;        
         
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        $this->isAcheteurResponsable = $this->isAcheteurResponsable();
-        $this->isCourtierResponsable = $this->isCourtierResponsable();
         
         if($this->isTeledeclarationMode){
+            $this->isAcheteurResponsable = $this->isAcheteurResponsable();
+            $this->isCourtierResponsable = $this->isCourtierResponsable();            
             if ($this->etablissement = $request->getParameter("etablissement")) {
                 $this->vrac->initCreateur($this->etablissement);
                 $this->initSocieteAndEtablissementPrincipal();
@@ -415,10 +415,10 @@ class vracActions extends sfActions {
         $this->compte = null;
             
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        $this->isAcheteurResponsable = $this->isAcheteurResponsable();
-        $this->isCourtierResponsable = $this->isCourtierResponsable();
         
-        if ($this->isTeledeclarationVrac()) {
+        if ($this->isTeledeclarationMode) {
+            $this->isAcheteurResponsable = $this->isAcheteurResponsable();
+            $this->isCourtierResponsable = $this->isCourtierResponsable();
             $this->initSocieteAndEtablissementPrincipal();
         }
         $this->form = new VracSoussigneForm($this->vrac,$this->isTeledeclarationMode);

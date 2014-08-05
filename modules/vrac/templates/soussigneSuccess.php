@@ -94,7 +94,7 @@ endif;
             <!--  Affichage des acheteurs disponibles  -->
             <div id="acheteur" class="block_overlay"> 
 
-                <?php if (!$isAcheteurResponsable && !$isTeledeclarationMode): ?>
+                <?php if (!$isTeledeclarationMode && !isset($isAcheteurResponsable)): ?>
                     <div id="acheteur_choice" class="section_label_maj">
                         <?php echo $form['acheteur_identifiant']->renderLabel(); ?>
                         <?php echo $form['acheteur_identifiant']->render(); ?><?php echo $form['acheteur_identifiant']->renderError(); ?>
@@ -102,7 +102,7 @@ endif;
                     </div>
                 <?php endif; ?>
 
-                <?php if (!$isAcheteurResponsable && $isTeledeclarationMode): ?>
+                <?php if ($isTeledeclarationMode && !$isAcheteurResponsable): ?>
                     <?php $url_ajout_acheteur = url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur')); ?>
                     <div id="acheteur_choice" class="section_label_maj section_label_maj_teledeclaration" >
                         <label>Acheteur</label><br />
