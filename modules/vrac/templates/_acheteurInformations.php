@@ -1,5 +1,6 @@
 <?php
 use_helper('Display');
+use_helper('Vrac');
 ?>
 <script type="text/javascript">
     $(document).ready(function()

@@ -556,6 +556,7 @@ class vracActions extends sfActions {
     public function executeGetInformations(sfWebRequest $request) {
         $etablissement = EtablissementClient::getInstance()->find($request->getParameter('id'));
         $nouveau = is_null($request->getParameter('numero_contrat'));
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();        
         return $this->renderPartialInformations($etablissement, $nouveau);
     }
 
@@ -691,7 +692,7 @@ class vracActions extends sfActions {
 
     private function renderPartialInformations($etablissement, $nouveau) {
         $familleType = $etablissement->getFamilleType();
-        return $this->renderPartial($familleType . 'Informations', array($familleType => $etablissement, 'nouveau' => $nouveau, 'isTeledeclarationMode' => false));
+        return $this->renderPartial($familleType . 'Informations', array($familleType => $etablissement, 'nouveau' => $nouveau, 'isTeledeclarationMode' => $this->isTeledeclarationMode));
     }
 
     private function maj_etape($etapeNum) {
