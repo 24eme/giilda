@@ -14,10 +14,14 @@ class VracSoussigneForm extends acCouchdbObjectForm {
    private $acheteurs = null;
    private $mandataires = null;
    private $isTeledeclarationMode;
+   private $isAcheteurResponsable;
+   private $isCourtierResponsable;
+   
 
-
-   public function __construct(Vrac $object, $isTeledeclarationMode = false, $options = array(), $CSRFSecret = null) {
+   public function __construct(Vrac $object, $isTeledeclarationMode = false, $isAcheteurResponsable = false, $isCourtierResponsable = false, $options = array(), $CSRFSecret = null) {
        $this->isTeledeclarationMode = $isTeledeclarationMode;
+       $this->isAcheteurResponsable = $isAcheteurResponsable;
+       $this->isCourtierResponsable = $isCourtierResponsable;
        parent::__construct($object, $options, $CSRFSecret);
    }
    
@@ -37,8 +41,14 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         	$this->setWidget('vendeur_identifiant', new sfWidgetFormChoice(array('choices' => $vendeurs), array('class' => 'autocomplete')));
         	$this->setWidget('acheteur_identifiant', new sfWidgetFormChoice(array('choices' => $acheteurs), array('class' => 'autocomplete')));
         	$this->setWidget('commercial', new sfWidgetFormChoice(array('choices' => $commerciaux), array('class' => 'autocomplete')));
+                
                 $this->setValidator('vendeur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
-        	$this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($acheteurs))));
+                if($this->isAcheteurResponsable){
+                    $acheteursChoiceValides[] = 'ETABLISSEMENT-'.$this->getObject()->createur_identifiant;
+                }else{
+                    $acheteursChoiceValides = array_keys($acheteurs);
+                }
+                $this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => $acheteursChoiceValides)));
         	$this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
         	$this->widgetSchema->setLabel('commercial', 'Sélectionner un interlocuteur commercial :');
         } else {

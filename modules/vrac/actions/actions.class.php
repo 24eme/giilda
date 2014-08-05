@@ -181,6 +181,8 @@ class vracActions extends sfActions {
 
     public function executeNouveau(sfWebRequest $request) {
         
+        $isMethodPost = $request->isMethod(sfWebRequest::POST);
+        
         $this->getResponse()->setTitle('Contrat - Nouveau');
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
         $this->vrac = $this->populateVracTiers($this->vrac);
@@ -202,17 +204,17 @@ class vracActions extends sfActions {
                 $this->etablissement = $this->choixEtablissement;
                 $this->initSocieteAndEtablissementPrincipal();
             }
-            if($this->societe->isNegociant() && count($this->societe->getEtablissementsObj()) > 1 && !$this->choixEtablissement){
+            if(!$isMethodPost && $this->societe->isNegociant() && count($this->societe->getEtablissementsObj()) > 1 && !$this->choixEtablissement){
                 return $this->redirect('vrac_societe_choix_etablissement', array('identifiant' => $this->societe->identifiant));
             }
         }        
         
-        $this->form = new VracSoussigneForm($this->vrac,$this->isTeledeclarationMode); 
+        $this->form = new VracSoussigneForm($this->vrac, $this->isTeledeclarationMode, $this->isAcheteurResponsable, $this->isCourtierResponsable); 
 
         $this->init_soussigne($request, $this->form);
         $this->nouveau = true;
         $this->contratNonSolde = false;
-        if ($request->isMethod(sfWebRequest::POST)) {
+        if ($isMethodPost) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->maj_etape(1);
@@ -410,8 +412,10 @@ class vracActions extends sfActions {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Soussignés', $request["numero_contrat"]));
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : $this->getRoute()->getVrac();
         $this->compte = null;
-
+            
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        $this->isAcheteurResponsable = $this->isAcheteurResponsable();
+        $this->isCourtierResponsable = $this->isCourtierResponsable();
         
         if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();

@@ -51,7 +51,6 @@ endif;
             <?php echo $form->renderHiddenFields() ?>
             <?php echo $form->renderGlobalErrors() ?>
 
-            <?php echo $form['vendeur_identifiant']->renderError(); ?>
             <div id="vendeur" class="block_overlay">   
                 <!--  Affichage des vendeurs disponibles  -->
                 <?php if ($isTeledeclarationMode): ?>
@@ -60,12 +59,14 @@ endif;
                         <label>Vendeur</label><br />                        
                         <?php echo $form['vendeur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>
                         <?php echo $form['vendeur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur', 'data-url' => $url_ajout_vendeur)); ?>
+                        <?php echo $form['vendeur_identifiant']->renderError(); ?>
                         <br /><br />
                     </div>
                 <?php else: ?>
                     <div id="vendeur_choice" class="section_label_maj" >
                         <?php echo $form['vendeur_identifiant']->renderLabel(); ?>
                         <?php echo $form['vendeur_identifiant']->render(array('class' => 'autocomplete')); ?>
+                        <?php echo $form['vendeur_identifiant']->renderError(); ?>
                         <br /><br />
                     </div>
                 <?php endif; ?>
@@ -85,33 +86,34 @@ endif;
                         <a id="vendeur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
                     <?php endif; ?>
                 </div>
-            </div>
-            <?php echo $form['acheteur_identifiant']->renderError(); ?>
-
+            </div>           
             <!--  Affichage des acheteurs disponibles  -->
             <div id="acheteur" class="block_overlay"> 
-                
+
                 <?php if (!$isAcheteurResponsable && !$isTeledeclarationMode): ?>
                     <div id="acheteur_choice" class="section_label_maj">
                         <?php echo $form['acheteur_identifiant']->renderLabel(); ?>
-                        <?php echo $form['acheteur_identifiant']->render(); ?>
+                        <?php echo $form['acheteur_identifiant']->render(); ?><?php echo $form['acheteur_identifiant']->renderError(); ?>
+                        
                     </div>
                 <?php endif; ?>
-                
+
                 <?php if (!$isAcheteurResponsable && $isTeledeclarationMode): ?>
-                <?php $url_ajout_acheteur = url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur')); ?>
+                    <?php $url_ajout_acheteur = url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur')); ?>
                     <div id="acheteur_choice" class="section_label_maj section_label_maj_teledeclaration" >
                         <label>Acheteur</label><br />
                         <?php echo $form['acheteur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>
                         <?php echo $form['acheteur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur', 'data-url' => $url_ajout_acheteur)); ?>                        
+                        <?php echo $form['acheteur_identifiant']->renderError(); ?>
                     </div>
                 <?php endif; ?>
                 <?php if ($isTeledeclarationMode && $isAcheteurResponsable) : ?>
                     <div id="acheteur_choice" class="section_label_maj section_label_maj_teledeclaration">
                         <label >Acheteur :</label>
+                        <input type="hidden" name="vrac[acheteur_identifiant]" value="<?php echo "ETABLISSEMENT-".$etablissement; ?>"/>
                     </div>
                 <?php endif; ?> 
-                
+
                 <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
                 <div id="acheteur_informations">
                     <?php
@@ -130,20 +132,17 @@ endif;
                 </div>
             </div>
 
-            <!--  Affichage des mandataires disponibles  -->
+            <!--  Affichage des courtiers disponibles  -->
             <?php if ($isTeledeclarationMode): ?>
+            <?php $url_ajout_courtier = url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant)); ?>
                 <div id="">     
                     <div id="" class="section_label_maj">
                         <?php if (isset($form['commercial'])): ?>
-
                             <label>Courtier</label><br />
                             <?php echo $form['commercial']->renderError(); ?>
                             <?php echo $form['commercial']->renderLabel(null, array('class' => 'label_soussigne_identifiant')) ?>
-                            <?php echo $form['commercial']->render() ?>
-                            <br /><br />
-                            <?php if (!$vrac->isCreateurType(SocieteClient::SUB_TYPE_COURTIER)) : ?>
-                                <a class="ajouter_annuaire" href="<?php echo url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant)) ?>">Ajouter un contact</a>
-                            <?php endif; ?>
+                            <?php echo $form['commercial']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un courtier', 'data-url' => $url_ajout_courtier)) ?>
+                            
                         <?php endif; ?>
                     </div>
                 </div>
