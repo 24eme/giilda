@@ -6,10 +6,10 @@
  ******************************************/
 
 /* Conteneur des overlay des formulaires */ 
- .block_overlay
- {
+.block_overlay
+{
     position: relative;
- }
+}
 
 .type_raisins,
 .type_mouts,
@@ -59,7 +59,7 @@
         li
         {
             &:before
-            {
+                {
                 .triangle-r(10px, 5px, #d00815);
                 margin: 0 5px 0 0;
             }
@@ -93,17 +93,17 @@
 /* Actions */
 #contrat_actions_fin
 {
-	ul
-	{
-		font-size: 10px;
-		
-		li
-		{
-			margin: 10px 0;
-			
-			* { display: block; }
-		}
-	}
+    ul
+    {
+        font-size: 10px;
+
+        li
+        {
+            margin: 10px 0;
+
+            * { display: block; }
+        }
+    }
 }
 
 #contenu_etape
@@ -158,7 +158,7 @@
 
     #table_contrats
     {
-                
+
         td
         {
             padding: 10px;
@@ -193,27 +193,41 @@
         {
             .ligne_form { height: auto; }
         }
-        
+
+        .bloc_form_teledeclaration { border-radius: 0 0 5px 5px; }
+
         .section_label_maj
         {
-                background:@couleur-a5;
-                margin: 0 0 25px;
-                padding:10px 10px 30px;
+            background:@couleur-a5;
+            margin: 0 0 25px;
+            padding:10px 10px 30px;
 
-                .ui-autocomplete-input
-                {
-                }
+            .ui-autocomplete-input
+            {
+            }
+        }
+
+        .section_label_maj_teledeclaration { margin: 0 0 0; }        
+
+        .label_soussigne_identifiant{ 
+            padding-right: 10px;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+            height: 35px;
+            padding-top: 4px;
+            text-transform: uppercase; 
         }
 
         #has_mandataire
         {
-                font-weight: bold;
+            font-weight: bold;
         }
 
         #mandataire
         {
             .clearfix;
-			padding: 20px 0 0;
+            padding: 20px 0 0;
         } 
 
         #mandatant
@@ -221,7 +235,7 @@
             margin: 0 0 20px;
 
             * { vertical-align: middle; }
-			
+
             .checkbox_list
             {
                 .inline-block-ie;
@@ -231,7 +245,7 @@
                     .inline-block-ie;
                     width : 150px; 
                 }
-				
+
                 input { margin: 0 5px 0 0; }
             }
         }
@@ -296,7 +310,7 @@
             label
             {
                 &:first-child
-                {
+                    {
                     float:left;
                     width:230px;
                 }
@@ -320,7 +334,7 @@
                     position: relative;
 
                     &:before
-                    {
+                        {
                         background: url('../images/pictos/sprite_type.png') no-repeat;
                         content: '';
                         left: 0;
@@ -330,20 +344,20 @@
                     }
 
                     &[for$="RAISINS"]:before
-                    {
+                        {
                         background-position: 0 -59px;
                         height: 26px;
                     }
 
                     &[for$="MOUTS"]:before
-                    {
+                        {
                         background-position: 0 -32px;
                         height: 27px;
                         top: -4px;
                     }
 
                     &[for$="VIN_VRAC"]:before
-                    {
+                        {
                         background-position: 0 -85px;
                         height: 28px;
                     }
@@ -353,7 +367,7 @@
                         padding-left: 18px;
 
                         &:before
-                        {
+                            {
                             height: 32px;
                             left: -6px;
                             top: -10px;
@@ -376,7 +390,7 @@
         #label .checkbox_list { float: left; }
 
         #prixInitialTotal { label { width:215px; } }
-        
+
         #prixTotal { 
             label { width:215px; } 
             span.unite { font-weight: bold; }
@@ -406,10 +420,10 @@
             span { margin-left:40px; }
         }                
     }
-    
+
     #vrac_validation,
-	#vrac_recapitulatif,
-	#vrac_visualisation
+    #vrac_recapitulatif,
+    #vrac_visualisation
     {
         #titre
         {
@@ -612,8 +626,8 @@
 
         .legende_type_texte
         {
-                margin: 7px 0 0 10px;
-                position: absolute;
+            margin: 7px 0 0 10px;
+            position: absolute;
         }
 
         .statut
@@ -655,7 +669,7 @@
             margin-bottom:0px;
             width:108px;
 
-            
+
             .statut { .box-dimensions(15px, 15px); }
 
             .type_raisins,
@@ -671,7 +685,7 @@
 {
     margin: 0 0 25px;
     .clearfix;
-    
+
     #vrac_etapes
     {
         background: url(../images/fonds/bg_etapes_declaration.png) 0 0 no-repeat;
@@ -683,9 +697,9 @@
         {
             line-height: 21px;
             list-style: none;
-            
+
             * { float: left; }
-            
+
             li
             {
                 background: url(../images/fonds/bg_etapes_declaration.png) 0 -43px repeat-x;
@@ -695,7 +709,7 @@
                     background: url(../images/fonds/bg_etapes_declaration.png) 0 -106px no-repeat;
                     padding: 0 15px 0 20px;
                 }
-                
+
                 a
                 {
                     color: #fff;
@@ -727,7 +741,7 @@
 
                     &.actif > * span { background-position: right -169px; }
                 }
-                
+
                 /* Elément passé / actif */
                 &.passe,
                 &.actif
@@ -735,18 +749,18 @@
                     background-position: 0 -64px;
                     & > * { background-position: 0 -127px; }
                 }
-                
+
                 /* 2 éléments passés à la suite */
                 + li.passe
                 {
                     & > * {  }
                 }
-                
+
                 /* Elément actif */
                 &.actif
                 {
                     font-weight: bold;
-                    
+
                     /* Elément après l'actif */
                     + li
                     {
@@ -756,20 +770,20 @@
             }
         }
     }
-    
+
     #etat_avancement
     {
         float: right;
         margin: -10px 0 0;
         width: 130px; /* anciennement 190 */
-        
+
         p
         {
             font-size: 11px;
             line-height: 1;
             margin: 0 0 5px;
             text-align: right;
-            
+
             strong
             {
                 color: @couleur-b3;
@@ -778,11 +792,11 @@
                 span { font-size: 12px; }
             }
         }
-        
+
         #barre_avancement
         {
             background: @couleur-a1;
-            
+
             div
             {
                 background: @couleur-b3;
@@ -800,7 +814,7 @@
         {
             .border-radius(0);
             border: 0;
-            
+
             textarea { width: 100%; }
         }
     }
@@ -823,7 +837,7 @@
         text-align: center;
         color: @couleur-a1;
     }
-    
+
     h2
     {
         font-size: 16px;
@@ -834,32 +848,32 @@
     {
         display: inline-block;
         vertical-align: top;
-        
+
         .ielt8 & { .inline-block-ie; }
     }
-        
+
     section { padding: 5px 0px; }
-    
+
     .ligne_form
     {
         /*margin: 0 0 15px;*/
-        
+
         .error_list { width: 310px; }
-        
+
         label
         {
             display: inline-block;
             vertical-align: middle;
             width: 165px;
         }
-        
+
         &.ligne_form_large label
         {
             display: block;
             margin: 0 0 10px;
             width: auto;
         }
-        
+
         input[type="text"],
         input[type="password"],
         select
@@ -875,11 +889,11 @@
         {
             padding: 2px 4px;
             width: 120px;
-            
+
         }
-        
+
         select { width: 130px; }
-        
+
         .champ_form_radio_cb 
         {
             label
@@ -889,7 +903,7 @@
                 width: auto;
             }
         }
-        
+
         &.ligne_form_large .champ_form_radio_cb
         {
             input
@@ -899,12 +913,12 @@
             }
         }
     }
-    
+
     .ligne_btn 
     {
         margin: 34px 0 0;
         right: 23px;
-        
+
         button,
         a
         {
@@ -913,13 +927,13 @@
             text-transform: uppercase;
             &:hover { text-decoration: none; }
         }
-        
+
         .btn_valider
         {
             &:extend(.btn_suiv);
             padding: 0 17px 0 15px;
         }
-        
+
         .btn_ajouter
         {
             &:extend(.btn_violet);
@@ -950,7 +964,7 @@
             text-transform: none;
         }*/
     }
-    
+
     /* Ajout d'établissements */
     #infos_etablissements
     {
@@ -958,7 +972,7 @@
         position: relative;
         padding: 0;
         width: 895px;
-                
+
         .etablissement
         {
             .border(@couleur-a3);
@@ -969,13 +983,13 @@
             position: relative;
             vertical-align: top;
             width: 250px;
-            
+
             .ielt8 & { .inline-block-ie; }
-            
+
             .error_list { width: auto; }
-            
+
             .ligne_form label { width: 110px; }
-        
+
             a.supprimer
             {
                 .box-dimensions(13px, 13px);
@@ -987,41 +1001,41 @@
         }
     }
 
-        a.btn_ajouter_etab
+    a.btn_ajouter_etab
+    {
+        .btn_gris;
+        background-image: url(../images/boutons/btn_ajouter.png);
+        background-position: 7px center;
+        margin: 0 10px 0 0;
+        padding: 5px 10px 6px 30px;
+        position: absolute;
+        right: 127px;
+        text-transform : none;
+    }
+
+    a#btn_ajouter_etablissement
+    {
+        .btn_gris;
+        background-image: url(../images/boutons/btn_ajouter.png);
+        background-position: 10px center;
+        font-size: 15px;
+        line-height: 1;
+        position: absolute;
+        padding: 4px 10px 4px 32px;
+        font-size: 15px;
+        text-transform: uppercase;
+
+        &:hover { text-decoration: none; }
+
+        span
         {
-            .btn_gris;
-            background-image: url(../images/boutons/btn_ajouter.png);
-            background-position: 7px center;
-            margin: 0 10px 0 0;
-            padding: 5px 10px 6px 30px;
-            position: absolute;
-            right: 127px;
-            text-transform : none;
+            color: #fff;
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: none;
         }
-
-        a#btn_ajouter_etablissement
-        {
-            .btn_gris;
-            background-image: url(../images/boutons/btn_ajouter.png);
-            background-position: 10px center;
-            font-size: 15px;
-            line-height: 1;
-            position: absolute;
-            padding: 4px 10px 4px 32px;
-            font-size: 15px;
-            text-transform: uppercase;
-
-            &:hover { text-decoration: none; }
-
-            span
-            {
-                color: #fff;
-                display: block;
-                font-size: 14px;
-                font-weight: bold;
-                text-transform: none;
-            }
-        }
+    }
 
     /* Récapitulatif */
     #recapitulatif
@@ -1042,7 +1056,7 @@
                     font-weight: normal;
                 }
             }
-        
+
             .adresse_comptabilite { margin: 20px 0 0; } 
 
             .btn_ajouter,
@@ -1091,9 +1105,9 @@
             margin-left: -30px;
             vertical-align: middle;
             width: 30px;
-        
+
             &:hover { background-color: #E9E9E9; }
-        
+
             .ui-icon
             {
                 background: url(../images/pictos/pi_desc.png) 50% 50% no-repeat;
@@ -1109,7 +1123,7 @@
     {
         font-size: 0;
         line-height: 1;
-        
+
         .ui-dropdownchecklist-text
         {
             background: #fff;
@@ -1120,30 +1134,30 @@
             padding: 2px 4px 0;
             width: 190px !important;
         }
-        
+
         &.ui-state-active
         {
             .ui-dropdownchecklist-text { border-bottom-color: #f4f4f4; }
         }
     }
-    
+
     .ui-dropdownchecklist-dropcontainer-wrapper
     {
         height: auto !important;
         width: auto !important;
     }
-    
+
     .ui-dropdownchecklist-dropcontainer
     {
         background: #fff;
         border: 1px solid #d3d2cd;
         height: 200px !important;
         width: 250px;
-        
+
         .ui-dropdownchecklist-item
         {
             padding: 2px 4px;
-            
+
             label
             {
                 width: auto;
@@ -1194,9 +1208,9 @@
     {
         .clearfix;
         margin: 10px 0 30px;
-        
+
         a { cursor: pointer; }
-        
+
         .btn_annuler
         {
             float: left;
@@ -1227,20 +1241,20 @@
         {
             font-weight: bold;
             margin: 0 0 5px;
-            
+
             strong
             {
                 font-size: 22px;
                 margin: 0 5px 0 0;
             }
         }
-        
+
         #barre_progression
         {
             .border-radius(5px);
             .box-shadow(0px 1px 2px #9e9e9e inset);
             background: url(../images/fonds/bg_fond_progression.png) 0 0 repeat-x #f0efef;
-            
+
             span
             {
                 .border-radius(5px);
@@ -1280,7 +1294,7 @@
 
     #contrats_similaires_list
     {
-   
+
         margin: 0;
 
         li { padding : 3px 0; }
@@ -1298,7 +1312,7 @@
         .separateur { background: url('../images/fonds/bg_colonne_separateur.png') right no-repeat; }
 
         .legende_contrat { margin-bottom: 10px; }
-        
+
     }
 
     #contrat_actions
@@ -1325,19 +1339,19 @@
             display: inline-block;
             margin: 30px 0 0;
         }
-        
+
         .contact
         {
             font-weight: bold;
-            
+
             li
             {
                 margin: 10px 0;
                 position: relative;
                 padding: 0 0 0 28px;
-                
+
                 &:before
-                {
+                    {
                     .box-dimensions(21px, 21px);
                     .sprite-pictos-actions;
                     .pos-abs(-3px, auto, auto, 0);
