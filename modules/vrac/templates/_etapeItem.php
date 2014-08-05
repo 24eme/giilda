@@ -7,7 +7,7 @@ if($actif == $num_etape+1) $liClass = 'actif';
   }
 
  $href ='';
-  if($num_etape == 0 && $vrac->etape == 0) $href = 'href="'.url_for('vrac_nouveau').'"';
+  if($num_etape == 0 && $vrac->etape == 0 && isset($urlsoussigne) && $urlsoussigne) $href = 'href="'.$urlsoussigne.'"';
   else if($vrac->etape >= $num_etape) $href = 'href="'.url_for($url_etape,$vrac).'"';
 ?>
 
