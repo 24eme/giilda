@@ -240,7 +240,8 @@ class vracActions extends sfActions {
             $parameters = $request->getParameter($this->form->getName());            
             $this->form->bind($parameters);
             if ($this->form->isValid()) {
-                $etablissementId = $request->getParameter('etablissementChoice');
+                $values = $this->form->getValues(); 
+                $etablissementId = $values['etablissementChoice'];
                 if(!$etablissementId){
                     throw new sfException("L'établissement n'a pas été choisi");                    
                 }

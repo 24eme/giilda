@@ -48,6 +48,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
                 }else{
                     $acheteursChoiceValides = array_keys($acheteurs);
                 }
+                
                 $this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => $acheteursChoiceValides)));
         	$this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
         	$this->widgetSchema->setLabel('commercial', 'Sélectionner un interlocuteur commercial :');

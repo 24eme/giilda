@@ -17,13 +17,18 @@ class SocieteEtablissementChoiceForm extends baseForm {
 
     public function configure()
     {
-            $this->setWidget('etablissementChoice', new sfWidgetFormChoice(array('choices' => $this->getEtablissements())));
-            $this->setValidator('etablissementChoice', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getEtablissements()))));
+            $this->setWidget('etablissementChoice', new sfWidgetFormChoice(array('choices' => $this->getEtablissements(true))));
+            $this->setValidator('etablissementChoice', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getEtablissements()))));
             $this->widgetSchema->setLabel('etablissementChoice', 'Etablissement*:');
+            $this->validatorSchema['etablissementChoice']->setMessage('invalid', 'Le choix d\'un établissement est obligatoire.'); 
+            $this->widgetSchema->setNameFormat('vrac[%s]');
     }
     
-    public function getEtablissements() {
-        $etablissements = array('0' => 'Choisir un établissement');
+    public function getEtablissements($include_libelle = false) {
+        $etablissements = array();
+        if($include_libelle){
+            $etablissements['0'] = 'Choisir un établissement';
+        }
         foreach ($this->etablissements as $key => $etablissementObj) {
             $etablissements[$etablissementObj->etablissement->identifiant] = $etablissementObj->etablissement->nom; 
         }

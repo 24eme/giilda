@@ -39,7 +39,11 @@ $urlForm = null;
 if (($form->getObject()->isNew() && !isset($isTeledeclarationMode)) || ($form->getObject()->isNew() && !$isTeledeclarationMode)) :
     $urlForm = url_for('vrac_nouveau');
 elseif ($form->getObject()->isNew() && isset($isTeledeclarationMode) && $isTeledeclarationMode) :
-    $urlForm = url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant));
+    if(isset($choixEtablissement) && $choixEtablissement):
+        $urlForm = url_for('vrac_nouveau', array('choix-etablissement' => $choixEtablissement));
+    else:
+        $urlForm = url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant));
+    endif;
 else :
     $urlForm = url_for('vrac_soussigne', $vrac);
 endif;
