@@ -382,5 +382,9 @@ class Etablissement extends BaseEtablissement {
         }
         return $etablissementPrincipal->email;
     }
+    
+    public function getEtablissementPrincipal() {
+        return SocieteClient::getInstance()->find($this->id_societe)->getEtablissementPrincipal();
+    }
 
 }
