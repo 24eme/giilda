@@ -37,7 +37,7 @@ var updatePanelsConditions = function()
     }
 };
 
-var initMarche = function()
+var initMarche = function(isTeledeclarationMode)
 {
     if($('#vrac_marche #original input:checked').length == 0)
         $('#vrac_marche #original input[value="1"]').attr('checked','checked');
@@ -56,15 +56,15 @@ var initMarche = function()
         else  $('#domaine').show();       
     });
     
-   updatePanelsAndUnitLabels();    
+   updatePanelsAndUnitLabels(isTeledeclarationMode);    
    $('#vrac_marche #type_transaction input').click(function(){
        clearVolumesChamps();
-       updatePanelsAndUnitLabels();
+       updatePanelsAndUnitLabels(isTeledeclarationMode);
    });
 };
 
 
-var updatePanelsAndUnitLabels = function()
+var updatePanelsAndUnitLabels = function(isTeledeclarationMode)
 {
      switch ($('#vrac_marche #type_transaction input:checked').attr('value'))
     {
@@ -116,7 +116,7 @@ var updatePanelsAndUnitLabels = function()
         break;
         case 'VIN_BOUTEILLE' :
         {
-            updatePanelsAndUnitForBottle();
+            updatePanelsAndUnitForBottle(isTeledeclarationMode);
             
             $('#vrac_bouteilles_quantite').unbind();
             $('#vrac_prix_initial_unitaire').unbind();
@@ -160,7 +160,7 @@ var updatePanelsAndUnitForJuice = function()
     majTotal("jus_quantite");
 };
 
-var updatePanelsAndUnitForBottle = function()
+var updatePanelsAndUnitForBottle = function(isTeledeclarationMode)
 {
     $('.raisin_quantite').hide();
     $('.jus_quantite').hide();
@@ -180,7 +180,8 @@ var updatePanelsAndUnitForBottle = function()
         volume_total = bouteilles_contenance * parseInt(bouteilles_quantite);
         volume_total = parseFloat(volume_total).toFixed(2);
         $('#volume_total').val(volume_total).trigger('change');
-        $('.bouteilles_quantite span#volume_unite_total').text("(soit "+volume_total+" hl)");
+        var unit = (isTeledeclarationMode)? '(en bouteilles)' : "(soit "+volume_total+" hl)";
+        $('.bouteilles_quantite span#volume_unite_total').text(unit);
         var bouteilles_price_initial = $('#vrac_prix_initial_unitaire').val();
         var bouteilles_price = $('#vrac_prix_unitaire').val();
         var bouteilles_price_initialReg = (new RegExp("^[0-9]+[.]?[0-9]*$","g")).test(bouteilles_price_initial);
@@ -526,8 +527,7 @@ var removeGreyPanel = function(divId) {
 };
 
 $(document).ready(function()
-{
-     initMarche();
+{     
      initConditions();
      //$("#vrac_soussigne").bind("submit", function() {return false;});
      $("#btn_soussigne_submit").bind("click", function() {$("#vrac_soussigne").unbind("submit");$("#vrac_soussigne").submit()});
