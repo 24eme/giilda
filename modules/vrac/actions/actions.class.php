@@ -185,11 +185,23 @@ class vracActions extends sfActions {
         $this->vrac = $this->populateVracTiers($this->vrac);
         $this->compte = null;
         $this->etablissementPrincipal = null;
+        
         if ($this->etablissement = $request->getParameter("etablissement")) {
             $this->vrac->initCreateur($this->etablissement);
             $this->initSocieteAndEtablissementPrincipal();
         }
-        $this->form = new VracSoussigneForm($this->vrac);
+
+        if ($this->choixEtablissement = $request->getParameter("choix-etablissement")) {
+            $this->vrac->initCreateur($this->choixEtablissement);
+            $this->etablissement = $this->choixEtablissement;
+            $this->initSocieteAndEtablissementPrincipal();
+        }
+        
+        if($this->societe->isNegociant() && count($this->societe->getEtablissementsObj()) > 1 && !$this->choixEtablissement){
+            return $this->redirect('vrac_societe_choix_etablissement', array('identifiant' => $this->societe->identifiant));
+        }
+        
+        $this->form = new VracSoussigneForm($this->vrac); 
 
         $this->init_soussigne($request, $this->form);
         $this->nouveau = true;
@@ -208,6 +220,32 @@ class vracActions extends sfActions {
         $this->setTemplate('soussigne');
     }
 
+    public function executeChoixEtablissement(sfWebRequest $request) {
+        $this->initSocieteAndEtablissementPrincipal();
+        $societeId = $request->getParameter('identifiant');
+        if($societeId != $this->societe->identifiant){
+            throw new sfException("Vous n'avez pas le droit d'acceder à ce choix pour cette société");
+        }
+        
+        $this->form = new SocieteEtablissementChoiceForm($this->societe);
+        
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $parameters = $request->getParameter($this->form->getName());            
+            $this->form->bind($parameters);
+            if ($this->form->isValid()) {
+                $etablissementId = $request->getParameter('etablissementChoice');
+                if(!$etablissementId){
+                    throw new sfException("L'établissement n'a pas été choisi");                    
+                }
+                $etablissement = EtablissementClient::getInstance()->findByIdentifiant($etablissementId);
+                if(!$etablissement){
+                    throw new sfException("L'établissement n'existe plus dans la base de donné");                    
+                }
+                $this->redirect('vrac_nouveau', array('choix-etablissement' => $etablissementId));
+            }
+        }
+    }
+    
     public function executeSociete(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);

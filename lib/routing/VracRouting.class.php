@@ -149,6 +149,10 @@ class VracRouting {
                                                                                             array('sf_method' => array('get','post')),
                                                                                             array('model' => 'Vrac', 'type' => 'object')));
         
+        $r->prependRoute('vrac_societe_choix_etablissement',  new sfRoute('/contrats/:identifiant/choix-etablissement', array('module' => 'vrac', 
+                                                                                              'action' => 'choixEtablissement'),
+                                                                                            array('sf_method' => array('get','post'))));
+        
     }
 
 }
