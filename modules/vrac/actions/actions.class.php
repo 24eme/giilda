@@ -180,33 +180,36 @@ class vracActions extends sfActions {
     }
 
     public function executeNouveau(sfWebRequest $request) {
+        
         $this->getResponse()->setTitle('Contrat - Nouveau');
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
         $this->vrac = $this->populateVracTiers($this->vrac);
         $this->compte = null;
-        $this->etablissementPrincipal = null;
+        $this->etablissementPrincipal = null;        
         
-        if ($this->etablissement = $request->getParameter("etablissement")) {
-            $this->vrac->initCreateur($this->etablissement);
-            $this->initSocieteAndEtablissementPrincipal();
-        }
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        
+        if($this->isTeledeclarationMode){
+            if ($this->etablissement = $request->getParameter("etablissement")) {
+                $this->vrac->initCreateur($this->etablissement);
+                $this->initSocieteAndEtablissementPrincipal();
+            }
 
-        if ($this->choixEtablissement = $request->getParameter("choix-etablissement")) {
-            $this->vrac->initCreateur($this->choixEtablissement);
-            $this->etablissement = $this->choixEtablissement;
-            $this->initSocieteAndEtablissementPrincipal();
-        }
-        
-        if($this->societe->isNegociant() && count($this->societe->getEtablissementsObj()) > 1 && !$this->choixEtablissement){
-            return $this->redirect('vrac_societe_choix_etablissement', array('identifiant' => $this->societe->identifiant));
-        }
+            if ($this->choixEtablissement = $request->getParameter("choix-etablissement")) {
+                $this->vrac->initCreateur($this->choixEtablissement);
+                $this->etablissement = $this->choixEtablissement;
+                $this->initSocieteAndEtablissementPrincipal();
+            }
+            if($this->societe->isNegociant() && count($this->societe->getEtablissementsObj()) > 1 && !$this->choixEtablissement){
+                return $this->redirect('vrac_societe_choix_etablissement', array('identifiant' => $this->societe->identifiant));
+            }
+        }        
         
         $this->form = new VracSoussigneForm($this->vrac); 
 
         $this->init_soussigne($request, $this->form);
         $this->nouveau = true;
         $this->contratNonSolde = false;
-        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {

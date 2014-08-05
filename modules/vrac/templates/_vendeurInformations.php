@@ -29,9 +29,21 @@ use_helper('Display');
        removeGreyPanel('interne');
     });
 </script>
-<?php $asterisk = ($isTeledeclarationMode)? '' : '*'; ?>
 <div id="vendeur_infos" class="bloc_form bloc_form_condensed">    
-    <!--div class="col"-->
+    <?php if($isTeledeclarationMode): ?>
+        <div class="ligne_form ">
+            <span>
+                <label>Nom de l'acheteur :</label>
+                <?php display_teledeclaration_soussigne_NomCvi($vendeur); ?>
+            </span>
+        </div>
+         <div class="ligne_form ligne_form_alt">
+            <span>
+                <label>Adresse :</label>
+                <?php echo get_field($vendeur,'siege/adresse').'&nbsp'.get_field($vendeur,'siege/code_postal').'&nbsp'.get_field($vendeur,'siege/commune');  ?>
+            </span>
+        </div>
+    <?php else: ?>
         <div class="ligne_form">
             <span>
                   <label>Nom du vendeur :</label>
@@ -56,9 +68,6 @@ use_helper('Display');
                 <?php display_field($vendeur,'no_tva_intracommunautaire'); ?>
             </span>
         </div>
-    <!--/div-->
-    
-    <!--div class="col col_right"-->
         <div class="ligne_form">
             <span>
                 <label>Adresse</label>
@@ -67,18 +76,15 @@ use_helper('Display');
         </div>
         <div class="ligne_form ligne_form_alt">
             <span>
-                <label>CP<?php echo $asterisk ?></label>
+                <label>CP*</label>
                 <?php display_field($vendeur,'siege/code_postal'); ?>
             </span>
         </div>
         <div class="ligne_form">
             <span>
-                <label>Ville<?php echo $asterisk ?></label>
+                <label>Ville*</label>
                 <?php display_field($vendeur,'siege/commune'); ?>
             </span>
         </div>
-        <!--div class="ligne_form ligne_form_alt">
-            
-        </div-->
-    <!--/div-->
+    <?php endif;?>
 </div>

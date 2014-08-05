@@ -6,40 +6,43 @@
  * Version : 1.0.0 
  * Derniere date de modification : 29-05-12
  */
-if ($nouveau) {
-    ?>
-    <script type="text/javascript">
-        $(document).ready(function()
-        {
-            init_ajax_nouveau();
-        });
-    </script>
+if (!$isTeledeclarationMode) :
+    if ($nouveau) :
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function()
+            {
+                init_ajax_nouveau();
+            });
+        </script>
+        <?php
+    else :
+        $numero_contrat = $form->getObject()->numero_contrat;
+        ?>
+        <script type="text/javascript">
+            $(document).ready(function()
+            {
+                ajaxifyAutocompleteGet('getInfos', {autocomplete: '#vendeur_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#vendeur_informations');
+                ajaxifyAutocompleteGet('getInfos', {autocomplete: '#acheteur_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#acheteur_informations');
+                ajaxifyAutocompleteGet('getInfos', {autocomplete: '#mandataire_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#mandataire_informations');
+                majMandatairePanel();
+                //$('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
+                //$('#vrac_acheteur_famille_negociant').attr('checked','checked');
+            });
+        </script>
     <?php
-} else {
-    $numero_contrat = $form->getObject()->numero_contrat;
-    ?>
-    <script type="text/javascript">
-        $(document).ready(function()
-        {
-            ajaxifyAutocompleteGet('getInfos', {autocomplete: '#vendeur_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#vendeur_informations');
-            ajaxifyAutocompleteGet('getInfos', {autocomplete: '#acheteur_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#acheteur_informations');
-            ajaxifyAutocompleteGet('getInfos', {autocomplete: '#mandataire_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#mandataire_informations');
-            majMandatairePanel();
-            //$('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
-            //$('#vrac_acheteur_famille_negociant').attr('checked','checked');
-        });
-    </script>
-    <?php
-}
+    endif;
+endif;
+
 $urlForm = null;
 
-if (($form->getObject()->isNew() && !isset($etablissementPrincipal)) || ($form->getObject()->isNew() && !$etablissementPrincipal)) {
+if (($form->getObject()->isNew() && !isset($isTeledeclarationMode)) || ($form->getObject()->isNew() && !$isTeledeclarationMode)) :
     $urlForm = url_for('vrac_nouveau');
-} elseif ($form->getObject()->isNew() && isset($etablissementPrincipal) && $etablissementPrincipal) {
+elseif ($form->getObject()->isNew() && isset($isTeledeclarationMode) && $isTeledeclarationMode) :
     $urlForm = url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant));
-} else {
+else :
     $urlForm = url_for('vrac_soussigne', $vrac);
-}
+endif;
 ?>
 <section id="principal">
     <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1)); ?>
@@ -54,7 +57,7 @@ if (($form->getObject()->isNew() && !isset($etablissementPrincipal)) || ($form->
                 <div id="vendeur_choice" class="section_label_maj">
                     <?php echo $form['vendeur_identifiant']->renderLabel() ?>
                     <?php echo $form['vendeur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur')) ?>
-                    <?php if ($form->getObject()->isTeledeclare()): ?>
+                    <?php if ($isTeledeclarationMode): ?>
                         <br /><br />
                         <a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY, 'acteur' => 'vendeur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
                     <?php endif; ?>
@@ -72,7 +75,7 @@ if (($form->getObject()->isNew() && !isset($etablissementPrincipal)) || ($form->
                 </div>
                 <div class="btnModification">
                     <a id="vendeur_annulation_btn" class="btn_majeur btn_annuler" style="display: none;">Retour</a>
-                    <?php if (!$form->getObject()->isTeledeclare()): ?>
+                    <?php if (!$isTeledeclarationMode): ?>
                         <a id="vendeur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
                     <?php endif; ?>
                 </div>
@@ -83,12 +86,12 @@ if (($form->getObject()->isNew() && !isset($etablissementPrincipal)) || ($form->
                 <div id="acheteur_choice" class="section_label_maj">
                     <?php echo $form['acheteur_identifiant']->renderLabel() ?>
                     <?php echo $form['acheteur_identifiant']->render() ?>
-                    <?php if ($form->getObject()->isTeledeclare()): ?>
+                    <?php if ($isTeledeclarationMode): ?>
                         <br /><br />
                         <?php if (!$vrac->isCreateurType(SocieteClient::SUB_TYPE_NEGOCIANT)) : ?>
                             <a href="<?php echo url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur')) ?>" class="ajouter_annuaire">Ajouter un contact</a>
                         <?php else: ?>
-                            
+
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
@@ -105,7 +108,7 @@ if (($form->getObject()->isNew() && !isset($etablissementPrincipal)) || ($form->
                 </div>
                 <div class="btnModification">
                     <a id="acheteur_annulation_btn" class="btn_majeur btn_annuler" style="display: none;">Retour</a>
-                    <?php if (!$form->getObject()->isTeledeclare()): ?>
+                    <?php if (!$isTeledeclarationMode): ?>
                         <a id="acheteur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
                     <?php endif; ?>
                 </div>
@@ -115,7 +118,7 @@ if (($form->getObject()->isNew() && !isset($etablissementPrincipal)) || ($form->
 
 
             <!--  Affichage des mandataires disponibles  -->
-            <?php if ($form->getObject()->isTeledeclare()): ?>
+            <?php if ($isTeledeclarationMode): ?>
                 <div id="">     
                     <div id="" class="section_label_maj">
                         <?php if (isset($form['commercial'])): ?>
@@ -210,7 +213,7 @@ if (($form->getObject()->isNew() && !isset($etablissementPrincipal)) || ($form->
 </script>
 
 <?php
-if ($vrac->isTeledeclare()):
+if ($isTeledeclarationMode):
     include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
 else:
     slot('colApplications');
