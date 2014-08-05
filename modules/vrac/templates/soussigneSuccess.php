@@ -39,7 +39,7 @@ $urlForm = null;
 if (($form->getObject()->isNew() && !isset($isTeledeclarationMode)) || ($form->getObject()->isNew() && !$isTeledeclarationMode)) :
     $urlForm = url_for('vrac_nouveau');
 elseif ($form->getObject()->isNew() && isset($isTeledeclarationMode) && $isTeledeclarationMode) :
-    if(isset($choixEtablissement) && $choixEtablissement):
+    if (isset($choixEtablissement) && $choixEtablissement):
         $urlForm = url_for('vrac_nouveau', array('choix-etablissement' => $choixEtablissement));
     else:
         $urlForm = url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant));
@@ -98,7 +98,7 @@ endif;
                     <div id="acheteur_choice" class="section_label_maj">
                         <?php echo $form['acheteur_identifiant']->renderLabel(); ?>
                         <?php echo $form['acheteur_identifiant']->render(); ?><?php echo $form['acheteur_identifiant']->renderError(); ?>
-                        
+
                     </div>
                 <?php endif; ?>
 
@@ -111,10 +111,13 @@ endif;
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
                     </div>
                 <?php endif; ?>
-                <?php if ($isTeledeclarationMode && $isAcheteurResponsable) : ?>
+                <?php
+                if ($isTeledeclarationMode && $isAcheteurResponsable) :
+                    $identifiantAcheteur = (isset($etablissement)) ? $etablissement : $vrac->acheteur_identifiant;
+                    ?>
                     <div id="acheteur_choice" class="section_label_maj section_label_maj_teledeclaration">
                         <label >Acheteur :</label>
-                        <input type="hidden" name="vrac[acheteur_identifiant]" value="<?php echo "ETABLISSEMENT-".$etablissement; ?>"/>
+                        <input type="hidden" name="vrac[acheteur_identifiant]" value="<?php echo "ETABLISSEMENT-" . $identifiantAcheteur; ?>"/>
                     </div>
                 <?php endif; ?> 
 
@@ -138,29 +141,29 @@ endif;
 
             <!--  Affichage des courtiers disponibles  -->
             <?php if ($isTeledeclarationMode): ?>
-            <?php 
-            $url_ajout_courtier = url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant)); 
-            ?>
-            <div id="teledeclaration_courtier" > 
-                <?php if($isCourtierResponsable): ?>
-                <div id="" class="section_label_maj">
-                    Ajouter un interlocuteur commercial : 
-                    <input type="checkbox" id="teledeclaration_courtier_interlocuteur_commercial_show">
-                </div>
-                <?php endif; ?>
-                    <div id="teledeclaration_courtier_interlocuteur_commercial" class="section_label_maj" <?php echo ($isCourtierResponsable)? 'style="display:none;"' : '' ?>  >
-                        <?php if (isset($form['commercial'])): ?>
-                            <label>Courtier</label><br />
-                            <?php echo $form['commercial']->renderError(); ?>
-                            <?php echo $form['commercial']->renderLabel(null, array('class' => 'label_soussigne_identifiant')) ?>
-                            <?php echo $form['commercial']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un courtier', 'data-url' => $url_ajout_courtier)) ?>
-                            
+                <?php if (!$isAcheteurResponsable): ?>
+                    <?php $url_ajout_courtier = url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant)); ?>
+                    <div id="teledeclaration_courtier" > 
+                        <?php if ($isCourtierResponsable): ?>
+                            <div id="" class="section_label_maj">
+                                Ajouter un interlocuteur commercial : 
+                                <input type="checkbox" id="teledeclaration_courtier_interlocuteur_commercial_show">
+                            </div>
                         <?php endif; ?>
+                        <div id="teledeclaration_courtier_interlocuteur_commercial" class="section_label_maj" <?php echo ($isCourtierResponsable) ? 'style="display:none;"' : '' ?>  >
+                            <?php if (isset($form['commercial'])): ?>
+                                <label>Courtier</label><br />
+                                <?php echo $form['commercial']->renderError(); ?>
+                                <?php echo $form['commercial']->renderLabel(null, array('class' => 'label_soussigne_identifiant')) ?>
+                                <?php echo $form['commercial']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un courtier', 'data-url' => $url_ajout_courtier)) ?>
+
+                            <?php endif; ?>
+                        </div>
                     </div>
-                </div>
-                <?php if ($form->getObject()->getMandataireExist()): ?>
-                    <input id="vrac_mandataire_exist" type="hidden" value="1" name="vrac[mandataire_exist]">                
-                    <input id="vrac_mandataire_identifiant" type="hidden" value="ETABLISSEMENT-<?php echo $form->getObject()->getMandataireIdentifiant(); ?>" name="vrac[mandataire_identifiant]">
+                    <?php if ($form->getObject()->getMandataireExist()): ?>
+                        <input id="vrac_mandataire_exist" type="hidden" value="1" name="vrac[mandataire_exist]">                
+                        <input id="vrac_mandataire_identifiant" type="hidden" value="ETABLISSEMENT-<?php echo $form->getObject()->getMandataireIdentifiant(); ?>" name="vrac[mandataire_identifiant]">
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php else: ?>
 
@@ -235,11 +238,11 @@ endif;
             return false;
         });
         $("div#acheteur_choice input.ui-autocomplete-input").val('<?php echo $etablissementPrincipal->_id; ?>');
-        
-        
-   <?php if($isTeledeclarationMode && $isCourtierResponsable): ?>
-        initTeledeclarationCourtierSoussigne();
-    <?php endif; ?>
+
+
+<?php if ($isTeledeclarationMode && $isCourtierResponsable): ?>
+            initTeledeclarationCourtierSoussigne();
+<?php endif; ?>
     });
 </script>
 

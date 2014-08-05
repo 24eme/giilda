@@ -421,7 +421,7 @@ class vracActions extends sfActions {
             $this->isCourtierResponsable = $this->isCourtierResponsable();
             $this->initSocieteAndEtablissementPrincipal();
         }
-        $this->form = new VracSoussigneForm($this->vrac,$this->isTeledeclarationMode);
+        $this->form = new VracSoussigneForm($this->vrac,$this->isTeledeclarationMode,$this->isAcheteurResponsable,$this->isCourtierResponsable);
 
         $this->init_soussigne($request, $this->form);
         $this->nouveau = false;
