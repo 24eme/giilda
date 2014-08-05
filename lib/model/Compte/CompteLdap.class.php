@@ -31,7 +31,11 @@ class CompteLdap extends acVinLdap {
     protected function info($compte) 
     {
       $info = array();
-      $info['uid']              = $compte->identifiant;
+      if ($compte->isSocieteContact()) {
+	$info['uid']              = $compte->getSociete()->identifiant;
+      }else{
+	$info['uid']              = $compte->identifiant;
+      }
       if ($compte->getNom()) 
 	$info['sn']               = $compte->getNom();
       else
