@@ -13,6 +13,13 @@ class VracSoussigneForm extends acCouchdbObjectForm {
    private $vendeurs = null;
    private $acheteurs = null;
    private $mandataires = null;
+   private $isTeledeclarationMode;
+
+
+   public function __construct(Vrac $object, $isTeledeclarationMode = false, $options = array(), $CSRFSecret = null) {
+       $this->isTeledeclarationMode = $isTeledeclarationMode;
+       parent::__construct($object, $options, $CSRFSecret);
+   }
    
     public function getAnnuaire()
     {
@@ -23,21 +30,21 @@ class VracSoussigneForm extends acCouchdbObjectForm {
    
     public function configure()
     {
-        if ($this->getObject()->isTeledeclare() && $this->getObject()->createur_identifiant) {
+        if ($this->isTeledeclarationMode && $this->getObject()->createur_identifiant) {
         	$vendeurs = $this->getRecoltants();
         	$acheteurs = $this->getNegociants();
         	$commerciaux = $this->getCommerciaux();
         	$this->setWidget('vendeur_identifiant', new sfWidgetFormChoice(array('choices' => $vendeurs), array('class' => 'autocomplete')));
         	$this->setWidget('acheteur_identifiant', new sfWidgetFormChoice(array('choices' => $acheteurs), array('class' => 'autocomplete')));
         	$this->setWidget('commercial', new sfWidgetFormChoice(array('choices' => $commerciaux), array('class' => 'autocomplete')));
-            $this->setValidator('vendeur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
+                $this->setValidator('vendeur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
         	$this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($acheteurs))));
         	$this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
         	$this->widgetSchema->setLabel('commercial', 'Sélectionner un interlocuteur commercial :');
         } else {
         	$this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
-            $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire','familles' =>  EtablissementFamilles::FAMILLE_NEGOCIANT)));
-            $this->setValidator('vendeur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
+                $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire','familles' =>  EtablissementFamilles::FAMILLE_NEGOCIANT)));
+                $this->setValidator('vendeur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
         	$this->setValidator('acheteur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
         }
         

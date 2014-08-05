@@ -207,7 +207,7 @@ class vracActions extends sfActions {
             }
         }        
         
-        $this->form = new VracSoussigneForm($this->vrac); 
+        $this->form = new VracSoussigneForm($this->vrac,$this->isTeledeclarationMode); 
 
         $this->init_soussigne($request, $this->form);
         $this->nouveau = true;
@@ -411,16 +411,17 @@ class vracActions extends sfActions {
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : $this->getRoute()->getVrac();
         $this->compte = null;
 
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        
         if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
-        $this->form = new VracSoussigneForm($this->vrac);
+        $this->form = new VracSoussigneForm($this->vrac,$this->isTeledeclarationMode);
 
         $this->init_soussigne($request, $this->form);
         $this->nouveau = false;
         $this->hasmandataire = !is_null($this->vrac->mandataire_identifiant);
         $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));
-        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
