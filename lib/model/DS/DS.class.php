@@ -84,7 +84,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 
         if(!$config->hasCVO($this->date_stock)) {
 
-            continue;
+            return;
         }
 
         $produit = $this->declarations->add($config->getHashForKey());
@@ -99,6 +99,9 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 	    $this->drm_origine = $drm->_id;
         foreach ($produits as $produit) {
             $produitDs = $this->addProduit($produit->getHash());
+            if(!$produitDs) {
+                continue;
+            }
             $produitDs->stock_initial = $produit->total;
         }
     }
