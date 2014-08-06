@@ -161,7 +161,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
         $this->getObject()->update();
-        $this->getObject()->setDomaine($this->values['domaine']);
+        $this->getObject()->domaine = strtoupper(KeyInflector::unaccent($this->values['domaine']));
         if ($values['millesime'] === 0) {
             $this->getObject()->millesime = null;
         }

@@ -733,4 +733,8 @@ class Vrac extends BaseVrac {
         return $etablissement->famille === $etb_type;
     }
     
+//    public function setDomaine($domaine) {
+//        $this->domaine = strtoupper(KeyInflector::unaccent($domaine));
+//    }
+    
 }

@@ -444,10 +444,10 @@ class vracActions extends sfActions {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
-        if ($this->isTeledeclarationVrac()) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
         }
-        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         $this->form = new VracMarcheForm($this->vrac);
 
         if ($request->isMethod(sfWebRequest::POST)) {
