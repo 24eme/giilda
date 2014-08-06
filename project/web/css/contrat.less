@@ -53,16 +53,54 @@
 
     .stats_contrats
     {
-        float: left;
-        color: #d00815;
+        display:inline;
+        width: 100%;
 
-        li
-        {
-            &:before
+        li {            
+            float: left;
+            padding: 30px 10px 0;            
+            background-color: #ecebeb;
+            border: 1px solid #e3e2e2;
+            border-radius: 5px;
+            .box(210px, 100px,5px,10px);
+            div.action{
+                a
                 {
-                .triangle-r(10px, 5px, #d00815);
-                margin: 0 5px 0 0;
+                    vertical-align: bottom;
+
+                }
+                opacity: 0.7;
             }
+            
+            div.actif{
+                opacity: 1;
+            }
+        }
+/*        .stats_contrats_brouillon div  
+	{
+		.sprite-pictos-brouillon(0 0);
+                .translate(20px, 20px);
+		content: '';                
+		height: 40px;
+		width: 40px;     
+                h2 {
+                    padding-left: 40px
+                }
+	}*/
+
+
+    }
+
+
+    .liens_contrat_teledeclaration {
+        float: left;
+        color: #000000;
+
+
+        &:before
+            {
+            .triangle-r(10px, 5px, #000000);
+            margin: 0 5px 0 0;
         }
     }
 
