@@ -42,58 +42,8 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
             refreshContratsSimilaire(integrite,ajaxParams); 
             <?php endif; ?>
             changeMillesimeLabelAndDefault("<?php echo $form->getNextMillesime(); ?>","<?php echo $form->getActuelMillesime(); ?>");
-        });
+        });    
        
-       var changeMillesimeLabelAndDefault = function(nextMillesime,actuelMillesime){
-           switch($("#type_transaction input:checked").val()){
-               case "<?php echo VracClient::TYPE_TRANSACTION_MOUTS ?>":
-               case "<?php echo VracClient::TYPE_TRANSACTION_RAISINS ?>":
-                  $("div#millesime label").text('Récolte');
-                  $("div#millesime > input").val(nextMillesime);
-                  $("div#millesime > input").change();
-                  break;
-               
-               case "<?php echo VracClient::TYPE_TRANSACTION_VIN_VRAC ?>":
-               case "<?php echo VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE ?>":
-                  $("div#millesime label").text('Millésime');
-                  $("div#millesime > input").val(actuelMillesime);
-                  $("div#millesime > input").change();
-                  break;
-           }
-       }
-       
-        var refreshContratsSimilaire = function(integrite,ajaxParams) 
-        {
-            if(integrite) 
-            {
-                $.get('getContratsSimilaires',ajaxParams,
-                function(data)
-                {
-                    $('#contrats_similaires').html(data);
-                });               
-            }      
-        }
-           
-       
-        var getContratSimilaireParams = function(ajaxParams,ui)
-        {
-            var type = $('#type_transaction input:checked').val();
-            if(type=='') return false;
-            ajaxParams['type'] = type;
-           
-            if(ui==null){
-                ajaxParams['produit'] = $('#produit option:selected').val();
-            }
-            else{
-                ajaxParams['produit'] = ui.item.option.value;
-            }
-           
-            var volume = $('#volume_total').val();
-            if((volume!='') && (ajaxParams['produit']=='')) return false;
-            ajaxParams['volume'] = volume;
-           
-            return true;
-        }
     });
     
         var densites = [];
@@ -157,7 +107,7 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
 
 <?php
 
-if($vrac->isTeledeclare()):
+if($isTeledeclarationMode):
 include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
 else:
 slot('colApplications');
