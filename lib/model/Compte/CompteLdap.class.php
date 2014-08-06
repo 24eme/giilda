@@ -31,7 +31,11 @@ class CompteLdap extends acVinLdap {
     protected function info($compte) 
     {
       $info = array();
-      $info['uid']              = $compte->identifiant;
+      if ($compte->isSocieteContact()) {
+	$info['uid']              = $compte->getSociete()->identifiant;
+      }else{
+	$info['uid']              = $compte->identifiant;
+      }
       if ($compte->getNom()) 
 	$info['sn']               = $compte->getNom();
       else
@@ -65,7 +69,13 @@ class CompteLdap extends acVinLdap {
       $info['facsimileTelephoneNumber'] = $compte->fax;
       if ($compte->telephone_mobile)
       $info['mobile']           = $compte->telephone_mobile;
-      $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';				      
+      $info['description']      = ($compte->societe_informations->type)? $compte->societe_informations->type : '';
+      if ($compte->exist('mot_de_passe')) {
+	$info['userPassword']  = $compte->mot_de_passe;
+	if(!$compte->isActif()) {
+	  $info['userPassword'] = null;
+	}
+      }
       return $info;
     }
     
