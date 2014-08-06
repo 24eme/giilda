@@ -13,7 +13,7 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
     {
         initMarche(<?php echo $isTeledeclarationMode; ?>);
         
-        
+        <?php if(!$isTeledeclarationMode): ?>
         var ajaxParams = { 'numero_contrat' : '<?php echo $form->getObject()->numero_contrat ?>',
             'vendeur' : '<?php echo $form->getObject()->vendeur_identifiant ?>',
             'acheteur' : '<?php echo $form->getObject()->acheteur_identifiant ?>',
@@ -32,12 +32,16 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
             var integrite = getContratSimilaireParams(ajaxParams,null);
             refreshContratsSimilaire(integrite,ajaxParams);     
         });
+        <?php endif; ?>
+       
        
         $('#type_transaction input').change(function()
         {
+            <?php if(!$isTeledeclarationMode): ?>
             var integrite = getContratSimilaireParams(ajaxParams,null);
+            refreshContratsSimilaire(integrite,ajaxParams); 
+            <?php endif; ?>
             changeMillesimeLabelAndDefault("<?php echo $form->getNextMillesime(); ?>","<?php echo $form->getActuelMillesime(); ?>");
-            refreshContratsSimilaire(integrite,ajaxParams);                 
         });
        
        var changeMillesimeLabelAndDefault = function(nextMillesime,actuelMillesime){
