@@ -7,7 +7,7 @@ class annuaireActions extends sfActions {
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
         $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($this->identifiant);
-        
+
         $this->initSocieteAndEtablissementPrincipal();
         $this->isAcheteurResponsable = $this->isAcheteurResponsable();
         $this->isCourtierResponsable = $this->isCourtierResponsable();
@@ -17,11 +17,11 @@ class annuaireActions extends sfActions {
         $this->type = $request->getParameter('type');
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
-        
+
         $this->initSocieteAndEtablissementPrincipal();
         $this->isAcheteurResponsable = $this->isAcheteurResponsable();
         $this->isCourtierResponsable = $this->isCourtierResponsable();
-        
+
         $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($this->identifiant);
         $this->form = new AnnuaireAjoutForm($this->annuaire, $this->isCourtierResponsable);
         $this->form->setDefault('type', $this->type);
@@ -30,8 +30,8 @@ class annuaireActions extends sfActions {
             if ($this->form->isValid()) {
                 $values = $this->form->getValues();
                 $type = AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY;
-                if($this->isCourtierResponsable && array_key_exists('type', $values)){
-                   $type = $values['type'];
+                if ($this->isCourtierResponsable && array_key_exists('type', $values)) {
+                    $type = $values['type'];
                 }
                 return $this->redirect('annuaire_ajouter', array('type' => $type, 'identifiant' => $this->identifiant, 'tiers' => $values['tiers']));
             }
@@ -42,19 +42,20 @@ class annuaireActions extends sfActions {
         $this->type = $request->getParameter('type');
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
-        
+
         $this->initSocieteAndEtablissementPrincipal();
         $this->isAcheteurResponsable = $this->isAcheteurResponsable();
         $this->isCourtierResponsable = $this->isCourtierResponsable();
-        
+
         $this->societeId = $request->getParameter('tiers');
         $this->societeChoice = false;
+
         if ($this->type && $this->societeId) {
             $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($request->getParameter('identifiant'));
 
             $this->societeObject = AnnuaireClient::getInstance()->findSocieteByTypeAndTiers($this->type, $this->societeId);
             $this->etablissements = $this->societeObject->getEtablissementsObj();
-
+            
             $this->form = new AnnuaireAjoutForm($this->annuaire, $this->isCourtierResponsable, $this->type, $this->etablissements);
             $this->form->setDefault('type', $this->type);
             $this->form->setDefault('tiers', $this->societeId);
@@ -62,38 +63,46 @@ class annuaireActions extends sfActions {
                 $this->etbObject = array_pop($this->etablissements)->etablissement;
             }
         }
+
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
+            $values = $this->form->getValues();
             if ($this->form->isValid()) {
-                $values = $this->form->getValues();
-                $this->etbToAdd = ($this->etbToAdd) ? $this->etbToAdd : AnnuaireClient::getInstance()->findTiersByTypeAndTiers($values['type'], $values['etablissementChoice']);
-                $this->form->save();
-                if ($vrac = $this->getUser()->getAttribute('vrac_object')) {
-                    $vrac = unserialize($vrac);
-                    $acteur = $this->getUser()->getAttribute('vrac_acteur');
-                    $vrac->{$acteur . '_identifiant'} = $etablissement->_id;
-                    $this->getUser()->setAttribute('vrac_object', serialize($vrac));
-                    $this->getUser()->setAttribute('vrac_acteur', null);
-                    if ($vrac->isNew()) {
-                        return $this->redirect('vrac_nouveau', array('etablissement' => $this->identifiant));
-                    } else {
-                        return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
-                    }
+                $type = AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY;
+                if ($this->isCourtierResponsable && array_key_exists('type', $values)) {
+                    $type = $values['type'];
                 }
-                return $this->redirect('annuaire', array('identifiant' => $this->identifiant));
+                if ($this->societeId != $values['tiers']) {
+                    return $this->redirect('annuaire_ajouter', array('type' => $type, 'identifiant' => $this->identifiant, 'tiers' => $this->societeId));
+                } else {
+                    $this->etbToAdd = ($this->etbToAdd) ? $this->etbToAdd : AnnuaireClient::getInstance()->findTiersByTypeAndTiers($values['type'], $values['etablissementChoice']);
+                    $this->form->save();
+                    if ($vrac = $this->getUser()->getAttribute('vrac_object')) {
+                        $vrac = unserialize($vrac);
+                        $acteur = $this->getUser()->getAttribute('vrac_acteur');
+                        $vrac->{$acteur . '_identifiant'} = $etablissement->_id;
+                        $this->getUser()->setAttribute('vrac_object', serialize($vrac));
+                        $this->getUser()->setAttribute('vrac_acteur', null);
+                        if ($vrac->isNew()) {
+                            return $this->redirect('vrac_nouveau', array('etablissement' => $this->identifiant));
+                        } else {
+                            return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
+                        }
+                    }
+                    return $this->redirect('annuaire', array('identifiant' => $this->identifiant));
+                }
             }
-            return $this->redirect('annuaire_ajouter', array('type' => $values['type'], 'identifiant' => $this->identifiant, 'tiers' => $this->societeId));
         }
     }
 
     public function executeAjouterCommercial(sfWebRequest $request) {
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
-        
+
         $this->initSocieteAndEtablissementPrincipal();
         $this->isAcheteurResponsable = $this->isAcheteurResponsable();
-        $this->isCourtierResponsable = $this->isCourtierResponsable();        
-        
+        $this->isCourtierResponsable = $this->isCourtierResponsable();
+
         $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($request->getParameter('identifiant'));
         $this->form = new AnnuaireAjoutCommercialForm($this->annuaire);
         if ($request->isMethod(sfWebRequest::POST)) {

@@ -54,8 +54,7 @@
 				<div style="text-align: right; margin: 10px 0;">
 					<a href="<?php echo url_for('annuaire_selectionner', array('type' => 'negociants', 'identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un négociant</a>
 				</div>
-			</div>
-                <?php endif; ?>
+			</div>                
 			<div class="bloc_annuaire">
 			
 				<table class="table_recap" id="">			
@@ -81,6 +80,7 @@
 					<a href="<?php echo url_for('annuaire_commercial_ajouter', array('identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un commercial</a>
 				</div>
 			</div>
+                    <?php endif; ?>
 		</div>
 	</div>
 

@@ -18,7 +18,6 @@ class AnnuaireAjoutForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-
         if ($this->isCourtier) {
             $this->setWidget('type', new sfWidgetFormChoice(array('choices' => $this->getTypes())));
             $this->setValidator('type', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypes()))));
@@ -32,9 +31,13 @@ class AnnuaireAjoutForm extends acCouchdbObjectForm {
 
 
         if ($this->societeChoice) {
-            $this->setWidget('etablissementChoice', new sfWidgetFormChoice(array('choices' => $this->getEtablissements())));
-            $this->setValidator('etablissementChoice', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getEtablissements()))));
+//            $etablissementsList = array('0' => 'Choisir un établissement');
+//            $etablissementsList = array_merge($etablissementsList,$this->getEtablissements());
+            $etablissementsList = $this->getEtablissements();
+            $this->setWidget('etablissementChoice', new sfWidgetFormChoice(array('expanded' => true, 'choices' => $etablissementsList)));
+            $this->setValidator('etablissementChoice', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getEtablissements()))));
             $this->widgetSchema->setLabel('etablissementChoice', 'Etablissement*:');
+            
         }
         $this->validatorSchema->setPostValidator(new AnnuaireAjoutValidator($this->societeChoice));
         $this->widgetSchema->setNameFormat('annuaire_ajout[%s]');
@@ -70,7 +73,7 @@ class AnnuaireAjoutForm extends acCouchdbObjectForm {
     }
 
     public function getEtablissements() {
-        $etablissements = array('0' => 'Choisir un établissement');
+        $etablissements = array();
         foreach ($this->etablissements as $key => $etablissementObj) {
             $etablissements[$etablissementObj->etablissement->identifiant] = $etablissementObj->etablissement->nom;
         }
