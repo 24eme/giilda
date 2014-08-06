@@ -20,11 +20,16 @@
                     <a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuaire">Annuaire</a>
                 <?php endif; ?>
             </div>
+            <br/>
+            <br/>
+            <p> <strong>N°&nbsp;:&nbsp;</strong> <?php echo $societe->identifiant; ?> </p>
+            <p> <strong>Code Postal&nbsp;:&nbsp;</strong> <?php echo $societe->siege->code_postal; ?> </p>
+            <p> <strong>Commune&nbsp;:&nbsp;</strong> <?php echo $societe->siege->commune; ?> </p>
         </div>
     </div>
     <?php
     end_slot();
-
+    
     slot('colAide');
     $contacts = sfConfig::get('app_teledeclaration_contact_contrat');
     $region = $etablissementPrincipal->region;
