@@ -771,7 +771,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 #colonne
 {
 	.largeur-col(3, 3);
-	float: right;
+	float: left;
 	padding: 30px 10px 0;
 }
 
@@ -834,7 +834,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 		line-height: 21px;
 		padding: 6px 0 0;
 		
-		a, button
+		a
 		{
 			.sprite-pictos-actions;
 			.border-radius(4px);
@@ -859,19 +859,6 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 				color: @couleur-a1;
 				margin: 0 0 0 7px;
 			}
-		}
-
-		.btn_menu
-		{
-			.helveticaneue-75-bold;
-			background-color: #eee;
-			background-position: 5px -560px;
-			border-color: #c2c0c0;
-			color: #5e5c5c;
-			display: none;
-			font-size: 11px;
-			margin: 0 7px 0 0;
-			padding: 3px 5px 4px 25px;
 		}
 	}
 }
@@ -946,11 +933,6 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
     span
     {
         vertical-align: middle;
-    }
-
-    .bloc_form_condensed &
-    {
-       padding: 5px 10px;
     }
 }
 
@@ -1079,29 +1061,16 @@ ul.radio_list
                 
 	}
 
-    #action{
-                    
-            padding: 15px 0;
+        #action{
+                        
+                padding: 15px 0;
 
-            .contenu{
-                        padding: 5px 0 ;
-            }
-    }
-}
+                .contenu{
+                            padding: 5px 0 ;
+                }
+        }
 
-#btn_colonne
-{
-	display: none;
-	margin: 15px 0;
-
-	i { font-style: normal; }
-	.fermer { display: none; }
-
-	&.ouvert
-	{
-		.ouvrir { display: none; }
-		.fermer { display: inline; }
-	}
+	
 }
 
 /**

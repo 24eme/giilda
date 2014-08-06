@@ -516,9 +516,15 @@ var initValidationWithPopup = function()
 
 var setGreyPanel = function(divId)
 {
-    var content = '<div id="'+divId+'_overlay" class="block" style="position: absolute; top:0; left: 0; right: 0; bottom: 0; background-color: white; opacity: 0.7;"></div>';
+    var w = $('#'+divId).css('width');
+    var h = $('#'+divId).innerHeight();
+    h += 'px';
+    var offset = $('#'+divId).offset();
+    
+    var content = '<div id="'+divId+'_overlay" class="block" style="width:'+w+'; height:'+h+'; position: absolute; background-color: white; opacity: 0.7; padding-top: 40px;"></div>';
     
     $('#'+divId).append(content);
+    $('#'+divId+'_overlay').offset({top: offset.top});
 };
 
 var removeGreyPanel = function(divId) { 
