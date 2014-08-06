@@ -13,6 +13,9 @@ var initConditions = function()
     updatePanelsConditions();
     $('#vrac_condition #type_contrat input').click(updatePanelsConditions);
     $('#vrac_condition #prix_isVariable input').click(updatePanelsConditions);
+    $('#vrac_condition input#vrac_enlevement_date').click(function(){
+        $(this).datepicker('show');       
+    });
 };
 
 
@@ -39,6 +42,7 @@ var updatePanelsConditions = function()
 
 var initMarche = function(isTeledeclarationMode)
 {
+ 
     if ($('#vrac_marche #original input:checked').length == 0)
         $('#vrac_marche #original input[value="1"]').attr('checked', 'checked');
     if ($('#vrac_marche #type_transaction input:checked').length == 0)
@@ -59,7 +63,7 @@ var initMarche = function(isTeledeclarationMode)
         else
             $('#domaine').show();
     });
-
+    
     updatePanelsAndUnitLabels(isTeledeclarationMode);
     $('#vrac_marche #type_transaction input').click(function() {
         clearVolumesChamps();
@@ -67,9 +71,11 @@ var initMarche = function(isTeledeclarationMode)
     });
 };
 
+var isTeledeclarationMode = false;
 
 var updatePanelsAndUnitLabels = function(isTeledeclarationMode)
 {
+    this.isTeledeclarationMode = isTeledeclarationMode;
     switch ($('#vrac_marche #type_transaction input:checked').attr('value'))
     {
         case 'RAISINS' :
@@ -90,7 +96,7 @@ var updatePanelsAndUnitLabels = function(isTeledeclarationMode)
             break;
         case 'MOUTS' :
             {
-                updatePanelsAndUnitForJuice();
+                updatePanelsAndUnitForJuice(isTeledeclarationMode);
 
                 $('#vrac_jus_quantite').unbind();
                 $('#vrac_prix_initial_unitaire').unbind();
@@ -105,7 +111,7 @@ var updatePanelsAndUnitLabels = function(isTeledeclarationMode)
             break;
         case 'VIN_VRAC' :
             {
-                updatePanelsAndUnitForJuice();
+                updatePanelsAndUnitForJuice(isTeledeclarationMode);
 
                 $('#vrac_jus_quantite').unbind();
                 $('#vrac_prix_initial_unitaire').unbind();
@@ -151,7 +157,7 @@ var updatePanelsAndUnitForRaisins = function(isTeledeclarationMode)
     majTotal("raisin_quantite",isTeledeclarationMode);
 };
 
-var updatePanelsAndUnitForJuice = function()
+var updatePanelsAndUnitForJuice = function(isTeledeclarationMode)
 {
     $('.bouteilles_contenance_libelle').hide();
     $('.bouteilles_quantite').hide();
@@ -161,7 +167,7 @@ var updatePanelsAndUnitForJuice = function()
     $('#prixInitialUnitaire span#prix_initial_unitaire_unite').text("€/hl");
     $('#prixUnitaire span#prix_unitaire_unite').text("€/hl");
 
-    majTotal("jus_quantite");
+    majTotal("jus_quantite",isTeledeclarationMode);
 };
 
 var updatePanelsAndUnitForBottle = function(isTeledeclarationMode)
@@ -193,7 +199,12 @@ var updatePanelsAndUnitForBottle = function(isTeledeclarationMode)
         volume_total = parseFloat(volume_total);
         $('#volume_total').val(volume_total).trigger('change');
 
-        var unit = (isTeledeclarationMode) ? '(' + unitBouteilleOuBib + ')' : "(" + unitBouteilleOuBib + "soit " + volume_total.toFixed(2) + " hl)";
+        var unit = '';
+        if(this.isTeledeclarationMode){
+            unit = '(' + unitBouteilleOuBib + ')' ;
+        }else{
+            unit =  "(" + unitBouteilleOuBib + " soit " + volume_total.toFixed(2) + " hl)";
+        }
         $('.bouteilles_quantite span#volume_unite_total').text(unit);
         var bouteilles_price_initial = $('#vrac_prix_initial_unitaire').val();
         var bouteilles_price = $('#vrac_prix_unitaire').val();
@@ -206,7 +217,7 @@ var updatePanelsAndUnitForBottle = function(isTeledeclarationMode)
             $('#vrac_prix_initial_unite').html('€');
             var prix_initial_hl = prix_initial_total / volume_total;
             $('#prixInitialUnitaire span#prix_initial_unitaire_unite').text(prixParUnitBouteilleOuBib);
-            if (!isTeledeclarationMode) {
+            if (!this.isTeledeclarationMode) {
                 $('#prixInitialUnitaire span#prix_initial_unitaire_hl').text("(soit " + parseFloat(prix_initial_hl).toFixed(2) + " €/hl)");
             }
         }
@@ -217,14 +228,14 @@ var updatePanelsAndUnitForBottle = function(isTeledeclarationMode)
             $('#vrac_prix_unite').html('€');
             var prix_hl = prix_total / volume_total;
             $('#prixUnitaire span#prix_unitaire_unite').text("€/btlle");
-            if (!isTeledeclarationMode) {
+            if (!this.isTeledeclarationMode) {
                 $('#prixUnitaire span#prix_unitaire_hl').text("(soit " + parseFloat(prix_hl).toFixed(2) + " €/hl)");
             }
         }
     }
 };
 
-var majTotal = function(quantiteField, isTeledeclarationMode) {
+var majTotal = function(quantiteField) {
     var quantite = $('#vrac_' + quantiteField).val();
     var numericComma = new RegExp("^[0-9]+\,?[0-9]*$", "g");
     if (numericComma.test(quantite))
@@ -262,7 +273,7 @@ var majTotal = function(quantiteField, isTeledeclarationMode) {
             var prix_total = quantite * parseFloat(prix_unitaire);
             $('#vrac_prix_initial_total').text(parseFloat(prix_initial_total).toFixed(2));
             $('#vrac_prix_initial_unite').text('€');
-            if (quantiteField == 'raisin_quantite' && !isTeledeclarationMode)
+            if (quantiteField == 'raisin_quantite' && !this.isTeledeclarationMode)
             {
                 var prix_initial_hl = prix_initial_total / hlRaisins;
                 $('#prixInitialUnitaire span#prix_initial_unitaire_unite').text("€/kg (soit " + parseFloat(prix_initial_hl).toFixed(2) + " €/hl)");
@@ -274,7 +285,7 @@ var majTotal = function(quantiteField, isTeledeclarationMode) {
             $('#vrac_prix_total').text(parseFloat(prix_total).toFixed(2));
             $('#vrac_prix_unite').text('€');
 
-            if (quantiteField == 'raisin_quantite' && !isTeledeclarationMode)
+            if (quantiteField == 'raisin_quantite' && !this.isTeledeclarationMode)
             {
                 var prix_hl = prix_initial_total / hlRaisins;
                 $('#prixInitialUnitaire span#prix_unitaire_unite').text("€/kg (soit " + parseFloat(prix_hl).toFixed(2) + " €/hl)");
