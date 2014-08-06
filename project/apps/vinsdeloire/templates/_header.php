@@ -2,7 +2,7 @@
 <header id="header">
 		<div class="contenu">
 			<h1 id="logo">
-				<a title="Vins de Loire - Retour à l'accueil" href="#">
+				<a title="Vins de Loire - Retour à l'accueil" href="<?php echo url_for('homepage') ?>">
 					<img src="/images/visuels/logo_vinsdeloire_new.png" alt="" />
 				</a>
 			</h1>
