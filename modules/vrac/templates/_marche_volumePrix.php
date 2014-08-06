@@ -8,7 +8,13 @@
  * Version : 1.0.0 
  * Derniere date de modification : 28-05-12
  */
- ?>
+$isRaisin = $form->getObject()->exist('type_transaction') && $form->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS;
+$isMoutOuVrac = $form->getObject()->exist('type_transaction') && 
+                         ($form->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC
+                         || $form->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS);
+$isBouteille = $form->getObject()->exist('type_transaction') && ($form->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE);    
+
+?>
 
 <script>
 var value2bouteilleContenance = <?php echo json_encode(VracClient::getInstance()->getContenances()); ?>;
@@ -20,9 +26,10 @@ function getBouteilleContenance($value) {
 <div id="vrac_marche_volumePropose" class="section_label_maj">
     <label>Volumes proposés</label>
     <!--  Affichage des contenances disponibles (seulement s'il s'agit de vins en bouteilles)  -->
-    <div class="bloc_form" >
+    <div class="bloc_form vrac_volume_propose_panel" min-height:100px; >
         <?php echo $form['bouteilles_contenance_libelle']->renderError() ?>
-        <div id="contenance" class="bouteilles_contenance_libelle ligne_form">
+        <div id="contenance" class="bouteilles_contenance_libelle ligne_form" 
+            <?php echo ($isBouteille)? '' : 'style="display: none;"' ?> >
             <span> <?php echo $form['bouteilles_contenance_libelle']->renderLabel() ?> </span>
             <?php echo $form['bouteilles_contenance_libelle']->render() ?>
         </div>
@@ -31,21 +38,24 @@ function getBouteilleContenance($value) {
         <div id="volume" class="ligne_form">
             
             <?php echo $form['bouteilles_quantite']->renderError() ?>
-            <div class="bouteilles_quantite ">                
+            <div class="bouteilles_quantite "
+                 <?php echo ($isBouteille)? '' : 'style="display: none;"' ?> >                
                 <span><?php echo $form['bouteilles_quantite']->renderLabel() ?></span>
                 <?php echo $form['bouteilles_quantite']->render() ?>
                 <span id="volume_unite_total" class="unite"></span>
             </div>
             
             <?php echo $form['jus_quantite']->renderError() ?>
-            <div class="jus_quantite ">
+            <div class="jus_quantite "
+                 <?php echo ($isMoutOuVrac)? '' : 'style="display: none;"' ?> >
                 <span>  <?php echo $form['jus_quantite']->renderLabel() ?></span>
                 <?php echo $form['jus_quantite']->render() ?>
                 <span id="volume_unite_total" class="unite"></span>
             </div>
             
             <?php echo $form['raisin_quantite']->renderError() ?>
-            <div class="raisin_quantite ">                
+            <div class="raisin_quantite "
+                 <?php echo ($isRaisin)? '' : 'style="display: none;"' ?> >
                 <span><?php echo $form['raisin_quantite']->renderLabel() ?></span>
                 <?php echo $form['raisin_quantite']->render() ?>
                 <span id="volume_unite_total" class="unite"></span>
