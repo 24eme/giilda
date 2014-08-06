@@ -14,7 +14,14 @@ class VracMarcheForm extends acCouchdbObjectForm {
     protected $_choices_produits;
     protected $actual_campagne;
     protected $next_campagne;
+    
+    protected $isTeledeclarationMode;
 
+    public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $options = array(), $CSRFSecret = null) {
+        $this->isTeledeclarationMode = $isTeledeclarationMode;
+        parent::__construct($vrac, $options, $CSRFSecret);
+    }
+    
     public function configure() {
         $this->actual_campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
         $this->next_campagne = (date('Y') > substr($this->actual_campagne, 0, 4) && date('m') > 3) ?
@@ -22,7 +29,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
         $originalArray = array('0' => 'Non', '1' => 'Oui');
 
-        if (!$this->getObject()->isTeledeclare()) {
+        if (!$this->isTeledeclarationMode) {
             $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray, 'expanded' => true)));
             $this->setValidator('attente_original', new sfValidatorInteger(array('required' => true)));
             $this->getWidget('attente_original')->setLabel("En attente de l'original ?");
@@ -66,7 +73,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
         $this->setValidator('produit', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))));
 
-        if ($this->getObject()->isTeledeclare()) {
+        if ($this->isTeledeclarationMode) {
             $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
         } else {
             $this->setValidator('millesime', new sfValidatorInteger(array('required' => false, 'min' => 1980, 'max' => $this->getCurrentYear())));
@@ -86,7 +93,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->validatorSchema['prix_initial_unitaire']->setMessage('required', 'Le prix doit être renseigné');
 
 
-        if ($this->getObject()->isTeledeclare()) {
+        if ($this->isTeledeclarationMode) {
             $this->validatorSchema['millesime']->setMessage('required', 'Le millésime doit être renseigné');
         } else {
             $this->validatorSchema['millesime']->setMessage('min', 'Le millésime doit être supérieur à 1980');

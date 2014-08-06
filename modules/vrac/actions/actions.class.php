@@ -448,7 +448,7 @@ class vracActions extends sfActions {
         if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
         }
-        $this->form = new VracMarcheForm($this->vrac);
+        $this->form = new VracMarcheForm($this->vrac, $this->isTeledeclarationMode);
 
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -465,11 +465,14 @@ class vracActions extends sfActions {
         $this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
-        $this->compte = null;
-        if ($this->isTeledeclarationVrac()) {
+        
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        
+        if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
         }
-        $this->form = new VracConditionForm($this->vrac);
+        
+        $this->form = new VracConditionForm($this->vrac,$this->isTeledeclarationMode);
         $this->displayPartiePrixVariable = !($this->vrac->isTeledeclare()) && !(is_null($this->type_contrat) || ($this->type_contrat == 'spot'));
         $this->displayPrixVariable = ($this->displayPartiePrixVariable && !is_null($vrac->prix_variable) && $vrac->prix_variable);
         $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));

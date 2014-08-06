@@ -562,7 +562,7 @@ class Vrac extends BaseVrac {
             return $this->date_max_enlevement;
         }
         if ($this->exist('date_signature') && $this->date_signature) {
-            return Date::addDelaiToDate('-1 month', Date::getIsoDateFromFrenchDate($this->date_signature));
+            return Date::addDelaiToDate('+1 month', Date::getIsoDateFromFrenchDate($this->date_signature));
         }
         return null;
     }
