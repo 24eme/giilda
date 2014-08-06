@@ -266,9 +266,9 @@ function echoPictoSignature($societe, $contrat, $type, $hide = false) {
     $fctName = 'isSigne' . $type;
     $isSigne = $contrat->$fctName();
     if (($societe->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR && $type == 'Vendeur' && $isSigne) || ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT && $type == 'Acheteur' && $isSigne) || ($societe->type_societe == SocieteClient::SUB_TYPE_COURTIER && $type == 'Courtier' && $isSigne)) {
-        echo 'contrat_signe_moi';
+        echo 'contrat_signe_moi ';
     } else {
-        echo ($isSigne) ? 'contrat_signe_soussigne' : 'contrat_attente';
+        echo ($isSigne) ? 'contrat_signe_soussigne ' : 'contrat_attente ';
     }
 }
 
@@ -290,7 +290,7 @@ function getClassStatutPicto($vrac, $isTeledeclarationMode = false) {
 }
 
 function echoClassLignesVisu(&$cpt){
-        echo ($cpt % 2) ? 'ligne_form ' : 'ligne_form ligne_form_alt';
+        echo ($cpt % 2) ? 'ligne_form ' : 'ligne_form ligne_form_alt ';
         $cpt++;
 }
 
