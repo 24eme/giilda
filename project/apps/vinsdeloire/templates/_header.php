@@ -18,7 +18,9 @@
    				<?php if ($sf_user->hasCredential('admin')) : ?>
 					<a class="admin" href="<?php echo url_for('produits') ?>">Admin</a>
    				<?php endif; ?>
-   				<a href="#">Mon compte</a>
+                <?php if($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
+   				<a href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a>
+                <?php endif; ?>
    				<?php if($sf_user->isUsurpationCompte()): ?>
    					<a class="deconnexion" href="<?php echo url_for('vrac_dedebrayage') ?>">Quitter</a>
    				<?php else: ?>
