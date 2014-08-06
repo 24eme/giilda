@@ -414,7 +414,7 @@ class Compte extends BaseCompte {
 
     public function autoUpdateLdap($verbose = 0) {
       if (sfConfig::get('app_ldap_autoupdate', false)) {
-	return updateLdap($verbose);
+	return $this->updateLdap($verbose);
       }
       return ;
     }
