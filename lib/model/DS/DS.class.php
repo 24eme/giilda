@@ -81,6 +81,12 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 
     public function addProduit($hash) {
         $config = ConfigurationClient::getCurrent()->get($hash);
+
+        if(!$config->hasCVO($this->date_stock)) {
+
+            continue;
+        }
+
         $produit = $this->declarations->add($config->getHashForKey());
         $produit->produit_hash = $config->getHash();
         $produit->updateProduit();
