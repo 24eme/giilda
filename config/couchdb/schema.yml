@@ -8,6 +8,8 @@ Compte:
       civilite: { }
       prenom: { }
       nom: { }
+      login: { }
+      mot_de_passe: { }
       nom_a_afficher: {}
       fonction: { }
       commentaire: { }

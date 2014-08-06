@@ -28,7 +28,7 @@ class ValidatorCompteLoginFirst extends sfValidatorBase
 
     public function configure($options = array(), $messages = array()) 
     {
-        $this->setMessage('invalid', 'CVI ou code de création invalide.');
+        $this->setMessage('invalid', 'Login ou code de création invalide.');
         $this->addMessage('invalid_status', 'Votre compte a déja été créé.');
     }
 
@@ -38,13 +38,13 @@ class ValidatorCompteLoginFirst extends sfValidatorBase
             return array_merge($values);
         }
         
-        $compte = acCouchdbManager::getClient('_Compte')->retrieveByLogin($values['login']);
+        $compte = CompteClient::getInstance()->findByLogin($values['login']);
 
         if (!$compte) {
             throw new sfValidatorErrorSchema($this, array($this->getOption('mdp') => new sfValidatorError($this, 'invalid')));
         }
                 
-        if ($compte->getStatut() != _Compte::STATUT_NOUVEAU){
+        if ($compte->getStatutTeledeclarant() != CompteClient::STATUT_TELEDECLARANT_NOUVEAU){
             throw new sfValidatorErrorSchema($this, array($this->getOption('mdp') => new sfValidatorError($this, 'invalid_status')));
         }
         

@@ -375,6 +375,37 @@ class Compte extends BaseCompte {
         $this->save(true, true);
     }
 
+    public function getStatutTeledeclarant() {
+        if(preg_match("{TEXT}", $this->mot_de_passe)) {
+
+            return CompteClient::STATUT_TELEDECLARANT_NOUVEAU;
+        }
+
+        if(preg_match("{OUBLIE}", $this->mot_de_passe)) {
+
+            return CompteClient::STATUT_TELEDECLARANT_OUBLIE;
+        }
+
+        if(preg_match("{SSHA}", $this->mot_de_passe)) {
+
+            return CompteClient::STATUT_TELEDECLARANT_INSCRIT;
+        }
+
+        return CompteClient::STATUT_TELEDECLARANT_INACTIF;
+    }
+
+    /**
+     *
+     * @param string $mot_de_passe
+     */
+    public function setMotDePasseSSHA($mot_de_passe) 
+    {
+        mt_srand((double)microtime()*1000000);
+        $salt = pack("CCCC", mt_rand(), mt_rand(), mt_rand(), mt_rand());
+        $hash = "{SSHA}" . base64_encode(pack("H*", sha1($mot_de_passe . $salt)) . $salt);        
+        $this->_set('mot_de_passe', $hash);
+    }
+
     public function isActif() {
       return ($this->statut == CompteClient::STATUT_ACTIF);
     }

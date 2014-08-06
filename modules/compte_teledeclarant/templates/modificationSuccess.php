@@ -24,7 +24,7 @@
             <div class="modification clearfix"<?php if (!$form->hasErrors()) echo ' style="display:none;"'; ?>>
                 <p class="intro">Modification de vos identifiants de connexion :</p>
                 
-                <form method="post" action="<?php echo url_for("@ac_vin_compte_modification") ?>">
+                <form method="post" action="">
                     <div class="ligne_form ligne_form_label">
                         <?php echo $form->renderHiddenFields(); ?>
                         <?php echo $form->renderGlobalErrors(); ?>
@@ -56,6 +56,13 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+$("#modification_compte a.modifier").click(function() {
+    $("#modification_compte div.presentation").hide();
+    $("#modification_compte div.modification").show();
+});
+</script>
 <!-- fin #exploitation_administratif -->
 
 <!-- fin #application_dr -->

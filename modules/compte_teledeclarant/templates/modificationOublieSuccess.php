@@ -1,5 +1,5 @@
 <!-- #principal -->
-<form action="<?php echo url_for("@ac_vin_compte_modification_oublie") ?>" method="post" id="principal">
+<form action="" method="post" id="principal">
 
     <h2 class="titre_principal">Modification de votre mot de passe</h2>
 

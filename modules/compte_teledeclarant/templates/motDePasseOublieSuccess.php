@@ -8,8 +8,8 @@
     <div id="nouvelle_declaration">
         <h3 class="titre_section">Mot de passe oublié</h3>
         <div class="contenu_section">
-            <form action="<?php echo url_for('@ac_vin_compte_mot_de_passe_oublie') ?>" method="post" id="principal">
-                <p class="intro">Merci d'indiquer votre numéro CVI :</p>
+            <form action="" method="post" id="principal">
+                <p class="intro">Merci d'indiquer votre login :</p>
 
                 <div class="ligne_form">
                     <?php echo $form->renderHiddenFields(); ?>

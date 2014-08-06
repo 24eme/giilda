@@ -28,8 +28,8 @@ class ValidatorCompteMotDePasseOublie extends sfValidatorBase
 
     public function configure($options = array(), $messages = array()) 
     {
-        $this->setMessage('invalid', 'Le numéro de CVI est incorrect.');
-        $this->addMessage('invalid_status', "Vous n'avez pas encore créé votre compte. <br /> <br /> Pour ce faire munissez-vous de votre code d'accès reçu par courrier et cliquez sur le lien créer votre compte.");
+        $this->setMessage('invalid', 'Le login est incorrect.');
+        $this->addMessage('invalid_statut', "Vous n'avez pas encore créé votre compte. <br /> <br /> Pour ce faire munissez-vous de votre code d'accès reçu par courrier et cliquez sur le lien créer votre compte.");
     }
 
     protected function doClean($values) 
@@ -38,14 +38,14 @@ class ValidatorCompteMotDePasseOublie extends sfValidatorBase
             return array_merge($values);
         }
         
-        $compte = acCouchdbManager::getClient('_Compte')->retrieveByLogin($values['login']);
+        $compte = CompteClient::getInstance()->findByLogin($values['login']);
 
         if (!$compte) {
             throw new sfValidatorErrorSchema($this, array($this->getOption('mdp') => new sfValidatorError($this, 'invalid')));
         }
 
-        if (!in_array($compte->getStatut(), array(_Compte::STATUT_INSCRIT, _Compte::STATUT_MOT_DE_PASSE_OUBLIE))) {
-            throw new sfValidatorErrorSchema($this, array($this->getOption('mdp') => new sfValidatorError($this, 'invalid_status')));
+        if (!in_array($compte->getStatutTeledeclarant(), array(CompteClient::STATUT_TELEDECLARANT_INSCRIT, CompteClient::STATUT_TELEDECLARANT_OUBLIE))) {
+            throw new sfValidatorErrorSchema($this, array($this->getOption('mdp') => new sfValidatorError($this, 'invalid_statut')));
         }
 
         return array_merge($values, array('compte' => $compte));

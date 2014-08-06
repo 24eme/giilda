@@ -37,15 +37,15 @@ class acVinCompteRouting {
         /*$r->prependRoute('ac_vin_logout', new sfRoute('/logout', array('module' => 'acVinCompte', 'action' => 'logout')));
         $r->prependRoute('ac_vin_login', new sfRoute('/login', array('module' => 'acVinCompte', 'action' => 'login')));
         $r->prependRoute('ac_vin_forbidden', new sfRoute('/forbidden', array('module' => 'acVinCompte', 'action' => 'forbidden')));*/
-	/*
-        $r->prependRoute('ac_vin_compte', new sfRoute('/compte', array('module' => 'acVinCompte', 'action' => 'first')));
-        $r->prependRoute('ac_vin_compte_creation', new sfRoute('/compte/creation', array('module' => 'acVinCompte', 'action' => 'creation')));
-        $r->prependRoute('ac_vin_compte_modification_oublie', new sfRoute('/compte/mot_de_passe_oublie', array('module' => 'acVinCompte', 'action' => 'modificationOublie')));
-        $r->prependRoute('ac_vin_compte_modification', new sfRoute('/mon_compte', array('module' => 'acVinCompte', 'action' => 'modification')));
-        $r->prependRoute('ac_vin_compte_mot_de_passe_oublie_login', new sfRoute('/mot_de_passe_oublie/login/:login/:mdp', array('module' => 'acVinCompte', 'action' => 'motDePasseOublieLogin')));
-        $r->prependRoute('ac_vin_compte_mot_de_passe_oublie', new sfRoute('/mot_de_passe_oublie', array('module' => 'acVinCompte', 'action' => 'motDePasseOublie')));
-        $r->prependRoute('ac_vin_compte_mot_de_passe_oublie_confirm', new sfRoute('/mot_de_passe_oublie/confirm', array('module' => 'acVinCompte', 'action' => 'motDePasseOublieConfirm')));
-	*/
+	
+        $r->prependRoute('compte_teledeclarant_code_creation', new sfRoute('/teledeclarant/code_creation', array('module' => 'compte_teledeclarant', 'action' => 'first')));
+        $r->prependRoute('compte_teledeclarant_creation', new sfRoute('/teledeclarant/creation', array('module' => 'compte_teledeclarant', 'action' => 'creation')));
+        $r->prependRoute('compte_teledeclarant_modification', new sfRoute('/teledeclarant/mon_compte', array('module' => 'compte_teledeclarant', 'action' => 'modification')));
+        $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie_login', new sfRoute('/mot_de_passe_oublie/login/:login/:mdp', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublieLogin')));
+        $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie', new sfRoute('/mot_de_passe_oublie', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublie')));
+        $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie_confirm', new sfRoute('/mot_de_passe_oublie/confirm', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublieConfirm')));
+        $r->prependRoute('compte_teledeclarant_modification_oublie', new sfRoute('/teledeclarant/mot_de_passe_oublie', array('module' => 'compte_teledeclarant', 'action' => 'modificationOublie')));
+    
 	$r->prependRoute('compte_search', new sfRoute('/compte/search', array('module' => 'compte', 'action' => 'search')));
 	$r->prependRoute('compte_search_csv', new sfRoute('/compte/search/csv', array('module' => 'compte', 'action' => 'searchcsv')));
 	$r->prependRoute('compte_addtag', new sfRoute('/compte/search/addtag', array('module' => 'compte', 'action' => 'addtag')));
