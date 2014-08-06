@@ -17,8 +17,12 @@
 						<tbody>
 							<tr>
 								<td style="text-align: left; padding-left: 5px;">
+                                                            <?php if($isCourtierResponsable && (isset($form['type']))): ?>
 									<span><?php echo $form['type']->renderError() ?></span>
 									<?php echo $form['type']->render() ?>
+                                                            <?php else: ?>
+                                                                            Viticulteur
+                                                                        <?php endif; ?>
 								</td>
 								<td style="text-align: left; padding-left: 5px;">
 									<span><?php echo $form['tiers']->renderError() ?></span>
@@ -37,3 +41,9 @@
 		</form>
 	</div>
 </div>
+
+<?php
+
+include_partial('vrac/colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+
+?>

@@ -29,7 +29,7 @@
 					<a href="<?php echo url_for('annuaire_selectionner', array('type' => 'recoltants', 'identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un viticulteur</a>
 				</div>
 			</div>
-		
+		<?php if($isCourtierResponsable): ?>
 			<div class="bloc_annuaire">
 			
 				<table class="table_recap" id="">			
@@ -55,7 +55,7 @@
 					<a href="<?php echo url_for('annuaire_selectionner', array('type' => 'negociants', 'identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un négociant</a>
 				</div>
 			</div>
-
+                <?php endif; ?>
 			<div class="bloc_annuaire">
 			
 				<table class="table_recap" id="">			
@@ -87,4 +87,10 @@
 	<a class="btn_orange btn_majeur" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissement->identifiant)) ?>">Retourner à l'espace contrats</a>
 
 </section>
+
+<?php
+
+include_partial('vrac/colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+
+?>
 

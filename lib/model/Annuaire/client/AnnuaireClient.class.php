@@ -18,8 +18,8 @@ class AnnuaireClient extends acCouchdbClient {
     );
 
     public static function getAnnuaireTypes() {
-        return self::$annuaire_types;
-    }
+            return self::$annuaire_types;
+        }
 
     public static function getTiersQualites() {
         return self::$tiers_qualites;

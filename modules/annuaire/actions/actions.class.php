@@ -7,20 +7,33 @@ class annuaireActions extends sfActions {
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
         $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($this->identifiant);
+        
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->isAcheteurResponsable = $this->isAcheteurResponsable();
+        $this->isCourtierResponsable = $this->isCourtierResponsable();
     }
 
     public function executeSelectionner(sfWebRequest $request) {
         $this->type = $request->getParameter('type');
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
+        
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->isAcheteurResponsable = $this->isAcheteurResponsable();
+        $this->isCourtierResponsable = $this->isCourtierResponsable();
+        
         $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($this->identifiant);
-        $this->form = new AnnuaireAjoutForm($this->annuaire);
+        $this->form = new AnnuaireAjoutForm($this->annuaire, $this->isCourtierResponsable);
         $this->form->setDefault('type', $this->type);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $values = $this->form->getValues();
-                return $this->redirect('annuaire_ajouter', array('type' => $values['type'], 'identifiant' => $this->identifiant, 'tiers' => $values['tiers']));
+                $type = AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY;
+                if($this->isCourtierResponsable && array_key_exists('type', $values)){
+                   $type = $values['type'];
+                }
+                return $this->redirect('annuaire_ajouter', array('type' => $type, 'identifiant' => $this->identifiant, 'tiers' => $values['tiers']));
             }
         }
     }
@@ -29,6 +42,11 @@ class annuaireActions extends sfActions {
         $this->type = $request->getParameter('type');
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
+        
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->isAcheteurResponsable = $this->isAcheteurResponsable();
+        $this->isCourtierResponsable = $this->isCourtierResponsable();
+        
         $this->societeId = $request->getParameter('tiers');
         $this->societeChoice = false;
         if ($this->type && $this->societeId) {
@@ -37,7 +55,7 @@ class annuaireActions extends sfActions {
             $this->societeObject = AnnuaireClient::getInstance()->findSocieteByTypeAndTiers($this->type, $this->societeId);
             $this->etablissements = $this->societeObject->getEtablissementsObj();
 
-            $this->form = new AnnuaireAjoutForm($this->annuaire, $this->type, $this->etablissements);
+            $this->form = new AnnuaireAjoutForm($this->annuaire, $this->isCourtierResponsable, $this->type, $this->etablissements);
             $this->form->setDefault('type', $this->type);
             $this->form->setDefault('tiers', $this->societeId);
             if (!$this->form->hasSocieteChoice()) {
@@ -71,6 +89,11 @@ class annuaireActions extends sfActions {
     public function executeAjouterCommercial(sfWebRequest $request) {
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
+        
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->isAcheteurResponsable = $this->isAcheteurResponsable();
+        $this->isCourtierResponsable = $this->isCourtierResponsable();        
+        
         $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($request->getParameter('identifiant'));
         $this->form = new AnnuaireAjoutCommercialForm($this->annuaire);
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -124,6 +147,32 @@ class annuaireActions extends sfActions {
     public function cleanSessions() {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
+    }
+
+    /*
+     * Fonctions de service liées aux droits Users
+     * 
+     */
+
+    private function isTeledeclarationVrac() {
+        return $this->getUser()->hasTeledeclarationVrac();
+    }
+
+    private function isAcheteurResponsable() {
+        return $this->getUser()->getCompte()->getSociete()->isNegociant();
+    }
+
+    private function isCourtierResponsable() {
+        return $this->getUser()->getCompte()->getSociete()->isCourtier();
+    }
+
+    private function initSocieteAndEtablissementPrincipal() {
+        $this->compte = $this->getUser()->getCompte();
+        if (!$this->compte) {
+            new sfException("Le compte $compte n'existe pas");
+        }
+        $this->societe = $this->compte->getSociete();
+        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
     }
 
 }

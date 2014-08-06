@@ -40,3 +40,9 @@
 		</div>
 	</form>
 </div>
+
+<?php
+
+include_partial('vrac/colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+
+?>
