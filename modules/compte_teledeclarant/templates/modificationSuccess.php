@@ -58,9 +58,9 @@
 </div>
 
 <script type="text/javascript">
-$("#modification_compte a.modifier").click(function() {
-    $("#modification_compte div.presentation").hide();
-    $("#modification_compte div.modification").show();
+$("#modification_compte a.modifier, #modification_compte a.annuler").click(function() {
+    $("#modification_compte div.presentation").toggle();
+    $("#modification_compte div.modification").toggle();
 });
 </script>
 <!-- fin #exploitation_administratif -->
