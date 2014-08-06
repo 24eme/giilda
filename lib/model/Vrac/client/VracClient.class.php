@@ -66,7 +66,7 @@ class VracClient extends acCouchdbClient {
     public static $statuts_vise = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE, self::STATUS_CONTRAT_VISE);
     public static $statuts_labels = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
         self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En Attente de Signature',
-        self::STATUS_CONTRAT_VISE => 'Validé',
+        self::STATUS_CONTRAT_VISE => 'Contrat Validé',
         self::STATUS_CONTRAT_VALIDE => 'Validé (en attente de Visa)',
         self::STATUS_CONTRAT_SOLDE => 'Soldé',
         self::STATUS_CONTRAT_ANNULE => 'Annulé',
