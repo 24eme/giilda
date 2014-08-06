@@ -1,7 +1,6 @@
 <?php
 use_helper('Vrac');
 $cpt = 0;
-var_dump($template_validation);
 ?>
 <div class="bloc_form bloc_form_condensed">
     <div id="soussigne_recapitulatif_vendeur" class="<?php echoClassLignesVisu($cpt);?> <?php echoPictoSignature($societe, $vrac, 'Vendeur', $template_validation); ?>">

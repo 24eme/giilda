@@ -466,6 +466,7 @@ class vracActions extends sfActions {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
         
+        $this->compte = null;
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         
         if ($this->isTeledeclarationMode) {

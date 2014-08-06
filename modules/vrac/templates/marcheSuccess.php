@@ -11,7 +11,7 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
 <script type="text/javascript">
     $(document).ready(function()
     {
-        initMarche(<?php echo $isTeledeclarationMode; ?>);
+        initMarche(<?php echo ($isTeledeclarationMode)? 'true' : 'false'; ?>);
         
         <?php if(!$isTeledeclarationMode): ?>
         var ajaxParams = { 'numero_contrat' : '<?php echo $form->getObject()->numero_contrat ?>',

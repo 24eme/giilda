@@ -229,7 +229,7 @@ endif;
         </form>
     </div>
 </section>
-
+<?php if ($isTeledeclarationMode): ?>
 <script type="text/javascript">
     $(document).ready(function() {
         $(".ajouter_annuaire").click(function() {
@@ -240,12 +240,12 @@ endif;
         $("div#acheteur_choice input.ui-autocomplete-input").val('<?php echo $etablissementPrincipal->_id; ?>');
 
 
-<?php if ($isTeledeclarationMode && $isCourtierResponsable): ?>
+<?php if ($isCourtierResponsable): ?>
             initTeledeclarationCourtierSoussigne();
 <?php endif; ?>
     });
 </script>
-
+<?php endif; ?>
 <?php
 if ($isTeledeclarationMode):
     include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
