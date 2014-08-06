@@ -2,13 +2,14 @@
 $isValidation = (is_null($vrac->valide->statut));
 $isPrixVariable = (!$vrac->prix_total);
 $liClass = ($isValidation) ? '' : 'class="lightpadding"';
+$template_validation = (isset($template_validation))? $template_validation : false;
 ?>
 <ul>
     <li <?php echo $liClass ?> >
         <div class="style_label">1. Les soussignés</div>
         <div id="soussigne_recapitulatif">
             <?php
-            include_partial('soussigneRecapitulatif', array('vrac' => $vrac, 'societe' => $societe, 'isTeledeclarationMode' => $isTeledeclarationMode));
+            include_partial('soussigneRecapitulatif', array('vrac' => $vrac, 'societe' => $societe, 'template_validation' => $template_validation,  'isTeledeclarationMode' => $isTeledeclarationMode));
             ?>
         </div>  
         <?php if($isValidation && !$isTeledeclarationMode): ?>

@@ -496,7 +496,7 @@ class vracActions extends sfActions {
         $this->compte = null;
         $this->societe = null;
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        if ($this->isTeledeclarationVrac()) {
+        if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
         }
         $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));

@@ -22,7 +22,7 @@ use_helper('Vrac');
         <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
             <div id="titre"><span class="style_label">Récapitulatif de la saisie</span></div>
 
-            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'template_validation' => true, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
             <div class="btn_etape">
                 <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>

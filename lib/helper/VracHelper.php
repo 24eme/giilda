@@ -257,8 +257,8 @@ function bouteilleUnitTerm($vrac, $abbr = false) {
     return 'BIB®';
 }
 
-function echoPictoSignature($societe, $contrat, $type) {
-    if(!$societe) return null;
+function echoPictoSignature($societe, $contrat, $type, $hide = false) {
+    if(!$societe || $hide) return '';
     
     if (!$contrat->isTeledeclare()) {
         return;
@@ -288,3 +288,10 @@ function getClassStatutPicto($vrac, $isTeledeclarationMode = false) {
     return 'statut_solde';
     
 }
+
+function echoClassLignesVisu(&$cpt){
+        echo ($cpt % 2) ? 'ligne_form ' : 'ligne_form ligne_form_alt';
+        $cpt++;
+}
+
+
