@@ -13,6 +13,9 @@ var initConditions = function()
     updatePanelsConditions();
     $('#vrac_condition #type_contrat input').click(updatePanelsConditions);
     $('#vrac_condition #prix_isVariable input').click(updatePanelsConditions);
+    $('#vrac_condition input#vrac_enlevement_date').click(function(){
+        $(this).datepicker('show');       
+    });
 };
 
 
