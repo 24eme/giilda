@@ -54,21 +54,26 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         if(is_null($this->produits)) {
             $produits_with_negCVO = $this->getProduitsWithCVONeg($interpro, $departement);
             foreach($produits_with_negCVO as $hash => $item) {
-                try{
-                    $droit_produit = $item->getDroitCVO($date);
-                    $cvo_produit = $droit_produit->getTaux();
-                } catch (Exception $ex) {
-                    $cvo_produit = 0;
-                }
-             if($cvo_produit > 0){
-                 $this->produits[$hash] = $item;
-             }
-          }
-    }    
-    return $this->produits;
+
+              if($item->hasCVO($date)){
+                  $this->produits[$hash] = $item;
+              }
+            }
+        }
+
+        return $this->produits;
   }
   
-  
+  public function hasCVO($date) {
+    try{
+        $droit_produit = $this->getDroitCVO($date);
+        $cvo_produit = $droit_produit->getTaux();
+    } catch (Exception $ex) {
+        $cvo_produit = 0;
+    }
+
+    return $cvo_produit > 0;
+  }
 
     public function getLibelles() {
             if(is_null($this->libelles)) {
