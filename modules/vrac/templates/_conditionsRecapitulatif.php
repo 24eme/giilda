@@ -69,7 +69,7 @@ $cpt = 0;
                 <span><?php echo format_date($vrac->getMaxEnlevement(), 'dd/MM/yyyy'); ?></span>
             </div>
               <div id="conditions_recapitulatif_enlevement_frais_garde" class="<?php echoClassLignesVisu($cpt); ?>">
-                <label>Frais de garde&nbsp;: </label>
+                <label>Frais de garde par mois&nbsp;: </label>
                 <span><?php echo ($vrac->exist('enlevement_frais_garde'))? echoF($vrac->enlevement_frais_garde)."&nbsp;€/hl" : ''."&nbsp;€/hl"; ?></span>
             </div>
     <?php endif; ?> 

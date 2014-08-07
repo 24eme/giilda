@@ -9,7 +9,7 @@ use_helper('Float');
     </h2>
     <div class="clearfix">
         <ul class="stats_contrats">
-            <li class="stats_contrats_brouillon "> 
+            <li class="stats_contrats_brouillon"> 
                  <div class="action <?php echo ($contratsSocietesWithInfos->infos->brouillon)? "actif" : ""; ?>">
                    <h2>  Brouillon </h2>
                 <a href="#">
@@ -23,11 +23,11 @@ use_helper('Float');
                     <?php echo $contratsSocietesWithInfos->infos->attente_signature; ?> contrat(s) à signer</a>
                 </div>
             </li>
-            <li class="stats_contrats_en_attente ">
+            <li class="stats_contrats_en_attente">
                 <div class="action <?php echo ($contratsSocietesWithInfos->infos->valide)? "actif" : ""; ?>">
                      <h2>  En Attente </h2>
                     <a href="#">
-                        <?php echo $contratsSocietesWithInfos->infos->valide; ?> contrat(s) validé(s) (en attente de Visa)
+                        <?php echo $contratsSocietesWithInfos->infos->valide; ?> contrat(s) en attente
                     </a>
                 </div>
             </li>
