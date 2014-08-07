@@ -16,8 +16,8 @@
 .type_vin_vrac,
 .type_vin_bouteille
 {
-    .ir(22px);
-    background: url(../images/pictos/sprite_type.png) no-repeat;
+    .ir(22px, 22px);
+    background: url(../images/pictos/sprite_type.png) no-repeat; 
     display:inline-block;
 }
 
@@ -53,9 +53,8 @@
 
     .stats_contrats
     {
-        display:inline;
-        width: 100%;
-
+        overflow: hidden;
+        
         li {            
             float: left;
             padding: 30px 10px 0;            
@@ -69,24 +68,63 @@
                     vertical-align: bottom;
 
                 }
-                opacity: 0.7;
+                .opacite(0.3);
             }
             
             div.actif{
-                opacity: 1;
+                .opacite(1);
             }
         }
-/*        .stats_contrats_brouillon div  
+        .stats_contrats_brouillon h2
 	{
+            padding: 0 0 0 40px;
+            position: relative;
+            
+            &:before {
 		.sprite-pictos-brouillon(0 0);
-                .translate(20px, 20px);
-		content: '';                
+                content: '';                
 		height: 40px;
 		width: 40px;     
-                h2 {
-                    padding-left: 40px
-                }
-	}*/
+                display: inline-block;
+                position: absolute;
+                top: -10px;
+                left: -5px;
+            }
+	}
+        
+        .stats_contrats_a_signer h2
+	{
+            padding: 0 0 0 40px;
+            position: relative;
+            
+            &:before {
+		.sprite-pictos-a_signer(0 0);
+                content: '';                
+		height: 40px;
+		width: 40px;     
+                display: inline-block;
+                position: absolute;
+                top: -12px;
+                left: -2px;
+            }
+	}
+        
+        .stats_contrats_en_attente h2
+	{
+            padding: 0 0 0 40px;
+            position: relative;
+            
+            &:before {
+		.sprite-pictos-contrat_en_attente(0 0);
+                content: '';                
+		height: 40px;
+		width: 40px;     
+                display: inline-block;
+                position: absolute;
+                top: -12px;
+                left: -2px;
+            }
+	}
 
 
     }
