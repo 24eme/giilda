@@ -2,7 +2,7 @@
 use_helper('Vrac');
 ?>
 
-<div id="contrats_vrac" class="clearfix">
+<div id="principal" class="clearfix">
     <div class="ajout_annuaire">
         <form id="principal" class="ui-tabs" method="post" action="<?php echo url_for('annuaire_ajouter', array('identifiant' => $identifiant, 'type' => $type, 'tiers' => $societeId)) ?>">
 
