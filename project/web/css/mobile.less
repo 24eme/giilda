@@ -1,0 +1,245 @@
+/**
+ * Fichier : mobile.less
+ * Description : styles spécifiques aux mobiles
+ * Auteur : Hamza Iqbal - hiqbal[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+
+@media screen and (max-width: @largeur-tablette)
+{
+
+/* ======================================================= */
+/* STRUCTURE GENERIQUE */
+/* ======================================================= */
+
+#header .contenu,
+#contenu,
+#footer
+{
+	width: auto;
+}
+
+/**
+ * Header
+ ******************************************/
+#header
+{
+	.box-shadow(none);
+	padding: 15px 15px 0;
+
+	#logo
+	{
+		float: left;
+		text-align: left;
+	}
+
+	#navigation
+	{
+		background: #FFF;
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: -15px;
+		right: -15px;
+		line-height: 35px;
+		z-index: 10;
+
+		li, li a { display: block; }
+
+		li 
+		{ 
+			background: none;
+			border-bottom: 1px solid #dddcdc;
+			border-top: 1px solid #dddcdc;
+
+			& + li { border-top: 0; } 
+
+			a
+			{
+				border-radius: 0;
+				margin: 0;
+			}
+		}
+	}
+
+	.btn_menu { display: block; }
+
+	#actions_utilsateur
+	{
+		float: right;
+		margin: 18px 0 0;
+		position: static;
+	}
+}
+
+/**
+ * Colonne
+ ******************************************/
+#colonne,
+#btn_colonne
+{
+	display: none !important;
+}
+
+/* ======================================================= */
+/* ETAPES */
+/* ======================================================= */
+#contenu_etape
+{
+	#recherche_operateur
+	{
+		.ui-autocomplete-input
+		{
+			margin-right: 0;
+			margin-bottom: 10px;
+			width: 100%;
+		}
+
+		#btn_rechercher
+		{
+			display: block;
+			width: 100%;
+		}
+	}
+
+	#vrac_marche
+	{
+		#type_transaction .radio_list
+		{
+			li
+			{
+				float: none;
+				width: auto;
+
+				+ li { margin: 25px 0 0; }
+
+				label[for$="VIN_BOUTEILLE"]
+				{
+					left: 6px;
+					padding-left: 24px;
+				}
+			}
+		}
+	}
+}
+
+/* ======================================================= */
+/* RAIL D'ETAPES */
+/* ======================================================= */
+#rail_etapes
+{
+	li
+	{
+		display: block;
+		width: auto;
+
+		+ li { border-top: 1px solid #FFF; }
+
+		&:first-child > * { padding-left: 33px; }
+	}
+}
+
+/* ======================================================= */
+/* TABLEAU DES CONTRATS */
+/* ======================================================= */
+#table_contrats
+{
+	border: 0;
+	border-collapse: collapse;
+
+	&, tbody, th, td, tr { display: block; }
+
+	thead { display: none; }
+
+	tr 
+	{
+		border: 0; 
+		margin: 0 0 20px; 
+	}
+
+	td 
+	{
+		border: 1px solid #e3e2e2;
+		height: auto;
+		position: relative;
+		padding-left: 210px !important;
+
+		&:before
+		{
+			background: #ecebeb;
+			font-size: 13px;
+			font-weight: bold;
+			padding: 5px;
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			text-align: center;
+			width: 150px;
+		}
+
+		& + td { border-top: 0; }
+
+		&.type:before { content: 'Type'; }
+
+		&.num_contrat:before { content: 'Numéro de contrat'; }
+
+		&.date:before { content: 'Date'; }
+
+		&.actions:before { content: 'Actions'; }
+
+		&.statut:before { content: 'Statut'; }
+
+		&.soussigne 
+		{ 
+			text-align: center; 
+
+			&:before { content: 'Soussignés'; }
+		}
+
+		&.produit:before { content: 'Produit'; }
+
+		&.volume:before { content: 'Vol. enlevé. / Vol. prop.'; }
+
+	}
+
+}
+
+
+/* ======================================================= */
+/* FORMULAIRES */
+/* ======================================================= */
+#vendeur_infos .bloc_form,
+#conditions_recapitulatif .bloc_form,
+#marche_recapitulatif .bloc_form,
+#soussigne_recapitulatif .bloc_form,
+#vrac_marche_prixVariable .bloc_form,
+#vrac_soussigne .bloc_form,
+#date_campagne.ligne_form,
+#date_signature.ligne_form
+{
+	label,
+	.infos { display: block; }
+
+	label { margin: 0 0 5px; }
+
+	.infos { margin: 10px 0 0 !important; }
+}
+
+#contenu_etape #vrac_soussigne .ligne_form { height: auto; }
+
+#vrac_soussigne, 
+#vrac_marche,
+#vrac_condition, 
+#vrac_validation, 
+#vrac_recapitulatif
+{
+	.col
+	{
+		display: block;
+		float: none;
+		width: auto;
+	}
+}
+
+}

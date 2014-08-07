@@ -5,13 +5,20 @@
  * Version : 1.0.0
  ******************************************/
 
+
+/* Conteneur des overlay des formulaires */ 
+.block_overlay
+{
+    position: relative;
+}
+
 .type_raisins,
 .type_mouts,
 .type_vin_vrac,
 .type_vin_bouteille
 {
-    .ir(22px);
-    background: url(../images/pictos/sprite_type.png) no-repeat;
+    .ir(22px, 22px);
+    background: url(../images/pictos/sprite_type.png) no-repeat; 
     display:inline-block;
 }
 
@@ -36,52 +43,91 @@
     background-position: 0 0;
 }
 
-
-
-/* Progression de la saisie */
-#contrat_progression
+#principal
 {
-	p
-	{
-		font-weight: bold;
-		margin: 0 0 5px;
-		
-		strong
-		{
-			font-size: 22px;
-			margin: 0 5px 0 0;
-		}
-	}
-	
-	#barre_progression
-	{
-		.border-radius(5px);
-		.box-shadow(0px 1px 2px #9e9e9e inset);
-		background: url(../images/fonds/bg_fond_progression.png) 0 0 repeat-x #f0efef;
-		
-		span
-		{
-			.border-radius(5px);
-			background: url(../images/fonds/bg_barre_progression.png) 0 0 repeat-x;
-			display: block;
-			height: 17px;
-			padding: 0 5px;
-		}
-	}
-}
-
-/* actions */
-#action
-{
-    .btn_majeur 
-	{ 
-		margin: 5px 0;
-		width: 215px; 
-	}
-
-    .btn_acces
+    .infos_etablissement
     {
-        &:after { background-position: 25px -466px; width:50px;} 
+        float: right;
+
+        span { font-weight: bold; }
+    }
+
+    .stats_contrats
+    {
+        overflow: hidden;
+        
+        li {            
+            float: left;
+            padding: 30px 10px 0;            
+            background-color: #ecebeb;
+            border: 1px solid #e3e2e2;
+            border-radius: 5px;
+            .box(210px, 100px,5px,10px);
+            div.action{
+                a
+                {
+                    vertical-align: bottom;
+
+                }
+                .opacite(0.3);
+            }
+            
+            div.actif{
+                .opacite(1);
+            }
+        }
+        .stats_contrats_brouillon h2
+	{
+            text-align: center;
+            position: relative;
+            
+            &:before {
+		.sprite-pictos-brouillon(0 0);
+                content: '';                
+		height: 40px;
+		width: 40px;     
+                display: inline-block;
+                position: absolute;
+                top: -12px;
+                left: 5px;
+            }
+	}
+        
+        .stats_contrats_a_signer h2
+	{
+            position: relative;
+            text-align: center;
+            
+            &:before {
+		.sprite-pictos-a_signer(0 0);
+                content: '';                
+		height: 40px;
+		width: 40px;     
+                display: inline-block;
+                position: absolute;
+                top: -12px;
+                left: 23px;
+            }
+	}
+        
+        .stats_contrats_en_attente h2
+	{
+            text-align: center;
+            position: relative;
+            
+            &:before {
+		.sprite-pictos-contrat_en_attente(0 0);
+                content: '';                
+		height: 40px;
+		width: 40px;     
+                display: inline-block;
+                position: absolute;
+                top: -12px;
+                left: 10px;
+            }
+	}
+
+
     }
 
     .btn_calendrier
@@ -89,74 +135,56 @@
         &:after { background-position: 25px -544px; width:50px;}
     }
 
-    .btn_acces, .btn_calendrier
-    {
-        padding-left: 53px; 
-        &:after { width:50px; }
-    }
-}
+    .liens_contrat_teledeclaration {
+        float: left;
+        color: #000000;
 
-/* Aide à la saisie */
-#contrat_aide
-{
-	
-	ul
-	{
-		font-weight: bold;
-		line-height: 21px;
-		
-		li
-		{
-			margin: 8px 0;
-			position: relative;
-			
-			a
-			{
-				color: @couleur-a4;
-				display: inline-block;
-				padding: 0 0 0 28px;
-				
-				&:before
-				{
-					.box-dimensions(21px, 21px);
-					.sprite-pictos-actions;
-					.pos-abs(0, auto, auto, 0);
-					content: '';
-				}
-			}
-			
-			&.raccourcis
-			{
-				a:before { background-position: 0 -42px; }
-			}
-			
-			&.assistance
-			{
-				a:before { background-position: 0 -63px; }
-			}
-			
-			&.contact
-			{
-				a:before { background-position: 0 -84px; }
-			}
-		}
-	}
+
+        &:before
+            {
+            .triangle-r(10px, 5px, #000000);
+            margin: 0 5px 0 0;
+        }
+    }
+
+    .filtres_historique
+    {
+        .clearfix;
+        margin: 20px 0;
+
+        label { margin: 0 5px 0 0; }
+
+        .campagne,
+        .etablissement,
+        .btn_form { float: left; }
+
+        .etablissement 
+        { 
+            margin: 0 0 0 35px;
+
+            select { width: 180px; }
+        }
+
+        .campagne select { width: 95px; }
+
+        .btn_form { float: right; }
+    }
 }
 
 /* Actions */
 #contrat_actions_fin
 {
-	ul
-	{
-		font-size: 10px;
-		
-		li
-		{
-			margin: 10px 0;
-			
-			* { display: block; }
-		}
-	}
+    ul
+    {
+        font-size: 10px;
+
+        li
+        {
+            margin: 10px 0;
+
+            * { display: block; }
+        }
+    }
 }
 
 #contenu_etape
@@ -211,7 +239,7 @@
 
     #table_contrats
     {
-                
+
         td
         {
             padding: 10px;
@@ -220,7 +248,6 @@
                 text-align: left;
             }
         }
-
 
         .num_contrat
         {
@@ -242,27 +269,47 @@
     {
 
         .ligne_form { height: 38px; }
-        
+
+
+        .bloc_form_condensed
+        {
+            .ligne_form { height: auto; }
+        }
+
+        .bloc_form_teledeclaration { border-radius: 0 0 5px 5px; }
+
         .section_label_maj
         {
-                background:@couleur-a5;
-                margin: 0 0 25px;
-                padding:10px 10px 30px;
+            background:@couleur-a5;
+            margin: 0 0 25px;
+            padding:10px 10px 30px;
 
-                .ui-autocomplete-input
-                {
-                }
+            .ui-autocomplete-input
+            {
+            }
+        }
+
+        .section_label_maj_teledeclaration { margin: 0 0 0; }        
+
+        .label_soussigne_identifiant{ 
+            padding-right: 10px;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+            height: 35px;
+            padding-top: 4px;
+            text-transform: uppercase; 
         }
 
         #has_mandataire
         {
-                font-weight: bold;
+            font-weight: bold;
         }
 
         #mandataire
         {
             .clearfix;
-			padding: 20px 0 0;
+            padding: 20px 0 0;
         } 
 
         #mandatant
@@ -270,7 +317,7 @@
             margin: 0 0 20px;
 
             * { vertical-align: middle; }
-			
+
             .checkbox_list
             {
                 .inline-block-ie;
@@ -280,7 +327,7 @@
                     .inline-block-ie;
                     width : 150px; 
                 }
-				
+
                 input { margin: 0 5px 0 0; }
             }
         }
@@ -345,9 +392,69 @@
             label
             {
                 &:first-child
-                {
+                    {
                     float:left;
                     width:230px;
+                }
+            }
+        }
+
+        #type_transaction .radio_list
+        {
+            background: @couleur-a5;
+            padding: 25px 0;
+
+            li
+            {
+                padding: 0 10px;
+                width: 25%;
+
+                label
+                {
+                    display: inline-block;
+                    padding-left: 30px;
+                    position: relative;
+
+                    &:before
+                        {
+                        background: url('../images/pictos/sprite_type.png') no-repeat;
+                        content: '';
+                        left: 0;
+                        position: absolute;
+                        top: -5px;
+                        width: 22px;
+                    }
+
+                    &[for$="RAISINS"]:before
+                        {
+                        background-position: 0 -59px;
+                        height: 26px;
+                    }
+
+                    &[for$="MOUTS"]:before
+                        {
+                        background-position: 0 -32px;
+                        height: 27px;
+                        top: -4px;
+                    }
+
+                    &[for$="VIN_VRAC"]:before
+                        {
+                        background-position: 0 -85px;
+                        height: 28px;
+                    }
+
+                    &[for$="VIN_BOUTEILLE"]
+                    {
+                        padding-left: 18px;
+
+                        &:before
+                            {
+                            height: 32px;
+                            left: -6px;
+                            top: -10px;
+                        }
+                    }
                 }
             }
         }
@@ -360,12 +467,13 @@
 
         #vrac_marche_volumePropose {
             label:first-child { width:215px; }
+            .vrac_volume_propose_panel{ min-height:100px; }
         }
 
         #label .checkbox_list { float: left; }
 
         #prixInitialTotal { label { width:215px; } }
-        
+
         #prixTotal { 
             label { width:215px; } 
             span.unite { font-weight: bold; }
@@ -395,10 +503,10 @@
             span { margin-left:40px; }
         }                
     }
-    
+
     #vrac_validation,
-	#vrac_recapitulatif,
-	#vrac_visualisation
+    #vrac_recapitulatif,
+    #vrac_visualisation
     {
         #titre
         {
@@ -438,6 +546,11 @@
                 display:block;
                 margin:15px 0 0;
             }
+        }
+
+        #soussigne_recapitulatif
+        {
+            .ligne_form { background-position: right 10px top 50%; }
         }
 
         #vrac_condition
@@ -553,38 +666,6 @@
     }
 }
 
-#colonne
-{
-
-    #contrats_similaires_list
-    {
-   
-        margin: 0;
-
-        li { padding : 3px 0; }
-
-
-        #millesime,
-        #volprop
-        {
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        #millesime { padding-left:5px; }
-
-        .separateur { background: url('../images/fonds/bg_colonne_separateur.png') right no-repeat; }
-
-        .legende_contrat { margin-bottom: 10px; }
-        
-    }
-
-    #contrat_actions
-    {
-        .btn_nouveau { padding-left: 27px; }
-    }
-}
-
 
 #contrat_similaire_popup
 {
@@ -629,8 +710,8 @@
 
         .legende_type_texte
         {
-                margin: 7px 0 0 10px;
-                position: absolute;
+            margin: 7px 0 0 10px;
+            position: absolute;
         }
 
         .statut
@@ -672,7 +753,7 @@
             margin-bottom:0px;
             width:108px;
 
-            
+
             .statut { .box-dimensions(15px, 15px); }
 
             .type_raisins,
@@ -688,7 +769,7 @@
 {
     margin: 0 0 25px;
     .clearfix;
-    
+
     #vrac_etapes
     {
         background: url(../images/fonds/bg_etapes_declaration.png) 0 0 no-repeat;
@@ -700,9 +781,9 @@
         {
             line-height: 21px;
             list-style: none;
-            
+
             * { float: left; }
-            
+
             li
             {
                 background: url(../images/fonds/bg_etapes_declaration.png) 0 -43px repeat-x;
@@ -712,7 +793,7 @@
                     background: url(../images/fonds/bg_etapes_declaration.png) 0 -106px no-repeat;
                     padding: 0 15px 0 20px;
                 }
-                
+
                 a
                 {
                     color: #fff;
@@ -744,7 +825,7 @@
 
                     &.actif > * span { background-position: right -169px; }
                 }
-                
+
                 /* Elément passé / actif */
                 &.passe,
                 &.actif
@@ -752,18 +833,18 @@
                     background-position: 0 -64px;
                     & > * { background-position: 0 -127px; }
                 }
-                
+
                 /* 2 éléments passés à la suite */
                 + li.passe
                 {
                     & > * {  }
                 }
-                
+
                 /* Elément actif */
                 &.actif
                 {
                     font-weight: bold;
-                    
+
                     /* Elément après l'actif */
                     + li
                     {
@@ -773,20 +854,20 @@
             }
         }
     }
-    
+
     #etat_avancement
     {
         float: right;
         margin: -10px 0 0;
         width: 130px; /* anciennement 190 */
-        
+
         p
         {
             font-size: 11px;
             line-height: 1;
             margin: 0 0 5px;
             text-align: right;
-            
+
             strong
             {
                 color: @couleur-b3;
@@ -795,11 +876,11 @@
                 span { font-size: 12px; }
             }
         }
-        
+
         #barre_avancement
         {
             background: @couleur-a1;
-            
+
             div
             {
                 background: @couleur-b3;
@@ -817,7 +898,7 @@
         {
             .border-radius(0);
             border: 0;
-            
+
             textarea { width: 100%; }
         }
     }
@@ -840,7 +921,7 @@
         text-align: center;
         color: @couleur-a1;
     }
-    
+
     h2
     {
         font-size: 16px;
@@ -851,32 +932,32 @@
     {
         display: inline-block;
         vertical-align: top;
-        
+
         .ielt8 & { .inline-block-ie; }
     }
-        
+
     section { padding: 5px 0px; }
-    
+
     .ligne_form
     {
         /*margin: 0 0 15px;*/
-        
+
         .error_list { width: 310px; }
-        
+
         label
         {
             display: inline-block;
             vertical-align: middle;
             width: 165px;
         }
-        
+
         &.ligne_form_large label
         {
             display: block;
             margin: 0 0 10px;
             width: auto;
         }
-        
+
         input[type="text"],
         input[type="password"],
         select
@@ -892,11 +973,11 @@
         {
             padding: 2px 4px;
             width: 120px;
-            
+
         }
-        
+
         select { width: 130px; }
-        
+
         .champ_form_radio_cb 
         {
             label
@@ -906,7 +987,7 @@
                 width: auto;
             }
         }
-        
+
         &.ligne_form_large .champ_form_radio_cb
         {
             input
@@ -916,12 +997,12 @@
             }
         }
     }
-    
+
     .ligne_btn 
     {
         margin: 34px 0 0;
         right: 23px;
-        
+
         button,
         a
         {
@@ -930,16 +1011,16 @@
             text-transform: uppercase;
             &:hover { text-decoration: none; }
         }
-        
+
         .btn_valider
         {
-            .btn_suiv;
+            &:extend(.btn_suiv);
             padding: 0 17px 0 15px;
         }
-        
+
         .btn_ajouter
         {
-            .btn_violet;
+            &:extend(.btn_violet);
             background-image: url(../images/boutons/btn_ajouter.png);
             background-position: 7px center;
             margin: 0 10px 0 0;
@@ -967,7 +1048,7 @@
             text-transform: none;
         }*/
     }
-    
+
     /* Ajout d'établissements */
     #infos_etablissements
     {
@@ -975,7 +1056,7 @@
         position: relative;
         padding: 0;
         width: 895px;
-                
+
         .etablissement
         {
             .border(@couleur-a3);
@@ -986,13 +1067,13 @@
             position: relative;
             vertical-align: top;
             width: 250px;
-            
+
             .ielt8 & { .inline-block-ie; }
-            
+
             .error_list { width: auto; }
-            
+
             .ligne_form label { width: 110px; }
-        
+
             a.supprimer
             {
                 .box-dimensions(13px, 13px);
@@ -1004,41 +1085,41 @@
         }
     }
 
-        a.btn_ajouter_etab
+    a.btn_ajouter_etab
+    {
+        .btn_gris;
+        background-image: url(../images/boutons/btn_ajouter.png);
+        background-position: 7px center;
+        margin: 0 10px 0 0;
+        padding: 5px 10px 6px 30px;
+        position: absolute;
+        right: 127px;
+        text-transform : none;
+    }
+
+    a#btn_ajouter_etablissement
+    {
+        .btn_gris;
+        background-image: url(../images/boutons/btn_ajouter.png);
+        background-position: 10px center;
+        font-size: 15px;
+        line-height: 1;
+        position: absolute;
+        padding: 4px 10px 4px 32px;
+        font-size: 15px;
+        text-transform: uppercase;
+
+        &:hover { text-decoration: none; }
+
+        span
         {
-            .btn_gris;
-            background-image: url(../images/boutons/btn_ajouter.png);
-            background-position: 7px center;
-            margin: 0 10px 0 0;
-            padding: 5px 10px 6px 30px;
-            position: absolute;
-            right: 127px;
-            text-transform : none;
+            color: #fff;
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: none;
         }
-
-        a#btn_ajouter_etablissement
-        {
-            .btn_gris;
-            background-image: url(../images/boutons/btn_ajouter.png);
-            background-position: 10px center;
-            font-size: 15px;
-            line-height: 1;
-            position: absolute;
-            padding: 4px 10px 4px 32px;
-            font-size: 15px;
-            text-transform: uppercase;
-
-            &:hover { text-decoration: none; }
-
-            span
-            {
-                color: #fff;
-                display: block;
-                font-size: 14px;
-                font-weight: bold;
-                text-transform: none;
-            }
-        }
+    }
 
     /* Récapitulatif */
     #recapitulatif
@@ -1059,7 +1140,7 @@
                     font-weight: normal;
                 }
             }
-        
+
             .adresse_comptabilite { margin: 20px 0 0; } 
 
             .btn_ajouter,
@@ -1071,14 +1152,14 @@
 
             .btn_ajouter
             {
-                .btn_violet;
+                &:extend(.btn_violet);
                 background-image: url(../images/boutons/btn_ajouter.png);
                 margin: 0 10px 0 0;
             }
 
             .btn_supprimer
             {
-                .btn_gris;
+                &:extend(.btn_gris);
                 background-image: url(../images/boutons/btn_supprimer.png);
                 margin-right:20px;
                 text-transform: none;
@@ -1104,15 +1185,19 @@
 
         & + button
         {
-            border-left: 0;
-        
+            height: 30px;
+            margin-left: -30px;
+            vertical-align: middle;
+            width: 30px;
+
             &:hover { background-color: #E9E9E9; }
-        
+
             .ui-icon
             {
-                background: url(../images/pictos/pi_desc.png) center center no-repeat;
-                height: 20px;
-                width: 20px;                
+                background: url(../images/pictos/pi_desc.png) 50% 50% no-repeat;
+                display: block;
+                height: 100%;
+                width: 100%;
             }
         }
     }
@@ -1122,7 +1207,7 @@
     {
         font-size: 0;
         line-height: 1;
-        
+
         .ui-dropdownchecklist-text
         {
             background: #fff;
@@ -1133,30 +1218,30 @@
             padding: 2px 4px 0;
             width: 190px !important;
         }
-        
+
         &.ui-state-active
         {
             .ui-dropdownchecklist-text { border-bottom-color: #f4f4f4; }
         }
     }
-    
+
     .ui-dropdownchecklist-dropcontainer-wrapper
     {
         height: auto !important;
         width: auto !important;
     }
-    
+
     .ui-dropdownchecklist-dropcontainer
     {
         background: #fff;
         border: 1px solid #d3d2cd;
         height: 200px !important;
         width: 250px;
-        
+
         .ui-dropdownchecklist-item
         {
             padding: 2px 4px;
-            
+
             label
             {
                 width: auto;
@@ -1207,9 +1292,9 @@
     {
         .clearfix;
         margin: 10px 0 30px;
-        
+
         a { cursor: pointer; }
-        
+
         .btn_annuler
         {
             float: left;
@@ -1218,5 +1303,173 @@
 
         .btn_modifier,
         .btn_valider { float: right; }
+    }
+}
+
+/**
+ * Colonne
+ ******************************************/
+#colonne
+{
+    #contrat_compte
+    {
+        h3 { font-weight: bold; }
+
+        .ligne_btn { margin-bottom: 0; }
+    }
+
+    /* Progression de la saisie */
+    #contrat_progression
+    {
+        p
+        {
+            font-weight: bold;
+            margin: 0 0 5px;
+
+            strong
+            {
+                font-size: 22px;
+                margin: 0 5px 0 0;
+            }
+        }
+
+        #barre_progression
+        {
+            .border-radius(5px);
+            .box-shadow(0px 1px 2px #9e9e9e inset);
+            background: url(../images/fonds/bg_fond_progression.png) 0 0 repeat-x #f0efef;
+
+            span
+            {
+                .border-radius(5px);
+                background: url(../images/fonds/bg_barre_progression.png) 0 0 repeat-x;
+                display: block;
+                height: 17px;
+                padding: 0 5px;
+            }
+        }
+    }
+
+    /* actions */
+    #action
+    {
+        .btn_majeur 
+        { 
+            margin: 5px 0;
+            width: 215px; 
+        }
+
+        .btn_acces
+        {
+            &:after { background-position: 25px -466px; width:50px;} 
+        }
+
+        .btn_calendrier
+        {
+            &:after { background-position: 25px -537px; width:50px;}
+        }
+
+        .btn_acces, .btn_calendrier
+        {
+            padding-left: 53px; 
+            &:after { width:50px; }
+        }
+    }
+
+    #contrats_similaires_list
+    {
+
+        margin: 0;
+
+        li { padding : 3px 0; }
+
+
+        #millesime,
+        #volprop
+        {
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        #millesime { padding-left:5px; }
+
+        .separateur { background: url('../images/fonds/bg_colonne_separateur.png') right no-repeat; }
+
+        .legende_contrat { margin-bottom: 10px; }
+
+    }
+
+    #contrat_actions
+    {
+        .btn_nouveau { padding-left: 27px; }
+    }
+
+    /* Aide à la saisie */
+    #contrat_aide
+    {
+        h3 
+        {
+            .helveticaneue-75-bold;
+            .majuscules;
+            margin: 30px 0 10px;
+            white-space: nowrap;
+        }
+
+        .lien_notice
+        {
+            .helveticaneue-75-bold;
+            .majuscules;
+            color: #d00815;
+            display: inline-block;
+            margin: 30px 0 0;
+        }
+
+        .contact
+        {
+            font-weight: bold;
+
+            li
+            {
+                margin: 10px 0;
+                position: relative;
+                padding: 0 0 0 28px;
+
+                &:before
+                    {
+                    .box-dimensions(21px, 21px);
+                    .sprite-pictos-actions;
+                    .pos-abs(-3px, auto, auto, 0);
+                    content: '';
+                }
+
+                &.nom:before { background-position: 0 -105px; }
+
+                &.email:before { background-position: 0 -165px; }
+
+                &.telephone:before { background-position: 0 -125px; }
+            }
+        }
+    }
+
+    #legende
+    {
+        h3 
+        {
+            color: @couleur-a3; 
+            font-weight: bold;
+        }
+
+        .legende { padding: 0; }
+
+        .status_contrats
+        {
+            img 
+            { 
+                margin: 0 5px 0 0; 
+                vertical-align: middle;
+            }
+
+            li { margin: 10px 0; }
+        }
     }
 }

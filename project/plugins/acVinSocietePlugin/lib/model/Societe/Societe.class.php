@@ -107,6 +107,22 @@ class Societe extends BaseSociete {
         return $etablissements;
     }
     
+    public function getEtablissementPrincipal() {
+        $etablissements = $this->getEtablissementsObj();
+        if(!count($etablissements)){
+            return null;
+        }
+        foreach ($etablissements as $id => $etbObj) {
+            $etablissement = $etbObj->etablissement;
+            $compte = CompteClient::getInstance()->find($etablissement->compte);
+            if($compte->compte_type == CompteClient::TYPE_COMPTE_SOCIETE){
+                return $etablissement;
+            }
+        }
+        $etbObj = array_shift($etablissements);
+        return $etbObj->etablissement;
+    }
+    
     public function getComptesObj() {
         $comptes = array();
         foreach ($this->contacts as $id => $obj) {
@@ -210,6 +226,14 @@ class Societe extends BaseSociete {
         return $this->type_societe == SocieteClient::SUB_TYPE_COURTIER;
     }
 
+    public function isNegociant() {
+        return ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
+    }
+    
+    public function isActif() {
+        return $this->exist('statut') && $this->statut === EtablissementClient::STATUT_ACTIF;
+    }
+    
     public function hasNumeroCompte() {
         return ($this->code_comptable_client || $this->code_comptable_fournisseur);
     }
@@ -318,6 +342,5 @@ class Societe extends BaseSociete {
     public function isSyndicat(){
         return $this->exist('type_societe') && ($this->type_societe == SocieteClient::SUB_TYPE_SYNDICAT);
     }
-    
     
 }

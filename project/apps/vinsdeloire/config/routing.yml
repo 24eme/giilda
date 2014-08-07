@@ -6,5 +6,15 @@ homepage:
   url:   /
   param: { module: global, action: home}
 
-# generic rules
-# please, remove them by adding more specific rules
+
+# TELEDECLARATION
+
+auth_login_no_cas:
+  url:   /login_no_cas
+  param: { module: auth, action: login}
+
+
+auth_logout:
+  url:   /logout
+  param: { module: auth, action: logout}
+
