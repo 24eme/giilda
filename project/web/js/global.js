@@ -132,39 +132,7 @@ var fbConfig =
 			});
 		});
 	};
-
-	/**
-	 * Ouvre / Ferme la colonne de droite
-	 * $.initToggleColonne();
-	 ******************************************/
-	$.initToggleColonne = function()
-	{
-		var colonne = $('#colonne');
-		var btnColonne = $('#btn_colonne');
-
-		btnColonne.click(function(e)
-		{
-			e.preventDefault();
-
-			if(btnColonne.hasClass('ouvert'))
-			{
-				colonne.slideUp(400, function()
-				{
-					colonne.removeClass('ouvert');
-					btnColonne.removeClass('ouvert');	
-				});
-			}
-			else
-			{
-				colonne.slideDown(400, function()
-				{
-					colonne.addClass('ouvert');
-					btnColonne.addClass('ouvert');
-				});
-			}
-		});
-	};
-
+	
 	
 	
 	/* =================================================================================== */
@@ -178,8 +146,6 @@ var fbConfig =
 		$.inputPlaceholder();
 		
 		$.initTableSelection();
-
-		$.initToggleColonne();
 		
 	});
 	

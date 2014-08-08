@@ -253,7 +253,7 @@ p#date_drm
     
     #etablissements_infos
     {
-        #creation_compte > #recapitulatif > .recap_etablissement;
+        &:extend(#creation_compte > #recapitulatif > .recap_etablissement);
         padding: 55px 0 15px 20px;
         
         table
@@ -622,8 +622,8 @@ p#date_drm
 		{
 			text-align: right;
 			
-			.btn_annuler { .btn_gris; }
-			.btn_valider { .btn_violet; }
+			.btn_annuler { &:extend(.btn_gris); }
+			.btn_valider { &:extend(.btn_violet); }
 			
 			.btn_annuler, .btn_valider
 			{
@@ -692,7 +692,7 @@ p#date_drm
 			
 			p 
 			{
-				background: url(../images/pictos/fleche_col_groupe_ferme.png) no-repeat 190px 13px #ECEBEB;
+				background: url(../images/pictos/fleche_droite.png) no-repeat 190px 13px #ECEBEB;
 				cursor: pointer;
 				font-weight: bold;
                                 border: 1px solid @couleur-a10;
@@ -703,7 +703,7 @@ p#date_drm
                         &.groupe_ouvert
                         {
                                 p{
-                                        background: url(../images/pictos/fleche_col_groupe_ouvert.png) no-repeat 188px 12px #ECEBEB !important;
+                                        background: url(../images/pictos/fleche_bas.png) no-repeat 188px 12px #ECEBEB !important;
                                         margin: 0 0 10px;
                                 }
 
@@ -1055,7 +1055,7 @@ p#date_drm
 	
 	.onglets_declaratif
 	{
-		#principal > #onglets_principal;
+		&:extend(#principal > #onglets_principal);
 		
 		margin-top:15px ;
 
@@ -1079,7 +1079,7 @@ p#date_drm
 	
 	.contenu_onglet_declaratif
 	{
-		#principal > #contenu_onglet;
+		&:extend(#principal > #contenu_onglet);
 		
 		&.alignes { padding-left:249px }
 		

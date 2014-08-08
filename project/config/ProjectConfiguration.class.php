@@ -32,7 +32,10 @@ class ProjectConfiguration extends sfProjectConfiguration
         $this->enablePlugins('acVinRelancePlugin');
         $this->enablePlugins('acLdapPlugin');
         $this->enablePlugins('acExceptionNotifierPlugin');
+        $this->enablePlugins('acVinAnnuairePlugin');
+        $this->enablePlugins('acCASPlugin');
 
-	    $this->dispatcher->connect('application.throw_exception', array('acError500', 'handleException'));
+
+        $this->dispatcher->connect('application.throw_exception', array('acError500', 'handleException'));
   	}
 }

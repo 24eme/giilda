@@ -1,6 +1,5 @@
 all:
   is_secure: false
-  credentials: null
 
 home:
   is_secure: true

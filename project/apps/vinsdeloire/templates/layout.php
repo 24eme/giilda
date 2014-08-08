@@ -35,43 +35,46 @@
             if ($sf_user->hasFlash('global_error'))
                 echo '<div style="margin-bottom: 20px;margin-left: auto; margin-right: auto; width: 700px;" class="global_error"><p><span>' . $sf_user->getFlash('global_error') . "</span></p></div>";
             ?>
-<?php if (sfConfig::get('app_instance') == 'preprod') : ?>
-            <div style="background: white; text-align:center; font-weight:bold; margin-bottom: 10px; color:red;">Vous êtes dans l'environnement de préproduction. Les données introduites peuvent être supprimées à tout moment.</div>
-<?php endif; ?>
+            <?php if (sfConfig::get('app_instance') == 'preprod') : ?>
+                <div style="background: white; text-align:center; font-weight:bold; margin-bottom: 10px; color:red;">Vous êtes dans l'environnement de préproduction. Les données introduites peuvent être supprimées à tout moment.</div>
+            <?php endif; ?>
             <div id="global_content" class="<?php include_slot('global_css_class', null) ?>">
                 <div id="contenu">
-
-                    <div class="center">
-                        <a href="#" id="btn_colonne" class="btn_majeur btn_noir"><i class="ouvrir">Ouvrir</i><i class="fermer">Fermer</i> la barre d'actions</a>
-                    </div>
-
+                    <?php echo $sf_content ?>
                     <aside id="colonne">
-
                         <?php
                         include_slot('colButtons');
                         ?>
                         <?php
                         include_slot('colApplications');
                         ?>
-                        
-                        <?php include_component_slot('colContacts'); ?>
-                        
-                        <?php if (has_slot('colAide')): ?>
-                            <?php include_slot('colAide'); ?>
-                        <?php else: ?>
-                        <div class="bloc_col" id="contrat_aide">
-                            <h2>Aide</h2>
 
-                            <div class="contenu">
-                                <ul>
-                                    <li class="raccourcis"><a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a></li>
-                                    <li class="contact"><a href="mailto:f.bodin@vinsdeloire.fr">Contacter le support</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <?php include_component_slot('colContacts'); ?>
+
+                        <?php if ($sf_user->hasCredential('transactions')): ?>
+                            <?php if (has_slot('colAide')): ?>
+                                <?php include_slot('colAide'); ?>
+                            <?php else: ?>
+                                <div class="bloc_col" id="contrat_aide">
+                                    <h2>Aide</h2>
+
+                                    <div class="contenu">
+                                        <ul>
+                                            <li class="raccourcis"><a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a></li>
+                                            <li class="contact"><a href="mailto:f.bodin@vinsdeloire.fr">Contacter le support</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                         <?php endif; ?>
+
+                        <?php include_slot('colCompte'); ?>
+
+                        <?php include_slot('colAide'); ?>
+
+                        <?php include_slot('colLegende'); ?>                        
+
                     </aside>
-                    <?php echo $sf_content ?>
                 </div>
                 <?php include_partial('global/shortcutKeys') ?>
                 <?php include_partial('global/footer'); ?>

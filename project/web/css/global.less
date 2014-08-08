@@ -119,7 +119,7 @@ select
 
 .ie6 input { vertical-align: text-bottom; }
 
-button { background: 0; border: 0; .arial; margin: 0; outline: 0; overflow: visible; padding: 0; }
+button { background: 0; border: 0; &:extend(.arial); margin: 0; outline: 0; overflow: visible; padding: 0; }
 button::-moz-focus-inner { border: 0; padding: 0; }
 button span { position: relative; }
 .ielt9 button span { margin: -1px 0 -2px; }
@@ -138,6 +138,12 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 }
  
 /* Textes */
+.txt_gauche { text-align: left; }
+
+.txt_centre { text-align: center; }
+
+.txt_droite { text-align: right; }
+
 .majuscules { text-transform: uppercase; }
 
 .souligne(@hover: none)
@@ -158,11 +164,55 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	background: url(../images/pictos/pi_actions.png) @position no-repeat;
 }
 
+
+.sprite-pictos-brouillon(@position: 0 0)
+{
+	background: url(../images/pictos/pi_fichier_brouillon.png) @position no-repeat;
+}
+
+.sprite-pictos-a_signer(@position: 0 0)
+{
+	background: url(../images/pictos/pi_stylo_a_signer.png) @position no-repeat;
+}
+
+.sprite-pictos-contrat_en_attente(@position: 0 0)
+{
+	background: url(../images/pictos/pi_contrat_en_attente.png) @position no-repeat;
+}
+
+
 /* Previens le depassement de fond sur les bordures */
 .anti_leak{
 	-moz-background-clip: padding;
 	-webkit-background-clip: padding-box;
 	background-clip: padding-box;
+}
+
+/* Titres */
+.section-titre
+{
+    .majuscules;
+	display: inline-block;
+    font-size: 15px;
+    font-weight: bold;
+    height: 35px;
+    padding-top:4px;
+}
+
+#principal .titre_societe
+{
+	.majuscules;
+	padding-left: 25px;
+	position: relative;
+	
+	&:before
+	{
+		.pos-abs(-2px, auto, auto, 0);
+		.sprite-pictos-actions(0 -105px);
+		content: '';
+		height: 20px;
+		width: 20px;
+	}
 }
 
 /* Boutons / Liens */
@@ -443,6 +493,42 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 .btn_enregistrer { .btn_noir; }
 
+.btn_annuaire
+{
+	.btn_icone;
+
+	&:after { background-position: 3px -601px; }
+}
+
+.ui-autocomplete .btn_ajout_autocomplete a
+{
+	background: #ebebeb;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	display: block;
+	padding: 10px 5px;
+	position: relative;
+	text-align: left;
+
+	&:hover,
+	&:focus { border-color: #999; }
+
+	&:after
+	{
+		.pos-abs(8px, 5px);
+		background: #fff;
+		border: 1px solid #aaa;
+		color: #aaa; 
+		content: '+';
+		font-size: 18px;
+		font-weight: bold;
+		line-height: 20px;
+		height: 20px;
+		text-align: center;
+		width: 20px;
+	}
+}
+
 /* Tableau recapitulatif */
 .table_recap
 {
@@ -572,7 +658,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	line-height: 45px;
 }
 
-/* Status Pictos */
+/* Pictos */
 .statut_suspendu,.statut_nouveau,.statut_valide,.statut_cloture{
 	background-image: url(../images/pictos/sprite_calendrier.png);
 	background-repeat: no-repeat;
@@ -602,6 +688,38 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	color: @couleur-d7;
 	background-position: 0 -46px;
 }
+
+.visualiser_contrat
+{
+	display: block;
+	padding-left: 25px;
+    position: relative;
+    text-align: left;
+
+    &:before
+    {
+        .pos-abs(-3px, auto, auto, 0);
+        background: url('../images/pictos/pi_actions.png') 0 -581px no-repeat;
+        content: '';
+        height: 21px;
+        width: 21px;
+    }
+}
+
+.contrat_signe_moi,
+.contrat_attente,
+.contrat_signe_soussigne
+{
+	background: 100% 0 no-repeat;
+	padding-right: 20px;
+	text-align: left;
+}
+
+.contrat_signe_moi { background-image: url('/images/pictos/pi_ok.png'); }
+
+.contrat_attente { background-image: url('../images/pictos/pi_attente.png'); }
+
+.contrat_signe_soussigne { background-image: url('../images/pictos/pi_ok_gris.png'); }
 
 /* Divers */
 .ir(@width: 1px, @height: 1px)
@@ -686,16 +804,6 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	font-size: 14px;
 }
 
-.section-titre
-{
-    .majuscules;
-	display: inline-block;
-    font-size: 15px;
-    font-weight: bold;
-    height: 35px;
-    padding-top:4px;
-}
-
 /**
  * Message IE6
  ******************************************/
@@ -771,7 +879,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 #colonne
 {
 	.largeur-col(3, 3);
-	float: right;
+	float: left;
 	padding: 30px 10px 0;
 }
 
@@ -790,13 +898,45 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 #header
 {
 	/* Logo */
-	#logo { .pos-abs(-12px, auto, auto, -270px) }
+	#logo 
+	{ 
+		.pos-abs(0, auto, auto, -280px);
+	}
+
+	/* Baseline */
+	.baseline
+	{
+		.helvetica;
+		color: #555353;
+		display: inline-block;
+		font-size: 20px;
+		margin: 0 0 10px;
+	}
+
+	.conteneur_nav 
+	{ 
+		float: left;
+		padding: 0 30px;
+		position: relative;
+		width: 640px;
+
+		&:before
+		{
+			.pos-abs(10px, 0, auto, 0);
+			border-left: 1px solid #9a9a9a;
+			border-right: 1px solid #9a9a9a;
+			height: 50px;
+			content: '';
+		} 
+	}
 	
 	/* Navigation */
 	#navigation
 	{
 		float: left;
 		line-height: 33px;
+
+		ul { .clearfix; }
 		
 		li
 		{
@@ -824,40 +964,41 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 			}
 		}
 	}
+
+
+	/* Bouton menu tablette et mobile */
+	.btn_menu
+	{
+		background: url('/images/pictos/pi_menu.png') no-repeat;
+		display: none;
+		float: right;
+		height: 20px;
+		margin: 25px 0 0;
+		overflow: hidden;
+		text-indent: 100%;
+		white-space: nowrap;
+		width: 26px; 
+	}
 	
 	/* Actions utilisateur */
 	#actions_utilsateur
 	{
-		.helveticaneue-75-bold;
 		float: right;
-		font-size: 11px;
-		line-height: 21px;
-		padding: 6px 0 0;
+		font-size: 12px;
+		padding: 0 0 0 25px;
 		
 		a
 		{
-			.sprite-pictos-actions;
-			.border-radius(4px);
-			.non-souligne(none);
-			border: 1px solid;
-			display: inline-block;
-			padding: 0 5px 0 22px;
-			
-			&.admin
+			display: block;
+			margin: 10px 0;
+			padding: 0 0 0 20px;
+			position: relative;
+
+			&:before
 			{
-				background-color: #eee;
-				background-position: 5px 0;
-				border-color: #c2c0c0;
-				color: @couleur-a4;
-			}
-			
-			&.deconnexion
-			{
-				background-color: #b8b7b7;
-				background-position: 5px -21px;
-				border-color: #929292;
-				color: @couleur-a1;
-				margin: 0 0 0 7px;
+				.pos-abs(4px, auto, auto, 0);
+				.triangle-r(12px, 7px, @couleur-a3);
+				content: '';
 			}
 		}
 	}
@@ -934,22 +1075,20 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
     {
         vertical-align: middle;
     }
-
-    .bloc_form_condensed &
-    {
-       padding: 5px 10px;
-    }
 }
 
-#ligne_btn
+#ligne_btn,
+.ligne_btn
 { 
     display:block;
     .btnAnnulation { float:left; }
     .btnValidation { float:right; }
-    margin: 10px 0;
+    margin: 20px 0;
+
+    .btn_majeur + .btn_majeur { margin: 0 0 0 10px; }
 }
 
-.ligne_form_alt { background : @couleur-a5; }
+.ligne_form_alt { background-color : @couleur-a5; }
 
 input.ui-autocomplete-input
 {
@@ -988,12 +1127,14 @@ ul.radio_list
     .border(@couleur-a9);
     .border-radius(3px);
     .box-shadow(0px 0px 5px rgba(0, 0, 0, 0.1) inset);
-    .box-dimensions(333px, 210px);
     cursor:pointer;
+    max-height: 210px;
     overflow:auto;
+    width: 333px;
 
     a
     { 
+    	border: 1px solid transparent;
         display:block; 
         padding:5px;
         text-decoration:none;
@@ -1008,7 +1149,12 @@ ul.radio_list
 	a.ui-state-active { background: #E9E9E9; }
 }
 
-.ui-autocomplete-loading { background: #fff url('../images/pictos/pi_loader.gif') right center no-repeat !important; }
+.ui-autocomplete-loading 
+{ 
+	background: #fff url('../images/pictos/pi_loader.gif') right 5px top 50% no-repeat !important;
+
+	.combobox + & { background-position: right 35px top 50% !important; }
+}
 
 /* Fil d'Ariane */
 #fil_ariane
@@ -1066,29 +1212,16 @@ ul.radio_list
                 
 	}
 
-    #action{
-                    
-            padding: 15px 0;
+        #action{
+                        
+                padding: 15px 0;
 
-            .contenu{
-                        padding: 5px 0 ;
-            }
-    }
-}
+                .contenu{
+                            padding: 5px 0 ;
+                }
+        }
 
-#btn_colonne
-{
-	display: none;
-	margin: 15px 0;
-
-	i { font-style: normal; }
-	.fermer { display: none; }
-
-	&.ouvert
-	{
-		.ouvrir { display: none; }
-		.fermer { display: inline; }
-	}
+	
 }
 
 /**

@@ -9,7 +9,7 @@ prod:
 
 dev:
   .settings:
-    error_reporting:        <?php echo (E_ALL | E_STRICT) ^ E_DEPRECATED."\n" ?>
+    error_reporting:        <?php echo ((E_ALL | E_STRICT) ^ E_DEPRECATED)."\n" ?>
     web_debug:              true
     cache:                  true
     no_script_name:         false
@@ -30,7 +30,7 @@ test:
 all:
   .settings:
 
-    enabled_modules:        [default, vrac, drm, drm_edition, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf, etablissement, etablissement_autocomplete, facture, sv12, ds, generation, revendication, stocks, alerte, societe, compte, document, produit, relance, acVinCompte]
+    enabled_modules:        [default, teledeclaration, vrac, drm, drm_edition, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf, etablissement, etablissement_autocomplete, facture, sv12, ds, generation, revendication, stocks, alerte, societe, compte, document, produit, relance, annuaire, compte_teledeclarant]
 
     # Form security secret (CSRF protection)
     csrf_secret:            false
@@ -46,7 +46,8 @@ all:
   .action:
     error_500_module:       global
     error_500_action:       error500
-    login_module:           acVinCompte
+
+    login_module:           auth
     login_action:           login
-    secure_module:          acVinCompte
+    secure_module:          auth
     secure_action:          forbidden

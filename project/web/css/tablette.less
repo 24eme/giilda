@@ -15,7 +15,7 @@
 	}
 }
 
-@media screen and (max-width: @largeur-totale)
+@media screen and (max-width: (@largeur-totale))
 {
 
 /* ======================================================= */
@@ -44,20 +44,24 @@
 
 	#logo
 	{
+		border: 0;
 		position: static;
 		left: auto;
 		top: auto;
 		text-align: center;
 	}
 
-	#actions_utilsateur
+	.conteneur_nav 
 	{
 		float: none;
-		position: absolute;
-		top: 18px;
-		right: 0;
-		padding: 0;
+		margin: 20px 0 0;
+		padding: 0; 
+		width: auto;
 	}
+
+	.baseline,
+	.conteneur_nav:before,
+	#actions_utilsateur { display: none; }
 
 	#navigation
 	{
@@ -164,11 +168,7 @@
 /* ======================================================= */
 /* RAIL D'ETAPES */
 /* ======================================================= */
-#rail_etapes
-{
-	margin: 0 10px 25px;
-	li { width: 25%; }
-}
+#rail_etapes { margin: 0 0 25px; }
 
 /* ======================================================= */
 /* VRAC */
