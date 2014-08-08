@@ -1,6 +1,6 @@
 <?php
 
-class EnvoiEmailsContratsValidesTask extends sfBaseTask
+class TeledeclarationEnvoiEmailsContratsVisesTask extends sfBaseTask
 {
   protected function configure()
   {
@@ -13,7 +13,7 @@ class EnvoiEmailsContratsValidesTask extends sfBaseTask
     ));
 
     $this->namespace        = 'teledeclaration';
-    $this->name             = 'envoi-emails-contrats-valides';
+    $this->name             = 'envoiEmailsContratsVise';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
 The [generateAlertes|INFO] task does things.
@@ -36,7 +36,7 @@ EOF;
   }
   
   protected function getContratsValides() {
-      return VracStatutAndTypeView::getInstance()->findContatsByStatut(VracClient::STATUS_CONTRAT_VALIDE);
+      return VracStatutAndTypeView::getInstance()->findContatsByStatut(VracClient::STATUS_CONTRAT_VISE);
   }
   
   protected function sendEmails($contrats) {
@@ -47,10 +47,10 @@ EOF;
       foreach ($contrats as $contratView) {
           $vrac = VracClient::getInstance()->find($contratView->id);
           $vracEmailManager->setVrac($vrac);
-          $vrac->createVisa();
+          $vracEmailManager->sendMailContratVise();
+          $vrac->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
           $vrac->save();
-          $vracEmailManager->sendMailContratValide();
-          echo "changement de statut du contrat ".$vrac->numero_contrat." qui porte mainenant le visa ".$vrac->numero_archive."\n"; 
+          echo "envoie des mails du contrat ".$vrac->numero_contrat." visa ".$vrac->numero_archive." (".$vrac->valide->statut.")\n"; 
       }
   }
 }

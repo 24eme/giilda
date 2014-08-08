@@ -70,7 +70,8 @@ L’application de télédéclaration des contrats d’INTERLOIRE';
         }
     }
 
-    public function sendMailContratValide() {
+    public function sendMailContratVise() {
+        
         $soussignesArr = $this->vrac->getNonCreateursArray();
         $createur = $this->vrac->getCreateurObject();
         $soussignesArr[$createur->_id] = $createur;
