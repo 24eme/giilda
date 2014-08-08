@@ -316,6 +316,7 @@ class vracActions extends sfActions {
         $this->vrac->save();
         if ($allSigned) {
             $mailManager = new VracEmailManager($this->getMailer(), $this->vrac);
+            $mailManager->setVrac($this->vrac);
             $mailManager->sendMailContratValide();
         }
         $this->redirect('vrac_visualisation', $this->vrac);
