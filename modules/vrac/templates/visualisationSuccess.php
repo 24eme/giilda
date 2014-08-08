@@ -59,7 +59,9 @@ use_helper('Vrac');
             <?php
             if ($vrac->isVise() && ($isTeledeclare) && $sf_user->hasTeledeclaration()):
                 ?>
-                <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_orange f_right">Télécharger le PDF</a>  
+                    <div class="ligne_btn txt_centre">
+                        <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_pdf">Télécharger le PDF</a>  
+                    </div>
             <?php endif; ?>
         </div>
     </div>
