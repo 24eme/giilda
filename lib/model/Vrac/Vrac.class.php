@@ -94,7 +94,7 @@ class Vrac extends BaseVrac {
     }
 
     public function createVisa() {
-        $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+        $this->valide->statut = VracClient::STATUS_CONTRAT_VISE;
         $this->update();
     }
     
