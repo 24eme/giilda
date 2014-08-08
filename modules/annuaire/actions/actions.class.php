@@ -75,7 +75,6 @@ class annuaireActions extends sfActions {
                 if ($this->societeId != $values['tiers']) {
                     return $this->redirect('annuaire_ajouter', array('type' => $type, 'identifiant' => $this->identifiant, 'tiers' => $values['tiers']));
                 } else {
-                    $this->etbToAdd = ($this->etbToAdd) ? $this->etbToAdd : AnnuaireClient::getInstance()->findTiersByTypeAndTiers($values['type'], $values['etablissementChoice']);
                     $this->form->save();
                     if ($vrac = $this->getUser()->getAttribute('vrac_object')) {
                         $vrac = unserialize($vrac);
