@@ -83,8 +83,7 @@ class vracActions extends sfActions {
         }
         $this->societe = $this->compte->getSociete();
 
-        $this->allEtbs = (!isset($request['etablissement']) || ($request['etablissement'] == 'all'));
-        $this->allCampagne = (!isset($request['campagne']) || ($request['campagne'] == 'all'));
+        $this->allEtbs = (!isset($request['etablissement']) || ($request['etablissement'] == 'tous'));
         if (!$this->allEtbs) {
             $this->etablissements = array($request['etablissement']);
         } else {
@@ -94,12 +93,8 @@ class vracActions extends sfActions {
                 $this->etablissements[] = str_replace("ETABLISSEMENT-", "", $allEtablissementsId);
             }
         }
+        $this->campagnes = array($request['campagne']);
 
-        if (!$this->allCampagne) {
-            $this->campagnes = array($request['campagne']);
-        } else {
-            $this->campagnes = VracClient::getInstance()->listCampagneBySocieteId($this->societe->identifiant);
-        }
         $this->vracs = VracClient::getInstance()->retrieveByEtablissementsAndCampagnes($this->etablissements, $this->campagnes);
         return true;
     }
@@ -257,46 +252,45 @@ class vracActions extends sfActions {
     public function executeSociete(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
-        $this->compte = CompteClient::getInstance()->findByIdentifiant($request['identifiant']);
-
-        if (!$this->compte) {
-            new sfException("Le compte $compte n'existe pas");
+        $this->identifiant = $request['identifiant'];
+        
+        $this->initSocieteAndEtablissementPrincipal();
+        
+        if($this->compte->identifiant != $this->identifiant){
+            /*
+             * PROCTECT WITH 403
+             */
+            throw new sfException("Le compte $this->identifiant ne correspond pas aux droits");
         }
-        $this->societe = $this->compte->getSociete();
-        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
+        
         $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe,$this->etablissementPrincipal, 10);
     }
 
     public function executeHistory(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
-
-        $this->identifiant = $request['identifiant'];
-        $this->compte = CompteClient::getInstance()->findByIdentifiant($this->identifiant);
-
-        if (!$this->compte) {
-            new sfException("Le compte $compte n'existe pas");
+        $this->identifiant = $request['identifiant'];    
+        
+        $this->initSocieteAndEtablissementPrincipal();    
+        
+        if($this->compte->identifiant != $this->identifiant){
+            /*
+             * PROCTECT WITH 403
+             */
+            throw new sfException("Le compte $this->identifiant ne correspond pas aux droits");
         }
-
-        $this->societe = $this->compte->getSociete();
-
-        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
-        $allCampagne = VracClient::getInstance()->listCampagneBySocieteId($this->societe->identifiant);
-        $this->campagnes = (!isset($request['campagne']) || $request['campagne'] == 'all') ? $allCampagne : array($request['campagne']);
-        $allEtablissementsIds = array_keys($this->societe->getEtablissementsObj());
-        $allEtablissements = array();
-        foreach ($allEtablissementsIds as $allEtablissementsId) {
-            $allEtablissements[] = str_replace("ETABLISSEMENT-", "", $allEtablissementsId);
+       
+        $this->campagne = $request['campagne'];   
+        if (!$this->campagne || !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)){
+            throw new sfException("wrong campagne format ($this->campagne)");
         }
+        
+        $this->etablissement = (!isset($request['etablissement']))? 'tous' : $request['etablissement'];
+        $this->statut = (!isset($request['statut']))? 'tous' : $request['statut'];
+        
+        $this->form = new VracHistoryRechercheForm($this->societe, $this->etablissement, $this->campagne, $this->statut);
 
-        $this->etablissements = (!isset($request['etablissement']) || $request['etablissement'] == 'all') ? $allEtablissements : array($request['etablissement']);
-
-        $this->etablissement = (!isset($request['etablissement'])) ? 'all' : $request['etablissement'];
-        $this->campagne = (!isset($request['campagne'])) ? 'all' : $request['campagne'];
-
-        $this->form = new VracHistoryRechercheForm($this->societe, $request['etablissement'], $request['campagne']);
-
-        $this->contratsByEtablissementsAndCampagne = VracClient::getInstance()->retrieveByEtablissementsAndCampagnes($this->etablissements, $this->campagnes);
+        $this->contratsByCampagneEtablissementAndStatut = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($this->societe, $this->campagne, $this->etablissement, $this->statut);
     }
 
     public function executeSignature(sfWebRequest $request) {

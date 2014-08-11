@@ -9,6 +9,7 @@ use_helper('Float');
     </h2>
     <div class="clearfix">
         <ul class="stats_contrats">
+            <?php if(!$societe->isViticulteur()): ?>
             <li class="stats_contrats_brouillon"> 
                  <div class="action <?php echo ($contratsSocietesWithInfos->infos->brouillon)? "actif" : ""; ?>">
                    <h2>  Brouillon </h2>
@@ -16,6 +17,7 @@ use_helper('Float');
                     <?php echo $contratsSocietesWithInfos->infos->brouillon; ?> contrat(s) en brouillon</a>
                  </div>
             </li>
+            <?php endif; ?>
             <li class="stats_contrats_a_signer <?php echo ($contratsSocietesWithInfos->infos->a_signer)? "actif" : ""; ?>">
                 <div class="action <?php echo ($contratsSocietesWithInfos->infos->a_signer)? "actif" : ""; ?>">
                  <h2>  A Signer </h2>
@@ -41,10 +43,10 @@ use_helper('Float');
         <?php endif; ?>
     </div>
 
-    <?php include_partial('contratsTable', array('contrats' => $contratsSocietesWithInfos->contrats, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
+    <?php include_partial('contratsTable', array('contrats' => $contratsSocietesWithInfos->contrats, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'limit' => 10)); ?>
 
     <div class="ligne_btn txt_droite">     
-        <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'all')); ?>">
+        <a class="btn_majeur" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous')); ?>">
             Voir tout l'historique
         </a>
     </div>

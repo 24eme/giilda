@@ -1,4 +1,9 @@
-    <?php if (count($contrats)): ?>
+<?php 
+$maxlimit = (isset($limit) && $limit)? $limit : null;
+$cpt = 0;
+?>    
+
+<?php if (count($contrats)): ?>
         <table id="table_contrats" class="table_recap">    
             <thead>
                 <tr>
@@ -12,6 +17,9 @@
             <tbody>
                 <?php
                 foreach ($contrats as $contrat):
+                    if(!is_null($maxlimit) && ($cpt >= $maxlimit)){
+                        break;
+                    }
                     $statut = $contrat->value[VracClient::VRAC_VIEW_STATUT];
                     if (!is_null($statut)):
                         $statusColor = statusColor($contrat->value[VracClient::VRAC_VIEW_STATUT]);
@@ -37,6 +45,7 @@
                         $createur_identifiant = $contrat->value[VracClient::VRAC_VIEW_CREATEURIDENTIFANT];
                         
                         $toBeSigned = VracClient::getInstance()->toBeSignedBySociete($statut, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
+                        $cpt++;
                         ?>
                         <tr id="<?php echo 'vrac_'.$vracid; ?>" class="<?php echo $statusColor; ?>" >
                             <td class="type"><span class="type_<?php echo strtolower($typeProduit); ?>"><?php echo ($typeProduit) ? typeProduit($typeProduit) : ''; ?></span></td>
