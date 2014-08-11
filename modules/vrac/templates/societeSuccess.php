@@ -16,18 +16,18 @@ use_helper('Float');
                     <?php echo $contratsSocietesWithInfos->infos->brouillon; ?> contrat(s) en brouillon</a>
                  </div>
             </li>
-            <li class="stats_contrats_a_signer <?php echo ($contratsSocietesWithInfos->infos->attente_signature)? "actif" : ""; ?>">
-                <div class="action <?php echo ($contratsSocietesWithInfos->infos->attente_signature)? "actif" : ""; ?>">
+            <li class="stats_contrats_a_signer <?php echo ($contratsSocietesWithInfos->infos->a_signer)? "actif" : ""; ?>">
+                <div class="action <?php echo ($contratsSocietesWithInfos->infos->a_signer)? "actif" : ""; ?>">
                  <h2>  A Signer </h2>
                 <a href="#">
-                    <?php echo $contratsSocietesWithInfos->infos->attente_signature; ?> contrat(s) à signer</a>
+                    <?php echo $contratsSocietesWithInfos->infos->a_signer; ?> contrat(s) à signer</a>
                 </div>
             </li>
             <li class="stats_contrats_en_attente">
-                <div class="action <?php echo ($contratsSocietesWithInfos->infos->valide)? "actif" : ""; ?>">
+                <div class="action <?php echo ($contratsSocietesWithInfos->infos->en_attente)? "actif" : ""; ?>">
                      <h2>  En Attente </h2>
                     <a href="#">
-                        <?php echo $contratsSocietesWithInfos->infos->valide; ?> contrat(s) en attente
+                        <?php echo $contratsSocietesWithInfos->infos->en_attente; ?> contrat(s) en attente
                     </a>
                 </div>
             </li>

@@ -198,7 +198,32 @@ class VracClient extends acCouchdbClient {
                 break;
             }
         }
-      //  var_dump($result->contrats); exit;
+        
+        $brouillon_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_BROUILLON);
+        $brouillon_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_BROUILLON);
+        $result->infos->brouillon = count($brouillon_contrats_current) + count($brouillon_contrats_previous);
+        
+        $en_attente_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE);
+        $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE);
+        
+        foreach ($en_attente_contrats_current as $contrats_current_obj) {    
+            $signature_vendeur = $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR];
+            $signature_acheteur = $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR];
+            $signature_courtier = $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER];
+            $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
+            $result->infos->a_signer += (int) $tobeSignedByMe;
+            $result->infos->en_attente += (int) $tobeSignedByMe;
+        }
+        
+        foreach ($en_attente_contrats_previous as $contrats_previous_obj) {            
+            $signature_vendeur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR];
+            $signature_acheteur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR];
+            $signature_courtier = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER];
+            $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
+            $result->infos->a_signer += (int) $tobeSignedByMe;
+            $result->infos->en_attente += (int) $tobeSignedByMe;
+        }        
+        
         return $result;
     }
 
@@ -209,7 +234,6 @@ class VracClient extends acCouchdbClient {
 
         $allEtablissements = $societe->getEtablissementsObj();
         $bySoussigne = array();
-        
         foreach ($allEtablissements as $etablissementObj) {
             $etbId = $etablissementObj->etablissement->identifiant;
             $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $etbId, $statut))
@@ -220,7 +244,6 @@ class VracClient extends acCouchdbClient {
             $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
             $bySoussigne = array_merge($bySoussigne, $local_result->rows);
         }
-        
         return $bySoussigne;
     }
 
@@ -253,10 +276,9 @@ class VracClient extends acCouchdbClient {
 
     private function buildInfosObj(&$result) {
         $result->infos = new stdClass();
-        $result->infos->attente_signature = 0;
+        $result->infos->a_signer = 0;
         $result->infos->brouillon = 0;
-        $result->infos->valide = 0;
-        $result->infos->vise = 0;
+        $result->infos->en_attente = 0;
     }
 
     public function retrieveVracObjsBySoussigne($identifiantEtb, $campagne, $limit = self::RESULTAT_LIMIT) {
