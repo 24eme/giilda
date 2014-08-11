@@ -225,6 +225,10 @@ class Societe extends BaseSociete {
     public function isCourtier() {
         return $this->type_societe == SocieteClient::SUB_TYPE_COURTIER;
     }
+    
+    public function isViticulteur() {
+        return $this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR;
+    }
 
     public function isNegociant() {
         return ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
