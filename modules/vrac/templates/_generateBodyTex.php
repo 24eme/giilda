@@ -93,7 +93,7 @@ A été conclu le marché suivant: \\
 \\
 \\
 La cotisation interprofessionnelle est payée par moitié par le vendeur et par moitié par l'acheteur. Toutefois :\\
-- la cotisation interprofessionnelle concernant une vente à destination d'un acheteur hors du ressort d'InterLoire (1) est payée en totalité par le vendeur,\\
+- la cotisation interprofessionnelle concernant une vente à destination d'un acheteur hors du ressort d'InterLoire (1) est payée en totalité par le vendeur ;\\
 - la cotisation interprofessionnelle concernant la vente de raisins et moûts est facturée par InterLoire en totalité auprès de l'acheteur.
 \\
 
@@ -103,16 +103,16 @@ Tout incident se produisant au paiement de l'une des échéances prévues rend i
 
 \begin{multicols}{2}
 \begin{flushleft}
-\textbf{\normalsize{\underline{Conditions d'enlèvement} :}} 
+\normalsize{\underline{Conditions d'enlèvement} :} 
 \end{flushleft}
 \begin{flushright}
-\framebox[1.05\width]{\textbf{\normalsize{\CONTRATDATEMAXENLEVEMENT}}}
+\framebox[1.05\width]{\normalsize{Au plus tard le~\textbf{\CONTRATDATEMAXENLEVEMENT}}}
 \end{flushright}
 \end{multicols}
-A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 jours à compter de la date de signature du présent contrat. Passé cette date, si l'enlèvement n'a pas été effectué, le vendeur peut, à sa convenance, résoudre le contrat par simple lettre recommandée ou facturer à l'acheteur les frais de garde qui sont fixés à \framebox[1.05\width]{\textbf{\CONTRATFRAISDEGARDE} }~ par mois. L'émission de la facture ne peut  en aucun cas être postérieure à la date stipulée pour l'enlèvement.
+A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 jours à compter de la date de signature du présent contrat. Passé cette date, si l'enlèvement n'a pas été effectué, le vendeur peut, à sa convenance, résoudre le contrat par simple lettre recommandée ou facturer à l'acheteur les frais de garde qui sont fixés à \framebox[1.05\width]{\CONTRATFRAISDEGARDE}~ par mois. L'émission de la facture ne peut  en aucun cas être postérieure à la date stipulée pour l'enlèvement.
 \\
 
-\textbf{\underline{Sanction} :} Tout manquement grave au contrat (de type modification unilatérale de prix, résolution fautive du contrat) entraine, de plein droit et après mise en demeure, le paiement, à titre de dommages et intérêts, de 15\% du prix stipulé au contrat.
+\underline{Sanction} : Tout manquement grave au contrat (de type modification unilatérale de prix, résolution fautive du contrat) entraine, de plein droit et après mise en demeure, le paiement, à titre de dommages et intérêts, de 15\% du prix stipulé au contrat.
 \\
 
 \fbox{

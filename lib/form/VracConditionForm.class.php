@@ -86,7 +86,7 @@ class VracConditionForm extends acCouchdbObjectForm {
             $this->setValidator('enlevement_date', new sfValidatorString(array('required' => false)));
 
             $this->setWidget('enlevement_frais_garde', new sfWidgetFormInputFloat());
-            $this->getWidget('enlevement_frais_garde')->setLabel("Frais de garde");
+            $this->getWidget('enlevement_frais_garde')->setLabel("Frais de garde par mois");
             $this->setValidator('enlevement_frais_garde', new sfValidatorNumber(array('required' => false)));
         }
 

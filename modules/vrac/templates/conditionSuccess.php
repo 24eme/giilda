@@ -74,7 +74,7 @@
                                     <?php echo $form['enlevement_frais_garde']->renderError() ?>        
                                     <?php echo $form['enlevement_frais_garde']->renderLabel() ?>
                                     <?php echo $form['enlevement_frais_garde']->render() ?>
-                                    <span>€ (Par mois)</span>
+                                    <span>€/hl</span>
                                 </div>
                             </div>
                         </div>

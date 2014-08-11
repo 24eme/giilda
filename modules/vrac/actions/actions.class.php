@@ -264,7 +264,7 @@ class vracActions extends sfActions {
         }
         $this->societe = $this->compte->getSociete();
         $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
-        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe->identifiant,$this->etablissementPrincipal, 10);
+        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe,$this->etablissementPrincipal, 10);
     }
 
     public function executeHistory(sfWebRequest $request) {
@@ -312,13 +312,8 @@ class vracActions extends sfActions {
             throw new sfException("La societe $societeId a déja signé ce contrat.");
         }
         $this->etablissement_concerned = $this->vrac->getEtbConcerned($this->societe);
-        $allSigned = $this->vrac->signatureByEtb($this->etablissement_concerned);
+        $this->vrac->signatureByEtb($this->etablissement_concerned);
         $this->vrac->save();
-        if ($allSigned) {
-            $mailManager = new VracEmailManager($this->getMailer(), $this->vrac);
-            $mailManager->setVrac($this->vrac);
-            $mailManager->sendMailContratValide();
-        }
         $this->redirect('vrac_visualisation', $this->vrac);
     }
 

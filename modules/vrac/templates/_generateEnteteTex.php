@@ -9,8 +9,8 @@ use_helper('Display');
 \def\INTERLOIRECOORDONNEESADRESSE{<?php echo "InterLoire - 62, rue Blaise Pascal - CS 61921"; ?>}
 \def\INTERLOIRECOORDONNEESCPVILLE{<?php echo "37019 TOURS CEDEX 1"; ?>}
 \def\INTERLOIRECOORDONNEESTELEPHONENANTES{<?php echo "Vignoble Nantais : Tél. 02 47 60 55 15"; ?>}
-\def\INTERLOIRECOORDONNEESTELEPHONEANJOU{<?php echo "Vignoble Anjou-Saumur : Tèl. 02 47 60 55 36"; ?>}
-\def\INTERLOIRECOORDONNEESTELEPHONETOURS{<?php echo "Vignoble Touraine : Tèl. 02 47 60 55 18"; ?>}
+\def\INTERLOIRECOORDONNEESTELEPHONEANJOU{<?php echo "Vignoble Anjou-Saumur : Tél. 02 47 60 55 36"; ?>}
+\def\INTERLOIRECOORDONNEESTELEPHONETOURS{<?php echo "Vignoble Touraine : Tél. 02 47 60 55 18"; ?>}
 \def\INTERLOIRECOORDONNEESFAX{<?php echo "Fax : 02 47 60 55 09"; ?>}
 \def\INTERLOIRECOORDONNEESEMAIL{<?php echo "Email : contact@vinsvaldeloire.fr"; ?>}
 
@@ -21,8 +21,7 @@ use_helper('Display');
 \def\CONTRAT_TITRE{<?php echo "CONTRAT D'ACHAT EN PROPRIETE"; ?>}
 
 
-\def\CONTRATVENDEURNOM{<?php echo cut_latex_string($vrac->vendeur->raison_sociale
-, 50); ?>}
+\def\CONTRATVENDEURNOM{<?php echo cut_latex_string($vrac->vendeur->raison_sociale, 50); ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi; ?>}
 \def\CONTRATVENDEURSIRET{<?php echo $vrac->getVendeurObject()->getSociete()->getSiret(); ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo cut_latex_string($vrac->vendeur->adresse, 45); ?>}
@@ -48,7 +47,7 @@ use_helper('Display');
 \def\CONTRATPRIXUNITAIRE{<?php echo formatPrixFr($vrac->prix_unitaire); ?>}
 \def\CONTRATTYPEEXPLICATIONPRIX{<?php echo vracTypeExplication($vrac);?>}
 
-\def\CONTRATDATEMAXENLEVEMENT{Au plus tard le~<?php echo cut_latex_string(Date::francizeDate($vrac->getMaxEnlevement()),50); ?>}
+\def\CONTRATDATEMAXENLEVEMENT{<?php echo cut_latex_string(Date::francizeDate($vrac->getMaxEnlevement()),50); ?>}
 \def\CONTRATFRAISDEGARDE{ <?php echo formatPrixFr($vrac->getFraisDeGarde()); ?>~\euro/hl}
 
 \def\CONTRATLIEUCREATION{<?php echo cut_latex_string($vrac->getResponsableLieu(),70); ?>}

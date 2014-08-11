@@ -18,6 +18,11 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_PRODUIT_LIBELLE = 13;
     const VRAC_VIEW_VOLPROP = 14;
     const VRAC_VIEW_VOLENLEVE = 15;
+    const VRAC_VIEW_CREATEURIDENTIFANT = 16;
+    const VRAC_VIEW_SIGNATUREVENDEUR = 17;
+    const VRAC_VIEW_SIGNATUREACHETEUR = 18;
+    const VRAC_VIEW_SIGNATURECOURTIER = 18;
+    
     const VRAC_SIMILAIRE_KEY_VENDEURID = 0;
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
     const VRAC_SIMILAIRE_KEY_MANDATAIREID = 3;
@@ -137,35 +142,6 @@ class VracClient extends acCouchdbClient {
         return $this->descending(true)->limit($limit)->getView('vrac', 'history');
     }
 
-    public function retrieveBySocieteAndCampagne(&$contratsEtablissements, $societeId, $campagne, $limit = self::RESULTAT_LIMIT) {
-
-        $societe = SocieteClient::getInstance()->findByIdentifiantSociete($societeId);
-
-        if (!$societe) {
-            throw new sfException("La societe d'identifiant $societeId n'a pas été trouvé");
-        }
-        $etbs = $societe->getEtablissementsObj();
-        if (!$etbs || !count($etbs)) {
-            throw new sfException("La societe d'identifiant $societeId ne possède aucun etablissement");
-        }
-        foreach (array_keys($etbs) as $identifiantEtb) {
-            $etb = EtablissementClient::getInstance()->find($identifiantEtb);
-            if (!$etb) {
-                throw new sfException("L'établissement d'identifiant $identifiantEtb n'a pas été trouvé");
-            }
-            $contratsEtablissements[$identifiantEtb][$campagne] = $this->retrieveVracObjsBySoussigne($identifiantEtb, $campagne, $limit);
-        }
-        return $contratsEtablissements;
-    }
-
-    public function retrieveBySociete($societeId, $limit = self::RESULTAT_LIMIT) {
-        $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
-        $campagnemoins1 = ConfigurationClient::getInstance()->getPreviousCampagne($campagne);
-        $contratsEtablissements = array();
-        $this->retrieveBySocieteAndCampagne($contratsEtablissements, $societeId, $campagne, $limit);
-        $this->retrieveBySocieteAndCampagne($contratsEtablissements, $societeId, $campagnemoins1, $limit);
-        return $contratsEtablissements;
-    }
 
     public function retrieveByEtablissementsAndCampagnes(Array $etablissements, Array $campagnes) {
         $result = array();
@@ -177,46 +153,92 @@ class VracClient extends acCouchdbClient {
         return $result;
     }
 
-    public function retrieveBySocieteWithInfosLimit($societeId, $etbPrincipal, $limit = self::RESULTAT_LIMIT) {
-        $nb = 0;
+    public function retrieveBySocieteWithInfosLimit($societe, $etbId, $limit = self::RESULTAT_LIMIT) {
+        
         $result = new stdClass();
         $result->contrats = array();
         $this->buildInfosObj($result);
-        $vracSocieteNoLimit = $this->retrieveBySociete($societeId);
+        $campagnes = array();
 
-        foreach ($vracSocieteNoLimit as $etbId => $vracByCampagne) {
-            foreach (array_reverse($vracByCampagne) as $campagne => $vracs) {
-                foreach (array_reverse($vracs) as $vrac) {
-                    if ($vrac->isBrouillon() && ($vrac->createur_identifiant == $etbPrincipal->identifiant)) {
-                        if ($nb < $limit) {
+        $campagnes['current'] = ConfigurationClient::getInstance()->getCurrentCampagne();
+        $campagnes['previous'] = ConfigurationClient::getInstance()->getPreviousCampagne($campagnes['current']);
 
-                            $result->contrats[] = $vrac;
-                            $nb++;
+        $statuts = array();
+        $statuts[] = VracClient::STATUS_CONTRAT_VISE;
+        $statuts[] = VracClient::STATUS_CONTRAT_VALIDE;
+        $statuts[] = VracClient::STATUS_CONTRAT_BROUILLON;
+        $statuts[] = VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE;
+        $statuts[] = VracClient::STATUS_CONTRAT_NONSOLDE;
+        $statuts[] = VracClient::STATUS_CONTRAT_SOLDE;
+
+        $cpt = 0;
+        foreach ($statuts as $statut) {
+            foreach ($campagnes as $campagne) {
+                if ($cpt > $limit) {
+                    break;
+                }
+                $local_result = $this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $limit);
+                if ($statut != VracClient::STATUS_CONTRAT_BROUILLON) {
+                    
+                    $result->contrats = array_merge($result->contrats, $local_result); 
+                    $cpt+= count($local_result);
+                    
+                } else{
+                    foreach ($local_result as $brouillon_contrat) {
+                        if ($societe->identifiant == substr($brouillon_contrat->value[self::VRAC_VIEW_CREATEURIDENTIFANT],0,6)) {
+                            $result->contrats[] = $brouillon_contrat;
+                            $cpt++;
                         }
-                        $result->infos->brouillon++;
+                        
                     }
                 }
+               
+            }
+            if ($cpt > $limit) {
+                break;
             }
         }
-
-        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "attente_signature", $limit, true);
-        $this->buildVracsBySocieteWithInfos($result, $nb, $vracSocieteNoLimit, "valide", $limit, true);
-
-        foreach ($vracSocieteNoLimit as $etbId => $vracByCampagne) {
-            foreach ($vracByCampagne as $campagne => $vracs) {
-                foreach ($vracs as $vrac) {
-                    if ($vrac->isVise()) {
-                        if ($nb < $limit) {
-                            $result->contrats[] = $vrac;
-                            $nb++;
-                        }
-                        $result->infos->vise++;
-                    }
-                }
-            }
-        }
-
+      //  var_dump($result->contrats); exit;
         return $result;
+    }
+
+    public function retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $limit = self::RESULTAT_LIMIT) {
+
+        if (!preg_match('/[0-9]*-[0-9]*/', $campagne))
+            throw new sfException("wrong campagne format ($campagne)");
+
+        $allEtablissements = $societe->getEtablissementsObj();
+        $bySoussigne = array();
+        
+        foreach ($allEtablissements as $etablissementObj) {
+            $etbId = $etablissementObj->etablissement->identifiant;
+            $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $etbId, $statut))
+                    ->endkey(array('SOCIETE', $campagne, $etbId, $statut, array()));
+            if ($limit) {
+                $bySoussigneQuery = $bySoussigneQuery->limit($limit);
+            }
+            $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
+            $bySoussigne = array_merge($bySoussigne, $local_result->rows);
+        }
+        
+        return $bySoussigne;
+    }
+
+    public function retrieveByCampagneSoussigneAndStatut($campagne, $soussigneId, $statut, $limit = self::RESULTAT_LIMIT) {
+
+        if (!preg_match('/[0-9]*-[0-9]*/', $campagne))
+            throw new sfException("wrong campagne format ($campagne)");
+
+
+        $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $soussigneId, $statut))
+                ->endkey(array('SOCIETE', $campagne, $soussigneId, $statut, array()));
+
+        if ($limit) {
+            $bySoussigneQuery = $bySoussigneQuery->limit($limit);
+        }
+
+        $bySoussigne = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
+        return $bySoussigne->rows;
     }
 
     public function listCampagneBySocieteId($societeId) {
@@ -235,33 +257,6 @@ class VracClient extends acCouchdbClient {
         $result->infos->brouillon = 0;
         $result->infos->valide = 0;
         $result->infos->vise = 0;
-    }
-
-    private function buildVracsBySocieteWithInfos(&$result_array, &$nb, $vracSocieteNoLimit, $status_word, $limit, $reverse = false) {
-
-        $statusConst = constant('VracClient::STATUS_CONTRAT_' . strtoupper($status_word));
-
-        foreach ($vracSocieteNoLimit as $etbId => $vracByCampagne) {
-            $vracByCampagneArr = $vracByCampagne;
-            if ($reverse) {
-                $vracByCampagneArr = array_reverse($vracByCampagne);
-            }
-            foreach ($vracByCampagneArr as $campagne => $vracs) {
-                $vracsArr = $vracs;
-                if ($reverse) {
-                    $vracsArr = array_reverse($vracs);
-                }
-                foreach ($vracsArr as $vrac) {
-                    if ($vrac->valide->statut == $statusConst) {
-                        if ($nb < $limit) {
-                            $result_array->contrats[] = $vrac;
-                            $nb++;
-                        }
-                        $result_array->infos->$status_word++;
-                    }
-                }
-            }
-        }
     }
 
     public function retrieveVracObjsBySoussigne($identifiantEtb, $campagne, $limit = self::RESULTAT_LIMIT) {
@@ -642,4 +637,12 @@ class VracClient extends acCouchdbClient {
         return $this->find($id);
     }
 
+    public function toBeSignedBySociete($statut, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier){
+        return ($statut === self::STATUS_CONTRAT_ATTENTE_SIGNATURE) &&
+                            (($societe->isCourtier() && !$signature_courtier)
+                            || ($societe->isNegociant() && !$signature_acheteur)
+                            || ($societe->isViticulteur() && !$signature_vendeur));
+    }
+    
+    
 }
