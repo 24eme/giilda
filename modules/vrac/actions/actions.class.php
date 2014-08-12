@@ -285,8 +285,10 @@ class vracActions extends sfActions {
             throw new sfException("wrong campagne format ($this->campagne)");
         }
         
-        $this->etablissement = (!isset($request['etablissement']))? 'tous' : $request['etablissement'];
-        $this->statut = (!isset($request['statut']))? 'tous' : strtoupper($request['statut']);
+        $this->isOnlyOneEtb = !(count($this->societe->getEtablissementsObj()) - 1);
+        
+        $this->etablissement = (!isset($request['etablissement']) || $this->isOnlyOneEtb )? 'tous' : $request['etablissement'];
+        $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' )? 'tous' : strtoupper($request['statut']);
         
         $this->form = new VracHistoryRechercheForm($this->societe, $this->etablissement, $this->campagne, $this->statut);
 

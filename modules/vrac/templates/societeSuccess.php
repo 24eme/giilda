@@ -9,8 +9,12 @@ use_helper('Float');
     </h2>
     <div class="clearfix">
         <ul class="stats_contrats">
-            <?php if (!$societe->isViticulteur()): ?>
-                <li class="stats_contrats_brouillon"> 
+            <?php 
+            $action_size_class = ' grid_4 ';
+            if (!$societe->isViticulteur()):
+                $action_size_class = ' grid_3 ';
+                ?>
+                <li class="stats_contrats_brouillon <?php echo $action_size_class; ?>"> 
                     <div class="action <?php echo ($contratsSocietesWithInfos->infos->brouillon) ? "actif" : ""; ?>">
                         <h2>  Brouillon </h2>
                         <?php if ($contratsSocietesWithInfos->infos->brouillon): ?>
@@ -23,7 +27,7 @@ use_helper('Float');
                     </div>
                 </li>
             <?php endif; ?>
-            <li class="stats_contrats_a_signer <?php echo ($contratsSocietesWithInfos->infos->a_signer) ? "actif" : ""; ?>">
+            <li class="stats_contrats_a_signer <?php echo $action_size_class; ?>">
                 <div class="action <?php echo ($contratsSocietesWithInfos->infos->a_signer) ? "actif" : ""; ?>">
                     <h2>  A Signer </h2>
                     <?php if ($contratsSocietesWithInfos->infos->a_signer): ?>
@@ -35,7 +39,7 @@ use_helper('Float');
                     <?php endif; ?>
                 </div>
             </li>
-            <li class="stats_contrats_en_attente">
+            <li class="stats_contrats_en_attente <?php echo $action_size_class; ?>">
                 <div class="action <?php echo ($contratsSocietesWithInfos->infos->en_attente) ? "actif" : ""; ?>">
                     <h2>  En Attente </h2>
                     <?php if ($contratsSocietesWithInfos->infos->en_attente): ?>

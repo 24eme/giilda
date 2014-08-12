@@ -160,7 +160,6 @@ class VracClient extends acCouchdbClient {
         }
 
         $allStatuts = self::$statuts_teledeclaration_sorted;
-        
         if (!in_array(strtoupper($statut), $allStatuts) && $statut != 'tous') {
             throw new sfException("wrong statut id ($statut)");
         }

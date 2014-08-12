@@ -38,24 +38,23 @@ $cpt = 0;
                         $mandataire_identifiant = $contrat->value[VracClient::VRAC_VIEW_MANDATAIRE_ID];
                         $mandataire_nom = $contrat->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM];
                         
-                        $signature_vendeur = (array_key_exists(VracClient::VRAC_VIEW_SIGNATUREVENDEUR, $contrat->value))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
-                        $signature_acheteur = (array_key_exists(VracClient::VRAC_VIEW_SIGNATUREACHETEUR, $contrat->value))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
-                        $signature_courtier = (array_key_exists(VracClient::VRAC_VIEW_SIGNATURECOURTIER, $contrat->value))? $contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
-                              
+                        $signature_vendeur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
+                        $signature_acheteur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
+                        $signature_courtier = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
                         $createur_identifiant = $contrat->value[VracClient::VRAC_VIEW_CREATEURIDENTIFANT];
                         
                         $toBeSigned = VracClient::getInstance()->toBeSignedBySociete($statut, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
                         $cpt++;
                         ?>
                         <tr id="<?php echo 'vrac_'.$vracid; ?>" class="<?php echo $statusColor; ?>" >
-                            <td class="type"><span class="type_<?php echo strtolower($typeProduit); ?>"><?php echo ($typeProduit) ? typeProduit($typeProduit) : ''; ?></span></td>
+                            <td class="type"><span class="type_<?php echo strtolower($typeProduit); ?>"><?php echo ($typeProduit) ? typeProduit($typeProduit) : '-'; ?></span></td>
                             <td class="num_contrat">
                                 <a href="<?php echo url_for('@vrac_visualisation?numero_contrat=' . $vracid); ?>">
                                     <span style="font-weight: bold;"><?php echo $numero_archive; ?></span><br> <?php echo preg_replace('/(\d{4})(\d{2})(\d{2}).*/', '$3/$2/$1', $vracid); ?>
                                 </a>
                             </td>
 
-                            <td class="produit"><?php echo $produit_libelle; ?></td>
+                            <td class="produit"><?php echo ($produit_libelle)? $produit_libelle : '-'; ?></td>
                             <td class="soussigne">
                                 <ul>  
                                     <?php if ($vendeur_identifiant): ?>
@@ -89,21 +88,21 @@ $cpt = 0;
                                     <?php echo VracClient::$statuts_labels[$statut]; ?>
                                 </p> 
                                 <br/>
-                                <?php if(($statut === VracClient::STATUS_CONTRAT_VALIDE) || ($statut === VracClient::STATUS_CONTRAT_VISE)): ?>
-                                    <div class="liens_contrat_teledeclaration" >
-                                        En attente de traitement
-                                    </div>
-                                <?php elseif (($statut == VracClient::STATUS_CONTRAT_NONSOLDE) || ($statut == VracClient::STATUS_CONTRAT_SOLDE)): ?>
+                                <?php if (($statut == VracClient::STATUS_CONTRAT_NONSOLDE) || ($statut == VracClient::STATUS_CONTRAT_SOLDE)): ?>
                                     <a class="liens_contrat_teledeclaration" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $vracid)) ?>">
                                         Visualiser
                                     </a>
-                                 <?php  elseif ($toBeSigned): ?>
+                                 <?php  elseif ($statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE): ?>
                                     <a class="liens_contrat_teledeclaration" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $vracid)) ?>">
+                                       <?php  if ($toBeSigned) : ?>
                                         Visualiser pour signer
+                                        <?php  else : ?>
+                                        Visualiser
+                                        <?php  endif; ?>
                                     </a>
                                 <?php elseif ($statut == VracClient::STATUS_CONTRAT_BROUILLON && ($societe->identifiant == substr($createur_identifiant, 0,6))): ?> 
                                      <a class="liens_contrat_teledeclaration" href="<?php echo url_for('vrac_redirect_saisie', array('numero_contrat' => $vracid)) ?>">
-                                         Continuer
+                                         Continuer Brouillon
                                     </a>
                                 <?php endif; ?>
                             </td>

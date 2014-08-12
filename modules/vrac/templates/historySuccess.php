@@ -18,13 +18,13 @@ use_helper('Float');
 			<?php echo $form['campagne']->renderLabel() ?>
 			<?php echo $form['campagne']->render() ?>
         </div>
-       
-        <div class="etablissement">       
-			<?php echo $form['etablissement']->renderError(); ?>
-			<?php echo $form['etablissement']->renderLabel() ?>
-			<?php echo $form['etablissement']->render() ?> 
-        </div>
-       
+       <?php if(!$isOnlyOneEtb): ?>
+            <div class="etablissement">       
+                            <?php echo $form['etablissement']->renderError(); ?>
+                            <?php echo $form['etablissement']->renderLabel() ?>
+                            <?php echo $form['etablissement']->render() ?> 
+            </div>
+       <?php endif; ?>
         <div class="statut">       
 			<?php echo $form['statut']->renderError(); ?>
 			<?php echo $form['statut']->renderLabel() ?>
