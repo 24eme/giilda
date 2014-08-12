@@ -76,6 +76,14 @@ class VracClient extends acCouchdbClient {
         self::STATUS_CONTRAT_ANNULE => 'Annulé',
         self::STATUS_CONTRAT_NONSOLDE => 'Non Soldé');
     
+    public static $statuts_labels_teledeclaration = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
+        self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En Attente de Signature',
+        self::STATUS_CONTRAT_VISE => 'En attente de traitement',
+        self::STATUS_CONTRAT_VALIDE => 'En attente de traitement',
+        self::STATUS_CONTRAT_SOLDE => 'Validé',
+        self::STATUS_CONTRAT_ANNULE => 'Annulé',
+        self::STATUS_CONTRAT_NONSOLDE => 'Validé');
+    
     public static $statuts_teledeclaration_sorted = array(self::STATUS_CONTRAT_VISE,
         self::STATUS_CONTRAT_VALIDE,
         self::STATUS_CONTRAT_BROUILLON,

@@ -85,7 +85,7 @@ $cpt = 0;
                             </td>              
                             <td class="statut">           
                                 <p>
-                                    <?php echo VracClient::$statuts_labels[$statut]; ?>
+                                    <?php echo VracClient::$statuts_labels_teledeclaration[$statut]; ?>
                                 </p> 
                                 <br/>
                                 <?php if (($statut == VracClient::STATUS_CONTRAT_NONSOLDE) || ($statut == VracClient::STATUS_CONTRAT_SOLDE)): ?>

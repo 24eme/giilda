@@ -256,10 +256,10 @@ function getPictoSignature($societe, $contrat, $type, $hide = false) {
     if (!$societe || $hide)
         return '';
     $statut = $contrat->value[VracClient::VRAC_VIEW_STATUT];
-    if (!$statut || $statut==VracClient::STATUS_CONTRAT_BROUILLON){
+    if (!$statut || $statut == VracClient::STATUS_CONTRAT_BROUILLON){
         return '';        
     }
-    $createur_contrat = (array_key_exists(VracClient::VRAC_VIEW_CREATEURIDENTIFANT, $contrat->value)) ? $contrat->value[VracClient::VRAC_VIEW_CREATEURIDENTIFANT] : null;
+    $createur_contrat = (isset($contrat->value[VracClient::VRAC_VIEW_CREATEURIDENTIFANT])) ? $contrat->value[VracClient::VRAC_VIEW_CREATEURIDENTIFANT] : null;
     if(is_null($createur_contrat) &&
             (($statut == VracClient::STATUS_CONTRAT_SOLDE) ||  ($statut == VracClient::STATUS_CONTRAT_NONSOLDE)))
     {
@@ -270,7 +270,7 @@ function getPictoSignature($societe, $contrat, $type, $hide = false) {
     $signature_acheteur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
     $signature_courtier = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
     $toBeSigned = VracClient::getInstance()->toBeSignedBySociete($statut, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
-   if ($societe->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR) {
+    if ($societe->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR) {
 
         if ($type == 'Vendeur') {
             if (!$toBeSigned) {
@@ -279,7 +279,7 @@ function getPictoSignature($societe, $contrat, $type, $hide = false) {
                 return 'contrat_attente_moi';
             }
         }
-        if ((($type == 'Acheteur') && $signature_acheteur) ||  (($type == 'Courtier') && $signature_courtier)) {
+        if ((($type == 'Acheteur') && $signature_acheteur) || (($type == 'Courtier') && $signature_courtier)) {
 
             return 'contrat_signe_soussigne';
         } else {
@@ -310,7 +310,7 @@ function getPictoSignature($societe, $contrat, $type, $hide = false) {
                 return 'contrat_attente_moi';
             }
         }
-        if ((($type == 'Vendeur') && $signature_vendeur) ||  (($type == 'Acheteur') && $signature_acheteur)) {
+        if ((($type == 'Vendeur') && $signature_vendeur) || (($type == 'Acheteur') && $signature_acheteur)) {
 
             return 'contrat_signe_soussigne';
         } else {
@@ -342,17 +342,17 @@ function echoPictoSignatureFromObject($societe, $contrat, $type, $hide = false) 
 
 
 
-function getClassStatutPicto($vrac, $isTeledeclarationMode = false) {
+function getClassStatutPicto($vrac) {
 
-    if (!$isTeledeclarationMode && ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE)) {
+    if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE) {
         return 'statut_non-solde';
+    } elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE) {
+        return 'statut_solde';
     } elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ANNULE) {
         return 'statut_annule';
-    } elseif ($isTeledeclarationMode && ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE)) {
-        return 'statut_non-solde';
-    } elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) {
-        return 'statut_brouillon';
-    }
+    } elseif ($vrac->isTeledeclare()) {
+        return 'statut_teledeclare';
+    } 
     return 'statut_solde';
 }
 
