@@ -136,6 +136,7 @@
 /* Fond input */
 /* bordure input */
 /* bordure tableau */
+/* Fond colonne */
 /* Rouges */
 /* Bordures */
 /* Applats */
@@ -2497,6 +2498,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 }
 #principal .stats_contrats {
   overflow: hidden;
+  text-align: center;
 }
 #principal .stats_contrats li {
   float: left;
@@ -2504,10 +2506,6 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   background-color: #ecebeb;
   border: 1px solid #e3e2e2;
   border-radius: 5px;
-  height: 100px;
-  width: 210px;
-  margin: 5px;
-  padding: 10px;
 }
 #principal .stats_contrats li div.action {
   -webkit-opacity: 0.3;
@@ -2523,6 +2521,18 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   -khtml-opacity: 1;
   -moz-opacity: 1;
   opacity: 1;
+}
+#principal .stats_contrats .actions_3 {
+  height: 100px;
+  width: 210px;
+  margin: 5px;
+  padding: 10px;
+}
+#principal .stats_contrats .actions_2 {
+  height: 100px;
+  width: 320px;
+  margin: 5px;
+  padding: 10px;
 }
 #principal .stats_contrats .stats_contrats_brouillon h2 {
   text-align: center;
@@ -7356,4 +7366,396 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 .alerte #modification_alerte .btn_form {
   margin: 15px 0 0;
   text-align: right;
+}
+/**
+ * Fichier : tablette.less
+ * Description : styles spécifiques aux tablettes
+ * Auteur : Hamza Iqbal - hiqbal[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+@media screen and (min-width: 941px) {
+  #colonne {
+    display: block !important;
+    overflow: visible !important;
+  }
+}
+@media screen and (max-width: 940px) {
+  /* ======================================================= */
+  /* STRUCTURE GENERIQUE */
+  /* ======================================================= */
+  #header .contenu,
+  #contenu,
+  #footer {
+    width: 780px;
+  }
+  /**
+ * Header
+ ******************************************/
+  #header {
+    padding: 15px 0;
+  }
+  #header .contenu {
+    left: auto;
+    text-align: center;
+  }
+  #header #logo {
+    border: 0;
+    position: static;
+    left: auto;
+    top: auto;
+    text-align: center;
+  }
+  #header .conteneur_nav {
+    float: none;
+    margin: 20px 0 0;
+    padding: 0;
+    width: auto;
+  }
+  #header .baseline,
+  #header .conteneur_nav:before,
+  #header #actions_utilsateur {
+    display: none;
+  }
+  #header #navigation {
+    float: none;
+  }
+  #header #navigation li {
+    display: inline-block;
+    float: none;
+    font-size: 0;
+    padding: 0;
+  }
+  .ielt8 #header #navigation li {
+    display: inline;
+    zoom: 1;
+  }
+  .ielt8 #header #navigation li {
+    display: inline;
+    zoom: 1;
+  }
+  #header #navigation li:first-child {
+    background: 0;
+  }
+  #header #navigation li a {
+    font-size: 13px;
+    margin: 0 0 0 4px;
+    padding: 1px 10px;
+  }
+  #header #navigation li a:hover,
+  #header #navigation li a:focus,
+  #header #navigation li.actif a {
+    padding: 0 9px;
+  }
+  #contenu {
+    background: #ffffff;
+  }
+  #principal {
+    width: auto;
+    float: none;
+    padding: 20px 10px 0;
+  }
+  /**
+ * Colonne
+ ******************************************/
+  #btn_colonne {
+    display: inline-block;
+  }
+  #colonne {
+    background: #f2f1f1;
+    display: none;
+    float: none;
+    padding: 10px 0;
+    width: auto;
+  }
+  #colonne .bloc_col {
+    display: inline-block;
+    margin: 0 10px 20px;
+    vertical-align: top;
+    width: 345px;
+  }
+  #colonne .bloc_col h2 {
+    left: 0;
+    margin-right: 0;
+  }
+  #colonne .bloc_col h2:before {
+    display: none;
+  }
+  #colonne .bloc_col .contenu {
+    padding: 10px 0 0;
+  }
+  #colonne #action {
+    padding: 0;
+  }
+  #colonne #action .contenu {
+    padding: 10px 0 0;
+  }
+  #colonne #export_soussignes .ligne_form label {
+    width: 140px;
+  }
+  #colonne #export_soussignes .btn_form {
+    text-align: right;
+  }
+  #colonne #recherche_legende .legende {
+    margin: 0;
+  }
+  #colonne #recherche_legende .legende div {
+    width: 165px;
+  }
+  /* ======================================================= */
+  /* RAIL D'ETAPES */
+  /* ======================================================= */
+  #rail_etapes {
+    margin: 0 0 25px;
+  }
+  /* ======================================================= */
+  /* VRAC */
+  /* ======================================================= */
+  .bloc_form .col:first-child {
+    border-right: 0;
+  }
+  /*#vrac_soussigne,
+#vrac_marche,
+#vrac_condition,
+#vrac_validation,
+#vrac_recapitulatif,
+#contenu_etape
+{
+	.col
+	{
+		display: block;
+		float: none;
+		width: auto;
+	}
+}*/
+  #vrac_soussigne input.ui-autocomplete-input {
+    width: 100%;
+  }
+}
+/**
+ * Fichier : mobile.less
+ * Description : styles spécifiques aux mobiles
+ * Auteur : Hamza Iqbal - hiqbal[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+@media screen and (max-width: 780px) {
+  /* ======================================================= */
+  /* STRUCTURE GENERIQUE */
+  /* ======================================================= */
+  #header .contenu,
+  #contenu,
+  #footer {
+    width: auto;
+  }
+  /**
+ * Header
+ ******************************************/
+  #header {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    padding: 15px 15px 0;
+  }
+  #header #logo {
+    float: left;
+    text-align: left;
+  }
+  #header #navigation {
+    background: #FFF;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -15px;
+    right: -15px;
+    line-height: 35px;
+    z-index: 10;
+  }
+  #header #navigation li,
+  #header #navigation li a {
+    display: block;
+  }
+  #header #navigation li {
+    background: none;
+    border-bottom: 1px solid #dddcdc;
+    border-top: 1px solid #dddcdc;
+  }
+  #header #navigation li + li {
+    border-top: 0;
+  }
+  #header #navigation li a {
+    border-radius: 0;
+    margin: 0;
+  }
+  #header .btn_menu {
+    display: block;
+  }
+  #header #actions_utilsateur {
+    float: right;
+    margin: 18px 0 0;
+    position: static;
+  }
+  /**
+ * Colonne
+ ******************************************/
+  #colonne,
+  #btn_colonne {
+    display: none !important;
+  }
+  /* ======================================================= */
+  /* ETAPES */
+  /* ======================================================= */
+  #contenu_etape #recherche_operateur .ui-autocomplete-input {
+    margin-right: 0;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  #contenu_etape #recherche_operateur #btn_rechercher {
+    display: block;
+    width: 100%;
+  }
+  #contenu_etape #vrac_marche #type_transaction .radio_list li {
+    float: none;
+    width: auto;
+  }
+  #contenu_etape #vrac_marche #type_transaction .radio_list li + li {
+    margin: 25px 0 0;
+  }
+  #contenu_etape #vrac_marche #type_transaction .radio_list li label[for$="VIN_BOUTEILLE"] {
+    left: 6px;
+    padding-left: 24px;
+  }
+  /* ======================================================= */
+  /* RAIL D'ETAPES */
+  /* ======================================================= */
+  #rail_etapes li {
+    display: block;
+    width: auto;
+  }
+  #rail_etapes li + li {
+    border-top: 1px solid #FFF;
+  }
+  #rail_etapes li:first-child > * {
+    padding-left: 33px;
+  }
+  /* ======================================================= */
+  /* TABLEAU DES CONTRATS */
+  /* ======================================================= */
+  #table_contrats {
+    border: 0;
+    border-collapse: collapse;
+  }
+  #table_contrats,
+  #table_contrats tbody,
+  #table_contrats th,
+  #table_contrats td,
+  #table_contrats tr {
+    display: block;
+  }
+  #table_contrats thead {
+    display: none;
+  }
+  #table_contrats tr {
+    border: 0;
+    margin: 0 0 20px;
+  }
+  #table_contrats td {
+    border: 1px solid #e3e2e2;
+    height: auto;
+    position: relative;
+    padding-left: 210px !important;
+  }
+  #table_contrats td:before {
+    background: #ecebeb;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 5px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    text-align: center;
+    width: 150px;
+  }
+  #table_contrats td + td {
+    border-top: 0;
+  }
+  #table_contrats td.type:before {
+    content: 'Type';
+  }
+  #table_contrats td.num_contrat:before {
+    content: 'Numéro de contrat';
+  }
+  #table_contrats td.date:before {
+    content: 'Date';
+  }
+  #table_contrats td.actions:before {
+    content: 'Actions';
+  }
+  #table_contrats td.statut:before {
+    content: 'Statut';
+  }
+  #table_contrats td.soussigne {
+    text-align: center;
+  }
+  #table_contrats td.soussigne:before {
+    content: 'Soussignés';
+  }
+  #table_contrats td.produit:before {
+    content: 'Produit';
+  }
+  #table_contrats td.volume:before {
+    content: 'Vol. enlevé. / Vol. prop.';
+  }
+  /* ======================================================= */
+  /* FORMULAIRES */
+  /* ======================================================= */
+  #vendeur_infos .bloc_form label,
+  #conditions_recapitulatif .bloc_form label,
+  #marche_recapitulatif .bloc_form label,
+  #soussigne_recapitulatif .bloc_form label,
+  #vrac_marche_prixVariable .bloc_form label,
+  #vrac_soussigne .bloc_form label,
+  #date_campagne.ligne_form label,
+  #date_signature.ligne_form label,
+  #vendeur_infos .bloc_form .infos,
+  #conditions_recapitulatif .bloc_form .infos,
+  #marche_recapitulatif .bloc_form .infos,
+  #soussigne_recapitulatif .bloc_form .infos,
+  #vrac_marche_prixVariable .bloc_form .infos,
+  #vrac_soussigne .bloc_form .infos,
+  #date_campagne.ligne_form .infos,
+  #date_signature.ligne_form .infos {
+    display: block;
+  }
+  #vendeur_infos .bloc_form label,
+  #conditions_recapitulatif .bloc_form label,
+  #marche_recapitulatif .bloc_form label,
+  #soussigne_recapitulatif .bloc_form label,
+  #vrac_marche_prixVariable .bloc_form label,
+  #vrac_soussigne .bloc_form label,
+  #date_campagne.ligne_form label,
+  #date_signature.ligne_form label {
+    margin: 0 0 5px;
+  }
+  #vendeur_infos .bloc_form .infos,
+  #conditions_recapitulatif .bloc_form .infos,
+  #marche_recapitulatif .bloc_form .infos,
+  #soussigne_recapitulatif .bloc_form .infos,
+  #vrac_marche_prixVariable .bloc_form .infos,
+  #vrac_soussigne .bloc_form .infos,
+  #date_campagne.ligne_form .infos,
+  #date_signature.ligne_form .infos {
+    margin: 10px 0 0 !important;
+  }
+  #contenu_etape #vrac_soussigne .ligne_form {
+    height: auto;
+  }
+  #vrac_soussigne .col,
+  #vrac_marche .col,
+  #vrac_condition .col,
+  #vrac_validation .col,
+  #vrac_recapitulatif .col {
+    display: block;
+    float: none;
+    width: auto;
+  }
 }
