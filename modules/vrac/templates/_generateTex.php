@@ -59,6 +59,4 @@
 
 \begin{document}
 <?php include_partial('vrac/generateBodyTex', array('vrac' => $vrac)); ?>
-\newpage
-<?php include_partial('vrac/generateAnnexeTex'); ?>
 \end{document}
