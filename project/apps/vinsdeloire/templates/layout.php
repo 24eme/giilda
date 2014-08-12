@@ -71,6 +71,8 @@
                         <?php include_slot('colCompte'); ?>
 
                         <?php include_slot('colAide'); ?>
+                        
+                        <?php include_slot('colReglementation'); ?>
 
                         <?php include_slot('colLegende'); ?>                        
 
