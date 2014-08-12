@@ -671,6 +671,11 @@ class vracActions extends sfActions {
         }
         return $this->redirectWithStep();
     }
+    
+    public function executeReglementationGenerale() {
+        return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/reglementation_generale_des_transactions.pdf", "reglementation_generale_des_transactions.pdf");
+    }
+    
 
     private function redirectWithStep() {
         switch ($this->vrac->etape) {
@@ -740,6 +745,22 @@ class vracActions extends sfActions {
         $vrac->setInformations();
         return $vrac;
     }
+    
+    /*
+     * Fonctions pour le téléchargement de la reglementation_generale_des_transactions
+     * 
+     */
+        protected function renderPdf($path, $filename) {
+        $this->getResponse()->setHttpHeader('Content-Type', 'application/pdf');
+        $this->getResponse()->setHttpHeader('Content-disposition', 'attachment; filename="' . $filename . '"');
+        $this->getResponse()->setHttpHeader('Content-Transfer-Encoding', 'binary');
+        $this->getResponse()->setHttpHeader('Content-Length', filesize($path));
+        $this->getResponse()->setHttpHeader('Pragma', '');
+        $this->getResponse()->setHttpHeader('Cache-Control', 'public');
+        $this->getResponse()->setHttpHeader('Expires', '0');
+        return $this->renderText(file_get_contents($path));
+    }
+    
     
     /*
      * Fonctions de service liées aux droits Users
