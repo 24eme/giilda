@@ -7368,6 +7368,36 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   text-align: right;
 }
 /**
+ * Fichier : contrats.less
+ * Description : styles spécifiques à la rubrique contrats
+ * Auteur : Mathurin Petit - mpetit[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+.ajout_annuaire table#table_annuaire_selection th,
+.ajout_annuaire table#table_annuaire_selection td {
+  text-align: left;
+  padding-left: 5px;
+}
+.ajout_annuaire table#soussigne_description td {
+  text-align: left;
+  padding-left: 5px;
+}
+.ajout_annuaire div.btn_block {
+  margin: 10px 0;
+  clear: both;
+}
+.ajout_annuaire div.btn_block a {
+  float: left;
+}
+.ajout_annuaire div.btn_block button {
+  cursor: pointer;
+  float: right;
+}
+.ajout_annuaire .ligne_form label {
+  width: 100%;
+  display: inline;
+}
+/**
  * Fichier : tablette.less
  * Description : styles spécifiques aux tablettes
  * Auteur : Hamza Iqbal - hiqbal[at]actualys.com
