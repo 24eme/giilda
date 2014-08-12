@@ -3563,9 +3563,18 @@ bouton#contenu_etape #btn_export_csv {
 .legende div .statut_annule {
   background-color: #e42c2c;
 }
+.legende div .statut_teledeclare {
+  background-color: #aaaaaa;
+}
 .legende div .legende_statut_texte {
   margin: 2px 0 0 10px;
   position: absolute;
+}
+.legende div .legende_statut_texte_teledeclaration {
+  margin: 2px 0 0 10px;
+  position: absolute;
+  font-size: 14px;
+  font-weight: bold;
 }
 .bloc_col .legende {
   margin: 15px 0;
