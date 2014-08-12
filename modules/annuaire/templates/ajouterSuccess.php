@@ -14,16 +14,16 @@ use_helper('Vrac');
 
                 <p>Saisissez ici le type et l'identifiant du tiers que vous souhaitez ajouter à votre annuaire.</p><br />
 
-                <table class="table_recap" id="">
+                <table class="table_recap" id="table_annuaire_selection">
                     <thead>
                         <tr>
-                            <th style="text-align: left; padding-left: 5px;">Type</th>
-                            <th style="text-align: left; padding-left: 5px;"><span>Identifiant</span></th>
+                            <th>Type</th>
+                            <th><span>Identifiant</span></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="text-align: left; padding-left: 5px;">
+                            <td >
                                 <?php if ($isCourtierResponsable): ?>
                                     <span><?php echo $form['type']->renderError() ?></span>
                                     <?php echo $form['type']->render() ?>
@@ -31,7 +31,7 @@ use_helper('Vrac');
                                     Viticulteur
                                 <?php endif; ?>
                             </td>
-                            <td style="text-align: left; padding-left: 5px;">
+                            <td >
                                 <span><?php echo $form['tiers']->renderError() ?></span>
                                 <?php echo $form['tiers']->render() ?>
                             </td>
@@ -41,9 +41,9 @@ use_helper('Vrac');
 
                 <?php if (!$form->hasSocieteChoice()): ?>
                     <h2>INFORMATIONS</h2>
-                    <table class="table_recap" id=""><tbody>
+                    <table class="table_recap" id="soussigne_description"><tbody>
                             <tr>
-                                <td style="text-align: left; padding-left: 5px;">
+                                <td>
                                     <ul>
                                         <li>Nom : <strong><?php echo $etbObject->nom ?></strong></li>
                                         <li>N° CVI : <strong><?php echo $etbObject->cvi ?></strong></li>
@@ -76,12 +76,13 @@ use_helper('Vrac');
                                                type="radio"
                                                value="<?php echo $etb->identifiant; ?>" name="annuaire_ajout[etablissementChoice]"
                                                <?php echo $selected ?> >
-                                        
+                                        <label for="annuaire_ajout_etablissementChoice_<?php echo $etb->identifiant; ?>">
                                         <?php     
                                         $nomCvi = $etb->nom;
                                         $nomCvi .= ($etb->cvi)? ' ('.$etb->cvi.')' : '';
                                         echo $nomCvi;
                                         ?>
+                                        </label>
                         </div>
                     <?php 
                     endforeach; 

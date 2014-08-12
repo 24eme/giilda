@@ -7,16 +7,16 @@
 				<?php echo $form->renderHiddenFields() ?>
 				<?php echo $form->renderGlobalErrors() ?>
 				<p>Saisissez ici le type et l'identifiant du tiers que vous souhaitez ajouter à votre annuaire.</p><br />
-				<table class="table_recap" id="">
+				<table class="table_recap" id="table_annuaire_selection">
 						<thead>
 							<tr>
-								<th style="text-align: left; padding-left: 5px;">Type</th>
-								<th style="text-align: left; padding-left: 5px;"><span>Identifiant</span></th>
+								<th>Type</th>
+								<th><span>Identifiant</span></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td style="text-align: left; padding-left: 5px;">
+								<td>
                                                             <?php if($isCourtierResponsable && (isset($form['type']))): ?>
 									<span><?php echo $form['type']->renderError() ?></span>
 									<?php echo $form['type']->render() ?>
@@ -24,7 +24,7 @@
                                                                             Viticulteur
                                                                         <?php endif; ?>
 								</td>
-								<td style="text-align: left; padding-left: 5px;">
+								<td>
 									<span><?php echo $form['tiers']->renderError() ?></span>
 									<?php echo $form['tiers']->render() ?>
 								</td>
@@ -32,9 +32,9 @@
 						</tbody>
 					</table>
 			</div>
-			<div style="margin: 10px 0; clear: both;">
-	            <a style="float: left;" class="btn_orange btn_majeur" href="<?php echo url_for('annuaire_retour', array('identifiant' => $identifiant)) ?>">Retour</a>
-		    	<button type="submit" name="valider" class="btn_vert btn_majeur" style="cursor: pointer; float: right;">
+			<div class="btn_block">
+	            <a class="btn_orange btn_majeur" href="<?php echo url_for('annuaire_retour', array('identifiant' => $identifiant)) ?>">Retour</a>
+		    	<button type="submit" name="valider" class="btn_vert btn_majeur" >
 		    		Valider
 		    	</button>
 			</div>
