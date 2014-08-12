@@ -320,6 +320,28 @@ function getPictoSignature($societe, $contrat, $type, $hide = false) {
     }
 }
 
+function echoPictoSignatureFromObject($societe, $contrat, $type, $hide = false) {
+    if(!$societe || $hide) return '';
+     
+    if (!$contrat->isTeledeclare()) {
+        return;
+     }
+    $fctName = 'isSigne' . $type;
+    $isSigne = $contrat->$fctName();
+    if (($societe->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR && $type == 'Vendeur')
+            || ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT && $type == 'Acheteur')){
+        if($isSigne){
+            echo ' contrat_signe_moi ';
+        }else{
+             echo ' contrat_attente_moi ';
+        }
+    } else {
+        echo ($isSigne) ? ' contrat_signe_soussigne ' : ' contrat_attente_soussigne ';
+     }
+ }
+
+
+
 function getClassStatutPicto($vrac, $isTeledeclarationMode = false) {
 
     if (!$isTeledeclarationMode && ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE)) {
