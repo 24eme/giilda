@@ -24,6 +24,9 @@ var initRechercheFiltre = function() {
         $('form#filtres_historique').submit();
     });
 
+    $('form#filtres_historique select#statut').change(function() {
+        $('form#filtres_historique').submit();
+    });
 
 }
 
