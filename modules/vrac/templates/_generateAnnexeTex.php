@@ -1,3 +1,61 @@
+\documentclass[a4paper,8pt]{extarticle}
+\usepackage{geometry} % paper=a4paper
+\usepackage[frenchb]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{units}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{fp}
+\usepackage[table]{xcolor}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{truncate}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{amssymb}
+\usepackage{ulem}
+\usepackage{fmtcount}
+\usepackage{eso-pic}
+
+\makeatletter
+\newlength\@tempdim@x
+\newlength\@tempdim@y
+
+\newcommand\AtLowerLeftCorner[3]{%
+\begingroup
+\@tempdim@x=0cm
+\@tempdim@y=0cm
+\advance\@tempdim@x#1
+\advance\@tempdim@y#2
+\put(\LenToUnit{\@tempdim@x},\LenToUnit{\@tempdim@y}){#3}%
+\endgroup
+}
+
+\AddToShipoutPicture{%
+\AtLowerLeftCorner{0.75cm}{-12cm}{\ifodd\c@page\rotatebox{90}{\begin{minipage}{\paperheight} \centering AOÛT 2014\end{minipage}}\fi}
+}
+\makeatother
+
+
+\pagestyle{empty}
+
+\renewcommand\sfdefault{phv}
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\TruncateMarker}{\small{...}}
+
+\newcommand{\euro}{\EUR\xspace}
+
+\newcommand{\squareChecked}{\makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$}}
+
+\setlength{\oddsidemargin}{-1cm}
+\setlength{\evensidemargin}{-1cm}
+\setlength{\textwidth}{18cm}
+\setlength{\textheight}{27.9cm}
+\setlength{\topmargin}{-3cm}
+\setlength{\parindent}{0pt}
+
+\begin{document}
 
 \begin{center}
 \begin{large}
@@ -7,7 +65,7 @@
 I – Extraits de l’Accord Interprofessionnel de l’interprofession des vins du Val de Loire 1er août 2014 – 31 Juillet 2017
 \end{center}
 
-\paragraph*{\underline{Article II – 3 : Connaissance des sorties de chais}}
+\paragraph*{\small{\underline{Article II – 3 : Connaissance des sorties de chais}}}
 ~\\
 \begin{small}
 Les producteurs transmettent chaque mois leur Déclaration Récapitulative Mensuelle (D.R.M.) à l’interprofession, le cas échéant, par l’intermédiaire de l’administration des Douanes selon les termes de la convention entre InterLoire et la DGGDI.\\
@@ -16,68 +74,70 @@ Pour chaque enlèvement correspondant à une vente au négoce, il doit être pr�
 Pour les exportations, il doit être précisé le pays de destination.
 \end{small}
 
-\paragraph*{\underline{Article III – 1 : Contrat d’achat en propriété : connaissance des transactions au négoce – marchandises} \\ \underline{ circulant en suspension de droits d’accise}}
+\paragraph*{\small{\underline{Article III – 1 : Contrat d’achat en propriété : connaissance des transactions au négoce – marchandises circulant en suspension de droits d’accise}}}
 ~\\
 \begin{small}
-Les transactions au négoce au départ de la propriété donnent lieu, avant enlèvement, à l'établissement d'un contrat comportant au moins les informations figurant en gras sur le contrat interprofessionnel en 6 exemplaires (dont 1 pour InterLoire, 2 pour l'acheteur, 2 pour le vendeur et 1 pour le courtier), édité par InterLoire, déposé à InterLoire pour enregistrement dans les 10 jours suivant sa signature par le vendeur et par l'acheteur. Cette opération peut être réalisée par voie électronique sur un outil Internet développé par InterLoire.\\
+Les transactions au négoce au départ de la propriété donnent lieu, avant enlèvement, à l'établissement d'un contrat comportant au moins les informations figurant en gras sur le contrat interprofessionnel en 6 exemplaires (dont 1 pour InterLoire, 2 pour l'acheteur, 2 pour le vendeur et 1 pour le courtier), édité par InterLoire, déposé à InterLoire pour enregistrement dans les 10 jours suivants sa signature par le vendeur et par l'acheteur. Cette opération peut être réalisée par voie électronique sur un outil Internet développé par InterLoire.\\
 L’enlèvement n’est possible qu’après enregistrement du contrat par InterLoire.\\
 Le contrat est établi par appellation et par type de vin.\\
 Le contrat précise également le prix et le volume de la transaction.\\
 Le contrat d’achat doit obligatoirement comporter  une date butoir d’enlèvement. \\
 A défaut d’indication, l’enlèvement est effectué par l’acheteur dans les 30 jours à compter de la date de signature du présent contrat. \\
 Les délais de paiement du contrat sont conformes aux dispositions prévues à l’article IV-1 du présent Accord. \\
-Immédiatement ou au plus tard dans les 10 jours suivant son dépôt, si les termes du contrat sont conformes aux décisions interprofessionnelles, InterLoire enregistre le contrat et remet ou adresse au déposant les exemplaires « acheteur » et « vendeur » revêtus d’un numéro de contrat attribué par l’Interprofession.\\
-Par dérogation, une demande préalable peut être transmise par télécopie (ou tout autre moyen agréé par InterLoire). Cette dérogation est acceptée en cas de contrat présentant une date d’enlèvement inférieur à dix jours ouvrables après la date de signature. InterLoire fait alors parvenir en retour un numéro provisoire  de contrat. Cette télécopie signifiant l’enregistrement  est jointe au contrat original en 4 exemplaires qui doit venir régulariser cette procédure accélérée dans un délai de 72 heures après envoi de la télécopie.\\
+Immédiatement ou au plus tard dans les 10 jours suivant son dépôt, si les termes du contrat sont conformes aux décisions interprofessionnelles, InterLoire enregistre le contrat et remet ou adresse au déposant les exemplaires ''acheteur'' et ''vendeur'' revêtus d’un numéro de contrat attribué par l’Interprofession.\\
+Par dérogation, une demande préalable peut être transmise par télécopie (ou tout autre moyen agréé par InterLoire). Cette dérogation est acceptée en cas de contrat présentant une date d’enlèvement inférieure à dix jours ouvrables après la date de signature. InterLoire fait alors parvenir en retour un numéro provisoire  de contrat. Cette télécopie signifiant l’enregistrement  est jointe au contrat original en 4 exemplaires qui doit venir régulariser cette procédure accélérée dans un délai de 72 heures après envoi de la télécopie.\\
 Tout contrat annulé doit être retourné à InterLoire dans son intégralité.
 \end{small}
 
-\paragraph*{\underline{Article III – 2 : Contrat pluriannuel}}
+\paragraph*{\small{\underline{Article III – 2 : Contrat pluriannuel}}}
 ~\\
 \begin{small}
 Lorsque les parties conviennent librement d'un contrat pluriannuel qui permet de bénéficier des délais de paiement prévus à l’art IV-1 du présent accord, le contrat pluriannuel doit être écrit et doit comprendre obligatoirement les clauses concernant :
+
 \begin{itemize}
- \item[\checkmark] La durée minimum de 3 ans ;
- \item[\checkmark] La liste des produits concernés (AOC, Couleur, …) ;
- \item[\checkmark] La quantité ou la méthode de détermination de la quantité (par exemple l’ensemble de la production d’une surface, …) pour chaque campagne ;
- \item[\checkmark] Les modalités de collecte/livraison ;
- \item[\checkmark] Des modalités de révision, de résiliation du contrat et le préavis de rupture ;
-\item[\checkmark] Toutefois, le contrat ne peut être rompu unilatéralement avant la date indiquée sauf cas de force majeure. Aucune révision concernant la méthode de détermination de la quantité, la qualité de la chose ou les modalités de détermination du prix n’est possible unilatéralement, sauf cas de force majeure, pendant la durée initiale du contrat ou celle de ses renouvellements ;
-\item[\checkmark] La méthode de définition du prix : le prix est déterminé à la signature du contrat pour sa durée. Le contrat pluriannuel peut prévoir une clause de révision du prix. Cette révision n’est possible qu’à partir de la deuxième campagne après accord écrit des parties :
+ \item La durée minimum de 3 ans ;
+ \item La liste des produits concernés (AOC, Couleur, …) ;
+ \item La quantité ou la méthode de détermination de la quantité (par exemple l’ensemble de la production d’une surface, …) pour chaque campagne ;
+ \item Les modalités de collecte/livraison ;
+ \item Des modalités de révision, de résiliation du contrat et le préavis de rupture ;
+\item Toutefois, le contrat ne peut être rompu unilatéralement avant la date indiquée sauf cas de force majeure. Aucune révision concernant la méthode de détermination de la quantité, la qualité de la chose ou les modalités de détermination du prix n’est possible unilatéralement, sauf cas de force majeure, pendant la durée initiale du contrat ou celle de ses renouvellements ;
+\item La méthode de définition du prix : le prix est déterminé à la signature du contrat pour sa durée. Le contrat pluriannuel peut prévoir une clause de révision du prix. Cette révision n’est possible qu’à partir de la deuxième campagne après accord écrit des parties :
 	\begin{itemize}
-		\item[$\blacksquare$]
+		\item[$\bullet$]
 Pour les transactions de raisins et moûts, avant le 31 août de la campagne concernée ;
-		\item[$\blacksquare$]
+		\item[$\bullet$]
 Pour toute autre transaction, avant le 15 décembre de la campagne concernée.
 	\end{itemize}
-\item[\checkmark] L’interdiction, pour les acheteurs, de retourner aux producteurs ou aux opérateurs économiques cocontractants, les produits qu’ils ont accepté lors de la livraison ; cette interdiction ne s’applique pas en cas de non-conformité des produits à des normes légales ou réglementaires.
-\end{itemize}
+\item L’interdiction, pour les acheteurs, de retourner aux producteurs ou aux opérateurs économiques cocontractants, les produits qu’ils ont acceptés lors de la livraison ; cette interdiction ne s’applique pas en cas de non-conformité des produits à des normes légales ou réglementaires.
+\end{itemize} \bigskip
 
-En application du contrat pluriannuel entre les parties décrit dans le présent article, il doit être procédé chaque année à la rédaction du « Contrat d’Achat en Propriété », édité par InterLoire, valable pour la campagne. Il doit être procédé aussi à son enregistrement par InterLoire indiquant en particulier :
+
+En application du contrat pluriannuel entre les parties décrit dans le présent article, il doit être procédé chaque année à la rédaction du ''Contrat d’Achat en Propriété'', édité par InterLoire, valable pour la campagne. Il doit être procédé aussi à son enregistrement par InterLoire indiquant en particulier :
 
 \begin{itemize}
-\item[\checkmark] que ce contrat est conclu en application d’un contrat pluriannuel pris en application de l’article III-2 de l’accord Interprofessionnel ;
-\item[\checkmark] le prix éventuellement révisé entre les parties.
-Sur demande, les cocontractants fournissent copie du contrat pluriannuel, aux fins de vérification des clauses prévues au présent article. InterLoire vérifie systématiquement de l’ordre de 10\% des contrats pluriannuels. A défaut de transmission ou en cas de non-respect des dispositions du présent article, InterLoire informe les parties de la non-conformité de leur contrat avec les dispositions de cet accord et de l’impossibilité de bénéficier à ce titre de délais de paiement dérogatoires tel qu’ils sont définis à l’article IV-1. Sur décision du Conseil Exécutif, InterLoire peut en informer les services administratifs compétents.
+\item que ce contrat est conclu en application d’un contrat pluriannuel pris en application de l’article III-2 de l’accord Interprofessionnel ;
+\item le prix éventuellement révisé entre les parties.
+Sur demande, les cocontractants fournissent une copie du contrat pluriannuel, aux fins de vérification des clauses prévues au présent article. InterLoire vérifie systématiquement de l’ordre de 10\% des contrats pluriannuels. A défaut de transmission ou en cas de non-respect des dispositions du présent article, InterLoire informe les parties de la non-conformité de leur contrat avec les dispositions de cet accord et de l’impossibilité de bénéficier à ce titre de délais de paiement dérogatoires tels qu’ils sont définis à l’article IV-1. Sur décision du Conseil Exécutif, InterLoire peut en informer les services administratifs compétents.
 \end{itemize}
 \end{small}
 
-\paragraph*{\underline{Article IV – 1 : Délais de paiement}}
+\paragraph*{\small{\underline{Article IV – 1 : Délais de paiement}}}
 ~\\
 \begin{small}
 \begin{itemize}
-\item[\checkmark] Les vins achetés hors contrats pluriannuels sont réglés conformément aux dispositions de l’article L443- 1 du Code du Commerce ;
-\item[\checkmark] Les moûts et raisins achetés hors contrats pluriannuels définis à l’article III-2 sont réglés à partir de la date d’émission de la facture jusqu’au 31 mai maximum de l’année qui suit la récolte en 5 mensualités de montant régulier ;
-\item[\checkmark] Les moûts, raisins et vins achetés en application d’un contrat pluriannuel tel que défini à l’article III-2 sont réglés à partir de la date d’émission de la facture jusqu’au 31 août maximum de l’année qui suit la récolte en 8 mensualités de montant régulier.
+\item Les vins achetés hors contrats pluriannuels sont réglés conformément aux dispositions de l’article L443- 1 du Code du Commerce ;
+\item Les moûts et raisins achetés hors contrats pluriannuels définis à l’article III-2 sont réglés à partir de la date d’émission de la facture jusqu’au 31 mai maximum de l’année qui suit la récolte en 5 mensualités de montant régulier ;
+\item Les moûts, raisins et vins achetés en application d’un contrat pluriannuel tel que défini à l’article III-2 sont réglés à partir de la date d’émission de la facture jusqu’au 31 août maximum de l’année qui suit la récolte en 8 mensualités de montant régulier.
 \end{itemize}
 \end{small}
 
-\paragraph*{\underline{Article IV – 2 : Acompte}}
+\paragraph*{\small{\underline{Article IV – 2 : Acompte}}}
 ~\\
 \begin{small}
 En application de la dérogation prévue par le deuxième alinéa L665-3 du code rural et de la pêche maritime, les dispositions du premier alinéa de ce même article ne s’appliquent pas à l’ensemble des transactions de vins relevant du ressort d’InterLoire.
 \end{small}
 
-\paragraph*{\underline{Article VI – 4 : Modalités de paiement de la cotisation interprofessionnelle}}
+\paragraph*{\small{\underline{Article VI – 4 : Modalités de paiement de la cotisation interprofessionnelle}}}
 ~\\
 \begin{small}
 Le fait générateur de la cotisation est la première sortie des vins de la propriété. Cette sortie est reprise dans la D.R.M. ou la D.R.A.\\
@@ -90,8 +150,9 @@ Le délai de règlement de la cotisation interprofessionnelle est fixé à 60 jo
 Les cotisations réglées par les négociants vinificateurs sur la base des volumes déclarés à partir des déclarations SV12 concernant les vins hors mention sur Lie sont payables :\\
 
 \begin{itemize}
-\item[\checkmark] Dans le cadre d’un contrat pluriannuel en 3 échéances à fin mars, fin juin et fin septembre;
-item[\checkmark] Dans les autres cas en 2 échéances à fin mars et fin juin.
+\item Dans le cadre d’un contrat pluriannuel en 3 échéances à fin mars, fin juin et fin septembre;
+\item Dans les autres cas en 2 échéances à fin mars et fin juin.
 \end{itemize}
 Concernant les vins avec mention sur Lie, les cotisations sont réglées fin septembre.
 \end{small}
+\end{document}
