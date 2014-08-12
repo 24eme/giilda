@@ -10,9 +10,9 @@ use_helper('Float');
     <div class="clearfix">
         <ul class="stats_contrats">
             <?php 
-            $action_size_class = ' grid_4 ';
+            $action_size_class = ' actions_2 ';
             if (!$societe->isViticulteur()):
-                $action_size_class = ' grid_3 ';
+                $action_size_class = ' actions_3 ';
                 ?>
                 <li class="stats_contrats_brouillon <?php echo $action_size_class; ?>"> 
                     <div class="action <?php echo ($contratsSocietesWithInfos->infos->brouillon) ? "actif" : ""; ?>">
