@@ -1,13 +1,13 @@
 <?php
 
-function display_teledeclaration_soussigne_NomCvi($object){
-    if(!$object){
+function display_teledeclaration_soussigne_NomCvi($object) {
+    if (!$object) {
         echo "";
         return;
     }
     $result = $object->nom;
-    if($object->cvi){
-        $result.= '&nbsp('.$object->cvi.')';
+    if ($object->cvi) {
+        $result.= '&nbsp(' . $object->cvi . ')';
     }
     echo $result;
 }
@@ -185,16 +185,11 @@ function vrac_get_words($vracs) {
 }
 
 function vrac_get_word($vrac) {
-    
-    $num_archive = ($vrac->value[VracClient::VRAC_VIEW_NUMARCHIVE])? $vrac->value[VracClient::VRAC_VIEW_NUMARCHIVE] : '';
-    $libelle_produit = ($vrac->value[VracClient::VRAC_VIEW_PRODUIT_ID])? ConfigurationClient::getCurrent()->get($vrac->value[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat() : "";
+
+    $num_archive = ($vrac->value[VracClient::VRAC_VIEW_NUMARCHIVE]) ? $vrac->value[VracClient::VRAC_VIEW_NUMARCHIVE] : '';
+    $libelle_produit = ($vrac->value[VracClient::VRAC_VIEW_PRODUIT_ID]) ? ConfigurationClient::getCurrent()->get($vrac->value[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat() : "";
     return array_merge(
-            Search::getWords($num_archive),
-            Search::getWords($vrac->value[VracClient::VRAC_VIEW_VENDEUR_NOM]),
-            Search::getWords($vrac->value[VracClient::VRAC_VIEW_ACHETEUR_NOM]),
-            Search::getWords($vrac->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM]),
-            Search::getWords($vrac->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM]),
-            Search::getWords($libelle_produit)
+            Search::getWords($num_archive), Search::getWords($vrac->value[VracClient::VRAC_VIEW_VENDEUR_NOM]), Search::getWords($vrac->value[VracClient::VRAC_VIEW_ACHETEUR_NOM]), Search::getWords($vrac->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM]), Search::getWords($vrac->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM]), Search::getWords($libelle_produit)
     );
 }
 
@@ -257,18 +252,71 @@ function bouteilleUnitTerm($vrac, $abbr = false) {
     return 'BIB®';
 }
 
-function echoPictoSignature($societe, $contrat, $type, $hide = false) {
-    if(!$societe || $hide) return '';
-    
-    if (!$contrat->isTeledeclare()) {
-        return;
+function getPictoSignature($societe, $contrat, $type, $hide = false) {
+    if (!$societe || $hide)
+        return '';
+    $statut = $contrat->value[VracClient::VRAC_VIEW_STATUT];
+    if (!$statut || $statut==VracClient::STATUS_CONTRAT_BROUILLON){
+        return '';        
     }
-    $fctName = 'isSigne' . $type;
-    $isSigne = $contrat->$fctName();
-    if (($societe->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR && $type == 'Vendeur' && $isSigne) || ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT && $type == 'Acheteur' && $isSigne) || ($societe->type_societe == SocieteClient::SUB_TYPE_COURTIER && $type == 'Courtier' && $isSigne)) {
-        echo 'contrat_signe_moi ';
-    } else {
-        echo ($isSigne) ? 'contrat_signe_soussigne ' : 'contrat_attente ';
+    $createur_contrat = (array_key_exists(VracClient::VRAC_VIEW_CREATEURIDENTIFANT, $contrat->value)) ? $contrat->value[VracClient::VRAC_VIEW_CREATEURIDENTIFANT] : null;
+    if(is_null($createur_contrat) &&
+            (($statut == VracClient::STATUS_CONTRAT_SOLDE) ||  ($statut == VracClient::STATUS_CONTRAT_NONSOLDE)))
+    {
+        return '';     
+    }
+    
+    $signature_vendeur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
+    $signature_acheteur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
+    $signature_courtier = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
+    $toBeSigned = VracClient::getInstance()->toBeSignedBySociete($statut, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
+   if ($societe->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR) {
+
+        if ($type == 'Vendeur') {
+            if (!$toBeSigned) {
+                return 'contrat_signe_moi ';
+            } else {
+                return 'contrat_attente_moi';
+            }
+        }
+        if ((($type == 'Acheteur') && $signature_acheteur) ||  (($type == 'Courtier') && $signature_courtier)) {
+
+            return 'contrat_signe_soussigne';
+        } else {
+
+            return 'contrat_attente_soussigne';
+        }
+    }
+    if ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) {
+        if ($type == 'Acheteur') {
+            if (!$toBeSigned) {
+                return 'contrat_signe_moi ';
+            } else {
+                return 'contrat_attente_moi';
+            }
+        }
+        if ((($type == 'Vendeur') && $signature_vendeur) || (($type == 'Courtier') && $signature_courtier)) {
+            return 'contrat_signe_soussigne';
+        } else {
+            return 'contrat_attente_soussigne';
+        }
+    }
+
+    if ($societe->type_societe == SocieteClient::SUB_TYPE_COURTIER) {
+        if ($type == 'Courtier') {
+            if (!$toBeSigned) {
+                return 'contrat_signe_moi ';
+            } else {
+                return 'contrat_attente_moi';
+            }
+        }
+        if ((($type == 'Vendeur') && $signature_vendeur) ||  (($type == 'Acheteur') && $signature_acheteur)) {
+
+            return 'contrat_signe_soussigne';
+        } else {
+
+            return 'contrat_attente_soussigne';
+        }
     }
 }
 
@@ -278,20 +326,15 @@ function getClassStatutPicto($vrac, $isTeledeclarationMode = false) {
         return 'statut_non-solde';
     } elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ANNULE) {
         return 'statut_annule';
-    }
-    elseif ($isTeledeclarationMode && ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE)) {
+    } elseif ($isTeledeclarationMode && ($vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE)) {
         return 'statut_non-solde';
-    }
-     elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) {
+    } elseif ($vrac->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) {
         return 'statut_brouillon';
     }
     return 'statut_solde';
-    
 }
 
-function echoClassLignesVisu(&$cpt){
-        echo ($cpt % 2) ? 'ligne_form ' : 'ligne_form ligne_form_alt ';
-        $cpt++;
+function echoClassLignesVisu(&$cpt) {
+    echo ($cpt % 2) ? 'ligne_form ' : 'ligne_form ligne_form_alt ';
+    $cpt++;
 }
-
-

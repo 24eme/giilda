@@ -6,19 +6,6 @@ use_helper('Float');
     <h2 class="titre_societe">
         Espace de <?php echo $societe->raison_sociale; ?>
     </h2>
-    <div class="clearfix">
-        <div id="etablissement_<?php echo $societe->identifiant; ?>" class="infos_etablissement">
-            <div id="num_etb">
-                <span>N° :</span> <?php echo $societe->identifiant; ?>
-            </div>
-            <div id="cp_etb">
-                <span>Code postal :</span> <?php echo $societe->siege->code_postal; ?>
-            </div>
-            <div id="commune_etb">
-                <span>Commune :</span> <?php echo $societe->siege->commune; ?>
-            </div>
-        </div>
-    </div>
         
    <form class="filtres_historique" id="filtres_historique" action="<?php echo url_for('vrac_history',array('identifiant' => $identifiant)); ?>" method="POST">
         <?php

@@ -286,7 +286,7 @@ class vracActions extends sfActions {
         }
         
         $this->etablissement = (!isset($request['etablissement']))? 'tous' : $request['etablissement'];
-        $this->statut = (!isset($request['statut']))? 'tous' : $request['statut'];
+        $this->statut = (!isset($request['statut']))? 'tous' : strtoupper($request['statut']);
         
         $this->form = new VracHistoryRechercheForm($this->societe, $this->etablissement, $this->campagne, $this->statut);
 

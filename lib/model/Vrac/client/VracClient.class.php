@@ -251,9 +251,11 @@ class VracClient extends acCouchdbClient {
 
     public function retrieveByCampagneEtablissementsAndStatuts($societe, $campagne, $etablissements, $statuts, $limit = self::RESULTAT_LIMIT) {
         $result = array();
-        foreach ($etablissements as $etablissement) {
             foreach ($statuts as $statut) {
-                
+                if (($statut == VracClient::STATUS_CONTRAT_VISE) || ($statut == VracClient::STATUS_CONTRAT_VALIDE)) {
+                    continue;
+                }
+                foreach ($etablissements as $etablissement) {
                 $local_result = $this->retrieveByCampagneSoussigneAndStatut($campagne, $etablissement, $statut, $limit);
                 if ($statut != VracClient::STATUS_CONTRAT_BROUILLON) {
                     $result = array_merge($result, $local_result);

@@ -59,7 +59,7 @@ $cpt = 0;
                             <td class="soussigne">
                                 <ul>  
                                     <?php if ($vendeur_identifiant): ?>
-                                    <li class="<?php echoPictoSignature($societe, $contrat, 'Vendeur'); ?>">
+                                    <li class="<?php echo getPictoSignature($societe, $contrat, 'Vendeur'); ?>">
                                             <span style="font-weight: bold;">
                                                 Vendeur :
                                             </span>                                                    
@@ -67,7 +67,7 @@ $cpt = 0;
                                         </li>
                                     <?php endif; ?>
                                     <?php if ($acheteur_identifiant): ?>
-                                        <li class="<?php echoPictoSignature($societe, $contrat, 'Acheteur'); ?>">
+                                        <li class="<?php echo getPictoSignature($societe, $contrat, 'Acheteur'); ?>">
                                             <span style="font-weight: bold;">
                                                 Acheteur :
                                             </span>
@@ -75,7 +75,7 @@ $cpt = 0;
                                         </li>
                                     <?php endif; ?>
                                     <?php if ($mandataire_identifiant): ?>
-                                        <li class="<?php echoPictoSignature($societe, $contrat, 'Courtier'); ?>">                                                    
+                                        <li class="<?php echo getPictoSignature($societe, $contrat, 'Courtier'); ?>">                                                    
                                             <span style="font-weight: bold;">
                                                 Courtier :
                                             </span>
