@@ -24,7 +24,7 @@
          </div>
              
              <div class="ligne_btn">
-                     <a class="btn_orange btn_majeur" style="float: left;" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>">Retourner à l'espace contrats</a>
+                    <a class="btn_orange btn_majeur" style="float: left;" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>">Retourner à l'espace contrats</a>
                     <button class="btn_etape_suiv" style="cursor: pointer; float: right;" type="submit"><span>Nouveau Contrat</span></button>
          
         </div>
