@@ -21,7 +21,7 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_CREATEURIDENTIFANT = 16;
     const VRAC_VIEW_SIGNATUREVENDEUR = 17;
     const VRAC_VIEW_SIGNATUREACHETEUR = 18;
-    const VRAC_VIEW_SIGNATURECOURTIER = 18;
+    const VRAC_VIEW_SIGNATURECOURTIER = 19;
     const VRAC_SIMILAIRE_KEY_VENDEURID = 0;
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
     const VRAC_SIMILAIRE_KEY_MANDATAIREID = 3;
@@ -236,9 +236,12 @@ class VracClient extends acCouchdbClient {
         $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE);
 
         foreach ($en_attente_contrats_current as $contrats_current_obj) {
-            $signature_vendeur = $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR];
-            $signature_acheteur = $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR];
-            $signature_courtier = $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER];
+            $signature_vendeur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR]))? 
+                    $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
+            $signature_acheteur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR]))?
+                    $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
+            $signature_courtier = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER]))?
+                    $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
             $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
             $result->infos->a_signer += (int) $tobeSignedByMe;
             $result->infos->en_attente += (int) !$tobeSignedByMe;

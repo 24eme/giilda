@@ -329,7 +329,8 @@ function echoPictoSignatureFromObject($societe, $contrat, $type, $hide = false) 
     $fctName = 'isSigne' . $type;
     $isSigne = $contrat->$fctName();
     if (($societe->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR && $type == 'Vendeur')
-            || ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT && $type == 'Acheteur')){
+            || ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT && $type == 'Acheteur')
+            || ($societe->type_societe == SocieteClient::SUB_TYPE_COURTIER && $type == 'Courtier')){
         if($isSigne){
             echo ' contrat_signe_moi ';
         }else{
