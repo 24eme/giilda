@@ -6,7 +6,7 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm
     private $typeCompte;
     
     public function __construct($object, $options = array(), $CSRFSecret = null) {
-        $this->typeCompte = $object->type_societe;
+        $this->typeCompte = $object->getSociete()->type_societe;
         parent::__construct($object, $options, $CSRFSecret);
     }
 
