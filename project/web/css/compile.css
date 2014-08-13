@@ -654,7 +654,7 @@ bouton.btn_majeur {
   -webkit-text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
   -moz-text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
   text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
-  background: url(../images/boutons/btn_majeur.png) 0 -78px repeat-x;
+  background: url(../images/boutons/btn_majeur.png) 0 -77.99999999px repeat-x;
   border-color: #83a44d;
   border-right: 0px;
   margin-right: 17px;
@@ -837,7 +837,7 @@ bouton.btn_validation_declar {
   display: inline-block;
 }
 .btn_validation_declar:after {
-  background-position: 3px -184px;
+  background-position: 3px -183.99999999px;
 }
 .btn_excel {
   color: #ffffff;
@@ -1092,7 +1092,7 @@ bouton.btn_enregistrer {
   display: inline-block;
 }
 .btn_annuaire:after {
-  background-position: 3px -601px;
+  background-position: 3px -600.99999999px;
 }
 .ui-autocomplete .btn_ajout_autocomplete a {
   background: #ebebeb;
@@ -2332,7 +2332,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 }
 .hamza_style .autocompletion_tags .btn_rechercher {
   color: #ffffff;
-  background-position: 0 -52px;
+  background-position: 0 -51.99999999px;
   border-color: #6d6b6b;
 }
 /**
@@ -2911,7 +2911,7 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher {
   padding: 0 10px;
   position: relative;
   color: #ffffff;
-  background-position: 0 -130px;
+  background-position: 0 -129.99999999px;
   border-color: #b70808;
   padding-left: 30px;
 }
@@ -3386,7 +3386,7 @@ bouton#contenu_etape #vrac_visualisation #vrac_condition #btn_annuler_contrat {
   padding: 0 10px;
   position: relative;
   color: #ffffff;
-  background-position: 0 -78px;
+  background-position: 0 -77.99999999px;
   border-color: #83a44d;
   padding-left: 30px;
   float: right;
@@ -4881,7 +4881,7 @@ bouton#contenu_etape #btn_export_csv {
   padding: 7px 0 7px 10px;
 }
 #visu_societe .btn_haut .btn_majeur {
-  background-position: 0 -182px;
+  background-position: 0 -181.99999999px;
   color: #ffffff;
   padding-left: 40px;
 }
@@ -5281,6 +5281,9 @@ bouton.recherche_contact #btn_rechercher {
 }
 #infobulle_contact .texte span {
   font-weight: bold;
+}
+#modification_compte .ligne_form label {
+  width: 300px;
 }
 /**
  * Fichier : declaration.css
@@ -6189,7 +6192,7 @@ p#date_drm {
   line-height: 26px;
   padding: 0 10px;
   position: relative;
-  background: url("../images/pictos/pi_actions.png") no-repeat scroll 7px -236px #ffffff;
+  background: url("../images/pictos/pi_actions.png") no-repeat scroll 7px -235.99999999px #ffffff;
   border: 1px solid #d2d2d2;
   -webkit-box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) inset;
   -moz-box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) inset;
