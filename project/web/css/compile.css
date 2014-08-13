@@ -654,7 +654,7 @@ bouton.btn_majeur {
   -webkit-text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
   -moz-text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
   text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
-  background: url(../images/boutons/btn_majeur.png) 0 -77.99999999px repeat-x;
+  background: url(../images/boutons/btn_majeur.png) 0 -78px repeat-x;
   border-color: #83a44d;
   border-right: 0px;
   margin-right: 17px;
@@ -837,7 +837,7 @@ bouton.btn_validation_declar {
   display: inline-block;
 }
 .btn_validation_declar:after {
-  background-position: 3px -183.99999999px;
+  background-position: 3px -184px;
 }
 .btn_excel {
   color: #ffffff;
@@ -1092,7 +1092,7 @@ bouton.btn_enregistrer {
   display: inline-block;
 }
 .btn_annuaire:after {
-  background-position: 3px -600.99999999px;
+  background-position: 3px -601px;
 }
 .ui-autocomplete .btn_ajout_autocomplete a {
   background: #ebebeb;
@@ -2332,7 +2332,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 }
 .hamza_style .autocompletion_tags .btn_rechercher {
   color: #ffffff;
-  background-position: 0 -51.99999999px;
+  background-position: 0 -52px;
   border-color: #6d6b6b;
 }
 /**
@@ -2911,7 +2911,7 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher {
   padding: 0 10px;
   position: relative;
   color: #ffffff;
-  background-position: 0 -129.99999999px;
+  background-position: 0 -130px;
   border-color: #b70808;
   padding-left: 30px;
 }
@@ -3386,7 +3386,7 @@ bouton#contenu_etape #vrac_visualisation #vrac_condition #btn_annuler_contrat {
   padding: 0 10px;
   position: relative;
   color: #ffffff;
-  background-position: 0 -77.99999999px;
+  background-position: 0 -78px;
   border-color: #83a44d;
   padding-left: 30px;
   float: right;
@@ -4881,7 +4881,7 @@ bouton#contenu_etape #btn_export_csv {
   padding: 7px 0 7px 10px;
 }
 #visu_societe .btn_haut .btn_majeur {
-  background-position: 0 -181.99999999px;
+  background-position: 0 -182px;
   color: #ffffff;
   padding-left: 40px;
 }
@@ -5122,27 +5122,27 @@ bouton.recherche_contact #btn_rechercher {
   padding: 4px 0 4px 0;
   border-top: 1px dashed #aaa;
   /*& > a 
-				{
-					font-weight: bold;
-					padding: 0 0 0 22px;
-					
-					&:before
-					{
-						.box-dimensions(0, 0);
-						.pos-abs(3px, auto, auto, 6px);
-						content: '';
-						border-style: solid;
-						border-width: 7px 0 7px 8px;
-						border-color: transparent transparent transparent @couleur-a3;
-					}
-				}*/
+                {
+                        font-weight: bold;
+                        padding: 0 0 0 22px;
+                        
+                        &:before
+                        {
+                                .box-dimensions(0, 0);
+                                .pos-abs(3px, auto, auto, 6px);
+                                content: '';
+                                border-style: solid;
+                                border-width: 7px 0 7px 8px;
+                                border-color: transparent transparent transparent @couleur-a3;
+                        }
+                }*/
   /*&.ouvert > a:before
-				{
-					border-width: 8px 7px 0;
-					border-color: @couleur-a3 transparent transparent;
-					top: 5px;
-					left: 0;
-				}*/
+                {
+                        border-width: 8px 7px 0;
+                        border-color: @couleur-a3 transparent transparent;
+                        top: 5px;
+                        left: 0;
+                }*/
 }
 #colonne #infos_contact .contenu > ul > li:first-child {
   border-top: none;
@@ -5282,8 +5282,16 @@ bouton.recherche_contact #btn_rechercher {
 #infobulle_contact .texte span {
   font-weight: bold;
 }
-#modification_compte .ligne_form label {
+#modification_compte .ligne_form label,
+#creation_compte_teledeclaration .ligne_form label {
   width: 300px;
+}
+#col_reglementation .lien_notice {
+  font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  color: #d00815;
+  display: inline-block;
+  margin: 30px 0 0;
 }
 /**
  * Fichier : declaration.css
@@ -6192,7 +6200,7 @@ p#date_drm {
   line-height: 26px;
   padding: 0 10px;
   position: relative;
-  background: url("../images/pictos/pi_actions.png") no-repeat scroll 7px -235.99999999px #ffffff;
+  background: url("../images/pictos/pi_actions.png") no-repeat scroll 7px -236px #ffffff;
   border: 1px solid #d2d2d2;
   -webkit-box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) inset;
   -moz-box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) inset;
