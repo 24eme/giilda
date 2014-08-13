@@ -3,9 +3,7 @@
 
         <h2 class="titre_principal">Création de votre compte</h2>
 
-        <!-- #application_dr -->
 
-        <!-- #nouvelle_declaration -->
         <p class="titre_section">Merci d'indiquer votre e-mail et un mot de passe: </p>
         <br/>
         <div id="nouvelle_declaration" class="fond" >

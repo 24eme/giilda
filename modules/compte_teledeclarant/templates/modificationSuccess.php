@@ -1,70 +1,79 @@
-<!-- #principal -->
-<h2 class="titre_principal">Mon compte</h2>
-<!-- #application_dr -->
-<div id="application_dr" class="clearfix">
+<div id="principal" class="clearfix">
+    <h2 class="titre_principal">Mon compte</h2>
 
-    <!-- #exploitation_administratif -->
-    <div id="mon_compte">
-
-        <h2 class="titre_section">Identifiants</h2>
-        <div class="contenu_section" id="modification_compte">
-            <div class="presentation clearfix"<?php if ($form->hasErrors()) echo ' style="display:none;"'; ?>>
-                <p class="intro">Vos identifiants de connexion :</p>
-                <?php if($sf_user->hasFlash('maj')) : ?>
-                    <p class="flash_message"><?php echo $sf_user->getFlash('maj'); ?></p>
+    <p>Pour changer des informations supplémentaire, veuillez passer par Interloire.</p>
+    <br/>
+    
+        <div id="modification_compte" class="fond" >
+            <div class="presentation clearfix"<?php if ($form->hasErrors()) echo ' style="display:none;"'; ?> >
+                <p class="titre_section">Vos identifiants de connexion : </p>
+                <br/>
+                <?php if ($sf_user->hasFlash('maj')) : ?>
+                    <p class="flash_message text-info"><?php echo $sf_user->getFlash('maj'); ?></p>
                 <?php endif; ?>
-                <p><span>Email :</span> <?php echo $compte->email; ?></p>
-                <p><span>Mot de passe :</span> ****** </p>
-                <div class="btn">
-                    <a href="#" class="modifier"><img src="/images/boutons/btn_modifier_infos.png" alt="Modifier les informations" /></a>
-                </div>
-            </div>
-
-
-            <div class="modification clearfix"<?php if (!$form->hasErrors()) echo ' style="display:none;"'; ?>>
-                <p class="intro">Modification de vos identifiants de connexion :</p>
-                
-                <form method="post" action="">
-                    <div class="ligne_form ligne_form_label">
-                        <?php echo $form->renderHiddenFields(); ?>
-                        <?php echo $form->renderGlobalErrors(); ?>
-
-                        <?php echo $form['email']->renderError() ?>
-                        <?php echo $form['email']->renderLabel() ?>
-                        <?php echo $form['email']->render() ?>
-                    </div>
-                    <div class="ligne_form ligne_form_label">
-                        <?php echo $form['mdp1']->renderError() ?>
-                        <?php echo $form['mdp1']->renderLabel() ?>
-                        <?php echo $form['mdp1']->render() ?>
+                <div class="bloc_form bloc_form_condensed" >        
+                    <div class="ligne_form ligne_form_alt">
+                        <label>Email :</label> <?php echo $compte->email; ?>
                     </div>
                     <div class="ligne_form">
-                        <?php echo $form['mdp2']->renderError() ?>
-                        <?php echo $form['mdp2']->renderLabel() ?>
-                        <?php echo $form['mdp2']->render() ?>
+                        <label>Mot de passe :</label> ****** 
+                    </div>
+                    <div class="ligne_form ligne_form_alt">
+                        <label>&nbsp;</label>
+                    </div>
+                </div>
+
+                <div class="ligne_btn">
+                    <a href="#" class=" btn_majeur btn_modifier modifier" style="cursor: pointer; float: right;">Modifier les informations</a>
+                </div>
+
+            </div>
+            <div class="modification clearfix"<?php if (!$form->hasErrors()) echo ' style="display:none;"'; ?>>
+                <p class="intro">Modification de vos identifiants de connexion :</p>
+                <br/>
+                <form method="post" action="">
+                    <?php echo $form->renderHiddenFields(); ?>
+                    <?php echo $form->renderGlobalErrors(); ?>
+
+                    <div class="bloc_form bloc_form_condensed" >   
+                        <div class="ligne_form ligne_form_alt">
+                            <?php echo $form['email']->renderError() ?>
+                            <?php echo $form['email']->renderLabel() ?>
+                            <?php echo $form['email']->render() ?>
+                        </div>
+                        <div class="ligne_form" >
+                            <?php echo $form['mdp1']->renderError() ?>
+                            <?php echo $form['mdp1']->renderLabel() ?>
+                            <?php echo $form['mdp1']->render() ?>
+                        </div>
+                        <div class="ligne_form ligne_form_alt">
+                            <?php echo $form['mdp2']->renderError() ?>
+                            <?php echo $form['mdp2']->renderLabel() ?>
+                            <?php echo $form['mdp2']->render() ?>
+                        </div>
                     </div>
 
-                    <div class="btn">
-                        <a href="#" class="annuler"><img src="/images/boutons/btn_annuler.png" alt="Annuler" /></a>
-                        <input type="image" src="/images/boutons/btn_valider.png" alt="Valider" />
+                    <div class="ligne_btn">
+                        <a class="btn_rouge btn_majeur annuler" style="float: left;" href="#" >Annuler</a>
+                        <button type="submit" class=" btn_majeur btn_valider modifier" style="cursor: pointer; float: right;" >Valider</button>
                     </div>
+
                 </form>
             </div>
 
 
         </div>
-    </div>
 
 </div>
 
 <script type="text/javascript">
-$("#modification_compte a.modifier, #modification_compte a.annuler").click(function() {
-    $("#modification_compte div.presentation").toggle();
-    $("#modification_compte div.modification").toggle();
-});
+    $("#modification_compte a.modifier, #modification_compte a.annuler").click(function() {
+        $("#modification_compte div.presentation").toggle();
+        $("#modification_compte div.modification").toggle();
+    });
 </script>
-<!-- fin #exploitation_administratif -->
 
-<!-- fin #application_dr -->
+<?php slot('colReglementation'); ?>
+<?php include_partial('vrac/colReglementation'); ?>
+<?php end_slot(); ?>
 
-<!-- fin #principal -->
