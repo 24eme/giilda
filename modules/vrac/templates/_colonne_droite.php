@@ -31,9 +31,13 @@ slot('colCompte');
         </div>
     </div>
 </div>
-<?php
-end_slot();
+<?php end_slot(); ?>
 
+<?php slot('colReglementation'); ?>
+<?php include_partial('compte_teledeclarant/colReglementation'); ?>
+<?php end_slot(); ?>
+
+<?php
 slot('colAide');
 $contacts = sfConfig::get('app_teledeclaration_contact_contrat');
 $region = $etablissementPrincipal->region;

@@ -131,6 +131,7 @@ class Vrac extends BaseVrac {
         $this->mandataire->adresse = $etablissement->siege->adresse;
         $this->mandataire->commune = $etablissement->siege->commune;
         $this->mandataire->code_postal = $etablissement->siege->code_postal;
+        $this->mandataire->carte_pro = $etablissement->carte_pro;
     }
 
     private function setVendeurInformations() {
@@ -587,7 +588,7 @@ class Vrac extends BaseVrac {
     
     
     public function getTeledeclarationStatutLabel() {
-        return VracClient::$statuts_labels_teledeclaration[$this->getTeledeclarationStatut()];
+        return VracClient::$statuts_labels_teledeclaration[$this->valide->statut];
     }
     
     public function getStatutLabel() {

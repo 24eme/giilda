@@ -11,11 +11,13 @@ class VracValidation extends DocumentValidation {
 
     public function configure() {
         if ($this->teledeclaration) {
-            $this->addControle('erreur', 'soussigne_vendeur_absence_mail', "Le compte du vendeur ne possède pas d'email");
-            $this->addControle('erreur', 'soussigne_acheteur_absence_mail', "Le compte de l'acheteur ne possède pas d'email");
-            $this->addControle('erreur', 'soussigne_courtier_absence_mail', "Le compte du courtier ne possède pas d'email");
-
-            $this->addControle('vigilance', 'soussigne_compte_nonactive', "Le compte suivant n'a pas été activé");
+            $this->addControle('vigilance', 'soussigne_vendeur_nonactif', "Le compte du vendeur n'est pas actif");
+            $this->addControle('vigilance', 'soussigne_acheteur_nonactif', "Le compte de l'acheteur n'est pas actif");
+            $this->addControle('vigilance', 'soussigne_courtier_nonactif', "Le compte du courtier n'est pas actif");
+            
+            $this->addControle('erreur', 'soussigne_vendeur_absence_mail', "Le compte du vendeur n'est pas actif");
+            $this->addControle('erreur', 'soussigne_acheteur_absence_mail', "Le compte de l'acheteur n'est pas actif");
+            $this->addControle('erreur', 'soussigne_courtier_absence_mail', "Le compte du courtier n'est pas actif");
         } else {
             $this->addControle('erreur', 'hors_interloire_raisins_mouts', "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts");
             $this->addControle('vigilance', 'stock_commercialisable_negatif', 'Le stock commercialisable est inférieur au stock proposé');
@@ -65,24 +67,43 @@ class VracValidation extends DocumentValidation {
 
     private function checkSoussigneAbsenceMail() {
         $vendeurEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->vendeur_identifiant);
+        
         if (!$vendeurEtb->findEmail()) {
-            $this->addPoint('erreur', 'soussigne_vendeur_absence_mail', 'Veuillez proposez à ' . $vendeurEtb->nom . ' de se créer un email');
+            $this->addPoint('erreur', 'soussigne_vendeur_absence_mail', 'Aucun email renseigné pour '.$vendeurEtb->nom );
         }
 
         $acheteurEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->acheteur_identifiant);
         if (!$acheteurEtb->findEmail()) {
-            $this->addPoint('erreur', 'soussigne_acheteur_absence_mail', 'Veuillez proposez à ' . $acheteurEtb->nom . ' de se créer un email');
+            $this->addPoint('erreur', 'soussigne_acheteur_absence_mail', 'Aucun email renseigné pour '.$acheteurEtb->nom);
         }
         if ($this->document->mandataire_exist) {
             $courtierEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->mandataire_identifiant);
             if (!$courtierEtb->findEmail()) {
-                $this->addPoint('erreur', 'soussigne_courtier_absence_mail', 'Veuillez proposez à ' . $courtierEtb->nom . ' de se créer un email');
+                $this->addPoint('erreur', 'soussigne_courtier_absence_mail', 'Aucun email renseigné pour '.$courtierEtb->nom);
             }
         }
     }
 
     private function checkSoussigneCompteNonActive() {
+        $vendeurEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->vendeur_identifiant);
+        $vendeurCompte = CompteClient::getInstance()->find($vendeurEtb->getSociete()->getCompteSociete());
+        if (!$vendeurCompte->isTeledeclarationActive()) {
+            $this->addPoint('vigilance', 'soussigne_vendeur_nonactif', '');
+        }
+
+        $acheteurEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->acheteur_identifiant);
+        $acheteurCompte = CompteClient::getInstance()->find($acheteurEtb->getSociete()->getCompteSociete());
+        if (!$acheteurCompte->isTeledeclarationActive()) {
+            $this->addPoint('vigilance', 'soussigne_acheteur_nonactif', '');
+        }
+        if ($this->document->mandataire_exist) {
+            $courtierEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->mandataire_identifiant);
+            $courtierCompte = CompteClient::getInstance()->find($courtierEtb->getSociete()->getCompteSociete());
         
+            if (!$courtierCompte->isTeledeclarationActive()) {
+                $this->addPoint('vigilance', 'soussigne_courtier_nonactif', '');
+            }
+        }
     }
 
 }

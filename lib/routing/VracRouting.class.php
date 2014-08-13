@@ -153,9 +153,7 @@ class VracRouting {
                                                                                               'action' => 'choixEtablissement'),
                                                                                             array('sf_method' => array('get','post'))));
         
-        $r->prependRoute('vrac_reglementation_generale_des_transactions',  new sfRoute('/contrats/reglementation_generale_des_transactions', array('module' => 'vrac', 
-                                                                                              'action' => 'reglementationGenerale')));
-        
+
   
     }
 

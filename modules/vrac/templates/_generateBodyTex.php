@@ -61,7 +61,7 @@
 \end{multicols}  
 
 <?php if($vrac->exist('mandataire_exist') && $vrac->mandataire_exist): ?> 
-Par l'entremise de \CONTRATCOURTIERNOM, Courtier en vins, n° carte professionnelle: \CONTRATCOURTIERCARTEPRO \\
+Par l'entremise de \CONTRATCOURTIERNOM, Courtier en vins\CONTRATCOURTIERCARTEPRO \\
 <?php else: ?>
 ~\\
 <?php endif; ?>
@@ -152,6 +152,7 @@ Le \CONTRATDATESIGNATUREVENDEUR, & Le \CONTRATDATESIGNATUREACHETEUR, \\
 <?php endif; ?>
  \begin{center}
 \begin{tiny}
+Un extrait de l'accord interprofessionel est disponible sur le portail https://teledeclaration.vinsvaldeloire.pro \\
 (1) Les régions du ressort d’InterLoire sont constituées par les zones de production des vins d’appellation d’origine dont la liste est annexée à l’Accord Interprofessionnel.\\
 Vin, moûts ou raisins, loyaux et marchands, correspondant aux normes édictées par la réglementation en vigueur.
 \end{tiny}

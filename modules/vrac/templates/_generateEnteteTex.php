@@ -37,7 +37,7 @@ use_helper('Display');
 
 \def\CONTRATCOURTIERNOM{<?php echo cut_latex_string($vrac->mandataire->raison_sociale
 , 55); ?>}
-\def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro; ?>}
+\def\CONTRATCOURTIERCARTEPRO{<?php echo ($vrac->mandataire->carte_pro)? ", n° carte professionnelle:~".$vrac->mandataire->carte_pro : "."; ?>}
 
 \def\CONTRATTYPE{<?php echo showType($vrac); ?>}
 \def\CONTRATTYPEUNITE{<?php echo showUnite($vrac) ?>}
