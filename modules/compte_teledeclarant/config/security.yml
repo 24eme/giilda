@@ -13,6 +13,8 @@ motDePasseOublieLogin:
 motDePasseOublieConfirm:
  is_secure: false
 modificationOublie:
+ is_secure: false   
+reglementationGenerale:
  is_secure: false  
 
 

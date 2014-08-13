@@ -1,4 +1,5 @@
 <?php
+
 /* This file is part of the acVinComptePlugin package.
  * Copyright (c) 2011 Actualys
  * Authors :	
@@ -22,23 +23,23 @@
  * @author     Jean-Baptiste Le Metayer <lemetayer.jb@gmail.com>
  * @version    0.1
  */
-class compte_teledeclarantActions extends sfActions 
-{   
+class compte_teledeclarantActions extends sfActions {
+
     const SESSION_COMPTE_DOC_ID_CREATION = '';
     const SESSION_COMPTE_DOC_ID_OUBLIE = '';
+
     /**
-    * Executes index action
-    *
-    * @param sfRequest $request A request object
-    */
-    public function executeFirst(sfWebRequest $request) 
-    {
+     * Executes index action
+     *
+     * @param sfRequest $request A request object
+     */
+    public function executeFirst(sfWebRequest $request) {
         $this->form = new CompteLoginFirstForm();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->getUser()->setAttribute(self::SESSION_COMPTE_DOC_ID_CREATION, $this->form->getValue('compte')->_id);
-                
+
                 $this->redirect('compte_teledeclarant_creation');
             }
         }
@@ -48,8 +49,7 @@ class compte_teledeclarantActions extends sfActions
      *
      * @param sfWebRequest $request 
      */
-    public function executeCreation(sfWebRequest $request) 
-    {
+    public function executeCreation(sfWebRequest $request) {
         $this->forward404Unless($this->getUser()->getAttribute(self::SESSION_COMPTE_DOC_ID_CREATION, null));
         $this->compte = CompteClient::getInstance()->find($this->getUser()->getAttribute(self::SESSION_COMPTE_DOC_ID_CREATION, null));
         $this->forward404Unless($this->compte);
@@ -60,7 +60,20 @@ class compte_teledeclarantActions extends sfActions
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $this->form->save();
+                $this->form->doUpdateObject($this->form->getValues());
+                $this->form->getObject()->save(false,false,true,false);
+                if($email = $this->form->getValue('email')) {
+                    $etablissementPrincipal = $this->form->getObject()->getSociete()->getEtablissementPrincipal();
+                    $etablissementPrincipal->email = $email;
+                    $etablissementPrincipal->save();
+                }
+                if(($this->form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR || $this->form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT)
+                && ($this->form->getValue('siret'))){
+                    $id_societe = $this->form->getObject()->id_societe;
+                    $societe = SocieteClient::getInstance()->find($id_societe);
+                    $societe->siret = $this->form->getValue('siret');
+                    $societe->save(true);
+                }
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_CREATION);
                 $this->getUser()->signInOrigin($this->compte);
                 try {
@@ -74,12 +87,11 @@ class compte_teledeclarantActions extends sfActions
         }
     }
 
-      /**
+    /**
      *
      * @param sfWebRequest $request 
      */
-    public function executeModification(sfWebRequest $request) 
-    {
+    public function executeModification(sfWebRequest $request) {
         $this->compte = $this->getUser()->getCompte();
 
         $this->form = new CompteTeledeclarantForm($this->compte);
@@ -94,8 +106,7 @@ class compte_teledeclarantActions extends sfActions
         }
     }
 
-    public function executeMotDePasseOublie(sfWebRequest $request) 
-    {
+    public function executeMotDePasseOublie(sfWebRequest $request) {
         $this->form = new CompteMotDePasseOublieForm();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -114,17 +125,15 @@ class compte_teledeclarantActions extends sfActions
         }
     }
 
-    public function executeMotDePasseOublieLogin(sfWebRequest $request) 
-    {
+    public function executeMotDePasseOublieLogin(sfWebRequest $request) {
         $this->forward404Unless($compte = CompteClient::getInstance()->findByLogin($request->getParameter('login', null)));
         $this->forward404Unless($compte->mot_de_passe == '{OUBLIE}' . $request->getParameter('mdp', null));
         $this->getUser()->setAttribute(self::SESSION_COMPTE_DOC_ID_OUBLIE, $compte->_id);
-        
+
         $this->redirect('compte_teledeclarant_modification_oublie');
     }
-    
-    public function executeMotDePasseOublieConfirm(sfWebRequest $request) 
-    {
+
+    public function executeMotDePasseOublieConfirm(sfWebRequest $request) {
         
     }
 
@@ -132,8 +141,7 @@ class compte_teledeclarantActions extends sfActions
      *
      * @param sfWebRequest $request 
      */
-    public function executeModificationOublie(sfWebRequest $request) 
-    {
+    public function executeModificationOublie(sfWebRequest $request) {
         $this->forward404Unless($this->getUser()->getAttribute(self::SESSION_COMPTE_DOC_ID_OUBLIE, null));
         $this->compte = CompteClient::getInstance()->find($this->getUser()->getAttribute(self::SESSION_COMPTE_DOC_ID_OUBLIE, null));
         $this->forward404Unless($this->compte);
@@ -158,5 +166,24 @@ class compte_teledeclarantActions extends sfActions
         }
     }
 
+    public function executeReglementationGenerale() {
+        return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/reglementation_generale_des_transactions.pdf", "reglementation_generale_des_transactions.pdf");
+    }
+
+    /*
+     * Fonctions pour le téléchargement de la reglementation_generale_des_transactions
+     * 
+     */
+
+    protected function renderPdf($path, $filename) {
+        $this->getResponse()->setHttpHeader('Content-Type', 'application/pdf');
+        $this->getResponse()->setHttpHeader('Content-disposition', 'attachment; filename="' . $filename . '"');
+        $this->getResponse()->setHttpHeader('Content-Transfer-Encoding', 'binary');
+        $this->getResponse()->setHttpHeader('Content-Length', filesize($path));
+        $this->getResponse()->setHttpHeader('Pragma', '');
+        $this->getResponse()->setHttpHeader('Cache-Control', 'public');
+        $this->getResponse()->setHttpHeader('Expires', '0');
+        return $this->renderText(file_get_contents($path));
+    }
 
 }

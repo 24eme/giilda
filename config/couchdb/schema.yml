@@ -36,6 +36,7 @@ Compte:
       nom_a_afficher: {  }
       raison_sociale_societe: { required: false }
       type_societe: { required: false }
+      teledeclaration_active: { required: false }
       societe_informations:
         type: collection
         definition:

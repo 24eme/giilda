@@ -37,12 +37,9 @@ class CompteTeledeclarantForm extends acCouchdbObjectForm
         
         if($this->getValue('mdp1')) {
             $this->getObject()->setMotDePasseSSHA($this->getValue('mdp1'));
-        }
+        }       
         
-        if($this->getValue('email')) {
-            $etablissementPrincipal = $this->getObject()->getSociete()->getEtablissementPrincipal();
-            $etablissementPrincipal->email = $this->getValue('email');
-            $etablissementPrincipal->save();
-        }
+        $this->getObject()->add('teledeclaration_active',true);
     }
+    
 }
