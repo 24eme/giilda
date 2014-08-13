@@ -9,6 +9,8 @@
         <div id="nouvelle_declaration" class="fond" >
             <div class="bloc_form bloc_form_condensed">               
 
+                <?php echo $form->renderHiddenFields(); ?>
+                <?php echo $form->renderGlobalErrors(); ?>
                 <div class="ligne_form ligne_form_alt">
                     <?php echo $form['email']->renderError() ?>
                     <?php echo $form['email']->renderLabel() ?>
