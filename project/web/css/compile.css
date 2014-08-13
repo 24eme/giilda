@@ -1414,6 +1414,7 @@ bouton.btn_enregistrer {
   background: #ffffff;
   margin: 0 0 30px;
   padding: 15px 0 20px;
+  min-height: 100px;
 }
 #header .contenu {
   zoom: 1;
