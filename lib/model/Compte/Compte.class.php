@@ -463,7 +463,7 @@ class Compte extends BaseCompte {
             $this->add('droits', array(Roles::TELEDECLARATION, Roles::TELEDECLARATION_VRAC));
             if(($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_NEGOCIANT)
             || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_COURTIER)){
-                $this->add('droits', array(Roles::TELEDECLARATION, Roles::TELEDECLARATION_VRAC_CREATION));
+                $this->add('droits', array(Roles::TELEDECLARATION, Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC_CREATION));
             }
         }
 
