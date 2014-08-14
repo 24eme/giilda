@@ -17,12 +17,14 @@ class vracActions extends sfActions {
     }
 
     public function executeIndex(sfWebRequest $request) {
+        $this->redirect403IfIsTeledeclaration();
         $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);
         $this->etiquettesForm = new VracEtiquettesForm();
         $this->postFormEtablissement($request);
     }
 
     public function executeCreation(sfWebRequest $request) {
+        $this->redirect403IfICanNotCreate();
         $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
         $etablissement = EtablissementClient::getInstance()->find($this->identifiant);
         $this->vrac = new Vrac();
@@ -49,24 +51,27 @@ class vracActions extends sfActions {
     }
 
     public function executeRecherche(sfWebRequest $request) {
+
+        $this->redirect403IfIsTeledeclaration();
         $this->recherche = $this->getVracsFromRecherche($request, true);
         $this->form = new VracRechercheForm();
     }
-    
-    
-    public function executeConnexion(sfWebRequest $request) {
-       $this->etablissement = $this->getRoute()->getEtablissement();
-       $societeIdentifiant = $this->etablissement->getSociete()->identifiant;
 
-       $this->getUser()->usurpationOn($societeIdentifiant, $request->getReferer());
-       $this->redirect('homepage');
+    public function executeConnexion(sfWebRequest $request) {
+
+        $this->redirect403IfIsTeledeclaration();
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $societeIdentifiant = $this->etablissement->getSociete()->identifiant;
+
+        $this->getUser()->usurpationOn($societeIdentifiant, $request->getReferer());
+        $this->redirect('homepage');
     }
 
     public function executeDeconnexion(sfWebRequest $request) {
 
         $url_back = $this->getUser()->usurpationOff();
 
-        if($url_back) {
+        if ($url_back) {
 
             return $this->redirect($url_back);
         }
@@ -175,21 +180,22 @@ class vracActions extends sfActions {
     }
 
     public function executeNouveau(sfWebRequest $request) {
-        
+
+        $this->redirect403IfICanNotCreate();
         $isMethodPost = $request->isMethod(sfWebRequest::POST);
-        
+
         $this->getResponse()->setTitle('Contrat - Nouveau');
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
         $this->vrac = $this->populateVracTiers($this->vrac);
         $this->compte = null;
-        $this->etablissementPrincipal = null;        
+        $this->etablissementPrincipal = null;
         $this->compteVendeurActif = true;
         $this->compteAcheteurActif = true;
-        
+
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        if($this->isTeledeclarationMode){
+        if ($this->isTeledeclarationMode) {
             $this->isAcheteurResponsable = $this->isAcheteurResponsable();
-            $this->isCourtierResponsable = $this->isCourtierResponsable();            
+            $this->isCourtierResponsable = $this->isCourtierResponsable();
             if ($this->etablissement = $request->getParameter("etablissement")) {
                 $this->vrac->initCreateur($this->etablissement);
                 $this->initSocieteAndEtablissementPrincipal();
@@ -200,12 +206,12 @@ class vracActions extends sfActions {
                 $this->etablissement = $this->choixEtablissement;
                 $this->initSocieteAndEtablissementPrincipal();
             }
-            if(!$isMethodPost && $this->societe->isNegociant() && count($this->societe->getEtablissementsObj()) > 1 && !$this->choixEtablissement){
+            if (!$isMethodPost && $this->societe->isNegociant() && count($this->societe->getEtablissementsObj()) > 1 && !$this->choixEtablissement) {
                 return $this->redirect('vrac_societe_choix_etablissement', array('identifiant' => $this->societe->identifiant));
             }
-        }        
-        
-        $this->form = new VracSoussigneForm($this->vrac, $this->isTeledeclarationMode, $this->isAcheteurResponsable, $this->isCourtierResponsable); 
+        }
+
+        $this->form = new VracSoussigneForm($this->vrac, $this->isTeledeclarationMode, $this->isAcheteurResponsable, $this->isCourtierResponsable);
 
         $this->init_soussigne($request, $this->form);
         $this->nouveau = true;
@@ -224,73 +230,71 @@ class vracActions extends sfActions {
     }
 
     public function executeChoixEtablissement(sfWebRequest $request) {
+        $this->redirect403IfICanNotCreate();
         $this->initSocieteAndEtablissementPrincipal();
         $societeId = $request->getParameter('identifiant');
-        if($societeId != $this->societe->identifiant){
+        if ($societeId != $this->societe->identifiant) {
             throw new sfException("Vous n'avez pas le droit d'acceder à ce choix pour cette société");
         }
-        
+
         $this->form = new SocieteEtablissementChoiceForm($this->societe);
-        
+
         if ($request->isMethod(sfWebRequest::POST)) {
-            $parameters = $request->getParameter($this->form->getName());            
+            $parameters = $request->getParameter($this->form->getName());
             $this->form->bind($parameters);
             if ($this->form->isValid()) {
-                $values = $this->form->getValues(); 
+                $values = $this->form->getValues();
                 $etablissementId = $values['etablissementChoice'];
-                if(!$etablissementId){
-                    throw new sfException("L'établissement n'a pas été choisi");                    
+                if (!$etablissementId) {
+                    throw new sfException("L'établissement n'a pas été choisi");
                 }
                 $etablissement = EtablissementClient::getInstance()->findByIdentifiant($etablissementId);
-                if(!$etablissement){
-                    throw new sfException("L'établissement n'existe plus dans la base de donné");                    
+                if (!$etablissement) {
+                    throw new sfException("L'établissement n'existe plus dans la base de donné");
                 }
                 $this->redirect('vrac_nouveau', array('choix-etablissement' => $etablissementId));
             }
         }
     }
-    
+
     public function executeSociete(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
         $this->identifiant = $request['identifiant'];
-        
+
         $this->initSocieteAndEtablissementPrincipal();
-        
-        if($this->compte->identifiant != $this->identifiant){
-            /*
-             * PROCTECT WITH 403
-             */
-            throw new sfException("Le compte $this->identifiant ne correspond pas aux droits");
-        }
-        
-        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe,$this->etablissementPrincipal, 10);
+
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+
+        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissementPrincipal, 10);
     }
 
     public function executeHistory(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
-        $this->identifiant = $request['identifiant'];    
-        
-        $this->initSocieteAndEtablissementPrincipal();    
-        
-        if($this->compte->identifiant != $this->identifiant){
+        $this->identifiant = $request['identifiant'];
+
+        $this->initSocieteAndEtablissementPrincipal();
+
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+
+        if ($this->compte->identifiant != $this->identifiant) {
             /*
              * PROCTECT WITH 403
              */
             throw new sfException("Le compte $this->identifiant ne correspond pas aux droits");
         }
-       
-        $this->campagne = $request['campagne'];   
-        if (!$this->campagne || !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)){
+
+        $this->campagne = $request['campagne'];
+        if (!$this->campagne || !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)) {
             throw new sfException("wrong campagne format ($this->campagne)");
         }
-        
+
         $this->isOnlyOneEtb = !(count($this->societe->getEtablissementsObj()) - 1);
-        
-        $this->etablissement = (!isset($request['etablissement']) || $this->isOnlyOneEtb )? 'tous' : $request['etablissement'];
-        $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' )? 'tous' : strtoupper($request['statut']);
-        
+
+        $this->etablissement = (!isset($request['etablissement']) || $this->isOnlyOneEtb ) ? 'tous' : $request['etablissement'];
+        $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' ) ? 'tous' : strtoupper($request['statut']);
+
         $this->form = new VracHistoryRechercheForm($this->societe, $this->etablissement, $this->campagne, $this->statut);
 
         $this->contratsByCampagneEtablissementAndStatut = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($this->societe, $this->campagne, $this->etablissement, $this->statut);
@@ -302,6 +306,8 @@ class vracActions extends sfActions {
         if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
         }
+
+        $this->redirect403IsNotTeledeclarationAndNotInVrac();
 
         $this->signatureRequired = !$this->vrac->isSocieteHasSigned($this->societe);
         if (!$this->signatureRequired) {
@@ -320,6 +326,7 @@ class vracActions extends sfActions {
         $file = $this->getCsvFromHistory($request, false);
         $filename = $this->createCsvFromHistoryFilename($request);
 
+        $this->redirect403IfIsNotTeledeclaration();
         $this->forward404Unless($this->vracs);
 
         $attachement = "attachment; filename=" . $filename . ".csv";
@@ -332,6 +339,10 @@ class vracActions extends sfActions {
         $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
         $this->type = $request->getParameter('type');
         $this->acteur = $request->getParameter('acteur');
+
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->redirect403IfICanNotCreate();
+
         $types = array_keys(AnnuaireClient::getAnnuaireTypes());
         if (!in_array($this->type, $types)) {
             throw new sfError404Exception('Le type "' . $this->type . '" n\'est pas pris en charge.');
@@ -340,8 +351,8 @@ class vracActions extends sfActions {
         $this->vrac = ($request->getParameter('numero_contrat')) ? VracClient::getInstance()->find($request->getParameter('numero_contrat')) : new Vrac();
         $this->vrac = $this->populateVracTiers($this->vrac);
         if ($this->identifiant) {
-            $this->vrac->add('createur_identifiant',$this->identifiant);
-            $this->vrac->add('teledeclare',true);
+            $this->vrac->add('createur_identifiant', $this->identifiant);
+            $this->vrac->add('teledeclare', true);
         }
         $this->form = new VracSoussigneAnnuaireForm($this->vrac);
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -363,6 +374,10 @@ class vracActions extends sfActions {
         $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
         $this->vrac = ($request->getParameter('numero_contrat')) ? VracClient::getInstance()->find($request->getParameter('numero_contrat')) : new Vrac();
         $this->vrac = $this->populateVracTiers($this->vrac);
+
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->redirect403IfICanNotCreate();
+
         if ($this->identifiant) {
             $this->vrac->createur_identifiant = $this->identifiant;
         }
@@ -402,31 +417,34 @@ class vracActions extends sfActions {
         }
     }
 
-    public function executeSoussigne(sfWebRequest $request) {        
+    public function executeSoussigne(sfWebRequest $request) {
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Soussignés', $request["numero_contrat"]));
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : $this->getRoute()->getVrac();
         $this->compte = null;
-            
+
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        
+
         $this->compteVendeurActif = null;
         $this->compteAcheteurActif = null;
-        
+
         if ($this->isTeledeclarationMode) {
             $this->isAcheteurResponsable = $this->isAcheteurResponsable();
             $this->isCourtierResponsable = $this->isCourtierResponsable();
             $this->initSocieteAndEtablissementPrincipal();
-            
+
             $this->compteVendeurActif = (!$this->vrac->getVendeurObject()) || $this->vrac->getVendeurObject()->hasCompteTeledeclarationActivate();
             $this->compteAcheteurActif = (!$this->vrac->getAcheteurObject()) || $this->vrac->getAcheteurObject()->hasCompteTeledeclarationActivate();
         }
-        $this->form = new VracSoussigneForm($this->vrac,$this->isTeledeclarationMode,$this->isAcheteurResponsable,$this->isCourtierResponsable);
+
+        $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
+
+        $this->form = new VracSoussigneForm($this->vrac, $this->isTeledeclarationMode, $this->isAcheteurResponsable, $this->isCourtierResponsable);
 
         $this->init_soussigne($request, $this->form);
         $this->nouveau = false;
         $this->hasmandataire = !is_null($this->vrac->mandataire_identifiant);
         $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));
-        
+
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
@@ -447,6 +465,9 @@ class vracActions extends sfActions {
         if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
         }
+
+        $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
+
         $this->form = new VracMarcheForm($this->vrac, $this->isTeledeclarationMode);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -464,15 +485,17 @@ class vracActions extends sfActions {
         $this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
-        
+
         $this->compte = null;
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        
+
         if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
         }
-        
-        $this->form = new VracConditionForm($this->vrac,$this->isTeledeclarationMode);
+
+        $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
+
+        $this->form = new VracConditionForm($this->vrac, $this->isTeledeclarationMode);
         $this->displayPartiePrixVariable = !($this->vrac->isTeledeclare()) && !(is_null($this->type_contrat) || ($this->type_contrat == 'spot'));
         $this->displayPrixVariable = ($this->displayPartiePrixVariable && !is_null($vrac->prix_variable) && $vrac->prix_variable);
         $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));
@@ -496,11 +519,14 @@ class vracActions extends sfActions {
         $this->compte = null;
         $this->societe = null;
         $this->signatureDemande = false;
-        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();        
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
             $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);
         }
+
+        $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
+
         $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));
         $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($this->vrac);
         $this->contratsSimilairesExist = (isset($this->vracs) && !$this->vracs && count($this->vracs) > 0);
@@ -521,21 +547,23 @@ class vracActions extends sfActions {
     public function executeVisualisation(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
-        $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));        
+        $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
         $this->vrac->save();
         $this->signatureDemande = false;
         $this->compte = null;
-        $this->societe = null;        
+        $this->societe = null;
         if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
             $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);
         }
+
+        $this->redirect403IsNotTeledeclarationAndNotInVrac();
+
         $this->isProprietaire = $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->etablissementPrincipal->identifiant == $this->vrac->createur_identifiant);
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        $this->isTeledeclare = $this->vrac->isTeledeclare(); 
-        $this->isAnnulable = $this->isTeledeclarationVrac() && $this->vrac->isTeledeclarationAnnulable() 
-                && ($this->vrac->getCreateurObject()->getSociete()->identifiant === $this->societe->identifiant);
+        $this->isTeledeclare = $this->vrac->isTeledeclare();
+        $this->isAnnulable = $this->isTeledeclarationVrac() && $this->vrac->isTeledeclarationAnnulable() && ($this->vrac->getCreateurObject()->getSociete()->identifiant === $this->societe->identifiant);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);
             $this->vrac->save();
@@ -543,6 +571,8 @@ class vracActions extends sfActions {
     }
 
     public function executeChangeStatut(sfWebRequest $request) {
+
+        $this->redirect403IfIsTeledeclaration();
         $this->vrac = $this->getRoute()->getVrac();
         switch ($statut = $this->vrac->valide->statut) {
             case VracClient::STATUS_CONTRAT_NONSOLDE: {
@@ -564,12 +594,12 @@ class vracActions extends sfActions {
     public function executeGetInformations(sfWebRequest $request) {
         $etablissement = EtablissementClient::getInstance()->find($request->getParameter('id'));
         $nouveau = is_null($request->getParameter('numero_contrat'));
-        $this->isTeledeclarationMode = $this->isTeledeclarationVrac(); 
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         $this->compteVendeurActif = null;
         $this->compteAcheteurActif = null;
-        if($this->isTeledeclarationMode){
-                $this->compteVendeurActif = $etablissement->hasCompteTeledeclarationActivate();
-                $this->compteAcheteurActif = $etablissement->hasCompteTeledeclarationActivate();
+        if ($this->isTeledeclarationMode) {
+            $this->compteVendeurActif = $etablissement->hasCompteTeledeclarationActivate();
+            $this->compteAcheteurActif = $etablissement->hasCompteTeledeclarationActivate();
         }
         return $this->renderPartialInformations($etablissement, $nouveau);
     }
@@ -580,6 +610,7 @@ class vracActions extends sfActions {
         $etablissement = EtablissementClient::getInstance()->find($etablissementId);
 
         $this->forward404Unless($etablissement);
+        $this->redirect403IfIsTeledeclaration();
 
         $this->form = new VracSoussigneModificationForm($etablissement);
 
@@ -598,6 +629,7 @@ class vracActions extends sfActions {
     }
 
     public function executeGetContratsSimilaires(sfWebRequest $params) {
+        $this->redirect403IfIsTeledeclaration();
         $vrac = VracClient::getInstance()->findByNumContrat($params['numero_contrat']);
         if (isset($params['type']) && $params['type'] != "")
             $vrac->type_transaction = $params['type'];
@@ -610,7 +642,7 @@ class vracActions extends sfActions {
 
     public function executeVolumeEnleve(sfWebRequest $request) {
         $this->vrac = VracClient::getInstance()->findByNumContrat($request['numero_contrat']);
-
+        $this->redirect403IfIsTeledeclaration();
         $this->form = new VracVolumeEnleveForm($this->vrac);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -635,6 +667,7 @@ class vracActions extends sfActions {
     }
 
     public function executeExportCsv(sfWebRequest $request) {
+        $this->redirect403IfIsTeledeclaration();
         $this->setLayout(false);
         $filename = $this->createCsvFilename($request);
 
@@ -650,6 +683,7 @@ class vracActions extends sfActions {
     }
 
     public function executeExportEtiquette(sfWebRequest $request) {
+        $this->redirect403IfIsTeledeclaration();
         $this->date_debut = $request['vrac_vignettes']['date_debut'];
         $this->date_fin = $request['vrac_vignettes']['date_fin'];
         ini_set('memory_limit', '2048M');
@@ -664,9 +698,17 @@ class vracActions extends sfActions {
     }
 
     public function executeLatex(sfWebRequest $request) {
+
+        if ($this->isTeledeclarationVrac()) {
+            $this->initSocieteAndEtablissementPrincipal();
+        }
+
         $this->setLayout(false);
         $this->vrac = $this->getRoute()->getVrac();
         $this->forward404Unless($this->vrac);
+
+        $this->redirect403IsNotTeledeclarationAndNotInVrac();
+
         $latex = new VracLatex($this->vrac);
         $latex->echoWithHTTPHeader($request->getParameter('type'));
         exit;
@@ -683,9 +725,6 @@ class vracActions extends sfActions {
         }
         return $this->redirectWithStep();
     }
-    
-
-    
 
     private function redirectWithStep() {
         switch ($this->vrac->etape) {
@@ -705,12 +744,12 @@ class vracActions extends sfActions {
                 $this->redirect('vrac_visualisation', $this->vrac);
                 break;
         }
-    }  
+    }
 
     private function renderPartialInformations($etablissement, $nouveau) {
         $familleType = $etablissement->getFamilleType();
         return $this->renderPartial($familleType . 'Informations', array($familleType => $etablissement, 'nouveau' => $nouveau,
-            'isTeledeclarationMode' => $this->isTeledeclarationMode, 'compteVendeurActif' => $this->compteVendeurActif, 'compteAcheteurActif' => $this->compteAcheteurActif));
+                    'isTeledeclarationMode' => $this->isTeledeclarationMode, 'compteVendeurActif' => $this->compteVendeurActif, 'compteAcheteurActif' => $this->compteAcheteurActif));
     }
 
     private function maj_etape($etapeNum) {
@@ -752,30 +791,34 @@ class vracActions extends sfActions {
      * Fonctions pour la population de l'annuaire
      * 
      */
+
     protected function populateVracTiers($vrac) {
         $vrac->setInformations();
         return $vrac;
-    }    
+    }
 
-    
-    
     /*
      * Fonctions de service liées aux droits Users
      * 
      */
+
     private function isTeledeclarationVrac() {
         return $this->getUser()->hasTeledeclarationVrac();
     }
-    
+
+    private function hasTeledeclarationVracCreation() {
+        return $this->getUser()->hasTeledeclarationVracCreation();
+    }
+
     private function isAcheteurResponsable() {
         return $this->getUser()->getCompte()->getSociete()->isNegociant();
     }
-    
+
     private function isCourtierResponsable() {
         return $this->getUser()->getCompte()->getSociete()->isCourtier();
-    }    
+    }
 
-    private function initSocieteAndEtablissementPrincipal() {        
+    private function initSocieteAndEtablissementPrincipal() {
         $this->compte = $this->getUser()->getCompte();
         if (!$this->compte) {
             new sfException("Le compte $compte n'existe pas");
@@ -783,7 +826,81 @@ class vracActions extends sfActions {
         $this->societe = $this->compte->getSociete();
         $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
     }
-    
-    
 
+    private function redirect403IfIsTeledeclaration() {
+        if ($this->isTeledeclarationVrac()) {
+            $this->redirect403();
+        }
+    }
+
+    private function redirect403IfIsNotTeledeclaration() {
+        if (!$this->isTeledeclarationVrac()) {
+            $this->redirect403();
+        }
+    }
+
+    private function redirect403IfIsNotTeledeclarationAndNotResponsable() {
+        $this->redirect403IfICanNotCreate();
+        if ($this->isTeledeclarationVrac()) {
+            if (!$this->vrac->exist('createur_identifiant')) {
+                $this->redirect403();
+            }
+            if (substr($this->vrac->createur_identifiant, 0, 6) != substr($this->compte->identifiant, 0, 6)) {
+                $this->redirect403();
+            }
+        }
+    }
+
+    private function redirect403IfIsNotTeledeclarationAndNotMe() {
+        $this->redirect403IfIsNotTeledeclaration();
+        if ($this->getUser()->getCompte()->identifiant != $this->identifiant) {
+            $this->redirect403();
+        }
+    }
+
+    private function redirect403IsNotTeledeclarationAndNotInVrac() {
+
+        if (!$this->vrac) {
+            $this->redirect403();
+        }
+        if (!$this->isTeledeclarationVrac()) {
+            if(!$this->getUser()->hasCredential(Roles::CONTRAT)){
+                $this->redirect403();
+            }
+        } else {
+            $array_soussigne = array();
+            $array_soussigne[] = $this->vrac->vendeur_identifiant;
+            $array_soussigne[] = $this->vrac->acheteur_identifiant;
+            if ($this->vrac->mandataire_exist) {
+                $array_soussigne[] = $this->vrac->mandataire_identifiant;
+            }
+            $isInVrac = false;
+            foreach ($array_soussigne as $soussigneID) {
+                if (substr($this->compte->identifiant, 0, 6) == substr($soussigneID, 0, 6)) {
+                    $isInVrac = true;
+                    break;
+                }
+            }
+            if (!$isInVrac) {
+                $this->redirect403();
+            }
+        }
+    }
+
+    private function redirect403IfICanNotCreate() {
+        if ($this->isTeledeclarationVrac()) {
+            if ($this->hasTeledeclarationVracCreation()) {
+                return;
+            }
+        }
+        if ($this->getUser()->hasCredential(Roles::CONTRAT)) {
+            return;
+        }
+        $this->redirect403();
+    }
+
+    private function redirect403() {
+        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+    }
+    
 }
