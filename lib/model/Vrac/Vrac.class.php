@@ -142,6 +142,7 @@ class Vrac extends BaseVrac {
 
     public function initCreateur($etbId) {
 
+        $etbId = str_replace('ETABLISSEMENT-', '', $etbId);
         $etb = EtablissementClient::getInstance()->findByIdentifiant($etbId);
         if (!$etb) {
             throw new sfException("L'etablissement d'id $etbId n'existe pas en base");
