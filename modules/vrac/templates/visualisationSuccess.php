@@ -59,7 +59,7 @@ use_helper('Vrac');
 
             <?php endif; ?>
 
-            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'signatureDemande' => $signatureDemande, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
             <?php if ($isTeledeclarationMode): ?>
                 <div class="ligne_btn">
                     <?php if ($vrac->isVise() && ($isTeledeclare)): ?>
@@ -76,14 +76,6 @@ use_helper('Vrac');
     <?php if ($signatureDemande): ?>
         <a id="signature_popup_bas" href="#signature_popup_content" class="signature_popup btn_majeur btn_vert f_right">Signer le contrat</a>      
         <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
-    <?php endif; ?>
-    <?php if ($popupSignature): ?>
-        <script type="text/javascript">
-            $(document).ready(function()
-            {
-                triggerSignaturePopup();
-            });
-        </script>
     <?php endif; ?>
 </section>
 <?php

@@ -495,9 +495,11 @@ class vracActions extends sfActions {
         $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
         $this->societe = null;
-        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        $this->signatureDemande = false;
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();        
         if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
+            $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);
         }
         $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));
         $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($this->vrac);
@@ -524,13 +526,10 @@ class vracActions extends sfActions {
         $this->vrac->save();
         $this->signatureDemande = false;
         $this->compte = null;
-        $this->societe = null;
-        $this->popupSignature = null;
-        
+        $this->societe = null;        
         if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
             $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);
-            $this->popupSignature = ($this->signatureDemande) && $request->hasParameter('signature') && ($request->getParameter('signature') == "1");
         }
         $this->isProprietaire = $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->etablissementPrincipal->identifiant == $this->vrac->createur_identifiant);
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();

@@ -27,7 +27,14 @@ use_helper('Vrac');
             <div class="btn_etape">
                 <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
                 <?php if ($validation->isValide()) : ?>
-                    <a id="btn_validation" class="btn_validation"><span><?php if($isTeledeclarationMode): ?>Signer le contrat<?php else: ?>Terminer la saisie<?php endif; ?></span></a>  
+                    <?php if($isTeledeclarationMode): ?>
+                        <?php if ($signatureDemande): ?>
+                            <a id="signature_popup_haut" href="#signature_popup_content" class="btn_validation signature_popup"><span>Signer le contrat</span></a> 
+                            <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validation' => true)); ?>
+                         <?php endif; ?>
+                    <?php else: ?>
+                        <a id="btn_validation" class="btn_validation"><span>Terminer la saisie</span></a>  
+                    <?php endif; ?>
                 <?php endif; ?>
             </div> 
         </form>
