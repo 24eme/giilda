@@ -8,6 +8,14 @@ var initSignaturePopup = function() {
         height: 'auto',
         width: 'auto',
     });
+    $('#signature_popup_content a#signature_popup_close').click(function(){
+        $.fancybox.close();
+    })
+    
+    $('#signature_popup_content button#signature_popup_confirm').click(function(){
+        $("form#vrac_validation").submit();
+    });
+    
 };
 
 var triggerSignaturePopup = function() {

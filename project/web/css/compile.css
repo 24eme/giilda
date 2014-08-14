@@ -4389,6 +4389,24 @@ bouton#contenu_etape #btn_export_csv {
 #vrac_soussigne .btnModification .btn_valider {
   float: right;
 }
+#signature_popup_content {
+  width: 400px;
+}
+#signature_popup_content h2 {
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+#signature_popup_content .ligne_btn {
+  height: 30px;
+  padding: 15px 0;
+}
+#signature_popup_content .ligne_btn .annuler {
+  float: left;
+}
+#signature_popup_content .ligne_btn .btn_validation {
+  float: right;
+}
 /**
  * Colonne
  ******************************************/
