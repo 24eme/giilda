@@ -226,8 +226,7 @@
 
 				input.on('autocompleteopen', function()
 				{	
-                                        console.log($(this).data('url')); 
-					var autocomplete_courant = $(this).data("autocomplete").menu.element;
+                                        var autocomplete_courant = $(this).data("autocomplete").menu.element;
 
 					if(!autocomplete_courant.find('.btn_ajout_autocomplete').length) {
 
