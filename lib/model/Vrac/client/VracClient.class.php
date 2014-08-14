@@ -291,7 +291,7 @@ class VracClient extends acCouchdbClient {
         foreach ($allEtablissements as $etablissementObj) {
             $etbId = $etablissementObj->etablissement->identifiant;
             $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $etbId, $statut))
-                    ->endkey(array('SOCIETE', $campagne, $etbId, $statut, array()));
+                    ->endkey(array('SOCIETE', $campagne, $etbId, $statut, array()))->descending(true);
             if ($limit) {
                 $bySoussigneQuery = $bySoussigneQuery->limit($limit);
             }
@@ -308,7 +308,7 @@ class VracClient extends acCouchdbClient {
 
 
         $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $soussigneId, $statut))
-                ->endkey(array('SOCIETE', $campagne, $soussigneId, $statut, array()));
+                ->endkey(array('SOCIETE', $campagne, $soussigneId, $statut, array()))->descending(true);
 
         if ($limit) {
             $bySoussigneQuery = $bySoussigneQuery->limit($limit);
