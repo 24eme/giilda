@@ -9,7 +9,7 @@
     
 <script>
 window.setInterval(function(){
-   // window.location.assign("https://teledeclaration.vinsvaldeloire.pro/contrats/societe/"+<?php echo $identifiantCompte; ?>);
+    window.location.assign("https://teledeclaration.vinsvaldeloire.pro/contrats/societe/"+<?php echo $identifiantCompte; ?>);
 }, 5000);
 
 </script>
