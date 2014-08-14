@@ -391,5 +391,9 @@ class Etablissement extends BaseEtablissement {
     public function getEtablissementPrincipal() {
         return SocieteClient::getInstance()->find($this->id_societe)->getEtablissementPrincipal();
     }
+    
+    public function hasCompteTeledeclarationActivate() {
+        return $this->getSociete()->getMasterCompte()->isTeledeclarationActive();
+    }
 
 }
