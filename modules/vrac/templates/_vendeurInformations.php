@@ -25,6 +25,14 @@ if (!isset($numero_contrat)) {
         removeGreyPanel('has_mandataire');
         removeGreyPanel('ligne_btn');
         removeGreyPanel('interne');
+
+<?php if ($isTeledeclarationMode): ?>
+    <?php if ($compteVendeurActif): ?>
+                $("#soussigne_vendeur_compte_inactif").hide();
+    <?php else: ?>
+                $("#soussigne_vendeur_compte_inactif").show();
+    <?php endif; ?>
+<?php endif; ?>
     });
 </script>
 <?php if ($isTeledeclarationMode): ?>
@@ -32,13 +40,13 @@ if (!isset($numero_contrat)) {
         <div class="ligne_form ">
             <span>
                 <label>Nom de l'acheteur :</label>
-    <?php display_teledeclaration_soussigne_NomCvi($vendeur); ?>
+                <?php display_teledeclaration_soussigne_NomCvi($vendeur); ?>
             </span>
         </div>
         <div class="ligne_form ligne_form_alt">
             <span>
                 <label>Adresse :</label>
-    <?php echo get_field($vendeur, 'siege/adresse') . '&nbsp' . get_field($vendeur, 'siege/code_postal') . '&nbsp' . get_field($vendeur, 'siege/commune'); ?>
+                <?php echo get_field($vendeur, 'siege/adresse') . '&nbsp' . get_field($vendeur, 'siege/code_postal') . '&nbsp' . get_field($vendeur, 'siege/commune'); ?>
             </span>
         </div>
     </div>
@@ -47,43 +55,43 @@ if (!isset($numero_contrat)) {
         <div class="ligne_form">
             <span>
                 <label>Nom du vendeur :</label>
-    <?php display_field($vendeur, 'nom'); ?>
+                <?php display_field($vendeur, 'nom'); ?>
             </span>
         </div>
         <div class="ligne_form ligne_form_alt">
             <span>
                 <label>N° CVI</label>
-    <?php display_field($vendeur, 'cvi'); ?>
+                <?php display_field($vendeur, 'cvi'); ?>
             </span>
         </div>
         <div class="ligne_form">
             <span>
                 <label>N° ACCISE</label>
-    <?php display_field($vendeur, 'no_accises'); ?>
+                <?php display_field($vendeur, 'no_accises'); ?>
             </span>
         </div>
         <div class="ligne_form ligne_form_alt " >
             <span>
                 <label>TVA Intracomm.</label>
-    <?php display_field($vendeur, 'no_tva_intracommunautaire'); ?>
+                <?php display_field($vendeur, 'no_tva_intracommunautaire'); ?>
             </span>
         </div>
         <div class="ligne_form">
             <span>
                 <label>Adresse</label>
-    <?php display_field($vendeur, 'siege/adresse'); ?>
+                <?php display_field($vendeur, 'siege/adresse'); ?>
             </span>
         </div>
         <div class="ligne_form ligne_form_alt">
             <span>
                 <label>CP*</label>
-    <?php display_field($vendeur, 'siege/code_postal'); ?>
+                <?php display_field($vendeur, 'siege/code_postal'); ?>
             </span>
         </div>
         <div class="ligne_form">
             <span>
                 <label>Ville*</label>
-    <?php display_field($vendeur, 'siege/commune'); ?>
+                <?php display_field($vendeur, 'siege/commune'); ?>
             </span>
         </div>
     </div>

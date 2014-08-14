@@ -15,9 +15,9 @@ class VracValidation extends DocumentValidation {
             $this->addControle('vigilance', 'soussigne_acheteur_nonactif', "Le compte de l'acheteur n'est pas actif");
             $this->addControle('vigilance', 'soussigne_courtier_nonactif', "Le compte du courtier n'est pas actif");
             
-            $this->addControle('erreur', 'soussigne_vendeur_absence_mail', "Le compte du vendeur n'est pas actif");
-            $this->addControle('erreur', 'soussigne_acheteur_absence_mail', "Le compte de l'acheteur n'est pas actif");
-            $this->addControle('erreur', 'soussigne_courtier_absence_mail', "Le compte du courtier n'est pas actif");
+            $this->addControle('erreur', 'soussigne_vendeur_absence_mail', "Aucun email renseigné pour");
+            $this->addControle('erreur', 'soussigne_acheteur_absence_mail', "Aucun email renseigné pour");
+            $this->addControle('erreur', 'soussigne_courtier_absence_mail', "Aucun email renseigné pour");
         } else {
             $this->addControle('erreur', 'hors_interloire_raisins_mouts', "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts");
             $this->addControle('vigilance', 'stock_commercialisable_negatif', 'Le stock commercialisable est inférieur au stock proposé');
@@ -69,17 +69,17 @@ class VracValidation extends DocumentValidation {
         $vendeurEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->vendeur_identifiant);
         
         if (!$vendeurEtb->findEmail()) {
-            $this->addPoint('erreur', 'soussigne_vendeur_absence_mail', 'Aucun email renseigné pour '.$vendeurEtb->nom );
+            $this->addPoint('erreur', 'soussigne_vendeur_absence_mail', $vendeurEtb->nom );
         }
 
         $acheteurEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->acheteur_identifiant);
         if (!$acheteurEtb->findEmail()) {
-            $this->addPoint('erreur', 'soussigne_acheteur_absence_mail', 'Aucun email renseigné pour '.$acheteurEtb->nom);
+            $this->addPoint('erreur', 'soussigne_acheteur_absence_mail', $acheteurEtb->nom);
         }
         if ($this->document->mandataire_exist) {
             $courtierEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->mandataire_identifiant);
             if (!$courtierEtb->findEmail()) {
-                $this->addPoint('erreur', 'soussigne_courtier_absence_mail', 'Aucun email renseigné pour '.$courtierEtb->nom);
+                $this->addPoint('erreur', 'soussigne_courtier_absence_mail', $courtierEtb->nom);
             }
         }
     }

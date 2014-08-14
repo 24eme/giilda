@@ -183,9 +183,10 @@ class vracActions extends sfActions {
         $this->vrac = $this->populateVracTiers($this->vrac);
         $this->compte = null;
         $this->etablissementPrincipal = null;        
+        $this->compteVendeurActif = true;
+        $this->compteAcheteurActif = true;
         
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        
         if($this->isTeledeclarationMode){
             $this->isAcheteurResponsable = $this->isAcheteurResponsable();
             $this->isCourtierResponsable = $this->isCourtierResponsable();            
@@ -408,10 +409,16 @@ class vracActions extends sfActions {
             
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         
+        $this->compteVendeurActif = null;
+        $this->compteAcheteurActif = null;
+        
         if ($this->isTeledeclarationMode) {
             $this->isAcheteurResponsable = $this->isAcheteurResponsable();
             $this->isCourtierResponsable = $this->isCourtierResponsable();
             $this->initSocieteAndEtablissementPrincipal();
+            
+            $this->compteVendeurActif = (!$this->vrac->getVendeurObject()) || $this->vrac->getVendeurObject()->hasCompteTeledeclarationActivate();
+            $this->compteAcheteurActif = (!$this->vrac->getAcheteurObject()) || $this->vrac->getAcheteurObject()->hasCompteTeledeclarationActivate();
         }
         $this->form = new VracSoussigneForm($this->vrac,$this->isTeledeclarationMode,$this->isAcheteurResponsable,$this->isCourtierResponsable);
 
@@ -559,6 +566,12 @@ class vracActions extends sfActions {
         $etablissement = EtablissementClient::getInstance()->find($request->getParameter('id'));
         $nouveau = is_null($request->getParameter('numero_contrat'));
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac(); 
+        $this->compteVendeurActif = null;
+        $this->compteAcheteurActif = null;
+        if($this->isTeledeclarationMode){
+                $this->compteVendeurActif = $etablissement->hasCompteTeledeclarationActivate();
+                $this->compteAcheteurActif = $etablissement->hasCompteTeledeclarationActivate();
+        }
         return $this->renderPartialInformations($etablissement, $nouveau);
     }
 
@@ -697,7 +710,8 @@ class vracActions extends sfActions {
 
     private function renderPartialInformations($etablissement, $nouveau) {
         $familleType = $etablissement->getFamilleType();
-        return $this->renderPartial($familleType . 'Informations', array($familleType => $etablissement, 'nouveau' => $nouveau, 'isTeledeclarationMode' => $this->isTeledeclarationMode));
+        return $this->renderPartial($familleType . 'Informations', array($familleType => $etablissement, 'nouveau' => $nouveau,
+            'isTeledeclarationMode' => $this->isTeledeclarationMode, 'compteVendeurActif' => $this->compteVendeurActif, 'compteAcheteurActif' => $this->compteAcheteurActif));
     }
 
     private function maj_etape($etapeNum) {

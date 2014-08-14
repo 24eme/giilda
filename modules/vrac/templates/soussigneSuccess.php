@@ -64,7 +64,12 @@ endif;
                         <?php echo $form['vendeur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>
                         <?php echo $form['vendeur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur', 'data-url' => $url_ajout_vendeur)); ?>
                         <?php echo $form['vendeur_identifiant']->renderError(); ?>
-                        <br /><br />
+                        <?php $style_vendeur_compte_inactif = ($compteVendeurActif)? 'style="display: none;"' : "" ; ?>
+                        <div id="points_vigilance">
+                        <ul id="soussigne_vendeur_compte_inactif" class="error_list warning" <?php echo $style_vendeur_compte_inactif; ?> >
+                            <li>Ce vendeur n'a pas encore activé son compte de télédeclarant. </li>
+                        </ul>
+                        </div>
                     </div>
                 <?php else: ?>
                     <div id="vendeur_choice" class="section_label_maj" >
@@ -81,6 +86,7 @@ endif;
                     $vendeurArray['vendeur'] = $form->vendeur;
                     $vendeurArray['vendeur'] = ($nouveau) ? $form->getObject()->getVendeurObject() : $form->getObject()->getVendeurObject();
                     $vendeurArray['isTeledeclarationMode'] = $isTeledeclarationMode;
+                    $vendeurArray['compteVendeurActif'] = $compteVendeurActif;
                     include_partial('vendeurInformations', $vendeurArray);
                     ?>
                 </div>
@@ -109,6 +115,12 @@ endif;
                         <?php echo $form['acheteur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>
                         <?php echo $form['acheteur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur', 'data-url' => $url_ajout_acheteur)); ?>                        
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
+                        <?php $style_acheteur_compte_inactif = ($compteAcheteurActif)? 'style="display: none;"' : ""; ?>
+                        <div id="points_vigilance">
+                            <ul id="soussigne_acheteur_compte_inactif" class="error_list warning" <?php echo $style_acheteur_compte_inactif; ?> >
+                                <li>Cet acheteur n'a pas encore activé son compte de télédeclarant. </li>
+                            </ul>
+                        </div>
                     </div>
                 <?php endif; ?>
                 <?php
@@ -128,6 +140,7 @@ endif;
                     $acheteurArray['acheteur'] = $form->acheteur;
                     $acheteurArray['acheteur'] = ($nouveau) ? $form->getObject()->getAcheteurObject() : $form->getObject()->getAcheteurObject();
                     $acheteurArray['isTeledeclarationMode'] = $isTeledeclarationMode;
+                    $acheteurArray['compteAcheteurActif'] = $compteAcheteurActif;
                     include_partial('acheteurInformations', $acheteurArray);
                     ?>
                 </div>
