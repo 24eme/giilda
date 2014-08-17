@@ -8,7 +8,7 @@ class CompteLdap extends acVinLdap {
 	echo "save : ";
 	print_r($info);
       }
-      return $this->save($compte->identifiant, $info);
+      return $this->save(self::getIdentifiant($compte), $info);
     }
 
     /**
@@ -18,11 +18,19 @@ class CompteLdap extends acVinLdap {
      */
     public function deleteCompte($compte, $verbose = 0) {
       if ($verbose) {
-	echo $compte->identifiant." deleted\n";
+	echo self::getIdentifiant($compte)." deleted\n";
       }
-        return $this->delete($compte->identifiant);
+        return $this->delete(self::getIdentifiant($compte));
     }
     
+    protected static function getIdentifiant($compte) {
+      if ($compte->isSocieteContact()) {
+	return $compte->getSociete()->identifiant;
+      }else{
+	return $compte->identifiant;
+      }
+    }
+
     /**
      *
      * @param _Compte $compte
@@ -31,15 +39,11 @@ class CompteLdap extends acVinLdap {
     protected function info($compte) 
     {
       $info = array();
-      if ($compte->isSocieteContact()) {
-	$info['uid']              = $compte->getSociete()->identifiant;
-      }else{
-	$info['uid']              = $compte->identifiant;
-      }
+      $info['uid']              = self::getIdentifiant($compte);
       if ($compte->getNom()) 
-	$info['sn']               = $compte->getNom();
+	$info['sn']             = $compte->getNom();
       else
-	$info['sn']               = $compte->nom_a_afficher;
+	$info['sn']             = $compte->nom_a_afficher;
       if ($compte->getPrenom())
       $info['givenName']        = $compte->getPrenom(); 
       $info['cn']               = $compte->nom_a_afficher;
@@ -48,9 +52,9 @@ class CompteLdap extends acVinLdap {
       $info['objectClass'][2]   = 'posixAccount';
       $info['objectClass'][3]   = 'inetOrgPerson';
       $info['loginShell']       = '/bin/bash';
-      $info['uidNumber']        = '1000';
+      $info['uidNumber']        = self::getIdentifiant($compte);
       $info['gidNumber']        = '1000';
-      $info['homeDirectory']    = '/home/'.$compte->identifiant;
+      $info['homeDirectory']    = '/home/'.self::getIdentifiant($compte);
       if ($compte->email && preg_match('/@/', $compte->email))
 	$info['mail']             = $compte->email;
       if ($compte->adresse) {

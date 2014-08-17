@@ -190,6 +190,7 @@ class Compte extends BaseCompte {
         
         if($from_task){
             parent::save();
+	    $this->autoUpdateLdap();
             return;
         }
         $this->tags->remove('automatique');
@@ -223,6 +224,7 @@ class Compte extends BaseCompte {
         $this->updateNomAAfficher();
 
         parent::save();
+	$this->autoUpdateLdap();
 
         if (!$fromsociete) {
             $this->synchroAndSaveSociete();
@@ -408,6 +410,13 @@ class Compte extends BaseCompte {
 
     public function isActif() {
       return ($this->statut == CompteClient::STATUT_ACTIF);
+    }
+
+    public function autoUpdateLdap($verbose = 0) {
+      if (sfConfig::get('app_ldap_autoupdate', false)) {
+	return $this->updateLdap($verbose);
+      }
+      return ;
     }
 
     public function updateLdap($verbose = 0) {
