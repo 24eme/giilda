@@ -81,7 +81,7 @@ L’application de télédéclaration des contrats d’INTERLOIRE';
         $mess .= "  
 
  
-Ce contrat a été signé éléctroniquement par l'ensemble des ... . Pour le visualiser à tout moment vous pouvez cliquez sur le lien suivant : http://vinsdeloire.pro
+Ce contrat a été signé électroniquement par l'ensemble des soussigné. Pour le visualiser à tout moment vous pouvez cliquez sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/".$this->vrac->numero_contrat."/visualisation
 
 Ci joint, le PDF correspondant avec le numéro de visa INTERLOIRE.
  
@@ -93,16 +93,16 @@ Pour toutes questions, veuillez contacter l’interlocuteur commercial, responsa
 
 L’application de télédéclaration des contrats d’INTERLOIRE";
        
-//        $pdf = new VracLatex($this->vrac);
-//        $pdfContent = $pdf->getPDFFileContents();        
-//        $pdfName = $pdf->getPublicFileName();
+        $pdf = new VracLatex($this->vrac);
+        $pdfContent = $pdf->getPDFFileContents();        
+        $pdfName = $pdf->getPublicFileName();
 
         
         foreach ($soussignesArr as $id => $soussigne) {
 
             $message = $this->getMailer()->compose(array('declaration@vinsvaldeloire.fr' => "Contrats INTERLOIRE"), $soussigne->email, '[Contact télédéclaration] Validation du contrat n° '.$this->vrac->numero_contrat.' (' . $createur->nom . ')', $mess);
-           // $attachment = new Swift_Attachment($pdfContent, $pdfName, 'application/pdf');
-         //   $message->attach($attachment);
+            $attachment = new Swift_Attachment($pdfContent, $pdfName, 'application/pdf');
+            $message->attach($attachment);
             try {
                 $this->getMailer()->send($message);
             } catch (Exception $e) {
