@@ -103,12 +103,9 @@ L’application de télédéclaration des contrats d’INTERLOIRE";
             $message = $this->getMailer()->compose(array('declaration@vinsvaldeloire.fr' => "Contrats INTERLOIRE"), $soussigne->email, '[Contact télédéclaration] Validation du contrat n° '.$this->vrac->numero_contrat.' (' . $createur->nom . ')', $mess);
             $attachment = new Swift_Attachment($pdfContent, $pdfName, 'application/pdf');
             $message->attach($attachment);
-            try {
-                $this->getMailer()->send($message);
-            } catch (Exception $e) {
-                $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
-                return null;
-            }
+            $attachment = new Swift_Attachment(file_get_contents(dirname(__FILE__).'/../../../../../web/data/reglementation_generale_des_transactions.pdf'), 'reglementation_generale_des_transactions.pdf', 'application/pdf');
+            $message->attach($attachment);
+	    $this->getMailer()->send($message);
             $resultEmailArr[] = $soussigne->email;
         }
         return $resultEmailArr;
