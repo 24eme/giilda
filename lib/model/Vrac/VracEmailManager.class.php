@@ -34,8 +34,10 @@ class VracEmailManager {
         $resultEmailArr[] = $createurObject->email;
         $responsableNom = $createurObject->nom;
         $responsableCourtier = ($createurObject->isCourtier() 
-                && ($this->vrac->exist('interlocuteur_commercial')))?
-                ', dont l\'interlocuteur commercial est '.$this->vrac->nom : '' ;
+                && ($this->vrac->exist('interlocuteur_commercial')
+                && $this->vrac->interlocuteur_commercial)
+                && $this->vrac->interlocuteur_commercial->exist('nom'))?
+                ', dont l\'interlocuteur commercial est '.$this->vrac->interlocuteur_commercial->nom : '' ;
         
         $mess = 
 "Bonjour, 
