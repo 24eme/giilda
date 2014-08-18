@@ -307,23 +307,7 @@ var majTotal = function(quantiteField) {
     }
 };
 
-var changeMillesimeLabelAndDefault = function(nextMillesime, actuelMillesime) {
-    switch ($("#type_transaction input:checked").val()) {
-        case "<?php echo VracClient::TYPE_TRANSACTION_MOUTS ?>":
-        case "<?php echo VracClient::TYPE_TRANSACTION_RAISINS ?>":
-            $("div#millesime label").text('Récolte');
-            $("div#millesime > input").val(nextMillesime);
-            $("div#millesime > input").change();
-            break;
 
-        case "<?php echo VracClient::TYPE_TRANSACTION_VIN_VRAC ?>":
-        case "<?php echo VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE ?>":
-            $("div#millesime label").text('Millésime');
-            $("div#millesime > input").val(actuelMillesime);
-            $("div#millesime > input").change();
-            break;
-    }
-}
 
 var refreshContratsSimilaire = function(integrite, ajaxParams)
 {
