@@ -135,8 +135,11 @@ function showRecapVolumePropose($vrac) {
             case VracClient::TYPE_TRANSACTION_MOUTS: return echoF($vrac->volume_propose) . ' hl (moûts)';
             case VracClient::TYPE_TRANSACTION_VIN_VRAC: return echoF($vrac->volume_propose) . ' hl (vrac)';
             case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE:
+                $libelle = (strstr($vrac->bouteilles_contenance_libelle, 'Bouteille'))? 
+                        str_replace('Bouteille', 'bouteilles de', $vrac->bouteilles_contenance_libelle) : $vrac->bouteilles_contenance_libelle ;
+                
                 return echoF($vrac->bouteilles_quantite) .
-                        ' bouteilles (' . $vrac->bouteilles_contenance_libelle . '), soit ' . echoF($vrac->volume_propose) . ' hl';
+                        ' ' . $libelle . ', soit ' . echoF($vrac->volume_propose) . ' hl';
         }
     }
     return '';
