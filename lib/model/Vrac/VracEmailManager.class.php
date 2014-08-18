@@ -32,34 +32,42 @@ class VracEmailManager {
         $resultEmailArr = array();
 
         $resultEmailArr[] = $createurObject->email;
-        $mess = $this->enteteMessageVrac();
+        $responsableNom = $createurObject->nom;
+        $responsableCourtier = ($createurObject->isCourtier() 
+                && ($this->vrac->exist('interlocuteur_commercial')))?
+                ', dont l\'interlocuteur commercial est '.$this->vrac->nom : '' ;
+        
+        $mess = 
+"Bonjour, 
+    
+Un contrat vient d'être initié par ".$responsableNom.", en voici un résumé : ";
+        $mess .= $this->enteteMessageVrac();
         $mess .= '  
  
 
 Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/'.$this->vrac->numero_contrat.'/visualisation
 
  
+Pour être valable, le contrat doit être signé par toutes les parties. Le PDF correspondant avec le numéro d\'enregistrement INTERLOIRE vous sera alors envoyé par courriel.
 
-Pour être valable, le contrat doit être signé par toutes les parties et visé par INTERLOIRE. Le PDF correspondant avec le numéro de visa INTERLOIRE vous sera alors envoyé par courriel.
+ 
+Attention si le contrat n’est pas signé par toutes les parties dans les 5 jours à compter de sa date de création, il sera automatiquement supprimé.
 
  
 
-Attention si le contrat n’est pas signé par toutes les parties dans les 5 jours à compte de sa date de saisie, il sera automatiquement supprimé.
-
- 
-
-Pour toutes questions, veuillez contacter l’interlocuteur commercial, responsable du contrat.
+Pour toutes questions, veuillez contacter '.$responsableNom.', responsable du contrat'.$responsableCourtier.'.
 
  
 
 ———
 
-L’application de télédéclaration des contrats d’INTERLOIRE';
+L’application de télédéclaration des contrats d’INTERLOIRE
+(ce message est adressé automatiquement, merci de ne pas répondre)';
 
 
         foreach ($nonCreateursArr as $id => $nonCreateur) {
 
-            $message = $this->getMailer()->compose(array('declaration@vinsvaldeloire.fr' => "Contrats INTERLOIRE"), $nonCreateur->email, '[Contact télédéclaration] Demande de signature (' . $createurObject->nom . ')', $mess);
+            $message = $this->getMailer()->compose(array('contact@teledeclaration.vinsvaldeloire.pro' => "Votre Espace vinsvaldeloire.pro"), $nonCreateur->email, 'Demande de signature (' . $createurObject->nom . ')', $mess);
             try {
                 $this->getMailer()->send($message);
             } catch (Exception $e) {
@@ -100,7 +108,7 @@ L’application de télédéclaration des contrats d’INTERLOIRE";
         
         foreach ($soussignesArr as $id => $soussigne) {
 
-            $message = $this->getMailer()->compose(array('declaration@vinsvaldeloire.fr' => "Contrats INTERLOIRE"), $soussigne->email, '[Contact télédéclaration] Validation du contrat n° '.$this->vrac->numero_contrat.' (' . $createur->nom . ')', $mess);
+            $message = $this->getMailer()->compose(array('contact@teledeclaration.vinsvaldeloire.pro' => "Votre Espace vinsvaldeloire.pro"), $soussigne->email, 'Validation du contrat n° '.$this->vrac->numero_contrat.' (' . $createur->nom . ')', $mess);
             
             $attachment = new Swift_Attachment($pdfContent, $pdfName, 'application/pdf');
             $message->attach($attachment);
@@ -118,19 +126,14 @@ L’application de télédéclaration des contrats d’INTERLOIRE";
         if (!$this->vrac) {
             throw new sfException("Le contrat Vrac n'existe pas.");
         }
-        return 'Contrat : « ' . VracClient::$types_transaction[$this->vrac->type_transaction] . ' » du ' . $this->vrac->valide->date_saisie
-                . '
-
- 
-
-Vendeur : ' . $this->vrac->vendeur->nom . '
-
+$mess = 'Contrat : « ' . VracClient::$types_transaction[$this->vrac->type_transaction] . ' » du ' . $this->vrac->valide->date_saisie
+                . 'Vendeur : ' . $this->vrac->vendeur->nom . '
 Acheteur : ' . $this->vrac->acheteur->nom;
         if ($this->vrac->mandataire_exist) {
             $mess .= '
-
 Courtier : ' . $this->vrac->mandataire->nom;
         }
+        return $mess;
     }
     
     private function getMailer(){
