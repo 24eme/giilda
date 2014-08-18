@@ -75,15 +75,15 @@ EOF;
 
             $courtier_typeKey = AnnuaireClient::ANNUAIRE_COMMERICAUX_KEY;
             if ($societe->isCourtier()) {
-                $vendeur = $annuaire->get($vendeur_typeKey)->add($vendeurId, $vendeurNom);
+                $vendeur = $annuaire->get($vendeur_typeKey)->add('ETABLISSEMENT-'.$vendeurId, $vendeurNom);
                 echo "Ajout dans l'annuaire de C " . $societe->identifiant . " Vendeur " . $vendeurId . " (" . $vendeurNom . ")\n";
 
-                $acheteur = $annuaire->get($acheteur_typeKey)->add($acheteurId, $acheteurNom);
+                $acheteur = $annuaire->get($acheteur_typeKey)->add('ETABLISSEMENT-'.$acheteurId, $acheteurNom);
                 echo "Ajout dans l'annuaire de C " . $societe->identifiant . " Acheteur " . $acheteurId . " (" . $acheteurNom . ")\n";
             } else {
                 if ($mandataireId = $contrat->value[VracClient::VRAC_VIEW_MANDATAIRE_ID]) {
                     $mandataireNom = $contrat->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM];
-                    $mandataire = $annuaire->get($courtier_typeKey)->add($mandataireId, $mandataireNom);
+                    $mandataire = $annuaire->get($courtier_typeKey)->add('ETABLISSEMENT-'.$mandataireId, $mandataireNom);
                     echo "Ajout dans l'annuaire de " . $societe->identifiant . " Courtier " . $mandataireId . " (" . $mandataireNom . ")\n";
                 }
                 $identifiant_vendeur = substr(str_replace('ETABLISSEMENT-', '', $vendeurId), 0, 6);
@@ -93,7 +93,7 @@ EOF;
 //                    echo "Ajout dans l'annuaire de A " . $societe->identifiant . " Acheteur " . $acheteurId . " (" . $acheteurNom . ")\n";
 //                }
                 if (substr($etbId, 0, 6) == $identifiant_acheteur) {
-                    $vendeur = $annuaire->get($vendeur_typeKey)->add($vendeurId, $vendeurNom);
+                    $vendeur = $annuaire->get($vendeur_typeKey)->add('ETABLISSEMENT-'.$vendeurId, $vendeurNom);
                     echo "Ajout dans l'annuaire de V " . $societe->identifiant . " Vendeur " . $vendeurId . " (" . $vendeurNom . ")\n";
                 }
             }
