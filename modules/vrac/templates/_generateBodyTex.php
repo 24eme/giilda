@@ -12,7 +12,7 @@
 	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} & ~ & ~ & ~ \\
 	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONEANJOU} & ~ & ~ & ~  \\
 	 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONETOURS} & ~ & ~ & ~ \\
-	 \small{\INTERLOIRECOORDONNEESFAX} & ~ &  \multicolumn{2}{c|}{Le \textbf{\CONTRATDATEENTETE ~ à 12h30}} \\
+	 \small{\INTERLOIRECOORDONNEESFAX} & ~ &  \multicolumn{2}{c|}{Le \textbf{\CONTRATDATEENTETE}} \\
 	 \small{\INTERLOIRECOORDONNEESEMAIL} & ~ & ~ & ~ \\
 	\hline	
 \end{tabularx}
@@ -71,7 +71,7 @@ A été conclu le marché suivant: \\
 \begin{tabularx}{\textwidth}{|X|p{12mm}|p{24mm}|p{24mm}|p{24mm}|}
 \hline
 ~ & ~ & ~ & ~ & ~ \\
-\textbf{Appellation / couleur / type} & \multicolumn{1}{c|}{\textbf{<?php echo $vrac->getMillesimeLabel(); ?>}} & \multicolumn{1}{c|}{\textbf{Type de Transaction}} & \multicolumn{1}{c|}{\textbf{Volume Proposé}} & \multicolumn{1}{c|}{\textbf{Prix}} \\
+\textbf{Appellation / couleur / type} & \multicolumn{1}{c|}{\textbf{<?php echo $vrac->getMillesimeLabel(); ?>}} & \multicolumn{1}{c|}{\textbf{Type de Transaction}} & \multicolumn{1}{c|}{\textbf{Quantité Proposée}} & \multicolumn{1}{c|}{\textbf{Prix}} \\
 ~ & ~ & ~ & ~ & ~ \\
 \hline
 ~ & ~ & ~ & ~ & ~ 

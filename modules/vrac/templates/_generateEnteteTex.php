@@ -16,7 +16,7 @@ use_helper('Display');
 
 \def\CONTRATNUMENREGISTREMENT{<?php echo $vrac->getNumeroArchive(); ?>}
 \def\CONTRATVISA{<?php echo $vrac->getVisa(); ?>}
-\def\CONTRATDATEENTETE{<?php echo Date::francizeDate(getDateValidation($vrac)); ?>}
+\def\CONTRATDATEENTETE{<?php echo date("d/m/Y à H\hi", strtotime($vrac->valide->date_saisie)); ?>}
 
 \def\CONTRAT_TITRE{<?php echo "CONTRAT D'ACHAT EN PROPRIETE"; ?>}
 

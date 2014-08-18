@@ -93,15 +93,15 @@ L’application de télédéclaration des contrats d’INTERLOIRE
  
 Ce contrat a été signé électroniquement par l'ensemble des soussignés. Pour le visualiser à tout moment vous pouvez cliquer sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/".$this->vrac->numero_contrat."/visualisation
 
-Ci joint, le PDF correspondant avec le numéro de visa INTERLOIRE.
- 
-Attention le contrat ne sera annulable par le responsable du contrat durant 10 jours à compter de cette présente validation.
+Ci joint, le PDF correspondant avec le numéro d'enregistrement Interloire.
 
 Pour toutes questions, veuillez contacter l’interlocuteur commercial, responsable du contrat.
 
 ———
 
-L’application de télédéclaration des contrats d’INTERLOIRE";
+L’application de télédéclaration des contrats d’Interloire
+
+Rappel de votre identifiant : IDENTIFIANT";
        
         $pdf = new VracLatex($this->vrac);
         $pdfContent = $pdf->getPDFFileContents();        
@@ -110,6 +110,8 @@ L’application de télédéclaration des contrats d’INTERLOIRE";
         
         foreach ($soussignesArr as $id => $soussigne) {
 
+            $mess = str_replace('IDENTIFIANT', substr($soussigne->identifiant,0,6),$mess);
+            
             $message = $this->getMailer()->compose(array('contact@teledeclaration.vinsvaldeloire.pro' => "Votre Espace vinsvaldeloire.pro"), $soussigne->email, 'Validation du contrat n° '.$this->vrac->numero_contrat.' (' . $createur->nom . ')', $mess);
             
             $attachment = new Swift_Attachment($pdfContent, $pdfName, 'application/pdf');
@@ -118,6 +120,8 @@ L’application de télédéclaration des contrats d’INTERLOIRE";
             $attachment = new Swift_Attachment(file_get_contents(dirname(__FILE__).'/../../../../../web/data/reglementation_generale_des_transactions.pdf'), 'reglementation_generale_des_transactions.pdf', 'application/pdf');
             $message->attach($attachment);
 	    
+            
+            
             $this->getMailer()->send($message);
             $resultEmailArr[] = $soussigne->email;
         }
