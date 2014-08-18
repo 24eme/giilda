@@ -128,8 +128,8 @@ L’application de télédéclaration des contrats d’INTERLOIRE";
         if (!$this->vrac) {
             throw new sfException("Le contrat Vrac n'existe pas.");
         }
-$mess = 'Contrat : « ' . VracClient::$types_transaction[$this->vrac->type_transaction] . ' » du ' . $this->vrac->valide->date_saisie
-                . 'Vendeur : ' . $this->vrac->vendeur->nom . '
+$mess = 'Contrat : « ' . VracClient::$types_transaction[$this->vrac->type_transaction]. '
+Vendeur : ' . $this->vrac->vendeur->nom . '
 Acheteur : ' . $this->vrac->acheteur->nom;
         if ($this->vrac->mandataire_exist) {
             $mess .= '
