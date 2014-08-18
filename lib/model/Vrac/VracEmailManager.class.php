@@ -36,7 +36,7 @@ class VracEmailManager {
         $mess .= '  
  
 
-Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : http://vinsdeloire.pro
+Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/'.$this->vrac->numero_contrat.'/visualisation
 
  
 
@@ -81,7 +81,7 @@ L’application de télédéclaration des contrats d’INTERLOIRE';
         $mess .= "  
 
  
-Ce contrat a été signé électroniquement par l'ensemble des soussigné. Pour le visualiser à tout moment vous pouvez cliquez sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/".$this->vrac->numero_contrat."/visualisation
+Ce contrat a été signé électroniquement par l'ensemble des soussignés. Pour le visualiser à tout moment vous pouvez cliquer sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/".$this->vrac->numero_contrat."/visualisation
 
 Ci joint, le PDF correspondant avec le numéro de visa INTERLOIRE.
  
@@ -101,11 +101,14 @@ L’application de télédéclaration des contrats d’INTERLOIRE";
         foreach ($soussignesArr as $id => $soussigne) {
 
             $message = $this->getMailer()->compose(array('declaration@vinsvaldeloire.fr' => "Contrats INTERLOIRE"), $soussigne->email, '[Contact télédéclaration] Validation du contrat n° '.$this->vrac->numero_contrat.' (' . $createur->nom . ')', $mess);
+            
             $attachment = new Swift_Attachment($pdfContent, $pdfName, 'application/pdf');
             $message->attach($attachment);
+            
             $attachment = new Swift_Attachment(file_get_contents(dirname(__FILE__).'/../../../../../web/data/reglementation_generale_des_transactions.pdf'), 'reglementation_generale_des_transactions.pdf', 'application/pdf');
             $message->attach($attachment);
-	    $this->getMailer()->send($message);
+	    
+            $this->getMailer()->send($message);
             $resultEmailArr[] = $soussigne->email;
         }
         return $resultEmailArr;
