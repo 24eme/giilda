@@ -6,6 +6,6 @@
             Vous pouvez télécharger ci-dessous la réglementation générale des transactions au format pdf.
         </p>
 
-        <a href="<?php echo url_for('reglementation_generale_des_transactions'); ?>" class="lien_notice">Réglementation</a>
+        <a href="<?php echo url_for('reglementation_generale_des_transactions'); ?>" class="lien_telechargement">Réglementation</a>
     </div>
 </div>
