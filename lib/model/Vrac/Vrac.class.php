@@ -545,8 +545,8 @@ class Vrac extends BaseVrac {
     }
 
     public function getFraisDeGarde() {
-        if ($this->exist('frais_de_garde')) {
-            return $this->visa;
+        if ($this->exist('enlevement_frais_garde')) {
+            return $this->enlevement_frais_garde;
         }
         return "0";
     }
