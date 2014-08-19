@@ -74,7 +74,7 @@ EOF;
                 $master_compte = $this->societe->getMasterCompte();
                 if(!array_key_exists($master_compte->identifiant, $assignedComptes)){
                     $this->code_creation = ($this->debug)? sprintf("%04d",$this->code_creation) : sprintf("%04d",rand(0, 9999)); 
-                    $master_compte->add('mot_de_passe', "{TEXT}"+$this->code_creation);
+                    $master_compte->add('mot_de_passe', "{TEXT}".$this->code_creation);
                     $master_compte->save(false,false,false,true);
                     echo $this->societe->identifiant.";".$this->code_creation.";".$this->societe->raison_sociale_abregee.";".$this->societe->siege->adresse.";".$this->societe->siege->code_postal.";".$this->societe->siege->commune."\n";
                     $assignedComptes[$master_compte->identifiant] = $master_compte->identifiant;
