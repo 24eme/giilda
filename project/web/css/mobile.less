@@ -142,8 +142,45 @@
 	}
 }
 
+
 /* ======================================================= */
-/* TABLEAU DES CONTRATS */
+/* FORMULAIRES */
+/* ======================================================= */
+#vendeur_infos .bloc_form,
+#conditions_recapitulatif .bloc_form,
+#marche_recapitulatif .bloc_form,
+#soussigne_recapitulatif .bloc_form,
+#vrac_marche_prixVariable .bloc_form,
+#vrac_soussigne .bloc_form,
+#date_campagne.ligne_form,
+#date_signature.ligne_form
+{
+	label,
+	.infos { display: block; }
+
+	label { margin: 0 0 5px; }
+
+	.infos { margin: 10px 0 0 !important; }
+}
+
+#contenu_etape #vrac_soussigne .ligne_form { height: auto; }
+
+#vrac_soussigne, 
+#vrac_marche,
+#vrac_condition, 
+#vrac_validation, 
+#vrac_recapitulatif
+{
+	.col
+	{
+		display: block;
+		float: none;
+		width: auto;
+	}
+}
+
+/* ======================================================= */
+/* VRAC */
 /* ======================================================= */
 #table_contrats
 {
@@ -208,40 +245,18 @@
 
 }
 
-
-/* ======================================================= */
-/* FORMULAIRES */
-/* ======================================================= */
-#vendeur_infos .bloc_form,
-#conditions_recapitulatif .bloc_form,
-#marche_recapitulatif .bloc_form,
-#soussigne_recapitulatif .bloc_form,
-#vrac_marche_prixVariable .bloc_form,
-#vrac_soussigne .bloc_form,
-#date_campagne.ligne_form,
-#date_signature.ligne_form
+#principal .stats_contrats
 {
-	label,
-	.infos { display: block; }
-
-	label { margin: 0 0 5px; }
-
-	.infos { margin: 10px 0 0 !important; }
-}
-
-#contenu_etape #vrac_soussigne .ligne_form { height: auto; }
-
-#vrac_soussigne, 
-#vrac_marche,
-#vrac_condition, 
-#vrac_validation, 
-#vrac_recapitulatif
-{
-	.col
+	.actions_2,
+	.actions_3
 	{
-		display: block;
-		float: none;
-		width: auto;
+		float: none; 
+		width: auto; 
+	}
+
+	.stats_contrats_a_signer
+	{
+		h2:before { left: 8px; }
 	}
 }
 
