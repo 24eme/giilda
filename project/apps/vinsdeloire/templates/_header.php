@@ -12,7 +12,9 @@
 				<?php include_component('global', 'nav'); ?>
 			</div>
 
-			<button class="btn_menu" type="button">Menu</button>
+			<?php if ($sf_user->hasCredential('transactions')): ?>
+				<button class="btn_menu" type="button">Menu</button>
+			<?php endif; ?>
 			
 			<div id="actions_utilsateur">
 
