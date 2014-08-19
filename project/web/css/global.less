@@ -497,7 +497,31 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 {
 	.btn_icone;
 
-	&:after { background-position: 3px -601px; }
+	&:after 
+	{ 
+		background-position: 3px -601px; 
+		height: 21px;
+	}
+}
+
+.lien_telechargement
+{
+    .helveticaneue-75-bold;
+    .majuscules;
+    color: #d00815;
+    display: inline-block;
+    margin: 30px 0 0;
+    padding: 0 0 0 30px;
+    position: relative;
+
+    &:before
+    {
+        .pos-abs(-2px, auto, auto, 0);
+        .sprite-pictos-actions(0 -623px);
+        content: '';
+        height: 21px;
+        width: 21px;
+    }
 }
 
 .ui-autocomplete .btn_ajout_autocomplete a
