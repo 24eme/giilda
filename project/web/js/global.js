@@ -132,6 +132,21 @@ var fbConfig =
 			});
 		});
 	};
+
+	/**
+	 * Ouvre / Ferme le menu sur mobile
+	 * $.initToggleNavMobile();
+	 ******************************************/
+	$.initToggleNavMobile = function()
+	{
+		var nav = $('#navigation');
+		var btnMenu = $('#header .btn_menu');
+
+		btnMenu.click(function()
+		{
+			nav.toggle();
+		});
+	};
 	
 	
 	
@@ -146,6 +161,8 @@ var fbConfig =
 		$.inputPlaceholder();
 		
 		$.initTableSelection();
+
+		$.initToggleNavMobile();
 	
                 if(!('contains' in String.prototype)) {
                    String.prototype.contains = function(str, startIndex) {
