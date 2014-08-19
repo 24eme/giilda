@@ -228,9 +228,13 @@ class VracClient extends acCouchdbClient {
             }
         }
 
+        
         $brouillon_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_BROUILLON);
         $brouillon_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_BROUILLON);
-        $result->infos->brouillon = count($brouillon_contrats_current) + count($brouillon_contrats_previous);
+        
+        $nb_my_brouillons_current = $this->countBrouillons($societe,$brouillon_contrats_current);
+        $nb_my_brouillons_previous = $this->countBrouillons($societe,$brouillon_contrats_previous);
+        $result->infos->brouillon = $nb_my_brouillons_current + $nb_my_brouillons_previous;
 
         $en_attente_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE);
         $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE);
@@ -257,6 +261,16 @@ class VracClient extends acCouchdbClient {
         }
 
         return $result;
+    }
+    
+    private function countBrouillons($societe,$viewResult) {
+        $nb_brouillon = 0;
+        foreach ($viewResult as $brouillon_contrat) {
+            if ($societe->identifiant == substr($brouillon_contrat->value[self::VRAC_VIEW_CREATEURIDENTIFANT], 0, 6)) {
+                $nb_brouillon++;
+            }
+        }
+        return $nb_brouillon;
     }
 
     public function retrieveByCampagneEtablissementsAndStatuts($societe, $campagne, $etablissements, $statuts, $limit = self::RESULTAT_LIMIT) {
