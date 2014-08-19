@@ -19,14 +19,14 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm
         $this->getValidator('mdp2')->setOption('required', true);
         if($this->typeCompte == SocieteClient::SUB_TYPE_COURTIER){
             $this->setWidget('carte_pro' , new sfWidgetFormInputText());
-            $this->getWidget('carte_pro')->setLabel("Carte Pro :");
+            $this->getWidget('carte_pro')->setLabel("Numéro de carte professionnelle :");
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
         
         
         if($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR || $this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT){
             $this->setWidget('siret' , new sfWidgetFormInputText());
-            $this->getWidget('siret')->setLabel("Siret :");
+            $this->getWidget('siret')->setLabel("Numéro de siret :");
             $this->setValidator('siret', new sfValidatorString(array('required' => true), array('required' => 'Champ obligatoire')));
         }
         
