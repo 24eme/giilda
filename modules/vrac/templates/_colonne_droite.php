@@ -26,15 +26,50 @@ slot('colCompte');
                     <a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuaire">Annuaire</a>
                 <?php endif; ?>
             </div>
-            <br/>
-            <br/>
         </div>
     </div>
 </div>
 <?php end_slot(); ?>
 
+
 <?php slot('colReglementation'); ?>
 <?php include_partial('compte_teledeclarant/colReglementation'); ?>
+<?php end_slot(); ?>
+
+
+<?php slot('colLegende'); ?>
+<div id="legende" class="bloc_col">
+    <h2>Légende</h2>
+
+    <div class="contenu">
+        <h3>Types de marchés :</h3>
+
+        <div class="contenu legende">    
+            <div>
+                <span class="type_raisins">type_raisins</span>
+                <span class="legende_type_texte">Raisins</span>
+            </div>
+            <div>
+                <span class="type_mouts">type_mouts</span><span class="legende_type_texte">Mouts</span>
+            </div>
+            <div>
+                <span class="type_vin_vrac">type_vin_vrac</span><span class="legende_type_texte">Vrac</span>
+            </div>
+            <div>
+                <span class="type_vin_bouteille">type_vin_bouteille</span><span class="legende_type_texte">Conditionné</span>
+            </div>
+        </div>
+
+
+        <h3>Statuts de contrats :</h3>
+
+        <ul class="status_contrats">
+            <li><img src="/images/pictos/pi_ok.png" alt="" /> Signé par moi</li>
+            <li><img src="/images/pictos/pi_attente.png" alt="" /> En attente de signature</li>
+            <li><img src="/images/pictos/pi_ok_gris.png" alt="" /> Signé par d'autres soussignés</li>
+        </ul>
+    </div>
+</div>
 <?php end_slot(); ?>
 
 <?php
@@ -50,7 +85,7 @@ $region = $etablissementPrincipal->region;
             En cas de besoin n'hésitez pas à consulter la notice d'aide complète au format pdf.
         </p>
 
-        <a href="#" class="lien_notice">Télécharger la notice</a>
+        <a href="#" class="lien_telechargement">Télécharger la notice</a>
 
 
         <h3>Votre contact - mise en marche</h3>

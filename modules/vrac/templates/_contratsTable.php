@@ -87,7 +87,7 @@ $cpt = 0;
                                 <p>
                                     <?php echo VracClient::$statuts_labels_teledeclaration[$statut]; ?>
                                 </p> 
-                                <br/>
+
                                 <?php if (($statut == VracClient::STATUS_CONTRAT_NONSOLDE) || ($statut == VracClient::STATUS_CONTRAT_SOLDE)): ?>
                                     <a class="liens_contrat_teledeclaration" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $vracid)) ?>">
                                         Visualiser
