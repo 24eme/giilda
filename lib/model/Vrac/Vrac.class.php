@@ -95,6 +95,7 @@ class Vrac extends BaseVrac {
 
     public function createVisa() {
         $this->valide->statut = VracClient::STATUS_CONTRAT_VISE;
+        $this->valide->date_saisie = date('Y-m-d H:i:s');
         $this->update();
     }
     
@@ -545,8 +546,8 @@ class Vrac extends BaseVrac {
     }
 
     public function getFraisDeGarde() {
-        if ($this->exist('frais_de_garde')) {
-            return $this->visa;
+        if ($this->exist('enlevement_frais_garde')) {
+            return $this->enlevement_frais_garde;
         }
         return "0";
     }
