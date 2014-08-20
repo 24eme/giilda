@@ -6,7 +6,11 @@
 		
 			<div class="bloc_annuaire">
 				
-				<table class="table_recap" id="">			
+				<div style="text-align: right; margin: 10px 0;">
+					<a href="<?php echo url_for('annuaire_selectionner', array('type' => 'recoltants', 'identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un viticulteur</a>
+				</div>
+
+				<table class="table_recap">			
 					<thead>
 						<tr>
 							<th colspan="2" style="text-align: left; padding-left: 5px;">Viticulteurs (<?php echo count($annuaire->recoltants) ?>)</th>
@@ -25,14 +29,15 @@
 						<?php endif; ?>
 					</tbody>
 				</table>
-				<div style="text-align: right; margin: 10px 0;">
-					<a href="<?php echo url_for('annuaire_selectionner', array('type' => 'recoltants', 'identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un viticulteur</a>
-				</div>
 			</div>
 		<?php if($isCourtierResponsable): ?>
 			<div class="bloc_annuaire">
 			
-				<table class="table_recap" id="">			
+				<div style="text-align: right; margin: 10px 0;">
+					<a href="<?php echo url_for('annuaire_selectionner', array('type' => 'negociants', 'identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un négociant</a>
+				</div>
+
+				<table class="table_recap">			
 					<thead>
 						<tr>
 							<th colspan="2" style="text-align: left; padding-left: 5px;">Négociants (<?php echo count($annuaire->negociants) ?>)</th>
@@ -51,13 +56,14 @@
 						<?php endif; ?>
 					</tbody>
 				</table>
-				<div style="text-align: right; margin: 10px 0;">
-					<a href="<?php echo url_for('annuaire_selectionner', array('type' => 'negociants', 'identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un négociant</a>
-				</div>
 			</div>                
 			<div class="bloc_annuaire">
 			
-				<table class="table_recap" id="">			
+				<div style="text-align: right; margin: 10px 0;">
+					<a href="<?php echo url_for('annuaire_commercial_ajouter', array('identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un commercial</a>
+				</div>
+
+				<table class="table_recap">			
 					<thead>
 						<tr>
 							<th colspan="2" style="text-align: left; padding-left: 5px;">Commerciaux (<?php echo count($annuaire->commerciaux) ?>)</th>
@@ -76,9 +82,6 @@
 						<?php endif; ?>
 					</tbody>
 				</table>
-				<div style="text-align: right; margin: 10px 0;">
-					<a href="<?php echo url_for('annuaire_commercial_ajouter', array('identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un commercial</a>
-				</div>
 			</div>
                     <?php endif; ?>
 		</div>
