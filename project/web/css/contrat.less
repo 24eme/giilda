@@ -160,11 +160,13 @@
     .liens_contrat_teledeclaration 
     {
         color: #000;
+        display: inline-block;
+        margin: 10px 0 0;
         position: relative;
 
         &:before
         {
-            .pos-abs(2px, auto, auto, -9px);
+            .pos-abs(2px, auto, auto, 0);
             .triangle-r(10px, 5px, #000);
             margin: 0 5px 0 0;
         }
@@ -181,17 +183,16 @@
         .etablissement,
         .btn_form { float: left; }
 
+        .etablissement,
+        .campagne { margin: 0 15px 0 0; }
+
         .etablissement 
         { 
-            margin: 0 0 0 35px;
-
             select { width: 180px; }
         }
 
         .campagne
         {
-            margin: 0 15px 0 0;
-
             select { width: 95px; }
         }
 
@@ -267,12 +268,12 @@
 
     #table_contrats
     {
-
         td
         {
             padding: 10px;
 
-            &.soussigne {
+            &.soussigne
+            {
                 text-align: left;
             }
         }
@@ -280,11 +281,12 @@
         .num_contrat
         {
             text-align: center;
+
             a
             {
-                color:#2160cf;
-                font-style:italic;
-                text-decoration:underline;
+                color: #2160cf;
+                font-style: italic;
+                text-decoration: underline;
             }
         }
 
