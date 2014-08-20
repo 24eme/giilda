@@ -5,9 +5,9 @@
 
 <?php
 $libelle = "Merci d'indiquer votre e-mail, votre mot de passe";
-$libelle .= ($form->getTypeCompte() == SocieteClient::SUB_TYPE_COURTIER)? " et votre numéro de carte professionnel" : "";
+$libelle .= ($form->getTypeCompte() == SocieteClient::SUB_TYPE_COURTIER)? " et votre numéro de carte professionnelle" : "";
 $libelle .= (($form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR) || ($form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT))?
-            " et votre numéro de siret" : "";
+            " et votre numéro de SIRET" : "";
 $libelle .= " :";
 ?>
         <p class="titre_section"><?php echo $libelle; ?></p>

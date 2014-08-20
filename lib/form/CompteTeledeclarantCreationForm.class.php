@@ -22,14 +22,14 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
 
         if ($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR || $this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT) {
             $this->setWidget('siret', new sfWidgetFormInputText());
-            $this->getWidget('siret')->setLabel("Numéro de siret* :");
+            $this->getWidget('siret')->setLabel("Numéro de SIRET* :");
             $this->setValidator('siret', new sfValidatorRegex(array('required' => true,
                 'pattern' => "/^[0-9]{14}$/",
                 'min_length' => 14,
-                'max_length' => 14), array('required' => 'Le numéro de siret est obligatoire',
-                'invalid' => 'Le numéro de siret doit être constitué de 14 chiffres',
-                'min_length' => 'Le numéro de siret doit être constitué de 14 chiffres',
-                'max_length' => 'Le numéro de siret doit être constitué de 14 chiffres')));
+                'max_length' => 14), array('required' => 'Le numéro de SIRET est obligatoire',
+                'invalid' => 'Le numéro de SIRET doit être constitué de 14 chiffres',
+                'min_length' => 'Le numéro de SIRET doit être constitué de 14 chiffres',
+                'max_length' => 'Le numéro de SIRET doit être constitué de 14 chiffres')));
         }
     }
 
@@ -37,9 +37,7 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
         parent::doUpdateObject($values);
         if (($this->typeCompte == SocieteClient::SUB_TYPE_COURTIER) && ($this->getValue('carte_pro'))) {
             $etbPrincipal = $this->getObject()->getSociete()->getEtablissementPrincipal();
-            $etbPrincipal->carte_pro = $this->getValue('carte_pro
-
-            ');
+            $etbPrincipal->carte_pro = $this->getValue('carte_pro');
             $etbPrincipal->save();
         }
     }
