@@ -30,6 +30,8 @@
        				<?php else: ?>
     					<a class="deconnexion" href="<?php echo url_for('auth_logout') ?>">Déconnexion</a>
     				<?php endif; ?>
+                <?php else: ?>
+                    <a class="deconnexion" href="<?php echo url_for('homepage') ?>">Connexion</a>
                 <?php endif; ?>
 
 			</div>
