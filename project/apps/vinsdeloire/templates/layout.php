@@ -23,6 +23,7 @@
         </style>
 
         <?php include_javascripts() ?>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     </head>
     <body id="app_transaction_<?php echo sfConfig::get('app_instance'); ?>">
         <!-- #global -->
