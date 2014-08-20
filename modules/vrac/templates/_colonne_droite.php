@@ -31,12 +31,6 @@ slot('colCompte');
 </div>
 <?php end_slot(); ?>
 
-
-<?php slot('colReglementation'); ?>
-<?php include_partial('compte_teledeclarant/colReglementation'); ?>
-<?php end_slot(); ?>
-
-
 <?php slot('colLegende'); ?>
 <div id="legende" class="bloc_col">
     <h2>Légende</h2>
@@ -71,6 +65,11 @@ slot('colCompte');
     </div>
 </div>
 <?php end_slot(); ?>
+
+<?php slot('colReglementation'); ?>
+<?php include_partial('compte_teledeclarant/colReglementation'); ?>
+<?php end_slot(); ?>
+
 
 <?php
 slot('colAide');

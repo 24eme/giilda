@@ -559,8 +559,9 @@ class vracActions extends sfActions {
         }
 
         $this->redirect403IsNotTeledeclarationAndNotInVrac();
+        $this->redirect403IsInVracAndNotAllowedToSee();
 
-        $this->isProprietaire = $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->etablissementPrincipal->identifiant == $this->vrac->createur_identifiant);
+        $this->isProprietaire = $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->societe->identifiant == substr($this->vrac->createur_identifiant, 0, 6));
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         $this->isTeledeclare = $this->vrac->isTeledeclare();
         $this->isAnnulable = $this->isTeledeclarationVrac() && $this->vrac->isTeledeclarationAnnulable() && ($this->vrac->getCreateurObject()->getSociete()->identifiant === $this->societe->identifiant);
@@ -864,7 +865,7 @@ class vracActions extends sfActions {
             $this->redirect403();
         }
         if (!$this->isTeledeclarationVrac()) {
-            if(!$this->getUser()->hasCredential(Roles::CONTRAT)){
+            if (!$this->getUser()->hasCredential(Roles::CONTRAT)) {
                 $this->redirect403();
             }
         } else {
@@ -887,6 +888,24 @@ class vracActions extends sfActions {
         }
     }
 
+    private function redirect403IsInVracAndNotAllowedToSee() {
+        $this->redirect403IsNotTeledeclarationAndNotInVrac();
+        if ($this->isTeledeclarationVrac()) {
+            if (!$this->vrac->valide->exist('statut')) {
+                $this->redirect403();
+            }
+            $createur = $this->vrac->getCreateurObject();
+            if (($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) &&
+                    (substr($createur->identifiant, 0, 6) != $this->societe->identifiant)) {
+                $this->redirect403();
+            }
+            
+            if ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ANNULE) {
+                $this->redirect403();
+            }
+        }
+    }
+
     private function redirect403IfICanNotCreate() {
         if ($this->isTeledeclarationVrac()) {
             if ($this->hasTeledeclarationVracCreation()) {
@@ -902,5 +921,5 @@ class vracActions extends sfActions {
     private function redirect403() {
         $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
     }
-    
+
 }
