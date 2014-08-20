@@ -1,23 +1,24 @@
-<!-- #principal -->
-<h2 class="titre_principal">Mon compte</h2>
-
-<!-- #application_dr -->
-<div class="clearfix" id="application_dr">
-
-    <!-- #nouvelle_declaration -->
-    <div id="nouvelle_declaration">
-        <h3 class="titre_section">Mot de passe oublié</h3>
-        <div class="contenu_section">
-            <p class="intro">Un email vient de vous etre envoyé. Veuillez cliquer sur le lien contenu dans cet email afin de redéfinir votre mot de passe</p>
-            <p class="ligne_btn_retour"><a href="<?php echo url_for('homepage'); ?>"><img src="/images/boutons/btn_retour.png" alt="Retour" /></a></p>
+<div id="principal" class="clearfix">
+    <h2 class="titre_principal">Mon compte - Mot de passe oublié</h2>
+    
+    <br/>
+    
+        <div id="modification_compte" class="fond" >
+            <div class="presentation clearfix">
+                <p class="titre_section">Vos identifiants de connexion : </p>
+                <br/>
+                <div class="bloc_form bloc_form_condensed" >        
+                    <div class="ligne_form ligne_form_alt">
+                        Un email vient de vous etre envoyé. Veuillez cliquer sur le lien contenu dans cet email afin de redéfinir votre mot de passe.
+                    </div>
+                </div>
+            </div>
+            <div class="ligne_btn">
+                    <a href="<?php echo url_for('homepage'); ?>" class=" btn_majeur btn_modifier modifier" alt="Retour" style="cursor: pointer; float: right;">Retour</a>
+                </div>
         </div>
-    </div>
-    <!-- fin #nouvelle_declaration -->
-
-    <!-- #precedentes_declarations -->
-
-    <!-- fin #precedentes_declarations -->
 </div>
-<!-- fin #application_dr -->
 
-<!-- fin #principal -->
+<?php slot('colReglementation'); ?>
+<?php include_partial('compte_teledeclarant/colReglementation'); ?>
+<?php end_slot(); ?>
