@@ -117,7 +117,7 @@ class compte_teledeclarantActions extends sfActions {
 
                 try {
                     $emailCible = $societe->getEtablissementPrincipal()->email;
-                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_name') => sfConfig::get('app_mail_from_email')),$emailCible , "Demande de mot de passe oublié", $this->getPartial('acVinCompte/motDePasseOublieEmail', array('compte' => $this->compte, 'lien' => $lien)));
+                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')),$emailCible , "Demande de mot de passe oublié", $this->getPartial('acVinCompte/motDePasseOublieEmail', array('compte' => $this->compte, 'lien' => $lien)));
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
                 }
