@@ -21,37 +21,47 @@
 		margin: 20px 0;
 	}
 
-        #points_bloquants,
-        #points_vigilance
+    #points_bloquants,
+    #points_vigilance
+    {
+        .error,
+        .warning
         {
-            .error,
-            .warning
-            {
-                .border-radius(4px);
-                margin: 10px 0;
-                padding: 3px;
-            }
-
-            p { font-weight: bold; }
+            .border-radius(4px);
+            margin: 10px 0;
+            padding: 3px;
         }
 
-        #points_bloquants
-        {
-            .error
-            {
-                background: #f1b2b3;
-                color: #8a0c0c;
-            }   
-        }
+        p { font-weight: bold; }
+    }
 
-        #points_vigilance
+    #points_bloquants
+    {
+        .error
         {
-            .warning
-            {
-                background: #ffd58c;
-                color: #a03b09;
-            }
+            background: #f1b2b3;
+            color: #8a0c0c;
+        }   
+    }
+
+    #points_vigilance
+    {
+        .warning
+        {
+            background: #ffd58c;
+            color: #a03b09;
         }
+    }
+
+   	&.mdp_oublie
+    {
+    	label
+    	{
+    		padding: 0 10px 0 0;
+			vertical-align: middle;
+    		width: auto;
+    	}
+    }
 }
 
 #recap_infos_header
