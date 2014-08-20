@@ -69,7 +69,7 @@ L’application de télédéclaration des contrats d’INTERLOIRE
 
         foreach ($nonCreateursArr as $id => $nonCreateur) {
 
-            $message = $this->getMailer()->compose(array('contact@teledeclaration.vinsvaldeloire.pro' => "Votre Espace vinsvaldeloire.pro"), $nonCreateur->email, 'Demande de signature (' . $createurObject->nom . ')', $mess);
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_name') => sfConfig::get('app_mail_from_email')), $nonCreateur->email, 'Demande de signature (' . $createurObject->nom . ')', $mess);
             try {
                 $this->getMailer()->send($message);
             } catch (Exception $e) {
@@ -110,9 +110,9 @@ Rappel de votre identifiant : IDENTIFIANT";
         
         foreach ($soussignesArr as $id => $soussigne) {
 
-            $mess = str_replace('IDENTIFIANT', substr($soussigne->identifiant,0,6),$mess);
+            $message_replaced = str_replace('IDENTIFIANT', substr($soussigne->identifiant,0,6),$mess);
             
-            $message = $this->getMailer()->compose(array('contact@teledeclaration.vinsvaldeloire.pro' => "Votre Espace vinsvaldeloire.pro"), $soussigne->email, 'Validation du contrat n° '.$this->vrac->numero_contrat.' (' . $createur->nom . ')', $mess);
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_name') => sfConfig::get('app_mail_from_email')), $soussigne->email, 'Validation du contrat n° '.$this->vrac->numero_contrat.' (' . $createur->nom . ')', $message_replaced);
             
             $attachment = new Swift_Attachment($pdfContent, $pdfName, 'application/pdf');
             $message->attach($attachment);
