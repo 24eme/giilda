@@ -611,10 +611,22 @@
                     }
                 }
 
-                .en_attente_signature,
-                .en_attente_signature_autres
+                .attente_signature_autres
                 {
                     color: #fc8f15;
+
+                    &:before
+                    {
+                        .pos-abs(3px, auto, auto, 0);                        
+                        background-image: url("../images/pictos/pi_attente_soussigne.png") no-repeat;
+                        content: '';
+                        height: 14px;
+                        width: 11px;
+                    }
+                }
+                .attente_signature
+                {
+                    color: #000000;
 
                     &:before
                     {

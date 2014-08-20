@@ -25,7 +25,11 @@
         <?php include_javascripts() ?>
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     </head>
-    <body id="app_transaction_<?php echo sfConfig::get('app_instance'); ?>">
+    
+    <?php 
+    $idBody = ($sf_user->hasCredential('teledeclaration'))? "teledeclaration" : "app_transaction_".sfConfig::get('app_instance');
+    ?>
+    <body id="<?php echo $idBody; ?>">
         <!-- #global -->
         <div id="global">
 
@@ -39,7 +43,7 @@
             <?php if (sfConfig::get('app_instance') == 'preprod') : ?>
                 <div style="background: white; text-align:center; font-weight:bold; margin-bottom: 10px; color:red;">Vous êtes dans l'environnement de préproduction. Les données introduites peuvent être supprimées à tout moment.</div>
             <?php endif; ?>
-            <div id="global_content" class="<?php include_slot('global_css_class', null) ?>">
+            <div id="global_content" class="<?php include_slot('global_css_class', null) ?> " >
                 <div id="contenu">
                     <?php echo $sf_content ?>
                     <aside id="colonne">

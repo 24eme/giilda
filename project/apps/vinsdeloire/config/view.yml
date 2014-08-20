@@ -11,6 +11,7 @@ default:
     #keywords:     symfony, project
     #language:     en
     #robots:       index, follow
+    #viewport:      width=device-width, initial-scale=1.0
 
   stylesheets:    [compile.css]
 
