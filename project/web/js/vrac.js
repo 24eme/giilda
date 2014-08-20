@@ -248,7 +248,7 @@ var updatePanelsAndUnitForBottle = function(event)
     }
 };
 
-var majTotal = function(quantiteField) {
+var majTotal = function(quantiteField, isTeledeclarationMode) {
     var quantite = $('#vrac_' + quantiteField).val();
     var numericComma = new RegExp("^[0-9]+\,?[0-9]*$", "g");
     if (numericComma.test(quantite))
@@ -286,7 +286,7 @@ var majTotal = function(quantiteField) {
             var prix_total = quantite * parseFloat(prix_unitaire);
             $('#vrac_prix_initial_total').text(parseFloat(prix_initial_total).toFixed(2));
             $('#vrac_prix_initial_unite').text('€');
-            if (quantiteField == 'raisin_quantite' && !this.isTeledeclarationMode)
+            if (quantiteField == 'raisin_quantite' && !isTeledeclarationMode)
             {
                 var prix_initial_hl = prix_initial_total / hlRaisins;
                 $('#prixInitialUnitaire span#prix_initial_unitaire_unite').text("€/kg (soit " + parseFloat(prix_initial_hl).toFixed(2) + " €/hl)");
@@ -298,7 +298,7 @@ var majTotal = function(quantiteField) {
             $('#vrac_prix_total').text(parseFloat(prix_total).toFixed(2));
             $('#vrac_prix_unite').text('€');
 
-            if (quantiteField == 'raisin_quantite' && !this.isTeledeclarationMode)
+            if (quantiteField == 'raisin_quantite' && !isTeledeclarationMode)
             {
                 var prix_hl = prix_initial_total / hlRaisins;
                 $('#prixInitialUnitaire span#prix_unitaire_unite').text("€/kg (soit " + parseFloat(prix_hl).toFixed(2) + " €/hl)");
