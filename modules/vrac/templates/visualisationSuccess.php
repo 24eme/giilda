@@ -26,7 +26,14 @@ use_helper('Vrac');
                     <?php if (!$isTeledeclarationMode): ?>
                         <span class="statut <?php echo getClassStatutPicto($vrac, $isTeledeclarationMode); ?>"></span><span class="legende_statut_texte"><?php echo $vrac->getStatutLabel(); ?></span>
                     <?php else: ?>
-                        <span class="<?php echo strtolower($vrac->valide->statut); ?>"><?php echo "Contrat de " . showType($vrac) . '&nbsp;-&nbsp;' . $vrac->getTeledeclarationStatutLabel(); ?></span>
+                        <?php 
+                            $classStatut = strtolower($vrac->valide->statut);
+                            if(($vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) && !$vrac->isSocieteHasSigned($societe)){
+                                $classStatut = 'en_attente_signature_autres';
+                            }
+                            
+                        ?>
+                        <span class="<?php echo $classStatut; ?>"><?php echo "Contrat de " . showType($vrac) . '&nbsp;-&nbsp;' . $vrac->getTeledeclarationStatutLabel(); ?></span>
                     <?php endif; ?>                           
                 </div>
             </h2>
