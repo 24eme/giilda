@@ -77,7 +77,12 @@ class VracHistoryRechercheForm extends sfForm {
             if ($statut == VracClient::STATUS_CONTRAT_VISE || $statut == VracClient::STATUS_CONTRAT_VALIDE) {
                 continue;
             }
-            $statuts[$statut] = VracClient::$statuts_labels[$statut];
+            if ($statut == VracClient::STATUS_CONTRAT_SOLDE || $statut == VracClient::STATUS_CONTRAT_NONSOLDE) {
+                $statuts["SOLDENONSOLDE"] = VracClient::$statuts_labels_teledeclaration[$statut];
+                continue;
+            }
+            
+            $statuts[$statut] = VracClient::$statuts_labels_teledeclaration[$statut];
         }
         return $statuts;
     }

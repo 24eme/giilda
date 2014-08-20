@@ -168,6 +168,7 @@ class VracClient extends acCouchdbClient {
         }
 
         $allStatuts = self::$statuts_teledeclaration_sorted;
+        $allStatuts["SOLDENONSOLDE"] = "SOLDENONSOLDE";
         if (!in_array(strtoupper($statut), $allStatuts) && $statut != 'tous') {
             throw new sfException("wrong statut id ($statut)");
         }
@@ -184,7 +185,13 @@ class VracClient extends acCouchdbClient {
         $statuts = array();
         if ($statut == 'tous') {
             $statuts = $allStatuts;
-        } else {
+        } 
+        elseif($statut == "SOLDENONSOLDE")
+        {
+            $statuts[] = VracClient::STATUS_CONTRAT_NONSOLDE;
+            $statuts[] = VracClient::STATUS_CONTRAT_SOLDE;
+        }
+        else{
             $statuts[] = $statut;
         }
         
