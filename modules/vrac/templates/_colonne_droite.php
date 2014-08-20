@@ -18,7 +18,7 @@ slot('colCompte');
                 
             <div class="ligne_btn txt_centre">
                 <?php if (isset($retour) && $retour): ?>
-                    <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_majeur btn_acces">Mes Déclarations</a>
+                    <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_majeur btn_acces">Mes Contrats</a>
                 <?php endif; ?>
             </div>
             <div class="ligne_btn txt_centre">
