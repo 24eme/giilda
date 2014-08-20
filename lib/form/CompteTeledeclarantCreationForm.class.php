@@ -24,12 +24,12 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
             $this->setWidget('siret', new sfWidgetFormInputText());
             $this->getWidget('siret')->setLabel("Numéro de siret* :");
             $this->setValidator('siret', new sfValidatorRegex(array('required' => true,
-                'pattern' => "/^[0-9]{10}$/",
+                'pattern' => "/^[0-9]{14}$/",
                 'min_length' => 14,
                 'max_length' => 14), array('required' => 'Le numéro de siret est obligatoire',
-                'invalid' => 'Le numéro de siret doit être costitué de 10 chiffres',
-                'min_length' => 'Le numéro de siret doit être costitué de 14 chiffres',
-                'max_length' => 'Le numéro de siret doit être costitué de 14 chiffres')));
+                'invalid' => 'Le numéro de siret doit être constitué de 14 chiffres',
+                'min_length' => 'Le numéro de siret doit être constitué de 14 chiffres',
+                'max_length' => 'Le numéro de siret doit être constitué de 14 chiffres')));
         }
     }
 
