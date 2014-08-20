@@ -79,38 +79,56 @@ class vracActions extends sfActions {
         $this->redirect('homepage');
     }
 
+    public function executeExportHistoriqueCsv(sfWebRequest $request) {
+        $this->setLayout(false);
+
+        $file = $this->getCsvFromHistory($request, false);
+        $filename = $this->createCsvFromHistoryFilename($request);
+
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+//        $this->forward404Unless($this->vracs);
+
+        $attachement = "attachment; filename=" . $filename . ".csv";
+
+        $this->response->setContentType('text/csv');
+        $this->response->setHttpHeader('Content-Disposition', $attachement);
+    }
+
     private function getCsvFromHistory($request, $limited = true) {
 
-        $this->compte = CompteClient::getInstance()->findByIdentifiant($request['identifiant']);
+        $this->identifiant = $request['identifiant'];
 
-        if (!$this->compte) {
-            new sfException("Le compte $compte n'existe pas");
+        $this->initSocieteAndEtablissementPrincipal();
+
+        $this->campagne = $request['campagne'];
+        if (!$this->campagne || !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)) {
+            throw new sfException("wrong campagne format ($this->campagne)");
         }
-        $this->societe = $this->compte->getSociete();
 
-        $this->allEtbs = (!isset($request['etablissement']) || ($request['etablissement'] == 'tous'));
-        if (!$this->allEtbs) {
-            $this->etablissements = array($request['etablissement']);
-        } else {
-            $allEtablissementsIds = array_keys($this->societe->getEtablissementsObj());
-            $this->etablissements = array();
-            foreach ($allEtablissementsIds as $allEtablissementsId) {
-                $this->etablissements[] = str_replace("ETABLISSEMENT-", "", $allEtablissementsId);
-            }
-        }
-        $this->campagnes = array($request['campagne']);
+        $this->isOnlyOneEtb = !(count($this->societe->getEtablissementsObj()) - 1);
 
-        $this->vracs = VracClient::getInstance()->retrieveByEtablissementsAndCampagnes($this->etablissements, $this->campagnes);
+        $this->etablissement = (!isset($request['etablissement']) || $this->isOnlyOneEtb ) ? 'tous' : $request['etablissement'];
+        $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' ) ? 'tous' : strtoupper($request['statut']);
+
+
+        $this->vracs = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($this->societe, $this->campagne, $this->etablissement, $this->statut);
+
         return true;
     }
 
     private function createCsvFromHistoryFilename($request) {
-        $filename = $this->societe->raison_sociale;
-        if (!$this->allEtbs) {
-            $filename .= '_' . EtablissementClient::getInstance()->retrieveById($request['etablissement'])->nom;
+        $filename = str_replace(' ', '_', $this->societe->raison_sociale);
+
+        $filename .= '_' . $request['campagne'];
+        if (!$this->isOnlyOneEtb && ($this->etablissement != $this->etablissementPrincipal->identifiant)) {
+            $filename .= '_' . EtablissementClient::getInstance()->retrieveById($this->etablissement)->nom;
         }
-        if (!$this->allCampagne) {
-            $filename .= '_' . $request['campagne'];
+        if ($this->statut != "tous") {
+            if ($this->statut == "SOLDENONSLODE") {
+                $filename .= '_VALIDE';
+            } else {
+                $filename .= '_' . $this->statut;
+            }
         }
         return $filename;
     }
@@ -278,13 +296,6 @@ class vracActions extends sfActions {
 
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
-        if ($this->compte->identifiant != $this->identifiant) {
-            /*
-             * PROCTECT WITH 403
-             */
-            throw new sfException("Le compte $this->identifiant ne correspond pas aux droits");
-        }
-
         $this->campagne = $request['campagne'];
         if (!$this->campagne || !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)) {
             throw new sfException("wrong campagne format ($this->campagne)");
@@ -318,21 +329,6 @@ class vracActions extends sfActions {
         $this->vrac->signatureByEtb($this->etablissement_concerned);
         $this->vrac->save();
         $this->redirect('vrac_visualisation', $this->vrac);
-    }
-
-    public function executeExportHistoriqueCsv(sfWebRequest $request) {
-        $this->setLayout(false);
-
-        $file = $this->getCsvFromHistory($request, false);
-        $filename = $this->createCsvFromHistoryFilename($request);
-
-        $this->redirect403IfIsNotTeledeclaration();
-        $this->forward404Unless($this->vracs);
-
-        $attachement = "attachment; filename=" . $filename . ".csv";
-
-        $this->response->setContentType('text/csv');
-        $this->response->setHttpHeader('Content-Disposition', $attachement);
     }
 
     public function executeAnnuaire(sfWebRequest $request) {
@@ -899,7 +895,7 @@ class vracActions extends sfActions {
                     (substr($createur->identifiant, 0, 6) != $this->societe->identifiant)) {
                 $this->redirect403();
             }
-            
+
             if ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ANNULE) {
                 $this->redirect403();
             }
