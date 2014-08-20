@@ -3,8 +3,14 @@
 
         <h2 class="titre_principal">Création de votre compte</h2>
 
-
-        <p class="titre_section">Merci d'indiquer votre e-mail et un mot de passe: </p>
+<?php
+$libelle = "Merci d'indiquer votre e-mail, votre mot de passe";
+$libelle .= ($form->getTypeCompte() == SocieteClient::SUB_TYPE_COURTIER)? " et votre numéro de carte professionnelle" : "";
+$libelle .= (($form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR) || ($form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT))?
+            " et votre numéro de SIRET" : "";
+$libelle .= " :";
+?>
+        <p class="titre_section"><?php echo $libelle; ?></p>
         <br/>
         <div id="creation_compte_teledeclaration" class="fond" >
             <div class="bloc_form bloc_form_condensed">               
