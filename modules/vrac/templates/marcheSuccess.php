@@ -90,7 +90,7 @@ endforeach;
         <form id="vrac_marche" method="post" action="<?php echo url_for('vrac_marche', $vrac) ?>">    
 
             <?php echo $form->renderHiddenFields() ?>
-            <?php echo $form->renderGlobalErrors() ?>
+
 
 
             <div id="marche">

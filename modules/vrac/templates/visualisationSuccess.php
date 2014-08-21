@@ -28,8 +28,8 @@ use_helper('Vrac');
                     <?php else: ?>
                         <?php 
                             $classStatut = strtolower($vrac->valide->statut);
-                            if(($vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) && !$vrac->isSocieteHasSigned($societe)){
-                                $classStatut = 'en_attente_signature_autres';
+                            if(($vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) && $vrac->isSocieteHasSigned($societe)){
+                                $classStatut = 'attente_signature_autres';
                             }
                             
                         ?>

@@ -60,7 +60,7 @@ Attention si le contrat n’est pas signé par toutes les parties dans les 5 jou
 
  
 
-Pour toutes questions, veuillez contacter ".$responsableNom.", responsable du contrat".$responsableCourtier.".
+Pour toutes questions, veuillez contacter ".$responsableNom.", responsable du contrat".$responsableCourtier."
 
  
 
@@ -109,7 +109,7 @@ Ce contrat a été signé électroniquement par l'ensemble des soussignés. Pour
 
 Ci joint, le PDF correspondant avec le numéro d'enregistrement Interloire.
 
-Pour toutes questions, veuillez contacter ".$responsableNom.", responsable du contrat".$responsableCourtier.".
+Pour toutes questions, veuillez contacter ".$responsableNom.", responsable du contrat".$responsableCourtier."
 
 ———
 
@@ -177,7 +177,7 @@ $mess .= "
 
 Il ne sera plus visible ni accessible sur le portail déclaratif d'Interloire.
 
-Pour toutes questions, veuillez contacter ".$responsableNom.", responsable du contrat".$responsableCourtier.".
+Pour toutes questions, veuillez contacter ".$responsableNom.", responsable du contrat".$responsableCourtier."
 
 ———
 

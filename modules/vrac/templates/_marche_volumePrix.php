@@ -35,8 +35,8 @@ function getBouteilleContenance($value) {
         </div>
 
         <!--  Affichage des volumes disponibles variables selon le type de transaction choisi  -->
+            <?php echo $form->renderGlobalErrors() ?>
         <div id="volume" class="ligne_form">
-            
             <?php echo $form['bouteilles_quantite']->renderError() ?>
             <div class="bouteilles_quantite "
                  <?php echo ($isBouteille)? '' : 'style="display: none;"' ?> >                
