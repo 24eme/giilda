@@ -8,7 +8,8 @@
 
         <!-- #nouvelle_declaration -->
         <div id="nouvelle_declaration">
-            <h3 class="titre_section">Connexion</h3>
+            <h3 class="titre_section" style="margin: 10px 0;">Connexion</h3>
+
             <div class="contenu_section">
                 <p class="intro">Merci d'indiquer un nouveau mot de passe: </p>
                 <div class="ligne_form ligne_form_label">
@@ -25,8 +26,8 @@
                     <?php echo $form['mdp2']->render() ?>
                 </div>
 
-                <div class="ligne_form ligne_btn">
-                    <input type="image" alt="Valider" src="/images/boutons/btn_valider.png" name="boutons[valider]" class="btn">
+              <div style="margin: 10px 0; clear: both; float: right;">
+                     <button class="btn_vert btn_majeur " type="submit">Valider</button> 
                 </div>
             </div>
         </div>
