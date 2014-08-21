@@ -245,7 +245,7 @@ endif;
 <?php if ($isTeledeclarationMode): ?>
 <script type="text/javascript">
     $(document).ready(function() {
-        $(".ajouter_annuaire").click(function() {
+        $(".btn_ajout_autocomplete a").live('click', function() {
             $("#vrac_soussigne").attr('action', $(this).attr('href'));
             $("#vrac_soussigne").submit();
             return false;
