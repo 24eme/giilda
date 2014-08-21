@@ -45,7 +45,9 @@
             <?php endif; ?>
             <div id="global_content" class="<?php include_slot('global_css_class', null) ?> " >
                 <div id="contenu">
-                    <?php echo $sf_content ?>
+                    <div class="center">
+                        <a href="#" id="btn_colonne" class="btn_majeur btn_noir"><i class="ouvrir">Ouvrir</i><i class="fermer">Fermer</i> la barre d'actions</a>
+                    </div>
                     <aside id="colonne">
                         <?php
                         include_slot('colButtons');
@@ -83,6 +85,7 @@
 
 
                     </aside>
+                    <?php echo $sf_content ?>
                 </div>
                 <?php include_partial('global/shortcutKeys') ?>
                 <?php include_partial('global/footer'); ?>
