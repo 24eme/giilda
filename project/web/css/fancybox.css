@@ -35,6 +35,11 @@
 	z-index: 8030;
 }
 
+/*
+	Correction pour la popup de signature de contrat qui sautait en position absolute
+*/
+body#teledeclaration .fancybox-opened { position: fixed !important; }
+
 .fancybox-opened .fancybox-skin {
 	-webkit-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 	   -moz-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
