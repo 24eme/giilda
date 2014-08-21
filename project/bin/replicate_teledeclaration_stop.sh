@@ -2,8 +2,11 @@
 
 . bin/config.inc
 
-DOC_FILTER_ID=replication_teledeclaration
+DOC_REV=$(curl -s "http://$COUCHHOST:$COUCHPORT/_replicator/REPLICATION_TELEDECLARATION" | grep -Eo "_rev\":\"[0-9a-Z-]+\"" | sed 's/_rev":"//' | sed 's/"//')
 
-echo "{\"source\":\"$COUCHBASE\",\"target\":\"$REPLICATE_TELEDECLARATION_URL\",\"continuous\": true, \"cancel\": true}" > /tmp/params_replication_teleclaration.json
+if ! test "$DOC_REV" ; then
+  echo "THE DOC DOES NOT EXIST"
+  exit
+fi
 
-curl -H "Content-Type: application/json" -X POST -d '@/tmp/params_replication_teleclaration.json' "http://$COUCHHOST:$COUCHPORT/_replicate"
+curl -H "Content-Type: application/json" -X DELETE "http://$COUCHHOST:$COUCHPORT/_replicator/REPLICATION_TELEDECLARATION?rev=$DOC_REV"

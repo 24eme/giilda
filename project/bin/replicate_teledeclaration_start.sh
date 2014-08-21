@@ -2,9 +2,13 @@
 
 . bin/config.inc
 
-DOC_FILTER_ID=replication_teledeclaration
-DOC_FILTER_REV=$(curl -s "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/replication_teledeclaration" | grep -Eo "_rev\":\"[0-9a-Z-]+\"" | sed 's/_rev":"//' | sed 's/"//')
+DOC_REV=$(curl -s "http://$COUCHHOST:$COUCHPORT/_replicator/REPLICATION_TELEDECLARATION" | grep -Eo "_rev\":\"[0-9a-Z-]+\"" | sed 's/_rev":"//' | sed 's/"//')
 
-echo "{\"source\":\"$COUCHBASE\",\"target\":\"$REPLICATE_TELEDECLARATION_URL\",\"continuous\": true}" > /tmp/params_replication_teleclaration.json
+if test "$DOC_REV" ; then
+  echo "THE DOC ALREADY EXIST"
+  exit
+fi
 
-curl -H "Content-Type: application/json" -X POST -d '@/tmp/params_replication_teleclaration.json' "http://$COUCHHOST:$COUCHPORT/_replicate"
+echo "{\"_id\": \"REPLICATION_TELEDECLARATION\", \"source\":\"$COUCHBASE\",\"target\":\"$REPLICATE_TELEDECLARATION_URL\",\"continuous\": true}" > /tmp/params_replication_teleclaration.json
+
+curl -H "Content-Type: application/json" -X POST -d '@/tmp/params_replication_teleclaration.json' "http://$COUCHHOST:$COUCHPORT/_replicator"
