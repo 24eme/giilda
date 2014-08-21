@@ -142,6 +142,61 @@ Rappel de votre identifiant : IDENTIFIANT";
         return $resultEmailArr;
     }
 
+    public function sendMailAnnulation($automatique = false){
+        
+        $soussignesArr = $this->vrac->getNonCreateursArray();
+        $createur = $this->vrac->getCreateurObject();
+        $soussignesArr[$createur->_id] = $createur;
+
+        $responsableNom = $createur->nom;
+        $responsableCourtier = ($createur->isCourtier() 
+                && $this->vrac->exist('interlocuteur_commercial')
+                && $this->vrac->interlocuteur_commercial
+                && $this->vrac->interlocuteur_commercial->exist('nom')
+                && $this->vrac->interlocuteur_commercial->nom)?
+                ', dont l\'interlocuteur commercial est '.$this->vrac->interlocuteur_commercial->nom : '.' ;
+                
+        $resultEmailArr = array();
+        $mess = "Bonjour, 
+            
+Le contrat suivant a été annulé :
+
+";
+        if($automatique){
+            $mess = "Bonjour, 
+            
+Le contrat suivant a été annulé automatiquement par le portail de télédeclaration :
+
+";
+        }
+        
+        $mess .= $this->enteteMessageVrac();        
+
+$mess .= "
+    
+
+Il ne sera plus visible ni accessible sur le portail déclaratif d'Interloire.
+
+Pour toutes questions, veuillez contacter ".$responsableNom.", responsable du contrat".$responsableCourtier.".
+
+———
+
+L’application de télédéclaration des contrats d’Interloire
+
+Rappel de votre identifiant : IDENTIFIANT";
+               
+        foreach ($soussignesArr as $id => $soussigne) {
+
+            $message_replaced = str_replace('IDENTIFIANT', substr($soussigne->identifiant,0,6),$mess);
+            
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->email, 'Annulation du contrat n° '.$this->vrac->numero_archive.' (' . $createur->nom . ')', $message_replaced);
+            
+            $this->getMailer()->send($message);
+            $resultEmailArr[] = $soussigne->email;
+        }
+        return $resultEmailArr;
+    }
+        
     private function enteteMessageVrac() {
         
         sfProjectConfiguration::getActive()->loadHelpers("Vrac");

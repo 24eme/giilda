@@ -758,6 +758,11 @@ class vracActions extends sfActions {
 
     private function majStatut($statut) {
         $this->vrac->valide->statut = $statut;
+        if($this->vrac->isTeledeclare() && $statut == VracClient::STATUS_CONTRAT_ANNULE){
+            $mailManager = new VracEmailManager($this->getMailer());
+            $mailManager->setVrac($this->vrac);
+            $mailManager->sendMailAnnulation();
+        }
     }
 
     private function postValidateActions() {
