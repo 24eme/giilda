@@ -120,8 +120,10 @@ class vracActions extends sfActions {
         $filename = str_replace(' ', '_', $this->societe->raison_sociale);
 
         $filename .= '_' . $request['campagne'];
-        if (!$this->isOnlyOneEtb && ($this->etablissement != $this->etablissementPrincipal->identifiant)) {
-            $filename .= '_' . EtablissementClient::getInstance()->retrieveById($this->etablissement)->nom;
+        if ($this->etablissement != 'tous') {
+            if (!$this->isOnlyOneEtb && ($this->etablissement != $this->etablissementPrincipal->identifiant)) {
+                $filename .= '_' . EtablissementClient::getInstance()->retrieveById($this->etablissement)->nom;
+            }
         }
         if ($this->statut != "tous") {
             if ($this->statut == "SOLDENONSLODE") {
