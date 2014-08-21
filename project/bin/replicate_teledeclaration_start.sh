@@ -2,6 +2,13 @@
 
 . bin/config.inc
 
-echo "{\"source\":\"$COUCHBASE\",\"target\":\"$REPLICATE_TELEDECLARATION_URL\",\"continuous\": true}" > /tmp/params_replication_teleclaration.json
+DOC_REV=$(curl -s "http://$COUCHHOST:$COUCHPORT/_replicator/REPLICATION_TELEDECLARATION" | grep -Eo "_rev\":\"[0-9a-Z-]+\"" | sed 's/_rev":"//' | sed 's/"//')
 
-curl -H "Content-Type: application/json" -X POST -d '@/tmp/params_replication_teleclaration.json' "http://$COUCHHOST:$COUCHPORT/_replicate"
+if test "$DOC_REV" ; then
+  echo "THE DOC ALREADY EXIST"
+  exit
+fi
+
+echo "{\"_id\": \"REPLICATION_TELEDECLARATION\", \"source\":\"$COUCHBASE\",\"target\":\"$REPLICATE_TELEDECLARATION_URL\",\"continuous\": true}" > /tmp/params_replication_teleclaration.json
+
+curl -H "Content-Type: application/json" -X POST -d '@/tmp/params_replication_teleclaration.json' "http://$COUCHHOST:$COUCHPORT/_replicator"
