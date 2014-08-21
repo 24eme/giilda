@@ -30,14 +30,14 @@ class VracEmailManager {
         $nonCreateursArr = $this->vrac->getNonCreateursArray();
 
         $resultEmailArr = array();
-
+        
         $resultEmailArr[] = $createurObject->email;
         $responsableNom = $createurObject->nom;
         $responsableCourtier = ($createurObject->isCourtier() 
-                && ($this->vrac->exist('interlocuteur_commercial')
-                && $this->vrac->interlocuteur_commercial)
+                && $this->vrac->exist('interlocuteur_commercial')
+                && $this->vrac->interlocuteur_commercial
                 && $this->vrac->interlocuteur_commercial->exist('nom'))?
-                ', dont l\'interlocuteur commercial est '.$this->vrac->interlocuteur_commercial->nom : '' ;
+                ', dont l\'interlocuteur commercial est '.$this->vrac->interlocuteur_commercial->nom : '.' ;
         
         $mess = 
 "Bonjour, 
@@ -46,7 +46,7 @@ Un contrat vient d'être initié par ".$responsableNom.", en voici un résumé :
 
 ";
         $mess .= $this->enteteMessageVrac();
-        $mess .= '  
+        $mess .= "  
  
 
 Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/'.$this->vrac->numero_contrat.'/visualisation
@@ -59,7 +59,7 @@ Attention si le contrat n’est pas signé par toutes les parties dans les 5 jou
 
  
 
-Pour toutes questions, veuillez contacter '.$responsableNom.', responsable du contrat'.$responsableCourtier.'.
+Pour toutes questions, veuillez contacter ".$responsableNom.", responsable du contrat".$responsableCourtier.".
 
  
 
@@ -68,14 +68,13 @@ Pour toutes questions, veuillez contacter '.$responsableNom.', responsable du co
 L’application de télédéclaration des contrats d’INTERLOIRE
 (ce message est adressé automatiquement, merci de ne pas répondre)
 
-Rappel de votre identifiant : IDENTIFIANT';
-
+Rappel de votre identifiant : IDENTIFIANT";
 
         foreach ($nonCreateursArr as $id => $nonCreateur) {
 
             $message_replaced = str_replace('IDENTIFIANT', substr($nonCreateur->identifiant,0,6),$mess);
             
-            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $nonCreateur->email, 'Demande de signature (' . $createurObject->nom . ')', $message_replaced);
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $nonCreateur->email, 'Demande de signature pour un contrat (' . $createurObject->nom . ')', $message_replaced);
             try {
                 $this->getMailer()->send($message);
             } catch (Exception $e) {
@@ -92,6 +91,13 @@ Rappel de votre identifiant : IDENTIFIANT';
         $createur = $this->vrac->getCreateurObject();
         $soussignesArr[$createur->_id] = $createur;
 
+        $responsableNom = $createur->nom;
+        $responsableCourtier = ($createur->isCourtier() 
+                && $this->vrac->exist('interlocuteur_commercial')
+                && $this->vrac->interlocuteur_commercial
+                && $this->vrac->interlocuteur_commercial->exist('nom'))?
+                ', dont l\'interlocuteur commercial est '.$this->vrac->interlocuteur_commercial->nom : '.' ;
+        
         $resultEmailArr = array();
         $mess = $this->enteteMessageVrac();
         $mess .= "  
@@ -101,7 +107,7 @@ Ce contrat a été signé électroniquement par l'ensemble des soussignés. Pour
 
 Ci joint, le PDF correspondant avec le numéro d'enregistrement Interloire.
 
-Pour toutes questions, veuillez contacter l’interlocuteur commercial, responsable du contrat.
+Pour toutes questions, veuillez contacter ".$responsableNom.", responsable du contrat".$responsableCourtier.".
 
 ———
 
@@ -118,7 +124,7 @@ Rappel de votre identifiant : IDENTIFIANT";
 
             $message_replaced = str_replace('IDENTIFIANT', substr($soussigne->identifiant,0,6),$mess);
             
-            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->email, 'Validation du contrat n° '.$this->vrac->numero_contrat.' (' . $createur->nom . ')', $message_replaced);
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->email, 'Validation du contrat n° '.$this->vrac->numero_archive.' (' . $createur->nom . ')', $message_replaced);
             
             $attachment = new Swift_Attachment($pdfContent, $pdfName, 'application/pdf');
             $message->attach($attachment);
@@ -140,12 +146,10 @@ Rappel de votre identifiant : IDENTIFIANT";
         if (!$this->vrac) {
             throw new sfException("Le contrat Vrac n'existe pas.");
         }
-        $quantite = $this->vrac->getQuantite().' '.  showPrixUnitaireUnite($this->vrac);
+        $quantite = $this->vrac->getQuantite().' '.  showUnite($this->vrac);
         
         
-$mess = 'Contrat : ' . VracClient::$types_transaction[$this->vrac->type_transaction]. '
-Produit : '.$this->vrac->produit_libelle.'
-Quantité : '.$quantite.'
+$mess = 'Contrat ' . showTypeFromLabel($this->vrac->type_transaction,'',$this->vrac). ' de '.$this->vrac->produit_libelle.' ('.$quantite.')
     
 Vendeur : ' . $this->vrac->vendeur->nom . '
 Acheteur : ' . $this->vrac->acheteur->nom;
