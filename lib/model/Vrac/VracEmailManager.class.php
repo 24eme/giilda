@@ -43,7 +43,9 @@ class VracEmailManager {
         $mess = 
 "Bonjour, 
     
-Un contrat vient d'être initié par ".$responsableNom.", en voici un résumé : ";
+Un contrat vient d'être initié par ".$responsableNom.", en voici un résumé : 
+
+";
         $mess .= $this->enteteMessageVrac();
         $mess .= '  
  
