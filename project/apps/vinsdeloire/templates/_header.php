@@ -24,11 +24,15 @@
                 <?php if($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
    				<a href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a>
                 <?php endif; ?>
-   				<?php if($sf_user->isUsurpationCompte()): ?>
-   					<a class="deconnexion" href="<?php echo url_for('vrac_dedebrayage') ?>">Quitter</a>
-   				<?php else: ?>
-					<a class="deconnexion" href="<?php echo url_for('auth_logout') ?>">Déconnexion</a>
-				<?php endif; ?>
+                <?php if($sf_user->isAuthenticated()): ?>
+       				<?php if($sf_user->isUsurpationCompte()): ?>
+       					<a class="deconnexion" href="<?php echo url_for('vrac_dedebrayage') ?>">Quitter</a>
+       				<?php else: ?>
+    					<a class="deconnexion" href="<?php echo url_for('auth_logout') ?>">Déconnexion</a>
+    				<?php endif; ?>
+                <?php else: ?>
+                    <a class="deconnexion" href="<?php echo url_for('homepage') ?>">Connexion</a>
+                <?php endif; ?>
 
 			</div>
 		</div>

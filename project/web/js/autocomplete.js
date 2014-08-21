@@ -155,8 +155,8 @@
 							if(newValueAllowed)
 							{
 								var newValue = $(this).val();
-								select.find('option').removeAttr('selected');
-								newValueOption.attr('selected','selected').val(newValue).text(newValue);
+								select.find(':selected').removeAttr('selected');
+								newValueOption.attr('selected','selected').val(newValue); //.text(newValue);
 							}
 							else
 							{
@@ -168,8 +168,13 @@
 					}
 				}
 			});
-
-			//.addClass( "ui-widget ui-widget-content ui-corner-left" );
+			if(newValueAllowed) {
+				input.keyup(function() {
+					var newValue = $(this).val();
+					select.find(':selected').removeAttr('selected');
+					newValueOption.attr('selected','selected').val(newValue); //.text(newValue);
+				})
+			}
 
 			input.data("autocomplete")._renderItem = function(ul, item) {
 				optgroup_class = $(item.option).parent('optgroup').attr('class');
