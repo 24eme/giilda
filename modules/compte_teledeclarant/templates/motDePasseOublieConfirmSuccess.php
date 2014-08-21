@@ -5,7 +5,6 @@
     
         <div id="modification_compte" class="fond" >
             <div class="presentation clearfix">
-                <p class="titre_section">Vos identifiants de connexion : </p>
                 <br/>
                 <div class="bloc_form bloc_form_condensed" >        
                     <div class="ligne_form ligne_form_alt">
