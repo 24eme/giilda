@@ -64,11 +64,11 @@ endif;
                         <?php echo $form['vendeur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>
                         <?php echo $form['vendeur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur', 'data-url' => $url_ajout_vendeur)); ?>
                         <?php echo $form['vendeur_identifiant']->renderError(); ?>
-                        <?php $style_vendeur_compte_inactif = ($compteVendeurActif)? 'style="display: none;"' : "" ; ?>
+                        <?php $style_vendeur_compte_inactif = ($compteVendeurActif) ? 'style="display: none;"' : ""; ?>
                         <div id="points_vigilance">
-                        <ul id="soussigne_vendeur_compte_inactif" class="error_list warning" <?php echo $style_vendeur_compte_inactif; ?> >
-                            <li>Ce vendeur n'a pas encore activé son compte de télédeclarant. </li>
-                        </ul>
+                            <ul id="soussigne_vendeur_compte_inactif" class="error_list warning" <?php echo $style_vendeur_compte_inactif; ?> >
+                                <li>Ce vendeur n'a pas encore activé son compte de télédeclarant. </li>
+                            </ul>
                         </div>
                     </div>
                 <?php else: ?>
@@ -115,7 +115,7 @@ endif;
                         <?php echo $form['acheteur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>
                         <?php echo $form['acheteur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un acheteur', 'data-url' => $url_ajout_acheteur)); ?>                        
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
-                        <?php $style_acheteur_compte_inactif = ($compteAcheteurActif)? 'style="display: none;"' : ""; ?>
+                        <?php $style_acheteur_compte_inactif = ($compteAcheteurActif) ? 'style="display: none;"' : ""; ?>
                         <div id="points_vigilance">
                             <ul id="soussigne_acheteur_compte_inactif" class="error_list warning" <?php echo $style_acheteur_compte_inactif; ?> >
                                 <li>Cet acheteur n'a pas encore activé son compte de télédeclarant. </li>
@@ -233,7 +233,11 @@ endif;
 
             <div class="btn_etape block_overlay" id="ligne_btn">
                 <?php if ($nouveau): ?>
-                    <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
+                    <?php if ($isTeledeclarationMode): ?>
+                        <a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a> 
+                    <?php else: ?>
+                        <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a> 
+                    <?php endif; ?>
                 <?php endif; ?>
 
                 <button id="btn_soussigne_submit" class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
@@ -243,21 +247,21 @@ endif;
     </div>
 </section>
 <?php if ($isTeledeclarationMode): ?>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $(".btn_ajout_autocomplete a").live('click', function() {
-            $("#vrac_soussigne").attr('action', $(this).attr('href'));
-            $("#vrac_soussigne").submit();
-            return false;
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".btn_ajout_autocomplete a").live('click', function() {
+                $("#vrac_soussigne").attr('action', $(this).attr('href'));
+                $("#vrac_soussigne").submit();
+                return false;
+            });
+            $("div#acheteur_choice input.ui-autocomplete-input").val('<?php echo $etablissementPrincipal->_id; ?>');
+
+
+    <?php if ($isCourtierResponsable): ?>
+                initTeledeclarationCourtierSoussigne();
+    <?php endif; ?>
         });
-        $("div#acheteur_choice input.ui-autocomplete-input").val('<?php echo $etablissementPrincipal->_id; ?>');
-
-
-<?php if ($isCourtierResponsable): ?>
-            initTeledeclarationCourtierSoussigne();
-<?php endif; ?>
-    });
-</script>
+    </script>
 <?php endif; ?>
 <?php
 if ($isTeledeclarationMode):
