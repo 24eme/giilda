@@ -14,14 +14,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
     protected $_choices_produits;
     protected $actual_campagne;
     protected $next_campagne;
-    
     protected $isTeledeclarationMode;
 
     public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $options = array(), $CSRFSecret = null) {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
         parent::__construct($vrac, $options, $CSRFSecret);
     }
-    
+
     public function configure() {
         $this->actual_campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
         $this->next_campagne = (date('Y') > substr($this->actual_campagne, 0, 4) && date('m') > 3) ?
@@ -108,9 +107,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
 
         $this->widgetSchema->setNameFormat('vrac[%s]');
-        $this->validatorSchema->setPostValidator(
-                new sfValidatorCallback(array('callback' => array($this, 'checkQuantiteExist')))
-        );
+        $this->validatorSchema->setPostValidator(new ValidatorVracMarche());
     }
 
     protected function updateDefaultsFromObject() {
@@ -139,25 +136,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
         }
     }
 
-      public function checkQuantiteExist($validator, $values)
-  {
-    if ((($values['type_transaction'] === VracClient::TYPE_TRANSACTION_VIN_VRAC) 
-         && !$values['jus_quantite'])
-            || (($values['type_transaction'] === VracClient::TYPE_TRANSACTION_MOUTS) 
-         && !$values['jus_quantite'])
-            || (($values['type_transaction'] === VracClient::TYPE_TRANSACTION_RAISINS) 
-         && !$values['raisin_quantite'])
-            || (($values['type_transaction'] === VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) 
-         && !$values['bouteilles_quantite']))
-    {
-      // password is not correct, throw an error
-      throw new sfValidatorError($validator, 'La quantité doit être renseignée.');
-    }
- 
-    // password is correct, return the clean values
-    return $values;
-  }
-    
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
             $this->_choices_produits = array_merge(array("" => ""), $this->getObject()->getProduitsConfig());

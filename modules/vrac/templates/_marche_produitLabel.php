@@ -35,7 +35,7 @@
 <?php echo $form['domaine']->renderError(); ?>
 <!--  Affichage du type  -->
 <div id="domaine" class="section_label_maj" 
-    <?php echo ($form->getObject()->exist('categorie_vin') && ($form->getObject()->categorie_vin == VracClient::CATEGORIE_VIN_DOMAINE))? '' : 'style="display: none;"' ?> >
+    <?php echo ($form['categorie_vin']->getValue() == VracClient::CATEGORIE_VIN_DOMAINE)? '' : 'style="display: none;"' ?> >
     <?php echo $form['domaine']->renderLabel() ?> 
     <?php echo $form['domaine']->render() ?>   
 </div>
