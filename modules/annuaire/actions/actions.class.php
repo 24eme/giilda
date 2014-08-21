@@ -42,11 +42,9 @@ class annuaireActions extends sfActions {
         $this->type = $request->getParameter('type');
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
-
         $this->initSocieteAndEtablissementPrincipal();
         $this->isAcheteurResponsable = $this->isAcheteurResponsable();
         $this->isCourtierResponsable = $this->isCourtierResponsable();
-
         $this->societeId = $request->getParameter('tiers');
         $this->societeChoice = false;
 
@@ -79,7 +77,8 @@ class annuaireActions extends sfActions {
                     if ($vrac = $this->getUser()->getAttribute('vrac_object')) {
                         $vrac = unserialize($vrac);
                         $acteur = $this->getUser()->getAttribute('vrac_acteur');
-                        $vrac->{$acteur . '_identifiant'} = $etablissement->_id;
+                        $this->etbObject = $this->form->getValue("etablissementObject");
+                        $vrac->{$acteur . '_identifiant'} = $this->etbObject->identifiant;
                         $this->getUser()->setAttribute('vrac_object', serialize($vrac));
                         $this->getUser()->setAttribute('vrac_acteur', null);
                         if ($vrac->isNew()) {
@@ -126,9 +125,16 @@ class annuaireActions extends sfActions {
 
     public function executeRetour(sfWebRequest $request) {
         $this->identifiant = $request->getParameter('identifiant');
-        if ($vracId = $this->getUser()->getAttribute('vrac_id')) {
-            return $this->redirect('vrac_etape', array('numero_contrat' => $vracId, 'etape' => $etapes->getFirst()));
+        $vrac = $this->getUser()->getAttribute('vrac_object');
+        $vrac = unserialize($vrac);
+        if ($vrac) {
+            if ($vrac->isNew()) {
+                return $this->redirect('vrac_nouveau', array('etablissement' => $this->identifiant));
+            } else {
+                return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
+            }
         }
+    
         return $this->redirect('annuaire', array('identifiant' => $this->identifiant));
     }
 

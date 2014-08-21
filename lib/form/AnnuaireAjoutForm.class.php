@@ -61,6 +61,7 @@ class AnnuaireAjoutForm extends acCouchdbObjectForm {
             $type = $values['type'];
         }
         $entree = $this->getObject()->get($type)->add($tiers->_id, $libelle);
+        $this->values['etablissementObject'] = $tiers;
     }
 
     public function getSociete() {
