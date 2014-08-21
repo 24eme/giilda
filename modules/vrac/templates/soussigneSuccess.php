@@ -113,7 +113,7 @@ endif;
                     <div id="acheteur_choice" class="section_label_maj section_label_maj_teledeclaration" >
                         <label>Acheteur</label><br />
                         <?php echo $form['acheteur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>
-                        <?php echo $form['acheteur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur', 'data-url' => $url_ajout_acheteur)); ?>                        
+                        <?php echo $form['acheteur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un acheteur', 'data-url' => $url_ajout_acheteur)); ?>                        
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
                         <?php $style_acheteur_compte_inactif = ($compteAcheteurActif)? 'style="display: none;"' : ""; ?>
                         <div id="points_vigilance">

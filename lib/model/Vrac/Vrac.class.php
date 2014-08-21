@@ -91,6 +91,10 @@ class Vrac extends BaseVrac {
         if ($this->isVise() && !$this->hasPrixVariable()) {
             $this->setPrixUnitaire($this->prix_initial_unitaire);
         }
+
+        if ($this->isTeledeclare()) {
+            $this->cvo_repartition = $this->calculCvoRepartition();
+        }
     }
 
     public function createVisa() {
@@ -275,6 +279,19 @@ class Vrac extends BaseVrac {
             return;
 
         $this->_set('cvo_repartition', $repartition);
+    }
+
+    public function calculCvoRepartition() {
+        if (!$this->getAcheteurObject()->isInterLoire()) {
+
+            return VracClient::CVO_REPARTITION_100_VITI; 
+        }
+        if(in_array($this->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS))) {
+            
+            return VracClient::CVO_REPARTITION_100_NEGO;
+        }
+
+        return VracClient::CVO_REPARTITION_50_50;
     }
 
     public function validate($options = array()) {
