@@ -113,7 +113,7 @@ class compte_teledeclarantActions extends sfActions {
             if ($this->form->isValid()) {
                 $compte = $this->form->save();
                 $societe = $compte->getSociete();
-                $lien = $this->generateUrl("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->identifiant, "mdp" => str_replace("{OUBLIE}", "", $compte->mot_de_passe), true));
+                $lien = "https://teledeclaration.vinsvaldeloire.pro".$this->generateUrl("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->identifiant, "mdp" => str_replace("{OUBLIE}", "", $compte->mot_de_passe), true));
 
                 try {
                     $emailCible = $societe->getEtablissementPrincipal()->email;
