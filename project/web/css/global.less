@@ -917,7 +917,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 #colonne
 {
 	.largeur-col(3, 3);
-	float: left;
+	float: right;
 	padding: 30px 10px 0;
 }
 
@@ -1260,6 +1260,21 @@ ul.radio_list
         }
 
 	
+}
+
+#btn_colonne
+{
+	display: none;
+	margin: 15px 0;
+
+	i { font-style: normal; }
+	.fermer { display: none; }
+
+	&.ouvert
+	{
+		.ouvrir { display: none; }
+		.fermer { display: inline; }
+	}
 }
 
 /**
