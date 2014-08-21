@@ -49,7 +49,7 @@ Un contrat vient d'être initié par ".$responsableNom.", en voici un résumé :
         $mess .= "  
  
 
-Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/'.$this->vrac->numero_contrat.'/visualisation
+Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/".$this->vrac->numero_contrat."/visualisation
 
  
 Pour être valable, le contrat doit être signé par toutes les parties. Le PDF correspondant avec le numéro d\'enregistrement INTERLOIRE vous sera alors envoyé par courriel.
