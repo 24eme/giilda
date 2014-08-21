@@ -17,7 +17,6 @@ class VracEmailManager {
     protected $mailer = null;
 
     public function __construct($mailer) {
-        sfProjectConfiguration::getActive()->loadHelpers("Partial", "Vrac", "MyHelper");
         $this->mailer = $mailer;
     }
 
@@ -136,10 +135,12 @@ Rappel de votre identifiant : IDENTIFIANT";
     }
 
     private function enteteMessageVrac() {
+        
+        sfProjectConfiguration::getActive()->loadHelpers("Vrac");
         if (!$this->vrac) {
             throw new sfException("Le contrat Vrac n'existe pas.");
         }
-        $quantite = $vrac->getQuantite().' '.  showPrixUnitaireUnite($vrac);
+        $quantite = $this->vrac->getQuantite().' '.  showPrixUnitaireUnite($this->vrac);
         
         
 $mess = 'Contrat : ' . VracClient::$types_transaction[$this->vrac->type_transaction]. '
