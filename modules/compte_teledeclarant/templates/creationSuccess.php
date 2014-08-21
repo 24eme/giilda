@@ -10,6 +10,8 @@ $libelle .= (($form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR) || 
             " et votre numéro de SIRET" : "";
 $libelle .= " :";
 ?>
+        <p class="titre_section"><strong>Conseil :</strong> Utiliser un email connu par vos collaborateurs habilités à télé-déclarer sur vos différents établissements.</p>
+        <br/>
         <p class="titre_section"><?php echo $libelle; ?></p>
         <br/>
         <div id="creation_compte_teledeclaration" class="fond" >
