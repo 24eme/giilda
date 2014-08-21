@@ -17,6 +17,7 @@ class VracEmailManager {
     protected $mailer = null;
 
     public function __construct($mailer) {
+        sfProjectConfiguration::getActive()->loadHelpers("Partial", "Vrac", "MyHelper");
         $this->mailer = $mailer;
     }
 
@@ -64,12 +65,16 @@ Pour toutes questions, veuillez contacter '.$responsableNom.', responsable du co
 ———
 
 L’application de télédéclaration des contrats d’INTERLOIRE
-(ce message est adressé automatiquement, merci de ne pas répondre)';
+(ce message est adressé automatiquement, merci de ne pas répondre)
+
+Rappel de votre identifiant : IDENTIFIANT';
 
 
         foreach ($nonCreateursArr as $id => $nonCreateur) {
 
-            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $nonCreateur->email, 'Demande de signature (' . $createurObject->nom . ')', $mess);
+            $message_replaced = str_replace('IDENTIFIANT', substr($nonCreateur->identifiant,0,6),$mess);
+            
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $nonCreateur->email, 'Demande de signature (' . $createurObject->nom . ')', $message_replaced);
             try {
                 $this->getMailer()->send($message);
             } catch (Exception $e) {
@@ -132,7 +137,13 @@ Rappel de votre identifiant : IDENTIFIANT";
         if (!$this->vrac) {
             throw new sfException("Le contrat Vrac n'existe pas.");
         }
-$mess = 'Contrat : « ' . VracClient::$types_transaction[$this->vrac->type_transaction]. '
+        $quantite = $vrac->getQuantite().' '.  showPrixUnitaireUnite($vrac);
+        
+        
+$mess = 'Contrat : ' . VracClient::$types_transaction[$this->vrac->type_transaction]. '
+Produit : '.$this->vrac->produit_libelle.'
+Quantité : '.$quantite.'
+    
 Vendeur : ' . $this->vrac->vendeur->nom . '
 Acheteur : ' . $this->vrac->acheteur->nom;
         if ($this->vrac->mandataire_exist) {
