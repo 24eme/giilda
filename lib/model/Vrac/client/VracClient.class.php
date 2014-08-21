@@ -51,6 +51,7 @@ class VracClient extends acCouchdbClient {
     const CATEGORIE_VIN_DOMAINE = 'DOMAINE';
     const CVO_REPARTITION_50_50 = '50';
     const CVO_REPARTITION_100_VITI = '100';
+    const CVO_REPARTITION_100_NEGO = '0/100';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
     const RESULTAT_LIMIT = 700;
     const STATUS_CONTRAT_BROUILLON = 'BROUILLON';
@@ -70,6 +71,7 @@ class VracClient extends acCouchdbClient {
     public static $types_transaction_non_vins = array(self::TYPE_TRANSACTION_RAISINS, self::TYPE_TRANSACTION_MOUTS);
     public static $cvo_repartition = array(self::CVO_REPARTITION_50_50 => '50/50',
         self::CVO_REPARTITION_100_VITI => '100% viticulteur',
+        self::CVO_REPARTITION_100_NEGO => '100% négociant',
         self::CVO_REPARTITION_0_VINAIGRERIE => 'Vinaigrerie');
     public static $statuts_vise = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE, self::STATUS_CONTRAT_VISE);
     public static $statuts_labels = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
