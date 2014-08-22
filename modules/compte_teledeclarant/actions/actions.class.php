@@ -66,6 +66,15 @@ class compte_teledeclarantActions extends sfActions {
                     $etablissementPrincipal = $this->form->getObject()->getSociete()->getEtablissementPrincipal();
                     $etablissementPrincipal->email = $email;
                     $etablissementPrincipal->save();
+                    
+                    $allEtablissements = $this->form->getObject()->getSociete()->getEtablissementsObj();
+                    foreach ($allEtablissements as $etablissementObj) {
+                        $etb = $etablissementObj->etablissement;
+                        if(!$etb->exist('email') || !$etb->email){
+                            $etb->email = $email;
+                            $etb->save();
+                        }
+                    }
                 }
                 if(($this->form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR || $this->form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT)
                 && ($this->form->getValue('siret'))){
