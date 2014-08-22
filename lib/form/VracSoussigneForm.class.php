@@ -13,9 +13,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
    private $vendeurs = null;
    private $acheteurs = null;
    private $mandataires = null;
-   private $isTeledeclarationMode;
-   private $isAcheteurResponsable;
-   private $isCourtierResponsable;
+   protected $isTeledeclarationMode;
+   protected $isAcheteurResponsable;
+   protected $isCourtierResponsable;
    
 
    public function __construct(Vrac $object, $isTeledeclarationMode = false, $isAcheteurResponsable = false, $isCourtierResponsable = false, $options = array(), $CSRFSecret = null) {
@@ -48,7 +48,6 @@ class VracSoussigneForm extends acCouchdbObjectForm {
                 }else{
                     $acheteursChoiceValides = array_keys($acheteurs);
                 }
-                
                 $this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => $acheteursChoiceValides)));
         	$this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
         	$this->widgetSchema->setLabel('commercial', 'Sélectionner un interlocuteur commercial :');

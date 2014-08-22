@@ -58,7 +58,7 @@ endif;
             <div id="vendeur" class="block_overlay">   
                 <!--  Affichage des vendeurs disponibles  -->
                 <?php if ($isTeledeclarationMode): ?>
-                    <?php $url_ajout_vendeur = url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY, 'acteur' => 'vendeur')); ?>
+                    <?php $url_ajout_vendeur = url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY, 'acteur' => 'vendeur', 'createur' => $vrac->createur_identifiant)); ?>
                     <div id="vendeur_choice" class="section_label_maj section_label_maj_teledeclaration" >
                         <label>Vendeur</label><br />                        
                         <?php echo $form['vendeur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>
@@ -109,7 +109,7 @@ endif;
                 <?php endif; ?>
 
                 <?php if ($isTeledeclarationMode && !$isAcheteurResponsable): ?>
-                    <?php $url_ajout_acheteur = url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur')); ?>
+                    <?php $url_ajout_acheteur = url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_NEGOCIANTS_KEY, 'acteur' => 'acheteur', 'createur' => $vrac->createur_identifiant)); ?>
                     <div id="acheteur_choice" class="section_label_maj section_label_maj_teledeclaration" >
                         <label>Acheteur</label><br />
                         <?php echo $form['acheteur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>

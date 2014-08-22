@@ -127,7 +127,7 @@ class VracRouting {
 							array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')
                                                          ));
-        $r->prependRoute('vrac_annuaire', new sfRoute('/contrats/annuaire/:acteur/:type',
+        $r->prependRoute('vrac_annuaire', new sfRoute('/contrats/annuaire/:acteur/:type/:identifiant/:createur',
                                                         array('module' => 'vrac', 'action' => 'annuaire'),
 							array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')

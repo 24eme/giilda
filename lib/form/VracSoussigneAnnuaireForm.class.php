@@ -23,7 +23,14 @@ class VracSoussigneAnnuaireForm extends VracSoussigneForm {
         	$this->setWidget('acheteur_identifiant', new sfWidgetFormChoice(array('choices' => $acheteurs), array('class' => 'autocomplete')));
         	$this->setWidget('commercial', new sfWidgetFormChoice(array('choices' => $commerciaux), array('class' => '')));
                 $this->setValidator('vendeur_identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($vendeurs))));
-        	$this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($acheteurs))));
+                
+                if($this->isAcheteurResponsable){
+                    $acheteursChoiceValides[] = 'ETABLISSEMENT-'.$this->getObject()->createur_identifiant;
+                }else{
+                    $acheteursChoiceValides = array_keys($acheteurs);
+                }
+                $this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => false, 'choices' => $acheteursChoiceValides)));
+
         	$this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
         } else {
         	$this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
