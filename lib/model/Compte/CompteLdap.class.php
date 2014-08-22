@@ -40,19 +40,22 @@ class CompteLdap extends acVinLdap {
     {
       $info = array();
       $info['uid']              = self::getIdentifiant($compte);
-      if ($compte->getNom()) 
+      if (!is_null($compte->getNom())){
 	$info['sn']             = $compte->getNom();
-      else
-	$info['sn']             = $compte->nom_a_afficher;
-      if ($compte->getPrenom())
-      $info['givenName']        = $compte->getPrenom(); 
+      } 
+      else{
+	$info['sn']             = $compte->nom_a_afficher;          
+      }
+      if ($compte->getPrenom()){
+          $info['givenName']        = $compte->getPrenom(); 
+      }
       $info['cn']               = $compte->nom_a_afficher;
       $info['objectClass'][0]   = 'top';
       $info['objectClass'][1]   = 'person';
       $info['objectClass'][2]   = 'posixAccount';
       $info['objectClass'][3]   = 'inetOrgPerson';
       $info['loginShell']       = '/bin/bash';
-      $info['uidNumber']        = self::getIdentifiant($compte);
+//      $info['uidNumber']        = self::getIdentifiant($compte);
       $info['gidNumber']        = '1000';
       $info['homeDirectory']    = '/home/'.self::getIdentifiant($compte);
       if ($compte->email && preg_match('/@/', $compte->email))
