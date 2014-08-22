@@ -5,6 +5,8 @@ sfCoreAutoload::register();
 
 class ProjectConfiguration extends sfProjectConfiguration
 {
+    protected static $routing = null;
+    
   	public function setup()
   	{
         $this->enablePlugins('acLessphpPlugin');
