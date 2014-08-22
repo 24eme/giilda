@@ -38,4 +38,31 @@ class ProjectConfiguration extends sfProjectConfiguration
 
         $this->dispatcher->connect('application.throw_exception', array('acError500', 'handleException'));
   	}
+
+    public static function getAppRouting()
+    {
+        if (null !== self::$routing) {
+            return self::$routing;
+        }
+        if (sfContext::hasInstance() && sfContext::getInstance()->getRouting()) {
+            self::$routing = sfContext::getInstance()->getRouting();
+        } else {
+            if (!self::hasActive()) {
+                throw new sfException('No sfApplicationConfiguration loaded');
+            }
+            $appConfig = self::getActive();
+            $config = sfFactoryConfigHandler::getConfiguration($appConfig->getConfigPaths('config/factories.yml'));
+            $params = array_merge($config['routing']['param'], array('load_configuration' => false,
+                                                                     'logging'            => false,
+                                                                     'context'            => array('host'      => sfConfig::get('app_routing_context_production_host', 'localhost'),
+                                                                                                   'prefix'    => sfConfig::get('app_prefix', sfConfig::get('sf_no_script_name') ? '' : '/'.$appConfig->getApplication().'_'.$appConfig->getEnvironment().'.php'),
+                                                                                                   'is_secure' => sfConfig::get('app_routing_context_secure', false))));
+            $handler = new sfRoutingConfigHandler();
+            $routes = $handler->evaluate($appConfig->getConfigPaths('config/routing.yml'));
+            $routeClass = $config['routing']['class'];
+            self::$routing = new $routeClass($appConfig->getEventDispatcher(), null, $params);
+            self::$routing->setRoutes($routes);
+        }
+        return self::$routing;
+    }
 }
