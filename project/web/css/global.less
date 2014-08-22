@@ -888,8 +888,6 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 		.clearfix;
 		.gabarit;
 		position: relative;
-        //left: 100px;
-        //width:760px;
 	}
 }
 
@@ -937,7 +935,11 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 #header
 {
 	/* Logo */
-	#logo { float: left; }
+	#logo 
+	{ 
+		float: left; 
+		margin: 10px 0 0;
+	}
 
 	/* Baseline */
 	.baseline
@@ -952,10 +954,10 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	.conteneur_nav 
 	{ 
 		float: left;
-		margin: 0 0 0 20px;
-		padding: 0 20px;
+		margin: 0 0 0 15px;
+		padding: 0 15px;
 		position: relative;
-		width: 555px;
+		width: 560px;
 
 		&:before
 		{
@@ -972,6 +974,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	{
 		float: left;
 		line-height: 33px;
+		position: relative;
 
 		ul { .clearfix; }
 		
@@ -988,7 +991,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 				.border-radius(5px);
 				.non-souligne(none);
 				display: inline-block;
-				padding: 1px 7px;
+				padding: 1px 4px;
 			}
 			
 			&.actif a,
@@ -997,7 +1000,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 				.border(@couleur-b1);
 				background: @couleur-b2;
 				color: @couleur-a1;
-				padding: 0 6px;
+				padding: 0 3px;
 			}
 		}
 	}
