@@ -50,7 +50,7 @@ Un contrat vient d'être initié par ".$responsableNom.", en voici un résumé :
         $mess .= "  
  
 
-Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/".$this->vrac->numero_contrat."/visualisation
+Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : ".$this->getUrlVisualisationContrat()."
 
  
 Pour être valable, le contrat doit être signé par toutes les parties. Le PDF correspondant avec le numéro d'enregistrement INTERLOIRE vous sera alors envoyé par courriel.
@@ -105,7 +105,7 @@ Rappel de votre identifiant : IDENTIFIANT";
         $mess .= "  
 
  
-Ce contrat a été signé électroniquement par l'ensemble des soussignés. Pour le visualiser à tout moment vous pouvez cliquer sur le lien suivant : https://teledeclaration.vinsvaldeloire.pro/vrac/".$this->vrac->numero_contrat."/visualisation
+Ce contrat a été signé électroniquement par l'ensemble des soussignés. Pour le visualiser à tout moment vous pouvez cliquer sur le lien suivant : ".$this->getUrlVisualisationContrat()."
 
 Ci joint, le PDF correspondant avec le numéro d'enregistrement Interloire.
 
@@ -197,6 +197,11 @@ Rappel de votre identifiant : IDENTIFIANT";
         return $resultEmailArr;
     }
         
+    
+    private function getUrlVisualisationContrat() {
+        return sfConfig::get('app_domain').sfContext::getInstance()->getRouting()->generate('vrac_visualisation',array('numero_contrat' => $this->vrac->numero_contrat));
+     }
+    
     private function enteteMessageVrac() {
         
         sfProjectConfiguration::getActive()->loadHelpers("Vrac");

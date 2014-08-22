@@ -152,7 +152,7 @@ Le \CONTRATDATESIGNATUREVENDEUR, & Le \CONTRATDATESIGNATUREACHETEUR, \\
 <?php endif; ?>
  \begin{center}
 \begin{tiny}
-Un extrait de l'accord interprofessionel est disponible sur le portail https://teledeclaration.vinsvaldeloire.pro \\
+Un extrait de l'accord interprofessionel est disponible sur le portail <?php echo sfConfig::get('app_domain'); ?> \\
 (1) Les régions du ressort d’InterLoire sont constituées par les zones de production des vins d’appellation d’origine dont la liste est annexée à l’Accord Interprofessionnel.\\
 Vin, moûts ou raisins, loyaux et marchands, correspondant aux normes édictées par la réglementation en vigueur.
 \end{tiny}

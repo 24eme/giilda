@@ -35,9 +35,11 @@ function getBouteilleContenance($value) {
         </div>
 
         <!--  Affichage des volumes disponibles variables selon le type de transaction choisi  -->
-            <?php echo $form->renderGlobalErrors() ?>
-        <div id="volume" class="ligne_form">
+            
             <?php echo $form['bouteilles_quantite']->renderError() ?>
+            <?php echo $form['jus_quantite']->renderError() ?>
+            <?php echo $form['raisin_quantite']->renderError() ?>
+        <div id="volume" class="ligne_form">
             <div class="bouteilles_quantite "
                  <?php echo ($isBouteille)? '' : 'style="display: none;"' ?> >                
                 <span><?php echo $form['bouteilles_quantite']->renderLabel() ?></span>
@@ -45,7 +47,6 @@ function getBouteilleContenance($value) {
                 <span id="volume_unite_total" class="unite"></span>
             </div>
             
-            <?php echo $form['jus_quantite']->renderError() ?>
             <div class="jus_quantite "
                  <?php echo ($isMoutOuVrac)? '' : 'style="display: none;"' ?> >
                 <span>  <?php echo $form['jus_quantite']->renderLabel() ?></span>
@@ -53,7 +54,6 @@ function getBouteilleContenance($value) {
                 <span id="volume_unite_total" class="unite"></span>
             </div>
             
-            <?php echo $form['raisin_quantite']->renderError() ?>
             <div class="raisin_quantite "
                  <?php echo ($isRaisin)? '' : 'style="display: none;"' ?> >
                 <span><?php echo $form['raisin_quantite']->renderLabel() ?></span>
