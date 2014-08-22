@@ -199,7 +199,7 @@ Rappel de votre identifiant : IDENTIFIANT";
         
     
     private function getUrlVisualisationContrat() {
-        return sfConfig::get('app_domain').sfContext::getInstance()->getRouting()->generate('vrac_visualisation',array('numero_contrat' => $this->vrac->numero_contrat),false);
+        return sfContext::getInstance()->getRouting()->generate('vrac_visualisation',array('numero_contrat' => $this->vrac->numero_contrat),true);
      }
     
     private function enteteMessageVrac() {
