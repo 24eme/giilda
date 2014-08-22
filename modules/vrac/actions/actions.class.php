@@ -554,7 +554,6 @@ class vracActions extends sfActions {
         $this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Visualisation', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
-        $this->vrac->save();
         $this->signatureDemande = false;
         $this->compte = null;
         $this->societe = null;
@@ -566,8 +565,10 @@ class vracActions extends sfActions {
         $this->redirect403IsNotTeledeclarationAndNotInVrac();
         $this->redirect403IsInVracAndNotAllowedToSee();
 
-        $this->isProprietaire = $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->societe->identifiant == substr($this->vrac->createur_identifiant, 0, 6));
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        if($this->isTeledeclarationMode) {
+            $this->isProprietaire = $this->isTeledeclarationMode && $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->societe->identifiant == substr($this->vrac->createur_identifiant, 0, 6));
+        }
         $this->isTeledeclare = $this->vrac->isTeledeclare();
         $this->isAnnulable = $this->isTeledeclarationVrac() && $this->vrac->isTeledeclarationAnnulable() && ($this->vrac->getCreateurObject()->getSociete()->identifiant === $this->societe->identifiant);
         if ($request->isMethod(sfWebRequest::POST)) {

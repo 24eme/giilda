@@ -38,7 +38,11 @@ $cpt = 0;
         ?>
         <div id="conditions_recapitulatif_cvo" class="<?php echoClassLignesVisu($cpt); ?>">
             <label>Repartition de la CVO&nbsp;: </label>
-            <span><?php echo VracClient::$cvo_repartition[$vrac->cvo_repartition] ?></span>
+            <span>
+            <?php if(isset(VracClient::$cvo_repartition[$vrac->cvo_repartition])): ?>
+                <?php echo VracClient::$cvo_repartition[$vrac->cvo_repartition] ?>
+            <?php endif; ?>
+            </span>
         </div>
 <?php endif; ?> 
 
