@@ -882,13 +882,14 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	margin: 0 0 30px;
 	padding: 15px 0 20px;
 	min-height: 100px;
+
 	.contenu
 	{
 		.clearfix;
 		.gabarit;
 		position: relative;
-                left: 100px;
-                width:760px;
+        //left: 100px;
+        //width:760px;
 	}
 }
 
@@ -936,10 +937,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 #header
 {
 	/* Logo */
-	#logo 
-	{ 
-		.pos-abs(0, auto, auto, -280px);
-	}
+	#logo { float: left; }
 
 	/* Baseline */
 	.baseline
@@ -954,9 +952,10 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	.conteneur_nav 
 	{ 
 		float: left;
-		padding: 0 30px;
+		margin: 0 0 0 20px;
+		padding: 0 20px;
 		position: relative;
-		width: 640px;
+		width: 555px;
 
 		&:before
 		{
@@ -1023,7 +1022,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 	{
 		float: right;
 		font-size: 12px;
-		padding: 0 0 0 25px;
+		padding: 0 0 0 15px;
 		
 		a
 		{
