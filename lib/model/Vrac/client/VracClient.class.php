@@ -51,7 +51,7 @@ class VracClient extends acCouchdbClient {
     const CATEGORIE_VIN_DOMAINE = 'DOMAINE';
     const CVO_REPARTITION_50_50 = '50';
     const CVO_REPARTITION_100_VITI = '100';
-    const CVO_REPARTITION_100_NEGO = '0/100';
+    const CVO_REPARTITION_100_NEGO = '100_ACHETEUR';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
     const RESULTAT_LIMIT = 700;
     const STATUS_CONTRAT_BROUILLON = 'BROUILLON';
