@@ -160,10 +160,10 @@ endif;
                         <?php if ($isCourtierResponsable): ?>
                             <div id="" class="section_label_maj">
                                 Ajouter un interlocuteur commercial : 
-                                <input type="checkbox" id="teledeclaration_courtier_interlocuteur_commercial_show">
+                                <input <?php if($form['commercial']->getValue()): ?>checked="checked"<?php endif; ?> type="checkbox" id="teledeclaration_courtier_interlocuteur_commercial_show">
                             </div>
                         <?php endif; ?>
-                        <div id="teledeclaration_courtier_interlocuteur_commercial" class="section_label_maj" <?php echo ($isCourtierResponsable) ? 'style="display:none;"' : '' ?>  >
+                        <div id="teledeclaration_courtier_interlocuteur_commercial" class="section_label_maj" <?php echo ($isCourtierResponsable && !$form['commercial']->getValue()) ? 'style="display:none;"' : '' ?>  >
                             <?php if (isset($form['commercial'])): ?>
                                 <label>Courtier</label><br />
                                 <?php echo $form['commercial']->renderError(); ?>
