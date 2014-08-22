@@ -74,7 +74,7 @@ class VracValidation extends DocumentValidation {
 
         $acheteurEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->acheteur_identifiant);
         if (!$acheteurEtb->findEmail()) {
-            $this->addPoint('erreur', 'soussigne_acheteur_absence_mail', $acheteurEtb->nom);
+            $this->addPoint('erreur', 'soussigne_acheteur_absence_mail', $acheteurEtb->_id);
         }
         if ($this->document->mandataire_exist) {
             $courtierEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->mandataire_identifiant);
