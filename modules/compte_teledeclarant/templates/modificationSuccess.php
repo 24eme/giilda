@@ -24,6 +24,7 @@
                 </div>
 
                 <div class="ligne_btn">
+                    <a href="<?php echo url_for('homepage'); ?>" class=" btn_majeur " alt="Retour" style="cursor: pointer; float: left;">Retour</a>
                     <a href="#" class=" btn_majeur btn_modifier modifier" style="cursor: pointer; float: right;">Modifier les informations</a>
                 </div>
 
