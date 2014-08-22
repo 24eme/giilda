@@ -82,7 +82,7 @@ class annuaireActions extends sfActions {
                         $this->getUser()->setAttribute('vrac_object', serialize($vrac));
                         $this->getUser()->setAttribute('vrac_acteur', null);
                         if ($vrac->isNew()) {
-                            return $this->redirect('vrac_nouveau', array('etablissement' => $this->identifiant));
+                            return $this->redirect('vrac_nouveau', array('choix-etablissement' => $vrac->createur_identifiant));
                         } else {
                             return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
                         }
@@ -113,7 +113,7 @@ class annuaireActions extends sfActions {
                     $vrac->storeInterlocuteurCommercialInformations($values['identite'], $value['contact']);
                     $this->getUser()->setAttribute('vrac_object', serialize($vrac));
                     if ($vrac->isNew()) {
-                        return $this->redirect('vrac_nouveau', array('etablissement' => $this->etablissement->_id));
+                        return $this->redirect('vrac_nouveau', array('choix-etablissement' => $vrac->createur_identifiant));
                     } else {
                         return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
                     }
@@ -129,7 +129,7 @@ class annuaireActions extends sfActions {
         $vrac = unserialize($vrac);
         if ($vrac) {
             if ($vrac->isNew()) {
-                return $this->redirect('vrac_nouveau', array('etablissement' => $this->identifiant));
+                return $this->redirect('vrac_nouveau', array('choix-etablissement' => $vrac->createur_identifiant));
             } else {
                 return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
             }
