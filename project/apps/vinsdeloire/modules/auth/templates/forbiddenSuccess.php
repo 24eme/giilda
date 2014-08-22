@@ -7,7 +7,7 @@
     
 <script>
 window.setInterval(function(){
-    window.location.assign("https://teledeclaration.vinsvaldeloire.pro");
+    window.location.assign("<?php echo sfConfig::get('app_domain'); ?>");
 }, 5000);
 
 </script>
