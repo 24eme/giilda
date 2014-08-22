@@ -7,7 +7,7 @@
     
 <script>
 window.setInterval(function(){
-    window.location.assign("<?php echo sfConfig::get('app_domain'); ?>");
+    window.location.assign("<?php echo sfContext::getInstance()->getRouting()->generate('vrac_societe',array('identifiant' => $sf_user->getCompte()->identifiant),true); ?>");
 }, 5000);
 
 </script>

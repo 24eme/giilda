@@ -1,7 +1,7 @@
 all:
   instance: dev
   auth_mode: NO_CAS #HTTP_AD, CAS, NO_CAS
-  domain: "https://mon_domaine.pro"
+  routing_context_production_host: domaine.pro
   cas:
     domain: login.cas
     port: 443
