@@ -33,7 +33,7 @@
 			</table>
 		</div>
 		<div style="margin: 10px 0; clear: both;">
-            <a style="float: left;" class="btn_orange btn_majeur" href="<?php echo url_for('annuaire', array('identifiant' => $identifiant)) ?>">Retour</a>
+            <a style="float: left;" class="btn_orange btn_majeur" href="<?php echo url_for('annuaire_retour', array('identifiant' => $identifiant)) ?>">Retour</a>
 	    	<button type="submit" name="valider" class="btn_vert btn_majeur" style="cursor: pointer; float: right;">
 	    		Valider
 	    	</button>
