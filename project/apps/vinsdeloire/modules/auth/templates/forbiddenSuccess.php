@@ -7,7 +7,7 @@
     
 <script>
 window.setInterval(function(){
-    window.location.assign("https://teledeclaration.vinsvaldeloire.pro");
+    window.location.assign("<?php echo sfContext::getInstance()->getRouting()->generate('vrac_societe',array('identifiant' => $sf_user->getCompte()->identifiant),true); ?>");
 }, 5000);
 
 </script>
