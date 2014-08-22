@@ -377,16 +377,23 @@ class vracActions extends sfActions {
 
     public function executeAnnuaireCommercial(sfWebRequest $request) {
         $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
+        $this->createur_identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('createur'));
         $this->vrac = ($request->getParameter('numero_contrat')) ? VracClient::getInstance()->find($request->getParameter('numero_contrat')) : new Vrac();
         $this->vrac = $this->populateVracTiers($this->vrac);
+        if($this->vrac->isNew()) {
+            $this->vrac->initCreateur($this->createur_identifiant);
+        }
 
         $this->initSocieteAndEtablissementPrincipal();
         $this->redirect403IfICanNotCreate();
 
-        if ($this->identifiant) {
-            $this->vrac->createur_identifiant = $this->identifiant;
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        if ($this->isTeledeclarationMode) {
+            $this->isAcheteurResponsable = $this->isAcheteurResponsable();
+            $this->isCourtierResponsable = $this->isCourtierResponsable();
         }
-        $this->form = new VracSoussigneAnnuaireForm($this->vrac);
+
+        $this->form = new VracSoussigneAnnuaireForm($this->vrac, $this->isTeledeclarationMode, $this->isAcheteurResponsable, $this->isCourtierResponsable);
         if ($request->isMethod(sfWebRequest::POST)) {
             $parameters = $request->getParameter($this->form->getName());
             unset($parameters['_csrf_token']);

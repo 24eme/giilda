@@ -155,7 +155,7 @@ endif;
             <!--  Affichage des courtiers disponibles  -->
             <?php if ($isTeledeclarationMode): ?>
                 <?php if (!$isAcheteurResponsable): ?>
-                    <?php $url_ajout_courtier = url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant)); ?>
+                    <?php $url_ajout_courtier = url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'createur' => $vrac->createur_identifiant)); ?>
                     <div id="teledeclaration_courtier" > 
                         <?php if ($isCourtierResponsable): ?>
                             <div id="" class="section_label_maj">
@@ -208,8 +208,6 @@ endif;
                             <?php echo $form['commercial']->renderError(); ?>
                             <?php echo $form['commercial']->renderLabel() ?>
                             <?php echo $form['commercial']->render() ?>
-                            <br /><br />
-                            <a class="ajouter_annuaire" href="<?php echo url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant)) ?>">Ajouter un contact</a>
                         <?php endif; ?>
                     </div>
 
