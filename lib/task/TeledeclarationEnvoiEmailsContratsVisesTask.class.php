@@ -28,7 +28,9 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
+    $routing = clone ProjectConfiguration::getAppRouting();
     $context = sfContext::createInstance($this->configuration);
+    $context->set('routing', $routing);
     
     $contrats = $this->getContratsValides();
     $this->sendEmails($contrats);
