@@ -50,60 +50,93 @@ EOF;
 
     public function createCodeCreation($arguments = array()) {
         $this->code_creation = null;
-        
-        if($this->debug){
+
+        if ($this->debug) {
             echo $this->yellow("WARNING => bebug Mode") . "\n";
-            if (array_key_exists('code_creation', $arguments) 
-                    && $arguments['code_creation'] 
-                    && (!preg_match('/^[0-9]{4}$/', $arguments['code_creation']))) {
+            if (array_key_exists('code_creation', $arguments) && $arguments['code_creation'] && (!preg_match('/^[0-9]{4}$/', $arguments['code_creation']))) {
                 throw new sfException("Les codes de création doivent faire 4 chiffres!");
                 return false;
             }
-            $this->code_creation = $arguments['code_creation'];            
+            $this->code_creation = $arguments['code_creation'];
             echo $this->yellow("tout les code de création seront assigné comme ") . $this->green($this->code_creation) . "\n";
         }
-        
 
-        $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-inter-loire");
 
-        $assignedComptes = array();
-        foreach ($rows as $row) {
-            $check = $this->checkErreurs($row);
-            if(!$check){ continue; }
-            
-                $master_compte = $this->societe->getMasterCompte();
-                if(!array_key_exists($master_compte->identifiant, $assignedComptes)){
-                    $this->code_creation = ($this->debug)? sprintf("%04d",$this->code_creation) : sprintf("%04d",rand(0, 9999)); 
-                    $master_compte->add('mot_de_passe', "{TEXT}".$this->code_creation);
-                    $master_compte->save(false,false,false,true);
-                    echo $this->societe->identifiant.";".$this->code_creation.";".$this->societe->raison_sociale_abregee.";".$this->societe->siege->adresse.";".$this->societe->siege->code_postal.";".$this->societe->siege->commune."\n";
-                    $assignedComptes[$master_compte->identifiant] = $master_compte->identifiant;
-                }
+        $comptesCDC = $this->getCompteCodeCreation();
+        echo "ASSIGNEMENT CODE DE CREATIONS \n\n\n";
+        echo "###identifiant;code_creation;raison_sociale;raison_sociale_abregee;adresse;code_postal;commune\n";
+        foreach ($comptesCDC as $compteCDCId) {
+            $this->code_creation = ($this->debug) ? sprintf("%04d", $this->code_creation) : sprintf("%04d", rand(0, 9999));
+            $compte = CompteClient::getInstance()->findByIdentifiant($compteCDCId);
+            $compte->add('mot_de_passe', "{TEXT}" . $this->code_creation);
+            $compte->save(false, false, false, true);
+            $societe = $compte->getSociete();
+            echo "###".$societe->identifiant . ";" . $this->code_creation . ";" .$societe->raison_sociale.";". $societe->raison_sociale_abregee . ";" . $societe->siege->adresse . ";" . $societe->siege->code_postal . ";" . $societe->siege->commune . "\n";
         }
     }
 
-    public function checkErreurs($row) {
-        $this->compte = CompteClient::getInstance()->find($row->id);
-        if (!$this->compte) {
-            echo $this->red("ERREUR : ") . "Le compte $row->id est introuvable en base.\n";
-            return false;
+    protected function getCompteCodeCreation() {
+
+        $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-inter-loire");
+
+        $comptesCodeCreation = array();
+
+        echo "---------------------\nTrie des Comptes pour code créations\n";
+        foreach ($rows as $row) {
+            $compte = CompteClient::getInstance()->find($row->id);
+            if (!$compte) {
+                echo $this->red("ERREUR : ") . "Le compte $row->id est introuvable en base.\n";
+                continue;
+            }
+            $societe = $compte->getSociete();
+            if (!$societe) {
+                echo $this->red("ERREUR : ") . "Le compte $row->id n'appartient a aucune société.\n";
+                continue;
+            }
+
+            if (!$compte->isActif()) {
+                echo $this->red("ERREUR : ") . "Le est compte $row->id inactif.\n";
+                continue;
+            }
+
+
+            $masterCompte = $societe->getMasterCompte();
+
+            if (!$masterCompte->exist("droits")) {
+                echo $this->red("ERREUR : ") . "Le compte $masterCompte->_id n'a aucun droits.\n";
+                continue;
+            }
+
+            $hasTelededeclaration = $masterCompte->hasDroit(Roles::TELEDECLARATION);
+            if (!$hasTelededeclaration) {
+                echo $this->red("ERREUR : ") . "La societe $societe->_id n'a pas droit à la télédeclaration.\n";
+                continue;
+            }
+            
+            if($societe->isViticulteur() || $societe->isCourtier() || $societe->isNegociant()){
+                
+                $current_campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+                $previous_campagne = ConfigurationClient::getInstance()->getPreviousCampagne($current_campagne);
+                $previous_previous_campagne = ConfigurationClient::getInstance()->getPreviousCampagne($previous_campagne);
+                
+                $current_contrats = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($societe,$current_campagne);
+                $previous_contrats = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($societe,$previous_campagne);
+                $previous_previous_contrats = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($societe,$previous_previous_campagne);
+                $nbContrats = count($current_contrats)+count($previous_contrats)+count($previous_previous_contrats);
+                
+                if(!$nbContrats){
+                    echo $this->yellow("Warning : ") . "La societe $societe->_id n'a pas pas de contrat dans les années précedentes\n";
+                    continue;
+                }
+
+            }
+
+            if (!array_key_exists($masterCompte->identifiant, $comptesCodeCreation)) {
+                $comptesCodeCreation[$masterCompte->identifiant] = $masterCompte->identifiant;
+                echo $this->green("Code Creation : ") . "Code de creation pour le compte $masterCompte->identifiant\n";
+            }
         }
-        $this->societe = $this->compte->getSociete();
-        if (!$this->societe) {
-            echo $this->red("ERREUR : ") . "Le compte $row->id n'appartient a aucune société.\n";
-            return false;
-        }
-        $this->type_societe = $this->societe->type_societe;
-        if (!$this->societe->type_societe) {
-            echo $this->red("ERREUR : ") . "La societe $this->societe->_id n'a aucun type.\n";
-            return false;
-        }
-        
-        if (!$this->compte->isActif()) {
-            echo $this->yellow("Compte inactif : ") . "Le compte $row->id est inactif.\n";
-            return false;
-        }
-        return true;
+        return $comptesCodeCreation;
     }
 
     public function green($string) {
