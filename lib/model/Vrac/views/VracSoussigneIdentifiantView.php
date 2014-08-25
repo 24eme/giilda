@@ -25,7 +25,7 @@ class VracSoussigneIdentifiantView extends acCouchdbView {
                            ->reduce(false)
                         	 ->getView($this->design, $this->view)->rows;
       foreach($rows as $row) {
-        if(!in_array($row->value[self::VALUE_STATUT], VracClient::$statuts_valide)) {
+        if(!in_array($row->value[self::VALUE_STATUT], VracClient::$statuts_vise)) {
           continue;
         }
 	      $produits[$row->value[self::VALUE_PRODUIT_HASH]] = 1;
