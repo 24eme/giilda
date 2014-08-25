@@ -101,7 +101,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
            throw new acCouchdbException(sprintf("Le Contrat \"%s\" n'existe pas!", $num_contrat));
         }
 
-        if(!in_array($contrat[VracClient::VRAC_VIEW_STATUT], VracClient::$statuts_valide)) {
+        if(!in_array($contrat[VracClient::VRAC_VIEW_STATUT], VracClient::$statuts_vise)) {
         
             return;
         }
