@@ -795,13 +795,7 @@ class vracActions extends sfActions {
         }
     }
 
-    protected function secureVrac($droits, $vrac) {
 
-        if (!VracSecurity::getInstance($this->getUser(), $vrac)->isAuthorized($droits)) {
-
-            return $this->forwardSecure();
-        }
-    }
 
     protected function forwardSecure() {
         $this->context->getController()->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
