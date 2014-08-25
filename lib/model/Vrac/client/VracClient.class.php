@@ -468,13 +468,17 @@ class VracClient extends acCouchdbClient {
             throw new sfException('La date de fin ne peut etre supérieur à la date de fin.');
         }
 
-        $vracs = VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndDates(self::$statuts_vise, array_keys(self::$types_transaction), $date_debut_iso, $date_fin_iso);
+        $vracs = VracStatutAndTypeView::getInstance()->findContatsByStatutsAndTypesAndDates(self::$statuts_vise, array_keys(self::$types_transaction), $date_debut_iso, $date_fin_iso." 99:99:99");
 
         $result = "\xef\xbb\xbf";
         $result .="RAISON SOCIALE SOCIETE;ADRESSE SOCIETE ;ADRESSE COMPLEMENTAIRE SOCIETE;CODE POSTAL SOCIETE;VILLE SOCIETE\n";
         $adress_tab = array();
         foreach ($vracs as $key => $vrac_row) {
             $vrac = VracClient::getInstance()->find($vrac_row->id, acCouchdbClient::HYDRATE_JSON);
+
+            if(isset($vrac->teledeclare) && $vrac->teledeclare) {
+                continue;
+            }
 
             $row_vendeur = self::constructRowForEtiquettes($vrac->vendeur, $vrac->vendeur_identifiant);
             if (!in_array($row_vendeur, $adress_tab)) {
@@ -494,6 +498,7 @@ class VracClient extends acCouchdbClient {
                 $adress_tab[] = $row_mandataire;
             }
         }
+
         $result = substr($result, 0, strlen($result) - 1);
         return $result;
     }
