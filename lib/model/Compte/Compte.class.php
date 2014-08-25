@@ -459,24 +459,9 @@ class Compte extends BaseCompte {
     public function hasDroit($droit) {
         $droits = $this->get('droits')->toArray(0,1);
         return in_array($droit, $droits);
-    }
-    
-    public function isTeledeclarantVrac() {
-        return ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_NEGOCIANT)
-            || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_VITICULTEUR)
-            || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_COURTIER);
-    }
+    }    
 
     public function getDroits() {
-
-//        if((!$this->exist('droits') || count($this->droits) < 1) && $this->isTeledeclarantVrac()) {
-//
-//            $this->add('droits', array(Roles::TELEDECLARATION, Roles::TELEDECLARATION_VRAC));
-//            if(($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_NEGOCIANT)
-//            || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_COURTIER)){
-//                $this->add('droits', array(Roles::TELEDECLARATION, Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC_CREATION));
-//            }
-//        }
 
         return $this->_get('droits');
     }
