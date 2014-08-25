@@ -157,7 +157,11 @@ class VracClient extends acCouchdbClient {
     }
 
     public function retrieveLastDocs($limit = self::RESULTAT_LIMIT) {
-        return $this->descending(true)->limit($limit)->getView('vrac', 'history');
+        return $this->descending(true)
+                    ->startkey(array(0))
+                    ->endkey(array(0),array())
+                    ->limit($limit)
+                    ->getView('vrac', 'history');
     }
 
     public function retrieveByCampagneEtablissementAndStatut($societe, $campagne, $etablissement = 'tous', $statut = 'tous') {
