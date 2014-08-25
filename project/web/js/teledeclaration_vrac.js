@@ -45,6 +45,9 @@ var initTeledeclarationCourtierSoussigne = function() {
             $("#teledeclaration_courtier_interlocuteur_commercial").show();
         }else{
             $("#teledeclaration_courtier_interlocuteur_commercial").hide();
+            $("#teledeclaration_courtier_interlocuteur_commercial .ui-autocomplete-input").focus();
+            $("#teledeclaration_courtier_interlocuteur_commercial .ui-autocomplete-input").val("");
+            $("#teledeclaration_courtier_interlocuteur_commercial .ui-autocomplete-input").blur();
         }
     })
 
