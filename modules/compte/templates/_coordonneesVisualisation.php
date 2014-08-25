@@ -96,6 +96,7 @@
         </div>
     <?php endif; ?>
 </fieldset>
+<?php if($compte->exist('droits')): ?>
 <fieldset>
         <div class="form_ligne">
             <legend>Droits</legend>
@@ -108,6 +109,7 @@
             </ul>
         </div>
 </fieldset>
+<?php endif; ?>
 <fieldset>
     <div class="form_ligne">
         <legend>Tags - étiquettes </legend>
