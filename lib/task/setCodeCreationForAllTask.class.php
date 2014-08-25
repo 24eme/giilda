@@ -39,7 +39,7 @@ EOF;
     }
 
     protected function execute($arguments = array(), $options = array()) {
-        // initialize the database connection
+// initialize the database connection
 
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
@@ -53,25 +53,35 @@ EOF;
 
         if ($this->debug) {
             echo $this->yellow("WARNING => bebug Mode") . "\n";
-            if (array_key_exists('code_creation', $arguments) && $arguments['code_creation'] && (!preg_match('/^[0-9]{4}$/', $arguments['code_creation']))) {
-                throw new sfException("Les codes de création doivent faire 4 chiffres!");
-                return false;
+            $this->codeCreation = null;
+            if (array_key_exists('code_creation', $arguments)) {
+                if ($arguments['code_creation'] && (!preg_match('/^[0-9]{4}$/', $arguments['code_creation']))) {
+                    throw new sfException("Les codes de création doivent faire 4 chiffres!");
+                    return false;
+                }
+                $this->code_creation = $arguments['code_creation'];
+                echo $this->yellow("tout les code de création seront assigné comme ") . $this->green($this->code_creation) . "\n";
             }
-            $this->code_creation = $arguments['code_creation'];
-            echo $this->yellow("tout les code de création seront assigné comme ") . $this->green($this->code_creation) . "\n";
         }
 
 
         $comptesCDC = $this->getCompteCodeCreation();
         echo "ASSIGNEMENT CODE DE CREATIONS \n\n\n";
-        echo "###identifiant;code_creation;raison_sociale;raison_sociale_abregee;adresse;code_postal;commune\n";
+        echo "###identifiant;code_creation;raison_sociale;raison_sociale_abregee;adresse;adresse_complementaire;code_postal;commune;type_societe\n";
         foreach ($comptesCDC as $compteCDCId) {
-            $this->code_creation = ($this->debug) ? sprintf("%04d", $this->code_creation) : sprintf("%04d", rand(0, 9999));
+            $this->code_creation = ($this->debug && $this->codeCreation) ? sprintf("%04d", $this->code_creation) : sprintf("%04d", rand(0, 9999));
             $compte = CompteClient::getInstance()->findByIdentifiant($compteCDCId);
-            $compte->add('mot_de_passe', "{TEXT}" . $this->code_creation);
-            $compte->save(false, false, false, true);
+            if (!$this->debug || $this->codeCreation) {
+                $compte->add('mot_de_passe', "{TEXT}" . $this->code_creation);
+                $compte->save(false, false, false, true);
+            }
             $societe = $compte->getSociete();
-            echo "###".$societe->identifiant . ";" . $this->code_creation . ";" .$societe->raison_sociale.";". $societe->raison_sociale_abregee . ";" . $societe->siege->adresse . ";" . $societe->siege->code_postal . ";" . $societe->siege->commune . "\n";
+            if ($this->debug && !$this->codeCreation) {
+                $compte = $societe->getMasterCompte();
+                echo "###" . $societe->identifiant . ";" . $compte->mot_de_passe . ";" . $societe->raison_sociale . ";" . $societe->raison_sociale_abregee . ";" . $societe->siege->adresse . ";" . $societe->siege->adresse_complementaire . ";" . $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . "\n";
+            } else {
+                echo "###" . $societe->identifiant . ";" . $this->code_creation . ";" . $societe->raison_sociale . ";" . $societe->raison_sociale_abregee . ";" . $societe->siege->adresse . ";" . $societe->siege->adresse_complementaire . ";" . $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . "\n";
+            }
         }
     }
 
@@ -112,23 +122,22 @@ EOF;
                 echo $this->red("ERREUR : ") . "La societe $societe->_id n'a pas droit à la télédeclaration.\n";
                 continue;
             }
-            
-            if($societe->isViticulteur() || $societe->isCourtier() || $societe->isNegociant()){
-                
+
+            if ($societe->isViticulteur() || $societe->isCourtier() || $societe->isNegociant()) {
+
                 $current_campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
                 $previous_campagne = ConfigurationClient::getInstance()->getPreviousCampagne($current_campagne);
                 $previous_previous_campagne = ConfigurationClient::getInstance()->getPreviousCampagne($previous_campagne);
-                
-                $current_contrats = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($societe,$current_campagne);
-                $previous_contrats = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($societe,$previous_campagne);
-                $previous_previous_contrats = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($societe,$previous_previous_campagne);
-                $nbContrats = count($current_contrats)+count($previous_contrats)+count($previous_previous_contrats);
-                
-                if(!$nbContrats){
+
+                $current_contrats = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($societe, $current_campagne);
+                $previous_contrats = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($societe, $previous_campagne);
+                $previous_previous_contrats = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($societe, $previous_previous_campagne);
+                $nbContrats = count($current_contrats) + count($previous_contrats) + count($previous_previous_contrats);
+
+                if (!$nbContrats) {
                     echo $this->yellow("Warning : ") . "La societe $societe->_id n'a pas pas de contrat dans les années précedentes\n";
                     continue;
                 }
-
             }
 
             if (!array_key_exists($masterCompte->identifiant, $comptesCodeCreation)) {
