@@ -121,10 +121,10 @@ class myUser extends sfBasicSecurityUser
     }
     
     public function hasTeledeclarationVrac() {
-        return $this->isAuthenticated() && $this->hasTeledeclaration() && $this->getCompte() && $this->hasCredential(Roles::TELEDECLARATION_VRAC);
+        return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_VRAC);
     }
     
     public function hasTeledeclarationVracCreation() {
-        return $this->isAuthenticated() && $this->getCompte() && $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_VRAC_CREATION);
+        return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_VRAC_CREATION);
     }
 }
