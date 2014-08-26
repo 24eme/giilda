@@ -818,8 +818,7 @@ bouton#colonnes_dr .btn_edition_label{height:26px}
 #drm_export_details_table .export_detail_remove{padding-right:0}#drm_export_details_table .export_detail_remove a{padding:0 13px;text-indent:-9999px}
 #drm_vrac_details_table .vrac_detail_remove{padding-right:0}#drm_vrac_details_table .vrac_detail_remove a{padding:0 13px;text-indent:-9999px}
 #drm_cooperative_details_table .cooperative_detail_remove{padding-right:0}#drm_cooperative_details_table .cooperative_detail_remove a{padding:0 13px;text-indent:-9999px}
-#principal.drm{width:700px !important;padding:20px 15px 0 10px}#principal.drm #rail_etapes li a{padding:0 55px}
-#principal.drm .recherche_etablissement{background:none repeat scroll 0 0 #ecebeb;padding:10px 10px 30px}
+#principal.drm{width:700px !important;padding:20px 15px 0 10px}#principal.drm .recherche_etablissement{background:none repeat scroll 0 0 #ecebeb;padding:10px 10px 30px}
 #principal.drm #rail_etapes{margin:20px 10px}
 #principal.drm .popup_raccourcis{float:right;position:relative}
 #principal.drm #application_dr{width:675px;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;border:1px solid #e3e2e2}#principal.drm #application_dr #form_produit_declaration{padding:10px;}#principal.drm #application_dr #form_produit_declaration label{width:200px}
