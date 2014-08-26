@@ -8,7 +8,7 @@
 			</h1>
 
 			<div class="conteneur_nav">
-				<span class="baseline">Espace des professionels du Vignoble de Val de Loire</span>		
+				<span class="baseline">Espace des professionnels du Vignoble de Val de Loire</span>		
 				<?php include_component('global', 'nav'); ?>
 			</div>
 
