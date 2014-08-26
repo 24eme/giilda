@@ -20,9 +20,16 @@ class VracConditionForm extends acCouchdbObjectForm {
         VracClient::CVO_NATURE_NON_FINANCIERE => 'Non financière',
         VracClient::CVO_NATURE_VINAIGRERIE => 'Vinaigrerie');
     protected $isTeledeclarationMode;
+    protected $date_enlevement_default;
+    protected $date_enlevement_default_label;
 
     public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $options = array(), $CSRFSecret = null) {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
+        $this->date_enlevement_default = null;
+        if($this->isTeledeclarationMode){
+            $this->date_enlevement_default = Date::addDelaiToDate('+35 days', date('Y-m-d'));
+            $this->date_enlevement_default_label = Date::francizeDate($this->date_enlevement_default);
+        }
         parent::__construct($vrac, $options, $CSRFSecret);
     }
 
@@ -82,7 +89,7 @@ class VracConditionForm extends acCouchdbObjectForm {
 
         if ($this->getObject()->isTeledeclare()) {
             $this->setWidget('enlevement_date', new sfWidgetFormInput());
-            $this->getWidget('enlevement_date')->setLabel("Date d'enlèvement");
+            $this->getWidget('enlevement_date')->setLabel("Date d'enlèvement (Par défaut ". $this->date_enlevement_default_label.")");
             $this->setValidator('enlevement_date', new sfValidatorString(array('required' => false)));
 
             $this->setWidget('enlevement_frais_garde', new sfWidgetFormInputFloat());
@@ -118,13 +125,14 @@ class VracConditionForm extends acCouchdbObjectForm {
         if ($values['type_contrat'] == VracClient::TYPE_CONTRAT_SPOT)
             $values['prix_variable'] = 0;
 
-        parent::doUpdateObject($values);
-        if ($this->isTeledeclarationMode)
+        parent::doUpdateObject($values);        
+        if ($this->isTeledeclarationMode){
             if (!$values['enlevement_date']) {
-                $this->getObject()->add('enlevement_date', Date::addDelaiToDate('+35 days', date('Y-m-d')));
+                $this->getObject()->add('enlevement_date', $this->date_enlevement_default);
             } else {
                 $this->getObject()->add('enlevement_date', Date::getIsoDateFromFrenchDate($values['enlevement_date']));
             }
+        }
     }
 
     protected function updateDefaultsFromObject() {
@@ -132,6 +140,14 @@ class VracConditionForm extends acCouchdbObjectForm {
         if ($this->getObject()->exist('enlevement_date') && $this->getObject()->enlevement_date) {
             $this->setDefault('enlevement_date', Date::francizeDate($this->getObject()->enlevement_date));
         }
+    }
+    
+    public function getDateEnlevementDefault() {
+        return $this->date_enlevement_default;
+    }
+    
+    public function getDateEnlevementDefaultLabel() {
+         return $this->date_enlevement_default_label;
     }
 
 }

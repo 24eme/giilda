@@ -62,8 +62,8 @@
 
                 <?php if ($isTeledeclarationMode) : ?>
                     <?php if (isset($form['enlevement_date']) && isset($form['enlevement_frais_garde'])): ?>
-                        <div class="section_label_maj">
-                            <label>Conditions&nbsp;d'enlévement</label>
+                        <div class="section_label_maj condition_enlevement">
+                            <label>Conditions&nbsp;d'enlévement (facultatif)</label>
                             <div class="bloc_form">
                                 <div class="ligne_form champ_datepicker">
                                     <?php echo $form['enlevement_date']->renderError() ?>        
@@ -98,8 +98,23 @@
         </form>
     </div>
 </section>
+<?php if ($isTeledeclarationMode): ?>
+    <script type="text/javascript">
+    $(document).ready(function()
+    {
+        $(".champ_datepicker input").datepicker({
+            showOn: "button",
+            buttonImage: "/images/pictos/pi_calendrier.png",
+            buttonImageOnly: true,
+            dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+            monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
+            dateFormat: 'dd/mm/yy',
+            firstDay: 1,
+            defaultDate: "<?php echo $form->getDateEnlevementDefaultLabel() ?>"
+        });
+    });
+</script>
 <?php
-if ($isTeledeclarationMode):
     include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
 else:
     slot('colApplications');
