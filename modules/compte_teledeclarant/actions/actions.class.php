@@ -76,17 +76,18 @@ class compte_teledeclarantActions extends sfActions {
                         }
                     }
                 }
+                $id_societe = $this->form->getObject()->id_societe;
+                $societe = SocieteClient::getInstance()->find($id_societe);
                 if(($this->form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR || $this->form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT)
                 && ($this->form->getValue('siret'))){
-                    $id_societe = $this->form->getObject()->id_societe;
-                    $societe = SocieteClient::getInstance()->find($id_societe);
                     $societe->siret = $this->form->getValue('siret');
                     $societe->save(true);
                 }
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_CREATION);
                 $this->getUser()->signInOrigin($this->compte);
                 try {
-                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_email')), $this->compte->email, "Confirmation de création de votre compte", $this->getPartial('acVinCompte/creationEmail', array('compte' => $this->compte)));
+                    $emailCible = $societe->getEtablissementPrincipal()->email;
+                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Confirmation de création de votre compte", $this->getPartial('creationEmail', array('compte' => $this->compte)));
                     $this->getUser()->setFlash('confirmation', "Votre compte a bien été créé.");
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
@@ -165,12 +166,6 @@ class compte_teledeclarantActions extends sfActions {
                 $this->form->save();
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_OUBLIE);
                 $this->getUser()->signInOrigin($this->compte);
-                try {
-                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_email')), $this->compte->email, "Confirmation de modification de votre mot de passe", $this->getPartial('acVinCompte/modificationOublieEmail', array('compte' => $this->compte)));
-                    $this->getUser()->setFlash('confirmation', "Votre mot de passe a bien été modifié.");
-                } catch (Exception $e) {
-                    $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
-                }
                 $this->redirect('homepage');
             }
         }
