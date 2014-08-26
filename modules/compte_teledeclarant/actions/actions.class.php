@@ -88,7 +88,6 @@ class compte_teledeclarantActions extends sfActions {
                 try {
                     $emailCible = $societe->getEtablissementPrincipal()->email;
                     $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Confirmation de création de votre compte", $this->getPartial('creationEmail', array('compte' => $this->compte)));
-                    $this->getUser()->setFlash('confirmation', "Votre compte a bien été créé.");
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
                 }
