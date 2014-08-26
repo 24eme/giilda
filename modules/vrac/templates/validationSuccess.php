@@ -19,19 +19,22 @@ use_helper('Vrac');
     <?php include_partial('headerVrac', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4)); ?>        
     <div id="contenu_etape"> 
         <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation', $vrac) ?>">
-        <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
-            <div id="titre"><span class="style_label">Récapitulatif de la saisie</span></div>
-
+            <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+            <?php if ($isTeledeclarationMode): ?>
+                <div id="titre"><span class="style_label">Récapitulatif du contrat</span></div>
+            <?php else: ?>
+                <div id="titre"><span class="style_label">Récapitulatif de la saisie</span></div>
+            <?php endif; ?>
             <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'template_validation' => true, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
             <div class="btn_etape">
                 <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
                 <?php if ($validation->isValide()) : ?>
-                    <?php if($isTeledeclarationMode): ?>
+                    <?php if ($isTeledeclarationMode): ?>
                         <?php if ($signatureDemande): ?>
                             <a id="signature_popup_haut" href="#signature_popup_content" class="btn_validation signature_popup"><span>Signer le contrat</span></a> 
                             <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validation' => true)); ?>
-                         <?php endif; ?>
+                        <?php endif; ?>
                     <?php else: ?>
                         <a id="btn_validation" class="btn_validation"><span>Terminer la saisie</span></a>  
                     <?php endif; ?>
@@ -41,27 +44,27 @@ use_helper('Vrac');
     </div>
 </section>
 <?php
-if($vrac->isTeledeclare()):
-include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
+if ($vrac->isTeledeclare()):
+    include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
 else:
-slot('colApplications');
-/*
- * Inclusion du panel de progression d'édition du contrat
- */
-if (!$contratNonSolde):
-    include_partial('contrat_progression', array('vrac' => $vrac));
-endif;
-/*
- * Inclusion du panel pour les contrats similaires
- */
-include_partial('contratsSimilaires', array('vrac' => $vrac));
+    slot('colApplications');
+    /*
+     * Inclusion du panel de progression d'édition du contrat
+     */
+    if (!$contratNonSolde):
+        include_partial('contrat_progression', array('vrac' => $vrac));
+    endif;
+    /*
+     * Inclusion du panel pour les contrats similaires
+     */
+    include_partial('contratsSimilaires', array('vrac' => $vrac));
 
-/*
- * Inclusion des Contacts
- */
-include_partial('contrat_infos_contact', array('vrac' => $vrac));
+    /*
+     * Inclusion des Contacts
+     */
+    include_partial('contrat_infos_contact', array('vrac' => $vrac));
 
-end_slot();
+    end_slot();
 
     if ($contratsSimilairesExist):
         include_partial('contratsSimilaires_warning_popup', array('vrac' => $vrac));
