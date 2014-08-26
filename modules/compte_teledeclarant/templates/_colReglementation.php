@@ -7,5 +7,10 @@
         </p>
 
         <a href="<?php echo url_for('reglementation_generale_des_transactions'); ?>" class="lien_telechargement">Réglementation</a>
+        <br/>
+        <br/>
+        <p class="lien_lecteur_pdf">
+            Cette notice est au format PDF. Pour la visualiser, veuillez utiliser un <a href="http://pdfreaders.org/">lecteur PDF</a>.
+        </p>
     </div>
 </div>

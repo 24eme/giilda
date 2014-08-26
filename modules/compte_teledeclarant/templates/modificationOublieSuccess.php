@@ -40,4 +40,6 @@
     <!-- fin #application_dr -->
 
 </form>
-<!-- fin #principal -->
+<?php slot('colReglementation'); ?>
+    <?php include_partial('compte_teledeclarant/colReglementation'); ?>
+<?php end_slot(); ?>
