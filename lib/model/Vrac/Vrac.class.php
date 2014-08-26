@@ -99,7 +99,7 @@ class Vrac extends BaseVrac {
 
     public function createVisa() {
         $this->valide->statut = VracClient::STATUS_CONTRAT_VISE;
-        $this->valide->date_saisie = date('Y-m-d H:i:s');
+        $this->date_signature = date('Y-m-d H:i:s');
         $this->update();
     }
     
