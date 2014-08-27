@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 
+use Encode;
 $verbose = shift;
 
 while(<STDIN>) {
@@ -26,21 +27,21 @@ while(<STDIN>) {
 	print "qualité : " if ($verbose);
 	print "\n";
 	print "abrégé (VINSI)" if ($verbose);
-	print substr($field[3], 0, 17)."\n";
+	print encode_utf8(substr(decode_utf8($field[3]), 0, 17))."\n";
 	print "contact : " if ($verbose);
 	print "\n";
 	print "adresse (VINSI) : " if ($verbose);
-	print substr($field[4], 0, 35)."\n";
+	print encode_utf8(substr(decode_utf8($field[4]), 0, 35))."\n";
 	print "complément adresse (VINSI) : " if ($verbose);
-	print substr($field[5], 0, 35)."\n";
+	print encode_utf8(substr(decode_utf8($field[5]), 0, 35))."\n";
 	print "code postal (VINSI) : " if ($verbose);
 	print $field[6]."\n";
 	print "ville (VINSI) : " if ($verbose);
-	print substr($field[7], 0, 35)."\n";
+	print encode_utf8(substr(decode_utf8($field[7]), 0, 35))."\n";
 	print "région : " if ($verbose);
 	print "\n";
 	print "pays (VINSI) : " if ($verbose);
-	print substr($field[8], 0, 35)."\n";
+	print substr(encode_utf8(decode_utf8($field[8])), 0, 35)."\n";
 	print "raccourci : " if ($verbose);
 	print "\n";
 	print "numéro devise : " if ($verbose);
