@@ -674,7 +674,7 @@ bouton.recherche_contact #btn_rechercher{height:26px}
 #infobulle_contact{-webkit-box-shadow:0 0 20px #666;-moz-box-shadow:0 0 20px #666;box-shadow:0 0 20px #666;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;border:3px solid #3e3e3e;background:#fff;display:none;line-height:1.6;padding:10px;position:absolute;min-width:200px;margin:5px 0 0 70px}#infobulle_contact:before{bottom:auto;left:-13px;position:absolute;right:auto;top:20px;content:'';display:inline-block;border-style:solid;border-width:10px 10px 10px 0;border-color:transparent #3e3e3e transparent transparent;height:0;width:0}
 #infobulle_contact .texte span{font-weight:bold}
 #modification_compte .ligne_form label,#creation_compte_teledeclaration .ligne_form label{width:300px}
-#col_reglementation .lien_notice{font-family:"HelveticaNeue75bold",Helvetica,Arial,sans-serif;text-transform:uppercase;color:#d00815;display:inline-block;margin:30px 0 0}
+#col_reglementation .lien_notice{font-family:"HelveticaNeue75bold",Helvetica,Arial,sans-serif;text-transform:uppercase;color:#d00815;display:inline-block;margin:30px 0 0 0}
 #col_reglementation .lien_lecteur_pdf{font-size:11px}#col_reglementation .lien_lecteur_pdf a{text-decoration:underline}
 .itemcache{display:none}
 p#date_drm{font-size:14px;font-style:italic;margin:20px 0}
