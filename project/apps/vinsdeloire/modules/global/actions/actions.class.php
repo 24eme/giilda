@@ -4,9 +4,13 @@ class globalActions extends sfActions {
 
     public function executeError500(sfWebRequest $request) {
         $this->exception = $request->getParameter('exception');
-        if ($this->getUser()->hasTeledeclarationVrac()) {
-            $this->setTemplate('error500Teledeclaration','global');
+        if(sfConfig::get('app_auth_mode') != 'HTTP_AD'){
+            $this->setTemplate('error500Teledeclaration','global');            
         }
+    }
+    
+    public function executeError404(sfWebRequest $request) {
+        $this->exception = $request->getParameter('exception');
     }
 
     public function executeHome(sfWebRequest $request) {
@@ -21,6 +25,6 @@ class globalActions extends sfActions {
         }
 
         return $this->redirect('societe');
-    }
-
+    } 
+        
 }

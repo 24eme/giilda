@@ -46,6 +46,9 @@ all:
   .action:
     error_500_module:       global
     error_500_action:       error500
+    
+    error_404_module:       global
+    error_404_action:       error404
 
     login_module:           auth
     login_action:           login
