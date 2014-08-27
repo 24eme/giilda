@@ -47,7 +47,6 @@ use_helper('Vrac');
                                     <ul>
                                         <li>Nom : <strong><?php echo $etbObject->nom ?></strong></li>
                                         <li>N° CVI : <strong><?php echo $etbObject->cvi ?></strong></li>
-                                        <li>N° ACCISE : <strong><?php echo $etbObject->no_accises ?></strong></li>
                                         <li>Téléphone : <strong><?php echo $etbObject->telephone ?></strong></li>
                                         <li>Fax : <strong><?php echo $etbObject->fax ?></strong></li>
                                         <li>Adresse : <strong><?php echo $etbObject->siege->adresse ?></strong></li>
@@ -61,7 +60,7 @@ use_helper('Vrac');
                 <?php endif; ?>
                 <?php if ($form->hasSocieteChoice()): ?>
                     <h2>Choix d'un établissement</h2>
-                    <p>Choisissez l'établissement de la société <?php echo $societe->raison_sociale; ?> à ajouter à votre annuaire.</p><br />
+                    <p>Choisissez l'établissement de la société à ajouter à votre annuaire :</p><br />
                     <span><?php echo $form['etablissementChoice']->renderError() ?></span>
 
                     <div class="bloc_form bloc_form_condensed">
