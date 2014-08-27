@@ -151,7 +151,7 @@
     .btn_calendrier
     {
         &:after 
-        { 
+            { 
             background-position: 25px -544px; 
             width:50px;
         }
@@ -163,7 +163,7 @@
         position: relative;
 
         &:before
-        {
+            {
             .pos-abs(2px, auto, auto, -9px);
             .triangle-r(10px, 5px, #000);
             margin: 0 5px 0 0;
@@ -530,7 +530,7 @@
         {
             span { margin-left:40px; }
         }
-        
+
         .condition_enlevement
         {
             label { width: 350px;} 
@@ -607,7 +607,7 @@
                     color: #5a9e54;
 
                     &:before
-                    {
+                        {
                         .pos-abs(3px, auto, auto, 0);
                         background: url('../images/pictos/pi_ok.png') no-repeat;
                         content: '';
@@ -623,7 +623,7 @@
                     color: #6f6f6f;
 
                     &:before
-                    {
+                        {
                         .pos-abs(3px, auto, auto, 0);                        
                         background: url("../images/pictos/pi_attente_soussigne.png") no-repeat;
                         content: '';
@@ -637,7 +637,7 @@
                     color: #fc8f15;
 
                     &:before
-                    {
+                        {
                         .pos-abs(3px, auto, auto, 0);                        
                         background: url('../images/pictos/pi_attente.png') no-repeat;
                         content: '';
@@ -1443,13 +1443,13 @@
 #signature_popup_content
 {
     width: 400px;
-    
+
     h2{
         font-size: 15px;
         font-weight: bold;
         text-transform: uppercase;
     }
-    
+
     .ligne_btn
     {
         height: 30px;
@@ -1457,7 +1457,25 @@
         .annuler { float: left; }
         .btn_validation {  float: right; }
     }
-    
+
+}
+
+
+.contrat_teledeclaration_societe{
+    div.btn_block
+    {
+        clear: both;
+        margin: 10px 0; 
+        padding-bottom: 30px; 
+        a.lien_nouveau
+        {   
+            cursor: pointer;
+            float: right;
+        }
+        
+        a.lien_history { float: left; }
+
+    }
 }
 
 /**

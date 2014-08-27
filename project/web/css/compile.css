@@ -543,6 +543,8 @@ bouton#contenu_etape #btn_export_csv{height:26px}
 #signature_popup_content{width:400px}#signature_popup_content h2{font-size:15px;font-weight:bold;text-transform:uppercase}
 #signature_popup_content .ligne_btn{height:30px;padding:15px 0}#signature_popup_content .ligne_btn .annuler{float:left}
 #signature_popup_content .ligne_btn .btn_validation{float:right}
+.contrat_teledeclaration_societe div.btn_block{clear:both;margin:10px 0;padding-bottom:30px}.contrat_teledeclaration_societe div.btn_block a.lien_nouveau{cursor:pointer;float:right}
+.contrat_teledeclaration_societe div.btn_block a.lien_history{float:left}
 #colonne{}#colonne #contrat_compte h3{font-weight:bold}
 #colonne #contrat_compte .ligne_btn{margin-bottom:0}
 #colonne #contrat_progression p{font-weight:bold;margin:0 0 5px}#colonne #contrat_progression p strong{font-size:22px;margin:0 5px 0 0}
