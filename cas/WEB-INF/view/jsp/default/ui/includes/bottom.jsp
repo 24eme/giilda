@@ -24,10 +24,10 @@
 		</div>
 		<footer id="footer" role="contentinfo">
 			<ul>
-				<li>&copy; Vins du val de loire 2014</li>
+				<li>&copy; Vins du Val de Loire 2014</li>
 				<li><a href="#">A propos d'Interloire</a></li>
-				<li><a href="#">Mentions légales</a></li>
-				<li><a href="#">Contactez nous</a></li>
+				<li><a href="#">Mentions L&eacute;gales</a></li>
+				<li><a href="#">Contactez-nous</a></li>
 			</ul>
 		</footer>
             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

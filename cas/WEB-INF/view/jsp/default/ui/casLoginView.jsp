@@ -29,12 +29,12 @@
 
 				<p class="intro">
 					Bienvenue dans l'espace d&eacute;di&eacute; aux professionnels du Vignoble du Val de Loire. <br />
-					Acc&eacute;dez au nouvel outil de t&eacute;l&eacute;-d&eacute;claration de vos contrats ainsi qu'aux donn&eacute;es et informations de l'observatoire &eacute;conomique.
+					Acc&eacute;dez au nouvel outil de t&eacute;l&eacute;-d&eacute;claration de vos contrats ainsi qu'aux donn&eacute;es et informations de l'Observatoire Economique.
 				</p>
 			
-				<img class="visuel" src="images/vi_authentification.png" alt="D&eacute;clarez vos contrats en ligne. Consultez l'observatoire &eacute;conomique." />
+				<img class="visuel" src="images/vi_authentification.png" alt="Enregistrez vos contrats en ligne. Consultez l'Observatoire Economique." />
 			
-				<img class="visuel_mobile" src="images/vi_authentification_mobile.png" alt="D&eacute;clarez vos contrats en ligne. Consultez l'observatoire &eacute;conomique." />
+				<img class="visuel_mobile" src="images/vi_authentification_mobile.png" alt="Enregistrez vos contrats en ligne. Consultez l'Observatoire Economique." />
 			
 				<div class="authentification">
 					<div class="bloc bloc_connexion">
@@ -84,7 +84,7 @@
 <div class="bloc bloc_inscription">
   <h2>Premi&egrave;re connexion</h2>
   <div class="bloc_contenu">
-    <p>S'il s'agit de votre premi&egrave;re connexion, munissez vous de votre num&eacute;ro interloire et du code &agrave; 4 chiffres de cr&eacute;ation re&ccedil;us par courrier.</p>
+    <p>S'il s'agit de votre premi&egrave;re connexion, munissez vous de votre identifiant et du code de cr&eacute;ation &agrave; 4 chiffres de cr&eacute;ation re&ccedil;us par courrier.</p>
   
 <div class="form_ligne txt_centre">
   <a href="#" class="btn_majeur btn_orange">Cr&eacute;er votre compte</a>

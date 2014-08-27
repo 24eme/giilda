@@ -48,7 +48,7 @@
 		<div id="page">
 			<header id="header" role="banner">
 				<div class="gabarit">
-					<img class="logo" src="images/logo.png" alt="Vins du val de loire" />
+					<img class="logo" src="images/logo_new.png" alt="Vins du val de loire" />
 					
 					<h1>Espace des professionnels du Vignoble du Val de Loire</h1>
 				</div>
