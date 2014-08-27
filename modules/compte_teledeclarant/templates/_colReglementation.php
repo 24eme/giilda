@@ -10,7 +10,7 @@
         <br/>
         <br/>
         <p class="lien_lecteur_pdf">
-            Cette notice est au format PDF. Pour la visualiser, veuillez utiliser un <a href="http://pdfreaders.org/">lecteur PDF</a>.
+            Ce document est au format PDF. Pour la visualiser, veuillez utiliser un <a target="_blank" href="http://pdfreaders.org/">lecteur PDF</a>.
         </p>
     </div>
 </div>
