@@ -18,14 +18,14 @@
     under the License.
 
 --%>
+
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <jsp:directive.include file="includes/top.jsp" />
 
-<c:if test="${not pageContext.request.secure}">
-  <div id="msg" class="errors">
-    <h2>Non-secure Connection</h2>
-    <p>You are currently accessing CAS over a non-secure connection.  Single Sign On WILL NOT WORK.  In order to have single sign on work, you MUST log in over HTTPS.</p>
-  </div>
-</c:if>
 
 				<p class="intro">
 					Bienvenue dans l'espace d&eacute;di&eacute; aux professionnels du Vignoble du Val de Loire. <br />
@@ -75,9 +75,7 @@
 									<button class="btn_majeur btn_vert" accesskey="l" tabindex="4" type="submit" type="submit">Valider</button>
 								</div>
     
-      <input type="hidden" name="lt" value="${loginTicket}" />
-      <input type="hidden" name="execution" value="${flowExecutionKey}" />
-      <input type="hidden" name="locale" value="fr" />
+      <input type="hidden" name="lt" value="${flowExecutionKey}" />
       <input type="hidden" name="_eventId" value="submit" />
   </form:form>
 </div>
