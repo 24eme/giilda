@@ -168,7 +168,7 @@ endif;
                                 <label>Courtier</label><br />
                                 <?php echo $form['commercial']->renderError(); ?>
                                 <?php echo $form['commercial']->renderLabel(null, array('class' => 'label_soussigne_identifiant')) ?>
-                                <?php echo $form['commercial']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un courtier', 'data-url' => $url_ajout_courtier)) ?>
+                                <?php echo $form['commercial']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un interlocuteur', 'data-url' => $url_ajout_courtier)) ?>
 
                             <?php endif; ?>
                         </div>

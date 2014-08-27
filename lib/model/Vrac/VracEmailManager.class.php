@@ -43,7 +43,7 @@ Pour être valable, le contrat doit être signé par toutes les parties et enreg
  
 Attention : si le contrat n’est pas signé par toutes les parties dans les 5 jours à compter de sa date de création, il sera automatiquement supprimé.
 
-Pour toutes questions, veuillez contacter " . $responsableNom . ", responsable du contrat.
+Pour toutes questions, veuillez contacter " . $responsableNom . ", l'initiateur du contrat.
 
 ——
 
