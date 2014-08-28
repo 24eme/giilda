@@ -73,8 +73,7 @@ slot('colCompte');
 
 <?php
 slot('colAide');
-$contacts = sfConfig::get('app_teledeclaration_contact_contrat');
-$region = $etablissementPrincipal->region;
+$contact = EtablissementClient::getInstance()->buildInfosContact($etablissementPrincipal);
 ?>
 <div class="bloc_col" id="contrat_aide">
     <h2>Aide</h2>
@@ -94,9 +93,9 @@ $region = $etablissementPrincipal->region;
         <h3>Votre contact - mise en marche</h3>
 
         <ul class="contact"> 
-            <li class="nom"><?php echo $contacts[$region]['nom']; ?></li>
-            <li class="email"><a href="mailto:<?php echo $contacts[$region]['email']; ?>"><?php echo $contacts[$region]['email']; ?></a></li>
-            <li class="telephone"><?php echo $contacts[$region]['telephone']; ?></li>
+            <li class="nom"><?php echo $contact->nom; ?></li>
+            <li class="email"><a href="mailto:<?php echo $contact->email; ?>"><?php echo $contact->email; ?></a></li>
+            <li class="telephone"><?php echo $contact->telephone; ?></li>
         </ul>
     </div>
 </div>
