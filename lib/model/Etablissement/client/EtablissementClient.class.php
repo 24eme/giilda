@@ -1,11 +1,11 @@
 <?php
 
 class EtablissementClient extends acCouchdbClient {
+
     /**
      *
      * @return EtablissementClient
      */
-
     const REGION_TOURS = 'TOURS';
     const REGION_ANGERS = 'ANGERS';
     const REGION_NANTES = 'NANTES';
@@ -17,24 +17,19 @@ class EtablissementClient extends acCouchdbClient {
     const TYPE_LIAISON_METAYER = 'METAYER';
     const TYPE_LIAISON_ADHERENT = 'ADHERENT'; //pour les cooperateurs
     const TYPE_LIAISON_CONTRAT_INTERNE = 'CONTRAT_INTERNE';
-
     const STATUT_ACTIF = 'ACTIF'; #'actif';
     const STATUT_SUSPENDU = 'SUSPENDU'; #'suspendu';
-
     const OUI = 'OUI';
     const NON = 'NON';
-
     const RELANCE_DS_OUI = self::OUI;
     const RELANCE_DS_NON = self::NON;
-
     const RAISINS_MOUTS_OUI = self::OUI;
     const RAISINS_MOUTS_NON = self::NON;
-
     const EXCLUSION_DRM_OUI = self::OUI;
     const EXCLUSION_DRM_NON = self::NON;
 
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
-                                   self::STATUT_SUSPENDU => 'SUSPENDU'); 
+        self::STATUT_SUSPENDU => 'SUSPENDU');
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Etablissement");
@@ -54,14 +49,14 @@ class EtablissementClient extends acCouchdbClient {
         $societe_id = $societe->identifiant;
         $etbs = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         $last_num = 0;
-        foreach($etbs as $id) {
-            if(!preg_match('/ETABLISSEMENT-[0-9]{6}([0-9]{2})/', $id, $matches)) {
-              continue;
+        foreach ($etbs as $id) {
+            if (!preg_match('/ETABLISSEMENT-[0-9]{6}([0-9]{2})/', $id, $matches)) {
+                continue;
             }
 
             $num = $matches[1];
-            if($num > $last_num) {
-              $last_num = $num;
+            if ($num > $last_num) {
+                $last_num = $num;
             }
         }
 
@@ -75,20 +70,19 @@ class EtablissementClient extends acCouchdbClient {
     public function getViewClient($view) {
         return acCouchdbManager::getView("etablissement", $view, 'Etablissement');
     }
-    
-    public function findAll(){
+
+    public function findAll() {
         return EtablissementRegionView::getInstance()->findAll();
     }
-    
+
     public function findByFamille($famille) {
         return EtablissementRegionView::getInstance()->findByFamilleAndRegionNonSuspendu($famille);
     }
 
-    public function findByFamillesAndRegions($familles,$regions){
-        return EtablissementRegionView::getInstance()->findByFamillesAndRegionsNonSuspendus($familles,$regions,null);
+    public function findByFamillesAndRegions($familles, $regions) {
+        return EtablissementRegionView::getInstance()->findByFamillesAndRegionsNonSuspendus($familles, $regions, null);
     }
-    
-    
+
     /**
      *
      * @param string $login
@@ -102,7 +96,7 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public function find($id_or_identifiant, $hydrate = self::HYDRATE_DOCUMENT, $force_return_ls = false) {
-        
+
         return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
@@ -208,7 +202,7 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public static function listTypeLiaisons() {
-      return array_keys(self::getTypesLiaisons());
+        return array_keys(self::getTypesLiaisons());
     }
 
     public static function getTypesLiaisons() {
@@ -223,6 +217,32 @@ class EtablissementClient extends acCouchdbClient {
             self::REGION_ANGERS => '2',
             self::REGION_NANTES => '3');
         return $prefixs[$region];
+    }
+
+    public function buildInfosContact($etb) {
+        $result = new stdClass();
+        $region = $etb->region;
+        $contacts = sfConfig::get('app_teledeclaration_contact_contrat');
+
+        if ($etb->famille == SocieteClient::SUB_TYPE_COURTIER) {
+            $code_postal = $etb->siege->code_postal;
+            if($code_postal && substr($code_postal, 0, 2) == "44"){
+                $region = self::REGION_NANTES;
+            }
+            if($code_postal && substr($code_postal, 0, 2) == "49"){
+                $region = self::REGION_ANGERS;
+            }
+            if($code_postal && substr($code_postal, 0, 2) == "37"){
+                $region = self::REGION_TOURS;
+            }
+            $result->nom = $contacts[$region]['nom'];
+            $result->email = $contacts[$region]['email'];
+            $result->telephone = $contacts[$region]['telephone'];
+            return $result;
+        }
+        $result->nom = $contacts[$region]['nom'];
+        $result->email = $contacts[$region]['email'];
+        $result->telephone = $contacts[$region]['telephone'];
     }
 
 }
