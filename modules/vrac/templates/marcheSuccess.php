@@ -10,7 +10,7 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
 ?>
 <script type="text/javascript">
     
-    var changeMillesimeLabelAndDefault = function(nextMillesime, actuelMillesime) {
+    var changeMillesimeLabelAndDefault = function(nextMillesime) {
         switch ($("#type_transaction input:checked").val()) {
             case "<?php echo VracClient::TYPE_TRANSACTION_MOUTS ?>":
             case "<?php echo VracClient::TYPE_TRANSACTION_RAISINS ?>":
@@ -22,7 +22,7 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
             case "<?php echo VracClient::TYPE_TRANSACTION_VIN_VRAC ?>":
             case "<?php echo VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE ?>":
                 $("div#millesime label").text('Millésime');
-                $("div#millesime > input").val(actuelMillesime);
+                $("div#millesime > input").val('Non millésimé');
                 $("div#millesime > input").change();
                 break;
         }
@@ -67,7 +67,7 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
                 var integrite = getContratSimilaireParams(ajaxParams, null);
                 refreshContratsSimilaire(integrite, ajaxParams);
 <?php endif; ?>
-            changeMillesimeLabelAndDefault("<?php echo $form->getNextMillesime(); ?>", "<?php echo $form->getActuelMillesime(); ?>");
+            changeMillesimeLabelAndDefault("<?php echo $form->getNextMillesime(); ?>");
         });
 
     });
@@ -113,7 +113,7 @@ endforeach;
 
                 <!--  Affichage des produits, des labels et du stock disponible  -->
                 <div id="vrac_marche_produitLabel" class="section_label_maj">
-                    <?php include_partial('marche_produitLabel', array('form' => $form)); ?>
+                    <?php include_partial('marche_produitLabel', array('form' => $form, 'isTeledeclarationMode' => $isTeledeclarationMode, 'defaultDomaine' => $defaultDomaine)); ?>
                 </div>
 
                 <!--  Affichage des volumes et des prix correspondant  -->

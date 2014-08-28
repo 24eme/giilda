@@ -349,7 +349,7 @@ class vracActions extends sfActions {
 
         $this->vrac = ($request->getParameter('numero_contrat')) ? VracClient::getInstance()->find($request->getParameter('numero_contrat')) : new Vrac();
         $this->vrac = $this->populateVracTiers($this->vrac);
-        if($this->vrac->isNew()) {
+        if ($this->vrac->isNew()) {
             $this->vrac->initCreateur($this->createur_identifiant);
         }
 
@@ -380,7 +380,7 @@ class vracActions extends sfActions {
         $this->createur_identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('createur'));
         $this->vrac = ($request->getParameter('numero_contrat')) ? VracClient::getInstance()->find($request->getParameter('numero_contrat')) : new Vrac();
         $this->vrac = $this->populateVracTiers($this->vrac);
-        if($this->vrac->isNew()) {
+        if ($this->vrac->isNew()) {
             $this->vrac->initCreateur($this->createur_identifiant);
         }
 
@@ -474,13 +474,21 @@ class vracActions extends sfActions {
         $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        $this->defaultDomaine = null;
         if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
         }
 
         $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
 
-        $this->form = new VracMarcheForm($this->vrac, $this->isTeledeclarationMode);
+        if ($this->isTeledeclarationMode && !is_null($request->getParameter('vrac')) && !$request->getParameter('vrac') == '') {
+            $vracParam = $request->getParameter('vrac');
+            if (isset($vracParam['domaine']) && $vracParam['domaine']) {
+                $this->defaultDomaine = $vracParam['domaine'];
+            }
+        }
+        
+        $this->form = new VracMarcheForm($this->vrac, $this->isTeledeclarationMode, $this->defaultDomaine);
 
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -488,6 +496,8 @@ class vracActions extends sfActions {
                 $this->maj_etape(2);
                 $this->form->save();
                 $this->redirect('vrac_condition', $this->vrac);
+            } else {
+                
             }
         }
     }
@@ -573,7 +583,7 @@ class vracActions extends sfActions {
         $this->redirect403IsInVracAndNotAllowedToSee();
 
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        if($this->isTeledeclarationMode) {
+        if ($this->isTeledeclarationMode) {
             $this->isProprietaire = $this->isTeledeclarationMode && $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->societe->identifiant == substr($this->vrac->createur_identifiant, 0, 6));
         }
         $this->isTeledeclare = $this->vrac->isTeledeclare();
@@ -774,9 +784,7 @@ class vracActions extends sfActions {
     private function majStatut($statut) {
         $previous_statut = $this->vrac->valide->statut;
         $this->vrac->valide->statut = $statut;
-        if($this->vrac->isTeledeclare()
-                && $statut == VracClient::STATUS_CONTRAT_ANNULE
-                && $previous_statut != VracClient::STATUS_CONTRAT_BROUILLON){
+        if ($this->vrac->isTeledeclare() && $statut == VracClient::STATUS_CONTRAT_ANNULE && $previous_statut != VracClient::STATUS_CONTRAT_BROUILLON) {
             $mailManager = new VracEmailManager($this->getMailer());
             $mailManager->setVrac($this->vrac);
             $mailManager->sendMailAnnulation(!$this->isTeledeclarationVrac());
@@ -794,8 +802,6 @@ class vracActions extends sfActions {
             $mailManager->sendMailAttenteSignature();
         }
     }
-
-
 
     protected function forwardSecure() {
         $this->context->getController()->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));

@@ -8,8 +8,8 @@
  */
 
 
- $has_domaine = !is_null($form->getObject()->domaine);
- ?>
+$has_domaine = !is_null($form->getObject()->domaine);
+?>
 <?php echo $form['produit']->renderError(); ?> 
 <!--  Affichage des produits disponibles (en fonction de la transaction choisie  -->
 <div id="produit" class="section_label_maj">   
@@ -36,15 +36,18 @@
 <!--  Affichage du type  -->
 <div id="domaine" class="section_label_maj" 
     <?php echo ($form['categorie_vin']->getValue() == VracClient::CATEGORIE_VIN_DOMAINE)? '' : 'style="display: none;"' ?> >
-    <?php echo $form['domaine']->renderLabel() ?> 
-    <?php echo $form['domaine']->render() ?>   
+         <?php echo $form['domaine']->renderLabel() ?>
+    <?php if($isTeledeclarationMode && $defaultDomaine): ?>
+         <?php echo $form['domaine']->render(array('data-default' => $defaultDomaine)); ?>   
+    <?php else: ?>
+        <?php echo $form['domaine']->render(); ?>  
+    <?php endif; ?>
 </div>
 
 <?php if (isset($form['label'])): ?>
-<?php echo $form['label']->renderError(); ?>
-<!--  Affichage des label disponibles -->
-<div id="label" class="section_label_maj">
-    <?php echo $form['label']->renderLabel() ?> 
-    <?php echo $form['label']->render() ?>
-</div>
+    <?php echo $form['label']->renderError(); ?>
+    <div id="label" class="section_label_maj">
+        <?php echo $form['label']->renderLabel() ?> 
+        <?php echo $form['label']->render() ?>
+    </div>
 <?php endif; ?>

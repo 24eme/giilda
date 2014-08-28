@@ -15,9 +15,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
     protected $actual_campagne;
     protected $next_campagne;
     protected $isTeledeclarationMode;
+    protected $defaultDomaine;
 
-    public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $options = array(), $CSRFSecret = null) {
+    public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $defaultDomaine = null, $options = array(), $CSRFSecret = null) {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
+        $this->defaultDomaine = $defaultDomaine;
         parent::__construct($vrac, $options, $CSRFSecret);
     }
 
@@ -88,6 +90,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setValidator('bouteilles_contenance_libelle', new sfValidatorString(array('required' => true)));
         $this->setValidator('prix_initial_unitaire', new sfValidatorNumber(array('required' => true)));
 
+        $this->validatorSchema['bouteilles_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas entière.');
+        $this->validatorSchema['jus_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
+        $this->validatorSchema['raisin_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
+       
+        $this->validatorSchema['prix_initial_unitaire']->setMessage('invalid', 'Le prix "%value%" n\'est pas un nombre.');
+       
+        
         $this->validatorSchema['produit']->setMessage('required', 'Le choix d\'un produit est obligatoire');
         $this->validatorSchema['prix_initial_unitaire']->setMessage('required', 'Le prix doit être renseigné');
 
@@ -119,7 +128,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $this->setDefault('prix_unitaire', $this->getObject()->_get('prix_unitaire'));
         }
         if (!$this->getObject()->bouteilles_contenance_libelle) {
-            $this->setDefault('bouteilles_contenance_libelle', '75 cl');
+            $this->setDefault('bouteilles_contenance_libelle', 'Bouteille 75 cl');
         }
         if (!$this->getObject()->millesime) {
             if ($this->getObject()->type_transaction) {
@@ -133,6 +142,10 @@ class VracMarcheForm extends acCouchdbObjectForm {
             }
         } else {
             $this->setDefault('millesime', $this->getObject()->millesime);
+        }
+
+        if ($this->defaultDomaine) {
+            $this->setDefault('domaine', $this->defaultDomaine);
         }
     }
 
