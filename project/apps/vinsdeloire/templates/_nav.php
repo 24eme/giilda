@@ -97,5 +97,27 @@
         )) ?>
         
    <?php endif; ?>
+
+    <!-- Actions utilisateur pour tablette et mobile -->
+
+    <?php if ($sf_user->hasCredential('admin')) : ?>
+        <li class="hidden_desk visible_tab"><a class="admin" href="<?php echo url_for('produits') ?>">Admin</a></li>
+    <?php endif; ?>
+
+    <?php if($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
+        <li class="hidden_desk visible_tab">
+            <a href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a>
+        </li>
+    <?php endif; ?>
+
+    <?php if($sf_user->isAuthenticated()): ?>
+        <?php if($sf_user->isUsurpationCompte()): ?>
+            <li class="hidden_desk visible_tab"><a class="deconnexion" href="<?php echo url_for('vrac_dedebrayage') ?>">Quitter</a></li>
+        <?php else: ?>
+            <li class="hidden_desk visible_tab"><a class="deconnexion" href="<?php echo url_for('auth_logout') ?>">Déconnexion</a></li>
+        <?php endif; ?>
+    <?php else: ?>
+        <li class="hidden_desk visible_tab"><a class="deconnexion" href="<?php echo url_for('homepage') ?>">Connexion</a></li>
+    <?php endif; ?>
     </ul>
 </nav>

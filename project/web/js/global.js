@@ -176,7 +176,7 @@ var fbConfig =
 
 		btnMenu.click(function()
 		{
-			nav.toggle();
+			nav.toggleClass('visible_tab');
 		});
 	};
 	
