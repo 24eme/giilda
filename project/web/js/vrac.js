@@ -254,17 +254,21 @@ var majTotal = function(quantiteField, isTeledeclarationMode) {
     if (numericComma.test(quantite))
     {
         quantite = quantite.replace(",", ".");
+        $('#vrac_' + quantiteField).val(quantite);
     }
 
     var prix_initial_unitaire = $('#vrac_prix_initial_unitaire').val();
     var prix_unitaire = $('#vrac_prix_unitaire').val();
+    
     if (numericComma.test(prix_initial_unitaire))
     {
         prix_initial_unitaire = prix_initial_unitaire.replace(",", ".");
+         $('#vrac_prix_initial_unitaire').val(prix_initial_unitaire);
     }
     if (numericComma.test(prix_unitaire))
     {
         prix_unitaire = prix_unitaire.replace(",", ".");
+        $('#vrac_prix_unitaire').val(prix_unitaire);
     }
     var numeric = new RegExp("^[0-9]+\.?[0-9]*$", "g");
 
