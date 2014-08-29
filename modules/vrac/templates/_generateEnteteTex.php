@@ -21,7 +21,6 @@ use_helper('Display');
 \def\CONTRAT_TITRE{<?php echo "CONTRAT D'ACHAT EN PROPRIETE"; ?>}
 
 <?php
-var_dump($vrac->getVendeurObject()); exit;
 $vendeur_raison_sociale = ($vrac->vendeur->raison_sociale)?
         cut_latex_string($vrac->vendeur->raison_sociale, 50) 
         : cut_latex_string($vrac->getVendeurObject()->getSociete()->raison_sociale, 50);
