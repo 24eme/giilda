@@ -47,6 +47,7 @@ use_helper('Vrac');
                                     <ul>
                                         <li>Nom : <strong><?php echo $etbObject->nom ?></strong></li>
                                         <li>N° CVI : <strong><?php echo $etbObject->cvi ?></strong></li>
+                                        <li>N° d'ACCISE : <strong><?php echo $etbObject->no_accises ?></strong></li>
                                         <li>Téléphone : <strong><?php echo $etbObject->telephone ?></strong></li>
                                         <li>Fax : <strong><?php echo $etbObject->fax ?></strong></li>
                                         <li>Adresse : <strong><?php echo $etbObject->siege->adresse ?></strong></li>
