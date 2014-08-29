@@ -33,8 +33,6 @@
             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
             <script type="text/javascript" src="https://github.com/cowboy/javascript-debug/raw/master/ba-debug.min.js"></script>
-            <spring:theme code="cas.javascript.file" var="casJavascriptFile" text="" />
-            <script type="text/javascript" src="<c:url value="${casJavascriptFile}" />"></script>
             </div>
 	</body>
 </html>
