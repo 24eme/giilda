@@ -179,8 +179,9 @@ class VracClient extends acCouchdbClient {
         }
 
         $allStatuts = self::$statuts_teledeclaration_sorted;
-        $allStatuts["ATTENTE_SIGNATURE_MOI"] = "ATTENTE_SIGNATURE_MOI";
-        $allStatuts["ATTENTE_SIGNATURE_AUTRES"] = "ATTENTE_SIGNATURE_AUTRES";
+        $allStatuts["SOLDENONSOLDE"] = "SOLDENONSOLDE";
+        $allStatuts[self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES] = self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES;
+        $allStatuts[self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI] = self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI;
         if (!in_array(strtoupper($statut), $allStatuts) && $statut != 'tous') {
             throw new sfException("wrong statut id ($statut)");
         }

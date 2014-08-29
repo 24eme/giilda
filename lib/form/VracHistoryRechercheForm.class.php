@@ -40,13 +40,13 @@ class VracHistoryRechercheForm extends sfForm {
         $this->widgetSchema->setLabel('campagne', 'Campagne');
         $this->widgetSchema->setLabel('statut', 'Statut');
 
-        $this->setValidator('campagne' , new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCampagnes()))));
+        $this->setValidator('campagne', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCampagnes()))));
         $this->setValidator('statut', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatuts()))));
-            
+
         if (!$this->onlyOneEtb) {
             $this->setWidget('etablissement', new sfWidgetFormChoice(array('choices' => $this->getEtablissements(), 'expanded' => false)));
             $this->widgetSchema->setLabel('etablissement', 'Etablissement');
-            $this->setValidator('etablissement' , new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getEtablissements()))));
+            $this->setValidator('etablissement', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getEtablissements()))));
         }
     }
 
@@ -82,11 +82,13 @@ class VracHistoryRechercheForm extends sfForm {
                 continue;
             }
             if ($statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) {
-                $statuts[VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI] = 'A signer';
+                if (!$this->societe->isCourtier()) {
+                    $statuts[VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI] = 'A signer';
+                }
                 $statuts[VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES] = VracClient::$statuts_labels_teledeclaration[$statut];
                 continue;
             }
-            
+
             $statuts[$statut] = VracClient::$statuts_labels_teledeclaration[$statut];
         }
         return $statuts;
