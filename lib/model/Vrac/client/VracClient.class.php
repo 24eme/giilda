@@ -75,14 +75,14 @@ class VracClient extends acCouchdbClient {
         self::CVO_REPARTITION_0_VINAIGRERIE => 'Vinaigrerie');
     public static $statuts_vise = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE, self::STATUS_CONTRAT_VISE);
     public static $statuts_labels = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
-        self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En Attente de signature',
+        self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En attente de signature',
         self::STATUS_CONTRAT_VISE => 'En attente de traitement',
         self::STATUS_CONTRAT_VALIDE => 'En attente de traitement',
         self::STATUS_CONTRAT_SOLDE => 'Soldé',
         self::STATUS_CONTRAT_ANNULE => 'Annulé',
         self::STATUS_CONTRAT_NONSOLDE => 'Non Soldé');
     public static $statuts_labels_teledeclaration = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
-        self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En Attente de signature',
+        self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En attente de signature',
         self::STATUS_CONTRAT_VISE => 'En attente de traitement',
         self::STATUS_CONTRAT_VALIDE => 'En attente de traitement',
         self::STATUS_CONTRAT_SOLDE => 'Validé',
