@@ -39,7 +39,7 @@ if (!isset($numero_contrat)) {
     <div id="vendeur_infos" class="bloc_form bloc_form_condensed bloc_form_teledeclaration">    
         <div class="ligne_form ">
             <span>
-                <label>Nom de l'acheteur :</label>
+                <label>Nom du vendeur :</label>
                 <?php display_teledeclaration_soussigne_NomCvi($vendeur); ?>
             </span>
         </div>

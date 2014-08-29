@@ -80,7 +80,7 @@ $contact = EtablissementClient::getInstance()->buildInfosContact($etablissementP
 
     <div class="contenu">
         <p>
-            En cas de besoin n'hésitez pas à consulter la notice d'aide complète au format pdf.
+            N'hésitez pas à consulter la notice en format pdf.
         </p>
 
         <a href="#" class="lien_telechargement">Télécharger la notice</a>

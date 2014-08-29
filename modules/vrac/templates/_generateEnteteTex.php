@@ -16,7 +16,7 @@ use_helper('Display');
 
 \def\CONTRATNUMENREGISTREMENT{<?php echo $vrac->getNumeroArchive(); ?>}
 \def\CONTRATVISA{<?php echo $vrac->getVisa(); ?>}
-\def\CONTRATDATEENTETE{<?php echo date("d/m/Y à H\hi", strtotime($vrac->date_signature)); ?>}
+\def\CONTRATDATEENTETE{<?php echo getDateEntete($vrac); ?>}
 
 \def\CONTRAT_TITRE{<?php echo "CONTRAT D'ACHAT EN PROPRIETE"; ?>}
 
@@ -48,7 +48,8 @@ use_helper('Display');
 \def\CONTRATTYPEEXPLICATIONPRIX{<?php echo vracTypeExplication($vrac);?>}
 
 \def\CONTRATDATEMAXENLEVEMENT{<?php echo cut_latex_string(Date::francizeDate($vrac->getMaxEnlevement()),50); ?>}
-\def\CONTRATFRAISDEGARDE{ <?php echo formatPrixFr($vrac->getFraisDeGarde()); ?>~\euro/hl}
+\def\CONTRATFRAISDEGARDE{ <?php echo ($vrac->exist('enlevement_frais_garde') && $vrac->enlevement_frais_garde)? 
+                                    formatPrixFr($vrac->getFraisDeGarde()).'~' : '~~~~~\euro/hl'; ?>}
 
 \def\CONTRATLIEUCREATION{<?php echo cut_latex_string($vrac->getResponsableLieu(),70); ?>}
 \def\CONTRATDATECREATION{<?php echo cut_latex_string(Date::francizeDate($vrac->valide->date_saisie),70); ?>}
