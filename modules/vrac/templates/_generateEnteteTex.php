@@ -37,6 +37,7 @@ $mandataire_raison_sociale = ($vrac->mandataire->raison_sociale)?
 \def\CONTRATVENDEURNOM{<?php echo $vendeur_raison_sociale;  ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi; ?>}
 \def\CONTRATVENDEURSIRET{<?php echo $vrac->getVendeurObject()->getSociete()->getSiret(); ?>}
+\def\CONTRATVENDEURACCISES{<?php echo $vrac->vendeur->no_accises; ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo cut_latex_string($vrac->vendeur->adresse, 45); ?>}
 \def\CONTRATVENDEURCOMMUNE{<?php echo cut_latex_string(sprintf("%s %s", $vrac->vendeur->code_postal, $vrac->vendeur->commune), 55); ?>}
 
@@ -44,6 +45,7 @@ $mandataire_raison_sociale = ($vrac->mandataire->raison_sociale)?
 \def\CONTRATACHETEUREURNOM{<?php echo $acheteur_raison_sociale; ?>}
 \def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi; ?>}
 \def\CONTRATACHETEURSIRET{<?php echo $vrac->getAcheteurObject()->getSociete()->getSiret(); ?>}
+\def\CONTRATACHETEURACCISES{<?php echo $vrac->acheteur->no_accises; ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo cut_latex_string($vrac->acheteur->adresse, 45); ?>}
 \def\CONTRATACHETEURCOMMUNE{<?php echo cut_latex_string(sprintf("%s %s", $vrac->acheteur->code_postal, $vrac->acheteur->commune), 55); ?>}
 

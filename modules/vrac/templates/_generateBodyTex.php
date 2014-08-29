@@ -34,6 +34,7 @@
          ~ & ~ \\
 	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\ 
 	 SIRET & \textbf{\CONTRATVENDEURSIRET} \\
+         N° d'ACCISE & \textbf{\CONTRATVENDEURACCISES} \\
 	 Adresse & \textbf{\CONTRATVENDEURADRESSE} \\
         Commune & \textbf{\CONTRATVENDEURCOMMUNE} \\
 	 ~ & ~ \\
@@ -51,6 +52,7 @@
          ~ & ~ \\
          C.V.I. & \textbf{\CONTRATACHETEURCVI} \\ 
 	     SIRET & \textbf{\CONTRATACHETEURSIRET} \\
+             N° d'ACCISE & \textbf{\CONTRATACHETEURACCISES} \\
 	     Adresse & \textbf{\CONTRATACHETEURADRESSE} \\
          Commune & \textbf{\CONTRATACHETEURCOMMUNE} \\
          ~ & ~ \\
