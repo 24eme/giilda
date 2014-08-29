@@ -223,6 +223,7 @@ class Etablissement extends BaseEtablissement {
         if (!$soc)
             throw new sfException("$id n'est pas une société connue");
         $this->cooperative = $soc->cooperative;
+        $this->add('raison_sociale',$soc->raison_sociale);
     }
 
     protected function synchroAndSaveSociete() {
