@@ -18,6 +18,9 @@
 @media screen and (max-width: (@largeur-totale))
 {
 
+.visible_tab { display: block !important; }
+.hidden_tab { display: none !important; }
+
 /* ======================================================= */
 /* STRUCTURE GENERIQUE */
 /* ======================================================= */
@@ -34,61 +37,60 @@
  ******************************************/
 #header
 {
-	padding: 15px 0;
-
-	.contenu
-	{
-		left: auto;
-		text-align: center;
-	}
+	.box-shadow(none);
+	padding: 15px 15px 0;
 
 	#logo
 	{
-		border: 0;
-		float: none;
-		text-align: center;
+		float: left;
+		text-align: left;
 	}
 
 	.conteneur_nav 
-	{
+	{ 
 		float: none;
-		padding: 0; 
+		padding: 0;
+		position: static;
 		width: auto;
 	}
 
-	.baseline,
-	.conteneur_nav:before,
-	#actions_utilsateur { display: none; }
-
 	#navigation
 	{
-		float: none;
+		background: #FFF;
+		display: none;
+		margin: 20px 0 0;
+		position: absolute;
+		top: 100%;
+		left: -80px;
+		right: -80px;
+		line-height: 35px;
+		z-index: 10;
 
-		li
-		{
-			.inline-block-ie;
+		li, li a { display: block; }
+
+		li 
+		{ 
+			background: none;
+			border-bottom: 1px solid #dddcdc;
+			border-top: 1px solid #dddcdc;
 			float: none;
-			font-size: 0;
-			padding: 0;
 
-			&:first-child { background: 0; }
+			& + li { border-top: 0; } 
 
 			a
 			{
-				font-size: 13px;
-				margin: 0 0 0 4px;
-				padding: 1px 10px;
-			}
-
-			a:hover,
-			a:focus,
-			&.actif a
-			{
-				padding: 0 9px;
+				border-radius: 0;
+				margin: 0;
+				text-align: center;
 			}
 		}
 	}
 
+	.btn_menu { display: block; }
+
+	.baseline,
+	.conteneur_nav:before,
+	#actions_utilsateur { display: none; }
 }
 
 #contenu
