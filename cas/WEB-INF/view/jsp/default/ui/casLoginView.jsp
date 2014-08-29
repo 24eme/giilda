@@ -72,7 +72,7 @@
 								</div>
 							
 								<div class="form_ligne txt_centre">
-									<button class="btn_majeur btn_vert" accesskey="l" tabindex="4" type="submit" type="submit">Valider</button>
+									<button class="btn_majeur btn_vert" accesskey="l" tabindex="4" type="submit" >Valider</button>
 								</div>
     
       <input type="hidden" name="lt" value="${flowExecutionKey}" />
