@@ -81,6 +81,11 @@ class VracHistoryRechercheForm extends sfForm {
                 $statuts["SOLDENONSOLDE"] = VracClient::$statuts_labels_teledeclaration[$statut];
                 continue;
             }
+            if ($statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) {
+                $statuts[VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI] = 'A signer';
+                $statuts[VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES] = VracClient::$statuts_labels_teledeclaration[$statut];
+                continue;
+            }
             
             $statuts[$statut] = VracClient::$statuts_labels_teledeclaration[$statut];
         }

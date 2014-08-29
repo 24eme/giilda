@@ -36,7 +36,7 @@ use_helper('Float');
                     <div class="action <?php echo ($contratsSocietesWithInfos->infos->a_signer) ? "actif" : ""; ?>">
                         <h2>  A Signer </h2>
                         <?php if ($contratsSocietesWithInfos->infos->a_signer): ?>
-                            <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE))) ?>">
+                            <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI))) ?>">
                             <?php endif; ?>
                             <?php echo $contratsSocietesWithInfos->infos->a_signer; ?> contrat(s) à signer
                             <?php if ($contratsSocietesWithInfos->infos->a_signer): ?>
@@ -49,7 +49,7 @@ use_helper('Float');
                 <div class="action <?php echo ($contratsSocietesWithInfos->infos->en_attente) ? "actif" : ""; ?>">
                     <h2>  En Attente </h2>
                     <?php if ($contratsSocietesWithInfos->infos->en_attente): ?>
-                        <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE))) ?>">
+                        <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES))) ?>">
                         <?php endif; ?>
                         <?php echo $contratsSocietesWithInfos->infos->en_attente; ?> contrat(s) en attente
                         <?php if ($contratsSocietesWithInfos->infos->en_attente): ?>
