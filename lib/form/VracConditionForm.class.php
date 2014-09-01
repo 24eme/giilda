@@ -95,6 +95,8 @@ class VracConditionForm extends acCouchdbObjectForm {
             $this->setWidget('enlevement_frais_garde', new sfWidgetFormInputFloat());
             $this->getWidget('enlevement_frais_garde')->setLabel("Frais de garde par mois");
             $this->setValidator('enlevement_frais_garde', new sfValidatorNumber(array('required' => false)));
+            
+            $this->validatorSchema['enlevement_frais_garde']->setMessage('invalid', 'Les frais de garde "%value%" doivent être un nombre.');
         }
 
         $this->widgetSchema->setNameFormat('vrac[%s]');
