@@ -77,7 +77,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         if ($this->isTeledeclarationMode) {
             $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
         } else {
-            $this->setValidator('millesime', new sfValidatorInteger(array('required' => false, 'min' => 1980, 'max' => $this->getCurrentYear())));
+            $this->setValidator('millesime', new sfValidatorInteger(array('required' => false, 'min' => 1960, 'max' => $this->getCurrentYear())));
         }
 
         $this->setValidator('categorie_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))));
