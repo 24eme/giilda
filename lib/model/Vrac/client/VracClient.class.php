@@ -604,8 +604,8 @@ class VracClient extends acCouchdbClient {
             $result.= $contrat->value[self::VRAC_VIEW_NUMARCHIVE] . ';';
 
             $result.= $contrat->value[self::VRAC_VIEW_PRODUIT_LIBELLE] . ';';
-            $result.= $quantite . ';';
-            $result.= $contrat->value[self::VRAC_VIEW_PRIX_UNITAIRE] . ';';
+            $result.= str_replace('.', ',', $quantite) . ';';
+            $result.= str_replace('.', ',', $contrat->value[self::VRAC_VIEW_PRIX_UNITAIRE]) . ';';
 
             $result.= $contrat->value[self::VRAC_VIEW_STATUT] . ';';
             $result.= $contrat->value[self::VRAC_VIEW_TYPEPRODUIT] . ';';
