@@ -43,21 +43,21 @@ function getBouteilleContenance($value) {
             <div class="bouteilles_quantite "
                  <?php echo ($isBouteille)? '' : 'style="display: none;"' ?> >                
                 <span><?php echo $form['bouteilles_quantite']->renderLabel() ?></span>
-                <?php echo $form['bouteilles_quantite']->render() ?>
+                <?php echo $form['bouteilles_quantite']->render(array('class' => 'num_float')) ?>
                 <span id="volume_unite_total" class="unite"></span>
             </div>
             
             <div class="jus_quantite "
                  <?php echo ($isMoutOuVrac)? '' : 'style="display: none;"' ?> >
                 <span>  <?php echo $form['jus_quantite']->renderLabel() ?></span>
-                <?php echo $form['jus_quantite']->render() ?>
+                <?php echo $form['jus_quantite']->render(array('class' => 'num_float')) ?>
                 <span id="volume_unite_total" class="unite"></span>
             </div>
             
             <div class="raisin_quantite "
                  <?php echo ($isRaisin)? '' : 'style="display: none;"' ?> >
                 <span><?php echo $form['raisin_quantite']->renderLabel() ?></span>
-                <?php echo $form['raisin_quantite']->render() ?>
+                <?php echo $form['raisin_quantite']->render(array('class' => 'num_float')) ?>
                 <span id="volume_unite_total" class="unite"></span>
             </div>
             <div>
@@ -70,7 +70,7 @@ function getBouteilleContenance($value) {
 <!--  Affichage du prix unitaire variables selon le type de transaction choisi -->
 <div id="prixInitialUnitaire" class="section_label_maj">
     <?php echo $form['prix_initial_unitaire']->renderLabel() ?>
-    <?php echo $form['prix_initial_unitaire']->render() ?>       
+    <?php echo $form['prix_initial_unitaire']->render(array('class' => 'num_float')) ?>       
     <span id="prix_initial_unitaire_unite" class="unite"></span>
     <span id="prix_initial_unitaire_hl" class="small"></span>
     <?php echo $form['prix_initial_unitaire']->renderError(); ?>
@@ -79,7 +79,7 @@ function getBouteilleContenance($value) {
 <?php if ($form->getObject()->hasPrixVariable()): ?>
 <div id="prixUnitaire" class="section_label_maj">
     <?php echo $form['prix_unitaire']->renderLabel() ?>
-    <?php echo $form['prix_unitaire']->render() ?>       
+    <?php echo $form['prix_unitaire']->render(array('class' => 'num_float')) ?>       
     <span id="prix_unitaire_unite" class="unite"></span>
     <span id="prix_unitaire_hl" class="small"></span>
     <?php echo $form['prix_unitaire']->renderError(); ?>

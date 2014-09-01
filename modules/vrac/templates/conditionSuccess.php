@@ -73,7 +73,7 @@
                                 <div class="ligne_form ligne_form_alt">
                                     <?php echo $form['enlevement_frais_garde']->renderError() ?>        
                                     <?php echo $form['enlevement_frais_garde']->renderLabel() ?>
-                                    <?php echo $form['enlevement_frais_garde']->render() ?>
+                                    <?php echo $form['enlevement_frais_garde']->render(array('class' => 'num_float')) ?>
                                     <span>€/hl</span>
                                 </div>
                             </div>
