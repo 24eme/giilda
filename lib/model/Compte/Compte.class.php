@@ -427,7 +427,7 @@ class Compte extends BaseCompte {
 	$ldap->deleteCompte($this, $verbose);
     }
     
-    /*public function buildDroits($removeAll = false) {
+    public function buildDroits($removeAll = false) {
         if(!$this->exist('type_societe') || !$this->type_societe){
             throw new sfException("Aucun type de société les droits ne sont pas enregistrables");
         }
@@ -438,43 +438,30 @@ class Compte extends BaseCompte {
         $acces_teledeclaration = false;
         if($this->type_societe != SocieteClient::SUB_TYPE_COURTIER){
             $acces_teledeclaration = true;
-            $droits->add(CompteClient::DROITS_COMPTE_OBSERVATOIRE_ECO,CompteClient::DROITS_COMPTE_OBSERVATOIRE_ECO);
+            $droits->add(Roles::OBSERVATOIRE,Roles::OBSERVATOIRE);
         }
         if(($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->type_societe == SocieteClient::SUB_TYPE_COURTIER)){
             $acces_teledeclaration = true;
-            $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC,CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC);
-            $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC_CREATION,CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC_CREATION);
+            $droits->add(Roles::TELEDECLARATION_VRAC,Roles::TELEDECLARATION_VRAC);
+            $droits->add(Roles::TELEDECLARATION_VRAC_CREATION,Roles::TELEDECLARATION_VRAC_CREATION);
         }
         
         if($this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR){     
             $acces_teledeclaration = true;
-            $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC,CompteClient::DROITS_COMPTE_TELEDECLARATION_VRAC);
+            $droits->add(Roles::TELEDECLARATION_VRAC,Roles::TELEDECLARATION_VRAC);
         }
+        
         if($acces_teledeclaration){
-            $droits->add(CompteClient::DROITS_COMPTE_TELEDECLARATION,CompteClient::DROITS_COMPTE_TELEDECLARATION);
+            $droits->add(Roles::TELEDECLARATION, Roles::TELEDECLARATION);
         }
-    }*/
+    }
     
     public function hasDroit($droit) {
         $droits = $this->get('droits')->toArray(0,1);
         return in_array($droit, $droits);
-    }
-    
-    public function isTeledeclarantVrac() {
-        return ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_NEGOCIANT)
-            || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_VITICULTEUR)
-            || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_COURTIER);
-    }
+    }    
 
     public function getDroits() {
-        if((!$this->exist('droits') || count($this->droits) < 1) && $this->isTeledeclarantVrac()) {
-
-            $this->add('droits', array(Roles::TELEDECLARATION, Roles::TELEDECLARATION_VRAC));
-            if(($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_NEGOCIANT)
-            || ($this->getSociete()->getTypeSociete() === SocieteClient::SUB_TYPE_COURTIER)){
-                $this->add('droits', array(Roles::TELEDECLARATION, Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC_CREATION));
-            }
-        }
 
         return $this->_get('droits');
     }

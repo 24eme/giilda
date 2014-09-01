@@ -47,6 +47,11 @@ $libelle .= " :";
                         <?php echo $form['siret']->renderLabel() ?>
                         <?php echo $form['siret']->render() ?>
                     </div>
+                    <div class="ligne_form ligne_form_alt">
+                        <?php echo $form['num_accises']->renderError() ?>
+                        <?php echo $form['num_accises']->renderLabel() ?>
+                        <?php echo $form['num_accises']->render() ?>
+                    </div>
                 <?php endif; ?>             
             </div>
         </div> 

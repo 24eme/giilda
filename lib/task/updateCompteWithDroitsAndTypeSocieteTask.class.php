@@ -23,7 +23,7 @@ class updateCompteWithDroitsAndTypeSocieteTask extends sfBaseTask
      ));
 
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'vinsdeloire'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
       // add your own options here
@@ -84,7 +84,7 @@ EOF;
             $teledeclaration = false;
             foreach ($compte->droits as $droit){
                 $droitsDisplay.=$droit."|";
-                if($droit == CompteClient::DROITS_COMPTE_TELEDECLARATION){
+                if($droit == Roles::TELEDECLARATION){
                     $teledeclaration = true;
                 }
             }            

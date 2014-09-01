@@ -61,33 +61,33 @@ class compte_teledeclarantActions extends sfActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->doUpdateObject($this->form->getValues());
-                $this->form->getObject()->save(false,false,true,false);
-                if($email = $this->form->getValue('email')) {
+                $this->form->getObject()->save(false, false, true, false);
+                if ($email = $this->form->getValue('email')) {
                     $etablissementPrincipal = $this->form->getObject()->getSociete()->getEtablissementPrincipal();
                     $etablissementPrincipal->email = $email;
                     $etablissementPrincipal->save();
-                    
+
                     $allEtablissements = $this->form->getObject()->getSociete()->getEtablissementsObj();
                     foreach ($allEtablissements as $etablissementObj) {
                         $etb = $etablissementObj->etablissement;
-                        if(!$etb->exist('email') || !$etb->email){
+                        if (!$etb->exist('email') || !$etb->email) {
                             $etb->email = $email;
                             $etb->save();
                         }
                     }
                 }
+                $id_societe = $this->form->getObject()->id_societe;
+                $societe = SocieteClient::getInstance()->find($id_societe);
                 if(($this->form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR || $this->form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT)
                 && ($this->form->getValue('siret'))){
-                    $id_societe = $this->form->getObject()->id_societe;
-                    $societe = SocieteClient::getInstance()->find($id_societe);
-                    $societe->siret = $this->form->getValue('siret');
-                    $societe->save(true);
+                        $societe->siret = $this->form->getValue('siret');
+                        $societe->save(true);
                 }
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_CREATION);
                 $this->getUser()->signInOrigin($this->compte);
                 try {
-                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_email')), $this->compte->email, "Confirmation de création de votre compte", $this->getPartial('acVinCompte/creationEmail', array('compte' => $this->compte)));
-                    $this->getUser()->setFlash('confirmation', "Votre compte a bien été créé.");
+                    $emailCible = $societe->getEtablissementPrincipal()->email;
+                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Confirmation de création de votre compte", $this->getPartial('creationEmail', array('compte' => $this->compte)));
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
                 }
@@ -126,7 +126,7 @@ class compte_teledeclarantActions extends sfActions {
 
                 try {
                     $emailCible = $societe->getEtablissementPrincipal()->email;
-                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')),$emailCible , "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $this->compte, 'lien' => $lien)));
+                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $this->compte, 'lien' => $lien)));
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
                 }
@@ -165,12 +165,6 @@ class compte_teledeclarantActions extends sfActions {
                 $this->form->save();
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_OUBLIE);
                 $this->getUser()->signInOrigin($this->compte);
-                try {
-                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_email')), $this->compte->email, "Confirmation de modification de votre mot de passe", $this->getPartial('acVinCompte/modificationOublieEmail', array('compte' => $this->compte)));
-                    $this->getUser()->setFlash('confirmation', "Votre mot de passe a bien été modifié.");
-                } catch (Exception $e) {
-                    $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
-                }
                 $this->redirect('homepage');
             }
         }
