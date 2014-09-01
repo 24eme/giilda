@@ -13,8 +13,8 @@ var initConditions = function()
     updatePanelsConditions();
     $('#vrac_condition #type_contrat input').click(updatePanelsConditions);
     $('#vrac_condition #prix_isVariable input').click(updatePanelsConditions);
-    $('#vrac_condition input#vrac_enlevement_date').click(function(){
-        $(this).datepicker('show');       
+    $('#vrac_condition input#vrac_enlevement_date').click(function() {
+        $(this).datepicker('show');
     });
 };
 
@@ -62,7 +62,7 @@ var initMarche = function(isTeledeclarationMode)
         else
             $('#domaine').show();
     });
-    
+
     updatePanelsAndUnitLabels(isTeledeclarationMode);
     $('#vrac_marche #type_transaction input').click(function() {
         clearVolumesChamps();
@@ -83,12 +83,12 @@ var updatePanelsAndUnitLabels = function(isTeledeclarationMode)
                 $('#vrac_prix_initial_unitaire').unbind();
                 $('#vrac_prix_unitaire').unbind();
 
-                $('#vrac_raisin_quantite').bind('keyup',{isTeledeclarationMode: isTeledeclarationMode },  updatePanelsAndUnitForRaisins);
-                $('#vrac_prix_initial_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForRaisins);
-                $('#vrac_prix_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForRaisins);
-                $('#vrac_raisin_quantite').bind('click', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForRaisins);
-                $('#vrac_prix_initial_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForRaisins);
-                $('#vrac_prix_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForRaisins);
+                $('#vrac_raisin_quantite').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForRaisins);
+                $('#vrac_prix_initial_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForRaisins);
+                $('#vrac_prix_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForRaisins);
+                $('#vrac_raisin_quantite').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForRaisins);
+                $('#vrac_prix_initial_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForRaisins);
+                $('#vrac_prix_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForRaisins);
             }
             break;
         case 'MOUTS' :
@@ -98,12 +98,12 @@ var updatePanelsAndUnitLabels = function(isTeledeclarationMode)
                 $('#vrac_jus_quantite').unbind();
                 $('#vrac_prix_initial_unitaire').unbind();
 
-                $('#vrac_jus_quantite').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode },updatePanelsAndUnitForJuice);
-                $('#vrac_prix_initial_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode },updatePanelsAndUnitForJuice);
-                $('#vrac_prix_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode },updatePanelsAndUnitForJuice);
-                $('#vrac_jus_quantite').bind('click',{isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForJuice);
-                $('#vrac_prix_initial_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode },updatePanelsAndUnitForJuice);
-                $('#vrac_prix_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForJuice);
+                $('#vrac_jus_quantite').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
+                $('#vrac_prix_initial_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
+                $('#vrac_prix_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
+                $('#vrac_jus_quantite').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
+                $('#vrac_prix_initial_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
+                $('#vrac_prix_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
             }
             break;
         case 'VIN_VRAC' :
@@ -113,12 +113,12 @@ var updatePanelsAndUnitLabels = function(isTeledeclarationMode)
                 $('#vrac_jus_quantite').unbind();
                 $('#vrac_prix_initial_unitaire').unbind();
 
-                $('#vrac_jus_quantite').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForJuice);
-                $('#vrac_prix_initial_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForJuice);
-                $('#vrac_prix_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForJuice);
-                $('#vrac_jus_quantite').bind('click', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForJuice);
-                $('#vrac_prix_initial_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForJuice);
-                $('#vrac_prix_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForJuice);
+                $('#vrac_jus_quantite').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
+                $('#vrac_prix_initial_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
+                $('#vrac_prix_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
+                $('#vrac_jus_quantite').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
+                $('#vrac_prix_initial_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
+                $('#vrac_prix_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForJuice);
             }
             break;
         case 'VIN_BOUTEILLE' :
@@ -129,13 +129,13 @@ var updatePanelsAndUnitLabels = function(isTeledeclarationMode)
                 $('#vrac_prix_initial_unitaire').unbind();
                 $('#vrac_bouteilles_contenance_libelle').unbind();
 
-                $('#vrac_bouteilles_quantite').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForBottle);
-                $('#vrac_prix_initial_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode },updatePanelsAndUnitForBottle);
-                $('#vrac_prix_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForBottle);
-                $('#vrac_bouteilles_quantite').bind('click', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForBottle);
-                $('#vrac_prix_initial_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForBottle);
-                $('#vrac_prix_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForBottle);
-                $('#vrac_bouteilles_contenance_libelle').bind('change', {isTeledeclarationMode: isTeledeclarationMode }, updatePanelsAndUnitForBottle);
+                $('#vrac_bouteilles_quantite').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForBottle);
+                $('#vrac_prix_initial_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForBottle);
+                $('#vrac_prix_unitaire').bind('keyup', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForBottle);
+                $('#vrac_bouteilles_quantite').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForBottle);
+                $('#vrac_prix_initial_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForBottle);
+                $('#vrac_prix_unitaire').bind('click', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForBottle);
+                $('#vrac_bouteilles_contenance_libelle').bind('change', {isTeledeclarationMode: isTeledeclarationMode}, updatePanelsAndUnitForBottle);
             }
             break;
     }
@@ -143,7 +143,7 @@ var updatePanelsAndUnitLabels = function(isTeledeclarationMode)
 
 var getIsTeledeclarationMode = function(event)
 {
-    if(typeof event === 'boolean'){
+    if (typeof event === 'boolean') {
         return event;
     }
     return event.data.isTeledeclarationMode;
@@ -153,7 +153,7 @@ var getIsTeledeclarationMode = function(event)
 var updatePanelsAndUnitForRaisins = function(event)
 {
     var isTeledeclarationMode = getIsTeledeclarationMode(event);
-    
+
     $('.bouteilles_contenance_libelle').hide();
     $('.bouteilles_quantite').hide();
     $('.jus_quantite').hide();
@@ -162,14 +162,14 @@ var updatePanelsAndUnitForRaisins = function(event)
     $('#prixInitialUnitaire span#prix_initial_unitaire_unite').text("€/kg");
     $('#prixUnitaire span#prix_unitaire_unite').text("€/kg");
 
-    majTotal("raisin_quantite",isTeledeclarationMode);
+    majTotal("raisin_quantite", isTeledeclarationMode);
 };
 
 var updatePanelsAndUnitForJuice = function(event)
 {
     var isTeledeclarationMode = getIsTeledeclarationMode(event);
-    
-    
+
+
     $('.bouteilles_contenance_libelle').hide();
     $('.bouteilles_quantite').hide();
     $('.raisin_quantite').hide();
@@ -177,14 +177,14 @@ var updatePanelsAndUnitForJuice = function(event)
     $('.jus_quantite span#volume_unite_total').text("(en hl)");
     $('#prixInitialUnitaire span#prix_initial_unitaire_unite').text("€/hl");
     $('#prixUnitaire span#prix_unitaire_unite').text("€/hl");
-    
-    majTotal("jus_quantite",isTeledeclarationMode);
+
+    majTotal("jus_quantite", isTeledeclarationMode);
 };
 
 var updatePanelsAndUnitForBottle = function(event)
 {
-   var isTeledeclarationMode = getIsTeledeclarationMode(event);
-   
+    var isTeledeclarationMode = getIsTeledeclarationMode(event);
+
     $('.raisin_quantite').hide();
     $('.jus_quantite').hide();
 
@@ -213,10 +213,10 @@ var updatePanelsAndUnitForBottle = function(event)
         $('#volume_total').val(volume_total).trigger('change');
 
         var unit = '';
-        if(isTeledeclarationMode){
-            unit = '(' + unitBouteilleOuBib + ')' ;
-        }else{
-            unit =  "(" + unitBouteilleOuBib + " soit " + volume_total.toFixed(2) + " hl)";
+        if (isTeledeclarationMode) {
+            unit = '(' + unitBouteilleOuBib + ')';
+        } else {
+            unit = "(" + unitBouteilleOuBib + " soit " + volume_total.toFixed(2) + " hl)";
         }
         $('.bouteilles_quantite span#volume_unite_total').text(unit);
         var bouteilles_price_initial = $('#vrac_prix_initial_unitaire').val();
@@ -259,11 +259,11 @@ var majTotal = function(quantiteField, isTeledeclarationMode) {
 
     var prix_initial_unitaire = $('#vrac_prix_initial_unitaire').val();
     var prix_unitaire = $('#vrac_prix_unitaire').val();
-    
+
     if (numericComma.test(prix_initial_unitaire))
     {
         prix_initial_unitaire = prix_initial_unitaire.replace(",", ".");
-         $('#vrac_prix_initial_unitaire').val(prix_initial_unitaire);
+        $('#vrac_prix_initial_unitaire').val(prix_initial_unitaire);
     }
     if (numericComma.test(prix_unitaire))
     {
@@ -626,4 +626,13 @@ $(document).ready(function()
     });
     $('#vendeur_choice input').focus();
     initDatepicker();
+
+    $('.num_float').each(function() {
+        $(this).blur(function() {
+            $(this).nettoyageChamps();
+
+        });
+
+    })
+
 });
