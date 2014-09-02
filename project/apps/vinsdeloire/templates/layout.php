@@ -46,9 +46,17 @@
             <div id="global_content" class="<?php include_slot('global_css_class', null) ?> " >
                 <div id="contenu">
                     <div class="center">
-                        <a href="#" id="btn_colonne" class="btn_majeur btn_noir"><i class="ouvrir">Ouvrir</i><i class="fermer">Fermer</i> la barre d'actions</a>
+                        <a href="#" id="btn_colonne" class="btn_majeur btn_noir">
+                            <i class="ouvrir">Ouvrir</i>
+                            <i class="fermer">Fermer</i> la barre d'actions
+                        </a>
                     </div>
                     <aside id="colonne">
+                        <a href="#" id="btn_colonne_mobile">
+                            <i class="ouvrir">Ouvrir</i>
+                            <i class="fermer">Fermer</i> la barre d'actions
+                        </a>
+
                         <?php
                         include_slot('colButtons');
                         ?>
