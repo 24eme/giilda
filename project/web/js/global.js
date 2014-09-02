@@ -140,13 +140,18 @@ var fbConfig =
 	$.initToggleColonne = function()
 	{
 		var colonne = $('#colonne');
+		var colonneElem = colonne[0];
 		var btnColonne = $('#btn_colonne');
+		var btnColonneMobile = colonne.find('#btn_colonne_mobile');
+		var touchesInAction = {};
 
+		// Tablette
 		btnColonne.click(function(e)
 		{
 			e.preventDefault();
+			e.stopPropagation();
 
-			if(btnColonne.hasClass('ouvert'))
+        	if(btnColonne.hasClass('ouvert'))
 			{
 				colonne.slideUp(400, function()
 				{
@@ -163,6 +168,73 @@ var fbConfig =
 				});
 			}
 		});
+
+		// Mobile
+		btnColonneMobile.click(function(e)
+		{
+			e.preventDefault();
+			e.stopPropagation();
+
+			if(btnColonneMobile.hasClass('ouvert'))
+			{
+				colonne.removeClass('ouvert');
+				btnColonneMobile.removeClass('ouvert');
+			}
+			else
+			{
+				colonne.addClass('ouvert');
+				btnColonneMobile.addClass('ouvert');
+			}
+		});
+
+		colonne.click(function(e)
+		{
+			e.stopPropagation();
+		});
+
+		// Fermeture de la colonne au swipe droit
+		colonneElem.addEventListener('touchstart', function(e)
+		{
+			var touches = e.changedTouches;
+
+		    for(var j = 0; j < touches.length; j++) 
+		    {
+		         /* store touch info on touchstart */
+		         touchesInAction["$" + touches[j].identifier] = 
+		         {
+		            identifier : touches[j].identifier,
+		            pageX : touches[j].pageX,
+		            pageY : touches[j].pageY
+		         };
+		    }
+		}, false);
+
+		colonneElem.addEventListener('touchend', function(e)
+		{
+			var touches = e.changedTouches;
+
+			for(var j = 0; j < touches.length; j++) 
+			{
+		        /* access stored touch info on touchend */
+		        var theTouchInfo = touchesInAction[ "$" + touches[j].identifier ];
+		        theTouchInfo.dx = touches[j].pageX - theTouchInfo.pageX;  /* distance en x depuis touchstart */
+		        theTouchInfo.dy = touches[j].pageY - theTouchInfo.pageY;  /* distance en y depuis touchstart */
+    		}
+
+    		if(theTouchInfo.dx > 75 && btnColonneMobile.hasClass('ouvert'))
+    		{
+    			colonne.removeClass('ouvert');
+    			btnColonneMobile.removeClass('ouvert');
+    		}
+		}, false);
+
+		// Fermeture de la colonne lorsqu'on clique en dehors
+		$(document).click(function()
+		{
+			colonne.removeClass('ouvert');
+			btnColonne.removeClass('ouvert');
+			btnColonneMobile.removeClass('ouvert');
+		});
 	};
 
 	/**
@@ -174,9 +246,15 @@ var fbConfig =
 		var nav = $('#navigation');
 		var btnMenu = $('#header .btn_menu');
 
-		btnMenu.click(function()
+		btnMenu.click(function(e)
 		{
+			e.stopPropagation();
 			nav.toggleClass('visible_tab');
+		});
+
+		$(document).click(function()
+		{
+			nav.removeClass('visible_tab');
 		});
 	};
 	
