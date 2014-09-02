@@ -54,7 +54,8 @@ class compte_teledeclarantActions extends sfActions {
         $this->compte = CompteClient::getInstance()->find($this->getUser()->getAttribute(self::SESSION_COMPTE_DOC_ID_CREATION, null));
         $this->forward404Unless($this->compte);
         $this->forward404Unless($this->compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU);
-
+        $old_societe_email = $this->compte->getSociete()->email;
+        $old_compte_email = $this->compte->email;
         $this->form = new CompteTeledeclarantCreationForm($this->compte);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -81,8 +82,12 @@ class compte_teledeclarantActions extends sfActions {
                 if(($this->form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR || $this->form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT)
                 && ($this->form->getValue('siret'))){
                         $societe->siret = $this->form->getValue('siret');
+                        $societe->email = $old_societe_email;
+                        
                         $societe->save(true);
                 }
+                
+                
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_CREATION);
                 $this->getUser()->signInOrigin($this->compte);
                 try {

@@ -3,8 +3,10 @@
 class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
 
     private $typeCompte;
+    private $oldEmail;
 
     public function __construct($object, $options = array(), $CSRFSecret = null) {
+        $this->oldEmail = $object->email;
         $this->typeCompte = $object->getSociete()->type_societe;
         parent::__construct($object, $options, $CSRFSecret);
     }
@@ -29,7 +31,7 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
                 'invalid' => 'Le numéro de SIRET doit être constitué de 14 chiffres',
                 'min_length' => 'Le numéro de SIRET doit être constitué de 14 chiffres',
                 'max_length' => 'Le numéro de SIRET doit être constitué de 14 chiffres')));
-            
+
             $this->setWidget('num_accises', new sfWidgetFormInputText());
             $this->getWidget('num_accises')->setLabel("Numéro d'ACCISE :");
             $this->setValidator('num_accises', new sfValidatorRegex(array('required' => false,
@@ -49,11 +51,11 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
             $etbPrincipal->carte_pro = $this->getValue('carte_pro');
             $etbPrincipal->save();
         }
-        if ((($this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR)) 
-                && ($this->getValue('num_accises'))) {
+        if ((($this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR)) && ($this->getValue('num_accises'))) {
             $etbPrincipal->no_accises = strtoupper($this->getValue('num_accises'));
             $etbPrincipal->save();
         }
+        $this->getObject()->email = $this->oldEmail;
     }
 
     public function getTypeCompte() {
