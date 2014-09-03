@@ -3,10 +3,8 @@
 class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
 
     private $typeCompte;
-    private $oldEmail;
 
-    public function __construct($object, $options = array(), $CSRFSecret = null) {
-        $this->oldEmail = $object->email;
+    public function __construct($object, $options = array(), $CSRFSecret = null) {        
         $this->typeCompte = $object->getSociete()->type_societe;
         parent::__construct($object, $options, $CSRFSecret);
     }
@@ -54,8 +52,7 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
         if ((($this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR)) && ($this->getValue('num_accises'))) {
             $etbPrincipal->no_accises = strtoupper($this->getValue('num_accises'));
             $etbPrincipal->save();
-        }
-        $this->getObject()->email = $this->oldEmail;
+        }        
     }
 
     public function getTypeCompte() {

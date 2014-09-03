@@ -109,11 +109,29 @@ class compte_teledeclarantActions extends sfActions {
         $this->compte = $this->getUser()->getCompte();
 
         $this->form = new CompteTeledeclarantForm($this->compte);
-
+        $old_compte_email = $this->compte->email;
+        
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $this->form->save();
+                
+                $this->form->doUpdateObject($this->form->getValues());
+                $this->form->getObject()->save(false, false, true, false);
+                if ($email = $this->form->getValue('email')) {
+                    $etablissementPrincipal = $this->form->getObject()->getSociete()->getEtablissementPrincipal();
+                    $etablissementPrincipal->email = $email;
+                    $etablissementPrincipal->save();
+
+                    $allEtablissements = $this->form->getObject()->getSociete()->getEtablissementsObj();
+                    foreach ($allEtablissements as $etablissementObj) {
+                        $etb = $etablissementObj->etablissement;
+                        if (!$etb->exist('email') || !$etb->email) {
+                            $etb->email = $email;
+                            $etb->save();
+                        }
+                    }
+                }
+                
                 $this->getUser()->setFlash('maj', 'Vos identifiants ont bien été mis à jour.');
                 $this->redirect('compte_teledeclarant_modification');
             }
