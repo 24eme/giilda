@@ -911,6 +911,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
     .border-radius(5px);
     background: @couleur-a1 url(../images/fonds/bg_contenu.png) right 0 repeat-y;
     padding: 0 0 20px;
+    position: relative;
 }
 
 #principal
@@ -1270,9 +1271,11 @@ ul.radio_list
 
 }
 
+#btn_colonne,
+#btn_colonne_mobile { display: none; }
+
 #btn_colonne
 {
-    display: none;
     margin: 15px 0;
 
     i { font-style: normal; }
