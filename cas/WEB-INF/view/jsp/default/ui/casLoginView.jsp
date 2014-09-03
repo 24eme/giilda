@@ -77,6 +77,7 @@
     
       <input type="hidden" name="lt" value="${flowExecutionKey}" />
       <input type="hidden" name="_eventId" value="submit" />
+      <input type="hidden" name="locale" value="fr" />
   </form:form>
 </div>
 <div class="bloc bloc_inscription">
