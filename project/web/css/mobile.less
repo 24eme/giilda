@@ -62,34 +62,28 @@
 		.pos-abs(9px, auto, auto, 11px);
 		.triangle-l(24px, 16px, #FFF);
 	}
-
-	&.ouvert
-	{
-		&:before
-		{
-			.triangle-r(24px, 16px, #FFF);
-		}
-	}
 }
 
 #colonne
 {
-	.pos-abs(0, 0, 0);
+	.pos-abs(0, -75%, 0);
 	background: #cccacb;
 	display: block !important;
 	overflow: visible !important;
 	padding-top: 0;
-	transform: translate3d(100%, 0, 0);
-	-webkit-transform: translate3d(100%, 0, 0);
-	transition: transform .2s;
-	-webkit-transition: -webkit-transform .2s;
+	transition: all .4s;
+	-webkit-transition: all .4s;
 	width: 75%;
 	z-index: 10;
 
 	&.ouvert
 	{
-		transform: translate3d(0, 0, 0);
-		-webkit-transform: translate3d(0, 0, 0);
+		right: 0;
+
+		#btn_colonne_mobile:before
+		{
+			.triangle-r(24px, 16px, #FFF);
+		}
 	}
 
 	.bloc_col

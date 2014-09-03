@@ -151,22 +151,11 @@ var fbConfig =
 			e.preventDefault();
 			e.stopPropagation();
 
-        	if(btnColonne.hasClass('ouvert'))
+			colonne.slideToggle(400, function()
 			{
-				colonne.slideUp(400, function()
-				{
-					colonne.removeClass('ouvert');
-					btnColonne.removeClass('ouvert');	
-				});
-			}
-			else
-			{
-				colonne.slideDown(400, function()
-				{
-					colonne.addClass('ouvert');
-					btnColonne.addClass('ouvert');
-				});
-			}
+				colonne.toggleClass('ouvert');
+				btnColonne.toggleClass('ouvert');	
+			});
 		});
 
 		// Mobile
@@ -175,16 +164,7 @@ var fbConfig =
 			e.preventDefault();
 			e.stopPropagation();
 
-			if(btnColonneMobile.hasClass('ouvert'))
-			{
-				colonne.removeClass('ouvert');
-				btnColonneMobile.removeClass('ouvert');
-			}
-			else
-			{
-				colonne.addClass('ouvert');
-				btnColonneMobile.addClass('ouvert');
-			}
+			colonne.toggleClass('ouvert');
 		});
 
 		colonne.click(function(e)
@@ -221,10 +201,9 @@ var fbConfig =
 		        theTouchInfo.dy = touches[j].pageY - theTouchInfo.pageY;  /* distance en y depuis touchstart */
     		}
 
-    		if(theTouchInfo.dx > 75 && btnColonneMobile.hasClass('ouvert'))
+    		if(theTouchInfo.dx > 75 && colonne.hasClass('ouvert'))
     		{
     			colonne.removeClass('ouvert');
-    			btnColonneMobile.removeClass('ouvert');
     		}
 		}, false);
 
