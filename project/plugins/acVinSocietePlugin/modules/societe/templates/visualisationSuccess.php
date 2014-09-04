@@ -1,5 +1,3 @@
-
-<div id="contenu">
     <!-- #principal -->
     <section id="principal">
         <p id="fil_ariane"><a href="<?php echo url_for('societe');?>">Page d'accueil</a> &gt; <strong><?php echo $societe->raison_sociale; ?></strong></p>
@@ -58,7 +56,7 @@ slot('colButtons');
 			</div>
 		<?php  endif; ?>
         <?php  endif; ?>
-	</div>
+    </div>
 </div>
 <?php
 end_slot();
