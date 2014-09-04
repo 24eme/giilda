@@ -74,11 +74,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
         $this->setValidator('produit', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))));
 
-        if ($this->isTeledeclarationMode) {
-            $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
-        } else {
-            $this->setValidator('millesime', new sfValidatorInteger(array('required' => false, 'min' => 1960, 'max' => $this->getCurrentYear())));
-        }
+        $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
 
         $this->setValidator('categorie_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))));
         $this->setValidator('domaine', new sfValidatorString(array('required' => false)));
@@ -93,10 +89,10 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->validatorSchema['bouteilles_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas entière.');
         $this->validatorSchema['jus_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
         $this->validatorSchema['raisin_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
-       
+
         $this->validatorSchema['prix_initial_unitaire']->setMessage('invalid', 'Le prix "%value%" n\'est pas un nombre.');
-       
-        
+
+
         $this->validatorSchema['produit']->setMessage('required', 'Le choix d\'un produit est obligatoire');
         $this->validatorSchema['prix_initial_unitaire']->setMessage('required', 'Le prix doit être renseigné');
 
