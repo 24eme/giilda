@@ -16,6 +16,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
     protected $next_campagne;
     protected $isTeledeclarationMode;
     protected $defaultDomaine;
+    
+    const NONMILLESIMELABEL = "Non millésimé";
 
     public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $defaultDomaine = null, $options = array(), $CSRFSecret = null) {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
@@ -96,13 +98,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->validatorSchema['produit']->setMessage('required', 'Le choix d\'un produit est obligatoire');
         $this->validatorSchema['prix_initial_unitaire']->setMessage('required', 'Le prix doit être renseigné');
 
-
-        if ($this->isTeledeclarationMode) {
-            $this->validatorSchema['millesime']->setMessage('required', 'Le millésime doit être renseigné');
-        } else {
-            $this->validatorSchema['millesime']->setMessage('min', 'Le millésime doit être supérieur à 1980');
-            $this->validatorSchema['millesime']->setMessage('max', 'Le millésime doit être inférieur à ' . $this->getCurrentYear());
-        }
+        $this->validatorSchema['millesime']->setMessage('required', 'Le millésime doit être renseigné');
 
         if ($this->getObject()->hasPrixVariable()) {
             $this->getWidget('prix_initial_unitaire')->setLabel('Prix initial');
@@ -171,7 +167,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
     }
 
     public function getMillesimes() {
-        $this->millesimes = array('0' => "Non millésimé");
+        $this->millesimes = array('0' => self::NONMILLESIMELABEL);
 
         $campagnesView = array($this->next_campagne => $this->next_campagne);
         $campagnesView[$this->actual_campagne] = $this->actual_campagne;

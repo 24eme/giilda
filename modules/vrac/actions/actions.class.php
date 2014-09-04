@@ -489,8 +489,13 @@ class vracActions extends sfActions {
         }
         
         $this->form = new VracMarcheForm($this->vrac, $this->isTeledeclarationMode, $this->defaultDomaine);
-
+        $vracParam = $request->getParameter('vrac');
+        
         if ($request->isMethod(sfWebRequest::POST)) {
+            if($vracParam['millesime'] == VracMarcheForm::NONMILLESIMELABEL){
+                $vracParam['millesime'] = 0;
+                $request->setParameter('vrac', $vracParam);
+            }
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->maj_etape(2);
