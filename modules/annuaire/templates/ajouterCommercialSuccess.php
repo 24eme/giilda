@@ -39,6 +39,7 @@
 	    	</button>
 		</div>
 	</form>
+        <?php include_partial('vrac/popup_notices'); ?> 
 </div>
 
 <?php

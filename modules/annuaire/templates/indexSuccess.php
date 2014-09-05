@@ -88,7 +88,7 @@
 	</div>
 
 	<a class="btn_orange btn_majeur" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissement->identifiant)) ?>">Retourner à l'espace contrats</a>
-
+<?php include_partial('vrac/popup_notices'); ?> 
 </section>
 
 <?php

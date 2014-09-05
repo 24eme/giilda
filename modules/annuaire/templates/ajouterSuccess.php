@@ -98,6 +98,7 @@ use_helper('Vrac');
             </div>
         </form>
     </div>
+    <?php include_partial('vrac/popup_notices'); ?> 
 </div>
 
 <?php
