@@ -40,7 +40,7 @@ use_helper('Float');
 </div>
    <?php 
       include_partial('contratsTable', array('contrats' => $contratsByCampagneEtablissementAndStatut, 'societe' => $societe)); ?>    
-   
+       <?php include_partial('popup_notices'); ?> 
 </section>
 
 <?php

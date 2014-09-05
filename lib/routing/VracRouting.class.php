@@ -153,7 +153,9 @@ class VracRouting {
                                                                                               'action' => 'choixEtablissement'),
                                                                                             array('sf_method' => array('get','post'))));
         
-
+        $r->prependRoute('vrac_notice',  new sfRoute('/contrats/:type/notice', array('module' => 'vrac', 'action' => 'notice'),
+                                                                            array('sf_method' => array('get'))));
+   
   
     }
 

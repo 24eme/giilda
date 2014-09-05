@@ -42,6 +42,7 @@ use_helper('Vrac');
             </div> 
         </form>
     </div>
+        <?php include_partial('popup_notices'); ?> 
 </section>
 <?php
 if ($vrac->isTeledeclare()):

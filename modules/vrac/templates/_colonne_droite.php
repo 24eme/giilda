@@ -95,8 +95,7 @@ $contact = EtablissementClient::getInstance()->buildInfosContact($etablissementP
         <p>
             N'hésitez pas à consulter la notice en format pdf.
         </p>
-
-        <a href="#" class="lien_telechargement">Télécharger la notice</a>
+        <a href="#" id="liens_notices" class="lien_telechargement">Télécharger la notice</a>
         <br/>
         <br/>
         <p class="lien_lecteur_pdf">
@@ -111,7 +110,13 @@ $contact = EtablissementClient::getInstance()->buildInfosContact($etablissementP
             <li class="telephone"><?php echo $contact->telephone; ?></li>
         </ul>
     </div>
-</div>
+</div>  
+<script type="text/javascript">
+$(document).ready(function()
+    {
+        initNoticePopup();
+    });
+</script>    
 <?php
 end_slot();
 ?>

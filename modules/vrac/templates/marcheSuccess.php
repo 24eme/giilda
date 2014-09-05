@@ -129,6 +129,7 @@ endforeach;
             </div>
         </form>
     </div>      
+        <?php include_partial('popup_notices'); ?> 
 </section>
 
 <?php
