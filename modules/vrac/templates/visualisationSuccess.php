@@ -42,7 +42,7 @@ use_helper('Vrac');
             <?php endif; ?>  
             <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>"> 
                 <?php if (!$isTeledeclarationMode): ?>
-                    <div class="legende" id="ss_titre"><span class="style_label">Etat du contrat<?php echo ($vrac->isTeledeclare())? " - Télédeclaré" : "";?></span>
+                    <div class="legende" id="ss_titre"><span class="style_label">Etat du contrat<?php echo ($vrac->isTeledeclare()) ? " - Télédeclaré" : ""; ?></span>
                         <?php if ($vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE) : ?>
                             <?php if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE) : ?>
                                 <a href="<?php echo url_for('vrac_solder', $vrac) ?>" class="btn_majeur btn_vert f_right">Solder le contrat</a>
@@ -71,8 +71,8 @@ use_helper('Vrac');
                         <?php if ($isTeledeclarationMode && $isTeledeclare && $isProprietaire && !$vrac->isVise() && $vrac->valide->statut != VracClient::STATUS_CONTRAT_VALIDE): ?>
                             <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>  
                         <?php endif; ?>    
-                            <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare()): ?>
-                             <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>  
+                        <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare()): ?>
+                            <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>  
                         <?php endif; ?>        
                     <?php endif; ?>                                 
                 </div>
@@ -85,20 +85,19 @@ use_helper('Vrac');
             <?php endif; ?>
 
             <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
-            <?php if ($isTeledeclarationMode): ?>
-                <div class="ligne_btn">
-                    <?php if ($vrac->isVise() && ($isTeledeclare)): ?>
-                        <div class="txt_centre">
-                            <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_pdf">Télécharger le PDF</a>  
-                        </div>
-                    <?php else: ?>
-                        <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_orange btn_majeur" style="float: left;">Retourner à l'espace contrats</a>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
+            <div class="ligne_btn">
+                <?php if ($vrac->isVise() && ($isTeledeclare)): ?>
+                    <div class="txt_centre">
+                        <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_pdf">Télécharger le PDF</a>  
+                    </div>
+                <?php endif; ?>
+                <?php if (!$isTeledeclarationMode): ?>
+                    <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_orange btn_majeur" style="float: left;">Retourner à l'espace contrats</a>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
-        <?php include_partial('popup_notices'); ?> 
+    <?php include_partial('popup_notices'); ?> 
     <?php if ($signatureDemande): ?>
         <a id="signature_popup_bas" href="#signature_popup_content" class="signature_popup btn_majeur btn_vert f_right">Signer le contrat</a>      
         <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
