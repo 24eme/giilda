@@ -763,7 +763,7 @@ class vracActions extends sfActions {
 
             case SocieteClient::SUB_TYPE_NEGOCIANT:
 
-                return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/Guide_négociant.pdf", "Guide_négociant.pdf");
+                return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/Guide_negociant.pdf", "Guide_négociant.pdf");
 
             case SocieteClient::SUB_TYPE_COURTIER:
 
