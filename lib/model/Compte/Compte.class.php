@@ -205,6 +205,13 @@ class Compte extends BaseCompte {
                   }
               }
     	}
+        
+        if($this->exist('teledeclaration_active') && $this->teledeclaration_active){
+            if($this->hasDroit(Roles::TELEDECLARATION_VRAC)){
+                $this->addTag('automatique', 'teledeclaration_active');                
+            }
+        }
+        
     	if ($this->isEtablissementContact()) {
     	  $this->addTag('automatique', 'Etablissement');
     	}
