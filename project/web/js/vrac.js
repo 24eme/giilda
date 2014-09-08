@@ -627,12 +627,9 @@ $(document).ready(function()
     $('#vendeur_choice input').focus();
     initDatepicker();
 
-    $('.num_float').each(function() {
-        $(this).blur(function() {
-            $(this).nettoyageChamps();
-
-        });
-
-    })
+    $('#principal').on('blur', '.num_float', function()
+    {
+        $(this).nettoyageChamps();
+    });
 
 });
