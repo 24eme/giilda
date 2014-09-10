@@ -123,13 +123,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $this->setDefault('bouteilles_contenance_libelle', 'Bouteille 75 cl');
         }
         if (!$this->getObject()->millesime) {
-            if ($this->getObject()->type_transaction) {
-                $this->setDefault('millesime', 0);
+            if (!$this->getObject()->type_transaction) {
+                $this->setDefault('millesime', "0");
             } else {
                 if (($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) || ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS)) {
                     $this->setDefault('millesime', substr($this->next_campagne, 0, 4));
                 } else {
-                    $this->setDefault('millesime', substr($this->actual_campagne, 0, 4));
+                    $this->setDefault('millesime', "0");
                 }
             }
         } else {
@@ -163,6 +163,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
         foreach ($domaines->rows as $resultDomaine) {
             $d = $resultDomaine->key[VracDomainesView::KEY_DOMAINE];
             $this->domaines[$d] = $d;
+        }
+        if($this->defaultDomaine){
+            $this->domaines[$this->defaultDomaine] = $this->defaultDomaine;
         }
     }
 

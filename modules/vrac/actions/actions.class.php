@@ -474,7 +474,7 @@ class vracActions extends sfActions {
         $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        $this->defaultDomaine = null;
+        $this->defaultDomaine = $this->vrac->domaine;
         if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
         }

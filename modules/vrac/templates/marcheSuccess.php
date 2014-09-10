@@ -16,14 +16,14 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
             case "<?php echo VracClient::TYPE_TRANSACTION_RAISINS ?>":
                 $("div#millesime label").text('Récolte');
                 $("div#millesime > input").val(nextMillesime);
-                $("div#millesime > input").change();
+                $('#vrac_millesime').val(nextMillesime);
                 break;
 
             case "<?php echo VracClient::TYPE_TRANSACTION_VIN_VRAC ?>":
             case "<?php echo VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE ?>":
-                $("div#millesime label").text('Millésime');
-                $("div#millesime > input").val('Non millésimé');
-                $("div#millesime > input").change();
+               $("div#millesime label").text('Millésime');
+               $("div#millesime > input").val('Non millésimé');  
+               $('#vrac_millesime').val("0");
                 break;
         }
     }
