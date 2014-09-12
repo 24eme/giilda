@@ -201,7 +201,7 @@ var fbConfig =
 		        theTouchInfo.dy = touches[j].pageY - theTouchInfo.pageY;  /* distance en y depuis touchstart */
     		}
 
-    		if(theTouchInfo.dx > 75 && colonne.hasClass('ouvert'))
+    		if(theTouchInfo.dx > 100 && theTouchInfo.dy < 75 && colonne.hasClass('ouvert'))
     		{
     			colonne.removeClass('ouvert');
     		}
@@ -213,6 +213,42 @@ var fbConfig =
 			colonne.removeClass('ouvert');
 			btnColonne.removeClass('ouvert');
 			btnColonneMobile.removeClass('ouvert');
+		});
+	};
+
+	$.initTailleColonne = function()
+	{
+		var principal = $('#principal');
+		var colonne = $('#colonne');
+		var hauteurPrincipal;
+		var hauteurColonne;
+		var hauteurFinaleColonne;
+		var timer;
+
+		var fixeHauteurColonne = function()
+		{
+			hauteurPrincipal = principal.outerHeight();
+			hauteurColonne = colonne.outerHeight();
+
+			if(hauteurPrincipal > hauteurColonne)
+			{
+				colonne.height(hauteurPrincipal);
+			}else
+			{
+				colonne.css('height', 'auto');
+			}
+		};
+
+		fixeHauteurColonne();
+
+		$(window).resize(function()
+		{
+			clearTimeout(timer);
+
+			timer = setTimeout(function()
+			{	
+				fixeHauteurColonne();
+			}, 75);
 		});
 	};
 
@@ -254,6 +290,8 @@ var fbConfig =
 		$.initToggleColonne();
 
 		$.initToggleNavMobile();
+
+		$.initTailleColonne();
 	
                 if(!('contains' in String.prototype)) {
                    String.prototype.contains = function(str, startIndex) {
