@@ -172,41 +172,6 @@ var fbConfig =
 			e.stopPropagation();
 		});
 
-		// Fermeture de la colonne au swipe droit
-		colonneElem.addEventListener('touchstart', function(e)
-		{
-			var touches = e.changedTouches;
-
-		    for(var j = 0; j < touches.length; j++) 
-		    {
-		         /* store touch info on touchstart */
-		         touchesInAction["$" + touches[j].identifier] = 
-		         {
-		            identifier : touches[j].identifier,
-		            pageX : touches[j].pageX,
-		            pageY : touches[j].pageY
-		         };
-		    }
-		}, false);
-
-		colonneElem.addEventListener('touchend', function(e)
-		{
-			var touches = e.changedTouches;
-
-			for(var j = 0; j < touches.length; j++) 
-			{
-		        /* access stored touch info on touchend */
-		        var theTouchInfo = touchesInAction[ "$" + touches[j].identifier ];
-		        theTouchInfo.dx = touches[j].pageX - theTouchInfo.pageX;  /* distance en x depuis touchstart */
-		        theTouchInfo.dy = touches[j].pageY - theTouchInfo.pageY;  /* distance en y depuis touchstart */
-    		}
-
-    		if(theTouchInfo.dx > 100 && theTouchInfo.dy < 75 && colonne.hasClass('ouvert'))
-    		{
-    			colonne.removeClass('ouvert');
-    		}
-		}, false);
-
 		// Fermeture de la colonne lorsqu'on clique en dehors
 		$(document).click(function()
 		{
