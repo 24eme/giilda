@@ -30,6 +30,24 @@
     $idBody = ($sf_user->hasCredential('teledeclaration'))? "teledeclaration" : "app_transaction_".sfConfig::get('app_instance');
     ?>
     <body id="<?php echo $idBody; ?>">
+        
+        <!-- ####### A REPRENDRE ABSOLUMENT ####### -->
+            <!--[if lte IE 8 ]>
+                <div id="message_ie7">
+                    <div class="contenu">
+                        <p>
+                            <strong>
+                                Vous utilisez un navigateur obsolète depuis près de 10 ans !
+                            </strong> 
+                            Il est possible que l'affichage du site soit fortement altéré par l'utilisation de celui-ci.
+
+                            <a href="http://browser-update.org/update-browser.html" target="_blank">Découvrez comment mettre votre navigateur à jour</a>
+                        </p>
+                    </div>
+                </div>
+            <![endif]-->
+        <!-- ####### A REPRENDRE ABSOLUMENT ####### -->
+
         <!-- #global -->
         <div id="global">
 
