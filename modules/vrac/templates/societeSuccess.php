@@ -73,8 +73,10 @@ use_helper('Float');
     <?php include_partial('contratsTable', array('contrats' => $contratsSocietesWithInfos->contrats, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'limit' => 10)); ?>
 
 
+    <?php include_partial('popup_notices'); ?> 
 
 </section>
+
 
 <?php
 include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));

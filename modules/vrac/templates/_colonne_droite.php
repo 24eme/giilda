@@ -9,13 +9,13 @@ slot('colCompte');
             <p><strong><?php echo $societe->raison_sociale; ?></strong></p>
 
             <p> (<?php echo $societe->siege->commune; ?>) </p>
-            
+
             <?php if ($sf_user->isUsurpationCompte()): ?>
-            <div class="ligne_btn txt_centre">
-                <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
-            </div>
+                <div class="ligne_btn txt_centre">
+                    <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
+                </div>
             <?php endif; ?>
-                
+
             <div class="ligne_btn txt_centre">
                 <?php if (isset($retour) && $retour): ?>
                     <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_majeur btn_acces">Mes Contrats</a>
@@ -55,13 +55,26 @@ slot('colCompte');
         </div>
 
 
-        <h3>Statuts de contrats :</h3>
+        <h3>Étapes de validation :</h3>
 
         <ul class="status_contrats">
             <li><img src="/images/pictos/pi_ok.png" alt="" /> Signé par moi</li>
             <li><img src="/images/pictos/pi_attente.png" alt="" /> En attente de signature</li>
             <li><img src="/images/pictos/pi_ok_gris.png" alt="" /> Signé par d'autres soussignés</li>
         </ul>
+        
+        <div class="legende">
+            <h3>État des contrats validés :</h3>
+            <br/>
+            <div>
+                <span class="statut statut_solde"></span>
+                <span class="legende_statut_texte">Soldé</span>
+            </div>
+            <div>
+                <span class="statut statut_non-solde"></span>
+                <span class="legende_statut_texte">Non soldé</span>
+            </div>
+        </div>
     </div>
 </div>
 <?php end_slot(); ?>
@@ -82,8 +95,7 @@ $contact = EtablissementClient::getInstance()->buildInfosContact($etablissementP
         <p>
             N'hésitez pas à consulter la notice en format pdf.
         </p>
-
-        <a href="#" class="lien_telechargement">Télécharger la notice</a>
+        <a href="#" id="liens_notices" class="lien_telechargement">Télécharger la notice</a>
         <br/>
         <br/>
         <p class="lien_lecteur_pdf">
@@ -98,7 +110,13 @@ $contact = EtablissementClient::getInstance()->buildInfosContact($etablissementP
             <li class="telephone"><?php echo $contact->telephone; ?></li>
         </ul>
     </div>
-</div>
+</div>  
+<script type="text/javascript">
+$(document).ready(function()
+    {
+        initNoticePopup();
+    });
+</script>    
 <?php
 end_slot();
 ?>

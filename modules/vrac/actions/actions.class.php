@@ -474,7 +474,7 @@ class vracActions extends sfActions {
         $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        $this->defaultDomaine = null;
+        $this->defaultDomaine = $this->vrac->domaine;
         if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
         }
@@ -487,10 +487,15 @@ class vracActions extends sfActions {
                 $this->defaultDomaine = $vracParam['domaine'];
             }
         }
-        
+
         $this->form = new VracMarcheForm($this->vrac, $this->isTeledeclarationMode, $this->defaultDomaine);
+        $vracParam = $request->getParameter('vrac');
 
         if ($request->isMethod(sfWebRequest::POST)) {
+            if ($vracParam['millesime'] == VracMarcheForm::NONMILLESIMELABEL) {
+                $vracParam['millesime'] = 0;
+                $request->setParameter('vrac', $vracParam);
+            }
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->maj_etape(2);
@@ -750,6 +755,23 @@ class vracActions extends sfActions {
         return $this->redirectWithStep();
     }
 
+    public function executeNotice(sfWebRequest $request) {
+        switch ($request->getParameter('type')) {
+            case SocieteClient::SUB_TYPE_VITICULTEUR:
+
+                return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/Guide_viticulteur.pdf", "Guide_viticulteur.pdf");
+
+            case SocieteClient::SUB_TYPE_NEGOCIANT:
+
+                return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/Guide_negociant.pdf", "Guide_négociant.pdf");
+
+            case SocieteClient::SUB_TYPE_COURTIER:
+
+                return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/Guide_courtier.pdf", "Guide_courtier.pdf");
+        }
+        throw new sfException("Notice non trouvée");
+    }
+
     private function redirectWithStep() {
         switch ($this->vrac->etape) {
             case 1:
@@ -941,6 +963,22 @@ class vracActions extends sfActions {
 
     private function redirect403() {
         $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+    }
+
+    /*
+     * Fonctions pour le téléchargement de la reglementation_generale_des_transactions
+     * 
+     */
+
+    protected function renderPdf($path, $filename) {
+        $this->getResponse()->setHttpHeader('Content-Type', 'application/pdf');
+        $this->getResponse()->setHttpHeader('Content-disposition', 'attachment; filename="' . $filename . '"');
+        $this->getResponse()->setHttpHeader('Content-Transfer-Encoding', 'binary');
+        $this->getResponse()->setHttpHeader('Content-Length', filesize($path));
+        $this->getResponse()->setHttpHeader('Pragma', '');
+        $this->getResponse()->setHttpHeader('Cache-Control', 'public');
+        $this->getResponse()->setHttpHeader('Expires', '0');
+        return $this->renderText(file_get_contents($path));
     }
 
 }

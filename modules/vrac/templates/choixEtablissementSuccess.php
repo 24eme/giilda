@@ -30,7 +30,7 @@
         </div>
          </div>
     </form>   
-
+    <?php include_partial('popup_notices'); ?> 
 </section>
 
 <?php

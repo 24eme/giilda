@@ -97,6 +97,7 @@
             </div>
         </form>
     </div>
+        <?php include_partial('popup_notices'); ?> 
 </section>
 <?php if ($isTeledeclarationMode): ?>
     <script type="text/javascript">
@@ -115,7 +116,7 @@
     });
 </script>
 <?php
-    include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
+    include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));    
 else:
     slot('colApplications');
     /*

@@ -38,7 +38,7 @@ $cpt = 0;
                 <?php echo $vrac->getMillesimeLabel() . ' :'; ?>
             </label>
             <span>
-                <?php echo $vrac->millesime; ?>
+                <?php echo ($vrac->millesime)? $vrac->millesime : 'Non millésimé'; ?>
             </span>
         </div>
     <?php endif; ?>

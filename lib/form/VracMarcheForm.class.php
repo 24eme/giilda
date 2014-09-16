@@ -16,6 +16,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
     protected $next_campagne;
     protected $isTeledeclarationMode;
     protected $defaultDomaine;
+    
+    const NONMILLESIMELABEL = "Non millésimé";
 
     public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $defaultDomaine = null, $options = array(), $CSRFSecret = null) {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
@@ -74,11 +76,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
         $this->setValidator('produit', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))));
 
-        if ($this->isTeledeclarationMode) {
-            $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
-        } else {
-            $this->setValidator('millesime', new sfValidatorInteger(array('required' => false, 'min' => 1960, 'max' => $this->getCurrentYear())));
-        }
+        $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
 
         $this->setValidator('categorie_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))));
         $this->setValidator('domaine', new sfValidatorString(array('required' => false)));
@@ -93,20 +91,14 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->validatorSchema['bouteilles_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas entière.');
         $this->validatorSchema['jus_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
         $this->validatorSchema['raisin_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
-       
+
         $this->validatorSchema['prix_initial_unitaire']->setMessage('invalid', 'Le prix "%value%" n\'est pas un nombre.');
-       
-        
+
+
         $this->validatorSchema['produit']->setMessage('required', 'Le choix d\'un produit est obligatoire');
         $this->validatorSchema['prix_initial_unitaire']->setMessage('required', 'Le prix doit être renseigné');
 
-
-        if ($this->isTeledeclarationMode) {
-            $this->validatorSchema['millesime']->setMessage('required', 'Le millésime doit être renseigné');
-        } else {
-            $this->validatorSchema['millesime']->setMessage('min', 'Le millésime doit être supérieur à 1980');
-            $this->validatorSchema['millesime']->setMessage('max', 'Le millésime doit être inférieur à ' . $this->getCurrentYear());
-        }
+        $this->validatorSchema['millesime']->setMessage('required', 'Le millésime doit être renseigné');
 
         if ($this->getObject()->hasPrixVariable()) {
             $this->getWidget('prix_initial_unitaire')->setLabel('Prix initial');
@@ -131,13 +123,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $this->setDefault('bouteilles_contenance_libelle', 'Bouteille 75 cl');
         }
         if (!$this->getObject()->millesime) {
-            if ($this->getObject()->type_transaction) {
-                $this->setDefault('millesime', 0);
+            if (!$this->getObject()->type_transaction) {
+                $this->setDefault('millesime', "0");
             } else {
                 if (($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) || ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS)) {
                     $this->setDefault('millesime', substr($this->next_campagne, 0, 4));
                 } else {
-                    $this->setDefault('millesime', substr($this->actual_campagne, 0, 4));
+                    $this->setDefault('millesime', "0");
                 }
             }
         } else {
@@ -172,10 +164,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $d = $resultDomaine->key[VracDomainesView::KEY_DOMAINE];
             $this->domaines[$d] = $d;
         }
+        if($this->defaultDomaine){
+            $this->domaines[$this->defaultDomaine] = $this->defaultDomaine;
+        }
     }
 
     public function getMillesimes() {
-        $this->millesimes = array('0' => "Non millésimé");
+        $this->millesimes = array('0' => self::NONMILLESIMELABEL);
 
         $campagnesView = array($this->next_campagne => $this->next_campagne);
         $campagnesView[$this->actual_campagne] = $this->actual_campagne;

@@ -243,6 +243,7 @@ endif;
 
         </form>
     </div>
+        <?php include_partial('popup_notices'); ?> 
 </section>
 <?php if ($isTeledeclarationMode): ?>
     <script type="text/javascript">
