@@ -32,7 +32,7 @@
     <body id="<?php echo $idBody; ?>">
         
         <!-- ####### A REPRENDRE ABSOLUMENT ####### -->
-            <!--[if lte IE 8 ]>
+            <!--[if lte IE 7 ]>
                 <div id="message_ie7">
                     <div class="contenu">
                         <p>
