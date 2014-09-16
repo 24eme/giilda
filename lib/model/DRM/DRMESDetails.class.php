@@ -110,7 +110,7 @@ class DRMESDetails extends BaseDRMESDetails {
 
         $mouvement->detail_identifiant = $detail->identifiant;
         $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
-	$mouvement->type_libelle = $config->getLibelle();
+	    $mouvement->type_libelle = $config->getLibelle();
         $mouvement->type_hash .= $this->getKey();
         $mouvement->volume = $volume;
 
@@ -118,7 +118,7 @@ class DRMESDetails extends BaseDRMESDetails {
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS;
             $mouvement->vrac_numero = $detail->getVrac()->numero_contrat;
             $mouvement->vrac_destinataire = $detail->getVrac()->acheteur->nom;
-            $mouvement->cvo = $mouvement->cvo * $detail->getVrac()->cvo_repartition * 0.01;
+            $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->vendeur_identifiant);
         }
 
         $mouvement->date = $detail->date_enlevement;
@@ -135,11 +135,9 @@ class DRMESDetails extends BaseDRMESDetails {
         }
 
         $mouvement->vrac_destinataire = $detail->getVrac()->vendeur->nom;
-	$mouvement->region = $detail->getVrac()->getAcheteurObject()->region;
+	    $mouvement->region = $detail->getVrac()->getAcheteurObject()->region;
         
-        if($detail->getVrac()->cvo_repartition != 50) {
-            $mouvement->cvo = 0;
-        }
+        $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->acheteur_identifiant);
 
         return $mouvement;
     }
