@@ -176,6 +176,65 @@ Rappel de votre identifiant : IDENTIFIANT";
         return $resultEmailArr;
     }
 
+    
+    public function sendMailRappel($automatique = false) {
+
+        $soussignesArr = array();
+        if ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE){
+        $soussignesArr = $this->vrac->getNonCreateursArray();
+        }
+        $createur = $this->vrac->getCreateurObject();
+        $soussignesArr[$createur->_id] = $createur;
+        $responsableNom = $createur->nom;
+
+        $resultEmailArr = array();
+
+        $mess = $this->enteteMessageVrac();
+        $mess .= "  
+ 
+
+";
+        if ($automatique) {
+            if ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) {
+                $mess.= "Le contrat suivant a été annulé automatiquement par le portail de télédeclaration car il est en brouillon depuis maintenant plus de 10 jours.";
+            }
+            if ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE){       
+                $mess.= "Le contrat suivant a été annulé automatiquement par le portail de télédeclaration car il est en attente de signature depuis maintenant plus de 5 jours.";
+            }
+        }else{
+            $mess.= "Le contrat suivant a été annulé par son responsable.";
+        }
+
+        $mess.= "
+
+Il ne sera plus visible ni accessible sur le portail déclaratif d'Interloire.
+
+Pour toutes questions, veuillez contacter " . $responsableNom . ", responsable du contrat.
+
+——
+
+L’application de télédéclaration des contrats d’InterLoire
+
+Rappel de votre identifiant : IDENTIFIANT";
+
+        foreach ($soussignesArr as $id => $soussigne) {
+
+            $message_replaced = str_replace('IDENTIFIANT', substr($soussigne->identifiant, 0, 6), $mess);
+
+            $subject = ($this->vrac->valide->date_saisie) ?
+                    "Annulation d'un contrat (" . $createur->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")" :
+                    "Annulation d'un contrat brouillon (" . $createur->nom . ")";
+
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->email, $subject, $message_replaced);
+
+            $this->getMailer()->send($message);
+            $resultEmailArr[] = $soussigne->email;
+        }
+        return $resultEmailArr;
+    }
+    
+    
+    
     private function getUrlVisualisationContrat() {
         return sfContext::getInstance()->getRouting()->generate('vrac_visualisation', array('numero_contrat' => $this->vrac->numero_contrat), true);
     }
