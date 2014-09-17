@@ -332,6 +332,26 @@ class Vrac extends BaseVrac {
         return $this->getProduitObject()->getDroitCVO($this->getPeriode());
     }
 
+    public function getRepartitionCVOCoef($identifiant) {
+        if(($this->acheteur_identifiant == $identifiant || $this->vendeur_identifiant == $identifiant) && $this->cvo_repartition == VracClient::CVO_REPARTITION_50_50) {
+
+            return 0.5;
+        }
+
+        if($this->acheteur_identifiant == $identifiant && $this->cvo_repartition == VracClient::CVO_REPARTITION_100_NEGO) {
+
+            return 1.0;
+        }
+
+        if($this->vendeur_identifiant == $identifiant && $this->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI) {
+
+            return 1.0;
+        }
+
+        return 0.0;
+    }
+
+
     public function getProduitObject() {
         return ConfigurationClient::getCurrent()->get($this->produit);
     }
