@@ -68,17 +68,17 @@ class VracValidation extends DocumentValidation {
     private function checkSoussigneAbsenceMail() {
         $vendeurEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->vendeur_identifiant);
         
-        if (!$vendeurEtb->findEmail()) {
+        if (!$vendeurEtb->getEmailTeledeclaration()) {
             $this->addPoint('erreur', 'soussigne_vendeur_absence_mail', $vendeurEtb->nom );
         }
 
         $acheteurEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->acheteur_identifiant);
-        if (!$acheteurEtb->findEmail()) {
+        if (!$acheteurEtb->getEmailTeledeclaration()) {
             $this->addPoint('erreur', 'soussigne_acheteur_absence_mail', $acheteurEtb->_id);
         }
         if ($this->document->mandataire_exist) {
             $courtierEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->mandataire_identifiant);
-            if (!$courtierEtb->findEmail()) {
+            if (!$courtierEtb->getEmailTeledeclaration()) {
                 $this->addPoint('erreur', 'soussigne_courtier_absence_mail', $courtierEtb->nom);
             }
         }

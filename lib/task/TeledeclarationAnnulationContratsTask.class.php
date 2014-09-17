@@ -40,7 +40,11 @@ EOF;
         
         $contrats_annulations_attente_signature = $this->getContratsAnnulationAttenteSignature();
         $this->annulationContrats($contrats_annulations_attente_signature);
-        $this->mailsAnnulationAttenteSignatureContrats($contrats_annulations_attente_signature);        
+        $this->mailsAnnulationAttenteSignatureContrats($contrats_annulations_attente_signature); 
+        
+        
+        $contrats_rappel_attente_signature = $this->getContratsEnRappelAttenteSignature();
+        $this->mailsRappelAttenteSignatureContrats($contrats_rappel_attente_signature); 
     }
 
     protected function getContratsAnnulationBrouillons() {
@@ -79,6 +83,23 @@ EOF;
         }
         return $contrats;
     }
+    
+    protected function getContratsEnRappelAttenteSignature() {
+        $contrats = array();
+        $contrats_attentes_signature = VracStatutAndTypeView::getInstance()->findContatsByStatut(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE);
+
+        foreach ($contrats_attentes_signature as $contratAttenteView) {
+
+            $contrat = VracClient::getInstance()->find($contratAttenteView->id);
+            if ($contrat->isTeledeclare() && $contrat->valide->date_saisie) {
+                $date_contrat_rappel = Date::addDelaiToDate('+3 days', Date::getIsoDateFromFrenchDate($contrat->valide->date_saisie));
+                if ($date_contrat_rappel == date("Y-m-d")) {
+                    $contrats[$contrat->_id] = $contrat;
+                }
+            }
+        }
+        return $contrats;
+    }
 
     protected function mailsAnnulationAttenteSignatureContrats($contrats_annulations_attente_signature) {
          $vracEmailManager = new VracEmailManager($this->getMailer());
@@ -101,4 +122,14 @@ EOF;
         }
     }
 
+    protected function mailsRappelAttenteSignatureContrats($contrats) {
+        $vracEmailManager = new VracEmailManager($this->getMailer());
+         foreach ($contrats as $contrat_attente_signature_rappel) {
+              $vracEmailManager->setVrac($contrat_attente_signature_rappel);
+              $vracEmailManager->sendMailRappel();
+            echo "Envoi des mails du contrat " . $contrat_attente_signature_rappel->numero_contrat . " visa " . $contrat_attente_signature_rappel->numero_archive . " \n";
+        }
+        
+    }
+    
 }

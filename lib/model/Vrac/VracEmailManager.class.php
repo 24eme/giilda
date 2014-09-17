@@ -30,7 +30,7 @@ class VracEmailManager {
 
         $resultEmailArr = array();
 
-        $resultEmailArr[] = $createurObject->email;
+        $resultEmailArr[] = $createurObject->getEmailTeledeclaration();
         $responsableNom = $createurObject->nom;
 
         $mess = $this->enteteMessageVrac();
@@ -57,14 +57,14 @@ Rappel de votre identifiant : IDENTIFIANT";
 
             $subject = "Demande de signature d'un contrat (" . $createurObject->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")";
 
-            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $nonCreateur->email, $subject, $message_replaced);
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $nonCreateur->getEmailTeledeclaration(), $subject, $message_replaced);
             try {
                 $this->getMailer()->send($message);
             } catch (Exception $e) {
                 $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
                 return null;
             }
-            $resultEmailArr[] = $nonCreateur->email;
+            $resultEmailArr[] = $nonCreateur->getEmailTeledeclaration();
         }
     }
 
@@ -105,7 +105,7 @@ Rappel de votre identifiant : IDENTIFIANT";
 
             $subject = "Validation du contrat n°" . $this->vrac->numero_archive . " (" . $createur->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")";
 
-            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->email, $subject, $message_replaced);
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->getEmailTeledeclaration(), $subject, $message_replaced);
 
             $attachment = new Swift_Attachment($pdfContent, $pdfName, 'application/pdf');
             $message->attach($attachment);
@@ -116,7 +116,7 @@ Rappel de votre identifiant : IDENTIFIANT";
 
 
             $this->getMailer()->send($message);
-            $resultEmailArr[] = $soussigne->email;
+            $resultEmailArr[] = $soussigne->getEmailTeledeclaration();
         }
         return $resultEmailArr;
     }
@@ -124,8 +124,8 @@ Rappel de votre identifiant : IDENTIFIANT";
     public function sendMailAnnulation($automatique = false) {
 
         $soussignesArr = array();
-        if ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_BROUILLON){
-        $soussignesArr = $this->vrac->getNonCreateursArray();
+        if ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_BROUILLON) {
+            $soussignesArr = $this->vrac->getNonCreateursArray();
         }
         $createur = $this->vrac->getCreateurObject();
         $soussignesArr[$createur->_id] = $createur;
@@ -141,10 +141,10 @@ Rappel de votre identifiant : IDENTIFIANT";
         if ($automatique) {
             if ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) {
                 $mess.= "Le contrat suivant a été annulé automatiquement par le portail de télédeclaration car il est en brouillon depuis maintenant plus de 10 jours.";
-            }else{       
+            } else {
                 $mess.= "Le contrat suivant a été annulé automatiquement par le portail de télédeclaration car il est en attente de signature depuis maintenant plus de 5 jours.";
             }
-        }else{
+        } else {
             $mess.= "Le contrat suivant a été annulé par son responsable.";
         }
 
@@ -168,46 +168,39 @@ Rappel de votre identifiant : IDENTIFIANT";
                     "Annulation d'un contrat (" . $createur->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")" :
                     "Annulation d'un contrat brouillon (" . $createur->nom . ")";
 
-            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->email, $subject, $message_replaced);
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->getEmailTeledeclaration(), $subject, $message_replaced);
 
             $this->getMailer()->send($message);
-            $resultEmailArr[] = $soussigne->email;
+            $resultEmailArr[] = $soussigne->getEmailTeledeclaration();
         }
         return $resultEmailArr;
     }
 
-    
-    public function sendMailRappel($automatique = false) {
+    public function sendMailRappel() {
 
-        $soussignesArr = array();
-        if ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE){
         $soussignesArr = $this->vrac->getNonCreateursArray();
-        }
         $createur = $this->vrac->getCreateurObject();
-        $soussignesArr[$createur->_id] = $createur;
         $responsableNom = $createur->nom;
-
-        $resultEmailArr = array();
+        
+        $emailsArr = array();
+        foreach ($soussignesArr as $identifiant => $soussigne) {
+            if (($identifiant == $this->vrac->vendeur_identifiant) && $this->vrac->isSigneVendeur()) {
+                $emailsArr[$identifiant] = $soussigne;
+            }
+            if (($identifiant == $this->vrac->acheteur_identifiant) && $this->vrac->isSigneAcheteur()) {
+                $emailsArr[$identifiant] = $soussigne;
+            }
+        }
 
         $mess = $this->enteteMessageVrac();
         $mess .= "  
  
 
 ";
-        if ($automatique) {
-            if ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) {
-                $mess.= "Le contrat suivant a été annulé automatiquement par le portail de télédeclaration car il est en brouillon depuis maintenant plus de 10 jours.";
-            }
-            if ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE){       
-                $mess.= "Le contrat suivant a été annulé automatiquement par le portail de télédeclaration car il est en attente de signature depuis maintenant plus de 5 jours.";
-            }
-        }else{
-            $mess.= "Le contrat suivant a été annulé par son responsable.";
-        }
-
+                $mess.= "Le contrat suivant a été est en attente de signature sur le portail de télédeclaration depuis maintenant plus de 3 jours.";
+        
         $mess.= "
-
-Il ne sera plus visible ni accessible sur le portail déclaratif d'Interloire.
+Pour le visualiser et le signer cliquez sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
 
 Pour toutes questions, veuillez contacter " . $responsableNom . ", responsable du contrat.
 
@@ -217,7 +210,7 @@ L’application de télédéclaration des contrats d’InterLoire
 
 Rappel de votre identifiant : IDENTIFIANT";
 
-        foreach ($soussignesArr as $id => $soussigne) {
+        foreach ($emailsArr as $id => $soussigne) {
 
             $message_replaced = str_replace('IDENTIFIANT', substr($soussigne->identifiant, 0, 6), $mess);
 
@@ -225,16 +218,14 @@ Rappel de votre identifiant : IDENTIFIANT";
                     "Annulation d'un contrat (" . $createur->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")" :
                     "Annulation d'un contrat brouillon (" . $createur->nom . ")";
 
-            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->email, $subject, $message_replaced);
+            $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->getEmailTeledeclaration(), $subject, $message_replaced);
 
             $this->getMailer()->send($message);
-            $resultEmailArr[] = $soussigne->email;
+            $resultEmailArr[] = $soussigne->getEmailTeledeclaration();
         }
-        return $resultEmailArr;
+        return $emailsArr;
     }
-    
-    
-    
+
     private function getUrlVisualisationContrat() {
         return sfContext::getInstance()->getRouting()->generate('vrac_visualisation', array('numero_contrat' => $this->vrac->numero_contrat), true);
     }
