@@ -67,13 +67,13 @@ class compte_teledeclarantActions extends sfActions {
                 $id_societe = $this->form->getObject()->id_societe;
                 $societe = SocieteClient::getInstance()->find($id_societe);
                 $email = $this->form->getValue('email');
-
+                $emailCible = null;
                 if ($email) {
                     if ($societe->isTransaction()) {
                         $etablissementPrincipal = $this->form->getObject()->getSociete()->getEtablissementPrincipal();
                         $etablissementPrincipal->add('teledeclaration_email', $email);
                         $etablissementPrincipal->save();
-
+                        $emailCible = $etablissementPrincipal->getEmailTeledeclaration();
                         $allEtablissements = $this->form->getObject()->getSociete()->getEtablissementsObj();
                         foreach ($allEtablissements as $etablissementObj) {
                             $etb = $etablissementObj->etablissement;
@@ -81,7 +81,7 @@ class compte_teledeclarantActions extends sfActions {
                                 $etb->email = $email;
                             }
                             if (!$etb->exist('teledeclaration_email') || !$etb->teledeclaration_email) {
-                                $etb->add('teledeclaration_email', $email);
+                                $etb->add('teledeclaration_email', $email);                                
                             }
                             $etb->save();   
                         }
@@ -94,13 +94,13 @@ class compte_teledeclarantActions extends sfActions {
                 }
                 if (!$societe->isTransaction()) {
                     $societe->add('teledeclaration_email', $email);
+                    $emailCible = $societe->getEmailTeledeclaration();
                     $societe->save(true);
                 }
 
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_CREATION);
                 $this->getUser()->signInOrigin($this->compte);
                 try {
-                    $emailCible = $societe->getEtablissementPrincipal()->email;
                     $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Confirmation de création de votre compte", $this->getPartial('creationEmail', array('compte' => $this->compte)));
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
@@ -167,9 +167,15 @@ class compte_teledeclarantActions extends sfActions {
                 $compte = $this->form->save();
                 $societe = $compte->getSociete();
                 $lien = $this->generateUrl("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->identifiant, "mdp" => str_replace("{OUBLIE}", "", $compte->mot_de_passe)), true);
-
+                $emailCible = null;
+                
+                if (!$societe->isTransaction()) {
+                    $emailCible = $societe->getEmailTeledeclaration();
+                }else{
+                     $emailCible = $societe->getEtablissementPrincipal()->getEmailTeledeclaration();
+                }
+                
                 try {
-                    $emailCible = $societe->getEtablissementPrincipal()->email;
                     $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $this->compte, 'lien' => $lien)));
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
