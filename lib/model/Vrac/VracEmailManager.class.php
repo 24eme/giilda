@@ -60,6 +60,7 @@ Rappel de votre identifiant : IDENTIFIANT";
             $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $nonCreateur->getEmailTeledeclaration(), $subject, $message_replaced);
             try {
                 $this->getMailer()->send($message);
+                
             } catch (Exception $e) {
                 $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
                 return null;
