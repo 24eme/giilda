@@ -109,6 +109,18 @@ class DRMClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->getPeriodeSuivante($periode);
     }
 
+
+    public function findLastByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+       $drms = $this->viewByIdentifiant($identifiant);
+
+        foreach($drms as $id => $drm) {
+
+            return $this->find($id, $hydrate);
+        }
+
+        return null; 
+    }
+
     public function findLastByIdentifiantAndCampagne($identifiant, $campagne, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         $drms = $this->viewByIdentifiantAndCampagne($identifiant, $campagne);
 
@@ -362,13 +374,23 @@ class DRMClient extends acCouchdbClient {
         $drm->identifiant = $identifiant;
         $drm->periode = $periode;
 
-        $ds = DSClient::getInstance()->findLastByIdentifiant($identifiant);
-        if ($ds) {
-            $drm->generateByDS($ds);
+        $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
+        if ($drmLast) {
+            $drm->generateByDRM($drmLast);
+            
+            return $drm;
+        }
+
+        $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
+        if ($dsLast) {
+            $drm->generateByDRM($drmLast);    
+            
+            return $drm;
         }
 
         return $drm;
     }
+
 
     public function generateVersionCascade($drm) {
         if (!$drm->needNextVersion()) {

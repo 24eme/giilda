@@ -147,6 +147,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function generateByDRM(DRM $drm) {
+        foreach($drm->getProduits() as $produit) {
+            if(!$produit->getConfig()->hasCVO($this->getDate())) {
+
+                continue;
+            }
+
+            $this->addProduit($produit->getHash());
+        }
+    }
+
     public function generateSuivante() 
     {
 
