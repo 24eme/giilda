@@ -1,3 +1,12 @@
+<?php
+$email_teledecl = null;
+if($compte->getSociete()->isTransaction()){
+   $email_teledecl = $compte->getSociete()->getEtablissementPrincipal()->getEmailTeledeclaration();
+}else{
+    $email_teledecl = $compte->getSociete()->getEmailTeledeclaration();
+}
+ 
+?>
 <div id="principal" class="clearfix">
     <h2 class="titre_principal">Mon compte</h2>
 
@@ -13,7 +22,7 @@
                 <?php endif; ?>
                 <div class="bloc_form bloc_form_condensed" >        
                     <div class="ligne_form ligne_form_alt">
-                        <label>Email :</label> <?php echo $compte->email; ?>
+                        <label>Email :</label> <?php echo $email_teledecl; ?>
                     </div>
                     <div class="ligne_form">
                         <label>Mot de passe :</label> ****** 

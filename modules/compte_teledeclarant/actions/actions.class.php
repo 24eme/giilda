@@ -55,7 +55,7 @@ class compte_teledeclarantActions extends sfActions {
         $this->forward404Unless($this->compte);
         $this->forward404Unless($this->compte->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU);
         $old_societe_email = $this->compte->getSociete()->email;
-        $old_compte_email = $this->compte->email;
+
         $this->form = new CompteTeledeclarantCreationForm($this->compte);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -63,31 +63,40 @@ class compte_teledeclarantActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->form->doUpdateObject($this->form->getValues());
                 $this->form->getObject()->save(false, false, true, false);
-                if ($email = $this->form->getValue('email')) {
-                    $etablissementPrincipal = $this->form->getObject()->getSociete()->getEtablissementPrincipal();
-                    $etablissementPrincipal->email = $email;
-                    $etablissementPrincipal->save();
 
-                    $allEtablissements = $this->form->getObject()->getSociete()->getEtablissementsObj();
-                    foreach ($allEtablissements as $etablissementObj) {
-                        $etb = $etablissementObj->etablissement;
-                        if (!$etb->exist('email') || !$etb->email) {
-                            $etb->email = $email;
-                            $etb->save();
+                $id_societe = $this->form->getObject()->id_societe;
+                $societe = SocieteClient::getInstance()->find($id_societe);
+                $email = $this->form->getValue('email');
+
+                if ($email) {
+                    if ($societe->isTransaction()) {
+                        $etablissementPrincipal = $this->form->getObject()->getSociete()->getEtablissementPrincipal();
+                        $etablissementPrincipal->add('teledeclaration_email', $email);
+                        $etablissementPrincipal->save();
+
+                        $allEtablissements = $this->form->getObject()->getSociete()->getEtablissementsObj();
+                        foreach ($allEtablissements as $etablissementObj) {
+                            $etb = $etablissementObj->etablissement;
+                            if (!$etb->exist('email') || !$etb->email) {
+                                $etb->email = $email;
+                            }
+                            if (!$etb->exist('teledeclaration_email') || !$etb->teledeclaration_email) {
+                                $etb->add('teledeclaration_email', $email);
+                            }
+                            $etb->save();   
                         }
                     }
                 }
-                $id_societe = $this->form->getObject()->id_societe;
-                $societe = SocieteClient::getInstance()->find($id_societe);
-                if(($this->form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR || $this->form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT)
-                && ($this->form->getValue('siret'))){
-                        $societe->siret = $this->form->getValue('siret');
-                        $societe->email = $old_societe_email;
-                        
-                        $societe->save(true);
+                if (($this->form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR || $this->form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT) && ($this->form->getValue('siret'))) {
+                    $societe->siret = $this->form->getValue('siret');
+                    $societe->email = $old_societe_email;
+                    $societe->save(true);
                 }
-                
-                
+                if (!$societe->isTransaction()) {
+                    $societe->add('teledeclaration_email', $email);
+                    $societe->save(true);
+                }
+
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_CREATION);
                 $this->getUser()->signInOrigin($this->compte);
                 try {
@@ -110,28 +119,40 @@ class compte_teledeclarantActions extends sfActions {
 
         $this->form = new CompteTeledeclarantForm($this->compte);
         $old_compte_email = $this->compte->email;
-        
+
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                
                 $this->form->doUpdateObject($this->form->getValues());
                 $this->form->getObject()->save(false, false, true, false);
-                if ($email = $this->form->getValue('email')) {
-                    $etablissementPrincipal = $this->form->getObject()->getSociete()->getEtablissementPrincipal();
-                    $etablissementPrincipal->email = $email;
-                    $etablissementPrincipal->save();
 
-                    $allEtablissements = $this->form->getObject()->getSociete()->getEtablissementsObj();
-                    foreach ($allEtablissements as $etablissementObj) {
-                        $etb = $etablissementObj->etablissement;
-                        if (!$etb->exist('email') || !$etb->email) {
-                            $etb->email = $email;
+                $id_societe = $this->form->getObject()->id_societe;
+                $societe = SocieteClient::getInstance()->find($id_societe);
+                $email = $this->form->getValue('email');
+                if ($email) {
+
+                    if ($societe->isTransaction()) {
+                        $etablissementPrincipal = $this->form->getObject()->getSociete()->getEtablissementPrincipal();
+                        $etablissementPrincipal->add('teledeclaration_email', $email);
+                        $etablissementPrincipal->save();
+
+                        $allEtablissements = $this->form->getObject()->getSociete()->getEtablissementsObj();
+                        foreach ($allEtablissements as $etablissementObj) {
+                            $etb = $etablissementObj->etablissement;
+                            if (!$etb->exist('email') || !$etb->email) {
+                                $etb->email = $email;
+                            }
+                            if (!$etb->exist('teledeclaration_email') || !$etb->teledeclaration_email) {
+                                $etb->add('teledeclaration_email', $email);
+                            }
                             $etb->save();
                         }
+                    } else {
+                        $societe->add('teledeclaration_email', $email);
+                        $societe->save(true);
                     }
                 }
-                
+
                 $this->getUser()->setFlash('maj', 'Vos identifiants ont bien été mis à jour.');
                 $this->redirect('compte_teledeclarant_modification');
             }

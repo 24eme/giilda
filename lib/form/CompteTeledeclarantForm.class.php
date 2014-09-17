@@ -46,5 +46,22 @@ class CompteTeledeclarantForm extends acCouchdbObjectForm {
         $this->getObject()->add('teledeclaration_active', true);
         $this->getObject()->email = $this->oldEmail;
     }
+    
+    protected function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+        $societe = $this->getObject()->getSociete();
+        
+        $defaultEmail = null;
+        if($societe->isTransaction()){
+            $etablissementPrincipal = $societe->getEtablissementPrincipal();
+            $defaultEmail = $etablissementPrincipal->getEmailTeledeclaration();
+        }else{
+            $defaultEmail = $societe->getEmailTeledeclaration();
+        }
+        if(!$defaultEmail){
+            $defaultEmail = $societe->email;
+        }
+        $this->setDefault('email', $defaultEmail);
+    }
 
 }

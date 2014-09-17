@@ -475,5 +475,5 @@ class Compte extends BaseCompte {
     
     public function isTeledeclarationActive() {
         return ($this->exist('teledeclaration_active') && $this->teledeclaration_active);
-    }
+    }  
 }
