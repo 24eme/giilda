@@ -136,9 +136,10 @@ class DRMESDetails extends BaseDRMESDetails {
 
         $mouvement->vrac_destinataire = $detail->getVrac()->vendeur->nom;
 	    $mouvement->region = $detail->getVrac()->getAcheteurObject()->region;
-        
         $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->acheteur_identifiant);
-
+        if($mouvement->cvo && $mouvement->volume) {
+            $mouvement->facturable = 1;
+        }
         return $mouvement;
     }
 
