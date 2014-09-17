@@ -84,17 +84,23 @@ $volume = $form->getObject()->volume_propose;
     function update_cvo_repartition() {
         switch($('#vrac_cvo_repartition').val())
           {
-          case "100":
+          case "<?php echo VracClient::CVO_REPARTITION_100_VITI ?>":
         $('#prix_facturee_vendeur').html((cvo_taux).toFixed(2));
         $('#prix_facturee_acheteur').html("0.00");
         $('#cvo_totale_vendeur').html((cvo_taux * cvo_volume).toFixed(2));
         $('#cvo_totale_acheteur').html("0.00");
         break;
-          case "50":
+          case "<?php echo VracClient::CVO_REPARTITION_50_50 ?>":
         $('#prix_facturee_vendeur').html((cvo_taux / 2).toFixed(2));
         $('#prix_facturee_acheteur').html((cvo_taux / 2).toFixed(2));
         $('#cvo_totale_vendeur').html((cvo_taux * cvo_volume / 2).toFixed(2));
         $('#cvo_totale_acheteur').html((cvo_taux * cvo_volume / 2).toFixed(2));
+        break;
+           case "<?php echo VracClient::CVO_REPARTITION_100_NEGO ?>":
+        $('#prix_facturee_vendeur').html("0.00");
+        $('#prix_facturee_acheteur').html((cvo_taux).toFixed(2));
+        $('#cvo_totale_acheteur').html((cvo_taux * cvo_volume).toFixed(2));
+        $('#cvo_totale_vendeur').html("0.00");
         break;
           default:
         $('#prix_facturee_vendeur').html("0.00");
