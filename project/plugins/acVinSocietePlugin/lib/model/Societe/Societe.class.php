@@ -278,6 +278,7 @@ class Societe extends BaseSociete {
         $compte->nom = $this->raison_sociale;
         $compte->updateNomAAfficher();
         $compte->statut = $this->statut;
+        $compte->mot_de_passe = "{TEXT}".sprintf("%04d", rand(0, 9999));
         $compte->addOrigine($this->_id);
         $this->addCompte($compte, -1);
         return $compte;
@@ -328,7 +329,7 @@ class Societe extends BaseSociete {
         $this->synchroAndSaveEtablissement();
         $this->synchroAndSaveCompte();
         $this->changedCooperative = false;
-        $this->changedStatut = false;
+        $this->changedStatut = false;              
         return parent::save();
     }
 
