@@ -12,7 +12,7 @@ fi
 DF=$(sudo df $COUCHDBFILE | tail -n 1  | sed 's/ .*//')
 MOUNTING=$(sudo df $COUCHDBFILE | tail -n 1  | awk '{print $6}')
 
-if sudo which lvdisplay > /dev/null ; then
+if ! sudo which lvdisplay > /dev/null ; then
     echo "ERROR: lvm tools missing" > /dev/stderr
     exit 5
 fi
