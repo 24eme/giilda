@@ -133,7 +133,7 @@ class societeActions extends sfCredentialActions {
     public function executeAddEnseigne(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->societe->addNewEnseigne();
-        $this->societe->save();
+        $this->societe->save();          
         $this->redirect('societe_modification', array('identifiant' => $this->societe->identifiant));
     }
 

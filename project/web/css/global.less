@@ -850,22 +850,24 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
 }
 
 /**
- * Message IE6
+ * Message IE7
  ******************************************/
-#message_ie6
+#message_ie7
 {
     background: #feefda;
     border: solid #f7941d;
     border-width: 1px 0;
-    margin: 0 0 15px;
+    padding: 10px 0;
 
     .contenu
     {
         .gabarit(70);
-        background: url(../images/fonds/bg_message_ie6.png) 0 center no-repeat;
+        background: url(../images/fonds/bg_message_ie7.png) 0 center no-repeat;
         height: 50px;
         padding: 10px 0 10px 70px;
     }
+
+    a { text-decoration: underline; }
 
     p
     {
@@ -1042,7 +1044,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
             position: relative;
 
             &:before
-                {
+            {
                 .pos-abs(4px, auto, auto, 0);
                 .triangle-r(12px, 7px, @couleur-a3);
                 content: '';

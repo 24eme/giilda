@@ -172,47 +172,48 @@ var fbConfig =
 			e.stopPropagation();
 		});
 
-		// Fermeture de la colonne au swipe droit
-		colonneElem.addEventListener('touchstart', function(e)
-		{
-			var touches = e.changedTouches;
-
-		    for(var j = 0; j < touches.length; j++) 
-		    {
-		         /* store touch info on touchstart */
-		         touchesInAction["$" + touches[j].identifier] = 
-		         {
-		            identifier : touches[j].identifier,
-		            pageX : touches[j].pageX,
-		            pageY : touches[j].pageY
-		         };
-		    }
-		}, false);
-
-		colonneElem.addEventListener('touchend', function(e)
-		{
-			var touches = e.changedTouches;
-
-			for(var j = 0; j < touches.length; j++) 
-			{
-		        /* access stored touch info on touchend */
-		        var theTouchInfo = touchesInAction[ "$" + touches[j].identifier ];
-		        theTouchInfo.dx = touches[j].pageX - theTouchInfo.pageX;  /* distance en x depuis touchstart */
-		        theTouchInfo.dy = touches[j].pageY - theTouchInfo.pageY;  /* distance en y depuis touchstart */
-    		}
-
-    		if(theTouchInfo.dx > 75 && colonne.hasClass('ouvert'))
-    		{
-    			colonne.removeClass('ouvert');
-    		}
-		}, false);
-
 		// Fermeture de la colonne lorsqu'on clique en dehors
 		$(document).click(function()
 		{
 			colonne.removeClass('ouvert');
 			btnColonne.removeClass('ouvert');
 			btnColonneMobile.removeClass('ouvert');
+		});
+	};
+
+	$.initTailleColonne = function()
+	{
+		var principal = $('#principal');
+		var colonne = $('#colonne');
+		var hauteurPrincipal;
+		var hauteurColonne;
+		var hauteurFinaleColonne;
+		var timer;
+
+		var fixeHauteurColonne = function()
+		{
+			hauteurPrincipal = principal.outerHeight();
+			hauteurColonne = colonne.outerHeight();
+
+			if(hauteurPrincipal > hauteurColonne)
+			{
+				colonne.height(hauteurPrincipal);
+			}else
+			{
+				colonne.css('height', 'auto');
+			}
+		};
+
+		fixeHauteurColonne();
+
+		$(window).resize(function()
+		{
+			clearTimeout(timer);
+
+			timer = setTimeout(function()
+			{	
+				fixeHauteurColonne();
+			}, 75);
 		});
 	};
 
@@ -254,12 +255,14 @@ var fbConfig =
 		$.initToggleColonne();
 
 		$.initToggleNavMobile();
+
+		$.initTailleColonne();
 	
-                if(!('contains' in String.prototype)) {
-                   String.prototype.contains = function(str, startIndex) {
-                    return -1 !== String.prototype.indexOf.call(this, str, startIndex);
-               };
-             }
+        if(!('contains' in String.prototype)) {
+           String.prototype.contains = function(str, startIndex) {
+                return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+           };
+     	}
             
 	});
 	

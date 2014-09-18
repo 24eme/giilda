@@ -18,6 +18,24 @@ var initSignaturePopup = function() {
     
 };
 
+var initNoticePopup = function() {
+    
+    $('a#liens_notices').click(function(){
+        $('a.popup_link_notices').trigger('click');
+    })
+
+    $('a.popup_link_notices').fancybox({
+        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+    });
+    $('#notice_popup_content a#signature_popup_close').click(function(){
+        $.fancybox.close();
+    })
+    
+};
+
 var triggerSignaturePopup = function() {
     $('a.signature_popup').click();
 }
