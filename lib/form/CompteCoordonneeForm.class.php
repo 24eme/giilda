@@ -110,11 +110,13 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         }
         if($this->compte->isSocieteContact())
         {
-            $this->compte->statut = $this->compte->getSociete()->statut;
+            $this->compte->statut = $this->compte->getSociete()->statut;          
+            $this->compte->add('type_societe',$this->compte->getSociete()->type_societe);  
+            $this->compte->buildDroits();
         }
         if($this->compte->isEtablissementContact()){
             $this->compte->statut = $this->compte->getEtablissement()->statut;
-        }
+        }        
         $this->object->getCouchdbDocument()->save();
     }
     
