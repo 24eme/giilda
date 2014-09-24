@@ -11,7 +11,7 @@ class SocieteEtablissementChoiceForm extends baseForm {
     public function __construct(Societe $societe, $defaults = array(), $options = array(), $CSRFSecret = null)
     {
         $this->societe = $societe;
-        $this->etablissements = $this->societe->getEtablissementsObj();
+        $this->etablissements = $this->societe->getEtablissementsObj(false);
         parent::__construct($defaults, $options, $CSRFSecret);
     }
 
