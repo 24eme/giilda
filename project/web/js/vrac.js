@@ -226,23 +226,23 @@ var updatePanelsAndUnitForBottle = function(event)
         if (bouteilles_price_initialReg)
         {
             var prix_initial_total = parseInt(bouteilles_quantite) * parseFloat(bouteilles_price_initial);
-            $('#vrac_prix_initial_total').text(parseFloat(prix_initial_total).toFixed(2));
+            $('#vrac_prix_initial_total').text(parseFloat(prix_initial_total).toFixed(4));
             $('#vrac_prix_initial_unite').html('€');
             var prix_initial_hl = prix_initial_total / volume_total;
             $('#prixInitialUnitaire span#prix_initial_unitaire_unite').text(prixParUnitBouteilleOuBib);
             if (!isTeledeclarationMode) {
-                $('#prixInitialUnitaire span#prix_initial_unitaire_hl').text("(soit " + parseFloat(prix_initial_hl).toFixed(2) + " €/hl)");
+                $('#prixInitialUnitaire span#prix_initial_unitaire_hl').text("(soit " + parseFloat(prix_initial_hl).toFixed(4) + " €/hl)");
             }
         }
         if (bouteilles_price_Reg)
         {
             var prix_total = parseInt(bouteilles_quantite) * parseFloat(bouteilles_price);
-            $('#vrac_prix_total').text(parseFloat(prix_total).toFixed(2));
+            $('#vrac_prix_total').text(parseFloat(prix_total).toFixed(4));
             $('#vrac_prix_unite').html('€');
             var prix_hl = prix_total / volume_total;
             $('#prixUnitaire span#prix_unitaire_unite').text("€/btlle");
             if (!isTeledeclarationMode) {
-                $('#prixUnitaire span#prix_unitaire_hl').text("(soit " + parseFloat(prix_hl).toFixed(2) + " €/hl)");
+                $('#prixUnitaire span#prix_unitaire_hl').text("(soit " + parseFloat(prix_hl).toFixed(4) + " €/hl)");
             }
         }
     }
@@ -288,12 +288,12 @@ var majTotal = function(quantiteField, isTeledeclarationMode) {
         {
             var prix_initial_total = quantite * parseFloat(prix_initial_unitaire);
             var prix_total = quantite * parseFloat(prix_unitaire);
-            $('#vrac_prix_initial_total').text(parseFloat(prix_initial_total).toFixed(2));
+            $('#vrac_prix_initial_total').text(parseFloat(prix_initial_total).toFixed(4));
             $('#vrac_prix_initial_unite').text('€');
             if (quantiteField == 'raisin_quantite' && !isTeledeclarationMode)
             {
                 var prix_initial_hl = prix_initial_total / hlRaisins;
-                $('#prixInitialUnitaire span#prix_initial_unitaire_unite').text("€/kg (soit " + parseFloat(prix_initial_hl).toFixed(2) + " €/hl)");
+                $('#prixInitialUnitaire span#prix_initial_unitaire_unite').text("€/kg (soit " + parseFloat(prix_initial_hl).toFixed(4) + " €/hl)");
             }
         }
         if (priceReg)
@@ -305,7 +305,7 @@ var majTotal = function(quantiteField, isTeledeclarationMode) {
             if (quantiteField == 'raisin_quantite' && !isTeledeclarationMode)
             {
                 var prix_hl = prix_initial_total / hlRaisins;
-                $('#prixInitialUnitaire span#prix_unitaire_unite').text("€/kg (soit " + parseFloat(prix_hl).toFixed(2) + " €/hl)");
+                $('#prixInitialUnitaire span#prix_unitaire_unite').text("€/kg (soit " + parseFloat(prix_hl).toFixed(4) + " €/hl)");
             }
         }
     }
@@ -630,6 +630,11 @@ $(document).ready(function()
     $('#principal').on('blur', '.num_float', function()
     {
         $(this).nettoyageChamps();
+    });
+    
+    $('#principal').on('blur', '.num_float4', function()
+    {
+        $(this).nettoyageChampsWithFourPrecision();
     });
 
 });
