@@ -52,7 +52,7 @@ class annuaireActions extends sfActions {
             $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($request->getParameter('identifiant'));
 
             $this->societeObject = AnnuaireClient::getInstance()->findSocieteByTypeAndTiers($this->type, $this->societeId);
-            $this->etablissements = $this->societeObject->getEtablissementsObj();
+            $this->etablissements = $this->societeObject->getEtablissementsObj(false);
             
             $this->form = new AnnuaireAjoutForm($this->annuaire, $this->isCourtierResponsable, $this->type, $this->etablissements);
             $this->form->setDefault('type', $this->type);
