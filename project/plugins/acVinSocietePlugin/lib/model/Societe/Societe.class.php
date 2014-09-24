@@ -96,11 +96,17 @@ class Societe extends BaseSociete {
         return $regions;
     }
 
-    public function getEtablissementsObj() {
+    public function getEtablissementsObj($withSuspendu = true) {
         $etablissements = array();
         foreach ($this->etablissements as $id => $obj) {
+            $etb = EtablissementClient::getInstance()->find($id);
+            if(!$withSuspendu){
+                if(!$etb->isActif()){
+                    continue;
+                }
+            }
             $etablissements[$id] = new stdClass();
-            $etablissements[$id]->etablissement = EtablissementClient::getInstance()->find($id);
+            $etablissements[$id]->etablissement = $etb;
             $etablissements[$id]->ordre = $obj->ordre;
         }
         return $etablissements;
