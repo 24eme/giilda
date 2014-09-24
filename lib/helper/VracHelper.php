@@ -70,10 +70,10 @@ function showRecapPrixUnitaire($vrac) {
 
 function showRecapPrixUnitaireByUniteAndPrix($unite, $prix_unitaire, $prix_unitaire_hl) {
     if ($unite == '€/hl') {
-        return sprintf('%s €/hl', echoF($prix_unitaire));
+        return sprintf('%s €/hl', echoF4($prix_unitaire));
     }
 
-    return sprintf('%s %s, soit %s €/hl', echoF($prix_unitaire), $unite, echoF($prix_unitaire_hl));
+    return sprintf('%s %s, soit %s €/hl', echoF4($prix_unitaire), $unite, echoF($prix_unitaire_hl));
 }
 
 function showPrixUnitaireUnite($vrac) {
@@ -96,15 +96,15 @@ function showPrixUnitaireUnite($vrac) {
 function showRecapPrixTotal($vrac) {
     if ($vrac->hasPrixVariable() && !$vrac->hasPrixDefinitif()) {
 
-        return sprintf('%s € (Prix non définitif)', echoF($vrac->getPrixTotalOuInitial()));
+        return sprintf('%s € (Prix non définitif)', echoF4($vrac->getPrixTotalOuInitial()));
     }
 
     if ($vrac->hasPrixVariable() && $vrac->hasPrixDefinitif()) {
 
-        return sprintf('%s € (Prix initial : %s €)', echoF($vrac->getPrixTotal()), echoF($vrac->prix_initial_total));
+        return sprintf('%s € (Prix initial : %s €)', echoF4($vrac->getPrixTotal()), echoF4($vrac->prix_initial_total));
     }
 
-    return sprintf('%s €', echoF($vrac->getPrixTotalOuInitial()));
+    return sprintf('%s €', echoF4($vrac->getPrixTotalOuInitial()));
 }
 
 function showType($vrac) {
@@ -177,6 +177,10 @@ function echoF($f) {
     return sprintf("%01.02f", round($f, 2));
 }
 
+function echoF4($f) {
+    return sprintf("%01.04f", round($f, 4));
+}
+
 function vrac_get_words($vracs) {
     $words = array();
 
@@ -225,10 +229,10 @@ function formatQuantite($vrac, $dec_point = ".", $thousands_sep = "") {
 }
 
 function formatPrix($prix, $dec_point = ".", $thousands_sep = "") {
-    $decimals = 2;
+    $decimals = 4;
 
     $nb_decimals = strlen(preg_replace("/^[0-9]+\.?/", "", $prix));
-    if ($nb_decimals > 2) {
+    if ($nb_decimals > 4) {
         $decimals = $nb_decimals;
     }
 
