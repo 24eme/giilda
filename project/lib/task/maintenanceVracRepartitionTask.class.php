@@ -62,6 +62,10 @@ EOF;
       throw new sfException(sprintf("ERREUR;Volume déjà enlevé : %s", $arguments['doc_id']));
     }
 
+    $auto_repartition_cvo = $vrac->calculCvoRepartition();
+    if($vrac->calculCvoRepartition() != $arguments['cvo_repartition']) {
+      $this->log(sprintf("Warning: %s le calcul automatique de la repartition cvo indique : %s", $arguments['doc_id'], $auto_repartition_cvo));
+    }
     $vrac->setCvoRepartition($arguments['cvo_repartition']);
     $vrac->save();
     $this->log(sprintf("Success: %s", $arguments['doc_id']));
