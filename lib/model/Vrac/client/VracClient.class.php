@@ -179,9 +179,15 @@ class VracClient extends acCouchdbClient {
         }
 
         $allStatuts = self::$statuts_teledeclaration_sorted;
-        $allStatuts["SOLDENONSOLDE"] = "SOLDENONSOLDE";
-        $allStatuts[self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES] = self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES;
-        $allStatuts[self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI] = self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI;
+        
+        array_unshift($allStatuts,"SOLDENONSOLDE");
+        array_unshift($allStatuts,self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES);
+        array_unshift($allStatuts,self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI);
+        
+        if (($key = array_search(self::STATUS_CONTRAT_ATTENTE_SIGNATURE, $allStatuts)) !== false) {
+            unset($allStatuts[$key]);
+        }
+        
         if (!in_array(strtoupper($statut), $allStatuts) && $statut != 'tous') {
             throw new sfException("wrong statut id ($statut)");
         }
@@ -317,6 +323,7 @@ class VracClient extends acCouchdbClient {
                     }
                 } else {
                     $local_result = $this->retrieveByCampagneSoussigneAndStatut($campagne, $etablissement, $statut, $limit);
+
                     if ($statut != VracClient::STATUS_CONTRAT_BROUILLON) {
                         $byEtbs = array_merge($byEtbs, $local_result);
                     } else {
@@ -328,7 +335,7 @@ class VracClient extends acCouchdbClient {
                     }
                 }
             }
-            $result = array_merge($result, array_reverse($byEtbs));
+            $result = array_merge($result, $byEtbs);
         }
         return $result;
     }
@@ -342,15 +349,15 @@ class VracClient extends acCouchdbClient {
         $bySoussigne = array();
         foreach ($allEtablissements as $etablissementObj) {
             $etbId = $etablissementObj->etablissement->identifiant;
-            $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $etbId, $statut))
-                    ->endkey(array('SOCIETE', $campagne, $etbId, $statut, array()));
+            $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $etbId, $statut, array()))
+                            ->endkey(array('SOCIETE', $campagne, $etbId, $statut))->descending(true);
             if ($limit) {
                 $bySoussigneQuery = $bySoussigneQuery->limit($limit);
             }
             $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
             $bySoussigne = array_merge($bySoussigne, $local_result->rows);
         }
-        return array_reverse($bySoussigne);
+        return $bySoussigne;
     }
 
     public function retrieveByCampagneSoussigneAndStatut($campagne, $soussigneId, $statut, $limit = self::RESULTAT_LIMIT) {
@@ -359,8 +366,8 @@ class VracClient extends acCouchdbClient {
             throw new sfException("wrong campagne format ($campagne)");
 
 
-        $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $soussigneId, $statut))
-                ->endkey(array('SOCIETE', $campagne, $soussigneId, $statut, array()));
+        $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $soussigneId, $statut, array()))
+                        ->endkey(array('SOCIETE', $campagne, $soussigneId, $statut))->descending(true);
 
         if ($limit) {
             $bySoussigneQuery = $bySoussigneQuery->limit($limit);
