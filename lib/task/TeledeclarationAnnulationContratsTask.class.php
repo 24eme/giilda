@@ -57,12 +57,6 @@ EOF;
             $contrat = VracClient::getInstance()->find($contratBrouillonsView->id);
             if ($contrat->isTeledeclare() && $contrat->date_campagne) {
                 
-                //A RETIRER
-                if (($contrat->createur_identifiant != '80056301') && ($contrat->createur_identifiant != '80056401')) {
-                    continue;
-                }
-                
-                
                 $date_campagne_max_iso = Date::addDelaiToDate('+ 10 days', Date::getIsoDateFromFrenchDate($contrat->date_campagne));
                 $isMore = Date::sup($this->date, $date_campagne_max_iso);
                 if ($isMore) {
@@ -82,12 +76,6 @@ EOF;
             $contrat = VracClient::getInstance()->find($contratAttenteView->id);
             if ($contrat->isTeledeclare() && $contrat->valide->date_saisie) {
                 
-                //A RETIRER
-                if (($contrat->createur_identifiant != '80056301') && ($contrat->createur_identifiant != '80056401')) {
-                                        continue;
-                }
-                
-                
                 $date_campagne_max_iso = Date::addDelaiToDate('+5 days', Date::getIsoDateFromFrenchDate($contrat->valide->date_saisie));
                 $isMore = Date::sup($this->date, $date_campagne_max_iso);
                 if ($isMore) {
@@ -106,12 +94,6 @@ EOF;
 
             $contrat = VracClient::getInstance()->find($contratAttenteView->id);
             if ($contrat->isTeledeclare() && $contrat->valide->date_saisie) {                
-                
-                //A RETIRER
-                if (($contrat->createur_identifiant != '80056301') && ($contrat->createur_identifiant != '80056401')) {
-                    continue;
-                }
-                
                 
                 $date_contrat_rappel = Date::addDelaiToDate('+3 days', Date::getIsoDateFromFrenchDate($contrat->valide->date_saisie));
                 if ($date_contrat_rappel == date("Y-m-d")) {
