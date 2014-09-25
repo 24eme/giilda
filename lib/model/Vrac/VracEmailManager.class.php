@@ -198,7 +198,7 @@ Rappel de votre identifiant : IDENTIFIANT";
  
 
 ";
-                $mess.= "Le contrat suivant a été est en attente de signature sur le portail de télédeclaration depuis maintenant plus de 3 jours.";
+                $mess.= "Le contrat suivant est en attente de signature sur le portail de télédeclaration depuis maintenant plus de 3 jours.";
         
         $mess.= "
 Pour le visualiser et le signer cliquez sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
