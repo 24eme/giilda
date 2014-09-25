@@ -201,7 +201,7 @@ Rappel de votre identifiant : IDENTIFIANT";
                 $mess.= "Le contrat suivant est en attente de signature sur le portail de télédeclaration depuis maintenant plus de 3 jours.";
         
         $mess.= "
-Il sera automatiquement annulé par le portail d'ici 2 jours.            
+Sans signature de votre part, ce contrat sera annulé au plus tard d'ici 2 jours.            
 
 Pour le visualiser et le signer cliquez sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
 
