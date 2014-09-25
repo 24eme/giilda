@@ -141,9 +141,9 @@ Rappel de votre identifiant : IDENTIFIANT";
 ";
         if ($automatique) {
             if ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) {
-                $mess.= "Le contrat suivant a été annulé automatiquement par le portail de télédeclaration car il est en brouillon depuis maintenant plus de 10 jours.";
+                $mess.= "Ce contrat a été annulé automatiquement par le portail de télédéclaration car il est en brouillon depuis maintenant plus de 10 jours.";
             } else {
-                $mess.= "Le contrat suivant a été annulé automatiquement par le portail de télédeclaration car il est en attente de signature depuis maintenant plus de 5 jours.";
+                $mess.= "Ce contrat a été annulé automatiquement par le portail de télédéclaration car il est en attente de signature depuis maintenant plus de 5 jours.";
             }
         } else {
             $mess.= "Le contrat suivant a été annulé par son responsable.";
@@ -198,10 +198,10 @@ Rappel de votre identifiant : IDENTIFIANT";
  
 
 ";
-                $mess.= "Le contrat suivant est en attente de signature sur le portail de télédeclaration depuis maintenant plus de 3 jours.";
+                $mess.= "Ce contrat est en attente de signature sur le portail de télédeclaration depuis maintenant plus de 3 jours.";
         
         $mess.= "
-Sans signature de votre part, ce contrat sera annulé au plus tard d'ici 2 jours.            
+Il vous reste 2 jours pour lui apporter votre signature. A défaut, il sera automatiquement annulé.           
 
 Pour le visualiser et le signer cliquez sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
 
