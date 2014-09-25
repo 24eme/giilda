@@ -160,7 +160,7 @@ endif;
                         <?php if ($isCourtierResponsable): ?>
                             <div id="" class="section_label_maj">
                                 Ajouter un interlocuteur commercial : 
-                                <input <?php if($form['commercial']->getValue()): ?>checked="checked"<?php endif; ?> type="checkbox" id="teledeclaration_courtier_interlocuteur_commercial_show">
+                                <input <?php if ($form['commercial']->getValue()): ?>checked="checked"<?php endif; ?> type="checkbox" id="teledeclaration_courtier_interlocuteur_commercial_show">
                             </div>
                         <?php endif; ?>
                         <div id="teledeclaration_courtier_interlocuteur_commercial" class="section_label_maj" <?php echo ($isCourtierResponsable && !$form['commercial']->getValue()) ? 'style="display:none;"' : '' ?>  >
@@ -233,17 +233,23 @@ endif;
                 <?php if ($nouveau): ?>
                     <?php if ($isTeledeclarationMode): ?>
                         <a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a> 
-                    <?php else: ?>
+
+                    <?php else: ?>                        
                         <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a> 
                     <?php endif; ?>
+                <?php else: ?>
+                    <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
+                        <a class="lien_contrat_supprimer_brouillon" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>" style="margin-left: 10px">
+                            <span>Supprimer Brouillon</span>
+                        </a>
+                    <?php endif; ?>  
                 <?php endif; ?>
-
                 <button id="btn_soussigne_submit" class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
             </div>
 
         </form>
     </div>
-        <?php include_partial('popup_notices'); ?> 
+    <?php include_partial('popup_notices'); ?> 
 </section>
 <?php if ($isTeledeclarationMode): ?>
     <script type="text/javascript">

@@ -755,6 +755,19 @@ class vracActions extends sfActions {
         return $this->redirectWithStep();
     }
 
+    public function executeSuppressBrouillon(sfWebRequest $request) {
+        $this->setLayout(false);
+        $this->vrac = $this->getRoute()->getVrac();
+        $this->forward404Unless($this->vrac);
+        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        if ($this->isTeledeclarationMode) {
+            $this->initSocieteAndEtablissementPrincipal();
+        }
+        $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
+        $this->vrac->delete();
+        $this->redirect('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $this->compte->_id)));
+    }
+
     public function executeNotice(sfWebRequest $request) {
         switch ($request->getParameter('type')) {
             case SocieteClient::SUB_TYPE_VITICULTEUR:

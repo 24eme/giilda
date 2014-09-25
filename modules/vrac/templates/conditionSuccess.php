@@ -92,31 +92,36 @@
                 <?php endif; ?>
                 <div class="btn_etape">
                     <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
+                    <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
+                        <a class="lien_contrat_supprimer_brouillon" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>" style="margin-left: 10px">
+                            <span>Supprimer Brouillon</span>
+                        </a>
+                    <?php endif; ?>
                     <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
                 </div>
             </div>
         </form>
     </div>
-        <?php include_partial('popup_notices'); ?> 
+    <?php include_partial('popup_notices'); ?> 
 </section>
 <?php if ($isTeledeclarationMode): ?>
     <script type="text/javascript">
-    $(document).ready(function()
-    {
-        $(".champ_datepicker input").datepicker({
-            showOn: "button",
-            buttonImage: "/images/pictos/pi_calendrier.png",
-            buttonImageOnly: true,
-            dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
-            monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
-            dateFormat: 'dd/mm/yy',
-            firstDay: 1,
-            defaultDate: "<?php echo $form->getDateEnlevementDefaultLabel() ?>"
+        $(document).ready(function()
+        {
+            $(".champ_datepicker input").datepicker({
+                showOn: "button",
+                buttonImage: "/images/pictos/pi_calendrier.png",
+                buttonImageOnly: true,
+                dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
+                monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
+                dateFormat: 'dd/mm/yy',
+                firstDay: 1,
+                defaultDate: "<?php echo $form->getDateEnlevementDefaultLabel() ?>"
+            });
         });
-    });
-</script>
-<?php
-    include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));    
+    </script>
+    <?php
+    include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
 else:
     slot('colApplications');
     /*

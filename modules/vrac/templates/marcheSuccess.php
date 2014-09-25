@@ -9,7 +9,7 @@
 $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));
 ?>
 <script type="text/javascript">
-    
+
     var changeMillesimeLabelAndDefault = function(nextMillesime) {
         switch ($("#type_transaction input:checked").val()) {
             case "<?php echo VracClient::TYPE_TRANSACTION_MOUTS ?>":
@@ -21,22 +21,22 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
 
             case "<?php echo VracClient::TYPE_TRANSACTION_VIN_VRAC ?>":
             case "<?php echo VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE ?>":
-               $("div#millesime label").text('Millésime');
-               $("div#millesime > input").val('Non millésimé');  
-               $('#vrac_millesime').val("0");
+                $("div#millesime label").text('Millésime');
+                $("div#millesime > input").val('Non millésimé');
+                $('#vrac_millesime').val("0");
                 break;
         }
     }
 
     $(document).ready(function()
     {
-          if(!('contains' in String.prototype)) {
-                   String.prototype.contains = function(str, startIndex) {
-                    return -1 !== String.prototype.indexOf.call(this, str, startIndex);
-               };
-             }
-        
-        
+        if (!('contains' in String.prototype)) {
+            String.prototype.contains = function(str, startIndex) {
+                return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+            };
+        }
+
+
         initMarche(<?php echo ($isTeledeclarationMode) ? 'true' : 'false'; ?>);
 
 <?php if (!$isTeledeclarationMode): ?>
@@ -125,11 +125,16 @@ endforeach;
 
             <div class="btn_etape">
                 <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
+                <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
+                    <a class="lien_contrat_supprimer_brouillon" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>" style="margin-left: 10px">
+                        <span>Supprimer Brouillon</span>
+                    </a>
+                <?php endif; ?>
                 <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>     
             </div>
         </form>
     </div>      
-        <?php include_partial('popup_notices'); ?> 
+    <?php include_partial('popup_notices'); ?> 
 </section>
 
 <?php

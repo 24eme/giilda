@@ -155,6 +155,11 @@ class VracRouting {
         
         $r->prependRoute('vrac_notice',  new sfRoute('/contrats/:type/notice', array('module' => 'vrac', 'action' => 'notice'),
                                                                             array('sf_method' => array('get'))));
+        
+        $r->prependRoute('vrac_supprimer_brouillon',  new VracRoute('/contrats/:numero_contrat/supprimer', array('module' => 'vrac', 
+                                                                                              'action' => 'suppressBrouillon'),
+                                                                                            array('sf_method' => array('get','post')),
+                                                                                            array('model' => 'Vrac', 'type' => 'object')));
    
   
     }

@@ -29,6 +29,11 @@ use_helper('Vrac');
 
             <div class="btn_etape">
                 <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
+                <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
+                    <a class="lien_contrat_supprimer_brouillon" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>" style="margin-left: 10px">
+                        <span>Supprimer Brouillon</span>
+                    </a>
+                <?php endif; ?>
                 <?php if ($validation->isValide()) : ?>
                     <?php if ($isTeledeclarationMode): ?>
                         <?php if ($signatureDemande): ?>
@@ -42,7 +47,7 @@ use_helper('Vrac');
             </div> 
         </form>
     </div>
-        <?php include_partial('popup_notices'); ?> 
+    <?php include_partial('popup_notices'); ?> 
 </section>
 <?php
 if ($vrac->isTeledeclare()):
