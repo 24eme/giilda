@@ -34,8 +34,8 @@ EOF;
         $this->date = date("Y-m-d");
 
         echo "\nDebut de la tache d'annulation du " . $this->date . " \n";
-        $contrats_annulations_brouillons = $this->getContratsAnnulationBrouillons();
-        $this->annulationContrats($contrats_annulations_brouillons);
+        //$contrats_annulations_brouillons = $this->getContratsAnnulationBrouillons();
+        //$this->annulationContrats($contrats_annulations_brouillons);
 
 
         $contrats_annulations_attente_signature = $this->getContratsAnnulationAttenteSignature();
@@ -105,8 +105,7 @@ EOF;
         foreach ($contrats_attentes_signature as $contratAttenteView) {
 
             $contrat = VracClient::getInstance()->find($contratAttenteView->id);
-            if ($contrat->isTeledeclare() && $contrat->valide->date_saisie) {
-                
+            if ($contrat->isTeledeclare() && $contrat->valide->date_saisie) {                
                 
                 //A RETIRER
                 if (($contrat->createur_identifiant != '80056301') && ($contrat->createur_identifiant != '80056401')) {
