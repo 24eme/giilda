@@ -185,10 +185,10 @@ Rappel de votre identifiant : IDENTIFIANT";
         
         $emailsArr = array();
         foreach ($soussignesArr as $identifiant => $soussigne) {
-            if (($identifiant == $this->vrac->vendeur_identifiant) && $this->vrac->isSigneVendeur()) {
+            if (($identifiant == $this->vrac->vendeur_identifiant) && !$this->vrac->isSigneVendeur()) {
                 $emailsArr[$identifiant] = $soussigne;
             }
-            if (($identifiant == $this->vrac->acheteur_identifiant) && $this->vrac->isSigneAcheteur()) {
+            if (($identifiant == $this->vrac->acheteur_identifiant) && !$this->vrac->isSigneAcheteur()) {
                 $emailsArr[$identifiant] = $soussigne;
             }
         }
