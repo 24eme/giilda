@@ -58,7 +58,7 @@ EOF;
             if ($contrat->isTeledeclare() && $contrat->date_campagne) {
                 
                 //A RETIRER
-                if (($contrat->createur_identifiant != '80056301') || ($contrat->createur_identifiant != '80056401')) {
+                if (($contrat->createur_identifiant != '80056301') && ($contrat->createur_identifiant != '80056401')) {
                     continue;
                 }
                 
@@ -83,8 +83,8 @@ EOF;
             if ($contrat->isTeledeclare() && $contrat->valide->date_saisie) {
                 
                 //A RETIRER
-                if (($contrat->createur_identifiant != '80056301') || ($contrat->createur_identifiant != '80056401')) {
-                    continue;
+                if (($contrat->createur_identifiant != '80056301') && ($contrat->createur_identifiant != '80056401')) {
+                                        continue;
                 }
                 
                 
@@ -109,7 +109,7 @@ EOF;
                 
                 
                 //A RETIRER
-                if (($contrat->createur_identifiant != '80056301') || ($contrat->createur_identifiant != '80056401')) {
+                if (($contrat->createur_identifiant != '80056301') && ($contrat->createur_identifiant != '80056401')) {
                     continue;
                 }
                 
