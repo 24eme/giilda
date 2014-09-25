@@ -201,6 +201,8 @@ Rappel de votre identifiant : IDENTIFIANT";
                 $mess.= "Le contrat suivant est en attente de signature sur le portail de télédeclaration depuis maintenant plus de 3 jours.";
         
         $mess.= "
+Il sera automatiquement annulé par le portail d'ici 2 jours.            
+
 Pour le visualiser et le signer cliquez sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
 
 Pour toutes questions, veuillez contacter " . $responsableNom . ", responsable du contrat.
@@ -215,9 +217,7 @@ Rappel de votre identifiant : IDENTIFIANT";
 
             $message_replaced = str_replace('IDENTIFIANT', substr($soussigne->identifiant, 0, 6), $mess);
 
-            $subject = ($this->vrac->valide->date_saisie) ?
-                    "Annulation d'un contrat (" . $createur->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")" :
-                    "Annulation d'un contrat brouillon (" . $createur->nom . ")";
+            $subject = "Relance de signature d'un contrat (" . $createur->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")" ;
 
             $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $soussigne->getEmailTeledeclaration(), $subject, $message_replaced);
 
