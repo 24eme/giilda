@@ -156,7 +156,8 @@ bouton.btn_demarrer,bouton.btn_enregistrer{height:26px}
 .statut_cloture{color:#8f8f8f;background-position:0 -46px}
 .visualiser_contrat{display:block;padding-left:25px;position:relative;text-align:left}.visualiser_contrat:before{bottom:auto;left:0;position:absolute;right:auto;top:-3px;background:url('../images/pictos/pi_actions.png') 0 -581px no-repeat;content:'';height:21px;width:21px}
 .soussigne li{padding-right:20px;text-align:left}
-.contrat_signe_moi,.contrat_attente_moi,.contrat_signe_soussigne,.contrat_attente_soussigne{background:100% 0 no-repeat;padding-right:20px;text-align:left}
+.picto_observatoire,.contrat_signe_moi,.contrat_attente_moi,.contrat_signe_soussigne,.contrat_attente_soussigne{background:100% 0 no-repeat;padding-right:20px;text-align:left}
+.picto_observatoire{background-image:url('../images/pictos/pi_observatoire.png')}
 .contrat_signe_moi{background-image:url('/images/pictos/pi_ok.png')}
 .contrat_attente_moi{background-image:url('../images/pictos/pi_attente.png')}
 .contrat_signe_soussigne{background-image:url('../images/pictos/pi_ok_gris.png')}
