@@ -116,6 +116,10 @@ class myUser extends sfBasicSecurityUser
         return $this->getAttribute(self::SESSION_COMPTE_LOGIN, null,self::NAMESPACE_COMPTE) != $this->getAttribute(self::SESSION_COMPTE_LOGIN ,null ,self::NAMESPACE_COMPTE_ORIGIN);
     }
 
+    public function hasObservatoire() {
+        return $this->hasCredential(Roles::OBSERVATOIRE);
+    }
+    
     public function hasTeledeclaration() {
         return $this->isAuthenticated() && $this->getCompte() && $this->hasCredential(Roles::TELEDECLARATION);
     }

@@ -27,6 +27,9 @@ class authActions extends sfActions
       $idCompte = $this->form->process()->identifiant;
       $idSociete = $this->form->process()->getSociete()->getIdentifiant();                
       $this->getUser()->signInOrigin($this->form->getValue("login"));
+      if($this->getUser()->hasObservatoire() && !$this->getUser()->hasTeledeclarationVrac()){
+           $this->redirect(sfConfig::get('app_observatoire_url'));
+      }
       $this->redirect('vrac_societe',array('identifiant' => $idCompte));
   }
 
