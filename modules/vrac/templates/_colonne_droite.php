@@ -80,7 +80,7 @@ slot('colCompte');
 <?php end_slot(); ?>
 
 <?php slot('colReglementation'); ?>
-<?php include_partial('compte_teledeclarant/colReglementation'); ?>
+<?php include_partial('colReglementation'); ?>
 <?php end_slot(); ?>
 
 
@@ -110,7 +110,7 @@ $contact = EtablissementClient::getInstance()->buildInfosContact($etablissementP
             <li class="telephone"><?php echo $contact->telephone; ?></li>
         </ul>
     </div>
-</div>  
+</div>   
 <script type="text/javascript">
 $(document).ready(function()
     {

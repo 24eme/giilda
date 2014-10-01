@@ -50,7 +50,7 @@ $cpt = 0;
                             <td class="type"><span class="type_<?php echo strtolower($typeProduit); ?>"><?php echo ($typeProduit) ? typeProduit($typeProduit) : '-'; ?></span></td>
                             <td class="num_contrat">
                                 <a href="<?php echo url_for('@vrac_visualisation?numero_contrat=' . $vracid); ?>">
-                                    <span style="font-weight: bold;"><?php echo $numero_archive; ?></span><br> <?php echo preg_replace('/(\d{4})(\d{2})(\d{2}).*/', '$3/$2/$1', $vracid); ?>
+                                    <span style="font-weight: bold;"><?php echo $numero_archive; ?></span><br> <?php echo dateFirstSignatureFromView($signature_vendeur,$signature_acheteur,$signature_courtier,$contrat); ?>
                                 </a>
                             </td>
 

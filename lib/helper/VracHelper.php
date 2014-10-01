@@ -368,3 +368,16 @@ function echoClassLignesVisu(&$cpt) {
     echo ($cpt % 2) ? 'ligne_form ' : 'ligne_form ligne_form_alt ';
     $cpt++;
 }
+
+function dateFirstSignatureFromView($signature_vendeur,$signature_acheteur,$signature_courtier,$contrat){
+    if(!$signature_vendeur && !$signature_acheteur && !$signature_courtier){
+        return "";
+    }
+    if(!$signature_vendeur && $signature_acheteur && !$signature_courtier){
+        return Date::francizeDate($contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR]);
+    }
+    if(!$signature_vendeur && !$signature_acheteur && $signature_courtier){
+        return Date::francizeDate($contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER]);
+    }
+    return "";    
+}
