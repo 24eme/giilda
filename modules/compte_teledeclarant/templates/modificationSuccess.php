@@ -84,6 +84,6 @@ if($compte->getSociete()->isTransaction()){
 </script>
 
 <?php slot('colReglementation'); ?>
-<?php include_partial('compte_teledeclarant/colReglementation'); ?>
+<?php include_partial('vrac/colReglementation'); ?>
 <?php end_slot(); ?>
 

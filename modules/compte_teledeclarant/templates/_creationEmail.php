@@ -1,5 +1,7 @@
 Bonjour <?php echo $compte->nom ?>,
 
-votre compte a bien été créé sur le portail de télédéclaration des contrats d’InterLoire. 
+votre compte a bien été créé sur l'espace professionnel du Vignoble du Val de Loire.
 
-L’application de télédéclaration des contrats d’InterLoire
+Cordialement,
+
+L'espace professionnel du Vignoble du Val de Loire.
