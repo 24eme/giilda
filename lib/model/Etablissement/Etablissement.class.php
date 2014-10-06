@@ -342,10 +342,9 @@ class Etablissement extends BaseEtablissement {
         $bailleurNameNode = EtablissementClient::TYPE_LIAISON_BAILLEUR . '_' . $identifiant_bailleur;
         if (!$this->liaisons_operateurs->exist($bailleurNameNode))
             throw new sfException("La liaison avec le bailleur $identifiant_bailleur n'existe pas");
-        $node = $this->liaisons_operateurs->$bailleurNameNode;
-        if (!$node->exist('aliases'))
-            $node->add('aliases');
-        $node->aliases->add($alias, $alias);
+        if (!$this->liaisons_operateurs->$bailleurNameNode->exist('aliases'))
+            $this->liaisons_operateurs->$bailleurNameNode->add('aliases');
+        $this->liaisons_operateurs->$bailleurNameNode->aliases->add($alias, $alias);
     }
 
     public function synchroFromCompte() {
