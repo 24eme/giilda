@@ -327,11 +327,11 @@ class Etablissement extends BaseEtablissement {
     public function findBailleurByNom($nom) {
         $bailleurs = $this->getBailleurs();
         foreach ($bailleurs as $key => $liaison) {
-            if ($liaison->libelle_etablissement == $nom)
+            if ($liaison->libelle_etablissement == str_replace("&", "", $nom))
                 return EtablissementClient::getInstance()->find($liaison->id_etablissement);
             if ($liaison->exist('aliases'))
                 foreach ($liaison->aliases as $alias) {
-                    if (strtoupper($alias) == strtoupper($nom))
+                    if (strtoupper($alias) == strtoupper(str_replace("&", "", $nom)))
                         return EtablissementClient::getInstance()->find($liaison->id_etablissement);
                 }
         }
@@ -344,7 +344,7 @@ class Etablissement extends BaseEtablissement {
             throw new sfException("La liaison avec le bailleur $identifiant_bailleur n'existe pas");
         if (!$this->liaisons_operateurs->$bailleurNameNode->exist('aliases'))
             $this->liaisons_operateurs->$bailleurNameNode->add('aliases');
-        $this->liaisons_operateurs->$bailleurNameNode->aliases->add($alias, $alias);
+        $this->liaisons_operateurs->$bailleurNameNode->aliases->add(str_replace("&amp;","",$alias), str_replace("&amp;","",$alias));
     }
 
     public function synchroFromCompte() {
