@@ -80,7 +80,7 @@ slot('colCompte');
 <?php end_slot(); ?>
 
 <?php slot('colReglementation'); ?>
-<?php include_partial('colReglementation'); ?>
+<?php include_partial('vrac/colReglementation'); ?>
 <?php end_slot(); ?>
 
 
