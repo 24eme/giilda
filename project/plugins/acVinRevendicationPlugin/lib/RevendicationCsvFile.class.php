@@ -102,22 +102,22 @@ class RevendicationCsvFile extends CsvFile
 		$firstline = 0;
 		rtrim($s);
 		$s = str_replace(';', ' ', $s);
-		$line = substr($s, 0, 12).';'. //CSV_COL_TYPE = 0;
+		$line = utf8_encode(substr(utf8_decode($s), 0, 12)).';'. //CSV_COL_TYPE = 0;
 			substr($s, 12, 8).';'. //CSV_COL_UNKNOWN1 = 1
                         substr($s, 20, 8).';'. //CSV_COL_UNKNOWN2
                         substr($s, 28, 10).';'. //CSV_COL_CVI
-                        substr($s, 38, 30).';'. //CSV_COL_RAISON_SOCIALE
-                        substr($s, 68, 30).';'; //CSV_COL_VILLE
+                        utf8_encode(substr(utf8_decode($s), 38, 30)).';'. //CSV_COL_RAISON_SOCIALE
+                        utf8_encode(substr(utf8_decode($s), 68, 30)).';'; //CSV_COL_VILLE
 		$s = substr($s, 97);
 		$s = preg_replace('/^[^12]*/', '', $s);
 		$line .=  
-			substr($s, 0, 1).';'. //CSV_COL_PROPRIO_METAYER
-                        substr($s, 1, 30).';'. //CSV_COL_BAILLEUR
-                        substr($s, 31, 90).';'; //CSV_COL_ADRESSE
+			utf8_encode(substr(utf8_decode($s), 0, 1)).';'. //CSV_COL_PROPRIO_METAYER
+                        utf8_encode(substr(utf8_decode($s), 1, 30)).';'. //CSV_COL_BAILLEUR
+                        utf8_encode(substr(utf8_decode($s), 31, 90)).';'; //CSV_COL_ADRESSE
 		$s = preg_replace('/^.* ([0-9]{5}[^0-9])/', '\1', $s);
 		$line .= 
                         substr($s, 0, 5).';'. //CSV_COL_CODE_POSTAL
-                        substr($s, 5, 30).';'.//CSV_COL_COMMUNE
+                        utf8_encode(substr(utf8_decode($s), 5, 30)).';'.//CSV_COL_COMMUNE
                         substr($s, 35, 8).';'.//CSV_COL_CODE_PRODUIT
                         str_replace('/','',str_replace('.','',substr($s, 43, 66))).';';//CSV_COL_LIBELLE_PRODUIT
 		$s = substr($s, 99);

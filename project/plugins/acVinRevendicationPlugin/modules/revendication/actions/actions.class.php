@@ -185,7 +185,7 @@ class revendicationActions extends sfActions {
     public function executeAddAliasToBailleur(sfWebRequest $request) {
         $this->revendication = $this->getRoute()->getRevendication();
         $this->etablissement = EtablissementClient::getInstance()->find($request->getParameter('identifiant'));
-        $this->alias = $request->getParameter('alias');
+        $this->alias = urldecode($request->getParameter('alias'));
         $this->form = new AddAliasToEtablissementForm($this->etablissement,$this->alias);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
