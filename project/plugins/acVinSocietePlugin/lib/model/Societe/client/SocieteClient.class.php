@@ -211,7 +211,7 @@ class SocieteClient extends acCouchdbClient {
                 }
 
                 $compte = $societe->getMasterCompte();
-                $compte->addTag("manuel", "RgtEnAttente");
+                $compte->addTag("manuel", "rgt_en_attente");
                 $resultArr['ligne_'.$nb_ligne]['msg'] = "Ajout du Tag RgtEnAttente pour compte $compte->identifiant";
                 $resultArr['ligne_'.$nb_ligne]['type'] = "VALIDE";
                 $compte->save();
