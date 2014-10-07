@@ -91,7 +91,8 @@ use_helper('Vrac');
                         <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn_majeur btn_pdf">Télécharger le PDF</a>  
                     </div>
                 <?php endif; ?>
-                <?php if (!$isTeledeclarationMode): ?>
+                <?php 
+                if ($isTeledeclarationMode && !$vrac->isVise()): ?>
                     <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_orange btn_majeur" style="float: left;">Retourner à l'espace contrats</a>
                 <?php endif; ?>
             </div>
