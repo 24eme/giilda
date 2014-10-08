@@ -100,7 +100,7 @@ class revendicationActions extends sfActions {
         $this->setLayout(false);
         $this->revendication = $this->getRoute()->getRevendication();
         $attachement = 'attachment; filename='.sprintf('DREV-%s-%s-%s-importee.csv', $this->revendication->odg, $this->revendication->campagne, $this->revendication->_rev);
-        header("content-type: application/pdf\n");
+        header("content-type: text/csv\n");
         header("content-disposition: $attachement\n\n");
         echo RevendicationClient::getCsvImportedRows($this->revendication);
         exit;
