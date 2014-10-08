@@ -94,6 +94,7 @@ class Vrac extends BaseVrac {
 
         if ($this->isTeledeclare()) {
             $this->cvo_repartition = $this->calculCvoRepartition();
+            $this->cvo_nature = VracClient::CVO_NATURE_MARCHE_DEFINITIF;
         }
     }
 

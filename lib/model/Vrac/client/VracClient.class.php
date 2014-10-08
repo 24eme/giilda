@@ -166,6 +166,15 @@ class VracClient extends acCouchdbClient {
                         ->limit($limit)
                         ->getView('vrac', 'history');
     }
+    
+    
+    public function retrieveAllVracsTeledeclares() {
+
+        return $this->descending(true)
+                        ->startkey(array(1, array()))
+                        ->endkey(array(1))
+                        ->getView('vrac', 'history');
+    }
 
     public function retrieveByCampagneEtablissementAndStatut($societe, $campagne, $etablissement = 'tous', $statut = 'tous') {
 
