@@ -186,15 +186,15 @@ class SocieteClient extends acCouchdbClient {
 
             $societe = null;
             foreach ($societesCodeClientView as $societeView) {
-                
-                if(!array_key_exists('ligne_'.$nb_ligne, $resultArr)){
-                    $resultArr['ligne_'.$nb_ligne] = array();
+
+                if (!array_key_exists('ligne_' . $nb_ligne, $resultArr)) {
+                    $resultArr['ligne_' . $nb_ligne] = array();
                 }
-                
-                if($societe){
+
+                if ($societe) {
                     break;
                 }
-                
+
                 $code_comptable_client_view = $societeView->value[SocieteExportView::VALUE_CODE_COMPTABLE_CLIENT];
 
                 if ($code_comptable_client_view != $code_comptable_client_csv) {
@@ -205,20 +205,21 @@ class SocieteClient extends acCouchdbClient {
                 $societe = $this->find($identifiant);
 
                 if (!$societe) {
-                    $resultArr['ligne_'.$nb_ligne]['msg'] = "La société d'identifiant $identifiant n'a pas été trouvé";
-                    $resultArr['ligne_'.$nb_ligne]['type'] = "ERREUR";
+                    $resultArr['ligne_' . $nb_ligne]['msg'] = "La société d'identifiant $identifiant n'a pas été trouvé";
+                    $resultArr['ligne_' . $nb_ligne]['type'] = "ERREUR";
                     continue;
                 }
 
-                $compte = $societe->getMasterCompte();
-                $compte->addTag("manuel", "rgt_en_attente");
-                $resultArr['ligne_'.$nb_ligne]['msg'] = "Ajout du Tag RgtEnAttente pour compte $compte->identifiant";
-                $resultArr['ligne_'.$nb_ligne]['type'] = "VALIDE";
-                $compte->save();
-            }
-            if (!$societe) {
-                $resultArr['ligne_'.$nb_ligne]['msg'] = "La société de code comptable client $code_comptable_client_csv n'a pas été trouvé";
-                $resultArr['ligne_'.$nb_ligne]['type'] = "ERREUR";
+                    $compte = $societe->getMasterCompte();
+                try {
+                    $compte->addTag("manuel", "rgt_en_attente");
+                    $resultArr['ligne_' . $nb_ligne]['msg'] = "Ajout du Tag RgtEnAttente pour compte $compte->identifiant";
+                    $resultArr['ligne_' . $nb_ligne]['type'] = "VALIDE";
+                    $compte->save();
+                } catch (sfException $e) {
+                    $resultArr['ligne_' . $nb_ligne]['msg'] = "ERREUR problème d'enregistrement du tag pour le compte $compte->identifiant";
+                    $resultArr['ligne_' . $nb_ligne]['type'] = "ERREUR";
+                }
             }
             $nb_ligne++;
         }
