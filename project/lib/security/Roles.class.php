@@ -47,7 +47,7 @@ class Roles
         self::PRESSE => array(self::CONTACT),
         self::DIRECTION => array(self::CONTACT),
         self::BUREAU => array(self::CONTACT),
-        self::AUTRE => array(self::CONTACT),
+        self::AUTRE => array(self::DRM),
     );
 
     public static function getRoles($role) {
