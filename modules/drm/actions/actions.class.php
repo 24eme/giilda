@@ -64,33 +64,33 @@ class drmActions extends sfActions {
     public function executeDelete(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
         if ($request->isMethod(sfRequest::POST)) {
-    	    if ($request->getParameter('confirm')) {
+            if ($request->getParameter('confirm')) {
                 $this->drm->delete();
-    	    }
-            
-	        $this->redirect('drm_etablissement', $this->drm);
+            }
+
+            $this->redirect('drm_etablissement', $this->drm);
         }
     }
 
     private function formCampagne(sfWebRequest $request, $route) {
-      $this->etablissement = $this->getRoute()->getEtablissement();
-      
-      if($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
-	throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
+        $this->etablissement = $this->getRoute()->getEtablissement();
 
-      $this->campagne = $request->getParameter('campagne');
-      if (!$this->campagne) {
-	$this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
-      }
-      
-      $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
-      if ($request->isMethod(sfWebRequest::POST)) {
-	$param = $request->getParameter($this->formCampagne->getName());
-	if ($param) {
-	  $this->formCampagne->bind($param);
-	  return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $this->formCampagne->getValue('campagne')));
-	}
-      }
+        if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
+            throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
+
+        $this->campagne = $request->getParameter('campagne');
+        if (!$this->campagne) {
+            $this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+        }
+
+        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $param = $request->getParameter($this->formCampagne->getName());
+            if ($param) {
+                $this->formCampagne->bind($param);
+                return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $this->formCampagne->getValue('campagne')));
+            }
+        }
     }
 
     /**
@@ -99,11 +99,11 @@ class drmActions extends sfActions {
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
-      return $this->formCampagne($request, 'drm_etablissement');
+        return $this->formCampagne($request, 'drm_etablissement');
     }
 
     public function executeStocks(sfWebRequest $request) {
-      return $this->formCampagne($request, 'drm_etablissement_stocks');
+        return $this->formCampagne($request, 'drm_etablissement_stocks');
     }
 
     /**
@@ -188,40 +188,39 @@ class drmActions extends sfActions {
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
 
         $this->no_link = false;
-        if($this->getUser()->hasOnlyCredentialDRM()){
-             $this->no_link = true;
+        if ($this->getUser()->hasOnlyCredentialDRM()) {
+            $this->no_link = true;
         }
-        
+
         $this->validation = new DRMValidation($this->drm);
 
-	    $this->form = new DRMCommentaireForm($this->drm);
+        $this->form = new DRMCommentaireForm($this->drm);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
 
             return sfView::SUCCESS;
         }
 
-    	$this->form->bind($request->getParameter($this->form->getName()));
-    	if ($request->getParameter('brouillon')) {
-	  $this->form->save();
-    	    return $this->redirect('drm_etablissement', $this->drm->getEtablissement());
-    	}
-    	  
+        $this->form->bind($request->getParameter($this->form->getName()));
+        if ($request->getParameter('brouillon')) {
+            $this->form->save();
+            return $this->redirect('drm_etablissement', $this->drm->getEtablissement());
+        }
+
         if (!$this->validation->isValide()) {
             return sfView::SUCCESS;
         }
 
-    	$this->form->save();
+        $this->form->save();
 
-    	$this->drm->validate();
-    	$this->drm->save();
+        $this->drm->validate();
+        $this->drm->save();
 
         DRMClient::getInstance()->generateVersionCascade($this->drm);
 
         $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
-                'periode_version' => $this->drm->getPeriodeAndVersion(),
-                'hide_rectificative' => 1));
-        
+            'periode_version' => $this->drm->getPeriodeAndVersion(),
+            'hide_rectificative' => 1));
     }
 
     public function executeShowError(sfWebRequest $request) {
@@ -236,6 +235,10 @@ class drmActions extends sfActions {
 
     public function executeVisualisation(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
+        $this->no_link = false;
+        if ($this->getUser()->hasOnlyCredentialDRM()) {
+            $this->no_link = true;
+        }
         $this->hide_rectificative = $request->getParameter('hide_rectificative');
         $this->drm_suivante = $this->drm->getSuivante();
         $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
