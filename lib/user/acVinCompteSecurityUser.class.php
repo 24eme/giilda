@@ -77,7 +77,7 @@ abstract class acVinCompteSecurityUser extends sfBasicSecurityUser
      */
     public function signIn($cas_user) 
     {
-        var_dump('here');
+        
         $compte = acCouchdbManager::getClient('_Compte')->retrieveByLogin($cas_user);
         if (!$compte) {
             throw new sfException('compte does not exist');
