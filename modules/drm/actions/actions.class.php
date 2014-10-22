@@ -187,6 +187,11 @@ class drmActions extends sfActions {
         $this->drm = $this->getRoute()->getDRM();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
 
+        $this->no_link = false;
+        if($this->getUser()->hasOnlyCredentialDRM()){
+             $this->no_link = true;
+        }
+        
         $this->validation = new DRMValidation($this->drm);
 
 	    $this->form = new DRMCommentaireForm($this->drm);
