@@ -1,7 +1,7 @@
 <?php
 
-class myUser extends sfBasicSecurityUser
-{
+class myUser extends sfBasicSecurityUser {
+
     const SESSION_COMPTE_LOGIN = "COMPTE_LOGIN";
     const SESSION_COMPTE_DOC = "COMPTE_DOC_ID";
     const SESSION_USURPATION_URL_BACK = "USURPATION_URL_BACK";
@@ -9,30 +9,26 @@ class myUser extends sfBasicSecurityUser
     const NAMESPACE_COMPTE_ORIGIN = "COMPTE_ORIGIN";
     const CREDENTIAL_ADMIN = "admin";
 
-    public function signInOrigin($login_or_compte) 
-    {        
+    public function signInOrigin($login_or_compte) {
         $compte = $this->registerCompteByNamespace($login_or_compte, self::NAMESPACE_COMPTE_ORIGIN);
         $this->setAuthenticated(true);
 
-        $this->signIn($login_or_compte);        
+        $this->signIn($login_or_compte);
     }
-    
-    public function signIn($login_or_compte) 
-    {
+
+    public function signIn($login_or_compte) {
         $compte = $this->registerCompteByNamespace($login_or_compte, self::NAMESPACE_COMPTE);
 
-        if($compte) {
-            foreach($compte->droits as $droit) {
+        if ($compte) {
+            foreach ($compte->droits as $droit) {
                 $roles = Roles::getRoles($droit);
                 $this->addCredentials($roles);
             }
         }
-        
     }
 
-    protected function registerCompteByNamespace($login_or_compte, $namespace) 
-    {
-        if(is_object($login_or_compte) && $login_or_compte instanceof Compte) {
+    protected function registerCompteByNamespace($login_or_compte, $namespace) {
+        if (is_object($login_or_compte) && $login_or_compte instanceof Compte) {
             $compte = $login_or_compte;
             $login = $compte->getLogin();
         } else {
@@ -41,8 +37,8 @@ class myUser extends sfBasicSecurityUser
         }
 
         $this->setAttribute(self::SESSION_COMPTE_LOGIN, $login, $namespace);
-    
-        if($compte->isNew()) {
+
+        if ($compte->isNew()) {
             $this->setAttribute(self::SESSION_COMPTE_DOC, $compte, $namespace);
         } else {
             $this->setAttribute(self::SESSION_COMPTE_DOC, $compte->_id, $namespace);
@@ -50,44 +46,37 @@ class myUser extends sfBasicSecurityUser
 
         return $compte;
     }
-    
-    public function signOut() 
-    {
+
+    public function signOut() {
         $this->clearCredentials();
         $this->getAttributeHolder()->removeNamespace(self::NAMESPACE_COMPTE);
     }
-    
-    public function signOutOrigin() 
-    {
+
+    public function signOutOrigin() {
         $this->signOut();
         $this->setAuthenticated(false);
         $this->clearCredentials();
         $this->getAttributeHolder()->removeNamespace(self::NAMESPACE_COMPTE_ORIGIN);
     }
 
-    public function getCompte() 
-    {
-        
+    public function getCompte() {
+
         return $this->getCompteByNamespace(self::NAMESPACE_COMPTE);
     }
 
+    public function getCompteOrigin() {
 
-    public function getCompteOrigin() 
-    {
-        
         return $this->getCompteByNamespace(self::NAMESPACE_COMPTE_ORIGIN);
     }
 
-
-    protected function getCompteByNamespace($namespace)
-    {
+    protected function getCompteByNamespace($namespace) {
         $id_or_doc = $this->getAttribute(self::SESSION_COMPTE_DOC, null, $namespace);
-        
-        if(!$id_or_doc){
+
+        if (!$id_or_doc) {
             return null;
         }
 
-        if($id_or_doc instanceof Compte) {
+        if ($id_or_doc instanceof Compte) {
 
             return $id_or_doc;
         }
@@ -104,7 +93,7 @@ class myUser extends sfBasicSecurityUser
     public function usurpationOff() {
         $this->signOut();
         $this->signIn($this->getCompteOrigin());
-        
+
         $url_back = $this->getAttribute(self::SESSION_USURPATION_URL_BACK);
         $this->getAttributeHolder()->remove(self::SESSION_USURPATION_URL_BACK);
 
@@ -113,22 +102,27 @@ class myUser extends sfBasicSecurityUser
 
     public function isUsurpationCompte() {
 
-        return $this->getAttribute(self::SESSION_COMPTE_LOGIN, null,self::NAMESPACE_COMPTE) != $this->getAttribute(self::SESSION_COMPTE_LOGIN ,null ,self::NAMESPACE_COMPTE_ORIGIN);
+        return $this->getAttribute(self::SESSION_COMPTE_LOGIN, null, self::NAMESPACE_COMPTE) != $this->getAttribute(self::SESSION_COMPTE_LOGIN, null, self::NAMESPACE_COMPTE_ORIGIN);
     }
 
     public function hasObservatoire() {
         return $this->hasCredential(Roles::OBSERVATOIRE);
     }
-    
+
     public function hasTeledeclaration() {
         return $this->isAuthenticated() && $this->getCompte() && $this->hasCredential(Roles::TELEDECLARATION);
     }
-    
+
     public function hasTeledeclarationVrac() {
         return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_VRAC);
     }
-    
+
     public function hasTeledeclarationVracCreation() {
         return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_VRAC_CREATION);
     }
+
+    public function hasOnlyCredentialDRM() {
+        return $this->hasCredential(Roles::ROLEDRM) && $this->hasCredential(Roles::DRM);
+    }
+
 }
