@@ -31,7 +31,12 @@ use_helper('Float');
 			<?php echo $form['statut']->render() ?> 
         </div>
     </form>
-
+<div class="ligne_btn">   
+    <?php 
+        include_partial('global/hamzaStyle', array('table_selector' => '#table_contrats', 
+                                                 'mots' => contrats_get_words($contratsByCampagneEtablissementAndStatut),
+                                                 'consigne' => "Saisissez un produit, un numéro de contrat ou un nom de soussigné :")) ?>
+  </div>  
 <div class="ligne_btn txt_droite">   
     
     <a class="btn_majeur btn_vert btn_excel" href="<?php echo url_for('vrac_history_exportCsv', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => $campagne, 'etablissement' => $etablissement, 'statut' => $statut)); ?>">

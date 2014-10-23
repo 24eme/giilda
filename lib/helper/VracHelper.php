@@ -381,3 +381,30 @@ function dateFirstSignatureFromView($signature_vendeur,$signature_acheteur,$sign
     }
     return "";    
 }
+
+function contrats_get_words($contrats) {
+    $words = array();
+    foreach($contrats as $contrat) {
+        $idRow = 'vrac_'.$contrat->value[VracClient::VRAC_VIEW_NUMCONTRAT];
+        $words[$idRow] = contrat_get_word($contrat->value);
+    }
+
+    return $words;
+}
+
+function contrat_get_word($contrat) {
+    return array_merge(
+        Search::getWords($contrat[VracClient::VRAC_VIEW_VENDEUR_NOM]),
+        Search::getWords($contrat[VracClient::VRAC_VIEW_ACHETEUR_NOM]),
+        Search::getWords($contrat[VracClient::VRAC_VIEW_MANDATAIRE_NOM]),
+        Search::getWords($contrat[VracClient::VRAC_VIEW_NUMCONTRAT]),
+        Search::getWords($contrat[VracClient::VRAC_VIEW_NUMARCHIVE]),
+        Search::getWords($contrat[VracClient::VRAC_VIEW_PRODUIT_LIBELLE])    
+    );
+}
+
+function revendication_get_id($revendication) {
+
+    return $revendication->id+$revendication->ligne_identifiant;
+
+}
