@@ -16,7 +16,7 @@ use_helper('Vrac');
 </script>
 
 <section id="principal">
-    <?php include_partial('headerVrac', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4)); ?>        
+    <?php include_partial('headerVrac', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>        
     <div id="contenu_etape"> 
         <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation', $vrac) ?>">
             <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
@@ -50,7 +50,7 @@ use_helper('Vrac');
     <?php include_partial('popup_notices'); ?> 
 </section>
 <?php
-if ($vrac->isTeledeclare()):
+if ($isTeledeclarationMode):
     include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
 else:
     slot('colApplications');

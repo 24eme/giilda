@@ -1,4 +1,4 @@
-  <?php include_partial('fil_ariane', array('vrac' => $vrac, 'compte' => $compte, 'fil' => -1)); ?>
+  <?php include_partial('fil_ariane', array('vrac' => $vrac, 'compte' => $compte, 'fil' => -1, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
     <?php 
     $params = array('vrac' => $vrac, 'actif' => $actif);
     if(isset($urlsoussigne)): 

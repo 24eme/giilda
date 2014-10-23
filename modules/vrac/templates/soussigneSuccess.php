@@ -49,7 +49,7 @@ else :
 endif;
 ?>
 <section id="principal">
-    <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm)); ?>
+    <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
     <div id="contenu_etape">
         <form id="vrac_soussigne" method="post" action="<?php echo $urlForm; ?>">   
             <?php echo $form->renderHiddenFields() ?>

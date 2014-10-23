@@ -26,7 +26,7 @@ class VracConditionForm extends acCouchdbObjectForm {
     public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $options = array(), $CSRFSecret = null) {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
         $this->date_enlevement_default = null;
-        if($this->isTeledeclarationMode){
+        if ($this->isTeledeclarationMode) {
             $this->date_enlevement_default = Date::addDelaiToDate('+35 days', date('Y-m-d'));
             $this->date_enlevement_default_label = Date::francizeDate($this->date_enlevement_default);
         }
@@ -89,13 +89,13 @@ class VracConditionForm extends acCouchdbObjectForm {
 
         if ($this->getObject()->isTeledeclare()) {
             $this->setWidget('enlevement_date', new sfWidgetFormInput());
-            $this->getWidget('enlevement_date')->setLabel("Date d'enlèvement (Par défaut ". $this->date_enlevement_default_label.")");
+            $this->getWidget('enlevement_date')->setLabel("Date d'enlèvement (Par défaut " . $this->date_enlevement_default_label . ")");
             $this->setValidator('enlevement_date', new sfValidatorString(array('required' => false)));
 
             $this->setWidget('enlevement_frais_garde', new sfWidgetFormInputFloat());
             $this->getWidget('enlevement_frais_garde')->setLabel("Frais de garde par mois");
             $this->setValidator('enlevement_frais_garde', new sfValidatorNumber(array('required' => false)));
-            
+
             $this->validatorSchema['enlevement_frais_garde']->setMessage('invalid', 'Les frais de garde "%value%" doivent être un nombre.');
         }
 
@@ -126,9 +126,28 @@ class VracConditionForm extends acCouchdbObjectForm {
     public function doUpdateObject($values) {
         if ($values['type_contrat'] == VracClient::TYPE_CONTRAT_SPOT)
             $values['prix_variable'] = 0;
-
+        
+        $enlevement_date = $this->getObject()->exist('enlevement_date');
+        $enlevement_frais_garde = $this->getObject()->exist('enlevement_frais_garde');
+        
+        if($enlevement_date){
+                $enlevement_date = $this->getObject()->get('enlevement_date');                
+        }
+        if($enlevement_frais_garde){
+            $enlevement_frais_garde = $this->getObject()->get('enlevement_frais_garde');                
+        }
+        
+        
         parent::doUpdateObject($values);        
-        if ($this->isTeledeclarationMode){
+        if (!$this->isTeledeclarationMode && $this->getObject()->isTeledeclare()) {
+            if($enlevement_date){
+                $this->getObject()->add('enlevement_date',$enlevement_date);
+            }
+            if($enlevement_frais_garde){
+                $this->getObject()->add('enlevement_frais_garde',$enlevement_frais_garde);
+            }
+        }
+        if ($this->isTeledeclarationMode) {
             if (!$values['enlevement_date']) {
                 $this->getObject()->add('enlevement_date', $this->date_enlevement_default);
             } else {
@@ -138,21 +157,21 @@ class VracConditionForm extends acCouchdbObjectForm {
     }
 
     protected function updateDefaultsFromObject() {
-        parent::updateDefaultsFromObject();        
+        parent::updateDefaultsFromObject();
         if ($this->getObject()->exist('enlevement_date') && $this->getObject()->enlevement_date) {
             $this->setDefault('enlevement_date', Date::francizeDate($this->getObject()->enlevement_date));
         }
-        if (!$this->isTeledeclarationMode && !$this->getObject()->cvo_repartition){
+        if (!$this->isTeledeclarationMode && !$this->getObject()->cvo_repartition) {
             $this->setDefault('cvo_repartition', $this->getObject()->calculCvoRepartition());
         }
     }
-    
+
     public function getDateEnlevementDefault() {
         return $this->date_enlevement_default;
     }
-    
+
     public function getDateEnlevementDefaultLabel() {
-         return $this->date_enlevement_default_label;
+        return $this->date_enlevement_default_label;
     }
 
 }

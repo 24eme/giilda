@@ -4,7 +4,7 @@ if($fil>0) $etablissement = EtablissementClient::getInstance()->find($identifian
 if(!isset($vrac) || !$vrac){
   $urlAccueil = url_for('vrac');
 }else{
-$urlAccueil = ($vrac->isTeledeclare())? url_for('vrac_societe', array('identifiant' => $compte->identifiant)) : url_for('vrac');
+$urlAccueil = ($isTeledeclarationMode)? url_for('vrac_societe', array('identifiant' => $compte->identifiant)) : url_for('vrac');
 }
 ?>
 <p id="fil_ariane">

@@ -8,7 +8,7 @@
  */
 ?>
 <section id="principal">
-    <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 3)); ?>
+    <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 3,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
     <div id="contenu_etape"> 
         <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_condition', $vrac) ?>">  
             <?php echo $form->renderHiddenFields() ?>

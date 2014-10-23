@@ -64,14 +64,14 @@ use_helper('Vrac');
                 <div id="ligne_btn">
                     <?php
                     if (!is_null($vrac->valide->statut) && $vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE && (is_null($vrac->volume_enleve) || ($vrac->volume_enleve == 0))):
-                        if (!$isTeledeclare && !$isTeledeclarationMode):
+                        if (!$isTeledeclarationMode):
                             ?>
                             <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>"> Editer le contrat</a>
                         <?php endif; ?>
                         <?php if ($isTeledeclarationMode && $isTeledeclare && $isProprietaire && !$vrac->isVise() && $vrac->valide->statut != VracClient::STATUS_CONTRAT_VALIDE): ?>
                             <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>  
                         <?php endif; ?>    
-                        <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare()): ?>
+                        <?php if (!$isTeledeclarationMode): ?>
                             <button id="btn_annuler_contrat" type="submit">Annuler le contrat</button>  
                         <?php endif; ?>        
                     <?php endif; ?>                                 

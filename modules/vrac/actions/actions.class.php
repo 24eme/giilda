@@ -550,7 +550,11 @@ class vracActions extends sfActions {
         if ($this->isTeledeclarationMode) {
             $this->initSocieteAndEtablissementPrincipal();
             $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);
+        } else {
+
+            $this->etablissementPrincipal = EtablissementClient::getInstance()->retrieveById($this->vrac->createur_identifiant);
         }
+
 
         $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
 
@@ -562,7 +566,7 @@ class vracActions extends sfActions {
         if ($request->isMethod(sfWebRequest::POST)) {
             if ($this->validation->isValide()) {
                 $this->maj_etape(4);
-                $this->vrac->validate();
+                $this->vrac->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
                 $this->vrac->save();
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
@@ -588,7 +592,7 @@ class vracActions extends sfActions {
         $this->redirect403IsInVracAndNotAllowedToSee();
 
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        
+
         if ($this->isTeledeclarationMode) {
             $this->isProprietaire = $this->isTeledeclarationMode && $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->societe->identifiant == substr($this->vrac->createur_identifiant, 0, 6));
         }
@@ -823,7 +827,7 @@ class vracActions extends sfActions {
         if ($this->vrac->isTeledeclare() && $statut == VracClient::STATUS_CONTRAT_ANNULE && $previous_statut != VracClient::STATUS_CONTRAT_BROUILLON) {
             $mailManager = new VracEmailManager($this->getMailer());
             $mailManager->setVrac($this->vrac);
-            if (!$this->isUsurpationMode()) {
+            if (!$this->isUsurpationMode() && $this->isTeledeclarationVrac()) {
                 $mailManager->sendMailAnnulation(!$this->isTeledeclarationVrac());
             }
         }
@@ -837,7 +841,7 @@ class vracActions extends sfActions {
             }
             $mailManager = new VracEmailManager($this->getMailer());
             $mailManager->setVrac($this->vrac);
-            if (!$this->isUsurpationMode()) {
+            if (!$this->isUsurpationMode() && $this->isTeledeclarationVrac()) {
                 $mailManager->sendMailAttenteSignature();
             }
         }
