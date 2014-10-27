@@ -6,7 +6,7 @@
  *
  */
 class HttpAuth2ADSecurityFilter extends sfBasicSecurityFilter
-{
+{    
   /**
    * Execute filter
    *
@@ -20,7 +20,7 @@ class HttpAuth2ADSecurityFilter extends sfBasicSecurityFilter
       acHttpAuth2ADFilter::logout();
     }
     if ($user->isAuthenticated()){ //&& isset($_SERVER['PHP_AUTH_USER']) && $user->getAttribute('AUTH_USER') == $_SERVER['PHP_AUTH_USER'] && !isset($_GET['forcead'])) {
-      return $filterChain->execute();
+        return parent::execute($filterChain);
     }
 
     $ad = new acActiveDirectory();
@@ -30,7 +30,7 @@ class HttpAuth2ADSecurityFilter extends sfBasicSecurityFilter
       }
       $rights = $ad->getDescription($_SERVER['PHP_AUTH_USER']);
     }catch(Exception $e) {
-      if (!sfConfig::get('app_ad_basebn')) {          
+      if (!sfConfig::get('app_ad_basebn')) {    
           $rights = sfConfig::get('app_no_ad_rights', 'admin');
       }
     }
@@ -42,8 +42,7 @@ class HttpAuth2ADSecurityFilter extends sfBasicSecurityFilter
 
     $user->setAttribute('AUTH_DESC', $rights);
     $user->signInOrigin($this->getCompte($user->getAttribute('AUTH_USER'), $user->getAttribute('AUTH_DESC')));
-
-    $filterChain->execute();
+    parent::execute($filterChain);
   }
 
   public function getCompte($identifiant, $right) {

@@ -19,6 +19,10 @@ class globalActions extends sfActions {
             return $this->redirect('vrac');
         }
         
+        if ($this->getUser()->hasCredential('drm')) {
+            return $this->redirect('drm');
+        }
+        
         if ($this->getUser()->hasObservatoire() && !$this->getUser()->hasTeledeclarationVrac()) {
             $this->redirect(sfConfig::get('app_observatoire_url'));
         }

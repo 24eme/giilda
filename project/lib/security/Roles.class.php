@@ -7,7 +7,7 @@ class Roles
 
     const TRANSACTION = 'transactions';
     const CONTRAT = 'contrat';
-    const DRM = 'drm';
+    const DRM = 'drm';    
     const FACTURE = 'facture';
     const DREV = 'drev';
     const SV12 = 'sv12';
@@ -23,6 +23,8 @@ class Roles
     const DIRECTION = 'direction';
     const BUREAU = 'bureau';
     const AUTRE = 'autre';
+    
+    const ROLEDRM = 'DRM';
 
     const TELEDECLARATION = 'teledeclaration';
     const TELEDECLARATION_VRAC = 'teledeclaration_vrac';
@@ -48,6 +50,7 @@ class Roles
         self::DIRECTION => array(self::CONTACT),
         self::BUREAU => array(self::CONTACT),
         self::AUTRE => array(self::CONTACT),
+        self::ROLEDRM => array(self::DRM),
     );
 
     public static function getRoles($role) {

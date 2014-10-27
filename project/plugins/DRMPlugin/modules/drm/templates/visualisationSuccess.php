@@ -34,7 +34,7 @@
 		<?php include_partial('drm/recap', array('drm' => $drm)) ?>
 
         <h2>Mouvement</h2>
-		<?php include_partial('drm/mouvements', array('mouvements' => $mouvements, 'hamza_style' => true)) ?>
+		<?php include_partial('drm/mouvements', array('mouvements' => $mouvements, 'hamza_style' => true, 'no_link' => $no_link)) ?>
    <br/>
    <table class="table_recap">
    <tr><th>Commentaire</th></tr>

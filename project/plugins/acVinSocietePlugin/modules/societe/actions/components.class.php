@@ -10,6 +10,10 @@ class societeComponents extends sfComponents {
     }
 
     public function executeGetInterlocuteurs() {
+        $this->no_link = false;
+        if($this->getUser()->hasOnlyCredentialDRM()){
+             $this->no_link = true;
+        }
         $this->contacts = null;
         if(!isset($this->withSuspendus)) $this->withSuspendus = false;
         if ($this->getRoute() instanceof InterfaceEtablissementRoute) {
