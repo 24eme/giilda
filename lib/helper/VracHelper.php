@@ -399,7 +399,7 @@ function contrat_get_word($contrat) {
         Search::getWords($contrat[VracClient::VRAC_VIEW_MANDATAIRE_NOM]),
         Search::getWords($contrat[VracClient::VRAC_VIEW_NUMCONTRAT]),
         Search::getWords($contrat[VracClient::VRAC_VIEW_NUMARCHIVE]),
-        array(str_replace(' ', '_', $contrat[VracClient::VRAC_VIEW_PRODUIT_LIBELLE]))    
+        Search::getWords($contrat[VracClient::VRAC_VIEW_PRODUIT_LIBELLE])   
     );
 }
 
