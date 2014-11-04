@@ -18,8 +18,8 @@ class AnnuaireClient extends acCouchdbClient {
     );
 
     public static function getAnnuaireTypes() {
-            return self::$annuaire_types;
-        }
+        return self::$annuaire_types;
+    }
 
     public static function getTiersQualites() {
         return self::$tiers_qualites;
@@ -54,6 +54,29 @@ class AnnuaireClient extends acCouchdbClient {
 
     public function buildId($identifiant) {
         return self::ANNUAIRE_PREFIXE_ID . $identifiant;
+    }
+
+    public function findOrCreateAnnuaireWithSuspendu($identifiant) {
+        $annuaire = $this->findOrCreateAnnuaire($identifiant);
+        $annuaireWithSuspendu = new stdClass();
+        $annuaireWithSuspendu->recoltants = array();
+        foreach ($annuaire->recoltants as $key => $item) {
+            $isActif = (EtablissementClient::getInstance()->find($key, acCouchdbClient::HYDRATE_JSON)->statut == EtablissementClient::STATUT_ACTIF);
+            $localEtb = new stdClass();
+            $localEtb->isActif = $isActif;
+            $localEtb->name = $item;
+            $annuaireWithSuspendu->recoltants[$key] = $localEtb;
+        }
+        $annuaireWithSuspendu->negociants = array();
+        foreach ($annuaire->negociants as $key => $item) {
+            $isActif = (EtablissementClient::getInstance()->find($key, acCouchdbClient::HYDRATE_JSON)->statut == EtablissementClient::STATUT_ACTIF);
+            $localEtb = new stdClass();
+            $localEtb->isActif = $isActif;
+            $localEtb->name = $item;
+            $annuaireWithSuspendu->negociants[$key] = $localEtb;
+        }
+        $annuaireWithSuspendu->commerciaux = $annuaire->commerciaux;
+        return $annuaireWithSuspendu;
     }
 
     public function findSocieteByTypeAndTiers($type, $identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {

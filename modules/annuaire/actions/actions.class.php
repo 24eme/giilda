@@ -6,8 +6,8 @@ class annuaireActions extends sfActions {
         $this->cleanSessions();
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
-        $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($this->identifiant);
-
+        $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaireWithSuspendu($this->identifiant);
+        
         $this->initSocieteAndEtablissementPrincipal();
         $this->isAcheteurResponsable = $this->isAcheteurResponsable();
         $this->isCourtierResponsable = $this->isCourtierResponsable();
