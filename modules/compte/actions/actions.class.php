@@ -149,7 +149,7 @@ class compteActions extends sfCredentialActions {
 	  $doc->tags->manuel = json_decode(json_encode($doc->tags->manuel), true);
 	}
 	if ($remove && $doc->tags->manuel) {
-	  $doc->tags->manuel = array_diff($doc->tags->manuel, array($tag));
+	  $doc->tags->manuel = array_values(array_diff($doc->tags->manuel, array($tag)));
 	}else{
 	  $doc->tags->manuel = array_unique(array_merge($doc->tags->manuel, array($tag)));
 	}
