@@ -74,7 +74,7 @@ done
 
 # Récupération d'une correspondance libellés
 cat $TMP/export_bi_dss.csv | awk -F ";" ' { print $4";"$13 }' | sort -u -t ";" -k1,1 | grep -E '".*";".*"' | awk -F ";" ' { gsub("/","#",$1); print "s/;\\("$1"\\)/;\\1;"$2"/" }' | sed 's/#/\\\//g' > $TMP/sed_produit_libelle
-echo "s/;;\("\/declaration\/[^"]*"\);/;\1;;/" >> $TMP/sed_produit_libelle
+echo "s/;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_libelle
 
 
 # Transformation au format du fichier des Non-DRAs
