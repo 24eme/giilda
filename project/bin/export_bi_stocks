@@ -73,7 +73,9 @@ done
 # V - Mise en forme des données et ajout dans le fichiers stock
 
 # Récupération d'une correspondance libellés
-cat $TMP/export_bi_dss.csv | awk -F ";" ' { print $4";"$13 }' | sort -u -t ";" -k1,1 | grep -E '".*";".*"' | awk -F ";" ' { gsub("/","\/",$1); print "s/;\\("$1"\\)/;\\1;"$2"/" }' > $TMP/sed_produit_libelle
+cat $TMP/export_bi_dss.csv | awk -F ";" ' { print $4";"$13 }' | sort -u -t ";" -k1,1 | grep -E '".*";".*"' | awk -F ";" ' { gsub("/","#",$1); print "s/;\\("$1"\\)/;\\1;"$2"/" }' | sed 's/#/\\\//g' > $TMP/sed_produit_libelle
+echo "s/;;\("\/declaration\/[^"]*"\);/;\1;;/" >> $TMP/sed_produit_libelle
+
 
 # Transformation au format du fichier des Non-DRAs
 cat $TMP/export_bi_drm_stock_campagne_filtered_aout_without_coop.csv | awk -F ";" ' { print "DS;\""substr($6,1,4)-1"-"substr($6,1,4)"\";\""$4"\";;"$5";\"DRM-"$1"\";\""$8"\";;;;"$14 }' | sed -f $TMP/sed_produit_code | sed -f $TMP/sed_produit_libelle | sed 's/-M00//g' > $TMP/export_bi_drm_stock_1.csv
