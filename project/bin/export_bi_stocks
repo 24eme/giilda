@@ -90,3 +90,5 @@ cat $TMP/export_bi_drm_stock_2.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$7
 
 cat $TMP/export_bi_drm_final_for_non_dra.csv >> $TMP/export_bi_dss.csv
 cat $TMP/export_bi_drm_final_for_dra.csv >> $TMP/export_bi_dss.csv
+
+echo "FIN"
