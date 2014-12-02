@@ -2,7 +2,7 @@
 
 . bin/config.inc
 
-curl -s "http://$COUCHHOST:$COUCHPORT/_replicator/REPLICATION_TELEDECLARATION  | grep -v 'replication_state":"triggered' > $TMP/replicator
+curl -s "http://$COUCHHOST:$COUCHPORT/_replicator/REPLICATION_TELEDECLARATION"  | grep -v 'replication_state":"triggered' > $TMP/replicator
 
 
 if test -s $TMP/replicator ; then
