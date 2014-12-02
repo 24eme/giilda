@@ -60,7 +60,7 @@ EOF;
                 echo $droit . "|";
             }
 
-//            $compte->save(false, false, false, true);
+            $compte->save(false, false, false, true);
             echo " ###" . $compte->_id . "\n";
         }
     }
