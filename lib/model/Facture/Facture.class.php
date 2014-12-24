@@ -420,6 +420,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $this->total_ht += $ligne->montant_ht;
             }
         }
+
+        if(round($this->total_ht, 4) == 0) {
+            $this->total_ht = 0;
+        }
     }
 
     public function updateTotalTTC() {
