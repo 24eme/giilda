@@ -62,7 +62,6 @@ class AlerteClient extends acCouchdbClient {
         return array(self::STATUT_NOUVEAU => 'Nouveau',
                     self::STATUT_EN_ATTENTE_REPONSE => 'En attente de réponse',
                     self::STATUT_A_TRAITER => 'A traiter', 
-                    self::STATUT_RESOLU => 'Résolu',
                     self::STATUT_EN_SOMMEIL => 'En sommeil', 
                     self::STATUT_A_RELANCER => 'A relancer',
                     self::STATUT_FERME => 'Fermée');
