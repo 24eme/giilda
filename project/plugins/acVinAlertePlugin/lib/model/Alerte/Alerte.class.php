@@ -39,13 +39,19 @@ class Alerte extends BaseAlerte {
         $this->date_creation = $creation_date;
     }
 
+    public function buildFirstDateRelance() {
+        switch ($this->getTypeAlerte()) {
+            case AlerteClient::DRM_MANQUANTE :
+                $this->date_relance = Date::addDelaiToDate("+1 month", $this->getDateCreation());
+                break;
+
+            default:
+                break;
+        }
+    }
+
     public function open($date = null) {
-        $current_statut_closed = count($this->statuts) && $this->isClosed();
-        $this->updateStatut(AlerteClient::STATUT_NOUVEAU, 'Nouvelle alerte générée', $date);
-        if(!$current_statut_closed) return;
-        
-        $this->nb_relances = 0;
-        $this->date_relance = $this->getConfig()->getOptionDelaiDate('relance_delai', $date);
+        $this->updateStatut(AlerteClient::STATUT_NOUVEAU, 'Nouvelle alerte générée', $date);        
     }
 
     public function getLastDateARelance() {
@@ -69,10 +75,10 @@ class Alerte extends BaseAlerte {
                 $this->updateStatutRelance($date);
                 break;
             case AlerteClient::STATUT_EN_ATTENTE_REPONSE:
-                if($this->getConfig()->existsOption('enattente_date')){
+                if ($this->getConfig()->existsOption('enattente_date')) {
                     $this->date_relance = $this->getConfig()->getOptionDate('enattente_date');
                 }
-                if($this->getConfig()->existsOption('enattente_delai')){
+                if ($this->getConfig()->existsOption('enattente_delai')) {
                     $this->date_relance = $this->getConfig()->getOptionDelaiDate('enattente_delai', $date);
                 }
                 break;
@@ -80,7 +86,7 @@ class Alerte extends BaseAlerte {
     }
 
     protected function updateStatutRelance($date = null) {
-        if($this->getStatut() != AlerteClient::STATUT_A_RELANCER) {
+        if ($this->getStatut() != AlerteClient::STATUT_A_RELANCER) {
 
             return;
         }
@@ -93,23 +99,21 @@ class Alerte extends BaseAlerte {
             return;
         }
         $this->nb_relances++;
-        if($this->getConfig()->existsOption('enattente_date')){
+        if ($this->getConfig()->existsOption('enattente_date')) {
             $this->date_relance = $this->getConfig()->getOptionDate('enattente_date');
             return;
         }
-        if($this->getConfig()->existsOption('enattente_delai')){
+        if ($this->getConfig()->existsOption('enattente_delai')) {
             $this->date_relance = $this->getConfig()->getOptionDelaiDate('enattente_delai', $date);
             return;
         }
-
     }
-    
+
     public function getStatut() {
         return $this->statuts->getLast();
     }
 
     public function isOpen() {
-
         return !$this->isFinished();
     }
 
@@ -117,25 +121,29 @@ class Alerte extends BaseAlerte {
         return $this->getStatut()->statut == AlerteClient::STATUT_NOUVEAU;
     }
 
-    public function isFinished() {
+//    public function isFinished() {
+//
+//        return in_array($this->getStatut()->statut, array(AlerteClient::STATUT_FERME, AlerteClient::STATUT_RESOLU));
+//    }
 
-        return in_array($this->getStatut()->statut, array(AlerteClient::STATUT_FERME, AlerteClient::STATUT_RESOLU));
+    public function isEnSommeil() {
+        return $this->getStatut()->statut == AlerteClient::STATUT_EN_SOMMEIL;
     }
 
-    public function isClosed() {
+    public function isFerme() {
         return $this->getStatut()->statut == AlerteClient::STATUT_FERME;
     }
     
-    public function getLibelle(){
-        return AlerteClient::$alertes_libelles[$this->getTypeAlerte()].' ('.$this->libelle_document.')';
+    public function getLibelle() {
+        return AlerteClient::$alertes_libelles[$this->getTypeAlerte()] . ' (' . $this->libelle_document . ')';
     }
-    
-	protected function doSave() {
+
+    protected function doSave() {
         if ($statut = $this->getStatut()) {
-        	$this->statut_courant = $statut->statut;
+            $this->statut_courant = $statut->statut;
         }
     }
-    
+
 //    public function getLibelleForIdDocument() {
 //        if(substr($this->id_document, 0 ,5) == 'VRAC-')
 //                {
@@ -143,5 +151,4 @@ class Alerte extends BaseAlerte {
 //                }
 //                return '';
 //    }
-
 }

@@ -13,7 +13,7 @@ abstract class AlerteGenerationDRM extends AlerteGeneration {
 
     const TYPE_DOCUMENT = 'DRM';
     
-    protected function createOrFindByDRM($drm) {
+    protected function createOrFindByDRM($drm) {        
         $alerte = $this->createOrFind(DRMClient::getInstance()->buildId($drm->identifiant, $drm->periode));
         
         $alerte->identifiant = $drm->identifiant;
@@ -26,6 +26,24 @@ abstract class AlerteGenerationDRM extends AlerteGeneration {
 
     protected function storeDatasRelance(Alerte $alerte) {
         $alerte->libelle_document = DRMClient::getInstance()->getLibelleFromId($alerte->id_document);
+    }
+    
+    protected function getEtablissementsByTypeDR($type_dr) {
+        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR), null, -1);
+        $etablissements = array();
+        foreach ($etablissement_rows as $etablissement_row) {
+            $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);
+
+            if ($etablissement->type_dr != $type_dr) {
+                continue;
+            }
+            
+            if ($etablissement->exclusion_drm == EtablissementClient::EXCLUSION_DRM_OUI) {
+                continue;
+            }
+            $etablissements[] = $etablissement;
+        }
+        return $etablissements;
     }
    
 }

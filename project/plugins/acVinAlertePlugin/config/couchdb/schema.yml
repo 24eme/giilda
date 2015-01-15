@@ -8,7 +8,7 @@ Alerte:
       type_alerte: { }
       date_creation: { }
       date_relance: { }
-      nb_relances: { type: integer }
+      date_relance_ar: { }
       id_document: { }
       declarant_nom: { }
       identifiant: { }
@@ -30,18 +30,6 @@ Alerte:
                   date: { }
                   statut: { }
                   commentaire: { }                  
-AlerteGenerationSequences:
-  definition:
-    fields:
-      _id: { }
-      _rev: { }
-      type: { }
-      type_alerte: { }
-      revisions:
-        type: array_collection
-        definition:
-          fields:
-            '*': { type: integer }
 AlerteDate:
   definition:
     fields:

@@ -13,17 +13,17 @@ class AlertesGenerationTask extends sfBaseTask
 			    new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
 			    new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
 			    new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
-      // add your own options here
+                            new sfCommandOption('import', null, sfCommandOption::PARAMETER_OPTIONAL, 'import', 0),     
     ));
 
     $this->namespace        = 'generate';
-    $this->name             = 'alertes';
+    $this->name             = 'alertes_creations';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
 The [generateAlertes|INFO] task does things.
 Call it with:
 
-  [php symfony generatePDF|INFO]
+  [php symfony generate:alertes_creations typeAlerte1 typeAlerte2 ... --import="1"|INFO]
 EOF;
   }
   
@@ -34,15 +34,16 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     $context = sfContext::createInstance($this->configuration);
     $container = new AlerteGenerationsContainer();
-
+    $import = (isset($options['import']) && $options['import']);
+    
     if(count($arguments['alertes']) > 0) {
       foreach($arguments['alertes'] as $name) {
         $container->add($name);
       }
     } else {
       $container->addAll();
-    }
+    }   
     
-    $container->execute();
+    $container->executeCreations($import);
   }
 }

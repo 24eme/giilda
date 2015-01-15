@@ -37,14 +37,13 @@ class AlerteClient extends acCouchdbClient {
     const STATUT_FERME = 'FERME';  
     const STATUT_EN_SOMMEIL = 'EN_SOMMEIL';
     const STATUT_A_RELANCER = 'A_RELANCER';
-    const STATUT_RESOLU = 'RESOLU';
 
     const MESSAGE_AUTO_FERME = "Changement automatique au statut fermé";
     const MESSAGE_AUTO_RELANCE = "Changement automatique au statut en attente, le pdf a été généré";
     
     public static $statutsOpen =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_EN_SOMMEIL,self::STATUT_A_RELANCER);
     public static $statutsRelancable =    array(self::STATUT_NOUVEAU,self::STATUT_EN_ATTENTE_REPONSE,self::STATUT_A_TRAITER,self::STATUT_A_RELANCER);
-    public static $statutsClosed =    array(self::STATUT_FERME);
+   
     
     public static function getInstance() {
         
