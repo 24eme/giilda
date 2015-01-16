@@ -18,7 +18,9 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
 
     public function creations($import = false) {
         $periodes = $this->getPeriodes($import);
+        echo "periodes définies\n";
         $etablissements = $this->getEtablissementsByTypeDR(EtablissementClient::TYPE_DR_DRM);
+        echo "etablissements définies\n";
 
         foreach ($etablissements as $etablissement) {
             foreach ($periodes as $periode) {
@@ -30,8 +32,9 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                 $alerte = $this->createOrFindByDRM($this->buildDRMManquante($etablissement, $periode));
                 $alerte->type_relance = $this->getTypeRelance();
                 if ($alerte->isNew() || $alerte->isFerme()) {
-                     $alerte->open($this->getDate());
-                     $alerte->save();
+                    $alerte->open($this->getDate());
+                    $alerte->save();
+                    echo "NOUVELLE ALERTE CREEE " . $alerte->_id . "\n";
                 }
             }
         }
@@ -40,19 +43,33 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
     public function updates() {
         foreach ($this->getAlertesOpen() as $alerteView) {
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
+
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
             $drm = DRMClient::getInstance()->find($id_document, acCouchdbClient::HYDRATE_JSON);
-            if (!$drm) {
+            if ($drm) {
+                // PASSAGE AU STATUT FERME
+                $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
+                $alerte->save();
+                echo "L'ALERTE " . $alerte->_id . " passe au statut fermé\n";
+            } elseif ($alerte->isRelancable()) {
+                // PASSAGE AU STATUT A_RELANCER
                 $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
                 if ($relance) {
-                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, $this->getDate());
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, AlerteClient::MESSAGE_AUTO_RELANCE, $this->getDate());
                     $alerte->save();
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut a relancer\n";
                 }
-                continue;
+            } elseif ($alerte->isRelancableAR()) {
+                // PASSAGE AU STATUT A_RELANCER_AR
+                $relanceAr = Date::supEqual($this->getDate(), $alerte->date_relance_ar);
+                if ($relanceAr) {
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());
+                    $alerte->save();
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut a relancer ar\n";
+                }
+            } else {
+                echo "L'ALERTE " . $alerte->_id . " ne change pas de statut\n";
             }
-
-            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
-            $alerte->save();
         }
     }
 
@@ -133,8 +150,8 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         $this->creations($import);
     }
 
-    public function executeUpdates() {
-        var_dump("j'update");
+    public function executeUpdates($import = false) {
+        $this->updates($import);
     }
 
 }

@@ -50,18 +50,16 @@ class Alerte extends BaseAlerte {
         }
     }
 
-    public function open($date = null) {
-        $this->updateStatut(AlerteClient::STATUT_NOUVEAU, 'Nouvelle alerte générée', $date);        
+    public function isRelancable() {
+        return $this->isStatutNouveau();
     }
 
-    public function getLastDateARelance() {
-        $cpt = count($this->statuts) - 1;
-        while ($cpt) {
-            if ($this->statuts[$cpt]->statut == AlerteClient::STATUT_ARELANCER)
-                return $this->statuts[$cpt]->date;
-            $cpt--;
-        }
-        return null;
+    public function isRelancableAR() {
+        return $this->isStatutEnAttenteReponse();
+    }
+
+    public function open($date = null) {
+        $this->updateStatut(AlerteClient::STATUT_NOUVEAU, 'Nouvelle alerte générée', $date);
     }
 
     public function updateStatut($statut, $commentaire = null, $date = null) {
@@ -70,43 +68,6 @@ class Alerte extends BaseAlerte {
         }
         $this->statuts->add(null, array('statut' => $statut, 'commentaire' => $commentaire, 'date' => $date));
         $this->add('date_dernier_statut', $date);
-        switch ($statut) {
-            case AlerteClient::STATUT_A_RELANCER:
-                $this->updateStatutRelance($date);
-                break;
-            case AlerteClient::STATUT_EN_ATTENTE_REPONSE:
-                if ($this->getConfig()->existsOption('enattente_date')) {
-                    $this->date_relance = $this->getConfig()->getOptionDate('enattente_date');
-                }
-                if ($this->getConfig()->existsOption('enattente_delai')) {
-                    $this->date_relance = $this->getConfig()->getOptionDelaiDate('enattente_delai', $date);
-                }
-                break;
-        }
-    }
-
-    protected function updateStatutRelance($date = null) {
-        if ($this->getStatut() != AlerteClient::STATUT_A_RELANCER) {
-
-            return;
-        }
-
-        if (is_null($date)) {
-            $date = date('Y-m-d');
-        }
-        if ($this->nb_relances >= $this->getConfig()->getOption('nb_relance')) {
-            $this->updateStatut(AlerteClient::STATUT_EN_SOMMEIL, 'Alerte en sommeil', $date);
-            return;
-        }
-        $this->nb_relances++;
-        if ($this->getConfig()->existsOption('enattente_date')) {
-            $this->date_relance = $this->getConfig()->getOptionDate('enattente_date');
-            return;
-        }
-        if ($this->getConfig()->existsOption('enattente_delai')) {
-            $this->date_relance = $this->getConfig()->getOptionDelaiDate('enattente_delai', $date);
-            return;
-        }
     }
 
     public function getStatut() {
@@ -121,10 +82,9 @@ class Alerte extends BaseAlerte {
         return $this->getStatut()->statut == AlerteClient::STATUT_NOUVEAU;
     }
 
-//    public function isFinished() {
-//
-//        return in_array($this->getStatut()->statut, array(AlerteClient::STATUT_FERME, AlerteClient::STATUT_RESOLU));
-//    }
+    public function isStatutEnAttenteReponse() {
+        return $this->getStatut()->statut == AlerteClient::STATUT_EN_ATTENTE_REPONSE;
+    }
 
     public function isEnSommeil() {
         return $this->getStatut()->statut == AlerteClient::STATUT_EN_SOMMEIL;
@@ -133,7 +93,7 @@ class Alerte extends BaseAlerte {
     public function isFerme() {
         return $this->getStatut()->statut == AlerteClient::STATUT_FERME;
     }
-    
+
     public function getLibelle() {
         return AlerteClient::$alertes_libelles[$this->getTypeAlerte()] . ' (' . $this->libelle_document . ')';
     }
@@ -144,11 +104,4 @@ class Alerte extends BaseAlerte {
         }
     }
 
-//    public function getLibelleForIdDocument() {
-//        if(substr($this->id_document, 0 ,5) == 'VRAC-')
-//                {
-//            return 'Contrat N° '.VracClient::getInstance()->getLibelleContratNum(str_replace('VRAC-', '', $alerte->id_document));
-//                }
-//                return '';
-//    }
 }
