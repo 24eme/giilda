@@ -4,6 +4,7 @@ class RelanceClient extends acCouchdbClient {
     
     
     const TYPE_RELANCE_DRM_MANQUANTE = 'DRM_MANQUANTE';
+    const TYPE_RELANCE_DRA_MANQUANTE = 'DRA_MANQUANTE';
     
     public static function getInstance() {
 
