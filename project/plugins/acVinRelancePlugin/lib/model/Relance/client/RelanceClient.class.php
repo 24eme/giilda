@@ -78,7 +78,7 @@ class RelanceClient extends acCouchdbClient {
     }
     
     private function getRelanceTypeFromId($relanceGenId){
-        if(preg_match('/^RELANCE-([0-9]{8})-([A-Z]+)-([0-9]{10})$/', $relanceGenId, $id)){
+        if(preg_match('/^RELANCE-([0-9]{8})-([_A-Z]+)-([0-9]{10})$/', $relanceGenId, $id)){
             $type = $id[2];
         }
         if(!in_array($type, array_keys(self::$relances_types_libelles)))

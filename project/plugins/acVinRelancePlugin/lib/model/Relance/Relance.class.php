@@ -82,7 +82,7 @@ class Relance extends BaseRelance  {
         }
         
         foreach ($this->origines as $alerte_id) {
-            AlerteClient::getInstance()->updateStatutByAlerteId(AlerteClient::STATUT_EN_ATTENTE_REPONSE,AlerteClient::MESSAGE_AUTO_RELANCE,$alerte_id);
+            AlerteClient::getInstance()->updateStatutByAlerteId(AlerteClient::STATUT_EN_ATTENTE_GENERATION_RELANCE,AlerteClient::MESSAGE_AUTO_RELANCE,$alerte_id);
         }
     }         
     
