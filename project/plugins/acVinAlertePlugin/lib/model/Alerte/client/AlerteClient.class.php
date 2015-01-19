@@ -2,33 +2,35 @@
 
 class AlerteClient extends acCouchdbClient {
 
-    const VRAC_NON_SOLDES = "VRAC_NON_SOLDE";
-    const VRAC_PRIX_DEFINITIFS = "VRAC_PRIX_DEFINITIFS";
-    const VRAC_ATTENTE_ORIGINAL = "VRAC_ATTENTE_ORIGINAL";
     const DRM_MANQUANTE = "DRM_MANQUANTE";
     const DRA_MANQUANTE = "DRA_MANQUANTE";
-    const DRM_STOCK_NEGATIF = "DRM_STOCK_NEGATIF";
-    const VRAC_SANS_SV12 = "VRAC_SANS_SV12";
-    const SV12_MANQUANTE = "SV12_MANQUANTE";
-    const DS_NON_VALIDEE = "DS_NON_VALIDEE";
-    const ECART_DS_DRM_JUILLET = "ECART_DS_DRM_JUILLET";
-    const ECART_DS_DRM_AOUT = "ECART_DS_DRM_AOUT";
-    const ECART_DREV_DRM = "ECART_DREV_DRM";
-    const ECART_DS_VISU_STOCK = "ECART_DS_VISU_STOCK";
+//    const VRAC_NON_SOLDES = "VRAC_NON_SOLDE";
+//    const VRAC_PRIX_DEFINITIFS = "VRAC_PRIX_DEFINITIFS";
+//    const VRAC_ATTENTE_ORIGINAL = "VRAC_ATTENTE_ORIGINAL";
+//    const DRM_STOCK_NEGATIF = "DRM_STOCK_NEGATIF";
+//    const VRAC_SANS_SV12 = "VRAC_SANS_SV12";
+//    const SV12_MANQUANTE = "SV12_MANQUANTE";
+//    const DS_NON_VALIDEE = "DS_NON_VALIDEE";
+//    const ECART_DS_DRM_JUILLET = "ECART_DS_DRM_JUILLET";
+//    const ECART_DS_DRM_AOUT = "ECART_DS_DRM_AOUT";
+//    const ECART_DREV_DRM = "ECART_DREV_DRM";
+//    const ECART_DS_VISU_STOCK = "ECART_DS_VISU_STOCK";
 
-    public static $alertes_libelles = array(self::VRAC_NON_SOLDES => "Contrat non soldé",
-        self::VRAC_PRIX_DEFINITIFS => "Contrat avec prix définitif non fixé",
-        self::VRAC_ATTENTE_ORIGINAL => "Contrat en attente de l'original",
+    public static $alertes_libelles = array(
         self::DRM_MANQUANTE => 'DRM absente',
         self::DRA_MANQUANTE => 'DRA absente',
-        self::DRM_STOCK_NEGATIF => 'DRM avec un stock négatif',
-        self::VRAC_SANS_SV12 => 'Contrats de raisins et de moûts sans SV12',
-        self::SV12_MANQUANTE => 'SV12 absente',
-        self::DS_NON_VALIDEE => 'DS non validée intégralement',
-        self::ECART_DS_DRM_JUILLET => 'Ecart entre ds et drm de juillet',
-        self::ECART_DS_DRM_AOUT => 'Ecart entre ds et drm d\'aout',
-        self::ECART_DREV_DRM => 'Ecart entre la déclaration de revendication et dernière drm',
-        self::ECART_DS_VISU_STOCK => "Ecart entre la DS et la visu Stock");
+//        self::VRAC_NON_SOLDES => "Contrat non soldé",
+//        self::VRAC_PRIX_DEFINITIFS => "Contrat avec prix définitif non fixé",
+//        self::VRAC_ATTENTE_ORIGINAL => "Contrat en attente de l'original",
+//        self::DRM_STOCK_NEGATIF => 'DRM avec un stock négatif',
+//        self::VRAC_SANS_SV12 => 'Contrats de raisins et de moûts sans SV12',
+//        self::SV12_MANQUANTE => 'SV12 absente',
+//        self::DS_NON_VALIDEE => 'DS non validée intégralement',
+//        self::ECART_DS_DRM_JUILLET => 'Ecart entre ds et drm de juillet',
+//        self::ECART_DS_DRM_AOUT => 'Ecart entre ds et drm d\'aout',
+//        self::ECART_DREV_DRM => 'Ecart entre la déclaration de revendication et dernière drm',
+//        self::ECART_DS_VISU_STOCK => "Ecart entre la DS et la visu Stock"
+            );
 
     const STATUT_NOUVEAU = 'NOUVEAU';
     const STATUT_A_RELANCER = 'A_RELANCER';

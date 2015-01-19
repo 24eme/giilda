@@ -7,7 +7,7 @@ use_helper('Float');
     <?php
     if (count($generations) == 0):
         ?>
-        Aucune génération de facture
+        Aucune génération de relances
         <?php
     else :
         ?>

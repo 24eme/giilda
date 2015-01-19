@@ -36,11 +36,12 @@ abstract class AlerteGenerationDRM extends AlerteGeneration {
 
             if ($etablissement->type_dr != $type_dr) {
                 continue;
+                if (($type_dr == EtablissementClient::TYPE_DR_DRM)
+                        && ($etablissement->exclusion_drm == EtablissementClient::EXCLUSION_DRM_OUI)) {
+                    continue;
+                }
             }
             
-            if ($etablissement->exclusion_drm == EtablissementClient::EXCLUSION_DRM_OUI) {
-                continue;
-            }
             $etablissements[] = $etablissement;
         }
         return $etablissements;

@@ -11,8 +11,8 @@ class RelanceClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Relance");
     }
 
-    public static $relances_types_libelles = array(self::TYPE_RELANCE_ECART => "Relance d'écart", 
-                                                    self::TYPE_RELANCE_DECLARATIVE => "Relance déclarative");
+    public static $relances_types_libelles = array(self::TYPE_RELANCE_DRM_MANQUANTE => "DRM manquante(s)", 
+                                                    self::TYPE_RELANCE_DRA_MANQUANTE => "DRA manquante");
 
 
     public function buildId($idEtb, $typeRelance, $date) {

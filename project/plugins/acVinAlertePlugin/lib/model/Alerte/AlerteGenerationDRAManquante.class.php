@@ -18,31 +18,33 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
 
     public function creations($import = false) {
         echo "campagnes définies\n";
-        $campagnes = $this->getCampagnes($import);
-        if(!count($campagnes)){
+        $campagne_periode_arr = $this->getPeriodesByCampagnes($import);
+        if(!count($campagne_periode_arr)){
             echo "Aucune Alertes DRA Manquantes à ouvrir\n";
             return;
         }
-        $campagne_periode_arr = $this->getPeriodesByCampagnes();
         
         $etablissements = $this->getEtablissementsByTypeDR(EtablissementClient::TYPE_DR_DRA);
         echo "etablissements définies\n";
-        var_dump($etablissements); exit;
+        
         foreach ($etablissements as $etablissement) {
             
-            foreach ($campagne_periode_arr as $campagne_periode) {
-                var_dump($campagne_periode); exit;
-                $drm = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($etablissement->identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
-
-                if ($drm) {
+            foreach ($campagne_periode_arr as $campagne => $campagne_periode) {
+                sleep(0.1);
+                $dra = $this->isDraInCampagneArray($etablissement->identifiant, $campagne_periode);
+                if ($dra) {                   
                     continue;
                 }
-                $alerte = $this->createOrFindByDRM($this->buildDRMManquante($etablissement, $periode));
+                $alerte = $this->createOrFindByDRM($this->buildDRAManquante($etablissement, $campagne));
+                
                 $alerte->type_relance = $this->getTypeRelance();
                 if ($alerte->isNew() || $alerte->isFerme()) {
                     $alerte->open($this->getDate());
-                    $alerte->save();
                     echo "NOUVELLE ALERTE CREEE " . $alerte->_id . "\n";
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, AlerteClient::MESSAGE_AUTO_RELANCE, $this->getDate());
+                    $alerte->save();
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer\n";
+                    $alerte->save();
                 }
             }
         }
@@ -123,10 +125,12 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
     }
 
     public function isDraInCampagneArray($identifiant, $periodes_by_campagne) {
-        foreach ($periodes_by_campagne as $periode) {
-            $drm = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
-            if ($drm) {
-                return true;
+        foreach ($periodes_by_campagne as $periodes) {
+            foreach ($periodes as $periode) {
+                $drm = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
+                if ($drm) {
+                    return true;
+                }
             }
         }
         return false;
@@ -136,8 +140,8 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         
     }
 
-    protected function getPeriodesByCampagnes() {
-        $campagnes = $this->getCampagnes();
+    protected function getPeriodesByCampagnes($import = false) {
+        $campagnes = $this->getCampagnes($import);
         $periodes_by_campagnes = array();
         foreach ($campagnes as $campagne) {
             $periodes_by_campagnes[$campagne] = $this->getPeriodesByCampagne($campagne);

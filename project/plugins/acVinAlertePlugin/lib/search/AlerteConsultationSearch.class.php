@@ -65,11 +65,9 @@ class AlerteConsultationSearch
     	$elasticaQuery = new acElasticaQuery();   
     	$elasticaQuery->setQuery($query);
         $elasticaQuery->setFrom($from);
-        $elasticaQuery->setLimit(1);
-        if(count($this->getResult($elasticaQuery)) > 1){
         $elasticaQuery->setsort(array("date_dernier_statut" => array("order" => "desc")));
         $elasticaQuery->setLimit($limit);
-        }
+        
       	return $elasticaQuery;
     }
     

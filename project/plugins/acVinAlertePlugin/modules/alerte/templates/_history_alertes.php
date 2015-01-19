@@ -32,16 +32,17 @@
 			</tr>
 		</thead>
 		<tbody>
-				<?php foreach ($alertesHistorique as $a) :
+				<?php 
+                                foreach ($alertesHistorique as $a) :
 				$alerte = $a->getData()->getRawValue();
 				$derniereAlerte = array_pop($alerte['statuts']);
                                 $document_link = link_to($alerte['libelle_document'], 'redirect_visualisation', array('id_doc' => $alerte['id_document']));
                                 if(($alerte['type_alerte'] == AlerteClient::DRM_MANQUANTE) || ($alerte['type_alerte'] == AlerteClient::DRA_MANQUANTE)){
                                    $document_link = link_to($alerte['libelle_document'], 'drm_etablissement', array('identifiant' => $alerte['identifiant'], 'campagne' => $alerte['campagne'])); 
                                 }
-                                if($alerte['type_alerte'] == AlerteClient::SV12_MANQUANTE){
-                                   $document_link = link_to($alerte['libelle_document'], 'sv12_etablissement', array('identifiant' => $alerte['identifiant'])); 
-                               }
+//                                if($alerte['type_alerte'] == AlerteClient::SV12_MANQUANTE){
+//                                   $document_link = link_to($alerte['libelle_document'], 'sv12_etablissement', array('identifiant' => $alerte['identifiant'])); 
+//                               }
 			?>   
 			<tr>
 				<td class="selecteur">

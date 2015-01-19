@@ -8,7 +8,6 @@
  * @property string $_rev
  * @property string $type
  * @property string $date
- * @property string $debug
 
  * @method string get_id()
  * @method string set_id()
@@ -18,8 +17,6 @@
  * @method string setType()
  * @method string getDate()
  * @method string setDate()
- * @method string getDebug()
- * @method string setDebug()
  
  */
  

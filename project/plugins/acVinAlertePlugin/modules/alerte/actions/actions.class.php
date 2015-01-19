@@ -11,7 +11,9 @@ class alerteActions extends sfActions {
         
         $this->form = new AlertesConsultationForm();
         $this->dateAlerte = AlerteDateClient::getInstance()->find(AlerteDateClient::getInstance()->buildId());
-        if(!$this->dateAlerte) $this->dateAlerte = new AlerteDate();
+        if(!$this->dateAlerte){
+            $this->dateAlerte = new AlerteDate();
+        }
         $this->dateForm  = new AlertesDateForm($this->dateAlerte);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->dateForm->bind($request->getParameter($this->dateForm->getName()));

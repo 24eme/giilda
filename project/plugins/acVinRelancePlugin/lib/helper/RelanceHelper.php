@@ -57,11 +57,11 @@ function getTableFormatVerification($verification){
 
 function echoTypeRelance($type){
     switch ($type) {
-        case RelanceClient::TYPE_RELANCE_DECLARATIVE:
-            echo 'Vérification déclarative';
+        case RelanceClient::TYPE_RELANCE_DRM_MANQUANTE:
+            echo 'DRM Manquante';
             break;
-        case RelanceClient::TYPE_RELANCE_ECART:
-            echo 'Vérification écart';
+        case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE:
+            echo 'DRA Manquante';
             break;
 
         default:
@@ -71,10 +71,10 @@ function echoTypeRelance($type){
 
 function echoIntroRelance($type){
    switch ($type) {
-        case RelanceClient::TYPE_RELANCE_DECLARATIVE:
-            echo 'Après étude de votre compte, sauf erreur de notre part, il apparaît que nous sommes en attente de certains éléments de votre part selon le détail suivant :';
+        case RelanceClient::TYPE_RELANCE_DRM_MANQUANTE:
+            echo 'Après étude de votre compte, sauf erreur de notre part, il apparaît que nous sommes en attente des DRM suivantes :';
             break;
-        case RelanceClient::TYPE_RELANCE_ECART:
+        case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE:
             echo 'Après étude de votre compte, sauf erreur de notre part, nous constatons des écarts de volumes entre différents éléments et nous souhaiterions pouvoir les rectifier :';
             break;
 

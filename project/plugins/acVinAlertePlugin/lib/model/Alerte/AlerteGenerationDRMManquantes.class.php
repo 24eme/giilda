@@ -23,10 +23,12 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         echo "etablissements définies\n";
 
         foreach ($etablissements as $etablissement) {
+            
             foreach ($periodes as $periode) {
-                $drm = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($etablissement->identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
-
-                if ($drm) {
+                sleep(0.1);
+                $drm_id = DRMClient::getInstance()->buildId($etablissement->identifiant, $periode);               
+                $drm = DRMClient::getInstance()->find($drm_id, acCouchdbClient::HYDRATE_JSON);
+                if ($drm) {                   
                     continue;
                 }
                 $alerte = $this->createOrFindByDRM($this->buildDRMManquante($etablissement, $periode));
@@ -42,6 +44,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
 
     public function updates() {
         foreach ($this->getAlertesOpen() as $alerteView) {
+            sleep(0.1);
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
 
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
@@ -57,7 +60,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                 if ($relance) {
                     $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, AlerteClient::MESSAGE_AUTO_RELANCE, $this->getDate());
                     $alerte->save();
-                    echo "L'ALERTE " . $alerte->_id . " passe au statut a relancer\n";
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer\n";
                 }
             } elseif ($alerte->isRelancableAR()) {
                 // PASSAGE AU STATUT A_RELANCER_AR
@@ -65,7 +68,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                 if ($relanceAr) {
                     $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());
                     $alerte->save();
-                    echo "L'ALERTE " . $alerte->_id . " passe au statut a relancer ar\n";
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
                 }
             } else {
                 echo "L'ALERTE " . $alerte->_id . " ne change pas de statut\n";
@@ -75,7 +78,6 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
 
     protected function getPeriodes($import = false) {
         $campagnes = $this->getCampagnes($import);
-
         $present_periode = ConfigurationClient::getInstance()->buildPeriodeFromDate($this->getDate());
 
         $periode_debut = ConfigurationClient::getInstance()->getPeriodeDebut($campagnes[0]);

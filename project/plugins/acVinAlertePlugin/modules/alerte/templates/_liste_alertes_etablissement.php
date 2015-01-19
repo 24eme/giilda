@@ -28,9 +28,9 @@
                         if(($alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE] == AlerteClient::DRM_MANQUANTE) || ($alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE] == AlerteClient::DRA_MANQUANTE)){
                                        $document_link = link_to($alerte->value[AlerteRechercheView::VALUE_LIBELLE_DOCUMENT], 'drm_etablissement', array('identifiant' => $alerte->key[AlerteRechercheView::KEY_IDENTIFIANT_ETB], 'campagne' => $alerte->key[AlerteRechercheView::KEY_CAMPAGNE])); 
                                     }
-                                    if($alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE] == AlerteClient::SV12_MANQUANTE){
-                                       $document_link = link_to($alerte->value[AlerteRechercheView::VALUE_LIBELLE_DOCUMENT], 'sv12_etablissement', array('identifiant' => $alerte->key[AlerteRechercheView::KEY_IDENTIFIANT_ETB])); 
-                                   }    
+//                                    if($alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE] == AlerteClient::SV12_MANQUANTE){
+//                                       $document_link = link_to($alerte->value[AlerteRechercheView::VALUE_LIBELLE_DOCUMENT], 'sv12_etablissement', array('identifiant' => $alerte->key[AlerteRechercheView::KEY_IDENTIFIANT_ETB])); 
+//                                   }    
                         
                     ?>   
                         <tr>
