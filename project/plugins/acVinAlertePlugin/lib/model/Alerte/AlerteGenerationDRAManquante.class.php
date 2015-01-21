@@ -51,13 +51,12 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
     }
 
     public function updates() {
-        
         foreach ($this->getAlertesOpen() as $alerteView) {
             sleep(0.1);
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
 
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
-            $dra = $this->findOneDRAForFirstDRM($id_document);
+            $dra = $this->findOneDRAForFirstDRM($id_document);          
             if ($dra) {
                 // PASSAGE AU STATUT FERME
                 $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
@@ -148,7 +147,7 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         preg_match('/^DRM-([0-9]{8})-([0-9]{4})([0-9]{2})/', $drm_id,$result);
         $identifiant = $result[1];
         $annee = $result[2];
-        $mois = $result[2];
+        $mois = $result[3];
         for ($i = $mois; $i <= "12"; $i++) {
             $periode = $annee.sprintf("%02d",$i);
             $dra = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
@@ -156,8 +155,8 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
                 return $dra;
             }
         }
-        for ($i = "01"; $i <= "08"; $i++) {
-            $periode = $annee.sprintf("%02d",$i);
+        for ($i = "01"; $i <= "07"; $i++) {
+            $periode = ($annee+1).sprintf("%02d",$i);
             $dra = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
             if($dra){
                 return $dra;
@@ -202,8 +201,8 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         $this->creations($import);
     }
 
-    public function executeUpdates($import = false) {
-        
+    public function executeUpdates() {
+        $this->updates();
     }
 
 }

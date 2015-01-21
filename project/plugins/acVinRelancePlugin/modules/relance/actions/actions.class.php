@@ -31,7 +31,7 @@ class relanceActions extends sfActions {
     
     
    public function executeLatex(sfWebRequest $request) {
-        $this->relance = $this->getRoute()->getRelance();
+        $this->relance = RelanceClient::getInstance()->find($request->getParameter('idrelance'));
         $this->forward404Unless($this->relance);
 	$latex = new RelanceLatex($this->relance);
 	$latex->echoWithHTTPHeader($request->getParameter('type'));

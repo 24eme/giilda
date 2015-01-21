@@ -27,7 +27,7 @@ if(count($relances->getRawValue())==0) :
                 <tr>
                     <td><?php 
                         $d = format_date($relance->key[RelanceEtablissementView::KEY_DATE_CREATION],'dd/MM/yyyy');
-                        echo link_to($d, array('sf_route' => 'relance_pdf', 'idrelance' => preg_replace('/RELANCE-/', '',$relance->id))); ?>
+                        echo link_to($d, array('sf_route' => 'relance_pdf', 'idrelance' => $relance->id)); ?>
                     </td>
                     <td><?php echo $relance->key[RelanceEtablissementView::KEY_REFERENCE]; ?></td>
                     <td><?php echoTypeRelance($relance->key[RelanceEtablissementView::KEY_TYPE_RELANCE]); ?></td>

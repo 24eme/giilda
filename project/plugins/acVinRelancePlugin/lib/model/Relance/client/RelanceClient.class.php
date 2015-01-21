@@ -12,7 +12,7 @@ class RelanceClient extends acCouchdbClient {
     }
 
     public static $relances_types_libelles = array(self::TYPE_RELANCE_DRM_MANQUANTE => "DRM manquante(s)", 
-                                                    self::TYPE_RELANCE_DRA_MANQUANTE => "DRA manquante");
+                                                    self::TYPE_RELANCE_DRA_MANQUANTE => "DRA manquante(s)");
 
 
     public function buildId($idEtb, $typeRelance, $date) {
@@ -25,6 +25,7 @@ class RelanceClient extends acCouchdbClient {
     }
     
     public function createDoc($relance_type, $alertes, $etablissement, $date_relance = null) {
+        
         $relance = new Relance();
         $relance->storeDatesCampagne($date_relance);
         $relance->constructIds($relance_type,$etablissement);        

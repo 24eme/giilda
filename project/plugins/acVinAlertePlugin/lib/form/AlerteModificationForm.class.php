@@ -15,7 +15,7 @@ class AlerteModificationForm extends acCouchdbObjectForm {
         $this->setWidget('statut', new sfWidgetFormChoice(array('choices' => $this->getStatutsAlerte(), 'expanded' => false)));
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
-        // $this->widgetSchema->setLabel('statut','Statut');
+        $this->widgetSchema->setLabel('statut','Statut');
         $this->widgetSchema->setLabel('commentaire', 'Commentaire :');
 
         $this->setValidator('statut', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatutsAlerte()))));
@@ -29,7 +29,7 @@ class AlerteModificationForm extends acCouchdbObjectForm {
     }
     
     public function doUpdate() {
-        $this->getObject()->updateStatut(AlerteClient::STATUT_EN_SOMMEIL,  $this->values['commentaire'], AlerteDateClient::getInstance()->getDate());
+        $this->getObject()->updateStatut($this->values['statut'],  $this->values['commentaire'], AlerteDateClient::getInstance()->getDate());
         $this->getObject()->save();
     }
 
