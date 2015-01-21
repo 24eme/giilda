@@ -1,59 +1,24 @@
+#!/bin/bash
+
 . bin/config.inc
-
-echo "Suppression des alertes, generations et relances";
-bash bin/delete_from_view.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/alerte/_view/history
-bash bin/delete_from_view.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/generation/_view/history?startkey=%5b%22RELANCE%22%5d&endlkey=%5b%22RELANCE%22,%5b%5d%5d
-bash bin/delete_from_view.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/relance/_view/etablissement
+. bin/import_functions.inc
 
 
-echo "Suppression des documents de séquence d'alerte";
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-VRAC_NON_SOLDE
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-DRM_STOCK_NEGATIF
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-VRAC_PRIX_DEFINITIFS
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-VRAC_ATTENTE_ORIGINAL
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-DRM_MANQUANTE
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-DRA_MANQUANTE
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-SV12_MANQUANTE
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-VRAC_SANS_SV12
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-DS_NON_VALIDEE
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-ECART_DS_DRM_JUILLET
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-ECART_DS_DRM_AOUT
-bash bin/delete_from_object.sh http://$COUCHHOST:$COUCHPORT/$COUCHBASE/ALERTEGENERATIONSEQUENCES-ECART_DREV_DRM
+if ! test "$1"; then
+    echo "Le paramètre d'import doit être indiqué";  
+    exit 1;  
+fi
 
+IMPORT=$1
 
-#echo "génération des alertes VRAC_NON_SOLDE";
-#php symfony generate:alertes VRAC_NON_SOLDE
+echo "Lancement de la creation des alertes"
 
-#echo "génération des alertes DRM_STOCK_NEGATIF";
-#php symfony generate:alertes DRM_STOCK_NEGATIF
+php symfony generate:alertes_creations --import=$IMPORT
 
-#echo "génération des alertes VRAC_PRIX_DEFINITIFS";
-#php symfony generate:alertes VRAC_PRIX_DEFINITIFS
+echo "FIN de la creation des alertes"
+echo ""
+echo "Lancement de la mise à jour des alertes"
 
-#echo "génération des alertes VRAC_ATTENTE_ORIGINAL";
-#php symfony generate:alertes VRAC_ATTENTE_ORIGINAL
+php symfony generate:alertes_updates --import=$IMPORT
 
-#echo "génération des alertes DRM_MANQUANTE";
-#php symfony generate:alertes DRM_MANQUANTE
-
-#echo "génération des alertes DRA_MANQUANTE";
-#php symfony generate:alertes DRA_MANQUANTE
-
-#echo "génération des alertes SV12_MANQUANTE";
-#php symfony generate:alertes SV12_MANQUANTE
-
-#echo "génération des alertes VRAC_SANS_SV12";
-#php symfony generate:alertes VRAC_SANS_SV12
-
-#echo "génération des alertes VRAC_PRIX_DEFINITIFS";
-#php symfony generate:alertes VRAC_PRIX_DEFINITIFS
-
-#echo "génération des alertes ECART_DS_DRM_JUILLET";
-#php symfony generate:alertes ECART_DS_DRM_JUILLET
-
-#echo "génération des alertes ECART_DS_DRM_AOUT";
-#php symfony generate:alertes ECART_DS_DRM_AOUT
-
-#echo "génération des alertes ECART_DREV_DRM";
-#php symfony generate:alertes ECART_DREV_DRM
-
+echo "FIN de la mise à jour des alertes"
