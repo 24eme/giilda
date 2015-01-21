@@ -204,7 +204,7 @@ abstract class AlerteGeneration {
 
     
     public function getFirstCampagneForImport(){
-        return "2012-2013";
+        return AlerteClient::FIRSTCAMPAGNEIMPORT;
     }
     
 }

@@ -18,9 +18,23 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
 				<?php 
 				$cpt = count($alerte->statuts)-1;
 				while($cpt>=0) :
-				$statut = $alerte->statuts[$cpt]
+				$statut = $alerte->statuts[$cpt];
+                                 $styleRow = "";
+                                $classRow = "";
+                                if($statut->statut == AlerteClient::STATUT_FERME){
+                                    $styleRow = 'style="opacity: 0.5"';
+                                }
+                                if($statut->statut == AlerteClient::STATUT_EN_SOMMEIL){
+                                    $styleRow = 'style="opacity: 0.5"';
+                                }
+                                if($statut->statut == AlerteClient::STATUT_A_RELANCER){
+                                    $classRow = 'statut_non-solde';
+                                }
+                                if($statut->statut == AlerteClient::STATUT_A_RELANCER_AR){
+                                    $classRow = 'statut_annule';
+                                }
 			?>   
-			<tr>
+			<tr class="<?php echo $classRow; ?>" <?php echo $styleRow; ?> >
 				<td><?php echo $statutsWithLibelles[$statut->statut]; ?></td>
 				<td><?php echo format_date($statut->date,'dd/MM/yyyy'); ?></td>
 				<td class="gauche"><?php echo $statut->commentaire; ?></td>

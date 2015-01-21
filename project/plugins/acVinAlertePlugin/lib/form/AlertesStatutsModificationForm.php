@@ -36,7 +36,7 @@ class AlertesStatutsModificationForm extends sfForm {
     }
 
     private function getStatuts() {
-        return AlerteClient::getStatutsWithLibelles();
+        return AlerteClient::getStatutsOperateursWithLibelles();
     }
 
 }

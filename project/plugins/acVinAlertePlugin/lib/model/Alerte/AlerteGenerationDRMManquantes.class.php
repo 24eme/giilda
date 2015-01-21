@@ -23,12 +23,12 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         echo "etablissements définies\n";
 
         foreach ($etablissements as $etablissement) {
-            
+
             foreach ($periodes as $periode) {
                 sleep(0.1);
-                $drm_id = DRMClient::getInstance()->buildId($etablissement->identifiant, $periode);               
+                $drm_id = DRMClient::getInstance()->buildId($etablissement->identifiant, $periode);
                 $drm = DRMClient::getInstance()->find($drm_id, acCouchdbClient::HYDRATE_JSON);
-                if ($drm) {                   
+                if ($drm) {
                     continue;
                 }
                 $alerte = $this->createOrFindByDRM($this->buildDRMManquante($etablissement, $periode));
@@ -61,6 +61,8 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                     $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, AlerteClient::MESSAGE_AUTO_RELANCE, $this->getDate());
                     $alerte->save();
                     echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer\n";
+                } else {
+                    echo "L'ALERTE " . $alerte->_id . " ne change pas de statut (sera relancée le " . $alerte->date_relance . ")\n";
                 }
             } elseif ($alerte->isRelancableAR()) {
                 // PASSAGE AU STATUT A_RELANCER_AR
@@ -69,6 +71,8 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                     $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());
                     $alerte->save();
                     echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
+                } else {
+                    echo "L'ALERTE " . $alerte->_id . " ne change pas de statut (sera relancée AR le " . $alerte->date_relance_ar . ")\n";
                 }
             } else {
                 echo "L'ALERTE " . $alerte->_id . " ne change pas de statut\n";

@@ -25,11 +25,11 @@ class AlerteModificationForm extends acCouchdbObjectForm {
     }
 
     public function getStatutsAlerte() {
-        return AlerteClient::getStatutsWithLibelles();
+        return AlerteClient::getStatutsOperateursWithLibelles();
     }
     
     public function doUpdate() {
-        $this->getObject()->updateStatut($this->values['statut'],  $this->values['commentaire'], AlerteDateClient::getInstance()->getDate());
+        $this->getObject()->updateStatut(AlerteClient::STATUT_EN_SOMMEIL,  $this->values['commentaire'], AlerteDateClient::getInstance()->getDate());
         $this->getObject()->save();
     }
 

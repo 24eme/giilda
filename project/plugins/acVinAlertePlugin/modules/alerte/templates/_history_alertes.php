@@ -40,12 +40,24 @@
                                 if(($alerte['type_alerte'] == AlerteClient::DRM_MANQUANTE) || ($alerte['type_alerte'] == AlerteClient::DRA_MANQUANTE)){
                                    $document_link = link_to($alerte['libelle_document'], 'drm_etablissement', array('identifiant' => $alerte['identifiant'], 'campagne' => $alerte['campagne'])); 
                                 }
-//                                if($alerte['type_alerte'] == AlerteClient::SV12_MANQUANTE){
-//                                   $document_link = link_to($alerte['libelle_document'], 'sv12_etablissement', array('identifiant' => $alerte['identifiant'])); 
-//                               }
+                                $styleRow = "";
+                                $classRow = "";
+                                if($alerte['statut_courant'] == AlerteClient::STATUT_FERME){
+                                    $styleRow = 'style="opacity: 0.5"';
+                                }
+                                if($alerte['statut_courant'] == AlerteClient::STATUT_EN_SOMMEIL){
+                                    $styleRow = 'style="opacity: 0.5"';
+                                }
+                                if($alerte['statut_courant'] == AlerteClient::STATUT_A_RELANCER){
+                                    $classRow = 'statut_non-solde';
+                                }
+                                if($alerte['statut_courant'] == AlerteClient::STATUT_A_RELANCER_AR){
+                                    $classRow = 'statut_annule';
+                                }
+
 			?>   
-			<tr>
-				<td class="selecteur">
+                    <tr class="<?php echo $classRow; ?>" <?php echo $styleRow; ?> >
+                            <td class="selecteur">
 					<?php echo $modificationStatutForm[$alerte['_id']]->renderError(); ?>
 					<?php echo $modificationStatutForm[$alerte['_id']]->render() ?> 
 				</td>

@@ -11,7 +11,6 @@
  */
 class AlertesConsultationForm extends sfForm {     
     
-    private $anneeCampagneStart = 2007;
     
     public function configure()
     {   
@@ -69,7 +68,8 @@ class AlertesConsultationForm extends sfForm {
     private function getCampagnes() {
         $annee = date('Y');
         $campagnes = array('' => '');
-        for ($currentA = $annee; $currentA > $this->anneeCampagneStart; $currentA--) {
+        $anneeCampagneStart = substr(AlerteClient::FIRSTCAMPAGNEIMPORT, 0,4);
+        for ($currentA = $annee; $currentA >= $anneeCampagneStart; $currentA--) {
             $elt = $currentA.'-'.($currentA+1);
             $campagnes[$elt] = $elt;
         }

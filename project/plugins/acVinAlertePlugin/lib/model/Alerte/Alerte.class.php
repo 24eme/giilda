@@ -93,6 +93,10 @@ class Alerte extends BaseAlerte {
     public function isFerme() {
         return $this->getStatut()->statut == AlerteClient::STATUT_FERME;
     }
+    
+    public function isModifiable(){
+        return !$this->isFerme() && !$this->isEnSommeil();
+    }
 
     public function getLibelle() {
         return AlerteClient::$alertes_libelles[$this->getTypeAlerte()] . ' (' . $this->libelle_document . ')';

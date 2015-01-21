@@ -51,12 +51,14 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
     }
 
     public function updates() {
+        
         foreach ($this->getAlertesOpen() as $alerteView) {
+            sleep(0.1);
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
 
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
-            $drm = DRMClient::getInstance()->find($id_document, acCouchdbClient::HYDRATE_JSON);
-            if ($drm) {
+            $dra = $this->findOneDRAForFirstDRM($id_document);
+            if ($dra) {
                 // PASSAGE AU STATUT FERME
                 $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
                 $alerte->save();
@@ -67,7 +69,9 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
                 if ($relance) {
                     $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, AlerteClient::MESSAGE_AUTO_RELANCE, $this->getDate());
                     $alerte->save();
-                    echo "L'ALERTE " . $alerte->_id . " passe au statut a relancer\n";
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer\n";
+                } else {
+                    echo "L'ALERTE " . $alerte->_id . " ne change pas de statut (sera relancée le " . $alerte->date_relance . ")\n";
                 }
             } elseif ($alerte->isRelancableAR()) {
                 // PASSAGE AU STATUT A_RELANCER_AR
@@ -75,14 +79,17 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
                 if ($relanceAr) {
                     $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());
                     $alerte->save();
-                    echo "L'ALERTE " . $alerte->_id . " passe au statut a relancer ar\n";
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
+                } else {
+                    echo "L'ALERTE " . $alerte->_id . " ne change pas de statut (sera relancée AR le " . $alerte->date_relance_ar . ")\n";
                 }
             } else {
                 echo "L'ALERTE " . $alerte->_id . " ne change pas de statut\n";
             }
         }
     }
-
+    
+    
     protected function buildDRAManquante($etablissement, $campagne) {
         $periode = ConfigurationClient::getInstance()->getPeriodeDebut($campagne);
         $id = DRMClient::getInstance()->buildId($etablissement->identifiant, $periode);
@@ -136,6 +143,29 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         return false;
     }
 
+    public function findOneDRAForFirstDRM($drm_id) {
+        $result = array();
+        preg_match('/^DRM-([0-9]{8})-([0-9]{4})([0-9]{2})/', $drm_id,$result);
+        $identifiant = $result[1];
+        $annee = $result[2];
+        $mois = $result[2];
+        for ($i = $mois; $i <= "12"; $i++) {
+            $periode = $annee.sprintf("%02d",$i);
+            $dra = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
+            if($dra){
+                return $dra;
+            }
+        }
+        for ($i = "01"; $i <= "08"; $i++) {
+            $periode = $annee.sprintf("%02d",$i);
+            $dra = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
+            if($dra){
+                return $dra;
+            }
+        }
+        return false;
+    }
+    
     public function updatesByDocumentsIds(array $documents_id, $document_type) {
         
     }

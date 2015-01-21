@@ -2,6 +2,9 @@
 
 class AlerteClient extends acCouchdbClient {
 
+    const FIRSTCAMPAGNEIMPORT = "2012-2013";
+    
+    
     const DRM_MANQUANTE = "DRM_MANQUANTE";
     const DRA_MANQUANTE = "DRA_MANQUANTE";
 //    const VRAC_NON_SOLDES = "VRAC_NON_SOLDE";
@@ -69,17 +72,18 @@ class AlerteClient extends acCouchdbClient {
     }
 
     public static function getStatutsWithLibelles() {
+        return array_merge(array(self::STATUT_NOUVEAU => 'Nouveau'),self::getStatutsOperateursWithLibelles(),array(self::STATUT_FERME => 'Fermée'));
+    }
+    
+    public static function getStatutsOperateursWithLibelles() {
         return array(
-            self::STATUT_NOUVEAU => 'Nouveau',
             self::STATUT_EN_SOMMEIL => 'En sommeil',
             
             self::STATUT_A_RELANCER => 'A relancer',
             self::STATUT_EN_ATTENTE_REPONSE => 'En attente de réponse',
             
             self::STATUT_A_RELANCER_AR => 'A relancer AR',
-            self::STATUT_EN_ATTENTE_REPONSE_AR => 'En attente de réponse AR',
-            
-            self::STATUT_FERME => 'Fermée'
+            self::STATUT_EN_ATTENTE_REPONSE_AR => 'En attente de réponse AR'
             );
     }
 
