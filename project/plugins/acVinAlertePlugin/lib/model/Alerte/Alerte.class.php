@@ -68,6 +68,13 @@ class Alerte extends BaseAlerte {
         }
         $this->statuts->add(null, array('statut' => $statut, 'commentaire' => $commentaire, 'date' => $date));
         $this->add('date_dernier_statut', $date);
+        if ($statut == AlerteClient::STATUT_A_RELANCER_AR) {
+            if (substr($this->type_relance, strlen($this->type_relance) - 3) != "_AR") {
+                $this->type_relance.="_AR";
+            }
+        } else {
+            $this->type_relance = str_replace("_AR", "", $this->type_relance);
+        }
     }
 
     public function getStatut() {
@@ -93,8 +100,8 @@ class Alerte extends BaseAlerte {
     public function isFerme() {
         return $this->getStatut()->statut == AlerteClient::STATUT_FERME;
     }
-    
-    public function isModifiable(){
+
+    public function isModifiable() {
         return !$this->isFerme() && !$this->isEnSommeil();
     }
 

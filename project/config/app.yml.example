@@ -60,7 +60,7 @@ all:
       19700101: 19.6
       20140101: 20.0
   relance:
-    responsable_financier: 'prenom nom'
+    responsable_economique: 'prenom nom'
     emetteur:
       TOURS:
         adresse: 'adresse tours'
@@ -68,20 +68,17 @@ all:
         ville: 'tours'
         services_operateurs:
           - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildetours@tours.fr'}
-          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildetours@tours.fr'}
       ANGERS:
         adresse: 'adresse angers'
         code_postal: 'cp angers'
         ville: 'angers'
         services_operateurs:
           - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildangers@angers.fr'}
-          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildangers@angers.fr'}
       NANTES:
         adresse: 'adresse nantes'
         code_postal: 'cp nantes'
         ville: 'nantes'
         services_operateurs:
-         - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
   vrac:
     contenances:

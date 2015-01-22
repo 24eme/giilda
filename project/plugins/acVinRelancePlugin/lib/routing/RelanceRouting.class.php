@@ -27,6 +27,14 @@ class RelanceRouting {
                         array('model' => 'Etablissement',
                             'type' => 'object')));
         
+                $r->prependRoute('relance_etablissement_creation_ar', new EtablissementRoute('/relanceAr/:identifiant/creation', array('module' => 'relance',
+                    'action' => 'genererArEtablissement'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Etablissement',
+                            'type' => 'object')));
+        
+        
+        
         $r->prependRoute('relance_pdf', new RelanceRoute('/relance/:idrelance/pdf', array('module' => 'relance', 
 													'action' => 'latex'),
 									 array('sf_method' => array('get','post')),

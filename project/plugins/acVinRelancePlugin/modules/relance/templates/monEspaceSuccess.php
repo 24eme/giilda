@@ -7,22 +7,40 @@
         <?php include_component('relance', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
     </section>
     <br />
-
     <?php
     include_partial('historiqueRelances', array('etablissement' => $etablissement, 'relances' => $relances));
     ?>
+
     <hr />
     <h2>Génération de relance</h2>
-    <br />
-    <?php include_partial('relance/alertesRelance', array('alertes' => $alertes, 'etablissement' => $etablissement)) ?>
-    <form action="<?php echo url_for("relance_etablissement_creation",$etablissement); ?>" method="post">
-    <div class="generation_facture_valid">
-        <span>Cliquer sur "Générer" pour créer les relances</span>
-        <button id="relance_generation_btn" class="btn_majeur btn_refraichir" href="#">Générer</button>
+
+    <div id="toutes_alertes">
+        <h2>Les alertes à relancer de <?php echo $etablissement->raison_sociale; ?></h2>
+
+        <?php include_partial('relance/alertesRelance', array('alertesARelancer' => $alertesARelancer, 'etablissement' => $etablissement)) ?>
     </div>
+
+    <form action="<?php echo url_for("relance_etablissement_creation", $etablissement); ?>" method="post">
+        <div class="generation_facture_valid">
+            <span>Cliquer sur "Générer" pour créer les relances</span>
+            <button id="relance_generation_btn" class="btn_majeur btn_refraichir" href="#">Générer</button>
+        </div>
     </form>
-    </section>
-    <!-- fin #principal -->
+
+    <div id="toutes_alertes">
+        <h2>Les alertes à relancer avec Accusé de reception de <?php echo $etablissement->raison_sociale; ?></h2>
+        <?php include_partial('relance/alertesRelance', array('alertesARelancer' => $alertesARelancerAR, 'etablissement' => $etablissement)) ?>
+    </div>
+
+
+    <form action="<?php echo url_for("relance_etablissement_creation_ar", $etablissement); ?>" method="post">
+        <div class="generation_facture_valid">
+            <span>Cliquer sur "Générer" pour créer les relances AR</span>
+            <button id="relance_generation_btn" class="btn_majeur btn_refraichir" href="#">Générer les Relance AR</button>
+        </div>
+    </form>
+</section>
+<!-- fin #principal -->
 <?php
 slot('colButtons');
 ?>

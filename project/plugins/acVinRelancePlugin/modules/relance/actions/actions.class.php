@@ -16,18 +16,33 @@ class relanceActions extends sfActions {
     public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->relances = RelanceEtablissementView::getInstance()->findByEtablissement($this->etablissement); 
-        $this->alertes = AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatut($this->etablissement->identifiant, AlerteClient::STATUT_A_RELANCER);
-    }
+        $this->alertesARelancer = AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatut($this->etablissement->identifiant, AlerteClient::STATUT_A_RELANCER);
+    $this->alertesARelancerAR = AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatut($this->etablissement->identifiant, AlerteClient::STATUT_A_RELANCER_AR);
+        }
     
     public function executeGenererEtablissement(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->alertes_relance = AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatutSorted($this->etablissement->identifiant, AlerteClient::STATUT_A_RELANCER);
         if(count($this->alertes_relance)){
             $generation = RelanceClient::getInstance()->createRelancesByEtb($this->alertes_relance, $this->etablissement);
+            $generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
             $generation->save();
         }
          $this->redirect('relance_etablissement', $this->etablissement);
     }
+    
+        public function executeGenererArEtablissement(sfWebRequest $request) {
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $this->alertes_relance = AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatutSorted($this->etablissement->identifiant, AlerteClient::STATUT_A_RELANCER_AR);
+        if(count($this->alertes_relance)){
+            $generation = RelanceClient::getInstance()->createRelancesByEtb($this->alertes_relance, $this->etablissement);
+            $generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
+            $generation->save();
+        }
+         $this->redirect('relance_etablissement', $this->etablissement);
+    }
+    
+    
     
     
    public function executeLatex(sfWebRequest $request) {

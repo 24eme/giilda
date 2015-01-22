@@ -68,7 +68,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                 // PASSAGE AU STATUT A_RELANCER_AR
                 $relanceAr = Date::supEqual($this->getDate(), $alerte->date_relance_ar);
                 if ($relanceAr) {
-                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());                    
                     $alerte->save();
                     echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
                 } else {
