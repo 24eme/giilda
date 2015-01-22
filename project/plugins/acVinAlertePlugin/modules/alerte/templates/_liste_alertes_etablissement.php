@@ -36,12 +36,15 @@
                                 if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_EN_SOMMEIL){
                                     $styleRow = 'style="opacity: 0.5"';
                                 }
-                                if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_A_RELANCER){
+                                if(($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_A_RELANCER) || ($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_A_RELANCER_AR)){
+                                    $classRow = 'statut_solde';
+                                }
+                                if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_EN_ATTENTE_REPONSE){
                                     $classRow = 'statut_non-solde';
                                 }
-                                if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_A_RELANCER_AR){
-                                    $classRow = 'statut_annule';
-                                }
+                                 if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_EN_ATTENTE_REPONSE_AR){
+                                     $classRow = 'statut_annule';
+                                 }
                         
                     ?>   
                         <tr class="<?php echo $classRow; ?>" <?php echo $styleRow; ?> >

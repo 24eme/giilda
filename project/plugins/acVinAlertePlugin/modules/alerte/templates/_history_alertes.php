@@ -48,11 +48,14 @@
                                 if($alerte['statut_courant'] == AlerteClient::STATUT_EN_SOMMEIL){
                                     $styleRow = 'style="opacity: 0.5"';
                                 }
-                                if($alerte['statut_courant'] == AlerteClient::STATUT_A_RELANCER){
+                                if(($alerte['statut_courant'] == AlerteClient::STATUT_A_RELANCER) || ($alerte['statut_courant'] == AlerteClient::STATUT_A_RELANCER_AR)){
+                                    $classRow = 'statut_solde';
+                                }
+                                if($alerte['statut_courant'] == AlerteClient::STATUT_EN_ATTENTE_REPONSE){
                                     $classRow = 'statut_non-solde';
                                 }
-                                if($alerte['statut_courant'] == AlerteClient::STATUT_A_RELANCER_AR){
-                                    $classRow = 'statut_annule';
+                                if($alerte['statut_courant'] == AlerteClient::STATUT_EN_ATTENTE_REPONSE_AR){
+                                     $classRow = 'statut_annule';
                                 }
 
 			?>   

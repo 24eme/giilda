@@ -27,12 +27,16 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
                                 if($statut->statut == AlerteClient::STATUT_EN_SOMMEIL){
                                     $styleRow = 'style="opacity: 0.5"';
                                 }
-                                if($statut->statut == AlerteClient::STATUT_A_RELANCER){
+                                if(($statut->statut == AlerteClient::STATUT_A_RELANCER) || ($statut->statut == AlerteClient::STATUT_A_RELANCER_AR)){
+                                    $classRow = 'statut_solde';
+                                }
+                                if($statut->statut == AlerteClient::STATUT_EN_ATTENTE_REPONSE){
                                     $classRow = 'statut_non-solde';
                                 }
-                                if($statut->statut == AlerteClient::STATUT_A_RELANCER_AR){
-                                    $classRow = 'statut_annule';
+                                if($statut->statut == AlerteClient::STATUT_EN_ATTENTE_REPONSE_AR){
+                                     $classRow = 'statut_annule';
                                 }
+                                
 			?>   
 			<tr class="<?php echo $classRow; ?>" <?php echo $styleRow; ?> >
 				<td><?php echo $statutsWithLibelles[$statut->statut]; ?></td>

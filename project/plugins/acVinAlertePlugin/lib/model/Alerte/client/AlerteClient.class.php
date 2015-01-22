@@ -79,9 +79,15 @@ class AlerteClient extends acCouchdbClient {
             self::STATUT_A_RELANCER_AR => 'A relancer AR'
         );
     }
-
-    public function updateStatutByAlerteId($new_statut, $new_commentaire, $alerteId) {
+    
+    public function updateStatutByAlerteId($new_statut, $new_commentaire, $alerteId, $date_relance = null, $date_relance_ar = null) {
         $alerte = $this->find($alerteId);
+        if($date_relance){
+            $alerte->date_relance = $date_relance;
+        }
+        if($date_relance_ar){
+            $alerte->date_relance_ar = $date_relance_ar;
+        }
         $alerte->updateStatut($new_statut, $new_commentaire);
         $alerte->save();
     }
