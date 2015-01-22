@@ -11,7 +11,7 @@ Relance:
       region: { }
       date_creation: { }
       titre: { }
-      responsable_financier: { }
+      responsable_economique: { }
       emetteur:
         type: collection
         definition:

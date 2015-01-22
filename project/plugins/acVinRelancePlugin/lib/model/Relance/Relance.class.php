@@ -44,7 +44,7 @@ class Relance extends BaseRelance {
         if (!array_key_exists($this->region, $configs))
             throw new sfException(sprintf('Config %s not found in app.yml', $this->region));
         $this->emetteur = $configs[$this->region];
-        $this->responsable_financier = sfConfig::get('app_relance_responsable_financier');
+        $this->responsable_economique = sfConfig::get('app_relance_responsable_economique');
     }
 
     public function storeDeclarant() {
@@ -61,7 +61,7 @@ class Relance extends BaseRelance {
     public function getSociete() {
         return EtablissementClient::getInstance()->find($this->identifiant)->getSociete();
     }
-
+  
     public function storeVerifications($alertes) {
         foreach ($alertes as $alerte) {
             $type_relance = $alerte->key[AlerteRelanceView::KEY_TYPE_RELANCE];
@@ -83,8 +83,10 @@ class Relance extends BaseRelance {
 
         $newStatut = $alerte->key[AlerteRelanceView::KEY_STATUT];
         $msg = "";
+        $date_relance_ar = null;
         if($newStatut == AlerteClient::STATUT_A_RELANCER){
             $newStatut = AlerteClient::STATUT_EN_ATTENTE_REPONSE;
+            $date_relance_ar = AlerteDateClient::getInstance()->getDate();
             $msg = AlerteClient::MESSAGE_AUTO_RELANCE;
         }
         if($newStatut == AlerteClient::STATUT_A_RELANCER_AR){
@@ -92,7 +94,7 @@ class Relance extends BaseRelance {
             $msg = AlerteClient::MESSAGE_AUTO_RELANCE_AR;
         }
         foreach ($this->origines as $alerte_id) {
-            AlerteClient::getInstance()->updateStatutByAlerteId($newStatut, $msg, $alerte_id);
+            AlerteClient::getInstance()->updateStatutByAlerteId($newStatut, $msg, $alerte_id, null, $date_relance_ar);
         }
     }
 
