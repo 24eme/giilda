@@ -86,7 +86,7 @@ class Relance extends BaseRelance {
         $date_relance_ar = null;
         if($newStatut == AlerteClient::STATUT_A_RELANCER){
             $newStatut = AlerteClient::STATUT_EN_ATTENTE_REPONSE;
-            $date_relance_ar = AlerteDateClient::getInstance()->getDate();
+            $date_relance_ar = Date::addDelaiToDate("+1 month", AlerteDateClient::getInstance()->getDate());
             $msg = AlerteClient::MESSAGE_AUTO_RELANCE;
         }
         if($newStatut == AlerteClient::STATUT_A_RELANCER_AR){

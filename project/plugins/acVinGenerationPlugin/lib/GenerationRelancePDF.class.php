@@ -43,9 +43,7 @@ class GenerationRelancePDF extends GenerationPDF {
             $alertes_relancables = array();
             foreach ($types_relance as $type_relance) {
                 $alertes_relancables = array_merge($alertes_relancables,AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatutAndTypeRelance($etb_id, AlerteClient::STATUT_A_RELANCER, $type_relance));
-                $alertes_relancables = array_merge($alertes_relancables,AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatutAndTypeRelance($etb_id, AlerteClient::STATUT_EN_ATTENTE_GENERATION_RELANCE, $type_relance));
-            
-                
+                $alertes_relancables = array_merge($alertes_relancables,AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatutAndTypeRelance($etb_id, AlerteClient::STATUT_A_RELANCER_AR, $type_relance));  
             }
             if(!count($alertes_relancables)){
                 continue;

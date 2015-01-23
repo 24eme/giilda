@@ -2,7 +2,7 @@
 . bin/config.inc
 
 if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
-    curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE > /dev/null
+   # curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE > /dev/null
     curl -s -X DELETE "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_alerte" > /dev/null
 fi
 
@@ -19,7 +19,7 @@ echo '{
     },
     "index" : {
         "index" : "'$ELASTBASE'",
-        "type" : "alerte",
+        "type" : "Alerte",
         "bulk_size" : "100",
         "bulk_timeout" : "10ms"
     }
@@ -27,4 +27,4 @@ echo '{
 
 curl -s -X PUT -d '@/tmp/elastic.configure.json' "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_alerte/_meta" > /dev/null
 
-rm /tmp/elastic.configure.json
+#rm /tmp/elastic.configure.json
