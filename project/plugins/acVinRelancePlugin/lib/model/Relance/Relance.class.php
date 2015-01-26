@@ -61,7 +61,7 @@ class Relance extends BaseRelance {
     public function getSociete() {
         return EtablissementClient::getInstance()->find($this->identifiant)->getSociete();
     }
-  
+
     public function storeVerifications($alertes) {
         foreach ($alertes as $alerte) {
             $type_relance = $alerte->key[AlerteRelanceView::KEY_TYPE_RELANCE];
@@ -84,18 +84,16 @@ class Relance extends BaseRelance {
         $newStatut = $alerte->key[AlerteRelanceView::KEY_STATUT];
         $msg = "";
         $date_relance_ar = null;
-        if($newStatut == AlerteClient::STATUT_A_RELANCER){
+        if ($newStatut == AlerteClient::STATUT_A_RELANCER) {
             $newStatut = AlerteClient::STATUT_EN_ATTENTE_REPONSE;
             $date_relance_ar = Date::addDelaiToDate("+1 month", AlerteDateClient::getInstance()->getDate());
             $msg = AlerteClient::MESSAGE_AUTO_RELANCE;
         }
-        if($newStatut == AlerteClient::STATUT_A_RELANCER_AR){
+        if ($newStatut == AlerteClient::STATUT_A_RELANCER_AR) {
             $newStatut = AlerteClient::STATUT_EN_ATTENTE_REPONSE_AR;
             $msg = AlerteClient::MESSAGE_AUTO_RELANCE_AR;
         }
-        foreach ($this->origines as $alerte_id) {
-            AlerteClient::getInstance()->updateStatutByAlerteId($newStatut, $msg, $alerte_id, null, $date_relance_ar);
-        }
+        AlerteClient::getInstance()->updateStatutByAlerteId($newStatut, $msg, $alerte->id, null, $date_relance_ar);
     }
 
 }

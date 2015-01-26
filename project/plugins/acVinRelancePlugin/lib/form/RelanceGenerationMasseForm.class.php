@@ -19,12 +19,11 @@ class RelanceGenerationMasseForm extends BaseForm {
 
     public function configure() {
         
-       $this->setWidget('types_relance', new sfWidgetFormChoice(array('choices' => $this->getTypesRelance(), 'multiple' => true, 'expanded' => true, 'default' => array_keys($this->getRegions()))));
+       $this->setWidget('types_relance', new sfWidgetFormChoice(array('choices' => $this->getTypesRelance(), 'multiple' => false, 'expanded' => true, 'default' => array_keys($this->getRegions()))));
         $this->setWidget('date_relance', new sfWidgetFormInput(array('default' => date('d/m/Y'))));
         
-        
-        $this->setValidator('types_relance', new sfValidatorChoice(array('choices' => array_keys($this->getTypesRelance()), 'multiple' => true, 'required' => false)));
-        $this->setValidator('date_relance', new sfValidatorString());
+       $this->setValidator('types_relance', new sfValidatorChoice(array('choices' => array_keys($this->getTypesRelance()), 'multiple' => false, 'required' => false)));
+       $this->setValidator('date_relance', new sfValidatorString());
 	
         
         $this->widgetSchema->setLabels(array(
