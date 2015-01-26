@@ -13,7 +13,7 @@ class RelanceGenerationMasseForm extends BaseForm {
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults['date_relance'] = date('d/m/Y');
-        $defaults['types_relance'] = array_keys($this->getTypesRelance());
+        $defaults['types_relance'] = RelanceClient::TYPE_RELANCE_DRM_MANQUANTE;
         parent::__construct($defaults, $options, $CSRFSecret);
     }
 
