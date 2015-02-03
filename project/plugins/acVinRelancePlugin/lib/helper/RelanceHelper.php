@@ -111,7 +111,7 @@ function getRegion($region) {
 function printContact($relance) {
     $result = "";
     foreach ($relance->emetteur->services_operateurs as $operateur) {
-        $result.=$operateur->nom . ' : ' . $operateur->telephone . '\\\\';
+        $result.=$operateur->nom . ' - ' . $operateur->telephone . '\\\\';
         $result.=$operateur->email . '\\\\';
     }
     echo $result;
