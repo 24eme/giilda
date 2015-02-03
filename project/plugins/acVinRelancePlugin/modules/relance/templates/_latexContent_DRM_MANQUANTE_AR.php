@@ -75,9 +75,9 @@ use_helper('Orthographe');
 \bigskip
 \underline{\textbf{Contact :}}\\
 \RELANCECONTACT
-\\
+\vspace{0.5cm}
 \underline{\textbf{Courrier recommandé avec A.R.}}
-\\
+
 \end{flushleft}
 
 \section*{}
