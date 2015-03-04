@@ -44,7 +44,7 @@ use_helper('Orthographe');
 \def\RELANCEDATE{le <?php echo format_date($relance->date_creation,'dd/MM/yyyy'); ?>}
 	
 \def\RELANCEOBJECT{\underline{\textbf{Objet : <?php echoTypeRelance($relance->type_relance); ?>}}}       
-\def\RELANCEREF{\underline{\textbf{N/Réf : <?php echo $relance->identifiant;?>}}}
+\def\RELANCEREF{\underline{\textbf{N/Réf : <?php echo substr($relance->identifiant, 0, 6);?>}}}
 
 \def\RELANCECONTACT{<?php printContact($relance);?>}
 \def\RELANCEINTRO{Madame, Monsieur, \\ \\ <?php echoIntroRelance($relance->type_relance);?>}
@@ -62,6 +62,7 @@ use_helper('Orthographe');
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.4\textwidth}	
+\vspace{2.5cm}
 \textbf{\RELANCECLIENTNOM \\}				
 \RELANCECLIENTADRESSE \\
 \RELANCECLIENTCP ~ \RELANCECLIENTVILLE
