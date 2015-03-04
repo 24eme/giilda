@@ -79,13 +79,13 @@ function echoIntroRelance($type, $ar = false) {
     if (!$ar) {
         switch ($type) {
             case RelanceClient::TYPE_RELANCE_DRM_MANQUANTE:
-                echo 'Dans le cadre de nos vérifications, sauf erreur de notre part, la procédure de transmission des DRM mise en place avec l’administration des Douanes ne nous a pas permis de recevoir le(s) Déclaration(s) Récapitulative(s) Mensuelle(s) suivantes :';
+                echo 'Dans le cadre de nos vérifications, sauf erreur de notre part, la procédure de transmission des DRM mise en place avec l’administration des Douanes ne nous a pas permis de recevoir la Déclaration Récapitulative Mensuelle des mois suivants :';
                 break;
             case RelanceClient::TYPE_RELANCE_DRM_MANQUANTE_AR:
-                echo 'Nous constatons, malgré notre précédente relance, que nous sommes toujours en attente de(s) Déclaration(s) Récapitulative(s) Mensuelle(s) suivantes :';
+                echo 'Nous constatons, malgré notre précédente relance, que nous sommes toujours en attente la Déclaration Récapitulative Mensuelle des mois suivants :';
                 break;
             case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE:
-                echo 'Dans le cadre de nos vérifications, sauf erreur de notre part, la procédure de transmission de DRA mise en place avec l’administration des Douanes ne nous a pas permis de recevoir la Déclaration Récapitulative Annuelle des années suivantes :';
+                echo 'Dans le cadre de nos vérifications, sauf erreur de notre part, la procédure de transmission de DRA mise en place avec l’administration des Douanes ne nous a pas permis de recevoir la Déclaration Récapitulative Annuelle des campagnes suivantes :';
                 break;
 case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE_AR:
                 echo 'Nous constatons, malgré notre précédente relance, que nous sommes toujours en attente de la Déclaration Récapitulative Annuelle suivante :';
@@ -131,7 +131,7 @@ function printRappelLoi($type, $ar = false) {
                 break;
             case RelanceClient::TYPE_RELANCE_DRM_MANQUANTE_AR:
             case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE_AR:
-                echo 'Nous vous demandons de bien vouloir nous faire parvenir une copie de ces documents \\underline{\\textbf{sous un mois.}}\\\\\\\\A défaut, InterLoire sera dans l’obligation de procéder à une évaluation d’office du montant des cotisations dues  conformément à l’article~VI-5 de l’Accord interprofessionnel en vigueur.\\\\\\\\Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expression de nos salutations distinguées.';
+                echo 'Nous vous demandons de bien vouloir nous faire parvenir une copie de ces documents \\underline{\\textbf{sous un mois.}}\\\\\\\\A défaut, InterLoire sera dans l’obligation de procéder à une évaluation d’office du montant des cotisations dues  conformément à l’article~VI-5 de l’Accord interprofessionnel en vigueur.\\\\\\\\Nous restons à votre disposition pour toute information complémentaire que vous jugeriez nécessaire.\\\\\\\\Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expression de nos salutations distinguées.';
                 break;
                 
             default:

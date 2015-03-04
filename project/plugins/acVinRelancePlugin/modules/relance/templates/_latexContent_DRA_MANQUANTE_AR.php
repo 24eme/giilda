@@ -4,7 +4,7 @@ use_helper('Relance');
 use_helper('Display');
 use_helper('Orthographe');
 ?>
-\documentclass[a4paper,8pt]{extarticle}
+\documentclass[a4paper,10pt]{extarticle}
 \usepackage{geometry} % paper=a4paper
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -24,6 +24,8 @@ use_helper('Orthographe');
 \renewcommand\sfdefault{phv}
 \renewcommand{\familydefault}{\sfdefault}
 
+\pagestyle{empty}
+
 \setlength{\oddsidemargin}{-1cm}
 \setlength{\evensidemargin}{-1cm}
 \setlength{\textwidth}{18cm}
@@ -32,7 +34,7 @@ use_helper('Orthographe');
 
 \def\RELANCECLIENTNOM{<?php echo $relance->declarant->nom; ?>}
 
-\def\RELANCECLIENTADRESSE{<?php display_latex_string($relance->declarant->adresse,';',50,2); ?>}
+\def\RELANCECLIENTADRESSE{<?php echo display_latex_string($relance->declarant->adresse,';',50,2); ?>}
 
 \def\RELANCECLIENTCP{<?php echo $relance->declarant->code_postal; ?>}
 \def\RELANCECLIENTVILLE{<?php echo $relance->declarant->commune; ?>}
@@ -56,12 +58,12 @@ use_helper('Orthographe');
 \begin{document}
 \begin{minipage}[t]{1\textwidth}
 \begin{minipage}[t]{0.40\textwidth}
-\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf.jpg"; ?>}	
+~
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.4\textwidth}	
 \textbf{\RELANCECLIENTNOM \\}				
-\textbf{\RELANCECLIENTADRESSE} \\
+\RELANCECLIENTADRESSE \\
 \RELANCECLIENTCP ~ \RELANCECLIENTVILLE
 \\ \\ \\ \RELANCEREGION~\RELANCEDATE
 \end{minipage}
@@ -70,7 +72,7 @@ use_helper('Orthographe');
 \begin{flushleft}
 \RELANCEREF \\
 \RELANCEOBJECT \\
-2nd relance\\
+2ème relance\\
 \bigskip
 \underline{\textbf{Contact :}}\\
 \RELANCECONTACT
@@ -84,7 +86,7 @@ use_helper('Orthographe');
  \setlength\itemsep{0mm}
 <?php foreach($relance->verifications as $verification) : ?>    
     <?php foreach($verification->lignes as $ligne): ?> 
- \item Années <?php echo preg_replace('/.*([0-9]{4})/','\1',$ligne->explications); ?>
+ \item Campagne <?php echo preg_replace('/.*([0-9]{4})/','\1',$ligne->explications); ?>
     <?php  endforeach; ?>  
     <?php echo $verification->description_fin; ?>
 <?php    
