@@ -85,6 +85,7 @@ class sv12Actions extends sfActions {
     }
 
     public function executeRecapitulatif(sfWebRequest $request) {
+        set_time_limit(0);
         $this->sv12 = $this->getRoute()->getSV12();
 	$this->validation = new SV12Validation($this->sv12);
         $this->mouvements = $this->sv12->getMouvementsCalculeByIdentifiant($this->sv12->identifiant);
