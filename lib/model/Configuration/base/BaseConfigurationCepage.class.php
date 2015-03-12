@@ -5,6 +5,7 @@
  * Base model for ConfigurationCepage
 
  * @property string $libelle
+ * @property string $format_libelle
  * @property string $code
  * @property string $code_produit
  * @property string $code_comptable
@@ -12,6 +13,8 @@
 
  * @method string getLibelle()
  * @method string setLibelle()
+ * @method string getFormatLibelle()
+ * @method string setFormatLibelle()
  * @method string getCode()
  * @method string setCode()
  * @method string getCodeProduit()

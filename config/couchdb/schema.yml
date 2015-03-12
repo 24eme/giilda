@@ -173,6 +173,19 @@ Configuration:
                                       definition:
                                         fields:
                                           '*': {  }
+                                    dates_circulation:
+                                      type: collection
+                                      required: false
+                                      definition:
+                                        fields:
+                                          '*':
+                                            class: ConfigurationDateCirculation
+                                            type: collection
+                                            definition:
+                                              fields:
+                                                campagne: {  }
+                                                date_debut: {  }
+                                                date_fin: {  }     
                                     droits:
                                       type: collection
                                       definition:
@@ -305,6 +318,19 @@ Configuration:
                                                   definition:
                                                     fields:
                                                       '*': {  }
+                                                dates_circulation:
+                                                    type: collection
+                                                    required: false
+                                                    definition:
+                                                      fields:                                                        
+                                                        '*':
+                                                          class: ConfigurationDateCirculation
+                                                          type: collection
+                                                          definition:
+                                                            fields:
+                                                              campagne: {  }
+                                                              date_debut: {  }
+                                                              date_fin: {  }     
                                                 droits:
                                                   type: collection
                                                   definition:
@@ -443,6 +469,19 @@ Configuration:
                                                               definition:
                                                                 fields:
                                                                   '*': {  }
+                                                            dates_circulation:
+                                                              type: collection
+                                                              required: false
+                                                              definition:
+                                                                fields:
+                                                                  '*':
+                                                                    class: ConfigurationDateCirculation
+                                                                    type: collection
+                                                                    definition:
+                                                                      fields:
+                                                                        campagne: {  }
+                                                                        date_debut: {  }
+                                                                        date_fin: {  }
                                                             droits:
                                                               type: collection
                                                               definition:
@@ -510,6 +549,19 @@ Configuration:
                                                                           definition:
                                                                             fields:
                                                                               '*': {  }
+                                                                        dates_circulation:
+                                                                            type: collection
+                                                                            required: false
+                                                                            definition:
+                                                                              fields:
+                                                                                '*':
+                                                                                  class: ConfigurationDateCirculation
+                                                                                  type: collection
+                                                                                  definition:
+                                                                                    fields:
+                                                                                      campagne: {  }
+                                                                                      date_debut: {  }
+                                                                                      date_fin: {  }
                                                                         droits:
                                                                           type: collection
                                                                           definition:
@@ -646,6 +698,19 @@ Configuration:
                                                                                       definition:
                                                                                         fields:
                                                                                           '*': {  }
+                                                                                    dates_circulation:
+                                                                                        type: collection
+                                                                                        required: false
+                                                                                        definition:
+                                                                                          fields:                                                                                            
+                                                                                            '*':
+                                                                                              class: ConfigurationDateCirculation
+                                                                                              type: collection
+                                                                                              definition:
+                                                                                                fields:
+                                                                                                  campagne: {  }
+                                                                                                  date_debut: {  }
+                                                                                                  date_fin: {  }
                                                                                     droits:
                                                                                       type: collection
                                                                                       definition:
@@ -783,6 +848,19 @@ Configuration:
                                                                                                   definition:
                                                                                                     fields:
                                                                                                       '*': {  }
+                                                                                                dates_circulation:
+                                                                                                    type: collection
+                                                                                                    required: false
+                                                                                                    definition:
+                                                                                                      fields:
+                                                                                                        '*':
+                                                                                                          class: ConfigurationDateCirculation
+                                                                                                          type: collection
+                                                                                                          definition:
+                                                                                                            fields:
+                                                                                                              campagne: {  }
+                                                                                                              date_debut: {  }
+                                                                                                              date_fin: {  }     
                                                                                                 droits:
                                                                                                   type: collection
                                                                                                   definition:

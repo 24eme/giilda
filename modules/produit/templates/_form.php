@@ -75,6 +75,18 @@
 	    </div>
         <input class="counteur" type="hidden" name="nb_cvo" value="<?php echo count($form['droit_cvo']) ?>" />
     <?php endif; ?>
+            <?php if ($form->getObject()->hasDroit(ConfigurationDroits::DROIT_CVO)): ?>
+        <h2>Dates de circulation&nbsp;&nbsp;</h2>
+        <div id="forms_dates_circulation">
+		<?php 
+                foreach ($form['dates_circulation'] as $subform): ?>
+		  <?php include_partial('produit/subformDateCirculation', array('form' => $subform))?>
+		<?php endforeach; ?>
+	    </div>
+    <?php endif; ?>
+        
+        
+        
 	<?php if ($form->getObject()->hasLabels()): ?>
         <h2>Labels&nbsp;&nbsp;</h2>
 		<div id="formsLabel">
