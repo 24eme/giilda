@@ -13,11 +13,14 @@ class VracValidation extends DocumentValidation {
         if ($this->teledeclaration) {
             $this->addControle('vigilance', 'soussigne_vendeur_nonactif', "Le compte du vendeur n'est pas actif");
             $this->addControle('vigilance', 'soussigne_acheteur_nonactif', "Le compte de l'acheteur n'est pas actif");
-            $this->addControle('vigilance', 'soussigne_courtier_nonactif', "Le compte du courtier n'est pas actif");
+            $this->addControle('vigilance', 'soussigne_courtier_nonactif', "Le compte du courtier n'est pas actif");            
+            $this->addControle('erreur', 'date_enlevement_inf_minimale', "La date d'enlèvement est inférieure à la date minimale d'enlèvement du produit");
             
             $this->addControle('erreur', 'soussigne_vendeur_absence_mail', "Aucun email renseigné pour");
             $this->addControle('erreur', 'soussigne_acheteur_absence_mail', "Aucun email renseigné pour");
             $this->addControle('erreur', 'soussigne_courtier_absence_mail', "Aucun email renseigné pour");
+            
+            $this->addControle('erreur', 'date_enlevement_sup_maximale', "La date d'enlèvement est supérieure à la date maximale d'enlèvement du produit");
         } else {
             $this->addControle('erreur', 'hors_interloire_raisins_mouts', "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts");
             $this->addControle('vigilance', 'stock_commercialisable_negatif', 'Le stock commercialisable est inférieur au stock proposé');
@@ -34,6 +37,7 @@ class VracValidation extends DocumentValidation {
         if ($this->teledeclaration) {
             $this->checkSoussigneAbsenceMail();
             $this->checkSoussigneCompteNonActive();
+            $this->checkDateEnlevement();
         } else {
 
             if ($this->document->isRaisinMoutNegoHorsIL()) {
@@ -105,5 +109,38 @@ class VracValidation extends DocumentValidation {
             }
         }
     }
-
+    
+    private function checkDateEnlevement() {
+        $produits = ConfigurationClient::getCurrent()->getProduits();
+        $produit = null;
+        foreach ($produits as $hash => $produitConf) {
+            if($this->document->produit == $hash){
+                $produit = $produitConf;
+                break;
+            }
+        }
+        $millesime = null;
+        if(!($millesime = $this->document->millesime)){
+            return;
+        }
+        if(!$produit->getDateCirulation($millesime)){
+            return;
+        }
+        $date_debut = $produit->getDateCirulation($millesime)->date_debut;
+        $date_fin = $produit->getDateCirulation($millesime)->date_fin;
+        if($this->document->enlevement_date && $date_debut){
+            if(str_replace('-', '', $this->document->enlevement_date) < str_replace('-', '', $date_debut)){
+                $date_debutArr = explode('-', $date_debut);
+                $date_debutFR = $date_debutArr[2].'/'.$date_debutArr[1].'/'.$date_debutArr[0];
+                $this->addPoint('erreur', 'date_enlevement_inf_minimale', ' ('.$date_debutFR.')');
+            }
+        }
+        if($this->document->enlevement_date && $date_fin){
+            if(str_replace('-', '', $this->document->enlevement_date) > str_replace('-', '', $date_fin)){
+                $date_finArr = explode('-', $date_fin);
+                $date_finFR = $date_finArr[2].'/'.$date_finArr[1].'/'.$date_finArr[0];
+                $this->addPoint('erreur', 'date_enlevement_sup_maximale', ' ('.$date_finFR.')');
+            }
+        }
+    }
 }
