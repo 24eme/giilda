@@ -1,17 +1,19 @@
-    <!-- #principal -->
-    <section id="principal">
-        <p id="fil_ariane"><strong>Page d'accueil</strong></p>
-        
-        <!-- #contenu_etape -->
-        <section id="contenu_etape" class="alerte">
-            <?php include_partial('information_alerte', array('alerte' => $alerte)); ?>
-            <?php include_partial('modification_alerte', array('alerte' => $alerte, 'form' => $form)); ?>            
-            <?php include_partial('history_alerte', array('alerte' => $alerte)); ?>
-        </section>
-        <!-- fin #contenu_etape -->
+<!-- #principal -->
+<section id="principal">
+    <p id="fil_ariane"><strong>Page d'accueil</strong></p>
+
+    <!-- #contenu_etape -->
+    <section id="contenu_etape" class="alerte">
+        <?php include_partial('information_alerte', array('alerte' => $alerte)); ?>
+        <?php if ($alerte->isModifiable()) : ?>
+            <?php include_partial('modification_alerte', array('alerte' => $alerte, 'form' => $form)); ?>    
+        <?php endif; ?>
+        <?php include_partial('history_alerte', array('alerte' => $alerte)); ?>
     </section>
-    <!-- fin #principal -->
-   
+    <!-- fin #contenu_etape -->
+</section>
+<!-- fin #principal -->
+
 <?php
 slot('colButtons');
 ?>

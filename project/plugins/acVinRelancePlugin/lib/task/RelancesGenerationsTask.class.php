@@ -41,15 +41,14 @@ EOF;
       }
     } else {
       $container->addAll();
-    }
+    }    
     
-    $container->execute();
-    
-    $alertes_relancables = AlerteHistoryView::getInstance()->findByTypesAndStatut($container->getGenerations(), AlerteClient::STATUT_A_RELANCER);
+    $alertes_relancables = AlerteHistoryView::getInstance()->findByTypesAndStatut($container->getGenerations(), AlerteClient::STATUT_EN_ATTENTE_GENERATION_RELANCE);
+    var_dump($container->getGenerations()); exit;
     if(count($alertes_relancables)){
         $generationDoc = new Generation();
         $generationDoc->arguments->add('date_emission', $this->getDate());
-        $generationDoc->type_document = GenerationClient::TYPE_DOCUMENT_RELANCE; 
+        $generationDoc->type_document = GenerationClient::STATUT_EN_ATTENTE_GENERATION_RELANCE; 
         $generationDoc->save();
     }   
   }

@@ -44,9 +44,14 @@ class AlerteGenerationsContainer {
         } 
     }
     
-    public function execute() {
-        foreach($this->getGenerations() as $generation) {
-            $generation->execute();
+    public function executeCreations($import = false) {
+        foreach($this->getGenerations() as $alert_key => $generation) {
+            $generation->executeCreations($import);
+        }
+    }    
+    public function executeUpdates() {
+        foreach($this->getGenerations() as $alert_key => $generation) {
+            $generation->executeUpdates();
         }
     }
   

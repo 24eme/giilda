@@ -23,102 +23,15 @@ all:
   mail:
     from_email: email@email.com
     from_name: "From name"
-  alertes:
+  alertes:  
+    debug: true
     generations:
-      #Contrats non soldé
-      VRAC_NON_SOLDE: 
-        class: AlerteGenerationVracsNonSoldes
-        creation_delai: '-6 month'
-        relance_delai: '+1 month'
-        relance_date: '15/06'
-        enattente_date: '15/06'
-        nb_relance: '2'
-      #Contrats à prix variable n'ayant pas de prix définitf
-      VRAC_PRIX_DEFINITIFS: 
-        class: AlerteGenerationVracsPrixDefinitifs
-        creation_delai: '-1 month'
-        relance_delai: '+1 month'
-        relance_date: '15/12'
-        nb_relance: '2'
-      #Contrats en attente de l'original
-      VRAC_ATTENTE_ORIGINAL:
-        class: AlerteGenerationVracsAttenteOriginal
-        creation_delai: '-1 month'
-        relance_delai: '+1 month'
-        nb_relance: '2'
       #DRM manquantes, une DRM est considéré manquante par rapport à la période de la DRM la plus récente
       DRM_MANQUANTE:
         class: AlerteGenerationDRMManquantes
-        creation_delai: '-2 month'
-        enattente_delai: '+1 month'
-        relance_delai: '+1 month'
-        nb_relance: '4'
-        nb_campagne: '1'
       #DRA manquante, une DRA est considéré manquante par rapport à la période de la DRA la plus récente
       DRA_MANQUANTE:
-        class: AlerteGenerationDRAManquante
-        creation_date: '30/09'
-        enattente_delai: '+1 month'
-        relance_delai: '+1 month'
-        nb_relance: '4'
-        nb_campagne: '1'
-      #DRM dont le stock d'un ou plusieurs produits est négatif
-      DRM_STOCK_NEGATIF:
-        class: AlerteGenerationDRMStockNegatif
-        creation_delai: '-2 month'
-        enattente_delai: '+1 month'
-        relance_delai: '+2 month'
-        nb_relance: '4'
-      #SV12 manquante, une SV12 est considéré manquante par rapport à la période de la SV12 la plus récente
-      SV12_MANQUANTE:
-        class: AlerteGenerationSV12Manquante
-        creation_date: '-45 day'
-        enattente_delai: '+1 month'
-        relance_delai: '+1 month'
-        nb_relance: '2'
-        nb_campagne: '1'
-      #Contrats qui n'ont pas été inclus dans une SV12
-      VRAC_SANS_SV12:
-        class: AlerteGenerationVracSansSV12
-        creation_delai: '15/12'
-        enattente_delai: '+2 month'
-        relance_delai: '+2 month'
-        nb_relance: '2'
-        nb_campagne: '1'
-      #DS non validée
-      DS_NON_VALIDEE:
-        class: AlerteGenerationDSNonValidee
-        creation_date: '01/10'
-        enattente_delai: '+2 month'
-        relance_delai: '+2 month'
-        nb_relance: '2'
-      #Ecart de volume (produit par produit) supérieur à un "seuil" de N% entre la DS et le stock fin de mois de la DRM de juillet
-      ECART_DS_DRM_JUILLET:
-        class: AlerteGenerationEcartDSDRMJuillet
-        creation_delai: '-0 month'
-        enattente_delai: '+1 month'
-        relance_delai: '+1 month'
-        nb_relance: '2'
-        seuil: '10'
-        nb_campagne: '1'
-      #Ecart de volume (produit par produit) supérieur à un "seuil" de N% entre la DS et le stock début de mois de la DRM d'août
-      ECART_DS_DRM_AOUT:
-        class: AlerteGenerationEcartDSDRMAout
-        creation_delai: '-0 month'
-        enattente_delai: '+1 month'
-        relance_delai: '+1 month'
-        nb_relance: '2'
-        seuil: '10'
-        nb_campagne: '1'
-      #Ecart de volume (produit par produit) supérieur à un "seuil" de N% entre entre le stock révendiqué par l'ODG et celui revendiqué dans la DRM
-      ECART_DREV_DRM:
-        class: AlerteGenerationEcartDREVDRM
-        creation_delai: '-0 month'
-        enattente_delai: '+1 month'
-        relance_delai: '+1 month'
-        nb_relance: '2'
-        seuil: '10'
-        nb_campagne: '1'
+        class: AlerteGenerationDRAManquante  
   facture:
     emetteur:
       TOURS:
@@ -147,7 +60,7 @@ all:
       19700101: 19.6
       20140101: 20.0
   relance:
-    responsable_financier: 'prenom nom'
+    responsable_economique: 'prenom nom'
     emetteur:
       TOURS:
         adresse: 'adresse tours'
@@ -155,20 +68,17 @@ all:
         ville: 'tours'
         services_operateurs:
           - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildetours@tours.fr'}
-          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildetours@tours.fr'}
       ANGERS:
         adresse: 'adresse angers'
         code_postal: 'cp angers'
         ville: 'angers'
         services_operateurs:
           - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildangers@angers.fr'}
-          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildangers@angers.fr'}
       NANTES:
         adresse: 'adresse nantes'
         code_postal: 'cp nantes'
         ville: 'nantes'
         services_operateurs:
-         - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
   vrac:
     contenances:

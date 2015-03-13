@@ -7,7 +7,7 @@ use_helper('Float');
     <?php
     if (count($generations) == 0):
         ?>
-        Aucune génération de facture
+        Aucune génération de relances
         <?php
     else :
         ?>
@@ -48,6 +48,7 @@ endif;
 ?>
 </fieldset>
 <div class="historique_generation_ds">
+    <br/>
     <span>Consulter l'historique des générations de relances</span>
     <a href="<?php echo url_for('generation_list',array('type_document' => GenerationClient::TYPE_DOCUMENT_RELANCE)); ?>" id="historique_generation" class="btn_majeur">Consulter</a>
 </div>

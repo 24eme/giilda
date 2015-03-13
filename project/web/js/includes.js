@@ -44,7 +44,8 @@ yepnope
                                                         jsPath+'societe.js?v='+date,
                                                         jsPath+'etablissement.js?v='+date,
 							jsPath+'plugins/jquery.plugins.min.js?v='+date,
-							jsPath+'global.js?v='+date
+							jsPath+'global.js?v='+date,
+                                                        jsPath+'produits.js?v='+date
 						],
 						
 						complete: function()

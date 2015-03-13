@@ -28,12 +28,26 @@
                         if(($alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE] == AlerteClient::DRM_MANQUANTE) || ($alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE] == AlerteClient::DRA_MANQUANTE)){
                                        $document_link = link_to($alerte->value[AlerteRechercheView::VALUE_LIBELLE_DOCUMENT], 'drm_etablissement', array('identifiant' => $alerte->key[AlerteRechercheView::KEY_IDENTIFIANT_ETB], 'campagne' => $alerte->key[AlerteRechercheView::KEY_CAMPAGNE])); 
                                     }
-                                    if($alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE] == AlerteClient::SV12_MANQUANTE){
-                                       $document_link = link_to($alerte->value[AlerteRechercheView::VALUE_LIBELLE_DOCUMENT], 'sv12_etablissement', array('identifiant' => $alerte->key[AlerteRechercheView::KEY_IDENTIFIANT_ETB])); 
-                                   }    
+                                    $styleRow = "";
+                                $classRow = "";
+                                if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_FERME){
+                                    $styleRow = 'style="opacity: 0.5"';
+                                }
+                                if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_EN_SOMMEIL){
+                                    $styleRow = 'style="opacity: 0.5"';
+                                }
+                                if(($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_A_RELANCER) || ($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_A_RELANCER_AR)){
+                                    $classRow = 'statut_solde';
+                                }
+                                if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_EN_ATTENTE_REPONSE){
+                                    $classRow = 'statut_non-solde';
+                                }
+                                 if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_EN_ATTENTE_REPONSE_AR){
+                                     $classRow = 'statut_annule';
+                                 }
                         
                     ?>   
-                        <tr>
+                        <tr class="<?php echo $classRow; ?>" <?php echo $styleRow; ?> >
                             <td class="selecteur">
                                 <?php echo $modificationStatutForm[$alerte->id]->renderError(); ?>
                                 <?php echo $modificationStatutForm[$alerte->id]->render() ?> 

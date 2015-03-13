@@ -5,21 +5,8 @@
  * @author mathurin
  */
 abstract class AlerteGeneration {
-
-    const FIRST_SEQ = 1002892;
     
     protected $dev = false;
-    protected $config = null;
-    protected $num_seq = null;
-    protected $changes = null;
-
-    public function __construct() {
-        $this->config = new AlerteConfig($this->getTypeAlerte());
-    }
-
-    public function getConfig() {
-        return $this->config;
-    }
 
     public function isDev() {
 
@@ -42,15 +29,14 @@ abstract class AlerteGeneration {
         return AlerteClient::getInstance()->find(AlerteClient::getInstance()->buildId($this->getTypeAlerte(), $id_document));
     }
 
-    public function createOrFind($id_document) {
-        $alerte = $this->getAlerte($id_document);
+    public function createOrFind($id_document) {        
+        $alerte = $this->getAlerte($id_document);        
         if (!$alerte) {
             $alerte = new Alerte();
             $alerte->setCreationDate($this->getDate());
             $alerte->type_alerte = $this->getTypeAlerte();
-            $alerte->id_document = $id_document;
-            $alerte->nb_relances = 0;
-            $alerte->date_relance = $this->getConfig()->getOptionDelaiDate('relance_delai', $alerte->date_creation);
+            $alerte->id_document = $id_document;          
+            $alerte->buildFirstDateRelance();
             $this->storeDatasRelance($alerte);
         }
         return $alerte;
@@ -114,10 +100,12 @@ abstract class AlerteGeneration {
     }
 
     public abstract function getTypeAlerte();
-
+    
     protected abstract function storeDatasRelance(Alerte $alerte);
 
-    public abstract function execute();
+    public abstract function executeCreations();
+    
+    public abstract function executeUpdates();
 
     public abstract function creations();
     
@@ -214,4 +202,9 @@ abstract class AlerteGeneration {
         return;
     }
 
+    
+    public function getFirstCampagneForImport(){
+        return AlerteClient::FIRSTCAMPAGNEIMPORT;
+    }
+    
 }

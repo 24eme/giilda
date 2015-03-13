@@ -2,14 +2,11 @@
 use_helper('Date');
 $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
 ?>
-<div id="toutes_alertes">
-	<h2>Les alertes à relancer de <?php echo $etablissement->raison_sociale; ?></h2>
-	
 
-	<?php if(!count($alertes)): ?>
+	<?php if(!count($alertesARelancer)): ?>
 	<div>
 		<span>
-			Aucune alerte ouverte
+			Aucune alerte n'est à relancer
 		</span>
 	</div>
 	
@@ -26,7 +23,7 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
 			</tr>
 		</thead>
 		<tbody>
-				<?php foreach ($alertes as $alerte) :
+				<?php foreach ($alertesARelancer as $alerte) :
 			?>   
 			<tr>
 				<td>
@@ -49,4 +46,4 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
 		</tbody>
 	</table> 
 	<?php endif; ?>
-</div>
+<br/>

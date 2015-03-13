@@ -58,14 +58,10 @@ class AlerteRelanceView extends acCouchdbView {
         $result = array();
         foreach ($alertesView as $alerteView) {
             $type_relance = $alerteView->key[self::KEY_TYPE_RELANCE];
-            $type_alerte = $alerteView->key[self::KEY_TYPE_ALERTE];
             if(!array_key_exists($type_relance, $result)){
                 $result[$type_relance] = array();
             }
-            if(!array_key_exists($type_alerte, $result[$type_relance])){
-                $result[$type_relance][$type_alerte] = array();
-            }
-            $result[$type_relance][$type_alerte][] = $alerteView;
+            $result[$type_relance][] = $alerteView;
         }
         return $result;
     }

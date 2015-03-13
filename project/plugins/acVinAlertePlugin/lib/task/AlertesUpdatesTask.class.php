@@ -1,6 +1,6 @@
 <?php
 
-class AlertesGenerationTask extends sfBaseTask
+class AlertesUpdatesTask extends sfBaseTask
 {
   protected function configure()
   {
@@ -17,13 +17,13 @@ class AlertesGenerationTask extends sfBaseTask
     ));
 
     $this->namespace        = 'generate';
-    $this->name             = 'alertes_creations';
+    $this->name             = 'alertes_updates';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
 The [generateAlertes|INFO] task does things.
 Call it with:
 
-  [php symfony generate:alertes_creations typeAlerte1 typeAlerte2 ... --import="1"|INFO]
+  [php symfony generate:alertes_updates typeAlerte1 typeAlerte2 ... --import="1"|INFO]
 EOF;
   }
   
@@ -44,6 +44,6 @@ EOF;
       $container->addAll();
     }   
     
-    $container->executeCreations($import);
+    $container->executeUpdates($import);
   }
 }

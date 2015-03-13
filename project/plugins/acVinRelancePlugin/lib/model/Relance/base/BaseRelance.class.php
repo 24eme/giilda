@@ -13,7 +13,7 @@
  * @property string $region
  * @property string $date_creation
  * @property string $titre
- * @property string $responsable_financier
+ * @property string $responsable_economique
  * @property acCouchdbJson $emetteur
  * @property acCouchdbJson $origines
  * @property acCouchdbJson $declarant
@@ -37,8 +37,8 @@
  * @method string setDateCreation()
  * @method string getTitre()
  * @method string setTitre()
- * @method string getResponsableFinancier()
- * @method string setResponsableFinancier()
+ * @method string getResponsableEconomique()
+ * @method string setResponsableEconomique()
  * @method acCouchdbJson getEmetteur()
  * @method acCouchdbJson setEmetteur()
  * @method acCouchdbJson getOrigines()

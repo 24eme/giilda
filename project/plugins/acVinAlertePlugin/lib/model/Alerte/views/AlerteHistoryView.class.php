@@ -35,6 +35,14 @@ class AlerteHistoryView extends acCouchdbView {
                         ->getView($this->design, $this->view)->rows;
     }
 
+    public function findByTypesAndStatut($types_alerte, $statut_alerte) {
+        $result = array();
+        foreach ($types_alerte as $type_alerte) {
+            $result = array_merge($this->findByTypeAndStatut($type_alerte, $statut_alerte), $result);
+        }
+        return $result;
+    }
+
     public function findByTypeAndStatuts($type_alerte, $statuts_alerte) {
         $result = array();
         foreach ($statuts_alerte as $statut_alerte) {
@@ -59,6 +67,4 @@ class AlerteHistoryView extends acCouchdbView {
 //        }
 //        return '';
 //    }
-
 }
-

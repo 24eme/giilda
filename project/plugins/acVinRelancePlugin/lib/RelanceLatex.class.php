@@ -30,9 +30,9 @@ class RelanceLatex extends GenericLatex {
   }
 
 
-  public function getLatexFileContents() {
+  public function getLatexFileContents() {        
         $t = html_entity_decode(htmlspecialchars_decode(
-                        get_partial('relance/latexContent', array('relance' => $this->relance))
+                        get_partial('relance/latexContent_'.$this->relance->type_relance, array('relance' => $this->relance))
                         , HTML_ENTITIES));
         return $t;
     

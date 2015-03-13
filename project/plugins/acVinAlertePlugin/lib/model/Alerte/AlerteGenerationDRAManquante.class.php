@@ -16,28 +16,34 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         return AlerteClient::DRA_MANQUANTE;
     }
 
-    public function creations() {
-        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR));
+    public function creations($import = false) {
+        echo "campagnes définies\n";
+        $campagne_periode_arr = $this->getPeriodesByCampagnes($import);
+        if(!count($campagne_periode_arr)){
+            echo "Aucune Alertes DRA Manquantes à ouvrir\n";
+            return;
+        }
         
-        $periodes_by_campagnes = $this->getPeriodesByCampagnes();
-        foreach ($etablissement_rows as $etablissement_row) {
-            $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);
-
-            if ($etablissement->type_dr != EtablissementClient::TYPE_DR_DRA) {
-
-                continue;
-            }
-
-
-            foreach ($periodes_by_campagnes as $campagne => $periodes_by_campagne) {
-                if (!$this->isDraInCampagneArray($etablissement->identifiant,$periodes_by_campagne)) {
-                    $alerte = $this->createOrFindByDRM($this->buildDRAManquante($etablissement, $campagne));
-                    $alerte->type_relance = $this->getTypeRelance();
-                    if (!($alerte->isNew() || $alerte->isClosed())) {
-                        continue;
-                    }
+        $etablissements = $this->getEtablissementsByTypeDR(EtablissementClient::TYPE_DR_DRA);
+        echo "etablissements définies\n";
+        
+        foreach ($etablissements as $etablissement) {
+            
+            foreach ($campagne_periode_arr as $campagne => $campagne_periode) {
+                sleep(0.1);
+                $dra = $this->isDraInCampagneArray($etablissement->identifiant, $campagne_periode);
+                if ($dra) {                   
+                    continue;
+                }
+                $alerte = $this->createOrFindByDRM($this->buildDRAManquante($etablissement, $campagne));
+                
+                $alerte->type_relance = $this->getTypeRelance();
+                if ($alerte->isNew() || $alerte->isFerme()) {
                     $alerte->open($this->getDate());
-                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER,'Alerte mis en statut à relancer automatiquement',  $this->getDate());
+                    echo "NOUVELLE ALERTE CREEE " . $alerte->_id . "\n";
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, AlerteClient::MESSAGE_AUTO_RELANCE, $this->getDate());
+                    $alerte->save();
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer\n";
                     $alerte->save();
                 }
             }
@@ -46,20 +52,44 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
 
     public function updates() {
         foreach ($this->getAlertesOpen() as $alerteView) {
+            sleep(0.1);
+            $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
+
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
-            if ($this->isInAlerteView($alerteView)) {
+            $dra = $this->findOneDRAForFirstDRM($id_document);          
+            $etablissement = EtablissementClient::getInstance()->find($alerte->identifiant, acCouchdbClient::HYDRATE_JSON);            
+            if ($dra || ($etablissement->exclusion_drm == EtablissementClient::EXCLUSION_DRM_OUI)) {
+                // PASSAGE AU STATUT FERME
+                $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
+                $alerte->save();
+                echo "L'ALERTE " . $alerte->_id . " passe au statut fermé\n";
+            } elseif ($alerte->isRelancable()) {
+                // PASSAGE AU STATUT A_RELANCER
                 $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
                 if ($relance) {
-                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, null, $this->getDate());
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, AlerteClient::MESSAGE_AUTO_RELANCE, $this->getDate());
                     $alerte->save();
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer\n";
+                } else {
+                    echo "L'ALERTE " . $alerte->_id . " ne change pas de statut (sera relancée le " . $alerte->date_relance . ")\n";
                 }
-                continue;
+            } elseif ($alerte->isRelancableAR()) {
+                // PASSAGE AU STATUT A_RELANCER_AR
+                $relanceAr = Date::supEqual($this->getDate(), $alerte->date_relance_ar);
+                if ($relanceAr) {
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());
+                    $alerte->save();
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
+                } else {
+                    echo "L'ALERTE " . $alerte->_id . " ne change pas de statut (sera relancée AR le " . $alerte->date_relance_ar . ")\n";
+                }
+            } else {
+                echo "L'ALERTE " . $alerte->_id . " ne change pas de statut\n";
             }
-            $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
-            $alerte->save();
         }
     }
-
+    
+    
     protected function buildDRAManquante($etablissement, $campagne) {
         $periode = ConfigurationClient::getInstance()->getPeriodeDebut($campagne);
         $id = DRMClient::getInstance()->buildId($etablissement->identifiant, $periode);
@@ -76,41 +106,72 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         return $dra_manquante;
     }
 
-    public function creationsByDocumentsIds(array $documents_id,$document_type) {
+    public function creationsByDocumentsIds(array $documents_id, $document_type) {
         
     }
 
-    public function execute() {
-        $this->updates();
-        $this->creations();
-    }
+    protected function getCampagnes($import = false) {
 
-    public function isInAlerteView($view) {
-        $id_document = $view->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
-        if (preg_match('/^DRM-([0-9]{8})-([0-9]{6})([0-9-]*)/', $id_document, $matches)) {
-            $identifiant = $matches[1];
-            $periode = $matches[2];
+        $monthDay = substr($this->getDate(), 5, 2) . substr($this->getDate(), 8, 2);
+        $campagneManager = new CampagneManager("08-01");
+
+        if (!$import && $monthDay != "1001" && $monthDay != "1002") {
+            return array();
         }
-        $campagne = ConfigurationClient::getInstance()->buildCampagneByPeriode($periode);
-        return !$this->isDraInCampagneArray($identifiant,$this->getPeriodesByCampagne($campagne));
+        $lastCampagne = $campagneManager->getPrevious($campagneManager->getCampagneByDate($this->getDate()));
+        $campagnes = array();
+        if ($import) {
+            while ($lastCampagne != $campagneManager->getPrevious($this->getFirstCampagneForImport())) {
+                $campagnes[] = $lastCampagne;
+                $lastCampagne = $campagneManager->getPrevious($lastCampagne);
+            }
+        } else {
+            $campagnes[] = $lastCampagne;
+        }
+        return array_reverse($campagnes);
     }
 
-    public function isDraInCampagneArray($identifiant,$periodes_by_campagne) {
-        foreach ($periodes_by_campagne as $periode) {
-            $drm = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
-            if ($drm) {
-                return true;
+    public function isDraInCampagneArray($identifiant, $periodes_by_campagne) {
+        foreach ($periodes_by_campagne as $periodes) {
+            foreach ($periodes as $periode) {
+                $drm = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
+                if ($drm) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    public function updatesByDocumentsIds(array $documents_id,$document_type) {
+    public function findOneDRAForFirstDRM($drm_id) {
+        $result = array();
+        preg_match('/^DRM-([0-9]{8})-([0-9]{4})([0-9]{2})/', $drm_id,$result);
+        $identifiant = $result[1];
+        $annee = $result[2];
+        $mois = $result[3];
+        for ($i = $mois; $i <= "12"; $i++) {
+            $periode = $annee.sprintf("%02d",$i);
+            $dra = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
+            if($dra){
+                return $dra;
+            }
+        }
+        for ($i = "01"; $i <= "07"; $i++) {
+            $periode = ($annee+1).sprintf("%02d",$i);
+            $dra = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
+            if($dra){
+                return $dra;
+            }
+        }
+        return false;
+    }
+    
+    public function updatesByDocumentsIds(array $documents_id, $document_type) {
         
     }
 
-    protected function getPeriodesByCampagnes() {
-        $campagnes = $this->getCampagnes();
+    protected function getPeriodesByCampagnes($import = false) {
+        $campagnes = $this->getCampagnes($import);
         $periodes_by_campagnes = array();
         foreach ($campagnes as $campagne) {
             $periodes_by_campagnes[$campagne] = $this->getPeriodesByCampagne($campagne);
@@ -129,42 +190,20 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         return $periodes_by_campagne;
     }
 
-    protected function getCampagnes() {
-        $nb_campagne = $this->getConfig()->getOption('nb_campagne');
-
-        $last_periode = $this->getLastPeriode();
-
-        $campagne = ConfigurationClient::getInstance()->buildCampagneByPeriode($last_periode);
-        $campagnes = array();
-
-        for ($i = $nb_campagne; $i > 0; $i--) {
-            preg_match('/([0-9]{4})-([0-9]{4})/', $campagne, $annees);
-            $campagnes[] = sprintf("%s-%s", $annees[1] - $i, $annees[2] - $i);
-        }
-
-        return $campagnes;
-    }
-
-    protected function getLastPeriode() {
-        if (is_null($this->last_periode)) {
-
-            $this->last_periode = DRMDerniereView::getInstance()->findLastPeriode();
-        }
-
-        if (!$this->last_periode) {
-
-            throw new sfException("Pas de DRMs");
-        }
-
-        return $this->last_periode;
-    }
-
     public function isInAlerte($document) {
         
     }
 
     public function getTypeRelance() {
-        return RelanceClient::TYPE_RELANCE_DECLARATIVE;
+        return RelanceClient::TYPE_RELANCE_DRA_MANQUANTE;
     }
-    
+
+    public function executeCreations($import = false) {
+        $this->creations($import);
+    }
+
+    public function executeUpdates() {
+        $this->updates();
+    }
+
 }
