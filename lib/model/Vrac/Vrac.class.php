@@ -124,7 +124,7 @@ class Vrac extends BaseVrac {
         return $this->_set('mandataire_identifiant', str_replace('ETABLISSEMENT-', '', $s));
     }
 
-    private function setAcheteurInformations() {
+    public function setAcheteurInformations() {
         if ($this->exist('acheteur_identifiant') && $this->acheteur_identifiant) {
             $this->setEtablissementInformations('acheteur', $this->getAcheteurObject());
         }
@@ -140,7 +140,7 @@ class Vrac extends BaseVrac {
         $this->mandataire->carte_pro = $etablissement->carte_pro;
     }
 
-    private function setVendeurInformations() {
+    public function setVendeurInformations() {
         if ($this->exist('vendeur_identifiant') && $this->vendeur_identifiant) {
             $this->setEtablissementInformations('vendeur', $this->getVendeurObject());
         }
