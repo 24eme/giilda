@@ -86,8 +86,9 @@ use_helper('Orthographe');
 \begin{itemize}
  \setlength\itemsep{0mm}
 <?php foreach($relance->verifications as $verification) : ?>    
-    <?php foreach($verification->lignes as $ligne): ?> 
- \item Campagne <?php echo preg_replace('/.*([0-9]{4})/','\1',$ligne->explications); ?>
+    <?php foreach($verification->lignes as $ligne): 
+        $campagne = preg_replace('/.*([0-9]{4})/','\1',$ligne->explications); ?> 
+        \item Campagne <?php echo $campagne.'-'.($campagne+1); ?>
     <?php  endforeach; ?>  
     <?php echo $verification->description_fin; ?>
 <?php    
