@@ -57,7 +57,8 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
 
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
             $dra = $this->findOneDRAForFirstDRM($id_document);          
-            if ($dra) {
+            $etablissement = EtablissementClient::getInstance()->find($alerte->identifiant, acCouchdbClient::HYDRATE_JSON);            
+            if ($dra || ($etablissement->exclusion_drm == EtablissementClient::EXCLUSION_DRM_OUI)) {
                 // PASSAGE AU STATUT FERME
                 $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
                 $alerte->save();

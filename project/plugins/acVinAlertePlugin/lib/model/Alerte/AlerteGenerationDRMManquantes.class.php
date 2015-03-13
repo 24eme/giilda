@@ -49,7 +49,8 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
 
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
             $drm = DRMClient::getInstance()->find($id_document, acCouchdbClient::HYDRATE_JSON);
-            if ($drm) {
+            $etablissement = EtablissementClient::getInstance()->find($alerte->identifiant, acCouchdbClient::HYDRATE_JSON);
+            if ($drm || ($etablissement->exclusion_drm == EtablissementClient::EXCLUSION_DRM_OUI)) {
                 // PASSAGE AU STATUT FERME
                 $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
                 $alerte->save();
