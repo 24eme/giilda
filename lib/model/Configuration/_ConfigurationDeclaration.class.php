@@ -37,6 +37,22 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
     }
 
+    public function getProduitNonInterpro($interpro = 'INTERPRO-inter-loire') {
+        $interproNode = $this->getOrAdd('interpro')->getOrAdd($interpro);
+        $produit_non_interpro = false;
+        if (!$interproNode->exist('produit_non_interpro') || is_null($interproNode->produit_non_interpro)) {
+            
+            $parentWithInterproNode = $this->getParent();
+            while (!$parentWithInterproNode->exist('interpro')) {
+                $parentWithInterproNode = $parentWithInterproNode->getParent();
+            }            
+            $produit_non_interpro = $parentWithInterproNode->getProduitNonInterpro($interpro);
+        }else{
+            return $interproNode->produit_non_interpro;
+        }
+        return $produit_non_interpro;
+    }
+
     public function getProduitsWithCVONeg($interpro = null, $departement = null) {
         if (is_null($this->produits_with_negCVO)) {
             $this->produits_with_negCVO = array();
@@ -220,9 +236,9 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     public function getDateCirulation($campagne, $interpro = "INTERPRO-inter-loire") {
         $dateCirculationAble = $this;
         while (!$dateCirculationAble->exist('interpro') ||
-                !$dateCirculationAble->interpro->getOrAdd($interpro)->exist('dates_circulation') ||
-                !count($dateCirculationAble->interpro->getOrAdd($interpro)->dates_circulation) ||
-                !$dateCirculationAble->interpro->getOrAdd($interpro)->dates_circulation->exist($campagne)) {
+        !$dateCirculationAble->interpro->getOrAdd($interpro)->exist('dates_circulation') ||
+        !count($dateCirculationAble->interpro->getOrAdd($interpro)->dates_circulation) ||
+        !$dateCirculationAble->interpro->getOrAdd($interpro)->dates_circulation->exist($campagne)) {
             $dateCirculationAble = $dateCirculationAble->getParent()->getParent();
         }
         if (!$dateCirculationAble->exist('interpro') ||

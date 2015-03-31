@@ -41,6 +41,10 @@ class ConfigurationCertification extends BaseConfigurationCertification {
         
         return $this->getDocument()->labels;
     }
+    
+    public function getProduitNonInterpro($interpro = 'INTERPRO-inter-loire') {
+        return false;
+    }
 
     
     public function setDonneesCsv($datas) {

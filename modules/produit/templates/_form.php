@@ -45,6 +45,12 @@
             <?php echo $form['code_comptable']->render() ?>
         </div>
     <?php endif; ?>
+          <div class="ligne_form">
+            <?php if($form['produit_non_interpro']->hasError()){ ?><span class="error"><?php echo $form['produit_non_interpro']->renderError() ?></span><?php } ?>
+            <?php echo $form['produit_non_interpro']->renderLabel() ?>
+            <?php echo $form['produit_non_interpro']->render() ?> (produit non interpro visible dans la télédeclaration des DRM)
+        </div>
+        
 	<?php if ($form->getObject()->hasDepartements()): ?>
         <h2>Départements</h2>
         <div class="subForm contenu_onglet" id="formsDepartement">
@@ -55,7 +61,7 @@
             <a href="javascript:void(0)" class="btn_majeur btn_orange">Ajouter une ligne</a>
 		</div>
 		<input class="counteur" type="hidden" name="nb_departement" value="<?php echo count($form['secteurs']) ?>" />
-	<?php endif; ?>
+	<?php endif; ?>                
     <?php if ($form->getObject()->hasDroit(ConfigurationDroits::DROIT_DOUANE)): ?>
         <h2>Droits circulation</h2>
 		<div id="formsDouane">

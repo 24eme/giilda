@@ -70,6 +70,10 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
             );
         }
 
+        $this->setWidget('produit_non_interpro', new sfWidgetFormInputCheckbox());
+        $this->widgetSchema->setLabel('produit_non_interpro', 'Produit hors Interpro : ');
+        $this->setValidator('produit_non_interpro', new sfValidatorString(array('required' => false)));
+
         $this->embedForm('dates_circulation', new ProduitDatesCirculationCollectionForm(null, array('dates_circulation' => $this->getDatesCirculation()))
         );
 
@@ -147,6 +151,9 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
     public function save($con = null) {
         $object = parent::save($con);
         $values = $this->getValues();
+        $produit_non_interpro = isset($values['produit_non_interpro']) && $values['produit_non_interpro'];
+
+        $this->getNoeudInterpro($object)->add('produit_non_interpro', $produit_non_interpro);
 
         if ($object->hasDepartements()) {
             $object->remove('departements');
@@ -192,10 +199,10 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
                 if ($campagne && $date_debut) {
                     $date_debut_arr = explode('/', $date_debut);
                     $date_debut = $date_debut_arr[2] . '-' . $date_debut_arr[1] . '-' . $date_debut_arr[0];
-                 
-                    if($date_fin){
-                       $date_fin_arr = explode('/', $date_fin);
-                        $date_fin = $date_fin_arr[2] . '-' . $date_fin_arr[1] . '-' . $date_fin_arr[0]; 
+
+                    if ($date_fin) {
+                        $date_fin_arr = explode('/', $date_fin);
+                        $date_fin = $date_fin_arr[2] . '-' . $date_fin_arr[1] . '-' . $date_fin_arr[0];
                     }
                     $this->addNodeDatesCirculation($this->getDatesCirculation($object)->add($campagne, null), $campagne, $date_debut, $date_fin);
                 }
@@ -211,6 +218,10 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         }
         $object->getDocument()->save();
         return $object;
+    }
+    
+    public function initDefault($param) {
+        
     }
 
 }
