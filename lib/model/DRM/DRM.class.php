@@ -321,7 +321,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         
         $this->setInterpros();        
-        $this->generateMouvements();
+        $this->generateMouvements(isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']);
 
         $this->archivage_document->archiver();
 
@@ -804,9 +804,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
        return $this->mouvement_document->getMouvementsCalculeByIdentifiant($identifiant,$teledeclaration_drm);
     }
     
-    public function generateMouvements() {
-
-        return $this->mouvement_document->generateMouvements();
+    public function generateMouvements($teledeclaration_drm = false) {
+        return $this->mouvement_document->generateMouvements($teledeclaration_drm);
     }    
     
     public function findMouvement($cle, $id = null){

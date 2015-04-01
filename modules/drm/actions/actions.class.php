@@ -215,7 +215,7 @@ class drmActions extends sfActions {
 
         $this->form->save();
 
-        $this->drm->validate();
+        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->save();
 
         DRMClient::getInstance()->generateVersionCascade($this->drm);
