@@ -17,9 +17,9 @@ class MouvementDocument
         return isset($mouvements[$identifiant]) ? $mouvements[$identifiant] : array();
     }
 
-    public function generateMouvements() {
+    public function generateMouvements($teledeclaration = false) {
         $this->document->clearMouvements();
-        $this->document->set($this->hash, $this->document->getMouvementsCalcule());
+        $this->document->set($this->hash, $this->document->getMouvementsCalcule($teledeclaration));
     }
 
     public function facturerMouvements() {
