@@ -194,7 +194,7 @@ class drmActions extends sfActions {
             $this->no_link = true;
         }
 
-        $this->validation = new DRMValidation($this->drm);
+        $this->validation = new DRMValidation($this->drm,$this->isTeledeclarationMode);
 
         $this->form = new DRMCommentaireForm($this->drm);
 
