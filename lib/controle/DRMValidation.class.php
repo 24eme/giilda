@@ -4,7 +4,7 @@ class DRMValidation extends DocumentValidation {
 
     protected $isTeledeclarationDrm = false;
 
-    public function __construct($document, $options = null) {
+    public function __construct($document,$isTeledeclarationDrm = false, $options = null) {
         $this->isTeledeclarationDrm = $isTeledeclarationDrm;
         parent::__construct($document, $options);
     }
