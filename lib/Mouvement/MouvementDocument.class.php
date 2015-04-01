@@ -11,8 +11,8 @@ class MouvementDocument
         $this->hash = $document->getMouvements()->getHash();
     }
 
-    public function getMouvementsCalculeByIdentifiant($identifiant) {
-        $mouvements = $this->document->getMouvementsCalcule();
+    public function getMouvementsCalculeByIdentifiant($identifiant,$teledeclaration_drm = false) {
+        $mouvements = $this->document->getMouvementsCalcule($teledeclaration_drm);
 
         return isset($mouvements[$identifiant]) ? $mouvements[$identifiant] : array();
     }
