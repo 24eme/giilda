@@ -45,6 +45,8 @@ class acVinCompteRouting {
         $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie', new sfRoute('/mot_de_passe_oublie', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublie')));
         $r->prependRoute('compte_teledeclarant_mot_de_passe_oublie_confirm', new sfRoute('/mot_de_passe_oublie/confirm', array('module' => 'compte_teledeclarant', 'action' => 'motDePasseOublieConfirm')));
         $r->prependRoute('compte_teledeclarant_modification_oublie', new sfRoute('/teledeclarant/mot_de_passe_oublie', array('module' => 'compte_teledeclarant', 'action' => 'modificationOublie')));
+        $r->prependRoute('compte_teledeclarant_mon_espace', new sfRoute('/teledeclarant/monEspace', array('module' => 'compte_teledeclarant', 'action' => 'monEspace')));
+       
         $r->prependRoute('reglementation_generale_des_transactions',  new sfRoute('/contrats/reglementation_generale_des_transactions', array('module' => 'compte_teledeclarant', 'action' => 'reglementationGenerale')));
    
 	$r->prependRoute('compte_search', new sfRoute('/compte/search', array('module' => 'compte', 'action' => 'search')));

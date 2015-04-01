@@ -28,6 +28,10 @@ class compte_teledeclarantActions extends sfActions {
     const SESSION_COMPTE_DOC_ID_CREATION = '';
     const SESSION_COMPTE_DOC_ID_OUBLIE = '';
 
+    public function executeMonEspace(sfWebRequest $request) {
+        $this->identifiant = $request['identifiant'];
+    }
+
     /**
      * Executes index action
      *
@@ -81,9 +85,9 @@ class compte_teledeclarantActions extends sfActions {
                                 $etb->email = $email;
                             }
                             if (!$etb->exist('teledeclaration_email') || !$etb->teledeclaration_email) {
-                                $etb->add('teledeclaration_email', $email);                                
+                                $etb->add('teledeclaration_email', $email);
                             }
-                            $etb->save();   
+                            $etb->save();
                         }
                     }
                 }
@@ -168,13 +172,13 @@ class compte_teledeclarantActions extends sfActions {
                 $societe = $compte->getSociete();
                 $lien = $this->generateUrl("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->identifiant, "mdp" => str_replace("{OUBLIE}", "", $compte->mot_de_passe)), true);
                 $emailCible = null;
-                
+
                 if (!$societe->isTransaction()) {
                     $emailCible = $societe->getEmailTeledeclaration();
-                }else{
-                     $emailCible = $societe->getEtablissementPrincipal()->getEmailTeledeclaration();
+                } else {
+                    $emailCible = $societe->getEtablissementPrincipal()->getEmailTeledeclaration();
                 }
-                
+
                 try {
                     $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $this->compte, 'lien' => $lien)));
                 } catch (Exception $e) {
