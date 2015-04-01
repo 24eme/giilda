@@ -37,17 +37,17 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
     }
 
-    public function getProduitNonInterpro($interpro = 'INTERPRO-inter-loire') {
+    public function isProduitNonInterpro($interpro = 'INTERPRO-inter-loire') {
         $interproNode = $this->getOrAdd('interpro')->getOrAdd($interpro);
         $produit_non_interpro = false;
         if (!$interproNode->exist('produit_non_interpro') || is_null($interproNode->produit_non_interpro)) {
-            
+
             $parentWithInterproNode = $this->getParent();
             while (!$parentWithInterproNode->exist('interpro')) {
                 $parentWithInterproNode = $parentWithInterproNode->getParent();
-            }            
-            $produit_non_interpro = $parentWithInterproNode->getProduitNonInterpro($interpro);
-        }else{
+            }
+            $produit_non_interpro = $parentWithInterproNode->isProduitNonInterpro($interpro);
+        } else {
             return $interproNode->produit_non_interpro;
         }
         return $produit_non_interpro;
@@ -63,15 +63,16 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->produits_with_negCVO;
     }
 
-    public function getProduits($date = null, $interpro = null, $departement = null) {
+    public function getProduits($date = null, $interpro = null, $departement = null, $isTeledeclarationMode = false) {
         if (!$date) {
             $date = date('Y-m-d');
         }
         if (is_null($this->produits)) {
             $produits_with_negCVO = $this->getProduitsWithCVONeg($interpro, $departement);
             foreach ($produits_with_negCVO as $hash => $item) {
-
-                if ($item->hasCVO($date)) {
+                if ($isTeledeclarationMode) {
+                    $this->produits[$hash] = $item;
+                } elseif ($item->hasCVO($date)) {
                     $this->produits[$hash] = $item;
                 }
             }
@@ -187,14 +188,17 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->_get('densite');
     }
 
-    public function getLibelleFormat($labels = array(), $format = "%format_libelle%", $label_separator = ", ") {
+    public function getLibelleFormat($labels = array(), $format = "%format_libelle%", $label_separator = ", ", $isTeledeclarationMode = false) {
         if (!array_key_exists($format, $this->libelle_format)) {
             $format_libelle = $this->getFormatLibelleCalcule();
             $format = str_replace("%format_libelle%", $format_libelle, $format);
             $libelle = $this->formatProduitLibelle($format);
             $libelle = $this->getDocument()->formatLabelsLibelle($labels, $libelle, $label_separator);
-
-            $this->libelle_format[$format] = trim($libelle);
+            if ($isTeledeclarationMode && $this->isProduitNonInterpro()) {
+                $this->libelle_format[$format] = trim($libelle) . " (Produit douane uniquement)";
+            } else {
+                $this->libelle_format[$format] = trim($libelle);
+            }
         }
 
         return $this->libelle_format[$format];
@@ -335,33 +339,39 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return floatval(str_replace(',', '.', $float));
     }
 
-    public function formatProduitsWithCVONeg($interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)") {
+    public function formatProduitsWithCVONeg($interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)", $isTeledeclarationMode = false) {
         if (!array_key_exists($format, $this->format_produits_with_negCVO)) {
             $produits_with_negCVO = $this->getProduitsWithCVONeg();
             $this->format_produits_with_negCVO[$format] = array();
             foreach ($produits_with_negCVO as $hash => $produit) {
-                $this->format_produits_with_negCVO[$format][$hash] = $produit->getLibelleFormat(array(), $format);
+                $this->format_produits_with_negCVO[$format][$hash] = $produit->getLibelleFormat(array(), $format, ',', $isTeledeclarationMode);
             }
         }
 
         return $this->format_produits_with_negCVO[$format];
     }
 
-    public function formatProduits($date = null, $interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)") {
+    public function formatProduits($date = null, $interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)", $isTeledeclarationMode = false) {
         if (!$date) {
             $date = date('Y-d-m');
         }
-        if (!array_key_exists($date, $this->format_produits)) {
-            $this->format_produits[$date] = array();
+        $result_produits = $this->format_produits;
+
+        if ($isTeledeclarationMode) {
+            $this->formatProduitsWithCVONeg(null, null, "%format_libelle% %la%", $isTeledeclarationMode);
+            $result_produits = $this->format_produits_with_negCVO;
         }
-        if (!array_key_exists($format, $this->format_produits[$date])) {
-            $produits = $this->getProduits($date, 'INTERPRO-inter-loire', $departement);
-            $this->format_produits[$date][$format] = array();
+        if (!array_key_exists($date, $result_produits)) {
+            $result_produits[$date] = array();
+        }
+        if (!array_key_exists($format, $result_produits[$date])) {
+            $produits = $this->getProduits($date, 'INTERPRO-inter-loire', $departement, $isTeledeclarationMode);
+            $result_produits[$date][$format] = array();
             foreach ($produits as $hash => $produit) {
-                $this->format_produits[$date][$format][$hash] = $produit->getLibelleFormat(array(), $format);
+                $result_produits[$date][$format][$hash] = $produit->getLibelleFormat(array(), $format, ',', $isTeledeclarationMode);
             }
         }
-        return $this->format_produits[$date][$format];
+        return $result_produits[$date][$format];
     }
 
     public function getLabels($interpro) {
