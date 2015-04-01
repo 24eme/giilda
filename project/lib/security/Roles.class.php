@@ -2,10 +2,7 @@
 
 class Roles
 {
-    const ADMIN = 'admin';
-    const OPERATEUR = 'operateur';
 
-    const TRANSACTION = 'transactions';
     const CONTRAT = 'contrat';
     const DRM = 'drm';    
     const FACTURE = 'facture';
@@ -18,6 +15,9 @@ class Roles
     const CONTACT = 'contacts';
     const STATS = 'stats';
 
+    const ADMIN = 'admin';
+    const OPERATEUR = 'operateur';
+    const TRANSACTION = 'transactions';
     const COMPTA = 'compta';
     const PRESSE = 'presse';
     const DIRECTION = 'direction';
