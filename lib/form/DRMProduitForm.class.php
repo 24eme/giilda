@@ -6,11 +6,13 @@ class DRMProduitForm extends acCouchdbForm
     protected $_drm = null;
     protected $_config = null;
     protected $_produits_existant = null;
+    protected $_isTeledeclationMode = false;
 
-    public function __construct(DRM $drm, _ConfigurationDeclaration $config, $options = array(), $CSRFSecret = null) {
-		$this->_drm = $drm;
+    public function __construct(DRM $drm, _ConfigurationDeclaration $config, $isTeledeclationMode = false, $options = array(), $CSRFSecret = null) {
+	$this->_drm = $drm;
         $this->_interpro = $drm->getInterpro();
         $this->_config = $config;
+        $this->_isTeledeclationMode = $isTeledeclationMode;
         $defaults = array();
         parent::__construct($drm, $defaults, $options, $CSRFSecret);
     }
@@ -45,7 +47,7 @@ class DRMProduitForm extends acCouchdbForm
     public function getProduits() {
         $produit_existant = $this->getProduitsExistant();
         $date = $this->_drm->getFirstDayOfPeriode(); 
-        $produits = $this->_config->formatProduits($date,$this->_interpro->get('_id'), $this->_drm->getDepartement());
+        $produits = $this->_config->formatProduits($date,$this->_interpro->get('_id'), $this->_drm->getDepartement(),"%format_libelle% (%code_produit%)",$this->_isTeledeclationMode);
     
         foreach($produits as $hash => $produit) {
             if(array_key_exists($hash."/details/DEFAUT", $produit_existant)) {

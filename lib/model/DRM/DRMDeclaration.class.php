@@ -1,51 +1,52 @@
 <?php
+
 /**
  * Model for DRMDeclaration
  *
  */
-
 class DRMDeclaration extends BaseDRMDeclaration {
 
-	public function getChildrenNode() {
+    public function getChildrenNode() {
 
-		return $this->certifications;
-	}
+        return $this->certifications;
+    }
 
-    public function getMouvements() {
+    public function getMouvements($isTeledeclaration = false) {
         $produits = $this->getProduitsDetails();
         $mouvements = array();
-        foreach($produits as $produit) {
-            $mouvements = array_replace_recursive($mouvements, $produit->getMouvements());
+        foreach ($produits as $produit) {
+            if (!$isTeledeclaration && !$produit->getParent()->isProduitNonInterpro()) {
+                $mouvements = array_replace_recursive($mouvements, $produit->getMouvements());
+            }
         }
-
         return $mouvements;
     }
 
     public function cleanDetails() {
         $delete = false;
-        foreach($this->getProduitsDetails() as $detail) {
+        foreach ($this->getProduitsDetails() as $detail) {
             if ($detail->isSupprimable()) {
                 $detail->delete();
                 $delete = true;
             }
         }
 
-        if($delete) {
-           $this->cleanNoeuds();
+        if ($delete) {
+            $this->cleanNoeuds();
         }
     }
 
     public function cleanNoeuds() {
         $this->_cleanNoeuds();
     }
-    
+
     public function hasProduitDetailsWithStockNegatif() {
-       foreach ($this->getProduitsDetails() as $prod) {
+        foreach ($this->getProduitsDetails() as $prod) {
             if ($prod->hasProduitDetailsWithStockNegatif()) {
                 return true;
             }
-        }        
+        }
         return false;
     }
-    
+
 }

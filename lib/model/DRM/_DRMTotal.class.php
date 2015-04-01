@@ -177,10 +177,10 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         return $produits;
     }
 
-    public function getProduitsDetails() {
+    public function getProduitsDetails($teledeclarationMode = false) {
         $produits = array();
         foreach($this->getChildrenNode() as $key => $item) {
-            $produits = array_merge($produits, $item->getProduitsDetails());
+            $produits = array_merge($produits, $item->getProduitsDetails($teledeclarationMode));
         }
 
         return $produits;

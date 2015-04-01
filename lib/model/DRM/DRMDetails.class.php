@@ -36,4 +36,8 @@ class DRMDetails extends BaseDRMDetails {
         
         return ($key)? $key : DRM::DEFAULT_KEY;
     }
+    
+    public function isProduitNonInterpro() {
+        return $this->getParent()->isProduitNonInterpro();
+    }
 }

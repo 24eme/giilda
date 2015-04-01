@@ -99,6 +99,7 @@ class drmActions extends sfActions {
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         return $this->formCampagne($request, 'drm_etablissement');
     }
 
@@ -185,7 +186,8 @@ class drmActions extends sfActions {
     public function executeValidation(sfWebRequest $request) {
         set_time_limit(180);
         $this->drm = $this->getRoute()->getDRM();
-        $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
+         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant,$this->isTeledeclarationMode);
 
         $this->no_link = false;
         if ($this->getUser()->hasOnlyCredentialDRM()) {
@@ -235,6 +237,7 @@ class drmActions extends sfActions {
 
     public function executeVisualisation(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->no_link = false;
         if ($this->getUser()->hasOnlyCredentialDRM()) {
             $this->no_link = true;
@@ -274,6 +277,47 @@ class drmActions extends sfActions {
         $pdf = new ExportDRMPdf($this->drm);
 
         return $this->renderText($pdf->render($this->getResponse(), false, $request->getParameter('format')));
+    }
+    
+    public function executeSociete(sfWebRequest $request) {
+        
+        $this->identifiant = $request['identifiant'];
+
+        $this->initSocieteAndEtablissementPrincipal();
+
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+        
+        $this->redirect('drm_etablissement', $this->etablissementPrincipal);
+    }
+    
+     private function initSocieteAndEtablissementPrincipal() {
+        $this->compte = $this->getUser()->getCompte();
+        if (!$this->compte) {
+            new sfException("Le compte $compte n'existe pas");
+        }
+        $this->societe = $this->compte->getSociete();
+        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
+    }
+    
+    private function redirect403IfIsNotTeledeclaration() {
+        if (!$this->isTeledeclarationDrm()) {
+            $this->redirect403();
+        }
+    }
+    
+    private function redirect403IfIsNotTeledeclarationAndNotMe() {
+        $this->redirect403IfIsNotTeledeclaration();
+        if ($this->getUser()->getCompte()->identifiant != $this->identifiant) {
+            $this->redirect403();
+        }
+    }
+    
+    private function redirect403() {
+        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+    }
+    
+    private function isTeledeclarationDrm() {
+        return $this->getUser()->hasTeledeclarationDrm();
     }
 
 }

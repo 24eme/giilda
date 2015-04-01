@@ -111,9 +111,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->declaration->getProduits();
     }
 
-    public function getProduitsDetails() {
+    public function getProduitsDetails($teledeclarationMode = false) {
         
-        return $this->declaration->getProduitsDetails();
+        return $this->declaration->getProduitsDetails($teledeclarationMode);
     }
 
     public function getDetailsAvecVrac() {
@@ -794,14 +794,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->_get('mouvements');
     }
 
-    public function getMouvementsCalcule() {
+    public function getMouvementsCalcule($teledeclaration_drm = false) {
 
-        return $this->declaration->getMouvements();
+        return $this->declaration->getMouvements($teledeclaration_drm);
     }
 
-    public function getMouvementsCalculeByIdentifiant($identifiant) {
+    public function getMouvementsCalculeByIdentifiant($identifiant,$teledeclaration_drm = false) {
 
-       return $this->mouvement_document->getMouvementsCalculeByIdentifiant($identifiant);
+       return $this->mouvement_document->getMouvementsCalculeByIdentifiant($identifiant,$teledeclaration_drm);
     }
     
     public function generateMouvements() {
