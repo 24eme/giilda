@@ -29,6 +29,7 @@ class Roles
     const TELEDECLARATION = 'teledeclaration';
     const TELEDECLARATION_VRAC = 'teledeclaration_vrac';
     const TELEDECLARATION_VRAC_CREATION = 'teledeclaration_vrac_creation';
+    const TELEDECLARATION_DRM = 'teledeclaration_drm';
     
     const OBSERVATOIRE = 'observatoire';
 

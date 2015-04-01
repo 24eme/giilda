@@ -28,7 +28,7 @@ class authActions extends sfActions {
         $idSociete = $this->form->process()->getSociete()->getIdentifiant();
         $this->getUser()->signInOrigin($this->form->getValue("login"));
 
-        $this->redirect('vrac_societe', array('identifiant' => $idCompte));
+        $this->redirect('homepage');
     }
 
     public function executeLogout(sfWebRequest $request) {

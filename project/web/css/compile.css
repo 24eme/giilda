@@ -316,6 +316,10 @@ bouton#contenu_etape #recherche_societe #btn_rechercher{height:26px}
 #global_content.no_right_col aside#colonne{display:none !important}
 #global_content.no_right_col #contenu{background:#fff}
 #global_content.no_right_col #principal{width:auto}
+#mon_espace .block_teledeclaration{width:300px;display:inline-block;background:none repeat scroll 0 0 #ecebeb;margin:0 0 25px;margin:10px 10px 30px}#mon_espace .block_teledeclaration .title{background:none repeat scroll 0 0 #000;vertical-align:middle;text-align:center;color:#fff;font-size:18pt}
+#mon_espace .block_teledeclaration .panel{padding:10px}#mon_espace .block_teledeclaration .panel ul li{line-height:28px}#mon_espace .block_teledeclaration .panel ul li a{text-decoration:underline;font-weight:bold}
+#mon_espace .block_teledeclaration .panel ul li.text-error{color:#f00 !important;font-weight:bold}#mon_espace .block_teledeclaration .panel ul li.text-error a{text-decoration:underline;font-weight:bold}
+#mon_espace .block_teledeclaration .acces{padding:10px;text-align:center}
 .block_overlay{position:relative}
 .lien_contrat_supprimer_brouillon{color:#d00815;display:inline-block;float:left;font-family:"HelveticaNeue75bold",Helvetica,Arial,sans-serif;margin:5px 0 0;padding:0 0 0 30px;text-decoration:underline}
 .type_raisins,.type_mouts,.type_vin_vrac,.type_vin_bouteille{height:22px;overflow:hidden;text-indent:100%;white-space:nowrap;width:22px;background:url(../images/pictos/sprite_type.png) no-repeat;display:inline-block}

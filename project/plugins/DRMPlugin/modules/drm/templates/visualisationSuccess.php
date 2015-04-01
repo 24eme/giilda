@@ -31,7 +31,7 @@
         </div>
         <?php endif; ?>
 
-		<?php include_partial('drm/recap', array('drm' => $drm)) ?>
+		<?php include_partial('drm/recap', array('drm' => $drm,'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
 
         <h2>Mouvement</h2>
 		<?php include_partial('drm/mouvements', array('mouvements' => $mouvements, 'hamza_style' => true, 'no_link' => $no_link)) ?>

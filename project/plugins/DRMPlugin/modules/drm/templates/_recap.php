@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $details = $drm->getProduitsDetails(); 
+				<?php $details = $drm->getProduitsDetails($isTeledeclarationMode); 
 					  $i = 1;
 				?>
 

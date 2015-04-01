@@ -15,7 +15,7 @@
         <form action="" method="post">
             <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
 
-            <?php include_partial('drm/recap', array('drm' => $drm)) ?>
+            <?php include_partial('drm/recap', array('drm' => $drm,'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
             <?php include_partial('drm/mouvements', array('mouvements' => $mouvements, 'no_link' => $no_link)) ?>
 
             <br />
