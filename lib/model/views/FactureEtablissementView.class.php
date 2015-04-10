@@ -23,6 +23,13 @@ class FactureEtablissementView extends acCouchdbView
                     ->endkey(array(0, array()))
                     ->getView($this->design, $this->view)->rows;
     }
+    
+    public function getAllFacturesForCompta() {
+	return acCouchdbManager::getClient()
+                    ->startkey(array(0))
+                    ->endkey(array(1, array()))
+                    ->getView($this->design, $this->view)->rows;
+    }
 
     public function findByEtablissement($etablissement) {  
             $rows = acCouchdbManager::getClient()
