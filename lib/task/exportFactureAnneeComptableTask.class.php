@@ -36,25 +36,17 @@ EOF;
         ini_set('memory_limit', '2048M');
         set_time_limit(0);
 
-        $annee_mois_debutArr = explode('-', $annee_mois_debut);
-        $annee_mois_finArr = explode('-', $annee_mois_fin);
+        $annee_mois_debutStr = str_replace('-','', $annee_mois_debut);
+        $annee_mois_finStr = str_replace('-','', $annee_mois_fin);
 
-        if ((count($annee_mois_debutArr) != 2) || (count($annee_mois_finArr) != 2)) {
-            throw new sfException('les paramètres de annee_mois_debut et annee_mois_fin doivent être au format Annee-mois');
-        }
-        $annee_debut = $annee_mois_debutArr[0];
-        $mois_debut = $annee_mois_debutArr[1];
-
-        $annee_fin = $annee_mois_finArr[0];
-        $mois_fin = $annee_mois_finArr[1];
         
         $export = new ExportCSV();
         $export->printHeaderAnneeComptable();
         foreach (FactureEtablissementView::getInstance()->getAllFacturesForCompta() as $vfacture) {
             $factureAnnee = substr($vfacture->value[FactureEtablissementView::VALUE_DATE_FACTURATION], 0, 4);
             $factureMois = substr($vfacture->value[FactureEtablissementView::VALUE_DATE_FACTURATION], 5, 2);
-            if ((($annee_debut <= $factureAnnee) || ($factureAnnee <= $annee_fin)) &&
-                            (($mois_debut <= $factureMois) || ($factureMois <= $mois_fin))){
+            $factureAnneeMoisStr = $factureAnnee.$factureMois;
+            if (($annee_mois_debutStr <= $factureAnneeMoisStr) && ($factureAnneeMoisStr <= $annee_mois_finStr)){               
                 $export->printFacture($vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID], true);
             }
         }
