@@ -8,6 +8,12 @@ class drm_editionActions extends sfActions {
         $this->setTemplate('index');
     }
 
+     public function executeChoixPoduits(sfWebRequest $request) {
+        $this->init();
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();       
+    }
+    
+    
     public function executeDetail(sfWebRequest $request) {
         $this->init();
         $this->detail = $this->getRoute()->getDRMDetail();

@@ -320,7 +320,12 @@ class DRMRouting {
             'control' => array('edition'),
         )));
 
-
+        $r->prependRoute('drm_choix_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/choix-produits', array('module' => 'drm_edition',
+            'action' => 'choixPoduits'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+            'type' => 'object',
+            'control' => array('edition'),
+        )));        
+        
         /* $r->prependRoute('drm_pdf_facture', new DRMRoute('/drm/:identifiant/facture/:periode_version/pdf', 
           array('module' => 'drm_pdf',
           'action' => 'generatePdfFacture'),

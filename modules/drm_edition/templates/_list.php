@@ -10,7 +10,7 @@
             var colFocusDefaut = 1;
         </script>
 
-        <div id="col_saisies_cont">
+        <div id="col_saisies_cont" class="section_label_maj">
             <?php foreach ($produits as $produit): ?>
                 <?php if ($produit->hasMouvementCheck()): ?>
                     <?php

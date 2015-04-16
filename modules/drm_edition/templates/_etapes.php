@@ -1,13 +1,23 @@
 <ol id="rail_etapes">
-    <li class="actif">
+    <?php $cpt_etape = 1 ; ?>
+    <?php if(isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?>    
+   <li class="actif">
         <a href="#">
-            <strong><span style="cursor: default;">1 </span>
+            <strong><span style="cursor: default;"><?php echo $cpt_etape; ?> </span>
+                Produits 
+            </strong>    </a>    
+    </li>
+    <?php $cpt_etape++; ?>
+    <?php endif; ?>
+    <li class="">
+        <a href="#">
+            <strong><span style="cursor: default;"><?php echo $cpt_etape++; ?> </span>
                 Saisie 
             </strong>    </a>    
     </li>
     <li class="">
         <a>
-            <span style="cursor: default;">2 </span>
+            <span style="cursor: default;"><?php echo $cpt_etape; ?> </span>
             Validation 
         </a>    
     </li>
