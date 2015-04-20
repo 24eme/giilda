@@ -1,11 +1,11 @@
-;(function ( $, window, undefined ) {
+;(function($, window, undefined) {
 
     var debug = false;
 
     /**
-        Class Colonnes
-    **/
-    $.Colonnes = function () 
+     Class Colonnes
+     **/
+    $.Colonnes = function()
     {
         this.element = $('#colonnes_dr');
         this.element_saisies = $('#col_saisies');
@@ -13,11 +13,16 @@
         this.element_colonne_intitules = $('#colonne_intitules');
         this.colonnes = new Array();
         this.groupes_rows = new GroupesRows(this);
-        this.event_valider = function () {}
-        this.event_enabled = function () {}
-        this.event_disabled = function () {}
-        this.event_valider_champ_modification = function () {}
-        this.event_colonne_init = function () {}
+        this.event_valider = function() {
+        }
+        this.event_enabled = function() {
+        }
+        this.event_disabled = function() {
+        }
+        this.event_valider_champ_modification = function() {
+        }
+        this.event_colonne_init = function() {
+        }
 
         this.init = function() {
             this.colonnes = new Array();
@@ -40,7 +45,7 @@
             this.update();
         }
 
-        this.add = function (html) {
+        this.add = function(html) {
             this.element_saisies_container.append(html);
             var colonne = new ColonneProduit(this, this.element_saisies.find('.col_recolte').last());
             colonne.init();
@@ -57,7 +62,7 @@
         }
 
         this.findByHash = function(hash) {
-            for(key in this.colonnes) {
+            for (key in this.colonnes) {
                 if (this.colonnes[key].element.attr('data-hash') == hash) {
 
                     return this.colonnes[key];
@@ -65,10 +70,10 @@
             }
 
             return false;
-        } 
+        }
 
-        this.getActive = function () {
-            for(key in this.colonnes) {
+        this.getActive = function() {
+            for (key in this.colonnes) {
                 if (this.colonnes[key].isActive()) {
 
                     return this.colonnes[key];
@@ -78,13 +83,13 @@
             return false;
         }
 
-        this.hasActive = function () {
+        this.hasActive = function() {
 
             return this.getActive() !== false;
         }
 
-        this.getFocus = function () {
-            for(key in this.colonnes) {
+        this.getFocus = function() {
+            for (key in this.colonnes) {
                 if (this.colonnes[key].isFocus()) {
 
                     return this.colonnes[key];
@@ -94,13 +99,13 @@
             return false;
         }
 
-        this.hasFocus = function () {
+        this.hasFocus = function() {
 
             return this.getFocus() !== false;
         }
 
         this.unFocus = function() {
-            for(key in this.colonnes) {
+            for (key in this.colonnes) {
                 if (this.colonnes[key].isFocus()) {
                     this.colonnes[key].unFocus();
                 }
@@ -108,7 +113,7 @@
         }
 
         this.unActive = function() {
-            for(key in this.colonnes) {
+            for (key in this.colonnes) {
                 if (this.colonnes[key].isActive()) {
                     this.colonnes[key].unActive();
                 }
@@ -117,22 +122,22 @@
 
         this.updateScroll = function()
         {
-            if(this.hasActive()) 
+            if (this.hasActive())
             {
                 this.element_saisies.scrollTo(this.getActive().element, 200);
             }
-            else if(this.hasFocus()) 
+            else if (this.hasFocus())
             {
                 this.element_saisies.scrollTo(this.getFocus().element, 200);
             }
-            else 
+            else
             {
                 this.element_saisies.scrollTo({top: 0, left: 0}, 200);
             }
         };
 
-        this.enabled = function () {
-            for(key in this.colonnes) {
+        this.enabled = function() {
+            for (key in this.colonnes) {
                 this.colonnes[key].enabled();
             }
 
@@ -140,7 +145,7 @@
         }
 
         this.disabled = function() {
-            for(key in this.colonnes) {
+            for (key in this.colonnes) {
                 this.colonnes[key].disabled();
             }
 
@@ -157,25 +162,25 @@
             var largeur = 0;
             var cols = this.element_colonne_intitules.add(this.element_saisies_container);
 
-            for(key in this.colonnes) {
+            for (key in this.colonnes) {
                 largeur += this.colonnes[key].element.outerWidth(true);
             }
 
             this.element_saisies_container.width(largeur);
         }
 
-        this._updateHauteur = function () {
+        this._updateHauteur = function() {
             var cols = this.element_colonne_intitules.add(this.element_saisies_container);
-            
+
             cols.find('.couleur, h2').hauteurEgale();
             cols.find('.label').hauteurEgale();
         }
     }
 
     /**
-        Class ColonneIntitule
-    **/
-    function ColonneIntitule(colonnes, element) 
+     Class ColonneIntitule
+     **/
+    function ColonneIntitule(colonnes, element)
     {
         this.colonnes = colonnes;
         this.element = element;
@@ -217,15 +222,15 @@
     }
 
     /**
-        Class ColonneProduit
-    **/
-    function ColonneProduit(colonnes, element) 
+     Class ColonneProduit
+     **/
+    function ColonneProduit(colonnes, element)
     {
 
         this.colonnes = colonnes;
         this.element = element;
-        this.groupes = new Groupes(this); 
-		this.boutons_etapes = $('#btn_etape_dr a');
+        this.groupes = new Groupes(this);
+        this.boutons_etapes = $('#btn_etape_dr a');
 
         this.init = function() {
             if (debug) {
@@ -258,9 +263,9 @@
             this.focus();
             this.element.addClass('col_active');
             this.colonnes.disabled();
-			
-			// On désactive les boutons et champs autour de la colonne
-			this.desactiveElements();
+
+            // On désactive les boutons et champs autour de la colonne
+            this.desactiveElements();
         }
 
         this.unActive = function() {
@@ -271,37 +276,37 @@
 
             this.element.removeClass('col_active');
             this.colonnes.enabled();
-			
-			// On réactive les boutons et champs autour de la colonne
-			this.reactiveElements();
+
+            // On réactive les boutons et champs autour de la colonne
+            this.reactiveElements();
         }
-		
-		this.desactiveBoutons = function(e)
-		{
-			e.preventDefault();
-		}
-		
-		this.desactiveElements = function() {
-		
-			// On désactive les boutons
-			this.boutons_etapes.addClass('desactive');
-			this.boutons_etapes.bind('click', this.desactiveBoutons);
 
-			// On désactive le champ appellation
-			$('#form_produit_declaration input[type="text"]').attr('disabled', 'disabled');
-		}
-		
-		this.reactiveElements = function() {
-			
-			// On réactive les boutons
-			this.boutons_etapes.removeClass('desactive');
-			this.boutons_etapes.unbind('click', this.desactiveBoutons);
+        this.desactiveBoutons = function(e)
+        {
+            e.preventDefault();
+        }
 
-			// On réactive le champ appellation
-			$('#form_produit_declaration input[type="text"]').removeAttr('disabled');
-		}
+        this.desactiveElements = function() {
 
-        this.enabled = function()  {
+            // On désactive les boutons
+            this.boutons_etapes.addClass('desactive');
+            this.boutons_etapes.bind('click', this.desactiveBoutons);
+
+            // On désactive le champ appellation
+            $('#form_produit_declaration input[type="text"]').attr('disabled', 'disabled');
+        }
+
+        this.reactiveElements = function() {
+
+            // On réactive les boutons
+            this.boutons_etapes.removeClass('desactive');
+            this.boutons_etapes.unbind('click', this.desactiveBoutons);
+
+            // On réactive le champ appellation
+            $('#form_produit_declaration input[type="text"]').removeAttr('disabled');
+        }
+
+        this.enabled = function() {
             if (debug) {
                 console.log('colonne enabled');
                 console.log(this.element);
@@ -311,8 +316,8 @@
             this.groupes.enabled();
         }
 
-        this.disabled = function()  {
-            if(this.isActive()) {
+        this.disabled = function() {
+            if (this.isActive()) {
                 return;
             }
 
@@ -331,12 +336,18 @@
             }
 
             this.colonnes.unFocus();
+            var style = this.element.attr('style');
+            if (style == 'display: none;') {
+                this.element.show();
+                this.focusChampDefault();
+                $('div.groupe').filter('[data-groupe-id="3"] > p').trigger('click');
+            }
             this.element.addClass('col_focus');
             this.colonnes.updateScroll();
         }
 
         this.focusChampDefault = function() {
-           this.element.find(this.element.attr('data-input-focus')).focus(); 
+            this.element.find(this.element.attr('data-input-focus')).focus();
         }
 
         this.unFocus = function() {
@@ -349,7 +360,7 @@
         }
 
         this.reinit = function() {
-            if(!this.isActive()) {
+            if (!this.isActive()) {
                 return;
             }
 
@@ -363,7 +374,7 @@
         }
 
         this.valider = function() {
-            if(!this.isActive()) {
+            if (!this.isActive()) {
                 return;
             }
 
@@ -379,11 +390,11 @@
 
             var form = this.element.find('form');
 
-            $.post(form.attr('action'), form.serializeArray(), function (data)
+            $.post(form.attr('action'), form.serializeArray(), function(data)
             {
                 object.unSaving();
 
-                if(!data.success) {
+                if (!data.success) {
                     alert("Le formulaire n'a pas été sauvegardé car il comporte des erreurs");
 
                     return;
@@ -413,11 +424,11 @@
         }
 
         this.total = function() {
-            
+
             return this.groupes.total();
         }
 
-        this.getHash = function()  {
+        this.getHash = function() {
 
             return this.element.attr('data-hash');
         }
@@ -427,7 +438,7 @@
             return 'ColonneProduit';
         }
 
-        this._initBoutons = function () {
+        this._initBoutons = function() {
             var object = this;
 
             this.element.find('.col_btn button.btn_reinitialiser').click(function() {
@@ -443,9 +454,9 @@
     }
 
     /**
-        Class GroupesRows
-    **/
-    function GroupesRows(colonnes) 
+     Class GroupesRows
+     **/
+    function GroupesRows(colonnes)
     {
         this.colonnes = colonnes;
         this.groupes_rows = new Array();
@@ -461,13 +472,13 @@
         }
 
         this.close = function() {
-            for(key in this.groupes_rows) {
+            for (key in this.groupes_rows) {
                 this.groupes_rows[key].close();
             }
         }
 
         this.update = function() {
-            for(key in this.groupes_rows) {
+            for (key in this.groupes_rows) {
                 this.groupes_rows[key].update();
             }
             this._updateHauteur();
@@ -481,22 +492,22 @@
             colonnes.element_colonne_intitules.find('.groupe').each(function() {
                 var groupe_intitule_ul_li = $(this).find('ul li');
                 var groupe_id = $(this).attr('data-groupe-id');
-                var groupe_produits = colonnes.element_saisies.find('.groupe[data-groupe-id='+groupe_id+']');
+                var groupe_produits = colonnes.element_saisies.find('.groupe[data-groupe-id=' + groupe_id + ']');
 
                 groupe_intitule_ul_li.each(function(i) {
                     var intitule_li = $(this);
-                    var produits_li = groupe_produits.find('li:eq('+i+')');
+                    var produits_li = groupe_produits.find('li:eq(' + i + ')');
                     intitule_li.add(produits_li).hauteurEgale();
                 });
-                
+
             });
         }
     }
 
     /**
-        Class GroupesRow
-    **/
-    function GroupesRow(groupes_rows, groupe_id) 
+     Class GroupesRow
+     **/
+    function GroupesRow(groupes_rows, groupe_id)
     {
         this.groupes_rows = groupes_rows;
         this.groupe_id = groupe_id;
@@ -509,7 +520,7 @@
 
         this._updatePosition = function() {
             if (this.isOpen()) {
-                for(key in this.groupes_row) {
+                for (key in this.groupes_row) {
                     this.groupes_row[key].open();
                 }
 
@@ -517,7 +528,7 @@
             }
 
             if (this.isClosed()) {
-                for(key in this.groupes_row) {
+                for (key in this.groupes_row) {
                     this.groupes_row[key].close();
                 }
 
@@ -534,10 +545,10 @@
         this._getGroupeRows = function() {
             this.groupes_row = new Array();
 
-            for(key_colonne in this.groupes_rows.colonnes.colonnes) {
-                for(key_groupe in this.groupes_rows.colonnes.colonnes[key_colonne].groupes.groupes) {
+            for (key_colonne in this.groupes_rows.colonnes.colonnes) {
+                for (key_groupe in this.groupes_rows.colonnes.colonnes[key_colonne].groupes.groupes) {
                     groupe = this.groupes_rows.colonnes.colonnes[key_colonne].groupes.groupes[key_groupe];
-                    if(groupe.groupe_id == this.groupe_id) {
+                    if (groupe.groupe_id == this.groupe_id) {
                         if (groupe.colonne.getClass() == 'ColonneIntitule') {
                             this.groupe_intitule = groupe;
                         }
@@ -552,10 +563,10 @@
             if (debug) {
                 console.log('hauteur egale p');
             }
-            for(key in this.groupes_row) {
+            for (key in this.groupes_row) {
                 var groupe_element = this.groupes_row[key].element;
                 element.add(groupe_element.children('p'));
-            } 
+            }
             element.hauteurEgale();
         }
 
@@ -580,13 +591,13 @@
                 return;
             }
 
-            if(debug) {
+            if (debug) {
                 console.log('groupes row open');
                 console.log(this);
             }
 
             this.groupes_rows.close();
-            for(key in this.groupes_row) {
+            for (key in this.groupes_row) {
                 this.groupes_row[key].open();
             }
         }
@@ -597,20 +608,20 @@
                 return;
             }
 
-            if(debug) {
+            if (debug) {
                 console.log('groupes row open');
                 console.log(this);
             }
-            for(key in this.groupes_row) {
+            for (key in this.groupes_row) {
                 this.groupes_row[key].close();
             }
         }
     }
 
     /**
-        Class Groupes
-    **/
-    function Groupes(colonne) 
+     Class Groupes
+     **/
+    function Groupes(colonne)
     {
         this.colonne = colonne;
         this.groupes = new Array();
@@ -638,26 +649,26 @@
             });
         }
 
-        this.valider = function () {
-            for(key in this.groupes) {
+        this.valider = function() {
+            for (key in this.groupes) {
                 this.groupes[key].valider();
             }
         }
 
-        this.reinit = function () {
-            for(key in this.groupes) {
+        this.reinit = function() {
+            for (key in this.groupes) {
                 this.groupes[key].reinit();
             }
         }
 
         this.enabled = function() {
-            for(key in this.groupes) {
+            for (key in this.groupes) {
                 this.groupes[key].enabled();
             }
         }
 
         this.disabled = function() {
-            for(key in this.groupes) {
+            for (key in this.groupes) {
                 this.groupes[key].disabled();
             }
         }
@@ -679,14 +690,15 @@
     }
 
     /**
-        Class GroupeIntitule
-    **/
-    function GroupeIntitule(colonne, groupes, element) 
+     Class GroupeIntitule
+     **/
+    function GroupeIntitule(colonne, groupes, element)
     {
         this.colonne = colonne;
         this.groupes = groupes;
         this.element = element;
-        this.element_titre = this.element.children('p');;
+        this.element_titre = this.element.children('p');
+        ;
         this.groupe_id = this.element.attr('data-groupe-id');
 
         this.init = function() {
@@ -694,7 +706,7 @@
                 console.log('init groupe intitule');
                 console.log(this.element);
             }
-            
+
             this._init();
         }
 
@@ -702,7 +714,7 @@
             var object = this;
 
             this.element_titre.click(function() {
-				console.log('ca marche');
+                console.log('ca marche');
                 var groupes_row = object.getGroupesRow();
                 if (groupes_row.isOpen()) {
                     groupes_row.close();
@@ -744,16 +756,16 @@
     }
 
     /**
-        Class GroupeProduit
-    **/
-    function GroupeProduit(colonne, groupes, element) 
+     Class GroupeProduit
+     **/
+    function GroupeProduit(colonne, groupes, element)
     {
         this.colonne = colonne;
         this.groupes = groupes;
         this.element = element;
         this.groupe_id = this.element.attr('data-groupe-id');
         this.champs = new Champs(this.colonne, this);
-        
+
         this.init = function() {
             if (debug) {
                 console.log('init groupe produit');
@@ -763,7 +775,7 @@
         }
 
         this.getPrecedent = function() {
-            if(this.isFirst()) {
+            if (this.isFirst()) {
 
                 return false;
             }
@@ -772,7 +784,7 @@
         }
 
         this.getSuivant = function() {
-            if(this.isLast()) {
+            if (this.isLast()) {
 
                 return false;
             }
@@ -781,20 +793,20 @@
         }
 
         this.isFirst = function() {
-            
+
             return this.groupe_id == 1;
         }
 
         this.isLast = function() {
-            
+
             return this.groupes.groupes.length == this.groupe_id;
         }
 
-        this.reinit = function () {
+        this.reinit = function() {
             this.champs.reinit();
         }
 
-        this.valider = function () {
+        this.valider = function() {
             this.champs.valider();
         }
 
@@ -803,7 +815,7 @@
         }
 
         this.total = function() {
-            
+
             return this.champs.total();
         }
 
@@ -830,9 +842,9 @@
     }
 
     /**
-        Class Champs
-    **/
-    function Champs(colonne, groupe) 
+     Class Champs
+     **/
+    function Champs(colonne, groupe)
     {
         this.colonne = colonne;
         this.groupe = groupe;
@@ -854,39 +866,39 @@
             });
         }
 
-        this.valider = function () {
-            for(key in this.champs) {
+        this.valider = function() {
+            for (key in this.champs) {
                 this.champs[key].valider();
             }
         }
 
-        this.reinit = function () {
-            for(key in this.champs) {
+        this.reinit = function() {
+            for (key in this.champs) {
                 this.champs[key].reinit();
             }
         }
 
         this.enabled = function() {
-            for(key in this.champs) {
+            for (key in this.champs) {
                 this.champs[key].enabled();
             }
         }
 
         this.disabled = function() {
-            for(key in this.champs) {
+            for (key in this.champs) {
                 this.champs[key].disabled();
             }
         }
 
         this.calculer = function() {
-            for(key in this.champs) {
+            for (key in this.champs) {
                 this.champs[key].calculer();
             }
         }
 
         this.somme = function() {
             var somme = 0;
-            for(key in this.champs) {
+            for (key in this.champs) {
                 somme += this.champs[key].somme();
             }
 
@@ -895,7 +907,7 @@
 
         this.total = function() {
             var somme = 0;
-            for(key in this.champs) {
+            for (key in this.champs) {
                 somme += this.champs[key].total();
             }
 
@@ -909,14 +921,14 @@
 
         this.getLast = function() {
 
-            return this.champs[this.champs.length-1];
+            return this.champs[this.champs.length - 1];
         }
     }
 
     /**
-        Class Champ
-    **/
-    function Champ(colonne, champs, element) 
+     Class Champ
+     **/
+    function Champ(colonne, champs, element)
     {
 
         this.colonne = colonne;
@@ -936,7 +948,7 @@
             this._initNum();
         }
 
-        this.reinit = function()  {
+        this.reinit = function() {
             this._reinitText();
             this._reinitSelect();
         }
@@ -993,14 +1005,14 @@
         }
 
         this.getVal = function() {
-            if(!this.isNum()) {
+            if (!this.isNum()) {
 
-                return 0; 
+                return 0;
             }
 
             valeur = 0;
 
-            if(this.element.val() != '') {
+            if (this.element.val() != '') {
                 valeur = parseFloat(this.element.val());
             }
 
@@ -1014,13 +1026,13 @@
 
         this.calculer = function() {
 
-            if(this.isSomme()) {
+            if (this.isSomme()) {
                 this.setVal(this.champs.somme());
 
                 return;
             }
 
-            if(this.isTotalFin()) {
+            if (this.isTotalFin()) {
                 var val_before = this.getVal();
                 this.setVal(this.colonne.total());
 
@@ -1083,16 +1095,16 @@
 
             this.element.keydown(function(e)
             {
-                if(e.keyCode == 9 && e.shiftKey)
+                if (e.keyCode == 9 && e.shiftKey)
                 {
 
                     if (!object.isFirst() || groupe.isFirst()) {
 
                         return true;
-                    } 
+                    }
 
                     $(this).blur();
-                    groupe.getPrecedent().champs.getLast().element.focus();   
+                    groupe.getPrecedent().champs.getLast().element.focus();
                     e.preventDefault();
                 }
             });
@@ -1100,29 +1112,29 @@
 
         this._initSelect = function() {
 
-            if(!this.element.is('select'))
+            if (!this.element.is('select'))
             {
                 return;
             }
 
             this.element.blur(function()
             {
-                if(this.colonnes.hasActive()) {
-                    
+                if (this.colonnes.hasActive()) {
+
                     return;
                 }
 
                 var val = this.champs.val();
 
-                if(val != val_default) { 
-                    colonne.active(); 
+                if (val != val_default) {
+                    colonne.active();
                 }
             });
-                
+
             this.element.change(function()
             {
-                if(this.colonnes.hasActive()) {
-                    
+                if (this.colonnes.hasActive()) {
+
                     return;
                 }
 
@@ -1132,12 +1144,12 @@
 
         this._initText = function() {
 
-            if(!this.element.is('input:text'))
+            if (!this.element.is('input:text'))
             {
                 return;
             }
 
-            if(this.element.attr('readonly'))
+            if (this.element.attr('readonly'))
             {
                 return;
             }
@@ -1151,28 +1163,28 @@
 
         this._initNum = function() {
 
-            if(!this.isNum()) {
-                
+            if (!this.isNum()) {
+
                 return;
             }
 
             var colonne = this.colonne;
             var is_float = this.element.hasClass('num_float');
-            
+
             this.element.saisieNum
-            (
-                is_float,
-                function(){
-                    colonne.active(); 
-                },
-                function(){
-                    colonne.calculer();
-                }
-            );
+                    (
+                            is_float,
+                            function() {
+                                colonne.active();
+                            },
+                            function() {
+                                colonne.calculer();
+                            }
+                    );
         }
 
         this._reinitText = function() {
-            if(!this.element.is('input:text'))
+            if (!this.element.is('input:text'))
             {
                 return;
             }
@@ -1181,14 +1193,14 @@
         }
 
         this._reinitSelect = function() {
-            if(!this.element.is('select'))
+            if (!this.element.is('select'))
             {
                 return;
             }
 
             this.element.children().removeAttr('selected');
-            this.element.children('[value='+this.champ.attr('data-val-defaut')+']').attr('selected', 'selected');
+            this.element.children('[value=' + this.champ.attr('data-val-defaut') + ']').attr('selected', 'selected');
         }
     }
-	
+
 }(jQuery, window));
