@@ -16,9 +16,7 @@
             <?php echo $drm->getEtablissement()->nom ?> </li>
         <li><label>Période : </label><?php echo $drm->periode ?></li>
     </ul>
-
-    <?php include_partial('drm_edition/etapes'); ?>
-
+    <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
     <?php include_partial('drm/controlMessage'); ?>
 
     <div id="application_dr">
@@ -46,3 +44,8 @@
     </div>
 
 </section>
+<?php
+if ($isTeledeclarationMode):
+    include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+endif;
+?>

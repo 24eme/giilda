@@ -4,16 +4,25 @@ class drm_editionActions extends sfActions {
 
     public function executeIndex(sfWebRequest $request) {
         $this->init();
+        $this->initSocieteAndEtablissementPrincipal();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->setTemplate('index');
     }
 
-     public function executeChoixPoduits(sfWebRequest $request) {
+    public function executeChoixPoduits(sfWebRequest $request) {
         $this->init();
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();       
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->form = new DRMProduitsChoiceForm($this->drm);
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        if ($request->isMethod(sfRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+                $this->redirect('drm_edition',$this->form->getObject());
+            }
+        }
     }
-    
-    
+
     public function executeDetail(sfWebRequest $request) {
         $this->init();
         $this->detail = $this->getRoute()->getDRMDetail();
@@ -29,7 +38,6 @@ class drm_editionActions extends sfActions {
         if ($this->form->isValid()) {
             $this->form->save();
             if ($request->isXmlHttpRequest()) {
-
                 return $this->renderText(json_encode(array(
                             "success" => true,
                             "content" => "",
@@ -111,6 +119,15 @@ class drm_editionActions extends sfActions {
 
     private function isTeledeclarationDrm() {
         return $this->getUser()->hasTeledeclarationDrm();
+    }
+
+    private function initSocieteAndEtablissementPrincipal() {
+        $this->compte = $this->getUser()->getCompte();
+        if (!$this->compte) {
+            new sfException("Le compte $compte n'existe pas");
+        }
+        $this->societe = $this->compte->getSociete();
+        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
     }
 
 }

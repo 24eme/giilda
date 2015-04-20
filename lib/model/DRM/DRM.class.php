@@ -164,7 +164,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->generateSuivanteByPeriode(DRMClient::getInstance()->getPeriodeSuivante($this->periode));
     }
 
-    public function generateSuivanteByPeriode($periode) 
+    public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) 
     {
         if ($this->getHistorique()->hasInProcess()) {
 
@@ -178,7 +178,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $drm_suivante->init(array('keepStock' => $keepStock));
         $drm_suivante->update();
         $drm_suivante->periode = $periode;
-
+        $drm_suivante->etape = ($isTeledeclarationMode) ? DRMClient::ETAPE_CHOIX_PRODUITS : DRMClient::ETAPE_SAISIE;
         if ($is_just_the_next_periode) {
             $drm_suivante->precedente = $this->_id;
         }

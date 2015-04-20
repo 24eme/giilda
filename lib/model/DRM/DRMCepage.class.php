@@ -56,7 +56,12 @@ class DRMCepage extends BaseDRMCepage {
 
         return null;
     }
+    
 public function isProduitNonInterpro() {
         return $this->getConfig()->isProduitNonInterpro();
+    }
+    
+    public function hasMovements(){
+        return !$this->exist('no_movements') || !$this->no_movements;
     }
 }

@@ -197,6 +197,8 @@ DRM:
                                                                                                 total_sorties: { type: float }
                                                                                                 total_facturable: { type: float }
                                                                                                 total: { type: float }
+                                                                                                no_movements: { required: false }
+                                                                                                edited: { required: false }
                                                                                                 details:
                                                                                                   type: collection
                                                                                                   class: DRMDetails

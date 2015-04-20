@@ -34,7 +34,7 @@ class drmActions extends sfActions {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
         $identifiant = $request->getParameter('identifiant');
         $periode = $request->getParameter('periode');
-        $drm = DRMClient::getInstance()->createDoc($identifiant, $periode);
+        $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
         $drm->save();
         if($isTeledeclarationMode) {
             $this->redirect('drm_choix_produit', $drm);
