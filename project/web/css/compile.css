@@ -834,6 +834,10 @@ bouton#colonnes_dr .btn_edition_label{height:26px}
 #drm_export_details_table .export_detail_remove{padding-right:0}#drm_export_details_table .export_detail_remove a{padding:0 13px;text-indent:-9999px}
 #drm_vrac_details_table .vrac_detail_remove{padding-right:0}#drm_vrac_details_table .vrac_detail_remove a{padding:0 13px;text-indent:-9999px}
 #drm_cooperative_details_table .cooperative_detail_remove{padding-right:0}#drm_cooperative_details_table .cooperative_detail_remove a{padding:0 13px;text-indent:-9999px}
+#colonne #drm_fil_edition .drm_fil_edition_produit p{font-weight:bold;text-align:left;line-height:28px;color:#daa520}
+#colonne #drm_fil_edition .drm_fil_edition_produit p.edited{color:#006400}
+#colonne #form_produit_declaration label{padding:15px 0}
+#colonne input.ui-autocomplete-input{background:url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;font-size:12px;padding:5px 5px 5px 25px;width:200px;height:30px}
 #principal.drm{width:700px !important;padding:20px 15px 0 10px}#principal.drm .recherche_etablissement{background:none repeat scroll 0 0 #ecebeb;padding:10px 10px 30px}
 #principal.drm #rail_etapes_drm{zoom:1;min-height:1px;text-transform:uppercase;font-size:0;line-height:35px;list-style:none;margin:0 0 25px;position:relative}#principal.drm #rail_etapes_drm:before,#principal.drm #rail_etapes_drm:after{content:"\0020";display:block;font-size:0;height:0;visibility:hidden}
 #principal.drm #rail_etapes_drm:after{clear:both}
@@ -843,11 +847,11 @@ bouton#colonnes_dr .btn_edition_label{height:26px}
 #principal.drm #rail_etapes_drm li>*{display:block;padding:0 18px 0 33px;position:relative}#principal.drm #rail_etapes_drm li>* span{margin:0 5px 0 0;text-align:center}
 #principal.drm #rail_etapes_drm li>*:after{bottom:auto;left:auto;position:absolute;right:-21px;top:0;height:47px;width:21px;background-color:url(../images/fonds/bg_rail_etapes.png) 0 0 no-repeat;content:''}
 #principal.drm #rail_etapes_drm li+li{border-left:1px solid #fff}
+#principal.drm #rail_etapes_drm li.passe{background:#fcf1d5;color:#8a6903}#principal.drm #rail_etapes_drm li.passe>*{color:#886702}#principal.drm #rail_etapes_drm li.passe>* span{background:#fcf1d5}
+#principal.drm #rail_etapes_drm li.passe>*:after{background-position:0 -94px}
 #principal.drm #rail_etapes_drm li.actif{background-color:#000;line-height:49px}#principal.drm #rail_etapes_drm li.actif a{color:#fff;-webkit-text-shadow:1px 1px rgba(214,146,10,0.7);-moz-text-shadow:1px 1px rgba(214,146,10,0.7);text-shadow:1px 1px rgba(214,146,10,0.7)}#principal.drm #rail_etapes_drm li.actif a strong{font-weight:bold}
 #principal.drm #rail_etapes_drm li.actif>* span{background-color:#000}
 #principal.drm #rail_etapes_drm li.actif>*:after{background-position:0 -47px}
-#principal.drm #rail_etapes_drm li.passe{background:#fcf1d5;color:#8a6903}#principal.drm #rail_etapes_drm li.passe>*{color:#886702}#principal.drm #rail_etapes_drm li.passe>* span{background:#fcf1d5}
-#principal.drm #rail_etapes_drm li.passe>*:after{background-position:0 -94px}
 #principal.drm #rail_etapes_drm li strong{font-weight:normal}
 #principal.drm .popup_raccourcis{float:right;position:relative}
 #principal.drm #application_drm{width:675px;border-radius:5px 5px 5px 5px;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px}#principal.drm #application_drm .choix_produit_explication{padding:10px 20px}

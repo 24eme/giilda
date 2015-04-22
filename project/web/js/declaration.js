@@ -84,7 +84,8 @@
             $.initDetailsPopups();
 
             if (colonnes.colonnes.length > 1) {
-                var colonne = colonnes.colonnes[1];
+                var colFocus = (!isNaN(colFocusDefaut) && colFocusDefaut != undefined)? colFocusDefaut : 1;
+                var colonne = colonnes.colonnes[colFocus];
                 colonne.focus();
                 colonne.focusChampDefault();
             }

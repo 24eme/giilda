@@ -1251,6 +1251,38 @@ p#date_drm
     }
 }
 
+#colonne{
+    #drm_fil_edition{
+
+        .drm_fil_edition_produit {
+            p{
+                font-weight: bold;
+                text-align: left;
+                line-height: 28px;
+                color: goldenrod;
+            }
+            p.edited {
+                color : darkgreen;
+
+            }
+        }
+    }
+    
+    #form_produit_declaration{
+        label{
+            padding: 15px 0px;
+        }
+    }
+    
+    input.ui-autocomplete-input
+    {
+        background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
+        font-size:12px;
+        padding: 5px 5px 5px 25px;
+        width:200px;
+        height:30px;
+    }
+}
 
 
 #principal.drm{
@@ -1305,6 +1337,21 @@ p#date_drm
 
             + li { border-left: 1px solid #FFF; }
 
+            &.passe
+            {
+                background: #fcf1d5;
+                color: #8a6903;
+
+                & > *
+                {
+                    color: #886702;
+
+                    span { background: #fcf1d5; }
+
+                    &:after { background-position: 0 -94px; }
+                }
+            }
+            
             &.actif
             {
                 background-color: black;
@@ -1323,22 +1370,7 @@ p#date_drm
 
                     &:after { background-position: 0 -47px; }
                 }
-            }
-
-            &.passe
-            {
-                background: #fcf1d5;
-                color: #8a6903;
-
-                & > *
-                {
-                    color: #886702;
-
-                    span { background: #fcf1d5; }
-
-                    &:after { background-position: 0 -94px; }
-                }
-            }
+            }            
 
             strong { font-weight: normal; }
         }
@@ -1361,26 +1393,26 @@ p#date_drm
         }
         .choix_produit_skip_etape{
             line-height: 30px;
-             padding: 0px 20px;
+            padding: 0px 20px;
             a {
                 float: right; 
                 vertical-align: middle;
             }
         }
         .choix_produit_add_produit {
-             padding: 20px 20px;
+            padding: 20px 20px;
             a {
                 float: right; 
                 vertical-align: middle;
             }
         }
-        
+
         #contenu_onglet{
-             padding: 10px 0px;
+            padding: 10px 0px;
         }
-        
+
         #btn_etape_dr{
-             padding: 10px 0px;
+            padding: 10px 0px;
         }
 
         #form_produit_declaration{ 

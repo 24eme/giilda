@@ -18,7 +18,7 @@ var objAjoutsLiquidations = {};
 
 	$(document).ready( function()
 	{
-            $.initFilEditionProduit();
+                $.initFilEditionProduit();
 		if(ajoutsLiquidations.exists()) $.initAjoutsLiquidations();
 		
 		$('#ajouts_liquidations :checkbox').change(function() {
@@ -197,6 +197,15 @@ var objAjoutsLiquidations = {};
                    });
                 });
             });
+            $('button.btn_colonne_validation').each(function(){
+                
+                $(this).click(function(){
+                    var id = $(this).attr('id').replace('valide_','');
+                    $('.drm_fil_edition_produit[id="'+id+'"] > p').addClass('edited');
+                });
+            });
         };
+        
+        
         
 })(jQuery);

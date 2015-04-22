@@ -1,4 +1,5 @@
-;(function($, window, undefined) {
+;
+(function($, window, undefined) {
 
     var debug = false;
 
@@ -336,12 +337,14 @@
             }
 
             this.colonnes.unFocus();
-            var style = this.element.attr('style');
-            if (style == 'display: none;') {
+            var visible = this.element.is(':visible');
+
+            if (!visible) {
                 this.element.show();
-                this.focusChampDefault();
-                $('div.groupe').filter('[data-groupe-id="3"] > p').trigger('click');
+                var id = this.element.attr('data-hash');
+                $('.drm_fil_edition_produit[id="' + id + '"]').show();
             }
+
             this.element.addClass('col_focus');
             this.colonnes.updateScroll();
         }
@@ -714,7 +717,6 @@
             var object = this;
 
             this.element_titre.click(function() {
-                console.log('ca marche');
                 var groupes_row = object.getGroupesRow();
                 if (groupes_row.isOpen()) {
                     groupes_row.close();
@@ -1080,19 +1082,20 @@
         }
 
         this._init = function() {
+            //     var visible = $(this.colonne.element).is(':visible');
             var colonne = this.colonne;
             var object = this;
             var groupe = this.champs.groupe;
-
             this.element.focus(function()
             {
                 var groupes_row = groupe.getGroupesRow();
+                // if (visible) {
                 colonne.focus();
+                //  }
                 if (groupes_row.isClosed()) {
                     groupes_row.open();
                 }
             });
-
             this.element.keydown(function(e)
             {
                 if (e.keyCode == 9 && e.shiftKey)
