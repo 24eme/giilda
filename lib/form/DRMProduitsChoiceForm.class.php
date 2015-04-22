@@ -40,7 +40,7 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
             $matches = array();
             if (preg_match('/^produit(.*)/', $key, $matches)) {
                 $key = str_replace('-', '/', $matches[1]);
-                $this->_drm->get($key)->getCepage()->add('no_movements', boolval($value));
+                $this->_drm->get($key)->getCepage()->add('no_movements', !! $value);
                 $this->_drm->etape = DRMClient::ETAPE_SAISIE;
             }
         }
