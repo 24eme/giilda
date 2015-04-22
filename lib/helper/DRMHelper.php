@@ -27,3 +27,14 @@ function getDrmTitle($drm) {
     $date = $annee . '-' . $mois . '-01';
     return 'DRM - ' . format_date($date, "MMMM", "fr_FR") . ' ' . $annee;
 }
+
+function getNumberOfFirstProduitWithMovements($produits) {
+    $cpt = 1;
+    foreach ($produits as $produit){
+        if($produit->hasMovements()){
+            return $cpt;
+        }
+        $cpt++;
+    }
+    return null;
+}

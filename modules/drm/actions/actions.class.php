@@ -191,6 +191,7 @@ class drmActions extends sfActions {
         set_time_limit(180);
         $this->drm = $this->getRoute()->getDRM();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->initSocieteAndEtablissementPrincipal();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant, $this->isTeledeclarationMode);
 
         $this->no_link = false;

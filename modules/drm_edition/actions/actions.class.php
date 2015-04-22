@@ -6,10 +6,20 @@ class drm_editionActions extends sfActions {
         $this->init();
         $this->initSocieteAndEtablissementPrincipal();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        if ($this->isTeledeclarationMode) {
+            $this->formValidation = new DRMMouvementsValidationForm($this->drm);
+            if ($request->isMethod(sfRequest::POST)) {
+                $this->formValidation->bind($request->getParameter($this->formValidation->getName()));
+                if ($this->formValidation->isValid()) {
+                    $this->formValidation->save();
+                    $this->redirect('drm_crd', $this->formValidation->getObject());
+                }
+            }
+        }
         $this->setTemplate('index');
     }
 
-    public function executeChoixPoduits(sfWebRequest $request) {        
+    public function executeChoixPoduits(sfWebRequest $request) {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
         $this->certificationsProduits = $this->drm->declaration->getProduitsDetailsByCertifications();
@@ -19,15 +29,29 @@ class drm_editionActions extends sfActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->redirect('drm_edition',$this->form->getObject());
+                $this->redirect('drm_edition', $this->form->getObject());
             }
         }
     }
-    
+
+    public function executeCrd(sfWebRequest $request) {
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->drm = $this->getRoute()->getDRM();
+        $this->form = new DRMCrdForm($this->drm);
+            if ($request->isMethod(sfRequest::POST)) {
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $this->form->save();
+                    $this->redirect('drm_validation', $this->form->getObject());
+                }
+            }
+    }
+
     public function executeChoixAjoutPoduits(sfWebRequest $request) {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
-        var_dump($request['certification_hash']); exit;
+        var_dump($request['certification_hash']);
+        exit;
     }
 
     public function executeDetail(sfWebRequest $request) {

@@ -88,7 +88,7 @@ class DRMRouting {
             'control' => array('valid'),
         )));
 
-      
+
 
         $r->prependRoute('drm_validation', new DRMRoute('/drm/:identifiant/edition/:periode_version/validation', array('module' => 'drm',
             'action' => 'validation'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
@@ -106,7 +106,7 @@ class DRMRouting {
             'type' => 'object',
             'control' => array('valid'))));
 
-        
+
 
         $r->prependRoute('drm_edition', new DRMRoute('/drm/:identifiant/edition/:periode_version/edition', array('module' => 'drm_edition',
             'action' => 'index'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
@@ -114,7 +114,7 @@ class DRMRouting {
             'control' => array('edition'),
         )));
 
-           
+
 
         $r->prependRoute('drm_edition_detail', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/edition/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', array('module' => 'drm_edition',
             'action' => 'detail'), array('sf_method' => array('get')), array('model' => 'DRMDetail',
@@ -135,7 +135,7 @@ class DRMRouting {
             'control' => array('edition'),
         )));
 
-    
+
 
         $r->prependRoute('drm_vrac_details', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/details-vrac/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', array('module' => 'drm_vrac_details',
             'action' => 'produit'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
@@ -159,22 +159,29 @@ class DRMRouting {
             'control' => array('edition'))));
 
         //ROUTING TELEDECLARATION
-        
+
         $r->prependRoute('drm_societe', new sfRoute('/drm/societe/:identifiant', array('module' => 'drm',
             'action' => 'societe')));
-        
-         $r->prependRoute('drm_choix_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/choix-produits', array('module' => 'drm_edition',
+
+        $r->prependRoute('drm_choix_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/choix-produits', array('module' => 'drm_edition',
             'action' => 'choixPoduits'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
-        )));        
-        
-          $r->prependRoute('drm_choix_produit_add_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/ajout-produits/:certification_hash', array('module' => 'drm_edition',
+        )));
+
+        $r->prependRoute('drm_crd', new DRMRoute('/drm/:identifiant/edition/:periode_version/crd', array('module' => 'drm_edition',
+            'action' => 'crd'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+            'type' => 'object',
+            'control' => array('edition'),
+        )));
+
+
+
+        $r->prependRoute('drm_choix_produit_add_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/ajout-produits/:certification_hash', array('module' => 'drm_edition',
             'action' => 'choixAjoutPoduits'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
-        )));        
-        
+        )));
     }
 
 }

@@ -1,7 +1,6 @@
 <?php use_helper('Float'); ?>
 <?php use_helper('Version'); ?>
-
-<div <?php echo (!$detail->getCepage()->hasMovements())? 'style="display: none;"' : ''; ?> data-hash="<?php echo $detail->getHash() ?>" class="col_recolte<?php if ($active): ?> col_active<?php endif; ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>">
+<div <?php echo (!$detail->hasMovements())? 'style="display: none;"' : ''; ?> data-hash="<?php echo $detail->getHash() ?>" class="col_recolte<?php if ($active): ?> col_active<?php endif; ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>">
     <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>
         <a href="#" class="col_curseur" data-curseur="<?php echo $form->getObject()->getKey() ?>"></a>
@@ -82,7 +81,7 @@
             </div>
 
             <div class="col_btn">
-                <button class="btn_valider btn_majeur" type="submit">Valider</button>
+                <button id="valide_<?php echo $detail->getHash() ?>" class="btn_valider btn_majeur btn_colonne_validation" type="submit">Valider</button>
                 <button class="btn_reinitialiser btn_annuler btn_majeur" style="margin-top: 8px;" type="submit">Annuler</button>
             </div>
         </div>

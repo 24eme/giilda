@@ -15,6 +15,9 @@ class DRMClient extends acCouchdbClient {
     const VALIDE_STATUS_VALIDEE_ENVOYEE = 'ENVOYEE';
     const VALIDE_STATUS_VALIDEE_RECUE = 'RECUE';
 
+    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS,self::ETAPE_SAISIE,self::ETAPE_CRD,self::ETAPE_VALIDATION);
+
+
     protected $drm_historiques = array();
 
     /**

@@ -1,3 +1,4 @@
+<?php use_helper('DRM'); ?>
 <div id="forms_errors" style="color: red;">
     <?php include_partial('drm_edition/itemFormErrors', array('form' => $form)) ?>
 </div>
@@ -7,7 +8,7 @@
     <div id="col_saisies">
         <script type="text/javascript">
             /* Colonne avec le focus par défaut */
-            var colFocusDefaut = 1;
+            var colFocusDefaut = <?php echo getNumberOfFirstProduitWithMovements($produits); ?>;
         </script>
 
         <div id="col_saisies_cont" class="section_label_maj">

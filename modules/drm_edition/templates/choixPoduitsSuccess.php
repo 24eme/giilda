@@ -20,7 +20,7 @@
         </ul>
     <?php endif; ?>
 
-    <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape' => 1)); ?>
+    <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_CHOIX_PRODUITS)); ?>
 
     <?php include_partial('drm/controlMessage'); ?>
 
