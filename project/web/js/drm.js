@@ -18,6 +18,7 @@ var objAjoutsLiquidations = {};
 
 	$(document).ready( function()
 	{
+            $.initFilEditionProduit();
 		if(ajoutsLiquidations.exists()) $.initAjoutsLiquidations();
 		
 		$('#ajouts_liquidations :checkbox').change(function() {
@@ -182,5 +183,20 @@ var objAjoutsLiquidations = {};
 			else texteCaution.hide();
 		}); // fin de click()
 	}; // fin de $.choixCaution()
+        
+        $.initFilEditionProduit = function(){
+            $('.drm_fil_edition_produit').each(function(){
+                $(this).click(function(){
+                    var id = $(this).attr('id');
+                   $('.col_recolte').each(function(){
+                       if($(this).data('hash')==id){
+                           $(this).addClass('col_focus');
+                       }else{
+                           $(this).removeClass('col_focus');
+                       }
+                   });
+                });
+            });
+        };
         
 })(jQuery);

@@ -10,7 +10,7 @@
 			<li><span>Période :</span> <?php echo ucfirst($drm->getHumanPeriode()); ?></li>
 		</ul>
 
-        <?php include_partial('drm/etapes', array('drm' => $drm)); ?>
+        <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
         <form action="" method="post">
             <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>

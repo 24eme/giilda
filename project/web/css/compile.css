@@ -318,7 +318,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher{height:26px}
 #global_content.no_right_col #principal{width:auto}
 #mon_espace .block_teledeclaration{width:300px;display:inline-block;background:none repeat scroll 0 0 #ecebeb;margin:0 0 25px;margin:10px 10px 30px}#mon_espace .block_teledeclaration .title{background:none repeat scroll 0 0 #000;vertical-align:middle;text-align:center;color:#fff;font-size:18pt}
 #mon_espace .block_teledeclaration .panel{padding:10px}#mon_espace .block_teledeclaration .panel ul li{line-height:28px}#mon_espace .block_teledeclaration .panel ul li a{text-decoration:underline;font-weight:bold}
-#mon_espace .block_teledeclaration .panel ul li.text-error{color:#f00 !important;font-weight:bold}#mon_espace .block_teledeclaration .panel ul li.text-error a{text-decoration:underline;font-weight:bold}
+#mon_espace .block_teledeclaration .panel ul li.text-error{color:#f00;font-weight:bold}
 #mon_espace .block_teledeclaration .acces{padding:10px;text-align:center}
 .block_overlay{position:relative}
 .lien_contrat_supprimer_brouillon{color:#d00815;display:inline-block;float:left;font-family:"HelveticaNeue75bold",Helvetica,Arial,sans-serif;margin:5px 0 0;padding:0 0 0 30px;text-decoration:underline}
@@ -835,12 +835,30 @@ bouton#colonnes_dr .btn_edition_label{height:26px}
 #drm_vrac_details_table .vrac_detail_remove{padding-right:0}#drm_vrac_details_table .vrac_detail_remove a{padding:0 13px;text-indent:-9999px}
 #drm_cooperative_details_table .cooperative_detail_remove{padding-right:0}#drm_cooperative_details_table .cooperative_detail_remove a{padding:0 13px;text-indent:-9999px}
 #principal.drm{width:700px !important;padding:20px 15px 0 10px}#principal.drm .recherche_etablissement{background:none repeat scroll 0 0 #ecebeb;padding:10px 10px 30px}
-#principal.drm #rail_etapes{margin:20px 10px}
+#principal.drm #rail_etapes_drm{zoom:1;min-height:1px;text-transform:uppercase;font-size:0;line-height:35px;list-style:none;margin:0 0 25px;position:relative}#principal.drm #rail_etapes_drm:before,#principal.drm #rail_etapes_drm:after{content:"\0020";display:block;font-size:0;height:0;visibility:hidden}
+#principal.drm #rail_etapes_drm:after{clear:both}
+#principal.drm #rail_etapes_drm:before,#principal.drm #rail_etapes_drm:after{content:"\0020";display:block;font-size:0;height:0;visibility:hidden}
+#principal.drm #rail_etapes_drm:after{clear:both}
+#principal.drm #rail_etapes_drm li{background:#ecebeb;display:inline-block;font-size:12px;width:25%}#principal.drm #rail_etapes_drm li a{text-decoration:none}#principal.drm #rail_etapes_drm li a:hover,#principal.drm #rail_etapes_drm li a:focus{text-decoration:none}
+#principal.drm #rail_etapes_drm li>*{display:block;padding:0 18px 0 33px;position:relative}#principal.drm #rail_etapes_drm li>* span{margin:0 5px 0 0;text-align:center}
+#principal.drm #rail_etapes_drm li>*:after{bottom:auto;left:auto;position:absolute;right:-21px;top:0;height:47px;width:21px;background-color:url(../images/fonds/bg_rail_etapes.png) 0 0 no-repeat;content:''}
+#principal.drm #rail_etapes_drm li+li{border-left:1px solid #fff}
+#principal.drm #rail_etapes_drm li.actif{background-color:#000;line-height:49px}#principal.drm #rail_etapes_drm li.actif a{color:#fff;-webkit-text-shadow:1px 1px rgba(214,146,10,0.7);-moz-text-shadow:1px 1px rgba(214,146,10,0.7);text-shadow:1px 1px rgba(214,146,10,0.7)}#principal.drm #rail_etapes_drm li.actif a strong{font-weight:bold}
+#principal.drm #rail_etapes_drm li.actif>* span{background-color:#000}
+#principal.drm #rail_etapes_drm li.actif>*:after{background-position:0 -47px}
+#principal.drm #rail_etapes_drm li.passe{background:#fcf1d5;color:#8a6903}#principal.drm #rail_etapes_drm li.passe>*{color:#886702}#principal.drm #rail_etapes_drm li.passe>* span{background:#fcf1d5}
+#principal.drm #rail_etapes_drm li.passe>*:after{background-position:0 -94px}
+#principal.drm #rail_etapes_drm li strong{font-weight:normal}
 #principal.drm .popup_raccourcis{float:right;position:relative}
-#principal.drm #application_dr{width:675px;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px;border:1px solid #e3e2e2}#principal.drm #application_dr #form_produit_declaration{padding:10px;}#principal.drm #application_dr #form_produit_declaration label{width:200px}
-#principal.drm #application_dr #form_produit_declaration .ui-autocomplete-input{width:450px !important}
-#principal.drm #application_dr #form_produit_declaration input[disabled='disabled']{background-color:#ecebeb}
-#principal.drm #application_dr .titre_produit{background-color:#ecebeb}
+#principal.drm #application_drm{width:675px;border-radius:5px 5px 5px 5px;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px}#principal.drm #application_drm .choix_produit_explication{padding:10px 20px}
+#principal.drm #application_drm .choix_produit_skip_etape{line-height:30px;padding:0 20px}#principal.drm #application_drm .choix_produit_skip_etape a{float:right;vertical-align:middle}
+#principal.drm #application_drm .choix_produit_add_produit{padding:20px 20px}#principal.drm #application_drm .choix_produit_add_produit a{float:right;vertical-align:middle}
+#principal.drm #application_drm #contenu_onglet{padding:10px 0}
+#principal.drm #application_drm #btn_etape_dr{padding:10px 0}
+#principal.drm #application_drm #form_produit_declaration{padding:10px;}#principal.drm #application_drm #form_produit_declaration label{width:200px}
+#principal.drm #application_drm #form_produit_declaration .ui-autocomplete-input{width:450px !important}
+#principal.drm #application_drm #form_produit_declaration input[disabled='disabled']{background-color:#ecebeb}
+#principal.drm #application_drm .titre_produit{background-color:#ecebeb}
 #principal.drm .li_gris{background:#ecebeb;border:1px solid #e5e4e4;border-width:1px 0;height:35px !important}#principal.drm .li_gris input{margin-top:7px}#principal.drm .li_gris input[readonly]{background:#ecebeb;color:#3e3e3e;border:0;box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none}
 #principal.drm #colonne_intitules .li_gris{padding-top:5px;font-weight:bold}
 #principal.drm fieldset{margin:25px 0}#principal.drm fieldset#historique_drm nav{position:relative;bottom:-1px}#principal.drm fieldset#historique_drm nav ul{min-height:1px;zoom:1;min-height:1px}#principal.drm fieldset#historique_drm nav ul:before,#principal.drm fieldset#historique_drm nav ul:after{content:"\0020";display:block;font-size:0;height:0;visibility:hidden}

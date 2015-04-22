@@ -104,6 +104,8 @@
                         <?php include_slot('colCompte'); ?>
 
                         <?php include_slot('colLegende'); ?>  
+                        
+                        <?php include_slot('colFilEdition'); ?>  
 
                         <?php include_slot('colAide'); ?>                        
 
