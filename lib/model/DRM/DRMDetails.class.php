@@ -39,5 +39,5 @@ class DRMDetails extends BaseDRMDetails {
     
     public function isProduitNonInterpro() {
         return $this->getParent()->isProduitNonInterpro();
-    }
+    }   
 }

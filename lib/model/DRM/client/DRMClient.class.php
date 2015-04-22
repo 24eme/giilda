@@ -8,6 +8,7 @@ class DRMClient extends acCouchdbClient {
     const CONTRATSPRODUITS_VOL_ENLEVE = 3;
     const ETAPE_CHOIX_PRODUITS = 'CHOIX_PRODUITS';
     const ETAPE_SAISIE = 'SAISIE';
+    const ETAPE_CRD = 'CRD';
     const ETAPE_VALIDATION = 'VALIDATION';
     const VALIDE_STATUS_EN_COURS = '';
     const VALIDE_STATUS_VALIDEE = 'VALIDEE';

@@ -48,5 +48,23 @@ class DRMDeclaration extends BaseDRMDeclaration {
         }
         return false;
     }
+    
+    public function getProduitsDetailsByCertifications() {
+        $certifications = $this->getConfig()->getChildrenNode(); 
+        $produitsDetailsByCertifications = array();
+        foreach ($certifications as $certification) {
+            if(!array_key_exists($certification->getHash(), $produitsDetailsByCertifications)){
+                $produitsDetailsByCertifications[$certification->getHash()] = new stdClass();
+                $produitsDetailsByCertifications[$certification->getHash()]->certification = $certification;
+                $produitsDetailsByCertifications[$certification->getHash()]->produits = array();
+            }
+        }
+        $produitsDetails = $this->getProduitsDetails();
+        foreach ($produitsDetails as $produitDetails) {
+            $produitsDetailsByCertifications[$produitDetails->getCertification()->getHash()]->produits[$produitDetails->getHash()] = $produitDetails;
+        }
+        
+        return $produitsDetailsByCertifications;
+    }
 
 }

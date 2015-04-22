@@ -9,9 +9,10 @@ class drm_editionActions extends sfActions {
         $this->setTemplate('index');
     }
 
-    public function executeChoixPoduits(sfWebRequest $request) {
-        $this->init();
+    public function executeChoixPoduits(sfWebRequest $request) {        
         $this->initSocieteAndEtablissementPrincipal();
+        $this->drm = $this->getRoute()->getDRM();
+        $this->certificationsProduits = $this->drm->declaration->getProduitsDetailsByCertifications();
         $this->form = new DRMProduitsChoiceForm($this->drm);
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         if ($request->isMethod(sfRequest::POST)) {
@@ -21,6 +22,12 @@ class drm_editionActions extends sfActions {
                 $this->redirect('drm_edition',$this->form->getObject());
             }
         }
+    }
+    
+    public function executeChoixAjoutPoduits(sfWebRequest $request) {
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->drm = $this->getRoute()->getDRM();
+        var_dump($request['certification_hash']); exit;
     }
 
     public function executeDetail(sfWebRequest $request) {

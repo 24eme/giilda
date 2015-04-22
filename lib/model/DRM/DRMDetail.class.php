@@ -356,4 +356,12 @@ class DRMDetail extends BaseDRMDetail {
     $this->cvo->taux = null;
     $this->cvo->calcul();
   }
+  
+  public function isEdited() {
+        return $this->getCepage()->exist('edited') && $this->getCepage()->edited;
+    }
+    
+      public function hasMovements() {
+        return $this->getCepage()->hasMovements();
+    }
 }

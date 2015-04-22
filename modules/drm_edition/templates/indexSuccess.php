@@ -32,20 +32,17 @@
                 'form' => $form,
                 'detail' => $detail));
             ?>
-
         </div>
-
-
-
     </div>
     <div id="btn_etape_dr">
         <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn_brouillon btn_majeur">Enregistrer en brouillon</a>
-        <a href="<?php echo url_for('drm_validation', $drm); ?>" class="btn_etape_suiv" id="facture"><span>Suivant</span></a> 
+        <a href="<?php echo url_for('drm_validation', $drm); ?>" class="btn_etape_suiv" id="button_drm_validation"><span>Suivant</span></a> 
     </div>
 
 </section>
 <?php
 if ($isTeledeclarationMode):
     include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+    include_partial('colonne_droite_fil_edition', array('produits' => $details));
 endif;
 ?>
