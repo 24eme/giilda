@@ -1,0 +1,430 @@
+\documentclass[a4paper,8pt]{article}
+\usepackage{geometry} % paper=a4paper
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{units}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fp}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{multicol}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{lastpage}
+\usepackage{truncate}
+
+
+
+\usetikzlibrary{fit}
+
+\renewcommand\sfdefault{phv}
+
+\newcommand{\CutlnPapillon}{	
+  	\multicolumn{4}{|c|}{ ~~~~~~~~~~~~~~~~~~~~~~~ } & 
+  	\multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
+\\    
+}
+
+\newcommand{\CutlnPapillonEntete}{	
+      & \centering \small{\textbf{Code échéance}} &
+    \centering \small{\textbf{Date d'échéance}} &
+    \multicolumn{1}{r|}{\small{\textbf{Montant TTC}}}  
+     & 
+  	\multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
+\\    
+}
+
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\TruncateMarker}{\small{...}}
+
+\setlength{\oddsidemargin}{-2cm}
+\setlength{\evensidemargin}{-2cm}
+\setlength{\textwidth}{19cm}
+\setlength{\headheight}{5.3cm}
+\setlength{\headwidth}{20.5cm}
+\setlength{\topmargin}{-4.5cm}
+\addtolength{\textheight}{29.9cm} 
+
+\def\TVA{19.60} 
+\def\InterloireAdresse{Adresse 1 \\
+		       102354 PARIS - France} 
+\def\InterloireFacturation{\\Votre contact : Tangui Morlier - Tél : +33 6 45 38 10 87 \\ Email : tmorlier.fr
+                                              } 
+\def\InterloireSIRET{400 000 000 102354}
+\def\InterloireAPE{APE 0000 A} 
+\def\InterloireTVAIntracomm{FR 11 1023545672}
+\def\InterloireBANQUE{Crédit Agricole Atlantique Vendée}
+\def\InterloireBIC{AFGTRE102354412}
+\def\InterloireIBAN{FR10~0000~6000~5800~0580~2100~001}
+
+\def\FactureNum{01/3-102354}
+\def\FactureNumREF{04 1023543}
+\def\FactureDate{30/11/2012}
+\def\FactureRefClient{1023545}
+
+\def\FactureClientNom{Mathurin PETIT - Paris 13}
+\def\FactureClientAdresse{Chez Jean baptiste le metayer  \\  Comptablité fournisseur  \\  1 rue de De latex}                            
+\def\FactureClientCP{102354}
+\def\FactureClientVille{Paris}
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancyhf{}
+
+\lhead{
+ \textbf{InterLoire} \\  
+ \InterloireAdresse \\
+ \begin{small} \textbf{\begin{footnotesize}\InterloireFacturation\end{footnotesize}}\\ \end{small}
+ \begin{tiny}
+         RIB~:~\InterloireBANQUE~(BIC:~\InterloireBIC~IBAN:~\InterloireIBAN) 
+ \end{tiny} \\
+ \begin{tiny}
+         SIRET~\InterloireSIRET ~-~\InterloireAPE ~- TVA~Intracommunutaire~\InterloireTVAIntracomm
+\end{tiny}
+ }
+\rhead{
+ % \includegraphics[scale=1]{logo.jpg}
+}
+\begin{document}
+\noindent{
+\begin{minipage}[t]{0.5\textwidth}
+	\begin{flushleft}
+	
+	\textbf{FACTURE} \\
+	\vspace{0.2cm}
+	\begin{tikzpicture}
+		\node[inner sep=1pt] (tab0){
+			\begin{tabular}{*{2}{c|}c}
+  				\rowcolor{lightgray} \textbf{NUMERO} & \textbf{DATE} & \textbf{REF CLIENT} \\
+  				\hline
+  				\FactureNum & \FactureDate & \FactureRefClient
+			\end{tabular}
+		};
+		\node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab0.north west) (tab0.north east) (tab0.south east) (tab0.south west)] {};	
+	\end{tikzpicture}
+	\\
+	\begin{small}
+	Cotisation selon Accord interprofessionnel en vigueur
+	\end{small}
+                	\vspace{0.5cm}
+        	\end{flushleft}
+\end{minipage}
+}
+\hspace{2cm}
+\begin{minipage}[t]{0.5\textwidth}
+\vspace{1cm}
+		\begin{flushleft}		
+			\textbf{\FactureClientNom \\}				
+				\FactureClientAdresse \\
+				\FactureClientCP ~\FactureClientVille \\
+			\end{flushleft}
+		\hspace{6cm}
+\end{minipage}\fontsize{8}{10}\selectfont
+\begin{flushright}
+page \thepage / 2\end{flushright}\centering
+\fontsize{8}{10}\selectfont
+    \begin{tikzpicture}
+		\node[inner sep=1pt] (tab1){
+                        \renewcommand{\arraystretch}{1.2}
+			\begin{tabular}{p{125mm} |p{12mm}|p{12mm}|p{18mm}|p{6mm}p{0mm}}
+  			\rowcolor{lightgray}
+                        \centering \small{\textbf{Libellé}} &
+   			\centering \small{\textbf{Volume en hl}} &
+                        \centering \small{\textbf{C.V.O. en \texteuro{}/hl}} &
+   			\centering \small{\textbf{Montant HT en \texteuro{}}} &   			
+   			\centering \small{\textbf{Code Ech.}} &
+   			 \\
+  			\hline
+                        ~ & ~ & ~ & ~ & ~ &\\
+\textbf{\large{Sorties de contrats vins}} & ~ & ~ & ~ & ~ & \\~~~~\truncate{124mm}{\small{\textbf{EFF Vouvray Blanc} n° 102354 enlèv. au 30/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{160.00}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{320.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Anjou Rouge} n° 102354 enlèv. au 30/11/2012 }} &
+                            \multicolumn{1}{r|}{\small{80.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{180.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Anjou Rouge} n° 102354 enlèv. au 30/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{50.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{112.50}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Chinon Rouge Cabernet Franc} n° 102354 enlèv. au 26/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{105.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{236.25}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Chinon Rouge Cabernet Franc} n° 102354 enlèv. au 26/11/2012 }} &
+                            \multicolumn{1}{r|}{\small{65.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{146.25}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Chinon Rouge Cabernet Franc} n° 102354 enlèv. au 30/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{150.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{337.50}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Gros plant Blanc Folle blanche} n° 102354 enlèv. au 06/09/2012  }} &
+                            \multicolumn{1}{r|}{\small{180.00}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{360.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Gros plant Blanc Folle blanche} n° 102354 enlèv. au 06/09/2012  }} &
+                            \multicolumn{1}{r|}{\small{80.00}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{160.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Gros plant Blanc Folle blanche} n° 102354 enlèv. au 19/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{15.00}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{30.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Gros plant Sur lie Blanc Folle blanche} n° 102354 enlèv. au 30/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{171.00}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{342.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Gros plant Sur lie Blanc Folle blanche} n° 102354 enlèv. au 14/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{161.23}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{322.46}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Gros plant Sur lie Blanc Folle blanche} n° 102354 enlèv. au 23/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{170.00}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{340.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet AC Blanc Melon} n° 102354 enlèv. au 05/11/2012   }} &
+                            \multicolumn{1}{r|}{\small{79.40}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{178.65}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet AC Blanc Melon} n° 102354 enlèv. au 30/11/2012   }} &
+                            \multicolumn{1}{r|}{\small{440.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{990.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet AC Blanc Melon} n° 102354 enlèv. au 30/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{45.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{101.25}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sur lie Côtes de Grand Lieu Blanc Melon} n° 102354 enlèv. au 19/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{121.91}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{274.30}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Blanc Melon} n° 102354 enlèv. au 30/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{270.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{607.50}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Blanc Melon} n° 102354 enlèv. au 30/11/2012   }} &
+                            \multicolumn{1}{r|}{\small{150.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{337.50}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Blanc Melon} n° 102354 enlèv. au 30/11/2012   }} &
+                            \multicolumn{1}{r|}{\small{534.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{1 201.50}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Sur lie Blanc Melon} n° 102354 enlèv. au 30/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{150.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{337.50}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Sur lie Blanc Melon} n° 102354 enlèv. au 30/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{310.03}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{697.57}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Sur lie Blanc Melon} n° 102354 enlèv. au 30/11/2012   }} &
+                            \multicolumn{1}{r|}{\small{70.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{157.50}}&
+                            \multicolumn{2}{c}{\small{A}} \\~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+    \multicolumn{6}{c}{.../...} \\    ~ & ~ & ~ & ~ & ~ & \\
+                \end{tabular}
+        };
+        \node[draw=gray, inner sep=-2pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};	
+\end{tikzpicture}
+\newpage
+\fontsize{8}{10}\selectfont
+\begin{flushright}
+page \thepage / 2\end{flushright}\centering
+\fontsize{8}{10}\selectfont
+    \begin{tikzpicture}
+		\node[inner sep=1pt] (tab1){
+                        \renewcommand{\arraystretch}{1.2}
+			\begin{tabular}{p{125mm} |p{12mm}|p{12mm}|p{18mm}|p{6mm}p{0mm}}
+  			\rowcolor{lightgray}
+                        \centering \small{\textbf{Libellé}} &
+   			\centering \small{\textbf{Volume en hl}} &
+                        \centering \small{\textbf{C.V.O. en \texteuro{}/hl}} &
+   			\centering \small{\textbf{Montant HT en \texteuro{}}} &   			
+   			\centering \small{\textbf{Code Ech.}} &
+   			 \\
+  			\hline
+                        ~ & ~ & ~ & ~ & ~ &\\
+\textbf{\large{Sorties de contrats vins}} & ~ & ~ & ~ & ~ & \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Sur lie Blanc Melon} n° 102354 enlèv. au 09/11/2012   }} &
+                            \multicolumn{1}{r|}{\small{614.59}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{1 382.83}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Sur lie Blanc Melon} n° 102354 enlèv. au 26/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{270.41}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{608.42}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Sur lie Blanc Melon} n° 102354 enlèv. au 22/11/2012   }} &
+                            \multicolumn{1}{r|}{\small{590.91}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{1 329.55}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Sur lie Blanc Melon} n° 102354 enlèv. au 23/11/2012   }} &
+                            \multicolumn{1}{r|}{\small{170.11}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{382.75}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Muscadet Sèvre et Maine Sur lie Blanc Melon} n° 102354 enlèv. au 30/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{300.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{675.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Saumur Champigny Rouge} n° 102354 enlèv. au 31/10/2012   }} &
+                            \multicolumn{1}{r|}{\small{75.00}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{150.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Saumur Champigny Rouge} n° 102354 enlèv. au 12/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{110.00}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{220.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Saumur Champigny Rouge} n° 102354 enlèv. au 12/11/2012    }} &
+                            \multicolumn{1}{r|}{\small{119.80}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{239.60}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Saumur Champigny Rouge} n° 102354 enlèv. au 30/11/2012    }} &
+                            \multicolumn{1}{r|}{\small{150.00}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{300.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Saumur Champigny Rouge} n° 102354 enlèv. au 30/11/2012    }} &
+                            \multicolumn{1}{r|}{\small{39.07}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{78.14}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Saumur Rouge} n° 102354 enlèv. au 05/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{117.00}} &
+                            \multicolumn{1}{r|}{\small{2.25}} & 
+                            \multicolumn{1}{r|}{\small{263.25}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{St Nicolas de Bourgueil Rouge Cabernet Franc} n° 102354 enlèv. au 31/01/2012   }} &
+                            \multicolumn{1}{r|}{\small{80.00}} &
+                            \multicolumn{1}{r|}{\small{1.90}} & 
+                            \multicolumn{1}{r|}{\small{151.60}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{St Nicolas de Bourgueil Rouge Cabernet Franc} n° 102354 enlèv. au 30/11/2012  (MATHURIN PETIT truncate - DE LA VALLE DE LOIRE ET dAilleur)  }} &
+                            \multicolumn{1}{r|}{\small{200.80}} &
+                            \multicolumn{1}{r|}{\small{1.90}} & 
+                            \multicolumn{1}{r|}{\small{380.52}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{St Nicolas de Bourgueil Rouge Cabernet Franc} n° 102354 enlèv. au 30/11/2012   }} &
+                            \multicolumn{1}{r|}{\small{11.25}} &
+                            \multicolumn{1}{r|}{\small{1.90}} & 
+                            \multicolumn{1}{r|}{\small{21.32}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Touraine Rosé} n° 102354 enlèv. au 30/11/2012  }} &
+                            \multicolumn{1}{r|}{\small{67.43}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{134.86}}&
+                            \multicolumn{2}{c}{\small{A}} \\~~~~\truncate{124mm}{\small{\textbf{Vouvray Blanc} n° 102354 enlèv. au 09/11/2012 }} &
+                            \multicolumn{1}{r|}{\small{150.00}} &
+                            \multicolumn{1}{r|}{\small{2.00}} & 
+                            \multicolumn{1}{r|}{\small{300.00}}&
+                            \multicolumn{2}{c}{\small{A}} \\~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ & ~ &\\
+    \multicolumn{6}{c}{Aucun escompte n'est prévu pour paiement anticipé. Pénalités de retard : 3 fois le taux d'intér\^{e}t légal} \\ \multicolumn{6}{c}{Indemnité forfaitaire pour frais de recouvrement: 40~\texteuro{}} \\     ~ & ~ & ~ & ~ & ~ & \\
+                \end{tabular}
+        };
+        \node[draw=gray, inner sep=-2pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};	
+\end{tikzpicture}
+        
+\noindent{
+\begin{minipage}[b]{1\textwidth}
+\noindent{
+       \begin{flushleft}
+       
+       \begin{minipage}[b]{0.60\textwidth}
+        \small{\textbf{Règlement : }}
+        \begin{itemize}
+            \item \textbf{par virement} (merci de mentionner les n° suivants : \FactureRefClient~\FactureNum)
+            \item \textbf{par chèque en joignant le(s) papillon(s) à l'adresse suivante :\\  \textit{Interloire, Château de la Fremoire - 102354 Vertou}} \\
+        \end{itemize}
+        \end{minipage}
+        \end{flushleft}
+}
+\hspace{-1.35cm}
+\vspace{-2.7cm}
+    \begin{flushright}
+    \begin{minipage}[b]{0.27\textwidth}
+            \begin{tikzpicture}
+            \node[inner sep=1pt] (tab2){
+                    \begin{tabular}{>{\columncolor{lightgray}} l | p{22mm}}
+
+                    \centering \small{\textbf{Montant HT}} &
+                    \multicolumn{1}{r}{\small{14 388.07~\texteuro{}}} \\
+                    
+                    \centering \small{} &
+                    \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
+                    
+                    \centering \small{\textbf{TVA 19.6~\%}} &
+                    \multicolumn{1}{r}{\small{2 820.06~\texteuro{}}} \\
+                    
+                    \centering \small{} &
+                    \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
+                    \hline
+                    \centering \small{} &
+                    \multicolumn{1}{r}{~~~~~~~~~~~~~~~~~~~~~~~~} \\
+                    
+                    \centering \small{\textbf{Montant TTC}} &
+                    \multicolumn{1}{r}{\small{17 208.13~\texteuro{}}}   \\
+                    \end{tabular}
+            };
+            \node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab2.north west) (tab2.north east) (tab2.south east) (tab2.south west)] {};	
+            \end{tikzpicture} 
+ \end{minipage}
+ \end{flushright}
+ \end{minipage} }\begin{center}
+Echéances (hors régularisation) : A = à 60 jours fin de mois, B = au 31/03 et au 30/06, C = au 31/03, au 30/06 et au 30/09, D = au 30/09
+
+\begin{minipage}[b]{1\textwidth}
+
+\begin{tabular}{|p{9mm} p{25mm} p{25mm} p{20mm} | p{36mm} p{36mm} p{36mm}}
+            \hline
+	\multicolumn{4}{|>{\columncolor[rgb]{0.8,0.8,0.8}}c|}{\centering \small{\textbf{Partie à conserver}}} &
+	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à joindre au règlement}}} \\  	
+	
+        \CutlnPapillonEntete
+                &
+    &
+    &
+    &
+    \centering \small{Echéance} &
+    \centering \small{Ref. Client / Ref. Facture} &
+    \multicolumn{1}{c}{\small{Montant TTC}} \\
+                        
+                \centering \small{1} & 
+                \centering \small{A} &
+                \centering \small{\textbf{31/01/2013}} &
+                \multicolumn{1}{r|}{\centering \small{\textbf{17 208.13~\texteuro{}}}} &
+                \centering \small{\textbf{31/01/2013}} &
+                \centering \small{\FactureRefClient~/~\FactureNum} &               
+                \multicolumn{1}{r}{\small{\textbf{17 208.13~\texteuro{}}}}  \\
+
+                \CutlnPapillon
+         
+                
+\end{tabular}
+\end{minipage}
+\end{center}\end{document}
