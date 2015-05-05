@@ -24,6 +24,13 @@ class drm_editionActions extends sfActions {
         $this->drm = $this->getRoute()->getDRM();
         $this->certificationsProduits = $this->drm->declaration->getProduitsDetailsByCertifications();
         $this->form = new DRMProduitsChoiceForm($this->drm);
+        
+        
+        $this->formAddProduitsByCertifications = array();
+        foreach ($this->certificationsProduits as $certificationProduits) {
+            $this->formAddProduitsByCertifications[$certificationProduits->certification->getHashForKey()] = new DRMAddProduitByCertificationForm($certificationProduits->certification,$this->drm);
+        }
+        
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));

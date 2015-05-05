@@ -15,6 +15,7 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
 
     private $_drm = null;
     private $_produits = null;
+    private $all_checked = true;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->_drm = $object;
@@ -24,7 +25,7 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
 
     public function configure() {
         foreach ($this->_produits as $produit) {
-            $this->setWidget('produit' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => false)));
+            $this->setWidget('produit' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => true)));
 
             $this->widgetSchema->setLabel('produit' . $produit->getHashForKey(), '');
 
@@ -35,25 +36,31 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
     }
 
     protected function doUpdateObject($values) {
-
         foreach ($values as $key => $value) {
             $matches = array();
             if (preg_match('/^produit(.*)/', $key, $matches)) {
                 $key = str_replace('-', '/', $matches[1]);
-                $this->_drm->get($key)->getCepage()->add('no_movements', !! $value);
+                $this->_drm->get($key)->getCepage()->add('no_movements', ! $value);
                 $this->_drm->etape = DRMClient::ETAPE_SAISIE;
+                
             }
         }
         $this->_drm->save();
     }
 
     public function updateDefaultsFromObject() {
+        $this->all_checked = true;
         parent::updateDefaultsFromObject();
         foreach ($this->_produits as $produit) {
             if ($produit->getCepage()->exist('no_movements') && $produit->getCepage()->no_movements) {
-                $this->setDefault('produit' . $produit->getHashForKey(), true);
+                $this->setDefault('produit' . $produit->getHashForKey(), false);
+                $this->all_checked = false;
             }
         }
+    }
+    
+    public function isAllChecked() {
+        return $this->all_checked;
     }
 
 }
