@@ -11,32 +11,30 @@
  *
  * @author mathurin
  */
-class DRMAddProduitByCertificationForm extends acCouchdbForm {
+class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
 
     protected $_configurationCertification = null;
     protected $_drm = null;
     protected $_choices_produits = null;
 
-    public function __construct(ConfigurationCertification $configurationCertification, DRM $drm, $options = array(), $CSRFSecret = null) {
-        $this->_drm = $drm;
-        $this->_configurationCertification = ConfigurationClient::getCurrent()->get($configurationCertification->getHash()); 
-        $defaults = array();
-        parent::__construct($drm, $defaults, $options, $CSRFSecret);
+    public function __construct(DRM $drm, $options = array(), $CSRFSecret = null) {
+        $this->_drm = $drm;        
+        $this->_configurationCertification = ConfigurationClient::getCurrent()->get($options['configurationCertification']->getHash());
+        parent::__construct($drm, $options, $CSRFSecret);
     }
 
     public function configure() {
         $this->setWidgets(array(
-            'produits' => new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getProduits())) 
+            'produit' => new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getProduits()))
         ));
         $this->widgetSchema->setLabels(array(
-            'produits' => 'Produit : '
+            'produit' => 'Produit : '
         ));
 
         $this->setValidators(array(
-            'produits' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits())), array('required' => "Aucun produit n'a été saisi !")),
-         ));
+            'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits())), array('required' => "Aucun produit n'a été saisi !")),
+        ));
 
-        $this->validatorSchema->setPostValidator(new DRMProduitValidator(null, array('drm' => $this->_drm)));
         $this->widgetSchema->setNameFormat('add_produit_' . $this->_configurationCertification->getKey() . '[%s]');
     }
 
@@ -44,22 +42,25 @@ class DRMAddProduitByCertificationForm extends acCouchdbForm {
         return $this->_drm;
     }
 
-
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
-           
+
             $this->_choices_produits = array("" => "");
-            foreach ($this->_configurationCertification->getProduits() as $hash => $produit) {
-                $this->_choices_produits[$produit->getHashForKey()] = $produit->formatProduitLibelle();
+            $produits = $this->_configurationCertification->getProduits();
+            if (!is_null($produits)) {
+                foreach ($produits as $hash => $produit) {
+                    $this->_choices_produits[$produit->getHashForKey()] = $produit->formatProduitLibelle();
+                }
             }
         }
         return $this->_choices_produits;
     }
 
-    public function addProduit() {
-        if (!$this->isValid()) {
-            throw $this->getErrorSchema();
-        }
-    }
+    public function doUpdateObject($values) { 
+        parent::doUpdateObject($values);     
+        $produit = str_replace('-', '/', $values['produit']);
+        $this->_drm->getOrAdd($produit.'/details/DEFAUT');
+        $this->_drm->save();
+    }    
 
 }

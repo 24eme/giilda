@@ -5,12 +5,8 @@
 <section id="principal" class="drm">
 
     <h2><?php echo getDrmTitle($drm); ?></h2>
-
     <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_CHOIX_PRODUITS)); ?>
-
     <?php include_partial('drm/controlMessage'); ?>
-
-
     <div id="application_drm">
         <p class="choix_produit_explication">Afin de préparer le détail de la DRM, vous pouvez préciser ici vos stocks épuisés ou l'absence de mouvements pour tout ou partie des produits.</p>
         <form action="<?php echo url_for('drm_choix_produit', $form->getObject()) ?>" method="post">
@@ -30,7 +26,8 @@
         </form>
     </div>
     <?php foreach ($certificationsProduits as $certificationProduits) : ?>
-        <?php include_partial('ajout_produit_popup_certification', array('drm' => $drm, 'certificationProduits' => $certificationProduits,'form' => $formAddProduitsByCertifications[$certificationProduits->certification->getHashForKey()])); ?>
+        <?php $certifKey = $certificationProduits->certification->getHashForKey(); ?>
+        <?php include_partial('ajout_produit_popup_certification', array('drm' => $drm, 'certifKey' => $certifKey, 'form' => $formAddProduitsByCertifications[$certifKey])); ?>
     <?php endforeach; ?>
 </section>
 <?php

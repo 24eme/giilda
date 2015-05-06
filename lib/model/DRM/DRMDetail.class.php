@@ -5,6 +5,7 @@
  *
  */
 class DRMDetail extends BaseDRMDetail {
+    
   public function getConfig() {
   	
   	return ConfigurationClient::getCurrent()->declaration->detail;
