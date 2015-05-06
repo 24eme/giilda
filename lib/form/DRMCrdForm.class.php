@@ -16,8 +16,7 @@ class DRMCrdForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-
-        $this->widgetSchema->setNameFormat('drmMouvementsValidation[%s]');
+        $this->widgetSchema->setNameFormat('drmCrd[%s]');
     }
 
     protected function doUpdateObject($values) {

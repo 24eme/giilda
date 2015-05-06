@@ -25,7 +25,6 @@ class drm_editionActions extends sfActions {
         $this->certificationsProduits = $this->drm->declaration->getProduitsDetailsByCertifications();
         $this->form = new DRMProduitsChoiceForm($this->drm);
 
-
         $this->formAddProduitsByCertifications = array();
         foreach ($this->certificationsProduits as $certificationProduits) {
             $this->formAddProduitsByCertifications[$certificationProduits->certification->getHashForKey()] = new DRMAddProduitByCertificationForm($this->drm, array('configurationCertification' => $certificationProduits->certification));
@@ -45,11 +44,25 @@ class drm_editionActions extends sfActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
         $this->form = new DRMCrdForm($this->drm);
+        $this->addCrdForm = new DRMAddCrdTypeForm($this->drm);
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
                 $this->redirect('drm_validation', $this->form->getObject());
+            }
+        }
+    }
+    
+    public function executeAjoutTypeCrd(sfWebRequest $request) {
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->drm = $this->getRoute()->getDRM();
+        $this->form = new DRMAddCrdTypeForm($this->drm);
+        if ($request->isMethod(sfRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+                $this->redirect('drm_crd', $this->form->getObject());
             }
         }
     }

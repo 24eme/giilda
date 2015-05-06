@@ -14,10 +14,12 @@ class DRMClient extends acCouchdbClient {
     const VALIDE_STATUS_VALIDEE = 'VALIDEE';
     const VALIDE_STATUS_VALIDEE_ENVOYEE = 'ENVOYEE';
     const VALIDE_STATUS_VALIDEE_RECUE = 'RECUE';
+    const DRM_VERT = 'VERT';
+    const DRM_BLEU = 'BLEU';
+    const DRM_BLEUCLAIR = 'BLEUCLAIR';
 
-    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS,self::ETAPE_SAISIE,self::ETAPE_CRD,self::ETAPE_VALIDATION);
-
-
+    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_VALIDATION);
+    public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_BLEUCLAIR => 'Bleu Clair');
     protected $drm_historiques = array();
 
     /**
@@ -364,17 +366,19 @@ class DRMClient extends acCouchdbClient {
         $next_drm = $this->getHistorique($identifiant, $periode)->getNext($periode);
 
         if ($prev_drm) {
-
-            return $prev_drm->generateSuivanteByPeriode($periode,$isTeledeclarationMode);
+            return $prev_drm->generateSuivanteByPeriode($periode, $isTeledeclarationMode);
         } elseif ($next_drm) {
 
-            return $next_drm->generateSuivanteByPeriode($periode,$isTeledeclarationMode);
+            return $next_drm->generateSuivanteByPeriode($periode, $isTeledeclarationMode);
         }
 
         $drm = new DRM();
         $drm->identifiant = $identifiant;
         $drm->periode = $periode;
-        $drm->etape = ($isTeledeclarationMode) ? self::ETAPE_CHOIX_PRODUITS : self::ETAPE_SAISIE;
+        $drm->etape = self::ETAPE_SAISIE;
+        if ($isTeledeclarationMode) {
+            $drm->etape = self::ETAPE_CHOIX_PRODUITS;
+        }
 
         $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
         if ($drmLast) {

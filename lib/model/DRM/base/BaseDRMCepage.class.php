@@ -10,6 +10,8 @@
  * @property float $total_sorties
  * @property float $total_facturable
  * @property float $total
+ * @property string $no_movements
+ * @property string $edited
  * @property DRMDetails $details
 
  * @method float getTotalDebutMois()
@@ -24,6 +26,10 @@
  * @method float setTotalFacturable()
  * @method float getTotal()
  * @method float setTotal()
+ * @method string getNoMovements()
+ * @method string setNoMovements()
+ * @method string getEdited()
+ * @method string setEdited()
  * @method DRMDetails getDetails()
  * @method DRMDetails setDetails()
  

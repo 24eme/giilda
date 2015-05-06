@@ -436,3 +436,22 @@ DRM:
                         date: {  }
                         date_version: {  }
                         version: {  }
+      crds:
+        type: collection
+        required: false
+        class: DRMCrds
+        definition:
+          fields:
+            '*':
+              type: collection
+              class: DRMCrd
+              definition:
+                fields:
+                  stock_debut: {  }
+                  couleur: {  }
+                  centilitrage: {  }
+                  entrees: {  }
+                  sorties: {  }
+                  pertes: {  }
+                  stock_fin: {  }
+                  detail_libelle: {  }                         
