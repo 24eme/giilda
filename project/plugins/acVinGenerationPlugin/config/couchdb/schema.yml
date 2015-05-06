@@ -1,0 +1,31 @@
+#schema des Generation
+Generation:
+  definition:
+    fields:
+      _id: {}
+      _rev: {}
+      type: {}
+      identifiant: {}
+      date_emission: {}
+      date_maj: {}
+      nb_documents: {}
+      type_document: {}      
+      somme: {}
+      statut: {}
+      pregeneration_needed: {required: false}
+      message: {required: false;}
+      fichiers:
+        type: collection
+        definition:
+          fields:
+            '*': { }
+      arguments:
+        type: collection
+        definition:
+          fields:
+            '*': { }
+      documents:
+        type: array_collection
+        definition:
+          fields:
+            '*': { }
