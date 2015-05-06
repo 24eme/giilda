@@ -1,4 +1,4 @@
-var initSignaturePopup = function() {
+var initAjoutProduitPopup = function() {
 
     $('a.ajout_produit_popup').fancybox({
         autoSize: true,
@@ -6,7 +6,21 @@ var initSignaturePopup = function() {
         height: 'auto',
         width: 'auto',
     });
-    $('.add_produit_popup_certification_content a#popup_close').click(function() {
+    $('.add_crds_popup_content a#popup_close').click(function() {
+        $.fancybox.close();
+    });
+
+};
+
+var initAjoutCrdsPopup = function() {
+
+    $('a.ajout_crds_popup').fancybox({
+        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+    });
+    $('.add_crds_popup_content a#popup_close').click(function() {
         $.fancybox.close();
     });
 
@@ -58,5 +72,6 @@ $(document).ready(function()
 {
     initFilEditionProduit();
     initProduitChoice();
-    initSignaturePopup();
+    initAjoutProduitPopup();
+    initAjoutCrdsPopup();
 });
