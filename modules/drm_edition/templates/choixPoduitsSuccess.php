@@ -14,8 +14,7 @@
             <?php echo $form->renderGlobalErrors(); ?>
             <div id="contenu_onglet">
                 <?php
-                include_partial('drm_edition/choixProduitsList', array(
-                    'certificationsProduits' => $certificationsProduits,
+                include_partial('drm_edition/choixProduitsList', array('certificationsProduits' => $certificationsProduits,
                     'form' => $form, 'drm' => $drm));
                 ?>
             </div>

@@ -16,10 +16,10 @@ class DRMClient extends acCouchdbClient {
     const VALIDE_STATUS_VALIDEE_RECUE = 'RECUE';
     const DRM_VERT = 'VERT';
     const DRM_BLEU = 'BLEU';
-    const DRM_BLEUCLAIR = 'BLEUCLAIR';
+    const DRM_LIEDEVIN = 'LIEDEVIN';
 
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_VALIDATION);
-    public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_BLEUCLAIR => 'Bleu Clair');
+    public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
     protected $drm_historiques = array();
 
     /**

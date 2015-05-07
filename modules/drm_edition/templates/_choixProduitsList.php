@@ -14,7 +14,6 @@
                     <td><span>Tout sélectionner</span><input type="checkbox" <?php echo ($form->isAllChecked())? "checked='checked'" : ""; ?> class="checkbox_all_<?php echo $certifKey; ?>" /></td>
                 </tr>
             <?php foreach ($certificationProduits->produits as $produit): ?>
-                <?php echo $produit->getCepage()->getConfig()->formatProduitLibelle(); ?>
                 <tr>                        
                     <td><?php echo $produit->getCepage()->getConfig()->formatProduitLibelle(); ?></td>
                     <td><?php echo $form['produit' . $produit->getHashForKey()]->render(array('class' => 'checkbox_'.$certifKey)); ?></td>

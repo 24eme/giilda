@@ -18,6 +18,13 @@
                     <?php echo $form['litrage_crd']->render(array('class' => 'autocomplete')); ?>
                 </span>
             </div>
+            <div class="ligne_form">       
+                <span>
+                    <?php echo $form['stock_debut']->renderError(); ?>
+                    <?php echo $form['stock_debut']->renderLabel() ?>    
+                    <?php echo $form['stock_debut']->render(); ?>
+                </span>
+            </div>
             <br/>
             <div class="ligne_btn">
                 <a id="popup_close" class="btn_rouge btn_majeur annuler popup_close" style="float: left;" href="#" >Annuler</a>           

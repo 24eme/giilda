@@ -874,9 +874,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         return array();
     }
-    
-    public function addCrdType($couleur,$litrage) {
-       return $this->getOrAdd('crds')->getOrAddCrdType($couleur,$litrage);
+
+    public function addCrdType($couleur, $litrage, $stock_debut = null) {
+        return $this->getOrAdd('crds')->getOrAddCrdType($couleur, $litrage, $stock_debut);
     }
 
     /*     * * FIN CRDS ** */

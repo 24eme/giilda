@@ -20,12 +20,16 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
     public function configure() {
         $this->setWidget('couleur_crd', new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getCrdTypeCouleurs())));
         $this->setWidget('litrage_crd', new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getCrdTypeLitrages())));
+        $this->setWidget('stock_debut', new sfWidgetFormInputText());
 
+        
         $this->widgetSchema->setLabel('couleur_crd', 'Couleur CRD ');
         $this->widgetSchema->setLabel('litrage_crd', 'Litrage ');
+        $this->widgetSchema->setLabel('stock_debut', 'Stock début ');
 
         $this->setValidator('couleur_crd', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCrdTypeCouleurs())), array('required' => "Aucune couleur de CRD n'a été saisi !")));
         $this->setValidator('litrage_crd', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCrdTypeLitrages())), array('required' => "Aucun litrage n'a été saisi !")));
+        $this->setValidator('stock_debut', new sfValidatorNumber(array('required' => false)));
 
         $this->widgetSchema->setNameFormat('drmAddCrdTypeForm[%s]');
     }
@@ -34,7 +38,8 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
         parent::doUpdateObject($values);     
         $couleur = $values['couleur_crd'];
         $litrage = $values['litrage_crd'] * 100000;
-        $this->drm->addCrdType($couleur,$litrage);
+        $stock_debut = $values['stock_debut'];
+        $this->drm->addCrdType($couleur,$litrage,$stock_debut);
         $this->drm->save();
     }
 
