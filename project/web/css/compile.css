@@ -865,6 +865,7 @@ bouton#colonnes_dr .btn_edition_label{height:26px}
 #principal.drm #application_drm .titre_produit{background-color:#ecebeb}
 #principal.drm .li_gris{background:#ecebeb;border:1px solid #e5e4e4;border-width:1px 0;height:35px !important}#principal.drm .li_gris input{margin-top:7px}#principal.drm .li_gris input[readonly]{background:#ecebeb;color:#3e3e3e;border:0;box-shadow:none;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none}
 #principal.drm #colonne_intitules .li_gris{padding-top:5px;font-weight:bold}
+#principal.drm table .drm_crds_list input{width:65px}
 #principal.drm fieldset{margin:25px 0}#principal.drm fieldset#historique_drm nav{position:relative;bottom:-1px}#principal.drm fieldset#historique_drm nav ul{min-height:1px;zoom:1;min-height:1px}#principal.drm fieldset#historique_drm nav ul:before,#principal.drm fieldset#historique_drm nav ul:after{content:"\0020";display:block;font-size:0;height:0;visibility:hidden}
 #principal.drm fieldset#historique_drm nav ul:after{clear:both}
 #principal.drm fieldset#historique_drm nav ul:before,#principal.drm fieldset#historique_drm nav ul:after{content:"\0020";display:block;font-size:0;height:0;visibility:hidden}
