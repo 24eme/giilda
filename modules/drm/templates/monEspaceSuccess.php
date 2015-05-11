@@ -1,27 +1,36 @@
-<?php include_partial('global/navTop', array('active' => 'drm')); ?>
+<!-- #principal -->
+<section id="principal" class="drm">
+    <?php if (!$isTeledeclarationMode): ?>
+    <p id="fil_ariane"><a href="<?php echo url_for('drm') ?>">Page d'accueil</a> &gt; <strong><?php echo $etablissement->nom ?></strong></p>
+        <?php endif; ?>
+<?php if ($isTeledeclarationMode): ?>
+    <h2>Télédéclaration de l'établissement <?php echo $etablissement->nom ?></h2>
+<?php endif; ?>
 
-<section id="contenu">
-    <h1>Déclaration Récapitulative Mensuelle <a href="" class="msg_aide" data-msg="help_popup_monespace" data-doc="notice.pdf" title="Message aide"></a></h1>
-
-    <p class="intro">Bienvenue sur votre espace DRM. Que voulez-vous faire ?</p>
-
-    <section id="principal">
-        <div id="recap_drm">
-            <div id="drm_annee_courante" >
-                <?php include_component('drm', 'historiqueList', array('historique' => $historique, 'limit' => 12)) ?>
-            </div>
-        </div>
+    <!-- #contenu_etape -->
+    <section id="contenu_etape">
+        <?php if (!$isTeledeclarationMode): ?>
+        <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
+        <?php endif; ?>
+        <fieldset id="historique_drm"> 
+            <?php if (!$isTeledeclarationMode): ?>
+            <legend>Historique des DRMs de l'opérateur</legend>
+             <?php endif; ?>
+            <?php if ($etablissement->type_dr) : ?>
+                <div class="error_list">
+                    Cet opérateur effectue des <?php echo $etablissement->type_dr; ?>
+                </div>
+            <?php endif; ?>
+            <nav>
+                <ul>
+                    <li class="actif"><span>Vue calendaire</span></li>
+                    <li><a href="<?php echo url_for('drm_etablissement_stocks', array('identifiant' => $etablissement->getIdentifiant(), 'campagne' => $campagne)); ?>">Vue stock</a></li>
+                </ul>
+            </nav>
+            <?php include_component('drm', 'calendrier', array('etablissement' => $etablissement, 'campagne' => $campagne, 'formCampagne' => $formCampagne)); ?>
+        </fieldset>
     </section>
-    <a href="<?php echo url_for('drm_historique', array('identifiant' => $historique->getIdentifiant())) ?>">Votre historique complet &raquo;</a>
+    <!-- fin #contenu_etape -->
 
-    <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
-        <br /><br />
-        <h1>Espace Admin <a href="" class="msg_aide" data-msg="help_popup_monespace_admin" data-doc="notice.pdf" title="Message aide"></a></h1>
-        <p class="intro">Saisir une DRM d'un mois différent.</p>
-        <div id="espace_admin" style="float: left; width: 670px;">
-            <div class="contenu clearfix">
-                <?php include_partial('formCampagne', array('form' => $formCampagne)) ?>
-            </div>
-        </div>
-    <?php endif; ?>
 </section>
+<!-- fin #principal -->

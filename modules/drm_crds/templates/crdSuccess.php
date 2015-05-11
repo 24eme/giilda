@@ -15,6 +15,7 @@
                 <?php
                 include_partial('drm_crds/crdsList', array(
                     'allCrds' => $drm->getAllCrds(),
+                    'drm' => $drm,
                     'crdsForms' => $crdsForms));
                 ?>
                

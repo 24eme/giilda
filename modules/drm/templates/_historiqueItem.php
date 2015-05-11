@@ -12,10 +12,10 @@
         <td><?php echo $drm->mode_de_saisie ?></td>
     <?php endif; ?>
     <td>
-		<a href="<?php echo url_for('drm_init', array('identifiant' => $etablissement_identifiant, 'periode_version' => $periode_version)); ?>">Accéder à la déclaration en cours</a><br />
+		<a href="<?php echo url_for('drm_init', array('identifiant' => $etablissement_identifiant , 'periode_version' => $periode_version)); ?>">Accéder à la déclaration en cours</a><br />
 	   </td>
 	   <td style="border: 0px; padding-left: 0px;background-color: #ffffff;">
-	       <a href="<?php echo url_for('drm_delete', array('identifiant' => $etablissement_identifiant, 'periode_version' => $periode_version)); ?>" class="btn_reinitialiser"><span><img src="/images/pictos/pi_supprimer.png"/></span></a>
+	       <a href="<?php echo url_for('drm_delete', array('identifiant' => $etablissement_identifiant, 'periode_version' => $periode_version)); ?>" class="btn_annuler btn_majeur">Supprimer</a>
 	   </td>
 <?php else: ?>
 	<td>OK</td>
@@ -23,11 +23,11 @@
         <td><?php echo $drm->mode_de_saisie ?></td>
     <?php endif; ?>
 	<td>
-			<a href="<?php echo url_for('drm_visualisation', array('identifiant' => $etablissement_identifiant, 'periode_version' => $periode_version)) ?>" class="btn_reinitialiser"><span>Visualiser</span></a>
+			<a href="<?php echo url_for('drm_visualisation', array('identifiant' => $etablissement_identifiant,'periode_version' => $periode_version)) ?>" class="btn_reinitialiser"><span>Visualiser</span></a>
 		</td>	
 		<?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN) && !$drm->isEnvoyee()): ?>	
 	<td style="border: 0px; padding-left: 0px;background-color: #ffffff;">
-		<a href="<?php echo url_for('drm_delete', array('identifiant' => $etablissement_identifiant, 'periode_version' => $periode_version)); ?>" class="btn_reinitialiser"><span><img src="/images/pictos/pi_supprimer.png"/></span></a>
+		<a href="<?php echo url_for('drm_delete', array('identifiant' => $etablissement_identifiant, 'periode_version' => $periode_version)); ?>" class="btn_annuler btn_majeur">Supprimer</a>
 	</td>
 	<?php endif; ?>					
 	<?php endif; ?>
