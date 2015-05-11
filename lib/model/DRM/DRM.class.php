@@ -152,7 +152,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
 
             $this->addProduit($produit->getHash());
-        }
+        }       
     }
 
     public function generateSuivante() {
@@ -181,7 +181,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $details->getCepage()->add('no_movements', false);
             $details->getCepage()->add('edited', false);
         }
-
+        foreach ($drm_suivante->getAllCrds() as $key => $crd) {
+            $crd->stock_debut = $crd->stock_fin;
+            $crd->stock_fin = null;
+            $crd->entrees = null;
+            $crd->sorties = null;
+            $crd->pertes = null;
+        }
+        
         return $drm_suivante;
     }
 

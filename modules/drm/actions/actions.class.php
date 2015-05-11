@@ -3,12 +3,11 @@
 /**
  * drm actions.
  *
- * @package    declarvin
+ * @package    vinsi
  * @subpackage drm
- * @author     Your name here
- * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ * @author     Mathurin
  */
-class drmActions extends sfActions {
+class drmActions extends drmGeneriqueActions {
 
     public function executeRedirect(sfWebRequest $request) {
         $drm = DRMClient::getInstance()->find($request->getParameter('identifiant_drm'));
@@ -293,36 +292,6 @@ class drmActions extends sfActions {
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
         $this->redirect('drm_etablissement', $this->etablissementPrincipal);
-    }
-
-    private function initSocieteAndEtablissementPrincipal() {
-        $this->compte = $this->getUser()->getCompte();
-        if (!$this->compte) {
-            new sfException("Le compte $compte n'existe pas");
-        }
-        $this->societe = $this->compte->getSociete();
-        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
-    }
-
-    private function redirect403IfIsNotTeledeclaration() {
-        if (!$this->isTeledeclarationDrm()) {
-            $this->redirect403();
-        }
-    }
-
-    private function redirect403IfIsNotTeledeclarationAndNotMe() {
-        $this->redirect403IfIsNotTeledeclaration();
-        if ($this->getUser()->getCompte()->identifiant != $this->identifiant) {
-            $this->redirect403();
-        }
-    }
-
-    private function redirect403() {
-        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
-    }
-
-    private function isTeledeclarationDrm() {
-        return $this->getUser()->hasTeledeclarationDrm();
-    }
+    }    
 
 }

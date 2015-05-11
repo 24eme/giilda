@@ -13,7 +13,7 @@
            
 
                 <?php
-                include_partial('drm_edition/crdsList', array(
+                include_partial('drm_crds/crdsList', array(
                     'allCrds' => $drm->getAllCrds(),
                     'crdsForms' => $crdsForms));
                 ?>
@@ -24,5 +24,5 @@
     </div>
 </section>
 <?php
-include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+include_partial('drm_edition/colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
 ?>

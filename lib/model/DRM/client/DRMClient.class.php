@@ -379,7 +379,7 @@ class DRMClient extends acCouchdbClient {
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }
-
+        $drm->crds = null;
         $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
         if ($drmLast) {
             $drm->generateByDRM($drmLast);

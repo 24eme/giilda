@@ -16,13 +16,13 @@
         </thead>
         <tbody class="drm_crds_list">
             <?php foreach ($allCrds as $crdsKey => $crds): ?>
-                <tr>                        
+            <tr class="crd_row" id="<?php echo $crdsKey;  ?>">                        
                     <td><?php echo 'CRD ' . $crds->getLibelle(); ?></td>
-                    <td><?php echo $crds->stock_debut; ?></td>
-                    <td><?php echo $crdsForms['entrees_'.$crdsKey]->render();  ?></td>
-                    <td><?php echo $crdsForms['sorties_'.$crdsKey]->render();  ?></td>
-                    <td><?php echo $crdsForms['pertes_'.$crdsKey]->render();  ?></td>
-                    <td><?php echo $crds->stock_fin; ?></td>
+                    <td class="crds_debut_de_mois"><?php echo $crds->stock_debut; ?> <input type="hidden" value="<?php echo $crds->stock_debut; ?>"></td>
+                    <td class="crds_entrees"><?php echo $crdsForms['entrees_'.$crdsKey]->render();  ?></td>
+                    <td class="crds_sorties"><?php echo $crdsForms['sorties_'.$crdsKey]->render();  ?></td>
+                    <td class="crds_pertes"><?php echo $crdsForms['pertes_'.$crdsKey]->render();  ?></td>
+                    <td class="crds_fin_de_mois"><?php echo (is_null($crds->stock_fin))? "0" : $crds->stock_fin;  ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

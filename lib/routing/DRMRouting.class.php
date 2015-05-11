@@ -169,13 +169,13 @@ class DRMRouting {
             'control' => array('edition'),
         )));
 
-        $r->prependRoute('drm_crd', new DRMRoute('/drm/:identifiant/edition/:periode_version/crd', array('module' => 'drm_edition',
+        $r->prependRoute('drm_crd', new DRMRoute('/drm/:identifiant/edition/:periode_version/crd', array('module' => 'drm_crds',
             'action' => 'crd'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
         )));
 
-        $r->prependRoute('drm_ajout_crd', new DRMRoute('/drm/:identifiant/edition/:periode_version/crd-ajout', array('module' => 'drm_edition',
+        $r->prependRoute('drm_ajout_crd', new DRMRoute('/drm/:identifiant/edition/:periode_version/crd-ajout', array('module' => 'drm_crds',
             'action' => 'ajoutTypeCrd'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
