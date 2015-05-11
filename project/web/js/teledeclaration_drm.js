@@ -12,6 +12,21 @@ var initAjoutProduitPopup = function() {
 
 };
 
+var initCrds = function(){
+    $('.drm_crds_list tr.crd_row').each(function(){
+        var id = $(this).attr('id');
+        $('input').change(function(){            
+            var crds_debut_de_mois = $("#"+id+" td.crds_debut_de_mois input").val();
+            var entrees = $("#"+id+" td.crds_entrees input").val();
+            var sorties = $("#"+id+" td.crds_sorties input").val();
+            var pertes = $("#"+id+" td.crds_pertes input").val();
+            var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entrees) - parseInt(sorties) - parseInt(pertes);
+            $("#"+id+" td.crds_fin_de_mois").text(fin_de_mois);
+        });
+        
+    });
+}
+
 var initAjoutCrdsPopup = function() {
 
     $('a.ajout_crds_popup').fancybox({
@@ -74,4 +89,5 @@ $(document).ready(function()
     initProduitChoice();
     initAjoutProduitPopup();
     initAjoutCrdsPopup();
+    initCrds();
 });
