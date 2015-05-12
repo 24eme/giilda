@@ -454,4 +454,15 @@ DRM:
                   sorties: {  }
                   pertes: {  }
                   stock_fin: {  }
-                  detail_libelle: {  }                         
+                  detail_libelle: {  }
+      favoris:
+        type: collection
+        required: false
+        class: DRMFavoris
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  '*': { }

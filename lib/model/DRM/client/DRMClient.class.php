@@ -20,7 +20,9 @@ class DRMClient extends acCouchdbClient {
 
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_VALIDATION);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
+    public static $drm_default_favoris = array("entrees/achat", "entrees/recolte","sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille","sorties/consommation");
     protected $drm_historiques = array();
+    
 
     /**
      *
@@ -376,6 +378,7 @@ class DRMClient extends acCouchdbClient {
         $drm->identifiant = $identifiant;
         $drm->periode = $periode;
         $drm->etape = self::ETAPE_SAISIE;
+        $drm->buildFavoris();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }
@@ -428,6 +431,22 @@ class DRMClient extends acCouchdbClient {
         $date = $annee . '-' . $mois . '-01';
         $df = format_date($date, 'MMMM yyyy', 'fr_FR');
         return elision($origineLibelle, $df);
+    }
+
+    public static function drmDefaultFavoris() {
+        $configuration = ConfigurationClient::getCurrent();
+        $configurationFields = array();
+        foreach ($configuration->libelle_detail_ligne as $type => $libelles) {
+            foreach ($libelles as $libelleHash => $libelle) {
+                $configurationFields[$type . '/' . $libelleHash] = $libelle;
+            }
+        } 
+        foreach ($configurationFields as $key => $value) {
+            if(!in_array($key, self::$drm_default_favoris)){
+                unset($configurationFields[$key]);
+            }
+        }
+        return $configurationFields;
     }
 
 }

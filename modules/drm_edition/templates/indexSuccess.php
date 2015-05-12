@@ -29,8 +29,10 @@
                 'config' => $config,
                 'detail' => $detail,
                 'produits' => $details,
+                'formFavoris' => $formFavoris,
                 'form' => $form,
-                'detail' => $detail));
+                'detail' => $detail, 
+                'favoris' => $favoris));
             ?>
         </div>
     </div>

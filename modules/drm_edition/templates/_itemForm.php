@@ -1,5 +1,9 @@
 <?php use_helper('Float'); ?>
 <?php use_helper('Version'); ?>
+<?php
+$favoris_entrees = $favoris->entrees;
+$favoris_sorties = $favoris->sorties;
+?>
 <div <?php echo (!$detail->hasMovements())? 'style="display: none;"' : ''; ?> data-hash="<?php echo $detail->getHash() ?>" class="col_recolte<?php if ($active): ?> col_active<?php endif; ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>">
     <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>
@@ -31,20 +35,39 @@
                 </p>
                 <ul>
                     <?php foreach($form['entrees'] as $key => $subform): ?>
+                    <?php if ($favoris_entrees->exist($key)): ?>
                     <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
                         <?php echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
                                                                         'class' => 'num num_float somme_detail')) ?>
                     </li>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+           
+            <div class="groupe p_gris" data-groupe-id="3">
+                <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?>">
+                    <input type="text" value="<?php echo $form->getObject()->total_entrees ?>" class="num num_float somme_groupe somme_entrees" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
+                </p>
+                <ul>
+                    <?php foreach($form['entrees'] as $key => $subform): ?>
+                    <?php if (!$favoris_entrees->exist($key)): ?>
+                    <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
+                        <?php echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
+                                                                        'class' => 'num num_float somme_detail')) ?>
+                    </li>
+                    <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>
             </div>
 
-            <div class="groupe p_gris" data-groupe-id="3">
+            <div class="groupe p_gris" data-groupe-id="4">
                 <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?>">
                     <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="num num_float somme_groupe somme_sorties" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
                 </p>
                 <ul>
                     <?php foreach($form['sorties'] as $key => $subform): ?>
+                        <?php if ($favoris_sorties->exist($key)): ?>
                     <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                     	<?php if($key=="vrac"): ?>
                             <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
@@ -56,12 +79,36 @@
                         <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(),'class' => 'num num_float somme_detail')) ?>
                         <?php endif; ?>
                     </li>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+           
+           <div class="groupe p_gris" data-groupe-id="5">
+                <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?>">
+                    <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="num num_float somme_groupe somme_sorties" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
+                </p>
+                <ul>
+                    <?php foreach($form['sorties'] as $key => $subform): ?>
+                        <?php if (!$favoris_sorties->exist($key)): ?>
+                    <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
+                    	<?php if($key=="vrac"): ?>
+                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
+                    	<?php elseif($key=="export"): ?>
+                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                    	<?php elseif($key=="cooperative"): ?>
+                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
+                    	<?php else: ?>
+                        <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(),'class' => 'num num_float somme_detail')) ?>
+                        <?php endif; ?>
+                    </li>
+                    <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>
             </div>
 
             <!-- <p><input type="text" value="0" class="num num_float somme_stock_fin" readonly="readonly" /></p>  -->
-            <div class="groupe p_gris" data-groupe-id="4">
+            <div class="groupe p_gris" data-groupe-id="6">
                 <p class="itemcache <?php echo isVersionnerCssClass($form->getObject(), 'total') ?>">
                     <input type="text" value="<?php echo $form->getObject()->total ?>" class="num num_float somme_groupe" readonly="readonly" data-val-defaut="<?php echo sprintFloat($form->getObject()->total) ?>" />
                 </p>

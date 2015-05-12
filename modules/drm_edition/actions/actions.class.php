@@ -1,11 +1,13 @@
 <?php
 
-class drm_editionActions extends sfActions {
+class drm_editionActions extends drmGeneriqueActions {
 
     public function executeIndex(sfWebRequest $request) {
         $this->init();
         $this->initSocieteAndEtablissementPrincipal();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->loadFavoris();
+        $this->formFavoris = new DRMFavorisForm($this->drm);
         if ($this->isTeledeclarationMode) {
             $this->formValidation = new DRMMouvementsValidationForm($this->drm);
             if ($request->isMethod(sfRequest::POST)) {
@@ -156,18 +158,22 @@ class drm_editionActions extends sfActions {
             }
         }
     }
-
-    private function isTeledeclarationDrm() {
-        return $this->getUser()->hasTeledeclarationDrm();
-    }
-
-    private function initSocieteAndEtablissementPrincipal() {
-        $this->compte = $this->getUser()->getCompte();
-        if (!$this->compte) {
-            new sfException("Le compte $compte n'existe pas");
+    
+    public function executeChoixFavoris(sfWebRequest $request) {
+        $this->drm = $this->getRoute()->getDRM();
+        $form = new DRMFavorisForm($this->drm);
+        if ($request->isMethod(sfRequest::POST)) {
+            $form->bind($request->getParameter($form->getName()));           
+            if ($form->isValid()) {
+                $form->save();
+                $this->redirect('drm_edition', $this->drm);
+            }
         }
-        $this->societe = $this->compte->getSociete();
-        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
+         $this->redirect('drm_edition', $this->drm);
+    }
+    
+    private function loadFavoris() {
+        $this->favoris = $this->drm->getAllFavoris();
     }
 
 }

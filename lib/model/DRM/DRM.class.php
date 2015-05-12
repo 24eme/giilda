@@ -188,7 +188,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $crd->sorties = null;
             $crd->pertes = null;
         }
-        
+        if(!$drm_suivante->exist('favoris')){
+            $drm_suivante->buildFavoris();
+        }
         return $drm_suivante;
     }
 
@@ -887,4 +889,21 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /*     * * FIN CRDS ** */
+    
+       /** * FAVORIS ** */
+    public function buildFavoris() {
+        foreach (DRMClient::drmDefaultFavoris() as $key => $value) {
+            $keySplitted = split('/', $key);
+            $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->add($keySplitted[1],$value);
+        }
+    }
+    
+    public function getAllFavoris() {
+        if ($this->exist('favoris') && $this->favoris) {
+            return $this->favoris;
+        }
+        return DRMClient::drmDefaultFavoris();
+    }
+    
+    /*     * * FIN FAVORIS ** */
 }
