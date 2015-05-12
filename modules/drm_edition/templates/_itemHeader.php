@@ -5,7 +5,9 @@ $favoris_sorties = $favoris->sorties;
 <div id="colonne_intitules" style="width: 210px">
     <form action="<?php echo url_for('drm_choix_favoris', $formFavoris->getObject()) ?>" method="post">
         <p class="couleur">Produit</p>
-        <p class="label">Labels</p>
+        <?php if (!$isTeledeclarationMode): ?>
+            <p class="label">Labels</p>
+        <?php endif; ?>
         <?php echo $formFavoris->renderHiddenFields(); ?>
         <?php echo $formFavoris->renderGlobalErrors(); ?>
         <div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
@@ -20,7 +22,7 @@ $favoris_sorties = $favoris->sorties;
         </div>
 
         <div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="2">
-            <p >Mouvements d'entrées</p>
+            <p >Entrées - Favoris</p>
             <ul>
                 <?php foreach ($config->detail->getEntrees() as $key => $item): ?>
                     <?php if ($favoris_entrees->exist($key)): ?>
@@ -48,7 +50,7 @@ $favoris_sorties = $favoris->sorties;
         </div>
 
         <div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="4">
-            <p>Mouvements de sorties</p>
+            <p>Sorties - Favoris</p>
             <ul>
                 <?php foreach ($config->detail->getSorties() as $key => $item): ?>
                     <?php if ($favoris_sorties->exist($key)): ?>
@@ -79,12 +81,8 @@ $favoris_sorties = $favoris->sorties;
             <p class="itemcache">Stock théorique fin de mois</p>
             <ul>
                 <?php foreach ($config->detail->getStocksFin() as $key => $item): ?>
-                    <li class="<?php
-                    if ($key != 'revendique')
-                        echo ' itemcache';
-                    else
-                        echo ' li_gris'
-                        ?>"><?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_stockfin_<?php echo $key; ?>" title="Message aide"></a>
+                    <li class="<?php echo ($key != 'revendique') ? ' itemcache' : ' li_gris'; ?>">
+                        <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_stockfin_<?php echo $key; ?>" title="Message aide"></a>
                     </li>
                 <?php endforeach; ?>
             </ul>

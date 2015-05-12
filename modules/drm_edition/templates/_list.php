@@ -4,7 +4,12 @@
 </div>
 
 <div id="colonnes_dr">
-    <?php include_partial('drm_edition/itemHeader', array('config' => $config, 'favoris' => $favoris, 'formFavoris' => $formFavoris)); ?>    
+    <?php
+    include_partial('drm_edition/itemHeader', array('config' => $config,
+        'favoris' => $favoris,
+        'formFavoris' => $formFavoris,
+        'isTeledeclarationMode' => $isTeledeclarationMode));
+    ?>    
     <div id="col_saisies">
         <script type="text/javascript">
             /* Colonne avec le focus par défaut */
@@ -19,7 +24,9 @@
                         'config' => $config,
                         'detail' => $produit,
                         'active' => ($detail && $detail->getHash() == $produit->getHash()),
-                        'form' => $form,'favoris' => $favoris));
+                        'form' => $form,
+                        'favoris' => $favoris,
+                        'isTeledeclarationMode' => $isTeledeclarationMode));
                     ?>
     <?php endif; ?>
 <?php endforeach; ?>

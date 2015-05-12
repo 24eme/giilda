@@ -4,7 +4,6 @@
 <section id="principal" class="drm">
     <?php if (!$isTeledeclarationMode): ?>
         <?php include_partial('drm/header', array('drm' => $drm)); ?>
-        <h2>Déclaration Récapitulative Mensuelle</h2>
     <?php else: ?>
         <h2><?php echo getDrmTitle($drm); ?></h2>
     <?php endif; ?>
@@ -21,8 +20,6 @@
     <?php include_partial('drm/controlMessage'); ?>
 
     <div id="application_dr">
-        <h2>Saisie des mouvements</h2>
-
         <div id="contenu_onglet">
             <?php
             include_partial('drm_edition/list', array('drm_noeud' => $drm->declaration,
@@ -32,7 +29,8 @@
                 'formFavoris' => $formFavoris,
                 'form' => $form,
                 'detail' => $detail, 
-                'favoris' => $favoris));
+                'favoris' => $favoris,
+                'isTeledeclarationMode' => $isTeledeclarationMode));
             ?>
         </div>
     </div>
