@@ -699,7 +699,8 @@ p#date_drm
                 padding: 10px 5px;
                 background-color: #ECEBEB;
                 &.extendable {
-                    background: url(../images/pictos/fleche_droite.png) no-repeat 190px 13px ;
+                    background: url("../images/pictos/fleche_droite.png") no-repeat scroll 190px 2px ;
+                    line-height: 2px;
                 }
             }
 
@@ -711,7 +712,8 @@ p#date_drm
                     margin: 0 0 10px;
                     background-color: #ECEBEB;
                     &.extendable {
-                        background: url(../images/pictos/fleche_bas.png) no-repeat 188px 12px  !important;
+                        background: url(../images/pictos/fleche_bas.png) no-repeat 188px 2px  !important;
+                        line-height: 2px;
                     }
                 }
 
@@ -851,6 +853,12 @@ p#date_drm
                     }
                 }
             }
+            p.extendable{
+                height:24px !important;
+                input{
+                    margin-top: 0px !important;
+                }
+            }
         }
 
 
@@ -887,8 +895,16 @@ p#date_drm
             .groupe
             {
                 margin: 0 0 10px;
+                p.extendable {
+                    line-height: 2px;
+                }
 
-                &.groupe_ouvert { margin: 0 0 10px; }
+                &.groupe_ouvert { 
+                    margin: 0 0 10px;
+                    p.extendable {
+                        line-height: 2px;
+                    } 
+                }
 
                 p { margin: 0 0 10px; }
                 ul 
