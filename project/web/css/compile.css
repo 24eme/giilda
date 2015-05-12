@@ -763,8 +763,8 @@ p#date_drm{font-size:14px;font-style:italic;margin:20px 0}
 #colonnes_dr:after{clear:both}
 #colonnes_dr .col_curseur{font-size:1px}
 #colonnes_dr #colonne_intitules{float:left;font-size:13px;line-height:20px;margin-right:25px;position:relative;width:280px;border-right:1px solid #e5e4e4}#colonnes_dr #colonne_intitules p{margin:0 0 10px;font-weight:bold;padding:0 5px}
-#colonnes_dr #colonne_intitules .groupe{margin:0 0 10px}#colonnes_dr #colonne_intitules .groupe p{background:url(../images/pictos/fleche_droite.png) no-repeat 190px 13px #ecebeb;cursor:pointer;font-weight:bold;border:1px solid #e5e4e4;border-width:1px 0;padding:10px 5px}
-#colonnes_dr #colonne_intitules .groupe.groupe_ouvert p{background:url(../images/pictos/fleche_bas.png) no-repeat 188px 12px #ecebeb !important;margin:0 0 10px}
+#colonnes_dr #colonne_intitules .groupe{margin:0 0 10px}#colonnes_dr #colonne_intitules .groupe p{cursor:pointer;font-weight:bold;border:1px solid #e5e4e4;border-width:1px 0;padding:10px 5px;background-color:#ecebeb}#colonnes_dr #colonne_intitules .groupe p.extendable{background:url(../images/pictos/fleche_droite.png) no-repeat 190px 13px}
+#colonnes_dr #colonne_intitules .groupe.groupe_ouvert p{margin:0 0 10px;background-color:#ecebeb}#colonnes_dr #colonne_intitules .groupe.groupe_ouvert p.extendable{background:url(../images/pictos/fleche_bas.png) no-repeat 188px 12px !important}
 #colonnes_dr #colonne_intitules .groupe.groupe_ouvert ul{padding:0}#colonnes_dr #colonne_intitules .groupe.groupe_ouvert ul li{padding-left:10px}
 #colonnes_dr #colonne_intitules .groupe ul{font-size:12px;padding:10px 0 0 0}#colonnes_dr #colonne_intitules .groupe ul li{margin:0 0 5px}#colonnes_dr #colonne_intitules .groupe ul li .unite{font-size:10px}
 #colonnes_dr #colonne_intitules .totaux{padding:20px 0 0}#colonnes_dr #colonne_intitules .totaux p{background:#9d3032;color:#fff;font-weight:bold}

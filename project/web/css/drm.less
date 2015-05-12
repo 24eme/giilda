@@ -690,21 +690,29 @@ p#date_drm
         {
             margin: 0 0 10px;
 
-            p 
-            {
-                background: url(../images/pictos/fleche_droite.png) no-repeat 190px 13px #ECEBEB;
+            p {
+
                 cursor: pointer;
                 font-weight: bold;
                 border: 1px solid @couleur-a10;
                 border-width: 1px 0;
                 padding: 10px 5px;
+                background-color: #ECEBEB;
+                &.extendable {
+                    background: url(../images/pictos/fleche_droite.png) no-repeat 190px 13px ;
+                }
             }
+
 
             &.groupe_ouvert
             {
                 p{
-                    background: url(../images/pictos/fleche_bas.png) no-repeat 188px 12px #ECEBEB !important;
+
                     margin: 0 0 10px;
+                    background-color: #ECEBEB;
+                    &.extendable {
+                        background: url(../images/pictos/fleche_bas.png) no-repeat 188px 12px  !important;
+                    }
                 }
 
                 ul { 

@@ -41,7 +41,19 @@ var objAjoutsLiquidations = {};
         if (calendrierHistorique.exists()) {
             calendrierHistorique.find('.liste_mois > li').hauteurEgale();
         }
+        
+        $.initFavoris();
+        $("#colonne_intitules input[type='checkbox']").click(function(){
+            console.log($(this).attr('id'));
+        });
     });
+    
+    $.initFavoris = function()
+    {
+         $("#colonne_intitules input[type='checkbox']").click(function(){
+            $("#colonne_intitules form").submit();
+        });
+    }
 
     /**
      * Initialise les fonctions de l'étape
