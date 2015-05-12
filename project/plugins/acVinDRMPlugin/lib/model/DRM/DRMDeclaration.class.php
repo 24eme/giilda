@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * Model for DRMDeclaration
+ *
+ */
+class DRMDeclaration extends BaseDRMDeclaration {
+
+    public function getChildrenNode() {
+
+        return $this->certifications;
+    }
+
+    public function getMouvements($isTeledeclaration = false) {
+        $produits = $this->getProduitsDetails();
+        $mouvements = array();
+        foreach ($produits as $produit) {
+            if (!$isTeledeclaration && !$produit->getParent()->isProduitNonInterpro()) {
+                $mouvements = array_replace_recursive($mouvements, $produit->getMouvements());
+            }
+        }
+        return $mouvements;
+    }
+
+    public function cleanDetails() {
+        $delete = false;
+        foreach ($this->getProduitsDetails() as $detail) {
+            if ($detail->isSupprimable()) {
+                $detail->delete();
+                $delete = true;
+            }
+        }
+
+        if ($delete) {
+            $this->cleanNoeuds();
+        }
+    }
+
+    public function cleanNoeuds() {
+        $this->_cleanNoeuds();
+    }
+
+    public function hasProduitDetailsWithStockNegatif() {
+        foreach ($this->getProduitsDetails() as $prod) {
+            if ($prod->hasProduitDetailsWithStockNegatif()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public function getProduitsDetailsByCertifications() {
+        $certifications = $this->getConfig()->getChildrenNode(); 
+        $produitsDetailsByCertifications = array();
+        foreach ($certifications as $certification) {
+            if(!array_key_exists($certification->getHash(), $produitsDetailsByCertifications)){
+                $produitsDetailsByCertifications[$certification->getHash()] = new stdClass();
+                $produitsDetailsByCertifications[$certification->getHash()]->certification = $certification;
+                $produitsDetailsByCertifications[$certification->getHash()]->produits = array();
+            }
+        }
+        $produitsDetails = $this->getProduitsDetails();
+        foreach ($produitsDetails as $produitDetails) {
+            $produitsDetailsByCertifications[$produitDetails->getCertification()->getHash()]->produits[$produitDetails->getHash()] = $produitDetails;
+        }
+        
+        return $produitsDetailsByCertifications;
+    }
+
+}
