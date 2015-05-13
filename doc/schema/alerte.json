@@ -1,0 +1,60 @@
+{
+    "_id": {
+        "type": "string"
+    },
+    "_rev": {
+        "type": "string"
+    },
+    "type": {
+        "type": "string"
+    },
+    "type_alerte": {
+        "type": "string"
+    },
+    "date_creation": {
+        "type": "string"
+    },
+    "date_relance": {
+        "type": "string"
+    },
+    "nb_relances": {
+        "type": "integer"
+    },
+    "id_document": {
+        "type": "string"
+    },
+    "declarant_nom": {
+        "type": "string"
+    },
+    "identifiant": {
+        "type": "string"
+    },
+    "libelle_document": {
+        "type": "string"
+    },
+    "region": {
+        "type": "string"
+    },
+    "campagne": {
+        "type": "string"
+    },
+    "type_document": {
+        "type": "string"
+    },
+    "type_relance": {
+        "type": "string"
+    },
+    "statuts": {
+        "*": {
+            "date": {
+                "type": "string"
+            },
+            "statut": {
+                "type": "string"
+            },
+            "commentaire": {
+                "type": "string"
+            }
+        }
+    }
+}
