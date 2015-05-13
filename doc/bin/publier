@@ -10,4 +10,4 @@ cp -R images $DOC_DIR/
 cp -R schema $DOC_DIR/
 cp -R docs $DOC_DIR/
 
-pandoc -t html5 --toc -s -c css/markdown.css -B templates/header.html -A templates/footer.html Exploitation.markdown > $DOC_DIR/exploitation.html
+pandoc -t html5 --toc -s -c css/markdown.css -B templates/header.html -A templates/footer.html Exploitation.md > $DOC_DIR/exploitation.html
