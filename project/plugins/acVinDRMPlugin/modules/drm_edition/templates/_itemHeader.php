@@ -27,7 +27,7 @@ $favoris_sorties = $favoris->sorties;
                 <?php foreach ($config->detail->getEntrees() as $key => $item): ?>
                     <?php if ($favoris_entrees->exist($key)): ?>
                         <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >
-                            <span id="<?php echo 'star_favoris_entrees_' . $key ?>" class="categorie_libelle">
+                            <span id="<?php echo 'star_favoris_entrees_' . $key ?>" class="categorie_libelle <?php echo (count($favoris_entrees) > 1 ) ? 'clickable' : ''; ?>">
                                 <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_entrees_<?php echo $key; ?>" title="Message aide"></a>
                             </span>
                         </li>
@@ -42,7 +42,7 @@ $favoris_sorties = $favoris->sorties;
                 <?php foreach ($config->detail->getEntrees() as $key => $item): ?>
                     <?php if (!$favoris_entrees->exist($key)): ?>
                         <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >      
-                            <span id="<?php echo 'star_favoris_entrees_' . $key ?>" class="categorie_libelle">
+                            <span id="<?php echo 'star_favoris_entrees_' . $key ?>" class="categorie_libelle  <?php echo (count($favoris_entrees) < DRMClient::$drm_max_favoris_by_types_mvt[DRMClient::DRM_TYPE_MVT_ENTREES] ) ? 'clickable' : ''; ?>">
                                 <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_entrees_<?php echo $key; ?>" title="Message aide"></a>
                             </span>
                         </li>
@@ -57,7 +57,9 @@ $favoris_sorties = $favoris->sorties;
                 <?php foreach ($config->detail->getSorties() as $key => $item): ?>
                     <?php if ($favoris_sorties->exist($key)): ?>
                         <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >    
-                            <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle"><?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="Message aide"></a></span>
+                            <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo (count($favoris_sorties) > 1 ) ? 'clickable' : ''; ?>">
+                                <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="Message aide"></a>
+                            </span>
                         </li>
                     <?php endif; ?>
                 <?php endforeach; ?>
@@ -70,7 +72,9 @@ $favoris_sorties = $favoris->sorties;
                 <?php foreach ($config->detail->getSorties() as $key => $item): ?>
                     <?php if (!$favoris_sorties->exist($key)): ?>
                         <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >
-                            <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle"><?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="Message aide"></a></span>
+                            <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo (count($favoris_sorties) < DRMClient::$drm_max_favoris_by_types_mvt[DRMClient::DRM_TYPE_MVT_SORTIES] ) ? 'clickable' : ''; ?>">
+                                <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="Message aide"></a>
+                            </span>
                         </li>
                     <?php endif; ?>
                 <?php endforeach; ?>

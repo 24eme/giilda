@@ -19,24 +19,25 @@ class DRMFavorisForm extends acCouchdbObjectForm {
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->drm = $object;
-        $this->favoris = $this->drm->getAllFavoris();
+        $this->favoris = $this->getFavoris();
         $this->types_mvt = ConfigurationClient::getCurrent()->libelle_detail_ligne;
         parent::__construct($this->drm, $options, $CSRFSecret);
     }
 
     public function configure() {
-
+        $favoris = $this->getFavoris();
         foreach ($this->types_mvt as $keyTypeMvts => $typeMvts) {
             foreach ($typeMvts as $keyMvt => $mvtLibelle) {
-                if (($keyTypeMvts != 'entrees') && ($keyTypeMvts != 'sorties')) {
+                if (($keyTypeMvts != DRMClient::DRM_TYPE_MVT_ENTREES) && ($keyTypeMvts != DRMClient::DRM_TYPE_MVT_SORTIES)) {
                     continue;
-                }
+                };
+
                 $keyField = $this->buildFieldId($keyTypeMvts, $keyMvt);
-                $this->setWidget($keyField, new sfWidgetFormInputHidden(array('default' => false)));
-
-                $this->widgetSchema->setLabel($keyField, $mvtLibelle);
-
-                $this->setValidator($keyField, new sfValidatorString(array('required' => false)));
+                if ((count($favoris[$keyTypeMvts]) < DRMClient::$drm_max_favoris_by_types_mvt[$keyTypeMvts]) || ($favoris->exist($keyTypeMvts) && $favoris->$keyTypeMvts->exist($keyMvt))) {
+                    $this->setWidget($keyField, new sfWidgetFormInputHidden(array('default' => false)));
+                    $this->widgetSchema->setLabel($keyField, $mvtLibelle);
+                    $this->setValidator($keyField, new sfValidatorString(array('required' => false)));
+                }
             }
         }
         $this->widgetSchema->setNameFormat('drmFavoris[%s]');
@@ -60,16 +61,22 @@ class DRMFavorisForm extends acCouchdbObjectForm {
 
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        foreach ($this->favoris as $favorisTypeKey => $favorisType) {
+        foreach ($this->getFavoris() as $favorisTypeKey => $favorisType) {
             foreach ($favorisType as $favoriKey => $favori) {
-                    $this->setDefault($this->buildFieldId($favorisTypeKey, $favoriKey), true);
-                
+                $this->setDefault($this->buildFieldId($favorisTypeKey, $favoriKey), true);
             }
         }
     }
 
     private function buildFieldId($keyTypeMvts, $keyMvt) {
         return 'favoris_' . $keyTypeMvts . '_' . $keyMvt;
+    }
+
+    private function getFavoris() {
+        if (!$this->favoris) {
+            $this->favoris = $this->drm->getAllFavoris();
+        }
+        return $this->favoris;
     }
 
 }
