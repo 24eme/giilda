@@ -186,49 +186,6 @@ class drmActions extends drmGeneriqueActions {
         return $this->renderText($this->getPartial('popupFrequence', array('drm' => $drm)));
     }
 
-    public function executeValidation(sfWebRequest $request) {
-        set_time_limit(180);
-        $this->drm = $this->getRoute()->getDRM();
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->initSocieteAndEtablissementPrincipal();
-        $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant, $this->isTeledeclarationMode);
-
-        $this->no_link = false;
-        if ($this->getUser()->hasOnlyCredentialDRM()) {
-            $this->no_link = true;
-        }
-
-        $this->validation = new DRMValidation($this->drm, $this->isTeledeclarationMode);
-
-        $this->form = new DRMCommentaireForm($this->drm);
-
-        if (!$request->isMethod(sfWebRequest::POST)) {
-
-            return sfView::SUCCESS;
-        }
-
-        $this->form->bind($request->getParameter($this->form->getName()));
-        if ($request->getParameter('brouillon')) {
-            $this->form->save();
-            return $this->redirect('drm_etablissement', $this->drm->getEtablissement());
-        }
-
-        if (!$this->validation->isValide()) {
-            return sfView::SUCCESS;
-        }
-
-        $this->form->save();
-
-        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
-        $this->drm->save();
-
-        DRMClient::getInstance()->generateVersionCascade($this->drm);
-
-        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
-            'periode_version' => $this->drm->getPeriodeAndVersion(),
-            'hide_rectificative' => 1));
-    }
-
     public function executeShowError(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();
         $drmValidation = new DRMValidation($drm);
@@ -239,17 +196,7 @@ class drmActions extends drmGeneriqueActions {
         $this->redirect($controle->getLien());
     }
 
-    public function executeVisualisation(sfWebRequest $request) {
-        $this->drm = $this->getRoute()->getDRM();
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->no_link = false;
-        if ($this->getUser()->hasOnlyCredentialDRM()) {
-            $this->no_link = true;
-        }
-        $this->hide_rectificative = $request->getParameter('hide_rectificative');
-        $this->drm_suivante = $this->drm->getSuivante();
-        $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
-    }
+
 
     public function executeRectificative(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();

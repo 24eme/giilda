@@ -90,7 +90,7 @@ class DRMRouting {
 
 
 
-        $r->prependRoute('drm_validation', new DRMRoute('/drm/:identifiant/edition/:periode_version/validation', array('module' => 'drm',
+        $r->prependRoute('drm_validation', new DRMRoute('/drm/:identifiant/edition/:periode_version/validation', array('module' => 'drm_validation',
             'action' => 'validation'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'))));
@@ -100,7 +100,7 @@ class DRMRouting {
         ));
 
 
-        $r->prependRoute('drm_visualisation', new DRMRoute('/drm/:identifiant/visualisation/:periode_version/:hide_rectificative', array('module' => 'drm',
+        $r->prependRoute('drm_visualisation', new DRMRoute('/drm/:identifiant/visualisation/:periode_version/:hide_rectificative', array('module' => 'drm_visualisation',
             'action' => 'visualisation',
             'hide_rectificative' => null), array('sf_method' => array('get')), array('model' => 'DRM',
             'type' => 'object',
