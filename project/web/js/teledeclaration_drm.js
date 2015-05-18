@@ -12,18 +12,18 @@ var initAjoutProduitPopup = function() {
 
 };
 
-var initCrds = function(){
-    $('.drm_crds_list tr.crd_row').each(function(){
+var initCrds = function() {
+    $('.drm_crds_list tr.crd_row').each(function() {
         var id = $(this).attr('id');
-        $('input').change(function(){            
-            var crds_debut_de_mois = $("#"+id+" td.crds_debut_de_mois input").val();
-            var entrees = $("#"+id+" td.crds_entrees input").val();
-            var sorties = $("#"+id+" td.crds_sorties input").val();
-            var pertes = $("#"+id+" td.crds_pertes input").val();
+        $('input').change(function() {
+            var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
+            var entrees = $("#" + id + " td.crds_entrees input").val();
+            var sorties = $("#" + id + " td.crds_sorties input").val();
+            var pertes = $("#" + id + " td.crds_pertes input").val();
             var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entrees) - parseInt(sorties) - parseInt(pertes);
-            $("#"+id+" td.crds_fin_de_mois").text(fin_de_mois);
+            $("#" + id + " td.crds_fin_de_mois").text(fin_de_mois);
         });
-        
+
     });
 }
 
@@ -79,9 +79,22 @@ var initFilEditionProduit = function() {
             $('.drm_fil_edition_produit[id="' + id + '"] > p').addClass('edited');
         });
     });
+    
 };
 
-
+var initFavoris = function() {
+    $('div.groupe span.categorie_libelle').click(function() {
+        var id_fav_input = $(this).attr('id').replace('star_', 'drmFavoris_');
+        var value = $('#colonne_intitules form #' + id_fav_input).val();
+        if (value === "1"){
+            $('#colonne_intitules form #' + id_fav_input).val("");
+        }
+        else{
+            $('#colonne_intitules form #' + id_fav_input).val("1");
+        }
+       $("#colonne_intitules form").submit();
+    });    
+}
 
 $(document).ready(function()
 {
@@ -90,4 +103,5 @@ $(document).ready(function()
     initAjoutProduitPopup();
     initAjoutCrdsPopup();
     initCrds();
+    initFavoris();
 });

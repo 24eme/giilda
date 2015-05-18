@@ -21,56 +21,56 @@ $favoris_sorties = $favoris->sorties;
             </ul>
         </div>
 
-        <div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="2">
+        <div class="groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="2">
             <p >Entrées - Favoris</p>
             <ul>
                 <?php foreach ($config->detail->getEntrees() as $key => $item): ?>
                     <?php if ($favoris_entrees->exist($key)): ?>
                         <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >
-                            <?php echo $formFavoris['favoris_entrees_' . $key]->render(); ?>
-                            <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_entrees_<?php echo $key; ?>" title="Message aide"></a>
+                            <span id="<?php echo 'star_favoris_entrees_' . $key ?>" class="categorie_libelle">
+                                <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_entrees_<?php echo $key; ?>" title="Message aide"></a>
+                            </span>
                         </li>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
         </div>
 
-        <div class="groupe" data-groupe-id="3">
+        <div class="groupe no_favoris" data-groupe-id="3">
             <p class="extendable">Autres entrées</p>
             <ul>
                 <?php foreach ($config->detail->getEntrees() as $key => $item): ?>
                     <?php if (!$favoris_entrees->exist($key)): ?>
-                        <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >                        
-                            <?php echo $formFavoris['favoris_entrees_' . $key]->render(); ?>
-                            <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_entrees_<?php echo $key; ?>" title="Message aide"></a>
+                        <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >      
+                            <span id="<?php echo 'star_favoris_entrees_' . $key ?>" class="categorie_libelle">
+                                <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_entrees_<?php echo $key; ?>" title="Message aide"></a>
+                            </span>
                         </li>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
         </div>
 
-        <div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="4">
+        <div class="groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="4">
             <p>Sorties - Favoris</p>
             <ul>
                 <?php foreach ($config->detail->getSorties() as $key => $item): ?>
                     <?php if ($favoris_sorties->exist($key)): ?>
-                        <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >                        
-                            <?php echo $formFavoris['favoris_sorties_' . $key]->render(); ?>
-                            <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="Message aide"></a>
+                        <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >    
+                            <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle"><?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="Message aide"></a></span>
                         </li>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
         </div>
 
-        <div class="groupe" data-groupe-id="5">
+        <div class="groupe no_favoris" data-groupe-id="5">
             <p class="extendable">Autres sorties</p>
             <ul>
                 <?php foreach ($config->detail->getSorties() as $key => $item): ?>
                     <?php if (!$favoris_sorties->exist($key)): ?>
                         <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >
-                            <?php echo $formFavoris['favoris_sorties_' . $key]->render(); ?>
-                            <?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="Message aide"></a>
+                            <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle"><?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="Message aide"></a></span>
                         </li>
                     <?php endif; ?>
                 <?php endforeach; ?>

@@ -46,8 +46,7 @@ $favoris_sorties = $favoris->sorties;
                         <?php if ($favoris_entrees->exist($key)): ?>
                             <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
         <?php echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
-            'class' => 'num num_float somme_detail'))
-        ?>
+            'class' => 'num num_float somme_detail')); ?>
                             </li>
     <?php endif; ?>
 <?php endforeach; ?>

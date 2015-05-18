@@ -32,7 +32,7 @@ class DRMFavorisForm extends acCouchdbObjectForm {
                     continue;
                 }
                 $keyField = $this->buildFieldId($keyTypeMvts, $keyMvt);
-                $this->setWidget($keyField, new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => false)));
+                $this->setWidget($keyField, new sfWidgetFormInputHidden(array('default' => false)));
 
                 $this->widgetSchema->setLabel($keyField, $mvtLibelle);
 
