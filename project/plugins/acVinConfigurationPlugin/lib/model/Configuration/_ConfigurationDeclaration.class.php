@@ -219,10 +219,11 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     public function getDateCirulation($campagne, $interpro = "INTERPRO-inter-loire") {
         $dateCirculationAble = $this;
-        while (!$dateCirculationAble->exist('interpro') ||
+        while ( (!get_class($this) == 'ConfigurationDeclaration' ) && 
+                (!$dateCirculationAble->exist('interpro') ||
                 !$dateCirculationAble->interpro->getOrAdd($interpro)->exist('dates_circulation') ||
                 !count($dateCirculationAble->interpro->getOrAdd($interpro)->dates_circulation) ||
-                !$dateCirculationAble->interpro->getOrAdd($interpro)->dates_circulation->exist($campagne)) {
+                !$dateCirculationAble->interpro->getOrAdd($interpro)->dates_circulation->exist($campagne))) {                    
             $dateCirculationAble = $dateCirculationAble->getParent()->getParent();
         }
         if (!$dateCirculationAble->exist('interpro') ||
