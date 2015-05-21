@@ -104,4 +104,24 @@ $(document).ready(function()
     initAjoutCrdsPopup();
     initCrds();
     initFavoris();
+    
+    $('fieldset#validation_drm_mvts_stocks li.onglet').click(function(){
+        
+        var id = $(this).attr('id').replace('_onglet', '');
+       if($(this).children().is('a')){
+           $(this).html('<span>'+$(this).html().replace('<a>', '').replace('</a>', '')+'</span>');
+           $(this).addClass('actif');
+           $(this).siblings().each(function(){
+               $(this).html('<a>'+$(this).html().replace('<span>', '').replace('</span>', '')+'</a>');
+               $(this).removeClass('actif');
+           });
+       }
+       
+        $('fieldset#validation_drm_mvts_stocks div.section_label_maj').each(function(){
+            $(this).hide();
+            if($(this).attr('id') == id){
+                $(this).show();
+            }
+        });
+    })
 });

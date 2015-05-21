@@ -18,7 +18,7 @@
  * @package    DRMRouting
  * @subpackage lib
  * @author     Tangui Morlier <tangui@tangui.eu.org>
- * @author     Charlotte De Vichet <c.devichet@gmail.com>
+ * @author     Mathurin Petit <mathurin.petit@gmail.com>
  * @author     Vincent Laurent <vince.laurent@gmail.com>
  * @author     Jean-Baptiste Le Metayer <lemetayer.jb@gmail.com>
  * @version    0.1

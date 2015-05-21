@@ -1527,7 +1527,7 @@ p#date_drm
     fieldset{
         margin: 25px 0;
 
-        &#historique_drm{
+        &#historique_drm, &#validation_drm_mvts_stocks{
             nav{
                 position: relative;
                 bottom: -1px;
@@ -1578,7 +1578,7 @@ p#date_drm
                 .bloc_form,
                 table { margin-top: 15px; }
 
-                &#calendrier_drm{
+                &#calendrier_drm, &#stock_drm, &#mouvement_drm{
                     .bloc_form{	
                         .ligne_compose{
 
@@ -1682,7 +1682,16 @@ p#date_drm
 
                 table { .table_recap; }
             }
+        }        
+
+        &#historique_drm{
+            ul{
+                li{
+                    background: #ececec url(../images/fonds/bg_nav_historique.png) 0 0 repeat-x;
+                }
+            }
         }
+
         &#mouvement_drm{
             td.positif{ background-color : #f0fae1; }
             td.negatif{ background-color : #feecec; }

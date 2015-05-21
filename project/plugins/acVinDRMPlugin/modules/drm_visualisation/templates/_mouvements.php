@@ -9,7 +9,7 @@
                                                      'consigne' => "Saisissez un produit, un type de mouvement, un numéro de contrat, un pays d'export, etc. :")) ?>
 <?php endif; ?>
 
-
+<h2>RECAPITULATIF DES MOUVEMENTS</h2>
 <table id="table_mouvements" class="table_recap">
     <thead>
         <tr>
@@ -23,9 +23,9 @@
     <?php $i = 1; ?>
     <?php foreach($mouvements as $mouvement): ?>
     <?php $i++; ?>
-        <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php if($i%2!=0) echo "alt"; if ($mouvement->facturable) {echo " facturable";}  ?>">
+        <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php if($i%2!=0) echo "alt"; if (!$isTeledeclarationMode && $mouvement->facturable) {echo " facturable";}  ?>">
             <td>
-                <a title="Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>" href="<?php echo url_for('redirect_visualisation', array('id_doc' => $mouvement->doc_id)) ?>"><?php echo acCouchdbManager::getClient($mouvement->type)->getLibelleFromId($mouvement->doc_id) ?><?php echo ($mouvement->version) ? ' ('.$mouvement->version.')' : '' ?></a>
+                Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>
             </td>
             </td>
             <td><?php echo $mouvement->produit_libelle ?> </td>
@@ -46,5 +46,5 @@
     </tbody>
 </table>
 <?php else: ?>
-<p>Pas de mouvements</p>
+<h2>AUCUN MOUVEMENTS</h2>
 <?php endif; ?>
