@@ -1,7 +1,7 @@
 <?php use_helper('Version'); ?>
 <?php use_helper('Float'); ?>
 <fieldset id="historique_drm">
-    <legend>Récapitulatif</legend>
+    <legend>Récapitulatif des Stocks</legend>
 		<table class="table_recap">
 			<thead>
 				<tr>

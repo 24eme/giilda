@@ -13,38 +13,31 @@
         <ul id="recap_infos_header">
             <li>
                 <label>Nom de l'opérateur : </label> 
-                <?php echo $drm->getEtablissement()->nom ?>
+                <?php echo $drm->getEtablissement()->nom; ?>
             </li>
-            <li><label>Période : </label><?php echo $drm->periode ?></li>
+            <li><label>Période : </label><?php echo $drm->periode; ?></li>
         </ul>
     <?php endif; ?>
 
     <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_VALIDATION)); ?>
-
 
     <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
 
     <section id="contenu_etape">
         <?php if (!$isTeledeclarationMode): ?>
             <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
+        <?php else: ?>
+            <?php include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm,'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>            
         <?php endif; ?>
-        <h2>STOCKS/MOUVEMENTS</h2>
-        <fieldset id="validation_drm_mvts_stocks"> 
-            <nav>
-                <ul>
-                    <li class="actif onglet" id="drm_visualisation_stock_onglet"><span>Stock</span></li>
-                    <li class="onglet" id="drm_visualisation_mouvements_onglet"><a>Mouvements</a></li>
-                </ul>
-            </nav>
-            <div id="drm_visualisation_stock" class="section_label_maj">
-                <?php include_partial('drm_visualisation/stock', array('drm' => $drm, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
-            </div>
-            <div id="drm_visualisation_mouvements" class="section_label_maj" style="display: none;">
-                <?php include_partial('drm_visualisation/mouvements', array('mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
-            </div>
-        </fieldset>
+
+        <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?> 
 
         <br />
+        <?php if ($isTeledeclarationMode): ?>
+            <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)); ?> 
+        <?php endif; ?>
+      
+
         <?php if (!$isTeledeclarationMode): ?>
             <?php echo $form['commentaire']->renderLabel(); ?>
             <?php echo $form['commentaire']->renderError(); ?>

@@ -338,6 +338,18 @@ DRM:
             commune: {  }
             code_postal: {   }
             region: {  }
+      societe:
+        type: collection
+        definition:
+          fields:
+            raison_sociale: { }
+            siret: { }
+            email: { } 
+            telephone: { }
+            fax: { } 
+            adresse: { }
+            commune: { }
+            code_postal: { }
       declaratif:
         class: DRMDeclaratif
         type: collection

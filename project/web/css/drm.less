@@ -1746,7 +1746,52 @@ p#date_drm
             }
         }
     }
+
+    #drm_validation_coordonnees {
+        .drm_validation_societe,.drm_validation_etablissement{
+            width:300px;
+            display: inline-block;
+            background: none repeat scroll 0 0 #ecebeb;
+            margin: 0 0 25px;
+            margin: 10px 10px 30px;
+            .title {
+                background: none repeat scroll 0 0 #000;
+                vertical-align: middle;
+                text-align: center;
+                color: #fff;
+                font-size: 15pt;
+            }
+            .panel{
+
+                padding: 10px;            
+                ul {
+                    li { 
+                        line-height: 28px; 
+                        a {
+                            text-decoration: underline;
+                            font-weight: bold;
+                        }
+                        span.label{
+                            font-weight: bold;
+                        }
+                        span.infos{
+                            float: right;
+                        }
+                    }
+                    li.text-error{
+                        color: red ;
+                        font-weight: bold;
+                    }
+                }            
+            }
+            .acces{
+                padding: 10px;
+                text-align: center;
+            }
+        }
+    }
 }
+
 
 /**
  * Fancybox

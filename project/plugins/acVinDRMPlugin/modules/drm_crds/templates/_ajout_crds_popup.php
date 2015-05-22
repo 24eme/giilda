@@ -28,7 +28,7 @@
             <br/>
             <div class="ligne_btn">
                 <a id="popup_close" class="btn_rouge btn_majeur annuler popup_close" style="float: left;" href="#" >Annuler</a>           
-                <button id="popup_confirm" type="submit" class="btn_validation" ><span>Ajouter le produit</span></button>  
+                <button id="popup_confirm" type="submit" class="btn_validation"style="float: right;" ><span>Ajouter une ligne CRD</span></button>  
             </div>
         </form>
     </div>

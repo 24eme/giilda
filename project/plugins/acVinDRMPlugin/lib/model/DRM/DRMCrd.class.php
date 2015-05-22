@@ -7,7 +7,7 @@
 class DRMCrd extends BaseDRMCrd {
     
     public function getLibelle(){
-        return DRMClient::$drm_crds_couleurs[$this->couleur].' - '.$this->centilitrage;
+        return DRMClient::$drm_crds_couleurs[$this->couleur].' - '.$this->detail_libelle;
     }
     
     public function udpateStockFinDeMois() {

@@ -58,8 +58,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
             $this->crdTypeLitrages = array("" => "");
             foreach ($contenances as $key => $value) {
             $this->crdTypeLitrages[''.$value] = $key;                
-            }
-            
+            }            
         }
         return $this->crdTypeLitrages;
     }

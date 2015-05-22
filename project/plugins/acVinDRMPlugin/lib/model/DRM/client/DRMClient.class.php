@@ -383,6 +383,8 @@ class DRMClient extends acCouchdbClient {
         $drm->periode = $periode;
         $drm->etape = self::ETAPE_SAISIE;
         $drm->buildFavoris();
+        $drm->storeDeclarant();
+        $drm->initSociete();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }

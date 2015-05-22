@@ -19,7 +19,13 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->initSocieteAndEtablissementPrincipal();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
+        if($this->isTeledeclarationMode){
+            $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
+            $this->validationCoordonneesEtablissementForm = new DRMValidationCoordonneesEtablissementForm($this->drm);
+        }
+        else{            
         $this->formCampagne = new DRMEtablissementCampagneForm($this->drm->identifiant, $this->drm->campagne);
+        }
         $this->no_link = false;
         if ($this->getUser()->hasOnlyCredentialDRM()) {
             $this->no_link = true;

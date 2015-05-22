@@ -171,7 +171,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $drm_suivante = clone $this;
         $drm_suivante->init(array('keepStock' => $keepStock));
-        $drm_suivante->update();
+        $drm_suivante->update();        
+        $drm_suivante->storeDeclarant();
         $drm_suivante->periode = $periode;
         $drm_suivante->etape = ($isTeledeclarationMode) ? DRMClient::ETAPE_CHOIX_PRODUITS : DRMClient::ETAPE_SAISIE;
         if ($is_just_the_next_periode) {
@@ -181,13 +182,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $details->getCepage()->add('no_movements', false);
             $details->getCepage()->add('edited', false);
         }
-        foreach ($drm_suivante->getAllCrds() as $key => $crd) {
-            $crd->stock_debut = $crd->stock_fin;
-            $crd->stock_fin = null;
-            $crd->entrees = null;
-            $crd->sorties = null;
-            $crd->pertes = null;
-        }
+        $drm_suivante->initCrds();
+        $drm_suivante->initSociete();
+        
         if(!$drm_suivante->exist('favoris')){
             $drm_suivante->buildFavoris();
         }
@@ -321,7 +318,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->update();
         $this->storeIdentifiant($options);
         $this->storeDates();
-        $this->storeDeclarant();
         $this->declaration->cleanDetails();
 
         if (!isset($options['no_droits']) || !$options['no_droits']) {
@@ -887,6 +883,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function addCrdType($couleur, $litrage, $stock_debut = null) {
         return $this->getOrAdd('crds')->getOrAddCrdType($couleur, $litrage, $stock_debut);
     }
+    
+    public function initCrds() {
+        foreach ($this->getAllCrds() as $key => $crd) {
+            $crd->stock_debut = $crd->stock_fin;
+            $crd->stock_fin = null;
+            $crd->entrees = null;
+            $crd->sorties = null;
+            $crd->pertes = null;
+        }
+    }
 
     /*     * * FIN CRDS ** */
     
@@ -906,4 +912,19 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
     
     /*     * * FIN FAVORIS ** */
+    
+    /*** SOCIETE ***/ 
+     public function initSociete() {
+        $societe = $this->getEtablissement()->getSociete();
+        $drm_societe = $this->add('societe');
+        $drm_societe->add('raison_sociale',$societe->raison_sociale);
+        $drm_societe->add('siret',$societe->siret);
+        $drm_societe->add('code_postal',$societe->siege->code_postal);
+        $drm_societe->add('adresse',$societe->siege->adresse);
+        $drm_societe->add('commune',$societe->siege->commune);
+        $drm_societe->add('email',$societe->getEmailTeledeclaration());
+        $drm_societe->add('telephone',$societe->telephone);
+        $drm_societe->add('fax',$societe->fax);
+    }
+    /*** FIN SOCIETE ***/
 }
