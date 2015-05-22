@@ -1,0 +1,23 @@
+#!/bin/bash
+
+. bin/config.inc
+
+curl -s "http://$COUCHHOST:$COUCHPORT/_replicator/REPLICATION_TELEDECLARATION"  | grep -v 'replication_state":"triggered' > $TMP/replicator
+
+
+if test -s $TMP/replicator ; then
+	echo "La réplication entre Interloire et Agarik semble down" > $TMP/replicator_mail.txt 
+	echo >> $TMP/replicator_mail.txt 
+	echo "Voici le rendu de http://$COUCHHOST:$COUCHPORT/_replicator/REPLICATION_TELEDECLARATION : " >> $TMP/replicator_mail.txt
+	echo "==========================" >> $TMP/replicator_mail.txt
+	cat $TMP/replicator >> $TMP/replicator_mail.txt 
+        echo "==========================" >> $TMP/replicator_mail.txt
+	echo >> $TMP/replicator_mail.txt
+	echo "--" >> $TMP/replicator_mail.txt
+	echo "Ce mail a été généré par $0" >> $TMP/replicator_mail.txt
+	for email in $DEV_EMAILS; do
+		cat $TMP/replicator_mail.txt | iconv -f UTF8 -t ISO88591 | mail -s "[replication] La réplication semble down" $email
+	done
+fi
+
+rm $TMP/replicator*

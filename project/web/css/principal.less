@@ -1,0 +1,353 @@
+@charset "utf-8";
+/**
+ * Fichier : principal.less
+ * Description : Styles du coeur de page
+ * Auteurs : Mathurin Petit - mpetit[at]actualys.com
+ *			 Hamza Iqbal - hiqbal[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+
+
+/**
+ * Eléments génériques
+ ******************************************/
+#principal
+{
+	h2
+	{
+		.majuscules;
+		font-size: 15px;
+		font-weight: bold;
+		margin: 20px 0;
+	}
+
+    #points_bloquants,
+    #points_vigilance
+    {
+        .error,
+        .warning
+        {
+            .border-radius(4px);
+            margin: 10px 0;
+            padding: 3px;
+        }
+
+        p { font-weight: bold; }
+    }
+
+    #points_bloquants
+    {
+        .error
+        {
+            background: #f1b2b3;
+            color: #8a0c0c;
+        }   
+    }
+
+    #points_vigilance
+    {
+        .warning
+        {
+            background: #ffd58c;
+            color: #a03b09;
+        }
+    }
+
+   	&.mdp_oublie
+    {
+    	label
+    	{
+    		padding: 0 10px 0 0;
+			vertical-align: middle;
+    		width: auto;
+    	}
+    }
+}
+
+#recap_infos_header
+{
+	.recap_info;
+	margin: 0 0 20px;
+	li {
+		margin-bottom: 15px;
+		span { width: 200px; }
+		padding: 0 10px;
+	}
+	li:first-child, li.odd
+	{
+		.info_principal;
+		margin-bottom: 15px;
+		span { width: 200px; }
+	}
+}
+
+#contenu_etape
+{
+	.btn_etape
+	{
+		.clearfix;
+		margin: 20px 0 0;
+		text-align: center;
+		
+		.btn_etape_prec,
+		.btn_annuler { float: left; }
+		
+		.btn_etape_suiv,
+		.btn_enregistrer,
+		.btn_valider,
+		.btn_validation,
+		.btn_validation_declar,
+		.btn_terminer_saisie { float: right; }
+	}
+
+
+    #societe_societeType
+        {
+                float: right;
+                width: 360px;
+        }
+
+    #recherche_societe
+    {
+        background:@couleur-a5;
+		margin: 0 0 25px;
+        padding:10px 10px 30px;
+
+        .ui-autocomplete-input
+        {      
+			width:510px;    
+			margin-right:10px;
+        }
+
+        #btn_rechercher
+        {
+            .btn_majeur;
+            .btn_noir;
+            width:115px;
+        }
+
+        span#recherche_avancee
+        {
+            .clearfix;
+            .souligne;
+            color:@couleur-a4;
+            font-style:italic;
+            float:right;
+            padding-top:5px;
+        }
+
+		.section_label_maj
+		{
+			padding: 10px;
+
+			label
+			{
+				padding-right: 10px;
+			}
+		}
+    }
+
+}
+
+/**
+ * hamza style
+ ******************************************/
+.hamza_style
+{
+	background: @couleur-a5;
+	margin: 0 0 15px;
+	padding: 10px;
+	
+	.autocompletion_tags
+	{
+		label
+		{
+			display: block;
+			font-size: 14px;
+			font-weight: bold;
+			margin: 0 0 5px;
+		}
+		
+		/* Liste des tags */
+		ul.tags
+		{
+			.border-radius(3px);
+			.box-shadow(0px 1px 3px rgba(0, 0, 0, 0.4) inset);
+			/*.inline-block-ie;*/
+			background: #fff url(../images/pictos/pi_recherche.png) 5px 14px no-repeat;
+			font-size: 14px;
+			margin: 0 10px 0 0;
+			padding: 3px 5px 3px 25px;
+			position: relative;
+			vertical-align: top;
+			width: 100%;
+			
+			& > li
+			{
+				.inline-block-ie;
+				vertical-align: middle;
+				line-height: 26px;
+			}
+			
+			/* Tag ajouté */
+			.tagit-choice
+			{
+				.border-radius(3px);
+				.border(@couleur-a6);
+				background: @couleur-a5;
+				margin: 2px 5px;
+				padding: 0 0 0 5px;
+				
+				&:hover { background: @couleur-a7; }
+				
+				*
+				{
+					display: inline-block;
+					vertical-align: top;
+				}
+				
+				.tagit-close
+				{
+					.sprite-pictos-actions(100% -492px);
+					height: 26px;
+					padding: 0 5px;
+					width: 20px;
+					text-indent: -9999px;
+				}
+			}
+			
+			/* Tag saisi */
+			.tagit-new
+			{
+				margin: 2px 0;
+				
+				input.ui-autocomplete-input.tagit-input
+				{
+					.border-radius(0);
+					.box-shadow(none);
+					background: 0;
+					font-size: 14px;
+					height: 28px;
+					padding: 0;
+					width: 200px;
+					
+					&:focus { outline: 0; }						
+				}
+			}
+			
+			/* Autocompletion */
+			.ui-autocomplete
+			{
+				.box-dimensions(auto, auto);
+				.box-shadow(0 5px 20px rgba(0, 0, 0, 0.5));
+				position: absolute;
+				top: 38px !important;
+			}
+		}
+		
+		/* Tous les tags */
+		.tagit-hiddenSelect { .invisible; }
+		
+		.btn_rechercher { .btn_noir; }
+	}
+}
+
+/**
+ * Etapes de la saisie
+ ******************************************/
+#rail_etapes
+{
+	.clearfix;
+	.majuscules;
+	font-size: 0;
+	line-height: 35px;
+	list-style: none;
+    margin: 0 0 25px;
+	position: relative;
+
+	li
+	{
+		background: @couleur-a5;
+		display: inline-block;
+		font-size: 14px;
+		width: 25%;
+		
+		a { .non-souligne(none); }
+		
+		& > *
+		{
+			display: block;
+			padding: 0 18px 0 33px;
+			position: relative;
+			
+			span
+			{
+				margin: 0 5px 0 0;
+				text-align: center;
+			}
+			
+			&:after
+			{
+				.pos-abs(0, -21px);
+				.box-dimensions(21px, 47px);
+				background: url(../images/fonds/bg_rail_etapes.png) 0 0 no-repeat;
+				content: '';
+			}
+		}
+
+		+ li { border-left: 1px solid #FFF; }
+		
+		&.actif
+		{
+			background: #fab120 url(../images/fonds/bg_rail_etapes.jpg) repeat-x;
+			line-height: 49px;
+
+			a
+            {
+                color: @couleur-a1;
+                .text-shadow(1px 1px rgba(214, 146, 10, 0.7));
+                strong { font-weight:bold; }
+            }
+			
+			& > *
+			{
+				span { background: #fbba3a; }
+				
+				&:after { background-position: 0 -47px; }
+			}
+		}
+		
+		&.passe
+		{
+			background: #fcf1d5;
+			color: #8a6903;
+			
+			& > *
+			{
+				color: #886702;
+				
+				span { background: #fcf1d5; }
+				
+				&:after { background-position: 0 -94px; }
+			}
+		}
+		
+		strong { font-weight: normal; }
+	}
+}
+
+.facturable {
+	    font-weight: bold;
+}
+
+#global_content.no_right_col aside#colonne {
+    display: none !important;
+}
+
+#global_content.no_right_col #contenu {
+    background: #fff;
+}
+
+#global_content.no_right_col #principal {
+    width: auto;
+}

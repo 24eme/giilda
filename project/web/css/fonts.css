@@ -1,0 +1,11 @@
+@font-face
+{
+    font-family: 'HelveticaNeue75bold';
+    src: url('../fonts/helveticaneue75bold.eot');
+    src: url('../fonts/helveticaneue75bold.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/helveticaneue75bold.woff') format('woff'),
+         url('../fonts/helveticaneue75bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}

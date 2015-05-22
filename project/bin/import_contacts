@@ -1,0 +1,104 @@
+#!/bin/bash
+
+. bin/config.inc
+. bin/import_functions.inc
+
+DATADIR=$TMP/VINSDELOIRE_DATA
+
+echo "conversion des chais pour éviter les doublons"
+WORKINGDIR=$(pwd);
+
+cd $DATADIR
+bash $WORKINGDIR/bin/convert_chais $WORKINGDIR "1/2"
+cd -
+
+mkdir -p $DATADIR/tmp 2> /dev/null
+
+
+#Cipar
+convert-utf8 $DATADIR/cipar.uniq.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cipar.uniq.utf8.csv
+convert-utf8 $DATADIR/cipar.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cipar.utf8.csv
+
+#Ajout des fournisseurs
+cat $DATADIR/fournisseurs/cipar_fournisseurs_*.csv | grep -E "^[0-9]+;" | awk -F ";" '{ printf("10;72%04d;%s;;%s;", $1, $0, $1); print ""  }' | sed -r 's/^(10;[0-9]{6};)[0-9]+;;;/\1/' > $DATADIR/tmp/cipar_fournisseurs.tmp.csv
+cat $DATADIR/tmp/cipar_fournisseurs.tmp.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cipar_fournisseurs.csv;
+convert-utf8 $DATADIR/tmp/cipar_fournisseurs.csv > $DATADIR/tmp/cipar_fournisseurs.utf8.csv
+
+cat $DATADIR/tmp/cipar.uniq.utf8.csv $DATADIR/tmp/cipar_fournisseurs.utf8.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cipar.uniq.utf8.csv.tmp; cat $DATADIR/tmp/cipar.uniq.utf8.csv.tmp > $DATADIR/tmp/cipar.uniq.utf8.csv;
+cat $DATADIR/tmp/cipar.utf8.csv $DATADIR/tmp/cipar_fournisseurs.utf8.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cipar.utf8.csv.tmp; cat $DATADIR/tmp/cipar.utf8.csv.tmp > $DATADIR/tmp/cipar.utf8.csv;
+
+#Societe
+sort -t ';' -k 5,5 $DATADIR/tmp/cipar.uniq.utf8.csv > $DATADIR/societes.csv
+
+#Etablissement 
+
+convert-utf8 $DATADIR/cifonct.csv | awk -F ';' '{print $3";"$2";"$4}' | sort -t ';' -k 1,1 > $DATADIR/tmp/cifonct_contact.utf8.csv
+convert-utf8 $DATADIR/cicontact.csv | sed 's/; */;/g' | sed 's/ *;/;/g' | sort -t ';' -k 2,2 > $DATADIR/tmp/cicontact.utf8.csv
+awk -F ';' '{print $2";"$20}' $DATADIR/tmp/cicontact.utf8.csv | grep -v '; *$' | sort -t ';' -k 1,1 | sed 's/$/;COURTIER;/' > $DATADIR/tmp/cartecourtier.csv
+join -t ';' -1 1 -2 1 $DATADIR/tmp/cartecourtier.csv $DATADIR/tmp/cifonct_contact.utf8.csv | sort -t ';' -k 5,5 > $DATADIR/tmp/cartecourtier_cifonct.csv
+
+convert-utf8  $DATADIR/cicav.viti.csv | sed 's/\(10;[^;]*\);/\1_/' | sort -t ';' -k 2,2 > $DATADIR/tmp/cicav.utf8.csv
+grep ';2011;' $DATADIR/cidra.csv  | sed 's/10;2011;\([^;]*\);\([^;]*\);.*/\1_\2;OUI/' | sort -t ';' -k1,1  > $DATADIR/tmp/dra.csv
+join -t ';' -a 1 -1 2 -2 1 $DATADIR/tmp/cicav.utf8.csv $DATADIR/tmp/dra.csv | sed 's/;$/;;NON/' | sed 's/_/;/' | sort -t ';' -k 1,1 | sed 's/^/10;/' > $DATADIR/tmp/cicav_dra.utf8.csv
+
+convert-utf8 $DATADIR/cifonct.csv | awk -F ';' '{print $3";"$2";"$4}' | grep "PARTENAIRE" | sort -t ';' -k 1,1 > $DATADIR/tmp/cifonct_contact_partenaire.utf8.csv
+join -t ";" -a 1 -1 1 -2 2 $DATADIR/tmp/cifonct_contact_partenaire.utf8.csv $DATADIR/tmp/cicontact.utf8.csv | awk -F ";" '{ print $2";"$23 }' | sort -t ";" -k 1,1 | uniq -w 6 > $DATADIR/tmp/cipar_relance_drm.csv
+
+join -t ';' -a 1 -1 2 -2 2 $DATADIR/tmp/cipar.utf8.csv $DATADIR/tmp/cicav_dra.utf8.csv | sort -t ";" -k 1,1 > $DATADIR/tmp/etablissement.csv
+join -t ';' -a 1 -1 1 -2 1 $DATADIR/tmp/etablissement.csv $DATADIR/tmp/cipar_relance_drm.csv | sort -t ";" -k 1,1 > $DATADIR/tmp/etablissement-relance-drm.csv
+join -t ';' -a 1 -1 1 -2 5 $DATADIR/tmp/etablissement-relance-drm.csv $DATADIR/tmp/cartecourtier_cifonct.csv | sort -t ';' -k 5,5 > $DATADIR/etablissements.csv
+
+#Fournisseurs
+convert-utf8 $DATADIR/fournisseurs.csv | cut -d ";" -f 1,2,14 | sed -r 's/;([0-9]{1})([0-9]{6});/;\2;/' | grep -E "^[0-9]+;" | sort -t ";" -k 2,2 > $DATADIR/fournisseurs_cut.csv
+
+cd $DATADIR
+bash $WORKINGDIR/bin/convert_chais $WORKINGDIR "2/2"
+cd -
+
+#Cifonct
+convert-utf8 $DATADIR/cifonct.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cifonct.utf8.csv
+
+#Cicontact
+convert-utf8 $DATADIR/cicontact.csv | sed 's/; */;/g' | sed 's/ *;/;/g' | sort -t ';' -k 2,2 > $DATADIR/tmp/cicontact.utf8.csv
+
+#Ajout des Fournisseurs
+cat $DATADIR/fournisseurs/cifonct_fournisseurs_* | grep -E "^;" | awk -F ";" '{ printf("10;72%04d;%s;PARTENAIRE;;;;", $2, $3); print "" }' > $DATADIR/tmp/cifonct_fournisseurs.csv
+cat $DATADIR/tmp/cifonct_fournisseurs.csv $DATADIR/tmp/cifonct.utf8.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cifonct.utf8.csv.tmp; cat $DATADIR/tmp/cifonct.utf8.csv.tmp > $DATADIR/tmp/cifonct.utf8.csv;
+
+cat $DATADIR/fournisseurs/cicontact_fournisseurs_* | grep "^;" | sed -r 's/^/10/' | sed -r 's/$/;/' > $DATADIR/tmp/cicontact_fournisseurs.csv
+cat $DATADIR/tmp/cicontact_fournisseurs.csv $DATADIR/tmp/cicontact.utf8.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/cicontact.utf8.csv.tmp; cat $DATADIR/tmp/cicontact.utf8.csv.tmp > $DATADIR/tmp/cicontact.utf8.csv;
+
+#Contact
+join -t ';' -1 2 -2 2 $DATADIR/tmp/cifonct.utf8.csv $DATADIR/tmp/cipar.utf8.csv | sort -t ';' -k 3,3 > $DATADIR/tmp/cifonct_cipar.utf8.csv
+join -t ';' -1 2 -2 3 $DATADIR/tmp/cicontact.utf8.csv $DATADIR/tmp/cifonct_cipar.utf8.csv | sort -t ';' -k 2,2 -n > $DATADIR/tmp/cicontact_cifonct_cipar.csv
+
+#Ajout des codes fournisseurs des sociétés
+cat $DATADIR/societes.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/societe.sort
+cat $DATADIR/fournisseurs_cut.csv | sort -t ';' -k 2,2 > $DATADIR/tmp/fournisseurs_cut.csv.sort
+join -t ";" -1 2 -2 2 -a 1 $DATADIR/tmp/societe.sort $DATADIR/tmp/fournisseurs_cut.csv.sort | sed 's/;10;/;/' | sed 's/^/10;/' > $DATADIR/tmp/societes_fournisseurs.csv
+sort -t ';' -k 5,5 $DATADIR/tmp/societes_fournisseurs.csv > $DATADIR/societes.csv
+
+echo "Import Societe"
+SOCIETE_A_SUPPRIMER="720016|720669|720776|722057|722127";
+grep -vE "^10;($SOCIETE_A_SUPPRIMER);" $DATADIR/societes.csv | sed 's/;27;Fournisseurs MDV/;;/' > $DATADIR/societes.csv.tmp; cat $DATADIR/societes.csv.tmp > $DATADIR/societes.csv;
+php symfony import:societe $DATADIR/societes.csv
+
+echo "Import Etablissement"
+php symfony import:etablissement $DATADIR/etablissements.csv
+
+awk -F ';' '{print $1";"$2";"$3";"$4";"$5";"$6";"$7";"$8";"$9";"$10";"$11";"$12";"$13";"$14";"$15";"$16";"$17";"$18";"$19";"$20";"$21";"$22";"$23";"$25}' $DATADIR/tmp/cicontact_cifonct_cipar.csv | uniq | sort -t ";" -k 1,1 -n > $DATADIR/contacts.csv
+
+echo "Import Contact"
+cat $DATADIR/contacts.csv | grep -vE ";($SOCIETE_A_SUPPRIMER);" > $DATADIR/contacts.csv.tmp; cat $DATADIR/contacts.csv.tmp > $DATADIR/contacts.csv;
+php symfony import:compte $DATADIR/contacts.csv
+
+echo "Link bailleurs/métayés"
+
+convert-utf8 $DATADIR/ciattinao.csv | awk -F ';' '{print $3";"$7";"$19}' | grep '[0-9]$' | sed 's/^ //g' | sort -t ';' -k 1,1 | sed 's/$/01/' > $DATADIR/tmp/bailleursmetayers.csv
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/etablissement/_view/findByCvi | grep '[0-9]"],"value' | sed 's/.*key":\["//' | sed 's/"\],"value":\["/;/' | sed 's/".*//'| sort -t ';' -k 1,1 > $DATADIR/tmp/cvi2idetab.csv
+join -t ';' -1 1 -2 1 $DATADIR/tmp/cvi2idetab.csv $DATADIR/tmp/bailleursmetayers.csv | uniq > $DATADIR/tmp/idbailleursidmetayer.csv
+php symfony import:metayerBailleur $DATADIR/tmp/idbailleursidmetayer.csv
+
+echo "Import des mémos des sociétés"
+convert-utf8 $DATADIR/cimemop.csv > $DATADIR/tmp/cimemop.utf8.csv
+php symfony import:memo $DATADIR/tmp/cimemop.utf8.csv

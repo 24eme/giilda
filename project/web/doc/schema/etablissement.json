@@ -1,0 +1,139 @@
+{
+    "_id": {
+        "type": "string"
+    },
+    "_rev": {
+        "type": "string"
+    },
+    "type": {
+        "type": "string"
+    },
+    "cooperative": {
+        "type": "string"
+    },
+    "interpro": {
+        "type": "string"
+    },
+    "identifiant": {
+        "type": "string"
+    },
+    "id_societe": {
+        "type": "string"
+    },
+    "statut": {
+        "type": "string"
+    },
+    "raisins_mouts": {
+        "type": "string"
+    },
+    "exclusion_drm": {
+        "type": "string"
+    },
+    "relance_ds": {
+        "type": "string"
+    },
+    "recette_locale": {
+        "id_douane": {
+            "type": "string"
+        },
+        "nom": {
+            "type": "string"
+        },
+        "ville": {
+            "type": "string"
+        }
+    },
+    "region": {
+        "type": "string"
+    },
+    "type_dr": {
+        "type": "string"
+    },
+    "liaisons_operateurs": {
+        "*": {
+            "id_etablissement": {
+                "type": "string"
+            },
+            "libelle_etablissement": {
+                "type": "string"
+            },
+            "type_liaison": {
+                "type": "string"
+            },
+            "aliases": {
+                "*": {
+                    "type": "string",
+                    "required": false
+                }
+            }
+        }
+    },
+    "site_fiche": {
+        "type": "string"
+    },
+    "compte": {
+        "type": "string"
+    },
+    "num_interne": {
+        "type": "string"
+    },
+    "raison_sociale": {
+        "type": "string"
+    },
+    "nom": {
+        "type": "string"
+    },
+    "cvi": {
+        "type": "string"
+    },
+    "no_accises": {
+        "type": "string"
+    },
+    "carte_pro": {
+        "type": "string"
+    },
+    "famille": {
+        "type": "string"
+    },
+    "sous_famille": {
+        "type": "string"
+    },
+    "email": {
+        "type": "string"
+    },
+    "telephone": {
+        "type": "string"
+    },
+    "fax": {
+        "type": "string"
+    },
+    "commentaire": {
+        "type": "string"
+    },
+    "siege": {
+        "adresse": {
+            "type": "string"
+        },
+        "adresse_complementaire": {
+            "type": "string",
+            "required": false
+        },
+        "code_postal": {
+            "type": "string"
+        },
+        "commune": {
+            "type": "string"
+        }
+    },
+    "comptabilite": {
+        "adresse": {
+            "type": "string"
+        },
+        "code_postal": {
+            "type": "string"
+        },
+        "commune": {
+            "type": "string"
+        }
+    }
+}

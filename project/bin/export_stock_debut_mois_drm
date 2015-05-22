@@ -1,0 +1,21 @@
+#!/bin/bash
+
+. bin/config.inc
+
+if [ $# -ne 1 ]
+    then
+	echo Usage: $0 periode 1>&2
+        exit 1
+fi
+
+PERIODE=$1
+ANNEE1=${PERIODE%??}
+ANNEE2=`expr $ANNEE1 + 1`
+
+curl -s "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/drm/_view/stocks?startkey=%5B%22$ANNEE1-$ANNEE2%22%5D&endkey=%5B%22$ANNEE1-$ANNEE2%22,%5B%5D%5D" | grep $PERIODE > /tmp/export_stock_debut_mois_drm.csv.tmp
+
+MYSED='s/\",\"key":\[\"'$ANNEE1'-'$ANNEE2'\",null,/,/'
+
+cat /tmp/export_stock_debut_mois_drm.csv.tmp | sed 's/{"id":"//' | sed $MYSED | sed 's/\],\"value\":\[/,/' | sed 's/\]\},//' | sed 's/\]\}//' > /tmp/export_stock_debut_mois_drm.csv
+    
+cat /tmp/export_stock_debut_mois_drm.csv | awk -F ',' '{print $1","$2","$3","$5","$6}' | sed 's/-M[0-9]*//' | sed 's/,null,/,"M00",/'  | sort -r -t ',' -k 1,3  | sort -u -t, -k 1,3

@@ -1,0 +1,94 @@
+/**
+ * Fichier : vars.less
+ * Description : Variables du site
+ * Auteur : Hamza Iqbal - hiqbal[at]actualys.com
+ * Version : 1.0.0
+ ******************************************/
+
+/**
+ * Fonts
+ ******************************************/
+@Helvetica: Helvetica, Arial, sans-serif;
+@HelveticaNeue75bold: "HelveticaNeue75bold", @Helvetica;
+
+.helvetica { font-family: @Helvetica; }
+.helveticaneue-75-bold { font-family: @HelveticaNeue75bold; }
+
+
+/**
+ * Grid
+ ******************************************/
+@grid-unite: 160px;
+
+@colonne-unite: 60px;
+@marge-unite: 20px;
+@nb-colonnes: 12;
+
+@toutes-colonnes: @colonne-unite * @nb-colonnes;
+@toutes-marges: @marge-unite * (@nb-colonnes - 1);
+@largeur-totale: @toutes-colonnes + @toutes-marges;
+
+.largeur-col (@colonne: 1, @marge: 0)
+{
+	width: (@colonne-unite * @colonne) + (@marge-unite * @marge);
+}
+
+.grid_1 { .largeur-col(1, 0); }
+.grid_2 { .largeur-col(2, 1); }
+.grid_3 { .largeur-col(3, 2); }
+.grid_4 { .largeur-col(4, 3); }
+.grid_5 { .largeur-col(5, 4); }
+.grid_6 { .largeur-col(6, 5); }
+.grid_7 { .largeur-col(7, 6); }
+.grid_8 { .largeur-col(8, 7); }
+.grid_9 { .largeur-col(9, 8); }
+.grid_10 { .largeur-col(10, 9); }
+.grid_11 { .largeur-col(11, 10); }
+.grid_12 { .largeur-col(12, 11); }
+
+@largeur-tablette: 780px;
+
+
+/**
+ * Couleurs
+ ******************************************/
+/* Niveaux de gris */
+@couleur-a1: #fff; /* Blanc */
+@couleur-a2: #000; /* Noir */
+@couleur-a3: #3e3e3e; /* Texte principal */
+@couleur-a4: #5e5c5c; /* Texte secondaires / Boutons */
+@couleur-a5: #ecebeb; /* Rayures tableaux */
+@couleur-a6: #c2c0c0; /* Bordure boutons */
+@couleur-a7: #e3e2e2; /* ligne_form_alt*/
+@couleur-a8: #f7f7f7; /* Fond input */
+@couleur-a9: #d2d2d2; /* bordure input */ 
+@couleur-a10: #e5e4e4; /* bordure tableau */
+@couleur-a11: #F2F1F1; /* Fond colonne */
+
+/* Rouges */
+@couleur-b1: #9d3032; /* Bordures */
+@couleur-b2: #ca5153; /* Applats */
+@couleur-b3: #9d3032;
+
+// orange
+@couleur-c1 : #faab0d; //bordure colonnes DRM
+@couleur-c2 : #faa805; //orange foncé degradé titr
+
+/* Calendrier fonds et boutons */
+@couleur-d1: #fae6e7; /* Fond en attente */
+@couleur-d2: #fef5e2; /* Fond nouvelle */
+@couleur-d3: #f0f9e4; /* Fond valide */
+@couleur-d4: #d30815; /* Texte en attente */
+@couleur-d5: #9bd247; /* Texte valide */
+@couleur-d6: #faa804; /* Texte nouvelle */
+@couleur-d7: #8f8f8f; /* Texte cloturé */
+
+/* Rubrique contact */
+@couleur-e8: #e9f1f9; /* Fond contact */
+@couleur-e9: #cfe1f1; /* Fond titres contact */
+@couleur-e10: #f2d6be; /* Fond titres établissement */
+@couleur-e11: #faf0e7; /* Fond établissement */
+@couleur-e12: #76a8d7; /* Contacts colonne */
+@couleur-e13: #376ea2; /* Bordure contact colonne */
+
+

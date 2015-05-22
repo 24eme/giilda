@@ -1,0 +1,39 @@
+#schema des Alertes
+Alerte:
+  definition:
+    fields:
+      _id: { }
+      _rev: { }
+      type: { }
+      type_alerte: { }
+      date_creation: { }
+      date_relance: { }
+      date_relance_ar: { }
+      id_document: { }
+      declarant_nom: { }
+      identifiant: { }
+      libelle_document: { }
+      region: { }
+      campagne: { }
+      type_document: { }
+      type_relance: { }
+      statut_courant: { }
+      date_dernier_statut: {}
+      statuts:
+        type: array_collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  date: { }
+                  statut: { }
+                  commentaire: { }                  
+AlerteDate:
+  definition:
+    fields:
+      _id: { }
+      _rev: { }
+      type: { }
+      date: { }

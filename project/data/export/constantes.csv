@@ -1,0 +1,382 @@
+type;colonne/cle;constante
+MOUVEMENT;type document;DRM
+MOUVEMENT;type document;SV12
+MOUVEMENT;type de mouvement;cooperative_details
+MOUVEMENT;type de mouvement;entrees/achat
+MOUVEMENT;type de mouvement;entrees/recolte
+MOUVEMENT;type de mouvement;entrees/transfert
+MOUVEMENT;type de mouvement;entrees/cooperative
+MOUVEMENT;type de mouvement;entrees/reintegration
+MOUVEMENT;type de mouvement;entrees/elaboration
+MOUVEMENT;type de mouvement;entrees/repli
+MOUVEMENT;type de mouvement;entrees/regularisation
+MOUVEMENT;type de mouvement;entrees/fermagemetayage
+MOUVEMENT;type de mouvement;export_details
+MOUVEMENT;type de mouvement;MOUTS
+MOUVEMENT;type de mouvement;RAISINS
+MOUVEMENT;type de mouvement;sorties/bib
+MOUVEMENT;type de mouvement;sorties/bouteille
+MOUVEMENT;type de mouvement;sorties/cession
+MOUVEMENT;type de mouvement;sorties/consommation
+MOUVEMENT;type de mouvement;sorties/declassement
+MOUVEMENT;type de mouvement;sorties/distillation
+MOUVEMENT;type de mouvement;sorties/elaboration
+MOUVEMENT;type de mouvement;sorties/fermagemetayage
+MOUVEMENT;type de mouvement;sorties/regularisation
+MOUVEMENT;type de mouvement;sorties/repli
+MOUVEMENT;type de mouvement;sorties/vracsanscontrat
+MOUVEMENT;type de mouvement;vrac_details
+CONTRAT;statut;NONSOLDE
+CONTRAT;statut;SOLDE
+CONTRAT;type de vente;MOUTS
+CONTRAT;type de vente;RAISINS
+CONTRAT;type de vente;VIN_BOUTEILLE
+CONTRAT;type de vente;VIN_VRAC
+CONTRAT;prix variable;NON
+CONTRAT;prix variable;OUI
+CONTRAT;en attente de l'original;NON
+CONTRAT;en attente de l'original;OUI
+CONTRAT;contrat interne;NON
+CONTRAT;contrat interne;OUI
+CONTRAT;type de contrat;SPOT
+CONTRAT;type de contrat;PLURIANNUEL
+CONTRAT;type de produit;DOMAINE
+CONTRAT;type de produit;GENERIQUE
+CONTRAT;nature de la cvo;MARCHE_DEFINITIF
+CONTRAT;nature de la cvo;COMPENSATION
+CONTRAT;nature de la cvo;NON_FINANCIERE
+CONTRAT;nature de la cvo;VINAIGRERIE
+REVENDIQUE;region;ANGERS
+REVENDIQUE;region;NANTES
+REVENDIQUE;region;TOURS
+REVENDIQUE;region;HORS_INTERLOIRE
+ETABLISSEMENT;statut;ACTIF
+ETABLISSEMENT;statut;SUSPENDU
+ETABLISSEMENT;famille;NEGOCIANT
+ETABLISSEMENT;famille;PRODUCTEUR
+ETABLISSEMENT;famille;COURTIER
+ETABLISSEMENT;famille;COOPERATIVE
+ETABLISSEMENT;region;ANGERS
+ETABLISSEMENT;region;NANTES
+ETABLISSEMENT;region;TOURS
+ETABLISSEMENT;region;HORS_INTERLOIRE
+SOCIETE;statut;ACTIF
+SOCIETE;statut;SUSPENDU
+SOCIETE;type societe;OPERATEUR
+SOCIETE;type societe;VITICULTEUR
+SOCIETE;type societe;NEGOCIANT
+SOCIETE;type societe;COURTIER
+SOCIETE;type societe;PRESSE
+SOCIETE;type societe;PARTENAIRE
+SOCIETE;type societe;INSTITUTION
+SOCIETE;type societe;HOTEL-RESTAURANT
+SOCIETE;type societe;AUTRE
+SOCIETE;cave cooperative;NON
+SOCIETE;cave cooperative;OUI
+PRODUIT;categorie_code;AOC
+PRODUIT;categorie_code;VdP
+PRODUIT;genre_code;EFF
+PRODUIT;genre_code;TRANQ
+PRODUIT;denomination_code;AJV
+PRODUIT;denomination_code;ANJ
+PRODUIT;denomination_code;BON
+PRODUIT;denomination_code;BRG
+PRODUIT;denomination_code;CAJ
+PRODUIT;denomination_code;CAS
+PRODUIT;denomination_code;CDL
+PRODUIT;denomination_code;CHI
+PRODUIT;denomination_code;CLO
+PRODUIT;denomination_code;CLV
+PRODUIT;denomination_code;COA
+PRODUIT;denomination_code;COB
+PRODUIT;denomination_code;COL
+PRODUIT;denomination_code;COS
+PRODUIT;denomination_code;FVD
+PRODUIT;denomination_code;GPL
+PRODUIT;denomination_code;JAS
+PRODUIT;denomination_code;MLL
+PRODUIT;denomination_code;MUS
+PRODUIT;denomination_code;MUSSM
+PRODUIT;denomination_code;QDC
+PRODUIT;denomination_code;RAJ
+PRODUIT;denomination_code;RLO
+PRODUIT;denomination_code;SAU
+PRODUIT;denomination_code;SAV
+PRODUIT;denomination_code;STN
+PRODUIT;denomination_code;TOU
+PRODUIT;denomination_code;VOU
+PRODUIT;mention_code;LIE
+PRODUIT;mention_code;PRI
+PRODUIT;lieu_code;AC
+PRODUIT;lieu_code;ALR
+PRODUIT;lieu_code;AMB
+PRODUIT;lieu_code;BRI
+PRODUIT;lieu_code;CDL
+PRODUIT;lieu_code;CGL
+PRODUIT;lieu_code;CHA
+PRODUIT;lieu_code;CHE
+PRODUIT;lieu_code;MES
+PRODUIT;lieu_code;NJO
+PRODUIT;lieu_code;OIS
+PRODUIT;lieu_code;PND
+PRODUIT;lieu_code;RAM
+PRODUIT;couleur_code;1
+PRODUIT;couleur_code;2
+PRODUIT;couleur_code;3
+PRODUIT;cepage_code;CBF
+PRODUIT;cepage_code;CHE
+PRODUIT;cepage_code;FBL
+PRODUIT;cepage_code;GAM
+PRODUIT;cepage_code;MEL
+PRODUIT;cepage_code;SAUB
+PAYS;AF;Afghanistan
+PAYS;ZA;Afrique du Sud
+PAYS;AL;Albanie
+PAYS;DZ;Algérie
+PAYS;DE;Allemagne
+PAYS;AD;Andorre
+PAYS;AO;Angola
+PAYS;AI;Anguilla
+PAYS;AQ;Antarctique
+PAYS;AG;Antigua-et-Barbuda
+PAYS;AN;Antilles néerlandaises
+PAYS;SA;Arabie saoudite
+PAYS;AR;Argentine
+PAYS;AM;Arménie
+PAYS;AW;Aruba
+PAYS;AU;Australie
+PAYS;AT;Autriche
+PAYS;AZ;Azerbaïdjan
+PAYS;BS;Bahamas
+PAYS;BH;Bahreïn
+PAYS;BD;Bangladesh
+PAYS;BB;Barbade
+PAYS;BE;Belgique
+PAYS;BZ;Belize
+PAYS;BM;Bermudes
+PAYS;BT;Bhoutan
+PAYS;BO;Bolivie
+PAYS;BA;Bosnie-Herzégovine
+PAYS;BW;Botswana
+PAYS;BN;Brunéi Darussalam
+PAYS;BR;Brésil
+PAYS;BG;Bulgarie
+PAYS;BF;Burkina Faso
+PAYS;BI;Burundi
+PAYS;BY;Bélarus
+PAYS;BJ;Bénin
+PAYS;KH;Cambodge
+PAYS;CM;Cameroun
+PAYS;CA;Canada
+PAYS;CV;Cap-Vert
+PAYS;CL;Chili
+PAYS;CN;Chine
+PAYS;CY;Chypre
+PAYS;CO;Colombie
+PAYS;KM;Comores
+PAYS;CG;Congo
+PAYS;KP;Corée du Nord
+PAYS;KR;Corée du Sud
+PAYS;CR;Costa Rica
+PAYS;HR;Croatie
+PAYS;CU;Cuba
+PAYS;CI;Côte d’Ivoire
+PAYS;DK;Danemark
+PAYS;DJ;Djibouti
+PAYS;DM;Dominique
+PAYS;SV;El Salvador
+PAYS;ES;Espagne
+PAYS;EE;Estonie
+PAYS;FJ;Fidji
+PAYS;FI;Finlande
+PAYS;FR;France
+PAYS;GA;Gabon
+PAYS;GM;Gambie
+PAYS;GH;Ghana
+PAYS;GI;Gibraltar
+PAYS;GD;Grenade
+PAYS;GL;Groenland
+PAYS;GR;Grèce
+PAYS;GP;Guadeloupe
+PAYS;GU;Guam
+PAYS;GT;Guatemala
+PAYS;GG;Guernesey
+PAYS;GN;Guinée
+PAYS;GQ;Guinée équatoriale
+PAYS;GW;Guinée-Bissau
+PAYS;GY;Guyana
+PAYS;GF;Guyane française
+PAYS;GE;Géorgie
+PAYS;GS;Géorgie du Sud et les îles Sandwich du Sud
+PAYS;HT;Haïti
+PAYS;HN;Honduras
+PAYS;HU;Hongrie
+PAYS;IN;Inde
+PAYS;ID;Indonésie
+PAYS;IQ;Irak
+PAYS;IR;Iran
+PAYS;IE;Irlande
+PAYS;IS;Islande
+PAYS;IL;Israël
+PAYS;IT;Italie
+PAYS;JM;Jamaïque
+PAYS;JP;Japon
+PAYS;JE;Jersey
+PAYS;JO;Jordanie
+PAYS;KZ;Kazakhstan
+PAYS;KE;Kenya
+PAYS;KG;Kirghizistan
+PAYS;KI;Kiribati
+PAYS;KW;Koweït
+PAYS;LA;Laos
+PAYS;LS;Lesotho
+PAYS;LV;Lettonie
+PAYS;LB;Liban
+PAYS;LY;Libye
+PAYS;LR;Libéria
+PAYS;LI;Liechtenstein
+PAYS;LT;Lituanie
+PAYS;LU;Luxembourg
+PAYS;MK;Macédoine
+PAYS;MG;Madagascar
+PAYS;MY;Malaisie
+PAYS;MW;Malawi
+PAYS;MV;Maldives
+PAYS;ML;Mali
+PAYS;MT;Malte
+PAYS;MA;Maroc
+PAYS;MQ;Martinique
+PAYS;MU;Maurice
+PAYS;MR;Mauritanie
+PAYS;YT;Mayotte
+PAYS;MX;Mexique
+PAYS;MD;Moldavie
+PAYS;MC;Monaco
+PAYS;MN;Mongolie
+PAYS;MS;Montserrat
+PAYS;ME;Monténégro
+PAYS;MZ;Mozambique
+PAYS;MM;Myanmar
+PAYS;NA;Namibie
+PAYS;NR;Nauru
+PAYS;NI;Nicaragua
+PAYS;NE;Niger
+PAYS;NG;Nigéria
+PAYS;NU;Niue
+PAYS;NO;Norvège
+PAYS;NC;Nouvelle-Calédonie
+PAYS;NZ;Nouvelle-Zélande
+PAYS;NP;Népal
+PAYS;OM;Oman
+PAYS;UG;Ouganda
+PAYS;UZ;Ouzbékistan
+PAYS;PK;Pakistan
+PAYS;PW;Palaos
+PAYS;PA;Panama
+PAYS;PG;Papouasie-Nouvelle-Guinée
+PAYS;PY;Paraguay
+PAYS;NL;Pays-Bas
+PAYS;PH;Philippines
+PAYS;PN;Pitcairn
+PAYS;PL;Pologne
+PAYS;PF;Polynésie française
+PAYS;PR;Porto Rico
+PAYS;PT;Portugal
+PAYS;PE;Pérou
+PAYS;QA;Qatar
+PAYS;HK;R.A.S. chinoise de Hong Kong
+PAYS;MO;R.A.S. chinoise de Macao
+PAYS;RO;Roumanie
+PAYS;GB;Royaume-Uni
+PAYS;RU;Russie
+PAYS;RW;Rwanda
+PAYS;CF;République centrafricaine
+PAYS;DO;République dominicaine
+PAYS;CD;République démocratique du Congo
+PAYS;CZ;République tchèque
+PAYS;RE;Réunion
+PAYS;EH;Sahara occidental
+PAYS;BL;Saint-Barthélémy
+PAYS;KN;Saint-Kitts-et-Nevis
+PAYS;SM;Saint-Marin
+PAYS;MF;Saint-Martin
+PAYS;PM;Saint-Pierre-et-Miquelon
+PAYS;VC;Saint-Vincent-et-les Grenadines
+PAYS;SH;Sainte-Hélène
+PAYS;LC;Sainte-Lucie
+PAYS;WS;Samoa
+PAYS;AS;Samoa américaines
+PAYS;ST;Sao Tomé-et-Principe
+PAYS;RS;Serbie
+PAYS;CS;Serbie-et-Monténégro
+PAYS;SC;Seychelles
+PAYS;SL;Sierra Leone
+PAYS;SG;Singapour
+PAYS;SK;Slovaquie
+PAYS;SI;Slovénie
+PAYS;SO;Somalie
+PAYS;SD;Soudan
+PAYS;LK;Sri Lanka
+PAYS;CH;Suisse
+PAYS;SR;Suriname
+PAYS;SE;Suède
+PAYS;SJ;Svalbard et Île Jan Mayen
+PAYS;SZ;Swaziland
+PAYS;SY;Syrie
+PAYS;SN;Sénégal
+PAYS;TJ;Tadjikistan
+PAYS;TZ;Tanzanie
+PAYS;TW;Taïwan
+PAYS;TD;Tchad
+PAYS;TF;Terres australes françaises
+PAYS;IO;Territoire britannique de l'océan Indien
+PAYS;PS;Territoire palestinien
+PAYS;TH;Thaïlande
+PAYS;TL;Timor oriental
+PAYS;TG;Togo
+PAYS;TK;Tokelau
+PAYS;TO;Tonga
+PAYS;TT;Trinité-et-Tobago
+PAYS;TN;Tunisie
+PAYS;TM;Turkménistan
+PAYS;TR;Turquie
+PAYS;TV;Tuvalu
+PAYS;UA;Ukraine
+PAYS;QU;Union européenne
+PAYS;UY;Uruguay
+PAYS;VU;Vanuatu
+PAYS;VE;Venezuela
+PAYS;VN;Viêt Nam
+PAYS;WF;Wallis-et-Futuna
+PAYS;YE;Yémen
+PAYS;ZM;Zambie
+PAYS;ZW;Zimbabwe
+PAYS;ZZ;région indéterminée
+PAYS;QO;régions éloignées de l’Océanie
+PAYS;EG;Égypte
+PAYS;AE;Émirats arabes unis
+PAYS;EC;Équateur
+PAYS;ER;Érythrée
+PAYS;VA;État de la Cité du Vatican
+PAYS;FM;États fédérés de Micronésie
+PAYS;US;États-Unis
+PAYS;ET;Éthiopie
+PAYS;BV;Île Bouvet
+PAYS;CX;Île Christmas
+PAYS;NF;Île Norfolk
+PAYS;IM;Île de Man
+PAYS;KY;Îles Caïmans
+PAYS;CC;Îles Cocos - Keeling
+PAYS;CK;Îles Cook
+PAYS;FO;Îles Féroé
+PAYS;HM;Îles Heard et MacDonald
+PAYS;FK;Îles Malouines
+PAYS;MP;Îles Mariannes du Nord
+PAYS;MH;Îles Marshall
+PAYS;UM;Îles Mineures Éloignées des États-Unis
+PAYS;SB;Îles Salomon
+PAYS;TC;Îles Turks et Caïques
+PAYS;VG;Îles Vierges britanniques
+PAYS;VI;Îles Vierges des États-Unis
+PAYS;AX;Îles Åland
+PAYS;inconnu;Inconnu

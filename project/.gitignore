@@ -1,0 +1,15 @@
+cache/[^.]*
+log/[^.]*
+config/databases.yml
+config/app.yml
+web/vinsdeloire_dev.php
+web/integration_dev.php
+web/edi_dev.php
+cache/
+log/
+web/psd
+bin/config.inc
+data/latex/*
+data/upload/*
+web/*.log
+web/generation/*.pdf

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+. bin/config.inc
+. bin/import_functions.inc
+
+curl http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/drm/_view/all?reduce=false | sed -f bin/unicode2alpha | sed 's/{"id"://g' | sed 's/"key":\[//g' | sed 's/"value":1},//g' | sed 's/],//g' | grep -E '"DRM-([0-9]{8}-[0-9]{6})"' > $TMP/all_drm.csv
+
+rm $TMP/export_bi_drm.csv.temp > /dev/null 2>&1
+touch $TMP/export_bi_drm.csv.temp
+cat $TMP/all_drm.csv | while read line; do
+   LINEETBID=`echo $line | cut -d "," -f 2`;
+   CMD=`cat $TMP/export_bi_etablissements.csv | grep $LINEETBID | cut -d ";" -f 6`;
+   echo $CMD","$line >> $TMP/export_bi_drm.csv.temp
+done
+
+echo "#DRM ID;identifiant etablissement;nom etablissement;campagne;periode;numéro archivage" > $TMP/export_bi_drm.csv
+cat $TMP/export_bi_drm.csv.temp | awk -F "," '{print $2";"$3";"$1";"$4";"$5";"$11}' | sed 's/"value":1}//g'  >> $TMP/export_bi_drm.csv

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+. bin/import_functions.inc
+. bin/config.inc 
+
+cd $TMP/VINSDELOIRE_DATA || exit 1
+DATADIR=$(pwd)
+
+CODES_MOUVEMENT_AGREE_REVENDICATION="(40|48|49|60|70|84|98)" #NON EXAUSTIF, CES NUMEROS SONT STRICTEMENT DES VOLUMES AGREES, IL MANQUE LE 51,52.
+CODES_MOUVEMENT_AGREE_REGUL="(80|81|82|83|89)"
+
+convert-utf8 $DATADIR/cieso.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;01.INFO;%4d-%4d' '$5,$6,substr($11,7,4),substr($11,4,2),$17,$2,$2+1' > $DATADIR/drm-info.csv
+
+convert-utf8 $DATADIR/cimvs.csv | grep -vE ";[0-9]{4};$CODES_MOUVEMENT_AGREE_REVENDICATION;" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;13.MOUVEMENT;%4d-%4d' '$3,$4,substr($7,7,4),substr($7,4,2),$5,$2,$2+1' > $DATADIR/drm-mouvement.csv
+
+convert-utf8 $DATADIR/cimvs.csv | grep -E ";[0-9]{4};$CODES_MOUVEMENT_AGREE_REVENDICATION;" | ajout-champ-commun '%06d%02d;%04d%02d;%04d;13.MOUVEMENT;%4d-%4d' '$3,$4,$2+1,01,$5,$2,$2+1' >> $DATADIR/drm-mouvement.csv #AU PREMIER JANVIER
+
+convert-utf8 $DATADIR/cimvs.csv | grep -E " [0-9:]+;[0-9\.\-]*;[0-9\.\-]*;[0-9\.\-]*;[0-9\.\-]*;[0-9\.\-]*;[\-]*([1-9]{1}[0-9]*\.[0-9]+|[0-9]+\.[0-9]*[1-9]{1});"  > $DATADIR/tmp/drm-mouvement-agree.csv
+
+grep -E ";[0-9]{4};$CODES_MOUVEMENT_AGREE_REGUL;" $DATADIR/tmp/drm-mouvement-agree.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;11.REGULARISATION;%4d-%4d' '$3,$4,substr($7,7,4),substr($7,4,2),$5,$2,$2+1' > $DATADIR/drm-regul.csv
+
+grep -vE ";[0-9]{4};$CODES_MOUVEMENT_AGREE_REGUL;" $DATADIR/tmp/drm-mouvement-agree.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;12.REVENDICATION;%4d-%4d' '$3,$4,$2+1,01,$5,$2,$2+1' > $DATADIR/drm-revendication.csv #AU PREMIER JANVIER
+
+convert-utf8 $DATADIR/cimvsdiv.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;06.DIVERS;%4d-%4d' '$5,$6,substr($11,7,4),substr($11,4,2),$7,$2,$2+1' > $DATADIR/drm-divers.csv
+
+convert-utf8 $DATADIR/cimvscav.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;07.CAVE-VITI;%4d-%4d' '$7,$8,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-cave-viti.csv
+
+convert-utf8 $DATADIR/cimvscav.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;08.CAVE-COOP;%4d-%4d' '$5,$6,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-cave-coop.csv
+
+convert-utf8 $DATADIR/cieds.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cieds-utf8.csv
+convert-utf8 $DATADIR/cilds.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cilds-utf8.csv
+join -t ";" $DATADIR/tmp/cieds-utf8.csv $DATADIR/tmp/cilds-utf8.csv | suppression-champ-commun | ajout-champ-commun '%06d%02d;%04d%02d;%04d;02.DS;%4d-%4d' '$4,$5,$2+1,"08",$13,$2+1,$2+2' > $DATADIR/drm-ds.csv
+
+convert-utf8 $DATADIR/cieso.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cieso-utf8.csv
+convert-utf8 $DATADIR/cilso.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cilso-utf8.csv
+join -t ";" $DATADIR/tmp/cieso-utf8.csv $DATADIR/tmp/cilso-utf8.csv | suppression-champ-commun | ajout-champ-commun '%06d%02d;%04d%02d;%04d;05.VENTE;%4d-%4d' '$5,$6,substr($11,7,4),substr($11,4,2),$17,$2,$2+1' > $DATADIR/drm-vente.csv
+
+convert-utf8 $DATADIR/cienv.csv | ajout-champ-commun '%s%s%05d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cienv-utf8.csv
+convert-utf8 $DATADIR/cicon.csv | ajout-champ-commun '%s%s%05d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cicon-cienv-utf8.csv
+join -t ";" $DATADIR/tmp/cienv-utf8.csv $DATADIR/tmp/cicon-cienv-utf8.csv | suppression-champ-commun | ajout-champ-commun '%06d%02d;%04d%02d;%04d;03.CONTRAT;%4d-%4d' '$27,$28,substr($15,7,4),substr($15,4,2),$31,$2,$2+1' > $DATADIR/drm-contrat.csv
+
+convert-utf8 $DATADIR/cicestrf.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;10.TRANSFERT-SORTIE;%4d-%4d' '$5,$6,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-transfert-sortie.csv
+
+convert-utf8 $DATADIR/cicestrf.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;09.TRANSFERT-ENTREE;%4d-%4d' '$7,$8,substr($10,7,4),substr($10,4,2),$9,$2,$2+1' > $DATADIR/drm-transfert-entree.csv
+
+convert-utf8 $DATADIR/cistk.csv | ajout-champ-commun '%06d%02d;%04d%02d;%04d;14.STOCK;%4d-%4d' '$3,$4,$2+1,7,$5,$2,$2+1' > $DATADIR/drm-stock.csv
+
+cat $DATADIR/drm-info.csv $DATADIR/drm-mouvement.csv $DATADIR/drm-divers.csv $DATADIR/drm-cave-coop.csv $DATADIR/drm-cave-viti.csv $DATADIR/drm-vente.csv $DATADIR/drm-contrat.csv $DATADIR/drm-transfert-sortie.csv $DATADIR/drm-transfert-entree.csv $DATADIR/drm-ds.csv $DATADIR/drm-stock.csv $DATADIR/drm-revendication.csv $DATADIR/drm-regul.csv | sort > $DATADIR/drm.csv
+
+

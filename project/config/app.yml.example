@@ -1,0 +1,124 @@
+all:
+  instance: dev
+  auth_mode: NO_CAS #HTTP_AD, CAS, NO_CAS
+  routing_context_production_host: domaine.pro
+  observatoire_url: "https://observatoire_url"
+  cas:
+    domain: login.cas
+    port: 443
+    path: cas
+    url : "https://login.cas:443/cas"
+  ldap:
+    serveur: localhost
+    dn: cn=admin,dc=interloire,dc=tld
+    dc: dc=interloire,dc=tld
+    pass: pass
+  ad:
+    defaultuser: user
+    defaultpassword: pass
+    domain: interloire
+    basedn: dc=interloire,dc=tld
+    host: localhost
+    port: 389
+  mail:
+    from_email: email@email.com
+    from_name: "From name"
+  alertes:  
+    debug: true
+    generations:
+      #DRM manquantes, une DRM est considéré manquante par rapport à la période de la DRM la plus récente
+      DRM_MANQUANTE:
+        class: AlerteGenerationDRMManquantes
+      #DRA manquante, une DRA est considéré manquante par rapport à la période de la DRA la plus récente
+      DRA_MANQUANTE:
+        class: AlerteGenerationDRAManquante  
+  facture:
+    emetteur:
+      TOURS:
+        adresse: 'adresse tours'
+        code_postal: 'cp tours'
+        ville: 'tours'
+        service_facturation: 'nom prenom personne'
+        telephone: 'tel tours - fax tours'
+        email: 'emaildetours@tours.fr'
+      ANGERS:
+        adresse: 'adresse angers'
+        code_postal: 'cp angers'
+        ville: 'angers'
+        service_facturation: 'nom prenom personne'
+        telephone: 'tel angers - fax angers'
+        email: 'emaildangers@angers.fr'
+      NANTES:
+        adresse: 'adresse nantes'
+        code_postal: 'cp nantes'
+        ville: 'nantes'
+        service_facturation: 'nom prenom personne'
+        telephone: 'tel nantes - fax nantes'
+        email: 'emaildenantes@nantes.fr'
+  tva:
+    taux:
+      19700101: 19.6
+      20140101: 20.0
+  relance:
+    responsable_economique: 'prenom nom'
+    emetteur:
+      TOURS:
+        adresse: 'adresse tours'
+        code_postal: 'cp tours'
+        ville: 'tours'
+        services_operateurs:
+          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildetours@tours.fr'}
+      ANGERS:
+        adresse: 'adresse angers'
+        code_postal: 'cp angers'
+        ville: 'angers'
+        services_operateurs:
+          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildangers@angers.fr'}
+      NANTES:
+        adresse: 'adresse nantes'
+        code_postal: 'cp nantes'
+        ville: 'nantes'
+        services_operateurs:
+         - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
+  vrac:
+    contenances:
+      "Bouteille 37 cl": 0.00375
+      "Bouteille 37,5 cl": 0.00375
+      "Bouteille 50 cl": 0.005
+      "Bouteille 75 cl": 0.0075
+      "Bouteille 100 cl": 0.01
+      "Bouteille 150 cl": 0.015
+      "Bouteille 300 cl": 0.03
+      "Bouteille 500 cl": 0.05
+      "Bouteille 600 cl": 0.06
+      "BIB 3l": 0.03
+      "BIB 5l": 0.05
+      "BIB 6l": 0.06
+      "BIB 10l": 0.1
+      "BIB 20l": 0.2
+
+  ac_exception_notifier:
+    enabled: false
+    email:
+      from: "email@email.email"
+      from_name: "acExceptionNotifierPlugin"
+      to: ["email@email.email"]
+      subject: "500 | Internal Server Error | Exception"
+
+  teledeclaration:
+    contact:
+      contrat:
+        TOURS:
+          nom: 'Prenom Nom'
+          telephone: '00 00 00 00 00'
+          email: 'mail@mail.fr'
+        ANGERS:
+          nom: 'Prenom Nom'
+          telephone: '00 00 00 00 00'
+          email: 'mail@mail.fr'
+        NANTES:
+          nom: 'Prenom Nom'
+          telephone: '00 00 00 00 00'
+          email: 'mail@mail.fr'
+  pdf:
+    reader_link: "http://lien.fr"

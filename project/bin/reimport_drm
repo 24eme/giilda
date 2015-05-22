@@ -1,0 +1,85 @@
+#!/bin/bash
+
+. bin/config.inc
+
+if ! test "$1"; then
+    echo "Il manque l'identifiant de l'etablissement en 1er argument"
+    exit;
+fi
+
+if ! test "$2"; then
+    echo "Il manque la campagne en 2ème argument"
+    exit;
+fi
+
+if ! test "$3"; then
+    echo "Il manque le fichier d'import en 3ème argument"
+    exit;
+fi
+
+if [ ! -f $3 ]
+then
+    echo "Fichier d'import manquant"
+    exit
+fi
+
+ANNEE_DEBUT=$(echo $2| sed -r 's/-[0-9]{4}$//')
+ANNEE_FIN=$(echo $2 | sed -r 's/^[0-9]{4}-//')
+
+PERIODES=()
+
+for i in {8..12}
+do
+    PERIODES[$(printf "%s%02d" $ANNEE_DEBUT $i)]=$(printf "%s%02d" $ANNEE_DEBUT $i)
+done
+
+for i in {1..7}
+do
+    PERIODES[$(printf "%s%02d" $ANNEE_FIN $i)]=$(printf "%s%02d" $ANNEE_FIN $i)
+done
+
+echo -n > /tmp/drm-$1-$2
+for periode in ${PERIODES[*]}
+do
+    grep -E "^$1;$periode" $3 >> /tmp/drm-$1-$2
+done
+
+if [ "$(cat /tmp/drm-$1-$2)" == '' ]; then
+    echo "Aucune DRMs à importé trouvé dans le fichier"
+    exit;
+fi
+
+for periode in ${PERIODES[*]}
+do  
+    OBJ="DRM-$1-$periode"
+    JSON=$(curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJ | grep "date_saisie\":\"2013");
+
+    if [ "$JSON" != '' ]; then
+        echo "La drm à été saisie par interloire et ne provient pas de l'import, on arrête tout : $OBJ"
+        exit;
+    fi
+
+    OBJ="DRM-$1-$periode-M01"
+    JSON=$(curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJ | grep -E "_id\":\"DRM-$1-[0-9]{6}");
+
+    if [ "$JSON" != '' ]; then
+        echo "Une DRM modificatrice existe, on arrête tout : $OBJ"
+        exit;
+    fi
+
+done
+
+for periode in ${PERIODES[*]}
+do
+    OBJ="DRM-$1-$periode"
+    JSON=$(curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJ | grep -E "_id\":\"DRM-$1-[0-9]{6}");
+    if [ "$JSON" == '' ]; then
+        continue
+    fi
+
+    OBJREV=$(curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJ | sed 's/{"_id":"//' | sed 's/","_rev":"/?rev=/' | sed 's/".*//')
+    curl -sX DELETE http://$COUCHHOST:$COUCHPORT/$COUCHBASE/$OBJREV
+done
+
+php symfony import:drm /tmp/drm-$1-$2
+

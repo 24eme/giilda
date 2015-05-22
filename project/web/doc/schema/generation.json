@@ -1,0 +1,57 @@
+{
+    "_id": {
+        "type": "string"
+    },
+    "_rev": {
+        "type": "string"
+    },
+    "type": {
+        "type": "string"
+    },
+    "identifiant": {
+        "type": "string"
+    },
+    "date_emission": {
+        "type": "string"
+    },
+    "date_maj": {
+        "type": "string"
+    },
+    "nb_documents": {
+        "type": "string"
+    },
+    "type_document": {
+        "type": "string"
+    },
+    "somme": {
+        "type": "string"
+    },
+    "statut": {
+        "type": "string"
+    },
+    "pregeneration_needed": {
+        "type": "string",
+        "required": false
+    },
+    "message": {
+        "type": "string"
+    },
+    "fichiers": {
+        "*": {
+            "type": "string",
+            "required": false
+        }
+    },
+    "arguments": {
+        "*": {
+            "type": "string",
+            "required": false
+        }
+    },
+    "documents": {
+        "*": {
+            "type": "string",
+            "required": false
+        }
+    }
+}

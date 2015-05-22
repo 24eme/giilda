@@ -1,0 +1,59 @@
+/**
+ * DS
+ ******************************************/
+
+.ds
+{
+    #contenu_etape
+    {
+        .generation_ds,
+        .historique_generation_ds,
+        .generation_ds_operateur
+        {
+            .creer_info;
+            background: @couleur-a5 url(../images/pictos/fleche_bloc.png) 10px 50% no-repeat;
+            padding-left: 40px;
+        }
+        
+        .bloc_form,
+        .table_recap
+        {
+            margin: 0 0 20px;
+        }
+    }
+    
+    #commentaires
+    {
+        .bloc_form
+        {
+            .border-radius(0);
+            border: 0;
+            
+            textarea { width: 100%; }
+        }
+    }
+    
+    #ds_recapitulatif_commentaires
+    {
+        font-size: 14px;
+        margin: 15px 0;
+        
+        h3
+        {
+            font-weight: bold;
+            margin: 0 0 5px;
+        }
+        
+        p {  }
+    }
+
+	#operateur_infos
+	{
+		.grand { height: 54px; }
+
+		.ligne_form
+		{
+			label { width: 135px; }
+		}
+	}
+}

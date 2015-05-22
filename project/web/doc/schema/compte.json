@@ -1,0 +1,94 @@
+{
+    "_id": {
+        "type": "string"
+    },
+    "_rev": {
+        "type": "string"
+    },
+    "type": {
+        "type": "string"
+    },
+    "identifiant": {
+        "type": "string"
+    },
+    "civilite": {
+        "type": "string"
+    },
+    "prenom": {
+        "type": "string"
+    },
+    "nom": {
+        "type": "string"
+    },
+    "nom_a_afficher": {
+        "type": "string"
+    },
+    "fonction": {
+        "type": "string"
+    },
+    "commentaire": {
+        "type": "string"
+    },
+    "origines": {
+        "*": {
+            "type": "string",
+            "required": false
+        }
+    },
+    "id_societe": {
+        "type": "string"
+    },
+    "adresse_societe": {
+        "type": "string"
+    },
+    "adresse": {
+        "type": "string"
+    },
+    "adresse_complementaire": {
+        "type": "string"
+    },
+    "code_postal": {
+        "type": "string"
+    },
+    "commune": {
+        "type": "string"
+    },
+    "compte_type": {
+        "type": "string"
+    },
+    "cedex": {
+        "type": "string"
+    },
+    "pays": {
+        "type": "string"
+    },
+    "email": {
+        "type": "string"
+    },
+    "telephone_perso": {
+        "type": "string"
+    },
+    "telephone_bureau": {
+        "type": "string"
+    },
+    "telephone_mobile": {
+        "type": "string"
+    },
+    "fax": {
+        "type": "string"
+    },
+    "interpro": {
+        "type": "string"
+    },
+    "statut": {
+        "type": "string"
+    },
+    "tags": {
+        "*": {
+            "*": {
+                "type": "string",
+                "required": false
+            }
+        }
+    }
+}

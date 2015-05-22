@@ -1,0 +1,38 @@
+# _Tiers:
+#   type: abstract
+#   definition:
+#     fields:
+#       _id: {  }
+#       _rev: {  }
+#       identifiant: { }
+#       nom: { }
+#       type: {  }
+#       statut: {  }
+
+# Etablissement:
+#   inheritance: _Tiers
+#   definition:
+#     fields:
+#       famille: {  }
+#       cvi: {  }
+#       adresse: {  }
+#       commune: {  }
+#       code_postal: {  }
+#       num_accise: {  }
+#       carte_pro: {  }
+#       num_tva_intracomm: {  }
+#       domaines: 
+#         type: array_collection
+#         definition:
+#           fields:
+#             '*': {  }
+
+Interpro:
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      identifiant: { }
+      nom: { }
+      type: {  }
+      statut: {  }

@@ -1,0 +1,14 @@
+#!/bin/bash
+. bin/config.inc
+. bin/import_functions.inc
+
+cd $TMP/VINSDELOIRE_DATA || exit 1
+DATADIR=$(pwd)
+
+convert-utf8 $DATADIR/cieds.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sed -r 's/$/;/' | sort -n > $DATADIR/tmp/cieds-utf8.csv
+convert-utf8 $DATADIR/cilds.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cilds-utf8.csv
+join -a 1 -t ";" $DATADIR/tmp/cieds-utf8.csv $DATADIR/tmp/cilds-utf8.csv  | suppression-champ-commun | sort -sn > $DATADIR/ds-viticulteur.csv
+
+convert-utf8 $DATADIR/ciedn.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/ciedn-utf8.csv
+convert-utf8 $DATADIR/cildn.csv | ajout-champ-commun '%s%s%012d' '$1,$2,$3' | sort -n > $DATADIR/tmp/cildn-utf8.csv
+join -a 1 -t ";" $DATADIR/tmp/ciedn-utf8.csv $DATADIR/tmp/cildn-utf8.csv  | suppression-champ-commun | sort -sn > $DATADIR/ds-negociant.csv
