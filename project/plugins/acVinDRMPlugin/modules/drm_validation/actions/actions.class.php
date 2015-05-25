@@ -19,12 +19,11 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->initSocieteAndEtablissementPrincipal();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
-        if($this->isTeledeclarationMode){
+        if ($this->isTeledeclarationMode) {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
             $this->validationCoordonneesEtablissementForm = new DRMValidationCoordonneesEtablissementForm($this->drm);
-        }
-        else{            
-        $this->formCampagne = new DRMEtablissementCampagneForm($this->drm->identifiant, $this->drm->campagne);
+        } else {
+            $this->formCampagne = new DRMEtablissementCampagneForm($this->drm->identifiant, $this->drm->campagne);
         }
         $this->no_link = false;
         if ($this->getUser()->hasOnlyCredentialDRM()) {
@@ -75,6 +74,37 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
             'periode_version' => $this->drm->getPeriodeAndVersion(),
             'hide_rectificative' => 1));
+    }
+
+    public function executeUpdateEtablissement(sfWebRequest $request) {
+        $this->drm = $this->getRoute()->getDRM();
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->form = new DRMValidationCoordonneesEtablissementForm($this->drm);
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $diff = $this->form->getDiff();
+                var_dump($diff); exit;
+            }else{
+               var_dump('nop valid'); exit;
+            }
+        }
+    }
+
+    public function executeUpdateSociete(sfWebRequest $request) {
+        $this->drm = $this->getRoute()->getDRM();
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->form = new DRMValidationCoordonneesSocieteForm($this->drm);
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $diff = $this->form->getDiff();
+                var_dump($diff);
+                exit;
+            }else{
+                 var_dump('nop valid'); exit;
+            }
+        }
     }
 
 }

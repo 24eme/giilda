@@ -926,5 +926,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $drm_societe->add('telephone',$societe->telephone);
         $drm_societe->add('fax',$societe->fax);
     }
+    
+    public function getCoordonneesSociete() {
+        if(!$this->exist('societe') || is_null($this->societe)){
+            $this->initSociete();
+        }
+        return $this->societe;
+    }
     /*** FIN SOCIETE ***/
 }

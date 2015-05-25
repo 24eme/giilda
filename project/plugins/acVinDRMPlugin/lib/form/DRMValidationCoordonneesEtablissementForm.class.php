@@ -14,24 +14,24 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         parent::configure();
 
         $this->setWidget('cvi', new sfWidgetFormInput());
-        $this->setValidator('', new sfValidatorString(array('required' => true)));
+        $this->setValidator('cvi', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('cvi', 'CVI :');
 
         $this->setWidget('adresse', new sfWidgetFormInput());
-        $this->setValidator('', new sfValidatorString(array('required' => true)));
+        $this->setValidator('adresse', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('adresse', 'Adresse :');
 
         $this->setWidget('code_postal', new sfWidgetFormInput());
-        $this->setValidator('', new sfValidatorString(array('required' => true)));
+        $this->setValidator('code_postal', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('code_postal', 'Code postal :');
 
         $this->setWidget('commune', new sfWidgetFormInput());
-        $this->setValidator('', new sfValidatorString(array('required' => true)));
+        $this->setValidator('commune', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('commune', 'Commune :');
 
-        $this->setWidget('accise', new sfWidgetFormInput());
-        $this->setValidator('', new sfValidatorString(array('required' => true)));
-        $this->widgetSchema->setLabel('accise', 'Accise :');
+        $this->setWidget('no_accises', new sfWidgetFormInput());
+        $this->setValidator('no_accises', new sfValidatorString(array('required' => true)));
+        $this->widgetSchema->setLabel('no_accises', 'Accise :');
 
         $this->widgetSchema->setNameFormat('drm_validation_coordonnees_etablissement[%s]');
     }
@@ -41,6 +41,29 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
             $this->coordonneesEtablissement = $this->drm->getDeclarant();
         }
         return $this->coordonneesEtablissement;
+    }
+    
+     public function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+        $this->getCoordonneesEtablissement();
+        $this->setDefault('cvi', $this->coordonneesEtablissement->cvi);
+        $this->setDefault('adresse', $this->coordonneesEtablissement->adresse);
+        $this->setDefault('code_postal', $this->coordonneesEtablissement->code_postal);
+        $this->setDefault('commune', $this->coordonneesEtablissement->commune);
+        $this->setDefault('accise', $this->coordonneesEtablissement->no_accises);
+    }
+    
+      public function getDiff() {  
+        $diff = array();
+        $this->getCoordonneesEtablissement();
+        foreach ($this->getValues() as $key => $new_value) {
+            if(!preg_match('/^_revision$/', $key)){
+                if($this->coordonneesEtablissement->$key != $new_value){
+                    $diff[$key] = $new_value;
+                    }
+            }
+        }
+        return $diff;
     }
 
 }

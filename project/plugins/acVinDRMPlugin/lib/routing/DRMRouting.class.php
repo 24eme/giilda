@@ -193,6 +193,17 @@ class DRMRouting {
             'control' => array('edition'),
         )));
         
+         
+         $r->prependRoute('drm_validation_update_etablissement', new DRMRoute('/drm/:identifiant/edition/:periode_version/validation-update-etablissement', array('module' => 'drm_validation',
+            'action' => 'updateEtablissement'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+            'type' => 'object',
+            'control' => array('edition'),
+        )));
+          $r->prependRoute('drm_validation_update_societe', new DRMRoute('/drm/:identifiant/edition/:periode_version/validation-update-societe', array('module' => 'drm_validation',
+            'action' => 'updateSociete'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+            'type' => 'object',
+            'control' => array('edition'),
+        )));
         
     }
 

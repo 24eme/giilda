@@ -79,21 +79,66 @@ var initFilEditionProduit = function() {
             $('.drm_fil_edition_produit[id="' + id + '"] > p').addClass('edited');
         });
     });
-    
+
 };
 
 var initFavoris = function() {
     $('div.groupe span.categorie_libelle').click(function() {
         var id_fav_input = $(this).attr('id').replace('star_', 'drmFavoris_');
         var value = $('#colonne_intitules form #' + id_fav_input).val();
-        if (value === "1"){
+        if (value === "1") {
             $('#colonne_intitules form #' + id_fav_input).val("");
         }
-        else{
+        else {
             $('#colonne_intitules form #' + id_fav_input).val("1");
         }
-       $("#colonne_intitules form").submit();
-    });    
+        $("#colonne_intitules form").submit();
+    });
+}
+
+var initValidationCoordonneesEtbSociete = function() {
+    $('#drm_validation_etablissement_info_btn').click(function() {
+        $('.drm_validation_etablissement_info').hide();
+        $(".drm_validation_etablissement_form").show();
+        return false;
+    });
+    $('#drm_validation_societe_info_btn').click(function() {
+        $('.drm_validation_societe_info').hide();
+        $(".drm_validation_societe_form").show();
+        return false;
+    });
+    $('#drm_validation_etablissement_annuler_btn').click(function() {
+        $('.drm_validation_etablissement_info').show();
+        $(".drm_validation_etablissement_form").hide();
+        return false;
+    });
+    $('#drm_validation_societe_annuler_btn').click(function() {
+        $('.drm_validation_societe_info').show();
+        $(".drm_validation_societe_form").hide();
+        return false;
+    });
+}
+
+var initValidationDrmStockMvt = function() {
+    $('fieldset#validation_drm_mvts_stocks li.onglet').click(function() {
+
+        var id = $(this).attr('id').replace('_onglet', '');
+        if ($(this).children().is('a')) {
+            $(this).html('<span>' + $(this).html().replace('<a>', '').replace('</a>', '') + '</span>');
+            $(this).addClass('actif');
+            $(this).siblings().each(function() {
+                $(this).html('<a>' + $(this).html().replace('<span>', '').replace('</span>', '') + '</a>');
+                $(this).removeClass('actif');
+            });
+        }
+
+        $('fieldset#validation_drm_mvts_stocks div.section_label_maj').each(function() {
+            $(this).hide();
+            if ($(this).attr('id') == id) {
+                $(this).show();
+            }
+        });
+    });
 }
 
 $(document).ready(function()
@@ -104,24 +149,7 @@ $(document).ready(function()
     initAjoutCrdsPopup();
     initCrds();
     initFavoris();
-    
-    $('fieldset#validation_drm_mvts_stocks li.onglet').click(function(){
-        
-        var id = $(this).attr('id').replace('_onglet', '');
-       if($(this).children().is('a')){
-           $(this).html('<span>'+$(this).html().replace('<a>', '').replace('</a>', '')+'</span>');
-           $(this).addClass('actif');
-           $(this).siblings().each(function(){
-               $(this).html('<a>'+$(this).html().replace('<span>', '').replace('</span>', '')+'</a>');
-               $(this).removeClass('actif');
-           });
-       }
-       
-        $('fieldset#validation_drm_mvts_stocks div.section_label_maj').each(function(){
-            $(this).hide();
-            if($(this).attr('id') == id){
-                $(this).show();
-            }
-        });
-    })
+    initValidationDrmStockMvt();
+    initValidationCoordonneesEtbSociete();
+
 });
