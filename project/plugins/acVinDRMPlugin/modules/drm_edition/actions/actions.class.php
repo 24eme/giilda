@@ -13,7 +13,11 @@ class drm_editionActions extends drmGeneriqueActions {
             $this->formValidation->bind($request->getParameter($this->formValidation->getName()));
             if ($this->formValidation->isValid()) {
                 $this->formValidation->save();
-                $this->redirect('drm_crd', $this->formValidation->getObject());
+                if($this->isTeledeclarationMode){
+                    $this->redirect('drm_crd', $this->formValidation->getObject());
+                }else{
+                    $this->redirect('drm_validation', $this->formValidation->getObject());
+                }
             }
         }
     }

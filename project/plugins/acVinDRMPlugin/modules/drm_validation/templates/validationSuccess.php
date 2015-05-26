@@ -4,19 +4,14 @@
 <section id="principal" class="drm">
 
     <?php if (!$isTeledeclarationMode): ?>
-        <?php include_partial('drm/header', array('drm' => $drm)); ?>
-        <h2>Déclaration Récapitulative Mensuelle</h2>
-    <?php else: ?>
-        <h2><?php echo getDrmTitle($drm); ?></h2>
-    <?php endif; ?>
-    <?php if (!$isTeledeclarationMode): ?>  
+        <?php include_partial('drm/header', array('drm' => $drm)); ?> 
         <ul id="recap_infos_header">
             <li>
-                <label>Nom de l'opérateur : </label> 
-                <?php echo $drm->getEtablissement()->nom; ?>
+                <label>Nom de l'opérateur : </label><?php echo $drm->getEtablissement()->nom ?><label style="float: right;">Période : <?php echo $drm->periode ?></label>
             </li>
-            <li><label>Période : </label><?php echo $drm->periode; ?></li>
         </ul>
+    <?php else: ?>
+        <h2><?php echo getDrmTitle($drm); ?></h2>
     <?php endif; ?>
 
     <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_VALIDATION)); ?>
@@ -24,10 +19,8 @@
     <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
 
     <section id="contenu_etape">
-        <?php if (!$isTeledeclarationMode): ?>
-            <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
-        <?php else: ?>
-            <?php include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm,'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>            
+        <?php if ($isTeledeclarationMode): ?>
+            <?php include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm, 'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>            
         <?php endif; ?>
 
         <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?> 
@@ -36,31 +29,29 @@
         <?php if ($isTeledeclarationMode): ?>
             <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)); ?> 
         <?php endif; ?>
-      
 
-        <?php if (!$isTeledeclarationMode): ?>
-            <?php echo $form['commentaire']->renderLabel(); ?>
-            <?php echo $form['commentaire']->renderError(); ?>
-            <?php echo $form['commentaire']->render(); ?>
-
-            <div id="btn_etape_dr">
-                <a href="<?php echo url_for('drm_edition', $drm) ?>" class="btn_etape_prec" id="facture"><span>Précédent</span></a>
-                <button type="submit" name="brouillon" value="brouillon" class="btn_brouillon btn_majeur"><span>Enregistrer en brouillon</span></button>
-                <button type="submit" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> class="btn_etape_suiv" id="facture"><span>Valider</span></button> 
-            </div>
-        <?php else: ?>
-            <form action="" method="post">
+        <form action="<?php echo url_for('drm_validation', $form->getObject()) ?>" method="post">
                 <?php echo $form->renderHiddenFields(); ?>
-                <?php echo $form->renderGlobalErrors(); ?>
-                <div id="btn_etape_dr">
-                    <a href="<?php echo url_for('drm_crd', $drm) ?>" class="btn_etape_prec" id="drm_crd"><span>Précédent</span></a>
-                    <button type="submit" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> class="btn_etape_suiv" id="facture"><span>Valider</span></button> 
-                </div>
-            </form>
-        <?php endif; ?>
+            <?php if (!$isTeledeclarationMode): ?>
+                <h2><?php echo $form['commentaire']->renderLabel(); ?></h2>
+                <?php echo $form['commentaire']->renderError(); ?>
+                <?php echo $form['commentaire']->render(); ?>
+            <?php endif; ?>
+            <div id="btn_etape_dr">
+                <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_crd', $drm) : url_for('drm_edition', $drm); ?>">
+                    <span>Précédent</span>
+                </a>
+                <?php if (!$isTeledeclarationMode): ?>  
+                    <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn_brouillon btn_majeur">Enregistrer en brouillon</a>
+                <?php endif; ?>
+
+                <button type="submit" class="btn_etape_suiv" id="button_drm_validation" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?>><span>Valider</span></button> 
+
+            </div>
+        </form>        
     </section>
     <?php
-    if ($isTeledeclarationMode):
-        include_partial('drm_edition/colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
-    endif;
+    include_partial('drm_edition/colonne_droite', array('societe' => $drm->getEtablissement()->getSociete(),
+        'etablissementPrincipal' => $drm->getEtablissement(),
+        'isTeledeclarationMode' => $isTeledeclarationMode));
     ?>
