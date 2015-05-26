@@ -325,7 +325,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         $this->setInterpros();
-        $this->generateMouvements(isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']);
+        $this->generateMouvements();
 
         $this->archivage_document->archiver();
 
