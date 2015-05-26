@@ -13,7 +13,7 @@
         <h2><?php echo getDrmTitle($drm); ?></h2>
     <?php endif; ?>
 
-    <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_SAISIE)); ?>
+    <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_SAISIE)); ?>
     <?php include_partial('drm/controlMessage'); ?>
 
     <div id="application_dr">
@@ -47,6 +47,6 @@
     </form>
 </section>
 <?php
-include_partial('colonne_droite', array('societe' => $drm->getEtablissement()->getSociete(), 'etablissementPrincipal' => $drm->getEtablissement(), 'isTeledeclarationMode' => $isTeledeclarationMode));
-include_partial('colonne_droite_fil_edition', array('produits' => $details, 'drm' => $drm, 'config' => $config));
+include_partial('drm/colonne_droite', array('societe' => $drm->getEtablissement()->getSociete(), 'etablissementPrincipal' => $drm->getEtablissement(), 'isTeledeclarationMode' => $isTeledeclarationMode));
+include_partial('drm_edition/colonne_droite_fil_edition', array('produits' => $details, 'drm' => $drm, 'config' => $config));
 ?>

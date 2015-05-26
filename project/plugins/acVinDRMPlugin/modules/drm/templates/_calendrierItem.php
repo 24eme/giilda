@@ -10,7 +10,7 @@
         <ul class="mois_infos attente_campagne">
             <li><label for="">&Eacute;tat:</label><span>En attente</span></li>
             <li><label for="">&nbsp;</label><span><a href="<?php echo url_for('drm_delete', array('identifiant' => $calendrier->getIdentifiant(), 'periode_version' => $calendrier->getPeriodeVersion($periode))); ?>"><b>Supprimer</b></a></li></span></li>
-            <li><a class="action" href="<?php echo url_for('drm_init', array('identifiant' => $calendrier->getIdentifiant(), 'periode_version' => $calendrier->getPeriodeVersion($periode))); ?>">Términer la saisie</a>
+            <li><a class="action" href="<?php echo url_for('drm_redirect_etape', array('identifiant' => $calendrier->getIdentifiant(), 'periode_version' => $calendrier->getPeriodeVersion($periode))); ?>">Terminer la saisie</a>
         </ul>
     <?php elseif ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE): ?>
         <ul class="mois_infos nouv_campagne">

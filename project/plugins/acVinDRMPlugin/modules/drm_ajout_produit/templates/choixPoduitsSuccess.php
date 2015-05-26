@@ -5,7 +5,7 @@
 <section id="principal" class="drm">
 
     <h2><?php echo getDrmTitle($drm); ?></h2>
-    <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_CHOIX_PRODUITS)); ?>
+    <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_CHOIX_PRODUITS)); ?>
     <?php include_partial('drm/controlMessage'); ?>
     <div id="application_drm">
         <p class="choix_produit_explication">Afin de préparer le détail de la DRM, vous pouvez préciser ici vos stocks épuisés ou l'absence de mouvements pour tout ou partie des produits.</p>
@@ -14,7 +14,7 @@
             <?php echo $form->renderGlobalErrors(); ?>
             <div id="contenu_onglet">
                 <?php
-                include_partial('drm_edition/choixProduitsList', array('certificationsProduits' => $certificationsProduits,
+                include_partial('drm_ajout_produit/choixProduitsList', array('certificationsProduits' => $certificationsProduits,
                     'form' => $form, 'drm' => $drm));
                 ?>
             </div>
@@ -26,9 +26,9 @@
     </div>
     <?php foreach ($certificationsProduits as $certificationProduits) : ?>
         <?php $certifKey = $certificationProduits->certification->getHashForKey(); ?>
-        <?php include_partial('ajout_produit_popup_certification', array('drm' => $drm, 'certifKey' => $certifKey, 'form' => $formAddProduitsByCertifications[$certifKey])); ?>
+        <?php include_partial('drm_ajout_produit/ajout_produit_popup_certification', array('drm' => $drm, 'certifKey' => $certifKey, 'form' => $formAddProduitsByCertifications[$certifKey])); ?>
     <?php endforeach; ?>
 </section>
 <?php
-include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+include_partial('drm/colonne_droite', array('societe' => $drm->getEtablissement()->getSociete(), 'etablissementPrincipal' => $drm->getEtablissement(), 'isTeledeclarationMode' => $isTeledeclarationMode));
 ?>

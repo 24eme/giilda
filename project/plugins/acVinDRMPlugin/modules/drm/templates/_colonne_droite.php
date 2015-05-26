@@ -2,21 +2,25 @@
 <?php
 slot('colButtons');
 $url_retour_espace = ($isTeledeclarationMode) ?
-        url_for('drm_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))) : url_for('drm_etablissement', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe)));
+        url_for('drm_societe', array('identifiant' => $etablissementPrincipal->identifiant)) : url_for('drm_etablissement', array('identifiant' => $societe->identifiant));
 $text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour au calendrier";
 ?>
 <div class="bloc_col" >
     <h2><?php echo ($isTeledeclarationMode) ? 'Actions' : $text_retour_espace ?></h2>
     <div class="contenu">
-        <div class="ligne_btn txt_centre">
-            <a href="<?php echo $url_retour_espace; ?>" class="btn_majeur btn_acces"><?php echo $text_retour_espace; ?> </a>
-        </div>
+            <div class="ligne_btn txt_centre">
+        <?php if (!isset($isMonEspace)): ?>
+                <a href="<?php echo $url_retour_espace; ?>" class="btn_majeur btn_acces"><?php echo $text_retour_espace; ?> </a>
+        <?php elseif($isTeledeclarationMode): ?>
+                <a href="<?php echo url_for('compte_teledeclarant_mon_espace',array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_acces">Retour à mon espace</a>
+            <?php endif; ?>
+            </div>
         <?php if (!$isTeledeclarationMode): ?>
             <div class="text-center" style="text-align: center;">
                 <p><strong><?php echo $societe->raison_sociale; ?></strong></p>
                 <p><strong><?php echo $societe->identifiant; ?></strong></p>
                 <p> (<?php echo $societe->siege->commune; ?>) </p>
-                
+
                 <?php if ($sf_user->isUsurpationCompte()): ?>
                     <div class="ligne_btn txt_centre">
                         <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('drm_dedebrayage') ?>">Revenir sur VINSI</a>

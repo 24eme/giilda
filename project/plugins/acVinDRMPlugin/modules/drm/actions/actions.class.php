@@ -25,6 +25,37 @@ class drmActions extends drmGeneriqueActions {
         }
     }
 
+    public function executeRedirectEtape(sfWebRequest $request) {
+        $isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $drm = $this->getRoute()->getDRM();
+        switch ($drm->etape) {
+            case DRMClient::ETAPE_CHOIX_PRODUITS:
+                if ($isTeledeclarationMode) {
+                    return $this->redirect('drm_choix_produit', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                } else {
+                    return $this->redirect('drm_saisie', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                }
+                break;
+
+            case DRMClient::ETAPE_SAISIE:
+                return $this->redirect('drm_saisie', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                break;
+
+            case DRMClient::ETAPE_CRD:
+                if ($isTeledeclarationMode) {
+                    return $this->redirect('drm_crd', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                } else {
+                    return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                }
+                break;
+
+            case DRMClient::ETAPE_VALIDATION:
+                return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                break;
+        }
+        return $this->redirect('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+    }
+
     /**
      *
      * @param sfWebRequest $request 
@@ -35,7 +66,7 @@ class drmActions extends drmGeneriqueActions {
         $periode = $request->getParameter('periode');
         $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
         $drm->save();
-        if($isTeledeclarationMode) {
+        if ($isTeledeclarationMode) {
             $this->redirect('drm_choix_produit', $drm);
         } else {
             $this->redirect('drm_edition', $drm);
@@ -46,11 +77,6 @@ class drmActions extends drmGeneriqueActions {
      *
      * @param sfWebRequest $request 
      */
-    public function executeInit(sfWebRequest $request) {
-        $drm = $this->getRoute()->getDRM();
-        $this->redirect('drm_edition', $drm);
-    }
-
     public function executeInProcess(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->campagne = $request->getParameter('campagne');
@@ -196,15 +222,13 @@ class drmActions extends drmGeneriqueActions {
         $this->redirect($controle->getLien());
     }
 
-
-
     public function executeRectificative(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();
 
         $drm_rectificative = $drm->generateRectificative();
         $drm_rectificative->save();
 
-        return $this->redirect('drm_init', array('identifiant' => $drm_rectificative->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
+        return $this->redirect('drm_redirect_etape', array('identifiant' => $drm_rectificative->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
     }
 
     public function executeModificative(sfWebRequest $request) {
@@ -213,7 +237,7 @@ class drmActions extends drmGeneriqueActions {
         $drm_rectificative = $drm->generateModificative();
         $drm_rectificative->save();
 
-        return $this->redirect('drm_init', array('identifiant' => $drm_rectificative->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
+        return $this->redirect('drm_redirect_etape', array('identifiant' => $drm_rectificative->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
     }
 
     /**
@@ -239,6 +263,6 @@ class drmActions extends drmGeneriqueActions {
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
         $this->redirect('drm_etablissement', $this->etablissementPrincipal);
-    }    
+    }
 
 }

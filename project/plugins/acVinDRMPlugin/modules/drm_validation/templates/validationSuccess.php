@@ -14,7 +14,7 @@
         <h2><?php echo getDrmTitle($drm); ?></h2>
     <?php endif; ?>
 
-    <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_VALIDATION)); ?>
+    <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_VALIDATION)); ?>
 
     <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
 
@@ -51,7 +51,7 @@
         </form>        
     </section>
     <?php
-    include_partial('drm_edition/colonne_droite', array('societe' => $drm->getEtablissement()->getSociete(),
+    include_partial('drm/colonne_droite', array('societe' => $drm->getEtablissement()->getSociete(),
         'etablissementPrincipal' => $drm->getEtablissement(),
         'isTeledeclarationMode' => $isTeledeclarationMode));
     ?>

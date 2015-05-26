@@ -33,4 +33,10 @@
     <!-- fin #contenu_etape -->
 
 </section>
+
+ <?php
+    include_partial('drm/colonne_droite', array('societe' => $etablissement->getSociete(),
+        'etablissementPrincipal' => $etablissement,
+        'isTeledeclarationMode' => $isTeledeclarationMode, 'isMonEspace' => true));
+    ?>
 <!-- fin #principal -->
