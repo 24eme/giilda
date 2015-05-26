@@ -2,23 +2,20 @@
 
 class drm_editionActions extends drmGeneriqueActions {
 
-    public function executeIndex(sfWebRequest $request) {
+    public function executeSaisieMouvements(sfWebRequest $request) {
         $this->init();
         $this->initSocieteAndEtablissementPrincipal();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->loadFavoris();
         $this->formFavoris = new DRMFavorisForm($this->drm);
-        if ($this->isTeledeclarationMode) {
-            $this->formValidation = new DRMMouvementsValidationForm($this->drm);
-            if ($request->isMethod(sfRequest::POST)) {
-                $this->formValidation->bind($request->getParameter($this->formValidation->getName()));
-                if ($this->formValidation->isValid()) {
-                    $this->formValidation->save();
-                    $this->redirect('drm_crd', $this->formValidation->getObject());
-                }
+        $this->formValidation = new DRMMouvementsValidationForm($this->drm,array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+        if ($request->isMethod(sfRequest::POST)) {
+            $this->formValidation->bind($request->getParameter($this->formValidation->getName()));
+            if ($this->formValidation->isValid()) {
+                $this->formValidation->save();
+                $this->redirect('drm_crd', $this->formValidation->getObject());
             }
         }
-        $this->setTemplate('index');
     }
 
     public function executeChoixPoduits(sfWebRequest $request) {
@@ -56,13 +53,12 @@ class drm_editionActions extends drmGeneriqueActions {
         }
         $this->form = new DRMAddProduitByCertificationForm($this->drm, array('configurationCertification' => $certificationDrm->getConfig()));
         if ($request->isMethod(sfRequest::POST)) {
-            $this->form->bind($request->getParameter($this->form->getName()));            
+            $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
                 $this->redirect('drm_choix_produit', $this->form->getDrm());
             }
         }
-        
     }
 
     public function executeDetail(sfWebRequest $request) {
@@ -158,20 +154,20 @@ class drm_editionActions extends drmGeneriqueActions {
             }
         }
     }
-    
+
     public function executeChoixFavoris(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
         $form = new DRMFavorisForm($this->drm);
         if ($request->isMethod(sfRequest::POST)) {
-            $form->bind($request->getParameter($form->getName()));           
+            $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
                 $form->save();
                 $this->redirect('drm_edition', $this->drm);
             }
         }
-         $this->redirect('drm_edition', $this->drm);
+        $this->redirect('drm_edition', $this->drm);
     }
-    
+
     private function loadFavoris() {
         $this->favoris = $this->drm->getAllFavoris();
     }

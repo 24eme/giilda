@@ -109,7 +109,7 @@ class DRMRouting {
 
 
         $r->prependRoute('drm_edition', new DRMRoute('/drm/:identifiant/edition/:periode_version/edition', array('module' => 'drm_edition',
-            'action' => 'index'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+            'action' => 'saisieMouvements'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
         )));

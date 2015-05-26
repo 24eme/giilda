@@ -1,20 +1,21 @@
 <?php
 
-
 /**
  * Description of class drmGeneriqueActions
  * @author mathurin
  */
-
 class drmGeneriqueActions extends sfActions {
 
     protected function initSocieteAndEtablissementPrincipal() {
         $this->compte = $this->getUser()->getCompte();
-        if (!$this->compte) {
-            new sfException("Le compte $compte n'existe pas");
+        if ($this->isTeledeclarationDrm()) {
+
+            if (!$this->compte) {
+                new sfException("Le compte $compte n'existe pas");
+            }
+            $this->societe = $this->compte->getSociete();
+            $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
         }
-        $this->societe = $this->compte->getSociete();
-        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
     }
 
     private function redirect403IfIsNotTeledeclaration() {

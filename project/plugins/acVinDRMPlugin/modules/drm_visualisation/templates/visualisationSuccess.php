@@ -28,10 +28,7 @@
         </div>
     <?php endif; ?>
 
-    <?php include_partial('drm_visualisation/recap', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
-
-    <h2>Mouvement</h2>
-    <?php include_partial('drm_visualisation/mouvements', array('mouvements' => $mouvements, 'hamza_style' => true, 'no_link' => $no_link)) ?>
+    <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode,'no_link' => $no_link,'mouvements' => $mouvements)) ?>
     <br/>
     <table class="table_recap">
         <tr><th>Commentaire</th></tr>

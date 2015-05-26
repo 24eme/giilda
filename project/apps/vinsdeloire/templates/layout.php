@@ -81,6 +81,7 @@
                         <?php
                         include_slot('colApplications');
                         ?>
+                        <?php include_slot('colFilEdition'); ?>  
                         <?php if (!$sf_user->hasCredential('teledeclaration')): ?>
                             <?php include_component_slot('colContacts'); ?>
                         <?php endif; ?>
@@ -105,7 +106,6 @@
 
                         <?php include_slot('colLegende'); ?>  
                         
-                        <?php include_slot('colFilEdition'); ?>  
 
                         <?php include_slot('colAide'); ?>                        
 
