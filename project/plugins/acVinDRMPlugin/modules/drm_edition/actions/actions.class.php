@@ -8,7 +8,7 @@ class drm_editionActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->loadFavoris();
         $this->formFavoris = new DRMFavorisForm($this->drm);
-        $this->formValidation = new DRMMouvementsValidationForm($this->drm,array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+        $this->formValidation = new DRMMouvementsValidationForm($this->drm, array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         if ($request->isMethod(sfRequest::POST)) {
             $this->formValidation->bind($request->getParameter($this->formValidation->getName()));
             if ($this->formValidation->isValid()) {
@@ -105,7 +105,11 @@ class drm_editionActions extends drmGeneriqueActions {
             if ($request->isXmlHttpRequest()) {
                 return $this->renderText(json_encode(array(
                             "success" => true,
-                            "content" => $this->getComponent('drm_edition', 'itemForm', array('config' => $this->config, 'detail' => $detail, 'active' => false)),
+                            "content" => $this->getComponent('drm_edition', 'itemForm', array('config' => $this->config,
+                                'detail' => $detail,
+                                'active' => false,
+                                'favoris' => $this->drm->getAllFavoris(),
+                                'isTeledeclarationMode' => $this->isTeledeclarationMode)),
                             "produit" => array("old_hash" => $detail->getCepage()->getHash(), "hash" => $detail->getHash(), "libelle" => sprintf("%s (%s)", $detail->getLibelle("%g% %a% %m% %l% %co% %ce%"), $detail->getCepage()->getConfig()->getCodeProduit())),
                             "document" => array("id" => $this->drm->get('_id'),
                                 "revision" => $this->drm->get('_rev'))
