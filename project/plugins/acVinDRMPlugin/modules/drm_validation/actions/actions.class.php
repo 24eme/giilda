@@ -84,9 +84,10 @@ class drm_validationActions extends drmGeneriqueActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $diff = $this->form->getDiff();
-                var_dump($diff); exit;
-            }else{
-               var_dump('nop valid'); exit;
+                $mailManager = new DRMEmailManager($this->getMailer());
+                $mailManager->setDRM($this->drm);
+                $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_ETABLISSEMENT, $diff);
+                $this->redirect('drm_validation', $this->drm);
             }
         }
     }
@@ -99,10 +100,10 @@ class drm_validationActions extends drmGeneriqueActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $diff = $this->form->getDiff();
-                var_dump($diff);
-                exit;
-            }else{
-                 var_dump('nop valid'); exit;
+                $mailManager = new DRMEmailManager($this->getMailer());
+                $mailManager->setDRM($this->drm);
+                $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_SOCIETE, $diff);
+                $this->redirect('drm_validation', $this->drm);
             }
         }
     }
