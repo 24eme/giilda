@@ -16,6 +16,7 @@ class DRMValidation extends DocumentValidation {
 
         $this->addControle('vigilance', 'total_negatif', "Le stock revendiqué théorique fin de mois est négatif");
         $this->addControle('vigilance', 'vrac_detail_negatif', "Le volume qui sera enlevé sur le contrat est supérieur au volume restant");
+        $this->addControle('vigilance','total_crd_incoherent', "Le volume de sortie bouteilles est différent de celui des CRDs sorties.");
     }
 
     public function controle() {
@@ -62,6 +63,22 @@ class DRMValidation extends DocumentValidation {
 
         if (round($total_entrees_replis, 2) != round($total_sorties_replis, 2)) {
             $this->addPoint('erreur', 'repli', $detail->getLibelle(), $this->generateUrl('drm_edition', $this->document));
+        }
+        
+        if($this->isTeledeclarationDrm){
+            $total_sorties_bouteilles = 0;
+            foreach ($this->document->getProduitsDetails() as $detail) {
+            $total_sorties_bouteilles += $detail->sorties->bouteille;
+            }
+            $total_sorties_crds = 0;
+            foreach ($this->document->getAllCrds() as $crd) {
+            $total_sorties_crds += $crd->sorties * $crd->centilitrage;
+            }
+
+            if ($total_sorties_crds != $total_sorties_bouteilles) {
+                $this->addPoint('vigilance', 'total_crd_incoherent', $total_sorties_bouteilles.'Hl de sortie bouteilles contre '.$total_sorties_crds.'Hl CRD', $this->generateUrl('drm_crd', $this->document));
+        }
+            
         }
     }
 
