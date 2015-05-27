@@ -20,6 +20,7 @@
  * @property acCouchdbJson $droits
  * @property DRMDeclaration $declaration
  * @property acCouchdbJson $declarant
+ * @property acCouchdbJson $societe
  * @property DRMDeclaratif $declaratif
  * @property string $identifiant
  * @property string $mode_de_saisie
@@ -63,6 +64,8 @@
  * @method DRMDeclaration setDeclaration()
  * @method acCouchdbJson getDeclarant()
  * @method acCouchdbJson setDeclarant()
+ * @method acCouchdbJson getSociete()
+ * @method acCouchdbJson setSociete()
  * @method DRMDeclaratif getDeclaratif()
  * @method DRMDeclaratif setDeclaratif()
  * @method string getIdentifiant()

@@ -25,6 +25,7 @@ class DRMClient extends acCouchdbClient {
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
     public static $drm_default_favoris = array("entrees/achat", "entrees/recolte","sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille","sorties/consommation");
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 5);
+    public static $drm_type_crds =  array('P' => 'Crds Personnelles', 'CA' => 'Crds Collectives Aquitées','CS' => 'Crds Collectives Suspendues');
     protected $drm_historiques = array();
     
 

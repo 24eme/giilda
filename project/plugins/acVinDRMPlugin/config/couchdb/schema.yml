@@ -467,6 +467,7 @@ DRM:
                   pertes: {  }
                   stock_fin: {  }
                   detail_libelle: {  }
+                  type_crd: {  }
       favoris:
         type: collection
         required: false

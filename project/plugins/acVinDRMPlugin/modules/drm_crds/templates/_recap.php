@@ -4,7 +4,7 @@
     <table id="table_drm_crds" class="table_recap">
         <thead >
             <tr>                        
-                <th>&nbsp;</th>
+                <th>CRD</th>
                 <th>Stock début de mois</th>
                 <th>Entrées</th>
                 <th>Sorties</th>
@@ -15,7 +15,7 @@
         <tbody class="drm_crds_list">
             <?php foreach ($drm->getAllCrds() as $crdsKey => $crds): ?>
             <tr class="crd_row" id="<?php echo $crdsKey;  ?>">                        
-                    <td><?php echo 'CRD ' . $crds->getLibelle(); ?></td>
+                    <td><?php echo  $crds->getLibelle(); ?></td>
                     <td class="crds_debut_de_mois"><?php echo $crds->stock_debut; ?> <input type="hidden" value="<?php echo $crds->stock_debut; ?>"></td>
                     <td class="crds_entrees"><?php echo $crds->entrees;  ?></td>
                     <td class="crds_sorties"><?php echo $crds->sorties;  ?></td>

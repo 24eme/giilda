@@ -12,6 +12,7 @@
  * @property string $pertes
  * @property string $stock_fin
  * @property string $detail_libelle
+ * @property string $type_crd
 
  * @method string getStockDebut()
  * @method string setStockDebut()
@@ -29,6 +30,8 @@
  * @method string setStockFin()
  * @method string getDetailLibelle()
  * @method string setDetailLibelle()
+ * @method string getTypeCrd()
+ * @method string setTypeCrd()
  
  */
 
