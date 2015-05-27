@@ -6,10 +6,10 @@ all:
     class: acCouchdbDatabase
     param:
       dsn: http://127.0.0.1:5984/
-      dbname: vinsdeloire
+      dbname: declaration
   elastica:
     class: acElasticaDatabase
     param:
       dsn: http://127.0.0.1:9200/
-      dbname: vinsdeloire
+      dbname: declaration
 

@@ -34,27 +34,13 @@ all:
         class: AlerteGenerationDRAManquante  
   facture:
     emetteur:
-      TOURS:
-        adresse: 'adresse tours'
-        code_postal: 'cp tours'
-        ville: 'tours'
+      VILLE:
+        adresse: 'adresse'
+        code_postal: 'cp'
+        ville: 'ville'
         service_facturation: 'nom prenom personne'
-        telephone: 'tel tours - fax tours'
-        email: 'emaildetours@tours.fr'
-      ANGERS:
-        adresse: 'adresse angers'
-        code_postal: 'cp angers'
-        ville: 'angers'
-        service_facturation: 'nom prenom personne'
-        telephone: 'tel angers - fax angers'
-        email: 'emaildangers@angers.fr'
-      NANTES:
-        adresse: 'adresse nantes'
-        code_postal: 'cp nantes'
-        ville: 'nantes'
-        service_facturation: 'nom prenom personne'
-        telephone: 'tel nantes - fax nantes'
-        email: 'emaildenantes@nantes.fr'
+        telephone: 'tel - fax'
+        email: 'email@example.org'
   tva:
     taux:
       19700101: 19.6
@@ -62,24 +48,12 @@ all:
   relance:
     responsable_economique: 'prenom nom'
     emetteur:
-      TOURS:
-        adresse: 'adresse tours'
-        code_postal: 'cp tours'
-        ville: 'tours'
+      VILLE:
+        adresse: 'adresse'
+        code_postal: 'cp'
+        ville: 'ville'
         services_operateurs:
-          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildetours@tours.fr'}
-      ANGERS:
-        adresse: 'adresse angers'
-        code_postal: 'cp angers'
-        ville: 'angers'
-        services_operateurs:
-          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildangers@angers.fr'}
-      NANTES:
-        adresse: 'adresse nantes'
-        code_postal: 'cp nantes'
-        ville: 'nantes'
-        services_operateurs:
-         - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
+         - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'email@example.org'}
   vrac:
     contenances:
       "Bouteille 37 cl": 0.00375
@@ -108,17 +82,9 @@ all:
   teledeclaration:
     contact:
       contrat:
-        TOURS:
+        VILLE:
           nom: 'Prenom Nom'
           telephone: '00 00 00 00 00'
-          email: 'mail@mail.fr'
-        ANGERS:
-          nom: 'Prenom Nom'
-          telephone: '00 00 00 00 00'
-          email: 'mail@mail.fr'
-        NANTES:
-          nom: 'Prenom Nom'
-          telephone: '00 00 00 00 00'
-          email: 'mail@mail.fr'
+          email: 'mail@example.org'
   pdf:
-    reader_link: "http://lien.fr"
+    reader_link: "https://pdfreaders.org/pdfreaders.fr.html"
