@@ -46,10 +46,13 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
         if (is_null($this->_choices_produits)) {
 
             $this->_choices_produits = array("" => "");
-            $produits = $this->_configurationCertification->getProduits();
+            $date = $this->_drm->getFirstDayOfPeriode();
+            $produits = $this->_configurationCertification->formatProduits($date,$this->_drm->getInterpro()->get('_id'), 
+            $this->_drm->getDepartement(),"%format_libelle% (%code_produit%)",true);
             if (!is_null($produits)) {
                 foreach ($produits as $hash => $produit) {
-                    $this->_choices_produits[$produit->getHashForKey()] = $produit->formatProduitLibelle();
+                     $p = ConfigurationClient::getCurrent()->get($hash);
+                     $this->_choices_produits[$p->getHashForKey()] = $p->formatProduitLibelle();
                 }
             }
         }
@@ -57,7 +60,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
     }
 
     public function doUpdateObject($values) { 
-        parent::doUpdateObject($values);     
+       parent::doUpdateObject($values);     
         $produit = str_replace('-', '/', $values['produit']);
         $this->_drm->getOrAdd($produit.'/details/DEFAUT');
         $this->_drm->save();

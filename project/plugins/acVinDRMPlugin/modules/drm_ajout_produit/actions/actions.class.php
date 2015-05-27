@@ -5,7 +5,7 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
     public function executeChoixPoduits(sfWebRequest $request) {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
-        $this->certificationsProduits = $this->drm->declaration->getProduitsDetailsByCertifications();
+        $this->certificationsProduits = $this->drm->declaration->getProduitsDetailsByCertifications(true);
         $this->form = new DRMProduitsChoiceForm($this->drm);
 
         $this->formAddProduitsByCertifications = array();
@@ -31,7 +31,7 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
             throw new sfException("le format de la certification n'est pas correct : $cerfificationParam");
         }
         $cerfificationHash = str_replace('-', '/', $cerfificationParam);
-        $certificationDrm = $this->drm->get($cerfificationHash);
+        $certificationDrm = $this->drm->getOrAdd($cerfificationHash);
         if (!$certificationDrm) {
             throw new sfException("La certification n'existe pas dans la DRM : $cerfificationHash");
         }

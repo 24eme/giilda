@@ -49,7 +49,7 @@ class DRMDeclaration extends BaseDRMDeclaration {
         return false;
     }
     
-    public function getProduitsDetailsByCertifications() {
+    public function getProduitsDetailsByCertifications($isTeledeclarationMode = false) {
         $certifications = $this->getConfig()->getChildrenNode(); 
         $produitsDetailsByCertifications = array();
         foreach ($certifications as $certification) {
@@ -59,7 +59,7 @@ class DRMDeclaration extends BaseDRMDeclaration {
                 $produitsDetailsByCertifications[$certification->getHash()]->produits = array();
             }
         }
-        $produitsDetails = $this->getProduitsDetails();
+        $produitsDetails = $this->getProduitsDetails($isTeledeclarationMode);
         foreach ($produitsDetails as $produitDetails) {
             $produitsDetailsByCertifications[$produitDetails->getCertification()->getHash()]->produits[$produitDetails->getHash()] = $produitDetails;
         }

@@ -59,7 +59,7 @@ class DRMProduitAjoutForm extends acCouchdbForm
             $date = $this->_drm->getFirstDayOfPeriode();
             $this->_choices_produits = array_merge(array("" => ""),
 	    $this->_config->formatProduits($date,$this->_interpro->get('_id'), 
-            $this->_drm->getDepartement()));
+            $this->_drm->getDepartement(),"%format_libelle% (%code_produit%)",true));
         }
 
         return $this->_choices_produits;
