@@ -152,7 +152,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
 
             $this->addProduit($produit->getHash());
-        }       
+        }
     }
 
     public function generateSuivante() {
@@ -171,7 +171,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $drm_suivante = clone $this;
         $drm_suivante->init(array('keepStock' => $keepStock));
-        $drm_suivante->update();        
+        $drm_suivante->update();
         $drm_suivante->storeDeclarant();
         $drm_suivante->periode = $periode;
         $drm_suivante->etape = ($isTeledeclarationMode) ? DRMClient::ETAPE_CHOIX_PRODUITS : DRMClient::ETAPE_SAISIE;
@@ -184,8 +184,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         $drm_suivante->initCrds();
         $drm_suivante->initSociete();
-        
-        if(!$drm_suivante->exist('favoris')){
+
+        if (!$drm_suivante->exist('favoris')) {
             $drm_suivante->buildFavoris();
         }
         return $drm_suivante;
@@ -883,60 +883,69 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function addCrdType($couleur, $litrage, $stock_debut = null) {
         return $this->getOrAdd('crds')->getOrAddCrdType($couleur, $litrage, $stock_debut);
     }
-    
+
     public function initCrds() {
+        $toRemoves = array();
         foreach ($this->getAllCrds() as $key => $crd) {
-            $crd->stock_debut = $crd->stock_fin;
-            $crd->stock_fin = null;
-            $crd->entrees = null;
-            $crd->sorties = null;
-            $crd->pertes = null;
+            if ($crd->stock_fin > 0) {
+                $crd->stock_debut = $crd->stock_fin;
+                $crd->stock_fin = null;
+                $crd->entrees = null;
+                $crd->sorties = null;
+                $crd->pertes = null;
+            }else{
+                $toRemoves[] = $key;                
+            }
+        }
+        foreach ($toRemoves as $toRemove) {
+                $this->crds->remove($toRemove);            
         }
     }
 
     /*     * * FIN CRDS ** */
-    
-       /** * FAVORIS ** */
+
+    /**     * FAVORIS ** */
     public function buildFavoris() {
         foreach (DRMClient::drmDefaultFavoris() as $key => $value) {
             $keySplitted = split('/', $key);
-            $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->add($keySplitted[1],$value);
+            $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->add($keySplitted[1], $value);
         }
     }
-    
+
     public function getAllFavoris() {
         if ($this->exist('favoris') && $this->favoris) {
             return $this->favoris;
         }
         return DRMClient::drmDefaultFavoris();
     }
-    
+
     /*     * * FIN FAVORIS ** */
-    
-    /*** SOCIETE ***/ 
-     public function initSociete() {
+
+    /*     * * SOCIETE ** */
+
+    public function initSociete() {
         $societe = $this->getEtablissement()->getSociete();
         $drm_societe = $this->add('societe');
-        $drm_societe->add('raison_sociale',$societe->raison_sociale);
-        $drm_societe->add('siret',$societe->siret);
-        $drm_societe->add('code_postal',$societe->siege->code_postal);
-        $drm_societe->add('adresse',$societe->siege->adresse);
-        $drm_societe->add('commune',$societe->siege->commune);
-        $drm_societe->add('email',$societe->getEmailTeledeclaration());
-        $drm_societe->add('telephone',$societe->telephone);
-        $drm_societe->add('fax',$societe->fax);
+        $drm_societe->add('raison_sociale', $societe->raison_sociale);
+        $drm_societe->add('siret', $societe->siret);
+        $drm_societe->add('code_postal', $societe->siege->code_postal);
+        $drm_societe->add('adresse', $societe->siege->adresse);
+        $drm_societe->add('commune', $societe->siege->commune);
+        $drm_societe->add('email', $societe->getEmailTeledeclaration());
+        $drm_societe->add('telephone', $societe->telephone);
+        $drm_societe->add('fax', $societe->fax);
     }
-    
+
     public function getCoordonneesSociete() {
-        if(!$this->exist('societe') || is_null($this->societe)){
+        if (!$this->exist('societe') || is_null($this->societe)) {
             $this->initSociete();
         }
         return $this->societe;
     }
-    
+
     public function getSocieteInfos() {
         $societeInfos = new stdClass();
-        if(!$this->exist('societe') || is_null($this->societe) || is_null($this->societe->raison_sociale)){
+        if (!$this->exist('societe') || is_null($this->societe) || is_null($this->societe->raison_sociale)) {
             $societe = $this->getEtablissement()->getSociete();
             $societeInfos->raison_sociale = $societe->raison_sociale;
             $societeInfos->siret = $societe->siret;
@@ -950,5 +959,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         return $this->societe;
     }
-    /*** FIN SOCIETE ***/
+
+    /*     * * FIN SOCIETE ** */
 }
