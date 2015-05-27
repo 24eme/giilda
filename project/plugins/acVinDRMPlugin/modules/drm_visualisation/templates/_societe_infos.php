@@ -1,34 +1,34 @@
 <div class="drm_validation_societe_info">
-    <div class="title"><?php echo $drm->societe->raison_sociale; ?></div>
+    <div class="title"><?php echo $drm->getSocieteInfos()->raison_sociale; ?></div>
     <div class="panel">
         <ul>
             <li>
                 <span class="label">SIRET :</span>
-                <span class="infos"><?php echo $drm->societe->siret; ?></span>
+                <span class="infos"><?php echo $drm->getSocieteInfos()->siret; ?></span>
             </li>
             <li>
                 <span class="label">Adresse :</span>
-                <span class="infos"><?php echo $drm->societe->adresse; ?></span>
+                <span class="infos"><?php echo $drm->getSocieteInfos()->adresse; ?></span>
             </li>
             <li>
                 <span class="label">Code postal :</span>
-                <span class="infos"><?php echo $drm->societe->code_postal; ?></span>
+                <span class="infos"><?php echo $drm->getSocieteInfos()->code_postal; ?></span>
             </li>
             <li>
                 <span class="label">Commune :</span>
-                <span class="infos"><?php echo $drm->societe->commune; ?></span>
+                <span class="infos"><?php echo $drm->getSocieteInfos()->commune; ?></span>
             </li>
             <li>
                 <span class="label">E-mail :</span>
-                <span class="infos"><?php echo $drm->societe->email; ?></span>
+                <span class="infos"><?php echo $drm->getSocieteInfos()->email; ?></span>
             </li>
             <li>
                 <span class="label">Téléphone :</span>
-                <span class="infos"><?php echo $drm->societe->telephone; ?></span>
+                <span class="infos"><?php echo $drm->getSocieteInfos()->telephone; ?></span>
             </li>
             <li>
                 <span class="label">Fax :</span>
-                <span class="infos"><?php echo $drm->societe->fax; ?></span>
+                <span class="infos"><?php echo $drm->getSocieteInfos()->fax; ?></span>
             </li>
         </ul>
         <?php if($isModifiable): ?>

@@ -933,5 +933,22 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         return $this->societe;
     }
+    
+    public function getSocieteInfos() {
+        $societeInfos = new stdClass();
+        if(!$this->exist('societe') || is_null($this->societe) || is_null($this->societe->raison_sociale)){
+            $societe = $this->getEtablissement()->getSociete();
+            $societeInfos->raison_sociale = $societe->raison_sociale;
+            $societeInfos->siret = $societe->siret;
+            $societeInfos->code_postal = $societe->siege->code_postal;
+            $societeInfos->adresse = $societe->siege->adresse;
+            $societeInfos->commune = $societe->siege->commune;
+            $societeInfos->email = $societe->getEmailTeledeclaration();
+            $societeInfos->telephone = $societe->telephone;
+            $societeInfos->fax = $societe->fax;
+            return $societeInfos;
+        }
+        return $this->societe;
+    }
     /*** FIN SOCIETE ***/
 }

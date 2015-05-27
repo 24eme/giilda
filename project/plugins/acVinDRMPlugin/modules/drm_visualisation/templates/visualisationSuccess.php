@@ -13,7 +13,9 @@
         <h2><?php echo getDrmTitle($drm); ?></h2>
         <div id="btn_etape_dr">
             <a href="#" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-        </div>        
+        </div>   
+    <?php endif; ?>
+        
         <div id="drm_validation_coordonnees">
             <div class="drm_validation_societe">    
                 <?php include_partial('drm_visualisation/societe_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
@@ -22,8 +24,6 @@
                 <?php include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
             </div>
         </div>
-
-    <?php endif; ?>
 
     <div><span class="success">Votre DRM est validée - Date de validation : <?php echo $drm->valide->date_signee; ?></span></div>
 
@@ -60,7 +60,7 @@
         </table>
     <?php else: ?> 
       <?php include_partial('drm_crds/recap', array('drm' => $drm)) ?>  
-             <?php include_partial('drm/recapDroits', array('drm' => $drm)) ?>
+             <?php include_partial('drm/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo)) ?>
     <?php endif; ?>   
     <br />
     <div id="btn_etape_dr">

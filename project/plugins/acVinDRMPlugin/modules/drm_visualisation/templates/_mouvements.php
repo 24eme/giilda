@@ -24,7 +24,6 @@
         <tbody>
             <?php $i = 1; ?>
     <?php 
-    //var_dump($visualisation); exit;
     foreach ($mouvements as $mouvement): ?>
         <?php $i++; ?>
                 <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php echo ($i % 2 != 0)? "alt" : "";?> <?php
