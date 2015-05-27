@@ -7,7 +7,7 @@
 class DRMCrd extends BaseDRMCrd {
     
     public function getLibelle(){
-        return DRMClient::$drm_crds_couleurs[$this->couleur].' - '.$this->detail_libelle;
+        return DRMClient::$drm_crds_couleurs[$this->couleur].' - '.str_replace('Bouteille', '', $this->detail_libelle);
     }
     
     public function udpateStockFinDeMois() {

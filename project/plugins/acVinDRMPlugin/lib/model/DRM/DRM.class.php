@@ -889,7 +889,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($this->getAllCrds() as $key => $crd) {
             if ($crd->stock_fin > 0) {
                 $crd->stock_debut = $crd->stock_fin;
-                $crd->stock_fin = null;
                 $crd->entrees = null;
                 $crd->sorties = null;
                 $crd->pertes = null;
