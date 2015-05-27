@@ -1,3 +1,4 @@
+<?php use_helper('Float'); ?>
 <h2>DROITS ET COTISATIONS</h2>
 
 <div id="contenu_onglet">
@@ -14,14 +15,14 @@
         <tbody class="drm_cvo_list">
                 <tr class="droit_cvo_row" >   
                     <td class="droit_cvo">CVO</td>
-                    <td class="droit_cvo_facturable"><?php echo $recapCvo->totalVolumeDroitsCvo; ?></td>
-                    <td class="droit_cvo_reintegration"><?php echo $recapCvo->totalVolumeReintegration; ?></td>
-                    <td class="droit_cvo_total"><?php echo $recapCvo->totalPrixDroitCvo; ?></td>
+                    <td class="droit_cvo_facturable"><?php echoFloat($recapCvo->totalVolumeDroitsCvo); echo " Hl"; ?></td>
+                    <td class="droit_cvo_reintegration"><?php echoFloat($recapCvo->totalVolumeReintegration); echo " Hl"; ?></td>
+                    <td class="droit_cvo_total"><?php echoFloat($recapCvo->totalPrixDroitCvo); echo " €"; ?></td>
                 </tr>
         </tbody>
     </table>
 </div>
-
+<?php if($isTeledeclarationMode) : ?>
 <div id="contenu_onglet">
     <h2>DROITS DE CIRCULATION</h2>
     <table id="table_droit_circulation" class="table_recap">
@@ -45,5 +46,6 @@
         </tbody>
     </table>
 </div>
+<?php endif; ?>
 
 
