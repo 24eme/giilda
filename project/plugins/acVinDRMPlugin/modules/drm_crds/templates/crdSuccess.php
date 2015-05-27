@@ -2,7 +2,6 @@
 <?php use_helper('DRM'); ?>
 <!-- #principal -->
 <section id="principal" class="drm">
-    <h2><?php echo getDrmTitle($drm); ?></h2>
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => true, 'etape_courante' => DRMClient::ETAPE_CRD)); ?>
     <div id="application_dr">
         <div id="contenu_onglet">    
@@ -16,5 +15,5 @@
     </div>
 </section>
 <?php
-include_partial('drm/colonne_droite', array('societe' => $drm->getEtablissement()->getSociete(), 'etablissementPrincipal' => $drm->getEtablissement(), 'isTeledeclarationMode' => true));
+include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode'  => true));
 ?>

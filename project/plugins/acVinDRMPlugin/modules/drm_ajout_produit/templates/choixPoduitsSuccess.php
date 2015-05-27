@@ -4,7 +4,6 @@
 <!-- #principal -->
 <section id="principal" class="drm">
 
-    <h2><?php echo getDrmTitle($drm); ?></h2>
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_CHOIX_PRODUITS)); ?>
     <?php include_partial('drm/controlMessage'); ?>
     <div id="application_drm">
@@ -30,5 +29,5 @@
     <?php endforeach; ?>
 </section>
 <?php
-include_partial('drm/colonne_droite', array('societe' => $drm->getEtablissement()->getSociete(), 'etablissementPrincipal' => $drm->getEtablissement(), 'isTeledeclarationMode' => $isTeledeclarationMode));
+include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
 ?>

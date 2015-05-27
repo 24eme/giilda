@@ -68,16 +68,5 @@
     </div>
 </section>
 <?php
-slot('colButtons');
-?>
-<div id="action" class="bloc_col">
-    <h2>Action</h2>
-    <div class="contenu">
-        <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant, 'campagne' => $drm->campagne)); ?>" class="btn_majeur btn_acces"><span>Retour au calendrier</span></a>
-        </div>
-    </div>
-</div>
-<?php
-end_slot();
+include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode'  => $isTeledeclarationMode));
 ?>

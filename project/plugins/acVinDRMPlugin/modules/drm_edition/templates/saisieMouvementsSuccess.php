@@ -9,8 +9,6 @@
                 <label>Nom de l'opérateur : </label><?php echo $drm->getEtablissement()->nom ?><label style="float: right;">Période : <?php echo $drm->periode ?></label>
             </li>
         </ul>
-    <?php else: ?>
-        <h2><?php echo getDrmTitle($drm); ?></h2>
     <?php endif; ?>
 
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_SAISIE)); ?>
@@ -47,6 +45,6 @@
     </form>
 </section>
 <?php
-include_partial('drm/colonne_droite', array('societe' => $drm->getEtablissement()->getSociete(), 'etablissementPrincipal' => $drm->getEtablissement(), 'isTeledeclarationMode' => $isTeledeclarationMode));
+include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
 include_partial('drm_edition/colonne_droite_fil_edition', array('produits' => $details, 'drm' => $drm, 'config' => $config));
 ?>
