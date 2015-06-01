@@ -1,4 +1,4 @@
-# GIILDE : Groupement IVSO IVBD de Logiciel de déclaration éléctronique
+# GIILDE : Groupement IVSO IVBD de Logiciel de Déclarations Éléctroniques
 
 # Installation
 
