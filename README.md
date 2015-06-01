@@ -8,7 +8,8 @@ Dependance :
 
 Get the source project :
 
-> git clone git@github.com:24eme/giilde.git #https://github.com/24eme/giilde.git
+> git clone git@github.com:24eme/giilde.git #Https recuperation https://github.com/24eme/giilde.git
+
 > cd giilde
 
 Configure the projet :
