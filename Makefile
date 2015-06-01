@@ -1,4 +1,4 @@
-all: project/cache project/log project/config/app.yml project/config/databases.yml
+all: project/cache project/log project/config/app.yml project/config/databases.yml project/web/declaration_dev.php
 
 project/cache:
 	mkdir project/cache
@@ -13,3 +13,6 @@ project/config/app.yml:
 
 project/config/databases.yml:
 	cp project/config/databases.yml.example project/config/databases.yml
+
+project/web/declaration_dev.php:
+	cp project/web/declaration_dev.php.example project/web/declaration_dev.php
