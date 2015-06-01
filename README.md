@@ -1,6 +1,10 @@
 # GIILDE : Groupement IVSO IVBD de Logiciel de déclaration éléctronique
 
-# Installation 
+# Installation
+
+Dependance :
+
+> sudo aptitude install couchdb libapache2-mod-php5 php5-cli php5-curl
 
 Get the source project :
 
