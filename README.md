@@ -1,0 +1,18 @@
+# GIILDE : Groupement IVSO IVBD de Logiciel de déclaration éléctronique
+
+# Installation 
+
+Get the source project :
+
+> git clone git@github.com:24eme/giilde.git #https://github.com/24eme/giilde.git
+> cd giilde
+
+Configure the projet :
+
+> make
+
+You can configure your database settings in project/config/databases.yml
+
+Create database :
+
+> curl -X PUT http://localhost:5984/you_database_name
