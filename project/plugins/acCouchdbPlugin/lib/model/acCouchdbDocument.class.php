@@ -6,6 +6,8 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
 
     protected $_is_new = true;
     protected $_serialize_loaded_json = null;
+    
+    protected $_is_modified = false;
 
     public function loadFromCouchdb(stdClass $data) {
         if (!is_null($this->_serialize_loaded_json)) {
@@ -154,6 +156,10 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
     }
 
     public function isModified() {
+        if($this->_is_modified) {
+            return true;
+        }
+        
         if(strlen($this->_serialize_loaded_json) > self::BIG_DOCUMENT_SIZE) {
 
             return true;
@@ -162,6 +168,10 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
         $native_json = unserialize($this->_serialize_loaded_json);
         $final_json = new acCouchdbJsonNative($this->getData());
         return $this->isNew() || (!$native_json->equal($final_json));
+    }
+    
+    public function forceModified() {
+        $this->_is_modified = true;
     }
 
     protected function reset($document) {
