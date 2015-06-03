@@ -95,7 +95,11 @@ class drmComponents extends sfComponents {
     public function executeCalendrier() {
         $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
     }
-
+    
+public function executeCalendrierStatic() {
+        $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
+    }
+    
     public function executeStocks() {
         $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
         $this->produits = array();

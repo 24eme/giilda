@@ -33,12 +33,12 @@ class drmActions extends drmGeneriqueActions {
                 if ($isTeledeclarationMode) {
                     return $this->redirect('drm_choix_produit', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
                 } else {
-                    return $this->redirect('drm_saisie', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                    return $this->redirect('drm_edition', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
                 }
                 break;
 
             case DRMClient::ETAPE_SAISIE:
-                return $this->redirect('drm_saisie', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                return $this->redirect('drm_edition', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
                 break;
 
             case DRMClient::ETAPE_CRD:
@@ -128,6 +128,11 @@ class drmActions extends drmGeneriqueActions {
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        return $this->formCampagne($request, 'drm_etablissement');
+    }
+    
+    public function executeMonEspaceStatic(sfWebRequest $request) {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         return $this->formCampagne($request, 'drm_etablissement');
     }

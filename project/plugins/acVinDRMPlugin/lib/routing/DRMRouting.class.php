@@ -41,6 +41,11 @@ class DRMRouting {
             'action' => 'monEspace', 'campagne' => null), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
             'type' => 'object')
         ));
+        
+         $r->prependRoute('drm_etablissement_static', new EtablissementRoute('/drm-static/:identifiant/:campagne', array('module' => 'drm',
+            'action' => 'monEspaceStatic', 'campagne' => null), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
+            'type' => 'object')
+        ));
 
         $r->prependRoute('drm_inProcess', new EtablissementRoute('/drm/:identifiant/drm-conflit', array('module' => 'drm',
             'action' => 'inProcess', 'campagne' => null), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
