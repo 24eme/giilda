@@ -28,5 +28,26 @@ class drm_crdsActions extends drmGeneriqueActions {
             }
         }
     }
+    
+    public function executeChoixRegimeCrd(sfWebRequest $request) {
+        $this->initSocieteAndEtablissementPrincipal();
+        $drm = $this->getRoute()->getDRM();
+        $etablissement = $drm->getEtablissement();
+        if(!$this->isTeledeclarationDrm()){
+            $this->redirect403IfIsNotTeledeclaration();
+        }
+        if($etablissement->hasRegimeCrd()){
+            throw new sfException("L'établissement possède déjà un régime de CRD.");
+        }
+        
+        $this->form = new DRMCrdRegimeChoiceForm($drm);
+        if ($request->isMethod(sfRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+                $this->redirect('drm_choix_produit', $this->form->getObject());
+            }
+        }
+    }
 
 }

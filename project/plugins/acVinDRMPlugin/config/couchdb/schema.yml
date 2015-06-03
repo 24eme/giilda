@@ -451,23 +451,27 @@ DRM:
       crds:
         type: collection
         required: false
-        class: DRMCrds
+        class: DRMCrdsRegime
         definition:
           fields:
             '*':
               type: collection
-              class: DRMCrd
+              class: DRMCrds
               definition:
                 fields:
-                  stock_debut: {  }
-                  couleur: {  }
-                  centilitrage: {  }
-                  entrees: {  }
-                  sorties: {  }
-                  pertes: {  }
-                  stock_fin: {  }
-                  detail_libelle: {  }
-                  type_crd: {  }
+                  '*':
+                    type: collection
+                    class: DRMCrd
+                    definition:
+                      fields:
+                        stock_debut: {  }
+                        couleur: {  }
+                        centilitrage: {  }
+                        entrees: {  }
+                        sorties: {  }
+                        pertes: {  }
+                        stock_fin: {  }
+                        detail_libelle: {  }
       favoris:
         type: collection
         required: false

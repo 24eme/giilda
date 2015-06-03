@@ -14,7 +14,7 @@
             <div id="contenu_onglet">
                 <?php
                 include_partial('drm_ajout_produit/choixProduitsList', array('certificationsProduits' => $certificationsProduits,
-                    'form' => $form, 'drm' => $drm));
+                    'form' => $form, 'drm' => $drm, 'hasRegimeCrd' => $hasRegimeCrd));
                 ?>
             </div>
             <div id="btn_etape_dr">
@@ -23,10 +23,15 @@
             </div>
         </form>
     </div>
-    <?php foreach ($certificationsProduits as $certificationProduits) : ?>
-        <?php $certifKey = $certificationProduits->certification->getHashForKey(); ?>
-        <?php include_partial('drm_ajout_produit/ajout_produit_popup_certification', array('drm' => $drm, 'certifKey' => $certifKey, 'form' => $formAddProduitsByCertifications[$certifKey])); ?>
-    <?php endforeach; ?>
+    <?php if ($hasRegimeCrd): ?>
+        <?php foreach ($certificationsProduits as $certificationProduits) : ?>
+            <?php $certifKey = $certificationProduits->certification->getHashForKey(); ?>
+            <?php include_partial('drm_ajout_produit/ajout_produit_popup_certification', array('drm' => $drm, 'certifKey' => $certifKey, 'form' => $formAddProduitsByCertifications[$certifKey])); ?>
+        <?php endforeach; ?>
+    <?php else: ?>
+    <a class="crd_regime_choice_popup" href="#crd_choix_regime"></a> 
+    <?php include_partial('drm_crds/crd_regime_choice_popup', array('drm' => $drm, 'crdRegimeForm' => $crdRegimeForm,'etablissementPrincipal' => $etablissementPrincipal)); ?>
+    <?php endif;?>
 </section>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));

@@ -872,6 +872,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*     * * FIN DROIT ** */
 
     /*     * * CRDS ** */
+    
+    public function addCrdRegimeNode($crdNode) {
+        $this->getOrAdd('crds')->addCrdRegimeNode($crdNode);
+    }
 
     public function getAllCrds() {
         if ($this->exist('crds') && $this->crds) {

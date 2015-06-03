@@ -29,7 +29,7 @@
  * @property acCouchdbJson $valide
  * @property acCouchdbJson $douane
  * @property acCouchdbJson $mouvements
- * @property DRMCrds $crds
+ * @property DRMCrdsRegime $crds
  * @property DRMFavoris $favoris
 
  * @method string get_id()
@@ -82,8 +82,8 @@
  * @method acCouchdbJson setDouane()
  * @method acCouchdbJson getMouvements()
  * @method acCouchdbJson setMouvements()
- * @method DRMCrds getCrds()
- * @method DRMCrds setCrds()
+ * @method DRMCrdsRegime getCrds()
+ * @method DRMCrdsRegime setCrds()
  * @method DRMFavoris getFavoris()
  * @method DRMFavoris setFavoris()
  

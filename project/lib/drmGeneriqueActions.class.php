@@ -18,7 +18,7 @@ class drmGeneriqueActions extends sfActions {
         }
     }
 
-    private function redirect403IfIsNotTeledeclaration() {
+    protected function redirect403IfIsNotTeledeclaration() {
         if (!$this->isTeledeclarationDrm()) {
             $this->redirect403();
         }

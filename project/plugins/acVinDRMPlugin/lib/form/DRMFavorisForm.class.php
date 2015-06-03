@@ -62,7 +62,7 @@ class DRMFavorisForm extends acCouchdbObjectForm {
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         foreach ($this->getFavoris() as $favorisTypeKey => $favorisType) {
-            foreach ($favorisType as $favoriKey => $favori) {
+            foreach ($favorisType as $favoriKey => $favoris) {
                 $this->setDefault($this->buildFieldId($favorisTypeKey, $favoriKey), true);
             }
         }

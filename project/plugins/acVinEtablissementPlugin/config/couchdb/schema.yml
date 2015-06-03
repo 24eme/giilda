@@ -54,6 +54,7 @@ Etablissement:
        telephone: {  }
        fax: {  }
        commentaire: {  }
+       crd_regime: { required: false }
        siege:
            type: collection
            definition:

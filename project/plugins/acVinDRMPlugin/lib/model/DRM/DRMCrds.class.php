@@ -14,7 +14,7 @@ class DRMCrds extends BaseDRMCrds {
         $crd->stock_debut = 0;
         if ($stock_debut) {
             $crd->stock_debut = $stock_debut;
-        }
+    }
         $contenances = sfConfig::get('app_vrac_contenances');
         $crd->detail_libelle = array_search($crd->centilitrage,$contenances);
         $this->constructKey($couleur, $litrage,$type_crd);
@@ -23,7 +23,7 @@ class DRMCrds extends BaseDRMCrds {
     public function constructKey($couleur, $litrage,$type_crd) {
         return $couleur . '-' . $litrage.'-'.$type_crd;
     }
-    
+   
     public function udpateStocksFinDeMois() {
         foreach ($this->getFields() as $crd) {
             $crd->udpateStockFinDeMois();

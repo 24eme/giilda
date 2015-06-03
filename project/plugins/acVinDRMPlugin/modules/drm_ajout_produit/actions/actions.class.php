@@ -9,17 +9,21 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
         $this->form = new DRMProduitsChoiceForm($this->drm);
 
         $this->formAddProduitsByCertifications = array();
+        
         foreach ($this->certificationsProduits as $certificationProduits) {
             $this->formAddProduitsByCertifications[$certificationProduits->certification->getHashForKey()] = new DRMAddProduitByCertificationForm($this->drm, array('configurationCertification' => $certificationProduits->certification));
         }
-
+        $this->hasRegimeCrd = $this->drm->getEtablissement()->hasRegimeCrd();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        if ($request->isMethod(sfRequest::POST)) {
+        if ($this->hasRegimeCrd && $request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
                 $this->redirect('drm_edition', $this->form->getObject());
             }
+        }
+        if (!$this->hasRegimeCrd){
+           $this->crdRegimeForm = new DRMCrdRegimeChoiceForm($this->drm);
         }
     }
 

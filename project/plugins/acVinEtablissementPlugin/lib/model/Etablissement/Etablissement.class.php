@@ -407,5 +407,9 @@ class Etablissement extends BaseEtablissement {
     public function setEmailTeledeclaration($email) {
         $this->add('teledeclaration_email', $email);
     }
+    
+    public function hasRegimeCrd() {
+        return $this->exist('crd_regime') && $this->crd_regime;
+    }
 
 }

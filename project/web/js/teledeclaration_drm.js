@@ -41,7 +41,17 @@ var initAjoutCrdsPopup = function() {
 
 };
 
+var initRegimeCrdsPopup = function() {
 
+    $('a.crd_regime_choice_popup').fancybox({
+        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto'
+    });
+    $('a.crd_regime_choice_popup').click();
+
+};
 
 
 var initFilEditionProduit = function() {
@@ -131,6 +141,7 @@ $(document).ready(function()
     initFilEditionProduit();
     initAjoutProduitPopup();
     initAjoutCrdsPopup();
+    initRegimeCrdsPopup();
     initCrds();
     initFavoris();
     initValidationDrmStockMvt();
