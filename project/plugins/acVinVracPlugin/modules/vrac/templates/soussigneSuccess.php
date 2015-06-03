@@ -50,29 +50,43 @@ endif;
 ?>
 
 <?php include_partial('vrac/etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+
 <form action="<?php echo $urlForm; ?>" method="post" class="form-horizontal">
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
             <div class="form-group">
-                    <?php echo $form['vendeur_identifiant']->renderError(); ?>
-                    <?php echo $form['vendeur_identifiant']->renderLabel("Vendeur :", array('class' => 'col-sm-2 control-label')); ?>
-                    <div class="col-sm-10">
-                        <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control')); ?>
+                <?php echo $form['vendeur_identifiant']->renderError(); ?>
+                <?php echo $form['vendeur_identifiant']->renderLabel("Vendeur :", array('class' => 'col-sm-2 control-label')); ?>
+                <div class="col-sm-6">
+                    <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control')); ?>
+                </div>
+                <?php if($form->getObject()->getVendeurObject()): ?>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getVendeurObject())); ?>
+                        </div>
                     </div>
-                    <?php if($form->getObject()->getVendeurObject()): ?>
-                        <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getVendeurObject())); ?>
-                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
             </div>
+           
             <div class="form-group">
                 <?php echo $form['acheteur_identifiant']->renderError(); ?>
                 <?php echo $form['acheteur_identifiant']->renderLabel("Acheteur :", array('class' => 'col-sm-2 control-label')); ?>
-                <div class="col-sm-10">
+                <div class="col-sm-6">
                     <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control')); ?>
                 </div>
-                <?php if($form->getObject()->getVendeurObject()): ?>
-                    <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getMandataireIdentifiant())); ?>
+                <?php if($form->getObject()->getAcheteurObject()): ?>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getAcheteurObject())); ?>
+                        </div>
+                    </div>
+                </div>
                 <?php endif; ?>
             </div>
             <div class="form-group">
@@ -107,18 +121,24 @@ endif;
             <div class="form-group">
                 <?php echo $form['mandataire_identifiant']->renderError(); ?>
                 <?php echo $form['mandataire_identifiant']->renderLabel("Mandataire :", array('class' => 'col-sm-2 control-label')); ?>
-                <div class="col-sm-10">
+                <div class="col-sm-6">
                     <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control')); ?>
                 </div>
                 <?php if($form->getObject()->getMandataireObject()): ?>
-                    <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getMandataireObject())); ?>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getMandataireObject())); ?>
+                        </div>
+                    </div>
+                </div>
                 <?php endif; ?>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-default">Suivant</button>
                 </div>
-          </div>
+            </div>
         </div>
     </div>
 </form>
