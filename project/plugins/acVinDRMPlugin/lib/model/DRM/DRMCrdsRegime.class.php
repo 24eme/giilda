@@ -5,7 +5,5 @@
  */
 
 class DRMCrdsRegime extends BaseDRMCrdsRegime {
-  public function addCrdRegimeNode($regimeNode) {
-        $this->add($regimeNode);
-    }
+    
 }

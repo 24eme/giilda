@@ -6,7 +6,7 @@ class drm_crdsActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
         $this->crdsForms = new DRMCrdsForm($this->drm);
-        $this->addCrdForm = new DRMAddCrdTypeForm($this->drm);
+      //  $this->addCrdForm = new DRMAddCrdTypeForm($this->drm);
         if ($request->isMethod(sfRequest::POST)) {
             $this->crdsForms->bind($request->getParameter($this->crdsForms->getName()));
             if ($this->crdsForms->isValid()) {

@@ -450,7 +450,6 @@ DRM:
                         version: {  }
       crds:
         type: collection
-        required: false
         class: DRMCrdsRegime
         definition:
           fields:
@@ -464,6 +463,7 @@ DRM:
                     class: DRMCrd
                     definition:
                       fields:
+                        genre: {  }
                         stock_debut: {  }
                         couleur: {  }
                         centilitrage: {  }

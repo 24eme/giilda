@@ -46,8 +46,8 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
         $crd_regime = $values['crd_regime'];
         $this->etablissement->add('crd_regime', $crd_regime);
         $this->etablissement->save();
-
-        $this->drm->addCrdRegimeNode($crd_regime);
+        $this->drm->forceModified();
+        $this->drm->add('crds')->add($crd_regime);
         $this->drm->save();
     }
 

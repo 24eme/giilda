@@ -2,7 +2,7 @@
     <p class="mois"><?php echo $calendrier->getPeriodeLibelle($periode) ?></p>
     <?php if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE): ?>
         <ul class="mois_infos valide_campagne">
-            <li><label for="">&Eacute;tat:</label><span>Validée CCCCCCCCC</span></li>
+            <li><label for="">&Eacute;tat:</label><span>Validée</span></li>
             <li><label for="">N&deg;&nbsp;:</label><?php echo $calendrier->getNumeroArchivage($periode) ?></li>
             <li><a class="action" href="<?php echo url_for('drm_visualisation', array('identifiant' => $calendrier->getIdentifiant(), 'periode_version' => $calendrier->getPeriodeVersion($periode))) ?>">Voir la drm</a></li>
         </ul>

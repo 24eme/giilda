@@ -13,24 +13,30 @@ class DRMCrdsForm extends acCouchdbObjectForm {
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->drm = $object;
-        $this->crds = $this->drm->getAllCrds();
+        $this->crds = $this->drm->getAllCrdsByRegimeAndByGenre();
+       
         parent::__construct($this->drm, $options, $CSRFSecret);
     }
 
     public function configure() {
         
-        foreach ($this->crds as $crdTypeKey => $crd) {
-            $this->setWidget('entrees_'.$crdTypeKey, new sfWidgetFormInput());
-            $this->setWidget('sorties_'.$crdTypeKey, new sfWidgetFormInput());
-            $this->setWidget('pertes_'.$crdTypeKey, new sfWidgetFormInput());
+        foreach ($this->crds as $regime => $crdAllGenre) {
+             foreach ($crdAllGenre as $genre => $crds) {
+                 foreach ($crds as $key => $crd) {
+                     $keyWidgetsSuffixe = $regime.'_'.$key;
+            $this->setWidget('entrees_'.$keyWidgetsSuffixe, new sfWidgetFormInput());
+            $this->setWidget('sorties_'.$keyWidgetsSuffixe, new sfWidgetFormInput());
+            $this->setWidget('pertes_'.$keyWidgetsSuffixe, new sfWidgetFormInput());
 
-            $this->widgetSchema->setLabel('entrees_' . $crdTypeKey, 'Entrées');
-            $this->widgetSchema->setLabel('sorties_' . $crdTypeKey, 'Sortie');
-            $this->widgetSchema->setLabel('pertes_' . $crdTypeKey, 'Perte');
+            $this->widgetSchema->setLabel('entrees_' . $keyWidgetsSuffixe, 'Entrées');
+            $this->widgetSchema->setLabel('sorties_' . $keyWidgetsSuffixe, 'Sortie');
+            $this->widgetSchema->setLabel('pertes_' . $keyWidgetsSuffixe, 'Perte');
 
-            $this->setValidator('entrees_'. $crdTypeKey, new sfValidatorNumber(array('required' => false)));
-            $this->setValidator('sorties_'. $crdTypeKey, new sfValidatorNumber(array('required' => false)));
-            $this->setValidator('pertes_'. $crdTypeKey, new sfValidatorNumber(array('required' => false)));
+            $this->setValidator('entrees_'. $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+            $this->setValidator('sorties_'. $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+            $this->setValidator('pertes_'. $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+                 }
+             }
         }
 
         $this->widgetSchema->setNameFormat('drmCrds[%s]');

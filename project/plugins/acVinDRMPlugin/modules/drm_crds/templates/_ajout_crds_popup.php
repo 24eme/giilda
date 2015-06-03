@@ -20,13 +20,6 @@
             </div>
             <div class="ligne_form">       
                 <span>
-                    <?php echo $form['type_crd']->renderError(); ?>
-                    <?php echo $form['type_crd']->renderLabel() ?>    
-                    <?php echo $form['type_crd']->render(array('class' => 'autocomplete')); ?>
-                </span>
-            </div>
-            <div class="ligne_form">       
-                <span>
                     <?php echo $form['stock_debut']->renderError(); ?>
                     <?php echo $form['stock_debut']->renderLabel() ?>    
                     <?php echo $form['stock_debut']->render(); ?>

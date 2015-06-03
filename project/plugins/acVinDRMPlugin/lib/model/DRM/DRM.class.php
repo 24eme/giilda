@@ -872,9 +872,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*     * * FIN DROIT ** */
 
     /*     * * CRDS ** */
-    
+
     public function addCrdRegimeNode($crdNode) {
-        $this->getOrAdd('crds')->addCrdRegimeNode($crdNode);
+        $this->add('crds', array($crdNode => array()));
     }
 
     public function getAllCrds() {
@@ -884,8 +884,25 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return array();
     }
 
-    public function addCrdType($couleur, $litrage,$type_crd, $stock_debut = null) {
-        return $this->getOrAdd('crds')->getOrAddCrdType($couleur, $litrage,$type_crd, $stock_debut);
+    public function getAllCrdsByRegimeAndByGenre() {
+        $all_crd = $this->getAllCrds();
+        $allCrdByRegimeAndByGenre = array();
+        foreach ($all_crd as $regime => $crdAllGenre) {
+            $allCrdByRegimeAndByGenre[$regime] = array();
+            if (count($crdAllGenre)) {
+                foreach ($crdAllGenre as $key => $crd) {
+                    if(!array_key_exists($crd->genre, $allCrdByRegimeAndByGenre[$regime])){
+                        $allCrdByRegimeAndByGenre[$regime][$crd->genre] = array();
+                    }
+                    $allCrdByRegimeAndByGenre[$regime][$crd->genre][$key] = $crd;
+                }
+            }
+        }
+        return $allCrdByRegimeAndByGenre;
+    }
+
+    public function addCrdType($couleur, $litrage, $type_crd, $stock_debut = null) {
+        return $this->getOrAdd('crds')->getOrAddCrdType($couleur, $litrage, $type_crd, $stock_debut);
     }
 
     public function initCrds() {
@@ -896,12 +913,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $crd->entrees = null;
                 $crd->sorties = null;
                 $crd->pertes = null;
-            }else{
-                $toRemoves[] = $key;                
+            } else {
+                $toRemoves[] = $key;
             }
         }
         foreach ($toRemoves as $toRemove) {
-                $this->crds->remove($toRemove);            
+            $this->crds->remove($toRemove);
         }
     }
 
