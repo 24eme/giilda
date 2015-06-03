@@ -1319,84 +1319,11 @@ p#date_drm
         padding: 10px 10px 30px;
     }
 
-    #rail_etapes_drm
+    #rail_etapes
     {
-        .clearfix;
-        .majuscules;
-        font-size: 0;
-        line-height: 35px;
-        list-style: none;
-        margin: 0 0 25px;
-        position: relative;
-
         li
         {
-            background: @couleur-a5;
-            display: inline-block;
             font-size: 12px;
-            width: 25%;
-
-            a { .non-souligne(none); }
-
-            & > *
-            {
-                display: block;
-                padding: 0 18px 0 33px;
-                position: relative;
-
-                span
-                {
-                    margin: 0 5px 0 0;
-                    text-align: center;
-                }
-
-                &:after
-                    {
-                    .pos-abs(0, -21px);
-                    .box-dimensions(21px, 47px);
-                    background-color: url(../images/fonds/bg_rail_etapes.png) 0 0 no-repeat;
-                    content: '';
-                }
-            }
-
-            + li { border-left: 1px solid #FFF; }
-
-            &.passe
-            {
-                background: #fcf1d5;
-                color: #8a6903;
-
-                & > *
-                {
-                    color: #886702;
-
-                    span { background: #fcf1d5; }
-
-                    &:after { background-position: 0 -94px; }
-                }
-            }
-
-            &.actif
-            {
-                background-color: black;
-                line-height: 49px;
-
-                a
-                {
-                    color: @couleur-a1;
-                    .text-shadow(1px 1px rgba(214, 146, 10, 0.7));
-                    strong { font-weight:bold; }
-                }
-
-                & > *
-                {
-                    span { background-color: black; }
-
-                    &:after { background-position: 0 -47px; }
-                }
-            }            
-
-            strong { font-weight: normal; }
         }
     }
 
