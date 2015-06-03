@@ -22,6 +22,6 @@ Create database :
 
 > curl -X PUT http://localhost:5984/you_database_name
 
-You can load fixtures testing data :
+Load fixtures testing data (optional) :
 
-bash bin/fixtures_init_and_load.sh
+> bash bin/fixtures_init_and_load.sh
