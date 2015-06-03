@@ -9,6 +9,10 @@ class globalComponents extends sfComponents
         if($this->getRoute() instanceof InterfaceEtablissementRoute) {
             $this->etablissement = $this->getRoute()->getEtablissement();
         }
+        
+        if($this->getUser()->hasTeledeclaration()) {
+            $this->societe = $this->getUser()->getCompte()->getSociete();
+        }
     }
 
     public function executeNavItem(sfWebRequest $request)
