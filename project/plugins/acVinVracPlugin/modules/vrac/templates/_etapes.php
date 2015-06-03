@@ -2,7 +2,7 @@
     if($vrac->etape==null) $vrac->etape=0;
     $pourcentage = ($vrac->etape) * 25;
 ?>
-    <ol id="rail_etapes">
+    <ol class="breadcrumb">
         <?php include_partial('etapeItem',array('num_etape' => 0,
                                                  'vrac' => $vrac,
                                                  'actif' => $actif,

@@ -30,7 +30,7 @@
             ?>
 
     <div class="container">
-                    <?php echo $sf_content ?>
+        <?php echo $sf_content ?>
     </div>
     <?php include_partial('global/footer'); ?>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

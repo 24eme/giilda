@@ -1,16 +1,28 @@
-<?php
-use_helper('Vrac');
+<?php use_helper('Vrac'); ?>
 
-$etablissements = array('' => '');
+<?php $etablissements = array('' => '');
 $datas = EtablissementClient::getInstance()->findAll()->rows;
 foreach ($datas as $data) {
     $labels = array($data->key[4], $data->key[3], $data->key[1]);
     $etablissements[$data->id] = implode(', ', array_filter($labels));
 }
 ?>
+
+<ol class="breadcrumb">
+  <li><a href="#" class="active">Page d'accueil</a></li>
+</ol>
+
+<a href="<?php echo url_for('vrac_nouveau'); ?>" class="btn btn-default"><span>Saisir un nouveau contrat</span></a>
+
+<div class="row">
+    <div class="col-xs-12">
+        <?php include_partial('list', array('vracs' => $vracs)); ?>
+    </div>
+</div>
+
 <section id="principal">
     <?php
-    include_partial('fil_ariane', array('fil' => 0));
+    //include_partial('fil_ariane', array('fil' => 0));
     ?>
     <div id="contenu_etape">
         <?php include_component('vrac', 'formEtablissementChoice') ?>

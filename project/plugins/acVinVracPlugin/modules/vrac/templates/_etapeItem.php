@@ -1,6 +1,6 @@
 <?php
 $liClass = '';
-if($actif == $num_etape+1) $liClass = 'actif';
+if($actif == $num_etape+1) $liClass = 'active';
   else
   {
       if(($vrac->etape > $num_etape) && (($num_etape+1)!=$actif)) $liClass = 'passe';
@@ -11,13 +11,10 @@ if($actif == $num_etape+1) $liClass = 'actif';
   else if($vrac->etape >= $num_etape) $href = 'href="'.url_for($url_etape,$vrac).'"';
 ?>
 
-
 <li class="<?php echo $liClass; ?>">
     <a <?php echo $href; ?>>
-        <?php if($actif == $num_etape+1) echo '<strong>'; ?>
-        <span <?php echo ($vrac->etape < $num_etape)? 'style="cursor: default;"' : '' ?> ><?php echo $num_etape+1;?> </span>
+        <?php echo $num_etape+1;?>.
         <?php echo $label; ?> 
-        <?php if($actif == $num_etape+1) echo '</strong>'; ?>
     </a>    
 </li>
 

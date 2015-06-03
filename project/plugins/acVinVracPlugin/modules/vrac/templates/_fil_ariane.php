@@ -59,3 +59,7 @@ $urlAccueil = ($isTeledeclarationMode)? url_for('vrac_societe', array('identifia
     }
     ?>
 </p>
+
+<ol class="breadcrumb">
+  <li><a href="#" class="active">Page d'accueil</a></li>
+</ol>

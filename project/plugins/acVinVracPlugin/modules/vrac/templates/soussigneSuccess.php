@@ -48,7 +48,82 @@ else :
     $urlForm = url_for('vrac_soussigne', $vrac);
 endif;
 ?>
-<section id="principal">
+
+<?php include_partial('vrac/etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+<form action="<?php echo $urlForm; ?>" method="post" class="form-horizontal">
+    <?php echo $form->renderHiddenFields() ?>
+    <?php echo $form->renderGlobalErrors() ?>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                    <?php echo $form['vendeur_identifiant']->renderError(); ?>
+                    <?php echo $form['vendeur_identifiant']->renderLabel("Vendeur :", array('class' => 'col-sm-2 control-label')); ?>
+                    <div class="col-sm-10">
+                        <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control')); ?>
+                    </div>
+                    <?php if($form->getObject()->getVendeurObject()): ?>
+                        <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getVendeurObject())); ?>
+                    <?php endif; ?>
+            </div>
+            <div class="form-group">
+                <?php echo $form['acheteur_identifiant']->renderError(); ?>
+                <?php echo $form['acheteur_identifiant']->renderLabel("Acheteur :", array('class' => 'col-sm-2 control-label')); ?>
+                <div class="col-sm-10">
+                    <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control')); ?>
+                </div>
+                <?php if($form->getObject()->getVendeurObject()): ?>
+                    <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getMandataireIdentifiant())); ?>
+                <?php endif; ?>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <?php echo $form['interne']->renderError(); ?>
+                    <div class="checkbox">
+                        <label for="<?php echo $form['interne']->renderId(); ?>">
+                            <?php echo $form['interne']->render(); ?>
+                            Cocher si le contrat est interne
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <?php echo $form['mandataire_exist']->renderError(); ?>
+                    <div class="checkbox">
+                        <label for="<?php echo $form['mandataire_exist']->renderId(); ?>">
+                            <?php echo $form['mandataire_exist']->render(); ?>
+                            Décocher s'il n'y a pas de courtier
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <?php echo $form['mandatant']->renderError(); ?>
+                <?php echo $form['mandatant']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
+                <div class="col-sm-10">
+                    <?php echo $form['mandatant']->render(array('class' => 'form-control')); ?>
+                </div>
+            </div>      
+            <div class="form-group">
+                <?php echo $form['mandataire_identifiant']->renderError(); ?>
+                <?php echo $form['mandataire_identifiant']->renderLabel("Mandataire :", array('class' => 'col-sm-2 control-label')); ?>
+                <div class="col-sm-10">
+                    <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control')); ?>
+                </div>
+                <?php if($form->getObject()->getMandataireObject()): ?>
+                    <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getMandataireObject())); ?>
+                <?php endif; ?>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default">Suivant</button>
+                </div>
+          </div>
+        </div>
+    </div>
+</form>
+
+<section id="principal" style="display: none;">
     <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
     <div id="contenu_etape">
         <form id="vrac_soussigne" method="post" action="<?php echo $urlForm; ?>">   
