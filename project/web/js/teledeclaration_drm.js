@@ -41,22 +41,7 @@ var initAjoutCrdsPopup = function() {
 
 };
 
-var initProduitChoice = function() {
-    $('#application_drm #table_drm_choix_produit input[type="checkbox"]').each(function() {
-        if ($(this).attr('class').startsWith('checkbox_all_')) {
-            $(this).change(function() {
-                var id = $(this).attr('class').replace('checkbox_all_', '');
-                var isChecked = $(this).is(':checked');
-                $('#application_drm #table_drm_choix_produit .checkbox_' + id).each(function() {
-                    if (isChecked)
-                        $(this).attr('checked', 'checked');
-                    else
-                        $(this).removeAttr('checked');
-                });
-            });
-        }
-    });
-};
+
 
 
 var initFilEditionProduit = function() {
@@ -144,7 +129,6 @@ var initValidationDrmStockMvt = function() {
 $(document).ready(function()
 {
     initFilEditionProduit();
-    initProduitChoice();
     initAjoutProduitPopup();
     initAjoutCrdsPopup();
     initCrds();
