@@ -21,3 +21,7 @@ You can configure your database settings in project/config/databases.yml
 Create database :
 
 > curl -X PUT http://localhost:5984/you_database_name
+
+You can load fixtures testing data :
+
+bash bin/fixtures_init_and_load.sh
