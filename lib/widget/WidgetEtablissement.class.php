@@ -7,9 +7,12 @@ class WidgetEtablissement extends sfWidgetFormChoice
     public function __construct($options = array(), $attributes = array())
     {
         parent::__construct($options, $attributes);
-
-        $this->setAttribute('data-ajax', $this->getUrlAutocomplete());
-        $this->setOption('choices', $this->getChoices());
+        if($this->getOption('ajax')) {
+            $this->setAttribute('data-ajax', $this->getUrlAutocomplete());
+            $this->setOption('choices', $this->getChoicesDefault());
+        } else {
+            $this->setOption('choices', $this->getChoices());
+        }
     }
 
     protected function configure($options = array(), $attributes = array())
@@ -18,6 +21,7 @@ class WidgetEtablissement extends sfWidgetFormChoice
 
         $this->setOption('choices', array());
         $this->addOption('familles', array());
+        $this->addOption('ajax', false);
         $this->addRequiredOption('interpro_id', null);
         $this->setAttribute('class', 'autocomplete'); 
     }
@@ -47,7 +51,7 @@ class WidgetEtablissement extends sfWidgetFormChoice
         return sfContext::getInstance()->getRouting()->generate('etablissement_autocomplete_all', array('interpro_id' => $interpro_id));
     }
 
-    public function getChoices() {
+    public function getChoicesDefault() {
         if(!$this->identifiant) {
 
             return array();
@@ -60,6 +64,18 @@ class WidgetEtablissement extends sfWidgetFormChoice
         
         $choices = array();
         foreach($etablissements as $key => $etablissement) {
+            $choices[EtablissementClient::getInstance()->getId($etablissement->id)] = EtablissementAllView::getInstance()->makeLibelle($etablissement);
+        }
+
+        return $choices;
+    }
+
+    public function getChoices() {
+        $etablissements = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles($this->getOption('interpro_id'), EtablissementClient::STATUT_ACTIF, array($this->getOption('familles')));
+
+        $choices = array("" => "");
+
+        foreach($etablissements as $etablissement) {
             $choices[EtablissementClient::getInstance()->getId($etablissement->id)] = EtablissementAllView::getInstance()->makeLibelle($etablissement);
         }
 
