@@ -14,14 +14,15 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     private $vendeurs = null;
     private $acheteurs = null;
     private $mandataires = null;
-    protected $isTeledeclarationMode;
+    protected $fromAnnuaire;
     protected $isAcheteurResponsable;
     protected $isCourtierResponsable;
 
-    public function __construct(Vrac $object, $isTeledeclarationMode = false, $isAcheteurResponsable = false, $isCourtierResponsable = false, $options = array(), $CSRFSecret = null) {
-        $this->isTeledeclarationMode = $isTeledeclarationMode;
+    public function __construct(Vrac $object, $fromAnnuaire = false, $isAcheteurResponsable = false, $isCourtierResponsable = false, $ajaxSearch = false, $options = array(), $CSRFSecret = null) {
+        $this->fromAnnuaire = $fromAnnuaire;
         $this->isAcheteurResponsable = $isAcheteurResponsable;
         $this->isCourtierResponsable = $isCourtierResponsable;
+        $this->ajaxSearch = $ajaxSearch;
         parent::__construct($object, $options, $CSRFSecret);
     }
 
@@ -32,7 +33,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-        if ($this->isTeledeclarationMode && $this->getObject()->createur_identifiant) {
+        if ($this->fromAnnuaire && $this->getObject()->createur_identifiant) {
             $vendeurs = $this->getRecoltants();
             $acheteurs = $this->getNegociants();
             $commerciaux = $this->getCommerciaux();
@@ -50,8 +51,8 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
             $this->widgetSchema->setLabel('commercial', 'Sélectionner un interlocuteur commercial :');
         } else {
-            $this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
-            $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
+            $this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
+            $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
             $this->setValidator('vendeur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setValidator('acheteur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
         }
@@ -61,9 +62,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
 
         $this->setWidget('mandataire_exist', new sfWidgetFormInputCheckbox());
 
-        $this->setWidget('mandatant', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => true, 'choices' => VracClient::getInstance()->getMandatants())));
+        $this->setWidget('mandatant', new sfWidgetFormChoice(array('expanded' => false, 'multiple' => true, 'choices' => VracClient::getInstance()->getMandatants())));
 
-        $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
+        $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
 
         $this->widgetSchema->setLabels(array(
             'vendeur_famille' => '',
