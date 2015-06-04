@@ -204,7 +204,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return ConfigurationClient::getInstance()->formatCodes($this->getCodes(), $format);
     }
 
-    public function getDroitCVO($date, $interpro = "INTERPRO-inter-loire") {
+    public function getDroitCVO($date, $interpro = "INTERPRO-declaration") {
 
         return $this->getDroits($interpro)->get(ConfigurationDroits::CODE_CVO)->getCurrentDroit($date);
     }
@@ -217,7 +217,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $droitsable->interpro->getOrAdd($interpro)->droits;
     }
 
-    public function getDateCirulation($campagne, $interpro = "INTERPRO-inter-loire") {
+    public function getDateCirulation($campagne, $interpro = "INTERPRO-declaration") {
         $dateCirculationAble = $this;
         while ( (!get_class($this) == 'ConfigurationDeclaration' ) && 
                 (!$dateCirculationAble->exist('interpro') ||
@@ -340,7 +340,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             $this->format_produits[$date] = array();
         }
         if (!array_key_exists($format, $this->format_produits[$date])) {
-            $produits = $this->getProduits($date, 'INTERPRO-inter-loire', $departement);
+            $produits = $this->getProduits($date, 'INTERPRO-declaration', $departement);
             $this->format_produits[$date][$format] = array();
             foreach ($produits as $hash => $produit) {
                 $this->format_produits[$date][$format][$hash] = $produit->getLibelleFormat(array(), $format);
