@@ -1,14 +1,108 @@
-<?php
-/* Fichier : conditionSuccess.php
- * Description : Fichier php correspondant à la vue de vrac/XXXXXXXXXXX/condition
- * Formulaire concernant les conditions du contrat
- * Auteur : Petit Mathurin - mpetit[at]actualys.com
- * Version : 1.0.0 
- * Derniere date de modification : 28-05-12
- */
-?>
-<section id="principal">
-    <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 3,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+<?php include_partial('vrac/etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 3, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+
+<form action="" method="post" class="form-horizontal">
+    <?php echo $form->renderHiddenFields() ?>
+    <?php echo $form->renderGlobalErrors() ?>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <?php echo $form['type_contrat']->renderError(); ?>
+            <?php echo $form['type_contrat']->renderLabel("Type de contrat :", array('class' => 'col-sm-4 control-label')); ?>
+            <div class="col-sm-8">
+                <?php echo $form['type_contrat']->render(array('class' => 'form-control')); ?>
+            </div>
+        </div>
+
+        <?php if (!$vrac->isTeledeclare()): ?>
+            <div class="form-group">
+                <?php echo $form['prix_variable']->renderError(); ?>
+                <?php echo $form['prix_variable']->renderLabel("Partie de prix variable ?", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['prix_variable']->render(array('class' => 'form-control')); ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!$isTeledeclarationMode) : ?>
+            <div class="form-group">
+                <?php echo $form['part_variable']->renderError(); ?>
+                <?php echo $form['part_variable']->renderLabel("Part du prix variable sur la quantité :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['part_variable']->render(array('class' => 'form-control')); ?>
+                </div>
+            </div>
+
+            <?php if(isset($form['cvo_nature']) || isset($form['cvo_repartition'])): ?>
+            <div class="form-group">
+                <?php echo $form['cvo_nature']->renderError(); ?>
+                <?php echo $form['cvo_nature']->renderLabel("Nature de la transaction :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['cvo_nature']->render(array('class' => 'form-control')); ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <?php echo $form['cvo_repartition']->renderError(); ?>
+                <?php echo $form['cvo_repartition']->renderLabel("Répartition de la CVO :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['cvo_repartition']->render(array('class' => 'form-control')); ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <?php if (isset($form['date_signature']) && isset($form['date_campagne'])): ?>
+            <div class="form-group">
+                <?php echo $form['date_signature']->renderError(); ?>
+                <?php echo $form['date_signature']->renderLabel("Date de signature :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['date_signature']->render(array('class' => 'form-control')); ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <?php echo $form['date_campagne']->renderError(); ?>
+                <?php echo $form['date_campagne']->renderLabel("Date de campagne :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['date_campagne']->render(array('class' => 'form-control')); ?>
+                </div>
+            </div>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <?php if (isset($form['enlevement_date']) && isset($form['enlevement_frais_garde'])): ?>
+        <div class="form-group">
+            <?php echo $form['enlevement_date']->renderError(); ?>
+            <?php echo $form['enlevement_date']->renderLabel(null, array('class' => 'col-sm-4 control-label')); ?>
+            <div class="col-sm-8">
+                <?php echo $form['enlevement_date']->render(array('class' => 'form-control')); ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <?php echo $form['enlevement_frais_garde']->renderError(); ?>
+            <?php echo $form['enlevement_frais_garde']->renderLabel(null, array('class' => 'col-sm-4 control-label')); ?>
+            <div class="col-sm-8">
+                <?php echo $form['enlevement_frais_garde']->render(array('class' => 'form-control')); ?>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <?php if (!$isTeledeclarationMode) : ?>
+        <div class="form-group">
+            <?php echo $form['commentaire']->renderError(); ?>
+            <?php echo $form['commentaire']->renderLabel(null, array('class' => 'col-sm-4 control-label')); ?>
+            <div class="col-sm-8">
+                <?php echo $form['commentaire']->render(array('class' => 'form-control')); ?>
+            </div>
+        </div>
+        <?php endif; ?>
+
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8">
+              <button type="submit" class="btn btn-default">Suivant</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<section id="principal" style="display: none">
+    <?php //include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 3,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
     <div id="contenu_etape"> 
         <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_condition', $vrac) ?>">  
             <?php echo $form->renderHiddenFields() ?>
