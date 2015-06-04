@@ -6,6 +6,10 @@
  */
 class DRMCrds extends BaseDRMCrds {
 
+    public function getLibelle() {
+        return "";
+    }
+    
     public function getOrAddCrdType($couleur, $litrage, $type_crd,  $stock_debut = null) {
         $crd = $this->add($this->constructKey($couleur, $litrage,$type_crd));
         $crd->centilitrage = $litrage / 100000;

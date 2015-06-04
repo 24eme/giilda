@@ -65,7 +65,7 @@ class DRMValidation extends DocumentValidation {
             $this->addPoint('erreur', 'repli', $detail->getLibelle(), $this->generateUrl('drm_edition', $this->document));
         }
         
-        if($this->isTeledeclarationDrm){
+        if(false && $this->isTeledeclarationDrm){
             $total_sorties_bouteilles = 0;
             foreach ($this->document->getProduitsDetails() as $detail) {
             $total_sorties_bouteilles += $detail->sorties->bouteille;

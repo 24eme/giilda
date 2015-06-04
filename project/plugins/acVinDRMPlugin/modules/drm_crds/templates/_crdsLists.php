@@ -36,6 +36,11 @@
             </div>
             <br/>
         <?php endforeach; ?>
+            <?php $genreProduit = 'TRANQ'; ?>
+            <div class="drm_add_crd_categorie">
+                <a class="btn_majeur ajout_crds_popup" href="#add_crds _<?php echo $regime; ?>_<?php echo $genreProduit; ?>">Ajouter CRD</a> 
+            </div>
+            <br/>
     <?php endforeach; ?>
     <div id="btn_etape_dr">
         <a class="btn_etape_prec" href="<?php echo url_for('drm_edition', $drm); ?>">

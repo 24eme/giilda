@@ -16,11 +16,11 @@
                 ?>
                 <tr >
                     <td><?php echo $crd->getLibelle(); ?></td>
-                    <td><strong><?php echo $crd->stock_debut; ?></strong></td>
-                    <td><strong><?php echo $crd->entrees; ?></strong></td>
-                    <td><strong><?php echo $crd->sorties; ?></strong></td>
-                    <td ><strong><?php echo $crd->pertes; ?></strong></td>
-                    <td ><strong><?php echo $crd->stock_fin; ?></strong></td>
+                    <td><strong><?php // echo $crd->stock_debut; ?></strong></td>
+                    <td><strong><?php // echo $crd->entrees; ?></strong></td>
+                    <td><strong><?php // echo $crd->sorties; ?></strong></td>
+                    <td ><strong><?php // echo $crd->pertes; ?></strong></td>
+                    <td ><strong><?php // echo $crd->stock_fin; ?></strong></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

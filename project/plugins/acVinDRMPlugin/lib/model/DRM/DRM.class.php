@@ -891,7 +891,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $allCrdByRegimeAndByGenre[$regime] = array();
             if (count($crdAllGenre)) {
                 foreach ($crdAllGenre as $key => $crd) {
-                    if(!array_key_exists($crd->genre, $allCrdByRegimeAndByGenre[$regime])){
+                    if (!array_key_exists($crd->genre, $allCrdByRegimeAndByGenre[$regime])) {
                         $allCrdByRegimeAndByGenre[$regime][$crd->genre] = array();
                     }
                     $allCrdByRegimeAndByGenre[$regime][$crd->genre][$key] = $crd;
@@ -899,6 +899,33 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
         }
         return $allCrdByRegimeAndByGenre;
+    }
+
+    public function getRegimesCrds() {
+        $all_crd = $this->getAllCrds();
+        $regimes = array();
+        foreach ($all_crd as $regime => $crdAllGenre) {
+            $regimes[] = $regime;
+        }
+        return $regimes;
+    }
+
+    public function getSortiesGenreCrds() {
+        $sortiesCrdsGenres = array();
+        foreach ($this->getProduitsDetails(true) as $hash => $detail) {
+            foreach ($detail->sorties as $sortieType => $sortieValue) {
+                if($sortieType == 'bouteille' && !is_null($sortieValue)){
+                    $genre = $detail->getCepage()->getCouleur()->getLieu()->getMention()->getAppellation()->getGenre()->getConfig();
+                    if($genre->getKey() == 'TRANQ'){
+                        $sortiesCrdsGenres[$genre->getKey()] = $genre->getKey();
+                    }else{
+                         $sortiesCrdsGenres['MOUSSEUX'] = 'MOUSSEUX';
+                    }
+                    
+                }
+            }
+        }
+        return $sortiesCrdsGenres;
     }
 
     public function addCrdType($couleur, $litrage, $type_crd, $stock_debut = null) {
