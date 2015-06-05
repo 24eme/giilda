@@ -17,7 +17,7 @@
 
 	var colonnesDR = $('#colonnes_dr');
 	var btnAjouter = colonnesDR.find('.btn_ajouter');
-	
+
 	var btnEtapesDR = $('#btn_etape_dr');
 	var btnPrecSuivProd = $('#btn_suiv_prec');
 
@@ -40,7 +40,6 @@
 				$.fancybox({type : 'ajax',
 				href: input.attr('data-href'),
 				fitToView : false,
-				autoCenter: false,
 				afterShow : function()
 				{
 					input.initDetailsPopup(colonne);
@@ -61,7 +60,7 @@
 				}
                     });
                 });
-                
+
                 colonne.element.find("a.labels_lien").each(function() {
                     var lien = $(this);
                     lien.fancybox({type : 'ajax',
@@ -157,9 +156,9 @@
 			return false;
 		});
 	}
-	
+
 	/**
-	 * Initialisation des actions associées 
+	 * Initialisation des actions associées
 	 * aux raccourci clavier
 	 * $.initRaccourcis();
 	 ******************************************/
@@ -167,26 +166,26 @@
 	{
 		// Ctrl + flèche gauche ==> Changement de focus
 		/*$.ctrl(37, function() {$.majColFocus('prec');});
-		
+
 		// Ctrl + flèche droite ==> Changement de focus
 		$.ctrl(39, function() {$.majColFocus('suiv');});*/
-		
+
 		// Ctrl + M ==> Commencer édition colonne avec focus
 		// $.ctrl(77, function () {colFocus.majColActive(true);});
 
 		// Ctrl + P ==> Commencer édition colonne avec focus
 		$.ctrl(80, function () {selectProduit.parent().find('.ui-autocomplete-input').focus();});
-		
+
 		// Ctrl + touche supprimer ==> Suppression colonne avec focus
 		//$.ctrl(46, function() { colFocus.find('.btn_supprimer').trigger('click'); });
-		
+
 		// Echap ==> Réinitialisation de la colonne active
 		$.echap(function() {
             if (colonnes.hasActive()) {
                 colonnes.getActive().reinit();
             }
         });
-		
+
 		// Ctrl + Entrée ==> Validation de la colonne active
 		// $.ctrl(13, function() {colFocus.find('.btn_valider').trigger('click');});
 	};
@@ -200,7 +199,7 @@
 			colActiveDefaut.majColActive();
 		}
 	};
-	
+
 
 	/**
 	 * Gère les raccourcis clavier du type Ctrl+Touche
@@ -211,7 +210,7 @@
 		$(document).keydown(function(e)
 		{
 			if(!args) args = [];
-			
+
 			if(e.keyCode == key && e.ctrlKey)
 			{
 				callback.apply(this, args);
@@ -228,7 +227,7 @@
 		$(document).keydown(function(e)
 		{
 			if(!args) args = [];
-			
+
 			if(e.keyCode == 27)
 			{
 				callback.apply(this, args);
@@ -236,7 +235,7 @@
 			}
 		});
 	};
-	
+
 	/**
 	 * Gère les raccourcis clavier du type Shift+Touche
 	 * $.shift(key, callback, args);
@@ -245,8 +244,8 @@
 	{
     	$(document).keydown(function(e)
 		{
-        	if(!args) args = []; 
-			
+        	if(!args) args = [];
+
             if(e.keyCode == key && e.shiftKey)
 			{
 				callback.apply(this, args);
@@ -254,9 +253,9 @@
 			}
 		});
     };
-	
-	
-	
+
+
+
 	/**
 	 * Contrôle la bonne saisie de nombres dans
 	 * un champ
@@ -265,7 +264,7 @@
 	$.fn.saisieNum = function(float, callbackKeypress, callbackBlur)
 	{
 		var champ = $(this);
-		
+
     	// A chaque touche pressée
 		champ.keypress(function(e)
 		{
@@ -279,16 +278,16 @@
 
             // touche "entrer"
             if(touche == 0) return e;
-					
+
 			// Champ nombre décimal
 			if(float)
-			{ 
+			{
 				// !backspace && !null && !point && !virgule && !chiffre
-				if(touche != 8 && touche != 0 && touche != 46 && touche != 44 && !chiffre) return false;  	
+				if(touche != 8 && touche != 0 && touche != 46 && touche != 44 && !chiffre) return false;
 				// point déjà présent
-				if(touche == 46 && ponctuationPresente) e.preventDefault(); 
+				if(touche == 46 && ponctuationPresente) e.preventDefault();
 				// virgule déjà présente
-				if(touche == 44 && ponctuationPresente) e.preventDefault(); 
+				if(touche == 44 && ponctuationPresente) e.preventDefault();
 				// 2 décimales
 				if(val.match(/[\.\,][0-9][0-9]/) && chiffre && e.currentTarget && e.currentTarget.selectionStart > val.length - 3) e.preventDefault();
 			}
@@ -297,25 +296,25 @@
 			{
 				if(touche != 8 && touche != 0 && !chiffre) e.preventDefault();
 			}
-			
+
 			if(callbackKeypress) callbackKeypress();
 			return e;
 		});
-		
+
 		// A chaque touche pressée
 		champ.keyup(function(e)
 		{
 			var touche = e.which;
-			
+
 			// touche "retour"
 			if(touche == 8)
 			{
-				if(callbackKeypress) callbackKeypress(); 
+				if(callbackKeypress) callbackKeypress();
 				return e;
 			}
 		});
-		
-		
+
+
 		// A chaque fois que l'on quitte le champ
 		champ.blur(function()
 		{
@@ -323,8 +322,8 @@
 			if(callbackBlur) callbackBlur();
 		});
     };
-	
-	
+
+
 	/**
 	 * Nettoie les champs après la saisie
 	 * $(champ).nettoyageChamps();
@@ -334,27 +333,27 @@
 		var champ = $(this);
 		var val = champ.attr('value');
 		var float = champ.hasClass('num_float');
-		
+
 		// Si quelque chose a été saisi
 		if(val)
 		{
 			// Remplacement de toutes les virgules par des points
 			if(val.indexOf(',') != -1) val = val.replace(',', '.');
-			
+
 			// Si un point a été saisi sans chiffre
 			if(val.indexOf('.') != -1 && val.length == 1) val = ''; //val = '0';
-			
+
 			// Un nombre commençant par 0 peut être interprété comme étant en octal
 			if(val.indexOf('0') == 0 && val.length > 1) val = val.substring(1);
-			
+
 			// Comparaison nombre entier / flottant
-			if(float || parseInt(val) != parseFloat(val)) val = parseFloat(val).toFixed(2);		
+			if(float || parseInt(val) != parseFloat(val)) val = parseFloat(val).toFixed(2);
 			else val = parseInt(val);
 		}
 		// Si rien n'a été saisi
 		//else val = 0;
 		else val = '';
-		
+
 		// Si ce n'est pas un nombre (ex : copier/coller d'un texte)
 		if(isNaN(val)) val = ''; //val = 0;
 
@@ -365,33 +364,33 @@
 		}*/
 		champ.attr('value', val);
 	};
-        
+
         $.fn.nettoyageChampsWithFourPrecision = function()
 	{
 		var champ = $(this);
 		var val = champ.attr('value');
 		var float = champ.hasClass('num_float');
-		
+
 		// Si quelque chose a été saisi
 		if(val)
 		{
 			// Remplacement de toutes les virgules par des points
 			if(val.indexOf(',') != -1) val = val.replace(',', '.');
-			
+
 			// Si un point a été saisi sans chiffre
 			if(val.indexOf('.') != -1 && val.length == 1) val = ''; //val = '0';
-			
+
 			// Un nombre commençant par 0 peut être interprété comme étant en octal
 			if(val.indexOf('0') == 0 && val.length > 1) val = val.substring(1);
-			
+
 			// Comparaison nombre entier / flottant
-			if(float || parseInt(val) != parseFloat(val)) val = parseFloat(val).toFixed(4);		
+			if(float || parseInt(val) != parseFloat(val)) val = parseFloat(val).toFixed(4);
 			else val = parseInt(val);
 		}
 		// Si rien n'a été saisi
 		//else val = 0;
 		else val = '';
-		
+
 		// Si ce n'est pas un nombre (ex : copier/coller d'un texte)
 		if(isNaN(val)) val = ''; //val = 0;
 
@@ -402,58 +401,58 @@
 		}*/
 		champ.attr('value', val);
 	};
-        
-        
+
+
         /**
         * Initialisation des Popups des détails
         * $.initDetailsPopups();
         ******************************************/
         $.initDetailsPopups = function()
-        {      
+        {
             $('.drm_details_form .drm_details_remove').live('click',function()
             {
                 $(this).parent().parent().remove();
                 var lignes = $('.drm_details_tableBody tr');
-                
+
                 if(lignes.length <=1 ){
                     $('.drm_details_addTemplate').trigger('click');
-                } 
-                $.fancybox.update();	
+                }
+                $.fancybox.update();
 		$.majSommeLabelBind();
             });
-            
+
             $('.drm_details_annuler').live('click',function()
             {
                 $.fancybox.close();
                 return false;
             });
-             
+
         };
-        
+
         $.unbindDetailsPopup = function()
-        {            
+        {
              $('.drm_details_addTemplate').unbind();
              $('.drm_details_remove').unbind();
              $('.drm_details_form').unbind();
         };
-        
+
         $.bindAddTemplateLien = function()
         {
             $('.drm_details_addTemplate').bind('click',function()
             {
                 var content = $($('.template_details').html().replace(/var---nbItem---/g, UUID.generate()));
-                $('.drm_details_tableBody tr:last').before(content);                
+                $('.drm_details_tableBody tr:last').before(content);
                 $('.autocomplete').combobox();
                 $('.champ_datepicker input').initDatepicker();
                 $.majSommeLabel();
-                $.fancybox.update();                
+                $.fancybox.update();
             });
         }
 
         $.fn.initDetailsPopup = function(colonne){
-                
-            var input = $(this); 
-            
+
+            var input = $(this);
+
             $('.autocomplete').combobox();
             $('.champ_datepicker input').initDatepicker();
             $.majSommeLabel();
@@ -491,19 +490,19 @@
 
                 return false;
             });
-         };   
-         
+         };
+
         $.fn.initDatepicker = function()
         {
              $(this).datepicker({showOn: "button",
                                  buttonImage: "/images/pictos/pi_calendrier.png",
-                                 buttonImageOnly: true,  
+                                 buttonImageOnly: true,
                                  dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
-                                 monthNames: ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Décembre"], 
-                                 dateFormat: 'dd/mm/yy', 
-                                 firstDay:1}); 
+                                 monthNames: ["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Décembre"],
+                                 dateFormat: 'dd/mm/yy',
+                                 firstDay:1});
         };
-        
+
         $.majSommeLabel = function()
         {
 	    $.majSommeLabelBind = function()
@@ -516,11 +515,11 @@
                     var vol_val_float = parseFloat(vol_val);
                     if(isNaN(vol_val_float)) return true;
                     vol+=vol_val_float;
-                }); 
+                });
                 $('.drm_details_volume_total').text(vol.toFixed(2));
             }
             $('.drm_details_tableBody td.volume').unbind();
             $('.drm_details_tableBody td.volume').bind('keyup', $.majSommeLabelBind);
         }
-         	
+
 })(jQuery);
