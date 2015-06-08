@@ -46,19 +46,19 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
         $this->getDomaines();
         $this->getMillesimes();
-        $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->getProduits()), array('class' => 'autocomplete')));
-        $this->setWidget('millesime', new sfWidgetFormChoice(array('choices' => $this->millesimes), array('class' => 'autocomplete permissif')));
+        $this->setWidget('produit', new bsWidgetFormChoice(array('choices' => $this->getProduits()), array('class' => 'autocomplete')));
+        $this->setWidget('millesime', new bsWidgetFormChoice(array('choices' => $this->millesimes), array('class' => 'autocomplete permissif')));
         $this->setWidget('categorie_vin', new bsWidgetFormChoice(array('choices' => $this->getCategoriesVin(), 'expanded' => true, 'inline' => true)));
-        $this->setWidget('domaine', new sfWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
-        $this->setWidget('raisin_quantite', new sfWidgetFormInput());
-        $this->setWidget('jus_quantite', new sfWidgetFormInput());
-        $this->setWidget('bouteilles_quantite', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));
+        $this->setWidget('domaine', new bsWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
+        $this->setWidget('raisin_quantite', new bsWidgetFormInput());
+        $this->setWidget('jus_quantite', new bsWidgetFormInput());
+        $this->setWidget('bouteilles_quantite', new bsWidgetFormInput(array(), array('autocomplete' => 'off')));
         $contenance = array();
         foreach (array_keys(VracClient::getInstance()->getContenances()) as $c) {
             $contenance[$c] = $c;
         }
         $this->setWidget('bouteilles_contenance_libelle', new sfWidgetFormChoice(array('choices' => $contenance)));
-        $this->setWidget('prix_initial_unitaire', new sfWidgetFormInput());
+        $this->setWidget('prix_initial_unitaire', new bsWidgetFormInput());
 
         $this->widgetSchema->setLabels(array(
             'type_transaction' => 'Type de transaction',
@@ -102,7 +102,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
         if ($this->getObject()->hasPrixVariable()) {
             $this->getWidget('prix_initial_unitaire')->setLabel('Prix initial');
-            $this->setWidget('prix_unitaire', new sfWidgetFormInput(array('label' => 'Prix définitif')));
+            $this->setWidget('prix_unitaire', new bsWidgetFormInput(array('label' => 'Prix définitif')));
             $this->setValidator('prix_unitaire', new sfValidatorNumber(array('required' => false)));
         }
 

@@ -90,7 +90,7 @@
                 <?php echo $form['jus_quantite']->renderError(); ?>
                 <?php echo $form['jus_quantite']->renderLabel("Volume proposé :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['jus_quantite']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['jus_quantite']->render(); ?>
                 </div>
             </div>
 
@@ -98,7 +98,7 @@
                 <?php echo $form['raisin_quantite']->renderError(); ?>
                 <?php echo $form['raisin_quantite']->renderLabel("Quantité de raisins :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['raisin_quantite']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['raisin_quantite']->render(); ?>
                 </div>
             </div>
 
@@ -106,7 +106,7 @@
                 <?php echo $form['prix_initial_unitaire']->renderError(); ?>
                 <?php echo $form['prix_initial_unitaire']->renderLabel("Prix :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['prix_initial_unitaire']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['prix_initial_unitaire']->render(); ?>
                 </div>
             </div>
 
@@ -115,7 +115,7 @@
                 <?php echo $form['prix_unitaire']->renderError(); ?>
                 <?php echo $form['prix_unitaire']->renderLabel("Prix définitif :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['prix_unitaire']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['prix_unitaire']->render(); ?>
                 </div>
             </div>
             <?php endif; ?>
@@ -131,7 +131,7 @@
 
             <?php if ($form->getObject()->hasPrixVariable()): ?>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Prix définitif total</label>
+                <label class="col-sm-4 control-label">Prix définitif total :</label>
                 <div class="col-sm-8"><p class="form-control-static"><?php echoFloat($form->getObject()->prix_total) ?> <?php if(!is_null($form->getObject()->prix_total)):?>€<?php endif; ?></p></div>
             </div>
             <?php endif; ?>

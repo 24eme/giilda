@@ -52,7 +52,7 @@ endif;
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
-            <div class="form-group">
+            <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>" >
                 <?php echo $form['vendeur_identifiant']->renderError(); ?>
                 <?php echo $form['vendeur_identifiant']->renderLabel("Vendeur :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-6">
@@ -69,7 +69,7 @@ endif;
                 <?php endif; ?>
             </div>
            
-            <div class="form-group">
+            <div class="form-group <?php if($form['acheteur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['acheteur_identifiant']->renderError(); ?>
                 <?php echo $form['acheteur_identifiant']->renderLabel("Acheteur :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-6">
@@ -85,7 +85,7 @@ endif;
                 </div>
                 <?php endif; ?>
             </div>
-            <div class="form-group">
+            <div class="form-group <?php if($form['interne']->hasError()): ?>has-error<?php endif; ?>">
                 <div class="col-sm-offset-2 col-sm-10">
                     <?php echo $form['interne']->renderError(); ?>
                     <div class="checkbox">
@@ -96,7 +96,7 @@ endif;
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group <?php if($form['mandataire_exist']->hasError()): ?>has-error<?php endif; ?>">
                 <div class="col-sm-offset-2 col-sm-10">
                     <?php echo $form['mandataire_exist']->renderError(); ?>
                     <div class="checkbox">
@@ -107,14 +107,14 @@ endif;
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group <?php if($form['mandatant']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['mandatant']->renderError(); ?>
                 <?php echo $form['mandatant']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-10">
                     <?php echo $form['mandatant']->render(); ?>
                 </div>
             </div>      
-            <div class="form-group">
+            <div class="form-group <?php if($form['mandataire_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['mandataire_identifiant']->renderError(); ?>
                 <?php echo $form['mandataire_identifiant']->renderLabel("Mandataire :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-6">
@@ -131,7 +131,7 @@ endif;
                 <?php endif; ?>
             </div>
             <?php if (isset($form['commercial'])): ?>
-            <div class="form-group">
+            <div class="form-group <?php if($form['commercial']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['commercial']->renderError(); ?>
                 <?php echo $form['commercial']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-10">

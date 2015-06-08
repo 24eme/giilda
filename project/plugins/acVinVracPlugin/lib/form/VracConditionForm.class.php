@@ -67,8 +67,6 @@ class VracConditionForm extends acCouchdbObjectForm {
             'commentaire' => new sfValidatorString(array('required' => false)),
         ));
 
-
-
         if (!$this->isTeledeclarationMode) {
             $this->setWidget('cvo_nature', new sfWidgetFormChoice(array('choices' => $this->getCvoNature())));
             $this->getWidget('cvo_nature')->setLabel("Nature de la transaction");
