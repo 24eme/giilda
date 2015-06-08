@@ -8,12 +8,10 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="100"
    height="125"
    id="svg3114"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
    sodipodi:docname="vrac.svg">
   <defs
      id="defs3116" />
@@ -22,26 +20,12 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="7.9195959"
-     inkscape:cx="57.052774"
-     inkscape:cy="24.749727"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
      showgrid="false"
      showguides="true"
-     inkscape:guide-bbox="true"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0"
-     inkscape:window-width="1600"
-     inkscape:window-height="834"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1"
-     inkscape:snap-global="false">
+     fit-margin-bottom="0">
     <sodipodi:guide
        orientation="0,1"
        position="9.6280165,0"
@@ -49,19 +33,8 @@
   </sodipodi:namedview>
   <metadata
      id="metadata3119">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Calque 1"
-     inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-0.03995158,1.2985379)">
     <path
@@ -70,7 +43,6 @@
        id="path41" />
     <path
        sodipodi:nodetypes="cccccc"
-       inkscape:connector-curvature="0"
        id="path61"
        d="m 42.78151,-1.2938111 c 5.043498,0.018167 10.090478,-0.036666 15.131797,0.02725 3.405215,0.83704185 5.762419,3.8116509 6.976373,6.3342303 -9.89982,0 -19.799628,0 -29.699448,0 1.430157,-2.4167362 3.221319,-4.90468813 6.007093,-6.0689743 0.535594,-0.2104457 1.112519,-0.2308168 1.584185,-0.2925061 z" />
   </g>

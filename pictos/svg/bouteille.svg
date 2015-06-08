@@ -8,12 +8,10 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="100"
    height="125"
    id="svg3114"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
    sodipodi:docname="bouteille.svg">
   <defs
      id="defs3116" />
@@ -24,15 +22,6 @@
      borderopacity="1.0" />
   <metadata
      id="metadata3119">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
   </metadata>
   <g
      id="layer1"
