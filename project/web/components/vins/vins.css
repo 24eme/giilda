@@ -1,0 +1,47 @@
+/*
+  Icon Font: vins
+*/
+
+@font-face {
+  font-family: "vins";
+  src: url("./vins.eot");
+  src: url("./vins.eot?#iefix") format("embedded-opentype"),
+       url("./vins.woff") format("woff"),
+       url("./vins.ttf") format("truetype"),
+       url("./vins.svg#vins") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "vins";
+    src: url("./vins.svg#vins") format("svg");
+  }
+}
+
+[data-icon]:before { content: attr(data-icon); }
+
+[data-icon]:before,
+.icon-bouteille:before,
+.icon-mouts:before,
+.icon-raisins:before,
+.icon-vrac:before {
+  display: inline-block;
+  font-family: "vins";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.icon-bouteille:before { content: "\f100"; }
+.icon-mouts:before { content: "\f101"; }
+.icon-raisins:before { content: "\f102"; }
+.icon-vrac:before { content: "\f103"; }
