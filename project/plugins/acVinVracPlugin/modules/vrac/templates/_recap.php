@@ -27,7 +27,9 @@ $template_validation = (isset($template_validation))? $template_validation : fal
         <div class="panel panel-default">
             <div class="panel-heading">2. Le marché <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare() && ($isValidation || $isPrixVariable)) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?><?php endif; ?>" class="btn btn-xs btn-default pull-right">Modifier</a></div>
             <ul class="list-group">
+                <?php if (!$isTeledeclarationMode): ?>
                 <li class="list-group-item">En attente de l'original : <?php echo ($vrac->attente_original) ? 'Oui' : 'Non'; ?></li>
+                <?php endif; ?>
                 <li class="list-group-item">Type de transaction : <?php echo showType($vrac); ?></li>
                 <li class="list-group-item">Produit : <?php echo $vrac->produit_libelle ?> - <?php echo ($vrac->millesime)? $vrac->millesime : 'Non millésimé'; ?></li>
                 <?php if ($vrac->categorie_vin == VracClient::CATEGORIE_VIN_DOMAINE) : ?>
@@ -57,9 +59,13 @@ $template_validation = (isset($template_validation))? $template_validation : fal
             ?><a href="<?php echo url_for('vrac_condition', $vrac); ?><?php endif; ?>" class="btn btn-xs btn-default pull-right">Modifier</a></div>
             <ul class="list-group">
                 <li class="list-group-item">Type de contrat : <?php echo $vrac->type_contrat; ?></li>
+                <?php if (!$isTeledeclarationMode): ?>
                 <li class="list-group-item">Prix variable : <?php echo ($vrac->prix_variable) ? 'Oui' : 'Non'; echo ($vrac->prix_variable) ? ' (' . $vrac->part_variable . '%)' : ''; ?></li>
+                <?php endif; ?>
                 <li class="list-group-item">Nature de la transaction : <?php echo $vrac->cvo_nature; ?></li>
+                <?php if (!$isTeledeclarationMode): ?>
                 <li class="list-group-item">Repartition de la CVO : <?php if(isset(VracClient::$cvo_repartition[$vrac->cvo_repartition])): ?><?php echo VracClient::$cvo_repartition[$vrac->cvo_repartition] ?><?php endif; ?></li>
+                <?php endif; ?>
                 <?php if (!$isTeledeclarationMode): ?>
                     <li class="list-group-item">Date de signature : <?php echo $vrac->date_signature; ?></li>
                     <?php if ($vrac->date_campagne && !$sf_user->hasTeledeclarationVrac()) : ?>

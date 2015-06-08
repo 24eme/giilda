@@ -11,122 +11,136 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
 
 <?php include_partial('vrac/etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 2, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
+<div class="page-header">
+    <h2>Marché</h2>
+</div>
+
 <form action="" method="post" class="form-horizontal">
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
-    <div class="col-sm-12">
-        <div class="form-group">
-            <?php echo $form['attente_original']->renderError(); ?>
-            <?php echo $form['attente_original']->renderLabel("En attente de l'original :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['attente_original']->render(array('class' => 'form-control')); ?>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <?php echo $form['attente_original']->renderError(); ?>
+                <?php echo $form['attente_original']->renderLabel("En attente de l'original :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['attente_original']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <?php echo $form['type_transaction']->renderError(); ?>
-            <?php echo $form['type_transaction']->renderLabel("Type de transaction :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['type_transaction']->render(array('class' => 'form-control')); ?>
+            <div class="form-group">
+                <?php echo $form['type_transaction']->renderError(); ?>
+                <?php echo $form['type_transaction']->renderLabel("Type de transaction :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['type_transaction']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <?php echo $form['produit']->renderError(); ?>
-            <?php echo $form['produit']->renderLabel("Produit :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['produit']->render(array('class' => 'form-control')); ?>
+            <div class="form-group">
+                <?php echo $form['produit']->renderError(); ?>
+                <?php echo $form['produit']->renderLabel("Produit :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['produit']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <?php echo $form['millesime']->renderError(); ?>
-            <?php echo $form['millesime']->renderLabel("Millésime :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['millesime']->render(array('class' => 'form-control')); ?>
+            <div class="form-group">
+                <?php echo $form['millesime']->renderError(); ?>
+                <?php echo $form['millesime']->renderLabel("Millésime :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['millesime']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <?php echo $form['categorie_vin']->renderError(); ?>
-            <?php echo $form['categorie_vin']->renderLabel("Type :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['categorie_vin']->render(array('class' => 'form-control')); ?>
+            <div class="form-group">
+                <?php echo $form['categorie_vin']->renderError(); ?>
+                <?php echo $form['categorie_vin']->renderLabel("Type :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['categorie_vin']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <?php echo $form['domaine']->renderError(); ?>
-            <?php echo $form['domaine']->renderLabel("Domaine :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['domaine']->render(array('class' => 'form-control')); ?>
+            <div class="form-group">
+                <?php echo $form['domaine']->renderError(); ?>
+                <?php echo $form['domaine']->renderLabel("Domaine :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['domaine']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <?php if (isset($form['label'])): ?>
-        <div class="form-group">
-            <?php echo $form['label']->renderError(); ?>
-            <?php echo $form['label']->renderLabel("Label :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['label']->render(array('class' => 'form-control')); ?>
+            <?php if (isset($form['label'])): ?>
+            <div class="form-group">
+                <?php echo $form['label']->renderError(); ?>
+                <?php echo $form['label']->renderLabel("Label :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['label']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <div class="form-group">
-            <?php echo $form['bouteilles_contenance_libelle']->renderError(); ?>
-            <?php echo $form['bouteilles_contenance_libelle']->renderLabel("Contenance :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['bouteilles_contenance_libelle']->render(array('class' => 'form-control')); ?>
+            <div class="form-group">
+                <?php echo $form['bouteilles_contenance_libelle']->renderError(); ?>
+                <?php echo $form['bouteilles_contenance_libelle']->renderLabel("Contenance :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['bouteilles_contenance_libelle']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <?php echo $form['bouteilles_quantite']->renderError(); ?>
-            <?php echo $form['bouteilles_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['bouteilles_quantite']->render(array('class' => 'form-control')); ?>
+            <div class="form-group">
+                <?php echo $form['bouteilles_quantite']->renderError(); ?>
+                <?php echo $form['bouteilles_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['bouteilles_quantite']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <?php echo $form['jus_quantite']->renderError(); ?>
-            <?php echo $form['jus_quantite']->renderLabel("Volume proposé :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['jus_quantite']->render(array('class' => 'form-control')); ?>
+            <div class="form-group">
+                <?php echo $form['jus_quantite']->renderError(); ?>
+                <?php echo $form['jus_quantite']->renderLabel("Volume proposé :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['jus_quantite']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <?php echo $form['raisin_quantite']->renderError(); ?>
-            <?php echo $form['raisin_quantite']->renderLabel("Quantité de raisins :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['raisin_quantite']->render(array('class' => 'form-control')); ?>
+            <div class="form-group">
+                <?php echo $form['raisin_quantite']->renderError(); ?>
+                <?php echo $form['raisin_quantite']->renderLabel("Quantité de raisins :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['raisin_quantite']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <?php echo $form['prix_initial_unitaire']->renderError(); ?>
-            <?php echo $form['prix_initial_unitaire']->renderLabel("Prix :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['prix_initial_unitaire']->render(array('class' => 'form-control')); ?>
+            <div class="form-group">
+                <?php echo $form['prix_initial_unitaire']->renderError(); ?>
+                <?php echo $form['prix_initial_unitaire']->renderLabel("Prix :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['prix_initial_unitaire']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
-        </div>
 
-        <?php if ($form->getObject()->hasPrixVariable()): ?>
-        <div class="form-group">
-            <?php echo $form['prix_unitaire']->renderError(); ?>
-            <?php echo $form['prix_unitaire']->renderLabel("Prix définitif :", array('class' => 'col-sm-4 control-label')); ?>
-            <div class="col-sm-8">
-                <?php echo $form['prix_unitaire']->render(array('class' => 'form-control')); ?>
+            <?php if ($form->getObject()->hasPrixVariable()): ?>
+            <div class="form-group">
+                <?php echo $form['prix_unitaire']->renderError(); ?>
+                <?php echo $form['prix_unitaire']->renderLabel("Prix définitif :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['prix_unitaire']->render(array('class' => 'form-control')); ?>
+                </div>
             </div>
+            <?php endif; ?>
         </div>
-        <?php endif; ?>
+    </div>
 
-        <div class="form-group">
-            <div class="col-sm-offset-4 col-sm-8">
-              <button type="submit" class="btn btn-default">Suivant</button>
-            </div>
+    <div class="row">
+        <div class="col-xs-4 text-left">
+            <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-default">Etape précédente</a>
+        </div>
+        <div class="col-xs-4 text-center">
+            <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
+                <a class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>">Supprimer le brouillon</a>
+            <?php endif; ?>  
+        </div>
+        <div class="col-xs-4 text-right">
+            <button type="submit" class="btn btn-default">Étape suivante</button>
         </div>
     </div>
 </form>

@@ -51,6 +51,10 @@ endif;
 
 <?php include_partial('vrac/etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
+<div class="page-header">
+    <h2>Soussignés</h2>
+</div>
+
 <form action="<?php echo $urlForm; ?>" method="post" class="form-horizontal">
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
@@ -139,6 +143,23 @@ endif;
                   <button type="submit" class="btn btn-default">Suivant</button>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 text-left">
+            <?php if ($isTeledeclarationMode): ?>
+                <a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default">Annuler la saisie</a> 
+            <?php else: ?>                        
+                <a href="<?php echo url_for('vrac'); ?>" class="btn btn-default">Annuler la saisie</a> 
+            <?php endif; ?>
+        </div>
+        <div class="col-xs-4 text-center">
+            <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
+                <a class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>">Supprimer le brouillon</a>
+            <?php endif; ?>  
+        </div>
+        <div class="col-xs-4 text-right">
+            <button type="submit" class="btn btn-default">Étape suivante</button>
         </div>
     </div>
 </form>

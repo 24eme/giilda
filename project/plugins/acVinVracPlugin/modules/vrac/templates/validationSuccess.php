@@ -2,11 +2,13 @@
 
 <?php include_partial('vrac/etapes', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
-<?php if ($isTeledeclarationMode): ?>
-    <h2>Récapitulatif du contrat</h2>
-<?php else: ?>
-    <h2>Récapitulatif de la saisie</h2>
-<?php endif; ?>
+<div class="page-header">
+    <?php if ($isTeledeclarationMode): ?>
+        <h2>Récapitulatif du contrat</h2>
+    <?php else: ?>
+        <h2>Récapitulatif de la saisie</h2>
+    <?php endif; ?>
+</div>
 
 <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
