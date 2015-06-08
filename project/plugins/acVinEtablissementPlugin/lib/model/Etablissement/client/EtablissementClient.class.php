@@ -28,8 +28,8 @@ class EtablissementClient extends acCouchdbClient {
     const EXCLUSION_DRM_OUI = self::OUI;
     const EXCLUSION_DRM_NON = self::NON;
     const REGIME_CRD_PERSONNALISE = 'PERSONNALISE';
-    const REGIME_CRD_COLLECTIF_ACQUITTE = 'COLLECTIF_ACQUITTE';
-    const REGIME_CRD_COLLECTIF_SUSPENDU = 'COLLECTIF_SUSPENDU';
+    const REGIME_CRD_COLLECTIF_ACQUITTE = 'COLLECTIFACQUITTE';
+    const REGIME_CRD_COLLECTIF_SUSPENDU = 'COLLECTIFSUSPENDU';
 
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
         self::STATUT_SUSPENDU => 'SUSPENDU');

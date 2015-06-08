@@ -44,17 +44,18 @@ class DRMCrdsForm extends acCouchdbObjectForm {
 
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
-//        foreach ($values as $key => $value) {
-//            $matches = array();
-//            if (preg_match('/^(entrees|sorties|pertes)_(.*)$/', $key, $matches)) {
-//                $crdField = $matches[1];
-//                $crdKey = $matches[2];
-//                $crd = $this->drm->getOrAdd('crds')->getOrAdd($crdKey);
-//                $crd->{$crdField} = $value;
-//            }
-//        }
+        foreach ($values as $key => $value) {
+            $matches = array();
+            if (preg_match('/^(entrees|sorties|pertes)_(.*)_(.*)$/', $key, $matches)) {
+                $crdField = $matches[1];
+                $crdRegimeKey = $matches[2];
+                $crdKey = $matches[3];
+                $crd = $this->drm->getOrAdd('crds')->getOrAdd($crdRegimeKey)->getOrAdd($crdKey);
+                $crd->{$crdField} = $value;
+            }
+        }
         $this->drm->etape = DRMClient::ETAPE_VALIDATION;
-       // $this->drm->getCrds()->udpateStocksFinDeMois();
+        $this->drm->updateStockFinDeMoisAllCrds();
         $this->drm->save();
     }
 

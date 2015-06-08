@@ -3,7 +3,7 @@
     <?php echo $crdsForms->renderGlobalErrors(); ?>
     <?php echo $crdsForms->renderHiddenFields(); ?>  
     <?php foreach ($allCrdsByRegimeAndByGenre as $regime => $crdAllGenre): ?>
-        <h2><?php echo EtablissementClient::$regimes_crds_libelles_longs[$regime]; ?></h2>
+        <p>Votre régime de CRD : <?php echo EtablissementClient::$regimes_crds_libelles_longs[$regime]; ?></p>
         <?php foreach ($crdAllGenre as $genre => $crds): ?>
          <h2><?php echo $genre; ?></h2>
             <table id="table_drm_crds" class="table_recap">
@@ -31,14 +31,11 @@
                 </tbody>
             </table>
             <br/>
-            <div class="drm_add_crd_categorie">
-                <a class="btn_majeur ajout_crds_popup" href="#add_crds">Ajouter CRD</a> 
-            </div>
-            <br/>
+            
         <?php endforeach; ?>
-            <?php $genreProduit = 'TRANQ'; ?>
+            <br/>
             <div class="drm_add_crd_categorie">
-                <a class="btn_majeur ajout_crds_popup" href="#add_crds _<?php echo $regime; ?>_<?php echo $genreProduit; ?>">Ajouter CRD</a> 
+                <a class="btn_majeur ajout_crds_popup" href="#add_crds_<?php echo $regime; ?>">Ajouter CRD</a> 
             </div>
             <br/>
     <?php endforeach; ?>
