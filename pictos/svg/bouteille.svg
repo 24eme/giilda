@@ -14,34 +14,14 @@
    id="svg3114"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="vrac.svg">
+   sodipodi:docname="bouteille.svg">
   <defs
      id="defs3116" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
      bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="145.12056"
-     inkscape:cy="56.518365"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     showguides="true"
-     inkscape:guide-bbox="true"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-right="0"
-     fit-margin-bottom="0"
-     inkscape:window-width="1600"
-     inkscape:window-height="834"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1"
-     inkscape:snap-global="true" />
+     borderopacity="1.0" />
   <metadata
      id="metadata3119">
     <rdf:RDF>
@@ -50,13 +30,11 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Calque 1"
-     inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-0.03995158,1.2985379)">
     <g
@@ -66,54 +44,14 @@
        transform="matrix(-1.1842867,0,0,1.1077257,705.4422,-438.53727)"
        id="g51-7" />
     <g
-       transform="matrix(1.2565664,0,0,1.2565664,-201.53604,-507.22929)"
-       id="g85" />
-    <g
-       id="g3252"
-       transform="translate(0,-85.593428)">
-      <g
-         id="g63"
-         transform="translate(-665.88355,-294.57711)">
-        <path
-           id="path65"
-           d="m 692.99,421.008 v 83.82 h 45.867 v -84.209 l -16.868,-18.603 h -12.131 l -16.868,18.992 z"
-           inkscape:connector-curvature="0" />
-        <path
-           id="path67"
-           d="m 710.188,378.872 h 11.477 v 17.053 h -11.477 v -17.053 z"
-           inkscape:connector-curvature="0" />
-        <path
-           id="path69"
-           d="m 698.545,436.053 h 34.58 v 17.611 h -34.58 v -17.611 z"
-           inkscape:connector-curvature="0" />
-        <path
-           id="path71"
-           d="m 730.015,458.129 h 1.894 v 42.068 h -1.894 v -42.068 z"
-           inkscape:connector-curvature="0" />
-        <path
-           id="path73"
-           d="m 730.056,420.934 h 1.745 v 9.461 h -1.745 v -9.461 z"
-           inkscape:connector-curvature="0" />
-      </g>
-      <g
-         id="g75"
-         transform="translate(-665.79505,-294.57711)">
-        <path
-           id="path77"
-           d="m 698.545,436.053 h 34.58 v 17.611 h -34.58 v -17.611 z"
-           inkscape:connector-curvature="0"
-           style="fill:#ffffff" />
-        <path
-           id="path79"
-           d="m 730.015,458.129 h 1.894 v 42.068 h -1.894 v -42.068 z"
-           inkscape:connector-curvature="0"
-           style="fill:#ffffff" />
-        <path
-           id="path81"
-           d="m 730.056,420.934 h 1.745 v 9.461 h -1.745 v -9.461 z"
-           inkscape:connector-curvature="0"
-           style="fill:#ffffff" />
-      </g>
+       id="g3087">
+      <path
+         d="m 45.283595,-1.29854 h 9.512714 V 16.825889 H 45.283595 V -1.29854 z"
+         id="path67" />
+      <path
+         id="path65"
+         transform="translate(0.03995158,-1.2985379)"
+         d="M 45.1875 20.1875 C 40.670765 25.543926 30.522131 32.611984 31.03125 40.21875 C 31.04347 68.479607 31.0625 125 31.0625 125 L 61.71875 125 L 61.71875 82.09375 L 63.28125 82.09375 L 63.28125 125 L 68.9375 125 L 68.96875 40.28125 C 69.5417 32.754955 60.749613 26.16665 54.6875 20.1875 L 45.1875 20.1875 z M 61.75 44.1875 L 63.1875 44.1875 L 63.1875 53.8125 L 61.75 53.8125 L 61.75 44.1875 z M 35.71875 59.59375 L 64.28125 59.59375 L 64.28125 77.5625 L 35.71875 77.5625 L 35.71875 59.59375 z " />
     </g>
   </g>
 </svg>
