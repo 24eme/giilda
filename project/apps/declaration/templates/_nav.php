@@ -1,5 +1,5 @@
 <div id="navbar" class="navbar-collapse collapse">
-<ul><?php if ($sf_user->hasCredential('transactions')) : 
+<ul class="nav navbar-nav"><?php if ($sf_user->hasCredential('transactions')) : 
      include_component('global', 'navItem', array(
             'libelle' => 'DRM',
             'prefix' => 'drm',
