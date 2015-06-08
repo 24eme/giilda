@@ -1,13 +1,39 @@
-<?php
-/* Fichier : validationSuccess.php
- * Description : Fichier php correspondant à la vue de vrac/XXXXXXXXXXX/validation
- * Formulaire d'enregistrement de la partie validation d'un contrat donnant le récapitulatif
- * Auteur : Petit Mathurin - mpetit[at]actualys.com
- * Version : 1.0.0 
- * Derniere date de modification : 28-05-12
- */
-use_helper('Vrac');
-?>
+<?php use_helper('Vrac'); ?>
+
+<?php include_partial('vrac/etapes', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+
+<?php if ($isTeledeclarationMode): ?>
+    <h2>Récapitulatif du contrat</h2>
+<?php else: ?>
+    <h2>Récapitulatif de la saisie</h2>
+<?php endif; ?>
+
+<?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+
+<div class="row">
+    <div class="col-xs-4 text-left">
+        <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-default">Etape précédente</a>
+    </div>
+    <div class="col-xs-4 text-center">
+        <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
+            <a class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>" style="margin-left: 10px">Supprimer le brouillon
+            </a>
+        <?php endif; ?>
+    </div>
+    <div class="col-xs-4 text-right">
+        <?php if ($validation->isValide()) : ?>
+            <?php if ($isTeledeclarationMode): ?>
+                <?php if ($signatureDemande): ?>
+                    <a href="#signature_popup_content" class="btn btn-default">Signer le contrat</a> 
+                    <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validation' => true)); ?>
+                <?php endif; ?>
+            <?php else: ?>
+                <a class="btn btn-default">Terminer la saisie</a>  
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+</div>
+
 <script type="text/javascript">
     $(document).ready(function()
     {
@@ -15,7 +41,7 @@ use_helper('Vrac');
     });
 </script>
 
-<section id="principal">
+<section id="principal" style="display: none">
     <?php include_partial('headerVrac', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>        
     <div id="contenu_etape"> 
         <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation', $vrac) ?>">
