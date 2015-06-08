@@ -4,7 +4,7 @@
 
 Dependance :
 
-> sudo aptitude install couchdb libapache2-mod-php5 php5-cli php5-curl
+> sudo aptitude install couchdb libapache2-mod-php5 php5-cli php5-curl curl
 
 Get the source project :
 
