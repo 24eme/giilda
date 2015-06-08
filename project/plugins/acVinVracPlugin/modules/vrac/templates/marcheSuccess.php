@@ -122,17 +122,17 @@
 
             <div class="form-group">
                 <?php if ($form->getObject()->hasPrixVariable()): ?>
-                <label class="col-sm-4 control-label">Prix initial total</label>
+                <label class="col-sm-4 control-label">Prix initial total :</label>
                 <?php else: ?>
-                <label class="col-sm-4 control-labell">Prix total</label>
+                <label class="col-sm-4 control-label">Prix total :</label>
                 <?php endif; ?>
-                <div class="col-sm-8"><?php echoFloat($form->getObject()->prix_initial_total) ?> <?php if(!is_null($form->getObject()->prix_initial_total)):?>€<?php endif; ?></div>
+                <div class="col-sm-8"><p class="form-control-static"><?php echoFloat($form->getObject()->prix_initial_total) ?> <?php if(!is_null($form->getObject()->prix_initial_total)):?>€<?php endif; ?></p></div>
             </div>
 
             <?php if ($form->getObject()->hasPrixVariable()): ?>
             <div class="form-group">
                 <label class="col-sm-4 control-label">Prix définitif total</label>
-                <div class="col-sm-8"><?php echoFloat($form->getObject()->prix_total) ?> <?php if(!is_null($form->getObject()->prix_total)):?>€<?php endif; ?></div>
+                <div class="col-sm-8"><p class="form-control-static"><?php echoFloat($form->getObject()->prix_total) ?> <?php if(!is_null($form->getObject()->prix_total)):?>€<?php endif; ?></p></div>
             </div>
             <?php endif; ?>
 

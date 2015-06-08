@@ -62,7 +62,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
 
         $this->setWidget('mandataire_exist', new sfWidgetFormInputCheckbox());
 
-        $this->setWidget('mandatant', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => true, 'choices' => VracClient::getInstance()->getMandatants())));
+        $this->setWidget('mandatant', new bsWidgetFormChoice(array('expanded' => true, 'inline' => true, 'multiple' => true, 'choices' => VracClient::getInstance()->getMandatants())));
 
         $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
 

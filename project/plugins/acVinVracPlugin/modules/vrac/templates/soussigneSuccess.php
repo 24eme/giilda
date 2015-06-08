@@ -1,12 +1,4 @@
 <?php
-/* Fichier : soussigneSuccess.php
- * Description : Fichier php correspondant à la vue de vrac/nouveau-soussigne
- * Formulaire d'enregistrement de la partie soussigne des contrats (modification de contrat)
- * Auteur : Petit Mathurin - mpetit[at]actualys.com
- * Version : 1.0.0 
- * Derniere date de modification : 29-05-12
- */
-//if (!$isTeledeclarationMode) :
 if ($nouveau) :
     ?>
     <script type="text/javascript">
@@ -119,7 +111,7 @@ endif;
                 <?php echo $form['mandatant']->renderError(); ?>
                 <?php echo $form['mandatant']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-10">
-                    <?php echo $form['mandatant']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['mandatant']->render(); ?>
                 </div>
             </div>      
             <div class="form-group">
