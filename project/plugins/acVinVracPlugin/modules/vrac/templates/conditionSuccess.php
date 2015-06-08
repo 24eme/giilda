@@ -13,7 +13,7 @@
                 <?php echo $form['type_contrat']->renderError(); ?>
                 <?php echo $form['type_contrat']->renderLabel("Type de contrat :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['type_contrat']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['type_contrat']->render(); ?>
                 </div>
             </div>
 
@@ -22,7 +22,7 @@
                     <?php echo $form['prix_variable']->renderError(); ?>
                     <?php echo $form['prix_variable']->renderLabel("Partie de prix variable ?", array('class' => 'col-sm-4 control-label')); ?>
                     <div class="col-sm-8">
-                        <?php echo $form['prix_variable']->render(array('class' => 'form-control')); ?>
+                        <?php echo $form['prix_variable']->render(); ?>
                     </div>
                 </div>
             <?php endif; ?>

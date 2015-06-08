@@ -16,7 +16,7 @@
                 <?php echo $form['attente_original']->renderError(); ?>
                 <?php echo $form['attente_original']->renderLabel("En attente de l'original :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['attente_original']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['attente_original']->render(); ?>
                 </div>
             </div>
 
@@ -24,7 +24,7 @@
                 <?php echo $form['type_transaction']->renderError(); ?>
                 <?php echo $form['type_transaction']->renderLabel("Type de transaction :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['type_transaction']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['type_transaction']->render(); ?>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
                 <?php echo $form['categorie_vin']->renderError(); ?>
                 <?php echo $form['categorie_vin']->renderLabel("Type :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['categorie_vin']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['categorie_vin']->render(); ?>
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
                 <?php echo $form['label']->renderError(); ?>
                 <?php echo $form['label']->renderLabel("Label :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['label']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['label']->render(); ?>
                 </div>
             </div>
             <?php endif; ?>

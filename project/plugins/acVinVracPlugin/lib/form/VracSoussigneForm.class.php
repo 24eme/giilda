@@ -37,11 +37,11 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $vendeurs = $this->getRecoltants();
             $acheteurs = $this->getNegociants();
             $commerciaux = $this->getCommerciaux();
-            $this->setWidget('vendeur_identifiant', new sfWidgetFormChoice(array('choices' => $vendeurs), array('class' => 'autocomplete')));
-            $this->setWidget('acheteur_identifiant', new sfWidgetFormChoice(array('choices' => $acheteurs), array('class' => 'autocomplete')));
-            $this->setWidget('commercial', new sfWidgetFormChoice(array('choices' => $commerciaux), array('class' => 'autocomplete')));
+            $this->setWidget('vendeur_identifiant', new bsWidgetFormChoice(array('choices' => $vendeurs), array('class' => 'autocomplete')));
+            $this->setWidget('acheteur_identifiant', new bsWidgetFormChoice(array('choices' => $acheteurs), array('class' => 'autocomplete')));
+            $this->setWidget('commercial', new bsWidgetFormChoice(array('choices' => $commerciaux), array('class' => 'autocomplete')));
 
-            $this->setValidator('vendeur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
+            $this->setValidator('vendeur_identifiant', new bsValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
             if ($this->isAcheteurResponsable) {
                 $acheteursChoiceValides[] = 'ETABLISSEMENT-' . $this->getObject()->createur_identifiant;
             } else {
@@ -58,9 +58,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         }
 
 
-        $this->setWidget('interne', new sfWidgetFormInputCheckbox());
+        $this->setWidget('interne', new bsWidgetFormInputCheckbox());
 
-        $this->setWidget('mandataire_exist', new sfWidgetFormInputCheckbox());
+        $this->setWidget('mandataire_exist', new bsWidgetFormInputCheckbox());
 
         $this->setWidget('mandatant', new bsWidgetFormChoice(array('expanded' => true, 'inline' => true, 'multiple' => true, 'choices' => VracClient::getInstance()->getMandatants())));
 

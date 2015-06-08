@@ -33,22 +33,22 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $originalArray = array('0' => 'Non', '1' => 'Oui');
 
         if (!$this->isTeledeclarationMode) {
-            $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray, 'expanded' => false)));
+            $this->setWidget('attente_original', new bsWidgetFormChoice(array('choices' => $originalArray, 'expanded' => true, 'inline' => true)));
             $this->setValidator('attente_original', new sfValidatorInteger(array('required' => true)));
             $this->getWidget('attente_original')->setLabel("En attente de l'original ?");
 
-            $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->getLabels(), 'multiple' => true, 'expanded' => false)));
+            $this->setWidget('label', new bsWidgetFormChoice(array('choices' => $this->getLabels(), 'multiple' => true, 'expanded' => true, 'inline' => true)));
             $this->setValidator('label', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getLabels()))));
             $this->getWidget('label')->setLabel("Label");
         }
 
-        $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $this->getTypesTransaction(), 'expanded' => false)));
+        $this->setWidget('type_transaction', new bsWidgetFormChoice(array('choices' => $this->getTypesTransaction(), 'expanded' => true, 'inline' => true)));
 
         $this->getDomaines();
         $this->getMillesimes();
         $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->getProduits()), array('class' => 'autocomplete')));
         $this->setWidget('millesime', new sfWidgetFormChoice(array('choices' => $this->millesimes), array('class' => 'autocomplete permissif')));
-        $this->setWidget('categorie_vin', new sfWidgetFormChoice(array('choices' => $this->getCategoriesVin(), 'expanded' => false)));
+        $this->setWidget('categorie_vin', new bsWidgetFormChoice(array('choices' => $this->getCategoriesVin(), 'expanded' => true, 'inline' => true)));
         $this->setWidget('domaine', new sfWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
         $this->setWidget('raisin_quantite', new sfWidgetFormInput());
         $this->setWidget('jus_quantite', new sfWidgetFormInput());
