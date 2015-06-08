@@ -1,4 +1,4 @@
-all: project/cache project/log project/config/app.yml project/config/databases.yml project/web/declaration_dev.php
+all: project/cache project/log project/config/app.yml project/config/databases.yml project/web/declaration_dev.php project/web/components/vins/vins-preview.html
 
 project/cache:
 	mkdir project/cache
@@ -16,3 +16,6 @@ project/config/databases.yml:
 
 project/web/declaration_dev.php:
 	cp project/web/declaration_dev.php.example project/web/declaration_dev.php
+
+project/web/components/vins/vins-preview.html: project/web/components/vins/fontcustom.yml project/web/components/vins/svg/bouteille.svg  project/web/components/vins/svg/mouts.svg  project/web/components/vins/svg/raisins.svg  project/web/components/vins/svg/vrac.svg
+	cd project/web/components/vins ; fontcustom compile -c fontcustom.yml
