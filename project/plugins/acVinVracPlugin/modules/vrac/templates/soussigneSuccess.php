@@ -117,20 +117,20 @@ endif;
                     <h3 class="panel-title checkbox"><label class="bloc_condition col-xs-12" data-condition-cible="#bloc_mandataire"  for="<?php echo $form['mandataire_exist']->renderId(); ?>"><?php echo $form['mandataire_exist']->render(); ?>&nbsp;Mandataire
                         </label></h3>
                 </div>
-                <div id="bloc_mandataire" data-condition-value="0" class="panel-body bloc_conditionner">
+                <div id="bloc_mandataire" data-condition-value="1" class="panel-body bloc_conditionner">
                     <div class="row">
                         <div class="col-sm-8">
+                            <?php echo $form['mandataire_identifiant']->renderError(); ?>
+                            <div class="form-group <?php if($form['mandataire_identifiant']->hasError()): ?>has-error<?php endif; ?>">
+                                <div class="col-sm-12" id="mandataire_choice">
+                                    <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control')); ?>
+                                </div>
+                            </div>
                             <?php echo $form['mandatant']->renderError(); ?>
                             <div class="form-group <?php if($form['mandatant']->hasError()): ?>has-error<?php endif; ?>">
                                 <?php echo $form['mandatant']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
                                 <div class="col-sm-10">
                                     <?php echo $form['mandatant']->render(); ?>
-                                </div>
-                            </div>      
-                            <?php echo $form['mandataire_identifiant']->renderError(); ?>
-                            <div class="form-group <?php if($form['mandataire_identifiant']->hasError()): ?>has-error<?php endif; ?>">
-                                <div class="col-sm-12" id="mandataire_choice">
-                                    <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control')); ?>
                                 </div>
                             </div>
                             <?php if (isset($form['commercial'])): ?>
