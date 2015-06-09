@@ -157,7 +157,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         if (!isset($values['logement']) || !$values['logement']) {
             $values['logement_exist'] = false;
         }
-        if ($values['commercial']) {
+        if (isset($values['commercial']) && $values['commercial'])   {
             $this->getObject()->storeInterlocuteurCommercialInformations($values['commercial'], $this->getAnnuaire()->commerciaux->get($values['commercial']));
         } else {
             $this->getObject()->remove('interlocuteur_commercial');
