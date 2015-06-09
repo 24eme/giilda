@@ -154,7 +154,7 @@
                 </div>
             </div>
             
-            
+<?php /**            
             <div class="col-xs-6 pull-right">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -173,7 +173,7 @@
                     </div>
                 </div>
             </div>
-            
+      **/ ?>            
             
             
             </div>
