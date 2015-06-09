@@ -23,18 +23,30 @@ class DRMCrdsForm extends acCouchdbObjectForm {
         foreach ($this->crds as $regime => $crdAllGenre) {
             foreach ($crdAllGenre as $genre => $crds) {
                 foreach ($crds as $key => $crd) {
-                    $keyWidgetsSuffixe = $regime . '_' . $key;
-                    $this->setWidget('entrees_' . $keyWidgetsSuffixe, new sfWidgetFormInput());
-                    $this->setWidget('sorties_' . $keyWidgetsSuffixe, new sfWidgetFormInput());
-                    $this->setWidget('pertes_' . $keyWidgetsSuffixe, new sfWidgetFormInput());
+                    $keyWidgetsSuffixe = '_'.$regime . '_' . $key;
+                    $this->setWidget('entrees_achats' . $keyWidgetsSuffixe, new sfWidgetFormInput());
+                    $this->setWidget('entrees_retours' . $keyWidgetsSuffixe, new sfWidgetFormInput());
+                    $this->setWidget('entrees_excedents' . $keyWidgetsSuffixe, new sfWidgetFormInput());
 
-                    $this->widgetSchema->setLabel('entrees_' . $keyWidgetsSuffixe, 'Entrées');
-                    $this->widgetSchema->setLabel('sorties_' . $keyWidgetsSuffixe, 'Sortie');
-                    $this->widgetSchema->setLabel('pertes_' . $keyWidgetsSuffixe, 'Perte');
+                    $this->setWidget('sorties_utilisations' . $keyWidgetsSuffixe, new sfWidgetFormInput());
+                    $this->setWidget('sorties_destructions' . $keyWidgetsSuffixe, new sfWidgetFormInput());
+                    $this->setWidget('sorties_manquants' . $keyWidgetsSuffixe, new sfWidgetFormInput());
 
-                    $this->setValidator('entrees_' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
-                    $this->setValidator('sorties_' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
-                    $this->setValidator('pertes_' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+                    $this->widgetSchema->setLabel('entrees_achats' . $keyWidgetsSuffixe, 'Achats');
+                    $this->widgetSchema->setLabel('entrees_retours' . $keyWidgetsSuffixe, 'Retours');
+                    $this->widgetSchema->setLabel('entrees_excedents' . $keyWidgetsSuffixe, 'Excédents');
+
+                    $this->widgetSchema->setLabel('sorties_utilisations' . $keyWidgetsSuffixe, 'Utilisations');
+                    $this->widgetSchema->setLabel('sorties_destructions' . $keyWidgetsSuffixe, 'Destructions');
+                    $this->widgetSchema->setLabel('sorties_manquants' . $keyWidgetsSuffixe, 'Manquants');
+
+                    $this->setValidator('entrees_achats' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+                    $this->setValidator('entrees_retours' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+                    $this->setValidator('entrees_excedents' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+
+                    $this->setValidator('sorties_utilisations' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+                    $this->setValidator('sorties_destructions' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+                    $this->setValidator('sorties_manquants' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
                 }
             }
         }
@@ -46,7 +58,7 @@ class DRMCrdsForm extends acCouchdbObjectForm {
         parent::doUpdateObject($values);
         foreach ($values as $key => $value) {
             $matches = array();
-            if (preg_match('/^(entrees|sorties|pertes)_(.*)_(.*)$/', $key, $matches)) {
+            if (preg_match('/^(entrees_achats|entrees_retours|entrees_excedents|sorties_utilisations|sorties_destructions|sorties_manquants)_(.*)_(.*)$/', $key, $matches)) {
                 $crdField = $matches[1];
                 $crdRegimeKey = $matches[2];
                 $crdKey = $matches[3];
@@ -65,9 +77,14 @@ class DRMCrdsForm extends acCouchdbObjectForm {
             foreach ($crdAllGenre as $genre => $crds) {
                 foreach ($crds as $key => $crd) {
                     $keyWidgetsSuffixe = $regime . '_' . $key;
-                    $this->setDefault('entrees_' . $keyWidgetsSuffixe, ($crd->entrees) ? $crd->entrees : 0);
-                    $this->setDefault('sorties_' . $keyWidgetsSuffixe, ($crd->sorties) ? $crd->sorties : 0);
-                    $this->setDefault('pertes_' . $keyWidgetsSuffixe, ($crd->pertes) ? $crd->pertes : 0);
+                    $this->setDefault('entrees_achats_' . $keyWidgetsSuffixe, ($crd->entrees_achats) ? $crd->entrees_achats : 0);
+                    $this->setDefault('entrees_retours_' . $keyWidgetsSuffixe, ($crd->entrees_retours) ? $crd->entrees_retours : 0);
+                    $this->setDefault('entrees_excedents_' . $keyWidgetsSuffixe, ($crd->entrees_excedents) ? $crd->entrees_excedents : 0);
+                
+                     $this->setDefault('sorties_utilisations_' . $keyWidgetsSuffixe, ($crd->sorties_utilisations) ? $crd->sorties_utilisations : 0);
+                    $this->setDefault('sorties_destructions_' . $keyWidgetsSuffixe, ($crd->sorties_destructions) ? $crd->sorties_destructions : 0);
+                    $this->setDefault('sorties_manquants_' . $keyWidgetsSuffixe, ($crd->sorties_manquants) ? $crd->sorties_manquants : 0);
+                
                 }
             }
         }

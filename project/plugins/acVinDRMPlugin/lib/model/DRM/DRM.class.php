@@ -947,7 +947,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function initCrds() {
         $toRemoves = array();
         $allCrdsByRegimeAndByGenre = $this->getAllCrdsByRegimeAndByGenre();
-       
+
         foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
             foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
                 foreach ($crdsByRegime as $key => $crd) {
@@ -965,6 +965,27 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($toRemoves as $toRemove) {
             $this->crds->remove($toRemove);
         }
+    }
+
+    public function crdsInitDefault() {
+        foreach ($this->crds as $regime => $regimeCrds) {
+            $this->crds->get($regime)->crdsInitDefault($this->getAllGenres());
+        }    
+        
+        
+    }
+
+    public function getAllGenres() {
+        $genres = array();
+        foreach ($this->getProduitsDetails(true) as $hash => $detail) {
+            $genre = $detail->getCepage()->getCouleur()->getLieu()->getMention()->getAppellation()->getGenre()->getConfig();
+            if ($genre->getKey() == 'TRANQ') {
+                $genres[$genre->getKey()] = $genre->getKey();
+            } else {
+                $genres['MOUSSEUX'] = 'MOUSSEUX';
+            }
+        }
+        return $genres;
     }
 
     /*     * * FIN CRDS ** */

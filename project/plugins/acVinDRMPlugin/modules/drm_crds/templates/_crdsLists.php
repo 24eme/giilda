@@ -11,12 +11,22 @@
             <table id="table_drm_crds" class="table_recap">
                 <thead >
                     <tr>                        
-                        <th>CRD</th>
-                        <th>Stock début de mois</th>
-                        <th>Entrées</th>
-                        <th>Sorties</th>
-                        <th>Pertes</th>
-                        <th>Stock fin de mois</th>
+                        <th rowspan="2">CRD</th>
+                        <th rowspan="2">Stock</th>
+                        <th colspan="3">Entrées</th>
+                        <th colspan="3">Sorties</th>
+                        <th rowspan="2">Stock 31/01</th>
+                    </tr>
+                    <tr>                 
+
+                        <th>Achat</th>
+                        <th>Retour</th>
+                        <th>Excédents</th>
+
+                        <th>Util.</th>
+                        <th>Destr.</th>
+                        <th>Manquant</th>
+
                     </tr>
                 </thead>
                 <tbody class="drm_crds_list">
@@ -24,9 +34,12 @@
                         <tr class="crd_row" id="<?php echo $crdKey; ?>">                        
                             <td><?php echo $crd->getLibelle(); ?></td>
                             <td class="crds_debut_de_mois"><?php echo $crd->stock_debut; ?> <input type="hidden" value="<?php echo $crd->stock_debut; ?>"></td>
-                            <td class="crds_entrees"><?php echo $crdsForms['entrees_' . $regime . '_' . $crdKey]->render(); ?></td>
-                            <td class="crds_sorties"><?php echo $crdsForms['sorties_' . $regime . '_' . $crdKey]->render(); ?></td>
-                            <td class="crds_pertes"><?php echo $crdsForms['pertes_' . $regime . '_' . $crdKey]->render(); ?></td>
+                            <td class="crds_entreesAchats"><?php echo $crdsForms['entrees_achats_' . $regime . '_' . $crdKey]->render(); ?></td>
+                            <td class="crds_entreesRetours"><?php echo $crdsForms['entrees_retours_' . $regime . '_' . $crdKey]->render(); ?></td>
+                            <td class="crds_entreesExcedents"><?php echo $crdsForms['entrees_excedents_' . $regime . '_' . $crdKey]->render(); ?></td>
+                            <td class="crds_sortiesUtilisations"><?php echo $crdsForms['sorties_utilisations_' . $regime . '_' . $crdKey]->render(); ?></td>
+                            <td class="crds_sortiesDestructions"><?php echo $crdsForms['sorties_destructions_' . $regime . '_' . $crdKey]->render(); ?></td>
+                            <td class="crds_sortiesManquants"><?php echo $crdsForms['sorties_manquants_' . $regime . '_' . $crdKey]->render(); ?></td>
                             <td class="crds_fin_de_mois"><?php echo (is_null($crd->stock_fin)) ? "0" : $crd->stock_fin; ?></td>
                         </tr>
                     <?php endforeach; ?>
