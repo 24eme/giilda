@@ -13,7 +13,7 @@ if($actif == $num_etape+1) $liClass = 'active';
 
 <li class="<?php echo $liClass; ?>">
     <?php if($liClass != 'active'): ?>
-    <a <?php echo $href; ?>>
+    <a tabindex="-1" <?php echo $href; ?>>
         <?php echo $num_etape+1;?>.
         <?php echo $label; ?> 
     </a>    

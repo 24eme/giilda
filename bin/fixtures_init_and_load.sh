@@ -5,6 +5,14 @@ cd $(dirname $0)/..
 DBNAME=$(cat project/config/databases.yml | grep -A 4 couchdb | grep dbname | sed 's/.*:  *//')
 DBURL=$(cat project/config/databases.yml  | grep -A 4 couchdb | grep dsn | sed 's/.*:  *//')
 
+if test "$1"; then
+    echo "Pour supprimer la base, taper O comme Oui"
+    read oui
+    if test "$oui" = "O"; then
+	curl -s -X DELETE $DBURL$DBNAME
+    fi
+fi
+
 if ! curl -s $DBURL$DBNAME | grep true > /dev/null ; then
 	curl -s -X PUT $DBURL$DBNAME
 fi
@@ -23,7 +31,7 @@ curl -s -X PUT -d '{ "_id": "SOCIETE-7823700100", "type": "Societe", "identifian
 
 curl -s -X PUT -d '{"_id": "COMPTE-9223700100", "type": "Compte","identifiant": "9223700100","civilite": null,"prenom": null,"nom": "M. Actualys Négo","nom_a_afficher": "M. Actualys Négo","fonction": null,"commentaire": null,"origines": ["SOCIETE-9223700100"],"id_societe": "SOCIETE-9223700100","adresse_societe": 1,"adresse": "Le Giron","adresse_complementaire": null,"code_postal": "92100","commune": "BOULOGNE","compte_type": "SOCIETE","cedex": null,"pays": "FR","email": "contact@actualys.com","telephone_perso": "","telephone_bureau": "01.00.00.00.00","telephone_mobile": "01.00.00.00.00","fax": "","interpro": "INTERPRO-declaration","statut": "ACTIF","tags": {"automatique": ["societe"]},"droits": ["transactions"]}' $DBURL$DBNAME/COMPTE-9223700100
 
-curl -s -X PUT -d '{ "_id": "ETABLISSEMENT-9223700100", "type": "Etablissement", "cooperative": null, "interpro": "INTERPRO-declaration", "identifiant": "9223700100", "id_societe": "SOCIETE-9223700100", "statut": "ACTIF", "raisins_mouts": null, "exclusion_drm": null, "relance_ds": null, "recette_locale": { "id_douane": null, "nom": null, "ville": null }, "region": "HORS_REGION", "type_dr": null, "liaisons_operateurs": { }, "site_fiche": null, "compte": "COMPTE-9223700100", "num_interne": null, "raison_sociale": "M. Actualys Négo", "nom": "M. Actualys Viti", "cvi": null, "no_accises": null, "carte_pro": null, "famille": "NEGOCIANT", "sous_famille": "CAVE_PARTICULIERE", "email": null, "telephone": null, "fax": null, "commentaire": null, "siege": { "adresse": "Le Giron", "code_postal": "92100", "commune": "PARIS" }, "comptabilite": { "adresse": null, "code_postal": null, "commune": null } }' $DBURL$DBNAME/ETABLISSEMENT-9223700100
+curl -s -X PUT -d '{ "_id": "ETABLISSEMENT-9223700100", "type": "Etablissement", "cooperative": null, "interpro": "INTERPRO-declaration", "identifiant": "9223700100", "id_societe": "SOCIETE-9223700100", "statut": "ACTIF", "raisins_mouts": null, "exclusion_drm": null, "relance_ds": null, "recette_locale": { "id_douane": null, "nom": null, "ville": null }, "region": "HORS_REGION", "type_dr": null, "liaisons_operateurs": { }, "site_fiche": null, "compte": "COMPTE-9223700100", "num_interne": null, "raison_sociale": "M. Actualys Négo", "nom": "M. Actualys Négo", "cvi": null, "no_accises": null, "carte_pro": null, "famille": "NEGOCIANT", "sous_famille": "CAVE_PARTICULIERE", "email": null, "telephone": null, "fax": null, "commentaire": null, "siege": { "adresse": "Le Giron", "code_postal": "92100", "commune": "PARIS" }, "comptabilite": { "adresse": null, "code_postal": null, "commune": null } }' $DBURL$DBNAME/ETABLISSEMENT-9223700100
 
 curl -s -X PUT -d '{ "_id": "SOCIETE-9223700100", "type": "Societe", "identifiant": "9223700100", "type_societe": "NEGOCIANT", "raison_sociale": "M. Actualys Négo", "raison_sociale_abregee": "Actualys Négo", "statut": "ACTIF", "code_comptable_client": null, "code_comptable_fournisseur": null, "code_naf": null, "siret": null, "interpro": "INTERPRO-declaration", "no_tva_intracommunautaire": null, "email": "actualys@example.org", "telephone": "01.00.00.00.00", "fax": "", "commentaire": null, "siege": { "adresse": "rue Garnier", "code_postal": "92100", "commune": "St Germain", "pays": "FR" }, "cooperative": null, "enseignes": [ ], "compte_societe": "COMPTE-9223700100", "contacts": { "COMPTE-9223700100": { "nom": "M. Actualys Négo", "ordre": 0 } }, "etablissements": { "ETABLISSEMENT-9223700100": { "nom": "M. Actualys Négo", "ordre": null } }, "date_modification": "2015-02-20" }' $DBURL$DBNAME/SOCIETE-9223700100
 
