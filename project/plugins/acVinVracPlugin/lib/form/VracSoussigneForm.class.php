@@ -173,8 +173,11 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     }
 
     public function getTypesTransaction() {
-
-        return VracClient::$types_transaction;
+        
+        return array(VracClient::TYPE_TRANSACTION_RAISINS => '<span class="icon-raisins" style="font-size: 32px;"></span> Raisins',
+        VracClient::TYPE_TRANSACTION_MOUTS => '<span class="icon-mouts" style="font-size: 32px;"></span> Moûts',
+        VracClient::TYPE_TRANSACTION_VIN_VRAC => '<span class="icon-vrac" style="font-size: 32px;"></span> Vin en vrac',
+        VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => '<span class="icon-bouteille" style="font-size: 32px;"></span> Vin conditionné');
     }
 
     public function getRecoltants() {

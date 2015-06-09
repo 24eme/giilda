@@ -149,9 +149,9 @@ endif;
     <div class="row">
         <div class="col-xs-4 text-left">
             <?php if ($isTeledeclarationMode): ?>
-                <a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default">Annuler la saisie</a> 
+                <a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Annuler la saisie</a> 
             <?php else: ?>                        
-                <a href="<?php echo url_for('vrac'); ?>" class="btn btn-default">Annuler la saisie</a> 
+                <a href="<?php echo url_for('vrac'); ?>" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Annuler la saisie</a> 
             <?php endif; ?>
         </div>
         <div class="col-xs-4 text-center">
@@ -160,7 +160,7 @@ endif;
             <?php endif; ?>  
         </div>
         <div class="col-xs-4 text-right">
-            <button type="submit" class="btn btn-default">Étape suivante</button>
+            <button type="submit" class="btn btn-default">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
         </div>
     </div>
 </form>
