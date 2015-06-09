@@ -12,15 +12,15 @@
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
-            <div class="form-group">
-                <?php echo $form['attente_original']->renderError(); ?>
+            <div class="form-group <?php if($form['attente_original']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['attente_original']->renderError(array("class" => "col-sm-8")); ?>
                 <?php echo $form['attente_original']->renderLabel("En attente de l'original :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
                     <?php echo $form['attente_original']->render(); ?>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['type_transaction']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['type_transaction']->renderError(); ?>
                 <?php echo $form['type_transaction']->renderLabel("Type de transaction :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['produit']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['produit']->renderError(); ?>
                 <?php echo $form['produit']->renderLabel("Produit :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['millesime']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['millesime']->renderError(); ?>
                 <?php echo $form['millesime']->renderLabel("Millésime :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['categorie_vin']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['categorie_vin']->renderError(); ?>
                 <?php echo $form['categorie_vin']->renderLabel("Type :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['domaine']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['domaine']->renderError(); ?>
                 <?php echo $form['domaine']->renderLabel("Domaine :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -61,7 +61,7 @@
             </div>
 
             <?php if (isset($form['label'])): ?>
-            <div class="form-group">
+            <div class="form-group <?php if($form['label']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['label']->renderError(); ?>
                 <?php echo $form['label']->renderLabel("Label :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -70,7 +70,7 @@
             </div>
             <?php endif; ?>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['bouteilles_contenance_libelle']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['bouteilles_contenance_libelle']->renderError(); ?>
                 <?php echo $form['bouteilles_contenance_libelle']->renderLabel("Contenance :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['bouteilles_quantite']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['bouteilles_quantite']->renderError(); ?>
                 <?php echo $form['bouteilles_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -86,7 +86,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['jus_quantite']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['jus_quantite']->renderError(); ?>
                 <?php echo $form['jus_quantite']->renderLabel("Volume proposé :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -94,7 +94,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['raisin_quantite']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['raisin_quantite']->renderError(); ?>
                 <?php echo $form['raisin_quantite']->renderLabel("Quantité de raisins :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -102,7 +102,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['prix_initial_unitaire']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['prix_initial_unitaire']->renderError(); ?>
                 <?php echo $form['prix_initial_unitaire']->renderLabel("Prix :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -111,7 +111,7 @@
             </div>
 
             <?php if ($form->getObject()->hasPrixVariable()): ?>
-            <div class="form-group">
+            <div class="form-group <?php if($form['prix_unitaire']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['prix_unitaire']->renderError(); ?>
                 <?php echo $form['prix_unitaire']->renderLabel("Prix définitif :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">

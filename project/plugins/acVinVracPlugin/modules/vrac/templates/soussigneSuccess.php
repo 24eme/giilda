@@ -56,7 +56,7 @@ endif;
                 <?php echo $form['vendeur_identifiant']->renderError(); ?>
                 <?php echo $form['vendeur_identifiant']->renderLabel("Vendeur :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-6">
-                    <?php echo $form['vendeur_identifiant']->render(); ?>
+                    <?php echo $form['vendeur_identifiant']->render(array("class" => "form-control")); ?>
                 </div>
                 <?php if($form->getObject()->getVendeurObject()): ?>
                 <div class="col-sm-4">
@@ -73,7 +73,7 @@ endif;
                 <?php echo $form['acheteur_identifiant']->renderError(); ?>
                 <?php echo $form['acheteur_identifiant']->renderLabel("Acheteur :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-6">
-                    <?php echo $form['acheteur_identifiant']->render(); ?>
+                    <?php echo $form['acheteur_identifiant']->render(array("class" => "form-control")); ?>
                 </div>
                 <?php if($form->getObject()->getAcheteurObject()): ?>
                 <div class="col-sm-4">
@@ -118,7 +118,7 @@ endif;
                 <?php echo $form['mandataire_identifiant']->renderError(); ?>
                 <?php echo $form['mandataire_identifiant']->renderLabel("Mandataire :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-6">
-                    <?php echo $form['mandataire_identifiant']->render(); ?>
+                    <?php echo $form['mandataire_identifiant']->render(array("class" => "form-control")); ?>
                 </div>
                 <?php if($form->getObject()->getMandataireObject()): ?>
                 <div class="col-sm-4">
