@@ -87,9 +87,10 @@
                                 </div>
                             </div>
                         </div>
-                        <?php endif; ?>
-						
-						<?php if(isset($form['raisin_quantite'])): ?>
+                        <?php endif;
+			$unite = 'hl';
+			if(isset($form['raisin_quantite'])):
+			$unite = 'kg'; ?>
                         <?php echo $form['raisin_quantite']->renderError(); ?>
                         <div class="form-group <?php if($form['raisin_quantite']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['raisin_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
@@ -116,7 +117,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <?php echo $form['prix_initial_unitaire']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
-                                    <span class="input-group-addon">€ / hl</span>
+                                    <span class="input-group-addon">€ / <?php echo $unite; ?></span>
                                 </div>
                             </div>
                         </div>
