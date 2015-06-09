@@ -500,7 +500,7 @@ class vracActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->maj_etape(2);
                 $this->form->save();
-                $this->redirect('vrac_condition', $this->vrac);
+                $this->redirect('vrac_validation', $this->vrac);
             } else {
                 
             }
