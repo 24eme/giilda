@@ -57,9 +57,9 @@
                     </div>
                     <?php if (isset($form['label'])): ?>
                     <?php echo $form['label']->renderError(); ?>
-                    <div class="form-group <?php if($form['label']->hasError()): ?>has-error<?php endif; ?>">
+                    <div class="form-group">
                         <div class="row">
-                            <div class="col-sm-6 <?php if($form['domaine']->hasError()): ?>has-error<?php endif; ?>">
+                            <div class="col-sm-6 <?php if($form['label']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['label']->renderLabel("Label :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-8">
                             <?php echo $form['label']->render(); ?>
@@ -128,7 +128,7 @@
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <?php echo $form['prix_initial_unitaire']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
-                                    <span class="input-group-addon">&nbsp;€</span>
+                                    <span class="input-group-addon">€ / hl</span>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +193,7 @@
 
     <div class="row">
         <div class="col-xs-4 text-left">
-            <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-default">Etape précédente</a>
+            <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
         </div>
         <div class="col-xs-4 text-center">
             <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
@@ -201,7 +201,7 @@
             <?php endif; ?>  
         </div>
         <div class="col-xs-4 text-right">
-            <button type="submit" class="btn btn-default">Étape suivante</button>
+            <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
         </div>
     </div>
 </form>
