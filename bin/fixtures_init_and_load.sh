@@ -5,6 +5,14 @@ cd $(dirname $0)/..
 DBNAME=$(cat project/config/databases.yml | grep -A 4 couchdb | grep dbname | sed 's/.*:  *//')
 DBURL=$(cat project/config/databases.yml  | grep -A 4 couchdb | grep dsn | sed 's/.*:  *//')
 
+if test "$1"; then
+    echo "Pour supprimer la base, taper O comme Oui"
+    read oui
+    if test "$oui" = "O"; then
+	curl -s -X DELETE $DBURL$DBNAME
+    fi
+fi
+
 if ! curl -s $DBURL$DBNAME | grep true > /dev/null ; then
 	curl -s -X PUT $DBURL$DBNAME
 fi
