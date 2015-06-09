@@ -14,20 +14,20 @@ class bsWidgetFormSelectRadio extends sfWidgetFormSelectRadio {
         $inputs = array();
         foreach ($choices as $key => $option)
         {
-          $baseAttributes = array(
+            $baseAttributes = array(
             'name'  => substr($name, 0, -2),
             'type'  => 'radio',
             'value' => self::escapeOnce($key),
             'id'    => $id = $this->generateId($name, self::escapeOnce($key)),
-          );
+            );
 
-          if (strval($key) == strval($value === false ? 0 : $value))
-          {
+            if (strval($key) == strval($value === false ? 0 : $value))
+            {
             $baseAttributes['checked'] = 'checked';
-          }
+            }
 
-          //$inputs[$id] = $this->renderContentTag('label', $this->renderTag('input', array_merge($baseAttributes, $attributes)) . '&nbsp;' . self::escapeOnce($option), array('for' => $id, 'class' => 'radio-inline'));
-          $inputs[$id] = $this->renderContentTag('label', $this->renderTag('input', array_merge($baseAttributes, $attributes)) . '&nbsp;' . $option, array('for' => $id, 'class' => 'radio-inline'));
+            //$inputs[$id] = $this->renderContentTag('label', $this->renderTag('input', array_merge($baseAttributes, $attributes)) . '&nbsp;' . self::escapeOnce($option), array('for' => $id, 'class' => 'radio-inline'));
+            $inputs[$id] = $this->renderContentTag('label', $this->renderTag('input', array_merge($baseAttributes, $attributes)) . '&nbsp;' . $option, array('for' => $id, 'class' => 'radio-inline'));
         }
 
         return call_user_func($this->getOption('formatter'), $this, $inputs);
