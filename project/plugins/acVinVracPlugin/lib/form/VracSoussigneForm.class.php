@@ -100,7 +100,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         $this->setValidator('mandataire_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
         $this->setValidator('mandataire_exist', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('logement_exist', new sfValidatorBoolean(array('required' => false)));
-        $this->setValidator('mandatant', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(VracClient::getInstance()->getMandatants()))));
+        $this->setValidator('mandatant', new sfValidatorChoice(array('required' => true, 'multiple' => true, 'choices' => array_keys(VracClient::getInstance()->getMandatants()))));
         $this->setValidator('logement', new sfValidatorString(array('required' => false)));
 
         $this->validatorSchema['vendeur_identifiant']->setMessage('required', 'Le choix d\'un vendeur est obligatoire');
