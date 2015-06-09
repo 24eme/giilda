@@ -635,7 +635,7 @@ class vracActions extends sfActions {
             $this->compteVendeurActif = $etablissement->hasCompteTeledeclarationActivate();
             $this->compteAcheteurActif = $etablissement->hasCompteTeledeclarationActivate();
         }
-        return $this->renderPartialInformations($etablissement, $nouveau);
+        return $this->renderPartialInformations($etablissement, $nouveau, $request->getParameter('famille'));
     }
 
     public function executeGetModifications(sfWebRequest $request) {
@@ -810,8 +810,8 @@ class vracActions extends sfActions {
         }
     }
 
-    private function renderPartialInformations($etablissement, $nouveau) {
-        $familleType = $etablissement->getFamilleType();
+    private function renderPartialInformations($etablissement, $nouveau, $familleType = null) {
+        $familleType = ($familleType)? $familleType : $etablissement->getFamilleType();
         return $this->renderPartial($familleType . 'Informations', array($familleType => $etablissement, 'nouveau' => $nouveau,
                     'isTeledeclarationMode' => $this->isTeledeclarationMode, 'compteVendeurActif' => $this->compteVendeurActif, 'compteAcheteurActif' => $this->compteAcheteurActif));
     }

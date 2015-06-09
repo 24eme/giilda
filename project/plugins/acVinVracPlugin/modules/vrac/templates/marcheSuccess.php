@@ -12,21 +12,6 @@
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
-            <div class="form-group <?php if($form['attente_original']->hasError()): ?>has-error<?php endif; ?>">
-                <?php echo $form['attente_original']->renderError(array("class" => "col-sm-8")); ?>
-                <?php echo $form['attente_original']->renderLabel("En attente de l'original :", array('class' => 'col-md-3 col-lg-2 col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['attente_original']->render(); ?>
-                </div>
-            </div>
-
-            <div class="form-group <?php if($form['type_transaction']->hasError()): ?>has-error<?php endif; ?>">
-                <?php echo $form['type_transaction']->renderError(); ?>
-                <?php echo $form['type_transaction']->renderLabel("Type de transaction :", array('class' => 'col-md-3 col-lg-2 col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['type_transaction']->render(); ?>
-                </div>
-            </div>
 
             <div class="panel panel-default">
                 <div class="panel-heading">

@@ -2,42 +2,6 @@
 use_helper('Display');
 use_helper('Vrac');
 ?>
-<script type="text/javascript">
-    $(document).ready(function()
-    {
-        init_informations('acheteur');
-<?php
-if (!isset($numero_contrat)) {
-    ?>
-            ajaxifyGet('modification', '#vrac_acheteur_identifiant', '#acheteur_modification_btn', '#acheteur_informations');
-    <?php
-} else {
-    ?>
-            ajaxifyGet('getInfos', {field_0: '#vrac_acheteur_identifiant',
-                'type': 'acheteur',
-                'numero_contrat': '<?php echo $numero_contrat; ?>'
-            }, '#acheteur_modification_btn', '#acheteur_informations');
-    <?php
-}
-?>
-        removeGreyPanel('vendeur');
-        removeGreyPanel('has_mandataire');
-        removeGreyPanel('mandataire');
-        removeGreyPanel('ligne_btn');
-        removeGreyPanel('interne');
-
-<?php if ($isTeledeclarationMode): ?>
-    <?php if ($compteAcheteurActif): ?>
-                $("#soussigne_acheteur_compte_inactif").hide();
-    <?php else: ?>
-                $("#soussigne_acheteur_compte_inactif").show();
-    <?php endif; ?>
-<?php endif; ?>
-
-    });
-</script>
-
-
 <?php if ($isTeledeclarationMode): ?>
     <div id="acheteur_infos" class="bloc_form bloc_form_condensed bloc_form_teledeclaration">
         <div class="ligne_form ">
@@ -88,13 +52,13 @@ if (!isset($numero_contrat)) {
         </div>
         <div class="ligne_form ligne_form_alt">
             <span>
-                <label>CP*</label>
+                <label>CP</label>
                 <?php display_field($acheteur, 'siege/code_postal'); ?>
             </span>
         </div>
         <div class="ligne_form">
             <span>
-                <label>Ville*</label>
+                <label>Ville</label>
                 <?php display_field($acheteur, 'siege/commune'); ?>
             </span>
         </div>

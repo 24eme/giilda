@@ -33,6 +33,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
+    	$originalArray = array('0' => 'Non', '1' => 'Oui');
         if ($this->fromAnnuaire && $this->getObject()->createur_identifiant) {
             $vendeurs = $this->getRecoltants();
             $acheteurs = $this->getNegociants();
@@ -50,23 +51,38 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => $acheteursChoiceValides)));
             $this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
             $this->widgetSchema->setLabel('commercial', 'Sélectionner un interlocuteur commercial :');
+            
+            
         } else {
             $this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
             $this->setValidator('vendeur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setValidator('acheteur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
-        }
+            
 
+
+
+            $this->setWidget('attente_original', new bsWidgetFormChoice(array('choices' => $originalArray, 'expanded' => true)));
+            $this->setValidator('attente_original', new sfValidatorInteger(array('required' => true)));
+            $this->getWidget('attente_original')->setLabel("En attente de l'original ?");
+        }
+        
+        $this->setWidget('type_transaction', new bsWidgetFormChoice(array('choices' => $this->getTypesTransaction(), 'expanded' => true)));
 
         $this->setWidget('interne', new bsWidgetFormInputCheckbox());
 
         $this->setWidget('mandataire_exist', new bsWidgetFormInputCheckbox());
+        
+        $this->setWidget('logement_exist', new bsWidgetFormInputCheckbox());
 
         $this->setWidget('mandatant', new bsWidgetFormChoice(array('expanded' => true, 'multiple' => true, 'choices' => VracClient::getInstance()->getMandatants())));
 
         $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
+        
+        $this->setWidget('logement', new bsWidgetFormInput());
 
         $this->widgetSchema->setLabels(array(
+            'type_transaction' => 'Type de transaction',
             'vendeur_famille' => '',
             'vendeur_identifiant' => 'Sélectionner un vendeur :',
             'acheteur_famille' => '',
@@ -74,13 +90,18 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             'interne' => 'Cocher si le contrat est interne',
             'mandataire_identifiant' => 'Sélectionner un courtier :',
             'mandataire_exist' => "Décocher s'il n'y a pas de courtier",
-            'mandatant' => 'Mandaté par : '
+            'logement_exist' => "Décocher si logement différent",
+            'mandatant' => 'Mandaté par : ',
+            'logement' => 'Ville : '
         ));
-
+		
+        $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
         $this->setValidator('interne', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('mandataire_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
         $this->setValidator('mandataire_exist', new sfValidatorBoolean(array('required' => false)));
+        $this->setValidator('logement_exist', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('mandatant', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(VracClient::getInstance()->getMandatants()))));
+        $this->setValidator('logement', new sfValidatorString(array('required' => false)));
 
         $this->validatorSchema['vendeur_identifiant']->setMessage('required', 'Le choix d\'un vendeur est obligatoire');
         $this->validatorSchema['acheteur_identifiant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
@@ -97,20 +118,44 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         if ($this->getObject()->acheteur_identifiant) {
             $defaults['acheteur_identifiant'] = 'ETABLISSEMENT-' . $this->getObject()->acheteur_identifiant;
         }
+        if ($this->getObject()->mandataire_identifiant) {
+            $defaults['mandataire_identifiant'] = 'ETABLISSEMENT-' . $this->getObject()->mandataire_identifiant;
+        }
         if ($this->getObject()->interlocuteur_commercial->nom) {
             $defaults['commercial'] = $this->getObject()->interlocuteur_commercial->nom;
         }
+        if ($this->getObject()->isNew()) {
+        	$defaults['mandataire_exist'] = true;
+        } 
+        if (!$this->getObject()->isNew() && !$this->getObject()->mandataire_identifiant) {
+        	$defaults['mandataire_exist'] = true;
+        } 
+        if ($this->getObject()->isNew()) {
+        	$defaults['logement_exist'] = true;
+        } 
+        if (!$this->getObject()->isNew() && !$this->getObject()->logement) {
+        	$defaults['logement_exist'] = true;
+        } 
+        $defaults['attente_original'] = 0;
+        
 
         $this->setDefaults($defaults);
     }
 
     public function doUpdateObject($values) {
-        if (isset($values['mandataire_exist']) && !$values['mandataire_exist']) {
+        if (isset($values['mandataire_exist']) && $values['mandataire_exist']) {
             $values['mandataire_identifiant'] = null;
+            $values['mandatant'] = null;
         }
         if (!isset($values['mandataire_identifiant']) || !$values['mandataire_identifiant']) {
             $values['mandatant'] = null;
             $values['mandataire_exist'] = false;
+        }
+        if (isset($values['logement_exist']) && $values['logement_exist']) {
+            $values['logement'] = null;
+        }
+        if (!isset($values['logement']) || !$values['logement']) {
+            $values['logement_exist'] = false;
         }
         if ($values['commercial']) {
             $this->getObject()->storeInterlocuteurCommercialInformations($values['commercial'], $this->getAnnuaire()->commerciaux->get($values['commercial']));
@@ -125,6 +170,11 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     public function getUrlAutocomplete($famille) {
 
         return sfContext::getInstance()->getRouting()->generate('etablissement_autocomplete_byfamilles', array('familles' => $famille));
+    }
+
+    public function getTypesTransaction() {
+
+        return VracClient::$types_transaction;
     }
 
     public function getRecoltants() {

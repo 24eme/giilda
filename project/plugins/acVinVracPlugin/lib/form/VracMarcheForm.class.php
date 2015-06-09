@@ -33,16 +33,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $originalArray = array('0' => 'Non', '1' => 'Oui');
 
         if (!$this->isTeledeclarationMode) {
-            $this->setWidget('attente_original', new bsWidgetFormChoice(array('choices' => $originalArray, 'expanded' => true)));
-            $this->setValidator('attente_original', new sfValidatorInteger(array('required' => true)));
-            $this->getWidget('attente_original')->setLabel("En attente de l'original ?");
 
             $this->setWidget('label', new bsWidgetFormChoice(array('choices' => $this->getLabels(), 'multiple' => true, 'expanded' => true)));
             $this->setValidator('label', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getLabels()))));
             $this->getWidget('label')->setLabel("Label");
         }
-
-        $this->setWidget('type_transaction', new bsWidgetFormChoice(array('choices' => $this->getTypesTransaction(), 'expanded' => true)));
 
         $this->getDomaines();
         $this->getMillesimes();
@@ -61,7 +56,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('prix_initial_unitaire', new bsWidgetFormInput());
 
         $this->widgetSchema->setLabels(array(
-            'type_transaction' => 'Type de transaction',
             'produit' => 'produit',
             'millesime' => $this->getMillesimeLabel(),
             'categorie_vin' => 'Type',
@@ -73,7 +67,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'prix_initial_unitaire' => 'Prix'
         ));
         $validatorForNumbers = new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
-        $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
+        
         $this->setValidator('produit', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))));
 
         $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
@@ -113,9 +107,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        if (!$this->getDefault('attente_original')) {
-            $this->setDefault('attente_original', '0');
-        }
         if ($this->getObject()->hasPrixVariable()) {
             $this->setDefault('prix_unitaire', $this->getObject()->_get('prix_unitaire'));
         }
@@ -183,11 +174,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $millesime = substr($campagne, 0, 4);
             $this->millesimes[$millesime] = '' . $millesime;
         }
-    }
-
-    public function getTypesTransaction() {
-
-        return VracClient::$types_transaction;
     }
 
     public function getCategoriesVin() {

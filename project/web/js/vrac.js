@@ -3,6 +3,62 @@
  * and open the template in the editor.
  */
 
+var initSoussignes = function()
+{
+	var form = $("#contrat_soussignes");
+	var numContrat = form.attr('data-numcontrat');
+	var isTeledeclare = parseInt(form.attr('data-isteledeclare'));
+	var etablissementPrincipal = form.attr('data-etablissementprincipal');
+	var isCourtierResponsable = parseInt(form.attr('data-iscourtierresponsable'));
+	if (numContrat) {
+		ajaxifySoussigne('getInfos', {autocomplete: '#vendeur_choice', 'numero_contrat': numContrat}, '#vendeur_informations', 'vendeur');
+		ajaxifySoussigne('getInfos', {autocomplete: '#acheteur_choice', 'numero_contrat': numContrat}, '#acheteur_informations', 'acheteur');
+		ajaxifySoussigne('getInfos', {autocomplete: '#mandataire_choice', 'numero_contrat': numContrat}, '#mandataire_informations', 'mandataire');
+        majMandatairePanel();
+	} else {
+		ajaxifySoussigne('getInfos', '#vendeur_choice', '#vendeur_informations', 'vendeur');
+		ajaxifySoussigne('getInfos', '#acheteur_choice', '#acheteur_informations', 'acheteur');
+		ajaxifySoussigne('getInfos', '#mandataire_choice', '#mandataire_informations', 'mandataire');
+	    majMandatairePanel();
+	}
+	
+	if (isTeledeclare) {
+		$(".btn_ajout_autocomplete a").on('click', function() {
+            $("#vrac_soussigne").attr('action', $(this).attr('href'));
+            $("#vrac_soussigne").submit();
+            return false;
+        });
+        $("div#acheteur_choice input.ui-autocomplete-input").val(etablissementPrincipal);
+        if (isCourtierResponsable) {
+        	initTeledeclarationCourtierSoussigne();
+        }
+	}
+};
+
+var ajaxifySoussigne = function(url, params, eltToReplace, famille) 
+{
+	if(typeof(params)=="string") { 
+		$(params + ' select').on("change", function() {         
+			$.get(url, {id : $(this).val(), famille : famille}, function(data) {
+				$(eltToReplace).html(data);
+			});
+		});
+    } else {
+    	for (var i in params)  {
+    		if(i == "autocomplete") {
+    			var autocompleteEltName = params[i];
+    			delete params.autocomplete;
+    			$(autocompleteEltName + ' select').on("change", function() {   
+    				$.extend(params, {id : $(this).val(), famille : famille});
+    				$.get(url, params, function(data) {
+    					$(eltToReplace).html(data);
+    				});
+    			});   
+               break;
+    		}
+    	}
+	}               
+}
 
 var initConditions = function()
 {
@@ -350,19 +406,17 @@ var getContratSimilaireParams = function(ajaxParams, ui)
 
 var init_ajax_nouveau = function()
 {
-    //$('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
-    //$('#vrac_acheteur_famille_negociant').attr('checked','checked');
 
     ajaxifyAutocompleteGet('getInfos', '#vendeur_choice', '#vendeur_informations');
     ajaxifyAutocompleteGet('getInfos', '#acheteur_choice', '#acheteur_informations');
     ajaxifyAutocompleteGet('getInfos', '#mandataire_choice', '#mandataire_informations');
-    $('#has_mandataire input').attr('checked', 'checked');
-    $('#vrac_mandatant_acheteur').attr('checked', 'checked');
+    //$('#has_mandataire input').attr('checked', 'checked');
+    //$('#vrac_mandatant_acheteur').attr('checked', 'checked');
 
-    majAutocompleteInteractions('vendeur');
-    majAutocompleteInteractions('acheteur');
-    majAutocompleteInteractions('mandataire');
-    majMandatairePanel();
+    //majAutocompleteInteractions('vendeur');
+    //majAutocompleteInteractions('acheteur');
+    //majAutocompleteInteractions('mandataire');
+    //majMandatairePanel();
 };
 
 var clearVolumesChamps = function()
@@ -398,7 +452,7 @@ var clearVolumesChamps = function()
 
 var majAutocompleteInteractions = function(type)
 {
-    $('#' + type + '_choice input').live("autocompleteselect", function(event, ui)
+    $('#' + type + '_choice input').on("autocompleteselect", function(event, ui)
     {
         $('#' + type + '_modification_btn').removeAttr('disabled');
         $('#' + type + '_modification_btn').css('cursor', 'pointer');
@@ -522,7 +576,7 @@ var init_informations = function(type)
  var ajax_send_contrats_similairesSoussigne = function(num_contrat,soussigneType)
  {
  var types = ['vendeur','acheteur','mandataire'];
- $('#'+soussigneType+'_choice input').live( "autocompleteselect", function(event, ui)
+ $('#'+soussigneType+'_choice input').on( "autocompleteselect", function(event, ui)
  {  
  var ajaxParams = {numero_contrat : num_contrat, 'etape' : 'soussigne'};        
  for (var i in types)
@@ -561,7 +615,7 @@ var ajax_send_contrats_similairesMarche = function(num_contrat)
         //    alert('toPOST : ['+type+','+prod+','+vol+']');
     });
 
-    $('section#produit input').live("autocompleteselect", function(event, ui)
+    $('section#produit input').on("autocompleteselect", function(event, ui)
     {
         var ajaxParams = {numero_contrat: num_contrat, 'produit': ui.item.option.value, 'etape': 'marche'};
         var vol = $(this).val();
@@ -618,6 +672,9 @@ var removeGreyPanel = function(divId) {
 
 $(document).ready(function()
 {
+	if ($('#contrat_soussignes').length > 0) {
+		initSoussignes();
+	}
     initConditions();
     //$("#vrac_soussigne").bind("submit", function() {return false;});
     $("#btn_soussigne_submit").bind("click", function() {
