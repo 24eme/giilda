@@ -53,60 +53,65 @@ endif;
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Vendeur</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <?php echo $form['vendeur_identifiant']->renderError(); ?>
-                            <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
-                                <div class="col-sm-12" id="vendeur_choice">
-                                    <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control')); ?>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Vendeur</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <?php echo $form['vendeur_identifiant']->renderError(); ?>
+                                    <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
+                                        <div class="col-sm-12" id="vendeur_choice">
+                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control')); ?>
+                                        </div>
+                                    </div>
+                                    <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
+                		                <div class="col-sm-12">
+                		                    <?php echo $form['logement_exist']->renderError(); ?>
+                		                    <div class="checkbox bloc_condition" data-condition-cible="#bloc_logement">
+                		                        <label for="<?php echo $form['logement_exist']->renderId(); ?>">
+                		                            <?php echo $form['logement_exist']->render(); ?>
+                		                            Décocher si logement du vin différent
+                		                        </label>
+                		                    </div>
+                		                </div>
+                		            </div>
+                		            <div id="bloc_logement" data-condition-value="0" class="form-group bloc_conditionner <?php if($form['logement']->hasError()): ?>has-error<?php endif; ?>">
+                		                <?php echo $form['logement']->renderError(); ?>
+                		                <div class="col-sm-12">
+                		                    <?php echo $form['logement']->render(array("placeholder" => "Ville du logement")); ?>
+                		                </div>
+                		            </div> 
+                                </div>
+                                <div class="col-sm-5" id="vendeur_informations">
+                                    <?php include_partial('vrac/vendeurInformations', array('vendeur' => $form->getObject()->getVendeurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
                                 </div>
                             </div>
-                            <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
-        		                <div class="col-sm-12">
-        		                    <?php echo $form['logement_exist']->renderError(); ?>
-        		                    <div class="checkbox bloc_condition" data-condition-cible="#bloc_logement">
-        		                        <label for="<?php echo $form['logement_exist']->renderId(); ?>">
-        		                            <?php echo $form['logement_exist']->render(); ?>
-        		                            Décocher si logement du vin différent
-        		                        </label>
-        		                    </div>
-        		                </div>
-        		            </div>
-        		            <div id="bloc_logement" data-condition-value="0" class="form-group bloc_conditionner <?php if($form['logement']->hasError()): ?>has-error<?php endif; ?>">
-        		                <?php echo $form['logement']->renderError(); ?>
-        		                <?php echo $form['logement']->renderLabel(null, array('class' => 'col-sm-2 control-label')); ?>
-        		                <div class="col-sm-10">
-        		                    <?php echo $form['logement']->render(); ?>
-        		                </div>
-        		            </div> 
-                        </div>
-                        <div class="col-sm-4" id="vendeur_informations">
-                            <?php include_partial('vrac/vendeurInformations', array('vendeur' => $form->getObject()->getVendeurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
                         </div>
                     </div>
                 </div>
-            </div> 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Acheteur</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <?php echo $form['acheteur_identifiant']->renderError(); ?>
-                            <div class="form-group <?php if($form['acheteur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
-                                <div class="col-sm-12" id="acheteur_choice">
-                                    <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control')); ?>
-                                </div> 
-                            </div>
+                <div class="col-xs-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Acheteur</h3>
                         </div>
-                        <div class="col-sm-4" id="acheteur_informations">
-                            <?php include_partial('vrac/acheteurInformations', array('acheteur' => $form->getObject()->getAcheteurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <?php echo $form['acheteur_identifiant']->renderError(); ?>
+                                    <div class="form-group <?php if($form['acheteur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
+                                        <div class="col-sm-12" id="acheteur_choice">
+                                            <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control')); ?>
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="col-sm-5" id="acheteur_informations">
+                                    <?php include_partial('vrac/acheteurInformations', array('acheteur' => $form->getObject()->getAcheteurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
