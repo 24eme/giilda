@@ -34,8 +34,8 @@ class VracConditionForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-        $this->setWidget('type_contrat', new sfWidgetFormChoice(array('choices' => $this->getTypesContrat(), 'expanded' => false)));
-        $this->setWidget('prix_variable', new sfWidgetFormChoice(array('choices' => $this->getPrixVariable(), 'expanded' => false)));
+        $this->setWidget('type_contrat', new bsWidgetFormChoice(array('choices' => $this->getTypesContrat(), 'expanded' => true)));
+        $this->setWidget('prix_variable', new bsWidgetFormChoice(array('choices' => $this->getPrixVariable(), 'expanded' => true)));
         $this->setWidget('part_variable', new sfWidgetFormInput());
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
@@ -66,8 +66,6 @@ class VracConditionForm extends acCouchdbObjectForm {
                 'min' => 'Part variable %min% min.')),
             'commentaire' => new sfValidatorString(array('required' => false)),
         ));
-
-
 
         if (!$this->isTeledeclarationMode) {
             $this->setWidget('cvo_nature', new sfWidgetFormChoice(array('choices' => $this->getCvoNature())));
