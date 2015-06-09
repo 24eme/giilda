@@ -73,8 +73,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setValidator('categorie_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))));
         $this->setValidator('domaine', new sfValidatorString(array('required' => false)));
 
-        $this->setValidator('raisin_quantite', new sfValidatorNumber(array('required' => false)));
-        $this->setValidator('jus_quantite', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('raisin_quantite', new sfValidatorNumber(array('required' => true)));
+        $this->setValidator('jus_quantite', new sfValidatorNumber(array('required' => true)));
 
         $this->setValidator('bouteilles_contenance_libelle', new sfValidatorString(array('required' => true)));
         $this->setValidator('prix_initial_unitaire', new sfValidatorNumber(array('required' => true)));
