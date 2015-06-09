@@ -6,7 +6,7 @@ class bsWidgetFormSelectRadio extends sfWidgetFormSelectRadio {
     {
         parent::configure($options, $attributes);
 
-        $this->addOption('inline', false);
+        $this->addOption('inline', true);
     }
 
     protected function formatChoices($name, $value, $choices, $attributes)

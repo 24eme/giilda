@@ -34,8 +34,8 @@ class VracConditionForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-        $this->setWidget('type_contrat', new bsWidgetFormChoice(array('choices' => $this->getTypesContrat(), 'expanded' => true, 'inline' => true)));
-        $this->setWidget('prix_variable', new bsWidgetFormChoice(array('choices' => $this->getPrixVariable(), 'expanded' => true, 'inline' => true)));
+        $this->setWidget('type_contrat', new bsWidgetFormChoice(array('choices' => $this->getTypesContrat(), 'expanded' => true)));
+        $this->setWidget('prix_variable', new bsWidgetFormChoice(array('choices' => $this->getPrixVariable(), 'expanded' => true)));
         $this->setWidget('part_variable', new sfWidgetFormInput());
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 

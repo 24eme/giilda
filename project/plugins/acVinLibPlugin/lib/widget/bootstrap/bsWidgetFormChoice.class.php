@@ -6,7 +6,7 @@ class bsWidgetFormChoice extends sfWidgetFormChoice
     {
         parent::configure($options, $attributes);
 
-        $this->addOption('inline', false);
+        $this->addOption('inline', true);
     }
 
     public function getRenderer()
