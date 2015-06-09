@@ -12,23 +12,8 @@
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
-            <div class="form-group">
-                <?php echo $form['attente_original']->renderError(); ?>
-                <?php echo $form['attente_original']->renderLabel("En attente de l'original :", array('class' => 'col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['attente_original']->render(array('class' => 'form-control')); ?>
-                </div>
-            </div>
 
-            <div class="form-group">
-                <?php echo $form['type_transaction']->renderError(); ?>
-                <?php echo $form['type_transaction']->renderLabel("Type de transaction :", array('class' => 'col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['type_transaction']->render(array('class' => 'form-control')); ?>
-                </div>
-            </div>
-
-            <div class="form-group">
+            <div class="form-group <?php if($form['produit']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['produit']->renderError(); ?>
                 <?php echo $form['produit']->renderLabel("Produit :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -36,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['millesime']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['millesime']->renderError(); ?>
                 <?php echo $form['millesime']->renderLabel("Millésime :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -44,15 +29,15 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['categorie_vin']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['categorie_vin']->renderError(); ?>
                 <?php echo $form['categorie_vin']->renderLabel("Type :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['categorie_vin']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['categorie_vin']->render(); ?>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['domaine']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['domaine']->renderError(); ?>
                 <?php echo $form['domaine']->renderLabel("Domaine :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -61,16 +46,16 @@
             </div>
 
             <?php if (isset($form['label'])): ?>
-            <div class="form-group">
+            <div class="form-group <?php if($form['label']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['label']->renderError(); ?>
                 <?php echo $form['label']->renderLabel("Label :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['label']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['label']->render(); ?>
                 </div>
             </div>
             <?php endif; ?>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['bouteilles_contenance_libelle']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['bouteilles_contenance_libelle']->renderError(); ?>
                 <?php echo $form['bouteilles_contenance_libelle']->renderLabel("Contenance :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -78,7 +63,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['bouteilles_quantite']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['bouteilles_quantite']->renderError(); ?>
                 <?php echo $form['bouteilles_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
@@ -86,53 +71,53 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['jus_quantite']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['jus_quantite']->renderError(); ?>
                 <?php echo $form['jus_quantite']->renderLabel("Volume proposé :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['jus_quantite']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['jus_quantite']->render(); ?>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['raisin_quantite']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['raisin_quantite']->renderError(); ?>
                 <?php echo $form['raisin_quantite']->renderLabel("Quantité de raisins :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['raisin_quantite']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['raisin_quantite']->render(); ?>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group <?php if($form['prix_initial_unitaire']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['prix_initial_unitaire']->renderError(); ?>
                 <?php echo $form['prix_initial_unitaire']->renderLabel("Prix :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['prix_initial_unitaire']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['prix_initial_unitaire']->render(); ?>
                 </div>
             </div>
 
             <?php if ($form->getObject()->hasPrixVariable()): ?>
-            <div class="form-group">
+            <div class="form-group <?php if($form['prix_unitaire']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['prix_unitaire']->renderError(); ?>
                 <?php echo $form['prix_unitaire']->renderLabel("Prix définitif :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['prix_unitaire']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['prix_unitaire']->render(); ?>
                 </div>
             </div>
             <?php endif; ?>
 
             <div class="form-group">
                 <?php if ($form->getObject()->hasPrixVariable()): ?>
-                <label class="col-sm-4 control-label">Prix initial total</label>
+                <label class="col-sm-4 control-label">Prix initial total :</label>
                 <?php else: ?>
-                <label class="col-sm-4 control-labell">Prix total</label>
+                <label class="col-sm-4 control-label">Prix total :</label>
                 <?php endif; ?>
-                <div class="col-sm-8"><?php echoFloat($form->getObject()->prix_initial_total) ?> <?php if(!is_null($form->getObject()->prix_initial_total)):?>€<?php endif; ?></div>
+                <div class="col-sm-8"><p class="form-control-static"><?php echoFloat($form->getObject()->prix_initial_total) ?> <?php if(!is_null($form->getObject()->prix_initial_total)):?>€<?php endif; ?></p></div>
             </div>
 
             <?php if ($form->getObject()->hasPrixVariable()): ?>
             <div class="form-group">
-                <label class="col-sm-4 control-label">Prix définitif total</label>
-                <div class="col-sm-8"><?php echoFloat($form->getObject()->prix_total) ?> <?php if(!is_null($form->getObject()->prix_total)):?>€<?php endif; ?></div>
+                <label class="col-sm-4 control-label">Prix définitif total :</label>
+                <div class="col-sm-8"><p class="form-control-static"><?php echoFloat($form->getObject()->prix_total) ?> <?php if(!is_null($form->getObject()->prix_total)):?>€<?php endif; ?></p></div>
             </div>
             <?php endif; ?>
 

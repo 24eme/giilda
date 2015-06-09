@@ -2,39 +2,6 @@
 use_helper('Display');
 use_helper('Vrac');
 ?>
-<script type="text/javascript">
-    $(document).ready(function()
-    {
-        init_informations('vendeur');
-<?php
-if (!isset($numero_contrat)) {
-    ?>
-            ajaxifyGet('modification', '#vrac_vendeur_identifiant', '#vendeur_modification_btn', '#vendeur_informations');
-    <?php
-} else {
-    ?>
-            ajaxifyGet('modification', {field_0: '#vrac_vendeur_identifiant',
-                'type': 'vendeur',
-                'numero_contrat': "<?php echo $numero_contrat; ?>"
-            }, '#vendeur_modification_btn', '#vendeur_informations');
-    <?php
-}
-?>
-        removeGreyPanel('acheteur');
-        removeGreyPanel('mandataire');
-        removeGreyPanel('has_mandataire');
-        removeGreyPanel('ligne_btn');
-        removeGreyPanel('interne');
-
-<?php if ($isTeledeclarationMode): ?>
-    <?php if ($compteVendeurActif): ?>
-                $("#soussigne_vendeur_compte_inactif").hide();
-    <?php else: ?>
-                $("#soussigne_vendeur_compte_inactif").show();
-    <?php endif; ?>
-<?php endif; ?>
-    });
-</script>
 <?php if ($isTeledeclarationMode): ?>
     <div id="vendeur_infos" class="bloc_form bloc_form_condensed bloc_form_teledeclaration">    
         <div class="ligne_form ">

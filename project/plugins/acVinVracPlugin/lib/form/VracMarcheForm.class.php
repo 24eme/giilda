@@ -33,35 +33,29 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $originalArray = array('0' => 'Non', '1' => 'Oui');
 
         if (!$this->isTeledeclarationMode) {
-            $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray, 'expanded' => false)));
-            $this->setValidator('attente_original', new sfValidatorInteger(array('required' => true)));
-            $this->getWidget('attente_original')->setLabel("En attente de l'original ?");
 
-            $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->getLabels(), 'multiple' => true, 'expanded' => false)));
+            $this->setWidget('label', new bsWidgetFormChoice(array('choices' => $this->getLabels(), 'multiple' => true, 'expanded' => true)));
             $this->setValidator('label', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getLabels()))));
             $this->getWidget('label')->setLabel("Label");
         }
 
-        $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $this->getTypesTransaction(), 'expanded' => false)));
-
         $this->getDomaines();
         $this->getMillesimes();
-        $this->setWidget('produit', new sfWidgetFormChoice(array('choices' => $this->getProduits()), array('class' => 'autocomplete')));
-        $this->setWidget('millesime', new sfWidgetFormChoice(array('choices' => $this->millesimes), array('class' => 'autocomplete permissif')));
-        $this->setWidget('categorie_vin', new sfWidgetFormChoice(array('choices' => $this->getCategoriesVin(), 'expanded' => false)));
-        $this->setWidget('domaine', new sfWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
-        $this->setWidget('raisin_quantite', new sfWidgetFormInput());
-        $this->setWidget('jus_quantite', new sfWidgetFormInput());
-        $this->setWidget('bouteilles_quantite', new sfWidgetFormInput(array(), array('autocomplete' => 'off')));
+        $this->setWidget('produit', new bsWidgetFormChoice(array('choices' => $this->getProduits()), array('class' => 'autocomplete')));
+        $this->setWidget('millesime', new bsWidgetFormChoice(array('choices' => $this->millesimes), array('class' => 'autocomplete permissif')));
+        $this->setWidget('categorie_vin', new bsWidgetFormChoice(array('choices' => $this->getCategoriesVin(), 'expanded' => true)));
+        $this->setWidget('domaine', new bsWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
+        $this->setWidget('raisin_quantite', new bsWidgetFormInput());
+        $this->setWidget('jus_quantite', new bsWidgetFormInput());
+        $this->setWidget('bouteilles_quantite', new bsWidgetFormInput(array(), array('autocomplete' => 'off')));
         $contenance = array();
         foreach (array_keys(VracClient::getInstance()->getContenances()) as $c) {
             $contenance[$c] = $c;
         }
         $this->setWidget('bouteilles_contenance_libelle', new sfWidgetFormChoice(array('choices' => $contenance)));
-        $this->setWidget('prix_initial_unitaire', new sfWidgetFormInput());
+        $this->setWidget('prix_initial_unitaire', new bsWidgetFormInput());
 
         $this->widgetSchema->setLabels(array(
-            'type_transaction' => 'Type de transaction',
             'produit' => 'produit',
             'millesime' => $this->getMillesimeLabel(),
             'categorie_vin' => 'Type',
@@ -73,7 +67,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'prix_initial_unitaire' => 'Prix'
         ));
         $validatorForNumbers = new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
-        $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
+        
         $this->setValidator('produit', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))));
 
         $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
@@ -102,7 +96,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
         if ($this->getObject()->hasPrixVariable()) {
             $this->getWidget('prix_initial_unitaire')->setLabel('Prix initial');
-            $this->setWidget('prix_unitaire', new sfWidgetFormInput(array('label' => 'Prix définitif')));
+            $this->setWidget('prix_unitaire', new bsWidgetFormInput(array('label' => 'Prix définitif')));
             $this->setValidator('prix_unitaire', new sfValidatorNumber(array('required' => false)));
         }
 
@@ -113,9 +107,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        if (!$this->getDefault('attente_original')) {
-            $this->setDefault('attente_original', '0');
-        }
         if ($this->getObject()->hasPrixVariable()) {
             $this->setDefault('prix_unitaire', $this->getObject()->_get('prix_unitaire'));
         }
@@ -183,11 +174,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $millesime = substr($campagne, 0, 4);
             $this->millesimes[$millesime] = '' . $millesime;
         }
-    }
-
-    public function getTypesTransaction() {
-
-        return VracClient::$types_transaction;
     }
 
     public function getCategoriesVin() {

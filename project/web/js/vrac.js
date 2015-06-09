@@ -11,14 +11,14 @@ var initSoussignes = function()
 	var etablissementPrincipal = form.attr('data-etablissementprincipal');
 	var isCourtierResponsable = parseInt(form.attr('data-iscourtierresponsable'));
 	if (numContrat) {
-		ajaxifySoussigne('getInfos', {autocomplete: '#vendeur_choice', 'numero_contrat': numContrat}, '#vendeur_informations');
-		ajaxifySoussigne('getInfos', {autocomplete: '#acheteur_choice', 'numero_contrat': numContrat}, '#acheteur_informations');
-		ajaxifySoussigne('getInfos', {autocomplete: '#mandataire_choice', 'numero_contrat': numContrat}, '#mandataire_informations');
+		ajaxifySoussigne('getInfos', {autocomplete: '#vendeur_choice', 'numero_contrat': numContrat}, '#vendeur_informations', 'vendeur');
+		ajaxifySoussigne('getInfos', {autocomplete: '#acheteur_choice', 'numero_contrat': numContrat}, '#acheteur_informations', 'acheteur');
+		ajaxifySoussigne('getInfos', {autocomplete: '#mandataire_choice', 'numero_contrat': numContrat}, '#mandataire_informations', 'mandataire');
         majMandatairePanel();
 	} else {
-		ajaxifySoussigne('getInfos', '#vendeur_choice', '#vendeur_informations');
-		ajaxifySoussigne('getInfos', '#acheteur_choice', '#acheteur_informations');
-		ajaxifySoussigne('getInfos', '#mandataire_choice', '#mandataire_informations');
+		ajaxifySoussigne('getInfos', '#vendeur_choice', '#vendeur_informations', 'vendeur');
+		ajaxifySoussigne('getInfos', '#acheteur_choice', '#acheteur_informations', 'acheteur');
+		ajaxifySoussigne('getInfos', '#mandataire_choice', '#mandataire_informations', 'mandataire');
 	    majMandatairePanel();
 	}
 	
@@ -35,11 +35,11 @@ var initSoussignes = function()
 	}
 };
 
-var ajaxifySoussigne = function(url, params, eltToReplace) 
+var ajaxifySoussigne = function(url, params, eltToReplace, famille) 
 {
 	if(typeof(params)=="string") { 
 		$(params + ' select').on("change", function() {         
-			$.get(url, {id : $(this).val()}, function(data) {
+			$.get(url, {id : $(this).val(), famille : famille}, function(data) {
 				$(eltToReplace).html(data);
 			});
 		});
@@ -49,7 +49,7 @@ var ajaxifySoussigne = function(url, params, eltToReplace)
     			var autocompleteEltName = params[i];
     			delete params.autocomplete;
     			$(autocompleteEltName + ' select').on("change", function() {   
-    				$.extend(params, {id : $(this).val()});
+    				$.extend(params, {id : $(this).val(), famille : famille});
     				$.get(url, params, function(data) {
     					$(eltToReplace).html(data);
     				});

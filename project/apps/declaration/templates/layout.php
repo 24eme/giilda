@@ -38,6 +38,7 @@
     <script src="/components/jquery/jquery.js"></script>
     <script src="/js/lib/jquery-ui-1.8.21.min.js"></script>
     <script src="/js/ajaxHelper.js"></script>
+    <script src="/js/conditionnement.js"></script>
     <script src="/js/vrac.js"></script>
   </body>
 </html>

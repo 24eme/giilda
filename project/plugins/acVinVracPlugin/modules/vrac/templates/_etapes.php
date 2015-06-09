@@ -6,7 +6,7 @@
         <?php include_partial('etapeItem',array('num_etape' => 0,
                                                  'vrac' => $vrac,
                                                  'actif' => $actif,
-                                                 'label' => 'Soussignés',
+                                                 'label' => 'Création',
                                                  'url_etape' => 'vrac_soussigne',
                                                  'urlsoussigne' => $urlsoussigne
                                                 )); ?>

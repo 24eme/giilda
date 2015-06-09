@@ -10,4 +10,11 @@
  */
 class BaseForm extends sfFormSymfony
 {
+    public function __construct($defaults = array(), $options = array(), $CSRFSecret = null)
+    {
+        parent::__construct($defaults, $options, $CSRFSecret);
+
+        $this->getWidgetSchema()->addFormFormatter('bootstrap', new bsWidgetFormSchemaFormatterBootstrap($this->getWidgetSchema()));
+        sfWidgetFormSchema::setDefaultFormFormatterName('bootstrap');
+    }
 }

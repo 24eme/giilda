@@ -35,22 +35,59 @@ endif;
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
-            <div class="form-group">
+        	<?php if(isset($form['attente_original'])): ?>
+            <div class="form-group <?php if($form['attente_original']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['attente_original']->renderError(array("class" => "col-sm-10")); ?>
+                <?php echo $form['attente_original']->renderLabel("En attente de l'original :", array('class' => 'col-sm-2 control-label')); ?>
+                <div class="col-sm-10">
+                    <?php echo $form['attente_original']->render(); ?>
+                </div>
+            </div>
+            <?php endif; ?>
+            
+            <div class="form-group <?php if($form['type_transaction']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['type_transaction']->renderError(); ?>
+                <?php echo $form['type_transaction']->renderLabel("Type de transaction :", array('class' => 'col-sm-2 control-label')); ?>
+                <div class="col-sm-10">
+                    <?php echo $form['type_transaction']->render(); ?>
+                </div>
+            </div>
+            
+            <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>" >
                 <?php echo $form['vendeur_identifiant']->renderError(); ?>
                 <?php echo $form['vendeur_identifiant']->renderLabel("Vendeur :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-6" id="vendeur_choice">
                     <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control')); ?>
+                    
+                    <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
+		                <div class="col-sm-12">
+		                    <?php echo $form['logement_exist']->renderError(); ?>
+		                    <div class="checkbox bloc_condition" data-condition-cible="#bloc_logement">
+		                        <label for="<?php echo $form['logement_exist']->renderId(); ?>">
+		                            <?php echo $form['logement_exist']->render(); ?>
+		                            Décocher si logement du vin différent
+		                        </label>
+		                    </div>
+		                </div>
+		            </div>
+		            <div id="bloc_logement" data-condition-value="0" class="form-group bloc_conditionner <?php if($form['logement']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['logement']->renderError(); ?>
+		                <?php echo $form['logement']->renderLabel(null, array('class' => 'col-sm-2 control-label')); ?>
+		                <div class="col-sm-10">
+		                    <?php echo $form['logement']->render(); ?>
+		                </div>
+		            </div> 
                 </div>
                 <div class="col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-body" id="vendeur_informations">
-                            <?php include_partial('vrac/vendeurInformations', array('soussigne' => $form->getObject()->getVendeurObject())); ?>
+                            <?php include_partial('vrac/vendeurInformations', array('vendeur' => $form->getObject()->getVendeurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
                         </div>
                     </div>
                 </div>
             </div>
            
-            <div class="form-group">
+            <div class="form-group <?php if($form['acheteur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                 <?php echo $form['acheteur_identifiant']->renderError(); ?>
                 <?php echo $form['acheteur_identifiant']->renderLabel("Acheteur :", array('class' => 'col-sm-2 control-label')); ?>
                 <div class="col-sm-6" id="acheteur_choice">
@@ -59,52 +96,54 @@ endif;
                 <div class="col-sm-4">
                     <div class="panel panel-default">
                         <div class="panel-body" id="acheteur_informations">
-                            <?php include_partial('vrac/acheteurInformations', array('soussigne' => $form->getObject()->getAcheteurObject())); ?>
+                            <?php include_partial('vrac/acheteurInformations', array('acheteur' => $form->getObject()->getAcheteurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group <?php if($form['mandataire_exist']->hasError()): ?>has-error<?php endif; ?>">
                 <div class="col-sm-offset-2 col-sm-10">
                     <?php echo $form['mandataire_exist']->renderError(); ?>
-                    <div class="checkbox">
+                    <div class="checkbox bloc_condition" data-condition-cible="#bloc_mandataire">
                         <label for="<?php echo $form['mandataire_exist']->renderId(); ?>">
                             <?php echo $form['mandataire_exist']->render(); ?>
-                            Décocher s'il n'y a pas de courtier
+                            Décocher s'il y a un courtier
                         </label>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <?php echo $form['mandatant']->renderError(); ?>
-                <?php echo $form['mandatant']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
-                <div class="col-sm-10">
-                    <?php echo $form['mandatant']->render(array('class' => 'form-control')); ?>
-                </div>
-            </div>      
-            <div class="form-group">
-                <?php echo $form['mandataire_identifiant']->renderError(); ?>
-                <?php echo $form['mandataire_identifiant']->renderLabel("Mandataire :", array('class' => 'col-sm-2 control-label')); ?>
-                <div class="col-sm-6" id="mandataire_choice">
-                    <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control')); ?>
-                </div>
-                <div class="col-sm-4">
-                    <div class="panel panel-default">
-                        <div class="panel-body" id="mandataire_informations">
-                            <?php include_partial('vrac/mandataireInformations', array('soussigne' => $form->getObject()->getMandataireObject())); ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php if (isset($form['commercial'])): ?>
-            <div class="form-group">
-                <?php echo $form['commercial']->renderError(); ?>
-                <?php echo $form['commercial']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
-                <div class="col-sm-10">
-                    <?php echo $form['commercial']->render(array('class' => 'form-control')); ?>
-                </div>
-            </div>
-            <?php endif; ?> 
+            <div id="bloc_mandataire" data-condition-value="0" class="bloc_conditionner">
+	            <div class="form-group <?php if($form['mandatant']->hasError()): ?>has-error<?php endif; ?>">
+	                <?php echo $form['mandatant']->renderError(); ?>
+	                <?php echo $form['mandatant']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
+	                <div class="col-sm-10">
+	                    <?php echo $form['mandatant']->render(); ?>
+	                </div>
+	            </div>      
+	            <div class="form-group <?php if($form['mandataire_identifiant']->hasError()): ?>has-error<?php endif; ?>">
+	                <?php echo $form['mandataire_identifiant']->renderError(); ?>
+	                <?php echo $form['mandataire_identifiant']->renderLabel("Mandataire :", array('class' => 'col-sm-2 control-label')); ?>
+	                <div class="col-sm-6" id="mandataire_choice">
+	                    <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control')); ?>
+	                </div>
+	                <div class="col-sm-4">
+	                    <div class="panel panel-default">
+	                        <div class="panel-body" id="mandataire_informations">
+	                            <?php include_partial('vrac/mandataireInformations', array('mandataire' => $form->getObject()->getMandataireObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <?php if (isset($form['commercial'])): ?>
+	            <div class="form-group <?php if($form['commercial']->hasError()): ?>has-error<?php endif; ?>">
+	                <?php echo $form['commercial']->renderError(); ?>
+	                <?php echo $form['commercial']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
+	                <div class="col-sm-10">
+	                    <?php echo $form['commercial']->render(array('class' => 'form-control')); ?>
+	                </div>
+	            </div>
+	            <?php endif; ?> 
+	       </div>
         </div>
     </div>
     <div class="row">
