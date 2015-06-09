@@ -20,7 +20,7 @@ var utilisateur =
 	largeurEcran: ''
 };
 
-var objWindow = 
+var objWindow =
 {
 	elem: $(window),
 	largeur: $(window).width(),
@@ -44,8 +44,8 @@ var fbConfig =
  * Initialisation
  ******************************************/
 (function($)
-{	
-	
+{
+
 	/**
 	 * Initialise les informations de l'utilisateur
 	 * $.initUtilisateur();
@@ -54,7 +54,7 @@ var fbConfig =
 	{
 		$.detectTerminal();
 	};
-	
+
 	/**
 	 * Détecte le nom du terminal utilisé
 	 * $.detectTerminal();
@@ -64,7 +64,7 @@ var fbConfig =
 		var terminalAgent = navigator.userAgent.toLowerCase();
 		var agentID = terminalAgent.match(/(iphone|ipod|ipad|android)/);
 		var version;
-		
+
 		if(agentID)
 		{
 			if(agentID.indexOf('iphone') >= 0) utilisateur.terminal = 'iphone';
@@ -75,7 +75,7 @@ var fbConfig =
 		else
 		{
 			version = parseInt($.browser.version);
-			
+
 			if($.browser.webkit) utilisateur.terminal = 'webkit';
 			else if($.browser.mozilla) utilisateur.terminal = 'mozilla';
 			else if($.browser.opera) utilisateur.terminal = 'opera';
@@ -87,12 +87,12 @@ var fbConfig =
 				else if(version == 9) utilisateur.terminal = 'msie9';
 			}
 		}
-		
+
 		$('body').addClass(utilisateur.terminal);
 		return utilisateur.terminal;
 	};
-	
-	
+
+
 	/**
 	 * Sélection de lignes de tableau
 	 * $.initTableSelection();
@@ -100,13 +100,13 @@ var fbConfig =
 	$.initTableSelection = function()
 	{
 		var tables = $('.table_selection');
-		
+
 		tables.each(function()
 		{
 			var table = $(this);
 			var selecteurGlobal = table.find('thead .selecteur input');
 			var selecteursLignes = table.find('tbody .selecteur input');
-			
+
 			// Selection / Déselection globale
 			selecteurGlobal.click(function()
 			{
@@ -119,12 +119,12 @@ var fbConfig =
 					selecteursLignes.removeAttr('checked');
 				}
 			});
-			
+
 			// Déselection unique
 			selecteursLignes.click(function()
 			{
 				var selecteur = $(this);
-				
+
 				if(!selecteur.is(':checked'))
 				{
 					selecteurGlobal.removeAttr('checked');
@@ -154,7 +154,7 @@ var fbConfig =
 			colonne.slideToggle(400, function()
 			{
 				colonne.toggleClass('ouvert');
-				btnColonne.toggleClass('ouvert');	
+				btnColonne.toggleClass('ouvert');
 			});
 		});
 
@@ -211,7 +211,7 @@ var fbConfig =
 			clearTimeout(timer);
 
 			timer = setTimeout(function()
-			{	
+			{
 				fixeHauteurColonne();
 			}, 75);
 		});
@@ -237,33 +237,33 @@ var fbConfig =
 			nav.removeClass('visible_tab');
 		});
 	};
-	
-	
-	
+
+
+
 	/* =================================================================================== */
 	/* INITIALISATION */
 	/* =================================================================================== */
 	$(document).ready( function()
 	{
 		$.initUtilisateur();
-		
+
 		//$.metadata.setType('html5');
 		$.inputPlaceholder();
-		
+
 		$.initTableSelection();
 
 		$.initToggleColonne();
 
 		$.initToggleNavMobile();
 
-		$.initTailleColonne();
-	
+		//$.initTailleColonne();
+
         if(!('contains' in String.prototype)) {
            String.prototype.contains = function(str, startIndex) {
                 return -1 !== String.prototype.indexOf.call(this, str, startIndex);
            };
      	}
-            
+
 	});
-	
+
 })(jQuery);

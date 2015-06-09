@@ -35,31 +35,43 @@
 		{
             colonnes = new $.Colonnes();
             colonnes.event_colonne_init = function(colonne) {
-                colonne.element.find("input.input_lien.drm_details").click(function() {
-                input = $(this);
-				$.fancybox({type : 'ajax',
-				href: input.attr('data-href'),
-				fitToView : false,
-				afterShow : function()
-				{
-					input.initDetailsPopup(colonne);
-					$('.fancybox-outer').before($('.fancybox-title'));
-				},
-				onClose : function()
-				{
-				    $.unbindDetailsPopup();
-				},
-				helpers :
-				{
-					title : {
-						type : 'inside'
-					}
-				},
-				beforeLoad : function() {
-					this.title = input.attr('data-title');
-				}
+            	var btns_details = colonne.element.find("input.input_lien.drm_details");
+
+               	btns_details.click(function() {
+		            input = $(this);
+
+					$.fancybox({type : 'ajax',
+						href: input.attr('data-href'),
+						fitToView : false,
+						afterShow : function()
+						{
+							input.initDetailsPopup(colonne);
+							$('.fancybox-outer').before($('.fancybox-title'));
+						},
+						onClose : function()
+						{
+						    $.unbindDetailsPopup();
+						},
+						helpers :
+						{
+							title : {
+								type : 'inside'
+							}
+						},
+						beforeLoad : function() {
+							this.title = input.attr('data-title');
+						}
                     });
                 });
+
+            	$(document).on('keydown', function(e)
+            	{
+            		// Si on appuie sur la barre d'espace
+            		if(e.keyCode === 32)
+            		{
+            			btns_details.filter(':focus').click();
+            		}
+            	});
 
                 colonne.element.find("a.labels_lien").each(function() {
                     var lien = $(this);
