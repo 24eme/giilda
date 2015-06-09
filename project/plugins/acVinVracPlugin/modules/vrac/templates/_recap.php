@@ -1,3 +1,4 @@
+<?php use_helper('Float'); ?>
 <?php
 $isValidation = (is_null($vrac->valide->statut));
 $isPrixVariable = (!$vrac->prix_total);
@@ -39,9 +40,6 @@ $template_validation = (isset($template_validation))? $template_validation : fal
                 <?php endif; ?>
                 <li class="list-group-item">
                     Volumes proposés : <?php echo showRecapVolumePropose($vrac); ?>
-                    <?php if (!$isTeledeclarationMode && !$vrac->isVise() && $vrac->isVin()): ?>
-                        (stock commercialisable <?php echoFloat($vrac->getStockCommercialisable()) ?> hl)
-                    <?php endif; ?>
                 </li>
                 <li class="list-group-item">
                     Volumes enlevés : <?php echo (is_null($vrac->volume_enleve)) ? '0 hl' : ($vrac->volume_enleve . ' hl'); ?>

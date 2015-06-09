@@ -44,9 +44,9 @@ class VracValidation extends DocumentValidation {
                 $this->addPoint('erreur', 'hors_interloire_raisins_mouts', 'changer', $this->generateUrl('vrac_soussigne', $this->document));
             }
 
-            if ($this->document->isVin() && $this->document->volume_propose > $this->document->getStockCommercialisable()) {
+            /*if ($this->document->isVin() && $this->document->volume_propose > $this->document->getStockCommercialisable()) {
                 $this->addPoint('vigilance', 'stock_commercialisable_negatif', 'modifier le volume', $this->generateUrl('vrac_marche', $this->document));
-            }
+            }*/
 
             $nbsimilaires = count(array_keys(VracClient::getInstance()->retrieveSimilaryContracts($this->document)));
             if ($nbsimilaires) {

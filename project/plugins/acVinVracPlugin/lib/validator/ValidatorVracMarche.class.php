@@ -25,19 +25,6 @@ class ValidatorVracMarche extends sfValidatorBase {
         if (($values['categorie_vin'] === VracClient::CATEGORIE_VIN_DOMAINE) && !$values['domaine']) {
             $errorSchema->addError(new sfValidatorError($this, 'invalid_domaine'), 'domaine');
         }
-
-        if (($values['type_transaction'] === VracClient::TYPE_TRANSACTION_VIN_VRAC) && !$values['jus_quantite']) {
-             $errorSchema->addError(new sfValidatorError($this, 'invalid_quantite'), 'jus_quantite');
-        }
-        if (($values['type_transaction'] === VracClient::TYPE_TRANSACTION_MOUTS) && !$values['jus_quantite']) {
-             $errorSchema->addError(new sfValidatorError($this, 'invalid_quantite'), 'jus_quantite');
-        }
-        if (($values['type_transaction'] === VracClient::TYPE_TRANSACTION_RAISINS) && !$values['raisin_quantite']) {
-             $errorSchema->addError(new sfValidatorError($this, 'invalid_quantite'), 'raisin_quantite');
-        }
-        if (($values['type_transaction'] === VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) && !$values['bouteilles_quantite']) {
-             $errorSchema->addError(new sfValidatorError($this, 'invalid_quantite'), 'bouteilles_quantite');
-        }
         if (count($errorSchema)) {
             throw new sfValidatorErrorSchema($this, $errorSchema);
         }

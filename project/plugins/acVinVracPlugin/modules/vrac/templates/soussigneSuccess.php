@@ -17,10 +17,6 @@ endif;
 
 <?php include_partial('vrac/etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
-<div class="page-header">
-    <h2>Création</h2>
-</div>
-
 <form 
 	id="contrat_soussignes" 
 	data-numcontrat="<?php echo ($nouveau)? null : $form->getObject()->numero_contrat ;?>" 

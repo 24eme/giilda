@@ -3,10 +3,6 @@
 
 <?php include_partial('vrac/etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 2, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
-<div class="page-header">
-    <h2>Marché</h2>
-</div>
-
 <form action="" method="post" class="form-horizontal">
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
@@ -77,7 +73,8 @@
                         <h3 class="panel-title">Quantité</h3>
                     </div>
                     <div class="panel-body">
-                        
+                    
+                        <?php if(isset($form['bouteilles_contenance_libelle'])): ?>
                         <?php echo $form['bouteilles_contenance_libelle']->renderError(); ?>
                         <div class="form-group <?php if($form['bouteilles_contenance_libelle']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['bouteilles_contenance_libelle']->renderLabel("Contenance :", array('class' => 'col-sm-4 control-label')); ?>
@@ -85,20 +82,9 @@
                                 <?php echo $form['bouteilles_contenance_libelle']->render(array('class' => 'form-control')); ?>
                             </div>
                         </div>
-
-                        <?php if(isset($form['bouteilles_quantite'])): ?>
-                        <?php echo $form['bouteilles_quantite']->renderError(); ?>
-                        <div class="form-group <?php if($form['bouteilles_quantite']->hasError()): ?>has-error<?php endif; ?>">
-                            <?php echo $form['bouteilles_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
-                            <div class="col-sm-4">
-                                <div class="input-group">
-                                    <?php echo $form['bouteilles_quantite']->render(array('class' => 'form-control text-right', 'autocomplete' => 'off')); ?>
-                                    <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                </div>
-                            </div>
-                        </div>
                         <?php endif; ?>
-
+						
+						<?php if(isset($form['jus_quantite'])): ?>
                         <?php echo $form['jus_quantite']->renderError(); ?>
                         <div class="form-group <?php if($form['jus_quantite']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['jus_quantite']->renderLabel("Volume proposé :", array('class' => 'col-sm-4 control-label')); ?>
@@ -109,10 +95,12 @@
                                 </div>
                             </div>
                         </div>
-
+                        <?php endif; ?>
+						
+						<?php if(isset($form['raisin_quantite'])): ?>
                         <?php echo $form['raisin_quantite']->renderError(); ?>
                         <div class="form-group <?php if($form['raisin_quantite']->hasError()): ?>has-error<?php endif; ?>">
-                            <?php echo $form['raisin_quantite']->renderLabel("Quantité de raisins :", array('class' => 'col-sm-4 control-label')); ?>
+                            <?php echo $form['raisin_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <?php echo $form['raisin_quantite']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
@@ -120,6 +108,7 @@
                                 </div>
                             </div>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -171,6 +160,29 @@
                     </div>
                 </div>
             </div>
+            
+            
+            <div class="col-xs-6 pull-right">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Retiraison</h3>
+                    </div>
+                    <div class="panel-body">
+                        <?php echo $form['enlevement_date']->renderError(); ?>
+                        <div class="form-group <?php if($form['enlevement_date']->hasError()): ?>has-error<?php endif; ?>">
+                            <?php echo $form['enlevement_date']->renderLabel("Date limite :", array('class' => 'col-sm-4 control-label')); ?>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <?php echo $form['enlevement_date']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
             </div>
         </div>
     </div>

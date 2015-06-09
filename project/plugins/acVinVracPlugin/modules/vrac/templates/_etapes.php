@@ -14,18 +14,11 @@
         <?php include_partial('etapeItem',array('num_etape' => 1,
                                                  'vrac' => $vrac,
                                                  'actif' => $actif,
-                                                 'label' => 'Marché',
+                                                 'label' => 'Saisie',
                                                  'url_etape' => 'vrac_marche'
                                                 )); ?>
         
         <?php include_partial('etapeItem',array('num_etape' => 2,
-                                                 'vrac' => $vrac,
-                                                 'actif' => $actif,
-                                                 'label' => 'Conditions',
-                                                 'url_etape' => 'vrac_condition'
-                                                )); ?>
-        
-        <?php include_partial('etapeItem',array('num_etape' => 3,
                                                  'vrac' => $vrac,
                                                  'actif' => $actif,
                                                  'label' => 'Validation',

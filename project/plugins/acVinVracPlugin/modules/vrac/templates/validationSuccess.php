@@ -1,20 +1,14 @@
 <?php use_helper('Vrac'); ?>
 
-<?php include_partial('vrac/etapes', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+<?php include_partial('vrac/etapes', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 3, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
-<div class="page-header">
-    <?php if ($isTeledeclarationMode): ?>
-        <h2>Récapitulatif du contrat</h2>
-    <?php else: ?>
-        <h2>Récapitulatif de la saisie</h2>
-    <?php endif; ?>
-</div>
+
 
 <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <div class="row">
     <div class="col-xs-4 text-left">
-        <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-default">Etape précédente</a>
+        <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-default">Etape précédente</a>
     </div>
     <div class="col-xs-4 text-center">
         <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
