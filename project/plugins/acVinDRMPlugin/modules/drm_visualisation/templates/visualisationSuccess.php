@@ -59,7 +59,7 @@
             <tr><td><pre class="commentaire"><?php echo $drm->commentaire; ?></pre></td></tr>
         </table>
     <?php else: ?> 
-      <?php include_partial('drm_crds/recap', array('drm' => $drm)) ?>  
+      <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)) ?>  
     <?php endif; ?>   
              <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode'  => $isTeledeclarationMode)) ?>
     <br />
