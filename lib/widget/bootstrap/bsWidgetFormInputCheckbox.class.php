@@ -2,6 +2,4 @@
 
 class bsWidgetFormInputCheckbox extends sfWidgetFormInputCheckbox
 {
-    
-    
 }

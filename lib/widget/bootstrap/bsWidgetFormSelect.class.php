@@ -22,8 +22,9 @@ class bsWidgetFormSelect extends sfWidgetFormSelect {
 
         $choices = $this->getChoices();
 
-        $classes = isset($attributes['class']) ? $attributes['class'] : '';
-        $attributes['class'] = trim('form-control ' . $classes);
+        if(!isset($attributes['class'])) {
+            $attributes['class'] = 'form-control';            
+        }
 
         return $this->renderContentTag('select', "\n".implode("\n", $this->getOptionsForSelect($value, $choices))."\n", array_merge(array('name' => $name), $attributes));
     }
