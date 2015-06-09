@@ -47,7 +47,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('domaine', new bsWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
         $this->setWidget('raisin_quantite', new bsWidgetFormInput());
         $this->setWidget('jus_quantite', new bsWidgetFormInput());
-        $this->setWidget('bouteilles_quantite', new bsWidgetFormInput(array(), array('autocomplete' => 'off')));
         $contenance = array();
         foreach (array_keys(VracClient::getInstance()->getContenances()) as $c) {
             $contenance[$c] = $c;
@@ -60,8 +59,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'millesime' => $this->getMillesimeLabel(),
             'categorie_vin' => 'Type',
             'domaine' => 'Nom du domaine',
-            'bouteilles_quantite' => 'Quantité',
-            'raisin_quantite' => 'Quantité de raisins',
+            'raisin_quantite' => 'Quantité',
             'jus_quantite' => 'Volume proposé',
             'bouteilles_contenance_libelle' => 'Contenance',
             'prix_initial_unitaire' => 'Prix'
@@ -75,14 +73,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setValidator('categorie_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))));
         $this->setValidator('domaine', new sfValidatorString(array('required' => false)));
 
-        $this->setValidator('bouteilles_quantite', new sfValidatorInteger(array('required' => false)));
         $this->setValidator('raisin_quantite', new sfValidatorNumber(array('required' => false)));
         $this->setValidator('jus_quantite', new sfValidatorNumber(array('required' => false)));
 
         $this->setValidator('bouteilles_contenance_libelle', new sfValidatorString(array('required' => true)));
         $this->setValidator('prix_initial_unitaire', new sfValidatorNumber(array('required' => true)));
 
-        $this->validatorSchema['bouteilles_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas entière.');
+        
         $this->validatorSchema['jus_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
         $this->validatorSchema['raisin_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
 
@@ -99,6 +96,19 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $this->setWidget('prix_unitaire', new bsWidgetFormInput(array('label' => 'Prix définitif')));
             $this->setValidator('prix_unitaire', new sfValidatorNumber(array('required' => false)));
         }
+        if ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
+        	unset($this['jus_quantite']);
+        } else {
+        	unset($this['raisin_quantite']);
+        }
+        if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
+        	unset($this['bouteilles_contenance_libelle']);
+        }
+        
+
+        $this->setWidget('enlevement_date', new bsWidgetFormInput(array('label' => 'Date limite')));
+        $this->getWidget('enlevement_date')->setLabel("Date limite");
+        $this->setValidator('enlevement_date', new sfValidatorString(array('required' => false)));
 
 
         $this->widgetSchema->setNameFormat('vrac[%s]');
