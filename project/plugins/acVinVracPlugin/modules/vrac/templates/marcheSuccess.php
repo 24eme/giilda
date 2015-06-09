@@ -24,14 +24,6 @@
                             <?php echo $form['millesime']->render(array('class' => 'form-control')); ?>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Caractéristiques du produit</h3>
-                </div>
-                <div class="panel-body">
                     <?php echo $form['categorie_vin']->renderError(); ?>
                     <?php echo $form['domaine']->renderError(); ?>
                     <?php echo $form['label']->renderError(); ?>
