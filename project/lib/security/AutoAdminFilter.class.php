@@ -5,7 +5,7 @@
  * Inspired by James McGlinn <james@mcglinn.org>
  *
  */
-class AutoAdminFilter extends sfFilter
+class AutoAdminFilter extends sfBasicSecurityFilter
 {
   /**
    * Execute filter
@@ -17,7 +17,7 @@ class AutoAdminFilter extends sfFilter
     $context = $this->getContext(); 	
     $user = $context->getUser();
     if ($user->isAuthenticated())
-	return;
+	return parent::execute($filterChain);
 
 
     $user->clearCredentials();
