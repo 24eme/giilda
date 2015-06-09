@@ -7,7 +7,7 @@ $template_validation = (isset($template_validation))? $template_validation : fal
 ?>
 
 <div class="row">
-    <div class="col-xs-4">
+    <div class="col-xs-6">
         <div class="panel panel-default">
             <div class="panel-heading">1. Soussignés <?php if($isValidation && !$isTeledeclarationMode): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
@@ -24,7 +24,7 @@ $template_validation = (isset($template_validation))? $template_validation : fal
         </div>
     </div>
 
-    <div class="col-xs-4">
+    <div class="col-xs-6">
         <div class="panel panel-default">
             <div class="panel-heading">2. Le marché <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare() && ($isValidation || $isPrixVariable)) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?><?php endif; ?>" class="btn btn-xs btn-default pull-right">Modifier</a></div>
             <ul class="list-group">
@@ -47,38 +47,6 @@ $template_validation = (isset($template_validation))? $template_validation : fal
                 <li class="list-group-item">
                     Prix unitaire : <?php echo showRecapPrixTotal($vrac); ?>
                 </li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="col-xs-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">3. Les conditions  <?php if (!$vrac->isTeledeclare() && ($isValidation)):
-            ?><a href="<?php echo url_for('vrac_condition', $vrac); ?><?php endif; ?>" class="btn btn-xs btn-default pull-right">Modifier</a></div>
-            <ul class="list-group">
-                <li class="list-group-item">Type de contrat : <?php echo $vrac->type_contrat; ?></li>
-                <?php if (!$isTeledeclarationMode): ?>
-                <li class="list-group-item">Prix variable : <?php echo ($vrac->prix_variable) ? 'Oui' : 'Non'; echo ($vrac->prix_variable) ? ' (' . $vrac->part_variable . '%)' : ''; ?></li>
-                <?php endif; ?>
-                <li class="list-group-item">Nature de la transaction : <?php echo $vrac->cvo_nature; ?></li>
-                <?php if (!$isTeledeclarationMode): ?>
-                <li class="list-group-item">Repartition de la CVO : <?php if(isset(VracClient::$cvo_repartition[$vrac->cvo_repartition])): ?><?php echo VracClient::$cvo_repartition[$vrac->cvo_repartition] ?><?php endif; ?></li>
-                <?php endif; ?>
-                <?php if (!$isTeledeclarationMode): ?>
-                    <li class="list-group-item">Date de signature : <?php echo $vrac->date_signature; ?></li>
-                    <?php if ($vrac->date_campagne && !$sf_user->hasTeledeclarationVrac()) : ?>
-                        <li class="list-group-item">Date de campagne (statistique) : <?php echo $vrac->date_campagne; ?></li>
-                    <?php endif; ?>
-                    <?php if ($vrac->valide->date_saisie) : ?>
-                        <li class="list-group-item">Date de saisie : <?php echo format_date($vrac->valide->date_saisie, 'dd/MM/yyyy'); ?></li>
-                    <?php endif; ?>
-                <?php else: ?>
-                    <li class="list-group-item">Date d'enlèvement : <?php echo format_date($vrac->getMaxEnlevement(), 'dd/MM/yyyy'); ?></li>
-                    <li class="list-group-item">Frais de garde par mois : <?php echo ($vrac->exist('enlevement_frais_garde'))? echoF($vrac->enlevement_frais_garde)."&nbsp;€/hl" : ''."&nbsp;€/hl"; ?></li>
-                <?php endif; ?>
-                <?php if (!$isTeledeclarationMode): ?>
-                    <li class="list-group-item">Commentaires : <?php echo $vrac->commentaire; ?></li>
-                <?php endif; ?> 
             </ul>
         </div>
     </div>

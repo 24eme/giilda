@@ -2,7 +2,7 @@
 
 <?php include_partial('vrac/etapes', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 3, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
-
+<?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
 
 <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
