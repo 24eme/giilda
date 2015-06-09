@@ -15,7 +15,7 @@ class SecurityFilter extends sfBasicSecurityFilter
         } elseif($auth == "CAS") {
             $this->filter = new CASSecurityFilter($context, array());
         } elseif($auth == "NO_AUTH") {
-            $this->filter = new acAutoAdminFilter($context, array());
+            $this->filter = new AutoAdminFilter($context, array());
         } else {
             $this->filter = new sfBasicSecurityFilter($context, array());
         }

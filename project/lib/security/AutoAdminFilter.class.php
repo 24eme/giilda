@@ -5,7 +5,7 @@
  * Inspired by James McGlinn <james@mcglinn.org>
  *
  */
-class acAutoAdminFilter extends sfFilter
+class AutoAdminFilter extends sfFilter
 {
   /**
    * Execute filter
@@ -16,21 +16,30 @@ class acAutoAdminFilter extends sfFilter
   {
     $context = $this->getContext(); 	
     $user = $context->getUser();
+    if ($user->isAuthenticated())
+	return;
+
 
     $user->clearCredentials();
     $user->setAuthenticated(true);
 
     $rights = 'admin';
 
+    $user->setAttribute('AUTH_USER', $rights);    
     $user->setAttribute('AUTH_DESC', $rights);
-    $user->addCredential($rights);
-    if ($rights == 'admin') {
-      $user->addCredential('transactions');
-    }
-    if ($rights) {
-      $user->addCredential('contacts');
-    }
-    $filterChain->execute();
+    $user->signInOrigin($this->getCompte($user->getAttribute('AUTH_USER'), $user->getAttribute('AUTH_DESC')));
+    parent::execute($filterChain);
+  }
+
+  public function getCompte($identifiant, $right) {
+    $compte = new Compte();
+
+    $compte->_id = "COMPTE-".$identifiant;
+    $compte->identifiant = $identifiant;
+
+    $compte->add("droits", array($right, Roles::OPERATEUR));
+
+    return $compte;
   }
  
 
