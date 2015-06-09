@@ -159,6 +159,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
     }
 
     public function getDomaines() {
+
+        $this->domaines = array("" => "", "Château de Neuilly" => "Château de Neuilly", "Mas des Sablons" => "Mas des Sablons");
+        return;
         $domaines = VracDomainesView::getInstance()->findDomainesByVendeur($this->getObject()->vendeur_identifiant);
         $this->domaines = array('' => '');
         foreach ($domaines->rows as $resultDomaine) {
