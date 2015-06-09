@@ -65,7 +65,7 @@ endif;
                                     <?php echo $form['vendeur_identifiant']->renderError(); ?>
                                     <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                         <div class="col-sm-12" id="vendeur_choice">
-                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control')); ?>
+                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un acheteur')); ?>
                                         </div>
                                     </div>
                                     <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
@@ -104,7 +104,7 @@ endif;
                                     <?php echo $form['acheteur_identifiant']->renderError(); ?>
                                     <div class="form-group <?php if($form['acheteur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                         <div class="col-sm-12" id="acheteur_choice">
-                                            <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control')); ?>
+                                            <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un acheteur')); ?>
                                         </div> 
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@ endif;
                             <?php echo $form['mandataire_identifiant']->renderError(); ?>
                             <div class="form-group <?php if($form['mandataire_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                 <div class="col-sm-12" id="mandataire_choice">
-                                    <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control')); ?>
+                                    <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un mandataire')); ?>
                                 </div>
                             </div>
                             <?php echo $form['mandatant']->renderError(); ?>

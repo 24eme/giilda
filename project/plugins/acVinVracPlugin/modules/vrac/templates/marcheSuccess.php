@@ -18,10 +18,10 @@
                     <?php echo $form['millesime']->renderError(); ?>
                     <div class="form-group">
                         <div class="col-xs-8 <?php if($form['produit']->hasError()): ?>has-error<?php endif; ?>">
-                            <?php echo $form['produit']->render(array('class' => 'form-control')); ?>
+                            <?php echo $form['produit']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un produit')); ?>
                         </div>
                         <div class="col-xs-4 <?php if($form['millesime']->hasError()): ?>has-error<?php endif; ?>">
-                            <?php echo $form['millesime']->render(array('class' => 'form-control')); ?>
+                            <?php echo $form['millesime']->render(array('class' => 'form-control select2')); ?>
                         </div>
                     </div>
                     <?php echo $form['categorie_vin']->renderError(); ?>
@@ -38,7 +38,7 @@
                             <div id="bloc_domaine" data-condition-data="DOMAINE" class="bloc_conditionner col-sm-6 <?php if($form['domaine']->hasError()): ?>has-error<?php endif; ?>">
                                 <?php echo $form['domaine']->renderLabel("Domaine :", array("class" => "control-label col-sm-4")); ?>
                                 <div class="col-sm-8">
-                                    <?php echo $form['domaine']->render(array('class' => 'form-control')); ?>
+                                    <?php echo $form['domaine']->render(array('class' => 'form-control select2', 'placeholder' => 'Déclarer un domaine')); ?>
                                 </div>
                             </div>
                         </div>

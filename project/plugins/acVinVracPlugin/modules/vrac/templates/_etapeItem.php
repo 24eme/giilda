@@ -12,10 +12,15 @@ if($actif == $num_etape+1) $liClass = 'active';
 ?>
 
 <li class="<?php echo $liClass; ?>">
+    <?php if($liClass != 'active'): ?>
     <a <?php echo $href; ?>>
         <?php echo $num_etape+1;?>.
         <?php echo $label; ?> 
     </a>    
+    <?php else: ?>
+      <strong class="lead text-info"><?php echo $num_etape+1;?>.
+        <?php echo $label; ?></strong>
+    <?php endif; ?>
 </li>
 
 
