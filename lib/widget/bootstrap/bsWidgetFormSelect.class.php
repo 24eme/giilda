@@ -5,7 +5,7 @@ class bsWidgetFormSelect extends sfWidgetFormSelect {
     {
         parent::configure($options, $attributes);
 
-        $this->addOption('inline', false);
+        $this->addOption('inline', true);
     }
 
     public function render($name, $value = null, $attributes = array(), $errors = array())
