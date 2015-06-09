@@ -36,6 +36,8 @@
     <?php include_partial('global/footer'); ?>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/components/jquery/jquery.js"></script>
-    <script src="/components/bootstrap/bootstrap.js"></script>
+    <script src="/js/lib/jquery-ui-1.8.21.min.js"></script>
+    <script src="/js/ajaxHelper.js"></script>
+    <script src="/js/vrac.js"></script>
   </body>
 </html>

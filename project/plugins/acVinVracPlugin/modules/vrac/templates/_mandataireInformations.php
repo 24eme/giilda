@@ -51,13 +51,13 @@ use_helper('Display');
     </div>
     <div class="ligne_form ligne_form_alt"> 
         <span>
-            <label>CP<?php echo $asterisk ?></label>
+            <label>CP</label>
             <?php  display_field($mandataire,'siege/code_postal');  ?>
         </span>
     </div>
     <div class="ligne_form ">      
         <span>
-            <label>Ville<?php echo $asterisk ?></label>
+            <label>Ville</label>
             <?php  display_field($mandataire,'siege/commune');  ?>
         </span>
     </div>

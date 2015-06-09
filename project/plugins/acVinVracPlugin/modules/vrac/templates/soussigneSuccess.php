@@ -1,38 +1,4 @@
 <?php
-/* Fichier : soussigneSuccess.php
- * Description : Fichier php correspondant à la vue de vrac/nouveau-soussigne
- * Formulaire d'enregistrement de la partie soussigne des contrats (modification de contrat)
- * Auteur : Petit Mathurin - mpetit[at]actualys.com
- * Version : 1.0.0 
- * Derniere date de modification : 29-05-12
- */
-//if (!$isTeledeclarationMode) :
-if ($nouveau) :
-    ?>
-    <script type="text/javascript">
-        $(document).ready(function()
-        {
-            init_ajax_nouveau();
-        });
-    </script>
-    <?php
-else :
-    $numero_contrat = $form->getObject()->numero_contrat;
-    ?>
-    <script type="text/javascript">
-        $(document).ready(function()
-        {
-            ajaxifyAutocompleteGet('getInfos', {autocomplete: '#vendeur_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#vendeur_informations');
-            ajaxifyAutocompleteGet('getInfos', {autocomplete: '#acheteur_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#acheteur_informations');
-            ajaxifyAutocompleteGet('getInfos', {autocomplete: '#mandataire_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#mandataire_informations');
-            majMandatairePanel();
-            //$('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
-            //$('#vrac_acheteur_famille_negociant').attr('checked','checked');
-        });
-    </script>
-<?php
-endif;
-//endif;
 
 $urlForm = null;
 
@@ -52,10 +18,19 @@ endif;
 <?php include_partial('vrac/etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <div class="page-header">
-    <h2>Soussignés</h2>
+    <h2>Création</h2>
 </div>
 
-<form action="<?php echo $urlForm; ?>" method="post" class="form-horizontal">
+<form 
+	id="contrat_soussignes" 
+	data-numcontrat="<?php echo ($nouveau)? null : $form->getObject()->numero_contrat ;?>" 
+	data-isteledeclare="<?php echo ($isTeledeclarationMode)? 1 : 0 ;?>" 
+	data-etablissementprincipal="<?php echo $etablissementPrincipal->_id ?>" 
+	data-iscourtierresponsable="<?php echo ($isCourtierResponsable)? 1 : 0 ?>"
+	action="<?php echo $urlForm; ?>" 
+	method="post" 
+	class="form-horizontal"
+>
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
@@ -63,44 +38,29 @@ endif;
             <div class="form-group">
                 <?php echo $form['vendeur_identifiant']->renderError(); ?>
                 <?php echo $form['vendeur_identifiant']->renderLabel("Vendeur :", array('class' => 'col-sm-2 control-label')); ?>
-                <div class="col-sm-6">
+                <div class="col-sm-6" id="vendeur_choice">
                     <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control')); ?>
                 </div>
-                <?php if($form->getObject()->getVendeurObject()): ?>
                 <div class="col-sm-4">
                     <div class="panel panel-default">
-                        <div class="panel-body">
-                            <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getVendeurObject())); ?>
+                        <div class="panel-body" id="vendeur_informations">
+                            <?php include_partial('vrac/vendeurInformations', array('soussigne' => $form->getObject()->getVendeurObject())); ?>
                         </div>
                     </div>
                 </div>
-                <?php endif; ?>
             </div>
            
             <div class="form-group">
                 <?php echo $form['acheteur_identifiant']->renderError(); ?>
                 <?php echo $form['acheteur_identifiant']->renderLabel("Acheteur :", array('class' => 'col-sm-2 control-label')); ?>
-                <div class="col-sm-6">
+                <div class="col-sm-6" id="acheteur_choice">
                     <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control')); ?>
                 </div>
-                <?php if($form->getObject()->getAcheteurObject()): ?>
                 <div class="col-sm-4">
                     <div class="panel panel-default">
-                        <div class="panel-body">
-                            <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getAcheteurObject())); ?>
+                        <div class="panel-body" id="acheteur_informations">
+                            <?php include_partial('vrac/acheteurInformations', array('soussigne' => $form->getObject()->getAcheteurObject())); ?>
                         </div>
-                    </div>
-                </div>
-                <?php endif; ?>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <?php echo $form['interne']->renderError(); ?>
-                    <div class="checkbox">
-                        <label for="<?php echo $form['interne']->renderId(); ?>">
-                            <?php echo $form['interne']->render(); ?>
-                            Cocher si le contrat est interne
-                        </label>
                     </div>
                 </div>
             </div>
@@ -125,18 +85,16 @@ endif;
             <div class="form-group">
                 <?php echo $form['mandataire_identifiant']->renderError(); ?>
                 <?php echo $form['mandataire_identifiant']->renderLabel("Mandataire :", array('class' => 'col-sm-2 control-label')); ?>
-                <div class="col-sm-6">
+                <div class="col-sm-6" id="mandataire_choice">
                     <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control')); ?>
                 </div>
-                <?php if($form->getObject()->getMandataireObject()): ?>
                 <div class="col-sm-4">
                     <div class="panel panel-default">
-                        <div class="panel-body">
-                            <?php include_partial('vrac/soussigneInfos', array('soussigne' => $form->getObject()->getMandataireObject())); ?>
+                        <div class="panel-body" id="mandataire_informations">
+                            <?php include_partial('vrac/mandataireInformations', array('soussigne' => $form->getObject()->getMandataireObject())); ?>
                         </div>
                     </div>
                 </div>
-                <?php endif; ?>
             </div>
             <?php if (isset($form['commercial'])): ?>
             <div class="form-group">
@@ -168,23 +126,6 @@ endif;
     </div>
 </form>
 
-<?php if ($isTeledeclarationMode): ?>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $(".btn_ajout_autocomplete a").live('click', function() {
-                $("#vrac_soussigne").attr('action', $(this).attr('href'));
-                $("#vrac_soussigne").submit();
-                return false;
-            });
-            $("div#acheteur_choice input.ui-autocomplete-input").val('<?php echo $etablissementPrincipal->_id; ?>');
-
-
-    <?php if ($isCourtierResponsable): ?>
-                initTeledeclarationCourtierSoussigne();
-    <?php endif; ?>
-        });
-    </script>
-<?php endif; ?>
 <?php
 if ($isTeledeclarationMode):
     include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));

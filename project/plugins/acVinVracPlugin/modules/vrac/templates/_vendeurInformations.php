@@ -84,13 +84,13 @@ if (!isset($numero_contrat)) {
         </div>
         <div class="ligne_form ligne_form_alt">
             <span>
-                <label>CP*</label>
+                <label>CP</label>
                 <?php display_field($vendeur, 'siege/code_postal'); ?>
             </span>
         </div>
         <div class="ligne_form">
             <span>
-                <label>Ville*</label>
+                <label>Ville</label>
                 <?php display_field($vendeur, 'siege/commune'); ?>
             </span>
         </div>
