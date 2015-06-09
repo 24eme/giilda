@@ -1,7 +1,8 @@
-<?php
-use_helper('Display');
-use_helper('Vrac');
-?>
+<?php use_helper('Display'); ?>
+<?php use_helper('Vrac'); ?>
+
+<strong><?php echo $vendeur->nom ?></strong>
+
 <?php if ($isTeledeclarationMode): ?>
     <div id="vendeur_infos" class="bloc_form bloc_form_condensed bloc_form_teledeclaration">    
         <div class="ligne_form ">

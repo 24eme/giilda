@@ -85,7 +85,7 @@ endif;
         		                </div>
         		            </div> 
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" id="vendeur_informations">
                             <?php include_partial('vrac/vendeurInformations', array('vendeur' => $form->getObject()->getVendeurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
                         </div>
                     </div>
@@ -105,7 +105,7 @@ endif;
                                 </div> 
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" id="acheteur_informations">
                             <?php include_partial('vrac/acheteurInformations', array('acheteur' => $form->getObject()->getAcheteurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
                         </div>
                     </div>
@@ -143,7 +143,7 @@ endif;
                             </div>
                             <?php endif; ?>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" id="mandataire_informations">
                             <?php include_partial('vrac/mandataireInformations', array('mandataire' => $form->getObject()->getMandataireObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
                         </div>
                     </div>
