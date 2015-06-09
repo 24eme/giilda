@@ -17,7 +17,7 @@ class HttpAuth2ADSecurityFilter extends sfBasicSecurityFilter
     $context = $this->getContext();     
     $user = $context->getUser();
     if (!isset($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] == 'logout') {
-      acHttpAuth2ADFilter::logout();
+      self::logout();
     }
     if ($user->isAuthenticated()){ //&& isset($_SERVER['PHP_AUTH_USER']) && $user->getAttribute('AUTH_USER') == $_SERVER['PHP_AUTH_USER'] && !isset($_GET['forcead'])) {
         return parent::execute($filterChain);
