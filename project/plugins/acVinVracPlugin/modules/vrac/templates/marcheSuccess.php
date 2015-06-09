@@ -18,7 +18,7 @@
                     <?php echo $form['millesime']->renderError(); ?>
                     <div class="form-group">
                         <div class="col-xs-8 <?php if($form['produit']->hasError()): ?>has-error<?php endif; ?>">
-                            <?php echo $form['produit']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un produit')); ?>
+                            <?php echo $form['produit']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un produit', 'tabindex'=> '0')); ?>
                         </div>
                         <div class="col-xs-4 <?php if($form['millesime']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['millesime']->render(array('class' => 'form-control select2')); ?>
@@ -182,7 +182,7 @@
 
     <div class="row">
         <div class="col-xs-4 text-left">
-            <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
+            <a tabindex="-1" href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
         </div>
         <div class="col-xs-4 text-center">
             <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>

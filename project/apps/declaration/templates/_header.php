@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="<?php echo url_for('homepage') ?>">Déclaration</a>
+          <a tabindex="-1" class="navbar-brand" href="<?php echo url_for('homepage') ?>">Déclaration</a>
         </div>
 
         <?php include_component('global', 'nav'); ?>
