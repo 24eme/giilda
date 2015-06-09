@@ -1,3 +1,4 @@
+<?php if (!$vendeur) return ; ?>
 <strong><?php echo $vendeur->nom ?></strong><br />
 <?php echo $vendeur->siege->adresse ?><br />
 <?php echo $vendeur->siege->code_postal ?><?php echo $vendeur->siege->commune ?><br />
