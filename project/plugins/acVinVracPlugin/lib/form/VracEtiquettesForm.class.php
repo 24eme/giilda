@@ -10,7 +10,7 @@
  * Description of class VracEtiquettesForm
  * @author mathurin
  */
-class VracEtiquettesForm extends sfForm {
+class VracEtiquettesForm extends BaseForm {
 
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
