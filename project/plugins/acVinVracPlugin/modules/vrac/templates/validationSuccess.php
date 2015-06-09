@@ -8,7 +8,7 @@
 
 <div class="row">
     <div class="col-xs-4 text-left">
-        <a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-default">Etape précédente</a>
+        <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-default">Etape précédente</a>
     </div>
     <div class="col-xs-4 text-center">
         <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
