@@ -36,8 +36,12 @@ class DRMCrds extends BaseDRMCrds {
         }
     }
 
+    public function isEmptyNode(){
+        return count($this->toArray());
+    }
+
     public function crdsInitDefault($genres) {
-        if (count($this->getFields())) {
+        if ($this->isEmptyNode()) {
             return;
         }
         $contenances = sfConfig::get('app_vrac_contenances');

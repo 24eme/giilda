@@ -971,7 +971,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function crdsInitDefault() {
-        foreach ($this->crds as $regime => $regimeCrds) {
+              foreach ($this->crds as $regime => $regimeCrds) {
             $this->crds->get($regime)->crdsInitDefault($this->getAllGenres());
         }
     }
