@@ -451,6 +451,7 @@ DRM:
       crds:
         type: collection
         class: DRMCrdsRegime
+        required: false
         definition:
           fields:
             '*':
@@ -465,13 +466,16 @@ DRM:
                       fields:
                         genre: {  }
                         stock_debut: {  }
+                        stock_fin: {  }
                         couleur: {  }
                         centilitrage: {  }
-                        entrees: {  }
-                        sorties: {  }
-                        pertes: {  }
-                        stock_fin: {  }
                         detail_libelle: {  }
+                        entrees_achats: {  }
+                        entrees_retours: {  }
+                        entrees_excedents: {  }
+                        sorties_utilisations: {  }
+                        sorties_destructions: {  }
+                        sorties_manquants: {  }
       favoris:
         type: collection
         required: false

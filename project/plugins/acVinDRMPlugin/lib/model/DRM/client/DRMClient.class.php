@@ -370,7 +370,7 @@ class DRMClient extends acCouchdbClient {
     public function createDocByPeriode($identifiant, $periode, $isTeledeclarationMode = false) {
         $prev_drm = $this->getHistorique($identifiant, $periode)->getPrevious($periode);
         $next_drm = $this->getHistorique($identifiant, $periode)->getNext($periode);
-
+       
         if ($prev_drm) {
             return $prev_drm->generateSuivanteByPeriode($periode, $isTeledeclarationMode);
         } elseif ($next_drm) {
@@ -385,10 +385,10 @@ class DRMClient extends acCouchdbClient {
         $drm->buildFavoris();
         $drm->storeDeclarant();
         $drm->initSociete();
+        $drm->initCrds();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }
-        $drm->crds = null;
         $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
         if ($drmLast) {
             $drm->generateByDRM($drmLast);

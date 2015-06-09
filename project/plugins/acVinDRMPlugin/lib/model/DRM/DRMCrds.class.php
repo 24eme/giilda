@@ -11,7 +11,7 @@ class DRMCrds extends BaseDRMCrds {
     }
     
     public function getOrAddCrdNode($genre,$couleur, $litrage,  $stock_debut = null) {
-        $crd = $this->add($this->constructKey($genre,$couleur, $litrage,$type_crd));
+        $crd = $this->add($this->constructKey($genre,$couleur, $litrage));
         $crd->centilitrage = $litrage / 100000;
         $crd->couleur = $couleur;
         $crd->genre = $genre;

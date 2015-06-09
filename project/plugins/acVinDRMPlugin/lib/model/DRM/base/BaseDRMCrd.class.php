@@ -4,31 +4,43 @@
  * 
  * Base model for DRMCrd
 
+ * @property string $genre
  * @property string $stock_debut
+ * @property string $stock_fin
  * @property string $couleur
  * @property string $centilitrage
- * @property string $entrees
- * @property string $sorties
- * @property string $pertes
- * @property string $stock_fin
  * @property string $detail_libelle
+ * @property string $entrees_achats
+ * @property string $entrees_retours
+ * @property string $entrees_excedents
+ * @property string $sorties_utilisations
+ * @property string $sorties_destructions
+ * @property string $sorties_manquants
 
+ * @method string getGenre()
+ * @method string setGenre()
  * @method string getStockDebut()
  * @method string setStockDebut()
+ * @method string getStockFin()
+ * @method string setStockFin()
  * @method string getCouleur()
  * @method string setCouleur()
  * @method string getCentilitrage()
  * @method string setCentilitrage()
- * @method string getEntrees()
- * @method string setEntrees()
- * @method string getSorties()
- * @method string setSorties()
- * @method string getPertes()
- * @method string setPertes()
- * @method string getStockFin()
- * @method string setStockFin()
  * @method string getDetailLibelle()
  * @method string setDetailLibelle()
+ * @method string getEntreesAchats()
+ * @method string setEntreesAchats()
+ * @method string getEntreesRetours()
+ * @method string setEntreesRetours()
+ * @method string getEntreesExcedents()
+ * @method string setEntreesExcedents()
+ * @method string getSortiesUtilisations()
+ * @method string setSortiesUtilisations()
+ * @method string getSortiesDestructions()
+ * @method string setSortiesDestructions()
+ * @method string getSortiesManquants()
+ * @method string setSortiesManquants()
  
  */
 
