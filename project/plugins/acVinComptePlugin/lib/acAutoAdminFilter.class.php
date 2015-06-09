@@ -17,6 +17,9 @@ class acAutoAdminFilter extends sfFilter
     $context = $this->getContext(); 	
     $user = $context->getUser();
 
+    $user->clearCredentials();
+    $user->setAuthenticated(true);
+
     $rights = 'admin';
 
     $user->setAttribute('AUTH_DESC', $rights);
