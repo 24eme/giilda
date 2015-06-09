@@ -1,5 +1,5 @@
 <?php
-class bsWidgetFormSchemaFormatterList extends sfWidgetFormSchemaFormatter
+class bsWidgetFormSchemaFormatterBootstrap extends sfWidgetFormSchemaFormatter
 {
   protected
     $rowFormat       = "<li>\n  %error%%label%\n  %field%%help%\n%hidden_fields%</li>\n",
