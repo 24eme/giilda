@@ -101,27 +101,38 @@
                             </div>
                         </div>
 
+                        <?php if(isset($form['bouteilles_quantite'])): ?>
                         <?php echo $form['bouteilles_quantite']->renderError(); ?>
                         <div class="form-group <?php if($form['bouteilles_quantite']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['bouteilles_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
-                            <div class="col-sm-8">
-                                <?php echo $form['bouteilles_quantite']->render(array('class' => 'form-control')); ?>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <?php echo $form['bouteilles_quantite']->render(array('class' => 'form-control text-right', 'autocomplete' => 'off')); ?>
+                                    <span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                </div>
                             </div>
                         </div>
+                        <?php endif; ?>
 
                         <?php echo $form['jus_quantite']->renderError(); ?>
                         <div class="form-group <?php if($form['jus_quantite']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['jus_quantite']->renderLabel("Volume proposé :", array('class' => 'col-sm-4 control-label')); ?>
-                            <div class="col-sm-8">
-                                <?php echo $form['jus_quantite']->render(); ?>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <?php echo $form['jus_quantite']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
+                                    <span class="input-group-addon">&nbsp;hl</span>
+                                </div>
                             </div>
                         </div>
 
                         <?php echo $form['raisin_quantite']->renderError(); ?>
                         <div class="form-group <?php if($form['raisin_quantite']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['raisin_quantite']->renderLabel("Quantité de raisins :", array('class' => 'col-sm-4 control-label')); ?>
-                            <div class="col-sm-8">
-                                <?php echo $form['raisin_quantite']->render(); ?>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <?php echo $form['raisin_quantite']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
+                                    <span class="input-group-addon">kg</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -136,8 +147,11 @@
                         <?php echo $form['prix_initial_unitaire']->renderError(); ?>
                         <div class="form-group <?php if($form['prix_initial_unitaire']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['prix_initial_unitaire']->renderLabel("Prix :", array('class' => 'col-sm-4 control-label')); ?>
-                            <div class="col-sm-8">
-                                <?php echo $form['prix_initial_unitaire']->render(); ?>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <?php echo $form['prix_initial_unitaire']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
+                                    <span class="input-group-addon">&nbsp;€</span>
+                                </div>
                             </div>
                         </div>
 
@@ -145,8 +159,11 @@
                         <?php echo $form['prix_unitaire']->renderError(); ?>
                         <div class="form-group <?php if($form['prix_unitaire']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['prix_unitaire']->renderLabel("Prix définitif :", array('class' => 'col-sm-4 control-label')); ?>
-                            <div class="col-sm-8">
-                                <?php echo $form['prix_unitaire']->render(); ?>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <?php echo $form['prix_unitaire']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
+                                    <span class="input-group-addon">&nbsp;€</span>
+                                </div>
                             </div>
                         </div>
                         <?php endif; ?>
