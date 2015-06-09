@@ -890,7 +890,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             foreach ($this->crds as $regime => $crdsRegime) {
                 foreach ($crdsRegime as $nodeName => $crd) {
                     $crd->udpateStockFinDeMois();
-                    $result[$regime . '_' . $nodeName] = $crd;                    
+                    $result[$regime . '_' . $nodeName] = $crd;
                 }
             }
         }
@@ -946,14 +946,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function initCrds() {
         $toRemoves = array();
-        foreach ($this->getAllCrds() as $key => $crd) {
-            if ($crd->stock_fin > 0) {
-                $crd->stock_debut = $crd->stock_fin;
-                $crd->entrees = null;
-                $crd->sorties = null;
-                $crd->pertes = null;
-            } else {
-                $toRemoves[] = $key;
+        foreach ($this->getAllCrdsByRegimeAndByGenre() as $regime => $allCrdsByRegime) {
+            foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
+                foreach ($crdsByRegime as $key => $crd) {
+                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0) {
+                        $toRemoves[] = $regime . '/' . $key;
+                    } else {
+                        $crd->stock_debut = $crd->stock_fin;
+                        $crd->entrees = null;
+                        $crd->sorties = null;
+                        $crd->pertes = null;
+                    }
+                }
             }
         }
         foreach ($toRemoves as $toRemove) {
