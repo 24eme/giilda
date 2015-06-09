@@ -17,10 +17,16 @@ var initCrds = function() {
         var id = $(this).attr('id');
         $('input').change(function() {
             var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
-            var entrees = $("#" + id + " td.crds_entrees input").val();
-            var sorties = $("#" + id + " td.crds_sorties input").val();
-            var pertes = $("#" + id + " td.crds_pertes input").val();
-            var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entrees) - parseInt(sorties) - parseInt(pertes);
+            
+            var entreesAchats = $("#" + id + " td.crds_entreesAchats input").val();
+            var entreesRetours = $("#" + id + " td.crds_entreesRetours input").val();
+            var entreesExcedents = $("#" + id + " td.crds_entreesExcedents input").val();
+            
+            var sortiesUtilisations = $("#" + id + " td.crds_sortiesUtilisations input").val();
+            var sortiesDestructions = $("#" + id + " td.crds_sortiesDestructions input").val();
+            var sortiesManquants = $("#" + id + " td.crds_sortiesManquants input").val();
+            
+            var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entreesAchats)+ parseInt(entreesRetours)+ parseInt(entreesExcedents) - parseInt(sortiesUtilisations) - parseInt(sortiesDestructions) - parseInt(sortiesManquants);
             $("#" + id + " td.crds_fin_de_mois").text(fin_de_mois);
         });
 

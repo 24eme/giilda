@@ -955,9 +955,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                         $toRemoves[] = $regime . '/' . $key;
                     } else {
                         $crd->stock_debut = $crd->stock_fin;
-                        $crd->entrees = null;
-                        $crd->sorties = null;
-                        $crd->pertes = null;
+                        $crd->entrees_achats = null;
+                        $crd->entrees_retours = null;
+                        $crd->entrees_excedents = null;
+                        $crd->sorties_utilisations = null;
+                        $crd->sorties_destructions = null;
+                        $crd->sorties_manquants = null;
                     }
                 }
             }
@@ -970,9 +973,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function crdsInitDefault() {
         foreach ($this->crds as $regime => $regimeCrds) {
             $this->crds->get($regime)->crdsInitDefault($this->getAllGenres());
-        }    
-        
-        
+        }
     }
 
     public function getAllGenres() {

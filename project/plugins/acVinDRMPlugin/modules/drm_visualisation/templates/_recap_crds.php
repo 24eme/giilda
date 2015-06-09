@@ -5,14 +5,24 @@
             <h2><?php echo $genre; ?></h2>
 
             <table class="table_recap">
-                <thead>
-                    <tr>
-                        <th style="width: 200px;">Couleur</th>
-                        <th>Stock début de mois</th>
-                        <th>Achats</th>
-                        <th>Sorties</th>
-                        <th>Pertes</th>
-                        <th><strong>Stock fin de mois</strong></th>
+                <thead >
+                    <tr>                        
+                        <th rowspan="2">CRD</th>
+                        <th rowspan="2">Stock</th>
+                        <th colspan="3">Entrées</th>
+                        <th colspan="3">Sorties</th>
+                        <th rowspan="2">Stock 31/01</th>
+                    </tr>
+                    <tr>                 
+
+                        <th>Achat</th>
+                        <th>Retour</th>
+                        <th>Excédents</th>
+
+                        <th>Util.</th>
+                        <th>Destr.</th>
+                        <th>Manquant</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -22,9 +32,12 @@
                         <tr >
                             <td><?php echo $crd->getLibelle(); ?></td>
                             <td><strong><?php echo $crd->stock_debut; ?></strong></td>
-                            <td><strong><?php echo $crd->entrees; ?></strong></td>
-                            <td><strong><?php echo $crd->sorties; ?></strong></td>
-                            <td><strong><?php echo $crd->pertes; ?></strong></td>
+                            <td><strong><?php echo $crd->entrees_achats; ?></strong></td>
+                            <td><strong><?php echo $crd->entrees_retours; ?></strong></td>
+                            <td><strong><?php echo $crd->entrees_excedents; ?></strong></td>
+                            <td><strong><?php echo $crd->sorties_utilisations; ?></strong></td>
+                            <td><strong><?php echo $crd->sorties_destructions; ?></strong></td>
+                            <td><strong><?php echo $crd->sorties_manquants; ?></strong></td>
                             <td><strong><?php echo $crd->stock_fin; ?></strong></td>
                         </tr>
                     <?php endforeach; ?>
