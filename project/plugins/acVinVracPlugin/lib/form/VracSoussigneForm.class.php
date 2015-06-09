@@ -118,6 +118,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         if ($this->getObject()->acheteur_identifiant) {
             $defaults['acheteur_identifiant'] = 'ETABLISSEMENT-' . $this->getObject()->acheteur_identifiant;
         }
+        if ($this->getObject()->mandataire_identifiant) {
+            $defaults['mandataire_identifiant'] = 'ETABLISSEMENT-' . $this->getObject()->mandataire_identifiant;
+        }
         if ($this->getObject()->interlocuteur_commercial->nom) {
             $defaults['commercial'] = $this->getObject()->interlocuteur_commercial->nom;
         }
@@ -140,7 +143,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     }
 
     public function doUpdateObject($values) {
-        if (isset($values['mandataire_exist']) && !$values['mandataire_exist']) {
+        if (isset($values['mandataire_exist']) && $values['mandataire_exist']) {
             $values['mandataire_identifiant'] = null;
             $values['mandatant'] = null;
         }
@@ -148,7 +151,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $values['mandatant'] = null;
             $values['mandataire_exist'] = false;
         }
-        if (isset($values['logement_exist']) && !$values['logement_exist']) {
+        if (isset($values['logement_exist']) && $values['logement_exist']) {
             $values['logement'] = null;
         }
         if (!isset($values['logement']) || !$values['logement']) {
