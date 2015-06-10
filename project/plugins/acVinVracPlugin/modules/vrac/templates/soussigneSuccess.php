@@ -33,9 +33,9 @@ endif;
         <div class="col-sm-12">
         	<?php if(isset($form['attente_original'])): ?>
             <div class="form-group <?php if($form['attente_original']->hasError()): ?>has-error<?php endif; ?>">
-                <?php echo $form['attente_original']->renderError(array("class" => "col-sm-10")); ?>
-                <?php echo $form['attente_original']->renderLabel("En attente de l'original :", array('class' => 'col-sm-2 control-label')); ?>
-                <div class="col-sm-10">
+                <?php echo $form['attente_original']->renderError(); ?>
+                <?php echo $form['attente_original']->renderLabel("En attente de l'original :", array('class' => 'col-sm-3 control-label')); ?>
+                <div class="col-sm-9">
                     <?php echo $form['attente_original']->render(); ?>
                 </div>
             </div>
