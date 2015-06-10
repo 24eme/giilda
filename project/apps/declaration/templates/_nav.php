@@ -73,14 +73,14 @@
        ));
 
 
-       include_component('global', 'navItem', array(
+       /*include_component('global', 'navItem', array(
             'libelle' => 'Relance',
             'prefix' => 'relance',
             'route' => 'relance',
             'route_etablissement' => 'relance_etablissement',
             'etablissement' => $etablissement,
             'target' => '_self'
-       ));
+       ));*/
    
    endif;
 
