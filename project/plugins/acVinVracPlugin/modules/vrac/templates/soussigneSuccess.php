@@ -65,7 +65,7 @@ endif;
                                     <?php echo $form['vendeur_identifiant']->renderError(); ?>
                                     <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                         <div class="col-sm-12" id="vendeur_choice">
-                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un acheteur')); ?>
+                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un vendeur')); ?>
                                         </div>
                                     </div>
                                     <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
