@@ -29,12 +29,12 @@
                     <?php echo $form['label']->renderError(); ?>
                     <div class="form-group">
                         <div class="row bloc_condition" data-condition-cible="#bloc_domaine_notworking">
-                            <div class="col-sm-3 <?php if($form['categorie_vin']->hasError()): ?>has-error<?php endif; ?>">
+                            <div class="col-sm-4 <?php if($form['categorie_vin']->hasError()): ?>has-error<?php endif; ?>">
                                 <div class="col-sm-12">
                                     <?php echo $form['categorie_vin']->render(); ?>
                                 </div>
                             </div>
-                            <div id="bloc_domaine" data-condition-data="DOMAINE" class="bloc_conditionner col-sm-9 <?php if($form['domaine']->hasError()): ?>has-error<?php endif; ?>">
+                            <div id="bloc_domaine" data-condition-data="DOMAINE" class="bloc_conditionner col-sm-8 <?php if($form['domaine']->hasError()): ?>has-error<?php endif; ?>">
                                 <div class="col-sm-4">
                                     <?php echo $form['domaine']->render(array('class' => 'form-control select2', 'placeholder' => 'Déclarer un domaine')); ?>
                                 </div>
