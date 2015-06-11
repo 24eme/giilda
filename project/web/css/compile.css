@@ -406,6 +406,7 @@ select {
   border-radius: 3px;
   margin: 0;
   padding: 5px 0;
+  max-width: 100%;
 }
 .ie6 input {
   vertical-align: text-bottom;
@@ -6721,6 +6722,9 @@ bouton#colonnes_dr .btn_edition_label {
 }
 #colonne #form_produit_declaration label {
   padding: 15px 0px;
+}
+#colonne #form_produit_declaration input.ui-autocomplete-input {
+  width: 100%;
 }
 #colonne input.ui-autocomplete-input {
   background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #ffffff;
