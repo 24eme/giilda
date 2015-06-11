@@ -1302,25 +1302,29 @@ p#date_drm
 #colonne{
     #drm_fil_edition{
 
+        .drm_legend_produit,
         .drm_fil_edition_produit {
 
-            background: 0 4px no-repeat;
-            display: block;
-            font-weight: bold;
-            text-align: left;
-            line-height: 1.4;
-            padding: 6px 0 6px 25px;
-            position: relative;
+            > li
+            {
+                background: 0 4px no-repeat;
+                display: block;
+                font-weight: bold;
+                text-align: left;
+                line-height: 1.4;
+                padding: 6px 0 6px 25px;
+                position: relative;
 
-            > a { text-decoration: none; }
+                > a { text-decoration: none; }
 
-            &.current.edited,
-            &.current { background-image: url('../images/pictos/pi_orange_plus.png'); }
+                &.current.edited,
+                &.current { background-image: url('../images/pictos/pi_orange_plus.png'); }
 
-            &.edited { background-image: url('../images/pictos/pi_green_plus.png'); }
+                &.edited { background-image: url('../images/pictos/pi_green_plus.png'); }
+            }
         }
 
-        .drm_legend
+        .drm_legend_produit
         {
             border-top: 1px solid #3e3e3e;
             margin: 10px 0 0;

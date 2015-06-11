@@ -61,27 +61,28 @@ var initRegimeCrdsPopup = function() {
 
 
 var initFilEditionProduit = function() {
-    $('.drm_fil_edition_produit > a').each(function() {
-        $(this).click(function(e) {
-            var parent = $(this).parent();
-            var id = parent.attr('id');
 
-            e.preventDefault();
+    $('.drm_fil_edition_produit').on('click', 'a', function(e)
+    {
+        var parent = $(this).parent();
+        var id = parent.attr('id');
 
-            parent
-            .addClass('current')
-            .siblings('.drm_fil_edition_produit')
-            .removeClass('current');
+        e.preventDefault();
 
-            $('.col_recolte').each(function() {
-                if ($(this).data('hash') == id) {
-                    $(this).addClass('col_focus');
-                } else {
-                    $(this).removeClass('col_focus');
-                }
-            });
+        parent
+        .addClass('current')
+        .siblings('li')
+        .removeClass('current');
+
+        $('.col_recolte').each(function() {
+            if ($(this).data('hash') == id) {
+                $(this).addClass('col_focus');
+            } else {
+                $(this).removeClass('col_focus');
+            }
         });
     });
+
     $('button.btn_colonne_validation').each(function() {
 
         $(this).click(function() {

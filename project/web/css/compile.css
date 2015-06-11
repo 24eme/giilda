@@ -6703,7 +6703,8 @@ bouton#colonnes_dr .btn_edition_label {
   padding: 0 13px;
   text-indent: -9999px;
 }
-#colonne #drm_fil_edition .drm_fil_edition_produit {
+#colonne #drm_fil_edition .drm_legend_produit > li,
+#colonne #drm_fil_edition .drm_fil_edition_produit > li {
   background: 0 4px no-repeat;
   display: block;
   font-weight: bold;
@@ -6712,17 +6713,21 @@ bouton#colonnes_dr .btn_edition_label {
   padding: 6px 0 6px 25px;
   position: relative;
 }
-#colonne #drm_fil_edition .drm_fil_edition_produit > a {
+#colonne #drm_fil_edition .drm_legend_produit > li > a,
+#colonne #drm_fil_edition .drm_fil_edition_produit > li > a {
   text-decoration: none;
 }
-#colonne #drm_fil_edition .drm_fil_edition_produit.current.edited,
-#colonne #drm_fil_edition .drm_fil_edition_produit.current {
+#colonne #drm_fil_edition .drm_legend_produit > li.current.edited,
+#colonne #drm_fil_edition .drm_fil_edition_produit > li.current.edited,
+#colonne #drm_fil_edition .drm_legend_produit > li.current,
+#colonne #drm_fil_edition .drm_fil_edition_produit > li.current {
   background-image: url('../images/pictos/pi_orange_plus.png');
 }
-#colonne #drm_fil_edition .drm_fil_edition_produit.edited {
+#colonne #drm_fil_edition .drm_legend_produit > li.edited,
+#colonne #drm_fil_edition .drm_fil_edition_produit > li.edited {
   background-image: url('../images/pictos/pi_green_plus.png');
 }
-#colonne #drm_fil_edition .drm_legend {
+#colonne #drm_fil_edition .drm_legend_produit {
   border-top: 1px solid #3e3e3e;
   margin: 10px 0 0;
   padding: 10px 0 0;

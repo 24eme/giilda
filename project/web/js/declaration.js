@@ -135,6 +135,7 @@
 	 ******************************************/
 	$.initProduitForm = function() {
 		var formProduit = $('#form_produit_declaration');
+		var filEditionProduit = $('.drm_fil_edition_produit');
 
 		selectProduit.find('optgroup[label=existant]').addClass('existant');
 		selectProduit.combobox();
@@ -162,6 +163,7 @@
                     selectProduit.find('optgroup[label=nouveau]').find('option[value="'+data.produit.old_hash+'"]').remove();
                     selected.removeAttr('selected');
 					inputAutoComplete.val('');
+					filEditionProduit.append('<li id="' + data.produit.hash + '"><a href="#">' + data.produit.libelle + '</a></li>');
 				}
 			}, 'json');
 
