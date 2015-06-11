@@ -161,10 +161,14 @@
 
         this._updateLargeur = function() {
             var largeur = 0;
-            var cols = this.element_colonne_intitules.add(this.element_saisies_container);
 
             for (key in this.colonnes) {
-                largeur += this.colonnes[key].element.outerWidth(true);
+
+                // On ajoute les largeurs de toutes les colonnes visibles sauf la première
+                if(key > 0)
+                {
+                    largeur += this.colonnes[key].element.filter(':visible').outerWidth(true);
+                }
             }
 
             this.element_saisies_container.width(largeur);

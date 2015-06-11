@@ -759,7 +759,7 @@ p#date_drm
         padding: 0 0 10px;
         position: relative;
         overflow-x: auto;
-        /*width: (@largeur-col-saisie + @marge-col-saisie) * 3;*/
+        width: (@largeur-col-saisie + @marge-col-saisie) * 3;
         width:428px;
 
         .col_saisies_cont
@@ -773,9 +773,16 @@ p#date_drm
         float: left;
         font-size: 13px;
         line-height: 20px;
-        margin-right: @marge-col-saisie;
         position: relative;
-        width: @largeur-col-saisie;
+
+        + .col_recolte { margin-left: @marge-col-saisie; }
+
+        &.col_hidden
+        {
+            display: none;
+
+            + .col_recolte { margin-left: 0; }
+        }
 
         input, select
         {

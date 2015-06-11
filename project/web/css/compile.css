@@ -6166,7 +6166,7 @@ p#date_drm {
   padding: 0 0 10px;
   position: relative;
   overflow-x: auto;
-  /*width: (@largeur-col-saisie + @marge-col-saisie) * 3;*/
+  width: 381px;
   width: 428px;
 }
 #colonnes_dr #col_saisies .col_saisies_cont {
@@ -6199,9 +6199,16 @@ p#date_drm {
   float: left;
   font-size: 13px;
   line-height: 20px;
-  margin-right: 25px;
   position: relative;
-  width: 102px;
+}
+#colonnes_dr .col_recolte + .col_recolte {
+  margin-left: 25px;
+}
+#colonnes_dr .col_recolte.col_hidden {
+  display: none;
+}
+#colonnes_dr .col_recolte.col_hidden + .col_recolte {
+  margin-left: 0;
 }
 #colonnes_dr .col_recolte input,
 #colonnes_dr .col_recolte select {
