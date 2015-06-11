@@ -15,7 +15,7 @@
             <th>Produit</th>
             <th>Pays</th>
             <th>Volumes</th>
-            <th>Dates</th>
+            <th>Numéro Document</th>  
             <th></th>
         </tr>
     </thead>
@@ -43,7 +43,7 @@
                     </strong>
                 </div>      
             </td>
-            <td class="export_detail_date_enlevement"></td>   
+            <td class="export_detail_numero_document"></td>   
             <td class="export_detail_remove"></td>
         </tr>
     </tbody>

@@ -16,10 +16,10 @@
         echo $form['volume']->render();
         ?>
     </td>
-    <td class="export_detail_date_enlevement champ_datepicker">    
+    <td class="export_detail_numero_document">    
         <?php
-        echo $form['date_enlevement']->renderError();
-        echo $form['date_enlevement']->render();
+        echo $form['numero_document']->renderError();
+        echo $form['numero_document']->render();
         ?>
     </td>   
     <td class="export_detail_remove">    

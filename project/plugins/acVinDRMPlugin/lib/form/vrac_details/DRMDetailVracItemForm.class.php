@@ -13,7 +13,7 @@ class DRMDetailVracItemForm extends DRMESDetailsItemForm {
             $vrac = $this->getObject()->getVrac();
             $vracs[$this->getObject()->identifiant] = sprintf("%s - %s - %s hl [%s/%s]", $vrac->acheteur->nom, $vrac->numero_archive, round($vrac->volume_propose - $vrac->volume_enleve, 2), $vrac->volume_enleve, $vrac->volume_propose);
         }
-        return array_merge(array("", ""), $vracs);
+        return array_merge(array("" => ""), $vracs);
     }
 
     public function getPostValidatorClass() {

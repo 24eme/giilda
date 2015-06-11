@@ -22,7 +22,6 @@ class DRMESDetails extends BaseDRMESDetails {
     }
 
     public function getTotalHash() {
-
         return str_replace('_details', '', $this->getKey());
     }
 
@@ -38,7 +37,7 @@ class DRMESDetails extends BaseDRMESDetails {
         $this->getParent()->add($this->getKey());
     }
 
-    public function addDetail($identifiant = null, $volume = null, $date_enlevement = null) {
+    public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null) {
         $detail = $this->add($identifiant);
 
         $detail->identifiant = $identifiant;
@@ -51,6 +50,10 @@ class DRMESDetails extends BaseDRMESDetails {
 
         if($date_enlevement) {
             $detail->date_enlevement = $date_enlevement;
+        }
+        
+        if($numero_document) {
+            $detail->numero_document = $numero_document;
         }
 
         return $detail;
