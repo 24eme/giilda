@@ -841,7 +841,8 @@ bouton#colonnes_dr .btn_edition_label{height:26px}
 #colonne #form_produit_declaration label{padding:15px 0}
 #colonne input.ui-autocomplete-input{background:url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;font-size:12px;padding:5px 5px 5px 25px;width:200px;height:30px}
 #principal.drm{width:700px !important;padding:20px 15px 0 10px}#principal.drm .recherche_etablissement{background:none repeat scroll 0 0 #ecebeb;padding:10px 10px 30px}
-#principal.drm #rail_etapes li{font-size:12px}
+#principal.drm #rail_etapes li{font-size:9pt;width:20%;padding:0 10px}
+#principal.drm #rail_etapes li>*{padding:0 5px}
 #principal.drm .popup_raccourcis{float:right;position:relative}
 #principal.drm #application_drm{width:675px;border-radius:5px 5px 5px 5px;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px}#principal.drm #application_drm .choix_produit_explication{padding:10px 20px}
 #principal.drm #application_drm .choix_produit_skip_etape{line-height:30px;padding:0 20px}#principal.drm #application_drm .choix_produit_skip_etape a{float:right;vertical-align:middle}

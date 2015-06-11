@@ -23,7 +23,7 @@ class DRMCrdsForm extends acCouchdbObjectForm {
         foreach ($this->crds as $regime => $crdAllGenre) {
             foreach ($crdAllGenre as $genre => $crds) {
                 foreach ($crds as $key => $crd) {
-                    $keyWidgetsSuffixe = '_'.$regime . '_' . $key;
+                    $keyWidgetsSuffixe = '_' . $regime . '_' . $key;
                     $this->setWidget('entrees_achats' . $keyWidgetsSuffixe, new sfWidgetFormInput());
                     $this->setWidget('entrees_retours' . $keyWidgetsSuffixe, new sfWidgetFormInput());
                     $this->setWidget('entrees_excedents' . $keyWidgetsSuffixe, new sfWidgetFormInput());
@@ -66,7 +66,11 @@ class DRMCrdsForm extends acCouchdbObjectForm {
                 $crd->{$crdField} = $value;
             }
         }
-        $this->drm->etape = DRMClient::ETAPE_VALIDATION;
+        if ($this->drm->hasAdministration(true)) {
+            $this->drm->etape = DRMClient::ETAPE_ADMINISTRATION;
+        } else {
+            $this->drm->etape = DRMClient::ETAPE_VALIDATION;
+        }
         $this->drm->updateStockFinDeMoisAllCrds();
         $this->drm->save();
     }
@@ -80,11 +84,10 @@ class DRMCrdsForm extends acCouchdbObjectForm {
                     $this->setDefault('entrees_achats_' . $keyWidgetsSuffixe, ($crd->entrees_achats) ? $crd->entrees_achats : 0);
                     $this->setDefault('entrees_retours_' . $keyWidgetsSuffixe, ($crd->entrees_retours) ? $crd->entrees_retours : 0);
                     $this->setDefault('entrees_excedents_' . $keyWidgetsSuffixe, ($crd->entrees_excedents) ? $crd->entrees_excedents : 0);
-                
-                     $this->setDefault('sorties_utilisations_' . $keyWidgetsSuffixe, ($crd->sorties_utilisations) ? $crd->sorties_utilisations : 0);
+
+                    $this->setDefault('sorties_utilisations_' . $keyWidgetsSuffixe, ($crd->sorties_utilisations) ? $crd->sorties_utilisations : 0);
                     $this->setDefault('sorties_destructions_' . $keyWidgetsSuffixe, ($crd->sorties_destructions) ? $crd->sorties_destructions : 0);
                     $this->setDefault('sorties_manquants_' . $keyWidgetsSuffixe, ($crd->sorties_manquants) ? $crd->sorties_manquants : 0);
-                
                 }
             }
         }

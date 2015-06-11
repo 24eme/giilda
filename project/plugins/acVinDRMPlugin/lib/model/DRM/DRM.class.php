@@ -132,6 +132,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         return $vracs;
     }
+    
+     public function getExports() {
+        $exports = array();
+        foreach ($this->getProduitsDetails() as $d) {
+            if ($export = $d->sorties->export_details)
+                $exports[] = $export;
+        }
+
+        return $exports;
+    }
 
     public function generateByDS(DS $ds) {
         $this->identifiant = $ds->identifiant;
@@ -990,7 +1000,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /*     * * FIN CRDS ** */
-
+    
+        /**     * ADMINISTRATION ** */
+        public function hasAdministration($isTeledeclarationMode = false) {
+            return count($this->getVracs())  && count($this->getExports()) && $isTeledeclarationMode;         
+        }
+    /*     * * FIN ADMINISTRATION ** */
+    
     /**     * FAVORIS ** */
     public function buildFavoris() {
         foreach (DRMClient::drmDefaultFavoris() as $key => $value) {
