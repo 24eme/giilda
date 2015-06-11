@@ -3,7 +3,10 @@
 <div id="contenu_onglet"> 
     <h2>Déclaration des documents d'accompagnement</h2>
     <form action="<?php echo url_for('drm_administration', $administrationForm->getObject()); ?>" method="post">
-   <?php if(count($drm->getVracs())): ?>
+   
+    <?php echo $administrationForm->renderGlobalErrors(); ?>
+    <?php echo $administrationForm->renderHiddenFields(); ?>  
+        <?php if(count($drm->getVracs())): ?>
         <table id="table_drm_adminitration" class="table_recap">
         <thead >
             <tr>                        

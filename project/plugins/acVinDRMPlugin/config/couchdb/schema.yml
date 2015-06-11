@@ -488,4 +488,13 @@ DRM:
               type: collection
               definition:
                 fields:
-                  '*': { }
+                  '*': { }                  
+      documents_administration:
+        type: collection
+        required: false
+        definition:          
+          fields:
+            'dsa_daa_debut': { }
+            'dsa_daa_fin': { }
+            'dae_debut': { }
+            'dae_fin': { }

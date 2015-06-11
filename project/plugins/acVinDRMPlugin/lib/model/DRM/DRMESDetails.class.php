@@ -54,6 +54,41 @@ class DRMESDetails extends BaseDRMESDetails {
         
         if($numero_document) {
             $detail->numero_document = $numero_document;
+               $documents_administration = $this->getDocument()->getOrAdd('documents_administration');
+            if($detail instanceof DRMESDetailExport){
+                if(!$documents_administration->exist('dae_debut') 
+                        || !$documents_administration->exist('dae_fin')
+                        || !$documents_administration->dae_debut
+                        || !$documents_administration->dae_fin){
+                    $documents_administration->dae_debut = $numero_document;
+                    $documents_administration->dae_fin = $numero_document;
+                }else{
+                    if(strcmp($numero_document, $documents_administration->dae_debut) < 0){
+                        $this->getDocument()->documents_administration->dae_debut = $numero_document;
+                    }
+                    if(strcmp($numero_document, $documents_administration->dae_fin) > 0){
+                        $documents_administration->dae_fin = $numero_document;
+                    }
+                }
+                
+            }            
+            if($detail instanceof DRMESDetailVrac){
+                if(!$documents_administration->exist('dsa_daa_debut') 
+                        || !$documents_administration->exist('dsa_daa_fin')
+                        || !$documents_administration->dsa_daa_debut
+                        || !$documents_administration->dsa_daa_fin){
+                    $documents_administration->dsa_daa_debut = $numero_document;
+                    $documents_administration->dsa_daa_fin = $numero_document;
+                }else{
+                    if(strcmp($numero_document, $documents_administration->dsa_daa_debut) < 0){
+                        $this->getDocument()->documents_administration->dae_debut = $numero_document;
+                    }
+                    if(strcmp($numero_document, $documents_administration->dsa_daa_fin) > 0){
+                        $documents_administration->dsa_daa_fin = $numero_document;
+                    }
+                }
+                
+            }
         }
 
         return $detail;

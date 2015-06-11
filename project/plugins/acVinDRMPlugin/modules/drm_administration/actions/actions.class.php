@@ -6,7 +6,7 @@ class drm_administrationActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->drm = $this->getRoute()->getDRM();
-        $this->request = $request;
+        $this->requestAdministration = $request;
     }
     
 }
