@@ -17,15 +17,15 @@ var initCrds = function() {
         var id = $(this).attr('id');
         $('input').change(function() {
             var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
-            
+
             var entreesAchats = $("#" + id + " td.crds_entreesAchats input").val();
             var entreesRetours = $("#" + id + " td.crds_entreesRetours input").val();
             var entreesExcedents = $("#" + id + " td.crds_entreesExcedents input").val();
-            
+
             var sortiesUtilisations = $("#" + id + " td.crds_sortiesUtilisations input").val();
             var sortiesDestructions = $("#" + id + " td.crds_sortiesDestructions input").val();
             var sortiesManquants = $("#" + id + " td.crds_sortiesManquants input").val();
-            
+
             var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entreesAchats)+ parseInt(entreesRetours)+ parseInt(entreesExcedents) - parseInt(sortiesUtilisations) - parseInt(sortiesDestructions) - parseInt(sortiesManquants);
             $("#" + id + " td.crds_fin_de_mois").text(fin_de_mois);
         });
@@ -61,9 +61,18 @@ var initRegimeCrdsPopup = function() {
 
 
 var initFilEditionProduit = function() {
-    $('.drm_fil_edition_produit').each(function() {
-        $(this).click(function() {
-            var id = $(this).attr('id');
+    $('.drm_fil_edition_produit > a').each(function() {
+        $(this).click(function(e) {
+            var parent = $(this).parent();
+            var id = parent.attr('id');
+
+            e.preventDefault();
+
+            parent
+            .addClass('current')
+            .siblings('.drm_fil_edition_produit')
+            .removeClass('current');
+
             $('.col_recolte').each(function() {
                 if ($(this).data('hash') == id) {
                     $(this).addClass('col_focus');
@@ -77,7 +86,7 @@ var initFilEditionProduit = function() {
 
         $(this).click(function() {
             var id = $(this).attr('id').replace('valide_', '');
-            $('.drm_fil_edition_produit[id="' + id + '"] > p').addClass('edited');
+            $('.drm_fil_edition_produit[id="' + id + '"]').addClass('edited');
         });
     });
 

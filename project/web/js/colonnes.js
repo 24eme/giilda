@@ -327,6 +327,10 @@
         }
 
         this.focus = function() {
+
+            var id = this.element.attr('data-hash');
+            var visible = this.element.is(':visible');
+
             if (this.isFocus()) {
                 return;
             }
@@ -337,13 +341,16 @@
             }
 
             this.colonnes.unFocus();
-            var visible = this.element.is(':visible');
 
             if (!visible) {
                 this.element.show();
-                var id = this.element.attr('data-hash');
                 $('.drm_fil_edition_produit[id="' + id + '"]').show();
             }
+
+            $('.drm_fil_edition_produit[id="' + id + '"]')
+            .addClass('current')
+            .siblings('.drm_fil_edition_produit')
+            .removeClass('current');
 
             this.element.addClass('col_focus');
             this.colonnes.updateScroll();

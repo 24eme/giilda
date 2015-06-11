@@ -164,7 +164,7 @@ p#date_drm
     .pos-abs(5px, -8px, auto, auto);
     background: url(../images/fonds/bg_utilisateur.png) right top no-repeat;
     font-size: 12px;
-    padding: 0 8px 7px 0; 
+    padding: 0 8px 7px 0;
     text-transform:uppercase;
 
     p
@@ -181,7 +181,7 @@ p#date_drm
             font-weight: bold;
         }
     }
-} 
+}
 
 #contenu #nombre_etabs
 {
@@ -232,7 +232,7 @@ p#date_drm
                 {
                     .border(#aaa);
                     background: #a8a8a8 url(../images/fonds/bg_etabs_liste_default.png) left top repeat-x;
-                    color: @couleur-a1;    
+                    color: @couleur-a1;
                     display: inline-block;
                     padding: 5px 7px;
 
@@ -357,7 +357,7 @@ p#date_drm
                 text-align: left;
                 vertical-align: top;
 
-                a 
+                a
                 {
                     text-decoration: underline;
                     &:hover { text-decoration: none; }
@@ -394,7 +394,7 @@ p#date_drm
             color: #fff;
             cursor:  pointer;
             font-weight: bold;
-            line-height: 26px; 
+            line-height: 26px;
             margin: 20px 0;
 
             span
@@ -490,7 +490,7 @@ p#date_drm
             {
                 color: @couleur-a2;
                 font-style: italic;
-            }			
+            }
         }
     }
 }
@@ -678,7 +678,7 @@ p#date_drm
         width: 280px;
         border-right:1px solid @couleur-a10;
 
-        p 
+        p
         {
             margin: 0 0 10px;
             font-weight: bold;
@@ -717,21 +717,21 @@ p#date_drm
                     }
                 }
 
-                ul { 
+                ul {
                     padding:0;
 
                     li{ padding-left: 5px; }
                 }
             }
 
-            ul 
+            ul
             {
                 font-size: 12px;
                 padding: 10px 0 0 0px;
 
-                li 
-                { 
-                    margin: 0 0 5px; 
+                li
+                {
+                    margin: 0 0 5px;
 
                     .unite{ font-size: 10px; }
 
@@ -742,7 +742,7 @@ p#date_drm
         .totaux
         {
             padding: 20px 0 0;
-            p 
+            p
             {
                 background: @couleur-b1;
                 color: #fff;
@@ -899,15 +899,15 @@ p#date_drm
                     line-height: 2px;
                 }
 
-                &.groupe_ouvert { 
+                &.groupe_ouvert {
                     margin: 0 0 10px;
                     p.extendable {
                         line-height: 2px;
-                    } 
+                    }
                 }
 
                 p { margin: 0 0 10px; }
-                ul 
+                ul
                 {
 
 
@@ -957,7 +957,7 @@ p#date_drm
         &.col_inactive
         {
             .opacite(0.70);
-            .col_cont 
+            .col_cont
             {
                 input, select { background: @couleur-a1; }
 
@@ -974,7 +974,7 @@ p#date_drm
 
                 .col_btn
                 {
-                    .col_btn { visibility: hidden; } 
+                    .col_btn { visibility: hidden; }
                     /*.btn_col_inactive { visibility: hidden; }
                     .btn_col_active { display: none; }*/
                 }
@@ -984,7 +984,8 @@ p#date_drm
         }
 
         &.col_focus,
-        &.col_active
+        &.col_active,
+        &.col_edited.col_focus
         {
             input,
             select
@@ -993,13 +994,13 @@ p#date_drm
             }
 
             .col_cont { border-color: @couleur-c1; }
-            h2 { 
-                border-color: @couleur-c1; 
-                background: url(../images/fonds/bg_degrade-orange.png) repeat-x @couleur-c2 !important;
+            h2 {
+                border-color: @couleur-c1;
+                background: url(../images/fonds/bg_degrade-orange.png) repeat-x @couleur-c2;
 
-                color: #ffffff; 
-                .text-shadow(1px 1px rgba(214, 146, 10, 0.7)); 
-                font-weight:bold; 
+                color: #ffffff;
+                .text-shadow(1px 1px rgba(214, 146, 10, 0.7));
+                font-weight:bold;
                 margin : 0 !important;
             }
         }
@@ -1008,7 +1009,7 @@ p#date_drm
         {
             .col_cont
             {
-                .col_btn { visibility: visible; } 
+                .col_btn { visibility: visible; }
                 /*.btn_col_active { display: block; }
                 .btn_col_inactive { display: none; }*/
             }
@@ -1024,6 +1025,22 @@ p#date_drm
                     /*.btn_col_active { visibility: hidden; }*/
                     button { visibility: hidden; }
                 }
+            }
+        }
+
+        &.col_edited
+        {
+            .col_cont,
+            .titre_produit
+            {
+                border-color: #97cb48;
+            }
+
+            .titre_produit
+            {
+                background: #97cb48 url('../images/fonds/bg_degrade-vert.png') repeat-x;
+                color: #FFF;
+                .text-shadow(1px 1px rgba(131, 164, 77, 0.5));
             }
         }
     }
@@ -1179,7 +1196,7 @@ p#date_drm
     .btn_etape_suiv { float:right; }
 
     a.desactive
-    { 
+    {
         .opacite(0.70);
         cursor: default;
 
@@ -1206,7 +1223,7 @@ p#date_drm
 }
 
 
-#drm_export_details_table, #drm_cooperative_details_table , #drm_vrac_details_table 
+#drm_export_details_table, #drm_cooperative_details_table , #drm_vrac_details_table
 {
     th {
         background: none repeat scroll 0 0 #ECEBEB;
@@ -1214,7 +1231,7 @@ p#date_drm
         vertical-align: middle;
     }
 
-    td {         
+    td {
         padding: 10px;
     }
     .export_detail_date_enlevement,
@@ -1223,13 +1240,13 @@ p#date_drm
         input {
             width:80%
         }
-    }   
+    }
 
     .vrac_detail_volume,
     .cooperative_detail_volume,
     .export_detail_volume div {
-        text-align: center; 
-    } 
+        text-align: center;
+    }
     span
     {
         font-size: 20px;
@@ -1279,16 +1296,28 @@ p#date_drm
     #drm_fil_edition{
 
         .drm_fil_edition_produit {
-            p{
-                font-weight: bold;
-                text-align: left;
-                line-height: 28px;
-                color: goldenrod;
-            }
-            p.edited {
-                color : darkgreen;
 
-            }
+            background: 0 4px no-repeat;
+            display: block;
+            font-weight: bold;
+            text-align: left;
+            line-height: 1.4;
+            padding: 6px 0 6px 25px;
+            position: relative;
+
+            > a { text-decoration: none; }
+
+            &.current.edited,
+            &.current { background-image: url('../images/pictos/pi_orange_plus.png'); }
+
+            &.edited { background-image: url('../images/pictos/pi_green_plus.png'); }
+        }
+
+        .drm_legend
+        {
+            border-top: 1px solid #3e3e3e;
+            margin: 10px 0 0;
+            padding: 10px 0 0;
         }
     }
 
@@ -1346,14 +1375,14 @@ p#date_drm
             line-height: 30px;
             padding: 0px 20px;
             a {
-                float: right; 
+                float: right;
                 vertical-align: middle;
             }
         }
         .choix_produit_add_produit {
             padding: 20px 20px;
             a {
-                float: right; 
+                float: right;
                 vertical-align: middle;
             }
         }
@@ -1366,7 +1395,7 @@ p#date_drm
             padding: 10px 0px;
         }
 
-        #form_produit_declaration{ 
+        #form_produit_declaration{
             padding: 10px;
             label{ width : 200px;}
             .ui-autocomplete-input{ width : 450px !important;}
@@ -1397,9 +1426,9 @@ p#date_drm
         }
     }
 
-    #colonne_intitules{ 
+    #colonne_intitules{
 
-        .li_gris{ 
+        .li_gris{
             padding-top:5px;
             font-weight:bold;
         }
@@ -1412,9 +1441,9 @@ p#date_drm
             &.clickable { cursor: pointer; }
             &:before {
                 .sprite-pictos-star_full(0 0);
-                content: '';                
+                content: '';
                 height: 20px;
-                width: 20px;     
+                width: 20px;
                 display: inline-block;
                 position: absolute;
                 top: -2px;
@@ -1430,9 +1459,9 @@ p#date_drm
             &.clickable { cursor: pointer; }
             &:before {
                 .sprite-pictos-star_empty(0 0);
-                content: '';                
+                content: '';
                 height: 20px;
-                width: 20px;     
+                width: 20px;
                 display: inline-block;
                 position: absolute;
                 top: -2px;
@@ -1506,7 +1535,7 @@ p#date_drm
                 table { margin-top: 15px; }
 
                 &#calendrier_drm, &#stock_drm, &#mouvement_drm{
-                    .bloc_form{	
+                    .bloc_form{
                         .ligne_compose{
 
                             height: auto;
@@ -1609,7 +1638,7 @@ p#date_drm
 
                 table { .table_recap; }
             }
-        }        
+        }
 
         &#historique_drm{
             ul{
@@ -1679,9 +1708,9 @@ p#date_drm
             display: inline-block;
             vertical-align: middle;
         }
-        .drm_validation_societe_info, 
+        .drm_validation_societe_info,
         .drm_validation_etablissement_info,
-        .drm_validation_societe_form, 
+        .drm_validation_societe_form,
         .drm_validation_etablissement_form
         {
             min-height: 350px;
@@ -1698,9 +1727,9 @@ p#date_drm
             }
             .panel{
 
-                padding: 10px;            
+                padding: 10px;
                 ul {
-                    li { 
+                    li {
                         line-height: 34px;
                         a {
                             text-decoration: underline;
@@ -1717,7 +1746,7 @@ p#date_drm
                         color: red ;
                         font-weight: bold;
                     }
-                }            
+                }
             }
             .acces{
                 padding: 10px;
