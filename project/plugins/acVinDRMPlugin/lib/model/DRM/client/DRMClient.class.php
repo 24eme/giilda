@@ -31,6 +31,9 @@ class DRMClient extends acCouchdbClient {
     public static $drm_documents_daccompagnement = array(self::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA => 'DAA/DSA',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'DAE',
         self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'EMPREINTE');
+    public static $drm_documents_daccompagnement_libelle = array(self::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA => 'contrats',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'exports',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'empreintes');
     protected $drm_historiques = array();
 
     /**
