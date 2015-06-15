@@ -494,7 +494,9 @@ DRM:
         required: false
         definition:          
           fields:
-            'dsa_daa_debut': { }
-            'dsa_daa_fin': { }
-            'dae_debut': { }
-            'dae_fin': { }
+            '*':
+              type: collection
+              definition:
+                fields:
+                  'debut': { }    
+                  'fin': { }

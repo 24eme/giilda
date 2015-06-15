@@ -26,21 +26,27 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
 
     public function configure() {
         if (count($this->detailsSortiesVrac)) {
-            $this->setWidget('dsa_daa_debut', new sfWidgetFormInputText());
-            $this->setWidget('dsa_daa_fin', new sfWidgetFormInputText());
-            $this->widgetSchema->setLabel('dsa_daa_debut', 'DSA/DAA début');
-            $this->widgetSchema->setLabel('dsa_daa_fin', 'DSA/DAA fin');
-            $this->setValidator('dsa_daa_debut', new sfValidatorString(array('required' => false)));
-            $this->setValidator('dsa_daa_fin', new sfValidatorString(array('required' => false)));
+            $keyDebut = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA . '_debut';
+            $keyFin = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA . '_fin';
+
+            $this->setWidget($keyDebut, new sfWidgetFormInputText());
+            $this->setWidget($keyFin, new sfWidgetFormInputText());
+            $this->widgetSchema->setLabel($keyDebut, 'DSA/DAA début');
+            $this->widgetSchema->setLabel($keyFin, 'DSA/DAA fin');
+            $this->setValidator($keyDebut, new sfValidatorString(array('required' => false)));
+            $this->setValidator($keyFin, new sfValidatorString(array('required' => false)));
         }
 
         if (count($this->detailsSortiesExport)) {
-            $this->setWidget('dae_debut', new sfWidgetFormInputText());
-            $this->setWidget('dae_fin', new sfWidgetFormInputText());
-            $this->widgetSchema->setLabel('dae_debut', 'DSA/DAA début');
-            $this->widgetSchema->setLabel('dae_fin', 'DSA/DAA fin');
-            $this->setValidator('dae_debut', new sfValidatorString(array('required' => false)));
-            $this->setValidator('dae_fin', new sfValidatorString(array('required' => false)));
+            $keyDebut = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE . '_debut';
+            $keyFin = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE . '_fin';
+
+            $this->setWidget($keyDebut, new sfWidgetFormInputText());
+            $this->setWidget($keyFin, new sfWidgetFormInputText());
+            $this->widgetSchema->setLabel($keyDebut, 'DSA/DAA début');
+            $this->widgetSchema->setLabel($keyFin, 'DSA/DAA fin');
+            $this->setValidator($keyDebut, new sfValidatorString(array('required' => false)));
+            $this->setValidator($keyFin, new sfValidatorString(array('required' => false)));
         }
         $this->widgetSchema->setNameFormat('drmAddTypeForm[%s]');
     }
@@ -48,12 +54,12 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
         if (count($this->detailsSortiesVrac)) {
-            $this->drm->getOrAdd('documents_administration')->add('dsa_daa_debut', $values['dsa_daa_debut']);
-            $this->drm->getOrAdd('documents_administration')->add('dsa_daa_fin', $values['dsa_daa_fin']);
+            $this->drm->getOrAdd('documents_administration')->getOrAdd(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA)->debut = $values[DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA . '_debut'];
+            $this->drm->getOrAdd('documents_administration')->getOrAdd(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA)->fin = $values[DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA . '_fin'];
         }
         if (count($this->detailsSortiesExport)) {
-            $this->drm->getOrAdd('documents_administration')->add('dae_debut', $values['dae_debut']);
-            $this->drm->getOrAdd('documents_administration')->add('dae_fin', $values['dae_fin']);
+            $this->drm->getOrAdd('documents_administration')->getOrAdd(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE)->debut = $values[DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE . '_debut'];
+            $this->drm->getOrAdd('documents_administration')->getOrAdd(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE)->fin = $values[DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE . '_fin'];
         }
 
         $this->drm->etape = DRMClient::ETAPE_VALIDATION;
@@ -63,10 +69,17 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         if ($this->drm->exist('documents_administration') && $this->drm->documents_administration) {
-            $this->setDefault('dsa_daa_debut', $this->drm->documents_administration->dsa_daa_debut);
-            $this->setDefault('dsa_daa_fin', $this->drm->documents_administration->dsa_daa_fin);
-            $this->setDefault('dae_debut', $this->drm->documents_administration->dae_debut);
-            $this->setDefault('dae_fin', $this->drm->documents_administration->dae_fin);
+            $administrationNode = $this->drm->documents_administration;
+            if ($administrationNode->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA) && $administrationNode->{DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA}) {
+                $daadsaNode = $administrationNode->{DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA};
+                $this->setDefault(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA . '_debut', $daadsaNode->debut);
+                $this->setDefault(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA . '_fin', $daadsaNode->fin);
+            }
+            if ($administrationNode->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE) && $administrationNode->{DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE}) {
+                $daeNode = $administrationNode->{DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE};
+                $this->setDefault(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE . '_debut', $daeNode->debut);
+                $this->setDefault(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE . '_fin', $daeNode->fin);
+            }
         }
     }
 

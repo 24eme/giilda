@@ -18,6 +18,9 @@ class DRMClient extends acCouchdbClient {
     const DRM_VERT = 'VERT';
     const DRM_BLEU = 'BLEU';
     const DRM_LIEDEVIN = 'LIEDEVIN';
+    const DRM_DOCUMENTACCOMPAGNEMENT_DAADSA = 'DAADSA';
+    const DRM_DOCUMENTACCOMPAGNEMENT_DAE = 'DAE';
+    const DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE = 'EMPREINTE';
     const DRM_TYPE_MVT_ENTREES = 'entrees';
     const DRM_TYPE_MVT_SORTIES = 'sorties';
 
@@ -25,6 +28,9 @@ class DRMClient extends acCouchdbClient {
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
     public static $drm_default_favoris = array("entrees/achat", "entrees/recolte", "sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille", "sorties/consommation");
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 5);
+    public static $drm_documents_daccompagnement = array(self::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA => 'DAA/DSA',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'DAE',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'EMPREINTE');
     protected $drm_historiques = array();
 
     /**

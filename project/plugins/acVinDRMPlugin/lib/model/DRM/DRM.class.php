@@ -132,8 +132,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         return $vracs;
     }
-    
-     public function getExports() {
+
+    public function getExports() {
         $exports = array();
         foreach ($this->getProduitsDetails() as $d) {
             if ($export = $d->sorties->export_details)
@@ -981,7 +981,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function crdsInitDefault() {
-              foreach ($this->crds as $regime => $regimeCrds) {
+        if (!$this->exist('crds') || (!$this->crds)) {
+            return array(); 
+        }
+        foreach ($this->crds as $regime => $regimeCrds) {
             $this->crds->get($regime)->crdsInitDefault($this->getAllGenres());
         }
     }
@@ -1000,13 +1003,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /*     * * FIN CRDS ** */
-    
-        /**     * ADMINISTRATION ** */
-        public function hasAdministration($isTeledeclarationMode = false) {
-            return count($this->getVracs())  && count($this->getExports()) && $isTeledeclarationMode;         
-        }
+
+    /**     * ADMINISTRATION ** */
+    public function hasAdministration($isTeledeclarationMode = false) {
+        return count($this->getVracs()) && count($this->getExports()) && $isTeledeclarationMode;
+    }
+
     /*     * * FIN ADMINISTRATION ** */
-    
+
     /**     * FAVORIS ** */
     public function buildFavoris() {
         foreach (DRMClient::drmDefaultFavoris() as $key => $value) {

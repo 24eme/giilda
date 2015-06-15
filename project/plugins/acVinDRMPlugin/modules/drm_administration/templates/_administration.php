@@ -17,8 +17,8 @@
         <tbody class="drm_adminitration_contrat">
             <tr> 
                 <td>DSA/DAA</td>                       
-                <td class="dsa_daa_debut"><?php echo $administrationForm['dsa_daa_debut']->render(); ?></td>
-                <td class="dsa_daa_fin"><?php echo $administrationForm['dsa_daa_fin']->render(); ?></td>
+                <td class="dsa_daa_debut"><?php echo $administrationForm[DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA. '_debut']->render(); ?></td>
+                <td class="dsa_daa_fin"><?php echo $administrationForm[DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA.'_fin']->render(); ?></td>
             </tr>
         </tbody>
     </table>
@@ -35,8 +35,8 @@
         <tbody class="drm_adminitration_contrat">
             <tr> 
                 <td>DAE</td>                       
-                <td class="dae_debut"><?php echo $administrationForm['dae_debut']->render(); ?></td>
-                <td class="dae_fin"><?php echo $administrationForm['dae_fin']->render(); ?></td>
+                <td class="dae_debut"><?php echo $administrationForm[DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE.'_debut']->render(); ?></td>
+                <td class="dae_fin"><?php echo $administrationForm[DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE.'_fin']->render(); ?></td>
             </tr>
         </tbody>
     </table>
