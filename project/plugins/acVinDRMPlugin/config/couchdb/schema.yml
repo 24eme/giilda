@@ -500,3 +500,17 @@ DRM:
                 fields:
                   'debut': { }    
                   'fin': { }
+                  
+      releve_non_appurement:
+        type: collection
+        class: DRMNonAppurement
+        required: false
+        definition:          
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  'numero_document': { }    
+                  'date_emission': { }  
+                  'numero_accise': { }  

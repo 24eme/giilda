@@ -3,34 +3,55 @@
 <div id="contenu_onglet"> 
     <h2>Déclaration des documents d'accompagnement</h2>
     <form action="<?php echo url_for('drm_administration', $administrationForm->getObject()); ?>" method="post">
-   
-    <?php echo $administrationForm->renderGlobalErrors(); ?>
-    <?php echo $administrationForm->renderHiddenFields(); ?>  
+
+        <?php echo $administrationForm->renderGlobalErrors(); ?>
+        <?php echo $administrationForm->renderHiddenFields(); ?>  
         <?php foreach ($administrationForm->getDocTypes() as $typeDoc): ?>
-        <table id="table_drm_adminitration" class="table_recap">
-        <thead >
-            <tr>                        
-                <th></th>
-                <th colspan="2">Document d'accompagnement <?php echo DRMClient::$drm_documents_daccompagnement_libelle[$typeDoc]; ?></th>
-            </tr>
-        </thead>
-        <tbody class="drm_adminitration_contrat">
-            <tr> 
-                <td><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></td>                       
-                <td class="dsa_daa_debut"><?php echo $administrationForm[$typeDoc. '_debut']->render(); ?></td>
-                <td class="dsa_daa_fin"><?php echo $administrationForm[$typeDoc.'_fin']->render(); ?></td>
-            </tr>
-        </tbody>
-    </table>
+            <table id="table_drm_adminitration" class="table_recap">
+                <thead >
+                    <tr>                        
+                        <th class="drm_administration_type"></th>
+                        <th colspan="2">Document d'accompagnement <?php echo DRMClient::$drm_documents_daccompagnement_libelle[$typeDoc]; ?></th>
+                    </tr>
+                </thead>
+                <tbody class="drm_adminitration">
+                    <tr> 
+                        <td class="drm_administration_type"><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></td>                       
+                        <td class="drm_administration_doc_debut"><?php echo $administrationForm[$typeDoc . '_debut']->render(); ?></td>
+                        <td class="drm_administration_doc_fin"><?php echo $administrationForm[$typeDoc . '_fin']->render(); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+        <?php endforeach; ?>  
+        <br>
+        <h2>Relevé de non appurement</h2>
+        <table id="table_drm_non_appurement" class="table_recap">
+            <thead >
+                <tr>                        
+                    <th>Numéro de document</th>
+                    <th>Date d'emission</th>
+                    <th>Numéro d'accise</th>
+                </tr>
+            </thead>
+            <tbody class="drm_non_appurement">
+                <?php foreach ($administrationForm->getEmbeddedForms() as $nonAppurementForm): ?>
+                    <tr> 
+                        <td class="drm_non_appurement_numero_document"><?php echo $nonAppurementForm['numero_document']; ?></td>                       
+                        <td class="drm_non_appurement_date_emission"><?php echo $nonAppurementForm['date_emission']->render(); ?></td>
+                        <td class="drm_non_appurement_numero_accise"><?php echo $nonAppurementForm['numero_accise']->render(); ?></td>
+                    </tr>
+                <?php endforeach; ?>     
+            </tbody>
+        </table>
         <br/>
- <?php endforeach; ?>     
         <div id="btn_etape_dr">
-        <a class="btn_etape_prec" href="<?php echo url_for('drm_crd', $drm); ?>">
-            <span>Précédent</span>
-        </a>
-        <button class="btn_etape_suiv" id="button_drm_validation" type="submit"><span>Suivant</span></button> 
-    </div>
-</form>
+            <a class="btn_etape_prec" href="<?php echo url_for('drm_crd', $drm); ?>">
+                <span>Précédent</span>
+            </a>
+            <button class="btn_etape_suiv" id="button_drm_validation" type="submit"><span>Suivant</span></button> 
+        </div>
+    </form>
 
     <br/>
 </div>

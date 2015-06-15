@@ -37,7 +37,10 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel($keyDebut, DRMClient::$drm_documents_daccompagnement[$docType] . ' début');
             $this->widgetSchema->setLabel($keyFin, DRMClient::$drm_documents_daccompagnement[$docType] . ' fin');
         }
-        $this->widgetSchema->setNameFormat('drmAddTypeForm[%s]');
+        foreach ($this->drm->getReleveNonAppurement() as $key => $object) {                
+            $this->embedForm($key, new DRMReleveNonAppurementItemForm($object));
+        }
+        $this->widgetSchema->setNameFormat('drmAdministrationForm[%s]');
     }
 
     protected function doUpdateObject($values) {

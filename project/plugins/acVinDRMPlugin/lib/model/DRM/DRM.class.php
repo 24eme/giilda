@@ -982,7 +982,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function crdsInitDefault() {
         if (!$this->exist('crds') || (!$this->crds)) {
-            return array(); 
+            return array();
         }
         foreach ($this->crds as $regime => $regimeCrds) {
             $this->crds->get($regime)->crdsInitDefault($this->getAllGenres());
@@ -1007,6 +1007,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /**     * ADMINISTRATION ** */
     public function hasAdministration($isTeledeclarationMode = false) {
         return count($this->getVracs()) && count($this->getExports()) && $isTeledeclarationMode;
+    }
+
+    public function initReleveNonAppurement() {
+        $releveNonAppurement = $this->getOrAdd('releve_non_appurement');
+        if (!count($releveNonAppurement)) {            
+            $releveNonAppurement->addEmptyNonAppurement();
+        }
     }
 
     /*     * * FIN ADMINISTRATION ** */
