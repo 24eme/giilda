@@ -7,17 +7,17 @@
  */
 
 /**
- * Description of DRMReleveNonAppurementItemFormµ
+ * Description of DRMReleveNonApurementItemFormµ
  *
  * @author mathurin
  */
-class DRMReleveNonAppurementItemForm extends acCouchdbObjectForm {
+class DRMReleveNonApurementItemForm extends acCouchdbObjectForm {
 
-    protected $keyNonAppurement = null;
+    protected $keyNonApurement = null;
 
 
     public function __construct($object, $options = array(), $CSRFSecret = null) {
-        $this->keyNonAppurement = $options['keyNonAppurement'];
+        $this->keyNonApurement = $options['keyNonApurement'];
         parent::__construct($object, $options, $CSRFSecret);
     }
 
@@ -36,7 +36,7 @@ class DRMReleveNonAppurementItemForm extends acCouchdbObjectForm {
         $this->setValidator('numero_accise', new sfValidatorString(array('required' => false)));
 
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
-        $this->widgetSchema->setNameFormat('non_appurement[%s]');
+        $this->widgetSchema->setNameFormat('non_apurement[%s]');
     }
 
     
@@ -46,7 +46,7 @@ class DRMReleveNonAppurementItemForm extends acCouchdbObjectForm {
         $date_emission = $values['date_emission'];
         $numero_accise = $values['numero_accise'];
         if ($numero_document && $date_emission && $numero_accise) {
-            $this->getObject()->getParent()->updateNonAppurement($this->keyNonAppurement, $numero_document, $date_emission, $numero_accise);
+            $this->getObject()->getParent()->updateNonApurement($this->keyNonApurement, $numero_document, $date_emission, $numero_accise);
         }
     }
 

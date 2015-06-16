@@ -1025,10 +1025,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return count($this->getVracs()) && count($this->getDetailsExports()) && $isTeledeclarationMode;
     }
 
-    public function initReleveNonAppurement() {
-        $releveNonAppurement = $this->getOrAdd('releve_non_appurement');
-        if (!count($releveNonAppurement)) {
-            $releveNonAppurement->addEmptyNonAppurement();
+    public function initReleveNonApurement() {
+        $releveNonApurement = $this->getOrAdd('releve_non_apurement');
+        if (!count($releveNonApurement)) {
+            $releveNonApurement->addEmptyNonApurement();
         }
     }
 

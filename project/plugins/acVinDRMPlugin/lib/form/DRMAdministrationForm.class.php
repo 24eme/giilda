@@ -38,7 +38,7 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel($keyFin, DRMClient::$drm_documents_daccompagnement[$docType] . ' fin');
         }
 
-        $this->embedForm('releve_non_appurement', new DRMReleveNonAppurementItemsForm($this->drm->getReleveNonAppurement()));
+        $this->embedForm('releve_non_apurement', new DRMReleveNonApurementItemsForm($this->drm->getReleveNonApurement()));
         $this->widgetSchema->setNameFormat('drmAdministrationForm[%s]');
     }
 
@@ -48,8 +48,8 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
             $this->drm->getOrAdd('documents_administration')->getOrAdd($docType)->debut = $values[$docType . '_debut'];
             $this->drm->getOrAdd('documents_administration')->getOrAdd($docType)->fin = $values[$docType . '_fin'];
         }
-        foreach ($this->getEmbeddedForms() as $key => $releveNonAppurementForm) {
-            $releveNonAppurementForm->updateObject($values[$key]);
+        foreach ($this->getEmbeddedForms() as $key => $releveNonApurementForm) {
+            $releveNonApurementForm->updateObject($values[$key]);
         }
         $this->drm->etape = DRMClient::ETAPE_VALIDATION;
         $this->drm->save();
@@ -72,7 +72,7 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {
         foreach ($this->embeddedForms as $key => $form) {
-            if ($form instanceof DRMReleveNonAppurementItemsForm) {
+            if ($form instanceof DRMReleveNonApurementItemsForm) {
                 if (isset($taintedValues[$key])) {
                     $form->bind($taintedValues[$key], $taintedFiles[$key]);
                     $this->updateEmbedForm($key, $form);
@@ -89,8 +89,8 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
     
     public function getFormTemplate() {
         $drm = new DRM();
-        $form_embed = new DRMReleveNonAppurementItemForm($drm->getOrAdd('releve_non_appurement')->add(), array('keyNonAppurement' => uniqid()));
-        $form = new DRMCollectionTemplateForm($this, 'releve_non_appurement', $form_embed);
+        $form_embed = new DRMReleveNonApurementItemForm($drm->getOrAdd('releve_non_apurement')->add(), array('keyNonApurement' => uniqid()));
+        $form = new DRMCollectionTemplateForm($this, 'releve_non_apurement', $form_embed);
         return $form->getFormTemplate();
     }
    

@@ -25,29 +25,29 @@
             <br/>
         <?php endforeach; ?>  
         <br>
-        <h2>Relevé de non appurement</h2>
-        <table id="table_drm_non_appurement" class="table_recap">
+        <h2>Relevé de non apurement</h2>
+        <table id="table_drm_non_apurement" class="table_recap">
             <thead >
                 <tr>                        
                     <th>Numéro de document</th>
-                    <th>Date d'emission</th>
+                    <th class="drm_non_apurement_date_emission">Date d'emission</th>
                     <th>Numéro d'accise</th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody class="drm_non_appurement" id="nonappurement_list">
+            <tbody class="drm_non_apurement" id="nonapurement_list">
 
                 <?php
-                foreach ($administrationForm['releve_non_appurement'] as $nonAppurementForm) :
-                    include_partial('itemNonAppurement', array('form' => $nonAppurementForm));
+                foreach ($administrationForm['releve_non_apurement'] as $nonApurementForm) :
+                    include_partial('itemNonApurement', array('form' => $nonApurementForm));
                 endforeach;
                 ?>
-                <?php include_partial('templateNonAppurementItem', array('form' => $administrationForm->getFormTemplate())); ?>
+                <?php include_partial('templateNonApurementItem', array('form' => $administrationForm->getFormTemplate())); ?>
             </tbody>
 
         </table>
         <div class="form_ligne ajouter_non_apurement">
-            <a class="btn_ajouter_ligne_template" data-container="#nonappurement_list" data-template="#template_nonappurement" href="#">Ajouter un non appurement</a>
+            <a class="btn_ajouter_ligne_template" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#">Ajouter un non apurement</a>
         </div>     
         <br/>
         <div id="btn_etape_dr">

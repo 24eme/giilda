@@ -501,9 +501,9 @@ DRM:
                   'debut': { }    
                   'fin': { }
                   
-      releve_non_appurement:
+      releve_non_apurement:
         type: collection
-        class: DRMNonAppurement
+        class: DRMNonApurement
         required: false
         definition:          
           fields:

@@ -50,13 +50,13 @@ var initAjoutCrdsPopup = function () {
 
 var openedPopupAjoutCRD = function () {
     console.log('open');
-    $('.ui-autocomplete-input').on("focus", function (event, ui) { 
- $(this).autocomplete("search");
+    $('.ui-autocomplete-input').on("focus", function (event, ui) {
+        $(this).autocomplete("search");
     });
-    $('.ui-autocomplete-input').each(function(){
-        var couleur_crd_choice =  $(this).parent().children('select').hasClass('couleur_crd_choice');
-        console.log(couleur_crd_choice);  
-        if(couleur_crd_choice){
+    $('.ui-autocomplete-input').each(function () {
+        var couleur_crd_choice = $(this).parent().children('select').hasClass('couleur_crd_choice');
+        console.log(couleur_crd_choice);
+        if (couleur_crd_choice) {
             $(this).focus();
         }
     });
@@ -159,52 +159,54 @@ var initValidationDrmStockMvt = function () {
 }
 
 
-        var callbackAddTemplate = function (bloc)
-        {
+var callbackAddTemplate = function (bloc)
+{
+
+}
+
+
+var initCollectionNonApurementTemplate = function (element, regexp_replace, callback)
+{
+
+    $(element).live('click', function ()
+    {
+        var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
+
+        try {
+            var params = jQuery.parseJSON($(this).attr('data-template-params'));
+        } catch (err) {
 
         }
 
-
-        var initCollectionNonApurementTemplate = function (element, regexp_replace, callback)
-        {
-
-            $(element).live('click', function ()
-            {
-                 var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
-
-                try {
-                    var params = jQuery.parseJSON($(this).attr('data-template-params'));
-                } catch (err) {
-
-                }
-
-                for (key in params) {
-                    bloc_html = bloc_html.replace(new RegExp(key, "g"), params[key]);
-                }
-
-                var bloc = $($(this).attr('data-container')).children('tr').last().after(bloc_html);
-
-                if (callback) {
-                    callback(bloc);
-                }
-                return false;
-            });
+        for (key in params) {
+            bloc_html = bloc_html.replace(new RegExp(key, "g"), params[key]);
         }
 
-        var initCollectionDeleteNonApurementTemplate = function ()
-        {
-            $('.drm_non_appurement_delete_row .btn_supprimer_ligne_template').live('click', function ()
-            {
-                var element = $(this).parent().parent();
-                $(element).remove();
-                return false;
-            });
+        var bloc = $($(this).attr('data-container')).children('tr').last().after(bloc_html);
+
+        if (callback) {
+            callback(bloc);
+
+            $('.champ_datepicker input').initDatepicker();
         }
-        
-        var initNonApurement = function(){
-            initCollectionNonApurementTemplate('.ajouter_non_apurement .btn_ajouter_ligne_template', /var---nbItem---/g, callbackAddTemplate);
-            initCollectionDeleteNonApurementTemplate();
-        }
+        return false;
+    });
+}
+
+var initCollectionDeleteNonApurementTemplate = function ()
+{
+    $('.drm_non_apurement_delete_row .btn_supprimer_ligne_template').live('click', function ()
+    {
+        var element = $(this).parent().parent();
+        $(element).remove();
+        return false;
+    });
+}
+
+var initNonApurement = function () {
+    initCollectionNonApurementTemplate('.ajouter_non_apurement .btn_ajouter_ligne_template', /var---nbItem---/g, callbackAddTemplate);
+    initCollectionDeleteNonApurementTemplate();
+}
 
 $(document).ready(function ()
 {

@@ -1,18 +1,18 @@
 <?php
 /**
- * BaseDRMNonAppurement
+ * BaseDRMNonApurement
  * 
- * Base model for DRMNonAppurement
+ * Base model for DRMNonApurement
 
 
  
  */
 
-abstract class BaseDRMNonAppurement extends acCouchdbDocumentTree {
+abstract class BaseDRMNonApurement extends acCouchdbDocumentTree {
                 
     public function configureTree() {
        $this->_root_class_name = 'DRM';
-       $this->_tree_class_name = 'DRMNonAppurement';
+       $this->_tree_class_name = 'DRMNonApurement';
     }
                 
 }

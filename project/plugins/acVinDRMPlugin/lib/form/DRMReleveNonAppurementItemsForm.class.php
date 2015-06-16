@@ -7,22 +7,22 @@
  */
 
 /**
- * Description of DRMReleveNonAppurementItemFormµ
+ * Description of DRMReleveNonApurementItemFormµ
  *
  * @author mathurin
  */
-class DRMReleveNonAppurementItemsForm extends acCouchdbObjectForm {
+class DRMReleveNonApurementItemsForm extends acCouchdbObjectForm {
 
     public function configure() {
-        foreach ($this->getObject() as $keyNonAppurement => $object) {
-            $this->embedForm($keyNonAppurement, new DRMReleveNonAppurementItemForm($object,array('keyNonAppurement' => $keyNonAppurement)));
+        foreach ($this->getObject() as $keyNonApurement => $object) {
+            $this->embedForm($keyNonApurement, new DRMReleveNonApurementItemForm($object,array('keyNonApurement' => $keyNonApurement)));
         }
     }
     
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
-        foreach ($this->getEmbeddedForms() as $key => $releveNonAppurementItemForm) {
-            $releveNonAppurementItemForm->updateObject($values[$key]);
+        foreach ($this->getEmbeddedForms() as $key => $releveNonApurementItemForm) {
+            $releveNonApurementItemForm->updateObject($values[$key]);
         }
     }
 
@@ -36,7 +36,7 @@ class DRMReleveNonAppurementItemsForm extends acCouchdbObjectForm {
             if (!is_array($values) || array_key_exists($key, $this->embeddedForms)) {
                 continue;
             }
-            $this->embedForm($key, new DRMReleveNonAppurementItemForm($this->getObject()->add(),array('keyNonAppurement' => $key)));
+            $this->embedForm($key, new DRMReleveNonApurementItemForm($this->getObject()->add(),array('keyNonApurement' => $key)));
         }
     }
 

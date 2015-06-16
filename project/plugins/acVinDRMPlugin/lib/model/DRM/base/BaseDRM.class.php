@@ -32,7 +32,7 @@
  * @property DRMCrdsRegime $crds
  * @property DRMFavoris $favoris
  * @property acCouchdbJson $documents_administration
- * @property DRMNonAppurement $releve_non_appurement
+ * @property DRMNonApurement $releve_non_apurement
 
  * @method string get_id()
  * @method string set_id()
@@ -90,8 +90,8 @@
  * @method DRMFavoris setFavoris()
  * @method acCouchdbJson getDocumentsAdministration()
  * @method acCouchdbJson setDocumentsAdministration()
- * @method DRMNonAppurement getReleveNonAppurement()
- * @method DRMNonAppurement setReleveNonAppurement()
+ * @method DRMNonApurement getReleveNonApurement()
+ * @method DRMNonApurement setReleveNonApurement()
  
  */
  
