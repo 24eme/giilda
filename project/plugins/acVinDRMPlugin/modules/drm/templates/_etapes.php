@@ -33,7 +33,7 @@
     <?php endif; ?>
     <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?> 
         <?php $actif = ($etape_courante == DRMClient::ETAPE_ADMINISTRATION); ?>
-        <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_CRD, DRMClient::$drm_etapes))); ?>
+        <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_ADMINISTRATION, DRMClient::$drm_etapes))); ?>
         <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($etape_courante == DRMClient::ETAPE_ADMINISTRATION) ? 'actif' : '' ?>"> 
             <?php if ($past): ?><a href="<?php echo url_for('drm_administration', $drm); ?>"><?php endif; ?>
                 <strong><span style="cursor: default;"><?php echo $cpt_etape++; ?>&nbsp;</span>

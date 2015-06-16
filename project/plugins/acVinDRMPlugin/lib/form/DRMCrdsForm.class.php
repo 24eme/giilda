@@ -66,11 +66,9 @@ class DRMCrdsForm extends acCouchdbObjectForm {
                 $crd->{$crdField} = $value;
             }
         }
-        if ($this->drm->hasAdministration(true)) {
-            $this->drm->etape = DRMClient::ETAPE_ADMINISTRATION;
-        } else {
-            $this->drm->etape = DRMClient::ETAPE_VALIDATION;
-        }
+
+        $this->drm->etape = DRMClient::ETAPE_ADMINISTRATION;
+
         $this->drm->updateStockFinDeMoisAllCrds();
         $this->drm->save();
     }
