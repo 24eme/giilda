@@ -129,17 +129,31 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             if ($vrac = $d->sorties->vrac_details)
                 $vracs[] = $vrac;
         }
+        return $vracs;
+    }
+
+    public function getDetailsVracs() {
+        $vracs = array();
+        foreach ($this->getProduitsDetails() as $d) {
+            if ($vrac_details = $d->sorties->vrac_details) {
+                foreach ($vrac_details as $vracdetail) {
+                    $vracs[] = $vracdetail;
+                }
+            }
+        }
 
         return $vracs;
     }
 
-    public function getExports() {
+    public function getDetailsExports() {
         $exports = array();
         foreach ($this->getProduitsDetails() as $d) {
-            if ($export = $d->sorties->export_details)
-                $exports[] = $export;
+            if ($export_details = $d->sorties->export_details) {
+                foreach ($export_details as $exportdetail) {
+                    $exports[] = $exportdetail;
+                }
+            }
         }
-
         return $exports;
     }
 
@@ -1011,7 +1025,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function initReleveNonAppurement() {
         $releveNonAppurement = $this->getOrAdd('releve_non_appurement');
-        if (!count($releveNonAppurement)) {            
+        if (!count($releveNonAppurement)) {
             $releveNonAppurement->addEmptyNonAppurement();
         }
     }

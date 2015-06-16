@@ -32,18 +32,21 @@
                     <th>Numéro de document</th>
                     <th>Date d'emission</th>
                     <th>Numéro d'accise</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody class="drm_non_appurement">
-                <?php foreach ($administrationForm->getEmbeddedForms() as $nonAppurementForm): ?>
-                    <tr> 
-                        <td class="drm_non_appurement_numero_document"><?php echo $nonAppurementForm['numero_document']; ?></td>                       
-                        <td class="drm_non_appurement_date_emission"><?php echo $nonAppurementForm['date_emission']->render(); ?></td>
-                        <td class="drm_non_appurement_numero_accise"><?php echo $nonAppurementForm['numero_accise']->render(); ?></td>
-                    </tr>
-                <?php endforeach; ?>     
+
+                <?php
+                foreach ($administrationForm['releve_non_appurement'] as $nonAppurementForm) :
+                    include_partial('itemNonAppurement', array('form' => $nonAppurementForm));
+                endforeach;
+                ?>
             </tbody>
         </table>
+        <div class="form_ligne">
+            <a class="btn_ajouter_ligne_template" data-container="#nonappurement_list" data-template="#template_nonappurement" href="#">Ajouter un non appurement</a>
+        </div>     
         <br/>
         <div id="btn_etape_dr">
             <a class="btn_etape_prec" href="<?php echo url_for('drm_crd', $drm); ?>">

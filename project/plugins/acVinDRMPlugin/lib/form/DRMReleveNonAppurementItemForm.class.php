@@ -13,8 +13,16 @@
  */
 class DRMReleveNonAppurementItemForm extends acCouchdbObjectForm {
 
-    public function configure() {
+    protected $keyNonAppurement = null;
 
+
+    public function __construct($object, $options = array(), $CSRFSecret = null) {
+        $this->keyNonAppurement = $options['keyNonAppurement'];
+        parent::__construct($object, $options, $CSRFSecret);
+    }
+
+    public function configure() {
+        
         $this->setWidget('numero_document', new sfWidgetFormInput());
         $this->setWidget('date_emission', new sfWidgetFormInput());
         $this->setWidget('numero_accise', new sfWidgetFormInput());
@@ -27,7 +35,19 @@ class DRMReleveNonAppurementItemForm extends acCouchdbObjectForm {
         $this->setValidator('date_emission', new sfValidatorString(array('required' => false)));
         $this->setValidator('numero_accise', new sfValidatorString(array('required' => false)));
 
-        $this->widgetSchema->setNameFormat('releveNonAppurement[%s]');
+        $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+        $this->widgetSchema->setNameFormat('non_appurement[%s]');
+    }
+
+    
+    public function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+        $numero_document = $values['numero_document'];
+        $date_emission = $values['date_emission'];
+        $numero_accise = $values['numero_accise'];
+        if ($numero_document && $date_emission && $numero_accise) {
+            $this->getObject()->getParent()->updateNonAppurement($this->keyNonAppurement, $numero_document, $date_emission, $numero_accise);
+        }
     }
 
 }

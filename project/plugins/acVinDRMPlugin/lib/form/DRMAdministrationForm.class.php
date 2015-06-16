@@ -37,9 +37,8 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel($keyDebut, DRMClient::$drm_documents_daccompagnement[$docType] . ' début');
             $this->widgetSchema->setLabel($keyFin, DRMClient::$drm_documents_daccompagnement[$docType] . ' fin');
         }
-        foreach ($this->drm->getReleveNonAppurement() as $key => $object) {                
-            $this->embedForm($key, new DRMReleveNonAppurementItemForm($object));
-        }
+
+        $this->embedForm('releve_non_appurement', new DRMReleveNonAppurementItemsForm($this->drm->getReleveNonAppurement()));
         $this->widgetSchema->setNameFormat('drmAdministrationForm[%s]');
     }
 
@@ -48,6 +47,9 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
         foreach ($this->docTypesList as $docType) {
             $this->drm->getOrAdd('documents_administration')->getOrAdd($docType)->debut = $values[$docType . '_debut'];
             $this->drm->getOrAdd('documents_administration')->getOrAdd($docType)->fin = $values[$docType . '_fin'];
+        }
+        foreach ($this->getEmbeddedForms() as $key => $releveNonAppurementForm) {
+            $releveNonAppurementForm->updateObject($values[$key]);
         }
         $this->drm->etape = DRMClient::ETAPE_VALIDATION;
         $this->drm->save();
@@ -68,17 +70,39 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
         }
     }
 
+    public function bind(array $taintedValues = null, array $taintedFiles = null) {
+        foreach ($this->embeddedForms as $key => $form) {
+            if ($form instanceof DRMReleveNonAppurementItemsForm) {
+                if (isset($taintedValues[$key])) {
+                    $form->bind($taintedValues[$key], $taintedFiles[$key]);
+                    $this->updateEmbedForm($key, $form);
+                }
+            }
+        }
+        parent::bind($taintedValues, $taintedFiles);
+    }
+
+    public function updateEmbedForm($name, $form) {
+        $this->widgetSchema[$name] = $form->getWidgetSchema();
+        $this->validatorSchema[$name] = $form->getValidatorSchema();
+    }    
+   
     public function getDocTypes() {
-        $this->detailsSortiesVrac = $this->drm->getVracs();
-        $this->detailsSortiesExport = $this->drm->getExports();
+
+        $this->detailsSortiesVrac = $this->drm->getDetailsVracs();
+        $this->detailsSortiesExport = $this->drm->getDetailsExports();
+
         $this->docTypesList = array();
         if (count($this->detailsSortiesVrac)) {
             $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA;
         }
+
         if (count($this->detailsSortiesExport)) {
             $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE;
         }
+
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE;
+
         return $this->docTypesList;
     }
 
