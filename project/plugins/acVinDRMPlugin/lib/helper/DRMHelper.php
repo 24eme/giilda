@@ -30,11 +30,77 @@ function getDrmTitle($drm) {
 
 function getNumberOfFirstProduitWithMovements($produits) {
     $cpt = 1;
-    foreach ($produits as $produit){
-        if($produit->hasMovements()){
+    foreach ($produits as $produit) {
+        if ($produit->hasMovements()) {
             return $cpt;
         }
         $cpt++;
     }
     return null;
+}
+
+function getClassEtatDRMCalendrier($calendrier, $periode) {
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE) {
+        return 'valide_campagne';
+    }
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_EN_COURS) {
+        return 'attente_campagne';
+    }
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE) {
+        return 'nouv_campagne';
+    }
+    return $calendrier->getStatut($periode);
+}
+
+function getEtatDRMCalendrier($calendrier, $periode) {
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE) {
+        return 'Validée';
+    }
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_EN_COURS) {
+        return 'En attente';
+    }
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE) {
+        return 'Nouvelle';
+    }
+    return $calendrier->getStatut($periode);
+}
+
+function getEtatDRMPictoCalendrier($calendrier, $periode) {
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE) {
+        return 'valide_etablissement';
+    }
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_EN_COURS) {
+        return 'attente_etablissement';
+    }
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE) {
+        return 'nouv_etablissement';
+    }
+    return $calendrier->getStatut($periode);
+}
+
+
+function getEtatDRMHrefCalendrier($calendrier, $periode) {
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE) {
+        return url_for('drm_visualisation', array('identifiant' => $calendrier->getIdentifiant(), 'periode_version' => $calendrier->getPeriodeVersion($periode)));
+    }
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_EN_COURS) {
+        return url_for('drm_redirect_etape', array('identifiant' => $calendrier->getIdentifiant(), 'periode_version' => $calendrier->getPeriodeVersion($periode)));
+    }
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE) {
+        return url_for('drm_nouvelle', array('identifiant' => $calendrier->getIdentifiant(), 'periode' => $periode));
+    }
+    return $calendrier->getStatut($periode);
+}
+
+function getEtatDRMLibelleCalendrier($calendrier, $periode) {
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE) {
+        return 'Voir la drm';
+    }
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_EN_COURS) {
+        return 'En attente';
+    }
+    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE) {
+        return 'Nouvelle';
+    }
+    return $calendrier->getStatut($periode);
 }
