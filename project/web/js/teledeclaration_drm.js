@@ -158,6 +158,54 @@ var initValidationDrmStockMvt = function () {
     });
 }
 
+
+        var callbackAddTemplate = function (bloc)
+        {
+
+        }
+
+
+        var initCollectionNonApurementTemplate = function (element, regexp_replace, callback)
+        {
+
+            $(element).live('click', function ()
+            {
+                 var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
+
+                try {
+                    var params = jQuery.parseJSON($(this).attr('data-template-params'));
+                } catch (err) {
+
+                }
+
+                for (key in params) {
+                    bloc_html = bloc_html.replace(new RegExp(key, "g"), params[key]);
+                }
+
+                var bloc = $($(this).attr('data-container')).children('tr').last().after(bloc_html);
+
+                if (callback) {
+                    callback(bloc);
+                }
+                return false;
+            });
+        }
+
+        var initCollectionDeleteNonApurementTemplate = function ()
+        {
+            $('.drm_non_appurement_delete_row .btn_supprimer_ligne_template').live('click', function ()
+            {
+                var element = $(this).parent().parent();
+                $(element).remove();
+                return false;
+            });
+        }
+        
+        var initNonApurement = function(){
+            initCollectionNonApurementTemplate('.ajouter_non_apurement .btn_ajouter_ligne_template', /var---nbItem---/g, callbackAddTemplate);
+            initCollectionDeleteNonApurementTemplate();
+        }
+
 $(document).ready(function ()
 {
     initFilEditionProduit();
@@ -168,5 +216,6 @@ $(document).ready(function ()
     initFavoris();
     initValidationDrmStockMvt();
     initValidationCoordonneesEtbSociete();
+    initNonApurement();
 
 });

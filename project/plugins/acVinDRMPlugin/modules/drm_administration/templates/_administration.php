@@ -46,7 +46,7 @@
             </tbody>
 
         </table>
-        <div class="form_ligne">
+        <div class="form_ligne ajouter_non_apurement">
             <a class="btn_ajouter_ligne_template" data-container="#nonappurement_list" data-template="#template_nonappurement" href="#">Ajouter un non appurement</a>
         </div>     
         <br/>
@@ -67,54 +67,7 @@
     (function ($)
     {
 
-        $(document).ready(function ()
-        {
-            initCollectionAddTemplate('.btn_ajouter_ligne_template', /var---nbItem---/g, callbackAddTemplate);
-            initCollectionDeleteTemplate();
-        });
-
-        var callbackAddTemplate = function (bloc)
-        {
-
-        }
-
-
-        var initCollectionAddTemplate = function (element, regexp_replace, callback)
-        {
-
-            $(element).live('click', function ()
-            {
-                 var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
-
-                try {
-                    var params = jQuery.parseJSON($(this).attr('data-template-params'));
-                } catch (err) {
-
-                }
-
-                for (key in params) {
-                    bloc_html = bloc_html.replace(new RegExp(key, "g"), params[key]);
-                }
-
-                var bloc = $($(this).attr('data-container')).children('tr').last().after(bloc_html);
-
-                if (callback) {
-                    callback(bloc);
-                }
-                return false;
-            });
-        }
-
-        var initCollectionDeleteTemplate = function ()
-        {
-            $('.btn_supprimer_ligne_template').live('click', function ()
-            {
-                var element = $(this).parent().parent();
-                $(element).remove();
-
-                return false;
-            });
-        }
+        
     })(jQuery);
 
 
