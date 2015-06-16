@@ -104,3 +104,10 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode) {
     }
     return $calendrier->getStatut($periode);
 }
+
+function getLibelleForGenre($genre) {
+    if($genre == 'TRANQ'){
+        return 'TRANQUILLE';
+    }
+    return $genre;
+}

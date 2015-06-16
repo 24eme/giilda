@@ -2,7 +2,7 @@
 <fieldset id="crds_drm">
     <?php foreach ($drm->getAllCrdsByRegimeAndByGenre() as $regime => $crdAllGenre): ?>
         <?php foreach ($crdAllGenre as $genre => $crds) : ?>
-            <h2><?php echo $genre; ?></h2>
+            <h2><?php echo getLibelleForGenre($genre); ?></h2>
 
             <table class="table_recap">
                 <thead >
@@ -17,11 +17,11 @@
 
                         <th>Achat</th>
                         <th>Retour</th>
-                        <th>Excédents</th>
+                        <th>Excéd.</th>
 
-                        <th>Util.</th>
+                        <th>Utilisé</th>
                         <th>Destr.</th>
-                        <th>Manquant</th>
+                        <th>Manq.</th>
 
                     </tr>
                 </thead>
