@@ -86,6 +86,13 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
         $this->widgetSchema[$name] = $form->getWidgetSchema();
         $this->validatorSchema[$name] = $form->getValidatorSchema();
     }    
+    
+    public function getFormTemplate() {
+        $drm = new DRM();
+        $form_embed = new DRMReleveNonAppurementItemForm($drm->getOrAdd('releve_non_appurement')->add(), array('keyNonAppurement' => uniqid()));
+        $form = new DRMCollectionTemplateForm($this, 'releve_non_appurement', $form_embed);
+        return $form->getFormTemplate();
+    }
    
     public function getDocTypes() {
 
