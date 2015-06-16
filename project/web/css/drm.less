@@ -1549,22 +1549,34 @@ p#date_drm
 
                 &#calendrier_drm, &#stock_drm, &#mouvement_drm{
                     .bloc_form{
-                        .ligne_compose{
-
+                        .ligne_compose
+                        {
                             height: auto;
                             padding: 0;
 
-                            .liste_mois{
+                            .liste_mois
+                            {
                                 .clearfix;
 
-                                >li{
+                                >li
+                                {
                                     box-sizing: border-box;
                                     float: left;
-                                    width: 25%;
+                                    width: 33.33%;
 
                                     & + li { border-left: 1px solid @couleur-a7; }
 
-                                    .mois{
+                                    &.attente_campagne { background-color: @couleur-d1; }
+
+                                    &.cloture_campagne { background-color: @couleur-a1; }
+
+                                    &.nouv_campagne { background-color: @couleur-d2; }
+
+                                    &.valide_papier_campagne,
+                                    &.valide_campagne { background-color: @couleur-d3; }
+
+                                    .mois
+                                    {
                                         .majuscules;
                                         background-color: @couleur-a5;
                                         font-size: 14px;
@@ -1573,73 +1585,154 @@ p#date_drm
                                         line-height: 42px;
                                     }
 
-                                    .mois_infos{
-                                        padding: 22px 5px 6px;
+                                    .mois_infos
+                                    {
+                                        padding: 22px 5px;
+                                        position: relative;
 
-                                        &.attente_campagne{
-                                            background-color: @couleur-d1;
+                                        .attente_etablissement
+                                        {
+                                            .btn_etablissement { background: url('../images/pictos/pi_alerte.png') no-repeat; }
 
-                                            li:first-child{
-
-                                                span { .statut_suspendu; }
+                                            .statut
+                                            {
+                                                .statut_suspendu;
+                                                background-image: url('../images/pictos/pi_alerte.png');
+                                                background-position: 0 0;
                                             }
 
                                             a.action { .btn_rouge; }
                                         }
 
-                                        &.cloture_campagne{
-                                            background-color: @couleur-a1;
+                                        .valide_papier_etablissement
+                                        {
+                                            .btn_etablissement { background: url('../images/pictos/pi_grey_plus.png') no-repeat; }
 
-                                            li:first-child{
-                                                span { .statut_cloture; }
-                                            }
+                                            .statut { .statut_valide_papier; }
 
                                             a.action { .btn_noir; }
                                         }
 
-                                        &.nouv_campagne{
-                                            background-color: @couleur-d2;
+                                        .nouv_etablissement
+                                        {
+                                            .btn_etablissement { background: url('../images/pictos/pi_orange_plus.png') no-repeat; }
 
-                                            li:first-child{
-                                                span { .statut_nouveau; }
+                                            .statut
+                                            {
+                                                .statut_nouveau;
+                                                background-image: url('../images/pictos/pi_orange_plus.png');
+                                                background-position: 0 0;
                                             }
 
                                             a.action { .btn_orange; }
                                         }
 
-                                        &.valide_campagne{
-                                            background-color: @couleur-d3;
+                                        .valide_etablissement
+                                        {
+                                            .btn_etablissement { background-position: 0 -70px; }
 
-                                            li:first-child{
-
-                                                span { .statut_valide; }
-                                            }
+                                            .statut { .statut_valide; }
 
                                             a.action { .btn_noir; }
                                         }
 
-                                        li{
+                                        .btn_etablissement
+                                        {
+                                            background: url('../images/pictos/sprite_calendrier.png') no-repeat;
+                                            text-indent: 110%;
+                                            overflow: hidden;
+                                            height: 20px;
+                                            width: 20px;
+                                            white-space: nowrap;
+                                        }
+
+                                        p
+                                        {
+                                            font-weight: bold;
+                                            margin: 10px 0;
+                                            text-align: left;
+                                        }
+
+                                        .etablissement_nom
+                                        {
+                                            background: url('../images/pictos/pi_etablissement.png') no-repeat;
+                                            padding: 0 0 0 35px;
+                                            text-align: left;
+                                        }
+
+                                        a.action
+                                        {
+                                            .btn_majeur;
+                                            text-align: center;
+                                            display: block;
+                                            width: 100%;
+                                        }
+
+                                        li
+                                        {
                                             font-size: 13px;
                                             text-align: left;
 
-                                            label{
+                                            label
+                                            {
                                                 display: inline-block;
                                                 height: 23px;
                                                 line-height: 23px;
-                                            }
-
-                                            label{
                                                 font-weight: bold;
                                                 margin-bottom: 15px;
                                                 padding-left: 5px;
                                                 width: 60px;
                                             }
+                                        }
 
-                                            a.action{
-                                                .btn_majeur;
+                                        .liste_etablissements
+                                        {
+                                            > li
+                                            {
+                                                background: 0;
+                                                float: left;
+                                                margin: 5px 0;
+                                                position: relative;
                                                 text-align: center;
-                                                display: block;
-                                                width: 100%;
+                                                width: 33.33%;
+                                            }
+
+                                            .etablissement_tooltip
+                                            {
+                                                .pos-abs(40px, auto, auto, 0);
+                                                background: #FFF;
+                                                border: 1px solid #bbb;
+                                                display: none;
+                                                width: 200px;
+                                                margin-left: -66px;
+                                                padding: 10px;
+                                                text-align: left;
+                                                z-index: 10;
+
+                                                // triangles
+                                                &:before,
+                                                &:after
+                                                {
+                                                    .pos-abs(auto, auto, 100%, 50%);
+                                                    content: '';
+                                                    width: 0;
+                                                    height: 0;
+                                                    border-style: solid;
+                                                }
+
+                                                &:before
+                                                {
+                                                    border-width: 0 12px 12px 12px;
+                                                    border-color: transparent transparent #bbb transparent;
+                                                    margin-left: -12px;
+                                                }
+
+                                                &:after
+                                                {
+                                                    border-width: 0 10px 10px 10px;
+                                                    border-color: transparent transparent #FFF transparent;
+                                                    margin-left: -10px;
+                                                }
                                             }
                                         }
                                     }

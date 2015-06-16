@@ -18,7 +18,7 @@ var objAjoutsLiquidations = {};
 
     $(document).ready(function()
     {
-        
+
         if (ajoutsLiquidations.exists())
             $.initAjoutsLiquidations();
 
@@ -39,10 +39,11 @@ var objAjoutsLiquidations = {};
         $(".flash_temporaire").delay(6000).fadeTo(1000, 0);
 
         if (calendrierHistorique.exists()) {
+            $.initAfficheInfosEtablissement();
             calendrierHistorique.find('.liste_mois > li').hauteurEgale();
         }
     });
-  
+
 
     /**
      * Initialise les fonctions de l'étape
@@ -190,5 +191,36 @@ var objAjoutsLiquidations = {};
                 texteCaution.hide();
         }); // fin de click()
     }; // fin de $.choixCaution()
+
+
+    /**
+     * Affiche les infos d'un établissement
+     * $.initAfficheInfosEtablissement();
+     ******************************************/
+    $.initAfficheInfosEtablissement = function()
+    {
+        calendrierHistorique.on('mouseenter click', '.btn_etablissement', function(e)
+        {
+            var btn = $(this);
+            var etablissementInfos = btn.siblings('.etablissement_tooltip');
+
+            e.stopPropagation();
+
+            calendrierHistorique.find('.etablissement_tooltip').not(etablissementInfos).stop().fadeOut();
+
+            etablissementInfos.stop().fadeIn();
+        });
+
+        calendrierHistorique.on('click', '.etablissement_tooltip', function(e)
+        {
+            e.stopPropagation();
+        });
+
+        // On cache les tooltip d'infos d'établissement au clic en dehors de celles-ci
+        $(document).click(function()
+        {
+            calendrierHistorique.find('.etablissement_tooltip').hide();
+        });
+    };
 
 })(jQuery);
