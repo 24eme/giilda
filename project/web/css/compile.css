@@ -2529,19 +2529,49 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 #global_content.no_right_col #principal {
   width: auto;
 }
+#mon_espace .cols {
+  zoom: 1;
+  min-height: 1px;
+}
+#mon_espace .cols:before,
+#mon_espace .cols:after {
+  content: "\0020";
+  display: block;
+  font-size: 0;
+  height: 0;
+  visibility: hidden;
+}
+#mon_espace .cols:after {
+  clear: both;
+}
+#mon_espace .cols:before,
+#mon_espace .cols:after {
+  content: "\0020";
+  display: block;
+  font-size: 0;
+  height: 0;
+  visibility: hidden;
+}
+#mon_espace .cols:after {
+  clear: both;
+}
+#mon_espace .col_50 {
+  float: left;
+  width: 50%;
+}
 #mon_espace .block_teledeclaration {
-  width: 300px;
-  display: inline-block;
-  background: none repeat scroll 0 0 #ecebeb;
+  background: #ecebeb;
   margin: 0 0 25px;
   margin: 10px 10px 30px;
 }
 #mon_espace .block_teledeclaration .title {
-  background: none repeat scroll 0 0 #000;
+  background: #3e3e3e 10px 50% no-repeat;
+  font-weight: bold;
   vertical-align: middle;
   text-align: center;
   color: #fff;
-  font-size: 18pt;
+  font-size: 18px;
+  padding: 5px 0;
 }
 #mon_espace .block_teledeclaration .panel {
   padding: 10px;
@@ -2560,6 +2590,12 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 #mon_espace .block_teledeclaration .acces {
   padding: 10px;
   text-align: center;
+}
+#mon_espace .block_teledeclaration.espace_contrat .title {
+  background-image: url('../images/pictos/pi_handshake.png');
+}
+#mon_espace .block_teledeclaration.espace_drm .title {
+  background-image: url('../images/pictos/pi_list_pen.png');
 }
 /**
  * Fichier : contrats.less
@@ -6758,7 +6794,12 @@ bouton#colonnes_dr .btn_edition_label {
   padding: 10px 10px 30px;
 }
 #principal.drm #rail_etapes li {
-  font-size: 12px;
+  font-size: 9pt;
+  width: 20%;
+  padding: 0 10px;
+}
+#principal.drm #rail_etapes li > * {
+  padding: 0 5px;
 }
 #principal.drm .popup_raccourcis {
   float: right;
@@ -6869,6 +6910,15 @@ bouton#colonnes_dr .btn_edition_label {
 }
 #principal.drm table .drm_crds_list input {
   width: 32px;
+}
+#principal.drm table td.drm_administration_type {
+  width: 15%;
+}
+#principal.drm table .drm_non_apurement input {
+  width: 120px;
+}
+#principal.drm table .drm_non_apurement_date_emission {
+  width: 33%;
 }
 #principal.drm fieldset {
   margin: 25px 0;

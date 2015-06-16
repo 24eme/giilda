@@ -41,7 +41,7 @@
         {
             background: #f1b2b3;
             color: #8a0c0c;
-        }   
+        }
     }
 
     #points_vigilance
@@ -114,8 +114,8 @@
         padding:10px 10px 30px;
 
         .ui-autocomplete-input
-        {      
-            width:510px;    
+        {
+            width:510px;
             margin-right:10px;
         }
 
@@ -231,7 +231,7 @@
                     padding: 0;
                     width: 200px;
 
-                    &:focus { outline: 0; }						
+                    &:focus { outline: 0; }
                 }
             }
 
@@ -353,23 +353,38 @@
 }
 
 #mon_espace {
-    .block_teledeclaration{
-        width:300px;
-        display: inline-block;
-        background: none repeat scroll 0 0 #ecebeb;
+
+    .cols { .clearfix; }
+
+    .col_50
+    {
+        float: left;
+        width: 50%;
+    }
+
+    .block_teledeclaration
+    {
+        background: #ecebeb;
         margin: 0 0 25px;
         margin: 10px 10px 30px;
-        .title {
-            background: none repeat scroll 0 0 #000;
+
+        .title
+        {
+            background: #3e3e3e 10px 50% no-repeat;
+            font-weight: bold;
             vertical-align: middle;
             text-align: center;
             color: #fff;
-            font-size: 18pt;
+            font-size: 18px;
+            padding: 5px 0;
         }
-        .panel{
-            padding: 10px;            
+
+        .panel
+        {
+            padding: 10px;
+
             ul {
-                li { line-height: 28px; 
+                li { line-height: 28px;
                      a {
                          text-decoration: underline;
                          font-weight: bold;
@@ -379,11 +394,28 @@
                     color: red ;
                     font-weight: bold;
                 }
-            }            
+            }
         }
+
         .acces{
             padding: 10px;
             text-align: center;
+        }
+
+        &.espace_contrat
+        {
+            .title
+            {
+                background-image: url('../images/pictos/pi_handshake.png');
+            }
+        }
+
+        &.espace_drm
+        {
+            .title
+            {
+                background-image: url('../images/pictos/pi_list_pen.png');
+            }
         }
     }
 }
