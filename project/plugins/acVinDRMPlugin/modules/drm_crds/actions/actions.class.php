@@ -12,11 +12,11 @@ class drm_crdsActions extends drmGeneriqueActions {
             $this->crdsForms->bind($request->getParameter($this->crdsForms->getName()));
             if ($this->crdsForms->isValid()) {
                 $this->crdsForms->save();
-                $this->redirect('drm_validation', $this->crdsForms->getObject());
+                $this->redirect('drm_redirect_etape', $this->crdsForms->getObject());
             }
         }
     }
-    
+
     public function executeAjoutTypeCrd(sfWebRequest $request) {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
@@ -29,18 +29,18 @@ class drm_crdsActions extends drmGeneriqueActions {
             }
         }
     }
-    
+
     public function executeChoixRegimeCrd(sfWebRequest $request) {
         $this->initSocieteAndEtablissementPrincipal();
         $drm = $this->getRoute()->getDRM();
         $etablissement = $drm->getEtablissement();
-        if(!$this->isTeledeclarationDrm()){
+        if (!$this->isTeledeclarationDrm()) {
             $this->redirect403IfIsNotTeledeclaration();
         }
-        if($etablissement->hasRegimeCrd()){
+        if ($etablissement->hasRegimeCrd()) {
             throw new sfException("L'établissement possède déjà un régime de CRD.");
         }
-        
+
         $this->form = new DRMCrdRegimeChoiceForm($drm);
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));

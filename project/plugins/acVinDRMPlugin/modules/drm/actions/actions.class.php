@@ -49,6 +49,14 @@ class drmActions extends drmGeneriqueActions {
                 }
                 break;
 
+            case DRMClient::ETAPE_ADMINISTRATION:
+                if ($isTeledeclarationMode) {
+                    return $this->redirect('drm_administration', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                } else {
+                    return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                }
+                break;
+
             case DRMClient::ETAPE_VALIDATION:
                 return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
                 break;
@@ -131,7 +139,7 @@ class drmActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         return $this->formCampagne($request, 'drm_etablissement');
     }
-    
+
     public function executeMonEspaceStatic(sfWebRequest $request) {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         return $this->formCampagne($request, 'drm_etablissement');

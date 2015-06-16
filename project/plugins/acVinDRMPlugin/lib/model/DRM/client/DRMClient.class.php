@@ -9,6 +9,7 @@ class DRMClient extends acCouchdbClient {
     const ETAPE_CHOIX_PRODUITS = 'CHOIX_PRODUITS';
     const ETAPE_SAISIE = 'SAISIE';
     const ETAPE_CRD = 'CRD';
+    const ETAPE_ADMINISTRATION = 'ADMINISTRATION';
     const ETAPE_VALIDATION = 'VALIDATION';
     const VALIDE_STATUS_EN_COURS = '';
     const VALIDE_STATUS_VALIDEE = 'VALIDEE';
@@ -17,16 +18,23 @@ class DRMClient extends acCouchdbClient {
     const DRM_VERT = 'VERT';
     const DRM_BLEU = 'BLEU';
     const DRM_LIEDEVIN = 'LIEDEVIN';
-    
+    const DRM_DOCUMENTACCOMPAGNEMENT_DAADSA = 'DAADSA';
+    const DRM_DOCUMENTACCOMPAGNEMENT_DAE = 'DAE';
+    const DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE = 'EMPREINTE';
     const DRM_TYPE_MVT_ENTREES = 'entrees';
     const DRM_TYPE_MVT_SORTIES = 'sorties';
 
-    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_VALIDATION);
+    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
-    public static $drm_default_favoris = array("entrees/achat", "entrees/recolte","sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille","sorties/consommation");
+    public static $drm_default_favoris = array("entrees/achat", "entrees/recolte", "sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille", "sorties/consommation");
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 5);
+    public static $drm_documents_daccompagnement = array(self::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA => 'DAA/DSA',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'DAE',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'EMPREINTE');
+    public static $drm_documents_daccompagnement_libelle = array(self::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA => 'contrats',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'exports',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'empreintes');
     protected $drm_historiques = array();
-    
 
     /**
      *
@@ -370,7 +378,7 @@ class DRMClient extends acCouchdbClient {
     public function createDocByPeriode($identifiant, $periode, $isTeledeclarationMode = false) {
         $prev_drm = $this->getHistorique($identifiant, $periode)->getPrevious($periode);
         $next_drm = $this->getHistorique($identifiant, $periode)->getNext($periode);
-       
+
         if ($prev_drm) {
             return $prev_drm->generateSuivanteByPeriode($periode, $isTeledeclarationMode);
         } elseif ($next_drm) {
@@ -446,9 +454,9 @@ class DRMClient extends acCouchdbClient {
             foreach ($libelles as $libelleHash => $libelle) {
                 $configurationFields[$type . '/' . $libelleHash] = $libelle;
             }
-        } 
+        }
         foreach ($configurationFields as $key => $value) {
-            if(!in_array($key, self::$drm_default_favoris)){
+            if (!in_array($key, self::$drm_default_favoris)) {
                 unset($configurationFields[$key]);
             }
         }

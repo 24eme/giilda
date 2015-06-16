@@ -129,8 +129,32 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             if ($vrac = $d->sorties->vrac_details)
                 $vracs[] = $vrac;
         }
+        return $vracs;
+    }
+
+    public function getDetailsVracs() {
+        $vracs = array();
+        foreach ($this->getProduitsDetails() as $d) {
+            if ($vrac_details = $d->sorties->vrac_details) {
+                foreach ($vrac_details as $vracdetail) {
+                    $vracs[] = $vracdetail;
+                }
+            }
+        }
 
         return $vracs;
+    }
+
+    public function getDetailsExports() {
+        $exports = array();
+        foreach ($this->getProduitsDetails() as $d) {
+            if ($export_details = $d->sorties->export_details) {
+                foreach ($export_details as $exportdetail) {
+                    $exports[] = $exportdetail;
+                }
+            }
+        }
+        return $exports;
     }
 
     public function generateByDS(DS $ds) {
@@ -971,8 +995,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function crdsInitDefault() {
-              foreach ($this->crds as $regime => $regimeCrds) {
-            $this->crds->get($regime)->crdsInitDefault($this->getAllGenres());
+        if (!$this->exist('crds') || (!$this->crds)) {
+          // $this->add('crds');
+             return array();
+
+        }
+        foreach ($this->crds as $regime => $regimeCrds) {
+            $this->crds->getOrAdd($regime)->crdsInitDefault($this->getAllGenres());
         }
     }
 
@@ -990,6 +1019,20 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /*     * * FIN CRDS ** */
+
+    /**     * ADMINISTRATION ** */
+    public function hasAdministration($isTeledeclarationMode = false) {
+        return count($this->getVracs()) && count($this->getDetailsExports()) && $isTeledeclarationMode;
+    }
+
+    public function initReleveNonApurement() {
+        $releveNonApurement = $this->getOrAdd('releve_non_apurement');
+        if (!count($releveNonApurement)) {
+            $releveNonApurement->addEmptyNonApurement();
+        }
+    }
+
+    /*     * * FIN ADMINISTRATION ** */
 
     /**     * FAVORIS ** */
     public function buildFavoris() {

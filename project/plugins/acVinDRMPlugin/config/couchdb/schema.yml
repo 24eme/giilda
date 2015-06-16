@@ -290,6 +290,7 @@ DRM:
                                                                                                                               identifiant: {  }
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
+                                                                                                                              numero_document: {  }
                                                                                                                   export_details:
                                                                                                                     class: DRMESDetails
                                                                                                                     type:  collection
@@ -303,6 +304,7 @@ DRM:
                                                                                                                               identifiant: {  }
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
+                                                                                                                              numero_document: {  }
                                                                                                                   cooperative_details:
                                                                                                                      class: DRMESDetails
                                                                                                                      type:  collection
@@ -486,4 +488,29 @@ DRM:
               type: collection
               definition:
                 fields:
-                  '*': { }
+                  '*': { }                  
+      documents_administration:
+        type: collection
+        required: false
+        definition:          
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  'debut': { }    
+                  'fin': { }
+                  
+      releve_non_apurement:
+        type: collection
+        class: DRMNonApurement
+        required: false
+        definition:          
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  'numero_document': { }    
+                  'date_emission': { }  
+                  'numero_accise': { }  

@@ -70,7 +70,7 @@ echo $societeForm->renderGlobalErrors();
             }
             ?>
             <div class="form_ligne">
-                <a class="btn_ajouter_ligne_template" data-container="#enseignes_list" data-template="#template_enseigne" href="#">Ajouter une enseigne</a>
+                <a class="btn_ajouter_ligne_template" data-container="#enseignes_list" data-template="#template_non_appurement" href="#">Ajouter une enseigne</a>
             </div>
         </div>
     <div class="form_ligne">

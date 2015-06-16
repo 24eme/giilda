@@ -8,7 +8,7 @@
                 <span>
                     <?php echo $form['couleur_crd_'.$regime]->renderError(); ?>
                     <?php echo $form['couleur_crd_'.$regime]->renderLabel() ?>    
-                    <?php echo $form['couleur_crd_'.$regime]->render(array('class' => 'autocomplete')); ?>
+                    <?php echo $form['couleur_crd_'.$regime]->render(array('class' => 'couleur_crd_choice autocomplete')); ?>
                 </span>
             </div>
             <div class="ligne_form">       

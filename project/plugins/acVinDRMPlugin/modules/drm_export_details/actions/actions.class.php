@@ -11,7 +11,6 @@ class drm_export_detailsActions extends sfActions
 
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
-            
             if($this->form->isValid()) {
                 $this->form->update();
                 $this->drm->update();
