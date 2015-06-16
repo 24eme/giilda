@@ -93,15 +93,11 @@ class drmComponents extends sfComponents {
     }
 
     public function executeCalendrier() {
-        $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
-    }
-    
-public function executeCalendrierStatic() {
-        $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
+        $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
     }
     
     public function executeStocks() {
-        $this->calendrier = new DRMCalendrier($this->etablissement->identifiant, $this->campagne);
+        $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne);
         $this->produits = array();
         $this->vigilance = false;
         foreach($this->calendrier->getPeriodes() as $periode) {

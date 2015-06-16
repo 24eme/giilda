@@ -39,70 +39,77 @@ function getNumberOfFirstProduitWithMovements($produits) {
     return null;
 }
 
-function getClassEtatDRMCalendrier($calendrier, $periode) {
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE) {
+function getClassEtatDRMCalendrier($calendrier, $periode,$etablissement = false) {
+     $statut = $calendrier->getStatut($periode,$etablissement);
+    if ($statut == DRMCalendrier::STATUT_VALIDEE) {
         return 'valide_campagne';
     }
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_EN_COURS) {
+    if ($statut == DRMCalendrier::STATUT_EN_COURS) {
         return 'attente_campagne';
     }
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE) {
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'nouv_campagne';
     }
-    return $calendrier->getStatut($periode);
+    return $statut;
 }
 
-function getEtatDRMCalendrier($calendrier, $periode) {
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE) {
+function getEtatDRMCalendrier($calendrier, $periode,$etablissement = false) {
+     $statut = $calendrier->getStatut($periode,$etablissement);
+    if ($statut == DRMCalendrier::STATUT_VALIDEE) {
         return 'Validée';
     }
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_EN_COURS) {
+    if ($statut == DRMCalendrier::STATUT_EN_COURS) {
         return 'En attente';
     }
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE) {
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'Nouvelle';
     }
-    return $calendrier->getStatut($periode);
+    return $statut;
 }
 
-function getEtatDRMPictoCalendrier($calendrier, $periode) {
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE) {
+function getEtatDRMPictoCalendrier($calendrier, $periode, $etablissement = false) {
+    $statut = $calendrier->getStatut($periode,$etablissement);
+    if ($statut == DRMCalendrier::STATUT_VALIDEE) {
         return 'valide_etablissement';
     }
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_EN_COURS) {
+    if ($statut == DRMCalendrier::STATUT_EN_COURS) {
         return 'attente_etablissement';
     }
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE) {
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'nouv_etablissement';
     }
-    return $calendrier->getStatut($periode);
+    return $statut;
 }
 
 
-function getEtatDRMHrefCalendrier($calendrier, $periode) {
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE) {
-        return url_for('drm_visualisation', array('identifiant' => $calendrier->getIdentifiant(), 'periode_version' => $calendrier->getPeriodeVersion($periode)));
+function getEtatDRMHrefCalendrier($calendrier, $periode,$etablissement = false) {
+    $etablissementId = ($etablissement)? $etablissement->identifiant : $calendrier->getIdentifiant();
+    $statut = $calendrier->getStatut($periode,$etablissement);
+    $periode_version = $calendrier->getPeriodeVersion($periode, $etablissement);
+    if ($statut == DRMCalendrier::STATUT_VALIDEE) {
+        return url_for('drm_visualisation', array('identifiant' => $etablissementId, 'periode_version' => $periode_version));
     }
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_EN_COURS) {
-        return url_for('drm_redirect_etape', array('identifiant' => $calendrier->getIdentifiant(), 'periode_version' => $calendrier->getPeriodeVersion($periode)));
+    if ($statut == DRMCalendrier::STATUT_EN_COURS) {
+        return url_for('drm_redirect_etape', array('identifiant' => $etablissementId, 'periode_version' => $periode_version));
     }
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE) {
-        return url_for('drm_nouvelle', array('identifiant' => $calendrier->getIdentifiant(), 'periode' => $periode));
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
+        return url_for('drm_nouvelle', array('identifiant' => $etablissementId, 'periode' => $periode));
     }
     return $calendrier->getStatut($periode);
 }
 
-function getEtatDRMLibelleCalendrier($calendrier, $periode) {
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_VALIDEE) {
+function getEtatDRMLibelleCalendrier($calendrier, $periode,$etablissement = false) {
+    $statut = $calendrier->getStatut($periode,$etablissement);
+    if ($statut == DRMCalendrier::STATUT_VALIDEE) {
         return 'Voir la drm';
     }
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_EN_COURS) {
+    if ($statut == DRMCalendrier::STATUT_EN_COURS) {
         return 'En attente';
     }
-    if ($calendrier->getStatut($periode) == DRMCalendrier::STATUT_NOUVELLE) {
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'Nouvelle';
     }
-    return $calendrier->getStatut($periode);
+    return $statut;
 }
 
 function getLibelleForGenre($genre) {

@@ -2,10 +2,13 @@
 
 class DRMCalendrier {
 
-    protected $identifiant = null;
+    protected $etablissements = null;
+    protected $etablissement = null;
     protected $campagne = null;
     protected $periodes = null;
     protected $drms = null;
+    protected $isTeledeclarationMode = false;
+    protected $multiEtbs;
 
     const VIEW_INDEX_ETABLISSEMENT = 0;
     const VIEW_CAMPAGNE = 1;
@@ -21,10 +24,15 @@ class DRMCalendrier {
     const STATUT_VALIDEE = 'VALIDEE';
     const STATUT_CLOTURE = 'EN_COURS';
 
-    public function __construct($identifiant, $campagne) {
-        $this->identifiant = $identifiant;
+    public function __construct($etablissement, $campagne, $isTeledeclarationMode = false) {
+        $this->etablissement = $etablissement;
         $this->campagne = $campagne;
+        $this->isTeledeclarationMode = $isTeledeclarationMode;
         $this->periodes = DRMClient::getInstance()->getPeriodes($this->campagne);
+
+        $this->etablissements = $this->etablissement->getSociete()->getEtablissementsObj(false);
+
+        $this->multiEtbs = ((count($this->etablissement) > 1) && $this->isTeledeclarationMode);
 
         $this->loadDRMs();
     }
@@ -32,30 +40,57 @@ class DRMCalendrier {
     protected function loadDRMs() {
         $this->drms = array();
 
-        $drms = DRMClient::getInstance()->viewByIdentifiantAndCampagne($this->identifiant, $this->campagne);
 
-        foreach ($drms as $drm) {
-            if (array_key_exists($drm[self::VIEW_PERIODE], $this->drms)) {
+        if ($this->multiEtbs) {
+            foreach ($this->etablissements as $etablissement) {
+                $etbIdentifiant = $etablissement->etablissement->identifiant;
+                if (!array_key_exists($etbIdentifiant, $this->drms)) {
+                    $this->drms[$etbIdentifiant] = array();
+                }
+                $drms = DRMClient::getInstance()->viewByIdentifiantAndCampagne($etbIdentifiant, $this->campagne);
+                foreach ($drms as $drm) {
+                    if (array_key_exists($drm[self::VIEW_PERIODE], $this->drms[$etbIdentifiant])) {
 
-                continue;
+                        continue;
+                    }
+                    $this->drms[$etbIdentifiant][$drm[self::VIEW_PERIODE]] = $drm;
+                }
             }
+        } else {
+            $drms = DRMClient::getInstance()->viewByIdentifiantAndCampagne($this->etablissement->identifiant, $this->campagne);
 
-            $this->drms[$drm[self::VIEW_PERIODE]] = $drm;
+            foreach ($drms as $drm) {
+                if (array_key_exists($drm[self::VIEW_PERIODE], $this->drms)) {
+
+                    continue;
+                }
+
+                $this->drms[$drm[self::VIEW_PERIODE]] = $drm;
+            }
         }
     }
 
     public function getIdentifiant() {
 
-        return $this->identifiant;
+        return $this->etablissement->identifiant;
     }
 
-    public function getPeriodeVersion($periode) {
-        if (!$this->hasDRM($periode)) {
+    public function getEtablissement() {
+
+        return $this->etablissement;
+    }
+
+    public function getPeriodeVersion($periode,$etablissement = false) {
+        if (!$this->hasDRM($periode,$etablissement)) {
 
             return;
         }
 
-        $drm = $this->drms[$periode];
+        if ($etablissement && $this->multiEtbs) {
+            $drm = $this->drms[$etablissement->identifiant][$periode];
+        } else {
+            $drm = $this->drms[$periode];
+        }
 
         return DRMClient::getInstance()->buildPeriodeAndVersion($drm[self::VIEW_PERIODE], $drm[self::VIEW_VERSION]);
     }
@@ -65,8 +100,10 @@ class DRMCalendrier {
         return $this->periodes;
     }
 
-    public function hasDRM($periode) {
-
+    public function hasDRM($periode, $etablissement = false) {
+        if ($etablissement && $this->multiEtbs) {
+            return isset($this->drms[$etablissement->identifiant][$periode]);
+        }
         return isset($this->drms[$periode]);
     }
 
@@ -82,11 +119,11 @@ class DRMCalendrier {
     }
 
     public function getPeriodeLibelle($periode) {
-      return ConfigurationClient::getInstance()->getPeriodeLibelle($periode);
+        return ConfigurationClient::getInstance()->getPeriodeLibelle($periode);
     }
 
     public function getMoisLibelle($periode) {
-      return ConfigurationClient::getInstance()->getMoisLibelle($periode);
+        return ConfigurationClient::getInstance()->getMoisLibelle($periode);
     }
 
     public function getNumero($periode) {
@@ -94,13 +131,18 @@ class DRMCalendrier {
         return $this->getPeriodeVersion($periode);
     }
 
-    public function getStatut($periode) {
-        if (!$this->hasDRM($periode)) {
+    public function getStatut($periode, $etablissement = false) {
+
+        if (!$this->hasDRM($periode, $etablissement)) {
 
             return self::STATUT_NOUVELLE;
         }
 
-        $drm = $this->drms[$periode];
+        if ($etablissement && $this->multiEtbs) {
+            $drm = $this->drms[$etablissement->identifiant][$periode];
+        } else {
+            $drm = $this->drms[$periode];
+        }
 
         if ($drm[self::VIEW_STATUT]) {
 
@@ -134,4 +176,3 @@ class DRMCalendrier {
     }
 
 }
-

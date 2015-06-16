@@ -3,7 +3,7 @@ use_helper("Date");
 use_helper('DRM');
 if (!isset($isMonEspace)) {
     $societe = $drm->getEtablissement()->getSociete();
-    $etablissementPrincipal = $drm->getEtablissement();
+    $etablissementPrincipal = $societe->getEtablissementPrincipal();
 }
 ?> 
 <!-- COLONNE ACTION -->

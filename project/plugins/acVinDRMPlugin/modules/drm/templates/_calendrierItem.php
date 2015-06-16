@@ -9,19 +9,17 @@
     <div class="mois_infos">
         <?php if ($isTeledeclarationMode && $multiEtablissement): ?>
             <ul class="liste_etablissements clearfix">
-                <?php foreach ($etablissements as $etablissement): ?>
-                <?php // var_dump($etablissement->etablissement); exit;?>
-                <li class="<?php echo getEtatDRMPictoCalendrier($calendrier, $periode); ?>">
-                    <button class="btn_etablissement" type="button"><?php echo $etablissement->etablissement->nom; ?></button>
+                <?php foreach ($etablissements as $etb): ?>
+                    <li class="<?php echo getEtatDRMPictoCalendrier($calendrier, $periode,$etb->etablissement); ?>">
+                        <button class="btn_etablissement" type="button"><?php echo $etb->etablissement->nom; ?></button>
+                        <div class="etablissement_tooltip">
+                            <p class="etablissement_nom"><?php echo $etb->etablissement->nom; ?></p>
+                            <p>Etat : <span class="statut"><?php echo getEtatDRMCalendrier($calendrier, $periode,$etb->etablissement); ?></span></p>
+                            <a href="<?php echo getEtatDRMHrefCalendrier($calendrier, $periode,$etb->etablissement); ?>" class="action"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode,$etb->etablissement); ?></a>
+                        </div>
+                    </li>
 
-                    <div class="etablissement_tooltip">
-                        <p class="etablissement_nom"><?php echo $etablissement->etablissement->nom; ?></p>
-                        <p>Etat : <span class="statut"><?php echo getEtatDRMCalendrier($calendrier, $periode); ?></span></p>
-                        <a href="<?php echo getEtatDRMHrefCalendrier($calendrier, $periode); ?>" class="action"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode); ?></a>
-                    </div>
-                </li>
-                        
-                   <?php endforeach; ?>
+                <?php endforeach; ?>
             </ul>
         <?php else: ?>
             <div class="<?php echo getEtatDRMPictoCalendrier($calendrier, $periode); ?>">

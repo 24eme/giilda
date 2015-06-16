@@ -1,3 +1,4 @@
+<?php use_helper('DRM'); ?>
 <h2>COMPTE CAPSULES (CRD)</h2>
 <fieldset id="crds_drm">
     <?php foreach ($drm->getAllCrdsByRegimeAndByGenre() as $regime => $crdAllGenre): ?>
@@ -5,7 +6,7 @@
             <h2><?php echo getLibelleForGenre($genre); ?></h2>
 
             <table class="table_recap">
-                <thead >
+                <thead>
                     <tr>                        
                         <th rowspan="2">CRD</th>
                         <th rowspan="2">Stock</th>
