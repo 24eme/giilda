@@ -61,9 +61,12 @@ class DRMDeclaration extends BaseDRMDeclaration {
         }
         $produitsDetails = $this->getProduitsDetails($isTeledeclarationMode);
         foreach ($produitsDetails as $produitDetails) {
-            $produitsDetailsByCertifications[$produitDetails->getCertification()->getHash()]->produits[$produitDetails->getHash()] = $produitDetails;
+            $produitLibelle = str_replace(' ','',trim($produitDetails->getCepage()->getConfig()->formatProduitLibelle()));
+            $produitsDetailsByCertifications[$produitDetails->getCertification()->getHash()]->produits[$produitLibelle] = $produitDetails;
         }
-        
+        foreach ($certifications as $certification) {
+            ksort($produitsDetailsByCertifications[$certification->getHash()]->produits);
+        }
         return $produitsDetailsByCertifications;
     }
 
