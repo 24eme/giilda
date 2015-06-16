@@ -7162,6 +7162,7 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos {
   padding: 22px 5px;
   position: relative;
+  text-align: center;
 }
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .btn_etablissement,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .btn_etablissement,
@@ -7417,6 +7418,14 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
   padding-left: 5px;
   width: 60px;
 }
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements {
+  display: inline-block;
+}
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements > li,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements > li,
 #principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements > li,
@@ -7425,10 +7434,9 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements > li {
   background: 0;
   float: left;
-  margin: 5px 0;
+  margin: 5px 20px;
   position: relative;
   text-align: center;
-  width: 33.33%;
 }
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements .etablissement_tooltip,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements .etablissement_tooltip,
@@ -7437,7 +7445,7 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements .etablissement_tooltip,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .liste_etablissements .etablissement_tooltip {
   bottom: auto;
-  left: 0;
+  left: 50%;
   position: absolute;
   right: auto;
   top: 40px;
@@ -7445,7 +7453,7 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
   border: 1px solid #bbb;
   display: none;
   width: 200px;
-  margin-left: -66px;
+  margin-left: -100px;
   padding: 10px;
   text-align: left;
   z-index: 10;

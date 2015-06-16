@@ -1498,8 +1498,8 @@ p#date_drm
                 width : 32px;
             }
         }
-        td.drm_administration_type{            
-            width : 15%;           
+        td.drm_administration_type{
+            width : 15%;
         }
         .drm_non_apurement{
             input {
@@ -1507,8 +1507,8 @@ p#date_drm
             }
         }
 
-        .drm_non_apurement_date_emission{            
-            width : 33%;           
+        .drm_non_apurement_date_emission{
+            width : 33%;
         }
     }
     fieldset{
@@ -1607,6 +1607,7 @@ p#date_drm
                                     {
                                         padding: 22px 5px;
                                         position: relative;
+                                        text-align: center;
 
                                         .attente_etablissement
                                         {
@@ -1705,24 +1706,25 @@ p#date_drm
 
                                         .liste_etablissements
                                         {
+                                            display: inline-block;
+
                                             > li
                                             {
                                                 background: 0;
                                                 float: left;
-                                                margin: 5px 0;
+                                                margin: 5px 20px;
                                                 position: relative;
                                                 text-align: center;
-                                                width: 33.33%;
                                             }
 
                                             .etablissement_tooltip
                                             {
-                                                .pos-abs(40px, auto, auto, 0);
+                                                .pos-abs(40px, auto, auto, 50%);
                                                 background: #FFF;
                                                 border: 1px solid #bbb;
                                                 display: none;
                                                 width: 200px;
-                                                margin-left: -66px;
+                                                margin-left: -100px;
                                                 padding: 10px;
                                                 text-align: left;
                                                 z-index: 10;
