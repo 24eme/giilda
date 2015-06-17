@@ -197,8 +197,8 @@ class DRMRouting {
             'control' => array('edition'),
         )));  
         
-        $r->prependRoute('drm_administration', new DRMRoute('/drm/:identifiant/edition/:periode_version/administration', array('module' => 'drm_administration',
-            'action' => 'administration'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+        $r->prependRoute('drm_annexes', new DRMRoute('/drm/:identifiant/edition/:periode_version/annexes', array('module' => 'drm_annexes',
+            'action' => 'annexes'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
         ))); 

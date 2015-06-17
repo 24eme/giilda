@@ -489,7 +489,7 @@ DRM:
               definition:
                 fields:
                   '*': { }                  
-      documents_administration:
+      documents_annexes:
         type: collection
         required: false
         definition:          

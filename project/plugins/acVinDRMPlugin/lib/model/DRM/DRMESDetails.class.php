@@ -54,15 +54,15 @@ class DRMESDetails extends BaseDRMESDetails {
 
         if ($numero_document) {
             $detail->numero_document = $numero_document;
-            $documents_administration = $this->getDocument()->getOrAdd('documents_administration');
+            $documents_annexes = $this->getDocument()->getOrAdd('documents_annexes');
 
             if ($detail instanceof DRMESDetailExport) {
-                if (!$documents_administration->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE) || !$documents_administration->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE)) {
-                    $daeNode = $documents_administration->add(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE);
+                if (!$documents_annexes->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE) || !$documents_annexes->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE)) {
+                    $daeNode = $documents_annexes->add(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE);
                     $daeNode->debut = $numero_document;
                     $daeNode->fin = $numero_document;
                 } else {
-                    $daeNode = $documents_administration->getOrAdd(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE);
+                    $daeNode = $documents_annexes->getOrAdd(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE);
                     if (strcmp($numero_document, $daeNode->debut) < 0) {
                         $daeNode->debut = $numero_document;
                     }
@@ -72,12 +72,12 @@ class DRMESDetails extends BaseDRMESDetails {
                 }
             }
             if ($detail instanceof DRMESDetailVrac) {
-                if (!$documents_administration->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA) || !$documents_administration->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA)) {
-                    $dsadaaNode = $documents_administration->add(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA);
+                if (!$documents_annexes->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA) || !$documents_annexes->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA)) {
+                    $dsadaaNode = $documents_annexes->add(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA);
                     $dsadaaNode->debut = $numero_document;
                     $dsadaaNode->fin = $numero_document;
                 } else {
-                    $dsadaaNode = $documents_administration->getOrAdd(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA);
+                    $dsadaaNode = $documents_annexes->getOrAdd(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA);
                     if (strcmp($numero_document, $dsadaaNode->debut) < 0) {
                         $dsadaaNode->debut = $numero_document;
                     }

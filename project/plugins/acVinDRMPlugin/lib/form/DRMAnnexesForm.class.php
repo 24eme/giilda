@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of DRMAdministrationForm
+ * Description of DRMAnnexesForm
  *
  * @author mathurin
  */
-class DRMAdministrationForm extends acCouchdbObjectForm {
+class DRMAnnexesForm extends acCouchdbObjectForm {
 
     private $drm = null;
     private $detailsSortiesVrac = null;
@@ -39,14 +39,14 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
         }
 
         $this->embedForm('releve_non_apurement', new DRMReleveNonApurementItemsForm($this->drm->getReleveNonApurement()));
-        $this->widgetSchema->setNameFormat('drmAdministrationForm[%s]');
+        $this->widgetSchema->setNameFormat('drmAnnexesForm[%s]');
     }
 
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
         foreach ($this->docTypesList as $docType) {
-            $this->drm->getOrAdd('documents_administration')->getOrAdd($docType)->debut = $values[$docType . '_debut'];
-            $this->drm->getOrAdd('documents_administration')->getOrAdd($docType)->fin = $values[$docType . '_fin'];
+            $this->drm->getOrAdd('documents_annexes')->getOrAdd($docType)->debut = $values[$docType . '_debut'];
+            $this->drm->getOrAdd('documents_annexes')->getOrAdd($docType)->fin = $values[$docType . '_fin'];
         }
         foreach ($this->getEmbeddedForms() as $key => $releveNonApurementForm) {
             $releveNonApurementForm->updateObject($values[$key]);
@@ -58,11 +58,11 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
 
-        if ($this->drm->exist('documents_administration') && $this->drm->documents_administration) {
-            $administrationNode = $this->drm->documents_administration;
+        if ($this->drm->exist('documents_annexes') && $this->drm->documents_annexes) {
+            $annexesNode = $this->drm->documents_annexes;
             foreach ($this->docTypesList as $docType) {
-                if ($administrationNode->exist($docType) && $administrationNode->{$docType}) {
-                    $docNode = $administrationNode->{$docType};
+                if ($annexesNode->exist($docType) && $annexesNode->{$docType}) {
+                    $docNode = $annexesNode->{$docType};
                     $this->setDefault($docType . '_debut', $docNode->debut);
                     $this->setDefault($docType . '_fin', $docNode->fin);
                 }
@@ -96,17 +96,17 @@ class DRMAdministrationForm extends acCouchdbObjectForm {
    
     public function getDocTypes() {
 
-        $this->detailsSortiesVrac = $this->drm->getDetailsVracs();
-        $this->detailsSortiesExport = $this->drm->getDetailsExports();
+//        $this->detailsSortiesVrac = $this->drm->getDetailsVracs();
+//        $this->detailsSortiesExport = $this->drm->getDetailsExports();
 
         $this->docTypesList = array();
-        if (count($this->detailsSortiesVrac)) {
+//        if (count($this->detailsSortiesVrac)) {
             $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA;
-        }
-
-        if (count($this->detailsSortiesExport)) {
+//        }
+//
+//        if (count($this->detailsSortiesExport)) {
             $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE;
-        }
+//        }
 
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE;
 

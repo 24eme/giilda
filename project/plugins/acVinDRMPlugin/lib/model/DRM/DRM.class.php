@@ -1038,7 +1038,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*     * * FIN CRDS ** */
 
     /**     * ADMINISTRATION ** */
-    public function hasAdministration($isTeledeclarationMode = false) {
+    public function hasAnnexes($isTeledeclarationMode = false) {
         return count($this->getVracs()) && count($this->getDetailsExports()) && $isTeledeclarationMode;
     }
 

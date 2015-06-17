@@ -51,7 +51,7 @@ class drmActions extends drmGeneriqueActions {
 
             case DRMClient::ETAPE_ADMINISTRATION:
                 if ($isTeledeclarationMode) {
-                    return $this->redirect('drm_administration', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                    return $this->redirect('drm_annexes', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
                 } else {
                     return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
                 }
