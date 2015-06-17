@@ -343,6 +343,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->storeIdentifiant($options);
         $this->storeDates();
         $this->declaration->cleanDetails();
+        $this->cleanCrds();
 
         if (!isset($options['no_droits']) || !$options['no_droits']) {
             //$this->setDroits();
@@ -975,9 +976,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
             foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
                 foreach ($crdsByRegime as $key => $crd) {
-                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0) {
-                        $toRemoves[] = $regime . '/' . $key;
-                    } else {
+//                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0) {
+//                        $toRemoves[] = $regime . '/' . $key;
+//                    } else {
                         $crd->stock_debut = $crd->stock_fin;
                         $crd->entrees_achats = null;
                         $crd->entrees_retours = null;
@@ -985,6 +986,24 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                         $crd->sorties_utilisations = null;
                         $crd->sorties_destructions = null;
                         $crd->sorties_manquants = null;
+//                    }
+                }
+            }
+        }
+//        foreach ($toRemoves as $toRemove) {
+//            $this->crds->remove($toRemove);
+//        }
+    }
+    
+    public function cleanCrds() {
+        $toRemoves = array();
+        $allCrdsByRegimeAndByGenre = $this->getAllCrdsByRegimeAndByGenre();
+
+        foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
+            foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
+                foreach ($crdsByRegime as $key => $crd) {
+                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0) {
+                        $toRemoves[] = $regime . '/' . $key;
                     }
                 }
             }
@@ -995,14 +1014,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function crdsInitDefault() {
-        if (!$this->exist('crds') || (!$this->crds)) {
-          // $this->add('crds');
-             return array();
 
+        if (!$this->exist('crds') || (!$this->crds)) {
+            $this->add('crds');
         }
-        foreach ($this->crds as $regime => $regimeCrds) {
-            $this->crds->getOrAdd($regime)->crdsInitDefault($this->getAllGenres());
-        }
+        $regimeCrd = $this->getEtablissement()->crd_regime;
+        $this->crds->getOrAdd($regimeCrd)->crdsInitDefault($this->getAllGenres());
     }
 
     public function getAllGenres() {
