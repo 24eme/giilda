@@ -20,7 +20,22 @@
                     <?php ?>
                 <?php endforeach; ?>
             </tbody>
-        </table>
+        </table>    
+    <?php else: ?>
+     <table id = "table_drm_choix_produit" class = "table_recap">
+            <thead >
+                <tr>
+                    <th>&nbsp;
+                    </th>
+                    <th>Produit à déclarer ce mois</th>
+                </tr>
+            </thead>
+            <tbody class = "choix_produit_table_<?php echo $certifKey; ?>">                    
+                    <tr>                        
+                        <td colspan="2">Vous n'avez pas de produit en catégorie <?php echo $certificationProduits->certification->getLibelle(); ?></td>
+                      </tr>  
+            </tbody>
+        </table>    
     <?php endif; ?>
     <div class="choix_produit_add_produit">
         <a class="btn_majeur <?php if ($hasRegimeCrd): ?>ajout_produit_popup<?php endif; ?>" href="#add_produit_<?php echo $certifKey; ?>">Ajouter des Produits</a> 
