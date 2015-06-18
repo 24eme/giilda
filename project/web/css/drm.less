@@ -1383,6 +1383,15 @@ p#date_drm
 
 
     #application_drm{
+        a.lien_drm_supprimer{
+            color: #d00815;
+            display: inline-block;
+            float: left;
+            font-family: "HelveticaNeue75bold",Helvetica,Arial,sans-serif;
+            margin: 5px 0 0;
+            padding: 0 0 0 30px;
+            text-decoration: underline;
+        }
         width :675px;
         .border-radius(5px 5px 5px 5px);
 
@@ -1731,8 +1740,8 @@ p#date_drm
 
                                                 // triangles
                                                 &:before,
-                                                &:after
-                                                {
+                                                    &:after
+                                                    {
                                                     .pos-abs(auto, auto, 100%, 50%);
                                                     content: '';
                                                     width: 0;
@@ -1741,14 +1750,14 @@ p#date_drm
                                                 }
 
                                                 &:before
-                                                {
+                                                    {
                                                     border-width: 0 12px 12px 12px;
                                                     border-color: transparent transparent #bbb transparent;
                                                     margin-left: -12px;
                                                 }
 
                                                 &:after
-                                                {
+                                                    {
                                                     border-width: 0 10px 10px 10px;
                                                     border-color: transparent transparent #FFF transparent;
                                                     margin-left: -10px;

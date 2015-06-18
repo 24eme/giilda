@@ -55,9 +55,12 @@
         </div>
         <br/>
     <?php endforeach; ?>
-    <div id="btn_etape_dr">
+    <div class="btn_etape">
         <a class="btn_etape_prec" href="<?php echo url_for('drm_edition', $drm); ?>">
             <span>Précédent</span>
+        </a>
+        <a class="lien_drm_supprimer" href="<?php echo url_for('drm_delete', $drm); ?>" style="margin-left: 10px">
+            <span>Supprimer la DRM</span>
         </a>
         <button class="btn_etape_suiv" id="button_drm_validation" type="submit"><span>Suivant</span></button> 
     </div>
