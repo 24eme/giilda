@@ -855,6 +855,7 @@ bouton#colonnes_dr .btn_edition_label{height:26px}
 #colonne #form_produit_declaration label{padding:15px 0}
 #colonne #form_produit_declaration input.ui-autocomplete-input{width:100%}
 #colonne input.ui-autocomplete-input{background:url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;font-size:12px;padding:5px 5px 5px 25px;width:200px;height:30px}
+.add_produit_popup_certification_content h2{font-size:15px;font-weight:bold;text-transform:uppercase}
 #principal.drm{width:700px !important;padding:20px 15px 0 10px}#principal.drm .recherche_etablissement{background:none repeat scroll 0 0 #ecebeb;padding:10px 10px 30px}
 #principal.drm #rail_etapes li{font-size:9pt;width:20%;padding:0 10px}
 #principal.drm #rail_etapes li>*{padding:0 5px}

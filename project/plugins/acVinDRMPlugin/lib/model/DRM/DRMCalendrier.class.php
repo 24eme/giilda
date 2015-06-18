@@ -28,13 +28,26 @@ class DRMCalendrier {
         $this->etablissement = $etablissement;
         $this->campagne = $campagne;
         $this->isTeledeclarationMode = $isTeledeclarationMode;
-        $this->periodes = DRMClient::getInstance()->getPeriodes($this->campagne);
+        $this->periodes = $this->buildPeriodes();
+
 
         $this->etablissements = $this->etablissement->getSociete()->getEtablissementsObj(false);
 
         $this->multiEtbs = ((count($this->etablissement) > 1) && $this->isTeledeclarationMode);
 
         $this->loadDRMs();
+    }
+
+    protected function buildPeriodes() {
+
+        if ($this->campagne == -1) {
+            if ($this->isTeledeclarationMode) {
+                return DRMClient::getInstance()->getLastMonthPeriodes(6);
+            } else {
+                return DRMClient::getInstance()->getLastMonthPeriodes(12);
+            }
+        }
+        return DRMClient::getInstance()->getPeriodes($this->campagne);
     }
 
     protected function loadDRMs() {
@@ -80,8 +93,8 @@ class DRMCalendrier {
         return $this->etablissement;
     }
 
-    public function getPeriodeVersion($periode,$etablissement = false) {
-        if (!$this->hasDRM($periode,$etablissement)) {
+    public function getPeriodeVersion($periode, $etablissement = false) {
+        if (!$this->hasDRM($periode, $etablissement)) {
 
             return;
         }

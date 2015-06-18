@@ -1,11 +1,12 @@
 var initAjoutProduitPopup = function () {
 
     $('a.ajout_produit_popup').fancybox({
-        autoSize: true,
-        autoCenter: true,
-        height: 'auto',
-        width: 'auto',
-    });
+            autoSize: true,
+            autoCenter: true,
+            height: 'auto',
+            width: 'auto',
+            titleShow : false,
+        });
     $('.add_crds_popup_content a#popup_close').click(function () {
         $.fancybox.close();
     });
@@ -26,7 +27,7 @@ var initCrds = function () {
             var sortiesDestructions = $("#" + id + " td.crds_sortiesDestructions input").val();
             var sortiesManquants = $("#" + id + " td.crds_sortiesManquants input").val();
 
-            var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entreesAchats)+ parseInt(entreesRetours)+ parseInt(entreesExcedents) - parseInt(sortiesUtilisations) - parseInt(sortiesDestructions) - parseInt(sortiesManquants);
+            var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entreesAchats) + parseInt(entreesRetours) + parseInt(entreesExcedents) - parseInt(sortiesUtilisations) - parseInt(sortiesDestructions) - parseInt(sortiesManquants);
             $("#" + id + " td.crds_fin_de_mois").text(fin_de_mois);
         });
 
@@ -76,9 +77,9 @@ var initRegimeCrdsPopup = function () {
 };
 
 
-var initFilEditionProduit = function() {
+var initFilEditionProduit = function () {
 
-    $('.drm_fil_edition_produit').on('click', 'a', function(e)
+    $('.drm_fil_edition_produit').on('click', 'a', function (e)
     {
         var parent = $(this).parent();
         var id = parent.attr('id');
@@ -86,11 +87,11 @@ var initFilEditionProduit = function() {
         e.preventDefault();
 
         parent
-        .addClass('current')
-        .siblings('li')
-        .removeClass('current');
+                .addClass('current')
+                .siblings('li')
+                .removeClass('current');
 
-        $('.col_recolte').each(function() {
+        $('.col_recolte').each(function () {
             if ($(this).data('hash') == id) {
                 $(this).addClass('col_focus');
             } else {
@@ -99,7 +100,7 @@ var initFilEditionProduit = function() {
         });
     });
 
-    $('button.btn_colonne_validation').each(function() {
+    $('button.btn_colonne_validation').each(function () {
 
         $(this).click(function () {
             var id = $(this).attr('id').replace('valide_', '');

@@ -67,13 +67,25 @@ class DRMClient extends acCouchdbClient {
 
     public function getPeriodes($campagne) {
         $periodes = array();
-        $periode = $this->getPeriodeDebut($campagne);
-        while ($periode != $this->getPeriodeFin($campagne)) {
+        $periode = $this->getPeriodeFin($campagne);
+        while ($periode != $this->getPeriodeDebut($campagne)) {
             $periodes[] = $periode;
-            $periode = $this->getPeriodeSuivante($periode);
+            $periode = $this->getPeriodePrecedente($periode);
         }
 
         $periodes[] = $periode;
+
+        return $periodes;
+    }
+    
+    public function getLastMonthPeriodes($nbMonth) {
+        $periodes = array();
+        $periode = $this->buildPeriode(date('Y'),date('m'));
+        for ($cpt = 0; $cpt < $nbMonth; $cpt++) {
+            
+            $periodes[] = $periode;
+            $periode = $this->getPeriodePrecedente($periode);
+        }
 
         return $periodes;
     }
@@ -131,6 +143,12 @@ class DRMClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->getPeriodeSuivante($periode);
     }
 
+     public function getPeriodePrecedente($periode) {
+
+        return ConfigurationClient::getInstance()->getPeriodePrecedente($periode);
+    }
+
+    
     public function findLastByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         $drms = $this->viewByIdentifiant($identifiant);
 

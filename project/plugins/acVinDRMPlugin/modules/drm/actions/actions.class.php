@@ -117,7 +117,7 @@ class drmActions extends drmGeneriqueActions {
 
         $this->campagne = $request->getParameter('campagne');
         if (!$this->campagne) {
-            $this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+            $this->campagne = -1;
         }
 
         $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
@@ -136,12 +136,7 @@ class drmActions extends drmGeneriqueActions {
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        return $this->formCampagne($request, 'drm_etablissement');
-    }
-
-    public function executeMonEspaceStatic(sfWebRequest $request) {
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();        
         return $this->formCampagne($request, 'drm_etablissement');
     }
 
