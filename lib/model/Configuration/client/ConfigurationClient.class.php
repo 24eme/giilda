@@ -200,6 +200,18 @@ class ConfigurationClient extends acCouchdbClient {
         return $this->buildPeriode($nextYear, $nextMonth);
     }
 
+      public function getPeriodePrecedente($periode) {
+        $previousMonth = $this->getMois($periode) - 1;
+        $previousYear = $this->getAnnee($periode);
+
+        if ($previousMonth < 1) {
+            $previousMonth = 12;
+            $previousYear--;
+        }
+      
+        return $this->buildPeriode($previousYear, $previousMonth);
+    }
+    
     public function getCurrentPeriode() {
 
         return date('Ym');
