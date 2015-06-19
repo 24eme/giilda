@@ -111,7 +111,7 @@ class drmActions extends drmGeneriqueActions {
 
     private function formCampagne(sfWebRequest $request, $route) {
         $this->etablissement = $this->getRoute()->getEtablissement();
-
+        $this->societe = $this->etablissement->getSociete();
         if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
             throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
 
@@ -136,7 +136,7 @@ class drmActions extends drmGeneriqueActions {
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();        
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         return $this->formCampagne($request, 'drm_etablissement');
     }
 
