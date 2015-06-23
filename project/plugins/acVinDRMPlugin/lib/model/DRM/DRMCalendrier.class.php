@@ -29,11 +29,10 @@ class DRMCalendrier {
         $this->campagne = $campagne;
         $this->isTeledeclarationMode = $isTeledeclarationMode;
         $this->periodes = $this->buildPeriodes();
-
-
+        
         $this->etablissements = $this->etablissement->getSociete()->getEtablissementsObj(false);
 
-        $this->multiEtbs = ((count($this->etablissement) > 1) && $this->isTeledeclarationMode);
+        $this->multiEtbs = ((count($this->etablissements) > 1) && $this->isTeledeclarationMode);
 
         $this->loadDRMs();
     }
@@ -52,32 +51,33 @@ class DRMCalendrier {
 
     protected function loadDRMs() {
         $this->drms = array();
-
-
         if ($this->multiEtbs) {
             foreach ($this->etablissements as $etablissement) {
                 $etbIdentifiant = $etablissement->etablissement->identifiant;
                 if (!array_key_exists($etbIdentifiant, $this->drms)) {
                     $this->drms[$etbIdentifiant] = array();
                 }
-                $drms = DRMClient::getInstance()->viewByIdentifiantAndCampagne($etbIdentifiant, $this->campagne);
-                foreach ($drms as $drm) {
+                foreach ($this->periodes as $periode) {
+                    $drm = DRMClient::getInstance()->viewMasterByIdentifiantPeriode($etbIdentifiant, $periode);
+                   
                     if (array_key_exists($drm[self::VIEW_PERIODE], $this->drms[$etbIdentifiant])) {
-
                         continue;
                     }
                     $this->drms[$etbIdentifiant][$drm[self::VIEW_PERIODE]] = $drm;
                 }
             }
         } else {
-            $drms = DRMClient::getInstance()->viewByIdentifiantAndCampagne($this->etablissement->identifiant, $this->campagne);
 
-            foreach ($drms as $drm) {
+            foreach ($this->periodes as $periode) {
+                $drm = DRMClient::getInstance()->viewMasterByIdentifiantPeriode($this->etablissement->identifiant, $periode);
+
+                if (!$drm) {
+                    continue;
+                }
                 if (array_key_exists($drm[self::VIEW_PERIODE], $this->drms)) {
 
                     continue;
                 }
-
                 $this->drms[$drm[self::VIEW_PERIODE]] = $drm;
             }
         }
@@ -193,14 +193,12 @@ class DRMCalendrier {
         foreach ($this->etablissements as $etb) {
             if (!array_key_exists($etb->etablissement->identifiant, $drmToCompleteAndToStart)) {
                 $drmToCompleteAndToStart[$etb->etablissement->identifiant] = new stdClass();
-                
                 $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nom = $etb->etablissement->nom;
                 $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_create = 0;
                 $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_finish = 0;
                 $drmToCompleteAndToStart[$etb->etablissement->identifiant]->statuts = array();
             }
             foreach ($this->getPeriodes() as $periode) {
-               
                 $statut = $this->getStatut($periode, $etb->etablissement);
                 if ($statut == self::STATUT_NOUVELLE) {
                     $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_create++;

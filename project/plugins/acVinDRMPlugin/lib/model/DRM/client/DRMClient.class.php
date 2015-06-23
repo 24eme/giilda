@@ -271,6 +271,27 @@ class DRMClient extends acCouchdbClient {
         return $drms;
     }
 
+    public function viewMasterByIdentifiantPeriode($identifiant, $periode) {
+        $campagne = $this->buildCampagne($periode);
+
+        $rows = acCouchdbManager::getClient()
+                        ->startkey(array($identifiant, $campagne, $periode))
+                        ->endkey(array($identifiant, $campagne, $periode, array()))
+                        ->reduce(false)
+                        ->getView("drm", "all")
+                ->rows;
+
+        $drms = array();
+
+        foreach ($rows as $row) {
+            $drms[$row->id] = $row->key;
+        }
+
+        krsort($drms);
+
+        return array_pop($drms);
+    }
+    
     protected function viewByIdentifiantPeriode($identifiant, $periode) {
         $campagne = $this->buildCampagne($periode);
 
