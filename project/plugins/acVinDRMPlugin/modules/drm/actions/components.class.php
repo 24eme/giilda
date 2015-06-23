@@ -8,6 +8,11 @@ class drmComponents extends sfComponents {
              array('identifiant' => $this->identifiant));
     }
   }
+  
+  public function executeMonEspaceDrm() {
+      $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
+      $this->drmToCompleteAndToStart = $this->calendrier->getDrmToCompleteAndToStart();
+  }
 
     public function executeEtapes() {
         $this->config_certifications = ConfigurationClient::getCurrent()->declaration->certifications;

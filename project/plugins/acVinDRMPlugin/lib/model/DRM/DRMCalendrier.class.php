@@ -188,4 +188,34 @@ class DRMCalendrier {
         return DRMClient::getInstance()->find($id);
     }
 
+    public function getDrmToCompleteAndToStart() {
+        $drmToCompleteAndToStart = array();
+        foreach ($this->etablissements as $etb) {
+            if (!array_key_exists($etb->etablissement->identifiant, $drmToCompleteAndToStart)) {
+                $drmToCompleteAndToStart[$etb->etablissement->identifiant] = new stdClass();
+                
+                $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nom = $etb->etablissement->nom;
+                $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_create = 0;
+                $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_finish = 0;
+                $drmToCompleteAndToStart[$etb->etablissement->identifiant]->statuts = array();
+            }
+            foreach ($this->getPeriodes() as $periode) {
+               
+                $statut = $this->getStatut($periode, $etb->etablissement);
+                if ($statut == self::STATUT_NOUVELLE) {
+                    $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_create++;
+                    $drmToCompleteAndToStart[$etb->etablissement->identifiant]->statuts[self::STATUT_NOUVELLE] = self::STATUT_NOUVELLE;
+                }
+                if ($statut == self::STATUT_EN_COURS) {
+                    $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_finish++;
+                    $drmToCompleteAndToStart[$etb->etablissement->identifiant]->statuts[self::STATUT_EN_COURS] = self::STATUT_EN_COURS;
+                }
+            }
+            if ($drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_create + $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_finish == 0) {
+                unset($drmToCompleteAndToStart[$etb->etablissement->identifiant]);
+            }
+        }
+        return $drmToCompleteAndToStart;
+    }
+
 }

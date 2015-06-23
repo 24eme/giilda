@@ -459,6 +459,77 @@ p#date_drm
 }
 
 
+#principal #espace_drm {
+    .etablissements_drms
+    {
+        overflow: hidden;
+        text-align: center;
+
+        li
+        {            
+            padding: 0px 10px 0;   
+            margin: 5px 0;
+            background-color: #ecebeb;
+            border: 1px solid #e3e2e2;
+            border-radius: 5px;
+            position: relative;
+            div.etablissement_drms {
+                width: 100%;
+
+                h2{
+                    padding: 0;
+                    margin: 5px 0;
+                }
+
+                ul{
+                    li{
+                        width: 100%;
+                        border: none;
+                        text-align: center;
+
+                    }
+                    .statut_toCreate{
+                        button{
+                            padding: 0 10px;
+                            background: rgba(0, 0, 0, 0) url("../images/pictos/pi_orange_plus.png") no-repeat scroll 0 0;
+                        }
+                        span{ 
+                            margin: 0 20px;
+                            position: relative;
+                            top: -3px;
+                            font-size: 11pt;
+                        }
+
+                    }
+                    .statut_toFinish{
+                        button{
+
+                            background: rgba(0, 0, 0, 0) url("../images/pictos/pi_alerte.png") no-repeat scroll 0 0;
+                            padding: 0 10px;
+                        }
+                        span{
+                            margin: 0 20px;
+                            position: relative;
+                            top: -3px;
+                            font-size: 11pt;
+                        }
+                    }
+
+                    a 
+                    {
+                        .pos-abs(0,0,0,0);
+                        padding: 71px 0 0;
+                    }
+
+                    li.action
+                    {                
+                        a { vertical-align: bottom; }
+                    }
+                }
+            }
+        }
+    }
+}
 /**
  * Etape 1 -> Informations
  ******************************************/
@@ -1388,7 +1459,7 @@ p#date_drm
 
 
     #application_drm{
-        
+
 
         a.lien_drm_supprimer{
             color: #d00815;
@@ -1530,7 +1601,7 @@ p#date_drm
     fieldset{
         margin: 25px 0;
 
-        &#historique_drm, &#validation_drm_mvts_stocks{
+        &#espace_drm, &#historique_drm, &#validation_drm_mvts_stocks{
             nav{
                 position: relative;
                 bottom: -1px;
