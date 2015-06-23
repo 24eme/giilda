@@ -13,6 +13,25 @@ var initAjoutProduitPopup = function () {
 
 };
 
+var initSignatureDrmPopup = function() {
+
+    $('a.signature_drm_popup').fancybox({
+        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+    });
+    $('#signature_drm_popup_content a#signature_drm_popup_close').click(function(){
+        $.fancybox.close();
+    })
+    
+    $('#signature_drm_popup_content button#signature_drm_popup_confirm').click(function(){
+        
+        $("form#drm_validation").submit();
+    });
+    
+};
+
 var initCrds = function () {
     $('.drm_crds_list tr.crd_row').each(function () {
         var id = $(this).attr('id');
@@ -230,5 +249,6 @@ $(document).ready(function ()
     initValidationDrmStockMvt();
     initValidationCoordonneesEtbSociete();
     initNonApurement();
+    initSignatureDrmPopup();
 
 });

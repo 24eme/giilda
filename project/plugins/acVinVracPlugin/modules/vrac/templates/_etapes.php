@@ -1,6 +1,9 @@
 <?php
     if($vrac->etape==null) $vrac->etape=0;
     $pourcentage = ($vrac->etape) * 25;
+    if(!isset($urlsoussigne)){
+        $urlsoussigne = null;
+    }
 ?>
     <ol id="rail_etapes">
         <?php include_partial('etapeItem',array('num_etape' => 0,
