@@ -1,62 +1,47 @@
-\documentclass[a4paper,8pt]{extarticle}
-\usepackage{geometry} % paper=a4paper
-\usepackage[frenchb]{babel}
+\documentclass[a4paper,oneside, landscape, 9pt]{article}
+
+\usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{units}
-\usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{fp}
 \usepackage[table]{xcolor}
+\usepackage{lscape}
+\usepackage{tikz}
+\usepackage{array,multirow,makecell}
 \usepackage{multicol}
 \usepackage{textcomp}
 \usepackage{marvosym}
+\usepackage{lastpage}
 \usepackage{truncate}
-\usepackage{tabularx}
-\usepackage{multirow}
-\usepackage{amssymb}
-\usepackage{ulem}
-\usepackage{fmtcount}
-\usepackage{eso-pic}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
 
-\makeatletter
-\newlength\@tempdim@x
-\newlength\@tempdim@y
-
-\newcommand\AtLowerLeftCorner[3]{%
-\begingroup
-\@tempdim@x=0cm
-\@tempdim@y=0cm
-\advance\@tempdim@x#1
-\advance\@tempdim@y#2
-\put(\LenToUnit{\@tempdim@x},\LenToUnit{\@tempdim@y}){#3}%
-\endgroup
-}
-
-\AddToShipoutPicture{%
-\AtLowerLeftCorner{0.75cm}{-12cm}{\ifodd\c@page\rotatebox{90}{\begin{minipage}{\paperheight} \centering AOÛT 2014\end{minipage}}\fi}
-}
-\makeatother
-
-
-\pagestyle{empty}
+\usetikzlibrary{fit}
 
 \renewcommand\sfdefault{phv}
+
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand{\TruncateMarker}{\small{...}}
 
-\newcommand{\euro}{\EUR\xspace}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
-\newcommand{\squareChecked}{\makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$}}
 
-\setlength{\oddsidemargin}{-1cm}
-\setlength{\evensidemargin}{-1cm}
-\setlength{\textwidth}{18cm}
-\setlength{\textheight}{27.9cm}
-\setlength{\topmargin}{-3cm}
-\setlength{\parindent}{0pt}
+\setlength{\oddsidemargin}{-2cm}
+\setlength{\evensidemargin}{-2cm}
+\setlength{\textwidth}{29.7cm}
+\setlength{\textheight}{21cm}
+\setlength{\headheight}{4cm}
+\setlength{\headwidth}{28.2cm}
+\setlength{\topmargin}{-4cm}
 
-<?php include_partial('vrac/generateEnteteTex', array('vrac' => $vrac)); ?>
 
+<?php include_partial('drm_pdf/generateEnteteTex', array('drm' => $drm)); ?>
 \begin{document}
-<?php include_partial('vrac/generateBodyTex', array('vrac' => $vrac)); ?>
+<?php include_partial('drm_pdf/generateRecapMvtTex', array('drm' => $drm)); ?>
+<?php include_partial('drm_pdf/generateAnnexeCRDTex', array('drm' => $drm)); ?>
 \end{document}
+

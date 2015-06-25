@@ -46,13 +46,15 @@
                         <span>Supprimer la DRM</span>
                     </a>
                     <?php if ($isTeledeclarationMode): ?>  
-                        <a id="signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn_validation signature_drm_popup"><span>Valider</span></a> 
-                    <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
-                       
- <?php else: ?> 
-                        <button type="submit" class="btn_etape_suiv" id="button_drm_validation" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?>><span>Valider</span></button> 
+                        <a id="btn_pdf_contrat" href="<?php echo url_for('drm_pdf', $drm); ?>">PDF</a>
+                            <a id="signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn_validation signature_drm_popup"><span>Valider</span></a> 
+                            <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 
-                    <?php endif; ?>
+
+                        <?php else: ?> 
+                            <button type="submit" class="btn_etape_suiv" id="button_drm_validation" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?>><span>Valider</span></button> 
+
+                        <?php endif; ?>
                 </div>
             </form>        
         </div>

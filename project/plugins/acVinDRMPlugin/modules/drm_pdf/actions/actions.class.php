@@ -11,36 +11,23 @@
  *
  * @author mathurin
  */
-class drm_visualisationActions extends drmGeneriqueActions {
+class drm_pdfActions extends drmGeneriqueActions {
 
-    public function executeVisualisation(sfWebRequest $request) {
-        $this->drm = $this->getRoute()->getDRM();
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->no_link = false;
-        if ($this->getUser()->hasOnlyCredentialDRM()) {
-            $this->no_link = true;
-        }
-        $this->hide_rectificative = $request->getParameter('hide_rectificative');
-        $this->drm_suivante = $this->drm->getSuivante();
-        $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
-        $this->recapCvo = $this->recapCvo();
-    }
+    public function executeLatex(sfWebRequest $request) {
 
-    public function recapCvo() {
-        $recapCvo = new stdClass();
-        $recapCvo->totalVolumeDroitsCvo = 0;
-        $recapCvo->totalVolumeReintegration = 0;
-        $recapCvo->totalPrixDroitCvo = 0;
-        foreach ($this->mouvements as $mouvement) {
-            if ($mouvement->facturable) {
-                $recapCvo->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo ;
-                $recapCvo->totalVolumeDroitsCvo += $mouvement->volume * -1;
-            }
-            if ($mouvement->type_hash == 'entrees/reintegration') {
-                $recapCvo->totalVolumeReintegration += $mouvement->volume;
-            }
+        if ($this->isTeledeclarationDrm()) {
+            $this->initSocieteAndEtablissementPrincipal();
         }
-        return $recapCvo;
+
+        $this->setLayout(false);
+        $this->drm = $this->getRoute()->getDrm();
+        $this->forward404Unless($this->drm);
+
+
+        $latex = new DRMLatex($this->drm);
+        //echo $latex->getLatexFileContents();
+        $latex->echoWithHTTPHeader($request->getParameter('type'));
+        exit;
     }
 
 }

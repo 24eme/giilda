@@ -41,8 +41,8 @@ class DRMRouting {
             'action' => 'monEspace', 'campagne' => null), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
             'type' => 'object')
         ));
-        
-         $r->prependRoute('drm_etablissement_static', new EtablissementRoute('/drm-static/:identifiant/:campagne', array('module' => 'drm',
+
+        $r->prependRoute('drm_etablissement_static', new EtablissementRoute('/drm-static/:identifiant/:campagne', array('module' => 'drm',
             'action' => 'monEspaceStatic', 'campagne' => null), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
             'type' => 'object')
         ));
@@ -73,7 +73,7 @@ class DRMRouting {
         $r->prependRoute('drm_delete', new DRMRoute('/drm/:identifiant/delete/:periode_version', array('module' => 'drm',
             'action' => 'delete'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
-            'control' => array('edition'),)));        
+            'control' => array('edition'),)));
 
         $r->prependRoute('drm_rectificative', new DRMRoute('/drm/:identifiant/rectifier/:periode_version', array('module' => 'drm',
             'action' => 'rectificative'), array(), array('model' => 'DRM',
@@ -171,7 +171,7 @@ class DRMRouting {
             'type' => 'object',
             'control' => array('edition'),
         )));
-        
+
         $r->prependRoute('drm_choix_produit_add_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/ajout-produits/:certification_hash', array('module' => 'drm_ajout_produit',
             'action' => 'choixAjoutPoduits'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
@@ -188,41 +188,43 @@ class DRMRouting {
             'action' => 'ajoutTypeCrd'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
-        )));  
-        
-        
+        )));
+
+
         $r->prependRoute('drm_choix_regime_crd', new DRMRoute('/drm/:identifiant/edition/:periode_version/crd-choix-regime', array('module' => 'drm_crds',
             'action' => 'choixRegimeCrd'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
-        )));  
-        
+        )));
+
         $r->prependRoute('drm_annexes', new DRMRoute('/drm/:identifiant/edition/:periode_version/annexes', array('module' => 'drm_annexes',
             'action' => 'annexes'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
-        ))); 
-        
-        
-        
-         $r->prependRoute('drm_choix_favoris', new DRMRoute('/drm/:identifiant/edition/:periode_version/favoris', array('module' => 'drm_edition',
+        )));
+
+
+
+        $r->prependRoute('drm_choix_favoris', new DRMRoute('/drm/:identifiant/edition/:periode_version/favoris', array('module' => 'drm_edition',
             'action' => 'choixFavoris'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
         )));
-        
-         
-         $r->prependRoute('drm_validation_update_etablissement', new DRMRoute('/drm/:identifiant/edition/:periode_version/validation-update-etablissement', array('module' => 'drm_validation',
+
+
+        $r->prependRoute('drm_validation_update_etablissement', new DRMRoute('/drm/:identifiant/edition/:periode_version/validation-update-etablissement', array('module' => 'drm_validation',
             'action' => 'updateEtablissement'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
         )));
-          $r->prependRoute('drm_validation_update_societe', new DRMRoute('/drm/:identifiant/edition/:periode_version/validation-update-societe', array('module' => 'drm_validation',
+        $r->prependRoute('drm_validation_update_societe', new DRMRoute('/drm/:identifiant/edition/:periode_version/validation-update-societe', array('module' => 'drm_validation',
             'action' => 'updateSociete'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
         )));
-        
+
+        $r->prependRoute('drm_pdf', new DRMRoute('/drm/:identifiant/pdf/:periode_version', array('module' => 'drm_pdf', 'action' => 'latex'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')
+        ));
     }
 
 }
