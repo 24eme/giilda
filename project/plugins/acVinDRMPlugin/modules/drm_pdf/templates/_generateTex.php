@@ -16,11 +16,13 @@
 \usepackage{truncate}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
+\usepackage{amssymb}
+\usepackage{geometry}
 
 \usetikzlibrary{fit}
 
 \renewcommand\sfdefault{phv}
-
+\newcommand{\squareChecked}{\makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$}}
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand{\TruncateMarker}{\small{...}}
 

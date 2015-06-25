@@ -76,6 +76,7 @@ $mvtsSortiesForPdf = DRMLatex::getMvtsSortiesForPdf();
         <?php endforeach; ?>  
         \\	
         \hline
+        
         <?php
         /*
          * STOCK DÉBUT DE MOIS
@@ -106,7 +107,7 @@ $mvtsSortiesForPdf = DRMLatex::getMvtsSortiesForPdf();
 
             \multicolumn{1}{|l|}{  \small{<?php echo $entree->libelle; ?>} } &
             <?php foreach ($produits_for_page as $counter => $produit): ?>
-            \multicolumn{1}{r|}{  \small{\color{black}{\textbf{<?php echoFloat($produit->entrees->$entreeKey); ?> Hl}}}} 
+            \multicolumn{1}{r|}{  \small{<?php echoFloat($produit->entrees->$entreeKey); ?> Hl}}
                 <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
             <?php endforeach; ?>  
             \\
@@ -145,7 +146,7 @@ $mvtsSortiesForPdf = DRMLatex::getMvtsSortiesForPdf();
 
             \multicolumn{1}{|l|}{  \small{<?php echo $sortie->libelle; ?>} } &
             <?php foreach ($produits_for_page as $counter => $produit): ?>
-            \multicolumn{1}{r|}{  \small{\color{black}{\textbf{<?php echoFloat($produit->sorties->$sortieKey); ?> Hl}}}} 
+            \multicolumn{1}{r|}{  \small{\color{black}{<?php echoFloat($produit->sorties->$sortieKey); ?> Hl}}} 
                 <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
             <?php endforeach; ?>  
             \\
