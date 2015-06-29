@@ -60,6 +60,7 @@
         </table>
     <?php else: ?> 
       <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)) ?>  
+        <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>  
     <?php endif; ?>   
              <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode'  => $isTeledeclarationMode)) ?>
     <br />
