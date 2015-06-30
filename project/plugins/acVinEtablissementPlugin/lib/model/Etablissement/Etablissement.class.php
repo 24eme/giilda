@@ -18,6 +18,7 @@ class Etablissement extends BaseEtablissement {
 
     public function constructId() {
         $this->set('_id', 'ETABLISSEMENT-' . $this->identifiant);
+        $this->set('interpro',"INTERPRO-inter-loire");
         if ($this->isViticulteur()) {
             $this->raisins_mouts = is_null($this->raisins_mouts) ? EtablissementClient::RAISINS_MOUTS_NON : $this->raisins_mouts;
             $this->exclusion_drm = is_null($this->exclusion_drm) ? EtablissementClient::EXCLUSION_DRM_NON : $this->exclusion_drm;
