@@ -30,6 +30,27 @@ class compte_teledeclarantActions extends sfActions {
 
     public function executeMonEspace(sfWebRequest $request) {
         $this->identifiant = $request['identifiant'];
+
+        $this->isTeledeclarationMode = $this->getUser()->hasTeledeclaration();
+        $this->hasTeledeclarationVrac = $this->getUser()->hasTeledeclarationVrac();
+        $this->hasTeledeclarationDrm = $this->getUser()->hasTeledeclarationDrm();
+
+        if ($this->isTeledeclarationMode) {
+            $this->compte = $this->getUser()->getCompte();
+
+            if (!$this->compte) {
+                new sfException("Le compte $compte n'existe pas");
+            }
+            $this->societe = $this->compte->getSociete();
+            $this->etablissement = $this->societe->getEtablissementPrincipal();
+        }
+
+        if ($this->hasTeledeclarationDrm) {
+            $this->campagne = -1;
+        }
+        if ($this->hasTeledeclarationVrac) {
+            $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissement, 10);
+        }
     }
 
     /**

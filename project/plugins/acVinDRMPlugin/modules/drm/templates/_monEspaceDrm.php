@@ -1,7 +1,6 @@
 <fieldset id="espace_drm"> 
     <div id="mon_espace">
 
-        <div class="">
             <div class="block_teledeclaration espace_drm">
                 <div class="title">ESPACE DRM</div>
                 <div class="panel">
@@ -32,6 +31,5 @@
                     </ul>
                 </div>
             </div>
-        </div>
     </div>
 </fieldset>
