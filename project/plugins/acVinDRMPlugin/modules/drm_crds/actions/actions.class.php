@@ -28,6 +28,7 @@ class drm_crdsActions extends drmGeneriqueActions {
                 $this->redirect('drm_crd', $this->form->getObject());
             }
         }
+        $this->redirect('drm_crd', $this->form->getObject());
     }
 
     public function executeChoixRegimeCrd(sfWebRequest $request) {

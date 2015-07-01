@@ -1,4 +1,4 @@
-<?php
+fv<?php
 
 /**
  * Model for DRM
@@ -962,7 +962,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 }
             }
         }
-        return $sortiesCrdsGenres;
+        $sortiesCrdsGenresExistantes = array();
+        foreach ($this->getAllCrdsByRegimeAndByGenre() as $regime => $crdsGenres) {
+            foreach ($crdsGenres as $genre => $crds) {
+                $sortiesCrdsGenresExistantes[$genre] = $genre;
+            }
+        }
+        return array_merge($sortiesCrdsGenres,$sortiesCrdsGenresExistantes);
     }
 
     public function addCrdType($couleur, $litrage, $type_crd, $stock_debut = null) {
