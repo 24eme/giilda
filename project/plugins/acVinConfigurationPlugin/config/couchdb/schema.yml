@@ -90,6 +90,8 @@ Configuration:
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
+                              douane_type: { }
+                              douane_cat: { }
                   entrees:
                     required: false
                     type: collection
@@ -106,6 +108,8 @@ Configuration:
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
+                              douane_type: { }
+                              douane_cat: { }
                   sorties:
                     required: false
                     type: collection
@@ -122,6 +126,8 @@ Configuration:
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
+                              douane_type: { }
+                              douane_cat: { }
                   stocks_fin:
                     required: false
                     type: collection
@@ -138,6 +144,8 @@ Configuration:
                               mouvement_coefficient: {  }
                               vrac: { type: integer }
                               facturable: {  }
+                              douane_type: { }
+                              douane_cat: { }
             certifications:
               type: collection
               definition:

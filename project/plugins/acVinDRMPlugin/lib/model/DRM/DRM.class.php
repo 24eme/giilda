@@ -1,4 +1,4 @@
-fv<?php
+<?php
 
 /**
  * Model for DRM

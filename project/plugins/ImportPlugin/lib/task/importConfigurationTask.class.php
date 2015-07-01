@@ -56,7 +56,7 @@ EOF;
     // $configuration = $csv->importLabels();
 
     
-    foreach (file($import_dir.'/details.csv') as $line) {
+    foreach (file($import_dir.'/details_teledeclaration_drm.csv') as $line) {
         $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
         if ($detail = $configuration->exist($datas[0])) {
 	        $detail = $configuration->get($datas[0])->add('detail')->add($datas[1])->add($datas[2]);
@@ -66,10 +66,12 @@ EOF;
           $detail->mouvement_coefficient = (int)$datas[6];
           $detail->vrac = (int)$datas[7];
           $detail->facturable = (int)$datas[8];
+          $detail->douane_type = $datas[9];
+          $detail->douane_cat = $datas[10];
         }
     }
     
-  	foreach (file($import_dir.'/libelle_detail_ligne.csv') as $line) {
+  	foreach (file($import_dir.'/libelle_detail_ligne_teledeclaration_drm.csv') as $line) {
         $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
         $detail = $configuration->libelle_detail_ligne->get($datas[0])->add($datas[1], $datas[2]);
     }
