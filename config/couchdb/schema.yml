@@ -33,26 +33,30 @@ Configuration:
         type: collection
         definition:
           fields:
-            stocks_debut:
+            '*': 
               type: collection
               definition:
                 fields:
-                  '*': {  }
-            entrees:
-              type: collection
-              definition:
-                fields:
-                  '*': {  }
-            sorties:
-              type: collection
-              definition:
-                fields:
-                  '*': {  }
-            stocks_fin:
-              type: collection
-              definition:
-                fields:
-                  '*': {  }
+                  stocks_debut:
+                    type: collection
+                    definition:
+                      fields:
+                        '*': {  }
+                  entrees:
+                    type: collection
+                    definition:
+                      fields:
+                        '*': {  }
+                  sorties:
+                    type: collection
+                    definition:
+                      fields:
+                        '*': {  }
+                  stocks_fin:
+                    type: collection
+                    definition:
+                      fields:
+                        '*': {  }
       alias:
         type: collection
         definition:
@@ -61,91 +65,99 @@ Configuration:
               type: array_collection
               definition:
                 fields:
-                  '*': {  }
+                  '*': {  }                  
       declaration:
         type: collection
         class: ConfigurationDeclaration
         inheritance: _ConfigurationDeclaration
         definition:
           fields:
-            detail:
-              required: false
-              class: ConfigurationDetail
+            details:
               type: collection
               definition:
                 fields:
-                  stocks_debut:
-                    required: false
+                  '*':
                     type: collection
                     definition:
-                      fields:
-                        '*':
-                          class: ConfigurationDetailLigne
+                      fields:   
+                        detail:
+                          required: false
+                          class: ConfigurationDetail
                           type: collection
                           definition:
                             fields:
-                              readable: { type: integer }
-                              writable: { type: integer }
-                              details: { type: integer }
-                              mouvement_coefficient: { type: integer }
-                              vrac: { type: integer }
-                              facturable: { type: integer }
-                              douane_type: { }
-                              douane_cat: { }
-                  entrees:
-                    required: false
-                    type: collection
-                    definition:
-                      fields:
-                        '*':
-                          class: ConfigurationDetailLigne
-                          type: collection
-                          definition:
-                            fields:
-                              readable: { type: integer }
-                              writable: { type: integer }
-                              details: { type: integer }
-                              mouvement_coefficient: { type: integer }
-                              vrac: { type: integer }
-                              facturable: { type: integer }
-                              douane_type: { }
-                              douane_cat: { }
-                  sorties:
-                    required: false
-                    type: collection
-                    definition:
-                      fields:
-                        '*':
-                          class: ConfigurationDetailLigne
-                          type: collection
-                          definition:
-                            fields:
-                              readable: { type: integer }
-                              writable: { type: integer }
-                              details: { type: integer }
-                              mouvement_coefficient: { type: integer }
-                              vrac: { type: integer }
-                              facturable: { type: integer }
-                              douane_type: { }
-                              douane_cat: { }
-                  stocks_fin:
-                    required: false
-                    type: collection
-                    definition:
-                      fields:
-                        '*':
-                          class: ConfigurationDetailLigne
-                          type: collection
-                          definition:
-                            fields:
-                              readable: {  }
-                              writable: {  }
-                              details: {  }
-                              mouvement_coefficient: {  }
-                              vrac: { type: integer }
-                              facturable: {  }
-                              douane_type: { }
-                              douane_cat: { }
+                              stocks_debut:
+                                required: false
+                                type: collection
+                                definition:
+                                  fields:
+                                    '*':
+                                      class: ConfigurationDetailLigne
+                                      type: collection
+                                      definition:
+                                        fields:
+                                          readable: { type: integer }
+                                          writable: { type: integer }
+                                          details: { type: integer }
+                                          mouvement_coefficient: { type: integer }
+                                          vrac: { type: integer }
+                                          facturable: { type: integer }
+                                          douane_type: { }
+                                          douane_cat: { }
+                              entrees:
+                                required: false
+                                type: collection
+                                definition:
+                                  fields:
+                                    '*':
+                                      class: ConfigurationDetailLigne
+                                      type: collection
+                                      definition:
+                                        fields:
+                                          readable: { type: integer }
+                                          writable: { type: integer }
+                                          details: { type: integer }
+                                          mouvement_coefficient: { type: integer }
+                                          vrac: { type: integer }
+                                          facturable: { type: integer }
+                                          douane_type: { }
+                                          douane_cat: { }
+                              sorties:
+                                required: false
+                                type: collection
+                                definition:
+                                  fields:
+                                    '*':
+                                      class: ConfigurationDetailLigne
+                                      type: collection
+                                      definition:
+                                        fields:
+                                          readable: { type: integer }
+                                          writable: { type: integer }
+                                          details: { type: integer }
+                                          mouvement_coefficient: { type: integer }
+                                          vrac: { type: integer }
+                                          facturable: { type: integer }
+                                          douane_type: { }
+                                          douane_cat: { }
+                              stocks_fin:
+                                required: false
+                                type: collection
+                                definition:
+                                  fields:
+                                    '*':
+                                      class: ConfigurationDetailLigne
+                                      type: collection
+                                      definition:
+                                        fields:
+                                          readable: {  }
+                                          writable: {  }
+                                          details: {  }
+                                          mouvement_coefficient: {  }
+                                          vrac: { type: integer }
+                                          facturable: {  }
+                                          douane_type: { }
+                                          douane_cat: { }
             certifications:
               type: collection
               definition:
