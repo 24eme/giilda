@@ -6,7 +6,7 @@ class drm_editionActions extends drmGeneriqueActions {
         $this->init();
         $this->initSocieteAndEtablissementPrincipal();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->loadFavoris();
+        $this->loadFavoris();        
         $this->formFavoris = new DRMFavorisForm($this->drm);
         $this->formValidation = new DRMMouvementsValidationForm($this->drm, array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         if ($request->isMethod(sfRequest::POST)) {

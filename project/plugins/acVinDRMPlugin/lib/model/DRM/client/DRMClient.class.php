@@ -26,7 +26,8 @@ class DRMClient extends acCouchdbClient {
 
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
-    public static $drm_default_favoris = array("entrees/achat", "entrees/recolte", "sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille", "sorties/consommation");
+    public static $drm_default_favoris_old = array("entrees/achat", "entrees/recolte", "sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille", "sorties/consommation");
+    public static $drm_default_favoris = array("entrees/achatnoncrd", "entrees/revendique", "sorties/export", "sorties/vraccontrat", "sorties/vracsanscontratsuspendu", "sorties/ventefrancebouteillecrd", "sorties/consommationfamilialedegustation");    
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 5);
     public static $drm_documents_daccompagnement = array(self::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA => 'DAA/DSA',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'DAE',
@@ -81,6 +82,7 @@ class DRMClient extends acCouchdbClient {
     public function getLastMonthPeriodes($nbMonth) {
         $periodes = array();
         $periode = $this->buildPeriode(date('Y'),date('m'));
+        $periode = $this->buildPeriode(date('Y'),'09');
         for ($cpt = 0; $cpt < $nbMonth; $cpt++) {
             
             $periodes[] = $periode;
@@ -486,16 +488,20 @@ class DRMClient extends acCouchdbClient {
         return elision($origineLibelle, $df);
     }
 
-    public static function drmDefaultFavoris() {
+    public static function drmDefaultFavoris($periode) {
         $configuration = ConfigurationClient::getCurrent();
         $configurationFields = array();
-        foreach ($configuration->libelle_detail_ligne as $type => $libelles) {
+        foreach ($configuration->libelle_detail_ligne->get($periode) as $type => $libelles) {
             foreach ($libelles as $libelleHash => $libelle) {
                 $configurationFields[$type . '/' . $libelleHash] = $libelle;
             }
         }
+        $drm_default_favoris = self::$drm_default_favoris_old;
+        if($periode >= '201508'){
+            $drm_default_favoris = self::$drm_default_favoris;
+        }
         foreach ($configurationFields as $key => $value) {
-            if (!in_array($key, self::$drm_default_favoris)) {
+            if (!in_array($key, $drm_default_favoris)) {
                 unset($configurationFields[$key]);
             }
         }

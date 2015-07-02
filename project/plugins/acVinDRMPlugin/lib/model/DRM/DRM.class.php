@@ -209,7 +209,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $drm_suivante->initCrds();
         $drm_suivante->initSociete();
 
-        if (!$drm_suivante->exist('favoris')) {
+        if (!$drm_suivante->exist('favoris') || ($this->periode == '201508')) {
             $drm_suivante->buildFavoris();
         }
         return $drm_suivante;
@@ -968,7 +968,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $sortiesCrdsGenresExistantes[$genre] = $genre;
             }
         }
-        return array_merge($sortiesCrdsGenres,$sortiesCrdsGenresExistantes);
+        return array_merge($sortiesCrdsGenres, $sortiesCrdsGenresExistantes);
     }
 
     public function addCrdType($couleur, $litrage, $type_crd, $stock_debut = null) {
@@ -982,18 +982,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
             foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
                 foreach ($crdsByRegime as $key => $crd) {
-                        $crd->stock_debut = $crd->stock_fin;
-                        $crd->entrees_achats = null;
-                        $crd->entrees_retours = null;
-                        $crd->entrees_excedents = null;
-                        $crd->sorties_utilisations = null;
-                        $crd->sorties_destructions = null;
-                        $crd->sorties_manquants = null;
+                    $crd->stock_debut = $crd->stock_fin;
+                    $crd->entrees_achats = null;
+                    $crd->entrees_retours = null;
+                    $crd->entrees_excedents = null;
+                    $crd->sorties_utilisations = null;
+                    $crd->sorties_destructions = null;
+                    $crd->sorties_manquants = null;
                 }
             }
         }
     }
-    
+
     public function cleanCrds() {
         $toRemoves = array();
         $allCrdsByRegimeAndByGenre = $this->getAllCrdsByRegimeAndByGenre();
@@ -1052,7 +1052,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     /**     * FAVORIS ** */
     public function buildFavoris() {
-        foreach (DRMClient::drmDefaultFavoris() as $key => $value) {
+        foreach (DRMClient::drmDefaultFavoris($this->getDetailsConfigKey()) as $key => $value) {
             $keySplitted = split('/', $key);
             $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->add($keySplitted[1], $value);
         }
@@ -1062,7 +1062,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if ($this->exist('favoris') && $this->favoris) {
             return $this->favoris;
         }
-        return DRMClient::drmDefaultFavoris();
+        return DRMClient::drmDefaultFavoris($this->getDetailsConfigKey());
     }
 
     /*     * * FIN FAVORIS ** */
@@ -1107,4 +1107,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /*     * * FIN SOCIETE ** */
+
+    /*
+     * NOUVEAU MVT
+     */
+
+    public function getDetailsConfigKey() {
+        if ($this->getPeriode() > '201507') {
+            return '201508';
+        }
+        return '190001';
+    }
+
 }

@@ -2,6 +2,7 @@
 <?php use_helper('DRM'); ?>
 <!-- #principal -->
 <section id="principal" class="drm">
+    
     <?php if (!$isTeledeclarationMode): ?>
         <?php include_partial('drm/header', array('drm' => $drm)); ?> 
         <ul id="recap_infos_header">
@@ -10,7 +11,6 @@
             </li>
         </ul>
     <?php endif; ?>
-
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_SAISIE)); ?>
     <?php include_partial('drm/controlMessage'); ?>
 
@@ -21,6 +21,7 @@
                 'config' => $config,
                 'detail' => $detail,
                 'produits' => $details,
+                'drm' => $drm,
                 'formFavoris' => $formFavoris,
                 'form' => $form,
                 'detail' => $detail,

@@ -6,6 +6,7 @@
 <div id="colonnes_dr">
     <?php
     include_partial('drm_edition/itemHeader', array('config' => $config,
+        'drm' => $drm,
         'favoris' => $favoris,
         'formFavoris' => $formFavoris,
         'isTeledeclarationMode' => $isTeledeclarationMode));

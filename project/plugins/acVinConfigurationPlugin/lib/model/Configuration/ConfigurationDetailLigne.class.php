@@ -26,9 +26,9 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
     return ($this->details > 0);
   }
 
-  public function getLibelle() {
+  public function getLibelle($periode = '190001') {
 
-  	return $this->getDocument()->libelle_detail_ligne->get($this->getParent()->getKey())->get($this->getKey());
+  	return $this->getDocument()->libelle_detail_ligne->get($periode)->get($this->getParent()->getKey())->get($this->getKey());
   }
   
 }
