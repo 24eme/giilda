@@ -47,7 +47,9 @@
                         <span>Supprimer la DRM</span>
                     </a>
                     <?php if ($isTeledeclarationMode): ?>  
-                        <a id="btn_pdf_contrat" href="<?php echo url_for('drm_pdf', $drm); ?>">PDF</a>
+                        <?php if ($drm->isAfterTeledeclarationDrm()): ?>  
+                            <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
+                        <?php endif; ?>
                         <a id="signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn_validation signature_drm_popup"><span>Valider</span></a> 
                         <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 

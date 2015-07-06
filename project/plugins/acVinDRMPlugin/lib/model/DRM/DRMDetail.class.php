@@ -7,8 +7,7 @@
 class DRMDetail extends BaseDRMDetail {
 
     public function getConfig() {
-        $detailConfigKey = $this->getDetailsConfigKey();
-        return ConfigurationClient::getCurrent()->declaration->details->get($detailConfigKey)->detail;
+        return $this->getParent()->getConfigDetails()->detail;
     }
 
     public function getLibelle($format = "%format_libelle% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
@@ -357,10 +356,6 @@ class DRMDetail extends BaseDRMDetail {
 
     public function hasMovements() {
         return $this->getCepage()->hasMovements();
-    }
-
-    protected function getDetailsConfigKey() {
-        return $this->getDocument()->getDetailsConfigKey();        
     }
 
 }

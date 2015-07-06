@@ -1,43 +1,58 @@
 <?php
+
 /**
  * Model for DRMDetails
  *
  */
-
 class DRMDetails extends BaseDRMDetails {
 
-	public function getProduit($labels = array()) {
-		$slug = $this->slugifyLabels($labels);
-		if (!$this->exist($slug)) {
+    public function getConfigDetails() {
+        $detailConfigKey = $this->getDetailsConfigKey();
+        return ConfigurationClient::getCurrent()->declaration->details->get($detailConfigKey);
+    }
 
-			return false;
-		}
+    public function getProduit($labels = array()) {
+        $slug = $this->slugifyLabels($labels);
+        if (!$this->exist($slug)) {
 
-		return $this->get($slug);
-	}
+            return false;
+        }
 
-	public function addProduit($labels = array()) {
-		$detail = $this->add($this->slugifyLabels($labels));
-		$detail->labels = $labels;
-		return $detail;
-	}
+        return $this->get($slug);
+    }
 
-	protected function slugifyLabels($labels) {
+    public function addProduit($labels = array()) {
+        $detail = $this->add($this->slugifyLabels($labels));
+        $detail->labels = $labels;
+        foreach ($this->getConfigDetails()->detail as $detailConfigCat => $detailConfig) {
+            foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
+                $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey,null);
+            }
+        }
+        return $detail;
+    }
 
-		return KeyInflector::slugify($this->getLabelKeyFromArray($labels));
-	}
+    protected function slugifyLabels($labels) {
 
-	protected function getLabelKeyFromArray($labels) {
+        return KeyInflector::slugify($this->getLabelKeyFromArray($labels));
+    }
+
+    protected function getLabelKeyFromArray($labels) {
         $key = null;
         if ($labels && is_array($labels) && count($labels) > 0) {
-           sort($labels);
-           $key = implode('-', $labels);
+            sort($labels);
+            $key = implode('-', $labels);
         }
-        
-        return ($key)? $key : DRM::DEFAULT_KEY;
+
+        return ($key) ? $key : DRM::DEFAULT_KEY;
     }
-    
+
     public function isProduitNonInterpro() {
         return $this->getParent()->isProduitNonInterpro();
-    }   
+    }
+
+    protected function getDetailsConfigKey() {
+        return $this->getDocument()->getDetailsConfigKey();
+    }
+
 }

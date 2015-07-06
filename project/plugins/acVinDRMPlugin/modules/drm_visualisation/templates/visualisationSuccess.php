@@ -11,19 +11,21 @@
         </ul>
     <?php else: ?>
         <h2><?php echo getDrmTitle($drm); ?></h2>
-        <div id="btn_etape_dr">
-            <a href="#" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-        </div>   
+        <?php if ($drm->isAfterTeledeclarationDrm()): ?>  
+            <div id="btn_etape_dr">
+                <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
+            </div>  
+        <?php endif; ?>
     <?php endif; ?>
-        
-        <div id="drm_validation_coordonnees">
-            <div class="drm_validation_societe">    
-                <?php include_partial('drm_visualisation/societe_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
-            </div>
-            <div class="drm_validation_etablissement">
-                <?php include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
-            </div>
+
+    <div id="drm_validation_coordonnees">
+        <div class="drm_validation_societe">    
+            <?php include_partial('drm_visualisation/societe_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
         </div>
+        <div class="drm_validation_etablissement">
+            <?php include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
+        </div>
+    </div>
 
     <div><span class="success">Votre DRM est validée - Date de validation : <?php echo $drm->valide->date_signee; ?></span></div>
 
@@ -59,15 +61,15 @@
             <tr><td><pre class="commentaire"><?php echo $drm->commentaire; ?></pre></td></tr>
         </table>
     <?php else: ?> 
-      <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)) ?>  
+        <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)) ?>  
         <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>  
     <?php endif; ?>   
-             <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode'  => $isTeledeclarationMode)) ?>
+    <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
     <br />
     <div id="btn_etape_dr">
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant, 'campagne' => $drm->campagne)); ?>" class="btn_etape_prec" id="facture"><span>Retour à mon espace</span></a> 
     </div>
 </section>
 <?php
-include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode'  => $isTeledeclarationMode));
+include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
 ?>

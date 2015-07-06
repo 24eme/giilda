@@ -23,11 +23,14 @@ class DRMClient extends acCouchdbClient {
     const DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE = 'EMPREINTE';
     const DRM_TYPE_MVT_ENTREES = 'entrees';
     const DRM_TYPE_MVT_SORTIES = 'sorties';
+    const DRM_LAST_PERIODE_BEFORE_TELEDECLARATION = '201507';
+    const DRM_CONFIGURATION_KEY_AFTER_TELEDECLARATION = '201508';
+    const DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION = '190001';
 
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
     public static $drm_default_favoris_old = array("entrees/achat", "entrees/recolte", "sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille", "sorties/consommation");
-    public static $drm_default_favoris = array("entrees/achatnoncrd", "entrees/revendique", "sorties/export", "sorties/vraccontrat", "sorties/vracsanscontratsuspendu", "sorties/ventefrancebouteillecrd", "sorties/consommationfamilialedegustation");    
+    public static $drm_default_favoris = array("entrees/achatnoncrd", "entrees/revendique", "sorties/export", "sorties/vraccontrat", "sorties/vracsanscontratsuspendu", "sorties/ventefrancebouteillecrd", "sorties/consommationfamilialedegustation");
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 5);
     public static $drm_documents_daccompagnement = array(self::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA => 'DAA/DSA',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'DAE',
@@ -78,13 +81,13 @@ class DRMClient extends acCouchdbClient {
 
         return $periodes;
     }
-    
+
     public function getLastMonthPeriodes($nbMonth) {
         $periodes = array();
-        $periode = $this->buildPeriode(date('Y'),date('m'));
-        $periode = $this->buildPeriode(date('Y'),'09');
+        $periode = $this->buildPeriode(date('Y'), date('m'));
+        $periode = $this->buildPeriode(date('Y'), '09');
         for ($cpt = 0; $cpt < $nbMonth; $cpt++) {
-            
+
             $periodes[] = $periode;
             $periode = $this->getPeriodePrecedente($periode);
         }
@@ -145,12 +148,11 @@ class DRMClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->getPeriodeSuivante($periode);
     }
 
-     public function getPeriodePrecedente($periode) {
+    public function getPeriodePrecedente($periode) {
 
         return ConfigurationClient::getInstance()->getPeriodePrecedente($periode);
     }
 
-    
     public function findLastByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         $drms = $this->viewByIdentifiant($identifiant);
 
@@ -293,7 +295,7 @@ class DRMClient extends acCouchdbClient {
 
         return array_pop($drms);
     }
-    
+
     protected function viewByIdentifiantPeriode($identifiant, $periode) {
         $campagne = $this->buildCampagne($periode);
 
@@ -439,6 +441,7 @@ class DRMClient extends acCouchdbClient {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }
         $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
+        
         if ($drmLast) {
             $drm->generateByDRM($drmLast);
 
@@ -447,7 +450,7 @@ class DRMClient extends acCouchdbClient {
 
         $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
         if ($dsLast) {
-            $drm->generateByDRM($drmLast);
+            $drm->generateByDS($dsLast);
 
             return $drm;
         }
@@ -497,7 +500,7 @@ class DRMClient extends acCouchdbClient {
             }
         }
         $drm_default_favoris = self::$drm_default_favoris_old;
-        if($periode >= '201508'){
+        if ($periode >= '201508') {
             $drm_default_favoris = self::$drm_default_favoris;
         }
         foreach ($configurationFields as $key => $value) {

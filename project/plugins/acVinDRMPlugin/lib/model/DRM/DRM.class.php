@@ -195,7 +195,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $drm_suivante = clone $this;
         $drm_suivante->init(array('keepStock' => $keepStock));
-        
+
         $drm_suivante->update();
         $drm_suivante->storeDeclarant();
         $drm_suivante->periode = $periode;
@@ -206,8 +206,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($drm_suivante->declaration->getProduitsDetails() as $details) {
             $details->getCepage()->add('no_movements', false);
             $details->getCepage()->add('edited', false);
-            //$details->clear();
         }
+
         $drm_suivante->initCrds();
         $drm_suivante->initSociete();
 
@@ -1115,10 +1115,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
      */
 
     public function getDetailsConfigKey() {
-        if ($this->getPeriode() > '201507') {
-            return '201508';
+        if ($this->isAfterTeledeclarationDrm()) {
+            return DRMClient::DRM_CONFIGURATION_KEY_AFTER_TELEDECLARATION;
         }
-        return '190001';
+        return DRMClient::DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION;
     }
+
+    public function isAfterTeledeclarationDrm() {
+        return $this->getPeriode() > DRMClient::DRM_LAST_PERIODE_BEFORE_TELEDECLARATION;
+    }    
 
 }
