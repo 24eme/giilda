@@ -32,7 +32,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         if ($index_page == $nb_pages - 1) {
             $nb_produits_per_page = $nb_produits - $nb_produits_displayed;
         }
-        $size_col = (int) (140 / $nb_produits_per_page);
+        $size_col = sprintFloat(140.0 / floatval($nb_produits_per_page));
         $entete = '\begin{tabular}{C{30mm} p{78mm} |';
         for ($cpt_col = 0; $cpt_col < $nb_produits_per_page; $cpt_col++) {
             $entete .='C{' . $size_col . 'mm}|';
@@ -178,7 +178,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         \rowcolor{gray}
         \multicolumn{2}{|c|}{ \small{\color{white}{\textbf{STOCK FIN DE MOIS}} }} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
-        \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloat($produit->stocks_fin->revendique); ?> Hl}}}} 
+        \multicolumn{1}{m{<?php echo $size_col; ?>mm}|}{  \small{\color{white}{\textbf{<?php echoFloat($produit->stocks_fin->revendique); ?> Hl}}}} 
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>  
         \\	
