@@ -39,7 +39,7 @@ $detailNode = $config->details->get($drm->getDetailsConfigKey())->detail;
 
         <div class="groupe no_favoris" data-groupe-id="3">
             <p class="extendable">Autres entrées</p>
-            <ul>
+            <ul style="display: none;">
                 <?php foreach ($detailNode->getEntrees() as $key => $item): ?>
                     <?php if (!$favoris_entrees->exist($key)): ?>
                         <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >      
@@ -69,7 +69,7 @@ $detailNode = $config->details->get($drm->getDetailsConfigKey())->detail;
 
         <div class="groupe no_favoris" data-groupe-id="5">
             <p class="extendable">Autres sorties</p>
-            <ul>
+            <ul style="display: none;">
                 <?php foreach ($detailNode->getSorties() as $key => $item): ?>
                     <?php if (!$favoris_sorties->exist($key)): ?>
                         <li <?php echo ($item->getFacturable()) ? ' class="facturable"' : ''; ?> >

@@ -16,10 +16,10 @@ slot('colFilEdition');
                 </li>
             <?php endforeach; ?>
             </ul>
-            <ul class="drm_legend_produit">
+<!--            <ul class="drm_legend_produit">
                 <li class="edited">Complété</li>
                 <li class="current">A compléter</li>
-            </ul>
+            </ul>-->
         </div>
     </div>
 </div>

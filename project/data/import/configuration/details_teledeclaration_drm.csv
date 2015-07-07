@@ -44,7 +44,7 @@ declaration;details;201508;sorties;vracsanscontratsuspendu;1;1;0;-1;0;1;SUSPENDU
 declaration;details;201508;sorties;vracsanscontratacquitte;1;1;0;-1;0;1;ACQUITTE;sorties-periode/sorties-sans-paiement-droits
 declaration;details;201508;sorties;ventefrancebouteillecrd;1;1;0;-1;0;1;MIXTE;sorties-periode/sorties-avec-paiement-droits
 declaration;details;201508;sorties;ventefrancebibcrd;1;1;0;-1;0;1;MIXTE;sorties-periode/sorties-avec-paiement-droits
-declaration;details;201508;sorties;vraccontrat;1;1;1;-1;1;1;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives
+declaration;details;201508;sorties;vrac;1;1;1;-1;1;1;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives
 declaration;details;201508;sorties;cession;1;1;0;-1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/autres-sorties
 declaration;details;201508;sorties;consommationfamilialedegustation;1;1;0;-1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/consomation-familiale-degustation
 declaration;details;201508;sorties;repli;1;1;0;-1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/mouvements-internes/replis-declassement-transfert-changement-appellation
