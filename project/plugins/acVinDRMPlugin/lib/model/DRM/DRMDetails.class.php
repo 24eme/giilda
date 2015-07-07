@@ -27,6 +27,9 @@ class DRMDetails extends BaseDRMDetails {
         foreach ($this->getConfigDetails()->detail as $detailConfigCat => $detailConfig) {
             foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
                 $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey,null);
+                if($detail->hasDetails()) {
+                    $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey."_details", null);
+                }
             }
         }
         return $detail;
