@@ -8,6 +8,7 @@ class DRMDetails extends BaseDRMDetails {
 
     public function getConfigDetails() {
         $detailConfigKey = $this->getDetailsConfigKey();
+        
         return ConfigurationClient::getCurrent()->declaration->details->get($detailConfigKey);
     }
 
@@ -27,7 +28,7 @@ class DRMDetails extends BaseDRMDetails {
         foreach ($this->getConfigDetails()->detail as $detailConfigCat => $detailConfig) {
             foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
                 $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey,null);
-                if($detail->hasDetails()) {
+                if($detailConfigNode->hasDetails()) {
                     $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey."_details", null);
                 }
             }

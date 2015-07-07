@@ -13,60 +13,61 @@
  */
 class DRMLatex extends GenericLatex {
 
-  private $drm = null;
-  const VRAC_OUTPUT_TYPE_PDF = 'pdf';
-  const VRAC_OUTPUT_TYPE_LATEX = 'latex';
-  
-  const NB_PRODUITS_PER_PAGE = 5;
-  
+    private $drm = null;
+    private $libelles_detail_ligne = null;
 
-  function __construct(DRM $drm, $config = null) {
-    sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
-    $this->drm = $drm;
-  }
+    const VRAC_OUTPUT_TYPE_PDF = 'pdf';
+    const VRAC_OUTPUT_TYPE_LATEX = 'latex';
+    const NB_PRODUITS_PER_PAGE = 5;
 
-  public function getNbPages() {
-    return 1;
-  }
-  
-  public function getLatexFileNameWithoutExtention() {
-    return $this->getTEXWorkingDir().$this->drm->_id.'_'.$this->drm->_rev;
-  }
+    function __construct(DRM $drm, $config = null) {
+        sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
+        $this->drm = $drm;
+        $configuration = ConfigurationClient::getCurrent();
+        $this->libelles_detail_ligne = $configuration->libelle_detail_ligne->get($this->drm->getDetailsConfigKey());
+    }
 
-  
-  public function getLatexFileContents() {
-    return html_entity_decode(htmlspecialchars_decode(
-						      get_partial('drm_pdf/generateTex', array('drm' => $this->drm,
-											  'nb_page' => $this->getNbPages()))
-						      , HTML_ENTITIES));
-  }
+    public function getNbPages() {
+        return 1;
+    }
 
-  public function getPublicFileName($extention = '.pdf') {
-    return 'drm_'.$this->drm->_id.'_'.$this->drm->_rev.$extention;
-  }
-  
-  public static function getMvtsEnteesForPdf() {
-      $entrees = array();
-      $configuration = ConfigurationClient::getCurrent();
-      foreach ($configuration->libelle_detail_ligne->entrees as $key => $entree) {
-          $entreeObj = new stdClass();
-          $entreeObj->libelle = $entree;   
-          $entreeObj->key =$key;
-          $entrees[] = $entreeObj;
-      }
-      return $entrees;
-  }
-  
-   public static function getMvtsSortiesForPdf() {
-      $sorties = array();
-      $configuration = ConfigurationClient::getCurrent();
-      foreach ($configuration->libelle_detail_ligne->sorties as $key => $sortie) {
-          $sortieObj = new stdClass();
-          $sortieObj->libelle = $sortie;   
-          $sortieObj->key =$key;
-          $sorties[] = $sortieObj;
-      }
-      return $sorties;
-  }
+    public function getLatexFileNameWithoutExtention() {
+        return $this->getTEXWorkingDir() . $this->drm->_id . '_' . $this->drm->_rev;
+    }
+
+    public function getLatexFileContents() {
+        return html_entity_decode(htmlspecialchars_decode(
+                        get_partial('drm_pdf/generateTex', array('drm' => $this->drm,
+            'nb_page' => $this->getNbPages(),
+            'drmLatex' => $this))
+                        , HTML_ENTITIES));
+    }
+
+    public function getPublicFileName($extention = '.pdf') {
+        return 'drm_' . $this->drm->_id . '_' . $this->drm->_rev . $extention;
+    }
+
+    public function getMvtsEnteesForPdf() {
+        $entrees = array();
+
+        foreach ($this->libelles_detail_ligne->entrees as $key => $entree) {
+            $entreeObj = new stdClass();
+            $entreeObj->libelle = $entree;
+            $entreeObj->key = $key;
+            $entrees[] = $entreeObj;
+        }
+        return $entrees;
+    }
+
+    public function getMvtsSortiesForPdf() {
+        $sorties = array();
+        foreach ($this->libelles_detail_ligne->sorties as $key => $sortie) {
+            $sortieObj = new stdClass();
+            $sortieObj->libelle = $sortie;
+            $sortieObj->key = $key;
+            $sorties[] = $sortieObj;
+        }
+        return $sorties;
+    }
 
 }

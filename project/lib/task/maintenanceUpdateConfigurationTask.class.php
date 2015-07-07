@@ -47,6 +47,7 @@ EOF;
         }
 
         unset($configuration->libelle_detail_ligne);        
+        unset($configuration->declaration->details);
         unset($configuration->declaration->detail);
         ConfigurationClient::getInstance()->storeDoc($configuration);
         

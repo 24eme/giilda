@@ -129,26 +129,34 @@ class DRMDetail extends BaseDRMDetail {
 
         $this->total_debut_mois = $this->stocks_debut->revendique;
 
-        $this->sorties->vrac = 0;
-        foreach ($this->sorties->vrac_details as $vrac_detail) {
-            $this->sorties->vrac+=$vrac_detail->volume;
+        if ($this->sorties->exist('vrac_details')) {
+            $this->sorties->vrac = 0;
+            foreach ($this->sorties->vrac_details as $vrac_detail) {
+                $this->sorties->vrac+=$vrac_detail->volume;
+            }
         }
-
-        $this->sorties->export = 0;
-        foreach ($this->sorties->export_details as $export_detail) {
-            $this->sorties->export+=$export_detail->volume;
+        if ($this->sorties->exist('export_details')) {
+            $this->sorties->export = 0;
+            foreach ($this->sorties->export_details as $export_detail) {
+                $this->sorties->export+=$export_detail->volume;
+            }
         }
-
-        $this->sorties->cooperative = 0;
-        foreach ($this->sorties->cooperative_details as $cooperative_detail) {
-            $this->sorties->cooperative+=$cooperative_detail->volume;
+        if ($this->sorties->exist('cooperative_details')) {
+            $this->sorties->cooperative = 0;
+            foreach ($this->sorties->cooperative_details as $cooperative_detail) {
+                $this->sorties->cooperative+=$cooperative_detail->volume;
+            }
         }
-
         $this->total_entrees = $this->getTotalByKey('entrees');
         $this->total_sorties = $this->getTotalByKey('sorties');
 
         $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
-        $this->total_recolte = $this->entrees->recolte;
+        if ($this->entrees->exist('recolte')) {
+            $this->total_recolte = $this->entrees->recolte;
+        }
+        if ($this->entrees->exist('revendique')) {
+            $this->total_recolte = $this->entrees->revendique;
+        }
         $this->total_facturable = 0;
         $this->updateNoeud('entrees', -1);
         $this->updateNoeud('sorties', 1);
@@ -332,7 +340,7 @@ class DRMDetail extends BaseDRMDetail {
         }
 
         $mouvement->type_hash = $hash;
-        $mouvement->type_libelle = $config->getLibelle();
+        $mouvement->type_libelle = $config->getLibelle($this->getDocument()->getDetailsConfigKey());
         $mouvement->volume = $volume;
         $mouvement->date = $this->getDocument()->getDate();
 

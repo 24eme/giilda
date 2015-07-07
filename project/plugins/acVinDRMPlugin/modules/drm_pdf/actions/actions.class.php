@@ -25,7 +25,7 @@ class drm_pdfActions extends drmGeneriqueActions {
 
 
         $latex = new DRMLatex($this->drm);
-       // echo $latex->getLatexFileContents();
+        // $latex->getLatexFileContents();
        $latex->echoWithHTTPHeader($request->getParameter('type'));
         exit;
     }
