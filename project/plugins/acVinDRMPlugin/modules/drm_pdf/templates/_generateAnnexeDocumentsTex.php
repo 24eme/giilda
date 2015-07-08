@@ -20,7 +20,7 @@
     \hline   			
     <?php foreach ($drm->documents_annexes as $typeDoc => $numsDoc): ?>
 
-        \multicolumn{1}{|l}{\small{\textbf{<?php echo DRMClient::$drm_documents_daccompagnement_libelle[$typeDoc]; ?>}}} &
+        \multicolumn{1}{|l}{\small{\textbf{<?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?>}}} &
         \multicolumn{1}{|r}{\small{\textbf{<?php echo $numsDoc->debut; ?>}}} &
         \multicolumn{1}{|r|}{\small{\textbf{<?php echo $numsDoc->fin; ?>}}} 
         \\ 			 

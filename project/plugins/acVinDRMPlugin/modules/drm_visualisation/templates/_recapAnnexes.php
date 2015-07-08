@@ -6,7 +6,7 @@
         <thead >
             <tr>   
                 <th class="drm_annexes_type"></th>
-                <th colspan="2">Document d'accompagnement <?php echo DRMClient::$drm_documents_daccompagnement_libelle[$typeDoc]; ?></th>
+                <th colspan="2">Document d'accompagnement <?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></th>
             </tr>
         </thead>
         <tbody class="drm_adminitration">
