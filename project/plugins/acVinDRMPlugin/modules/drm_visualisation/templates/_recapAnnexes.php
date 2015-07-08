@@ -21,7 +21,7 @@
 <?php endforeach; ?>  
 
 <br>
-<h2>Non apurement</h2>
+<h2>Relevé de non apurement</h2>
 <table id="table_drm_non_apurement" class="table_recap">
     <thead >
         <tr>                        
