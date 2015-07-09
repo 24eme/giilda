@@ -31,7 +31,7 @@
                 <thead >
                     <tr>                        
                         <th>Numéro de document</th>
-                        <th class="drm_non_apurement_date_emission">Date d'emission</th>
+                        <th class="drm_non_apurement_date_emission">Date d'expédition</th>
                         <th>Numéro d'accise</th>
                         <th></th>
                     </tr>
