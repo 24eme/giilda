@@ -466,8 +466,8 @@ p#date_drm
         text-align: center;
 
         li
-        {            
-            padding: 0px 10px 0;   
+        {
+            padding: 0px 10px 0;
             margin: 5px 0;
             background-color: #ecebeb;
             border: 1px solid #e3e2e2;
@@ -493,7 +493,7 @@ p#date_drm
                             padding: 0 10px;
                             background: rgba(0, 0, 0, 0) url("../images/pictos/pi_orange_plus.png") no-repeat scroll 0 0;
                         }
-                        span{ 
+                        span{
                             margin: 0 20px;
                             position: relative;
                             top: -3px;
@@ -515,14 +515,14 @@ p#date_drm
                         }
                     }
 
-                    a 
+                    a
                     {
                         .pos-abs(0,0,0,0);
                         padding: 71px 0 0;
                     }
 
                     li.action
-                    {                
+                    {
                         a { vertical-align: bottom; }
                     }
                 }
@@ -1383,15 +1383,15 @@ p#date_drm
                 font-weight: bold;
                 text-align: left;
                 line-height: 1.4;
-                padding: 6px 0 6px 25px;
+                padding: 6px 0;
                 position: relative;
 
                 > a { text-decoration: none; }
 
-                &.current.edited,
-                &.current { background-image: url('../images/pictos/pi_orange_plus.png'); }
+                &.current.edited a,
+                &.current a { color: #faab0d; }
 
-                &.edited { background-image: url('../images/pictos/pi_green_plus.png'); }
+                &.edited a { color: #97cb48; }
             }
         }
 
