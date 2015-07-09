@@ -434,7 +434,8 @@ class DRMClient extends acCouchdbClient {
         $drm->buildFavoris();
         $drm->storeDeclarant();
         $drm->initSociete();
-        $drm->initCrds();
+        $drm->initCrds();        
+        $drm->clearAnnexes();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }

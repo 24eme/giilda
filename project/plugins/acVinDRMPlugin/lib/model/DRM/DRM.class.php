@@ -220,7 +220,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $drm_suivante->initCrds();
         $drm_suivante->initSociete();
-
+        $drm_suivante->clearAnnexes();
         $drm_suivante->initProduitsAuto();
 
         if (!$drm_suivante->exist('favoris') || ($this->periode == '201508')) {
@@ -886,7 +886,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function storeDeclarant() {
         $this->declarant_document->storeDeclarant();
-        if($this->isAfterTeledeclarationDrm()){
+        if ($this->isAfterTeledeclarationDrm()) {
             $this->declarant->getOrAdd('adresse_compta');
             $this->declarant->getOrAdd('caution');
             $this->declarant->getOrAdd('raison_sociale_cautionneur');
@@ -1065,6 +1065,40 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function hasAnnexes($isTeledeclarationMode = false) {
         return count($this->getVracs()) && count($this->getDetailsExports()) && $isTeledeclarationMode;
     }
+    
+    public function clearAnnexes() {
+        if($this->exist('documents_annexes') && count($this->documents_annexes)){
+            $this->remove('documents_annexes');
+        }
+        if($this->exist('releve_non_apurement') && count($this->releve_non_apurement)){
+            $this->remove('releve_non_apurement');
+        }
+    }
+    
+    public function cleanAnnexes() {
+        $documents_annexes_to_remove = array();
+        if($this->exist('documents_annexes') && count($this->documents_annexes)){
+            foreach ($this->documents_annexes as $type_doc => $docNode) {
+                if(!$docNode->debut && !$docNode->fin){
+                    $documents_annexes_to_remove[] = $type_doc;
+                }
+            }
+        }
+        $releve_non_apurement_to_remove = array();
+        if($this->exist('releve_non_apurement') && count($this->releve_non_apurement)){
+            foreach ($this->releve_non_apurement as $key => $nonApurementNode) {
+                if(!$nonApurementNode->numero_document && !$nonApurementNode->date_emission && !$nonApurementNode->numero_accise){
+                    $releve_non_apurement_to_remove[] = $key;
+                }
+            }
+        }
+         foreach ($documents_annexes_to_remove as $key_to_remove) {
+            $this->documents_annexes->remove($key_to_remove);
+        }
+        foreach ($releve_non_apurement_to_remove as $key_to_remove) {
+            $this->releve_non_apurement->remove($key_to_remove);
+        }
+    }
 
     public function initReleveNonApurement() {
         $releveNonApurement = $this->getOrAdd('releve_non_apurement');
@@ -1146,6 +1180,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function isAfterTeledeclarationDrm() {
         return $this->getPeriode() > DRMClient::DRM_LAST_PERIODE_BEFORE_TELEDECLARATION;
-    }    
+    }
 
 }
