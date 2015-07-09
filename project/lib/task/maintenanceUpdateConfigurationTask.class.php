@@ -72,6 +72,10 @@ EOF;
             $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
             $detail = $configuration->libelle_detail_ligne->getOrAdd($datas[0])->get($datas[1])->add($datas[2], $datas[3]);
         }
+
+        $csv = new ProduitCsvFile($configuration, $import_dir . '/produits_teledeclaration_drm.csv');
+        $configuration = $csv->importProduits();
+
         $configuration->save();
     }
 

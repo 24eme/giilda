@@ -23,6 +23,7 @@ class ProduitCsvFile extends CsvFile
   const CSV_PRODUIT_COULEUR_CODE_APPLICATIF_DROIT = 'CO';
   const CSV_PRODUIT_CEPAGE_LIBELLE = 13;
   const CSV_PRODUIT_CEPAGE_CODE = 14;
+  const CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT = 'CE';
   const CSV_PRODUIT_DEPARTEMENTS = 15;
   const CSV_PRODUIT_DOUANE_CODE = 16;
   const CSV_PRODUIT_DOUANE_LIBELLE = 17;
@@ -69,6 +70,11 @@ class ProduitCsvFile extends CsvFile
     $correspondances = array(1 => "rouge",
                              2 => "rose",
                              3 => "blanc");
+    
+    if(!isset($correspondances[$key])) {
+
+        return Configuration::DEFAULT_KEY;
+    }
 
     return $correspondances[$key];
   }
@@ -92,7 +98,7 @@ class ProduitCsvFile extends CsvFile
 		foreach ($csv as $line) {
 			$produit = $this->getProduit($line);
 			$produit->setDonneesCsv($line);
-			$produit->getCertification()->interpro->add($line[self::CSV_PRODUIT_INTERPRO]);
+			//$produit->getCertification()->interpro->add($line[self::CSV_PRODUIT_INTERPRO]);
       	}
     } catch(Execption $e) {
     	$this->errors[] = $e->getMessage();
