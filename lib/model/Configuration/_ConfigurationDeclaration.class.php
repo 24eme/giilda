@@ -9,8 +9,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     protected $libelles = null;
     protected $codes = null;
     protected $produits = null;
-    protected $format_produits = array();
-    protected $format_produits_with_negCVO = array();
     protected $libelle_format = array();
 
     protected function loadAllData() {
@@ -18,9 +16,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $this->getProduitsAll();
         $this->getLibelles();
         $this->getCodes();
-        //$this->formatProduitsWithCVONeg();
-        //$this->formatProduitsWithCVONeg(null, null, "%format_libelle%");
-        //$this->formatProduitsWithCVONeg(null, null, "%format_libelle% %la%");
     }
 
     abstract public function getChildrenNode();
@@ -34,22 +29,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
             return $this->getParent()->getParent();
         }
-    }
-
-    public function isProduitNonInterpro($interpro = 'INTERPRO-inter-loire') {
-        $interproNode = $this->getOrAdd('interpro')->getOrAdd($interpro);
-        $produit_non_interpro = false;
-        if (!$interproNode->exist('produit_non_interpro') || is_null($interproNode->produit_non_interpro)) {
-
-            $parentWithInterproNode = $this->getParent();
-            while (!$parentWithInterproNode->exist('interpro')) {
-                $parentWithInterproNode = $parentWithInterproNode->getParent();
-            }
-            $produit_non_interpro = $parentWithInterproNode->isProduitNonInterpro($interpro);
-        } else {
-            return $interproNode->produit_non_interpro;
-        }
-        return $produit_non_interpro;
     }
 
     public function getProduitsAll($interpro = null, $departement = null) {
