@@ -24,11 +24,7 @@ class DRMCepage extends BaseDRMCepage {
     public function getProduitsDetails($teledeclarationMode = false) {
         $details = array();
         foreach ($this->getChildrenNode() as $key => $item) {
-            if ($teledeclarationMode) {
-                $details[$item->getHash()] = $item;
-            } elseif (!$this->isProduitNonInterpro()) {
-                $details[$item->getHash()] = $item;
-            }
+            $details[$item->getHash()] = $item;
         }
 
         return $details;
@@ -55,10 +51,6 @@ class DRMCepage extends BaseDRMCepage {
         }
 
         return null;
-    }
-    
-public function isProduitNonInterpro() {
-        return $this->getConfig()->isProduitNonInterpro();
     }
     
     public function hasMovements(){

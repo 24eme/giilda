@@ -18,14 +18,9 @@ class Configuration extends BaseConfiguration {
         return $this->declaration->getProduits();
     }
 
-    public function formatProduits($date = null, $format = "%format_libelle% (%code_produit%)") {
+    public function formatProduits($date = null, $format = "%format_libelle% (%code_produit%)", $droits = array()) {
 
-      return $this->declaration->formatProduits($date,null, null, $format);
-    }
-
-    public function formatProduitsWithoutCVONeg($format = "%format_libelle% (%code_produit%)") {
-
-      return $this->declaration->formatProduitsWithoutCVONeg(null, null, $format);
+      return $this->declaration->formatProduits($date, null, null, $format, $droits);
     }
     
     private static function normalizeLibelle($libelle) {

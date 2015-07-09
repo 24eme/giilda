@@ -103,6 +103,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return null;
     }
 
+    public function getConfigProduits() {
+
+        return $this->declaration->getConfigProduits();
+    }
+
+    public function getConfigProduitsAuto() {
+
+        return $this->declaration->getConfigProduitsAuto();
+    }
+
     public function getProduits() {
 
         return $this->declaration->getProduits();
@@ -170,7 +180,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function generateByDRM(DRM $drm) {
         foreach ($drm->getProduits() as $produit) {
-            if (!$produit->getConfig()->hasCVO($this->getDate())) {
+            if (!$produit->getConfig()->hasCVO($this->getDate()) && !$produit->getConfig()->hasDouane($this->getDate())) {
 
                 continue;
             }
@@ -211,6 +221,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $drm_suivante->initCrds();
         $drm_suivante->initSociete();
         $drm_suivante->clearAnnexes();
+        $drm_suivante->initProduitsAuto();
+
         if (!$drm_suivante->exist('favoris') || ($this->periode == '201508')) {
             $drm_suivante->buildFavoris();
         }
@@ -238,6 +250,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->archivage_document->reset();
 
         $this->devalide();
+    }
+
+    public function initProduitsAuto() {
+        foreach($this->getConfigProduitsAuto() as $produit) {
+            $this->addProduit($produit->getHash());
+        }
     }
 
     public function setDroits() {

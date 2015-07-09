@@ -443,14 +443,14 @@ class DRMClient extends acCouchdbClient {
 
         if ($drmLast) {
             $drm->generateByDRM($drmLast);
-
+            $drm->initProduitsAuto();
             return $drm;
         }
 
         $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
         if ($dsLast) {
             $drm->generateByDS($dsLast);
-
+            $drm->initProduitsAuto();
             return $drm;
         }
 

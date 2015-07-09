@@ -9,19 +9,13 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     protected $libelles = null;
     protected $codes = null;
     protected $produits = null;
-    protected $produits_with_negCVO = null;
-    protected $format_produits = array();
-    protected $format_produits_with_negCVO = array();
     protected $libelle_format = array();
 
     protected function loadAllData() {
         parent::loadAllData();
-        $this->getProduitsWithCVONeg();
+        $this->getProduitsAll();
         $this->getLibelles();
         $this->getCodes();
-        $this->formatProduitsWithCVONeg();
-        $this->formatProduitsWithCVONeg(null, null, "%format_libelle%");
-        $this->formatProduitsWithCVONeg(null, null, "%format_libelle% %la%");
     }
 
     abstract public function getChildrenNode();
@@ -37,55 +31,50 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
     }
 
-    public function isProduitNonInterpro($interpro = 'INTERPRO-inter-loire') {
-        $interproNode = $this->getOrAdd('interpro')->getOrAdd($interpro);
-        $produit_non_interpro = false;
-        if (!$interproNode->exist('produit_non_interpro') || is_null($interproNode->produit_non_interpro)) {
-
-            $parentWithInterproNode = $this->getParent();
-            while (!$parentWithInterproNode->exist('interpro')) {
-                $parentWithInterproNode = $parentWithInterproNode->getParent();
-            }
-            $produit_non_interpro = $parentWithInterproNode->isProduitNonInterpro($interpro);
-        } else {
-            return $interproNode->produit_non_interpro;
-        }
-        return $produit_non_interpro;
-    }
-
-    public function getProduitsWithCVONeg($interpro = null, $departement = null) {
-        if (is_null($this->produits_with_negCVO)) {
-            $this->produits_with_negCVO = array();
-            foreach ($this->getChildrenNode() as $key => $item) {
-                $this->produits_with_negCVO = array_merge($this->produits_with_negCVO, $item->getProduitsWithCVONeg());
-            }
-        }
-        return $this->produits_with_negCVO;
-    }
-
-    public function getProduits($date = null, $interpro = null, $departement = null, $isTeledeclarationMode = false) {
-        if (!$date) {
-            $date = date('Y-m-d');
-        }
+    public function getProduitsAll($interpro = null, $departement = null) {
         if (is_null($this->produits)) {
-            $produits_with_negCVO = $this->getProduitsWithCVONeg($interpro, $departement);
-            foreach ($produits_with_negCVO as $hash => $item) {
-                if ($isTeledeclarationMode) {
-                    $this->produits[$hash] = $item;
-                } elseif ($item->hasCVO($date)) {
-                    $this->produits[$hash] = $item;
-                }
+            $this->produits = array();
+            foreach ($this->getChildrenNode() as $key => $item) {
+                $this->produits = array_merge($this->produits, $item->getProduitsAll());
             }
         }
 
         return $this->produits;
     }
 
-    public function getProduitsAuto($date = null, $interpro = null, $departement = null, $isTeledeclarationMode = false) {
-        $produits = $this->getProduitsWithCVONeg();
+    public function getProduits($date = null, $interpro = null, $departement = null, $droits = array(ConfigurationDroits::DROIT_CVO)) {
+        if (!$date) {
+            $date = date('Y-m-d');
+        }
+
+        $produits = array();
+
+        foreach ($this->getProduitsAll($interpro, $departement) as $hash => $item) {
+            if(!count($droits)) {
+                $produits[$hash] = $item;
+                continue;
+            }
+
+            if (in_array(ConfigurationDroits::DROIT_CVO, $droits) && $item->hasCVO($date)) {
+                $produits[$hash] = $item;
+                continue;
+            }
+
+            if (in_array(ConfigurationDroits::DROIT_DOUANE, $droits) && $item->hasDouane($date)) {
+                $produits[$hash] = $item;
+                continue;
+            }
+        }
+
+        return $produits;
+    }
+
+    public function getProduitsAuto($date = null, $interpro = null, $departement = null, $droits = array(ConfigurationDroits::DROIT_CVO)) {
+        $produits = $this->getProduits($date, $interpro, $departement, $droits);
         $produits_auto = array();
+        
         foreach($produits as $hash => $produit) {
-            if(preg_match("/AUTRES/", $produit)) {
+            if(preg_match("/AUTRES/", $hash)) {
                 $produits_auto[$hash] = $produit;
             }
         }
@@ -101,7 +90,18 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             $cvo_produit = 0;
         }
 
-        return $cvo_produit > 0;
+        return $cvo_produit >= 0;
+    }
+
+    public function hasDouane($date) {
+        try {
+            $droit_produit = $this->getDroitDouane($date);
+            $douane_produit = $droit_produit->getTaux();
+        } catch (Exception $ex) {
+            $douane_produit = 0;
+        }
+
+        return $douane_produit >= 0;
     }
 
     public function getLibelles() {
@@ -120,25 +120,13 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->codes;
     }
 
-    public function getProduitsHashByCodeDouaneWithCVONeg($interpro) {
-        $produits_with_negCVO = array();
-        foreach ($this->getChildrenNode() as $key => $item) {
-            $produits_with_negCVO = array_merge($item->getProduitsHashByCodeDouaneWithCVONeg($interpro), $produits_with_negCVO);
+    public function getProduitsHashByCodeDouane($date, $interpro, $droits = array()) {
+        $produits = array();
+        foreach ($this->getProduits($date, $interpro, $droits) as $hash => $item) {
+            $produits[$item->getCodeDouane()] = $hash;
         }
 
-        return $produits_with_negCVO;
-    }
-
-    public function getProduitsHashByCodeDouane($date, $interpro) {
-        $produits_with_negCVO = $this->getProduitsHashByCodeDouaneWithCVONeg($interpro);
-        $produitsHashByCodeDouane = array();
-        $produits_hashs = array_keys($this->getProduits($date, $interpro));
-        foreach ($produits_with_negCVO as $pos => $hash) {
-            if (in_array($hash, $produits_hashs)) {
-                $produitsHashByCodeDouane[$pos] = $hash;
-            }
-        }
-        return $produitsHashByCodeDouane;
+        return $produits;
     }
 
     public function getCodeDouane() {
@@ -200,17 +188,13 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->_get('densite');
     }
 
-    public function getLibelleFormat($labels = array(), $format = "%format_libelle%", $label_separator = ", ", $isTeledeclarationMode = false) {
+    public function getLibelleFormat($labels = array(), $format = "%format_libelle%", $label_separator = ", ") {
         if (!array_key_exists($format, $this->libelle_format)) {
             $format_libelle = $this->getFormatLibelleCalcule();
             $format = str_replace("%format_libelle%", $format_libelle, $format);
             $libelle = $this->formatProduitLibelle($format);
             $libelle = $this->getDocument()->formatLabelsLibelle($labels, $libelle, $label_separator);
-            if ($isTeledeclarationMode && $this->isProduitNonInterpro()) {
-                $this->libelle_format[$format] = trim($libelle) . " (Produit douane uniquement)";
-            } else {
-                $this->libelle_format[$format] = trim($libelle);
-            }
+            $this->libelle_format[$format] = trim($libelle);
         }
 
         return $this->libelle_format[$format];
@@ -353,39 +337,17 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return floatval(str_replace(',', '.', $float));
     }
 
-    public function formatProduitsWithCVONeg($interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)", $isTeledeclarationMode = false) {
-        if (!array_key_exists($format, $this->format_produits_with_negCVO)) {
-            $produits_with_negCVO = $this->getProduitsWithCVONeg();
-            $this->format_produits_with_negCVO[$format] = array();
-            foreach ($produits_with_negCVO as $hash => $produit) {
-                $this->format_produits_with_negCVO[$format][$hash] = $produit->getLibelleFormat(array(), $format, ',', $isTeledeclarationMode);
-            }
-        }
-
-        return $this->format_produits_with_negCVO[$format];
-    }
-
-    public function formatProduits($date = null, $interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)", $isTeledeclarationMode = false) {
+    public function formatProduits($date = null, $interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)", $droits = array()) {
         if (!$date) {
             $date = date('Y-d-m');
         }
-        $result_produits = $this->format_produits;
 
-        if ($isTeledeclarationMode) {
-            $this->formatProduitsWithCVONeg(null, null, "%format_libelle% %la%", $isTeledeclarationMode);
-            $result_produits = $this->format_produits_with_negCVO;
+        $produits = $this->getProduits($date, $interpro, $departement, $droits);
+        $produits_formated = array();
+        foreach ($produits as $hash => $produit) {
+            $produits_formated[$hash] = $produit->getLibelleFormat(array(), $format, ',');
         }
-        if (!array_key_exists($date, $result_produits)) {
-            $result_produits[$date] = array();
-        }
-        if (!array_key_exists($format, $result_produits[$date])) {
-            $produits = $this->getProduits($date, 'INTERPRO-inter-loire', $departement, $isTeledeclarationMode);
-            $result_produits[$date][$format] = array();
-            foreach ($produits as $hash => $produit) {
-                $result_produits[$date][$format][$hash] = $produit->getLibelleFormat(array(), $format, ',', $isTeledeclarationMode);
-            }
-        }
-        return $result_produits[$date][$format];
+        return $produits_formated;
     }
 
     public function getLabels($interpro) {
