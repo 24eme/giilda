@@ -19,11 +19,11 @@
                     ?>
                 </div>
                 <div class="btn_etape">
-                    <a href="<?php echo url_for('drm_societe', array('identifiant' => $drm->getEtablissement()->identifiant)); ?>" class="btn_etape_prec"><span>Précédent</span></a> 
-                    <a class="lien_drm_supprimer" href="<?php echo url_for('drm_delete', $drm); ?>" style="margin-left: 10px">
+                    <a href="<?php echo url_for('drm_societe', array('identifiant' => $drm->getEtablissement()->identifiant)); ?>" class="btn_etape_prec"><span>Précédent</span></a>
+                    <a class="lien_drm_supprimer" href="<?php echo url_for('drm_delete', $drm); ?>">
                         <span>Supprimer la DRM</span>
                     </a>
-                    <button type="submit" class="btn_etape_suiv" id="choixProduitsSubmit"><span>Etape Suivante</span></button> 
+                    <button type="submit" class="btn_etape_suiv" id="choixProduitsSubmit"><span>Etape Suivante</span></button>
                 </div>
             </form>
         </div>
@@ -34,7 +34,7 @@
             <?php include_partial('drm_ajout_produit/ajout_produit_popup_certification', array('drm' => $drm, 'certifKey' => $certifKey, 'form' => $formAddProduitsByCertifications[$certifKey])); ?>
         <?php endforeach; ?>
     <?php else: ?>
-        <a class="crd_regime_choice_popup" href="#crd_choix_regime"></a> 
+        <a class="crd_regime_choice_popup" href="#crd_choix_regime"></a>
         <?php include_partial('drm_crds/crd_regime_choice_popup', array('drm' => $drm, 'crdRegimeForm' => $crdRegimeForm, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
     <?php endif; ?>
 </section>

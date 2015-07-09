@@ -2,9 +2,9 @@
 <?php use_helper('DRM'); ?>
 <!-- #principal -->
 <section id="principal" class="drm">
-    
+
     <?php if (!$isTeledeclarationMode): ?>
-        <?php include_partial('drm/header', array('drm' => $drm)); ?> 
+        <?php include_partial('drm/header', array('drm' => $drm)); ?>
         <ul id="recap_infos_header">
             <li>
                 <label>Nom de l'opérateur : </label><?php echo $drm->getEtablissement()->nom ?><label style="float: right;">Période : <?php echo $drm->periode ?></label>
@@ -35,14 +35,14 @@
                     <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_choix_produit', $drm) : url_for('drm_choix_produit', $drm); ?>">
                         <span>Précédent</span>
                     </a>
-                    <?php if (!$isTeledeclarationMode): ?>  
+                    <?php if (!$isTeledeclarationMode): ?>
                         <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn_brouillon btn_majeur">Enregistrer en brouillon</a>
                     <?php endif; ?>
-                    <a class="lien_drm_supprimer" href="<?php echo url_for('drm_delete', $drm); ?>" style="margin-left: 10px">
+                    <a class="lien_drm_supprimer" href="<?php echo url_for('drm_delete', $drm); ?>">
                         <span>Supprimer la DRM</span>
                     </a>
                     <?php echo $formValidation->renderHiddenFields(); ?>
-                    <button class="btn_etape_suiv" id="button_drm_validation"><span>Suivant</span></button> 
+                    <button class="btn_etape_suiv" id="button_drm_validation"><span>Suivant</span></button>
 
                 </div>
             </form>

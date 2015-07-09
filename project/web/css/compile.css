@@ -6874,10 +6874,8 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm #application_drm a.lien_drm_supprimer {
   color: #d00815;
   display: inline-block;
-  float: left;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   margin: 5px 0 0;
-  padding: 0 0 0 30px;
   text-decoration: underline;
 }
 #principal.drm #application_drm .choix_produit_explication {
