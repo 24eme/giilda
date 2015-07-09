@@ -288,12 +288,13 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         $droits = $this->getDroits('INTERPRO-' . strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
         $date = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE] : '1900-01-01';
-        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) ? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) : null;
+        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) ? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) : 0;
         $code = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE] : null;
         $libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE] : null;
         $canInsert = true;
         foreach ($droits->douane as $droit) {
-            if ($droit->date == $date && $droit->taux == $taux && $droit->code == $code) {
+            $dateExistante = new DateTime($droit->date);
+            if ($dateExistante->format('Y-m-d') == $date && $droit->taux === $taux && $droit->code == $code) {
                 $canInsert = false;
                 break;
             }
@@ -316,12 +317,13 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         $droits = $this->getDroits('INTERPRO-' . strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
         $date = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE] : '1900-01-01';
-        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) ? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) : null;
+        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) ? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) : 0;
         $code = ConfigurationDroits::CODE_CVO;
         $libelle = ConfigurationDroits::LIBELLE_CVO;
         $canInsert = true;
         foreach ($droits->cvo as $droit) {
-            if ($droit->date == $date && $droit->code == $code) {
+            $dateExistante = new DateTime($droit->date);
+            if ($dateExistante->format('Y-m-d') == $date && $droit->code == $code) {
                 $canInsert = false;
                 break;
             }
