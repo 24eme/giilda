@@ -81,6 +81,18 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->produits;
     }
 
+    public function getProduitsAuto($date = null, $interpro = null, $departement = null, $isTeledeclarationMode = false) {
+        $produits = $this->getProduitsWithCVONeg();
+        $produits_auto = array();
+        foreach($produits as $hash => $produit) {
+            if(preg_match("/AUTRES/", $produit)) {
+                $produits_auto[$hash] = $produit;
+            }
+        }
+
+        return $produits_auto;
+    }
+
     public function hasCVO($date) {
         try {
             $droit_produit = $this->getDroitCVO($date);
