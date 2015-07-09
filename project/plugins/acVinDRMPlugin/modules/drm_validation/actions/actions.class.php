@@ -83,13 +83,17 @@ class drm_validationActions extends drmGeneriqueActions {
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
+                $this->form->save();
                 $diff = $this->form->getDiff();
                 $mailManager = new DRMEmailManager($this->getMailer());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_ETABLISSEMENT, $diff);
                 $this->redirect('drm_validation', $this->drm);
+            } else {
+                new sfException("form non valide");
             }
         }
+        $this->redirect('drm_validation', $this->drm);
     }
 
     public function executeUpdateSociete(sfWebRequest $request) {
@@ -99,13 +103,17 @@ class drm_validationActions extends drmGeneriqueActions {
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
+                $this->form->save();
                 $diff = $this->form->getDiff();
                 $mailManager = new DRMEmailManager($this->getMailer());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_SOCIETE, $diff);
                 $this->redirect('drm_validation', $this->drm);
+            } else {
+                new sfException("form non valide");
             }
         }
+        $this->redirect('drm_validation', $this->drm);
     }
 
 }

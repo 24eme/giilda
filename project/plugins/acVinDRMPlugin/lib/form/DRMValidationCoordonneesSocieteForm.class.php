@@ -50,7 +50,7 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         }
         return $this->coordonneesSociete;
     }
-    
+
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         $this->getCoordonneesSociete();
@@ -58,22 +58,34 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         $this->setDefault('adresse', $this->coordonneesSociete->adresse);
         $this->setDefault('code_postal', $this->coordonneesSociete->code_postal);
         $this->setDefault('commune', $this->coordonneesSociete->commune);
-        $this->setDefault('email', $this->coordonneesSociete->email);       
+        $this->setDefault('email', $this->coordonneesSociete->email);
         $this->setDefault('telephone', $this->coordonneesSociete->telephone);
         $this->setDefault('fax', $this->coordonneesSociete->fax);
     }
-    
-    public function getDiff() {  
+
+    public function getDiff() {
         $diff = array();
         $this->getCoordonneesSociete();
         foreach ($this->getValues() as $key => $new_value) {
-            if(!preg_match('/^_revision$/', $key)){
-                if($this->coordonneesSociete->$key != $new_value){
+            if (!preg_match('/^_revision$/', $key)) {
+                if ($this->coordonneesSociete->$key != $new_value) {
                     $diff[$key] = $new_value;
-                    }
+                }
             }
         }
         return $diff;
+    }
+
+    protected function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+        $this->drm->societe->siret = $values['siret'];
+        $this->drm->societe->adresse = $values['adresse'];
+        $this->drm->societe->code_postal = $values['code_postal'];
+        $this->drm->societe->commune = $values['commune'];
+        $this->drm->societe->email = $values['email'];
+        $this->drm->societe->telephone = $values['telephone'];
+        $this->drm->societe->fax = $values['fax'];
+        $this->drm->save();
     }
 
 }
