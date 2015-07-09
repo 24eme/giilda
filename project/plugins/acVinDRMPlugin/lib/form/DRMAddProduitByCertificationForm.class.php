@@ -62,7 +62,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
     public function doUpdateObject($values) { 
        parent::doUpdateObject($values);     
         $produit = str_replace('-', '/', $values['produit']);
-        $this->_drm->getOrAdd($produit.'/details/DEFAUT');
+        $this->_drm->addProduit($produit);
         $this->_drm->save();
     }    
 
