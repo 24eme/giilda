@@ -11,6 +11,15 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         return ConfigurationClient::getCurrent()->get($this->getHash());
     }
 
+    public function getConfigProduits() {
+        
+        return $this->getConfig()->formatProduits($this->getDocument()->getFirstDayOfPeriode(),
+                                                  $this->getDocument()->getInterpro()->get('_id'), 
+                                                  $this->getDocument()->getDepartement(),
+                                                  "%format_libelle% (%code_produit%)", 
+                                                  array(ConfigurationDroits::DROIT_CVO, ConfigurationDroits::DROIT_DOUANE));
+    }
+
     public function getParentNode() {
 
         return $this->getParent()->getParent();

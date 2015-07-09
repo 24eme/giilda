@@ -27,7 +27,7 @@
         <tr>                        
             <th>Numéro de document</th>
             <th class="drm_non_apurement_date_emission">Date d'emission</th>
-            <th>Numéro d'accise</th>
+            <th>Numéro d'accises</th>
 
         </tr>
     </thead>

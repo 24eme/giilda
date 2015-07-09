@@ -103,6 +103,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return null;
     }
 
+    public function getConfigProduits() {
+
+        return $this->declaration->getConfigProduits();
+    }
+
     public function getProduits() {
 
         return $this->declaration->getProduits();
@@ -868,6 +873,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function storeDeclarant() {
         $this->declarant_document->storeDeclarant();
+        if($this->isAfterTeledeclarationDrm()){
+            $this->declarant->getOrAdd('adresse_compta');
+            $this->declarant->getOrAdd('caution');
+            $this->declarant->getOrAdd('raison_sociale_cautionneur');
+        }
     }
 
     public function getEtablissementObject() {

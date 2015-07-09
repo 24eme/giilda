@@ -11,7 +11,6 @@ class DSEditionAddProduitForm extends acCouchdbForm
 	{
 		$this->_ds = $ds;
         $this->_interpro = $ds->getInterpro();
-        $this->_config = $this->getConfig();
         $defaults = array();
         parent::__construct($ds, $defaults, $options, $CSRFSecret);
     }
@@ -42,8 +41,7 @@ class DSEditionAddProduitForm extends acCouchdbForm
 
     public function getProduits() 
     {
-        $date = $this->_ds->getFirstDayOfPeriode();
-        return $this->_config->formatProduits($date);
+        return $this->_ds->getConfigProduits();
     }
 
     public function addProduit() 
@@ -51,12 +49,9 @@ class DSEditionAddProduitForm extends acCouchdbForm
         if (!$this->isValid()) {
             throw $this->getErrorSchema();
         }
+
         $dsProduit = $this->_ds->addProduit($this->values['hashref']);
+
         return $dsProduit;
-    }
-    
-    public function getConfig() 
-    {
-        return ConfigurationClient::getCurrent();
     }
 }

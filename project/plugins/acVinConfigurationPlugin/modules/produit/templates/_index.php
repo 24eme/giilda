@@ -1,6 +1,6 @@
 <?php slot('global_css_class', 'no_right_col')?>
 
-<section id="principal"  class="produit">
+<section id="principal"  class="produit" style="padding-right: 5px; padding-left: 5px;">
     <p id="fil_ariane"><strong>Page d'accueil</strong></p>
     <a style="float:right" href="<?php echo url_for('produit_nouveau') ?>" class="btn_majeur btn_nouveau">Ajouter un produit</a>
 

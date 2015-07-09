@@ -142,7 +142,7 @@ class Revendication extends BaseRevendication {
 
     public function setProduitsCodeDouaneHashes() {
         if (!$this->produitsCodeDouane){
-            $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouane($this->date,'INTERPRO-inter-loire');
+            $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouane($this->date,'INTERPRO-inter-loire', array(ConfigurationDroits::DROIT_CVO));
         }
 
         return $this->produitsCodeDouane;

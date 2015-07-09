@@ -23,6 +23,6 @@ class DSProduit extends BaseDSProduit {
 
     public function getConfig() {
 
-        return ConfigurationClient::getCurrent()->get($this->produit_hash);
+        return $this->getDocument()->getConfig()->get($this->produit_hash);
     }
 }

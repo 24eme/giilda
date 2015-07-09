@@ -43,21 +43,13 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         return $this;
     }
 
-    public function getProduitsWithCVONeg($interpro = null, $departement = null) {
+    public function getProduitsAll($interpro = null, $departement = null) {
         
         return array($this->getHash() => $this);
     }
 
     public function getCouleur() {
         return $this->getParentNode();
-    }
-    
-    public function getProduitsHashByCodeDouaneWithCVONeg($interpro) {
-        return array($this->getCodeDouane() => $this->getHash());
-    }
-    
-    public function getProduitsHashByCodeDouane($date,$interpro) {
-        return $this->getProduitsHashByCodeDouaneWithCVONeg($interpro);
     }
 
     public function setDonneesCsv($datas) {
@@ -66,6 +58,9 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         $this->getCouleur()->setDonneesCsv($datas);
         $this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE] : null;
         $this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE] : null;
+
+        //$this->setDroitDouaneCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT);
+        $this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT); 
     }
 
     public function getTypeNoeud() {
@@ -80,8 +75,7 @@ class ConfigurationCepage extends BaseConfigurationCepage {
     }
 
     public function hasDroits() {
-        
-        return false;
+        return true;
     }
 
     public function hasCodes() {

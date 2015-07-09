@@ -73,5 +73,17 @@ class DeclarantDocument
              if($declarant->getDefinition()->exist('fax'))
                 $declarant->add('fax', $etablissement->fax);
         }
+        if ($etablissement->exist("adresse_compta")) {
+             if($declarant->getDefinition()->exist('adresse_compta'))
+                $declarant->add('adresse_compta', $etablissement->adresse_compta);
+        }
+        if ($etablissement->exist("caution")) {
+             if($declarant->getDefinition()->exist('caution'))
+                $declarant->add('caution', $etablissement->caution);
+        }
+        if ($etablissement->exist("raison_sociale_cautionneur")) {
+             if($declarant->getDefinition()->exist('raison_sociale_cautionneur'))
+                $declarant->add('raison_sociale_cautionneur', $etablissement->raison_sociale_cautionneur);
+        }
     }
 }
