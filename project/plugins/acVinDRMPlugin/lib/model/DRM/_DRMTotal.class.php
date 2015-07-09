@@ -20,6 +20,14 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
                                                   array(ConfigurationDroits::DROIT_CVO, ConfigurationDroits::DROIT_DOUANE));
     }
 
+    public function getConfigProduitsAuto() {
+        
+        return $this->getConfig()->getProduitsAuto($this->getDocument()->getFirstDayOfPeriode(),
+                                                  $this->getDocument()->getInterpro()->get('_id'), 
+                                                  $this->getDocument()->getDepartement(),
+                                                  array(ConfigurationDroits::DROIT_CVO, ConfigurationDroits::DROIT_DOUANE));
+    }
+
     public function getParentNode() {
 
         return $this->getParent()->getParent();

@@ -69,11 +69,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $produits;
     }
 
-    public function getProduitsAuto($date = null, $interpro = null, $departement = null, $isTeledeclarationMode = false) {
-        $produits = $this->getProduitsAll();
+    public function getProduitsAuto($date = null, $interpro = null, $departement = null, $droits = array(ConfigurationDroits::DROIT_CVO)) {
+        $produits = $this->getProduits($date, $interpro, $departement, $droits);
         $produits_auto = array();
+        
         foreach($produits as $hash => $produit) {
-            if(preg_match("/AUTRES/", $produit)) {
+            if(preg_match("/AUTRES/", $hash)) {
                 $produits_auto[$hash] = $produit;
             }
         }
