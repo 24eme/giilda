@@ -6,7 +6,7 @@
         <thead >
             <tr>   
                 <th class="drm_annexes_type"></th>
-                <th colspan="2">Document d'accompagnement <?php echo DRMClient::$drm_documents_daccompagnement_libelle[$typeDoc]; ?></th>
+                <th colspan="2">Document d'accompagnement <?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></th>
             </tr>
         </thead>
         <tbody class="drm_adminitration">
@@ -21,7 +21,7 @@
 <?php endforeach; ?>  
 
 <br>
-<h2>Non apurement</h2>
+<h2>Relevé de non apurement</h2>
 <table id="table_drm_non_apurement" class="table_recap">
     <thead >
         <tr>                        

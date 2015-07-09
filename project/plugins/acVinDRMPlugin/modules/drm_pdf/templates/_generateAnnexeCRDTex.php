@@ -13,7 +13,7 @@
 \end{large}
 ~ \\ ~ \\
 \quad{\setlength{\extrarowheight}{1pt}
-\begin{tabular}{C{40mm} |C{20mm}|C{26mm}|C{26mm}|C{26mm}|C{26mm}|C{26mm}|C{26mm}|C{20mm}|}
+\begin{tabular}{C{47mm} |C{22mm}|C{26mm}|C{26mm}|C{26mm}|C{26mm}|C{28m}|C{26mm}|C{22mm}|}
 
 \cline{3-8}			 	 
 \multicolumn{1}{c}{~} &
@@ -22,18 +22,17 @@
 \multicolumn{3}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Sorties}}}} &
 \multicolumn{1}{|c}{~}
 \\ 			 
-\hline   			
-\rowcolor{lightgray}		 
-\multicolumn{1}{|C{40mm}}{\small{\textbf{CRD}}} &
-\multicolumn{1}{|C{20mm}}{\small{\textbf{Stock}}} &
+\hline   				 
+\multicolumn{1}{|C{47mm}}{\cellcolor[gray]{0.7}\small{\textbf{CRD}}} &
+\multicolumn{1}{|C{22mm}}{\cellcolor[gray]{0.7}\small{\textbf{Stock}}} &
 
-\multicolumn{1}{|C{26mm}}{\small{\textbf{Achats}}} &
-\multicolumn{1}{|C{26mm}}{\small{\textbf{Retours}}} &
-\multicolumn{1}{|C{26mm}}{\small{\textbf{Excédents}}} &
-\multicolumn{1}{|C{26mm}}{\small{\textbf{Utilisés}}} &	 
-\multicolumn{1}{|C{26mm}}{\small{\textbf{Destructions}}} &	 
-\multicolumn{1}{|C{26mm}}{\small{\textbf{Manquants}}} &
-\multicolumn{1}{|C{20mm}|}{\small{\textbf{Stock fin de mois}}}
+\multicolumn{1}{|C{26mm}}{\cellcolor[gray]{0.7}\small{\textbf{Achats}}} &
+\multicolumn{1}{|C{26mm}}{\cellcolor[gray]{0.7}\small{\textbf{Retours}}} &
+\multicolumn{1}{|C{26mm}}{\cellcolor[gray]{0.7}\small{\textbf{Excédents}}} &
+\multicolumn{1}{|C{26mm}}{\cellcolor[gray]{0.7}\small{\textbf{Utilisés}}} &	 
+\multicolumn{1}{|C{26mm}}{\cellcolor[gray]{0.7}\small{\textbf{Destructions}}} &	 
+\multicolumn{1}{|C{26mm}}{\cellcolor[gray]{0.7}\small{\textbf{Manquants}}} &
+\multicolumn{1}{|C{22mm}|}{\cellcolor[gray]{0.7}\small{\textbf{Stock fin de mois}}}
 \\ 			 
 \hline   			
 

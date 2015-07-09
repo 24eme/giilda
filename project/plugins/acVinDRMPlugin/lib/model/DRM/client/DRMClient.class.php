@@ -18,8 +18,8 @@ class DRMClient extends acCouchdbClient {
     const DRM_VERT = 'VERT';
     const DRM_BLEU = 'BLEU';
     const DRM_LIEDEVIN = 'LIEDEVIN';
-    const DRM_DOCUMENTACCOMPAGNEMENT_DAADSA = 'DAADSA';
-    const DRM_DOCUMENTACCOMPAGNEMENT_DAE = 'DAE';
+    const DRM_DOCUMENTACCOMPAGNEMENT_DAADAC = 'DAADAC';
+    const DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC = 'DSADSAC';
     const DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE = 'EMPREINTE';
     const DRM_TYPE_MVT_ENTREES = 'entrees';
     const DRM_TYPE_MVT_SORTIES = 'sorties';
@@ -32,12 +32,10 @@ class DRMClient extends acCouchdbClient {
     public static $drm_default_favoris_old = array("entrees/achat", "entrees/recolte", "sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille", "sorties/consommation");
     public static $drm_default_favoris = array("entrees/achatnoncrd", "entrees/revendique", "sorties/export", "sorties/vraccontrat", "sorties/vracsanscontratsuspendu", "sorties/ventefrancebouteillecrd", "sorties/consommationfamilialedegustation");
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 5);
-    public static $drm_documents_daccompagnement = array(self::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA => 'DAA/DSA',
-        self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'DAE',
-        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'EMPREINTE');
-    public static $drm_documents_daccompagnement_libelle = array(self::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA => 'contrats',
-        self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'exports',
-        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'empreintes');
+    public static $drm_documents_daccompagnement = array(
+        self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC => 'DAA/DAC',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC => 'DSA/DSAC',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'Empreinte');
     protected $drm_historiques = array();
 
     /**
@@ -441,7 +439,7 @@ class DRMClient extends acCouchdbClient {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }
         $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
-        
+
         if ($drmLast) {
             $drm->generateByDRM($drmLast);
 
@@ -500,7 +498,7 @@ class DRMClient extends acCouchdbClient {
             }
         }
         $drm_default_favoris = self::$drm_default_favoris_old;
-        if ($periode >= '201508') {
+        if ($periode >= self::DRM_CONFIGURATION_KEY_AFTER_TELEDECLARATION) {
             $drm_default_favoris = self::$drm_default_favoris;
         }
         foreach ($configurationFields as $key => $value) {
@@ -509,6 +507,19 @@ class DRMClient extends acCouchdbClient {
             }
         }
         return $configurationFields;
+    }
+
+    public static function determineTypeDocument($numero_document) {
+        if (preg_match('/^\d{3}$/', $numero_document)) {
+            return self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE;
+        }
+        if (preg_match('/^[0-9]{2}[A-Z]{3}[0-9]{16}$/', $numero_document)) {
+            return self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC;
+        }
+        if (preg_match('/^[0-9]{5,8}$/', $numero_document)) {
+            return self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC;
+        }
+        return null;
     }
 
 }

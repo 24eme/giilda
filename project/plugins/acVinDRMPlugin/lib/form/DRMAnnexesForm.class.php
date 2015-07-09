@@ -96,17 +96,12 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
    
     public function getDocTypes() {
 
-//        $this->detailsSortiesVrac = $this->drm->getDetailsVracs();
-//        $this->detailsSortiesExport = $this->drm->getDetailsExports();
 
         $this->docTypesList = array();
-//        if (count($this->detailsSortiesVrac)) {
-            $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA;
-//        }
-//
-//        if (count($this->detailsSortiesExport)) {
-            $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE;
-//        }
+            $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC;
+
+            $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC;
+
 
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE;
 

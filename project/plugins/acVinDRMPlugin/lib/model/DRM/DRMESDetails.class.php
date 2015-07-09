@@ -55,34 +55,21 @@ class DRMESDetails extends BaseDRMESDetails {
         if ($numero_document) {
             $detail->numero_document = $numero_document;
             $documents_annexes = $this->getDocument()->getOrAdd('documents_annexes');
-
-            if ($detail instanceof DRMESDetailExport) {
-                if (!$documents_annexes->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE) || !$documents_annexes->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE)) {
-                    $daeNode = $documents_annexes->add(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE);
-                    $daeNode->debut = $numero_document;
-                    $daeNode->fin = $numero_document;
-                } else {
-                    $daeNode = $documents_annexes->getOrAdd(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE);
-                    if (strcmp($numero_document, $daeNode->debut) < 0) {
-                        $daeNode->debut = $numero_document;
-                    }
-                    if (strcmp($numero_document, $daeNode->fin) > 0) {
-                        $daeNode->fin = $numero_document;
-                    }
-                }
-            }
-            if ($detail instanceof DRMESDetailVrac) {
-                if (!$documents_annexes->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA) || !$documents_annexes->exist(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA)) {
-                    $dsadaaNode = $documents_annexes->add(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA);
-                    $dsadaaNode->debut = $numero_document;
-                    $dsadaaNode->fin = $numero_document;
-                } else {
-                    $dsadaaNode = $documents_annexes->getOrAdd(DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADSA);
-                    if (strcmp($numero_document, $dsadaaNode->debut) < 0) {
-                        $dsadaaNode->debut = $numero_document;
-                    }
-                    if (strcmp($numero_document, $dsadaaNode->fin) > 0) {
-                        $dsadaaNode->fin = $numero_document;
+            $type_document = DRMClient::determineTypeDocument($numero_document);
+            if ($type_document) {
+                if (($detail instanceof DRMESDetailExport) || ($detail instanceof DRMESDetailVrac)) {
+                    if (!$documents_annexes->exist($type_document)) {
+                        $docNode = $documents_annexes->add($type_document);
+                        $docNode->debut = $numero_document;
+                        $docNode->fin = $numero_document;
+                    } else {
+                        $docNode = $documents_annexes->getOrAdd($type_document);
+                        if (strcmp($numero_document, $docNode->debut) < 0) {
+                            $docNode->debut = $numero_document;
+                        }
+                        if (strcmp($numero_document, $docNode->fin) > 0) {
+                            $docNode->fin = $numero_document;
+                        }
                     }
                 }
             }
