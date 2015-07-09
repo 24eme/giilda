@@ -43,21 +43,13 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         return $this;
     }
 
-    public function getProduitsWithCVONeg($interpro = null, $departement = null) {
+    public function getProduitsAll($interpro = null, $departement = null) {
         
         return array($this->getHash() => $this);
     }
 
     public function getCouleur() {
         return $this->getParentNode();
-    }
-    
-    public function getProduitsHashByCodeDouaneWithCVONeg($interpro) {
-        return array($this->getCodeDouane() => $this->getHash());
-    }
-    
-    public function getProduitsHashByCodeDouane($date,$interpro) {
-        return $this->getProduitsHashByCodeDouaneWithCVONeg($interpro);
     }
 
     public function setDonneesCsv($datas) {
