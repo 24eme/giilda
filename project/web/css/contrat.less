@@ -6,7 +6,7 @@
  ******************************************/
 
 
-/* Conteneur des overlay des formulaires */ 
+/* Conteneur des overlay des formulaires */
 .block_overlay
 {
     position: relative;
@@ -29,7 +29,7 @@
 .type_vin_bouteille
 {
     .ir(22px, 22px);
-    background: url(../images/pictos/sprite_type.png) no-repeat; 
+    background: url(../images/pictos/sprite_type.png) no-repeat;
     display:inline-block;
 }
 
@@ -63,112 +63,114 @@
         span { font-weight: bold; }
     }
 
-    .stats_contrats
+    .block_teledeclaration
     {
-        overflow: hidden;
-        text-align: center;
-
-        li 
-        {            
-            float: left;
-            padding: 30px 10px 0;            
-            background-color: #ecebeb;
-            border: 1px solid #e3e2e2;
-            border-radius: 5px;
-            position: relative;
-
-            a 
-            {
-                .pos-abs(0,0,0,0);
-                padding: 71px 0 0;
-            }
-
-            .action
-            {
-                .opacite(0.3);
-                a { vertical-align: bottom; }
-            }
-
-            .actif
-            {
-                .opacite(1);
-            }
-        }
-
-        .actions_3 
+        ul.stats_contrats
         {
-            .box(210px, 100px,5px,10px);
-        }
-
-        .actions_2 
-        {
-            .box(320px, 100px,5px,10px);
-        }
-
-        .stats_contrats_brouillon h2
-        {
-            text-align: center;
-            position: relative;
-
-            &:before {
-                .sprite-pictos-brouillon(0 0);
-                content: '';                
-                height: 40px;
-                width: 40px;     
-                display: inline-block;
-                position: absolute;
-                top: -12px;
-                left: 5px;
-            }
-        }
-
-        .stats_contrats_a_signer h2
-        {
-            position: relative;
+            overflow: hidden;
             text-align: center;
 
-            &:before {
-                .sprite-pictos-a_signer(0 0);
-                content: '';                
-                height: 40px;
-                width: 40px;     
-                display: inline-block;
-                position: absolute;
-                top: -12px;
-                left: 23px;
+            li
+            {
+                float: left;
+                padding: 30px 10px 0;
+                background-color: #ecebeb;
+                border: 1px solid #e3e2e2;
+                border-radius: 5px;
+                position: relative;
+                line-height: normal;
+
+                a
+                {
+                    .pos-abs(0,0,0,0);
+                    padding: 71px 0 0;
+                }
+
+                h2:before { left: 23px; }
+
+                .action
+                {
+                    .opacite(0.3);
+                    a { vertical-align: bottom; }
+                }
+
+                .actif
+                {
+                    .opacite(1);
+                }
+            }
+
+            .actions_3
+            {
+                .box(210px, 100px,5px,10px);
+            }
+
+            .actions_2
+            {
+                .box(auto, 100px,5px,10px);
+                float: none;
+            }
+
+            .stats_contrats_brouillon h2
+            {
+                text-align: center;
+                position: relative;
+
+                &:before {
+                    .sprite-pictos-brouillon(0 0);
+                    content: '';
+                    height: 40px;
+                    width: 40px;
+                    display: inline-block;
+                    position: absolute;
+                    top: -12px;
+                }
+            }
+
+            .stats_contrats_a_signer h2
+            {
+                position: relative;
+                text-align: center;
+
+                &:before {
+                    .sprite-pictos-a_signer(0 0);
+                    content: '';
+                    height: 40px;
+                    width: 40px;
+                    display: inline-block;
+                    position: absolute;
+                    top: -12px;
+                }
+            }
+
+            .stats_contrats_en_attente h2
+            {
+                text-align: center;
+                position: relative;
+
+                &:before {
+                    .sprite-pictos-contrat_en_attente(0 0);
+                    content: '';
+                    height: 40px;
+                    width: 40px;
+                    display: inline-block;
+                    position: absolute;
+                    top: -12px;
+                }
             }
         }
-
-        .stats_contrats_en_attente h2
-        {
-            text-align: center;
-            position: relative;
-
-            &:before {
-                .sprite-pictos-contrat_en_attente(0 0);
-                content: '';                
-                height: 40px;
-                width: 40px;     
-                display: inline-block;
-                position: absolute;
-                top: -12px;
-                left: 10px;
-            }
-        }
-
-
     }
 
     .btn_calendrier
     {
-        &:after 
-            { 
-            background-position: 25px -544px; 
+        &:after
+            {
+            background-position: 25px -544px;
             width:50px;
         }
     }
 
-    .liens_contrat_teledeclaration 
+    .liens_contrat_teledeclaration
     {
         color: #000;
         position: relative;
@@ -195,8 +197,8 @@
         .etablissement,
         .campagne { margin: 0 15px 0 0; }
 
-        .etablissement 
-        { 
+        .etablissement
+        {
             select { width: 180px; }
         }
 
@@ -227,9 +229,9 @@
 
 #contenu_etape
 {
-    .error_list 
-    {  
-        float: right; 
+    .error_list
+    {
+        float: right;
     }
 
     .col
@@ -237,7 +239,7 @@
         float: left;
         vertical-align: top;
         width: 329px;
-    } 
+    }
 
     #recherche_operateur
     {
@@ -328,16 +330,16 @@
             }
         }
 
-        .section_label_maj_teledeclaration { margin: 0 0 0; }        
+        .section_label_maj_teledeclaration { margin: 0 0 0; }
 
-        .label_soussigne_identifiant{ 
+        .label_soussigne_identifiant{
             padding-right: 10px;
             display: inline-block;
             font-size: 12px;
             font-weight: bold;
             height: 35px;
             padding-top: 4px;
-            text-transform: uppercase; 
+            text-transform: uppercase;
         }
 
         #has_mandataire
@@ -349,7 +351,7 @@
         {
             .clearfix;
             padding: 20px 0 0;
-        } 
+        }
 
         #mandatant
         {
@@ -364,7 +366,7 @@
                 li
                 {
                     .inline-block-ie;
-                    width : 150px; 
+                    width : 150px;
                 }
 
                 input { margin: 0 5px 0 0; }
@@ -426,7 +428,7 @@
         #domaine
         {
             .clearfix;
-            margin : 20px 0; 
+            margin : 20px 0;
 
             label
             {
@@ -513,10 +515,10 @@
 
         #prixInitialTotal { label { width:215px; } }
 
-        #prixTotal { 
-            label { width:215px; } 
+        #prixTotal {
+            label { width:215px; }
             span.unite { font-weight: bold; }
-            span.small { font-weight: bold; } 
+            span.small { font-weight: bold; }
         }
 
         .error-list { width: 100%; }
@@ -525,7 +527,7 @@
     #condition
     {
         .section_label_maj
-        { 
+        {
             margin-top:20px;
             label { width: 190px; }
         }
@@ -533,8 +535,8 @@
         #prix_isVariable,
         #part_variable,
         #prixTotal_rappel
-        { 
-            label { width: 230px;} 
+        {
+            label { width: 230px;}
         }
 
         .champ_datepicker
@@ -544,7 +546,7 @@
 
         .condition_enlevement
         {
-            label { width: 350px;} 
+            label { width: 350px;}
         }
     }
 
@@ -554,14 +556,14 @@
     {
         #titre
         {
-            background-color:@couleur-a7; 
+            background-color:@couleur-a7;
             padding: 10px;
             text-align: center;
         }
 
         #ss_titre
         {
-            background-color:@couleur-a7; 
+            background-color:@couleur-a7;
             margin-top:10px;
             padding: 10px;
         }
@@ -584,13 +586,13 @@
     #vrac_visualisation
     {
         .titre_page
-        { 
+        {
             border-bottom: 1px solid #e1e0e0;
             font-weight: normal;
             margin: 0;
             overflow: hidden;
 
-            > span 
+            > span
             {
                 background: #378c95;
                 color: #FFF;
@@ -605,10 +607,10 @@
                 padding: 15px 0 0;
                 text-transform: none;
 
-                span 
+                span
                 {
                     display: inline-block;
-                    padding: 0 0 0 20px; 
+                    padding: 0 0 0 20px;
                     position: relative;
                 }
 
@@ -635,7 +637,7 @@
 
                     &:before
                         {
-                        .pos-abs(3px, auto, auto, 0);                        
+                        .pos-abs(3px, auto, auto, 0);
                         background: url("../images/pictos/pi_attente_soussigne.png") no-repeat;
                         content: '';
                         height: 14px;
@@ -649,7 +651,7 @@
 
                     &:before
                         {
-                        .pos-abs(3px, auto, auto, 0);                        
+                        .pos-abs(3px, auto, auto, 0);
                         background: url('../images/pictos/pi_attente.png') no-repeat;
                         content: '';
                         height: 14px;
@@ -665,13 +667,13 @@
             margin: 20px 0;
 
             a
-            { 
-                color: #378c95; 
+            {
+                color: #378c95;
 
-                .style_label 
+                .style_label
                 {
-                    font-weight: normal; 
-                    text-transform: none; 
+                    font-weight: normal;
+                    text-transform: none;
                 }
             }
         }
@@ -705,7 +707,7 @@
             #btn_voir_contrat { .btn_pdf; }
 
             #btn_annuler_contrat
-            { 
+            {
                 .btn_annuler;
                 float:right;
             }
@@ -793,7 +795,7 @@
         font-weight: bold;
     }
 
-    #millesime { padding-left:10px; } 
+    #millesime { padding-left:10px; }
 
     .btn_fleche_ronde
     {
@@ -1123,7 +1125,7 @@
 
         select { width: 130px; }
 
-        .champ_form_radio_cb 
+        .champ_form_radio_cb
         {
             label
             {
@@ -1143,7 +1145,7 @@
         }
     }
 
-    .ligne_btn 
+    .ligne_btn
     {
         margin: 34px 0 0;
         right: 23px;
@@ -1286,7 +1288,7 @@
                 }
             }
 
-            .adresse_comptabilite { margin: 20px 0 0; } 
+            .adresse_comptabilite { margin: 20px 0 0; }
 
             .btn_ajouter,
             .btn_supprimer
@@ -1311,11 +1313,11 @@
             }
         }
 
-        .ligne_btn 
-        { 
-            text-align: right; 
+        .ligne_btn
+        {
+            text-align: right;
             margin:0;
-        }       
+        }
     }
 
     input.ui-autocomplete-input,
@@ -1474,21 +1476,21 @@
 
 #notice_popup_content
 {
-    width: 500px; 
+    width: 500px;
 }
 
 .contrat_teledeclaration_societe{
     div.btn_block
     {
         clear: both;
-        margin: 10px 0; 
-        padding-bottom: 30px; 
+        margin: 10px 0;
+        padding-bottom: 30px;
         a.lien_nouveau
-        {   
+        {
             cursor: pointer;
             float: right;
         }
-        
+
         a.lien_history { float: left; }
 
     }
@@ -1541,15 +1543,15 @@
     /* actions */
     #action
     {
-        .btn_majeur 
-        { 
+        .btn_majeur
+        {
             margin: 5px 0;
-            width: 215px; 
+            width: 215px;
         }
 
         .btn_acces
         {
-            &:after { background-position: 25px -466px; width:50px;} 
+            &:after { background-position: 25px -466px; width:50px;}
         }
 
         .btn_calendrier
@@ -1559,7 +1561,7 @@
 
         .btn_acces, .btn_calendrier
         {
-            padding-left: 53px; 
+            padding-left: 53px;
             &:after { width:50px; }
         }
     }
@@ -1595,7 +1597,7 @@
     /* Aide à la saisie */
     #contrat_aide
     {
-        h3 
+        h3
         {
             .helveticaneue-75-bold;
             .majuscules;
@@ -1632,9 +1634,9 @@
 
     #legende
     {
-        h3 
+        h3
         {
-            color: @couleur-a3; 
+            color: @couleur-a3;
             font-weight: bold;
         }
 
@@ -1642,9 +1644,9 @@
 
         .status_contrats
         {
-            img 
-            { 
-                margin: 0 5px 0 0; 
+            img
+            {
+                margin: 0 5px 0 0;
                 vertical-align: middle;
             }
 
