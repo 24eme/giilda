@@ -1,5 +1,5 @@
 <div class="drm_validation_societe_info">
-    <div class="title"><?php echo $drm->getSocieteInfos()->raison_sociale; ?></div>
+    <div class="title"><span class="text"><?php echo $drm->getSocieteInfos()->raison_sociale; ?></span></div>
     <div class="panel">
         <ul>
             <li>

@@ -42,6 +42,8 @@ var objAjoutsLiquidations = {};
             $.initAfficheInfosEtablissement();
             calendrierHistorique.find('.liste_mois > li').hauteurEgale();
         }
+
+        $('#drm_validation_coordonnees').find('.drm_validation_societe_info, .drm_validation_etablissement_info').hauteurEgale();
     });
 
 
