@@ -17,7 +17,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     public function __clone() {
         parent::__clone();
         $this->initDocuments();
-    }   
+    }
 
     protected function initDocuments() {
         $this->declarant_document = new DeclarantDocument($this);
@@ -34,6 +34,16 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     public function getCampagne() {
 
         return $this->_get('campagne');
+    }
+
+    public function getConfig() {
+
+        return ConfigurationClient::getCurrent();
+    }
+
+    public function getConfigProduits() {
+
+        return $this->getConfig()->formatProduits($this->getFirstDayOfPeriode(), "%format_libelle% (%code_produit%)", array(ConfigurationDroits::DROIT_CVO));
     }
     
     public function getFirstDayOfPeriode() {        

@@ -46,9 +46,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
         if (is_null($this->_choices_produits)) {
 
             $this->_choices_produits = array("" => "");
-            $date = $this->_drm->getFirstDayOfPeriode();
-            $produits = $this->_configurationCertification->formatProduits($date,$this->_drm->getInterpro()->get('_id'), 
-            $this->_drm->getDepartement(),"%format_libelle% (%code_produit%)",true);
+            $produits = $this->_drm->getConfigProduits();
             if (!is_null($produits)) {
                 foreach ($produits as $hash => $produit) {
                      $p = ConfigurationClient::getCurrent()->get($hash);

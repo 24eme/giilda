@@ -15,10 +15,9 @@ class DRMDeclaration extends BaseDRMDeclaration {
         $produits = $this->getProduitsDetails();
         $mouvements = array();
         foreach ($produits as $produit) {
-            if (!$isTeledeclaration && !$produit->getParent()->isProduitNonInterpro()) {
-                $mouvements = array_replace_recursive($mouvements, $produit->getMouvements());
-            }
+            $mouvements = array_replace_recursive($mouvements, $produit->getMouvements());
         }
+        
         return $mouvements;
     }
 
