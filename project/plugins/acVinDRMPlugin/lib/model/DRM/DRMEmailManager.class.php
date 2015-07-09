@@ -61,11 +61,12 @@ L’application de télédéclaration des contrats d’InterLoire";
 
         $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $mailsInterloire, $subject, $mess);
         try {
-          //  $this->getMailer()->send($message);
+          //  $this->getMailer()->send($message);          
         } catch (Exception $e) {
             $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
             return null;
         }
+        return true;
     }
 
     private function getMailer() {

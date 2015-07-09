@@ -30,6 +30,9 @@ class EtablissementClient extends acCouchdbClient {
     const REGIME_CRD_PERSONNALISE = 'PERSONNALISE';
     const REGIME_CRD_COLLECTIF_ACQUITTE = 'COLLECTIFACQUITTE';
     const REGIME_CRD_COLLECTIF_SUSPENDU = 'COLLECTIFSUSPENDU';
+    
+    const CAUTION_DISPENSE = 'DISPENSE';
+    const CAUTION_CAUTION = 'CAUTION';
 
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
         self::STATUT_SUSPENDU => 'SUSPENDU');
@@ -42,6 +45,9 @@ class EtablissementClient extends acCouchdbClient {
     public static $regimes_crds_libelles_courts = array(self::REGIME_CRD_PERSONNALISE => 'P',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'C-DA',
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'C-DS');
+    
+    public static $caution_libelles = array(self::CAUTION_DISPENSE => 'Dispensé',
+        self::CAUTION_CAUTION => 'Caution');
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Etablissement");

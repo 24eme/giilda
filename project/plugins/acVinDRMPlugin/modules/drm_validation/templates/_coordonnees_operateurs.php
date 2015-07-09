@@ -2,8 +2,8 @@
 <p>Veuillez vérifier les informations ci-dessous avant validation : </p>            
 <div id="drm_validation_coordonnees">
     <div class="drm_validation_societe">    
-            <?php include_partial('drm_visualisation/societe_infos', array('drm' => $drm,'isModifiable' => true)); ?>
-              
+        <?php include_partial('drm_visualisation/societe_infos', array('drm' => $drm, 'isModifiable' => true)); ?>
+
         <form action="<?php echo url_for('drm_validation_update_societe', $drm); ?>" method="POST" class="drm_validation_societe_form"  style="display: none;">
             <?php echo $validationCoordonneesSocieteForm->renderHiddenFields(); ?>
             <?php echo $validationCoordonneesSocieteForm->renderGlobalErrors(); ?>
@@ -73,7 +73,25 @@
                     <li>
                         <span class="label"><?php echo $validationCoordonneesEtablissementForm['commune']->renderLabel(); ?></span>
                         <span class="infos"><?php echo $validationCoordonneesEtablissementForm['commune']->render(); ?></span>
-                    </li>                           
+                    </li>  
+                    <?php if ($drm->declarant->exist('adresse_compta')): ?>
+                        <li>
+                            <span class="label"><?php echo $validationCoordonneesEtablissementForm['adresse_compta']->renderLabel(); ?></span>
+                            <span class="infos"><?php echo $validationCoordonneesEtablissementForm['adresse_compta']->render(); ?></span>
+                        </li>  
+                    <?php endif; ?>
+                    <?php if ($drm->declarant->exist('caution')): ?>
+                        <li>
+                            <span class="label"><?php echo $validationCoordonneesEtablissementForm['caution']->renderLabel(); ?></span>
+                            <span class="infos"><?php echo $validationCoordonneesEtablissementForm['caution']->render(); ?></span>
+                        </li>  
+                    <?php endif; ?>
+                    <?php if ($drm->declarant->exist('raison_sociale_cautionneur')): ?>
+                        <li>
+                            <span class="label"><?php echo $validationCoordonneesEtablissementForm['raison_sociale_cautionneur']->renderLabel(); ?></span>
+                            <span class="infos"><?php echo $validationCoordonneesEtablissementForm['raison_sociale_cautionneur']->render(); ?></span>
+                        </li>  
+                    <?php endif; ?>
                 </ul>
                 <div id="btn_etape_dr">
                     <a href="#" class="btn_majeur btn_annuler" style="float: left;" id="drm_validation_etablissement_annuler_btn"><span>annuler</span></a>
@@ -81,7 +99,7 @@
                 </div>
             </div>
         </form>
-           <?php include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm,'isModifiable' => true)); ?>
+        <?php include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => true)); ?>
     </div>
 </div>
 

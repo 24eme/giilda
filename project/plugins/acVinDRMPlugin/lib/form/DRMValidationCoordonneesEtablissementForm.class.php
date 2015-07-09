@@ -31,7 +31,24 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
 
         $this->setWidget('no_accises', new sfWidgetFormInput());
         $this->setValidator('no_accises', new sfValidatorString(array('required' => true)));
-        $this->widgetSchema->setLabel('no_accises', 'Accise :');
+        $this->widgetSchema->setLabel('no_accises', 'Accises :');
+
+        if ($this->drm->declarant->exist('adresse_compta')) {
+            $this->setWidget('adresse_compta', new sfWidgetFormInput());
+            $this->setValidator('adresse_compta', new sfValidatorString(array('required' => false)));
+            $this->widgetSchema->setLabel('adresse_compta', 'Adresse comptabilité matière :');
+        }
+        if ($this->drm->declarant->exist('caution')) {
+            $this->setWidget('caution', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getCautionTypes())));
+            $this->setValidator('caution', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCautionTypes())), array('required' => "Aucune caution n'a été choisie")));
+            $this->widgetSchema->setLabel('caution', 'Type caution :');
+        }
+        if ($this->drm->declarant->exist('raison_sociale_cautionneur')) {
+            $this->setWidget('raison_sociale_cautionneur', new sfWidgetFormInput());
+            $this->setValidator('raison_sociale_cautionneur', new sfValidatorString(array('required' => false)));
+            $this->widgetSchema->setLabel('raison_sociale_cautionneur', 'Raison sociale cautionneur :');
+        }
+
 
         $this->widgetSchema->setNameFormat('drm_validation_coordonnees_etablissement[%s]');
     }
@@ -42,8 +59,8 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         }
         return $this->coordonneesEtablissement;
     }
-    
-     public function updateDefaultsFromObject() {
+
+    public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         $this->getCoordonneesEtablissement();
         $this->setDefault('cvi', $this->coordonneesEtablissement->cvi);
@@ -51,19 +68,52 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         $this->setDefault('code_postal', $this->coordonneesEtablissement->code_postal);
         $this->setDefault('commune', $this->coordonneesEtablissement->commune);
         $this->setDefault('accise', $this->coordonneesEtablissement->no_accises);
+
+        if ($this->drm->declarant->exist('adresse_compta')) {
+            $this->setDefault('adresse_compta', $this->coordonneesEtablissement->adresse_compta);
+        }
+        if ($this->drm->declarant->exist('caution')) {
+            $this->setDefault('caution', $this->coordonneesEtablissement->caution);
+        }
+        if ($this->drm->declarant->exist('raison_sociale_cautionneur')) {
+            $this->setDefault('raison_sociale_cautionneur', $this->coordonneesEtablissement->raison_sociale_cautionneur);
+        }
     }
-    
-      public function getDiff() {  
+
+    public function getDiff() {
         $diff = array();
         $this->getCoordonneesEtablissement();
         foreach ($this->getValues() as $key => $new_value) {
-            if(!preg_match('/^_revision$/', $key)){
-                if($this->coordonneesEtablissement->$key != $new_value){
+            if (!preg_match('/^_revision$/', $key)) {
+                if ($this->coordonneesEtablissement->$key != $new_value) {
                     $diff[$key] = $new_value;
-                    }
+                }
             }
         }
         return $diff;
+    }
+
+    protected function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+        $this->drm->declarant->cvi = $values['cvi'];
+        $this->drm->declarant->adresse = $values['adresse'];
+        $this->drm->declarant->code_postal = $values['code_postal'];
+        $this->drm->declarant->commune = $values['commune'];
+        $this->drm->declarant->no_accises = $values['no_accises'];
+        if ($this->drm->declarant->exist('adresse_compta')) {
+            $this->drm->declarant->adresse_compta = $values['adresse_compta'];
+        }
+        if ($this->drm->declarant->exist('caution')) {
+            $this->drm->declarant->caution = $values['caution'];
+        }
+        if ($this->drm->declarant->exist('raison_sociale_cautionneur')) {
+            $this->drm->declarant->raison_sociale_cautionneur = $values['raison_sociale_cautionneur'];
+        }
+        $this->drm->save();
+    }
+    
+    private function getCautionTypes(){
+        return EtablissementClient::$caution_libelles;
     }
 
 }

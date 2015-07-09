@@ -55,6 +55,9 @@ Etablissement:
        fax: {  }
        commentaire: {  }
        crd_regime: { required: false }
+       adresse_compta: { required: false }
+       caution: { required: false }
+       raison_sociale_cautionneur: { required: false }
        siege:
            type: collection
            definition:
