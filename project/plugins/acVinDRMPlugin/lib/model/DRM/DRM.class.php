@@ -69,6 +69,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return DRMClient::getInstance()->buildDate($this->periode);
     }
 
+    public function isTeledeclare() {
+        
+        return $this->exist('teledeclare') && $this->teledeclare;
+    }
+
     public function setPeriode($periode) {
         $this->campagne = DRMClient::getInstance()->buildCampagne($periode);
 
@@ -103,9 +108,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return null;
     }
 
-    public function getConfigProduits() {
+    public function getConfigProduits($teledeclarationMode = false) {
 
-        return $this->declaration->getConfigProduits();
+        return $this->declaration->getConfigProduits($teledeclarationMode);
     }
 
     public function getConfigProduitsAuto() {
@@ -204,6 +209,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $keepStock = ($periode > $this->periode);
 
         $drm_suivante = clone $this;
+        $drm_suivante->teledeclare = $isTeledeclarationMode;
         $drm_suivante->init(array('keepStock' => $keepStock));
 
         $drm_suivante->update();

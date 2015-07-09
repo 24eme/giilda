@@ -46,11 +46,14 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
         if (is_null($this->_choices_produits)) {
 
             $this->_choices_produits = array("" => "");
-            $produits = $this->_drm->getConfigProduits();
+            $produits = $this->_drm->getConfigProduits(true);
             if (!is_null($produits)) {
                 foreach ($produits as $hash => $produit) {
-                     $p = ConfigurationClient::getCurrent()->get($hash);
-                     $this->_choices_produits[$p->getHashForKey()] = $p->formatProduitLibelle();
+                    if(!preg_match("|".$this->_configurationCertification->getHash()."|", $hash)) {
+                        continue;
+                    }
+                    $p = ConfigurationClient::getCurrent()->get($hash);
+                    $this->_choices_produits[$p->getHashForKey()] = $p->formatProduitLibelle();
                 }
             }
         }

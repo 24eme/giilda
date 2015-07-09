@@ -11,8 +11,8 @@ Vrac:
       numero_archive: {  }
       etape: { type: integer }
       interne: { }
-      createur_identifiant: { require:false }
-      teledeclare: { require:false }
+      createur_identifiant: { }
+      teledeclare: { }
       interlocuteur_commercial:
         type: collection
         definition:

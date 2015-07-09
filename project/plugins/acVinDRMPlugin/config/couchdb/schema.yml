@@ -23,6 +23,7 @@ DRM:
       etape: {  }
       campagne: {  }
       periode: {  }
+      teledeclare: { }
       precedente: {  }
       version: {  }
       numero_archive: {  }
