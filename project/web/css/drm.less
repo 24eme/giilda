@@ -472,7 +472,6 @@ p#date_drm
             border-radius: 5px;
             border: 1px solid #e3e2e2;
             line-height: normal;
-            height: 100px;
             margin: 5px;
             padding: 10px;
 
@@ -1964,6 +1963,7 @@ p#date_drm
 
     #drm_validation_coordonnees {
         margin: 20px 0 0;
+        overflow: hidden;
 
         .drm_validation_societe , .drm_validation_etablissement{
             display: inline-block;
@@ -1979,6 +1979,9 @@ p#date_drm
                 left: 10px;
             }
         }
+
+        .drm_validation_etablissement { float: right; }
+
         .drm_validation_societe_info,
         .drm_validation_etablissement_info,
         .drm_validation_societe_form,
@@ -1988,7 +1991,7 @@ p#date_drm
             border: 1px solid #e3e2e2;
             min-height: 350px;
             position: relative;
-            width:300px;
+            width:310px;
             margin: 0 0 25px;
             margin: 10px 10px 30px;
 

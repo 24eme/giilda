@@ -5976,7 +5976,6 @@ p#date_drm {
   border-radius: 5px;
   border: 1px solid #e3e2e2;
   line-height: normal;
-  height: 100px;
   margin: 5px;
   padding: 10px;
 }
@@ -8004,6 +8003,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 }
 #principal.drm #drm_validation_coordonnees {
   margin: 20px 0 0;
+  overflow: hidden;
 }
 #principal.drm #drm_validation_coordonnees .drm_validation_societe,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement {
@@ -8019,6 +8019,9 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   right: 10px;
   left: 10px;
 }
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement {
+  float: right;
+}
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_form,
@@ -8027,7 +8030,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   border: 1px solid #e3e2e2;
   min-height: 350px;
   position: relative;
-  width: 300px;
+  width: 310px;
   margin: 0 0 25px;
   margin: 10px 10px 30px;
 }
