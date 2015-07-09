@@ -25,7 +25,6 @@
 	<td>
 		<?php include_partial('itemNoeud', array('produit' => $produit, 'noeud' => $produit->getCepage(), 'cvo' => $cvo)) ?>
 	</td>
-    <!--<td class="center"><strong><?php  echo ($produit->isProduitNonInterpro())? 'OUI' : 'NON';  ?></strong></td>-->
    	<td class="center">
 		<strong><?php echo (!is_null($cvo)) ? $cvo->taux : null ?></strong>
 	</td>

@@ -42,11 +42,6 @@ class ConfigurationCertification extends BaseConfigurationCertification {
         return $this->getDocument()->labels;
     }
     
-    public function isProduitNonInterpro($interpro = 'INTERPRO-inter-loire') {
-        return false;
-    }
-
-    
     public function setDonneesCsv($datas) {
       parent::setDonneesCsv($datas);
     	$this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_LIBELLE])? $datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_LIBELLE] : null;
