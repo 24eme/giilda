@@ -8,7 +8,7 @@ echo $form->renderGlobalErrors();
             <th>Produit</th>
             <th>Numéro contrat</th>
             <th>Volumes</th>
-            <th>Numéro Document</th>
+            <th>N° Doc. Accompagnement</th>
             <th></th>
         </tr>
     </thead>

@@ -22,6 +22,8 @@ class drm_validationActions extends drmGeneriqueActions {
         if ($this->isTeledeclarationMode) {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
             $this->validationCoordonneesEtablissementForm = new DRMValidationCoordonneesEtablissementForm($this->drm);
+        $this->drm->cleanAnnexes();
+            
         } else {
             $this->formCampagne = new DRMEtablissementCampagneForm($this->drm->identifiant, $this->drm->campagne);
         }

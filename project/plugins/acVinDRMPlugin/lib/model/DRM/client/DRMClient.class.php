@@ -434,7 +434,8 @@ class DRMClient extends acCouchdbClient {
         $drm->buildFavoris();
         $drm->storeDeclarant();
         $drm->initSociete();
-        $drm->initCrds();
+        $drm->initCrds();        
+        $drm->clearAnnexes();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }
@@ -442,14 +443,14 @@ class DRMClient extends acCouchdbClient {
 
         if ($drmLast) {
             $drm->generateByDRM($drmLast);
-
+            $drm->initProduitsAuto();
             return $drm;
         }
 
         $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
         if ($dsLast) {
             $drm->generateByDS($dsLast);
-
+            $drm->initProduitsAuto();
             return $drm;
         }
 

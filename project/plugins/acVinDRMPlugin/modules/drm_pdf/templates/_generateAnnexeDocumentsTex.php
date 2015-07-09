@@ -47,7 +47,7 @@
     \hline   			
     \rowcolor{lightgray}		 
     \multicolumn{1}{|C{90mm}}{\small{\textbf{Numéro de  document}}} &
-    \multicolumn{1}{|C{90mm}}{\small{\textbf{Date d'emission}}} &
+    \multicolumn{1}{|C{90mm}}{\small{\textbf{Date d'expédition}}} &
     \multicolumn{1}{|C{90mm}|}{\small{\textbf{Numéro d'accise destinataire}}} 
     \\ 			 
     \hline   			
