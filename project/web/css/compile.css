@@ -6813,7 +6813,7 @@ bouton#colonnes_dr .btn_edition_label {
   padding-right: 0;
 }
 #drm_export_details_table .export_detail_remove a {
-  padding: 0 13px;
+  padding: 0 16px;
   text-indent: -9999px;
 }
 #drm_vrac_details_table .vrac_detail_remove {
