@@ -14,7 +14,7 @@
         this.element_colonne_intitules = $('#colonne_intitules');
         this.colonnes = new Array();
         this.groupes_rows = new GroupesRows(this);
-        this.event_valider = function() {
+        this.event_valider = function(colonne) {
         }
         this.event_enabled = function() {
         }
@@ -421,7 +421,7 @@
                 object.groupes.valider();
                 object.unActive();
 
-                object.colonnes.event_valider();
+                object.colonnes.event_valider(object);
             }, 'json');
         }
 

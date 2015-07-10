@@ -34,6 +34,7 @@
 		if(colonnesDR.exists())
 		{
             colonnes = new $.Colonnes();
+            
             colonnes.event_colonne_init = function(colonne) {
             	var btns_details = colonne.element.find("input.input_lien.drm_details");
 
@@ -87,6 +88,10 @@
                     });
                 });
             };
+
+            colonnes.event_valider = function(colonne) {
+                colonne.element.addClass('col_edited');
+            }
 
             colonnes.init();
 
