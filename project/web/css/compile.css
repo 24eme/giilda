@@ -7032,6 +7032,9 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm table .drm_non_apurement_date_emission {
   width: 33%;
 }
+#principal.drm table#table_drm_adminitration .drm_annexes_type {
+  width: 125px;
+}
 #principal.drm fieldset {
   margin: 25px 0;
 }
