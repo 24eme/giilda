@@ -6644,6 +6644,12 @@ bouton#colonnes_dr .btn_edition_label {
   display: inline-block;
 }
 /**
+ * Etape 3 -> Tableau CRD
+ ******************************************/
+#table_drm_crds input[type="text"] {
+  text-align: right;
+}
+/**
  * Etape 6 -> Déclaratif
  ******************************************/
 #declaratif_info .onglets_declaratif {
