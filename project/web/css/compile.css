@@ -2198,6 +2198,9 @@ pre.commentaire {
 #contenu_etape .btn_etape:after {
   clear: both;
 }
+#contenu_etape .btn_etape a + a {
+  margin-left: 10px;
+}
 #contenu_etape .btn_etape .btn_etape_prec,
 #contenu_etape .btn_etape .btn_annuler {
   float: left;
