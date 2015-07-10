@@ -47,8 +47,9 @@
                 </tbody>
 
             </table>
+            <br /><br />
             <div class="form_ligne ajouter_non_apurement">
-                <a class="btn_ajouter_ligne_template" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#">Ajouter un non apurement</a>
+                <a class="btn_ajouter_ligne_template btn_majeur" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#">Ajouter un non apurement</a>
             </div>
             <br/>
             <div class="btn_etape">
