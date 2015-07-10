@@ -14,7 +14,7 @@
         this.element_colonne_intitules = $('#colonne_intitules');
         this.colonnes = new Array();
         this.groupes_rows = new GroupesRows(this);
-        this.event_valider = function() {
+        this.event_valider = function(colonne) {
         }
         this.event_enabled = function() {
         }
@@ -129,7 +129,11 @@
             }
             else if (this.hasFocus())
             {
-                this.element_saisies.scrollTo(this.getFocus().element, 200);
+                if(this.getFocus().element.prev().length) {
+                    this.element_saisies.scrollTo(this.getFocus().element.prev(), 200);
+                } else {
+                    this.element_saisies.scrollTo(this.getFocus().element, 200);
+                }
             }
             else
             {
@@ -417,7 +421,7 @@
                 object.groupes.valider();
                 object.unActive();
 
-                object.colonnes.event_valider();
+                object.colonnes.event_valider(object);
             }, 'json');
         }
 
