@@ -14,7 +14,7 @@
                 <?php foreach ($certificationProduits->produits as $produit):
                     ?>
                     <tr>                        
-                        <td><?php echo $produit->getCepage()->getConfig()->formatProduitLibelle(); ?></td>
+                        <td><?php echo $produit->getLibelle("%format_libelle%"); ?></td>
                         <td><?php echo $form['produit' . $produit->getHashForKey()]->render(array('class' => 'checkbox_' . $certifKey)); ?></td>
                     </tr>  
                     <?php ?>

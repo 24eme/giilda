@@ -153,7 +153,7 @@ inter-loire;IGP;IGP;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;Pinot noir;PIN;;L
 inter-loire;IGP;IGP;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;Gamay noir;GAM;;L625;Vins Tranquilles;3;;G;-1;;C;;;;;;;;;;;3S583 CM;;
 inter-loire;IGP;IGP;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;Multi cépage;MULTI;;L625;Vins Tranquilles;3;;G;-1;;C;;;;;;;;;;;3S583 00;;
 inter-loire;Sans IG;VdP;;TRANQ;Vin de Table;;;;;;Blanc;3;;;;L625;Vins Tranquilles;3;;G;-1;;C;;;;;;;;;;;4B999   ;;
-inter-loire;Sans IG;VdP;;TRANQ;Vin de Table;;;;;;Blanc;3;;;;L625;Vins Tranquilles;3;;G;-1;;C;;;;;;;;;;;4B999M  ;;
+inter-loire;Sans IG;VdP;EFF;EFF;Vin de Table;;;;;;Blanc;3;;;;L625;Vins Tranquilles;3;;G;-1;;C;;;;;;;;;;;4B999M  ;;
 inter-loire;Sans IG;VdP;;TRANQ;Vin de Table;;;;;;Rouge;1;;;;L625;Vins Tranquilles;3;;G;-1;;C;;;;;;;;;;;4R999   ;;
 inter-loire;Sans IG;VdP;EFF;EFF;Vin de Table;;;;;;Rouge;1;;;;L620;Vins Mousseux;4;;G;-1;;C;;;;;;;;;;;4R999M  ;;
 inter-loire;Sans IG;VdP;;TRANQ;Vin de Table;;;;;;Rosé;2;;;;L625;Vins Tranquilles;3;;G;-1;;C;;;;;;;;;;;4S999   ;;

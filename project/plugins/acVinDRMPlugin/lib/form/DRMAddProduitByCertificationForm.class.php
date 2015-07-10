@@ -52,8 +52,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
                     if(!preg_match("|".$this->_configurationCertification->getHash()."|", $hash)) {
                         continue;
                     }
-                    $p = ConfigurationClient::getCurrent()->get($hash);
-                    $this->_choices_produits[$p->getHashForKey()] = $p->formatProduitLibelle();
+                    $this->_choices_produits[$hash] = $produit;
                 }
             }
         }
@@ -61,9 +60,9 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
     }
 
     public function doUpdateObject($values) { 
-       parent::doUpdateObject($values);     
-        $produit = str_replace('-', '/', $values['produit']);
-        $this->_drm->addProduit($produit);
+        parent::doUpdateObject($values);     
+        
+        $this->_drm->addProduit($values['produit']);
         $this->_drm->save();
     }    
 
