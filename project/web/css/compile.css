@@ -7988,13 +7988,13 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   background-position: 2px -315px;
 }
 #principal.drm #drm_validation_coordonnees {
-  margin: 20px 0 0;
+  margin: 20px -10px 0;
   overflow: hidden;
 }
 #principal.drm #drm_validation_coordonnees .drm_validation_societe,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement {
-  display: inline-block;
-  vertical-align: top;
+  float: left;
+  width: 50%;
 }
 #principal.drm #drm_validation_coordonnees .drm_validation_societe #btn_etape_dr,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement #btn_etape_dr {
@@ -8005,9 +8005,6 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   right: 10px;
   left: 10px;
 }
-#principal.drm #drm_validation_coordonnees .drm_validation_etablissement {
-  float: right;
-}
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_form,
@@ -8016,7 +8013,6 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   border: 1px solid #e3e2e2;
   min-height: 350px;
   position: relative;
-  width: 310px;
   margin: 0 0 25px;
   margin: 10px 10px 30px;
 }
@@ -8048,12 +8044,6 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel {
   padding: 10px 10px 50px 10px;
 }
-#principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li,
-#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li,
-#principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel ul li,
-#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li {
-  line-height: 34px;
-}
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li a,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li a,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel ul li a,
@@ -8064,14 +8054,23 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li span.label,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li span.label,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel ul li span.label,
-#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li span.label {
-  font-weight: bold;
-}
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li span.label,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li span.infos,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li span.infos,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel ul li span.infos,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li span.infos {
-  float: right;
+  float: left;
+  width: 50%;
+}
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li span.label,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li span.label,
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel ul li span.label,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li span.label {
+  font-weight: bold;
+  padding-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li.text-error,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li.text-error,
@@ -8079,6 +8078,20 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li.text-error {
   color: red ;
   font-weight: bold;
+}
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel > ul > li,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel > ul > li,
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel > ul > li,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel > ul > li {
+  margin: 10px 0;
+  overflow: hidden;
+}
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel > ul > li .radio_list li,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel > ul > li .radio_list li,
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel > ul > li .radio_list li,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel > ul > li .radio_list li {
+  float: none;
+  width: auto;
 }
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info .acces,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .acces,

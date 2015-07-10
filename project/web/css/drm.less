@@ -1950,12 +1950,12 @@ p#date_drm
     }
 
     #drm_validation_coordonnees {
-        margin: 20px 0 0;
+        margin: 20px -10px 0;
         overflow: hidden;
 
         .drm_validation_societe , .drm_validation_etablissement{
-            display: inline-block;
-            vertical-align: top;
+            float: left;
+            width: 50%;
 
             #btn_etape_dr
             {
@@ -1968,8 +1968,6 @@ p#date_drm
             }
         }
 
-        .drm_validation_etablissement { float: right; }
-
         .drm_validation_societe_info,
         .drm_validation_etablissement_info,
         .drm_validation_societe_form,
@@ -1979,7 +1977,6 @@ p#date_drm
             border: 1px solid #e3e2e2;
             min-height: 350px;
             position: relative;
-            width:310px;
             margin: 0 0 25px;
             margin: 10px 10px 30px;
 
@@ -2005,23 +2002,51 @@ p#date_drm
             .panel{
 
                 padding: 10px 10px 50px 10px;
+
                 ul {
                     li {
-                        line-height: 34px;
+
                         a {
                             text-decoration: underline;
                             font-weight: bold;
                         }
+
+                        span.label,
+                        span.infos
+                        {
+                            float: left;
+                            width: 50%;
+                        }
+
                         span.label{
                             font-weight: bold;
-                        }
-                        span.infos{
-                            float: right;
+                            padding-right: 10px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
                         }
                     }
                     li.text-error{
                         color: red ;
                         font-weight: bold;
+                    }
+                }
+
+                > ul
+                {
+                    > li
+                    {
+                        margin: 10px 0;
+                        overflow: hidden;
+
+                        .radio_list
+                        {
+                            li
+                            {
+                                float: none;
+                                width: auto;
+                            }
+                        }
                     }
                 }
             }

@@ -24,12 +24,12 @@ var initSignatureDrmPopup = function() {
     $('#signature_drm_popup_content a#signature_drm_popup_close').click(function(){
         $.fancybox.close();
     })
-    
+
     $('#signature_drm_popup_content button#signature_drm_popup_confirm').click(function(){
-        
+
         $("form#drm_validation").submit();
     });
-    
+
 };
 
 var initCrds = function () {

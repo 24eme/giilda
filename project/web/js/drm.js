@@ -15,6 +15,7 @@ var objAjoutsLiquidations = {};
 {
     var ajoutsLiquidations = $('#ajouts_liquidations');
     var calendrierHistorique = $('#calendrier_drm');
+    var blocsInfosValidationDRM = $('#drm_validation_coordonnees').find('.drm_validation_societe_info, .drm_validation_etablissement_info');
 
     $(document).ready(function()
     {
@@ -43,7 +44,7 @@ var objAjoutsLiquidations = {};
             calendrierHistorique.find('.liste_mois > li').hauteurEgale();
         }
 
-        $('#drm_validation_coordonnees').find('.drm_validation_societe_info, .drm_validation_etablissement_info').hauteurEgale();
+       blocsInfosValidationDRM.matchHeight({byRow: false});
     });
 
 
