@@ -7023,6 +7023,13 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset {
   margin: 25px 0;
 }
+#principal.drm fieldset h2 {
+  margin-top: 0;
+}
+#principal.drm fieldset#validation_drm_mvts_stocks,
+#principal.drm fieldset#crds_drm {
+  margin: 0;
+}
 #principal.drm fieldset#espace_drm nav,
 #principal.drm fieldset#historique_drm nav,
 #principal.drm fieldset#validation_drm_mvts_stocks nav {
@@ -7849,6 +7856,7 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
   font-weight: bold;
   height: 35px;
   padding-top: 4px;
+  height: auto;
   margin-bottom: 15px;
   padding-top: 0;
 }
