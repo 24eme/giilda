@@ -3,7 +3,7 @@
         <div class="block_teledeclaration espace_drm">
             <div class="title">ESPACE DRM</div>
             <div class="panel">
-                <ul class="etablissements_drms">
+                <ul style="<?php if(!isset($btnAccess)): ?>height: auto<?php endif; ?>" class="etablissements_drms">
                     <?php foreach ($drmToCompleteAndToStart as $etb => $drmsByEtb) : ?>
                         <li>
                             <div class="etablissement_drms">
@@ -26,10 +26,11 @@
                         </li>
                     <?php endforeach; ?>
                 </ul>
-
+                <?php if(isset($btnAccess)): ?>
                 <div class="acces">
-                    <a href="#" class="btn_majeur">Acceder aux DRM</a>
+                    <a href="<?php echo url_for('drm_societe', array('identifiant' => $etablissement->getIdentifiant())) ?>" class="btn_majeur">Accéder aux DRM</a>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

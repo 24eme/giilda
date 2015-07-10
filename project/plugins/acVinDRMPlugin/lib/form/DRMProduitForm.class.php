@@ -6,13 +6,13 @@ class DRMProduitForm extends acCouchdbForm
     protected $_drm = null;
     protected $_config = null;
     protected $_produits_existant = null;
-    protected $_isTeledeclationMode = false;
+    protected $_isTeledeclarationMode = false;
 
-    public function __construct(DRM $drm, _ConfigurationDeclaration $config, $isTeledeclationMode = false, $options = array(), $CSRFSecret = null) {
+    public function __construct(DRM $drm, _ConfigurationDeclaration $config, $isTeledeclarationMode = false, $options = array(), $CSRFSecret = null) {
 	$this->_drm = $drm;
         $this->_interpro = $drm->getInterpro();
         $this->_config = $config;
-        $this->_isTeledeclationMode = $isTeledeclationMode;
+        $this->_isTeledeclarationMode = $isTeledeclarationMode;
         $defaults = array();
         parent::__construct($drm, $defaults, $options, $CSRFSecret);
     }
@@ -46,7 +46,7 @@ class DRMProduitForm extends acCouchdbForm
 
     public function getProduits() {
         $produit_existant = $this->getProduitsExistant();
-        $produits = $this->_drm->getConfigProduits();
+        $produits = $this->_drm->getConfigProduits($this->_isTeledeclarationMode);
 
         foreach($produits as $hash => $produit) {
             if(array_key_exists($hash."/details/DEFAUT", $produit_existant)) {

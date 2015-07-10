@@ -59,7 +59,7 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         $this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE] : null;
         $this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE] : null;
 
-        //$this->setDroitDouaneCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT);
+        $this->setDroitDouaneCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT);
         $this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT); 
     }
 

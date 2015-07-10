@@ -11,21 +11,32 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         return ConfigurationClient::getCurrent()->get($this->getHash());
     }
 
-    public function getConfigProduits() {
+    public function getConfigProduitsDroits($teledeclarationMode = false) {
+        $droits = array(ConfigurationDroits::DROIT_CVO);
+
+        if($teledeclarationMode && $this->getDocument()->isTeledeclare()) {
+            $droits[] = ConfigurationDroits::DROIT_DOUANE;
+        }
         
+        return $droits; 
+    }
+
+    public function getConfigProduits($teledeclarationMode = false) {
+
         return $this->getConfig()->formatProduits($this->getDocument()->getFirstDayOfPeriode(),
                                                   $this->getDocument()->getInterpro()->get('_id'), 
                                                   $this->getDocument()->getDepartement(),
                                                   "%format_libelle% (%code_produit%)", 
-                                                  array(ConfigurationDroits::DROIT_CVO, ConfigurationDroits::DROIT_DOUANE));
+                                                  $this->getConfigProduitsDroits($teledeclarationMode));
     }
 
     public function getConfigProduitsAuto() {
+
         
         return $this->getConfig()->getProduitsAuto($this->getDocument()->getFirstDayOfPeriode(),
                                                   $this->getDocument()->getInterpro()->get('_id'), 
                                                   $this->getDocument()->getDepartement(),
-                                                  array(ConfigurationDroits::DROIT_CVO, ConfigurationDroits::DROIT_DOUANE));
+                                                  $this->getConfigProduitsDroits($this->getDocument()->isTeledeclare()));
     }
 
     public function getParentNode() {
