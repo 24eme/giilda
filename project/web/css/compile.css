@@ -6012,6 +6012,7 @@ p#date_drm {
   border: 1px solid #e3e2e2;
   border-radius: 5px;
   position: relative;
+  text-align: center;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms {
   width: 100%;
@@ -6019,10 +6020,15 @@ p#date_drm {
 #principal #espace_drm .etablissements_drms li div.etablissement_drms h2 {
   padding: 0;
   margin: 5px 0;
+  text-align: left;
+}
+#principal #espace_drm .etablissements_drms li div.etablissement_drms ul {
+  display: inline-block;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul li {
   width: 100%;
   border: none;
+  text-align: left;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul .statut_toCreate button {
   padding: 0 10px;
