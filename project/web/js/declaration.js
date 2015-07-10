@@ -43,6 +43,10 @@
 					$.fancybox({type : 'ajax',
 						href: input.attr('data-href'),
 						fitToView : false,
+						beforeShow: function()
+						{
+							$("body").css({'overflow-y':'hidden'});
+						},
 						afterShow : function()
 						{
 							input.initDetailsPopup(colonne);
@@ -51,6 +55,10 @@
 						onClose : function()
 						{
 						    $.unbindDetailsPopup();
+						},
+						afterClose: function()
+						{
+							$("body").css({'overflow-y':'visible'});
 						},
 						helpers :
 						{
