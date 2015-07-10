@@ -1829,6 +1829,10 @@ bouton.btn_enregistrer {
 .ligne_btn .btnValidation {
   float: right;
 }
+#ligne_btn * + a,
+.ligne_btn * + a,
+#ligne_btn * + button,
+.ligne_btn * + button,
 #ligne_btn .btn_majeur + .btn_majeur,
 .ligne_btn .btn_majeur + .btn_majeur {
   margin: 0 0 0 10px;
@@ -8150,6 +8154,17 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 }
 .fancybox-wrap .fancybox-inner #contenu #principal .drm_details_form_noItem {
   margin-bottom: 20px;
+}
+.fancybox-wrap .fancybox-inner #signature_drm_popup_content h2 {
+  text-transform: uppercase;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: bold;
+  height: 35px;
+  padding-top: 4px;
+}
+.fancybox-wrap .fancybox-inner #signature_drm_popup_content #signature_drm_popup_confirm {
+  float: right;
 }
 /**
  * SV 12

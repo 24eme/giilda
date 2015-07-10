@@ -20,6 +20,7 @@ var initSignatureDrmPopup = function() {
         autoCenter: true,
         height: 'auto',
         width: 'auto',
+        minWidth: 500
     });
     $('#signature_drm_popup_content a#signature_drm_popup_close').click(function(){
         $.fancybox.close();
