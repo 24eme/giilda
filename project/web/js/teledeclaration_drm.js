@@ -206,7 +206,6 @@ var initNonApurement = function () {
 
 $(document).ready(function ()
 {
-    initFilEditionProduit();
     initAjoutProduitPopup();
     initAjoutCrdsPopup();
     initRegimeCrdsPopup();

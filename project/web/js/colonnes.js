@@ -129,7 +129,11 @@
             }
             else if (this.hasFocus())
             {
-                this.element_saisies.scrollTo(this.getFocus().element, 200);
+                if(this.getFocus().element.prev().length) {
+                    this.element_saisies.scrollTo(this.getFocus().element.prev(), 200);
+                } else {
+                    this.element_saisies.scrollTo(this.getFocus().element, 200);
+                }
             }
             else
             {
