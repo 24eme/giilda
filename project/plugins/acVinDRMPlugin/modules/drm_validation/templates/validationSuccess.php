@@ -23,7 +23,6 @@
 
             <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => false)); ?>
 
-            <br />
             <?php if ($isTeledeclarationMode): ?>
                 <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)); ?>
                 <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>

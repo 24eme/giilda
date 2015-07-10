@@ -1829,6 +1829,10 @@ bouton.btn_enregistrer {
 .ligne_btn .btnValidation {
   float: right;
 }
+#ligne_btn * + a,
+.ligne_btn * + a,
+#ligne_btn * + button,
+.ligne_btn * + button,
 #ligne_btn .btn_majeur + .btn_majeur,
 .ligne_btn .btn_majeur + .btn_majeur {
   margin: 0 0 0 10px;
@@ -2197,6 +2201,9 @@ pre.commentaire {
 }
 #contenu_etape .btn_etape:after {
   clear: both;
+}
+#contenu_etape .btn_etape a + a {
+  margin-left: 10px;
 }
 #contenu_etape .btn_etape .btn_etape_prec,
 #contenu_etape .btn_etape .btn_annuler {
@@ -2653,20 +2660,20 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 #principal .infos_etablissement span {
   font-weight: bold;
 }
-#principal .block_teledeclaration ul.stats_contrats {
+#principal .stats_contrats {
   overflow: hidden;
   text-align: center;
 }
-#principal .block_teledeclaration ul.stats_contrats li {
+#principal .stats_contrats li {
   float: left;
   padding: 30px 10px 0;
   background-color: #ecebeb;
   border: 1px solid #e3e2e2;
   border-radius: 5px;
   position: relative;
-  line-height: normal;
+  line-height: normal !important;
 }
-#principal .block_teledeclaration ul.stats_contrats li a {
+#principal .stats_contrats li a {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -2674,42 +2681,42 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   top: 0;
   padding: 71px 0 0;
 }
-#principal .block_teledeclaration ul.stats_contrats li h2:before {
+#principal .stats_contrats li h2:before {
   left: 23px;
 }
-#principal .block_teledeclaration ul.stats_contrats li .action {
+#principal .stats_contrats li .action {
   -webkit-opacity: 0.3;
   -khtml-opacity: 0.3;
   -moz-opacity: 0.3;
   opacity: 0.3;
 }
-#principal .block_teledeclaration ul.stats_contrats li .action a {
+#principal .stats_contrats li .action a {
   vertical-align: bottom;
 }
-#principal .block_teledeclaration ul.stats_contrats li .actif {
+#principal .stats_contrats li .actif {
   -webkit-opacity: 1;
   -khtml-opacity: 1;
   -moz-opacity: 1;
   opacity: 1;
 }
-#principal .block_teledeclaration ul.stats_contrats .actions_3 {
+#principal .stats_contrats .actions_3 {
   height: 100px;
   width: 210px;
   margin: 5px;
   padding: 10px;
 }
-#principal .block_teledeclaration ul.stats_contrats .actions_2 {
+#principal .stats_contrats .actions_2 {
   height: 100px;
   width: auto;
   margin: 5px;
   padding: 10px;
   float: none;
 }
-#principal .block_teledeclaration ul.stats_contrats .stats_contrats_brouillon h2 {
+#principal .stats_contrats .stats_contrats_brouillon h2 {
   text-align: center;
   position: relative;
 }
-#principal .block_teledeclaration ul.stats_contrats .stats_contrats_brouillon h2:before {
+#principal .stats_contrats .stats_contrats_brouillon h2:before {
   background: url(../images/pictos/pi_fichier_brouillon.png) 0 0 no-repeat;
   content: '';
   height: 40px;
@@ -2718,11 +2725,11 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   position: absolute;
   top: -12px;
 }
-#principal .block_teledeclaration ul.stats_contrats .stats_contrats_a_signer h2 {
+#principal .stats_contrats .stats_contrats_a_signer h2 {
   position: relative;
   text-align: center;
 }
-#principal .block_teledeclaration ul.stats_contrats .stats_contrats_a_signer h2:before {
+#principal .stats_contrats .stats_contrats_a_signer h2:before {
   background: url(../images/pictos/pi_stylo_a_signer.png) 0 0 no-repeat;
   content: '';
   height: 40px;
@@ -2731,11 +2738,11 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   position: absolute;
   top: -12px;
 }
-#principal .block_teledeclaration ul.stats_contrats .stats_contrats_en_attente h2 {
+#principal .stats_contrats .stats_contrats_en_attente h2 {
   text-align: center;
   position: relative;
 }
-#principal .block_teledeclaration ul.stats_contrats .stats_contrats_en_attente h2:before {
+#principal .stats_contrats .stats_contrats_en_attente h2:before {
   background: url(../images/pictos/pi_contrat_en_attente.png) 0 0 no-repeat;
   content: '';
   height: 40px;
@@ -2743,6 +2750,10 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   display: inline-block;
   position: absolute;
   top: -12px;
+}
+#principal.contrat_teledeclaration_societe ul.stats_contrats .actions_2 {
+  float: left;
+  width: 320px;
 }
 #principal .btn_calendrier:after {
   background-position: 25px -544px;
@@ -6005,6 +6016,7 @@ p#date_drm {
   border: 1px solid #e3e2e2;
   border-radius: 5px;
   position: relative;
+  text-align: center;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms {
   width: 100%;
@@ -6012,10 +6024,15 @@ p#date_drm {
 #principal #espace_drm .etablissements_drms li div.etablissement_drms h2 {
   padding: 0;
   margin: 5px 0;
+  text-align: left;
+}
+#principal #espace_drm .etablissements_drms li div.etablissement_drms ul {
+  display: inline-block;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul li {
   width: 100%;
   border: none;
+  text-align: left;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul .statut_toCreate button {
   padding: 0 10px;
@@ -6627,6 +6644,12 @@ bouton#colonnes_dr .btn_edition_label {
   display: inline-block;
 }
 /**
+ * Etape 3 -> Tableau CRD
+ ******************************************/
+#table_drm_crds input[type="text"] {
+  text-align: right;
+}
+/**
  * Etape 6 -> Déclaratif
  ******************************************/
 #declaratif_info .onglets_declaratif {
@@ -6800,7 +6823,7 @@ bouton#colonnes_dr .btn_edition_label {
   padding-right: 0;
 }
 #drm_export_details_table .export_detail_remove a {
-  padding: 0 13px;
+  padding: 0 16px;
   text-indent: -9999px;
 }
 #drm_vrac_details_table .vrac_detail_remove {
@@ -6898,6 +6921,8 @@ bouton#colonnes_dr .btn_edition_label {
   text-decoration: underline;
 }
 #principal.drm #application_drm .choix_produit_explication {
+  font-size: 13px;
+  font-weight: bold;
   padding: 10px 20px;
 }
 #principal.drm #application_drm .choix_produit_skip_etape {
@@ -7007,8 +7032,18 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm table .drm_non_apurement_date_emission {
   width: 33%;
 }
+#principal.drm table#table_drm_adminitration .drm_annexes_type {
+  width: 125px;
+}
 #principal.drm fieldset {
   margin: 25px 0;
+}
+#principal.drm fieldset h2 {
+  margin-top: 0;
+}
+#principal.drm fieldset#validation_drm_mvts_stocks,
+#principal.drm fieldset#crds_drm {
+  margin: 0;
 }
 #principal.drm fieldset#espace_drm nav,
 #principal.drm fieldset#historique_drm nav,
@@ -7064,6 +7099,7 @@ bouton#colonnes_dr .btn_edition_label {
   border-radius: 5px 5px 0 0;
   border: 1px solid #e3e2e2;
   float: left;
+  cursor: pointer;
 }
 #principal.drm fieldset#espace_drm nav ul li.actif,
 #principal.drm fieldset#historique_drm nav ul li.actif,
@@ -7076,12 +7112,13 @@ bouton#colonnes_dr .btn_edition_label {
   display: block;
   font-weight: bold;
   letter-spacing: 1px;
-  padding: 6px 4px;
+  padding: 10px;
 }
 #principal.drm fieldset#espace_drm nav ul li a,
 #principal.drm fieldset#historique_drm nav ul li a,
 #principal.drm fieldset#validation_drm_mvts_stocks nav ul li a {
   background: #ececec url(../images/fonds/bg_nav_historique.png) 0 0 repeat-x;
+  text-decoration: none;
 }
 #principal.drm fieldset#espace_drm .section_label_maj,
 #principal.drm fieldset#historique_drm .section_label_maj,
@@ -7834,6 +7871,7 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
   font-weight: bold;
   height: 35px;
   padding-top: 4px;
+  height: auto;
   margin-bottom: 15px;
   padding-top: 0;
 }
@@ -7988,13 +8026,13 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   background-position: 2px -315px;
 }
 #principal.drm #drm_validation_coordonnees {
-  margin: 20px 0 0;
+  margin: 20px -10px 0;
   overflow: hidden;
 }
 #principal.drm #drm_validation_coordonnees .drm_validation_societe,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement {
-  display: inline-block;
-  vertical-align: top;
+  float: left;
+  width: 50%;
 }
 #principal.drm #drm_validation_coordonnees .drm_validation_societe #btn_etape_dr,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement #btn_etape_dr {
@@ -8005,9 +8043,6 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   right: 10px;
   left: 10px;
 }
-#principal.drm #drm_validation_coordonnees .drm_validation_etablissement {
-  float: right;
-}
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_form,
@@ -8016,7 +8051,6 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   border: 1px solid #e3e2e2;
   min-height: 350px;
   position: relative;
-  width: 310px;
   margin: 0 0 25px;
   margin: 10px 10px 30px;
 }
@@ -8048,12 +8082,6 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel {
   padding: 10px 10px 50px 10px;
 }
-#principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li,
-#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li,
-#principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel ul li,
-#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li {
-  line-height: 34px;
-}
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li a,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li a,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel ul li a,
@@ -8064,14 +8092,23 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li span.label,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li span.label,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel ul li span.label,
-#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li span.label {
-  font-weight: bold;
-}
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li span.label,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li span.infos,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li span.infos,
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel ul li span.infos,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li span.infos {
-  float: right;
+  float: left;
+  width: 50%;
+}
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li span.label,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li span.label,
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel ul li span.label,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li span.label {
+  font-weight: bold;
+  padding-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel ul li.text-error,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel ul li.text-error,
@@ -8079,6 +8116,20 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel ul li.text-error {
   color: red ;
   font-weight: bold;
+}
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel > ul > li,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel > ul > li,
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel > ul > li,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel > ul > li {
+  margin: 10px 0;
+  overflow: hidden;
+}
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_info .panel > ul > li .radio_list li,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .panel > ul > li .radio_list li,
+#principal.drm #drm_validation_coordonnees .drm_validation_societe_form .panel > ul > li .radio_list li,
+#principal.drm #drm_validation_coordonnees .drm_validation_etablissement_form .panel > ul > li .radio_list li {
+  float: none;
+  width: auto;
 }
 #principal.drm #drm_validation_coordonnees .drm_validation_societe_info .acces,
 #principal.drm #drm_validation_coordonnees .drm_validation_etablissement_info .acces,
@@ -8112,6 +8163,18 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 }
 .fancybox-wrap .fancybox-inner #contenu #principal .drm_details_form_noItem {
   margin-bottom: 20px;
+}
+.fancybox-wrap .fancybox-inner #add_crds_COLLECTIFACQUITTE h2,
+.fancybox-wrap .fancybox-inner #signature_drm_popup_content h2 {
+  text-transform: uppercase;
+  display: inline-block;
+  font-size: 15px;
+  font-weight: bold;
+  height: 35px;
+  padding-top: 4px;
+}
+.fancybox-wrap .fancybox-inner #signature_drm_popup_confirm {
+  float: right;
 }
 /**
  * SV 12

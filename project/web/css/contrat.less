@@ -63,100 +63,109 @@
         span { font-weight: bold; }
     }
 
-    .block_teledeclaration
+    .stats_contrats
+    {
+        overflow: hidden;
+        text-align: center;
+
+        li
+        {
+            float: left;
+            padding: 30px 10px 0;
+            background-color: #ecebeb;
+            border: 1px solid #e3e2e2;
+            border-radius: 5px;
+            position: relative;
+            line-height: normal !important;
+
+            a
+            {
+                .pos-abs(0,0,0,0);
+                padding: 71px 0 0;
+            }
+
+            h2:before { left: 23px; }
+
+            .action
+            {
+                .opacite(0.3);
+                a { vertical-align: bottom; }
+            }
+
+            .actif
+            {
+                .opacite(1);
+            }
+        }
+
+        .actions_3
+        {
+            .box(210px, 100px,5px,10px);
+        }
+
+        .actions_2
+        {
+            .box(auto, 100px,5px,10px);
+            float: none;
+        }
+
+        .stats_contrats_brouillon h2
+        {
+            text-align: center;
+            position: relative;
+
+            &:before {
+                .sprite-pictos-brouillon(0 0);
+                content: '';
+                height: 40px;
+                width: 40px;
+                display: inline-block;
+                position: absolute;
+                top: -12px;
+            }
+        }
+
+        .stats_contrats_a_signer h2
+        {
+            position: relative;
+            text-align: center;
+
+            &:before {
+                .sprite-pictos-a_signer(0 0);
+                content: '';
+                height: 40px;
+                width: 40px;
+                display: inline-block;
+                position: absolute;
+                top: -12px;
+            }
+        }
+
+        .stats_contrats_en_attente h2
+        {
+            text-align: center;
+            position: relative;
+
+            &:before {
+                .sprite-pictos-contrat_en_attente(0 0);
+                content: '';
+                height: 40px;
+                width: 40px;
+                display: inline-block;
+                position: absolute;
+                top: -12px;
+            }
+        }
+    }
+
+    &.contrat_teledeclaration_societe
     {
         ul.stats_contrats
         {
-            overflow: hidden;
-            text-align: center;
-
-            li
-            {
-                float: left;
-                padding: 30px 10px 0;
-                background-color: #ecebeb;
-                border: 1px solid #e3e2e2;
-                border-radius: 5px;
-                position: relative;
-                line-height: normal;
-
-                a
-                {
-                    .pos-abs(0,0,0,0);
-                    padding: 71px 0 0;
-                }
-
-                h2:before { left: 23px; }
-
-                .action
-                {
-                    .opacite(0.3);
-                    a { vertical-align: bottom; }
-                }
-
-                .actif
-                {
-                    .opacite(1);
-                }
-            }
-
-            .actions_3
-            {
-                .box(210px, 100px,5px,10px);
-            }
-
             .actions_2
             {
-                .box(auto, 100px,5px,10px);
-                float: none;
-            }
-
-            .stats_contrats_brouillon h2
-            {
-                text-align: center;
-                position: relative;
-
-                &:before {
-                    .sprite-pictos-brouillon(0 0);
-                    content: '';
-                    height: 40px;
-                    width: 40px;
-                    display: inline-block;
-                    position: absolute;
-                    top: -12px;
-                }
-            }
-
-            .stats_contrats_a_signer h2
-            {
-                position: relative;
-                text-align: center;
-
-                &:before {
-                    .sprite-pictos-a_signer(0 0);
-                    content: '';
-                    height: 40px;
-                    width: 40px;
-                    display: inline-block;
-                    position: absolute;
-                    top: -12px;
-                }
-            }
-
-            .stats_contrats_en_attente h2
-            {
-                text-align: center;
-                position: relative;
-
-                &:before {
-                    .sprite-pictos-contrat_en_attente(0 0);
-                    content: '';
-                    height: 40px;
-                    width: 40px;
-                    display: inline-block;
-                    position: absolute;
-                    top: -12px;
-                }
+                float: left;
+                width: 320px;
             }
         }
     }

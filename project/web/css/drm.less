@@ -509,7 +509,6 @@ p#date_drm
     .etablissements_drms
     {
         overflow: hidden;
-        // text-align: center;
 
         li
         {
@@ -519,19 +518,24 @@ p#date_drm
             border: 1px solid #e3e2e2;
             border-radius: 5px;
             position: relative;
+            text-align: center;
+
             div.etablissement_drms {
                 width: 100%;
 
                 h2{
                     padding: 0;
                     margin: 5px 0;
+                    text-align: left;
                 }
 
                 ul{
+                    display: inline-block;
+
                     li{
                         width: 100%;
                         border: none;
-                        // text-align: center;
+                        text-align: left;
 
                     }
                     .statut_toCreate{
@@ -1196,6 +1200,14 @@ p#date_drm
     /*.label{ height:30px !important; }*/
 }
 
+/**
+ * Etape 3 -> Tableau CRD
+ ******************************************/
+#table_drm_crds
+{
+    input[type="text"] { text-align: right; }
+}
+
 
 
 
@@ -1376,7 +1388,7 @@ p#date_drm
         padding-right: 0;
 
         a{
-            padding: 0 13px;
+            padding: 0 16px;
             text-indent: -9999px;
         }
     }
@@ -1507,6 +1519,8 @@ p#date_drm
 
 
         .choix_produit_explication{
+            font-size: 13px;
+            font-weight: bold;
             padding: 10px 20px;
         }
         .choix_produit_skip_etape{
@@ -1630,9 +1644,19 @@ p#date_drm
         .drm_non_apurement_date_emission{
             width : 33%;
         }
+
+        &#table_drm_adminitration
+        {
+            .drm_annexes_type { width: 125px; }
+        }
     }
     fieldset{
         margin: 25px 0;
+
+        h2 { margin-top: 0; }
+
+        &#validation_drm_mvts_stocks,
+        &#crds_drm { margin: 0; }
 
         &#espace_drm, &#historique_drm, &#validation_drm_mvts_stocks{
             nav{
@@ -1646,6 +1670,7 @@ p#date_drm
                         .border-radius(5px 5px 0 0);
                         .border(@couleur-a7);
                         float: left;
+                        cursor: pointer;
 
                         &.actif { border-bottom-color: @couleur-a1; }
 
@@ -1653,11 +1678,12 @@ p#date_drm
                             display: block;
                             font-weight: bold;
                             letter-spacing: 1px;
-                            padding: 6px 4px;
+                            padding: 10px;
                         }
 
                         a{
                             background: #ececec url(../images/fonds/bg_nav_historique.png) 0 0 repeat-x;
+                            text-decoration: none;
                         }
                     }
                 }
@@ -1902,6 +1928,7 @@ p#date_drm
         {
             .majuscules;
             .section-titre;
+            height: auto;
             margin-bottom:15px;
             padding-top: 0;
         }
@@ -1950,12 +1977,12 @@ p#date_drm
     }
 
     #drm_validation_coordonnees {
-        margin: 20px 0 0;
+        margin: 20px -10px 0;
         overflow: hidden;
 
         .drm_validation_societe , .drm_validation_etablissement{
-            display: inline-block;
-            vertical-align: top;
+            float: left;
+            width: 50%;
 
             #btn_etape_dr
             {
@@ -1968,8 +1995,6 @@ p#date_drm
             }
         }
 
-        .drm_validation_etablissement { float: right; }
-
         .drm_validation_societe_info,
         .drm_validation_etablissement_info,
         .drm_validation_societe_form,
@@ -1979,7 +2004,6 @@ p#date_drm
             border: 1px solid #e3e2e2;
             min-height: 350px;
             position: relative;
-            width:310px;
             margin: 0 0 25px;
             margin: 10px 10px 30px;
 
@@ -2005,23 +2029,51 @@ p#date_drm
             .panel{
 
                 padding: 10px 10px 50px 10px;
+
                 ul {
                     li {
-                        line-height: 34px;
+
                         a {
                             text-decoration: underline;
                             font-weight: bold;
                         }
+
+                        span.label,
+                        span.infos
+                        {
+                            float: left;
+                            width: 50%;
+                        }
+
                         span.label{
                             font-weight: bold;
-                        }
-                        span.infos{
-                            float: right;
+                            padding-right: 10px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
                         }
                     }
                     li.text-error{
                         color: red ;
                         font-weight: bold;
+                    }
+                }
+
+                > ul
+                {
+                    > li
+                    {
+                        margin: 10px 0;
+                        overflow: hidden;
+
+                        .radio_list
+                        {
+                            li
+                            {
+                                float: none;
+                                width: auto;
+                            }
+                        }
                     }
                 }
             }
@@ -2066,5 +2118,13 @@ p#date_drm
                 .drm_details_form_noItem { margin-bottom: 20px; }
             }
         }
+
+        #add_crds_COLLECTIFACQUITTE,
+        #signature_drm_popup_content
+        {
+            h2 { .section-titre; }
+        }
+
+        #signature_drm_popup_confirm { float: right; }
     }
 }
