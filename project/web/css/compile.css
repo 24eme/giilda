@@ -8161,6 +8161,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 .fancybox-wrap .fancybox-inner #contenu #principal .drm_details_form_noItem {
   margin-bottom: 20px;
 }
+.fancybox-wrap .fancybox-inner #add_crds_COLLECTIFACQUITTE h2,
 .fancybox-wrap .fancybox-inner #signature_drm_popup_content h2 {
   text-transform: uppercase;
   display: inline-block;
@@ -8169,7 +8170,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   height: 35px;
   padding-top: 4px;
 }
-.fancybox-wrap .fancybox-inner #signature_drm_popup_content #signature_drm_popup_confirm {
+.fancybox-wrap .fancybox-inner #signature_drm_popup_confirm {
   float: right;
 }
 /**
