@@ -6911,6 +6911,8 @@ bouton#colonnes_dr .btn_edition_label {
   text-decoration: underline;
 }
 #principal.drm #application_drm .choix_produit_explication {
+  font-size: 13px;
+  font-weight: bold;
   padding: 10px 20px;
 }
 #principal.drm #application_drm .choix_produit_skip_etape {
