@@ -7077,6 +7077,7 @@ bouton#colonnes_dr .btn_edition_label {
   border-radius: 5px 5px 0 0;
   border: 1px solid #e3e2e2;
   float: left;
+  cursor: pointer;
 }
 #principal.drm fieldset#espace_drm nav ul li.actif,
 #principal.drm fieldset#historique_drm nav ul li.actif,
@@ -7089,12 +7090,13 @@ bouton#colonnes_dr .btn_edition_label {
   display: block;
   font-weight: bold;
   letter-spacing: 1px;
-  padding: 6px 4px;
+  padding: 10px;
 }
 #principal.drm fieldset#espace_drm nav ul li a,
 #principal.drm fieldset#historique_drm nav ul li a,
 #principal.drm fieldset#validation_drm_mvts_stocks nav ul li a {
   background: #ececec url(../images/fonds/bg_nav_historique.png) 0 0 repeat-x;
+  text-decoration: none;
 }
 #principal.drm fieldset#espace_drm .section_label_maj,
 #principal.drm fieldset#historique_drm .section_label_maj,
