@@ -2,24 +2,25 @@
     <h2>Documents d'accompagnement</h2>
 <?php endif; ?> 
 <?php if (count($drm->documents_annexes)): ?>
-    <?php foreach ($drm->documents_annexes as $typeDoc => $numsDoc): ?>
-        <table id="table_drm_adminitration" class="table_recap">
-            <thead >
-                <tr>   
-                    <th class="drm_annexes_type"></th>
-                    <th colspan="2">Document d'accompagnement <?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></th>
-                </tr>
-            </thead>
-            <tbody class="drm_adminitration">
+    <table id="table_drm_adminitration" class="table_recap">
+        <thead >
+            <tr>   
+                <th>Type de document</th>
+                <th>Numéro de début</th>
+                <th>Numéro de fin</th>
+            </tr>
+        </thead>
+        <tbody class="drm_adminitration">
+            <?php foreach ($drm->documents_annexes as $typeDoc => $numsDoc): ?>
                 <tr> 
                     <td class="drm_annexes_type"><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></td>                       
                     <td class="drm_annexes_doc_debut"><?php echo $numsDoc->debut; ?></td>
                     <td class="drm_annexes_doc_fin"><?php echo $numsDoc->fin; ?></td>
                 </tr>
-            </tbody>
-        </table>
-        <br/>
-    <?php endforeach; ?>  
+            <?php endforeach; ?>  
+        </tbody>
+    </table>
+    <br/>
     <br>
 <?php endif; ?> 
 <?php if ($drm->exist('releve_non_apurement') && count($drm->releve_non_apurement)): ?>

@@ -7,24 +7,25 @@
 
             <?php echo $annexesForm->renderGlobalErrors(); ?>
             <?php echo $annexesForm->renderHiddenFields(); ?>
-            <?php foreach ($annexesForm->getDocTypes() as $typeDoc): ?>
-                <table id="table_drm_adminitration" class="table_recap">
-                    <thead >
-                        <tr>
-                            <th class="drm_annexes_type"></th>
-                            <th colspan="2">Document d'accompagnement <?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></th>
-                        </tr>
-                    </thead>
-                    <tbody class="drm_adminitration">
+            <table id="table_drm_adminitration" class="table_recap">
+                <thead >
+                    <tr>
+                        <th>Type de document</th>
+                        <th>Numéro de début</th>
+                        <th>Numéro de fin</th>
+                    </tr>
+                </thead>
+                <tbody class="drm_adminitration">
+                    <?php foreach ($annexesForm->getDocTypes() as $typeDoc): ?>
                         <tr>
                             <td class="drm_annexes_type"><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></td>
                             <td class="drm_annexes_doc_debut"><?php echo $annexesForm[$typeDoc . '_debut']->render(); ?></td>
                             <td class="drm_annexes_doc_fin"><?php echo $annexesForm[$typeDoc . '_fin']->render(); ?></td>
                         </tr>
-                    </tbody>
-                </table>
-                <br/>
-            <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <br/>
             <br>
             <h2>Relevé de non apurement</h2>
             <table id="table_drm_non_apurement" class="table_recap">
