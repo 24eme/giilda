@@ -14,6 +14,7 @@
  * @property string $etape
  * @property string $campagne
  * @property string $periode
+ * @property string $teledeclare
  * @property string $precedente
  * @property string $version
  * @property string $numero_archive
@@ -54,6 +55,8 @@
  * @method string setCampagne()
  * @method string getPeriode()
  * @method string setPeriode()
+ * @method string getTeledeclare()
+ * @method string setTeledeclare()
  * @method string getPrecedente()
  * @method string setPrecedente()
  * @method string getVersion()
