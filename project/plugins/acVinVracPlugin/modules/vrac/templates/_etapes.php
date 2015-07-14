@@ -3,27 +3,20 @@
     $pourcentage = ($vrac->etape) * 25;
 ?>
     <ol class="breadcrumb">
-        <?php include_partial('etapeItem',array('num_etape' => 0,
+    	<?php 
+    		$counter = 0;
+    		foreach ($etapes as $etapeCle => $etapeLibelle) {
+    	
+    			include_partial('etapeItem',array('num_etape' => $counter,
                                                  'vrac' => $vrac,
                                                  'actif' => $actif,
-                                                 'label' => 'Création',
-                                                 'url_etape' => 'vrac_soussigne',
+                                                 'label' => $etapeLibelle,
+                                                 'url_etape' => 'vrac_'.$etapeCle,
                                                  'urlsoussigne' => $urlsoussigne
-                                                )); ?>
-        
-        <?php include_partial('etapeItem',array('num_etape' => 1,
-                                                 'vrac' => $vrac,
-                                                 'actif' => $actif,
-                                                 'label' => 'Saisie',
-                                                 'url_etape' => 'vrac_marche'
-                                                )); ?>
-        
-        <?php include_partial('etapeItem',array('num_etape' => 2,
-                                                 'vrac' => $vrac,
-                                                 'actif' => $actif,
-                                                 'label' => 'Validation',
-                                                 'url_etape' => 'vrac_validation'
-                                                )); ?>
+                                                )); 
+    			$counter++;
+    		}
+        ?>
         
         
     </ol>

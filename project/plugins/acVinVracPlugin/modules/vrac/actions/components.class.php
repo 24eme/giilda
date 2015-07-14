@@ -11,4 +11,8 @@ class vracComponents extends sfComponents {
             $this->form = new VracEtablissementChoiceForm('INTERPRO-inter-loire', array('identifiant' => $this->identifiant));
         }
     }
+
+    public function executeEtapes() {
+        $this->etapes = VracConfiguration::getInstance()->getEtapes();
+    }
 }

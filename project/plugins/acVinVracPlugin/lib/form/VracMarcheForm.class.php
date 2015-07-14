@@ -27,32 +27,27 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
     public function configure() {
         $this->actual_campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
-        $this->next_campagne = (date('Y') > substr($this->actual_campagne, 0, 4) && date('m') > 3) ?
-                ConfigurationClient::getInstance()->getNextCampagne($this->actual_campagne) : $this->actual_campagne;
+        $this->next_campagne = (date('Y') > substr($this->actual_campagne, 0, 4) && date('m') > 3) ? ConfigurationClient::getInstance()->getNextCampagne($this->actual_campagne) : $this->actual_campagne;
 
         $originalArray = array('0' => 'Non', '1' => 'Oui');
 
-        if (!$this->isTeledeclarationMode) {
-
-            $this->setWidget('label', new bsWidgetFormChoice(array('choices' => $this->getLabels(), 'multiple' => true, 'expanded' => true)));
-            $this->setValidator('label', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getLabels()))));
-            $this->getWidget('label')->setLabel("Label");
-        }
-
         $this->getDomaines();
         $this->getMillesimes();
+        $contenances = $this->getContenances();
+
+        $this->setWidget('label', new bsWidgetFormChoice(array('choices' => $this->getLabels(), 'multiple' => true, 'expanded' => true)));
         $this->setWidget('produit', new bsWidgetFormChoice(array('choices' => $this->getProduits()), array('class' => 'autocomplete')));
         $this->setWidget('millesime', new bsWidgetFormChoice(array('choices' => $this->millesimes), array('class' => 'autocomplete permissif')));
         $this->setWidget('categorie_vin', new bsWidgetFormChoice(array('choices' => $this->getCategoriesVin(), 'expanded' => true)));
         $this->setWidget('domaine', new bsWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
         $this->setWidget('raisin_quantite', new bsWidgetFormInput());
         $this->setWidget('jus_quantite', new bsWidgetFormInput());
-        $contenance = array();
-        foreach (array_keys(VracClient::getInstance()->getContenances()) as $c) {
-            $contenance[$c] = $c;
-        }
-        $this->setWidget('bouteilles_contenance_libelle', new sfWidgetFormChoice(array('choices' => $contenance)));
+        $this->setWidget('bouteilles_contenance_libelle', new sfWidgetFormChoice(array('choices' => $contenances)));
         $this->setWidget('prix_initial_unitaire', new bsWidgetFormInput());
+        $this->setWidget('volume_initial', new bsWidgetFormInput());
+        $this->setWidget('volume_vigueur', new bsWidgetFormInput());
+        $this->setWidget('degre', new bsWidgetFormInput());
+        $this->setWidget('surface', new bsWidgetFormInput());
 
         $this->widgetSchema->setLabels(array(
             'produit' => 'produit',
@@ -62,57 +57,52 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'raisin_quantite' => 'Quantité',
             'jus_quantite' => 'Volume proposé',
             'bouteilles_contenance_libelle' => 'Contenance',
-            'prix_initial_unitaire' => 'Prix'
+            'label' => 'Label',
+            'prix_initial_unitaire' => 'Prix',
+            'volume_initial' => 'Volume initial',
+            'volume_vigueur' => 'Volume en vigueur',
+            'degre' => 'Degré',
+            'surface' => 'Surface'
         ));
         $validatorForNumbers = new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
         
         $this->setValidator('produit', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))));
-
         $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
-
         $this->setValidator('categorie_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))));
         $this->setValidator('domaine', new sfValidatorString(array('required' => false)));
-
         $this->setValidator('raisin_quantite', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('jus_quantite', new sfValidatorNumber(array('required' => true)));
-
         $this->setValidator('bouteilles_contenance_libelle', new sfValidatorString(array('required' => true)));
         $this->setValidator('prix_initial_unitaire', new sfValidatorNumber(array('required' => true)));
+        $this->setValidator('label', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getLabels()))));
+        $this->setValidator('volume_initial', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('volume_vigueur', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('degre', new sfValidatorNumber(array('required' => false, 'min' => 7, 'max' => 15)));
+        $this->setValidator('surface', new sfValidatorNumber(array('required' => true)));
 
         
         $this->validatorSchema['jus_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
         $this->validatorSchema['raisin_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
-
         $this->validatorSchema['prix_initial_unitaire']->setMessage('invalid', 'Le prix "%value%" n\'est pas un nombre.');
-
-
         $this->validatorSchema['produit']->setMessage('required', 'Le choix d\'un produit est obligatoire');
         $this->validatorSchema['prix_initial_unitaire']->setMessage('required', 'Le prix doit être renseigné');
-
         $this->validatorSchema['millesime']->setMessage('required', 'Le millésime doit être renseigné');
+        $this->validatorSchema['degre']->setMessage('min', '7° minimum');
+        $this->validatorSchema['degre']->setMessage('max', '15° maximum');
 
-        if ($this->getObject()->hasPrixVariable()) {
-            $this->getWidget('prix_initial_unitaire')->setLabel('Prix initial');
-            $this->setWidget('prix_unitaire', new bsWidgetFormInput(array('label' => 'Prix définitif')));
-            $this->setValidator('prix_unitaire', new sfValidatorNumber(array('required' => false)));
-        }
+        $this->useFields(VracConfiguration::getInstance()->getChamps('marche'));
+        
         if ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
         	unset($this['jus_quantite']);
         } else {
         	unset($this['raisin_quantite']);
+        	unset($this['surface']);
         }
         if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
         	unset($this['bouteilles_contenance_libelle']);
         }
         
-
-        $this->setWidget('enlevement_date', new bsWidgetFormInput(array('label' => 'Date limite')));
-        $this->getWidget('enlevement_date')->setLabel("Date limite");
-        $this->setValidator('enlevement_date', new sfValidatorString(array('required' => false)));
-
-
         $this->widgetSchema->setNameFormat('vrac[%s]');
-        $this->validatorSchema->setPostValidator(new ValidatorVracMarche());
     }
 
     protected function updateDefaultsFromObject() {
@@ -148,6 +138,15 @@ class VracMarcheForm extends acCouchdbObjectForm {
         }
         return $this->_choices_produits;
     }
+    
+    public function getContenances()
+    {
+		$contenances = array();
+    	foreach (array_keys(VracConfiguration::getInstance()->getContenances()) as $c) {
+    		$contenances[$c] = $c;
+    	}
+    	return $contenances;
+    }
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
@@ -156,6 +155,26 @@ class VracMarcheForm extends acCouchdbObjectForm {
         if ($values['millesime'] === 0) {
             $this->getObject()->millesime = null;
         }
+        if ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
+        	$this->getObject()->jus_quantite = null;
+        } else {
+        	$this->getObject()->raisin_quantite = null;
+        	$this->getObject()->surface = null;
+        }
+        if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
+        	$this->getObject()->bouteilles_contenance_libelle = null;
+        }
+        if ($this->getObject()->exist('unites')) {
+        	$this->getObject()->remove('unites');
+        }
+        $configuration = VracConfiguration::getInstance();
+        $unites = $this->getObject()->add('unites');
+        $unites->volume_initial->add($configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['libelle']);
+        $unites->volume_vigueur->add($configuration->getUnites()[$this->getObject()->type_transaction]['volume_vigueur']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['volume_vigueur']['libelle']);
+        $unites->surface->add($configuration->getUnites()[$this->getObject()->type_transaction]['surface']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['surface']['libelle']);
+        $unites->jus_quantite->add($configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite']['libelle']);
+        $unites->raisin_quantite->add($configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite']['libelle']);
+        $unites->prix_initial_unitaire->add($configuration->getUnites()[$this->getObject()->type_transaction]['prix_initial_unitaire']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['prix_initial_unitaire']['libelle']);
     }
 
     public function getDomaines() {
@@ -175,23 +194,22 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
     public function getMillesimes() {
         $this->millesimes = array('0' => self::NONMILLESIMELABEL);
-
-        $campagnesView = array($this->next_campagne => $this->next_campagne);
-        $campagnesView[$this->actual_campagne] = $this->actual_campagne;
-
-        $campagnesView = array_merge($campagnesView, VracClient::getInstance()->listCampagneByEtablissementId($this->getObject()->vendeur_identifiant));
-        if (!$this->getObject()->millesime && $this->getObject()->millesime != 0) {
-            $campagnesView = array_merge($campagnesView, array('' . $this->getObject()->millesime => '' . $this->getObject()->millesime));
+        
+        $date = new DateTime();
+        $annee = $date->format('Y');
+        if ($date->format('m') < 8) {
+        	$annee--;
         }
-        foreach ($campagnesView as $campagne) {
-            $millesime = substr($campagne, 0, 4);
-            $this->millesimes[$millesime] = '' . $millesime;
+        $stop = $annee - 10;
+        while ($annee >= $stop) {
+            $this->millesimes[$annee] = '' . $annee;
+            $annee--;
         }
     }
 
     public function getCategoriesVin() {
 
-        return VracClient::$categories_vin;
+        return VracConfiguration::getInstance()->getCategories();
     }
 
     protected function getConfig() {

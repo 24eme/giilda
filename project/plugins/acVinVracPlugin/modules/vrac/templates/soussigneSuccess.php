@@ -15,7 +15,7 @@ else :
 endif;
 ?>
 
-<?php include_partial('vrac/etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+<?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <form 
 	id="contrat_soussignes" 
@@ -29,6 +29,7 @@ endif;
 >
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
+    <?php echo $form['responsable']->renderError(); ?>
     <div class="row">
         <div class="col-sm-12">
         	<?php if(isset($form['attente_original'])): ?>
@@ -40,6 +41,16 @@ endif;
                 </div>
             </div>
             <?php endif; ?>
+        	<?php if(isset($form['type_contrat'])): ?>
+            <div class="form-group <?php if($form['type_contrat']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['type_contrat']->renderError(); ?>
+                <?php echo $form['type_contrat']->renderLabel("Contrat pluriannuel :", array('class' => 'col-sm-3 control-label')); ?>
+                <div class="col-sm-9">
+                    <?php echo $form['type_contrat']->render(); ?>
+                </div>
+            </div>
+            <?php endif; ?>
+        	<?php if(isset($form['type_transaction'])): ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Type de transaction</h3>
@@ -53,11 +64,15 @@ endif;
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
             <div class="row">
+        		<?php if(isset($form['vendeur_identifiant'])): ?>
                 <div class="col-xs-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Vendeur</h3>
+                            <h3 class="panel-title">Vendeur
+							<?php if(isset($form['responsable'])): ?><input id="vrac_responsable_vendeur" type="radio" value="vendeur" name="vrac[responsable]" class="pull-right"<?php if($vrac->getOrAdd('responsable') == 'vendeur'): ?> checked="checked"<?php endif; ?>></input><?php endif; ?>
+							</h3>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -68,6 +83,18 @@ endif;
                                             <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un vendeur')); ?>
                                         </div>
                                     </div>
+        							<?php if(isset($form['vendeur_intermediaire'])): ?>
+                		            <div class="form-group col-sm-12">
+                		            	<?php echo $form['vendeur_intermediaire']->renderError(); ?>
+                		                <div class="checkbox">
+                		                	<label for="<?php echo $form['vendeur_intermediaire']->renderId(); ?>">
+                		                    	<?php echo $form['vendeur_intermediaire']->render(); ?>
+                		                        Representé par xxx pour la CVO
+                		                    </label>
+                		                </div>
+                		            </div>
+                		            <?php endif; ?>
+        							<?php if(isset($form['logement'])): ?>
                                     <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
                 		                <div class="col-sm-12">
                 		                    <?php echo $form['logement_exist']->renderError(); ?>
@@ -85,6 +112,7 @@ endif;
                 		                    <?php echo $form['logement']->render(array("placeholder" => "Ville du logement")); ?>
                 		                </div>
                 		            </div> 
+                		            <?php endif; ?>
                                 </div>
                                 <div class="col-sm-5" id="vendeur_informations">
                                     <?php include_partial('vrac/vendeurInformations', array('vendeur' => $form->getObject()->getVendeurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
@@ -93,10 +121,14 @@ endif;
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
+        		<?php if(isset($form['acheteur_identifiant'])): ?>
                 <div class="col-xs-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Acheteur</h3>
+                            <h3 class="panel-title">Acheteur
+							<?php if(isset($form['responsable'])): ?><input id="vrac_responsable_acheteur" type="radio" value="acheteur" name="vrac[responsable]" class="pull-right"<?php if($vrac->getOrAdd('responsable') == 'acheteur'): ?> checked="checked"<?php endif; ?>></input><?php endif; ?>
+							</h3>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -115,12 +147,14 @@ endif;
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
-             <?php echo $form['mandataire_exist']->renderError(); ?>
+        	<?php if(isset($form['mandataire_identifiant'])): ?>
+            <?php echo $form['mandataire_exist']->renderError(); ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title checkbox"><label class="bloc_condition col-xs-12" data-condition-cible="#bloc_mandataire"  for="<?php echo $form['mandataire_exist']->renderId(); ?>"><?php echo $form['mandataire_exist']->render(); ?>&nbsp;Mandataire
-                        </label></h3>
+                    <h3 class="panel-title checkbox"><label class="bloc_condition col-xs-12" data-condition-cible="#bloc_mandataire"  for="<?php echo $form['mandataire_exist']->renderId(); ?>"><?php echo $form['mandataire_exist']->render(); ?>&nbsp;Mandataire / Courtier <?php if(isset($form['responsable'])): ?><input id="vrac_responsable_mandataire" type="radio" value="mandataire" name="vrac[responsable]" class="pull-right"<?php if($vrac->getOrAdd('responsable') == 'mandataire'): ?> checked="checked"<?php endif; ?>></input><?php endif; ?></label>
+					</h3>
                 </div>
                 <div id="bloc_mandataire" data-condition-value="1" class="panel-body bloc_conditionner">
                     <div class="row">
@@ -129,13 +163,6 @@ endif;
                             <div class="form-group <?php if($form['mandataire_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                 <div class="col-sm-12" id="mandataire_choice">
                                     <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un mandataire')); ?>
-                                </div>
-                            </div>
-                            <?php echo $form['mandatant']->renderError(); ?>
-                            <div class="form-group <?php if($form['mandatant']->hasError()): ?>has-error<?php endif; ?>">
-                                <?php echo $form['mandatant']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
-                                <div class="col-sm-10">
-                                    <?php echo $form['mandatant']->render(); ?>
                                 </div>
                             </div>
                             <?php if (isset($form['commercial'])): ?>
@@ -154,6 +181,7 @@ endif;
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
     </div>
     <div class="row">

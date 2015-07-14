@@ -11,8 +11,57 @@ Vrac:
       numero_archive: {  }
       etape: { type: integer }
       interne: { }
-      createur_identifiant: { require:false }
+      createur_identifiant: { }
+      responsable: { }
       teledeclare: { require:false }
+      vendeur_intermediaire: { }
+      volume_initial: { type: float }
+      volume_vigueur: { type: float }
+      surface: { type: float }
+      degre: { type: float }
+      delai_paiement: { }
+      moyen_paiement: { }
+      date_limite_retiraison: { }
+      conditions_particulieres: { }
+      tva: { }
+      pluriannuel: { }
+      clause_reserve_propriete: { }
+      autorisation_nom_vin: { }
+      autorisation_nom_producteur: { }
+      unites:
+        type: collection
+        definition:
+          fields:
+            volume_initial:
+              type: collection
+              definition:
+                fields:
+                  '*': {  }
+            volume_vigueur:
+              type: collection
+              definition:
+                fields:
+                  '*': {  }
+            surface:
+              type: collection
+              definition:
+                fields:
+                  '*': {  }
+            jus_quantite:
+              type: collection
+              definition:
+                fields:
+                  '*': {  }
+            raisin_quantite:
+              type: collection
+              definition:
+                fields:
+                  '*': {  }
+            prix_initial_unitaire:
+              type: collection
+              definition:
+                fields:
+                  '*': {  }
       interlocuteur_commercial:
         type: collection
         definition:

@@ -5,4 +5,4 @@
        $params['urlsoussigne'] =  $urlsoussigne;
     endif;
 ?>
-<?php include_partial('etapes', $params); ?>
+<?php include_component('vrac', 'etapes', $params) ?>

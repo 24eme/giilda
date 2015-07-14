@@ -49,6 +49,9 @@ class VracClient extends acCouchdbClient {
     const CVO_NATURE_VINAIGRERIE = 'VINAIGRERIE';
     const CATEGORIE_VIN_GENERIQUE = 'GENERIQUE';
     const CATEGORIE_VIN_DOMAINE = 'DOMAINE';
+    const CATEGORIE_VIN_CHATEAU = 'CHATEAU';
+    const CATEGORIE_VIN_AGE = 'AGE';
+    const CATEGORIE_VIN_MARQUE = 'MARQUE';
     const CVO_REPARTITION_50_50 = '50';
     const CVO_REPARTITION_100_VITI = '100';
     const CVO_REPARTITION_100_NEGO = '100_ACHETEUR';
@@ -68,7 +71,7 @@ class VracClient extends acCouchdbClient {
         VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
         VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
         VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin conditionné');
-    public static $categories_vin = array(self::CATEGORIE_VIN_GENERIQUE => 'Générique', self::CATEGORIE_VIN_DOMAINE => 'Domaine');
+    public static $categories_vin = array(self::CATEGORIE_VIN_GENERIQUE => 'Générique', self::CATEGORIE_VIN_DOMAINE => 'Domaine', self::CATEGORIE_VIN_CHATEAU => 'Château', self::CATEGORIE_VIN_AGE => 'Age', self::CATEGORIE_VIN_MARQUE => 'Marque');
     public static $types_transaction_vins = array(self::TYPE_TRANSACTION_VIN_VRAC, self::TYPE_TRANSACTION_VIN_BOUTEILLE);
     public static $types_transaction_non_vins = array(self::TYPE_TRANSACTION_RAISINS, self::TYPE_TRANSACTION_MOUTS);
     public static $cvo_repartition = array(self::CVO_REPARTITION_50_50 => '50/50',

@@ -472,6 +472,7 @@ class vracActions extends sfActions {
         $this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
+        $this->configuration = VracConfiguration::getInstance();
         $this->compte = null;
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
         $this->defaultDomaine = $this->vrac->domaine;
@@ -500,7 +501,7 @@ class vracActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->maj_etape(2);
                 $this->form->save();
-                $this->redirect('vrac_validation', $this->vrac);
+                $this->redirect('vrac_condition', $this->vrac);
             } else {
                 
             }

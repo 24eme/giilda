@@ -1,108 +1,125 @@
-<?php include_partial('vrac/etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 3, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
-
-<div class="page-header">
-    <h2>Conditions</h2>
-</div>
+<?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 3, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <form action="" method="post" class="form-horizontal">
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
-            <div class="form-group">
-                <?php echo $form['type_contrat']->renderError(); ?>
-                <?php echo $form['type_contrat']->renderLabel("Type de contrat :", array('class' => 'col-sm-4 control-label')); ?>
+            <?php if(isset($form['pluriannuel'])): ?>
+				<div class="form-group">
+					<?php echo $form['pluriannuel']->renderError(); ?>
+					<div class="checkbox col-sm-8 col-sm-offset-4">
+						<label for="<?php echo $form['pluriannuel']->renderId(); ?>">
+							<?php echo $form['pluriannuel']->render(); ?>
+							Contrat pluriannuel
+						</label>
+					</div>
+				</div>
+			<?php endif; ?>
+        
+        	<?php if (isset($form['delai_paiement'])): ?>
+            <div class="form-group <?php if($form['delai_paiement']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['delai_paiement']->renderError(); ?>
+                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['type_contrat']->render(); ?>
-                </div>
-            </div>
-
-            <?php if (!$vrac->isTeledeclare()): ?>
-                <div class="form-group">
-                    <?php echo $form['prix_variable']->renderError(); ?>
-                    <?php echo $form['prix_variable']->renderLabel("Partie de prix variable ?", array('class' => 'col-sm-4 control-label')); ?>
-                    <div class="col-sm-8">
-                        <?php echo $form['prix_variable']->render(); ?>
-                    </div>
-                </div>
-            <?php endif; ?>
-
-            <?php if (!$isTeledeclarationMode) : ?>
-                <div class="form-group">
-                    <?php echo $form['part_variable']->renderError(); ?>
-                    <?php echo $form['part_variable']->renderLabel("Part du prix variable sur la quantité :", array('class' => 'col-sm-4 control-label')); ?>
-                    <div class="col-sm-8">
-                        <?php echo $form['part_variable']->render(array('class' => 'form-control')); ?>
-                    </div>
-                </div>
-
-                <?php if(isset($form['cvo_nature']) || isset($form['cvo_repartition'])): ?>
-                <div class="form-group">
-                    <?php echo $form['cvo_nature']->renderError(); ?>
-                    <?php echo $form['cvo_nature']->renderLabel("Nature de la transaction :", array('class' => 'col-sm-4 control-label')); ?>
-                    <div class="col-sm-8">
-                        <?php echo $form['cvo_nature']->render(array('class' => 'form-control')); ?>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <?php echo $form['cvo_repartition']->renderError(); ?>
-                    <?php echo $form['cvo_repartition']->renderLabel("Répartition de la CVO :", array('class' => 'col-sm-4 control-label')); ?>
-                    <div class="col-sm-8">
-                        <?php echo $form['cvo_repartition']->render(array('class' => 'form-control')); ?>
-                    </div>
-                </div>
-                <?php endif; ?>
-
-                <?php if (isset($form['date_signature']) && isset($form['date_campagne'])): ?>
-                <div class="form-group">
-                    <?php echo $form['date_signature']->renderError(); ?>
-                    <?php echo $form['date_signature']->renderLabel("Date de signature :", array('class' => 'col-sm-4 control-label')); ?>
-                    <div class="col-sm-8">
-                        <?php echo $form['date_signature']->render(array('class' => 'form-control')); ?>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <?php echo $form['date_campagne']->renderError(); ?>
-                    <?php echo $form['date_campagne']->renderLabel("Date de campagne :", array('class' => 'col-sm-4 control-label')); ?>
-                    <div class="col-sm-8">
-                        <?php echo $form['date_campagne']->render(array('class' => 'form-control')); ?>
-                    </div>
-                </div>
-                <?php endif; ?>
-            <?php endif; ?>
-
-            <?php if (isset($form['enlevement_date']) && isset($form['enlevement_frais_garde'])): ?>
-            <div class="form-group">
-                <?php echo $form['enlevement_date']->renderError(); ?>
-                <?php echo $form['enlevement_date']->renderLabel(null, array('class' => 'col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['enlevement_date']->render(array('class' => 'form-control')); ?>
-                </div>
-            </div>
-            <div class="form-group">
-                <?php echo $form['enlevement_frais_garde']->renderError(); ?>
-                <?php echo $form['enlevement_frais_garde']->renderLabel(null, array('class' => 'col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['enlevement_frais_garde']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['delai_paiement']->render(); ?>
                 </div>
             </div>
             <?php endif; ?>
-
-            <?php if (!$isTeledeclarationMode) : ?>
-            <div class="form-group">
-                <?php echo $form['commentaire']->renderError(); ?>
-                <?php echo $form['commentaire']->renderLabel(null, array('class' => 'col-sm-4 control-label')); ?>
+        
+        	<?php if (isset($form['moyen_paiement'])): ?>
+            <div class="form-group <?php if($form['moyen_paiement']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['moyen_paiement']->renderError(); ?>
+                <?php echo $form['moyen_paiement']->renderLabel("Moyen de paiement :", array('class' => 'col-sm-4 control-label')); ?>
                 <div class="col-sm-8">
-                    <?php echo $form['commentaire']->render(array('class' => 'form-control')); ?>
+                    <?php echo $form['moyen_paiement']->render(); ?>
                 </div>
             </div>
             <?php endif; ?>
+        
+        	<?php if (isset($form['conditions_particulieres'])): ?>
+            <div class="form-group <?php if($form['conditions_particulieres']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['conditions_particulieres']->renderError(); ?>
+                <?php echo $form['conditions_particulieres']->renderLabel("Conditions particulières :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['conditions_particulieres']->render(); ?>
+                </div>
+            </div>
+            <?php endif; ?>
+        
+        	<?php if (isset($form['date_limite_retiraison'])): ?>
+            <div class="form-group <?php if($form['date_limite_retiraison']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['date_limite_retiraison']->renderError(); ?>
+                <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['date_limite_retiraison']->render(); ?>
+                </div>
+            </div>
+            <?php endif; ?>
+        
+        	<?php if (isset($form['cvo_repartition'])): ?>
+            <div class="form-group <?php if($form['cvo_repartition']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['cvo_repartition']->renderError(); ?>
+                <?php echo $form['cvo_repartition']->renderLabel("Taux de courtage :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['cvo_repartition']->render(); ?>
+                </div>
+            </div>
+            <?php endif; ?>
+        
+        	<?php if (isset($form['tva'])): ?>
+            <div class="form-group <?php if($form['tva']->hasError()): ?>has-error<?php endif; ?>">
+                <?php echo $form['tva']->renderError(); ?>
+                <?php echo $form['tva']->renderLabel("TVA :", array('class' => 'col-sm-4 control-label')); ?>
+                <div class="col-sm-8">
+                    <?php echo $form['tva']->render(); ?>
+                </div>
+            </div>
+            <?php endif; ?>
+            
+            <?php if(isset($form['clause_reserve_propriete'])): ?>
+				<div class="form-group">
+					<?php echo $form['clause_reserve_propriete']->renderError(); ?>
+					<div class="checkbox col-sm-8 col-sm-offset-4">
+						<label for="<?php echo $form['clause_reserve_propriete']->renderId(); ?>">
+							<?php echo $form['clause_reserve_propriete']->render(); ?>
+							Clause de réserve de propriété
+						</label>
+					</div>
+				</div>
+			<?php endif; ?>
+            
+            <?php if(isset($form['autorisation_nom_vin'])): ?>
+				<div class="form-group">
+					<?php echo $form['autorisation_nom_vin']->renderError(); ?>
+					<div class="checkbox col-sm-8 col-sm-offset-4">
+						<label for="<?php echo $form['autorisation_nom_vin']->renderId(); ?>">
+							<?php echo $form['autorisation_nom_vin']->render(); ?>
+							Autorisation d'utilisation du nom du vin
+						</label>
+					</div>
+				</div>
+			<?php endif; ?>
+            
+            <?php if(isset($form['autorisation_nom_producteur'])): ?>
+				<div class="form-group">
+					<?php echo $form['autorisation_nom_producteur']->renderError(); ?>
+					<div class="checkbox col-sm-8 col-sm-offset-4">
+						<label for="<?php echo $form['autorisation_nom_producteur']->renderId(); ?>">
+							<?php echo $form['autorisation_nom_producteur']->render(); ?>
+							Autorisation d'utilisation du nom du producteur
+						</label>
+					</div>
+				</div>
+			<?php endif; ?>
+
+            
         </div>
     </div>
 
     <div class="row">
         <div class="col-xs-4 text-left">
-            <a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-default">Etape précédente</a>
+            <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-default">Etape précédente</a>
         </div>
         <div class="col-xs-4 text-center">
             <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
@@ -126,33 +143,10 @@
                 dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
                 monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
                 dateFormat: 'dd/mm/yy',
-                firstDay: 1,
-                defaultDate: "<?php echo $form->getDateEnlevementDefaultLabel() ?>"
+                firstDay: 1
             });
         });
     </script>
-    <?php
-    include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => true));
-else:
-    slot('colApplications');
-    /*
-     * Inclusion du panel de progression d'édition du contrat
-     */
-    if (!$contratNonSolde)
-        include_partial('contrat_progression', array('vrac' => $vrac));
-
-    /*
-     * Inclusion du panel pour les contrats similaires
-     */
-    include_partial('contratsSimilaires', array('vrac' => $vrac));
-
-    /*
-     * Inclusion des Contacts
-     */
-    include_partial('contrat_infos_contact', array('vrac' => $vrac));
-
-    end_slot();
-endif;
-?>  
+<?php endif; ?>
 
 

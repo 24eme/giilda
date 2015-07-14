@@ -15,9 +15,9 @@ $template_validation = (isset($template_validation))? $template_validation : fal
                 <li class="list-group-item">Acheteur : <a href=""><?php echo $vrac->getAcheteurObject()->getNom(); ?></a></li>
                 <li class="list-group-item">
                 <?php if ($vrac->mandataire_identifiant != null && $vrac->mandataire_exist): ?>
-                    Courtier : <a href=""><?php echo $vrac->getMandataireObject()->getNom(); ?></a>
+                    Mandataire / Courtier : <a href=""><?php echo $vrac->getMandataireObject()->getNom(); ?></a>
                 <?php else: ?>
-                    Ce contrat ne possède pas de courtier
+                    Ce contrat ne possède pas de  mandataire / courtier
                 <?php endif; ?>
                 </li>
             </ul>
