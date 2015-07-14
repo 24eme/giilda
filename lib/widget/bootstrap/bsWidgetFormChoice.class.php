@@ -38,5 +38,36 @@ class bsWidgetFormChoice extends sfWidgetFormChoice
 
         return $renderer;
     }
+    
+    public function formatChoices($name, $value, $choices, $attributes)
+    {
+    	$onlyChoice = (!empty($attributes['only_choice'])) ? $attributes['only_choice'] : false; unset($attributes['only_choice']);
+    
+    	if($onlyChoice)
+    	{
+    		if(!isset($choices[$onlyChoice]))
+    			throw new Exception("Option '$onlyChoice' doesn't exist.");
+    
+    		$key    = $onlyChoice;
+    		$option = $choices[$key];
+    		$baseAttributes = array(
+    				'name'  => substr($name, 0, -2),
+    				'type'  => 'radio',
+    				'value' => self::escapeOnce($key),
+    				'id'    => $id = $this->generateId($name, self::escapeOnce($key)),
+    		);
+    
+    		if (strval($key) == strval($value === false ? 0 : $value))
+    		{
+    			$baseAttributes['checked'] = 'checked';
+    		}
+    
+    		return $this->renderTag('input', array_merge($baseAttributes, $attributes));
+    	}
+    	else
+    	{
+    		return parent::formatChoices($name, $value, $choices, $attributes);
+    	}
+    }
 
 }
