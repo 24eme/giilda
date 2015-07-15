@@ -7,8 +7,10 @@ var initAjoutProduitPopup = function () {
             width: 'auto',
             titleShow : false,
         });
-    $('.add_crds_popup_content a#popup_close').click(function () {
+    $('.add_produit_popup_certification_content a.popup_close').click(function () {
         $.fancybox.close();
+
+        return false;
     });
 
 };
