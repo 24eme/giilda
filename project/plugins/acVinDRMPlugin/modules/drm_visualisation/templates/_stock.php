@@ -8,7 +8,7 @@
 					<th style="width: 200px;">Produits</td>
 					<th>Stock début de mois</th>
 					<th>Entrées</th>
-					<th>Sorties (Fact.)</th>
+					<th>Sorties<?php if(!$isTeledeclarationMode): ?> (Fact.)<?php endif; ?></th>
 					<th><strong>Stock fin de mois</strong></th>
 				</tr>
 			</thead>
