@@ -118,3 +118,8 @@ function getLibelleForGenre($genre) {
     }
     return $genre;
 }
+
+function getLastDayForDrmPeriode($drm){
+    $dateFirst =  new DateTime(substr($drm->periode,0,4).'-'.substr($drm->periode,5).'-01');
+    return $dateFirst->format('t/m');
+}
