@@ -64,7 +64,7 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
         }
 
         foreach ($details as $key => $detail) {
-            $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document);
+            $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document,$detail->type_document);
         }
     }
 

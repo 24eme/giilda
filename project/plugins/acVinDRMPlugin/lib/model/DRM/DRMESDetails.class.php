@@ -37,7 +37,7 @@ class DRMESDetails extends BaseDRMESDetails {
         $this->getParent()->add($this->getKey());
     }
 
-    public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null) {
+    public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null, $type_document = null) {
         $detail = $this->add($identifiant);
 
         $detail->identifiant = $identifiant;
@@ -54,8 +54,8 @@ class DRMESDetails extends BaseDRMESDetails {
 
         if ($numero_document) {
             $detail->numero_document = $numero_document;
-            $documents_annexes = $this->getDocument()->getOrAdd('documents_annexes');
-            $type_document = DRMClient::determineTypeDocument($numero_document);
+            $detail->type_document = $type_document;
+            $documents_annexes = $this->getDocument()->getOrAdd('documents_annexes');            
             if ($type_document) {
                 if (($detail instanceof DRMESDetailExport) || ($detail instanceof DRMESDetailVrac)) {
                     if (!$documents_annexes->exist($type_document)) {
