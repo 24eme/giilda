@@ -23,7 +23,7 @@ $detailNode = $config->details->get($drm->getDetailsConfigKey())->detail;
         </div>
 
         <div class="groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="2">
-            <p >Entrées - Favoris</p>
+            <p >Entrées</p>
             <ul>
                 <?php foreach ($detailNode->getEntrees() as $key => $item): ?>
                     <?php if ($favoris_entrees->exist($key)): ?>
@@ -53,13 +53,13 @@ $detailNode = $config->details->get($drm->getDetailsConfigKey())->detail;
         </div>
 
         <div class="groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="4">
-            <p>Sorties - Favoris</p>
+            <p>Sorties</p>
             <ul>
                 <?php foreach ($detailNode->getSorties() as $key => $item): ?>
                     <?php if ($favoris_sorties->exist($key)): ?>
                         <li <?php echo ($item->getFacturable() && !$isTeledeclarationMode) ? ' class="facturable"' : ''; ?> >    
                             <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo (count($favoris_sorties) > 1 ) ? 'clickable' : ''; ?>">
-                                <?php echo $item->getLibelle($drm->getDetailsConfigKey()); ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="Message aide"></a>
+                                <?php echo $item->getLibelle($drm->getDetailsConfigKey()); ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong($drm->getDetailsConfigKey()); ?>"></a>
                             </span>
                         </li>
                     <?php endif; ?>

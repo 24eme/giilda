@@ -70,7 +70,10 @@ EOF;
 
         foreach (file($import_dir . '/libelle_detail_ligne_teledeclaration_drm.csv') as $line) {
             $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
-            $detail = $configuration->libelle_detail_ligne->getOrAdd($datas[0])->get($datas[1])->add($datas[2], $datas[3]);
+            $detail = $configuration->libelle_detail_ligne->getOrAdd($datas[0])->get($datas[1])->add($datas[2]);
+            $detail->libelle =  $datas[3];
+            $detail->libelle_long =  $datas[4];
+            $detail->description =  $datas[5];
         }
 
         $csv = new ProduitCsvFile($configuration, $import_dir . '/produits_teledeclaration_drm.csv');

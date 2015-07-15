@@ -52,7 +52,7 @@ class DRMFavorisForm extends acCouchdbObjectForm {
                 $mvt = $matches[2];
                 $this->drm->getOrAdd('favoris');
                 if ((!is_null($value)) && ($value) && ($value == 1)) {
-                    $this->drm->getOrAdd('favoris')->getOrAdd($type_mvt)->add($mvt, $this->types_mvt->$type_mvt->$mvt);
+                    $this->drm->getOrAdd('favoris')->getOrAdd($type_mvt)->add($mvt, $this->types_mvt->$type_mvt->$mvt->libelle);
                 }
             }
         }

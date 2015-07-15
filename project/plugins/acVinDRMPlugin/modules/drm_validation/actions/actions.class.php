@@ -52,10 +52,9 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->form = new DRMCommentaireForm($this->drm);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
-
+            
             return sfView::SUCCESS;
         }
-
         $this->form->bind($request->getParameter($this->form->getName()));
         if ($request->getParameter('brouillon')) {
             $this->form->save();
