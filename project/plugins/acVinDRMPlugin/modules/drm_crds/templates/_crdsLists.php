@@ -16,7 +16,7 @@
                         <th rowspan="2">Stock</th>
                         <th colspan="3">Entrées</th>
                         <th colspan="3">Sorties</th>
-                        <th rowspan="2">Stock 31/01</th>
+                        <th rowspan="2">Stock <?php echo getLastDayForDrmPeriode($drm); ?></th>
                     </tr>
                     <tr>
 
