@@ -38,6 +38,6 @@
         </table>    
     <?php endif; ?>
     <div class="choix_produit_add_produit">
-        <a class="btn_majeur <?php if ($hasRegimeCrd): ?>ajout_produit_popup<?php endif; ?>" href="#add_produit_<?php echo $certifKey; ?>">Ajouter des Produits</a> 
+        <button type="submit" name="add_produit" value="<?php echo $certificationProduits->certification->getHash() ?>" class="btn_majeur">Ajouter des Produits</button> 
     </div>
 <?php endforeach; ?>

@@ -41,7 +41,7 @@ class DRMCrdsForm extends acCouchdbObjectForm {
                     $this->widgetSchema->setLabel('sorties_manquants' . $keyWidgetsSuffixe, 'Manquants');
 
                     $this->setValidator('entrees_achats' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
-                    $this->setValidator('entrees_retours' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => fals, 'min' => 0)));
+                    $this->setValidator('entrees_retours' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
                     $this->setValidator('entrees_excedents' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
 
                     $this->setValidator('sorties_utilisations' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
