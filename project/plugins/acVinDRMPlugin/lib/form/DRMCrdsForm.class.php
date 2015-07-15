@@ -40,13 +40,13 @@ class DRMCrdsForm extends acCouchdbObjectForm {
                     $this->widgetSchema->setLabel('sorties_destructions' . $keyWidgetsSuffixe, 'Destructions');
                     $this->widgetSchema->setLabel('sorties_manquants' . $keyWidgetsSuffixe, 'Manquants');
 
-                    $this->setValidator('entrees_achats' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
-                    $this->setValidator('entrees_retours' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
-                    $this->setValidator('entrees_excedents' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+                    $this->setValidator('entrees_achats' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
+                    $this->setValidator('entrees_retours' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => fals, 'min' => 0)));
+                    $this->setValidator('entrees_excedents' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
 
-                    $this->setValidator('sorties_utilisations' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
-                    $this->setValidator('sorties_destructions' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
-                    $this->setValidator('sorties_manquants' . $keyWidgetsSuffixe, new sfValidatorNumber(array('required' => false)));
+                    $this->setValidator('sorties_utilisations' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
+                    $this->setValidator('sorties_destructions' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
+                    $this->setValidator('sorties_manquants' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
                 }
             }
         }
@@ -79,13 +79,13 @@ class DRMCrdsForm extends acCouchdbObjectForm {
             foreach ($crdAllGenre as $genre => $crds) {
                 foreach ($crds as $key => $crd) {
                     $keyWidgetsSuffixe = $regime . '_' . $key;
-                    $this->setDefault('entrees_achats_' . $keyWidgetsSuffixe, ($crd->entrees_achats) ? $crd->entrees_achats : 0);
-                    $this->setDefault('entrees_retours_' . $keyWidgetsSuffixe, ($crd->entrees_retours) ? $crd->entrees_retours : 0);
-                    $this->setDefault('entrees_excedents_' . $keyWidgetsSuffixe, ($crd->entrees_excedents) ? $crd->entrees_excedents : 0);
+                    $this->setDefault('entrees_achats_' . $keyWidgetsSuffixe, ($crd->entrees_achats) ? $crd->entrees_achats : null);
+                    $this->setDefault('entrees_retours_' . $keyWidgetsSuffixe, ($crd->entrees_retours) ? $crd->entrees_retours : null);
+                    $this->setDefault('entrees_excedents_' . $keyWidgetsSuffixe, ($crd->entrees_excedents) ? $crd->entrees_excedents : null);
 
-                    $this->setDefault('sorties_utilisations_' . $keyWidgetsSuffixe, ($crd->sorties_utilisations) ? $crd->sorties_utilisations : 0);
-                    $this->setDefault('sorties_destructions_' . $keyWidgetsSuffixe, ($crd->sorties_destructions) ? $crd->sorties_destructions : 0);
-                    $this->setDefault('sorties_manquants_' . $keyWidgetsSuffixe, ($crd->sorties_manquants) ? $crd->sorties_manquants : 0);
+                    $this->setDefault('sorties_utilisations_' . $keyWidgetsSuffixe, ($crd->sorties_utilisations) ? $crd->sorties_utilisations : null);
+                    $this->setDefault('sorties_destructions_' . $keyWidgetsSuffixe, ($crd->sorties_destructions) ? $crd->sorties_destructions : null);
+                    $this->setDefault('sorties_manquants_' . $keyWidgetsSuffixe, ($crd->sorties_manquants) ? $crd->sorties_manquants : null);
                 }
             }
         }

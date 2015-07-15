@@ -41,15 +41,15 @@ var initCrds = function () {
         $('input').change(function () {
             var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
 
-            var entreesAchats = $("#" + id + " td.crds_entreesAchats input").val();
-            var entreesRetours = $("#" + id + " td.crds_entreesRetours input").val();
-            var entreesExcedents = $("#" + id + " td.crds_entreesExcedents input").val();
-
-            var sortiesUtilisations = $("#" + id + " td.crds_sortiesUtilisations input").val();
-            var sortiesDestructions = $("#" + id + " td.crds_sortiesDestructions input").val();
-            var sortiesManquants = $("#" + id + " td.crds_sortiesManquants input").val();
+            var entreesAchats = (!isNaN(parseInt($("#" + id + " td.crds_entreesAchats input").val()))) ? parseInt($("#" + id + " td.crds_entreesAchats input").val()) : 0;
+            var entreesRetours = (!isNaN(parseInt($("#" + id + " td.crds_entreesRetours input").val()))) ? parseInt($("#" + id + " td.crds_entreesRetours input").val()) : 0;
+            var entreesExcedents = (!isNaN(parseInt($("#" + id + " td.crds_entreesExcedents input").val()))) ? parseInt($("#" + id + " td.crds_entreesExcedents input").val()) : 0;
+            var sortiesUtilisations = (!isNaN(parseInt($("#" + id + " td.crds_sortiesUtilisations input").val()))) ? parseInt($("#" + id + " td.crds_sortiesUtilisations input").val()) : 0;
+            var sortiesDestructions = (!isNaN(parseInt($("#" + id + " td.crds_sortiesDestructions input").val()))) ? parseInt($("#" + id + " td.crds_sortiesDestructions input").val()) : 0;
+            var sortiesManquants = (!isNaN(parseInt($("#" + id + " td.crds_sortiesManquants input").val()))) ? parseInt($("#" + id + " td.crds_sortiesManquants input").val()) : 0;
 
             var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entreesAchats) + parseInt(entreesRetours) + parseInt(entreesExcedents) - parseInt(sortiesUtilisations) - parseInt(sortiesDestructions) - parseInt(sortiesManquants);
+
             $("#" + id + " td.crds_fin_de_mois").text(fin_de_mois);
         });
 
