@@ -1,5 +1,4 @@
 var initAjoutProduitPopup = function () {
-
     $('a.ajout_produit_popup').fancybox({
         autoSize: true,
         autoCenter: true,
@@ -7,6 +6,7 @@ var initAjoutProduitPopup = function () {
         width: 'auto',
         titleShow: false,
     });
+    $('a.ajout_produit_popup').click();
     $('.add_produit_popup_certification_content a.popup_close').click(function () {
         $.fancybox.close();
 
