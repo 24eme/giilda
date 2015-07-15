@@ -1,12 +1,12 @@
 var initAjoutProduitPopup = function () {
 
     $('a.ajout_produit_popup').fancybox({
-            autoSize: true,
-            autoCenter: true,
-            height: 'auto',
-            width: 'auto',
-            titleShow : false,
-        });
+        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+        titleShow: false,
+    });
     $('.add_produit_popup_certification_content a.popup_close').click(function () {
         $.fancybox.close();
 
@@ -15,7 +15,7 @@ var initAjoutProduitPopup = function () {
 
 };
 
-var initSignatureDrmPopup = function() {
+var initSignatureDrmPopup = function () {
 
     $('a.signature_drm_popup').fancybox({
         autoSize: true,
@@ -24,13 +24,13 @@ var initSignatureDrmPopup = function() {
         width: 'auto',
         minWidth: 500
     });
-    $('#signature_drm_popup_content a#signature_drm_popup_close').click(function(){
+    $('#signature_drm_popup_content a#signature_drm_popup_close').click(function () {
         $.fancybox.close();
     })
 
-    $('#signature_drm_popup_content button#signature_drm_popup_confirm').click(function(){
+    $('#signature_drm_popup_content button#signature_drm_popup_confirm').click(function () {
 
-       $("form#drm_validation").submit();
+        $("form#drm_validation").submit();
     });
 
 };
@@ -207,6 +207,10 @@ var initNonApurement = function () {
     initCollectionDeleteNonApurementTemplate();
 }
 
+var initTooltips = function () {
+    //INIT un tooltip
+}
+
 $(document).ready(function ()
 {
     initAjoutProduitPopup();
@@ -218,5 +222,5 @@ $(document).ready(function ()
     initValidationCoordonneesEtbSociete();
     initNonApurement();
     initSignatureDrmPopup();
-
+    initTooltips();
 });

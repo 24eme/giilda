@@ -787,6 +787,16 @@ p#date_drm
         width: 280px;
         border-right:1px solid @couleur-a10;
 
+        #tooltip {
+            position: absolute;
+            z-index: 3000;
+            border: 1px solid #111;
+            background-color: #eee;
+            padding: 5px;
+            opacity: 0.85;
+        }
+        #tooltip h3, #tooltip div { margin: 0; }
+        
         p
         {
             margin: 0 0 10px;
@@ -1502,8 +1512,8 @@ p#date_drm
         float:right;
         position: relative;
     }
-    
-    
+
+
 
 
 
@@ -1584,13 +1594,13 @@ p#date_drm
 
     #colonne_intitules{
         .msg_aide
-    {
-        background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
-        font-size:12px;
-        padding: 5px 5px 5px 25px;
-        width:30px;
-        height:30px;
-    }    
+        {
+            background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
+            font-size:12px;
+            padding: 5px 5px 5px 25px;
+            width:30px;
+            height:30px;
+        }    
 
         .li_gris{
             padding-top:5px;
