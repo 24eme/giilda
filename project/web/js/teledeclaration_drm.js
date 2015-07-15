@@ -30,7 +30,7 @@ var initSignatureDrmPopup = function() {
 
     $('#signature_drm_popup_content button#signature_drm_popup_confirm').click(function(){
 
-        $("form#drm_validation").submit();
+       $("form#drm_validation").submit();
     });
 
 };

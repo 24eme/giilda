@@ -41,22 +41,46 @@ Configuration:
                     type: collection
                     definition:
                       fields:
-                        '*': {  }
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              libelle: {  }  
+                              libelle_long: {  }  
+                              description: {  }  
                   entrees:
                     type: collection
                     definition:
                       fields:
-                        '*': {  }
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              libelle: {  }  
+                              libelle_long: {  }  
+                              description: {  }  
                   sorties:
                     type: collection
                     definition:
                       fields:
-                        '*': {  }
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              libelle: {  }  
+                              libelle_long: {  }  
+                              description: {  }  
                   stocks_fin:
                     type: collection
                     definition:
                       fields:
-                        '*': {  }
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              libelle: {  }  
+                              libelle_long: {  }  
+                              description: {  }  
       alias:
         type: collection
         definition:
