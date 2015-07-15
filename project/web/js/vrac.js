@@ -96,34 +96,42 @@ var updatePanelsConditions = function()
     }
 };
 
+
+
+var formatNumber = function (number)
+{
+    var number = number.toFixed(2) + '';
+    var x = number.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ' ' + '$2');
+    }
+    return x1 + x2;
+}
+
+
+
 var initMarche = function(isTeledeclarationMode)
 {
-    if ($('#vrac_marche #original input:checked').length == 0)
-        $('#vrac_marche #original input[value="1"]').attr('checked', 'checked');
-    if ($('#vrac_marche #type_transaction input:checked').length == 0)
-        $('#vrac_marche #type_transaction input[value="VIN_VRAC"]').attr('checked', 'checked');
-    if ($('#type input[name="vrac[categorie_vin]"]:checked').length == 0)
-        $('#type input[value="GENERIQUE"]').attr('checked', 'checked');
-
-    if ($('#type input[value="GENERIQUE"]:checked').length > 0) {
-        $('#domaine').hide();
-    }
-
-
-
-    $('#type input').click(function()
-    {
-        if ($(this).val() == 'GENERIQUE')
-            $('#domaine').hide();
-        else
-            $('#domaine').show();
-    });
-
-    updatePanelsAndUnitLabels(isTeledeclarationMode);
-    $('#vrac_marche #type_transaction input').click(function() {
-        clearVolumesChamps();
-        updatePanelsAndUnitLabels(isTeledeclarationMode);
-    });
+	if ($('#vrac_bouteilles_contenance_libelle').length > 0) {
+		$('#vrac_jus_quantite').keyup(function(e){
+			var bouteille = $('#vrac_bouteilles_contenance_libelle').val();
+			var hl = contenances[bouteille];
+			 $('#correspondance_bouteille').html(formatNumber($('#vrac_jus_quantite').val() / hl)+' bouteilles');
+		});
+		$('#vrac_bouteilles_contenance_libelle').change(function(e){
+			var bouteille = $('#vrac_bouteilles_contenance_libelle').val();
+			var hl = contenances[bouteille];
+			var val = $('#vrac_jus_quantite').val();
+			if (!val) {
+				val = 0;
+			}
+			 $('#correspondance_bouteille').html(formatNumber(val / hl)+' bouteilles');
+		});
+	}
+    
 };
 
 
@@ -674,6 +682,9 @@ $(document).ready(function()
 {
 	if ($('#contrat_soussignes').length > 0) {
 		initSoussignes();
+	}
+	if ($('#contrat_marche').length > 0) {
+		initMarche();
 	}
     initConditions();
     //$("#vrac_soussigne").bind("submit", function() {return false;});

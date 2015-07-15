@@ -3,7 +3,7 @@
 
 <?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 2, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
-<form action="" method="post" class="form-horizontal">
+<form action="" method="post" class="form-horizontal" id="contrat_marche" >
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
@@ -132,6 +132,12 @@
                     </div>
                     <div class="panel-body">
                         <?php if(isset($form['bouteilles_contenance_libelle'])): ?>
+                        <script type="text/javascript">
+						var contenances = new Array();
+						<?php foreach (VracConfiguration::getInstance()->getContenances() as $l => $hl): ?>
+						contenances["<?php echo $l ?>"] = <?php echo $hl ?>;
+						<?php endforeach; ?>
+						</script>
                         <?php echo $form['bouteilles_contenance_libelle']->renderError(); ?>
                         <div class="form-group <?php if($form['bouteilles_contenance_libelle']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['bouteilles_contenance_libelle']->renderLabel("Contenance :", array('class' => 'col-sm-4 control-label')); ?>
@@ -151,6 +157,11 @@
                                     <span class="input-group-addon">&nbsp;<?php echo $configuration->getUnites()[$form->getObject()->type_transaction]['jus_quantite']['libelle'] ?></span>
                                 </div>
                             </div>
+                            <div class="col-sm-4">
+                                <?php if(isset($form['bouteilles_contenance_libelle'])): ?>
+                                <p class="control-label" id="correspondance_bouteille"></p>
+                                <?php endif; ?>
+                           </div>
                         </div>
                         <?php endif; ?>
                         <?php if(isset($form['raisin_quantite'])): ?>
