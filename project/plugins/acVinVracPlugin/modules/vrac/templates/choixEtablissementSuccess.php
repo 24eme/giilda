@@ -6,7 +6,7 @@
 
     <form id="vrac_choix_etablissement" method="post" action="<?php echo url_for('vrac_societe_choix_etablissement', array('identifiant' => $societe->identifiant)) ?>"> 
         <h2 class="titre_societe">
-            Espace de <?php echo $societe->raison_sociale; ?>
+            Espace contrat de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)
         </h2>
         
         <p class="titre_section">Votre société possède plusieurs établissements. Veuillez renseigner l'établissement en charge de ce contrat.</p>

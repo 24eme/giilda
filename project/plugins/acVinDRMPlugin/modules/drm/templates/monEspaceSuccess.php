@@ -3,7 +3,7 @@
     <?php if (!$isTeledeclarationMode): ?>
         <p id="fil_ariane"><a href="<?php echo url_for('drm') ?>">Page d'accueil</a> &gt; <strong><?php echo $etablissement->nom ?></strong></p>
     <?php else: ?>
-        <h2><?php echo $societe->raison_sociale ?></h2>
+        <h2 class="titre_societe">Espace drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
     <?php endif; ?>
 
     <!-- #contenu_etape -->

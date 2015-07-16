@@ -74,7 +74,9 @@
                             <i class="ouvrir">Ouvrir</i>
                             <i class="fermer">Fermer</i> la barre d'actions
                         </a>
-
+                        <?php
+                        include_slot('colCompte');
+                        ?>
                         <?php
                         include_slot('colButtons');
                         ?>
@@ -101,11 +103,10 @@
                                 </div>
                             <?php endif; ?>
                         <?php endif; ?>
-
-                        <?php include_slot('colCompte'); ?>
+                        
 
                         <?php include_slot('colLegende'); ?>  
-                        
+
 
                         <?php include_slot('colAide'); ?>                        
 

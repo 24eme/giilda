@@ -4,7 +4,7 @@ use_helper('Float');
 ?>
 <section id="principal">
     <h2 class="titre_societe">
-        Espace de <?php echo $societe->raison_sociale; ?>
+        Espace contrat de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)
     </h2>
         
    <form class="filtres_historique" id="filtres_historique" action="<?php echo url_for('vrac_history',array('identifiant' => $identifiant)); ?>" method="POST">
