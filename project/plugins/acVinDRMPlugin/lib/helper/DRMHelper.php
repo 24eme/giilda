@@ -28,6 +28,14 @@ function getDrmTitle($drm) {
     return 'DRM - ' . format_date($date, "MMMM", "fr_FR") . ' ' . $annee;
 }
 
+function getFrPeriodeElision($periode) {
+    
+    $annee = substr($periode, 0, 4);
+    $mois = substr($periode, 4, 2);
+    $date = $annee . '-' . $mois . '-01';
+    return elision('de', format_date($date, "MMMM", "fr_FR")).' '.$annee;
+}
+
 function getNumberOfFirstProduitWithMovements($produits) {
     $cpt = 1;
     foreach ($produits as $produit) {
