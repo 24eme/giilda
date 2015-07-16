@@ -34,7 +34,6 @@
             <?php include_partial('drm_ajout_produit/ajout_produit_popup_certification', array('drm' => $drm, 'certifKey' => $certifKey, 'form' => $formAddProduitsByCertifications[$certifKey])); ?>
         <?php endforeach; ?>
     <?php else: ?>
-        <a class="crd_regime_choice_popup" href="#crd_choix_regime"></a>
         <?php include_partial('drm_crds/crd_regime_choice_popup', array('drm' => $drm, 'crdRegimeForm' => $crdRegimeForm, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
     <?php endif; ?>
 </section>

@@ -1,3 +1,4 @@
+<a class="crd_regime_choice_popup" href="#crd_choix_regime"></a>
 <div style="display:none">
     <div id="crd_choix_regime" class="crd_choix_regime_content">
         <form action="<?php echo url_for('drm_choix_regime_crd', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion())) ?>" method="post">
@@ -12,7 +13,6 @@
                 <?php echo $crdRegimeForm['crd_regime']->render(); ?>
             <br/>
             <div class="ligne_btn">
-                <a class="btn_rouge btn_majeur annuler" style="float: left;" href="<?php url_for('drm_societe', array('identifiant' => $etablissementPrincipal->identifiant)) ?>" >Annuler</a>           
                 <button id="popup_confirm" type="submit" class="btn_validation" style="float: right;" ><span>Valider ce choix de régime CRD</span></button>  
             </div>
         </form>

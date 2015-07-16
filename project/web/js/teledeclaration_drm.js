@@ -86,13 +86,16 @@ var openedPopupAjoutCRD = function () {
 };
 
 var initRegimeCrdsPopup = function () {
-    ;
-
     $('a.crd_regime_choice_popup').fancybox({
         autoSize: true,
         autoCenter: true,
         height: 'auto',
-        width: 'auto'
+        width: 'auto',
+	closeClick: false,
+	closeBtn: false,
+	helpers     : { 
+            overlay : {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
+	}
     });
     $('a.crd_regime_choice_popup').click();
 
