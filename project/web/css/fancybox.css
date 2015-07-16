@@ -12,6 +12,11 @@
 	z-index: 8020;
 }
 
+.fancybox-wrap h1, .fancybox-wrap h2 {
+	font-weight: bold;
+	font-size: 20px;
+}
+
 .fancybox-skin {
 	position: relative;
 	padding: 0;

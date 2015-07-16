@@ -481,24 +481,38 @@ p#date_drm
                 {
                     font-size: 13px;
                     margin: 0 0 10px;
+                    text-align: center;
                 }
+                .block_drm_espace{
+                    li
+                    {
+                        height: 20px;
+                        line-height: 20px;
+                        margin: 5px 0;
+                        padding: 0 0 0 25px;
+                    }
+                    a{
+                        position: static;
+                        text-decoration: none;
+                        :hover{
+                            text-decoration: underline;
+                        }
+                    }
+                    .statut_toCreate
+                    {
+                        background: url("../images/pictos/pi_orange_plus.png") no-repeat;  
+                    }
 
-                li
-                {
-                    height: 20px;
-                    line-height: 20px;
-                    margin: 5px 0;
-                    padding: 0 0 0 25px;
-                }
-
-                .statut_toCreate
-                {
-                    background: url("../images/pictos/pi_orange_plus.png") no-repeat;
-                }
-
-                .statut_toFinish
-                {
-                    background: url("../images/pictos/pi_alerte.png") no-repeat;
+                    .statut_toFinish
+                    {
+                        background: url("../images/pictos/pi_alerte.png") no-repeat;
+                    }
+                    .statut_validee
+                    {
+                        background-image: url("../images/pictos/sprite_calendrier.png");
+                        background-position: 0 -70px;
+                        background-repeat: no-repeat;
+                    }
                 }
             }
         }
@@ -526,7 +540,6 @@ p#date_drm
                 h2{
                     padding: 0;
                     margin: 5px 0;
-                    text-align: left;
                 }
 
                 ul{
@@ -796,7 +809,7 @@ p#date_drm
             opacity: 0.85;
         }
         #tooltip h3, #tooltip div { margin: 0; }
-        
+
         p
         {
             margin: 0 0 10px;

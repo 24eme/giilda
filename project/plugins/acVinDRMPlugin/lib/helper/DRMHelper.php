@@ -28,6 +28,14 @@ function getDrmTitle($drm) {
     return 'DRM - ' . format_date($date, "MMMM", "fr_FR") . ' ' . $annee;
 }
 
+function getFrPeriodeElision($periode) {
+    
+    $annee = substr($periode, 0, 4);
+    $mois = substr($periode, 4, 2);
+    $date = $annee . '-' . $mois . '-01';
+    return elision('de', format_date($date, "MMMM", "fr_FR")).' '.$annee;
+}
+
 function getNumberOfFirstProduitWithMovements($produits) {
     $cpt = 1;
     foreach ($produits as $produit) {
@@ -62,7 +70,7 @@ function getEtatDRMCalendrier($calendrier, $periode,$etablissement = false) {
         return 'En attente';
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
-        return 'Nouvelle';
+        return 'A créer';
     }
     return $statut;
 }
@@ -107,7 +115,7 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode,$etablissement = fals
         return 'En attente';
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
-        return 'Nouvelle';
+        return 'A créer';
     }
     return $statut;
 }
