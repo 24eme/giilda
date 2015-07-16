@@ -55,7 +55,7 @@ $favoris_sorties = $favoris->sorties;
 
             <div class="groupe p_gris" data-groupe-id="3">
                 <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?> extendable">
-                    <input type="text" value="<?php echo $form->getObject()->total_entrees ?>" class="num num_float somme_groupe somme_entrees" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
+                    
                 </p>
                 <ul>
                     <?php foreach ($form['entrees'] as $key => $subform): ?>
@@ -95,7 +95,7 @@ $favoris_sorties = $favoris->sorties;
 
             <div class="groupe p_gris" data-groupe-id="5">
                 <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?> extendable">
-                    <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="num num_float somme_groupe somme_sorties" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
+                   
                 </p>
                 <ul>
                         <?php foreach ($form['sorties'] as $key => $subform): ?>

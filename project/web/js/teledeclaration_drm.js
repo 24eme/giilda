@@ -211,6 +211,20 @@ var initTooltips = function () {
     //INIT un tooltip
 }
 
+var initBoldSaisie = function () {
+    $('input.somme_detail').focus(function () {
+        var name = $(this).attr('name');
+        $('input.somme_detail').each(function () {
+            if ($(this).attr('name') == name) {
+                $(this).attr('style', 'font-weight:bold');
+
+            } else {
+                $(this).attr('style', 'font-weight:normal');
+            }
+        });
+    });
+}
+
 $(document).ready(function ()
 {
     initAjoutProduitPopup();
@@ -223,4 +237,5 @@ $(document).ready(function ()
     initNonApurement();
     initSignatureDrmPopup();
     initTooltips();
+    initBoldSaisie();
 });
