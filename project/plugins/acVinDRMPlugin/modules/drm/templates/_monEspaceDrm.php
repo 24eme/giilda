@@ -13,20 +13,18 @@
                                 <h2> <?php echo $drmsByEtb->nom . ' (' . $etb . ')'; ?></h2>
                                 <ul class="block_drm_espace">
                                     <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_EN_COURS): ?>
-                                        <li class="statut_toFinish">
-                                            
-                                            <a href=""><span>Finir la DRM <?php echo elision('de', getFrPeriode($drmsByEtb->periode)) . ' ' . substr($drmsByEtb->periode, 0, 4); ?></span></a>
+                                        <li class="statut_toFinish">                                            
+                                            <a href="<?php echo url_for('drm_redirect_etape', $drmsByEtb->drm); ?>" ><span>Finir la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
                                         </li>
                                     <?php endif; ?>
                                     <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_NOUVELLE): ?>
                                             <li class="statut_toCreate">
-                                                <a href=""> <span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
-                                               
+                                               <a href="<?php echo url_for('drm_nouvelle', array('identifiant' => $etb, 'periode' => $drmsByEtb->periode)); ?>"><span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
                                             </li>
                                     <?php endif; ?>
                                     <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_VALIDEE): ?>
                                         <li class="statut_validee">
-                                            <a href=""> <span>Visualiser votre DRM <?php echo elision('de', getFrPeriode($drmsByEtb->periode)) . ' ' . substr($drmsByEtb->periode, 0, 4); ?>
+                                            <a href="<?php echo url_for('drm_visualisation', $drmsByEtb->drm); ?>"> <span>Visualiser votre DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?>
                                                 </span></a>
                                         </li>
                                     <?php endif; ?>

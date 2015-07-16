@@ -201,6 +201,8 @@ class DRMCalendrier {
                 $statut = $this->getStatut($periode, $etb->etablissement);
                 $drmLastWithStatut[$etb->etablissement->identifiant]->periode = $periode;
                 if ($statut == self::STATUT_EN_COURS) {
+
+                    $drmLastWithStatut[$etb->etablissement->identifiant]->drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etb->etablissement->identifiant, $periode);                   
                     $drmLastWithStatut[$etb->etablissement->identifiant]->statut = self::STATUT_EN_COURS;
                     break;
                 }
@@ -208,7 +210,8 @@ class DRMCalendrier {
                     $drmLastWithStatut[$etb->etablissement->identifiant]->statut = self::STATUT_NOUVELLE;
                     break;
                 }
-            }           
+                $drmLastWithStatut[$etb->etablissement->identifiant]->drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etb->etablissement->identifiant, $periode);                   
+            }
         }
         return $drmLastWithStatut;
     }
