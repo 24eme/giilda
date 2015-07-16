@@ -5,10 +5,10 @@
             <?php echo $crdRegimeForm->renderHiddenFields(); ?>
             <?php echo $crdRegimeForm->renderGlobalErrors(); ?>
             <h2>Choisir un régime de CRD (Compte capsule)</h2>
+            <br/>
             <p class="error_list">Votre établissement <?php echo $drm->getEtablissement()->nom; ?> ne possède actuellement aucun régime de CRD</p>
             <br/>
-            <p>Il est nécessaire pour la suite de la saisie de choisir ici le régime CRD</p>
-            <p>Une fois choisi ce message n'apparaîtra plus</p>
+            <p>Il est nécessaire pour la suite de la saisie de choisir ici le régime CRD. Une fois choisi ce message n'apparaîtra plus</p>
             <br/>
                 <?php echo $crdRegimeForm['crd_regime']->render(); ?>
             <br/>
