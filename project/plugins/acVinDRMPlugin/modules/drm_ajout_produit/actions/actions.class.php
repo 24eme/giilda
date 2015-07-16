@@ -15,6 +15,7 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
         }*/
 
         $this->hasRegimeCrd = $this->drm->getEtablissement()->hasRegimeCrd();
+        $this->showPopupRegimeCrd = $request->getParameter('popupCRD') || !$this->hasRegimeCrd;
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         if ($this->hasRegimeCrd && $request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -28,11 +29,11 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
             }
         }
 
-        if($this->hasRegimeCrd && $request->hasParameter('add_produit')) {
+        if($request->hasParameter('add_produit')) {
             $this->formAddProduitsByCertification = new DRMAddProduitByCertificationForm($this->drm, array('configurationCertification' => $request->getParameter('add_produit')));
         }
 
-        if (!$this->hasRegimeCrd){
+        if ($this->showPopupRegimeCrd){
            $this->crdRegimeForm = new DRMCrdRegimeChoiceForm($this->drm);
         }
     }
