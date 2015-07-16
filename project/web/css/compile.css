@@ -6673,6 +6673,9 @@ bouton#colonnes_dr .btn_edition_label {
 #table_drm_crds input[type="text"] {
   text-align: right;
 }
+#table_drm_crds th.mainth {
+  border-bottom: 1px solid #e3e2e2;
+}
 /**
  * Etape 6 -> Déclaratif
  ******************************************/
