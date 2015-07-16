@@ -1,12 +1,12 @@
 var initAjoutProduitPopup = function () {
-
     $('a.ajout_produit_popup').fancybox({
-            autoSize: true,
-            autoCenter: true,
-            height: 'auto',
-            width: 'auto',
-            titleShow : false,
-        });
+        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+        titleShow: false,
+    });
+    $('a.ajout_produit_popup').click();
     $('.add_produit_popup_certification_content a.popup_close').click(function () {
         $.fancybox.close();
 
@@ -15,7 +15,7 @@ var initAjoutProduitPopup = function () {
 
 };
 
-var initSignatureDrmPopup = function() {
+var initSignatureDrmPopup = function () {
 
     $('a.signature_drm_popup').fancybox({
         autoSize: true,
@@ -24,13 +24,13 @@ var initSignatureDrmPopup = function() {
         width: 'auto',
         minWidth: 500
     });
-    $('#signature_drm_popup_content a#signature_drm_popup_close').click(function(){
+    $('#signature_drm_popup_content a#signature_drm_popup_close').click(function () {
         $.fancybox.close();
     })
 
-    $('#signature_drm_popup_content button#signature_drm_popup_confirm').click(function(){
+    $('#signature_drm_popup_content button#signature_drm_popup_confirm').click(function () {
 
-       $("form#drm_validation").submit();
+        $("form#drm_validation").submit();
     });
 
 };
@@ -38,7 +38,16 @@ var initSignatureDrmPopup = function() {
 var initCrds = function () {
     $('.drm_crds_list tr.crd_row').each(function () {
         var id = $(this).attr('id');
-        $('input').change(function () {
+        var inputs = $('input');
+
+        inputs.saisieNum(false, null, null);
+
+        inputs.click(function()
+        {
+            $(this).select();
+        });
+
+        inputs.change(function () {
             var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
 
             var entreesAchats = (!isNaN(parseInt($("#" + id + " td.crds_entreesAchats input").val()))) ? parseInt($("#" + id + " td.crds_entreesAchats input").val()) : 0;
@@ -210,6 +219,24 @@ var initNonApurement = function () {
     initCollectionDeleteNonApurementTemplate();
 }
 
+var initTooltips = function () {
+    //INIT un tooltip
+}
+
+var initBoldSaisie = function () {
+    $('input.somme_detail').focus(function () {
+        var name = $(this).attr('name');
+        $('input.somme_detail').each(function () {
+            if ($(this).attr('name') == name) {
+                $(this).attr('style', 'font-weight:bold');
+
+            } else {
+                $(this).attr('style', 'font-weight:normal');
+            }
+        });
+    });
+}
+
 $(document).ready(function ()
 {
     initAjoutProduitPopup();
@@ -221,5 +248,6 @@ $(document).ready(function ()
     initValidationCoordonneesEtbSociete();
     initNonApurement();
     initSignatureDrmPopup();
-
+    initTooltips();
+    initBoldSaisie();
 });

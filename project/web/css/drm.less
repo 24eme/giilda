@@ -481,24 +481,38 @@ p#date_drm
                 {
                     font-size: 13px;
                     margin: 0 0 10px;
+                    text-align: center;
                 }
+                .block_drm_espace{
+                    li
+                    {
+                        height: 20px;
+                        line-height: 20px;
+                        margin: 5px 0;
+                        padding: 0 0 0 25px;
+                    }
+                    a{
+                        position: static;
+                        text-decoration: none;
+                        :hover{
+                            text-decoration: underline;
+                        }
+                    }
+                    .statut_toCreate
+                    {
+                        background: url("../images/pictos/pi_orange_plus.png") no-repeat;  
+                    }
 
-                li
-                {
-                    height: 20px;
-                    line-height: 20px;
-                    margin: 5px 0;
-                    padding: 0 0 0 25px;
-                }
-
-                .statut_toCreate
-                {
-                    background: url("../images/pictos/pi_orange_plus.png") no-repeat;
-                }
-
-                .statut_toFinish
-                {
-                    background: url("../images/pictos/pi_alerte.png") no-repeat;
+                    .statut_toFinish
+                    {
+                        background: url("../images/pictos/pi_alerte.png") no-repeat;
+                    }
+                    .statut_validee
+                    {
+                        background-image: url("../images/pictos/sprite_calendrier.png");
+                        background-position: 0 -70px;
+                        background-repeat: no-repeat;
+                    }
                 }
             }
         }
@@ -526,7 +540,6 @@ p#date_drm
                 h2{
                     padding: 0;
                     margin: 5px 0;
-                    text-align: left;
                 }
 
                 ul{
@@ -786,6 +799,16 @@ p#date_drm
         position: relative;
         width: 280px;
         border-right:1px solid @couleur-a10;
+
+        #tooltip {
+            position: absolute;
+            z-index: 3000;
+            border: 1px solid #111;
+            background-color: #eee;
+            padding: 5px;
+            opacity: 0.85;
+        }
+        #tooltip h3, #tooltip div { margin: 0; }
 
         p
         {
@@ -1502,8 +1525,8 @@ p#date_drm
         float:right;
         position: relative;
     }
-    
-    
+
+
 
 
 
@@ -1536,7 +1559,7 @@ p#date_drm
         }
         .choix_produit_add_produit {
             padding: 20px 20px;
-            a {
+            a, button {
                 float: right;
                 vertical-align: middle;
             }
@@ -1584,13 +1607,13 @@ p#date_drm
 
     #colonne_intitules{
         .msg_aide
-    {
-        background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
-        font-size:12px;
-        padding: 5px 5px 5px 25px;
-        width:30px;
-        height:30px;
-    }    
+        {
+            background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
+            font-size:12px;
+            padding: 5px 5px 5px 25px;
+            width:30px;
+            height:30px;
+        }    
 
         .li_gris{
             padding-top:5px;

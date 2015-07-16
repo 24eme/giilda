@@ -354,7 +354,6 @@
                 this.element.show();
                 $('.drm_fil_edition_produit li[id="' + id + '"]').show();
             }
-
             $('.drm_fil_edition_produit li[id="' + id + '"]')
             .addClass('current')
             .siblings('li')

@@ -41,10 +41,7 @@
                     </a>
                     <?php if (!$isTeledeclarationMode): ?>
                         <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn_brouillon btn_majeur">Enregistrer en brouillon</a>
-                    <?php endif; ?>
-                    <a class="lien_drm_supprimer" href="<?php echo url_for('drm_delete', $drm); ?>">
-                        <span>Supprimer la DRM</span>
-                    </a>
+                    <?php endif; ?>                   
                     <?php if ($isTeledeclarationMode): ?>
                         <?php if ($drm->isAfterTeledeclarationDrm()): ?>
                             <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>

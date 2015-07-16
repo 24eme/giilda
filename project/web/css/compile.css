@@ -6049,18 +6049,31 @@ p#date_drm {
 #principal #mon_espace .etablissements_drms > li .etablissement_drms h2 {
   font-size: 13px;
   margin: 0 0 10px;
+  text-align: center;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms li {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace li {
   height: 20px;
   line-height: 20px;
   margin: 5px 0;
   padding: 0 0 0 25px;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms .statut_toCreate {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace a {
+  position: static;
+  text-decoration: none;
+}
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace a :hover {
+  text-decoration: underline;
+}
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toCreate {
   background: url("../images/pictos/pi_orange_plus.png") no-repeat;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms .statut_toFinish {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish {
   background: url("../images/pictos/pi_alerte.png") no-repeat;
+}
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_validee {
+  background-image: url("../images/pictos/sprite_calendrier.png");
+  background-position: 0 -70px;
+  background-repeat: no-repeat;
 }
 #principal #espace_drm .etablissements_drms {
   overflow: hidden;
@@ -6080,7 +6093,6 @@ p#date_drm {
 #principal #espace_drm .etablissements_drms li div.etablissement_drms h2 {
   padding: 0;
   margin: 5px 0;
-  text-align: left;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul {
   display: inline-block;
@@ -6300,6 +6312,18 @@ p#date_drm {
   position: relative;
   width: 280px;
   border-right: 1px solid #e5e4e4;
+}
+#colonnes_dr #colonne_intitules #tooltip {
+  position: absolute;
+  z-index: 3000;
+  border: 1px solid #111;
+  background-color: #eee;
+  padding: 5px;
+  opacity: 0.85;
+}
+#colonnes_dr #colonne_intitules #tooltip h3,
+#colonnes_dr #colonne_intitules #tooltip div {
+  margin: 0;
 }
 #colonnes_dr #colonne_intitules p {
   margin: 0 0 10px;
@@ -7004,7 +7028,8 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm #application_drm .choix_produit_add_produit {
   padding: 20px 20px;
 }
-#principal.drm #application_drm .choix_produit_add_produit a {
+#principal.drm #application_drm .choix_produit_add_produit a,
+#principal.drm #application_drm .choix_produit_add_produit button {
   float: right;
   vertical-align: middle;
 }

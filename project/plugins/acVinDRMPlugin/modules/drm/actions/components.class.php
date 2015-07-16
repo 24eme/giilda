@@ -11,7 +11,7 @@ class drmComponents extends sfComponents {
   
   public function executeMonEspaceDrm() {
       $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
-      $this->drmToCompleteAndToStart = $this->calendrier->getDrmToCompleteAndToStart();
+      $this->lastDrmToCompleteAndToStart = $this->calendrier->getLastDrmToCompleteAndToStart();
   }
 
     public function executeEtapes() {

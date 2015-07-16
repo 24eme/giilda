@@ -29,7 +29,7 @@ class DRMCalendrier {
         $this->campagne = $campagne;
         $this->isTeledeclarationMode = $isTeledeclarationMode;
         $this->periodes = $this->buildPeriodes();
-        
+
         $this->etablissements = $this->etablissement->getSociete()->getEtablissementsObj(false);
 
         $this->multiEtbs = ((count($this->etablissements) > 1) && $this->isTeledeclarationMode);
@@ -59,7 +59,7 @@ class DRMCalendrier {
                 }
                 foreach ($this->periodes as $periode) {
                     $drm = DRMClient::getInstance()->viewMasterByIdentifiantPeriode($etbIdentifiant, $periode);
-                   
+
                     if (array_key_exists($drm[self::VIEW_PERIODE], $this->drms[$etbIdentifiant])) {
                         continue;
                     }
@@ -188,32 +188,32 @@ class DRMCalendrier {
         return DRMClient::getInstance()->find($id);
     }
 
-    public function getDrmToCompleteAndToStart() {
-        $drmToCompleteAndToStart = array();
+    public function getLastDrmToCompleteAndToStart() {
+        $drmLastWithStatut = array();
         foreach ($this->etablissements as $etb) {
-            if (!array_key_exists($etb->etablissement->identifiant, $drmToCompleteAndToStart)) {
-                $drmToCompleteAndToStart[$etb->etablissement->identifiant] = new stdClass();
-                $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nom = $etb->etablissement->nom;
-                $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_create = 0;
-                $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_finish = 0;
-                $drmToCompleteAndToStart[$etb->etablissement->identifiant]->statuts = array();
+            if (!array_key_exists($etb->etablissement->identifiant, $drmLastWithStatut)) {
+                $drmLastWithStatut[$etb->etablissement->identifiant] = new stdClass();
+                $drmLastWithStatut[$etb->etablissement->identifiant]->nom = $etb->etablissement->nom;
+                $drmLastWithStatut[$etb->etablissement->identifiant]->statut = self::STATUT_VALIDEE;
+                $drmLastWithStatut[$etb->etablissement->identifiant]->periode = null;
             }
-            foreach ($this->getPeriodes() as $periode) {
+            foreach (array_reverse($this->getPeriodes()) as $periode) {
                 $statut = $this->getStatut($periode, $etb->etablissement);
-                if ($statut == self::STATUT_NOUVELLE) {
-                    $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_create++;
-                    $drmToCompleteAndToStart[$etb->etablissement->identifiant]->statuts[self::STATUT_NOUVELLE] = self::STATUT_NOUVELLE;
-                }
+                $drmLastWithStatut[$etb->etablissement->identifiant]->periode = $periode;
                 if ($statut == self::STATUT_EN_COURS) {
-                    $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_finish++;
-                    $drmToCompleteAndToStart[$etb->etablissement->identifiant]->statuts[self::STATUT_EN_COURS] = self::STATUT_EN_COURS;
+
+                    $drmLastWithStatut[$etb->etablissement->identifiant]->drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etb->etablissement->identifiant, $periode);                   
+                    $drmLastWithStatut[$etb->etablissement->identifiant]->statut = self::STATUT_EN_COURS;
+                    break;
                 }
-            }
-            if ($drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_create + $drmToCompleteAndToStart[$etb->etablissement->identifiant]->nb_drm_to_finish == 0) {
-                unset($drmToCompleteAndToStart[$etb->etablissement->identifiant]);
+                if ($statut == self::STATUT_NOUVELLE) {
+                    $drmLastWithStatut[$etb->etablissement->identifiant]->statut = self::STATUT_NOUVELLE;
+                    break;
+                }
+                $drmLastWithStatut[$etb->etablissement->identifiant]->drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etb->etablissement->identifiant, $periode);                   
             }
         }
-        return $drmToCompleteAndToStart;
+        return $drmLastWithStatut;
     }
 
 }

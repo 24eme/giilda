@@ -518,15 +518,15 @@ var init_informations = function(type)
     //  bindEnterValid();
 };
 
-/*    
+/*
  var ajax_send_contrats_similairesSoussigne = function(num_contrat,soussigneType)
  {
  var types = ['vendeur','acheteur','mandataire'];
  $('#'+soussigneType+'_choice input').live( "autocompleteselect", function(event, ui)
- {  
- var ajaxParams = {numero_contrat : num_contrat, 'etape' : 'soussigne'};        
+ {
+ var ajaxParams = {numero_contrat : num_contrat, 'etape' : 'soussigne'};
  for (var i in types)
- {        
+ {
  var name = types[i];
  if(name!=soussigneType)
  {
@@ -537,7 +537,7 @@ var init_informations = function(type)
  ajaxParams[name] = ui.item.option.value;
  }
  }
- 
+
  $.get('getContratsSimilaires',ajaxParams,
  function(data)
  {
@@ -627,11 +627,11 @@ $(document).ready(function()
     $('#vendeur_choice input').focus();
     initDatepicker();
 
-    $('#principal').on('blur', '.num_float', function()
+    $('#principal').on('blur', '.num_float, .num_int', function()
     {
         $(this).nettoyageChamps();
     });
-    
+
     $('#principal').on('blur', '.num_float4', function()
     {
         $(this).nettoyageChampsWithFourPrecision();

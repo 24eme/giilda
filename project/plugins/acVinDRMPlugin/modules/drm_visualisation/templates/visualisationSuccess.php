@@ -67,7 +67,7 @@
     <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
     <br />
     <div id="btn_etape_dr">
-        <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant, 'campagne' => $drm->campagne)); ?>" class="btn_etape_prec" id="facture"><span>Retour à mon espace</span></a> 
+        <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a> 
     </div>
 </section>
 <?php

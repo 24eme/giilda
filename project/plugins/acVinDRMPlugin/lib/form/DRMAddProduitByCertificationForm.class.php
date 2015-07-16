@@ -19,7 +19,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
 
     public function __construct(DRM $drm, $options = array(), $CSRFSecret = null) {
         $this->_drm = $drm;        
-        $this->_configurationCertification = ConfigurationClient::getCurrent()->get($options['configurationCertification']->getHash());
+        $this->_configurationCertification = ConfigurationClient::getCurrent()->get($options['configurationCertification']);
         parent::__construct($drm, $options, $CSRFSecret);
     }
 
@@ -40,6 +40,16 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
 
     public function getDRM() {
         return $this->_drm;
+    }
+
+    public function getConfigurationCertification() {
+
+        return $this->_configurationCertification;
+    }
+
+    public function getCertificationKey() {
+
+        return $this->getConfigurationCertification()->getHashForKey();
     }
 
     public function getProduits() {
