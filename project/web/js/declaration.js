@@ -389,6 +389,7 @@
 		var champ = $(this);
 		var val = champ.attr('value');
 		var float = champ.hasClass('num_float');
+		var champ_int = champ.hasClass('num_int');
 
 		// Si quelque chose a été saisi
 		if(val)
@@ -403,7 +404,7 @@
 			if(val.indexOf('0') == 0 && val.length > 1) val = val.substring(1);
 
 			// Comparaison nombre entier / flottant
-			if(float || parseInt(val) != parseFloat(val)) val = parseFloat(val).toFixed(2);
+			if(float || parseInt(val) != parseFloat(val) && !champ_int) val = parseFloat(val).toFixed(2);
 			else val = parseInt(val);
 		}
 		// Si rien n'a été saisi
