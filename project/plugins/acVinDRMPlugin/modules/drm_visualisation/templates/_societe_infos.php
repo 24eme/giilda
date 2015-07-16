@@ -33,7 +33,7 @@
         </ul>
         <?php if($isModifiable): ?>
         <div id="btn_etape_dr">
-            <a href="#" class="btn_majeur btn_modifier" style="float: right;" id="drm_validation_societe_info_btn"><span>modifier</span></a>
+            <a href="#popup_societe_modification" class="btn_majeur btn_modifier" style="float: right;" id="drm_validation_societe_info_btn"><span>modifier</span></a>
         </div>
         <?php endif; ?>
     </div>
