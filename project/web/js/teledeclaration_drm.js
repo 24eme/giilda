@@ -38,7 +38,11 @@ var initSignatureDrmPopup = function () {
 var initCrds = function () {
     $('.drm_crds_list tr.crd_row').each(function () {
         var id = $(this).attr('id');
-        $('input').change(function () {
+        var inputs = $('input');
+
+        inputs.saisieNum(false, null, null);
+
+        inputs.change(function () {
             var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
 
             var entreesAchats = (!isNaN(parseInt($("#" + id + " td.crds_entreesAchats input").val()))) ? parseInt($("#" + id + " td.crds_entreesAchats input").val()) : 0;
