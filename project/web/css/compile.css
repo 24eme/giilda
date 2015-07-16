@@ -6049,6 +6049,7 @@ p#date_drm {
 #principal #mon_espace .etablissements_drms > li .etablissement_drms h2 {
   font-size: 13px;
   margin: 0 0 10px;
+  text-align: center;
 }
 #principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace li {
   height: 20px;
@@ -6092,7 +6093,6 @@ p#date_drm {
 #principal #espace_drm .etablissements_drms li div.etablissement_drms h2 {
   padding: 0;
   margin: 5px 0;
-  text-align: left;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul {
   display: inline-block;
