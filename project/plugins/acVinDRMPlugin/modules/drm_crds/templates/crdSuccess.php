@@ -10,7 +10,6 @@
             <div id="contenu_onglet">    
 <?php use_helper('DRM'); ?>
 <form action="<?php echo url_for('drm_crd', $crdsForms->getObject()); ?>" method="post">
-    <h2>Saisie des CRD</h2>
     <?php echo $crdsForms->renderGlobalErrors(); ?>
     <?php echo $crdsForms->renderHiddenFields(); ?>
     <?php foreach ($allCrdsByRegimeAndByGenre as $regime => $crdAllGenre): ?>
@@ -18,7 +17,7 @@
             <p>Régime de CRD : <?php echo EtablissementClient::$regimes_crds_libelles_longs[$regime]; ?></p>
         <?php endif; ?>
         <?php foreach ($crdAllGenre as $genre => $crds): ?>
-            <h2><?php echo getLibelleForGenre($genre); ?></h2>
+            <h2>Sorties CRD de vins <?php echo getLibelleForGenre($genre); ?></h2>
             <table id="table_drm_crds" class="table_recap">
                 <thead >
                     <tr>

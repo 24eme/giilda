@@ -122,7 +122,7 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode,$etablissement = fals
 
 function getLibelleForGenre($genre) {
     if($genre == 'TRANQ'){
-        return 'TRANQUILLE';
+        return 'TRANQUILLES';
     }
     return $genre;
 }
