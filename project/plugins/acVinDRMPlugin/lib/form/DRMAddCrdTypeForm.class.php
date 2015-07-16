@@ -17,7 +17,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->drm = $object;
         $this->regimeCrds = $this->drm->getRegimesCrds();
-        $this->drmSortiesGenreCRDs = array('TRANQ' => 'Tranquille', 'MOUSSEUX' => 'Mousseux');
+        $this->drmSortiesGenreCRDs = array('TRANQ' => 'Vins tranquilles', 'MOUSSEUX' => 'Vins mousseux');
         parent::__construct($this->drm, $options, $CSRFSecret);
     }
 
