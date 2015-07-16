@@ -8,7 +8,7 @@
                 <span>
                     <?php echo $form['couleur_crd_'.$regime]->renderError(); ?>
                     <?php echo $form['couleur_crd_'.$regime]->renderLabel() ?>    
-                    <?php echo $form['couleur_crd_'.$regime]->render(array('class' => 'couleur_crd_choice autocomplete')); ?>
+                    <?php echo $form['couleur_crd_'.$regime]->render(array('class' => 'couleur_crd_choice')); ?>
                 </span>
             </div>
             <div class="ligne_form">       
@@ -25,7 +25,6 @@
                     <?php echo $form['stock_debut_'.$regime]->render(); ?>
                 </span>
             </div>
-            <?php if(count($drm->getSortiesGenreCrds()) > 1): ?>
             <div class="ligne_form">       
                 <span>
                     <?php echo $form['genre_crd_'.$regime]->renderError(); ?>
@@ -33,7 +32,6 @@
                     <?php echo $form['genre_crd_'.$regime]->render(); ?>
                 </span>
             </div>
-             <?php endif; ?>
             <br/>
             <div class="ligne_btn">
                 <a id="popup_close" class="btn_rouge btn_majeur annuler popup_close" style="float: left;" href="#" >Annuler</a>           
