@@ -7,11 +7,21 @@ class drm_crdsActions extends drmGeneriqueActions {
         $this->drm = $this->getRoute()->getDRM();
         $this->drm->crdsInitDefault();
         $this->crdsForms = new DRMCrdsForm($this->drm);
-        $this->addCrdForm = new DRMAddCrdTypeForm($this->drm);
+
+        if($request->getParameter('add_crd')) {
+            $this->addCrdRegime = $request->getParameter('add_crd');
+            $this->addCrdForm = new DRMAddCrdTypeForm($this->drm);
+        }
+
         if ($request->isMethod(sfRequest::POST)) {
             $this->crdsForms->bind($request->getParameter($this->crdsForms->getName()));
             if ($this->crdsForms->isValid()) {
                 $this->crdsForms->save();
+
+                if($this->addCrdRegime) { 
+                    $this->redirect('drm_crd', array('sf_subject' => $this->crdsForms->getObject(), 'add_crd' => $this->addCrdRegime));
+                }
+
                 $this->redirect('drm_redirect_etape', $this->crdsForms->getObject());
             }
         }

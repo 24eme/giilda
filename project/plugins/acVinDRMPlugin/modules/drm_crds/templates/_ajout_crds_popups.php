@@ -1,6 +1,6 @@
 <div style="display: none;">
     <div id="add_crds_<?php echo $regime; ?>" class="add_crds_popup_content">
-        <form action="<?php echo url_for('drm_ajout_crd', $drm); ?>" method="post">
+        <form action="<?php echo url_for('drm_ajout_crd', $form->getObject()); ?>" method="post">
             <?php echo $form->renderHiddenFields(); ?>
             <?php echo $form->renderGlobalErrors(); ?>
             <h2>Choisir un type de CRD</h2>

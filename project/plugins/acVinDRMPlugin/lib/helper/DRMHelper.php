@@ -70,7 +70,7 @@ function getEtatDRMCalendrier($calendrier, $periode,$etablissement = false) {
         return 'En attente';
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
-        return 'Nouvelle';
+        return 'A créer';
     }
     return $statut;
 }
@@ -115,7 +115,7 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode,$etablissement = fals
         return 'En attente';
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
-        return 'Nouvelle';
+        return 'A créer';
     }
     return $statut;
 }

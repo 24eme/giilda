@@ -60,7 +60,7 @@
         <?php endforeach; ?>
         <br/>
         <div class="drm_add_crd_categorie">
-            <a class="btn_majeur ajout_crds_popup" href="#add_crds_<?php echo $regime; ?>">Ajouter CRD</a>
+            <button type="submit" name="add_crd" value="<?php echo $regime; ?>" class="btn_majeur">Ajouter des Produits</button>
         </div>
         <br/>
     <?php endforeach; ?>
@@ -74,9 +74,10 @@
         <button class="btn_etape_suiv" id="button_drm_validation" type="submit"><span>Suivant</span></button>
     </div>
 </form>
-                <?php foreach ($allCrdsByRegimeAndByGenre as $regime => $crdsNodes): ?>
-                    <?php include_partial('ajout_crds_popups', array('drm' => $drm, 'form' => $addCrdForm, 'regime' => $regime)); ?>
-                <?php endforeach; ?>
+                <?php if(isset($addCrdForm) && isset($addCrdRegime)): ?>
+                    <a class="btn_majeur ajout_crds_popup" style="display: none;" href="#add_crds_<?php echo $addCrdRegime ?>">Ajouter CRD</a>
+                    <?php include_partial('ajout_crds_popups', array('form' => $addCrdForm, 'regime' => $addCrdRegime)); ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
