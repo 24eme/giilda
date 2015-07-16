@@ -4,20 +4,25 @@
             <div class="title">ESPACE DRM</div>
             <div class="panel">
                 <ul style="<?php if(!isset($btnAccess)): ?>height: auto<?php endif; ?>" class="etablissements_drms">
-                    <?php foreach ($drmToCompleteAndToStart as $etb => $drmsByEtb) : ?>
+                    <?php foreach ($lastDrmToCompleteAndToStart as $etb => $drmsByEtb) : ?>
                         <li>
                             <div class="etablissement_drms">
                                 <h2> <?php echo $drmsByEtb->nom . ' (' . $etb . ')'; ?></h2>
                                 <ul>
-                                    <?php if ($drmsByEtb->nb_drm_to_finish): ?>
+                                    <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_EN_COURS): ?>
                                         <li class="statut_toFinish">
-                                            <span>  <?php echo $drmsByEtb->nb_drm_to_finish; ?> DRM en attente de validation
+                                            <span>  DRM de <?php echo $drmsByEtb->periode; ?> en attente de validation </span>
+                                        </li>
+                                    <?php endif; ?>
+                                    <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_NOUVELLE): ?>
+                                        <li class="statut_toCreate">
+                                            <span>  DRM de <?php echo $drmsByEtb->periode; ?> en attente de création
                                             </span>
                                         </li>
                                     <?php endif; ?>
-                                    <?php if ($drmsByEtb->nb_drm_to_create): ?>
-                                        <li class="statut_toCreate">
-                                            <span> <?php echo $drmsByEtb->nb_drm_to_create; ?> DRM en attente de création
+                                    <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_VALIDEE): ?>
+                                        <li class="statut_validee">
+                                            <span>  Visualiser votre DRM de <?php echo $drmsByEtb->periode; ?>
                                             </span>
                                         </li>
                                     <?php endif; ?>
