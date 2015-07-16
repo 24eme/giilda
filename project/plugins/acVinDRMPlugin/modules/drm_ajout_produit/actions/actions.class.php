@@ -14,6 +14,7 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
             $this->formAddProduitsByCertifications[$certificationProduits->certification->getHashForKey()] = new DRMAddProduitByCertificationForm($this->drm, array('configurationCertification' => $certificationProduits->certification));
         }
         $this->hasRegimeCrd = $this->drm->getEtablissement()->hasRegimeCrd();
+        $this->showPopupRegimeCrd = $request->getParameter('popupCRD') || !$this->hasRegimeCrd;
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         if ($this->hasRegimeCrd && $request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -22,7 +23,7 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
                 $this->redirect('drm_edition', $this->form->getObject());
             }
         }
-        if (!$this->hasRegimeCrd){
+        if ($this->showPopupRegimeCrd){
            $this->crdRegimeForm = new DRMCrdRegimeChoiceForm($this->drm);
         }
     }

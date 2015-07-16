@@ -28,12 +28,11 @@
             </form>
         </div>
     </div>
-    <?php if ($hasRegimeCrd): ?>
         <?php foreach ($certificationsProduits as $certificationProduits) : ?>
             <?php $certifKey = $certificationProduits->certification->getHashForKey(); ?>
             <?php include_partial('drm_ajout_produit/ajout_produit_popup_certification', array('drm' => $drm, 'certifKey' => $certifKey, 'form' => $formAddProduitsByCertifications[$certifKey])); ?>
         <?php endforeach; ?>
-    <?php else: ?>
+    <?php if ($showPopupRegimeCrd): ?>
         <?php include_partial('drm_crds/crd_regime_choice_popup', array('drm' => $drm, 'crdRegimeForm' => $crdRegimeForm, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
     <?php endif; ?>
 </section>
