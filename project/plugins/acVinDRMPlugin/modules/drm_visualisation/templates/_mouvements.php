@@ -11,11 +11,12 @@
         ?>
     <?php endif; ?>
 
-    <h2>RECAPITULATIF DES MOUVEMENTS</h2>
     <table id="table_mouvements" class="table_recap">
         <thead>
             <tr>
+                <?php if(!$isTeledeclarationMode): ?>
                 <th style="width: 170px;">Date de modification</th>
+                <?php endif; ?>
                 <th style="width: 280px;">Produits</th>
                 <th>Type</th>
                 <th>Volume</th>
@@ -28,9 +29,11 @@
         <?php $i++; ?>
                 <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php echo ($i % 2 != 0)? "alt" : "";?> <?php
         echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation))? " facturable" : ""; ?>">
+                    <?php if(!$isTeledeclarationMode): ?>
                     <td>
                         Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>
                     </td>
+                    <?php endif; ?>
                     </td>
                     <td><?php echo $mouvement->produit_libelle ?> </td>
                     <td><?php

@@ -75,6 +75,8 @@ var initAjoutCrdsPopup = function () {
         'afterShow': openedPopupAjoutCRD
 
     });
+    $('a.ajout_crds_popup').click();
+    
     $('.add_crds_popup_content a#popup_close').click(function () {
         $.fancybox.close();
     });

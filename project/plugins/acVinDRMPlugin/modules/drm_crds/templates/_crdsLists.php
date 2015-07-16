@@ -51,7 +51,7 @@
         <?php endforeach; ?>
         <br/>
         <div class="drm_add_crd_categorie">
-            <a class="btn_majeur ajout_crds_popup" href="#add_crds_<?php echo $regime; ?>">Ajouter CRD</a>
+            <button type="submit" name="add_crd" value="<?php echo $regime; ?>" class="btn_majeur">Ajouter des Produits</button>
         </div>
         <br/>
     <?php endforeach; ?>
