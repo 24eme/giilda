@@ -42,6 +42,11 @@ var initCrds = function () {
 
         inputs.saisieNum(false, null, null);
 
+        inputs.click(function()
+        {
+            $(this).select();
+        });
+
         inputs.change(function () {
             var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
 
