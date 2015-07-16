@@ -45,29 +45,29 @@ $favoris_sorties = $favoris->sorties;
                     <?php foreach ($form['entrees'] as $key => $subform): ?>
                         <?php if ($favoris_entrees->exist($key)): ?>
                             <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
-        <?php echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
-            'class' => 'num num_float somme_detail')); ?>
-                            </li>
-    <?php endif; ?>
-<?php endforeach; ?>
-                </ul>
-            </div>
-
-            <div class="groupe p_gris" data-groupe-id="3">
-                <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?> extendable">
-                    
-                </p>
-                <ul>
-                    <?php foreach ($form['entrees'] as $key => $subform): ?>
-    <?php if (!$favoris_entrees->exist($key)): ?>
-                            <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
-        <?php echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
-            'class' => 'num num_float somme_detail'))
-        ?>
-                            </li>
-    <?php endif; ?>
+                            <?php echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
+                                'class' => 'num num_float somme_detail')); ?>
+                                                </li>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>
+
+                <div class="groupe p_gris" data-groupe-id="3">
+                    <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?> extendable">
+                        
+                    </p>
+                    <ul>
+                        <?php foreach ($form['entrees'] as $key => $subform): ?>
+                            <?php if (!$favoris_entrees->exist($key)): ?>
+                                                    <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
+                                <?php echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
+                                    'class' => 'num num_float somme_detail'))
+                                ?>
+                                                    </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
 
             <div class="groupe p_gris" data-groupe-id="4">
@@ -82,22 +82,21 @@ $favoris_sorties = $favoris->sorties;
                                     <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
                             <?php elseif ($key == "export"): ?>
                                     <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
-        <?php elseif ($key == "cooperative"): ?>
-                                    <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
-        <?php else: ?>
-            <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(), 'class' => 'num num_float somme_detail')) ?>
-        <?php endif; ?>
+                            <?php elseif ($key == "cooperative"): ?>
+                                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
+                            <?php else: ?>
+                                <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(), 'class' => 'num num_float somme_detail')) ?>
+                            <?php endif; ?>
                             </li>
-    <?php endif; ?>
-                    <?php endforeach; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
                 </ul>
-            </div>
 
-            <div class="groupe p_gris" data-groupe-id="5">
-                <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?> extendable">
-                   
-                </p>
-                <ul>
+                <div class="groupe p_gris" data-groupe-id="5">
+                    <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?> extendable">
+                       
+                    </p>
+                    <ul>
                         <?php foreach ($form['sorties'] as $key => $subform): ?>
                             <?php if (!$favoris_sorties->exist($key)): ?>
                             <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
@@ -105,15 +104,16 @@ $favoris_sorties = $favoris->sorties;
                                     <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
                             <?php elseif ($key == "export"): ?>
                                     <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
-        <?php elseif ($key == "cooperative"): ?>
-                                    <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
-        <?php else: ?>
-            <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(), 'class' => 'num num_float somme_detail')) ?>
-        <?php endif; ?>
-                            </li>
-    <?php endif; ?>
-<?php endforeach; ?>
-                </ul>
+                                <?php elseif ($key == "cooperative"): ?>
+                                                            <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
+                                <?php else: ?>
+                                    <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(), 'class' => 'num num_float somme_detail')) ?>
+                                <?php endif; ?>
+                                                    </li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
 
             <!-- <p><input type="text" value="0" class="num num_float somme_stock_fin" readonly="readonly" /></p>  -->
