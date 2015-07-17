@@ -5,9 +5,9 @@ class CacheFunction {
     const AUTOMATIC_CLEANING_FACTOR = 0;
 
     public static function cache($location, $callable, $arguments = array(), $lifetime = 86400) {
-      if (sfConfig::get('sf_debug')) {
+      /*if (sfConfig::get('sf_debug')) {
           return call_user_func_array($callable, $arguments);
-      }
+      }*/
 
       $function_cache = new sfFunctionCache(self::getCache($location, $lifetime));
 
