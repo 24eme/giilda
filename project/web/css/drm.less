@@ -1267,7 +1267,7 @@ p#date_drm
         a.msg_aide:hover
             {
             .opacite(1);
-            background: url(../images/pictos/pi_aide.png) 0 0 no-repeat;
+            background: url(../images/pictos/pi_help.png) 0 0 no-repeat;
         }
     }
 
@@ -1614,7 +1614,7 @@ p#date_drm
     #colonne_intitules{
         .msg_aide
         {
-            background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
+            background: url(../images/pictos/pi_help.png) 5px 8px no-repeat #fff;
             font-size:12px;
             padding: 5px 5px 5px 25px;
             height:30px;
@@ -1793,8 +1793,21 @@ p#date_drm
                                     &.valide_campagne_teledeclaree { background-color: @couleur-a1; opacity: 0.7 }
                                     &.attente_campagne_teledeclaree { background-color: @couleur-a1; opacity: 0.7 }
 
-                                    &.valide_campagne_non_teledeclaree { background-color: @couleur-a7; }
-                                    &.attente_campagne_non_teledeclaree { background-color: @couleur-a7; }
+                                    &.valide_campagne_non_teledeclaree { 
+				       background-color: @couleur-a8; 
+				       .statut {
+				       	       color: @couleur-a4 !important;
+				       	       background: url('../images/pictos/pi_grey_plus.png') no-repeat !important;
+					}
+					.lignestatut {margin-top: 25px;}
+				    }
+                                    &.attente_campagne_non_teledeclaree { background-color: @couleur-a8; 
+				       .statut {
+				       	       color: @couleur-a4 !important;
+				       	       background: url('../images/pictos/pi_grey_alerte.png') no-repeat !important;  
+					}
+					.lignestatut {margin-top: 25px;}
+				    }
 
                                     .mois
                                     {
@@ -1872,7 +1885,7 @@ p#date_drm
                                         {
                                             font-weight: bold;
                                             margin: 10px 0;
-                                            text-align: left;
+                                            text-align: center;
                                         }
 
                                         .etablissement_nom
