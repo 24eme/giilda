@@ -6,7 +6,7 @@
         <div class="block_teledeclaration espace_drm">
             <div class="title">ESPACE DRM</div>
             <div class="panel">
-                <ul style="<?php if(!isset($btnAccess)): ?>height: auto<?php endif; ?>" class="etablissements_drms">
+                <ul style="<?php if (!isset($btnAccess)): ?>height: auto<?php endif; ?>" class="etablissements_drms">
                     <?php foreach ($lastDrmToCompleteAndToStart as $etb => $drmsByEtb) : ?>
                         <li>
                             <div class="etablissement_drms">
@@ -17,10 +17,15 @@
                                             <a href="<?php echo url_for('drm_redirect_etape', $drmsByEtb->drm); ?>" ><span>Finir la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
                                         </li>
                                     <?php endif; ?>
+                                        <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE): ?>
+                                        <li class="statut_toFinish_non_teledeclare">                                            
+                                            <span>La DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?> est en cours de saisie à Interloire</span>
+                                        </li>
+                                    <?php endif; ?>
                                     <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_NOUVELLE): ?>
-                                            <li class="statut_toCreate">
-                                               <a href="<?php echo url_for('drm_nouvelle', array('identifiant' => $etb, 'periode' => $drmsByEtb->periode)); ?>"><span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
-                                            </li>
+                                        <li class="statut_toCreate">
+                                            <a href="<?php echo url_for('drm_nouvelle', array('identifiant' => $etb, 'periode' => $drmsByEtb->periode)); ?>"><span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
+                                        </li>
                                     <?php endif; ?>
                                     <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_VALIDEE): ?>
                                         <li class="statut_validee">

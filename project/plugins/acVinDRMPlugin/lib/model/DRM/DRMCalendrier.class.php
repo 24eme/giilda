@@ -221,6 +221,9 @@ class DRMCalendrier {
     }
 
     public function isTeledeclare($periode, $etablissement = false) {
+        if(!$etablissement){
+            $etablissement = $this->etablissement;
+        }
         return DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etablissement->identifiant, $periode)->isTeledeclare();
     }
 
@@ -260,9 +263,13 @@ class DRMCalendrier {
                 $statut = $this->getStatut($periode, $etb->etablissement);
                 $drmLastWithStatut[$etb->etablissement->identifiant]->periode = $periode;
                 if ($statut == self::STATUT_EN_COURS) {
-
-                    $drmLastWithStatut[$etb->etablissement->identifiant]->drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etb->etablissement->identifiant, $periode);
+                    $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etb->etablissement->identifiant, $periode);
+                    $drmLastWithStatut[$etb->etablissement->identifiant]->drm = $drm;
+                    if($drm->isTeledeclare()){
                     $drmLastWithStatut[$etb->etablissement->identifiant]->statut = self::STATUT_EN_COURS;
+                    }else{
+                        $drmLastWithStatut[$etb->etablissement->identifiant]->statut = self::STATUT_EN_COURS_NON_TELEDECLARE;
+                    }
                     break;
                 }
                 if ($statut == self::STATUT_NOUVELLE) {

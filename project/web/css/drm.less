@@ -507,6 +507,11 @@ p#date_drm
                     {
                         background: url("../images/pictos/pi_alerte.png") no-repeat;
                     }
+                    
+                    .statut_toFinish_non_teledeclare
+                    {
+                        background: url("../images/pictos/pi_grey_plus.png") no-repeat;
+                    }
                     .statut_validee
                     {
                         background-image: url("../images/pictos/sprite_calendrier.png");
@@ -1794,6 +1799,12 @@ p#date_drm
 
                                     &.valide_papier_campagne,
                                     &.valide_campagne { background-color: @couleur-d3; }
+
+                                    &.valide_campagne_teledeclaree { background-color: @couleur-a1; opacity: 0.7 }
+                                    &.attente_campagne_teledeclaree { background-color: @couleur-a1; opacity: 0.7 }
+
+                                    &.valide_campagne_non_teledeclaree { background-color: @couleur-a7; }
+                                    &.attente_campagne_non_teledeclaree { background-color: @couleur-a7; }
 
                                     .mois
                                     {

@@ -43,7 +43,7 @@
         </ul>
         <?php if ($isModifiable): ?>
             <div id="btn_etape_dr">
-                <a href="#" class="btn_majeur btn_modifier" style="float: right;" id="drm_validation_etablissement_info_btn"><span>modifier</span></a>
+                <a href="<?php echo url_for('drm_validation_update_etablissement', $drm); ?>" class="btn_majeur btn_modifier" style="float: right;" id="drm_validation_etablissement_info_btn"><span>modifier</span></a>
             </div>
         <?php endif; ?>
     </div>
