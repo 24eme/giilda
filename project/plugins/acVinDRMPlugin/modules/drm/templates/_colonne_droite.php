@@ -6,46 +6,53 @@ if (!isset($isMonEspace)) {
     $etablissementPrincipal = $societe->getEtablissementPrincipal();
 }
 ?> 
-
 <?php
-slot('colCompte');
-?>
-<div class="bloc_col" id="contrat_compte">
-    <h2><?php echo $etablissementPrincipal->famille; ?> (<?php echo $societe->identifiant; ?>) </h2>
+if ($isTeledeclarationMode):
+    slot('colCompte');
+    ?>
+    <div class="bloc_col" id="contrat_compte">
+        <h2><?php echo $etablissementPrincipal->famille; ?> (<?php echo $societe->identifiant; ?>) </h2>
 
-    <div class="contenu">
-        <div class="text-center" style="text-align: center;">
-            <p><strong><?php echo $societe->raison_sociale; ?></strong></p>
+        <div class="contenu">
+            <div class="text-center" style="text-align: center;">
+                <p><strong><?php echo $societe->raison_sociale; ?></strong></p>
 
-            <p> (<?php echo $societe->siege->commune; ?>) </p>
+                <p> (<?php echo $societe->siege->commune; ?>) </p>
 
-            <?php if ($sf_user->isUsurpationCompte()): ?>
+                <?php if ($sf_user->isUsurpationCompte()): ?>
+                    <div class="ligne_btn txt_centre">
+                        <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
+                    </div>
+                <?php endif; ?>
+
                 <div class="ligne_btn txt_centre">
-                    <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
+                    <?php if (isset($retour) && $retour): ?>
+                        <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_majeur btn_acces">Mes Contrats</a>
+                    <?php endif; ?>
                 </div>
-            <?php endif; ?>
-
-            <div class="ligne_btn txt_centre">
-                <?php if (isset($retour) && $retour): ?>
-                    <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_majeur btn_acces">Mes Contrats</a>
-                <?php endif; ?>
-            </div>
-            <div class="ligne_btn txt_centre">
-                <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>
-                    <a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuaire">Annuaire</a>
-                <?php endif; ?>
+                <div class="ligne_btn txt_centre">
+                    <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>
+                        <a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuaire">Annuaire</a>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<?php end_slot(); ?>
+    <?php
+    end_slot();
+endif;
+?>
 
 <!-- COLONNE ACTION -->
 <?php
 slot('colButtons');
-$url_retour_espace = ($isTeledeclarationMode) ?
-        url_for('drm_societe', array('identifiant' => $etablissementPrincipal->identifiant)) : url_for('drm_etablissement', array('identifiant' => $societe->identifiant));
-$text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour au calendrier";
+$url_retour_espace = null;
+$text_retour_espace = 'Actions';
+if (isset($drm)) {
+    $url_retour_espace = ($isTeledeclarationMode) ?
+            url_for('drm_societe', array('identifiant' => $etablissementPrincipal->identifiant)) : url_for('drm_etablissement', array('identifiant' => $drm->identifiant));
+    $text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour au calendrier";
+}
 ?>
 <div class="bloc_col" >
     <h2><?php echo ($isTeledeclarationMode) ? 'Actions' : $text_retour_espace ?></h2>
@@ -56,25 +63,32 @@ $text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour a
             </div>
         <?php endif; ?>
         <div class="ligne_btn txt_centre">
-            <?php if (!isset($isMonEspace)): ?>
-                <a href="<?php echo $url_retour_espace; ?>" class="btn_majeur btn_acces"><?php echo $text_retour_espace; ?> </a>
-            <?php elseif ($isTeledeclarationMode): ?>
-                <a href="<?php echo url_for('compte_teledeclarant_mon_espace', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_acces">Retour à mon espace</a>
+            <?php if (isset($drm) || $isTeledeclarationMode): ?>
+                <?php if (!isset($isMonEspace)): ?>
+                    <a href="<?php echo $url_retour_espace; ?>" class="btn_majeur btn_acces"><?php echo $text_retour_espace; ?> </a>
+                <?php elseif ($isTeledeclarationMode): ?>
+                    <a href="<?php echo url_for('compte_teledeclarant_mon_espace', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_acces">Retour à mon espace</a>
+                <?php endif; ?>
             <?php endif; ?>
-        </div>
+        </div> 
         <?php if (!$isTeledeclarationMode): ?>
+            <div class="ligne_btn txt_centre">
+                <div class="btnConnexion">
+                    <a href="<?php echo url_for('drm_debrayage', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur lien_connexion"><span>Connexion à la télédecl.</span></a>
+                </div>       
+            </div>
+            <div class="text-center" style="text-align: center;">
+                <p><strong><?php echo $etablissementPrincipal->nom; ?></strong></p>
+                <p><strong><?php echo $etablissementPrincipal->identifiant; ?></strong></p>
+                <p> (<?php echo $etablissementPrincipal->getMasterCompte()->commune; ?>) </p>            
+            </div>
+        <?php else: ?>
             <div class="text-center" style="text-align: center;">
                 <p><strong><?php echo $societe->raison_sociale; ?></strong></p>
                 <p><strong><?php echo $societe->identifiant; ?></strong></p>
-                <p> (<?php echo $societe->siege->commune; ?>) </p>
-
-                <?php if ($sf_user->isUsurpationCompte()): ?>
-                    <div class="ligne_btn txt_centre">
-                        <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('drm_dedebrayage') ?>">Revenir sur VINSI</a>
-                    </div>
-                <?php endif; ?>
+                <p> (<?php echo $societe->siege->commune; ?>) </p>            
             </div>
-        <?php endif; ?>
+        <?php endif;?>
     </div>
 </div>
 <?php end_slot();
@@ -113,7 +127,7 @@ $text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour a
         </div>
     </div>   
     <script type="text/javascript">
-        $(document).ready(function()
+        $(document).ready(function ()
         {
             initNoticePopup();
         });

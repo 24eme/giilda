@@ -2,7 +2,6 @@
 <?php $etablissements = $etablissement->getSociete()->getEtablissementsObj(false); ?>
 <?php $multiEtablissement = (count($etablissements) > 1); ?>
 
-
 <li class="bloc_mois <?php echo getClassEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>">
     <p class="mois"><?php echo $calendrier->getPeriodeLibelle($periode) ?></p>
 

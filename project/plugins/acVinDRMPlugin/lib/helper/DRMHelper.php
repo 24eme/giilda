@@ -48,7 +48,7 @@ function getNumberOfFirstProduitWithMovements($produits) {
 }
 
 function getClassEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
-    $statut = $calendrier->getStatutForAllEtablissements($periode);
+    $statut = $calendrier->getStatutForAllEtablissements($periode,$etablissement);    
     if ($isTeledeclarationMode && ($statut == DRMCalendrier::STATUT_VALIDEE)) {
         return 'valide_campagne';
     }
