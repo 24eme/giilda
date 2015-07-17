@@ -11,58 +11,64 @@
 
         <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_VALIDATION)); ?>
 
-                <form action="<?php echo url_for('drm_validation_update_etablissement', $drm); ?>" method="POST" class="drm_validation_etablissement_form">
+        <form action="<?php echo url_for('drm_validation_update_etablissement', $drm); ?>" method="POST" class="drm_validation_etablissement_form">
             <?php echo $form->renderHiddenFields(); ?>
             <?php echo $form->renderGlobalErrors(); ?>
-            <div class="title"><?php echo $drm->declarant->nom; ?></div>
-            <div class="panel">
-                <ul>
-                    <li>
-                        <span class="label"><?php echo $form['cvi']->renderLabel(); ?></span>
-                        <span class="infos"><?php echo $form['cvi']->render(); ?></span>
-                    </li>
-                    <li>
-                        <span class="label"><?php echo $form['no_accises']->renderLabel(); ?></span>
-                        <span class="infos"><?php echo $form['no_accises']->render(); ?></span>
-                    </li>
-                    <li>
-                        <span class="label"><?php echo $form['adresse']->renderLabel(); ?></span>
-                        <span class="infos"><?php echo $form['adresse']->render(); ?></span>
-                    </li>
-                    <li>
-                        <span class="label"><?php echo $form['code_postal']->renderLabel(); ?></span>
-                        <span class="infos"><?php echo $form['code_postal']->render(); ?></span>
-                    </li>
-                    <li>
-                        <span class="label"><?php echo $form['commune']->renderLabel(); ?></span>
-                        <span class="infos"><?php echo $form['commune']->render(); ?></span>
-                    </li>  
-                    <?php if ($drm->declarant->exist('adresse_compta')): ?>
-                        <li>
-                            <span class="label"><?php echo $form['adresse_compta']->renderLabel(); ?></span>
-                            <span class="infos"><?php echo $form['adresse_compta']->render(); ?></span>
-                        </li>  
-                    <?php endif; ?>
-                    <?php if ($drm->declarant->exist('caution')): ?>
-                        <li>
-                            <span class="label"><?php echo $form['caution']->renderLabel(); ?></span>
-                            <span class="infos"><?php echo $form['caution']->render(); ?></span>
-                        </li>  
-                    <?php endif; ?>
-                    <?php if ($drm->declarant->exist('raison_sociale_cautionneur')): ?>
-                        <li>
-                            <span class="label"><?php echo $form['raison_sociale_cautionneur']->renderLabel(); ?></span>
-                            <span class="infos"><?php echo $form['raison_sociale_cautionneur']->render(); ?></span>
-                        </li>  
-                    <?php endif; ?>
-                </ul>
-                <div id="btn_etape_dr">
-                    <a href="<?php echo url_for('drm_validation', $drm) ?>" class="btn_majeur btn_annuler" style="float: left;" id="drm_validation_etablissement_annuler_btn"><span>annuler</span></a>
-                    <button type="submit" class="btn_majeur btn_valider" id="drm_validation_etablissement_valider_btn" style="float: right;"><span>Valider</span></button> 
-                </div>
+            <h2><?php echo $drm->declarant->nom; ?></h2>
+            <div class="ligne_form">
+                <?php echo $form['cvi']->renderError(); ?>
+                <?php echo $form['cvi']->renderLabel(); ?>
+                <?php echo $form['cvi']->render(); ?>
             </div>
-         </form>
+            <div class="ligne_form">
+                <?php echo $form['no_accises']->renderError(); ?>
+                <?php echo $form['no_accises']->renderLabel(); ?>
+                <?php echo $form['no_accises']->render(); ?>
+            </div>
+            <div class="ligne_form">
+                <?php echo $form['adresse']->renderError(); ?>
+                <?php echo $form['adresse']->renderLabel(); ?>
+                <?php echo $form['adresse']->render(array('class' => 'champ_long')); ?>
+            </div>
+            <div class="ligne_form">
+                <?php echo $form['code_postal']->renderError(); ?>
+                <?php echo $form['code_postal']->renderLabel(); ?>
+                <?php echo $form['code_postal']->render(); ?>
+            </div>
+            <div class="ligne_form">
+                <?php echo $form['commune']->renderError(); ?>
+                <?php echo $form['commune']->renderLabel(); ?>
+                <?php echo $form['commune']->render(); ?>
+            </div>
+            <?php if ($drm->declarant->exist('adresse_compta')): ?>
+            <div class="ligne_form">
+                <?php echo $form['adresse_compta']->renderError(); ?>
+                <?php echo $form['adresse_compta']->renderLabel(); ?>
+                <?php echo $form['adresse_compta']->render(array('class' => 'champ_long')); ?>
+            </div>
+            <?php endif; ?>
+            <?php if ($drm->declarant->exist('caution')): ?>
+            <div class="ligne_form alignes">
+                <span>
+                <?php echo $form['caution']->renderError(); ?>
+                <?php echo $form['caution']->renderLabel(); ?>
+                <?php echo $form['caution']->render(); ?>
+                </span>
+            </div>
+            <?php endif; ?>
+            <?php if ($drm->declarant->exist('raison_sociale_cautionneur')): ?>
+            <div class="ligne_form">
+                <?php echo $form['raison_sociale_cautionneur']->renderError(); ?>
+                <?php echo $form['raison_sociale_cautionneur']->renderLabel(); ?>
+                <?php echo $form['raison_sociale_cautionneur']->render(array('class' => 'champ_long')); ?>
+            </div>
+            <?php endif; ?>
 
+            <div id="btn_etape_dr">
+                <a href="<?php echo url_for('drm_validation', $drm) ?>" class="btn_majeur btn_annuler" style="float: left;" id="drm_validation_etablissement_annuler_btn"><span>annuler</span></a>
+                <button type="submit" class="btn_majeur btn_valider" id="drm_validation_etablissement_valider_btn" style="float: right;"><span>Valider</span></button> 
+            </div>
+        </form>
     </div>
 </section>
 <?php
