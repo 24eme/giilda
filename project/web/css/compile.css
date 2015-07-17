@@ -7429,6 +7429,17 @@ bouton#colonnes_dr .btn_edition_label {
   color: #5e5c5c !important;
   background: url('../images/pictos/pi_grey_plus.png') no-repeat !important;
 }
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut {
+  margin-top: 25px;
+}
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
@@ -7439,6 +7450,29 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree {
   background-color: #f7f7f7;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut {
+  color: #5e5c5c !important;
+  background: url('../images/pictos/pi_grey_alerte.png') no-repeat !important;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut {
+  margin-top: 25px;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois,
@@ -7670,7 +7704,7 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos p {
   font-weight: bold;
   margin: 10px 0;
-  text-align: left;
+  text-align: center;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .etablissement_nom,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .etablissement_nom,
