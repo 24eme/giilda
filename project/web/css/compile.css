@@ -7031,11 +7031,11 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm #colonne_intitules .favoris span.categorie_libelle:before {
   background: url(../images/pictos/pi_fullstar.png) 0 0 no-repeat;
   content: '';
-  height: 20px;
+  height: 15px;
   width: 20px;
   display: inline-block;
   position: absolute;
-  top: -2px;
+  top: 0px;
   left: -25px;
 }
 #principal.drm #colonne_intitules .no_favoris span.categorie_libelle {
@@ -7049,11 +7049,11 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm #colonne_intitules .no_favoris span.categorie_libelle:before {
   background: url(../images/pictos/pi_starempty.png) 0 0 no-repeat;
   content: '';
-  height: 20px;
+  height: 15px;
   width: 20px;
   display: inline-block;
   position: absolute;
-  top: -2px;
+  top: 0px;
   left: -25px;
 }
 #principal.drm table .drm_crds_list input {
