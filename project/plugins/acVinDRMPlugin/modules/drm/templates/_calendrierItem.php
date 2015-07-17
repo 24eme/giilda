@@ -2,7 +2,6 @@
 <?php $etablissements = $etablissement->getSociete()->getEtablissementsObj(false); ?>
 <?php $multiEtablissement = (count($etablissements) > 1); ?>
 
-
 <li class="bloc_mois <?php echo getClassEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>">
     <p class="mois"><?php echo $calendrier->getPeriodeLibelle($periode) ?></p>
 
@@ -27,7 +26,8 @@
             <div class="<?php echo getEtatDRMPictoCalendrier($calendrier, $periode); ?>">
                 <p class="etablissement_nom"><?php echo $etablissement->nom; ?></p>
                 <p>Etat : <span class="statut"><?php echo getEtatDRMCalendrier($calendrier, $periode); ?></span>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode) ?></p>
-                <?php if (hasALink($isTeledeclarationMode, $calendrier, $periode)) : ?> 
+       
+                    <?php if (hasALink($isTeledeclarationMode, $calendrier, $periode)) : ?> 
                     <a href="<?php echo getEtatDRMHrefCalendrier($calendrier, $periode); ?>" class="action"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode); ?></a>
                 <?php endif; ?> 
             </div>

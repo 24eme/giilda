@@ -234,9 +234,13 @@ var initTooltips = function () {
 }
 
 var initBoldSaisie = function () {
-    $('input.somme_detail').focus(function () {
+    var pattern = '/^[a-z]*(\[[a-z]*\])(\[[a-z]*\])$/i';
+    $('input.bold_on_blur').focus(function () {
         var name = $(this).attr('name');
-        $('input.somme_detail').each(function () {
+        var matches = name.match(/^[a-z_]*\[([a-z_]+)\]\[([a-z_]+)\]$/);
+        var name_header_class = matches[1]+'_'+matches[2];
+        $('input.bold_on_blur').each(function () {
+            
             if ($(this).attr('name') == name) {
                 $(this).attr('style', 'font-weight:bold');
 
@@ -244,6 +248,14 @@ var initBoldSaisie = function () {
                 $(this).attr('style', 'font-weight:normal');
             }
         });
+        console.log(name_header_class);
+        $('span.'+name_header_class).attr('style', 'font-weight:bold')
+    });
+    $('input.bold_on_blur').blur(function () {
+        var name = $(this).attr('name');
+        var matches = name.match(/^[a-z_]*\[([a-z_]+)\]\[([a-z_]+)\]$/);
+        var name_header_class = matches[1]+'_'+matches[2];
+        $('span.'+name_header_class).attr('style', 'font-weight:normal')
     });
 }
 

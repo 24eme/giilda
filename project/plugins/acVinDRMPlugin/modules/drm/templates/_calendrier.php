@@ -1,4 +1,4 @@
-<div class="section_label_maj" id="calendrier_drm">
+<div class="section_label_maj <?php echo ($isTeledeclarationMode)? 'section_label_maj_teledeclaration_drm' : ''?>" id="calendrier_drm">
    <form method="POST">
    <?php echo $formCampagne->renderGlobalErrors() ?>
    <?php echo $formCampagne->renderHiddenFields() ?>

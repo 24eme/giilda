@@ -101,7 +101,7 @@ class myUser extends sfBasicSecurityUser {
     }
 
     public function isUsurpationCompte() {
-
+       
         return $this->getAttribute(self::SESSION_COMPTE_LOGIN, null, self::NAMESPACE_COMPTE) != $this->getAttribute(self::SESSION_COMPTE_LOGIN, null, self::NAMESPACE_COMPTE_ORIGIN);
     }
 

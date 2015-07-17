@@ -36,7 +36,7 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         if ($this->drm->declarant->exist('adresse_compta')) {
             $this->setWidget('adresse_compta', new sfWidgetFormInput());
             $this->setValidator('adresse_compta', new sfValidatorString(array('required' => false)));
-            $this->widgetSchema->setLabel('adresse_compta', 'Adresse comptabilité matière :');
+            $this->widgetSchema->setLabel('adresse_compta', 'Lieu de la comptabilité matière :');
         }
         if ($this->drm->declarant->exist('caution')) {
             $this->setWidget('caution', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getCautionTypes())));

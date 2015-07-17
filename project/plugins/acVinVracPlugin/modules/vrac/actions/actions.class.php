@@ -61,10 +61,10 @@ class vracActions extends sfActions {
 
         $this->redirect403IfIsTeledeclaration();
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $societeIdentifiant = $this->etablissement->getSociete()->identifiant;
+        $societe = $this->etablissement->getSociete();
 
-        $this->getUser()->usurpationOn($societeIdentifiant, $request->getReferer());
-        $this->redirect('homepage');
+        $this->getUser()->usurpationOn($societe->identifiant, $request->getReferer());
+        $this->redirect('vrac_societe',array('identifiant' => $societe->getEtablissementPrincipal()->identifiant));
     }
 
     public function executeDeconnexion(sfWebRequest $request) {

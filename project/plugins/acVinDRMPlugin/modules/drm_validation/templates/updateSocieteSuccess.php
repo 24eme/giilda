@@ -11,10 +11,15 @@
 
         <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_VALIDATION)); ?>
 
+        <h2>Modification des informations de votre société</h2>
+
         <form action="<?php echo url_for('drm_validation_update_societe', $drm); ?>" method="POST" class="drm_validation_societe_form">
             <?php echo $form->renderHiddenFields(); ?>
             <?php echo $form->renderGlobalErrors(); ?>
-            <h2><?php echo $drm->societe->raison_sociale; ?></h2>
+            <div class="ligne_form">
+                <label>Raison Sociale :</label>
+                <?php echo $drm->societe->raison_sociale; ?>
+            </div>
             <div class="ligne_form">
                 <?php echo $form['siret']->renderError(); ?>
                 <?php echo $form['siret']->renderLabel(); ?>
