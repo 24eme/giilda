@@ -127,7 +127,15 @@ var initFavoris = function () {
 }
 
 var initValidationCoordonneesEtbSociete = function () {
-    $('#drm_validation_etablissement_info_btn').click(function () {
+    /*$('a#drm_validation_societe_info_btn').fancybox({
+        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+        titleShow: false
+    });
+
+    /*$('#drm_validation_etablissement_info_btn').click(function () {
         $('.drm_validation_etablissement_info').hide();
         $(".drm_validation_etablissement_form").show();
         return false;
@@ -146,7 +154,7 @@ var initValidationCoordonneesEtbSociete = function () {
         $('.drm_validation_societe_info').show();
         $(".drm_validation_societe_form").hide();
         return false;
-    });
+    });*/
 }
 
 var initValidationDrmStockMvt = function () {
