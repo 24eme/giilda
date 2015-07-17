@@ -8,12 +8,17 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     protected $libelles = null;
     protected $codes = null;
+    protected $noeud_droits = null;
+    protected $droits_type = array();
     protected $produits_all = null;
     protected $produits = array();
     protected $libelle_format = array();
+    protected $dates_droits = null;
 
     protected function loadAllData() {
         parent::loadAllData();
+
+        $this->getDatesDroits();
         $this->getProduitsAll();
         $this->loadProduitsByDates();
         $this->getLibelles();
@@ -33,7 +38,15 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
     }
 
-    public function getDatesDroits($interpro) {
+    public function getDatesDroits($interpro = "INTERPRO-inter-loire") {
+        if(is_null($this->dates_droits)) {
+            $this->dates_droits = $this->getDocument()->declaration->getDatesDroits($interpro);
+        }
+
+        return $this->dates_droits;
+    }
+
+    public function loadDatesDroits($interpro = "INTERPRO-inter-loire") {
         $dates_droits = array();
 
         $noeudDroits = $this->getDroits($interpro);
@@ -54,7 +67,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
 
         foreach($this->getChildrenNode() as $child) {
-            $dates_droits = array_merge($dates_droits, $child->getDatesDroits($interpro));
+            $dates_droits = array_merge($dates_droits, $child->loadDatesDroits($interpro));
         }
 
         krsort($dates_droits);
@@ -83,7 +96,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             }
         }
 
-        throw new sfExcetion("Date introuvable");
+        throw new sfException("Date introuvable");
     }
 
 
@@ -156,28 +169,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
 
         return $produits_auto;
-    }
-
-    public function hasCVO($date) {
-        try {
-            $droit_produit = $this->getDroitCVO($date);
-            $cvo_produit = $droit_produit->getTaux();
-        } catch (Exception $ex) {
-            $cvo_produit = 0;
-        }
-
-        return $cvo_produit >= 0;
-    }
-
-    public function hasDouane($date) {
-        try {
-            $droit_produit = $this->getDroitDouane($date);
-            $douane_produit = $droit_produit->getTaux();
-        } catch (Exception $ex) {
-            $douane_produit = 0;
-        }
-
-        return $douane_produit >= 0;
     }
 
     public function getLibelles() {
@@ -296,17 +287,69 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return ConfigurationClient::getInstance()->formatCodes($this->getCodes(), $format);
     }
 
+    public function getDroitByType($date, $interpro = "INTERPRO-inter-loire", $type) {
+        $date = $this->findDroitsDate($date, $interpro);
+
+        if(array_key_exists($date, $this->droits_type) && array_key_exists($type, $this->droits_type[$date])) {
+
+            return $this->droits_type[$date][$type];
+        }
+
+        if(!array_key_exists($date, $this->droits_type)) {
+            $this->droits_type[$date] = array();
+        }
+
+        $this->droits_type[$date][$type] = $this->getDroits($interpro)->get($type)->getCurrentDroit($date);
+
+        return $this->droits_type[$date][$type];
+    }
+
     public function getDroitCVO($date, $interpro = "INTERPRO-inter-loire") {
 
-        return $this->getDroits($interpro)->get(ConfigurationDroits::CODE_CVO)->getCurrentDroit($date);
+        return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_CVO);
+    }
+
+    public function getDroitDouane($date, $interpro = "INTERPRO-inter-loire") {
+
+        return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_DOUANE);
+    }
+
+    public function hasCVO($date) {
+        try {
+            $droit_produit = $this->getDroitCVO($date);
+            $cvo_produit = $droit_produit->getTaux();
+        } catch (Exception $ex) {
+            $cvo_produit = -1;
+        }
+
+        return $cvo_produit >= 0;
+    }
+
+    public function hasDouane($date) {
+        try {
+            $droit_produit = $this->getDroitDouane($date);
+            $douane_produit = $droit_produit->getTaux();
+        } catch (Exception $ex) {
+            $douane_produit = -1;
+        }
+
+        return $douane_produit >= 0;
     }
 
     public function getDroits($interpro) {
+        if(!is_null($this->noeud_droits)) {
+
+            return $this->noeud_droits;
+        }
+
         $droitsable = $this;
         while (!$droitsable->hasDroits()) {
             $droitsable = $droitsable->getParent()->getParent();
         }
-        return $droitsable->interpro->getOrAdd($interpro)->droits;
+
+        $this->noeud_droits = $droitsable->interpro->getOrAdd($interpro)->droits;
+
+        return $this->noeud_droits;
     }
 
     public function getDateCirulation($campagne, $interpro = "INTERPRO-inter-loire") {
