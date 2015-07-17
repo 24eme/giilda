@@ -6012,7 +6012,7 @@ p#date_drm {
   background: url("../images/pictos/pi_orange_plus.png") no-repeat;
 }
 #principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish {
-  background: url("../images/pictos/pi_alerte.png") no-repeat;
+  background: url("../images/pictos/pi_red_alerte.png") no-repeat;
 }
 #principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_validee {
   background-image: url("../images/pictos/sprite_calendrier.png");
@@ -6051,7 +6051,7 @@ p#date_drm {
   background: rgba(0, 0, 0, 0) url("../images/pictos/pi_orange_plus.png") no-repeat scroll 0 0;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul .statut_toFinish button {
-  background: rgba(0, 0, 0, 0) url("../images/pictos/pi_alerte.png") no-repeat scroll 0 0;
+  background: rgba(0, 0, 0, 0) url("../images/pictos/pi_red_alerte.png") no-repeat scroll 0 0;
   padding: 0 10px;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul a {
@@ -7401,7 +7401,7 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .btn_etablissement,
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .btn_etablissement,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .btn_etablissement {
-  background: url('../images/pictos/pi_alerte.png') no-repeat;
+  background: url('../images/pictos/pi_red_alerte.png') no-repeat;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .statut,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .statut,
@@ -7420,7 +7420,7 @@ bouton#colonnes_dr .btn_edition_label {
   line-height: 23px;
   padding-left: 26px;
   color: #d30815;
-  background-image: url('../images/pictos/pi_alerte.png');
+  background-image: url('../images/pictos/pi_red_alerte.png');
   background-position: 0 0;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement a.action,
