@@ -54,6 +54,7 @@ EOF;
         $configuration = acCouchdbManager::getClient()->retrieveDocumentById('CONFIGURATION');
 
         foreach (file($import_dir . '/details_teledeclaration_drm.csv') as $line) {
+            if (preg_match ('/^#/', $line)) continue;
             $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
 
             $detail = $configuration->get($datas[0])->get($datas[1])->add($datas[2])->add('detail')->add($datas[3])->add($datas[4]);
