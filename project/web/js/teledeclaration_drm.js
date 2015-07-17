@@ -76,7 +76,7 @@ var initAjoutCrdsPopup = function () {
 
     });
     $('a.ajout_crds_popup').click();
-    
+
     $('.add_crds_popup_content a#popup_close').click(function () {
         $.fancybox.close();
     });
@@ -104,7 +104,7 @@ var initRegimeCrdsPopup = function () {
         width: 'auto',
 	closeClick: false,
 	closeBtn: false,
-	helpers     : { 
+	helpers     : {
             overlay : {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
 	}
     });
@@ -247,6 +247,21 @@ var initBoldSaisie = function () {
     });
 }
 
+// init les tooltips dans la colonne intitules
+var initMsgAide = function() {
+
+    var msgsAide = $('#colonne_intitules .msg_aide');
+
+    msgsAide.each(function()
+    {
+        var msgAide = $(this);
+        var title = msgAide.attr('title');
+
+        msgAide.removeAttr('title');
+        msgsAide.attr('data-title', title);
+    });
+};
+
 $(document).ready(function ()
 {
     initAjoutProduitPopup();
@@ -260,4 +275,5 @@ $(document).ready(function ()
     initSignatureDrmPopup();
     initTooltips();
     initBoldSaisie();
+    initMsgAide();
 });
