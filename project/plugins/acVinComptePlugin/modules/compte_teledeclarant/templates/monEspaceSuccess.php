@@ -27,7 +27,7 @@
                 <div class="col_50">
                 <?php endif; ?>
                 <?php if ($hasTeledeclarationDrm): ?>
-                    <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => $isTeledeclarationMode, 'btnAccess' => true)); ?>
+                    <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => $isTeledeclarationMode, 'btnAccess' => true, 'accueil_drm' => false)); ?>
 
                 <?php endif; ?> 
                 <?php if ($hasTeledeclarationVrac && $hasTeledeclarationDrm): ?> 

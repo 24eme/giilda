@@ -27,7 +27,8 @@
             <div class="<?php echo getEtatDRMPictoCalendrier($calendrier, $periode); ?>">
                 <p class="etablissement_nom"><?php echo $etablissement->nom; ?></p>
                 <p>Etat : <span class="statut"><?php echo getEtatDRMCalendrier($calendrier, $periode); ?></span>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode) ?></p>
-                <?php if (hasALink($isTeledeclarationMode, $calendrier, $periode)) : ?> 
+       
+                    <?php if (hasALink($isTeledeclarationMode, $calendrier, $periode)) : ?> 
                     <a href="<?php echo getEtatDRMHrefCalendrier($calendrier, $periode); ?>" class="action"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode); ?></a>
                 <?php endif; ?> 
             </div>

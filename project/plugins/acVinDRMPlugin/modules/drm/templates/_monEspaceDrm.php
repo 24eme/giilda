@@ -3,8 +3,8 @@
 <?php use_helper('Orthographe'); ?>
 <fieldset id="espace_drm">
     <div id="mon_espace">
-        <div class="block_teledeclaration espace_drm">
-            <div class="title">ESPACE DRM</div>
+        <div class="block_teledeclaration  espace_drm">
+            <div class="title <?php echo ($accueil_drm)? 'title_espace' : ''; ?>">ESPACE DRM</div>
             <div class="panel">
                 <ul style="<?php if (!isset($btnAccess)): ?>height: auto<?php endif; ?>" class="etablissements_drms">
                     <?php foreach ($lastDrmToCompleteAndToStart as $etb => $drmsByEtb) : ?>
