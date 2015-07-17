@@ -252,13 +252,9 @@ var initMsgAide = function() {
 
     var msgsAide = $('#colonne_intitules .msg_aide');
 
-    msgsAide.each(function()
-    {
-        var msgAide = $(this);
-        var title = msgAide.attr('title');
-
-        msgAide.removeAttr('title');
-        msgsAide.attr('data-title', title);
+    msgsAide.tooltip
+    ({
+        placement: 'right'
     });
 };
 
