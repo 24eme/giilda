@@ -6070,6 +6070,9 @@ p#date_drm {
 #principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish {
   background: url("../images/pictos/pi_alerte.png") no-repeat;
 }
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish_non_teledeclare {
+  background: url("../images/pictos/pi_grey_plus.png") no-repeat;
+}
 #principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_validee {
   background-image: url("../images/pictos/sprite_calendrier.png");
   background-position: 0 -70px;
