@@ -762,12 +762,15 @@
 
         this.open = function() {
             this.element.addClass('groupe_ouvert');
-            this.element.children('ul').slideDown();
+            this.element.children('ul').slideDown(function()
+            {
+                $(this).css('overflow', 'visible');
+            });
         }
 
         this.close = function() {
             this.element.removeClass('groupe_ouvert');
-            this.element.children('ul').slideUp();
+            this.element.children('ul').css('overflow', 'hidden').slideUp();
         }
     }
 
