@@ -500,12 +500,17 @@ p#date_drm
                     }
                     .statut_toCreate
                     {
-                        background: url("../images/pictos/pi_orange_plus.png") no-repeat;  
+                        background: url("../images/pictos/pi_orange_plus.png") no-repeat;
                     }
 
                     .statut_toFinish
                     {
                         background: url("../images/pictos/pi_alerte.png") no-repeat;
+                    }
+                    
+                    .statut_toFinish_non_teledeclare
+                    {
+                        background: url("../images/pictos/pi_grey_plus.png") no-repeat;
                     }
                     .statut_validee
                     {
@@ -1106,7 +1111,7 @@ p#date_drm
                     &.somme_groupe,
                     &.somme_stock_debut,
                     &.somme_stock_fin
-                    {
+                    {  
                         color: @couleur-b1;
                     }
                 }
@@ -1488,7 +1493,7 @@ p#date_drm
         padding: 5px 5px 5px 25px;
         width:200px;
         height:30px;
-    }    
+    }
 }
 
 .add_produit_popup_certification_content h2 {
@@ -1611,9 +1616,31 @@ p#date_drm
             background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
             font-size:12px;
             padding: 5px 5px 5px 25px;
-            width:30px;
             height:30px;
-        }    
+            position: relative;
+            z-index: 10;
+
+            /* tooltip */
+            &:before
+            {
+                content: attr(data-title);
+                opacity: 0;
+                transition: all .3s;
+                position: absolute;
+                top: 0;
+                left: 25px;
+                background: #000;
+                padding: 3px 8px;
+                color: #FFF;
+                text-align: left;
+                white-space: nowrap;
+            }
+
+            &:hover
+            {
+                &:before { opacity: 1; }
+            }
+        }
 
         .li_gris{
             padding-top:5px;
@@ -1949,6 +1976,9 @@ p#date_drm
                 }
 
                 table { .table_recap; }
+            }
+            .section_label_maj_teledeclaration_drm{
+                border: none !important;
             }
         }
 

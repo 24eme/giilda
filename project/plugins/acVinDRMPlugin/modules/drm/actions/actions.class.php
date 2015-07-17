@@ -9,6 +9,16 @@
  */
 class drmActions extends drmGeneriqueActions {
 
+    public function executeConnexion(sfWebRequest $request) {
+
+      //  $this->redirect403IfIsTeledeclaration();
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $societe = $this->etablissement->getSociete();
+
+        $this->getUser()->usurpationOn($societe->identifiant, $request->getReferer());
+        $this->redirect('drm_societe',array('identifiant' => $societe->getEtablissementPrincipal()->identifiant));
+    }
+    
     public function executeRedirect(sfWebRequest $request) {
         $drm = DRMClient::getInstance()->find($request->getParameter('identifiant_drm'));
         $this->forward404Unless($drm);

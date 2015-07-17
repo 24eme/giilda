@@ -146,7 +146,7 @@ class DRMCalendrier {
         return $this->getPeriodeVersion($periode);
     }
 
-    public function getStatut($periode, $etablissement = false) {
+    public function getStatut($periode, $etablissement = false, $isTeledeclarationMode = true) {
 
         if (!$this->hasDRM($periode, $etablissement)) {
 
@@ -160,14 +160,18 @@ class DRMCalendrier {
         }
 
         if ($drm[self::VIEW_STATUT]) {
-
+            if (!$isTeledeclarationMode) {
+                return self::STATUT_VALIDEE_NON_TELEDECLARE;
+            }
             return self::STATUT_VALIDEE;
         }
-
+        if (!$isTeledeclarationMode) {
+            return self::STATUT_EN_COURS_NON_TELEDECLARE;
+        }
         return self::STATUT_EN_COURS;
     }
 
-    public function getStatutForAllEtablissements($periode) {
+    public function getStatutForAllEtablissements($periode, $etablissement = null) {
         if ($this->multiEtbs) {
             $statuts = array();
             foreach ($this->etablissements as $etablissement) {
@@ -196,7 +200,7 @@ class DRMCalendrier {
                 return self::STATUT_VALIDEE_NON_TELEDECLARE;
             }
             return self::STATUT_VALIDEE;
-        } else {
+        } elseif ($this->isTeledeclarationMode) {
             foreach ($this->etablissements as $etablissement) {
                 $statut = $this->getStatut($periode, $etablissement->etablissement);
                 if ($statut == self::STATUT_VALIDEE) {
@@ -217,11 +221,11 @@ class DRMCalendrier {
                 return $statut;
             }
         }
-        return null;
+        return $this->getStatut($periode, $etablissement, false);
     }
 
     public function isTeledeclare($periode, $etablissement = false) {
-        if(!$etablissement){
+        if (!$etablissement) {
             $etablissement = $this->etablissement;
         }
         return DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etablissement->identifiant, $periode)->isTeledeclare();
@@ -263,9 +267,13 @@ class DRMCalendrier {
                 $statut = $this->getStatut($periode, $etb->etablissement);
                 $drmLastWithStatut[$etb->etablissement->identifiant]->periode = $periode;
                 if ($statut == self::STATUT_EN_COURS) {
-
-                    $drmLastWithStatut[$etb->etablissement->identifiant]->drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etb->etablissement->identifiant, $periode);
-                    $drmLastWithStatut[$etb->etablissement->identifiant]->statut = self::STATUT_EN_COURS;
+                    $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etb->etablissement->identifiant, $periode);
+                    $drmLastWithStatut[$etb->etablissement->identifiant]->drm = $drm;
+                    if ($drm->isTeledeclare()) {
+                        $drmLastWithStatut[$etb->etablissement->identifiant]->statut = self::STATUT_EN_COURS;
+                    } else {
+                        $drmLastWithStatut[$etb->etablissement->identifiant]->statut = self::STATUT_EN_COURS_NON_TELEDECLARE;
+                    }
                     break;
                 }
                 if ($statut == self::STATUT_NOUVELLE) {
