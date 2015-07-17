@@ -221,6 +221,9 @@ class DRMCalendrier {
     }
 
     public function isTeledeclare($periode, $etablissement = false) {
+        if(!$etablissement){
+            $etablissement = $this->etablissement;
+        }
         return DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etablissement->identifiant, $periode)->isTeledeclare();
     }
 
