@@ -17,7 +17,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->drm = $object;
         $this->regimeCrds = $this->drm->getRegimesCrds();
-        $this->drmSortiesGenreCRDs = $this->drm->getSortiesGenreCrds();
+        $this->drmSortiesGenreCRDs = array('TRANQ' => 'Vins tranquilles', 'MOUSSEUX' => 'Vins mousseux');
         parent::__construct($this->drm, $options, $CSRFSecret);
     }
 
@@ -31,6 +31,8 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
 
             if (count($this->drmSortiesGenreCRDs) > 1) {
                 $this->setWidget('genre_crd_' . $regime, new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->drmSortiesGenreCRDs)));
+                $this->setDefault('genre_crd_' . $regime, 'TRANQ');
+		
             }
 
             $this->widgetSchema->setLabel('couleur_crd_' . $regime, 'Couleur CRD ');
@@ -42,9 +44,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
             $this->setValidator('litrage_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeLitrages())), array('required' => "Aucun litrage n'a été saisi !")));
             $this->setValidator('stock_debut_' . $regime, new sfValidatorNumber(array('required' => false)));
             $this->setValidator('genre_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->drmSortiesGenreCRDs)), array('required' => "Aucun litrage n'a été saisi !")));
-            if (count($this->drmSortiesGenreCRDs) > 1) {
-                $this->setValidator('genre_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->drmSortiesGenreCRDs)), array('required' => "Aucun litrage n'a été saisi !")));
-            }
+            $this->setValidator('genre_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->drmSortiesGenreCRDs)), array('required' => "Aucun litrage n'a été saisi !")));
         }
 
         $this->widgetSchema->setNameFormat('drmAddTypeForm[%s]');

@@ -48,9 +48,6 @@ class drm_crdsActions extends drmGeneriqueActions {
         if (!$this->isTeledeclarationDrm()) {
             $this->redirect403IfIsNotTeledeclaration();
         }
-        if ($etablissement->hasRegimeCrd()) {
-            throw new sfException("L'établissement possède déjà un régime de CRD.");
-        }
 
         $this->form = new DRMCrdRegimeChoiceForm($drm);
         if ($request->isMethod(sfRequest::POST)) {

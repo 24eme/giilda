@@ -505,9 +505,9 @@ p#date_drm
 
                     .statut_toFinish
                     {
-                        background: url("../images/pictos/pi_alerte.png") no-repeat;
+                        background: url("../images/pictos/pi_red_alerte.png") no-repeat;
                     }
-                    
+
                     .statut_toFinish_non_teledeclare
                     {
                         background: url("../images/pictos/pi_grey_plus.png") no-repeat;
@@ -566,7 +566,7 @@ p#date_drm
                     .statut_toFinish{
                         button{
 
-                            background: rgba(0, 0, 0, 0) url("../images/pictos/pi_alerte.png") no-repeat scroll 0 0;
+                            background: rgba(0, 0, 0, 0) url("../images/pictos/pi_red_alerte.png") no-repeat scroll 0 0;
                             padding: 0 10px;
                         }
                     }
@@ -833,7 +833,7 @@ p#date_drm
                 font-weight: bold;
                 border: 1px solid @couleur-a10;
                 border-width: 1px 0;
-                padding: 10px 5px;
+                padding: 7px 5px;
                 background-color: #ECEBEB;
                 &.extendable {
                     background: url("../images/pictos/fleche_droite.png") no-repeat scroll 190px 2px ;
@@ -850,7 +850,7 @@ p#date_drm
                     background-color: #ECEBEB;
                     &.extendable {
                         background: url(../images/pictos/fleche_bas.png) no-repeat 188px 2px  !important;
-                        line-height: 2px;
+                        line-height: 7px;
                     }
                 }
 
@@ -982,12 +982,12 @@ p#date_drm
 
             p{
                 background: @couleur-a5;
-                height:42px !important;
+                height:35px !important;
                 border: 1px solid @couleur-a10;
                 border-width: 1px 0;
 
                 input{
-                    margin-top:10px;
+                    margin-top:5px;
                     &[readonly]
                     {
                         background: @couleur-a5;
@@ -1112,7 +1112,7 @@ p#date_drm
                     &.somme_stock_debut,
                     &.somme_stock_fin
                     {  
-                        color: @couleur-b1;
+                        color: @couleur-a2;
                     }
                 }
 
@@ -1234,6 +1234,7 @@ p#date_drm
 #table_drm_crds
 {
     input[type="text"] { text-align: right; }
+    th.mainth {border-bottom:  1px solid #e3e2e2;}
 }
 
 
@@ -1617,29 +1618,18 @@ p#date_drm
             font-size:12px;
             padding: 5px 5px 5px 25px;
             height:30px;
-            position: relative;
-            z-index: 10;
+        }
 
-            /* tooltip */
-            &:before
-            {
-                content: attr(data-title);
-                opacity: 0;
-                transition: all .3s;
-                position: absolute;
-                top: 0;
-                left: 25px;
-                background: #000;
-                padding: 3px 8px;
-                color: #FFF;
-                text-align: left;
-                white-space: nowrap;
-            }
-
-            &:hover
-            {
-                &:before { opacity: 1; }
-            }
+        .tooltip
+        {
+            background: #3e3e3e;
+            border-radius: 4px;
+            display: inline-block !important;
+            color: #FFF;
+            padding: 3px 8px;
+            position: absolute;
+            white-space: nowrap;
+            z-index: 20;
         }
 
         .li_gris{
@@ -1656,11 +1646,11 @@ p#date_drm
             &:before {
                 .sprite-pictos-star_full(0 0);
                 content: '';
-                height: 20px;
+                height: 15px;
                 width: 20px;
                 display: inline-block;
                 position: absolute;
-                top: -2px;
+                top: 0px;
                 left: -25px;
             }
         }
@@ -1674,11 +1664,11 @@ p#date_drm
             &:before {
                 .sprite-pictos-star_empty(0 0);
                 content: '';
-                height: 20px;
+                height: 15px;
                 width: 20px;
                 display: inline-block;
                 position: absolute;
-                top: -2px;
+                top: 0px;
                 left: -25px;
             }
         }
@@ -1824,12 +1814,12 @@ p#date_drm
 
                                         .attente_etablissement
                                         {
-                                            .btn_etablissement { background: url('../images/pictos/pi_alerte.png') no-repeat; }
+                                            .btn_etablissement { background: url('../images/pictos/pi_red_alerte.png') no-repeat; }
 
                                             .statut
                                             {
                                                 .statut_suspendu;
-                                                background-image: url('../images/pictos/pi_alerte.png');
+                                                background-image: url('../images/pictos/pi_red_alerte.png');
                                                 background-position: 0 0;
                                             }
 
@@ -2191,6 +2181,8 @@ p#date_drm
                 .drm_details_form_noItem { margin-bottom: 20px; }
             }
         }
+	ul.radio_list li label { display: inline; }
+	ul.radio_list {margin-left: 150px;}
 
         #add_crds_COLLECTIFACQUITTE,
         #signature_drm_popup_content
