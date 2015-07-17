@@ -7,6 +7,7 @@
 class ConfigurationDroits extends BaseConfigurationDroits {
 	
 	const CODE_CVO = 'CVO';
+	const CODE_DOUANE = 'DOUANE';
 	const LIBELLE_CVO = 'Cvo';
 
 	const DROIT_CVO = 'cvo';
