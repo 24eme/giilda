@@ -1793,8 +1793,19 @@ p#date_drm
                                     &.valide_campagne_teledeclaree { background-color: @couleur-a1; opacity: 0.7 }
                                     &.attente_campagne_teledeclaree { background-color: @couleur-a1; opacity: 0.7 }
 
-                                    &.valide_campagne_non_teledeclaree { background-color: @couleur-a7; }
-                                    &.attente_campagne_non_teledeclaree { background-color: @couleur-a7; }
+                                    &.valide_campagne_non_teledeclaree { 
+				       background-color: @couleur-a8; 
+				       .statut {
+				       	       color: @couleur-a4 !important;
+				       	       background: url('../images/pictos/pi_grey_plus.png') no-repeat !important;  
+					}
+				    }
+                                    &.attente_campagne_non_teledeclaree { background-color: @couleur-a8; 
+				       .statut {
+				       	       color: @couleur-a4 !important;
+				       	       background: url('../images/pictos/pi_grey_alerte.png') no-repeat !important;  
+					}
+				    }
 
                                     .mois
                                     {
