@@ -8,12 +8,14 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     protected $libelles = null;
     protected $codes = null;
-    protected $produits = null;
+    protected $produits_all = null;
+    protected $produits = array();
     protected $libelle_format = array();
 
     protected function loadAllData() {
         parent::loadAllData();
         $this->getProduitsAll();
+        $this->loadProduitsByDates();
         $this->getLibelles();
         $this->getCodes();
     }
@@ -31,20 +33,87 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
     }
 
-    public function getProduitsAll($interpro = null, $departement = null) {
-        if (is_null($this->produits)) {
-            $this->produits = array();
-            foreach ($this->getChildrenNode() as $key => $item) {
-                $this->produits = array_merge($this->produits, $item->getProduitsAll());
+    public function getDatesDroits($interpro) {
+        $dates_droits = array();
+
+        $noeudDroits = $this->getDroits($interpro);
+        if($noeudDroits) {
+            foreach($noeudDroits as $droits) {
+                foreach($droits as $droit) {
+                    $dateObj = new DateTime($droit->date);
+                    $dates_droits[$dateObj->format('Y-m-d')] = true;
+                }
             }
         }
 
-        return $this->produits;
+        krsort($dates_droits);
+
+        if(!$this->getChildrenNode()) {
+
+            return $dates_droits;
+        }
+
+        foreach($this->getChildrenNode() as $child) {
+            $dates_droits = array_merge($dates_droits, $child->getDatesDroits($interpro));
+        }
+
+        krsort($dates_droits);
+
+        return $dates_droits;
     }
 
-    public function getProduits($date = null, $interpro = null, $departement = null, $droits = array(ConfigurationDroits::DROIT_CVO)) {
+    public function getProduitsAll($interpro = null, $departement = null) {
+        if (is_null($this->produits_all)) {
+            $this->produits_all = array();
+            foreach ($this->getChildrenNode() as $key => $item) {
+                $this->produits_all = array_merge($this->produits_all, $item->getProduitsAll());
+            }
+        }
+
+        return $this->produits_all;
+    }
+
+    public function findDroitsDate($date, $interpro) {
+        $datesDroits = $this->getDatesDroits($interpro);
+
+        foreach($datesDroits as $dateDroits => $null) {
+            if($date >= $dateDroits) {
+
+                return $dateDroits;
+            }
+        }
+
+        throw new sfExcetion("Date introuvable");
+    }
+
+
+    public function getKeyDroits($droits) {
+        sort($droits);
+
+        return implode("", $droits);
+    }
+
+    public function loadProduitsByDates($interpro = "INTERPRO-inter-loire") {
+        $datesDroits = $this->getDatesDroits($interpro);
+        $droitsCombinaison = array(array(ConfigurationDroits::DROIT_CVO), array(ConfigurationDroits::DROIT_DOUANE), array(ConfigurationDroits::DROIT_CVO, ConfigurationDroits::DROIT_DOUANE));
+        foreach($datesDroits as $dateDroit => $null) {
+            foreach($droitsCombinaison as $droits) {
+                $this->getProduits($dateDroit, $interpro, null, $droits);
+            }
+        }
+    }
+
+    public function getProduits($date = null, $interpro = "INTERPRO-inter-loire", $departement = null, $droits = array(ConfigurationDroits::DROIT_CVO)) {
         if (!$date) {
             $date = date('Y-m-d');
+        }
+
+        $date = $this->findDroitsDate($date, $interpro);
+        $droitsKey = $this->getKeyDroits($droits);
+
+        if(array_key_exists($date, $this->produits) && array_key_exists($droitsKey, $this->produits[$date])) {
+
+            return $this->produits[$date][$droitsKey];
         }
 
         $produits = array();
@@ -66,7 +135,14 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             }
         }
 
-        return $produits;
+        if(!array_key_exists($date, $this->produits)) {
+
+            $this->produits[$date] = array();
+        }
+
+        $this->produits[$date][$droitsKey] = $produits;
+
+        return $this->produits[$date][$droitsKey];
     }
 
     public function getProduitsAuto($date = null, $interpro = null, $departement = null, $droits = array(ConfigurationDroits::DROIT_CVO)) {

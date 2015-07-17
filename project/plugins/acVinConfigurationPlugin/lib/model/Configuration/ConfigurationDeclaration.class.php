@@ -16,6 +16,11 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
     public function setDonneesCsv($datas) {
         
     }
+
+    public function getDroits($interpro) {
+
+        return null;
+    }
     
     public function hasDroits() {
 
