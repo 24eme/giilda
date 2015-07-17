@@ -93,7 +93,6 @@
                             <?php else: ?>
                                 <div class="bloc_col" id="contrat_aide">
                                     <h2>Aide</h2>
-
                                     <div class="contenu">
                                         <ul>
                                             <li class="raccourcis"><a href="" data-popup="#raccourci_clavier" class="btn_popup" data-popup-config="configDefaut">Raccourcis clavier</a></li>
@@ -102,11 +101,8 @@
                                     </div>
                                 </div>
                             <?php endif; ?>
-                        <?php endif; ?>
-                        
-
+                        <?php endif; ?>                        
                         <?php include_slot('colLegende'); ?>  
-
 
                         <?php include_slot('colAide'); ?>                        
 

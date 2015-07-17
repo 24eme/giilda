@@ -1848,6 +1848,9 @@ input.ui-autocomplete-input {
   width: 330px;
   height: 30px;
 }
+.champ_long {
+  width: 425px;
+}
 ul.radio_list {
   zoom: 1;
   min-height: 1px;
@@ -2603,6 +2606,10 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 }
 #mon_espace .block_teledeclaration.espace_contrat .title {
   background-image: url('../images/pictos/pi_handshake_2.png');
+}
+#mon_espace .block_teledeclaration.espace_drm .title_espace {
+  background-image: url('../images/pictos/pi_list_pen_2.png');
+  background-position: 238px 5px;
 }
 #mon_espace .block_teledeclaration.espace_drm .title {
   background-image: url('../images/pictos/pi_list_pen_2.png');
@@ -6014,6 +6021,9 @@ p#date_drm {
 #principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish {
   background: url("../images/pictos/pi_red_alerte.png") no-repeat;
 }
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish_non_teledeclare {
+  background: url("../images/pictos/pi_grey_plus.png") no-repeat;
+}
 #principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_validee {
   background-image: url("../images/pictos/sprite_calendrier.png");
   background-position: 0 -70px;
@@ -6533,7 +6543,7 @@ p#date_drm {
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_groupe,
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_debut,
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_fin {
-  color: #9d3032;
+  color: #000000;
 }
 #colonnes_dr .col_recolte.col_inactive .col_cont .col_btn {
   /*.btn_col_inactive { visibility: hidden; }
@@ -7013,8 +7023,17 @@ bouton#colonnes_dr .btn_edition_label {
   background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #ffffff;
   font-size: 12px;
   padding: 5px 5px 5px 25px;
-  width: 30px;
   height: 30px;
+}
+#principal.drm #colonne_intitules .tooltip {
+  background: #3e3e3e;
+  border-radius: 4px;
+  display: inline-block !important;
+  color: #FFF;
+  padding: 3px 8px;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 20;
 }
 #principal.drm #colonne_intitules .li_gris {
   padding-top: 5px;
@@ -7362,6 +7381,52 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne {
   background-color: #f0f9e4;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree {
+  background-color: #ffffff;
+  opacity: 0.7;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree {
+  background-color: #ffffff;
+  opacity: 0.7;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree {
+  background-color: #e3e2e2;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree {
+  background-color: #e3e2e2;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois,
@@ -7890,6 +7955,11 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
 #principal.drm fieldset#historique_drm .section_label_maj table tr.vide,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj table tr.vide {
   display: none;
+}
+#principal.drm fieldset#espace_drm .section_label_maj_teledeclaration_drm,
+#principal.drm fieldset#historique_drm .section_label_maj_teledeclaration_drm,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj_teledeclaration_drm {
+  border: none !important;
 }
 #principal.drm fieldset#historique_drm ul li {
   background: #ececec url(../images/fonds/bg_nav_historique.png) 0 0 repeat-x;

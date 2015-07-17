@@ -9,7 +9,7 @@
     <!-- #contenu_etape -->
     <section id="contenu_etape">
         <?php if ($isTeledeclarationMode): ?>
-            <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+            <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => $isTeledeclarationMode,'accueil_drm' => true)); ?>
         <?php else: ?>
             <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
         <?php endif; ?>

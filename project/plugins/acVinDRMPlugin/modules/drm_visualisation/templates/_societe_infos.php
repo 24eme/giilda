@@ -1,39 +1,20 @@
 <div class="drm_validation_societe_info">
-    <div class="title"><span class="text"><?php echo $drm->getSocieteInfos()->raison_sociale; ?></span></div>
+    <div class="title"><span class="text">VOTRE SOCIÉTÉ</span></div>
     <div class="panel">
-        <ul>
-            <li>
-                <span class="label">SIRET :</span>
-                <span class="infos"><?php echo $drm->getSocieteInfos()->siret; ?></span>
-            </li>
-            <li>
-                <span class="label">Adresse :</span>
-                <span class="infos"><?php echo $drm->getSocieteInfos()->adresse; ?></span>
-            </li>
-            <li>
-                <span class="label">Code postal :</span>
-                <span class="infos"><?php echo $drm->getSocieteInfos()->code_postal; ?></span>
-            </li>
-            <li>
-                <span class="label">Commune :</span>
-                <span class="infos"><?php echo $drm->getSocieteInfos()->commune; ?></span>
-            </li>
-            <li>
-                <span class="label">E-mail :</span>
-                <span class="infos"><?php echo $drm->getSocieteInfos()->email; ?></span>
-            </li>
-            <li>
-                <span class="label">Téléphone :</span>
-                <span class="infos"><?php echo $drm->getSocieteInfos()->telephone; ?></span>
-            </li>
-            <li>
-                <span class="label">Fax :</span>
-                <span class="infos"><?php echo $drm->getSocieteInfos()->fax; ?></span>
-            </li>
-        </ul>
+        <p style="text-align: center"><strong><?php echo $drm->getSocieteInfos()->raison_sociale; ?></strong></p>
+        <br />
+        <strong>N° SIRET</strong> : <?php echo $drm->getSocieteInfos()->siret; ?><br />
+        <br />
+        <br />
+        <strong>Adresse :</strong><br />
+        <?php echo $drm->getSocieteInfos()->adresse; ?><br />
+        <?php echo $drm->getSocieteInfos()->code_postal; ?> <?php echo $drm->getSocieteInfos()->commune; ?><br />
+        <br />
+        <strong>Email</strong> : <?php echo $drm->getSocieteInfos()->email; ?><br />
+        <strong>Téléphone / Fax</strong> : <?php echo $drm->getSocieteInfos()->telephone; ?> / <?php echo $drm->getSocieteInfos()->fax; ?>
         <?php if($isModifiable): ?>
         <div id="btn_etape_dr">
-            <a href="#" class="btn_majeur btn_modifier" style="float: right;" id="drm_validation_societe_info_btn"><span>modifier</span></a>
+            <a href="<?php echo url_for('drm_validation_update_societe', $drm); ?>" class="btn_majeur btn_modifier" style="float: right;" id="drm_validation_societe_info_btn"><span>modifier</span></a>
         </div>
         <?php endif; ?>
     </div>

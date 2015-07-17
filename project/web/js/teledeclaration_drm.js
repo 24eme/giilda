@@ -76,7 +76,7 @@ var initAjoutCrdsPopup = function () {
 
     });
     $('a.ajout_crds_popup').click();
-    
+
     $('.add_crds_popup_content a#popup_close').click(function () {
         $.fancybox.close();
     });
@@ -104,7 +104,7 @@ var initRegimeCrdsPopup = function () {
         width: 'auto',
 	closeClick: false,
 	closeBtn: false,
-	helpers     : { 
+	helpers     : {
             overlay : {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
 	}
     });
@@ -127,7 +127,15 @@ var initFavoris = function () {
 }
 
 var initValidationCoordonneesEtbSociete = function () {
-    $('#drm_validation_etablissement_info_btn').click(function () {
+    /*$('a#drm_validation_societe_info_btn').fancybox({
+        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+        titleShow: false
+    });
+
+    /*$('#drm_validation_etablissement_info_btn').click(function () {
         $('.drm_validation_etablissement_info').hide();
         $(".drm_validation_etablissement_form").show();
         return false;
@@ -146,7 +154,7 @@ var initValidationCoordonneesEtbSociete = function () {
         $('.drm_validation_societe_info').show();
         $(".drm_validation_societe_form").hide();
         return false;
-    });
+    });*/
 }
 
 var initValidationDrmStockMvt = function () {
@@ -226,9 +234,13 @@ var initTooltips = function () {
 }
 
 var initBoldSaisie = function () {
-    $('input.somme_detail').focus(function () {
+    var pattern = '/^[a-z]*(\[[a-z]*\])(\[[a-z]*\])$/i';
+    $('input.bold_on_blur').focus(function () {
         var name = $(this).attr('name');
-        $('input.somme_detail').each(function () {
+        var matches = name.match(/^[a-z_]*\[([a-z_]+)\]\[([a-z_]+)\]$/);
+        var name_header_class = matches[1]+'_'+matches[2];
+        $('input.bold_on_blur').each(function () {
+            
             if ($(this).attr('name') == name) {
                 $(this).attr('style', 'font-weight:bold');
 
@@ -236,8 +248,27 @@ var initBoldSaisie = function () {
                 $(this).attr('style', 'font-weight:normal');
             }
         });
+        console.log(name_header_class);
+        $('span.'+name_header_class).attr('style', 'font-weight:bold')
+    });
+    $('input.bold_on_blur').blur(function () {
+        var name = $(this).attr('name');
+        var matches = name.match(/^[a-z_]*\[([a-z_]+)\]\[([a-z_]+)\]$/);
+        var name_header_class = matches[1]+'_'+matches[2];
+        $('span.'+name_header_class).attr('style', 'font-weight:normal')
     });
 }
+
+// init les tooltips dans la colonne intitules
+var initMsgAide = function() {
+
+    var msgsAide = $('#colonne_intitules .msg_aide');
+
+    msgsAide.tooltip
+    ({
+        placement: 'right'
+    });
+};
 
 $(document).ready(function ()
 {
@@ -252,4 +283,5 @@ $(document).ready(function ()
     initSignatureDrmPopup();
     initTooltips();
     initBoldSaisie();
+    initMsgAide();
 });

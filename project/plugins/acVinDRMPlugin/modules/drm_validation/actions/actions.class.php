@@ -79,6 +79,7 @@ class drm_validationActions extends drmGeneriqueActions {
 
     public function executeUpdateEtablissement(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->initSocieteAndEtablissementPrincipal();
         $this->form = new DRMValidationCoordonneesEtablissementForm($this->drm);
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -90,18 +91,16 @@ class drm_validationActions extends drmGeneriqueActions {
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_ETABLISSEMENT, $diff);
                 $this->redirect('drm_validation', $this->drm);
-            } else {
-                new sfException("form non valide");
             }
         }
-        $this->redirect('drm_validation', $this->drm);
     }
 
     public function executeUpdateSociete(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->initSocieteAndEtablissementPrincipal();
         $this->form = new DRMValidationCoordonneesSocieteForm($this->drm);
-        if ($request->isMethod(sfWebRequest::POST)) {
+        if($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
@@ -110,11 +109,8 @@ class drm_validationActions extends drmGeneriqueActions {
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_SOCIETE, $diff);
                 $this->redirect('drm_validation', $this->drm);
-            } else {
-                new sfException("form non valide");
             }
         }
-        $this->redirect('drm_validation', $this->drm);
     }
 
 }

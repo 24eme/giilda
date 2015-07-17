@@ -500,12 +500,17 @@ p#date_drm
                     }
                     .statut_toCreate
                     {
-                        background: url("../images/pictos/pi_orange_plus.png") no-repeat;  
+                        background: url("../images/pictos/pi_orange_plus.png") no-repeat;
                     }
 
                     .statut_toFinish
                     {
                         background: url("../images/pictos/pi_red_alerte.png") no-repeat;
+                    }
+
+                    .statut_toFinish_non_teledeclare
+                    {
+                        background: url("../images/pictos/pi_grey_plus.png") no-repeat;
                     }
                     .statut_validee
                     {
@@ -1106,8 +1111,8 @@ p#date_drm
                     &.somme_groupe,
                     &.somme_stock_debut,
                     &.somme_stock_fin
-                    {
-                        color: @couleur-b1;
+                    {  
+                        color: @couleur-a2;
                     }
                 }
 
@@ -1489,7 +1494,7 @@ p#date_drm
         padding: 5px 5px 5px 25px;
         width:200px;
         height:30px;
-    }    
+    }
 }
 
 .add_produit_popup_certification_content h2 {
@@ -1612,9 +1617,20 @@ p#date_drm
             background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
             font-size:12px;
             padding: 5px 5px 5px 25px;
-            width:30px;
             height:30px;
-        }    
+        }
+
+        .tooltip
+        {
+            background: #3e3e3e;
+            border-radius: 4px;
+            display: inline-block !important;
+            color: #FFF;
+            padding: 3px 8px;
+            position: absolute;
+            white-space: nowrap;
+            z-index: 20;
+        }
 
         .li_gris{
             padding-top:5px;
@@ -1773,6 +1789,12 @@ p#date_drm
 
                                     &.valide_papier_campagne,
                                     &.valide_campagne { background-color: @couleur-d3; }
+
+                                    &.valide_campagne_teledeclaree { background-color: @couleur-a1; opacity: 0.7 }
+                                    &.attente_campagne_teledeclaree { background-color: @couleur-a1; opacity: 0.7 }
+
+                                    &.valide_campagne_non_teledeclaree { background-color: @couleur-a7; }
+                                    &.attente_campagne_non_teledeclaree { background-color: @couleur-a7; }
 
                                     .mois
                                     {
@@ -1944,6 +1966,9 @@ p#date_drm
                 }
 
                 table { .table_recap; }
+            }
+            .section_label_maj_teledeclaration_drm{
+                border: none !important;
             }
         }
 
