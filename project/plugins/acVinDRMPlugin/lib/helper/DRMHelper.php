@@ -29,11 +29,11 @@ function getDrmTitle($drm) {
 }
 
 function getFrPeriodeElision($periode) {
-    
+
     $annee = substr($periode, 0, 4);
     $mois = substr($periode, 4, 2);
     $date = $annee . '-' . $mois . '-01';
-    return elision('de', format_date($date, "MMMM", "fr_FR")).' '.$annee;
+    return elision('de', format_date($date, "MMMM", "fr_FR")) . ' ' . $annee;
 }
 
 function getNumberOfFirstProduitWithMovements($produits) {
@@ -47,22 +47,49 @@ function getNumberOfFirstProduitWithMovements($produits) {
     return null;
 }
 
-function getClassEtatDRMCalendrier($calendrier, $periode,$etablissement = false) {
-     $statut = $calendrier->getStatut($periode,$etablissement);
-    if ($statut == DRMCalendrier::STATUT_VALIDEE) {
+function getClassEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
+    $statut = $calendrier->getStatutForAllEtablissements($periode);
+    if ($isTeledeclarationMode && ($statut == DRMCalendrier::STATUT_VALIDEE)) {
         return 'valide_campagne';
     }
-    if ($statut == DRMCalendrier::STATUT_EN_COURS) {
+    if (!$isTeledeclarationMode && ($statut == DRMCalendrier::STATUT_VALIDEE)) {
+        return 'valide_campagne_teledeclaree';
+    }
+    if ($isTeledeclarationMode && ($statut == DRMCalendrier::STATUT_EN_COURS)) {
         return 'attente_campagne';
+    }
+    if (!$isTeledeclarationMode && ($statut == DRMCalendrier::STATUT_EN_COURS)) {
+        return 'attente_campagne_teledeclaree';
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'nouv_campagne';
     }
+    if (!$isTeledeclarationMode && ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE)) {
+        return 'attente_campagne';
+    }
+    if ($isTeledeclarationMode && ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE)) {
+        return 'attente_campagne_non_teledeclaree';
+    }
+    if (!$isTeledeclarationMode && ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE)) {
+        return 'valide_campagne';
+    }
+     if ($isTeledeclarationMode && ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE)) {
+        return 'valide_campagne_non_teledeclaree';
+    }
+    
     return $statut;
 }
 
-function getEtatDRMCalendrier($calendrier, $periode,$etablissement = false) {
-     $statut = $calendrier->getStatut($periode,$etablissement);
+function hasALink($isTeledeclarationMode,$calendrier, $periode, $etablissement = false){
+    $statut = $calendrier->getStatut($periode, $etablissement);
+    if($isTeledeclarationMode && ($statut == DRMCalendrier::STATUT_VALIDEE) || ($statut == DRMCalendrier::STATUT_EN_COURS)){
+        return $calendrier->isTeledeclare($periode, $etablissement);
+    }
+    return true;
+}
+
+function getEtatDRMCalendrier($calendrier, $periode, $etablissement = false) {
+    $statut = $calendrier->getStatut($periode, $etablissement);
     if ($statut == DRMCalendrier::STATUT_VALIDEE) {
         return 'Validée';
     }
@@ -75,8 +102,24 @@ function getEtatDRMCalendrier($calendrier, $periode,$etablissement = false) {
     return $statut;
 }
 
+function getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
+
+    return isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode) ? '(Téleclarée)' : '';
+}
+
+function isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
+    $statut = $calendrier->getStatut($periode, $etablissement);
+    if (!$isTeledeclarationMode) {
+        if ((($statut == DRMCalendrier::STATUT_VALIDEE) || ($statut == DRMCalendrier::STATUT_EN_COURS)) && $calendrier->isTeledeclare($periode)) {
+
+            return true;
+        }
+    }
+    return false;
+}
+
 function getEtatDRMPictoCalendrier($calendrier, $periode, $etablissement = false) {
-    $statut = $calendrier->getStatut($periode,$etablissement);
+    $statut = $calendrier->getStatut($periode, $etablissement);
     if ($statut == DRMCalendrier::STATUT_VALIDEE) {
         return 'valide_etablissement';
     }
@@ -89,10 +132,9 @@ function getEtatDRMPictoCalendrier($calendrier, $periode, $etablissement = false
     return $statut;
 }
 
-
-function getEtatDRMHrefCalendrier($calendrier, $periode,$etablissement = false) {
-    $etablissementId = ($etablissement)? $etablissement->identifiant : $calendrier->getIdentifiant();
-    $statut = $calendrier->getStatut($periode,$etablissement);
+function getEtatDRMHrefCalendrier($calendrier, $periode, $etablissement = false) {
+    $etablissementId = ($etablissement) ? $etablissement->identifiant : $calendrier->getIdentifiant();
+    $statut = $calendrier->getStatut($periode, $etablissement);
     $periode_version = $calendrier->getPeriodeVersion($periode, $etablissement);
     if ($statut == DRMCalendrier::STATUT_VALIDEE) {
         return url_for('drm_visualisation', array('identifiant' => $etablissementId, 'periode_version' => $periode_version));
@@ -106,8 +148,8 @@ function getEtatDRMHrefCalendrier($calendrier, $periode,$etablissement = false) 
     return $calendrier->getStatut($periode);
 }
 
-function getEtatDRMLibelleCalendrier($calendrier, $periode,$etablissement = false) {
-    $statut = $calendrier->getStatut($periode,$etablissement);
+function getEtatDRMLibelleCalendrier($calendrier, $periode, $etablissement = false) {
+    $statut = $calendrier->getStatut($periode, $etablissement);
     if ($statut == DRMCalendrier::STATUT_VALIDEE) {
         return 'Voir la drm';
     }
@@ -121,13 +163,13 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode,$etablissement = fals
 }
 
 function getLibelleForGenre($genre) {
-    if($genre == 'TRANQ'){
+    if ($genre == 'TRANQ') {
         return 'TRANQUILLE';
     }
     return $genre;
 }
 
-function getLastDayForDrmPeriode($drm){
-    $dateFirst =  new DateTime(substr($drm->periode,0,4).'-'.substr($drm->periode,5).'-01');
+function getLastDayForDrmPeriode($drm) {
+    $dateFirst = new DateTime(substr($drm->periode, 0, 4) . '-' . substr($drm->periode, 5) . '-01');
     return $dateFirst->format('t/m');
 }
