@@ -6607,7 +6607,7 @@ p#date_drm {
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_groupe,
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_debut,
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_fin {
-  color: #9d3032;
+  color: #000000;
 }
 #colonnes_dr .col_recolte.col_inactive .col_cont .col_btn {
   /*.btn_col_inactive { visibility: hidden; }
