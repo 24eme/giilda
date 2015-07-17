@@ -11,10 +11,15 @@
 
         <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_VALIDATION)); ?>
 
+        <h2>Modification des informations de votre chai</h2>
+
         <form action="<?php echo url_for('drm_validation_update_etablissement', $drm); ?>" method="POST" class="drm_validation_etablissement_form">
             <?php echo $form->renderHiddenFields(); ?>
             <?php echo $form->renderGlobalErrors(); ?>
-            <h2><?php echo $drm->declarant->nom; ?></h2>
+            <div class="ligne_form">
+                <label>Raison Sociale :</label>
+                <?php echo $drm->declarant->nom; ?>
+            </div>
             <div class="ligne_form">
                 <?php echo $form['cvi']->renderError(); ?>
                 <?php echo $form['cvi']->renderLabel(); ?>

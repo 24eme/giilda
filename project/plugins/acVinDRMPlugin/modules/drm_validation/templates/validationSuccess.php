@@ -14,12 +14,14 @@
 
         <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_VALIDATION)); ?>
 
-        <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
-
         <div id="contenu_etape">
             <?php if ($isTeledeclarationMode): ?>
                 <?php include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm, 'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>
             <?php endif; ?>
+
+            <div style="padding-bottom: 20px">
+            <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+            </div>
 
             <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => false)); ?>
 
