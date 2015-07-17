@@ -85,7 +85,6 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         $this->drm->societe->email = $values['email'];
         $this->drm->societe->telephone = $values['telephone'];
         $this->drm->societe->fax = $values['fax'];
-        $this->drm->save();
     }
 
 }
