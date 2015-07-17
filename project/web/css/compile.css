@@ -6277,7 +6277,7 @@ p#date_drm {
   font-weight: bold;
   border: 1px solid #e5e4e4;
   border-width: 1px 0;
-  padding: 10px 5px;
+  padding: 7px 5px;
   background-color: #ECEBEB;
 }
 #colonnes_dr #colonne_intitules .groupe p.extendable {
@@ -6290,7 +6290,7 @@ p#date_drm {
 }
 #colonnes_dr #colonne_intitules .groupe.groupe_ouvert p.extendable {
   background: url(../images/pictos/fleche_bas.png) no-repeat 188px 2px !important;
-  line-height: 2px;
+  line-height: 7px;
 }
 #colonnes_dr #colonne_intitules .groupe.groupe_ouvert ul {
   padding: 0;
@@ -6422,12 +6422,12 @@ p#date_drm {
 }
 #colonnes_dr .col_recolte .p_gris p {
   background: #ecebeb;
-  height: 42px !important;
+  height: 35px !important;
   border: 1px solid #e5e4e4;
   border-width: 1px 0;
 }
 #colonnes_dr .col_recolte .p_gris p input {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 #colonnes_dr .col_recolte .p_gris p input[readonly] {
   background: #ecebeb;
