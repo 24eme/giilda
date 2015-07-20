@@ -7088,9 +7088,9 @@ bouton#colonnes_dr .btn_edition_label {
   box-shadow: none;
 }
 #principal.drm #colonne_intitules .msg_aide {
-  background: url(../images/pictos/pi_help.png) 5px 8px no-repeat #ffffff;
+  background: url(../images/pictos/pi_help.png) 25px 8px no-repeat #ffffff;
   font-size: 12px;
-  padding: 5px 5px 5px 25px;
+  padding: 5px 5px 5px 35px;
   height: 30px;
 }
 #principal.drm #colonne_intitules .tooltip {
