@@ -26,10 +26,16 @@ class drm_editionActions extends drmGeneriqueActions {
 
  
 
-    public function executeDetail(sfWebRequest $request) {
+    public function executeDetail(sfWebRequest $request) {        
         $this->init();
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->loadFavoris();
+        $this->formFavoris = new DRMFavorisForm($this->drm); 
+        $this->formValidation = new DRMMouvementsValidationForm($this->drm, array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+        $this->detailsNodes = $this->config->details->get($this->drm->getDetailsConfigKey())->detail;
         $this->detail = $this->getRoute()->getDRMDetail();
-        $this->setTemplate('index');
+        $this->setTemplate('saisieMouvements');
     }
 
     public function executeUpdate(sfWebRequest $request) {
@@ -55,7 +61,7 @@ class drm_editionActions extends drmGeneriqueActions {
         if ($request->isXmlHttpRequest()) {
             return $this->renderText(json_encode(array("success" => false, "content" => $this->getPartial('drm_recap/itemFormErrors', array('form' => $this->form)))));
         } else {
-            $this->setTemplate('index');
+            $this->setTemplate('saisieMouvements');
         }
     }
 
