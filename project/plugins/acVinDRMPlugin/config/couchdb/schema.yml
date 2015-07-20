@@ -367,9 +367,9 @@ DRM:
             commune: {  }
             code_postal: {   }
             region: {  }
-            adresse_compta: { required: false }
-            caution: { required: false }
-            raison_sociale_cautionneur: { required: false }
+            adresse_compta: {  }
+            caution: { }
+            raison_sociale_cautionneur: { }
       societe:
         type: collection
         definition:
