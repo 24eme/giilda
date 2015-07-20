@@ -1,7 +1,6 @@
 <!-- #principal -->
 <div id="principal" class="clearfix">
-
-    <h2 class="titre_principal">télédéclaration</h2>
+    <h2 class="titre_societe">Espace de télédéclaration de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
 
     <div id="mon_espace" >
         <?php if ($hasTeledeclarationVrac && $hasTeledeclarationDrm): ?> 
@@ -36,7 +35,5 @@
         <?php endif; ?> 
 
     </div>
-
-
-
-
+<?php
+     include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissement, 'isTeledeclarationMode' => true));

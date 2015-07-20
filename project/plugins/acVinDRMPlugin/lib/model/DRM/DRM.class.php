@@ -359,6 +359,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return ($this->valide->date_saisie);
     }
 
+    public function cleanDeclaration() {
+        $this->cleanDetails();
+        $this->cleanCrds();
+        $this->cleanAnnexes();
+    }
+
     public function validate($options = null) {
         if ($this->isValidee()) {
 
@@ -367,8 +373,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->update();
         $this->storeIdentifiant($options);
         $this->storeDates();
-        $this->declaration->cleanDetails();
-        $this->cleanCrds();
+        $this->cleanDeclaration();
 
         if (!isset($options['no_droits']) || !$options['no_droits']) {
             //$this->setDroits();
@@ -999,6 +1004,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 }
             }
         }
+    }
+
+    public function cleanDetails() {
+        $this->declaration->cleanDetails();
     }
 
     public function cleanCrds() {
