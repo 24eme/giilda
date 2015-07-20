@@ -224,6 +224,17 @@ var initBoldSaisie = function () {
     });
 }
 
+var initUpdateEtablissementValidation = function(){
+    $('form.drm_validation_etablissement_form div.alignes ul li').click(function(){
+       var caution = $('input[name=drm_validation_coordonnees_etablissement[caution]]:checked', '.drm_validation_etablissement_form').val()
+       if(caution != 'DISPENSE'){
+           $('div.raison_sociale_cautionneur').show();
+       }else{
+           $('div.raison_sociale_cautionneur').hide(); 
+       }
+    });
+}
+
 // init les tooltips dans la colonne intitules
 var initMsgAide = function() {
 
@@ -244,6 +255,7 @@ $(document).ready(function ()
     initFavoris();
     initValidationDrmStockMvt();
     initNonApurement();
+    initUpdateEtablissementValidation();
     initSignatureDrmPopup();
     initBoldSaisie();
     initMsgAide();

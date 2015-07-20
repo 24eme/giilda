@@ -6,13 +6,13 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
     protected $drm = null;
 
     public function __construct(DRM $drm, $options = array(), $CSRFSecret = null) {
-        $this->drm = $drm;
+        $this->drm = $drm; 
         parent::__construct($drm, $options, $CSRFSecret);
     }
 
     public function configure() {
         parent::configure();
-
+       
         $this->setWidget('cvi', new sfWidgetFormInput());
         $this->setValidator('cvi', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('cvi', 'CVI :');
@@ -72,9 +72,11 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         if ($this->drm->declarant->exist('adresse_compta')) {
             $this->setDefault('adresse_compta', $this->coordonneesEtablissement->adresse_compta);
         }
-        if ($this->drm->declarant->exist('caution')) {
-            $this->setDefault('caution', $this->coordonneesEtablissement->caution);
-        }
+        
+        $defaultCaution = ($this->coordonneesEtablissement->exist('caution') && !is_null($this->coordonneesEtablissement->caution))? $this->coordonneesEtablissement->caution : EtablissementClient::CAUTION_DISPENSE;
+        
+        $this->setDefault('caution', $defaultCaution);
+
         if ($this->drm->declarant->exist('raison_sociale_cautionneur')) {
             $this->setDefault('raison_sociale_cautionneur', $this->coordonneesEtablissement->raison_sociale_cautionneur);
         }
@@ -105,20 +107,18 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         }
         if ($this->drm->declarant->exist('caution')) {
             $this->drm->declarant->caution = $values['caution'];
-
         }
 
         if ($this->drm->declarant->exist('raison_sociale_cautionneur')) {
             $this->drm->declarant->raison_sociale_cautionneur = $values['raison_sociale_cautionneur'];
         }
 
-        if($this->drm->declarant->caution != EtablissementClient::CAUTION_CAUTION) {
+        if ($this->drm->declarant->caution != EtablissementClient::CAUTION_CAUTION) {
             $this->drm->declarant->raison_sociale_cautionneur = null;
         }
-
     }
-    
-    private function getCautionTypes(){
+
+    private function getCautionTypes() {
         return EtablissementClient::$caution_libelles;
     }
 
