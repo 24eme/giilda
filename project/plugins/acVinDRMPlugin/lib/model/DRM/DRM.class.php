@@ -1001,6 +1001,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function cleanDetails() {
+        $this->declaration->cleanDetails();
+    }
+
     public function cleanCrds() {
         $toRemoves = array();
         $allCrdsByRegimeAndByGenre = $this->getAllCrdsByRegimeAndByGenre();
