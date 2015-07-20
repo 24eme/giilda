@@ -978,29 +978,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $regimes;
     }
 
-    public function getSortiesGenreCrds() {
-        $sortiesCrdsGenres = array();
-        foreach ($this->getProduitsDetails(true) as $hash => $detail) {
-            foreach ($detail->sorties as $sortieType => $sortieValue) {
-                if ($sortieType == 'bouteille' && !is_null($sortieValue)) {
-                    $genre = $detail->getCepage()->getCouleur()->getLieu()->getMention()->getAppellation()->getGenre()->getConfig();
-                    if ($genre->getKey() == 'TRANQ') {
-                        $sortiesCrdsGenres[$genre->getKey()] = $genre->getKey();
-                    } else {
-                        $sortiesCrdsGenres['MOUSSEUX'] = 'MOUSSEUX';
-                    }
-                }
-            }
-        }
-        $sortiesCrdsGenresExistantes = array();
-        foreach ($this->getAllCrdsByRegimeAndByGenre() as $regime => $crdsGenres) {
-            foreach ($crdsGenres as $genre => $crds) {
-                $sortiesCrdsGenresExistantes[$genre] = $genre;
-            }
-        }
-        return array_merge($sortiesCrdsGenres, $sortiesCrdsGenresExistantes);
-    }
-
     public function addCrdType($couleur, $litrage, $type_crd, $stock_debut = null) {
         return $this->getOrAdd('crds')->getOrAddCrdType($couleur, $litrage, $type_crd, $stock_debut);
     }

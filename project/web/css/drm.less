@@ -505,7 +505,7 @@ p#date_drm
 
                     .statut_toFinish
                     {
-                        background: url("../images/pictos/pi_alerte.png") no-repeat;
+                        background: url("../images/pictos/pi_red_alerte.png") no-repeat;
                     }
 
                     .statut_toFinish_non_teledeclare
@@ -566,7 +566,7 @@ p#date_drm
                     .statut_toFinish{
                         button{
 
-                            background: rgba(0, 0, 0, 0) url("../images/pictos/pi_alerte.png") no-repeat scroll 0 0;
+                            background: rgba(0, 0, 0, 0) url("../images/pictos/pi_red_alerte.png") no-repeat scroll 0 0;
                             padding: 0 10px;
                         }
                     }
@@ -833,7 +833,7 @@ p#date_drm
                 font-weight: bold;
                 border: 1px solid @couleur-a10;
                 border-width: 1px 0;
-                padding: 10px 5px;
+                padding: 7px 5px;
                 background-color: #ECEBEB;
                 &.extendable {
                     background: url("../images/pictos/fleche_droite.png") no-repeat scroll 190px 2px ;
@@ -850,7 +850,7 @@ p#date_drm
                     background-color: #ECEBEB;
                     &.extendable {
                         background: url(../images/pictos/fleche_bas.png) no-repeat 188px 2px  !important;
-                        line-height: 2px;
+                        line-height: 7px;
                     }
                 }
 
@@ -982,12 +982,12 @@ p#date_drm
 
             p{
                 background: @couleur-a5;
-                height:42px !important;
+                height:35px !important;
                 border: 1px solid @couleur-a10;
                 border-width: 1px 0;
 
                 input{
-                    margin-top:10px;
+                    margin-top:5px;
                     &[readonly]
                     {
                         background: @couleur-a5;
@@ -1234,6 +1234,7 @@ p#date_drm
 #table_drm_crds
 {
     input[type="text"] { text-align: right; }
+    th.mainth {border-bottom:  1px solid #e3e2e2;}
 }
 
 
@@ -1266,7 +1267,7 @@ p#date_drm
         a.msg_aide:hover
             {
             .opacite(1);
-            background: url(../images/pictos/pi_aide.png) 0 0 no-repeat;
+            background: url(../images/pictos/pi_help.png) 0 0 no-repeat;
         }
     }
 
@@ -1613,7 +1614,7 @@ p#date_drm
     #colonne_intitules{
         .msg_aide
         {
-            background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
+            background: url(../images/pictos/pi_help.png) 5px 8px no-repeat #fff;
             font-size:12px;
             padding: 5px 5px 5px 25px;
             height:30px;
@@ -1645,11 +1646,11 @@ p#date_drm
             &:before {
                 .sprite-pictos-star_full(0 0);
                 content: '';
-                height: 20px;
+                height: 15px;
                 width: 20px;
                 display: inline-block;
                 position: absolute;
-                top: -2px;
+                top: 0px;
                 left: -25px;
             }
         }
@@ -1663,11 +1664,11 @@ p#date_drm
             &:before {
                 .sprite-pictos-star_empty(0 0);
                 content: '';
-                height: 20px;
+                height: 15px;
                 width: 20px;
                 display: inline-block;
                 position: absolute;
-                top: -2px;
+                top: 0px;
                 left: -25px;
             }
         }
@@ -1792,8 +1793,21 @@ p#date_drm
                                     &.valide_campagne_teledeclaree { background-color: @couleur-a1; opacity: 0.7 }
                                     &.attente_campagne_teledeclaree { background-color: @couleur-a1; opacity: 0.7 }
 
-                                    &.valide_campagne_non_teledeclaree { background-color: @couleur-a7; }
-                                    &.attente_campagne_non_teledeclaree { background-color: @couleur-a7; }
+                                    &.valide_campagne_non_teledeclaree { 
+				       background-color: @couleur-a8; 
+				       .statut {
+				       	       color: @couleur-a4 !important;
+				       	       background: url('../images/pictos/pi_grey_plus.png') no-repeat !important;
+					}
+					.lignestatut {margin-top: 25px;}
+				    }
+                                    &.attente_campagne_non_teledeclaree { background-color: @couleur-a8; 
+				       .statut {
+				       	       color: @couleur-a4 !important;
+				       	       background: url('../images/pictos/pi_grey_alerte.png') no-repeat !important;  
+					}
+					.lignestatut {margin-top: 25px;}
+				    }
 
                                     .mois
                                     {
@@ -1813,12 +1827,12 @@ p#date_drm
 
                                         .attente_etablissement
                                         {
-                                            .btn_etablissement { background: url('../images/pictos/pi_alerte.png') no-repeat; }
+                                            .btn_etablissement { background: url('../images/pictos/pi_red_alerte.png') no-repeat; }
 
                                             .statut
                                             {
                                                 .statut_suspendu;
-                                                background-image: url('../images/pictos/pi_alerte.png');
+                                                background-image: url('../images/pictos/pi_red_alerte.png');
                                                 background-position: 0 0;
                                             }
 
@@ -1871,7 +1885,7 @@ p#date_drm
                                         {
                                             font-weight: bold;
                                             margin: 10px 0;
-                                            text-align: left;
+                                            text-align: center;
                                         }
 
                                         .etablissement_nom
@@ -2180,6 +2194,8 @@ p#date_drm
                 .drm_details_form_noItem { margin-bottom: 20px; }
             }
         }
+	ul.radio_list li label { display: inline; }
+	ul.radio_list {margin-left: 150px;}
 
         #add_crds_COLLECTIFACQUITTE,
         #signature_drm_popup_content

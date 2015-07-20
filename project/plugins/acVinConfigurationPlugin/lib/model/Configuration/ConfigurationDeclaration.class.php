@@ -16,6 +16,19 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
     public function setDonneesCsv($datas) {
         
     }
+
+    public function getDatesDroits($interpro = "INTERPRO-inter-loire") {
+        if(is_null($this->dates_droits)) {
+            $this->dates_droits = $this->loadDatesDroits($interpro);
+        }
+
+        return $this->dates_droits;
+    }
+
+    public function getDroits($interpro) {
+
+        return null;
+    }
     
     public function hasDroits() {
 

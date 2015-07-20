@@ -1,7 +1,5 @@
+@charset "utf-8";
 @import 'fonts.css';
-@import 'fancybox.css';
-@import 'jquery.ui/jquery.ui.theme.css';
-@import 'jquery.ui/jquery.ui.datepicker.css';
 /*---------------------------------------------------
 		LESS Elements 0.4
 	---------------------------------------------------
@@ -16,6 +14,9 @@
 /**
  * CSS 3
  ******************************************/
+@import 'fancybox.css';
+@import 'jquery.ui/jquery.ui.theme.css';
+@import 'jquery.ui/jquery.ui.datepicker.css';
 .majuscules {
   text-transform: uppercase;
 }
@@ -2100,7 +2101,6 @@ ul.radio_list li label {
 pre.commentaire {
   text-align: left;
 }
-@charset "utf-8";
 /**
  * Fichier : principal.less
  * Description : Styles du coeur de page
@@ -2606,6 +2606,10 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 }
 #mon_espace .block_teledeclaration.espace_contrat .title {
   background-image: url('../images/pictos/pi_handshake_2.png');
+}
+#mon_espace .block_teledeclaration.espace_drm .title_espace {
+  background-image: url('../images/pictos/pi_list_pen_2.png');
+  background-position: 238px 5px;
 }
 #mon_espace .block_teledeclaration.espace_drm .title {
   background-image: url('../images/pictos/pi_list_pen_2.png');
@@ -6015,7 +6019,7 @@ p#date_drm {
   background: url("../images/pictos/pi_orange_plus.png") no-repeat;
 }
 #principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish {
-  background: url("../images/pictos/pi_alerte.png") no-repeat;
+  background: url("../images/pictos/pi_red_alerte.png") no-repeat;
 }
 #principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish_non_teledeclare {
   background: url("../images/pictos/pi_grey_plus.png") no-repeat;
@@ -6057,7 +6061,7 @@ p#date_drm {
   background: rgba(0, 0, 0, 0) url("../images/pictos/pi_orange_plus.png") no-repeat scroll 0 0;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul .statut_toFinish button {
-  background: rgba(0, 0, 0, 0) url("../images/pictos/pi_alerte.png") no-repeat scroll 0 0;
+  background: rgba(0, 0, 0, 0) url("../images/pictos/pi_red_alerte.png") no-repeat scroll 0 0;
   padding: 0 10px;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul a {
@@ -6283,7 +6287,7 @@ p#date_drm {
   font-weight: bold;
   border: 1px solid #e5e4e4;
   border-width: 1px 0;
-  padding: 10px 5px;
+  padding: 7px 5px;
   background-color: #ECEBEB;
 }
 #colonnes_dr #colonne_intitules .groupe p.extendable {
@@ -6296,7 +6300,7 @@ p#date_drm {
 }
 #colonnes_dr #colonne_intitules .groupe.groupe_ouvert p.extendable {
   background: url(../images/pictos/fleche_bas.png) no-repeat 188px 2px !important;
-  line-height: 2px;
+  line-height: 7px;
 }
 #colonnes_dr #colonne_intitules .groupe.groupe_ouvert ul {
   padding: 0;
@@ -6428,12 +6432,12 @@ p#date_drm {
 }
 #colonnes_dr .col_recolte .p_gris p {
   background: #ecebeb;
-  height: 42px !important;
+  height: 35px !important;
   border: 1px solid #e5e4e4;
   border-width: 1px 0;
 }
 #colonnes_dr .col_recolte .p_gris p input {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 #colonnes_dr .col_recolte .p_gris p input[readonly] {
   background: #ecebeb;
@@ -6539,7 +6543,7 @@ p#date_drm {
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_groupe,
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_debut,
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_fin {
-  color: #9d3032;
+  color: #000000;
 }
 #colonnes_dr .col_recolte.col_inactive .col_cont .col_btn {
   /*.btn_col_inactive { visibility: hidden; }
@@ -6679,6 +6683,9 @@ bouton#colonnes_dr .btn_edition_label {
 #table_drm_crds input[type="text"] {
   text-align: right;
 }
+#table_drm_crds th.mainth {
+  border-bottom: 1px solid #e3e2e2;
+}
 /**
  * Etape 6 -> Déclaratif
  ******************************************/
@@ -6697,7 +6704,7 @@ bouton#colonnes_dr .btn_edition_label {
   -khtml-opacity: 1;
   -moz-opacity: 1;
   opacity: 1;
-  background: url(../images/pictos/pi_aide.png) 0 0 no-repeat;
+  background: url(../images/pictos/pi_help.png) 0 0 no-repeat;
 }
 #declaratif_info .contenu_onglet_declaratif.alignes {
   padding-left: 249px;
@@ -7013,7 +7020,7 @@ bouton#colonnes_dr .btn_edition_label {
   box-shadow: none;
 }
 #principal.drm #colonne_intitules .msg_aide {
-  background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #ffffff;
+  background: url(../images/pictos/pi_help.png) 5px 8px no-repeat #ffffff;
   font-size: 12px;
   padding: 5px 5px 5px 25px;
   height: 30px;
@@ -7043,11 +7050,11 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm #colonne_intitules .favoris span.categorie_libelle:before {
   background: url(../images/pictos/pi_fullstar.png) 0 0 no-repeat;
   content: '';
-  height: 20px;
+  height: 15px;
   width: 20px;
   display: inline-block;
   position: absolute;
-  top: -2px;
+  top: 0px;
   left: -25px;
 }
 #principal.drm #colonne_intitules .no_favoris span.categorie_libelle {
@@ -7061,11 +7068,11 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm #colonne_intitules .no_favoris span.categorie_libelle:before {
   background: url(../images/pictos/pi_starempty.png) 0 0 no-repeat;
   content: '';
-  height: 20px;
+  height: 15px;
   width: 20px;
   display: inline-block;
   position: absolute;
-  top: -2px;
+  top: 0px;
   left: -25px;
 }
 #principal.drm table .drm_crds_list input {
@@ -7408,7 +7415,30 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree {
-  background-color: #e3e2e2;
+  background-color: #f7f7f7;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .statut {
+  color: #5e5c5c !important;
+  background: url('../images/pictos/pi_grey_plus.png') no-repeat !important;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree .lignestatut {
+  margin-top: 25px;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
@@ -7419,7 +7449,30 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree {
-  background-color: #e3e2e2;
+  background-color: #f7f7f7;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .statut {
+  color: #5e5c5c !important;
+  background: url('../images/pictos/pi_grey_alerte.png') no-repeat !important;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_non_teledeclaree .lignestatut {
+  margin-top: 25px;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois,
@@ -7459,7 +7512,7 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .btn_etablissement,
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .btn_etablissement,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .btn_etablissement {
-  background: url('../images/pictos/pi_alerte.png') no-repeat;
+  background: url('../images/pictos/pi_red_alerte.png') no-repeat;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .statut,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement .statut,
@@ -7478,7 +7531,7 @@ bouton#colonnes_dr .btn_edition_label {
   line-height: 23px;
   padding-left: 26px;
   color: #d30815;
-  background-image: url('../images/pictos/pi_alerte.png');
+  background-image: url('../images/pictos/pi_red_alerte.png');
   background-position: 0 0;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement a.action,
@@ -7651,7 +7704,7 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos p {
   font-weight: bold;
   margin: 10px 0;
-  text-align: left;
+  text-align: center;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .etablissement_nom,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .etablissement_nom,
@@ -7948,6 +8001,11 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
 #principal.drm fieldset#historique_drm .section_label_maj table tr.vide,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj table tr.vide {
   display: none;
+}
+#principal.drm fieldset#espace_drm .section_label_maj_teledeclaration_drm,
+#principal.drm fieldset#historique_drm .section_label_maj_teledeclaration_drm,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj_teledeclaration_drm {
+  border: none !important;
 }
 #principal.drm fieldset#historique_drm ul li {
   background: #ececec url(../images/fonds/bg_nav_historique.png) 0 0 repeat-x;
@@ -8262,6 +8320,12 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 }
 .fancybox-wrap .fancybox-inner #contenu #principal .drm_details_form_noItem {
   margin-bottom: 20px;
+}
+.fancybox-wrap .fancybox-inner ul.radio_list li label {
+  display: inline;
+}
+.fancybox-wrap .fancybox-inner ul.radio_list {
+  margin-left: 150px;
 }
 .fancybox-wrap .fancybox-inner #add_crds_COLLECTIFACQUITTE h2,
 .fancybox-wrap .fancybox-inner #signature_drm_popup_content h2 {
