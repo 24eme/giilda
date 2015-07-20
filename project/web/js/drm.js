@@ -209,9 +209,9 @@ var objAjoutsLiquidations = {};
 
             e.stopPropagation();
 
-            calendrierHistorique.find('.etablissement_tooltip').not(etablissementInfos).stop().fadeOut();
+            calendrierHistorique.find('.etablissement_tooltip').not(etablissementInfos).stop().hide();
 
-            etablissementInfos.stop().fadeIn();
+            etablissementInfos.stop().show();
         });
 
         calendrierHistorique.on('click', '.etablissement_tooltip', function(e)
