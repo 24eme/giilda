@@ -35,7 +35,5 @@
         <?php endif; ?> 
 
     </div>
-
-
-
-
+<?php
+     include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissement, 'isTeledeclarationMode' => true));
