@@ -12,8 +12,8 @@
     </td>
     <td class="volume export_detail_volume">    
         <?php
-        echo $form['volume']->renderError();
         echo $form['volume']->render();
+        echo $form['volume']->renderError();
         ?>
     </td>
     <td class="export_detail_numero_document">    
