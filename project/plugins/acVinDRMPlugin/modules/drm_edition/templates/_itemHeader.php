@@ -57,7 +57,7 @@ $favoris_sorties = $favoris->sorties;
                 <?php foreach ($detailsNodes->getSortiesSorted($drm->getDetailsConfigKey()) as $key => $item): ?>
                     <?php if ($favoris_sorties->exist($key)): ?>
                         <li <?php echo ($item->getFacturable() && !$isTeledeclarationMode) ? ' class="facturable"' : ''; ?> >    
-                            <span id="<?php echo 'sorties_'.$key.' star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo 'sorties_'.$key; ?> <?php echo (count($favoris_sorties) > 1 ) ? 'clickable' : ''; ?>">
+                            <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo 'sorties_'.$key; ?> <?php echo (count($favoris_sorties) > 1 ) ? 'clickable' : ''; ?>">
                                 <?php echo $item->getLibelle($drm->getDetailsConfigKey()); ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong($drm->getDetailsConfigKey()); ?>"></a>
                             </span>
                         </li>
@@ -70,7 +70,7 @@ $favoris_sorties = $favoris->sorties;
                     <?php foreach ($detailsNodes->getSortiesSorted($drm->getDetailsConfigKey()) as $key => $item): ?>
                         <?php if (!$favoris_sorties->exist($key)): ?>
                             <li <?php echo ($item->getFacturable() && !$isTeledeclarationMode) ? ' class="facturable"' : ''; ?> >
-                                <span id="<?php echo 'sorties_'.$key.' star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo 'sorties_'.$key; ?> <?php echo (count($favoris_sorties) < DRMClient::$drm_max_favoris_by_types_mvt[DRMClient::DRM_TYPE_MVT_SORTIES] ) ? 'clickable' : ''; ?>">
+                                <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo 'sorties_'.$key; ?> <?php echo (count($favoris_sorties) < DRMClient::$drm_max_favoris_by_types_mvt[DRMClient::DRM_TYPE_MVT_SORTIES] ) ? 'clickable' : ''; ?>">
                                     <?php echo $item->getLibelle($drm->getDetailsConfigKey()); ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong($drm->getDetailsConfigKey()); ?>"></a>
                                 </span>
                             </li>

@@ -115,46 +115,15 @@ var initRegimeCrdsPopup = function () {
 var initFavoris = function () {
     $('div.groupe span.categorie_libelle').click(function () {
         var id_fav_input = $(this).attr('id').replace('star_', 'drmFavoris_');
-        var value = $('#colonne_intitules form #' + id_fav_input).val();
+        var value = $('#colonne_intitules form #' + id_fav_input).val();       
         if (value === "1") {
             $('#colonne_intitules form #' + id_fav_input).val("");
         }
         else {
             $('#colonne_intitules form #' + id_fav_input).val("1");
         }
-        $("#colonne_intitules form").submit();
+       $("#colonne_intitules form").submit();
     });
-}
-
-var initValidationCoordonneesEtbSociete = function () {
-    /*$('a#drm_validation_societe_info_btn').fancybox({
-        autoSize: true,
-        autoCenter: true,
-        height: 'auto',
-        width: 'auto',
-        titleShow: false
-    });
-
-    /*$('#drm_validation_etablissement_info_btn').click(function () {
-        $('.drm_validation_etablissement_info').hide();
-        $(".drm_validation_etablissement_form").show();
-        return false;
-    });
-    $('#drm_validation_societe_info_btn').click(function () {
-        $('.drm_validation_societe_info').hide();
-        $(".drm_validation_societe_form").show();
-        return false;
-    });
-    $('#drm_validation_etablissement_annuler_btn').click(function () {
-        $('.drm_validation_etablissement_info').show();
-        $(".drm_validation_etablissement_form").hide();
-        return false;
-    });
-    $('#drm_validation_societe_annuler_btn').click(function () {
-        $('.drm_validation_societe_info').show();
-        $(".drm_validation_societe_form").hide();
-        return false;
-    });*/
 }
 
 var initValidationDrmStockMvt = function () {
@@ -229,9 +198,6 @@ var initNonApurement = function () {
     initCollectionDeleteNonApurementTemplate();
 }
 
-var initTooltips = function () {
-    //INIT un tooltip
-}
 
 var initBoldSaisie = function () {
     var pattern = '/^[a-z]*(\[[a-z]*\])(\[[a-z]*\])$/i';
@@ -248,7 +214,6 @@ var initBoldSaisie = function () {
                 $(this).attr('style', 'font-weight:normal');
             }
         });
-        console.log(name_header_class);
         $('span.'+name_header_class).attr('style', 'font-weight:bold')
     });
     $('input.bold_on_blur').blur(function () {
@@ -278,10 +243,8 @@ $(document).ready(function ()
     initCrds();
     initFavoris();
     initValidationDrmStockMvt();
-    initValidationCoordonneesEtbSociete();
     initNonApurement();
     initSignatureDrmPopup();
-    initTooltips();
     initBoldSaisie();
     initMsgAide();
 });
