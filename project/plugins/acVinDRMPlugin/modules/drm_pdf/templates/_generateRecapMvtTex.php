@@ -103,7 +103,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
             <?php else: ?>
                 \multicolumn{1}{|c}{~} &
             <?php endif; ?>
-
+                
             \multicolumn{1}{|l|}{  \small{<?php echo $entree->libelle; ?>} } &
             <?php foreach ($produits_for_page as $counter => $produit): ?>
             \multicolumn{1}{r|}{  \small{<?php echoFloat($produit->entrees->$entreeKey); ?> hl}}
@@ -135,7 +135,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
          * LES SORTIES
          */
         ?>
-        <?php foreach ($mvtsSortiesForPdf as $cpt_sortie => $sortie): ?>
+        <?php foreach ($mvtsSortiesForPdf as $cpt_sortie => $sortie): ?>          
             <?php $sortieKey = $sortie->key; ?>
             <?php if (!$cpt_sortie): ?>
                 \multicolumn{1}{|c}{\multirow{<?php echo count($mvtsSortiesForPdf); ?>}{20mm}{\small{\textbf{SORTIES DU MOIS}}}} &
