@@ -24,7 +24,7 @@ class DRMLatex extends GenericLatex {
         sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
         $this->drm = $drm;
         $configuration = ConfigurationClient::getCurrent();
-        $this->libelles_detail_ligne = $configuration->libelle_detail_ligne->get($this->drm->getDetailsConfigKey())->libelle;
+        $this->libelles_detail_ligne = $configuration->libelle_detail_ligne->get($this->drm->getDetailsConfigKey());
     }
 
     public function getNbPages() {
@@ -52,7 +52,7 @@ class DRMLatex extends GenericLatex {
 
         foreach ($this->libelles_detail_ligne->entrees as $key => $entree) {
             $entreeObj = new stdClass();
-            $entreeObj->libelle = $entree;
+            $entreeObj->libelle = $entree->libelle;
             $entreeObj->key = $key;
             $entrees[] = $entreeObj;
         }
@@ -63,7 +63,7 @@ class DRMLatex extends GenericLatex {
         $sorties = array();
         foreach ($this->libelles_detail_ligne->sorties as $key => $sortie) {
             $sortieObj = new stdClass();
-            $sortieObj->libelle = $sortie;
+            $sortieObj->libelle = $sortie->libelle;
             $sortieObj->key = $key;
             $sorties[] = $sortieObj;
         }
