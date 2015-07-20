@@ -113,6 +113,7 @@ Configuration:
                               stocks_debut:
                                 required: false
                                 type: collection
+                                class: ConfigurationDetailCat
                                 definition:
                                   fields:
                                     '*':

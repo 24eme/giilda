@@ -9,6 +9,8 @@ class drm_editionActions extends drmGeneriqueActions {
         $this->loadFavoris();        
         $this->formFavoris = new DRMFavorisForm($this->drm);
         $this->formValidation = new DRMMouvementsValidationForm($this->drm, array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+        $this->detailsNodes = $this->config->details->get($this->drm->getDetailsConfigKey())->detail;
+      
         if ($request->isMethod(sfRequest::POST)) {
             $this->formValidation->bind($request->getParameter($this->formValidation->getName()));
             if ($this->formValidation->isValid()) {
@@ -138,5 +140,5 @@ class drm_editionActions extends drmGeneriqueActions {
     private function loadFavoris() {
         $this->favoris = $this->drm->getAllFavoris();
     }
-
+    
 }

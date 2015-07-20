@@ -9,7 +9,8 @@
         'drm' => $drm,
         'favoris' => $favoris,
         'formFavoris' => $formFavoris,
-        'isTeledeclarationMode' => $isTeledeclarationMode));
+        'isTeledeclarationMode' => $isTeledeclarationMode, 
+        'detailsNodes' => $detailsNodes));
     ?>    
     <div id="col_saisies">
         <script type="text/javascript">

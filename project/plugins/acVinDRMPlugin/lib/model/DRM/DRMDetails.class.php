@@ -11,7 +11,7 @@ class DRMDetails extends BaseDRMDetails {
         
         return ConfigurationClient::getCurrent()->declaration->details->get($detailConfigKey);
     }
-
+    
     public function getProduit($labels = array()) {
         $slug = $this->slugifyLabels($labels);
         if (!$this->exist($slug)) {

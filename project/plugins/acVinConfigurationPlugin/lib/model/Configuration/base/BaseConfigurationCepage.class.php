@@ -10,6 +10,7 @@
  * @property string $code_produit
  * @property string $code_comptable
  * @property string $code_douane
+ * @property acCouchdbJson $interpro
 
  * @method string getLibelle()
  * @method string setLibelle()
@@ -23,6 +24,8 @@
  * @method string setCodeComptable()
  * @method string getCodeDouane()
  * @method string setCodeDouane()
+ * @method acCouchdbJson getInterpro()
+ * @method acCouchdbJson setInterpro()
  
  */
 

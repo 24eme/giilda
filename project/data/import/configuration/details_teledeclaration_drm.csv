@@ -27,11 +27,11 @@ declaration;details;190001;sorties;regularisation;1;1;0;-1;0;0;;
 declaration;details;190001;stocks_fin;revendique;1;0;0;0;0;0;;
 declaration;details;190001;stocks_fin;instance;1;0;0;0;0;0;;
 declaration;details;190001;stocks_fin;bloque;1;0;0;0;0;0;;
-declaration;details;201508;stocks_debut;revendique;1;1;0;0;0;0;STOCK;
 declaration;details;201508;stocks_debut;instance;1;0;0;0;0;0;STOCK;
+declaration;details;201508;stocks_debut;revendique;1;1;0;0;0;0;STOCK;
 declaration;details;201508;entrees;vci;1;1;0;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/integration-vci-agree
-declaration;details;201508;entrees;achatnoncrd;1;1;0;1;0;0;SUSPENDU;entrees-periode/volume-produit
 declaration;details;201508;entrees;achatcrd;1;1;0;1;0;0;ACQUITTE;entrees-periode/achats-reintegrations
+declaration;details;201508;entrees;achatnoncrd;1;1;0;1;0;0;SUSPENDU;entrees-periode/volume-produit
 declaration;details;201508;entrees;regularisation;1;1;0;1;0;0;SUSPENDU;entrees-periode/autres-entrees
 declaration;details;201508;entrees;mouvementsinternes;1;1;0;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation
 declaration;details;201508;entrees;repli;1;1;0;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation

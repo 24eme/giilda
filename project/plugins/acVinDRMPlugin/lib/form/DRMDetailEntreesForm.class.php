@@ -4,7 +4,7 @@ class DRMDetailEntreesForm  extends acCouchdbObjectForm {
 
     public function configure() {
     	$configurationDetail = $this->getObject()->getParent()->getConfig();
-    	foreach ($configurationDetail->getEntrees() as $key => $value) {
+    	foreach ($configurationDetail->getEntreesSorted() as $key => $value) {
     		if ($value->readable) {
 	    		if (!$value->writable) {
 	    			$this->setWidget($key, new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
