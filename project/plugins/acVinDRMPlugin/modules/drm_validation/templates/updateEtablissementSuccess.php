@@ -46,28 +46,31 @@
                 <?php echo $form['commune']->render(); ?>
             </div>
             <?php if ($drm->declarant->exist('adresse_compta')): ?>
-            <div class="ligne_form">
-                <?php echo $form['adresse_compta']->renderError(); ?>
-                <?php echo $form['adresse_compta']->renderLabel(); ?>
-                <?php echo $form['adresse_compta']->render(array('class' => 'champ_long')); ?>
-            </div>
+                <div class="ligne_form">
+                    <?php echo $form['adresse_compta']->renderError(); ?>
+                    <?php echo $form['adresse_compta']->renderLabel(); ?>
+                    <?php echo $form['adresse_compta']->render(array('class' => 'champ_long')); ?>
+                </div>
             <?php endif; ?>
             <?php if ($drm->declarant->exist('caution')): ?>
-            <div class="ligne_form alignes">
-                <span>
-                <?php echo $form['caution']->renderError(); ?>
-                <?php echo $form['caution']->renderLabel(); ?>
-                <?php echo $form['caution']->render(); ?>
-                </span>
-            </div>
+                <div class="ligne_form alignes">
+                    <span>
+                        <?php echo $form['caution']->renderError(); ?>
+                        <?php echo $form['caution']->renderLabel(); ?>
+                        <?php echo $form['caution']->render(); ?>
+                    </span>
+                </div> 
             <?php endif; ?>
-            <?php if ($drm->declarant->exist('raison_sociale_cautionneur')): ?>
-            <div class="ligne_form">
-                <?php echo $form['raison_sociale_cautionneur']->renderError(); ?>
-                <?php echo $form['raison_sociale_cautionneur']->renderLabel(); ?>
+            <?php $hasSocialeCautionneur = (($drm->getEtablissement()->exist('caution') && ($drm->getEtablissement()->caution == EtablissementClient::CAUTION_CAUTION))
+            || (($drm->declarant->exist('caution')) && ($drm->declarant->caution == EtablissementClient::CAUTION_CAUTION)));
+            ?>
+                <?php if ($drm->declarant->exist('raison_sociale_cautionneur')): ?>
+                <div class="ligne_form raison_sociale_cautionneur" style="<?php echo (!$hasSocialeCautionneur) ? 'display:none;' : ''; ?>" >
+                    <?php echo $form['raison_sociale_cautionneur']->renderError(); ?>
+                    <?php echo $form['raison_sociale_cautionneur']->renderLabel(); ?>
                 <?php echo $form['raison_sociale_cautionneur']->render(array('class' => 'champ_long')); ?>
-            </div>
-            <?php endif; ?>
+                </div>
+<?php endif; ?>
 
             <div id="btn_etape_dr">
                 <a href="<?php echo url_for('drm_validation', $drm) ?>" class="btn_majeur btn_annuler" style="float: left;" id="drm_validation_etablissement_annuler_btn"><span>annuler</span></a>

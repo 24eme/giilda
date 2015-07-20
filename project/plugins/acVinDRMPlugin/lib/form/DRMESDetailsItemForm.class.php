@@ -11,7 +11,7 @@ abstract class DRMESDetailsItemForm extends acCouchdbObjectForm {
         $this->setWidget('identifiant', new sfWidgetFormChoice(array('choices' => $this->getIdentifiantChoices()), array('class' => 'autocomplete')));
         $this->setWidget('volume', new sfWidgetFormInputFloat(array(), array('autocomplete' => 'off', 'class' => 'num num_float')));
         $this->setWidget('numero_document', new sfWidgetFormInput());
-$this->setWidget('type_document', new sfWidgetFormChoice(array('choices' => $this->getTypeDocumentsChoices()), array('class' => 'autocomplete')));
+$this->setWidget('type_document', new sfWidgetFormChoice(array('choices' => $this->getTypeDocumentsChoices())));
         
         
         $this->setValidator('identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getIdentifiantChoices()))));

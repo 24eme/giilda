@@ -10,8 +10,8 @@
     </td>
     <td class="volume vrac_detail_volume">    
         <?php
-        echo $form['volume']->renderError();
         echo $form['volume']->render();
+        echo $form['volume']->renderError();
         ?>
     </td>
     <td class="export_detail_numero_document">    

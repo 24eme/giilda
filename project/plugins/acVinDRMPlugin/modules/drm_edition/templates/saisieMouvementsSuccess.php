@@ -24,9 +24,9 @@
                 'drm' => $drm,
                 'formFavoris' => $formFavoris,
                 'form' => $form,
-                'detail' => $detail,
                 'favoris' => $favoris,
-                'isTeledeclarationMode' => $isTeledeclarationMode));
+                'isTeledeclarationMode' => $isTeledeclarationMode,
+                'detailsNodes' => $detailsNodes));
             ?>
         </div>
         <div id="contenu_etape">

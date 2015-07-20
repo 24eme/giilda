@@ -51,7 +51,7 @@ $text_retour_espace = 'Actions';
 if (isset($drm)) {
     $url_retour_espace = ($isTeledeclarationMode) ?
             url_for('drm_societe', array('identifiant' => $etablissementPrincipal->identifiant)) : url_for('drm_etablissement', array('identifiant' => $drm->identifiant));
-    $text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour au calendrier";
+        $text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour au calendrier";
 }
 ?>
 <div class="bloc_col" >
@@ -81,12 +81,6 @@ if (isset($drm)) {
                 <p><strong><?php echo $etablissementPrincipal->nom; ?></strong></p>
                 <p><strong><?php echo $etablissementPrincipal->identifiant; ?></strong></p>
                 <p> (<?php echo $etablissementPrincipal->getMasterCompte()->commune; ?>) </p>            
-            </div>
-        <?php else: ?>
-            <div class="text-center" style="text-align: center;">
-                <p><strong><?php echo $societe->raison_sociale; ?></strong></p>
-                <p><strong><?php echo $societe->identifiant; ?></strong></p>
-                <p> (<?php echo $societe->siege->commune; ?>) </p>            
             </div>
         <?php endif;?>
     </div>
