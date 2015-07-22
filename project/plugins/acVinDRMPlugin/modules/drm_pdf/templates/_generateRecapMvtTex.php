@@ -1,4 +1,7 @@
 <?php
+use_helper('Date');
+use_helper('DRM');
+use_helper('Orthographe'); 
 use_helper('DRMPdf');
 use_helper('Display');
 $mvtsEnteesForPdf = $drmLatex->getMvtsEnteesForPdf();
@@ -7,7 +10,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
 
 \begin{center}
 \begin{large}
-\textbf{DRM de Janvier 2015}
+\textbf{DRM <?php echo getFrPeriodeElision($drm->periode); ?>}
 \end{large}
 \end{center}
 

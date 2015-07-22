@@ -70,7 +70,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function isTeledeclare() {
-        
+
         return $this->exist('teledeclare') && $this->teledeclare;
     }
 
@@ -259,7 +259,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function initProduitsAuto() {
-        foreach($this->getConfigProduitsAuto() as $produit) {
+        foreach ($this->getConfigProduitsAuto() as $produit) {
             $this->addProduit($produit->getHash());
         }
     }
@@ -983,6 +983,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $regimes;
     }
 
+    public function hasManyCrds() {
+        
+        foreach ($this->getAllCrdsByRegimeAndByGenre() as $regime => $crdsByRegime) {
+            if (count($crdsByRegime)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function addCrdType($couleur, $litrage, $type_crd, $stock_debut = null) {
         return $this->getOrAdd('crds')->getOrAddCrdType($couleur, $litrage, $type_crd, $stock_debut);
     }
@@ -1056,34 +1066,34 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function hasAnnexes($isTeledeclarationMode = false) {
         return count($this->getVracs()) && count($this->getDetailsExports()) && $isTeledeclarationMode;
     }
-    
+
     public function clearAnnexes() {
-        if($this->exist('documents_annexes') && count($this->documents_annexes)){
+        if ($this->exist('documents_annexes') && count($this->documents_annexes)) {
             $this->remove('documents_annexes');
         }
-        if($this->exist('releve_non_apurement') && count($this->releve_non_apurement)){
+        if ($this->exist('releve_non_apurement') && count($this->releve_non_apurement)) {
             $this->remove('releve_non_apurement');
         }
     }
-    
+
     public function cleanAnnexes() {
         $documents_annexes_to_remove = array();
-        if($this->exist('documents_annexes') && count($this->documents_annexes)){
+        if ($this->exist('documents_annexes') && count($this->documents_annexes)) {
             foreach ($this->documents_annexes as $type_doc => $docNode) {
-                if(!$docNode->debut && !$docNode->fin){
+                if (!$docNode->debut && !$docNode->fin) {
                     $documents_annexes_to_remove[] = $type_doc;
                 }
             }
         }
         $releve_non_apurement_to_remove = array();
-        if($this->exist('releve_non_apurement') && count($this->releve_non_apurement)){
+        if ($this->exist('releve_non_apurement') && count($this->releve_non_apurement)) {
             foreach ($this->releve_non_apurement as $key => $nonApurementNode) {
-                if(!$nonApurementNode->numero_document && !$nonApurementNode->date_emission && !$nonApurementNode->numero_accise){
+                if (!$nonApurementNode->numero_document && !$nonApurementNode->date_emission && !$nonApurementNode->numero_accise) {
                     $releve_non_apurement_to_remove[] = $key;
                 }
             }
         }
-         foreach ($documents_annexes_to_remove as $key_to_remove) {
+        foreach ($documents_annexes_to_remove as $key_to_remove) {
             $this->documents_annexes->remove($key_to_remove);
         }
         foreach ($releve_non_apurement_to_remove as $key_to_remove) {
