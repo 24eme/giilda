@@ -19,8 +19,19 @@ class vracActions extends sfActions {
     public function executeIndex(sfWebRequest $request) {
         $this->redirect403IfIsTeledeclaration();
         $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);
+        $this->creationForm = new VracCreationForm();
         $this->etiquettesForm = new VracEtiquettesForm();
-        $this->postFormEtablissement($request);
+        if ($request->isMethod(sfWebRequest::POST)) {
+        	$this->creationForm->bind($request->getParameter($this->creationForm->getName()));
+        	if ($this->creationForm->isValid()) {
+        		$vrac = new Vrac();
+        		$vrac->etape = 1;
+        		$vrac->numero_contrat = $this->creationForm->getIdVrac();
+        		$vrac->constructId();
+        		$vrac->save();
+        		return $this->redirect('vrac_soussigne', $vrac);
+        	}
+        }
     }
 
     public function executeCreation(sfWebRequest $request) {

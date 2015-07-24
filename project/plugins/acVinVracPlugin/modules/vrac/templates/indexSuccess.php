@@ -12,7 +12,19 @@ foreach ($datas as $data) {
   <li><a href="#" class="active">Page d'accueil</a></li>
 </ol>
 
-<a href="<?php echo url_for('vrac_nouveau'); ?>" class="btn btn-default"><span>Saisir un nouveau contrat</span></a>
+<form action="<?php echo url_for('vrac'); ?>" method="post" class="form-inline" id="contrat_creation">
+    <?php echo $creationForm->renderHiddenFields() ?>
+    <?php echo $creationForm->renderGlobalErrors() ?>
+    <?php echo $creationForm['annee']->renderError(); ?>
+	<div class="form-group<?php if($creationForm['annee']->hasError()): ?> has-error<?php endif; ?>">
+    	<?php echo $creationForm['annee']->render(array('placeholder' => 'AAAA')); ?>
+  	</div>
+    <?php echo $creationForm['bordereau']->renderError(); ?>
+	<div class="form-group<?php if($creationForm['bordereau']->hasError()): ?> has-error<?php endif; ?>">
+    	<?php echo $creationForm['bordereau']->render(array('placeholder' => 'N° bordereau')); ?>
+  	</div>
+  	<button type="submit" class="btn btn-default">Créer le contrat</button>
+</form>
 
 <div class="row">
     <div class="col-xs-12">

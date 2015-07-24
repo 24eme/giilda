@@ -109,7 +109,7 @@ class VracClient extends acCouchdbClient {
     }
 
     public function getContenances() {
-        $contenances = sfConfig::get('app_vrac_contenances');
+        $contenances = VracConfiguration::getInstance()->getContenances();
         if (!$contenances)
             throw new sfException("Les contenances n'ont pas été renseignée dans le fichier de configuration app.yml");
         return $contenances;
@@ -129,6 +129,21 @@ class VracClient extends acCouchdbClient {
 
         return $id;
     }
+    
+    public function buildNumeroContrat($annee, $teledeclare = 1, $bordereau = null)
+    {
+    	if ($teledeclare && $bordereau) {
+    		throw new sfException('options de generation d\'identifiant vrac non coherentes');
+    	}
+    	$numero = $annee;
+    	$numero .= $teledeclare;
+    	if ($bordereau) {
+    		$numero .= sprintf("%06d", $bordereau);
+    	} else {
+    		$numero .= sprintf("%06d", $this->getNextNoContrat($annee));
+    	}
+    	return $numero;
+    }
 
     public function getNumeroContrat($id_or_numerocontrat) {
 
@@ -140,21 +155,18 @@ class VracClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->buildCampagne($date);
     }
 
-    public function getNextNoContrat() {
-        $id = '';
-        $date = date('Ymd');
+    public function getNextNoContrat($date = null) {
+        $date = ($date)? $date : date('Y');
         $contrats = self::getAtDate($date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($contrats) > 0) {
-            $id .= ((double) str_replace('VRAC-', '', max($contrats)) + 1);
+           return substr(str_replace('VRAC-', '', max($contrats)), -6);
         } else {
-            $id.= $date . '00001';
+            return 1;
         }
-
-        return $id;
     }
 
     public function getAtDate($date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('VRAC-' . $date . '00000')->endkey('VRAC-' . $date . '99999')->execute($hydrate);
+        return $this->startkey('VRAC-' . $date . '1000000')->endkey('VRAC-' . $date . '1999999')->execute($hydrate);
     }
 
     public function findByNumContrat($num_contrat, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
