@@ -24,6 +24,12 @@ class vracActions extends sfActions {
         if ($request->isMethod(sfWebRequest::POST)) {
         	$this->creationForm->bind($request->getParameter($this->creationForm->getName()));
         	if ($this->creationForm->isValid()) {
+        		if ($vrac = VracClient::getInstance()->findByNumContrat($this->creationForm->getIdVrac())) {
+        			if ($vrac->isVise()) {
+        				return $this->redirect('vrac_visualisation', $vrac);
+        			}
+        			return $this->redirect('vrac_redirect_saisie', $vrac);
+        		}
         		$vrac = new Vrac();
         		$vrac->etape = 1;
         		$vrac->numero_contrat = $this->creationForm->getIdVrac();
@@ -764,11 +770,11 @@ class vracActions extends sfActions {
         $this->setLayout(false);
         $this->vrac = $this->getRoute()->getVrac();
         $this->forward404Unless($this->vrac);
-        if ($this->isTeledeclarationVrac() && $this->vrac->isBrouillon()) {
+        /*if ($this->isTeledeclarationVrac() && $this->vrac->isBrouillon()) {
             $this->initSocieteAndEtablissementPrincipal();
         } else {
             throw new sfException("Le contrat n'est pas un brouillon, ou n'est pas un contrat télédéclaré");
-        }
+        }*/
         return $this->redirectWithStep();
     }
 
