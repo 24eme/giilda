@@ -50,6 +50,16 @@ class Vrac extends BaseVrac {
         }
     }
 
+    public function setCepage($value) {
+        if ($value != $this->_get('cepage')) {
+            $this->_set('cepage', $value);
+            if ($value) {
+            	$cepages = $this->getCepagesConfig();
+            	$this->cepage_libelle = $cepages[$value];
+            }
+        }
+    }
+
     public function setBouteillesContenanceLibelle($c) {
         $this->_set('bouteilles_contenance_libelle', $c);
         if ($c) {
