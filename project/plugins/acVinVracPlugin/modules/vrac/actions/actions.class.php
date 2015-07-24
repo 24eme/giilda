@@ -20,7 +20,7 @@ class vracActions extends sfActions {
         $this->redirect403IfIsTeledeclaration();
         $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);
         $this->creationForm = new VracCreationForm();
-        $this->etiquettesForm = new VracEtiquettesForm();
+        //$this->etiquettesForm = new VracEtiquettesForm();
         if ($request->isMethod(sfWebRequest::POST)) {
         	$this->creationForm->bind($request->getParameter($this->creationForm->getName()));
         	if ($this->creationForm->isValid()) {
@@ -54,9 +54,9 @@ class vracActions extends sfActions {
         $this->redirect('vrac_soussigne', array('numero_contrat' => $this->vrac->numero_contrat));
     }
 
-    protected function postFormEtablissement(sfWebRequest $request) {
+    public function executeEtablissementSelection(sfWebRequest $request) {
         if ($request->isMethod(sfWebRequest::POST)) {
-            $form = new VracEtablissementChoiceForm('INTERPRO-inter-loire');
+            $form = new VracEtablissementChoiceForm('INTERPRO-declaration');
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
                 $etablissement = $form->getEtablissement();
@@ -157,6 +157,7 @@ class vracActions extends sfActions {
         $this->isStatut = isset($request['statut']);
         $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
         $soussigneObj = EtablissementClient::getInstance()->find($this->identifiant);
+        $this->etablissement = $soussigneObj;
         $soussigneId = 'ETABLISSEMENT-' . $this->identifiant;
         $this->type = null;
         $this->statut = null;
