@@ -8,10 +8,10 @@
                                                      'consigne' => "Saisissez un numéro de contrat, un soussigné ou un produit :")) ?>
 <?php endif; ?>
 
-<table id="table_contrats" class="table_recap">    
+<table id="table_contrats" class="table">    
     <thead>
         <tr>
-            <th class="type">Type</th>
+            <th class="col-xs-1">Type</th>
             <th style="width: 100px;">N° Contrat</th>
             <th>Soussignés</th>   
             <th style="width: 120px;">Produit</th>

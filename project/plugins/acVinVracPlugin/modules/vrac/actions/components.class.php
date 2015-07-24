@@ -8,7 +8,7 @@ class vracComponents extends sfComponents {
         }
 
         if (!$this->form) {
-            $this->form = new VracEtablissementChoiceForm('INTERPRO-inter-loire', array('identifiant' => $this->identifiant));
+            $this->form = new VracEtablissementChoiceForm('INTERPRO-declaration', array('identifiant' => $this->identifiant));
         }
     }
 

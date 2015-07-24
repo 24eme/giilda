@@ -23,7 +23,6 @@ class WidgetEtablissement extends bsWidgetFormChoice
         $this->addOption('familles', array());
         $this->addOption('ajax', false);
         $this->addRequiredOption('interpro_id', null);
-        $this->setAttribute('class', 'autocomplete'); 
     }
 
     public function setOption($name, $value) {

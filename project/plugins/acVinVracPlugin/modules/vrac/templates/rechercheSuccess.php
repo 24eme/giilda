@@ -1,62 +1,20 @@
-<?php
-use_helper('Vrac');
+<ol class="breadcrumb">
+    <li><a href="<?php echo url_for('vrac') ?>">Page d'accueil</a></li>
+    <li><a href="<?php echo url_for('vrac_recherche', array('identifiant' => $etablissement->identifiant)) ?>" class="active"><?php echo $etablissement->nom ?></a></li>
+</ol>
 
-$fil_arianeArray = array('fil' => ((isset($type) || isset($statut)) + 1), 'identifiant' => $identifiant);
-if (!isset($campagne))
-    $campagne = dateCampagneViticolePresent();
-
-$urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant,'campagne' => $campagne));
-if (isset($statut)) {
-    $urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant,'campagne' => $campagne, 'statut' => $statut));
-    $fil_arianeArray['statut'] = $statut;
-}
-
-if (isset($type)) {
-    $urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant, 'campagne' => $campagne, 'type' => $type));
-    $fil_arianeArray['type'] = $type;
-}
-
-if (isset($type) && isset($statut)) {
-    $urlExport = url_for('vrac_exportCsv', array('identifiant' => $identifiant, 'campagne' => $campagne, 'type' => $type,'statut' => $statut));
-}
-?>
-<section id="principal">
-        <?php include_partial('fil_ariane', $fil_arianeArray); ?>
-    <section id="contenu_etape">                
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
         <?php include_component('vrac', 'formEtablissementChoice', array('identifiant' => $identifiant)) ?>
-        <a id="btn_export_csv" href="<?php echo $urlExport; ?>" >Ouvrir en tableur</a>
-        <?php
-        include_partial('rechercheLegende', array('rechercheMode' => true,
-            'vracs' => $vracs,
-            'identifiant' => $identifiant,
-            'actifs' => $actifs,
-            'multiCritereType' => $multiCritereType,
-            'multiCritereStatut' => $multiCritereStatut,
-            'type' => $type,
-            'statut' => $statut, 'campagne' => $campagne));
-        ?>
-        <div class="section_label_maj">  
-            <?php
-            if (count($vracs->rows->getRawValue())) {
-                echo '<label>Contrats saisis : </label>';
-                include_partial('table_contrats', array('vracs' => $vracs, 'identifiant' => $identifiant, 'hamza_style' => true));
-            } else {
-                echo "<label>Il n'existe aucun contrat pour cette recherche</label>";
-            }
-            ?>
-        </div>
-    </section>
-</section>
+    </div>
 
-<?php
-slot('colButtons');
-include_partial('actions', array('debrayage' => true, 'identifiant' => $identifiant));
-end_slot();
-
-slot('colApplications');
-include_partial('contrat_campagne', array('vracs' => $vracs, 'visualisation' => false, 'campagne' => $campagne, 'identifiant' => $identifiant));
-end_slot();
-?>
-
+    <div class="col-xs-12">
+            <?php if (count($vracs->rows->getRawValue())): ?>
+                <?php include_partial('list', array('vracs' => $vracs, 'identifiant' => $identifiant, 'hamza_style' => false)); ?>
+            <?php else: ?>
+                <p>Il n'existe aucun contrat pour cette recherche</p>
+            <?php endif; ?>
+    </div>
+</div>
 
 
