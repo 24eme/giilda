@@ -576,6 +576,8 @@ class vracActions extends sfActions {
 
 
         $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
+        
+        $this->form = new VracValidationForm($this->vrac, $this->isTeledeclarationMode);
 
         $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));
         $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($this->vrac);
@@ -583,8 +585,10 @@ class vracActions extends sfActions {
         $this->validation = new VracValidation($this->vrac, $this->isTeledeclarationMode);
 
         if ($request->isMethod(sfWebRequest::POST)) {
-            if ($this->validation->isValide()) {
+        	$this->form->bind($request->getParameter($this->form->getName()));
+        	if ($this->form->isValid() && $this->validation->isValide()) {
                 $this->maj_etape(4);
+                $this->form->save();
                 $this->vrac->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
                 $this->vrac->save();
                 $this->postValidateActions();

@@ -4,7 +4,35 @@
 
 <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
 
+<form action="" method="post" class="form-horizontal" id="contrat_validation" >
+    <?php echo $form->renderHiddenFields() ?>
+    <?php echo $form->renderGlobalErrors() ?>
+
 <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+
+<?php if ($validation->isValide()) : ?>
+<div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Validation</h3>
+                </div>
+                <div class="panel-body">
+                <?php if (isset($form['date_signature'])): ?>
+                    <?php echo $form['date_signature']->renderError(); ?>
+                    <div class="form-group">
+                        <?php echo $form['date_signature']->renderError(); ?>
+		                <?php echo $form['date_signature']->renderLabel("Date de signature :", array('class' => 'col-sm-8 control-label')); ?>
+		                <div class="col-sm-4">
+		                    <?php echo $form['date_signature']->render(); ?>
+		                </div>
+                    </div>
+                 <?php endif; ?>
+                </div>
+            </div>
+        </div>
+</div>
+<?php endif; ?>        
 
 <div class="row">
     <div class="col-xs-4 text-left">
@@ -29,3 +57,5 @@
         <?php endif; ?>
     </div>
 </div>
+
+</form>
