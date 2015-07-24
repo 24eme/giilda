@@ -5,113 +5,130 @@
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
-            <?php if(isset($form['pluriannuel'])): ?>
-				<div class="form-group">
-					<?php echo $form['pluriannuel']->renderError(); ?>
-					<div class="checkbox col-sm-8 col-sm-offset-4">
-						<label for="<?php echo $form['pluriannuel']->renderId(); ?>">
-							<?php echo $form['pluriannuel']->render(); ?>
-							Contrat pluriannuel
-						</label>
-					</div>
+        	<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Paiement</h3>
+                </div>
+                <div class="panel-body">
+		        	<?php if (isset($form['delai_paiement'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['delai_paiement']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['delai_paiement']->renderError(); ?>
+		                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-7">
+		                    <?php echo $form['delai_paiement']->render(); ?>
+		                </div>
+		            </div>
+		            <?php endif; ?>
+		        	<?php if (isset($form['cvo_repartition'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['cvo_repartition']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['cvo_repartition']->renderError(); ?>
+		                <?php echo $form['cvo_repartition']->renderLabel("Taux de courtage :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-7">
+		                    <?php echo $form['cvo_repartition']->render(); ?>
+		                </div>
+		            </div>
+		            <?php endif; ?>
+		        	<?php if (isset($form['moyen_paiement'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['moyen_paiement']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['moyen_paiement']->renderError(); ?>
+		                <?php echo $form['moyen_paiement']->renderLabel("Moyen de paiement :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-7">
+		                    <?php echo $form['moyen_paiement']->render(); ?>
+		                </div>
+		            </div>
+		            <?php endif; ?>
+		        	<?php if (isset($form['tva'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['tva']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['tva']->renderError(); ?>
+		                <?php echo $form['tva']->renderLabel("TVA :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-7">
+		                    <?php echo $form['tva']->render(); ?>
+		                </div>
+		            </div>
+		            <?php endif; ?>
+                </div>
+           </div>
+           
+        	<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Retiraison</h3>
+                </div>
+                <div class="panel-body">
+		        	<?php if (isset($form['date_limite_retiraison'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['date_limite_retiraison']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['date_limite_retiraison']->renderError(); ?>
+		                <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-7">
+		                    <?php echo $form['date_limite_retiraison']->render(); ?>
+		                </div>
+		            </div>
+		            <?php endif; ?>
+		            <?php if(isset($form['clause_reserve_propriete'])): ?>
+						<div class="form-group col-sm-6">
+							<?php echo $form['clause_reserve_propriete']->renderError(); ?>
+							<div class="checkbox col-sm-7 col-sm-offset-5">
+								<label for="<?php echo $form['clause_reserve_propriete']->renderId(); ?>">
+									<?php echo $form['clause_reserve_propriete']->render(); ?>
+									Clause de réserve de propriété
+								</label>
+							</div>
+						</div>
+					<?php endif; ?>
+                </div>
+            </div>
+           
+        	<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Clauses</h3>
+                </div>
+                <div class="panel-body">
+                	<div class="row col-sm-6 ">
+			        	<?php if (isset($form['conditions_particulieres'])): ?>
+			            <div class="<?php if($form['conditions_particulieres']->hasError()): ?>has-error<?php endif; ?>">
+			                <?php echo $form['conditions_particulieres']->renderError(); ?>
+			                <?php echo $form['conditions_particulieres']->renderLabel("Conditions particulières :"); ?>
+			                <?php echo $form['conditions_particulieres']->render(); ?>
+			            </div>
+		            	<?php endif; ?>
+		            </div>
+                	<div class="row col-sm-6">
+		            <?php if(isset($form['pluriannuel'])): ?>
+						<div class="form-group">
+							<?php echo $form['pluriannuel']->renderError(); ?>
+							<div class="checkbox col-sm-7 col-sm-offset-5">
+								<label for="<?php echo $form['pluriannuel']->renderId(); ?>">
+									<?php echo $form['pluriannuel']->render(); ?>
+									Contrat pluriannuel
+								</label>
+							</div>
+						</div>
+					<?php endif; ?>
+		            <?php if(isset($form['autorisation_nom_vin'])): ?>
+						<div class="form-group">
+							<?php echo $form['autorisation_nom_vin']->renderError(); ?>
+							<div class="checkbox col-sm-7 col-sm-offset-5">
+								<label for="<?php echo $form['autorisation_nom_vin']->renderId(); ?>">
+									<?php echo $form['autorisation_nom_vin']->render(); ?>
+									Autorisation d'utilisation du nom du vin
+								</label>
+							</div>
+						</div>
+					<?php endif; ?>
+		            
+		            <?php if(isset($form['autorisation_nom_producteur'])): ?>
+						<div class="form-group">
+							<?php echo $form['autorisation_nom_producteur']->renderError(); ?>
+							<div class="checkbox col-sm-7 col-sm-offset-5">
+								<label for="<?php echo $form['autorisation_nom_producteur']->renderId(); ?>">
+									<?php echo $form['autorisation_nom_producteur']->render(); ?>
+									Autorisation d'utilisation du nom du producteur
+								</label>
+							</div>
+						</div>
+					<?php endif; ?>
 				</div>
-			<?php endif; ?>
-        
-        	<?php if (isset($form['delai_paiement'])): ?>
-            <div class="form-group <?php if($form['delai_paiement']->hasError()): ?>has-error<?php endif; ?>">
-                <?php echo $form['delai_paiement']->renderError(); ?>
-                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['delai_paiement']->render(); ?>
                 </div>
             </div>
-            <?php endif; ?>
-        
-        	<?php if (isset($form['moyen_paiement'])): ?>
-            <div class="form-group <?php if($form['moyen_paiement']->hasError()): ?>has-error<?php endif; ?>">
-                <?php echo $form['moyen_paiement']->renderError(); ?>
-                <?php echo $form['moyen_paiement']->renderLabel("Moyen de paiement :", array('class' => 'col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['moyen_paiement']->render(); ?>
-                </div>
-            </div>
-            <?php endif; ?>
-        
-        	<?php if (isset($form['conditions_particulieres'])): ?>
-            <div class="form-group <?php if($form['conditions_particulieres']->hasError()): ?>has-error<?php endif; ?>">
-                <?php echo $form['conditions_particulieres']->renderError(); ?>
-                <?php echo $form['conditions_particulieres']->renderLabel("Conditions particulières :", array('class' => 'col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['conditions_particulieres']->render(); ?>
-                </div>
-            </div>
-            <?php endif; ?>
-        
-        	<?php if (isset($form['date_limite_retiraison'])): ?>
-            <div class="form-group <?php if($form['date_limite_retiraison']->hasError()): ?>has-error<?php endif; ?>">
-                <?php echo $form['date_limite_retiraison']->renderError(); ?>
-                <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['date_limite_retiraison']->render(); ?>
-                </div>
-            </div>
-            <?php endif; ?>
-        
-        	<?php if (isset($form['cvo_repartition'])): ?>
-            <div class="form-group <?php if($form['cvo_repartition']->hasError()): ?>has-error<?php endif; ?>">
-                <?php echo $form['cvo_repartition']->renderError(); ?>
-                <?php echo $form['cvo_repartition']->renderLabel("Taux de courtage :", array('class' => 'col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['cvo_repartition']->render(); ?>
-                </div>
-            </div>
-            <?php endif; ?>
-        
-        	<?php if (isset($form['tva'])): ?>
-            <div class="form-group <?php if($form['tva']->hasError()): ?>has-error<?php endif; ?>">
-                <?php echo $form['tva']->renderError(); ?>
-                <?php echo $form['tva']->renderLabel("TVA :", array('class' => 'col-sm-4 control-label')); ?>
-                <div class="col-sm-8">
-                    <?php echo $form['tva']->render(); ?>
-                </div>
-            </div>
-            <?php endif; ?>
-            
-            <?php if(isset($form['clause_reserve_propriete'])): ?>
-				<div class="form-group">
-					<?php echo $form['clause_reserve_propriete']->renderError(); ?>
-					<div class="checkbox col-sm-8 col-sm-offset-4">
-						<label for="<?php echo $form['clause_reserve_propriete']->renderId(); ?>">
-							<?php echo $form['clause_reserve_propriete']->render(); ?>
-							Clause de réserve de propriété
-						</label>
-					</div>
-				</div>
-			<?php endif; ?>
-            
-            <?php if(isset($form['autorisation_nom_vin'])): ?>
-				<div class="form-group">
-					<?php echo $form['autorisation_nom_vin']->renderError(); ?>
-					<div class="checkbox col-sm-8 col-sm-offset-4">
-						<label for="<?php echo $form['autorisation_nom_vin']->renderId(); ?>">
-							<?php echo $form['autorisation_nom_vin']->render(); ?>
-							Autorisation d'utilisation du nom du vin
-						</label>
-					</div>
-				</div>
-			<?php endif; ?>
-            
-            <?php if(isset($form['autorisation_nom_producteur'])): ?>
-				<div class="form-group">
-					<?php echo $form['autorisation_nom_producteur']->renderError(); ?>
-					<div class="checkbox col-sm-8 col-sm-offset-4">
-						<label for="<?php echo $form['autorisation_nom_producteur']->renderId(); ?>">
-							<?php echo $form['autorisation_nom_producteur']->render(); ?>
-							Autorisation d'utilisation du nom du producteur
-						</label>
-					</div>
-				</div>
-			<?php endif; ?>
 
             
         </div>
