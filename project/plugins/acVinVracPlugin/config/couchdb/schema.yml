@@ -123,6 +123,8 @@ Vrac:
       type_transaction: {  }
       produit: {   }
       produit_libelle: {   }
+      cepage: {   }
+      cepage_libelle: {   }
       millesime: { type: integer }
       categorie_vin: {   } # Générique ou domaine
       domaine: {  }

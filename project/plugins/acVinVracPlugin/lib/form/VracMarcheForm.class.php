@@ -12,6 +12,7 @@
 class VracMarcheForm extends acCouchdbObjectForm {
 
     protected $_choices_produits;
+    protected $_choices_cepages;
     protected $actual_campagne;
     protected $next_campagne;
     protected $isTeledeclarationMode;
@@ -37,6 +38,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
         $this->setWidget('label', new bsWidgetFormChoice(array('choices' => $this->getLabels(), 'multiple' => true, 'expanded' => true)));
         $this->setWidget('produit', new bsWidgetFormChoice(array('choices' => $this->getProduits()), array('class' => 'autocomplete')));
+        $this->setWidget('cepage', new bsWidgetFormChoice(array('choices' => $this->getCepages()), array('class' => 'autocomplete')));
         $this->setWidget('millesime', new bsWidgetFormChoice(array('choices' => $this->millesimes), array('class' => 'autocomplete permissif')));
         $this->setWidget('categorie_vin', new bsWidgetFormChoice(array('choices' => $this->getCategoriesVin(), 'expanded' => true)));
         $this->setWidget('domaine', new bsWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
@@ -48,9 +50,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('volume_vigueur', new bsWidgetFormInput());
         $this->setWidget('degre', new bsWidgetFormInput());
         $this->setWidget('surface', new bsWidgetFormInput());
+        $this->setWidget('selection', new bsWidgetFormInputCheckbox());
 
         $this->widgetSchema->setLabels(array(
             'produit' => 'produit',
+            'cepage' => 'cepage',
             'millesime' => $this->getMillesimeLabel(),
             'categorie_vin' => 'Type',
             'domaine' => 'Nom du domaine',
@@ -67,6 +71,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $validatorForNumbers = new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
         
         $this->setValidator('produit', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))));
+        $this->setValidator('cepage', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCepages()))));
         $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
         $this->setValidator('categorie_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))));
         $this->setValidator('domaine', new sfValidatorString(array('required' => false)));
@@ -79,6 +84,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setValidator('volume_vigueur', new sfValidatorNumber(array('required' => false)));
         $this->setValidator('degre', new sfValidatorNumber(array('required' => false, 'min' => 7, 'max' => 15)));
         $this->setValidator('surface', new sfValidatorNumber(array('required' => true)));
+        $this->setValidator('selection', new sfValidatorBoolean(array('required' => false)));
+        
+        if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
+        	$this->getValidator('cepage')->setOption('required', false);
+        } else {
+        	$this->getValidator('produit')->setOption('required', false);
+        }
 
         
         $this->validatorSchema['jus_quantite']->setMessage('invalid', 'La quantité "%value%" n\'est pas un nombre.');
@@ -130,6 +142,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
         if ($this->defaultDomaine) {
             $this->setDefault('domaine', $this->defaultDomaine);
         }
+
+        if (
+        		(in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)) && $this->getObject()->cepage) ||
+        		(in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS)) && $this->getObject()->produit)
+        ) {
+        	$this->setDefault('selection', true);
+        }
     }
 
     public function getProduits() {
@@ -137,6 +156,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $this->_choices_produits = array_merge(array("" => ""), $this->getObject()->getProduitsConfig());
         }
         return $this->_choices_produits;
+    }
+
+    public function getCepages() {
+        if (is_null($this->_choices_cepages)) {
+            $this->_choices_cepages = array_merge(array("" => ""), $this->getObject()->getCepagesConfig());
+        }
+        return $this->_choices_cepages;
     }
     
     public function getContenances()
@@ -166,6 +192,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
         }
         if ($this->getObject()->exist('unites')) {
         	$this->getObject()->remove('unites');
+        }
+        if (!$values['selection']) {
+        	if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
+        		$this->getObject()->cepage = null;
+        	} else {
+        		$this->getObject()->produit = null;
+        	}
         }
         $configuration = VracConfiguration::getInstance();
         $unites = $this->getObject()->add('unites');

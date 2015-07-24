@@ -14,6 +14,7 @@
                     <h3 class="panel-title">Produit</h3>
                 </div>
                 <div class="panel-body">
+                <?php if (in_array($form->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))): ?>
                 	<?php if (isset($form['produit'])): ?><?php echo $form['produit']->renderError(); ?><?php endif; ?>
                     <?php if (isset($form['millesime'])): ?><?php echo $form['millesime']->renderError(); ?><?php endif; ?>
                     <div class="form-group">
@@ -28,6 +29,66 @@
                         </div>
                         <?php endif; ?>
                     </div>
+                    <?php if (isset($form['selection'])): ?>
+                    <div class="form-group <?php if($form['selection']->hasError()): ?>has-error<?php endif; ?>">
+                		<div class="col-sm-12">
+							<?php echo $form['selection']->renderError(); ?>
+							<div class="checkbox bloc_condition" data-condition-cible="#bloc_cepage">
+								<label for="<?php echo $form['selection']->renderId(); ?>">
+									<?php echo $form['selection']->render(); ?>
+									Déclarer un cépage
+								</label>
+							</div>
+						</div>
+					</div>
+					<?php endif; ?>
+                    <?php if (isset($form['cepage'])): ?><?php echo $form['cepage']->renderError(); ?><?php endif; ?>
+                    <div class="form-group" id="bloc_cepage" data-condition-value="1" >
+                        <?php if (isset($form['cepage'])): ?>
+                        <div class="col-xs-8 <?php if($form['cepage']->hasError()): ?>has-error<?php endif; ?>">
+                            <?php echo $form['cepage']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un cépage', 'tabindex'=> '0')); ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+				<?php else: ?>
+                	<?php if (isset($form['cepage'])): ?><?php echo $form['cepage']->renderError(); ?><?php endif; ?>
+                    <?php if (isset($form['millesime'])): ?><?php echo $form['millesime']->renderError(); ?><?php endif; ?>
+                    <div class="form-group">
+                    	<?php if (isset($form['cepage'])): ?>
+                        <div class="col-xs-8 <?php if($form['cepage']->hasError()): ?>has-error<?php endif; ?>">
+                            <?php echo $form['cepage']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un cépage', 'tabindex'=> '0')); ?>
+                        </div>
+                        <?php endif; ?>
+                        <?php if (isset($form['millesime'])): ?>
+                        <div class="col-xs-4 <?php if($form['millesime']->hasError()): ?>has-error<?php endif; ?>">
+                            <?php echo $form['millesime']->render(array('class' => 'form-control select2')); ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <?php if (isset($form['selection'])): ?>
+                    <div class="form-group <?php if($form['selection']->hasError()): ?>has-error<?php endif; ?>">
+                		<div class="col-sm-12">
+							<?php echo $form['selection']->renderError(); ?>
+							<div class="checkbox bloc_condition" data-condition-cible="#bloc_produit">
+								<label for="<?php echo $form['selection']->renderId(); ?>">
+									<?php echo $form['selection']->render(); ?>
+									Revendiquer le cépage
+								</label>
+							</div>
+						</div>
+					</div>
+					<?php endif; ?>
+                    <?php if (isset($form['produit'])): ?><?php echo $form['produit']->renderError(); ?><?php endif; ?>
+                    <div class="form-group" id="bloc_produit" data-condition-value="1" >
+                        <?php if (isset($form['produit'])): ?>
+                        <div class="col-xs-8 <?php if($form['produit']->hasError()): ?>has-error<?php endif; ?>">
+                            <?php echo $form['produit']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un produit', 'tabindex'=> '0')); ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+				<?php endif; ?>
+                    
+                    
                     <?php if (isset($form['categorie_vin'])): ?><?php echo $form['categorie_vin']->renderError(); ?><?php endif; ?>
                     <?php if (isset($form['domaine'])): ?><?php echo $form['domaine']->renderError(); ?><?php endif; ?>
                     <?php if (isset($form['label'])): ?><?php echo $form['label']->renderError(); ?><?php endif; ?>

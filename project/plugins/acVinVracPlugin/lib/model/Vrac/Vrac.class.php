@@ -561,6 +561,10 @@ class Vrac extends BaseVrac {
         $date = (!$this->date_signature) ? date('Y-m-d') : Date::getIsoDateFromFrenchDate($this->date_signature);
         return ConfigurationClient::getCurrent()->formatProduits($date);
     }
+    
+    public function getCepagesConfig() {
+    	return array('MER' => 'Merlot', 'SAU' => 'Sauvignon', 'SYR' => 'Syrah');
+    }
 
     public function getQuantite() {
         switch ($this->type_transaction) {
