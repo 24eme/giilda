@@ -482,7 +482,7 @@ class Vrac extends BaseVrac {
     }
 
     protected function preSave() {
-        $this->archivage_document->preSave();
+        //$this->archivage_document->preSave();
     }
 
     /*     * * ARCHIVAGE ** */

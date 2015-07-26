@@ -33,7 +33,7 @@ $template_validation = (isset($template_validation))? $template_validation : fal
 
     <div class="col-xs-6">
         <div class="panel panel-default">
-            <div class="panel-heading">2. Le marché <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare() && ($isValidation || $isPrixVariable)) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?><?php endif; ?>" class="btn btn-xs btn-default pull-right">Modifier</a></div>
+            <div class="panel-heading">2. Le marché <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare() && ($isValidation || $isPrixVariable)) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
             	<li class="list-group-item">
             	<?php if ($vrac->produit): ?>
@@ -77,7 +77,7 @@ $template_validation = (isset($template_validation))? $template_validation : fal
     </div>
     <div class="col-xs-6">
         <div class="panel panel-default">
-            <div class="panel-heading">3. Les conditions <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare() && ($isValidation || $isPrixVariable)) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?><?php endif; ?>" class="btn btn-xs btn-default pull-right">Modifier</a></div>
+            <div class="panel-heading">3. Les conditions <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare() && ($isValidation || $isPrixVariable)) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
                 <?php if ($vrac->delai_paiement || $vrac->moyen_paiement): ?>
                 <li class="list-group-item">
