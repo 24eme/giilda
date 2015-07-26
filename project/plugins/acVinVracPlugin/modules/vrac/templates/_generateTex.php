@@ -38,46 +38,46 @@
 \def\IVBDCOORDONNEESADRESSE{1, rue des Récollets - BP 426 - 24104 BERGERAC Cedex - Tél. 01 01 01 01 01 - Fax: 02 02 02 02 02}
 
 
-\def\CONTRATNUMENREGISTREMENT{589625}
+\def\CONTRATNUMENREGISTREMENT{<?php echo substr($vrac->numero_contrat, -6)?>}
 \def\CONTRATVISA{Pas de visa}
 \def\CONTRATDATEENTETE{}
 
 \def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE}
 
 
-\def\CONTRATVENDEURNOM{M. GAUDEFROY Hervé}
-\def\CONTRATVENDEURCVI{4122903620}
-\def\CONTRATVENDEURADRESSE{8 route des Sablons 41140 ST ROMAIN SUR CHER}
-\def\CONTRATVENDEURTELEPHONE{01 42 78 21 43}
-\def\CONTRATVENDEURPAYEUR{M. GAUDEFROY Régis}
+\def\CONTRATVENDEURNOM{<?php echo $vrac->vendeur->raison_sociale ?>}
+\def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi ?>}
+\def\CONTRATVENDEURADRESSE{<?php echo $vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune ?>}
+\def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
+\def\CONTRATVENDEURPAYEUR{??}
 
-\def\CONTRATACHETEURNOM{DOMAINE POIRON SARL}
-\def\CONTRATACHETEURCVI{1854269857}
-\def\CONTRATACHETEURADRESSE{L'Enclos 44690 CHATEAU THEBAUD}
-\def\CONTRATACHETEURTELEPHONE{06 25 88 96 58}
+\def\CONTRATACHETEURNOM{<?php echo $vrac->acheteur->raison_sociale ?>}
+\def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi ?>}
+\def\CONTRATACHETEURADRESSE{<?php echo $vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune ?>}
+\def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
-\def\CONTRATCOURTIERNOM{MONSIEUR POUR LE COMPTE}
-\def\CONTRATCOURTIERCARTEPRO{5896}
-\def\CONTRATCOURTIERADRESSE{Adresse du bon courtier 44690 CHATEAU THEBAUD}
-\def\CONTRATCOURTIERTELEPHONE{06 99 88 96 58}
+\def\CONTRATCOURTIERNOM{<?php echo $vrac->mandataire->raison_sociale ?>}
+\def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro ?>}
+\def\CONTRATCOURTIERADRESSE{<?php echo $vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune ?>}
+\def\CONTRATCOURTIERTELEPHONE{<?php echo $vrac->getMandataireObject()->telephone ?>}
 
 
 \def\CONTRATVOLUMEENTOUTELETTRE{huit mille sept cents vingt trois}
-\def\CONTRATVOLUME{8723.00}
-\def\CONTRATAPPELLATIONPRODUIT{Plus grand côteaux de Bergerac Actualysien}
-\def\CONTRATCOULEURPRODUIT{Doré}
-\def\CONTRATMILLESIMEPRODUIT{2018}
-\def\CONTRATLIEUPRODUIT{La grande montagne Bergerac}
-\def\CONTRATNOMPRODUIT{Vin de Bergerac Rouge}
+\def\CONTRATVOLUME{<?php echo ($vrac->jus_quantite)? $vrac->jus_quantite : $vrac->raisin_quantite ?>}
+\def\CONTRATAPPELLATIONPRODUIT{<?php echo $vrac->produit_libelle ?>}
+\def\CONTRATCOULEURPRODUIT{??}
+\def\CONTRATMILLESIMEPRODUIT{<?php echo $vrac->millesime ?>}
+\def\CONTRATLIEUPRODUIT{<?php echo ($vrac->logement)? $vrac->logement : $vrac->vendeur->commune ?>}
+\def\CONTRATNOMPRODUIT{??}
 
-\def\CONTRATBORDEREUPOURCENTAGEANNEEUN{5}
-\def\CONTRATSEUILDECLENCHEMENT{95}
-\def\CONTRATNUMEROENREGISTREMENTANNEEUN{47856}
+\def\CONTRATBORDEREUPOURCENTAGEANNEEUN{??}
+\def\CONTRATSEUILDECLENCHEMENT{??}
+\def\CONTRATNUMEROENREGISTREMENTANNEEUN{<?php echo substr($vrac->numero_contrat, -6)?>}
 
 \def\CONTRATPRIXTOUTELETTRE{cinq mille deux cents trente}
-\def\CONTRATPRIX{5 230}
-\def\CONTRATMOYENPAIEMENT{Chèque postal}
-\def\CONTRATDELAIPAIEMENT{15 jours ouvrés}
+\def\CONTRATPRIX{<?php echo $vrac->prix_initial_unitaire ?>}
+\def\CONTRATMOYENPAIEMENT{<?php echo $vrac->moyen_paiement ?>}
+\def\CONTRATDELAIPAIEMENT{<?php echo $vrac->delai_paiement ?>}
 
 \def\CONTRATPOURCENTAGECOURTAGE{15}
 \def\CONTRATPOURCENTAGEACHETEURCOURTAGE{70}
@@ -170,10 +170,10 @@ que le nom viticulteur.
 %PARTIE 4%
 \circled{4}~~\textbf{Nom du producteur:} \normalsize Pour le cas où aucun nom d'exploitation n'est précisé, le vendeur autorise l'utilisation par l'acheteur, dans le cadre du présent\\
 \hspace*{0.5cm}
-contrat, de son nom patronymique ou de sa raison sociale, ainsi que de son adresse pour la présentation du vin.~Oui~\squareChecked~Non~$\square$
+contrat, de son nom patronymique ou de sa raison sociale, ainsi que de son adresse pour la présentation du vin.<?php if ($vrac->autorisation_nom_producteur): ?>~Oui~\squareChecked~Non~$\square$<?php else : ?>~Oui~$\square$~Non~\squareChecked<?php endif; ?>
  ~ \\   ~ \\  
 %PARTIE 5%
-\circled{5}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}~Non~\squareChecked Oui $\square$ $\rightarrow$ Préciser l'année d'application : Année 1 $\square$ Année 2 \squareChecked Année 3 $\square$ \\
+\circled{5}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Oui~\squareChecked~Non~$\square$<?php else : ?>~Oui~$\square$~Non~\squareChecked<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année 1 $\square$ Année 2 $\square$ Année 3 $\square$ \\
 \hspace*{0.5cm}
 Le volume et le prix indiqués sur ce bordereau concernent l'année d'application cochée, sous réserve du respect des règles précisées au verso. \\\hspace*{0.5cm}
 Année 1, préciser :\small ~- si une révision est envisagée pour les années suivante :~Non~\squareChecked Oui $\square$ $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat $\pm$ \CONTRATSEUILDECLENCHEMENT\% \\
