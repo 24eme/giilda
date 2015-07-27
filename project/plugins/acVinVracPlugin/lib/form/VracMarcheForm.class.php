@@ -193,7 +193,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         if ($this->getObject()->exist('unites')) {
         	$this->getObject()->remove('unites');
         }
-        if (!$values['selection']) {
+        if (!isset($values['selection']) || !$values['selection']) {
         	if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
         		$this->getObject()->cepage = null;
         	} else {
@@ -204,9 +204,15 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $unites = $this->getObject()->add('unites');
         $unites->volume_initial->add($configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['libelle']);
         $unites->volume_vigueur->add($configuration->getUnites()[$this->getObject()->type_transaction]['volume_vigueur']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['volume_vigueur']['libelle']);
-        $unites->surface->add($configuration->getUnites()[$this->getObject()->type_transaction]['surface']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['surface']['libelle']);
-        $unites->jus_quantite->add($configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite']['libelle']);
-        $unites->raisin_quantite->add($configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite']['libelle']);
+	if (isset($configuration->getUnites()[$this->getObject()->type_transaction]['surface']['cle'])) {
+	        $unites->surface->add($configuration->getUnites()[$this->getObject()->type_transaction]['surface']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['surface']['libelle']);
+	}
+	if (isset($configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite'])) {
+	        $unites->jus_quantite->add($configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite']['libelle']);
+	}
+	if (isset($configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite'])) {
+	        $unites->raisin_quantite->add($configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite']['libelle']);
+	}
         $unites->prix_initial_unitaire->add($configuration->getUnites()[$this->getObject()->type_transaction]['prix_initial_unitaire']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['prix_initial_unitaire']['libelle']);
     }
 
