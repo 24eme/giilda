@@ -28,28 +28,8 @@ use_helper('Vrac');
                 </div>
             </h2>
 			<div class="row">
-				<div class="col-xs-6">
-            <?php if ($vrac->isVise()): ?>
-                <div class="num_enregistrement">
-                    <?php if ($isTeledeclarationMode && $vrac->isTeledeclare()): ?>
-                        <a id="btn_pdf_contrat" href="<?php echo url_for('vrac_pdf', $vrac); ?>">
-                        <?php endif; ?>
-                        <span class="style_label">N° d'enregistrement du contrat : <?php echo $vrac->numero_archive ?> (<?php echo $vrac->campagne ?>)</span>
-                        <?php if ($isTeledeclarationMode && $vrac->isTeledeclare()): ?>
-                        </a>
-                    <?php endif; ?>
-                </div> 
-            <?php endif; ?> 
-                        <div>
-                            <span class="statut  <?php echo getClassStatutPicto($vrac, $isTeledeclarationMode); ?>"></span><span class="bg-success legende_statut_texte"><strong><?php echo $vrac->getStatutLabel(); ?></strong></span>
-                        </div> 
-            	</div> 
-				<div class="col-xs-6 text-right">
+				<div class="col-xs-6 col-xs-offset-6 text-right">
             <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>"> 
-
-
-
-
                 <div id="ligne_btn">
                 <?php if (!$isTeledeclarationMode): ?>
                     
