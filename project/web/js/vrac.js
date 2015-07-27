@@ -29,6 +29,26 @@ var initSoussignes = function()
         }
         $($(this).attr('data-bloc')).load($(this).attr('data-url'), {id: $(this).val()});
     });
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.responsable input').each(function() {
+    	$(this).addClass('hidden');
+    });
+    $('.responsable').on('click', function(e) {
+    	e.preventDefault();
+    	var active = $(this);
+    	if (active.hasClass('text-primary')) {
+    		active.removeClass('text-primary');
+    		active.addClass('text-muted');
+    		active.find('input').removeAttr('checked');
+    	} else {
+        	$('.responsable').each(function() {
+        		$(this).removeClass('text-primary');
+        		$(this).addClass('text-muted');
+        	});
+        	active.addClass('text-primary');
+    		active.find('input').attr('checked', 'checked');
+    	}
+    });
 
 
 	/*if (numContrat) {
