@@ -149,6 +149,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
         ) {
         	$this->setDefault('selection', true);
         }
+        if(!$this->getObject()->categorie_vin) {
+            $this->setDefault('categorie_vin', VracClient::CATEGORIE_VIN_GENERIQUE);
+        }
     }
 
     public function getProduits() {
