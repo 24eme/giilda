@@ -23,11 +23,26 @@ var initSoussignes = function()
 	var isCourtierResponsable = parseInt(form.attr('data-iscourtierresponsable'));
 
     $('.select-ajax').on('change', function() {
+        var dataBloc = $($(this).attr('data-bloc'));
+        var dataHide = $($(this).attr('data-hide'));
+
         if(!$(this).val()) {
-            $($(this).attr('data-bloc')).html("");
+            dataBloc.addClass('hidden');
+            dataHide.removeClass('hidden');
+            $($(this).attr('data-bloc .container-ajax')).html("");
             return;
         }
-        $($(this).attr('data-bloc')).load($(this).attr('data-url'), {id: $(this).val()});
+
+        dataBloc.find('.container-ajax').load($(this).attr('data-url'), {id: $(this).val()}, function() {
+            dataBloc.removeClass('hidden');
+            dataHide.addClass('hidden');
+        });
+    });
+
+    $('.select-close').on('click', function() {
+        var select = $($(this).attr('data-select'));
+        select.val(null);
+        select.change();
     });
 
 

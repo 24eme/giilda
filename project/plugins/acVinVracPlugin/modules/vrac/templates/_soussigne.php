@@ -1,3 +1,6 @@
+<?php if (isset($id) && !isset($soussigne)): ?>
+<?php $soussigne = EtablissementClient::getInstance()->find($id) ?>
+<?php endif; ?>
 <?php if (!$soussigne) return ; ?>
 <strong><?php echo $soussigne->nom ?></strong><br />
 <?php echo $soussigne->siege->adresse ?><br />
