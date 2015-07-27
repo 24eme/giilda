@@ -1,4 +1,4 @@
-<?php use_helper('Float'); ?>
+<?php use_helper('Float'); use_helper('Vrac'); ?>
 <?php
 $isValidation = (is_null($vrac->valide->statut));
 $isPrixVariable = (!$vrac->prix_total);
@@ -8,7 +8,9 @@ $template_validation = (isset($template_validation))? $template_validation : fal
 
 <div class="row">
     	<div class="col-xs-12">
-    		<h4 class="text-center"><?php echo VracConfiguration::getInstance()->getTransactions()[$vrac->type_transaction]; ?></h4>
+    <h3><?php echo "Contrat de ".strtolower(showType($vrac)); ?>
+<?php if ($vrac->isVise()) : ?> n° <?php echo $vrac->numero_archive; ?> (<?php echo $vrac->campagne; ?><span class="statut  <?php echo getClassStatutPicto($vrac, $isTeledeclarationMode); ?>"></span><span class="bg-success legende_statut_texte"><strong><?php echo $vrac->getStatutLabel(); ?></strong></span>)
+<?php endif; ?></h3>
     	</div>
     <div class="col-xs-12">
         <div class="panel panel-default">
