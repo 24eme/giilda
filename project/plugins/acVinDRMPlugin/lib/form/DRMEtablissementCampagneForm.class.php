@@ -2,7 +2,7 @@
 class DRMEtablissementCampagneForm extends sfForm
 {
   public function configure() {
-    $list = DRMClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id);
+    $list = $this->getChoiceCampagnes();
     $this->setWidgets(array(
 			    'campagne'   => new sfWidgetFormChoice(array('choices' => $list, 'default' => $this->default_campagne))
 			    ));
@@ -20,4 +20,11 @@ class DRMEtablissementCampagneForm extends sfForm
     $this->default_campagne = $defaultCampagne;
     return parent::__construct();
   }
+  
+  private function getChoiceCampagnes() {
+      $campagnes = array('-1' => '6 derniers mois');
+      $campagnes = array_merge($campagnes,DRMClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id));
+      return $campagnes;
+  }
+  
 }
