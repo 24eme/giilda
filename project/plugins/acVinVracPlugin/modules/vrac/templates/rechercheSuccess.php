@@ -5,7 +5,7 @@
 
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
-        <?php include_component('vrac', 'formEtablissementChoice', array('identifiant' => $identifiant)) ?>
+        <?php include_component('vrac', 'formEtablissementChoice', array('identifiant' => $etablissement->_id)) ?>
     </div>
 
     <div class="col-xs-12">

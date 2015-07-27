@@ -650,15 +650,8 @@ class vracActions extends sfActions {
 
     public function executeGetInformations(sfWebRequest $request) {
         $etablissement = EtablissementClient::getInstance()->find($request->getParameter('id'));
-        $nouveau = is_null($request->getParameter('numero_contrat'));
-        $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-        $this->compteVendeurActif = null;
-        $this->compteAcheteurActif = null;
-        if ($this->isTeledeclarationMode) {
-            $this->compteVendeurActif = $etablissement->hasCompteTeledeclarationActivate();
-            $this->compteAcheteurActif = $etablissement->hasCompteTeledeclarationActivate();
-        }
-        return $this->renderPartialInformations($etablissement, $nouveau, $request->getParameter('famille'));
+
+        return $this->renderPartial('vrac/soussigne', array('soussigne' => $etablissement));
     }
 
     public function executeGetModifications(sfWebRequest $request) {
@@ -831,12 +824,6 @@ class vracActions extends sfActions {
                 $this->redirect('vrac_visualisation', $this->vrac);
                 break;
         }
-    }
-
-    private function renderPartialInformations($etablissement, $nouveau, $familleType = null) {
-        $familleType = ($familleType)? $familleType : $etablissement->getFamilleType();
-        return $this->renderPartial($familleType . 'Informations', array($familleType => $etablissement, 'nouveau' => $nouveau,
-                    'isTeledeclarationMode' => $this->isTeledeclarationMode, 'compteVendeurActif' => $this->compteVendeurActif, 'compteAcheteurActif' => $this->compteAcheteurActif));
     }
 
     private function maj_etape($etapeNum) {

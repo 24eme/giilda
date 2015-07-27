@@ -40,18 +40,37 @@ function isARechercheParam($actifs, $label) {
     return in_array($label, $actifs);
 }
 
-function statusColor($status) {
+function statusCssClass($status) {
 
     if (is_null($status))
         return '';
 
     switch ($status) {
         case VracClient::STATUS_CONTRAT_ANNULE:
-            return 'statut_annule';
+            return 'danger';
         case VracClient::STATUS_CONTRAT_SOLDE:
-            return 'statut_solde';
+            return 'success';
         case VracClient::STATUS_CONTRAT_NONSOLDE:
-            return 'statut_non-solde';
+            return 'warning';
+        default :
+            return '';
+    }
+}
+
+function typeToPictoCssClass($type) {
+
+    if (is_null($type))
+        return '';
+
+    switch ($type) {
+        case VracClient::TYPE_TRANSACTION_RAISINS:
+            return 'icon-raisins';
+        case VracClient::TYPE_TRANSACTION_MOUTS:
+            return 'icon-mouts';
+        case VracClient::TYPE_TRANSACTION_VIN_VRAC:
+            return 'icon-vrac';
+        case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE:
+            return 'icon-bouteille';
         default :
             return '';
     }

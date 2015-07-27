@@ -76,13 +76,18 @@ endif;
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-sm-7">
+                                <div class="col-sm-12">
                                     <?php echo $form['vendeur_identifiant']->renderError(); ?>
                                     <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                         <div class="col-sm-12" id="vendeur_choice">
-                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un vendeur')); ?>
+                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un vendeur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#vendeur_informations')); ?>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-sm-12" id="vendeur_informations">
+                                    <?php include_partial('vrac/soussigne', array('soussigne' => $form->getObject()->getVendeurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+                                </div>
+                                <div class="col-sm-12">
         							<?php if(isset($form['vendeur_intermediaire'])): ?>
                 		            <div class="form-group col-sm-12">
                 		            	<?php echo $form['vendeur_intermediaire']->renderError(); ?>
@@ -114,9 +119,6 @@ endif;
                 		            </div> 
                 		            <?php endif; ?>
                                 </div>
-                                <div class="col-sm-5" id="vendeur_informations">
-                                    <?php include_partial('vrac/vendeurInformations', array('vendeur' => $form->getObject()->getVendeurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -132,15 +134,15 @@ endif;
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-sm-7">
+                                <div class="col-sm-12">
                                     <?php echo $form['acheteur_identifiant']->renderError(); ?>
                                     <div class="form-group <?php if($form['acheteur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                         <div class="col-sm-12" id="acheteur_choice">
-                                            <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un acheteur')); ?>
+                                            <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_informations')); ?>
                                         </div> 
                                     </div>
                                 </div>
-                                <div class="col-sm-5" id="acheteur_informations">
+                                <div class="col-sm-12" id="acheteur_informations">
                                     <?php include_partial('vrac/acheteurInformations', array('acheteur' => $form->getObject()->getAcheteurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
                                 </div>
                             </div>

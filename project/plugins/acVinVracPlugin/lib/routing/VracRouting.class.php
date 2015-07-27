@@ -71,16 +71,10 @@ class VracRouting {
                                                         array('module' => 'vrac','action' => 'visualisation'),
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
-        
-        $r->prependRoute('vrac_nouveau_getinfos', new VracRoute('/vrac/getInfos',
-                                                        array('module' => 'vrac','action' => 'getInformations'),
-                                                        array('sf_method' => array('get')),
-                                                        array('model' => 'Vrac', 'type' => 'object')));
        
-        $r->prependRoute('vrac_soussigne_getinfos', new VracRoute('/vrac/:numero_contrat/getInfos',
+        $r->prependRoute('vrac_soussigne_getinfos', new sfRoute('/vrac/soussigne/infos',
                                                         array('module' => 'vrac','action' => 'getInformations'),
-                                                        array('sf_method' => array('get')),
-                                                        array('model' => 'Vrac', 'type' => 'object')));
+                                                        array('sf_method' => array('get'))));
         
         
         $r->prependRoute('vrac_nouveau_modification', new VracRoute('/vrac/modification',

@@ -8,13 +8,13 @@
                                                      'consigne' => "Saisissez un numéro de contrat, un soussigné ou un produit :")) ?>
 <?php endif; ?>
 
-<table class="table table-bordered table-striped table-condensed">    
+<table class="table table-striped table-condensed">    
     <thead>
         <tr>
             <th style="width: 0;">Type</th>
-            <th style="width: 100px;">N° Contrat</th>
+            <th style="width: 160px;">N° Contrat</th>
             <th>Soussignés</th>   
-            <th style="width: 300px;">Produit</th>
+            <th style="width: 350px;">Produit</th>
             <th style="width: 100px;">Vol.&nbsp;Enlevé&nbsp;/&nbsp;Prop.</th>
         </tr>
     </thead>
@@ -23,13 +23,14 @@
         foreach ($vracs->rows as $value) {
             $elt = $value->getRawValue()->value;
             if (!is_null($elt[VracClient::VRAC_VIEW_STATUT])) {
-                $statusColor = statusColor($elt[VracClient::VRAC_VIEW_STATUT]);
                 $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]);
                 $v = VracClient::getInstance()->findByNumContrat($vracid);
                 ?>
-                <tr id="<?php echo vrac_get_id($value) ?>" class="<?php echo $statusColor; ?>" >
-                    <td class="type" ><span class="type_<?php echo strtolower($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]); ?>"><?php echo ($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) ? typeProduit($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) : ''; ?></span></td>
-                    <td class="num_contrat">
+                <tr id="<?php echo vrac_get_id($value) ?>" class="<?php echo statusCssClass($elt[VracClient::VRAC_VIEW_STATUT]) ?>" >
+                    <td class="text-center">
+                    <span class="<?php echo typeToPictoCssClass($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) ?>" style="font-size: 24px;"></span>
+                    </td>
+                    <td>
                     <a href="<?php echo url_for('@vrac_visualisation?numero_contrat='.$vracid) ?>">
                     <?php if($v->numero_archive): ?>
                     <?php echo $v->numero_archive ?>
