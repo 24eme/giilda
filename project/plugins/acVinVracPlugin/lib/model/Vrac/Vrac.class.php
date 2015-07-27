@@ -32,6 +32,10 @@ class Vrac extends BaseVrac {
         if (!$this->date_campagne) {
             $this->date_campagne = date('d/m/Y');
         }
+
+        if (!$this->valide->date_saisie) {
+            $this->valide->date_saisie = date('Y-m-d H:i:s');
+        }
     }
 
     public function getCampagne() {
@@ -209,17 +213,25 @@ class Vrac extends BaseVrac {
         return $date->format($format);
     }
 
-    public function setDateSignature($d) {
-        return $this->setDate('date_signature', $d);
+    public function getDateSignature($format = 'Y-m-d') {
+        return $this->getDate('date_signature', $format);
     }
 
-    public function getDateSignature($format = 'd/m/Y') {
-        return $this->getDate('date_signature', $format);
+    public function getDateLimiteRetiraison($format = 'Y-m-d') {
+        return $this->getDate('date_limite_retiraison', $format);
+    }
+    
+    public function setDateSignature($d) {
+        return $this->setDate('date_signature', $d);
     }
 
     public function setDateCampagne($d) {
         $this->setDate('date_campagne', $d);
         $this->campagne = VracClient::getInstance()->buildCampagne($this->getDateCampagne('Y-m-d'));
+    }
+
+    public function setDateLimiteRetiraison($d) {
+        $this->setDate('date_limite_retiraison', $d);
     }
 
     public function getPrixUnitaire() {
@@ -317,9 +329,6 @@ class Vrac extends BaseVrac {
         } else {
             $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
         }
-        if (!$this->valide->date_saisie) {
-            $this->valide->date_saisie = date('Y-m-d H:i:s');
-        }
 
         if (isset($options['identifiant'])) {
             $this->valide->identifiant = $options['identifiant'];
@@ -328,7 +337,7 @@ class Vrac extends BaseVrac {
         $this->update();
     }
 
-    public function getDateCampagne($format = 'd/m/Y') {
+    public function getDateCampagne($format = 'Y-m-d') {
         return $this->getDate('date_campagne', $format);
     }
 
