@@ -7,21 +7,23 @@ $template_validation = (isset($template_validation))? $template_validation : fal
 ?>
 
 <div class="row">
+    	<div class="col-xs-12">
+    		<h4 class="text-center"><?php echo VracConfiguration::getInstance()->getTransactions()[$vrac->type_transaction]; ?></h4>
+    	</div>
     <div class="col-xs-12">
         <div class="panel panel-default">
-            <div class="panel-heading">1. Soussignés <?php if($isValidation && !$isTeledeclarationMode): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-heading">1. Soussignés <?php if($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
-                <li class="list-group-item">Type : <?php echo strip_tags(VracConfiguration::getInstance()->getTransactions()[$vrac->type_transaction]); ?></li>
                 <li class="list-group-item clearfix">
                 	<div class="row col-xs-4">
-                	Vendeur : <a href=""><?php echo $vrac->getVendeurObject()->getNom(); ?></a><?php if ($vrac->vendeur_intermediaire): ?><br />Representé par xxx pour la CVO<?php endif; ?><?php if($vrac->logement): ?><br />Logement du vin : <?php echo $vrac->logement ?><?php endif; ?>
+                	<?php if ($vrac->responsable == 'vendeur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?>Vendeur : <a href=""><?php echo $vrac->getVendeurObject()->getNom(); ?></a><?php if ($vrac->vendeur_intermediaire): ?><br />Representé par xxx pour la CVO<?php endif; ?><?php if($vrac->logement): ?><br />Logement du vin : <?php echo $vrac->logement ?><?php endif; ?>
                 	</div>
                 	<div class="row col-xs-4">
-                	Acheteur : <a href=""><?php echo $vrac->getAcheteurObject()->getNom(); ?></a>
+                	<?php if ($vrac->responsable == 'acheteur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?>Acheteur : <a href=""><?php echo $vrac->getAcheteurObject()->getNom(); ?></a>
                 	</div>
                 	<div class="row col-xs-4">
 	                <?php if ($vrac->mandataire_identifiant != null && $vrac->mandataire_exist): ?>
-	                    Mandataire / Courtier : <a href=""><?php echo $vrac->getMandataireObject()->getNom(); ?></a>
+	                    <?php if ($vrac->responsable == 'mandataire'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?>Mandataire / Courtier : <a href=""><?php echo $vrac->getMandataireObject()->getNom(); ?></a>
 	                <?php else: ?>
 	                    Ce contrat ne possède pas de  mandataire / courtier
 	                <?php endif; ?>
@@ -33,7 +35,7 @@ $template_validation = (isset($template_validation))? $template_validation : fal
 
     <div class="col-xs-6">
         <div class="panel panel-default">
-            <div class="panel-heading">2. Le marché <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare() && ($isValidation || $isPrixVariable)) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-heading">2. Le marché <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
             	<li class="list-group-item">
             	<?php if ($vrac->produit): ?>
@@ -77,7 +79,7 @@ $template_validation = (isset($template_validation))? $template_validation : fal
     </div>
     <div class="col-xs-6">
         <div class="panel panel-default">
-            <div class="panel-heading">3. Les conditions <?php if (!$isTeledeclarationMode && !$vrac->isTeledeclare() && ($isValidation || $isPrixVariable)) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-heading">3. Les conditions <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
                 <?php if ($vrac->delai_paiement || $vrac->moyen_paiement): ?>
                 <li class="list-group-item">
