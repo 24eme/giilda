@@ -45,18 +45,18 @@
 \def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE}
 
 
-\def\CONTRATVENDEURNOM{<?php echo $vrac->vendeur->raison_sociale ?>}
+\def\CONTRATVENDEURNOM{<?php echo $vrac->vendeur->raison_sociale ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo $vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
 \def\CONTRATVENDEURPAYEUR{??}
 
-\def\CONTRATACHETEURNOM{<?php echo $vrac->acheteur->raison_sociale ?>}
+\def\CONTRATACHETEURNOM{<?php echo $vrac->acheteur->raison_sociale ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo $vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
-\def\CONTRATCOURTIERNOM{<?php echo $vrac->mandataire->raison_sociale ?>}
+\def\CONTRATCOURTIERNOM{<?php echo $vrac->mandataire->raison_sociale ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro ?>}
 \def\CONTRATCOURTIERADRESSE{<?php echo $vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo $vrac->getMandataireObject()->telephone ?>}
@@ -147,9 +147,9 @@ Tél. : \CONTRATCOURTIERTELEPHONE
 \circled{2}~~\textbf{Désignation des produits :} \\
 \normalsize
 \hspace*{0.5cm}
-\textbf{Volume} : \CONTRATVOLUMEENTOUTELETTRE hectolitres, soit \textbf{\CONTRATVOLUME} hl \\
+\textbf{Volume} : \textbf{\CONTRATVOLUME} hl \\
 \hspace*{0.5cm}
-\textbf{Appellation} : \CONTRATAPPELLATIONPRODUIT ~~ \textbf{Couleur} : \CONTRATCOULEURPRODUIT ~~ de la récolte : \CONTRATMILLESIMEPRODUIT  \\
+\textbf{Produit} : \CONTRATAPPELLATIONPRODUIT ~~ de la récolte : \CONTRATMILLESIMEPRODUIT  \\
 \hspace*{0.5cm}
 Ce vins droit de goût, loyal et marchand est garanti conforme aux prescriptions légales et à l'échantillon fourni pour la conclusion de cette transaction. \\
 \hspace*{0.5cm}
@@ -186,7 +186,7 @@ En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initia
 %PARTIE 6-a%
 \circled{6a}~~\textbf{Prix et conditions de paiement:} \\
 \hspace*{0.5cm}
-Le prix convenu est de \CONTRATPRIXTOUTELETTRE~\texteuro euros / Tonneau, soit~\CONTRATPRIX~\texteuro / T \\
+Le prix convenu est de ~\CONTRATPRIX~\texteuro / T \\
 \hspace*{0.5cm}
 Moyen de paiement : \CONTRATMOYENPAIEMENT \\
 \hspace*{0.5cm}
