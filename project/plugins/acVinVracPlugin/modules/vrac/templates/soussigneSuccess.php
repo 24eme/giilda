@@ -72,8 +72,8 @@ endif;
                         <div class="panel-heading">
                             <h3 class="panel-title">Vendeur
                             <?php if(isset($form['responsable'])): ?>
-                            <label class="btn btn-xs btn-success pull-right<?php if($vrac->getOrAdd('responsable') == 'vendeur'): ?> active<?php endif; ?>">
-							    <input autocomplete="off" type="radio" name="vrac[responsable]" id="vrac_responsable_vendeur" value="vendeur" autocomplete="off"<?php if($vrac->getOrAdd('responsable') == 'vendeur'): ?> checked<?php endif; ?> /><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            <label class="responsable text-right pull-right <?php if($vrac->getOrAdd('responsable') == 'vendeur'): ?> text-primary<?php else: ?> text-muted<?php endif; ?>">
+							    <input autocomplete="off" type="radio" name="vrac[responsable]" id="vrac_responsable_vendeur" value="vendeur" autocomplete="off"<?php if($vrac->getOrAdd('responsable') == 'vendeur'): ?> checked<?php endif; ?> /><span class="glyphicon glyphicon-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>
 							</label>
 							<?php endif; ?>
 							</h3>
@@ -139,8 +139,8 @@ endif;
                         <div class="panel-heading">
                             <h3 class="panel-title">Acheteur
                             <?php if(isset($form['responsable'])): ?>
-                            <label class="btn btn-xs btn-success pull-right<?php if($vrac->getOrAdd('responsable') == 'acheteur'): ?> active<?php endif; ?>">
-							    <input autocomplete="off" type="radio" name="vrac[responsable]" id="vrac_responsable_acheteur" value="acheteur" autocomplete="off"<?php if($vrac->getOrAdd('responsable') == 'acheteur'): ?> checked<?php endif; ?> /><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            <label class="responsable text-right pull-right<?php if($vrac->getOrAdd('responsable') == 'acheteur'): ?>  text-primary<?php else: ?> text-muted<?php endif; ?>">
+							    <input autocomplete="off" type="radio" name="vrac[responsable]" id="vrac_responsable_acheteur" value="acheteur" autocomplete="off"<?php if($vrac->getOrAdd('responsable') == 'acheteur'): ?> checked<?php endif; ?> /><span class="glyphicon glyphicon-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>
 							</label>
 							<?php endif; ?>
 							</h3>
@@ -173,10 +173,11 @@ endif;
             <?php echo $form['mandataire_exist']->renderError(); ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title checkbox"><label class="bloc_condition col-xs-12" data-condition-cible="#bloc_mandataire"  for="<?php echo $form['mandataire_exist']->renderId(); ?>"><?php echo $form['mandataire_exist']->render(); ?>&nbsp;Mandataire / Courtier</label>
+                    <h3 class="panel-title">
+                    	<span class="bloc_condition" data-condition-cible="#bloc_mandataire"  for="<?php echo $form['mandataire_exist']->renderId(); ?>"><?php echo $form['mandataire_exist']->render(); ?>&nbsp;Mandataire / Courtier</span>
                     <?php if(isset($form['responsable'])): ?>
-                    <label class="btn btn-xs btn-success pull-right<?php if($vrac->getOrAdd('responsable') == 'mandataire'): ?> active<?php endif; ?>">
-						<input autocomplete="off" type="radio" name="vrac[responsable]" id="vrac_responsable_mandataire" value="mandataire" autocomplete="off"<?php if($vrac->getOrAdd('responsable') == 'mandataire'): ?> checked<?php endif; ?> /><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    <label class="responsable pull-right<?php if($vrac->getOrAdd('responsable') == 'mandataire'): ?>  text-primary<?php else: ?> text-muted<?php endif; ?>">
+						<input autocomplete="off" type="radio" name="vrac[responsable]" id="vrac_responsable_mandataire" value="mandataire" autocomplete="off"<?php if($vrac->getOrAdd('responsable') == 'mandataire'): ?> checked<?php endif; ?> /><span class="glyphicon glyphicon-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>
 					</label>
 					<?php endif; ?>
 					</h3>
