@@ -7,7 +7,7 @@ use_helper('Float');
     <h2 class="titre_societe titre_societe_teledeclaration">
         Espace contrat de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)
     </h2>
-    <?php include_partial('vrac/bloc_statuts_contrats',array('societe' => $societe, 'contratsSocietesWithInfos' => $contratsSocietesWithInfos)) ?>
+    <?php include_partial('vrac/bloc_statuts_contrats',array('societe' => $societe, 'contratsSocietesWithInfos' => $contratsSocietesWithInfos, 'etablissementPrincipal' => $etablissementPrincipal)) ?>
     
     
     <div class="btn_block">
