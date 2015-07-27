@@ -80,16 +80,21 @@ endif;
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div id="vendeur_selection" class="col-sm-12 <?php if($form['vendeur_identifiant']->getValue()): ?>hidden<?php endif; ?>">
                                     <?php echo $form['vendeur_identifiant']->renderError(); ?>
                                     <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                         <div class="col-sm-12" id="vendeur_choice">
-                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un vendeur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#vendeur_informations')); ?>
+                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un vendeur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#vendeur_informations', 'data-hide' => '#vendeur_selection')); ?>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-12" id="vendeur_informations">
-                                    <?php include_partial('vrac/soussigne', array('soussigne' => $form->getObject()->getVendeurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+                                <div class="col-sm-12 text-center <?php if(!$form['vendeur_identifiant']->getValue()): ?>hidden<?php endif; ?>" id="vendeur_informations">
+                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['vendeur_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <div class="container-ajax">
+                                        <?php if($form['vendeur_identifiant']->getValue()): ?>
+                                        <?php include_partial('vrac/soussigne', array('id' => $form['vendeur_identifiant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                                 <div class="col-sm-12">
         							<?php if(isset($form['vendeur_intermediaire'])): ?>
@@ -142,16 +147,21 @@ endif;
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div id="acheteur_selection" class="col-sm-12 <?php if($form['acheteur_identifiant']->getValue()): ?>hidden<?php endif; ?>">
                                     <?php echo $form['acheteur_identifiant']->renderError(); ?>
                                     <div class="form-group <?php if($form['acheteur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                         <div class="col-sm-12" id="acheteur_choice">
-                                            <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_informations')); ?>
+                                            <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_informations', 'data-hide' => '#acheteur_selection')); ?>
                                         </div> 
                                     </div>
                                 </div>
-                                <div class="col-sm-12" id="acheteur_informations">
-                                    <?php include_partial('vrac/acheteurInformations', array('acheteur' => $form->getObject()->getAcheteurObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_identifiant']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_informations">
+                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['acheteur_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <div class="container-ajax">
+                                        <?php if($form['acheteur_identifiant']->getValue()): ?>
+                                        <?php include_partial('vrac/soussigne', array('id' => $form['acheteur_identifiant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -174,14 +184,24 @@ endif;
                 </div>
                 <div id="bloc_mandataire" data-condition-value="1" class="panel-body bloc_conditionner">
                     <div class="row">
-                        <div class="col-sm-8">
+                        <div class="col-sm-12 <?php if($form['mandataire_identifiant']->getValue()): ?>hidden<?php endif; ?>" id="mandataire_selection">
                             <?php echo $form['mandataire_identifiant']->renderError(); ?>
                             <div class="form-group <?php if($form['mandataire_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                 <div class="col-sm-12" id="mandataire_choice">
-                                    <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un mandataire')); ?>
+                                    <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un mandataire', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#mandataire_informations', 'data-hide' => '#mandataire_selection')); ?>
                                 </div>
                             </div>
-                            <?php if (isset($form['commercial'])): ?>
+                        </div>
+                        <div class="col-sm-12 text-center <?php if(!$form['mandataire_identifiant']->getValue()): ?>hidden<?php endif; ?>" id="mandataire_informations">
+                            <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['mandataire_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                            <div class="container-ajax">
+                            <?php if($form['mandataire_identifiant']->getValue()): ?>
+                            <?php include_partial('vrac/soussigne', array('id' => $form['mandataire_identifiant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+                            <?php endif; ?>
+                            </div>
+                        </div>
+                        <?php if (isset($form['commercial'])): ?>
+                        <div class="col-sm-12">
                             <?php echo $form['commercial']->renderError(); ?>
                             <div class="form-group <?php if($form['commercial']->hasError()): ?>has-error<?php endif; ?>">
                                 <?php echo $form['commercial']->renderLabel("Mandaté par :", array('class' => 'col-sm-2 control-label')); ?>
@@ -189,11 +209,8 @@ endif;
                                     <?php echo $form['commercial']->render(array('class' => 'form-control')); ?>
                                 </div>
                             </div>
-                            <?php endif; ?>
                         </div>
-                        <div class="col-sm-4" id="mandataire_informations">
-                            <?php include_partial('vrac/mandataireInformations', array('mandataire' => $form->getObject()->getMandataireObject(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
-                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
