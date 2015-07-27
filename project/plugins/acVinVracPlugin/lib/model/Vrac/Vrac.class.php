@@ -24,13 +24,12 @@ class Vrac extends BaseVrac {
 
     public function constructId() {
         $this->set('_id', 'VRAC-' . $this->numero_contrat);
-
         if (!$this->date_signature) {
-            $this->date_signature = date('d/m/Y');
+            $this->date_signature = date('Y-m-d');
         }
 
         if (!$this->date_campagne) {
-            $this->date_campagne = date('d/m/Y');
+            $this->date_campagne = date('Y-m-d');
         }
 
         if (!$this->valide->date_saisie) {
@@ -207,6 +206,9 @@ class Vrac extends BaseVrac {
 
     public function getDate($attribut, $format) {
         $d = $this->_get($attribut);
+        if(!$d) {
+            return null;
+        }
         if (!$format)
             return $d;
         $date = new DateTime($d);
@@ -217,10 +219,15 @@ class Vrac extends BaseVrac {
         return $this->getDate('date_signature', $format);
     }
 
+
+    public function getDateCampagne($format = 'Y-m-d') {
+        return $this->getDate('date_campagne', $format);
+    }
+
     public function getDateLimiteRetiraison($format = 'Y-m-d') {
         return $this->getDate('date_limite_retiraison', $format);
     }
-    
+
     public function setDateSignature($d) {
         return $this->setDate('date_signature', $d);
     }
@@ -335,10 +342,6 @@ class Vrac extends BaseVrac {
         }
 
         $this->update();
-    }
-
-    public function getDateCampagne($format = 'Y-m-d') {
-        return $this->getDate('date_campagne', $format);
     }
 
     public function getPeriode() {

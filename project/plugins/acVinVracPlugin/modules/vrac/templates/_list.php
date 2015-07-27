@@ -1,5 +1,6 @@
 <?php use_helper('Float'); ?>
 <?php use_helper('Vrac'); ?>
+<?php use_helper('Date'); ?>
 
 <?php if(count($vracs->rows) > 0): ?>
 <?php if(isset($hamza_style) && $hamza_style) : ?>
@@ -8,42 +9,51 @@
                                                      'consigne' => "Saisissez un numéro de contrat, un soussigné ou un produit :")) ?>
 <?php endif; ?>
 
-<table class="table table-striped table-condensed">    
+<table class="table table-condensed">    
     <thead>
         <tr>
             <th style="width: 0;">Type</th>
-            <th style="width: 160px;">N° Contrat</th>
+            <th style="width: 90px;">N°&nbsp;Contrat</th>
+            <th style="width: 160px;">Date</th>
             <th>Soussignés</th>   
-            <th style="width: 350px;">Produit</th>
+            <th style="width: 300px;">Produit</th>
             <th style="width: 100px;">Vol.&nbsp;Enlevé&nbsp;/&nbsp;Prop.</th>
+            <th style="width: 140px;"></th>
         </tr>
     </thead>
     <tbody>
         <?php
         foreach ($vracs->rows as $value) {
             $elt = $value->getRawValue()->value;
-            if (!is_null($elt[VracClient::VRAC_VIEW_STATUT])) {
                 $vracid = preg_replace('/VRAC-/', '', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]);
                 $v = VracClient::getInstance()->findByNumContrat($vracid);
                 ?>
                 <tr id="<?php echo vrac_get_id($value) ?>" class="<?php echo statusCssClass($elt[VracClient::VRAC_VIEW_STATUT]) ?>" >
-                    <td class="text-center">
+                    <td style="vertical-align: middle;" class="text-center">
                     <span class="<?php echo typeToPictoCssClass($elt[VracClient::VRAC_VIEW_TYPEPRODUIT]) ?>" style="font-size: 24px;"></span>
                     </td>
-                    <td>
+                    <td style="vertical-align: middle;">
                     <a href="<?php echo url_for('@vrac_visualisation?numero_contrat='.$vracid) ?>">
                     <?php if($v->numero_archive): ?>
                     <?php echo $v->numero_archive ?>
+                    <?php elseif(!$elt[VracClient::VRAC_VIEW_STATUT]): ?>
+                        Brouillon
                     <?php else: ?>
                         Non visé
                     <?php endif; ?>
                     </a>
-                    (<?php echo preg_replace('/(\d{4})(\d{2})(\d{2}).*/', '$3/$2/$1', $elt[VracClient::VRAC_VIEW_NUMCONTRAT]) ?>)
+                    <br />
                     <?php if($v->isTeledeclare()): ?>
                     Télédeclaré
                     <?php endif; ?>
                     </td>
-                    <td>
+                    <td style="vertical-align: middle;">
+                    <?php if($elt[VracClient::VRAC_VIEW_STATUT] && $elt[VracClient::VRAC_VIEW_DATE_SIGNATURE]): ?>
+                        Signé le <?php echo format_date($elt[VracClient::VRAC_VIEW_DATE_SIGNATURE], "dd/MM/yyyy", "fr_FR"); ?>
+                    <?php else: ?>
+                    <?php endif; ?>
+                    </td>
+                    <td style="vertical-align: middle;">
         <?php
         echo ($elt[VracClient::VRAC_VIEW_VENDEUR_ID]) ?
                 'Vendeur : ' . link_to($elt[VracClient::VRAC_VIEW_VENDEUR_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracClient::VRAC_VIEW_VENDEUR_ID])) : '';
@@ -63,8 +73,8 @@
         <?php endif; ?>
                         </ul>
                     </td>              
-                    <td class="produit"><?php echo $elt[VracClient::VRAC_VIEW_PRODUIT_LIBELLE]; ?></td>
-                    <td class="text-right">           
+                    <td style="vertical-align: middle;"><?php echo $elt[VracClient::VRAC_VIEW_PRODUIT_LIBELLE]; ?></td>
+                    <td style="vertical-align: middle;" class="text-right">           
         <?php
         if (isset($elt[VracClient::VRAC_VIEW_VOLENLEVE]))
             echoFloat($elt[VracClient::VRAC_VIEW_VOLENLEVE]);
@@ -77,10 +87,16 @@
             echo '0.00';
         ?>
                     </td>
+                    <td style="vertical-align: middle;" class="text-center">
+                    <?php if($elt[VracClient::VRAC_VIEW_STATUT]): ?>
+                    <a class="btn btn-sm btn-default" href="<?php echo url_for('@vrac_visualisation?numero_contrat='.$vracid) ?>">Visualiser</a>
+                    <?php else: ?>
+                    <a class="btn btn-sm btn-default" href="<?php echo url_for('@vrac_soussigne?numero_contrat='.$vracid) ?>">Continuer</a>
+                    <?php endif; ?>
+                    </td>
                 </tr>
                 <?php
             }
-        }
         ?>
     </tbody>
 </table>

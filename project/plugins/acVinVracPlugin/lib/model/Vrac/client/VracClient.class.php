@@ -26,6 +26,7 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_JUS_QUANTITE = 21;
     const VRAC_VIEW_RAISIN_QUANTITE = 22;
     const VRAC_VIEW_PRIX_UNITAIRE = 23;
+    const VRAC_VIEW_DATE_SIGNATURE = 24;
     const VRAC_SIMILAIRE_KEY_VENDEURID = 0;
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
     const VRAC_SIMILAIRE_KEY_MANDATAIREID = 3;
@@ -180,6 +181,14 @@ class VracClient extends acCouchdbClient {
                         ->endkey(array(0))
                         ->limit($limit)
                         ->getView('vrac', 'history');
+    }
+
+    public function getBySoussigne($campagne, $identifiant) {
+       
+       return $this->descending(true)
+                   ->startkey(array($campagne, $identifiant, array()))
+                   ->endkey(array($campagne, $identifiant))
+                   ->getView('vrac', 'soussigneidentifiant'); 
     }
     
     
