@@ -983,14 +983,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $regimes;
     }
 
-    public function hasManyCrds() {
-        
+    public function nbTotalCrdsTypes() {
+        $total_crds = 0;
         foreach ($this->getAllCrdsByRegimeAndByGenre() as $regime => $crdsByRegime) {
-            if (count($crdsByRegime)) {
-                return true;
+            foreach ($crdsByRegime as $regime => $crds) {
+                $total_crds += count($crds);
             }
         }
-        return false;
+        return $total_crds;
+    }
+
+    public function hasManyCrds() {
+        return $this->nbTotalCrdsTypes() > 0;
     }
 
     public function addCrdType($couleur, $litrage, $type_crd, $stock_debut = null) {

@@ -21,10 +21,8 @@ class DRMEtablissementCampagneForm extends sfForm
     return parent::__construct();
   }
   
-  private function getChoiceCampagnes() {
-      $campagnes = array('-1' => '6 derniers mois');
-      $campagnes = array_merge($campagnes,DRMClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id));
-      return $campagnes;
+  private function getChoiceCampagnes() {    
+      return array_merge(array('-1' => '6 derniers mois'),DRMClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id));
   }
   
 }

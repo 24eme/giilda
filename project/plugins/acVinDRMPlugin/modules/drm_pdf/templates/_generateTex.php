@@ -45,6 +45,5 @@
 \begin{document}
 <?php include_partial('drm_pdf/generateRecapMvtTex', array('drm' => $drm,'drmLatex' => $drmLatex)); ?>
 <?php include_partial('drm_pdf/generateAnnexeCRDTex', array('drm' => $drm)); ?>
-<?php include_partial('drm_pdf/generateAnnexeDocumentsTex', array('drm' => $drm)); ?>
 \end{document}
 
