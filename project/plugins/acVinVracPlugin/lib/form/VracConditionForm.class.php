@@ -46,7 +46,7 @@ class VracConditionForm extends acCouchdbObjectForm {
             'tva' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTva()))),
             'conditions_particulieres' => new sfValidatorString(array('required' => false)),
         	'cvo_repartition' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))),
-        	'date_limite_retiraison' => new sfValidatorRegex($dateRegexpOptions, $dateRegexpErrors),
+        	'date_limite_retiraison' => new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)),
         	'pluriannuel' => new sfValidatorBoolean(array('required' => false)),
         	'clause_reserve_propriete' => new sfValidatorBoolean(array('required' => false)),
         	'autorisation_nom_vin' => new sfValidatorBoolean(array('required' => false)),
@@ -80,6 +80,9 @@ class VracConditionForm extends acCouchdbObjectForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
+        if($this->getValidator('date_limite_retiraison') instanceof sfValidatorDate) {
+            $this->setDefault('date_limite_retiraison', $this->getObject()->getDateLimiteRetiraison('d/m/Y'));
+        }
     }
 
 }

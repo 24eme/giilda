@@ -17,7 +17,6 @@ class VracValidationForm extends acCouchdbObjectForm {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
         parent::__construct($vrac, $options, $CSRFSecret);
     }
-   
     
      
     public function configure()
@@ -31,8 +30,16 @@ class VracValidationForm extends acCouchdbObjectForm {
         		'invalid' => 'Date invalide (le format doit être jj/mm/aaaa)',
         		'min_length' => 'Date invalide (le format doit être jj/mm/aaaa)',
         		'max_length' => 'Date invalide (le format doit être jj/mm/aaaa)');
-        $this->setValidator('date_signature', new sfValidatorRegex($dateRegexpOptions, $dateRegexpErrors));
+        $this->setValidator('date_signature', new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)));
+
         $this->widgetSchema->setNameFormat('vrac[%s]');
+    }
+
+    protected function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+        if($this->getValidator('date_signature') instanceof sfValidatorDate) {
+            $this->setDefault('date_signature', $this->getObject()->getDateSignature('d/m/Y'));
+        }
     }
     
     public function doUpdateObject($values) 
