@@ -112,6 +112,17 @@ var initRegimeCrdsPopup = function () {
 
 };
 
+var initCreationDrmPopup = function () {
+    
+    $('a.drm_nouvelle_teledeclaration').fancybox({
+       autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+        minWidth: 500
+    });
+};
+
 var initFavoris = function () {
     $('div.groupe span.categorie_libelle').click(function () {
         var id_fav_input = $(this).attr('id').replace('star_', 'drmFavoris_');
@@ -259,4 +270,5 @@ $(document).ready(function ()
     initSignatureDrmPopup();
     initBoldSaisie();
     initMsgAide();
+    initCreationDrmPopup();
 });

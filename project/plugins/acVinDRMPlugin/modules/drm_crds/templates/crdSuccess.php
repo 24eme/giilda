@@ -60,7 +60,7 @@
         <?php endforeach; ?>
         <br/>
         <div class="drm_add_crd_categorie">
-            <button type="submit" name="add_crd" value="<?php echo $regime; ?>" class="btn_majeur">Ajouter des Produits</button>
+            <button type="submit" name="add_crd" value="<?php echo $regime; ?>" class="btn_majeur">Ajouter des types de CRD</button>
         </div>
         <br/>
     <?php endforeach; ?>
