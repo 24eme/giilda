@@ -99,8 +99,6 @@ if ($drm->exist('releve_non_apurement')) {
     \end{tabular}
 
 <?php endif; ?>  
-
-
 <?php if ($drm->exist('releve_non_apurement') && count($drm->releve_non_apurement)) : ?>
     \vspace{0.5cm}
     \begin{center}
