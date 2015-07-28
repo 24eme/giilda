@@ -38,7 +38,7 @@
                     <?php echo $form['commentaire']->render(); ?>
                 <?php endif; ?>
                 <div class="btn_etape">
-                    <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_crd', $drm) : url_for('drm_edition', $drm); ?>">
+                    <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_annexes', $drm) : url_for('drm_edition', $drm); ?>">
                         <span>Précédent</span>
                     </a>
                     <?php if (!$isTeledeclarationMode): ?>

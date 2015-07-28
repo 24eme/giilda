@@ -38,6 +38,14 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel($keyFin, DRMClient::$drm_documents_daccompagnement[$docType] . ' fin');
         }
 
+        $this->setWidget('quantite_sucre', new sfWidgetFormInputText());
+        $this->setValidator('quantite_sucre', new sfValidatorString(array('required' => false)));
+        $this->widgetSchema->setLabel('quantite_sucre', 'Quantité de sucre');
+
+        $this->setWidget('observations', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
+        $this->setValidator('observations', new sfValidatorString(array('required' => false)));
+        $this->widgetSchema->setLabel('observations', 'Observations générales');
+
         $this->embedForm('releve_non_apurement', new DRMReleveNonApurementItemsForm($this->drm->getReleveNonApurement()));
         $this->widgetSchema->setNameFormat('drmAnnexesForm[%s]');
     }
@@ -85,22 +93,22 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
     public function updateEmbedForm($name, $form) {
         $this->widgetSchema[$name] = $form->getWidgetSchema();
         $this->validatorSchema[$name] = $form->getValidatorSchema();
-    }    
-    
+    }
+
     public function getFormTemplate() {
         $drm = new DRM();
         $form_embed = new DRMReleveNonApurementItemForm($drm->getOrAdd('releve_non_apurement')->add(), array('keyNonApurement' => uniqid()));
         $form = new DRMCollectionTemplateForm($this, 'releve_non_apurement', $form_embed);
         return $form->getFormTemplate();
     }
-   
+
     public function getDocTypes() {
 
 
         $this->docTypesList = array();
-            $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC;
+        $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC;
 
-            $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC;
+        $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC;
 
 
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE;

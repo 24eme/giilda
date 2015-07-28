@@ -45,3 +45,43 @@
         </tbody>
     </table>
 <?php endif; ?> 
+<?php if ($drm->quantite_sucre || $drm->observations): ?>
+    <h2>Compléments d'information</h2>
+<?php endif; ?>      
+<?php if ($drm->quantite_sucre): ?>
+    <table id="table_drm_complement_informations" class="table_recap">   
+        <thead >
+            <tr>
+                <th colspan="2">Information sur le sucre</th>
+            </tr>
+        </thead>
+        <tbody class="drm_non_apurement" id="nonapurement_list">
+            <tr> 
+                <td class="drm_quantite_sucre_label">Quantité de sucre</td>
+                <td class="drm_quantite_sucre_volume">
+                    <?php echo $drm->quantite_sucre ?> quintals
+                </td>
+            </tr>
+        </tbody>
+    </table>    
+    <?php if ($drm->observations): ?> 
+        <br/>
+    <?php endif; ?>     
+<?php endif; ?> 
+<?php if ($drm->observations): ?>     
+    <table id="table_drm_complement_informations_observation" class="table_recap">
+        <thead >
+            <tr>
+                <th>Observations générales</th>
+            </tr>
+        </thead>
+        <tbody class="drm_non_apurement" id="nonapurement_list">
+            <tr>
+                <td class="drm_observation">
+                    <?php echo $drm->observations; ?>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+<?php endif; ?> 
