@@ -146,7 +146,7 @@ function getEtatDRMHrefCalendrier($isTeledeclaration,$calendrier, $periode, $eta
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         if($isTeledeclaration){
-           return '#drm_nouvelle_'.$periode . '_' . $etablissement->identifiant; 
+           return '#drm_nouvelle_'.$periode . '_' . $etablissementId; 
         }else{
             
         return url_for('drm_nouvelle', array('identifiant' => $etablissementId, 'periode' => $periode));

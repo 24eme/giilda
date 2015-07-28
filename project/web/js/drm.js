@@ -214,11 +214,7 @@ var objAjoutsLiquidations = {};
             etablissementInfos.stop().show();
         });
 
-        calendrierHistorique.on('click', '.etablissement_tooltip', function(e)
-        {
-            e.stopPropagation();
-        });
-
+        
         // On cache les tooltip d'infos d'établissement au clic en dehors de celles-ci
         $(document).click(function()
         {
