@@ -91,7 +91,7 @@ var initSoussignes = function()
 	}*/
 };
 
-var initMarche = function(isTeledeclarationMode)
+var initMarche = function()
 {
 	if ($('#vrac_bouteilles_contenance_libelle').length > 0) {
 		$('#vrac_jus_quantite').keyup(function(e){
