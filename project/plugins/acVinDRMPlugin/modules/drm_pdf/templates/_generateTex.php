@@ -35,13 +35,14 @@
 \setlength{\oddsidemargin}{-2cm}
 \setlength{\evensidemargin}{-2cm}
 \setlength{\textwidth}{29.7cm}
-\setlength{\textheight}{21cm}
+\setlength{\textheight}{15.5cm}
 \setlength{\headheight}{4cm}
 \setlength{\headwidth}{28.2cm}
-\setlength{\topmargin}{-4cm}
+\setlength{\topmargin}{-3.5cm}
+\setlength{\footskip}{-1cm}
 
 
-<?php include_partial('drm_pdf/generateEnteteTex', array('drm' => $drm)); ?>
+<?php include_partial('drm_pdf/generateEnteteTex', array('drm' => $drm, 'nbPages' => $nbPages)); ?>
 \begin{document}
 <?php include_partial('drm_pdf/generateRecapMvtTex', array('drm' => $drm,'drmLatex' => $drmLatex)); ?>
 <?php include_partial('drm_pdf/generateAnnexeCRDTex', array('drm' => $drm)); ?>
