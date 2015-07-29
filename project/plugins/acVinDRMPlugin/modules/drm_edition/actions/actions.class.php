@@ -105,7 +105,7 @@ class drm_editionActions extends drmGeneriqueActions {
         $this->detail = null;
         $this->drm = $this->getRoute()->getDRM();
         $this->config = $this->drm->declaration->getConfig();
-        $this->details = $this->drm->declaration->getProduitsDetails();
+        $this->details = $this->drm->declaration->getProduitsDetailsSorted();
     }
 
     public function executeAddLabel(sfWebRequest $request) {
