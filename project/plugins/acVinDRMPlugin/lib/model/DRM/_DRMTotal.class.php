@@ -214,6 +214,19 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         return $produits;
     }
 
+    public function getProduitsDetailsSorted($teledeclarationMode = false) {
+        $produits = $this->getProduitsDetails($teledeclarationMode);
+        
+        uasort($produits, "_DRMTotal::sortProduitByLibelle");
+
+        return $produits;
+    }
+
+    public static function sortProduitByLibelle($p1, $p2) {
+
+        return $p1->getLibelle("%format_libelle%") > $p2->getLibelle("%format_libelle%");
+    }
+
     public function getProduitsLibelle($format = "%format_libelle% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
         $produits = $this->getProduitsDetails();
         $produits_format = array();
