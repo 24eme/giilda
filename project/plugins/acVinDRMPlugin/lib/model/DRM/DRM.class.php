@@ -91,6 +91,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function addProduit($hash, $labels = array()) {
         if ($p = $this->getProduit($hash, $labels)) {
+
             return $p;
         }
 

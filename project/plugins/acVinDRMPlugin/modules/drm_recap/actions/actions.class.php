@@ -80,23 +80,6 @@ class drm_recapActions extends sfActions
         $this->drm = $this->getRoute()->getDRM();
         $this->config = $this->drm->declaration->getConfig();
         $this->produits = $this->drm->declaration->getProduitsDetails();
-        /*$this->previous = $this->drm_lieu->getPreviousSisterWithMouvementCheck();
-        $this->next = $this->drm_lieu->getNextSisterWithMouvementCheck();
-    	$this->previous_certif = $this->drm_lieu->getCertification()->getPreviousSisterWithMouvementCheck();
-    	$this->next_certif = $this->drm_lieu->getCertification()->getNextSisterWithMouvementCheck();
-
-    	$this->redirectIfNoMouvementCheck();*/
     }
-
-    protected function redirectIfNoMouvementCheck() {    	
-    	if (!$this->drm_lieu->hasMouvementCheck()) {
-	    	if ($this->next) {
-	        	$this->redirect('drm_recap_lieu', $this->next);
-	        } elseif (!$this->next && $this->next_certif) {
-	        	$this->redirect('drm_recap', $this->next_certif);
-	        } else  {
-	        	$this->redirect('drm_vrac', $this->drm);
-	        }
-    	}
-    }
+    
 }
