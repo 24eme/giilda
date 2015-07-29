@@ -6373,6 +6373,9 @@ p#date_drm {
   display: none;
 }
 #colonnes_dr .col_recolte.col_hidden + .col_recolte {
+  /*margin-left: 0;*/
+}
+#colonnes_dr .col_recolte.col_first {
   margin-left: 0;
 }
 #colonnes_dr .col_recolte input,
