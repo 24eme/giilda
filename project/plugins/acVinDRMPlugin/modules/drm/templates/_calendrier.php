@@ -19,21 +19,11 @@
     </div>
 </div>
 <?php
-if ($isTeledeclarationMode):
-    foreach ($calendrier->getPeriodes() as $periode):
-        if ($multiEtablissement):
-            foreach ($etablissements as $etb):
-                $statut = $calendrier->getStatut($periode, $etb->etablissement, true);
-                if ($statut == DRMCalendrier::STATUT_NOUVELLE):
-                    include_partial('drm/creationDrmPopup', array('periode' => $periode, 'identifiant' => $etb->etablissement->identifiant)); 
-                endif;
-            endforeach;
-        else:
-            $statut = $calendrier->getStatut($periode, $etablissement, true);
-            if ($statut == DRMCalendrier::STATUT_NOUVELLE):
-               include_partial('drm/creationDrmPopup', array('periode' => $periode, 'identifiant' => $etablissement->identifiant)); 
-            endif;
-        endif;
-    endforeach;
-endif;
+if ($isTeledeclarationMode) {
+    foreach ($drmsToCreate as $identifiantEtb => $periodeArray) {
+        foreach ($periodeArray as $periode => $bool) {
+            include_partial('drm/creationDrmPopup', array('periode' => $periode, 'identifiant' => $identifiantEtb, 'drmCreationForm' => $drmsToCreateForms[$identifiantEtb.'_'.$periode]));
+        }
+    }
+}
 ?>

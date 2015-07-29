@@ -11,14 +11,14 @@ class drmActions extends drmGeneriqueActions {
 
     public function executeConnexion(sfWebRequest $request) {
 
-      //  $this->redirect403IfIsTeledeclaration();
+        //  $this->redirect403IfIsTeledeclaration();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $societe = $this->etablissement->getSociete();
 
         $this->getUser()->usurpationOn($societe->identifiant, $request->getReferer());
-        $this->redirect('drm_societe',array('identifiant' => $societe->getEtablissementPrincipal()->identifiant));
+        $this->redirect('drm_societe', array('identifiant' => $societe->getEtablissementPrincipal()->identifiant));
     }
-    
+
     public function executeRedirect(sfWebRequest $request) {
         $drm = DRMClient::getInstance()->find($request->getParameter('identifiant_drm'));
         $this->forward404Unless($drm);
@@ -72,6 +72,41 @@ class drmActions extends drmGeneriqueActions {
                 break;
         }
         return $this->redirect('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeChoixCreation(sfWebRequest $request) {
+        $isTeledeclarationMode = $this->isTeledeclarationDrm();
+        if ($request->isMethod(sfWebRequest::POST)) {
+            if (!$request->getParameter('drmChoixCreation')) {
+                new sfException("Le formulaire n'est pas valide");
+            }
+            $drmChoixCreation = $request->getParameter('drmChoixCreation');
+
+            $choixCreation = $drmChoixCreation['type_creation'];
+            $identifiant = $request->getParameter('identifiant');
+            $periode = $request->getParameter('periode');
+
+            switch ($choixCreation) {
+                case DRMClient::DRM_CREATION_EDI :
+                    var_dump('creation EDI');
+                    exit;
+                    break;
+
+                case DRMClient::DRM_CREATION_VIERGE :
+                    return $this->redirect('drm_nouvelle', array('identifiant' => $identifiant, 'periode' => $periode));
+                    break;
+                case DRMClient::DRM_CREATION_NEANT :
+                    $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
+                    $drm->etape = DRMClient::ETAPE_VALIDATION;
+                    $drm->save();
+                    return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                    break;
+            }
+        }
     }
 
     /**

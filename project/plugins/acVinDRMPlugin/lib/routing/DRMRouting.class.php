@@ -166,6 +166,10 @@ class DRMRouting {
         $r->prependRoute('drm_societe', new sfRoute('/drm/societe/:identifiant', array('module' => 'drm',
             'action' => 'societe')));
 
+         $r->prependRoute('drm_choix_creation', new sfRoute('/drm/:identifiant/choix-creation/:periode', array('module' => 'drm',
+            'action' => 'choixCreation')));
+        
+        
         $r->prependRoute('drm_choix_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/choix-produits', array('module' => 'drm_ajout_produit',
             'action' => 'choixPoduits'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',

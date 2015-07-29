@@ -286,4 +286,28 @@ class DRMCalendrier {
         return $drmLastWithStatut;
     }
 
+    public function getDrmsToCreateArray() {
+        $drmsToCreate = array();
+        foreach ($this->getPeriodes() as $periode) {
+            if ($this->multiEtbs) {
+                foreach ($this->etablissements as $etb) { 
+                    if ($this->getStatut($periode, $etb->etablissement, true) == self::STATUT_NOUVELLE) {
+                        if (!array_key_exists($etb->etablissement->identifiant, $drmsToCreate)) {
+                            $drmsToCreate[$etb->etablissement->identifiant] = array();
+                        }
+                        $drmsToCreate[$etb->etablissement->identifiant][$periode] = true;
+                    }
+                }
+            } else {
+                if ($this->getStatut($periode, $this->etablissement, true) == self::STATUT_NOUVELLE) {
+                    if (!array_key_exists($this->etablissement->identifiant, $drmsToCreate)) {
+                        $drmsToCreate[$this->etablissement->identifiant] = array();
+                    }
+                    $drmsToCreate[$this->etablissement->identifiant][$periode] = true;
+                }
+            }
+        }
+        return $drmsToCreate;
+    }
+
 }
