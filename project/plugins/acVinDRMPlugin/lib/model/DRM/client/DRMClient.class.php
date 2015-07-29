@@ -440,7 +440,7 @@ class DRMClient extends acCouchdbClient {
         $drm->buildFavoris();
         $drm->storeDeclarant();
         $drm->initSociete();
-        $drm->initCrds();        
+        $drm->initCrds();
         $drm->clearAnnexes();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
@@ -461,6 +461,27 @@ class DRMClient extends acCouchdbClient {
         }
 
         return $drm;
+    }
+
+    public function createDocFromEdi($identifiant, $periode, $csvFile) {
+        $erreurs = array();
+        $drm = new DRM();
+        $drm->identifiant = $identifiant;
+        $drm->periode = $periode;
+        $drm->teledeclare = true;
+        $drm->buildFavoris();
+        $drm->storeDeclarant();
+        $drm->initSociete();
+        $drm->initCrds();
+        $drm->clearAnnexes();
+        $drm->etape = self::ETAPE_CHOIX_PRODUITS;
+        foreach ($csvFile->getCsv() as $cpt => $csvRow) {
+            $num_ligne = $cpt+1;
+            if(!$csvRow[3]){
+                $erreurs['Ligne '.$num_ligne] = 'Produit absent';
+            }
+        }
+        return $erreurs;
     }
 
     public function generateVersionCascade($drm) {

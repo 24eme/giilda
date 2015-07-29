@@ -13,13 +13,16 @@ class DRMChoixCreationForm extends sfForm {
 
     public function configure() {
         $this->setWidgets(array(
-            'type_creation' => new sfWidgetFormChoice(array('choices' => $this->getTypesCreation()))
+            'type_creation' => new sfWidgetFormChoice(array('choices' => $this->getTypesCreation())),
+            'file' => new sfWidgetFormInputFile()
         ));
- $this->widgetSchema->setLabels(array(
-            'type_creation' => 'Type de création : '
+        $this->widgetSchema->setLabels(array(
+            'type_creation' => 'Type de création : ',
+            'file' => "Fichier d'import de votre logiciel tiers"
         ));
         $this->setValidators(array(
-            'type_creation' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesCreation())))
+            'type_creation' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesCreation()))),
+            'file' => new ValidatorImportCsv(array('file_path' => sfConfig::get('sf_data_dir') . '/upload'))
         ));
 
         $this->widgetSchema->setNameFormat('drmChoixCreation[%s]');

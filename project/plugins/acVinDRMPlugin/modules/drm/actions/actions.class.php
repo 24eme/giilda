@@ -85,17 +85,21 @@ class drmActions extends drmGeneriqueActions {
                 new sfException("Le formulaire n'est pas valide");
             }
             $drmChoixCreation = $request->getParameter('drmChoixCreation');
-
             $choixCreation = $drmChoixCreation['type_creation'];
             $identifiant = $request->getParameter('identifiant');
             $periode = $request->getParameter('periode');
+            $this->creationDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => $identifiant, 'periode' => $periode));
+            $this->creationDrmForm->bind($request->getParameter($this->creationDrmForm->getName()), $request->getFiles($this->creationDrmForm->getName()));
 
             switch ($choixCreation) {
                 case DRMClient::DRM_CREATION_EDI :
-                    var_dump('creation EDI');
-                    exit;
-                    break;
+                    if ($this->creationDrmForm->isValid()) {
+                        $md5 = $this->creationDrmForm->getValue('file')->getMd5();
+                        return $this->redirect('drm_creation_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5));
+                    }
+                    return $this->redirect('drm_societe', array('identifiant' => $identifiant));
 
+                    break;
                 case DRMClient::DRM_CREATION_VIERGE :
                     return $this->redirect('drm_nouvelle', array('identifiant' => $identifiant, 'periode' => $periode));
                     break;
@@ -107,6 +111,20 @@ class drmActions extends drmGeneriqueActions {
                     break;
             }
         }
+        return $this->redirect('drm_societe', array('identifiant' => $identifiant));
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeCreationEdi(sfWebRequest $request) {
+        $isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->identifiant = $request->getParameter('identifiant');
+        $this->periode = $request->getParameter('periode');
+        $md5 = $request->getParameter('md5');  
+        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/'.$md5);
+        $this->erreurs = DRMClient::getInstance()->createDocFromEdi($this->identifiant,$this->periode,$this->csvFile);        
     }
 
     /**

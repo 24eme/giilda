@@ -5,7 +5,7 @@
     <div id="drm_nouvelle_<?php echo $periode . '_' . $identifiant; ?>" class="popup_contenu">
         <h2>Création de la DRM <?php echo getFrPeriodeElision($periode); ?></h2>
         <br>
-          <form action="<?php echo url_for('drm_choix_creation', array('identifiant' => $identifiant, 'periode' => $periode)); ?>" method="post">
+          <form action="<?php echo url_for('drm_choix_creation', array('identifiant' => $identifiant, 'periode' => $periode)); ?>" method="post" enctype="multipart/form-data">
             <?php echo $drmCreationForm->renderHiddenFields(); ?>
             <?php echo $drmCreationForm->renderGlobalErrors(); ?>
            
@@ -13,7 +13,14 @@
                 <span>
                     <?php echo $drmCreationForm['type_creation']->renderError(); ?>
                     <?php echo $drmCreationForm['type_creation']->renderLabel() ?>    
-                    <?php echo $drmCreationForm['type_creation']->render(array('class' => 'couleur_crd_choice')); ?>
+                    <?php echo $drmCreationForm['type_creation']->render(); ?>
+                </span>
+            </div>
+              <div class="ligne_form">       
+                <span>
+                    <?php echo $drmCreationForm['file']->renderError(); ?>
+                    <?php echo $drmCreationForm['file']->renderLabel() ?>    
+                    <?php echo $drmCreationForm['file']->render(); ?>
                 </span>
             </div>
             <br/>
