@@ -238,6 +238,29 @@ var fbConfig =
 		});
 	};
 
+	/**
+	 * Séléction d'une checkbox par la cellule d'un tableau  
+	 * $.initToggleNavMobile();
+	 ******************************************/
+	$.initCheckboxTableCell = function()
+	{
+		$('.checkbox_table_cell').click(function() {
+			console.log($(this).find('input[type=checkbox]').prop('checked'));
+			if(!$(this).find('input[type=checkbox]').prop('checked')) {
+				$(this).find('input[type=checkbox]').prop('checked', 'checked');
+				$(this).find('input[type=checkbox]').attr('checked', 'checked');
+			} else {
+				$(this).find('input[type=checkbox]').removeProp('checked');
+				$(this).find('input[type=checkbox]').removeAttr('checked');
+			}
+		});
+
+		$('.checkbox_table_cell input[type=checkbox]').click(function(e) {
+
+			e.stopPropagation();
+		});
+	};
+
 
 
 	/* =================================================================================== */
@@ -255,6 +278,8 @@ var fbConfig =
 		$.initToggleColonne();
 
 		$.initToggleNavMobile();
+
+		$.initCheckboxTableCell();
 
 		//$.initTailleColonne();
 

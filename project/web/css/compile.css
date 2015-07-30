@@ -6369,15 +6369,6 @@ p#date_drm {
 #colonnes_dr .col_recolte + .col_recolte {
   margin-left: 25px;
 }
-#colonnes_dr .col_recolte.col_hidden {
-  display: none;
-}
-#colonnes_dr .col_recolte.col_hidden + .col_recolte {
-  /*margin-left: 0;*/
-}
-#colonnes_dr .col_recolte.col_first {
-  margin-left: 0;
-}
 #colonnes_dr .col_recolte input,
 #colonnes_dr .col_recolte select {
   background: #fff;

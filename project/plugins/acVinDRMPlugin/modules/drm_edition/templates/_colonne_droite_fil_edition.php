@@ -9,6 +9,7 @@ slot('colFilEdition');
         <div class="text-center" style="text-align: center;">
             <ul class="drm_fil_edition_produit">
             <?php foreach ($produits as $produit) : ?>
+                <?php if(!$produit->hasMovements()): continue; endif; ?> 
                 <li id="<?php echo $produit->getHash() ?>" <?php echo (!$produit->hasMovements())? 'style="display:none;"' : '' ?> class="<?php echo ($produit->isEdited()) ? 'edited' : '' ?>">
                     <a href="#">
                         <?php echo $produit->getLibelle("%format_libelle%"); ?>

@@ -337,7 +337,6 @@
         this.focus = function() {
 
             var id = this.element.attr('data-hash');
-            var visible = this.element.is(':visible');
 
             if (this.isFocus()) {
                 return;
@@ -350,10 +349,6 @@
 
             this.colonnes.unFocus();
 
-            if (!visible) {
-                this.element.show();
-                $('.drm_fil_edition_produit li[id="' + id + '"]').show();
-            }
             $('.drm_fil_edition_produit li[id="' + id + '"]')
             .addClass('current')
             .siblings('li')

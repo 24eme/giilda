@@ -20,20 +20,18 @@
         </script>
         <div id="col_saisies_cont" class="section_label_maj">
             <?php $first = true; ?>
-            <?php foreach ($produits as $produit): ?>    
-                <?php if ($produit->hasMouvementCheck()): ?>
-                    <?php
-                    include_component('drm_edition', 'itemForm', array(
-                        'config' => $config,
-                        'detail' => $produit,
-                        'first' => $first && $produit->hasMovements(),
-                        'active' => ($detail && $detail->getHash() == $produit->getHash()),
-                        'form' => $form,
-                        'favoris' => $favoris,
-                        'isTeledeclarationMode' => $isTeledeclarationMode));
-                    ?>
-                    <?php $first = $first && !$produit->hasMovements(); ?>
-                <?php endif; ?>
+            <?php foreach ($produits as $produit): ?>  
+                <?php if(!$produit->hasMovements()): continue; endif; ?> 
+                <?php
+                include_component('drm_edition', 'itemForm', array(
+                    'config' => $config,
+                    'detail' => $produit,
+                    'active' => ($detail && $detail->getHash() == $produit->getHash()),
+                    'form' => $form,
+                    'favoris' => $favoris,
+                    'isTeledeclarationMode' => $isTeledeclarationMode));
+                ?>
+                <?php $first = $first && !$produit->hasMovements(); ?>
             <?php endforeach; ?>
         </div>
     </div>
