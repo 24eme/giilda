@@ -17,7 +17,7 @@
             <p>Régime de CRD : <?php echo EtablissementClient::$regimes_crds_libelles_longs[$regime]; ?></p>
         <?php endif; ?>
         <?php foreach ($crdAllGenre as $genre => $crds): ?>
-            <h2>Sorties CRD de vins <?php echo getLibelleForGenre($genre); ?></h2>
+            <h2>Stocks CRD de vins <?php echo getLibelleForGenre($genre); ?></h2>
             <table id="table_drm_crds" class="table_recap">
                 <thead >
                     <tr>
