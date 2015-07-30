@@ -121,6 +121,14 @@ var initCreationDrmPopup = function () {
         width: 'auto',
         minWidth: 500
     });
+    $('.popup_contenu a#drm_nouvelle_popup_close').click(function () {
+        $.fancybox.close();
+    });
+    $('.popup_contenu button#drm_nouvelle_popup_confirm').click(function () {
+
+      var idForm =  $(this).parents('form').attr('id');
+      console.log("post "+idForm);
+    });
 };
 
 var initFavoris = function () {
