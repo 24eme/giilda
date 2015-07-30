@@ -10,7 +10,7 @@ class DRMEtablissementCampagneForm extends sfForm
 			       'campagne'   => new sfValidatorChoice(array('required' => true, 'choices' => $list))
 			       ));
     $this->widgetSchema->setLabels(array(
-			    'campagne'   => 'Campagne Viticole'
+			    'campagne'   => "Consulter l'historique pour : "
 			    ));
     $this->widgetSchema->setNameFormat('etablissementcampagne[%s]');
   }
@@ -21,8 +21,8 @@ class DRMEtablissementCampagneForm extends sfForm
     return parent::__construct();
   }
   
-  private function getChoiceCampagnes() {    
-      return array_merge(array('-1' => '6 derniers mois'),DRMClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id));
+  private function getChoiceCampagnes() { 
+      return array_merge(array('-1' => 'les 6 derniers mois'),DRMClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id));
   }
   
 }
