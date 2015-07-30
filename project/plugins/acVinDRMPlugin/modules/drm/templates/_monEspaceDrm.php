@@ -4,7 +4,7 @@
 <fieldset id="espace_drm">
     <div id="mon_espace">
         <div class="block_teledeclaration  espace_drm">
-            <div class="title <?php echo ($accueil_drm)? 'title_espace' : ''; ?>">ESPACE DRM</div>
+            <div class="title <?php echo ($accueil_drm) ? 'title_espace' : ''; ?>">ESPACE DRM</div>
             <div class="panel">
                 <ul style="<?php if (!isset($btnAccess)): ?>height: auto<?php endif; ?>" class="etablissements_drms">
                     <?php foreach ($lastDrmToCompleteAndToStart as $etb => $drmsByEtb) : ?>
@@ -17,14 +17,21 @@
                                             <a href="<?php echo url_for('drm_redirect_etape', $drmsByEtb->drm); ?>" ><span>Finir la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
                                         </li>
                                     <?php endif; ?>
-                                        <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE): ?>
+                                    <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE): ?>
                                         <li class="statut_toFinish_non_teledeclare">                                            
                                             <span>La DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?> est en cours de saisie à Interloire</span>
                                         </li>
                                     <?php endif; ?>
                                     <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_NOUVELLE): ?>
+                                        <?php
+                                        $lienNouvelle = url_for('drm_nouvelle', array('identifiant' => $etb, 'periode' => $drmsByEtb->periode));
+                                        if ($isTeledeclarationMode) {
+                                            $lienNouvelle = url_for('drm_etablissement', array('identifiant' => $etb)) . '#drm_nouvelle_' . $drmsByEtb->periode . '_' . $etb;
+                                            include_partial('drm/creationDrmPopup', array('periode' => $drmsByEtb->periode, 'identifiant' => $etb, 'drmCreationForm' => $drmsToCreateForms[$etb . '_' . $drmsByEtb->periode]));
+                                        }
+                                        ?>
                                         <li class="statut_toCreate">
-                                            <a href="<?php echo url_for('drm_nouvelle', array('identifiant' => $etb, 'periode' => $drmsByEtb->periode)); ?>"><span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
+                                            <a href="<?php echo $lienNouvelle; ?>" class="<?php echo ($isTeledeclarationMode) ? 'drm_nouvelle_teledeclaration' : '' ?>"><span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
                                         </li>
                                     <?php endif; ?>
                                     <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_VALIDEE): ?>

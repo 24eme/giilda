@@ -199,7 +199,7 @@ class drmActions extends drmGeneriqueActions {
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();       
         return $this->formCampagne($request, 'drm_etablissement');
     }
 
