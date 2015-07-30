@@ -5,17 +5,17 @@
         <table id = "table_drm_choix_produit" class = "table_recap">
             <thead >
                 <tr>
-                    <th>&nbsp;
+                    <th style="width: 55%;">&nbsp;
                     </th>
-                    <th>Produit à déclarer ce mois</th>
+                    <th style="width: 45%;">Produit à déclarer ce mois</th>
                 </tr>
             </thead>
             <tbody class = "choix_produit_table_<?php echo $certifKey; ?>">
                 <?php foreach ($certificationProduits->produits as $produit):
                     ?>
                     <tr>                        
-                        <td><?php echo $produit->getLibelle("%format_libelle%"); ?></td>
-                        <td><?php echo $form['produit' . $produit->getHashForKey()]->render(array('class' => 'checkbox_' . $certifKey)); ?></td>
+                        <td style="text-align: left;"><?php echo $produit->getLibelle("%format_libelle%"); ?></td>
+                        <td class="checkbox_table_cell"><?php echo $form['produit' . $produit->getHashForKey()]->render(array('class' => 'checkbox_' . $certifKey)); ?></td>
                     </tr>  
                     <?php ?>
                 <?php endforeach; ?>
