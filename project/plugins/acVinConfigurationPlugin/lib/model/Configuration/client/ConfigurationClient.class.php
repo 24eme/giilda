@@ -280,5 +280,16 @@ class ConfigurationClient extends acCouchdbClient {
         
         return str_replace("%la%", implode($separator, $labels), $format);
     }
+
+    public function fork($fork_doc_id, $configuration = null) {
+        if(is_null($configuration)) {
+            $configuration = self::getCurrent();
+        }
+
+        $fork = clone $configuration;
+        $fork->_id = $fork_doc_id;
+
+        return $fork;
+    }
   
 }
