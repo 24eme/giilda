@@ -9,7 +9,7 @@
         <div id="contenu_etape">
             <div id="contenu_onglet">    
 <?php use_helper('DRM'); ?>
-<form action="<?php echo url_for('drm_crd', $crdsForms->getObject()); ?>" method="post">
+<form id="form_crds" action="<?php echo url_for('drm_crd', $crdsForms->getObject()); ?>" method="post">
     <?php echo $crdsForms->renderGlobalErrors(); ?>
     <?php echo $crdsForms->renderHiddenFields(); ?>
     <?php foreach ($allCrdsByRegimeAndByGenre as $regime => $crdAllGenre): ?>
@@ -60,7 +60,7 @@
         <?php endforeach; ?>
         <br/>
         <div class="drm_add_crd_categorie">
-            <button type="submit" name="add_crd" value="<?php echo $regime; ?>" class="btn_majeur">Ajouter des types de CRD</button>
+            <a href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime)); ?>" class="btn_majeur submit_button">Ajouter des types de CRD</a>
         </div>
         <br/>
     <?php endforeach; ?>

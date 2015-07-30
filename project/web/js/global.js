@@ -245,7 +245,6 @@ var fbConfig =
 	$.initCheckboxTableCell = function()
 	{
 		$('.checkbox_table_cell').click(function() {
-			console.log($(this).find('input[type=checkbox]').prop('checked'));
 			if(!$(this).find('input[type=checkbox]').prop('checked')) {
 				$(this).find('input[type=checkbox]').prop('checked', 'checked');
 				$(this).find('input[type=checkbox]').attr('checked', 'checked');

@@ -38,6 +38,6 @@
         </table>    
     <?php endif; ?>
     <div class="choix_produit_add_produit">
-        <button type="submit" name="add_produit" value="<?php echo $certificationProduits->certification->getHash() ?>" class="btn_majeur">Ajouter des Produits</button> 
+        <a href="<?php echo url_for('drm_choix_produit', array('sf_subject' => $drm, 'add_produit' => $certificationProduits->certification->getHash())) ?>" value="" class="btn_majeur submit_button">Ajouter des Produits</a>
     </div>
 <?php endforeach; ?>
