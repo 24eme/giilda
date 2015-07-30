@@ -24,7 +24,7 @@ class drm_validationActions extends drmGeneriqueActions {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
             $this->validationCoordonneesEtablissementForm = new DRMValidationCoordonneesEtablissementForm($this->drm);
         } else {
-            $this->formCampagne = new DRMEtablissementCampagneForm($this->drm->identifiant, $this->drm->campagne);
+            $this->formCampagne = new DRMEtablissementCampagneForm($this->drm->identifiant, $this->drm->campagne,$this->isTeledeclarationMode);
         }
         $this->no_link = false;
         if ($this->getUser()->hasOnlyCredentialDRM()) {

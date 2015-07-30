@@ -234,10 +234,10 @@ class DRMClient extends acCouchdbClient {
                 ->rows;
         $current = ConfigurationClient::getInstance()->getCurrentCampagne();
         $list = array();
-        foreach ($rows as $r) {
-            $c = $r->key[1];
-            $list[$c] = $c;
-        }
+            foreach ($rows as $r) {
+                    $c = $r->key[1];
+                    $list[$c] = $c;
+                }
         krsort($list);
         return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
     }
@@ -476,9 +476,9 @@ class DRMClient extends acCouchdbClient {
         $drm->clearAnnexes();
         $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         foreach ($csvFile->getCsv() as $cpt => $csvRow) {
-            $num_ligne = $cpt+1;
-            if(!$csvRow[3]){
-                $erreurs['Ligne '.$num_ligne] = 'Produit absent';
+            $num_ligne = $cpt + 1;
+            if (!$csvRow[3]) {
+                $erreurs['Ligne ' . $num_ligne] = 'Produit absent';
             }
         }
         return $erreurs;

@@ -119,12 +119,30 @@ class drmActions extends drmGeneriqueActions {
      * @param sfWebRequest $request 
      */
     public function executeCreationEdi(sfWebRequest $request) {
-        $isTeledeclarationMode = $this->isTeledeclarationDrm();
+       
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
-        $md5 = $request->getParameter('md5');  
-        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/'.$md5);
-        $this->erreurs = DRMClient::getInstance()->createDocFromEdi($this->identifiant,$this->periode,$this->csvFile);        
+        $md5 = $request->getParameter('md5');
+        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $md5);
+        $this->erreurs = DRMClient::getInstance()->createDocFromEdi($this->identifiant, $this->periode, $this->csvFile);
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeExportEdi(sfWebRequest $request) {
+        $this->setLayout(false);
+        $drm = $this->getRoute()->getDRM();
+        $this->drmCsvEdi = new DRMCsvEdi($drm);
+        
+        $filename = 'export_edi_'.$drm->identifiant.'_'.$drm->periode;
+
+
+        $attachement = "attachment; filename=" . $filename . ".csv";
+
+        $this->response->setContentType('text/csv');
+        $this->response->setHttpHeader('Content-Disposition', $attachement);              
     }
 
     /**
@@ -173,6 +191,7 @@ class drmActions extends drmGeneriqueActions {
     }
 
     private function formCampagne(sfWebRequest $request, $route) {
+         $isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
         if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
@@ -183,7 +202,7 @@ class drmActions extends drmGeneriqueActions {
             $this->campagne = -1;
         }
 
-        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne,$isTeledeclarationMode);
         if ($request->isMethod(sfWebRequest::POST)) {
             $param = $request->getParameter($this->formCampagne->getName());
             if ($param) {
