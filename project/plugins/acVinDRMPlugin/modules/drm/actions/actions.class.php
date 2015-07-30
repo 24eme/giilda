@@ -122,9 +122,27 @@ class drmActions extends drmGeneriqueActions {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
-        $md5 = $request->getParameter('md5');  
-        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/'.$md5);
-        $this->erreurs = DRMClient::getInstance()->createDocFromEdi($this->identifiant,$this->periode,$this->csvFile);        
+        $md5 = $request->getParameter('md5');
+        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $md5);
+        $this->erreurs = DRMClient::getInstance()->createDocFromEdi($this->identifiant, $this->periode, $this->csvFile);
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeExportEdi(sfWebRequest $request) {
+        $this->setLayout(false);
+        $drm = $this->getRoute()->getDRM();
+        $this->drmCsvEdi = new DRMCsvEdi($drm);
+        
+        $filename = 'export_edi_'.$drm->identifiant.'_'.$drm->periode;
+
+
+        $attachement = "attachment; filename=" . $filename . ".csv";
+
+        $this->response->setContentType('text/csv');
+        $this->response->setHttpHeader('Content-Disposition', $attachement);              
     }
 
     /**
@@ -199,7 +217,7 @@ class drmActions extends drmGeneriqueActions {
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();       
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         return $this->formCampagne($request, 'drm_etablissement');
     }
 
