@@ -6126,7 +6126,7 @@ p#date_drm {
   position: absolute;
   right: 0;
   top: 0;
-  padding: 71px 0 0;
+  padding: 0px 30px ;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul li.action a {
   vertical-align: bottom;
