@@ -12,7 +12,7 @@
                 <span>
                     <?php echo $validationForm['email_transmission']->renderLabel(); ?>
                     <?php echo $validationForm['email_transmission']->renderError(); ?>
-                    <input id="drm_email_transmission_visible" type="text" >
+                    <input id="drm_email_transmission_visible" type="text"  value="<?php echo ($drm->exist('email_transmission') && $drm->email_transmission)? $drm->email_transmission : ''; ?>">
                 </span>
             </div>
             <div class="ligne_btn">
