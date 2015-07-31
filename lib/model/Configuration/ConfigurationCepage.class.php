@@ -48,6 +48,10 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         return array($this->getHash() => $this);
     }
 
+    public function compressDroits() {
+        $this->compressDroitsSelf();
+    } 
+
     public function getCouleur() {
         return $this->getParentNode();
     }

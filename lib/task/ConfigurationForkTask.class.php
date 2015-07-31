@@ -34,7 +34,6 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     $fork = ConfigurationClient::getInstance()->fork($arguments['fork_doc_id']);
-
-
+    $fork->save();
   }
 }

@@ -35,6 +35,11 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
         return false;
     }
 
+    protected function compressDroitsSelf() {
+
+        return null;
+    }
+
     public function getTypeNoeud() {
 
         return self::TYPE_NOEUD;

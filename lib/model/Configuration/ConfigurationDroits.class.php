@@ -59,6 +59,21 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	    throw new sfException('Aucun droit spécifié pour '.$this->getHash());
 	  }
 	}
+
+	public function compressDroits() {
+		$droits_to_remove = array();
+		$moreRecent = null;
+		foreach($this as $droit) {
+			if(!$moreRecent || $droit->date > $moreRecent->date) {
+				$moreRecent = $droit;
+			}
+		}
+
+		if($moreRecent) {
+			$this->clear();
+			$this->add(null, $droit);
+		}
+	}
 	
 	public function getInterpro() {
 		return $this->getParent()->getParent();

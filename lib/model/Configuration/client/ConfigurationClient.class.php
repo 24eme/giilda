@@ -288,6 +288,7 @@ class ConfigurationClient extends acCouchdbClient {
 
         $fork = clone $configuration;
         $fork->_id = $fork_doc_id;
+        $fork->declaration->compressDroits();
 
         return $fork;
     }
