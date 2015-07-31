@@ -352,6 +352,23 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->noeud_droits;
     }
 
+    public function compressDroits() {
+        foreach($this->getChildrenNode() as $child) {
+            $child->compressDroits();
+        }
+        
+        $this->compressDroitsSelf();
+    }   
+
+    protected function compressDroitsSelf() {
+        foreach($this->interpro as $interpro => $object) {
+            $droits = $this->getDroits($interpro);
+            foreach($droits as $droit) {
+                $droit->compressDroits();
+            }
+        }
+    }
+
     public function getDateCirulation($campagne, $interpro = "INTERPRO-inter-loire") {
         $dateCirculationAble = $this;
         while (!$dateCirculationAble->exist('interpro') ||
