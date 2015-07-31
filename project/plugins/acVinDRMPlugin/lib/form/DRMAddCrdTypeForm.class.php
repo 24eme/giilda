@@ -32,8 +32,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
             if (count($this->drmSortiesGenreCRDs) > 1) {
                 $this->setWidget('genre_crd_' . $regime, new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->drmSortiesGenreCRDs)));
                 $this->setDefault('genre_crd_' . $regime, 'TRANQ');
-		
-            }
+	    }
 
             $this->widgetSchema->setLabel('couleur_crd_' . $regime, 'Couleur CRD ');
             $this->widgetSchema->setLabel('litrage_crd_' . $regime, 'Litrage ');
@@ -43,15 +42,14 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
             $this->setValidator('couleur_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeCouleurs())), array('required' => "Aucune couleur de CRD n'a été saisi !")));
             $this->setValidator('litrage_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeLitrages())), array('required' => "Aucun litrage n'a été saisi !")));
             $this->setValidator('stock_debut_' . $regime, new sfValidatorNumber(array('required' => false)));
-            $this->setValidator('genre_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->drmSortiesGenreCRDs)), array('required' => "Aucun litrage n'a été saisi !")));
-            $this->setValidator('genre_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->drmSortiesGenreCRDs)), array('required' => "Aucun litrage n'a été saisi !")));
+            $this->setValidator('genre_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->drmSortiesGenreCRDs)), array('required' => "Aucun genre n'a été saisi !")));
         }
 
         $this->widgetSchema->setNameFormat('drmAddTypeForm[%s]');
     }
 
     protected function doUpdateObject($values) {
-        parent::doUpdateObject($values);
+        parent::doUpdateObject($values);        
         foreach ($this->regimeCrds as $regime) {
             $couleur = $values['couleur_crd_' . $regime];
             $litrage = $values['litrage_crd_' . $regime] * 100000;
@@ -67,7 +65,6 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         if (count($this->drmSortiesGenreCRDs) <= 1) {
-
             $genreCrdKeys = array_keys($this->drmSortiesGenreCRDs);
             $genreCrd = $genreCrdKeys[0];           
             foreach ($this->regimeCrds as $regime) {

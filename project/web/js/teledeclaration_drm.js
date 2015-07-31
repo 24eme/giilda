@@ -45,6 +45,7 @@ var initCrds = function () {
     $('.drm_crds_list tr.crd_row').each(function () {
         var id = $(this).attr('id');
         var inputs = $('input');
+        updateCrdsTotaux(id);
 
         inputs.saisieNum(false, null, null);
 
@@ -53,8 +54,13 @@ var initCrds = function () {
             $(this).select();
         });
 
-        inputs.change(function () {
-            var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
+        inputs.change(updateCrdsTotaux(id));
+
+    });
+}
+
+var updateCrdsTotaux = function(id){
+    var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
 
             var entreesAchats = (!isNaN(parseInt($("#" + id + " td.crds_entreesAchats input").val()))) ? parseInt($("#" + id + " td.crds_entreesAchats input").val()) : 0;
             var entreesRetours = (!isNaN(parseInt($("#" + id + " td.crds_entreesRetours input").val()))) ? parseInt($("#" + id + " td.crds_entreesRetours input").val()) : 0;
@@ -66,9 +72,6 @@ var initCrds = function () {
             var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entreesAchats) + parseInt(entreesRetours) + parseInt(entreesExcedents) - parseInt(sortiesUtilisations) - parseInt(sortiesDestructions) - parseInt(sortiesManquants);
 
             $("#" + id + " td.crds_fin_de_mois").text(fin_de_mois);
-        });
-
-    });
 }
 
 var initAjoutCrdsPopup = function () {
