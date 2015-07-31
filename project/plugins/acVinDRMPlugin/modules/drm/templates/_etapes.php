@@ -5,19 +5,15 @@
         <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_CHOIX_PRODUITS, DRMClient::$drm_etapes))); ?>
         <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($actif) ? 'actif' : '' ?>">
             <a href="<?php echo url_for('drm_choix_produit', $drm); ?>">
-                <strong><span style="cursor: default;"><?php echo $cpt_etape++; ?>&nbsp;</span>
-                    Produits 
-                </strong>  
-            </a>    
+                <strong><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;Produits</strong>  
+            </a>
         </li>
     <?php endif; ?>
     <?php $actif = ($etape_courante == DRMClient::ETAPE_SAISIE); ?>
     <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_SAISIE, DRMClient::$drm_etapes))); ?>
     <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($actif) ? 'actif' : '' ?>">
         <?php if ($past): ?><a href="<?php echo url_for('drm_edition', $drm); ?>"><?php endif; ?>
-            <strong><span style="cursor: default;"><?php echo $cpt_etape++; ?>&nbsp;</span>
-                Mouvements 
-            </strong>   
+            <strong><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;Mouvements</strong>   
             <?php if ($past): ?></a><?php endif; ?>
     </li>
     <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?> 
@@ -25,9 +21,7 @@
         <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_CRD, DRMClient::$drm_etapes))); ?>
         <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($etape_courante == DRMClient::ETAPE_CRD) ? 'actif' : '' ?>"> 
             <?php if ($past): ?><a href="<?php echo url_for('drm_crd', $drm); ?>"><?php endif; ?>
-                <strong><span style="cursor: default;"><?php echo $cpt_etape++; ?>&nbsp;</span>
-                    CRD 
-                </strong>   
+                <strong><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;CRD</strong>   
                 <?php if ($past): ?></a><?php endif; ?>
         </li>
     <?php endif; ?>
@@ -36,9 +30,7 @@
         <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_ADMINISTRATION, DRMClient::$drm_etapes))); ?>
         <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($etape_courante == DRMClient::ETAPE_ADMINISTRATION) ? 'actif' : '' ?>"> 
             <?php if ($past): ?><a href="<?php echo url_for('drm_annexes', $drm); ?>"><?php endif; ?>
-                <strong><span style="cursor: default;"><?php echo $cpt_etape++; ?>&nbsp;</span>
-                    Annexes
-                </strong>   
+                <strong><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;Annexes</strong>   
                 <?php if ($past): ?></a><?php endif; ?>
         </li>
     <?php endif; ?>
@@ -46,8 +38,7 @@
     <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_VALIDATION, DRMClient::$drm_etapes))); ?>
     <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($etape_courante == DRMClient::ETAPE_VALIDATION) ? 'actif' : '' ?>">
         <?php if ($past): ?><a href="<?php echo url_for('drm_validation', $drm); ?>"><?php endif; ?>
-            <strong><span style="cursor: default;"><?php echo $cpt_etape; ?>&nbsp;</span>
-                Validation  </strong>   
+            <strong><?php echo $cpt_etape; ?>.&nbsp;&nbsp;Validation</strong>   
             <?php if ($past): ?></a><?php endif; ?>
     </li>
 </ol>

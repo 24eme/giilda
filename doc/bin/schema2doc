@@ -1,0 +1,17 @@
+#!/bin/bash
+
+WIKI_DIR=$(pwd)
+
+cd ../project
+
+php symfony couchdb:schema2json Configuration | json_reformat > $WIKI_DIR/schema/configuration.json
+php symfony couchdb:schema2json Vrac | json_reformat > $WIKI_DIR/schema/vrac.json
+php symfony couchdb:schema2json DRM | json_reformat > $WIKI_DIR/schema/drm.json
+php symfony couchdb:schema2json SV12 | json_reformat > $WIKI_DIR/schema/sv12.json
+php symfony couchdb:schema2json DS | json_reformat > $WIKI_DIR/schema/ds.json
+php symfony couchdb:schema2json Facture | json_reformat > $WIKI_DIR/schema/facture.json
+php symfony couchdb:schema2json Generation | json_reformat > $WIKI_DIR/schema/generation.json
+php symfony couchdb:schema2json Alerte | json_reformat > $WIKI_DIR/schema/alerte.json
+php symfony couchdb:schema2json Societe | json_reformat > $WIKI_DIR/schema/societe.json
+php symfony couchdb:schema2json Etablissement | json_reformat > $WIKI_DIR/schema/etablissement.json
+php symfony couchdb:schema2json Compte | json_reformat > $WIKI_DIR/schema/compte.json

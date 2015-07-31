@@ -1,4 +1,10 @@
 var initAjoutProduitPopup = function () {
+    $('.choix_produit_add_produit .submit_button').click(function() {
+        $('.drm #form_choix_produits').attr('action', $(this).attr('href'));
+        $('.drm #form_choix_produits').submit();
+        return false;
+    });
+
     $('a.ajout_produit_popup').fancybox({
         autoSize: true,
         autoCenter: true,
@@ -66,6 +72,11 @@ var initCrds = function () {
 }
 
 var initAjoutCrdsPopup = function () {
+    $('.drm_add_crd_categorie .submit_button').click(function() {
+        $('.drm #form_crds').attr('action', $(this).attr('href'));
+        $('.drm #form_crds').submit();
+        return false;
+    });
 
     $('a.ajout_crds_popup').fancybox({
         autoSize: true,
@@ -83,7 +94,6 @@ var initAjoutCrdsPopup = function () {
 };
 
 var openedPopupAjoutCRD = function () {
-    console.log('open');
     $('.ui-autocomplete-input').on("focus", function (event, ui) {
         $(this).autocomplete("search");
     });
