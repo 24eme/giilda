@@ -16,8 +16,9 @@ class produitComponents extends sfComponents {
     }
 
     public function executeIndex() {
+        $configuration = ConfigurationClient::getInstance()->find($this->id);
         
-        $this->produits = ConfigurationClient::getCurrent()->declaration->getProduitsAll();
+        $this->produits = $configuration->declaration->getProduitsAll();
     }
 
 }

@@ -17,8 +17,13 @@ class produitActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    $config_json = ConfigurationClient::getInstance()->findCurrent(acCouchdbClient::HYDRATE_JSON);
+    if($request->getParameter('id')) {
+        $config_json = ConfigurationClient::getInstance()->find($request->getParameter('id'));
+    } else {
+        $config_json = ConfigurationClient::getInstance()->findCurrent(acCouchdbClient::HYDRATE_JSON);
+    }
     $this->rev = $config_json->_rev;
+    $this->id = $config_json->_id;
   }
 
   public function executeModification(sfWebRequest $request)
