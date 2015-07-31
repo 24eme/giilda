@@ -22,6 +22,7 @@ DRM:
       raison_rectificative: {  }
       etape: {  }
       campagne: {  }
+      type_creation: {  }
       periode: {  }
       teledeclare: { }
       precedente: {  }

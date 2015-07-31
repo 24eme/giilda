@@ -417,8 +417,9 @@ class DRMClient extends acCouchdbClient {
                 $periode = $this->getPeriodeSuivante($last_drm->periode);
             }
         }
-
-        return $this->createDocByPeriode($identifiant, $periode, $isTeledeclarationMode);
+        $drm = $this->createDocByPeriode($identifiant, $periode, $isTeledeclarationMode);
+        $drm->type_creation = DRMClient::DRM_CREATION_VIERGE;
+        return $drm;
     }
 
     public function createDocByPeriode($identifiant, $periode, $isTeledeclarationMode = false) {
