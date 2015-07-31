@@ -1,6 +1,6 @@
 <?php
 
-class DRMCommentaireForm extends acCouchdbObjectForm {
+class DRMValidationCommentaireForm extends acCouchdbObjectForm {
 
     public function configure() {
       parent::configure();
@@ -8,7 +8,11 @@ class DRMCommentaireForm extends acCouchdbObjectForm {
       $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
       $this->widgetSchema->setLabel('commentaire', 'Commentaires :');
       
+      $this->setWidget('email_transmission', new sfWidgetFormInputHidden());
+      $this->setValidator('email_transmission', new sfValidatorString(array('required' => false)));
+      $this->widgetSchema->setLabel('email_transmission', 'Email de transmission :');
+      
       $this->widgetSchema->setNameFormat('drm[%s]');
-    }
-
+    }    
+  
 }

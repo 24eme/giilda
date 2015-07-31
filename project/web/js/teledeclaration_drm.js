@@ -1,5 +1,5 @@
 var initAjoutProduitPopup = function () {
-    $('.choix_produit_add_produit .submit_button').click(function() {
+    $('.choix_produit_add_produit .submit_button').click(function () {
         $('.drm #form_choix_produits').attr('action', $(this).attr('href'));
         $('.drm #form_choix_produits').submit();
         return false;
@@ -34,9 +34,9 @@ var initSignatureDrmPopup = function () {
         $.fancybox.close();
     })
 
-    $('#signature_drm_popup_content button#signature_drm_popup_confirm').click(function () {
-
-        $("form#drm_validation").submit();
+    $('#signature_drm_popup_content a#signature_drm_popup_confirm').click(function () {
+       $("form#drm_validation input#drm_email_transmission").val($('#drm_email_transmission_visible').val());
+       $("form#drm_validation").submit();
     });
 
 };
@@ -49,7 +49,7 @@ var initCrds = function () {
 
         inputs.saisieNum(false, null, null);
 
-        inputs.click(function()
+        inputs.click(function ()
         {
             $(this).select();
         });
@@ -59,23 +59,23 @@ var initCrds = function () {
     });
 }
 
-var updateCrdsTotaux = function(id){
+var updateCrdsTotaux = function (id) {
     var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
 
-            var entreesAchats = (!isNaN(parseInt($("#" + id + " td.crds_entreesAchats input").val()))) ? parseInt($("#" + id + " td.crds_entreesAchats input").val()) : 0;
-            var entreesRetours = (!isNaN(parseInt($("#" + id + " td.crds_entreesRetours input").val()))) ? parseInt($("#" + id + " td.crds_entreesRetours input").val()) : 0;
-            var entreesExcedents = (!isNaN(parseInt($("#" + id + " td.crds_entreesExcedents input").val()))) ? parseInt($("#" + id + " td.crds_entreesExcedents input").val()) : 0;
-            var sortiesUtilisations = (!isNaN(parseInt($("#" + id + " td.crds_sortiesUtilisations input").val()))) ? parseInt($("#" + id + " td.crds_sortiesUtilisations input").val()) : 0;
-            var sortiesDestructions = (!isNaN(parseInt($("#" + id + " td.crds_sortiesDestructions input").val()))) ? parseInt($("#" + id + " td.crds_sortiesDestructions input").val()) : 0;
-            var sortiesManquants = (!isNaN(parseInt($("#" + id + " td.crds_sortiesManquants input").val()))) ? parseInt($("#" + id + " td.crds_sortiesManquants input").val()) : 0;
+    var entreesAchats = (!isNaN(parseInt($("#" + id + " td.crds_entreesAchats input").val()))) ? parseInt($("#" + id + " td.crds_entreesAchats input").val()) : 0;
+    var entreesRetours = (!isNaN(parseInt($("#" + id + " td.crds_entreesRetours input").val()))) ? parseInt($("#" + id + " td.crds_entreesRetours input").val()) : 0;
+    var entreesExcedents = (!isNaN(parseInt($("#" + id + " td.crds_entreesExcedents input").val()))) ? parseInt($("#" + id + " td.crds_entreesExcedents input").val()) : 0;
+    var sortiesUtilisations = (!isNaN(parseInt($("#" + id + " td.crds_sortiesUtilisations input").val()))) ? parseInt($("#" + id + " td.crds_sortiesUtilisations input").val()) : 0;
+    var sortiesDestructions = (!isNaN(parseInt($("#" + id + " td.crds_sortiesDestructions input").val()))) ? parseInt($("#" + id + " td.crds_sortiesDestructions input").val()) : 0;
+    var sortiesManquants = (!isNaN(parseInt($("#" + id + " td.crds_sortiesManquants input").val()))) ? parseInt($("#" + id + " td.crds_sortiesManquants input").val()) : 0;
 
-            var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entreesAchats) + parseInt(entreesRetours) + parseInt(entreesExcedents) - parseInt(sortiesUtilisations) - parseInt(sortiesDestructions) - parseInt(sortiesManquants);
+    var fin_de_mois = parseInt(crds_debut_de_mois) + parseInt(entreesAchats) + parseInt(entreesRetours) + parseInt(entreesExcedents) - parseInt(sortiesUtilisations) - parseInt(sortiesDestructions) - parseInt(sortiesManquants);
 
-            $("#" + id + " td.crds_fin_de_mois").text(fin_de_mois);
+    $("#" + id + " td.crds_fin_de_mois").text(fin_de_mois);
 }
 
 var initAjoutCrdsPopup = function () {
-    $('.drm_add_crd_categorie .submit_button').click(function() {
+    $('.drm_add_crd_categorie .submit_button').click(function () {
         $('.drm #form_crds').attr('action', $(this).attr('href'));
         $('.drm #form_crds').submit();
         return false;
@@ -115,20 +115,20 @@ var initRegimeCrdsPopup = function () {
         autoCenter: true,
         height: 'auto',
         width: 'auto',
-	closeClick: false,
-	closeBtn: false,
-	helpers     : {
-            overlay : {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
-	}
+        closeClick: false,
+        closeBtn: false,
+        helpers: {
+            overlay: {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
+        }
     });
     $('a.crd_regime_choice_popup').click();
 
 };
 
 var initCreationDrmPopup = function () {
-    
+
     $('a.drm_nouvelle_teledeclaration').fancybox({
-       autoSize: true,
+        autoSize: true,
         autoCenter: true,
         height: 'auto',
         width: 'auto',
@@ -139,22 +139,22 @@ var initCreationDrmPopup = function () {
     });
     $('.popup_contenu button#drm_nouvelle_popup_confirm').click(function () {
 
-      var idForm =  $(this).parents('form').attr('id');
-      console.log("post "+idForm);
+        var idForm = $(this).parents('form').attr('id');
+        console.log("post " + idForm);
     });
 };
 
 var initFavoris = function () {
     $('div.groupe span.categorie_libelle').click(function () {
         var id_fav_input = $(this).attr('id').replace('star_', 'drmFavoris_');
-        var value = $('#colonne_intitules form #' + id_fav_input).val();       
+        var value = $('#colonne_intitules form #' + id_fav_input).val();
         if (value === "1") {
             $('#colonne_intitules form #' + id_fav_input).val("");
         }
         else {
             $('#colonne_intitules form #' + id_fav_input).val("1");
         }
-       $("#colonne_intitules form").submit();
+        $("#colonne_intitules form").submit();
     });
 }
 
@@ -236,9 +236,9 @@ var initBoldSaisie = function () {
     $('input.bold_on_blur').focus(function () {
         var name = $(this).attr('name');
         var matches = name.match(/^[a-z_]*\[([a-z_]+)\]\[([a-z_]+)\]$/);
-        var name_header_class = matches[1]+'_'+matches[2];
+        var name_header_class = matches[1] + '_' + matches[2];
         $('input.bold_on_blur').each(function () {
-            
+
             if ($(this).attr('name') == name) {
                 $(this).attr('style', 'font-weight:bold');
 
@@ -246,36 +246,36 @@ var initBoldSaisie = function () {
                 $(this).attr('style', 'font-weight:normal');
             }
         });
-        $('span.'+name_header_class).attr('style', 'font-weight:bold')
+        $('span.' + name_header_class).attr('style', 'font-weight:bold')
     });
     $('input.bold_on_blur').blur(function () {
         var name = $(this).attr('name');
         var matches = name.match(/^[a-z_]*\[([a-z_]+)\]\[([a-z_]+)\]$/);
-        var name_header_class = matches[1]+'_'+matches[2];
-        $('span.'+name_header_class).attr('style', 'font-weight:normal')
+        var name_header_class = matches[1] + '_' + matches[2];
+        $('span.' + name_header_class).attr('style', 'font-weight:normal')
     });
 }
 
-var initUpdateEtablissementValidation = function(){
-    $('form.drm_validation_etablissement_form div.alignes ul li').click(function(){
-       var caution = $('input[name=drm_validation_coordonnees_etablissement[caution]]:checked', '.drm_validation_etablissement_form').val()
-       if(caution != 'DISPENSE'){
-           $('div.raison_sociale_cautionneur').show();
-       }else{
-           $('div.raison_sociale_cautionneur').hide(); 
-       }
+var initUpdateEtablissementValidation = function () {
+    $('form.drm_validation_etablissement_form div.alignes ul li').click(function () {
+        var caution = $('input[name=drm_validation_coordonnees_etablissement[caution]]:checked', '.drm_validation_etablissement_form').val()
+        if (caution != 'DISPENSE') {
+            $('div.raison_sociale_cautionneur').show();
+        } else {
+            $('div.raison_sociale_cautionneur').hide();
+        }
     });
 }
 
 // init les tooltips dans la colonne intitules
-var initMsgAide = function() {
+var initMsgAide = function () {
 
     var msgsAide = $('#colonne_intitules .msg_aide');
 
     msgsAide.tooltip
-    ({
-        placement: 'right'
-    });
+            ({
+                placement: 'right'
+            });
 };
 
 $(document).ready(function ()

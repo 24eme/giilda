@@ -23,6 +23,7 @@ DRM:
       etape: {  }
       campagne: {  }
       type_creation: {  }
+      email_transmission: {  }
       periode: {  }
       teledeclare: { }
       precedente: {  }

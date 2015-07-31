@@ -48,12 +48,13 @@ class drm_validationActions extends drmGeneriqueActions {
         }
 
 
-        $this->form = new DRMCommentaireForm($this->drm);
+        $this->form = new DRMValidationCommentaireForm($this->drm);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
             
             return sfView::SUCCESS;
         }
+        
         $this->form->bind($request->getParameter($this->form->getName()));
         if ($request->getParameter('brouillon')) {
             $this->form->save();
@@ -63,9 +64,7 @@ class drm_validationActions extends drmGeneriqueActions {
         if (!$this->validation->isValide()) {
             return sfView::SUCCESS;
         }
-
         $this->form->save();
-
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->save();
 
