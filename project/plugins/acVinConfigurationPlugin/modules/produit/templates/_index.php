@@ -4,7 +4,7 @@
     <p id="fil_ariane"><strong>Page d'accueil</strong></p>
     <a style="float:right" href="<?php echo url_for('produit_nouveau') ?>" class="btn_majeur btn_nouveau">Ajouter un produit</a>
 
-    <h2>Produits</h2>
+    <h2>Produits <span style="color: #878787;"> / <?php echo $id ?><small style="font-size: 10px;">@<?php echo $rev ?></small></span></h2>
 
     <table class="table_recap table_compact">
         <thead>
