@@ -529,8 +529,7 @@ DRM:
               definition:
                 fields:
                   'debut': { }    
-                  'fin': { }
-                  
+                  'fin': { }                  
       releve_non_apurement:
         type: collection
         class: DRMNonApurement
@@ -544,3 +543,5 @@ DRM:
                   'numero_document': { }    
                   'date_emission': { }  
                   'numero_accise': { }  
+      observations: { }
+      quantite_sucre: { }

@@ -61,6 +61,7 @@ class DRMProduitForm extends acCouchdbForm
         if(is_null($this->_produits_existant)) {
             $this->_produits_existant = array();
             foreach($this->_drm->getProduitsDetails() as $key => $produit) {
+                if(!$produit->hasMovements()) { continue; }
                 $this->_produits_existant[$key] = sprintf("%s (%s)", $produit->getLibelle("%format_libelle% %la%"), $produit->getCodeProduit());
             }
         }

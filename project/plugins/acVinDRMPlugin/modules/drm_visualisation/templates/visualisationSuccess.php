@@ -10,11 +10,11 @@
             </li>
         </ul>
     <?php else: ?>
-        <h2><?php echo getDrmTitle($drm); ?></h2>
+        <h2><?php echo getDrmTitle($drm); ?> <small style="font-weight: normal; text-transform: none;">(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small></h2>
         <?php if ($drm->isAfterTeledeclarationDrm()): ?>  
-            <div id="btn_etape_dr">
+            <div id="btn_etape_dr" style="text-align: center;">
                 <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-            </div>  
+                        </div>  
         <?php endif; ?>
     <?php endif; ?>
 
@@ -26,9 +26,6 @@
             <?php include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
         </div>
     </div>
-
-    <div><span class="success">Votre DRM est validée - Date de validation : <?php echo $drm->valide->date_signee; ?></span></div>
-
 
     <?php if (!$isTeledeclarationMode): ?>
         <?php if ($drm_suivante && $drm_suivante->isRectificative() && !$drm_suivante->isValidee()):
@@ -67,7 +64,10 @@
     <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
     <br />
     <div id="btn_etape_dr">
-        <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a> 
+        <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a>
+        <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
+     <a style="text-align: right;" href="<?php echo url_for('drm_export_fichier_edi', $drm); ?>" class="btn_majeur btn_pdf center" ><span>Télécharger le Csv</span></a>
+   
     </div>
 </section>
 <?php

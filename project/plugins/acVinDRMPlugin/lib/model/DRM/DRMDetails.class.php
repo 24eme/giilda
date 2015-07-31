@@ -33,6 +33,7 @@ class DRMDetails extends BaseDRMDetails {
                 }
             }
         }
+
         return $detail;
     }
 

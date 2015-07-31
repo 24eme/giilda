@@ -573,7 +573,7 @@ var ajax_send_contrats_similairesMarche = function(num_contrat)
 var initDatepicker = function() {
 
     $(".champ_datepicker input").datepicker({
-        showOn: "button",
+        showOn: 'both',
         buttonImage: "/images/pictos/pi_calendrier.png",
         buttonImageOnly: true,
         dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],

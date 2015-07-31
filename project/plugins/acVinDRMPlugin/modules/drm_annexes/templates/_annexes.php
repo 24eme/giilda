@@ -7,7 +7,7 @@
 
             <?php echo $annexesForm->renderGlobalErrors(); ?>
             <?php echo $annexesForm->renderHiddenFields(); ?>
-            <table id="table_drm_adminitration" class="table_recap">
+            <table id="table_drm_adminitration" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>
                         <th>Type de document</th>
@@ -28,7 +28,7 @@
             <br/>
             <br>
             <h2>Relevé de non apurement</h2>
-            <table id="table_drm_non_apurement" class="table_recap">
+            <table id="table_drm_non_apurement" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>
                         <th>Numéro de document</th>
@@ -48,11 +48,48 @@
                 </tbody>
 
             </table>
-            <br /><br />
+            <br /><br /> 
             <div class="form_ligne ajouter_non_apurement">
                 <a class="btn_ajouter_ligne_template btn_majeur" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#">Ajouter un non apurement</a>
             </div>
             <br/>
+            <br/>
+            <h2>Compléments d'information</h2>
+             <table id="table_drm_complement_informations_sucre" class="table_recap table_drm_annexes">   
+                  <thead >
+                    <tr>
+                        <th colspan="2">Information sur le sucre</th>
+                    </tr>
+                </thead>
+                <tbody class="drm_non_apurement" id="nonapurement_list">
+                    <tr> 
+                        <td class="drm_quantite_sucre_label">
+                            <?php echo $annexesForm['quantite_sucre']->renderLabel(); ?>
+                        </td>
+                        <td class="drm_quantite_sucre_volume">
+                            <?php echo $annexesForm['quantite_sucre']->render(); ?><strong style="float: right; padding-top: 5px;">(en quintal)</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+            <br/>
+            <table id="table_drm_complement_informations_observation" class="table_recap">
+                <thead >
+                    <tr>
+                        <th><?php echo $annexesForm['observations']->renderLabel(); ?></th>
+                    </tr>
+                </thead>
+                <tbody class="drm_non_apurement" id="nonapurement_list">
+                    <tr>
+                        <td class="drm_observation">
+                            <?php echo $annexesForm['observations']->render(); ?>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <br /><br /> 
             <div class="btn_etape">
                 <a class="btn_etape_prec" href="<?php echo url_for('drm_crd', $drm); ?>">
                     <span>Précédent</span>
@@ -67,15 +104,3 @@
         <br/>
     </div>
 </div>
-
-<script type="text/javascript">
-
-    (function ($)
-    {
-
-
-    })(jQuery);
-
-
-
-</script>

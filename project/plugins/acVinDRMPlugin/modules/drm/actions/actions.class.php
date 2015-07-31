@@ -11,14 +11,14 @@ class drmActions extends drmGeneriqueActions {
 
     public function executeConnexion(sfWebRequest $request) {
 
-      //  $this->redirect403IfIsTeledeclaration();
+        //  $this->redirect403IfIsTeledeclaration();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $societe = $this->etablissement->getSociete();
 
         $this->getUser()->usurpationOn($societe->identifiant, $request->getReferer());
-        $this->redirect('drm_societe',array('identifiant' => $societe->getEtablissementPrincipal()->identifiant));
+        $this->redirect('drm_societe', array('identifiant' => $societe->getEtablissementPrincipal()->identifiant));
     }
-    
+
     public function executeRedirect(sfWebRequest $request) {
         $drm = DRMClient::getInstance()->find($request->getParameter('identifiant_drm'));
         $this->forward404Unless($drm);
@@ -78,6 +78,77 @@ class drmActions extends drmGeneriqueActions {
      *
      * @param sfWebRequest $request 
      */
+    public function executeChoixCreation(sfWebRequest $request) {
+        $isTeledeclarationMode = $this->isTeledeclarationDrm();
+        if ($request->isMethod(sfWebRequest::POST)) {
+            if (!$request->getParameter('drmChoixCreation')) {
+                new sfException("Le formulaire n'est pas valide");
+            }
+            $drmChoixCreation = $request->getParameter('drmChoixCreation');
+            $choixCreation = $drmChoixCreation['type_creation'];
+            $identifiant = $request->getParameter('identifiant');
+            $periode = $request->getParameter('periode');
+            $this->creationDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => $identifiant, 'periode' => $periode));
+            $this->creationDrmForm->bind($request->getParameter($this->creationDrmForm->getName()), $request->getFiles($this->creationDrmForm->getName()));
+
+            switch ($choixCreation) {
+                case DRMClient::DRM_CREATION_EDI :
+                    if ($this->creationDrmForm->isValid()) {
+                        $md5 = $this->creationDrmForm->getValue('file')->getMd5();
+                        return $this->redirect('drm_creation_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5));
+                    }
+                    return $this->redirect('drm_societe', array('identifiant' => $identifiant));
+
+                    break;
+                case DRMClient::DRM_CREATION_VIERGE :
+                    return $this->redirect('drm_nouvelle', array('identifiant' => $identifiant, 'periode' => $periode));
+                    break;
+                case DRMClient::DRM_CREATION_NEANT :
+                    $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
+                    $drm->etape = DRMClient::ETAPE_VALIDATION;
+                    $drm->save();
+                    return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                    break;
+            }
+        }
+        return $this->redirect('drm_societe', array('identifiant' => $identifiant));
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeCreationEdi(sfWebRequest $request) {
+       
+        $this->identifiant = $request->getParameter('identifiant');
+        $this->periode = $request->getParameter('periode');
+        $md5 = $request->getParameter('md5');
+        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $md5);
+        $this->erreurs = DRMClient::getInstance()->createDocFromEdi($this->identifiant, $this->periode, $this->csvFile);
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeExportEdi(sfWebRequest $request) {
+        $this->setLayout(false);
+        $drm = $this->getRoute()->getDRM();
+        $this->drmCsvEdi = new DRMCsvEdi($drm);
+        
+        $filename = 'export_edi_'.$drm->identifiant.'_'.$drm->periode;
+
+
+        $attachement = "attachment; filename=" . $filename . ".csv";
+
+        $this->response->setContentType('text/csv');
+        $this->response->setHttpHeader('Content-Disposition', $attachement);              
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request 
+     */
     public function executeNouvelle(sfWebRequest $request) {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
         $identifiant = $request->getParameter('identifiant');
@@ -120,6 +191,7 @@ class drmActions extends drmGeneriqueActions {
     }
 
     private function formCampagne(sfWebRequest $request, $route) {
+         $isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
         if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
@@ -130,7 +202,7 @@ class drmActions extends drmGeneriqueActions {
             $this->campagne = -1;
         }
 
-        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne,$isTeledeclarationMode);
         if ($request->isMethod(sfWebRequest::POST)) {
             $param = $request->getParameter($this->formCampagne->getName());
             if ($param) {

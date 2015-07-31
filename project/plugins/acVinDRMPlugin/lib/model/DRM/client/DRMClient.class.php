@@ -26,6 +26,9 @@ class DRMClient extends acCouchdbClient {
     const DRM_LAST_PERIODE_BEFORE_TELEDECLARATION = '201507';
     const DRM_CONFIGURATION_KEY_AFTER_TELEDECLARATION = '201508';
     const DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION = '190001';
+    const DRM_CREATION_EDI = 'CREATION_EDI';
+    const DRM_CREATION_VIERGE = 'CREATION_VIERGE';
+    const DRM_CREATION_NEANT = 'CREATION_NEANT';
 
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
@@ -36,6 +39,8 @@ class DRMClient extends acCouchdbClient {
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC => 'DAA/DAC',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC => 'DSA/DSAC',
         self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'Empreinte');
+    public static $typesCreationLibelles = array(self::DRM_CREATION_EDI => 'Création depuis un logiciel tiers',
+        self::DRM_CREATION_VIERGE => "Création d'une drm vierge", self::DRM_CREATION_NEANT => "Création d'une drm à néant");
     protected $drm_historiques = array();
 
     /**
@@ -229,10 +234,10 @@ class DRMClient extends acCouchdbClient {
                 ->rows;
         $current = ConfigurationClient::getInstance()->getCurrentCampagne();
         $list = array();
-        foreach ($rows as $r) {
-            $c = $r->key[1];
-            $list[$c] = $c;
-        }
+            foreach ($rows as $r) {
+                    $c = $r->key[1];
+                    $list[$c] = $c;
+                }
         krsort($list);
         return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
     }
@@ -435,7 +440,7 @@ class DRMClient extends acCouchdbClient {
         $drm->buildFavoris();
         $drm->storeDeclarant();
         $drm->initSociete();
-        $drm->initCrds();        
+        $drm->initCrds();
         $drm->clearAnnexes();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
@@ -456,6 +461,27 @@ class DRMClient extends acCouchdbClient {
         }
 
         return $drm;
+    }
+
+    public function createDocFromEdi($identifiant, $periode, $csvFile) {
+        $erreurs = array();
+        $drm = new DRM();
+        $drm->identifiant = $identifiant;
+        $drm->periode = $periode;
+        $drm->teledeclare = true;
+        $drm->buildFavoris();
+        $drm->storeDeclarant();
+        $drm->initSociete();
+        $drm->initCrds();
+        $drm->clearAnnexes();
+        $drm->etape = self::ETAPE_CHOIX_PRODUITS;
+        foreach ($csvFile->getCsv() as $cpt => $csvRow) {
+            $num_ligne = $cpt + 1;
+            if (!$csvRow[3]) {
+                $erreurs['Ligne ' . $num_ligne] = 'Produit absent';
+            }
+        }
+        return $erreurs;
     }
 
     public function generateVersionCascade($drm) {
@@ -495,7 +521,7 @@ class DRMClient extends acCouchdbClient {
         $configuration = ConfigurationClient::getCurrent();
         $configurationFields = array();
         foreach ($configuration->libelle_detail_ligne->get($periode) as $type => $libelles) {
-            foreach ($libelles as $libelleHash => $libelle) {                
+            foreach ($libelles as $libelleHash => $libelle) {
                 $configurationFields[$type . '/' . $libelleHash] = $libelle->libelle;
             }
         }

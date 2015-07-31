@@ -24,11 +24,29 @@ class DRMLatex extends GenericLatex {
         sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
         $this->drm = $drm;
         $configuration = ConfigurationClient::getCurrent();
-        $this->libelles_detail_ligne = $configuration->libelle_detail_ligne->get($this->drm->getDetailsConfigKey())->libelle;
+        $this->libelles_detail_ligne = $configuration->libelle_detail_ligne->get($this->drm->getDetailsConfigKey());
     }
 
     public function getNbPages() {
-        return 1;
+        $nbPages = 0;
+        foreach ($this->drm->declaration->getProduitsDetailsByCertifications(true) as $produitByCertif) {
+            $nb_produits = count($produitByCertif->produits);
+            if ($nb_produits == 0) {
+                continue;
+            }
+            $nbPages+= (int) ($nb_produits / DRMLatex::NB_PRODUITS_PER_PAGE) + 1;
+        }
+        $cpt_crds_annexes = $this->drm->nbTotalCrdsTypes();
+        if ($this->drm->exist('documents_annexes')) {
+            $cpt_crds_annexes+=count($this->drm->documents_annexes);
+        }
+        if ($this->drm->exist('releve_non_apurement')) {
+            $cpt_crds_annexes+= count($this->drm->releve_non_apurement);
+        }
+        if ($cpt_crds_annexes) {
+            $nbPages++;
+        }
+        return $nbPages;
     }
 
     public function getLatexFileNameWithoutExtention() {
@@ -38,7 +56,7 @@ class DRMLatex extends GenericLatex {
     public function getLatexFileContents() {
         return html_entity_decode(htmlspecialchars_decode(
                         get_partial('drm_pdf/generateTex', array('drm' => $this->drm,
-            'nb_page' => $this->getNbPages(),
+            'nbPages' => $this->getNbPages(),
             'drmLatex' => $this))
                         , HTML_ENTITIES));
     }
@@ -52,7 +70,7 @@ class DRMLatex extends GenericLatex {
 
         foreach ($this->libelles_detail_ligne->entrees as $key => $entree) {
             $entreeObj = new stdClass();
-            $entreeObj->libelle = $entree;
+            $entreeObj->libelle = $entree->libelle;
             $entreeObj->key = $key;
             $entrees[] = $entreeObj;
         }
@@ -63,7 +81,7 @@ class DRMLatex extends GenericLatex {
         $sorties = array();
         foreach ($this->libelles_detail_ligne->sorties as $key => $sortie) {
             $sortieObj = new stdClass();
-            $sortieObj->libelle = $sortie;
+            $sortieObj->libelle = $sortie->libelle;
             $sortieObj->key = $key;
             $sorties[] = $sortieObj;
         }

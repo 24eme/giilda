@@ -15,8 +15,8 @@
             <th>Produit</th>
             <th>Pays</th>
             <th>Volumes</th>
-            <th>Document accompagnement</th>  
-            <th>Type de doc</th>
+            <th>Type de document</th>
+            <th>Numéro de document</th>  
             <th></th>
         </tr>
     </thead>

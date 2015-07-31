@@ -47,25 +47,25 @@ class DRMDeclaration extends BaseDRMDeclaration {
         }
         return false;
     }
+
+    public function getProduitsDetailsSorted($teledeclarationMode = false) {
+        $produits = array();
+
+        foreach($this->certifications as $certification) {
+
+            $produits = array_merge($produits, $certification->getProduitsDetailsSorted($teledeclarationMode));
+        }
+
+        return $produits;
+    }
     
     public function getProduitsDetailsByCertifications($isTeledeclarationMode = false) {
-        $certifications = $this->getConfig()->getChildrenNode(); 
-        $produitsDetailsByCertifications = array();
-        foreach ($certifications as $certification) {
-            if(!array_key_exists($certification->getHash(), $produitsDetailsByCertifications)){
+        foreach ($this->certifications as $certification) {
                 $produitsDetailsByCertifications[$certification->getHash()] = new stdClass();
-                $produitsDetailsByCertifications[$certification->getHash()]->certification = $certification;
-                $produitsDetailsByCertifications[$certification->getHash()]->produits = array();
-            }
+                $produitsDetailsByCertifications[$certification->getHash()]->certification = $certification->getConfig();
+                $produitsDetailsByCertifications[$certification->getHash()]->produits = $certification->getProduitsDetailsSorted($isTeledeclarationMode);
         }
-        $produitsDetails = $this->getProduitsDetails($isTeledeclarationMode);
-        foreach ($produitsDetails as $produitDetails) {
-            $produitLibelle = str_replace(' ','',trim($produitDetails->getCepage()->getConfig()->formatProduitLibelle()));
-            $produitsDetailsByCertifications[$produitDetails->getCertification()->getHash()]->produits[$produitLibelle] = $produitDetails;
-        }
-        foreach ($certifications as $certification) {
-            ksort($produitsDetailsByCertifications[$certification->getHash()]->produits);
-        }
+        
         return $produitsDetailsByCertifications;
     }
 

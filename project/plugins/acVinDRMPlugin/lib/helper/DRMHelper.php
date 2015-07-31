@@ -134,7 +134,7 @@ function getEtatDRMPictoCalendrier($calendrier, $periode, $etablissement = false
     return $statut;
 }
 
-function getEtatDRMHrefCalendrier($calendrier, $periode, $etablissement = false) {
+function getEtatDRMHrefCalendrier($isTeledeclaration,$calendrier, $periode, $etablissement = false) {
     $etablissementId = ($etablissement) ? $etablissement->identifiant : $calendrier->getIdentifiant();
     $statut = $calendrier->getStatut($periode, $etablissement);
     $periode_version = $calendrier->getPeriodeVersion($periode, $etablissement);
@@ -145,9 +145,23 @@ function getEtatDRMHrefCalendrier($calendrier, $periode, $etablissement = false)
         return url_for('drm_redirect_etape', array('identifiant' => $etablissementId, 'periode_version' => $periode_version));
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
+        if($isTeledeclaration){
+           return '#drm_nouvelle_'.$periode . '_' . $etablissementId; 
+        }else{
+            
         return url_for('drm_nouvelle', array('identifiant' => $etablissementId, 'periode' => $periode));
+        }
     }
     return $calendrier->getStatut($periode);
+}
+
+function hasPopup($isTeledecaration, $calendrier, $periode, $etablissement = false) {
+    if(!$isTeledecaration) return false;
+    $statut = $calendrier->getStatut($periode, $etablissement);   
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
+        return true;
+    }
+    return false;
 }
 
 function getEtatDRMLibelleCalendrier($calendrier, $periode, $etablissement = false) {

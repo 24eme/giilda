@@ -209,16 +209,12 @@ var objAjoutsLiquidations = {};
 
             e.stopPropagation();
 
-            calendrierHistorique.find('.etablissement_tooltip').not(etablissementInfos).stop().fadeOut();
+            calendrierHistorique.find('.etablissement_tooltip').not(etablissementInfos).stop().hide();
 
-            etablissementInfos.stop().fadeIn();
+            etablissementInfos.stop().show();
         });
 
-        calendrierHistorique.on('click', '.etablissement_tooltip', function(e)
-        {
-            e.stopPropagation();
-        });
-
+        
         // On cache les tooltip d'infos d'établissement au clic en dehors de celles-ci
         $(document).click(function()
         {

@@ -15,7 +15,7 @@
                 <span>
                     <?php echo $form['litrage_crd_'.$regime]->renderError(); ?>
                     <?php echo $form['litrage_crd_'.$regime]->renderLabel() ?>    
-                    <?php echo $form['litrage_crd_'.$regime]->render(array('class' => 'autocomplete')); ?>
+                    <?php echo $form['litrage_crd_'.$regime]->render(); ?>
                 </span>
             </div>
             <div class="ligne_form">       

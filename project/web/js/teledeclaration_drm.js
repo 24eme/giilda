@@ -1,4 +1,10 @@
 var initAjoutProduitPopup = function () {
+    $('.choix_produit_add_produit .submit_button').click(function() {
+        $('.drm #form_choix_produits').attr('action', $(this).attr('href'));
+        $('.drm #form_choix_produits').submit();
+        return false;
+    });
+
     $('a.ajout_produit_popup').fancybox({
         autoSize: true,
         autoCenter: true,
@@ -66,6 +72,11 @@ var initCrds = function () {
 }
 
 var initAjoutCrdsPopup = function () {
+    $('.drm_add_crd_categorie .submit_button').click(function() {
+        $('.drm #form_crds').attr('action', $(this).attr('href'));
+        $('.drm #form_crds').submit();
+        return false;
+    });
 
     $('a.ajout_crds_popup').fancybox({
         autoSize: true,
@@ -83,7 +94,6 @@ var initAjoutCrdsPopup = function () {
 };
 
 var openedPopupAjoutCRD = function () {
-    console.log('open');
     $('.ui-autocomplete-input').on("focus", function (event, ui) {
         $(this).autocomplete("search");
     });
@@ -110,6 +120,25 @@ var initRegimeCrdsPopup = function () {
     });
     $('a.crd_regime_choice_popup').click();
 
+};
+
+var initCreationDrmPopup = function () {
+    
+    $('a.drm_nouvelle_teledeclaration').fancybox({
+       autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+        minWidth: 500
+    });
+    $('.popup_contenu a#drm_nouvelle_popup_close').click(function () {
+        $.fancybox.close();
+    });
+    $('.popup_contenu button#drm_nouvelle_popup_confirm').click(function () {
+
+      var idForm =  $(this).parents('form').attr('id');
+      console.log("post "+idForm);
+    });
 };
 
 var initFavoris = function () {
@@ -259,4 +288,5 @@ $(document).ready(function ()
     initSignatureDrmPopup();
     initBoldSaisie();
     initMsgAide();
+    initCreationDrmPopup();
 });

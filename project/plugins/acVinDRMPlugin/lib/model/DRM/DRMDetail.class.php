@@ -363,6 +363,11 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function hasMovements() {
+        if($this->hasMouvement()) {
+
+            return true;
+        }
+
         return $this->getCepage()->hasMovements();
     }
 
