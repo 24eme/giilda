@@ -17,7 +17,7 @@ class DRMDeclaration extends BaseDRMDeclaration {
         foreach ($produits as $produit) {
             $mouvements = array_replace_recursive($mouvements, $produit->getMouvements());
         }
-        
+
         return $mouvements;
     }
 
@@ -51,21 +51,24 @@ class DRMDeclaration extends BaseDRMDeclaration {
     public function getProduitsDetailsSorted($teledeclarationMode = false) {
         $produits = array();
 
-        foreach($this->certifications as $certification) {
+        foreach ($this->certifications as $certification) {
 
             $produits = array_merge($produits, $certification->getProduitsDetailsSorted($teledeclarationMode));
         }
 
         return $produits;
     }
-    
+
     public function getProduitsDetailsByCertifications($isTeledeclarationMode = false) {
-        foreach ($this->certifications as $certification) {
-                $produitsDetailsByCertifications[$certification->getHash()] = new stdClass();
-                $produitsDetailsByCertifications[$certification->getHash()]->certification = $certification->getConfig();
-                $produitsDetailsByCertifications[$certification->getHash()]->produits = $certification->getProduitsDetailsSorted($isTeledeclarationMode);
+        foreach ($this->getConfig()->getCertifications() as $certification) {
+            $produitsDetailsByCertifications[$certification->getHash()] = new stdClass();
+            $produitsDetailsByCertifications[$certification->getHash()]->certification = $certification;
+            $produitsDetailsByCertifications[$certification->getHash()]->produits = array();
+            if ($this->getDocument()->exist($certification->getHash())) {
+                $produitsDetailsByCertifications[$certification->getHash()]->produits = $this->getDocument()->get($certification->getHash())->getProduitsDetailsSorted($isTeledeclarationMode);
+            }
         }
-        
+
         return $produitsDetailsByCertifications;
     }
 
