@@ -1,4 +1,22 @@
 <?php
+if (isset($retour_espace) && $retour_espace):
+    slot('colButtons');
+    ?> 
+    <div class="bloc_col" >
+        <h2>Actions</h2>
+        <div class="contenu">
+            <div class="ligne_btn txt_centre">
+                <span style="font-weight: bold;">Mon Espace Contrat</span>
+            </div>
+            <div class="ligne_btn txt_centre">
+                <a href="<?php echo url_for('compte_teledeclarant_mon_espace', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_acces">Retour à mon espace</a>
+
+            </div>         
+        </div>
+    </div>
+    <?php end_slot(); ?>
+<?php
+endif;
 slot('colCompte');
 ?>
 <div class="bloc_col" id="contrat_compte">
@@ -10,21 +28,21 @@ slot('colCompte');
 
             <p> (<?php echo $societe->siege->commune; ?>) </p>
 
-            <?php if ($sf_user->isUsurpationCompte()): ?>
+<?php if ($sf_user->isUsurpationCompte()): ?>
                 <div class="ligne_btn txt_centre">
                     <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
                 </div>
-            <?php endif; ?>
+<?php endif; ?>
 
             <div class="ligne_btn txt_centre">
                 <?php if (isset($retour) && $retour): ?>
                     <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_majeur btn_acces">Mes Contrats</a>
-                <?php endif; ?>
+<?php endif; ?>
             </div>
             <div class="ligne_btn txt_centre">
                 <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>
                     <a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuaire">Annuaire</a>
-                <?php endif; ?>
+<?php endif; ?>
             </div>
         </div>
     </div>
@@ -62,7 +80,7 @@ slot('colCompte');
             <li><img src="/images/pictos/pi_attente.png" alt="" /> En attente de signature</li>
             <li><img src="/images/pictos/pi_ok_gris.png" alt="" /> Signé par d'autres soussignés</li>
         </ul>
-        
+
         <div class="legende">
             <h3>État des contrats validés :</h3>
             <br/>
@@ -112,7 +130,7 @@ $contact = EtablissementClient::getInstance()->buildInfosContact($etablissementP
     </div>
 </div>   
 <script type="text/javascript">
-$(document).ready(function()
+    $(document).ready(function ()
     {
         initNoticePopup();
     });
