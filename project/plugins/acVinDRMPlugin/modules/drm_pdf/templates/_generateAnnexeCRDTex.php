@@ -128,7 +128,52 @@ if ($drm->exist('releve_non_apurement')) {
 
     <?php endforeach; ?>  
     \end{tabular}
+     
+<?php endif; 
 
+if ($drm->exist('quantite_sucre') && $drm->quantite_sucre) : ?>
+    \vspace{0.5cm}
+    \begin{center}
+    \begin{large}
+    \textbf{Quantité de sucre}
+    \end{large}
+    \end{center}
+    ~ \\ 
+    \quad{\setlength{\extrarowheight}{1pt}
+    \begin{tabular}{C{100mm} |C{170mm}}			 	 
+    \\ 			 
+    \hline  
+    
+    \rowcolor{lightgray}		 
+    \multicolumn{1}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\small{\textbf{Quantité de Sucre}}}} &
+    \multicolumn{1}{|C{170mm}}{\small{\textbf{<?php echo $drm->exist('quantite_sucre'); ?>}}} 
+    \\ 			 
+    \hline  
+    
+    \end{tabular}
+    
+<?php endif; ?>   
+<?php if ($drm->exist('observations') && $drm->observations) : ?>
+    \vspace{0.5cm}
+    \begin{center}
+    \begin{large}
+    \textbf{Observations}
+    \end{large}
+    \end{center}
+    ~ \\ 
+    \quad{\setlength{\extrarowheight}{1pt}
+    \begin{tabular}{C{100mm} |C{170mm}}			 	 
+    \\ 			 
+    \hline   
+    
+    \rowcolor{lightgray}		 
+    \multicolumn{1}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\small{\textbf{Observations}}}} &
+    \multicolumn{1}{|C{170mm}}{\small{\textbf{<?php echo $drm->exist('observations'); ?>}}} 
+    \\ 			 
+    \hline   
+    
+    \end{tabular}
+    
 <?php endif; ?>  
 <?php if ($cpt_crds_annexes): ?>
 \newpage
