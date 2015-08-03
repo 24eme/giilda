@@ -1,0 +1,13 @@
+#!/bin/bash
+
+WEB_DIR=../project/web
+
+mkdir $WEB_DIR/doc 2> /dev/null
+
+DOC_DIR=$WEB_DIR/doc
+
+cp -R images $DOC_DIR/
+cp -R schema $DOC_DIR/
+cp -R docs $DOC_DIR/
+
+pandoc -t html5 --toc -s -c css/markdown.css -B templates/header.html -A templates/footer.html Exploitation.md > $DOC_DIR/exploitation.html

@@ -106,6 +106,7 @@ class drmActions extends drmGeneriqueActions {
                 case DRMClient::DRM_CREATION_NEANT :
                     $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
                     $drm->etape = DRMClient::ETAPE_VALIDATION;
+                    $drm->type_creation = DRMClient::DRM_CREATION_NEANT;
                     $drm->save();
                     return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
                     break;

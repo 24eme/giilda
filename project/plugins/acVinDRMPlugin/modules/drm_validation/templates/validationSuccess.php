@@ -20,7 +20,7 @@
             <?php endif; ?>
 
             <div style="padding-bottom: 20px">
-            <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+                <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
             </div>
 
             <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => false)); ?>
@@ -44,11 +44,10 @@
                     <?php if (!$isTeledeclarationMode): ?>
                         <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn_brouillon btn_majeur">Enregistrer en brouillon</a>
                     <?php endif; ?>                   
-                    <?php if ($isTeledeclarationMode): ?>                     
+                    <?php if ($isTeledeclarationMode): ?> 
+                        <?php echo $form['email_transmission']->render(); ?>
                         <a id="signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn_validation signature_drm_popup"><span>Valider</span></a>
-                        <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
-
-
+                        <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validationForm' => $form)); ?>
                     <?php else: ?>
                         <button type="submit" class="btn_etape_suiv" id="button_drm_validation" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?>><span>Valider</span></button>
 

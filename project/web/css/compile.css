@@ -1,5 +1,10 @@
-@charset "utf-8";
 @import 'fonts.css';
+
+@import 'fancybox.css';
+
+@import 'jquery.ui/jquery.ui.theme.css';
+
+@import 'jquery.ui/jquery.ui.datepicker.css';
 /*---------------------------------------------------
 		LESS Elements 0.4
 	---------------------------------------------------
@@ -14,9 +19,6 @@
 /**
  * CSS 3
  ******************************************/
-@import 'fancybox.css';
-@import 'jquery.ui/jquery.ui.theme.css';
-@import 'jquery.ui/jquery.ui.datepicker.css';
 .majuscules {
   text-transform: uppercase;
 }
@@ -135,8 +137,7 @@
 /* Bordure boutons */
 /* ligne_form_alt*/
 /* Fond input */
-/* bordure input */
-/* bordure tableau */
+/* bordure input *//* bordure tableau */
 /* Fond colonne */
 /* Rouges */
 /* Bordures */
@@ -1166,6 +1167,7 @@ bouton.btn_enregistrer {
                 &:nth-child(2n+2){
                     background-color: @couleur-a8;
                 }*/
+
 }
 .table_recap tr th {
   background-color: #ecebeb;
@@ -1234,6 +1236,7 @@ bouton.btn_enregistrer {
   font-size: 14px;
   line-height: 26px;
   /* meme line-height que les btn de la pagination */
+
   margin: 20px 0;
   text-align: center;
 }
@@ -1583,10 +1586,15 @@ bouton.btn_enregistrer {
  ******************************************/
 #header {
   /* Logo */
+
   /* Baseline */
+
   /* Navigation */
+
   /* Bouton menu tablette et mobile */
+
   /* Actions utilisateur */
+
 }
 #header #logo {
   float: left;
@@ -1943,6 +1951,7 @@ ul.radio_list li label {
  ******************************************/
 #colonne {
   /* Blocs simples */
+
 }
 #colonne .bloc_col h2 {
   text-transform: uppercase;
@@ -2075,6 +2084,7 @@ ul.radio_list li label {
   -moz-border-radius: 3px;
   border-radius: 3px;
   /* .opacite(0.9); */
+
 }
 #ajax_form_progress_notification {
   background: #114C8D;
@@ -2101,6 +2111,7 @@ ul.radio_list li label {
 pre.commentaire {
   text-align: left;
 }
+@charset "utf-8";
 /**
  * Fichier : principal.less
  * Description : Styles du coeur de page
@@ -2320,7 +2331,9 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 }
 .hamza_style .autocompletion_tags {
   /* Liste des tags */
+
   /* Tous les tags */
+
 }
 .hamza_style .autocompletion_tags label {
   display: block;
@@ -2336,6 +2349,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4) inset;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4) inset;
   /*.inline-block-ie;*/
+
   background: #ffffff url(../images/pictos/pi_recherche.png) 5px 14px no-repeat;
   font-size: 14px;
   margin: 0 10px 0 0;
@@ -2344,8 +2358,11 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   vertical-align: top;
   width: 100%;
   /* Tag ajouté */
+
   /* Tag saisi */
+
   /* Autocompletion */
+
 }
 .hamza_style .autocompletion_tags ul.tags > li {
   display: inline-block;
@@ -3917,9 +3934,13 @@ bouton#contenu_etape #btn_export_csv {
 #statut_vrac #vrac_etapes ol li {
   background: url(../images/fonds/bg_etapes_declaration.png) 0 -43px repeat-x;
   /* Premier */
+
   /* Elément passé / actif */
+
   /* 2 éléments passés à la suite */
+
   /* Elément actif */
+
 }
 #statut_vrac #vrac_etapes ol li > * {
   background: url(../images/fonds/bg_etapes_declaration.png) 0 -106px no-repeat;
@@ -3959,6 +3980,7 @@ bouton#contenu_etape #btn_export_csv {
 #statut_vrac #vrac_etapes ol li.actif {
   font-weight: bold;
   /* Elément après l'actif */
+
 }
 #statut_vrac #vrac_etapes ol li.actif + li > * {
   background-position: 0 -85px;
@@ -3968,6 +3990,7 @@ bouton#contenu_etape #btn_export_csv {
   margin: -10px 0 0;
   width: 130px;
   /* anciennement 190 */
+
 }
 #statut_vrac #etat_avancement p {
   font-size: 11px;
@@ -4008,7 +4031,9 @@ bouton#contenu_etape #btn_export_csv {
 #vrac_validation,
 #vrac_recapitulatif {
   /* Ajout d'établissements */
+
   /* Récapitulatif */
+
 }
 #vrac_soussigne h1,
 #vrac_marche h1,
@@ -4073,6 +4098,7 @@ bouton#contenu_etape #btn_export_csv {
 #vrac_validation .ligne_form,
 #vrac_recapitulatif .ligne_form {
   /*margin: 0 0 15px;*/
+
 }
 #vrac_soussigne .ligne_form .error_list,
 #vrac_marche .ligne_form .error_list,
@@ -4173,6 +4199,7 @@ bouton#contenu_etape #btn_export_csv {
             margin-right:20px;
             text-transform: none;
         }*/
+
 }
 #vrac_soussigne .ligne_btn button,
 #vrac_marche .ligne_btn button,
@@ -4707,8 +4734,11 @@ bouton#contenu_etape #btn_export_csv {
  ******************************************/
 #colonne {
   /* Progression de la saisie */
+
   /* actions */
+
   /* Aide à la saisie */
+
 }
 #colonne #contrat_compte h3 {
   font-weight: bold;
@@ -4844,12 +4874,19 @@ bouton#contenu_etape #btn_export_csv {
 ******************************************/
 #contacts {
   /* Blocs société */
+
   /* Blocs établissement */
+
   /* Bloc fermé */
+
   /* blocs de formulaire */
+
   /* Cible la deuxième colonne */
+
   /* Bloc ouvert */
+
   /* Champs tags */
+
 }
 #contacts #coordonnees_societe h3,
 #contacts #detail_societe h3,
@@ -4912,8 +4949,11 @@ bouton#contenu_etape #btn_export_csv {
   border: 1px solid #d2d2d2;
   margin: 0 0 15px;
   /* bouton d'ajout de champ */
+
   /* bouton de supression de champ */
+
   /* titres des blocs */
+
 }
 #contacts .form_section .champ_long {
   width: 425px;
@@ -5140,12 +5180,14 @@ bouton#contenu_etape #btn_export_csv {
 #detail_etablissement,
 #detail_societe {
   /* Cible la deuxième colonne */
+
 }
 #detail_etablissement .conteneur_societe,
 #detail_societe .conteneur_societe,
 #detail_etablissement .conteneur_enseigne,
 #detail_societe .conteneur_enseigne {
   /* Cible la deuxième colonne */
+
 }
 #detail_etablissement .conteneur_societe .form_colonne:first-child + .form_colonne,
 #detail_societe .conteneur_societe .form_colonne:first-child + .form_colonne,
@@ -5177,9 +5219,9 @@ bouton#contenu_etape #btn_export_csv {
 #detail_societe label {
   width: 148px;
 }
-/* Fiche d'une société */
-#visu_societe {
+/* Fiche d'une société */#visu_societe {
   /* Cible la deuxième colonne */
+
 }
 #visu_societe .btn_haut {
   background: #ecebeb;
@@ -5277,6 +5319,7 @@ bouton#contenu_etape #btn_export_csv {
 }
 #detail_contact .form_ligne:first-child {
   /* Cible la deuxième colonne */
+
 }
 #detail_contact .form_ligne:first-child label {
   width: 65px;
@@ -5303,6 +5346,7 @@ bouton#contenu_etape #btn_export_csv {
 #detail_etablissement {
   margin: 20px 0 0 0;
   /* Cible la deuxième colonne */
+
 }
 #detail_etablissement #detail_etablissement_region_viticole {
   width: 134px;
@@ -5378,7 +5422,9 @@ bouton.recherche_contact #btn_rechercher {
 ******************************************/
 #colonne {
   /* Liste des tags */
+
   /* Information sur les contacts */
+
 }
 #colonne .liste_tags,
 #colonne .form_ajout_tag {
@@ -5442,6 +5488,7 @@ bouton.recherche_contact #btn_rechercher {
                                 border-color: transparent transparent transparent @couleur-a3;
                         }
                 }*/
+
   /*&.ouvert > a:before
                 {
                         border-width: 8px 7px 0;
@@ -5449,6 +5496,7 @@ bouton.recherche_contact #btn_rechercher {
                         top: 5px;
                         left: 0;
                 }*/
+
 }
 #colonne #infos_contact .contenu > ul > li:first-child {
   border-top: none;
@@ -5554,8 +5602,7 @@ bouton.recherche_contact #btn_rechercher {
   background: #cfe1f1 url("../images/boutons/btn_contact.png") center no-repeat;
   text-decoration: none;
 }
-/* Infobulle contact */
-#infobulle_contact {
+/* Infobulle contact */#infobulle_contact {
   -webkit-box-shadow: 0 0 20px #666666;
   -moz-box-shadow: 0 0 20px #666666;
   box-shadow: 0 0 20px #666666;
@@ -5675,9 +5722,13 @@ p#date_drm {
 #statut_declaration #declaration_etapes ol li {
   background: url(../images/fonds/bg_etapes_declaration.png) 0 -43px repeat-x;
   /* Premier */
+
   /* Elément passé / actif */
+
   /* 2 éléments passés à la suite */
+
   /* Elément actif */
+
 }
 #statut_declaration #declaration_etapes ol li > * {
   background: url(../images/fonds/bg_etapes_declaration.png) 0 -106px no-repeat;
@@ -5717,6 +5768,7 @@ p#date_drm {
 #statut_declaration #declaration_etapes ol li.actif {
   font-weight: bold;
   /* Elément après l'actif */
+
 }
 #statut_declaration #declaration_etapes ol li.actif + li > * {
   background-position: 0 -85px;
@@ -5726,6 +5778,7 @@ p#date_drm {
   margin: -10px 0 0;
   width: 130px;
   /* anciennement 190 */
+
 }
 #statut_declaration #etat_avancement p {
   font-size: 11px;
@@ -5890,8 +5943,11 @@ p#date_drm {
   float: left;
   width: 670px;
   /* Tableau de données */
+
   /* Année courante */
+
   /* Anciennes DRM */
+
 }
 #principal #recap_drm table {
   border-collapse: separate;
@@ -6070,7 +6126,7 @@ p#date_drm {
   position: absolute;
   right: 0;
   top: 0;
-  padding: 71px 0 0;
+  padding: 0px 30px ;
 }
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul li.action a {
   vertical-align: bottom;
@@ -6103,7 +6159,9 @@ p#date_drm {
 #principal .tableau_ajouts_liquidations {
   margin: 0 0 25px;
   /* Tableau de données */
+
   /* Ajout de produits */
+
 }
 #principal .tableau_ajouts_liquidations h2 {
   font-size: 14px;
@@ -6225,8 +6283,11 @@ p#date_drm {
   margin: 0 10px 0 0;
   padding-top: 15px;
   /* Colonne des intitulés */
+
   /* Colonne des saisies */
+
   /*.label{ height:30px !important; }*/
+
 }
 #colonnes_dr:before,
 #colonnes_dr:after {
@@ -6382,6 +6443,7 @@ p#date_drm {
   padding: 2px 5px 0;
   position: relative;
   /*width: @largeur-col-saisie - 26px; /* largeur col - padding et bordure col - padding et bordure input */
+
 }
 #colonnes_dr .col_recolte input.somme,
 #colonnes_dr .col_recolte input.somme_groupe,
@@ -6408,6 +6470,7 @@ p#date_drm {
   height: 18px;
   width: 88px;
   /* largeur col - padding et bordure col */
+
 }
 #colonnes_dr .col_recolte select[multiple] {
   height: 50px;
@@ -6500,6 +6563,7 @@ p#date_drm {
 }
 #colonnes_dr .col_recolte .col_cont .col_btn {
   /*.btn_col_active { display: none; }*/
+
   visibility: hidden;
   padding: 0 5px;
 }
@@ -6542,6 +6606,7 @@ p#date_drm {
 #colonnes_dr .col_recolte.col_inactive .col_cont .col_btn {
   /*.btn_col_inactive { visibility: hidden; }
                     .btn_col_active { display: none; }*/
+
 }
 #colonnes_dr .col_recolte.col_inactive .col_cont .col_btn .col_btn {
   visibility: hidden;
@@ -6583,6 +6648,7 @@ p#date_drm {
 #colonnes_dr .col_recolte.col_active .col_cont {
   /*.btn_col_active { display: block; }
                 .btn_col_inactive { display: none; }*/
+
 }
 #colonnes_dr .col_recolte.col_active .col_cont .col_btn {
   visibility: visible;
@@ -6590,6 +6656,7 @@ p#date_drm {
 #colonnes_dr .col_recolte.col_envoi .col_cont .col_btn {
   background: url(../images/visuels/ajax_loader.gif) center center no-repeat;
   /*.btn_col_active { visibility: hidden; }*/
+
 }
 #colonnes_dr .col_recolte.col_envoi .col_cont .col_btn button {
   visibility: hidden;
@@ -6989,6 +7056,7 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm #application_drm #form_produit_declaration {
   padding: 10px;
   /* Champ désactivé */
+
 }
 #principal.drm #application_drm #form_produit_declaration label {
   width: 200px;
@@ -7076,7 +7144,14 @@ bouton#colonnes_dr .btn_edition_label {
   left: -25px;
 }
 #principal.drm table .drm_crds_list input {
-  width: 32px;
+  width: 44px;
+}
+#principal.drm table .drm_crds_list td.type_crd_col {
+  width: 90px;
+}
+#principal.drm table .drm_crds_list td.crds_fin_de_mois {
+  min-width: 60px;
+  max-width: 60px;
 }
 #principal.drm table td.drm_administration_type {
   width: 15%;
@@ -7944,6 +8019,7 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
                 &:nth-child(2n+2){
                     background-color: @couleur-a8;
                 }*/
+
 }
 #principal.drm fieldset#espace_drm .section_label_maj table tr th,
 #principal.drm fieldset#historique_drm .section_label_maj table tr th,
@@ -8344,6 +8420,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
  ******************************************/
 .sv12 {
   /* Numéro de SV 12 */
+
 }
 .sv12 #num_sv12 {
   background: #ecebeb;
@@ -8364,7 +8441,9 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 }
 .sv12 #contenu_etape {
   /* Recherche SV 12 */
+
   /* Commentaire SV 12 */
+
 }
 .sv12 #contenu_etape fieldset {
   margin: 25px 0 0;
@@ -8600,9 +8679,13 @@ bouton#principal.drm fieldset .btn_container_exporter a {
  ******************************************/
 .revendication {
   /* Import */
+
   /* Rapport d'erreurs */
+
   /* Tableau d'erreurs */
+
   /* Volumes revendiqués */
+
 }
 .revendication #revendication_import_fichier {
   overflow: hidden;
@@ -8748,6 +8831,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
  ******************************************/
 .alerte {
   /* Modification */
+
 }
 .alerte #consultation_alerte,
 .alerte #modification_alerte {
@@ -8831,8 +8915,8 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     width: 780px;
   }
   /**
- * Header
- ******************************************/
+   * Header
+   ******************************************/
   #header {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -8895,8 +8979,8 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     padding: 20px 10px 0;
   }
   /**
- * Colonne
- ******************************************/
+   * Colonne
+   ******************************************/
   #btn_colonne {
     display: inline-block;
   }
@@ -8954,19 +9038,19 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     border-right: 0;
   }
   /*#vrac_soussigne,
-#vrac_marche,
-#vrac_condition,
-#vrac_validation,
-#vrac_recapitulatif,
-#contenu_etape
-{
-	.col
-	{
-		display: block;
-		float: none;
-		width: auto;
-	}
-}*/
+  #vrac_marche,
+  #vrac_condition,
+  #vrac_validation,
+  #vrac_recapitulatif,
+  #contenu_etape
+  {
+  	.col
+  	{
+  		display: block;
+  		float: none;
+  		width: auto;
+  	}
+  }*/
   #vrac_soussigne input.ui-autocomplete-input {
     width: 100%;
   }
@@ -9003,21 +9087,21 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     width: auto;
   }
   /**
- * Header
- ******************************************/
+   * Header
+   ******************************************/
   #header #navigation {
     left: -15px;
     right: -15px;
   }
   /**
- * Contenu
- ******************************************/
+   * Contenu
+   ******************************************/
   #contenu {
     border-radius: 0;
   }
   /**
- * Colonne
- ******************************************/
+   * Colonne
+   ******************************************/
   #btn_colonne {
     display: none !important;
   }

@@ -13,13 +13,10 @@
         <strong>
             <?php echo ($etablissement->isNew()) ? 'Nouvel établissement' : 'Modification établissement'; ?>
         </strong></p>
-
     <!-- #contenu_etape -->
     <section id="contacts">
         <div id="nouveau_etablissement">
             <h2><?php echo ($etablissement->isNew()) ? 'Nouvel établissement' : $etablissement->nom; ?></h2>
-
-
             <form action="<?php echo ($etablissement->isNew()) ? url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)) : url_for('etablissement_modification', array('identifiant' => $etablissement->identifiant)); ?>" method="post">
                 <div class="form_btn">
                     <?php if($etablissement->isNew()): ?>

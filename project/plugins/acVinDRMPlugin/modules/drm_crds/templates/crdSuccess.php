@@ -25,7 +25,7 @@
                         <th rowspan="2">Stock</th>
                         <th class="mainth" colspan="3">Entrées</th>
                         <th class="mainth" colspan="3">Sorties</th>
-                        <th rowspan="2">Stock <?php echo getLastDayForDrmPeriode($drm); ?></th>
+                        <th rowspan="2" >Stock <?php echo getLastDayForDrmPeriode($drm); ?></th>
                     </tr>
                     <tr>
 
@@ -42,7 +42,7 @@
                 <tbody class="drm_crds_list">
                     <?php foreach ($crds as $crdKey => $crd): ?>
                         <tr class="crd_row" id="<?php echo $crdKey; ?>">
-                            <td><?php echo $crd->getLibelle(); ?></td>
+                            <td class="type_crd_col"><?php echo $crd->getShortLibelle(); ?></td>
                             <td class="crds_debut_de_mois"><?php if ($crd->stock_debut) { echo $crd->stock_debut; }  echo $crdsForms['stock_debut_' . $regime . '_' . $crdKey]->render(array('class' => 'num_int')); ?></td>
                             <td class="crds_entreesAchats"><?php echo $crdsForms['entrees_achats_' . $regime . '_' . $crdKey]->render(array('class' => 'num_int')); ?></td>
                             <td class="crds_entreesRetours"><?php echo $crdsForms['entrees_retours_' . $regime . '_' . $crdKey]->render(array('class' => 'num_int')); ?></td>
@@ -56,13 +56,11 @@
                 </tbody>
             </table>
             <br/>
-
-        <?php endforeach; ?>
-        <br/>
         <div class="drm_add_crd_categorie">
             <a href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime)); ?>" class="btn_majeur submit_button">Ajouter des types de CRD</a>
         </div>
         <br/>
+        <?php endforeach; ?>
     <?php endforeach; ?>
     <div class="btn_etape">
         <a class="btn_etape_prec" href="<?php echo url_for('drm_edition', $drm); ?>">

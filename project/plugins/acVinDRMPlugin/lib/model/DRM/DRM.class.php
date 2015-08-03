@@ -1077,10 +1077,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $this->remove('documents_annexes');
             $this->add('documents_annexes');
         }
-        if ($this->exist('releve_non_apurement') && count($this->releve_non_apurement)) {
-            $this->remove('releve_non_apurement');
-            $this->add('releve_non_apurement');
-        }
+        
         if ($this->exist('quantite_sucre') && count($this->quantite_sucre)) {
             $this->quantite_sucre = null;
         }
