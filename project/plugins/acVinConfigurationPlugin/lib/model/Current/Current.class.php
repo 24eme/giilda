@@ -15,5 +15,17 @@ class Current extends BaseCurrent {
     {
     	return date('Y-m');
     }
+
+
+    public function getConfigurationId($date) {
+        foreach($this->configurations as $confDate => $confId) {
+            if($date >= $confDate) {
+
+                return $confId;
+            }
+        }
+
+        throw new sfException(sprintf("Pas de configuration pour cette date %s"), $date);
+    }
     
 }
