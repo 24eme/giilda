@@ -6,6 +6,11 @@ Current:
       _rev: {  }
       type: {  }
       campagne: {  }
+      configurations:
+        type: collection
+        definition:
+          fields:
+            '*': {  }
 
 Configuration:
   definition:
