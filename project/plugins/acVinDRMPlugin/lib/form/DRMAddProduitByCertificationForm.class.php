@@ -19,7 +19,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
 
     public function __construct(DRM $drm, $options = array(), $CSRFSecret = null) {
         $this->_drm = $drm;        
-        $this->_configurationCertification = ConfigurationClient::getCurrent()->get($options['configurationCertification']);
+        $this->_configurationCertification = $drm->getConfig()->get($options['configurationCertification']);
         parent::__construct($drm, $options, $CSRFSecret);
     }
 

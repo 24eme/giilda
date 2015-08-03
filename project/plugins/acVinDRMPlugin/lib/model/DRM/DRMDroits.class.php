@@ -22,7 +22,7 @@ class DRMDroits extends BaseDRMDroits {
       $this->res[$key] = new DRMDroit($value->getDefinition(), $value->getDocument(), $value->getHash());
     $this->res[$key]->integreVirtualVolume($value);
     $this->res[$key]->code = $key;
-    $this->res[$key]->libelle = (ConfigurationClient::getCurrent()->droits->exist($key))? ConfigurationClient::getCurrent()->droits->get($key) : $key;
+    $this->res[$key]->libelle = ($this->getDocument()->getConfig()->droits->exist($key)) ? $this->getDocument()->getConfig()->droits->get($key) : $key;
   }
 
   public function getDroitsWithVirtual() {

@@ -185,7 +185,7 @@ class SV12Contrat extends BaseSV12Contrat {
     public function getProduitObject() 
     {
 
-        return ConfigurationClient::getCurrent()->get($this->produit_hash);
+        return $this->getDocument()->getConfig()->get($this->produit_hash);
     }
 
     public function getContratTypeLibelle() {
@@ -200,7 +200,7 @@ class SV12Contrat extends BaseSV12Contrat {
       if ($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID] != $this->produit_hash || 
 	  $this->vendeur_identifiant != $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID] || 
 	  $this->contrat_type != $viewinfo[VracClient::VRAC_VIEW_TYPEPRODUIT]) {
-	$produit = ConfigurationClient::getCurrent()->get($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID]);
+	$produit = $this->getDocument()->getConfig()->get($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID]);
 	return $this->updateNoContrat($produit, array('contrat_type' => $viewinfo[VracClient::VRAC_VIEW_TYPEPRODUIT], 'vendeur_identifiant' => $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID], 'vendeur_nom' => $viewinfo[VracClient::VRAC_VIEW_VENDEUR_NOM], 'contrat_numero' => $this->contrat_numero, 'volume' => $this->volume, 'volume_prop' => $this->volume_prop));
       }
       return ;

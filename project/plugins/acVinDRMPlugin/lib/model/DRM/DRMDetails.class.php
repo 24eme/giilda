@@ -9,7 +9,7 @@ class DRMDetails extends BaseDRMDetails {
     public function getConfigDetails() {
         $detailConfigKey = $this->getDetailsConfigKey();
         
-        return ConfigurationClient::getCurrent()->declaration->details->get($detailConfigKey);
+        return $this->getDocument()->getConfig()->declaration->details->get($detailConfigKey);
     }
     
     public function getProduit($labels = array()) {

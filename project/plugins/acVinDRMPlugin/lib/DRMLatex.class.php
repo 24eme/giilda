@@ -23,7 +23,7 @@ class DRMLatex extends GenericLatex {
     function __construct(DRM $drm, $config = null) {
         sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
         $this->drm = $drm;
-        $configuration = ConfigurationClient::getCurrent();
+        $configuration = $drm->getConfig();
         $this->libelles_detail_ligne = $configuration->libelle_detail_ligne->get($this->drm->getDetailsConfigKey());
     }
 

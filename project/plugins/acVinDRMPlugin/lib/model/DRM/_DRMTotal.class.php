@@ -8,7 +8,7 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
     
     public function getConfig() {
 
-        return ConfigurationClient::getCurrent()->get($this->getHash());
+        return $this->getDocument()->getConfig()->get($this->getHash());
     }
 
     public function getConfigProduitsDroits($teledeclarationMode = false) {

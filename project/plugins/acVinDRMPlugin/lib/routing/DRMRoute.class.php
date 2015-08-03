@@ -33,7 +33,8 @@ class DRMRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
     }
     
     public function getDRMConfiguration() {
-        return ConfigurationClient::getCurrent();
+        
+        return $this->getDRM()->getConfig();
     }
 
     public function getDRM() {

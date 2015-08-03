@@ -92,7 +92,7 @@ abstract class Mouvement extends acCouchdbDocumentTree
 
     public function getProduitConfig() {
 
-       return ConfigurationClient::getCurrent()->get($this->produit_hash);
+       return $this->getDocument()->getConfig()->get($this->produit_hash);
     }
     
     public function getDocId() {

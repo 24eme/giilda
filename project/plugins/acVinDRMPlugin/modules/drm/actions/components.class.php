@@ -15,7 +15,7 @@ class drmComponents extends sfComponents {
     }
 
     public function executeEtapes() {
-        $this->config_certifications = ConfigurationClient::getCurrent()->declaration->certifications;
+        $this->config_certifications = $this->drm->getConfig()->declaration->certifications;
         $this->certifications = array();
 
         $i = 3;

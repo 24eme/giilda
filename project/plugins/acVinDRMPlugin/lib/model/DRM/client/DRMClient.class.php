@@ -519,7 +519,7 @@ class DRMClient extends acCouchdbClient {
     }
 
     public static function drmDefaultFavoris($periode) {
-        $configuration = ConfigurationClient::getCurrent();
+        $configuration = ConfigurationClient::getConfiguration($this->buildDate($periode));
         $configurationFields = array();
         foreach ($configuration->libelle_detail_ligne->get($periode) as $type => $libelles) {
             foreach ($libelles as $libelleHash => $libelle) {

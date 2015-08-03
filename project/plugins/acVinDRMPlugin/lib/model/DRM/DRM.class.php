@@ -109,6 +109,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return null;
     }
 
+    public function getConfig() {
+
+        return ConfigurationClient::getConfiguration($this->getDate());
+    }
+
     public function getConfigProduits($teledeclarationMode = false) {
 
         return $this->declaration->getConfigProduits($teledeclarationMode);
