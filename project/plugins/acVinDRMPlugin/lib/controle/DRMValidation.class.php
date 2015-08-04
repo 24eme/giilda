@@ -19,6 +19,9 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('vigilance', 'vrac_detail_negatif', "Le volume qui sera enlevé sur le contrat est supérieur au volume restant");
         $this->addControle('vigilance', 'crd_negatif', "Le nombre de CRD ne dois pas être négatif");
         $this->addControle('vigilance', 'documents_annexes_absents', "Les numéros de document sont mal renseignés.");
+        $this->addControle('vigilance', 'siret_absent', "Le numéro de siret n'a pas été renseigné");
+        $this->addControle('vigilance', 'no_accises_absent', "Le numéro d'accise n'a pas été renseigné");
+        $this->addControle('vigilance', 'caution_absent', "Le type de caution n'a pas été renseigné");
     }
 
     public function controle() {
@@ -80,6 +83,16 @@ class DRMValidation extends DocumentValidation {
                         }
                     }
                 }
+            }
+            
+            if(!$this->document->societe->siret){
+                 $this->addPoint('vigilance', 'siret_absent', 'Veuillez enregistrer votre siret',$this->generateUrl('drm_validation_update_societe', $this->document));
+            }
+            if(!$this->document->declarant->no_accises){
+                 $this->addPoint('vigilance', 'no_accises_absent', 'Veuillez enregistrer votre numéro d\'accise',$this->generateUrl('drm_validation_update_etablissement', $this->document));
+            }
+            if(!$this->document->declarant->caution){
+                 $this->addPoint('vigilance', 'caution_absent', 'Veuillez enregistrer votre type de caution',$this->generateUrl('drm_validation_update_etablissement', $this->document));
             }
         }
 
