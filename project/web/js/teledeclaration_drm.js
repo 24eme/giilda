@@ -1,3 +1,21 @@
+var initCreationPopup = function () {
+    $('.popup_creation_drm div.type_creation input').change(function () {
+
+        var id = $(this).attr('id');
+        var value = $(this).attr('value');
+        var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
+        if (value == 'CREATION_EDI') {
+            $('#file_edi_div_' + id_drm).show();
+        } else {
+            $('#file_edi_div_' + id_drm).hide();
+        }
+
+    });
+    $('.popup_creation_drm div.type_creation label').click(function(){
+        $(this).siblings('input').click();
+    });
+}
+
 var initAjoutProduitPopup = function () {
     $('.choix_produit_add_produit .submit_button').click(function () {
         $('.drm #form_choix_produits').attr('action', $(this).attr('href'));
@@ -35,8 +53,8 @@ var initSignatureDrmPopup = function () {
     })
 
     $('#signature_drm_popup_content a#signature_drm_popup_confirm').click(function () {
-       $("form#drm_validation input#drm_email_transmission").val($('#drm_email_transmission_visible').val());
-       $("form#drm_validation").submit();
+        $("form#drm_validation input#drm_email_transmission").val($('#drm_email_transmission_visible').val());
+        $("form#drm_validation").submit();
     });
 
 };
@@ -280,6 +298,7 @@ var initMsgAide = function () {
 
 $(document).ready(function ()
 {
+    initCreationPopup();
     initAjoutProduitPopup();
     initAjoutCrdsPopup();
     initRegimeCrdsPopup();

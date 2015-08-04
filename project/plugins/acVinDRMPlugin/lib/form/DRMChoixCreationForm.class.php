@@ -13,7 +13,7 @@ class DRMChoixCreationForm extends sfForm {
 
     public function configure() {
         $this->setWidgets(array(
-            'type_creation' => new sfWidgetFormChoice(array('choices' => $this->getTypesCreation())),
+            'type_creation' => new sfWidgetFormChoice(array('multiple' => false, 'expanded' => true, 'choices' => $this->getTypesCreation())),
             'file' => new sfWidgetFormInputFile()
         ));
         $this->widgetSchema->setLabels(array(
@@ -21,10 +21,10 @@ class DRMChoixCreationForm extends sfForm {
             'file' => "Fichier d'import de votre logiciel tiers"
         ));
         $this->setValidators(array(
-            'type_creation' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesCreation()))),
+            'type_creation' => new sfValidatorChoice(array('multiple' => false,  'required' => true, 'choices' => array_keys($this->getTypesCreation()))),
             'file' => new ValidatorImportCsv(array('file_path' => sfConfig::get('sf_data_dir') . '/upload'))
         ));
-
+        $this->widgetSchema['type_creation']->setDefault(DRMClient::DRM_CREATION_EDI);
         $this->widgetSchema->setNameFormat('drmChoixCreation[%s]');
     }
 

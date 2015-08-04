@@ -13,6 +13,8 @@
  * @property string $raison_rectificative
  * @property string $etape
  * @property string $campagne
+ * @property string $type_creation
+ * @property string $email_transmission
  * @property string $periode
  * @property string $teledeclare
  * @property string $precedente
@@ -34,6 +36,8 @@
  * @property DRMFavoris $favoris
  * @property acCouchdbJson $documents_annexes
  * @property DRMNonApurement $releve_non_apurement
+ * @property string $observations
+ * @property string $quantite_sucre
 
  * @method string get_id()
  * @method string set_id()
@@ -53,6 +57,10 @@
  * @method string setEtape()
  * @method string getCampagne()
  * @method string setCampagne()
+ * @method string getTypeCreation()
+ * @method string setTypeCreation()
+ * @method string getEmailTransmission()
+ * @method string setEmailTransmission()
  * @method string getPeriode()
  * @method string setPeriode()
  * @method string getTeledeclare()
@@ -95,6 +103,10 @@
  * @method acCouchdbJson setDocumentsAnnexes()
  * @method DRMNonApurement getReleveNonApurement()
  * @method DRMNonApurement setReleveNonApurement()
+ * @method string getObservations()
+ * @method string setObservations()
+ * @method string getQuantiteSucre()
+ * @method string setQuantiteSucre()
  
  */
  

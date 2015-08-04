@@ -6041,6 +6041,15 @@ p#date_drm {
   color: #3e3e3e;
   font-size: 14px;
 }
+div.fancybox-wrap .popup_creation_drm {
+  width: 400px;
+}
+div.fancybox-wrap .popup_creation_drm ul.radio_list li {
+  width: 220px;
+}
+div.fancybox-wrap .popup_creation_drm .ligne_btn {
+  width: 500px;
+}
 #principal #mon_espace .etablissements_drms {
   height: 215px;
   overflow: auto;
