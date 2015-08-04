@@ -11,7 +11,7 @@ var initCreationPopup = function () {
         }
 
     });
-    $('.popup_creation_drm div.type_creation label').click(function(){
+    $('.popup_creation_drm div.type_creation label').click(function () {
         $(this).siblings('input').click();
     });
 }
@@ -64,7 +64,7 @@ var initCrds = function () {
         var id = $(this).attr('id');
         var inputs = $('input');
         updateCrdsTotaux(id);
-
+        
         inputs.saisieNum(false, null, null);
 
         inputs.click(function ()
@@ -72,12 +72,15 @@ var initCrds = function () {
             $(this).select();
         });
 
-        inputs.change(updateCrdsTotaux(id));
+        inputs.blur(function () {
+            updateCrdsTotaux(id);
+        });
 
     });
 }
 
 var updateCrdsTotaux = function (id) {
+    console.log('her');
     var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
 
     var entreesAchats = (!isNaN(parseInt($("#" + id + " td.crds_entreesAchats input").val()))) ? parseInt($("#" + id + " td.crds_entreesAchats input").val()) : 0;

@@ -17,7 +17,7 @@ class DRMValidation extends DocumentValidation {
         }
         $this->addControle('vigilance', 'total_negatif', "Le stock revendiqué théorique fin de mois est négatif");
         $this->addControle('vigilance', 'vrac_detail_negatif', "Le volume qui sera enlevé sur le contrat est supérieur au volume restant");
-        //     $this->addControle('vigilance', 'total_crd_incoherent', "Le volume de sortie bouteilles est différent de celui des CRDs sorties.");
+        $this->addControle('vigilance', 'crd_negatif', "Le nombre de CRD ne dois pas être négatif");
         $this->addControle('vigilance', 'documents_annexes_absents', "Les numéros de document sont mal renseignés.");
     }
 
@@ -68,21 +68,21 @@ class DRMValidation extends DocumentValidation {
                 $this->addPoint('erreur', 'repli', $detail->getLibelle(), $this->generateUrl('drm_edition', $this->document));
             }
         }
-        /*
-          if (false && $this->isTeledeclarationDrm) {
-          $total_sorties_bouteilles = 0;
-          foreach ($this->document->getProduitsDetails() as $detail) {
-          $total_sorties_bouteilles += $detail->sorties->bouteille;
-          }
-          $total_sorties_crds = 0;
-          foreach ($this->document->getAllCrds() as $crd) {
-          $total_sorties_crds += $crd->sorties * $crd->centilitrage;
-          }
 
-          if ($total_sorties_crds != $total_sorties_bouteilles) {
-          $this->addPoint('vigilance', 'total_crd_incoherent', $total_sorties_bouteilles . 'Hl de sortie bouteilles contre ' . $total_sorties_crds . 'Hl CRD', $this->generateUrl('drm_crd', $this->document));
-          }
-          } */
+        if ($this->isTeledeclarationDrm) {
+
+            foreach ($this->document->getAllCrdsByRegimeAndByGenre() as $regime => $crdByRegime) {
+                foreach ($crdByRegime as $genre => $crds) {
+                    foreach ($crds as $type_crd => $crd) {
+                        if (!is_null($crd->stock_fin) && $crd->stock_fin < 0) {
+                             $genreLibelle = ($genre == 'TRANQ')? 'TRANQUILLE' : $genre;
+                            $this->addPoint('vigilance', 'crd_negatif', $crd->getLibelle().' ('.$genreLibelle.')',$this->generateUrl('drm_crd', $this->document));
+                        }
+                    }
+                }
+            }
+        }
+
         $sortiesDocAnnexes = array();
         foreach ($this->document->getProduitsDetails() as $detail) {
             if (count($detail->sorties->export_details)) {
