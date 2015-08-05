@@ -162,11 +162,23 @@ class DRMCalendrier {
         if ($drm[self::VIEW_STATUT]) {
             if (!$isTeledeclarationMode) {
                 return self::STATUT_VALIDEE_NON_TELEDECLARE;
+            } else {
+                $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($drm[self::VIEW_INDEX_ETABLISSEMENT], $drm[self::VIEW_PERIODE]);
+                if (!$drm->isTeledeclare()) {
+                    return self::STATUT_VALIDEE_NON_TELEDECLARE;
+                }
+                return self::STATUT_VALIDEE;
             }
             return self::STATUT_VALIDEE;
         }
         if (!$isTeledeclarationMode) {
             return self::STATUT_EN_COURS_NON_TELEDECLARE;
+        } else {
+            $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($drm[self::VIEW_INDEX_ETABLISSEMENT], $drm[self::VIEW_PERIODE]);
+            if (!$drm->isTeledeclare()) {
+                return self::STATUT_EN_COURS_NON_TELEDECLARE;
+            }
+            return self::STATUT_EN_COURS;
         }
         return self::STATUT_EN_COURS;
     }
@@ -290,7 +302,7 @@ class DRMCalendrier {
         $drmsToCreate = array();
         foreach ($this->getPeriodes() as $periode) {
             if ($this->multiEtbs) {
-                foreach ($this->etablissements as $etb) { 
+                foreach ($this->etablissements as $etb) {
                     if ($this->getStatut($periode, $etb->etablissement, true) == self::STATUT_NOUVELLE) {
                         if (!array_key_exists($etb->etablissement->identifiant, $drmsToCreate)) {
                             $drmsToCreate[$etb->etablissement->identifiant] = array();

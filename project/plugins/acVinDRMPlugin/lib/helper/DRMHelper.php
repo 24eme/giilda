@@ -86,6 +86,7 @@ function hasALink($isTeledeclarationMode, $calendrier, $periode, $etablissement 
         if (($statut == DRMCalendrier::STATUT_VALIDEE) || ($statut == DRMCalendrier::STATUT_EN_COURS)) {
             return $calendrier->isTeledeclare($periode, $etablissement);
         }
+        return ($statut == DRMCalendrier::STATUT_NOUVELLE);
     }
     return true;
 }
@@ -100,6 +101,12 @@ function getEtatDRMCalendrier($calendrier, $periode, $etablissement = false) {
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'A créer';
+    }
+    if ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE) {
+        return 'Validée';
+    }
+    if ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE) {
+        return 'En attente';
     }
     return $statut;
 }
@@ -121,7 +128,7 @@ function isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode,
 }
 
 function getEtatDRMPictoCalendrier($calendrier, $periode, $etablissement = false) {
-    $statut = $calendrier->getStatut($periode, $etablissement);
+    $statut = $calendrier->getStatut($periode, $etablissement);   
     if ($statut == DRMCalendrier::STATUT_VALIDEE) {
         return 'valide_etablissement';
     }
@@ -130,6 +137,12 @@ function getEtatDRMPictoCalendrier($calendrier, $periode, $etablissement = false
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'nouv_etablissement';
+    }
+    if ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE) {
+        return 'valide_papier_etablissement';
+    }
+    if ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE) {
+        return 'attente_papier_non_teledeclaree';
     }
     return $statut;
 }
@@ -170,6 +183,12 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode, $etablissement = fal
         return 'Voir la drm';
     }
     if ($statut == DRMCalendrier::STATUT_EN_COURS) {
+        return 'En attente';
+    }
+    if ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE) {
+        return 'Voir la drm';
+    }
+    if ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE) {
         return 'En attente';
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {

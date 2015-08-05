@@ -7673,6 +7673,48 @@ bouton#colonnes_dr .btn_edition_label {
   background-position: 0 -52px;
   border-color: #6d6b6b;
 }
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement {
+  background: url('../images/pictos/pi_grey_alerte.png') no-repeat;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut {
+  background-image: url(../images/pictos/sprite_calendrier.png);
+  background-repeat: no-repeat;
+  display: inline-block;
+  font-weight: bold;
+  height: 23px;
+  line-height: 23px;
+  padding-left: 26px;
+  background-image: url('../images/pictos/pi_grey_plus.png');
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action {
+  color: #ffffff;
+  background-position: 0 -52px;
+  border-color: #6d6b6b;
+}
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .nouv_etablissement .btn_etablissement,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .nouv_etablissement .btn_etablissement,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .nouv_etablissement .btn_etablissement,
