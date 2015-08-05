@@ -120,7 +120,7 @@ class drmActions extends drmGeneriqueActions {
      * @param sfWebRequest $request 
      */
     public function executeCreationEdi(sfWebRequest $request) {
-       
+
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
         $md5 = $request->getParameter('md5');
@@ -136,14 +136,14 @@ class drmActions extends drmGeneriqueActions {
         $this->setLayout(false);
         $drm = $this->getRoute()->getDRM();
         $this->drmCsvEdi = new DRMCsvEdi($drm);
-        
-        $filename = 'export_edi_'.$drm->identifiant.'_'.$drm->periode;
+
+        $filename = 'export_edi_' . $drm->identifiant . '_' . $drm->periode;
 
 
         $attachement = "attachment; filename=" . $filename . ".csv";
 
         $this->response->setContentType('text/csv');
-        $this->response->setHttpHeader('Content-Disposition', $attachement);              
+        $this->response->setHttpHeader('Content-Disposition', $attachement);
     }
 
     /**
@@ -181,18 +181,21 @@ class drmActions extends drmGeneriqueActions {
      * @param sfWebRequest $request 
      */
     public function executeDelete(sfWebRequest $request) {
-        $this->drm = $this->getRoute()->getDRM();
-        if ($request->isMethod(sfRequest::POST)) {
-            if ($request->getParameter('confirm')) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->drm = $this->getRoute()->getDRM();        
+        $this->initDeleteForm();
+        if ($request->isMethod(sfRequest::POST)) {                 
+            $this->deleteForm->bind($request->getParameter($this->deleteForm->getName()));
+            if ($this->deleteForm->isValid()) {
                 $this->drm->delete();
+                $this->redirect('drm_etablissement', $this->drm);
             }
 
-            $this->redirect('drm_etablissement', $this->drm);
         }
     }
 
     private function formCampagne(sfWebRequest $request, $route) {
-         $isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
         if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
@@ -203,7 +206,7 @@ class drmActions extends drmGeneriqueActions {
             $this->campagne = -1;
         }
 
-        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne,$isTeledeclarationMode);
+        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne, $isTeledeclarationMode);
         if ($request->isMethod(sfWebRequest::POST)) {
             $param = $request->getParameter($this->formCampagne->getName());
             if ($param) {

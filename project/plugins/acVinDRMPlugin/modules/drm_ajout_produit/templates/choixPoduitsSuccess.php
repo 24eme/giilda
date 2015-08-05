@@ -20,7 +20,7 @@
                 </div>
                 <div class="btn_etape">
                     <a href="<?php echo url_for('drm_societe', array('identifiant' => $drm->getEtablissement()->identifiant)); ?>" class="btn_etape_prec"><span>Précédent</span></a>
-                    <a class="lien_drm_supprimer" href="<?php echo url_for('drm_delete', $drm); ?>">
+                    <a class="drm_delete_lien lien_drm_supprimer" href="#drm_delete_popup">
                         <span>Supprimer la DRM</span>
                     </a>
                     <button type="submit" class="btn_etape_suiv" id="choixProduitsSubmit"><span>Etape Suivante</span></button>
@@ -38,4 +38,6 @@
 </section>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
+
+include_partial('drm/deleteDrmPopup', array('drm' => $drm, 'deleteForm' => $deleteForm));
 ?>

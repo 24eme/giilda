@@ -66,9 +66,9 @@
         <a class="btn_etape_prec" href="<?php echo url_for('drm_edition', $drm); ?>">
             <span>Précédent</span>
         </a>
-        <a class="lien_drm_supprimer" href="<?php echo url_for('drm_delete', $drm); ?>">
-            <span>Supprimer la DRM</span>
-        </a>
+       <a class="drm_delete_lien lien_drm_supprimer" href="#drm_delete_popup">
+                        <span>Supprimer la DRM</span>
+                    </a>
         <button class="btn_etape_suiv" id="button_drm_validation" type="submit"><span>Suivant</span></button>
     </div>
 </form>
@@ -82,4 +82,5 @@
 </section>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => true));
+include_partial('drm/deleteDrmPopup', array('drm' => $drm, 'deleteForm' => $deleteForm));
 ?>

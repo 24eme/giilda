@@ -1,20 +1,3 @@
-var initCreationPopup = function () {
-    $('.popup_creation_drm div.type_creation input').change(function () {
-
-        var id = $(this).attr('id');
-        var value = $(this).attr('value');
-        var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
-        if (value == 'CREATION_EDI') {
-            $('#file_edi_div_' + id_drm).show();
-        } else {
-            $('#file_edi_div_' + id_drm).hide();
-        }
-
-    });
-    $('.popup_creation_drm div.type_creation label').click(function () {
-        $(this).siblings('input').click();
-    });
-}
 
 var initAjoutProduitPopup = function () {
     $('.choix_produit_add_produit .submit_button').click(function () {
@@ -64,7 +47,7 @@ var initCrds = function () {
         var id = $(this).attr('id');
         var inputs = $('input');
         updateCrdsTotaux(id);
-        
+
         inputs.saisieNum(false, null, null);
 
         inputs.click(function ()
@@ -158,7 +141,38 @@ var initCreationDrmPopup = function () {
     $('.popup_contenu a#drm_nouvelle_popup_close').click(function () {
         $.fancybox.close();
     });
-    $('.popup_contenu button#drm_nouvelle_popup_confirm').click(function () {
+    
+
+    $('.popup_creation_drm div.type_creation input').change(function () {
+
+        var id = $(this).attr('id');
+        var value = $(this).attr('value');
+        var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
+        if (value == 'CREATION_EDI') {
+            $('#file_edi_div_' + id_drm).show();
+        } else {
+            $('#file_edi_div_' + id_drm).hide();
+        }
+
+    });
+    $('.popup_creation_drm div.type_creation label').click(function () {
+        $(this).siblings('input').click();
+    });
+};
+
+var initDeleteDrmPopup = function () {
+
+    $('a.drm_delete_lien').fancybox({
+        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+        minWidth: 500
+    });
+    $('.popup_contenu a#drm_delete_popup_close').click(function () {
+        $.fancybox.close();
+    });
+    $('.popup_contenu button#drm_delete_popup_confirm').click(function () {
 
         var idForm = $(this).parents('form').attr('id');
         console.log("post " + idForm);
@@ -301,7 +315,8 @@ var initMsgAide = function () {
 
 $(document).ready(function ()
 {
-    initCreationPopup();
+    initCreationDrmPopup();
+    initDeleteDrmPopup();
     initAjoutProduitPopup();
     initAjoutCrdsPopup();
     initRegimeCrdsPopup();
@@ -313,5 +328,4 @@ $(document).ready(function ()
     initSignatureDrmPopup();
     initBoldSaisie();
     initMsgAide();
-    initCreationDrmPopup();
 });

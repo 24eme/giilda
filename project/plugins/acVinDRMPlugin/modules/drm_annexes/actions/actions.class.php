@@ -6,6 +6,7 @@ class drm_annexesActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->initDeleteForm();
         $this->drm->initReleveNonApurement();
         $this->annexesForm = new DRMAnnexesForm($this->drm);
         if ($request->isMethod(sfRequest::POST)) {
