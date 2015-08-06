@@ -78,6 +78,11 @@ class Revendication extends BaseRevendication {
         }
         return $this->date;
     }
+
+    public function getConfig() {
+
+        return ConfigurationClient::getConfiguration($this->getDate());
+    }
         
     public function insertRow($num_ligne, $row) {
       if ($this->lineToBeIgnored($num_ligne, $row)) {
@@ -121,14 +126,14 @@ class Revendication extends BaseRevendication {
 
     public function setProduits() {
         if (!$this->produits){
-            $this->produits = ConfigurationClient::getCurrent()->formatProduits($this->getDate(),"%format_libelle%");
+            $this->produits = $this->getConfig()->formatProduits($this->getDate(),"%format_libelle%");
         }
         return $this->produits;
     }
 
     public function setProduitsAlias() {
         if (!$this->produitsAlias){
-            $aliases = ConfigurationClient::getCurrent()->getAlias();
+            $aliases = $this->getConfig()->getAlias();
             foreach ($aliases as $key => $alias) {
                 $key_hash = str_replace('-', '/', $key);
                 if(array_key_exists($key_hash, $this->getProduits())){
@@ -142,7 +147,7 @@ class Revendication extends BaseRevendication {
 
     public function setProduitsCodeDouaneHashes() {
         if (!$this->produitsCodeDouane){
-            $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouane($this->date,'INTERPRO-inter-loire', array(ConfigurationDroits::DROIT_CVO));
+            $this->produitsCodeDouane = $this->getConfig()->declaration->getProduitsHashByCodeDouane($this->date,'INTERPRO-inter-loire', array(ConfigurationDroits::DROIT_CVO));
         }
 
         return $this->produitsCodeDouane;

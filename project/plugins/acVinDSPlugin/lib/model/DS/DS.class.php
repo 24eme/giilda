@@ -38,7 +38,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 
     public function getConfig() {
 
-        return ConfigurationClient::getCurrent();
+        return ConfigurationClient::getConfiguration($this->getDate());
     }
 
     public function getConfigProduits() {
@@ -46,6 +46,11 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
         return $this->getConfig()->formatProduits($this->getFirstDayOfPeriode(), "%format_libelle% (%code_produit%)", array(ConfigurationDroits::DROIT_CVO));
     }
     
+    public function getDate() {
+
+        return $this->getFirstDayOfPeriode();
+    }
+
     public function getFirstDayOfPeriode() {        
        return substr($this->periode, 0,4).'-'.substr($this->periode, 4,2).'-01';
     }
@@ -90,7 +95,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     }
 
     public function addProduit($hash) {
-        $config = ConfigurationClient::getCurrent()->get($hash);
+        $config = $this->getConfig()->get($hash);
 
         if(!$config->hasCVO($this->date_stock)) {
 

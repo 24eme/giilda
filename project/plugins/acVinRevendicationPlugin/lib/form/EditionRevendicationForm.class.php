@@ -61,7 +61,7 @@ class EditionRevendicationForm extends sfForm {
 
     protected function getConfig() {
 
-        return ConfigurationClient::getCurrent();
+        return ConfigurationClient::getConfiguration($this->date);
     }
 
     public function doUpdate() {
