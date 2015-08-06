@@ -197,7 +197,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
     protected function getConfig() {
 
-        return ConfigurationClient::getCurrent();
+        return $this->getObject()->getConfig();
     }
 
     protected function getLabels() {

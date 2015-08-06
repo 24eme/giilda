@@ -111,7 +111,7 @@ class VracValidation extends DocumentValidation {
     }
     
     private function checkDateEnlevement() {
-        $produits = ConfigurationClient::getCurrent()->getProduits();
+        $produits = $this->document->getConfig()->getProduits();
         $produit = null;
         foreach ($produits as $hash => $produitConf) {
             if($this->document->produit == $hash){

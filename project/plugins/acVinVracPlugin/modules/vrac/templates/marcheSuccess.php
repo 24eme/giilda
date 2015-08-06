@@ -77,7 +77,7 @@ $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->ge
 foreach ($form->getProduits() as $key => $prod) :
     if ($key != "") :
         ?>
-            densites["<?php echo $key ?>"] = "<?php echo ConfigurationClient::getCurrent()->get($key)->getDensite(); ?>";
+            densites["<?php echo $key ?>"] = "<?php echo $vrac->getConfig()->get($key)->getDensite(); ?>";
         <?php
     endif;
 endforeach;

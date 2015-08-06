@@ -46,7 +46,7 @@ class Vrac extends BaseVrac {
     public function setProduit($value) {
         if ($value != $this->_get('produit')) {
             $this->_set('produit', $value);
-            $this->produit_libelle = $this->getProduitObject()->getLibelleFormat(array(), "%format_libelle%");
+            $this->produit_libelle = $this->getConfigProduit()->getLibelleFormat(array(), "%format_libelle%");
         }
     }
 
@@ -212,6 +212,11 @@ class Vrac extends BaseVrac {
         $this->campagne = VracClient::getInstance()->buildCampagne($this->getDateCampagne('Y-m-d'));
     }
 
+    public function getDateConfig() {
+
+        return $this->getDateCampagne('Y-m-d');   
+    }
+
     public function getPrixUnitaire() {
         if (is_null($this->_get('prix_unitaire'))) {
             return $this->prix_initial_unitaire;
@@ -330,7 +335,7 @@ class Vrac extends BaseVrac {
     }
 
     public function getDroitCVO() {
-        return $this->getProduitObject()->getDroitCVO($this->getPeriode());
+        return $this->getConfigProduit()->getDroitCVO($this->getPeriode());
     }
 
     public function getRepartitionCVOCoef($identifiant) {
@@ -353,8 +358,8 @@ class Vrac extends BaseVrac {
     }
 
 
-    public function getProduitObject() {
-        return ConfigurationClient::getCurrent()->get($this->produit);
+    public function getConfigProduit() {
+        return $this->getConfig()->get($this->produit);
     }
 
     public function getVendeurObject() {
@@ -391,11 +396,12 @@ class Vrac extends BaseVrac {
     }
 
     private function getDensite() {
-        return $this->getConfig()->getDensite();
+        return $this->getConfigProduit()->getDensite();
     }
 
     public function getConfig() {
-        return ConfigurationClient::getCurrent()->get($this->produit);
+
+        return ConfigurationClient::getConfiguration($this->getDateConfig());
     }
 
     public function __toString() {
@@ -560,7 +566,7 @@ class Vrac extends BaseVrac {
     public function getProduitsConfig() {
         $date = (!$this->date_signature) ? date('Y-m-d') : Date::getIsoDateFromFrenchDate($this->date_signature);
 
-        return ConfigurationClient::getCurrent()->formatProduits($date, "%format_libelle% (%code_produit%)", array(ConfigurationDroits::DROIT_CVO));
+        return $this->getConfig()->formatProduits($date, "%format_libelle% (%code_produit%)", array(ConfigurationDroits::DROIT_CVO));
     }
 
     public function getQuantite() {

@@ -25,7 +25,7 @@ class Current extends BaseCurrent {
             }
         }
 
-        throw new sfException(sprintf("Pas de configuration pour cette date %s"), $date);
+        throw new sfException(sprintf("Pas de configuration pour cette date %s", $date));
     }
     
 }
