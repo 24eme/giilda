@@ -34,6 +34,11 @@ Configuration:
         definition:
           fields:
             '*': {  }
+      mvts_favoris:
+        type: collection
+        definition:
+          fields:
+            '*': { }
       libelle_detail_ligne:
         type: collection
         definition:
