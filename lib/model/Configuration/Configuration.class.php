@@ -148,7 +148,7 @@ class Configuration extends BaseConfiguration {
 
     public function save() {
         parent::save();
-        ConfigurationClient::getInstance()->cacheResetConfiguration();
+        CurrentClient::getInstance()->cacheResetConfiguration();
     }
 
     public function prepareCache() {
