@@ -39,6 +39,7 @@
 
         <?php if ($drm->isModifiable()): ?>
             <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
+            
         <?php endif; ?>
 
         <?php if (!$drm->isMaster()): ?>
