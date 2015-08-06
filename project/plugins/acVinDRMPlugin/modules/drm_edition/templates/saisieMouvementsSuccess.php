@@ -38,7 +38,7 @@
                     <?php if (!$isTeledeclarationMode): ?>
                         <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn_brouillon btn_majeur">Enregistrer en brouillon</a>
                     <?php endif; ?>
-                    <a class="lien_drm_supprimer" href="<?php echo url_for('drm_delete', $drm); ?>">
+                    <a class="drm_delete_lien lien_drm_supprimer" href="#drm_delete_popup">
                         <span>Supprimer la DRM</span>
                     </a>
                     <?php echo $formValidation->renderHiddenFields(); ?>
@@ -53,4 +53,5 @@
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
 include_partial('drm_edition/colonne_droite_fil_edition', array('produits' => $details, 'drm' => $drm, 'config' => $config));
+include_partial('drm/deleteDrmPopup', array('drm' => $drm, 'deleteForm' => $deleteForm));
 ?>

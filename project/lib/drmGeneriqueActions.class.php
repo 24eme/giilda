@@ -38,5 +38,9 @@ class drmGeneriqueActions extends sfActions {
     protected function isTeledeclarationDrm() {
         return $this->getUser()->hasTeledeclarationDrm();
     }
+    
+    protected function initDeleteForm() {
+        $this->deleteForm = new DRMDeleteForm($this->drm);
+    }
 
 }

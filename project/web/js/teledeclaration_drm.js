@@ -1,3 +1,4 @@
+
 var initAjoutProduitPopup = function () {
     $('.choix_produit_add_produit .submit_button').click(function () {
         $('.drm #form_choix_produits').attr('action', $(this).attr('href'));
@@ -35,8 +36,8 @@ var initSignatureDrmPopup = function () {
     })
 
     $('#signature_drm_popup_content a#signature_drm_popup_confirm').click(function () {
-       $("form#drm_validation input#drm_email_transmission").val($('#drm_email_transmission_visible').val());
-       $("form#drm_validation").submit();
+        $("form#drm_validation input#drm_email_transmission").val($('#drm_email_transmission_visible').val());
+        $("form#drm_validation").submit();
     });
 
 };
@@ -54,12 +55,15 @@ var initCrds = function () {
             $(this).select();
         });
 
-        inputs.change(updateCrdsTotaux(id));
+        inputs.blur(function () {
+            updateCrdsTotaux(id);
+        });
 
     });
 }
 
 var updateCrdsTotaux = function (id) {
+    console.log('her');
     var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
 
     var entreesAchats = (!isNaN(parseInt($("#" + id + " td.crds_entreesAchats input").val()))) ? parseInt($("#" + id + " td.crds_entreesAchats input").val()) : 0;
@@ -137,7 +141,38 @@ var initCreationDrmPopup = function () {
     $('.popup_contenu a#drm_nouvelle_popup_close').click(function () {
         $.fancybox.close();
     });
-    $('.popup_contenu button#drm_nouvelle_popup_confirm').click(function () {
+    
+
+    $('.popup_creation_drm div.type_creation input').change(function () {
+
+        var id = $(this).attr('id');
+        var value = $(this).attr('value');
+        var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
+        if (value == 'CREATION_EDI') {
+            $('#file_edi_div_' + id_drm).show();
+        } else {
+            $('#file_edi_div_' + id_drm).hide();
+        }
+
+    });
+    $('.popup_creation_drm div.type_creation label').click(function () {
+        $(this).siblings('input').click();
+    });
+};
+
+var initDeleteDrmPopup = function () {
+
+    $('a.drm_delete_lien').fancybox({
+        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: 'auto',
+        minWidth: 500
+    });
+    $('.popup_contenu a#drm_delete_popup_close').click(function () {
+        $.fancybox.close();
+    });
+    $('.popup_contenu button#drm_delete_popup_confirm').click(function () {
 
         var idForm = $(this).parents('form').attr('id');
         console.log("post " + idForm);
@@ -280,6 +315,8 @@ var initMsgAide = function () {
 
 $(document).ready(function ()
 {
+    initCreationDrmPopup();
+    initDeleteDrmPopup();
     initAjoutProduitPopup();
     initAjoutCrdsPopup();
     initRegimeCrdsPopup();
@@ -291,5 +328,4 @@ $(document).ready(function ()
     initSignatureDrmPopup();
     initBoldSaisie();
     initMsgAide();
-    initCreationDrmPopup();
 });

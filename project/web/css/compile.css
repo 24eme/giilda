@@ -6041,6 +6041,15 @@ p#date_drm {
   color: #3e3e3e;
   font-size: 14px;
 }
+div.fancybox-wrap .popup_creation_drm {
+  width: 400px;
+}
+div.fancybox-wrap .popup_creation_drm ul.radio_list li {
+  width: 220px;
+}
+div.fancybox-wrap .popup_creation_drm .ligne_btn {
+  width: 500px;
+}
 #principal #mon_espace .etablissements_drms {
   height: 215px;
   overflow: auto;
@@ -7660,6 +7669,48 @@ bouton#colonnes_dr .btn_edition_label {
 #principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .valide_papier_etablissement a.action,
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .valide_papier_etablissement a.action,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .valide_papier_etablissement a.action {
+  color: #ffffff;
+  background-position: 0 -52px;
+  border-color: #6d6b6b;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .btn_etablissement {
+  background: url('../images/pictos/pi_grey_alerte.png') no-repeat;
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree .statut {
+  background-image: url(../images/pictos/sprite_calendrier.png);
+  background-repeat: no-repeat;
+  display: inline-block;
+  font-weight: bold;
+  height: 23px;
+  line-height: 23px;
+  padding-left: 26px;
+  background-image: url('../images/pictos/pi_grey_plus.png');
+}
+#principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#espace_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#historique_drm .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#stock_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#espace_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action {
   color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;

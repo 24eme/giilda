@@ -7,6 +7,7 @@ class drm_editionActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->loadFavoris();        
+        $this->initDeleteForm();
         $this->formFavoris = new DRMFavorisForm($this->drm);
         $this->formValidation = new DRMMouvementsValidationForm($this->drm, array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->detailsNodes = $this->config->details->get($this->drm->getDetailsConfigKey())->detail;

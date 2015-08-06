@@ -1,4 +1,4 @@
-\documentclass[a4paper,oneside, landscape, 9pt]{article}
+\documentclass[a4paper,oneside, landscape, 9pt]{extarticle}
 
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}

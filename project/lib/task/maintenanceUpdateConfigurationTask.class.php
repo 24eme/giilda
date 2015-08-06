@@ -84,12 +84,9 @@ EOF;
         $configuration->declaration->certifications->remove('VdP');
         $igp = $configuration->declaration->certifications->IGP;
         $configuration->declaration->certifications->remove('IGP');
-        $autres = $configuration->declaration->certifications->AUTRES;
-        $configuration->declaration->certifications->remove('AUTRES');
 
         $configuration->declaration->certifications->add('IGP', $igp);
         $configuration->declaration->certifications->add('VdP', $vdp);
-        $configuration->declaration->certifications->add('AUTRES', $autres);
 
         $configuration->save();
     }

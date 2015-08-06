@@ -7,7 +7,7 @@ class drm_crdsActions extends drmGeneriqueActions {
         $this->drm = $this->getRoute()->getDRM();
         $this->drm->crdsInitDefault();
         $this->crdsForms = new DRMCrdsForm($this->drm);
-
+        $this->initDeleteForm();
         if($request->getParameter('add_crd')) {
             $this->addCrdRegime = $request->getParameter('add_crd');
             $this->addCrdForm = new DRMAddCrdTypeForm($this->drm);

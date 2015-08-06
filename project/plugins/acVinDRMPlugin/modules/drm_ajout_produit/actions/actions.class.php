@@ -7,12 +7,7 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
         $this->drm = $this->getRoute()->getDRM();
         $this->certificationsProduits = $this->drm->declaration->getProduitsDetailsByCertifications(true);
         $this->form = new DRMProduitsChoiceForm($this->drm);
-
-        /*$this->formAddProduitsByCertifications = array();
-        
-        foreach ($this->certificationsProduits as $certificationProduits) {
-            $this->formAddProduitsByCertifications[$certificationProduits->certification->getHashForKey()] = new DRMAddProduitByCertificationForm($this->drm, array('configurationCertification' => $certificationProduits->certification));
-        }*/
+        $this->initDeleteForm();
 
         $this->hasRegimeCrd = $this->drm->getEtablissement()->hasRegimeCrd();
         $this->showPopupRegimeCrd = $request->getParameter('popupCRD') || !$this->hasRegimeCrd;
