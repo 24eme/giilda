@@ -4,11 +4,11 @@
  * 
  * Base model for ConfigurationDeclaration
 
- * @property acCouchdbJson $details
+ * @property ConfigurationDetail $detail
  * @property acCouchdbJson $certifications
 
- * @method acCouchdbJson getDetails()
- * @method acCouchdbJson setDetails()
+ * @method ConfigurationDetail getDetail()
+ * @method ConfigurationDetail setDetail()
  * @method acCouchdbJson getCertifications()
  * @method acCouchdbJson setCertifications()
  
