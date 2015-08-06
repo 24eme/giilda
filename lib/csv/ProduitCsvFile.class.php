@@ -55,11 +55,7 @@ class ProduitCsvFile extends CsvFile {
     }
 
     private function getProduit($hash) {
-        return $this->config->declaration->get($hash);
-    }
-
-    private function addProduit($hash) {
-        return $this->config->declaration->add($hash);
+        return $this->config->declaration->getOrAdd($hash);
     }
 
     private function getNewHash($line) {
@@ -134,40 +130,46 @@ class ProduitCsvFile extends CsvFile {
     public function importProduits() {
         $this->errors = array();
         $csv = $this->getCsv();
+
+        $this->oldconfig = clone $this->config;
+
+        $this->config->declaration->remove('certifications');
+        $this->config->declaration->add('certifications');
+
         try {
             foreach ($csv as $line) {
-                if (preg_match('/^#/', $line))
+                if(preg_match("/^#/", $line[0])) {
                     continue;
-                $oldHash = $this->getOldHash($line);
-                $newHash = $this->getOldHash($line);
-
-                $produit = $this->getProduit($oldHash);
-                if (!$produit) {
-                    $this->addProduit($oldHash);
-                    echo "Ajout du nouveau produit " . $hash . " " . $this->getStringLine($line) . "\n";
-                } else {
-                    if ($oldHash != $newHash) {
-                        $this->updateProduit($produit, $line);
-                        $this->config->getOrAdd('correspondances')->add(str_replace('/', '-', $newHash), $oldHash);
-                        echo "On ajoute la corresondance " . $newHash . " => " . $oldHash . "\n";
-                    }
                 }
 
-                //$produit = $this->getProduit($line);
+                $oldHash = $this->getOldHash($line);
+                $newHash = $this->getNewHash($line);
+
+                if ($oldHash != $newHash) {
+                    if(!$this->oldconfig->declaration->exist($oldHash)) {
+
+                        echo "ERROR;La corresponde n'a pas été trouvé dans l'ancienne conf . $oldHash \n";
+                        continue;
+                    }
+                    $this->config->getOrAdd('correspondances')->add(str_replace('/', '-', $oldHash), $newHash);
+                    //echo "UPDATE;On ajoute la corresondance " . $oldHash . " => " . $newHash . "\n";
+                }
+
+                $produit = $this->getProduit($oldHash);
                 $produit->setDonneesCsv($line);
-                //$produit->getCertification()->interpro->add($line[self::CSV_PRODUIT_INTERPRO]);
+
+                if(!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash) {
+                  echo "ADDED;".$newHash." \n";
+                } else {
+                  echo "UPDATED;".$newHash." \n";
+                }
+
+                
             }
         } catch (Execption $e) {
             $this->errors[] = $e->getMessage();
         }
         return $this->config;
-    }
-
-    public function updateProduit($produit, $line) {
-        
-        
-        var_dump($produit->getHash());
-        exit;
     }
 
     public function getErrors() {
