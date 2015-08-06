@@ -46,8 +46,25 @@ class FactureLigne extends BaseFactureLigne {
       return $code;
     }
 
+    public function getDate() {
+        $date = preg_replace("/^[0-9]{4}[0-9]{2}$/", '\1-\2-01', $this->origine_date);
+
+        if(!preg_match("^[0-9]{4}-[0-9]{2}-[0-9]{2}", $date)) {
+
+            throw new sfException(sprintf("La date d'origine du document n'est pas au bon format %s", $date));
+        }
+
+        return $date;
+    }
+
+    public function getConf() {
+
+        return ConfigurationClient::getConfiguration($this->getDate());
+    }
+
     public function getConfProduit() {
-      return ConfigurationClient::getCurrent()->get($this->produit_hash);
+
+      return $this->getConf()->get($this->produit_hash);
     }
 
     public function defacturerMouvements() {
