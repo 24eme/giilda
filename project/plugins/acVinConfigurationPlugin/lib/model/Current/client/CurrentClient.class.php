@@ -21,6 +21,10 @@ class CurrentClient extends acCouchdbClient {
     }
     return self::$current;
   }
+
+  public function cacheResetConfiguration() {
+        CacheFunction::remove('model');
+  }
   
   /**
    *

@@ -27,5 +27,19 @@ class Current extends BaseCurrent {
 
         throw new sfException(sprintf("Pas de configuration pour cette date %s", $date));
     }
+
+    public function reorderConfigurations() {
+        $configurations = $this->configurations->toArray(true, false);
+
+        krsort($configurations);
+
+        $this->remove('configurations');
+        $this->add('configurations', $configurations);
+    }
+
+    public function save() {
+        parent::save();
+        CurrentClient::getInstance()->cacheResetConfiguration();
+    }
     
 }
