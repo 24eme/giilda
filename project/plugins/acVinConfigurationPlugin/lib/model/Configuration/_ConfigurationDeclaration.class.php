@@ -423,21 +423,29 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) ? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) : 0;
         $code = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE] : null;
         $libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE] : null;
-        $canInsert = true;
+
+        $currentDroit = null;
         foreach ($droits->douane as $droit) {
-            $dateExistante = new DateTime($droit->date);
-            if ($dateExistante->format('Y-m-d') == $date && $droit->taux === $taux && $droit->code == $code) {
-                $canInsert = false;
-                break;
+            if($code != $droit->code) {
+                continue;
             }
+
+            if($currentDroit || $droit->date < $currentDroit->date) {
+                continue;
+            }
+
+            $currentDroit = $droit;
         }
-        if ($canInsert) {
-            $droits = $droits->douane->add();
-            $droits->date = $date;
-            $droits->taux = $taux;
-            $droits->code = $code;
-            $droits->libelle = $libelle;
+
+        if($currentDroit->taux == $taux) {
+            continue;
         }
+        
+        $droits = $droits->douane->add();
+        $droits->date = $date;
+        $droits->taux = $taux;
+        $droits->code = $code;
+        $droits->libelle = $libelle;
     }
 
     protected function setDroitCvoCsv($datas, $code_applicatif) {
@@ -452,21 +460,24 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) ? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) : 0;
         $code = ConfigurationDroits::CODE_CVO;
         $libelle = ConfigurationDroits::LIBELLE_CVO;
-        $canInsert = true;
+        $currentDroit = null;
         foreach ($droits->cvo as $droit) {
-            $dateExistante = new DateTime($droit->date);
-            if ($dateExistante->format('Y-m-d') == $date && $droit->code == $code) {
-                $canInsert = false;
-                break;
+            if($currentDroit || $droit->date < $currentDroit->date) {
+                continue;
             }
+
+            $currentDroit = $droit;
         }
-        if ($canInsert) {
-            $droits = $droits->cvo->add();
-            $droits->date = $date;
-            $droits->taux = $taux;
-            $droits->code = $code;
-            $droits->libelle = $libelle;
+
+        if($currentDroit->taux == $taux) {
+            continue;
         }
+
+        $droits = $droits->cvo->add();
+        $droits->date = $date;
+        $droits->taux = $taux;
+        $droits->code = $code;
+        $droits->libelle = $libelle;
     }
 
     protected function castFloat($float) {
