@@ -10,7 +10,7 @@ class drm_editionActions extends drmGeneriqueActions {
         $this->initDeleteForm();
         $this->formFavoris = new DRMFavorisForm($this->drm);
         $this->formValidation = new DRMMouvementsValidationForm($this->drm, array('isTeledeclarationMode' => $this->isTeledeclarationMode));
-        $this->detailsNodes = $this->config->details->get($this->drm->getDetailsConfigKey())->detail;
+        $this->detailsNodes = $this->config->detail;
       
         if ($request->isMethod(sfRequest::POST)) {
             $this->formValidation->bind($request->getParameter($this->formValidation->getName()));

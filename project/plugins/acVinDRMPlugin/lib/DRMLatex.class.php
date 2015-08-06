@@ -24,7 +24,7 @@ class DRMLatex extends GenericLatex {
         sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
         $this->drm = $drm;
         $configuration = $drm->getConfig();
-        $this->libelles_detail_ligne = $configuration->libelle_detail_ligne->get($this->drm->getDetailsConfigKey());
+        $this->libelles_detail_ligne = $configuration->libelle_detail_ligne;
     }
 
     public function getNbPages() {

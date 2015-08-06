@@ -6,10 +6,8 @@
  */
 class DRMDetails extends BaseDRMDetails {
 
-    public function getConfigDetails() {
-        $detailConfigKey = $this->getDetailsConfigKey();
-        
-        return $this->getDocument()->getConfig()->declaration->details->get($detailConfigKey);
+    public function getConfigDetails() {        
+        return $this->getDocument()->getConfig()->declaration->detail;
     }
     
     public function getProduit($labels = array()) {
@@ -25,7 +23,7 @@ class DRMDetails extends BaseDRMDetails {
     public function addProduit($labels = array()) {
         $detail = $this->add($this->slugifyLabels($labels));
         $detail->labels = $labels;
-        foreach ($this->getConfigDetails()->detail as $detailConfigCat => $detailConfig) {
+        foreach ($this->getConfigDetails() as $detailConfigCat => $detailConfig) {
             foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
                 $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey,null);
                 if($detailConfigNode->hasDetails()) {
@@ -50,10 +48,6 @@ class DRMDetails extends BaseDRMDetails {
         }
 
         return ($key) ? $key : DRM::DEFAULT_KEY;
-    }
-
-    protected function getDetailsConfigKey() {
-        return $this->getDocument()->getDetailsConfigKey();
-    }
+    }    
 
 }
