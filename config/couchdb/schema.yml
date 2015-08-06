@@ -39,6 +39,11 @@ Configuration:
         definition:
           fields:
             '*': { }
+      correspondances:
+        type: collection
+        definition:
+          fields:
+            '*': { }
       libelle_detail_ligne:
         type: collection
         definition:
