@@ -26,24 +26,24 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
         return ($this->details > 0);
     }
 
-    public function getLibelle($periode = DRMClient::DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION) {
+    public function getLibelle() {
 
-        return $this->getLibelleDetail($periode)->libelle;
+        return $this->getLibelleDetail()->libelle;
     }
 
-    public function getLibelleLong($periode = DRMClient::DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION) {
+    public function getLibelleLong() {
 
-        return $this->getLibelleDetail($periode)->libelle_long;
+        return $this->getLibelleDetail()->libelle_long;
     }
 
-    public function getDescription($periode = DRMClient::DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION) {
+    public function getDescription() {
 
-        return $this->getLibelleDetail($periode)->description;
+        return $this->getLibelleDetail()->description;
     }
 
-    private function getLibelleDetail($periode = DRMClient::DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION) {
+    private function getLibelleDetail() {
         
-        return $this->getDocument()->libelle_detail_ligne->get($periode)->get($this->getParent()->getKey())->get($this->getKey());
+        return $this->getDocument()->libelle_detail_ligne->get($this->getParent()->getKey())->get($this->getKey());
     }
 
 }

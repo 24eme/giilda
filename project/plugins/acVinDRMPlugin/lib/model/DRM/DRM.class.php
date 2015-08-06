@@ -902,11 +902,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function storeDeclarant() {
         $this->declarant_document->storeDeclarant();
-        if ($this->isAfterTeledeclarationDrm()) {
-            $this->declarant->getOrAdd('adresse_compta');
-            $this->declarant->getOrAdd('caution');
-            $this->declarant->getOrAdd('raison_sociale_cautionneur');
-        }
+        $this->declarant->getOrAdd('adresse_compta');
+        $this->declarant->getOrAdd('caution');
+        $this->declarant->getOrAdd('raison_sociale_cautionneur');
     }
 
     public function getEtablissementObject() {
@@ -1082,7 +1080,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $this->remove('documents_annexes');
             $this->add('documents_annexes');
         }
-        
+
         if ($this->exist('quantite_sucre') && count($this->quantite_sucre)) {
             $this->quantite_sucre = null;
         }
@@ -1127,7 +1125,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     /**     * FAVORIS ** */
     public function buildFavoris() {
-        foreach (DRMClient::drmDefaultFavoris($this->getDetailsConfigKey()) as $key => $value) {
+        foreach ($this->drmDefaultFavoris() as $key => $value) {
             $keySplitted = split('/', $key);
             $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->add($keySplitted[1], $value);
         }
@@ -1137,9 +1135,26 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if ($this->exist('favoris') && $this->favoris) {
             return $this->favoris;
         }
-        return DRMClient::drmDefaultFavoris($this->getDetailsConfigKey());
+        return $this->drmDefaultFavoris();
     }
 
+    public function drmDefaultFavoris() {
+        $configuration = $this->getConfig();
+        $configurationFields = array();
+        foreach ($configuration->libelle_detail_ligne as $type => $libelles) {
+            foreach ($libelles as $libelleHash => $libelle) {
+                $configurationFields[$type . '/' . $libelleHash] = $libelle->libelle;
+            }
+        }
+        $drm_default_favoris = $configuration->get('mvts_favoris');
+        foreach ($configurationFields as $key => $value) {            
+            if (!in_array(str_replace('/', '_', $key), $drm_default_favoris->toArray(0,1))) {
+                unset($configurationFields[$key]);
+            }
+        }
+        return $configurationFields;
+    }
+    
     /*     * * FIN FAVORIS ** */
 
     /*     * * SOCIETE ** */
@@ -1182,20 +1197,4 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /*     * * FIN SOCIETE ** */
-
-    /*
-     * NOUVEAU MVT
-     */
-
-    public function getDetailsConfigKey() {
-        if ($this->isAfterTeledeclarationDrm()) {
-            return DRMClient::DRM_CONFIGURATION_KEY_AFTER_TELEDECLARATION;
-        }
-        return DRMClient::DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION;
-    }
-
-    public function isAfterTeledeclarationDrm() {
-        return $this->getPeriode() > DRMClient::DRM_LAST_PERIODE_BEFORE_TELEDECLARATION;
-    }
-
 }

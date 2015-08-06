@@ -20,7 +20,7 @@ class DRMFavorisForm extends acCouchdbObjectForm {
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->drm = $object;
         $this->favoris = $this->getFavoris();
-        $this->types_mvt = $this->drm->getConfig()->libelle_detail_ligne->get($this->drm->getDetailsConfigKey());
+        $this->types_mvt = $this->drm->getConfig()->libelle_detail_ligne;
         parent::__construct($this->drm, $options, $CSRFSecret);
     }
 

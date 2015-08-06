@@ -11,7 +11,7 @@
         </ul>
     <?php else: ?>
         <h2><?php echo getDrmTitle($drm); ?> <small style="font-weight: normal; text-transform: none;">(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small></h2>
-        <?php if ($drm->isAfterTeledeclarationDrm()): ?>  
+        <?php if ($drm->isTeledeclare()): ?>  
             <div id="btn_etape_dr" style="text-align: center;">
                 <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
                         </div>  

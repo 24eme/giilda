@@ -10,18 +10,18 @@ class ConfigurationDetail extends BaseConfigurationDetail {
     return $this->getParent()->getParent()->getCVO($periode, $interpro);
   }
   
-  public function getEntreesSorted($configKey = DRMClient::DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION) {
-      return $this->getDetailsSorted($this->getEntrees(),$configKey);
+  public function getEntreesSorted() {
+      return $this->getDetailsSorted($this->getEntrees());
   }
   
-   public function getSortiesSorted($configKey = DRMClient::DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION) {
-      return $this->getDetailsSorted($this->getSorties(),$configKey);
+   public function getSortiesSorted() {
+      return $this->getDetailsSorted($this->getSorties());
   }
   
-   public function getDetailsSorted($details,$configKey = DRMClient::DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION) {
+   public function getDetailsSorted($details) {
         $detailsSortedLibelle = array();        
         foreach ($details as $key => $detail) {
-            $detailsSortedLibelle[$detail->getLibelle($configKey)] = $detail;
+            $detailsSortedLibelle[$detail->getLibelle()] = $detail;
             
         }
         ksort($detailsSortedLibelle);

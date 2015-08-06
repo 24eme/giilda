@@ -23,17 +23,12 @@ class DRMClient extends acCouchdbClient {
     const DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE = 'EMPREINTE';
     const DRM_TYPE_MVT_ENTREES = 'entrees';
     const DRM_TYPE_MVT_SORTIES = 'sorties';
-    const DRM_LAST_PERIODE_BEFORE_TELEDECLARATION = '201507';
-    const DRM_CONFIGURATION_KEY_AFTER_TELEDECLARATION = '201508';
-    const DRM_CONFIGURATION_KEY_BEFORE_TELEDECLARATION = '190001';
     const DRM_CREATION_EDI = 'CREATION_EDI';
     const DRM_CREATION_VIERGE = 'CREATION_VIERGE';
     const DRM_CREATION_NEANT = 'CREATION_NEANT';
 
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
-    public static $drm_default_favoris_old = array("entrees/achat", "entrees/recolte", "sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille", "sorties/consommation");
-    public static $drm_default_favoris = array("entrees/achatnoncrd", "entrees/revendique", "sorties/export", "sorties/vraccontrat", "sorties/vracsanscontratsuspendu", "sorties/ventefrancebouteillecrd", "sorties/consommationfamilialedegustation");
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 5);
     public static $drm_documents_daccompagnement = array(
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC => 'DAA/DAC',
@@ -516,27 +511,7 @@ class DRMClient extends acCouchdbClient {
         $date = $annee . '-' . $mois . '-01';
         $df = format_date($date, 'MMMM yyyy', 'fr_FR');
         return elision($origineLibelle, $df);
-    }
-
-    public static function drmDefaultFavoris($periode) {
-        $configuration = ConfigurationClient::getConfiguration($this->buildDate($periode));
-        $configurationFields = array();
-        foreach ($configuration->libelle_detail_ligne->get($periode) as $type => $libelles) {
-            foreach ($libelles as $libelleHash => $libelle) {
-                $configurationFields[$type . '/' . $libelleHash] = $libelle->libelle;
-            }
-        }
-        $drm_default_favoris = self::$drm_default_favoris_old;
-        if ($periode >= self::DRM_CONFIGURATION_KEY_AFTER_TELEDECLARATION) {
-            $drm_default_favoris = self::$drm_default_favoris;
-        }
-        foreach ($configurationFields as $key => $value) {
-            if (!in_array($key, $drm_default_favoris)) {
-                unset($configurationFields[$key]);
-            }
-        }
-        return $configurationFields;
-    }
+    }  
 
     public static function determineTypeDocument($numero_document) {
         if (preg_match('/^\d{3}$/', $numero_document)) {

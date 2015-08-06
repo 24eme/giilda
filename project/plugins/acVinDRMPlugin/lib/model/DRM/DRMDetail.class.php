@@ -7,7 +7,7 @@
 class DRMDetail extends BaseDRMDetail {
 
     public function getConfig() {
-        return $this->getParent()->getConfigDetails()->detail;
+        return $this->getParent()->getConfigDetails();
     }
 
     public function getLibelle($format = "%format_libelle% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
@@ -340,7 +340,7 @@ class DRMDetail extends BaseDRMDetail {
         }
 
         $mouvement->type_hash = $hash;
-        $mouvement->type_libelle = $config->getLibelle($this->getDocument()->getDetailsConfigKey());
+        $mouvement->type_libelle = $config->getLibelle();
         $mouvement->volume = $volume;
         $mouvement->date = $this->getDocument()->getDate();
 

@@ -55,6 +55,7 @@ EOF;
         unset($configuration->libelle_detail_ligne);
         unset($configuration->declaration->details);
         unset($configuration->declaration->detail);
+        unset($configuration->mvts_favoris);
         ConfigurationClient::getInstance()->storeDoc($configuration);
 
         $configuration = acCouchdbManager::getClient()->retrieveDocumentById('CONFIGURATION-'.$dateconfiguration);
@@ -83,6 +84,11 @@ EOF;
             $detail->description = $datas[4];
         }
 
+        foreach (file($import_dir . '/mvts_favoris_'.$dateconfiguration.'.csv') as $mvtLine) {
+            $mvt = explode(";", preg_replace('/"/', '', str_replace("\n", "", $mvtLine)));
+            $configuration->getOrAdd('mvts_favoris')->add($mvt[0],$mvt[0]);
+        }
+        
         $csv = new ProduitCsvFile($configuration, $import_dir . '/produits_teledeclaration_drm.csv');
         $configuration = $csv->importProduits();
 
