@@ -430,17 +430,17 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
                 continue;
             }
 
-            if($currentDroit || $droit->date < $currentDroit->date) {
+            if($currentDroit && $droit->date < $currentDroit->date) {
                 continue;
             }
 
             $currentDroit = $droit;
         }
 
-        if($currentDroit->taux == $taux) {
-            continue;
+        if($currentDroit && $currentDroit->taux == $taux) {
+           return;
         }
-        
+
         $droits = $droits->douane->add();
         $droits->date = $date;
         $droits->taux = $taux;
@@ -462,15 +462,15 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $libelle = ConfigurationDroits::LIBELLE_CVO;
         $currentDroit = null;
         foreach ($droits->cvo as $droit) {
-            if($currentDroit || $droit->date < $currentDroit->date) {
+            if($currentDroit && $droit->date < $currentDroit->date) {
                 continue;
             }
 
             $currentDroit = $droit;
         }
 
-        if($currentDroit->taux == $taux) {
-            continue;
+        if($currentDroit && $currentDroit->taux == $taux) {
+            return;
         }
 
         $droits = $droits->cvo->add();
