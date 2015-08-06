@@ -43,11 +43,11 @@ EOF;
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
         $dateconfiguration = $arguments['dateconfiguration'];
-        $configuration = acCouchdbManager::getClient()->retrieveDocumentById('CONFIGURATION-'.$dateconfiguration, acCouchdbClient::HYDRATE_JSON);
+        $configuration = acCouchdbManager::getClient()->retrieveDocumentById('CONFIGURATION-' . $dateconfiguration, acCouchdbClient::HYDRATE_JSON);
 
         $import_dir = sfConfig::get('sf_data_dir') . '/import/configuration';
-        
-        
+
+
         if (!$configuration) {
             new sfException("La configuration n'existe pas");
         }
@@ -58,9 +58,9 @@ EOF;
         unset($configuration->mvts_favoris);
         ConfigurationClient::getInstance()->storeDoc($configuration);
 
-        $configuration = acCouchdbManager::getClient()->retrieveDocumentById('CONFIGURATION-'.$dateconfiguration);
+        $configuration = acCouchdbManager::getClient()->retrieveDocumentById('CONFIGURATION-' . $dateconfiguration);
 
-        foreach (file($import_dir . '/details_drm_'.$dateconfiguration.'.csv') as $line) {
+        foreach (file($import_dir . '/details_drm_' . $dateconfiguration . '.csv') as $line) {
             if (preg_match('/^#/', $line))
                 continue;
             $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
@@ -76,31 +76,24 @@ EOF;
             $detail->douane_cat = $datas[11];
         }
 
-        foreach (file($import_dir . '/libelle_detail_ligne_'.$dateconfiguration.'.csv') as $line) {
+        foreach (file($import_dir . '/libelle_detail_ligne_' . $dateconfiguration . '.csv') as $line) {
             $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
-            $detail = $configuration->libelle_detail_ligne->getOrAdd($datas[0])->getOrAdd($datas[1]);           
+            $detail = $configuration->libelle_detail_ligne->getOrAdd($datas[0])->getOrAdd($datas[1]);
             $detail->libelle = $datas[2];
             $detail->libelle_long = $datas[3];
             $detail->description = $datas[4];
         }
 
-        foreach (file($import_dir . '/mvts_favoris_'.$dateconfiguration.'.csv') as $mvtLine) {
+        foreach (file($import_dir . '/mvts_favoris_' . $dateconfiguration . '.csv') as $mvtLine) {
             $mvt = explode(";", preg_replace('/"/', '', str_replace("\n", "", $mvtLine)));
-            $configuration->getOrAdd('mvts_favoris')->add($mvt[0],$mvt[0]);
+            $configuration->getOrAdd('mvts_favoris')->add($mvt[0], $mvt[0]);
         }
-        
-        $csv = new ProduitCsvFile($configuration, $import_dir . '/produits_teledeclaration_drm.csv');
-        $configuration = $csv->importProduits();
 
-        $vdp = $configuration->declaration->certifications->VdP;
-        $configuration->declaration->certifications->remove('VdP');
-        $igp = $configuration->declaration->certifications->IGP;
-        $configuration->declaration->certifications->remove('IGP');
-
-        $configuration->declaration->certifications->add('IGP', $igp);
-        $configuration->declaration->certifications->add('VdP', $vdp);
-
-        $configuration->save();
+        if (file_exists($import_dir . '/produits_' . $dateconfiguration . '.csv')) {
+            $csv = new ProduitCsvFile($configuration, $import_dir . '/produits_' . $dateconfiguration . '.csv');
+            $configuration = $csv->importProduits();
+            $configuration->save();
+        }
     }
 
 }
