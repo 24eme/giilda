@@ -243,7 +243,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         $drm_suivante->initCrds();
-        $drm_suivante->initDroitsDouane();
+        if ($drm_suivante->isPaiementAnnualise() && $isTeledeclarationMode) {
+            $drm_suivante->initDroitsDouane();
+        }
         $drm_suivante->initSociete();
         $drm_suivante->clearAnnexes();
 
