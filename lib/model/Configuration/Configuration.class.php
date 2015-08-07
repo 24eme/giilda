@@ -173,7 +173,8 @@ class Configuration extends BaseConfiguration {
         }
 
         return $this->correspondances->get($key);
-
+    }
+    
     private function getCorrespondancesInverse() {
         if (!$this->exist('correspondances') || is_null($this->correspondances)) {  
             return array();
