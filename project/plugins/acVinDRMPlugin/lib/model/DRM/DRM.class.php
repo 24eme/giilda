@@ -231,6 +231,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         $drm_suivante->initCrds();
+        $drm_suivante->initDroitsDouane();
         $drm_suivante->initSociete();
         $drm_suivante->clearAnnexes();
 
@@ -478,7 +479,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function isPaiementAnnualise() {
-        return $this->declaratif->paiement->douane->isAnnuelle();
+        return $this->societe->exist('paiement_douane_frequence') && $this->societe->paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE;
     }
 
     public function getHumanDate() {
@@ -1202,6 +1203,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function getDroitsDouane() {
         return $this->droits->douane;
     }
+    
+    public function initDroitsDouane() {
+        foreach ($this->droits->douane as $key_douane_genre => $droitDouane) {
+            $droitDouane->clearDroitDouane();
+        }
+    }
+   
 
     /** Fin Droit de circulation douane */
 }

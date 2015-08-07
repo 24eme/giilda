@@ -53,7 +53,7 @@
                 </div>
             <?php endif; ?>
             <?php if ($drm->declarant->exist('caution')): ?>
-                <div class="ligne_form alignes">
+                <div class="ligne_form alignes update_form_radio_list">
                     <span>
                         <?php echo $form['caution']->renderError(); ?>
                         <?php echo $form['caution']->renderLabel(); ?>

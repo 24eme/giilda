@@ -16,20 +16,21 @@ class DRMDroits extends BaseDRMDroits {
         return $sum;
     }
 
-    public function addDroitDouane($genreKey, $configurationCepageNode, $vol) {
+    public function addDroitDouane($genreKey, $configurationCepageNode, $vol, $reintegration = false) {
         $keyDouane = self::$correspondanceGenreKey[$genreKey];
         $date = $this->getDocument()->getDate();
-        $droitsConfig = $configurationCepageNode->getDroitByType($date,"INTERPRO-inter-loire",'douane');
-        
+        $droitsConfig = $configurationCepageNode->getDroitByType($date, "INTERPRO-inter-loire", 'douane');
+
         $genreDouaneNode = $this->getOrAdd($keyDouane);
-        $genreDouaneNode->volume_taxe = $vol;
-        $genreDouaneNode->volume_reintegre = $vol;
+        if ($reintegration) {
+            $genreDouaneNode->volume_reintegre += $vol;
+        } else {
+            $genreDouaneNode->volume_taxe += $vol;
+        }
         $genreDouaneNode->taux = $droitsConfig->taux;
         $genreDouaneNode->code = $droitsConfig->code;
         $genreDouaneNode->libelle = self::$correspondanceGenreLibelle[$genreKey];
-//        $genreDouaneNode->total = $vol;
-//        $genreDouaneNode->report = $vol;
-//        $genreDouaneNode->cumul = $vol;
+        $genreDouaneNode->updateTotal();
     }
-
+    
 }
