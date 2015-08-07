@@ -313,6 +313,11 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->getTauxCVO($date) > 0;
     }
 
+    public function isActif($date) {
+
+        return $this->isCVOActif($date) && $this->isDouaneActif($date);
+    }
+
     public function getTauxCVO($date) {
         try {
             $droit_produit = $this->getDroitCVO($date);
