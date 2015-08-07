@@ -29,7 +29,7 @@
         </div>
     </div>
     <?php if (isset($formAddProduitsByCertification)): ?>
-            <a style="display:none" class="btn_majeur ajout_produit_popup" href="#add_produit_<?php echo $formAddProduitsByCertification->getCertificationKey(); ?>">Ajouter des Produits</a>
+            <a style="display:none" class="btn_majeur ajout_produit_popup" href="#add_produit_popup">Ajouter des Produits</a>
             <?php include_partial('drm_ajout_produit/ajout_produit_popup_certification', array('drm' => $drm, 'form' => $formAddProduitsByCertification)); ?>
     <?php endif; ?>
     <?php if(isset($crdRegimeForm)): ?>

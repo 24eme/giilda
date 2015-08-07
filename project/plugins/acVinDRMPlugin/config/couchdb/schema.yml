@@ -528,7 +528,7 @@ DRM:
                   '*': { }                  
       documents_annexes:
         type: collection
-        required: false
+        required: true
         definition:          
           fields:
             '*':

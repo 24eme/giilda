@@ -8,7 +8,6 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
         $this->certificationsProduits = $this->drm->declaration->getProduitsDetailsByCertifications(true);
         $this->form = new DRMProduitsChoiceForm($this->drm);
         $this->initDeleteForm();
-
         $this->hasRegimeCrd = $this->drm->getEtablissement()->hasRegimeCrd();
         $this->showPopupRegimeCrd = $request->getParameter('popupCRD') || !$this->hasRegimeCrd;
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
@@ -25,7 +24,7 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
         }
 
         if($request->hasParameter('add_produit')) {
-            $this->formAddProduitsByCertification = new DRMAddProduitByCertificationForm($this->drm, array('configurationCertification' => $request->getParameter('add_produit')));
+            $this->formAddProduitsByCertification = new DRMAddProduitByCertificationForm($this->drm, array('produitFilter' => $request->getParameter('add_produit')));
         }
 
         if ($this->showPopupRegimeCrd){
@@ -35,17 +34,8 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
 
     public function executeChoixAjoutPoduits(sfWebRequest $request) {
         $this->initSocieteAndEtablissementPrincipal();
-        $cerfificationParam = $request['certification_hash'];
-        if (!$cerfificationParam || !preg_match('/^\-declaration\-certifications\-([a-zA-Z]*)/', $cerfificationParam)) {
-            throw new sfException("le format de la certification n'est pas correct : $cerfificationParam");
-        }
-        $cerfificationHash = str_replace('-', '/', $cerfificationParam);
         $this->drm = $this->getRoute()->getDRM();
-        $certificationDrm = $this->drm->getOrAdd($cerfificationHash);
-        if (!$certificationDrm) {
-            throw new sfException("La certification n'existe pas dans la DRM : $cerfificationHash");
-        }
-        $this->form = new DRMAddProduitByCertificationForm($this->drm, array('configurationCertification' => $certificationDrm->getHash()));
+        $this->form = new DRMAddProduitByCertificationForm($this->drm, array('produitFilter' => $request->getParameter('add_produit')));
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {

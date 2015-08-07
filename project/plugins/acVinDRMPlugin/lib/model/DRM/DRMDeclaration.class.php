@@ -61,11 +61,16 @@ class DRMDeclaration extends BaseDRMDeclaration {
 
     public function getProduitsDetailsByCertifications($isTeledeclarationMode = false) {
         foreach ($this->getConfig()->getCertifications() as $certification) {
-            $produitsDetailsByCertifications[$certification->getHash()] = new stdClass();
-            $produitsDetailsByCertifications[$certification->getHash()]->certification = $certification;
-            $produitsDetailsByCertifications[$certification->getHash()]->produits = array();
-            if ($this->getDocument()->exist($certification->getHash())) {
-                $produitsDetailsByCertifications[$certification->getHash()]->produits = $this->getDocument()->get($certification->getHash())->getProduitsDetailsSorted($isTeledeclarationMode);
+            if (!isset($produitsDetailsByCertifications[$certification->getHashWithoutInterpro()])) {
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()] = new stdClass();
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->certification_libelle = $certification->getLibelle();
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->produits = array();
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->certification_keys = $certification->getKey();
+            } else {
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->certification_keys .= ','.$certification->getKey();
+            }
+           if ($this->getDocument()->exist($certification->getHash())) {
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->produits = array_merge($produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->produits, $this->getDocument()->get($certification->getHash())->getProduitsDetailsSorted($isTeledeclarationMode));
             }
         }
 

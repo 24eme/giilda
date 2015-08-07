@@ -19,7 +19,12 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
 
     public function __construct(DRM $drm, $options = array(), $CSRFSecret = null) {
         $this->_drm = $drm;        
-        $this->_configurationCertification = $drm->getConfig()->get($options['configurationCertification']);
+        $this->_configurationCertifications = array();
+        $this->_produitFilter = $options['produitFilter'];
+        foreach (explode(',', $this->_produitFilter) as $certifKey) {
+            $this->_configurationCertifications[] = $drm->getConfig()->getDeclaration()->getCertifications()->get($certifKey);
+        }
+        $this->_formKey = $this->_configurationCertifications[0]->getHashWithoutInterpro();
         parent::__construct($drm, $options, $CSRFSecret);
     }
 
@@ -35,21 +40,19 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits())), array('required' => "Aucun produit n'a été saisi !")),
         ));
 
-        $this->widgetSchema->setNameFormat('add_produit_' . $this->_configurationCertification->getKey() . '[%s]');
+        $this->widgetSchema->setNameFormat('add_produit_' . $this->_produitFilter . '[%s]');
     }
 
     public function getDRM() {
         return $this->_drm;
     }
 
-    public function getConfigurationCertification() {
-
-        return $this->_configurationCertification;
+    public function getFormKey() {
+        return $this->_formKey;
     }
 
-    public function getCertificationKey() {
-
-        return $this->getConfigurationCertification()->getHashForKey();
+    public function getProduitFilter() {
+        return $this->_produitFilter;
     }
 
     public function getProduits() {
@@ -57,9 +60,14 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
 
             $this->_choices_produits = array("" => "");
             $produits = $this->_drm->getConfigProduits(true);
+            $matchcertif = '#(';
+            foreach ($this->_configurationCertifications as $certif) {
+                $matchcertif .= $certif->getHash().'|';
+            }
+            $matchcertif = preg_replace('/\|$/', ')#', $matchcertif);
             if (!is_null($produits)) {
                 foreach ($produits as $hash => $produit) {
-                    if(!preg_match("|".$this->_configurationCertification->getHash()."|", $hash)) {
+                    if(!preg_match($matchcertif, $hash)) {
                         continue;
                     }
                     $this->_choices_produits[$hash] = $produit;
