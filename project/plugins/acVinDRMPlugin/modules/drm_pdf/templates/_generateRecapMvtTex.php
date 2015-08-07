@@ -17,7 +17,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
 
 <?php foreach ($drm->declaration->getProduitsDetailsByCertifications(true) as $certification => $produitsDetailsByCertifications) : ?>
     <?php
-    $libelleCertif = $produitsDetailsByCertifications->certification->getLibelle();
+    $libelleCertif = $produitsDetailsByCertifications->certification_libelle;
     $nb_produits = count($produitsDetailsByCertifications->produits);
     if ($nb_produits == 0) {
         continue;
