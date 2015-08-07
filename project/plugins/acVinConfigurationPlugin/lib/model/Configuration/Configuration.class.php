@@ -146,6 +146,18 @@ class Configuration extends BaseConfiguration {
         $this->alias->get($hashProduitKey)->add($pos,$alias);
     }
 
+    public function updateAliasForCorrespondances() {
+        foreach($this->correspondances as $newHash => $oldHash) {
+            $key = str_replace("/", "-", $oldHash);
+            if(!$this->alias->exist($key)) {
+                continue;
+            }
+            $value = $this->alias->get($key);
+            $this->alias->remove($key);
+            $this->alias->add($newHash, $value);
+        }
+    }
+
     public function save() {
         parent::save();
         CurrentClient::getInstance()->cacheResetConfiguration();
