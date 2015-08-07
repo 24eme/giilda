@@ -24,7 +24,7 @@ class DRMChoixCreationForm extends sfForm {
             'type_creation' => new sfValidatorChoice(array('multiple' => false,  'required' => true, 'choices' => array_keys($this->getTypesCreation()))),
             'file' => new ValidatorImportCsv(array('file_path' => sfConfig::get('sf_data_dir') . '/upload'))
         ));
-        $this->widgetSchema['type_creation']->setDefault(DRMClient::DRM_CREATION_EDI);
+        $this->widgetSchema['type_creation']->setDefault(DRMClient::DRM_CREATION_VIERGE);
         $this->widgetSchema->setNameFormat('drmChoixCreation[%s]');
     }
 

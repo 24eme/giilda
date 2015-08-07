@@ -66,8 +66,6 @@
     <div id="btn_etape_dr">
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a>
         <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-     <a style="text-align: right;" href="<?php echo url_for('drm_export_fichier_edi', $drm); ?>" class="btn_majeur btn_pdf center" ><span>Télécharger le Csv</span></a>
-   
     </div>
 </section>
 <?php

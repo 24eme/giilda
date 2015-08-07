@@ -74,6 +74,7 @@ EOF;
             $detail->facturable = (int) $datas[9];
             $detail->douane_type = $datas[10];
             $detail->douane_cat = $datas[11];
+            $detail->taxable_douane = (int) $datas[12];
         }
 
         foreach (file($import_dir . '/libelle_detail_ligne_' . $dateconfiguration . '.csv') as $line) {

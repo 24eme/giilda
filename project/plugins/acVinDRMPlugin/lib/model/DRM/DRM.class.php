@@ -387,6 +387,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $this->setInterpros();
         $this->generateMouvements();
+        $this->generateDroitsDouanes();
 
         $this->archivage_document->archiver();
 
@@ -1147,14 +1148,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
         }
         $drm_default_favoris = $configuration->get('mvts_favoris');
-        foreach ($configurationFields as $key => $value) {            
-            if (!in_array(str_replace('/', '_', $key), $drm_default_favoris->toArray(0,1))) {
+        foreach ($configurationFields as $key => $value) {
+            if (!in_array(str_replace('/', '_', $key), $drm_default_favoris->toArray(0, 1))) {
                 unset($configurationFields[$key]);
             }
         }
         return $configurationFields;
     }
-    
+
     /*     * * FIN FAVORIS ** */
 
     /*     * * SOCIETE ** */
@@ -1197,4 +1198,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /*     * * FIN SOCIETE ** */
+
+    /** Droit de circulation douane */
+    public function generateDroitsDouanes() {
+        foreach ($this->getProduitsDetails() as $produitDetail) {
+            $produitDetail->buildDroitsDouanes();             
+        }
+    }
+    
+    public function getDroitsDouane() {
+        return $this->droits->douane;
+    }
+
+    /** Fin Droit de circulation douane */
 }

@@ -363,12 +363,24 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function hasMovements() {
-        if($this->hasMouvement()) {
+        if ($this->hasMouvement()) {
 
             return true;
         }
 
         return $this->getCepage()->hasMovements();
+    }
+
+    public function buildDroitsDouanes() {
+        foreach ($this->getSorties() as $sortieKey => $sortie) {
+            $sortieKey = str_replace('_details', '', $sortieKey);
+            $sortieConf = $this->getConfig()->get('sorties/' . $sortieKey);
+            $sortieDrm = $this->get('sorties/' . $sortieKey);
+            if ($sortieConf->taxable_douane && $sortieDrm > 0) {
+                $droitsNode = $this->getDocument()->getOrAdd('droits')->getOrAdd('douane');
+                $droitsNode->addDroitDouane($this->getGenre()->getKey(),$this->getCepage()->getConfig(), $sortieDrm);
+            }
+        }
     }
 
 }

@@ -34,8 +34,7 @@ class DRMClient extends acCouchdbClient {
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC => 'DAA/DAC',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC => 'DSA/DSAC',
         self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'Empreinte');
-    public static $typesCreationLibelles = array(self::DRM_CREATION_EDI => 'Création depuis un logiciel tiers',
-        self::DRM_CREATION_VIERGE => "Création d'une drm vierge", self::DRM_CREATION_NEANT => "Création d'une drm à néant");
+    public static $typesCreationLibelles = array(self::DRM_CREATION_VIERGE => "Création d'une drm vierge", self::DRM_CREATION_NEANT => "Création d'une drm à néant", self::DRM_CREATION_EDI => 'Création depuis un logiciel tiers');
     protected $drm_historiques = array();
 
     /**
@@ -229,10 +228,10 @@ class DRMClient extends acCouchdbClient {
                 ->rows;
         $current = ConfigurationClient::getInstance()->getCurrentCampagne();
         $list = array();
-            foreach ($rows as $r) {
-                    $c = $r->key[1];
-                    $list[$c] = $c;
-                }
+        foreach ($rows as $r) {
+            $c = $r->key[1];
+            $list[$c] = $c;
+        }
         krsort($list);
         return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
     }
@@ -511,7 +510,7 @@ class DRMClient extends acCouchdbClient {
         $date = $annee . '-' . $mois . '-01';
         $df = format_date($date, 'MMMM yyyy', 'fr_FR');
         return elision($origineLibelle, $df);
-    }  
+    }
 
     public static function determineTypeDocument($numero_document) {
         if (preg_match('/^\d{3}$/', $numero_document)) {
