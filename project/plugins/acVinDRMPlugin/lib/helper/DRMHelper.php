@@ -142,7 +142,7 @@ function getEtatDRMPictoCalendrier($isTeledeclaration, $calendrier, $periode, $e
         return 'valide_papier_etablissement';
     }
     if ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE) {
-        return 'attente_papier_non_teledeclaree';
+        return 'attente_etablissement';
     }
     return $statut;
 }
