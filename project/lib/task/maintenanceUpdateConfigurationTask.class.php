@@ -64,7 +64,6 @@ EOF;
             if (preg_match('/^#/', $line))
                 continue;
             $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
-
             $detail = $configuration->get($datas[0])->getOrAdd($datas[1])->add($datas[2])->add($datas[3]);
             $detail->readable = (int) $datas[4];
             $detail->writable = (int) $datas[5];
@@ -93,8 +92,7 @@ EOF;
         if (file_exists($import_dir . '/produits_' . $dateconfiguration . '.csv')) {
             $csv = new ProduitCsvFile($configuration, $import_dir . '/produits_' . $dateconfiguration . '.csv');
             $configuration = $csv->importProduits();
-            $configuration->save();
         }
+        $configuration->save();
     }
-
 }
