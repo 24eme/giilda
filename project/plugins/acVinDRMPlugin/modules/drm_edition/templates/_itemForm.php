@@ -10,11 +10,6 @@ $favoris_sorties = $favoris->sorties;
         <a href="#" class="col_curseur" data-curseur="<?php echo $form->getObject()->getKey() ?>"></a>
         <h2 class="titre_produit"><?php echo $form->getObject()->getLibelle("%format_libelle%") ?></h2>
         <div class="col_cont">
-            <?php if (!$isTeledeclarationMode): ?>
-                <p class="label">
-                    <?php include_partial('labelsList', array('form' => $form)); ?>
-                </p>
-            <?php endif; ?>
             <div class="groupe" data-groupe-id="1">
                 <p class="itemcache <?php echo isVersionnerCssClass($form->getObject(), 'total_debut_mois') ?>">
                     <?php echo $form['total_debut_mois']->render(array('data-val-defaut' => sprintFloat($form->getObject()->total_debut_mois), 'class' => 'num num_float somme_groupe test')) ?>

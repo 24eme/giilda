@@ -5,9 +5,6 @@ $favoris_sorties = $favoris->sorties;
 <div id="colonne_intitules" style="width: 210px">
     <form action="<?php echo url_for('drm_choix_favoris', $formFavoris->getObject()) ?>" method="post">
         <p class="couleur">Produit</p>
-        <?php if (!$isTeledeclarationMode): ?>
-            <p class="label">Labels</p>
-        <?php endif; ?>
         <?php echo $formFavoris->renderHiddenFields(); ?>
         <?php echo $formFavoris->renderGlobalErrors(); ?>
         <div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
