@@ -26,7 +26,7 @@ class AddAliasToProduitForm  extends acCouchdbObjectForm {
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
             $this->_choices_produits = array_merge(array("" => ""),
-            $this->getConfig()->formatProduits($this->date));
+            $this->getConfig()->formatProduits($this->date, "%format_libelle% (%code_produit%)", array(_ConfigurationDeclaration::ATTRIBUTE_CVO_FACTURABLE));
         }
         return $this->_choices_produits;
     }

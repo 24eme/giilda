@@ -15,6 +15,11 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     protected $libelle_format = array();
     protected $dates_droits = null;
 
+    const ATTRIBUTE_CVO_FACTURABLE = 'CVO_FACTURABLE';
+    const ATTRIBUTE_CVO_ACTIF = 'CVO_ACTIF';
+    const ATTRIBUTE_DOUANE_FACTURABLE = 'DOUANE_FACTURABLE';
+    const ATTRIBUTE_DOUANE_ACTIF = 'DOUANE_ACTIF';
+
     protected function loadAllData() {
         parent::loadAllData();
 
@@ -100,52 +105,49 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     }
 
 
-    public function getKeyDroits($droits) {
-        sort($droits);
+    public function getKeyAttributes($attributes) {
+        sort($attributes);
 
-        return implode("", $droits);
+        return implode("", $attributes);
     }
 
     public function loadProduitsByDates($interpro = "INTERPRO-inter-loire") {
         $datesDroits = $this->getDatesDroits($interpro);
-        $droitsCombinaison = array(array(ConfigurationDroits::DROIT_CVO), array(ConfigurationDroits::DROIT_DOUANE), array(ConfigurationDroits::DROIT_CVO, ConfigurationDroits::DROIT_DOUANE));
+        $attributesCombinaison = array(
+                                       array(),
+                                       array(self::ATTRIBUTE_CVO_FACTURABLE),
+                                       array(self::ATTRIBUTE_CVO_ACTIF), 
+                                       array(self::ATTRIBUTE_CVO_ACTIF, self::ATTRIBUTE_DOUANE_ACTIF)
+                                       );
         foreach($datesDroits as $dateDroit => $null) {
-            foreach($droitsCombinaison as $droits) {
-                $this->getProduits($dateDroit, $interpro, null, $droits);
+            foreach($attributesCombinaison as $attributes) {
+                $this->getProduits($dateDroit, $interpro, null, $attributes);
             }
         }
     }
 
-    public function getProduits($date = null, $interpro = "INTERPRO-inter-loire", $departement = null, $droits = array(ConfigurationDroits::DROIT_CVO)) {
+    public function getProduits($date = null, $interpro = "INTERPRO-inter-loire", $departement = null, $attributes = array()) {
         if (!$date) {
             $date = date('Y-m-d');
         }
 
         $date = $this->findDroitsDate($date, $interpro);
-        $droitsKey = $this->getKeyDroits($droits);
+        $attributesKey = $this->getKeyAttributes($attributes);
 
-        if(array_key_exists($date, $this->produits) && array_key_exists($droitsKey, $this->produits[$date])) {
+        if(array_key_exists($date, $this->produits) && array_key_exists($attributesKey, $this->produits[$date])) {
 
-            return $this->produits[$date][$droitsKey];
+            return $this->produits[$date][$attributesKey];
         }
 
         $produits = array();
 
         foreach ($this->getProduitsAll($interpro, $departement) as $hash => $item) {
-            if(!count($droits)) {
-                $produits[$hash] = $item;
+            if(!$item->hasProduitAttributes($date, $attributes)) {
+                
                 continue;
             }
 
-            if (in_array(ConfigurationDroits::DROIT_CVO, $droits) && $item->hasCVO($date)) {
-                $produits[$hash] = $item;
-                continue;
-            }
-
-            if (in_array(ConfigurationDroits::DROIT_DOUANE, $droits) && $item->hasDouane($date)) {
-                $produits[$hash] = $item;
-                continue;
-            }
+            $produits[$hash] = $item;
         }
 
         if(!array_key_exists($date, $this->produits)) {
@@ -153,22 +155,9 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             $this->produits[$date] = array();
         }
 
-        $this->produits[$date][$droitsKey] = $produits;
+        $this->produits[$date][$attributesKey] = $produits;
 
-        return $this->produits[$date][$droitsKey];
-    }
-
-    public function getProduitsAuto($date = null, $interpro = null, $departement = null, $droits = array(ConfigurationDroits::DROIT_CVO)) {
-        $produits = $this->getProduits($date, $interpro, $departement, $droits);
-        $produits_auto = array();
-        
-        foreach($produits as $hash => $produit) {
-            if(preg_match("/AUTRES/", $hash)) {
-                $produits_auto[$hash] = $produit;
-            }
-        }
-
-        return $produits_auto;
+        return $this->produits[$date][$attributesKey];
     }
 
     public function getLibelles() {
@@ -187,9 +176,9 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->codes;
     }
 
-    public function getProduitsHashByCodeDouane($date, $interpro, $droits = array()) {
+    public function getProduitsHashByCodeDouane($date, $interpro, $attributes = array()) {
         $produits = array();
-        foreach ($this->getProduits($date, $interpro, $droits) as $hash => $item) {
+        foreach ($this->getProduits($date, $interpro, $attributes) as $hash => $item) {
             $produits[$item->getCodeDouane()] = $hash;
         }
 
@@ -314,18 +303,38 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_DOUANE);
     }
 
-    public function hasCVO($date) {
+    public function isCVOActif($date) {
+
+        return $this->getTauxCVO($date) >= 0;
+    }
+
+    public function isCVOFacturable($date) {
+
+        return $this->getTauxCVO($date) > 0;
+    }
+
+    public function getTauxCVO($date) {
         try {
             $droit_produit = $this->getDroitCVO($date);
             $cvo_produit = $droit_produit->getTaux();
-        } catch (Exception $ex) {
+        } catch (Exception $ex) { 
             $cvo_produit = -1;
         }
 
-        return $cvo_produit >= 0;
+        return $cvo_produit;
     }
 
-    public function hasDouane($date) {
+    public function isDouaneActif($date) {
+
+        return $this->getTauxDouane($date) >= 0;
+    }
+
+    public function isDouaneFacturable($date) {
+        
+        return $this->getTauxDouane($date) > 0;
+    }
+
+    public function getTauxDouane($date) {
         try {
             $droit_produit = $this->getDroitDouane($date);
             $douane_produit = $droit_produit->getTaux();
@@ -333,7 +342,48 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             $douane_produit = -1;
         }
 
-        return $douane_produit >= 0;
+        return $douane_produit;
+    }
+
+    public function hasProduitAttribute($date, $attribute) {
+
+        if($attribute == self::ATTRIBUTE_CVO_ACTIF) {
+
+            return $this->isCVOActif($date);
+        }
+
+        if($attribute == self::ATTRIBUTE_DOUANE_ACTIF) {
+
+            return $this->isDouaneActif($date);
+        }
+
+        if($attribute == self::ATTRIBUTE_CVO_FACTURABLE) {
+
+            return $this->isCVOFacturable($date);
+        }
+
+        if($attribute == self::ATTRIBUTE_DOUANE_FACTURABLE) {
+
+            return $this->isDouaneFacturable($date);
+        }
+
+        return false;
+    }
+
+    public function hasProduitAttributes($date, $attributes) {
+        if(!count($attributes)) {
+
+            return true;
+        }
+
+        foreach($attributes as $attribute) {
+            if($this->hasProduitAttribute($date, $attribute)) {
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getDroits($interpro) {
@@ -484,12 +534,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return floatval(str_replace(',', '.', $float));
     }
 
-    public function formatProduits($date = null, $interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)", $droits = array()) {
+    public function formatProduits($date = null, $interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)", $attributes = array()) {
         if (!$date) {
             $date = date('Y-d-m');
         }
 
-        $produits = $this->getProduits($date, $interpro, $departement, $droits);
+        $produits = $this->getProduits($date, $interpro, $departement, $attributes);
         $produits_formated = array();
         foreach ($produits as $hash => $produit) {
             $produits_formated[$hash] = $produit->getLibelleFormat(array(), $format, ',');

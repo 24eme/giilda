@@ -126,7 +126,7 @@ class Revendication extends BaseRevendication {
 
     public function setProduits() {
         if (!$this->produits){
-            $this->produits = $this->getConfig()->formatProduits($this->getDate(),"%format_libelle%");
+            $this->produits = $this->getConfig()->formatProduits($this->getDate(), "%format_libelle%", array(_ConfigurationDeclaration::ATTRIBUTE_CVO_FACTURABLE));
         }
         return $this->produits;
     }
@@ -147,7 +147,7 @@ class Revendication extends BaseRevendication {
 
     public function setProduitsCodeDouaneHashes() {
         if (!$this->produitsCodeDouane){
-            $this->produitsCodeDouane = $this->getConfig()->declaration->getProduitsHashByCodeDouane($this->date,'INTERPRO-inter-loire', array(ConfigurationDroits::DROIT_CVO));
+            $this->produitsCodeDouane = $this->getConfig()->declaration->getProduitsHashByCodeDouane($this->date,'INTERPRO-inter-loire', array(_ConfigurationDeclaration::ATTRIBUTE_CVO_ACTIF));
         }
 
         return $this->produitsCodeDouane;
