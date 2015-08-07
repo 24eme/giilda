@@ -33,7 +33,7 @@ class AddAliasToProduitForm  extends acCouchdbObjectForm {
     
     protected function getConfig() {
 
-    	return ConfigurationClient::getCurrent();
+    	return ConfigurationClient::getConfiguration($this->date);
     }
     
     public function getAlias(){

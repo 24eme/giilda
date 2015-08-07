@@ -192,9 +192,8 @@ function vrac_get_words($vracs) {
 }
 
 function vrac_get_word($vrac) {
-
     $num_archive = ($vrac->value[VracClient::VRAC_VIEW_NUMARCHIVE]) ? $vrac->value[VracClient::VRAC_VIEW_NUMARCHIVE] : '';
-    $libelle_produit = ($vrac->value[VracClient::VRAC_VIEW_PRODUIT_ID]) ? ConfigurationClient::getCurrent()->get($vrac->value[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat() : "";
+    $libelle_produit = ($vrac->value[VracClient::VRAC_VIEW_PRODUIT_ID]) ? ConfigurationClient::getConfigurationByCampagne($vrac->value[VracClient::VRAC_VIEW_CAMPAGNE])->get($vrac->value[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat() : "";
     return array_merge(
             Search::getWords($num_archive), Search::getWords($vrac->value[VracClient::VRAC_VIEW_VENDEUR_NOM]), Search::getWords($vrac->value[VracClient::VRAC_VIEW_ACHETEUR_NOM]), Search::getWords($vrac->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM]), Search::getWords($vrac->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM]), Search::getWords($libelle_produit)
     );

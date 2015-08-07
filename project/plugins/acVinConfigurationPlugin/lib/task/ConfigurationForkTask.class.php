@@ -34,6 +34,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
+
     $date = $options['date'];
 
     if(!$date) {
@@ -49,6 +50,8 @@ EOF;
       echo sprintf("/!\ La date d'utilisation n'est pas valide : %s. Format accepté (YYYY-mm-dd)\n", $options['date']);
       return;
     }
+    
+    ConfigurationClient::getInstance()->cacheResetConfiguration();
 
     $configuration = ConfigurationClient::getConfiguration($date);
 
