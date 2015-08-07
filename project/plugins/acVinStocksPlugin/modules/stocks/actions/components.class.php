@@ -18,7 +18,11 @@ class stocksComponents extends sfComponents {
 
         $this->recaps = array();
 
+        $conf = ConfigurationClient::getConfigurationByCampagne($this->campagne);
+
         foreach($mouvements as $mouvement) {
+            if (!$conf->get($mouvement->produit_hash)->getCepage()->getCVOActif())
+                continue;
             if (!array_key_exists($mouvement->produit_hash, $this->recaps)) {
                 $this->recaps[$mouvement->produit_hash] = $this->initLigneRecapNegociant();
                 $this->recaps[$mouvement->produit_hash]['produit'] = $mouvement->produit_libelle;
@@ -54,7 +58,6 @@ class stocksComponents extends sfComponents {
     }
 
     protected function getMouvementsViticulteur() {
-
         return DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
     }
 

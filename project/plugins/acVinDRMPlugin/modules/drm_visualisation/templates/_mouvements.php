@@ -1,6 +1,13 @@
-<?php use_helper('Float'); ?>
-<?php use_helper('Date'); ?>
-<?php use_helper('Mouvement') ?>
+<?php 
+
+use_helper('Float');
+use_helper('Date'); 
+use_helper('Mouvement');
+
+if(!isset($isTeledeclarationMode)) {
+    $isTeledeclarationMode = false;
+}
+ ?>
 
 <?php if (count($mouvements) > 0): ?>
     <?php if (isset($hamza_style)) : ?>
@@ -14,7 +21,7 @@
     <table id="table_mouvements" class="table_recap">
         <thead>
             <tr>
-                <?php if(!isset($isTeledeclarationMode) || !$isTeledeclarationMode): ?>
+                <?php if (!$isTeledeclarationMode): ?>
                 <th style="width: 170px;">Date de modification</th>
                 <?php endif; ?>
                 <th style="width: 280px;">Produits</th>
@@ -25,11 +32,11 @@
         <tbody>
             <?php $i = 1; ?>
     <?php 
-    foreach ($mouvements as $mouvement): ?>
-        <?php $i++; ?>
+    foreach ($mouvements as $mouvement): 
+        $i++; ?>
                 <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php echo ($i % 2 != 0)? "alt" : "";?> <?php
-        echo ($mouvement->facturable && (!isset($isTeledeclarationMode) || !$isTeledeclarationMode || $visualisation))? " facturable" : ""; ?>">
-                    <?php if(!isset($isTeledeclarationMode) || !$isTeledeclarationMode): ?>
+        echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation))? " facturable" : ""; ?>">
+                    <?php if(!$isTeledeclarationMode): ?>
                     <td>
                         Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>
                     </td>
