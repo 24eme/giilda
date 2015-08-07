@@ -82,7 +82,6 @@ class DRMClient extends acCouchdbClient {
     public function getLastMonthPeriodes($nbMonth) {
         $periodes = array();
         $periode = $this->buildPeriode(date('Y'), date('m'));
-        $periode = $this->buildPeriode(date('Y'), '09');
         for ($cpt = 0; $cpt < $nbMonth; $cpt++) {
 
             $periodes[] = $periode;
