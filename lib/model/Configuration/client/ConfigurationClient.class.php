@@ -46,9 +46,15 @@ class ConfigurationClient extends acCouchdbClient {
 		return self::getInstance()->getConfiguration();
 	}
 
-    public function getConfiguration($date = null) {
+    public static function getConfiguration($date = null) {
         
         return self::getInstance()->findConfiguration($date);
+    }
+
+    public static function getConfigurationByCampagne($campagne) {
+        $date = self::getInstance()->getCampagneVinicole()->getDateDebutByCampagne($campagne);
+
+        return self::getInstance()->getConfiguration($date);
     }
 
     public function findConfiguration($date = null) {
