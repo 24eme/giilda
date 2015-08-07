@@ -38,7 +38,7 @@ $this->setWidget('type_document', new sfWidgetFormChoice(array('choices' => $thi
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
         $date = new DateTime($this->getObject()->getDocument()->getDate());
-        $this->getObject()->date_enlevement = $date->format('d/m/Y');
+        $this->getObject()->date_enlevement = $date->format('Y-m-d');
            }
 
     public function getProduitDetail() {
