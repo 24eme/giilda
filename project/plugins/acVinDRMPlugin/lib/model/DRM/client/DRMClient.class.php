@@ -289,8 +289,8 @@ class DRMClient extends acCouchdbClient {
         }
 
         krsort($drms);
-
-        return array_pop($drms);
+        
+        return array_shift($drms);
     }
 
     protected function viewByIdentifiantPeriode($identifiant, $periode) {

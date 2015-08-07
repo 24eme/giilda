@@ -327,7 +327,7 @@ class drmActions extends drmGeneriqueActions {
 
     public function executeModificative(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();
-
+        
         $drm_rectificative = $drm->generateModificative();
         $drm_rectificative->save();
 

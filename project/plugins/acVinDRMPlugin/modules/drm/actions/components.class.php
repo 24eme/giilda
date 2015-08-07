@@ -152,6 +152,8 @@ class drmComponents extends sfComponents {
         $conf = ConfigurationClient::getConfigurationByCampagne($this->campagne);
         $campgne = '999999';
         foreach ($drms as $drm) {
+            if (!$conf->get($drm->produit_hash)->getCepage()->isCVOActif($drm->periode))
+                continue;
             if (!isset($this->recaps[$drm->produit_hash])) {
                 $this->recaps[$drm->produit_hash] = $this->initLigneRecap($conf, $drm->produit_hash);
                 $this->recaps[$drm->produit_hash]['volume_stock_debut'] = $drm->volume_stock_debut_mois;

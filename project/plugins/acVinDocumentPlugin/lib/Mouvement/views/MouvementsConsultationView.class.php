@@ -68,10 +68,18 @@ class MouvementsConsultationView extends acCouchdbView
     }
 
     protected function buildMouvements($rows,$isTeledeclarationMode = false) {
+        $conf = null;
         $mouvements = array();
         foreach($rows as $row) {
             $mouvement = $this->buildMouvement($row);
-            $mouvement_sort = sprintf('%02d', str_replace('M', '', $mouvement->version)*1);           
+            if (!$conf) {
+                $conf = ConfigurationClient::getConfigurationByCampagne($mouvement->campagne);
+            }
+            if (!$conf->get($mouvement->produit_hash)->getCepage()->isCVOActif($mouvement->date_version)) {
+                continue;;
+            }
+            $mouvement_sort = sprintf('%02d', str_replace('M', '', $mouvement->version)*1);
+            
             $mouvements[$mouvement->date_version.$mouvement->type.$mouvement_sort.$mouvement->doc_id.$mouvement->id] = $mouvement;
         }
 
@@ -81,6 +89,7 @@ class MouvementsConsultationView extends acCouchdbView
     protected function buildMouvement($row) {
         $mouvement = new stdClass();
         $mouvement->type = $row->key[self::KEY_TYPE];
+        $mouvement->campagne = $row->key[self::KEY_CAMPAGNE];
         $mouvement->doc_id = $row->key[self::KEY_ID];
         $mouvement->type_hash = $row->key[self::KEY_TYPE_HASH];
         $mouvement->etablissement_nom = $row->value[self::VALUE_ETABLISSEMENT_NOM];
