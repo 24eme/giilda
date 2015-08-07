@@ -131,6 +131,7 @@ Configuration:
                               facturable: { type: integer }
                               douane_type: { }
                               douane_cat: { }
+                              taxable_douane: { }
                   entrees:
                     required: false
                     type: collection
@@ -149,6 +150,7 @@ Configuration:
                               facturable: { type: integer }
                               douane_type: { }
                               douane_cat: { }
+                              taxable_douane: { }
                   sorties:
                     required: false
                     type: collection
@@ -167,6 +169,7 @@ Configuration:
                               facturable: { type: integer }
                               douane_type: { }
                               douane_cat: { }
+                              taxable_douane: { }
                   stocks_fin:
                     required: false
                     type: collection
@@ -185,6 +188,7 @@ Configuration:
                               facturable: {  }
                               douane_type: { }
                               douane_cat: { }
+                              taxable_douane: { }
             certifications:
               type: collection
               definition:
