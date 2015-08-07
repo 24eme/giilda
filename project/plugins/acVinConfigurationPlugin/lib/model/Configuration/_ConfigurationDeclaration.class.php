@@ -575,6 +575,17 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
     }
 
+    public function formatCodeFromCsv($code) {
+        $code = preg_replace("|/.+$|", "", $code);
+
+        if(!$code) {
+
+            return null;
+        }
+
+        return $code;
+    }
+
     public abstract function getTypeNoeud();
 
     public function getDetailConfiguration() {
