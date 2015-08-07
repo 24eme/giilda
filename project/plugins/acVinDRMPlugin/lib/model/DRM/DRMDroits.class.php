@@ -31,9 +31,6 @@ class DRMDroits extends BaseDRMDroits {
         $genreDouaneNode->code = $droitsConfig->code;
         $genreDouaneNode->libelle = self::$correspondanceGenreLibelle[$genreKey];
         $genreDouaneNode->updateTotal();
-//        $genreDouaneNode->total = $vol;
-//        $genreDouaneNode->report = $vol;
-//        $genreDouaneNode->cumul = $vol;
     }
-
+    
 }

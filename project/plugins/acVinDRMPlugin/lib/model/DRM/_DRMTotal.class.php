@@ -11,14 +11,14 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         return $this->getDocument()->getConfig()->get($this->getHash());
     }
 
-    public function getConfigProduitsDroits($teledeclarationMode = false) {
-        $droits = array(ConfigurationDroits::DROIT_CVO);
+    public function getConfigProduitsAttributes($teledeclarationMode = false) {
+        $attributes = array(_ConfigurationDeclaration::ATTRIBUTE_CVO_ACTIF);
 
         if($teledeclarationMode && $this->getDocument()->isTeledeclare()) {
-            $droits[] = ConfigurationDroits::DROIT_DOUANE;
+            $attributes[] = _ConfigurationDeclaration::ATTRIBUTE_DOUANE_ACTIF;
         }
         
-        return $droits; 
+        return $attributes; 
     }
 
     public function getConfigProduits($teledeclarationMode = false) {
@@ -27,16 +27,7 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
                                                   $this->getDocument()->getInterpro()->get('_id'), 
                                                   $this->getDocument()->getDepartement(),
                                                   "%format_libelle% (%code_produit%)", 
-                                                  $this->getConfigProduitsDroits($teledeclarationMode));
-    }
-
-    public function getConfigProduitsAuto() {
-
-        
-        return $this->getConfig()->getProduitsAuto($this->getDocument()->getFirstDayOfPeriode(),
-                                                  $this->getDocument()->getInterpro()->get('_id'), 
-                                                  $this->getDocument()->getDepartement(),
-                                                  $this->getConfigProduitsDroits($this->getDocument()->isTeledeclare()));
+                                                  $this->getConfigProduitsAttributes($teledeclarationMode));
     }
 
     public function getParentNode() {
