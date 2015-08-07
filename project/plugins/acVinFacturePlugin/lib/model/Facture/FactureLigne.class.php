@@ -47,9 +47,9 @@ class FactureLigne extends BaseFactureLigne {
     }
 
     public function getDate() {
-        $date = preg_replace("/^[0-9]{4}[0-9]{2}$/", '\1-\2-01', $this->origine_date);
+        $date = preg_replace("/^([0-9]{4})([0-9]{2})$/", '\1-\2-01', $this->origine_date);
 
-        if(!preg_match("^[0-9]{4}-[0-9]{2}-[0-9]{2}", $date)) {
+        if(!preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}/", $date)) {
 
             throw new sfException(sprintf("La date d'origine du document n'est pas au bon format %s", $date));
         }

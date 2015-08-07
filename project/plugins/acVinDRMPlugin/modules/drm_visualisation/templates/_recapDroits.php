@@ -12,7 +12,7 @@
 <?php if($recapCvo->totalVolumeReintegration) : ?> 
                <th>Volumes réintégrés</th>
 <?php endif; ?>
-                <th>TOTAL</th>
+                <th>TOTAL (HT)</th>
             </tr>
         </thead>
         <tbody class="drm_cvo_list">
