@@ -4,10 +4,11 @@ class DRMDetailEntreesForm extends acCouchdbObjectForm {
 
     public function configure() {
         $configurationDetail = $this->getObject()->getParent()->getConfig();
+        $certif = $this->getObject()->getParent()->getCertification()->getkey();
         $drm = $this->getObject()->getDocument();
         foreach ($configurationDetail->getEntreesSorted($drm->getDetailsConfigKey()) as $key => $value) {
             if ($value->readable) {
-                if (!$value->writable) {
+                if (!$value->writable || (preg_match('/AOC|IGP/', $certif) && ($key == 'declassement'))) {
                     $this->setWidget($key, new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
                 } else {
                     $this->setWidget($key, new sfWidgetFormInputFloat());
