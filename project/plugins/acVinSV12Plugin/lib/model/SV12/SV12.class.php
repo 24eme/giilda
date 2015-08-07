@@ -82,7 +82,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function getConfigProduits() {
 
-        return $this->getConfig()->formatProduits($this->getFirstDayOfPeriode(), "%format_libelle% (%code_produit%)", array(ConfigurationDroits::DROIT_CVO));
+        return $this->getConfig()->formatProduits($this->getFirstDayOfPeriode(), "%format_libelle% (%code_produit%)",array(_ConfigurationDeclaration::ATTRIBUTE_CVO_FACTURABLE));
     }
 
     public function isValidee() {

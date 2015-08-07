@@ -9,8 +9,8 @@ inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Anjou;ANJ;Primeur;PRI;;;Rouge;1;Gamay;
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Anjou-Villages;AJV;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;4,5;;A;;;;;;;62;cepage;9060;cepage;1R204S;cepage;;%g% %a% %l% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Anjou-Villages Brissac;AJVBRI;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;5,5;;L;;;;;;;92;cepage;9090;cepage;1R217S;cepage;;%g% %a% %l% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Bonnezeaux;BON;;;;;Blanc;3;;CHE;;L387;Vins Tranquilles;3,75;2015-08-01;G;9;2014-08-01;A;;;;;;;71;cepage;9070;cepage;1B210L;cepage;;%g% %a% %l% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Bourgueil;BRG;;;;;Rouge;1;Cabernet Franc;CBF;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;2015-08-01;A;;;;;;;592;cepage;;cepage;1S220S;cepage;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Bourgueil;BRG;;;;;Rosé;2;Cabernet Franc;CBF;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;2015-08-01;A;;;;;;;593;cepage;;cepage;1R220S;cepage;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Bourgueil;BRG;;;;;Rouge;1;Cabernet Franc;CBF;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;592;cepage;;cepage;1S220S;cepage;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Bourgueil;BRG;;;;;Rosé;2;Cabernet Franc;CBF;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;593;cepage;;cepage;1R220S;cepage;;%g% %a% %l% %co% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Cabernet d'Anjou;CAJ;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;4,5;;A;;;;;;;83;cepage;9080;cepage;1S201D;cepage;1S201D03;%g% %a% %l% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Cabernet de Saumur;CAS;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;4;;A;;;;;;;103;cepage;9100;cepage;1S207;cepage;1S20701;%g% %a% %l% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Chinon;CHI;;;;;Blanc;3;Chenin;CHE;;L387;Vins Tranquilles;3,75;2015-08-01;G;4,5;;A;;;;;;;581;cepage;9580;cepage;0631B;cepage;;%g% %a% %l% %co% %m%;appellation
@@ -29,14 +29,14 @@ inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Coteaux du loir;CDL;;;;;Rouge;1;;;;L38
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Coteaux du loir;CDL;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;4;;A;;;;;;;613;cepage;9630;cepage;1S223S;cepage;;%g% %a% %l% %co% %m%;appellation
 inter-loire;AOC;AOC_INTERLOIRE/AOC;Fines bulles;EFF;Crémant de Loire;CLO;;;;;Blanc;3;;;;L385;Vins Mousseux;9,29;2015-08-01;G;4;;G;;;;;1.5;;404;cepage;9400;cepage;1B215M;cepage;1S215M;%a% %l% %co% %m%;genre
 inter-loire;AOC;AOC_INTERLOIRE;Fines bulles;EFF;Crémant de Loire;CLO;;;;;Rosé;2;;;;L385;Vins Mousseux;9,29;2015-08-01;G;4;;G;;;;;1.5;;404;cepage;9400;cepage;1B215M;cepage;1S215M;%a% %l% %co% %m%;genre
-inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;2015-08-01;A;;;;;;;4010;cepage;9990;cepage;;cepage;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;2015-08-01;A;;;;;;;4020;cepage;9990;cepage;;cepage;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;2015-08-01;A;;;;;;;4030;cepage;9990;cepage;;cepage;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;-1;2015-08-01;C;;;;;;;4010;cepage;9990;cepage;;cepage;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;-1;2015-08-01;C;;;;;;;4020;cepage;9990;cepage;;cepage;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Fiefs vendéens;FVD;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;-1;2015-08-01;C;;;;;;;4030;cepage;9990;cepage;;cepage;;%g% %a% %l% %co% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Gros plant;GPL;;;;;Blanc;3;Folle blanche;FBL;;L387;Vins Tranquilles;3,75;2015-08-01;G;4;;A;;;;;;;2000;cepage;9960;cepage;2058B;cepage;;%g% %a% %l% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Gros plant;GPL;Sur lie;LIE;;;Blanc;3;Folle blanche;FBL;;L387;Vins Tranquilles;3,75;2015-08-01;G;4;;A;;;;;;;2001;cepage;9970;cepage;2058BSL;cepage;;%g% %a% %l% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Jasnières;JAS;;;;;Blanc;3;Chenin;CHE;;L387;Vins Tranquilles;3,75;2015-08-01;G;4;;A;;;;;;;621;cepage;9620;cepage;1B224;cepage;;%g% %a% %l% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;2015-08-01;A;;;;;;;561;cepage;9560;cepage;1B225;cepage;;%g% %a% %l% %m%;appellation
-inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;Fines bulles;EFF;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;L385;Vins Mousseux;9,29;2015-08-01;G;0;2015-08-01;A;;;;;;;564;cepage;9560;cepage;1B225M;cepage;1B225P;%a% %g% %l% %co% %m%;genre
+inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;;TRANQ;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;L387;Vins Tranquilles;3,75;2015-08-01;G;-1;2015-08-01;C;;;;;;;561;cepage;9560;cepage;1B225;cepage;;%g% %a% %l% %m%;appellation
+inter-loire;AOC;AOC_HORSINTERLOIRE/AOC;Fines bulles;EFF;Montlouis sur Loire;MLL;;;;;Blanc;3;Chenin;CHE;;L385;Vins Mousseux;9,29;2015-08-01;G;-1;2015-08-01;C;;;;;;;564;cepage;9560;cepage;1B225M;cepage;1B225P;%a% %g% %l% %co% %m%;genre
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Muscadet AC;MUSAC;;;;;Blanc;3;Melon;MEL;;L387;Vins Tranquilles;3,75;2015-08-01;G;4,5;2013-08-01;A;;;;;;;1040;cepage;9940;cepage;1B228;cepage;;%g% %a% %l% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Muscadet AC;MUSAC;Sur lie;LIE;;;Blanc;3;Melon;MEL;;L387;Vins Tranquilles;3,75;2015-08-01;G;4,5;2013-08-01;A;;;;;;;1041;cepage;9950;cepage;1B22801;cepage;;%g% %a% %l% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Muscadet Coteaux de la Loire;MUSCDL;;;;;Blanc;3;Melon;MEL;;L387;Vins Tranquilles;3,75;2015-08-01;G;4;2013-08-01;A;;;;;;;1060;cepage;9940;cepage;1B229;cepage;;%g% %a% %l% %m%;certification
@@ -84,85 +84,85 @@ inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Touraine;TOU;;;Chenonceaux;CHE;Rouge;1
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Touraine;TOU;;;Oisly;OIS;Blanc;3;Sauvignon Blanc;SAUB;;L387;Vins Tranquilles;3,75;2015-08-01;G;4;;A;;;;;;;641;cepage;9640;cepage;1B704S;cepage;;%g% %a% %l% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;;TRANQ;Vouvray;VOU;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;4;;A;;;;;;;571;cepage;9570;cepage;1B226;cepage;;%g% %a% %l% %m%;certification
 inter-loire;AOC;AOC_INTERLOIRE/AOC;Fines bulles;EFF;Vouvray;VOU;;;;;Blanc;3;;;;L385;Vins Mousseux;9,29;2015-08-01;G;4;;G;;;;;;;574;cepage;9570;cepage;1B226M;cepage;1B226P;%a% %g% %l% %co% %m%;genre
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009;;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009;;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009;;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Cheverny;CHY;;;;CHY;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1B231S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Cheverny;CHY;;;;CHY;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1S231S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Cheverny;CHY;;;;CHY;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1R231S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Coteaux du Vendomois;CTXV;;;;VDM;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1B218S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Coteaux du Vendomois;CTXV;;;;VDM;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1S218S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Coteaux du Vendomois;CTXV;;;;VDM;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1R218S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Cour-Cheverny;CCHY;;;;CHY;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1B232S  ;;;%g% %a% %l% %m%;appellation
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Haut-Poitou;HPT;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1B713S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Haut-Poitou;HPT;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1S713S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Haut-Poitou;HPT;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1R713S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Valençay;VLY;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1B233S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Valençay;VLY;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1S233S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Valençay;VLY;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;A;;;;;;;;;;;1R233S  ;;;%g% %a% %l% %co% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;Pinot gris;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009 AA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;Sauvignon blanc;SAU;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009 AE; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;Sauvignon gris;SAU;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009 AF; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;Chardonnay;CHA;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009 CA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;Chenin;CHE;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009 CF; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;Folle blanche;FBL;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009 CL; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;Grolleau gris;GRO;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009 CU; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;Melon;MEL;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009 DK; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Blanc;3;Pinot blanc;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B009 59; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;Cabernet franc ;CBF;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009 BW; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;Cabernet sauvignon ;CBS;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009 BX; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;Gamay noir;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;Grolleau noir;GRO;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009 CT; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;Cot;COT;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009 CZ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;Merlot;MERL;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009 DE; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;Abouriou;ABO;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009 35; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rouge;1;Pineau d'Aunis;PINAU;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R009 58; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Egiodola;EGI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 AT; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Cabernet franc;CBF;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 BW; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Cabernet sauvignon;CBS;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 BX; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Gamay noir;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Grolleau noir;GRO;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 CT; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Cot ;COT;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 CZ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Merlot;MERL;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 DE; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Abouriou ;ABO;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 35; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;IGP Val de Loire;VAL;;;;;Rosé;2;Pineau d'Aunis;PINAU;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S009 58; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B582  ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;Pinot gris;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B582 AA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;Sauvignon blanc;SAU;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B582 AE; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;Chardonnay blanc;CHA;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B582 CA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B582 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;Pinot blanc;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B582 59; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R582   ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rouge;1;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R582 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rouge;1;Gamay;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R582 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rouge;1;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R582 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S582   ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rosé;2;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S582 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rosé;2;Gamay;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S582 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rosé;2;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S582 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B583   ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Pinot gris;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B583 AA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Auxerrois;AUX;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B583 AZ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Chardonnay blanc;CHA;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B583 CA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Melon blanc;MEL;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B583 DK; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B583 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Pinot blanc;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3B583 59; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R583   ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rouge;1;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R583 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rouge;1;Gamay noir;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R583 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rouge;1;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3R583 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S583   ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S583 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;Gamay noir;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S583 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;3S583 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
-inter-loire;Vins sans IG;VINSSIG;;TRANQ;;SIG;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;4B999   ; ;;%c% %a% %g% %l% %m%;certification
-inter-loire;Vins sans IG;VINSSIG;Mousseux;EFF;;SIG;;;;;Blanc;3;;;;L385;Vins Mousseux;9,29;2015-08-01;G;0;;C;;;;;;;;;;;4B999M  ; ;;%c% %a% %g% %l% %m%;certification
-inter-loire;Vins sans IG;VINSSIG;;TRANQ;;SIG;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;4R999   ; ;;%c% %a% %g% %l% %m%;certification
-inter-loire;Vins sans IG;VINSSIG;Mousseux;EFF;;SIG;;;;;Rouge;1;;;;L385;Vins Mousseux;9,29;2015-08-01;G;0;;C;;;;;;;;;;;4R999M  ; ;;%c% %a% %g% %l% %m%;certification
-inter-loire;Vins sans IG;VINSSIG;;TRANQ;;SIG;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;G;0;;C;;;;;;;;;;;4S999   ; ;;%c% %a% %l% %g% %m%;certification
-inter-loire;Vins sans IG;VINSSIG;Mousseux;EFF;;SIG;;;;;Rosé;2;;;;L385;Vins Mousseux;9,29;2015-08-01;G;0;;C;;;;;;;;;;;4S999M  ; ;;%c% %a% %g% %l% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009;;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009;;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009;;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Cheverny;CHY;;;;CHY;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1B231S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Cheverny;CHY;;;;CHY;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1S231S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Cheverny;CHY;;;;CHY;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1R231S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Coteaux du Vendomois;CTXV;;;;VDM;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1B218S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Coteaux du Vendomois;CTXV;;;;VDM;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1S218S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Coteaux du Vendomois;CTXV;;;;VDM;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1R218S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Cour-Cheverny;CCHY;;;;CHY;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1B232S  ;;;%g% %a% %l% %m%;appellation
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Haut-Poitou;HPT;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1B713S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Haut-Poitou;HPT;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1S713S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Haut-Poitou;HPT;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1R713S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Valençay;VLY;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1B233S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Valençay;VLY;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1S233S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;AOC;AOC_HORSINTERLOIRE;;TRANQ;Valençay;VLY;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;1R233S  ;;;%g% %a% %l% %co% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;Pinot gris;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009 AA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;Sauvignon blanc;SAU;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009 AE; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;Sauvignon gris;SAU;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009 AF; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;Chardonnay;CHA;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009 CA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;Chenin;CHE;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009 CF; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;Folle blanche;FBL;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009 CL; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;Grolleau gris;GRO;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009 CU; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;Melon;MEL;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009 DK; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Blanc;3;Pinot blanc;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3B009 59; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;Cabernet franc ;CBF;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009 BW; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;Cabernet sauvignon ;CBS;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009 BX; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;Gamay noir;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;Grolleau noir;GRO;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009 CT; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;Cot;COT;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009 CZ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;Merlot;MERL;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009 DE; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;Abouriou;ABO;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009 35; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rouge;1;Pineau d'Aunis;PINAU;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3R009 58; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Egiodola;EGI;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009 AT; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Cabernet franc;CBF;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009 BW; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Cabernet sauvignon;CBS;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009 BX; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Gamay noir;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Grolleau noir;GRO;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009 CT; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Cot ;COT;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009 CZ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Merlot;MERL;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009 DE; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Abouriou ;ABO;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;2015-08-01;C;;;;;;;;;;;3S009 35; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_VALDELOIRE;;TRANQ;Val de Loire;VAL;;;;;Rosé;2;Pineau d'Aunis;PINAU;;L387;Vins Tranquilles;3,75;2015-08-01;C;0; ;C;;;;;;;;;;;3S009 58; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B582  ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;Pinot gris;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B582 AA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;Sauvignon blanc;SAU;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B582 AE; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;Chardonnay blanc;CHA;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B582 CA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B582 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Blanc;3;Pinot blanc;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B582 59; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3R582   ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rouge;1;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3R582 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rouge;1;Gamay;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3R582 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rouge;1;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3R582 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3S582   ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rosé;2;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3S582 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rosé;2;Gamay;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3S582 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côtes de la Charité;CDLC;;;;;Rosé;2;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3S582 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B583   ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Pinot gris;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B583 AA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Auxerrois;AUX;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B583 AZ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Chardonnay blanc;CHA;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B583 CA; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Melon blanc;MEL;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B583 DK; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B583 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Blanc;3;Pinot blanc;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3B583 59; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3R583   ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rouge;1;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3R583 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rouge;1;Gamay noir;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3R583 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rouge;1;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3R583 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3S583   ; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;Pinot noir;PIN;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3S583 AB; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;Gamay noir;GAM;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3S583 CM; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;IGP;IGP_HORSVALDELOIRE;;TRANQ;Côteaux de Tannay;CTXT;;;;;Rosé;2;Multi cépage;MULTI;;L387;Vins Tranquilles;3,75;2015-08-01;C;-1;2015-08-01;C;;;;;;;;;;;3S583 00; ;;%c% %g% %a% %l% %co% %ce% %m%;certification
+inter-loire;Vins sans IG;VINSSIG;;TRANQ;;SIG;;;;;Blanc;3;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;;C;;;;;;;;;;;4B999   ; ;;%c% %a% %g% %l% %m%;certification
+inter-loire;Vins sans IG;VINSSIG;Mousseux;EFF;;SIG;;;;;Blanc;3;;;;L385;Vins Mousseux;9,29;2015-08-01;C;0;;C;;;;;;;;;;;4B999M  ; ;;%c% %a% %g% %l% %m%;certification
+inter-loire;Vins sans IG;VINSSIG;;TRANQ;;SIG;;;;;Rouge;1;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;;C;;;;;;;;;;;4R999   ; ;;%c% %a% %g% %l% %m%;certification
+inter-loire;Vins sans IG;VINSSIG;Mousseux;EFF;;SIG;;;;;Rouge;1;;;;L385;Vins Mousseux;9,29;2015-08-01;C;0;;C;;;;;;;;;;;4R999M  ; ;;%c% %a% %g% %l% %m%;certification
+inter-loire;Vins sans IG;VINSSIG;;TRANQ;;SIG;;;;;Rosé;2;;;;L387;Vins Tranquilles;3,75;2015-08-01;C;0;;C;;;;;;;;;;;4S999   ; ;;%c% %a% %l% %g% %m%;certification
+inter-loire;Vins sans IG;VINSSIG;Mousseux;EFF;;SIG;;;;;Rosé;2;;;;L385;Vins Mousseux;9,29;2015-08-01;C;0;;C;;;;;;;;;;;4S999M  ; ;;%c% %a% %g% %l% %m%;certification
