@@ -151,7 +151,7 @@ function getEtatDRMHrefCalendrier($isTeledeclaration,$calendrier, $periode, $eta
     $etablissementId = ($etablissement) ? $etablissement->identifiant : $calendrier->getIdentifiant();
     $statut = $calendrier->getStatut($periode, $etablissement);
     $periode_version = $calendrier->getPeriodeVersion($periode, $etablissement);
-    if ($statut == DRMCalendrier::STATUT_VALIDEE || (DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE && !$isTeledeclaration)) {
+    if ($statut == DRMCalendrier::STATUT_VALIDEE || ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE && !$isTeledeclaration)) {
         return url_for('drm_visualisation', array('identifiant' => $etablissementId, 'periode_version' => $periode_version));
     }
     if ($statut == DRMCalendrier::STATUT_EN_COURS) {
