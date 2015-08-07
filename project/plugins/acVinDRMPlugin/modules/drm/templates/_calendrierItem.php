@@ -5,7 +5,7 @@
         <?php if ($isTeledeclarationMode && $multiEtablissement): ?>
             <ul class="liste_etablissements clearfix">
                 <?php foreach ($etablissements as $etb): ?>
-                    <li class="<?php echo getEtatDRMPictoCalendrier($calendrier, $periode, $etb->etablissement); ?>">
+                    <li class="<?php echo getEtatDRMPictoCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb->etablissement); ?>">
                         <button class="btn_etablissement" type="button"><?php echo $etb->etablissement->nom; ?></button>
                         <div class="etablissement_tooltip">
                             <p class="etablissement_nom"><?php echo $etb->etablissement->nom; ?></p>
@@ -21,7 +21,7 @@
             </ul>
         
                 <?php else: ?>
-            <div class="<?php echo getEtatDRMPictoCalendrier($calendrier, $periode); ?>">
+            <div class="<?php echo getEtatDRMPictoCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>">
                 <p class="etablissement_nom"><?php echo $etablissement->nom; ?></p>
                 <p class="lignestatut">Etat : <span class="statut"><?php echo getEtatDRMCalendrier($calendrier, $periode); ?></span>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode) ?></p>
        
