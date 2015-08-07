@@ -154,7 +154,7 @@ class ProduitCsvFile extends CsvFile {
                         echo "ERROR;La corresponde n'a pas été trouvé dans l'ancienne conf $oldHash \n";
                         continue;
                     }
-                    $this->config->getOrAdd('correspondances')->add(str_replace('/', '-', $newHash), $oldHash);
+                    $this->config->getOrAdd('correspondances')->add("-declaration-".str_replace('/', '-', $newHash), "/declaration/".$oldHash);
                     //echo "UPDATE;On ajoute la corresondance " . $oldHash . " => " . $newHash . "\n";
                 }
 
@@ -170,6 +170,9 @@ class ProduitCsvFile extends CsvFile {
         } catch (Execption $e) {
             $this->errors[] = $e->getMessage();
         }
+
+        $this->config->updateAliasForCorrespondances();
+
         return $this->config;
     }
 
