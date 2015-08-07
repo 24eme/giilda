@@ -158,6 +158,22 @@ class Configuration extends BaseConfiguration {
         }
     }
 
+    public function getCorrespondanceHash($hash) {
+        if(!$this->exist('correspondances')) {
+
+            return false;
+        }
+
+        $key = str_replace("/", "-", $hash);
+
+        if(!$this->correspondances->exist($key)) {
+
+            return false;
+        }
+
+        return $this->correspondances->get($key);
+    }
+
     public function save() {
         parent::save();
         CurrentClient::getInstance()->cacheResetConfiguration();
