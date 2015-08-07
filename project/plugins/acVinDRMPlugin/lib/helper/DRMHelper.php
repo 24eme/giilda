@@ -154,9 +154,9 @@ function getEtatDRMHrefCalendrier($isTeledeclaration,$calendrier, $periode, $eta
     if ($statut == DRMCalendrier::STATUT_VALIDEE || ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE && !$isTeledeclaration)) {
         return url_for('drm_visualisation', array('identifiant' => $etablissementId, 'periode_version' => $periode_version));
     }
-    if ($statut == DRMCalendrier::STATUT_EN_COURS) {
+    if (($statut == DRMCalendrier::STATUT_EN_COURS) || ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE)) {
         return url_for('drm_redirect_etape', array('identifiant' => $etablissementId, 'periode_version' => $periode_version));
-    }
+    }    
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         if($isTeledeclaration){
            return '#drm_nouvelle_'.$periode . '_' . $etablissementId; 

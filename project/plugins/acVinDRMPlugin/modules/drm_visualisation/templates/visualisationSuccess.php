@@ -6,7 +6,10 @@
         <?php include_partial('drm/header', array('drm' => $drm)); ?> 
         <ul id="recap_infos_header">
             <li>
-                <label>Nom de l'opérateur : </label><?php echo $drm->getEtablissement()->nom ?><label style="float: right;">Période : <?php echo $drm->periode ?></label>
+                <label>Nom de l'opérateur : </label><?php echo $drm->getEtablissement()->nom ?>
+            </li>
+            <li>
+                <strong><label><?php echo ($drm->isTeledeclare()) ? 'Télédéclarée' : 'Saisie sur Vinsi'; ?>  </label><label style="float: right;">Période : <?php echo $drm->periode ?></label></strong>
             </li>
         </ul>
     <?php else: ?>
@@ -14,7 +17,7 @@
         <?php if ($drm->isTeledeclare()): ?>  
             <div id="btn_etape_dr" style="text-align: center;">
                 <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-                        </div>  
+            </div>  
         <?php endif; ?>
     <?php endif; ?>
 
@@ -38,9 +41,9 @@
         <?php endif; ?>
 
         <?php if ($drm->isModifiable()): ?>
-          <div style="text-align: right;">
-            <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
-          </div>
+            <div style="text-align: right;">
+                <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
+            </div>
         <?php endif; ?>
 
         <?php if (!$drm->isMaster()): ?>
@@ -68,9 +71,9 @@
     <br />
     <div id="btn_etape_dr">
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a>
-<?php if ($isTeledeclarationMode) : ?>
-        <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-<?php endif; ?>
+        <?php if ($isTeledeclarationMode) : ?>
+            <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
+        <?php endif; ?>
     </div>
 </section>
 <?php

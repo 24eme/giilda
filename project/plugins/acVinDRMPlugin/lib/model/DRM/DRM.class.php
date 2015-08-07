@@ -723,8 +723,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function isModifiable() {
-
-        return $this->version_document->isModifiable();
+        return $this->version_document->isModifiable() && !$this->isTeledeclare();
     }
 
     public function getPreviousVersion() {
@@ -811,8 +810,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function generateModificative() {
-
-        return $this->version_document->generateModificative();
+        $drm_modificatrice = $this->version_document->generateModificative();
+        $drm_modificatrice->etape = DRMClient::ETAPE_SAISIE;
+        if (!$drm_modificatrice->exist('favoris')) {
+            $drm_modificatrice->buildFavoris();
+        }
+        return $drm_modificatrice;
     }
 
     public function generateNextVersion() {
