@@ -257,7 +257,8 @@ DRM:
                                                                                                                   achatcrd: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
                                                                                                                   declassement: { type: float, required: false } #NOUVEAU
-                                                                                                                  retourmarchandise: { type: float, required: false } #NOUVEAU
+                                                                                                                  retourmarchandisenontaxees: { type: float, required: false } #NOUVEAU
+                                                                                                                  retourmarchandisetaxees: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertcomptamatierecession: { type: float, required: false } #NOUVEAU
                                                                                                                   travailafacon: { type: float, required: false } #NOUVEAU
                                                                                                                   revendique: { type: float, required: false } #NOUVEAU
