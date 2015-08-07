@@ -165,7 +165,25 @@ class ProduitCsvFile extends CsvFile {
                   echo "ADDED;".$newHash." \n";
                 } else {
                   echo "UPDATED;".$newHash." \n";
+                  if($this->oldconfig->declaration->get($oldHash)->getTauxCvo(date('Y-m-d')) != $produit->getTauxCvo(date('Y-m-d'))) {
+                        echo "/!\ CVO;".$newHash." ".$this->oldconfig->declaration->get($oldHash)->getTauxCvo(date('Y-m-d'))." => ".$produit->getTauxCvo(date('Y-m-d'))." \n";
+                  }
                 }                
+            }
+
+            foreach($this->oldconfig->getProduits() as $produit) {
+                try {
+                $correspondance = @$this->config->getProduitWithCorrespondanceInverse($produit->getHash());
+                } catch(Exception $e) {
+                    $correspondance = null;
+                }
+                $hash = $produit->getHash();
+                if($correspondance) {
+                    $hash = $correspondance->getHash();
+                }
+                if(!$this->config->exist($hash)) {
+                    echo "DELETED;".$hash." \n";
+                }
             }
         } catch (Execption $e) {
             $this->errors[] = $e->getMessage();
