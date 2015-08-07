@@ -14,7 +14,7 @@
     <table id="table_mouvements" class="table_recap">
         <thead>
             <tr>
-                <?php if(!$isTeledeclarationMode): ?>
+                <?php if(!isset($isTeledeclarationMode) || !$isTeledeclarationMode): ?>
                 <th style="width: 170px;">Date de modification</th>
                 <?php endif; ?>
                 <th style="width: 280px;">Produits</th>
@@ -28,8 +28,8 @@
     foreach ($mouvements as $mouvement): ?>
         <?php $i++; ?>
                 <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php echo ($i % 2 != 0)? "alt" : "";?> <?php
-        echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation))? " facturable" : ""; ?>">
-                    <?php if(!$isTeledeclarationMode): ?>
+        echo ($mouvement->facturable && (!isset($isTeledeclarationMode) || !$isTeledeclarationMode || $visualisation))? " facturable" : ""; ?>">
+                    <?php if(!isset($isTeledeclarationMode) || !$isTeledeclarationMode): ?>
                     <td>
                         Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>
                     </td>

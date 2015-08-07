@@ -149,10 +149,11 @@ class drmComponents extends sfComponents {
 
         $drms = DRMStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
         $this->periode_debut = '';
+        $conf = ConfigurationClient::getConfigurationByCampagne($this->campagne);
         $campgne = '999999';
         foreach ($drms as $drm) {
             if (!isset($this->recaps[$drm->produit_hash])) {
-                $this->recaps[$drm->produit_hash] = $this->initLigneRecap($drm->produit_hash);
+                $this->recaps[$drm->produit_hash] = $this->initLigneRecap($conf, $drm->produit_hash);
                 $this->recaps[$drm->produit_hash]['volume_stock_debut'] = $drm->volume_stock_debut_mois;
                 if ($campgne > $this->periode_debut) {
                     $this->periode_debut = ConfigurationClient::getInstance()->getPeriodeLibelle($drm->periode);
@@ -175,7 +176,7 @@ class drmComponents extends sfComponents {
         $revs = RevendicationStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, $this->etablissement->identifiant);
         foreach ($revs as $rev) {
             if (!isset($this->recaps[$rev->produit_hash])) {
-                $this->recaps[$rev->produit_hash] = $this->initLigneRecap($rev->produit_hash);
+                $this->recaps[$rev->produit_hash] = $this->initLigneRecap($conf, $rev->produit_hash);
             }
             $this->recaps[$rev->produit_hash]['volume_revendique_drev'] += $rev->volume;
         }
@@ -183,7 +184,7 @@ class drmComponents extends sfComponents {
         $dss = DSStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
         foreach ($dss as $ds) {
             if (!isset($this->recaps[$ds->produit_hash])) {
-                $this->recaps[$ds->produit_hash] = $this->initLigneRecap($ds->produit_hash);
+                $this->recaps[$ds->produit_hash] = $this->initLigneRecap($conf, $ds->produit_hash);
             }
             $this->recaps[$ds->produit_hash]['volume_stock_fin_ds'] = $ds->volume;
         }
@@ -191,7 +192,7 @@ class drmComponents extends sfComponents {
         $dss = DSStocksView::getInstance()->findByCampagneAndEtablissement(ConfigurationClient::getInstance()->getPreviousCampagne($this->campagne), null, $this->etablissement->identifiant);
         foreach ($dss as $ds) {
             if (!isset($this->recaps[$ds->produit_hash])) {
-                $this->recaps[$ds->produit_hash] = $this->initLigneRecap($ds->produit_hash);
+                $this->recaps[$ds->produit_hash] = $this->initLigneRecap($conf, $ds->produit_hash);
             }
             $this->recaps[$ds->produit_hash]['volume_stock_debut_ds'] = $ds->volume;
         }
@@ -199,15 +200,15 @@ class drmComponents extends sfComponents {
         $contrats = VracStocksView::getInstance()->findVinByCampagneAndEtablissement($this->campagne, $this->etablissement);
         foreach ($contrats as $hash_produit => $volume) {
             if (!isset($this->recaps[$hash_produit])) {
-                $this->recaps[$hash_produit] = $this->initLigneRecap($hash_produit);
+                $this->recaps[$hash_produit] = $this->initLigneRecap($conf, $hash_produit);
             }
             $this->recaps[$hash_produit]['volume_stock_commercialisable'] = $this->recaps[$hash_produit]['volume_stock_fin'] - $volume;
         }
     }
 
-    protected function initLigneRecap($produit_hash) {
+    protected function initLigneRecap($conf, $produit_hash) {
         $ligne = array();
-        $ligne['produit'] = ConfigurationClient::getCurrent()->get($produit_hash)->getLibelleFormat();
+        $ligne['produit'] = $conf->get($produit_hash)->getLibelleFormat();
         $ligne['volume_stock_debut'] = 0;
         $ligne['volume_stock_debut_ds'] = null;
         $ligne['volume_recolte'] = 0;

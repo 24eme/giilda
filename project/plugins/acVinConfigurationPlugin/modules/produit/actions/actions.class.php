@@ -28,6 +28,7 @@ class produitActions extends sfActions
 
   public function executeModification(sfWebRequest $request)
   {
+    throw new sfException("Edition de l'arbre produit désactivé pour le moment");
   	$this->forward404Unless($request_noeud = $request->getParameter('noeud', null));
   	$this->forward404Unless($hash = str_replace('-', '/', $request->getParameter('hash', null)));
 
@@ -50,6 +51,7 @@ class produitActions extends sfActions
 
   public function executeNouveau(sfWebRequest $request)
   {
+    throw new sfException("Edition de l'arbre produit désactivé pour le moment");
   	$this->interpro = InterproClient::getInstance()->find('INTERPRO-inter-loire');
   	$configuration = ConfigurationClient::getCurrent();
   	$this->form = new ProduitNouveauForm($configuration, $this->interpro->_id);

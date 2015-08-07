@@ -219,7 +219,18 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function getContratsVrac() {
-        return DRMClient::getInstance()->getContratsFromProduit($this->getDocument()->identifiant, $this->getCepage()->getHash(), array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE, VracClient::TYPE_TRANSACTION_VIN_VRAC));
+        $contrats = $this->getContratsVracByHash($this->getCepage()->getHash());
+
+        $correspondance_hash = $this->getCepage()->getConfig()->getCorrespondanceHash();
+        if($correspondance_hash) {
+            $contrats = array_merge($contrats, $this->getContratsVracByHash($correspondance_hash));
+        }
+
+        return $contrats;
+    }
+
+    public function getContratsVracByHash($hash) {
+        return DRMClient::getInstance()->getContratsFromProduit($this->getDocument()->identifiant, $hash, array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE, VracClient::TYPE_TRANSACTION_VIN_VRAC));
     }
 
     public function isModifiedMother($key) {

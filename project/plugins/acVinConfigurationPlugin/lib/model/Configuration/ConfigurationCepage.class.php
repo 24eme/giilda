@@ -67,6 +67,11 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         $this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT); 
     }
 
+    public function getCorrespondanceHash() {
+
+        return $this->getDocument()->getCorrespondanceHash($this->getHash());
+    }
+
     public function getTypeNoeud() {
         
         return self::TYPE_NOEUD;
