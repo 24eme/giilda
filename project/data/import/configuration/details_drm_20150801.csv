@@ -8,7 +8,8 @@ declaration;detail;entrees;regularisation;1;1;0;1;0;0;SUSPENDU;entrees-periode/a
 declaration;detail;entrees;transfertsinternes;1;1;0;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
 declaration;detail;entrees;repli;1;1;0;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
 declaration;detail;entrees;declassement;1;1;0;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
-declaration;detail;entrees;retourmarchandise;1;1;0;1;0;1;SUSPENDU;entrees-periode/replacement-suspension;0
+declaration;detail;entrees;retourmarchandisenontaxees;1;1;0;1;0;1;SUSPENDU;entrees-periode/replacement-suspension;0
+declaration;detail;entrees;retourmarchandisetaxees;1;1;0;1;0;1;SUSPENDU;entrees-periode/replacement-suspension;1
 declaration;detail;entrees;transfertcomptamatierecession;1;1;0;1;0;0;SUSPENDU;entrees-periode/replacement-suspension;0
 declaration;detail;entrees;travailafacon;1;1;0;1;0;0;SUSPENDU;entrees-periode/mouvements-temporaires/travail-a-facon;0
 declaration;detail;entrees;revendique;1;1;0;1;0;0;SUSPENDU;entrees-periode/volume-produit;0
