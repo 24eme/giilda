@@ -45,6 +45,9 @@ class ProduitCsvFile extends CsvFile {
     const CSV_PRODUIT_CODE_COMPTABLE_NOEUD = 33;
     const CSV_PRODUIT_CODE_DOUANE = 34;
     const CSV_PRODUIT_CODE_DOUANE_NOEUD = 35;
+    const CSV_PRODUIT_ALIAS_PRODUIT = 36;
+    const CSV_PRODUIT_FORMAT_LIBELLE = 37;
+    const CSV_PRODUIT_FORMAT_LIBELLE_NOEUD = 38;
 
     protected $config;
     protected $errors;
@@ -148,14 +151,14 @@ class ProduitCsvFile extends CsvFile {
                 if ($oldHash != $newHash) {
                     if(!$this->oldconfig->declaration->exist($oldHash)) {
 
-                        echo "ERROR;La corresponde n'a pas été trouvé dans l'ancienne conf . $oldHash \n";
+                        echo "ERROR;La corresponde n'a pas été trouvé dans l'ancienne conf $oldHash \n";
                         continue;
                     }
                     $this->config->getOrAdd('correspondances')->add(str_replace('/', '-', $newHash), $oldHash);
                     //echo "UPDATE;On ajoute la corresondance " . $oldHash . " => " . $newHash . "\n";
                 }
 
-                $produit = $this->getProduit($oldHash);
+                $produit = $this->getProduit($newHash);
                 $produit->setDonneesCsv($line);
 
                 if(!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash) {

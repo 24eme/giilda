@@ -49,7 +49,7 @@ class ConfigurationClient extends acCouchdbClient {
     public function getConfiguration($date = null) {
         
         return self::getInstance()->findConfiguration($date);
-    }        
+    }
 
     public function findConfiguration($date = null) {
         if(is_null($date)) {

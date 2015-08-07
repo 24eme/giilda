@@ -20,7 +20,7 @@ class produitActions extends sfActions
     if($request->getParameter('id')) {
         $config_json = ConfigurationClient::getInstance()->find($request->getParameter('id'));
     } else {
-        $config_json = ConfigurationClient::getInstance()->findCurrent(acCouchdbClient::HYDRATE_JSON);
+        $config_json = ConfigurationClient::getConfiguration();
     }
     $this->rev = $config_json->_rev;
     $this->id = $config_json->_id;
