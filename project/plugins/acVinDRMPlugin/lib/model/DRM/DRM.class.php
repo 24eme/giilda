@@ -191,7 +191,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function generateByDRM(DRM $drm) {
         foreach ($drm->getProduits() as $produit) {
-            if (!$produit->getConfig()->isCVOActif($this->getDate()) && !$produit->getConfig()->isDouaneActif($this->getDate())) {
+            if (!$produit->getConfig()->isActif($this->getDate())) {
 
                 continue;
             }
