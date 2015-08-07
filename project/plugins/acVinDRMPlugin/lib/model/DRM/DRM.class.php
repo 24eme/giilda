@@ -125,8 +125,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function getProduits() {
-
         return $this->declaration->getProduits();
+    }
+
+    public function getProduitsWithCorrespondance($conf = null) {
+
+        $hashesInversed = $conf->getCorrespondancesInverse();
+        foreach ($this->getProduits() as $hash => $produit) {
+            var_dump($hash);
+        }
+        exit;
+        return $this->declaration->getProduitsWithCorrespondance();
     }
 
     public function getProduitsDetails($teledeclarationMode = false) {
@@ -181,22 +190,25 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function generateByDS(DS $ds) {
         $this->identifiant = $ds->identifiant;
         foreach ($ds->declarations as $produit) {
-            if (!$produit->isActif()) {
+            $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produit->hash);
+            if (!$produitConfig->isActif()) {
 
                 continue;
             }
-            $this->addProduit($produit->produit_hash);
+            $this->addProduit($produitConfig->produit_hash);
         }
     }
 
     public function generateByDRM(DRM $drm) {
+
         foreach ($drm->getProduits() as $produit) {
-            if (!$produit->getConfig()->isActif($this->getDate())) {
+            $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produit->hash);
+            if (!$produitConfig->isActif($this->getDate())) {
 
                 continue;
             }
 
-            $this->addProduit($produit->getHash());
+            $this->addProduit($produitConfig->getHash());
         }
     }
 
@@ -1196,20 +1208,19 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /** Droit de circulation douane */
     public function generateDroitsDouanes() {
         foreach ($this->getProduitsDetails() as $produitDetail) {
-            $produitDetail->buildDroitsDouanes();             
+            $produitDetail->buildDroitsDouanes();
         }
     }
-    
+
     public function getDroitsDouane() {
         return $this->droits->douane;
     }
-    
+
     public function initDroitsDouane() {
         foreach ($this->droits->douane as $key_douane_genre => $droitDouane) {
             $droitDouane->clearDroitDouane();
         }
     }
-   
 
     /** Fin Droit de circulation douane */
 }
