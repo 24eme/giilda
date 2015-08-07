@@ -183,7 +183,7 @@ class DRMRouting {
             'control' => array('edition'),
         )));
 
-        $r->prependRoute('drm_choix_produit_add_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/ajout-produits/:certification_hash', array('module' => 'drm_ajout_produit',
+        $r->prependRoute('drm_choix_produit_add_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/ajout-produits/:add_produit', array('module' => 'drm_ajout_produit',
             'action' => 'choixAjoutPoduits'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),

@@ -70,4 +70,8 @@ class ConfigurationCertification extends BaseConfigurationCertification {
         return self::TYPE_NOEUD;
     }
 
+    public function getHashWithoutInterpro() {
+        return preg_replace('/_.*/', '', $this->getHash());
+    }
+
 }
