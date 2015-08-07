@@ -372,13 +372,28 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function buildDroitsDouanes() {
+        $cepageConfig = $this->getCepage()->getConfig();
+        $genreKey = $this->getGenre()->getKey();
+        
+        foreach ($this->getEntrees() as $entreeKey => $entree) {
+            $entreeKey = str_replace('_details', '', $entreeKey);
+            $entreeConf = $this->getConfig()->get('entrees/' . $entreeKey);
+            $entreeDrm = $this->get('entrees/' . $entreeKey);
+
+            if ($entreeConf->taxable_douane && $entreeDrm > 0) {
+                $droitsNode = $this->getDocument()->getOrAdd('droits')->getOrAdd('douane');
+                $droitsNode->addDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
+            }
+        }
         foreach ($this->getSorties() as $sortieKey => $sortie) {
+
             $sortieKey = str_replace('_details', '', $sortieKey);
             $sortieConf = $this->getConfig()->get('sorties/' . $sortieKey);
             $sortieDrm = $this->get('sorties/' . $sortieKey);
+
             if ($sortieConf->taxable_douane && $sortieDrm > 0) {
                 $droitsNode = $this->getDocument()->getOrAdd('droits')->getOrAdd('douane');
-                $droitsNode->addDroitDouane($this->getGenre()->getKey(),$this->getCepage()->getConfig(), $sortieDrm);
+                $droitsNode->addDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
         }
     }

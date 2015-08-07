@@ -40,6 +40,14 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         $this->setWidget('fax', new sfWidgetFormInput());
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setLabel('fax', 'Fax :');
+        
+        $this->setWidget('paiement_douane_frequence', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneFrequence())));
+        $this->setValidator('paiement_douane_frequence', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneFrequence())), array('required' => "Aucune fréquence de paiement des droits douane n'est choisie")));
+        $this->widgetSchema->setLabel('paiement_douane_frequence', 'Fréquence de paiement :');
+
+        $this->setWidget('paiement_douane_moyen', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneMoyen())));
+        $this->setValidator('paiement_douane_moyen', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneMoyen())), array('required' => "Aucun moyen de paiement des droits douane n'est choisi")));
+        $this->widgetSchema->setLabel('paiement_douane_moyen', 'Moyen de paiement :');
 
         $this->widgetSchema->setNameFormat('drm_validation_coordonnees_societe[%s]');
     }
@@ -61,6 +69,8 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         $this->setDefault('email', $this->coordonneesSociete->email);
         $this->setDefault('telephone', $this->coordonneesSociete->telephone);
         $this->setDefault('fax', $this->coordonneesSociete->fax);
+        $this->setDefault('paiement_douane_frequence', $this->coordonneesSociete->paiement_douane_frequence);
+        $this->setDefault('paiement_douane_moyen', $this->coordonneesSociete->paiement_douane_moyen);
     }
 
     public function getDiff() {
@@ -85,6 +95,16 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         $this->drm->societe->email = $values['email'];
         $this->drm->societe->telephone = $values['telephone'];
         $this->drm->societe->fax = $values['fax'];
+        $this->drm->societe->paiement_douane_frequence = $values['paiement_douane_frequence'];
+        $this->drm->societe->paiement_douane_moyen = $values['paiement_douane_moyen'];
+    }
+
+    public function getPaiementDouaneFrequence() {
+        return DRMPaiement::$frequence_paiement_libelles;
+    }
+
+    public function getPaiementDouaneMoyen() {
+        return DRMPaiement::$moyens_paiement_libelles;
     }
 
 }

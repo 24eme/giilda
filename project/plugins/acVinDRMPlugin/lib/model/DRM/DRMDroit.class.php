@@ -67,4 +67,9 @@ class DRMDroit extends BaseDRMDroit {
   public function getPaiement() {
   	return $this->getDocument()->get('declaratif')->get('paiement')->get($this->getParent()->getKey());
   }
+  
+  public function updateTotal() {
+      $this->total = ($this->volume_taxe - $this->volume_reintegre) * $this->taux;
+      $this->cumul = $this->total + $this->report;
+  }
 }

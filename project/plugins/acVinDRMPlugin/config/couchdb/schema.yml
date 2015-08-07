@@ -387,6 +387,8 @@ DRM:
             adresse: { }
             commune: { }
             code_postal: { }
+            paiement_douane_moyen: { }
+            paiement_douane_frequence: { }
       declaratif:
         class: DRMDeclaratif
         type: collection

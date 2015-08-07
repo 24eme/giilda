@@ -37,6 +37,7 @@ echo " Hl";
                     <th>Libellé</th>
                     <th>Code</th>
                     <th>Volumes imposables</th>
+                    <th>Volumes retours</th>
                     <th>Taux</th>
                     <th>Montant à payer</th>
                 </tr>
@@ -47,6 +48,7 @@ echo " Hl";
                         <td class="droit_circulation_libelle"><?php echo $droitDouane->libelle; ?></td>
                         <td class="droit_circulation_code"><?php echo $droitDouane->code; ?></td>
                         <td class="droit_circulation_volume_imposable"><?php echoFloat($droitDouane->volume_taxe); ?></td>
+                        <td class="droit_circulation_volume_reintegre"><?php echoFloat($droitDouane->volume_reintegre); ?></td>
                         <td class="droit_circulation_taux"><?php echoFloat($droitDouane->taux); ?></td>
                         <td class="droit_circulation_montant"><?php echoFloat($droitDouane->total); ?></td>
                     </tr>

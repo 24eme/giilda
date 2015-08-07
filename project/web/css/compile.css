@@ -8304,6 +8304,9 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 #principal.drm fieldset .btn_container_exporter a:after {
   background-position: 2px -315px;
 }
+#principal.drm .update_form_radio_list span ul li {
+  width: auto;
+}
 #principal.drm #drm_validation_coordonnees {
   margin: 20px -10px 0;
   overflow: hidden;
