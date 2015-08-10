@@ -89,8 +89,8 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
 
         $present_periode_date = substr($present_periode, 0, 4) . "-" . substr($present_periode, 4, 2) . "-01";
 
-        //CONDITION d'ouverture des DRM à +2 mois
-        $periode_fin = ConfigurationClient::getInstance()->buildPeriodeFromDate(Date::addDelaiToDate("-2 month", $present_periode_date));
+        //CONDITION d'ouverture des DRM à +3 mois
+        $periode_fin = ConfigurationClient::getInstance()->buildPeriodeFromDate(Date::addDelaiToDate("-3 month", $present_periode_date));
 
         $periodes = array();
 
