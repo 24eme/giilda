@@ -10,7 +10,7 @@
             </li>
             <li>
                 <strong><label><?php echo ($drm->isTeledeclare()) ? 'Télédéclarée' : 'Saisie sur Vinsi'; ?></label>
-                    <?php if (!$isTeledeclarationMode): ?>
+                    <?php if (!$isTeledeclarationMode && !$drm->isTeledeclare()): ?>
                         <label style="margin-left: 150px;"><?php echo 'Numéro d\'archive : ' . $drm->numero_archive; ?></label>
                     <?php endif; ?>
                     <label style="float: right;">Période : <?php echo $drm->periode ?></label></strong>
