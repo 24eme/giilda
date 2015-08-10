@@ -97,7 +97,7 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     public function addProduit($hash) {
         $config = $this->getConfig()->get($hash);
 
-        if(!$config->hasCVO($this->date_stock)) {
+        if(!$config->isCVOFacturable($this->date_stock)) {
 
             return;
         }
