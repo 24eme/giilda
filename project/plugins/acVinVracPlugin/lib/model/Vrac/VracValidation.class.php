@@ -37,7 +37,7 @@ class VracValidation extends DocumentValidation {
         if ($this->teledeclaration) {
             $this->checkSoussigneAbsenceMail();
             $this->checkSoussigneCompteNonActive();
-            $this->checkDateEnlevement();
+         //   $this->checkDateEnlevement();
         } else {
 
             if ($this->document->isRaisinMoutNegoHorsIL()) {
