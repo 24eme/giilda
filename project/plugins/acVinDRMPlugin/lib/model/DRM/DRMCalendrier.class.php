@@ -243,11 +243,17 @@ class DRMCalendrier {
         return DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etablissement->identifiant, $periode)->isTeledeclare();
     }
 
-    public function getNumeroArchivage($periode) {
-        if (!$this->hasDRM($periode)) {
-            return;
+    public function getNumeroArchive($periode, $etablissement =  false) {
+        if (!$etablissement) {
+            $etablissement = $this->etablissement;
         }
-        $drm = $this->drms[$periode];
+        if (!$this->hasDRM($periode, $etablissement)) {
+            return;     
+        }   
+        if ($etablissement && $this->multiEtbs)
+            $drm = $this->drms[$etablissement->identifiant][$periode];
+        else
+            $drm = $this->drms[$periode];
         return $drm[self::VIEW_NUMERO_ARCHIVAGE];
     }
 

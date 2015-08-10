@@ -112,8 +112,15 @@ function getEtatDRMCalendrier($calendrier, $periode, $etablissement = false) {
 }
 
 function getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
-
-    return isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode) ? '(Téleclarée)' : '';
+    if (isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode))
+        return  '(Téleclarée)';
+    else if ($isTeledeclarationMode) 
+        return '';
+    else {
+        $a = $calendrier->getNumeroArchive($periode, $etablissement);
+        if ($a) 
+            return '('.$a.')' ;
+    }
 }
 
 function isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
