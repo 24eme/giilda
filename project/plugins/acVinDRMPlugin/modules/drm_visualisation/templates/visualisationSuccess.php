@@ -9,8 +9,12 @@
                 <label>Nom de l'opérateur : </label><?php echo $drm->getEtablissement()->nom ?>
             </li>
             <li>
-                <strong><label><?php echo ($drm->isTeledeclare()) ? 'Télédéclarée' : 'Saisie sur Vinsi'; ?>  </label><label style="float: right;">Période : <?php echo $drm->periode ?></label></strong>
-            </li>
+                <strong><label><?php echo ($drm->isTeledeclare()) ? 'Télédéclarée' : 'Saisie sur Vinsi'; ?></label>
+                    <?php if (!$isTeledeclarationMode): ?>
+                        <label style="margin-left: 150px;"><?php echo 'Numéro d\'archive : ' . $drm->numero_archive; ?></label>
+                    <?php endif; ?>
+                    <label style="float: right;">Période : <?php echo $drm->periode ?></label></strong>
+            </li>         
         </ul>
     <?php else: ?>
         <h2><?php echo getDrmTitle($drm); ?> <small style="font-weight: normal; text-transform: none;">(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small></h2>
