@@ -27,6 +27,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
     $nb_produits_displayed = 0;
     $produits_for_certifs = array_values($produitsDetailsByCertifications->produits->getRawValue());
     ?>
+\begin{center}
     \quad{\setlength{\extrarowheight}{1pt}
     <?php
     for ($index_page = 0; $index_page < $nb_pages; $index_page++):
@@ -35,7 +36,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         if ($index_page == $nb_pages - 1) {
             $nb_produits_per_page = $nb_produits - $nb_produits_displayed;
         }
-        $size_col = sprintFloat(180.0 / floatval($nb_produits_per_page));
+        $size_col = 30;
         $entete = '\begin{tabular}{C{20mm} p{48mm} |';
         for ($cpt_col = 0; $cpt_col < $nb_produits_per_page; $cpt_col++) {
             $entete .='C{' . $size_col . 'mm}|';
@@ -186,6 +187,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         \\	
         \hline        
         \end{tabular}
+        \end{center}
         <?php if (($nb_pages > 1) && (($nb_pages - 1) == $index_page)) : ?>
             \newpage
         <?php endif; ?>
