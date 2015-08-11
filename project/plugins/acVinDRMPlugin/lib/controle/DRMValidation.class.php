@@ -68,7 +68,7 @@ class DRMValidation extends DocumentValidation {
         }
         if (!$this->isTeledeclarationDrm) {
             if (round($total_entrees_replis, 2) != round($total_sorties_replis, 2)) {
-                $this->addPoint('erreur', 'repli', $detail->getLibelle(), $this->generateUrl('drm_edition', $this->document));
+                $this->addPoint('erreur', 'repli', sprintf("%s  (+%.2fhl / -%.2fhl)", $detail->getLibelle(), round($total_entrees_replis, 2), round($total_sorties_replis, 2)), $this->generateUrl('drm_edition', $this->document));
             }
         }
 

@@ -6,6 +6,7 @@ prod:
     cache:                  true
     no_script_name:         true
     logging_enabled:        false
+    web_debug:              false
 
 dev:
   .settings:
@@ -42,6 +43,7 @@ all:
     # Enable the database manager
     use_database:           true
     default_culture:        fr_FR
+    web_debug:              true
 
   .action:
     error_500_module:       global
