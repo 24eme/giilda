@@ -38,6 +38,7 @@ class drmActions extends drmGeneriqueActions {
     public function executeRedirectEtape(sfWebRequest $request) {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
         $drm = $this->getRoute()->getDRM();
+       
         switch ($drm->etape) {
             case DRMClient::ETAPE_CHOIX_PRODUITS:
                 if ($isTeledeclarationMode) {
@@ -71,6 +72,11 @@ class drmActions extends drmGeneriqueActions {
                 return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
                 break;
         }
+        
+        if((!$drm->etape) && !$drm->isValidee()){
+              return $this->redirect('drm_edition', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+        }
+        
         return $this->redirect('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
     }
 
