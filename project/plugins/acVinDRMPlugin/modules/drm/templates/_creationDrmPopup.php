@@ -16,7 +16,7 @@
                     <?php echo $drmCreationForm['type_creation']->render(); ?>
                 </span>
             </div>
-              <div class="ligne_form" id="file_edi_div_<?php echo $periode . '_' . $identifiant; ?>">       
+              <div style="display: none;" class="ligne_form" id="file_edi_div_<?php echo $periode . '_' . $identifiant; ?>">       
                 <span>
                     <?php echo $drmCreationForm['file']->renderError(); ?>
                     <?php echo $drmCreationForm['file']->renderLabel() ?>    

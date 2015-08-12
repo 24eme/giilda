@@ -237,7 +237,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if ($is_just_the_next_periode) {
             $drm_suivante->precedente = $this->_id;
         }
-        
+
         if (!$isTeledeclarationMode) {
             $tobedeleted = array();
             foreach ($drm_suivante->declaration->getProduitsDetails() as $details) {
@@ -247,7 +247,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                     $tobedeleted[] = $details->getHash();
                 }
             }
-            foreach($tobedeleted as $d) {
+            foreach ($tobedeleted as $d) {
                 $drm_suivante->remove($d);
             }
         }
@@ -1093,10 +1093,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*     * * FIN CRDS ** */
 
     /**     * ADMINISTRATION ** */
-    public function hasAnnexes($isTeledeclarationMode = false) {
-        return count($this->getVracs()) && count($this->getDetailsExports()) && $isTeledeclarationMode;
-    }
-
     public function clearAnnexes() {
         if ($this->exist('documents_annexes') && count($this->documents_annexes)) {
             $this->remove('documents_annexes');
@@ -1141,6 +1137,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!count($releveNonApurement)) {
             $releveNonApurement->addEmptyNonApurement();
         }
+    }
+
+    public function hasAnnexes() {
+        $nodeAnnexe = $this->exist('documents_annexes') && count($this->documents_annexes);
+        if (!$nodeAnnexe)
+            return false;
+        foreach ($this->documents_annexes as $annexe) {
+            if($annexe >fin || $annexe >debut){
+                return true;
+            }
+        }
+        return false;
     }
 
     /*     * * FIN ADMINISTRATION ** */
@@ -1221,8 +1229,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*     * * FIN SOCIETE ** */
 
     /** Droit de circulation douane */
-    public function generateDroitsDouanes() {        
-        $this->getOrAdd('droits')->getOrAdd('douane')->initDroitsDouane();        
+    public function generateDroitsDouanes() {
+        $this->getOrAdd('droits')->getOrAdd('douane')->initDroitsDouane();
         foreach ($this->getProduitsDetails() as $produitDetail) {
             $produitDetail->updateDroitsDouanes();
         }
