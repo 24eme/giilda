@@ -27,7 +27,6 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
     $nb_produits_displayed = 0;
     $produits_for_certifs = array_values($produitsDetailsByCertifications->produits->getRawValue());
     ?>
-\begin{center}
     \quad{\setlength{\extrarowheight}{1pt}
     <?php
     for ($index_page = 0; $index_page < $nb_pages; $index_page++):
@@ -187,7 +186,6 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         \\	
         \hline        
         \end{tabular}
-        \end{center}
         <?php if (($nb_pages > 1) && (($nb_pages - 1) == $index_page)) : ?>
             \newpage
         <?php endif; ?>

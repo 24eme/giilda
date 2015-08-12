@@ -18,12 +18,3 @@
         </div>
     </div>
 </div>
-<?php
-if ($isTeledeclarationMode) {
-    foreach ($drmsToCreate as $identifiantEtb => $periodeArray) {
-        foreach ($periodeArray as $periode => $bool) {
-            include_partial('drm/creationDrmPopup', array('periode' => $periode, 'identifiant' => $identifiantEtb, 'drmCreationForm' => $drmsToCreateForms[$identifiantEtb.'_'.$periode]));
-        }
-    }
-}
-?>
