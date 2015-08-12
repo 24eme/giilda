@@ -56,11 +56,14 @@
                 <div class="panel-body">
 		        	<?php if (isset($form['date_limite_retiraison'])): ?>
 		            <div class="form-group col-sm-6 <?php if($form['date_limite_retiraison']->hasError()): ?>has-error<?php endif; ?>">
-		                <?php echo $form['date_limite_retiraison']->renderError(); ?>
-		                <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
-		                <div class="col-sm-7">
-		                    <?php echo $form['date_limite_retiraison']->render(); ?>
-		                </div>
+                        <?php echo $form['date_limite_retiraison']->renderError(); ?>
+                        <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
+                        <div class='input-group date datepicker col-sm-7'>
+                            <?php echo $form['date_limite_retiraison']->render(); ?>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
 		            </div>
 		            <?php endif; ?>
 		            <?php if(isset($form['clause_reserve_propriete'])): ?>

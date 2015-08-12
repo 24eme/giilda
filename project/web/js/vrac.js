@@ -64,31 +64,6 @@ var initSoussignes = function()
     		active.find('input').attr('checked', 'checked');
     	}
     });
-
-
-	/*if (numContrat) {
-		ajaxifySoussigne('getInfos', {autocomplete: '#vendeur_choice', 'numero_contrat': numContrat}, '#vendeur_informations', 'vendeur');
-		ajaxifySoussigne('getInfos', {autocomplete: '#acheteur_choice', 'numero_contrat': numContrat}, '#acheteur_informations', 'acheteur');
-		ajaxifySoussigne('getInfos', {autocomplete: '#mandataire_choice', 'numero_contrat': numContrat}, '#mandataire_informations', 'mandataire');
-        majMandatairePanel();
-	} else {
-		ajaxifySoussigne('getInfos', '#vendeur_choice', '#vendeur_informations', 'vendeur');
-		ajaxifySoussigne('getInfos', '#acheteur_choice', '#acheteur_informations', 'acheteur');
-		ajaxifySoussigne('getInfos', '#mandataire_choice', '#mandataire_informations', 'mandataire');
-	    majMandatairePanel();
-	}
-	
-	if (isTeledeclare) {
-		$(".btn_ajout_autocomplete a").on('click', function() {
-            $("#vrac_soussigne").attr('action', $(this).attr('href'));
-            $("#vrac_soussigne").submit();
-            return false;
-        });
-        $("div#acheteur_choice input.ui-autocomplete-input").val(etablissementPrincipal);
-        if (isCourtierResponsable) {
-        	initTeledeclarationCourtierSoussigne();
-        }
-	}*/
 };
 
 var initMarche = function()

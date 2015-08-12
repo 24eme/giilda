@@ -13,6 +13,7 @@
     <link href="/components/bootstrap/bootstrap.css" rel="stylesheet">
     <link href="/components/select2/select2.css" rel="stylesheet">
     <link href="/components/select2/select2-bootstrap.min.css" rel="stylesheet">
+    <link href="/components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <link href="/components/vins/vins.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -25,13 +26,7 @@
     $idBody = ($sf_user->hasCredential('teledeclaration'))? "teledeclaration" : "app_transaction_".sfConfig::get('app_instance');
     ?><body id="<?php echo $idBody; ?>">
 
-            <?php include_partial('global/header'); ?>
-
-            <!-- fin #header -->
-            <?php
-            if ($sf_user->hasFlash('global_error'))
-                echo '<div style="margin-bottom: 20px;margin-left: auto; margin-right: auto; width: 700px;" class="global_error"><p><span>' . $sf_user->getFlash('global_error') . "</span></p></div>";
-            ?>
+    <?php include_partial('global/header'); ?>
 
     <div id="main" class="container">
         <?php echo $sf_content ?>
@@ -39,8 +34,10 @@
     <?php include_partial('global/footer'); ?>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/components/jquery/jquery.js"></script>
-    <script src="/components/select2/select2.min.js"></script>
     <script src="/components/bootstrap/bootstrap.js"></script>
+    <script src="/components/select2/select2.min.js"></script>
+    <script src="/components/moment/moment-with-locales.min.js"></script>
+    <script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/js/lib/jquery-ui-1.8.21.min.js"></script>
     <script src="/js/ajaxHelper.js"></script>
     <script src="/js/main.js"></script>
