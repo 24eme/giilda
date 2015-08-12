@@ -32,6 +32,9 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_declassement = 0;
 
         foreach ($this->document->getProduitsDetails() as $detail) {
+            if(!$detail->getConfig()->entrees->exist('declassement')){
+                break;
+            }
             $total_entrees_replis += $detail->entrees->repli;
             $total_sorties_replis += $detail->sorties->repli;
             $total_entrees_declassement += $detail->entrees->declassement;

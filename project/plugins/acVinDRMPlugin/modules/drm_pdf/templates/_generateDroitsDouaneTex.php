@@ -13,17 +13,19 @@ if(!$hasAnnexes && $hasNonApurement){
     $limitNonAppurement = 12;
 }
 $douaneNewPage = (count($drm->releve_non_apurement) >= $limitNonAppurement)? "\\newpage" : "";
+
+$hasObservations = $drm->exist('observations') && $drm->observations;
 ?>
 
-<?php if ($hasAnnexes) : ?>
+<?php if ($hasAnnexes || $hasNonApurement) : ?>
     \vspace{0.5cm}
     \begin{center}
     \begin{large}
-    \textbf{Documents d'accompagnement}
+    \textbf{Documents douanier}
     \end{large}
     \end{center}
-    ~ \\ 
-    \quad{\setlength{\extrarowheight}{1pt}
+   <?php endif; ?>   
+  <?php if ($hasAnnexes): ?>  
     \begin{tabular}{C{90mm} |C{90mm}|C{90mm}|}			 	 
     \multicolumn{3}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Documents d'accompagnement}}}}
     \\ 			 
@@ -44,17 +46,9 @@ $douaneNewPage = (count($drm->releve_non_apurement) >= $limitNonAppurement)? "\\
 
     <?php endforeach; ?>  
     \end{tabular}
-
+    \vspace{0.2cm}
 <?php endif; ?>  
 <?php if ($hasNonApurement) : ?>
-    \vspace{0.5cm}
-    \begin{center}
-    \begin{large}
-    \textbf{Relevé de non apurement}
-    \end{large}
-    \end{center}
-    ~ \\ 
-    \quad{\setlength{\extrarowheight}{1pt}
     \begin{tabular}{C{90mm} |C{90mm}|C{90mm}|}			 	 
     \multicolumn{3}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Relevé de non apurement}}}}
     \\ 			 
@@ -75,8 +69,8 @@ $douaneNewPage = (count($drm->releve_non_apurement) >= $limitNonAppurement)? "\\
 
     <?php endforeach; ?>  
     \end{tabular}
-
 <?php endif; ?>
+    
 <?php echo $douaneNewPage; ?>
 \vspace{0.5cm}
 \begin{center}
@@ -84,8 +78,7 @@ $douaneNewPage = (count($drm->releve_non_apurement) >= $limitNonAppurement)? "\\
 \textbf{Liquidation des droits}
 \end{large}
 \end{center}
-~ \\ 
-\quad{\setlength{\extrarowheight}{1pt}
+
 \begin{tabular}{C{43mm} |C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|}			 	 
 \multicolumn{6}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Droits de circulation}}}}
 \\ 			 
@@ -110,10 +103,17 @@ $douaneNewPage = (count($drm->releve_non_apurement) >= $limitNonAppurement)? "\\
     \hline
 <?php endforeach; ?>  
 \end{tabular}
-
-\vspace{0.5cm}
+~ \\
+<?php if($hasObservations): ?>
 \fcolorbox{white}{white}{
-\hspace{-0.75cm}
+\begin{tabular}{L{280mm}}	
+\textbf{Observations : }<?php echo $drm->observations; ?>
+\end{tabular}
+}
+~ \\
+<?php endif; ?>
+\fcolorbox{white}{white}{
+\hspace{0.25cm}
 \begin{minipage}[t]{0.6\textwidth}
 \begin{tabular}{|C{170mm}|}			 	 
 \multicolumn{1}{|c|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{PARTIE RÉSERVÉE À L'ADMINISTRATION}}}}

@@ -143,7 +143,7 @@ var initCreationDrmPopup = function () {
         $.fancybox.close();
     });
     
-    $(' .popup_creation_drm div.type_creation input').change(function () {
+    $('.popup_creation_drm div.type_creation input').change(function () {
                 console.log($(this));
                 var value = $(this).attr('value');
                 var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
