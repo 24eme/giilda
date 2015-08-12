@@ -3,11 +3,12 @@
 abstract class DRMESDetailsForm extends acCouchdbForm {
 
     protected $details = null;
+    protected $isTeledeclarationMode = null;
 
-    public function __construct(acCouchdbJson $details, $defaults = array(), $options = array(), $CSRFSecret = null) {
-
+    public function __construct(acCouchdbJson $details, $defaults = array(), $options = array(), $CSRFSecret = null) {        
+        $this->isTeledeclarationMode = $options['isTeledeclarationMode'];     
         $this->details = $details;
-        parent::__construct($this->details->getDocument(), $options, $CSRFSecret);
+        parent::__construct($this->details->getDocument(),$defaults, $options, $CSRFSecret);        
     }
 
     public function configure() {
@@ -20,7 +21,7 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
             if (!$key) {
                 $key = uniqid();
             }
-            $form = $this->embedForm($key, new $form_item_class($item));
+            $form = $this->embedForm($key, new $form_item_class($item,array('isTeledeclarationMode' => $this->isTeledeclarationMode)));
         }
         $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
@@ -39,7 +40,7 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
             }
 
             $form_item_class = $this->getFormItemClass();
-            $this->embedForm($key, new $form_item_class($this->details->addDetail($key)));
+            $this->embedForm($key, new $form_item_class($this->details->addDetail($key),array('isTeledeclarationMode' => $this->isTeledeclarationMode)));
         }
         parent::bind($taintedValues, $taintedFiles);
     }
@@ -64,7 +65,7 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
         }
 
         foreach ($details as $key => $detail) {
-            $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document,$detail->type_document);
+            $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document, $detail->type_document);
         }
     }
 
@@ -75,8 +76,7 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
 
     public function getFormTemplate() {
         $form_template_class = $this->getFormTemplateClass();
-        $form = new $form_template_class($this->details);
-
+        $form = new $form_template_class($this->details,array(),array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         return $form->getFormTemplate();
     }
 

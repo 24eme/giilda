@@ -15,8 +15,10 @@
             <th>Produit</th>
             <th>Pays</th>
             <th>Volumes</th>
+            <?php if($isTeledeclarationMode): ?>
             <th>Type de document</th>
             <th>Numéro de document</th>  
+            <?php endif; ?>
             <th></th>
         </tr>
     </thead>
@@ -24,7 +26,7 @@
     <?php
     foreach ($form as $itemForm){
         if($itemForm instanceof sfFormFieldSchema) {
-            include_partial('item',array('form' => $itemForm,'detail' => $detail));
+            include_partial('item',array('form' => $itemForm,'detail' => $detail,'isTeledeclarationMode' => $isTeledeclarationMode));
         } else {
             $itemForm->renderRow();
         }

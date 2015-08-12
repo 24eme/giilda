@@ -1,13 +1,13 @@
 <?php
 
-class drm_export_detailsActions extends sfActions
+class drm_export_detailsActions extends drmGeneriqueActions
 {
     
     public function executeProduit(sfWebRequest $request) {
         $this->detail = $this->getRoute()->getDRMDetail();
         $this->drm = $this->detail->getDocument();
-        
-        $this->form = new DRMDetailExportForm($this->detail->sorties->export_details);
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();       
+        $this->form = new DRMDetailExportForm($this->detail->sorties->export_details, array(),  array('isTeledeclarationMode' => $this->isTeledeclarationMode));
 
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -25,7 +25,7 @@ class drm_export_detailsActions extends sfActions
             }
             if($request->isXmlHttpRequest())
             {
-                return $this->renderText(json_encode(array('success' => false ,'content' => $this->getPartial('formContent', array('form' => $this->form, 'detail' => $this->detail)))));
+                return $this->renderText(json_encode(array('success' => false ,'content' => $this->getPartial('formContent', array('form' => $this->form, 'detail' => $this->detail,'isTeledeclarationMode' => $this->isTeledeclarationMode)))));
             }
         }
     }
