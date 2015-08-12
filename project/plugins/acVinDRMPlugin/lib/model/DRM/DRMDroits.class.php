@@ -16,10 +16,29 @@ class DRMDroits extends BaseDRMDroits {
         return $sum;
     }
 
-    public function addDroitDouane($genreKey, $configurationCepageNode, $vol, $reintegration = false) {
-        $keyDouane = self::$correspondanceGenreKey[$genreKey];
+    public function initDroitsDouane() {
+        $conf = ConfigurationClient::getCurrent();
         $date = $this->getDocument()->getDate();
-        $droitsConfig = $configurationCepageNode->getDroitByType($date, "INTERPRO-inter-loire", 'douane');
+        foreach ($conf->declaration->certifications as $keyCertif => $certification) {
+            foreach ($certification->genres as $keyGenre => $genre) {
+                $droitsDouaneConf = $genre->getDroitDouane($date);
+                $droitDouane = $this->getOrAdd(self::$correspondanceGenreKey[$keyGenre]);
+                $droitDouane->volume_reintegre = 0;
+                $droitDouane->volume_taxe = 0;
+                $droitDouane->taux = $droitsDouaneConf->taux;
+                $droitDouane->code = $droitsDouaneConf->code;
+                $droitDouane->libelle = self::$correspondanceGenreLibelle[$keyGenre];
+                $droitDouane->updateTotal();
+            }
+            return;
+        }
+    }
+
+    public function updateDroitDouane($genreKey, $configurationCepageNode, $vol, $reintegration = false) {
+        $keyDouane = self::$correspondanceGenreKey[$genreKey];
+
+        $date = $this->getDocument()->getDate();
+        $droitsConfig = $configurationCepageNode->getDroitDouane($date);
 
         $genreDouaneNode = $this->getOrAdd($keyDouane);
         if ($reintegration) {
@@ -32,5 +51,5 @@ class DRMDroits extends BaseDRMDroits {
         $genreDouaneNode->libelle = self::$correspondanceGenreLibelle[$genreKey];
         $genreDouaneNode->updateTotal();
     }
-    
+
 }

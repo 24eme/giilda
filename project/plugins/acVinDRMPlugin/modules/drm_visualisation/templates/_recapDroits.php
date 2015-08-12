@@ -12,7 +12,7 @@
 <?php if($recapCvo->totalVolumeReintegration) : ?> 
                <th>Volumes réintégrés</th>
 <?php endif; ?>
-                <th>TOTAL (HT)</th>
+                <th>Montant</th>
             </tr>
         </thead>
         <tbody class="drm_cvo_list">
@@ -20,12 +20,12 @@
                 <td class="droit_cvo">CVO</td>
                 <td class="droit_cvo_facturable"><?php
                     echoFloat($recapCvo->totalVolumeDroitsCvo);
-                    echo " Hl";
+                    echo " hl";
                     ?></td>
 <?php if($recapCvo->totalVolumeReintegration) : ?>
                 <td class="droit_cvo_reintegration"><?php
                     echoFloat($recapCvo->totalVolumeReintegration);
-                    echo " Hl";
+                    echo " hl";
                     ?></td>
 <?php endif; ?>
                 <td class="droit_cvo_total"><?php
@@ -57,7 +57,7 @@
                     <tr class="droit_circulation_row" >                        
                         <td class="droit_circulation_libelle"><?php echo $droitDouane->libelle; ?></td>
                         <td class="droit_circulation_code"><?php echo $droitDouane->code; ?></td>
-                        <td class="droit_circulation_volume_imposable"><?php echoFloat($droitDouane->volume_taxe - $droitDouane->volume_reintegre); ?></td>
+                        <td class="droit_circulation_volume_imposable"><?php echoFloat($droitDouane->volume_taxe - $droitDouane->volume_reintegre); echo " hl" ?></td>
                         <td class="droit_circulation_taux"><?php
                             echoFloat($droitDouane->taux);
                             echo " €/hl";

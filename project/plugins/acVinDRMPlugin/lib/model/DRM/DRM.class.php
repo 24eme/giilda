@@ -1221,9 +1221,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*     * * FIN SOCIETE ** */
 
     /** Droit de circulation douane */
-    public function generateDroitsDouanes() {
+    public function generateDroitsDouanes() {        
+        $this->getOrAdd('droits')->getOrAdd('douane')->initDroitsDouane();        
         foreach ($this->getProduitsDetails() as $produitDetail) {
-            $produitDetail->buildDroitsDouanes();
+            $produitDetail->updateDroitsDouanes();
         }
     }
 
