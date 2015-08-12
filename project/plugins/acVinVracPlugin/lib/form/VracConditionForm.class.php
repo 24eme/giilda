@@ -21,7 +21,7 @@ class VracConditionForm extends acCouchdbObjectForm {
     public function configure() {
         $this->setWidget('delai_paiement', new bsWidgetFormChoice(array('choices' => $this->getDelaiPaiement())));
         $this->setWidget('moyen_paiement', new bsWidgetFormChoice(array('choices' => $this->getMoyenPaiement())));
-        $this->setWidget('date_limite_retiraison', new bsWidgetFormInput());
+        $this->setWidget('date_limite_retiraison', new bsWidgetFormInputDate());
         $this->setWidget('cvo_repartition', new bsWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
         $this->setWidget('conditions_particulieres', new bsWidgetFormTextarea());
         $this->setWidget('tva', new bsWidgetFormChoice(array('choices' => $this->getTva(), 'expanded' => true)));
