@@ -23,6 +23,7 @@ class VracValidation extends DocumentValidation {
             $this->addControle('erreur', 'date_enlevement_sup_maximale', "La date d'enlèvement est supérieure à la date maximale d'enlèvement du produit");
         } else {
             $this->addControle('erreur', 'hors_interloire_raisins_mouts', "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts");
+            $this->addControle('erreur', 'mauvaise_hash_produit', "Le produit n'est pas reconnu dans la campagne sélectionnée");
             $this->addControle('vigilance', 'stock_commercialisable_negatif', 'Le stock commercialisable est inférieur au stock proposé');
             $this->addControle('vigilance', 'contrats_similaires', 'Risque de doublons');
             $this->addControle('vigilance', 'prix_definitif_expected', "Le prix définitif de contrat n'a pas été saisi");
@@ -39,6 +40,10 @@ class VracValidation extends DocumentValidation {
             $this->checkSoussigneCompteNonActive();
          //   $this->checkDateEnlevement();
         } else {
+
+            if (!$this->document->getConfig()->exist($this->document->produit)) {
+                $this->addPoint('erreur', 'mauvaise_hash_produit', 'le changer', $this->generateUrl('vrac_marche', $this->document));
+            }
 
             if ($this->document->isRaisinMoutNegoHorsIL()) {
                 $this->addPoint('erreur', 'hors_interloire_raisins_mouts', 'changer', $this->generateUrl('vrac_soussigne', $this->document));
