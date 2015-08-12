@@ -10,8 +10,9 @@ class DRMValidation extends DocumentValidation {
     }
 
     public function configure($isTeledeclarationDrm = false) {
+        $this->addControle('erreur', 'repli', "La somme des replis en entrée et en sortie n'est pas la même");
+        $this->addControle('erreur', 'declassement', "La somme des déclassements en entrée et en sortie n'est pas la même");
         if (!$this->isTeledeclarationDrm) {
-            $this->addControle('erreur', 'repli', "La somme des replis en entrée et en sortie n'est pas la même");
             $this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
             $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
         }
@@ -27,10 +28,14 @@ class DRMValidation extends DocumentValidation {
     public function controle() {
         $total_entrees_replis = 0;
         $total_sorties_replis = 0;
+        $total_entrees_declassement = 0;
+        $total_sorties_declassement = 0;
 
         foreach ($this->document->getProduitsDetails() as $detail) {
             $total_entrees_replis += $detail->entrees->repli;
             $total_sorties_replis += $detail->sorties->repli;
+            $total_entrees_declassement += $detail->entrees->declassement;
+            $total_sorties_declassement += $detail->sorties->declassement;
 
             if ($detail->total < 0) {
                 $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
@@ -66,10 +71,11 @@ class DRMValidation extends DocumentValidation {
                 $this->addPoint('vigilance', 'vrac_detail_negatif', sprintf("%s, Contrat %s (%01.02f hl enlevé / %01.02f hl proposé)", $volumes_restant[$id_volume_restant]['vrac']->produit_libelle, $vrac->__toString(), $vrac->volume_propose - $restant['volume'], $vrac->volume_propose), $this->generateUrl('drm_edition', $this->document));
             }
         }
-        if (!$this->isTeledeclarationDrm) {
-            if (round($total_entrees_replis, 2) != round($total_sorties_replis, 2)) {
-                $this->addPoint('erreur', 'repli', sprintf("%s  (+%.2fhl / -%.2fhl)", $detail->getLibelle(), round($total_entrees_replis, 2), round($total_sorties_replis, 2)), $this->generateUrl('drm_edition', $this->document));
-            }
+        if (round($total_entrees_replis, 2) != round($total_sorties_replis, 2)) {
+            $this->addPoint('erreur', 'repli', sprintf("%s  (+%.2fhl / -%.2fhl)", $detail->getLibelle(), round($total_entrees_replis, 2), round($total_sorties_replis, 2)), $this->generateUrl('drm_edition', $this->document));
+        }
+        if (round($total_entrees_declassement, 2) != round($total_sorties_declassement, 2)) {
+            $this->addPoint('erreur', 'declassement', sprintf("%s  (+%.2fhl / -%.2fhl)", $detail->getLibelle(), round($total_entrees_declassement, 2), round($total_sorties_declassement, 2)), $this->generateUrl('drm_edition', $this->document));
         }
 
         if ($this->isTeledeclarationDrm) {
