@@ -2688,9 +2688,6 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   top: 0;
   padding: 71px 0 0;
 }
-#principal .stats_contrats li h2:before {
-  left: 23px;
-}
 #principal .stats_contrats li .action {
   -webkit-opacity: 0.3;
   -khtml-opacity: 0.3;
@@ -2708,9 +2705,9 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 }
 #principal .stats_contrats .actions_3 {
   height: 100px;
-  width: 210px;
-  margin: 5px;
+  margin-left: 1%;
   padding: 10px;
+  width: 32%;
 }
 #principal .stats_contrats .actions_2 {
   height: 100px;
@@ -2719,43 +2716,17 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   padding: 10px;
   float: none;
 }
-#principal .stats_contrats .stats_contrats_brouillon h2 {
-  text-align: center;
-  position: relative;
-}
-#principal .stats_contrats .stats_contrats_brouillon h2:before {
-  background: url(../images/pictos/pi_fichier_brouillon.png) 0 0 no-repeat;
-  content: '';
-  height: 40px;
-  width: 40px;
-  display: inline-block;
-  position: absolute;
-  top: -12px;
-}
-#principal .stats_contrats .stats_contrats_a_signer h2 {
-  position: relative;
-  text-align: center;
-}
-#principal .stats_contrats .stats_contrats_a_signer h2:before {
-  background: url(../images/pictos/pi_stylo_a_signer.png) 0 0 no-repeat;
-  content: '';
-  height: 40px;
-  width: 40px;
-  display: inline-block;
-  position: absolute;
-  top: -12px;
-}
+#principal .stats_contrats .stats_contrats_brouillon h2,
+#principal .stats_contrats .stats_contrats_a_signer h2,
 #principal .stats_contrats .stats_contrats_en_attente h2 {
   text-align: center;
   position: relative;
+  margin: auto !important;
 }
-#principal .stats_contrats .stats_contrats_en_attente h2:before {
-  background: url(../images/pictos/pi_contrat_en_attente.png) 0 0 no-repeat;
-  content: '';
-  height: 40px;
-  width: 40px;
-  display: inline-block;
-  position: absolute;
+#principal .stats_contrats .stats_contrats_brouillon h2 span,
+#principal .stats_contrats .stats_contrats_a_signer h2 span,
+#principal .stats_contrats .stats_contrats_en_attente h2 span {
+  position: relative;
   top: -12px;
 }
 #principal.contrat_teledeclaration_societe ul.stats_contrats .actions_2 {

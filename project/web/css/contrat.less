@@ -84,8 +84,6 @@
                 padding: 71px 0 0;
             }
 
-            h2:before { left: 23px; }
-
             .action
             {
                 .opacite(0.3);
@@ -100,7 +98,10 @@
 
         .actions_3
         {
-            .box(210px, 100px,5px,10px);
+	    height: 100px;
+	    margin-left: 1%;
+	    padding: 10px;
+	    width: 32%;
         }
 
         .actions_2
@@ -109,52 +110,13 @@
             float: none;
         }
 
-        .stats_contrats_brouillon h2
+        .stats_contrats_brouillon h2, .stats_contrats_a_signer h2, .stats_contrats_en_attente h2
         {
             text-align: center;
             position: relative;
+	    margin: auto !important;
+	    span { position: relative; top: -12px;}
 
-            &:before {
-                .sprite-pictos-brouillon(0 0);
-                content: '';
-                height: 40px;
-                width: 40px;
-                display: inline-block;
-                position: absolute;
-                top: -12px;
-            }
-        }
-
-        .stats_contrats_a_signer h2
-        {
-            position: relative;
-            text-align: center;
-
-            &:before {
-                .sprite-pictos-a_signer(0 0);
-                content: '';
-                height: 40px;
-                width: 40px;
-                display: inline-block;
-                position: absolute;
-                top: -12px;
-            }
-        }
-
-        .stats_contrats_en_attente h2
-        {
-            text-align: center;
-            position: relative;
-
-            &:before {
-                .sprite-pictos-contrat_en_attente(0 0);
-                content: '';
-                height: 40px;
-                width: 40px;
-                display: inline-block;
-                position: absolute;
-                top: -12px;
-            }
         }
     }
 
