@@ -22,9 +22,9 @@ if(!isset($isTeledeclarationMode)) {
         <thead>
             <tr>
                 <?php if (!$isTeledeclarationMode): ?>
-                <th style="width: 170px;">Date de modification</th>
+                <th style="width: 225px;">Date de modification</th>
                 <?php endif; ?>
-                <th style="width: 280px;">Produits</th>
+                <th style="width: 225px;">Produits</th>
                 <th>Type</th>
                 <th>Volume</th>
             </tr>
@@ -38,7 +38,8 @@ if(!isset($isTeledeclarationMode)) {
         echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation))? " facturable" : ""; ?>">
                     <?php if(!$isTeledeclarationMode): ?>
                     <td>
-                        Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>
+			<a title="Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>" href="<?php echo url_for('redirect_visualisation', array('id_doc' => $mouvement->doc_id)) ?>"><?php echo acCouchdbManager::getClient($mouvement->type)->getLibelleFromId($mouvement->doc_id) ?><?php echo ($mouvement->version) ? ' ('.$mouvement->version.')' : '' ?></a><br/>
+                        <small><em>Mvt saisi le <?php echo format_date($mouvement->date_version, 'D') ?></em></small>
                     </td>
                     <?php endif; ?>
                     </td>
