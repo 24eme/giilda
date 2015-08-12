@@ -7,7 +7,7 @@ class drmComponents extends sfComponents {
             $this->form = new DRMEtablissementChoiceForm('INTERPRO-inter-loire', array('identifiant' => $this->identifiant));
         }
     }
-    
+
     public function executeDelete() {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->drm = $this->getRoute()->getDRM();
@@ -20,11 +20,13 @@ class drmComponents extends sfComponents {
         }
     }
 
-
     public function executeMonEspaceDrm() {
         $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
-        $this->lastDrmToCompleteAndToStart = $this->calendrier->getLastDrmToCompleteAndToStart();        
-        $this->creationDrmsForms = $this->getCreationDrmsForms();
+        $this->lastDrmToCompleteAndToStart = $this->calendrier->getLastDrmToCompleteAndToStart();
+        $this->hasNoPopupCreation = (isset($this->accueil_drm) && $this->accueil_drm);
+        if (!$this->hasNoPopupCreation) {
+            $this->creationDrmsForms = $this->getCreationDrmsForms();
+        }
     }
 
     public function executeEtapes() {
