@@ -30,7 +30,7 @@ class DRMEtablissementCampagneForm extends sfForm
       $campagnes = ($this->isTeledeclarationMode)? array( '2015-2016' => '2015-2016','2014-2015' => '2014-2015')
              : DRMClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id);
       
-      return array_merge(array('-1' => 'les 6 derniers mois'),$campagnes);
+      return array_merge(array('-1' => 'les derniers mois'),$campagnes);
   }
   
 }
