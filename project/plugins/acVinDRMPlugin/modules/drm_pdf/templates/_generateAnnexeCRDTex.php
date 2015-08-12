@@ -10,6 +10,7 @@ $hasAnnexes = $drm->exist('documents_annexes') && count($drm->documents_annexes)
 $hasNonApurement = $drm->exist('releve_non_apurement') && count($drm->releve_non_apurement);
 $hasSucre = $drm->exist('quantite_sucre') && $drm->quantite_sucre;
 $hasObservations = $drm->exist('observations') && $drm->observations;
+$droitsDouane = $drm->droits->douane;
 ?>
 <?php if ($cpt_crds_annexes): ?>
     <?php foreach ($drm->getAllCrdsByRegimeAndByGenre() as $regime_crd => $crdsByGenre) : ?>
@@ -134,6 +135,7 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
     \end{tabular}
 
 <?php endif; ?>
+    
 <?php if($cpt_crds_annexes && $hasAnnexes && $hasNonApurement): ?>
 \newpage
 <?php endif; ?>   
@@ -165,3 +167,37 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
     \end{tabular}
 
 <?php endif; ?>   
+    
+    
+    \vspace{0.5cm}
+    \begin{center}
+    \begin{large}
+    \textbf{Liquidation des droits}
+    \end{large}
+    \end{center}
+    ~ \\ 
+    \quad{\setlength{\extrarowheight}{1pt}
+    \begin{tabular}{C{40mm} |C{40mm}|C{40mm}|C{40mm}|C{40mm}|C{40mm}|}			 	 
+    \multicolumn{6}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Droits de circulation}}}}
+    \\ 			 
+    \hline   			
+    \rowcolor{lightgray}		 
+    \multicolumn{1}{|C{40mm}}{\small{\textbf{Code}}} &
+    \multicolumn{1}{|C{40mm}}{\small{\textbf{Libellé}}} &
+    \multicolumn{1}{|C{40mm}|}{\small{\textbf{Volume}}} &
+    \multicolumn{1}{|C{40mm}|}{\small{\textbf{Taux}}} &
+    \multicolumn{1}{|C{40mm}|}{\small{\textbf{Total}}} &
+    \multicolumn{1}{|C{40mm}|}{\small{\textbf{Cumul}}} 
+    \\ 			 
+    \hline   			
+     <?php foreach ($droitsDouane as $droitDouane): ?>
+        \multicolumn{1}{|l}{\small{\textbf{<?php echo $droitDouane->code; ?>}}} &
+        \multicolumn{1}{|r}{\small{\textbf{<?php echo $droitDouane->libelle; ?>}}} &
+        \multicolumn{1}{|r|}{\small{\textbf{<?php echo $droitDouane->getVolume(); ?>}}} &
+        \multicolumn{1}{|r|}{\small{\textbf{<?php echo $droitDouane->taux; ?>}}} &
+        \multicolumn{1}{|r|}{\small{\textbf{<?php echo $droitDouane->total; ?>}}} &
+        \multicolumn{1}{|r|}{\small{\textbf{<?php echo $droitDouane->cumul; ?>}}} 
+        \\ 			 
+        \hline
+  <?php endforeach; ?>  
+    \end{tabular}

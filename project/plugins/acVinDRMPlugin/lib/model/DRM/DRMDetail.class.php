@@ -222,7 +222,7 @@ class DRMDetail extends BaseDRMDetail {
         $contrats = $this->getContratsVracByHash($this->getCepage()->getHash());
 
         $correspondance_hash = $this->getCepage()->getConfig()->getCorrespondanceHash();
-        if($correspondance_hash) {
+        if ($correspondance_hash) {
             $contrats = array_merge($contrats, $this->getContratsVracByHash($correspondance_hash));
         }
 
@@ -382,18 +382,18 @@ class DRMDetail extends BaseDRMDetail {
         return $this->getCepage()->hasMovements();
     }
 
-    public function buildDroitsDouanes() {
+    public function updateDroitsDouanes() {       
+        $droitsNode = $this->getDocument()->getOrAdd('droits')->getOrAdd('douane');
         $cepageConfig = $this->getCepage()->getConfig();
         $genreKey = $this->getGenre()->getKey();
-        
+
         foreach ($this->getEntrees() as $entreeKey => $entree) {
             $entreeKey = str_replace('_details', '', $entreeKey);
             $entreeConf = $this->getConfig()->get('entrees/' . $entreeKey);
             $entreeDrm = $this->get('entrees/' . $entreeKey);
 
             if ($entreeConf->taxable_douane && $entreeDrm > 0) {
-                $droitsNode = $this->getDocument()->getOrAdd('droits')->getOrAdd('douane');
-                $droitsNode->addDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
+                $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
             }
         }
         foreach ($this->getSorties() as $sortieKey => $sortie) {
@@ -403,8 +403,7 @@ class DRMDetail extends BaseDRMDetail {
             $sortieDrm = $this->get('sorties/' . $sortieKey);
 
             if ($sortieConf->taxable_douane && $sortieDrm > 0) {
-                $droitsNode = $this->getDocument()->getOrAdd('droits')->getOrAdd('douane');
-                $droitsNode->addDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
+                $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
         }
     }
