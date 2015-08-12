@@ -6,3 +6,6 @@
     endif;
 ?>
 <?php include_partial('etapes', $params); ?>
+<?php if (!$isTeledeclarationMode && $vrac->isTeledeclare()) : ?>
+                <h2 style="text-align: center; color: red">Contrat Télédéclaré</h2>
+<?php endif; ?>
