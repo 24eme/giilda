@@ -1,6 +1,5 @@
 <?php use_helper('DRM'); ?>
-<?php $etablissements = $etablissement->getSociete()->getEtablissementsObj(false); ?>
-<?php $multiEtablissement = (count($etablissements) > 1); ?>
+<?php $multiEtablissement = $calendrier->isMultiEtablissement(); ?>
 <div class="section_label_maj <?php echo ($isTeledeclarationMode) ? 'section_label_maj_teledeclaration_drm' : '' ?>" id="calendrier_drm">
     <form method="POST">
         <?php echo $formCampagne->renderGlobalErrors() ?>
@@ -11,9 +10,8 @@
         <div class="ligne_form ligne_compose">
             <ul class="liste_mois">
                 <?php foreach ($calendrier->getPeriodes() as $periode): ?>
-                    <?php include_partial('drm/calendrierItem', array('calendrier' => $calendrier, 'periode' => $periode, 'etablissement' => $etablissement, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissements' => $etablissements, 'multiEtablissement' => $multiEtablissement)); ?>
+                    <?php include_partial('drm/calendrierItem', array('calendrier' => $calendrier, 'periode' => $periode, 'etablissement' => $etablissement, 'isTeledeclarationMode' => $isTeledeclarationMode, 'multiEtablissement' => $multiEtablissement)); ?>
                 <?php endforeach; ?>
-
             </ul>
         </div>
     </div>
