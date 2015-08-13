@@ -326,7 +326,7 @@ img
  ******************************************/
 @media screen and (max-width: 850px)
 {
-	.gabarit { width: 460px; }
+	.gabarit { width: auto; }
 
 	#header 
 	{ 
@@ -360,4 +360,6 @@ img
 	#contenu .authentification { width: auto; }
 
 	#contenu .authentification .champ { width: 270px; }
+
+	#footer {height: auto;}
 }
