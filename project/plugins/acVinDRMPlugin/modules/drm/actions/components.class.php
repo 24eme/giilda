@@ -21,7 +21,8 @@ class drmComponents extends sfComponents {
     }
 
     public function executeMonEspaceDrm() {
-        $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
+        if (!$this->calendrier) 
+            $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         $this->lastDrmToCompleteAndToStart = $this->calendrier->getLastDrmToCompleteAndToStart();
         $this->hasNoPopupCreation = (isset($this->accueil_drm) && $this->accueil_drm);
         if (!$this->hasNoPopupCreation) {
@@ -113,7 +114,8 @@ class drmComponents extends sfComponents {
     }
 
     public function executeCalendrier() {
-        $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
+        if (!$this->calendrier) 
+            $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         if ($this->isTeledeclarationMode) {
             $this->creationDrmsForms = $this->getCreationDrmsForms();
         }

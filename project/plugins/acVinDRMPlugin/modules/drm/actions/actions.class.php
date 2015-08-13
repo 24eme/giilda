@@ -201,7 +201,7 @@ class drmActions extends drmGeneriqueActions {
     }
 
     private function formCampagne(sfWebRequest $request, $route) {
-        $isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
         if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
@@ -212,7 +212,7 @@ class drmActions extends drmGeneriqueActions {
             $this->campagne = -1;
         }
 
-        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne, $isTeledeclarationMode);
+        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne, $this->isTeledeclarationMode);
         if ($request->isMethod(sfWebRequest::POST)) {
             $param = $request->getParameter($this->formCampagne->getName());
             if ($param) {
@@ -228,8 +228,9 @@ class drmActions extends drmGeneriqueActions {
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        return $this->formCampagne($request, 'drm_etablissement');
+        $view = $this->formCampagne($request, 'drm_etablissement');
+        $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
+        return $view;
     }
 
     public function executeStocks(sfWebRequest $request) {

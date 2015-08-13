@@ -2,15 +2,18 @@
 <section id="principal" class="drm">
     <?php if (!$isTeledeclarationMode): ?>
         <p id="fil_ariane"><a href="<?php echo url_for('drm') ?>">Page d'accueil</a> &gt; <strong><?php echo $etablissement->nom ?></strong></p>
-    <?php else: ?>
+    <?php else: if ($campagne == -1) : ?>
         <h2 class="titre_societe">Espace drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
+    <?php else: ?>
+        <h2 class="titre_societe">Historique des drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
+    <?php endif; ?>
     <?php endif; ?>
 
     <!-- #contenu_etape -->
     <section id="contenu_etape">
-        <?php if ($isTeledeclarationMode): ?>
-            <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => $isTeledeclarationMode,'accueil_drm' => true)); ?>
-        <?php else: ?>
+        <?php if ($isTeledeclarationMode) : if ($campagne == -1) : ?>
+            <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => $isTeledeclarationMode,'accueil_drm' => true, 'calendrier' => $calendrier)); ?>
+        <?php endif; else: ?>
             <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
         <?php endif; ?>
         <fieldset id="historique_drm"> 
@@ -30,7 +33,7 @@
                     </ul>
                 </nav>
             <?php endif; ?>
-            <?php include_component('drm', 'calendrier', array('etablissement' => $etablissement, 'campagne' => $campagne, 'formCampagne' => $formCampagne, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+<?php include_component('drm', 'calendrier', array('etablissement' => $etablissement, 'campagne' => $campagne, 'formCampagne' => $formCampagne, 'isTeledeclarationMode' => $isTeledeclarationMode, 'calendrier' => $calendrier)); ?>
         </fieldset>
     </section>
     <!-- fin #contenu_etape -->
