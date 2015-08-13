@@ -33,7 +33,11 @@ class DRMFavorisForm extends acCouchdbObjectForm {
                 };
 
                 $keyField = $this->buildFieldId($keyTypeMvts, $keyMvt);
-                if ((count($favoris[$keyTypeMvts]) < DRMClient::$drm_max_favoris_by_types_mvt[$keyTypeMvts]) || ($favoris->exist($keyTypeMvts) && $favoris->$keyTypeMvts->exist($keyMvt))) {
+                if (!isset($favoris[$keyTypeMvts])) {
+                    $favoris->add($keyTypeMvts);
+                }
+                if ((count($favoris[$keyTypeMvts]) < DRMClient::$drm_max_favoris_by_types_mvt[$keyTypeMvts]) 
+                || ($favoris->exist($keyTypeMvts) && $favoris->$keyTypeMvts->exist($keyMvt))) {
                     $this->setWidget($keyField, new sfWidgetFormInputHidden(array('default' => false)));
                     $this->widgetSchema->setLabel($keyField, $mvtLibelle);
                     $this->setValidator($keyField, new sfValidatorString(array('required' => false)));
