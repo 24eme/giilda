@@ -47,6 +47,8 @@ class RevendicationStocksView extends acCouchdbView
         $rev->produit_hash = $row->key[self::KEY_PRODUIT_HASH];
         $rev->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
         $rev->volume = $row->value[self::VALUE_VOLUME];
+	if (!isset($row->_id))
+		$row->_id = null;
         $rev->_id = $row->_id;
 
         return $rev;

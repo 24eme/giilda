@@ -251,7 +251,9 @@ class DRMCalendrier {
         if (!$etablissement) {
             $etablissement = $this->etablissement;
         }
-        return $this->drms[$etablissement->identifiant][$periode];
+	if (!$this->hasDRM($periode, $etablissement))
+		return null;
+	return DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etablissement->identifiant, $periode);
     }
 
     public function getLastDrmToCompleteAndToStart() {
