@@ -97,8 +97,9 @@ function getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $et
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'A créer';
     }
-    if ($isTeledeclarationMode)
+    if ($isTeledeclarationMode) {
         return 'Saisie interne';
+    }
     if ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE) {
         return 'Validée';
     }

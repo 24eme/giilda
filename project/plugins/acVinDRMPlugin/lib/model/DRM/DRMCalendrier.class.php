@@ -31,7 +31,6 @@ class DRMCalendrier {
         $this->campagne = $campagne;
         $this->isTeledeclarationMode = $isTeledeclarationMode;
         $this->periodes = $this->buildPeriodes();
-
         $this->etablissements = array();
         foreach ($this->etablissement->getSociete()->getEtablissementsObj(false) as $e)  {
             $this->etablissements[] = $e->etablissement;
@@ -40,6 +39,7 @@ class DRMCalendrier {
         $this->multiEtbs = ((count($this->etablissements) > 1) && $this->isTeledeclarationMode);
 
         $this->loadDRMs();
+        $this->loadStatuts();
     }
 
     protected function buildPeriodes() {
@@ -51,7 +51,13 @@ class DRMCalendrier {
                 return DRMClient::getInstance()->getLastMonthPeriodes(12);
             }
         }
-        return DRMClient::getInstance()->getPeriodes($this->campagne);
+        $periodes = array();
+        $current = date('Ym');
+        foreach (DRMClient::getInstance()->getPeriodes($this->campagne) as $p) {
+            if ($current >= $p) 
+                $periodes[] = $p;
+        }
+        return $periodes;
     }
 
     protected function loadDRMs() {
@@ -142,6 +148,41 @@ class DRMCalendrier {
             $etablissement = $this->etablissement;
         }
 
+        return $this->statuts[$etablissement->identifiant][$periode];
+    }
+
+    private function loadStatuts() {
+        $this->statuts = array();
+        foreach ($this->etablissements as $etablissement) {
+            $etbIdentifiant = $etablissement->identifiant;
+            if (!array_key_exists($etbIdentifiant, $this->statuts)) {
+                $this->statuts[$etbIdentifiant] = array();
+            }
+            $hasteledeclaree = false;
+            $periodes = $this->periodes;
+            sort($periodes);
+            foreach ($periodes as $periode) {
+                $statut = $this->computeStatut($periode, $etablissement);
+                if ($this->isTeledeclarationMode) {
+                    $drm = $this->drms[$etbIdentifiant][$periode];
+                    if (($statut === self::STATUT_VALIDEE) || ($statut === self::STATUT_EN_COURS)) {
+                        $hasteledeclaree = true;
+                    }else if (!$hasteledeclaree) {
+                        $statut = self::STATUT_VALIDEE_NON_TELEDECLARE;
+                    }
+                }
+                $this->statuts[$etbIdentifiant][$periode] = $statut;
+            }
+            if ($this->isTeledeclarationMode && $this->computeStatut($periode, $etablissement) === self::STATUT_NOUVELLE && $periode == date('Ym')) {
+                $this->statuts[$etbIdentifiant][$periode] = self::STATUT_NOUVELLE;
+                
+            }
+        }
+        
+    }
+
+    private function computeStatut($periode, $etablissement) {
+
         if (!$this->hasDRM($periode, $etablissement)) {
             return self::STATUT_NOUVELLE;
         }
@@ -149,13 +190,13 @@ class DRMCalendrier {
         $drm = $this->drms[$etablissement->identifiant][$periode];
 
         if ($drm[self::VIEW_STATUT]) {
-            $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($drm[self::VIEW_INDEX_ETABLISSEMENT], $drm[self::VIEW_PERIODE]);
+            $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etablissement->identifiant, $periode);
             if (!$drm->isTeledeclare()) {
                 return self::STATUT_VALIDEE_NON_TELEDECLARE;
             }
             return self::STATUT_VALIDEE;
         }
-        $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($drm[self::VIEW_INDEX_ETABLISSEMENT], $drm[self::VIEW_PERIODE]);
+        $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($etablissement->identifiant, $periode);
         if (!$drm->isTeledeclare()) {
             return self::STATUT_EN_COURS_NON_TELEDECLARE;
         }
@@ -206,19 +247,11 @@ class DRMCalendrier {
         return $drm[self::VIEW_NUMERO_ARCHIVAGE];
     }
 
-    public function getStatutLibelle($periode) {
-        
-    }
-
-    public function getDRM($periode) {
-        $id = $this->getId($periode);
-
-        if (!$id) {
-
-            return null;
+    public function getDRM($periode, $etablissement = null) {
+        if (!$etablissement) {
+            $etablissement = $this->etablissement;
         }
-
-        return DRMClient::getInstance()->find($id);
+        return $this->drms[$etablissement->identifiant][$periode];
     }
 
     public function getLastDrmToCompleteAndToStart() {
