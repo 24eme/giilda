@@ -405,7 +405,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $this->setInterpros();
         $this->generateMouvements();
-        $this->generateDroitsDouanes();
+	if (isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']) {
+	        $this->generateDroitsDouanes();
+	}
 
         $this->archivage_document->archiver();
 
@@ -1241,9 +1243,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function initDroitsDouane() {
-        foreach ($this->droits->douane as $key_douane_genre => $droitDouane) {
-            $droitDouane->clearDroitDouane();
-        }
+	try {
+	        foreach ($this->droits->douane as $key_douane_genre => $droitDouane) {
+        	    $droitDouane->clearDroitDouane();
+        	}
+	}catch(Exception $e) {
+	}
     }
 
     /** Fin Droit de circulation douane */
