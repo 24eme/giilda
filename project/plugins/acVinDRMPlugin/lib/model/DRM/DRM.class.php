@@ -1146,7 +1146,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$nodeAnnexe)
             return false;
         foreach ($this->documents_annexes as $annexe) {
-            if($annexe >fin || $annexe >debut){
+            if($annexe->fin || $annexe->debut){
                 return true;
             }
         }
