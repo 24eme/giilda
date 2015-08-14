@@ -178,13 +178,13 @@ class DRMRouting {
         )));
 
         $r->prependRoute('drm_choix_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/choix-produits', array('module' => 'drm_ajout_produit',
-            'action' => 'choixPoduits'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+            'action' => 'choixProduits'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
         )));
 
         $r->prependRoute('drm_choix_produit_add_produit', new DRMRoute('/drm/:identifiant/edition/:periode_version/ajout-produits/:add_produit', array('module' => 'drm_ajout_produit',
-            'action' => 'choixAjoutPoduits'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+            'action' => 'choixAjoutProduits'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),
         )));

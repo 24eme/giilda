@@ -2,7 +2,7 @@
 
 class drm_ajout_produitActions extends drmGeneriqueActions {
 
-    public function executeChoixPoduits(sfWebRequest $request) {
+    public function executeChoixProduits(sfWebRequest $request) {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
         $this->certificationsProduits = $this->drm->declaration->getProduitsDetailsByCertifications(true);
@@ -32,7 +32,7 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
         }
     }
 
-    public function executeChoixAjoutPoduits(sfWebRequest $request) {
+    public function executeChoixAjoutProduits(sfWebRequest $request) {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
         $this->form = new DRMAddProduitByCertificationForm($this->drm, array('produitFilter' => $request->getParameter('add_produit')));
