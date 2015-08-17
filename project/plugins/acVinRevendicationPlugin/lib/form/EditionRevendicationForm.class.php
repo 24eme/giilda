@@ -60,8 +60,11 @@ class EditionRevendicationForm extends sfForm {
     }
 
     protected function getConfig() {
-
-        return ConfigurationClient::getConfiguration($this->date);
+	$date = $this->date;
+	if (!$date) {
+		$date = ConfigurationClient::getInstance()->getDateDebutCampagne($this->revendication->campagne);
+	}
+        return ConfigurationClient::getConfiguration($date);
     }
 
     public function doUpdate() {

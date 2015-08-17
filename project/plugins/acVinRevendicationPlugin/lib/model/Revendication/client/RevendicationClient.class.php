@@ -91,6 +91,7 @@ class RevendicationClient extends acCouchdbClient {
     public function addVolumeSaisiByStdClass(stdClass $rev, $etablissement_id_or_identifiant, $produit_hash, $volume, $date) {
         $etablissement_identifiant = EtablissementClient::getInstance()->getIdentifiant($etablissement_id_or_identifiant);
         $rev_obj = new Revendication();
+	$rev_obj->campagne = $rev->campagne;
         $rev_obj->datas->add($etablissement_identifiant, isset($rev->datas->$etablissement_identifiant) ? $rev->datas->$etablissement_identifiant : null);
         $rev_obj->addVolumeSaisi($etablissement_identifiant, $produit_hash, $volume, $date);
         $rev->datas->$etablissement_identifiant = $rev_obj->datas->get($etablissement_identifiant)->toJson();
