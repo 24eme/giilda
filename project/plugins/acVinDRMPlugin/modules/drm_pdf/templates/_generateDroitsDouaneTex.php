@@ -12,7 +12,7 @@ $limitNonAppurement = 4;
 if(!$hasAnnexes && $hasNonApurement){
     $limitNonAppurement = 12;
 }
-$douaneNewPage = (count($drm->releve_non_apurement) >= $limitNonAppurement)? "\\newpage" : "";
+$douaneNewPage = ($hasNonApurement && (count($drm->releve_non_apurement) >= $limitNonAppurement))? "\\newpage" : "";
 
 $hasObservations = $drm->exist('observations') && $drm->observations;
 ?>
