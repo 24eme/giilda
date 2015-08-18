@@ -546,6 +546,7 @@
 
         $('.drm_details_form').bind('submit', function ()
         {
+            $(this).children('button[type="submit"]').attr('disabled','disabled');
             $.post($(this).attr('action'),
                     $(this).serialize(),
                     function (data)
