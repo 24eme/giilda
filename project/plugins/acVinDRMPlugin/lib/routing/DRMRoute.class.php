@@ -14,7 +14,7 @@ class DRMRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
 
 	$myUser = sfContext::getInstance()->getUser();
 
-        if (!$myUser->hasCredential('transactions') && 
+        if ($myUser->hasCredential('teledeclaration_drm') && 
 	    $myUser->getCompte()->getSociete()->identifiant != $this->drm->getEtablissement()->getSociete()->identifiant) {
 		throw new sfError404Exception("Vous n'avez pas le droit d'accéder à cette DRM");
 	}
