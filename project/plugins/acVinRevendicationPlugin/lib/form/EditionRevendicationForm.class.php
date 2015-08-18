@@ -13,9 +13,9 @@ class EditionRevendicationForm extends sfForm {
     protected $date;
 
     public function __construct(stdClass $revendication, $identifiant, $produit, $row, $defaults = array(), $options = array(), $CSRFSecret = null) {
-        parent::__construct($defaults, $options, $CSRFSecret);
         $this->revendication = $revendication;
         $this->date = ConfigurationClient::getInstance()->getDateDebutCampagne($revendication->campagne);
+        parent::__construct($defaults, $options, $CSRFSecret);
         if (isset($identifiant) && isset($produit) && isset($row)) {
             $this->initFields($identifiant, $produit, $row);
             $this->setDefaults($defaults);
