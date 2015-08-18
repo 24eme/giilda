@@ -45,7 +45,7 @@ var initSignatureDrmPopup = function () {
 var initCrds = function () {
     $('.drm_crds_list tr.crd_row').each(function () {
         var id = $(this).attr('id');
-        var inputs = $('input');
+        var inputs = $(this).children('input');
         updateCrdsTotaux(id);
 
         inputs.saisieNum(false, null, null);
@@ -63,7 +63,7 @@ var initCrds = function () {
 }
 
 var updateCrdsTotaux = function (id) {
-    console.log('her');
+    
     var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
 
     var entreesAchats = (!isNaN(parseInt($("#" + id + " td.crds_entreesAchats input").val()))) ? parseInt($("#" + id + " td.crds_entreesAchats input").val()) : 0;
@@ -106,7 +106,6 @@ var openedPopupAjoutCRD = function () {
     });
     $('.ui-autocomplete-input').each(function () {
         var couleur_crd_choice = $(this).parent().children('select').hasClass('couleur_crd_choice');
-        console.log(couleur_crd_choice);
         if (couleur_crd_choice) {
             $(this).focus();
         }
