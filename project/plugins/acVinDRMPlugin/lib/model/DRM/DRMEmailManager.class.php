@@ -98,7 +98,7 @@ Rappel de votre identifiant : " . substr($this->drm->identifiant, 0, 6);
         $pdfContent = $pdf->getPDFFileContents();
         $pdfName = $pdf->getPublicFileName();
 
-        $subject = "Validation de votre DRM " . getFrPeriodeElision($this->drm->periode) . " créé le " . $this->getDateSaisieDrmFormatted() . " .";
+        $subject = "Validation de votre DRM " . getFrPeriodeElision($this->drm->periode) . " créée le " . $this->getDateSaisieDrmFormatted() . " .";
 
         $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $etablissement->getEmailTeledeclaration(), $subject, $mess);
 

@@ -46,7 +46,9 @@ var initSignatureDrmPopup = function () {
 var initCrds = function () {
     $('.drm_crds_list tr.crd_row').each(function () {
         var id = $(this).attr('id');
-        var inputs = $(this).children('input');
+        
+        var inputs = $(this).children('td').children('input');
+
         updateCrdsTotaux(id);
 
         inputs.saisieNum(false, null, null);
