@@ -67,6 +67,11 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->form->save();
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->save();
+        if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
+             $mailManager = new DRMEmailManager($this->getMailer());
+             $mailManager->setDRM($this->drm);
+             $mailManager->sendMailValidation();
+        }
 
         DRMClient::getInstance()->generateVersionCascade($this->drm);
 
