@@ -120,8 +120,4 @@ class GenericLatex {
     throw new sfException("need to be implemented upstream");
   }
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> e3d3c32221d0e7e66d52fcb8e96aad8f29e69b95
