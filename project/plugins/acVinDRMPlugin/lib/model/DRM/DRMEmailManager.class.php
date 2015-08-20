@@ -80,19 +80,19 @@ L’application de télédéclaration des contrats d’InterLoire";
 
         $mess = "  
 
-Vous venez de déclarer la DRM " . getFrPeriodeElision($this->drm->periode) . " électroniquement sur le portail de télédeclaration d'InterLoire.
+La DRM " . getFrPeriodeElision($this->drm->periode) . " de " . $etablissement->nom . " a été validée électroniquement sur le portail de télédeclaration d'InterLoire.
 
-Vous pouvez la visualiser à tout moment en cliquant sur le lien suivant : " . $this->getUrlVisualisationDrm() . " .
+La version PDF de cette DRM est également disponible en pièce jointe dans ce mail.
 
-Votre DRM est également joint à ce mail en format PDF.
-
-Pour toutes questions, veuillez contacter " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . ".
+Pour toutes questions, veuillez contacter " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
     
 --
 
 L’application de télédéclaration des DRM d’InterLoire
 
-Rappel de votre identifiant : " . substr($this->drm->identifiant, 0, 6);
+Rappel de votre identifiant : " . substr($this->drm->identifiant, 0, 6) . "
+    
+Vous pouvez la visualiser à tout moment en cliquant sur le lien suivant : " . $this->getUrlVisualisationDrm() . " .";
 
         $pdf = new DRMLatex($this->drm);
         $pdfContent = $pdf->getPDFFileContents();
@@ -110,6 +110,12 @@ Rappel de votre identifiant : " . substr($this->drm->identifiant, 0, 6);
         try {
             $this->getMailer()->send($message);
             $resultEmailArr[] = $etablissement->getEmailTeledeclaration();
+            if ($this->drm->email_transmission) {
+                $message_transmission = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $this->drm->email_transmission, $subject, $mess);
+                $message_transmission->attach(new Swift_Attachment($pdfContent, $pdfName, 'application/pdf'));
+                $this->getMailer()->send($message_transmission);
+                $resultEmailArr[] = $this->drm->email_transmission;
+            }
         } catch (Exception $e) {
             $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
             return null;
