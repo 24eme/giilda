@@ -1,79 +1,86 @@
-(function($)
+(function ($)
 {
 
-	$(document).ready(function()
-	{
-		$.initAjaxPost();
-		$.initAjaxCouchdbForm();
-	});
+    $(document).ready(function ()
+    {
+        $.initAjaxPost();
+        $.initAjaxCouchdbForm();
+        $.initProtectForms();
+    });
 
-	$.initAjaxPost = function() 
-	{
+    $.initProtectForms = function () {
+        $('form').submit(function () {
+            $(this).find("button[type='submit']").prop('disabled', true);
+        });
+    }
 
-		var notificationError = $('#ajax_form_error_notification');
-		var notificationProgress = $('#ajax_form_progress_notification');
+    $.initAjaxPost = function ()
+    {
 
-		$(document).ajaxError(
-			function(event, xhr, settings) {
-				if (settings.type === "POST") {
-					notificationError.show();
-				}
-			}
-		);
+        var notificationError = $('#ajax_form_error_notification');
+        var notificationProgress = $('#ajax_form_progress_notification');
 
-		$(document).ajaxSuccess(
-			function(event, xhr, settings) {
-				if (settings.type === "POST") {
-					notificationError.hide();
-				}
-			}
-		);
+        $(document).ajaxError(
+                function (event, xhr, settings) {
+                    if (settings.type === "POST") {
+                        notificationError.show();
+                    }
+                }
+        );
 
-		$(document).ajaxSend(
-			function(event, xhr, settings) {
-				if (settings.type === "POST") {
-					notificationError.hide();
-					notificationProgress.show();
-				}
-			}
-		);
+        $(document).ajaxSuccess(
+                function (event, xhr, settings) {
+                    if (settings.type === "POST") {
+                        notificationError.hide();
+                    }
+                }
+        );
 
-		$(document).ajaxComplete(
-			function(event, xhr, settings) {
-				if (settings.type === "POST") {
-					notificationProgress.hide();
-				}
-			}
-		);
-	};
+        $(document).ajaxSend(
+                function (event, xhr, settings) {
+                    if (settings.type === "POST") {
+                        notificationError.hide();
+                        notificationProgress.show();
+                    }
+                }
+        );
 
-	$.initAjaxCouchdbForm = function() 
-	{
-		$(document).ajaxComplete(
-			function(event, xhr, settings) {
-				if (settings.type === "POST") {
+        $(document).ajaxComplete(
+                function (event, xhr, settings) {
+                    if (settings.type === "POST") {
+                        notificationProgress.hide();
+                    }
+                }
+        );
+    };
 
-					var data = null;
+    $.initAjaxCouchdbForm = function ()
+    {
+        $(document).ajaxComplete(
+                function (event, xhr, settings) {
+                    if (settings.type === "POST") {
 
-					try {
-						var data = jQuery.parseJSON(xhr.responseText);
-					} catch (err) {
+                        var data = null;
 
-					}
+                        try {
+                            var data = jQuery.parseJSON(xhr.responseText);
+                        } catch (err) {
 
-					if (!(data && data.document && data.document.id && data.document.revision)) {
-						
-						return ;
-					}
-					
-					$("input[data-id="+ data.document.id + "]").val(data.document.revision);				    
-				    if ($.fn.RevisionajaxSuccessCallBack) {
-					$.fn.RevisionajaxSuccessCallBack();
-					$.fn.RevisionajaxSuccessCallBack = null;
-				    }
-				}
-			}
-		);	
+                        }
 
-	};
+                        if (!(data && data.document && data.document.id && data.document.revision)) {
+
+                            return;
+                        }
+
+                        $("input[data-id=" + data.document.id + "]").val(data.document.revision);
+                        if ($.fn.RevisionajaxSuccessCallBack) {
+                            $.fn.RevisionajaxSuccessCallBack();
+                            $.fn.RevisionajaxSuccessCallBack = null;
+                        }
+                    }
+                }
+        );
+
+    };
 })(jQuery);

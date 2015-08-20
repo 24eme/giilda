@@ -42,5 +42,9 @@ class drmGeneriqueActions extends sfActions {
     protected function initDeleteForm() {
         $this->deleteForm = new DRMDeleteForm($this->drm);
     }
+    
+    protected function isUsurpationMode() {
+        return $this->getUser()->isUsurpationCompte();
+    }
 
 }

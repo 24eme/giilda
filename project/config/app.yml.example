@@ -82,7 +82,6 @@ all:
          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
   vrac:
     contenances:
-      "Bouteille 37 cl": 0.00375
       "Bouteille 37,5 cl": 0.00375
       "Bouteille 50 cl": 0.005
       "Bouteille 75 cl": 0.0075
@@ -96,7 +95,6 @@ all:
       "BIB 6l": 0.06
       "BIB 10l": 0.1
       "BIB 20l": 0.2
-
   ac_exception_notifier:
     enabled: false
     email:
@@ -104,21 +102,19 @@ all:
       from_name: "acExceptionNotifierPlugin"
       to: ["email@email.email"]
       subject: "500 | Internal Server Error | Exception"
-
   teledeclaration:
-    contact:
-      contrat:
-        TOURS:
-          nom: 'Prenom Nom'
-          telephone: '00 00 00 00 00'
-          email: 'mail@mail.fr'
-        ANGERS:
-          nom: 'Prenom Nom'
-          telephone: '00 00 00 00 00'
-          email: 'mail@mail.fr'
-        NANTES:
-          nom: 'Prenom Nom'
-          telephone: '00 00 00 00 00'
-          email: 'mail@mail.fr'
+    contact_contrat:
+      TOURS:
+        nom: 'Prenom Nom'
+        telephone: '00 00 00 00 00'
+        email: 'mail@mail.fr'
+      ANGERS:
+        nom: 'Prenom Nom'
+        telephone: '00 00 00 00 00'
+        email: 'mail@mail.fr'
+      NANTES:
+        nom: 'Prenom Nom'
+        telephone: '00 00 00 00 00'
+        email: 'mail@mail.fr'
   pdf:
     reader_link: "http://lien.fr"

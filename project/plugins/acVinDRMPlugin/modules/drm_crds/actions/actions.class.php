@@ -8,9 +8,10 @@ class drm_crdsActions extends drmGeneriqueActions {
         $this->drm->crdsInitDefault();
         $this->crdsForms = new DRMCrdsForm($this->drm);
         $this->initDeleteForm();
-        if($request->getParameter('add_crd')) {
+        if ($request->getParameter('add_crd')) {
             $this->addCrdRegime = $request->getParameter('add_crd');
-            $this->addCrdForm = new DRMAddCrdTypeForm($this->drm);
+            $this->addCrdGenre = $request->getParameter('genre');
+            $this->addCrdForm = new DRMAddCrdTypeForm($this->drm,array('genre' => $this->addCrdGenre));
         }
 
         if ($request->isMethod(sfRequest::POST)) {
@@ -18,8 +19,8 @@ class drm_crdsActions extends drmGeneriqueActions {
             if ($this->crdsForms->isValid()) {
                 $this->crdsForms->save();
 
-                if($this->addCrdRegime) { 
-                    $this->redirect('drm_crd', array('sf_subject' => $this->crdsForms->getObject(), 'add_crd' => $this->addCrdRegime));
+                if ($this->addCrdRegime) {
+                    $this->redirect('drm_crd', array('sf_subject' => $this->crdsForms->getObject(), 'add_crd' => $this->addCrdRegime, 'genre' => $this->addCrdGenre));
                 }
 
                 $this->redirect('drm_redirect_etape', $this->crdsForms->getObject());
@@ -36,9 +37,11 @@ class drm_crdsActions extends drmGeneriqueActions {
             if ($this->form->isValid()) {
                 $this->form->save();
                 $this->redirect('drm_crd', $this->form->getObject());
-            }
+            } 
+            $regimes = $this->form->getRegimeCrds();
+            $this->regime = $regimes[0];
+            
         }
-        $this->redirect('drm_crd', $this->form->getObject());
     }
 
     public function executeChoixRegimeCrd(sfWebRequest $request) {

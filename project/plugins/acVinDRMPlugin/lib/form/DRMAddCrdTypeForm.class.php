@@ -10,14 +10,14 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
 
     private $drm = null;
     private $regimeCrds = array();
-    private $drmSortiesGenreCRDs = array();
     private $typesCouleurs = null;
     private $typesLitrages = null;
+    private $defaultGenre = null;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->drm = $object;
-        $this->regimeCrds = $this->drm->getRegimesCrds();
-        $this->drmSortiesGenreCRDs = array('TRANQ' => 'Vins tranquilles', 'MOUSSEUX' => 'Vins mousseux');
+        $this->regimeCrds = $this->drm->getRegimesCrds();        
+        $this->defaultGenre = $options['genre'];
         parent::__construct($this->drm, $options, $CSRFSecret);
     }
 
@@ -27,12 +27,8 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
             $this->setWidget('couleur_crd_' . $regime, new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getTypeCouleurs())));
             $this->setWidget('litrage_crd_' . $regime, new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getTypeLitrages())));
             $this->setWidget('stock_debut_' . $regime, new sfWidgetFormInputText());
-            $this->setWidget('genre_crd_' . $regime, new sfWidgetFormInputHidden());
+            $this->setWidget('genre_crd_' . $regime, new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getGenres())));
 
-            if (count($this->drmSortiesGenreCRDs) > 1) {
-                $this->setWidget('genre_crd_' . $regime, new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->drmSortiesGenreCRDs)));
-                $this->setDefault('genre_crd_' . $regime, 'TRANQ');
-	    }
 
             $this->widgetSchema->setLabel('couleur_crd_' . $regime, 'Couleur CRD ');
             $this->widgetSchema->setLabel('litrage_crd_' . $regime, 'Litrage ');
@@ -42,14 +38,16 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
             $this->setValidator('couleur_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeCouleurs())), array('required' => "Aucune couleur de CRD n'a été saisi !")));
             $this->setValidator('litrage_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeLitrages())), array('required' => "Aucun litrage n'a été saisi !")));
             $this->setValidator('stock_debut_' . $regime, new sfValidatorNumber(array('required' => false)));
-            $this->setValidator('genre_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->drmSortiesGenreCRDs)), array('required' => "Aucun genre n'a été saisi !")));
+            $this->setValidator('genre_crd_' . $regime, new sfValidatorChoice(array('multiple' => false, 'required' => true, 'choices' => array_keys($this->getGenres())), array('required' => "Aucun genre n'a été saisi !")));
+           
+            $this->setDefault('genre_crd_' . $regime, $this->defaultGenre);
         }
 
         $this->widgetSchema->setNameFormat('drmAddTypeForm[%s]');
     }
 
     protected function doUpdateObject($values) {
-        parent::doUpdateObject($values);        
+        parent::doUpdateObject($values);
         foreach ($this->regimeCrds as $regime) {
             $couleur = $values['couleur_crd_' . $regime];
             $litrage = $values['litrage_crd_' . $regime] * 100000;
@@ -64,13 +62,13 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
 
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        if (count($this->drmSortiesGenreCRDs) <= 1) {
-            $genreCrdKeys = array_keys($this->drmSortiesGenreCRDs);
-            $genreCrd = $genreCrdKeys[0];           
-            foreach ($this->regimeCrds as $regime) {
-                $this->setDefault('genre_crd_' . $regime, $genreCrd);
-            }
-        }
+//        if (count($this->getGenres()) <= 1) {
+//            $genreCrdKeys = array_keys($this->getGenres());
+//            $genreCrd = $genreCrdKeys[0];           
+//            foreach ($this->regimeCrds as $regime) {
+//                $this->setDefault('genre_crd_' . $regime, $genreCrd);
+//            }
+//        }
     }
 
     public function getTypeCouleurs() {
@@ -91,6 +89,14 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
             }
         }
         return $this->typesLitrages;
+    }
+
+    public function getGenres() {
+        return array('TRANQ' => 'Vins tranquilles', 'MOUSSEUX' => 'Vins mousseux');
+    }
+
+    public function getRegimeCrds() {
+        return $this->regimeCrds;
     }
 
 }

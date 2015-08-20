@@ -75,10 +75,10 @@ class DRMValidation extends DocumentValidation {
             }
         }
         if (round($total_entrees_replis, 2) != round($total_sorties_replis, 2)) {
-            $this->addPoint('erreur', 'repli', sprintf("%s  (+%.2fhl / -%.2fhl)", $detail->getLibelle(), round($total_entrees_replis, 2), round($total_sorties_replis, 2)), $this->generateUrl('drm_edition', $this->document));
+            $this->addPoint('erreur', 'repli', sprintf("%s  (+%.2fhl / -%.2fhl)", 'revenir aux mouvements', round($total_entrees_replis, 2), round($total_sorties_replis, 2)), $this->generateUrl('drm_edition', $this->document));
         }
         if (round($total_entrees_declassement, 2) != round($total_sorties_declassement, 2)) {
-            $this->addPoint('erreur', 'declassement', sprintf("%s  (+%.2fhl / -%.2fhl)", $detail->getLibelle(), round($total_entrees_declassement, 2), round($total_sorties_declassement, 2)), $this->generateUrl('drm_edition', $this->document));
+            $this->addPoint('erreur', 'declassement', sprintf("%s  (+%.2fhl / -%.2fhl)", 'revenir aux mouvements' , round($total_entrees_declassement, 2), round($total_sorties_declassement, 2)), $this->generateUrl('drm_edition', $this->document));
         }
 
         if ($this->isTeledeclarationDrm) {

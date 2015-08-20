@@ -12,6 +12,7 @@ var initAjoutProduitPopup = function () {
         height: 'auto',
         width: 'auto',
         titleShow: false,
+        'afterShow': $.initProtectForms
     });
     $('a.ajout_produit_popup').click();
     $('.add_produit_popup_certification_content a.popup_close').click(function () {
@@ -45,7 +46,9 @@ var initSignatureDrmPopup = function () {
 var initCrds = function () {
     $('.drm_crds_list tr.crd_row').each(function () {
         var id = $(this).attr('id');
-        var inputs = $('input');
+        
+        var inputs = $(this).children('td').children('input');
+
         updateCrdsTotaux(id);
 
         inputs.saisieNum(false, null, null);
@@ -63,7 +66,7 @@ var initCrds = function () {
 }
 
 var updateCrdsTotaux = function (id) {
-    console.log('her');
+
     var crds_debut_de_mois = $("#" + id + " td.crds_debut_de_mois input").val();
 
     var entreesAchats = (!isNaN(parseInt($("#" + id + " td.crds_entreesAchats input").val()))) ? parseInt($("#" + id + " td.crds_entreesAchats input").val()) : 0;
@@ -106,7 +109,6 @@ var openedPopupAjoutCRD = function () {
     });
     $('.ui-autocomplete-input').each(function () {
         var couleur_crd_choice = $(this).parent().children('select').hasClass('couleur_crd_choice');
-        console.log(couleur_crd_choice);
         if (couleur_crd_choice) {
             $(this).focus();
         }
@@ -136,32 +138,30 @@ var initCreationDrmPopup = function () {
         autoCenter: true,
         height: 'auto',
         width: 'auto',
-        minWidth: 500
-       
+        minWidth: 500,
+        'afterShow': $.initProtectForms
+
     });
     $('.popup_contenu a#drm_nouvelle_popup_close').click(function () {
         $.fancybox.close();
     });
+
+    $('.popup_creation_drm div.type_creation input').change(function () {        
+        var value = $(this).attr('value');
+        var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
+
+        console.log($('#file_edi_div_' + id_drm));
+        if (value == 'CREATION_EDI') {
+            $('#file_edi_div_' + id_drm).show();
+        } else {
+            $('#file_edi_div_' + id_drm).hide();
+        }
+
+    });
+    $('.popup_creation_drm div.type_creation label').click(function () {
+        $(this).siblings('input').click();
+    });
     
-    $('.popup_creation_drm div.type_creation input').change(function () {
-                console.log($(this));
-                var value = $(this).attr('value');
-                var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
-
-                console.log($('#file_edi_div_' + id_drm));
-                if (value == 'CREATION_EDI') {
-                    $('#file_edi_div_' + id_drm).show();
-                } else {
-                    $('#file_edi_div_' + id_drm).hide();
-                    console.log('hide');
-                }
-
-            });
-            $('.popup_creation_drm div.type_creation label').click(function () {
-                $(this).siblings('input').click();
-            });
-
-
 };
 
 var initDeleteDrmPopup = function () {
@@ -171,15 +171,11 @@ var initDeleteDrmPopup = function () {
         autoCenter: true,
         height: 'auto',
         width: 'auto',
-        minWidth: 500
+        minWidth: 500,
+        'afterShow': $.initProtectForms
     });
     $('.popup_contenu a#drm_delete_popup_close').click(function () {
         $.fancybox.close();
-    });
-    $('.popup_contenu button#drm_delete_popup_confirm').click(function () {
-
-        var idForm = $(this).parents('form').attr('id');
-        console.log("post " + idForm);
     });
 };
 
