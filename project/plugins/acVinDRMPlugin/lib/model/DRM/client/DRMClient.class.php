@@ -461,11 +461,26 @@ class DRMClient extends acCouchdbClient {
         $drm->identifiant = $identifiant;
         $drm->periode = $periode;
         $drm->teledeclare = true;
-        $drm->buildFavoris();
-        $drm->storeDeclarant();
-        $drm->initSociete();
-        $drm->initCrds();
-        $drm->clearAnnexes();
+        
+        $drmCsvEdi = new DRMCsvEdi($drm);
+        
+        $drmCsvEdi->checkCSVIntegrity($csvFile, $erreurs);
+        
+        if(count($erreurs)){
+            return $erreurs;
+        }
+        $drmCsvEdi->preImportMouvementsFromCSV($csvFile,$erreurs);
+        $drmCsvEdi->preImportCrdsFromCSV($csvFile,$erreurs);
+        $drmCsvEdi->preImportAnnexesFromCSV($csvFile,$erreurs);
+        
+        if(count($erreurs)){
+            return $erreurs;
+        }
+        
+        $drmCsvEdi->buildMouvementsFromCSV($csvFile);
+        $drmCsvEdi->buildCrdsFromCSV($csvFile);
+        $drmCsvEdi->buildAnnexesFromCSV($csvFile);
+        
         $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         foreach ($csvFile->getCsv() as $cpt => $csvRow) {
             $num_ligne = $cpt + 1;

@@ -26,6 +26,9 @@ class drmActions extends drmGeneriqueActions {
     }
 
     public function executeChooseEtablissement(sfWebRequest $request) {
+
+        $this->redirect403IfIsTeledeclaration();
+
         $this->form = new DRMEtablissementChoiceForm('INTERPRO-inter-loire');
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -38,7 +41,7 @@ class drmActions extends drmGeneriqueActions {
     public function executeRedirectEtape(sfWebRequest $request) {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
         $drm = $this->getRoute()->getDRM();
-       
+
         switch ($drm->etape) {
             case DRMClient::ETAPE_CHOIX_PRODUITS:
                 if ($isTeledeclarationMode) {
@@ -72,11 +75,11 @@ class drmActions extends drmGeneriqueActions {
                 return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
                 break;
         }
-        
-        if((!$drm->etape) && !$drm->isValidee()){
-              return $this->redirect('drm_edition', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+
+        if ((!$drm->etape) && !$drm->isValidee()) {
+            return $this->redirect('drm_edition', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
         }
-        
+
         return $this->redirect('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
     }
 
@@ -150,6 +153,7 @@ class drmActions extends drmGeneriqueActions {
 
         $this->response->setContentType('text/csv');
         $this->response->setHttpHeader('Content-Disposition', $attachement);
+       
     }
 
     /**
@@ -188,15 +192,14 @@ class drmActions extends drmGeneriqueActions {
      */
     public function executeDelete(sfWebRequest $request) {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->drm = $this->getRoute()->getDRM();        
+        $this->drm = $this->getRoute()->getDRM();
         $this->initDeleteForm();
-        if ($request->isMethod(sfRequest::POST)) {                 
+        if ($request->isMethod(sfRequest::POST)) {
             $this->deleteForm->bind($request->getParameter($this->deleteForm->getName()));
             if ($this->deleteForm->isValid()) {
                 $this->drm->delete();
                 $this->redirect('drm_etablissement', $this->drm);
             }
-
         }
     }
 
@@ -334,7 +337,7 @@ class drmActions extends drmGeneriqueActions {
 
     public function executeModificative(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();
-        
+
         $drm_rectificative = $drm->generateModificative();
         $drm_rectificative->save();
 
