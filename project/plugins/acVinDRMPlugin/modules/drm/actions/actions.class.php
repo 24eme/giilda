@@ -104,7 +104,7 @@ class drmActions extends drmGeneriqueActions {
                 case DRMClient::DRM_CREATION_EDI :
                     if ($this->creationDrmForm->isValid()) {
                         $md5 = $this->creationDrmForm->getValue('file')->getMd5();
-                        return $this->redirect('drm_creation_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5));
+                        return $this->redirect('drm_verification_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5));
                     }
                     return $this->redirect('drm_societe', array('identifiant' => $identifiant));
 
@@ -128,13 +128,43 @@ class drmActions extends drmGeneriqueActions {
      *
      * @param sfWebRequest $request 
      */
-    public function executeCreationEdi(sfWebRequest $request) {
+    public function executeVerificationEdi(sfWebRequest $request) {
 
+        $this->md5 = $request->getParameter('md5');
+        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
-        $md5 = $request->getParameter('md5');
-        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $md5);
-        $this->erreurs = DRMClient::getInstance()->createDocFromEdi($this->identifiant, $this->periode, $this->csvFile);
+        
+        $drm = new DRM();
+        $drm->identifiant = $this->identifiant;
+        $drm->periode = $this->periode;
+        $drm->teledeclare = true;
+        
+        $this->drmCsvEdi = new DRMCsvEdi($drm);
+        $this->drmCsvEdi->checkCSV($this->csvFile);        
+        
+    }
+    
+        /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeCreationEdi(sfWebRequest $request) {
+
+        $this->md5 = $request->getParameter('md5');
+        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
+        $this->identifiant = $request->getParameter('identifiant');
+        $this->periode = $request->getParameter('periode');
+        
+        $this->drm = new DRM();
+        $this->drm->identifiant = $this->identifiant;
+        $this->drm->periode = $this->periode;
+        $this->drm->teledeclare = true;
+        
+        $this->drmCsvEdi = new DRMCsvEdi($this->drm);
+        $this->drmCsvEdi->importCSV($this->csvFile);        
+         $this->redirect('drm_validation', $this->drm);
+        
     }
 
     /**

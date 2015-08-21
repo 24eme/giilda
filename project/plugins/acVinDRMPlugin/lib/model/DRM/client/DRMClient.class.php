@@ -456,25 +456,16 @@ class DRMClient extends acCouchdbClient {
     }
 
     public function createDocFromEdi($identifiant, $periode, $csvFile) {
-        $erreurs = array();
-        $drm = new DRM();
-        $drm->identifiant = $identifiant;
-        $drm->periode = $periode;
-        $drm->teledeclare = true;
+               
         
-        $drmCsvEdi = new DRMCsvEdi($drm);
-        
-        $drmCsvEdi->checkCSVIntegrity($csvFile, $erreurs);
-        
-        if(count($erreurs)){
-            return $erreurs;
-        }
+       
         $drmCsvEdi->preImportMouvementsFromCSV($csvFile,$erreurs);
         $drmCsvEdi->preImportCrdsFromCSV($csvFile,$erreurs);
         $drmCsvEdi->preImportAnnexesFromCSV($csvFile,$erreurs);
         
-        if(count($erreurs)){
-            return $erreurs;
+        if(count($result->erreurs)){
+            $result->statut = DRMCsvEdi::STATUT_WARNING;
+            return $result;
         }
         
         $drmCsvEdi->buildMouvementsFromCSV($csvFile);
@@ -482,13 +473,8 @@ class DRMClient extends acCouchdbClient {
         $drmCsvEdi->buildAnnexesFromCSV($csvFile);
         
         $drm->etape = self::ETAPE_CHOIX_PRODUITS;
-        foreach ($csvFile->getCsv() as $cpt => $csvRow) {
-            $num_ligne = $cpt + 1;
-            if (!$csvRow[3]) {
-                $erreurs['Ligne ' . $num_ligne] = 'Produit absent';
-            }
-        }
-        return $erreurs;
+        
+        return $result;
     }
 
     public function generateVersionCascade($drm) {

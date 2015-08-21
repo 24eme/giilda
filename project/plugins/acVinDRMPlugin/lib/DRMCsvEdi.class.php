@@ -2,6 +2,12 @@
 
 class DRMCsvEdi {
 
+    public $erreurs = array();
+    public $statut = null;
+
+    const STATUT_ERREUR = 'ERREUR';
+    const STATUT_VALIDE = 'VALIDE';
+    const STATUT_WARNING = 'WARNING';
     const TYPE_CAVE = 'CAVE';
     const TYPE_CRD = 'CRD';
     const TYPE_ANNEXEDOC = 'ANNEXEDOC';
@@ -19,7 +25,8 @@ class DRMCsvEdi {
     const CSV_CAVE_COULEUR = 8;
     const CSV_CAVE_CEPAGE = 9;
     const CSV_CAVE_CATEGORIE_MOUVEMENT = 10;
-    const CSV_CAVE_TYPE_MOUVEMENT = 11;
+    const CSV_CAVE_TYPE_MOUVEMENT = 11;    
+    const CSV_CAVE_VOLUME = 12;
 
     protected static $permitted_types = array(self::TYPE_CAVE,
         self::TYPE_CRD,
@@ -34,7 +41,31 @@ class DRMCsvEdi {
         $this->drm = $drm;
     }
 
-    public function checkCSVIntegrity($csv, &$erreur_array) {
+    /**
+     * CHECK DU CSV
+     */
+    public function checkCSV($csv) {
+        $this->checkCSVIntegrity($csv);
+        if (count($this->erreurs)) {
+            $this->statut = self::STATUT_ERREUR;
+            return;
+        }
+        $this->checkImportMouvementsFromCSV($csv);
+        if (count($this->erreurs)) {
+            $this->statut = self::STATUT_WARNING;
+            return;
+        }
+        $this->statut = self::STATUT_VALIDE;
+    }
+
+    /**
+     * IMPORT DEPUIS LE CSV
+     */
+    public function importCSV($csv) {
+        $this->importMouvementsFromCSV($csv);
+    }
+
+    private function checkCSVIntegrity($csv) {
         $ligne_num = 1;
         foreach ($csv->getCsv() as $csvRow) {
             if ($ligne_num == 1 && $csvRow[self::CSV_TYPE] == 'TYPE') {
@@ -42,16 +73,93 @@ class DRMCsvEdi {
                 continue;
             }
             if (!in_array($csvRow[self::CSV_TYPE], self::$permitted_types)) {
-                $erreur_array[] = $this->createWrongFormatTypeError($ligne_num, $csvRow);
+                $this->erreurs[] = $this->createWrongFormatTypeError($ligne_num, $csvRow);
             }
             if (!preg_match('/^[0-9]{6}$/', $csvRow[self::CSV_PERIODE])) {
-                $erreur_array[] = $this->createWrongFormatPeriodeError($ligne_num, $csvRow);
+                $this->erreurs[] = $this->createWrongFormatPeriodeError($ligne_num, $csvRow);
             }
             if (!preg_match('/^FR0[0-9]{10}$/', $csvRow[self::CSV_NUMACCISE])) {
-                $erreur_array[] = $this->createWrongFormatNumAcciseError($ligne_num, $csvRow);
+                $this->erreurs[] = $this->createWrongFormatNumAcciseError($ligne_num, $csvRow);
             }
             $ligne_num++;
         }
+    }
+
+    private function checkImportMouvementsFromCSV($csv) {
+        return $this->importMouvementsFromCSV($csv, true);
+    }
+
+    private function checkImportCrdsFromCSV($csv, &$erreur_array) {
+        foreach ($csv->getCsv() as $csvRow) {
+            
+        }
+    }
+
+    private function checkImportAnnexesFromCSV($csv, &$erreur_array) {
+        foreach ($csv->getCsv() as $csvRow) {
+            
+        }
+    }
+
+    private function importMouvementsFromCSV($csv, $just_check = false) {
+        $configuration = ConfigurationClient::getCurrent();
+        $all_produits = $configuration->declaration->getProduitsAll();
+
+        $num_ligne = 1;
+        foreach ($csv->getCsv() as $csvRow) {
+            if ($csvRow[self::CSV_TYPE] != self::TYPE_CAVE) {
+                $num_ligne++;
+                continue;
+            }
+            $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow);
+            $founded_produit = false;
+
+            foreach ($all_produits as $produit) {
+                if ($founded_produit) {
+                    break;
+                }
+                if (count(array_diff($csvLibelleProductArray, $produit->getLibelles()))) {
+                    continue;
+                }
+                $founded_produit = $produit;
+            }
+            if (!$founded_produit) {
+                $this->erreurs[] = $this->productNotFoundError($num_ligne, $csvRow);
+                $num_ligne++;
+                continue;
+            }
+
+            $detailsConfiguration = $configuration->declaration->getDetailConfiguration();
+            $cat_mouvement =  $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT];
+            $type_mouvement =  $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT];
+            if (!$detailsConfiguration->exist($cat_mouvement)) {
+                $this->erreurs[] = $this->categorieMouvementNotFoundError($num_ligne, $csvRow);
+                $num_ligne++;
+                continue;
+            }
+            if (!$detailsConfiguration->get($cat_mouvement)->exist($type_mouvement)) {
+                $this->erreurs[] = $this->typeMouvementNotFoundError($num_ligne, $csvRow);
+                $num_ligne++;
+                continue;
+            }
+            if (!$just_check) {
+                $drm_cepage = $this->drm->getOrAdd($founded_produit->getHash());
+                $drm_cepage->getOrAdd('details')->getOrAdd('DEFAUT')->getOrAdd($cat_mouvement)->add($type_mouvement,  floatval($csvRow[self::CSV_CAVE_VOLUME]));
+            }
+
+            $num_ligne++;
+        }
+        if (!$just_check) {
+            $this->drm->save();
+        }
+    }
+
+    private function importCrdsFromCSV($csv) {
+        
+    }
+
+    private function importAnnexesFromCSV($csv) {
+        
     }
 
     /**
@@ -93,49 +201,6 @@ class DRMCsvEdi {
     /**
      * Fin des functions de création d'erreurs
      */
-    public function preImportMouvementsFromCSV($csv, &$erreur_array) {
-        $configuration = ConfigurationClient::getCurrent();
-        $all_produits = $configuration->declaration->getProduitsAll();
-
-        $num_ligne = 1;
-        foreach ($csv->getCsv() as $csvRow) {
-            if ($csvRow[self::CSV_TYPE] != self::TYPE_CAVE) {
-                $num_ligne++;
-                continue;
-            }
-            $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow);
-            $founded = false;
-
-            foreach ($all_produits as $produit) {
-                if ($founded) {
-                    break;
-                }
-                if (count(array_diff($csvLibelleProductArray, $produit->getLibelles()))) {
-                    continue;
-                }
-                $founded = true;
-            }
-            if (!$founded) {
-                $erreur_array[] = $this->productNotFoundError($num_ligne, $csvRow);
-                $num_ligne++;
-                continue;
-            }
-
-            $detailsConfiguration = $configuration->declaration->getDetailConfiguration();
-            if (!$detailsConfiguration->exist($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT])) {
-                $erreur_array[] = $this->categorieMouvementNotFoundError($num_ligne, $csvRow);
-                $num_ligne++;
-                continue;
-            }
-            if (!$detailsConfiguration->get($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT])->exist($csvRow[self::CSV_CAVE_TYPE_MOUVEMENT])) {
-                $erreur_array[] = $this->typeMouvementNotFoundError($num_ligne, $csvRow);
-                $num_ligne++;
-                continue;
-            }
-            $num_ligne++;
-        }
-    }
-
     private function buildLibellesArrayWithRow($csvRow) {
         $genre = null;
         if ($csvRow[self::CSV_CAVE_GENRE] != 'Tranquille') {
@@ -157,24 +222,6 @@ class DRMCsvEdi {
             }
         }
         return $libelles;
-    }
-
-    public function preImportCrdsFromCSV($csv, &$erreur_array) {
-        foreach ($csv->getCsv() as $csvRow) {
-            
-        }
-    }
-
-    public function preImportAnnexesFromCSV($csv, &$erreur_array) {
-        foreach ($csv->getCsv() as $csvRow) {
-            
-        }
-    }
-
-    public function buildMouvementsFromCSV($csv, &$erreur_array) {
-        foreach ($csv->getCsv() as $csvRow) {
-            
-        }
     }
 
     public function exportEDI() {

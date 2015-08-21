@@ -169,6 +169,9 @@ class DRMRouting {
         $r->prependRoute('drm_choix_creation', new sfRoute('/drm/:identifiant/choix-creation/:periode', array('module' => 'drm',
             'action' => 'choixCreation')));
 
+        $r->prependRoute('drm_verification_fichier_edi', new sfRoute('/drm/:identifiant/verification-edi/:periode/:md5', array('module' => 'drm',
+            'action' => 'verificationEdi')));
+        
         $r->prependRoute('drm_creation_fichier_edi', new sfRoute('/drm/:identifiant/creation-edi/:periode/:md5', array('module' => 'drm',
             'action' => 'creationEdi')));
 
