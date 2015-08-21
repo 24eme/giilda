@@ -335,7 +335,7 @@ class Vrac extends BaseVrac {
     }
 
     public function getDroitCVO() {
-        return $this->getConfigProduit()->getDroitCVO($this->getPeriode());
+        return $this->getConfigProduit()->getDroitCVO($this->getPeriode(), $this->type_transaction);
     }
 
     public function getRepartitionCVOCoef($identifiant) {
