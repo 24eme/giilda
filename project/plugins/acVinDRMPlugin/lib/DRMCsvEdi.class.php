@@ -25,8 +25,9 @@ class DRMCsvEdi {
     const CSV_CAVE_COULEUR = 8;
     const CSV_CAVE_CEPAGE = 9;
     const CSV_CAVE_CATEGORIE_MOUVEMENT = 10;
-    const CSV_CAVE_TYPE_MOUVEMENT = 11;    
+    const CSV_CAVE_TYPE_MOUVEMENT = 11;
     const CSV_CAVE_VOLUME = 12;
+    const CSV_CAVE_COMPLEMENT = 13;
 
     protected static $permitted_types = array(self::TYPE_CAVE,
         self::TYPE_CRD,
@@ -130,8 +131,8 @@ class DRMCsvEdi {
             }
 
             $detailsConfiguration = $configuration->declaration->getDetailConfiguration();
-            $cat_mouvement =  $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT];
-            $type_mouvement =  $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT];
+            $cat_mouvement = $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT];
+            $type_mouvement = $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT];
             if (!$detailsConfiguration->exist($cat_mouvement)) {
                 $this->erreurs[] = $this->categorieMouvementNotFoundError($num_ligne, $csvRow);
                 $num_ligne++;
@@ -144,7 +145,22 @@ class DRMCsvEdi {
             }
             if (!$just_check) {
                 $drm_cepage = $this->drm->getOrAdd($founded_produit->getHash());
-                $drm_cepage->getOrAdd('details')->getOrAdd('DEFAUT')->getOrAdd($cat_mouvement)->add($type_mouvement,  floatval($csvRow[self::CSV_CAVE_VOLUME]));
+                $hasDetails = $detailsConfiguration->get($cat_mouvement)->get($type_mouvement)->hasDetails();
+                $drmDetails = $drm_cepage->getOrAdd('details')->getOrAdd('DEFAUT');
+                $detailTotalVol = floatval($csvRow[self::CSV_CAVE_VOLUME]);
+                $volume = floatval($csvRow[self::CSV_CAVE_VOLUME]);
+                if ($hasDetails) {
+                    $detailTotalVol += floatval($drmDetails->getOrAdd($cat_mouvement)->getOrAdd($type_mouvement));
+                    $detailNode = $drmDetails->getOrAdd($cat_mouvement)->getOrAdd($type_mouvement . '_details')->getOrAdd($csvRow[self::CSV_CAVE_COMPLEMENT]);
+                    if ($detailNode->volume) {
+                        $volume+=$detailNode->volume;                        
+                    }
+                    $date = new DateTime($this->drm->getDate());
+                    $detailNode->volume = $volume;
+                    $detailNode->identifiant = $csvRow[self::CSV_CAVE_COMPLEMENT];                    
+                    $detailNode->date_enlevement = $date->format('Y-m-d');
+                }
+                $drmDetails->getOrAdd($cat_mouvement)->add($type_mouvement, $detailTotalVol);
             }
 
             $num_ligne++;
