@@ -35,6 +35,7 @@ class GenericLatex {
     }
     if ($ret) {
       $log = $this->getLatexFileNameWithoutExtention().'.log';
+      $grep = preg_grep('/^!/', file($log));
       $grep = preg_grep('/^!/', file_get_contents($log));
       array_unshift($grep, "/!\ Latex error\n");
       array_unshift($grep, "Latex log $log:\n");
