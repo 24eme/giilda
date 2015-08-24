@@ -69,15 +69,21 @@ var initSoussignes = function()
 var initMarche = function()
 {
 	if ($('#vrac_bouteilles_contenance_libelle').length > 0) {
+		var bouteille = $('#vrac_bouteilles_contenance_libelle').val();
+		var hl = contenances[bouteille];
+		var val = $('#vrac_jus_quantite').val();
+		if (val) {
+			$('#correspondance_bouteille').html(formatNumber(val / hl)+' bouteilles');
+		}
 		$('#vrac_jus_quantite').keyup(function(e){
-			var bouteille = $('#vrac_bouteilles_contenance_libelle').val();
-			var hl = contenances[bouteille];
+			bouteille = $('#vrac_bouteilles_contenance_libelle').val();
+			hl = contenances[bouteille];
 			 $('#correspondance_bouteille').html(formatNumber($('#vrac_jus_quantite').val() / hl)+' bouteilles');
 		});
 		$('#vrac_bouteilles_contenance_libelle').change(function(e){
-			var bouteille = $('#vrac_bouteilles_contenance_libelle').val();
-			var hl = contenances[bouteille];
-			var val = $('#vrac_jus_quantite').val();
+			bouteille = $('#vrac_bouteilles_contenance_libelle').val();
+			hl = contenances[bouteille];
+			val = $('#vrac_jus_quantite').val();
 			if (!val) {
 				val = 0;
 			}
@@ -125,6 +131,20 @@ var init_ajax_nouveau = function()
     ajaxifyAutocompleteGet('getInfos', '#acheteur_choice', '#acheteur_informations');
     ajaxifyAutocompleteGet('getInfos', '#mandataire_choice', '#mandataire_informations');
 };
+
+var formatNumber = function (number)
+{
+    var number = number.toFixed(2) + '';
+    var x = number.split('.');
+    var x1 = x[0];
+    var x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ' ' + '$2');
+    }
+    return x1 + x2;
+}
+
 
 
 

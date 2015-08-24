@@ -97,17 +97,6 @@ endif;
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
-        							<?php if(isset($form['vendeur_intermediaire'])): ?>
-                		            <div class="form-group col-sm-12">
-                		            	<?php echo $form['vendeur_intermediaire']->renderError(); ?>
-                		                <div class="checkbox">
-                		                	<label for="<?php echo $form['vendeur_intermediaire']->renderId(); ?>">
-                		                    	<?php echo $form['vendeur_intermediaire']->render(); ?>
-                		                        Representé par xxx pour la CVO
-                		                    </label>
-                		                </div>
-                		            </div>
-                		            <?php endif; ?>
         							<?php if(isset($form['logement'])): ?>
                                     <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
                 		                <div class="col-sm-12">
@@ -126,6 +115,37 @@ endif;
                 		                    <?php echo $form['logement']->render(array("placeholder" => "Ville du logement")); ?>
                 		                </div>
                 		            </div> 
+                		            <?php endif; ?>
+        							<?php if(isset($form['vendeur_intermediaire']) && isset($form['representant_identifiant'])): ?>
+                		            <div class="form-group col-sm-12">
+                		            	<?php echo $form['vendeur_intermediaire']->renderError(); ?>
+                		                <div class="checkbox">
+                		                    <div class="checkbox bloc_condition" data-condition-cible="#bloc_intermediaire">
+                		                	<label for="<?php echo $form['vendeur_intermediaire']->renderId(); ?>">
+                		                    	<?php echo $form['vendeur_intermediaire']->render(); ?>
+                		                    	Vendeur via intermedaire
+                		                    </label>
+                		                    </div>
+                		                </div>
+                		            </div>
+                		            <div id="bloc_intermediaire" data-condition-value="1" class="form-group bloc_conditionner">
+		                                <div id="representant_selection" class="col-sm-12 <?php if($form['representant_identifiant']->getValue()): ?>hidden<?php endif; ?>">
+		                                    <?php echo $form['representant_identifiant']->renderError(); ?>
+		                                    <div class="form-group <?php if($form['representant_identifiant']->hasError()): ?>has-error<?php endif; ?>">
+		                                        <div class="col-sm-12" id="representant_choice">
+		                                            <?php echo $form['representant_identifiant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un représentant', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#representant_informations', 'data-hide' => '#representant_selection')); ?>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                                <div class="col-sm-12 text-center <?php if(!$form['representant_identifiant']->getValue()): ?>hidden<?php endif; ?>" id="representant_informations">
+		                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['representant_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+		                                    <div class="container-ajax">
+		                                        <?php if($form['representant_identifiant']->getValue()): ?>
+		                                        <?php include_partial('vrac/soussigne', array('id' => $form['representant_identifiant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+		                                        <?php endif; ?>
+		                                    </div>
+		                                </div>
+	                                </div>
                 		            <?php endif; ?>
                                 </div>
                             </div>

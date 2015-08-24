@@ -14,6 +14,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     private $vendeurs = null;
     private $acheteurs = null;
     private $mandataires = null;
+    private $representant = null;
     protected $fromAnnuaire;
     protected $isAcheteurResponsable;
     protected $isCourtierResponsable;
@@ -40,11 +41,14 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $vendeurs = $this->getRecoltants();
             $acheteurs = $this->getNegociants();
             $commerciaux = $this->getCommerciaux();
+            $representants = $this->getRepresentants();
             $this->setWidget('vendeur_identifiant', new bsWidgetFormChoice(array('choices' => $vendeurs), array('class' => 'autocomplete')));
+            $this->setWidget('representant_identifiant', new bsWidgetFormChoice(array('choices' => $representants), array('class' => 'autocomplete')));
             $this->setWidget('acheteur_identifiant', new bsWidgetFormChoice(array('choices' => $acheteurs), array('class' => 'autocomplete')));
             $this->setWidget('commercial', new bsWidgetFormChoice(array('choices' => $commerciaux), array('class' => 'autocomplete')));
 
             $this->setValidator('vendeur_identifiant', new bsValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
+            $this->setValidator('representant_identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($representants))));
             if ($this->isAcheteurResponsable) {
                 $acheteursChoiceValides[] = 'ETABLISSEMENT-' . $this->getObject()->createur_identifiant;
             } else {
@@ -58,8 +62,10 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         } else {
             $this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
+            $this->setWidget('representant_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_REPRESENTANT)));
             $this->setValidator('vendeur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setValidator('acheteur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
+            $this->setValidator('representant_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_REPRESENTANT)));
             
         }
         
@@ -80,13 +86,14 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             'responsable' => 'Responsable du contrat :',
             'vendeur_famille' => '',
             'vendeur_identifiant' => 'Sélectionner un vendeur :',
+            'representant_identifiant' => 'Sélectionner un representant :',
             'acheteur_famille' => '',
             'acheteur_identifiant' => 'Sélectionner un acheteur :',
             'interne' => 'Cocher si le contrat est interne',
             'mandataire_identifiant' => 'Sélectionner un courtier :',
             'mandataire_exist' => "Décocher s'il n'y a pas de courtier",
             'logement_exist' => "Décocher si logement différent",
-            'vendeur_intermediaire' => "Representé par xxx pour la CVO",
+            'vendeur_intermediaire' => "Vendeur via intermedaire",
             'mandatant' => 'Mandaté par : ',
             'logement' => 'Ville : ',
             'type_contrat' => 'Contrat pluriannuel',
@@ -116,6 +123,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         if ($this->getObject()->vendeur_identifiant) {
             $defaults['vendeur_identifiant'] = 'ETABLISSEMENT-' . $this->getObject()->vendeur_identifiant;
         }
+        if ($this->getObject()->representant_identifiant) {
+            $defaults['representant_identifiant'] = 'ETABLISSEMENT-' . $this->getObject()->representant_identifiant;
+        }
         if ($this->getObject()->acheteur_identifiant) {
             $defaults['acheteur_identifiant'] = 'ETABLISSEMENT-' . $this->getObject()->acheteur_identifiant;
         }
@@ -128,12 +138,12 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         if ($this->getObject()->isNew()) {
         	$defaults['mandataire_exist'] = false;
         } 
-        if ($this->getObject()->isNew()) {
+        if (!$this->getObject()->isNew() && $this->getObject()->representant_identifiant && $this->getObject()->representant_identifiant != $this->getObject()->vendeur_identifiant) {
+        	$defaults['vendeur_intermediaire'] = true;
+        } else {
         	$defaults['vendeur_intermediaire'] = false;
-        } 
-        if (!$this->getObject()->isNew() && !$this->getObject()->vendeur_intermediaire) {
-        	$defaults['vendeur_intermediaire'] = false;
-        } 
+        	$defaults['representant_identifiant'] = null;
+        }
         if (!$this->getObject()->isNew() && !$this->getObject()->mandataire_identifiant) {
         	$defaults['mandataire_exist'] = false;
         } 
@@ -157,6 +167,12 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         if (!isset($values['mandataire_exist']) || !$values['mandataire_exist']) {
             $values['mandataire_identifiant'] = null;
             $values['mandatant'] = null;
+        }
+        if (!isset($values['vendeur_intermediaire']) || !$values['vendeur_intermediaire']) {
+            $values['representant_identifiant'] = null;
+        }
+        if (!$values['representant_identifiant']) {
+        	$values['representant_identifiant'] = $values['vendeur_identifiant'];
         }
         if (!isset($values['mandataire_identifiant']) || !$values['mandataire_identifiant']) {
             $values['mandatant'] = null;
@@ -221,6 +237,21 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             }
         }
         return array_merge(array('' => ''), $result);
+    }
+    
+    public function getRepresentants() {
+        $annuaire = $this->getAnnuaire();
+        if (!$annuaire) {
+            return array();
+        }
+        $result = array();
+        foreach ($annuaire->representants as $key => $value) {
+            if ($value->isActif) {
+                $num = explode('-', $key);
+                $result[$key] = $value->name . " (" . $num[1] . ")";
+            }
+        }
+        return array_merge(array('' => ''), $result);    	
     }
 
     public function getCommerciaux() {

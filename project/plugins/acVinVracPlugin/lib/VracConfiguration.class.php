@@ -14,7 +14,7 @@ class VracConfiguration
 	
 	public function __construct() 
 	{
-		$this->configuration = sfConfig::get('app_configuration_vrac', array());
+		$this->configuration = sfConfig::get('vrac_configuration_vrac', array());
 	}
 	
 	public function getTransactions()
@@ -64,5 +64,17 @@ class VracConfiguration
 	public function getUnites()
 	{
 		return $this->configuration['unites'];
+	}
+	public function getActeursPreparationVin()
+	{
+		return $this->configuration['acteurs_preparation_vin'];
+	}
+	public function getActeursEmbouteillage()
+	{
+		return $this->configuration['acteurs_embouteillage'];
+	}
+	public function getConditionnementsCRD()
+	{
+		return $this->configuration['conditionnements_crd'];
 	}
 }

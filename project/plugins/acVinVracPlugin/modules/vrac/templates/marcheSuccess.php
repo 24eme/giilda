@@ -1,4 +1,4 @@
-<?php use_helper('Float'); ?>
+<?php use_helper('Float'); use_helper('Vrac'); ?>
 <?php $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut != VracClient::STATUS_CONTRAT_SOLDE)); ?>
 
 <?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 2, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
@@ -8,6 +8,11 @@
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
+        
+        	
+            <p>
+            	<span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
+            </p>
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -29,9 +34,9 @@
                         </div>
                         <?php endif; ?>
                     </div>
-                    <?php if (isset($form['selection'])): ?>
-                    <div class="form-group <?php if($form['selection']->hasError()): ?>has-error<?php endif; ?>">
-                		<div class="col-sm-12">
+                    <div class="form-group">
+                    	<?php if (isset($form['selection'])): ?>
+                		<div class="col-xs-8 <?php if($form['selection']->hasError()): ?>has-error<?php endif; ?>">
 							<?php echo $form['selection']->renderError(); ?>
 							<div class="checkbox bloc_condition" data-condition-cible="#bloc_cepage">
 								<label for="<?php echo $form['selection']->renderId(); ?>">
@@ -40,8 +45,19 @@
 								</label>
 							</div>
 						</div>
+						<?php endif; ?>
+                    	<?php if (isset($form['85_15'])): ?>
+                		<div class="col-xs-4 <?php if($form['85_15']->hasError()): ?>has-error<?php endif; ?>">
+							<?php echo $form['85_15']->renderError(); ?>
+							<div class="checkbox">
+								<label for="<?php echo $form['85_15']->renderId(); ?>">
+									<?php echo $form['85_15']->render(); ?>
+									<?php echo $form->getWidget('85_15')->getLabel(); ?>
+								</label>
+							</div>
+						</div>
+						<?php endif; ?>
 					</div>
-					<?php endif; ?>
                     <?php if (isset($form['cepage'])): ?><?php echo $form['cepage']->renderError(); ?><?php endif; ?>
                     <div class="form-group" id="bloc_cepage" data-condition-value="1" >
                         <?php if (isset($form['cepage'])): ?>
@@ -65,19 +81,30 @@
                         </div>
                         <?php endif; ?>
                     </div>
-                    <?php if (isset($form['selection'])): ?>
-                    <div class="form-group <?php if($form['selection']->hasError()): ?>has-error<?php endif; ?>">
-                		<div class="col-sm-12">
+					<div class="form-group">
+                    	<?php if (isset($form['selection'])): ?>
+                		<div class="col-xs-8 <?php if($form['selection']->hasError()): ?>has-error<?php endif; ?>">
 							<?php echo $form['selection']->renderError(); ?>
 							<div class="checkbox bloc_condition" data-condition-cible="#bloc_produit">
 								<label for="<?php echo $form['selection']->renderId(); ?>">
 									<?php echo $form['selection']->render(); ?>
-									Revendiquer le cépage
+									Revendiquable en AOP/IGP
 								</label>
 							</div>
 						</div>
+						<?php endif; ?>
+                    	<?php if (isset($form['85_15'])): ?>
+                		<div class="col-xs-4 <?php if($form['85_15']->hasError()): ?>has-error<?php endif; ?>">
+							<?php echo $form['85_15']->renderError(); ?>
+							<div class="checkbox">
+								<label for="<?php echo $form['85_15']->renderId(); ?>">
+									<?php echo $form['85_15']->render(); ?>
+									<?php echo $form->getWidget('85_15')->getLabel(); ?>
+								</label>
+							</div>
+						</div>
+						<?php endif; ?>
 					</div>
-					<?php endif; ?>
                     <?php if (isset($form['produit'])): ?><?php echo $form['produit']->renderError(); ?><?php endif; ?>
                     <div class="form-group" id="bloc_produit" data-condition-value="1" >
                         <?php if (isset($form['produit'])): ?>
@@ -131,29 +158,12 @@
                         <h3 class="panel-title">Informations</h3>
                     </div>
                     <div class="panel-body">
-						
-						<?php if(isset($form['volume_initial'])): ?>
-                        <?php echo $form['volume_initial']->renderError(); ?>
-                        <div class="form-group <?php if($form['volume_initial']->hasError()): ?>has-error<?php endif; ?>">
-                            <?php echo $form['volume_initial']->renderLabel("Volume initial :", array('class' => 'col-sm-4 control-label')); ?>
+						<?php if(isset($form['lot'])): ?>
+                        <?php echo $form['lot']->renderError(); ?>
+                        <div class="form-group <?php if($form['lot']->hasError()): ?>has-error<?php endif; ?>">
+                            <?php echo $form['lot']->renderLabel("N° de lot :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-4">
-                                <div class="input-group">
-                                    <?php echo $form['volume_initial']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
-                                    <span class="input-group-addon">&nbsp;<?php echo $configuration->getUnites()[$form->getObject()->type_transaction]['volume_initial']['libelle'] ?></span>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endif; ?>
-						
-						<?php if(isset($form['volume_vigueur'])): ?>
-                        <?php echo $form['volume_vigueur']->renderError(); ?>
-                        <div class="form-group <?php if($form['volume_initial']->hasError()): ?>has-error<?php endif; ?>">
-                            <?php echo $form['volume_vigueur']->renderLabel("Volume en vigueur :", array('class' => 'col-sm-4 control-label')); ?>
-                            <div class="col-sm-4">
-                                <div class="input-group">
-                                    <?php echo $form['volume_vigueur']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
-                                    <span class="input-group-addon">&nbsp;<?php echo $configuration->getUnites()[$form->getObject()->type_transaction]['volume_vigueur']['libelle'] ?></span>
-                                </div>
+                                    <?php echo $form['lot']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
                             </div>
                         </div>
                         <?php endif; ?>
@@ -211,7 +221,7 @@
 						<?php if(isset($form['jus_quantite'])): ?>
                         <?php echo $form['jus_quantite']->renderError(); ?>
                         <div class="form-group <?php if($form['jus_quantite']->hasError()): ?>has-error<?php endif; ?>">
-                            <?php echo $form['jus_quantite']->renderLabel("Volume proposé :", array('class' => 'col-sm-4 control-label')); ?>
+                            <?php echo $form['jus_quantite']->renderLabel("Volume :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <?php echo $form['jus_quantite']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>

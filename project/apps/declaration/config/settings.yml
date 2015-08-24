@@ -27,6 +27,26 @@ test:
   .action:
     error_500_includeexception:	true
 
+ivso:
+  .settings:
+    error_reporting:        <?php echo ((E_ALL | E_STRICT) ^ E_DEPRECATED)."\n" ?>
+    web_debug:              true
+    cache:                  true
+    no_script_name:         false
+    etag:                   false
+  .action:
+    error_500_includeexception: true
+
+ivbd:
+  .settings:
+    error_reporting:        <?php echo ((E_ALL | E_STRICT) ^ E_DEPRECATED)."\n" ?>
+    web_debug:              true
+    cache:                  true
+    no_script_name:         false
+    etag:                   false
+  .action:
+    error_500_includeexception: true
+
 all:
   .settings:
 

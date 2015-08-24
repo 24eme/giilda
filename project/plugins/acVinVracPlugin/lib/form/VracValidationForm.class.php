@@ -21,7 +21,7 @@ class VracValidationForm extends acCouchdbObjectForm {
      
     public function configure()
     {
-        $this->setWidget('date_signature', new bsWidgetFormInput());
+        $this->setWidget('date_signature', new bsWidgetFormInputDate());
         $dateRegexpOptions = array('required' => true,
         		'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
         		'min_length' => 10,

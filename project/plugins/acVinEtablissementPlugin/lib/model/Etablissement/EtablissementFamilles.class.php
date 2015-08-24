@@ -5,6 +5,7 @@ class EtablissementFamilles
     const FAMILLE_PRODUCTEUR = "PRODUCTEUR";
     const FAMILLE_NEGOCIANT = "NEGOCIANT";
     const FAMILLE_COURTIER = "COURTIER";
+    const FAMILLE_REPRESENTANT = "REPRESENTANT";
     // /!\ cooperative est une pseudo famille, elle est basée sur l'exploitation du champ cooperative
     const PSEUDOFAMILLE_COOPERATIVE = "COOPERATIVE";
 
@@ -19,7 +20,8 @@ class EtablissementFamilles
     protected static $familles = array (
     	self::FAMILLE_PRODUCTEUR => "Producteur",
     	self::FAMILLE_NEGOCIANT => "Négociant",
-    	self::FAMILLE_COURTIER => "Courtier"
+    	self::FAMILLE_COURTIER => "Courtier",
+		self::FAMILLE_REPRESENTANT => "Representant"
     );
     protected static $sous_familles = array (
     	self::FAMILLE_PRODUCTEUR => array(self::SOUS_FAMILLE_CAVE_PARTICULIERE => "Cave particulière", 
@@ -29,7 +31,8 @@ class EtablissementFamilles
                                          self::SOUS_FAMILLE_ETRANGER => "Etranger", 
                                          self::SOUS_FAMILLE_UNION => "Union", 
                                          self::SOUS_FAMILLE_VINIFICATEUR => "Vinificateur"),
-    	self::FAMILLE_COURTIER => array()
+    	self::FAMILLE_COURTIER => array(),
+    	self::FAMILLE_REPRESENTANT => array()
     );
     
     protected static $droits = array (
@@ -40,7 +43,8 @@ class EtablissementFamilles
     	"NEGOCIANT_ETRANGER" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
     	"NEGOCIANT_UNION" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
     	"NEGOCIANT_VINIFICATEUR" => array(EtablissementDroit::DROIT_DRM_DTI, EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
-    	"COURTIER" => array(EtablissementDroit::DROIT_VRAC)
+    	"COURTIER" => array(EtablissementDroit::DROIT_VRAC),
+    	"REPRESENTANT" => array(EtablissementDroit::DROIT_VRAC)
     );
 
     public static function getFamilles() 

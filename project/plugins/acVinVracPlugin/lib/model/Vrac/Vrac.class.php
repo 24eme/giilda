@@ -82,8 +82,8 @@ class Vrac extends BaseVrac {
                     break;
                 }
             case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE : {
-                    $this->prix_initial_total = round($this->bouteilles_quantite * $this->prix_initial_unitaire, 2);
-                    $this->volume_propose = round($this->bouteilles_quantite * $this->bouteilles_contenance_volume, 2);
+                    $this->prix_initial_total = round($this->jus_quantite * $this->prix_initial_unitaire, 2);
+                    $this->volume_propose = $this->jus_quantite;;
                     break;
                 }
 
@@ -120,6 +120,7 @@ class Vrac extends BaseVrac {
     public function setInformations() {
         $this->setAcheteurInformations();
         $this->setVendeurInformations();
+        $this->setRepresentantInformations();
         if ($this->mandataire_identifiant != null && $this->mandataire_exist) {
             $this->setMandataireInformations();
         }
@@ -135,6 +136,10 @@ class Vrac extends BaseVrac {
 
     public function setMandataireIdentifiant($s) {
         return $this->_set('mandataire_identifiant', str_replace('ETABLISSEMENT-', '', $s));
+    }
+
+    public function setRepresentantIdentifiant($s) {
+        return $this->_set('representant_identifiant', str_replace('ETABLISSEMENT-', '', $s));
     }
 
     public function setAcheteurInformations() {
@@ -156,6 +161,12 @@ class Vrac extends BaseVrac {
     public function setVendeurInformations() {
         if ($this->exist('vendeur_identifiant') && $this->vendeur_identifiant) {
             $this->setEtablissementInformations('vendeur', $this->getVendeurObject());
+        }
+    }
+
+    public function setRepresentantInformations() {
+        if ($this->exist('representant_identifiant') && $this->representant_identifiant) {
+            $this->setEtablissementInformations('representant', $this->getRepresentantObject());
         }
     }
 
@@ -381,6 +392,10 @@ class Vrac extends BaseVrac {
 
     public function getVendeurObject() {
         return EtablissementClient::getInstance()->find($this->vendeur_identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+    
+    public function getRepresentantObject() {
+        return EtablissementClient::getInstance()->find($this->representant_identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
     }
 
     public function getAcheteurObject() {
@@ -654,7 +669,7 @@ class Vrac extends BaseVrac {
     
     
     public function getTeledeclarationStatutLabel() {
-        return VracClient::$statuts_labels_teledeclaration[$this->valide->statut];
+        return (isset(VracClient::$statuts_labels_teledeclaration[$this->valide->statut]))? VracClient::$statuts_labels_teledeclaration[$this->valide->statut] : '';
     }
     
     public function getStatutLabel() {

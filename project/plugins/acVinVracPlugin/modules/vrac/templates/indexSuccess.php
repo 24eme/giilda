@@ -5,7 +5,7 @@
 </ol>
 
 <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
+    <div class="col-xs-12">
         <?php include_component('vrac', 'formEtablissementChoice') ?>
     </div>
 

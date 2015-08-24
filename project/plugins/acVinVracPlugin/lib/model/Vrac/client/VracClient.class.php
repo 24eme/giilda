@@ -27,6 +27,10 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_RAISIN_QUANTITE = 22;
     const VRAC_VIEW_PRIX_UNITAIRE = 23;
     const VRAC_VIEW_DATE_SIGNATURE = 24;
+    const VRAC_VIEW_DATE_CAMPAGNE = 25;
+    const VRAC_VIEW_DATE_SAISIE = 26;
+    const VRAC_VIEW_MILLESIME = 27;
+    
     const VRAC_SIMILAIRE_KEY_VENDEURID = 0;
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
     const VRAC_SIMILAIRE_KEY_MANDATAIREID = 3;

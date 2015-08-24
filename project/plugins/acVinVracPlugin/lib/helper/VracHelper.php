@@ -135,13 +135,10 @@ function showType($vrac) {
 
 function showTypeFromLabel($type, $prefix = 'Type de transaction : ', $vrac = null) {
     switch ($type) {
-        case VracClient::TYPE_TRANSACTION_VIN_VRAC: return $prefix . 'Vin en vrac';
-        case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: {
-                $bibOrBouteille = ($vrac) ? bouteilleUnitTerm($vrac) : '';
-                return $prefix . 'Conditionné ' . $bibOrBouteille;
-            }
-        case VracClient::TYPE_TRANSACTION_RAISINS: return $prefix . 'Raisins';
-        case VracClient::TYPE_TRANSACTION_MOUTS: return $prefix . 'Moûts';
+        case VracClient::TYPE_TRANSACTION_VIN_VRAC: return $prefix . 'vin en vrac';
+        case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE: return $prefix . 'vrac retiraison bouteille';
+        case VracClient::TYPE_TRANSACTION_RAISINS: return $prefix . 'vendange fraiche';
+        case VracClient::TYPE_TRANSACTION_MOUTS: return $prefix . 'moûts';
         default: return $type;
     }
 }

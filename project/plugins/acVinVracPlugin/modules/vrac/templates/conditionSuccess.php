@@ -1,3 +1,4 @@
+<?php use_helper('Float'); use_helper('Vrac'); ?>
 <?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 3, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <form action="" method="post" class="form-horizontal">
@@ -5,6 +6,9 @@
     <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
+        	<p>
+            	<span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
+            </p>
         	<div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Paiement</h3>
@@ -19,12 +23,12 @@
 		                </div>
 		            </div>
 		            <?php endif; ?>
-		        	<?php if (isset($form['cvo_repartition'])): ?>
-		            <div class="form-group col-sm-6 <?php if($form['cvo_repartition']->hasError()): ?>has-error<?php endif; ?>">
-		                <?php echo $form['cvo_repartition']->renderError(); ?>
-		                <?php echo $form['cvo_repartition']->renderLabel("Taux de courtage :", array('class' => 'col-sm-5 control-label')); ?>
+		        	<?php if (isset($form['taux_courtage'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['taux_courtage']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['taux_courtage']->renderError(); ?>
+		                <?php echo $form['taux_courtage']->renderLabel("Taux de courtage :", array('class' => 'col-sm-5 control-label')); ?>
 		                <div class="col-sm-7">
-		                    <?php echo $form['cvo_repartition']->render(); ?>
+		                    <?php echo $form['taux_courtage']->render(); ?>
 		                </div>
 		            </div>
 		            <?php endif; ?>
@@ -37,10 +41,20 @@
 		                </div>
 		            </div>
 		            <?php endif; ?>
+		        	<?php if (isset($form['cvo_repartition'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['cvo_repartition']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['cvo_repartition']->renderError(); ?>
+		                <?php echo $form['cvo_repartition']->renderLabel("Répartition :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-7">
+		                    <?php echo $form['cvo_repartition']->render(); ?>
+		                </div>
+		            </div>
+		            <?php endif; ?>
 		        	<?php if (isset($form['tva'])): ?>
+		        	<div class="form-group col-sm-6"></div>
 		            <div class="form-group col-sm-6 <?php if($form['tva']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['tva']->renderError(); ?>
-		                <?php echo $form['tva']->renderLabel("TVA :", array('class' => 'col-sm-5 control-label')); ?>
+		                <?php echo $form['tva']->renderLabel("Facturation :", array('class' => 'col-sm-5 control-label')); ?>
 		                <div class="col-sm-7">
 		                    <?php echo $form['tva']->render(); ?>
 		                </div>
@@ -76,7 +90,42 @@
 					<?php endif; ?>
                 </div>
             </div>
-           
+           <?php if (isset($form['preparation_vin']) || isset($form['embouteillage']) || isset($form['conditionnement_crd'])): ?>
+        	<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Gestion du vin</h3>
+                </div>
+                <div class="panel-body">
+		        	<?php if (isset($form['preparation_vin'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['preparation_vin']->hasError()): ?>has-error<?php endif; ?>">
+                        <?php echo $form['preparation_vin']->renderError(); ?>
+                        <?php echo $form['preparation_vin']->renderLabel("Préparation du vin :", array('class' => 'col-sm-5 control-label')); ?>
+                        <div class="col-sm-7">
+                            <?php echo $form['preparation_vin']->render(); ?>
+                        </div>
+		            </div>
+		            <?php endif; ?>
+		        	<?php if (isset($form['embouteillage'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['embouteillage']->hasError()): ?>has-error<?php endif; ?>">
+                        <?php echo $form['embouteillage']->renderError(); ?>
+                        <?php echo $form['embouteillage']->renderLabel("Mise en bouteille :", array('class' => 'col-sm-5 control-label')); ?>
+                        <div class="col-sm-7">
+                            <?php echo $form['embouteillage']->render(); ?>
+                        </div>
+		            </div>
+		            <?php endif; ?>
+		        	<?php if (isset($form['conditionnement_crd'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['conditionnement_crd']->hasError()): ?>has-error<?php endif; ?>">
+                        <?php echo $form['conditionnement_crd']->renderError(); ?>
+                        <?php echo $form['conditionnement_crd']->renderLabel("Conditionnement CRD :", array('class' => 'col-sm-5 control-label')); ?>
+                        <div class="col-sm-7">
+                            <?php echo $form['conditionnement_crd']->render(); ?>
+                        </div>
+		            </div>
+		            <?php endif; ?>
+                </div>
+            </div>
+           <?php endif; ?>
         	<div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Clauses</h3>
@@ -86,7 +135,7 @@
 			        	<?php if (isset($form['conditions_particulieres'])): ?>
 			            <div class="<?php if($form['conditions_particulieres']->hasError()): ?>has-error<?php endif; ?>">
 			                <?php echo $form['conditions_particulieres']->renderError(); ?>
-			                <?php echo $form['conditions_particulieres']->renderLabel("Conditions particulières :"); ?>
+			                <?php echo $form['conditions_particulieres']->renderLabel("Observations :"); ?>
 			                <?php echo $form['conditions_particulieres']->render(); ?>
 			            </div>
 		            	<?php endif; ?>
@@ -95,7 +144,7 @@
 		            <?php if(isset($form['pluriannuel'])): ?>
 						<div class="form-group">
 							<?php echo $form['pluriannuel']->renderError(); ?>
-							<div class="checkbox col-sm-7 col-sm-offset-5">
+							<div class="checkbox col-sm-7 col-sm-offset-5 bloc_condition" data-condition-cible="#bloc_pluriannuel">
 								<label for="<?php echo $form['pluriannuel']->renderId(); ?>">
 									<?php echo $form['pluriannuel']->render(); ?>
 									Contrat pluriannuel
@@ -103,6 +152,43 @@
 							</div>
 						</div>
 					<?php endif; ?>
+					
+					<div id="bloc_pluriannuel" data-condition-value="1">
+		            <?php if(isset($form['annee_contrat'])): ?>
+						<div class="form-group">
+							<?php echo $form['annee_contrat']->renderError(); ?>
+			                <?php echo $form['annee_contrat']->renderLabel("Année du contrat :", array('class' => 'col-sm-5 control-label')); ?>
+							<div class="col-sm-7">
+								<?php echo $form['annee_contrat']->render(); ?>
+							</div>
+						</div>
+					<?php endif; ?>
+		            <?php if(isset($form['seuil_revision'])): ?>
+						<div class="form-group">
+							<?php echo $form['seuil_revision']->renderError(); ?>
+			                <?php echo $form['seuil_revision']->renderLabel("Seuil de révision du prix :", array('class' => 'col-sm-5 control-label')); ?>
+							<div class="col-sm-7">
+								<div class="input-group">
+									<?php echo $form['seuil_revision']->render(); ?>
+									<span class="input-group-addon">&nbsp;%&nbsp;&nbsp;</span>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
+		            <?php if(isset($form['pourcentage_variation'])): ?>
+						<div class="form-group">
+							<?php echo $form['pourcentage_variation']->renderError(); ?>
+			                <?php echo $form['pourcentage_variation']->renderLabel("Variation max. du volume :", array('class' => 'col-sm-5 control-label')); ?>
+							<div class="col-sm-7">
+								<div class="input-group">
+									<?php echo $form['pourcentage_variation']->render(); ?>
+									<span class="input-group-addon">&nbsp;%&nbsp;&nbsp;</span>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
+					</div>
+					
 		            <?php if(isset($form['autorisation_nom_vin'])): ?>
 						<div class="form-group">
 							<?php echo $form['autorisation_nom_vin']->renderError(); ?>
@@ -148,22 +234,5 @@
         </div>
     </div>
 </form>
-
-<?php if ($isTeledeclarationMode): ?>
-    <script type="text/javascript">
-        $(document).ready(function()
-        {
-            $(".champ_datepicker input").datepicker({
-                showOn: "button",
-                buttonImage: "/images/pictos/pi_calendrier.png",
-                buttonImageOnly: true,
-                dayNamesMin: ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"],
-                monthNames: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
-                dateFormat: 'dd/mm/yy',
-                firstDay: 1
-            });
-        });
-    </script>
-<?php endif; ?>
 
 

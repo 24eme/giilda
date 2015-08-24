@@ -43,14 +43,14 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('categorie_vin', new bsWidgetFormChoice(array('choices' => $this->getCategoriesVin(), 'expanded' => true)));
         $this->setWidget('domaine', new bsWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
         $this->setWidget('raisin_quantite', new bsWidgetFormInput());
+        $this->setWidget('lot', new bsWidgetFormInput());
         $this->setWidget('jus_quantite', new bsWidgetFormInput());
         $this->setWidget('bouteilles_contenance_libelle', new sfWidgetFormChoice(array('choices' => $contenances)));
         $this->setWidget('prix_initial_unitaire', new bsWidgetFormInput());
-        $this->setWidget('volume_initial', new bsWidgetFormInput());
-        $this->setWidget('volume_vigueur', new bsWidgetFormInput());
         $this->setWidget('degre', new bsWidgetFormInput());
         $this->setWidget('surface', new bsWidgetFormInput());
         $this->setWidget('selection', new bsWidgetFormInputCheckbox());
+        $this->setWidget('85_15', new bsWidgetFormInputCheckbox());
 
         $this->widgetSchema->setLabels(array(
             'produit' => 'produit',
@@ -59,12 +59,10 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'categorie_vin' => 'Type',
             'domaine' => 'Nom du domaine',
             'raisin_quantite' => 'Quantité',
-            'jus_quantite' => 'Volume proposé',
+            'jus_quantite' => 'Volume',
             'bouteilles_contenance_libelle' => 'Contenance',
             'label' => 'Label',
             'prix_initial_unitaire' => 'Prix',
-            'volume_initial' => 'Volume initial',
-            'volume_vigueur' => 'Volume en vigueur',
             'degre' => 'Degré',
             'surface' => 'Surface'
         ));
@@ -80,16 +78,18 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setValidator('bouteilles_contenance_libelle', new sfValidatorString(array('required' => true)));
         $this->setValidator('prix_initial_unitaire', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('label', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getLabels()))));
-        $this->setValidator('volume_initial', new sfValidatorNumber(array('required' => false)));
-        $this->setValidator('volume_vigueur', new sfValidatorNumber(array('required' => false)));
         $this->setValidator('degre', new sfValidatorNumber(array('required' => false, 'min' => 7, 'max' => 15)));
         $this->setValidator('surface', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('selection', new sfValidatorBoolean(array('required' => false)));
+        $this->setValidator('85_15', new sfValidatorBoolean(array('required' => false)));
+        $this->setValidator('lot', new sfValidatorString(array('required' => false)));
         
         if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
         	$this->getValidator('cepage')->setOption('required', false);
+        	$this->getWidget('85_15')->setLabel('Millésime 85/15');
         } else {
         	$this->getValidator('produit')->setOption('required', false);
+        	$this->getWidget('85_15')->setLabel('Cépage 85/15');
         }
 
         
@@ -106,6 +106,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         
         if ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
         	unset($this['jus_quantite']);
+        	unset($this['lot']);
         } else {
         	unset($this['raisin_quantite']);
         	unset($this['surface']);
@@ -147,6 +148,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
         		(in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)) && $this->getObject()->cepage) ||
         		(in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS)) && $this->getObject()->produit)
         ) {
+        	$this->setDefault('selection', true);
+        }
+        if (!$this->getObject()->cepage && !$this->getObject()->produit) {
         	$this->setDefault('selection', true);
         }
         if(!$this->getObject()->categorie_vin) {
@@ -205,18 +209,23 @@ class VracMarcheForm extends acCouchdbObjectForm {
         }
         $configuration = VracConfiguration::getInstance();
         $unites = $this->getObject()->add('unites');
-        $unites->volume_initial->add($configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['libelle']);
-        $unites->volume_vigueur->add($configuration->getUnites()[$this->getObject()->type_transaction]['volume_vigueur']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['volume_vigueur']['libelle']);
 	if (isset($configuration->getUnites()[$this->getObject()->type_transaction]['surface']['cle'])) {
 	        $unites->surface->add($configuration->getUnites()[$this->getObject()->type_transaction]['surface']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['surface']['libelle']);
 	}
 	if (isset($configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite'])) {
 	        $unites->jus_quantite->add($configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite']['libelle']);
+	        //if (!$this->getObject()->hasVersion()) {
+	        	$this->getObject()->volume_initial = $this->getObject()->jus_quantite;
+	        //}
 	}
 	if (isset($configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite'])) {
 	        $unites->raisin_quantite->add($configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite']['libelle']);
+	        //if (!$this->getObject()->hasVersion()) {
+	        	$this->getObject()->volume_initial = $this->getObject()->raisin_quantite;
+	        //}
 	}
         $unites->prix_initial_unitaire->add($configuration->getUnites()[$this->getObject()->type_transaction]['prix_initial_unitaire']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['prix_initial_unitaire']['libelle']);
+        $unites->volume_initial->add($configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['libelle']);
     }
 
     public function getDomaines() {

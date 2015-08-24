@@ -14,9 +14,8 @@ Vrac:
       createur_identifiant: { }
       responsable: { }
       teledeclare: { require:false }
-      vendeur_intermediaire: { }
       volume_initial: { type: float }
-      volume_vigueur: { type: float }
+      lot: {  }
       surface: { type: float }
       degre: { type: float }
       delai_paiement: { }
@@ -28,16 +27,19 @@ Vrac:
       clause_reserve_propriete: { }
       autorisation_nom_vin: { }
       autorisation_nom_producteur: { }
+      85_15: { }
+      taux_courtage: { }
+      preparation_vin: { }
+      embouteillage: { }
+      conditionnement_crd: { }
+      annee_contrat: { type: integer }
+      seuil_revision: { type: float }
+      pourcentage_variation: { type: float }
       unites:
         type: collection
         definition:
           fields:
             volume_initial:
-              type: collection
-              definition:
-                fields:
-                  '*': {  }
-            volume_vigueur:
               type: collection
               definition:
                 fields:
@@ -72,6 +74,20 @@ Vrac:
 #Soussigné (Part 1)
       vendeur_identifiant: {  }
       vendeur:        
+        type: collection
+        definition:
+          fields:            
+            nom: {  }
+            raison_sociale: {  }
+            cvi: {  }
+            no_accises: {   }
+            no_tva_intracomm: {    }
+            adresse: {  }
+            commune: {  }
+            code_postal: {   }
+            region: {   }
+      representant_identifiant: {  }
+      representant:        
         type: collection
         definition:
           fields:            
