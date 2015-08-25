@@ -13,20 +13,26 @@
  */
 class DRMImportCsvEdi extends DRMCsvEdi {
 
-    public function __construct(DRM $drm = null) {
-        parent::__construct($drm);
+    public function __construct($file,DRM $drm = null) {
+        $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file,$drm);
+        $this->csvDoc->save();
+        parent::__construct($file,$drm);
     }
 
+    private function getDocRows() {
+        return $this->getCsv($this->csvDoc->getFileContent());
+    }
+    
     /**
      * CHECK DU CSV
      */
-    public function checkCSV($csv) {
-        $this->checkCSVIntegrity($csv);
+    public function checkCSV() {
+        $this->checkCSVIntegrity();
         if (count($this->erreurs)) {
             $this->statut = self::STATUT_ERREUR;
             return;
         }
-        $this->checkImportMouvementsFromCSV($csv);
+        $this->checkImportMouvementsFromCSV();
         if (count($this->erreurs)) {
             $this->statut = self::STATUT_WARNING;
             return;
@@ -37,10 +43,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     /**
      * IMPORT DEPUIS LE CSV
      */
-    public function importCSV($csv) {
-        $this->importMouvementsFromCSV($csv);
-        $this->importCrdsFromCSV($csv);
-        $this->importAnnexesFromCSV($csv);
+    public function importCSV() {
+        $this->importMouvementsFromCSV();
+        $this->importCrdsFromCSV();
+        $this->importAnnexesFromCSV();
         $this->drm->teledeclare = true;
         $this->drm->etape = DRMClient::ETAPE_VALIDATION;
         $this->drm->type_creation = DRMClient::DRM_CREATION_EDI;
@@ -51,9 +57,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $this->drm->save();
     }
 
-    private function checkCSVIntegrity($csv) {
+    private function checkCSVIntegrity() {
         $ligne_num = 1;
-        foreach ($csv->getCsv() as $csvRow) {
+        foreach ($this->getDocRows() as $csvRow) {
             if ($ligne_num == 1 && $csvRow[self::CSV_TYPE] == 'TYPE') {
                 $ligne_num++;
                 continue;
@@ -71,8 +77,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
     }
 
-    private function checkImportMouvementsFromCSV($csv) {
-        return $this->importMouvementsFromCSV($csv, true);
+    private function checkImportMouvementsFromCSV() {
+        return $this->importMouvementsFromCSV(true);
     }
 
     private function checkImportCrdsFromCSV($csv, &$erreur_array) {
@@ -87,12 +93,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
     }
 
-    private function importMouvementsFromCSV($csv, $just_check = false) {
+    private function importMouvementsFromCSV($just_check = false) {
         $configuration = ConfigurationClient::getCurrent();
         $all_produits = $configuration->declaration->getProduitsAll();
 
         $num_ligne = 1;
-        foreach ($csv->getCsv() as $csvRow) {
+        foreach ($this->getDocRows() as $csvRow) {
             if ($csvRow[self::CSV_TYPE] != self::TYPE_CAVE) {
                 $num_ligne++;
                 continue;
@@ -150,11 +156,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
     }
 
-    private function importCrdsFromCSV($csv) {
+    private function importCrdsFromCSV() {
         $num_ligne = 1;
         $crd_regime = $this->drm->getEtablissementObject()->get('crd_regime');
         $all_contenances = sfConfig::get('app_vrac_contenances');
-        foreach ($csv->getCsv() as $csvRow) {
+        foreach ($this->getDocRows() as $csvRow) {
             if ($csvRow[self::CSV_TYPE] != self::TYPE_CRD) {
                 $num_ligne++;
                 continue;
@@ -176,10 +182,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
     }
 
-    private function importAnnexesFromCSV($csv) {
+    private function importAnnexesFromCSV() {
         $num_ligne = 1;
         $typesAnnexes = array_keys($this->type_annexes);
-        foreach ($csv->getCsv() as $csvRow) {
+        foreach ($this->getDocRows() as $csvRow) {
             if ($csvRow[self::CSV_TYPE] != self::TYPE_ANNEXE) {
                 $num_ligne++;
                 continue;

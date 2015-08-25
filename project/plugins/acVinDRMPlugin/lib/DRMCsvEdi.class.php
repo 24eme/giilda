@@ -1,6 +1,6 @@
 <?php
 
-class DRMCsvEdi {
+class DRMCsvEdi extends CsvFile {
 
     public $erreurs = array();
     public $statut = null;
@@ -46,12 +46,14 @@ class DRMCsvEdi {
         self::TYPE_CRD,
         self::TYPE_ANNEXE);
     protected $drm = null;
+    protected $csv = null;
     protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Effervescent', 'TRANQ' => 'Tranquille');
     protected $type_annexes = array(self::TYPE_ANNEXE_NONAPUREMENT => 'Non Apurement',self::TYPE_ANNEXE_SUCRE => 'Sucre', self::TYPE_ANNEXE_OBSERVATIONS => 'Observations');
 
 
-    protected function __construct(DRM $drm = null) {
+    public function __construct($file,DRM $drm = null) {
         $this->drm = $drm;
         $this->type_annexes_docs = array_merge($this->type_annexes,  DRMClient::$drm_documents_daccompagnement);
+        parent::__construct($file);
     }      
 }

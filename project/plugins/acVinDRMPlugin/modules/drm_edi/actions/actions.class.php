@@ -8,7 +8,7 @@ class drm_ediActions extends drmGeneriqueActions {
     public function executeVerificationEdi(sfWebRequest $request) {
 
         $this->md5 = $request->getParameter('md5');
-        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
+        $csvFilePath = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
 
@@ -17,8 +17,8 @@ class drm_ediActions extends drmGeneriqueActions {
         $drm->periode = $this->periode;
         $drm->teledeclare = true;
 
-        $this->drmCsvEdi = new DRMImportCsvEdi($drm);
-        $this->drmCsvEdi->checkCSV($this->csvFile);
+        $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm);
+        $this->drmCsvEdi->checkCSV();
     }
 
     /**
@@ -28,7 +28,7 @@ class drm_ediActions extends drmGeneriqueActions {
     public function executeCreationEdi(sfWebRequest $request) {
 
         $this->md5 = $request->getParameter('md5');
-        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
+         $csvFilePath = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
 
@@ -37,7 +37,7 @@ class drm_ediActions extends drmGeneriqueActions {
         $this->drm->periode = $this->periode;
         $this->drm->teledeclare = true;
 
-        $this->drmCsvEdi = new DRMImportCsvEdi($this->drm);
+        $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $this->drm);
         $this->drmCsvEdi->importCSV($this->csvFile);
         $this->redirect('drm_validation', $this->drm);
     }
