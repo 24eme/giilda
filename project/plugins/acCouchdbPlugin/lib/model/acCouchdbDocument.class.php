@@ -139,7 +139,7 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
     }
 
     public function update($params = array()) {
-
+        
         return parent::update($params);
     }
 

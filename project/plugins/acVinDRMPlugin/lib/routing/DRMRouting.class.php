@@ -169,13 +169,13 @@ class DRMRouting {
         $r->prependRoute('drm_choix_creation', new sfRoute('/drm/:identifiant/choix-creation/:periode', array('module' => 'drm',
             'action' => 'choixCreation')));
 
-        $r->prependRoute('drm_verification_fichier_edi', new sfRoute('/drm/:identifiant/verification-edi/:periode/:md5', array('module' => 'drm',
+        $r->prependRoute('drm_verification_fichier_edi', new sfRoute('/drm/:identifiant/verification-edi/:periode/:md5', array('module' => 'drm_edi',
             'action' => 'verificationEdi')));
         
-        $r->prependRoute('drm_creation_fichier_edi', new sfRoute('/drm/:identifiant/creation-edi/:periode/:md5', array('module' => 'drm',
+        $r->prependRoute('drm_creation_fichier_edi', new sfRoute('/drm/:identifiant/creation-edi/:periode/:md5', array('module' => 'drm_edi',
             'action' => 'creationEdi')));
 
-        $r->prependRoute('drm_export_fichier_edi', new DRMRoute('/drm/:identifiant/export-edi/:periode_version', array('module' => 'drm',
+        $r->prependRoute('drm_export_fichier_edi', new DRMRoute('/drm/:identifiant/export-edi/:periode_version', array('module' => 'drm_edi',
             'action' => 'exportEdi'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object'
         )));
