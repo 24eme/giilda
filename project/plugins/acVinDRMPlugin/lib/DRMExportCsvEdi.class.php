@@ -41,7 +41,7 @@ class DRMExportCsvEdi extends DRMCsvEdi {
         $cepageConfig = $produitDetail->getCepage()->getConfig();
 
         $certification = $cepageConfig->getCertification()->getLibelle();
-        $genre = self::$genres[$cepageConfig->getGenre()->getKey()];
+        $genre = $cepageConfig->getGenre()->getLibelle();
         $appellation = $cepageConfig->getAppellation()->getLibelle();
         $mention = $cepageConfig->getMention()->getLibelle();
         $lieu = $cepageConfig->getLieu()->getLibelle();

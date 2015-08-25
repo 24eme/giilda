@@ -19,14 +19,14 @@
             <?php endforeach; ?>
         </table>
         <br/>
+    <?php endif; ?>
         <div class="btn_etape">
             <a class="btn_etape_prec" href="<?php echo url_for('drm_societe', array('identifiant' => $identifiant)); ?>">
                 <span>Précédent</span>
             </a>
-            <?php if ($drmCsvEdi->statut == DRMCsvEdi::STATUT_WARNING): ?>
-            <a href="<?php echo url_for('drm_creation_fichier_edi', array('periode' => $periode, 'md5' => $md5,'identifiant' => $identifiant)); ?>" class="btn btn_majeur btn_etape_suiv" style="float: right;">Importer la DRM</a>
+            <?php if ($drmCsvEdi->statut != DRMCsvEdi::STATUT_ERREUR): ?>
+            <a href="<?php echo url_for('drm_creation_fichier_edi', array('periode' => $periode, 'md5' => $md5,'identifiant' => $identifiant)); ?>" class="btn_majeur btn_vert" style="float: right;">Importer la DRM</a>
             <?php endif; ?>
         </div>
-    <?php endif; ?>
     <br>
 </section>

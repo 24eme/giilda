@@ -41,6 +41,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $this->importMouvementsFromCSV($csv);
         $this->importCrdsFromCSV($csv);
         $this->importAnnexesFromCSV($csv);
+        $this->drm->teledeclare = true;
+        $this->drm->etape = DRMClient::ETAPE_VALIDATION;
+        $this->drm->type_creation = DRMClient::DRM_CREATION_EDI;
+        $this->drm->buildFavoris();
+        $this->drm->storeDeclarant();
+        $this->drm->initSociete();
         $this->drm->update();
         $this->drm->save();
     }
@@ -187,15 +193,18 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $nonAppurementNode->numero_document = $numero_document;
                     $nonAppurementNode->date_emission = $date_emission;
                     $nonAppurementNode->numero_accise = $numero_accise;
+                    $num_ligne++;
                     break;
 
                 case self::TYPE_ANNEXE_OBSERVATIONS:
                     $this->drm->add('observations', $csvRow[self::CSV_ANNEXE_COMPLEMENT]);
+                    $num_ligne++;
                     break;
 
 
                 case self::TYPE_ANNEXE_SUCRE:
                     $this->drm->add('quantite_sucre', $csvRow[self::CSV_ANNEXE_QUANTITE]);
+                    $num_ligne++;
                     break;
 
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC:
@@ -203,6 +212,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE:
                     $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd($csvRow[self::CSV_ANNEXE_TYPEANNEXE]);
                     $docTypeAnnexe->add($csvRow[self::CSV_ANNEXE_TYPEMVT_ACCISE], $csvRow[self::CSV_ANNEXE_COMPLEMENT]);
+                    $num_ligne++;
                     break;
             }
         }
@@ -248,15 +258,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
      * Fin des functions de création d'erreurs
      */
     private function buildLibellesArrayWithRow($csvRow) {
-        $genre = null;
-        if ($csvRow[self::CSV_CAVE_GENRE] != 'Tranquille') {
-            $genre = $csvRow[self::CSV_CAVE_GENRE];
-        }
-        if ($genre == 'Effervescent') {
-            $genre = 'Fines bulles';
-        }
         $libelles = array($csvRow[self::CSV_CAVE_CERTIFICATION],
-            $genre,
+            $csvRow[self::CSV_CAVE_GENRE],
             $csvRow[self::CSV_CAVE_APPELLATION],
             $csvRow[self::CSV_CAVE_MENTION],
             $csvRow[self::CSV_CAVE_LIEU],

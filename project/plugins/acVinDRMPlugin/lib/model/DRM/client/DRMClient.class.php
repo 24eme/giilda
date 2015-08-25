@@ -454,28 +454,7 @@ class DRMClient extends acCouchdbClient {
 
         return $drm;
     }
-
-    public function createDocFromEdi($identifiant, $periode, $csvFile) {
-               
-        
-       
-        $drmCsvEdi->preImportMouvementsFromCSV($csvFile,$erreurs);
-        $drmCsvEdi->preImportCrdsFromCSV($csvFile,$erreurs);
-        $drmCsvEdi->preImportAnnexesFromCSV($csvFile,$erreurs);
-        
-        if(count($result->erreurs)){
-            $result->statut = DRMCsvEdi::STATUT_WARNING;
-            return $result;
-        }
-        
-        $drmCsvEdi->buildMouvementsFromCSV($csvFile);
-        $drmCsvEdi->buildCrdsFromCSV($csvFile);
-        $drmCsvEdi->buildAnnexesFromCSV($csvFile);
-        
-        $drm->etape = self::ETAPE_CHOIX_PRODUITS;
-        
-        return $result;
-    }
+  
 
     public function generateVersionCascade($drm) {
         if (!$drm->needNextVersion()) {
