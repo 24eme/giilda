@@ -17,7 +17,7 @@ class drm_ediActions extends drmGeneriqueActions {
         $drm->periode = $this->periode;
         $drm->teledeclare = true;
 
-        $this->drmCsvEdi = new DRMCsvEdi($drm);
+        $this->drmCsvEdi = new DRMImportCsvEdi($drm);
         $this->drmCsvEdi->checkCSV($this->csvFile);
     }
 
@@ -37,7 +37,7 @@ class drm_ediActions extends drmGeneriqueActions {
         $this->drm->periode = $this->periode;
         $this->drm->teledeclare = true;
 
-        $this->drmCsvEdi = new DRMCsvEdi($this->drm);
+        $this->drmCsvEdi = new DRMImportCsvEdi($this->drm);
         $this->drmCsvEdi->importCSV($this->csvFile);
         $this->redirect('drm_validation', $this->drm);
     }
@@ -49,7 +49,7 @@ class drm_ediActions extends drmGeneriqueActions {
     public function executeExportEdi(sfWebRequest $request) {
         $this->setLayout(false);
         $drm = $this->getRoute()->getDRM();
-        $this->drmCsvEdi = new DRMCsvEdi($drm);
+        $this->drmCsvEdi = new DRMExportCsvEdi($drm);
 
         $filename = 'export_edi_' . $drm->identifiant . '_' . $drm->periode;
 
