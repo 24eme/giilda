@@ -8,18 +8,19 @@ class CSVClient extends acCouchdbClient {
         return acCouchdbManager::getClient("CSV");
     }
 
-    public function createOrFindDocFromDRM($path ,DRM $drm) {
-        $csvId = $this->buildId(self::TYPE_DRM, $drm->identifiant, $drm->periode);
-        $csvDrm = $this->find($csvId);
-        if ($csvDrm) {
+    public function createOrFindDocFromDRM($path, DRM $drm) {
+        $csvId = $this->buildId(self::TYPE_DRM, $drm->identifiant, $drm->periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT);
+        $csvDrm = $this->find($csvId, $hydrate);
+        if ($csvDrm) { 
+            $csvDrm->storeAttachment($path, 'text/csv', $csvDrm->getFileName());
             return $csvDrm;
         }
         $csvDrm = new CSV();
         $csvDrm->_id = $csvId;
-        $csvDrm->_id = $csvId;
         $csvDrm->identifiant = $drm->identifiant;
         $csvDrm->periode = $drm->periode;
         $csvDrm->storeAttachment($path, 'text/csv', $csvDrm->getFileName());
+        $csvDrm->save();
         return $csvDrm;
     }
 

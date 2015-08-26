@@ -13,31 +13,34 @@
  */
 class DRMImportCsvEdi extends DRMCsvEdi {
 
-    public function __construct($file,DRM $drm = null) {
-        $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file,$drm);
-        $this->csvDoc->save();
-        parent::__construct($file,$drm);
+    public function __construct($file, DRM $drm = null) {
+        $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
+        parent::__construct($file, $drm);
     }
 
     private function getDocRows() {
         return $this->getCsv($this->csvDoc->getFileContent());
     }
-    
+
     /**
      * CHECK DU CSV
      */
     public function checkCSV() {
+        $this->csvDoc->clearErreurs();
         $this->checkCSVIntegrity();
-        if (count($this->erreurs)) {
-            $this->statut = self::STATUT_ERREUR;
+        if ($this->csvDoc->hasErreurs()) {
+            $this->csvDoc->setStatut(self::STATUT_ERREUR);
+            $this->csvDoc->save();
             return;
         }
         $this->checkImportMouvementsFromCSV();
-        if (count($this->erreurs)) {
-            $this->statut = self::STATUT_WARNING;
+        if ($this->csvDoc->hasErreurs()) {
+            $this->csvDoc->setStatut(self::STATUT_WARNING);
+            $this->csvDoc->save();
             return;
         }
-        $this->statut = self::STATUT_VALIDE;
+        $this->csvDoc->setStatut(self::STATUT_VALIDE);
+        $this->csvDoc->save();
     }
 
     /**
@@ -65,13 +68,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 continue;
             }
             if (!in_array($csvRow[self::CSV_TYPE], self::$permitted_types)) {
-                $this->erreurs[] = $this->createWrongFormatTypeError($ligne_num, $csvRow);
+                $this->csvDoc->addErreur($this->createWrongFormatTypeError($ligne_num, $csvRow));
             }
             if (!preg_match('/^[0-9]{6}$/', $csvRow[self::CSV_PERIODE])) {
-                $this->erreurs[] = $this->createWrongFormatPeriodeError($ligne_num, $csvRow);
+                $this->csvDoc->addErreur($this->createWrongFormatPeriodeError($ligne_num, $csvRow));
             }
             if (!preg_match('/^FR0[0-9]{10}$/', $csvRow[self::CSV_NUMACCISE])) {
-                $this->erreurs[] = $this->createWrongFormatNumAcciseError($ligne_num, $csvRow);
+                $this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
             }
             $ligne_num++;
         }
@@ -116,7 +119,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $founded_produit = $produit;
             }
             if (!$founded_produit) {
-                $this->erreurs[] = $this->productNotFoundError($num_ligne, $csvRow);
+                $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;
                 continue;
             }
@@ -125,12 +128,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $cat_mouvement = $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT];
             $type_mouvement = $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT];
             if (!$detailsConfiguration->exist($cat_mouvement)) {
-                $this->erreurs[] = $this->categorieMouvementNotFoundError($num_ligne, $csvRow);
+                $this->csvDoc->addErreur($this->categorieMouvementNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;
                 continue;
             }
             if (!$detailsConfiguration->get($cat_mouvement)->exist($type_mouvement)) {
-                $this->erreurs[] = $this->typeMouvementNotFoundError($num_ligne, $csvRow);
+                $this->csvDoc->addErreur($this->typeMouvementNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;
                 continue;
             }
