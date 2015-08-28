@@ -13,8 +13,13 @@
  */
 class DRMImportCsvEdi extends DRMCsvEdi {
 
+    private $configuration = null;
+    private $mouvements = array();
+    
     public function __construct($file, DRM $drm = null) {
         $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
+        $this->configuration = ConfigurationClient::getCurrent();
+        $this->mouvements = $this->buildAllMouvements();
         parent::__construct($file, $drm);
     }
 
@@ -63,17 +68,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     private function checkCSVIntegrity() {
         $ligne_num = 1;
         foreach ($this->getDocRows() as $csvRow) {
-            if ($ligne_num == 1 && $csvRow[self::CSV_TYPE] == 'TYPE') {
+            if ($ligne_num == 1 && KeyInflector::slugify($csvRow[self::CSV_TYPE]) == 'TYPE') {
                 $ligne_num++;
                 continue;
             }
-            if (!in_array($csvRow[self::CSV_TYPE], self::$permitted_types)) {
+            if (!in_array(KeyInflector::slugify($csvRow[self::CSV_TYPE]), self::$permitted_types)) {
                 $this->csvDoc->addErreur($this->createWrongFormatTypeError($ligne_num, $csvRow));
             }
-            if (!preg_match('/^[0-9]{6}$/', $csvRow[self::CSV_PERIODE])) {
+            if (!preg_match('/^[0-9]{6}$/', KeyInflector::slugify($csvRow[self::CSV_PERIODE]))) {
                 $this->csvDoc->addErreur($this->createWrongFormatPeriodeError($ligne_num, $csvRow));
             }
-            if (!preg_match('/^FR0[0-9]{10}$/', $csvRow[self::CSV_NUMACCISE])) {
+            if (!preg_match('/^FR0[0-9]{10}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
                 $this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
             }
             $ligne_num++;
@@ -97,23 +102,24 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function importMouvementsFromCSV($just_check = false) {
-        $configuration = ConfigurationClient::getCurrent();
-        $all_produits = $configuration->declaration->getProduitsAll();
+        $all_produits = $this->configuration->declaration->getProduitsAll();
 
         $num_ligne = 1;
         foreach ($this->getDocRows() as $csvRow) {
-            if ($csvRow[self::CSV_TYPE] != self::TYPE_CAVE) {
+            if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CAVE)) {
                 $num_ligne++;
                 continue;
             }
-            $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow);
+            $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
+
             $founded_produit = false;
 
             foreach ($all_produits as $produit) {
                 if ($founded_produit) {
                     break;
                 }
-                if (count(array_diff($csvLibelleProductArray, $produit->getLibelles()))) {
+                $produitConfLibelle = $this->slugifyProduitConf($produit);
+                if (count(array_diff($csvLibelleProductArray, $produitConfLibelle))) {
                     continue;
                 }
                 $founded_produit = $produit;
@@ -124,36 +130,44 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 continue;
             }
 
-            $detailsConfiguration = $configuration->declaration->getDetailConfiguration();
-            $cat_mouvement = $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT];
-            $type_mouvement = $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT];
-            if (!$detailsConfiguration->exist($cat_mouvement)) {
+            $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
+            $type_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_MOUVEMENT]);
+
+            if (!array_key_exists($cat_mouvement,$this->mouvements)) {
                 $this->csvDoc->addErreur($this->categorieMouvementNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;
                 continue;
             }
-            if (!$detailsConfiguration->get($cat_mouvement)->exist($type_mouvement)) {
+            if (!array_key_exists($type_mouvement,$this->mouvements[$cat_mouvement])) {
                 $this->csvDoc->addErreur($this->typeMouvementNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;
                 continue;
             }
             if (!$just_check) {
                 $drmDetails = $this->drm->addProduit($founded_produit->getHash());
-                $hasDetails = $detailsConfiguration->get($cat_mouvement)->get($type_mouvement)->hasDetails();
-                $detailTotalVol = floatval($csvRow[self::CSV_CAVE_VOLUME]);
-                $volume = floatval($csvRow[self::CSV_CAVE_VOLUME]);
-                if ($hasDetails) {
-                    $detailTotalVol += floatval($drmDetails->getOrAdd($cat_mouvement)->getOrAdd($type_mouvement));
-                    $detailNode = $drmDetails->getOrAdd($cat_mouvement)->getOrAdd($type_mouvement . '_details')->getOrAdd($csvRow[self::CSV_CAVE_COMPLEMENT]);
+                $confDetailMvt = $this->mouvements[$cat_mouvement][$type_mouvement];                
+                $detailTotalVol = floatval(KeyInflector::slugify($csvRow[self::CSV_CAVE_VOLUME]));
+                $volume = floatval(KeyInflector::slugify($csvRow[self::CSV_CAVE_VOLUME]));
+                $cat_key = $confDetailMvt->getParent()->getKey(); 
+                $type_key = $confDetailMvt->getKey(); 
+                if ($confDetailMvt->hasDetails()) {
+                    $detailTotalVol += floatval($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
+                    $complement = $csvRow[self::CSV_CAVE_COMPLEMENT];
+                    if($type_key == 'export'){
+                        $complement = array_search($csvRow[self::CSV_CAVE_COMPLEMENT], $this->countryList);
+                    }
+                    $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->getOrAdd();
                     if ($detailNode->volume) {
                         $volume+=$detailNode->volume;
                     }
                     $date = new DateTime($this->drm->getDate());
                     $detailNode->volume = $volume;
-                    $detailNode->identifiant = $csvRow[self::CSV_CAVE_COMPLEMENT];
+                    $detailNode->identifiant = KeyInflector::slugify($csvRow[self::CSV_CAVE_COMPLEMENT]);
                     $detailNode->date_enlevement = $date->format('Y-m-d');
+                }else {
+                $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
+                $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);                    
                 }
-                $drmDetails->getOrAdd($cat_mouvement)->add($type_mouvement, $detailTotalVol);
             }
             $num_ligne++;
         }
@@ -164,15 +178,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $crd_regime = $this->drm->getEtablissementObject()->get('crd_regime');
         $all_contenances = sfConfig::get('app_vrac_contenances');
         foreach ($this->getDocRows() as $csvRow) {
-            if ($csvRow[self::CSV_TYPE] != self::TYPE_CRD) {
+            if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
                 $num_ligne++;
                 continue;
             }
-            $genre = $csvRow[self::CSV_CRD_GENRE];
-            $couleur = $csvRow[self::CSV_CRD_COULEUR];
+            $genre = KeyInflector::slugify($csvRow[self::CSV_CRD_GENRE]);
+            $couleur = KeyInflector::slugify($csvRow[self::CSV_CRD_COULEUR]);
             $litrageLibelle = $csvRow[self::CSV_CRD_CENTILITRAGE];
             $quantite_key = $csvRow[self::CSV_CRD_QUANTITE_KEY];
-            $quantite = $csvRow[self::CSV_CRD_QUANTITE];
+            $quantite = KeyInflector::slugify($csvRow[self::CSV_CRD_QUANTITE]);
 
             $centilitrage = $all_contenances[$litrageLibelle] * 100000;
             $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
@@ -189,15 +203,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $num_ligne = 1;
         $typesAnnexes = array_keys($this->type_annexes);
         foreach ($this->getDocRows() as $csvRow) {
-            if ($csvRow[self::CSV_TYPE] != self::TYPE_ANNEXE) {
+            if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_ANNEXE)) {
                 $num_ligne++;
                 continue;
             }
-            switch ($csvRow[self::CSV_ANNEXE_TYPEANNEXE]) {
+            switch (KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE])) {
                 case self::TYPE_ANNEXE_NONAPUREMENT:
-                    $numero_document = $csvRow[self::CSV_ANNEXE_IDDOC];
-                    $date_emission = $csvRow[self::CSV_ANNEXE_COMPLEMENT];
-                    $numero_accise = $csvRow[self::CSV_ANNEXE_TYPEMVT_ACCISE];
+                    $numero_document = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_IDDOC]);
+                    $date_emission = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_COMPLEMENT]);
+                    $numero_accise = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT_ACCISE]);
                     $nonAppurementNode = $this->drm->getOrAdd('releve_non_apurement')->getOrAdd($numero_document);
                     $nonAppurementNode->numero_document = $numero_document;
                     $nonAppurementNode->date_emission = $date_emission;
@@ -212,15 +226,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
 
                 case self::TYPE_ANNEXE_SUCRE:
-                    $this->drm->add('quantite_sucre', $csvRow[self::CSV_ANNEXE_QUANTITE]);
+                    $this->drm->add('quantite_sucre', KeyInflector::slugify($csvRow[self::CSV_ANNEXE_QUANTITE]));
                     $num_ligne++;
                     break;
 
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC:
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC:
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE:
-                    $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd($csvRow[self::CSV_ANNEXE_TYPEANNEXE]);
-                    $docTypeAnnexe->add($csvRow[self::CSV_ANNEXE_TYPEMVT_ACCISE], $csvRow[self::CSV_ANNEXE_COMPLEMENT]);
+                    $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE]));
+                    $docTypeAnnexe->add($csvRow[self::CSV_ANNEXE_TYPEMVT_ACCISE], KeyInflector::slugify($csvRow[self::CSV_ANNEXE_COMPLEMENT]));
                     $num_ligne++;
                     break;
             }
@@ -231,15 +245,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
      * Functions de création d'erreurs
      */
     private function createWrongFormatTypeError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_TYPE], "Choix possible type : " . implode(', ', self::$permitted_types));
+        return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_TYPE]), "Choix possible type : " . implode(', ', self::$permitted_types));
     }
 
     private function createWrongFormatPeriodeError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_PERIODE], "Format période : AAAAMM");
+        return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_PERIODE]), "Format période : AAAAMM");
     }
 
     private function createWrongFormatNumAcciseError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_NUMACCISE], "Format numéro d'accise : FR0XXXXXXXXXX");
+        return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]), "Format numéro d'accise : FR0XXXXXXXXXX");
     }
 
     private function productNotFoundError($num_ligne, $csvRow) {
@@ -266,20 +280,54 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     /**
      * Fin des functions de création d'erreurs
      */
-    private function buildLibellesArrayWithRow($csvRow) {
-        $libelles = array($csvRow[self::CSV_CAVE_CERTIFICATION],
-            $csvRow[self::CSV_CAVE_GENRE],
-            $csvRow[self::CSV_CAVE_APPELLATION],
-            $csvRow[self::CSV_CAVE_MENTION],
-            $csvRow[self::CSV_CAVE_LIEU],
-            $csvRow[self::CSV_CAVE_COULEUR],
-            $csvRow[self::CSV_CAVE_CEPAGE]);
+    private function buildLibellesArrayWithRow($csvRow, $with_slugify = false) {
+        $certification = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_CERTIFICATION]) : $csvRow[self::CSV_CAVE_CERTIFICATION];
+        $genre = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_GENRE]) : $csvRow[self::CSV_CAVE_GENRE];
+        $appellation = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_APPELLATION]) : $csvRow[self::CSV_CAVE_APPELLATION];
+        $mention = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_APPELLATION]) : $csvRow[self::CSV_CAVE_APPELLATION];
+        $lieu = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_LIEU]) : $csvRow[self::CSV_CAVE_LIEU];
+        $couleur = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_COULEUR]) : $csvRow[self::CSV_CAVE_COULEUR];
+        $cepage = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_CEPAGE]) : $csvRow[self::CSV_CAVE_CEPAGE];
+        $libelles = array($certification,
+            $genre,
+            $appellation,
+            $mention,
+            $lieu,
+            $couleur,
+            $cepage);
         foreach ($libelles as $key => $libelle) {
             if (!$libelle) {
                 $libelles[$key] = null;
             }
         }
         return $libelles;
+    }
+
+    private function slugifyProduitConf($produit) {
+        $libellesSlugified = array();
+        foreach ($produit->getLibelles() as $libelle) {
+            $libellesSlugified[] = KeyInflector::slugify($libelle);
+        }
+        foreach ($libellesSlugified as $key => $libelle) {
+            if (!$libelle) {
+                $libellesSlugified[$key] = null;
+            }
+        }
+        return $libellesSlugified;
+    }
+
+    private function buildAllMouvements() {
+        $all_conf_details = $this->configuration->declaration->getDetailConfiguration()->getAllDetails();        
+        $all_conf_details_slugified = array();
+        foreach ($all_conf_details as $all_conf_detail_cat_Key => $all_conf_detail_cat) {
+            foreach ($all_conf_detail_cat as $key_type => $type_detail) {
+                if(!array_key_exists(KeyInflector::slugify($all_conf_detail_cat_Key), $all_conf_details_slugified)){
+                     $all_conf_details_slugified[KeyInflector::slugify($all_conf_detail_cat_Key)] = array();
+                }
+                $all_conf_details_slugified[KeyInflector::slugify($all_conf_detail_cat_Key)][KeyInflector::slugify($key_type)] = $type_detail;
+            }
+        }
+        return $all_conf_details_slugified;
     }
 
 }
