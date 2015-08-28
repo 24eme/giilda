@@ -338,7 +338,16 @@ class Vrac extends BaseVrac {
         return $this->getConfigProduit()->getDroitCVO($this->getPeriode(), $this->type_transaction);
     }
 
-    public function getRepartitionCVOCoef($identifiant) {
+    public function getRepartitionCVOCoef($identifiant, $date_application = null) {
+        if ($date_application && $date_application > '2015-12-31') {
+            if($this->acheteur_identifiant == $identifiant) {
+                return 1.0;
+            }
+            if($this->vendeur_identifiant == $identifiant) {
+                return 0.0;
+            }
+
+        }
         if(($this->acheteur_identifiant == $identifiant || $this->vendeur_identifiant == $identifiant) && $this->cvo_repartition == VracClient::CVO_REPARTITION_50_50) {
 
             return 0.5;
