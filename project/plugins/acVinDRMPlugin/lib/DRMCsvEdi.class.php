@@ -1,124 +1,69 @@
 <?php
 
-class DRMCsvEdi {
+class DRMCsvEdi extends CsvFile {
 
-    private $drm = null;
+    public $erreurs = array();
+    public $statut = null;
+    public $countryList = array();
 
-    public function __construct(DRM $drm = null) {
+    const STATUT_ERREUR = 'ERREUR';
+    const STATUT_VALIDE = 'VALIDE';
+    const STATUT_WARNING = 'WARNING';
+    const TYPE_CAVE = 'CAVE';
+    const TYPE_CRD = 'CRD';
+    const TYPE_ANNEXE = 'ANNEXE';
+    const TYPE_ANNEXE_NONAPUREMENT = 'NONAPUREMENT';
+    const TYPE_ANNEXE_SUCRE = 'SUCRE';
+    const TYPE_ANNEXE_OBSERVATIONS = 'OBSERVATIONS';
+    const CSV_TYPE = 0;
+    const CSV_PERIODE = 1;
+    const CSV_IDENTIFIANT = 2;
+    const CSV_NUMACCISE = 3;
+    const CSV_CAVE_CERTIFICATION = 4;
+    const CSV_CAVE_GENRE = 5;
+    const CSV_CAVE_APPELLATION = 6;
+    const CSV_CAVE_MENTION = 7;
+    const CSV_CAVE_LIEU = 8;
+    const CSV_CAVE_COULEUR = 9;
+    const CSV_CAVE_CEPAGE = 10;
+    const CSV_CAVE_CATEGORIE_MOUVEMENT = 11;
+    const CSV_CAVE_TYPE_MOUVEMENT = 12;
+    const CSV_CAVE_VOLUME = 13;
+    const CSV_CAVE_COMPLEMENT = 14;
+    const CSV_CRD_GENRE = 4;
+    const CSV_CRD_COULEUR = 5;
+    const CSV_CRD_CENTILITRAGE = 6;
+    const CSV_CRD_QUANTITE_KEY = 12;
+    const CSV_CRD_QUANTITE = 13;
+    const CSV_ANNEXE_TYPEANNEXE = 4;
+    const CSV_ANNEXE_IDDOC = 5;
+    const CSV_ANNEXE_TYPEMVT_ACCISE = 12;
+    const CSV_ANNEXE_QUANTITE = 13;
+    const CSV_ANNEXE_COMPLEMENT = 14;
+
+    protected static $permitted_types = array(self::TYPE_CAVE,
+        self::TYPE_CRD,
+        self::TYPE_ANNEXE);
+    protected $drm = null;
+    protected $csv = null;
+    protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Effervescent', 'TRANQ' => 'Tranquille');
+    protected $type_annexes = array(self::TYPE_ANNEXE_NONAPUREMENT => 'Non Apurement', self::TYPE_ANNEXE_SUCRE => 'Sucre', self::TYPE_ANNEXE_OBSERVATIONS => 'Observations');
+
+    public function __construct($file, DRM $drm = null) {
         $this->drm = $drm;
+        $this->type_annexes_docs = array_merge($this->type_annexes, DRMClient::$drm_documents_daccompagnement);
+        $this->buildCountryList();
+        parent::__construct($file);
     }
 
-    public function exportEDI() {
-        if (!$this->drm) {
-            new sfException('Absence de DRM');
+    public function buildCountryList() {
+        $countryList = ConfigurationClient::getInstance()->getCountryList();
+        $match_array = array();
+        foreach ($countryList as $keyUpper => $countryString) {
+            $match_array[$keyUpper . '_' . strtolower($keyUpper)] = $countryString;
+            $match_array[$countryString] = $countryString;
         }
-        $header = $this->createHeaderEdi();
-        $body = $this->createBodyEdi();
-        return $header.$body;
-    }
-
-    public function createHeaderEdi() {
-        return "TYPE;PERIODE;ACCISE;IDPRODUIT;IDMOUVEMENT;QUANTITE;COMPLEMENT\n";
-    }
-
-    public function createBodyEdi() {
-        $body = $this->createMouvementsEdi();
-        $body.= $this->createCrdsEdi();
-        $body.= $this->createAnnexesEdi();
-        return $body;
-    }
-
-    public function createMouvementsEdi() {
-        $mouvementsEdi = "";
-        $produitsDetails = $this->drm->declaration->getProduitsDetailsSorted(true);
-        $debutLigne = "CAVE;" . $this->drm->periode . ";" . $this->drm->declarant->no_accises . ";";
-        foreach ($produitsDetails as $hashProduit => $produitDetail) {
-
-            foreach ($produitDetail->entrees as $entreekey => $entreeValue) {
-                if ($entreeValue) {
-
-                    $mouvementsEdi.= $debutLigne . $hashProduit . ";" . "entrees/" . $entreekey . ";" . $entreeValue . ";\n";
-                }
-            }
-
-            foreach ($produitDetail->sorties as $sortiekey => $sortieValue) {
-                if ($sortieValue) {
-                    if ($sortieValue instanceof DRMESDetails) {
-                        foreach ($sortieValue as $sortieDetailKey => $sortieDetailValue) {
-
-                            if ($sortieDetailValue->getVolume()) {
-                                $mouvementsEdi.= $debutLigne . $hashProduit . ";" . "sorties/" . $sortiekey . ";" . $sortieDetailValue->getVolume() . ";" . $sortieDetailValue->getIdentifiant() . "\n";
-                            }
-                        }
-                    } else {
-                        $mouvementsEdi.= $debutLigne . $hashProduit . ";" . "sorties/" . $sortiekey . ";" . $sortieValue . ";\n";
-                    }
-                }
-            }
-        }
-        return $mouvementsEdi;
-    }
-
-    public function createCrdsEdi() {
-        $crdsEdi = "";
-        $debutLigne = "CRD;" . $this->drm->periode . ";" . $this->drm->declarant->no_accises . ";";
-        foreach ($this->drm->getAllCrdsByRegimeAndByGenre() as $regimeKey => $crdByGenre) {
-            foreach ($crdByGenre as $genreKey => $crds) {
-                foreach ($crds as $crdKey => $crdDetail) {
-                    $centilitrage = str_replace(' ', '', str_replace('Bouteille', '', $crdDetail->detail_libelle));
-                    if ($crdDetail->stock_debut) {
-                        $crdsEdi.=$debutLigne . $crdDetail->couleur . '/' . $centilitrage . ";stockdebut;" . $crdDetail->stock_debut . ";\n";
-                    }
-                    if ($crdDetail->entrees_achats) {
-                        $crdsEdi.=$debutLigne . $crdDetail->couleur . '/' . $centilitrage . ";entrees/achats;" . $crdDetail->entrees_achats . ";\n";
-                    }
-                    if ($crdDetail->entrees_retours) {
-                        $crdsEdi.=$debutLigne . $crdDetail->couleur . '/' . $centilitrage . ";entrees/retours;" . $crdDetail->entrees_retours . ";\n";
-                    }
-                    if ($crdDetail->entrees_excedents) {
-                        $crdsEdi.=$debutLigne . $crdDetail->couleur . '/' . $centilitrage . ";entrees/excedents;" . $crdDetail->entrees_retours . ";\n";
-                    }
-                    if ($crdDetail->sorties_utilisations) {
-                        $crdsEdi.=$debutLigne . $crdDetail->couleur . '/' . $centilitrage . ";sorties/utilisations;" . $crdDetail->sorties_utilisations . ";\n";
-                    }
-                    if ($crdDetail->sorties_destructions) {
-                        $crdsEdi.=$debutLigne . $crdDetail->couleur . '/' . $centilitrage . ";sorties/destructions;" . $crdDetail->sorties_destructions . ";\n";
-                    }
-                    if ($crdDetail->sorties_manquants) {
-                        $crdsEdi.=$debutLigne . $crdDetail->couleur . '/' . $centilitrage . ";sorties/manquants;" . $crdDetail->sorties_manquants . ";\n";
-                    }
-                    if ($crdDetail->stock_fin) {
-                        $crdsEdi.=$debutLigne . $crdDetail->couleur . '/' . $centilitrage . ";stockfin;" . $crdDetail->stock_fin . ";\n";
-                    }
-                }
-            }
-        }
-        return $crdsEdi;
-    }
-
-    public function createAnnexesEdi() {
-        $annexesEdi = "";
-        $debutLigneDoc = "ANNEXEDOC;" . $this->drm->periode . ";" . $this->drm->declarant->no_accises . ";";
-        $debutLigneNonApurement = "ANNEXENONAPUREMENT;" . $this->drm->periode . ";" . $this->drm->declarant->no_accises . ";";
-
-        foreach ($this->drm->documents_annexes as $typeDoc => $numsDoc) {
-            $annexesEdi.=$debutLigneDoc . $typeDoc . ";debut;;" . $numsDoc->debut . "\n";
-            $annexesEdi.=$debutLigneDoc . $typeDoc . ";fin;;" . $numsDoc->fin . "\n";
-        }
-
-        foreach ($this->drm->releve_non_apurement as $non_apurement) {
-            $annexesEdi.=$debutLigneNonApurement . $non_apurement->numero_document . ";" . $non_apurement->numero_accise . ";;" . $non_apurement->date_emission . "\n";
-        }
-        if ($this->drm->quantite_sucre) {
-
-            $annexesEdi.="ANNEXESUCRE;" . $this->drm->periode . ";" . $this->drm->declarant->no_accises . ";sucre;sortie;" . $this->drm->quantite_sucre . ";\n";
-        }
-        if ($this->drm->observations) {
-
-            $annexesEdi.="ANNEXEOBS;" . $this->drm->periode . ";" . $this->drm->declarant->no_accises . ";Observations;;;" . $this->drm->observations . "\n";
-        }
-
-        return $annexesEdi;
+        $this->countryList = array_merge($countryList, $match_array);
     }
 
 }
