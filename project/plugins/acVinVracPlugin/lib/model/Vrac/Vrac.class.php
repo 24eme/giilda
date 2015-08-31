@@ -428,11 +428,22 @@ class Vrac extends BaseVrac {
     }
 
     private function getDensite() {
-        return $this->getConfig()->getDensite();
+        
+        return $this->getConfigProduit()->getDensite();
+    }
+
+    public function getDateConfig() {
+
+        return $this->getDateCampagne('Y-m-d');   
     }
 
     public function getConfig() {
-        return ConfigurationClient::getCurrent()->get($this->produit);
+        
+        return ConfigurationClient::getConfiguration($this->getDateConfig());
+    }
+
+    public function getConfigProduit() {
+        return $this->getConfig()->get($this->produit);
     }
 
     public function __toString() {
@@ -596,7 +607,8 @@ class Vrac extends BaseVrac {
 
     public function getProduitsConfig() {
         $date = (!$this->date_signature) ? date('Y-m-d') : Date::getIsoDateFromFrenchDate($this->date_signature);
-        return ConfigurationClient::getCurrent()->formatProduits($date);
+
+        return $this->getConfig()->formatProduits($date, "%format_libelle% (%code_produit%)", array(_ConfigurationDeclaration::ATTRIBUTE_CVO_FACTURABLE));
     }
     
     public function getCepagesConfig() {

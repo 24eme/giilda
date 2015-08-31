@@ -43,7 +43,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
     }
 
-    public function getDatesDroits($interpro = "INTERPRO-inter-loire") {
+    public function getDatesDroits($interpro = "INTERPRO-declaration") {
         if(is_null($this->dates_droits)) {
             $this->dates_droits = $this->getDocument()->declaration->getDatesDroits($interpro);
         }
@@ -51,7 +51,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->dates_droits;
     }
 
-    public function loadDatesDroits($interpro = "INTERPRO-inter-loire") {
+    public function loadDatesDroits($interpro = "INTERPRO-declaration") {
         $dates_droits = array();
 
         $noeudDroits = $this->getDroits($interpro);
@@ -101,7 +101,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             }
         }
 
-        throw new sfException("Date introuvable");
+        throw new sfException(sprintf("Aucune date défini pour le droit (interpro: %s, hash: %s)", $interpro, $this->getHash()));
     }
 
 
@@ -111,7 +111,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return implode("", $attributes);
     }
 
-    public function loadProduitsByDates($interpro = "INTERPRO-inter-loire") {
+    public function loadProduitsByDates($interpro = "INTERPRO-declaration") {
         $datesDroits = $this->getDatesDroits($interpro);
         $attributesCombinaison = array(
                                        array(),
@@ -126,7 +126,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
     }
 
-    public function getProduits($date = null, $interpro = "INTERPRO-inter-loire", $departement = null, $attributes = array()) {
+    public function getProduits($date = null, $interpro = "INTERPRO-declaration", $departement = null, $attributes = array()) {
         if (!$date) {
             $date = date('Y-m-d');
         }
@@ -276,7 +276,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return ConfigurationClient::getInstance()->formatCodes($this->getCodes(), $format);
     }
 
-    public function getDroitByType($date, $interpro = "INTERPRO-inter-loire", $type) {
+    public function getDroitByType($date, $interpro = "INTERPRO-declaration", $type) {
         $date = $this->findDroitsDate($date, $interpro);
 
         if(array_key_exists($date, $this->droits_type) && array_key_exists($type, $this->droits_type[$date])) {
@@ -293,12 +293,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->droits_type[$date][$type];
     }
 
-    public function getDroitCVO($date, $interpro = "INTERPRO-inter-loire") {
+    public function getDroitCVO($date, $interpro = "INTERPRO-declaration") {
 
         return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_CVO);
     }
 
-    public function getDroitDouane($date, $interpro = "INTERPRO-inter-loire") {
+    public function getDroitDouane($date, $interpro = "INTERPRO-declaration") {
 
         return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_DOUANE);
     }
@@ -424,7 +424,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
     }
 
-    public function getDateCirulation($campagne, $interpro = "INTERPRO-inter-loire") {
+    public function getDateCirulation($campagne, $interpro = "INTERPRO-declaration") {
         $dateCirculationAble = $this;
         while (!$dateCirculationAble->exist('interpro') ||
         !$dateCirculationAble->interpro->getOrAdd($interpro)->exist('dates_circulation') ||
