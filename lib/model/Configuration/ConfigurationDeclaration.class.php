@@ -17,7 +17,7 @@ class ConfigurationDeclaration extends BaseConfigurationDeclaration {
         
     }
 
-    public function getDatesDroits($interpro = "INTERPRO-inter-loire") {
+    public function getDatesDroits($interpro = "INTERPRO-declaration") {
         if(is_null($this->dates_droits)) {
             $this->dates_droits = $this->loadDatesDroits($interpro);
         }

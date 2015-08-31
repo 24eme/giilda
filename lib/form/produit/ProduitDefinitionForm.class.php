@@ -85,7 +85,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         if (!$object) {
             $object = $this->getObject();
         }
-        return $object->interpro->getOrAdd('INTERPRO-inter-loire');
+        return $object->interpro->getOrAdd('INTERPRO-declaration');
     }
 
     private function getNoeudDepartement($object = null) {
