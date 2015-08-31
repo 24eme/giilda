@@ -1,8 +1,0 @@
-#!/bin/bash
-. bin/import_functions.inc
-. bin/config.inc
-
-cd $TMP/VINSDELOIRE_DATA || exit 1
-DATADIR=$(pwd)
-
-convert-utf8 $DATADIR/cicon.csv | ajout-champ-commun '%s-%s%s%s' '$8,substr($28,7,4),substr($28,4,2),substr($28,1,2)' | sort -t ";" -k 1 > $DATADIR/vracs.csv
