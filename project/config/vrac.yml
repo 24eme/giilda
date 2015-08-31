@@ -1,9 +1,0 @@
-ivbd:
-  configuration:
-    vrac:
-      acteurs_preparation_vin:
-        "VENDEUR": "Vendeur Si Si la famille"
-        "ACHETEUR": "Acheteur Si Si la famille"
-      acteurs_embouteillage:
-        "VENDEUR": "Vendeur Si Si la famille"
-        "ACHETEUR": "Acheteur Si Si la famille"

@@ -1,2 +1,0 @@
-config/couchdb/schema.yml:
-  class:    sfSimpleYamlConfigHandler

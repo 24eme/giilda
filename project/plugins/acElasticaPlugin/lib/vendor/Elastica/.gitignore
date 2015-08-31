@@ -1,9 +1,0 @@
-.DS_Store
-.idea
-.vagrant
-.*
-cache.properties
-/nbproject
-build
-atlassian-ide-plugin.xml
-.settings

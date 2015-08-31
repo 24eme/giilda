@@ -1,5 +1,0 @@
-all:
-  is_secure: false
-
-home:
-  is_secure: true

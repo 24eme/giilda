@@ -1,2 +1,0 @@
-bash bin/delete_from_view.sh http://localhost:5984/vinsdeloire/_design/societe/_view/all ; bash bin/delete_from_view.sh http://localhost:5984/vinsdeloire/_design/compte/_view/all; bash bin/delete_from_view.sh http://localhost:5984/vinsdeloire/_design/etablissement/_view/all?reduce=false
-bash bin/import_contacts
