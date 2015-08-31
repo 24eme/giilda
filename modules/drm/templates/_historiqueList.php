@@ -12,10 +12,10 @@
 	<tbody>
 		<?php if ($hasNewDRM): ?>
 		<tr class="alt">
-			      <td><?php echo $futurDRM[DRMHistorique::VIEW_INDEX_ANNEE].'-'.$futurDRM[DRMHistorique::VIEW_INDEX_MOIS] ?></td>
+	        <td><?php echo $futurDRM[DRMHistorique::VIEW_PERIODE] ?></td>
 			<td>NOUVELLE</td>
 			<td>
-				<a href="<?php echo url_for('drm_nouvelle', array('identifiant' => $historique->geEtablissementIdentifiant(), 'periode' => $futurDRM[DRMHistorique::VIEW_INDEX_ANNEE].'-'.$futurDRM[DRMHistorique::VIEW_INDEX_MOIS])) ?>">Démarrer la DRM</a><br />
+				<a href="<?php echo url_for('drm_nouvelle', array('periode' => $futurDRM[DRMHistorique::VIEW_PERIODE], 'identifiant' => $historique->getIdentifiant())) ?>">Démarrer la DRM</a><br />
 			</td>
 		</tr>
 		<?php endif; ?>

@@ -1,66 +1,51 @@
-<?php include_partial('global/navTop', array('active' => 'drm')); ?>
-<section id="contenu">
+<?php use_helper("Date"); ?>
+<?php use_helper('DRM'); ?>
+<!-- #principal -->
+<section id="principal" class="drm">
     
-    <?php include_partial('drm/header', array('drm' => $drm)); ?>
-    <?php include_component('drm', 'etapes', array('drm' => $drm, 'etape' => 'validation', 'pourcentage' => '100')); ?>
+    <?php if (!$isTeledeclarationMode): ?>
+        <?php include_partial('drm/header', array('drm' => $drm)); ?>
+        <h2>Déclaration Récapitulative Mensuelle</h2>
+    <?php else: ?>
+        <h2><?php echo getDrmTitle($drm); ?></h2>
+    <?php endif; ?>
+    <?php if (!$isTeledeclarationMode): ?>  
+        <ul id="recap_infos_header">
+            <li>
+                <label>Nom de l'opérateur : </label> 
+                <?php echo $drm->getEtablissement()->nom ?>
+            </li>
+            <li><label>Période : </label><?php echo $drm->periode ?></li>
+        </ul>
+    <?php endif; ?>
+        
+    <?php include_partial('drm_edition/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode,'etape_courante' => DRMClient::ETAPE_VALIDATION)); ?>
 
-    <!-- #principal -->
-    <section id="principal">
-        <form id="formValidation" action="<?php echo url_for('drm_validation', $drm) ?>" method="post">
-            <?php echo $form->renderGlobalErrors() ?>
-            <?php echo $form->renderHiddenFields() ?>
-            <div id="application_dr">
-               
-                <div id="validation_intro">
-                    <h2>Validation</h2>
-                    <p>Vous êtes sur le point de valider votre DRM. Merci de vérifier vos données.</p>
-                </div>
-                
-                <?php if ($drmValidation->hasErrors() || $drmValidation->hasWarnings()) { ?>
-                <div id="contenu_onglet">
-               
-                    <div id="retours">
-                        <?php
-                        if ($drmValidation->hasErrors()) {
-                            include_partial('erreurs', array('drm' => $drm, 'drmValidation' => $drmValidation));
-                        }
-                        if ($drmValidation->hasWarnings()) {
-                            include_partial('vigilances', array('drm' => $drm, 'drmValidation' => $drmValidation));
-                        }
-                        ?>
-                    </div>
-                </div>
-                <?php } ?>
-                
-                <?php if ($drmValidation->hasEngagements()) { ?>
-                <div id="contenu_onglet" class="tableau_ajouts_liquidations">
-                    <?php include_partial('engagements', array('drm' => $drm, 'drmValidation' => $drmValidation, 'form' => $form)); ?>                    
-                </div>
-                <?php } ?>
-                
-                <div id="contenu_onglet">
-                    <?php if($drm->declaration->hasMouvement() && !$drm->declaration->hasStockEpuise()):  ?>
-                        <?php include_partial('drm/recap', array('drm' => $drm)) ?>
-                    <?php else: ?>
-                        <?php include_partial('drm/pasDeMouvement', array('drm' => $drm)) ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-            <a id="telecharger_pdf" href="<?php echo url_for('drm_pdf', array('identifiant' => $sf_user->getTiers()->identifiant, 'periode_version' => $drm->getPeriodeAndVersion())) ?>">Télécharger le PDF</a>
-                
-            <div id="btn_etape_dr">
-                <a href="<?php echo url_for('drm_declaratif', $drm) ?>" class="btn_prec">
-                    <span>Précédent</span>
-                </a>
-                <button type="submit" class="btn_suiv"<?php if ($drmValidation->hasErrors()): ?> disabled="disabled"<?php endif; ?>><span>Valider</span></button>
-            </div>
-        </form>
-    </section>
+    <form action="" method="post">
+        <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+
+        <?php include_partial('drm/recap', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
+        <?php include_partial('drm/mouvements', array('mouvements' => $mouvements, 'no_link' => $no_link)) ?>
+
+        <br />
+
+        <?php echo $form; ?>
+         <?php if (!$isTeledeclarationMode): ?>
+        <div id="btn_etape_dr">
+            <a href="<?php echo url_for('drm_edition', $drm) ?>" class="btn_etape_prec" id="facture"><span>Précédent</span></a>
+            <button type="submit" name="brouillon" value="brouillon" class="btn_brouillon btn_majeur"><span>Enregistrer en brouillon</span></button>
+            <button type="submit" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> class="btn_etape_suiv" id="facture"><span>Valider</span></button> 
+        </div>
+            <?php else: ?>
+        <div id="btn_etape_dr">
+            <a href="<?php echo url_for('drm_crd', $drm) ?>" class="btn_etape_prec" id="facture"><span>Précédent</span></a>
+            <button type="submit" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> class="btn_etape_suiv" id="facture"><span>Valider</span></button> 
+        </div>
+    <?php endif; ?>
+
 </section>
-<script type="text/javascript">
-	$(document).ready(function () {
-		$("#formValidation").submit(function(){
-			return confirm("Une fois votre déclaration validée, vous ne pourrez plus la modifier.\n\nConfirmer vous la validation de votre DRM ?");
-		});
-	});
-</script>
+<?php
+if ($isTeledeclarationMode):
+    include_partial('drm_edition/colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+endif;
+?>

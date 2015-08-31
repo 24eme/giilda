@@ -108,9 +108,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->declaration->getProduits();
     }
 
-    public function getProduitsDetails() {
+    public function getProduitsDetails($teledeclarationMode = false) {
 
-        return $this->declaration->getProduitsDetails();
+        return $this->declaration->getProduitsDetails($teledeclarationMode);
     }
 
     public function getDetailsAvecVrac() {
@@ -137,16 +137,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->identifiant = $ds->identifiant;
         foreach ($ds->declarations as $produit) {
             if (!$produit->isActif()) {
+
                 continue;
             }
             $this->addProduit($produit->produit_hash);
         }
     }
 
-    public function generateByDRM($drm) {
-        if (!$drm) {
-           return;
-        }
+    public function generateByDRM(DRM $drm) {
         foreach ($drm->getProduits() as $produit) {
             if (!$produit->getConfig()->hasCVO($this->getDate())) {
 
@@ -154,7 +152,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
 
             $this->addProduit($produit->getHash());
-        }
+        }       
     }
 
     public function generateSuivante() {
@@ -162,7 +160,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->generateSuivanteByPeriode(DRMClient::getInstance()->getPeriodeSuivante($this->periode));
     }
 
-    public function generateSuivanteByPeriode($periode) {
+    public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) {
         if ($this->getHistorique()->hasInProcess()) {
 
             throw new sfException(sprintf("Une drm est en cours d'édition pour cette campagne %s, impossible d'en créer une autre", $this->campagne));
@@ -175,11 +173,24 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $drm_suivante->init(array('keepStock' => $keepStock));
         $drm_suivante->update();
         $drm_suivante->periode = $periode;
-
+        $drm_suivante->etape = ($isTeledeclarationMode) ? DRMClient::ETAPE_CHOIX_PRODUITS : DRMClient::ETAPE_SAISIE;
         if ($is_just_the_next_periode) {
             $drm_suivante->precedente = $this->_id;
         }
-
+        foreach ($drm_suivante->declaration->getProduitsDetails() as $details) {
+            $details->getCepage()->add('no_movements', false);
+            $details->getCepage()->add('edited', false);
+        }
+        foreach ($drm_suivante->getAllCrds() as $key => $crd) {
+            $crd->stock_debut = $crd->stock_fin;
+            $crd->stock_fin = null;
+            $crd->entrees = null;
+            $crd->sorties = null;
+            $crd->pertes = null;
+        }
+        if(!$drm_suivante->exist('favoris')){
+            $drm_suivante->buildFavoris();
+        }
         return $drm_suivante;
     }
 
@@ -318,7 +329,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         $this->setInterpros();
-        $this->generateMouvements();
+        $this->generateMouvements(isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']);
 
         $this->archivage_document->archiver();
 
@@ -790,19 +801,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->_get('mouvements');
     }
 
-    public function getMouvementsCalcule() {
+    public function getMouvementsCalcule($teledeclaration_drm = false) {
 
-        return $this->declaration->getMouvements();
+        return $this->declaration->getMouvements($teledeclaration_drm);
     }
 
-    public function getMouvementsCalculeByIdentifiant($identifiant) {
+    public function getMouvementsCalculeByIdentifiant($identifiant, $teledeclaration_drm = false) {
 
-        return $this->mouvement_document->getMouvementsCalculeByIdentifiant($identifiant);
+        return $this->mouvement_document->getMouvementsCalculeByIdentifiant($identifiant, $teledeclaration_drm);
     }
 
-    public function generateMouvements() {
-
-        return $this->mouvement_document->generateMouvements();
+    public function generateMouvements($teledeclaration_drm = false) {
+        return $this->mouvement_document->generateMouvements($teledeclaration_drm);
     }
 
     public function findMouvement($cle, $id = null) {
@@ -864,4 +874,36 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /*     * * FIN DROIT ** */
+
+    /*     * * CRDS ** */
+
+    public function getAllCrds() {
+        if ($this->exist('crds') && $this->crds) {
+            return $this->crds;
+        }
+        return array();
+    }
+
+    public function addCrdType($couleur, $litrage, $stock_debut = null) {
+        return $this->getOrAdd('crds')->getOrAddCrdType($couleur, $litrage, $stock_debut);
+    }
+
+    /*     * * FIN CRDS ** */
+    
+       /** * FAVORIS ** */
+    public function buildFavoris() {
+        foreach (DRMClient::drmDefaultFavoris() as $key => $value) {
+            $keySplitted = split('/', $key);
+            $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->add($keySplitted[1],$value);
+        }
+    }
+    
+    public function getAllFavoris() {
+        if ($this->exist('favoris') && $this->favoris) {
+            return $this->favoris;
+        }
+        return DRMClient::drmDefaultFavoris();
+    }
+    
+    /*     * * FIN FAVORIS ** */
 }

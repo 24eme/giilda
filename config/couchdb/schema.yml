@@ -197,6 +197,8 @@ DRM:
                                                                                                 total_sorties: { type: float }
                                                                                                 total_facturable: { type: float }
                                                                                                 total: { type: float }
+                                                                                                no_movements: { required: false }
+                                                                                                edited: { required: false }
                                                                                                 details:
                                                                                                   type: collection
                                                                                                   class: DRMDetails
@@ -434,3 +436,33 @@ DRM:
                         date: {  }
                         date_version: {  }
                         version: {  }
+      crds:
+        type: collection
+        required: false
+        class: DRMCrds
+        definition:
+          fields:
+            '*':
+              type: collection
+              class: DRMCrd
+              definition:
+                fields:
+                  stock_debut: {  }
+                  couleur: {  }
+                  centilitrage: {  }
+                  entrees: {  }
+                  sorties: {  }
+                  pertes: {  }
+                  stock_fin: {  }
+                  detail_libelle: {  }
+      favoris:
+        type: collection
+        required: false
+        class: DRMFavoris
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  '*': { }

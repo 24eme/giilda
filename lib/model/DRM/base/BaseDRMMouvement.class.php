@@ -17,6 +17,7 @@
  * @property float $cvo
  * @property integer $facture
  * @property integer $facturable
+ * @property string $region
  * @property string $date
  * @property string $date_version
  * @property string $version
@@ -47,6 +48,8 @@
  * @method integer setFacture()
  * @method integer getFacturable()
  * @method integer setFacturable()
+ * @method string getRegion()
+ * @method string setRegion()
  * @method string getDate()
  * @method string setDate()
  * @method string getDateVersion()

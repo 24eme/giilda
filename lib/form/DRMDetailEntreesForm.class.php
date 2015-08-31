@@ -17,5 +17,5 @@ class DRMDetailEntreesForm  extends acCouchdbObjectForm {
         $this->widgetSchema->setNameFormat('drm_detail_entrees[%s]');
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
-
+    
 }
