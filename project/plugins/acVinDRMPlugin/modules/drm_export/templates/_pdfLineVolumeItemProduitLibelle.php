@@ -1,1 +1,0 @@
-<?php echo strtoupper($item->getCode()) ?>
