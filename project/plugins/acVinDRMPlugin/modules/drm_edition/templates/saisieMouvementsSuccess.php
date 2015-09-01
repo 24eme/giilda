@@ -14,8 +14,10 @@
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_SAISIE)); ?>
     <?php include_partial('drm/controlMessage'); ?>
 
-    <div id="application_drm">
-        <div id="contenu_onglet">
+    <?php include_partial('drm_edition/colonne_droite_fil_edition', array('produits' => $details, 'drm' => $drm, 'config' => $config)); ?>
+
+    <div class="row" id="application_drm">
+        <div class="col-xs-12" id="contenu_onglet">
             <?php
             include_partial('drm_edition/list', array('drm_noeud' => $drm->declaration,
                 'config' => $config,
@@ -52,6 +54,6 @@
 </section>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
-include_partial('drm_edition/colonne_droite_fil_edition', array('produits' => $details, 'drm' => $drm, 'config' => $config));
+
 include_partial('drm/deleteDrmPopup', array('drm' => $drm, 'deleteForm' => $deleteForm));
 ?>

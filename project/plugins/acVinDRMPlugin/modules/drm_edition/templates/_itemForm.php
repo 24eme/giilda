@@ -4,12 +4,14 @@
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 ?>
-<div data-hash="<?php echo $detail->getHash() ?>" class="col_recolte<?php if ($active): ?> col_active<?php endif; ?> <?php echo ($detail->isEdited()) ? 'col_edited' : '' ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>">
-    <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
-        <?php echo $form->renderHiddenFields(); ?>
+<div class="pull-left" style="width: 280px; padding-right: 20px;">
+<div data-hash="<?php echo $detail->getHash() ?>"  class="panel panel-default col_recolte<?php if ($active): ?> col_active<?php endif; ?> <?php echo ($detail->isEdited()) ? 'col_edited' : '' ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>">
+
+        <div class="panel-heading"><?php echo $form->getObject()->getLibelle("%format_libelle%") ?></div>
+        <div class="col_cont panel-body">
         <a href="#" class="col_curseur" data-curseur="<?php echo $form->getObject()->getKey() ?>"></a>
-        <h2 class="titre_produit"><?php echo $form->getObject()->getLibelle("%format_libelle%") ?></h2>
-        <div class="col_cont">
+            <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
+        <?php echo $form->renderHiddenFields(); ?>
             <div class="groupe" data-groupe-id="1">
                 <p class="itemcache <?php echo isVersionnerCssClass($form->getObject(), 'total_debut_mois') ?>">
                     <?php echo $form['total_debut_mois']->render(array('data-val-defaut' => sprintFloat($form->getObject()->total_debut_mois), 'class' => 'num num_float somme_groupe test')) ?>
@@ -141,6 +143,7 @@ $favoris_sorties = $favoris->sorties;
                 <button id="valide_<?php echo $detail->getHash() ?>" class="btn_valider btn_majeur btn_colonne_validation" type="submit">Valider</button>
                 <button class="btn_reinitialiser btn_annuler btn_majeur" style="margin-top: 8px;" type="submit">Annuler</button>
             </div>
+            </form>
         </div>
-    </form>
+</div>
 </div>

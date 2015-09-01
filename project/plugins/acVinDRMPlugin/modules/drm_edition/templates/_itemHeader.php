@@ -2,9 +2,11 @@
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 ?>
-<div id="colonne_intitules" style="width: 210px">
+<div class="pull-left" style="width: 210px">
+<div class="panel panel-default" id="colonne_intitules">
+        <div class="panel-heading">Produit</div>
+        <div class="panel-body">
     <form action="<?php echo url_for('drm_choix_favoris', $formFavoris->getObject()) ?>" method="post">
-        <p class="couleur">Produit</p>
         <?php echo $formFavoris->renderHiddenFields(); ?>
         <?php echo $formFavoris->renderGlobalErrors(); ?>
         <div class="groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
@@ -91,4 +93,6 @@ $favoris_sorties = $favoris->sorties;
             </ul>
         </div>
     </form>
+        </div>
+</div>
 </div>

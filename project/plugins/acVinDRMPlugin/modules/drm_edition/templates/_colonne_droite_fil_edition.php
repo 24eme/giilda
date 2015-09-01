@@ -1,6 +1,3 @@
-<?php
-slot('colFilEdition');
-?>
 <div class="bloc_col" id="drm_fil_edition">
     <h2>Edition des Produits</h2>
 
@@ -24,4 +21,3 @@ slot('colFilEdition');
         </div>
     </div>
 </div>
-<?php end_slot(); ?>
