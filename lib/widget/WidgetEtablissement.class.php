@@ -70,7 +70,12 @@ class WidgetEtablissement extends bsWidgetFormChoice
     }
 
     public function getChoices() {
-        $etablissements = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles($this->getOption('interpro_id'), EtablissementClient::STATUT_ACTIF, array($this->getOption('familles')));
+        $familles = $this->getOption('familles');
+        if (!is_array($familles) && $familles) {
+            $familles = array($familles);
+        }
+
+        $etablissements = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles($this->getOption('interpro_id'), EtablissementClient::STATUT_ACTIF, $familles);
 
         $choices = array("" => "");
 
