@@ -35,9 +35,15 @@ class DRMRouting {
         $r = $event->getSubject();
 
         $r->prependRoute('drm', new sfRoute('/drm', array('module' => 'drm',
-            'action' => 'chooseEtablissement')));
+            'action' => 'index')));
 
-        $r->prependRoute('drm_etablissement', new EtablissementRoute('/drm/:identifiant/:campagne', array('module' => 'drm',
+        $r->prependRoute('drm_etablissement_selection',  new sfRoute('/drm/etablissement-selection', 
+                                                                    array('module' => 'drm', 
+                                                                    'action' => 'etablissementSelection'),
+                                                                    array('sf_method' => array('post'))
+                                                        ));
+
+        $r->prependRoute('drm_etablissement', new EtablissementRoute('/drm/etablissement/:identifiant/:campagne', array('module' => 'drm',
             'action' => 'monEspace', 'campagne' => null), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
             'type' => 'object')
         ));

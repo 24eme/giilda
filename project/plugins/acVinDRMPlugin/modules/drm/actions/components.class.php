@@ -2,9 +2,13 @@
 
 class drmComponents extends sfComponents {
 
-    public function executeChooseEtablissement() {
+     public function executeFormEtablissementChoice() {
+        if (!$this->identifiant) {
+            $this->identifiant = null;
+        }
+
         if (!$this->form) {
-            $this->form = new DRMEtablissementChoiceForm('INTERPRO-inter-loire', array('identifiant' => $this->identifiant));
+            $this->form = new DRMEtablissementChoiceForm('INTERPRO-declaration', array('identifiant' => $this->identifiant));
         }
     }
 

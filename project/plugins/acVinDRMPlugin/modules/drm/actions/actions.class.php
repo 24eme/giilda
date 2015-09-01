@@ -25,17 +25,21 @@ class drmActions extends drmGeneriqueActions {
         return $this->redirect('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
     }
 
-    public function executeChooseEtablissement(sfWebRequest $request) {
+    public function executeIndex(sfWebRequest $request) {
+        $this->redirect403IfIsTeledeclaration();
+    }
 
+    public function executeEtablissementSelection(sfWebRequest $request) {
         $this->redirect403IfIsTeledeclaration();
 
-        $this->form = new DRMEtablissementChoiceForm('INTERPRO-inter-loire');
-        if ($request->isMethod(sfWebRequest::POST)) {
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                return $this->redirect('drm_etablissement', $this->form->getEtablissement());
-            }
+        $form = new DRMEtablissementChoiceForm('INTERPRO-declaration');
+        $form->bind($request->getParameter($form->getName()));
+        if (!$form->isValid()) {
+
+            return $this->redirect('drm');
         }
+
+        return $this->redirect('drm_etablissement', $form->getEtablissement());
     }
 
     public function executeRedirectEtape(sfWebRequest $request) {

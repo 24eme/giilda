@@ -55,16 +55,14 @@ class vracActions extends sfActions {
     }
 
     public function executeEtablissementSelection(sfWebRequest $request) {
-        if ($request->isMethod(sfWebRequest::POST)) {
-            $form = new VracEtablissementChoiceForm('INTERPRO-declaration');
-            $form->bind($request->getParameter($form->getName()));
-            if ($form->isValid()) {
-                $etablissement = $form->getEtablissement();
-                return $this->redirect(array('sf_route' => 'vrac_recherche', 'identifiant' => $etablissement->identifiant));
-            }
-
-            return $this->redirect('vrac');
+        $form = new VracEtablissementChoiceForm('INTERPRO-declaration');
+        $form->bind($request->getParameter($form->getName()));
+        if ($form->isValid()) {
+            $etablissement = $form->getEtablissement();
+            return $this->redirect(array('sf_route' => 'vrac_recherche', 'identifiant' => $etablissement->identifiant));
         }
+
+        return $this->redirect('vrac');
     }
 
     public function executeRecherche(sfWebRequest $request) {
