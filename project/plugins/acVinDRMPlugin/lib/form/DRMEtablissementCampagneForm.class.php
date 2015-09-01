@@ -1,5 +1,5 @@
 <?php
-class DRMEtablissementCampagneForm extends sfForm
+class DRMEtablissementCampagneForm extends BaseForm
 {
     
   private $isTeledeclarationMode = false;
