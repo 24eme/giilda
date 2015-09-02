@@ -6,6 +6,11 @@ Current:
       _rev: {  }
       type: {  }
       campagne: {  }
+      configurations:
+        type: collection
+        definition:
+          fields:
+            '*': {  }
 
 Configuration:
   definition:
@@ -29,6 +34,16 @@ Configuration:
         definition:
           fields:
             '*': {  }
+      mvts_favoris:
+        type: collection
+        definition:
+          fields:
+            '*': { }
+      correspondances:
+        type: collection
+        definition:
+          fields:
+            '*': { }
       libelle_detail_ligne:
         type: collection
         definition:
@@ -37,22 +52,46 @@ Configuration:
               type: collection
               definition:
                 fields:
-                  '*': {  }
+                  '*':
+                    type: collection
+                    definition:
+                      fields:
+                        libelle: {  }  
+                        libelle_long: {  }  
+                        description: {  }  
             entrees:
               type: collection
               definition:
                 fields:
-                  '*': {  }
+                  '*':
+                    type: collection
+                    definition:
+                      fields:
+                        libelle: {  }  
+                        libelle_long: {  }  
+                        description: {  }  
             sorties:
               type: collection
               definition:
                 fields:
-                  '*': {  }
+                  '*':
+                    type: collection
+                    definition:
+                      fields:
+                        libelle: {  }  
+                        libelle_long: {  }  
+                        description: {  }  
             stocks_fin:
               type: collection
               definition:
                 fields:
-                  '*': {  }
+                  '*':
+                    type: collection
+                    definition:
+                      fields:
+                        libelle: {  }  
+                        libelle_long: {  }  
+                        description: {  }  
       alias:
         type: collection
         definition:
@@ -61,13 +100,13 @@ Configuration:
               type: array_collection
               definition:
                 fields:
-                  '*': {  }
+                  '*': {  }                  
       declaration:
         type: collection
         class: ConfigurationDeclaration
         inheritance: _ConfigurationDeclaration
         definition:
-          fields:
+          fields: 
             detail:
               required: false
               class: ConfigurationDetail
@@ -90,6 +129,9 @@ Configuration:
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
+                              douane_type: { }
+                              douane_cat: { }
+                              taxable_douane: { }
                   entrees:
                     required: false
                     type: collection
@@ -106,6 +148,9 @@ Configuration:
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
+                              douane_type: { }
+                              douane_cat: { }
+                              taxable_douane: { }
                   sorties:
                     required: false
                     type: collection
@@ -122,6 +167,9 @@ Configuration:
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
+                              douane_type: { }
+                              douane_cat: { }
+                              taxable_douane: { }
                   stocks_fin:
                     required: false
                     type: collection
@@ -138,6 +186,9 @@ Configuration:
                               mouvement_coefficient: {  }
                               vrac: { type: integer }
                               facturable: {  }
+                              douane_type: { }
+                              douane_cat: { }
+                              taxable_douane: { }
             certifications:
               type: collection
               definition:
@@ -173,6 +224,7 @@ Configuration:
                                       definition:
                                         fields:
                                           '*': {  }
+                                    produit_non_interpro : { required: false }
                                     dates_circulation:
                                       type: collection
                                       required: false
@@ -318,6 +370,7 @@ Configuration:
                                                   definition:
                                                     fields:
                                                       '*': {  }
+                                                produit_non_interpro : { required: false }
                                                 dates_circulation:
                                                     type: collection
                                                     required: false
@@ -469,6 +522,7 @@ Configuration:
                                                               definition:
                                                                 fields:
                                                                   '*': {  }
+                                                            produit_non_interpro : { required: false }
                                                             dates_circulation:
                                                               type: collection
                                                               required: false
@@ -549,6 +603,7 @@ Configuration:
                                                                           definition:
                                                                             fields:
                                                                               '*': {  }
+                                                                        produit_non_interpro : { required: false }
                                                                         dates_circulation:
                                                                             type: collection
                                                                             required: false
@@ -698,6 +753,7 @@ Configuration:
                                                                                       definition:
                                                                                         fields:
                                                                                           '*': {  }
+                                                                                    produit_non_interpro : { required: false }
                                                                                     dates_circulation:
                                                                                         type: collection
                                                                                         required: false
@@ -848,6 +904,7 @@ Configuration:
                                                                                                   definition:
                                                                                                     fields:
                                                                                                       '*': {  }
+                                                                                                produit_non_interpro : { required: false }
                                                                                                 dates_circulation:
                                                                                                     type: collection
                                                                                                     required: false
@@ -985,6 +1042,60 @@ Configuration:
                                                                                                 code_produit: {  }
                                                                                                 code_comptable: {  }
                                                                                                 code_douane: {  }
+                                                                                                interpro:
+                                                                                                  type: collection
+                                                                                                  definition:
+                                                                                                    fields:
+                                                                                                      '*':
+                                                                                                        type: collection
+                                                                                                        definition:
+                                                                                                          fields:
+                                                                                                            produit_non_interpro : { required: false }
+                                                                                                            dates_circulation:
+                                                                                                              type: collection
+                                                                                                              required: false
+                                                                                                              definition:
+                                                                                                                fields:                                                                                            
+                                                                                                                  '*':
+                                                                                                                    class: ConfigurationDateCirculation
+                                                                                                                    type: collection
+                                                                                                                    definition:
+                                                                                                                      fields:
+                                                                                                                        campagne: {  }
+                                                                                                                        date_debut: {  }
+                                                                                                                        date_fin: {  }
+                                                                                                            droits:
+                                                                                                              type: collection
+                                                                                                              definition:
+                                                                                                                fields:
+                                                                                                                  douane:
+                                                                                                                    class: ConfigurationDroits
+                                                                                                                    type: array_collection
+                                                                                                                    definition:
+                                                                                                                      fields:
+                                                                                                                        '*':
+                                                                                                                          class: ConfigurationDroit
+                                                                                                                          type: collection
+                                                                                                                          definition:
+                                                                                                                            fields:
+                                                                                                                              date: {  }
+                                                                                                                              taux: { type: float }
+                                                                                                                              code: {  }
+                                                                                                                              libelle: {  }
+                                                                                                                  cvo:
+                                                                                                                    class: ConfigurationDroits
+                                                                                                                    type: array_collection
+                                                                                                                    definition:
+                                                                                                                      fields:
+                                                                                                                        '*':
+                                                                                                                          class: ConfigurationDroit
+                                                                                                                          type: collection
+                                                                                                                          definition:
+                                                                                                                            fields:
+                                                                                                                              date: {  }
+                                                                                                                              taux: { type: float }
+                                                                                                                              code: {  }
+                                                                                                                              libelle: {  }
                         detail:
                           required: false
                           class: ConfigurationDetail

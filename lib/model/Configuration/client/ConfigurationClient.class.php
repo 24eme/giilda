@@ -2,7 +2,7 @@
 
 class ConfigurationClient extends acCouchdbClient {
 	
-	private static $current = array();
+	protected $configurations = array();
 
     protected $countries = null;
     protected $campagne_vinicole_manager = null;
@@ -36,50 +36,61 @@ class ConfigurationClient extends acCouchdbClient {
 	  	return acCouchdbManager::getClient("CONFIGURATION");
 	}
 
-    public function findCurrent($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-
-        return $configuration = $this->find('CONFIGURATION', $hydrate);
-    }
 
 	/**
 	*
 	* @return Current 
 	*/
 	public static function getCurrent() {
-		if (self::$current == null) {
-            self::$current = self::getInstance()->cacheGetCurrent();
-		}
 
-		return self::$current;
-	}
-  
-	public function findCurrentForCache() {
-	  	$configuration = $this->findCurrent();
-        if(!sfConfig::get('sf_debug')) {
-            $configuration->prepareCache();
-        }
-		return $configuration;
+		return self::getInstance()->getConfiguration();
 	}
 
-    public function cacheGetCurrent() {
+    public static function getConfiguration($date = null) {
         
-        return CacheFunction::cache('model_configuration', array(ConfigurationClient::getInstance(), 'findCurrentForCache'), array());
+        return self::getInstance()->findConfiguration($date);
     }
 
-    public function cacheResetCurrent() {
-        CacheFunction::remove('model_configuration');
-    }
-  
-    public function findProduitsForAdmin($interpro) {
-        return $this->startkey(array($interpro))
-              ->endkey(array($interpro, array()))->getView('configuration', 'produits_admin');
-    }
-  
-    public function findProduitsByCertificationAndInterpro($interpro, $certif) {
-        return $this->startkey(array($interpro, $certif))
-              ->endkey(array($interpro, $certif, array()))->getView('configuration', 'produits_admin');
+    public static function getConfigurationByCampagne($campagne) {
+        $date = self::getInstance()->getCampagneVinicole()->getDateDebutByCampagne($campagne);
+
+        return self::getInstance()->getConfiguration($date);
     }
 
+    public function findConfiguration($date = null) {
+        if(is_null($date)) {
+            $date = date('Y-m-d');
+        }
+
+        $current = CurrentClient::getCurrent();
+        $id = $current->getConfigurationId($date);
+
+        if(array_key_exists($id, $this->configurations)) {
+
+            return $this->configurations[$id];
+        }
+
+        $this->configurations[$id] = $this->cacheFindConfigurationForCache($id);
+
+        return $this->configurations[$id];
+    }
+
+    public function cacheFindConfigurationForCache($id) {
+
+        return CacheFunction::cache('model', array(ConfigurationClient::getInstance(), 'findConfigurationForCache'), array($id));
+    }
+
+    public function findConfigurationForCache($id) {
+        $configuration = $this->find($id);
+        $configuration->prepareCache();
+        
+        return $configuration;
+    }
+
+    public function cacheResetConfiguration() {
+        CacheFunction::remove('model');
+    }
+  
     public function getCampagneVinicole() {
         if(is_null($this->campagne_vinicole_manager)) {
 
@@ -200,6 +211,18 @@ class ConfigurationClient extends acCouchdbClient {
         return $this->buildPeriode($nextYear, $nextMonth);
     }
 
+      public function getPeriodePrecedente($periode) {
+        $previousMonth = $this->getMois($periode) - 1;
+        $previousYear = $this->getAnnee($periode);
+
+        if ($previousMonth < 1) {
+            $previousMonth = 12;
+            $previousYear--;
+        }
+      
+        return $this->buildPeriode($previousYear, $previousMonth);
+    }
+    
     public function getCurrentPeriode() {
 
         return date('Ym');
@@ -268,6 +291,18 @@ class ConfigurationClient extends acCouchdbClient {
     public function formatLabelsLibelle($labels, $format = "%la%", $separator = ", ") {
         
         return str_replace("%la%", implode($separator, $labels), $format);
+    }
+
+    public function fork($fork_doc_id, $configuration = null) {
+        if(is_null($configuration)) {
+            $configuration = self::getCurrent();
+        }
+
+        $fork = clone $configuration;
+        $fork->_id = $fork_doc_id;
+        $fork->declaration->compressDroits();
+
+        return $fork;
     }
   
 }

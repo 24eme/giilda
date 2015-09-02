@@ -1,34 +1,49 @@
 <?php
+
 /**
  * Model for ConfigurationDetailLigne
  *
  */
-
 class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
-  public function isReadable() {
+    public function isReadable() {
 
-    return ($this->readable);
-  }
+        return ($this->readable);
+    }
 
-  public function isWritable() {
+    public function isWritable() {
 
-    return ($this->readable) && ($this->writable);
-  }
+        return ($this->readable) && ($this->writable);
+    }
 
-  public function isVrac() {
+    public function isVrac() {
 
-    return ($this->vrac > 0);
-  }
+        return ($this->vrac > 0);
+    }
 
-  public function hasDetails() {
+    public function hasDetails() {
 
-    return ($this->details > 0);
-  }
+        return ($this->details > 0);
+    }
 
-  public function getLibelle() {
+    public function getLibelle() {
 
-  	return $this->getDocument()->libelle_detail_ligne->get($this->getParent()->getKey())->get($this->getKey());
-  }
-  
+        return $this->getLibelleDetail()->libelle;
+    }
+
+    public function getLibelleLong() {
+
+        return $this->getLibelleDetail()->libelle_long;
+    }
+
+    public function getDescription() {
+
+        return $this->getLibelleDetail()->description;
+    }
+
+    private function getLibelleDetail() {
+        
+        return $this->getDocument()->libelle_detail_ligne->get($this->getParent()->getKey())->get($this->getKey());
+    }
+
 }
