@@ -41,12 +41,11 @@ class ConfigurationCertification extends BaseConfigurationCertification {
         
         return $this->getDocument()->labels;
     }
-
     
     public function setDonneesCsv($datas) {
       parent::setDonneesCsv($datas);
     	$this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_LIBELLE])? $datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_LIBELLE] : null;
-    	$this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_CODE])? $datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_CODE] : null;
+      $this->code = $this->formatCodeFromCsv($datas[ProduitCsvFile::CSV_PRODUIT_CATEGORIE_CODE]);
 
     	$this->setDroitDouaneCsv($datas, ProduitCsvFile::CSV_PRODUIT_CATEGORIE_CODE_APPLICATIF_DROIT);
     	$this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_CATEGORIE_CODE_APPLICATIF_DROIT);
@@ -69,6 +68,10 @@ class ConfigurationCertification extends BaseConfigurationCertification {
     public function getTypeNoeud() {
         
         return self::TYPE_NOEUD;
+    }
+
+    public function getHashWithoutInterpro() {
+        return preg_replace('/_.*/', '', $this->getHash());
     }
 
 }
