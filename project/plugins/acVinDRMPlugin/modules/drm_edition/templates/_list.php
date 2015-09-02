@@ -18,7 +18,7 @@
                 var colFocusDefaut = <?php echo getNumberOfFirstProduitWithMovements($produits); ?>;
 
             </script>
-            <div style="width: 2000px; float: left;" id="col_saisies_cont" class="section_label_maj">
+            <div style="float: left;" id="col_saisies_cont" class="section_label_maj">
             <?php $first = true; ?>
             <?php foreach ($produits as $produit): ?>  
                 <?php if(!$produit->hasMovements()): continue; endif; ?> 

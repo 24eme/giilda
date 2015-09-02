@@ -167,8 +167,7 @@
         this._updateHauteur = function () {
             var cols = this.element_colonne_intitules.add(this.element_saisies_container);
             
-            cols.find('.couleur, h2').hauteurEgale();
-            cols.find('.label').hauteurEgale();
+            cols.find('.panel-heading').hauteurEgale();
         }
     }
 
