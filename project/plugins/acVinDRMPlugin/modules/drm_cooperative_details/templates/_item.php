@@ -15,13 +15,7 @@
             echo $form['volume']->renderError();
             echo $form['volume']->render();
             ?>
-        </td>
-        <td class="cooperative_detail_date_enlevement champ_datepicker">
-                <?php
-                echo $form['date_enlevement']->renderError();
-                echo $form['date_enlevement']->render();
-                ?>
-        </td>   
+        </td>        
         <td class="cooperative_detail_remove">    
             <a href="#"  class="btn_majeur btn_annuler drm_details_remove">&nbsp;</a>
         </td>  

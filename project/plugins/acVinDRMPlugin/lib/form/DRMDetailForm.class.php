@@ -31,6 +31,8 @@ class DRMDetailForm extends acCouchdbObjectForm {
     
     public function doUpdateObject($values) {
     	parent::doUpdateObject($values);
+        $this->getObject()->getCepage()->add('no_movements',false);
+        $this->getObject()->getCepage()->add('edited',true);
         $this->getObject()->getDocument()->update();
     }
 
@@ -38,7 +40,7 @@ class DRMDetailForm extends acCouchdbObjectForm {
     {
         if (is_null($this->_label_choices)) {
             $this->_label_choices = array();
-            foreach (ConfigurationClient::getCurrent()->label as $key => $label) {
+            foreach ($this->getObject()->getDocument()->getConfig()->label as $key => $label) {
             	$this->_label_choices[$key] = $label;
             }
         }

@@ -25,8 +25,11 @@
 	<td>
 		<?php include_partial('itemNoeud', array('produit' => $produit, 'noeud' => $produit->getCepage(), 'cvo' => $cvo)) ?>
 	</td>
+   	<td class="center">
+		<strong title="<?php echo $cvo->date ?>"><?php echo (!is_null($cvo)) ? $cvo->taux : null ?></strong>
+	</td>
 	<td class="center">
-		<strong><?php echo (!is_null($cvo)) ? $cvo->taux : null ?></strong>
+		<strong><?php echo (!is_null($douane)) ? $douane->taux : null ?></strong>
 	</td>
 	<td class="center">
 		<a href="<?php echo url_for('produit_modification', array('noeud' => $produit->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>">

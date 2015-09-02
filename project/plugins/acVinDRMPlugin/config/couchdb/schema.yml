@@ -22,7 +22,10 @@ DRM:
       raison_rectificative: {  }
       etape: {  }
       campagne: {  }
+      type_creation: {  }
+      email_transmission: {  }
       periode: {  }
+      teledeclare: { }
       precedente: {  }
       version: {  }
       numero_archive: {  }
@@ -40,8 +43,8 @@ DRM:
                     type: collection
                     definition:
                       fields:
-                        volume_taxe: { type: integer }
-                        volume_reintegre: { type: integer }
+                        volume_taxe: { type: float }
+                        volume_reintegre: { type: float }
                         taux: { type: float }
                         code: {  }
                         libelle: {  }
@@ -58,8 +61,8 @@ DRM:
                     type: collection
                     definition:
                       fields:
-                        volume_taxe: { type: integer }
-                        volume_reintegre: { type: integer }
+                        volume_taxe: { type: float }
+                        volume_reintegre: { type: float }
                         taux: { type: float }
                         code: {  }
                         libelle: {  }
@@ -197,6 +200,8 @@ DRM:
                                                                                                 total_sorties: { type: float }
                                                                                                 total_facturable: { type: float }
                                                                                                 total: { type: float }
+                                                                                                no_movements: { required: false }
+                                                                                                edited: { required: false }
                                                                                                 details:
                                                                                                   type: collection
                                                                                                   class: DRMDetails
@@ -239,45 +244,68 @@ DRM:
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
-                                                                                                                  revendique: { type: float }
-                                                                                                                  instance: { type: float }
-                                                                                                                  bloque: { type: float }
+                                                                                                                  revendique: { type: float, required: false }
+                                                                                                                  instance: { type: float, required: false }
+                                                                                                                  bloque: { type: float, required: false }
                                                                                                             entrees:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
-                                                                                                                  achat: { type: float }
-                                                                                                                  recolte: { type: float }
-                                                                                                                  transfert: { type: float }
-                                                                                                                  cooperative: { type: float }
-                                                                                                                  reintegration: { type: float }
-                                                                                                                  elaboration: { type: float }
-                                                                                                                  repli: { type: float }
-                                                                                                                  regularisation: { type: float }
-                                                                                                                  fermagemetayage: { type: float }
+                                                                                                                  vci: { type: float, required: false } #NOUVEAU
+                                                                                                                  achatnoncrd: { type: float, required: false } #NOUVEAU
+                                                                                                                  achatcrd: { type: float, required: false } #NOUVEAU
+                                                                                                                  transfertsinternes: { type: float, required: false } #NOUVEAU
+                                                                                                                  declassement: { type: float, required: false } #NOUVEAU
+                                                                                                                  retourmarchandisenontaxees: { type: float, required: false } #NOUVEAU
+                                                                                                                  retourmarchandisetaxees: { type: float, required: false } #NOUVEAU
+                                                                                                                  transfertcomptamatierecession: { type: float, required: false } #NOUVEAU
+                                                                                                                  travailafacon: { type: float, required: false } #NOUVEAU
+                                                                                                                  revendique: { type: float, required: false } #NOUVEAU
+                                                                                                                  achat: { type: float, required: false }
+                                                                                                                  recolte: { type: float, required: false }
+                                                                                                                  transfert: { type: float, required: false }
+                                                                                                                  cooperative: { type: float, required: false }
+                                                                                                                  reintegration: { type: float, required: false }
+                                                                                                                  elaboration: { type: float, required: false }
+                                                                                                                  repli: { type: float, required: false }
+                                                                                                                  regularisation: { type: float, required: false }
+                                                                                                                  fermagemetayage: { type: float, required: false }
                                                                                                             sorties:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
-                                                                                                                  export: { type: float }
-                                                                                                                  vracsanscontrat: { type: float }
-                                                                                                                  vrac: { type: float }
-                                                                                                                  bib: { type: float }
-                                                                                                                  bouteille: { type: float }
-                                                                                                                  consommation: { type: float }
-                                                                                                                  distillation: { type: float }
-                                                                                                                  fermagemetayage: { type: float }
-                                                                                                                  repli: { type: float }
-                                                                                                                  declassement: { type: float }
-                                                                                                                  cooperative: { type: float }
-                                                                                                                  cession: { type: float }
-                                                                                                                  elaboration: { type: float }
-                                                                                                                  regularisation: { type: float }
+                                                                                                                  vracsanscontratsuspendu: { type: float, required: false } #NOUVEAU
+                                                                                                                  vracsanscontratacquitte: { type: float, required: false } #NOUVEAU
+                                                                                                                  ventefrancebouteillecrd: { type: float, required: false } #NOUVEAU
+                                                                                                                  ventefrancebibcrd: { type: float, required: false } #NOUVEAU
+                                                                                                                  vrac: { type: float, required: false } #ANCIEN et NOUVEAU
+                                                                                                                  consommationfamilialedegustation: { type: float, required: false } #NOUVEAU
+                                                                                                                  distillationusageindustriel: { type: float, required: false } #NOUVEAU
+                                                                                                                  transfertsinternes: { type: float, required: false } #NOUVEAU
+                                                                                                                  vci: { type: float, required: false } #NOUVEAU
+                                                                                                                  travailafacon: { type: float, required: false } #NOUVEAU
+                                                                                                                  export: { type: float, required: false } #ANCIEN ET NOUVEAU                                                                                                                  
+                                                                                                                  destructionperte: { type: float, required: false } #NOUVEAU
+                                                                                                                  manquant: { type: float, required: false } #NOUVEAU
+                                                                                                                  contrathorsinterpro: { type: float, required: false } #NOUVEAU
+                                                                                                                  vracsanscontrat: { type: float, required: false } #ANCIEN
+                                                                                                                  bib: { type: float, required: false } #ANCIEN
+                                                                                                                  bouteille: { type: float, required: false } #ANCIEN
+                                                                                                                  consommation: { type: float, required: false } #ANCIEN
+                                                                                                                  distillation: { type: float, required: false } #ANCIEN
+                                                                                                                  fermagemetayage: { type: float, required: false } #ANCIEN
+                                                                                                                  repli: { type: float, required: false } #ANCIEN ET NOUVEAU
+                                                                                                                  declassement: { type: float, required: false } #ANCIEN ET #NOUVEAU
+                                                                                                                  cooperative: { type: float, required: false } #ANCIEN
+                                                                                                                  cession: { type: float, required: false } #ANCIEN ET NOUVEAU
+                                                                                                                  elaboration: { type: float, required: false } #ANCIEN
+                                                                                                                  regularisation: { type: float, required: false } #ANCIEN
                                                                                                                   vrac_details:
                                                                                                                     class: DRMESDetails
                                                                                                                     type:  collection
+                                                                                                                    required: false
                                                                                                                     definition:
                                                                                                                       fields:
                                                                                                                         '*':
@@ -288,9 +316,12 @@ DRM:
                                                                                                                               identifiant: {  }
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
+                                                                                                                              numero_document: {  }
+                                                                                                                              type_document: {  }
                                                                                                                   export_details:
                                                                                                                     class: DRMESDetails
                                                                                                                     type:  collection
+                                                                                                                    required: false
                                                                                                                     definition:
                                                                                                                       fields:
                                                                                                                         '*':
@@ -301,9 +332,12 @@ DRM:
                                                                                                                               identifiant: {  }
                                                                                                                               volume: { type: float }
                                                                                                                               date_enlevement: {  }
+                                                                                                                              numero_document: {  }
+                                                                                                                              type_document: {  }
                                                                                                                   cooperative_details:
                                                                                                                      class: DRMESDetails
                                                                                                                      type:  collection
+                                                                                                                     required: false
                                                                                                                      definition:
                                                                                                                        fields:
                                                                                                                          '*':
@@ -311,17 +345,19 @@ DRM:
                                                                                                                             class: DRMESDetailCooperative
                                                                                                                             definition:
                                                                                                                               fields:
-                                                                                                                                identifiant: {  }
+                                                                                                                                identifiant: { }
                                                                                                                                 volume: { type: float }
-                                                                                                                                date_enlevement: {  }
+                                                                                                                                date_enlevement: { }
+                                                                                                                                numero_document: { }
+                                                                                                                                type_document: {  }
                                                                                                             stocks_fin:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
-                                                                                                                  revendique: { type: float }
-                                                                                                                  instance: { type: float }
-                                                                                                                  bloque: { type: float }
+                                                                                                                  revendique: { type: float, required: false }
+                                                                                                                  instance: { type: float, required: false }
+                                                                                                                  bloque: { type: float, required: false }
       declarant:
         type: collection
         definition:
@@ -336,6 +372,23 @@ DRM:
             commune: {  }
             code_postal: {   }
             region: {  }
+            adresse_compta: {  }
+            caution: { }
+            raison_sociale_cautionneur: { }
+      societe:
+        type: collection
+        definition:
+          fields:
+            raison_sociale: { }
+            siret: { }
+            email: { } 
+            telephone: { }
+            fax: { } 
+            adresse: { }
+            commune: { }
+            code_postal: { }
+            paiement_douane_moyen: { }
+            paiement_douane_frequence: { }
       declaratif:
         class: DRMDeclaratif
         type: collection
@@ -434,3 +487,68 @@ DRM:
                         date: {  }
                         date_version: {  }
                         version: {  }
+      crds:
+        type: collection
+        class: DRMCrdsRegime
+        required: false
+        definition:
+          fields:
+            '*':
+              type: collection
+              class: DRMCrds
+              definition:
+                fields:
+                  '*':
+                    type: collection
+                    class: DRMCrd
+                    definition:
+                      fields:
+                        genre: {  }
+                        stock_debut: {  }
+                        stock_fin: {  }
+                        couleur: {  }
+                        centilitrage: {  }
+                        detail_libelle: {  }
+                        entrees_achats: {  }
+                        entrees_retours: {  }
+                        entrees_excedents: {  }
+                        sorties_utilisations: {  }
+                        sorties_destructions: {  }
+                        sorties_manquants: {  }
+      favoris:
+        type: collection
+        required: false
+        class: DRMFavoris
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  '*': { }                  
+      documents_annexes:
+        type: collection
+        required: true
+        definition:          
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  'debut': { }    
+                  'fin': { }                  
+      releve_non_apurement:
+        type: collection
+        class: DRMNonApurement
+        required: false
+        definition:          
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  'numero_document': { }    
+                  'date_emission': { }  
+                  'numero_accise': { }  
+      observations: { }
+      quantite_sucre: { }

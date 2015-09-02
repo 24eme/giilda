@@ -260,6 +260,10 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
        $this->loadData();
        foreach ($this as $key => $field) {
             if ($this->fieldIsCollection($key)) {
+                if(!is_object($field)) {
+
+                    throw new sfException(sprintf("%s/%s should be a collection (string value given)", $this->getHash(), $key));
+                }
                 $field->loadAllData();
             }
         } 

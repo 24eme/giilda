@@ -26,11 +26,11 @@ class DRMDetailNoeud extends BaseDRMDetailNoeud {
     }
 
   public function set($key, $value) {
+      
     if (is_object($value)) {
         parent::set($key, $value);
         return ;
     }
-
     if (!$this->getConfig()->exist($key)) {
       return;
     }

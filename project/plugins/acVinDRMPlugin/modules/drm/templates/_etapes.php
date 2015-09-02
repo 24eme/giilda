@@ -1,61 +1,44 @@
-<div id="statut_declaration">
-	<nav id="declaration_etapes">
-		<ol>
-                  <?php include_partial('drm/etapeItem', array('drm' => $drm,
-                                                               'libelle' => 'Informations',
-                                                               'numero' => 1,
-                                                               'numero_courant' => $numero,
-                                                               'numero_autorise' => $numero_autorise,
-                                                               'url' => url_for('drm_informations', $drm),
-                                                               'cssclass' => 'premier')); ?>
-
-                  <?php include_partial('drm/etapeItem', array('drm' => $drm,
-                                                               'libelle' => 'Ajouts / Liquidations',
-                                                               'numero' => 2,
-                                                               'numero_courant' => $numero,
-                                                               'numero_autorise' => $numero_autorise,
-                                                               'url' => url_for('drm_mouvements_generaux', $drm),
-                                                               'cssclass' => null)); ?>
-            <?php foreach($certifications as $key => $certification): ?>
-                 <?php include_partial('drm/etapeItem', array('drm' => $drm,
-                                                               'libelle' => $certification->getConfig()->getLibelle(),
-                                                               'numero' => $key,
-                                                               'numero_courant' => $numero,
-                                                               'numero_autorise' => $numero_autorise,
-                                                               'url' => url_for('drm_recap', $certification),
-                                                               'cssclass' => null)); ?>
-            <?php endforeach; ?>
-            <?php if ($numero_vrac): ?>
-            <?php include_partial('drm/etapeItem', array('drm' => $drm,
-                                                               'libelle' => 'Vrac',
-                                                               'numero' => $numero_vrac,
-                                                               'numero_courant' => $numero,
-                                                               'numero_autorise' => $numero_autorise,
-                                                               'url' => url_for('drm_vrac', $drm),
-                                                               'cssclass' => null)); ?>
-            <?php endif; ?>
-
-            <?php include_partial('drm/etapeItem', array('drm' => $drm,
-                                                               'libelle' => 'Déclaratif',
-                                                               'numero' => $numero_declaratif,
-                                                               'numero_courant' => $numero,
-                                                               'numero_autorise' => $numero_autorise,
-                                                               'url' => url_for('drm_declaratif', $drm),
-                                                               'cssclass' => null)); ?>
-
-            <?php include_partial('drm/etapeItem', array('drm' => $drm,
-                                                               'libelle' => 'Validation',
-                                                               'numero' => $numero_validation,
-                                                               'numero_courant' => $numero,
-                                                               'numero_autorise' => $numero_autorise,
-                                                               'url' => url_for('drm_validation', $drm),
-                                                               'cssclass' => 'dernier')); ?>
-		</ol>
-	</nav>	
-	<div id="etat_avancement">
-		<p>Vous avez saisi <strong><?php echo $pourcentage ?><span>%</span></strong></p>
-		<div id="barre_avancement">
-			<div style="width: <?php echo $pourcentage ?>%"></div>
-		</div>
-	</div>
-</div>
+<ol id="rail_etapes">
+    <?php $cpt_etape = 1; ?>
+    <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?> 
+        <?php $actif = ($etape_courante == DRMClient::ETAPE_CHOIX_PRODUITS); ?>
+        <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_CHOIX_PRODUITS, DRMClient::$drm_etapes))); ?>
+        <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($actif) ? 'actif' : '' ?>">
+            <a href="<?php echo url_for('drm_choix_produit', $drm); ?>">
+                <strong><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;Produits</strong>  
+            </a>
+        </li>
+    <?php endif; ?>
+    <?php $actif = ($etape_courante == DRMClient::ETAPE_SAISIE); ?>
+    <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_SAISIE, DRMClient::$drm_etapes))); ?>
+    <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($actif) ? 'actif' : '' ?>">
+        <?php if ($past): ?><a href="<?php echo url_for('drm_edition', $drm); ?>"><?php endif; ?>
+            <strong><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;Mouvements</strong>   
+            <?php if ($past): ?></a><?php endif; ?>
+    </li>
+    <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?> 
+        <?php $actif = ($etape_courante == DRMClient::ETAPE_CRD); ?>
+        <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_CRD, DRMClient::$drm_etapes))); ?>
+        <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($etape_courante == DRMClient::ETAPE_CRD) ? 'actif' : '' ?>"> 
+            <?php if ($past): ?><a href="<?php echo url_for('drm_crd', $drm); ?>"><?php endif; ?>
+                <strong><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;CRD</strong>   
+                <?php if ($past): ?></a><?php endif; ?>
+        </li>
+    <?php endif; ?>
+    <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?> 
+        <?php $actif = ($etape_courante == DRMClient::ETAPE_ADMINISTRATION); ?>
+        <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_ADMINISTRATION, DRMClient::$drm_etapes))); ?>
+        <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($etape_courante == DRMClient::ETAPE_ADMINISTRATION) ? 'actif' : '' ?>"> 
+            <?php if ($past): ?><a href="<?php echo url_for('drm_annexes', $drm); ?>"><?php endif; ?>
+                <strong><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;Annexes</strong>   
+                <?php if ($past): ?></a><?php endif; ?>
+        </li>
+    <?php endif; ?>
+    <?php $actif = ($etape_courante == DRMClient::ETAPE_VALIDATION); ?>
+    <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_VALIDATION, DRMClient::$drm_etapes))); ?>
+    <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($etape_courante == DRMClient::ETAPE_VALIDATION) ? 'actif' : '' ?>">
+        <?php if ($past): ?><a href="<?php echo url_for('drm_validation', $drm); ?>"><?php endif; ?>
+            <strong><?php echo $cpt_etape; ?>.&nbsp;&nbsp;Validation</strong>   
+            <?php if ($past): ?></a><?php endif; ?>
+    </li>
+</ol>

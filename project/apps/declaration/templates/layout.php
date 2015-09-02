@@ -43,5 +43,7 @@
     <script src="/js/main.js"></script>
     <script src="/js/conditionnement.js"></script>
     <script src="/js/vrac.js"></script>
+    <script src="/js/colonnes.js"></script>
+    <script src="/js/declaration.js"></script>
   </body>
 </html>

@@ -3,4 +3,6 @@
     
     <?php echo $form['hashref']->render(); ?>
     <?php echo $form->renderHiddenFields(); ?>
+
+    <button type="submit">Ajouter</button>
 </form>

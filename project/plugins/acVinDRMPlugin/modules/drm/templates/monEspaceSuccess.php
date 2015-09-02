@@ -1,28 +1,38 @@
-<?php include_partial('global/navTop', array('active' => 'drm')); ?>
+<ol class="breadcrumb">
+    <li><a href="<?php echo url_for('drm') ?>">Page d'accueil</a></li>
+    <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>" class="active"><?php echo $etablissement->nom ?></a></li>
+</ol>
 
-<section id="contenu">
-    
-    <h1>Déclaration Récapitulative Mensuelle <a href="" class="msg_aide" data-msg="help_popup_monespace" data-doc="notice.pdf" title="Message aide"></a></h1>
-    
-    <p class="intro">Bienvenue sur votre espace DRM. Que voulez-vous faire ?</p>
-    
-    <section id="principal">
-        <div id="recap_drm">
-            <div id="drm_annee_courante" >
-                <?php include_component('drm', 'historiqueList', array('historique' => $historique, 'limit' => 12)) ?>
-            </div>
-        </div>
-    </section>
-    <a href="<?php echo url_for('drm_historique', array('identifiant' => $historique->getIdentifiant())) ?>">Votre historique complet &raquo;</a>
-    
-        <?php if($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
-        <br /><br />
-        <h1>Espace Admin <a href="" class="msg_aide" data-msg="help_popup_monespace_admin" data-doc="notice.pdf" title="Message aide"></a></h1>
-    	<p class="intro">Saisir une DRM d'un mois différent.</p>
-        <div id="espace_admin" style="float: left; width: 670px;">
-            <div class="contenu clearfix">
-            	<?php include_partial('formCampagne', array('form' => $formCampagne)) ?>
-            </div>
-        </div>
+
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+        <?php include_component('drm', 'formEtablissementChoice', array('identifiant' => $etablissement->_id)) ?>
+    </div>
+
+    <div class="col-xs-12">
+        <?php if ($campagne == -1) : ?>
+            <h2>Espace drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
+        <?php else: ?>
+            <h2>Historique des drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
         <?php endif; ?>
-</section>
+
+        <?php if ($etablissement->type_dr) : ?>
+            <div class="alert alert-warning">
+                Cet opérateur effectue des <?php echo $etablissement->type_dr; ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($isTeledeclarationMode) : if ($campagne == -1) : ?>
+            <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => $isTeledeclarationMode,'accueil_drm' => true, 'calendrier' => $calendrier)); ?>
+        <?php endif; endif; ?>
+
+        <?php if (!$isTeledeclarationMode): ?>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="">Vue calendaire</a></li>
+                <li><a href="<?php echo url_for('drm_etablissement_stocks', array('identifiant' => $etablissement->getIdentifiant(), 'campagne' => $campagne)); ?>">Vue stock</a></li>
+            </ul>
+        <?php endif; ?>
+
+        <?php include_component('drm', 'calendrier', array('etablissement' => $etablissement, 'campagne' => $campagne, 'formCampagne' => $formCampagne, 'isTeledeclarationMode' => $isTeledeclarationMode, 'calendrier' => $calendrier)); ?>
+    </div>
+</div>

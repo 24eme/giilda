@@ -7,6 +7,8 @@
  * @property string $identifiant
  * @property float $volume
  * @property string $date_enlevement
+ * @property string $numero_document
+ * @property string $type_document
 
  * @method string getIdentifiant()
  * @method string setIdentifiant()
@@ -14,6 +16,10 @@
  * @method float setVolume()
  * @method string getDateEnlevement()
  * @method string setDateEnlevement()
+ * @method string getNumeroDocument()
+ * @method string setNumeroDocument()
+ * @method string getTypeDocument()
+ * @method string setTypeDocument()
  
  */
 

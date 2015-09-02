@@ -7,10 +7,8 @@ class DRMDetailItemValidator extends sfValidatorBase {
 
     protected function doClean($values) {
       if (isset($values['identifiant']) && $values['identifiant']) {
-	if (!$values['date_enlevement'])
-	  throw new sfValidatorErrorSchema($this, array('date_enlevement' => new sfValidatorError($this, 'required'))); 
 	if (!$values['volume'])
-	  throw new sfValidatorErrorSchema($this, array('volume' => new sfValidatorError($this, 'required'))); 
+	  throw new sfValidatorErrorSchema($this, array('volume' => new sfValidatorError($this, 'Le volume choisi doit être un nombre en hl.'))); 
 	return $values;
       }
       return array();

@@ -22,12 +22,12 @@ class ConfigurationAppellation extends BaseConfigurationAppellation {
 
         return $this->getGenre()->getCertification();
     }
-
+    
     public function setDonneesCsv($datas) {
       parent::setDonneesCsv($datas);
     	$this->getGenre()->setDonneesCsv($datas);
     	$this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_DENOMINATION_LIBELLE])? $datas[ProduitCsvFile::CSV_PRODUIT_DENOMINATION_LIBELLE] : null;
-    	$this->code = ($datas[ProduitCsvFile::CSV_PRODUIT_DENOMINATION_CODE])? $datas[ProduitCsvFile::CSV_PRODUIT_DENOMINATION_CODE] : null;
+      $this->code = $this->formatCodeFromCsv($datas[ProduitCsvFile::CSV_PRODUIT_DENOMINATION_CODE]);
       $this->densite = ($datas[ProduitCsvFile::CSV_PRODUIT_DENSITE])? $datas[ProduitCsvFile::CSV_PRODUIT_DENSITE] : Configuration::DEFAULT_DENSITE;
     	
     	$this->setDroitDouaneCsv($datas, ProduitCsvFile::CSV_PRODUIT_DENOMINATION_CODE_APPLICATIF_DROIT);

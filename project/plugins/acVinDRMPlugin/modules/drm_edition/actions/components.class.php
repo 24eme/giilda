@@ -9,6 +9,11 @@ class drm_editionComponents extends sfComponents {
     }
 
     public function executeProduitForm() {
-    	$this->form = new DRMProduitForm($this->drm, $this->config);
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+    	$this->form = new DRMProduitForm($this->drm, $this->config, $this->isTeledeclarationMode);
+    }
+    
+    private function isTeledeclarationDrm() {
+        return $this->getUser()->hasTeledeclarationDrm();
     }
 }

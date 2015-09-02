@@ -1,39 +1,53 @@
 <?php
+
 /**
  * Model for DRMDetails
  *
  */
-
 class DRMDetails extends BaseDRMDetails {
 
-	public function getProduit($labels = array()) {
-		$slug = $this->slugifyLabels($labels);
-		if (!$this->exist($slug)) {
+    public function getConfigDetails() {        
+        return $this->getDocument()->getConfig()->declaration->detail;
+    }
+    
+    public function getProduit($labels = array()) {
+        $slug = $this->slugifyLabels($labels);
+        if (!$this->exist($slug)) {
 
-			return false;
-		}
+            return false;
+        }
 
-		return $this->get($slug);
-	}
+        return $this->get($slug);
+    }
 
-	public function addProduit($labels = array()) {
-		$detail = $this->add($this->slugifyLabels($labels));
-		$detail->labels = $labels;
-		return $detail;
-	}
+    public function addProduit($labels = array()) {
+        $detail = $this->add($this->slugifyLabels($labels));
+        $detail->labels = $labels;
+        foreach ($this->getConfigDetails() as $detailConfigCat => $detailConfig) {
+            foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
+                $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey,null);
+                if($detailConfigNode->hasDetails()) {
+                    $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey."_details", null);
+                }
+            }
+        }
 
-	protected function slugifyLabels($labels) {
+        return $detail;
+    }
 
-		return KeyInflector::slugify($this->getLabelKeyFromArray($labels));
-	}
+    protected function slugifyLabels($labels) {
 
-	protected function getLabelKeyFromArray($labels) {
+        return KeyInflector::slugify($this->getLabelKeyFromArray($labels));
+    }
+
+    protected function getLabelKeyFromArray($labels) {
         $key = null;
         if ($labels && is_array($labels) && count($labels) > 0) {
-           sort($labels);
-           $key = implode('-', $labels);
+            sort($labels);
+            $key = implode('-', $labels);
         }
-        
-        return ($key)? $key : DRM::DEFAULT_KEY;
-    }
+
+        return ($key) ? $key : DRM::DEFAULT_KEY;
+    }    
+
 }
