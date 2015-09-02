@@ -28,7 +28,10 @@
 		                <?php echo $form['taux_courtage']->renderError(); ?>
 		                <?php echo $form['taux_courtage']->renderLabel("Taux de courtage :", array('class' => 'col-sm-5 control-label')); ?>
 		                <div class="col-sm-7">
-		                    <?php echo $form['taux_courtage']->render(); ?>
+							<div class="input-group">
+		                    	<?php echo $form['taux_courtage']->render(); ?>
+								<span class="input-group-addon">&nbsp;%&nbsp;&nbsp;</span>
+							</div>
 		                </div>
 		            </div>
 		            <?php endif; ?>
@@ -132,6 +135,19 @@
                 </div>
                 <div class="panel-body">
                 	<div class="row col-sm-6 ">
+        				<?php if(isset($form['cahier_charge'])): ?>
+							<div class="form-group <?php if($form['cahier_charge']->hasError()): ?>has-error<?php endif; ?>">
+								<div class="col-sm-12">
+									<?php echo $form['cahier_charge']->renderError(); ?>
+									<div class="checkbox">
+										<label for="<?php echo $form['cahier_charge']->renderId(); ?>">
+											<?php echo $form['cahier_charge']->render(); ?>
+											Présence d'un cahier des charges entre le vendeur et l'acheteur
+										</label>
+									</div>
+								</div>
+							</div>
+						<?php endif; ?>
 			        	<?php if (isset($form['conditions_particulieres'])): ?>
 			            <div class="<?php if($form['conditions_particulieres']->hasError()): ?>has-error<?php endif; ?>">
 			                <?php echo $form['conditions_particulieres']->renderError(); ?>
@@ -158,13 +174,22 @@
 						<div class="form-group">
 							<?php echo $form['annee_contrat']->renderError(); ?>
 			                <?php echo $form['annee_contrat']->renderLabel("Année du contrat :", array('class' => 'col-sm-5 control-label')); ?>
-							<div class="col-sm-7">
+							<div class="col-sm-7 bloc_condition" data-condition-cible="#bloc_reference|#bloc_seuil|#bloc_variation">
 								<?php echo $form['annee_contrat']->render(); ?>
 							</div>
 						</div>
 					<?php endif; ?>
+		            <?php if(isset($form['reference_contrat'])): ?>
+						<div class="form-group" id="bloc_reference" data-condition-value="2|3">
+							<?php echo $form['reference_contrat']->renderError(); ?>
+			                <?php echo $form['reference_contrat']->renderLabel("Référence du contrat :", array('class' => 'col-sm-5 control-label')); ?>
+							<div class="col-sm-7">
+									<?php echo $form['reference_contrat']->render(); ?>
+							</div>
+						</div>
+					<?php endif; ?>
 		            <?php if(isset($form['seuil_revision'])): ?>
-						<div class="form-group">
+						<div class="form-group" id="bloc_seuil" data-condition-value="1">
 							<?php echo $form['seuil_revision']->renderError(); ?>
 			                <?php echo $form['seuil_revision']->renderLabel("Seuil de révision du prix :", array('class' => 'col-sm-5 control-label')); ?>
 							<div class="col-sm-7">
@@ -176,7 +201,7 @@
 						</div>
 					<?php endif; ?>
 		            <?php if(isset($form['pourcentage_variation'])): ?>
-						<div class="form-group">
+						<div class="form-group" id="bloc_variation" data-condition-value="1">
 							<?php echo $form['pourcentage_variation']->renderError(); ?>
 			                <?php echo $form['pourcentage_variation']->renderLabel("Variation max. du volume :", array('class' => 'col-sm-5 control-label')); ?>
 							<div class="col-sm-7">

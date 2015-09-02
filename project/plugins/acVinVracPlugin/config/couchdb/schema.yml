@@ -28,13 +28,16 @@ Vrac:
       autorisation_nom_vin: { }
       autorisation_nom_producteur: { }
       85_15: { }
-      taux_courtage: { }
+      taux_courtage: { type: float }
       preparation_vin: { }
       embouteillage: { }
       conditionnement_crd: { }
-      annee_contrat: { type: integer }
+      reference_contrat: {  }
+      annee_contrat: { }
       seuil_revision: { type: float }
       pourcentage_variation: { type: float }
+      vendeur_tva: { }
+      cahier_charge: { }
       unites:
         type: collection
         definition:

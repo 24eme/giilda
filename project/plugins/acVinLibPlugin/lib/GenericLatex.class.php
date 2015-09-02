@@ -80,9 +80,12 @@ class GenericLatex {
 
   public function echoPDFWithHTTPHeader() {
     $attachement = 'attachment; filename='.$this->getPublicFileName();
-    header("content-type: application/pdf\n");
+    header("Content-Type: application/pdf\n");
     header("content-length: ".filesize($this->getPDFFile())."\n");
-    header("content-disposition: $attachement\n\n");
+    header("Content-Transfer-Encoding: binary\n");
+    header("Cache-Control: public\n");
+    header("Expires: 0\n");
+    header("Content-disposition: $attachement\n\n");
     echo $this->getPDFFileContents();
   }
 

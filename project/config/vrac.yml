@@ -7,3 +7,7 @@ ivbd:
       acteurs_embouteillage:
         "VENDEUR": "Vendeur Si Si la famille"
         "ACHETEUR": "Acheteur Si Si la famille"
+all:
+  configuration:
+    vrac:
+      pdf: "vrac/pdf_ivbd"

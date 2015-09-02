@@ -103,11 +103,15 @@ $template_validation = (isset($template_validation))? $template_validation : fal
             	Contrat pluriannuel <?php if($vrac->annee_contrat): ?>(Année <?php echo $vrac->annee_contrat ?>)<?php endif; ?><br />
             	<?php if ($vrac->seuil_revision): ?>Seuil de révision du prix : <?php echo $vrac->seuil_revision ?>%<br /><?php endif; ?>
             	<?php if ($vrac->pourcentage_variation): ?>Variation max. du volume : <?php echo $vrac->pourcentage_variation ?>%<br /><?php endif; ?>
+            	<?php if ($vrac->reference_contrat): ?>Référence au contrat : <?php echo $vrac->reference_contrat ?><br /><?php endif; ?>
             	</li>
             	<?php endif; ?>
             	
-            	<?php if ($vrac->conditions_particulieres): ?>
-            	<li class="list-group-item">Observations : <?php echo $vrac->conditions_particulieres ?></li>
+            	<?php if ($vrac->conditions_particulieres || $vrac->cahier_charge): ?>
+            	<li class="list-group-item">
+            		<?php if ($vrac->cahier_charge): ?>Présence d'un cachier des charges entre le vendeur et l'acheteur<br /><?php endif; ?>
+            		<?php if ($vrac->conditions_particulieres): ?>Observations : <?php echo $vrac->conditions_particulieres ?><?php endif; ?>
+            	</li>
                 <?php endif; ?>
                  <?php if ($vrac->autorisation_nom_vin || $vrac->autorisation_nom_producteur): ?>
                 <li class="list-group-item">
