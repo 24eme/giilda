@@ -14,10 +14,10 @@
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_SAISIE)); ?>
     <?php include_partial('drm/controlMessage'); ?>
 
-    <?php include_partial('drm_edition/colonne_droite_fil_edition', array('produits' => $details, 'drm' => $drm, 'config' => $config)); ?>
+    
 
     <div class="row" id="application_drm">
-        <div class="col-xs-12" id="contenu_onglet">
+        <div class="col-xs-9" id="contenu_onglet">
             <?php
             include_partial('drm_edition/list', array('drm_noeud' => $drm->declaration,
                 'config' => $config,
@@ -31,7 +31,10 @@
                 'detailsNodes' => $detailsNodes));
             ?>
         </div>
-        <div id="contenu_etape">
+        <div class="col-xs-3">
+        <?php include_partial('drm_edition/colonne_droite_fil_edition', array('produits' => $details, 'drm' => $drm, 'config' => $config)); ?>
+        </div>
+        <div class="col-xs-12" id="contenu_etape">
             <form action="<?php echo url_for('drm_edition', $formValidation->getObject()) ?>" method="post">
                 <div class="btn_etape">
                     <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode)? url_for('drm_choix_produit', $drm) : url_for('drm_etablissement', $drm); ?>">
