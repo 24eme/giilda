@@ -3,7 +3,7 @@
 <?php endif; ?>
 <?php if (!$soussigne) return ; ?>
 <strong><?php echo $soussigne->nom ?></strong><br />
-<?php echo $soussigne->siege->adresse ?> <?php echo $soussigne->siege->code_postal ?><?php echo $soussigne->siege->commune ?><br />
+<?php echo $soussigne->siege->adresse ?> <?php echo $soussigne->siege->code_postal ?> <?php echo $soussigne->siege->commune ?><br />
 <?php if($soussigne->email || $soussigne->telephone ): ?>
 <?php echo $soussigne->email ?> <?php echo $soussigne->telephone ?><br />
 <?php endif; ?>

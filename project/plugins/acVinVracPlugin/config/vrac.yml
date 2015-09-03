@@ -1,15 +1,16 @@
 all:
   configuration:
     vrac:
+      pdf: "vrac/generateTex"
       etapes:
         "soussigne": "Soussignés"
         "marche": "Marché"
         "condition": "Conditions"
         "validation": "Validation"
       champs:
-        soussigne: ["vendeur_identifiant", "representant_identifiant", "acheteur_identifiant", "mandataire_identifiant", "responsable", "type_transaction", "interne", "mandataire_exist", "logement_exist", "logement", "vendeur_intermediaire"]
+        soussigne: ["vendeur_tva", "acheteur_type", "vendeur_identifiant", "representant_identifiant", "acheteur_producteur", "acheteur_negociant", "mandataire_identifiant", "responsable", "type_transaction", "interne", "mandataire_exist", "logement_exist", "logement", "vendeur_intermediaire"]
         marche: ["85_15", "label", "produit", "cepage", "selection", "millesime", "categorie_vin", "domaine", "raisin_quantite", "jus_quantite", "bouteilles_contenance_libelle", "prix_initial_unitaire", "degre", "surface", "lot"]
-        condition: ["delai_paiement", "moyen_paiement", "date_limite_retiraison", "cvo_repartition", "conditions_particulieres", "tva", "pluriannuel", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "taux_courtage", "preparation_vin", "embouteillage", "conditionnement_crd", "annee_contrat", "seuil_revision", "pourcentage_variation"]
+        condition: ["cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "cvo_repartition", "conditions_particulieres", "tva", "pluriannuel", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "taux_courtage", "preparation_vin", "embouteillage", "conditionnement_crd", "annee_contrat", "seuil_revision", "pourcentage_variation"]
       transactions:
         "RAISINS": "<span class=\"icon-raisins\" style=\"font-size: 32px;\"></span> Vendange fraiche"
         "MOUTS": "<span class=\"icon-mouts\" style=\"font-size: 32px;\"></span> Moûts"
@@ -25,9 +26,9 @@ all:
         "CHEQUE": "Chèque"
         "ESPECES": "Espèces"
       repartition_cvo:
-        "50_50": "50/50"
-        "ACHETEUR": "100% acheteur"
-        "VENDEUR": "100% vendeur"
+        "50_50": "50/50 pour l'acheteur et le vendeur"
+        "ACHETEUR": "100% pour l'acheteur"
+        "VENDEUR": "100% pour le vendeur"
       tva:
         "AVEC": "avec TVA"
         "SANS": "hors TVA"

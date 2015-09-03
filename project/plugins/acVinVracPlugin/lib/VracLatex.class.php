@@ -3,6 +3,7 @@
 class VracLatex extends GenericLatex {
 
   private $vrac = null;
+  protected $conf = null;
   const VRAC_OUTPUT_TYPE_PDF = 'pdf';
   const VRAC_OUTPUT_TYPE_LATEX = 'latex';
   
@@ -10,6 +11,7 @@ class VracLatex extends GenericLatex {
   function __construct(Vrac $v, $config = null) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
     $this->vrac = $v;
+    $this->conf = VracConfiguration::getInstance();
   }
 
   public function getNbPages() {
@@ -23,7 +25,7 @@ class VracLatex extends GenericLatex {
   
   public function getLatexFileContents() {
     return html_entity_decode(htmlspecialchars_decode(
-						      get_partial('vrac/generateTex', array('vrac' => $this->vrac,
+						      get_partial($this->conf->getPdfPartial(), array('vrac' => $this->vrac,
 											  'nb_page' => $this->getNbPages()))
 						      , HTML_ENTITIES));
   }

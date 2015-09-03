@@ -17,21 +17,30 @@
 	var checkUncheckCondition = function(blocCondition)
     {
     	var input = blocCondition.find('input');
+    	if(input.length == 0) {
+    		input = blocCondition.find('select');
+    	}
     	var blocs = blocCondition.attr('data-condition-cible').split('|');
     	var traitement = function(input, blocs) {
-    		//if(input.is(':checked') || input.is(':selected'))
-            //{
         	   for (bloc in blocs) {
         		   if ($(blocs[bloc]).size() > 0) {
             		   var values = $(blocs[bloc]).attr('data-condition-value').split('|');
             		   for(key in values) {
-            			   if (values[key] == input.val() || values[key] == input.is(':checked')) {
+            			   if (input.attr('type') == 'checkbox') {
+            				   if (values[key] == 1 && input.is(':checked')) {
+            					   $(blocs[bloc]).show();
+            				   }
+            				   if (values[key] != 1 && !input.is(':checked')) {
+            					   $(blocs[bloc]).show();
+            				   }
+            				   
+            			   }
+            			   if (values[key] == input.val() && (input.is(':checked')) || input.is(':selected')) {
             				   $(blocs[bloc]).show();
             			   }
             		   }
         		   }
         	   }
-            //}
     	}
     	if(input.length == 0) {
      	   for (bloc in blocs) {

@@ -77,4 +77,8 @@ class VracConfiguration
 	{
 		return $this->configuration['conditionnements_crd'];
 	}
+	public function getPdfPartial()
+	{
+		return $this->configuration['pdf'];
+	}
 }

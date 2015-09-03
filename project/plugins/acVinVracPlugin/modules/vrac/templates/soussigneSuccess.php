@@ -147,13 +147,26 @@ endif;
 		                                </div>
 	                                </div>
                 		            <?php endif; ?>
+        							<?php if(isset($form['vendeur_tva'])): ?>
+                                    <div class="form-group <?php if($form['vendeur_tva']->hasError()): ?>has-error<?php endif; ?>">
+                		                <div class="col-sm-12">
+                		                    <?php echo $form['vendeur_tva']->renderError(); ?>
+                		                    <div class="checkbox">
+                		                        <label for="<?php echo $form['vendeur_tva']->renderId(); ?>">
+                		                            <?php echo $form['vendeur_tva']->render(); ?>
+                		                            Le vendeur est assujetti à la TVA
+                		                        </label>
+                		                    </div>
+                		                </div>
+                		            </div>
+                		            <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <?php endif; ?>
-        		<?php if(isset($form['acheteur_identifiant'])): ?>
+        		<?php if(isset($form['acheteur_producteur']) || isset($form['acheteur_negociant'])): ?>
                 <div class="col-xs-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -167,22 +180,50 @@ endif;
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div id="acheteur_selection" class="col-sm-12 <?php if($form['acheteur_identifiant']->getValue()): ?>hidden<?php endif; ?>">
-                                    <?php echo $form['acheteur_identifiant']->renderError(); ?>
-                                    <div class="form-group <?php if($form['acheteur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
-                                        <div class="col-sm-12" id="acheteur_choice">
-                                            <?php echo $form['acheteur_identifiant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_informations', 'data-hide' => '#acheteur_selection')); ?>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_identifiant']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_informations">
-                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['acheteur_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
-                                    <div class="container-ajax">
-                                        <?php if($form['acheteur_identifiant']->getValue()): ?>
-                                        <?php include_partial('vrac/soussigne', array('id' => $form['acheteur_identifiant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
+                            	<div class="col-sm-12">
+				                    <?php echo $form['acheteur_type']->renderError(); ?>
+				                    <div class="form-group <?php if($form['acheteur_type']->hasError()): ?>has-error<?php endif; ?>">
+				                        <div class="col-sm-12 bloc_condition" data-condition-cible="#bloc_producteur|#bloc_negociant">
+				                            <?php echo $form['acheteur_type']->render(); ?>
+				                        </div>
+				                    </div>
+                            	</div>
+                            	<div id="bloc_producteur" data-condition-value="<?php echo EtablissementFamilles::FAMILLE_PRODUCTEUR?>">
+	                                <div id="acheteur_producteur_selection" class="col-sm-12 <?php if($form['acheteur_producteur']->getValue()): ?>hidden<?php endif; ?>">
+	                                    <?php echo $form['acheteur_producteur']->renderError(); ?>
+	                                    <div class="form-group <?php if($form['acheteur_producteur']->hasError()): ?>has-error<?php endif; ?>">
+	                                        <div class="col-sm-12" id="acheteur_producteur_choice">
+	                                            <?php echo $form['acheteur_producteur']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_producteur_informations', 'data-hide' => '#acheteur_producteur_selection')); ?>
+	                                        </div> 
+	                                    </div>
+	                                </div>
+	                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_producteur']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_producteur_informations">
+	                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['acheteur_producteur']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+	                                    <div class="container-ajax">
+	                                        <?php if($form['acheteur_producteur']->getValue()): ?>
+	                                        <?php include_partial('vrac/soussigne', array('id' => $form['acheteur_producteur']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+	                                        <?php endif; ?>
+	                                    </div>
+	                                </div>
+	                            </div>
+                            	<div id="bloc_negociant" data-condition-value="<?php echo EtablissementFamilles::FAMILLE_NEGOCIANT ?>">
+	                                <div id="acheteur_negociant_selection" class="col-sm-12 <?php if($form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>">
+	                                    <?php echo $form['acheteur_negociant']->renderError(); ?>
+	                                    <div class="form-group <?php if($form['acheteur_negociant']->hasError()): ?>has-error<?php endif; ?>">
+	                                        <div class="col-sm-12" id="acheteur_negociant_choice">
+	                                            <?php echo $form['acheteur_negociant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_negociant_informations', 'data-hide' => '#acheteur_negociant_selection')); ?>
+	                                        </div> 
+	                                    </div>
+	                                </div>
+	                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_negociant_informations">
+	                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['acheteur_negociant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+	                                    <div class="container-ajax">
+	                                        <?php if($form['acheteur_negociant']->getValue()): ?>
+	                                        <?php include_partial('vrac/soussigne', array('id' => $form['acheteur_negociant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+	                                        <?php endif; ?>
+	                                    </div>
+	                                </div>
+	                            </div>
                             </div>
                         </div>
                     </div>

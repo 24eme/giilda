@@ -19,6 +19,7 @@ class VracConditionForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
+    	$anneesContrat = array(1 => "Année 1", 2 => "Année 2", 3 => "Année 3");
         $this->setWidget('delai_paiement', new bsWidgetFormChoice(array('choices' => $this->getDelaiPaiement())));
         $this->setWidget('moyen_paiement', new bsWidgetFormChoice(array('choices' => $this->getMoyenPaiement())));
         $this->setWidget('date_limite_retiraison', new bsWidgetFormInputDate());
@@ -36,9 +37,11 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setWidget('embouteillage', new bsWidgetFormChoice(array('choices' => $this->getActeursEmbouteillage(), 'expanded' => true)));
         $this->setWidget('conditionnement_crd', new bsWidgetFormChoice(array('choices' => $this->getConditionnementsCRD(), 'expanded' => true)));
 
-        $this->setWidget('annee_contrat', new bsWidgetFormInput());
+        $this->setWidget('annee_contrat', new bsWidgetFormChoice(array('choices' => $anneesContrat, 'expanded' => true)));
         $this->setWidget('seuil_revision', new bsWidgetFormInput());
         $this->setWidget('pourcentage_variation', new bsWidgetFormInput());
+        $this->setWidget('reference_contrat', new bsWidgetFormInput());
+        $this->setWidget('cahier_charge', new bsWidgetFormInputCheckbox());
 
         $dateRegexpOptions = array('required' => true,
             'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
@@ -60,13 +63,15 @@ class VracConditionForm extends acCouchdbObjectForm {
         	'clause_reserve_propriete' => new sfValidatorBoolean(array('required' => false)),
         	'autorisation_nom_vin' => new sfValidatorBoolean(array('required' => false)),
         	'autorisation_nom_producteur' => new sfValidatorBoolean(array('required' => false)),
-        	'taux_courtage' => new sfValidatorString(array('required' => false)),
+        	'taux_courtage' => new sfValidatorNumber(array('required' => false)),
             'preparation_vin' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursPreparationVin()))),
             'embouteillage' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursEmbouteillage()))),
             'conditionnement_crd' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getConditionnementsCRD()))),
-        	'annee_contrat' => new sfValidatorInteger(array('required' => false)),
+        	'annee_contrat' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($anneesContrat))),
         	'seuil_revision' => new sfValidatorNumber(array('required' => false)),
         	'pourcentage_variation' => new sfValidatorNumber(array('required' => false)),
+        	'reference_contrat' => new sfValidatorString(array('required' => false)),
+            'cahier_charge' => new sfValidatorBoolean(array('required' => false)),
         ));
         
         $this->useFields(VracConfiguration::getInstance()->getChamps('condition'));
@@ -112,6 +117,12 @@ class VracConditionForm extends acCouchdbObjectForm {
     	if ($this->getObject()->clause_reserve_propriete === null) {
         	$this->getObject()->clause_reserve_propriete = 0;
         } 
+    	if (!isset($values['cahier_charge']) || !$values['cahier_charge']) {
+        	$this->getObject()->cahier_charge = 0;
+    	}
+    	if (isset($values['cahier_charge']) && $values['cahier_charge']) {
+        	$this->getObject()->cahier_charge = 1;    		
+    	}
     }
 
     protected function updateDefaultsFromObject() {
@@ -130,6 +141,14 @@ class VracConditionForm extends acCouchdbObjectForm {
         }
         if (!$this->getObject()->conditionnement_crd) {
         	$this->setDefault('conditionnement_crd', 'NEGOCE_ACHEMINE');
+        }
+        if (!$this->getObject()->annee_contrat) {
+        	$this->setDefault('annee_contrat', 1);
+        }
+        if ($this->getObject()->cahier_charge) {
+        	$this->setDefault('cahier_charge', true);
+        } else {
+        	$this->setDefault('cahier_charge', false);
         }
     }
 
