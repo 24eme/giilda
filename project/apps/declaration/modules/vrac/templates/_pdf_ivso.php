@@ -115,6 +115,7 @@
 \def\CONTRATDATESIGNATUREACHETEUR{<?php echo format_date($vrac->date_signature) ?>}
 
 \def\CONTRATGENERIQUEDOMAINE{<?php echo $vrac->renderLabels(); ?>}
+\def\CONTRATCONDITIONNEMENT{<?php if ($vrac->conditionnement_crd == 'NEGOCE_ACHEMINE'): ?>\textbf{P} : Vin préparé pour la mise en bouteille<?php elseif ($vrac->conditionnement_crd == 'ACHAT_TIRE_BOUCHE'): ?>\textbf{TB} : Tiré Bouché<?php else: ?>\textbf{N} : Vin non préparé<?php endif;?>}
 
 \begin{document}
 
@@ -214,8 +215,8 @@ A été conclu le marché suivant: \\
 ~ & ~ & ~ & ~ & ~ & ~  \\
 
 \CONTRATPRODUITNATURE ~ \large{\CONTRATPRODUITLIBELLE}  & \multicolumn{1}{c|}{\large{\CONTRATPRODUITDEGRE}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITMILLESIME}} &  \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} & \CONTRATPRODUITCEPAGE \\
-
-\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}}  & ~ & <?php if ($vrac->get('85_15')): ?>\multicolumn{1}{c|}{\textit{85/15(\%)}}<?php else: ?>~<?php endif; ?> & ~  & ~ & ~ \\
+\multicolumn{1}{|l|}{\textit{\CONTRATCONDITIONNEMENT}}  & ~ & <?php if ($vrac->get('85_15')): ?>\multicolumn{1}{c|}{\textit{85/15(\%)}}<?php else: ?>~<?php endif; ?> & ~  & ~ & ~ \\
+\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}}  & ~ & ~ & ~  & ~ & ~ \\
 ~ & ~ & ~ & ~ & ~ & ~  \\
 \hline
 \end{tabularx}

@@ -106,10 +106,15 @@ class VracMarcheForm extends acCouchdbObjectForm {
         
         if ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
         	unset($this['jus_quantite']);
-        	unset($this['lot']);
+        	if (isset($this['lot'])) {
+        		unset($this['lot']);
+        	}
         } else {
         	unset($this['raisin_quantite']);
         	unset($this['surface']);
+        	if (isset($this['surface'])) {
+        		unset($this['surface']);
+        	}
         }
         if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
         	unset($this['bouteilles_contenance_libelle']);
