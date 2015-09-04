@@ -158,17 +158,19 @@
             var cols = this.element_colonne_intitules.add(this.element_saisies_container);
 
             for(key in this.colonnes) {
+                if(this.colonnes[key].getClass() == "ColonneProduit") {
+                console.log(this.colonnes[key].element.outerWidth(true));
                 largeur += this.colonnes[key].element.outerWidth(true);
+                }
             }
-
+            console.log(largeur);
             this.element_saisies_container.width(largeur);
         }
 
         this._updateHauteur = function () {
             var cols = this.element_colonne_intitules.add(this.element_saisies_container);
             
-            cols.find('.couleur, h2').hauteurEgale();
-            cols.find('.label').hauteurEgale();
+            cols.find('.panel-heading').hauteurEgale();
         }
     }
 
@@ -257,6 +259,8 @@
             this.colonnes.unActive();
             this.focus();
             this.element.addClass('col_active');
+            this.element.addClass('active');
+            this.element.find('.col_btn').removeClass('invisible');
             this.colonnes.disabled();
 			
 			// On désactive les boutons et champs autour de la colonne
@@ -270,6 +274,8 @@
             }
 
             this.element.removeClass('col_active');
+            this.element.removeClass('active');
+            this.element.find('.col_btn').addClass('invisible');
             this.colonnes.enabled();
 			
 			// On réactive les boutons et champs autour de la colonne
@@ -308,6 +314,7 @@
             }
 
             this.element.removeClass('col_inactive');
+            this.element.removeClass('inactive');
             this.groupes.enabled();
         }
 
@@ -317,6 +324,7 @@
             }
 
             this.element.addClass('col_inactive');
+            this.element.addClass('inactive');
             this.groupes.disabled();
         }
 
@@ -332,6 +340,7 @@
 
             this.colonnes.unFocus();
             this.element.addClass('col_focus');
+            this.element.addClass('panel-primary');
             this.colonnes.updateScroll();
         }
 
@@ -341,6 +350,7 @@
 
         this.unFocus = function() {
             this.element.removeClass('col_focus');
+            this.element.removeClass('panel-primary');
         }
 
         this.isFocus = function() {

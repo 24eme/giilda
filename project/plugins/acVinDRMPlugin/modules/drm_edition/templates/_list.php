@@ -12,13 +12,13 @@
         'isTeledeclarationMode' => $isTeledeclarationMode, 
         'detailsNodes' => $detailsNodes));
     ?>
-        <div id="col_saisies" style="overflow-x: auto; position: relative; float: left; width: 800px;">
+        <div id="col_saisies" class="col-xs-8" style="overflow-x: auto; position: relative; padding-left: 0;">
             <script type="text/javascript">
                 /* Colonne avec le focus par défaut */
                 var colFocusDefaut = <?php echo getNumberOfFirstProduitWithMovements($produits); ?>;
 
             </script>
-            <div style="width: 2000px; float: left;" id="col_saisies_cont" class="section_label_maj">
+            <div style="float: left;" id="col_saisies_cont" class="section_label_maj">
             <?php $first = true; ?>
             <?php foreach ($produits as $produit): ?>  
                 <?php if(!$produit->hasMovements()): continue; endif; ?> 

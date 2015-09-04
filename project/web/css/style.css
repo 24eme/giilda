@@ -1,1 +1,33 @@
 #main {min-height: 400px;}
+
+.form-group-xs .form-control, .input-xs {
+    height: 22px;
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.form-group-xs {
+    margin-bottom: 7px;
+}
+
+.list-group-item-xs {
+    padding: 7px 10px;
+}
+
+.list-group-item-xs ul.list-unstyled {
+    margin-bottom: 0;
+}
+
+.list-group-item-xs h4 {
+    margin-top: 7px;
+}
+
+.panel-heading-xs {
+    padding: 7px 10px;
+}
+
+.panel.inactive {
+    opacity: 0.7;
+}
