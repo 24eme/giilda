@@ -17,6 +17,21 @@ class Vrac extends BaseVrac {
         parent::__clone();
         $this->initDocuments();
     }
+    
+    public function renderLabels()
+    {
+    	$str = '';
+    	if (count($this->label) > 0) {
+    		foreach ($this->label as $label){ 
+    			if ($str) {
+    				$str .= ', ';
+    			}
+    			$str .= ConfigurationClient::getCurrent()->labels->toArray()[$label]; 
+    		}
+    		return $str;
+    	}
+    	return '';
+    }
 
     protected function initDocuments() {
         $this->archivage_document = new ArchivageDocument($this);
@@ -239,6 +254,10 @@ class Vrac extends BaseVrac {
         return $this->getDate('date_limite_retiraison', $format);
     }
 
+    public function getDateDebutRetiraison($format = 'Y-m-d') {
+        return $this->getDate('date_debut_retiraison', $format);
+    }
+
     public function setDateSignature($d) {
         return $this->setDate('date_signature', $d);
     }
@@ -250,6 +269,10 @@ class Vrac extends BaseVrac {
 
     public function setDateLimiteRetiraison($d) {
         $this->setDate('date_limite_retiraison', $d);
+    }
+
+    public function setDateDebutRetiraison($d) {
+        $this->setDate('date_debut_retiraison', $d);
     }
 
     public function getPrixUnitaire() {

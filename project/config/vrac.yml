@@ -10,4 +10,4 @@ ivbd:
 all:
   configuration:
     vrac:
-      pdf: "vrac/pdf_ivbd"
+      pdf: "vrac/pdf_ivso"
