@@ -20,7 +20,7 @@ class DRMProduitForm extends acCouchdbForm
     public function configure() 
     {
         $this->setWidgets(array(
-            'hashref' => new sfWidgetFormChoice(array('choices' => $this->getChoices())),
+            'hashref' => new bsWidgetFormChoice(array('choices' => $this->getChoices()), array("class" => "form-control select2")),
         ));
         $this->widgetSchema->setLabels(array(
             'hashref' => 'Produit: ',

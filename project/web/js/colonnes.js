@@ -159,11 +159,9 @@
 
             for(key in this.colonnes) {
                 if(this.colonnes[key].getClass() == "ColonneProduit") {
-                console.log(this.colonnes[key].element.outerWidth(true));
                 largeur += this.colonnes[key].element.outerWidth(true);
                 }
             }
-            console.log(largeur);
             this.element_saisies_container.width(largeur);
         }
 

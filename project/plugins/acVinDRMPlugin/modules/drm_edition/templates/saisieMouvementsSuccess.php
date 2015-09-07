@@ -31,10 +31,28 @@
                 'detailsNodes' => $detailsNodes));
             ?>
         </div>
-        <div class="col-xs-3">
-        <?php include_partial('drm_edition/colonne_droite_fil_edition', array('produits' => $details, 'drm' => $drm, 'config' => $config)); ?>
+        <div class="col-xs-3 row">
+            <div class="col-xs-12 row" id="drm_fil_edition">
+                <div class="panel panel-info">
+                <div class="panel-heading">Édition des Produits</div>
+                <div class="panel-body">
+                    <?php include_component('drm_edition', 'produitForm', array('drm' => $drm, 'config' => $config)) ?>
+                </div>
+                <ul class="list-group drm_fil_edition_produit">
+                <?php foreach ($details as $produit) : ?>
+                    <?php if(!$produit->hasMovements()): continue; endif; ?> 
+                    <li id="<?php echo $produit->getHash() ?>" <?php echo (!$produit->hasMovements())? 'style="display:none;"' : '' ?> class="list-group-item <?php echo ($produit->isEdited()) ? 'edited list-group-item-success' : '' ?>">
+                        <a href="#">
+                            <small><span class="glyphicon glyphicon-ok-sign <?php if(!$produit->isEdited()): ?>invisible<?php endif;?>"></span>&nbsp;<?php echo $produit->getLibelle("%format_libelle%"); ?></small>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+                </ul>
+            </div>
         </div>
-        <div class="col-xs-12" id="contenu_etape">
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
             <form action="<?php echo url_for('drm_edition', $formValidation->getObject()) ?>" method="post">
                 <div class="btn_etape">
                     <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode)? url_for('drm_choix_produit', $drm) : url_for('drm_etablissement', $drm); ?>">

@@ -6,7 +6,7 @@ $favoris_sorties = $favoris->sorties;
     <form action="<?php echo url_for('drm_choix_favoris', $formFavoris->getObject()) ?>" method="post">
             <?php echo $formFavoris->renderHiddenFields(); ?>
             <?php echo $formFavoris->renderGlobalErrors(); ?>
-    <div class="list-group" style="margin-top: 55px;" id="colonne_intitules">
+    <div class="list-group" style="margin-top: 76px;" id="colonne_intitules">
         
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
                 <h4 style="height:22px;" class="itemcache form-group form-group-xs">Stock théorique dbt de mois</h4>

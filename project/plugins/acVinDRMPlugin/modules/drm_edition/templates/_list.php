@@ -12,7 +12,7 @@
         'isTeledeclarationMode' => $isTeledeclarationMode, 
         'detailsNodes' => $detailsNodes));
     ?>
-        <div id="col_saisies" class="col-xs-8" style="overflow-x: auto; position: relative; padding-left: 0;">
+        <div id="col_saisies" class="col-xs-8 well" style="overflow-x: auto; position: relative;">
             <script type="text/javascript">
                 /* Colonne avec le focus par défaut */
                 var colFocusDefaut = <?php echo getNumberOfFirstProduitWithMovements($produits); ?>;

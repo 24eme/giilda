@@ -40,10 +40,12 @@
     <script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
     <script src="/js/lib/jquery-ui-1.8.21.min.js"></script>
     <script src="/js/ajaxHelper.js"></script>
+    <script src="/js/form.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/conditionnement.js"></script>
     <script src="/js/vrac.js"></script>
     <script src="/js/colonnes.js"></script>
+    <script src="/js/drm_teledeclaration.js"></script>
     <script src="/js/declaration.js"></script>
   </body>
 </html>
