@@ -56,18 +56,18 @@
 
 
 
-\def\IVSOCOORDONNEESTITRE{}
-\def\IVSOCOORDONNEESADRESSE{}
-\def\IVSOCOORDONNEESCPVILLE{}
-\def\IVSOCOORDONNEESFAX{}
-\def\IVSOCOORDONNEESEMAIL{}
+\def\IVSOCOORDONNEESTITRE{Interprofession des Vins du Sud-ouest France}
+\def\IVSOCOORDONNEESADRESSE{Centre INRA - BP 92123}
+\def\IVSOCOORDONNEESCPVILLE{31321 Castanet Tolosan Cedex}
+\def\IVSOCOORDONNEESFAX{Tél : 05 61 73 87 06 - Fax : 05 61 75 64 39}
+\def\IVSOCOORDONNEESEMAIL{Courriel : contact@france-sudouest.com}
 
 \def\CONTRATNUMENREGISTREMENT{<?php echo substr($vrac->numero_contrat, -6)?>}
 \def\CONTRATVISA{<?php echo $vrac->numero_archive ?>}
 \def\CONTRATDATEENTETE{<?php echo format_date($vrac->valide->date_saisie) ?>}
 
 \def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE <?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>de vin AOP et IGP<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS): ?>de Moût<?php else: ?>de Vendange<?php endif; ?>}
-\def\CONTRATSOUSTITRE{}
+\def\CONTRATSOUSTITRE{<?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>produits dans le Sud-Ouest<?php else: ?>destinés à l'élaboration d'AOP ou d'IGP du Sud-Ouest<?php endif; ?>}
 
 
 \def\CONTRATVENDEURNOM{<?php echo $vrac->vendeur->raison_sociale ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
@@ -123,11 +123,11 @@
 \begin{tabularx}{\textwidth}{c p{97mm} |p{37mm}}
 
 	~ & ~ & ~  \\
-	 \multirow{7}{*}{} & 	  
+	 \multirow{7}{*}{ \includegraphics[scale=0.6]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_ivso.png}} & 	  
 	 \multicolumn{1}{c|}{\textbf{\IVSOCOORDONNEESTITRE}} &   	 
 	 N° Bordereau :  \textbf{\LARGE{\CONTRATNUMENREGISTREMENT}} \\
 	 ~ & ~ & ~  \\
-	 ~ & \multicolumn{1}{c|}{\IVSOCOORDONNEESADRESSE} &  Visa : \textbf{\LARGE{\CONTRATVISA}}  \\ 
+	 ~ & \multicolumn{1}{c|}{\IVSOCOORDONNEESADRESSE} &  Visa IVSO : \textbf{\LARGE{\CONTRATVISA}}  \\ 
 	 ~ &\multicolumn{1}{c|}{\IVSOCOORDONNEESCPVILLE}  & ~ \\
 	 ~ & \multicolumn{1}{c|}{\small{\IVSOCOORDONNEESFAX}}  &  ~ \\
 	 ~ & \multicolumn{1}{c|}{\small{\IVSOCOORDONNEESEMAIL}}  & Le : \textbf{\CONTRATDATEENTETE}  \\
@@ -247,6 +247,11 @@ Date de fin de retiraison : \textbf{\CONTRATDATEMAXENLEVEMENT}\\
 \end{minipage}
 \end{multicols}
 
+\begin{footnotesize}
+\underline{Accord Interprofessionnel - Titre VI - Délai de paiement} : \\
+Article 15 : Les transactions liées à des achats de vins sont soumises à des délais de paiement maximum de 75 jours à partir de la date de retiraison effective.
+\end{footnotesize}
+
  ~ \\
 
 \textbf{OBSERVATIONS:} \\
@@ -266,5 +271,9 @@ Date de fin de retiraison : \textbf{\CONTRATDATEMAXENLEVEMENT}\\
 <?php if ($vrac->mandataire_identifiant): ?>\textbf{Signé électroniquement} & <?php endif; ?>\textbf{Signé électroniquement} & \textbf{Signé électroniquement} \\
 \hline
 \end{tabularx}
+
+\newpage
+
+\includegraphics[scale=0.85]{<?php echo sfConfig::get('sf_web_dir'); ?>/pdf/_annexe_ivso.pdf}
 
 \end{document}

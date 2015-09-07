@@ -15,12 +15,14 @@ Vrac:
       responsable: { }
       teledeclare: { require:false }
       volume_initial: { type: float }
+      acompte: { type: float }
       lot: {  }
       surface: { type: float }
       degre: { type: float }
       delai_paiement: { }
       moyen_paiement: { }
       date_limite_retiraison: { }
+      date_debut_retiraison: { }
       conditions_particulieres: { }
       tva: { }
       pluriannuel: { }

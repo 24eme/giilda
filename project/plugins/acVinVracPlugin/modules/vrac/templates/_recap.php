@@ -79,10 +79,11 @@ $template_validation = (isset($template_validation))? $template_validation : fal
         <div class="panel panel-default">
             <div class="panel-heading">3. Les conditions <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
-                <?php if ($vrac->delai_paiement || $vrac->moyen_paiement): ?>
+                <?php if ($vrac->delai_paiement || $vrac->moyen_paiement || $vrac->acompte): ?>
                 <li class="list-group-item">
                 <?php if ($vrac->delai_paiement): ?>Délai de paiement : <?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] ?><br /><?php endif; ?>
-                <?php if ($vrac->moyen_paiement): ?>Moyen de paiement : <?php echo VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] ?><?php endif; ?>
+                <?php if ($vrac->moyen_paiement): ?>Moyen de paiement : <?php echo VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] ?><br /><?php endif; ?>
+                <?php if ($vrac->acompte): ?>Acompte : <?php echo $vrac->acompte ?>€<?php endif; ?>
                 </li>
 				<?php endif; ?>
             	<?php if ($vrac->taux_courtage || $vrac->cvo_repartition || $vrac->tva): ?>
@@ -92,8 +93,11 @@ $template_validation = (isset($template_validation))? $template_validation : fal
             	<?php if ($vrac->tva): ?>Facturation <?php echo VracConfiguration::getInstance()->getTva()[$vrac->tva] ?><?php endif; ?>
             	</li>
                 <?php endif; ?>
-            	<?php if ($vrac->date_limite_retiraison): ?>
-            	<li class="list-group-item">Date limite de retiraison : <?php echo format_date($vrac->date_limite_retiraison, 'D') ?></li>
+            	<?php if ($vrac->date_limite_retiraison || $vrac->date_debut_retiraison): ?>
+            	<li class="list-group-item">
+            	<?php if ($vrac->date_debut_retiraison): ?>Date début de retiraison : <?php echo format_date($vrac->date_debut_retiraison, 'D') ?><br /><?php endif; ?>
+            	<?php if ($vrac->date_limite_retiraison): ?>Date limite de retiraison : <?php echo format_date($vrac->date_limite_retiraison, 'D') ?><?php endif; ?>
+            	</li>
                 <?php endif; ?>
             	<?php if ($vrac->clause_reserve_propriete ): ?>
             	<li class="list-group-item">Clause de reserve de propriété</li>
