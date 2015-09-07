@@ -1,4 +1,4 @@
-<ol id="rail_etapes">
+<ol class="breadcrumb" id="rail_etapes">
     <?php $cpt_etape = 1; ?>
     <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?> 
         <?php $actif = ($etape_courante == DRMClient::ETAPE_CHOIX_PRODUITS); ?>

@@ -18,28 +18,26 @@ if(!isset($isTeledeclarationMode)) {
         ?>
     <?php endif; ?>
 
-    <table id="table_mouvements" class="table_recap">
+    <table class="table table-striped table-condensed">
         <thead>
             <tr>
                 <?php if (!$isTeledeclarationMode): ?>
-                <th style="width: 225px;">Date de modification</th>
+                <th class="col-xs-3">Date de modification</th>
                 <?php endif; ?>
-                <th style="width: 225px;">Produits</th>
-                <th>Type</th>
-                <th>Volume</th>
+                <th class="col-xs-3">Produits</th>
+                <th class="col-xs-3">Type</th>
+                <th class="col-xs-3">Volume</th>
             </tr>
         </thead>
         <tbody>
             <?php $i = 1; ?>
-    <?php 
-    foreach ($mouvements as $mouvement): 
-        $i++; ?>
-                <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php echo ($i % 2 != 0)? "alt" : "";?> <?php
+    <?php foreach ($mouvements as $mouvement): ?>
+                <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php
         echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation))? " facturable" : ""; ?>">
                     <?php if(!$isTeledeclarationMode): ?>
                     <td>
 			<a title="Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>" href="<?php echo url_for('redirect_visualisation', array('id_doc' => $mouvement->doc_id)) ?>"><?php echo acCouchdbManager::getClient($mouvement->type)->getLibelleFromId($mouvement->doc_id) ?><?php echo ($mouvement->version) ? ' ('.$mouvement->version.')' : '' ?></a><br/>
-                        <small><em>Mvt saisi le <?php echo format_date($mouvement->date_version, 'D') ?></em></small>
+                        <small><em>Mouvement saisi le <?php echo format_date($mouvement->date_version, 'D') ?></em></small>
                     </td>
                     <?php endif; ?>
                     </td>
@@ -61,5 +59,5 @@ if(!isset($isTeledeclarationMode)) {
         </tbody>
     </table>
 <?php else: ?>
-    <h2>AUCUN MOUVEMENTS</h2>
+    <p class="text-center"><em>Aucun mouvement</em></p>
 <?php endif; ?>

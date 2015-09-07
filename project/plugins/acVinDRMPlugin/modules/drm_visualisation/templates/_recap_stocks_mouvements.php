@@ -1,14 +1,12 @@
-<fieldset id="validation_drm_mvts_stocks"> 
-    <nav>
-        <ul>
-            <li class="actif onglet" id="drm_visualisation_stock_onglet"><span>Résumé des Stocks</span></li>
-            <li class="onglet" id="drm_visualisation_mouvements_onglet"><a>Détails des Mouvements</a></li>
-        </ul>
-    </nav>
-    <div id="drm_visualisation_stock" class="section_label_maj">
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#stocks" aria-controls="stocks" role="tab" data-toggle="tab">Résumé des Stocks</a></li>
+    <li><a href="#mouvements" aria-controls="mouvements" role="tab" data-toggle="tab">Détails des Mouvements</a></li>
+</ul>
+<div class="tab-content">
+    <div id="stocks" role="tabpanel" class="tab-pane active">
         <?php include_partial('drm_visualisation/stock', array('drm' => $drm, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
     </div>
-    <div id="drm_visualisation_mouvements" class="section_label_maj" style="display: none;">
+    <div id="mouvements" role="tabpanel" class="tab-pane">
         <?php include_partial('drm_visualisation/mouvements', array('mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => $visualisation)) ?>
     </div>
-</fieldset>
+</div>
