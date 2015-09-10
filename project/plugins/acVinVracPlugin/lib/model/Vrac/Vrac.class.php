@@ -40,6 +40,9 @@ class Vrac extends BaseVrac {
     }
 
     public function setNumeroContrat($value) {
+	if ($this->isTeledeclare()) {
+		$value = preg_replace('/.(....)$/', '1$1', $value);
+	}
         $this->_set('numero_contrat', $value);
     }
 
