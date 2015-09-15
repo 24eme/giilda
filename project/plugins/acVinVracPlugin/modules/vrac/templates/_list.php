@@ -45,7 +45,7 @@
                     <?php endif; ?>
                     </a>
                     <br />
-                    <?php if($v->isTeledeclare()): ?>
+                    <?php if($v && $v->isTeledeclare()): ?>
                     Télédeclaré
                     <?php endif; ?>
                     <?php echo $v->getTeledeclarationStatutLabel() ?>
