@@ -187,7 +187,6 @@
 								</label>
 							</div>
 						</div>
-					<?php endif; ?>
 					
 					<div id="bloc_pluriannuel" data-condition-value="1">
 		            <?php if(isset($form['annee_contrat'])): ?>
@@ -233,6 +232,7 @@
 						</div>
 					<?php endif; ?>
 					</div>
+                                        <?php endif; ?>
 					
 		            <?php if(isset($form['autorisation_nom_vin'])): ?>
 						<div class="form-group">
