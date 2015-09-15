@@ -6,6 +6,7 @@ class EtablissementFamilles
     const FAMILLE_NEGOCIANT = "NEGOCIANT";
     const FAMILLE_COURTIER = "COURTIER";
     const FAMILLE_REPRESENTANT = "REPRESENTANT";
+    
     // /!\ cooperative est une pseudo famille, elle est basée sur l'exploitation du champ cooperative
     const PSEUDOFAMILLE_COOPERATIVE = "COOPERATIVE";
 

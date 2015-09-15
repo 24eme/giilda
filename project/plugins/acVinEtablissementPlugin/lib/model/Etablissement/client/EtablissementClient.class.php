@@ -28,8 +28,27 @@ class EtablissementClient extends acCouchdbClient {
     const EXCLUSION_DRM_OUI = self::OUI;
     const EXCLUSION_DRM_NON = self::NON;
 
+    const REGIME_CRD_PERSONNALISE = 'PERSONNALISE';
+    const REGIME_CRD_COLLECTIF_ACQUITTE = 'COLLECTIFACQUITTE';
+    const REGIME_CRD_COLLECTIF_SUSPENDU = 'COLLECTIFSUSPENDU';
+    
+    const CAUTION_DISPENSE = 'DISPENSE';
+    const CAUTION_CAUTION = 'CAUTION';
+
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
         self::STATUT_SUSPENDU => 'SUSPENDU');
+    public static $regimes_crds_libelles_longs = array(self::REGIME_CRD_PERSONNALISE => 'personnalisé (P)',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'collectif acquitté (C-DA)',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'collectif suspendu (C-DS)');
+     public static $regimes_crds_libelles = array(self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Collectif acquitté',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Collectif suspendu');
+    public static $regimes_crds_libelles_courts = array(self::REGIME_CRD_PERSONNALISE => 'P',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'C-DA',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'C-DS');
+    
+    public static $caution_libelles = array(self::CAUTION_DISPENSE => 'Dispensé',
+        self::CAUTION_CAUTION => 'Caution');
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Etablissement");
@@ -226,6 +245,7 @@ class EtablissementClient extends acCouchdbClient {
 
         if ($etb->famille == SocieteClient::SUB_TYPE_COURTIER) {
             $code_postal = $etb->siege->code_postal;
+<<<<<<< HEAD
             if($code_postal && substr($code_postal, 0, 2) == "44"){
                 $region = self::REGION_NANTES;
             }
@@ -233,6 +253,15 @@ class EtablissementClient extends acCouchdbClient {
                 $region = self::REGION_ANGERS;
             }
             if($code_postal && substr($code_postal, 0, 2) == "37"){
+=======
+            if ($code_postal && substr($code_postal, 0, 2) == "44") {
+                $region = self::REGION_NANTES;
+            }
+            if ($code_postal && substr($code_postal, 0, 2) == "49") {
+                $region = self::REGION_ANGERS;
+            }
+            if ($code_postal && substr($code_postal, 0, 2) == "37") {
+>>>>>>> vinsdeloire
                 $region = self::REGION_TOURS;
             }
             $result->nom = $contacts[$region]['nom'];

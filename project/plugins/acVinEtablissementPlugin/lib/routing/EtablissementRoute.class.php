@@ -3,21 +3,29 @@
 class EtablissementRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
 
     protected $etablissement = null;
-    
+
     protected function getObjectForParameters($parameters = null) {
-      $this->etablissement = EtablissementClient::getInstance()->find($parameters['identifiant']);
-      return $this->etablissement;
+        $this->etablissement = EtablissementClient::getInstance()->find($parameters['identifiant']);
+        $myUser = sfContext::getInstance()->getUser();
+        if ($myUser->hasTeledeclaration() &&
+                $myUser->getCompte()->identifiant != $this->getEtablissement()->getSociete()->getMasterCompte()->identifiant) {
+            throw new sfError404Exception("Vous n'avez pas le droit d'accéder à cette page");
+        }
+
+        return $this->etablissement;
     }
 
     protected function doConvertObjectToArray($object = null) {
-  
+
         return array("identifiant" => $object->getIdentifiant());
     }
 
     public function getEtablissement() {
-      if (!$this->etablissement) {
+      
+	if (!$this->etablissement) {
            $this->etablissement = $this->getObject();
-      }
-      return $this->etablissement;
+      	}
+      	
+	return $this->etablissement;
     }
 }
