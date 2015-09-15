@@ -1,3 +1,2 @@
 all:
   is_secure: true
-  credentials: [[teledeclaration_drm]]

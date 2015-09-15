@@ -50,7 +50,7 @@ ivbd:
 all:
   .settings:
 
-    enabled_modules:        [default, teledeclaration, vrac, drm, drm_edition, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf, drm_validation, etablissement, etablissement_autocomplete, facture, sv12, ds, generation, revendication, stocks, alerte, societe, compte, document, produit, relance, annuaire, compte_teledeclarant]
+    enabled_modules:        [default, teledeclaration, vrac, drm, drm_edition, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf, drm_validation, etablissement, etablissement_autocomplete, facture, sv12, ds, generation, revendication, stocks, alerte, societe, compte, document, produit, relance, annuaire, compte_teledeclarant, drm_crds]
 
     # Form security secret (CSRF protection)
     csrf_secret:            false
