@@ -245,7 +245,7 @@ class EtablissementClient extends acCouchdbClient {
 
         if ($etb->famille == SocieteClient::SUB_TYPE_COURTIER) {
             $code_postal = $etb->siege->code_postal;
-<<<<<<< HEAD
+
             if($code_postal && substr($code_postal, 0, 2) == "44"){
                 $region = self::REGION_NANTES;
             }
@@ -253,17 +253,10 @@ class EtablissementClient extends acCouchdbClient {
                 $region = self::REGION_ANGERS;
             }
             if($code_postal && substr($code_postal, 0, 2) == "37"){
-=======
-            if ($code_postal && substr($code_postal, 0, 2) == "44") {
-                $region = self::REGION_NANTES;
-            }
-            if ($code_postal && substr($code_postal, 0, 2) == "49") {
-                $region = self::REGION_ANGERS;
-            }
-            if ($code_postal && substr($code_postal, 0, 2) == "37") {
->>>>>>> vinsdeloire
+
                 $region = self::REGION_TOURS;
             }
+            
             $result->nom = $contacts[$region]['nom'];
             $result->email = $contacts[$region]['email'];
             $result->telephone = $contacts[$region]['telephone'];

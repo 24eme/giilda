@@ -54,9 +54,9 @@ Etablissement:
        telephone: {  }
        fax: {  }
        commentaire: {  }
-       crd_regime: { required: false }
-       adresse_compta: { required: false }
-       caution: { required: false }
+       crd_regime: { }
+       adresse_compta: { }
+       caution: { }
        raison_sociale_cautionneur: { required: false }
        siege:
            type: collection
