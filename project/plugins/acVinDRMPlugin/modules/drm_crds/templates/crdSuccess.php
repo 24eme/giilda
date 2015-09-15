@@ -16,26 +16,27 @@
                     <?php foreach ($crdAllGenre as $genre => $crds): ?>
                         <div class="panel panel-default">
                             <div class="panel-heading">
+
                                 <h3 class="panel-title text-center">Stocks CRD de vins <?php echo getLibelleForGenre($genre); ?></h3>
                             </div>
-                            <table id="table_drm_crds" class="table table-bordered table-striped">
+                            <table id="table_drm_crds" class="table table-bordered table-condensed table-striped">
                                 <thead >
                                     <tr>
-                                        <th class="col-xs-2" rowspan="2">CRD</th>
-                                        <th class="col-xs-1" rowspan="2">Stock</th>
-                                        <th colspan="3">Entrées</th>
-                                        <th colspan="3">Sorties</th>
-                                        <th class="col-xs-1" rowspan="2" >Stock <?php echo getLastDayForDrmPeriode($drm); ?></th>
+                                        <th class="col-xs-2 text-center" style="vertical-align: middle;" rowspan="2">CRD <a href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime, 'genre' => $genre)); ?>" class="btn btn-xs btn-link"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un type de CRD</a></th>
+                                        <th class="col-xs-1 text-center" style="vertical-align: middle;" rowspan="2">Stock</th>
+                                        <th class="text-center" colspan="3">Entrées</th>
+                                        <th class="text-center" colspan="3">Sorties</th>
+                                        <th class="col-xs-1 text-center" style="vertical-align: middle;" rowspan="2" >Stock <?php echo getLastDayForDrmPeriode($drm); ?></th>
                                     </tr>
                                     <tr>
 
-                                        <th class="col-xs-1">Achat</th>
-                                        <th class="col-xs-1">Retour</th>
-                                        <th class="col-xs-1">Excéd.</th>
+                                        <th class="col-xs-1 text-center">Achat</th>
+                                        <th class="col-xs-1 text-center">Retour</th>
+                                        <th class="col-xs-1 text-center">Excéd.</th>
 
-                                        <th class="col-xs-1">Utilisé</th>
-                                        <th class="col-xs-1">Destr.</th>
-                                        <th class="col-xs-1">Manq.</th>
+                                        <th class="col-xs-1 text-center">Utilisé</th>
+                                        <th class="col-xs-1 text-center">Destr.</th>
+                                        <th class="col-xs-1 text-center">Manq.</th>
 
                                     </tr>
                                 </thead>
@@ -55,9 +56,6 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
-                            <div class="panel-body">
-                                <a href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime, 'genre' => $genre)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un type de CRD</a>
-                            </div>
                         </div>
                     <?php endforeach; ?>
                 <?php endforeach; ?>
