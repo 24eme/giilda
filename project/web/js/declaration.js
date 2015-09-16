@@ -157,6 +157,8 @@ function UUID(){}UUID.generate=function(){var a=UUID._gri,b=UUID._ha;return b(a(
 		});
 
 		formProduit.submit(function() {
+            return true;
+
 			var selected = selectProduit.find('option:selected');
 			var inputAutoComplete = selectProduit.parent().find('.ui-autocomplete-input');
 			if(selected.parent('optgroup').hasClass('existant')) {

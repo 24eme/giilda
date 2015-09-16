@@ -1,13 +1,19 @@
+<div class="row">
 <?php foreach ($certificationsProduits as $certificationHash => $certificationProduits): ?>
     <?php $certifKey = $certificationProduits->certification_libelle; ?>
-    <h2><?php echo $certificationProduits->certification_libelle; ?> </h2>
+    <div class="col-xs-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="<?php echo url_for('drm_choix_produit', array('sf_subject' => $drm, 'add_produit' => $certificationProduits->certification_keys)) ?>" value="" class="btn btn-link btn-xs submit_button pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un produit</a>
+            <h3 class="panel-title text-center"><?php echo $certificationProduits->certification_libelle; ?></h3>
+        </div>
     <?php if (count($certificationProduits->produits)): ?>
-        <table id = "table_drm_choix_produit" class = "table_recap">
-            <thead >
+        <table id="table_drm_choix_produit" class="table table-bordered table-striped">
+            <thead>
                 <tr>
-                    <th style="width: 55%;">&nbsp;
+                    <th class="col-xs-7">&nbsp;
                     </th>
-                    <th style="width: 45%;">Produit à déclarer ce mois</th>
+                    <th class="col-xs-5">Produit à déclarer ce mois</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,7 +43,7 @@
             </tbody>
         </table>    
     <?php endif; ?>
-    <div class="choix_produit_add_produit">
-        <a href="<?php echo url_for('drm_choix_produit', array('sf_subject' => $drm, 'add_produit' => $certificationProduits->certification_keys)) ?>" value="" class="btn_majeur submit_button">Ajouter des Produits</a>
+    </div>
     </div>
 <?php endforeach; ?>
+</div>

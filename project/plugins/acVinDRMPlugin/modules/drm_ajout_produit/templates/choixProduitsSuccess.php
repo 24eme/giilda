@@ -18,12 +18,18 @@
                         'form' => $form, 'drm' => $drm, 'hasRegimeCrd' => $hasRegimeCrd));
                     ?>
                 </div>
-                <div class="btn_etape">
-                    <a href="<?php echo url_for('drm_societe', array('identifiant' => $drm->getEtablissement()->identifiant)); ?>" class="btn_etape_prec"><span>Précédent</span></a>
-                    <a class="drm_delete_lien lien_drm_supprimer" href="#drm_delete_popup">
-                        <span>Supprimer la DRM</span>
-                    </a>
-                    <button type="submit" class="btn_etape_suiv" id="choixProduitsSubmit"><span>Etape Suivante</span></button>
+                <div class="row">
+                    <div class="col-xs-4 text-left">
+                        <a tabindex="-1" href="<?php echo url_for('drm_societe', array('identifiant' => $drm->getEtablissement()->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                        <a class="btn btn-default" href="#drm_delete_popup">
+                            <span>Supprimer la DRM</span>
+                        </a> 
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
+                    </div>
                 </div>
             </form>
         </div>

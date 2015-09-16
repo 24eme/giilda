@@ -338,6 +338,7 @@
 
             this.colonnes.unFocus();
             this.element.addClass('col_focus');
+            this.element.removeClass('panel-success');
             this.element.addClass('panel-primary');
             this.colonnes.updateScroll();
         }
@@ -348,6 +349,9 @@
 
         this.unFocus = function() {
             this.element.removeClass('col_focus');
+            if(this.element.hasClass('col_edited')) {
+                this.element.addClass('panel-success');
+            }
             this.element.removeClass('panel-primary');
         }
 

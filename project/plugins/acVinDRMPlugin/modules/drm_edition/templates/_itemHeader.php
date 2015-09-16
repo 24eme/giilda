@@ -9,14 +9,11 @@ $favoris_sorties = $favoris->sorties;
     <div class="list-group" style="margin-top: 76px;" id="colonne_intitules">
         
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
-                <h4 style="height:22px;" class="itemcache form-group form-group-xs">Stock théorique dbt de mois</h4>
-                <ul class="list-unstyled hidden">
+                <h4 style="height:22px;" class="hidden form-group form-group-xs">Stock théorique dbt de mois</h4>
                     <?php foreach ($detailsNodes->getStocksDebut() as $key => $item): ?>               
-                        <li class="form-group form-group-xs <?php echo ($key != 'revendique') ? ' itemcache' : ' li_gris'; ?>">
-                            <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)
-                        </li>
+                        <h4 style="height:22px;" class="form-group form-group-xs <?php echo ($key != 'revendique') ? ' hidden' : ' li_gris'; ?>">
+                            <?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?>
                     <?php endforeach; ?>
-                </ul>
             </div>
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="2">
@@ -86,14 +83,12 @@ $favoris_sorties = $favoris->sorties;
             </div>
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="6">
-                <h4 style="height:22px;" class="itemcache form-group form-group-xs">Stock théorique fin de mois</h4>
-                <ul class="list-unstyled hidden">
+                <h4 style="height:22px;" class="hidden form-group form-group-xs">Stock théorique fin de mois</h4>
                     <?php foreach ($detailsNodes->getStocksFin() as $key => $item): ?>
-                        <li class="form-group form-group-xs <?php echo ($key != 'revendique') ? ' itemcache' : ' li_gris'; ?>">
-                            <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)
-                        </li>
+                        <h4 style="height:22px;" class="form-group form-group-xs <?php echo ($key != 'revendique') ? ' hidden' : ' li_gris'; ?>">
+                            <?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?>
+                        </h4>
                     <?php endforeach; ?>
-                </ul>
             </div>
     </div>
      </form>

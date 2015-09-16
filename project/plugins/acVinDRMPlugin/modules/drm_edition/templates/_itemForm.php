@@ -5,34 +5,32 @@ $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 ?>
 <div class="pull-left" style="width: 150px;">
-<div data-hash="<?php echo $detail->getHash() ?>"  class="panel panel-default col_recolte<?php if ($active): ?> active col_active<?php endif; ?> <?php echo ($detail->isEdited()) ? 'col_edited' : '' ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>" style="margin-right: 10px;">
+<div data-hash="<?php echo $detail->getHash() ?>"  class="panel panel-default col_recolte<?php if ($active): ?> active col_active<?php endif; ?> <?php echo ($detail->isEdited()) ? 'col_edited panel-success' : '' ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>" style="margin-right: 10px;">
 
         <div class="panel-heading panel-heading-xs text-center"><?php echo $form->getObject()->getLibelle("%format_libelle%") ?></div>
         <div class="col_cont list-group">
         <a href="#" class="col_curseur" data-curseur="<?php echo $form->getObject()->getKey() ?>"></a>
             <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>
-            <div class="list-group-item list-group-item-xs groupe" data-groupe-id="1">
-                <h4 class="form-group form-group-xs itemcache <?php echo isVersionnerCssClass($form->getObject(), 'total_debut_mois') ?>">
-                    <?php echo $form['total_debut_mois']->render(array('data-val-defaut' => sprintFloat($form->getObject()->total_debut_mois), 'class' => 'num num_float somme_groupe form-control text-right input-xs')) ?>
+            <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="1">
+                <h4 class="form-group form-group-xs hidden <?php echo isVersionnerCssClass($form->getObject(), 'total_debut_mois') ?>">
+                    <?php echo $form['total_debut_mois']->render(array('data-val-defaut' => sprintFloat($form->getObject()->total_debut_mois), 'class' => 'num num_float form-control somme_groupe text-right input-xs')) ?>
                 </h4>
-                <ul class="list-unstyled hidden">
                     <?php foreach ($form['stocks_debut'] as $key => $subform): ?>
-                        <li class="form-group form-group-xs <?php if ($key == 'revendique') echo "li_gris";
+                        <h4 class="form-group form-group-xs <?php if ($key == 'revendique') echo "li_gris";
                     else echo isVersionnerCssClass($form->getObject()->stocks_debut, $key);
                     if ($key != 'revendique') {
-                        echo ' itemcache';
+                        echo ' hidden';
                     } else {
                         echo ' somme_stock_debut';
                     } ?>">
                         <?php if ($key == 'revendique'): ?>
         <?php echo $form['stocks_debut'][$key]->render(array('data-val-defaut' => sprintFloat($form['stocks_debut'][$key]->getValue()), 'class' => 'num somme_detail num_float somme_stock_debut bold_on_blur form-control text-right')) ?>
     <?php else: ?>
-        <?php echo $form['stocks_debut'][$key]->render(array('data-val-defaut' => sprintFloat($form['stocks_debut'][$key]->getValue()), 'class' => 'num somme_detail num_float bold_on_blur form-control text-right')) ?>
+        <?php echo $form['stocks_debut'][$key]->render(array('data-val-defaut' => sprintFloat($form['stocks_debut'][$key]->getValue()), 'class' => 'num somme_detail num_float bold_on_blur somme_detail form-control text-right')) ?>
     <?php endif; ?>
-                        </li>
+                        </h4>
 <?php endforeach; ?>
-                </ul>
             </div>
             <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="2">
                 <h4 class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?>">
@@ -134,16 +132,15 @@ $favoris_sorties = $favoris->sorties;
             </div>
 
             <!-- <p><input type="text" value="0" class="num num_float somme_stock_fin" readonly="readonly" /></p>  -->
-            <div class="list-group-item list-group-item-xs roupe p_gris" data-groupe-id="6">
-                <h4 class="form-group form-group-xs itemcache <?php echo isVersionnerCssClass($form->getObject(), 'total') ?>">
+            <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="6">
+                <h4 class="form-group form-group-xs hidden <?php echo isVersionnerCssClass($form->getObject(), 'total') ?>">
                     <input type="text" value="<?php echo $form->getObject()->total ?>" class="num num_float somme_groupe form-control input-xs text-right" readonly="readonly" data-val-defaut="<?php echo sprintFloat($form->getObject()->total) ?>" />
                 </h4>
-                <ul class="list-unstyled hidden">
                         <?php foreach ($form['stocks_fin'] as $key => $subform): ?>
-                        <li class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject()->stocks_fin, $key);
+                        <h4 class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject()->stocks_fin, $key);
                         if ($key == 'revendique') echo "li_gris";
                         if ($key != 'revendique') {
-                            echo ' itemcache';
+                            echo ' hidden';
                         } ?>">
     <?php if ($key == 'revendique'): ?>
         <?php echo $form['stocks_fin'][$key]->render(array('data-val-defaut' => $form['stocks_fin'][$key]->getValue(),
@@ -154,9 +151,8 @@ $favoris_sorties = $favoris->sorties;
             'class' => 'num num_float somme_detail form-control text-right'))
         ?>
     <?php endif; ?>
-                        </li>
+                        </h4>
 <?php endforeach; ?>
-                </ul>
             </div>
 
             <div class="col_btn list-group-item list-group-item-xs invisible">

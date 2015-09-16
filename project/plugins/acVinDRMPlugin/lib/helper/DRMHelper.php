@@ -64,10 +64,10 @@ function getClassGlobalEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $p
 
     //Cas VINSI
     if ($statut == DRMCalendrier::STATUT_VALIDEE) {
-        return 'valide_campagne_teledeclaree';
+        return 'valide_campagne_teledeclaree panel-success';
     }
     if ($statut == DRMCalendrier::STATUT_EN_COURS) {
-        return 'attente_campagne_teledeclaree';
+        return 'attente_campagne_teledeclaree panel-primary';
     }
     if ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE) {
         return 'attente_campagne';
@@ -191,13 +191,13 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode, $etablissement = fal
         return 'Voir la drm';
     }
     if ($statut == DRMCalendrier::STATUT_EN_COURS) {
-        return 'En attente';
+        return 'Continuer';
     }
     if ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE) {
         return 'Voir la drm';
     }
     if ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE) {
-        return 'En attente';
+        return 'Continuer';
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'A créer';
