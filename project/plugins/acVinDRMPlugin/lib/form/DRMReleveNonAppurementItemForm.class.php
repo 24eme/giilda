@@ -23,9 +23,9 @@ class DRMReleveNonApurementItemForm extends acCouchdbObjectForm {
 
     public function configure() {
         
-        $this->setWidget('numero_document', new sfWidgetFormInput());
-        $this->setWidget('date_emission', new sfWidgetFormInput());
-        $this->setWidget('numero_accise', new sfWidgetFormInput());
+        $this->setWidget('numero_document', new bsWidgetFormInput());
+        $this->setWidget('date_emission', new bsWidgetFormInputDate());
+        $this->setWidget('numero_accise', new bsWidgetFormInput());
 
         $this->widgetSchema->setLabel('numero_document', 'Numéro document');
         $this->widgetSchema->setLabel('date_emission', 'Date émission');

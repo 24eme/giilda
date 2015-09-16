@@ -27,14 +27,14 @@ class DRMCrdsForm extends acCouchdbObjectForm {
                     if ($crd->stock_debut) 
                         $this->setWidget('stock_debut' . $keyWidgetsSuffixe, new sfWidgetFormInputHidden());
                     else
-                        $this->setWidget('stock_debut' . $keyWidgetsSuffixe, new sfWidgetFormInput());                        
-                    $this->setWidget('entrees_achats' . $keyWidgetsSuffixe, new sfWidgetFormInput());
-                    $this->setWidget('entrees_retours' . $keyWidgetsSuffixe, new sfWidgetFormInput());
-                    $this->setWidget('entrees_excedents' . $keyWidgetsSuffixe, new sfWidgetFormInput());
+                        $this->setWidget('stock_debut' . $keyWidgetsSuffixe, new bsWidgetFormInput());                        
+                    $this->setWidget('entrees_achats' . $keyWidgetsSuffixe, new bsWidgetFormInput());
+                    $this->setWidget('entrees_retours' . $keyWidgetsSuffixe, new bsWidgetFormInput());
+                    $this->setWidget('entrees_excedents' . $keyWidgetsSuffixe, new bsWidgetFormInput());
 
-                    $this->setWidget('sorties_utilisations' . $keyWidgetsSuffixe, new sfWidgetFormInput());
-                    $this->setWidget('sorties_destructions' . $keyWidgetsSuffixe, new sfWidgetFormInput());
-                    $this->setWidget('sorties_manquants' . $keyWidgetsSuffixe, new sfWidgetFormInput());
+                    $this->setWidget('sorties_utilisations' . $keyWidgetsSuffixe, new bsWidgetFormInput());
+                    $this->setWidget('sorties_destructions' . $keyWidgetsSuffixe, new bsWidgetFormInput());
+                    $this->setWidget('sorties_manquants' . $keyWidgetsSuffixe, new bsWidgetFormInput());
 
                     $this->widgetSchema->setLabel('stock_debut' . $keyWidgetsSuffixe, 'Début de mois');
                     $this->widgetSchema->setLabel('entrees_achats' . $keyWidgetsSuffixe, 'Achats');

@@ -7,7 +7,8 @@ class WidgetEtablissement extends bsWidgetFormChoice
     public function __construct($options = array(), $attributes = array())
     {
         parent::__construct($options, $attributes);
-        if($this->getOption('ajax')) {
+        
+	if($this->getOption('ajax')) {
             $this->setAttribute('data-ajax', $this->getUrlAutocomplete());
             $this->setOption('choices', $this->getChoicesDefault());
         } else {
