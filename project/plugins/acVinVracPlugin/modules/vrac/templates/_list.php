@@ -35,7 +35,11 @@
                     <span class="<?php echo typeToPictoCssClass($elt[VracHistoryView::VALUE_TYPE]) ?>" style="font-size: 24px;"></span>
                     </td>
                     <td style="vertical-align: middle;">
+                    <?php if($elt[VracHistoryView::VALUE_STATUT]): ?>
                     <a href="<?php echo url_for('@vrac_visualisation?numero_contrat='.$vracid) ?>">
+                    <?php else: ?>
+                    <a href="<?php echo url_for('@vrac_redirect_saisie?numero_contrat='.$vracid) ?>">
+                    <?php endif; ?>
                     <?php if($v->numero_archive): ?>
                     <?php echo $v->numero_archive ?>
                     <?php elseif(!$elt[VracHistoryView::VALUE_STATUT]): ?>
@@ -103,7 +107,7 @@
                     <?php if($elt[VracHistoryView::VALUE_STATUT]): ?>
                     <a class="btn btn-sm btn-default" href="<?php echo url_for('@vrac_visualisation?numero_contrat='.$vracid) ?>">Visualiser</a>
                     <?php else: ?>
-                    <a class="btn btn-sm btn-default" href="<?php echo url_for('@vrac_soussigne?numero_contrat='.$vracid) ?>">Continuer</a>
+                    <a class="btn btn-sm btn-default" href="<?php echo url_for('@vrac_redirect_saisie?numero_contrat='.$vracid) ?>">Continuer</a>
                     <?php endif; ?>
                     </td>
                 </tr>
