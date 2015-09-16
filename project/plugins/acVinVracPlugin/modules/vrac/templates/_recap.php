@@ -77,7 +77,7 @@ $colsize = 6;
 
     <div class="col-xs-6">
         <div class="panel panel-default">
-            <div class="panel-heading">2. Le marché <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-heading">Le marché <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
             	<li class="list-group-item">
                 <?php $hasproduit = 0 ;
@@ -120,7 +120,7 @@ $colsize = 6;
     </div>
     <div class="col-xs-6">
         <div class="panel panel-default">
-            <div class="panel-heading">3. Les conditions <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-heading">Les conditions <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
                 <?php if ($vrac->delai_paiement || $vrac->moyen_paiement || $vrac->acompte): ?>
                 <li class="list-group-item">
