@@ -16,13 +16,13 @@
         
         $(options.selectors.ajaxModal).on("show.bs.modal", function(e) {
             var link = $(e.relatedTarget);
-            $(this).find(".modal-content").load(link.attr("href"), function() {
+            $(this).load(link.attr("href"), function() {
                 $(this).initAdvancedElements();
             });
         });
 
         $(options.selectors.ajaxModal).on("hidden.bs.modal", function(e) {
-            $(this).find(".modal-content").html("");
+            $(this).html("");
         });
 
     });

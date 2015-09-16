@@ -10,11 +10,12 @@ class drmGeneriqueActions extends sfActions {
         $this->compte = $this->getUser()->getCompte();
         if ($this->isTeledeclarationDrm()) {
 
-            if (!$this->compte) {
+            /*if (!$this->compte) {
                 new sfException("Le compte $compte n'existe pas");
-            }
-            $this->societe = $this->compte->getSociete();
-            $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
+            }*/
+
+            $this->etablissementPrincipal =  $this->getRoute()->getEtablissement();
+            $this->societe = $this->etablissementPrincipal->getSociete();
         }
     }
 
@@ -42,6 +43,8 @@ class drmGeneriqueActions extends sfActions {
     }
 
     protected function isTeledeclarationDrm() {
+
+        return true;
         return $this->getUser()->hasTeledeclarationDrm();
     }
     

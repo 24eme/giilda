@@ -5,14 +5,13 @@
 <table id="drm_export_details_table" class="table table-striped">
     <thead>
         <tr>
-            <th class="col-xs-4">Produit</th>
-            <th class="col-xs-4">Pays</th>
-            <th class="col-xs-3">Volumes</th>
+            <th class="<?php if($isTeledeclarationMode): ?>col-xs-4<?php else: ?>col-xs-7<?php endif; ?>">Pays</th>
+            <th class="<?php if($isTeledeclarationMode): ?>col-xs-3<?php else: ?>col-xs-4<?php endif; ?>">Volumes</th>
             <?php if($isTeledeclarationMode): ?>
-            <th>Type de document</th>
-            <th>Numéro de document</th>  
+            <th class="col-xs-2">Type de doc</th>
+            <th class="col-xs-2">Numéro&nbsp;de&nbsp;document</th>  
             <?php endif; ?>
-            <th class="co-xs-1"></th>
+            <th class="col-xs-1"></th>
         </tr>
     </thead>
     <tbody>
@@ -28,7 +27,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="2"></td>
+            <td></td>
             <td class="lead text-right">
                 <div class="input-group">
                     <div class="input-group-addon">&Sigma;</div>
@@ -40,7 +39,7 @@
             <td></td>
             <td></td>
             <?php endif; ?>
-            <td><button type="button" data-container="#drm_export_details_table tbody" data-template="#template_export" class="btn btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></a></td>
+            <td class="text-right"><button type="button" data-container="#drm_export_details_table tbody" data-template="#template_export" class="btn btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></a></td>
         </tr>
     </tfoot>
 </table>

@@ -7,9 +7,8 @@
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_ADMINISTRATION)); ?>
     <?php include_partial('drm/controlMessage'); ?>
     <div id="application_drm">
-        <div class="row">
-            <form action="<?php echo url_for('drm_annexes', $annexesForm->getObject()); ?>" class="form-horizontal" method="post">
-
+        <form action="<?php echo url_for('drm_annexes', $annexesForm->getObject()); ?>" class="form-horizontal" method="post">
+            <div class="row">
                 <?php echo $annexesForm->renderGlobalErrors(); ?>
                 <?php echo $annexesForm->renderHiddenFields(); ?>
                 <div class="col-xs-6">
@@ -94,22 +93,22 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="col-xs-4 text-left">
-                        <a tabindex="-1" href="<?php echo url_for('drm_crd', $drm); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                        <a class="btn btn-default" href="#drm_delete_popup">
-                            <span>Supprimer la DRM</span>
-                        </a> 
-                    </div>
-                    <div class="col-xs-4 text-right">
-                        <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
-                    </div>
+            <div class="row">
+                <div class="col-xs-4 text-left">
+                    <a tabindex="-1" href="<?php echo url_for('drm_crd', $drm); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
                 </div>
-            </form>
-        </div>
+                <div class="col-xs-4 text-center">
+                    <a class="btn btn-default" href="#drm_delete_popup">
+                        <span>Supprimer la DRM</span>
+                    </a> 
+                </div>
+                <div class="col-xs-4 text-right">
+                    <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
+                </div>
+            </div>
+        </form>
     </div>
 </section>
 <?php

@@ -26,11 +26,11 @@ class drmActions extends drmGeneriqueActions {
     }
 
     public function executeIndex(sfWebRequest $request) {
-        $this->redirect403IfIsTeledeclaration();
+        //$this->redirect403IfIsTeledeclaration();
     }
 
     public function executeEtablissementSelection(sfWebRequest $request) {
-        $this->redirect403IfIsTeledeclaration();
+        //$this->redirect403IfIsTeledeclaration();
 
         $form = new DRMEtablissementChoiceForm('INTERPRO-declaration');
         $form->bind($request->getParameter($form->getName()));
@@ -238,7 +238,8 @@ class drmActions extends drmGeneriqueActions {
     }
 
     private function formCampagne(sfWebRequest $request, $route) {
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        //$this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->isTeledeclarationMode = false;
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
         if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)

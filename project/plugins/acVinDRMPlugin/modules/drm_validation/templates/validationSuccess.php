@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-xs-12">
             <?php if ($isTeledeclarationMode): ?>
-                <?php include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm, 'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>
+                <?php //include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm, 'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>
             <?php endif; ?>
 
             <div style="padding-bottom: 20px">
@@ -42,15 +42,15 @@
             <a tabindex="-1" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_annexes', $drm) : url_for('drm_edition', $drm); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
         </div>
         <div class="col-xs-4 text-center">
-            <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
+            <?php /*if ($isTeledeclarationMode) : ?>
                 <a tabindex="-1" class="btn btn-danger" href="<?php echo url_for('drm_etablissement', $vrac); ?>">Supprimer le brouillon</a>
-            <?php endif; ?>
+            <?php endif;*/ ?>
         </div>
         <div class="col-xs-4 text-right">
             <?php if ($validation->isValide()) : ?>
                 <?php if ($isTeledeclarationMode): ?> 
                         <?php echo $form['email_transmission']->render(); ?>
-                        <a id="signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn btn-default"><span>Valider</span></a>
+                        <a id="signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn btn-success"><span>Valider</span></a>
                         <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validationForm' => $form)); ?>
                 <?php else: ?>
                         <button class="btn btn-success" type="submit">Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>

@@ -32,13 +32,7 @@
         <?php echo $sf_content ?>
     </div>
 
-    <div id="ajax-modal" class="modal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-          
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    <div id="ajax-modal" class="modal"></div>
 
     <?php include_partial('global/footer'); ?>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

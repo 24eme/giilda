@@ -16,7 +16,7 @@ abstract class DRMESDetailsItemForm extends acCouchdbObjectForm {
 
         if ($this->isTeledeclarationMode) {
             $this->setWidget('numero_document', new bsWidgetFormInput());
-            $this->setWidget('type_document', new sfWidgetFormChoice(array('choices' => $this->getTypeDocumentsChoices())));
+            $this->setWidget('type_document', new bsWidgetFormChoice(array('choices' => $this->getTypeDocumentsChoices())));
         }
 
         $this->setValidator('identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getIdentifiantChoices()))));
