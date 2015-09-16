@@ -24,7 +24,7 @@ $colsize = 6;
 ?>
 <div class="col-xs-<?php echo $colsize; ?>">
         <div class="panel panel-default">
-            <div class="panel-heading">Vendeur <?php if ($vrac->responsable == 'vendeur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-heading"><strong>Vendeur</strong> <?php if ($vrac->responsable == 'vendeur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <div class="text-center">
                 	<strong><?php echo $vrac->getVendeurObject()->getNom(); ?></strong><br/>
                 	<?php echo $vrac->getVendeurObject()->siege->adresse; ?> - 
@@ -56,7 +56,7 @@ $colsize = 6;
 
     <div class="col-xs-<?php echo $colsize; ?>">
         <div class="panel panel-default">
-            <div class="panel-heading">Acheteur <?php if ($vrac->responsable == 'acheteur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-heading"><strong>Acheteur</strong> <?php if ($vrac->responsable == 'acheteur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <div class="text-center">
                 	<strong><?php echo $vrac->getAcheteurObject()->getNom(); ?></strong><br/>
                 	<?php echo $vrac->getAcheteurObject()->siege->adresse; ?> - 
