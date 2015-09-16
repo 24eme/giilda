@@ -42,7 +42,7 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         $this->setValidator('quantite_sucre', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setLabel('quantite_sucre', 'Quantité de sucre');
 
-        $this->setWidget('observations', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
+        $this->setWidget('observations', new bsWidgetFormTextarea(array()));
         $this->setValidator('observations', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setLabel('observations', 'Observations générales');
 
