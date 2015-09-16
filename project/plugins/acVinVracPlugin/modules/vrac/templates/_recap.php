@@ -15,46 +15,89 @@ $template_validation = (isset($template_validation))? $template_validation : fal
             </p>
             <?php endif;?>
     	</div>
-    <div class="col-xs-12">
+
+<?php if ($vrac->mandataire_identifiant != null && $vrac->mandataire_exist) {
+$colsize = 4;
+}else{
+$colsize = 6;
+}
+?>
+<div class="col-xs-<?php echo $colsize; ?>">
         <div class="panel panel-default">
-            <div class="panel-heading">1. Soussignés <?php if($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
-            <ul class="list-group">
-                <li class="list-group-item clearfix">
-                	<div class="row col-xs-4">
-                	<?php if ($vrac->responsable == 'vendeur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?>Vendeur : <a href=""><?php echo $vrac->getVendeurObject()->getNom(); ?></a><?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?><br />Representé par <a href=""><?php echo $vrac->getRepresentantObject()->getNom(); ?></a><?php endif; ?><?php if($vrac->logement): ?><br />Logement du vin : <?php echo $vrac->logement ?><?php endif; ?>
-                	</div>
-                	<div class="row col-xs-4">
-                	<?php if ($vrac->responsable == 'acheteur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?>Acheteur : <a href=""><?php echo $vrac->getAcheteurObject()->getNom(); ?></a>
-                	</div>
-                	<div class="row col-xs-4">
-	                <?php if ($vrac->mandataire_identifiant != null && $vrac->mandataire_exist): ?>
-	                    <?php if ($vrac->responsable == 'mandataire'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?>Mandataire / Courtier : <a href=""><?php echo $vrac->getMandataireObject()->getNom(); ?></a>
-	                <?php else: ?>
-	                    Ce contrat ne possède pas de  mandataire / courtier
-	                <?php endif; ?>
-	                </div>
-                </li>
-            </ul>
+            <div class="panel-heading">Vendeur <?php if ($vrac->responsable == 'vendeur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="text-center">
+                	<strong><?php echo $vrac->getVendeurObject()->getNom(); ?></strong><br/>
+                	<?php echo $vrac->getVendeurObject()->siege->adresse; ?> - 
+                	<?php echo $vrac->getVendeurObject()->siege->code_postal; ?>
+                	<?php echo $vrac->getVendeurObject()->siege->commune; ?><br/>
+                    <br />
+                    <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?>Representé par <a href=""><?php echo $vrac->getRepresentantObject()->getNom(); ?></a><br /><?php endif; ?>
+                   <?php if($vrac->logement): ?>Logement du vin : <?php echo $vrac->logement ?><br/><?php endif; ?>
+            </div>
         </div>
     </div>
+
+<?php if ($vrac->mandataire_identifiant != null && $vrac->mandataire_exist): ?>
+    <div class="col-xs-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Mandataire / Courtier <?php if ($vrac->responsable == 'mandataire'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="text-center">
+                <strong><?php echo $vrac->getMandataireObject()->getNom(); ?></strong><br/>
+                <?php echo $vrac->getMandataireObject()->siege->adresse; ?> - 
+                <?php echo $vrac->getMandataireObject()->siege->code_postal; ?>
+                <?php echo $vrac->getMandataireObject()->siege->commune; ?><br/>
+                <br />
+                <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?><br /><?php endif; ?>
+                <?php if($vrac->logement): ?><br/><?php endif; ?>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+    <div class="col-xs-<?php echo $colsize; ?>">
+        <div class="panel panel-default">
+            <div class="panel-heading">Acheteur <?php if ($vrac->responsable == 'acheteur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="text-center">
+                	<strong><?php echo $vrac->getAcheteurObject()->getNom(); ?></strong><br/>
+                	<?php echo $vrac->getAcheteurObject()->siege->adresse; ?> - 
+                	<?php echo $vrac->getAcheteurObject()->siege->code_postal; ?>
+                	<?php echo $vrac->getAcheteurObject()->siege->commune; ?><br/>
+                    <br />
+                    <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?><br /><?php endif; ?>
+                   <?php if($vrac->logement): ?><br/><?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+<?php if (!$vrac->mandataire_identifiant || !$vrac->mandataire_exist): ?>
+<div class="row col-xs-12 text-center">
+    Ce contrat ne possède pas de  mandataire / courtier<br/><br/>
+</div>
+<?php endif; ?>
 
     <div class="col-xs-6">
         <div class="panel panel-default">
             <div class="panel-heading">2. Le marché <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
             	<li class="list-group-item">
-            	<?php if ($vrac->produit): ?>
-                Produit : <?php echo $vrac->produit_libelle ?><br />
+                <?php $hasproduit = 0 ;
+                if ($vrac->produit): $hasproduit = 1 ;?>
+                <strong><?php echo $vrac->produit_libelle ?></strong>
                 <?php endif; ?>
             	<?php if ($vrac->cepage): ?>
-            	Cépage : <?php echo $vrac->cepage_libelle ?><br />
+                <?php echo ($hasproduit) ? ' - ' : ''; ?>
+            	<strong><?php echo $vrac->cepage_libelle ?></strong>
             	<?php endif; ?>
-            	<?php echo ($vrac->millesime)? 'Millésime : '.$vrac->millesime : 'Non millésimé'; ?><?php if ($vrac->get('85_15')): ?> (85/15)<?php endif;?>
-            	<?php foreach ($vrac->label as $label): ?>
-            	<br /><?php echo ConfigurationClient::getCurrent()->labels->toArray()[$label] ?>
-            	<?php endforeach; ?>
-            	</li>
-                <li class="list-group-item">Type : <?php echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin]; ?><?php if ($vrac->domaine): ?><br /><?php echo $vrac->domaine; ?><?php endif; ?></li>
+            	 (<?php echo ($vrac->millesime)? $vrac->millesime : 'Non millésimé'; ?><?php if ($vrac->get('85_15')): ?> (85/15)<?php endif;?>)<br />
+            	<?php
+                $haslabel = 0;
+                foreach ($vrac->label as $label):
+                     echo ($haslabel++) ? ' - ' : '';
+                     echo ConfigurationClient::getCurrent()->labels->toArray()[$label];
+                endforeach;
+                echo ($haslabel) ? '<br/>' : '';
+                ?>
+                <?php echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin]; ?>&nbsp;: <?php if ($vrac->domaine): ?><?php echo $vrac->domaine; ?><?php endif; ?>
                 <?php if ($vrac->lot): ?>
                 <li class="list-group-item">Lot : <?php echo $vrac->lot ?></li>
                 <?php endif; ?>
@@ -67,9 +110,9 @@ $template_validation = (isset($template_validation))? $template_validation : fal
                 <?php endif; ?>
                 <?php if ($vrac->jus_quantite || $vrac->raisin_quantite || $vrac->prix_initial_unitaire): ?>
                 <li class="list-group-item">
-                <?php if ($vrac->jus_quantite): ?>Volume : <?php echo $vrac->jus_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['jus_quantite']['libelle'] ?><br /><?php endif; ?>
-                <?php if ($vrac->raisin_quantite): ?>Quantité : <?php echo $vrac->raisin_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['raisin_quantite']['libelle'] ?><br /><?php endif; ?>
-                <?php if ($vrac->prix_initial_unitaire): ?>Prix : <?php echo $vrac->prix_initial_unitaire ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle'] ?><?php endif; ?>
+                <?php if ($vrac->jus_quantite): ?>Volume : <strong><?php echo $vrac->jus_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['jus_quantite']['libelle'] ?></strong><br /><?php endif; ?>
+                <?php if ($vrac->raisin_quantite): ?>Quantité : <strong><?php echo $vrac->raisin_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['raisin_quantite']['libelle'] ?></strong><br /><?php endif; ?>
+                <?php if ($vrac->prix_initial_unitaire): ?>Prix : <strong><?php echo $vrac->prix_initial_unitaire ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle'] ?></strong><?php endif; ?>
                 </li>
                 <?php endif; ?>
             </ul>
@@ -81,9 +124,11 @@ $template_validation = (isset($template_validation))? $template_validation : fal
             <ul class="list-group">
                 <?php if ($vrac->delai_paiement || $vrac->moyen_paiement || $vrac->acompte): ?>
                 <li class="list-group-item">
-                <?php if ($vrac->delai_paiement): ?>Délai de paiement : <?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] ?><br /><?php endif; ?>
-                <?php if ($vrac->moyen_paiement): ?>Moyen de paiement : <?php echo VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] ?><br /><?php endif; ?>
-                <?php if ($vrac->acompte): ?>Acompte : <?php echo $vrac->acompte ?>€<?php endif; ?>
+                <?php if ($vrac->delai_paiement): ?>Paiement : <?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement]; ?><?php endif; ?>
+                (
+                <?php if ($vrac->moyen_paiement): ?><?php echo VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement]; ?><?php endif; ?>
+                <?php if ($vrac->acompte): ?> - Acompte : <?php echo $vrac->acompte ?>€<?php endif; ?>
+                )
                 </li>
 				<?php endif; ?>
             	<?php if ($vrac->taux_courtage || $vrac->cvo_repartition || $vrac->tva): ?>
