@@ -75,12 +75,22 @@ $favoris_sorties = $favoris->sorties;
                         <?php foreach ($form['sorties'] as $key => $subform): ?>
                             <?php if ($favoris_sorties->exist($key)): ?>
                             <li class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
-                                <?php if ($key == "vrac"): ?>
-                                    <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details form-control text-right" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
+                            <?php if ($key == "vrac"): ?>
+                                <div class="input-group">
+                                    <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" data-title="Details des contrats" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
+                                    <span class="input-group-btn">
+                                        <a data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                    </span>
+                                </div>
                             <?php elseif ($key == "export"): ?>
-                                    <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details form-control text-right" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                                    <div class="input-group">
+                                        <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                                        <span class="input-group-btn">
+                                            <a data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                        </span>
+                                    </div>
                             <?php elseif ($key == "cooperative"): ?>
-                                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
+                                    <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
                             <?php else: ?>
                                 <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(), 'class' => 'num num_float somme_detail bold_on_blur form-control text-right')) ?>
                             <?php endif; ?>
@@ -98,9 +108,19 @@ $favoris_sorties = $favoris->sorties;
                             <?php if (!$favoris_sorties->exist($key)): ?>
                             <li class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                                 <?php if ($key == "vrac"): ?>
-                                    <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
-                            <?php elseif ($key == "export"): ?>
-                                    <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                                    <div class="input-group">
+                                        <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
+                                        <span class="input-group-btn">
+                                            <a data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                        </span>
+                                    </div>
+                                <?php elseif ($key == "export"): ?>
+                                    <div class="input-group">
+                                        <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                                        <span class="input-group-btn">
+                                            <a data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                        </span>
+                                    </div>
                                 <?php elseif ($key == "cooperative"): ?>
                                                             <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
                                 <?php else: ?>

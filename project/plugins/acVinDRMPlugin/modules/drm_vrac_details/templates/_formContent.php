@@ -2,20 +2,20 @@
 echo $form->renderHiddenFields();
 echo $form->renderGlobalErrors();
 ?>
-<table id="drm_vrac_details_table" class="drm_details_table">
+<table id="drm_vrac_details_table" class="table table-striped">
     <thead>
         <tr>
-            <th>Produit</th>
-            <th>Numéro contrat</th>
-            <th>Volumes</th>            
+            <th class="col-xs-4">Produit</th>
+            <th class="col-xs-4">Numéro contrat</th>
+            <th class="col-xs-3">Volumes</th>            
             <?php if ($isTeledeclarationMode): ?>
                 <th>Type de document</th>
                 <th>Numéro de document</th> 
             <?php endif; ?>
-            <th></th>
+            <th class="co-xs-1"></th>
         </tr>
     </thead>
-    <tbody id="drm_vrac_details_tableBody" class="drm_details_tableBody">
+    <tbody>
         <?php
         foreach ($form as $itemForm) {
             if ($itemForm instanceof sfFormFieldSchema) {
@@ -25,25 +25,22 @@ echo $form->renderGlobalErrors();
             }
         }
         ?>
-        <tr id="drm_details_lastRow">
-            <td class="vrac_detail_produit"></td>
-            <td class="vrac_detail_numero_contrat">
-                <a href="#" id="drm_vrac_details_addTemplate" class="btn_majeur btn_modifier drm_details_addTemplate">Ajouter un contrat</a>
-            </td>
-            <td class="vrac_detail_volume">
-                <div id="drm_details_vrac_volume_total">
-                    <strong>
-                        <span class="drm_details_volume_somme">&Sigma;</span>
-                        <span class="drm_details_volume_total"><?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac : "0.00" ?></span>
-                        <span class="drm_details_volume_unite unite">hl</span>
-                    </strong>
-                </div>      
-            </td>            
-            <?php if ($isTeledeclarationMode): ?>
-                <td class="vrac_detail_type_document"></td>  
-                <td class="vrac_detail_numero_document"></td>  
-            <?php endif; ?>
-            <td class="vrac_detail_remove"></td>
-        </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2"></td>
+            <td class="lead text-right">
+                <div class="input-group">
+                    <div class="input-group-addon">&Sigma;</div>
+                    <input type="text" class="form-control text-right" readonly="readonly" value="<?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac : "0.00" ?>" />
+                    <div class="input-group-addon">hl</div>
+                </div>
+            </td>
+            <?php if ($isTeledeclarationMode) : ?>
+            <td></td>
+            <td></td>
+            <?php endif; ?>
+            <td><button type="button" data-container="#drm_vrac_details_table tbody" data-template="#template_vrac" class="btn btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></a></td>
+        </tr>
+    </tfoot>
 </table>

@@ -2,27 +2,20 @@
     echo $form->renderHiddenFields();
     echo $form->renderGlobalErrors();
 ?>
-<table id="drm_export_details_table" class="drm_details_table">
-    <colgroup>
-        <col id="col_produit">
-        <col>
-        <col>
-        <col>
-        <col>
-    </colgroup>
+<table id="drm_export_details_table" class="table table-striped">
     <thead>
         <tr>
-            <th>Produit</th>
-            <th>Pays</th>
-            <th>Volumes</th>
+            <th class="col-xs-4">Produit</th>
+            <th class="col-xs-4">Pays</th>
+            <th class="col-xs-3">Volumes</th>
             <?php if($isTeledeclarationMode): ?>
             <th>Type de document</th>
             <th>Numéro de document</th>  
             <?php endif; ?>
-            <th></th>
+            <th class="co-xs-1"></th>
         </tr>
     </thead>
-    <tbody id="drm_export_details_tableBody" class="drm_details_tableBody">
+    <tbody>
     <?php
     foreach ($form as $itemForm){
         if($itemForm instanceof sfFormFieldSchema) {
@@ -32,22 +25,22 @@
         }
     }
     ?>
-        <tr id="drm_details_lastRow">
-            <td class="export_detail_produit"></td>
-            <td class="export_detail_destination">
-                <a href="#" id="drm_export_details_addTemplate" class="btn_majeur btn_modifier drm_details_addTemplate">Ajouter un export</a>
-            </td>
-            <td class="export_detail_volume">
-                <div id="drm_details_export_volume_total">
-                    <strong>
-                        <span class="drm_details_volume_somme">&Sigma;</span>
-                        <span class="drm_details_volume_total"><?php echo $detail->sorties->export > 0 ? $detail->sorties->export : "0.00" ?></span>
-                        <span class="drm_details_volume_unite unite">hl</span>
-                    </strong>
-                </div>      
-            </td>
-            <td class="export_detail_numero_document"></td>   
-            <td class="export_detail_remove"></td>
-        </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2"></td>
+            <td class="lead text-right">
+                <div class="input-group">
+                    <div class="input-group-addon">&Sigma;</div>
+                    <input type="text" class="form-control text-right" readonly="readonly" value="<?php echo $detail->sorties->export > 0 ? $detail->sorties->export : "0.00" ?>" />
+                    <div class="input-group-addon">hl</div>
+                </div>
+            </td>
+            <?php if ($isTeledeclarationMode) : ?>
+            <td></td>
+            <td></td>
+            <?php endif; ?>
+            <td><button type="button" data-container="#drm_export_details_table tbody" data-template="#template_export" class="btn btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></a></td>
+        </tr>
+    </tfoot>
 </table>

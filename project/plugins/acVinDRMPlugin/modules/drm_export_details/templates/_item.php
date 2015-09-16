@@ -1,36 +1,35 @@
-<tr>
-    <td class="export_detail_produit">
-        <strong> 
-            <?php echo $detail->getLibelle(ESC_RAW); ?>
-        </strong>
+<?php $ligneId = "ligne_".str_replace(array("[", "]"), array("-", ""), $form->renderName()) ?>
+
+<tr id="<?php echo $ligneId ?>">
+    <td class="vertical-center">
+        <?php echo $detail->getLibelle(ESC_RAW); ?>
     </td>
-    <td class="export_detail_destination">    
-        <?php
-        echo $form['identifiant']->renderError();
-        echo $form['identifiant']->render();
-        ?>
+    <td class="form-group <?php if($form['identifiant']->hasError()): ?>has-error<?php endif; ?>">    
+        <?php echo $form['identifiant']->renderError(); ?>
+        <?php echo $form['identifiant']->render(array("class" => "form-control select2")); ?>
     </td>
-    <td class="volume export_detail_volume">    
-        <?php
-        echo $form['volume']->render();
-        echo $form['volume']->renderError();
-        ?>
+    <td class="form-group <?php if($form['volume']->hasError()): ?>has-error<?php endif; ?>">
+        <?php echo $form['volume']->renderError(); ?>
+        <div class="input-group" class="">
+            <?php echo $form['volume']->render(array("class" => "form-control text-right")); ?>
+            <div class="input-group-addon">hl</div>
+        </div>
     </td>
     <?php if ($isTeledeclarationMode) : ?>
-        <td class="export_detail_type_document">    
+        <td>    
             <?php
             echo $form['type_document']->renderError();
             echo $form['type_document']->render();
             ?>
         </td>   
-        <td class="export_detail_numero_document">    
+        <td>    
             <?php
             echo $form['numero_document']->renderError();
             echo $form['numero_document']->render();
             ?>
         </td>   
     <?php endif; ?>
-    <td class="export_detail_remove">    
-        <a href="#"  class="btn_majeur btn_annuler drm_details_remove">Supprimer</a>
+    <td>    
+        <button type="button" data-line="#<?php echo $ligneId ?>" data-add="#drm_export_details_table .dynamic-element-add" data-lines="#drm_export_details_table tbody tr" class="btn btn-danger dynamic-element-delete"><span class="glyphicon glyphicon-remove"></span></button>
     </td>
 </tr>
