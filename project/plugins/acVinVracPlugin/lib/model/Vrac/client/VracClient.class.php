@@ -391,7 +391,7 @@ class VracClient extends acCouchdbClient {
         $societe = SocieteClient::getInstance()->findByIdentifiantSociete($societeId);
         $result = array();
         foreach ($societe->getEtablissementsObj() as $etbObj) {
-            $result = array_merge($this->listCampagneByEtablissementId($etbObj->etablissement->identifiant));
+            $result = array_merge($result, $this->listCampagneByEtablissementId($etbObj->etablissement->identifiant));
         }
         return $result;
     }
