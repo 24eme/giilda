@@ -46,10 +46,6 @@ class VracConditionForm extends acCouchdbObjectForm {
             'commentaire' => 'Commentaires :',
         ));
 
-        $cvo_repartion_notchangeable = !is_null($this->getObject()->volume_enleve) && $this->getObject()->volume_enleve > 0;
-        if ($cvo_repartion_notchangeable)
-            $this->widgetSchema['cvo_repartition']->setAttribute('disabled', 'disabled');
-
         $dateRegexpOptions = array('required' => true,
             'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
             'min_length' => 10,
@@ -74,9 +70,13 @@ class VracConditionForm extends acCouchdbObjectForm {
             $this->getWidget('cvo_nature')->setLabel("Nature de la transaction");
             $this->setValidator('cvo_nature', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoNature()))));
 
+            $cvo_repartion_notchangeable = !is_null($this->getObject()->volume_enleve) && $this->getObject()->volume_enleve > 0;
             $this->setWidget('cvo_repartition', new sfWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
             $this->getWidget('cvo_repartition')->setLabel("Répartition de la CVO");
             $this->setValidator('cvo_repartition', new sfValidatorChoice(array('required' => !$cvo_repartion_notchangeable, 'choices' => array_keys($this->getCvoRepartition()))));
+            if ($cvo_repartion_notchangeable)
+                 $this->widgetSchema['cvo_repartition']->setAttribute('disabled', 'disabled');
+
 
             $this->setWidget('date_signature', new sfWidgetFormInput());
             $this->getWidget('date_signature')->setLabel("Date de signature");

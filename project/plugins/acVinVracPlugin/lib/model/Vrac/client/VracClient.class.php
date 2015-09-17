@@ -141,12 +141,14 @@ class VracClient extends acCouchdbClient {
         $id = '';
         $date = date('Ymd');
         $contrats = self::getAtDate($date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+	for ($i = 0 ; $i < count($contrats) ; $i++) {
+		$contrats[$i] = preg_replace('/1(....)$/', '0$1', $contrats[$i]);
+	}
         if (count($contrats) > 0) {
             $id .= ((double) str_replace('VRAC-', '', max($contrats)) + 1);
         } else {
             $id.= $date . '00001';
         }
-
         return $id;
     }
 
