@@ -95,14 +95,14 @@ La partie identification du produit peut être utilisé soit de manière éclat�
 
 Les lignes de CAVE se constituents des champs suivants :
 
- Pour la section commune :
-
+ **Pour la section commune :**
+ 
  1. CAVE
  2. Date de la DRM (AAAAMM)
  3. Identification du chais (8 chiffres)
  4. Numéro d'ascise
 
- Pour l'identification du vin :
+ **Pour l'identification du vin :**
 
  5. Certification du vin (AOC, IGP, Sans IG, ...) ou nom du produit complet
  6. Genre du vin (Tranquille, Effervecent, ...)
@@ -112,16 +112,16 @@ Les lignes de CAVE se constituents des champs suivants :
  10. Couleur du vin (Blanc, Rouge ou Rosé)
  11. Le cépage du vin (Melon, Chenin, ...)
  
- Pour le type de mouvement :
+ **Pour le type de mouvement :**
  
  12. La catégorie du mouvement (stock_debut, entrée, sortie, stock _fin)
  13. le nom du mouvement (renvendiqué, achat, ...)
  
- Pour la quantité :
+ **Pour la quantité :**
  
  14. volume en hl
  
- Pour les compléments :
+ **Pour les compléments :**
  
  15. le pays de l'export (si le mouvement est un export, sinon vide)
  16. le numéro du contrat (si le mouvement est une sortie vrac sous contrat, sinon vide)
@@ -132,15 +132,15 @@ Le CVS peut contenir plusieurs mouvements de même type. Dans ce cas ils seront 
 
 ###Description des lignes CRD
 
-Pour la section commune :
-
+ **Pour la section commune :**
+ 
  1. CRD
  2. Date de la DRM (AAAAMM)
  3. Identification du chais (8 chiffres)
  4. Numéro d'ascise
-
-Pour l'identification de la CRD :
-
+ 
+ **Pour l'identification de la CRD :**
+ 
  5. Genre de la CDR (tranquille, mousseux, vdn, ...)
  6. Couleur de la CDR (vert, bleu ou lie de vin)
  7. centilitrage
@@ -148,14 +148,14 @@ Pour l'identification de la CRD :
  9. vide
  10. vide
  11. vide
-
-Pour le type de mouvement :
-
+ 
+ **Pour le type de mouvement :**
+ 
  12. La catégorie du mouvement (stock_debut, entrée, sortie, stock _fin)
  13. le nom du mouvement (perte, achat, ...)
-
-Pour la quantité :
-
+ 
+ **Pour la quantité :**
+ 
  14. nombre de CRD 
 
 Il n'y a pas de champs compléments pour les CRD.
@@ -164,15 +164,15 @@ Comme pour les mouvements de Cave, il est possible d'indiquer plusieurs mouvemen
 
 ###Description des lignes ANNEXE
 
-Pour la section commune :
-
+ **Pour la section commune :**
+ 
  1. ANNEXE
  2. Date de la DRM (AAAAMM)
  3. Identification du chais (8 chiffres)
  4. Numéro d'ascise
-
-Pour la description du produit :
-
+ 
+ **Pour la description du produit :**
+ 
  5. vide
  6. vide
  7. vide
@@ -180,18 +180,18 @@ Pour la description du produit :
  9. vide
  10. vide
  11. vide
-
-Pour le type de mouvement :
-
+ 
+ **Pour le type de mouvement :**
+ 
  12. Type d'annexe (DAADAC, DSADSAC, EMPREINTE, NONAPUREMENT, SUCRE ou OBSERVATIONS) 
  13. "debut" ou "fin" (pour les numeros d'empruntes, DAA, DSA, ...)
-
-Pour la quantité :
-
+ 
+ **Pour la quantité :**
+ 
  14. quantité (en kg pour les sucres)
-
-Pour les compléments :
-
+ 
+ **Pour les compléments :**
+ 
  15. date d'envoi (pour le type non appurement)
  16. numero d'ascise du destinataire (pour le non appurement)
  17. le numéro de document d'accompagnement (pour q
