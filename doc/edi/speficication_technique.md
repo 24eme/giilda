@@ -95,14 +95,14 @@ La partie identification du produit peut être utilisé soit de manière éclat�
 
 Les lignes de CAVE se constituents des champs suivants :
 
-Pour la section commune :
+ Pour la section commune :
 
  1. CAVE
  2. Date de la DRM (AAAAMM)
  3. Identification du chais (8 chiffres)
  4. Numéro d'ascise
 
-Pour l'identification du vin :
+ Pour l'identification du vin :
 
  5. Certification du vin (AOC, IGP, Sans IG, ...) ou nom du produit complet
  6. Genre du vin (Tranquille, Effervecent, ...)
@@ -111,18 +111,18 @@ Pour l'identification du vin :
  9. Lieu du vin (par exemple "Gorges" ou "Clisson" pour le Muscadet Sèvre et Maine)
  10. Couleur du vin (Blanc, Rouge ou Rosé)
  11. Le cépage du vin (Melon, Chenin, ...)
-
-Pour le type de mouvement :
-
+ 
+ Pour le type de mouvement :
+ 
  12. La catégorie du mouvement (stock_debut, entrée, sortie, stock _fin)
  13. le nom du mouvement (renvendiqué, achat, ...)
-
-Pour la quantité :
-
+ 
+ Pour la quantité :
+ 
  14. volume en hl
-
-Pour les compléments :
-
+ 
+ Pour les compléments :
+ 
  15. le pays de l'export (si le mouvement est un export, sinon vide)
  16. le numéro du contrat (si le mouvement est une sortie vrac sous contrat, sinon vide)
  17. le numéro de document d'accompagnement (si le mouvement fait l'objet d'un document d'accompagnement douanier)
