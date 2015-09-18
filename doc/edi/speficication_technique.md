@@ -97,36 +97,36 @@ Les lignes de CAVE se constituents des champs suivants :
 
 Pour la section commune :
 
- 1) CAVE
- 2) Date de la DRM (AAAAMM)
- 3) Identification du chais (8 chiffres)
- 4) Numéro d'ascise
+ 1. CAVE
+ 2. Date de la DRM (AAAAMM)
+ 3. Identification du chais (8 chiffres)
+ 4. Numéro d'ascise
 
 Pour l'identification du vin :
 
- 5) Certification du vin (AOC, IGP, Sans IG, ...) ou nom du produit complet
- 6) Genre du vin (Tranquille, Effervecent, ...)
- 7) Appellation du vin (Anjon, Touraine, St Nicolas de Bourgueil, ...)
- 8) Mention du vin (Primeur, ...)
- 9) Lieu du vin (par exemple "Gorges" ou "Clisson" pour le Muscadet Sèvre et Maine)
- 10) Couleur du vin (Blanc, Rouge ou Rosé)
- 11) Le cépage du vin (Melon, Chenin, ...)
+ 5. Certification du vin (AOC, IGP, Sans IG, ...) ou nom du produit complet
+ 6. Genre du vin (Tranquille, Effervecent, ...)
+ 7. Appellation du vin (Anjon, Touraine, St Nicolas de Bourgueil, ...)
+ 8. Mention du vin (Primeur, ...)
+ 9. Lieu du vin (par exemple "Gorges" ou "Clisson" pour le Muscadet Sèvre et Maine)
+ 10. Couleur du vin (Blanc, Rouge ou Rosé)
+ 11. Le cépage du vin (Melon, Chenin, ...)
 
 Pour le type de mouvement :
 
- 12) La catégorie du mouvement (stock_debut, entrée, sortie, stock _fin)
- 13) le nom du mouvement (renvendiqué, achat, ...)
+ 12. La catégorie du mouvement (stock_debut, entrée, sortie, stock _fin)
+ 13. le nom du mouvement (renvendiqué, achat, ...)
 
 Pour la quantité :
 
- 14) volume en hl
+ 14. volume en hl
 
 Pour les compléments :
 
- 15) le pays de l'export (si le mouvement est un export, sinon vide)
- 16) le numéro du contrat (si le mouvement est une sortie vrac sous contrat, sinon vide)
- 17) le numéro de document d'accompagnement (si le mouvement fait l'objet d'un document d'accompagnement douanier)
- 18) vide
+ 15. le pays de l'export (si le mouvement est un export, sinon vide)
+ 16. le numéro du contrat (si le mouvement est une sortie vrac sous contrat, sinon vide)
+ 17. le numéro de document d'accompagnement (si le mouvement fait l'objet d'un document d'accompagnement douanier)
+ 18. vide
 
 Le CVS peut contenir plusieurs mouvements de même type. Dans ce cas ils seront additionnés.
 
@@ -134,29 +134,29 @@ Le CVS peut contenir plusieurs mouvements de même type. Dans ce cas ils seront 
 
 Pour la section commune :
 
- 1) CRD
- 2) Date de la DRM (AAAAMM)
- 3) Identification du chais (8 chiffres)
- 4) Numéro d'ascise
+ 1. CRD
+ 2. Date de la DRM (AAAAMM)
+ 3. Identification du chais (8 chiffres)
+ 4. Numéro d'ascise
 
 Pour l'identification de la CRD :
 
- 5) Genre de la CDR (tranquille, mousseux, vdn, ...)
- 6) Couleur de la CDR (vert, bleu ou lie de vin)
- 7) centilitrage
- 8) vide
- 9) vide
- 10) vide
- 11) vide
+ 5. Genre de la CDR (tranquille, mousseux, vdn, ...)
+ 6. Couleur de la CDR (vert, bleu ou lie de vin)
+ 7. centilitrage
+ 8. vide
+ 9. vide
+ 10. vide
+ 11. vide
 
 Pour le type de mouvement :
 
- 12) La catégorie du mouvement (stock_debut, entrée, sortie, stock _fin)
- 13) le nom du mouvement (perte, achat, ...)
+ 12. La catégorie du mouvement (stock_debut, entrée, sortie, stock _fin)
+ 13. le nom du mouvement (perte, achat, ...)
 
 Pour la quantité :
 
- 14) nombre de CRD 
+ 14. nombre de CRD 
 
 Il n'y a pas de champs compléments pour les CRD.
 
@@ -166,36 +166,36 @@ Comme pour les mouvements de Cave, il est possible d'indiquer plusieurs mouvemen
 
 Pour la section commune :
 
- 1) ANNEXE
- 2) Date de la DRM (AAAAMM)
- 3) Identification du chais (8 chiffres)
- 4) Numéro d'ascise
+ 1. ANNEXE
+ 2. Date de la DRM (AAAAMM)
+ 3. Identification du chais (8 chiffres)
+ 4. Numéro d'ascise
 
 Pour la description du produit :
 
- 5) vide
- 6) vide
- 7) vide
- 8) vide
- 9) vide
- 10) vide
- 11) vide
+ 5. vide
+ 6. vide
+ 7. vide
+ 8. vide
+ 9. vide
+ 10. vide
+ 11. vide
 
 Pour le type de mouvement :
 
- 12) Type d'annexe (DAADAC, DSADSAC, EMPREINTE, NONAPUREMENT, SUCRE ou OBSERVATIONS) 
- 13) "debut" ou "fin" (pour les numeros d'empruntes, DAA, DSA, ...)
+ 12. Type d'annexe (DAADAC, DSADSAC, EMPREINTE, NONAPUREMENT, SUCRE ou OBSERVATIONS) 
+ 13. "debut" ou "fin" (pour les numeros d'empruntes, DAA, DSA, ...)
 
 Pour la quantité :
 
- 14) quantité (en kg pour les sucres)
+ 14. quantité (en kg pour les sucres)
 
 Pour les compléments :
 
- 15) date d'envoi (pour le type non appurement)
- 16) numero d'ascise du destinataire (pour le non appurement)
- 17) le numéro de document d'accompagnement (pour q
- 18) les observations (si la ligne est "OBSERVATIONS" en cas de saut de ligne, lres remplacer par des \n)
+ 15. date d'envoi (pour le type non appurement)
+ 16. numero d'ascise du destinataire (pour le non appurement)
+ 17. le numéro de document d'accompagnement (pour q
+ 18. les observations (si la ligne est "OBSERVATIONS" en cas de saut de ligne, lres remplacer par des \n)
 
 
    [1]: https://jasig.github.io/cas/4.0.x/index.html
