@@ -4,28 +4,28 @@
 
 ###Authentification des utilisateurs
 
-Tous les utilisateurs déclarant ayant accès à la plateforme devront être authentifiés. Avant de pouvoir consulter n'importe quelle page, les utilisateurs doivent donc s'identifier sur le service d’authentification unique et centralisée CAS ^^[1]^^.
+Tous les utilisateurs déclarant ayant accès à la plateforme devront être authentifiés. Avant de pouvoir consulter n'importe quelle page, les utilisateurs doivent donc s'identifier sur le service d’authentification unique et centralisée CAS [1].
 
 Cette authentification se réalisera sur la base d'un identifiant et d'un mot de passe connus des seuls utilisateurs. Pour toute ouverture d'un compte, un courrier papier est envoyé au télédéclarant contenant un code unique permettant la création du compte et la définition d'un mot de passe.
 
-Sur l'application, les utilisateurs seront reconnus via un cookie de session fourni par le framework Symfony pour l'interface DTI et via une authentification HTTP ^^[2]^^ pour l'EDI.
+Sur l'application, les utilisateurs seront reconnus via un cookie de session fourni par le framework Symfony pour l'interface DTI et via une authentification HTTP [2] pour l'EDI.
 
-Les informations relatives aux identifiants/mots de passe, aux cookies ou aux authentifications HTTP seront transférées en HTTPS ^^[3]^^ comme tout le reste des informations.
+Les informations relatives aux identifiants/mots de passe, aux cookies ou aux authentifications HTTP seront transférées en HTTPS [3] comme tout le reste des informations.
 
 ###Authentification - EDI
 
-L'interface EDI n'est accessible qu'après authentification. L'authentification nécessite que l'utilisateur possède un compte sur la plateforme de télédéclaration d'Interloire. Une fois ce compte créé, l'utilisateur pourra s'identifier sur la plateforme EDI en fournissant son login et mot de passe via le protocole d'authentification HTTP (HTTP Authentication Basic ^^[2]^^).
+L'interface EDI n'est accessible qu'après authentification. L'authentification nécessite que l'utilisateur possède un compte sur la plateforme de télédéclaration d'Interloire. Une fois ce compte créé, l'utilisateur pourra s'identifier sur la plateforme EDI en fournissant son login et mot de passe via le protocole d'authentification HTTP (HTTP Authentication Basic [2]).
 
 ###Protocole technique utilisé
 
-L'EDI mis à disposition des vignerons est accessible à travers le protocole HTTPS. Pour l'envoi d'information, la méthode POST x-www-form-urlencoded ^^[4]^^ doit être implémentée.
+L'EDI mis à disposition des vignerons est accessible à travers le protocole HTTPS. Pour l'envoi d'information, la méthode POST x-www-form-urlencoded [4] doit être implémentée.
 
 ###Échange de données
 
-Les données échangées en mode lecture ou écriture se font sous le format CSV ^^[5]^^. La plateforme supporte indifféremment les séparateurs virgules (« , ») ou point-virgules (« ; »). En revanche, il est nécessaire qu'un seul type de séparateur soit utilisé  au sein d'un même document.
+Les données échangées en mode lecture ou écriture se font sous le format CSV [5]. La plateforme supporte indifféremment les séparateurs virgules (« , ») ou point-virgules (« ; »). En revanche, il est nécessaire qu'un seul type de séparateur soit utilisé  au sein d'un même document.
 
 La plateforme de télédéclération est insensible à la casse et aux caractères accentués. Les chaines de caractères « Côte » ou « cote » seront donc traitées de manière identique.
-Il faut noter toute fois, qu'en cas d'utilisation de caractères accentués, ces caractères devront être encodés en UTF-8 ^^[6]^^. 
+Il faut noter toute fois, qu'en cas d'utilisation de caractères accentués, ces caractères devront être encodés en UTF-8 [6]. 
 
 Débuter une ligne par le caractère « # » permet de définir des commentaires. Elles ne sont donc pas prises en compte par la plateforme.
 
@@ -33,7 +33,7 @@ Les nombres décimaux peuvent avoir pour séparateur décimal une virgule « ,�
 
 ###Sécurité des transferts
 
-Toutes les connexions réalisées sur l'interface de saisie des DRM se feront via le protocole HTTPS ^^ [3] ^^.
+Toutes les connexions réalisées sur l'interface de saisie des DRM se feront via le protocole HTTPS [3].
 
 ##Description de l'interfaces DRM
 
