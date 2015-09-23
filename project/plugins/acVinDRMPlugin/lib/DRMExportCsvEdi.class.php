@@ -27,7 +27,7 @@ class DRMExportCsvEdi extends DRMCsvEdi {
     }
 
     private function createHeaderEdi() {
-        return "#TYPE;PERIODE;IDENTIFIANT;ACCISE;CERTIFICATION / COULEUR CAPSULE; GENRE; APPELLATION / CENTILITRAGE;MENTION;LIEU;COULEUR;CEPAGE;CATEGORIE MOUVEMENT;TYPE MOUVEMENT;VOLUME / QUANTITE;PAYS EXPORT;NUMERO CONTRAT;TYPE DOCUMENT ACCOMPAGNEMENT;NUMERO DOCUMENT ACCOMPAGNEMENT\n";
+        return "#TYPE;PERIODE;IDENTIFIANT;ACCISE;CERTIFICATION / TYPE PRODUIT; GENRE / COULEUR CAPSULE; APPELLATION / CENTILITRAGE;MENTION;LIEU;COULEUR;CEPAGE;CATEGORIE MOUVEMENT / TYPE DOCUMENT;TYPE MOUVEMENT;VOLUME / QUANTITE;PAYS EXPORT / DATE NON APUREMENT;NUMERO CONTRAT / NUMERO ACCISE DESTINATAIRE NON APUREMENT;TYPE DOCUMENT ACCOMPAGNEMENT;NUMERO DOCUMENT ACCOMPAGNEMENT;OBSERVATIONS\n";
     }
 
     private function createBodyEdi() {
@@ -154,12 +154,12 @@ class DRMExportCsvEdi extends DRMCsvEdi {
         $debutLigneAnnexe = self::TYPE_ANNEXE . ";" . $this->drm->periode . ";" . $this->drm->identifiant . ";" . $this->drm->declarant->no_accises . ";;;;;;;;";
 
         foreach ($this->drm->documents_annexes as $typeDoc => $numsDoc) {
-            $annexesEdi.=$debutLigneAnnexe . $typeDoc . ";debut;;;;" . $numsDoc->debut . "\n";
-            $annexesEdi.=$debutLigneAnnexe . $typeDoc . ";fin;;;;" . $numsDoc->fin . "\n";
+            $annexesEdi.=$debutLigneAnnexe . $typeDoc . ";debut;;;;;" . $numsDoc->debut . "\n";
+            $annexesEdi.=$debutLigneAnnexe . $typeDoc . ";fin;;;;;" . $numsDoc->fin . "\n";
         }
 
         foreach ($this->drm->releve_non_apurement as $non_apurement) {
-            $annexesEdi.=$debutLigneAnnexe . self::TYPE_ANNEXE_NONAPUREMENT . ";;;".$non_apurement->date_emission.";" . $non_apurement->numero_accise . ";" . $non_apurement->numero_document . "\n";
+            $annexesEdi.=$debutLigneAnnexe . self::TYPE_ANNEXE_NONAPUREMENT . ";;;".$non_apurement->date_emission.";" . $non_apurement->numero_accise . ";;" . $non_apurement->numero_document . "\n";
         }
         if ($this->drm->quantite_sucre) {
 
@@ -167,7 +167,7 @@ class DRMExportCsvEdi extends DRMCsvEdi {
         }
         if ($this->drm->observations) {
 
-            $annexesEdi.=$debutLigneAnnexe . self::TYPE_ANNEXE_OBSERVATIONS . ";;;;;;" . $this->drm->observations . "\n";
+            $annexesEdi.=$debutLigneAnnexe . self::TYPE_ANNEXE_OBSERVATIONS . ";;;;;;;" . $this->drm->observations . "\n";
         }
 
         return $annexesEdi;
