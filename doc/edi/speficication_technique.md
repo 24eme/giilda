@@ -33,7 +33,7 @@ Les nombres décimaux peuvent avoir pour séparateur décimal une virgule « ,�
 
 ###Sécurité des transferts
 
-Toutes les connexions réalisées sur l'interface de saisie des DRM se feront via le protocole HTTPS ^^[3]^^.
+Toutes les connexions réalisées sur l'interface de saisie des DRM se feront via le protocole HTTPS ^^ [3] ^^.
 
 ##Description de l'interfaces DRM
 
