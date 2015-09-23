@@ -14,7 +14,7 @@
 class DRMExportCsvEdi extends DRMCsvEdi {
 
     public function __construct(DRM $drm = null) {
-        parent::__construct(null,$drm);
+        parent::__construct(null, $drm);
     }
 
     public function exportEDI() {
@@ -27,7 +27,7 @@ class DRMExportCsvEdi extends DRMCsvEdi {
     }
 
     private function createHeaderEdi() {
-        return "TYPE;PERIODE;IDENTIFIANT;ACCISE;CERTIFICATION / Couleur Capsule; GENRE; APPELLATION / Centilitrage;MENTION;LIEU;COULEUR;CEPAGE;Catégorie Mouvement;Type Mouvement;QUANTITE;COMPLEMENT\n";
+        return "#TYPE;PERIODE;IDENTIFIANT;ACCISE;CERTIFICATION / COULEUR CAPSULE; GENRE; APPELLATION / CENTILITRAGE;MENTION;LIEU;COULEUR;CEPAGE;CATEGORIE MOUVEMENT;TYPE MOUVEMENT;VOLUME / QUANTITE;PAYS EXPORT;NUMERO CONTRAT;TYPE DOCUMENT ACCOMPAGNEMENT;NUMERO DOCUMENT ACCOMPAGNEMENT\n";
     }
 
     private function createBodyEdi() {
@@ -61,7 +61,7 @@ class DRMExportCsvEdi extends DRMCsvEdi {
     private function createMouvementsEdi() {
         $mouvementsEdi = "";
         $produitsDetails = $this->drm->declaration->getProduitsDetailsSorted(true);
-        $debutLigne = self::TYPE_CAVE . ";" . $this->drm->periode . ";". $this->drm->identifiant .";" . $this->drm->declarant->no_accises . ";";
+        $debutLigne = self::TYPE_CAVE . ";" . $this->drm->periode . ";" . $this->drm->identifiant . ";" . $this->drm->declarant->no_accises . ";";
 
         foreach ($produitsDetails as $hashProduit => $produitDetail) {
 
@@ -84,10 +84,16 @@ class DRMExportCsvEdi extends DRMCsvEdi {
                         foreach ($sortieValue as $sortieDetailKey => $sortieDetailValue) {
                             if ($sortieDetailValue->getVolume()) {
                                 $complement = $sortieDetailValue->getIdentifiant();
-                                if($sortiekey == 'export_details'){
-                                    $complement = $this->countryList[$sortieDetailValue->getIdentifiant()];
+                                $type_doc = ($sortieDetailValue->numero_document) ? $sortieDetailValue->type_document : '';
+                                $numero_doc = ($sortieDetailValue->numero_document) ? $sortieDetailValue->numero_document : '';
+                                if ($sortiekey == 'export_details') {
+                                    $pays = $this->countryList[$sortieDetailValue->getIdentifiant()];
+                                    $mouvementsEdi.= $debutLigne . $this->getProduitCSV($produitDetail) . ";" . "sorties;" . $this->getLibelleDetail($sortiekey) . ";" . $sortieDetailValue->getVolume() . ";" . $pays . ";;" . $type_doc . ";" . $numero_doc . "\n";
                                 }
-                                $mouvementsEdi.= $debutLigne . $this->getProduitCSV($produitDetail) . ";" . "sorties;" . $this->getLibelleDetail($sortiekey) . ";" . $sortieDetailValue->getVolume() . ";" . $complement . "\n";
+                                if ($sortiekey == 'vrac_details') {
+                                    $numero_vrac = str_replace('VRAC-', '', $sortieDetailValue->getIdentifiant());
+                                    $mouvementsEdi.= $debutLigne . $this->getProduitCSV($produitDetail) . ";" . "sorties;" . $this->getLibelleDetail($sortiekey) . ";" . $sortieDetailValue->getVolume() . ";;" . $numero_vrac . ";" . $type_doc . ";" . $numero_doc . "\n";
+                                }
                             }
                         }
                     } else {
@@ -129,29 +135,39 @@ class DRMExportCsvEdi extends DRMCsvEdi {
 
     private function createCrdRowEdi($debutLigne, $crdDetail, $type_mvt, &$crdsEdi) {
         if ($crdDetail->$type_mvt) {
-            $crdsEdi.= $debutLigne . $crdDetail->genre . ";" . $crdDetail->couleur . ";" . $crdDetail->detail_libelle . ";;;;;;" . $type_mvt . ";" . $crdDetail->$type_mvt . ";\n";
+            $type_mvt_csv = "";
+            switch ($type_mvt) {
+                case 'stock_debut':
+                case 'stock_fin':
+                    $type_mvt_csv = $type_mvt . ";";
+                    break;
+                default :
+                    $type_mvt_csv = str_replace('_', ';', $type_mvt);
+                    break;
+            }
+            $crdsEdi.= $debutLigne . $crdDetail->genre . ";" . $crdDetail->couleur . ";" . $crdDetail->detail_libelle . ";;;;;" . $type_mvt_csv . ";" . $crdDetail->$type_mvt . ";\n";
         }
     }
 
     private function createAnnexesEdi() {
         $annexesEdi = "";
-        $debutLigneAnnexe = self::TYPE_ANNEXE . ";" . $this->drm->periode . ";" . $this->drm->identifiant . ";" . $this->drm->declarant->no_accises . ";";
+        $debutLigneAnnexe = self::TYPE_ANNEXE . ";" . $this->drm->periode . ";" . $this->drm->identifiant . ";" . $this->drm->declarant->no_accises . ";;;;;;;;";
 
         foreach ($this->drm->documents_annexes as $typeDoc => $numsDoc) {
-            $annexesEdi.=$debutLigneAnnexe . $typeDoc . ";;;;;;;;debut;;" . $numsDoc->debut . "\n";
-            $annexesEdi.=$debutLigneAnnexe . $typeDoc . ";;;;;;;;fin;;" . $numsDoc->fin . "\n";
+            $annexesEdi.=$debutLigneAnnexe . $typeDoc . ";debut;;;;" . $numsDoc->debut . "\n";
+            $annexesEdi.=$debutLigneAnnexe . $typeDoc . ";fin;;;;" . $numsDoc->fin . "\n";
         }
 
         foreach ($this->drm->releve_non_apurement as $non_apurement) {
-            $annexesEdi.=$debutLigneAnnexe . ";" . $this->drm->identifiant . self::TYPE_ANNEXE_NONAPUREMENT . ";" . $non_apurement->numero_document . ";;;;;;;" . $non_apurement->numero_accise . ";;" . $non_apurement->date_emission . "\n";
+            $annexesEdi.=$debutLigneAnnexe . self::TYPE_ANNEXE_NONAPUREMENT . ";;;".$non_apurement->date_emission.";" . $non_apurement->numero_accise . ";" . $non_apurement->numero_document . "\n";
         }
         if ($this->drm->quantite_sucre) {
 
-            $annexesEdi.=self::TYPE_ANNEXE . ";" . $this->drm->periode . ";" . $this->drm->identifiant . ";" . $this->drm->declarant->no_accises . ";" . self::TYPE_ANNEXE_SUCRE . ";;;;;;;sortie;;" . $this->drm->quantite_sucre . ";\n";
+            $annexesEdi.=$debutLigneAnnexe .  self::TYPE_ANNEXE_SUCRE . ";;" . $this->drm->quantite_sucre . ";\n";
         }
         if ($this->drm->observations) {
 
-            $annexesEdi.=self::TYPE_ANNEXE . ";" . $this->drm->periode . ";" . $this->drm->identifiant . ";" . $this->drm->declarant->no_accises . ";" . self::TYPE_ANNEXE_OBSERVATIONS . ";;;;;;;;;;" . $this->drm->observations . "\n";
+            $annexesEdi.=$debutLigneAnnexe . self::TYPE_ANNEXE_OBSERVATIONS . ";;;;;;" . $this->drm->observations . "\n";
         }
 
         return $annexesEdi;
