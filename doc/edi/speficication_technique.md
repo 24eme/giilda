@@ -129,7 +129,7 @@ Les lignes de CAVE se constituents des champs suivants :
 
 Le CVS peut contenir plusieurs mouvements de même type. Dans ce cas ils seront additionnés.
 
-Un exemple est disponible [ici]( "csv_de_type_cave") et ne contient que quelques lignes de type CAVE
+[Voici un exemple ne contenant que quelques lignes de type CAVE](https://github.com/24eme/vinsdeloire/blob/master/doc/edi/exemple_cave.csv "csv_de_type_cave")
 
 ###Description des lignes CRD
 
@@ -162,6 +162,8 @@ Un exemple est disponible [ici]( "csv_de_type_cave") et ne contient que quelques
 Il n'y a pas de champs compléments pour les CRD.
 
 Comme pour les mouvements de Cave, il est possible d'indiquer plusieurs mouvements identiques de CRD. Dans ce cas, les quantités sont additionnées.
+
+[Voici un exemple ne contenant que quelques lignes de type CRD](https://github.com/24eme/vinsdeloire/blob/master/doc/edi/exemple_crd.csv "csv_de_type_crd")
 
 ###Description des lignes ANNEXE
 
@@ -198,6 +200,11 @@ Comme pour les mouvements de Cave, il est possible d'indiquer plusieurs mouvemen
  17. le numéro de document d'accompagnement (pour les documents DAADAC, DSADSAC, EMPREINTE et non apurement)
  18. les observations (si la ligne est "OBSERVATIONS" en cas de saut de ligne, lres remplacer par des \n)
 
+[Voici un exemple ne contenant que quelques lignes de type ANNEXE](https://github.com/24eme/vinsdeloire/blob/master/doc/edi/exemple_annexe.csv "csv_de_type_annexe")
+
+###Exemple de CSV complet
+
+[Vous trouverez ici un exemple complet possèdant plusieurs produits, crds et annexes différentes](https://github.com/24eme/vinsdeloire/blob/master/doc/edi/export_edi_complet.csv "csv_complet")
 
    [1]: https://jasig.github.io/cas/4.0.x/index.html
    [2]: https://fr.wikipedia.org/wiki/Authentification_HTTP
