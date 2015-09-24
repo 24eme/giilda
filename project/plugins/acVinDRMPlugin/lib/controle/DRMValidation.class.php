@@ -32,13 +32,12 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_declassement = 0;
 
         foreach ($this->document->getProduitsDetails() as $detail) {
-            if(!$detail->getConfig()->entrees->exist('declassement')){
-                break;
+            if($detail->getConfig()->entrees->exist('declassement')){
+                    $total_entrees_declassement += $detail->entrees->declassement;
+                    $total_sorties_declassement += $detail->sorties->declassement;
             }
             $total_entrees_replis += $detail->entrees->repli;
             $total_sorties_replis += $detail->sorties->repli;
-            $total_entrees_declassement += $detail->entrees->declassement;
-            $total_sorties_declassement += $detail->sorties->declassement;
 
             if ($detail->total < 0) {
                 $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));

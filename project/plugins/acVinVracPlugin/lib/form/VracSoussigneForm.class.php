@@ -111,7 +111,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $values['mandatant'] = null;
             $values['mandataire_exist'] = false;
         }
-        if ($values['commercial']) {
+        if (isset($values['commercial']) && $values['commercial']) {
             $this->getObject()->storeInterlocuteurCommercialInformations($values['commercial'], $this->getAnnuaire()->commerciaux->get($values['commercial']));
         } else {
             $this->getObject()->remove('interlocuteur_commercial');
