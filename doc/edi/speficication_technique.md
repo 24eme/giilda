@@ -129,6 +129,8 @@ Les lignes de CAVE se constituents des champs suivants :
 
 Le CVS peut contenir plusieurs mouvements de même type. Dans ce cas ils seront additionnés.
 
+Un exemple est disponible [ici]( "csv_de_type_cave") et ne contient que quelques lignes de type CAVE
+
 ###Description des lignes CRD
 
  **Pour la section commune :**
