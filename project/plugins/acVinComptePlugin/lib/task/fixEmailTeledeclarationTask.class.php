@@ -29,6 +29,11 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     
     $societe = SocieteClient::getInstance()->find($arguments['societe_doc_id']);
+
+    if(!$societe->isTransaction()) {
+      return;
+    }
+
     $compte = $societe->getMasterCompte();
 
     if(!$compte->exist('teledeclaration_active') || !$compte->teledeclaration_active) {
@@ -36,11 +41,33 @@ EOF;
     }
 
     $etablissement = $societe->getEtablissementPrincipal();
+
     if(!$etablissement) {
       return;
     }
 
-    echo "$societe->_id;$compte->mot_de_passe;".$etablissement->getEmailTeledeclaration().";\n";
+    if($etablissement->getEmailTeledeclaration()) {
+      return;
+    }
+
+    $email = $societe->getEmailTeledeclaration();
+
+    if(!$email) {
+        echo "ERROR;".$societe->_id.";".$societe->raison_sociale."\n";
+        return;
+    }
+
+    $etablissement->add('teledeclaration_email', $email);
+    //$etablissement->save();
+
+    $allEtablissements = $societe->getEtablissementsObj();
+    foreach ($allEtablissements as $etablissementObj) {
+        $etb = $etablissementObj->etablissement;        
+        $etb->add('teledeclaration_email', $email);
+        //$etb->save();
+    }
+
+    echo "UPDATE;$societe->_id;$societe->raison_sociale;$email\n";
         
   }
 }
