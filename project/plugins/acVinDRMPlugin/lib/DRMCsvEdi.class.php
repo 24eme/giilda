@@ -29,21 +29,26 @@ class DRMCsvEdi extends CsvFile {
     const CSV_CAVE_CATEGORIE_MOUVEMENT = 11;
     const CSV_CAVE_TYPE_MOUVEMENT = 12;
     const CSV_CAVE_VOLUME = 13;
-    const CSV_CAVE_COMPLEMENT = 14;
+    const CSV_CAVE_EXPORTPAYS = 14;
+    const CSV_CAVE_CONTRATID = 15;
     const CSV_CRD_GENRE = 4;
     const CSV_CRD_COULEUR = 5;
     const CSV_CRD_CENTILITRAGE = 6;
-    const CSV_CRD_QUANTITE_KEY = 12;
+    const CSV_CRD_CATEGORIE_KEY = 11;
+    const CSV_CRD_TYPE_KEY = 12;
     const CSV_CRD_QUANTITE = 13;
-    const CSV_ANNEXE_TYPEANNEXE = 4;
-    const CSV_ANNEXE_IDDOC = 5;
-    const CSV_ANNEXE_TYPEMVT_ACCISE = 12;
+    const CSV_ANNEXE_TYPEANNEXE = 11;
+    const CSV_ANNEXE_TYPEMVT = 12;
     const CSV_ANNEXE_QUANTITE = 13;
-    const CSV_ANNEXE_COMPLEMENT = 14;
+    const CSV_ANNEXE_NONAPUREMENTDATEEMISSION = 14;
+    const CSV_ANNEXE_NONAPUREMENTACCISEDEST = 15;
+    const CSV_ANNEXE_NUMERODOCUMENT = 16;
+    const CSV_ANNEXE_OBSERVATION = 17;
 
     protected static $permitted_types = array(self::TYPE_CAVE,
         self::TYPE_CRD,
         self::TYPE_ANNEXE);
+    protected static $permitted_annexes_type_mouvements = array('DEBUT', 'FIN');
     protected $drm = null;
     protected $csv = null;
     protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Effervescent', 'TRANQ' => 'Tranquille');

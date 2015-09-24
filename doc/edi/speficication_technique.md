@@ -125,8 +125,7 @@ Les lignes de CAVE se constituents des champs suivants :
  
  15. le pays de l'export (si le mouvement est un export, sinon vide)
  16. le numéro du contrat (si le mouvement est une sortie vrac sous contrat, sinon vide)
- 17. le type du document d'accompagnement (DAADAC, DSADSAC, ... si le mouvement fait l'objet d'un document d'accompagnement douanier)
- 18. le numéro de document d'accompagnement (si le mouvement fait l'objet d'un document d'accompagnement douanier)
+ 17. le numéro de document d'accompagnement (si le mouvement fait l'objet d'un document d'accompagnement douanier)
 
 Le CVS peut contenir plusieurs mouvements de même type. Dans ce cas ils seront additionnés.
 
