@@ -1,18 +1,18 @@
-#TYPE;PERIODE;IDENTIFIANT;ACCISE;CERTIFICATION; GENRE; APPELLATION;MENTION;LIEU;COULEUR;CEPAGE;CATEGORIE MOUVEMENT;TYPE MOUVEMENT;VOLUME;PAYS EXPORT;NUMERO CONTRAT;NUMERO DOCUMENT ACCOMPAGNEMENT
-CAVE;201509;11223301;FR01234567890;AOC;Fines bulles;Crémant de Loire;;;Blanc;;stocks_debut;revendique;117;;;
-CAVE;201509;11223301;FR01234567890;AOC;Fines bulles;Crémant de Loire;;;Blanc;;entrees;achatnoncrd;34;;;
-CAVE;201509;11223301;FR01234567890;AOC;Fines bulles;Crémant de Loire;;;Blanc;;sorties;ventefrancebouteillecrd;4;;;
-CAVE;201509;11223301;FR01234567890;AOC;Fines bulles;Crémant de Loire;;;Blanc;;sorties;export;34;Japon;;123457777
-CAVE;201509;11223301;FR01234567890;AOC;Fines bulles;Crémant de Loire;;;Blanc;;stocks_fin;revendique;113;;;
-CAVE;201509;11223301;FR01234567890;AOC;;Muscadet Sèvre et Maine;;Clisson;Blanc;Melon;stocks_debut;revendique;195;;;
-CAVE;201509;11223301;FR01234567890;AOC;;Muscadet Sèvre et Maine;;Clisson;Blanc;Melon;sorties;consommationfamilialedegustation;10;;;
-CAVE;201509;11223301;FR01234567890;AOC;;Muscadet Sèvre et Maine;;Clisson;Blanc;Melon;sorties;export;90;Belgique;;123456793
-CAVE;201509;11223301;FR01234567890;AOC;;Muscadet Sèvre et Maine;;Clisson;Blanc;Melon;stocks_fin;revendique;95;;;
-CAVE;201509;11223301;FR01234567890;AOC;;Rosé de Loire;;;Rosé;;stocks_debut;revendique;5;;;
-CAVE;201509;11223301;FR01234567890;AOC;;Rosé de Loire;;;Rosé;;entrees;achatcrd;456;;;
-CAVE;201509;11223301;FR01234567890;AOC;;Rosé de Loire;;;Rosé;;entrees;achatnoncrd;67;;;
-CAVE;201509;11223301;FR01234567890;AOC;;Rosé de Loire;;;Rosé;;entrees;revendique;45;;;
-CAVE;201509;11223301;FR01234567890;AOC;;Rosé de Loire;;;Rosé;;sorties;ventefrancebouteillecrd;34;;;
-CAVE;201509;11223301;FR01234567890;AOC;;Rosé de Loire;;;Rosé;;sorties;export;78;Afghanistan;;123456789
-CAVE;201509;11223301;FR01234567890;AOC;;Rosé de Loire;;;Rosé;;sorties;contrat;34;;2014122300053;123456792
-CAVE;201509;11223301;FR01234567890;AOC;;Rosé de Loire;;;Rosé;;stocks_fin;revendique;427;;;
+#TYPE,PERIODE,IDENTIFIANT,ACCISE,CERTIFICATION, GENRE, APPELLATION,MENTION,LIEU,COULEUR,CEPAGE,CATEGORIE MOUVEMENT,TYPE MOUVEMENT,VOLUME,PAYS EXPORT,NUMERO CONTRAT,NUMERO DOCUMENT ACCOMPAGNEMENT
+CAVE,201509,11223301,FR01234567890,AOC,Fines bulles,Crémant de Loire,,,Blanc,,stocks_debut,revendique,117,,,
+CAVE,201509,11223301,FR01234567890,AOC,Fines bulles,Crémant de Loire,,,Blanc,,entrees,achatnoncrd,34,,,
+CAVE,201509,11223301,FR01234567890,AOC,Fines bulles,Crémant de Loire,,,Blanc,,sorties,ventefrancebouteillecrd,4,,,
+CAVE,201509,11223301,FR01234567890,AOC,Fines bulles,Crémant de Loire,,,Blanc,,sorties,export,34,Japon,,123457777
+CAVE,201509,11223301,FR01234567890,AOC,Fines bulles,Crémant de Loire,,,Blanc,,stocks_fin,revendique,113,,,
+CAVE,201509,11223301,FR01234567890,AOC,,Muscadet Sèvre et Maine,,Clisson,Blanc,Melon,stocks_debut,revendique,195,,,
+CAVE,201509,11223301,FR01234567890,AOC,,Muscadet Sèvre et Maine,,Clisson,Blanc,Melon,sorties,consommationfamilialedegustation,10,,,
+CAVE,201509,11223301,FR01234567890,AOC,,Muscadet Sèvre et Maine,,Clisson,Blanc,Melon,sorties,export,90,Belgique,,123456793
+CAVE,201509,11223301,FR01234567890,AOC,,Muscadet Sèvre et Maine,,Clisson,Blanc,Melon,stocks_fin,revendique,95,,,
+CAVE,201509,11223301,FR01234567890,AOC,,Rosé de Loire,,,Rosé,,stocks_debut,revendique,5,,,
+CAVE,201509,11223301,FR01234567890,AOC,,Rosé de Loire,,,Rosé,,entrees,achatcrd,456,,,
+CAVE,201509,11223301,FR01234567890,AOC,,Rosé de Loire,,,Rosé,,entrees,achatnoncrd,67,,,
+CAVE,201509,11223301,FR01234567890,AOC,,Rosé de Loire,,,Rosé,,entrees,revendique,45,,,
+CAVE,201509,11223301,FR01234567890,AOC,,Rosé de Loire,,,Rosé,,sorties,ventefrancebouteillecrd,34,,,
+CAVE,201509,11223301,FR01234567890,AOC,,Rosé de Loire,,,Rosé,,sorties,export,78,Afghanistan,,123456789
+CAVE,201509,11223301,FR01234567890,AOC,,Rosé de Loire,,,Rosé,,sorties,contrat,34,,2014122300053,123456792
+CAVE,201509,11223301,FR01234567890,AOC,,Rosé de Loire,,,Rosé,,stocks_fin,revendique,427,,,
