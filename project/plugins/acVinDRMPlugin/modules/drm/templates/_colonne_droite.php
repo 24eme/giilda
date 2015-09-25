@@ -96,11 +96,8 @@ if (isset($drm)) {
             <p class="lien_lecteur_pdf">
                 Ce document est au format PDF. Pour la visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
             </p>
-
-            <h3>Contact hotline</h3>
-            <p><?php echo $contact->telephone; ?></p>
-
-            <h3>Votre contact - mise en marche</h3>
+     
+            <h3>Votre contact</h3>
 
             <ul class="contact"> 
                 <li class="nom"><?php echo $contact->nom; ?></li>
