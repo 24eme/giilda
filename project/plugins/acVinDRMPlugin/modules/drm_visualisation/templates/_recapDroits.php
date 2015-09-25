@@ -17,7 +17,7 @@
         </thead>
         <tbody class="drm_cvo_list">
             <tr class="droit_cvo_row" >   
-                <td class="droit_cvo">CVO</td>
+                <td class="droit_cvo">Cotisation interprofessionnelle (INTERLOIRE)</td>
                 <td class="droit_cvo_facturable"><?php
                     echoFloat($recapCvo->totalVolumeDroitsCvo);
                     echo " hl";
