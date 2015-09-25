@@ -13,6 +13,7 @@ class fixEmailTeledclarationTask extends sfBaseTask
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+      new sfCommandOption('dryrun', null, sfCommandOption::PARAMETER_REQUIRED, 'Dry run mode', false),
     ));
 
     $this->namespace        = 'fix';
@@ -58,13 +59,20 @@ EOF;
     }
 
     $etablissement->add('teledeclaration_email', $email);
-    //$etablissement->save();
+    if(!$options['dryrun']) {
+      $etablissement->save();
+    }
 
     $allEtablissements = $societe->getEtablissementsObj();
     foreach ($allEtablissements as $etablissementObj) {
-        $etb = $etablissementObj->etablissement;        
+        $etb = $etablissementObj->etablissement;
+        if (!$etb->exist('email') || !$etb->email) {
+          $etb->email = $email;
+        }  
         $etb->add('teledeclaration_email', $email);
-        //$etb->save();
+        if(!$options['dryrun']) {
+          $etb->save();
+        }
     }
 
     echo "UPDATE;$societe->_id;$societe->raison_sociale;$email\n";
