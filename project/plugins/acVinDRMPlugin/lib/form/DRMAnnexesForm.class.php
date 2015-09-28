@@ -107,7 +107,7 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
 
         $this->docTypesList = array();
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC;
-
+$this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE;
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC;
 
 

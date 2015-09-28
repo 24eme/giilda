@@ -1,4 +1,3 @@
-
 DRM:
   definition:
     fields:
@@ -552,3 +551,37 @@ DRM:
                   'numero_accise': { }  
       observations: { }
       quantite_sucre: { }
+      
+CSV:
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      type: {  }
+      _attachments:
+        type: collection
+        definition:
+          fields: 
+            '*':
+              type: collection
+              definition:
+                fields:
+                  content_type: { }
+                  revpos: { }
+                  length: { }
+                  stub: { }
+                  digest: { }
+      identifiant: {  }
+      periode: {  }
+      statut: {  }
+      erreurs:
+        type: collection
+        definition:          
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  num_ligne: { type: integer }    
+                  csv_erreur: { }  
+                  diagnostic: { }  

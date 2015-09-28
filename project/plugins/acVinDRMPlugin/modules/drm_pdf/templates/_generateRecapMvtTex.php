@@ -14,6 +14,13 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
 \end{Large}
 \end{center}
 
+<?php if ($drm->type_creation == DRMClient::DRM_CREATION_NEANT): ?>
+\begin{center}
+\begin{Large}
+\textbf{Aucun mouvement à déclarer ce mois-ci}
+\end{Large}
+\end{center}
+<?php else: ?>
 
 <?php foreach ($drm->declaration->getProduitsDetailsByCertifications(true) as $certification => $produitsDetailsByCertifications) : ?>
     <?php
@@ -192,3 +199,5 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
     <?php endfor; ?>
         \newpage
 <?php endforeach; ?> 
+        
+ <?php endif; ?>

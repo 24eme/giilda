@@ -19,7 +19,7 @@ class SV12Contrat extends BaseSV12Contrat {
         if ($this->getVrac()) {
         	$mouvement->cvo = $this->getTauxCvo() * $this->getVrac()->getRepartitionCVOCoef($this->vendeur_identifiant);
 	   } else {
-        	$mouvement->cvo = $this->getTauxCvo() * 0.5;
+        	$mouvement->cvo = 0;
         }
 
         return $mouvement;
@@ -44,9 +44,9 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->vrac_destinataire = $this->vendeur_nom;
 	$mouvement->region = $this->getAcheteur()->region;
         if ($this->getVrac()) {
-           $mouvement->cvo = $this->getTauxCvo() * $this->getVrac()->getRepartitionCVOCoef($this->getDocument()->identifiant);
+           $mouvement->cvo = $this->getTauxCvo() * $this->getVrac()->getRepartitionCVOCoef($this->getAcheteur()->identifiant);
         } else if ($this->vendeur_identifiant) {
-	  $mouvement->cvo = $this->getTauxCvo() * 0.5;	  
+	  $mouvement->cvo = $this->getTauxCvo();
 	} else {
 	  $mouvement->cvo = $this->getTauxCvo();	  
 	}
@@ -166,7 +166,7 @@ class SV12Contrat extends BaseSV12Contrat {
 
     public function getDroitCVO() {
         
-        return $this->getProduitObject()->getDroitCVO($this->getDocument()->getDate());
+        return $this->getProduitObject()->getDroitCVO($this->getDocument()->getDate(), VracClient::TYPE_TRANSACTION_RAISINS);
     }
 
     public function getTauxCvo() {
