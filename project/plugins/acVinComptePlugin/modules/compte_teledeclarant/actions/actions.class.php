@@ -105,9 +105,7 @@ class compte_teledeclarantActions extends sfActions {
                             if (!$etb->exist('email') || !$etb->email) {
                                 $etb->email = $email;
                             }
-                            if (!$etb->exist('teledeclaration_email') || !$etb->teledeclaration_email) {
-                                $etb->add('teledeclaration_email', $email);
-                            }
+                            $etb->add('teledeclaration_email', $email);
                             $etb->save();
                         }
                     }
@@ -167,9 +165,7 @@ class compte_teledeclarantActions extends sfActions {
                             if (!$etb->exist('email') || !$etb->email) {
                                 $etb->email = $email;
                             }
-                            if (!$etb->exist('teledeclaration_email') || !$etb->teledeclaration_email) {
-                                $etb->add('teledeclaration_email', $email);
-                            }
+                            $etb->add('teledeclaration_email', $email);
                             $etb->save();
                         }
                     } else {
