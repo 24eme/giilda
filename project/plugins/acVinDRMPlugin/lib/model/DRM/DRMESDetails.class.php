@@ -140,7 +140,7 @@ class DRMESDetails extends BaseDRMESDetails {
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS;
             $mouvement->vrac_numero = $detail->getVrac()->numero_contrat;
             $mouvement->vrac_destinataire = $detail->getVrac()->acheteur->nom;
-            $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->vendeur_identifiant);
+            $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->vendeur_identifiant, $detail->getDocument()->getDate());
         }
 
         $mouvement->date = $detail->date_enlevement;
@@ -158,7 +158,7 @@ class DRMESDetails extends BaseDRMESDetails {
 
         $mouvement->vrac_destinataire = $detail->getVrac()->vendeur->nom;
         $mouvement->region = $detail->getVrac()->getAcheteurObject()->region;
-        $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->acheteur_identifiant);
+        $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->acheteur_identifiant, $detail->getDocument()->getDate());
         if ($mouvement->cvo && $mouvement->volume) {
             $mouvement->facturable = 1;
         }

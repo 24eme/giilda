@@ -293,9 +293,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->droits_type[$date][$type];
     }
 
-    public function getDroitCVO($date, $interpro = "INTERPRO-inter-loire") {
-
-        return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_CVO);
+    public function getDroitCVO($date, $type_transaction = null, $interpro = "INTERPRO-inter-loire") {
+	$conf = $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_CVO);
+	if (($date < '2016-01-01' && $date >= '2015-08-01') && ($type_transaction == VracClient::TYPE_TRANSACTION_RAISINS || $type_transaction == VracClient::TYPE_TRANSACTION_MOUTS)) {
+		$conf->taux = 2.5;
+	}
+        return $conf;
     }
 
     public function getDroitDouane($date, $interpro = "INTERPRO-inter-loire") {
@@ -303,14 +306,14 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_DOUANE);
     }
 
-    public function isCVOActif($date) {
+    public function isCVOActif($date, $type_transaction = null) {
 
-        return $this->getTauxCVO($date) >= 0;
+        return $this->getTauxCVO($date, $type_transaction) >= 0;
     }
 
-    public function isCVOFacturable($date) {
+    public function isCVOFacturable($date, $type_transaction = null) {
 
-        return $this->getTauxCVO($date) > 0;
+        return $this->getTauxCVO($date, $type_transaction) > 0;
     }
 
     public function isActif($date) {
@@ -318,9 +321,9 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $this->isCVOActif($date) && $this->isDouaneActif($date);
     }
 
-    public function getTauxCVO($date) {
+    public function getTauxCVO($date, $type_transaction = null) {
         try {
-            $droit_produit = $this->getDroitCVO($date);
+            $droit_produit = $this->getDroitCVO($date, $type_transaction);
             $cvo_produit = $droit_produit->getTaux();
         } catch (Exception $ex) { 
             $cvo_produit = -1;

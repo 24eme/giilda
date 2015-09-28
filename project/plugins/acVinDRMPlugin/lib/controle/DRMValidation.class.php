@@ -32,12 +32,16 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_declassement = 0;
 
         foreach ($this->document->getProduitsDetails() as $detail) {
-            if($detail->getConfig()->entrees->exist('declassement')){
-                    $total_entrees_declassement += $detail->entrees->declassement;
-                    $total_sorties_declassement += $detail->sorties->declassement;
+            
+            if (!$detail->getConfig()->entrees->exist('declassement')) {
+                break;
             }
             $total_entrees_replis += $detail->entrees->repli;
             $total_sorties_replis += $detail->sorties->repli;
+
+            $total_entrees_declassement += $detail->entrees->declassement;
+            $total_sorties_declassement += $detail->sorties->declassement;
+
 
             if ($detail->total < 0) {
                 $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
@@ -76,31 +80,32 @@ class DRMValidation extends DocumentValidation {
         if (round($total_entrees_replis, 2) != round($total_sorties_replis, 2)) {
             $this->addPoint('erreur', 'repli', sprintf("%s  (+%.2fhl / -%.2fhl)", 'revenir aux mouvements', round($total_entrees_replis, 2), round($total_sorties_replis, 2)), $this->generateUrl('drm_edition', $this->document));
         }
-        if (round($total_entrees_declassement, 2) != round($total_sorties_declassement, 2)) {
-            $this->addPoint('erreur', 'declassement', sprintf("%s  (+%.2fhl / -%.2fhl)", 'revenir aux mouvements' , round($total_entrees_declassement, 2), round($total_sorties_declassement, 2)), $this->generateUrl('drm_edition', $this->document));
+        if ($this->isTeledeclarationDrm) {
+            if (round($total_entrees_declassement, 2) != round($total_sorties_declassement, 2)) {
+                $this->addPoint('erreur', 'declassement', sprintf("%s  (+%.2fhl / -%.2fhl)", 'revenir aux mouvements', round($total_entrees_declassement, 2), round($total_sorties_declassement, 2)), $this->generateUrl('drm_edition', $this->document));
+            }
         }
-
         if ($this->isTeledeclarationDrm) {
 
             foreach ($this->document->getAllCrdsByRegimeAndByGenre() as $regime => $crdByRegime) {
                 foreach ($crdByRegime as $genre => $crds) {
                     foreach ($crds as $type_crd => $crd) {
                         if (!is_null($crd->stock_fin) && $crd->stock_fin < 0) {
-                             $genreLibelle = ($genre == 'TRANQ')? 'TRANQUILLE' : $genre;
-                            $this->addPoint('vigilance', 'crd_negatif', $crd->getLibelle().' ('.$genreLibelle.')',$this->generateUrl('drm_crd', $this->document));
+                            $genreLibelle = ($genre == 'TRANQ') ? 'TRANQUILLE' : $genre;
+                            $this->addPoint('vigilance', 'crd_negatif', $crd->getLibelle() . ' (' . $genreLibelle . ')', $this->generateUrl('drm_crd', $this->document));
                         }
                     }
                 }
             }
-            
-            if(!$this->document->societe->siret){
-                 $this->addPoint('vigilance', 'siret_absent', 'Veuillez enregistrer votre siret',$this->generateUrl('drm_validation_update_societe', $this->document));
+
+            if (!$this->document->societe->siret) {
+                $this->addPoint('vigilance', 'siret_absent', 'Veuillez enregistrer votre siret', $this->generateUrl('drm_validation_update_societe', $this->document));
             }
-            if(!$this->document->declarant->no_accises){
-                 $this->addPoint('vigilance', 'no_accises_absent', 'Veuillez enregistrer votre numéro d\'accise',$this->generateUrl('drm_validation_update_etablissement', $this->document));
+            if (!$this->document->declarant->no_accises) {
+                $this->addPoint('vigilance', 'no_accises_absent', 'Veuillez enregistrer votre numéro d\'accise', $this->generateUrl('drm_validation_update_etablissement', $this->document));
             }
-            if(!$this->document->declarant->caution){
-                 $this->addPoint('vigilance', 'caution_absent', 'Veuillez enregistrer votre type de caution',$this->generateUrl('drm_validation_update_etablissement', $this->document));
+            if (!$this->document->declarant->caution) {
+                $this->addPoint('vigilance', 'caution_absent', 'Veuillez enregistrer votre type de caution', $this->generateUrl('drm_validation_update_etablissement', $this->document));
             }
         }
 

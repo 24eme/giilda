@@ -35,7 +35,7 @@
         <tr id="drm_details_lastRow">
             <td class="export_detail_produit"></td>
             <td class="export_detail_destination">
-                <a href="#" id="drm_export_details_addTemplate" class="btn_majeur btn_modifier drm_details_addTemplate">Ajouter un export</a>
+                <a href="#" id="drm_export_details_addTemplate" class="btn_majeur btn_modifier drm_details_addTemplate">Ajouter un pays</a>
             </td>
             <td class="export_detail_volume">
                 <div id="drm_details_export_volume_total">

@@ -61,5 +61,5 @@ if(!isset($isTeledeclarationMode)) {
         </tbody>
     </table>
 <?php else: ?>
-    <h2>AUCUN MOUVEMENTS</h2>
+    <h2>AUCUN MOUVEMENT</h2>
 <?php endif; ?>

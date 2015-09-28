@@ -31,7 +31,7 @@ test:
 all:
   .settings:
 
-    enabled_modules:        [default, teledeclaration, vrac, drm, drm_edition, drm_ajout_produit, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf, drm_crds, drm_annexes, drm_validation, drm_visualisation, etablissement, etablissement_autocomplete, facture, sv12, ds, generation, revendication, stocks, alerte, societe, compte, document, produit, relance, annuaire, compte_teledeclarant]
+    enabled_modules:        [default, teledeclaration, vrac, drm, drm_edition, drm_ajout_produit, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf, drm_crds, drm_annexes, drm_validation, drm_visualisation, drm_edi, etablissement, etablissement_autocomplete, facture, sv12, ds, generation, revendication, stocks, alerte, societe, compte, document, produit, relance, annuaire, compte_teledeclarant]
  
     # Form security secret (CSRF protection)
     csrf_secret:            false
