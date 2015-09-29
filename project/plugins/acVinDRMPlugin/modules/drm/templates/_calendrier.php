@@ -5,6 +5,7 @@
         <?php echo $formCampagne->renderGlobalErrors() ?>
         <?php echo $formCampagne->renderHiddenFields() ?>
         <?php echo $formCampagne; ?> <input class="btn_majeur btn_vert" type="submit" value="changer"/>
+    &nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_entrees" title="<?php echo "blabla"; ?>"></a>
     </form>
     <div class="bloc_form">
         <div class="ligne_form ligne_compose">
