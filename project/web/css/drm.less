@@ -1392,7 +1392,7 @@ div.fancybox-wrap .popup_creation_drm{
 
     td {
         padding: 10px;
-	text-align: center;
+        text-align: center;
     }
     .export_detail_date_enlevement,
     .cooperative_detail_date_enlevement,
@@ -1626,17 +1626,7 @@ div.fancybox-wrap .popup_creation_drm{
             height:30px;
         }
 
-        .tooltip
-        {
-            background: #3e3e3e;
-            border-radius: 4px;
-            display: inline-block !important;
-            color: #FFF;
-            padding: 3px 8px;
-            position: absolute;
-            white-space: nowrap;
-            z-index: 20;
-        }
+        
 
         .li_gris{
             padding-top:5px;
@@ -1682,7 +1672,18 @@ div.fancybox-wrap .popup_creation_drm{
 }
 
 
-#principal.drm{
+#principal.drm{    
+    .tooltip
+        {
+            background: #3e3e3e;
+            border-radius: 4px;
+            display: inline-block !important;
+            color: #FFF;
+            padding: 3px 8px;
+            position: absolute;
+            white-space: nowrap;
+            z-index: 20;
+        }
     table{
         .drm_crds_list{
             input {
@@ -1776,6 +1777,14 @@ div.fancybox-wrap .popup_creation_drm{
                 table { margin-top: 15px; }
 
                 &#calendrier_drm, &#stock_drm, &#mouvement_drm{
+                    .msg_aide
+                    {
+                        background: url(../images/pictos/pi_help.png) 10px 2px no-repeat #fff;
+                        background-size: 25px 25px;
+                        font-size:12px;
+                        padding: 5px 5px 5px 35px;
+                        height:100px;
+                    }
                     .bloc_form{
                         .ligne_compose
                         {
