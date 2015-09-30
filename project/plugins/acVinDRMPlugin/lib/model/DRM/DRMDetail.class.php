@@ -307,7 +307,9 @@ class DRMDetail extends BaseDRMDetail {
 
                 continue;
             }
-
+            if(!$this->getConfig()->exist($hash . "/" . $key)){
+                continue;
+            }
             $mouvement = DRMMouvement::freeInstance($this->getDocument());
             $mouvement->produit_hash = $this->getCepage()->getConfig()->getHash();
             $mouvement->facture = 0;
