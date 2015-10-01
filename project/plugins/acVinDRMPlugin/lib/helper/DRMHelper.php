@@ -42,7 +42,7 @@ function getNumberOfFirstProduitWithMovements($produits) {
         if ($produit->hasMovements()) {
             return $cpt;
         }
-        $cpt++;
+      //  $cpt++;
     }
     return null;
 }
@@ -215,4 +215,10 @@ function getLibelleForGenre($genre) {
 function getLastDayForDrmPeriode($drm) {
     $dateFirst = new DateTime(substr($drm->periode, 0, 4) . '-' . substr($drm->periode, 5) . '-01');
     return $dateFirst->format('t/m');
+}
+
+function getHelpMsgText($idtext){
+     $helpMsgs = sfYaml::load(dirname(__FILE__).'/../../config/helpMsgs.yml');
+     $allDrmHelpMsgs = $helpMsgs['drm'];
+     return $allDrmHelpMsgs[$idtext];
 }

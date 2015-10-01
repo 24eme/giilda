@@ -294,7 +294,7 @@
 
 	        var id_msg_aide = lien.attr('data-msg');
 	        var titre_msg_aide = lien.attr('title');
-			var url_doc = lien.attr('data-doc');
+		var url_doc = lien.attr('data-doc');            
 
 	        //$(popup).html('<div class="ui-autocomplete-loading popup-loading"></div>');
 

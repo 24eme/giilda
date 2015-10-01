@@ -5,7 +5,9 @@
         <?php echo $formCampagne->renderGlobalErrors() ?>
         <?php echo $formCampagne->renderHiddenFields() ?>
         <?php echo $formCampagne; ?> <input class="btn_majeur btn_vert" type="submit" value="changer"/>
-    &nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_entrees" title="<?php echo "blabla"; ?>"></a>
+        <?php if ($isTeledeclarationMode): ?>
+            &nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_calendrier_aide1'); ?>"></a>        
+        <?php endif; ?>
     </form>
     <div class="bloc_form">
         <div class="ligne_form ligne_compose">
@@ -21,7 +23,7 @@
 if ($isTeledeclarationMode) {
     foreach ($drmsToCreate as $identifiantEtb => $periodeArray) {
         foreach ($periodeArray as $periode => $bool) {
-            include_partial('drm/creationDrmPopup', array('periode' => $periode, 'identifiant' => $identifiantEtb, 'drmCreationForm' => $drmsToCreateForms[$identifiantEtb.'_'.$periode]));
+            include_partial('drm/creationDrmPopup', array('periode' => $periode, 'identifiant' => $identifiantEtb, 'drmCreationForm' => $drmsToCreateForms[$identifiantEtb . '_' . $periode]));
         }
     }
 }
