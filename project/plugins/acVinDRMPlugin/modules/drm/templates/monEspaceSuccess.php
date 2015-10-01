@@ -1,3 +1,4 @@
+<?php use_helper('DRM'); ?>
 <!-- #principal -->
 <section id="principal" class="drm">
     <?php if (!$isTeledeclarationMode): ?>
