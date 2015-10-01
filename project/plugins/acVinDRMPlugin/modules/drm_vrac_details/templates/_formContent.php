@@ -6,11 +6,11 @@ echo $form->renderGlobalErrors();
     <thead>
         <tr>
             <th>Produit</th>
-            <th>Numéro contrat</th>
-            <th>Volumes</th>            
+            <th>Numéro contrat&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide1'); ?>"></a></th>
+            <th>Volumes&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide2'); ?>"></a></th>            
             <?php if ($isTeledeclarationMode): ?>
-                <th>Type de document</th>
-                <th>Numéro de document</th> 
+                <th>Type de document&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide3'); ?>"></a></th>
+                <th>Numéro de document&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide4'); ?>"></a></th> 
             <?php endif; ?>
             <th></th>
         </tr>

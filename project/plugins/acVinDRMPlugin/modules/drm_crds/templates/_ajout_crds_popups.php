@@ -7,28 +7,28 @@
             <div class="ligne_form">       
                 <span>
                     <?php echo $form['couleur_crd_'.$regime]->renderError(); ?>
-                    <?php echo $form['couleur_crd_'.$regime]->renderLabel() ?>    
+                    <?php echo $form['couleur_crd_'.$regime]->renderLabel() ?>&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_crds_ajout_aide1'); ?>"></a>
                     <?php echo $form['couleur_crd_'.$regime]->render(array('class' => 'couleur_crd_choice')); ?>
                 </span>
             </div>
             <div class="ligne_form">       
                 <span>
                     <?php echo $form['litrage_crd_'.$regime]->renderError(); ?>
-                    <?php echo $form['litrage_crd_'.$regime]->renderLabel() ?>    
+                    <?php echo $form['litrage_crd_'.$regime]->renderLabel() ?>&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_crds_ajout_aide2'); ?>"></a>   
                     <?php echo $form['litrage_crd_'.$regime]->render(); ?>
                 </span>
             </div>
             <div class="ligne_form">       
                 <span>
                     <?php echo $form['stock_debut_'.$regime]->renderError(); ?>
-                    <?php echo $form['stock_debut_'.$regime]->renderLabel() ?>    
+                    <?php echo $form['stock_debut_'.$regime]->renderLabel() ?>&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_crds_ajout_aide3'); ?>"></a>
                     <?php echo $form['stock_debut_'.$regime]->render(); ?>
                 </span>
             </div>
             <div class="ligne_form">       
                 <span>
                     <?php echo $form['genre_crd_'.$regime]->renderError(); ?>
-                    <?php echo $form['genre_crd_'.$regime]->renderLabel() ?>    
+                    <?php echo $form['genre_crd_'.$regime]->renderLabel() ?>
                     <?php echo $form['genre_crd_'.$regime]->render(); ?>
                 </span>
             </div>

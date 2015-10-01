@@ -14,6 +14,7 @@
                         <label style="margin-left: 150px;"><?php echo 'Numéro d\'archive : ' . $drm->numero_archive; ?></label>
                     <?php endif; ?>
                     <label style="float: right;">Période : <?php echo $drm->periode ?></label></strong>
+                    &nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_visualisation_aide1'); ?>"></a>
             </li>         
         </ul>
     <?php else: ?>

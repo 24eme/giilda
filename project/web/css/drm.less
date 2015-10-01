@@ -17,7 +17,23 @@ p#date_drm
     margin: 20px 0;
 }
 
-#msg_aide_drm { float: right; }
+.msg_aide_drm
+{
+    background: url(../images/pictos/pi_help.png) 10px 2px no-repeat #fff;
+    background-size: 25px 25px;
+    font-size:12px;
+    padding: 5px 5px 5px 35px;
+    height:30px;
+}
+
+.popup_creation_drm .msg_aide_drm
+{
+     background: url(../images/pictos/pi_help.png) 10px 2px no-repeat #fff;
+    background-size: 15px 15px;
+    font-size:12px;
+    padding: 5px 5px 5px 35px;
+    height:30px;
+}
 
 #masque_col_active
 {
@@ -459,7 +475,7 @@ p#date_drm
 }
 
 div.fancybox-wrap .popup_creation_drm{
-    width: 400px;
+    width: 500px;
     ul.radio_list li {
         width: 220px;
     }
@@ -1626,7 +1642,7 @@ div.fancybox-wrap .popup_creation_drm{
             height:30px;
         }
 
-        
+
 
         .li_gris{
             padding-top:5px;
@@ -1674,16 +1690,16 @@ div.fancybox-wrap .popup_creation_drm{
 
 #principal.drm{    
     .tooltip
-        {
-            background: #3e3e3e;
-            border-radius: 4px;
-            display: inline-block !important;
-            color: #FFF;
-            padding: 3px 8px;
-            position: absolute;
-            white-space: nowrap;
-            z-index: 20;
-        }
+    {
+        background: #3e3e3e;
+        border-radius: 4px;
+        display: inline-block !important;
+        color: #FFF;
+        padding: 3px 8px;
+        position: absolute;
+        white-space: nowrap;
+        z-index: 20;
+    }
     table{
         .drm_crds_list{
             input {
@@ -1777,14 +1793,7 @@ div.fancybox-wrap .popup_creation_drm{
                 table { margin-top: 15px; }
 
                 &#calendrier_drm, &#stock_drm, &#mouvement_drm{
-                    .msg_aide
-                    {
-                        background: url(../images/pictos/pi_help.png) 10px 2px no-repeat #fff;
-                        background-size: 25px 25px;
-                        font-size:12px;
-                        padding: 5px 5px 5px 35px;
-                        height:100px;
-                    }
+
                     .bloc_form{
                         .ligne_compose
                         {

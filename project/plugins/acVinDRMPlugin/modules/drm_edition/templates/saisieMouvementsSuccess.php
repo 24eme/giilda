@@ -15,6 +15,9 @@
     <?php include_partial('drm/controlMessage'); ?>
 
     <div id="application_drm">
+        <?php if ($isTeledeclarationMode): ?>
+            <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_mouvements_texte1'); ?></p> 
+        <?php endif; ?>
         <div id="contenu_onglet">
             <?php
             include_partial('drm_edition/list', array('drm_noeud' => $drm->declaration,
@@ -30,9 +33,10 @@
             ?>
         </div>
         <div id="contenu_etape">
+
             <form action="<?php echo url_for('drm_edition', $formValidation->getObject()) ?>" method="post">
                 <div class="btn_etape">
-                    <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode)? url_for('drm_choix_produit', $drm) : url_for('drm_etablissement', $drm); ?>">
+                    <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_choix_produit', $drm) : url_for('drm_etablissement', $drm); ?>">
                         <span>Précédent</span>
                     </a>
                     <?php if (!$isTeledeclarationMode): ?>

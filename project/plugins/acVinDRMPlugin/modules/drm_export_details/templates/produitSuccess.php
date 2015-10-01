@@ -1,3 +1,7 @@
+<?php use_helper('DRM'); ?>
+
+<h3 ><?php echo getHelpMsgText('drm_mouvements_detail_export_texte1'); ?></h3> 
+     
 <div id="contenu">
 	<section id="principal">
 		<form id="drm_export_details_form" class="drm_details_form" method="post" action="<?php echo url_for('drm_export_details', $detail) ?>">

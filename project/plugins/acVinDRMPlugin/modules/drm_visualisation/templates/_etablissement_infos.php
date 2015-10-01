@@ -1,5 +1,5 @@
 <div class="drm_validation_etablissement_info">
-    <div class="title"><span class="text">VOTRE CHAI</span></div>
+    <div class="title"><span class="text">VOTRE CHAI</span>&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_validation_aide2'); ?>"></a></div>
     <div class="panel">
         <p style="text-align: center"><strong><?php echo $drm->declarant->nom; ?></strong></p>
         <br />

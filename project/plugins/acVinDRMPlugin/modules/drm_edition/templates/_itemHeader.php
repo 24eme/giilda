@@ -1,4 +1,5 @@
 <?php
+use_helper('DRM');
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 ?>
@@ -12,14 +13,14 @@ $favoris_sorties = $favoris->sorties;
             <ul>
                 <?php foreach ($detailsNodes->getStocksDebut() as $key => $item): ?>               
                     <li class="<?php echo ($key != 'revendique') ? ' itemcache' : ' li_gris'; ?>">
-                        <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)
-                    </li>
+                        <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_aide1'); ?>"></a>
+                    </li>                    
                 <?php endforeach; ?>
             </ul>
         </div>
 
         <div class="groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="2">
-            <p>Entrées</p>
+            <p>Entrées&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_aide2'); ?>"></a></p>
             <ul>
                 <?php foreach ($detailsNodes->getEntreesSorted() as $key => $item): ?>
                     <?php if ($favoris_entrees->exist($key)): ?>
@@ -51,7 +52,7 @@ $favoris_sorties = $favoris->sorties;
         </div>       
 
         <div class="groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="4">
-            <p>Sorties</p>
+            <p>Sorties&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_aide3'); ?>"></a></p>
             <ul>
                 <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
                     <?php if ($favoris_sorties->exist($key)): ?>
@@ -85,7 +86,7 @@ $favoris_sorties = $favoris->sorties;
             <ul>
                 <?php foreach ($detailsNodes->getStocksFin() as $key => $item): ?>
                     <li class="<?php echo ($key != 'revendique') ? ' itemcache' : ' li_gris'; ?>">
-                        <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)
+                        <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_aide4'); ?>"></a>
                     </li>
                 <?php endforeach; ?>
             </ul>

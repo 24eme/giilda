@@ -3,10 +3,12 @@
     <?php if (!$isTeledeclarationMode): ?>
         <p id="fil_ariane"><a href="<?php echo url_for('drm') ?>">Page d'accueil</a> &gt; <strong><?php echo $etablissement->nom ?></strong></p>
     <?php else: if ($campagne == -1) : ?>
-        <h2 class="titre_societe">Espace drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
-    <?php else: ?>
-        <h2 class="titre_societe">Historique des drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
-    <?php endif; ?>
+            <h2 class="titre_societe">Espace drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
+        <?php else: ?>
+            <h2 class="titre_societe">Historique des drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
+        <?php endif; ?>
+            <div style="text-align: center; font-weight: bold;"><?php echo getHelpMsgText('drm_calendrier_texte1'); ?></div>
+
     <?php endif; ?>
 
     <!-- #contenu_etape -->
