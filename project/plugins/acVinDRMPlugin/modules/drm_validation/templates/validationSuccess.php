@@ -16,6 +16,7 @@
 
         <div id="contenu_etape">
             <?php if ($isTeledeclarationMode): ?>
+              <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_validation_texte1'); ?></p>
                 <?php include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm, 'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>
             <?php endif; ?>
 

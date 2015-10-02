@@ -6,6 +6,7 @@
         <?php include_title() ?>
         <link rel="shortcut icon" href="/favicon.ico" />
         <?php include_stylesheets() ?>
+        <link href="/components/vins/vins.css" rel="stylesheet">
 
         <style type="text/css">
             .versionner {
@@ -21,7 +22,6 @@
                 color: #fff;
             }
         </style>
-
         <?php include_javascripts() ?>
         <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     </head>

@@ -7,28 +7,31 @@
             <div class="ligne_form">       
                 <span>
                     <?php echo $form['couleur_crd_'.$regime]->renderError(); ?>
-                    <?php echo $form['couleur_crd_'.$regime]->renderLabel() ?>    
+                    <?php echo $form['couleur_crd_'.$regime]->renderLabel() ?>
                     <?php echo $form['couleur_crd_'.$regime]->render(array('class' => 'couleur_crd_choice')); ?>
                 </span>
+                &nbsp;<a href="" class="msg_aide_drm  icon-msgaide size-16" title="<?php echo getHelpMsgText('drm_crds_ajout_aide1'); ?>" style="float:right; padding: 0 10px 0 0;"></a>
             </div>
             <div class="ligne_form">       
                 <span>
                     <?php echo $form['litrage_crd_'.$regime]->renderError(); ?>
-                    <?php echo $form['litrage_crd_'.$regime]->renderLabel() ?>    
+                    <?php echo $form['litrage_crd_'.$regime]->renderLabel() ?>
                     <?php echo $form['litrage_crd_'.$regime]->render(); ?>
                 </span>
+                &nbsp;<a href="" class="msg_aide_drm  icon-msgaide size-16" title="<?php echo getHelpMsgText('drm_crds_ajout_aide2'); ?>" style="float:right; padding: 0 10px 0 0;"></a>   
             </div>
             <div class="ligne_form">       
                 <span>
                     <?php echo $form['stock_debut_'.$regime]->renderError(); ?>
-                    <?php echo $form['stock_debut_'.$regime]->renderLabel() ?>    
+                    <?php echo $form['stock_debut_'.$regime]->renderLabel() ?>
                     <?php echo $form['stock_debut_'.$regime]->render(); ?>
                 </span>
+                &nbsp;<a href="" class="msg_aide_drm  icon-msgaide size-16" title="<?php echo getHelpMsgText('drm_crds_ajout_aide3'); ?>" style="float:right; padding: 0 10px 0 0;"></a>
             </div>
             <div class="ligne_form">       
                 <span>
                     <?php echo $form['genre_crd_'.$regime]->renderError(); ?>
-                    <?php echo $form['genre_crd_'.$regime]->renderLabel() ?>    
+                    <?php echo $form['genre_crd_'.$regime]->renderLabel() ?>
                     <?php echo $form['genre_crd_'.$regime]->render(); ?>
                 </span>
             </div>

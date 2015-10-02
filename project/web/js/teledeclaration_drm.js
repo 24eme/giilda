@@ -212,6 +212,7 @@ var initValidationDrmStockMvt = function () {
                 $(this).show();
             }
         });
+        initMsgAide();
     });
 }
 
@@ -309,8 +310,10 @@ var initMsgAide = function () {
 
     msgsAide.tooltip
             ({
-                placement: 'right'
+                placement: 'right',
+                html : true
             });
+
     msgsAide.click(function () {
         return false;
     });

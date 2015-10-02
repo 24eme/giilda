@@ -13,11 +13,11 @@
                     <?php if (!$isTeledeclarationMode && !$drm->isTeledeclare()): ?>
                         <label style="margin-left: 150px;"><?php echo 'Numéro d\'archive : ' . $drm->numero_archive; ?></label>
                     <?php endif; ?>
-                    <label style="float: right;">Période : <?php echo $drm->periode ?></label></strong>
+                    <label style="float: right;">Période : <?php echo $drm->periode ?></label></strong>                   
             </li>         
         </ul>
     <?php else: ?>
-        <h2><?php echo getDrmTitle($drm); ?> <small style="font-weight: normal; text-transform: none;">(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small></h2>
+        <h2><?php echo getDrmTitle($drm); ?> <small style="font-weight: normal; text-transform: none;">(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small> &nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_visualisation_aide1'); ?>"></a></h2>
         <?php if ($drm->isTeledeclare()): ?>  
             <div id="btn_etape_dr" style="text-align: center;">
                 <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>

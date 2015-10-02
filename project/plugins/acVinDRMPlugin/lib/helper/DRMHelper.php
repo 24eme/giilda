@@ -217,8 +217,9 @@ function getLastDayForDrmPeriode($drm) {
     return $dateFirst->format('t/m');
 }
 
-function getHelpMsgText($idtext){
-     $helpMsgs = sfYaml::load(dirname(__FILE__).'/../../config/helpMsgs.yml');
-     $allDrmHelpMsgs = $helpMsgs['drm'];
-     return $allDrmHelpMsgs[$idtext];
+
+function getHelpMsgText($idText) {
+    $helpMsgsTexts = sfYaml::load(dirname(__FILE__). '/../../config/helpMsgs.yml' );    
+    return $helpMsgsTexts["drm"][$idText];
+    
 }

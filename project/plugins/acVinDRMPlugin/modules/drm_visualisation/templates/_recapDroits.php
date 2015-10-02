@@ -8,11 +8,11 @@
         <thead >
             <tr>                        
                 <th>&nbsp;</th>
-                <th>Volumes facturables</th>
+                <th>Volumes facturables&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_visualisation_aide2'); ?>"></a></th>
 <?php if($recapCvo->totalVolumeReintegration) : ?> 
                <th>Volumes réintégrés</th>
 <?php endif; ?>
-                <th>Montant</th>
+                <th>Montant&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_visualisation_aide3'); ?>"></a></th>
             </tr>
         </thead>
         <tbody class="drm_cvo_list">
@@ -44,9 +44,9 @@
                 <tr>             
                     <th>Libellé</th>
                     <th>Code</th>
-                    <th>Volumes imposables</th>
-                    <th>Taux</th>
-                    <th>Montant</th>
+                    <th>Volumes imposables&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_visualisation_aide4'); ?>"></a></th>
+                    <th>Taux&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_visualisation_aide5'); ?>"></a></th>
+                    <th>Montant&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_visualisation_aide6'); ?>"></a></th>
                     <?php if ($drm->isPaiementAnnualise()): ?>
                         <th>Cumul annuel</th>
                     <?php endif; ?>
