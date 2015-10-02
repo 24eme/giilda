@@ -1,3 +1,4 @@
+<h2>Syntèse de la saisie des Mouvements</h2>
 <fieldset id="validation_drm_mvts_stocks"> 
     <nav>
         <ul>
