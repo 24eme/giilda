@@ -149,7 +149,7 @@ class DRMDetail extends BaseDRMDetail {
         }
         $this->total_entrees = $this->getTotalByKey('entrees');
         $this->total_sorties = $this->getTotalByKey('sorties');
-        
+
         $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
         if ($this->entrees->exist('recolte')) {
             $this->total_recolte = $this->entrees->recolte;
@@ -307,7 +307,7 @@ class DRMDetail extends BaseDRMDetail {
 
                 continue;
             }
-            if(!$this->getConfig()->exist($hash . "/" . $key)){
+            if (!$this->getConfig()->exist($hash . "/" . $key)) {
                 continue;
             }
             $mouvement = DRMMouvement::freeInstance($this->getDocument());
@@ -384,13 +384,16 @@ class DRMDetail extends BaseDRMDetail {
         return $this->getCepage()->hasMovements();
     }
 
-    public function updateDroitsDouanes() {       
+    public function updateDroitsDouanes() {
         $droitsNode = $this->getDocument()->getOrAdd('droits')->getOrAdd('douane');
         $cepageConfig = $this->getCepage()->getConfig();
         $genreKey = $this->getGenre()->getKey();
 
         foreach ($this->getEntrees() as $entreeKey => $entree) {
             $entreeKey = str_replace('_details', '', $entreeKey);
+            if (!$this->getConfig()->exist('entrees/' . $entreeKey)) {
+                continue;
+            }
             $entreeConf = $this->getConfig()->get('entrees/' . $entreeKey);
             $entreeDrm = $this->get('entrees/' . $entreeKey);
 
@@ -401,6 +404,9 @@ class DRMDetail extends BaseDRMDetail {
         foreach ($this->getSorties() as $sortieKey => $sortie) {
 
             $sortieKey = str_replace('_details', '', $sortieKey);
+            if (!$this->getConfig()->exist('sorties/' . $entreeKey)) {
+                continue;
+            }
             $sortieConf = $this->getConfig()->get('sorties/' . $sortieKey);
             $sortieDrm = $this->get('sorties/' . $sortieKey);
 

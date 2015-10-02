@@ -8,7 +8,7 @@ if (isset($societe_info->paiement_douane_moyen)) {
 }
 ?>
 <div class="drm_validation_societe_info">
-    <div class="title"><span class="text">VOTRE SOCIÉTÉ</span>&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_validation_aide1'); ?>"></a></div>
+    <div class="title"><span class="text">VOTRE SOCIÉTÉ</span><?php if($isModifiable): ?>&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_validation_aide1'); ?>"></a><?php endif; ?></div>
     <div class="panel">
         <p style="text-align: center"><strong><?php echo $societe_info->raison_sociale; ?></strong></p>
         <br />
