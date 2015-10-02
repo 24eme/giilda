@@ -52,7 +52,7 @@ drm:
   drm_validation_aide6: "Vérifiez le compte capsules."
   drm_visualisation_aide1: "Votre DRM est désormais validée. Vous pouvez télécharger la version papier en PDF."
   drm_visualisation_aide2: "Visionnez le volume total déclaré dans la DRM facturable par InterLoire."
-  drm_visualisation_aide3: "Visionnez le montant des cotisations interprofessionelles rattaché aux volumes de la DRM. Vous recevez une facture dès que le montant de celle-ci dépasse le seuil de 50€."
+  drm_visualisation_aide3: "Visionnez le montant des cotisations interprofessionelles rattaché aux volumes de la DRM.<br/>Vous recevez une facture dès que le montant de celle-ci dépasse le seuil de 50€."
   drm_visualisation_aide4: "Visionnez le volume total déclaré dans la DRM imposable par la Douane."
   drm_visualisation_aide5: "Il s’agit du taux en vigueur au 1er janvier 2015."
   drm_visualisation_aide6: "Visionnez le montant des droits de circulation à payer à la Douane."
