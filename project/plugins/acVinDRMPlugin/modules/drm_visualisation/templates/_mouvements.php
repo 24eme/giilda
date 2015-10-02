@@ -26,7 +26,7 @@ if(!isset($isTeledeclarationMode)) {
                 <?php endif; ?>
                 <th style="width: 225px;">Produits</th>
                 <th>Type</th>
-                <th>Volume</th>
+                <th>Volume&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_validation_aide5'); ?>"></a></th>
             </tr>
         </thead>
         <tbody>

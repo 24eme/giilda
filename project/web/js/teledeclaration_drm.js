@@ -46,7 +46,7 @@ var initSignatureDrmPopup = function () {
 var initCrds = function () {
     $('.drm_crds_list tr.crd_row').each(function () {
         var id = $(this).attr('id');
-        
+
         var inputs = $(this).children('td').children('input');
 
         updateCrdsTotaux(id);
@@ -146,7 +146,7 @@ var initCreationDrmPopup = function () {
         $.fancybox.close();
     });
 
-    $('.popup_creation_drm div.type_creation input').change(function () {        
+    $('.popup_creation_drm div.type_creation input').change(function () {
         var value = $(this).attr('value');
         var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
 
@@ -161,7 +161,7 @@ var initCreationDrmPopup = function () {
     $('.popup_creation_drm div.type_creation label').click(function () {
         $(this).siblings('input').click();
     });
-    
+
 };
 
 var initDeleteDrmPopup = function () {
@@ -212,6 +212,7 @@ var initValidationDrmStockMvt = function () {
                 $(this).show();
             }
         });
+        initMsgAide();
     });
 }
 
@@ -305,12 +306,17 @@ var initUpdateEtablissementValidation = function () {
 // init les tooltips dans la colonne intitules
 var initMsgAide = function () {
 
-    var msgsAide = $('#colonne_intitules .msg_aide');
+    var msgsAide = $('.msg_aide_drm');
 
     msgsAide.tooltip
             ({
-                placement: 'right'
+                placement: 'right',
+                html : true
             });
+
+    msgsAide.click(function () {
+        return false;
+    });
 };
 
 $(document).ready(function ()

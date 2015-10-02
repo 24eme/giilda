@@ -1,0 +1,66 @@
+{
+  "checksum": {
+    "previous": "46e551efeca8c131a70c3583b4250b45ce739a28e3ba68e9e0c9739646eaa487",
+    "current": "46e551efeca8c131a70c3583b4250b45ce739a28e3ba68e9e0c9739646eaa487"
+  },
+  "fonts": [
+    "./vins.ttf",
+    "./vins.svg",
+    "./vins.woff",
+    "./vins.eot"
+  ],
+  "glyphs": {
+    "bouteille": {
+      "codepoint": 61696,
+      "source": "svg/bouteille.svg"
+    },
+    "mouts": {
+      "codepoint": 61698,
+      "source": "svg/mouts.svg"
+    },
+    "msgaide": {
+      "codepoint": 61701,
+      "source": "svg/msgaide.svg"
+    },
+    "raisins": {
+      "codepoint": 61699,
+      "source": "svg/raisins.svg"
+    },
+    "vrac": {
+      "codepoint": 61700,
+      "source": "svg/vrac.svg"
+    }
+  },
+  "options": {
+    "autowidth": false,
+    "config": "fontcustom.yml",
+    "css_selector": ".icon-{{glyph}}",
+    "debug": false,
+    "font_ascent": 448,
+    "font_descent": 64,
+    "font_design_size": 16,
+    "font_em": 512,
+    "font_name": "vins",
+    "force": false,
+    "input": {
+      "templates": "svg",
+      "vectors": "svg"
+    },
+    "no_hash": true,
+    "output": {
+      "css": ".",
+      "fonts": ".",
+      "preview": "."
+    },
+    "preprocessor_path": null,
+    "quiet": false,
+    "templates": [
+      "css",
+      "preview"
+    ]
+  },
+  "templates": [
+    "./vins.css",
+    "./vins-preview.html"
+  ]
+}
