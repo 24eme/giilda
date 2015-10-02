@@ -14,11 +14,11 @@
     <thead>
         <tr>
             <th>Produit</th>
-            <th>Pays&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_detail_export_aide1'); ?>"></a></th>
-            <th>Volumes&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_detail_export_aide2'); ?>"></a></th>
+            <th>Pays&nbsp;<a href="" class="msg_aide_drm icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_export_aide1'); ?>" style="float: right; padding: 0 10px 0 0;"></a></th>
+            <th>Volumes&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_export_aide2'); ?>" style="float: right; padding: 0 10px 0 0;"></a></th>
             <?php if($isTeledeclarationMode): ?>
-            <th>Type de document&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_detail_export_aide3'); ?>"></a></th>
-            <th>Numéro de document&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_mouvements_detail_export_aide4'); ?>"></a></th>  
+            <th>Type de document&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_export_aide3'); ?>" style="float: right; padding: 0 10px 0 0;"></a></th>
+            <th>Numéro de document&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_export_aide4'); ?>" style="float: right; padding: 0 10px 0 0;"></a></th>  
             <?php endif; ?>
             <th></th>
         </tr>

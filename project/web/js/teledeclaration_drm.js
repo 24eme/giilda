@@ -212,6 +212,7 @@ var initValidationDrmStockMvt = function () {
                 $(this).show();
             }
         });
+        initMsgAide();
     });
 }
 
@@ -306,11 +307,13 @@ var initUpdateEtablissementValidation = function () {
 var initMsgAide = function () {
 
     var msgsAide = $('.msg_aide_drm');
-
+    
     msgsAide.tooltip
             ({
-                placement: 'right'
+                placement: 'right',
+                html : true
             });
+            
     msgsAide.click(function () {
         return false;
     });

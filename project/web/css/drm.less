@@ -17,22 +17,33 @@ p#date_drm
     margin: 20px 0;
 }
 
-.msg_aide_drm
+
+.tooltip
 {
-    background: url(../images/pictos/pi_help.png) 10px 2px no-repeat #fff;
-    background-size: 25px 25px;
-    font-size:12px;
-    padding: 5px 5px 5px 35px;
-    height:30px;
+    background: #3e3e3e;
+    border-radius: 4px;
+    display: inline-block !important;
+    color: #FFF;
+    padding: 3px 8px;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 20;
+    margin-left: 10px;
+    text-transform: none !important;
+    font-size: 13px;
+    font-weight: bold ;
 }
 
-.popup_creation_drm .msg_aide_drm
+.fancybox-wrap .tooltip
 {
-     background: url(../images/pictos/pi_help.png) 10px 2px no-repeat #fff;
-    background-size: 15px 15px;
-    font-size:12px;
-    padding: 5px 5px 5px 35px;
-    height:30px;
+    position: fixed !important;   
+    background-color: black;
+    color: white;
+
+}
+
+.msg_aide_drm:hover{
+    text-decoration: none;
 }
 
 #masque_col_active
@@ -1279,18 +1290,7 @@ div.fancybox-wrap .popup_creation_drm{
             padding-right: 5px !important;
         }
 
-        a.msg_aide_drm
-        {
-            float:none;
-            padding:0 5px;
-        }
-
-        a.msg_aide_drm:hover
-            {
-            .opacite(1);
-            background: url(../images/pictos/pi_help.png) 0 0 no-repeat;
-        }
-    }
+          }
 
     .contenu_onglet_declaratif
     {
@@ -1634,13 +1634,13 @@ div.fancybox-wrap .popup_creation_drm{
     }
 
     #colonne_intitules{
-        .msg_aide_drm
-        {
-            background: url(../images/pictos/pi_help.png) 25px 8px no-repeat #fff;
-            font-size:12px;
-            padding: 5px 5px 5px 35px;
-            height:30px;
-        }
+        /*        .msg_aide_drm
+                {
+                    background: url(../images/pictos/pi_help.png) 25px 8px no-repeat #fff;
+                    font-size:12px;
+                    padding: 5px 5px 5px 35px;
+                    height:30px;
+                }*/
 
 
 
@@ -1688,18 +1688,7 @@ div.fancybox-wrap .popup_creation_drm{
 }
 
 
-#principal.drm{    
-    .tooltip
-    {
-        background: #3e3e3e;
-        border-radius: 4px;
-        display: inline-block !important;
-        color: #FFF;
-        padding: 3px 8px;
-        position: absolute;
-        white-space: nowrap;
-        z-index: 20;
-    }
+#principal.drm{        
     table{
         .drm_crds_list{
             input {
@@ -2102,7 +2091,6 @@ div.fancybox-wrap .popup_creation_drm{
 
     #drm_validation_coordonnees {
         margin: 20px -10px 0;
-        overflow: hidden;
 
         .drm_validation_societe , .drm_validation_etablissement{
             float: left;

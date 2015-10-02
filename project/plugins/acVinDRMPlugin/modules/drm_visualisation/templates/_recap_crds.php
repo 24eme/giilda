@@ -4,7 +4,7 @@
     <fieldset id="crds_drm">
         <?php foreach ($drm->getAllCrdsByRegimeAndByGenre() as $regime => $crdAllGenre): ?>
             <?php foreach ($crdAllGenre as $genre => $crds) : ?>
-                <h2><?php echo getLibelleForGenre($genre); ?>&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_validation_aide6'); ?>"></a></h2>
+                <h2><?php echo getLibelleForGenre($genre); ?>&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_validation_aide6'); ?>"></a></h2>
 
                 <table class="table_recap">
                     <thead>

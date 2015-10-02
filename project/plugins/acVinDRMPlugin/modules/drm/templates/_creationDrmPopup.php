@@ -15,18 +15,18 @@
                 <span>
                     <?php echo $drmCreationForm['type_creation']->renderError(); ?>
                     <ul class="radio_list">
-                        <li>
+                        <li style="width: 250px;">
                             <input type="radio" checked="checked" id="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_VIERGE; ?>" value="<?php echo DRMClient::DRM_CREATION_VIERGE; ?>" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_VIERGE; ?>">Création d'une drm vierge</label>
-                            &nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_creation_aide1'); ?>"></a>
+                            &nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_creation_aide1'); ?>" style="float: right;"></a>
                         </li>
 
-                        <li>
+                        <li style="width: 250px;">
                             <input type="radio" id="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_NEANT; ?>" value="<?php echo DRMClient::DRM_CREATION_NEANT; ?>" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_NEANT; ?>">Création d'une drm à néant</label>
-                            &nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_creation_aide2'); ?>"></a>
+                            &nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_creation_aide2'); ?>"style="float: right;"></a>
                         </li>
-                        <li>
+                        <li style="width: 250px;">
                             <input type="radio" id="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_EDI; ?>" value="CREATION_EDI" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_EDI; ?>">Création depuis un logiciel tiers</label>
-                            &nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_creation_aide3'); ?>"></a>
+                            &nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_creation_aide3'); ?>"style="float: right;"></a>
                         </li>
                     </ul>
 

@@ -1,8 +1,8 @@
 <fieldset id="validation_drm_mvts_stocks"> 
     <nav>
         <ul>
-            <li class="actif onglet" id="drm_visualisation_stock_onglet"><span>Résumé des Stocks</span>&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_validation_aide3'); ?>"></a></li>
-            <li class="onglet" id="drm_visualisation_mouvements_onglet"><a>Détails des Mouvements</a>&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_validation_aide4'); ?>"></a></li>
+            <li class="actif onglet" id="drm_visualisation_stock_onglet"><span >Résumé des Stocks&nbsp;<span  style="display: inline-block;" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_validation_aide3'); ?>"></span></span></li>
+            <li class="onglet" id="drm_visualisation_mouvements_onglet"><a >Détails des Mouvements&nbsp;<span  style="display: inline-block;" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_validation_aide4'); ?>"></span></a></li>
         </ul>
     </nav>
     <div id="drm_visualisation_stock" class="section_label_maj">

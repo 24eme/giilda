@@ -1,5 +1,9 @@
-<h3 ><?php echo getHelpMsgText('drm_mouvements_detail_contrat_texte1'); ?></h3> 
-
+<?php use_helper('DRM'); ?>
+<?php if ($detail->hasContratVrac()) : ?>
+    <span style="font-weight: bold; padding-left: 10px;"><?php echo getHelpMsgText('drm_mouvements_detail_contrat_texte1'); ?></span> 
+    <?php
+endif;
+?>
 <div id="contenu" style="background: #fff;">
     <section id="principal" style="width:100%;">
         <?php

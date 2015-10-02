@@ -1,13 +1,13 @@
 <?php foreach ($certificationsProduits as $certificationHash => $certificationProduits): ?>
     <?php $certifKey = $certificationProduits->certification_libelle; ?>
-    <h2><?php echo $certificationProduits->certification_libelle; ?> &nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_produits_aide1'); ?>"></a></h2>
+    <h2><?php echo $certificationProduits->certification_libelle; ?> &nbsp;<a href="" class="msg_aide_drm icon-msgaide" title="<?php echo getHelpMsgText('drm_produits_aide1'); ?>"></a></h2>
     <?php if (count($certificationProduits->produits)): ?>
         <table id = "table_drm_choix_produit" class = "table_recap">
             <thead >
                 <tr>
                     <th style="width: 55%;">&nbsp;
                     </th>
-                    <th style="width: 45%;">Produit à déclarer ce mois&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_produits_aide2'); ?>" style="float:right;"></a></th>
+                    <th style="width: 45%;">Produit à déclarer ce mois&nbsp;<a href="" class="msg_aide_drm icon-msgaide" title="<?php echo getHelpMsgText('drm_produits_aide2'); ?>" style="float:right; padding: 0 10px 0 0;"></a></th>
                 </tr>
             </thead>
             <tbody>
@@ -27,7 +27,7 @@
                 <tr>
                     <th>&nbsp;
                     </th>
-                    <th>Produit à déclarer ce mois&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_produits_aide2'); ?>" style="float:right;"></a></th>
+                    <th>Produit à déclarer ce mois&nbsp;<a href="" class="msg_aide_drm icon-msgaide" title="<?php echo getHelpMsgText('drm_produits_aide2'); ?>" style="float:right; padding: 0 10px 0 0;"></a></th>
                 </tr>
             </thead>
             <tbody class = "choix_produit_table_<?php echo $certifKey; ?>">                    

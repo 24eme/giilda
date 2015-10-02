@@ -22,11 +22,11 @@
             <table id="table_drm_crds" class="table_recap">
                 <thead >
                     <tr>
-                        <th rowspan="2">CRD&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_crds_aide1'); ?>"></a></th>
-                        <th rowspan="2">Stock&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_crds_aide2'); ?>"></a></th>
-                        <th class="mainth" colspan="3">Entrées&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_crds_aide3'); ?>"></a></th>
-                        <th class="mainth" colspan="3">Sorties&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_crds_aide4'); ?>"></a></th>
-                        <th rowspan="2" >Stock <?php echo getLastDayForDrmPeriode($drm); ?>&nbsp;<a href="" class="msg_aide_drm" title="<?php echo getHelpMsgText('drm_crds_aide5'); ?>"></a></th>
+                        <th rowspan="2">CRD&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_crds_aide1'); ?>"></a></th>
+                        <th rowspan="2">Stock&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_crds_aide2'); ?>"></a></th>
+                        <th class="mainth" colspan="3">Entrées&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_crds_aide3'); ?>"></a></th>
+                        <th class="mainth" colspan="3">Sorties&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_crds_aide4'); ?>"></a></th>
+                        <th rowspan="2" >Stock <?php echo getLastDayForDrmPeriode($drm); ?>&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_crds_aide5'); ?>"></a></th>
                     </tr>
                     <tr>
 
