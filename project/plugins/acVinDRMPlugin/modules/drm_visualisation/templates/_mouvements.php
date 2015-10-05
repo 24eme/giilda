@@ -1,5 +1,5 @@
 <?php 
-
+use_helper('DRM');
 use_helper('Float');
 use_helper('Date'); 
 use_helper('Mouvement');
@@ -31,7 +31,7 @@ if(!isset($isTeledeclarationMode)) {
         </thead>
         <tbody>
             <?php $i = 1; ?>
-    <?php 
+    <?php
     foreach ($mouvements as $mouvement): 
         $i++; ?>
                 <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php echo ($i % 2 != 0)? "alt" : "";?> <?php
