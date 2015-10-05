@@ -48,7 +48,7 @@ drm:
   drm_validation_aide2: "Vérifiez les informations du chai ou de l’entrepôt concerné par la DRM.<br/>Complétez ou modifiez ces informations en cliquant sur le bouton MODIFIER."
   drm_validation_aide3: "Vérifiez l’état des stocks."
   drm_validation_aide4: "Vérifiez les mouvements enregistrés."
-  drm_validation_aide5: "Les volumes en hectolitres sont positifs lorsqu’il s’agit d’une entrée et négatifs lorsqu’ils correspondent à une sortie."
+  drm_validation_aide5: "Les volumes en hectolitres sont positifs lorsqu’il s’agit<br/>d’une entrée et négatifs lorsqu’ils correspondent à une sortie."
   drm_validation_aide6: "Vérifiez le compte capsules."
   drm_visualisation_aide1: "Votre DRM est désormais validée. Vous pouvez télécharger la version papier en PDF."
   drm_visualisation_aide2: "Visionnez le volume total déclaré dans la DRM facturable par InterLoire."
