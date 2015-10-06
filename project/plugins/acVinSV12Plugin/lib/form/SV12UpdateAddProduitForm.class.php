@@ -9,6 +9,7 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
   public function __construct(SV12 $sv12, $options = array(), $CSRFSecret = null) 
   {
     $this->_sv12 = $sv12;
+    $this->_config = $sv12->getConfig();
     $defaults = array('withviti' => 'withviti');
     parent::__construct($sv12, $defaults, $options, $CSRFSecret);
   }
@@ -72,5 +73,9 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
       echo "update no contrat avec viti\n";
       $sv12Contrat->updateNoContrat($this->getConfig()->get($this->values['hashref']), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $this->values['raisinetmout']));
       
+    }
+    
+    public function getConfig() {
+        return $this->_config;
     }
 }
