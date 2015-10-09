@@ -32,28 +32,22 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeEmetteur() {
-        $configs = sfConfig::get('app_facture_emetteur');
+        $configs = sfConfig::get('app_configuration_facture');
         $emetteur = new stdClass();
         
         
-        if (!array_key_exists($this->region, $configs))
+        if (!array_key_exists($this->region, $configs['emetteur']))
             throw new sfException(sprintf('Config %s not found in app.yml', $this->region));
-        $this->emetteur = $configs[$this->region];
+        $this->emetteur = $configs['emetteur'][$this->region];
     }
     
     public function getCoordonneesBancaire(){
         $coordonneesBancaires = new stdClass();
         switch ($this->region) {
-            case EtablissementClient::REGION_TOURS:
-            case EtablissementClient::REGION_ANGERS:
-                $coordonneesBancaires->banque = 'Crédit Agricole Touraine Poitou';
-                $coordonneesBancaires->bic = ' AGRIFRPP894';
-                $coordonneesBancaires->iban = ' FR76~1940~6370~1579~1722~5300~105';
-                break;
-            case EtablissementClient::REGION_NANTES:
-                $coordonneesBancaires->banque = 'Crédit Agricole Atlantique Vendée';
-                $coordonneesBancaires->bic = 'AGRIFRPP847';
-                $coordonneesBancaires->iban = 'FR76~1470~6000~1400~0000~2200~028';
+            case EtablissementClient::HORS_REGION:
+                $coordonneesBancaires->banque = 'Crédit Agricole IVSO';
+                $coordonneesBancaires->bic = ' ABRVFQQQ999';
+                $coordonneesBancaires->iban = ' FR76~1111~2222~3333~4444~5555~100';
                 break;
         }
         return $coordonneesBancaires;

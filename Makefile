@@ -1,8 +1,12 @@
-all: project/cache project/log project/config/app.yml project/config/databases.yml project/web/declaration_dev.php project/web/components/vins/vins-preview.html .views/vrac.json .views/etablissements.json .views/archivage.json .views/mouvements.json .views/ds.json .views/societe.json .views/compte.json .views/drm.json
+all: project/cache project/log project/config/app.yml project/config/databases.yml project/web/declaration_dev.php project/web/components/vins/vins-preview.html .views/vrac.json .views/etablissements.json .views/archivage.json .views/mouvements.json .views/ds.json .views/societe.json .views/compte.json .views/generation.json .views/drm.json project/data/latex
 
 project/cache:
 	mkdir project/cache
 	chmod g+sw,o+w project/cache
+
+project/data/latex:
+	mkdir project/data/latex
+	chmod g+sw,o+w project/data/latex
 
 project/log:
 	mkdir project/log
@@ -44,6 +48,9 @@ project/web/components/vins/vins-preview.html: project/web/components/vins/fontc
 
 .views/drm.json: project/config/databases.yml project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.stocks.map.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.all.reduce.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.all.map.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.produits.map.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.stocks.reduce.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.derniere.reduce.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.produits.reduce.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.derniere.map.view.js
 	perl bin/generate_views.pl project/config/databases.yml project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.stocks.map.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.all.reduce.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.all.map.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.produits.map.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.stocks.reduce.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.derniere.reduce.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.produits.reduce.view.js project/plugins/acVinDRMPlugin/lib/model/DRM/views/drm.derniere.map.view.js > $@ || rm >@
+
+.views/generation.json: project/config/databases.yml project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.reduce.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.reduce.view.js
+	perl bin/generate_views.pl project/config/databases.yml project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.reduce.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.reduce.view.js > $@ || rm >@
 
 clean:
 	rm -f .views/*

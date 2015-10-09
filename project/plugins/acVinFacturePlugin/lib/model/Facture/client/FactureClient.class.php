@@ -108,7 +108,7 @@ class FactureClient extends acCouchdbClient {
     
     public function filterWithParameters($mouvementsBySoc, $parameters) {
         if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'])){
-          $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
+          $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);        
           foreach ($mouvementsBySoc as $identifiant => $mouvements) {
               foreach ($mouvements as $key => $mouvement) {
                       $farDateMvt = $this->getGreatestDate($mouvement->value[MouvementfactureFacturationView::VALUE_DATE]);

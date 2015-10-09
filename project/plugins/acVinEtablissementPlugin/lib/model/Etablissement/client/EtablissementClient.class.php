@@ -6,6 +6,7 @@ class EtablissementClient extends acCouchdbClient {
      *
      * @return EtablissementClient
      */
+    const HORS_REGION = 'HORS_REGION';
     const REGION_TOURS = 'TOURS';
     const REGION_ANGERS = 'ANGERS';
     const REGION_NANTES = 'NANTES';
