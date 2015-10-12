@@ -40,7 +40,7 @@ class FactureLatex extends GenericLatex {
   public function getLatexFileContents() {
     return html_entity_decode(htmlspecialchars_decode(
 						      get_partial('facture/latexContent', array('facture' => $this->facture,
-												'nb_pages' => $this->getNbPages(),
+                                                                                               'nb_pages' => $this->getNbPages(),
 												'nb_lines' => $this->getNbLignes()))
 						      , HTML_ENTITIES));
   }
