@@ -1,1 +1,0 @@
-\textbf{\large{<?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>}} & ~ & ~ & ~ & ~ & \\
