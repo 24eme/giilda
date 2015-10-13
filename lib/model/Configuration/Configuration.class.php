@@ -23,6 +23,16 @@ class Configuration extends BaseConfiguration {
         return $this->declaration->formatProduits($date, null, null, $format, $attributes);
     }
 
+    public function getTemplatesFactures() {
+        $factures = array();
+        if ($this->exist('factures')) {
+            foreach ($this->factures as $type => $id) {
+                $factures[$type] = acCouchdbManager::getClient()->find($id);
+            }
+        }
+        return $factures;
+    }
+
     private static function normalizeLibelle($libelle) {
         $libelle = str_ireplace('SAINT-', 'saint ', $libelle);
         $libelle = preg_replace('/&nbsp;/', ' ', strtolower($libelle));
@@ -160,37 +170,37 @@ class Configuration extends BaseConfiguration {
     }
 
     public function getCorrespondanceHash($hash) {
-        if(!$this->exist('correspondances')) {
+        if (!$this->exist('correspondances')) {
 
             return false;
         }
 
         $key = str_replace("/", "-", $hash);
 
-        if(!$this->correspondances->exist($key)) {
+        if (!$this->correspondances->exist($key)) {
 
             return false;
         }
 
         return $this->correspondances->get($key);
     }
-    
+
     private function getCorrespondancesInverse() {
-        if (!$this->exist('correspondances') || is_null($this->correspondances)) {  
+        if (!$this->exist('correspondances') || is_null($this->correspondances)) {
             return array();
-        }       
-        $arrayCorrespondances = $this->correspondances->toArray(0, 1);         
+        }
+        $arrayCorrespondances = $this->correspondances->toArray(0, 1);
         return array_flip($arrayCorrespondances);
     }
-    
+
     public function getProduitWithCorrespondanceInverse($hash) {
-       if($this->exist($hash)){
-           return $this->get($hash);
-       }
-       $correspondanceInverse = $this->getCorrespondancesInverse();
-      
-       $newHash = str_replace('-', '/', $correspondanceInverse[$hash]);
-       return $this->get($newHash);
+        if ($this->exist($hash)) {
+            return $this->get($hash);
+        }
+        $correspondanceInverse = $this->getCorrespondancesInverse();
+
+        $newHash = str_replace('-', '/', $correspondanceInverse[$hash]);
+        return $this->get($newHash);
     }
 
     public function save() {
