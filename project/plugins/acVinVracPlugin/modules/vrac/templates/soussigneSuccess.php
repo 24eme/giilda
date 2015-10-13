@@ -99,34 +99,30 @@ endif;
                                 <div class="col-sm-12">
         							<?php if(isset($form['logement'])): ?>
                                     <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
-                		                <div class="col-sm-12">
                 		                    <?php echo $form['logement_exist']->renderError(); ?>
-                		                    <div class="checkbox bloc_condition" data-condition-cible="#bloc_logement">
+                		                    <div class="checkbox col-sm-12 bloc_condition" data-condition-cible="#bloc_logement">
                 		                        <label for="<?php echo $form['logement_exist']->renderId(); ?>">
                 		                            <?php echo $form['logement_exist']->render(); ?>
-                		                            Décocher si logement du vin différent
+                		                            Vin logé à une autre adresse
                 		                        </label>
                 		                    </div>
-                		                </div>
                 		            </div>
-                		            <div id="bloc_logement" data-condition-value="0" class="form-group bloc_conditionner <?php if($form['logement']->hasError()): ?>has-error<?php endif; ?>">
+                		            <div id="bloc_logement" data-condition-value="1" class="form-group bloc_conditionner <?php if($form['logement']->hasError()): ?>has-error<?php endif; ?>">
                 		                <?php echo $form['logement']->renderError(); ?>
                 		                <div class="col-sm-12">
                 		                    <?php echo $form['logement']->render(array("placeholder" => "Ville du logement")); ?>
                 		                </div>
-                		            </div> 
+                		            </div>
                 		            <?php endif; ?>
         							<?php if(isset($form['vendeur_intermediaire']) && isset($form['representant_identifiant'])): ?>
-                		            <div class="form-group col-sm-12">
+                		            <div class="form-group">
                 		            	<?php echo $form['vendeur_intermediaire']->renderError(); ?>
-                		                <div class="checkbox">
-                		                    <div class="checkbox bloc_condition" data-condition-cible="#bloc_intermediaire">
-                		                	<label for="<?php echo $form['vendeur_intermediaire']->renderId(); ?>">
-                		                    	<?php echo $form['vendeur_intermediaire']->render(); ?>
-                		                    	Vendeur via intermedaire
-                		                    </label>
-                		                    </div>
-                		                </div>
+            		                    <div class="checkbox col-sm-12 bloc_condition" data-condition-cible="#bloc_intermediaire">
+            		                	<label for="<?php echo $form['vendeur_intermediaire']->renderId(); ?>">
+            		                    	<?php echo $form['vendeur_intermediaire']->render(); ?>
+            		                    	Vente via intermédiaire
+            		                    </label>
+            		                    </div>
                 		            </div>
                 		            <div id="bloc_intermediaire" data-condition-value="1" class="form-group bloc_conditionner">
 		                                <div id="representant_selection" class="col-sm-12 <?php if($form['representant_identifiant']->getValue()): ?>hidden<?php endif; ?>">
