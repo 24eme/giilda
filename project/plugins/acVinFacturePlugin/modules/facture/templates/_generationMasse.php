@@ -49,17 +49,3 @@
        <span>Cliquer sur "Générer" pour lancer la génération des factures</span>
     <a href="#" id="facture_generation_btn" class="btn_majeur btn_refraichir">Générer</a>
 </div>
-
-<script type="text/javascript">
-    
-    $(document).ready( function()
-	{
-            $('#facture_generation_btn').bind('click', function()
-            {
-                $('form#facture_generation').submit();
-		return false;
-            });
-        });
-    
-</script>
-

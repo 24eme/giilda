@@ -9,7 +9,7 @@
  * Description of class WidgetSociete
  * @author mathurin
  */
-class WidgetSociete extends sfWidgetFormChoice
+class WidgetSociete extends sfWidgetFormInput
 {
     protected $identifiant = null;
 
@@ -18,14 +18,15 @@ class WidgetSociete extends sfWidgetFormChoice
         parent::__construct($options, $attributes);
 
         $this->setAttribute('data-ajax', $this->getUrlAutocomplete());
-        $this->setOption('choices', $this->getChoices());
+       
+//        $this->setOption('choices', $this->getChoices());
     }
 
     protected function configure($options = array(), $attributes = array())
     {
         parent::configure($options, $attributes);
 
-        $this->setOption('choices', array());
+//        $this->setOption('choices', array());
         $this->addOption('type_societe', array());
         $this->addRequiredOption('interpro_id', null);
         if(!count($attributes))

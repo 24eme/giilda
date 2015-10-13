@@ -4,7 +4,7 @@ class societeComponents extends sfComponents {
 
     public function executeChooseSociete() {
         if (!$this->form) {
-            $this->form = new SocieteChoiceForm('INTERPRO-inter-loire',
+            $this->form = new SocieteChoiceForm('INTERPRO-declaration',
                             array('identifiant' => $this->identifiant));
         }
     }

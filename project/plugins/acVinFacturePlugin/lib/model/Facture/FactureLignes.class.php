@@ -30,7 +30,7 @@ class FactureLignes extends BaseFactureLignes {
         foreach($this as $ligne) {
             $ligne->cleanDetails();
             if(!count($ligne->details)) {
-                $lignesToDelete[$ligne->getKey()] = $true;
+                $lignesToDelete[$ligne->getKey()] = true;
             }
         }
 
