@@ -34,9 +34,8 @@
             </form>
         </div>
     </div>
-    <?php if (isset($formAddProduitsByCertification)): ?>
-            <a style="display:none" class="btn_majeur ajout_produit_popup" href="#add_produit_popup">Ajouter des Produits</a>
-            <?php include_partial('drm_ajout_produit/ajout_produit_popup_certification', array('drm' => $drm, 'form' => $formAddProduitsByCertification)); ?>
+    <?php if(isset($formAddProduitsByCertification)): ?>
+        <?php include_partial('drm_ajout_produit/ajout_produit_popup_certification', array('drm' => $drm, 'form' => $formAddProduitsByCertification)); ?>
     <?php endif; ?>
     <?php if(isset($crdRegimeForm)): ?>
         <?php include_partial('drm_crds/crd_regime_choice_popup', array('drm' => $drm, 'crdRegimeForm' => $crdRegimeForm, 'etablissementPrincipal' => $etablissementPrincipal)); ?>

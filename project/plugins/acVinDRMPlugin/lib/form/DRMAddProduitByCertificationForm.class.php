@@ -30,7 +30,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
 
     public function configure() {
         $this->setWidgets(array(
-            'produit' => new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getProduits()))
+            'produit' => new bsWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getProduits()))
         ));
         $this->widgetSchema->setLabels(array(
             'produit' => 'Produit : '
