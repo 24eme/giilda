@@ -52,14 +52,14 @@
 
 <script type="text/javascript">
     
-//    $(document).ready( function()
-//	{
-//            $('#facture_generation_btn').bind('click', function()
-//            {
-//                $('form#facture_generation').submit();
-//		return false;
-//            });
-//        });
-//    
+    $(document).ready( function()
+	{
+            $('#facture_generation_btn').bind('click', function()
+            {
+                $('form#facture_generation').submit();
+		return false;
+            });
+        });
+    
 </script>
 

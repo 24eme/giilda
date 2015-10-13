@@ -13,21 +13,24 @@ class FactureEtablissementView extends acCouchdbView
     
 
     public static function getInstance() {
+        
         return acCouchdbManager::getView('facture', 'etablissement', 'Facture');
     }
     
     
     public function getFactureNonVerseeEnCompta() {
-	return acCouchdbManager::getClient()
+	   
+       return acCouchdbManager::getClient()
                     ->startkey(array(0))
                     ->endkey(array(0, array()))
                     ->getView($this->design, $this->view)->rows;
     }
     
     public function getAllFacturesForCompta() {
-	return acCouchdbManager::getClient()
-                    ->startkey(array(0))
-                    ->endkey(array(1, array()))
+	   
+       return acCouchdbManager::getClient()
+                    ->startkey()
+                    ->endkey()
                     ->getView($this->design, $this->view)->rows;
     }
 

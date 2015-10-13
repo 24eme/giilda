@@ -42,7 +42,7 @@ use_helper('Prix');
 <br /> 
 <div class="generation_facture_valid">
        <span>Cliquer sur "Générer" pour lancer la génération de la facture</span>
-       <button id="generation_facture" class="btn btn-lg btn-success">Générer</button>
+    <a href="#" id="generation_facture" class="btn_majeur btn_refraichir">Générer</a>
 </div>
 </form>
 <?php else : ?>

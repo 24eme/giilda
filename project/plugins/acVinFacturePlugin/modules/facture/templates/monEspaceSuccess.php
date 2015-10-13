@@ -37,15 +37,15 @@ end_slot();
 ?>
 
 <script type="text/javascript">
-//    
-//    $(document).ready( function()
-//    {
-//        $('#generation_facture').bind('click', function()
-//        {
-//            $('form#generation_form').submit();
-//	    return false;
-//        });
-//    });
-//    
+    
+    $(document).ready( function()
+    {
+        $('#generation_facture').bind('click', function()
+        {
+            $('form#generation_form').submit();
+	    return false;
+        });
+    });
+    
 </script>
 

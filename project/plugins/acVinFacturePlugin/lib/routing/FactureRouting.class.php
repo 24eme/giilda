@@ -11,14 +11,9 @@ class FactureRouting {
     static public function listenToRoutingLoadConfigurationEvent(sfEvent $event) {
         
         $r = $event->getSubject();
-        $r->prependRoute('facture', new sfRoute('/facture', array('module' => 'facture',
+        /*$r->prependRoute('facture', new sfRoute('/facture', array('module' => 'facture',
 								  'action' => 'index')));
-        $r->prependRoute('facture_societe', new SocieteRoute('/facture/:identifiant', array('module' => 'facture', 
-													'action' => 'monEspace'),
-									 array('sf_method' => array('get','post')),
-									 array('model' => 'Societe',
-									       'type' => 'object')
-									 ));
+      
         
         $r->prependRoute('facture_etablissement', new EtablissementRoute('/facture/etablissement/:identifiant', array('module' => 'facture', 
 													'action' => 'etablissement'),
@@ -54,7 +49,7 @@ class FactureRouting {
                                                                                ));
         
         
-        
+        */
 
     }
 }
