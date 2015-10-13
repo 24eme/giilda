@@ -4,52 +4,22 @@
  * 
  * Base model for FactureLigne
 
- * @property string $origine_type
- * @property string $origine_identifiant
- * @property string $origine_libelle
- * @property string $origine_date
- * @property string $id_origine
- * @property string $produit_type
- * @property string $produit_libelle
- * @property string $produit_hash
- * @property string $produit_identifiant_analytique
- * @property string $contrat_identifiant
- * @property string $echeance_code
- * @property float $volume
- * @property float $cotisation_taux
+ * @property string $libelle
+ * @property float $montant_tva
  * @property float $montant_ht
  * @property acCouchdbJson $origine_mouvements
+ * @property acCouchdbJson $details
 
- * @method string getOrigineType()
- * @method string setOrigineType()
- * @method string getOrigineIdentifiant()
- * @method string setOrigineIdentifiant()
- * @method string getOrigineLibelle()
- * @method string setOrigineLibelle()
- * @method string getOrigineDate()
- * @method string setOrigineDate()
- * @method string getIdOrigine()
- * @method string setIdOrigine()
- * @method string getProduitType()
- * @method string setProduitType()
- * @method string getProduitLibelle()
- * @method string setProduitLibelle()
- * @method string getProduitHash()
- * @method string setProduitHash()
- * @method string getProduitIdentifiantAnalytique()
- * @method string setProduitIdentifiantAnalytique()
- * @method string getContratIdentifiant()
- * @method string setContratIdentifiant()
- * @method string getEcheanceCode()
- * @method string setEcheanceCode()
- * @method float getVolume()
- * @method float setVolume()
- * @method float getCotisationTaux()
- * @method float setCotisationTaux()
+ * @method string getLibelle()
+ * @method string setLibelle()
+ * @method float getMontantTva()
+ * @method float setMontantTva()
  * @method float getMontantHt()
  * @method float setMontantHt()
  * @method acCouchdbJson getOrigineMouvements()
  * @method acCouchdbJson setOrigineMouvements()
+ * @method acCouchdbJson getDetails()
+ * @method acCouchdbJson setDetails()
  
  */
 

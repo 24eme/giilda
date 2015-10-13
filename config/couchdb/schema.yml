@@ -8,9 +8,14 @@ Facture:
       identifiant: {}
       code_comptable_client: {}
       numero_facture: {}
-      numero_interloire: {}
+      numero_ava: {}
+      numero_adherent: {}
       date_emission: {}
       date_facturation: {}
+      date_paiement: {}
+      date_echeance: {}
+      reglement_paiement: {}
+      montant_paiement: {}
       campagne: {}
       numero_archive: {  }
       statut: {}
@@ -18,6 +23,12 @@ Facture:
       taux_tva: {required: false}
       region: {}
       versement_comptable: {type: integer}
+      versement_comptable_paiement: {type: integer}
+      arguments: 
+        type: collection
+        definition:
+          fields:
+            '*': {  }
       message_communication: {required: false}
       emetteur:
         type: collection
@@ -44,41 +55,41 @@ Facture:
       total_taxe: {type: float}
       lignes:
         type: collection
+        class: FactureLignes
         definition:
           fields:
             '*':
-              class: FactureLignes
-              type: array_collection
+              class: FactureLigne
+              type: collection
               definition:
                 fields:
-                  '*':
-                    class: FactureLigne
+                  libelle: {  }
+                  produit_identifiant_analytique: {  }
+                  montant_tva: {type: float}
+                  montant_ht: {type: float}
+                  origine_mouvements:
                     type: collection
                     definition:
                       fields:
-                        origine_type: {}
-                        origine_identifiant: {}
-                        origine_libelle: {}
-                        origine_date: {}
-                        id_origine: {}
-                        produit_type: {}
-                        produit_libelle: {}
-                        produit_hash: {}
-                        produit_identifiant_analytique: {}
-                        contrat_identifiant: {}
-                        echeance_code: {}
-                        volume: {type: float}
-                        cotisation_taux: {type: float}
-                        montant_ht: {type: float}
-                        origine_mouvements:
+                        '*':
+                          type: array_collection
+                          definition:
+                            fields:
+                              '*': { }
+                  details:
+                    type: array_collection
+                    definition:
+                      fields:
+                        '*':
                           type: collection
                           definition:
                             fields:
-                              '*':
-                                type: array_collection
-                                definition:
-                                  fields:
-                                    '*': { }
+                              libelle: {}
+                              quantite: {type: float}
+                              taux_tva: {type: float}
+                              prix_unitaire: {type: float}
+                              montant_tva: {type: float}
+                              montant_ht: {type: float}
       echeances:
         type: array_collection
         definition:
@@ -91,6 +102,12 @@ Facture:
                   echeance_date: {}
                   montant_ttc: {type: float}
       origines:
+        type: collection
+        definition:
+          fields:
+            #DRM ou SRV ID => "libelle"
+            '*': {}
+      templates:
         type: collection
         definition:
           fields:

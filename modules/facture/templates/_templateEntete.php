@@ -28,13 +28,17 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \renewcommand\sfdefault{phv}
 
 \newcommand{\CutlnPapillon}{	
-  	\multicolumn{2}{|c|}{ ~~~~~~~~~~~~~~~~~~~~~~~ } & 
+  	\multicolumn{4}{|c|}{ ~~~~~~~~~~~~~~~~~~~~~~~ } & 
   	\multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
 \\    
 }
 
 \newcommand{\CutlnPapillonEntete}{	
-      &  &  \multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
+      & \centering \small{\textbf{Code échéance}} &
+    \centering \small{\textbf{Date d'échéance}} &
+    \multicolumn{1}{r|}{\small{\textbf{Montant TTC}}}  
+     & 
+  	\multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
 \\    
 }
 
@@ -45,7 +49,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \setlength{\evensidemargin}{-2cm}
 \setlength{\textwidth}{19cm}
 \setlength{\headheight}{5.3cm}
-\setlength{\headwidth}{19.5cm}
+\setlength{\headwidth}{20.5cm}
 \setlength{\topmargin}{-4.5cm}
 \addtolength{\textheight}{29.9cm} 
 
@@ -82,7 +86,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \fancyhf{}
 
 \lhead{
- \textbf{IVSO} \\  
+ \textbf{InterLoire} \\  
  \InterloireAdresse \\
  \begin{small} \textbf{\begin{footnotesize}\InterloireFacturation\end{footnotesize}}\\ \end{small}
  \begin{tiny}
@@ -92,4 +96,4 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
          SIRET~\InterloireSIRET ~-~\InterloireAPE ~- TVA~Intracommunutaire~\InterloireTVAIntracomm
 \end{tiny}
  }
-\rhead{\includegraphics[scale=0.7]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_ivso.png"; ?>}}
+\rhead{\includegraphics[scale=1]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_new.jpg"; ?>}}

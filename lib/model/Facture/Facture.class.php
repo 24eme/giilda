@@ -32,51 +32,60 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeEmetteur() {
-        $configs = sfConfig::get('app_configuration_facture');
+        $configs = sfConfig::get('app_facture_emetteur');
         $emetteur = new stdClass();
         
         
-        if (!array_key_exists($this->region, $configs['emetteur']))
+        if (!array_key_exists($this->region, $configs))
             throw new sfException(sprintf('Config %s not found in app.yml', $this->region));
-        $this->emetteur = $configs['emetteur'][$this->region];
+        $this->emetteur = $configs[$this->region];
     }
     
     public function getCoordonneesBancaire(){
         $coordonneesBancaires = new stdClass();
         switch ($this->region) {
-            case EtablissementClient::HORS_REGION:
-                $coordonneesBancaires->banque = 'Crédit Agricole IVSO';
-                $coordonneesBancaires->bic = ' ABRVFQQQ999';
-                $coordonneesBancaires->iban = ' FR76~1111~2222~3333~4444~5555~100';
+            case EtablissementClient::REGION_TOURS:
+            case EtablissementClient::REGION_ANGERS:
+                $coordonneesBancaires->banque = 'Crédit Agricole Touraine Poitou';
+                $coordonneesBancaires->bic = ' AGRIFRPP894';
+                $coordonneesBancaires->iban = ' FR76~1940~6370~1579~1722~5300~105';
+                break;
+            case EtablissementClient::REGION_NANTES:
+                $coordonneesBancaires->banque = 'Crédit Agricole Atlantique Vendée';
+                $coordonneesBancaires->bic = 'AGRIFRPP847';
+                $coordonneesBancaires->iban = 'FR76~1470~6000~1400~0000~2200~028';
                 break;
         }
         return $coordonneesBancaires;
     }
 
-    public function storeDatesCampagne($date_facturation) {
+    public function storeDatesCampagne($date_facturation = null) {
         $this->date_emission = date('Y-m-d');
         $this->date_facturation = $date_facturation;
+        $date_facturation_object = new DateTime($this->date_facturation);
+        $this->date_echeance = $date_facturation_object->modify('+30 days')->format('Y-m-d');
         if (!$this->date_facturation)
             $this->date_facturation = date('Y-m-d');
-        $this->campagne = ConfigurationClient::getInstance()->getCampagneFacturation()->getCampagneByDate($this->date_facturation);
+        $dateFacturation = explode('-', $this->date_facturation);
+        $this->campagne = $dateFacturation[0];
     }
 
-    public function constructIds($soc) {
-        if (!$soc)
-            throw new sfException('Pas de societe attribuée');
-        $this->region = $soc->getRegionViticole();
-        $this->identifiant = $soc->identifiant;
+    public function constructIds($doc) {
+        if (!$doc)
+            throw new sfException('Pas de document attribué');
+        $this->region = $doc->getRegionViticole();
+        $this->identifiant = $doc->identifiant;
         $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($this->identifiant, date('Ymd'));
         $this->_id = FactureClient::getInstance()->getId($this->identifiant, $this->numero_facture);
     }
 
     public function getNumeroInterloire() {
-        if($this->_get('numero_interloire')) {
+        if($this->_get('numero_ava')) {
 
-            return $this->_get('numero_interloire');
+            return $this->_get('numero_ava');
         }
 
-        return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . '/' . $this->getPrefixForRegion() . '-' . $this->numero_archive;
+        return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . $this->numero_archive;
     }
 
     public function getNumeroReference() {
@@ -110,7 +119,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return ($this->statut != FactureClient::STATUT_REDRESSEE && $this->statut != FactureClient::STATUT_NONREDRESSABLE);
     }
 
-    public function getEcheances() {
+    public function getEcheancesArray() {
         $e = $this->_get('echeances')->toArray();
         usort($e, 'Facture::triEcheanceDate');
         return $e;
@@ -138,29 +147,39 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return ($ligne_0->{$champ} > $ligne_1->{$champ}) ? -1 : +1;
     }
 
-    public function storeLignes($mvts, $famille) {
-        foreach ($mvts as $lignesByType) {
-            $this->storeLigne($lignesByType, $famille);
-        }
-    }
+    public function storeLignes($cotisations) {
+    	foreach ($cotisations as $key => $cotisation) {
+    		$ligne = $this->lignes->add($key);
+    		$ligne->libelle = $cotisation["libelle"];
+            $ligne->produit_identifiant_analytique = $cotisation["code_comptable"];
+            $ligne->origine_mouvements = $cotisation["origines"];
+    		$total = 0;
+    		$totalTva = 0;
+    		foreach ($cotisation["details"] as $detail) {
+    			$d = $ligne->details->add();
+    			$d->libelle = $detail["libelle"];
+                $d->quantite = $detail["quantite"];
+                $d->prix_unitaire = $detail["prix"];
+                $d->taux_tva = $detail["taux"];
+                $d->montant_tva = $detail["tva"];
+                $d->montant_ht = $detail["total"];
+                $total += $detail["total"];
+                $totalTva += $detail["tva"];
+    		}
 
-    public function storeLigne($ligneByType, $famille) {
-        $ligne = $this->lignes->add($ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE])->add();
-        $ligne->cotisation_taux = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
-        $ligne->volume = $ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME];
-        $ligne->origine_type = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
-        $ligne->origine_identifiant = $ligneByType->value[MouvementfactureFacturationView::VALUE_NUMERO];
-        $ligne->contrat_identifiant = $ligneByType->key[MouvementfactureFacturationView::KEYS_CONTRAT_ID];
-        $ligne->origine_date = $ligneByType->key[MouvementfactureFacturationView::KEYS_PERIODE];
-        $ligne->produit_type = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE];
-        $ligne->produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
-        $ligne->produit_hash = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
-        $ligne->montant_ht = round($ligne->cotisation_taux * $ligne->volume * -1, 2);
-        $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligne, $ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
-        $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
-        $ligne->origine_libelle = $this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
+    		$totalTva = round($totalTva, 2);
+    		$total = round($total, 2);
 
-        $this->verifLigneAndVolumeOrigines($ligne);
+            $ligne->updateTotaux();
+
+            if($totalTva != $ligne->montant_tva) {
+                throw new sfException("Incohérence");
+            }
+
+            if($total != $ligne->montant_ht) {
+                throw new sfException("Incohérence");
+            }
+    	}
     }
 
     protected function verifLigneAndVolumeOrigines($ligne) {
@@ -391,52 +410,60 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeOrigines() {
-        foreach ($this->getLignes() as $lignesType) {
-            foreach ($lignesType as $ligne) {
-                foreach ($ligne->origine_mouvements as $idorigine => $null) {
-                    if (!array_key_exists($idorigine, $this->origines))
-                        $this->origines->add($idorigine, $idorigine);
+        foreach ($this->getLignes() as $ligne) {
+            foreach ($ligne->origine_mouvements as $idorigine => $null) {
+                if (!array_key_exists($idorigine, $this->origines))
+                    $this->origines->add($idorigine, $idorigine);
+            }
+        }
+    }
+
+    public function storeTemplates() {
+        foreach ($this->getLignes() as $ligne) {
+            foreach ($ligne->origine_mouvements as $templates) {
+                foreach($templates as $template) {
+                    if (!array_key_exists($template, $this->templates)) {
+                        $this->templates->add($template, $template);
+                    }
                 }
             }
         }
     }
 
     public function updateTotaux() {
+        $this->lignes->updateTotaux();
         $this->updateTotalHT();
-        $this->updateTotalTTC();
         $this->updateTotalTaxe();
+        $this->updateTotalTTC();
     }
 
-    public function updateTotalHT() {
+    public function updateTotalHT() 
+    {
         $this->total_ht = 0;
-        foreach ($this->lignes as $typeLignes) {
-            foreach ($typeLignes as $ligne) {
-                $this->total_ht += $ligne->montant_ht;
-            }
+        foreach ($this->lignes as $ligne) {
+        	$this->total_ht += $ligne->montant_ht;
         }
-
-        if(round($this->total_ht, 4) == 0) {
-            $this->total_ht = 0;
-        }
+        $this->total_ht = round($this->total_ht, 2);
     }
 
-    public function updateTotalTTC() {
-        $this->total_ttc = 0;
-        if(!$this->echeances) $this->total_ttc = $this->ttc($this->total_ht);
-        foreach ($this->echeances as $echeance) {
-            $this->total_ttc += $echeance->montant_ttc;
-        }
+    public function updateTotalTTC() 
+    {
+    	$this->total_ttc = round($this->total_ht + $this->total_taxe, 2);
     }
 
-    public function updateTotalTaxe() {
-        $this->total_taxe = $this->total_ttc - $this->total_ht;
-        $this->add('taux_tva',$this->getTauxTva());
+    public function updateTotalTaxe() 
+    {
+    	$this->total_taxe = 0;
+        foreach ($this->lignes as $ligne) {
+        	$this->total_taxe += $ligne->montant_tva;
+        }
+        $this->total_taxe = round($this->total_taxe, 2);
     }
 
     public function getNbLignesMouvements() {
       $nbLigne = 0 ;
         foreach ($this->lignes as $lignesType) {
-            $nbLigne += count($lignesType) + 1;
+            $nbLigne += count($lignesType->details) + 1;
         }
         return $nbLigne;
     }
@@ -446,7 +473,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       return round($p + $p * $taux_tva, 2);
     }
     
-    public function getTauxTva() {     
+    public function getTauxTva() {  
         if($this->exist('taux_tva') && $this->_get('taux_tva')){
             return round($this->_get('taux_tva'),2);
         }
@@ -475,41 +502,75 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
     }
 
+    public function getTemplate() {
+        foreach($this->templates as $template_id) {
+
+            return TemplateFactureClient::getInstance()->find($template_id);        
+        }
+
+        return null;
+    }
+
     protected function preSave() {
         if ($this->isNew() && $this->statut != FactureClient::STATUT_REDRESSEE) {
             $this->facturerMouvements();
             $this->storeOrigines();
         }
+
         if (!$this->versement_comptable) {
             $this->versement_comptable = 0;
         }
 
+        if (!$this->versement_comptable_paiement) {
+            $this->versement_comptable_paiement = 0;
+        }
+
         $this->archivage_document->preSave();
-        $this->numero_interloire = $this->getNumeroInterloire();
+        $this->numero_ava = $this->getNumeroInterloire();
     }
 
-    public function storeDeclarant() {
+    public function storeDeclarant($doc) {
+    	$this->numero_adherent = $doc->identifiant_interne;
         $declarant = $this->declarant;
-        $declarant->nom = $this->societe->raison_sociale;
-        $declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
-        $declarant->adresse = $this->societe->getSiegeAdresses();
-        $declarant->commune = $this->societe->siege->commune;
-        $declarant->code_postal = $this->societe->siege->code_postal;
-        $declarant->raison_sociale = $this->societe->raison_sociale;
-	$this->code_comptable_client = $this->societe->code_comptable_client;
+        $declarant->nom = $doc->nom_a_afficher;
+        //$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
+        $declarant->adresse = $doc->adresse;
+        $declarant->commune = $doc->commune;
+        $declarant->code_postal = $doc->code_postal;
+        $declarant->raison_sociale = $doc->raison_sociale;
+		$this->code_comptable_client = preg_replace("/^[0]+/", "", $this->getCompte()->identifiant_interne);
+    }
+
+    public function isPayee() {
+
+        return $this->date_paiement;
+    }
+
+    public function getMontantPaiement() {
+        if(!is_null($this->_get('montant_paiement'))) {
+
+            return $this->_get('montant_paiement');
+        }
+
+        if($this->isPayee() && !$this->isAvoir()) {
+
+            return $this->_get('total_ttc');
+        }
+
+        return $this->_get('montant_paiement');
     }
 
     public function getCodeComptableClient() {
-      $code = $this->_get('code_comptable_client');
-      if (!$code) {
-	$code = $this->societe->code_comptable_client;
-	$this->_set('code_comptable_client', $code);
-      }
-      return $code;      
+      return $this->_get('code_comptable_client');      
     }
 
     public function getSociete() {
         return SocieteClient::getInstance()->find($this->identifiant);
+    }
+
+    public function getCompte() {
+
+        return CompteClient::getInstance()->findByIdentifiant($this->identifiant);
     }
 
     public function getPrefixForRegion() {
@@ -521,18 +582,25 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
     
     public function isAvoir() {
-        return (($this->exist('statut')) &&
-                ($this->statut == self::STATUT_NONREDRESSABLE) && 
-                ($this->exist("total_ht")) &&
-                ($this->total_ht < 0.0));
+        
+        return $this->total_ht < 0.0;
     }
     
-    /*     * * ARCHIVAGE ** */
+    /*** ARCHIVAGE ***/
 
     public function getNumeroArchive() {
 
         return $this->_get('numero_archive');
     }
+
+    public function isArchivageCanBeSet() {
+
+        return true;
+    }
+
+    /*** FIN ARCHIVAGE ***/
+
+    /*** VERSEMENT COMPTABLE ***/
 
     public function setVerseEnCompta() {
       return $this->_set('versement_comptable', 1);
@@ -542,10 +610,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       return $this->_set('versement_comptable', 0);
     }
 
-    public function isArchivageCanBeSet() {
-
-        return true;
-    }
+    /*** VERSEMENT COMPTABLE ***/
     
     public function addOneMessageCommunication($message_communication = null) {
         $this->add('message_communication', $message_communication);
@@ -562,5 +627,5 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return self::MESSAGE_DEFAULT;
     }
 
-    /*     * * FIN ARCHIVAGE ** */
+
 }

@@ -10,8 +10,8 @@ class FactureClient extends acCouchdbClient {
     const FACTURE_LIGNE_PRODUIT_TYPE_RAISINS = "contrat_raisins";
     const FACTURE_LIGNE_PRODUIT_TYPE_ECART = "ecart";
     
-    const STATUT_REDRESSEE = 'redressee';
-    const STATUT_NONREDRESSABLE = 'non redressable';
+    const STATUT_REDRESSEE = 'REDRESSE';
+    const STATUT_NONREDRESSABLE = 'NON_REDRESSABLE';
 
     public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12);
 
@@ -40,22 +40,60 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$idClient.'-'.$date.'99')->execute($hydrate);        
     }
 
-    public function createDoc($mvts, $societe, $date_facturation = null, $message_communication = null) {
+    public function createDoc($cotisations, $doc, $date_facturation = null, $message_communication = null, $arguments = array()) {
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
-        $facture->constructIds($societe);        
+        $facture->constructIds($doc);        
         $facture->storeEmetteur();
-        $facture->storeDeclarant();
-        $facture->storeLignes($mvts, $societe->famille);     
-        $facture->updateTotalHT();
-        $facture->updateAvoir();
+        $facture->storeDeclarant($doc);
+        $facture->storeLignes($cotisations);
         $facture->updateTotaux();
         $facture->storeOrigines();
+        $facture->storeTemplates();
+        $facture->arguments = $arguments;
         if(trim($message_communication)) {
           $facture->addOneMessageCommunication($message_communication);
         }
         return $facture;
-    }  
+    }
+
+      public function regenerate($facture_or_id) {
+
+        $facture = $facture_or_id;
+
+        if(is_string($facture)) {
+          $facture = $this->find($facture_or_id);
+        }
+
+        if($facture->isPayee()) {
+
+            throw new sfException(sprintf("La factures %s a déjà été payée", $facture->_id));
+        }
+
+        $cotisations = array();
+
+        $template = null;
+
+        foreach($facture->getTemplates() as $template_id) {
+          $template = TemplateFactureClient::getInstance()->find($template_id);
+          $cotisations = $cotisations + $template->generateCotisations($facture->identifiant, $template->campagne, true);
+        }
+
+        if(!$template) {
+
+            throw new sfException("Pas de template pour cette facture");
+        }
+
+        $f = $this->createDoc($cotisations, $facture->getCompte(), date('Y-m-d'), null, $template->arguments->toArray(true, false));
+
+        $f->_id = $facture->_id;
+        $f->_rev = $facture->_rev;
+        $f->numero_facture = $facture->numero_facture;
+        $f->numero_ava = $facture->numero_ava;
+        $f->numero_archive = $facture->numero_archive;
+
+        return $f;
+    }
     
     private $documents_origine = array();
     public function getDocumentOrigine($id) {
@@ -108,7 +146,7 @@ class FactureClient extends acCouchdbClient {
     
     public function filterWithParameters($mouvementsBySoc, $parameters) {
         if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'])){
-          $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);        
+          $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
           foreach ($mouvementsBySoc as $identifiant => $mouvements) {
               foreach ($mouvements as $key => $mouvement) {
                       $farDateMvt = $this->getGreatestDate($mouvement->value[MouvementfactureFacturationView::VALUE_DATE]);
@@ -160,6 +198,17 @@ class FactureClient extends acCouchdbClient {
       return $mouvementsBySoc;
     }
 
+    public function getComptesIdFilterWithParameters($arguments) {
+        $comptes = CompteClient::getInstance()->getComptes($arguments['requete']);
+
+        $ids = array();
+        foreach($comptes as $compte) {
+          $ids[] = $compte->_id;
+        }
+
+        return $ids;
+    }
+
     private function getGreatestDate($dates){
         if(is_string($dates)) return $dates;
         if(is_array($dates)){
@@ -182,6 +231,36 @@ class FactureClient extends acCouchdbClient {
       return $mouvementsBySoc;
     }
 
+    public function createFactureByCompte($template, $compte_or_id, $date_facturation = null) {
+        $generation = new Generation();
+        $generation->date_emission = date('Y-m-d-H:i');
+        $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
+        $generation->documents = array();
+        $generation->somme = 0;
+        $cpt = 0;
+
+        $compte = $compte_or_id;
+
+        if(is_string($compte)) {
+            $compte = CompteClient::getInstance()->find($compte_or_id);
+        }
+
+        $cotisations = $template->generateCotisations($compte, $template->campagne);
+
+        if(!count($cotisations)) {
+          return null;
+        }
+
+        $f = FactureClient::getInstance()->createDoc($cotisations, $compte, $date_facturation, null, $template->arguments->toArray(true, false));
+        $f->save();
+
+        $generation->somme += $f->total_ttc;
+        $generation->add('documents')->add($cpt, $f->_id);
+        $generation->libelle = $compte->nom_a_afficher;
+        $cpt++;
+
+        return $generation;
+    }
 
     public function createFacturesBySoc($generationFactures, $date_facturation, $message_communication = null) {
         
@@ -256,6 +335,51 @@ class FactureClient extends acCouchdbClient {
       return '';
     }
 
+    public function createAvoir(Facture $f) {
+      if (!$f->isRedressable()) {
+  return ;
+      }
+      $avoir = clone $f;
+
+      $avoir->constructIds($f->getCompte(), $f->region);
+
+      foreach($avoir->lignes as $ligne) {
+          foreach($ligne->details as $detail) {
+              $detail->quantite *= -1;
+              $detail->montant_ht *= -1;
+              $detail->montant_tva *= -1;
+          }
+
+          $ligne->montant_ht *= -1;
+          $ligne->montant_tva *= -1;
+
+          $ligne->remove('origine_mouvements');
+          $ligne->add('origine_mouvements');
+      }
+
+      $avoir->total_ht *= -1;
+      $avoir->total_taxe *= -1;
+      $avoir->total_ttc *= -1;
+
+      $avoir->remove('origines');
+      $avoir->add('origines');
+
+      $avoir->remove('templates');
+      $avoir->add('templates');
+
+      $avoir->numero_archive = null;
+      $avoir->numero_ava = null;
+      $avoir->versement_comptable = 0;
+      $avoir->versement_comptable_paiement = 1;
+      $avoir->storeDatesCampagne(date('Y-m-d'));
+      $avoir->date_paiement = null;
+      $avoir->reglement_paiement = null;
+      $avoir->remove('arguments');
+      $avoir->add('arguments');
+
+      return $avoir;
+    }
+
     public function defactureCreateAvoirAndSaveThem(Facture $f) {
       if (!$f->isRedressable()) {
 	return ;
@@ -286,6 +410,22 @@ class FactureClient extends acCouchdbClient {
       $f->defacturer();
       $f->save();
       return $avoir;
+    }
+
+    public function getFacturesByCompte($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        $ids = $this->startkey(sprintf("FACTURE-%s-%s", $identifiant, "0000000000"))
+                    ->endkey(sprintf("FACTURE-%s-%s", $identifiant, "9999999999"))
+                    ->execute(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+
+        $factures = array();            
+
+        foreach($ids as $id) {
+            $factures[$id] = FactureClient::getInstance()->find($id, $hydrate);
+        }
+
+        krsort($factures);
+
+        return $factures;
     }
     
     public function getDateCreation($id) {
