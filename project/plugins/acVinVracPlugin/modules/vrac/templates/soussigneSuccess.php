@@ -180,7 +180,7 @@ endif;
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                            	<div class="col-sm-12">
+                            	<div id="bloc_acheteur_type" class="col-sm-12 <?php if($form['acheteur_producteur']->getValue() || $form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>">
 				                    <?php echo $form['acheteur_type']->renderError(); ?>
 				                    <div class="form-group <?php if($form['acheteur_type']->hasError()): ?>has-error<?php endif; ?>">
 				                        <div class="col-sm-12 bloc_condition" data-condition-cible="#bloc_producteur|#bloc_negociant">
@@ -193,7 +193,7 @@ endif;
 	                                    <?php echo $form['acheteur_producteur']->renderError(); ?>
 	                                    <div class="form-group <?php if($form['acheteur_producteur']->hasError()): ?>has-error<?php endif; ?>">
 	                                        <div class="col-sm-12" id="acheteur_producteur_choice">
-	                                            <?php echo $form['acheteur_producteur']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_producteur_informations', 'data-hide' => '#acheteur_producteur_selection')); ?>
+	                                            <?php echo $form['acheteur_producteur']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_producteur_informations', 'data-hide' => '#acheteur_producteur_selection, #bloc_acheteur_type')); ?>
 	                                        </div> 
 	                                    </div>
 	                                </div>
@@ -211,7 +211,7 @@ endif;
 	                                    <?php echo $form['acheteur_negociant']->renderError(); ?>
 	                                    <div class="form-group <?php if($form['acheteur_negociant']->hasError()): ?>has-error<?php endif; ?>">
 	                                        <div class="col-sm-12" id="acheteur_negociant_choice">
-	                                            <?php echo $form['acheteur_negociant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_negociant_informations', 'data-hide' => '#acheteur_negociant_selection')); ?>
+	                                            <?php echo $form['acheteur_negociant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_negociant_informations', 'data-hide' => '#acheteur_negociant_selection, #bloc_acheteur_type')); ?>
 	                                        </div> 
 	                                    </div>
 	                                </div>
