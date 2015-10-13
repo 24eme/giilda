@@ -25,7 +25,7 @@ if(count($factures->getRawValue())==0) :
                 <tr>
                     <td><?php $fc = FactureClient::getInstance();
                         $d = format_date($facture->value[FactureSocieteView::VALUE_DATE_FACTURATION],'dd/MM/yyyy').' (créée le '.$fc->getDateCreation($facture->id).')';
-                        echo link_to($d, array('sf_route' => 'facture_pdf', 'identifiant' => $facture->key[FactureSocieteView::KEYS_FACTURE_ID])); ?>
+                        echo link_to($d, array('sf_route' => 'facture_pdf', 'id' => $facture->key[FactureSocieteView::KEYS_FACTURE_ID])); ?>
                     </td>
                     <td><?php foreach ($facture->value[FactureSocieteView::VALUE_ORIGINES] as $drmid => $drmlibelle) {
 
