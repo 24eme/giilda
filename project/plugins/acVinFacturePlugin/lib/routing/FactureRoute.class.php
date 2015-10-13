@@ -4,7 +4,6 @@ class FactureRoute extends sfObjectRoute {
     protected $facture = null;
 
     protected function getObjectForParameters($parameters) {
-        var_dump($parameters['id']); exit;
         $this->facture = FactureClient::getInstance()->find($parameters['id']);
         if (!$this->facture) {
 
