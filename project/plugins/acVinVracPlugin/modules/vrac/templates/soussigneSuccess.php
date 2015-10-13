@@ -99,34 +99,30 @@ endif;
                                 <div class="col-sm-12">
         							<?php if(isset($form['logement'])): ?>
                                     <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
-                		                <div class="col-sm-12">
                 		                    <?php echo $form['logement_exist']->renderError(); ?>
-                		                    <div class="checkbox bloc_condition" data-condition-cible="#bloc_logement">
+                		                    <div class="checkbox col-sm-12 bloc_condition" data-condition-cible="#bloc_logement">
                 		                        <label for="<?php echo $form['logement_exist']->renderId(); ?>">
                 		                            <?php echo $form['logement_exist']->render(); ?>
-                		                            Décocher si logement du vin différent
+                		                            Vin logé à une autre adresse
                 		                        </label>
                 		                    </div>
-                		                </div>
                 		            </div>
-                		            <div id="bloc_logement" data-condition-value="0" class="form-group bloc_conditionner <?php if($form['logement']->hasError()): ?>has-error<?php endif; ?>">
+                		            <div id="bloc_logement" data-condition-value="1" class="form-group bloc_conditionner <?php if($form['logement']->hasError()): ?>has-error<?php endif; ?>">
                 		                <?php echo $form['logement']->renderError(); ?>
                 		                <div class="col-sm-12">
                 		                    <?php echo $form['logement']->render(array("placeholder" => "Ville du logement")); ?>
                 		                </div>
-                		            </div> 
+                		            </div>
                 		            <?php endif; ?>
         							<?php if(isset($form['vendeur_intermediaire']) && isset($form['representant_identifiant'])): ?>
-                		            <div class="form-group col-sm-12">
+                		            <div class="form-group">
                 		            	<?php echo $form['vendeur_intermediaire']->renderError(); ?>
-                		                <div class="checkbox">
-                		                    <div class="checkbox bloc_condition" data-condition-cible="#bloc_intermediaire">
-                		                	<label for="<?php echo $form['vendeur_intermediaire']->renderId(); ?>">
-                		                    	<?php echo $form['vendeur_intermediaire']->render(); ?>
-                		                    	Vendeur via intermedaire
-                		                    </label>
-                		                    </div>
-                		                </div>
+            		                    <div class="checkbox col-sm-12 bloc_condition" data-condition-cible="#bloc_intermediaire">
+            		                	<label for="<?php echo $form['vendeur_intermediaire']->renderId(); ?>">
+            		                    	<?php echo $form['vendeur_intermediaire']->render(); ?>
+            		                    	Vente via intermédiaire
+            		                    </label>
+            		                    </div>
                 		            </div>
                 		            <div id="bloc_intermediaire" data-condition-value="1" class="form-group bloc_conditionner">
 		                                <div id="representant_selection" class="col-sm-12 <?php if($form['representant_identifiant']->getValue()): ?>hidden<?php endif; ?>">
@@ -180,7 +176,7 @@ endif;
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                            	<div class="col-sm-12">
+                            	<div id="bloc_acheteur_type" class="col-sm-12 <?php if($form['acheteur_producteur']->getValue() || $form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>">
 				                    <?php echo $form['acheteur_type']->renderError(); ?>
 				                    <div class="form-group <?php if($form['acheteur_type']->hasError()): ?>has-error<?php endif; ?>">
 				                        <div class="col-sm-12 bloc_condition" data-condition-cible="#bloc_producteur|#bloc_negociant">
@@ -193,7 +189,7 @@ endif;
 	                                    <?php echo $form['acheteur_producteur']->renderError(); ?>
 	                                    <div class="form-group <?php if($form['acheteur_producteur']->hasError()): ?>has-error<?php endif; ?>">
 	                                        <div class="col-sm-12" id="acheteur_producteur_choice">
-	                                            <?php echo $form['acheteur_producteur']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_producteur_informations', 'data-hide' => '#acheteur_producteur_selection')); ?>
+	                                            <?php echo $form['acheteur_producteur']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_producteur_informations', 'data-hide' => '#acheteur_producteur_selection, #bloc_acheteur_type')); ?>
 	                                        </div> 
 	                                    </div>
 	                                </div>
@@ -211,7 +207,7 @@ endif;
 	                                    <?php echo $form['acheteur_negociant']->renderError(); ?>
 	                                    <div class="form-group <?php if($form['acheteur_negociant']->hasError()): ?>has-error<?php endif; ?>">
 	                                        <div class="col-sm-12" id="acheteur_negociant_choice">
-	                                            <?php echo $form['acheteur_negociant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_negociant_informations', 'data-hide' => '#acheteur_negociant_selection')); ?>
+	                                            <?php echo $form['acheteur_negociant']->render(array('class' => 'form-control select2 select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_negociant_informations', 'data-hide' => '#acheteur_negociant_selection, #bloc_acheteur_type')); ?>
 	                                        </div> 
 	                                    </div>
 	                                </div>
@@ -235,7 +231,7 @@ endif;
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                    	<span class="bloc_condition" data-condition-cible="#bloc_mandataire"  for="<?php echo $form['mandataire_exist']->renderId(); ?>"><?php echo $form['mandataire_exist']->render(); ?>&nbsp;<label for="vrac_mandataire_exist">Mandataire / Courtier</label></span>
+                    	<span class="bloc_condition" data-condition-cible="#bloc_mandataire"  for="<?php echo $form['mandataire_exist']->renderId(); ?>"><?php echo $form['mandataire_exist']->render(); ?>&nbsp;&nbsp;<label for="vrac_mandataire_exist">Mandataire / Courtier</label></span>
                     <?php if(isset($form['responsable'])): ?>
                     <label class="responsable pull-right<?php if($vrac->getOrAdd('responsable') == 'mandataire'): ?>  text-primary<?php else: ?> text-muted<?php endif; ?>">
 						<input autocomplete="off" type="radio" name="vrac[responsable]" id="vrac_responsable_mandataire" value="mandataire" autocomplete="off"<?php if($vrac->getOrAdd('responsable') == 'mandataire'): ?> checked<?php endif; ?> /><span class="glyphicon glyphicon-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>

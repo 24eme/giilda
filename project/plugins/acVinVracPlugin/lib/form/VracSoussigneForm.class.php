@@ -97,7 +97,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             'interne' => 'Cocher si le contrat est interne',
             'mandataire_identifiant' => 'Sélectionner un courtier :',
             'mandataire_exist' => "Décocher s'il n'y a pas de courtier",
-            'logement_exist' => "Décocher si logement différent",
+            'logement_exist' => "Vin logé à une autre adresse",
             'vendeur_intermediaire' => "Vendeur via intermedaire",
             'mandatant' => 'Mandaté par : ',
             'logement' => 'Ville : ',
@@ -158,19 +158,18 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         }
         if (!$this->getObject()->isNew() && !$this->getObject()->mandataire_identifiant) {
         	$defaults['mandataire_exist'] = false;
-        } 
-        if ($this->getObject()->isNew()) {
-        	$defaults['logement_exist'] = true;
-        } 
-        if (!$this->getObject()->isNew() && !$this->getObject()->logement) {
-        	$defaults['logement_exist'] = true;
-        } 
+        }
+    	$defaults['logement_exist'] = false;
+        if ($this->getObject()->logement) {
+            $defaults['logement_exist'] = true;
+        }
         if (!$this->getObject()->isNew() && $this->getObject()->type_contrat === VracClient::TYPE_CONTRAT_PLURIANNUEL) {
         	$defaults['type_contrat'] = 1;
         } else {
         	$defaults['type_contrat'] = 0;
         }
-        if ($this->getObject()->vendeur_tva) {
+
+        if ($this->getObject()->vendeur_tva || is_null($this->getObject()->vendeur_tva)) {
         	$defaults['vendeur_tva'] = true;
         } else {
         	$defaults['vendeur_tva'] = false;
@@ -194,11 +193,8 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $values['mandatant'] = null;
             $values['mandataire_exist'] = false;
         }
-        if (isset($values['logement_exist']) && $values['logement_exist']) {
+        if (!isset($values['logement_exist']) || !$values['logement_exist']) {
             $values['logement'] = null;
-        }
-        if (!isset($values['logement']) || !$values['logement']) {
-            $values['logement_exist'] = false;
         }
         if (isset($values['commercial']) && $values['commercial'])   {
             $this->getObject()->storeInterlocuteurCommercialInformations($values['commercial'], $this->getAnnuaire()->commerciaux->get($values['commercial']));
