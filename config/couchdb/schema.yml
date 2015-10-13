@@ -29,6 +29,12 @@ Configuration:
         definition:
           fields:
             '*': {  }
+      factures:
+        required: false
+        type: collection
+        definition:
+          fields:
+            '*': {  }      
       droits:
         type: collection
         definition:
