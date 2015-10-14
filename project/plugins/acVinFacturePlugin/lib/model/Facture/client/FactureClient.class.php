@@ -298,11 +298,11 @@ class FactureClient extends acCouchdbClient {
     public function getProduitsFromTypeLignes($lignes) {
         $produits = array();
         foreach ($lignes as $ligne) {
-            if (array_key_exists($ligne->produit_hash, $produits)) {
-                $produits[$ligne->produit_hash][] = $ligne;
+            if (array_key_exists($ligne, $produits)) {
+                $produits[$ligne][] = $ligne;
             } else {
-                $produits[$ligne->produit_hash] = array();
-                $produits[$ligne->produit_hash][] = $ligne;
+                $produits[$ligne] = array();
+                $produits[$ligne][] = $ligne;
             }
         }
         return $produits;

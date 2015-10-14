@@ -40,19 +40,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->emetteur = $configs['emetteur'][$this->region];
     }
     
-    public function getCoordonneesBancaire(){
+     public function getCoordonneesBancaire(){
         $coordonneesBancaires = new stdClass();
         switch ($this->region) {
-            case EtablissementClient::REGION_TOURS:
-            case EtablissementClient::REGION_ANGERS:
-                $coordonneesBancaires->banque = 'Crédit Agricole Touraine Poitou';
-                $coordonneesBancaires->bic = ' AGRIFRPP894';
-                $coordonneesBancaires->iban = ' FR76~1940~6370~1579~1722~5300~105';
-                break;
-            case EtablissementClient::REGION_NANTES:
-                $coordonneesBancaires->banque = 'Crédit Agricole Atlantique Vendée';
-                $coordonneesBancaires->bic = 'AGRIFRPP847';
-                $coordonneesBancaires->iban = 'FR76~1470~6000~1400~0000~2200~028';
+            case EtablissementClient::HORS_REGION:
+                $coordonneesBancaires->banque = 'Crédit Agricole IVSO';
+                $coordonneesBancaires->bic = ' ABRVFQQQ999';
+                $coordonneesBancaires->iban = ' FR76~1111~2222~3333~4444~5555~100';
                 break;
         }
         return $coordonneesBancaires;
