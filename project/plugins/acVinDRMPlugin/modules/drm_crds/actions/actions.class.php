@@ -40,7 +40,6 @@ class drm_crdsActions extends drmGeneriqueActions {
             } 
             $regimes = $this->form->getRegimeCrds();
             $this->regime = $regimes[0];
-            
         }
     }
 

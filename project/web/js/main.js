@@ -79,6 +79,19 @@
                     }, "json");
             return false;
         });
+
+        $(this).find('.modal-autoshow').modal({
+            'show': true
+        });
+
+        $(this).find('.link-submit').on('click', function() {
+            var form = $($(this).attr('data-form'));
+            form.attr('action', $(this).attr('href'));
+            form.submit();
+            
+            return false;
+        });
+
         $(this).find('.dynamic-element-add').on('click', function () {
             var content = $($($(this).attr('data-template')).html().replace(/var---nbItem---/g, UUID.generate()));
             $($(this).attr('data-container')).append(content);

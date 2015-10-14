@@ -4,7 +4,7 @@
     <div class="col-xs-6">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a href="<?php echo url_for('drm_choix_produit', array('sf_subject' => $drm, 'add_produit' => $certificationProduits->certification_keys)) ?>" value="" class="btn btn-link btn-xs submit_button pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un produit</a>
+            <a data-form="#form_choix_produits" href="<?php echo url_for('drm_choix_produit', array('sf_subject' => $drm, 'add_produit' => $certificationProduits->certification_keys)) ?>" value="" class="btn btn-link btn-xs link-submit pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un produit</a>
             <h3 class="panel-title text-center"><?php echo $certificationProduits->certification_libelle; ?></h3>
         </div>
     <?php if (count($certificationProduits->produits)): ?>

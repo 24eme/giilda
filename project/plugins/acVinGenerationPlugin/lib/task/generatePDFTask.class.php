@@ -1,6 +1,6 @@
 <?php
 
-class generatePDFTask extends sfBaseTask
+class GenerationGenerateTask extends sfBaseTask
 {
   protected function configure()
   {
@@ -9,7 +9,7 @@ class generatePDFTask extends sfBaseTask
     ));
 
     $this->addOptions(array(
-			    new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
+			    new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
 			    new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
 			    new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
 			    new sfCommandOption('generation', null, sfCommandOption::PARAMETER_REQUIRED, 'The generation id'),
@@ -18,14 +18,14 @@ class generatePDFTask extends sfBaseTask
       // add your own options here
     ));
 
-    $this->namespace        = 'generate';
-    $this->name             = 'PDF';
+    $this->namespace        = 'generation';
+    $this->name             = 'generate';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
-The [generatePDF|INFO] task does things.
+The [GenerationGenerate|INFO] task does things.
 Call it with:
 
-  [php symfony generatePDF|INFO]
+  [php symfony GenerationGenerate|INFO]
 EOF;
   }
   
@@ -46,35 +46,19 @@ EOF;
     foreach ($generationids as $gid) { 
       echo "Generation de $gid\n";
       try {
-	$generation = GenerationClient::getInstance()->find($gid);
-	if (!$generation) {
-	  throw new sfException("$gid n'est pas un document valide");
-	}
-	$g = null;
-	switch ($generation->type_document) {
-	case GenerationClient::TYPE_DOCUMENT_FACTURES:
-	  $g = new GenerationFacturePDF($generation, $this->configuration, $options);
-	  break;
-	  
-	case GenerationClient::TYPE_DOCUMENT_DS:
-	  $g = new GenerationDSPDF($generation, $this->configuration, $options);
-	  break;
-      
-        case GenerationClient::TYPE_DOCUMENT_RELANCE:
-	  $g = new GenerationRelancePDF($generation, $this->configuration, $options);
-	  break;
-
-	default:
-	  throw new sfException($generation->type_document." n'est pas un type supporté");
-	}
-	echo $g->generatePDF()."\n";
-      }catch(Exception $e) {
-	if ($options['debug']) {
-	  throw $e;
-	}
-	$generation->statut = GenerationClient::GENERATION_STATUT_ENERREUR;
-	$generation->message = $e->getMessage();
-	$generation->save();
+        	$generation = GenerationClient::getInstance()->find($gid);
+        	if (!$generation) {
+        	  throw new sfException("$gid n'est pas un document valide");
+        	}
+        	$g = GenerationClient::getInstance()->getGenerator($generation, $this->configuration, $options);
+        	echo $g->generate()."\n";
+      } catch(Exception $e) {
+	        if ($options['debug']) {
+	            throw $e;
+	        }
+        	$generation->statut = GenerationClient::GENERATION_STATUT_ENERREUR;
+        	$generation->message = $e->getMessage();
+        	$generation->save();
       }
     }
   }

@@ -9,9 +9,10 @@ Generation:
       date_emission: {}
       date_maj: {}
       nb_documents: {}
-      type_document: {}      
+      type_document: {}
       somme: {}
       statut: {}
+      libelle: {}
       pregeneration_needed: {required: false}
       message: {required: false;}
       fichiers:
@@ -25,6 +26,12 @@ Generation:
           fields:
             '*': { }
       documents:
+        type: array_collection
+        definition:
+          fields:
+            '*': { }
+      documents_regenerate:
+        required: false
         type: array_collection
         definition:
           fields:

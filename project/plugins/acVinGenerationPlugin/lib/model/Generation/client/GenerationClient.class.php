@@ -5,6 +5,8 @@ class GenerationClient extends acCouchdbClient {
     const TYPE_DOCUMENT_FACTURES = 'FACTURE';
     const TYPE_DOCUMENT_DS = 'DS';
     const TYPE_DOCUMENT_RELANCE = 'RELANCE';
+    const TYPE_DOCUMENT_EXPORT_CSV = 'EXPORT';
+    const TYPE_DOCUMENT_EXPORT_SAGE = 'SAGE';
     const HISTORY_KEYS_TYPE_DOCUMENT = 0;
     const HISTORY_KEYS_TYPE_DATE_EMISSION = 1;
     const HISTORY_KEYS_DOCUMENT_ID = 1;
@@ -13,6 +15,7 @@ class GenerationClient extends acCouchdbClient {
     const HISTORY_VALUES_DOCUMENTS = 1;
     const HISTORY_VALUES_SOMME = 2;
     const HISTORY_VALUES_STATUT = 3;
+    const HISTORY_VALUES_LIBELLE = 4;
     const GENERATION_STATUT_ENATTENTE = "EN ATTENTE";
     const GENERATION_STATUT_ENCOURS = "EN COURS";
     const GENERATION_STATUT_GENERE = "GENERE";
@@ -85,6 +88,44 @@ class GenerationClient extends acCouchdbClient {
 
     public function getAllStatus() {
         return array(self::GENERATION_STATUT_ENCOURS, self::GENERATION_STATUT_GENERE);
+    }
+
+    public function getClassForGeneration($generation) {
+        switch ($generation->type_document) {
+            case GenerationClient::TYPE_DOCUMENT_FACTURES:
+
+                return 'GenerationFacturePDF';
+
+            case GenerationClient::TYPE_DOCUMENT_DS:
+
+                return 'GenerationDSPDF';
+
+            case GenerationClient::TYPE_DOCUMENT_RELANCE:
+
+                return 'GenerationRelancePDF';
+
+            case GenerationClient::TYPE_DOCUMENT_EXPORT_CSV:
+
+                return 'GenerationExportCSV';
+
+            case GenerationClient::TYPE_DOCUMENT_EXPORT_SAGE:
+
+                return 'GenerationExportSage';
+        }
+      
+        throw new sfException($generation->type_document." n'est pas un type supporté");
+    }
+
+    public function getGenerator($generation, $configuration, $options) {
+        $class = $this->getClassForGeneration($generation);
+
+        return new $class($generation, $configuration, $options);
+    }
+
+    public function isRegenerable($generation) {
+        $class = $this->getClassForGeneration($generation);
+
+        return $class::isRegenerable();
     }
 
 }
