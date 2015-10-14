@@ -17,7 +17,34 @@ p#date_drm
     margin: 20px 0;
 }
 
-#msg_aide_drm { float: right; }
+
+.tooltip
+{
+    background: #3e3e3e;
+    border-radius: 4px;
+    display: inline-block !important;
+    color: #FFF;
+    padding: 3px 8px;
+    position: absolute;
+    white-space: nowrap;
+    z-index: 20;
+    margin-left: 10px;
+    text-transform: none !important;
+    font-size: 13px;
+    font-weight: bold ;
+}
+
+.fancybox-wrap .tooltip
+{
+    position: fixed !important;   
+    background-color: black;
+    color: white;
+
+}
+
+.msg_aide_drm:hover{
+    text-decoration: none;
+}
 
 #masque_col_active
 {
@@ -459,7 +486,7 @@ p#date_drm
 }
 
 div.fancybox-wrap .popup_creation_drm{
-    width: 400px;
+    width: 500px;
     ul.radio_list li {
         width: 220px;
     }
@@ -1263,18 +1290,8 @@ div.fancybox-wrap .popup_creation_drm{
             padding-right: 5px !important;
         }
 
-        a.msg_aide
-        {
-            float:none;
-            padding:0 5px;
-        }
 
-        a.msg_aide:hover
-            {
-            .opacite(1);
-            background: url(../images/pictos/pi_help.png) 0 0 no-repeat;
-        }
-    }
+          }
 
     .contenu_onglet_declaratif
     {
@@ -1392,7 +1409,7 @@ div.fancybox-wrap .popup_creation_drm{
 
     td {
         padding: 10px;
-	text-align: center;
+        text-align: center;
     }
     .export_detail_date_enlevement,
     .cooperative_detail_date_enlevement,
@@ -1618,25 +1635,6 @@ div.fancybox-wrap .popup_creation_drm{
     }
 
     #colonne_intitules{
-        .msg_aide
-        {
-            background: url(../images/pictos/pi_help.png) 25px 8px no-repeat #fff;
-            font-size:12px;
-            padding: 5px 5px 5px 35px;
-            height:30px;
-        }
-
-        .tooltip
-        {
-            background: #3e3e3e;
-            border-radius: 4px;
-            display: inline-block !important;
-            color: #FFF;
-            padding: 3px 8px;
-            position: absolute;
-            white-space: nowrap;
-            z-index: 20;
-        }
 
         .li_gris{
             padding-top:5px;
@@ -1682,7 +1680,7 @@ div.fancybox-wrap .popup_creation_drm{
 }
 
 
-#principal.drm{
+#principal.drm{        
     table{
         .drm_crds_list{
             input {
@@ -1775,7 +1773,9 @@ div.fancybox-wrap .popup_creation_drm{
                 .bloc_form,
                 table { margin-top: 15px; }
 
+
                 &#calendrier_drm, &#stock_drm, &#mouvement_drm{
+
                     .bloc_form{
                         .ligne_compose
                         {
@@ -2083,7 +2083,6 @@ div.fancybox-wrap .popup_creation_drm{
 
     #drm_validation_coordonnees {
         margin: 20px -10px 0;
-        overflow: hidden;
 
         .drm_validation_societe , .drm_validation_etablissement{
             float: left;

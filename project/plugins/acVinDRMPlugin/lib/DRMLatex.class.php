@@ -37,15 +37,13 @@ class DRMLatex extends GenericLatex {
             $nbPages+= (int) ($nb_produits / DRMLatex::NB_PRODUITS_PER_PAGE) + 1;
         }
         $cpt_crds_annexes = $this->drm->nbTotalCrdsTypes();
-        if ($this->drm->exist('documents_annexes')) {
-            $cpt_crds_annexes+=count($this->drm->documents_annexes);
+        if(count($cpt_crds_annexes)){
+           $nbPages++ ;
         }
-        if ($this->drm->exist('releve_non_apurement')) {
-            $cpt_crds_annexes+= count($this->drm->releve_non_apurement);
-        }
-        if ($cpt_crds_annexes) {
+        if($this->drm->exist('releve_non_apurement') && count($this->drm->releve_non_apurement) && (count($this->drm->releve_non_apurement) >= 4)){
             $nbPages++;
         }
+        $nbPages++;
         return $nbPages;
     }
 

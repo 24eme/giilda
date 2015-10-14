@@ -52,6 +52,7 @@
                         {
                             input.initDetailsPopup(colonne);
                             $('.fancybox-outer').before($('.fancybox-title'));
+                            initMsgAide();
                         },
                         onClose: function ()
                         {
@@ -501,7 +502,7 @@
             var lignes = $('.drm_details_tableBody tr');
 
             if (lignes.length <= 1) {
-                $('.drm_details_addTemplate').trigger('click');
+                $('.drm_details_addTemplate').trigger('click');               
             }
             $.fancybox.update();
             $.majSommeLabelBind();

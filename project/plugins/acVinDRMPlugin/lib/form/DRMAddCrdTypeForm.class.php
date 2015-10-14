@@ -50,7 +50,9 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
         parent::doUpdateObject($values);
         foreach ($this->regimeCrds as $regime) {
             $couleur = $values['couleur_crd_' . $regime];
-            $litrage = $values['litrage_crd_' . $regime] * 100000;
+            $litrage_libelle = $values['litrage_crd_' . $regime];
+            $contenances = sfConfig::get('app_vrac_contenances');            
+            $litrage = $contenances[$litrage_libelle] * 100000;
             $genre = $values['genre_crd_' . $regime];
             $stock_debut = $values['stock_debut_' . $regime];
             if ($genre && $couleur && $litrage) {
@@ -85,7 +87,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
                 throw new sfException("Les contenances n'ont pas été renseignée dans le fichier de configuration app.yml");
             $this->typesLitrages = array("" => "");
             foreach ($contenances as $key => $value) {
-                $this->typesLitrages['' . $value] = $key;
+                $this->typesLitrages[$key] = $key;
             }
         }
         return $this->typesLitrages;

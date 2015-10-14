@@ -255,6 +255,7 @@ DRM:
                                                                                                                   achatnoncrd: { type: float, required: false } #NOUVEAU
                                                                                                                   achatcrd: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
+                                                                                                                  transferts: { type: float, required: false } #NOUVEAU
                                                                                                                   declassement: { type: float, required: false } #NOUVEAU
                                                                                                                   retourmarchandisenontaxees: { type: float, required: false } #NOUVEAU
                                                                                                                   retourmarchandisetaxees: { type: float, required: false } #NOUVEAU
@@ -269,12 +270,15 @@ DRM:
                                                                                                                   elaboration: { type: float, required: false }
                                                                                                                   repli: { type: float, required: false }
                                                                                                                   regularisation: { type: float, required: false }
+                                                                                                                  manipulation: { type: float, required: false } #NOUVEAU
+                                                                                                                  excedents: { type: float, required: false } #NOUVEAU
                                                                                                                   fermagemetayage: { type: float, required: false }
                                                                                                             sorties:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
+                                                                                                                  vracsanscontrat: { type: float, required: false } #NOUVEAU
                                                                                                                   vracsanscontratsuspendu: { type: float, required: false } #NOUVEAU
                                                                                                                   vracsanscontratacquitte: { type: float, required: false } #NOUVEAU
                                                                                                                   ventefrancebouteillecrd: { type: float, required: false } #NOUVEAU
@@ -282,6 +286,8 @@ DRM:
                                                                                                                   vrac: { type: float, required: false } #ANCIEN et NOUVEAU
                                                                                                                   consommationfamilialedegustation: { type: float, required: false } #NOUVEAU
                                                                                                                   distillationusageindustriel: { type: float, required: false } #NOUVEAU
+                                                                                                                  usageindustriel: { type: float, required: false } #NOUVEAU
+                                                                                                                  distillation: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
                                                                                                                   vci: { type: float, required: false } #NOUVEAU
                                                                                                                   travailafacon: { type: float, required: false } #NOUVEAU

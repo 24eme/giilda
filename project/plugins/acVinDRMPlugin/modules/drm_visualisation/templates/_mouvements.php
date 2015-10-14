@@ -1,5 +1,5 @@
 <?php 
-
+use_helper('DRM');
 use_helper('Float');
 use_helper('Date'); 
 use_helper('Mouvement');
@@ -26,12 +26,12 @@ if(!isset($isTeledeclarationMode)) {
                 <?php endif; ?>
                 <th style="width: 225px;">Produits</th>
                 <th>Type</th>
-                <th>Volume</th>
+                <th>Volume&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_validation_aide5'); ?>"></a></th>
             </tr>
         </thead>
         <tbody>
             <?php $i = 1; ?>
-    <?php 
+    <?php
     foreach ($mouvements as $mouvement): 
         $i++; ?>
                 <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php echo ($i % 2 != 0)? "alt" : "";?> <?php

@@ -116,5 +116,20 @@ all:
         nom: 'Prenom Nom'
         telephone: '00 00 00 00 00'
         email: 'mail@mail.fr'
+    contact_drm:
+      TOURS:
+        nom: 'Prenom Nom'
+        telephone: '00 00 00 00 00'
+        email: 'mail@mail.fr'
+      ANGERS:
+        nom: 'Prenom Nom'
+        telephone: '00 00 00 00 00'
+        email: 'mail@mail.fr'
+      NANTES:
+        nom: 'Prenom Nom'
+        telephone: '00 00 00 00 00'
+        email: 'mail@mail.fr'
+    adresse_interloire: "adresse_interloire"
+    url: "interloire_domainname"
   pdf:
     reader_link: "http://lien.fr"

@@ -81,7 +81,7 @@ class drm_editionActions extends drmGeneriqueActions {
                                 'active' => false,
                                 'favoris' => $this->drm->getAllFavoris(),
                                 'isTeledeclarationMode' => $this->isTeledeclarationMode)),
-                            "produit" => array("old_hash" => $detail->getCepage()->getHash(), "hash" => $detail->getHash(), "libelle" => sprintf("%s (%s)", $detail->getLibelle("%g% %a% %m% %l% %co% %ce%"), $detail->getCepage()->getConfig()->getCodeProduit())),
+                            "produit" => array("old_hash" => $detail->getCepage()->getHash(), "hash" => $detail->getHash(), "libelle" => sprintf("%s (%s)", $detail->getLibelle("%format_libelle%"), $detail->getCepage()->getConfig()->getCodeProduit())),
                             "document" => array("id" => $this->drm->get('_id'),
                                 "revision" => $this->drm->get('_rev'))
                 )));

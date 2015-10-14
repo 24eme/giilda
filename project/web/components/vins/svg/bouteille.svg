@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   viewBox="0 0 100 125"
+   width="100%"
+   height="100%"
+   id="svg3114"
+   version="1.1"
+   sodipodi:docname="bouteille.svg">
+  <defs
+     id="defs3116" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0" />
+  <metadata
+     id="metadata3119">
+  </metadata>
+  <g
+     id="layer1"
+     transform="translate(-0.03995158,1.2985379)">
+    <g
+       transform="matrix(1.1842867,0,0,1.1077257,-604.04314,-438.51495)"
+       id="g51" />
+    <g
+       transform="matrix(-1.1842867,0,0,1.1077257,705.4422,-438.53727)"
+       id="g51-7" />
+    <g
+       id="g3087">
+      <path
+         d="m 45.283595,-1.29854 h 9.512714 V 16.825889 H 45.283595 V -1.29854 z"
+         id="path67" />
+      <path
+         id="path65"
+         transform="translate(0.03995158,-1.2985379)"
+         d="M 45.1875 20.1875 C 40.670765 25.543926 30.522131 32.611984 31.03125 40.21875 C 31.04347 68.479607 31.0625 125 31.0625 125 L 61.71875 125 L 61.71875 82.09375 L 63.28125 82.09375 L 63.28125 125 L 68.9375 125 L 68.96875 40.28125 C 69.5417 32.754955 60.749613 26.16665 54.6875 20.1875 L 45.1875 20.1875 z M 61.75 44.1875 L 63.1875 44.1875 L 63.1875 53.8125 L 61.75 53.8125 L 61.75 44.1875 z M 35.71875 59.59375 L 64.28125 59.59375 L 64.28125 77.5625 L 35.71875 77.5625 L 35.71875 59.59375 z " />
+    </g>
+  </g>
+</svg>

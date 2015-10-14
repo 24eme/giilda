@@ -10,48 +10,49 @@
  * @author mathurin
  */
 class FactureLigne extends BaseFactureLigne {
-    
-   public function getMouvements() {
-     $mouvements = array();        
-     foreach ($this->origine_mouvements as $idDoc => $mouvsKeys) {
-       foreach ($mouvsKeys as $mouvKey) {
-	 $mouvements[] = Factureclient::getInstance()->getDocumentOrigine($idDoc)->findMouvement($mouvKey, $this->getDocument()->identifiant);
-       }
-     }
-     return $mouvements;
-   }
-   
-    public function facturerMouvements() {       
+
+    public function getMouvements() {
+        $mouvements = array();
+        foreach ($this->origine_mouvements as $idDoc => $mouvsKeys) {
+            foreach ($mouvsKeys as $mouvKey) {
+                $mouvements[] = Factureclient::getInstance()->getDocumentOrigine($idDoc)->findMouvement($mouvKey, $this->getDocument()->identifiant);
+            }
+        }
+        return $mouvements;
+    }
+
+    public function facturerMouvements() {
         foreach ($this->getMouvements() as $mouv) {
             $mouv->facturer();
         }
     }
-   
+
     public function setProduitHash($ph) {
-      $ret = $this->_set('produit_hash', $ph);
-      //Remove identifiant_analytique from cache and set the new one
-      $this->_set('produit_identifiant_analytique', null);
-      $this->getProduitIdentifiantAnalytique();
-      return $ret;
+        $ret = $this->_set('produit_hash', $ph);
+        //Remove identifiant_analytique from cache and set the new one
+        $this->_set('produit_identifiant_analytique', null);
+        $this->getProduitIdentifiantAnalytique();
+        return $ret;
     }
-    
 
     public function getProduitIdentifiantAnalytique() {
-      $id = $this->_get('produit_identifiant_analytique');
-      if ($id) {
-	return $id;
-      }
-      $code = $this->getConfProduit()->getCodeComptable();
-      $this->_set('produit_identifiant_analytique', $code);
-      return $code;
+        $id = $this->_get('produit_identifiant_analytique');
+        if ($id) {
+            return $id;
+        }
+        $code = $this->getConfProduit()->getCodeComptable();
+        $this->_set('produit_identifiant_analytique', $code);
+        return $code;
     }
 
     public function getDate() {
         $date = preg_replace("/^([0-9]{4})([0-9]{2})$/", '\1-\2-01', $this->origine_date);
 
-        if(!preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}/", $date)) {
-
-            throw new sfException(sprintf("La date d'origine du document n'est pas au bon format %s", $date));
+        if (!preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}/", $date)) {
+            $date = preg_replace("/^([0-9]{4})-([0-9]{4})$/", '\1-08-01', $this->origine_date);
+            if (!preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}/", $date)) {
+                throw new sfException(sprintf("La date d'origine du document n'est pas au bon format %s", $date));
+            }
         }
 
         return $date;
@@ -64,13 +65,13 @@ class FactureLigne extends BaseFactureLigne {
 
     public function getConfProduit() {
 
-      return $this->getConf()->get($this->produit_hash);
+        return $this->getConf()->get($this->produit_hash);
     }
 
     public function defacturerMouvements() {
         foreach ($this->getMouvements() as $mouv) {
-               $mouv->defacturer();
+            $mouv->defacturer();
         }
     }
-    
+
 }
