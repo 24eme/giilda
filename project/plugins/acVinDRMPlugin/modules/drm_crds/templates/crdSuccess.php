@@ -74,7 +74,6 @@
                 </div>
             </form>
             <?php if(isset($addCrdForm) && isset($addCrdRegime)): ?>
-                <a class="btn_majeur ajout_crds_popup " style="display: none;" href="#add_crds_<?php echo $addCrdRegime ?>">Ajouter CRD</a>
                 <?php include_partial('ajout_crds_popups', array('form' => $addCrdForm, 'regime' => $addCrdRegime)); ?>
             <?php endif; ?>
         </div>

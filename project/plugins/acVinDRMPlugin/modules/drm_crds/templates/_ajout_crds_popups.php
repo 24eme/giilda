@@ -1,42 +1,48 @@
-<div style="display: none;">
-    <div id="add_crds_<?php echo $regime; ?>" class="add_crds_popup_content">
-        <form action="<?php echo url_for('drm_ajout_crd', $form->getObject()); ?>" method="post">
-            <?php echo $form->renderHiddenFields(); ?>
-            <?php echo $form->renderGlobalErrors(); ?>
-            <h2>Choisir un type de CRD</h2>
-            <div class="ligne_form">       
-                <span>
-                    <?php echo $form['couleur_crd_'.$regime]->renderError(); ?>
-                    <?php echo $form['couleur_crd_'.$regime]->renderLabel() ?>    
-                    <?php echo $form['couleur_crd_'.$regime]->render(array('class' => 'couleur_crd_choice')); ?>
-                </span>
+<div class="modal modal-autoshow">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">Ajouter un type de CRD</h4>
             </div>
-            <div class="ligne_form">       
-                <span>
-                    <?php echo $form['litrage_crd_'.$regime]->renderError(); ?>
-                    <?php echo $form['litrage_crd_'.$regime]->renderLabel() ?>    
-                    <?php echo $form['litrage_crd_'.$regime]->render(); ?>
-                </span>
+            <form class="form-horizontal" action="<?php echo url_for('drm_ajout_crd', $form->getObject()); ?>" method="post">
+            <div class="modal-body">
+                <?php echo $form->renderHiddenFields(); ?>
+                <?php echo $form->renderGlobalErrors(); ?>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <?php echo $form['couleur_crd_'.$regime]->renderError(); ?>
+                        <?php echo $form['couleur_crd_'.$regime]->renderLabel() ?>    
+                        <?php echo $form['couleur_crd_'.$regime]->render(array('class' => 'couleur_crd_choice')); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <?php echo $form['litrage_crd_'.$regime]->renderError(); ?>
+                        <?php echo $form['litrage_crd_'.$regime]->renderLabel() ?>    
+                        <?php echo $form['litrage_crd_'.$regime]->render(); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <?php echo $form['stock_debut_'.$regime]->renderError(); ?>
+                        <?php echo $form['stock_debut_'.$regime]->renderLabel() ?>    
+                        <?php echo $form['stock_debut_'.$regime]->render(); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <?php echo $form['genre_crd_'.$regime]->renderError(); ?>
+                        <?php echo $form['genre_crd_'.$regime]->renderLabel() ?>    
+                        <?php echo $form['genre_crd_'.$regime]->render(); ?>
+                    </div>
+                </div>
             </div>
-            <div class="ligne_form">       
-                <span>
-                    <?php echo $form['stock_debut_'.$regime]->renderError(); ?>
-                    <?php echo $form['stock_debut_'.$regime]->renderLabel() ?>    
-                    <?php echo $form['stock_debut_'.$regime]->render(); ?>
-                </span>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Abandonner</button>
+                <button type="submit" class="btn btn-success">Ajouter une ligne CRD</button>
             </div>
-            <div class="ligne_form">       
-                <span>
-                    <?php echo $form['genre_crd_'.$regime]->renderError(); ?>
-                    <?php echo $form['genre_crd_'.$regime]->renderLabel() ?>    
-                    <?php echo $form['genre_crd_'.$regime]->render(); ?>
-                </span>
-            </div>
-            <br/>
-            <div class="ligne_btn">
-                <a id="popup_close" class="btn_rouge btn_majeur annuler popup_close" style="float: left;" href="#" >Annuler</a>           
-                <button id="popup_confirm" type="submit" class="btn_validation"style="float: right;" ><span>Ajouter une ligne CRD</span></button>  
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
