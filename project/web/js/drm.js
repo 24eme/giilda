@@ -36,6 +36,14 @@
                 $('#list-produits a[data-hash="'+colonne.getHash()+'"]').addClass('list-group-item-success');
             }
 
+            colonnes.event_focus = function(colonne) {
+                $('#list-produits a[data-hash="'+colonne.getHash()+'"]').addClass('active');
+            }
+
+            colonnes.event_unfocus = function(colonne) {
+                $('#list-produits a').removeClass('active');
+            }
+
             $.initProduitForm();
             //$.initDetailsPopups();
 
