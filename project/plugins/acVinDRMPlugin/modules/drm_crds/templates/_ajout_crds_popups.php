@@ -7,34 +7,38 @@
             </div>
             <form class="form-horizontal" action="<?php echo url_for('drm_ajout_crd', $form->getObject()); ?>" method="post">
             <div class="modal-body">
-                <?php echo $form->renderHiddenFields(); ?>
-                <?php echo $form->renderGlobalErrors(); ?>
-                <div class="form-group">
-                    <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12">               
+                        <?php echo $form->renderHiddenFields(); ?>
+                        <?php echo $form->renderGlobalErrors(); ?>
                         <?php echo $form['couleur_crd_'.$regime]->renderError(); ?>
-                        <?php echo $form['couleur_crd_'.$regime]->renderLabel() ?>    
-                        <?php echo $form['couleur_crd_'.$regime]->render(array('class' => 'couleur_crd_choice')); ?>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <?php echo $form['couleur_crd_'.$regime]->renderLabel(null, array('class' => 'col-sm-4 control-label')) ?>    
+                            <div class="col-sm-8">
+                                <?php echo $form['couleur_crd_'.$regime]->render(); ?>
+                            </div>
+                        </div>
                         <?php echo $form['litrage_crd_'.$regime]->renderError(); ?>
-                        <?php echo $form['litrage_crd_'.$regime]->renderLabel() ?>    
-                        <?php echo $form['litrage_crd_'.$regime]->render(); ?>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <?php echo $form['litrage_crd_'.$regime]->renderLabel(null, array('class' => 'col-sm-4 control-label')) ?>
+                            <div class="col-sm-8">
+                                <?php echo $form['litrage_crd_'.$regime]->render(); ?>
+                            </div>
+                        </div>
                         <?php echo $form['stock_debut_'.$regime]->renderError(); ?>
-                        <?php echo $form['stock_debut_'.$regime]->renderLabel() ?>    
-                        <?php echo $form['stock_debut_'.$regime]->render(); ?>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <?php echo $form['stock_debut_'.$regime]->renderLabel(null, array('class' => 'col-sm-4 control-label')) ?>
+                            <div class="col-sm-4">
+                            <?php echo $form['stock_debut_'.$regime]->render(array('class' => 'form-control text-right')); ?>
+                            </div>
+                        </div>
                         <?php echo $form['genre_crd_'.$regime]->renderError(); ?>
-                        <?php echo $form['genre_crd_'.$regime]->renderLabel() ?>    
-                        <?php echo $form['genre_crd_'.$regime]->render(); ?>
+                        <div class="form-group">
+                                <?php echo $form['genre_crd_'.$regime]->renderLabel(null, array('class' => 'col-sm-4 control-label')) ?>    
+                            <div class="col-sm-8">
+                                <?php echo $form['genre_crd_'.$regime]->render(); ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
