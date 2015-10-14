@@ -5,4 +5,3 @@
    <input type="submit" value="Oui" name="delete"/><input type="submit" value="Non"/>
    </form>
 </section>
- 
