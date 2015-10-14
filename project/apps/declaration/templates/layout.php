@@ -41,6 +41,7 @@
     <script src="/components/select2/select2.min.js"></script>
     <script src="/components/moment/moment-with-locales.min.js"></script>
     <script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/js/plugins/jquery.plugins.min.js"></script>
     <script src="/js/lib/jquery-ui-1.8.21.min.js"></script>
     <script src="/js/ajaxHelper.js"></script>
     <script src="/js/form.js"></script>

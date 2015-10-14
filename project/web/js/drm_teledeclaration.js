@@ -1,27 +1,4 @@
 
-var initAjoutProduitPopup = function () {
-    $('.choix_produit_add_produit .submit_button').click(function () {
-        $('.drm #form_choix_produits').attr('action', $(this).attr('href'));
-        $('.drm #form_choix_produits').submit();
-        return false;
-    });
-
-    /*$('a.ajout_produit_popup').fancybox({
-        autoSize: true,
-        autoCenter: true,
-        height: 'auto',
-        width: 'auto',
-        titleShow: false,
-        'afterShow': $.initProtectForms
-    });*/
-    $('a.ajout_produit_popup').click();
-    $('.add_produit_popup_certification_content a.popup_close').click(function () {
-        //$.fancybox.close();
-
-        return false;
-    });
-
-};
 
 var initSignatureDrmPopup = function () {
 
@@ -196,7 +173,7 @@ var initFavoris = function () {
     });
 }
 
-var initValidationDrmStockMvt = function () {
+/*var initValidationDrmStockMvt = function () {
     $('fieldset#validation_drm_mvts_stocks li.onglet').click(function () {
 
         var id = $(this).attr('id').replace('_onglet', '');
@@ -216,7 +193,7 @@ var initValidationDrmStockMvt = function () {
             }
         });
     });
-}
+}*/
 
 
 var callbackAddTemplate = function (bloc)
@@ -320,12 +297,9 @@ $(document).ready(function ()
 {
     initCreationDrmPopup();
     initDeleteDrmPopup();
-    initAjoutProduitPopup();
-    initAjoutCrdsPopup();
     initRegimeCrdsPopup();
     initCrds();
     initFavoris();
-    initValidationDrmStockMvt();
     initNonApurement();
     initUpdateEtablissementValidation();
     initSignatureDrmPopup();
