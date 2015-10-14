@@ -35,7 +35,6 @@
     <div id="ajax-modal" class="modal"></div>
 
     <?php include_partial('global/footer'); ?>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/components/jquery/jquery.js"></script>
     <script src="/components/bootstrap/bootstrap.js"></script>
     <script src="/components/select2/select2.min.js"></script>
