@@ -32,6 +32,10 @@
             colonnes = new $.Colonnes();
             colonnes.init();
 
+            colonnes.event_valider = function(colonne) {
+                $('#list-produits a[data-hash="'+colonne.getHash()+'"]').addClass('list-group-item-success');
+            }
+
             $.initProduitForm();
             //$.initDetailsPopups();
 

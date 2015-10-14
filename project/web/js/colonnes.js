@@ -404,7 +404,7 @@
                 object.groupes.valider();
                 object.unActive();
 
-                object.colonnes.event_valider();
+                object.colonnes.event_valider(object);
             }, 'json');
         }
 
