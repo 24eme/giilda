@@ -18,11 +18,11 @@ class factureActions extends sfActions {
         $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
 
         if (!$this->facture) {
-
+            
             return $this->forward404(sprintf("La facture %s n'existe pas", $request->getParameter('id')));
         }
-
-        $this->form = new FactureEditionForm($this->facture);
+        $configAppFacture = sfConfig::get('app_configuration_facture'); 
+        $this->form = new FactureEditionForm($this->facture,array('sans_categories' => $configAppFacture['sans_categories']));
 
         if ($this->facture->isPayee()) {
 
@@ -41,7 +41,7 @@ class factureActions extends sfActions {
         }
 
         $this->form->save();
-
+        
         if ($this->facture->isAvoir()) {
             $this->getUser()->setFlash("notice", "La facture a été modifiée.");
         } else {
@@ -94,10 +94,10 @@ class factureActions extends sfActions {
         $this->societe = $this->getRoute()->getSociete();
         $this->factures = FactureSocieteView::getInstance()->findByEtablissement($this->societe);
         $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
-        
-        
-         $this->compte = $this->societe->getMasterCompte();
-      //  $this->factures = FactureClient::getInstance()->getFacturesByCompte($this->compte->identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
+
+
+        $this->compte = $this->societe->getMasterCompte();
+        //  $this->factures = FactureClient::getInstance()->getFacturesByCompte($this->compte->identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
         $this->values = array();
         $this->templatesFactures = ConfigurationClient::getConfiguration()->getTemplatesFactures();
         $this->formNouvelleFacture = new FacturationTemplateForm($this->templatesFactures);
@@ -106,28 +106,23 @@ class factureActions extends sfActions {
 
             return sfView::SUCCESS;
         }
-        
+
         $this->formNouvelleFacture->bind($request->getParameter($this->formNouvelleFacture->getName()));
-            
-        if(!$this->formNouvelleFacture->isValid()) {
+
+        if (!$this->formNouvelleFacture->isValid()) {
 
             return sfView::SUCCESS;
         }
 
         $this->values = $this->formNouvelleFacture->getValues();
         $templateFacture = TemplateFactureClient::getInstance()->find($this->values['modele']);
-        try {
-           $generation = FactureClient::getInstance()->createFactureByCompte($templateFacture, $this->compte->_id, $this->value['date_facturation'], null, $templateFacture->arguments->toArray(true, false)); 
-        } catch (Exception $e) {
-            $this->getUser()->setFlash("error", $e->getMessage());
+        
+        $generation = FactureClient::getInstance()->createFactureBySociete($templateFacture, $this->societe, $this->value['date_facturation'], null, $templateFacture->arguments->toArray(true, false));
 
-            return $this->redirect('facture_societe', $this->societe);
-        }
-
-        if(!$generation) {
+        if (!$generation) {
             $this->getUser()->setFlash("error", "Cet opérateur a déjà été facturé pour ce type de facture.");
 
-            return $this->redirect('facture_declarant', $this->compte);
+            return $this->redirect('facture_societe', $this->societe);
         }
 
         $generation->save();

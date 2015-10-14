@@ -2,14 +2,22 @@
 
 class FactureEditionLignesForm extends acCouchdbObjectForm {
 
-    public function configure()
-    {
-        foreach($this->getObject() as $ligne) {
+    private $sans_categories = false;
 
-            $this->embedForm($ligne->getKey(), new FactureEditionLigneForm($ligne));
+    public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
+        if (array_key_exists('sans_categories',$options)) {
+            $this->sans_categories = $options['sans_categories'];
+        }
+        parent::__construct($object, $options, $CSRFSecret);
+    }
+
+    public function configure() {
+        foreach ($this->getObject() as $ligne) {
+
+            $this->embedForm($ligne->getKey(), new FactureEditionLigneForm($ligne,array('sans_categories' => $this->sans_categories)));
         }
 
         $this->widgetSchema->setNameFormat('facture_edition_lignes[%s]');
-    }     
+    }
 
 }
