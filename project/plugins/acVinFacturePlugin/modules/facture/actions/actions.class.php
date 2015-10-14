@@ -43,9 +43,9 @@ class factureActions extends sfActions {
         $this->form->save();
         
         if ($this->facture->isAvoir()) {
-            $this->getUser()->setFlash("notice", "La facture a été modifiée.");
-        } else {
             $this->getUser()->setFlash("notice", "L'avoir a bien été modifié.");
+        } else {
+            $this->getUser()->setFlash("notice", "La facture a été modifiée.");
         }
 
         if ($request->getParameter("not_redirect")) {
@@ -171,9 +171,8 @@ class factureActions extends sfActions {
     }
 
     public function executeLatex(sfWebRequest $request) {
-
         $this->setLayout(false);
-        $this->facture = FactureClient::getInstance()->find($request->getParameter('identifiant'));
+        $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
         $this->forward404Unless($this->facture);
         $latex = new FactureLatex($this->facture);
         $latex->echoWithHTTPHeader($request->getParameter('type'));
