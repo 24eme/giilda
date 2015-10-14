@@ -32,13 +32,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeEmetteur() {
-        $configs = sfConfig::get('app_facture_emetteur');
+        $configs = sfConfig::get('app_configuration_facture');
         $emetteur = new stdClass();
         
-        
-        if (!array_key_exists($this->region, $configs))
+        if (!array_key_exists($this->region, $configs['emetteur']))
             throw new sfException(sprintf('Config %s not found in app.yml', $this->region));
-        $this->emetteur = $configs[$this->region];
+        $this->emetteur = $configs['emetteur'][$this->region];
     }
     
     public function getCoordonneesBancaire(){
@@ -420,7 +419,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function storeTemplates() {
         foreach ($this->getLignes() as $ligne) {
-            foreach ($ligne->origine_mouvements as $templates) {
+            foreach ($ligne->origine_mouvements as $templates) {    
                 foreach($templates as $template) {
                     if (!array_key_exists($template, $this->templates)) {
                         $this->templates->add($template, $template);
@@ -428,6 +427,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 }
             }
         }
+        
     }
 
     public function updateTotaux() {
@@ -530,15 +530,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeDeclarant($doc) {
-    	$this->numero_adherent = $doc->identifiant_interne;
+    	$this->numero_adherent = $doc->identifiant;
         $declarant = $this->declarant;
-        $declarant->nom = $doc->nom_a_afficher;
-        //$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
-        $declarant->adresse = $doc->adresse;
-        $declarant->commune = $doc->commune;
-        $declarant->code_postal = $doc->code_postal;
+        $declarant->nom = $doc->raison_sociale;
+      //$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
+        $declarant->adresse = $doc->siege->adresse;
+        $declarant->commune = $doc->siege->commune;
+        $declarant->code_postal = $doc->siege->code_postal;
         $declarant->raison_sociale = $doc->raison_sociale;
-		$this->code_comptable_client = preg_replace("/^[0]+/", "", $this->getCompte()->identifiant_interne);
+      //$this->code_comptable_client = preg_replace("/^[0]+/", "", $this->getCompte()->identifiant_interne);
     }
 
     public function isPayee() {

@@ -231,7 +231,7 @@ class FactureClient extends acCouchdbClient {
       return $mouvementsBySoc;
     }
 
-    public function createFactureByCompte($template, $compte_or_id, $date_facturation = null) {
+    public function createFactureBySociete($template, $societe_or_id, $date_facturation = null) {
         $generation = new Generation();
         $generation->date_emission = date('Y-m-d-H:i');
         $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
@@ -239,24 +239,24 @@ class FactureClient extends acCouchdbClient {
         $generation->somme = 0;
         $cpt = 0;
 
-        $compte = $compte_or_id;
+        $societe = $societe_or_id;
 
-        if(is_string($compte)) {
-            $compte = CompteClient::getInstance()->find($compte_or_id);
+        if(is_string($societe)) {
+            $societe = SocieteClient::getInstance()->find($societe_or_id);
         }
+        
+        $cotisations = $template->generateCotisations($societe, $template->campagne);
+        
+//        if(!count($cotisations)) {
+//          return null;
+//        }
 
-        $cotisations = $template->generateCotisations($compte, $template->campagne);
-
-        if(!count($cotisations)) {
-          return null;
-        }
-
-        $f = FactureClient::getInstance()->createDoc($cotisations, $compte, $date_facturation, null, $template->arguments->toArray(true, false));
+        $f = FactureClient::getInstance()->createDoc($cotisations, $societe, $date_facturation, null, $template->arguments->toArray(true, false));
         $f->save();
 
         $generation->somme += $f->total_ttc;
         $generation->add('documents')->add($cpt, $f->_id);
-        $generation->libelle = $compte->nom_a_afficher;
+        $generation->libelle = $societe->raison_sociale;
         $cpt++;
 
         return $generation;
