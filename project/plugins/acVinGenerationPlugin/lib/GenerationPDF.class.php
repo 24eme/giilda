@@ -1,6 +1,6 @@
 <?php
 
-class GenerationPDF {
+class GenerationPDF extends GenerationAbstract {
 
     protected $generation = null;
   protected $config = null;
@@ -114,8 +114,23 @@ class GenerationPDF {
 
   public function generatePDF() {
     if (!$this->generation) 
-      throw new sfException('Object generation should not be null');    
+      throw new sfException('Object generation should not be null');
+
+    $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS);
+    $this->generation->save();
+
     $pdfs = array();
+
+    if($this->generation->exist('documents_regenerate') && count($this->generation->documents_regenerate)) {
+      $this->preRegeneratePDF();
+      if(count($this->generation->documents_regenerate) != count($this->generation->documents)) {
+          
+          throw new sfException("La regénération ne c'est pas bien passé");
+      }
+      $this->generation->remove('documents_regenerate');
+      $this->generation->save();
+    }
+
     if (!count($this->generation->documents) || $this->generation->exist('pregeneration_needed')) {
       $this->generation->add('pregeneration_needed',1);
       $this->preGeneratePDF();
@@ -149,6 +164,11 @@ class GenerationPDF {
     $this->generation->save();
   }
 
+  public function generate() {
+
+      $this->generatePDF();
+  }
+
   protected function getDocumentName() {
     throw new sfException('should be called from the parent class');
   }
@@ -156,8 +176,8 @@ class GenerationPDF {
     throw new sfException('should be called from the parent class');
   }
 
-  function preGeneratePDF() {
-    
-  }
+  function preGeneratePDF() { }
+
+  function preRegeneratePDF() { }
 
 }

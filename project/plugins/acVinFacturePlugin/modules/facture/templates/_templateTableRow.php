@@ -1,10 +1,10 @@
 <?php
 use_helper('Float');
 use_helper('Display');
-$produit->origine_libelle = str_replace("&#039;", "'", $produit->origine_libelle);    
+$produit->libelle = str_replace("&#039;", "'", $produit->libelle);    
 ?>
-~~~~\truncate{124mm}{\small{\textbf{<?php echo $produit->produit_libelle.'} '.escape_string_for_latex($produit->origine_libelle); ?> }} &
-                            \multicolumn{1}{r|}{\small{<?php echoArialFloat($produit->volume*-1); ?>}} &
-                            \multicolumn{1}{r|}{\small{<?php echoArialFloat($produit->cotisation_taux); ?>}} & 
-                            \multicolumn{1}{r|}{\small{<?php echoArialFloat($produit->montant_ht); ?>}}&
-                            \multicolumn{2}{c}{\small{<?php echo $produit->echeance_code; ?>}} \\
+\small{\textbf{<?php echo $facture->date_emission; ?> }} &
+~~~~\truncate{124mm}{\small{\textbf{<?php echo $produit->libelle.'} '.escape_string_for_latex($produit->libelle); ?> }} &
+                            \multicolumn{1}{r|}{\small{<?php echoArialFloat($produit->quantite); ?>}} &
+                            \multicolumn{1}{r|}{\small{<?php echoArialFloat($produit->prix_unitaire); ?>}} & 
+                            \multicolumn{1}{r}{\small{<?php echoArialFloat($produit->montant_ht); ?>}} \\

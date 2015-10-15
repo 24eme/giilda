@@ -14,6 +14,8 @@
         this.colonnes = new Array();
         this.groupes_rows = new GroupesRows(this);
         this.event_valider = function () {}
+        this.event_focus = function () {}
+        this.event_unfocus = function () {}
         this.event_enabled = function () {}
         this.event_disabled = function () {}
         this.event_valider_champ_modification = function () {}
@@ -341,6 +343,8 @@
             this.element.removeClass('panel-success');
             this.element.addClass('panel-primary');
             this.colonnes.updateScroll();
+
+            this.colonnes.event_focus(this);
         }
 
         this.focusChampDefault = function() {
@@ -353,6 +357,8 @@
                 this.element.addClass('panel-success');
             }
             this.element.removeClass('panel-primary');
+
+            this.colonnes.event_unfocus();
         }
 
         this.isFocus = function() {
@@ -404,7 +410,7 @@
                 object.groupes.valider();
                 object.unActive();
 
-                object.colonnes.event_valider();
+                object.colonnes.event_valider(object);
             }, 'json');
         }
 

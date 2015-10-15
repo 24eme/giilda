@@ -56,6 +56,23 @@ class FactureClient extends acCouchdbClient {
         }
         return $facture;
     }
+    
+    public function createDocFromMouvements($mouvementsSoc, $societe, $date_facturation, $message_communication) {
+        $facture = new Facture();
+        $facture->storeDatesCampagne($date_facturation);
+        $facture->constructIds($societe);        
+        $facture->storeEmetteur();
+        $facture->storeDeclarant($societe);
+        $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille);     
+        $facture->updateTotalHT();
+        $facture->updateAvoir();
+        $facture->updateTotaux();
+        $facture->storeOrigines();
+        if(trim($message_communication)) {
+          $facture->addOneMessageCommunication($message_communication);
+        }
+        return $facture;
+    }
 
       public function regenerate($facture_or_id) {
 
@@ -182,7 +199,7 @@ class FactureClient extends acCouchdbClient {
             }
 	          $somme = $somme * -1;
             $somme = $this->ttc($somme);
-
+            
             if(count($mouvementsBySoc[$identifiant]) == 0) {
               $mouvementsBySoc[$identifiant] = null; 
             }
@@ -231,7 +248,7 @@ class FactureClient extends acCouchdbClient {
       return $mouvementsBySoc;
     }
 
-    public function createFactureByCompte($template, $compte_or_id, $date_facturation = null) {
+    public function createFactureBySociete($template, $societe_or_id, $date_facturation = null) {
         $generation = new Generation();
         $generation->date_emission = date('Y-m-d-H:i');
         $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
@@ -239,24 +256,24 @@ class FactureClient extends acCouchdbClient {
         $generation->somme = 0;
         $cpt = 0;
 
-        $compte = $compte_or_id;
+        $societe = $societe_or_id;
 
-        if(is_string($compte)) {
-            $compte = CompteClient::getInstance()->find($compte_or_id);
+        if(is_string($societe)) {
+            $societe = SocieteClient::getInstance()->find($societe_or_id);
         }
+        
+        $cotisations = $template->generateCotisations($societe, $template->campagne);
+        
+//        if(!count($cotisations)) {
+//          return null;
+//        }
 
-        $cotisations = $template->generateCotisations($compte, $template->campagne);
-
-        if(!count($cotisations)) {
-          return null;
-        }
-
-        $f = FactureClient::getInstance()->createDoc($cotisations, $compte, $date_facturation, null, $template->arguments->toArray(true, false));
+        $f = FactureClient::getInstance()->createDoc($cotisations, $societe, $date_facturation, null, $template->arguments->toArray(true, false));
         $f->save();
 
         $generation->somme += $f->total_ttc;
         $generation->add('documents')->add($cpt, $f->_id);
-        $generation->libelle = $compte->nom_a_afficher;
+        $generation->libelle = $societe->raison_sociale;
         $cpt++;
 
         return $generation;
@@ -273,7 +290,8 @@ class FactureClient extends acCouchdbClient {
 
         foreach ($generationFactures as $societeID => $mouvementsSoc) {
             $societe = SocieteClient::getInstance()->find($societeID);
-            $f = $this->createDoc($mouvementsSoc, $societe, $date_facturation, $message_communication);
+            $f = $this->createDocFromMouvements($mouvementsSoc, $societe, $date_facturation, $message_communication);
+           
             $f->save();
 
             $generation->somme += $f->total_ttc;
@@ -298,11 +316,11 @@ class FactureClient extends acCouchdbClient {
     public function getProduitsFromTypeLignes($lignes) {
         $produits = array();
         foreach ($lignes as $ligne) {
-            if (array_key_exists($ligne->produit_hash, $produits)) {
-                $produits[$ligne->produit_hash][] = $ligne;
+            if (array_key_exists($ligne, $produits)) {
+                $produits[$ligne][] = $ligne;
             } else {
-                $produits[$ligne->produit_hash] = array();
-                $produits[$ligne->produit_hash][] = $ligne;
+                $produits[$ligne] = array();
+                $produits[$ligne][] = $ligne;
             }
         }
         return $produits;

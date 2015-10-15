@@ -7,6 +7,8 @@
             </div>
             <form class="form-horizontal" action="<?php echo url_for('drm_choix_produit_add_produit', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion(), 'add_produit' => $form->getProduitFilter())) ?>" method="post">
             <div class="modal-body">
+                <?php echo $form->renderHiddenFields(); ?>
+                <?php echo $form->renderGlobalErrors(); ?>
                 <div class="form-group">
                     <div class="col-sm-12">
                     <?php echo $form->renderHiddenFields(); ?>

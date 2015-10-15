@@ -13,3 +13,78 @@ function getLabelForKeyArgument($key)
        default: return "$key :";
    }
 }
+
+function statutToCssClass($statut)
+{
+    if($statut == GenerationClient::GENERATION_STATUT_ENATTENTE) {
+
+        return 'info';
+    }
+
+    if($statut == GenerationClient::GENERATION_STATUT_ENCOURS) {
+
+        return 'warning';
+    }
+
+    if($statut == GenerationClient::GENERATION_STATUT_GENERE) {
+
+        return 'success';
+    }
+
+    if($statut == GenerationClient::GENERATION_STATUT_ENERREUR) {
+
+        return 'danger';
+    }
+
+    return 'default';
+}
+
+function statutToIconCssClass($statut)
+{
+    if($statut == GenerationClient::GENERATION_STATUT_ENATTENTE) {
+
+        return 'glyphicon glyphicon-time';
+    }
+
+    if($statut == GenerationClient::GENERATION_STATUT_ENCOURS) {
+
+        return 'glyphicon glyphicon-record';
+    }
+
+    if($statut == GenerationClient::GENERATION_STATUT_GENERE) {
+
+        return 'glyphicon glyphicon-ok-circle';
+    }
+
+    if($statut == GenerationClient::GENERATION_STATUT_ENERREUR) {
+
+        return 'glyphicon glyphicon-remove-circle';
+    }
+
+    return null;
+}
+
+function statutToLibelle($statut)
+{
+    if($statut == GenerationClient::GENERATION_STATUT_ENATTENTE) {
+
+        return "En attente";
+    }
+
+    if($statut == GenerationClient::GENERATION_STATUT_ENCOURS) {
+
+        return "En cours";
+    }
+
+    if($statut == GenerationClient::GENERATION_STATUT_GENERE) {
+
+        return "Généré";
+    }
+
+    if($statut == GenerationClient::GENERATION_STATUT_ENERREUR) {
+
+        return "En erreur";
+    }
+
+    return $statut;
+}

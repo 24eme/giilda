@@ -7,18 +7,18 @@
 class TemplateFacture extends BaseTemplateFacture 
 {
 	
-	public function generateCotisations($identifiant_or_compte, $campagne, $force = false)
+	public function generateCotisations($identifiant_or_societe, $campagne, $force = false)
 	{
 		$template = $this;
-		$compte = $identifiant_or_compte;
+		$societe = $identifiant_or_societe;
 		
-		if(is_string($compte)) {
-			$compte = CompteClient::getInstance()->findByIdentifiant($identifiant_or_compte);
+		if(is_string($societe)) {
+			$societe = SocieteClient::getInstance()->findByIdentifiant($identifiant_or_societe);
 		}
 		
-		$cotisations = array();
+		$cotisations = array();                   
 		foreach ($this->docs as $doc) {
-			$document = $this->getDocumentFacturable($doc, $compte->identifiant, $campagne);
+			$document = $this->getDocumentFacturable($doc, $societe->identifiant, $campagne);
 			if(!$document) {
 
 				throw new sfException(sprintf("Le document %s n'a pas été trouvé (%s-%s-%s)", strtoupper($doc), strtoupper($doc), $compte->identifiant, $campagne));
@@ -75,5 +75,13 @@ class TemplateFacture extends BaseTemplateFacture
 		}
 		throw new sfException($docModele.'Client must implements FacturableClient interface');
 	}
+        
+        public function getCampagne() {
+            $campagne = $this->_get('campagne');
+            if(!$campagne){
+               $campagne = date('Y'); 
+            }
+            return $campagne;
+        }
 
 }

@@ -19,13 +19,13 @@ class FactureRouting {
 //        
         $r->prependRoute('facture_generation', new sfRoute('/facture/generation', array('module' => 'facture',
             'action' => 'generation')));
-//       $r->prependRoute('facture_generer', new SocieteRoute('/facture/:identifiant/generer', array('module' => 'facture', 
-//													'action' => 'generer'),
-//									 array('sf_method' => array('get','post')),
-//									 array('model' => 'Societe',
-//									       'type' => 'object')
-//									 ));
-//        
+       $r->prependRoute('facture_generer', new SocieteRoute('/facture/:identifiant/generer', array('module' => 'facture', 
+													'action' => 'generer'),
+									 array('sf_method' => array('get','post')),
+									 array('model' => 'Societe',
+									       'type' => 'object')
+									 ));
+        
        $r->prependRoute('facture_redirect_to_doc', new sfRoute('/facture/redirect/:iddocument', array('module' => 'facture', 'action' => 'redirect')));
 
 
@@ -69,6 +69,11 @@ class FactureRouting {
 
         $r->prependRoute('facture_societe', new SocieteRoute('/facture/:identifiant', array('module' => 'facture',
             'action' => 'monEspace'), array('sf_method' => array('get', 'post')), array('model' => 'Societe',
+            'type' => 'object')
+        ));
+        
+         $r->prependRoute('facture_creation', new SocieteRoute('/facture-creation/:identifiant', array('module' => 'facture',
+            'action' => 'creation'), array('sf_method' => array('get', 'post')), array('model' => 'Societe',
             'type' => 'object')
         ));
 

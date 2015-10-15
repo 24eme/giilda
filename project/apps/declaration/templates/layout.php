@@ -35,20 +35,19 @@
     <div id="ajax-modal" class="modal"></div>
 
     <?php include_partial('global/footer'); ?>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="/components/jquery/jquery.js"></script>
     <script src="/components/bootstrap/bootstrap.js"></script>
     <script src="/components/select2/select2.min.js"></script>
     <script src="/components/moment/moment-with-locales.min.js"></script>
     <script src="/components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/js/plugins/jquery.plugins.min.js"></script>
     <script src="/js/lib/jquery-ui-1.8.21.min.js"></script>
     <script src="/js/ajaxHelper.js"></script>
     <script src="/js/form.js"></script>
+    <script src="/js/colonnes.js"></script>
     <script src="/js/main.js"></script>
     <script src="/js/conditionnement.js"></script>
     <script src="/js/vrac.js"></script>
-    <script src="/js/colonnes.js"></script>
-    <script src="/js/drm_teledeclaration.js"></script>
-    <script src="/js/declaration.js"></script>
+    <script src="/js/drm.js"></script>
   </body>
 </html>
