@@ -1,51 +1,46 @@
-<?php 
+<?php
 use_helper('Float');
 use_helper('Date');
-use_helper('Prix'); 
+use_helper('Prix');
 ?>
-<fieldset id="mouvement_drm">
-<?php if (count($mouvements)) : ?>
-    <legend>Mouvements en attente de facturation</legend>
-    <table class="table_recap">
-        <thead>
-            <tr>
-                <th style="width: 90px;">Date</th>
-                <th style="width: 180px;">Document</th>
-                <th style="width: 180px;">Produits</th>
-                <th>Type</th>
-                <th>Prix TTC</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php $i = 1; ?>
-        <?php foreach($mouvements as $mouvement): ?>
-        <?php $i++; ?>
-            <tr <?php if($i%2!=0) echo ($mouvement->volume>0)? ' class="alt"' : 'class="alt"';  ?>>
-                <td><?php echo format_date($mouvement->date,'dd/MM/yyyy'); ?></td>
-                <td><?php 
-                $numeroFormatted = (strstr($mouvement->numero, 'DRM')!== false)? DRMClient::getInstance()->getLibelleFromId($mouvement->numero) :
-                SV12Client::getInstance()->getLibelleFromId($mouvement->numero);
-                
-                echo link_to($numeroFormatted, 'facture_redirect_to_doc', array('iddocument' => $mouvement->numero));?></td>
-                <td><?php echo $mouvement->produit_libelle ?> </td>
-                <td><?php echo $mouvement->type_libelle.' '.$mouvement->detail_libelle ?></td>
-                <td <?php echo ($mouvement->volume>0)? ' class="positif"' : 'class="negatif"';?> >
-                    <?php echoTtc($mouvement->prix_ht); ?>&nbsp;&euro;
-                </td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
- <br />
-<form id="generation_form" action="<?php echo url_for('facture_generer',$societe); ?>" method="post">
-<?php include_partial('facture/datesGeneration', array('form' => $form)) ?>
-<br /> 
-<div class="generation_facture_valid">
-       <span>Cliquer sur "Générer" pour lancer la génération de la facture</span>
-    <a href="#" id="generation_facture" class="btn_majeur btn_refraichir">Générer</a>
-</div>
-</form>
+<?php if (!count($mouvements)) : ?>
+    <div class="row row-margin">
+        <p>Pas de mouvements en attente de facturation</p>
+    </div>
 <?php else : ?>
-<p>Pas de mouvements en attente de facturation</p>
-<?php endif;?>
-</fieldset>
+    <div class="row row-margin">
+        <legend>Mouvements en attente de facturation</legend>
+        <div class="col-xs-12">
+            <div class="list-group">
+                <li class="list-group-item col-xs-12">
+                    <span class="col-xs-2">Date</span>
+                    <span class="col-xs-3">Document</span>
+                    <span class="col-xs-3">Produits</span>
+                    <span class="col-xs-2">Type</span>
+                    <span class="col-xs-2">Prix TTC</span>
+                </li>
+                <?php foreach ($mouvements as $mouvement): ?>
+                    <li class="list-group-item col-xs-12">
+                        <span class="col-xs-2"><?php echo format_date($mouvement->date, 'dd/MM/yyyy'); ?></span>
+                        <span class="col-xs-3"><?php
+                            $numeroFormatted = (strstr($mouvement->numero, 'DRM') !== false) ? DRMClient::getInstance()->getLibelleFromId($mouvement->numero) :
+                                    SV12Client::getInstance()->getLibelleFromId($mouvement->numero);
+
+                            echo link_to($numeroFormatted, 'facture_redirect_to_doc', array('iddocument' => $mouvement->numero));
+                            ?></span>
+                        <span class="col-xs-3"><?php echo $mouvement->produit_libelle ?></span>
+                        <span class="col-xs-2"><?php echo $mouvement->type_libelle . ' ' . $mouvement->detail_libelle ?></span>
+                        <span class="col-xs-2"><?php echoTtc($mouvement->prix_ht); ?>&nbsp;&euro;</span>
+                    </li>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>   
+    <div class="row row-margin">
+        <form id="generation_form" action="<?php echo url_for('facture_generer', $societe); ?>" method="post">
+            <?php include_partial('facture/datesGeneration', array('form' => $form)) ?>
+                <button id="generation_facture" class="btn btn-lg btn-success">Générer une facture pour ces mouvements</button>
+         
+        </form>
+    </div>
+<?php endif; ?>

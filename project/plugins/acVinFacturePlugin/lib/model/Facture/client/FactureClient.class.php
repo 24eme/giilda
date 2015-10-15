@@ -56,6 +56,23 @@ class FactureClient extends acCouchdbClient {
         }
         return $facture;
     }
+    
+    public function createDocFromMouvements($mouvementsSoc, $societe, $date_facturation, $message_communication) {
+        $facture = new Facture();
+        $facture->storeDatesCampagne($date_facturation);
+        $facture->constructIds($societe);        
+        $facture->storeEmetteur();
+        $facture->storeDeclarant($societe);
+        $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille);     
+        $facture->updateTotalHT();
+        $facture->updateAvoir();
+        $facture->updateTotaux();
+        $facture->storeOrigines();
+        if(trim($message_communication)) {
+          $facture->addOneMessageCommunication($message_communication);
+        }
+        return $facture;
+    }
 
       public function regenerate($facture_or_id) {
 
@@ -182,7 +199,7 @@ class FactureClient extends acCouchdbClient {
             }
 	          $somme = $somme * -1;
             $somme = $this->ttc($somme);
-
+            
             if(count($mouvementsBySoc[$identifiant]) == 0) {
               $mouvementsBySoc[$identifiant] = null; 
             }
@@ -273,7 +290,8 @@ class FactureClient extends acCouchdbClient {
 
         foreach ($generationFactures as $societeID => $mouvementsSoc) {
             $societe = SocieteClient::getInstance()->find($societeID);
-            $f = $this->createDoc($mouvementsSoc, $societe, $date_facturation, $message_communication);
+            $f = $this->createDocFromMouvements($mouvementsSoc, $societe, $date_facturation, $message_communication);
+           
             $f->save();
 
             $generation->somme += $f->total_ttc;

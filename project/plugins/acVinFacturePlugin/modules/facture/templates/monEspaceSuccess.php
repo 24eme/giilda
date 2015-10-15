@@ -11,6 +11,10 @@ use_helper('Float');
     </div>
     <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures)); ?>
 
+     <hr />    
+    <br />
+    <?php include_partial('facture/mouvements', array('mouvements' => $mouvements, 'societe' => $societe, 'form' => $form)) ?>
+    
 </div>
 <!-- fin #principal -->
 

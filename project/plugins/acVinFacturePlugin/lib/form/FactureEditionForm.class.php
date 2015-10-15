@@ -12,7 +12,6 @@ class FactureEditionForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-        var_dump(count($this->getObject()->lignes));
         if (!$this->sans_categories || count($this->getObject()->lignes) < 1) {
             $this->getObject()->lignes->add("nouvelle");
         }
