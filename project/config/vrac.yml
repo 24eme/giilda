@@ -9,4 +9,19 @@ ivbd:
   configuration:
     vrac:
       pdf: "vrac/pdf_ivbd"
+      champs:
+        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "cvo_repartition", "conditions_particulieres", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "taux_courtage", "preparation_vin", "embouteillage", "conditionnement_crd"]
+      unites:
+        "MOUTS":
+          "prix_initial_unitaire":
+            "cle": "EURO_TONNEAU"
+            "libelle": "€/T"
+        "VIN_VRAC":
+          "prix_initial_unitaire":
+            "cle": "EURO_TONNEAU"
+            "libelle": "€/T"
+        "VIN_BOUTEILLE":
+          "prix_initial_unitaire":
+            "cle": "EURO_TONNEAU"
+            "libelle": "€/T"
 

@@ -82,9 +82,11 @@ class VracConditionForm extends acCouchdbObjectForm {
         
 
         if (!in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
-        	unset($this['preparation_vin'], $this['embouteillage'], $this['conditionnement_crd']);
+        	unset($this['autorisation_nom_vin'], $this['autorisation_nom_producteur']);
         }
-
+		if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
+			unset($this['preparation_vin'], $this['embouteillage'], $this['conditionnement_crd']);
+		}
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
 
@@ -131,12 +133,8 @@ class VracConditionForm extends acCouchdbObjectForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        if($this->getValidator('date_limite_retiraison') instanceof sfValidatorDate) {
             $this->setDefault('date_limite_retiraison', $this->getObject()->getDateLimiteRetiraison('d/m/Y'));
-        }
-        if($this->getValidator('date_debut_retiraison') instanceof sfValidatorDate) {
             $this->setDefault('date_debut_retiraison', $this->getObject()->getDateDebutRetiraison('d/m/Y'));
-        }
         if ($this->getObject()->clause_reserve_propriete === null) {
         	$this->setDefault('clause_reserve_propriete', true);
         }
@@ -156,6 +154,9 @@ class VracConditionForm extends acCouchdbObjectForm {
         	$this->setDefault('cahier_charge', true);
         } else {
         	$this->setDefault('cahier_charge', false);
+        }
+        if (!$this->getObject()->tva) {
+        	$this->setDefault('tva', 'AVEC');        	
         }
     }
 

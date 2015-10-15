@@ -50,7 +50,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('degre', new bsWidgetFormInput());
         $this->setWidget('surface', new bsWidgetFormInput());
         $this->setWidget('selection', new bsWidgetFormInputCheckbox());
-        $this->setWidget('85_15', new bsWidgetFormInputCheckbox());
+        $this->setWidget('millesime_85_15', new bsWidgetFormInputCheckbox());
+        $this->setWidget('cepage_85_15', new bsWidgetFormInputCheckbox());
 
         $this->widgetSchema->setLabels(array(
             'produit' => 'produit',
@@ -64,7 +65,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
             'label' => 'Label',
             'prix_initial_unitaire' => 'Prix',
             'degre' => 'Degré',
-            'surface' => 'Surface'
+            'surface' => 'Surface',
+            'millesime_85_15' => 'Millésime 85/15',
+            'cepage_85_15' => 'Cépage 85/15'
         ));
         $validatorForNumbers = new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
         
@@ -81,15 +84,14 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setValidator('degre', new sfValidatorNumber(array('required' => false, 'min' => 7, 'max' => 15)));
         $this->setValidator('surface', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('selection', new sfValidatorBoolean(array('required' => false)));
-        $this->setValidator('85_15', new sfValidatorBoolean(array('required' => false)));
+        $this->setValidator('millesime_85_15', new sfValidatorBoolean(array('required' => false)));
+        $this->setValidator('cepage_85_15', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('lot', new sfValidatorString(array('required' => false)));
         
         if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
         	$this->getValidator('cepage')->setOption('required', false);
-        	$this->getWidget('85_15')->setLabel('Millésime 85/15');
         } else {
         	$this->getValidator('produit')->setOption('required', false);
-        	$this->getWidget('85_15')->setLabel('Cépage 85/15');
         }
 
         
@@ -109,6 +111,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
         	if (isset($this['lot'])) {
         		unset($this['lot']);
         	}
+        	if (isset($this['degre'])) {
+        		unset($this['degre']);
+        	}
         } else {
         	unset($this['raisin_quantite']);
         	unset($this['surface']);
@@ -118,6 +123,20 @@ class VracMarcheForm extends acCouchdbObjectForm {
         }
         if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
         	unset($this['bouteilles_contenance_libelle']);
+        }
+        if ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) {
+        	if (isset($this['lot'])) {
+        		unset($this['lot']);
+        	}
+        	if (isset($this['degre'])) {
+        		unset($this['degre']);
+        	}
+        }
+        
+        if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
+
+        	$this->setWidget('millesime', new sfWidgetFormInputHidden());
+        	unset($this['millesime_85_15']);
         }
         
         $this->widgetSchema->setNameFormat('vrac[%s]');
@@ -132,15 +151,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $this->setDefault('bouteilles_contenance_libelle', 'Bouteille 75 cl');
         }
         if (!$this->getObject()->millesime) {
-            if (!$this->getObject()->type_transaction) {
-                $this->setDefault('millesime', "0");
-            } else {
-                if (($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) || ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS)) {
-                    $this->setDefault('millesime', substr($this->next_campagne, 0, 4));
-                } else {
-                    $this->setDefault('millesime', "0");
-                }
-            }
+        	$this->setDefault('millesime', substr($this->next_campagne, 0, 4));
         } else {
             $this->setDefault('millesime', $this->getObject()->millesime);
         }
@@ -249,7 +260,9 @@ class VracMarcheForm extends acCouchdbObjectForm {
     }
 
     public function getMillesimes() {
+    	if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_RAISINS) {
         $this->millesimes = array('0' => self::NONMILLESIMELABEL);
+    	}
         
         $date = new DateTime();
         $annee = $date->format('Y');
