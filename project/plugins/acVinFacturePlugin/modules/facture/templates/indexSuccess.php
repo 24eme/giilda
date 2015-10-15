@@ -1,16 +1,11 @@
-
-    <!-- #principal -->
-    <section id="principal">
+<div class="row">
         <p id="fil_ariane"><strong>Page d'accueil</strong></p>
         
-        <!-- #contenu_etape -->
-        <section id="contenu_etape">
+        <div id="contenu_etape" class="col-xs-12">
             <?php include_component('facture', 'chooseSociete'); ?>
-            <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
-            <?php include_component('facture','generationMasse'); ?>
+            <?php //include_partial('historiqueGeneration', array('generations' => $generations)); ?>
+            <?php //include_component('facture','generationMasse'); ?>
             
-        </section>
-        <!-- fin #contenu_etape -->
-    </section>
-    <!-- fin #principal -->
-    
+        </div>
+
+</div>

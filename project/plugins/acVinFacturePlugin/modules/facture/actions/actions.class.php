@@ -18,11 +18,12 @@ class factureActions extends sfActions {
         $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
 
         if (!$this->facture) {
-            
+
             return $this->forward404(sprintf("La facture %s n'existe pas", $request->getParameter('id')));
         }
-        $configAppFacture = sfConfig::get('app_configuration_facture'); 
-        $this->form = new FactureEditionForm($this->facture,array('sans_categories' => $configAppFacture['sans_categories']));
+        $configAppFacture = sfConfig::get('app_configuration_facture');
+        $this->sans_categorie = $configAppFacture['sans_categories'];
+        $this->form = new FactureEditionForm($this->facture, array('sans_categories' => $this->sans_categorie));
 
         if ($this->facture->isPayee()) {
 
@@ -41,7 +42,7 @@ class factureActions extends sfActions {
         }
 
         $this->form->save();
-        
+
         if ($this->facture->isAvoir()) {
             $this->getUser()->setFlash("notice", "L'avoir a bien été modifié.");
         } else {
@@ -97,7 +98,12 @@ class factureActions extends sfActions {
 
 
         $this->compte = $this->societe->getMasterCompte();
-        //  $this->factures = FactureClient::getInstance()->getFacturesByCompte($this->compte->identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
+    }
+
+    public function executeCreation(sfWebRequest $request) {
+
+        $this->societe = $this->getRoute()->getSociete();
+        $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
         $this->values = array();
         $this->templatesFactures = ConfigurationClient::getConfiguration()->getTemplatesFactures();
         $this->formNouvelleFacture = new FacturationTemplateForm($this->templatesFactures);
@@ -116,7 +122,7 @@ class factureActions extends sfActions {
 
         $this->values = $this->formNouvelleFacture->getValues();
         $templateFacture = TemplateFactureClient::getInstance()->find($this->values['modele']);
-        
+
         $generation = FactureClient::getInstance()->createFactureBySociete($templateFacture, $this->societe, $this->value['date_facturation'], null, $templateFacture->arguments->toArray(true, false));
 
         if (!$generation) {
@@ -126,8 +132,7 @@ class factureActions extends sfActions {
         }
 
         $generation->save();
-
-        return $this->redirect('generation_view', array('type_document' => GenerationClient::TYPE_DOCUMENT_FACTURES, 'date_emission' => $generation->date_emission));
+        return $this->redirect('facture_edition', array('id' => $generation->documents->getFirst()));
     }
 
     public function executeDefacturer(sfWebRequest $resquest) {

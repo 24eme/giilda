@@ -71,6 +71,11 @@ class FactureRouting {
             'action' => 'monEspace'), array('sf_method' => array('get', 'post')), array('model' => 'Societe',
             'type' => 'object')
         ));
+        
+         $r->prependRoute('facture_creation', new SocieteRoute('/facture-creation/:identifiant', array('module' => 'facture',
+            'action' => 'creation'), array('sf_method' => array('get', 'post')), array('model' => 'Societe',
+            'type' => 'object')
+        ));
 
         $r->prependRoute('facture_etablissement', new EtablissementRoute('/facture/etablissement/:identifiant', array('module' => 'facture',
             'action' => 'etablissement'), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',

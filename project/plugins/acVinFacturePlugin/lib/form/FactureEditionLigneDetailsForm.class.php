@@ -13,10 +13,10 @@ class FactureEditionLigneDetailsForm extends acCouchdbObjectForm {
 
     public function configure() {
         foreach ($this->getObject() as $detail) {
-            $this->embedForm($detail->getKey(), new FactureEditionLigneDetailForm($detail));
+            $this->embedForm($detail->getKey(), new FactureEditionLigneDetailForm($detail,array('sans_categories' => $this->sans_categories)));
         }
 
         $this->widgetSchema->setNameFormat('facture_edition_ligne_details[%s]');
-    }
-
+    }   
+    
 }

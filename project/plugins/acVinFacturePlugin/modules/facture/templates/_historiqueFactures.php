@@ -2,10 +2,9 @@
 use_helper('Date');
 ?>
 <div class="row row-margin">
+    <div class="col-xs-12">
     <h2>Historique des factures</h2>
-</div>
-
-<div class="row row-margin">
+    </div>
     <div class="col-xs-12">
         <?php if (count($factures)): ?>
             <div class="list-group">
