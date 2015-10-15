@@ -1,4 +1,4 @@
-all: project/cache project/log project/config/app.yml project/config/databases.yml project/web/declaration_dev.php project/web/components/vins/vins-preview.html .views/vrac.json .views/etablissements.json .views/archivage.json .views/mouvements.json .views/ds.json .views/societe.json .views/compte.json .views/generation.json .views/drm.json project/data/latex
+all: project/cache project/log project/config/app.yml project/config/databases.yml project/web/declaration_dev.php project/web/components/vins/vins-preview.html .views/vrac.json .views/etablissements.json .views/archivage.json .views/mouvements.json .views/ds.json .views/societe.json .views/compte.json .views/generation.json .views/drm.json project/data/latex .views/mouvementfacture.json
 
 project/cache:
 	mkdir project/cache
@@ -36,6 +36,9 @@ project/web/components/vins/vins-preview.html: project/web/components/vins/fontc
 
 .views/mouvements.json: project/config/databases.yml project/plugins/acVinDocumentPlugin/lib/Mouvement/views/mouvement.consultation.map.view.js project/plugins/acVinDocumentPlugin/lib/Mouvement/views/mouvement.consultation.reduce.view.js 
 	perl bin/generate_views.pl project/config/databases.yml project/plugins/acVinDocumentPlugin/lib/Mouvement/views/mouvement.consultation.map.view.js project/plugins/acVinDocumentPlugin/lib/Mouvement/views/mouvement.consultation.reduce.view.js > $@ || rm >@
+
+.views/mouvementfacture.json: project/config/databases.yml project/plugins/acVinDocumentPlugin/lib/Mouvement/views/mouvementfacture.facturation.map.view.js project/plugins/acVinDocumentPlugin/lib/Mouvement/views/mouvementfacture.facturation.reduce.view.js 
+	perl bin/generate_views.pl project/config/databases.yml project/plugins/acVinDocumentPlugin/lib/Mouvement/views/mouvementfacture.facturation.map.view.js project/plugins/acVinDocumentPlugin/lib/Mouvement/views/mouvementfacture.facturation.reduce.view.js > $@ || rm >@
 
 .views/ds.json:	project/config/databases.yml project/plugins/acVinDSPlugin/lib/model/views/ds.stocks.map.view.js project/plugins/acVinDSPlugin/lib/model/views/ds.stocks.reduce.view.js project/plugins/acVinDSPlugin/lib/model/views/ds.history.map.view.js
 	perl bin/generate_views.pl project/config/databases.yml project/plugins/acVinDSPlugin/lib/model/views/ds.stocks.map.view.js project/plugins/acVinDSPlugin/lib/model/views/ds.stocks.reduce.view.js project/plugins/acVinDSPlugin/lib/model/views/ds.history.map.view.js > $@ || rm >@
