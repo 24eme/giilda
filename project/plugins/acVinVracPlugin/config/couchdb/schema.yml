@@ -29,7 +29,8 @@ Vrac:
       clause_reserve_propriete: { }
       autorisation_nom_vin: { }
       autorisation_nom_producteur: { }
-      85_15: { }
+      millesime_85_15: { }
+      cepage_85_15: { }
       taux_courtage: { type: float }
       preparation_vin: { }
       embouteillage: { }
@@ -85,6 +86,7 @@ Vrac:
             nom: {  }
             raison_sociale: {  }
             cvi: {  }
+            siret: {  }
             no_accises: {   }
             no_tva_intracomm: {    }
             adresse: {  }
@@ -99,6 +101,7 @@ Vrac:
             nom: {  }
             raison_sociale: {  }
             cvi: {  }
+            siret: {  }
             no_accises: {   }
             no_tva_intracomm: {    }
             adresse: {  }
@@ -113,6 +116,7 @@ Vrac:
             nom: {  }
             raison_sociale: {  }
             cvi: {  }
+            siret: {  }
             no_accises: {   }
             no_tva_intracomm: {    }
             adresse: {  }

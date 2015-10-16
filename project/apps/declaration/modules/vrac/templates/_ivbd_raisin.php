@@ -36,7 +36,7 @@
 \def\tabularxcolumn#1{m{#1}}
 
 \def\IVBDCOORDONNEESTITRE{Interprofession des Vins de Bergerac et Duras}
-\def\IVBDCOORDONNEESADRESSE{1, rue des Récollets Test - BP 426 - 24104 BERGERAC Cedex - Tél. 01 01 01 01 01 - Fax: 02 02 02 02 02}
+\def\IVBDCOORDONNEESADRESSE{1, rue des Récollets - BP 426 - 24104 BERGERAC Cedex - Tél. 01 01 01 01 01 - Fax: 02 02 02 02 02}
 
 
 \def\CONTRATNUMENREGISTREMENT{<?php echo substr($vrac->numero_contrat, -6)?>}
@@ -125,39 +125,39 @@
 \normalsize
 \begin{minipage}[t]{0.6\textwidth}
 \hspace*{0.5cm}
-\textbf{A) VENDEUR} : \CONTRATVENDEURNOM \\
+\textbf{A)} VENDEUR : \textbf{\CONTRATVENDEURNOM} \\
 \hspace*{0.5cm}
-Adresse : \CONTRATVENDEURADRESSE \\
+Adresse : \textbf{\CONTRATVENDEURADRESSE} \\
 <?php if ($vrac->vendeur_identifiant != $vrac->representant_identifiant): ?>
 \hspace*{0.5cm}
-Pour le compte de : \CONTRATVENDEURPAYEUR 
+Pour le compte de : \textbf{\CONTRATVENDEURPAYEUR}
 <?php endif; ?>
 \\ ~ \\
 \hspace*{0.5cm}
-\textbf{B) ACHETEUR} : \CONTRATACHETEURNOM \\
+\textbf{B)} ACHETEUR : \textbf{\CONTRATACHETEURNOM} \\
 \hspace*{0.5cm}
-Adresse : \CONTRATACHETEURADRESSE \\ ~ \\ ~ \\ ~ \\
+Adresse : \textbf{\CONTRATACHETEURADRESSE} \\ ~ \\ ~ \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
 \hspace*{0.5cm}
-\textbf{C) COURTIER} : \CONTRATCOURTIERNOM \\
+\textbf{C)} COURTIER : \textbf{\CONTRATCOURTIERNOM} \\
 \hspace*{0.5cm}
-Adresse : \CONTRATCOURTIERADRESSE 
+Adresse : \textbf{\CONTRATCOURTIERADRESSE}
 <?php endif; ?>
 \end{minipage}
 \hspace{2cm}
 \begin{minipage}[t]{0.3\textwidth}
-N° CVI : \CONTRATVENDEURCVI \\
-Tél. : \CONTRATVENDEURTELEPHONE \\ ~ \\ ~ \\
+N° CVI : \textbf{\CONTRATVENDEURCVI} \\
+Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\ ~ \\
 <?php if ($vrac->getAcheteurObject()->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR): ?>
 ~Récoltant~\squareChecked~Négociant~$\square$ \\
 <?php else: ?>
 ~Récoltant~$\square$~Négociant~\squareChecked \\
 <?php endif; ?>
-N° CVI : \CONTRATACHETEURCVI \\
-Tél. : \CONTRATACHETEURTELEPHONE \\ ~ \\
+N° CVI : \textbf{\CONTRATACHETEURCVI} \\
+Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
-N° CIP : \CONTRATCOURTIERCARTEPRO \\
-Tél. : \CONTRATCOURTIERTELEPHONE 
+N° CIP : \textbf{\CONTRATCOURTIERCARTEPRO} \\
+Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 <?php endif; ?>
 \end{minipage}
  ~ \\ ~ \\
@@ -167,35 +167,35 @@ Tél. : \CONTRATCOURTIERTELEPHONE
 \hspace*{0.5cm}
 La vendange concernée par ce contrat est issue du millésime \textbf{\CONTRATMILLESIMEPRODUIT} \\
 \hspace*{0.5cm}
-Assiette foncière totale correspondant aux volumes commercialisés : \SURFACECONTRAT ~ <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['surface']['libelle'] ?> \\
+Assiette foncière totale correspondant aux volumes commercialisés : \textbf{\SURFACECONTRAT} ~ <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['surface']['libelle'] ?> \\
 \hspace*{0.5cm}
-Volume prévisionnel : \CONTRATVOLUME ~ Kg de raisin du cépage \CONTRATCEPAGEPRODUIT \\
+Volume prévisionnel : \textbf{\CONTRATVOLUME} ~ Kg de raisin du cépage \textbf{\CONTRATCEPAGEPRODUIT} \\
 \hspace*{0.5cm}
-pouvant prétandre à l'appellation : \CONTRATAPPELLATIONPRODUIT \\
+pouvant prétandre à l'appellation : \textbf{\CONTRATAPPELLATIONPRODUIT} \\
 \hspace*{0.5cm}
 Le vendeur s'engage à livrer à l'acheteur les raisins désignés ci-dessus, issus de sa production et conformes à l'ensemble des prescriptions figurant dans \\
 \hspace*{0.5cm}
 les cahiers des charges des vins concernés. Il certifie que les renseignements ci-dessus sont repris dans sa déclaration de récolte.
  ~ \\   ~ \\ 
 %PARTIE 3%
-\circled{3}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Oui~\squareChecked~Non~$\square$<?php else : ?>~Oui~$\square$~Non~\squareChecked<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
+\circled{3}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
 \hspace*{0.5cm}
 Le volume et le prix indiqués sur ce bordereau concernent l'année d'application cochée, sous réserve du respect des règles précisées au verso. \\\hspace*{0.5cm}
-Année 1, préciser :\small ~- si une révision est envisagée pour les années suivante :<?php if ($vrac->seuil_revision || $vrac->pourcentage_variation): ?>~Oui~\squareChecked~Non~$\square$<?php else : ?>~Oui~$\square$~Non~\squareChecked<?php endif; ?> $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat $\pm$ \CONTRATSEUILDECLENCHEMENT\% \\
+En année 1, préciser :\small ~- si une révision est envisagée pour les années suivante :<?php if ($vrac->seuil_revision || $vrac->pourcentage_variation): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat : $\pm$ \textbf{\CONTRATSEUILDECLENCHEMENT}\% \\
 \hspace*{2.92cm}
-- le pourcentage de variabilité maximale du volume en année 2 ou 3 par rapport au volume prévu en année 1 est de $\pm$ \CONTRATBORDEREUPOURCENTAGEANNEEUN\% \\
+- le pourcentage de variabilité maximale du volume en année 2 ou 3 par rapport au volume prévu en année 1 est de : $\pm$ \textbf{\CONTRATBORDEREUPOURCENTAGEANNEEUN}\% \\
 \hspace*{0.5cm}
 \normalsize
-En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initial déposé en année 1 : \CONTRATNUMEROENREGISTREMENTANNEEUN
+En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initial déposé en année 1 : \textbf{\CONTRATNUMEROENREGISTREMENTANNEEUN}
  ~ \\   ~ \\ 
 %PARTIE 4%
 \circled{4}~~\textbf{Prix et conditions de paiement:} \\
 \hspace*{0.5cm}
-Le prix convenu est de ~\CONTRATPRIX~\texteuro / Kg \\
+Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / Kg \\
 \hspace*{0.5cm}
-Moyen de paiement : \CONTRATMOYENPAIEMENT \\
+Moyen de paiement : \textbf{\CONTRATMOYENPAIEMENT} \\
 \hspace*{0.5cm}
-Délais de paiement : \CONTRATDELAIPAIEMENT \\
+Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} \\
 \hspace*{0.5cm}
 \tiny{Rappel : Les Accords Interprofessionnel de l'IVBD encadrent strictement, dans leur article 11, les delais de paiement maximaux. Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours calendaires\\
 \hspace*{0.5cm}
@@ -203,17 +203,17 @@ après chacune des dates de retiraison prévues. Lorsque les bordereaux sont sig
 \hspace*{0.5cm}
 autres cas, les délais de paiement son ceux prévus à l'article L 443-1 du Code de Commerce.\\
 \hspace*{0.5cm}
-Des sanction financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 ) en cas de non respect de ces dispositions.} \\
+Des sanction financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000\texteuro ) en cas de non respect de ces dispositions.} \\
 \normalsize
 \hspace*{0.5cm}
-Le courtage de \CONTRATPOURCENTAGECOURTAGE \% est à la charge de \CONTRATREPARTITION.\\
+Le courtage de \textbf{\CONTRATPOURCENTAGECOURTAGE} \% est à la charge de \textbf{\CONTRATREPARTITION}.\\
 \hspace*{0.5cm}
-Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> ~~~~~ La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>hors TVA \squareChecked ~~ avec TVA $\square$<?php else : ?>hors TVA $\square$ ~~ avec TVA \squareChecked<?php endif; ?>
+Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> ~~~~~ La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>hors TVA \squareChecked ~~ avec TVA $\square$<?php else : ?>hors TVA $\square$ ~~ avec TVA \squareChecked<?php endif; ?><?php if ($vrac->tva == 'SANS'): ?> (Attestation ??? à fournir)<?php endif; ?>
   ~ \\   ~ \\ 
 %PARTIE 5%
 \circled{5}~~\textbf{Retiraison, Délivrance et Réserve de propriété:}\\
 \hspace*{0.5cm}
-La dernière retiraison sera effectuée au plus tard le \DATELIMITERETIRAISON.\\
+La dernière retiraison sera effectuée au plus tard le \textbf{\DATELIMITERETIRAISON}.\\
 \hspace*{0.5cm}
 De convention expresse entre les parties, la délivrance au sens de l'article 1604 du Code Civil se réalisera à la date de retiraison indiquée sur\\
 \hspace*{0.5cm}
@@ -228,7 +228,7 @@ le vendeur se réserve la propriété des raisins vendus jusqu'à parfait paieme
 \hspace*{0.5cm}
 Ce bordereau fait référence à un contrat assorti d'un cahier des charges établi entre le vendeur et l'acheteur : <?php if ($vrac->cahier_charge): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> \\
 \hspace*{0.5cm}
-Observations : \CONTRATOBSERVATIONS \\
+Observations : \textbf{\CONTRATOBSERVATIONS} \\
   ~ \\   ~ \\
 %PARTIE 7%
 \circled{7}~~\textbf{Enregistrement à l'IVBD:}\\
@@ -255,7 +255,7 @@ en avertir l'IVBD par courrier signé et circonstancié.\\
 <?php if ($vrac->mandataire_identifiant): ?>
 \begin{center}
 Le Courtier,\\
-Signé électroniquement, le <?php echo format_date($vrac->date_signature) ?>
+Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
 \end{center}
 <?php else: ?>
 ~ \\
@@ -264,13 +264,13 @@ Signé électroniquement, le <?php echo format_date($vrac->date_signature) ?>
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}
 Le Vendeur,\\
-Signé électroniquement, le <?php echo format_date($vrac->date_signature) ?>
+Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
 \end{center}
 \end{minipage}
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}
 L'Acheteur,\\
-Signé électroniquement, le <?php echo format_date($vrac->date_signature) ?>
+Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
 \end{center}
 \end{minipage}
 

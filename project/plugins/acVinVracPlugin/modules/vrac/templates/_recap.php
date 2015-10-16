@@ -69,35 +69,42 @@ $colsize = 6;
         </div>
     </div>
 
-<?php if (!$vrac->mandataire_identifiant || !$vrac->mandataire_exist): ?>
-<div class="row col-xs-12 text-center">
-    Ce contrat ne possède pas de  mandataire / courtier<br/><br/>
-</div>
-<?php endif; ?>
 
-    <div class="col-xs-6">
+<div class="row col-xs-12 text-center">
+    	<?php if (in_array($vrac->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))): ?>
+    		<h3><?php echo $vrac->produit_libelle ?> <small><?php echo ($vrac->millesime)? $vrac->millesime : 'Non millésimé'; ?><?php if ($vrac->get('millesime_85_15')): ?> (85/15)<?php endif;?></small> <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></h3>
+    		<?php if ($vrac->cepage): ?>
+            Cépage : <strong><?php echo $vrac->cepage_libelle ?><?php if ($vrac->get('cepage_85_15')): ?> (85/15)<?php endif;?></strong><br />
+            <?php endif; ?>
+    	<?php else: ?>
+    		<h3><?php echo $vrac->cepage_libelle ?> <small><?php if ($vrac->get('cepage_85_15')): ?> (85/15)<?php endif;?></small></h3>
+    		<?php if ($vrac->produit_libelle): ?>
+            Revendiquable en <strong><?php echo $vrac->produit_libelle ?></strong><br />
+            <?php endif; ?>
+    	<?php endif; ?>
+    	<?php
+        	$haslabel = 0;
+            foreach ($vrac->label as $label):
+            	echo ($haslabel++) ? ', ' : '';
+                echo ConfigurationClient::getCurrent()->labels->toArray()[$label];
+            endforeach;
+        ?>
+</div>
+<div class="row col-xs-12 text-center">
+<?php if ($vrac->jus_quantite || $vrac->raisin_quantite || $vrac->prix_initial_unitaire): ?>
+	<h3>
+                <?php if ($vrac->jus_quantite): ?><?php echo $vrac->jus_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['jus_quantite']['libelle'] ?><?php endif; ?>
+                <?php if ($vrac->raisin_quantite): ?><?php echo $vrac->raisin_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['raisin_quantite']['libelle'] ?><?php endif; ?>
+                <?php if ($vrac->prix_initial_unitaire): ?> <small>à</small> <?php echo $vrac->prix_initial_unitaire ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle'] ?><?php endif; ?>
+	</h3>
+<?php endif; ?>
+</div>
+
+    <div class="col-xs-12">
         <div class="panel panel-default">
-            <div class="panel-heading">Le marché <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-heading">Les conditions <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
-            	<li class="list-group-item">
-                <?php $hasproduit = 0 ;
-                if ($vrac->produit): $hasproduit = 1 ;?>
-                <strong><?php echo $vrac->produit_libelle ?></strong>
-                <?php endif; ?>
-            	<?php if ($vrac->cepage): ?>
-                <?php echo ($hasproduit) ? ' - ' : ''; ?>
-            	<strong><?php echo $vrac->cepage_libelle ?></strong>
-            	<?php endif; ?>
-            	 (<?php echo ($vrac->millesime)? $vrac->millesime : 'Non millésimé'; ?><?php if ($vrac->get('85_15')): ?> (85/15)<?php endif;?>)<br />
-            	<?php
-                $haslabel = 0;
-                foreach ($vrac->label as $label):
-                     echo ($haslabel++) ? ' - ' : '';
-                     echo ConfigurationClient::getCurrent()->labels->toArray()[$label];
-                endforeach;
-                echo ($haslabel) ? '<br/>' : '';
-                ?>
-                <?php echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin]; ?>&nbsp;: <?php if ($vrac->domaine): ?><?php echo $vrac->domaine; ?><?php endif; ?>
+            	<li class="list-group-item"><?php echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin]; ?><?php if ($vrac->domaine): ?>&nbsp;:<?php echo $vrac->domaine; ?><?php endif; ?></li>
                 <?php if ($vrac->lot): ?>
                 <li class="list-group-item">Lot : <?php echo $vrac->lot ?></li>
                 <?php endif; ?>
@@ -108,20 +115,7 @@ $colsize = 6;
                 <?php if ($vrac->bouteilles_contenance_libelle): ?>Contenance : <?php echo $vrac->bouteilles_contenance_libelle ?><?php endif; ?>
                 </li>
                 <?php endif; ?>
-                <?php if ($vrac->jus_quantite || $vrac->raisin_quantite || $vrac->prix_initial_unitaire): ?>
-                <li class="list-group-item">
-                <?php if ($vrac->jus_quantite): ?>Volume : <strong><?php echo $vrac->jus_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['jus_quantite']['libelle'] ?></strong><br /><?php endif; ?>
-                <?php if ($vrac->raisin_quantite): ?>Quantité : <strong><?php echo $vrac->raisin_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['raisin_quantite']['libelle'] ?></strong><br /><?php endif; ?>
-                <?php if ($vrac->prix_initial_unitaire): ?>Prix : <strong><?php echo $vrac->prix_initial_unitaire ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle'] ?></strong><?php endif; ?>
-                </li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </div>
-    <div class="col-xs-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">Les conditions <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
-            <ul class="list-group">
+                
                 <?php if ($vrac->delai_paiement || $vrac->moyen_paiement || $vrac->acompte): ?>
                 <li class="list-group-item">
                 <?php if ($vrac->delai_paiement): ?>Paiement : <?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement]; ?><?php endif; ?>

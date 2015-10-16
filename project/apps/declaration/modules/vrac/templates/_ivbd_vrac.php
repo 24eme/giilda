@@ -36,7 +36,7 @@
 \def\tabularxcolumn#1{m{#1}}
 
 \def\IVBDCOORDONNEESTITRE{Interprofession des Vins de Bergerac et Duras}
-\def\IVBDCOORDONNEESADRESSE{1, rue des Récollets Test - BP 426 - 24104 BERGERAC Cedex - Tél. 01 01 01 01 01 - Fax: 02 02 02 02 02}
+\def\IVBDCOORDONNEESADRESSE{1, rue des Récollets - BP 426 - 24104 BERGERAC Cedex - Tél. 05 53 63 57 57 - Fax: 05 53 63 01 30}
 
 
 \def\CONTRATNUMENREGISTREMENT{<?php echo substr($vrac->numero_contrat, -6)?>}
@@ -122,34 +122,34 @@
 \normalsize
 \begin{minipage}[t]{0.6\textwidth}
 \hspace*{0.5cm}
-\textbf{A) VENDEUR} : \CONTRATVENDEURNOM \\
+\textbf{A)} VENDEUR : \textbf{\CONTRATVENDEURNOM} \\
 \hspace*{0.5cm}
-Adresse : \CONTRATVENDEURADRESSE \\
+Adresse : \textbf{\CONTRATVENDEURADRESSE} \\
 <?php if ($vrac->vendeur_identifiant != $vrac->representant_identifiant): ?>
 \hspace*{0.5cm}
-Pour le compte de : \CONTRATVENDEURPAYEUR 
+Pour le compte de : \textbf{\CONTRATVENDEURPAYEUR}
 <?php endif; ?>
 \\ ~ \\
 \hspace*{0.5cm}
-\textbf{B) ACHETEUR} : \CONTRATACHETEURNOM \\
+\textbf{B)} ACHETEUR : \textbf{\CONTRATACHETEURNOM} \\
 \hspace*{0.5cm}
-Adresse : \CONTRATACHETEURADRESSE \\ ~ \\
+Adresse : \textbf{\CONTRATACHETEURADRESSE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
 \hspace*{0.5cm}
-\textbf{C) COURTIER} : \CONTRATCOURTIERNOM \\
+\textbf{C)} COURTIER : \textbf{\CONTRATCOURTIERNOM} \\
 \hspace*{0.5cm}
-Adresse : \CONTRATCOURTIERADRESSE 
+Adresse : \textbf{\CONTRATCOURTIERADRESSE}
 <?php endif; ?>
 \end{minipage}
 \hspace{2cm}
 \begin{minipage}[t]{0.3\textwidth}
-N° CVI : \CONTRATVENDEURCVI \\
-Tél. : \CONTRATVENDEURTELEPHONE \\ ~ \\ ~ \\
-N° CVI : \CONTRATACHETEURCVI \\
-Tél. : \CONTRATACHETEURTELEPHONE \\ ~ \\
+N° CVI : \textbf{\CONTRATVENDEURCVI} \\
+Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\ ~ \\
+N° CVI : \textbf{\CONTRATACHETEURCVI} \\
+Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
-N° CIP : \CONTRATCOURTIERCARTEPRO \\
-Tél. : \CONTRATCOURTIERTELEPHONE 
+N° CIP : \textbf{\CONTRATCOURTIERCARTEPRO} \\
+Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 <?php endif; ?>
 \end{minipage}
  ~ \\ ~ \\
@@ -157,13 +157,13 @@ Tél. : \CONTRATCOURTIERTELEPHONE
 \circled{2}~~\textbf{Désignation des produits :} \\
 \normalsize
 \hspace*{0.5cm}
-\textbf{Volume} : \CONTRATVOLUME hl \\
+Volume : \textbf{\CONTRATVOLUME} hl \\
 \hspace*{0.5cm}
-\textbf{Produit} : \CONTRATAPPELLATIONPRODUIT ~~ \textbf{de la récolte} : \CONTRATMILLESIMEPRODUIT  \\
+Produit : \textbf{\CONTRATAPPELLATIONPRODUIT} ~~ de la récolte : \textbf{\CONTRATMILLESIMEPRODUIT}  \\
 \hspace*{0.5cm}
 Ce vins droit de goût, loyal et marchand est garanti conforme aux prescriptions légales et à l'échantillon fourni pour la conclusion de cette transaction. \\
 \hspace*{0.5cm}
-Ce vin est logé dans la commune de : \CONTRATLIEUPRODUIT
+Ce vin est logé dans la commune de : \textbf{\CONTRATLIEUPRODUIT}
  ~ \\   ~ \\ 
 %PARTIE 3%
 \circled{3}~~\textbf{Nom de l'exploitation:}
@@ -181,24 +181,24 @@ et l'adresse du négociant, ainsi que le nom viticulteur.
 contrat, de son nom patronymique ou de sa raison sociale, ainsi que de son adresse pour la présentation du vin.<?php if ($vrac->autorisation_nom_producteur): ?>~Oui~\squareChecked~Non~$\square$<?php else : ?>~Oui~$\square$~Non~\squareChecked<?php endif; ?>
  ~ \\   ~ \\  
 %PARTIE 5%
-\circled{5}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Oui~\squareChecked~Non~$\square$<?php else : ?>~Oui~$\square$~Non~\squareChecked<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
+\circled{5}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>Non~$\square$~Oui~\squareChecked~<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
 \hspace*{0.5cm}
 Le volume et le prix indiqués sur ce bordereau concernent l'année d'application cochée, sous réserve du respect des règles précisées au verso. \\\hspace*{0.5cm}
-Année 1, préciser :\small ~- si une révision est envisagée pour les années suivante :<?php if ($vrac->seuil_revision || $vrac->pourcentage_variation): ?>~Oui~\squareChecked~Non~$\square$<?php else : ?>~Oui~$\square$~Non~\squareChecked<?php endif; ?> $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat $\pm$ \CONTRATSEUILDECLENCHEMENT\% \\
+En année 1, préciser :\small ~- si une révision est envisagée pour les années suivante :<?php if ($vrac->seuil_revision || $vrac->pourcentage_variation): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat : $\pm$ \textbf{\CONTRATSEUILDECLENCHEMENT}\% \\
 \hspace*{2.92cm}
-- le pourcentage de variabilité maximale du volume en année 2 ou 3 par rapport au volume prévu en année 1 est de $\pm$ \CONTRATBORDEREUPOURCENTAGEANNEEUN\% \\
+- le pourcentage de variabilité maximale du volume en année 2 ou 3 par rapport au volume prévu en année 1 est de : $\pm$ \textbf{\CONTRATBORDEREUPOURCENTAGEANNEEUN}\% \\
 \hspace*{0.5cm}
 \normalsize
-En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initial déposé en année 1 : \CONTRATNUMEROENREGISTREMENTANNEEUN
+En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initial déposé en année 1 : \textbf{\CONTRATNUMEROENREGISTREMENTANNEEUN}
  ~ \\   ~ \\ 
 %PARTIE 6-a%
 \circled{6a}~~\textbf{Prix et conditions de paiement:} \\
 \hspace*{0.5cm}
-Le prix convenu est de ~\CONTRATPRIX~\texteuro / T \\
+Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / T \\
 \hspace*{0.5cm}
-Moyen de paiement : \CONTRATMOYENPAIEMENT \\
+Moyen de paiement : \textbf{\CONTRATMOYENPAIEMENT} \\
 \hspace*{0.5cm}
-Délais de paiement : \CONTRATDELAIPAIEMENT \\
+Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} \\
 \hspace*{0.5cm}
 \tiny{Rappel : Les Accords Interprofessionnel de l'IVBD encadrent strictement, dans leur article 11, les delais de paiement maximaux. Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours \\
 \hspace*{0.5cm}
@@ -206,28 +206,28 @@ calendaires après chacune des dates de retiraison prévues. Lorsque les bordere
 \hspace*{0.5cm}
 Dans tous les autres cas, les délais de paiement son ceux prévus à l'article L 443-1 du Code de Commerce.\\
 \hspace*{0.5cm}
-Des sanction financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 ) en cas de non respect de ces dispositions. 
+Des sanction financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000\texteuro ) en cas de non respect de ces dispositions. 
   ~ \\   ~ \\
 %PARTIE 6-b%
 \normalsize
 \circled{6b}~~\textbf{Conditions de paiement particulières:}~Quelle que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard\\
 \hspace*{0.5cm}
-60 jours (ou 150 jours dans le cadre d'un contrat pluriannuel) calendaire après la date de retiraison prévue au présent contrat.\\
+60 jours (ou 150 jours dans le cadre d'un contrat pluriannuel) calendaires après la date de retiraison prévue au présent contrat.\\
 \hspace*{0.5cm}
-Le courtage de \CONTRATPOURCENTAGECOURTAGE \% est à la charge de \CONTRATREPARTITION.\\
+Le courtage de \textbf{\CONTRATPOURCENTAGECOURTAGE} \% est à la charge de \textbf{\CONTRATREPARTITION}.\\
 \hspace*{0.5cm}
 La cotisation interprofessionnelle est pour moitié à la charge de l'acheteur et pour moitié à la charge du vendeur, au taux en vigueur au moment de son\\
 \hspace*{0.5cm}
-éxigibilité.\\
+exigibilité.\\
 \hspace*{0.5cm}
-Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> ~~~~~ La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>hors TVA \squareChecked ~~ avec TVA $\square$<?php else : ?>hors TVA $\square$ ~~ avec TVA \squareChecked<?php endif; ?>
+Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> ~~~~~ La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>hors TVA \squareChecked ~~ avec TVA $\square$<?php else : ?>hors TVA $\square$ ~~ avec TVA \squareChecked<?php endif; ?><?php if ($vrac->tva == 'SANS'): ?> (Attestation ??? à fournir)<?php endif; ?>
   ~ \\   ~ \\ 
 %PARTIE 7%
 \circled{7}~~\textbf{Retiraison, Délivrance et Réserve de propriété:}\\
 \hspace*{0.5cm}
 La retiraison devra s'effectuer dans un délai maximal de 90 jours après signature du présent contrat sauf mention particulière précisée ci-dessous.\\
 \hspace*{0.5cm}
-\underline{Mention particulière} : La retiraison intégrale devra s'effectuer au plus tard le : \DATELIMITERETIRAISON.\\
+\underline{Mention particulière} : La retiraison intégrale devra s'effectuer au plus tard le : \textbf{\DATELIMITERETIRAISON}.\\
 \hspace*{0.5cm}
 et en fonction du calendrier précisé au verso du présent contrat. Pour tout différé de retiraison, un avenant au présent contrat devra être établi\\
 \hspace*{0.5cm}
@@ -268,7 +268,7 @@ en avertir l'IVBD par courrier signé et circonstancié.\\
 <?php if ($vrac->mandataire_identifiant): ?>
 \begin{center}
 Le Courtier,\\
-Signé électroniquement, le <?php echo format_date($vrac->date_signature) ?>
+Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
 \end{center}
 <?php else: ?>
 ~ \\
@@ -277,13 +277,13 @@ Signé électroniquement, le <?php echo format_date($vrac->date_signature) ?>
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}
 Le Vendeur,\\
-Signé électroniquement, le <?php echo format_date($vrac->date_signature) ?>
+Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
 \end{center}
 \end{minipage}
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}
 L'Acheteur,\\
-Signé électroniquement, le <?php echo format_date($vrac->date_signature) ?>
+Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
 \end{center}
 \end{minipage}
 

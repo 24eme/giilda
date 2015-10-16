@@ -72,6 +72,7 @@
 
 \def\CONTRATVENDEURNOM{<?php echo $vrac->vendeur->raison_sociale ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi ?>}
+\def\CONTRATVENDEURSIRET{<?php echo $vrac->vendeur->siret ?>}
 \def\CONTRATVENDEURACCISES{<?php echo $vrac->vendeur->no_accises ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo $vrac->vendeur->adresse ?>}
 \def\CONTRATVENDEURCOMMUNE{<?php echo $vrac->vendeur->code_postal.' '.$vrac->vendeur->commune ?>}
@@ -79,6 +80,7 @@
 
 \def\CONTRATACHETEUREURNOM{<?php echo $vrac->acheteur->raison_sociale ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi ?>}
+\def\CONTRATACHETEURSIRET{<?php echo $vrac->acheteur->siret ?>}
 \def\CONTRATACHETEURACCISES{<?php echo $vrac->acheteur->no_accises ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo $vrac->acheteur->adresse ?>}
 \def\CONTRATACHETEURCOMMUNE{<?php echo $vrac->acheteur->code_postal.' '.$vrac->acheteur->commune ?>}
@@ -93,6 +95,7 @@
 \def\CONTRATPRODUITCEPAGE{<?php echo $vrac->cepage_libelle ?>}
 \def\CONTRATPRODUITMILLESIME{<?php echo $vrac->millesime ?>}
 \def\CONTRATPRODUITDEGRE{<?php echo ($vrac->degre)? $vrac->degre.'°' : ''; ?>}
+\def\CONTRATPRODUITLOT{<?php echo ($vrac->lot)? $vrac->lot : ''; ?>}
 \def\CONTRATPRODUITQUANTITE{<?php echo ($vrac->jus_quantite)? $vrac->jus_quantite : $vrac->raisin_quantite ?>}
 \def\CONTRATPRIXUNITAIRE{<?php echo $vrac->prix_initial_unitaire ?>}
 \def\CONTRATTYPEEXPLICATIONPRIX{Le prix payé est exprimé en euros par hectolitre}
@@ -116,6 +119,7 @@
 
 \def\CONTRATGENERIQUEDOMAINE{<?php echo $vrac->renderLabels(); ?>}
 \def\CONTRATCONDITIONNEMENT{<?php if ($vrac->conditionnement_crd == 'NEGOCE_ACHEMINE'): ?>\textbf{P} : Vin préparé pour la mise en bouteille<?php elseif ($vrac->conditionnement_crd == 'ACHAT_TIRE_BOUCHE'): ?>\textbf{TB} : Tiré Bouché<?php else: ?>\textbf{N} : Vin non préparé<?php endif;?>}
+\def\CONTRATTAUXCOURTAGE{<?php echo $vrac->taux_courtage ?>}
 
 \begin{document}
 
@@ -123,7 +127,7 @@
 \begin{tabularx}{\textwidth}{c p{97mm} |p{37mm}}
 
 	~ & ~ & ~  \\
-	 \multirow{7}{*}{ \includegraphics[scale=0.6]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_ivso.png}} & 	  
+	 \multirow{7}{*}{ \includegraphics[scale=1]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_ivso.png}} & 	  
 	 \multicolumn{1}{c|}{\textbf{\IVSOCOORDONNEESTITRE}} &   	 
 	 N° Bordereau :  \textbf{\LARGE{\CONTRATNUMENREGISTREMENT}} \\
 	 ~ & ~ & ~  \\
@@ -150,22 +154,7 @@
      Entre les soussignés,     
 \begin{multicols}{2}
 
-\begin{minipage}[t]{0.485\textwidth}
-\begin{tabularx}{\textwidth}{|Xr|}
-	\hline 
-         ~ & ~ \\
-	 \multicolumn{2}{|c|}{\textbf{\CONTRATVENDEURNOM}} \\
-         ~ & ~ \\
-	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\ 
-         N° d'ACCISE & \textbf{\CONTRATVENDEURACCISES} \\
-	 Adresse & \textbf{\CONTRATVENDEURADRESSE} \\
-        Commune & \textbf{\CONTRATVENDEURCOMMUNE} \\
-	 ~ & ~ \\
-	 \multicolumn{2}{|r|}{Ci après dénommé le vendeur,} \\
-	 
-	\hline	
-\end{tabularx} 
-\end{minipage}
+
 
 \begin{minipage}[t]{0.485\textwidth}
 \begin{tabularx}{\textwidth}{|Xr|}
@@ -174,13 +163,38 @@
 	 \multicolumn{2}{|c|}{\textbf{\CONTRATACHETEUREURNOM}} \\
          ~ & ~ \\
          C.V.I. & \textbf{\CONTRATACHETEURCVI} \\ 
+	     SIRET & \textbf{\CONTRATACHETEURSIRET} \\ 
              N° d'ACCISE & \textbf{\CONTRATACHETEURACCISES} \\
 	     Adresse & \textbf{\CONTRATACHETEURADRESSE} \\
          Commune & \textbf{\CONTRATACHETEURCOMMUNE} \\
          ~ & ~ \\
 	 \multicolumn{2}{|r|}{Ci après dénommé l'acheteur,}\\
+	 <?php if ($vrac->representant_identifiant): ?>
+	 \multicolumn{2}{|r|}{~} \\
+	 <?php endif; ?>
 	 \hline
 \end{tabularx}
+\end{minipage}
+
+\begin{minipage}[t]{0.485\textwidth}
+\begin{tabularx}{\textwidth}{|Xr|}
+	\hline 
+         ~ & ~ \\
+	 \multicolumn{2}{|c|}{\textbf{\CONTRATVENDEURNOM}} \\
+         ~ & ~ \\
+	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\ 
+	 SIRET & \textbf{\CONTRATVENDEURSIRET} \\ 
+         N° d'ACCISE & \textbf{\CONTRATVENDEURACCISES} \\
+	 Adresse & \textbf{\CONTRATVENDEURADRESSE} \\
+        Commune & \textbf{\CONTRATVENDEURCOMMUNE} \\
+	 ~ & ~ \\
+	 \multicolumn{2}{|r|}{Ci après dénommé le vendeur,} \\
+	 <?php if ($vrac->representant_identifiant): ?>
+	 \multicolumn{2}{|r|}{Représenté par <?php echo $vrac->representant->raison_sociale ?>} \\
+	 <?php endif; ?>
+	 
+	\hline	
+\end{tabularx} 
 \end{minipage}
 \end{multicols}  
 
@@ -199,23 +213,23 @@ A été conclu le marché suivant: \\
 \hline
 ~ & ~ & ~ & ~ & ~  \\
 
-\large{\CONTRATPRODUITCEPAGE}  & \multicolumn{1}{c|}{\CONTRATPRODUITNATURE}  &  \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} & ~ \\
+\large{\CONTRATPRODUITCEPAGE} <?php if ($vrac->get('cepage_85_15')): ?>{\textit{85/15(\%)}}<?php endif; ?>  & \multicolumn{1}{c|}{\CONTRATPRODUITNATURE}  &  \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} & ~ \\
 
 \multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}}  & ~ & ~ & ~ & ~  \\
 ~ & ~ & ~ & ~ & ~  \\
 \hline
 \end{tabularx}
 <?php else: ?>
-\begin{tabularx}{\textwidth}{|p{60mm}|p{13mm}|p{13mm}|p{13mm}|p{13mm}|X|}
+\begin{tabularx}{\textwidth}{|p{60mm}|p{13mm}|p{13mm}|p{13mm}|p{13mm}|p{13mm}|X|}
 \hline
 ~ & ~ & ~ & ~ & ~ & ~  \\
-\textbf{Produit} & \multicolumn{1}{c|}{\textbf{Degré}} & \multicolumn{1}{c|}{\textbf{Année}} & \multicolumn{1}{c|}{\textbf{Volume}} & \multicolumn{1}{c|}{\textbf{Prix}} & \textbf{Cépage} \\
+\textbf{Produit} & \multicolumn{1}{c|}{\textbf{Degré}} & \multicolumn{1}{c|}{\textbf{N° de lot}} & \multicolumn{1}{c|}{\textbf{Année de récolte}} & \multicolumn{1}{c|}{\textbf{Volume}} & \multicolumn{1}{c|}{\textbf{Prix}} & \textbf{Cépage} \\
 ~ & ~ & ~ & ~ & ~ & ~  \\
 \hline
 ~ & ~ & ~ & ~ & ~ & ~  \\
 
-\CONTRATPRODUITNATURE ~ \large{\CONTRATPRODUITLIBELLE}  & \multicolumn{1}{c|}{\large{\CONTRATPRODUITDEGRE}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITMILLESIME}} &  \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} & \CONTRATPRODUITCEPAGE \\
-\multicolumn{1}{|l|}{\textit{\CONTRATCONDITIONNEMENT}}  & ~ & <?php if ($vrac->get('85_15')): ?>\multicolumn{1}{c|}{\textit{85/15(\%)}}<?php else: ?>~<?php endif; ?> & ~  & ~ & ~ \\
+\CONTRATPRODUITNATURE ~ \large{\CONTRATPRODUITLIBELLE}  & \multicolumn{1}{c|}{\large{\CONTRATPRODUITDEGRE}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITLOT}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITMILLESIME}} &  \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} & \CONTRATPRODUITCEPAGE \\
+\multicolumn{1}{|l|}{\textit{\CONTRATCONDITIONNEMENT}}  & ~ & <?php if ($vrac->get('millesime_85_15')): ?>\multicolumn{1}{c|}{\textit{85/15(\%)}}<?php else: ?>~<?php endif; ?> & ~  & ~ & ~ \\
 \multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}}  & ~ & ~ & ~  & ~ & ~ \\
 ~ & ~ & ~ & ~ & ~ & ~  \\
 \hline
@@ -240,7 +254,20 @@ Delai de paiement : \textbf{\CONTRATDELAIPAIEMENT}\\
 
 \begin{minipage}[t]{0.485\textwidth}
 
-\textbf{\normalsize{\underline{Condition de retiraison} :}} \\ ~ \\
+\textbf{\normalsize{\underline{Conditions} :}} \\ ~ \\
+<?php if ($vrac->autorisation_nom_vin && $vrac->autorisation_nom_producteur): ?>
+Autorisation d'utilisation du nom du vin et du producteur.\\
+<?php else: ?>
+<?php if ($vrac->autorisation_nom_vin): ?>
+Autorisation d'utilisation du nom du vin.\\
+<?php endif; ?>
+<?php if ($vrac->autorisation_nom_producteur): ?>
+Autorisation d'utilisation du nom du producteur.\\
+<?php endif; ?>
+<?php endif; ?>
+<?php if ($vrac->taux_courtage): ?>
+Taux de courtage : \textbf{\CONTRATTAUXCOURTAGE}\\
+<?php endif; ?>
 Date de début de retiraison : \textbf{\CONTRATDATEMINENLEVEMENT}\\
 Date de fin de retiraison : \textbf{\CONTRATDATEMAXENLEVEMENT}\\
 
@@ -259,7 +286,7 @@ Article 15 : Les transactions liées à des achats de vins sont soumises à des 
 \parbox{17.7cm}{~ \\ \CONTRATOBSERVATIONS \\ }
 }
 
- ~ \\ ~ \\ ~ \\ 
+ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ 
  
 \begin{tabularx}{\textwidth}{<?php if ($vrac->mandataire_identifiant): ?>|X<?php endif; ?>|X|X|}
 \hline

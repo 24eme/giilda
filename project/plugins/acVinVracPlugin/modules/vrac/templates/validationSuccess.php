@@ -12,12 +12,7 @@
 
 <?php if ($validation->isValide()) : ?>
 <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Validation</h3>
-                </div>
-                <div class="panel-body">
+
                 <?php if (isset($form['date_signature'])): ?>
                     <?php echo $form['date_signature']->renderError(); ?>
                     <div class="form-group">
@@ -28,9 +23,7 @@
 		                </div>
                     </div>
                  <?php endif; ?>
-                </div>
-            </div>
-        </div>
+
 </div>
 <?php endif; ?>        
 
