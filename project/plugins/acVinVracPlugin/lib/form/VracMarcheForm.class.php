@@ -133,7 +133,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         	}
         }
         
-        if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
+        if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS))) {
 
         	$this->setWidget('millesime', new sfWidgetFormInputHidden());
         	unset($this['millesime_85_15']);

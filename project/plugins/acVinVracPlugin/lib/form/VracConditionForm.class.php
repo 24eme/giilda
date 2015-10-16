@@ -24,7 +24,7 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setWidget('moyen_paiement', new bsWidgetFormChoice(array('choices' => $this->getMoyenPaiement())));
         $this->setWidget('date_limite_retiraison', new bsWidgetFormInputDate());
         $this->setWidget('date_debut_retiraison', new bsWidgetFormInputDate());
-        $this->setWidget('cvo_repartition', new bsWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
+        $this->setWidget('taux_repartition', new bsWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
         $this->setWidget('conditions_particulieres', new bsWidgetFormTextarea());
         $this->setWidget('tva', new bsWidgetFormChoice(array('choices' => $this->getTva(), 'expanded' => true)));
         
@@ -59,7 +59,7 @@ class VracConditionForm extends acCouchdbObjectForm {
             'moyen_paiement' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getMoyenPaiement()))),
             'tva' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTva()))),
             'conditions_particulieres' => new sfValidatorString(array('required' => false)),
-        	'cvo_repartition' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))),
+        	'taux_repartition' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))),
         	'date_limite_retiraison' => new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)),
         	'date_debut_retiraison' => new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)),
         	'pluriannuel' => new sfValidatorBoolean(array('required' => false)),

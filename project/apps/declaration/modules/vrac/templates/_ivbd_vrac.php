@@ -38,7 +38,7 @@
 \def\IVBDCOORDONNEESTITRE{Interprofession des Vins de Bergerac et Duras}
 \def\IVBDCOORDONNEESADRESSE{1, rue des Récollets - BP 426 - 24104 BERGERAC Cedex - Tél. 05 53 63 57 57 - Fax: 05 53 63 01 30}
 
-
+\def\CONTRATNUMARCHIVE{<?php echo $vrac->numero_archive ?>}
 \def\CONTRATNUMENREGISTREMENT{<?php echo substr($vrac->numero_contrat, -6)?>}
 \def\CONTRATANNEEENREGISTREMENT{<?php echo substr($vrac->numero_contrat, 2, 2)?>}
 \def\CONTRATVISA{Pas de visa}
@@ -100,7 +100,7 @@
     \end{large}
     \textbf{- AVEC RETIRAISON EN VRAC -}\\
     ~  \\
-    n° IV - \CONTRATANNEEENREGISTREMENT - \begin{large}\textbf{\CONTRATNUMENREGISTREMENT} \end{large} \\ ~ \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
+    n° IV - \CONTRATANNEEENREGISTREMENT - \begin{large}\textbf{\CONTRATNUMARCHIVE} \end{large} \\ ~ \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
     \\ dans un délai maximal de 10 jours après signature du présent bordereau
 \end{center}	
 \end{minipage}
@@ -220,7 +220,7 @@ La cotisation interprofessionnelle est pour moitié à la charge de l'acheteur e
 \hspace*{0.5cm}
 exigibilité.\\
 \hspace*{0.5cm}
-Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> ~~~~~ La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>hors TVA \squareChecked ~~ avec TVA $\square$<?php else : ?>hors TVA $\square$ ~~ avec TVA \squareChecked<?php endif; ?><?php if ($vrac->tva == 'SANS'): ?> (Attestation ??? à fournir)<?php endif; ?>
+Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> ~~~~~ La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>avec TVA $\square$ ~~ hors TVA \squareChecked<?php else : ?>avec TVA \squareChecked ~~ hors TVA $\square$<?php endif; ?> (attestation d'achat en franchise à fournir)
   ~ \\   ~ \\ 
 %PARTIE 7%
 \circled{7}~~\textbf{Retiraison, Délivrance et Réserve de propriété:}\\

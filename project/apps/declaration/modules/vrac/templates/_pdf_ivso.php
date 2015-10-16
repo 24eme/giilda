@@ -220,17 +220,18 @@ A été conclu le marché suivant: \\
 \hline
 \end{tabularx}
 <?php else: ?>
-\begin{tabularx}{\textwidth}{|p{60mm}|p{13mm}|p{13mm}|p{13mm}|p{13mm}|p{13mm}|X|}
+\begin{tabularx}{\textwidth}{|X|p{13mm}|p{13mm}|p{13mm}|p{13mm}|p{13mm}|}
 \hline
 ~ & ~ & ~ & ~ & ~ & ~  \\
-\textbf{Produit} & \multicolumn{1}{c|}{\textbf{Degré}} & \multicolumn{1}{c|}{\textbf{N° de lot}} & \multicolumn{1}{c|}{\textbf{Année de récolte}} & \multicolumn{1}{c|}{\textbf{Volume}} & \multicolumn{1}{c|}{\textbf{Prix}} & \textbf{Cépage} \\
+\textbf{Produit} & \multicolumn{1}{c|}{\textbf{Degré}} & \multicolumn{1}{c|}{\textbf{N° de lot}} & \multicolumn{1}{c|}{\textbf{Année de récolte}} & \multicolumn{1}{c|}{\textbf{Volume}} & \multicolumn{1}{c|}{\textbf{Prix}} \\
 ~ & ~ & ~ & ~ & ~ & ~  \\
 \hline
 ~ & ~ & ~ & ~ & ~ & ~  \\
 
-\CONTRATPRODUITNATURE ~ \large{\CONTRATPRODUITLIBELLE}  & \multicolumn{1}{c|}{\large{\CONTRATPRODUITDEGRE}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITLOT}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITMILLESIME}} &  \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} & \CONTRATPRODUITCEPAGE \\
-\multicolumn{1}{|l|}{\textit{\CONTRATCONDITIONNEMENT}}  & ~ & <?php if ($vrac->get('millesime_85_15')): ?>\multicolumn{1}{c|}{\textit{85/15(\%)}}<?php else: ?>~<?php endif; ?> & ~  & ~ & ~ \\
-\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}}  & ~ & ~ & ~  & ~ & ~ \\
+\CONTRATPRODUITNATURE ~ \large{\CONTRATPRODUITLIBELLE}  & \multicolumn{1}{c|}{\large{\CONTRATPRODUITDEGRE}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITLOT}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITMILLESIME}} &  \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} \\
+\multicolumn{1}{|l|}{\large{\CONTRATPRODUITCEPAGE}}  & ~ & ~ & <?php if ($vrac->get('millesime_85_15')): ?>\multicolumn{1}{c|}{\textit{85/15(\%)}}<?php else: ?>~<?php endif; ?> & ~  & ~  \\
+\multicolumn{1}{|l|}{\textit{\CONTRATCONDITIONNEMENT}}  & ~ & ~ & ~ & ~  & ~  \\
+\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}}  & ~ & ~ & ~ & ~  & ~  \\
 ~ & ~ & ~ & ~ & ~ & ~  \\
 \hline
 \end{tabularx}
@@ -286,7 +287,7 @@ Article 15 : Les transactions liées à des achats de vins sont soumises à des 
 \parbox{17.7cm}{~ \\ \CONTRATOBSERVATIONS \\ }
 }
 
- ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ 
+ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\  
  
 \begin{tabularx}{\textwidth}{<?php if ($vrac->mandataire_identifiant): ?>|X<?php endif; ?>|X|X|}
 \hline

@@ -23,36 +23,6 @@
 		                </div>
 		            </div>
 		            <?php endif; ?>
-                            <?php if (isset($form['taux_courtage']) && $vrac->mandataire_exist): ?>
-		            <div class="form-group col-sm-6 <?php if($form['taux_courtage']->hasError()): ?>has-error<?php endif; ?>">
-		                <?php echo $form['taux_courtage']->renderError(); ?>
-		                <?php echo $form['taux_courtage']->renderLabel("Taux de courtage :", array('class' => 'col-sm-5 control-label')); ?>
-		                <div class="col-sm-7">
-							<div class="input-group">
-		                    	<?php echo $form['taux_courtage']->render(); ?>
-								<span class="input-group-addon">&nbsp;%&nbsp;&nbsp;</span>
-							</div>
-		                </div>
-		            </div>
-		            <?php endif; ?>
-		        	<?php if (isset($form['moyen_paiement'])): ?>
-		            <div class="form-group col-sm-6 <?php if($form['moyen_paiement']->hasError()): ?>has-error<?php endif; ?>">
-		                <?php echo $form['moyen_paiement']->renderError(); ?>
-		                <?php echo $form['moyen_paiement']->renderLabel("Moyen de paiement :", array('class' => 'col-sm-5 control-label')); ?>
-		                <div class="col-sm-7">
-		                    <?php echo $form['moyen_paiement']->render(); ?>
-		                </div>
-		            </div>
-		            <?php endif; ?>
-		        	<?php if (isset($form['cvo_repartition'])): ?>
-		            <div class="form-group col-sm-6 <?php if($form['cvo_repartition']->hasError()): ?>has-error<?php endif; ?>">
-		                <?php echo $form['cvo_repartition']->renderError(); ?>
-		                <?php echo $form['cvo_repartition']->renderLabel("Répartition :", array('class' => 'col-sm-5 control-label')); ?>
-		                <div class="col-sm-7">
-		                    <?php echo $form['cvo_repartition']->render(); ?>
-		                </div>
-		            </div>
-		            <?php endif; ?>
 		        	<?php if (isset($form['acompte'])): ?>
 		            <div class="form-group col-sm-6 <?php if($form['acompte']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['acompte']->renderError(); ?>
@@ -65,12 +35,43 @@
 		                </div>
 		            </div>
 		        	<?php endif; ?>
+		        	<?php if (isset($form['moyen_paiement'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['moyen_paiement']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['moyen_paiement']->renderError(); ?>
+		                <?php echo $form['moyen_paiement']->renderLabel("Moyen de paiement :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-7">
+		                    <?php echo $form['moyen_paiement']->render(); ?>
+		                </div>
+		            </div>
+		            <?php endif; ?>
 		        	<?php if (isset($form['tva'])): ?>
 		            <div class="form-group col-sm-6 <?php if($form['tva']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['tva']->renderError(); ?>
 		                <?php echo $form['tva']->renderLabel("Facturation :", array('class' => 'col-sm-5 control-label')); ?>
 		                <div class="col-sm-7">
 		                    <?php echo $form['tva']->render(); ?>
+		                </div>
+		            </div>
+		            <?php endif; ?>
+		            <div class="col-sm-12"></div>
+                    <?php if (isset($form['taux_courtage'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['taux_courtage']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['taux_courtage']->renderError(); ?>
+		                <?php echo $form['taux_courtage']->renderLabel("Taux de courtage :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-7">
+							<div class="input-group">
+		                    	<?php echo $form['taux_courtage']->render(); ?>
+								<span class="input-group-addon">&nbsp;%&nbsp;&nbsp;</span>
+							</div>
+		                </div>
+		            </div>
+		            <?php endif; ?>
+		        	<?php if (isset($form['taux_repartition']) && $vrac->mandataire_exist): ?>
+		            <div class="form-group col-sm-6 <?php if($form['taux_repartition']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['taux_repartition']->renderError(); ?>
+		                <?php echo $form['taux_repartition']->renderLabel("Répartition du taux :", array('class' => 'col-sm-5 control-label')); ?>
+		                <div class="col-sm-7">
+		                    <?php echo $form['taux_repartition']->render(); ?>
 		                </div>
 		            </div>
 		            <?php endif; ?>
