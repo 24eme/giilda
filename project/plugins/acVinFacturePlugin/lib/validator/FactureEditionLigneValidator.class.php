@@ -27,9 +27,7 @@ class FactureEditionLigneValidator extends sfValidatorSchema
             $errors['libelle'] = new sfValidatorError($this, 'required');
         }
 
-        if(empty($values['produit_identifiant_analytique'])) {
-            $errors['produit_identifiant_analytique'] = new sfValidatorError($this, 'required');
-        }
+       
 
         if(count($errors)) {
 

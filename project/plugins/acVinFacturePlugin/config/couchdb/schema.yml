@@ -85,6 +85,7 @@ Facture:
                           definition:
                             fields:
                               libelle: {}
+                              identifiant_analytique: {  }
                               quantite: {type: float}
                               taux_tva: {type: float}
                               prix_unitaire: {type: float}

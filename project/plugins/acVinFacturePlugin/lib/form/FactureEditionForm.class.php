@@ -12,9 +12,9 @@ class FactureEditionForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-        if (!$this->sans_categories || count($this->getObject()->lignes) < 1) {
-            $this->getObject()->lignes->add("nouvelle");
-        }
+        
+        $this->getObject()->lignes->add("nouvelle");
+
         $this->embedForm('lignes', new FactureEditionLignesForm($this->getObject()->lignes, array('sans_categories' => $this->sans_categories)));
 
         $this->widgetSchema->setNameFormat('facture_edition[%s]');
