@@ -119,6 +119,8 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         $this->validatorSchema['acheteur_producteur']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
         $this->validatorSchema['acheteur_negociant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
         
+        
+  		$this->validatorSchema->setPostValidator(new ValidatorVracSoussigne());
         $this->useFields(VracConfiguration::getInstance()->getChamps('soussigne'));
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
