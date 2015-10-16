@@ -38,6 +38,7 @@ class FactureEditionLigneDetailForm extends acCouchdbObjectForm {
         $this->setValidator("montant_tva", new sfValidatorNumber(array('required' => false)));
 
         $this->widgetSchema->setNameFormat('facture_edition_ligne_detail[%s]');
+        
         $this->validatorSchema->setPreValidator(new FactureEditionLigneDetailValidator());
     }
     

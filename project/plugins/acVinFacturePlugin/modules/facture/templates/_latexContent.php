@@ -39,7 +39,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
     }
 }
 $nb_blank = FactureLatex::MAX_LIGNES_PERPAGE - $line_nb_current_page - FactureLatex::NB_LIGNES_REGLEMENT;
-$nb_echeances = count($facture->getEcheances());
+$nb_echeances = count($facture->getEcheancesPapillon());
 if ($nb_echeances)
     $nb_blank += - FactureLatex::NB_LIGNES_PAPILLONS_PAR_ECHEANCE * $nb_echeances - FactureLatex::NB_LIGNES_PAPILLONS_FIXE;
 if (!$current_nb_pages)
@@ -48,6 +48,6 @@ if (!$current_nb_pages)
 include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => $nb_blank, 'end_document' => true, 'avoir' => $avoir));
 include_partial('facture/templateReglement', array('facture' => $facture, 'avoir' => $avoir));
 if ($nb_echeances)
-    include_partial('facture/templateEcheances', array('echeances' => $facture->getEcheances(), 'societe' => $facture->getSociete()));
+    include_partial('facture/templateEcheances', array('echeances' => $facture->getEcheancesPapillon(), 'societe' => $facture->getSociete()));
 ?>
 \end{document}
