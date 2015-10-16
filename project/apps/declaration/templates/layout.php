@@ -49,5 +49,6 @@
     <script src="/js/conditionnement.js"></script>
     <script src="/js/vrac.js"></script>
     <script src="/js/drm.js"></script>
+    <script src="/js/facture.js"></script>
   </body>
 </html>

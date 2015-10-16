@@ -27,6 +27,9 @@ class FactureEditionLigneDetailForm extends acCouchdbObjectForm {
         $this->setWidget("taux_tva", new sfWidgetFormInput());
         $this->setValidator("taux_tva", new sfValidatorNumber(array('required' => false)));
         
+        $this->setWidget("identifiant_analytique", new sfWidgetFormInput());
+        $this->setValidator("identifiant_analytique", new sfValidatorString(array('required' => false)));
+        
         if ($this->sans_categories) {
             $this->setWidget("taux_tva", new sfWidgetFormInputHidden());
         }
