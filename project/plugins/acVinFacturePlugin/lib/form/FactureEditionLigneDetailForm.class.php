@@ -44,10 +44,11 @@ class FactureEditionLigneDetailForm extends acCouchdbObjectForm {
     
      protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        if($this->sans_categories) {
+        
+        if(!$this->getObject()->taux_tva && $this->sans_categories) {
             $this->setDefault("taux_tva", 0.2);
         }
 
     }
-
+    
 }

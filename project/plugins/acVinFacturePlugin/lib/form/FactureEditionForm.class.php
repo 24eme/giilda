@@ -23,14 +23,14 @@ class FactureEditionForm extends acCouchdbObjectForm {
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
 
-//        if ($this->getObject()->lignes->exist("nouvelle")) {
-//            $newLine = $this->getObject()->lignes->get("nouvelle")->toArray(true, false);
-//            $this->getObject()->lignes->remove("nouvelle");
-//            $this->getObject()->lignes->add(uniqid(), $newLine);
-//        }
-//
-//        $this->getObject()->lignes->cleanLignes();
-//        $this->getObject()->updateTotaux();
+        if ($this->getObject()->lignes->exist("nouvelle")) {
+            $newLine = $this->getObject()->lignes->get("nouvelle")->toArray(true, false);
+            $this->getObject()->lignes->remove("nouvelle");
+            $this->getObject()->lignes->add(uniqid(), $newLine);
+        }
+
+        $this->getObject()->lignes->cleanLignes();
+        $this->getObject()->updateTotaux();
     }
 
 }
