@@ -256,6 +256,7 @@ DRM:
                                                                                                                   achatnoncrd: { type: float, required: false } #NOUVEAU
                                                                                                                   achatcrd: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
+                                                                                                                  transferts: { type: float, required: false } #NOUVEAU
                                                                                                                   declassement: { type: float, required: false } #NOUVEAU
                                                                                                                   retourmarchandisenontaxees: { type: float, required: false } #NOUVEAU
                                                                                                                   retourmarchandisetaxees: { type: float, required: false } #NOUVEAU
@@ -270,12 +271,15 @@ DRM:
                                                                                                                   elaboration: { type: float, required: false }
                                                                                                                   repli: { type: float, required: false }
                                                                                                                   regularisation: { type: float, required: false }
+                                                                                                                  manipulation: { type: float, required: false } #NOUVEAU
+                                                                                                                  excedents: { type: float, required: false } #NOUVEAU
                                                                                                                   fermagemetayage: { type: float, required: false }
                                                                                                             sorties:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
+                                                                                                                  vracsanscontrat: { type: float, required: false } #NOUVEAU
                                                                                                                   vracsanscontratsuspendu: { type: float, required: false } #NOUVEAU
                                                                                                                   vracsanscontratacquitte: { type: float, required: false } #NOUVEAU
                                                                                                                   ventefrancebouteillecrd: { type: float, required: false } #NOUVEAU
@@ -283,6 +287,8 @@ DRM:
                                                                                                                   vrac: { type: float, required: false } #ANCIEN et NOUVEAU
                                                                                                                   consommationfamilialedegustation: { type: float, required: false } #NOUVEAU
                                                                                                                   distillationusageindustriel: { type: float, required: false } #NOUVEAU
+                                                                                                                  usageindustriel: { type: float, required: false } #NOUVEAU
+                                                                                                                  distillation: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
                                                                                                                   vci: { type: float, required: false } #NOUVEAU
                                                                                                                   travailafacon: { type: float, required: false } #NOUVEAU
@@ -525,7 +531,7 @@ DRM:
               type: collection
               definition:
                 fields:
-                  '*': { }                  
+                  '*': { }
       documents_annexes:
         type: collection
         required: true
@@ -535,8 +541,8 @@ DRM:
               type: collection
               definition:
                 fields:
-                  'debut': { }    
-                  'fin': { }                  
+                  'debut': { }
+                  'fin': { }
       releve_non_apurement:
         type: collection
         class: DRMNonApurement
@@ -547,8 +553,42 @@ DRM:
               type: collection
               definition:
                 fields:
-                  'numero_document': { }    
-                  'date_emission': { }  
-                  'numero_accise': { }  
+                  'numero_document': { }
+                  'date_emission': { }
+                  'numero_accise': { }
       observations: { }
       quantite_sucre: { }
+
+CSV:
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      type: {  }
+      _attachments:
+        type: collection
+        definition:
+          fields: 
+            '*':
+              type: collection
+              definition:
+                fields:
+                  content_type: { }
+                  revpos: { }
+                  length: { }
+                  stub: { }
+                  digest: { }
+      identifiant: {  }
+      periode: {  }
+      statut: {  }
+      erreurs:
+        type: collection
+        definition:          
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  num_ligne: { type: integer }
+                  csv_erreur: { }
+                  diagnostic: { }
