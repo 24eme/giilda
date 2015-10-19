@@ -20,6 +20,8 @@
         this.event_disabled = function () {}
         this.event_valider_champ_modification = function () {}
         this.event_colonne_init = function () {}
+        this.event_edition_on = function () {}
+        this.event_edition_off = function () {}
 
         this.init = function() {
             this.colonnes = new Array();
@@ -137,16 +139,12 @@
             for(key in this.colonnes) {
                 this.colonnes[key].enabled();
             }
-
-            this.event_enabled();
         }
 
         this.disabled = function() {
             for(key in this.colonnes) {
                 this.colonnes[key].disabled();
             }
-
-            this.event_disabled();
         }
 
         this.update = function() {
@@ -289,22 +287,12 @@
 		
 		this.desactiveElements = function() {
 		
-			// On désactive les boutons
-			this.boutons_etapes.addClass('desactive');
-			this.boutons_etapes.bind('click', this.desactiveBoutons);
-
-			// On désactive le champ appellation
-			$('#form_produit_declaration input[type="text"]').attr('disabled', 'disabled');
+			this.colonnes.event_edition_on();
 		}
 		
 		this.reactiveElements = function() {
 			
-			// On réactive les boutons
-			this.boutons_etapes.removeClass('desactive');
-			this.boutons_etapes.unbind('click', this.desactiveBoutons);
-
-			// On réactive le champ appellation
-			$('#form_produit_declaration input[type="text"]').removeAttr('disabled');
+			this.colonnes.event_edition_off();
 		}
 
         this.enabled = function()  {
@@ -316,6 +304,9 @@
             this.element.removeClass('col_inactive');
             this.element.removeClass('inactive');
             this.groupes.enabled();
+            this.element.find('a').removeAttr('disabled');
+
+            this.colonnes.event_enabled(this);
         }
 
         this.disabled = function()  {
@@ -326,6 +317,9 @@
             this.element.addClass('col_inactive');
             this.element.addClass('inactive');
             this.groupes.disabled();
+            this.element.find('a').attr('disabled', 'disabled');
+
+            this.colonnes.event_disabled(this);
         }
 
         this.focus = function() {
