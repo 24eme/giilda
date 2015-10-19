@@ -39,3 +39,8 @@ table tr th.vertical-center, table tr td.vertical-center, table tr.vertical-cent
 .pointer {
     cursor: pointer;
 }
+
+.form-control[readonly].no-state, .form-control[disabled].no-state {
+    opacity: inherit;
+    background: inherit;
+}

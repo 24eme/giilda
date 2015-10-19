@@ -76,16 +76,16 @@ $favoris_sorties = $favoris->sorties;
                             <?php if ($key == "vrac"): ?>
                                 <div class="input-group">
                                     <span class="input-group-btn">
-                                        <a id="lien_sorties_vrac_details" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                        <a id="lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
                                     </span>
-                                    <input type="text" data-pointer="#lien_sorties_vrac_details" class="btn_detail pointer num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" data-title="Details des contrats" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
+                                    <input type="text" data-pointer="#lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer num num_float somme_detail bold_on_blur input_lien drm_details form-control no-state text-right" data-title="Details des contrats" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
                                 </div>
                             <?php elseif ($key == "export"): ?>
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <a id="lien_sorties_export_details" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                            <a id="lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
                                         </span>
-                                        <input type="text" data-pointer="#lien_sorties_export_details" class="btn_detail pointer num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                                        <input type="text" data-pointer="#lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer num num_float somme_detail bold_on_blur input_lien drm_details form-control no-state text-right" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
                                     </div>
                             <?php elseif ($key == "cooperative"): ?>
                                     <input type="text" class="btn_detail pointer num num_float somme_detail bold_on_blur input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
@@ -108,16 +108,16 @@ $favoris_sorties = $favoris->sorties;
                                 <?php if ($key == "vrac"): ?>
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <a id="lien_sorties_vrac_details" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                            <a id="lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
                                         </span>
-                                        <input type="text" data-pointer="#lien_sorties_vrac_details" class="btn_detail pointer num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
+                                        <input type="text" data-pointer="#lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer num num_float somme_detail bold_on_blur input_lien drm_details form-control no-state text-right" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
                                     </div>
                                 <?php elseif ($key == "export"): ?>
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <a id="lien_sorties_export_details" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                            <a id="lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"></span></a>
                                         </span>
-                                        <input type="text" data-pointer="#lien_sorties_export_details" class="btn_detail pointer num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                                        <input type="text" data-pointer="#lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer num num_float somme_detail bold_on_blur input_lien drm_details form-control no-state text-right" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
                                     </div>
                                 <?php elseif ($key == "cooperative"): ?>
                                                             <input type="text" class="btn_detail pointer num num_float somme_detail bold_on_blur input_lien drm_details form-control text-right" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
