@@ -9,7 +9,6 @@ class FactureEditionLigneForm extends acCouchdbObjectForm {
             $this->sans_categories = $options['sans_categories'];
         }
         parent::__construct($object, $options, $CSRFSecret);
-        
     }
 
     public function configure() {
@@ -19,10 +18,9 @@ class FactureEditionLigneForm extends acCouchdbObjectForm {
         $this->setWidget("montant_ht", new sfWidgetFormInputFloat());
 
         if ($this->sans_categories) {
-            $this->setWidget("libelle", new sfWidgetFormInputHidden());
+            $this->setWidget("produit_identifiant_analytique", new sfWidgetFormInputHidden());
             $this->setWidget("montant_tva", new sfWidgetFormInputHidden());
             $this->setWidget("montant_ht", new sfWidgetFormInputHidden());
-            
         }
 
         $this->setValidator("libelle", new sfValidatorString(array("required" => false)));
@@ -31,19 +29,11 @@ class FactureEditionLigneForm extends acCouchdbObjectForm {
         $this->setValidator("montant_ht", new sfValidatorNumber(array('required' => false)));
 
         $this->getObject()->details->add();
-        $this->embedForm('details', new FactureEditionLigneDetailsForm($this->getObject()->details,array('sans_categories' => $this->sans_categories)));
+        $this->embedForm('details', new FactureEditionLigneDetailsForm($this->getObject()->details, array('sans_categories' => $this->sans_categories)));
 
         $this->validatorSchema->setPreValidator(new FactureEditionLigneValidator());
 
         $this->widgetSchema->setNameFormat('facture_edition_ligne[%s]');
-    }
-    
-     protected function updateDefaultsFromObject() {
-        parent::updateDefaultsFromObject();
-        if($this->sans_categories) {
-            $this->setDefault("libelle", "Vierge");
-        }
-
     }
 
 }

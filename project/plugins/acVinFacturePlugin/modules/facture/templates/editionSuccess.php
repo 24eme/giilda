@@ -28,7 +28,8 @@
             <?php if ($sans_categorie): ?>
                 <div class="col-xs-9">
                     <div class="row">
-                        <div class="col-xs-9 text-center lead text-muted">Libellé / Code comptable</div>
+                        <div class="col-xs-6 text-center lead text-muted">Libellé</div>
+                        <div class="col-xs-3 text-center lead text-muted">Code comptable</div>
                         <div class="col-xs-3 text-center lead text-muted">Quantité</div>
                     </div>
                 </div>
@@ -96,6 +97,24 @@
                             <!--<button type="button" class="btn btn-danger btn-lg hidden"><span class="glyphicon glyphicon-trash"></span></button>-->
                         </div>
                     </div>
+                <?php else: ?>
+                  <div class="form-group line <?php if (!$f_ligne['libelle']->getValue() && !$f_ligne->hasError()): ?>empty<?php endif; ?>" style="padding-top:  15px;">
+                        <div class="col-xs-7">
+                            <div class="row">
+                                <div class="col-xs-6 <?php echo (($f_ligne['libelle']->hasError()) ? 'has-error' : null) ?>">
+                                    <?php echo $f_ligne['libelle']->render(array('class' => 'form-control', 'placeholder' => 'Libellé Catégorie')); ?>
+                                </div>
+                                <div class="col-xs-3"></div>
+                                <div class="col-xs-3"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3 text-right">
+                            <div class="row">
+                                <div class="col-xs-7 col-xs-offset-5"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2"></div>
+                    </div>
                 <?php endif; ?>
                 <div class="form-group" style="border-bottom: 1px dotted #d2d2d2; padding-top:  15px;">
                     <div class="col-xs-12">
@@ -104,10 +123,10 @@
                                 <div class="col-xs-9">
                                     <div class="row">
                                         <div class="col-xs-6 <?php echo (($f_detail['libelle']->hasError()) ? 'has-error' : null) ?>">
-                                            <?php echo $f_detail['libelle']->render(array('class' => 'form-control', 'data-detail' => "#" . $f_detail->renderId(), 'placeholder' => 'Libellé')); ?>
+                                            <?php echo $f_detail['libelle']->render(array('class' => 'form-control', 'data-detail' => "#" . $f_detail->renderId(), 'placeholder' => 'Libellé du detail')); ?>
                                         </div>  
-                                        <div class="col-xs-3 <?php echo (($f_ligne['produit_identifiant_analytique']->hasError()) ? 'has-error' : null) ?>">
-                                            <?php echo $f_ligne['produit_identifiant_analytique']->render(array('class' => 'form-control bg-info', 'placeholder' => 'Compta')); ?>
+                                        <div class="col-xs-3 <?php echo (($f_detail['identifiant_analytique']->hasError()) ? 'has-error' : null) ?>">
+                                            <?php echo $f_detail['identifiant_analytique']->render(array('class' => 'form-control bg-info', 'placeholder' => 'Compta')); ?>
                                         </div>
                                         <div class="col-xs-3 <?php echo (($f_detail['quantite']->hasError()) ? 'has-error' : null) ?>">
                                             <?php echo $f_detail['quantite']->render(array('class' => 'form-control text-right data-sum-element', 'data-sum-element' => "#" . $f_detail['montant_ht']->renderId(), 'data-detail' => "#" . $f_detail->renderId(), 'placeholder' => 'Quantité')); ?>
@@ -138,9 +157,9 @@
                                         </div>
                                         <div class="col-xs-5">
                                             <?php if ($key_detail == count($f_ligne['details']) - 1): ?>
-                                                <button type="button" class="btn btn-success data-add-line hidden" data-form="#form_edition_facture" data-form-action="<?php echo isset($baseFacture) ? url_for("facture_avoir", array('sf_subject' => $baseFacture, 'not_redirect' => true)) : url_for("facture_edition", array('id' => $facture->_id, 'not_redirect' => true)) ?>"><span class="glyphicon glyphicon-plus"></span></button>
+                                                <!--<button type="button" class="btn btn-success data-add-line hidden" data-form="#form_edition_facture" data-form-action="<?php echo isset($baseFacture) ? url_for("facture_avoir", array('sf_subject' => $baseFacture, 'not_redirect' => true)) : url_for("facture_edition", array('id' => $facture->_id, 'not_redirect' => true)) ?>"><span class="glyphicon glyphicon-plus"></span></button>-->
                                             <?php else: ?>
-                                                <button data-detail="#<?php echo $f_detail->renderId() ?>" type="button" class="btn btn-danger data-clean-line hidden"><span class="glyphicon glyphicon-trash"></span></button>
+                                                <!--<button data-detail="#<?php echo $f_detail->renderId() ?>" type="button" class="btn btn-danger data-clean-line hidden"><span class="glyphicon glyphicon-trash"></span></button>-->
                                             <?php endif; ?>
                                         </div>
                                     </div>

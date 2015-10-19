@@ -243,6 +243,17 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $origines;
     }
 
+    public function getEcheancesPapillon() {
+        $echeance = new stdClass();
+        $echeance->echeance_date = Date::addDelaiToDate('+2 month', $this->date_facturation);
+        
+        $echeance->montant_ttc = 0;
+        foreach ($this->lignes as $ligne) {
+          $echeance->montant_ttc += $ligne->montant_tva + $ligne->montant_ht;
+        }        
+        return array($echeance);
+    }
+    
     /* private function createOrigineLibelle($ligne, $transacteur, $famille, $view) {
       sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
       if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12) {

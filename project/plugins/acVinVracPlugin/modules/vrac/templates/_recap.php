@@ -68,11 +68,14 @@ $colsize = 6;
             </div>
         </div>
     </div>
-
-
+    <div class="col-xs-12">
+   	<div class="panel panel-default">
+            <div class="panel-heading"><strong>Produit</strong><?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-body">
+<div class="row col-xs-9">
 <div class="row col-xs-12 text-center">
     	<?php if (in_array($vrac->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))): ?>
-    		<h3><?php echo $vrac->produit_libelle ?> <small><?php echo ($vrac->millesime)? $vrac->millesime : 'Non millésimé'; ?><?php if ($vrac->get('millesime_85_15')): ?> (85/15)<?php endif;?></small> <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></h3>
+    		<h3><?php echo $vrac->produit_libelle ?> <small><?php echo ($vrac->millesime)? $vrac->millesime : 'Non millésimé'; ?><?php if ($vrac->get('millesime_85_15')): ?> (85/15)<?php endif;?></small></h3>
     		<?php if ($vrac->cepage): ?>
             Cépage : <strong><?php echo $vrac->cepage_libelle ?><?php if ($vrac->get('cepage_85_15')): ?> (85/15)<?php endif;?></strong><br />
             <?php endif; ?>
@@ -99,10 +102,11 @@ $colsize = 6;
 	</h3>
 <?php endif; ?>
 </div>
-
-    <div class="col-xs-12">
+</div>
+<div class="row col-xs-3">
+	<div class="col-xs-12">
         <div class="panel panel-default">
-            <div class="panel-heading">Les conditions <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-heading">Compléments</div>
             <ul class="list-group">
             	<li class="list-group-item"><?php echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin]; ?><?php if ($vrac->domaine): ?>&nbsp;:<?php echo $vrac->domaine; ?><?php endif; ?></li>
                 <?php if ($vrac->lot): ?>
@@ -115,6 +119,18 @@ $colsize = 6;
                 <?php if ($vrac->bouteilles_contenance_libelle): ?>Contenance : <?php echo $vrac->bouteilles_contenance_libelle ?><?php endif; ?>
                 </li>
                 <?php endif; ?>
+            </ul>
+       </div>
+    </div>
+</div>
+		</div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Les conditions <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <ul class="list-group">
+                
                 
                 <?php if ($vrac->delai_paiement || $vrac->moyen_paiement || $vrac->acompte): ?>
                 <li class="list-group-item">
@@ -125,10 +141,10 @@ $colsize = 6;
                 )
                 </li>
 				<?php endif; ?>
-            	<?php if ($vrac->taux_courtage || $vrac->cvo_repartition || $vrac->tva): ?>
+            	<?php if ($vrac->taux_courtage || $vrac->taux_repartition || $vrac->tva): ?>
             	<li class="list-group-item">
             	<?php if ($vrac->taux_courtage): ?>Taux de courtage : <?php echo $vrac->taux_courtage ?><br /><?php endif; ?>
-            	<?php if ($vrac->cvo_repartition): ?>Répartition : <?php echo VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->cvo_repartition] ?><br /><?php endif; ?>
+            	<?php if ($vrac->taux_repartition): ?>Répartition du taux de courtage : <?php echo VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->taux_repartition] ?><br /><?php endif; ?>
             	<?php if ($vrac->tva): ?>Facturation <?php echo VracConfiguration::getInstance()->getTva()[$vrac->tva] ?><?php endif; ?>
             	</li>
                 <?php endif; ?>

@@ -42,7 +42,7 @@ EOF;
     }
 
     if($options['format'] == "json") {
-      echo json_encode($doc);
+      echo json_encode($doc, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
 
     if($options['format'] == "php") {

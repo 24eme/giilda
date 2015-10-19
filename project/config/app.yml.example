@@ -113,6 +113,16 @@ all:
         "BIB 6l": 0.06
         "BIB 10l": 0.1
         "BIB 20l": 0.2
+    facture:
+      sans_categories : true  
+      emetteur: 
+        HORS_REGION:
+          adresse: 'adresse IVSO'
+          code_postal: 'cp IVSO'
+          ville: 'IVSO'
+          service_facturation: 'nom prenom IVSO'
+          telephone: 'tel IVSO - fax IVSO'
+          email: 'IVSO@IVSO.fr'
   cas:
     domain: login.cas
     port: 443

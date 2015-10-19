@@ -16,7 +16,6 @@ class factureActions extends sfActions {
 
     public function executeEdition(sfWebRequest $request) {
         $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
-
         if (!$this->facture) {
 
             return $this->forward404(sprintf("La facture %s n'existe pas", $request->getParameter('id')));
@@ -24,7 +23,7 @@ class factureActions extends sfActions {
         $configAppFacture = sfConfig::get('app_configuration_facture');
         $this->sans_categorie = $configAppFacture['sans_categories'];
         $this->form = new FactureEditionForm($this->facture, array('sans_categories' => $this->sans_categorie));
-
+        
         if ($this->facture->isPayee()) {
 
             throw new sfException(sprintf("La factures %s a déjà été payée", $facture->_id));
