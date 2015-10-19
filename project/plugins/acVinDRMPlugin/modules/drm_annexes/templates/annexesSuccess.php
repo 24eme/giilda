@@ -52,7 +52,6 @@
                                 </tr>
                             </thead>
                             <tbody class="drm_non_apurement" id="nonapurement_list">
-
                                 <?php
                                 foreach ($annexesForm['releve_non_apurement'] as $nonApurementForm) :
                                     include_partial('itemNonApurement', array('form' => $nonApurementForm));
@@ -67,7 +66,7 @@
                 <div class="col-xs-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Compléments d'informations</h3>
+                            <h3 class="panel-title text-center">Compléments d'informations à destination des douanes</h3>
                         </div>
                         <div class="panel-body row">
                             <div class="col-sm-7">
@@ -75,7 +74,7 @@
                                 <div class="form-group <?php if($annexesForm['observations']->hasError()): ?>has-error<?php endif; ?>">
                                     <?php echo $annexesForm['observations']->renderLabel("Observations sur les mouvements :", array('class' => 'col-sm-12')); ?>
                                     <div class="col-sm-12">
-                                    <?php echo $annexesForm['observations']->render(array('class' => 'form-control', 'placeholder' => 'Veuillez précisez vos eventuels observations sur les mouvements', 'rows' => "2")); ?>
+                                    <?php echo $annexesForm['observations']->render(array('class' => 'form-control', 'placeholder' => 'Veuillez préciser vos eventuels observations sur les mouvements', 'rows' => "2")); ?>
                                     </div>
                                 </div>
                             </div>
