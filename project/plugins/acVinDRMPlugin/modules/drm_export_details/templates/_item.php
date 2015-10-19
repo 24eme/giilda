@@ -12,7 +12,7 @@
             <div class="input-group-addon">hl</div>
         </div>
     </td>
-    <?php if ($isTeledeclarationMode) : ?>
+    <?php if ($isTeledeclarationMode && 1 == 2) : ?>
         <td class="form-group <?php if($form['type_document']->hasError()): ?>has-error<?php endif; ?>">    
             <?php
             echo $form['type_document']->renderError();

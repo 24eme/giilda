@@ -8,7 +8,7 @@ class drm_vrac_detailsActions extends drmGeneriqueActions
         $this->detail = $this->getRoute()->getDRMDetail();
         $this->drm = $this->detail->getDocument();
             $this->isTeledeclarationMode = $this->isTeledeclarationDrm();     
-        $this->form = new DRMDetailVracForm($this->detail->sorties->vrac_details, array(),  array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+        $this->form = new DRMDetailVracForm($this->detail->sorties->vrac_details, array(),  array('isTeledeclarationMode' => $this->isTeledeclarationMode && false));
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             

@@ -12,6 +12,9 @@
     $(document).ready(function ()
     {
         $(document).initAdvancedElements();
+
+        $.initSelect2PermissifNoAjax();
+        
         $(options.selectors.ajaxModal).on("show.bs.modal", function (e) {
             var link = $(e.relatedTarget);
             $(this).load(link.attr("href"), function () {
@@ -54,8 +57,37 @@
                             results: results
                         }
 
-                    }}});
+                    }}
             });
+        });
+
+        $.initSelect2PermissifNoAjax  = function()
+        {
+            if ($('.select2permissifNoAjax').length) {
+                var lastValue = null;
+                $('.select2permissifNoAjax').select2({
+                    data: JSON.parse($('input.select2permissifNoAjax').attr('data-choices')),
+                    multiple: false,
+                    placeholder: true,
+                    createSearchChoice: function(term, data) {
+                        if ($(data).filter(function() {
+                            return this.text.localeCompare(term) === 0;
+                        }).length === 0) {
+                            return {id: term, text: term + ' (nouveau)'};
+                        }
+                    }
+                }).on("select2-close", function() {
+                    var old_choices = JSON.parse($('input.select2permissifNoAjax').attr('data-choices'));
+                    old_choices.push({ id:  lastValue, text : lastValue + ' (nouveau)'});
+                    $('input.select2permissifNoAjax').select2("val",lastValue);
+                    $('input.select2permissifNoAjax').val(lastValue);
+                    $('.select2permissifNoAjax .select2-chosen').text(lastValue);
+                }).on("select2-highlight", function(e) {
+                    lastValue = e.val;
+                })
+            }
+        }
+
         $(this).find('.input-group.date').datetimepicker({
             locale: 'fr_FR',
             format: 'L',
@@ -63,8 +95,10 @@
             focusOnShow: true,
             useCurrent: false
         });
+
         $(this).find("form.form-ajax-modal").on('submit', function () {
             var form = $(this);
+            var callback = $(this).attr('callback');
             $.post($(this).attr('action'),
                     $(this).serialize(),
                     function (data)
@@ -75,8 +109,11 @@
                             return;
                         }
 
+                        console.log(data);
+
                         $(options.selectors.ajaxModal).modal('hide');
                     }, "json");
+            
             return false;
         });
 

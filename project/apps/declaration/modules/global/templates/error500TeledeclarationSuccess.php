@@ -1,7 +1,7 @@
 <section id="principal">
     <center>
         <p>        
-            <img height="381" width="680" src="/images/500.jpg"/>
+            Oops ...une erreur est survenue :-(
         </p>
     </center>
 

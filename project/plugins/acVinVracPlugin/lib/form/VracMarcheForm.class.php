@@ -41,7 +41,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('cepage', new bsWidgetFormChoice(array('choices' => $this->getCepages()), array('class' => 'autocomplete')));
         $this->setWidget('millesime', new bsWidgetFormChoice(array('choices' => $this->millesimes), array('class' => 'autocomplete permissif')));
         $this->setWidget('categorie_vin', new bsWidgetFormChoice(array('choices' => $this->getCategoriesVin(), 'expanded' => true)));
-        $this->setWidget('domaine', new bsWidgetFormChoice(array('choices' => $this->domaines), array('class' => 'autocomplete permissif')));
+        $this->setWidget('domaine', new bsWidgetFormInput());
         $this->setWidget('raisin_quantite', new bsWidgetFormInput());
         $this->setWidget('lot', new bsWidgetFormInput());
         $this->setWidget('jus_quantite', new bsWidgetFormInput());
@@ -156,10 +156,6 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $this->setDefault('millesime', $this->getObject()->millesime);
         }
 
-        if ($this->defaultDomaine) {
-            $this->setDefault('domaine', $this->defaultDomaine);
-        }
-
         if (
         		(in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)) && $this->getObject()->cepage) ||
         		(in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS)) && $this->getObject()->produit)
@@ -200,7 +196,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
         $this->getObject()->update();
-        $this->getObject()->domaine = strtoupper(KeyInflector::unaccent($this->values['domaine']));
+        $this->getObject()->domaine = strtoupper(KeyInflector::unaccent($values['domaine']));
         if ($values['millesime'] === 0) {
             $this->getObject()->millesime = null;
         }
@@ -246,8 +242,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
     public function getDomaines() {
 
-        $this->domaines = array("" => "", "Château de Neuilly" => "Château de Neuilly", "Mas des Sablons" => "Mas des Sablons");
-        return;
+        //$this->domaines = array("" => "", "Château de Neuilly" => "Château de Neuilly", "Mas des Sablons" => "Mas des Sablons");
+        //return;
         $domaines = VracDomainesView::getInstance()->findDomainesByVendeur($this->getObject()->vendeur_identifiant);
         $this->domaines = array('' => '');
         foreach ($domaines->rows as $resultDomaine) {
@@ -306,6 +302,28 @@ class VracMarcheForm extends acCouchdbObjectForm {
 
     public function getActuelMillesime() {
         return substr($this->actual_campagne, 0, 4);
+    }
+    
+
+
+    public function getDomainesForAutocomplete() {
+     	$domainesView = VracDomainesView::getInstance()->findDomainesByVendeur($this->getObject()->vendeur_identifiant);
+        $domaines = array();
+        foreach ($domainesView->rows as $resultDomaine) {
+            $d = $resultDomaine->key[VracDomainesView::KEY_DOMAINE];
+            $domaines[$d] = $d;
+        }
+        if ($this->getObject()->domaine) {
+        	$domaines[$this->getObject()->domaine] = $this->getObject()->domaine;
+        }
+    	$entries = array();
+    	foreach($domaines as $domaine) {
+    		$entry = new stdClass();
+    		$entry->id = trim($domaine);
+    		$entry->text = trim($domaine);
+    		$entries[] = $entry;
+    	}
+    	return $entries;
     }
 
 }

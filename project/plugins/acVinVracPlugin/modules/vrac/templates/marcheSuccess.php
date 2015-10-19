@@ -28,25 +28,27 @@
                             <?php echo $form['produit']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un produit', 'tabindex'=> '0')); ?>
                         </div>
                         <?php endif; ?>
-                    </div>
+                        
                         <?php if (isset($form['millesime'])): ?>
-                    <div class="form-group">
-                        <div class="col-xs-4 <?php if($form['millesime']->hasError()): ?>has-error<?php endif; ?>">
-                            <?php echo $form['millesime']->render(array('class' => 'form-control select2')); ?>
-                        </div>                	
-                        <?php if (isset($form['millesime_85_15'])): ?>
-                		<div class="col-xs-4 <?php if($form['millesime_85_15']->hasError()): ?>has-error<?php endif; ?>">
-							<?php echo $form['millesime_85_15']->renderError(); ?>
-							<div class="checkbox">
-								<label for="<?php echo $form['millesime_85_15']->renderId(); ?>">
-									<?php echo $form['millesime_85_15']->render(); ?>
-									<?php echo $form->getWidget('millesime_85_15')->getLabel(); ?>
-								</label>
+	                    <div class="form-group">
+	                        <div class="col-xs-2 <?php if($form['millesime']->hasError()): ?>has-error<?php endif; ?>">
+	                            <?php echo $form['millesime']->render(array('class' => 'form-control select2')); ?>
+	                        </div>                	
+	                        <?php if (isset($form['millesime_85_15'])): ?>
+	                		<div class="col-xs-2 <?php if($form['millesime_85_15']->hasError()): ?>has-error<?php endif; ?>">
+								<?php echo $form['millesime_85_15']->renderError(); ?>
+								<div class="checkbox">
+									<label for="<?php echo $form['millesime_85_15']->renderId(); ?>">
+										<?php echo $form['millesime_85_15']->render(); ?>
+										<?php echo $form->getWidget('millesime_85_15')->getLabel(); ?>
+									</label>
+								</div>
 							</div>
-						</div>
-						<?php endif; ?>
-                    </div>
+							<?php endif; ?>
+	                    </div>
                         <?php endif; ?>
+                    </div>
+                    
                     <div class="form-group">
                     	<?php if (isset($form['selection'])): ?>
                 		<div class="col-xs-8 <?php if($form['selection']->hasError()): ?>has-error<?php endif; ?>">
@@ -194,7 +196,7 @@
 	                            <?php if (isset($form['domaine'])): ?>
 	                            <div id="bloc_domaine" data-condition-value="DOMAINE|CHATEAU|MARQUE" class="col-sm-4 <?php if($form['domaine']->hasError()): ?>has-error<?php endif; ?>">
 	                                
-	                                    <?php echo $form['domaine']->render(array('class' => 'form-control select2', 'placeholder' => 'Déclarer un domaine')); ?>
+	                                    <?php echo $form['domaine']->render(array('class' => 'form-control select2permissifNoAjax', 'placeholder' => 'Déclarer un domaine', "data-choices" => json_encode($form->getDomainesForAutocomplete()))); ?>
 	                                
 	                            </div>
 	                            <?php endif; ?>
@@ -218,7 +220,7 @@
                         <?php echo $form['bouteilles_contenance_libelle']->renderError(); ?>
                         <div class="form-group col-xs-4 <?php if($form['bouteilles_contenance_libelle']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['bouteilles_contenance_libelle']->renderLabel("Contenance :", array('class' => 'col-sm-5 control-label')); ?>
-                            <div class="col-sm-5">
+                            <div class="col-sm-7">
                                 <?php echo $form['bouteilles_contenance_libelle']->render(array('class' => 'form-control')); ?>
                             </div>
                         </div>
@@ -228,13 +230,13 @@
                         <?php echo $form['jus_quantite']->renderError(); ?>
                         <div class="form-group <?php if(isset($form['bouteilles_contenance_libelle'])): ?>col-xs-4<?php else: ?>col-xs-6<?php endif; ?> <?php if($form['jus_quantite']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['jus_quantite']->renderLabel("Volume :", array('class' => 'col-sm-4 control-label')); ?>
-                            <div class="col-sm-5">
+                            <div class="col-sm-7">
                                 <div class="input-group">
                                     <?php echo $form['jus_quantite']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
                                     <span class="input-group-addon">&nbsp;<?php echo $configuration->getUnites()[$form->getObject()->type_transaction]['jus_quantite']['libelle'] ?></span>
                                 </div>
                                 <?php if(isset($form['bouteilles_contenance_libelle'])): ?>
-                                <p class="control-label" id="correspondance_bouteille"></p>
+                                <p class="help-block pull-right" id="correspondance_bouteille"></p>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -243,7 +245,7 @@
                         <?php echo $form['raisin_quantite']->renderError(); ?>
                         <div class="form-group <?php if(isset($form['bouteilles_contenance_libelle'])): ?>col-xs-4<?php else: ?>col-xs-6<?php endif; ?> <?php if($form['raisin_quantite']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['raisin_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
-                            <div class="col-sm-5">
+                            <div class="col-sm-7">
                                 <div class="input-group">
                                     <?php echo $form['raisin_quantite']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
                                     <span class="input-group-addon"><?php echo $configuration->getUnites()[$form->getObject()->type_transaction]['raisin_quantite']['libelle'] ?>&nbsp;&nbsp;&nbsp;</span>
@@ -255,7 +257,7 @@
                         <?php echo $form['prix_initial_unitaire']->renderError(); ?>
                         <div class="form-group <?php if(isset($form['bouteilles_contenance_libelle'])): ?>col-xs-4<?php else: ?>col-xs-6<?php endif; ?> <?php if($form['prix_initial_unitaire']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['prix_initial_unitaire']->renderLabel("Prix :", array('class' => 'col-sm-4 control-label')); ?>
-                            <div class="col-sm-5">
+                            <div class="col-sm-7">
                                 <div class="input-group">
                                     <?php echo $form['prix_initial_unitaire']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
                                     <span class="input-group-addon"><?php echo $configuration->getUnites()[$form->getObject()->type_transaction]['prix_initial_unitaire']['libelle'] ?></span>

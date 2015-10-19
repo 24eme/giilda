@@ -19,9 +19,6 @@
 	var colonnesDR = $('#colonnes_dr');
     var colonnes;
 
-//
-//	var actifPopupLien;
-
 	$(document).ready( function()
 	{
 
@@ -42,6 +39,22 @@
 
             colonnes.event_unfocus = function(colonne) {
                 $('#list-produits a').removeClass('active');
+            }
+
+            colonnes.event_disabled = function(colonne) {
+                $('#list-produits a[data-hash="'+colonne.getHash()+'"]').addClass('disabled');
+            }
+
+            colonnes.event_enabled = function(colonne) {
+                $('#list-produits a[data-hash="'+colonne.getHash()+'"]').removeClass('disabled');
+            }
+
+            colonnes.event_edition_on = function(colonne) {
+                $('#form_produit_declaration select, #navigation_etapes button, #navigation_etapes a').attr('disabled', 'disabled');
+            }
+
+            colonnes.event_edition_off = function(colonne) {
+                $('#form_produit_declaration select, #navigation_etapes button, #navigation_etapes a').removeAttr('disabled');
             }
 
             $.initProduitForm();
@@ -338,6 +351,11 @@
 		});
 
         $('#list-produits a').click(function() {
+            if($(this).hasClass('disabled')) {
+
+                return false;
+            }
+
             colonne = colonnes.findByHash($(this).attr('data-hash'));
             colonne.focus();
             colonne.focusChampDefault();

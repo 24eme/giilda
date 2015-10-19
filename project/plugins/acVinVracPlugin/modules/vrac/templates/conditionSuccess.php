@@ -69,7 +69,7 @@
 		        	<?php if (isset($form['taux_repartition']) && $vrac->mandataire_exist): ?>
 		            <div class="form-group col-sm-6 <?php if($form['taux_repartition']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['taux_repartition']->renderError(); ?>
-		                <?php echo $form['taux_repartition']->renderLabel("Répartition du taux :", array('class' => 'col-sm-5 control-label')); ?>
+		                <?php echo $form['taux_repartition']->renderLabel("Répartition du courtage :", array('class' => 'col-sm-5 control-label')); ?>
 		                <div class="col-sm-7">
 		                    <?php echo $form['taux_repartition']->render(); ?>
 		                </div>
@@ -88,7 +88,7 @@
                         <?php echo $form['date_debut_retiraison']->renderError(); ?>
                         <?php echo $form['date_debut_retiraison']->renderLabel("Date début de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-7">
-                            <?php echo $form['date_debut_retiraison']->render(array('placeholder' => 'dd/mm/YYYY')); ?>
+                            <?php echo $form['date_debut_retiraison']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
                         </div>
 		            </div>
 		            <?php endif; ?>
@@ -108,7 +108,7 @@
                         <?php echo $form['date_limite_retiraison']->renderError(); ?>
                         <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-7">
-                            <?php echo $form['date_limite_retiraison']->render(array('placeholder' => 'dd/mm/YYYY')); ?>
+                            <?php echo $form['date_limite_retiraison']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
                         </div>
 		            </div>
 		            <?php endif; ?>
