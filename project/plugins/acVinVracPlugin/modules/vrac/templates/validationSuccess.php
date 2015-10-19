@@ -2,7 +2,7 @@
 
 <?php include_component('vrac', 'etapes', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
-<?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+
 
 <form action="" method="post" class="form-horizontal" id="contrat_validation" >
     <?php echo $form->renderHiddenFields() ?>
@@ -10,8 +10,10 @@
 
 <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'template_validation' => 1)); ?>
 
+<?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+
 <?php if ($validation->isValide()) : ?>
-<div class="row">
+<div>
 
                 <?php if (isset($form['date_signature'])): ?>
                     <?php echo $form['date_signature']->renderError(); ?>
@@ -45,10 +47,45 @@
                     <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validation' => true)); ?>
                 <?php endif; ?>
             <?php else: ?>
-                <button class="btn btn-success" type="submit">Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>
+                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#confirm">Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>
             <?php endif; ?>
         <?php endif; ?>
     </div>
 </div>
 
+<div class="modal" id="confirm" tabindex="-1" role="dialog" aria-labelledby="Confirmation">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Confirmez vous la saisie du contrat :</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="text-center">
+      	
+        	<p>
+            	<span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
+            </p>
+        <?php if (in_array($vrac->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))): ?>
+    		<h3><?php echo $vrac->produit_libelle ?> <small><?php echo ($vrac->millesime)? $vrac->millesime : 'Non millésimé'; ?><?php if ($vrac->get('millesime_85_15')): ?> (85/15)<?php endif;?></small></h3>
+    		<?php if ($vrac->cepage): ?>
+            Cépage : <strong><?php echo $vrac->cepage_libelle ?><?php if ($vrac->get('cepage_85_15')): ?> (85/15)<?php endif;?></strong><br />
+            <?php endif; ?>
+    	<?php else: ?>
+    		<h3><?php echo $vrac->cepage_libelle ?> <small><?php if ($vrac->get('cepage_85_15')): ?> (85/15)<?php endif;?></small></h3>
+    		<?php if ($vrac->produit_libelle): ?>
+            Revendiquable en <strong><?php echo $vrac->produit_libelle ?></strong><br />
+            <?php endif; ?>
+    	<?php endif; ?>
+    	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+        <button type="submit" class="btn btn-success">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </form>
+
