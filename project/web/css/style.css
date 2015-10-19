@@ -35,3 +35,7 @@
 table tr th.vertical-center, table tr td.vertical-center, table tr.vertical-center td, table th.vertical-center td {
     vertical-align: middle;
 }
+
+.pointer {
+    cursor: pointer;
+}

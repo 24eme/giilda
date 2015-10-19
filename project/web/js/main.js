@@ -91,6 +91,13 @@
             
             return false;
         });
+        $(this).find('.pointer').on('click', function() {
+            if($(this).attr('data-pointer')) {
+                $($(this).attr('data-pointer')).click();
+            }
+
+            return false;
+        });
 
         $(this).find('.dynamic-element-add').on('click', function () {
             var content = $($($(this).attr('data-template')).html().replace(/var---nbItem---/g, UUID.generate()));
