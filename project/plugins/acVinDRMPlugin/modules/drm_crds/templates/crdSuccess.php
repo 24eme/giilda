@@ -17,7 +17,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
 
-                                <h3 class="panel-title text-center">Stocks CRD de vins <?php echo getLibelleForGenre($genre); ?></h3>
+                                <h3 class="panel-title text-center">Stocks CRD de vins <?php echo getLibelleForGenre($genre); ?> <small>(en nombre de capsules)</small></h3>
                             </div>
                             <table id="table_drm_crds" class="table table-bordered table-condensed table-striped">
                                 <thead >

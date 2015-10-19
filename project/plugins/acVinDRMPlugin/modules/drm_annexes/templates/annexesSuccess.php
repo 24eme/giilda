@@ -39,6 +39,7 @@
                 <div class="col-xs-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
+                            <a class="btn_ajouter_ligne_template btn btn-link pull-right" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter une ligne non apurement</a>
                             <h3 class="panel-title text-center">Relevé de non apurement</h3>
                         </div>
                         <table id="table_drm_non_apurement" class="table table-bordered table-striped">
@@ -62,14 +63,22 @@
 
                         </table>
                     </div>
-                    <a class="btn_ajouter_ligne_template btn btn-link" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter une ligne non apurement</a>
                 </div>
                 <div class="col-xs-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Compléments d'information</h3>
+                            <h3 class="panel-title text-center">Compléments d'informations</h3>
                         </div>
                         <div class="panel-body row">
+                            <div class="col-sm-7">
+                                <?php echo $annexesForm['observations']->renderError(); ?>
+                                <div class="form-group <?php if($annexesForm['observations']->hasError()): ?>has-error<?php endif; ?>">
+                                    <?php echo $annexesForm['observations']->renderLabel("Observations sur les mouvements :", array('class' => 'col-sm-12')); ?>
+                                    <div class="col-sm-12">
+                                    <?php echo $annexesForm['observations']->render(array('class' => 'form-control', 'placeholder' => 'Veuillez précisez vos eventuels observations sur les mouvements', 'rows' => "2")); ?>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-sm-5">
                                 <?php echo $annexesForm['quantite_sucre']->renderError(); ?>
                                 <div class="form-group <?php if($annexesForm['quantite_sucre']->hasError()): ?>has-error<?php endif; ?>">
@@ -79,14 +88,6 @@
                                         <?php echo $annexesForm['quantite_sucre']->render(array('class' => 'form-control text-right', 'autocomplete' => 'off')); ?>
                                         <span class="input-group-addon">quintal</span>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-7">
-                                <?php echo $annexesForm['observations']->renderError(); ?>
-                                <div class="form-group <?php if($annexesForm['observations']->hasError()): ?>has-error<?php endif; ?>">
-                                    <div class="col-sm-12">
-                                    <?php echo $annexesForm['observations']->render(array('class' => 'form-control', 'placeholder' => 'Observations', 'rows' => "2")); ?>
                                     </div>
                                 </div>
                             </div>
