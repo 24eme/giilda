@@ -71,6 +71,7 @@ class FactureClient extends acCouchdbClient {
         $facture->updateAvoir();
         $facture->updateTotaux();
         $facture->storeOrigines();
+        $facture->arguments->add(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM,FactureClient::TYPE_FACTURE_MOUVEMENT_DRM);
         if(trim($message_communication)) {
           $facture->addOneMessageCommunication($message_communication);
         }
@@ -411,10 +412,10 @@ class FactureClient extends acCouchdbClient {
       $f->add('avoir',$avoir->_id);
       $f->save();
       foreach($avoir->lignes as $type => $lignes) {
-	foreach($lignes as $id => $ligne) {
-	  $ligne->volume *= -1;
+	foreach($lignes->details as $id => $ligne) {
+	  $ligne->quantite *= -1;
 	  $ligne->montant_ht *= -1;
-          $ligne->echeance_code = null;
+	  $ligne->montant_tva *= -1;
 	}
       }
       $avoir->total_ttc *= -1;
@@ -424,9 +425,9 @@ class FactureClient extends acCouchdbClient {
       $avoir->statut = self::STATUT_NONREDRESSABLE;
       $avoir->storeDatesCampagne(date('Y-m-d'));
       $avoir->numero_archive = null;
-      $avoir->numero_interloire = null;
       $avoir->versement_comptable = 0;
       $avoir->add('taux_tva', round($f->getTauxTva(),2));
+      $avoir->updateTotaux();
       $avoir->save();
       $f->defacturer();
       $f->save();
